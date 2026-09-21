@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "moreminecrafts",
+  "version": "${version}",
+  "name": "MoreMinecrafts",
+  "description": "A Fabric-based Minecraft expansion project.",
+  "authors": [
+    "ItzGamesGD"
+  ],
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.itzgamesgd.moreminecrafts.MoreMinecrafts"
+    ],
+    "client": [
+      "dev.itzgamesgd.moreminecrafts.client.MoreMinecraftsClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": ">=26.3 <26.4",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
