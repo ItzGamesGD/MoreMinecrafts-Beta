@@ -5,7 +5,6 @@ public final class ModRegistries {
     }
 
     public static void initialize() {
-        // Stage 1 registry bootstrap.
-        // Content-specific registries are attached here as they are introduced.
+        ModItems.initialize();
     }
 }
