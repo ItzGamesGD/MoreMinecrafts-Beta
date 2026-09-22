@@ -37,7 +37,8 @@ abstract class ProjectileWeaponItemMixin {
         if (bonus > 0.0D) {
             // AbstractArrow persists its base damage. Mutating it here snapshots the launching
             // stack before the projectile is spawned and before the player can change hands.
-            arrow.setBaseDamage(arrow.getBaseDamage() + bonus);
+            double baseDamage = ((AbstractArrowAccessor) arrow).moreminecrafts$getBaseDamage();
+            arrow.setBaseDamage(baseDamage + bonus);
         }
     }
 }
