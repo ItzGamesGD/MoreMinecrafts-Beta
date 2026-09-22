@@ -29,6 +29,42 @@ jobs:
       - name: Build
         run: gradle build
 
+      - name: Collect distributable mod JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p build/artifacts
+          shopt -s nullglob
+          candidates=(build/libs/*.jar)
+          distributable=()
+
+          for jar in "${candidates[@]}"; do
+            case "$jar" in
+              *-sources.jar|*-dev.jar|*-dev-shadow.jar) continue ;;
+            esac
+            distributable+=("$jar")
+          done
+
+          if [ "${#distributable[@]}" -ne 1 ]; then
+            echo "Expected exactly one distributable mod JAR, found ${#distributable[@]}:"
+            printf '  %s\n' "${distributable[@]:-<none>}"
+            echo "All build/libs JARs:"
+            printf '  %s\n' "${candidates[@]:-<none>}"
+            exit 1
+          fi
+
+          cp "${distributable[0]}" build/artifacts/
+          echo "Distributable mod JAR: ${distributable[0]}"
+
+      - name: Upload distributable mod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: moreminecrafts-stage4-build
+          path: build/artifacts/*.jar
+          if-no-files-found: error
+          retention-days: 14
+
   server-smoke:
     runs-on: ubuntu-latest
     needs: build
