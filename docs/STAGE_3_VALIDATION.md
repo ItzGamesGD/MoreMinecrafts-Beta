@@ -7,7 +7,9 @@ copy. The anvil charges one level and consumes one stone through its normal resu
 `EnhancementOperation` owns eligibility, costs, the deterministic state transition, and the probe
 attack-damage value. `AnvilMenuMixin` is only an adapter to that operation. The persistent and
 network-synchronized `moreminecrafts:enhancement_level` integer Data Component is the sole source
-of enhancement state. No custom packet or custom persistence format is used.
+of enhancement state. The component can represent a non-negative enhancement level independently
+of the current Stage 3 gameplay rule; Stage 3 itself still permits only the 0 -> 1 probe transition.
+No custom packet or custom persistence format is used.
 
 ## Manual runtime checklist
 
