@@ -26,7 +26,7 @@ public final class FoundationProbeAbility implements ActiveEquipmentAbility {
 
     @Override
     public boolean activate(ServerPlayer player, ItemStack source) {
-        player.displayClientMessage(Component.literal("Foundation ability activated"), true);
+        player.sendOverlayMessage(Component.literal("Foundation ability activated"));
         return true;
     }
 }
