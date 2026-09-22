@@ -65,9 +65,51 @@ class EnhancementEffectsTest {
         }
     }
 
+    @Test
+    void resolvesArmorDamageReductionLinearly() {
+        assertDamageReduction(EnhancementProfile.ARMOR, 0, 0.000D);
+        assertDamageReduction(EnhancementProfile.ARMOR, 1, 0.001D);
+        assertDamageReduction(EnhancementProfile.ARMOR, 10, 0.010D);
+        assertDamageReduction(EnhancementProfile.ARMOR, 30, 0.030D);
+        assertEquals(0.12D, 4 * damageReduction(EnhancementProfile.ARMOR, 30), DELTA);
+    }
+
+    @Test
+    void nonArmorProfilesDoNotResolveDamageReduction() {
+        for (EnhancementProfile profile : new EnhancementProfile[]{
+                EnhancementProfile.SWORD,
+                EnhancementProfile.MELEE,
+                EnhancementProfile.RANGED,
+                EnhancementProfile.SPEAR,
+                EnhancementProfile.TOOL,
+                EnhancementProfile.AXE,
+                EnhancementProfile.ELYTRA
+        }) {
+            assertDamageReduction(profile, 30, 0.0D);
+        }
+    }
+
+    @Test
+    void runtimeEffectsRespectCategoryLevelBounds() {
+        assertDamageReduction(EnhancementProfile.ARMOR, -1, 0.0D);
+        assertDamageReduction(EnhancementProfile.ARMOR, 31, 0.030D);
+        assertDamageReduction(EnhancementProfile.ARMOR, 100, 0.030D);
+        assertEffect(EnhancementProfile.SWORD, 100, EnhancementEffect.Target.ATTACK_DAMAGE, 2.40D);
+        assertProjectileEffect(EnhancementProfile.RANGED, 100, 2.40D);
+    }
+
     private static void assertProjectileEffect(EnhancementProfile profile, int level, double expected) {
         var definition = new EnhancementDefinition(EnhancementCategory.VANILLA, profile);
         assertEquals(expected, EnhancementEffects.projectileDamage(definition, level), DELTA);
+    }
+
+    private static void assertDamageReduction(EnhancementProfile profile, int level, double expected) {
+        assertEquals(expected, damageReduction(profile, level), DELTA);
+    }
+
+    private static double damageReduction(EnhancementProfile profile, int level) {
+        var definition = new EnhancementDefinition(EnhancementCategory.VANILLA, profile);
+        return EnhancementEffects.damageReduction(definition, level);
     }
 
     private static void assertEffect(

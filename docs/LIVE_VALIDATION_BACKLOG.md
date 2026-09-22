@@ -62,3 +62,22 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 4B-2):** A returned or picked-up Trident retains its `enhancement_level`.
 - [ ] **LIVE PENDING (Stage 4B-2):** Save/reload or chunk unload does not duplicate or erase the projectile enhancement contribution where applicable.
 - [ ] **LIVE PENDING (Stage 4B-2):** Crossbow-fired fireworks remain vanilla because their explosion damage does not use the ordinary arrow base-damage path.
+
+## Stage 4B-3 - LIVE PENDING
+
+- [ ] **LIVE PENDING (Stage 4B-3):** One +10 armor piece reduces incoming pre-armor damage by 1%.
+- [ ] **LIVE PENDING (Stage 4B-3):** One +30 armor piece reduces incoming pre-armor damage by 3%.
+- [ ] **LIVE PENDING (Stage 4B-3):** Four +30 armor pieces produce 12% enhancement reduction.
+- [ ] **LIVE PENDING (Stage 4B-3):** Enhancement reduction is applied before vanilla armor/toughness.
+- [ ] **LIVE PENDING (Stage 4B-3):** Vanilla Protection and Resistance still stack through their native paths.
+- [ ] **LIVE PENDING (Stage 4B-3):** Unenhanced armor remains vanilla-equivalent.
+- [ ] **LIVE PENDING (Stage 4B-3):** Unsupported equipment remains vanilla-equivalent.
+- [ ] **LIVE PENDING (Stage 4B-3):** Enhanced Elytra produces zero damage reduction.
+- [ ] **LIVE PENDING (Stage 4B-3):** Elytra retains its enhancement level and tooltip normally.
+- [ ] **LIVE PENDING (Stage 4B-3):** Holding enhanced armor in the main hand does not grant reduction.
+- [ ] **LIVE PENDING (Stage 4B-3):** Holding enhanced armor in the off hand does not grant reduction.
+- [ ] **LIVE PENDING (Stage 4B-3):** Armor-bypassing damage bypasses enhancement armor reduction.
+- [ ] **LIVE PENDING (Stage 4B-3):** Removing or equipping armor immediately updates reduction.
+- [ ] **LIVE PENDING (Stage 4B-3):** Inventory movement, reconnect, and restart preserve enhancement state.
+- [ ] **LIVE PENDING (Stage 4B-3):** Existing Stage 4B-1 melee/tool behavior is unchanged.
+- [ ] **LIVE PENDING (Stage 4B-3):** Existing Stage 4B-2 projectile behavior is unchanged.
