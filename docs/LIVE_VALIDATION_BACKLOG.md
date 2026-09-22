@@ -101,3 +101,46 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 4C):** Stage 4B-1 melee/tool behavior is unchanged.
 - [ ] **LIVE PENDING (Stage 4C):** Stage 4B-2 projectile behavior is unchanged.
 - [ ] **LIVE PENDING (Stage 4C):** Stage 4B-3 armor behavior is unchanged.
+
+## Stage 5A - Flame Sword - LIVE PENDING
+
+### Flame Sword
+- [ ] **LIVE PENDING (Stage 5A):** `flame_sword` exists and can be obtained.
+- [ ] **LIVE PENDING (Stage 5A):** A normal melee attack works.
+- [ ] **LIVE PENDING (Stage 5A):** Expected attack damage and attack speed attributes apply.
+
+### Passive splash
+- [ ] **LIVE PENDING (Stage 5A):** A melee hit triggers damage on nearby valid entities.
+- [ ] **LIVE PENDING (Stage 5A):** The primary target is not double-hit by splash.
+- [ ] **LIVE PENDING (Stage 5A):** The attacker is excluded.
+- [ ] **LIVE PENDING (Stage 5A):** Nearby valid entities are damaged exactly once.
+- [ ] **LIVE PENDING (Stage 5A):** Entities outside the 2.5-block radius are unaffected.
+- [ ] **LIVE PENDING (Stage 5A):** Splash cannot recursively trigger itself.
+- [ ] **LIVE PENDING (Stage 5A):** Flame particles appear around affected entities.
+
+### Flame Cleave
+- [ ] **LIVE PENDING (Stage 5A):** Right-click activates Flame Cleave.
+- [ ] **LIVE PENDING (Stage 5A):** Frontal targets are hit.
+- [ ] **LIVE PENDING (Stage 5A):** Targets behind the player are not hit.
+- [ ] **LIVE PENDING (Stage 5A):** Targets outside the 90-degree cone are not hit.
+- [ ] **LIVE PENDING (Stage 5A):** Targets outside the 4-block range are not hit.
+- [ ] **LIVE PENDING (Stage 5A):** Each entity is hit at most once per activation.
+- [ ] **LIVE PENDING (Stage 5A):** Affected entities ignite for approximately three seconds.
+- [ ] **LIVE PENDING (Stage 5A):** Terrain remains unchanged.
+- [ ] **LIVE PENDING (Stage 5A):** Flame particles and vanilla fire sound appear.
+- [ ] **LIVE PENDING (Stage 5A):** An empty cast still starts cooldown.
+
+### Cooldown
+- [ ] **LIVE PENDING (Stage 5A):** Flame Cleave cooldown lasts 100 ticks.
+- [ ] **LIVE PENDING (Stage 5A):** Immediate reuse is blocked.
+- [ ] **LIVE PENDING (Stage 5A):** Reuse after expiry works.
+- [ ] **LIVE PENDING (Stage 5A):** Swapping duplicate Flame Swords cannot bypass cooldown.
+- [ ] **LIVE PENDING (Stage 5A):** Logout and reconnect preserve cooldown.
+- [ ] **LIVE PENDING (Stage 5A):** Server restart preserves cooldown.
+- [ ] **LIVE PENDING (Stage 5A):** Separate players have independent cooldowns.
+
+### Regression
+- [ ] **LIVE PENDING (Stage 5A):** `foundation_probe` still works.
+- [ ] **LIVE PENDING (Stage 5A):** Stage 4 enhancement behavior still works.
+- [ ] **LIVE PENDING (Stage 5A):** Vanilla swords remain unaffected.
+- [ ] **LIVE PENDING (Stage 5A):** Unrelated items retain their vanilla right-click behavior.
