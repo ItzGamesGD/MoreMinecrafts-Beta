@@ -1,7 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.enhancement;
 
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
-import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.Bootstrap;
@@ -16,7 +15,15 @@ class EnhancementOperationTest {
     @BeforeAll
     static void bootstrapMinecraftAndMod() {
         SharedConstants.tryDetectVersion();
+
+        // Register mod-owned entries before vanilla bootstrap finalizes the built-in registries.
+        // Accessing these constants triggers their static Registry.register(...) calls.
+        var enhancementLevel = ModDataComponents.ENHANCEMENT_LEVEL;
+        var enhancementStone = ModItems.ENHANCEMENT_STONE;
+
         Bootstrap.bootStrap();
+
+        // Verify the registrations after Minecraft bootstrap has completed.
         ModDataComponents.initialize();
         ModItems.initialize();
     }
