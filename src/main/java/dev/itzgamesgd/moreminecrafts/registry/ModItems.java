@@ -11,11 +11,18 @@ import net.minecraft.world.item.Item;
 public final class ModItems {
     private static final ResourceKey<Item> FOUNDATION_PROBE_KEY =
             ResourceKey.create(Registries.ITEM, ModIds.id("foundation_probe"));
+    public static final ResourceKey<Item> ENHANCEMENT_STONE_KEY =
+            ResourceKey.create(Registries.ITEM, ModIds.id("enhancement_stone"));
 
     public static final Item FOUNDATION_PROBE = Registry.register(
             BuiltInRegistries.ITEM,
             FOUNDATION_PROBE_KEY,
             new Item(new Item.Properties().setId(FOUNDATION_PROBE_KEY))
+    );
+    public static final Item ENHANCEMENT_STONE = Registry.register(
+            BuiltInRegistries.ITEM,
+            ENHANCEMENT_STONE_KEY,
+            new Item(new Item.Properties().setId(ENHANCEMENT_STONE_KEY))
     );
 
     private ModItems() {
@@ -29,5 +36,13 @@ public final class ModItems {
         }
 
         MoreMinecrafts.LOGGER.info("Registry probe OK: {}", registeredId);
+
+        var enhancementStoneId = BuiltInRegistries.ITEM.getKey(ENHANCEMENT_STONE);
+
+        if (!ModIds.id("enhancement_stone").equals(enhancementStoneId)) {
+            throw new IllegalStateException("MoreMinecrafts enhancement stone was not registered correctly.");
+        }
+
+        MoreMinecrafts.LOGGER.info("Item registration OK: {}", enhancementStoneId);
     }
 }
