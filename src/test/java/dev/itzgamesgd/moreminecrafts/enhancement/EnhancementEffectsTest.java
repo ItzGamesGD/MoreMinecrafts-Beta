@@ -36,6 +36,40 @@ class EnhancementEffectsTest {
         }
     }
 
+    @Test
+    void resolvesRangedProjectileDamageLinearly() {
+        assertProjectileEffect(EnhancementProfile.RANGED, 0, 0.0D);
+        assertProjectileEffect(EnhancementProfile.RANGED, 1, 0.08D);
+        assertProjectileEffect(EnhancementProfile.RANGED, 10, 0.80D);
+        assertProjectileEffect(EnhancementProfile.RANGED, 30, 2.40D);
+    }
+
+    @Test
+    void resolvesSpearProjectileDamageFromExistingAttackMetadata() {
+        assertProjectileEffect(EnhancementProfile.SPEAR, 0, 0.0D);
+        assertProjectileEffect(EnhancementProfile.SPEAR, 1, 0.09D);
+        assertProjectileEffect(EnhancementProfile.SPEAR, 10, 0.90D);
+        assertProjectileEffect(EnhancementProfile.SPEAR, 30, 2.70D);
+    }
+
+    @Test
+    void nonProjectileProfilesDoNotResolveProjectileDamage() {
+        for (EnhancementProfile profile : new EnhancementProfile[]{
+                EnhancementProfile.SWORD,
+                EnhancementProfile.MELEE,
+                EnhancementProfile.TOOL,
+                EnhancementProfile.ARMOR,
+                EnhancementProfile.ELYTRA
+        }) {
+            assertProjectileEffect(profile, 10, 0.0D);
+        }
+    }
+
+    private static void assertProjectileEffect(EnhancementProfile profile, int level, double expected) {
+        var definition = new EnhancementDefinition(EnhancementCategory.VANILLA, profile);
+        assertEquals(expected, EnhancementEffects.projectileDamage(definition, level), DELTA);
+    }
+
     private static void assertEffect(
             EnhancementProfile profile,
             int level,

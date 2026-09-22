@@ -42,3 +42,23 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 4B-1):** Unsupported equipment remains vanilla-equivalent.
 - [ ] **LIVE PENDING (Stage 4B-1):** Enhancement state and effects survive inventory movement, reconnect, and restart through native ItemStack persistence.
 - [ ] **LIVE PENDING (Stage 4B-1):** No duplicate attack-damage modifier appears after repeated slot movement and equip cycles.
+
+## Stage 4B-2 - LIVE PENDING
+
+- [ ] **LIVE PENDING (Stage 4B-2):** Bow +10 deals vanilla projectile damage +0.80.
+- [ ] **LIVE PENDING (Stage 4B-2):** Crossbow +10 deals vanilla projectile damage +0.80.
+- [ ] **LIVE PENDING (Stage 4B-2):** Thrown Trident +10 deals vanilla thrown damage +0.90.
+- [ ] **LIVE PENDING (Stage 4B-2):** Bow +0 remains vanilla-equivalent.
+- [ ] **LIVE PENDING (Stage 4B-2):** Crossbow +0 remains vanilla-equivalent.
+- [ ] **LIVE PENDING (Stage 4B-2):** Trident +0 remains vanilla-equivalent.
+- [ ] **LIVE PENDING (Stage 4B-2):** Firing a projectile and then switching held items does not change its enhancement bonus.
+- [ ] **LIVE PENDING (Stage 4B-2):** Bow enhancement is applied exactly once.
+- [ ] **LIVE PENDING (Stage 4B-2):** Crossbow enhancement is applied exactly once.
+- [ ] **LIVE PENDING (Stage 4B-2):** Each Multishot projectile independently receives one enhancement bonus.
+- [ ] **LIVE PENDING (Stage 4B-2):** Thrown Trident enhancement is applied exactly once.
+- [ ] **LIVE PENDING (Stage 4B-2):** Trident melee behavior from Stage 4B-1 remains unchanged.
+- [ ] **LIVE PENDING (Stage 4B-2):** Power, Piercing, Multishot, Loyalty, Channeling, and Impaling interactions remain vanilla-compatible.
+- [ ] **LIVE PENDING (Stage 4B-2):** Fired projectiles do not acquire enhancement state from a weapon held after firing.
+- [ ] **LIVE PENDING (Stage 4B-2):** A returned or picked-up Trident retains its `enhancement_level`.
+- [ ] **LIVE PENDING (Stage 4B-2):** Save/reload or chunk unload does not duplicate or erase the projectile enhancement contribution where applicable.
+- [ ] **LIVE PENDING (Stage 4B-2):** Crossbow-fired fireworks remain vanilla because their explosion damage does not use the ordinary arrow base-damage path.
