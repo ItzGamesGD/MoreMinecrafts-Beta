@@ -17,7 +17,10 @@ import java.util.function.BiConsumer;
 
 @Mixin(ItemStack.class)
 abstract class ItemStackMixin {
-    @Inject(method = "forEachModifier", at = @At("RETURN"))
+    @Inject(
+            method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V",
+            at = @At("RETURN")
+    )
     private void moreminecrafts$applyEnhancementAttackDamage(
             EquipmentSlot slot,
             BiConsumer<Holder<Attribute>, AttributeModifier> consumer,
