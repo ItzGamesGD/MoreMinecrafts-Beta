@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.ability.ActiveEquipmentAbility;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -34,7 +35,7 @@ public final class WindStepAbility implements ActiveEquipmentAbility {
         if (step[0] == 0.0D && step[1] == 0.0D) return false;
         Vec3 oldVelocity = player.getDeltaMovement();
         player.setDeltaMovement(step[0], oldVelocity.y, step[1]);
-        player.hurtMarked = true;
+        player.connection.send(new ClientboundSetEntityMotionPacket(player));
         ServerLevel level = player.level();
         level.sendParticles(ParticleTypes.CLOUD, player.getX(), player.getY() + 0.3D, player.getZ(),
                 12, 0.35D, 0.15D, 0.35D, 0.03D);
