@@ -2,7 +2,7 @@ package dev.itzgamesgd.moreminecrafts.enhancement;
 
 import java.util.List;
 
-/** Immutable stat metadata. Stage 4B will provide runtime adapters for the unconnected targets. */
+/** Immutable stat metadata consumed by the enhancement runtime adapters. */
 public enum EnhancementProfile {
     SWORD(new EnhancementEffect(EnhancementEffect.Target.ATTACK_DAMAGE, 0.08D)),
     MELEE(new EnhancementEffect(EnhancementEffect.Target.ATTACK_DAMAGE, 0.10D)),

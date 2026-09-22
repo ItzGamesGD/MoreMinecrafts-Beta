@@ -27,3 +27,18 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 4A):** Vanilla anvil operations without an Enhancement Stone remain intact.
 - [ ] **LIVE PENDING (Stage 4A):** Existing name, durability, enchantments, and unrelated components survive.
 - [ ] **LIVE PENDING (Stage 4A):** Save, reconnect, and restart preserve multi-level enhancement state.
+
+## Stage 4B-1 - LIVE PENDING
+
+- [ ] **LIVE PENDING (Stage 4B-1):** Sword enhancement increases actual melee damage by +0.08 per level.
+- [ ] **LIVE PENDING (Stage 4B-1):** Mace enhancement increases actual melee damage by +0.10 per level.
+- [ ] **LIVE PENDING (Stage 4B-1):** Trident enhancement increases melee damage by +0.09 per level without changing thrown damage.
+- [ ] **LIVE PENDING (Stage 4B-1):** Axe enhancement increases actual melee damage by +0.10 per level.
+- [ ] **LIVE PENDING (Stage 4B-1):** Pickaxe mining speed increases by +0.65 per level on effective blocks.
+- [ ] **LIVE PENDING (Stage 4B-1):** Shovel mining speed increases by +0.65 per level on effective blocks.
+- [ ] **LIVE PENDING (Stage 4B-1):** Hoe mining speed increases by +0.65 per level on effective blocks.
+- [ ] **LIVE PENDING (Stage 4B-1):** Axe receives both its mining-efficiency and melee-attack bonuses.
+- [ ] **LIVE PENDING (Stage 4B-1):** Unenhanced supported equipment remains vanilla-equivalent.
+- [ ] **LIVE PENDING (Stage 4B-1):** Unsupported equipment remains vanilla-equivalent.
+- [ ] **LIVE PENDING (Stage 4B-1):** Enhancement state and effects survive inventory movement, reconnect, and restart through native ItemStack persistence.
+- [ ] **LIVE PENDING (Stage 4B-1):** No duplicate attack-damage modifier appears after repeated slot movement and equip cycles.
