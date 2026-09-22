@@ -4,7 +4,10 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "AnvilMenuMixin",
-    "ItemStackMixin"
+    "ItemStackMixin",
+    "AbstractArrowAccessor",
+    "ProjectileWeaponItemMixin",
+    "ThrownTridentMixin"
   ],
   "injectors": {
     "defaultRequire": 1
