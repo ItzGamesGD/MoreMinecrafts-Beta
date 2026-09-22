@@ -3,10 +3,15 @@ package dev.itzgamesgd.moreminecrafts.enhancement;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import net.minecraft.world.item.ItemStack;
+
 import java.util.Optional;
 
 /**
  * The authoritative, UI-independent eligibility and enhancement state transition.
+ *
+ * <p>Minecraft/registry-facing resolution stays at the edge in {@link #preview(ItemStack, ItemStack)}.
+ * The transition policy itself is exposed as a package-private pure planner so ordinary JUnit tests
+ * do not try to emulate Fabric's registry lifecycle.</p>
  */
 public final class EnhancementOperation {
     private EnhancementOperation() {
@@ -17,20 +22,52 @@ public final class EnhancementOperation {
     }
 
     public static Optional<Result> preview(ItemStack equipment, ItemStack material) {
-        if (!isEnhancementMaterial(material) || material.getCount() < EnhancementRules.MATERIAL_COST) {
+        if (!isEnhancementMaterial(material)) {
             return Optional.empty();
         }
 
         Optional<EnhancementDefinition> definition = EnhancementCatalog.definition(equipment.getItem());
-        if (definition.isEmpty()) return Optional.empty();
+        if (definition.isEmpty()) {
+            return Optional.empty();
+        }
 
-        int targetLevel = level(equipment) + 1;
-        if (!definition.get().category().allowsTransitionTo(targetLevel)) return Optional.empty();
+        return plan(definition.get(), level(equipment), material.getCount())
+                .map(plan -> {
+                    ItemStack result = equipment.copyWithCount(1);
+                    result.set(ModDataComponents.ENHANCEMENT_LEVEL, plan.targetLevel());
+                    return new Result(
+                            result,
+                            plan.targetLevel(),
+                            plan.experienceLevelCost(),
+                            plan.materialCost()
+                    );
+                });
+    }
 
-        ItemStack result = equipment.copyWithCount(1);
-        result.set(ModDataComponents.ENHANCEMENT_LEVEL, targetLevel);
-        return Optional.of(new Result(result, targetLevel,
-                EnhancementRules.experienceLevelCost(targetLevel), EnhancementRules.MATERIAL_COST));
+    /**
+     * Pure enhancement transition policy. This intentionally contains no ItemStack, registry,
+     * Data Component, Fabric, or menu interaction so it is safe to exercise with plain JUnit.
+     */
+    static Optional<Plan> plan(EnhancementDefinition definition, int currentLevel, int materialCount) {
+        if (materialCount < EnhancementRules.MATERIAL_COST || currentLevel < 0) {
+            return Optional.empty();
+        }
+
+        // Check the current level before incrementing so malformed/max-int component values cannot overflow.
+        if (!definition.category().enhanceable() || currentLevel >= definition.category().maximumLevel()) {
+            return Optional.empty();
+        }
+
+        int targetLevel = currentLevel + 1;
+        if (!definition.category().allowsTransitionTo(targetLevel)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new Plan(
+                targetLevel,
+                EnhancementRules.experienceLevelCost(targetLevel),
+                EnhancementRules.MATERIAL_COST
+        ));
     }
 
     public static Optional<ItemStack> createResult(ItemStack equipment, ItemStack material) {
@@ -51,6 +88,9 @@ public final class EnhancementOperation {
                 .map(definition -> level(stack) * definition.profile()
                         .valuePerLevel(EnhancementEffect.Target.ATTACK_DAMAGE))
                 .orElse(0.0D);
+    }
+
+    record Plan(int targetLevel, int experienceLevelCost, int materialCost) {
     }
 
     public record Result(ItemStack stack, int targetLevel, int experienceLevelCost, int materialCost) {
