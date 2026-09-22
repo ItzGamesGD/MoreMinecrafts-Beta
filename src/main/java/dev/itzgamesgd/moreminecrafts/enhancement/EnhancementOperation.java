@@ -83,11 +83,7 @@ public final class EnhancementOperation {
     }
 
     public static double attackDamageBonus(ItemStack stack) {
-        return EnhancementCatalog.definition(stack.getItem())
-                .filter(definition -> definition.profile() == EnhancementProfile.SWORD)
-                .map(definition -> level(stack) * definition.profile()
-                        .valuePerLevel(EnhancementEffect.Target.ATTACK_DAMAGE))
-                .orElse(0.0D);
+        return EnhancementEffects.value(stack, EnhancementEffect.Target.ATTACK_DAMAGE);
     }
 
     record Plan(int targetLevel, int experienceLevelCost, int materialCost) {
