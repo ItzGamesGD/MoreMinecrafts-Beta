@@ -37,7 +37,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (EQUIPMENT_SKILL.consumeClick()) {
-                if (client.player == null || client.screen != null
+                if (client.player == null || client.gui.screen() != null
                         || !ClientPlayNetworking.canSend(EquipmentSkillPayload.TYPE)) {
                     continue;
                 }
