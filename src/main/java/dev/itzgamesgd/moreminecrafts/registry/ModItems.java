@@ -5,7 +5,7 @@ import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.item.FoundationProbeItem;
 import dev.itzgamesgd.moreminecrafts.special.flame.FlameSwordItem;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindSwordItem;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -80,7 +80,7 @@ public final class ModItems {
         if (!ModIds.id("wind_sword").equals(windSwordId)) {
             throw new IllegalStateException("MoreMinecrafts Wind Sword was not registered correctly.");
         }
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> entries.accept(WIND_SWORD));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> entries.accept(WIND_SWORD));
         MoreMinecrafts.LOGGER.info("Item registration OK: {}", windSwordId);
     }
 }
