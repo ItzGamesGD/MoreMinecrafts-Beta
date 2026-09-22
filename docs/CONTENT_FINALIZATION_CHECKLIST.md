@@ -5,8 +5,9 @@
 > 구현 방식은 나중의 Fabric Mod Stage에서 다시 설계하되, 여기서는 "무엇을 만들 것인가"를 먼저 확정한다.
 
 ## 상태 표기
-- [LOCKED] 설계 확정. 구현 시 임의 변경 금지.
+- [LOCKED] 콘텐츠 설계 확정. 명시적인 재설계가 없는 한 유지.
 - [DECIDE] 사용자 최종 결정 필요.
+- [PROVISIONAL] 현재 단계에서 임시 확정. 구현/플레이테스트에서 세부 수치나 방식 재조정 가능.
 - [BALANCE] 기능은 확정, 수치/확률/비용 조정 필요.
 - [IMPLEMENTATION] 설계는 확정, Fabric 구현 방식은 Mod Stage에서 결정.
 - [REVIEW] 기존 Paper 구현/패키지와 대조 필요.
@@ -39,21 +40,21 @@
 - [LOCKED] 원소 재료는 여러 장비/시스템에서 재사용 가능.
 - [LOCKED] Aluminum은 현재 필수 재료 아님.
 - [LOCKED] Aquamarine / Etherium은 coating에서 제외.
-- [LOCKED] Adamantium / Etherium의 survival 획득 여부는 별도 결정.
+- [LOCKED] Adamantium / Etherium 모두 자연 월드젠을 통해 survival 획득 가능.
 
 ## 사용자 결정 필요
-- [DECIDE] 최종 추가 광석 목록 확정.
-- [DECIDE] 각 광석의 차원: Overworld / Nether / End / 기타.
-- [DECIDE] 각 광석의 생성 높이와 분포 방식.
-- [DECIDE] 각 광석의 희귀도.
-- [DECIDE] 광맥 크기 및 노출 빈도.
-- [DECIDE] Silk Touch / Fortune 적용 여부와 방식.
-- [DECIDE] 각 재료의 가공 단계: ore → raw → ingot/material 중 어디까지 둘지.
-- [DECIDE] Mythril의 실제 월드 생성 여부.
-- [DECIDE] Adamantium의 survival 획득 여부.
-- [DECIDE] fantasy mineral을 월드젠으로 얻을지 boss/structure loot로 얻을지.
+- [LOCKED] 최종 추가 광석 목록: Titanium / Tungsten / Mythril / Adamantium / Etherium.
+- [LOCKED] 차원: Titanium / Tungsten / Mythril / Etherium = Overworld, Adamantium = Nether.
+- [PROVISIONAL] 생성 높이/분포: Titanium Y -16~80(피크 32), Tungsten Y -48~32(피크 -16), Mythril Y -64~0(피크 -48), Etherium Y -32~64(피크 16), Adamantium = Ancient Debris 유사 초안.
+- [PROVISIONAL] 희귀도: Titanium/Tungsten은 Copper보다 희귀하고 Iron보다 흔한 체감 목표, Mythril/Etherium은 Diamond보다 희귀, Adamantium은 Ancient Debris 유사.
+- [PROVISIONAL] 광맥: Mythril/Etherium 최대 6블록, Titanium/Tungsten은 높이 범위를 제외한 광맥/placement 출발 규칙을 Iron과 동기화, Adamantium은 Ancient Debris 유사.
+- [PROVISIONAL] Silk Touch는 전 광물 공통으로 광석 블록 획득. Fortune은 Titanium/Tungsten=현대 Iron/Gold 대응, Mythril/Etherium=Diamond 대응, Adamantium=Ancient Debris처럼 미적용.
+- [PROVISIONAL] 가공: Titanium/Tungsten = ore → raw → ingot, Mythril/Etherium = ore → 완성 material 직접 드롭, Adamantium = ore/debris형 블록 → 제련 material.
+- [LOCKED] Mythril은 Overworld 자연 월드젠 광석.
+- [LOCKED] Adamantium은 Nether 자연 월드젠으로 survival 획득 가능.
+- [LOCKED] Mythril/Etherium 등 현재 fantasy mineral은 기본적으로 자연 월드젠 채굴로 획득.
 - [BALANCE] 재료별 장비 recipe 수량.
-- [BALANCE] 희귀 재료의 실제 체감 공급량.
+- [PROVISIONAL] 실제 체감 공급량의 상대 목표만 확정. 세부 수치는 구현 후 플레이테스트에서 조정.
 
 ## 구현 단계에서 확인
 - [IMPLEMENTATION] Fabric worldgen registration.
@@ -78,8 +79,9 @@
 - [LOCKED] Coin / Fragment 기반 장비 성장은 폐기.
 
 ## 사용자 결정 필요
-- [DECIDE] T2 Elemental 장비 최종 전체 roster.
-- [DECIDE] 각 원소 장비의 기본 아이템 타입.
+- [LOCKED] T2 Elemental roster: 불꽃검 / 흐르는 물의 검 / 바람을 가르는 검 / 바람궁수의 활 / 대지의 철퇴 / 마기가 깃든 지팡이. Ice T2 장비는 없음.
+- [LOCKED] T2 기본 타입: Fire=Sword, Water=Sword, Wind=Sword+Bow, Earth=Mace, Ice=없음, Dark Energy=Staff.
+- [IMPLEMENTATION] T2는 Paper 능력의 핵심 컨셉을 계승하되, 모델링/VFX/SFX/정확한 능력치/쿨다운/범위/키 입력/세부 판정은 Fabric 구현 단계에서 재설계.
 - [DECIDE] T4 Endgame 장비의 존재 방식과 개수.
 - [DECIDE] 특수장비 중 Paper에서 그대로 유지할 것 / Mod에서 재해석할 것.
 - [BALANCE] Enhancement 최대 수치.
@@ -323,8 +325,8 @@
 
 # 11. 현재 한 줄 상태
 
-- Mining/Materials: 철학과 핵심 재료는 거의 확정, 월드젠/최종 수치 미완.
-- Equipment: 구조 확정, T2/T4 roster와 일부 balance 미완.
+- Mining/Materials: 콘텐츠 구조와 상대 밸런스 기준은 임시 확정. recipe 소비량과 구현 후 실측 밸런스는 후속 단계.
+- Equipment: T2 roster/기본 타입/능력 컨셉 계승은 확정. T4, T3 유지·재해석, Enhancement와 recipe balance는 미완.
 - Coating: 설계 거의 LOCKED, template economy와 수치 미완.
 - Utility Equipment: 기능 대부분 확정, recipe/수치 미완.
 - Fishing: 핵심 시스템 확정, species/확률/보상/recipe 미완.
