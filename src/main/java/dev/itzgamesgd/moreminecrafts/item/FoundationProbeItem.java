@@ -24,7 +24,7 @@ public final class FoundationProbeItem extends Item {
                     FoundationProbeAbility.INSTANCE
             );
             if (result == AbilityActivation.Result.ON_COOLDOWN) {
-                serverPlayer.displayClientMessage(Component.literal("Foundation ability is cooling down"), true);
+                serverPlayer.sendOverlayMessage(Component.literal("Foundation ability is cooling down"));
             }
         }
         return InteractionResult.SUCCESS;
