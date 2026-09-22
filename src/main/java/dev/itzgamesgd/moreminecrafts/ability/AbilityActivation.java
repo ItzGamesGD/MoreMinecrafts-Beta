@@ -9,7 +9,7 @@ public final class AbilityActivation {
     }
 
     public static Result tryActivate(ServerPlayer player, ItemStack source, ActiveEquipmentAbility ability) {
-        long currentTick = player.serverLevel().getGameTime();
+        long currentTick = player.level().getGameTime();
         AbilityCooldowns cooldowns = player.getAttachedOrCreate(AbilityAttachments.COOLDOWNS);
         String abilityId = ability.id().toString();
 
