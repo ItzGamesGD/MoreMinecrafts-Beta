@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-      - stage-1/fabric-foundation
-      - stage-2/enhancement-stone
+      - "stage-*/**"
   pull_request:
 
 jobs:
@@ -22,13 +21,47 @@ jobs:
           distribution: temurin
           java-version: "25"
 
-      - name: Set up Gradle 9.6.0
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "9.6.0"
 
       - name: Build
-        run: gradle build
+        run: ./gradlew build
+
+      - name: Collect distributable mod JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p build/artifacts
+          shopt -s nullglob
+          candidates=(build/libs/*.jar)
+          distributable=()
+
+          for jar in "${candidates[@]}"; do
+            case "$jar" in
+              *-sources.jar|*-dev.jar|*-dev-shadow.jar) continue ;;
+            esac
+            distributable+=("$jar")
+          done
+
+          if [ "${#distributable[@]}" -ne 1 ]; then
+            echo "Expected exactly one distributable mod JAR, found ${#distributable[@]}:"
+            printf '  %s\n' "${distributable[@]:-<none>}"
+            echo "All build/libs JARs:"
+            printf '  %s\n' "${candidates[@]:-<none>}"
+            exit 1
+          fi
+
+          cp "${distributable[0]}" build/artifacts/
+          echo "Distributable mod JAR: ${distributable[0]}"
+
+      - name: Upload distributable mod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: moreminecrafts-stage4-build
+          path: build/artifacts/*.jar
+          if-no-files-found: error
+          retention-days: 14
 
   server-smoke:
     runs-on: ubuntu-latest
@@ -45,10 +78,8 @@ jobs:
           distribution: temurin
           java-version: "25"
 
-      - name: Set up Gradle 9.6.0
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "9.6.0"
 
       - name: Accept Minecraft EULA for CI runtime
         run: |
@@ -59,7 +90,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          timeout 150s gradle runServer > server-smoke.log 2>&1
+          timeout 150s ./gradlew runServer > server-smoke.log 2>&1
           exit_code=$?
           set -e
 
@@ -92,10 +123,8 @@ jobs:
           distribution: temurin
           java-version: "25"
 
-      - name: Set up Gradle 9.6.0
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "9.6.0"
 
       - name: Install virtual display dependencies
         run: |
@@ -106,7 +135,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          timeout 180s xvfb-run -a gradle runClient > client-smoke.log 2>&1
+          timeout 180s xvfb-run -a ./gradlew runClient > client-smoke.log 2>&1
           exit_code=$?
           set -e
 

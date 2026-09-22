@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.inventory.DataSlot;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,13 +21,16 @@ abstract class AnvilMenuMixin {
     @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
     private void moreminecrafts$createEnhancementResult(CallbackInfo callbackInfo) {
         AnvilMenu menu = (AnvilMenu) (Object) this;
-        EnhancementOperation.createResult(menu.getSlot(0).getItem(), menu.getSlot(1).getItem())
-                .ifPresent(result -> {
-                    menu.getSlot(2).set(result);
-                    cost.set(EnhancementOperation.EXPERIENCE_LEVEL_COST);
-                    repairItemCountCost = EnhancementOperation.MATERIAL_COST;
-                    menu.broadcastChanges();
-                    callbackInfo.cancel();
-                });
+        var material = menu.getSlot(1).getItem();
+        if (!EnhancementOperation.isEnhancementMaterial(material)) {
+            return;
+        }
+
+        var preview = EnhancementOperation.preview(menu.getSlot(0).getItem(), material);
+        menu.getSlot(2).set(preview.map(EnhancementOperation.Result::stack).orElse(ItemStack.EMPTY));
+        cost.set(preview.map(EnhancementOperation.Result::experienceLevelCost).orElse(0));
+        repairItemCountCost = preview.map(EnhancementOperation.Result::materialCost).orElse(0);
+        menu.broadcastChanges();
+        callbackInfo.cancel();
     }
 }
