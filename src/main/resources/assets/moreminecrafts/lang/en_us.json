@@ -1,5 +1,8 @@
 {
   "item.moreminecrafts.enhancement_level": "Enhancement +%s",
   "item.moreminecrafts.enhancement_stone": "Enhancement Stone",
-  "item.moreminecrafts.flame_sword": "Flame Sword"
+  "item.moreminecrafts.flame_sword": "Flame Sword",
+  "item.moreminecrafts.wind_sword": "Wind Sword",
+  "key.moreminecrafts.equipment_skill": "Equipment Skill",
+  "key.category.moreminecrafts.equipment": "MoreMinecrafts Equipment"
 }
