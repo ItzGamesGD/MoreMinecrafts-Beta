@@ -13,7 +13,7 @@ public final class ModDataComponents {
             BuiltInRegistries.DATA_COMPONENT_TYPE,
             ModIds.id("enhancement_level"),
             DataComponentType.<Integer>builder()
-                    .persistent(Codec.intRange(0, 1))
+                    .persistent(Codec.intRange(0, Integer.MAX_VALUE))
                     .networkSynchronized(ByteBufCodecs.VAR_INT)
                     .build()
     );
