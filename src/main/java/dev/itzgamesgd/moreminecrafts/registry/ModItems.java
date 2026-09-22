@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.registry;
 
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import dev.itzgamesgd.moreminecrafts.item.FoundationProbeItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -17,7 +18,7 @@ public final class ModItems {
     public static final Item FOUNDATION_PROBE = Registry.register(
             BuiltInRegistries.ITEM,
             FOUNDATION_PROBE_KEY,
-            new Item(new Item.Properties().setId(FOUNDATION_PROBE_KEY))
+            new FoundationProbeItem(new Item.Properties().setId(FOUNDATION_PROBE_KEY))
     );
     public static final Item ENHANCEMENT_STONE = Registry.register(
             BuiltInRegistries.ITEM,

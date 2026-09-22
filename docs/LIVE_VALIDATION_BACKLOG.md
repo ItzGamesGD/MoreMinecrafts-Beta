@@ -81,3 +81,23 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 4B-3):** Inventory movement, reconnect, and restart preserve enhancement state.
 - [ ] **LIVE PENDING (Stage 4B-3):** Existing Stage 4B-1 melee/tool behavior is unchanged.
 - [ ] **LIVE PENDING (Stage 4B-3):** Existing Stage 4B-2 projectile behavior is unchanged.
+
+## Stage 4C - LIVE PENDING
+
+- [ ] **LIVE PENDING (Stage 4C):** `foundation_probe` activates successfully when ready.
+- [ ] **LIVE PENDING (Stage 4C):** Successful activation starts its cooldown.
+- [ ] **LIVE PENDING (Stage 4C):** Immediate repeated use is blocked.
+- [ ] **LIVE PENDING (Stage 4C):** Swapping between duplicate probes does not bypass the player-owned cooldown.
+- [ ] **LIVE PENDING (Stage 4C):** Cooldown expires at the expected server game tick.
+- [ ] **LIVE PENDING (Stage 4C):** Separate ability IDs do not share cooldowns.
+- [ ] **LIVE PENDING (Stage 4C):** Logout and reconnect preserve an active cooldown.
+- [ ] **LIVE PENDING (Stage 4C):** Server restart preserves an active cooldown.
+- [ ] **LIVE PENDING (Stage 4C):** Inventory movement does not alter cooldown state.
+- [ ] **LIVE PENDING (Stage 4C):** Dropping and reacquiring the probe does not reset cooldown state.
+- [ ] **LIVE PENDING (Stage 4C):** Another player has an independent cooldown.
+- [ ] **LIVE PENDING (Stage 4C):** No custom gameplay packet is required.
+- [ ] **LIVE PENDING (Stage 4C):** Activation remains server-authoritative.
+- [ ] **LIVE PENDING (Stage 4C):** Stage 4A enhancement behavior is unchanged.
+- [ ] **LIVE PENDING (Stage 4C):** Stage 4B-1 melee/tool behavior is unchanged.
+- [ ] **LIVE PENDING (Stage 4C):** Stage 4B-2 projectile behavior is unchanged.
+- [ ] **LIVE PENDING (Stage 4C):** Stage 4B-3 armor behavior is unchanged.
