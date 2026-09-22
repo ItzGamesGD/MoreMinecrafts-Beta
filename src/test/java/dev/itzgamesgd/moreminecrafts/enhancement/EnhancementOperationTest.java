@@ -1,7 +1,8 @@
 package dev.itzgamesgd.moreminecrafts.enhancement;
 
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
-import dev.itzgamesgd.moreminecrafts.registry.ModRegistries;
+import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
+import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.Bootstrap;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +17,8 @@ class EnhancementOperationTest {
     static void bootstrapMinecraftAndMod() {
         SharedConstants.tryDetectVersion();
         Bootstrap.bootStrap();
-        ModRegistries.initialize();
+        ModDataComponents.initialize();
+        ModItems.initialize();
     }
 
     @Test
