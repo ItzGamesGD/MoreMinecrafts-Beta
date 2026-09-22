@@ -1,72 +1,62 @@
 package dev.itzgamesgd.moreminecrafts.enhancement;
 
-import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
-import dev.itzgamesgd.moreminecrafts.registry.ModItems;
-import net.minecraft.SharedConstants;
-import net.minecraft.server.Bootstrap;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EnhancementOperationTest {
-    @BeforeAll
-    static void bootstrapMinecraftAndMod() {
-        SharedConstants.tryDetectVersion();
-
-        // Register mod-owned entries before vanilla bootstrap finalizes the built-in registries.
-        // Accessing these constants triggers their static Registry.register(...) calls.
-        var enhancementLevel = ModDataComponents.ENHANCEMENT_LEVEL;
-        var enhancementStone = ModItems.ENHANCEMENT_STONE;
-
-        Bootstrap.bootStrap();
-
-        // Verify the registrations after Minecraft bootstrap has completed.
-        ModDataComponents.initialize();
-        ModItems.initialize();
-    }
+    private static final EnhancementDefinition VANILLA_SWORD =
+            new EnhancementDefinition(EnhancementCategory.VANILLA, EnhancementProfile.SWORD);
+    private static final EnhancementDefinition ELEMENTAL_SWORD =
+            new EnhancementDefinition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD);
 
     @Test
-    void advancesSequentiallyAndPreservesStackState() {
-        ItemStack sword = new ItemStack(Items.IRON_SWORD);
-        sword.setDamageValue(7);
-        var first = EnhancementOperation.preview(sword, stone()).orElseThrow();
+    void advancesSequentiallyWithTargetLevelCosts() {
+        var first = EnhancementOperation.plan(VANILLA_SWORD, 0, 1).orElseThrow();
         assertEquals(1, first.targetLevel());
         assertEquals(1, first.experienceLevelCost());
-        assertEquals(7, first.stack().getDamageValue());
-        assertEquals(0, EnhancementOperation.level(sword));
+        assertEquals(1, first.materialCost());
 
-        var second = EnhancementOperation.preview(first.stack(), stone()).orElseThrow();
+        var second = EnhancementOperation.plan(VANILLA_SWORD, first.targetLevel(), 1).orElseThrow();
         assertEquals(2, second.targetLevel());
-        assertEquals(2, EnhancementOperation.level(second.stack()));
-        assertEquals(0.16D, EnhancementOperation.attackDamageBonus(second.stack()), 0.000001D);
+        assertEquals(1, second.experienceLevelCost());
+        assertEquals(1, second.materialCost());
     }
 
     @Test
-    void vanillaStopsAtThirty() {
-        ItemStack sword = new ItemStack(Items.IRON_SWORD);
-        sword.set(ModDataComponents.ENHANCEMENT_LEVEL, 29);
-        assertEquals(30, EnhancementOperation.preview(sword, stone()).orElseThrow().targetLevel());
-        sword.set(ModDataComponents.ENHANCEMENT_LEVEL, 30);
-        assertTrue(EnhancementOperation.preview(sword, stone()).isEmpty());
+    void vanillaStopsAtThirtyAndElementalAtForty() {
+        assertEquals(30, EnhancementOperation.plan(VANILLA_SWORD, 29, 1).orElseThrow().targetLevel());
+        assertTrue(EnhancementOperation.plan(VANILLA_SWORD, 30, 1).isEmpty());
+
+        assertEquals(40, EnhancementOperation.plan(ELEMENTAL_SWORD, 39, 1).orElseThrow().targetLevel());
+        assertTrue(EnhancementOperation.plan(ELEMENTAL_SWORD, 40, 1).isEmpty());
     }
 
     @Test
-    void unsupportedAndShieldAreRejected() {
-        assertTrue(EnhancementOperation.preview(new ItemStack(Items.DIRT), stone()).isEmpty());
-        assertTrue(EnhancementOperation.preview(new ItemStack(Items.SHIELD), stone()).isEmpty());
+    void nonEnhanceableCategoriesAreRejected() {
+        for (EnhancementCategory category : new EnhancementCategory[]{
+                EnhancementCategory.SPECIAL,
+                EnhancementCategory.ENDGAME,
+                EnhancementCategory.UNSUPPORTED
+        }) {
+            var definition = new EnhancementDefinition(category, EnhancementProfile.SWORD);
+            assertTrue(EnhancementOperation.plan(definition, 0, 1).isEmpty());
+        }
     }
 
     @Test
-    void materialMustBeOneEnhancementStone() {
-        assertTrue(EnhancementOperation.preview(new ItemStack(Items.IRON_SWORD), ItemStack.EMPTY).isEmpty());
-        assertEquals(1, EnhancementOperation.preview(new ItemStack(Items.IRON_SWORD), stone())
-                .orElseThrow().materialCost());
+    void materialPolicyConsumesExactlyOneFromAnyPositiveStack() {
+        assertTrue(EnhancementOperation.plan(VANILLA_SWORD, 0, 0).isEmpty());
+
+        var one = EnhancementOperation.plan(VANILLA_SWORD, 0, 1).orElseThrow();
+        var stack = EnhancementOperation.plan(VANILLA_SWORD, 0, 64).orElseThrow();
+        assertEquals(1, one.materialCost());
+        assertEquals(1, stack.materialCost());
     }
 
-    private static ItemStack stone() {
-        return new ItemStack(dev.itzgamesgd.moreminecrafts.registry.ModItems.ENHANCEMENT_STONE);
+    @Test
+    void malformedLevelsFailClosedWithoutOverflow() {
+        assertTrue(EnhancementOperation.plan(VANILLA_SWORD, -1, 1).isEmpty());
+        assertTrue(EnhancementOperation.plan(VANILLA_SWORD, Integer.MAX_VALUE, 1).isEmpty());
     }
 }
