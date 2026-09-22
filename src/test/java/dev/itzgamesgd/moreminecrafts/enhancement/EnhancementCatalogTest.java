@@ -33,6 +33,16 @@ class EnhancementCatalogTest {
     }
 
     @Test
+    void ironSwordRetainsTheGeneralizedStage3Contract() {
+        var definition = EnhancementCatalog.definition(Items.IRON_SWORD).orElseThrow();
+        assertEquals(EnhancementCategory.VANILLA, definition.category());
+        assertEquals(EnhancementProfile.SWORD, definition.profile());
+        assertEquals(0.08D,
+                definition.profile().valuePerLevel(EnhancementEffect.Target.ATTACK_DAMAGE),
+                0.000001D);
+    }
+
+    @Test
     void rejectsShieldAndUnsupportedItems() {
         assertTrue(EnhancementCatalog.definition(Items.SHIELD).isEmpty());
         assertTrue(EnhancementCatalog.definition(Items.DIRT).isEmpty());
