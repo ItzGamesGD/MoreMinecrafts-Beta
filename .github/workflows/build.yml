@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-      - stage-1/fabric-foundation
-      - stage-2/enhancement-stone
+      - "stage-*/**"
   pull_request:
 
 jobs:
