@@ -5,6 +5,7 @@ public final class ModRegistries {
     }
 
     public static void initialize() {
+        ModDataComponents.initialize();
         ModItems.initialize();
     }
 }

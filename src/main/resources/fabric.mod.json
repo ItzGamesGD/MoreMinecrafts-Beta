@@ -16,6 +16,9 @@
       "dev.itzgamesgd.moreminecrafts.client.MoreMinecraftsClient"
     ]
   },
+  "mixins": [
+    "moreminecrafts.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.5",
     "minecraft": ">=26.3 <26.4",
