@@ -1,7 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementEffects;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -16,11 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ProjectileWeaponItem.class)
 abstract class ProjectileWeaponItemMixin {
     @Inject(
-            method = "createProjectile(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/projectile/Projectile;",
+            method = "createProjectile(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/projectile/Projectile;",
             at = @At("RETURN")
     )
     private void moreminecrafts$applyLaunchWeaponDamage(
-            ServerLevel level,
+            Level level,
             LivingEntity shooter,
             ItemStack weapon,
             ItemStack ammunition,
