@@ -1,5 +1,8 @@
 # Stage 3 enhancement vertical slice
 
+> Historical Stage 3 record: Stage 4A generalizes this implementation. Its outstanding live
+> checks are carried forward in `docs/LIVE_VALIDATION_BACKLOG.md`.
+
 Stage 3 deliberately implements one operation only: an unenhanced Iron Sword in the first
 vanilla-anvil input plus an Enhancement Stone in the second input produces a level-one enhanced
 copy. The anvil charges one level and consumes one stone through its normal result-take path.
