@@ -16,7 +16,8 @@ public final class EnhancementEffects {
             return 0.0D;
         }
 
-        return level * definition.profile().valuePerLevel(target);
+        int effectiveLevel = Math.min(level, definition.category().maximumLevel());
+        return effectiveLevel * definition.profile().valuePerLevel(target);
     }
 
     /** Resolves an effect for the item identity and enhancement component carried by a stack. */
@@ -43,6 +44,22 @@ public final class EnhancementEffects {
     public static double projectileDamage(ItemStack weapon) {
         return EnhancementCatalog.definition(weapon.getItem())
                 .map(definition -> projectileDamage(definition, EnhancementOperation.level(weapon)))
+                .orElse(0.0D);
+    }
+
+    /** Resolves the fractional pre-armor damage reduction supplied by one armor stack. */
+    public static double damageReduction(EnhancementDefinition definition, int level) {
+        if (definition.profile() != EnhancementProfile.ARMOR) {
+            return 0.0D;
+        }
+
+        return value(definition, level, EnhancementEffect.Target.DAMAGE_REDUCTION);
+    }
+
+    /** Resolves one equipped stack's fractional pre-armor damage reduction. */
+    public static double damageReduction(ItemStack armor) {
+        return EnhancementCatalog.definition(armor.getItem())
+                .map(definition -> damageReduction(definition, EnhancementOperation.level(armor)))
                 .orElse(0.0D);
     }
 }
