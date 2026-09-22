@@ -10,7 +10,7 @@ public final class ModNetworking {
     }
 
     public static void initialize() {
-        PayloadTypeRegistry.playC2S().register(EquipmentSkillPayload.TYPE, EquipmentSkillPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(EquipmentSkillPayload.TYPE, EquipmentSkillPayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(EquipmentSkillPayload.TYPE, (payload, context) -> {
             EquipmentSkillInput input = EquipmentSkillInput.fromNetworkId(payload.inputId());
             if (input != null) {
