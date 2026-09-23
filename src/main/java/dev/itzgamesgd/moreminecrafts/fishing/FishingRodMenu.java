@@ -3,7 +3,6 @@ package dev.itzgamesgd.moreminecrafts.fishing;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.FishingRodItem;
@@ -49,15 +48,6 @@ public final class FishingRodMenu extends AbstractContainerMenu {
     @Override public boolean stillValid(Player player) {
         return rod.getItem() instanceof FishingRodItem
                 && (player.getMainHandItem() == rod || player.getOffhandItem() == rod);
-    }
-
-    @Override public void clicked(int slotId, int button, ClickType clickType, Player player) {
-        // A hotbar swap or drop must not move the rod while its component backs this menu.
-        if (slotId >= ROD_SLOTS && slotId < slots.size() && slots.get(slotId).getItem() == rod) return;
-        if (clickType == ClickType.SWAP && button >= 0 && button < 9
-                && player.getInventory().getItem(button) == rod) return;
-        if (!stillValid(player)) return;
-        super.clicked(slotId, button, clickType, player);
     }
 
     @Override public ItemStack quickMoveStack(Player player, int index) {
