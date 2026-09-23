@@ -41,6 +41,7 @@ abstract class SkeletonMixin implements SkeletonKingState {
     @Unique private static final Component KING_NAME = Component.literal("Skeleton King");
     @Unique private boolean moreminecrafts$king;
     @Unique private UUID moreminecrafts$guardOwner;
+    @Unique private long moreminecrafts$guardOwnerMissingSince = -1L;
     @Unique private ServerBossEvent moreminecrafts$bossBar;
     @Unique private long moreminecrafts$barrageReady;
     @Unique private long moreminecrafts$guardsReady;
@@ -90,6 +91,7 @@ abstract class SkeletonMixin implements SkeletonKingState {
     @Override
     public void moreminecrafts$setGuardOwner(UUID owner) {
         moreminecrafts$guardOwner = owner;
+        moreminecrafts$guardOwnerMissingSince = -1L;
         Skeleton skeleton = (Skeleton) (Object) this;
         skeleton.setCustomName(Component.literal("Skeleton Guard"));
         skeleton.setCustomNameVisible(true);
@@ -108,6 +110,9 @@ abstract class SkeletonMixin implements SkeletonKingState {
         if (moreminecrafts$king) output.putBoolean(SkeletonKingRules.IDENTITY_SAVE_KEY, true);
         if (moreminecrafts$guardOwner != null) {
             output.putString(SkeletonKingRules.GUARD_OWNER_SAVE_KEY, moreminecrafts$guardOwner.toString());
+            if (moreminecrafts$guardOwnerMissingSince >= 0L) {
+                output.putLong(SkeletonKingRules.GUARD_OWNER_MISSING_SINCE_SAVE_KEY, moreminecrafts$guardOwnerMissingSince);
+            }
         }
     }
 
@@ -117,8 +122,11 @@ abstract class SkeletonMixin implements SkeletonKingState {
         input.getString(SkeletonKingRules.GUARD_OWNER_SAVE_KEY).ifPresent(value -> {
             try {
                 moreminecrafts$setGuardOwner(UUID.fromString(value));
+                moreminecrafts$guardOwnerMissingSince = input.getLongOr(
+                        SkeletonKingRules.GUARD_OWNER_MISSING_SINCE_SAVE_KEY, -1L);
             } catch (IllegalArgumentException ignored) {
                 moreminecrafts$guardOwner = null;
+                moreminecrafts$guardOwnerMissingSince = -1L;
             }
         });
     }
@@ -127,6 +135,10 @@ abstract class SkeletonMixin implements SkeletonKingState {
     private void moreminecrafts$tickKing(CallbackInfo ci) {
         Skeleton skeleton = (Skeleton) (Object) this;
         if (!(skeleton.level() instanceof ServerLevel level)) return;
+        if (moreminecrafts$guardOwner != null) {
+            moreminecrafts$tickGuard(level, skeleton);
+            return;
+        }
         if (!moreminecrafts$king) return;
         if (!skeleton.isAlive() || skeleton.isRemoved()) {
             moreminecrafts$cleanup(level, true);
@@ -279,6 +291,38 @@ abstract class SkeletonMixin implements SkeletonKingState {
         return player != null && player.isAlive() && !player.isRemoved() && !player.isSpectator()
                 && player.level() == skeleton.level()
                 && skeleton.distanceToSqr(player) <= SkeletonKingRules.PARTICIPATION_RANGE * SkeletonKingRules.PARTICIPATION_RANGE;
+    }
+
+    @Unique
+    private void moreminecrafts$tickGuard(ServerLevel level, Skeleton guard) {
+        Entity ownerEntity = level.getEntity(moreminecrafts$guardOwner);
+        if (ownerEntity instanceof Skeleton owner
+                && owner.isAlive()
+                && !owner.isRemoved()
+                && ((SkeletonKingState) owner).moreminecrafts$isSkeletonKing()) {
+            moreminecrafts$guardOwnerMissingSince = -1L;
+            List<Skeleton> loadedGuards = new ArrayList<>();
+            for (Entity entity : level.getAllEntities()) {
+                if (entity instanceof Skeleton candidate && candidate.isAlive()
+                        && moreminecrafts$guardOwner.equals(
+                                ((SkeletonKingState) candidate).moreminecrafts$getGuardOwner())) {
+                    loadedGuards.add(candidate);
+                }
+            }
+            loadedGuards.sort((left, right) -> left.getUUID().compareTo(right.getUUID()));
+            int rank = loadedGuards.indexOf(guard);
+            if (!SkeletonKingRules.keepLoadedGuard(rank)) guard.discard();
+            return;
+        }
+
+        long tick = level.getGameTime();
+        if (moreminecrafts$guardOwnerMissingSince < 0L) {
+            moreminecrafts$guardOwnerMissingSince = tick;
+            return;
+        }
+        if (SkeletonKingRules.guardOwnerMissingExpired(tick, moreminecrafts$guardOwnerMissingSince)) {
+            guard.discard();
+        }
     }
 
     @Unique
