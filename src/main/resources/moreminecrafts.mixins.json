@@ -11,7 +11,8 @@
     "ThrownTridentMixin",
     "FishingHookMixin",
     "FishingRodItemMixin",
-    "ZombieMixin"
+    "ZombieMixin",
+    "SkeletonMixin"
   ],
   "injectors": {
     "defaultRequire": 1
