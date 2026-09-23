@@ -362,3 +362,71 @@ locked direction, and cooldown are intentionally transient and reset when the en
 - **LIVE PENDING:** Dedicated server starts.
 - **LIVE PENDING:** Client starts.
 - **LIVE PENDING:** Previous Stage functionality still initializes.
+
+## Stage 9A — Skeleton King
+
+The operator-only `/summonskeletonking` command creates this intentionally concrete encounter.
+Persistent entity save data records the King and guard-owner identities; ability telegraphs,
+cooldowns, projectile references, boss-bar viewers, and the active schedule are transient.
+
+### Boss
+
+- **LIVE PENDING:** The test summon works and creates exactly one Skeleton King.
+- **LIVE PENDING:** The approximately 1.25 scale, gold helmet, name, and vanilla Skeleton silhouette are readable.
+- **LIVE PENDING:** Maximum health is 200 and current health begins full.
+- **LIVE PENDING:** Armor is 8 and movement speed is approximately 0.22.
+- **LIVE PENDING:** Normal Skeleton navigation remains intact.
+- **LIVE PENDING:** Normal Skeleton targeting and combat remain intact between telegraphs.
+- **LIVE PENDING:** The native Skeleton King boss bar appears for appropriate nearby players.
+- **LIVE PENDING:** Boss-bar health stays synchronized with actual server-side health.
+- **LIVE PENDING:** Boss-bar viewers are added in range and removed on leaving range or disconnecting.
+- **LIVE PENDING:** Save/reload preserves the Skeleton King identity, attributes, equipment, name, current health (including partially depleted health), and boss bar restoration.
+- **LIVE PENDING:** Chunk unload/reload preserves the Skeleton King and restores its encounter UI safely.
+
+### Bone Barrage
+
+- **LIVE PENDING:** The short crit-particle and Skeleton-sound telegraph is readable.
+- **LIVE PENDING:** Exactly eight real vanilla arrows appear from a sensible eye-height origin.
+- **LIVE PENDING:** The approximately 30-degree total spread feels correct.
+- **LIVE PENDING:** Vanilla block and entity collision works.
+- **LIVE PENDING:** The 120-tick cooldown works.
+- **LIVE PENDING:** Death, removal, unload, or target loss interrupts cleanly and tracked arrows do not leak.
+
+### Summon Guards
+
+- **LIVE PENDING:** Three Skeleton Guards spawn per successful cast.
+- **LIVE PENDING:** Spawn positions approximately four blocks around the King are sensible in normal terrain.
+- **LIVE PENDING:** Guards acquire and participate against the King's player target.
+- **LIVE PENDING:** Repeated casts remain bounded at six living owned guards.
+- **LIVE PENDING:** Guards stay ordinary Skeleton-derived minions and never become bosses or gain boss bars.
+- **LIVE PENDING:** Guards in a neighboring loaded chunk survive a temporary King chunk unload/reload.
+- **LIVE PENDING:** Owned guards clean up when the encounter ends, including guards unloaded when their owner is removed; a reloaded orphan guard gets at most the 200-tick owner-missing grace before self-removal.
+- **LIVE PENDING:** If unloaded guards return while the King is active, the loaded owned-guard population is reconciled back to the six-guard cap.
+
+### Weakness Curse
+
+- **LIVE PENDING:** Witch particles and spell audio make the telegraph readable.
+- **LIVE PENDING:** Nearby valid participating players receive Weakness.
+- **LIVE PENDING:** Weakness lasts 100 ticks with amplifier 0.
+- **LIVE PENDING:** Unrelated entities are unaffected.
+- **LIVE PENDING:** The 160-tick cooldown works.
+
+### Lifecycle
+
+- **LIVE PENDING:** Boss death removes guards, tracked barrage arrows, pending telegraph, and boss-bar viewers.
+- **LIVE PENDING:** Explicit boss removal performs the same cleanup.
+- **LIVE PENDING:** Player disconnect during participation or a telegraph leaves no stale viewer or target.
+- **LIVE PENDING:** A player leaving range loses the bar and invalidates an active targeted telegraph safely.
+- **LIVE PENDING:** Changing the King's target during a telegraph cancels that ability.
+- **LIVE PENDING:** Server shutdown/restart preserves identity while restarting transient cooldown timing safely.
+- **LIVE PENDING:** No stale boss bars remain after death, removal, unload, disconnect, or restart.
+- **LIVE PENDING:** No stale transient ability state remains after interruption or restart.
+
+### Regression
+
+- **LIVE PENDING:** Stage 8 Bomb Zombies, Leap Zombies, and Mining Giants still work.
+- **LIVE PENDING:** Ordinary Skeletons remain unaffected.
+- **LIVE PENDING:** Ordinary Zombies remain unaffected.
+- **LIVE PENDING:** Dedicated server starts.
+- **LIVE PENDING:** Client starts and connects.
+- **LIVE PENDING:** Previous Stage systems still initialize.
