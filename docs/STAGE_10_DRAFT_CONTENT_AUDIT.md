@@ -219,4 +219,4 @@ The original checklist was written during pre-implementation content finalizatio
 
 Consolidated table: **45 rows**. Status: IMPLEMENTED **7**, LOCKED_NOT_IMPLEMENTED **25**, DRAFT_NEEDS_DECISION **0**, DEFERRED **2**, RETIRED **11**, STALE_DOC **0** (stale statements are findings, not content rows). Readiness: ALREADY_IMPLEMENTED **7**, READY_FOR_VERTICAL_SLICE **1**, NEEDS_DESIGN_DECISION **24**, DEFERRED **2**, RETIRED **11**. Counts cover the audited groups and retired policies, not every individual matrix effect, species, mob candidate or stale sentence.
 
-This document changes no gameplay implementation and creates no new design.
+This document changes no gameplay implementation and creates no new design except the explicitly authorized NEW_STAGE_10_BREWING_MAPPING decisions above.
