@@ -10,7 +10,8 @@ import dev.itzgamesgd.moreminecrafts.fishing.FishItem;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingGrade;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingTiming;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -38,7 +39,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(FishingChallengePayload.TYPE,(payload,context)-> context.client().execute(() ->
                 fishingChallengeStart=payload.active() ? payload.startTick() : -1));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> fishingChallengeStart = -1);
-        HudRenderCallback.EVENT.register((graphics,delta)->{
+        HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
+                ModIds.id("fishing_timing"), (graphics, delta) -> {
             var client=net.minecraft.client.Minecraft.getInstance();
             if(fishingChallengeStart<0 || client.level==null)return;
             int width=160,height=10,x=(graphics.guiWidth()-width)/2,y=graphics.guiHeight()-65;
