@@ -240,3 +240,6 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 6):** Flame Sword and Wind Sword skills still work.
 - [ ] **LIVE PENDING (Stage 6):** Dedicated server and client startup complete cleanly.
 - [ ] **LIVE PENDING (Stage 6):** Unrelated vanilla mining and world generation remain unaffected.
+
+- [ ] **LIVE PENDING (Stage 6):** Sample generated chunks and measure actual Y distributions, especially Tungsten near -16 and Mythril near -48; current height-provider midpoints differ from the stated peaks.
+- [ ] **LIVE PENDING (Stage 6):** Verify stone and deepslate replacement in each Overworld ore's full allowed Y range after adding both replacement targets.
