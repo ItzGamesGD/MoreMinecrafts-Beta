@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " M ",
+    "MPM",
+    " M "
+  ],
+  "key": {
+    "M": "moreminecrafts:titanium_ingot",
+    "P": "moreminecrafts:minnow_1"
+  },
+  "result": {
+    "id": "moreminecrafts:minnow_2",
+    "count": 1
+  }
+}

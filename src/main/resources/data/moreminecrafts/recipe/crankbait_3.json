@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " M ",
+    "MPM",
+    " M "
+  ],
+  "key": {
+    "M": "moreminecrafts:tungsten_ingot",
+    "P": "moreminecrafts:crankbait_2"
+  },
+  "result": {
+    "id": "moreminecrafts:crankbait_3",
+    "count": 1
+  }
+}

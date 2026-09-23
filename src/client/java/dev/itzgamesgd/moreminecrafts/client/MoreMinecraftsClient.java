@@ -5,6 +5,12 @@ import dev.itzgamesgd.moreminecrafts.ability.EquipmentSkillInput;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.network.EquipmentSkillPayload;
+import dev.itzgamesgd.moreminecrafts.network.FishingChallengePayload;
+import dev.itzgamesgd.moreminecrafts.fishing.FishItem;
+import dev.itzgamesgd.moreminecrafts.fishing.FishingGrade;
+import dev.itzgamesgd.moreminecrafts.fishing.FishingTiming;
+import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -16,6 +22,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.network.chat.Component;
 
 public final class MoreMinecraftsClient implements ClientModInitializer {
+    private static long fishingChallengeStart=-1;
     private static final KeyMapping.Category EQUIPMENT_CATEGORY =
             KeyMapping.Category.register(ModIds.id("equipment"));
     private static final KeyMapping EQUIPMENT_SKILL = KeyMappingHelper.registerKeyMapping(new KeyMapping(
@@ -27,7 +34,29 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ClientPlayNetworking.registerGlobalReceiver(FishingChallengePayload.TYPE,(payload,context)-> context.client().execute(() ->
+                fishingChallengeStart=payload.active() && context.client().level != null ? context.client().level.getGameTime() : -1));
+        HudRenderCallback.EVENT.register((graphics,delta)->{
+            var client=net.minecraft.client.Minecraft.getInstance();
+            if(fishingChallengeStart<0 || client.level==null)return;
+            int width=160,height=10,x=(graphics.guiWidth()-width)/2,y=graphics.guiHeight()-65;
+            graphics.fill(x,y,x+width,y+height,0xCC601818);
+            int successStart=x+(int)(width*FishingTiming.SUCCESS_MIN), successEnd=x+(int)(width*FishingTiming.SUCCESS_MAX);
+            graphics.fill(successStart,y,successEnd,y+height,0xCC238B45);
+            double position=FishingTiming.position(client.level.getGameTime()-fishingChallengeStart);
+            int marker=x+(int)(position*width);
+            graphics.fill(marker-1,y-3,marker+2,y+height+3,0xFFFFFFFF);
+        });
+
         ItemTooltipCallback.EVENT.register((stack, context, flag, lines) -> {
+            if(stack.getItem() instanceof FishItem fish){
+                int grade=stack.getOrDefault(ModDataComponents.FISH_GRADE,1);
+                int length=stack.getOrDefault(ModDataComponents.FISH_LENGTH,fish.species().minLengthCm());
+                lines.add(Component.translatable("tooltip.moreminecrafts.fish.species",stack.getHoverName()).withStyle(ChatFormatting.AQUA));
+                lines.add(Component.translatable("tooltip.moreminecrafts.fish.grade",FishingGrade.roman(grade)).withStyle(ChatFormatting.GOLD));
+                lines.add(Component.translatable("tooltip.moreminecrafts.fish.length",length).withStyle(ChatFormatting.GRAY));
+                lines.add(Component.translatable("tooltip.moreminecrafts.fish.quality",fish.species().quality(grade,length)).withStyle(ChatFormatting.GREEN));
+            }
             int level = EnhancementOperation.level(stack);
             if (level > 0) {
                 lines.add(Component.translatable("item.moreminecrafts.enhancement_level", level)

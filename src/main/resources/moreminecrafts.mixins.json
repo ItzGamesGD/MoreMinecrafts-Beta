@@ -8,7 +8,9 @@
     "LivingEntityMixin",
     "AbstractArrowAccessor",
     "ProjectileWeaponItemMixin",
-    "ThrownTridentMixin"
+    "ThrownTridentMixin",
+    "FishingHookMixin",
+    "FishingRodItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

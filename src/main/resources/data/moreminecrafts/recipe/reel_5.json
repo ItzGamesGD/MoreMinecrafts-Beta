@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " M ",
+    "MPM",
+    " M "
+  ],
+  "key": {
+    "M": "moreminecrafts:adamantium_ingot",
+    "P": "moreminecrafts:reel_4"
+  },
+  "result": {
+    "id": "moreminecrafts:reel_5",
+    "count": 1
+  }
+}
