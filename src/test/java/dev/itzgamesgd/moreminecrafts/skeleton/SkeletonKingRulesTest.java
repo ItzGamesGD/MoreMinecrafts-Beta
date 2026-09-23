@@ -14,6 +14,8 @@ class SkeletonKingRulesTest {
     void persistentIdentityKeysAreStableAndSeparate() {
         assertEquals("MoreMinecraftsSkeletonKing", SkeletonKingRules.IDENTITY_SAVE_KEY);
         assertEquals("MoreMinecraftsSkeletonKingGuardOwner", SkeletonKingRules.GUARD_OWNER_SAVE_KEY);
+        assertEquals("MoreMinecraftsSkeletonKingGuardOwnerMissingSince",
+                SkeletonKingRules.GUARD_OWNER_MISSING_SINCE_SAVE_KEY);
     }
 
     @Test
@@ -58,6 +60,17 @@ class SkeletonKingRulesTest {
         assertFalse(SkeletonKingRules.eligiblePlayer(5.0D, false, false));
         assertFalse(SkeletonKingRules.eligiblePlayer(5.0D, true, true));
         assertNull(SkeletonKingRules.select(2, 200L, 999L, 999L, 200L, true, 0, false));
+    }
+
+    @Test
+    void loadedGuardCapAndMissingOwnerGraceAreBounded() {
+        assertTrue(SkeletonKingRules.keepLoadedGuard(0));
+        assertTrue(SkeletonKingRules.keepLoadedGuard(5));
+        assertFalse(SkeletonKingRules.keepLoadedGuard(6));
+        assertFalse(SkeletonKingRules.keepLoadedGuard(-1));
+        assertFalse(SkeletonKingRules.guardOwnerMissingExpired(299L, 100L));
+        assertTrue(SkeletonKingRules.guardOwnerMissingExpired(300L, 100L));
+        assertFalse(SkeletonKingRules.guardOwnerMissingExpired(999L, -1L));
     }
 
     @Test
