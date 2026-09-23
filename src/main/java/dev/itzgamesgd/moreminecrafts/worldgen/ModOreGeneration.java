@@ -14,7 +14,9 @@ public final class ModOreGeneration {
     public static void initialize() {
         addOverworld("ore_titanium");
         addOverworld("ore_tungsten");
+        addOverworld("ore_tungsten_upper");
         addOverworld("ore_mythril");
+        addOverworld("ore_mythril_upper");
         addOverworld("ore_etherium");
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(),
                 GenerationStep.Decoration.UNDERGROUND_DECORATION, key("ore_adamantium"));
