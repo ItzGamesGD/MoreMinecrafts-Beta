@@ -285,3 +285,39 @@ All checks below are **LIVE PENDING** until exercised in a Minecraft 26.3 client
 - **LIVE PENDING** — all 15 equipment recipes load in a normal crafting table and consume their specified vanilla/Stage 6 materials.
 - **LIVE PENDING** — enhancement system, Flame Sword, Wind Sword, and Stage 6 ore/worldgen behavior remain intact.
 - **LIVE PENDING** — dedicated server starts and a client starts/connects without mixin, packet, component, screen, model, or translation errors.
+
+## Stage 8A — Zombie variants
+
+Variant identity is persisted in each Zombie's save data. Warning, cooldown, leap,
+fall-immunity, recovery, and pending explosion countdown state is intentionally
+runtime-only and resets across a server restart.
+
+### Bomb Zombie
+
+- **LIVE PENDING:** Naturally appears at the expected approximate frequency.
+- **LIVE PENDING:** TNT helmet is visible and does not drop.
+- **LIVE PENDING:** Normal Zombie navigation and combat remain intact.
+- **LIVE PENDING:** Death warning sequence occurs and explosion follows at approximately 30 ticks.
+- **LIVE PENDING:** Player damage has distance falloff and applies knockback.
+- **LIVE PENDING:** Ordinary mobs are not damaged.
+- **LIVE PENDING:** Explosion destroys no blocks and starts no fire.
+- **LIVE PENDING:** Save/reload and chunk unload/reload preserve the Bomb variant.
+
+### Leap Zombie
+
+- **LIVE PENDING:** Naturally appears and ordinary Zombie navigation works between leaps.
+- **LIVE PENDING:** A player target at the configured range triggers a readable warning.
+- **LIVE PENDING:** Physical leap works and retains normal world collision.
+- **LIVE PENDING:** A leap interrupted by water, lava, a passenger state, or a blocked launch recovers without becoming stuck; a long airborne leap times out.
+- **LIVE PENDING:** The Leap Zombie takes no self fall damage from its leap.
+- **LIVE PENDING:** Landing AoE damages and knocks back players but not ordinary mobs.
+- **LIVE PENDING:** Cooldown prevents repeated leaps for 120 ticks.
+- **LIVE PENDING:** Save/reload and chunk unload/reload preserve the Leap variant.
+
+### Regression
+
+- **LIVE PENDING:** Ordinary Zombies remain ordinary and vanilla Zombie spawning remains functional.
+- **LIVE PENDING:** Unrelated mobs are unaffected.
+- **LIVE PENDING:** Dedicated server starts.
+- **LIVE PENDING:** Client starts.
+- **LIVE PENDING:** Stage 1–7 functionality still initializes.
