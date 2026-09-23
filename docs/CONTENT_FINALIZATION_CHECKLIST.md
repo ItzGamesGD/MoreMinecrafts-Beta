@@ -2,6 +2,7 @@
 
 > 목적: 이 문서는 Mod 이식 단계와 별개다.
 > 현재 작업은 최종 Paper 플러그인과 기존 설계 위에 새 콘텐츠 결정을 덧씌워, MoreMinecrafts의 최종 게임 디자인을 잠그는 단계다.
+> Stage 1~2의 실제 결정 과정·보류·폐기·최종 상태는 `docs/CONTENT_FINALIZATION_RESTORED_RECORD_STAGE_1_2.md`에 복원되어 있다. 체크리스트는 상태판이며 복원 기록과 각 단계 확정안이 상세 source of truth다.
 > 구현 방식은 나중의 Fabric Mod Stage에서 다시 설계하되, 여기서는 "무엇을 만들 것인가"를 먼저 확정한다.
 
 ## 상태 표기
