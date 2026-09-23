@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.zombie.BombZombieEffects;
 import dev.itzgamesgd.moreminecrafts.zombie.ZombieVariant;
+import dev.itzgamesgd.moreminecrafts.zombie.MiningGiantRules;
 import dev.itzgamesgd.moreminecrafts.zombie.ZombieVariantRules;
 import dev.itzgamesgd.moreminecrafts.zombie.ZombieVariantState;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,6 +14,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +43,10 @@ abstract class ZombieMixin implements ZombieVariantState {
     @Unique private long moreminecrafts$fallImmuneUntil;
     @Unique private int moreminecrafts$recoveryTicks;
     @Unique private boolean moreminecrafts$bombScheduled;
+    @Unique private long moreminecrafts$cleaveReadyTick;
+    @Unique private int moreminecrafts$cleaveWarningTicks;
+    @Unique private Vec3 moreminecrafts$cleaveDirection = Vec3.ZERO;
+    @Unique private ServerPlayer moreminecrafts$cleaveTarget;
 
     @Override
     public ZombieVariant moreminecrafts$getVariant() {
@@ -55,6 +61,15 @@ abstract class ZombieMixin implements ZombieVariantState {
             Zombie zombie = (Zombie) (Object) this;
             zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TNT));
             zombie.setDropChance(EquipmentSlot.HEAD, 0.0F);
+        } else if (variant == ZombieVariant.MINING_GIANT) {
+            Zombie zombie = (Zombie) (Object) this;
+            zombie.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_PICKAXE));
+            zombie.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
+            moreminecrafts$setBaseAttribute(zombie, Attributes.MAX_HEALTH, 140.0D);
+            moreminecrafts$setBaseAttribute(zombie, Attributes.ATTACK_DAMAGE, 12.0D);
+            moreminecrafts$setBaseAttribute(zombie, Attributes.ARMOR, 8.0D);
+            moreminecrafts$setBaseAttribute(zombie, Attributes.KNOCKBACK_RESISTANCE, 0.35D);
+            moreminecrafts$setBaseAttribute(zombie, Attributes.SCALE, 2.0D);
         }
     }
 
@@ -73,9 +88,17 @@ abstract class ZombieMixin implements ZombieVariantState {
             return;
         }
         ZombieVariant existing = moreminecrafts$classified ? moreminecrafts$variant : null;
-        ZombieVariant selected = ZombieVariantRules.select(reason == EntitySpawnReason.NATURAL,
-                existing, zombie.getRandom().nextDouble(), zombie.getRandom().nextDouble());
+        boolean natural = reason == EntitySpawnReason.NATURAL;
+        ZombieVariant selected = existing;
+        if (selected == null && MiningGiantRules.canSpawn(natural, zombie.getBlockY(), zombie.getRandom().nextDouble())) {
+            selected = ZombieVariant.MINING_GIANT;
+        }
+        selected = ZombieVariantRules.select(natural, selected,
+                zombie.getRandom().nextDouble(), zombie.getRandom().nextDouble());
         moreminecrafts$setVariant(selected);
+        if (existing == null && selected == ZombieVariant.MINING_GIANT) {
+            zombie.setHealth(zombie.getMaxHealth());
+        }
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -99,6 +122,10 @@ abstract class ZombieMixin implements ZombieVariantState {
         if (moreminecrafts$variant == ZombieVariant.BOMB && zombie.deathTime == 1 && !moreminecrafts$bombScheduled) {
             moreminecrafts$bombScheduled = true;
             BombZombieEffects.schedule(level, zombie.position());
+        }
+        if (moreminecrafts$variant == ZombieVariant.MINING_GIANT) {
+            moreminecrafts$tickMiningGiant(level, zombie);
+            return;
         }
         if (moreminecrafts$variant != ZombieVariant.LEAP) {
             return;
@@ -138,6 +165,99 @@ abstract class ZombieMixin implements ZombieVariantState {
             moreminecrafts$warningTicks = 10;
             level.playSound(null, zombie.getX(), zombie.getY(), zombie.getZ(), SoundEvents.ZOMBIE_AMBIENT,
                     SoundSource.HOSTILE, 0.8F, 1.25F);
+        }
+    }
+
+    /**
+     * Tunnel Breaker is a heavy, fixed-direction pickaxe cleave: the giant plants its feet for 24 ticks,
+     * then strikes a seven-block ground corridor. Dust, swings, and an anvil-like warning make it readable;
+     * stepping sideways is the counterplay. It cannot alter blocks, has a ten-second cooldown, and its
+     * three transient fields clear on interruption. A compact server-side hit test is preferable to fake
+     * projectiles, temporary blocks, or a generic ability framework.
+     */
+    @Unique
+    private void moreminecrafts$tickMiningGiant(ServerLevel level, Zombie zombie) {
+        if (!zombie.isAlive() || zombie.isRemoved()) {
+            moreminecrafts$clearCleave();
+            return;
+        }
+        if (moreminecrafts$cleaveWarningTicks > 0) {
+            boolean targetValid = moreminecrafts$cleaveTarget != null
+                    && zombie.getTarget() == moreminecrafts$cleaveTarget
+                    && moreminecrafts$cleaveTarget.isAlive()
+                    && !moreminecrafts$cleaveTarget.isRemoved()
+                    && moreminecrafts$cleaveTarget.level() == level;
+            if (!MiningGiantRules.canContinueCleave(targetValid, zombie.onGround(),
+                    zombie.isInWater() || zombie.isInLava(), zombie.isPassenger())) {
+                moreminecrafts$clearCleave();
+                return;
+            }
+            zombie.getNavigation().stop();
+            moreminecrafts$cleaveWarningTicks--;
+            if (moreminecrafts$cleaveWarningTicks % 6 == 0) {
+                zombie.swing(net.minecraft.world.InteractionHand.MAIN_HAND,
+                        net.minecraft.world.item.component.SwingAnimation.DEFAULT);
+                level.sendParticles(ParticleTypes.LARGE_SMOKE, zombie.getX(), zombie.getY() + 0.2D,
+                        zombie.getZ(), 3, 0.45D, 0.05D, 0.45D, 0.01D);
+            }
+            if (moreminecrafts$cleaveWarningTicks == 0) {
+                moreminecrafts$executeCleave(level, zombie);
+            }
+            return;
+        }
+        ServerPlayer target = moreminecrafts$playerTarget(zombie);
+        if (target != null && MiningGiantRules.canStartCleave(zombie.distanceTo(target), level.getGameTime(),
+                moreminecrafts$cleaveReadyTick, target.isAlive(), zombie.onGround())
+                && !zombie.isInWater() && !zombie.isInLava()) {
+            Vec3 direction = target.position().subtract(zombie.position()).multiply(1.0D, 0.0D, 1.0D);
+            if (direction.lengthSqr() > 1.0E-6D) {
+                moreminecrafts$cleaveDirection = direction.normalize();
+                moreminecrafts$cleaveTarget = target;
+                moreminecrafts$cleaveWarningTicks = MiningGiantRules.TELEGRAPH_TICKS;
+                level.playSound(null, zombie.getX(), zombie.getY(), zombie.getZ(), SoundEvents.ANVIL_LAND,
+                        SoundSource.HOSTILE, 0.8F, 0.65F);
+            }
+        }
+    }
+
+    @Unique
+    private void moreminecrafts$executeCleave(ServerLevel level, Zombie zombie) {
+        Vec3 origin = zombie.position();
+        zombie.swing(net.minecraft.world.InteractionHand.MAIN_HAND,
+                net.minecraft.world.item.component.SwingAnimation.DEFAULT);
+        level.playSound(null, origin.x, origin.y, origin.z, SoundEvents.GENERIC_EXPLODE.value(),
+                SoundSource.HOSTILE, 0.7F, 0.65F);
+        for (int step = 1; step <= 7; step++) {
+            Vec3 point = origin.add(moreminecrafts$cleaveDirection.scale(step));
+            level.sendParticles(ParticleTypes.POOF, point.x, point.y + 0.15D, point.z,
+                    3, 0.45D, 0.08D, 0.45D, 0.02D);
+        }
+        AABB area = zombie.getBoundingBox().inflate(MiningGiantRules.CLEAVE_MAX_DISTANCE, 1.5D, MiningGiantRules.CLEAVE_MAX_DISTANCE);
+        for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class, area, ServerPlayer::isAlive)) {
+            Vec3 offset = player.position().subtract(origin);
+            if (Math.abs(offset.y) <= 2.5D && MiningGiantRules.isInsideCleave(
+                    moreminecrafts$cleaveDirection.x, moreminecrafts$cleaveDirection.z, offset.x, offset.z)) {
+                player.hurtServer(level, level.damageSources().mobAttack(zombie), MiningGiantRules.CLEAVE_DAMAGE);
+                BombZombieEffects.knockAway(player, origin, 0.9D);
+            }
+        }
+        moreminecrafts$cleaveReadyTick = MiningGiantRules.nextCleaveTick(level.getGameTime());
+        moreminecrafts$clearCleave();
+    }
+
+    @Unique
+    private void moreminecrafts$clearCleave() {
+        moreminecrafts$cleaveWarningTicks = 0;
+        moreminecrafts$cleaveDirection = Vec3.ZERO;
+        moreminecrafts$cleaveTarget = null;
+    }
+
+    @Unique
+    private static void moreminecrafts$setBaseAttribute(Zombie zombie,
+            net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attribute, double value) {
+        var instance = zombie.getAttribute(attribute);
+        if (instance != null) {
+            instance.setBaseValue(value);
         }
     }
 

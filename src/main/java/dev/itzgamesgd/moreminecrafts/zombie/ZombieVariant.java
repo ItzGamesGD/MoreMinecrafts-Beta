@@ -3,7 +3,8 @@ package dev.itzgamesgd.moreminecrafts.zombie;
 public enum ZombieVariant {
     NORMAL,
     BOMB,
-    LEAP;
+    LEAP,
+    MINING_GIANT;
 
     public static ZombieVariant fromSavedName(String name) {
         try {
