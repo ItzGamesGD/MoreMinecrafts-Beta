@@ -60,7 +60,8 @@ abstract class ZombieMixin implements ZombieVariantState {
 
     @Override
     public boolean moreminecrafts$hasLeapFallImmunity(long gameTick) {
-        return moreminecrafts$variant == ZombieVariant.LEAP && gameTick <= moreminecrafts$fallImmuneUntil;
+        return moreminecrafts$variant == ZombieVariant.LEAP && moreminecrafts$leaping
+                && gameTick <= moreminecrafts$fallImmuneUntil;
     }
 
     @Inject(method = "finalizeSpawn", at = @At("RETURN"))
@@ -111,7 +112,11 @@ abstract class ZombieMixin implements ZombieVariantState {
             return;
         }
         if (moreminecrafts$leaping) {
-            if (!zombie.onGround()) {
+            if (level.getGameTime() > moreminecrafts$fallImmuneUntil
+                    || zombie.isInWater() || zombie.isInLava() || zombie.isPassenger()) {
+                moreminecrafts$clearLeap();
+                moreminecrafts$recoveryTicks = 10;
+            } else if (!zombie.onGround()) {
                 moreminecrafts$leftGround = true;
             } else if (moreminecrafts$leftGround) {
                 moreminecrafts$land(level, zombie);
@@ -184,6 +189,7 @@ abstract class ZombieMixin implements ZombieVariantState {
         }
         moreminecrafts$leaping = false;
         moreminecrafts$leftGround = false;
+        moreminecrafts$fallImmuneUntil = 0;
         moreminecrafts$recoveryTicks = 10;
     }
 

@@ -308,6 +308,7 @@ runtime-only and resets across a server restart.
 - **LIVE PENDING:** Naturally appears and ordinary Zombie navigation works between leaps.
 - **LIVE PENDING:** A player target at the configured range triggers a readable warning.
 - **LIVE PENDING:** Physical leap works and retains normal world collision.
+- **LIVE PENDING:** A leap interrupted by water, lava, a passenger state, or a blocked launch recovers without becoming stuck; a long airborne leap times out.
 - **LIVE PENDING:** The Leap Zombie takes no self fall damage from its leap.
 - **LIVE PENDING:** Landing AoE damages and knocks back players but not ordinary mobs.
 - **LIVE PENDING:** Cooldown prevents repeated leaps for 120 ticks.
