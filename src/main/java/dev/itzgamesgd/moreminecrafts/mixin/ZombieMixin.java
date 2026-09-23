@@ -46,6 +46,7 @@ abstract class ZombieMixin implements ZombieVariantState {
     @Unique private long moreminecrafts$cleaveReadyTick;
     @Unique private int moreminecrafts$cleaveWarningTicks;
     @Unique private Vec3 moreminecrafts$cleaveDirection = Vec3.ZERO;
+    @Unique private ServerPlayer moreminecrafts$cleaveTarget;
 
     @Override
     public ZombieVariant moreminecrafts$getVariant() {
@@ -181,6 +182,16 @@ abstract class ZombieMixin implements ZombieVariantState {
             return;
         }
         if (moreminecrafts$cleaveWarningTicks > 0) {
+            boolean targetValid = moreminecrafts$cleaveTarget != null
+                    && zombie.getTarget() == moreminecrafts$cleaveTarget
+                    && moreminecrafts$cleaveTarget.isAlive()
+                    && !moreminecrafts$cleaveTarget.isRemoved()
+                    && moreminecrafts$cleaveTarget.level() == level;
+            if (!MiningGiantRules.canContinueCleave(targetValid, zombie.onGround(),
+                    zombie.isInWater() || zombie.isInLava(), zombie.isPassenger())) {
+                moreminecrafts$clearCleave();
+                return;
+            }
             zombie.getNavigation().stop();
             moreminecrafts$cleaveWarningTicks--;
             if (moreminecrafts$cleaveWarningTicks % 6 == 0) {
@@ -201,6 +212,7 @@ abstract class ZombieMixin implements ZombieVariantState {
             Vec3 direction = target.position().subtract(zombie.position()).multiply(1.0D, 0.0D, 1.0D);
             if (direction.lengthSqr() > 1.0E-6D) {
                 moreminecrafts$cleaveDirection = direction.normalize();
+                moreminecrafts$cleaveTarget = target;
                 moreminecrafts$cleaveWarningTicks = MiningGiantRules.TELEGRAPH_TICKS;
                 level.playSound(null, zombie.getX(), zombie.getY(), zombie.getZ(), SoundEvents.ANVIL_LAND,
                         SoundSource.HOSTILE, 0.8F, 0.65F);
@@ -237,6 +249,7 @@ abstract class ZombieMixin implements ZombieVariantState {
     private void moreminecrafts$clearCleave() {
         moreminecrafts$cleaveWarningTicks = 0;
         moreminecrafts$cleaveDirection = Vec3.ZERO;
+        moreminecrafts$cleaveTarget = null;
     }
 
     @Unique

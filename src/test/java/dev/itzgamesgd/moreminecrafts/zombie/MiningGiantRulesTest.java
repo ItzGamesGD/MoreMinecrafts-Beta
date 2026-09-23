@@ -31,6 +31,15 @@ class MiningGiantRulesTest {
     }
 
     @Test
+    void warningCancelsIfTargetOrFootingBecomesInvalid() {
+        assertTrue(MiningGiantRules.canContinueCleave(true, true, false, false));
+        assertFalse(MiningGiantRules.canContinueCleave(false, true, false, false));
+        assertFalse(MiningGiantRules.canContinueCleave(true, false, false, false));
+        assertFalse(MiningGiantRules.canContinueCleave(true, true, true, false));
+        assertFalse(MiningGiantRules.canContinueCleave(true, true, false, true));
+    }
+
+    @Test
     void fixedCorridorPermitsSidewaysCounterplay() {
         assertTrue(MiningGiantRules.isInsideCleave(1.0D, 0.0D, 0.5D, 2.25D));
         assertTrue(MiningGiantRules.isInsideCleave(1.0D, 0.0D, 7.0D, 0.0D));

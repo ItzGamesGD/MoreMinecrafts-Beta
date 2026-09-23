@@ -24,6 +24,12 @@ public final class MiningGiantRules {
                 && distance <= CLEAVE_MAX_DISTANCE && gameTick >= readyTick;
     }
 
+    /** An interrupted warning cannot turn into an attack after its target or footing is lost. */
+    public static boolean canContinueCleave(boolean targetValid, boolean grounded,
+                                            boolean inFluid, boolean passenger) {
+        return targetValid && grounded && !inFluid && !passenger;
+    }
+
     public static long nextCleaveTick(long attackTick) {
         return attackTick + COOLDOWN_TICKS;
     }

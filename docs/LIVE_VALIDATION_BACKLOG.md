@@ -347,7 +347,8 @@ locked direction, and cooldown are intentionally transient and reset when the en
 - **LIVE PENDING:** The seven-block ground corridor damages and strongly knocks back players inside it, while sparing players outside it.
 - **LIVE PENDING:** The 200-tick cooldown prevents repeated Tunnel Breakers.
 - **LIVE PENDING:** Impact particles and sounds are satisfying but not excessive in enclosed combat.
-- **LIVE PENDING:** Completion and invalid/dead/removed interruption leave no stale warning or direction state.
+- **LIVE PENDING:** Completion and invalid/dead/removed interruption leave no stale warning, target, or direction state.
+- **LIVE PENDING:** Changing targets, losing ground, entering fluid, or becoming a passenger during the warning cancels the cleave.
 - **LIVE PENDING:** Death or removal during the telegraph cleans up correctly.
 - **LIVE PENDING:** Tunnel Breaker causes no permanent or temporary terrain damage.
 - **LIVE PENDING:** Multiplayer targeting and corridor hits behave sensibly with multiple nearby players.
