@@ -6,6 +6,7 @@ public final class SkeletonKingRules {
 
     public static final String IDENTITY_SAVE_KEY = "MoreMinecraftsSkeletonKing";
     public static final String GUARD_OWNER_SAVE_KEY = "MoreMinecraftsSkeletonKingGuardOwner";
+    public static final String GUARD_OWNER_MISSING_SINCE_SAVE_KEY = "MoreMinecraftsSkeletonKingGuardOwnerMissingSince";
     public static final int BARRAGE_COOLDOWN = 120;
     public static final int GUARD_COOLDOWN = 200;
     public static final int CURSE_COOLDOWN = 160;
@@ -13,6 +14,7 @@ public final class SkeletonKingRules {
     public static final double BARRAGE_SPREAD_DEGREES = 30.0D;
     public static final int GUARDS_PER_CAST = 3;
     public static final int MAX_LIVING_GUARDS = 6;
+    public static final int GUARD_OWNER_MISSING_GRACE = 200;
     public static final double PARTICIPATION_RANGE = 32.0D;
     public static final double CURSE_RANGE = 12.0D;
 
@@ -54,6 +56,14 @@ public final class SkeletonKingRules {
 
     public static boolean eligiblePlayer(double distance, boolean alive, boolean spectator) {
         return alive && !spectator && distance <= CURSE_RANGE;
+    }
+
+    public static boolean keepLoadedGuard(int zeroBasedRank) {
+        return zeroBasedRank >= 0 && zeroBasedRank < MAX_LIVING_GUARDS;
+    }
+
+    public static boolean guardOwnerMissingExpired(long tick, long missingSince) {
+        return missingSince >= 0L && tick - missingSince >= GUARD_OWNER_MISSING_GRACE;
     }
 
     public static boolean shouldCleanup(boolean king, boolean destroyed) {
