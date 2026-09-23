@@ -285,3 +285,80 @@ All checks below are **LIVE PENDING** until exercised in a Minecraft 26.3 client
 - **LIVE PENDING** — all 15 equipment recipes load in a normal crafting table and consume their specified vanilla/Stage 6 materials.
 - **LIVE PENDING** — enhancement system, Flame Sword, Wind Sword, and Stage 6 ore/worldgen behavior remain intact.
 - **LIVE PENDING** — dedicated server starts and a client starts/connects without mixin, packet, component, screen, model, or translation errors.
+
+## Stage 8A — Zombie variants
+
+Variant identity is persisted in each Zombie's save data. Warning, cooldown, leap,
+fall-immunity, recovery, and pending explosion countdown state is intentionally
+runtime-only and resets across a server restart.
+
+### Bomb Zombie
+
+- **LIVE PENDING:** Naturally appears at the expected approximate frequency.
+- **LIVE PENDING:** TNT helmet is visible and does not drop.
+- **LIVE PENDING:** Normal Zombie navigation and combat remain intact.
+- **LIVE PENDING:** Death warning sequence occurs and explosion follows at approximately 30 ticks.
+- **LIVE PENDING:** Player damage has distance falloff and applies knockback.
+- **LIVE PENDING:** Ordinary mobs are not damaged.
+- **LIVE PENDING:** Explosion destroys no blocks and starts no fire.
+- **LIVE PENDING:** Save/reload and chunk unload/reload preserve the Bomb variant.
+
+### Leap Zombie
+
+- **LIVE PENDING:** Naturally appears and ordinary Zombie navigation works between leaps.
+- **LIVE PENDING:** A player target at the configured range triggers a readable warning.
+- **LIVE PENDING:** Physical leap works and retains normal world collision.
+- **LIVE PENDING:** A leap interrupted by water, lava, a passenger state, or a blocked launch recovers without becoming stuck; a long airborne leap times out.
+- **LIVE PENDING:** The Leap Zombie takes no self fall damage from its leap.
+- **LIVE PENDING:** Landing AoE damages and knocks back players but not ordinary mobs.
+- **LIVE PENDING:** Cooldown prevents repeated leaps for 120 ticks.
+- **LIVE PENDING:** Save/reload and chunk unload/reload preserve the Leap variant.
+
+### Regression
+
+- **LIVE PENDING:** Ordinary Zombies remain ordinary and vanilla Zombie spawning remains functional.
+- **LIVE PENDING:** Unrelated mobs are unaffected.
+- **LIVE PENDING:** Dedicated server starts.
+- **LIVE PENDING:** Client starts.
+- **LIVE PENDING:** Stage 1–7 functionality still initializes.
+
+## Stage 8B — Mining Giant
+
+The Mining Giant is a persistent Zombie identity; its Tunnel Breaker warning,
+locked direction, and cooldown are intentionally transient and reset when the entity reloads.
+
+### Identity and survival spawning
+
+- **LIVE PENDING:** Rare survival-native Zombie spawning at Y 32 or below produces Mining Giants without dominating underground play.
+- **LIVE PENDING:** The approximately 2.0-scale Zombie appearance is correct and remains readable in caves.
+- **LIVE PENDING:** The Diamond Pickaxe appears in the main hand and never drops.
+- **LIVE PENDING:** 140 health, 8 armor, and 12-damage melee behavior work as configured.
+- **LIVE PENDING:** 0.35 knockback resistance is noticeable without making displacement impossible.
+- **LIVE PENDING:** Normal Zombie navigation and pathfinding work at the larger scale.
+- **LIVE PENDING:** Normal hostile player targeting works.
+- **LIVE PENDING:** Save/reload preserves Mining Giant identity, equipment, attributes, and current health.
+- **LIVE PENDING:** Chunk unload/reload preserves Mining Giant identity.
+
+### Tunnel Breaker special ability
+
+- **LIVE PENDING:** A living player target between 2.5 and 7 blocks triggers Tunnel Breaker only while the giant is grounded and ready.
+- **LIVE PENDING:** The 24-tick planted stance, pickaxe swings, restrained smoke, and low anvil sound form a clearly readable telegraph.
+- **LIVE PENDING:** The locked attack direction gives players meaningful sideways or backward counterplay.
+- **LIVE PENDING:** The seven-block ground corridor damages and strongly knocks back players inside it, while sparing players outside it.
+- **LIVE PENDING:** The 200-tick cooldown prevents repeated Tunnel Breakers.
+- **LIVE PENDING:** Impact particles and sounds are satisfying but not excessive in enclosed combat.
+- **LIVE PENDING:** Completion and invalid/dead/removed interruption leave no stale warning, target, or direction state.
+- **LIVE PENDING:** Changing targets, losing ground, entering fluid, or becoming a passenger during the warning cancels the cleave.
+- **LIVE PENDING:** Death or removal during the telegraph cleans up correctly.
+- **LIVE PENDING:** Tunnel Breaker causes no permanent or temporary terrain damage.
+- **LIVE PENDING:** Multiplayer targeting and corridor hits behave sensibly with multiple nearby players.
+
+### Regression
+
+- **LIVE PENDING:** Bomb Zombie still spawns, persists, warns, and explodes correctly.
+- **LIVE PENDING:** Leap Zombie still spawns, persists, leaps, lands, and recovers correctly.
+- **LIVE PENDING:** Ordinary Zombies remain unaffected.
+- **LIVE PENDING:** Unrelated mobs remain unaffected.
+- **LIVE PENDING:** Dedicated server starts.
+- **LIVE PENDING:** Client starts.
+- **LIVE PENDING:** Previous Stage functionality still initializes.

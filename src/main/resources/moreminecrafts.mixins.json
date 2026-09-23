@@ -10,7 +10,8 @@
     "ProjectileWeaponItemMixin",
     "ThrownTridentMixin",
     "FishingHookMixin",
-    "FishingRodItemMixin"
+    "FishingRodItemMixin",
+    "ZombieMixin"
   ],
   "injectors": {
     "defaultRequire": 1
