@@ -400,7 +400,8 @@ cooldowns, projectile references, boss-bar viewers, and the active schedule are 
 - **LIVE PENDING:** Repeated casts remain bounded at six living owned guards.
 - **LIVE PENDING:** Guards stay ordinary Skeleton-derived minions and never become bosses or gain boss bars.
 - **LIVE PENDING:** Guards in a neighboring loaded chunk survive a temporary King chunk unload/reload.
-- **LIVE PENDING:** Owned guards clean up when the encounter ends, including guards unloaded when their owner is removed.
+- **LIVE PENDING:** Owned guards clean up when the encounter ends, including guards unloaded when their owner is removed; a reloaded orphan guard gets at most the 200-tick owner-missing grace before self-removal.
+- **LIVE PENDING:** If unloaded guards return while the King is active, the loaded owned-guard population is reconciled back to the six-guard cap.
 
 ### Weakness Curse
 
