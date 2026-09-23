@@ -259,7 +259,7 @@ All checks below are **LIVE PENDING** until exercised in a Minecraft 26.3 client
 - **LIVE PENDING** — Shift-right-click opens the Fishing Equipment UI; normal right-click still casts.
 - **LIVE PENDING** — Reel, Crankbait, and Minnow slots are visible and each accepts/removes only its correct family.
 - **LIVE PENDING** — Invalid items and wrong-family equipment are rejected.
-- **LIVE PENDING** — closing normally or unexpectedly neither duplicates nor loses equipment.
+- **LIVE PENDING** — closing normally or unexpectedly, shift-clicking, hotbar swap, and attempted movement of the source rod neither duplicate nor lose equipment.
 - **LIVE PENDING** — equipped rods retain loadouts through inventory/chest movement, drop/reacquire, transfer, reconnect, and server restart.
 - **LIVE PENDING** — different Fishing Rod ItemStacks retain independent loadouts.
 
@@ -273,7 +273,7 @@ All checks below are **LIVE PENDING** until exercised in a Minecraft 26.3 client
 
 ### Timing minigame
 - **LIVE PENDING** — overlay starts at a valid vanilla bite/reel and marker moves automatically at constant speed with no steering.
-- **LIVE PENDING** — one center click succeeds; an outside click and timeout fail.
+- **LIVE PENDING** — one center click succeeds; an outside click and timeout fail; the HUD remains aligned to server timing under latency.
 - **LIVE PENDING** — success, failure, timeout, logout, death, hook removal, dimension transition, and reconnect clear the UI/state without leaving it stuck.
 
 ### Fish items

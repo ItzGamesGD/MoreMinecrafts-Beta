@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -35,7 +36,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientPlayNetworking.registerGlobalReceiver(FishingChallengePayload.TYPE,(payload,context)-> context.client().execute(() ->
-                fishingChallengeStart=payload.active() && context.client().level != null ? context.client().level.getGameTime() : -1));
+                fishingChallengeStart=payload.active() ? payload.startTick() : -1));
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> fishingChallengeStart = -1);
         HudRenderCallback.EVENT.register((graphics,delta)->{
             var client=net.minecraft.client.Minecraft.getInstance();
             if(fishingChallengeStart<0 || client.level==null)return;

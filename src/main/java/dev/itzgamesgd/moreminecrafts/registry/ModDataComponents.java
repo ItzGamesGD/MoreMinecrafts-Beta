@@ -23,7 +23,8 @@ public final class ModDataComponents {
     public static final DataComponentType<Integer> FISH_LENGTH = integerComponent("fish_length", 1, 10000);
     public static final DataComponentType<RodEquipment> ROD_EQUIPMENT = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("rod_equipment"),
-            DataComponentType.<RodEquipment>builder().persistent(RodEquipment.CODEC).build());
+            DataComponentType.<RodEquipment>builder().persistent(RodEquipment.CODEC)
+                    .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(RodEquipment.CODEC)).build());
 
     private static DataComponentType<Integer> integerComponent(String id, int min, int max) {
         return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id(id),

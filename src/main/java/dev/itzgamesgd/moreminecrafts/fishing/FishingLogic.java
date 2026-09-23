@@ -2,7 +2,7 @@ package dev.itzgamesgd.moreminecrafts.fishing;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.random.RandomGenerator;
+import net.minecraft.util.RandomSource;
 
 public final class FishingLogic {
     private FishingLogic() {}
@@ -18,7 +18,7 @@ public final class FishingLogic {
         return Math.max(1, species.weight() * gradeBaseWeight(fishGrade) * upperBias / 100);
     }
     static int gradeBaseWeight(int grade) { return switch(grade){case 1->100; case 2->55; case 3->25; case 4->9; case 5->3; default->throw new IllegalArgumentException();}; }
-    public static CatchRoll select(List<FishSpecies> eligible, int crankbaitGrade, int luck, RandomGenerator random) {
+    public static CatchRoll select(List<FishSpecies> eligible, int crankbaitGrade, int luck, RandomSource random) {
         if (eligible.isEmpty()) throw new IllegalArgumentException("No eligible fish");
         record Weighted(FishSpecies species,int grade,int weight) {}
         List<Weighted> values=new ArrayList<>(); int total=0;
