@@ -37,13 +37,105 @@ All ten entries below are retained independent vanilla-expansion utility content
 
 Older checklist behaviors are evidence, not license to decide missing mechanics. For every utility slice remove any old dependence on Exploration event engine, mandatory structures, Coin economy or job levels. Exact recipes and balance await individual slices.
 
-## 5. Alchemy audit
+## 5. Alchemy historical recovery and Stage 10 brewing specification
 
-**DRAFT_NEEDS_DECISION / NEEDS_DESIGN_DECISION; unimplemented in Fabric.** Locked direction is vanilla Brewing Stand and Minecraft-native potion infrastructure where appropriate; no giant crafting GUI or Paper architecture port. Paper `alchemy/catalysts.yml` recognizes Redstone (duration), Glowstone Dust (amplifier), Gunpowder (splash), Dragon Breath (lingering), Fermented Spider Eye (restricted inversion), Sculk Catalyst, Echo Shard, Slime Ball, Wind Charge and Fire Charge (special). These are recovered *Paper candidates*, not a locked Fabric catalyst roster. Paper `potions.yml` has eight enabled named potions (vampire, berserk, corrosion, frostbite, shock, bleed, vulnerability, necrosis) and a disabled test potion; their adoption is undecided.
+**Fabric status: LOCKED_NOT_IMPLEMENTED. Readiness: READY_FOR_VERTICAL_SLICE for the base Shock potion only, as a bounded first slice; the full eight-potion/catalyst rollout still requires slice-specific validation and balance.** Paper implementation is evidence of retained design, never Fabric implementation. The prior assessment that an empty final recipe file implied no recoverable Alchemy design was incorrect.
 
-Paper `recipes.yml` currently has `recipes: {}`: **no concrete base + ingredient → potion transitions can be recovered from that production file**. Its stated relationship is one bottle-slot base ID plus one ingredient-slot ID yielding one potion ID; catalysts use staged transitions in the same visible Brewing Stand slots. `BrewingInputResolver` resolves canonical custom potion ID first for bases, then custom item ID or `vanilla:<material>`; for ingredients it distinguishes identified custom items, enabled catalyst item/material and vanilla material. `AlchemyMaterialResolver` explicitly disallows fallback from a custom item to material-only identity. `BrewingStandAlchemyListener` leaves unmatched vanilla brewing untouched; matched invalid custom transitions abort atomically. These are reference behaviors, not prescribed Fabric class design. Final potion/effect/catalyst roster, ingredients and transitions, allowed combinations, UI and balance require decisions. Recommended next Work specification: choose a minimal *existing* confirmed transition only after its source is found or user specifies it; Codex slice then implements one native Brewing Stand transition and identity/persistence tests.
+### 5.1 Timeline and source trail
 
-Paper sources: `src/main/resources/alchemy/{catalysts,potions,recipes}.yml`, `src/main/java/com/hyunseo/hyunseorpg/alchemy/{brewing/BrewingInputResolver,brewing/BrewingStandAlchemyListener,material/AlchemyMaterialResolver}.java` in `ItzGamesGD/rpg-plugin-for-minecraft-26.1.2-paper`.
+| Period | Evidence | Intent and interpretation |
+|---|---|---|
+| Early/middle Paper, import `6903c540` (August 17) | `alchemy/recipes.yml` v1, `effects.yml`, `potions.yml`, `items.yml`, registry/factory and U0-U11 reports | Eight named production potion identities, effects and multi-material ingredient lists. Farming-derived materials and custom crafting path existed. The test-speed potion was disabled. The U11 migration-gap report describes earlier missing runtime wiring; later commits repaired it. |
+| Runtime recovery, August 18-20 | `29ad0ad`, `d4a6b796`, `8021e2d7`, `dc407bd8`, `36d0d5a`, `490dd0b4`, `builds/2026-08-19_092_alchemy-live-contracts.md`, `builds/2026-08-20_093_alchemy-effect-live-fixes.md` | Effect handlers and special catalyst delivery evolved. Shock timing was revised (the August 19 test note says 60 ticks; the later `effects.yml` and `ShockTimingPolicy` use **320 ticks**). Latest code/config wins for the recovered baseline; live server validation remained pending. |
+| Simplification before September 21 | `docs/gameplay-subsystem-simplification-stage-6.md` at parent `9cb5b943` | Exploration removed; Farming/Cooking still present in that snapshot. Alchemy backend explicitly retained. |
+| Farming/Cooking removal and stand integration, `0db90dba` (September 21; parent `9cb5b943`) | Commit diff changes `AlchemyRecipeDefinition` from list to `baseInputId + ingredientId + resultPotionId`, adds `BrewingInputResolver` / `BrewingTransactionPlanner` / `BrewingStandAlchemyListener`, removes Farming and old Alchemy GUI/bypass, replaces v1 recipes with v2 `recipes: {}` | Deliberately removed: Farming/Cooking and custom crafting frontend. Deliberately retained: Alchemy effect, potion, catalyst, recipe and potion-use backend, with vanilla stand as sole creation frontend. **Old recipe data was not remapped**, not proof of intentional potion retirement. |
+| Final Paper `10cbdc99` and checked branches `backup/final-main-to-drive`, `codex/inspect-and-correct-pr-#51-d6r0fv` | Same empty v2 transition file, enabled eight potions/effects and ten catalysts; source still includes handlers | No authoritative final one-ingredient transition for any of the eight was found in the checked history/branches. The recorded design remains, but production brewing acquisition is incomplete. |
+
+Commit path history for `alchemy/recipes.yml` consists of import `6903c540` and migration `0db90dba`; `YamlAlchemyRecipeRegistry.java` has the same two relevant commits. Effect/catalyst histories were followed through the August runtime fixes. See [pre-removal recipe](https://github.com/ItzGamesGD/rpg-plugin-for-minecraft-26.1.2-paper/blob/9cb5b943c9a0567c979b691b77998c7d349f3d4e/src/main/resources/alchemy/recipes.yml), [retention/migration commit](https://github.com/ItzGamesGD/rpg-plugin-for-minecraft-26.1.2-paper/commit/0db90dba631a7cbd49adb7e7a58e1e0d63bbce91), [final effects](https://github.com/ItzGamesGD/rpg-plugin-for-minecraft-26.1.2-paper/blob/10cbdc99d069d910006b21111a83ac0c307e2d7f/src/main/resources/alchemy/effects.yml) and [final catalysts](https://github.com/ItzGamesGD/rpg-plugin-for-minecraft-26.1.2-paper/blob/10cbdc99d069d910006b21111a83ac0c307e2d7f/src/main/resources/alchemy/catalysts.yml).
+
+### 5.2 RECOVERED_PAPER_DESIGN — special potion/effect roster
+
+All eight production `potions.yml` definitions are enabled, default to DRINK and point to the corresponding `effect_*` entry. `effects.yml` declares 1,200 ticks, amplifier 0, max one stack, `LIVING_ENTITY`, `REFRESH_DURATION`, remove on death, no persistence through logout or world change; all numbers are Paper baselines marked BALANCE_PENDING, **not** new Fabric balance decisions. A new application refreshes the expiry rather than increasing stacks. The potion normally affects its consumer, while transformed splash/lingering versions affect living targets reached by delivery; do not infer that drinking an offensive potion automatically targets an enemy. `effect_test_speed` is development-only (disabled potion), not a ninth production potion.
+
+| Potion / effect | Recovered handler contract and trigger | Key edge/dependency |
+|---|---|---|
+| `potion_vampire / effect_vampire` (흡혈) | On valid dealt damage, heals source by 5% of final dealt damage; caps at maximum health. | Requires attributed positive damage and a live source; `ProductionEffectListener` resolves projectile shooter. No heal on invalid/nonpositive damage. |
+| `potion_berserk / effect_berserk` (광폭화) | Outgoing damage ×1.10; incoming damage ×1.05 through combat modification. | Both directions apply while active; combat event ordering and other modifiers matter. |
+| `potion_corrosion / effect_corrosion` (부식) | Target's incoming damage ×1.10. | Distinct named effect from Vulnerability though both currently modify incoming damage. |
+| `potion_frostbite / effect_frostbite` (동상) | Movement-speed attribute modifier −0.15 plus Slowness amplifier 0, refreshed while owned. | Do not overwrite/remove a stronger or unrelated existing Slowness; clean owned modifier/effect on removal. |
+| `potion_shock / effect_shock` (감전) | First pulse after 320 ticks, then interval-based 1.0 damage pulse; each valid pulse roots movement for 20 ticks, capped below next pulse interval. | Free movement before/between pulses; look direction and actions remain usable. Invalid/dead target skips lock; remove/expiry clears it. Earlier 60-tick report was superseded by later YAML. |
+| `potion_bleed / effect_bleed` (출혈) | Periodic 1.0 effect damage on 20-tick interval. | Effect source attribution and cleanup required. |
+| `potion_vulnerability / effect_vulnerability` (취약) | Target's incoming damage ×1.20. | Fermented Spider Eye has a specific inversion override to `effect_corrosion`. |
+| `potion_necrosis / effect_necrosis` (괴사) | MAX_HEALTH attribute modifier −0.10 while active. | Remove modifier on expiry/lifecycle cleanup and preserve safe health bounds. |
+
+`EffectService`, handlers and `PaperPotionUseService` are the behavior sources. Exact interaction with other effects and PVP/boss policies beyond recorded definitions must be checked in each slice; do not invent a new effect. Only the eight enabled production identities are retained by this audit.
+
+### 5.3 RECOVERED_PAPER_DESIGN — catalyst inventory
+
+The ten enabled entries remain in final `catalysts.yml`. Ordinary catalysts transform a canonical potion with a single catalyst identity; the Paper transformation rejects disabled/invalid potion identity, duplicate catalyst and incompatible modes. A catalyst is a *later brewing transition*, separate from the ingredient that creates the base potion. The Paper stand contract consumes one ingredient per successful transition; the old non-consuming `CatalystApplicationService.transform` was a planning service, not evidence of free catalyst use. Allowed-potion restrictions default to unrestricted when no list is set. Precise Fabric cross-combination policy, where undefined, is deferred to its slice.
+
+| Catalyst material (ID) | Recovered function | Restrictions / baseline |
+|---|---|---|
+| REDSTONE (`redstone`) | DURATION transformation | Config `duration-multiplier-percent: 100` (currently **no actual extension**, BALANCE_PENDING); do not claim a longer effect without a later balance decision. |
+| GLOWSTONE_DUST (`glowstone_dust`) | AMPLIFIER +1 | Duration percent 100; effect amplifier cap in old runtime 10. |
+| GUNPOWDER (`gunpowder`) | DELIVERY → SPLASH | Paper requires DRINK source; converts item/delivery metadata. |
+| DRAGON_BREATH (`dragon_breath`) | DELIVERY → LINGERING | Rejects already lingering; exact permitted predecessor and native sequencing need slice validation. |
+| FERMENTED_SPIDER_EYE (`fermented_spider_eye`) | INVERSION | Only `potion_vulnerability` explicitly allowed; effect override `effect_corrosion`. Other inversions unapproved. |
+| SCULK_CATALYST (`sculk`) | SPECIAL splash propagation | Impact-origin cloud chain, up to 8, 10-tick propagation delay, search radius 8, max total distance 64, attenuation floor 0.5; cloud visual radius 1.25. Ordinary SCULK is not accepted. |
+| ECHO_SHARD (`echo_shard`) | SPECIAL splash repeat | Applies to affected living targets and repeats on the same valid targets after 10 ticks; avoids source/duplicate scheduling. |
+| SLIME_BALL (`slime`) | SPECIAL bouncing splash | Initial splash and bounded bounce projectiles; max propagation count 4, final next collision splash; long safety path forces final splash rather than silently dropping effect. |
+| WIND_CHARGE (`wind_charge`) | SPECIAL directional splash | Starts at actual impact, direction from projectile velocity, travels to first eligible target; distance 16 and lifetime 40-tick bounds. |
+| FIRE_CHARGE / custom `fireball` identity (`fireball`) | SPECIAL small fireball delivery | On impact applies potion effect in radius 4, no terrain damage or ignition. Item identity is important; source code distinguishes custom item ID from mere base material. |
+
+Source: `catalysts.yml`, `CatalystApplicationService`, `BoundedSpecialCatalystExecutionService`, `PaperPotionUseListener`, `PaperPotionUseService`. Existing Paper runtime bounds are recovered baseline, not Fabric implementation. Sculk/Echo/Slime/Wind/Fireball are delivery mechanisms, not new potion effects.
+
+### 5.4 RECOVERED_HISTORICAL_RECIPE and ingredient inventory
+
+All eight v1 `recipes.yml` entries are **HISTORICAL_REFERENCE**. Each listed a set/list of several simultaneous materials, not a final native stand transition. No quantities were specified there. The `abundance_essence` farming exchange was disabled pending bridge mapping; `corrosion_essence` existed as an item but its exchange/crafting route was missing. Garlic/chili processed products depended on the now-retired Farming/Cooking subsystem. They retain thematic evidence but are **not prerequisites in the Stage 10 mappings**. `items.yml` identified custom items by canonical ID, even where they shared a vanilla display material. Pre-migration `YamlAlchemyRecipeRegistry` accepted `vanilla:<MATERIAL>` or recognized custom item IDs. The modern resolver gives canonical custom ID precedence, then enabled catalyst identity, then vanilla material; it never silently treats a custom ingredient as an ordinary material solely because of its display item.
+
+| Result | Historical multi-material ingredients, one unit each listed without quantity | Disposition |
+|---|---|---|
+| Vampire | `abundance_essence`, SPIDER_EYE, `processed_garlic_concentrate_normal` | HISTORICAL_REFERENCE; farming inputs retired |
+| Berserk | `abundance_essence`, BLAZE_POWDER, `processed_chili_extract_normal`, SUGAR | HISTORICAL_REFERENCE; farming inputs retired |
+| Corrosion | `corrosion_essence`, SLIME_BALL, ROTTEN_FLESH | HISTORICAL_REFERENCE; essence acquisition unresolved/retired dependency |
+| Frostbite | `corrosion_essence`, SNOWBALL, ICE | HISTORICAL_REFERENCE |
+| Shock | `corrosion_essence`, COPPER_INGOT, REDSTONE | HISTORICAL_REFERENCE; Redstone also catalyst, kept conceptually separate |
+| Bleed | `corrosion_essence`, CACTUS, `processed_chili_extract_normal` | HISTORICAL_REFERENCE |
+| Vulnerability | `corrosion_essence`, ROTTEN_FLESH, SPIDER_EYE | HISTORICAL_REFERENCE |
+| Necrosis | `corrosion_essence`, WITHER_ROSE, SPIDER_EYE | HISTORICAL_REFERENCE |
+
+Distinct historical ordinary ingredient roster: custom `abundance_essence`, `corrosion_essence`, `processed_garlic_concentrate_normal`, `processed_chili_extract_normal`; vanilla SPIDER_EYE, BLAZE_POWDER, SUGAR, SLIME_BALL, ROTTEN_FLESH, SNOWBALL, ICE, COPPER_INGOT, REDSTONE, CACTUS, WITHER_ROSE. Catalyst materials are inventoried separately above. The old multi-material recipe shape and farming-derived acquisition are **RETIRED_ARCHITECTURE**, while the eight potion identities and effects survived.
+
+### 5.5 RECOVERED_FINAL_BREWING_MAPPING versus NEW_STAGE_10_BREWING_MAPPING
+
+**RECOVERED_FINAL_BREWING_MAPPING: none.** The September 21 migration added an explicit `base-input-id + ingredient-id → result-potion-id` schema but left `recipes: {}`. The checked main and remaining branches do not supply a complete transition table. A final Paper production route for these eight therefore was **not completed in inspected history**, while their effect and catalyst design was preserved.
+
+Under the user's explicit exception, Work finalizes the following **NEW_STAGE_10_BREWING_MAPPING** as a proposed current Stage 10 design, not a claim about Paper history. Each row is exactly one Brewing Stand transition. `Thick Potion` is a vanilla brewing input used here as one common special-potion base; it is obtained by vanilla brewing before these transitions, with no new intermediate item. This deliberately avoids overwriting vanilla Awkward + Spider Eye (Poison) and Awkward + Blaze Powder (Strength), keeps unique base/ingredient pairs, and needs a Fabric 26.3 collision check before Codex registers recipes. Each mapping retains an existing vanilla material from its historical identity. The removed Farming essence/processed items are excluded because their production path was retired. Ingredient count per stand operation is one; standard Brewing Stand fuel and up-to-three bottle slots remain vanilla.
+
+| Base bottle | One ingredient | Result | Label / rationale |
+|---|---|---|---|
+| Thick Potion | SPIDER_EYE | `potion_vampire` | NEW_STAGE_10_BREWING_MAPPING; retained historical eye, removed garlic/farming essence |
+| Thick Potion | BLAZE_POWDER | `potion_berserk` | NEW_STAGE_10_BREWING_MAPPING; retained blaze, removed chili/farming essence; SUGAR not required |
+| Thick Potion | SLIME_BALL | `potion_corrosion` | NEW_STAGE_10_BREWING_MAPPING; retained slime as ordinary ingredient in this **specific** recipe, while slime catalyst applies only to an existing finished potion; ingredient/catalyst role determined by base identity |
+| Thick Potion | SNOWBALL | `potion_frostbite` | NEW_STAGE_10_BREWING_MAPPING; retained cold material; ICE not required |
+| Thick Potion | COPPER_INGOT | `potion_shock` | NEW_STAGE_10_BREWING_MAPPING; retained conductor material; historical REDSTONE is a separate catalyst, not a mandatory second ingredient |
+| Thick Potion | CACTUS | `potion_bleed` | NEW_STAGE_10_BREWING_MAPPING; retained cactus; farming chili removed |
+| Thick Potion | ROTTEN_FLESH | `potion_vulnerability` | NEW_STAGE_10_BREWING_MAPPING; retained rot; SPIDER_EYE not required |
+| Thick Potion | WITHER_ROSE | `potion_necrosis` | NEW_STAGE_10_BREWING_MAPPING; retained rare material; SPIDER_EYE not required |
+
+A finished canonical potion + one eligible catalyst is a subsequent transition to the **same potion identity with modified duration/amplifier/delivery/special metadata**, not an ordinary `potion_* → different effect` recipe unless the recovered inversion explicitly overrides the effect. One catalyst maximum reflects recovered Paper duplication rejection; catalyst sequencing beyond one requires a separate decision. Slime Ball's dual role is contextual and must not cause the resolver to route Thick + Slime Ball to the catalyst transformation. Fabric must identify the *actual potion contents* of the bottle (Thick versus custom potion) and the ingredient's canonical identity; Paper's material-only fallback for vanilla potion bottles is insufficient for this specification.
+
+### 5.6 Remaining unresolved and recommended Codex slice
+
+| Item | Classification | Consequence |
+|---|---|---|
+| Full numerical balance of eight effects and catalysts, especially Redstone's 100% duration baseline | UNRECOVERED final balance | Retain recorded Paper provisional values or decide later; do not silently improve them. |
+| Exact Fabric 26.3 native brewing conflict/precedence and Thick input recognition | Needs implementation-time validation | Codex must verify existing vanilla transitions remain unaffected; if a conflict exists, return to Work for a new mapping decision. |
+| Special catalyst combinations, repeat use, source/target edge cases under multiplayer | Partially RECOVERED_PAPER_DESIGN | Each catalyst's later slice must specify acceptance and live checks; do not expand first potion slice. |
+| Farming-derived essences and processed crop acquisition | RETIRED_ARCHITECTURE | Do not reintroduce farming; historical references stay documented. |
+| Live Paper server behavior | UNRECOVERED validation | Automated build reports exist, but test reports mark actual server checks pending. |
+
+**READY_FOR_VERTICAL_SLICE boundary: Shock base potion only.** Later Codex work may implement exactly one Thick Potion + Copper Ingot → `potion_shock` transition, canonical potion identity and consumption, 1,200-tick/320-tick pulse/1.0 damage/20-tick movement root recovered baseline, refresh-only stack behavior, living-target application through the appropriate potion delivery, lifecycle cleanup, no catalyst in this first slice, no custom crafting UI and no Farming dependencies. Test input matching, untouched vanilla brewing, up-to-three bottles, effect timing, persistence/cleanup, dedicated server and client. Work spec and user review precede Codex implementation. Other seven mappings are recorded but not a mandate to implement all eight together.
 
 ## 6. Equipment roster audit
 
@@ -75,7 +167,7 @@ Standalone Exploration progression, Paper Exploration event engine, mandatory ex
 | Mining Drill | LOCKED_NOT_IMPLEMENTED | NEEDS_DESIGN_DECISION | same | no item; speed/fuel | one utility |
 | Glider | LOCKED_NOT_IMPLEMENTED | NEEDS_DESIGN_DECISION | Stage 10 roster + checklist | no item; physics | one utility |
 | Grappling Hook | DEFERRED | DEFERRED | Stage 10 roster | no item; mechanics unresolved | later design |
-| Alchemy | DRAFT_NEEDS_DECISION | NEEDS_DESIGN_DECISION | Stage 10 direction + Paper requirements | no Fabric files; empty Paper recipe registry | one approved transition |
+| Alchemy (Shock base slice) | LOCKED_NOT_IMPLEMENTED | READY_FOR_VERTICAL_SLICE | Paper history + NEW_STAGE_10_BREWING_MAPPING | no Fabric files; Thick + Copper, recovered effect, no catalyst | one Shock potion |
 | Flame Sword | IMPLEMENTED | ALREADY_IMPLEMENTED | equipment finalization + Fabric special/flame | in source | validation only |
 | Wind Sword | IMPLEMENTED | ALREADY_IMPLEMENTED | same + Fabric special/wind | in source | validation only |
 | Water Sword | LOCKED_NOT_IMPLEMENTED | NEEDS_DESIGN_DECISION | equipment finalization | no item; ability/recipe | one weapon |
@@ -114,17 +206,17 @@ Standalone Exploration progression, Paper Exploration event engine, mandatory ex
 
 1. Recover full Coating matrix and historical Utility Freeze v3, resolve missing exact contracts; then specify a single coating or utility item.
 2. Select one Utility item whose missing mechanics and recipe have been decided, and specify its native interaction.
-3. Resolve one Paper Alchemy ingredient relationship and approve the Fabric roster subset before any brewing slice.
+3. The Shock base slice has a recovered effect contract and NEW_STAGE_10_BREWING_MAPPING; validate recipe collision and implement it alone after user review. Other effects/catalysts remain separate slices.
 4. Pick one locked T2/T3/T4 item, recover its concept and decide the slice-specific controls, numbers and recipe. Stage 6-9 live checks remain a separate validation backlog.
 
-No entry is currently marked READY_FOR_VERTICAL_SLICE under a strict implementation-ready standard: locked identity alone does not specify the recipe, exact behavior and acceptance criteria of a full slice. Work can make an individual candidate ready after the missing decisions and source recovery; the follow-up does not imply blanket approval.
+Only the bounded Shock base-potion slice is now READY_FOR_VERTICAL_SLICE because its effect contract, single-ingredient mapping and boundary are explicit. This is no permission to implement it in this Work PR. Other equipment/utility/coating candidates remain blocked by their respective missing specifications.
 
 ## 11. Documentation inconsistencies
 
-The original checklist was written during pre-implementation content finalization. Its old `[DECIDE]` groups for Stage 6-9, optional Grappling Hook, extra utility roster and World/Structure completion order are historical. The left-click fishing UI conflicts with implemented shift-right-click. `MOD_DEVELOPMENT_RULES.md` correctly calls for vertical content slices after foundation, but its initial horizontal-foundation wording must not be read as requiring another generic engine build. The content-freeze ZIP requires direct extraction before anyone claims the full Coating matrix or utility mechanics have been recovered. Paper Alchemy's empty recipes file blocks claims of a production formula.
+The original checklist was written during pre-implementation content finalization. Its old `[DECIDE]` groups for Stage 6-9, optional Grappling Hook, extra utility roster and World/Structure completion order are historical. The left-click fishing UI conflicts with implemented shift-right-click. `MOD_DEVELOPMENT_RULES.md` correctly calls for vertical content slices after foundation, but its initial horizontal-foundation wording must not be read as requiring another generic engine build. The content-freeze ZIP requires direct extraction before anyone claims the full Coating matrix or utility mechanics have been recovered. Paper Alchemy's empty final recipes file is a migration gap; eight obsolete multi-material recipes and the retained effects/catalysts were recovered from history, and eight new Stage 10 stand mappings are separately labeled.
 
 ## 12. Final counts
 
-Consolidated table: **45 rows**. Status: IMPLEMENTED **7**, LOCKED_NOT_IMPLEMENTED **24**, DRAFT_NEEDS_DECISION **1**, DEFERRED **2**, RETIRED **11**, STALE_DOC **0** (stale statements are findings, not content rows). Readiness: ALREADY_IMPLEMENTED **7**, READY_FOR_VERTICAL_SLICE **0**, NEEDS_DESIGN_DECISION **25**, DEFERRED **2**, RETIRED **11**. Counts cover the audited groups and retired policies, not every individual matrix effect, species, mob candidate or stale sentence.
+Consolidated table: **45 rows**. Status: IMPLEMENTED **7**, LOCKED_NOT_IMPLEMENTED **25**, DRAFT_NEEDS_DECISION **0**, DEFERRED **2**, RETIRED **11**, STALE_DOC **0** (stale statements are findings, not content rows). Readiness: ALREADY_IMPLEMENTED **7**, READY_FOR_VERTICAL_SLICE **1**, NEEDS_DESIGN_DECISION **24**, DEFERRED **2**, RETIRED **11**. Counts cover the audited groups and retired policies, not every individual matrix effect, species, mob candidate or stale sentence.
 
 This document changes no gameplay implementation and creates no new design.
