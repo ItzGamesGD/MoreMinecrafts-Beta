@@ -115,7 +115,12 @@
 - [NEEDS_DESIGN_DECISION] Fisherman exchange/final reward economy remains open. Earlier left-click UI wording differs from Stage 7's shift-right-click implementation; changing the intended control requires an explicit decision.
 
 ## Alchemy
-- [DRAFT_NEEDS_DECISION] Brewing Stand/native infrastructure direction locked. Paper catalyst and ingredient matching are reference evidence only. Final potion/catalyst/recipe roster is undecided; Paper production recipes.yml is empty. See Stage 10 audit.
+- [RECOVERED_PAPER_DESIGN] Eight enabled production potion/effect identities and ten enabled catalysts remain in final Paper backend. Historical effect handlers and catalyst functions are documented in the Stage 10 audit; their Paper implementation is **not** Fabric implementation.
+- [RECOVERED_HISTORICAL_RECIPE] Eight older simultaneous multi-material ingredient lists were found before Farming/Cooking removal. Their Farming-derived ingredients and custom crafting frontend are historical references, not current prerequisites.
+- [RECOVERED_FINAL_BREWING_MAPPING] None found: the September 21 Brewing Stand migration replaced recipe v1 with an empty transition table without retiring the potion/effect identities.
+- [NEW_STAGE_10_BREWING_MAPPING] Eight one-ingredient Thick Potion transitions are specified and individually labeled in the audit. This is the only newly decided gameplay design in this Work pass, under the explicit recipe-mapping exception.
+- [LOCKED_NOT_IMPLEMENTED / READY_FOR_VERTICAL_SLICE] The bounded Shock base potion (Thick Potion + Copper Ingot) has a recovered effect contract and Stage 10 mapping. No Fabric Alchemy implementation exists; no catalysts belong to that first slice.
+- [NEEDS_DESIGN_DECISION] Final balance, other individual slice boundaries and catalyst compatibility remain separate. REDSTONE's Paper duration multiplier 100% is a provisional no-op, not a finalized duration increase. Retired Farming and custom crafting are not revived. See Stage 10 audit.
 
 ## Mobs / Bosses
 - [IMPLEMENTED] Bomb Zombie, Leap Zombie, Mining Giant (Stage 8) and Skeleton King (Stage 9). [LIVE PENDING] human checks are in the validation backlog.
