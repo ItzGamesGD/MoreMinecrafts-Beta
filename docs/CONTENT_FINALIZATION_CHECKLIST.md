@@ -82,13 +82,15 @@
 - [LOCKED] T2 Elemental roster: 불꽃검 / 흐르는 물의 검 / 바람을 가르는 검 / 바람궁수의 활 / 대지의 철퇴 / 마기가 깃든 지팡이. Ice T2 장비는 없음.
 - [LOCKED] T2 기본 타입: Fire=Sword, Water=Sword, Wind=Sword+Bow, Earth=Mace, Ice=없음, Dark Energy=Staff.
 - [IMPLEMENTATION] T2는 Paper 능력의 핵심 컨셉을 계승하되, 모델링/VFX/SFX/정확한 능력치/쿨다운/범위/키 입력/세부 판정은 Fabric 구현 단계에서 재설계.
-- [DECIDE] T4 Endgame 장비의 존재 방식과 개수.
-- [DECIDE] 특수장비 중 Paper에서 그대로 유지할 것 / Mod에서 재해석할 것.
-- [BALANCE] Enhancement 최대 수치.
-- [BALANCE] Enhancement 비용.
-- [BALANCE] Enhancement 실패/보정 규칙을 최종적으로 유지할지 재설계할지.
-- [BALANCE] 장비 recipe 비용.
-- [REVIEW] 최종 Paper special equipment roster와 Content Freeze v3 대조.
+- [LOCKED] T4 Endgame baseline = 무극검 / 천궁 / 천서 3종. 세계수 활은 baseline 밖의 OPTIONAL 후보이며 필요 시 T3로 재분류 가능.
+- [LOCKED] T1/T2/T3/T4는 서로 독립적인 설계 카테고리이며 진화/승급 트리가 아니다. 특정 recipe/해금 조건에서 다른 Tier 장비를 요구할 수는 있으나 장비 상속은 아니다.
+- [LOCKED] T3 Special 7종 전부 유지: 타나토스의 철퇴 / 포세이돈의 창 / 화염 도끼 / 뇌신의 도끼 / 성검 · 솔라리스 / 월야잔광 / 빙결검. 핵심 정체성은 유지하고 Fabric 표현·구현은 재해석.
+- [LOCKED] Enhancement 상한: Vanilla +30 / T2 Elemental +40 / T3 Special·T4 Endgame 일반 강화 불가.
+- [PROVISIONAL] Enhancement 비용 baseline: Upgrade Stone 1개 고정 + XP level. +1~5=1, +6~10=2, +11~20=3, +21~30=4, +31~40=5. 플레이테스트에서 조정 가능.
+- [LOCKED] Enhancement 성공률 100%. 실패/하락/파괴/실패 누적 보정 없음. Anvil + Upgrade Stone + Minecraft XP 구조 유지.
+- [PROVISIONAL] 장비 획득 밸런스는 실제 재료 recipe를 핵심으로 한다. T4는 희귀재료 제작 중심이며 탐험 상자 완제품 보상을 핵심 획득축으로 삼지 않는다. 정확한 재료 수량은 후속 공급량/플레이테스트와 함께 조정.
+- [REVIEW-COMPLETE] Paper Special Equipment vs Content Freeze v3 대조 완료. Freeze v3에는 개별 T2/T3/T4 weapon roster/능력 명세가 없고 `02_EQUIPMENT.md`는 Utility Equipment 문서이므로 충돌하는 개별 Special Equipment 설계 없음.
+- [LOCKED] 상세 authoritative record: `docs/EQUIPMENT_PROGRESSION_FINALIZATION.md`.
 
 ---
 
@@ -326,7 +328,7 @@
 # 11. 현재 한 줄 상태
 
 - Mining/Materials: 콘텐츠 구조와 상대 밸런스 기준은 임시 확정. recipe 소비량과 구현 후 실측 밸런스는 후속 단계.
-- Equipment: T2 roster/기본 타입/능력 컨셉 계승은 확정. T4, T3 유지·재해석, Enhancement와 recipe balance는 미완.
+- Equipment: 콘텐츠 설계 단계 마감. T2/T3/T4 baseline, Enhancement 구조, recipe 획득 원칙, Freeze v3 대조까지 확정. 정확한 Enhancement 비용·recipe 수량·Fabric 표현/전투 수치는 PROVISIONAL/IMPLEMENTATION으로 후속 조정.
 - Coating: 설계 거의 LOCKED, template economy와 수치 미완.
 - Utility Equipment: 기능 대부분 확정, recipe/수치 미완.
 - Fishing: 핵심 시스템 확정, species/확률/보상/recipe 미완.
