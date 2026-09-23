@@ -95,245 +95,36 @@
 
 ---
 
-# 3. Coating subsystem
+# 3. Stage 10 current status overlay
 
-## 이미 확정
-- [LOCKED] Smithing Template 계열을 기능성 업그레이드 매체로 활용.
-- [LOCKED] 핵심 공식 = Template + Mineral + Equipment Part → Functional Effect.
-- [LOCKED] 서로 다른 coating은 중첩 가능.
-- [LOCKED] 같은 mineral coating 반복은 일반적으로 불가.
-- [LOCKED] Enhancement와 역할을 겹치지 않는다.
-- [LOCKED] optional parallel progression으로 둔다.
-- [LOCKED] Copper / Quartz / Amethyst / Lapis / Emerald / Gold / Diamond / Netherite / Iron / Redstone / Titanium / Tungsten / Mythril matrix 확정.
-- [LOCKED] Iron Leggings = KB Resist +30% + ranged damage -15%.
-- [LOCKED] Gold Boots = block slowing 무시, 용암 이동 관련 확정 효과 포함.
-- [LOCKED] Aquamarine / Adamantium / Etherium coating 제외.
+> This checklist began as a pre-implementation decision board. Stage 10's item-level statuses, unresolved evidence and source precedence are in [STAGE_10_DRAFT_CONTENT_AUDIT.md](STAGE_10_DRAFT_CONTENT_AUDIT.md). Older entries in sections 1-2 remain historical design records; current runtime status comes from Fabric. Stage 10 is Draft Content Completion / Design Audit, **not** World / Structure / Exploration implementation.
 
-## 사용자 결정 필요
-- [DECIDE] coating tier 자체를 둘지.
-- [DECIDE] template 종류를 1종 공용으로 할지 mineral별/계층별로 나눌지.
-- [DECIDE] template 획득처.
-- [DECIDE] template 소모 여부.
-- [BALANCE] 각 coating 확률/쿨다운/지속시간/수치.
-- [BALANCE] durability cost가 필요한 효과와 필요 없는 효과.
-- [DECIDE] 일부 효과의 정확한 Minecraft 판정 정의.
-- [REVIEW] Content Freeze v3 matrix를 authoritative source로 유지.
+## Coating
+- [LOCKED_NOT_IMPLEMENTED] Armor only. Functional progression distinct from Enhancement/Enchantment. Dedicated coating items and recipes in a smithing-template-style native flow; existing project materials; one shared placeholder visual pattern. No weapons/tools design.
+- [LOCKED] One armor ItemStack: 0 → 1 → 2 → 3 coatings, then locked. Current removal/replacement is unavailable.
+- [DEFERRED] Future replacement via separately specified removal item/mechanic.
+- [NEEDS_DESIGN_DECISION] Full effect matrix must be recovered from authoritative Freeze v3 before an individual slice. Only two partial effects are quoted in the Stage 10 audit; do not invent the rest. Template acquisition/consumption, exact effects and balance unresolved.
 
----
+## Utility Equipment
+- [LOCKED_NOT_IMPLEMENTED] Retained independent roster: Miner Lantern, Sleeping Bag, Oxygen Tank, Jet Boots, Flare, Return Crystal, Portable Furnace, Mining Drill, Glider, Grappling Hook. None implies standalone Exploration progression.
+- [NEEDS_DESIGN_DECISION] Item-specific mechanics, recipes and balance are tabulated in the Stage 10 audit. Grappling Hook is retained but deferred pending mechanics.
+- [STALE_DOC] Older additional Utility entries and the previous optional treatment of Grappling Hook are not the current ten-item baseline.
 
-# 4. Utility Equipment
+## Fishing
+- [IMPLEMENTED] Stage 7 fishing vertical slice exists; [LIVE PENDING] client/server gameplay checks remain in LIVE_VALIDATION_BACKLOG.md. Source and STAGE_7_FISHING.md define implemented species, grades, module behavior, recipes and timing. Earlier [DECIDE] markers for these implemented details were stale.
+- [NEEDS_DESIGN_DECISION] Fisherman exchange/final reward economy remains open. Earlier left-click UI wording differs from Stage 7's shift-right-click implementation; changing the intended control requires an explicit decision.
 
-## 채택 장비
-- [LOCKED] 암벽 장갑.
-- [LOCKED] 광부 랜턴.
-- [LOCKED] 휴대용 포션 주입기.
-- [LOCKED] 글라이더.
-- [LOCKED] 잠수 산소통.
-- [LOCKED] 탐험용 침낭.
-- [LOCKED] 제트 부츠.
-- [LOCKED] 조명탄.
-- [LOCKED] 부력 캡슐 계열 장비.
-- [LOCKED] 귀환 수정.
-- [LOCKED] 휴대용 화로.
-- [LOCKED] 채굴용 드릴.
-- [OPTIONAL] Grappling Hook 보류.
-- [LOCKED] Generic battery/fuel 체계는 만들지 않는다.
+## Alchemy
+- [DRAFT_NEEDS_DECISION] Brewing Stand/native infrastructure direction locked. Paper catalyst and ingredient matching are reference evidence only. Final potion/catalyst/recipe roster is undecided; Paper production recipes.yml is empty. See Stage 10 audit.
 
-## 이미 확정된 주요 동작
-- [LOCKED] Miner Lantern = Light 15, 손/헬멧 통합 가능.
-- [LOCKED] Oxygen Tank = custom oxygen 우선 사용 후 vanilla air.
-- [LOCKED] Sleeping Bag = 밤 건너뛰기, respawn point 변경 없음.
-- [LOCKED] Jet Boots = 공중 점프 stack, ground/slime reset, 별도 연료 없음.
-- [LOCKED] Flare = 충전 발사형 moving light projectile.
-- [LOCKED] Return Crystal = 고가 1회용 channel, 이동/피격 취소.
-- [LOCKED] Portable Furnace = food only, smoker 수준, on-demand fuel.
-- [LOCKED] Drill = endgame, coal block fuel, Fortune/Silk/Unbreaking 가능, Efficiency 제외.
+## Mobs / Bosses
+- [IMPLEMENTED] Bomb Zombie, Leap Zombie, Mining Giant (Stage 8) and Skeleton King (Stage 9). [LIVE PENDING] human checks are in the validation backlog.
+- [NEEDS_DESIGN_DECISION] Other Paper mob/boss candidates and survival progression remain individually undecided. Do not treat old global [DECIDE] as negating implemented content.
 
-## 사용자 결정 필요
-- [DECIDE] 암벽 장갑 durability.
-- [DECIDE] Lantern 정확한 조합 recipe.
-- [DECIDE] Potion Injector 저장 한도/세부 UI.
-- [DECIDE] Glider 최종 중력/속도/조향 물리.
-- [DECIDE] Oxygen Tank 용량.
-- [DECIDE] Jet Boots 각 단계별 jump stack 및 recipe.
-- [DECIDE] Flare 재료와 발광 지속시간.
-- [DECIDE] 부력 장비 최종 이름.
-- [DECIDE] 부력 장비 재료.
-- [DECIDE] Return Crystal 목적지 규칙.
-- [DECIDE] Return Crystal channel 시간 최종값.
-- [DECIDE] Portable Furnace 연료 효율.
-- [DECIDE] Drill 채굴 속도 threshold.
-- [DECIDE] Drill 연료 소비량.
-- [DECIDE] Drill 최대 연료 128 coal blocks 유지 여부.
-- [BALANCE] 전체 recipe 수량 및 희귀도.
+## Retired scope
+- [RETIRED] Standalone Exploration progression, Paper Exploration event engine, mandatory structures, dungeon progression, exploration-specific economy, Coin economy, job levels, Promotion, Fragment progression, giant custom crafting GUI and generic RPG world progression.
+- [STALE_DOC] The former World / Structures / Exploration stage and the old linear content-lock order are superseded. Use vertical slices after user review of an item-specific Work specification. This checklist does not authorize feature implementation.
 
----
-
-# 5. Fishing 축
-
-## 이미 확정
-- [LOCKED] vanilla cast/wait 흐름은 유지.
-- [LOCKED] bite 이후 좌우 spectrum timing minigame.
-- [LOCKED] 물고기는 entity spawn이 아니라 ItemStack.
-- [LOCKED] species + 약 5개 grade + length.
-- [LOCKED] 가치 개념은 species × grade × length 기반.
-- [LOCKED] Reel = 접근/discovery pool.
-- [LOCKED] Crankbait = 해당 pool 내 확률 조정.
-- [LOCKED] Minnow = capture permission.
-- [LOCKED] 각 모듈은 5단계.
-- [LOCKED] 우클릭 casting.
-- [LOCKED] 좌클릭 one-row module UI.
-- [LOCKED] module은 rod 내부에 실제 ItemStack 형태로 저장.
-- [LOCKED] UI open 동안 move/drop/dupe 방지 필요.
-
-## 사용자 결정 필요
-- [DECIDE] fish species 최종 roster.
-- [DECIDE] 각 species의 biome/dimension/water 조건.
-- [DECIDE] 5개 grade의 이름.
-- [DECIDE] grade별 확률.
-- [DECIDE] species별 length min/max.
-- [DECIDE] length 분포 방식.
-- [DECIDE] minigame 성공 구간 크기 계산.
-- [DECIDE] minigame에서 grade/length가 난이도에 영향을 주는 방식.
-- [DECIDE] 실패 시 결과.
-- [DECIDE] Reel 1~5가 각각 여는 discovery pool.
-- [DECIDE] Crankbait 1~5의 확률 변화.
-- [DECIDE] Minnow 1~5가 각각 허용하는 대상.
-- [DECIDE] 세 module의 durability.
-- [DECIDE] 세 module의 recipe.
-- [DECIDE] fish의 최종 보상/경제적 의미.
-- [DECIDE] Fisherman/Villager exchange를 최종 채택할지.
-- [DECIDE] Emerald 외 대체 보상이 필요한지.
-- [BALANCE] 전체 드롭/보상 곡선.
-
----
-
-# 6. Alchemy 축
-
-## 이미 확정
-- [LOCKED] 별도 거대 custom crafting GUI를 만들지 않는다.
-- [LOCKED] Brewing Stand 중심으로 확장.
-- [LOCKED] Potion / Effect / Catalyst 개념 유지.
-- [LOCKED] Paper 구현은 reference로 활용.
-- [LOCKED] 점착 젤 계열 아이디어는 Alchemy/Brewing 쪽으로 분류.
-
-## 사용자 결정 필요
-- [DECIDE] Mod에서 유지할 custom potion 최종 roster.
-- [DECIDE] catalyst 최종 roster.
-- [DECIDE] vanilla potion과 custom potion의 경계.
-- [DECIDE] custom effect 최종 roster.
-- [DECIDE] 각 potion/effect의 재료.
-- [DECIDE] brewing recipe/formula.
-- [DECIDE] catalyst가 Brewing Stand에 개입하는 방식.
-- [DECIDE] vanilla Brewing UI를 그대로 쓸지 확장 UI를 추가할지.
-- [BALANCE] 효과 지속시간/증폭/부작용/희귀도.
-- [REVIEW] 최종 Paper alchemy/effect implementation과 실제 유지 대상 대조.
-
----
-
-# 7. Mobs / Entities 축
-
-## 현재 존재하는 reference 후보
-- [REVIEW] Bomb Zombie.
-- [REVIEW] Leap Zombie.
-- [REVIEW] Mining Giant.
-- [REVIEW] Piglin Spearman.
-- [REVIEW] Rapid Shooter.
-- [REVIEW] Swapping Witch.
-- [REVIEW] Frost Blaze.
-- [REVIEW] Riptide Drowned.
-- [REVIEW] 기타 Paper MonsterBehaviorService 계열.
-- [REVIEW] 과거 Exploration 전용 몹 중 독립적으로 살릴 가치가 있는 것.
-
-## 사용자 결정 필요
-- [DECIDE] 최종 mob roster.
-- [DECIDE] 삭제할 old mob roster.
-- [DECIDE] vanilla variant로 구현할 몹.
-- [DECIDE] 완전 custom entity/model이 필요한 몹.
-- [DECIDE] 각 mob의 biome/dimension.
-- [DECIDE] spawn condition.
-- [DECIDE] rarity.
-- [DECIDE] group spawn 여부.
-- [DECIDE] drop table.
-- [DECIDE] Mining/material progression과 연결할 몹.
-- [DECIDE] equipment/alchemy progression과 연결할 몹.
-- [DECIDE] 각 AI의 최종 combat pattern.
-- [BALANCE] HP/damage/speed/cooldown.
-
----
-
-# 8. Boss / Major Combat 축
-
-## 기존 reference
-- [REVIEW] Thousand Eyes.
-- [REVIEW] Gateway boss prototype.
-- [REVIEW] Paper에서 구현된 boss/prototype logic 중 유지 가치가 있는 것.
-
-## 사용자 결정 필요
-- [DECIDE] 최종 boss roster.
-- [DECIDE] prototype을 정식 boss로 승격할지.
-- [DECIDE] 각 boss의 progression 위치.
-- [DECIDE] summon / structure / natural encounter 여부.
-- [DECIDE] boss 전용 drop/material.
-- [DECIDE] Endgame 장비와의 연결.
-- [DECIDE] arena 필요 여부.
-- [DECIDE] phase 수와 핵심 gimmick.
-- [BALANCE] 난이도.
-
----
-
-# 9. World / Structures / Exploration 축
-
-## 원칙
-- [LOCKED] vanilla world/biome/structure를 삭제하지 않고 확장.
-- [LOCKED] 거대한 별도 RPG world progression은 만들지 않는다.
-- [LOCKED] 기존 Paper Exploration event engine은 그대로 이식하지 않는다.
-
-## 기존 reference
-- [REVIEW] Desert Pyramid.
-- [REVIEW] Shipwreck.
-- [REVIEW] Ocean Monument dormant logic.
-- [REVIEW] Outpost / Swamp Hut 등 과거 structure 확장안.
-
-## 사용자 결정 필요
-- [DECIDE] 어떤 structure 확장을 최종 생존시킬지.
-- [DECIDE] vanilla structure 내부 변주 vs 새로운 structure 추가 구분.
-- [DECIDE] 구조물별 mob/loot/puzzle.
-- [DECIDE] 광물/특수재료 획득과의 연결.
-- [DECIDE] boss encounter와의 연결.
-- [DECIDE] 완전 신규 biome가 필요한지.
-- [DECIDE] dimension 추가 여부.
-- [BALANCE] 발견 빈도/loot 가치.
-
----
-
-# 10. 최종 콘텐츠 잠금 순서
-
-권장 확정 순서:
-
-1. Resource / Mining / Materials 마감
-2. Equipment roster / Enhancement 잔여 결정
-3. Coating 세부 수치 및 template economy 마감
-4. Utility Equipment recipe + 수치 마감
-5. Fishing 전체 설계 마감
-6. Alchemy 전체 설계 마감
-7. Mob roster / spawn / drop 마감
-8. Boss roster / progression 마감
-9. World / Structures / Exploration 마감
-10. 전체 의존성 검사
-11. Content Freeze 새 버전 생성
-12. 그 후 Mod Stage에서 Fabric-native 구현
-
----
-
-# 11. 현재 한 줄 상태
-
-- Mining/Materials: 콘텐츠 구조와 상대 밸런스 기준은 임시 확정. recipe 소비량과 구현 후 실측 밸런스는 후속 단계.
-- Equipment: 콘텐츠 설계 단계 마감. T2/T3/T4 baseline, Enhancement 구조, recipe 획득 원칙, Freeze v3 대조까지 확정. 정확한 Enhancement 비용·recipe 수량·Fabric 표현/전투 수치는 PROVISIONAL/IMPLEMENTATION으로 후속 조정.
-- Coating: 설계 거의 LOCKED, template economy와 수치 미완.
-- Utility Equipment: 기능 대부분 확정, recipe/수치 미완.
-- Fishing: 핵심 시스템 확정, species/확률/보상/recipe 미완.
-- Alchemy: 구조는 존재, 최종 콘텐츠 roster 미완.
-- Mobs: 아이디어/reference 다수, 최종 roster와 spawn/drop 체계 미완.
-- Boss: prototype/reference 존재, 정식 roster/progression 미완.
-- World/Exploration: 과거 reference 존재, 무엇을 살릴지부터 재확정 필요.
+## Implementation status reminder
+- [IMPLEMENTED] Stage 6 material crafting/ore worldgen; Stage 7 fishing; Stage 8 three zombie variants; Stage 9 Skeleton King; Flame Sword, Wind Sword and Enhancement foundation.
+- [LIVE PENDING] is validation work, never shorthand for missing implementation.
