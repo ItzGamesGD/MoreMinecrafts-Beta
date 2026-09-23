@@ -243,3 +243,45 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 
 - [ ] **LIVE PENDING (Stage 6):** Sample generated chunks and measure actual Y distributions, especially Tungsten near -16 and Mythril near -48; confirm the corrected core peaks and sparse upper tails in newly generated chunks.
 - [ ] **LIVE PENDING (Stage 6):** Verify stone and deepslate replacement in each Overworld ore's full allowed Y range after adding both replacement targets.
+
+## Stage 7 — Fishing Life Content
+
+All checks below are **LIVE PENDING** until exercised in a Minecraft 26.3 client or dedicated server.
+
+### Vanilla flow
+- **LIVE PENDING** — Vanilla Fishing Rod casts normally.
+- **LIVE PENDING** — Vanilla FishingHook movement and water behavior work.
+- **LIVE PENDING** — Vanilla waiting and bite behavior work.
+- **LIVE PENDING** — Lure still affects wait time.
+- **LIVE PENDING** — reel/catch use consumes normal rod durability.
+
+### Equipment UI and persistence
+- **LIVE PENDING** — Shift-right-click opens the Fishing Equipment UI; normal right-click still casts.
+- **LIVE PENDING** — Reel, Crankbait, and Minnow slots are visible and each accepts/removes only its correct family.
+- **LIVE PENDING** — Invalid items and wrong-family equipment are rejected.
+- **LIVE PENDING** — closing normally or unexpectedly, shift-clicking, hotbar swap, and attempted movement of the source rod neither duplicate nor lose equipment.
+- **LIVE PENDING** — equipped rods retain loadouts through inventory/chest movement, drop/reacquire, transfer, reconnect, and server restart.
+- **LIVE PENDING** — different Fishing Rod ItemStacks retain independent loadouts.
+
+### Reel, Minnow, and Crankbait roles
+- **LIVE PENDING** — shallow water works and progressively deeper water/candidates require stronger Reels.
+- **LIVE PENDING** — Reel unlocks depth candidates without directly increasing rarity.
+- **LIVE PENDING** — insufficient Minnow fully excludes required species; sufficient Minnow unlocks them.
+- **LIVE PENDING** — higher Minnow does not act as a generic rarity multiplier.
+- **LIVE PENDING** — repeated catches demonstrate Crankbait's upper-grade probability shift.
+- **LIVE PENDING** — Crankbait neither guarantees rare results nor unlocks depth/Minnow-inaccessible species.
+
+### Timing minigame
+- **LIVE PENDING** — overlay starts at a valid vanilla bite/reel and marker moves automatically at constant speed with no steering.
+- **LIVE PENDING** — one center click succeeds; an outside click and timeout fail; the HUD remains aligned to server timing under latency.
+- **LIVE PENDING** — success, failure, timeout, logout, death, hook removal, dimension transition, and reconnect clear the UI/state without leaving it stuck.
+
+### Fish items
+- **LIVE PENDING** — catches have the selected species, Grade I–V, bounded centimeter length, deterministic quality, and correct tooltip.
+- **LIVE PENDING** — grade/length persist through inventory movement, drop/reacquire, logout/reconnect, and restart.
+- **LIVE PENDING** — heterogeneous fish do not merge incorrectly.
+
+### Crafting and regression
+- **LIVE PENDING** — all 15 equipment recipes load in a normal crafting table and consume their specified vanilla/Stage 6 materials.
+- **LIVE PENDING** — enhancement system, Flame Sword, Wind Sword, and Stage 6 ore/worldgen behavior remain intact.
+- **LIVE PENDING** — dedicated server starts and a client starts/connects without mixin, packet, component, screen, model, or translation errors.

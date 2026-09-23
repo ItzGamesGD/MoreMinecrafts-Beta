@@ -7,6 +7,7 @@ import dev.itzgamesgd.moreminecrafts.special.flame.FlameCleaveAbility;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindBladeAbility;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindStepAbility;
 import dev.itzgamesgd.moreminecrafts.worldgen.ModOreGeneration;
+import dev.itzgamesgd.moreminecrafts.fishing.FishingChallenges;
 
 public final class ModRegistries {
     private ModRegistries() {
@@ -21,5 +22,6 @@ public final class ModRegistries {
         EquipmentAbilityBindings.bind(ModItems.WIND_SWORD, EquipmentSkillInput.PRIMARY, WindBladeAbility.INSTANCE);
         EquipmentAbilityBindings.bind(ModItems.WIND_SWORD, EquipmentSkillInput.SECONDARY, WindStepAbility.INSTANCE);
         ModOreGeneration.initialize();
+        FishingChallenges.initialize();
     }
 }
