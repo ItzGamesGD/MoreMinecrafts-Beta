@@ -11,6 +11,7 @@ public final class ModNetworking {
 
     public static void initialize() {
         PayloadTypeRegistry.serverboundPlay().register(EquipmentSkillPayload.TYPE, EquipmentSkillPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(FishingChallengePayload.TYPE, FishingChallengePayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(EquipmentSkillPayload.TYPE, (payload, context) -> {
             EquipmentSkillInput input = EquipmentSkillInput.fromNetworkId(payload.inputId());
             if (input != null) {

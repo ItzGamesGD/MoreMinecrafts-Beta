@@ -3,6 +3,9 @@ package dev.itzgamesgd.moreminecrafts.registry;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.item.FoundationProbeItem;
+import dev.itzgamesgd.moreminecrafts.fishing.*;
+import java.util.EnumMap;
+import java.util.Map;
 import dev.itzgamesgd.moreminecrafts.special.flame.FlameSwordItem;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindSwordItem;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
@@ -57,6 +60,25 @@ public final class ModItems {
                     .setId(WIND_SWORD_KEY))
     );
 
+    public static final Map<FishSpecies, Item> FISH = new EnumMap<>(FishSpecies.class);
+    public static final Item[][] FISHING_EQUIPMENT = new Item[ FishingEquipmentFamily.values().length ][5];
+    static {
+        for (FishSpecies species : FishSpecies.values()) FISH.put(species, fish(species));
+        for (FishingEquipmentFamily family : FishingEquipmentFamily.values())
+            for (int grade=1; grade<=5; grade++) FISHING_EQUIPMENT[family.ordinal()][grade-1]=equipment(family,grade);
+    }
+    public static Item fishItem(FishSpecies species) { return FISH.get(species); }
+    public static Item equipmentItem(FishingEquipmentFamily family,int grade){return FISHING_EQUIPMENT[family.ordinal()][FishingGrade.requireValid(grade)-1];}
+    private static Item fish(FishSpecies species){
+        ResourceKey<Item> key=ResourceKey.create(Registries.ITEM,ModIds.id(species.id()));
+        return Registry.register(BuiltInRegistries.ITEM,key,new FishItem(species,new Item.Properties().stacksTo(1).setId(key)));
+    }
+    private static Item equipment(FishingEquipmentFamily family,int grade){
+        String path=family.name().toLowerCase()+"_"+grade;
+        ResourceKey<Item> key=ResourceKey.create(Registries.ITEM,ModIds.id(path));
+        return Registry.register(BuiltInRegistries.ITEM,key,new FishingEquipmentItem(family,grade,new Item.Properties().durability(96+grade*48).setId(key)));
+    }
+
     private ModItems() {
     }
 
@@ -100,6 +122,8 @@ public final class ModItems {
         }
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> entries.accept(WIND_SWORD));
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
+            FISH.values().forEach(entries::accept);
+            for (Item[] family : FISHING_EQUIPMENT) for (Item item : family) entries.accept(item);
             entries.accept(RAW_TITANIUM);
             entries.accept(TITANIUM_INGOT);
             entries.accept(RAW_TUNGSTEN);
