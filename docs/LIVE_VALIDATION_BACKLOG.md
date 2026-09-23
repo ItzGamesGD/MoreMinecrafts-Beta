@@ -380,7 +380,7 @@ cooldowns, projectile references, boss-bar viewers, and the active schedule are 
 - **LIVE PENDING:** The native Skeleton King boss bar appears for appropriate nearby players.
 - **LIVE PENDING:** Boss-bar health stays synchronized with actual server-side health.
 - **LIVE PENDING:** Boss-bar viewers are added in range and removed on leaving range or disconnecting.
-- **LIVE PENDING:** Save/reload preserves the Skeleton King identity, attributes, equipment, name, health, and boss bar restoration.
+- **LIVE PENDING:** Save/reload preserves the Skeleton King identity, attributes, equipment, name, current health (including partially depleted health), and boss bar restoration.
 - **LIVE PENDING:** Chunk unload/reload preserves the Skeleton King and restores its encounter UI safely.
 
 ### Bone Barrage
@@ -399,7 +399,8 @@ cooldowns, projectile references, boss-bar viewers, and the active schedule are 
 - **LIVE PENDING:** Guards acquire and participate against the King's player target.
 - **LIVE PENDING:** Repeated casts remain bounded at six living owned guards.
 - **LIVE PENDING:** Guards stay ordinary Skeleton-derived minions and never become bosses or gain boss bars.
-- **LIVE PENDING:** Owned guards clean up when the encounter ends.
+- **LIVE PENDING:** Guards in a neighboring loaded chunk survive a temporary King chunk unload/reload.
+- **LIVE PENDING:** Owned guards clean up when the encounter ends, including guards unloaded when their owner is removed.
 
 ### Weakness Curse
 
@@ -415,6 +416,7 @@ cooldowns, projectile references, boss-bar viewers, and the active schedule are 
 - **LIVE PENDING:** Explicit boss removal performs the same cleanup.
 - **LIVE PENDING:** Player disconnect during participation or a telegraph leaves no stale viewer or target.
 - **LIVE PENDING:** A player leaving range loses the bar and invalidates an active targeted telegraph safely.
+- **LIVE PENDING:** Changing the King's target during a telegraph cancels that ability.
 - **LIVE PENDING:** Server shutdown/restart preserves identity while restarting transient cooldown timing safely.
 - **LIVE PENDING:** No stale boss bars remain after death, removal, unload, disconnect, or restart.
 - **LIVE PENDING:** No stale transient ability state remains after interruption or restart.

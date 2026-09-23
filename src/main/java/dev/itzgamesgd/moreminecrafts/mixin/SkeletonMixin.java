@@ -59,6 +59,11 @@ abstract class SkeletonMixin implements SkeletonKingState {
 
     @Override
     public void moreminecrafts$makeSkeletonKing() {
+        moreminecrafts$initializeKing(true);
+    }
+
+    @Unique
+    private void moreminecrafts$initializeKing(boolean freshSummon) {
         if (moreminecrafts$king) return;
         moreminecrafts$king = true;
         Skeleton skeleton = (Skeleton) (Object) this;
@@ -73,7 +78,7 @@ abstract class SkeletonMixin implements SkeletonKingState {
         moreminecrafts$setAttribute(skeleton, Attributes.ARMOR, 8.0D);
         moreminecrafts$setAttribute(skeleton, Attributes.MOVEMENT_SPEED, 0.22D);
         moreminecrafts$setAttribute(skeleton, Attributes.SCALE, 1.25D);
-        skeleton.setHealth(skeleton.getMaxHealth());
+        if (freshSummon) skeleton.setHealth(skeleton.getMaxHealth());
         moreminecrafts$resetEncounterClock();
     }
 
@@ -108,7 +113,7 @@ abstract class SkeletonMixin implements SkeletonKingState {
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void moreminecrafts$loadIdentity(ValueInput input, CallbackInfo ci) {
-        if (input.getBooleanOr(SkeletonKingRules.IDENTITY_SAVE_KEY, false)) moreminecrafts$makeSkeletonKing();
+        if (input.getBooleanOr(SkeletonKingRules.IDENTITY_SAVE_KEY, false)) moreminecrafts$initializeKing(false);
         input.getString(SkeletonKingRules.GUARD_OWNER_SAVE_KEY).ifPresent(value -> {
             try {
                 moreminecrafts$setGuardOwner(UUID.fromString(value));
@@ -122,11 +127,7 @@ abstract class SkeletonMixin implements SkeletonKingState {
     private void moreminecrafts$tickKing(CallbackInfo ci) {
         Skeleton skeleton = (Skeleton) (Object) this;
         if (!(skeleton.level() instanceof ServerLevel level)) return;
-        if (!moreminecrafts$king) {
-            if (moreminecrafts$guardOwner != null && skeleton.tickCount % 40 == 0
-                    && level.getEntityInAnyDimension(moreminecrafts$guardOwner) == null) skeleton.discard();
-            return;
-        }
+        if (!moreminecrafts$king) return;
         if (!skeleton.isAlive() || skeleton.isRemoved()) {
             moreminecrafts$cleanup(level, true);
             return;
@@ -135,7 +136,8 @@ abstract class SkeletonMixin implements SkeletonKingState {
         moreminecrafts$activeArrows.removeIf(Entity::isRemoved);
 
         if (moreminecrafts$activeAbility != null) {
-            if (!moreminecrafts$validTarget(skeleton, moreminecrafts$abilityTarget)) {
+            if (skeleton.getTarget() != moreminecrafts$abilityTarget
+                    || !moreminecrafts$validTarget(skeleton, moreminecrafts$abilityTarget)) {
                 moreminecrafts$cancelTelegraph();
                 return;
             }
