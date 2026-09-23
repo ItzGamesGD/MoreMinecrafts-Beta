@@ -34,6 +34,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
             EQUIPMENT_CATEGORY
     ));
 
+    public static boolean fishingChallengeActive() { return fishingChallengeStart >= 0; }
+
     @Override
     public void onInitializeClient() {
         ClientPlayNetworking.registerGlobalReceiver(FishingChallengePayload.TYPE,(payload,context)-> context.client().execute(() ->
