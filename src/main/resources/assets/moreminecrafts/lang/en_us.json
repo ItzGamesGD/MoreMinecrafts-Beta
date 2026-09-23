@@ -4,5 +4,22 @@
   "item.moreminecrafts.flame_sword": "Flame Sword",
   "item.moreminecrafts.wind_sword": "Wind Sword",
   "key.moreminecrafts.equipment_skill": "Equipment Skill",
-  "key.category.moreminecrafts.equipment": "MoreMinecrafts Equipment"
+  "key.category.moreminecrafts.equipment": "MoreMinecrafts Equipment",
+  "block.moreminecrafts.titanium_ore": "Titanium Ore",
+  "item.moreminecrafts.raw_titanium": "Raw Titanium",
+  "item.moreminecrafts.titanium_ingot": "Titanium Ingot",
+  "block.moreminecrafts.tungsten_ore": "Tungsten Ore",
+  "item.moreminecrafts.raw_tungsten": "Raw Tungsten",
+  "item.moreminecrafts.tungsten_ingot": "Tungsten Ingot",
+  "block.moreminecrafts.mythril_ore": "Mythril Ore",
+  "item.moreminecrafts.mythril": "Mythril",
+  "block.moreminecrafts.etherium_ore": "Etherium Ore",
+  "item.moreminecrafts.etherium": "Etherium",
+  "block.moreminecrafts.adamantium_debris": "Adamantium Debris",
+  "item.moreminecrafts.adamantium_ingot": "Adamantium Ingot",
+  "block.moreminecrafts.titanium_block": "Titanium Block",
+  "block.moreminecrafts.tungsten_block": "Tungsten Block",
+  "block.moreminecrafts.mythril_block": "Mythril Block",
+  "block.moreminecrafts.etherium_block": "Etherium Block",
+  "block.moreminecrafts.adamantium_block": "Adamantium Block"
 }

@@ -194,3 +194,52 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 5B):** Vanilla equipment and vanilla right-click behavior remain unaffected.
 - [ ] **LIVE PENDING (Stage 5B):** Flame Sword Stage 5A passive behavior remains unaffected.
 - [ ] **LIVE PENDING (Stage 5B):** Dedicated server and client startup complete cleanly.
+
+## Stage 6 - Materials, Crafting, and Progression - LIVE PENDING
+
+### Registration
+- [ ] **LIVE PENDING (Stage 6):** All five ore/debris blocks, materials, and storage blocks exist.
+- [ ] **LIVE PENDING (Stage 6):** No models or textures are missing.
+- [ ] **LIVE PENDING (Stage 6):** Materials and blocks are discoverable in the intended creative tabs.
+
+### World generation
+- [ ] **LIVE PENDING (Stage 6):** Titanium generates in the Overworld from Y -16 through 80 near its intended distribution.
+- [ ] **LIVE PENDING (Stage 6):** Tungsten generates in the Overworld from Y -48 through 32 near its intended distribution.
+- [ ] **LIVE PENDING (Stage 6):** Mythril generates in the Overworld from Y -64 through 0 and remains rarer than Diamond.
+- [ ] **LIVE PENDING (Stage 6):** Etherium generates in the Overworld from Y -32 through 64 and remains rarer than Diamond.
+- [ ] **LIVE PENDING (Stage 6):** Adamantium generates only in Nether biomes with debris-like rarity and exposure.
+- [ ] **LIVE PENDING (Stage 6):** No new mineral has obvious generation spam or surface spam.
+- [ ] **LIVE PENDING (Stage 6):** Vanilla ore generation remains unaffected.
+
+### Mining
+- [ ] **LIVE PENDING (Stage 6):** Every mineral requires a pickaxe and its documented mining tier.
+- [ ] **LIVE PENDING (Stage 6):** Wrong tools and insufficient-tier pickaxes do not produce drops.
+- [ ] **LIVE PENDING (Stage 6):** Silk Touch returns each of the five ore/debris blocks.
+- [ ] **LIVE PENDING (Stage 6):** Fortune multiplies Titanium, Tungsten, Mythril, and Etherium drops.
+- [ ] **LIVE PENDING (Stage 6):** Fortune does not multiply Adamantium Debris.
+
+### Drops and XP
+- [ ] **LIVE PENDING (Stage 6):** Titanium drops Raw Titanium and Tungsten drops Raw Tungsten.
+- [ ] **LIVE PENDING (Stage 6):** Mythril and Etherium drop their direct materials.
+- [ ] **LIVE PENDING (Stage 6):** Adamantium Debris drops itself.
+- [ ] **LIVE PENDING (Stage 6):** Mythril and Etherium award diamond-like XP without Silk Touch.
+- [ ] **LIVE PENDING (Stage 6):** None of the five blocks produces duplicate drops.
+
+### Processing
+- [ ] **LIVE PENDING (Stage 6):** Raw Titanium works in both furnace and blast furnace.
+- [ ] **LIVE PENDING (Stage 6):** Raw Tungsten works in both furnace and blast furnace.
+- [ ] **LIVE PENDING (Stage 6):** Adamantium Debris works in both furnace and blast furnace.
+- [ ] **LIVE PENDING (Stage 6):** Mythril and Etherium cannot be incorrectly smelted.
+
+### Crafting
+- [ ] **LIVE PENDING (Stage 6):** All five 9-material storage recipes work and consume the correct count.
+- [ ] **LIVE PENDING (Stage 6):** All five storage blocks unpack to exactly nine materials.
+
+### Regression
+- [ ] **LIVE PENDING (Stage 6):** Enhancement Stone and Stage 4 enhancement still work.
+- [ ] **LIVE PENDING (Stage 6):** Flame Sword and Wind Sword skills still work.
+- [ ] **LIVE PENDING (Stage 6):** Dedicated server and client startup complete cleanly.
+- [ ] **LIVE PENDING (Stage 6):** Unrelated vanilla mining and world generation remain unaffected.
+
+- [ ] **LIVE PENDING (Stage 6):** Sample generated chunks and measure actual Y distributions, especially Tungsten near -16 and Mythril near -48; confirm the corrected core peaks and sparse upper tails in newly generated chunks.
+- [ ] **LIVE PENDING (Stage 6):** Verify stone and deepslate replacement in each Overworld ore's full allowed Y range after adding both replacement targets.

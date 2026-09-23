@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:titanium_ore",
+    "moreminecrafts:tungsten_ore",
+    "moreminecrafts:mythril_ore",
+    "moreminecrafts:etherium_ore",
+    "moreminecrafts:adamantium_debris",
+    "moreminecrafts:titanium_block",
+    "moreminecrafts:tungsten_block",
+    "moreminecrafts:mythril_block",
+    "moreminecrafts:etherium_block",
+    "moreminecrafts:adamantium_block"
+  ]
+}

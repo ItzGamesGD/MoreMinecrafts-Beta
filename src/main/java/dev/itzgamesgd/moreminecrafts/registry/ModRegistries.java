@@ -6,17 +6,20 @@ import dev.itzgamesgd.moreminecrafts.ability.EquipmentSkillInput;
 import dev.itzgamesgd.moreminecrafts.special.flame.FlameCleaveAbility;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindBladeAbility;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindStepAbility;
+import dev.itzgamesgd.moreminecrafts.worldgen.ModOreGeneration;
 
 public final class ModRegistries {
     private ModRegistries() {
     }
 
     public static void initialize() {
+        ModBlocks.initialize();
         AbilityAttachments.initialize();
         ModDataComponents.initialize();
         ModItems.initialize();
         EquipmentAbilityBindings.bind(ModItems.FLAME_SWORD, EquipmentSkillInput.PRIMARY, FlameCleaveAbility.INSTANCE);
         EquipmentAbilityBindings.bind(ModItems.WIND_SWORD, EquipmentSkillInput.PRIMARY, WindBladeAbility.INSTANCE);
         EquipmentAbilityBindings.bind(ModItems.WIND_SWORD, EquipmentSkillInput.SECONDARY, WindStepAbility.INSTANCE);
+        ModOreGeneration.initialize();
     }
 }
