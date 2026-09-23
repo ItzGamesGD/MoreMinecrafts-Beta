@@ -15,6 +15,13 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ToolMaterial;
 
 public final class ModItems {
+    public static final Item RAW_TITANIUM = material("raw_titanium");
+    public static final Item TITANIUM_INGOT = material("titanium_ingot");
+    public static final Item RAW_TUNGSTEN = material("raw_tungsten");
+    public static final Item TUNGSTEN_INGOT = material("tungsten_ingot");
+    public static final Item MYTHRIL = material("mythril");
+    public static final Item ETHERIUM = material("etherium");
+    public static final Item ADAMANTIUM_INGOT = fireResistantMaterial("adamantium_ingot");
     private static final ResourceKey<Item> FOUNDATION_PROBE_KEY =
             ResourceKey.create(Registries.ITEM, ModIds.id("foundation_probe"));
     public static final ResourceKey<Item> ENHANCEMENT_STONE_KEY =
@@ -53,6 +60,17 @@ public final class ModItems {
     private ModItems() {
     }
 
+    private static Item material(String path) {
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, ModIds.id(path));
+        return Registry.register(BuiltInRegistries.ITEM, key, new Item(new Item.Properties().setId(key)));
+    }
+
+    private static Item fireResistantMaterial(String path) {
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, ModIds.id(path));
+        return Registry.register(BuiltInRegistries.ITEM, key,
+                new Item(new Item.Properties().fireResistant().setId(key)));
+    }
+
     public static void initialize() {
         var registeredId = BuiltInRegistries.ITEM.getKey(FOUNDATION_PROBE);
 
@@ -81,6 +99,27 @@ public final class ModItems {
             throw new IllegalStateException("MoreMinecrafts Wind Sword was not registered correctly.");
         }
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> entries.accept(WIND_SWORD));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
+            entries.accept(RAW_TITANIUM);
+            entries.accept(TITANIUM_INGOT);
+            entries.accept(RAW_TUNGSTEN);
+            entries.accept(TUNGSTEN_INGOT);
+            entries.accept(MYTHRIL);
+            entries.accept(ETHERIUM);
+            entries.accept(ADAMANTIUM_INGOT);
+        });
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
+            entries.accept(ModBlocks.TITANIUM_ORE);
+            entries.accept(ModBlocks.TUNGSTEN_ORE);
+            entries.accept(ModBlocks.MYTHRIL_ORE);
+            entries.accept(ModBlocks.ETHERIUM_ORE);
+            entries.accept(ModBlocks.ADAMANTIUM_DEBRIS);
+            entries.accept(ModBlocks.TITANIUM_BLOCK);
+            entries.accept(ModBlocks.TUNGSTEN_BLOCK);
+            entries.accept(ModBlocks.MYTHRIL_BLOCK);
+            entries.accept(ModBlocks.ETHERIUM_BLOCK);
+            entries.accept(ModBlocks.ADAMANTIUM_BLOCK);
+        });
         MoreMinecrafts.LOGGER.info("Item registration OK: {}", windSwordId);
     }
 }

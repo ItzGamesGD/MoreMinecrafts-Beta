@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:tungsten_ore",
+    "moreminecrafts:mythril_ore",
+    "moreminecrafts:etherium_ore",
+    "moreminecrafts:adamantium_debris"
+  ]
+}
