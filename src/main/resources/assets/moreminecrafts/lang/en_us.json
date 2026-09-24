@@ -1,4 +1,7 @@
 {
+  "effect.moreminecrafts.shock": "Shock",
+  "effect.moreminecrafts.shock_root": "Shock Root",
+  "item.minecraft.potion.effect.shock": "Potion of Shock",
   "item.moreminecrafts.enhancement_level": "Enhancement +%s",
   "item.moreminecrafts.enhancement_stone": "Enhancement Stone",
   "item.moreminecrafts.flame_sword": "Flame Sword",
