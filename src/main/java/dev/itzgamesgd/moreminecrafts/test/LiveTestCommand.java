@@ -15,7 +15,6 @@ import net.minecraft.world.entity.monster.skeleton.Skeleton;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Items;
 
 public final class LiveTestCommand {
