@@ -23,7 +23,11 @@ public final class EnhancementCatalog {
     public static Optional<EnhancementDefinition> definition(Item item) {
         EnhancementDefinition vanilla = VANILLA.get(item);
         return vanilla != null ? Optional.of(vanilla)
-                : Optional.ofNullable(CUSTOM.get(BuiltInRegistries.ITEM.getKey(item)));
+                : customDefinition(BuiltInRegistries.ITEM.getKey(item));
+    }
+
+    static Optional<EnhancementDefinition> customDefinition(Identifier id) {
+        return Optional.ofNullable(CUSTOM.get(id));
     }
 
     private static Map<Item, EnhancementDefinition> createVanillaDefinitions() {
