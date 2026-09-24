@@ -84,7 +84,7 @@ public final class LiveTestCommand {
 
     private static void give(ServerPlayer player, Item item, int count) {
         ItemStack stack = new ItemStack(item, count);
-        if (!player.getInventory().add(stack)) player.getInventory().placeItemBackInInventory(stack);
+        player.getInventory().add(stack);
     }
 
     private static int spawnZombie(net.minecraft.commands.CommandSourceStack source, ZombieVariant variant) {
