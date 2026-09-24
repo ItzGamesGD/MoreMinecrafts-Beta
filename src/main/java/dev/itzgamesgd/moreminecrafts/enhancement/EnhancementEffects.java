@@ -17,7 +17,7 @@ public final class EnhancementEffects {
         }
 
         int effectiveLevel = Math.min(level, definition.category().maximumLevel());
-        return effectiveLevel * definition.profile().valuePerLevel(target);
+        return definition.profile().valueAt(effectiveLevel, target);
     }
 
     /** Resolves an effect for the item identity and enhancement component carried by a stack. */
@@ -61,5 +61,12 @@ public final class EnhancementEffects {
         return EnhancementCatalog.definition(armor.getItem())
                 .map(definition -> damageReduction(definition, EnhancementOperation.level(armor)))
                 .orElse(0.0D);
+    }
+
+    /** Pure effective-block guard used by ItemStackMixin and regression tests. */
+    public static float toolDestroySpeed(float vanillaSpeed, double enhancementBonus) {
+        return vanillaSpeed > 1.0F && enhancementBonus > 0.0D
+                ? vanillaSpeed + (float) enhancementBonus
+                : vanillaSpeed;
     }
 }

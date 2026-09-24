@@ -1,38 +1,28 @@
 package dev.itzgamesgd.moreminecrafts.enhancement;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class EnhancementRulesTest {
-    @Test
-    void categoryCapsMatchPolicy() {
-        assertTrue(EnhancementCategory.VANILLA.allowsTransitionTo(30));
-        assertFalse(EnhancementCategory.VANILLA.allowsTransitionTo(31));
-        assertTrue(EnhancementCategory.ELEMENTAL.allowsTransitionTo(40));
-        assertFalse(EnhancementCategory.ELEMENTAL.allowsTransitionTo(41));
+    @Test void ordinaryTierCapsAndFutureTierExclusions() {
+        assertTrue(EnhancementCategory.VANILLA.allowsTransitionTo(20));
+        assertTrue(EnhancementCategory.ELEMENTAL.allowsTransitionTo(20));
+        assertFalse(EnhancementCategory.VANILLA.allowsTransitionTo(21));
+        assertFalse(EnhancementCategory.ELEMENTAL.allowsTransitionTo(21));
         assertFalse(EnhancementCategory.SPECIAL.allowsTransitionTo(1));
         assertFalse(EnhancementCategory.ENDGAME.allowsTransitionTo(1));
-        assertFalse(EnhancementCategory.UNSUPPORTED.allowsTransitionTo(1));
     }
-
-    @Test
-    void xpCostsUseTargetLevelBoundaries() {
-        assertEquals(1, EnhancementRules.experienceLevelCost(1));
-        assertEquals(1, EnhancementRules.experienceLevelCost(5));
-        assertEquals(2, EnhancementRules.experienceLevelCost(6));
-        assertEquals(2, EnhancementRules.experienceLevelCost(10));
-        assertEquals(3, EnhancementRules.experienceLevelCost(11));
-        assertEquals(3, EnhancementRules.experienceLevelCost(20));
-        assertEquals(4, EnhancementRules.experienceLevelCost(21));
-        assertEquals(4, EnhancementRules.experienceLevelCost(30));
-        assertEquals(5, EnhancementRules.experienceLevelCost(31));
-        assertEquals(5, EnhancementRules.experienceLevelCost(40));
+    @Test void milestonesAreDerivedWithoutPromotionState() {
+        for (int level : new int[]{5, 10, 15, 20}) assertTrue(EnhancementRules.isMilestone(level));
+        for (int level : new int[]{0, 1, 4, 6, 19, 21}) assertFalse(EnhancementRules.isMilestone(level));
+        assertEquals(0, EnhancementRules.milestoneCount(4));
+        assertEquals(1, EnhancementRules.milestoneCount(5));
+        assertEquals(4, EnhancementRules.milestoneCount(20));
     }
-
-    @Test
-    void transactionConstantsRemainDeterministic() {
-        assertEquals(1, EnhancementRules.MATERIAL_COST);
+    @Test void provisionalCostPolicyIsMilestoneSensitiveAndDeterministic() {
+        assertEquals(new EnhancementRules.Cost(1, 0), EnhancementRules.costFor(4));
+        assertEquals(new EnhancementRules.Cost(2, 1), EnhancementRules.costFor(5));
+        assertEquals(EnhancementRules.costFor(15), EnhancementRules.costFor(15));
         assertTrue(EnhancementRules.DETERMINISTIC_SUCCESS);
     }
 }

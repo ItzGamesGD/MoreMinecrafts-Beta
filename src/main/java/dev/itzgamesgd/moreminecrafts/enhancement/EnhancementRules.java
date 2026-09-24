@@ -1,21 +1,29 @@
 package dev.itzgamesgd.moreminecrafts.enhancement;
 
-/** Progression rules shared by every interaction adapter. */
+/** Locked progression rules and isolated provisional transaction costs shared by all adapters. */
 public final class EnhancementRules {
-    public static final int MATERIAL_COST = 1;
+    public static final int ORDINARY_MAX_LEVEL = 20;
+    public static final int MILESTONE_INTERVAL = 5;
     public static final boolean DETERMINISTIC_SUCCESS = true;
 
-    private EnhancementRules() {
+    private EnhancementRules() {}
+
+    public static boolean isMilestone(int level) {
+        return level > 0 && level <= ORDINARY_MAX_LEVEL && level % MILESTONE_INTERVAL == 0;
     }
 
-    public static int experienceLevelCost(int targetLevel) {
-        if (targetLevel < 1 || targetLevel > 40) {
-            throw new IllegalArgumentException("Target enhancement level must be between 1 and 40: " + targetLevel);
-        }
-        if (targetLevel <= 5) return 1;
-        if (targetLevel <= 10) return 2;
-        if (targetLevel <= 20) return 3;
-        if (targetLevel <= 30) return 4;
-        return 5;
+    public static int milestoneCount(int level) {
+        if (level <= 0) return 0;
+        return Math.min(level, ORDINARY_MAX_LEVEL) / MILESTONE_INTERVAL;
     }
+
+    /** Provisional economy: intermediate steps are material-only; milestones cost more and 1 XP. */
+    public static Cost costFor(int targetLevel) {
+        if (targetLevel < 1 || targetLevel > ORDINARY_MAX_LEVEL) {
+            throw new IllegalArgumentException("Target enhancement level must be between 1 and 20: " + targetLevel);
+        }
+        return isMilestone(targetLevel) ? new Cost(2, 1) : new Cost(1, 0);
+    }
+
+    public record Cost(int materialCount, int experienceLevels) {}
 }

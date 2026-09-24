@@ -2,8 +2,8 @@ package dev.itzgamesgd.moreminecrafts.enhancement;
 
 /** The cap policy attached to an actual item/profile association. */
 public enum EnhancementCategory {
-    VANILLA(true, 30),
-    ELEMENTAL(true, 40),
+    VANILLA(true, EnhancementRules.ORDINARY_MAX_LEVEL),
+    ELEMENTAL(true, EnhancementRules.ORDINARY_MAX_LEVEL),
     SPECIAL(false, 0),
     ENDGAME(false, 0),
     UNSUPPORTED(false, 0);

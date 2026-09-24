@@ -39,7 +39,9 @@ public final class EnhancementOperation {
                             result,
                             plan.targetLevel(),
                             plan.experienceLevelCost(),
-                            plan.materialCost()
+                            plan.materialCost(),
+                            plan.milestone(),
+                            plan.milestoneCount()
                     );
                 });
     }
@@ -49,7 +51,7 @@ public final class EnhancementOperation {
      * Data Component, Fabric, or menu interaction so it is safe to exercise with plain JUnit.
      */
     static Optional<Plan> plan(EnhancementDefinition definition, int currentLevel, int materialCount) {
-        if (materialCount < EnhancementRules.MATERIAL_COST || currentLevel < 0) {
+        if (currentLevel < 0) {
             return Optional.empty();
         }
 
@@ -63,10 +65,16 @@ public final class EnhancementOperation {
             return Optional.empty();
         }
 
+        EnhancementRules.Cost cost = EnhancementRules.costFor(targetLevel);
+        if (materialCount < cost.materialCount()) {
+            return Optional.empty();
+        }
         return Optional.of(new Plan(
                 targetLevel,
-                EnhancementRules.experienceLevelCost(targetLevel),
-                EnhancementRules.MATERIAL_COST
+                cost.experienceLevels(),
+                cost.materialCount(),
+                EnhancementRules.isMilestone(targetLevel),
+                EnhancementRules.milestoneCount(targetLevel)
         ));
     }
 
@@ -86,9 +94,11 @@ public final class EnhancementOperation {
         return EnhancementEffects.value(stack, EnhancementEffect.Target.ATTACK_DAMAGE);
     }
 
-    record Plan(int targetLevel, int experienceLevelCost, int materialCost) {
+    record Plan(int targetLevel, int experienceLevelCost, int materialCost,
+                boolean milestone, int milestoneCount) {
     }
 
-    public record Result(ItemStack stack, int targetLevel, int experienceLevelCost, int materialCost) {
+    public record Result(ItemStack stack, int targetLevel, int experienceLevelCost, int materialCost,
+                         boolean milestone, int milestoneCount) {
     }
 }

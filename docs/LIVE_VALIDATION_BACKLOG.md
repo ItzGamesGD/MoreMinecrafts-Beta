@@ -444,3 +444,13 @@ cooldowns, projectile references, boss-bar viewers, and the active schedule are 
 - **LIVE PENDING:** Dedicated server starts.
 - **LIVE PENDING:** Client starts and connects.
 - **LIVE PENDING:** Previous Stage systems still initialize.
+
+## Stage 10B - Enhancement 2.0 LIVE PENDING
+
+- [ ] Advance representative T1 and T2 items from +0 through +20; verify deterministic milestones at +5/+10/+15/+20 and reject +20 -> +21.
+- [ ] Enhance Flame Sword and Wind Sword through the temporary Anvil adapter; verify abilities, names, enchantments, durability, and custom state survive.
+- [ ] Verify the provisional sword curve applies once in combat.
+- [ ] Verify Bow/Crossbow projectile bonuses and vanilla Crossbow firework explosions; charge-speed changes are intentionally not implemented yet.
+- [ ] Verify Trident melee, thrown, Loyalty return, and persistence behavior.
+- [ ] Verify four +20 armor pieces reduce non-bypass incoming damage by 8% before vanilla armor/toughness, while BYPASSES_ARMOR remains unchanged.
+- [ ] Compare enhanced tools with no Efficiency and Efficiency V on representative stone, ore, and varied-hardness blocks; confirm ineffective blocks retain vanilla speed and normal blocks are not universally instant-break.

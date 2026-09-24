@@ -63,16 +63,16 @@ Independent growth axes:
 - Coating = functional growth
 - Enchantment = Minecraft-native enchantment growth
 
-### Enhancement: CURRENT_IMPLEMENTED
+### Enhancement 2.0: CURRENT_DIRECTION
 
-- Vanilla cap +30
-- Elemental cap +40
-- Special / Endgame: ordinary enhancement unavailable
-- Anvil + Upgrade Stone + XP
-- 100% deterministic
-- no failure, downgrade, destruction, pity, or Coin cost
-- XP baseline: +1-5=1, +6-10=2, +11-20=3, +21-30=4, +31-40=5
-- Paper baseline stone recipe: Diamond 1 + Redstone 4 + Lapis 4
+- T1 Vanilla and T2 Elemental ordinary cap: +20
+- deterministic milestones at +5/+10/+15/+20, derived from `enhancement_level`
+- no failure, downgrade, destruction, pity, reroll, Promotion, or Coin cost
+- Flame Sword and Wind Sword use explicit Elemental sword definitions
+- T3 remains outside ordinary Enhancement; T4 will later use kill-point Grade/Mastery
+- Anvil is only the current adapter, not locked interaction design
+- exact curves, milestone bonuses, tool utility, charge speed, Mace formula, armor arithmetic (within the ~8% full-set ceiling), and costs remain provisional/deferred
+- monster scaling is deferred to the future mob/balance stage and is not part of Enhancement
 
 ### Promotion/options: RETIRED
 
