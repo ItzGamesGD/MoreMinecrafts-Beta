@@ -39,7 +39,7 @@ Older checklist behaviors are evidence, not license to decide missing mechanics.
 
 ## 5. Alchemy historical recovery and Stage 10 brewing specification
 
-**Fabric status: LOCKED_NOT_IMPLEMENTED. Readiness: READY_FOR_VERTICAL_SLICE for the base Shock potion only, as a bounded first slice; the full eight-potion/catalyst rollout still requires slice-specific validation and balance.** Paper implementation is evidence of retained design, never Fabric implementation. The prior assessment that an empty final recipe file implied no recoverable Alchemy design was incorrect.
+**Fabric status: Shock base potion IMPLEMENTED / LIVE PENDING; the other seven potions and all catalysts remain LOCKED_NOT_IMPLEMENTED.** The bounded Stage 10A implementation uses the Minecraft 26.3 data-driven `minecraft:brewing` recipe for Thick Potion + Copper Ingot, native registered potion/effect identities, and the exact recovered Shock contract. See `STAGE_10A_SHOCK_POTION.md` for implementation and validation detail. The full eight-potion/catalyst rollout still requires slice-specific validation and balance. Paper implementation is evidence of retained design, never Fabric implementation. The prior assessment that an empty final recipe file implied no recoverable Alchemy design was incorrect.
 
 ### 5.1 Timeline and source trail
 

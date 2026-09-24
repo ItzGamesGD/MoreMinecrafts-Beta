@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.registry;
 
 import dev.itzgamesgd.moreminecrafts.ability.AbilityAttachments;
+import dev.itzgamesgd.moreminecrafts.alchemy.ModAlchemy;
 import dev.itzgamesgd.moreminecrafts.ability.EquipmentAbilityBindings;
 import dev.itzgamesgd.moreminecrafts.ability.EquipmentSkillInput;
 import dev.itzgamesgd.moreminecrafts.special.flame.FlameCleaveAbility;
@@ -14,6 +15,7 @@ public final class ModRegistries {
     }
 
     public static void initialize() {
+        ModAlchemy.initialize();
         ModBlocks.initialize();
         AbilityAttachments.initialize();
         ModDataComponents.initialize();

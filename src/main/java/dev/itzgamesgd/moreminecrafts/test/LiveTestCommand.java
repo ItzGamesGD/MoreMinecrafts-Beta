@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.test;
 
+import dev.itzgamesgd.moreminecrafts.alchemy.ModAlchemy;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingEquipmentFamily;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingState;
@@ -16,6 +17,8 @@ import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 
 public final class LiveTestCommand {
     private LiveTestCommand() {}
@@ -29,6 +32,7 @@ public final class LiveTestCommand {
                                 .then(Commands.literal("equipment").executes(c -> giveEquipment(c.getSource().getPlayerOrException())))
                                 .then(Commands.literal("fishing").executes(c -> giveFishing(c.getSource().getPlayerOrException())))
                                 .then(Commands.literal("materials").executes(c -> giveMaterials(c.getSource().getPlayerOrException())))
+                                .then(Commands.literal("shock").executes(c -> giveShock(c.getSource().getPlayerOrException())))
                                 .then(Commands.literal("all").executes(c -> giveAll(c.getSource().getPlayerOrException()))))
                         .then(Commands.literal("spawn")
                                 .then(Commands.literal("bomb").executes(c -> spawnZombie(c.getSource(), ZombieVariant.BOMB)))
@@ -73,17 +77,30 @@ public final class LiveTestCommand {
         return 1;
     }
 
+    private static int giveShock(ServerPlayer player) {
+        give(player, PotionContents.createItemStack(Items.POTION, Potions.THICK), 3);
+        give(player, Items.COPPER_INGOT, 3);
+        give(player, PotionContents.createItemStack(Items.POTION, ModAlchemy.SHOCK_POTION), 1);
+        player.sendSystemMessage(Component.literal("MoreMinecrafts test kit: shock (brew supplies + direct-test potion)"));
+        return 1;
+    }
+
     private static int giveAll(ServerPlayer player) {
         giveEnhancement(player);
         giveEquipment(player);
         giveFishing(player);
         giveMaterials(player);
+        giveShock(player);
         player.sendSystemMessage(Component.literal("MoreMinecrafts test kit: all"));
         return 1;
     }
 
     private static void give(ServerPlayer player, Item item, int count) {
-        ItemStack stack = new ItemStack(item, count);
+        give(player, new ItemStack(item), count);
+    }
+
+    private static void give(ServerPlayer player, ItemStack stack, int count) {
+        stack.setCount(count);
         player.getInventory().add(stack);
     }
 

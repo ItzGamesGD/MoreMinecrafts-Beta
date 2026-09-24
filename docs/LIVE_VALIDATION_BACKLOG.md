@@ -3,6 +3,20 @@
 Automated build and smoke coverage does not replace the following human gameplay checks. Entries
 remain **LIVE PENDING** until a human records an observed result.
 
+## Stage 10A - Shock Potion - LIVE PENDING
+
+- [ ] **LIVE PENDING (Stage 10A):** Thick Potion + Copper Ingot brews Shock Potion.
+- [ ] **LIVE PENDING (Stage 10A):** Brewing works with 1, 2, and 3 eligible bottles while unrelated bottle slots remain unchanged.
+- [ ] **LIVE PENDING (Stage 10A):** The normal potion bottle liquid appears sky blue (`#87CEEB`).
+- [ ] **LIVE PENDING (Stage 10A):** Shock lasts 1,200 ticks / 60 seconds and pulses every 320 ticks.
+- [ ] **LIVE PENDING (Stage 10A):** Each pulse deals 1.0 damage and roots movement for 20 ticks.
+- [ ] **LIVE PENDING (Stage 10A):** Normal movement returns after each root.
+- [ ] **LIVE PENDING (Stage 10A):** Reapplication refreshes Shock rather than stacking instances or damage.
+- [ ] **LIVE PENDING (Stage 10A):** Death/removal cleans up safely, and save/reload follows native effect persistence.
+- [ ] **LIVE PENDING (Stage 10A):** Unrelated vanilla Brewing Stand recipes remain functional.
+
+The focused procedure and architecture record are in `docs/STAGE_10A_SHOCK_POTION.md`.
+
 ## Stage 3 - LIVE PENDING
 
 - [ ] **LIVE PENDING (Stage 3):** Create the actual Iron Sword enhancement result in an anvil.
