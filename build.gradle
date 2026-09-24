@@ -82,14 +82,21 @@ tasks.register("validateStage6Data") {
         def requiredPlacementModifiers = ["minecraft:in_square", "minecraft:height_range", "minecraft:biome"] as Set
 
         fileTree(resourceRoot).matching { include "**/*.json" }.files.each { json.parse(it) }
+        def legacyConfiguredDir = file("src/main/resources/data/moreminecrafts/worldgen/configured_feature")
+        assert !legacyConfiguredDir.exists() || fileTree(legacyConfiguredDir).matching { include "*.json" }.files.empty :
+                "Legacy worldgen/configured_feature JSON remains; Minecraft 26.3 uses worldgen/feature"
+
         families.each { family, ids ->
-            def configuredFile = file("src/main/resources/data/moreminecrafts/worldgen/configured_feature/ore_${family}.json")
+            def featureFile = file("src/main/resources/data/moreminecrafts/worldgen/feature/ore_${family}.json")
             def placedFile = file("src/main/resources/data/moreminecrafts/worldgen/placed_feature/ore_${family}.json")
-            assert configuredFile.isFile()
+            assert featureFile.isFile()
             assert placedFile.isFile()
-            def configured = json.parse(configuredFile)
+            def feature = json.parse(featureFile)
             def placed = json.parse(placedFile)
-            assert configured.type == "minecraft:ore"
+            assert feature.type == "minecraft:ore"
+            assert !feature.containsKey("config") : "Minecraft 26.3 feature config must be inline in ${featureFile}"
+            assert feature.targets instanceof List
+            assert feature.size instanceof Number
             assert placed.feature == "moreminecrafts:ore_${family}"
             def modifierTypes = placed.placement.collect { it.type } as Set
             assert modifierTypes.containsAll(requiredPlacementModifiers)
@@ -103,6 +110,12 @@ tasks.register("validateStage6Data") {
 
         fileTree("src/main/resources/data/moreminecrafts/worldgen/placed_feature").matching { include "*.json" }.files.each { placedFile ->
             def placed = json.parse(placedFile)
+            def featureId = placed.feature as String
+            if (featureId?.startsWith("moreminecrafts:")) {
+                def featurePath = featureId.substring("moreminecrafts:".length())
+                assert file("src/main/resources/data/moreminecrafts/worldgen/feature/${featurePath}.json").isFile() :
+                        "Missing Minecraft 26.3 feature ${featureId} referenced by ${placedFile}"
+            }
             def heightRange = placed.placement.find { it.type == "minecraft:height_range" }
             assert heightRange != null
             assert validHeightProviders.contains(heightRange.height.type) :
