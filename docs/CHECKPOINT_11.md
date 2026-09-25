@@ -85,3 +85,44 @@ New feature work should:
 6. never mark LIVE PENDING items complete solely because CI passes.
 
 Checkpoint 11 itself introduces no new gameplay feature.
+
+## Runtime and design stabilization follow-up
+
+### AUTHORITATIVE contracts implemented
+
+- Minecraft 26.3 ore feature targets use the string block-state codec; validation rejects legacy
+  object-shaped `Name`/`Properties` states. Server smoke now requires the post-datapack `Done (...)`
+  marker and rejects fatal registry/datapack messages.
+- Ordinary T1/T2 enhancement remains deterministic through +20 with milestones at +5/+10/+15/+20.
+  Vanilla Mace enhancement scales the fall distance consumed by vanilla smash damage, never its
+  generic melee attribute. Mace milestones represent impact radius and secondary-target capacity.
+- Reel unlocks species, Minnow weights rarer *eligible* species, and Crankbait weights Grade. Species
+  rarity, Grade, and Length remain separate catch dimensions.
+- The seven-item T2 roster is registered and available from the Combat creative tab. Flame and Wind
+  trigger their sweep on every tenth server-confirmed successful hit. Their sole active input is right
+  click; Wind Step is no longer bound. Water, Lightning, Earth, Wind Bow, and Staff have live-testable
+  carriers/abilities while final balance remains open.
+
+### PROVISIONAL live-test values (not final balance)
+
+- Every current enhancement transaction costs a minimum of 1 XP level. The long-term enhancement XP
+  economy remains subject to balancing.
+- Mace effective fall distance is `actual × (1 + 0.025 × level)`; +5/+10/+15/+20 radii are
+  1.5/2.0/2.5/3.0 blocks, target caps are 1/2/3/4, and secondary damage is 35% when wired.
+- Sword attack-speed/sweeping and Bow/Crossbow draw/reload/velocity milestone magnitudes remain
+  provisional and require a later tuning slice. Tool/Axe durability/utility, Armor milestone utility,
+  and Trident special milestones remain explicitly deferred.
+- Fishing exposes exactly Bluegill/Trout/Pike and Grades I/II/III, with each species' existing random
+  length range persisted on the stack. All weights and length ranges are live-test data.
+- Water heal (2), movement, 7-damage/1.5-radius column and 12-second cooldown; Lightning 8-damage slash
+  and 10-second cooldown; Earth 4-damage/3-radius shockwave and 15-second cooldown; Staff 7-damage,
+  12-block beam and 8-second cooldown; Flame active 10 damage; Wind passive 3 damage are PROVISIONAL.
+  Wind Bow currently preserves ordinary vanilla Bow behavior as its minimum usable live-test carrier;
+  its documented mild steering identity remains a warning/open implementation item.
+
+### Validation status
+
+Local JSON validation and Java compilation pass. A complete local dedicated-server run is currently
+blocked by this environment returning HTTP 403 for missing Fabric runtime artifacts; runtime readiness
+must therefore be confirmed by CI and its uploaded/full log before this slice can be treated as ready.
+The client job is deliberately named **client-initialization** and does not claim graphical readiness.

@@ -8,6 +8,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import dev.itzgamesgd.moreminecrafts.special.flame.FlameSwordItem;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindSwordItem;
+import dev.itzgamesgd.moreminecrafts.special.elemental.DarkEnergyStaffItem;
+import dev.itzgamesgd.moreminecrafts.special.elemental.EarthMaceItem;
+import dev.itzgamesgd.moreminecrafts.special.elemental.ElementalSwordItem;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,6 +19,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.MaceItem;
 
 public final class ModItems {
     public static final Item RAW_TITANIUM = material("raw_titanium");
@@ -33,6 +38,11 @@ public final class ModItems {
             ResourceKey.create(Registries.ITEM, ModIds.id("flame_sword"));
     public static final ResourceKey<Item> WIND_SWORD_KEY =
             ResourceKey.create(Registries.ITEM, ModIds.id("wind_sword"));
+    public static final ResourceKey<Item> FLOWING_WATER_SWORD_KEY = key("flowing_water_sword");
+    public static final ResourceKey<Item> WIND_ARCHERS_BOW_KEY = key("wind_archers_bow");
+    public static final ResourceKey<Item> EARTH_MACE_KEY = key("earth_mace");
+    public static final ResourceKey<Item> LIGHTNING_SWORD_KEY = key("lightning_sword");
+    public static final ResourceKey<Item> DARK_ENERGY_STAFF_KEY = key("dark_energy_staff");
 
     public static final Item FOUNDATION_PROBE = Registry.register(
             BuiltInRegistries.ITEM,
@@ -59,6 +69,17 @@ public final class ModItems {
                     .sword(ToolMaterial.DIAMOND, 4.0F, -2.2F)
                     .setId(WIND_SWORD_KEY))
     );
+    public static final Item FLOWING_WATER_SWORD = Registry.register(BuiltInRegistries.ITEM, FLOWING_WATER_SWORD_KEY,
+            new ElementalSwordItem(ElementalSwordItem.Element.WATER, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.0F).setId(FLOWING_WATER_SWORD_KEY)));
+    public static final Item WIND_ARCHERS_BOW = Registry.register(BuiltInRegistries.ITEM, WIND_ARCHERS_BOW_KEY,
+            new BowItem(new Item.Properties().durability(465).enchantable(1).setId(WIND_ARCHERS_BOW_KEY)));
+    public static final Item EARTH_MACE = Registry.register(BuiltInRegistries.ITEM, EARTH_MACE_KEY,
+            new EarthMaceItem(new Item.Properties().durability(600).attributes(MaceItem.createAttributes()).setId(EARTH_MACE_KEY)));
+    public static final Item LIGHTNING_SWORD = Registry.register(BuiltInRegistries.ITEM, LIGHTNING_SWORD_KEY,
+            new ElementalSwordItem(ElementalSwordItem.Element.LIGHTNING, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.2F).setId(LIGHTNING_SWORD_KEY)));
+    public static final Item DARK_ENERGY_STAFF = Registry.register(BuiltInRegistries.ITEM, DARK_ENERGY_STAFF_KEY,
+            new DarkEnergyStaffItem(new Item.Properties().durability(420).setId(DARK_ENERGY_STAFF_KEY)));
+
 
     public static final Map<FishSpecies, Item> FISH = new EnumMap<>(FishSpecies.class);
     public static final Item[][] FISHING_EQUIPMENT = new Item[ FishingEquipmentFamily.values().length ][5];
@@ -81,6 +102,8 @@ public final class ModItems {
 
     private ModItems() {
     }
+
+    private static ResourceKey<Item> key(String path) { return ResourceKey.create(Registries.ITEM, ModIds.id(path)); }
 
     private static Item material(String path) {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, ModIds.id(path));
@@ -120,7 +143,11 @@ public final class ModItems {
         if (!ModIds.id("wind_sword").equals(windSwordId)) {
             throw new IllegalStateException("MoreMinecrafts Wind Sword was not registered correctly.");
         }
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> entries.accept(WIND_SWORD));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> {
+            entries.accept(FLAME_SWORD); entries.accept(FLOWING_WATER_SWORD); entries.accept(WIND_SWORD);
+            entries.accept(WIND_ARCHERS_BOW); entries.accept(EARTH_MACE); entries.accept(LIGHTNING_SWORD);
+            entries.accept(DARK_ENERGY_STAFF);
+        });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
             FISH.values().forEach(entries::accept);
             for (Item[] family : FISHING_EQUIPMENT) for (Item item : family) entries.accept(item);

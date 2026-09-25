@@ -54,5 +54,10 @@
   "item.moreminecrafts.minnow_2": "Minnow II",
   "item.moreminecrafts.minnow_3": "Minnow III",
   "item.moreminecrafts.minnow_4": "Minnow IV",
-  "item.moreminecrafts.minnow_5": "Minnow V"
+  "item.moreminecrafts.minnow_5": "Minnow V",
+  "item.moreminecrafts.flowing_water_sword": "Flowing Water Sword",
+  "item.moreminecrafts.wind_archers_bow": "Wind Archer's Bow",
+  "item.moreminecrafts.earth_mace": "Earth Mace",
+  "item.moreminecrafts.lightning_sword": "Lightning Sword",
+  "item.moreminecrafts.dark_energy_staff": "Dark Energy Staff"
 }

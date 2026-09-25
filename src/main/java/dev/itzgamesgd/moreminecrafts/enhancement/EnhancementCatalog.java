@@ -15,7 +15,12 @@ public final class EnhancementCatalog {
     private static final Map<Item, EnhancementDefinition> VANILLA = createVanillaDefinitions();
     private static final Map<Identifier, EnhancementDefinition> CUSTOM = Map.of(
             ModIds.id("flame_sword"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD),
-            ModIds.id("wind_sword"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD)
+            ModIds.id("flowing_water_sword"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD),
+            ModIds.id("wind_sword"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD),
+            ModIds.id("wind_archers_bow"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.RANGED),
+            ModIds.id("earth_mace"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.MACE),
+            ModIds.id("lightning_sword"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD),
+            ModIds.id("dark_energy_staff"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.RANGED)
     );
 
     private EnhancementCatalog() {}

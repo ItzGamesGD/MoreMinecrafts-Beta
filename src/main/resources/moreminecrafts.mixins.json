@@ -5,6 +5,7 @@
   "mixins": [
     "AnvilMenuMixin",
     "ItemStackMixin",
+    "MaceItemMixin",
     "LivingEntityMixin",
     "AbstractArrowAccessor",
     "ProjectileWeaponItemMixin",

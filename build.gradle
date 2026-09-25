@@ -97,6 +97,12 @@ tasks.register("validateStage6Data") {
             assert !feature.containsKey("config") : "Minecraft 26.3 feature config must be inline in ${featureFile}"
             assert feature.targets instanceof List
             assert feature.size instanceof Number
+            feature.targets.each { target ->
+                assert target.state instanceof String :
+                        "Minecraft 26.3 ore target state must be a block identifier string in ${featureFile}"
+                assert !target.state.toString().contains("Name") && !target.state.toString().contains("Properties")
+                assert target.state.toString().startsWith("moreminecrafts:")
+            }
             assert placed.feature == "moreminecrafts:ore_${family}"
             def modifierTypes = placed.placement.collect { it.type } as Set
             assert modifierTypes.containsAll(requiredPlacementModifiers)

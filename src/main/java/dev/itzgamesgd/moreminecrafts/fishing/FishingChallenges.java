@@ -51,7 +51,7 @@ public final class FishingChallenges {
         long startTick = player.level().getGameTime();
         Challenge challenge = new Challenge(startTick, equipped.grade(FishingEquipmentFamily.REEL),
                 equipped.grade(FishingEquipmentFamily.CRANKBAIT),
-                equipped.grade(FishingEquipmentFamily.MINNOW), measureDepth(hook), 0,
+                equipped.grade(FishingEquipmentFamily.MINNOW), measureDepth(hook),
                 hook, player.level(), rod);
         ACTIVE.put(player.getUUID(), challenge);
         RodEquipment worn = new RodEquipment(equipped.reel(), equipped.crankbait(), equipped.minnow());
@@ -80,13 +80,12 @@ public final class FishingChallenges {
         if (!challenge.hook().isRemoved()) challenge.hook().discard();
         if (player.fishing == challenge.hook()) player.fishing = null;
         if (success) {
-            List<FishSpecies> pool = FishingLogic.eligible(
-                    challenge.depth(), challenge.reel(), challenge.minnow());
+            List<FishSpecies> pool = FishingLogic.eligible(challenge.depth(), challenge.reel());
             if (!pool.isEmpty()) {
                 FishingLogic.CatchRoll roll = FishingLogic.select(
-                        pool, challenge.crankbait(), challenge.luck(), player.getRandom());
+                        pool, challenge.minnow(), challenge.crankbait(), player.getRandom());
                 FishSpecies species = roll.species();
-                int length = species.lengthFromRoll(player.getRandom().nextInt());
+                int length = roll.lengthCm();
                 ItemStack fish = new ItemStack(ModItems.fishItem(species));
                 fish.set(ModDataComponents.FISH_GRADE, roll.grade());
                 fish.set(ModDataComponents.FISH_LENGTH, length);
@@ -119,5 +118,5 @@ public final class FishingChallenges {
     }
 
     public record Challenge(long startTick, int reel, int crankbait, int minnow,
-                            int depth, int luck, FishingHook hook, Level level, ItemStack rod) {}
+                            int depth, FishingHook hook, Level level, ItemStack rod) {}
 }

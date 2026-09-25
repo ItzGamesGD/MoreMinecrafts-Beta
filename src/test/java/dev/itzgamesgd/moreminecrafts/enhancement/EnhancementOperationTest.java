@@ -15,7 +15,7 @@ class EnhancementOperationTest {
     }
     @Test void transactionPlanExposesMilestoneStateAndCosts() {
         var ordinary = EnhancementOperation.plan(T1, 3, 1).orElseThrow();
-        assertFalse(ordinary.milestone()); assertEquals(0, ordinary.experienceLevelCost());
+        assertFalse(ordinary.milestone()); assertEquals(1, ordinary.experienceLevelCost());
         var milestone = EnhancementOperation.plan(T1, 4, 2).orElseThrow();
         assertTrue(milestone.milestone()); assertEquals(1, milestone.milestoneCount());
         assertEquals(2, milestone.materialCost()); assertEquals(1, milestone.experienceLevelCost());

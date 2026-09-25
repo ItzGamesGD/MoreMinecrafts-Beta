@@ -16,10 +16,10 @@ import net.minecraft.world.phys.Vec3;
 public final class FlameCleaveAbility implements ActiveEquipmentAbility {
     public static final FlameCleaveAbility INSTANCE = new FlameCleaveAbility();
     public static final Identifier ID = ModIds.id("flame_cleave");
-    public static final int COOLDOWN_TICKS = 100;
+    public static final int COOLDOWN_TICKS = 600; // AUTHORITATIVE 30 seconds
     public static final double RANGE = 4.0D;
     public static final double HALF_ANGLE_DEGREES = 45.0D;
-    public static final float DAMAGE = 6.0F;
+    public static final float DAMAGE = 10.0F; // PROVISIONAL live-test damage
     public static final float IGNITE_SECONDS = 3.0F;
 
     private FlameCleaveAbility() {
