@@ -126,3 +126,40 @@ Local JSON validation and Java compilation pass. A complete local dedicated-serv
 blocked by this environment returning HTTP 403 for missing Fabric runtime artifacts; runtime readiness
 must therefore be confirmed by CI and its uploaded/full log before this slice can be treated as ready.
 The client job is deliberately named **client-initialization** and does not claim graphical readiness.
+
+
+## Resource asset work policy
+
+Resource completeness is now a first-class tracked backlog and must be carried in both the repository
+documentation and the mirrored Google Drive project records.
+
+Resource work is intentionally separated from gameplay/runtime implementation after this stabilization
+slice. Gameplay code may use explicit placeholder vanilla assets to keep vertical slices testable, but a
+feature is not considered visually complete until its resource backlog is closed.
+
+### Current resource audit
+
+- Titanium Ore: blockstate/model wired; currently reuses vanilla Iron Ore texture.
+- Tungsten Ore: blockstate/model wired; currently reuses vanilla Deepslate Iron Ore texture.
+- Mythril Ore: blockstate/model wired; currently reuses vanilla Diamond Ore texture.
+- Etherium Ore: blockstate/model wired; currently reuses vanilla Emerald Ore texture.
+- Adamantium: gameplay/worldgen material exists, but dedicated blockstate/model asset coverage is still
+  missing and must be completed in the resource slice.
+- Raw/ingot/material item models currently reuse vanilla item textures where present.
+- T2 equipment carriers may use placeholders during gameplay verification; final unique
+  models/textures/animation/VFX/SFX remain resource backlog items unless explicitly completed.
+
+### Next resource slice
+
+Do not mix broad visual production into runtime bug-fix/gameplay PRs. The next dedicated resource stage
+should audit the complete implemented-content asset matrix and then add, at minimum:
+
+1. unique vanilla-style 16x16 textures for the five material families where applicable;
+2. missing blockstate/block/item model wiring, including Adamantium;
+3. raw/material/ingot item textures and model links;
+4. T2 equipment model/texture coverage and explicit placeholders for anything still awaiting final art;
+5. an asset checklist that distinguishes MISSING / PLACEHOLDER / IMPLEMENTED / FINAL;
+6. client-side live verification for missing-texture/model fallbacks.
+
+Gameplay behavior and balance remain separate from final art polish. A later model/VFX stage may replace
+these baseline assets without reopening gameplay design.
