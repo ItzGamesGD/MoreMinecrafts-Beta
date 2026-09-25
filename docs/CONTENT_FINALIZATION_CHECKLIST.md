@@ -86,9 +86,10 @@
 - [LOCKED] T4 Endgame baseline = 무극검 / 천궁 / 천서 3종. 세계수 활은 baseline 밖의 OPTIONAL 후보이며 필요 시 T3로 재분류 가능.
 - [LOCKED] T1/T2/T3/T4는 서로 독립적인 설계 카테고리이며 진화/승급 트리가 아니다. 특정 recipe/해금 조건에서 다른 Tier 장비를 요구할 수는 있으나 장비 상속은 아니다.
 - [LOCKED] T3 Special 7종 전부 유지: 타나토스의 철퇴 / 포세이돈의 창 / 화염 도끼 / 뇌신의 도끼 / 성검 · 솔라리스 / 월야잔광 / 빙결검. 핵심 정체성은 유지하고 Fabric 표현·구현은 재해석.
-- [LOCKED] Enhancement 상한: Vanilla +30 / T2 Elemental +40 / T3 Special·T4 Endgame 일반 강화 불가.
-- [PROVISIONAL] Enhancement 비용 baseline: Upgrade Stone 1개 고정 + XP level. +1~5=1, +6~10=2, +11~20=3, +21~30=4, +31~40=5. 플레이테스트에서 조정 가능.
-- [LOCKED] Enhancement 성공률 100%. 실패/하락/파괴/실패 누적 보정 없음. Anvil + Upgrade Stone + Minecraft XP 구조 유지.
+- [LOCKED] Enhancement 2.0: T1/T2 ordinary 상한 +20, +5/+10/+15/+20 결정론적 milestone. T3/T4 일반 강화 불가.
+- [LOCKED] 성공률 100%; 실패/하락/파괴/pity/reroll/Promotion/Coin 없음. milestone은 단일 enhancement level에서 파생.
+- [PROVISIONAL] 곡선, milestone bonus, 재료/XP 비용, 도구 utility, ranged charge speed, Mace smash 공식, armor 산술(풀세트 약 8% 이하)은 조정 가능. Anvil은 현재 임시 adapter이다.
+- [DEFERRED] T3 별도 progression과 T4 kill-point Grade/Mastery 구현 및 monster scaling 결정.
 - [PROVISIONAL] 장비 획득 밸런스는 실제 재료 recipe를 핵심으로 한다. T4는 희귀재료 제작 중심이며 탐험 상자 완제품 보상을 핵심 획득축으로 삼지 않는다. 정확한 재료 수량은 후속 공급량/플레이테스트와 함께 조정.
 - [REVIEW-COMPLETE] Paper Special Equipment vs Content Freeze v3 대조 완료. Freeze v3에는 개별 T2/T3/T4 weapon roster/능력 명세가 없고 `02_EQUIPMENT.md`는 Utility Equipment 문서이므로 충돌하는 개별 Special Equipment 설계 없음.
 - [LOCKED] 상세 authoritative record: `docs/EQUIPMENT_PROGRESSION_FINALIZATION.md`.

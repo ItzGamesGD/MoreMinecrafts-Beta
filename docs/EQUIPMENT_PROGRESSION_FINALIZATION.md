@@ -136,27 +136,17 @@
 - **[LOCKED]** “T3보다 화려한 특수기 하나” 수준의 아이디어는 T4로 채택하지 않는다.
 - **[DISCARDED]** 이전 브레인스토밍의 공간 절단검, 거울/잔상 무기, 낙성창, 공허 사슬, 궤도 칼날, 지형 각성 망치, 바다 가르는 삼지창, 태양 대검, 시간 낫, 성좌 활, 거대/중량 망치, 하늘/중력 창, End/Genesis Pickaxe, Portal Staff, Fortress Shield, 변형 무기, Resonance/Gravity 계열, “무명” 적응형 무기, Return-point 장비 등은 현재 authoritative T4 roster가 아니다.
 
-## 6. Enhancement 최종 구조
+## 6. Enhancement 2.0 구조
 
-- **[LOCKED]** Paper 기준 강화 구조 유지.
-- **[LOCKED]** Vanilla equipment 최대 **+30**.
-- **[LOCKED]** T2 Elemental 최대 **+40**.
-- **[LOCKED]** T3 Special / T4 Endgame은 일반 Enhancement 대상이 아님.
-- **[LOCKED]** **Anvil + Upgrade Stone + Minecraft XP**.
-- **[LOCKED]** 성공률 **100%**.
-- **[LOCKED]** 실패 / 강화 하락 / 장비 파괴 / 실패 누적 보정 없음.
+- **[LOCKED]** T1 Vanilla와 T2 Elemental ordinary Enhancement는 모두 **+20**까지 성장한다.
+- **[LOCKED]** 연속 성장과 +5/+10/+15/+20의 결정론적 milestone을 사용한다. Promotion/별/랜덤 옵션은 복원하지 않는다.
+- **[LOCKED]** 성공률은 100%이며 실패, 하락, 파괴, reroll, pity, Coin 비용은 없다.
+- **[LOCKED]** T3는 향후 별도 progression을 사용하고 T4는 처치 point 기반 Grade/Mastery를 사용하므로 ordinary Enhancement 대상이 아니다.
+- **[LOCKED]** Anvil은 현재 임시 adapter이며 core transaction policy의 일부가 아니다.
+- **[PROVISIONAL]** 공격력 곡선, milestone bonus, 도구 보조 효과, armor 산술(풀세트 약 8% 이하), 재료/XP 비용은 플레이테스트 대상이다.
+- **[DEFERRED]** Bow draw speed, Crossbow reload speed와 Mace smash 공식은 26.3 integration 검증 및 balance 결정 후 구현한다.
 
-### [PROVISIONAL] 비용 baseline
-
-| 강화 구간 | Upgrade Stone | XP Level |
-|---|---:|---:|
-| +1~+5 | 1 | 1 |
-| +6~+10 | 1 | 2 |
-| +11~+20 | 1 | 3 |
-| +21~+30 | 1 | 4 |
-| +31~+40 | 1 | 5 |
-
-비용표는 플레이테스트와 획득 속도에 따라 조정할 수 있으며 Equipment 단계의 구조적 잠금 대상은 아니다.
+현재 임시 비용은 일반 단계 Stone 1/XP 0, milestone 단계 Stone 2/XP 1로 중앙 policy에 격리되어 있다. 최종 economy가 아니다.
 
 ## 7. 장비 제작 / 획득 비용 원칙
 

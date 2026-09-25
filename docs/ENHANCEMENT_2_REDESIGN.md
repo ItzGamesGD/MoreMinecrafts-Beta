@@ -125,7 +125,7 @@ ordinary Enhancement는 계속 **결정론적 progression**으로 유지한다.
 - **[PROVISIONAL TARGET]** 최대 강화 풀세트의 Enhancement 기반 추가 피해 감소는 실전 기준 **약 8% 이하**를 목표로 한다.
 - 균등 배분이라면 부위당 약 2%가 기준점이지만 이는 최종 formula가 아니다.
 - **[LOCKED]** vanilla armor, toughness, Protection enchantment, damage type, BYPASSES_ARMOR와의 상호작용을 포함해 계산한다.
-- **[DEFERRED]** enhancement reduction을 vanilla armor 계산 전/후 어디에 적용할지는 실제 수학 모델 및 테스트 후 확정한다.
+- **[PROVISIONAL]** 현재 구현은 BYPASSES_ARMOR를 제외하고 Enhancement reduction을 incoming damage에 곱한 뒤 vanilla armor/toughness mitigation을 호출한다. +20 부위당 2%, 4부위 8%가 현 상한이며 계산 순서와 수치는 플레이테스트 후 조정할 수 있다.
 - **[PROVISIONAL]** 나머지 성장 예산은 내구성, 넉백 저항 등 비-DPS/비-DR 축에 배분할 수 있다.
 
 ## 6. 티어별 성장 시스템
@@ -252,3 +252,9 @@ ordinary Enhancement의 기본 저장 상태는 가능한 한 하나만 사용�
 - T4 Grade/Mastery 수치 및 UI 세부
 
 이 항목들은 구조를 먼저 구현하고 실제 Minecraft 26.3 mechanics 및 플레이테스트 데이터를 확인한 뒤 닫는다.
+
+## 14. Minecraft 26.3 mapped-code inspection
+
+- `BowItem.releaseUsing`은 `getUseDuration(ItemStack, LivingEntity)`과 정적 `getPowerForTime(int)`을 통해 draw power를 계산한다. 기술적으로 좁은 hook은 가능하지만 client/server use animation과 power 계산을 함께 보존해야 하므로 이번 PR에서는 속도를 변경하지 않는다.
+- `CrossbowItem`은 정적 `getChargeDuration(ItemStack, LivingEntity)`을 release 및 charging sound/progress 경로에서 사용한다. Bow와 다른 authoritative 경로이며, 수치 결정 전에는 주입하지 않는다.
+- `MaceItem.getAttackDamageBonus(Entity, float, DamageSource)`가 fall distance를 읽고 `EnchantmentHelper.modifyFallBasedDamage`를 호출하는 smash bonus 계산 지점이다. `MACE_SMASH_DAMAGE`와 milestone descriptor를 integration seam으로 만들었지만 최종 공식을 만들지 않았다.
