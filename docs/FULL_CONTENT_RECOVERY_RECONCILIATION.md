@@ -96,26 +96,28 @@ Paper carried a much broader element/carrier matrix:
 - Ice Sword / Ice Bow
 - Magic/Dark Sword / Bow
 
-### Current authoritative roster: six
+### Current authoritative roster: seven items across six elemental families
 
 - Fire: Flame Sword
 - Water: Flowing Water Sword
 - Wind: Wind Sword
 - Wind: Wind Archer Bow
 - Earth: Earth Mace
+- Lightning: Lightning Sword
 - Dark Energy: Staff
 - no T2 Ice item
 
 ### Reconciliation
 
-- Flame Sword: `CURRENT_IMPLEMENTED`
+- Flame Sword: `CURRENT_IMPLEMENTED_PROTOTYPE`; current splash/Cleave behavior is superseded by the revised provisional combat design
 - Fire Bow: `REMOVED_FROM_BASELINE`
 - Water Sword: `CURRENT_LOCKED_NOT_IMPLEMENTED`
 - Poseidon Spear: `RECLASSIFIED` to T3 Special
-- Wind Sword: `CURRENT_IMPLEMENTED`
+- Wind Sword: `CURRENT_IMPLEMENTED_PROTOTYPE`; current two-active structure is not the final one-active design
 - Wind Bow: `CURRENT_LOCKED_NOT_IMPLEMENTED`
 - Earth Sword / Earth Bow: `REMOVED_FROM_BASELINE`
 - Earth Mace: `CURRENT_LOCKED_NOT_IMPLEMENTED`
+- Lightning Sword: `CURRENT_LOCKED_NOT_IMPLEMENTED`; it is a new Fabric design without a matching final Paper T2 implementation
 - Ice Sword / Ice Bow: `REMOVED_FROM_T2_BASELINE`; Ice identity survives as T3 Frozen Sword
 - Dark/Magic Sword / Bow: `CHANGED / RECLASSIFIED` to one Dark Energy Staff
 
@@ -723,7 +725,7 @@ Removed from current baseline but **not** proven permanently retired:
 ## 19. Consolidated major changes/reclassifications
 
 1. Promotion-heavy equipment growth -> T1/T2/T3/T4 categories with independent enhancement/coating/enchantment.
-2. Broad elemental carrier matrix -> six T2 items.
+2. Broad elemental carrier matrix -> seven T2 items across six elemental families.
 3. Poseidon Spear -> T3 Special.
 4. Dark Energy Sword/Bow -> Staff.
 5. T2 Ice removed while T3 Frozen Sword survives.
