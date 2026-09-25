@@ -23,13 +23,53 @@
 | Wind | 바람을 가르는 검 | Sword |
 | Wind | 바람궁수의 활 | Bow |
 | Earth | 대지의 철퇴 | Mace |
+| Lightning | 번개의 검 | Sword |
 | Dark Energy | 마기가 깃든 지팡이 | Staff |
 | Ice | 없음 | 없음 |
 
-- **[LOCKED]** 총 6종, 5개 속성 계열.
-- **[LOCKED]** T2는 Paper에서 정립된 각 장비의 핵심 gameplay identity와 능력 컨셉을 계승한다.
+- **[LOCKED]** 총 7종, 6개 속성 계열.
+- **[LOCKED]** T2는 Paper에서 정립된 각 장비의 핵심 gameplay identity와 능력 컨셉을 계승하되, 최종 무기 타입과 전투 구조는 Fabric 설계에서 재구성할 수 있다.
+- **[PROVISIONAL]** T2 각 무기는 기본적으로 **고유 액티브 스킬 1개 + 패시브/기타 고유 능력** 구조를 목표로 한다. 정확한 발동 조건과 수치는 후속 설계/플레이테스트에서 조정 가능하다.
+- **[PROVISIONAL]** 모든 T2 원소검은 기본 공격 자체에 해당 원소를 식별할 수 있는 전용 VFX를 가진다. 기본 타격 VFX는 작게, 패시브 발동과 액티브 스킬은 단계적으로 더 큰 연출을 사용한다.
 - **[IMPLEMENTATION]** Paper 코드를 그대로 이식하지 않는다. 모델, 텍스처, 애니메이션, VFX/SFX, 정확한 공격력·범위·쿨다운·지속시간, 입력 키, 판정 방식은 Fabric 구현 단계에서 재설계한다.
 - **[IMPLEMENTATION]** Earth와 Dark Energy는 carrier weapon type이 바뀌었으므로 기존 능력 정체성을 새 무기 타입에 맞게 재구성한다.
+
+### 2.1 T2 원소검 전투 설계 — 임시 확정
+
+#### Fire — 불꽃검
+- **[PROVISIONAL]** 기본 공격 적중 시 화염 계열 VFX가 발생한다.
+- **[PROVISIONAL]** 별도 쿨다운 없이 **10회 공격 적중마다** 불꽃이 가로로 크게 휩쓰는 연출과 함께 범위 공격이 발동한다.
+- **[PROVISIONAL]** 우클릭 액티브는 **30초 쿨다운**의 강력한 **사선 화염 베기**다. 일반 10타 패시브보다 명확히 강한 일격/범위 공격으로 설계한다.
+- **[SUPERSEDED-PROTOTYPE]** 현재 Fabric의 Flame Sword splash/Flame Cleave 구현은 기반 프로토타입이며, 위 설계에 맞춰 후속 구현에서 재조정한다.
+
+#### Water — 흐르는 물의 검
+- **[PROVISIONAL]** 기본 공격속도가 빠르며, 기본 공격에 물/수류 계열 VFX가 발생한다.
+- **[PROVISIONAL]** 적 처치 시 체력을 소량 회복한다.
+- **[PROVISIONAL]** 우클릭 시 먼저 위로 튀어오른 뒤 바라보는 방향으로 내려찍고, 착지/타격 지점 기준 약 **2블록 앞에 강력한 물기둥**을 소환한다.
+- **[BALANCE]** 액티브 쿨다운, 이동량, 물기둥 피해량/범위는 후속 밸런싱 대상이다.
+
+#### Wind — 바람을 가르는 검
+- **[PROVISIONAL]** 기본 공격속도가 빠르며, 기본 공격에 바람 계열 VFX가 발생한다.
+- **[PROVISIONAL]** **10회 공격 적중마다** 바람이 넓게 휘날리는 범위 공격이 발동한다.
+- **[PROVISIONAL]** 범위에 닿은 적 각각에 Sweep Attack 계열 효과를 소환하는 방식으로 빠른 다중 참격 느낌을 표현한다.
+- **[NEEDS_DESIGN_DECISION]** 최종 액티브 스킬 1개는 아직 미확정이다.
+- **[SUPERSEDED-PROTOTYPE]** 현재 Fabric의 Wind Blade + Wind Step 2액티브 구조는 최종 확정 설계가 아니며, 1액티브 원칙에 맞춰 후속 단계에서 정리한다.
+
+#### Lightning — 번개의 검
+- **[PROVISIONAL]** 기본 공격에 전기/스파크 계열 VFX가 발생한다.
+- **[PROVISIONAL]** 연속 공격 적중으로 전하를 누적하고, 일정 누적치에 도달하면 추가 번개 피해가 발생한다.
+- **[PROVISIONAL]** 고유 액티브는 **뇌격참**이다. 짧은 전진/돌진성 베기와 함께 전방에 순간적인 번개 피해를 집중하는 burst형 스킬로 설계한다.
+- **[BALANCE]** 전하 임계치, 추가 피해, 액티브 쿨다운과 이동량은 후속 밸런싱 대상이다.
+
+#### T2 검 공통 VFX 원칙
+- **[PROVISIONAL]** 기본 공격 VFX는 원소 정체성을 보여주되 시야를 가리지 않는 소규모 연출로 제한한다.
+- **[PROVISIONAL]** 연출 위계는 **기본 공격 < 패시브/누적 발동 < 액티브 스킬** 순으로 커진다.
+- **[IMPLEMENTATION]** 실제 particle 종류, trail/mesh/model, sound, 색상과 성능 예산은 Fabric 구현 단계에서 확정한다.
+
+#### 아직 별도 설계가 필요한 T2
+- **[NEEDS_DESIGN_DECISION]** 바람궁수의 활: Paper의 homing identity는 유지 후보이나 최종 패시브/액티브 발동 구조는 미확정.
+- **[NEEDS_DESIGN_DECISION]** 대지의 철퇴: Paper의 Earth 둔화/넉백 identity를 Mace의 smash/충격/지면 제어 언어로 재구성해야 한다.
+- **[DEFERRED]** 마기가 깃든 지팡이: Paper의 약화/흡혈/Wither identity를 참고하되 현재 설계는 보류한다.
 
 ## 3. T3 Special 최종 roster
 
