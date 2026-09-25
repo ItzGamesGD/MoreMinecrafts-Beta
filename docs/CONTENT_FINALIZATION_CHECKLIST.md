@@ -80,8 +80,16 @@
 - [LOCKED] Coin / Fragment 기반 장비 성장은 폐기.
 
 ## 사용자 결정 필요
-- [LOCKED] T2 Elemental roster: 불꽃검 / 흐르는 물의 검 / 바람을 가르는 검 / 바람궁수의 활 / 대지의 철퇴 / 마기가 깃든 지팡이. Ice T2 장비는 없음.
-- [LOCKED] T2 기본 타입: Fire=Sword, Water=Sword, Wind=Sword+Bow, Earth=Mace, Ice=없음, Dark Energy=Staff.
+- [LOCKED] T2 Elemental roster: 불꽃검 / 흐르는 물의 검 / 바람을 가르는 검 / 바람궁수의 활 / 대지의 철퇴 / 번개의 검 / 마기가 깃든 지팡이. Ice T2 장비는 없음.
+- [LOCKED] T2 기본 타입: Fire=Sword, Water=Sword, Wind=Sword+Bow, Earth=Mace, Lightning=Sword, Ice=없음, Dark Energy=Staff.
+- [PROVISIONAL] T2 각 무기는 고유 액티브 스킬 1개 + 패시브/기타 고유 능력 구조를 목표로 한다.
+- [PROVISIONAL] 모든 T2 원소검 기본 공격에는 해당 원소를 식별하는 전용 VFX를 적용한다. 연출 규모는 기본 공격 < 패시브/누적 발동 < 액티브 순으로 둔다.
+- [PROVISIONAL] 불꽃검: 기본 화염 VFX, 10회 공격 적중마다 가로 화염 휩쓸기 범위공격, 우클릭 30초 쿨다운의 강력한 사선 화염 베기.
+- [PROVISIONAL] 흐르는 물의 검: 빠른 공격속도 + 처치 시 소량 회복, 우클릭 시 상승 후 시선 방향으로 내려찍고 약 2블록 앞에 강력한 물기둥 소환.
+- [PROVISIONAL] 바람을 가르는 검: 빠른 공격속도 + 기본 바람 VFX, 10회 공격 적중마다 넓은 바람 범위공격과 범위 내 적별 Sweep Attack 연출. 최종 액티브 1개는 미확정.
+- [PROVISIONAL] 번개의 검: 기본 전기 VFX, 연속 타격 전하 누적 후 추가 번개 피해, 액티브 뇌격참(짧은 전진/돌진성 베기 + 순간 번개 burst). 세부 수치/쿨다운은 미확정.
+- [NEEDS_DESIGN_DECISION] 바람궁수의 활과 대지의 철퇴는 Paper identity를 기준으로 패시브/액티브 구조를 추가 확정해야 한다.
+- [DEFERRED] 마기가 깃든 지팡이 설계는 보류.
 - [IMPLEMENTATION] T2는 Paper 능력의 핵심 컨셉을 계승하되, 모델링/VFX/SFX/정확한 능력치/쿨다운/범위/키 입력/세부 판정은 Fabric 구현 단계에서 재설계.
 - [LOCKED] T4 Endgame baseline = 무극검 / 천궁 / 천서 3종. 세계수 활은 baseline 밖의 OPTIONAL 후보이며 필요 시 T3로 재분류 가능.
 - [LOCKED] T1/T2/T3/T4는 서로 독립적인 설계 카테고리이며 진화/승급 트리가 아니다. 특정 recipe/해금 조건에서 다른 Tier 장비를 요구할 수는 있으나 장비 상속은 아니다.
