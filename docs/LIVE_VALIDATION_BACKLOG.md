@@ -3,6 +3,8 @@
 Automated build and smoke coverage does not replace the following human gameplay checks. Entries
 remain **LIVE PENDING** until a human records an observed result.
 
+> **Checkpoint 11 enhancement validation note:** Stage 10B / Enhancement 2.0 is the current authoritative enhancement acceptance target. The older Stage 3/4 enhancement sections below are retained as historical validation debt for the superseded pre-2.0 implementation and MUST NOT be interpreted as current +30/+40, +0.65-per-level, or 12%-armor acceptance criteria. Enhancement 2.0 remains intentionally **LIVE PENDING** until human gameplay validation is recorded.
+
 ## Stage 10A - Shock Potion - LIVE PENDING
 
 - [ ] **LIVE PENDING (Stage 10A):** Thick Potion + Copper Ingot brews Shock Potion.
