@@ -8,9 +8,7 @@
         "predicate_type": "minecraft:tag_match",
         "tag": "minecraft:base_stone_nether"
       },
-      "state": {
-        "Name": "moreminecrafts:adamantium_debris"
-      }
+      "state": "moreminecrafts:adamantium_debris"
     }
   ]
 }

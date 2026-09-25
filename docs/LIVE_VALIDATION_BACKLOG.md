@@ -456,3 +456,18 @@ cooldowns, projectile references, boss-bar viewers, and the active schedule are 
 - [ ] Verify Trident melee, thrown, Loyalty return, and persistence behavior.
 - [ ] Verify four +20 armor pieces reduce non-bypass incoming damage by 8% before vanilla armor/toughness, while BYPASSES_ARMOR remains unchanged.
 - [ ] Compare enhanced tools with no Efficiency and Efficiency V on representative stone, ore, and varied-hardness blocks; confirm ineffective blocks retain vanilla speed and normal blocks are not universally instant-break.
+
+## Stage 11 runtime/design stabilization LIVE PENDING
+
+1. Create/load a world successfully; inspect the complete server log for no registry/datapack fatal errors.
+2. Verify Titanium, Tungsten, Mythril, Etherium, and Adamantium ore features can load/generate.
+3. Enhance ordinary equipment +0 -> +1 and confirm the current provisional minimum cost is 1 XP.
+4. Compare vanilla Mace same-height smashes at +0/+10/+20 and test milestone secondary area/caps.
+5. Catch Bluegill, Trout, and Pike; verify Reel unlocks, Minnow only changes species weighting, Crankbait
+   only changes Grade weighting, and each stack shows species/rarity/Grade/Length.
+6. Obtain all seven T2 weapons from the Combat tab.
+7. Trigger Flame's tenth-hit sweep, then right-click its 30-second-cooldown diagonal slash.
+8. Test Water kill heal and right-click movement/water-column damage.
+9. Trigger Wind's tenth-hit sweep, right-click Wind Blade, and confirm Wind Step cannot activate.
+10. Fire Wind Archer's Bow; test Earth Mace, Lightning Sword, and ranged Dark Energy Staff behavior.
+11. Leave/reload where relevant and verify server-owned cooldown/state persistence; report balance anomalies.

@@ -96,19 +96,22 @@ jobs:
 
           cat server-smoke.log
 
-          grep -F "Registry probe OK: moreminecrafts:foundation_probe" server-smoke.log
-          grep -F "Item registration OK: moreminecrafts:enhancement_stone" server-smoke.log
-          grep -F "MoreMinecrafts common initialization complete." server-smoke.log
-
           if [ "$exit_code" -ne 0 ] && [ "$exit_code" -ne 124 ]; then
             echo "runServer exited unexpectedly with code $exit_code"
             exit "$exit_code"
           fi
 
+          # This is deliberately a post-datapack marker, not a mod-initializer marker.
+          grep -E 'Done \([0-9.]+s\)! For help, type "help"' server-smoke.log
+          if grep -Eiq 'Registry loading errors|Failed to load datapacks|Failed to load registries|Registry Loading|Errors in currently selected data packs|Exception in server tick loop|Could not load level' server-smoke.log; then
+            echo "Fatal registry/datapack/server startup marker found"
+            exit 1
+          fi
+
           echo "Server runtime smoke test passed."
 
 
-  client-smoke:
+  client-initialization:
     runs-on: ubuntu-latest
     needs: server-smoke
     timeout-minutes: 8
@@ -131,7 +134,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
 
-      - name: Run Fabric client smoke test
+      - name: Run Fabric client initializer/mixin test (not a graphical readiness test)
         shell: bash
         run: |
           set +e
@@ -146,9 +149,14 @@ jobs:
           grep -F "MoreMinecrafts common initialization complete." client-smoke.log
           grep -F "MoreMinecrafts client initialization complete." client-smoke.log
 
+          if grep -Eiq 'Mixin apply failed|Mixin transformation failed|Registry loading errors|Failed to load datapacks|Failed to load registries' client-smoke.log; then
+            echo "Fatal initializer/mixin/data marker found"
+            exit 1
+          fi
+
           if [ "$exit_code" -ne 0 ] && [ "$exit_code" -ne 124 ]; then
             echo "runClient exited unexpectedly with code $exit_code"
             exit "$exit_code"
           fi
 
-          echo "Client runtime smoke test passed."
+          echo "Client initialization/mixin test passed; graphical readiness is not claimed."

@@ -33,6 +33,11 @@ class EnhancementCatalogTest {
         assertEquals(EnhancementCategory.ELEMENTAL, wind.category());
         assertEquals(EnhancementProfile.SWORD, flame.profile());
         assertEquals(EnhancementProfile.SWORD, wind.profile());
+        for (String id : new String[]{"flame_sword", "flowing_water_sword", "wind_sword",
+                "wind_archers_bow", "earth_mace", "lightning_sword", "dark_energy_staff"}) {
+            assertEquals(EnhancementCategory.ELEMENTAL,
+                    EnhancementCatalog.customDefinition(ModIds.id(id)).orElseThrow().category());
+        }
         assertTrue(EnhancementCatalog.customDefinition(ModIds.id("not_registered")).isEmpty());
     }
 

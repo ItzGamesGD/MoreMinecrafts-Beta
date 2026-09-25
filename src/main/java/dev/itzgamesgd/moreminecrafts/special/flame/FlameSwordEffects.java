@@ -7,11 +7,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 
 public final class FlameSwordEffects {
-    public static final double SPLASH_RADIUS = 2.5D;
+    public static final double SPLASH_RADIUS = 3.0D;
     public static final float SPLASH_FRACTION = 0.35F;
     /**
      * The 26.3 Item#hurtEnemy callback confirms a successful hit but does not expose resolved damage.
-     * This therefore mirrors the sword's nine-point prototype attack value, before armor mitigation.
+     * This therefore is a PROVISIONAL passive sweep baseline, before armor mitigation.
      */
     public static final float PROTOTYPE_DIRECT_DAMAGE = 9.0F;
 

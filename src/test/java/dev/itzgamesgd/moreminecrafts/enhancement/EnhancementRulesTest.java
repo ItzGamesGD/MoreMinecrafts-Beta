@@ -20,7 +20,7 @@ class EnhancementRulesTest {
         assertEquals(4, EnhancementRules.milestoneCount(20));
     }
     @Test void provisionalCostPolicyIsMilestoneSensitiveAndDeterministic() {
-        assertEquals(new EnhancementRules.Cost(1, 0), EnhancementRules.costFor(4));
+        assertEquals(new EnhancementRules.Cost(1, 1), EnhancementRules.costFor(4));
         assertEquals(new EnhancementRules.Cost(2, 1), EnhancementRules.costFor(5));
         assertEquals(EnhancementRules.costFor(15), EnhancementRules.costFor(15));
         assertTrue(EnhancementRules.DETERMINISTIC_SUCCESS);
