@@ -42,8 +42,8 @@ class FlameCombatMathTest {
     }
 
     @Test
-    void abilityContractUsesStablePrototypeValues() {
+    void abilityContractUsesAuthoritativeCooldown() {
         assertEquals("moreminecrafts:flame_cleave", FlameCleaveAbility.ID.toString());
-        assertEquals(100, FlameCleaveAbility.COOLDOWN_TICKS);
+        assertEquals(600, FlameCleaveAbility.COOLDOWN_TICKS);
     }
 }
