@@ -55,6 +55,7 @@ Use these before future equipment-growth work:
 - `docs/CONTENT_FINALIZATION_CHECKLIST.md`
 - `docs/FULL_CONTENT_RECOVERY_RECONCILIATION.md`
 - `docs/LIVE_VALIDATION_BACKLOG.md`
+- `docs/T2_ELEMENTAL_RECONCILIATION.md` (Stage 11 Paper/Fabric mapping and prototype delta)
 
 ## 4. Deferred by design
 
