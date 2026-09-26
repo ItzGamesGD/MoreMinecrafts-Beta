@@ -202,6 +202,17 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 6):** No models or textures are missing.
 - [ ] **LIVE PENDING (Stage 6):** Materials and blocks are discoverable in the intended creative tabs.
 
+### Material resource art pass (file-level implementation)
+
+The first native pixel-art resource pass uses hand-authored 32x32 PNGs and the existing Minecraft 26.3 item-definition format. File paths and JSON references have been audited; client rendering remains LIVE PENDING.
+- IMPLEMENTED (file-level): Titanium textures and model links.
+- IMPLEMENTED (file-level): Tungsten textures and model links.
+- IMPLEMENTED (file-level): Mythril textures and model links.
+- IMPLEMENTED (file-level): Etherium textures and model links.
+- IMPLEMENTED (file-level): Adamantium Debris, Adamantium Block, and existing Adamantium Ingot textures and model links.
+- IMPLEMENTED (file-level): Enhancement Stone item texture and model link.
+- LIVE PENDING: Inspect all material block faces and item icons in a running Minecraft client; confirm no missing texture or UV issues.
+
 ### World generation
 - [ ] **LIVE PENDING (Stage 6):** Titanium generates in the Overworld from Y -16 through 80 near its intended distribution.
 - [ ] **LIVE PENDING (Stage 6):** Tungsten generates in the Overworld from Y -48 through 32 near its intended distribution.
