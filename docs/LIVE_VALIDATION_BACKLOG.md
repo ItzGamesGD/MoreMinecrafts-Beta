@@ -202,6 +202,16 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 6):** No models or textures are missing.
 - [ ] **LIVE PENDING (Stage 6):** Materials and blocks are discoverable in the intended creative tabs.
 
+### Approved material texture integration
+
+The final 23 human-approved 32x32 PNG files from the task attachment are copied byte-for-byte into the native Minecraft resource namespace. See [APPROVED_MATERIAL_TEXTURES.md](APPROVED_MATERIAL_TEXTURES.md) for source checksums, destination paths, registration audit, and unused deepslate variants.
+
+- IMPLEMENTED (file-level): Titanium, Tungsten, Mythril, Etherium, Adamantium, and Enhancement Stone approved textures.
+- IMPLEMENTED (file-level): Existing registered blocks, block item definitions, and flat item models resolve through the `moreminecrafts` namespace.
+- PRESERVED: Adamantium's existing registered item ID remains `adamantium_ingot`; its item model references the approved `adamantium.png` texture.
+- INCLUDED, CURRENTLY UNUSED: Five deepslate/debris-deepslate textures because no matching deepslate blocks are registered.
+- LIVE PENDING: Inspect all material block faces and item icons in a running Minecraft client; confirm no missing texture or UV issues.
+
 ### World generation
 - [ ] **LIVE PENDING (Stage 6):** Titanium generates in the Overworld from Y -16 through 80 near its intended distribution.
 - [ ] **LIVE PENDING (Stage 6):** Tungsten generates in the Overworld from Y -48 through 32 near its intended distribution.
