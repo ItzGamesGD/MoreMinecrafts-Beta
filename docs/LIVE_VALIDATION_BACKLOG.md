@@ -202,15 +202,14 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 6):** No models or textures are missing.
 - [ ] **LIVE PENDING (Stage 6):** Materials and blocks are discoverable in the intended creative tabs.
 
-### Material resource art pass (file-level implementation)
+### Approved material texture integration
 
-The first native pixel-art resource pass uses hand-authored 32x32 PNGs and the existing Minecraft 26.3 item-definition format. File paths and JSON references have been audited; client rendering remains LIVE PENDING.
-- IMPLEMENTED (file-level): Titanium textures and model links.
-- IMPLEMENTED (file-level): Tungsten textures and model links.
-- IMPLEMENTED (file-level): Mythril textures and model links.
-- IMPLEMENTED (file-level): Etherium textures and model links.
-- IMPLEMENTED (file-level): Adamantium Debris, Adamantium Block, and existing Adamantium Ingot textures and model links.
-- IMPLEMENTED (file-level): Enhancement Stone item texture and model link.
+The final 23 human-approved 32x32 PNG files from the task attachment are copied byte-for-byte into the native Minecraft resource namespace. See [APPROVED_MATERIAL_TEXTURES.md](APPROVED_MATERIAL_TEXTURES.md) for source checksums, destination paths, registration audit, and unused deepslate variants.
+
+- IMPLEMENTED (file-level): Titanium, Tungsten, Mythril, Etherium, Adamantium, and Enhancement Stone approved textures.
+- IMPLEMENTED (file-level): Existing registered blocks, block item definitions, and flat item models resolve through the `moreminecrafts` namespace.
+- PRESERVED: Adamantium's existing registered item ID remains `adamantium_ingot`; its item model references the approved `adamantium.png` texture.
+- INCLUDED, CURRENTLY UNUSED: Five deepslate/debris-deepslate textures because no matching deepslate blocks are registered.
 - LIVE PENDING: Inspect all material block faces and item icons in a running Minecraft client; confirm no missing texture or UV issues.
 
 ### World generation
