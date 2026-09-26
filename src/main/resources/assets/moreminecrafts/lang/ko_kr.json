@@ -1,0 +1,19 @@
+{
+  "item.moreminecrafts.crucian_carp": "붕어",
+  "item.moreminecrafts.common_carp": "잉어",
+  "item.moreminecrafts.amur_catfish": "메기",
+  "item.moreminecrafts.rainbow_trout": "무지개송어",
+  "item.moreminecrafts.largemouth_bass": "큰입배스",
+  "item.moreminecrafts.northern_pike": "파이크",
+  "item.moreminecrafts.atlantic_salmon": "대서양연어",
+  "item.moreminecrafts.yellowfin_tuna": "황다랑어",
+  "item.moreminecrafts.arapaima": "피라루쿠",
+  "item.moreminecrafts.swordfish": "황새치",
+  "item.moreminecrafts.blue_marlin": "블루마린",
+  "item.moreminecrafts.beluga_sturgeon": "벨루가 철갑상어",
+  "menu.moreminecrafts.fishing_equipment": "낚싯대 장비",
+  "tooltip.moreminecrafts.fish.grade": "등급: %s",
+  "tooltip.moreminecrafts.fish.length": "길이: %s cm",
+  "tooltip.moreminecrafts.fish.weight": "무게: %s kg",
+  "message.moreminecrafts.fishing.minnow_required": "해당 물고기는 %s Tier의 미노우를 요구합니다."
+}
