@@ -15,9 +15,17 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public final class ModBlocks {
     public static final Block TITANIUM_ORE = ore("titanium_ore", UniformInt.of(0, 0), 3.0F);
+    public static final Block DEEPSLATE_TITANIUM_ORE =
+            ore("deepslate_titanium_ore", UniformInt.of(0, 0), 4.5F);
     public static final Block TUNGSTEN_ORE = ore("tungsten_ore", UniformInt.of(0, 0), 3.5F);
+    public static final Block DEEPSLATE_TUNGSTEN_ORE =
+            ore("deepslate_tungsten_ore", UniformInt.of(0, 0), 5.0F);
     public static final Block MYTHRIL_ORE = ore("mythril_ore", UniformInt.of(3, 7), 4.0F);
+    public static final Block DEEPSLATE_MYTHRIL_ORE =
+            ore("deepslate_mythril_ore", UniformInt.of(3, 7), 5.5F);
     public static final Block ETHERIUM_ORE = ore("etherium_ore", UniformInt.of(3, 7), 4.0F);
+    public static final Block DEEPSLATE_ETHERIUM_ORE =
+            ore("deepslate_etherium_ore", UniformInt.of(3, 7), 5.5F);
     public static final Block ADAMANTIUM_DEBRIS = block("adamantium_debris", 30.0F, 1200.0F);
     public static final Block TITANIUM_BLOCK = block("titanium_block", 5.0F, 6.0F);
     public static final Block TUNGSTEN_BLOCK = block("tungsten_block", 5.0F, 6.0F);
@@ -49,6 +57,6 @@ public final class ModBlocks {
     }
 
     public static void initialize() {
-        MoreMinecrafts.LOGGER.info("Registered five Stage 6 mineral blocks.");
+        MoreMinecrafts.LOGGER.info("Registered Stage 6 mineral blocks, including Overworld deepslate ore variants.");
     }
 }

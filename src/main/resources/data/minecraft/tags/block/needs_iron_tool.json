@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "moreminecrafts:titanium_ore",
+    "moreminecrafts:deepslate_titanium_ore",
     "moreminecrafts:titanium_block",
     "moreminecrafts:tungsten_block",
     "moreminecrafts:mythril_block",

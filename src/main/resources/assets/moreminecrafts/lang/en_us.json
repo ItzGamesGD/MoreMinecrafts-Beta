@@ -51,5 +51,9 @@
   "item.moreminecrafts.minnow_2": "Minnow II",
   "item.moreminecrafts.minnow_3": "Minnow III",
   "item.moreminecrafts.minnow_4": "Minnow IV",
-  "item.moreminecrafts.minnow_5": "Minnow V"
+  "item.moreminecrafts.minnow_5": "Minnow V",
+  "block.moreminecrafts.deepslate_titanium_ore": "Deepslate Titanium Ore",
+  "block.moreminecrafts.deepslate_tungsten_ore": "Deepslate Tungsten Ore",
+  "block.moreminecrafts.deepslate_mythril_ore": "Deepslate Mythril Ore",
+  "block.moreminecrafts.deepslate_etherium_ore": "Deepslate Etherium Ore"
 }
