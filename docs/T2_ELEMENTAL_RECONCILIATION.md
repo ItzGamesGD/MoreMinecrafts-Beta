@@ -1,5 +1,9 @@
 # Stage 11 T2 Elemental reconciliation
 
+> **Checkpoint 12 overlay:** `CHECKPOINT_12.md` supersedes this implementation-preparation snapshot where
+> runtime status differs. Fire, Water, Wind Sword, Lightning, and Earth contracts are now implemented with
+> provisional values; Wind Bow is intentionally omitted and Staff remains deferred scaffolding.
+
 > **Status:** implementation-preparation record.  The roster statements marked **LOCKED** come from
 > `EQUIPMENT_PROGRESSION_FINALIZATION.md`; Paper behavior is identity evidence, not authority over
 > later Fabric decisions.  No row in this document authorizes a recipe or an unresolved balance value.

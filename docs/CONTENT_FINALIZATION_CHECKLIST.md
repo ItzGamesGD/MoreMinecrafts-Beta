@@ -86,9 +86,10 @@
 - [PROVISIONAL] 모든 T2 원소검 기본 공격에는 해당 원소를 식별하는 전용 VFX를 적용한다. 연출 규모는 기본 공격 < 패시브/누적 발동 < 액티브 순으로 둔다.
 - [PROVISIONAL] 불꽃검: 기본 화염 VFX, 10회 공격 적중마다 가로 화염 휩쓸기 범위공격, 우클릭 30초 쿨다운의 강력한 사선 화염 베기.
 - [PROVISIONAL] 흐르는 물의 검: 빠른 공격속도 + 처치 시 소량 회복, 우클릭 시 상승 후 시선 방향으로 내려찍고 약 2블록 앞에 강력한 물기둥 소환.
-- [PROVISIONAL] 바람을 가르는 검: 빠른 공격속도 + 기본 바람 VFX, 10회 공격 적중마다 넓은 바람 범위공격과 범위 내 적별 Sweep Attack 연출. 최종 액티브 1개는 미확정.
-- [PROVISIONAL] 번개의 검: 기본 전기 VFX, 연속 타격 전하 누적 후 추가 번개 피해, 액티브 뇌격참(짧은 전진/돌진성 베기 + 순간 번개 burst). 세부 수치/쿨다운은 미확정.
-- [NEEDS_DESIGN_DECISION] 바람궁수의 활과 대지의 철퇴는 Paper identity를 기준으로 패시브/액티브 구조를 추가 확정해야 한다.
+- [IMPLEMENTED / PROVISIONAL VALUES] 바람을 가르는 검: 빠른 공격속도 + 기본 바람 VFX, 10회 공격 적중마다 넓은 바람 범위공격과 적별 Sweep Attack 연출. 단일 우클릭 액티브는 Wind Blade이며 Wind Step은 제거됨.
+- [IMPLEMENTED / PROVISIONAL VALUES] 번개의 검: 기본 전기 VFX, 시간 감소 없는 성공 5타 전하/발동 후 초기화, 우클릭 뇌격참(짧은 전진 + 전방 burst).
+- [INTENTIONALLY OMITTED] 바람궁수의 활 homing/steering은 Checkpoint 12 범위에서 의도적으로 미구현.
+- [IMPLEMENTED / PROVISIONAL VALUES] 대지의 철퇴는 Smash 전용 전방 균열 패시브와 우클릭 광역 Earth Shatter를 사용함.
 - [DEFERRED] 마기가 깃든 지팡이 설계는 보류.
 - [IMPLEMENTATION] T2는 Paper 능력의 핵심 컨셉을 계승하되, 모델링/VFX/SFX/정확한 능력치/쿨다운/범위/키 입력/세부 판정은 Fabric 구현 단계에서 재설계.
 - [LOCKED] T4 Endgame baseline = 무극검 / 천궁 / 천서 3종. 세계수 활은 baseline 밖의 OPTIONAL 후보이며 필요 시 T3로 재분류 가능.

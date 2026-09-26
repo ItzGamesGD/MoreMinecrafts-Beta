@@ -1,5 +1,42 @@
 # Cumulative live validation backlog
 
+## Checkpoint 12 — T2 Equipment Completion — LIVE PENDING
+
+### Fire Sword
+- [ ] **LIVE PENDING (Checkpoint 12):** Ordinary valid hits show only lightweight fire/ember VFX.
+- [ ] **LIVE PENDING (Checkpoint 12):** Exactly every 10 valid primary hits triggers one passive; misses, invalid hits, passive damage, and duplicate hooks do not advance it.
+- [ ] **LIVE PENDING (Checkpoint 12):** The horizontal fire sweep reaches intended targets once and does not recursively increment its counter.
+- [ ] **LIVE PENDING (Checkpoint 12):** Right click creates the stronger diagonal flame slash and the cooldown lasts 30 seconds.
+- [ ] **LIVE PENDING (Checkpoint 12):** Enhancement modifies the ordinary attack once and is not duplicated into explicit passive/active damage.
+
+### Water Sword
+- [ ] **LIVE PENDING (Checkpoint 12):** Right click launches upward, then starts a directed dive with correct multiplayer motion synchronization.
+- [ ] **LIVE PENDING (Checkpoint 12):** No pillar resolves in air; it resolves only after an actual airborne-to-ground collision.
+- [ ] **LIVE PENDING (Checkpoint 12):** The strong vertical pillar appears approximately two blocks ahead and applies intended AoE once.
+- [ ] **LIVE PENDING (Checkpoint 12):** A valid enemy kill heals the provisional amount, and the fast attack-speed feel is correct.
+
+### Wind Sword
+- [ ] **LIVE PENDING (Checkpoint 12):** Fast attack speed and cheap ordinary wind VFX are readable.
+- [ ] **LIVE PENDING (Checkpoint 12):** Exactly every 10 valid primary hits triggers one damaging broad AoE with Sweep Attack-like effects at affected targets.
+- [ ] **LIVE PENDING (Checkpoint 12):** Right-click Wind Blade is the sole active and respects block clipping.
+- [ ] **LIVE PENDING (Checkpoint 12):** Wind Step no longer activates through the final item kit or old F/secondary paths.
+
+### Lightning Sword
+- [ ] **LIVE PENDING (Checkpoint 12):** Exactly five successful primary hits trigger one bonus lightning hit and reset the counter.
+- [ ] **LIVE PENDING (Checkpoint 12):** Waiting does not decay charge; reset occurs only on proc or the documented server-process lifecycle boundary.
+- [ ] **LIVE PENDING (Checkpoint 12):** Right click performs Lightning Slash movement and concentrated forward burst hit detection.
+- [ ] **LIVE PENDING (Checkpoint 12):** Ordinary sparks, passive burst, and active VFX have increasing visual weight without duplicate client/server damage.
+
+### Earth Mace
+- [ ] **LIVE PENDING (Checkpoint 12):** Only a valid vanilla Mace Smash Attack triggers Earth Fracture.
+- [ ] **LIVE PENDING (Checkpoint 12):** The narrow fracture travels forward along the ground, damages/slows intended targets once, and never breaks blocks.
+- [ ] **LIVE PENDING (Checkpoint 12):** Grounded right click activates the broader forward Earth Shatter ground-control cone.
+- [ ] **LIVE PENDING (Checkpoint 12):** Earth Shatter displacement/short launch is strong, stable, and affects only intended targets.
+
+### Explicit omissions
+- [ ] **LIVE PENDING (Checkpoint 12):** Wind Archer's Bow remains intentionally unfinished and has no accidental homing, steering, or auto-aim.
+- [ ] **LIVE PENDING (Checkpoint 12):** Dark Energy Staff remains clearly deferred provisional scaffolding and has no Enhancement profile.
+
 Automated build and smoke coverage does not replace the following human gameplay checks. Entries
 remain **LIVE PENDING** until a human records an observed result.
 

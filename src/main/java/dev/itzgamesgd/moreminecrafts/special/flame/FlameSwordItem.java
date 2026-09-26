@@ -1,10 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.special.flame;
 
 import dev.itzgamesgd.moreminecrafts.ability.AbilityActivation;
-import dev.itzgamesgd.moreminecrafts.special.SuccessfulHitCounter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import dev.itzgamesgd.moreminecrafts.special.ElementalHitProgress;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -16,16 +13,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public final class FlameSwordItem extends Item {
-    private static final int PASSIVE_HITS = 10;
-    private static final Map<UUID, SuccessfulHitCounter> HITS = new HashMap<>();
     public FlameSwordItem(Properties properties) { super(properties); }
 
     @Override public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker instanceof ServerPlayer player) {
             player.level().sendParticles(ParticleTypes.SMALL_FLAME, target.getX(), target.getY()+.8, target.getZ(), 2,.1,.2,.1,.01);
-            var advance=HITS.getOrDefault(player.getUUID(), SuccessfulHitCounter.EMPTY).recordSuccessfulHit(PASSIVE_HITS);
-            HITS.put(player.getUUID(), advance.counter());
-            if (advance.triggered()) FlameSwordEffects.splash(player,target);
+            if (ElementalHitProgress.record(player.getUUID(), ElementalHitProgress.Weapon.FIRE)) {
+                FlameSwordEffects.sweep(player, target);
+            }
         }
         super.hurtEnemy(stack,target,attacker);
     }
