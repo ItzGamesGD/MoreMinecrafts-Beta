@@ -411,3 +411,101 @@
 11. Fish-container capacity/name details.
 12. Fisherman payout formula.
 13. Final resource/UI asset pass.
+
+
+# 14. Fishing design finalization reconciliation — 2026-09-26
+
+> This section is authoritative over stale Fishing entries and the earlier section 13 overlay where they conflict. Resource art remains deferred until the code-side fishing design below is implemented and live-testable.
+
+## Vocabulary and independent fish variables
+- [LOCKED] Equipment uses Tier I–III only. Fish quality uses Grade I–V only. Equipment Tier and Fish Grade are separate concepts and must never be mapped to each other.
+- [LOCKED] A fish instance persists four independent variables: Species / Grade / Length / Weight.
+- [LOCKED] Grade does not determine Length or Weight. Length and Weight do not determine Grade.
+- [LOCKED] Each species defines its own independent length distribution and its own independent weight distribution; there is no universal size curve shared by all species.
+- [LOCKED] Fish remain ItemStacks; no fish entity implementation is planned.
+
+## Species baseline roster
+- [LOCKED] Current 12-species baseline: 붕어 (Crucian Carp, `crucian_carp`), 잉어 (Common Carp, `common_carp`), 메기 (Amur Catfish, `amur_catfish`), 무지개송어 (Rainbow Trout, `rainbow_trout`), 큰입배스 (Largemouth Bass, `largemouth_bass`), 파이크 (Northern Pike, `northern_pike`), 대서양연어 (Atlantic Salmon, `atlantic_salmon`), 황다랑어 (Yellowfin Tuna, `yellowfin_tuna`), 피라루쿠 (Arapaima, `arapaima`), 황새치 (Swordfish, `swordfish`), 블루마린 (Atlantic Blue Marlin, `blue_marlin`), 벨루가 철갑상어 (Beluga Sturgeon, `beluga_sturgeon`).
+- [LOCKED] Species rarity/progression integrity takes priority over familiarity when those goals conflict.
+- [BALANCE] Exact per-species min/max Length, min/max Weight, distribution curves, encounter weights and final ecology metadata are data/balance work. They must remain species-specific.
+
+## Grade and Crankbait
+- [LOCKED] Fish Grade remains I–V.
+- [LOCKED] Crankbait affects Fish Grade distribution only. It never changes Species, Length, Weight, Reel/Minnow requirements or minigame difficulty.
+- [LOCKED] No Crankbait baseline Grade I–V distribution = 45 / 30 / 16 / 7 / 2 percent.
+- [LOCKED] Crankbait Tier I = 30 / 32 / 22 / 12 / 4 percent.
+- [LOCKED] Crankbait Tier II = 10 / 25 / 32 / 24 / 9 percent.
+- [LOCKED] Crankbait Tier III = 0 / 8 / 34 / 38 / 20 percent.
+- [LOCKED] The same Crankbait Grade distribution applies regardless of species.
+
+## Length and Weight
+- [LOCKED] Length and Weight are rolled independently after Species is known and use that species' own distributions.
+- [LOCKED] Length is displayed in centimeters with one decimal place; Weight is displayed in kilograms with one decimal place.
+- [LOCKED] Extreme individuals become progressively rarer according to each species' distribution. Exact curve parameters are balance data, not a new gameplay system.
+- [LOCKED] No separate Rod Frame / weight-capacity equipment. Fishing Rod remains a carrier for the three modules. Weight remains an individual fish/value variable and does not impose equipment capacity.
+
+## Value model
+- [LOCKED] Internal value baseline: `Species Base Value × Grade Multiplier × (1 + Length Bonus + Weight Bonus)`.
+- [LOCKED] Grade multiplier baseline: I=1.00, II=1.15, III=1.40, IV=1.80, V=2.50.
+- [LOCKED] Length Bonus and Weight Bonus use percentile within that species' own respective distribution, not raw cm/kg and not a universal normalized range.
+- [LOCKED] Baseline bonus form: `LengthBonus = lengthPercentile × 0.75`; `WeightBonus = weightPercentile × 0.75`.
+- [LOCKED] Length and Weight bonuses are additive inside Size Modifier rather than multiplied together, preventing extreme multiplicative price explosions.
+- [LOCKED] Species Base Value is an internal value index, not an Emerald amount. Fisherman payout converts the final value index to Emerald only at the final economy boundary.
+- [BALANCE] Current relative Species Base Value index baseline in roster order: 10 / 13 / 16 / 22 / 25 / 30 / 42 / 55 / 75 / 100 / 140 / 200.
+- [BALANCE] Exact Value Index → Emerald conversion remains live-balance work.
+
+## Equipment Tier I–III
+- [LOCKED] Reel, Minnow and Crankbait each have exactly three equipment tiers: I / II / III.
+- [LOCKED] Reel controls Species access/discovery only. Higher Reel includes lower access and never changes encounter weights, Fish Grade, Length, Weight or minigame difficulty.
+- [LOCKED] Reel baseline progression groups the 12-species roster into three broad four-species access bands, subject only to final ecology/data tuning.
+- [LOCKED] Minnow controls capture permission only. Species has a required Minnow Tier independent of Grade/Length/Weight. Higher Minnow includes lower requirements.
+- [LOCKED] Reel and Minnow requirements do not have to be identical for a species; this preserves distinct roles.
+- [LOCKED] Insufficient Minnow does not remove the species from the encounter pool. The fish may bite and the minigame may run; after a successful minigame the capture fails with a message stating the required Minnow Tier.
+- [LOCKED] Reel consumes durability when a valid custom fishing attempt/cast starts. Minnow and Crankbait consume durability only when a permitted capture succeeds.
+- [LOCKED] Failed minigame or insufficient Minnow consumes no Minnow/Crankbait durability.
+- [LOCKED] Module durability reaching 1 means broken/inactive; the module persists rather than disappearing and can be repaired through the Anvil.
+- [BALANCE] Exact Tier I–III module durability and Smithing/crafting materials remain implementation/live-balance work.
+
+## Minigame
+- [LOCKED] Four timing zones: light green / yellow / orange / red.
+- [LOCKED] Light green = 100% capture; yellow already has a sharply reduced probability; orange is substantially lower; red = 0%.
+- [PROVISIONAL] Live-test starting probabilities: green 100%, yellow 45%, orange 15%, red 0%. Tune after HUD/live testing.
+- [LOCKED] Minigame determines capture/escape only and never modifies Grade/Length/Weight.
+- [LOCKED] Only Species affects minigame difficulty. Equipment Tier, Grade, Length and Weight do not.
+- [LOCKED] Species difficulty baseline uses levels 1–5 and changes deterministic ping-pong marker speed only; zone geometry/rules do not become species-specific.
+- [PROVISIONAL] One-way marker travel starting points for difficulty 1–5: 1.8s / 1.5s / 1.25s / 1.0s / 0.8s. Live tuning may change these.
+- [LOCKED] Fish Grade, Length and Weight are generated only after minigame success and Minnow validation. Server flow: ecology/custom-fishing eligibility → Reel-filtered Species roll → minigame → Minnow validation → Grade roll → Length roll → Weight roll → fish item.
+
+## Rod/module UI
+- [LOCKED] Right click preserves casting/retrieval. Left-clicking air while holding the Fishing Rod opens the equipment UI; entity attacks/block interactions must not be swallowed.
+- [LOCKED] One-row UI contains Reel / Crankbait / Minnow slots only and validates module type.
+- [LOCKED] Each Fishing Rod stores its own three module ItemStacks and retains source-rod lock / anti-dupe behavior.
+- [LOCKED] Fishing Rod itself has no Tier, Grade, Enhancement, weight capacity or separate progression.
+- [LOCKED] Broken Reel prevents custom fishing; broken Minnow behaves as no active Minnow permission; broken Crankbait falls back to the no-Crankbait Grade distribution.
+- [LOCKED] Module durability is displayed in the module UI/tooltips; optional broken-slot `!` indicator remains allowed.
+
+## Fish container / 어망
+- [LOCKED] Working/final baseline name is 어망: a portable fish-only container item. Fish do not stack and each fish consumes one internal slot.
+- [LOCKED] 어망 itself has Tier I–III storage progression: Tier I=9 slots, Tier II=18 slots, Tier III=27 slots.
+- [LOCKED] Upgrading an 어망 preserves its contained fish and all per-fish persistent data.
+- [LOCKED] Fish-only validation inherently prevents nesting another 어망 or arbitrary items.
+- [LOCKED] Holding the 어망 and right-clicking opens its GUI. It is not required to be a placeable block.
+
+## Fisherman sale path
+- [LOCKED] Vanilla Fisherman villager trades remain intact. A separate fish-trade panel/entry is added.
+- [LOCKED] Fish can be sold individually or in bulk from an 어망; the UI previews fish count/total internal Value/expected payout before confirmation.
+- [LOCKED] Sale confirmation removes/transfers the sold fish and pays the computed reward.
+- [PROVISIONAL] Emerald remains the baseline payout currency. Exact conversion is live-balance work.
+
+## Ecology / custom-fishing activation
+- [LOCKED] Do not implement per-species hard depth bands or continuous depth curves.
+- [LOCKED] Custom fishing itself requires a sufficiently large body of water, using approximately a 2×2-chunk (about 32×32 block) local-water scale and about 8 blocks/meters of depth as the baseline activation requirement.
+- [IMPLEMENTATION] The 2×2-chunk rule must be tolerant of natural shorelines/terrain rather than requiring every block in a literal 32×32 prism to be water. Exact connected-water/coverage test is implementation/live-validation work.
+- [LOCKED] Once custom fishing is eligible, Species ecology is primarily biome/water-environment based; small local depth differences do not gate individual species.
+- [LOCKED] Ecology/environment filtering → Reel access filtering → Species encounter-weight selection.
+- [IMPLEMENTATION] Ecology metadata should be defined now but restrictions may be temporarily bypassed during broad live validation.
+
+## Resource Stage D order
+- [LOCKED] Code implementation comes before the remaining Fishing resource-art pass because the design now introduces substantial runtime/data/UI changes.
+- [IMPLEMENTATION] First reconcile Stage 7 code with this section: Tier I–III modules, four independent fish fields, species-specific Length/Weight distributions, value model, minigame rules, left-click UI, broken-module behavior, 어망 I–III, Fisherman sale path, ecology/custom-fishing eligibility and updated server resolution order.
+- [DEFERRED] After code-side behavior is live-testable, create/integrate final fish/module/어망/UI/HUD assets and perform the Resource Stage D live-validation pass.
