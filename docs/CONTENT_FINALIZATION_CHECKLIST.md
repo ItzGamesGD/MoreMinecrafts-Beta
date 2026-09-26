@@ -337,3 +337,77 @@
 - Mobs: 아이디어/reference 다수, 최종 roster와 spawn/drop 체계 미완.
 - Boss: prototype/reference 존재, 정식 roster/progression 미완.
 - World/Exploration: 과거 reference 존재, 무엇을 살릴지부터 재확정 필요.
+
+
+---
+
+# 13. Fishing current design overlay — 2026-09-26
+
+> This section supersedes stale Fishing [DECIDE] entries above where the same topic is explicitly resolved here. Existing Stage 7 code remains implementation evidence, not authority over later user-approved design changes.
+
+## Core fish model
+- [LOCKED] Fishing remains item-based. No fish entity implementation is planned.
+- [LOCKED] Final fish roster will contain roughly 10–12 species. Selection priority is: familiar/intuitive fishing-game species first, while preserving a meaningful real rarity/progression hierarchy. If 10–12 species cannot satisfy both conditions, familiarity is relaxed before rarity/progression integrity.
+- [LOCKED] Every species definition will include English name, Korean display name, species/item identifier, min/max length, species rarity/weight, depth tendency, Reel requirement, Minnow requirement, biome/water conditions, and dimension conditions where relevant.
+- [LOCKED] Biome/water ecology is part of the final design, but biome filtering is temporarily disabled during the current implementation/live-validation phase so valid custom fish may be tested broadly.
+- [LOCKED] Per-fish persistent metrics are species, grade, length, and weight. Grade is displayed as e.g. `등급: III`. Length is shown in centimeters with decimals. Weight is an independent generated variable; no entity simulation is required.
+- [DECIDE] Exact value/reward formula and the relative contribution/order of species rarity, grade, weight, and length remain to be balanced after the species roster and distributions are finalized.
+- [DECIDE] Whether fish weight should require a separate tiered Fishing Rod/frame capacity is open. Candidate direction: Fishing Rod becomes the frame/carrier, modules mount into it, and rod/frame tier determines maximum supported fish weight.
+
+## Module identity and progression
+- [LOCKED] Reel, Crankbait, and Minnow each remain one equipment family with grades I–V.
+- [LOCKED] Grades are not enchantment-style numeric levels. Higher-grade equipment is obtained as a crafted/smithed higher-grade result while remaining the same equipment family conceptually.
+- [LOCKED] Higher Reel/Minnow grades include all lower-grade capabilities.
+- [LOCKED] Reel = access possibility/discovery reach. Minnow = permission to capture an accessed species. Crankbait = manipulation of grade distribution inside the otherwise valid pool.
+- [LOCKED] If Reel access is sufficient but Minnow permission is not, the fish cannot be captured even after the minigame; the player is told the required Minnow grade.
+- [LOCKED] Crankbait reduces lower-grade probabilities and may, at sufficiently strong bias, eliminate the lowest grades from the active distribution. Exact weights are deferred.
+- [DECIDE] Reel progression model remains open until the species roster is fixed: either a scalable distribution/range model that naturally accepts future species, or a curated hierarchy updated when new species are added.
+- [PROVISIONAL] Upgrade recipe direction is either `current module + materials -> next grade` or a Smithing Template-style upgrade. Crafting Table vs Smithing Table is deferred. Exact recipes wait for a broader material/intermediate-component roster; rough recipes may use metal fragments/metal/string-like vanilla-native components.
+
+## Durability and failure
+- [LOCKED] Fishing Rod itself normally does not show a durability bar in ordinary inventory use. Module durability is shown in the module UI.
+- [LOCKED] Modules do not disappear when exhausted. At durability 1 they are considered broken/inactive and completely lose their role until repaired.
+- [LOCKED] Repair direction is Anvil-based; exact repair materials/costs are deferred.
+- [LOCKED] Reel durability is consumed on cast/start of the fishing attempt. Crankbait and Minnow durability are consumed only at the actual successful permitted capture resolution.
+- [LOCKED] On minigame failure the fish is lost; Reel wear has already occurred, while Minnow and Crankbait are not consumed.
+- [LOCKED] Reel maximum durability should be structurally higher than Minnow/Crankbait because it is consumed on every cast. Exact I–V durability values are deferred.
+
+## Minigame
+- [LOCKED] The minigame uses four qualitative zones: green / yellow / orange / red.
+- [LOCKED] Green = 100% capture. Yellow already has a substantially reduced capture chance; orange is reduced further; red = failure. Exact probabilities are deferred to UI/live balance.
+- [LOCKED] The minigame modifies capture success only. It does not downgrade an already generated fish's grade, weight, or length.
+- [LOCKED] Minigame difficulty is influenced only by fish species. Grade, weight, length, Reel, Minnow, and Crankbait do not alter minigame difficulty.
+- [PROVISIONAL] Marker speed starts relatively slow and is tuned by live testing.
+- [DECIDE] Exact zone widths are deferred until the HUD/UI art establishes the relative geometry.
+
+## Controls and UI
+- [LOCKED] Module UI input is LEFT CLICK. Stage 7's Shift+Right Click behavior is a design mismatch and must be corrected.
+- [LOCKED] The one-row module UI retains dedicated Reel / Crankbait / Minnow slots and source-rod locking/anti-dupe behavior.
+- [LOCKED] Broken state is primarily conveyed through durability; an optional exclamation mark above the affected equipment slot is allowed.
+- [LOCKED] Module tooltip content should include description, grade, and relevant numeric stats.
+- [DEFERRED] All visual assets and exact UI appearance are moved to the final Resource/UI pass after mechanics are locked: fish textures, module tier appearances, rod/frame appearance if adopted, fish container appearance, module UI and minigame HUD.
+
+## Fish storage and fisherman trade
+- [LOCKED] Add a portable fish-only container item (working-name family: `어망`; final display name TBD).
+- [LOCKED] The container occupies one inventory slot and preserves its contents like a Shulker Box. Only fish may be stored.
+- [LOCKED] Each fish occupies exactly one internal slot and fish do not stack, regardless of size. Species/grade/length/weight data remain per individual fish.
+- [LOCKED] Fish item presentation places the fish name first, followed by grade, length, and weight.
+- [LOCKED] Cooking remains available/open for fish.
+- [LOCKED] Preserve normal Fisherman villager trading and add a fishing-trade area beside it rather than replacing vanilla trades.
+- [LOCKED] The player can place the fish container into the fishing-trade UI; the system reads contained fish data, calculates the pre-defined value formula, and pays the resulting reward while transferring/removing sold fish data.
+- [PROVISIONAL] Emerald is the current payout baseline because no better reward currency/item has been selected. Alternative rewards remain open.
+
+## Next design order
+1. Final species roster and ecology.
+2. Grade I–V base distribution.
+3. Length/weight generation model.
+4. Value/reward formula.
+5. Reel hierarchy and possible rod/frame weight-capacity decision.
+6. Minnow hierarchy.
+7. Crankbait grade-bias curves.
+8. I–V durability values and repair costs.
+9. Rough upgrade recipes / Crafting Table vs Smithing Table.
+10. Minigame numeric probabilities and live tuning.
+11. Fish-container capacity/name details.
+12. Fisherman payout formula.
+13. Final resource/UI asset pass.
