@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.ability.AbilityAttachments;
 import dev.itzgamesgd.moreminecrafts.alchemy.ModAlchemy;
 import dev.itzgamesgd.moreminecrafts.worldgen.ModOreGeneration;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingChallenges;
+import dev.itzgamesgd.moreminecrafts.special.elemental.WaterDiveRuntime;
 
 public final class ModRegistries {
     private ModRegistries() {
@@ -17,5 +18,6 @@ public final class ModRegistries {
         ModItems.initialize();
         ModOreGeneration.initialize();
         FishingChallenges.initialize();
+        WaterDiveRuntime.initialize();
     }
 }

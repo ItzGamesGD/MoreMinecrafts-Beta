@@ -19,8 +19,7 @@ public final class EnhancementCatalog {
             ModIds.id("wind_sword"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD),
             ModIds.id("wind_archers_bow"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.RANGED),
             ModIds.id("earth_mace"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.MACE),
-            ModIds.id("lightning_sword"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD),
-            ModIds.id("dark_energy_staff"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.RANGED)
+            ModIds.id("lightning_sword"), definition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD)
     );
 
     private EnhancementCatalog() {}

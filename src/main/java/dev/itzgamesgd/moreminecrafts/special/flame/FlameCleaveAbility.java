@@ -17,9 +17,9 @@ public final class FlameCleaveAbility implements ActiveEquipmentAbility {
     public static final FlameCleaveAbility INSTANCE = new FlameCleaveAbility();
     public static final Identifier ID = ModIds.id("flame_cleave");
     public static final int COOLDOWN_TICKS = 600; // AUTHORITATIVE 30 seconds
-    public static final double RANGE = 4.0D;
+    public static final double RANGE = 7.0D;
     public static final double HALF_ANGLE_DEGREES = 45.0D;
-    public static final float DAMAGE = 10.0F; // PROVISIONAL live-test damage
+    public static final float DAMAGE = 10.0F; // PROVISIONAL; stronger than the passive
     public static final float IGNITE_SECONDS = 3.0F;
 
     private FlameCleaveAbility() {
@@ -55,13 +55,12 @@ public final class FlameCleaveAbility implements ActiveEquipmentAbility {
             }
         }
 
-        // The prototype is a geometric cone; obstacle occlusion is deliberately not applied yet.
-        for (int step = 1; step <= 4; step++) {
-            double distance = step;
-            level.sendParticles(ParticleTypes.FLAME,
-                    player.getX() + facing.x * distance, player.getY() + 1.0D,
-                    player.getZ() + facing.z * distance, 4,
-                    distance * 0.18D, 0.18D, distance * 0.18D, 0.01D);
+        // A rising diagonal wave visually distinguishes this active from the horizontal passive.
+        for (double distance = 0.5D; distance <= RANGE; distance += 0.35D) {
+            double rise = distance * 0.45D;
+            level.sendParticles(ParticleTypes.FLAME, player.getX() + facing.x * distance,
+                    player.getY() + 0.25D + rise, player.getZ() + facing.z * distance,
+                    5, 0.28D, 0.16D, 0.28D, 0.025D);
         }
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8F, 1.0F);

@@ -52,14 +52,14 @@
 - **[PROVISIONAL]** 기본 공격속도가 빠르며, 기본 공격에 바람 계열 VFX가 발생한다.
 - **[PROVISIONAL]** **10회 공격 적중마다** 바람이 넓게 휘날리는 범위 공격이 발동한다.
 - **[PROVISIONAL]** 범위에 닿은 적 각각에 Sweep Attack 계열 효과를 소환하는 방식으로 빠른 다중 참격 느낌을 표현한다.
-- **[NEEDS_DESIGN_DECISION]** 최종 액티브 스킬 1개는 아직 미확정이다.
-- **[SUPERSEDED-PROTOTYPE]** 현재 Fabric의 Wind Blade + Wind Step 2액티브 구조는 최종 확정 설계가 아니며, 1액티브 원칙에 맞춰 후속 단계에서 정리한다.
+- **[IMPLEMENTED / PROVISIONAL VALUES]** 최종 단일 액티브는 우클릭 **Wind Blade**다. Wind Step은 최종 T2 kit에서 제거되었다.
 
 #### Lightning — 번개의 검
 - **[PROVISIONAL]** 기본 공격에 전기/스파크 계열 VFX가 발생한다.
 - **[PROVISIONAL]** 연속 공격 적중으로 전하를 누적하고, 일정 누적치에 도달하면 추가 번개 피해가 발생한다.
 - **[PROVISIONAL]** 고유 액티브는 **뇌격참**이다. 짧은 전진/돌진성 베기와 함께 전방에 순간적인 번개 피해를 집중하는 burst형 스킬로 설계한다.
-- **[BALANCE]** 전하 임계치, 추가 피해, 액티브 쿨다운과 이동량은 후속 밸런싱 대상이다.
+- **[LOCKED]** 전하 임계치는 성공한 5타이며 시간 경과로 감소하지 않고 발동 후 0으로 초기화한다.
+- **[BALANCE]** 추가 피해, 액티브 쿨다운과 이동량은 후속 밸런싱 대상이다.
 
 #### T2 검 공통 VFX 원칙
 - **[PROVISIONAL]** 기본 공격 VFX는 원소 정체성을 보여주되 시야를 가리지 않는 소규모 연출로 제한한다.
@@ -67,8 +67,8 @@
 - **[IMPLEMENTATION]** 실제 particle 종류, trail/mesh/model, sound, 색상과 성능 예산은 Fabric 구현 단계에서 확정한다.
 
 #### 아직 별도 설계가 필요한 T2
-- **[NEEDS_DESIGN_DECISION]** 바람궁수의 활: Paper의 homing identity는 유지 후보이나 최종 패시브/액티브 발동 구조는 미확정.
-- **[NEEDS_DESIGN_DECISION]** 대지의 철퇴: Paper의 Earth 둔화/넉백 identity를 Mace의 smash/충격/지면 제어 언어로 재구성해야 한다.
+- **[INTENTIONALLY OMITTED]** 바람궁수의 활: Checkpoint 12에서는 homing/steering을 의도적으로 구현하지 않는다.
+- **[IMPLEMENTED / PROVISIONAL VALUES]** 대지의 철퇴: Smash 성공 시 좁은 전방 균열(피해+둔화), 우클릭 시 넓은 전방 Earth Shatter(피해+변위)를 사용하며 블록을 파괴하지 않는다.
 - **[DEFERRED]** 마기가 깃든 지팡이: Paper의 약화/흡혈/Wither identity를 참고하되 현재 설계는 보류한다.
 
 ## 3. T3 Special 최종 roster
