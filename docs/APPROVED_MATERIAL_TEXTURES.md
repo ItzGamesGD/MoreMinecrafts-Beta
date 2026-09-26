@@ -3,10 +3,10 @@
 - Target: Minecraft 26.3, Fabric, namespace `moreminecrafts`.
 - Source: the 23-PNG attachment supplied with this task. Every source PNG decoded successfully and measured 32×32.
 - Integration: original PNG bytes copied unchanged; matching source and destination SHA-256 values confirm byte identity.
-- Registered block IDs: `titanium_ore`, `tungsten_ore`, `mythril_ore`, `etherium_ore`, `adamantium_debris`, and five corresponding `*_block` IDs.
+- Registered block IDs now include `titanium_ore`, `tungsten_ore`, `mythril_ore`, `etherium_ore`, four vanilla-style `deepslate_*_ore` counterparts, `adamantium_debris`, and five corresponding `*_block` IDs.
 - Flat registered item IDs: `raw_titanium`, `titanium_ingot`, `raw_tungsten`, `tungsten_ingot`, `mythril`, `etherium`, `adamantium_ingot`, and `enhancement_stone`.
 - Adamantium source-name mapping: approved `adamantium.png` is referenced by the existing `adamantium_ingot` model; the gameplay registration and item ID are unchanged.
-- The repository registers no deepslate variants. These approved files are retained in `textures/block/` and currently unused: `titanium_ore_deepslate.png`, `tungsten_ore_deepslate.png`, `mythril_ore_deepslate.png`, `etherium_ore_deepslate.png`, `adamantium_debris_deepslate.png`. No blocks or world generation were added.
+- The four approved Overworld deepslate textures are now wired to registered `deepslate_*_ore` blocks and selected automatically by the ore configured feature when the host block matches `minecraft:deepslate_ore_replaceables`. `adamantium_debris_deepslate.png` remains an unused reserve asset because Adamantium is Nether-only and follows Ancient-Debris-like generation.
 - The previous rejected `adamantium_ingot.png` image was removed. The existing runtime model now references the supplied `adamantium.png`.
 
 | Approved source | Repository destination | Dimensions | Source SHA-256 | Destination SHA-256 | Status |

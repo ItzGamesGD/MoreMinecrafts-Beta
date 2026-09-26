@@ -134,9 +134,13 @@ public final class ModItems {
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
             entries.accept(ModBlocks.TITANIUM_ORE);
+            entries.accept(ModBlocks.DEEPSLATE_TITANIUM_ORE);
             entries.accept(ModBlocks.TUNGSTEN_ORE);
+            entries.accept(ModBlocks.DEEPSLATE_TUNGSTEN_ORE);
             entries.accept(ModBlocks.MYTHRIL_ORE);
+            entries.accept(ModBlocks.DEEPSLATE_MYTHRIL_ORE);
             entries.accept(ModBlocks.ETHERIUM_ORE);
+            entries.accept(ModBlocks.DEEPSLATE_ETHERIUM_ORE);
             entries.accept(ModBlocks.ADAMANTIUM_DEBRIS);
             entries.accept(ModBlocks.TITANIUM_BLOCK);
             entries.accept(ModBlocks.TUNGSTEN_BLOCK);
