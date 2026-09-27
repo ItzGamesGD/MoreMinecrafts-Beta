@@ -117,8 +117,8 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 5A):** The attacker is excluded.
 - [ ] **LIVE PENDING (Stage 5A):** Nearby valid entities are damaged exactly once.
 - [ ] **LIVE PENDING (Stage 5A):** Entities outside the 2.5-block radius are unaffected.
-- [ ] **LIVE PENDING (Stage 5A):** Splash cannot recursively trigger itself.
-- [ ] **LIVE PENDING (Stage 5A):** Flame particles appear around affected entities.
+- [SUPERSEDED / STALE] Stage 5A recursive splash assertion; current passive is every tenth successful hit.
+- [SUPERSEDED / STALE] Stage 5A splash VFX assertion.
 
 ### Flame Cleave (historical Stage 5 checks; right-click and 600-tick cooldown are current)
 - [ ] **LIVE PENDING (Stage 5A):** Right-click activates Flame Cleave.
@@ -150,8 +150,8 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 ## Stage 5B - Special Equipment System - LIVE PENDING
 
 ### Input (superseded F / Shift+F route; T2 actives use item right-click)
-- [ ] **LIVE PENDING (Stage 5B):** F is detected in the client and sends one PRIMARY request per press.
-- [ ] **LIVE PENDING (Stage 5B):** Shift+F is detected distinctly and sends one SECONDARY request per press.
+- [SUPERSEDED / STALE] Stage 5B F-key PRIMARY route; T2 uses item right-click.
+- [SUPERSEDED / STALE] Stage 5B Shift+F SECONDARY route and Wind Step input.
 - [ ] **LIVE PENDING (Stage 5B):** Unrelated keys are unaffected.
 - [ ] **LIVE PENDING (Stage 5B):** Holding an unsupported vanilla item safely does nothing.
 - [ ] **LIVE PENDING (Stage 5B):** Dedicated-server startup remains client-class safe.
@@ -164,8 +164,8 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 
 ### Flame Sword
 - [ ] **LIVE PENDING (Stage 5B):** Normal melee and the Stage 5A splash passive still work.
-- [ ] **LIVE PENDING (Stage 5B):** F activates Flame Cleave; right-click no longer does.
-- [ ] **LIVE PENDING (Stage 5B):** Shift+F does nothing with Flame Sword.
+- [SUPERSEDED / STALE] Stage 5B F-key Flame Cleave route; current active uses right-click.
+- [SUPERSEDED / STALE] Stage 5B Shift+F Flame Sword assertion.
 - [SUPERSEDED / STALE] F-key-era 100-tick Flame cooldown and empty-cast assertion.
 - [ ] **LIVE PENDING (Stage 5B):** Swapping duplicate Flame Swords cannot bypass cooldown.
 
@@ -173,7 +173,7 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 5B):** `wind_sword` is obtainable, performs normal melee, and has expected native attributes.
 
 ### Wind Blade (historical F-key route; current active uses item right-click)
-- [ ] **LIVE PENDING (Stage 5B):** F launches the visible forward attack and plays its sound.
+- [SUPERSEDED / STALE] Stage 5B F-key Wind Blade route; current active uses right-click.
 - [ ] **LIVE PENDING (Stage 5B):** A forward target is hit; off-path and beyond-range targets are unaffected.
 - [ ] **LIVE PENDING (Stage 5B):** The caster is unaffected and one cast cannot repeatedly damage the same target.
 - [ ] **LIVE PENDING (Stage 5B):** Terrain is unaffected and solid terrain stops the attack path.
@@ -181,9 +181,9 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 
 ### Wind Step (removed from current design; stale historical checklist)
 - [ ] **LIVE PENDING (Stage 5B):** Shift+F starts a short forward movement burst with visible particles and sound.
-- [ ] **LIVE PENDING (Stage 5B):** A solid wall is not bypassed, collision remains sane, and vertical velocity behaves sanely.
-- [ ] **LIVE PENDING (Stage 5B):** A rejected Wind Step does not consume cooldown.
-- [ ] **LIVE PENDING (Stage 5B):** Wind Step has an 80-tick cooldown; duplicate sword swapping cannot bypass it.
+- [SUPERSEDED / STALE] Wind Step collision assertion.
+- [SUPERSEDED / STALE] Wind Step rejection assertion.
+- [SUPERSEDED / STALE] Wind Step cooldown assertion.
 
 ### Persistence
 - [ ] **LIVE PENDING (Stage 5B):** Cooldowns survive inventory movement and dropping/reacquiring equipment.

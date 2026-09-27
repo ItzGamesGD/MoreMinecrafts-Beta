@@ -138,11 +138,11 @@
 - **[LOCKED]** “T3보다 화려한 특수기 하나” 수준의 아이디어는 T4로 채택하지 않는다.
 - **[DISCARDED]** 이전 브레인스토밍의 공간 절단검, 거울/잔상 무기, 낙성창, 공허 사슬, 궤도 칼날, 지형 각성 망치, 바다 가르는 삼지창, 태양 대검, 시간 낫, 성좌 활, 거대/중량 망치, 하늘/중력 창, End/Genesis Pickaxe, Portal Staff, Fortress Shield, 변형 무기, Resonance/Gravity 계열, “무명” 적응형 무기, Return-point 장비 등은 현재 authoritative T4 roster가 아니다.
 
-## 6. Enhancement 최종 구조
+## 6. Enhancement 최종 구조 (historical; superseded by Enhancement 2.0)
 
-- **[LOCKED]** Paper 기준 강화 구조 유지.
-- **[LOCKED]** Vanilla equipment 최대 **+30**.
-- **[LOCKED]** T2 Elemental 최대 **+40**.
+- **[SUPERSEDED / HISTORICAL]** Paper 기준 강화 구조 유지.
+- **[SUPERSEDED / HISTORICAL]** Vanilla equipment 최대 **+30**.
+- **[SUPERSEDED / HISTORICAL]** T2 Elemental 최대 **+40**.
 - **[LOCKED]** T3 Special / T4 Endgame은 일반 Enhancement 대상이 아님.
 - **[LOCKED]** **Anvil + Upgrade Stone + Minecraft XP**.
 - **[LOCKED]** 성공률 **100%**.

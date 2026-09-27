@@ -280,7 +280,7 @@ Lightning:
 - [SUPERSEDED / HISTORICAL] T2 Elemental max +40.
 - T3 Special 일반 Enhancement 불가.
 - T4 Endgame 일반 Enhancement 불가.
-- Anvil + Upgrade Stone + Minecraft XP.
+- [SUPERSEDED / HISTORICAL] Anvil + Upgrade Stone + Minecraft XP.
 - 성공률 100%.
 - 실패 없음.
 - downgrade/destruction 없음.
