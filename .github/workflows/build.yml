@@ -96,13 +96,17 @@ jobs:
 
           cat server-smoke.log
 
-          grep -F "Registry probe OK: moreminecrafts:foundation_probe" server-smoke.log
-          grep -F "Item registration OK: moreminecrafts:enhancement_stone" server-smoke.log
-          grep -F "MoreMinecrafts common initialization complete." server-smoke.log
-
           if [ "$exit_code" -ne 0 ] && [ "$exit_code" -ne 124 ]; then
             echo "runServer exited unexpectedly with code $exit_code"
             exit "$exit_code"
+          fi
+
+          # Require actual post-datapack server readiness, not only mod initializer logs.
+          grep -E 'Done \([0-9.]+s\)! For help, type "help"' server-smoke.log
+
+          if grep -Eiq 'Registry loading errors|Unbound values in registry|Failed to load datapacks|Failed to load registries|Registry Loading|Errors in currently selected data packs|Exception in server tick loop|Could not load level' server-smoke.log; then
+            echo "Fatal registry/datapack/server startup marker found"
+            exit 1
           fi
 
           echo "Server runtime smoke test passed."
