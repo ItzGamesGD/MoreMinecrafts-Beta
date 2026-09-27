@@ -146,6 +146,9 @@ jobs:
           grep -F "Item registration OK: moreminecrafts:enhancement_stone" client-smoke.log
           grep -F "MoreMinecrafts common initialization complete." client-smoke.log
           grep -F "MoreMinecrafts client initialization complete." client-smoke.log
+          grep -F "Using graphics backend" client-smoke.log
+          grep -F "Reloading ResourceManager:" client-smoke.log
+          grep -F "minecraft:textures/atlas/items.png-atlas" client-smoke.log
 
           if grep -F "Failed to create backend OpenGL" client-smoke.log && grep -F "Failed to create backend Vulkan" client-smoke.log; then
             echo "Neither rendering backend was created; client resources were not loaded."
