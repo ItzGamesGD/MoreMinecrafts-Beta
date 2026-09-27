@@ -6,6 +6,7 @@ import dev.itzgamesgd.moreminecrafts.fishing.FishingRodMenu;
 import dev.itzgamesgd.moreminecrafts.fishing.ModuleDurability;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -105,5 +106,15 @@ public final class FishingRodScreen extends AbstractContainerScreen<FishingRodMe
         graphics.pose().scale(scale, scale);
         graphics.item(stack, 0, 0);
         graphics.pose().popMatrix();
+    }
+
+    @Override
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 0 && event.x() >= leftPos + 306 && event.x() < leftPos + 324
+                && event.y() >= topPos + 4 && event.y() < topPos + 22) {
+            onClose();
+            return true;
+        }
+        return super.mouseClicked(event, doubleClick);
     }
 }
