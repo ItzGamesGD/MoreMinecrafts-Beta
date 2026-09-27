@@ -1,7 +1,8 @@
 {
   "gui_light": "front",
   "textures": {
-    "layer0": "moreminecrafts:item/beluga_sturgeon"
+    "layer0": "moreminecrafts:item/beluga_sturgeon",
+    "particle": "moreminecrafts:item/beluga_sturgeon"
   },
   "elements": [
     {

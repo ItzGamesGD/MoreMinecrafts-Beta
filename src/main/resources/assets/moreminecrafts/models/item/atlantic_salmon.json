@@ -1,7 +1,8 @@
 {
   "gui_light": "front",
   "textures": {
-    "layer0": "moreminecrafts:item/atlantic_salmon"
+    "layer0": "moreminecrafts:item/atlantic_salmon",
+    "particle": "moreminecrafts:item/atlantic_salmon"
   },
   "elements": [
     {

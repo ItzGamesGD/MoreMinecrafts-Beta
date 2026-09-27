@@ -25,7 +25,7 @@ tasks.register("validateFishingResources") {
    def ip=file("src/main/resources/assets/moreminecrafts/items/${id}.json"),mp=file("src/main/resources/assets/moreminecrafts/models/item/${id}.json"),tp=file("src/main/resources/assets/moreminecrafts/textures/item/${id}.png")
    assert ip.isFile()&&mp.isFile()&&tp.isFile()
    def item=json.parse(ip),m=json.parse(mp);assert item.model.type=="minecraft:model"&&item.model.model=="moreminecrafts:item/${id}"
-   assert !m.containsKey("parent")&&m.textures.layer0=="moreminecrafts:item/${id}"&&m.gui_light=="front"&&m.elements.size()==1
+   assert !m.containsKey("parent")&&m.textures.layer0=="moreminecrafts:item/${id}"&&m.textures.particle=="moreminecrafts:item/${id}"&&m.gui_light=="front"&&m.elements.size()==1
    byte[] png=tp.bytes;assert java.util.HexFormat.of().formatHex(png,0,8)=="89504e470d0a1a0a"
    int iw=java.nio.ByteBuffer.wrap(png).getInt(16),ih=java.nio.ByteBuffer.wrap(png).getInt(20);double z=Math.max(iw,ih),w=16.0*iw/z,h=16.0*ih/z,x=(16.0-w)/2,y=(16.0-h)/2
    def e=m.elements[0];assert Math.abs(e.from[0]-x)<.001&&Math.abs(e.to[0]-(x+w))<.001&&Math.abs(e.from[1]-y)<.001&&Math.abs(e.to[1]-(y+h))<.001&&e.from[2]==7.5&&e.to[2]==8.5

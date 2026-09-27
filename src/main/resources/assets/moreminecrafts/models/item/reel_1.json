@@ -1,7 +1,8 @@
 {
   "gui_light": "front",
   "textures": {
-    "layer0": "moreminecrafts:item/reel_1"
+    "layer0": "moreminecrafts:item/reel_1",
+    "particle": "moreminecrafts:item/reel_1"
   },
   "elements": [
     {

@@ -1,7 +1,8 @@
 {
   "gui_light": "front",
   "textures": {
-    "layer0": "moreminecrafts:item/rainbow_trout"
+    "layer0": "moreminecrafts:item/rainbow_trout",
+    "particle": "moreminecrafts:item/rainbow_trout"
   },
   "elements": [
     {
