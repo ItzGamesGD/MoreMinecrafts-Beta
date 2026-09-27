@@ -1,7 +1,7 @@
-// Resource C1-B: verify the immutable approved sword PNG and vanilla model route.
+// Resource C1-B: verify the immutable approved sword PNG and bounded vanilla-handheld model route.
 tasks.register("validateFlameSwordProductionAsset") {
     group = "verification"
-    description = "Checks the approved Flame Sword PNG, model chain, and packaged JAR."
+    description = "Checks the approved Flame Sword PNG, bounded model chain, and packaged JAR."
     dependsOn tasks.named("jar")
 
     doLast {
@@ -50,6 +50,25 @@ tasks.register("validateFlameSwordProductionAsset") {
         assert model.parent == "minecraft:item/handheld"
         assert model.textures.layer0 == "moreminecrafts:item/flame_sword"
         assert !model.containsKey("display") && !model.containsKey("overrides")
+
+        // The 1263x1246 source must not be sent through generated per-pixel edge extrusion.
+        // One explicit thin element with only its two broad faces keeps geometry complexity fixed.
+        assert model.elements instanceof List && model.elements.size() == 1 :
+                "Flame Sword must use one bounded explicit model element"
+        def plane = model.elements[0]
+        assert plane.from == [0, 0, 7.5] && plane.to == [16, 16, 8.5] :
+                "Unexpected Flame Sword bounded element dimensions"
+        assert !plane.containsKey("rotation")
+        assert (plane.faces.keySet() as Set) == (["north", "south"] as Set) :
+                "Flame Sword bounded element must expose exactly two faces"
+        ["north", "south"].each { faceName ->
+            def face = plane.faces[faceName]
+            assert face.texture == "#layer0"
+            assert face.uv == [0, 0, 16, 16]
+            assert !face.containsKey("cullface")
+        }
+        assert plane.faces.size() == 2 : "Flame Sword model face count must remain bounded at two"
+
         def registry = file("src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModItems.java").text
         assert (registry =~ /public static final Item FLAME_SWORD\s*=\s*Registry\.register\(\s*BuiltInRegistries\.ITEM,\s*FLAME_SWORD_KEY,/).findAll().size() == 1
 
