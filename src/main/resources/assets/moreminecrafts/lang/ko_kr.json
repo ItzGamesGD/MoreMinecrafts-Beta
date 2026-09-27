@@ -15,5 +15,14 @@
   "tooltip.moreminecrafts.fish.grade": "등급: %s",
   "tooltip.moreminecrafts.fish.length": "길이: %s cm",
   "tooltip.moreminecrafts.fish.weight": "무게: %s kg",
-  "message.moreminecrafts.fishing.minnow_required": "해당 물고기는 %s Tier의 미노우를 요구합니다."
+  "message.moreminecrafts.fishing.minnow_required": "해당 물고기는 %s Tier의 미노우를 요구합니다.",
+  "item.moreminecrafts.reel_1": "릴 I",
+  "item.moreminecrafts.reel_2": "릴 II",
+  "item.moreminecrafts.reel_3": "릴 III",
+  "item.moreminecrafts.crankbait_1": "크랭크베이트 I",
+  "item.moreminecrafts.crankbait_2": "크랭크베이트 II",
+  "item.moreminecrafts.crankbait_3": "크랭크베이트 III",
+  "item.moreminecrafts.minnow_1": "미노우 I",
+  "item.moreminecrafts.minnow_2": "미노우 II",
+  "item.moreminecrafts.minnow_3": "미노우 III"
 }
