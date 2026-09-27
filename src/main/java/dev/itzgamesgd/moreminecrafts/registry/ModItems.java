@@ -152,8 +152,6 @@ public final class ModItems {
             entries.accept(EARTH_MACE);
             entries.accept(LIGHTNING_SWORD);
             entries.accept(DARK_ENERGY_STAFF);
-            entries.accept(WIND_ARCHERS_BOW); entries.accept(EARTH_MACE); entries.accept(LIGHTNING_SWORD);
-            entries.accept(DARK_ENERGY_STAFF);
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
             FISH.values().forEach(entries::accept);
