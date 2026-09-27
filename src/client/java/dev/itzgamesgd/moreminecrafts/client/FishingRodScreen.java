@@ -20,9 +20,7 @@ public final class FishingRodScreen extends AbstractContainerScreen<FishingRodMe
     private static final int CARD_Y = 8;
 
     public FishingRodScreen(FishingRodMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title);
-        imageWidth = 330;
-        imageHeight = 270;
+        super(menu, inventory, title, 330, 270);
         titleLabelX = 10;
         titleLabelY = 8;
         inventoryLabelX = 82;
@@ -45,7 +43,7 @@ public final class FishingRodScreen extends AbstractContainerScreen<FishingRodMe
     }
 
     @Override
-    protected void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         super.extractBackground(graphics, mouseX, mouseY, delta);
         int x = leftPos, y = topPos;
         graphics.fill(x, y, x + imageWidth, y + imageHeight, 0xEE17212C);
