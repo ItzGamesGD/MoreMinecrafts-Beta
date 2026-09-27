@@ -51,5 +51,13 @@
   "item.moreminecrafts.blue_marlin": "Atlantic Blue Marlin",
   "item.moreminecrafts.beluga_sturgeon": "Beluga Sturgeon",
   "tooltip.moreminecrafts.fish.weight": "Weight: %s kg",
-  "message.moreminecrafts.fishing.minnow_required": "This fish requires a Tier %s Minnow."
+  "message.moreminecrafts.fishing.minnow_required": "This fish requires a Tier %s Minnow.",
+  "menu.moreminecrafts.fishing.reel": "Reel",
+  "menu.moreminecrafts.fishing.crankbait": "Crankbait",
+  "menu.moreminecrafts.fishing.minnow": "Minnow",
+  "menu.moreminecrafts.fishing.effect.rod": "Rod: weight effect pending",
+  "menu.moreminecrafts.fishing.effect.reel": "Reel: accessible species",
+  "menu.moreminecrafts.fishing.effect.crankbait": "Crankbait: Fish Grade distribution",
+  "menu.moreminecrafts.fishing.effect.minnow": "Minnow: capture permission",
+  "hud.moreminecrafts.fishing.stop": "Click to stop the marker"
 }

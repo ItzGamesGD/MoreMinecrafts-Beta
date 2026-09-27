@@ -52,7 +52,7 @@ public final class FishingChallenges {
         ACTIVE.put(player.getUUID(), new Challenge(startTick, species,
                 worn.tier(FishingEquipmentFamily.CRANKBAIT), worn.tier(FishingEquipmentFamily.MINNOW),
                 hook, player.level(), rod));
-        ServerPlayNetworking.send(player, new FishingChallengePayload(true, startTick, species.fishingDifficulty()));
+        ServerPlayNetworking.send(player, new FishingChallengePayload(true, startTick, species.fishingDifficulty(), species.ordinal()));
         return true;
     }
 
@@ -79,7 +79,7 @@ public final class FishingChallenges {
         if (!challenge.hook().isRemoved()) challenge.hook().discard();
         if (player.fishing == challenge.hook()) player.fishing = null;
         if (minigameSuccess) awardIfPermitted(player, challenge);
-        if (notify) ServerPlayNetworking.send(player, new FishingChallengePayload(false, 0, 1));
+        if (notify) ServerPlayNetworking.send(player, new FishingChallengePayload(false, 0, 1, 0));
     }
 
     private static void awardIfPermitted(ServerPlayer player, Challenge challenge) {

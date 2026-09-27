@@ -7,9 +7,15 @@ import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.network.EquipmentSkillPayload;
 import dev.itzgamesgd.moreminecrafts.network.FishingChallengePayload;
 import dev.itzgamesgd.moreminecrafts.fishing.FishItem;
+import dev.itzgamesgd.moreminecrafts.fishing.FishSpecies;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingGrade;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingTiming;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
+import dev.itzgamesgd.moreminecrafts.registry.ModMenuTypes;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.api.ClientModInitializer;
@@ -26,6 +32,7 @@ import net.minecraft.network.chat.Component;
 public final class MoreMinecraftsClient implements ClientModInitializer {
     private static long fishingChallengeStart=-1;
     private static int fishingDifficulty=1;
+    private static FishSpecies fishingSpecies;
     private static final KeyMapping.Category EQUIPMENT_CATEGORY =
             KeyMapping.Category.register(ModIds.id("equipment"));
     private static final KeyMapping EQUIPMENT_SKILL = KeyMappingHelper.registerKeyMapping(new KeyMapping(
@@ -39,23 +46,45 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
         ClientPlayNetworking.registerGlobalReceiver(FishingChallengePayload.TYPE,(payload,context)-> context.client().execute(() ->
-                { fishingChallengeStart=payload.active() ? payload.startTick() : -1; fishingDifficulty=payload.difficulty(); }));
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> fishingChallengeStart = -1);
+                {
+                    fishingChallengeStart=payload.active() ? payload.startTick() : -1;
+                    fishingDifficulty=payload.difficulty();
+                    fishingSpecies=payload.active() && payload.speciesOrdinal() >= 0
+                            && payload.speciesOrdinal() < FishSpecies.values().length
+                            ? FishSpecies.values()[payload.speciesOrdinal()] : null;
+                }));
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            fishingChallengeStart = -1;
+            fishingSpecies = null;
+        });
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
                 ModIds.id("fishing_timing"), (graphics, delta) -> {
             var client=net.minecraft.client.Minecraft.getInstance();
             if(fishingChallengeStart<0 || client.level==null)return;
-            int width=160,height=10,x=(graphics.guiWidth()-width)/2,y=graphics.guiHeight()-65;
-            graphics.fill(x,y,x+width,y+height,0xCC9B2020);
-            fillZone(graphics, x, y, width, height, .18, .32, 0xCCE87822);
-            fillZone(graphics, x, y, width, height, .32, .42, 0xCCE8CF22);
-            fillZone(graphics, x, y, width, height, .42, .58, 0xCC62C878);
-            fillZone(graphics, x, y, width, height, .58, .68, 0xCCE8CF22);
-            fillZone(graphics, x, y, width, height, .68, .82, 0xCCE87822);
+            int width=260,x=(graphics.guiWidth()-width)/2,y=graphics.guiHeight()-93;
+            drawFishingLayer(graphics, "fishing_name_panel", x + 64, y - 28, 132, 34, 993, 256);
+            drawFishingLayer(graphics, "fishing_gauge", x, y + 5, width, 37, 1960, 277);
+            // The supplied gauge includes a centered example marker. Cover that strip at render
+            // time with the neighboring green section, then move the separate approved marker.
+            graphics.pose().pushMatrix();
+            graphics.pose().translate(x + width * 1014f / 1960f, y + 5);
+            graphics.pose().scale(width / 1960f, 37f / 277f);
+            graphics.blit(RenderPipelines.GUI_TEXTURED,
+                    fishingTexture("fishing_gauge"), 0, 0, 946, 0, 68, 277, 68, 277, 1960, 277);
+            graphics.pose().popMatrix();
             double position=FishingTiming.position(client.level.getGameTime()-fishingChallengeStart, fishingDifficulty);
-            int marker=x+(int)(position*width);
-            graphics.fill(marker-1,y-3,marker+2,y+height+3,0xFFFFFFFF);
+            int marker=x+11+(int)(position*(width-22));
+            drawFishingLayer(graphics, "fishing_marker", marker-9, y, 18, 40, 212, 299);
+            drawFishingLayer(graphics, "fishing_help_panel", x + 68, y + 46, 124, 34, 997, 272);
+            if (fishingSpecies != null) {
+                Component name = Component.translatable("item.moreminecrafts." + fishingSpecies.id());
+                graphics.text(client.font, name, x + (width-client.font.width(name))/2, y - 15,
+                        0xFFFFFFFF, true);
+            }
+            Component help = Component.translatable("hud.moreminecrafts.fishing.stop");
+            graphics.text(client.font, help, x + 116, y + 57, 0xFFFFFFFF, true);
         });
 
         ItemTooltipCallback.EVENT.register((stack, context, flag, lines) -> {
@@ -92,8 +121,17 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     }
 
     private static String formatTenths(int value) { return "%d.%d".formatted(value / 10, Math.abs(value % 10)); }
-    private static void fillZone(net.minecraft.client.gui.GuiGraphicsExtractor graphics, int x, int y, int width, int height,
-                                 double from, double to, int color) {
-        graphics.fill(x + (int) (width * from), y, x + (int) (width * to), y + height, color);
+    private static Identifier fishingTexture(String name) {
+        return ModIds.id("textures/gui/fishing/minigame/" + name + ".png");
+    }
+
+    private static void drawFishingLayer(GuiGraphicsExtractor graphics, String name, int x, int y,
+                                         int width, int height, int nativeWidth, int nativeHeight) {
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(x, y);
+        graphics.pose().scale(width / (float) nativeWidth, height / (float) nativeHeight);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, fishingTexture(name), 0, 0, 0, 0,
+                nativeWidth, nativeHeight, nativeWidth, nativeHeight);
+        graphics.pose().popMatrix();
     }
 }

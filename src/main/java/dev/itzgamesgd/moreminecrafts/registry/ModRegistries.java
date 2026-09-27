@@ -15,6 +15,7 @@ public final class ModRegistries {
 
     public static void initialize() {
         ModBlocks.initialize();
+        ModMenuTypes.initialize();
         AbilityAttachments.initialize();
         ModDataComponents.initialize();
         ModItems.initialize();
