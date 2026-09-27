@@ -7,16 +7,16 @@ tasks.register("validateFishingResources") {
   def fishIds=["crucian_carp","common_carp","amur_catfish","rainbow_trout","largemouth_bass","northern_pike","atlantic_salmon","yellowfin_tuna","arapaima","swordfish","blue_marlin","beluga_sturgeon"]
   def families=["reel","minnow","crankbait"], moduleIds=families.collectMany{family->(1..3).collect{tier->"${family}_${tier}"}}
   def src=file("src/main/java/dev/itzgamesgd/moreminecrafts/fishing/FishSpecies.java").text
-  def declared=(src =~ /(?m)^\\s+[A-Z_]+\\("([a-z_]+)"/).collect{it[1]}
+  def declared=(src =~ /(?m)^\s+[A-Z_]+\\("([a-z_]+)"/).collect{it[1]}
   assert declared==fishIds
   def approval=json.parse(file("docs/FISHING_RESOURCE_D_APPROVED_MANIFEST.json"))
   assert approval["package"]=="Fishing Resource D Final Approved" && approval.fish_species_count==12 && approval.fish_species==fishIds
   assert approval.equipment_item_count==9 && approval.sha256.size()==35
   def items=file("src/main/resources/assets/moreminecrafts/items"),models=file("src/main/resources/assets/moreminecrafts/models/item"),textures=file("src/main/resources/assets/moreminecrafts/textures/item")
   def ids={dir,re,ext->dir.listFiles().findAll{it.name==~re}.collect{it.name-ext}.sort()}
-  assert ids(items,/^(reel|minnow|crankbait)_\\d+\\.json$/,".json")==moduleIds.sort()
-  assert ids(models,/^(reel|minnow|crankbait)_\\d+\\.json$/,".json")==moduleIds.sort()
-  assert ids(textures,/^(reel|minnow|crankbait)_\\d+\\.png$/,".png")==moduleIds.sort()
+  assert ids(items,/^(reel|minnow|crankbait)_\d+\.json$/,".json")==moduleIds.sort()
+  assert ids(models,/^(reel|minnow|crankbait)_\d+\.json$/,".json")==moduleIds.sort()
+  assert ids(textures,/^(reel|minnow|crankbait)_\d+\.png$/,".png")==moduleIds.sort()
   (4..5).each{tier->families.each{family->["items/${family}_${tier}.json","models/item/${family}_${tier}.json","textures/item/${family}_${tier}.png"].each{rel->assert !file("src/main/resources/assets/moreminecrafts/${rel}").exists()}}}
   def fishTextures=textures.listFiles().findAll{p->if(!p.name.endsWith(".png"))return false;byte[] b=p.bytes;b.length>=26&&java.util.HexFormat.of().formatHex(b,0,8)=="89504e470d0a1a0a"&&java.nio.ByteBuffer.wrap(b).getInt(16)==512&&java.nio.ByteBuffer.wrap(b).getInt(20)==512}.collect{it.name[0..-5]}.sort()
   assert fishTextures==fishIds.sort() : "Fish master texture set differs from final roster"
