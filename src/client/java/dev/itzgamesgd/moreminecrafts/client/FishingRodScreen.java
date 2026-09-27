@@ -66,7 +66,7 @@ public final class FishingRodScreen extends AbstractContainerScreen<FishingRodMe
                 int max = stack.getMaxDamage();
                 int remaining = ModuleDurability.remaining(stack);
                 float ratio = max == 0 ? 0 : Math.clamp(remaining / (float) max, 0f, 1f);
-                int barX = x + CARD_X[i] + 10, barY = y + CARD_Y + 80;
+                int barX = x + CARD_X[i] + 10, barY = y + CARD_Y + 72;
                 int fill = Math.round(50 * ratio);
                 int color = ratio < .33f ? 0xFFE34A45 : ratio < .66f ? 0xFFE9B13C : 0xFF60C675;
                 if (fill > 0) graphics.fill(barX + 2, barY + 6, barX + 2 + fill, barY + 10, color);

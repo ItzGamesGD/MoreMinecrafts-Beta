@@ -76,7 +76,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
             graphics.pose().popMatrix();
             double position=FishingTiming.position(client.level.getGameTime()-fishingChallengeStart, fishingDifficulty);
             int marker=x+11+(int)(position*(width-22));
-            drawFishingLayer(graphics, "fishing_marker", marker-9, y, 18, 40, 212, 299);
+            drawFishingMarker(graphics, marker - 8, y);
             drawFishingLayer(graphics, "fishing_help_panel", x + 68, y + 46, 124, 34, 997, 272);
             if (fishingSpecies != null) {
                 Component name = Component.translatable("item.moreminecrafts." + fishingSpecies.id());
@@ -132,6 +132,17 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
         graphics.pose().scale(width / (float) nativeWidth, height / (float) nativeHeight);
         graphics.blit(RenderPipelines.GUI_TEXTURED, fishingTexture(name), 0, 0, 0, 0,
                 nativeWidth, nativeHeight, nativeWidth, nativeHeight);
+        graphics.pose().popMatrix();
+    }
+
+    private static void drawFishingMarker(GuiGraphicsExtractor graphics, int x, int y) {
+        // The approved marker PNG also contains a frame fragment on its left;
+        // select its marker region at render time without changing the source PNG.
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(x, y);
+        graphics.pose().scale(16f / 80f, 40f / 299f);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, fishingTexture("fishing_marker"),
+                0, 0, 116, 0, 80, 299, 80, 299, 212, 299);
         graphics.pose().popMatrix();
     }
 }
