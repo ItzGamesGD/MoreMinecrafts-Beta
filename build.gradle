@@ -101,3 +101,51 @@ tasks.register("validateStage6Data") {
 tasks.named("check") {
     dependsOn tasks.named("validateStage6Data")
 }
+
+tasks.register("validateFlameSwordResources") {
+    group = "verification"
+    description = "Checks the C1-A sword model chain and distributable JAR while allowing the temporary or approved texture."
+    dependsOn tasks.named("jar")
+
+    doLast {
+        def json = new groovy.json.JsonSlurper()
+        def source = file("src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModItems.java").text
+        assert (source =~ /public static final ResourceKey<Item> FLAME_SWORD_KEY\s*=/).findAll().size() == 1
+        assert (source =~ /public static final Item FLAME_SWORD\s*=\s*Registry\.register\(\s*BuiltInRegistries\.ITEM,\s*FLAME_SWORD_KEY,/).findAll().size() == 1
+
+        def itemPath = "assets/moreminecrafts/items/flame_sword.json"
+        def modelPath = "assets/moreminecrafts/models/item/flame_sword.json"
+        def enPath = "assets/moreminecrafts/lang/en_us.json"
+        def koPath = "assets/moreminecrafts/lang/ko_kr.json"
+        def paths = [itemPath, modelPath, enPath, koPath]
+        def resources = paths.collectEntries { path ->
+            def resource = file("src/main/resources/${path}")
+            assert resource.isFile() : "Missing Flame Sword resource: ${path}"
+            [(path): json.parse(resource)]
+        }
+
+        assert resources[itemPath].model.type == "minecraft:model"
+        assert resources[itemPath].model.model == "moreminecrafts:item/flame_sword"
+        assert resources[modelPath].parent == "minecraft:item/handheld"
+        // C1-A may use its temporary vanilla reference or the approved C1-B production texture.
+        assert resources[modelPath].textures.layer0 in ["minecraft:item/netherite_sword", "moreminecrafts:item/flame_sword"] :
+                "Flame Sword must reference the temporary vanilla or approved production texture"
+        assert resources[enPath]["item.moreminecrafts.flame_sword"] == "Flame Sword"
+        assert resources[koPath]["item.moreminecrafts.flame_sword"] == "불꽃검"
+
+        def distributable = tasks.named("jar").get().archiveFile.get().asFile
+        assert distributable.isFile() : "Missing distributable mod JAR: ${distributable}"
+        new java.util.zip.ZipFile(distributable).withCloseable { jar ->
+            paths.each { path ->
+                def entries = java.util.Collections.list(jar.entries()).findAll { it.name == path }
+                assert entries.size() == 1 : "Expected exactly one ${path} in ${distributable}"
+                def packed = jar.getInputStream(entries[0]).withCloseable { json.parse(it) }
+                assert packed == resources[path] : "JAR resource differs from source: ${path}"
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn tasks.named("validateFlameSwordResources")
+}

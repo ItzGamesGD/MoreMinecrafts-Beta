@@ -6,10 +6,9 @@
 - Source and repository SHA-256: `67292219456c8975319c6d45caf5c9ac1f4b583176407d24eedcd7f643cad186`
 - Status: static resource integration with bounded item geometry; live presentation remains pending.
 
-## Baseline and C1-A dependency
+## Baseline and C1-A synchronization
 
-C1-A PR #37 (`resource-c1/flame-sword-render-foundation`, handoff head `7828eb268eb6a02f3c3bd5f36dcd747583a3e548`) remains separate and is **not** in this checkpoint. C1-B starts directly from the verified checkpoint without cherry-picking or rebuilding C1-A's creative tab, Korean translation, documentation, or Gradle validator. The checkpoint already has the needed registry and client item route. C1-A's validator still expects the temporary `minecraft:item/netherite_sword` texture; reconcile that assertion to `moreminecrafts:item/flame_sword` when integrating the two PRs, or the combined branch's `check` will fail. Keep both PRs unmerged until their order and validation are resolved.
-
+C1-A PR #37 was merged into `stage-13/checkpoint` at `925f136798e6b680748b69feb02fae65f88bece2`. This C1-B branch began at the prior checkpoint `a8b6299f16a491aa3dc885360325427a29190763`; it is being synchronized with the merged foundation through a two-parent merge commit. The production model and bounded two-face geometry from C1-B are retained. The merged C1-A registration, Korean translation, documentation, and foundation validator are included. The C1-A validator allows either its temporary vanilla reference or the approved production texture; the C1-B validator checks the production texture and bounded model contract. Both are expected to pass in the cumulative build.
 ## Compatibility and geometry audit
 
 The approved PNG is an unchanged, static 1263 × 1246 8-bit RGBA file with transparent, partial-alpha, and opaque pixels. It has no animation metadata. Its width and height are unequal and not powers of two. The source remains byte-for-byte intact in the repository and distributable JAR.
