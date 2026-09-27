@@ -66,7 +66,7 @@ java {
 
 tasks.register("validateStage6Data") {
     group = "verification"
-    description = "Validates the required Stage 6 data/resource JSON and custom references."
+    description = "Validates Minecraft 26.3 Stage 6 data/resource JSON and custom references."
     doLast {
         def json = new groovy.json.JsonSlurper()
         def resourceRoot = file("src/main/resources")
@@ -77,14 +77,75 @@ tasks.register("validateStage6Data") {
                 etherium: ["etherium_ore", "etherium"],
                 adamantium: ["adamantium_debris", "adamantium_ingot"]
         ]
+        def validHeightProviders = [
+                "minecraft:constant", "minecraft:uniform", "minecraft:biased_to_bottom",
+                "minecraft:very_biased_to_bottom", "minecraft:trapezoid", "minecraft:weighted_list"
+        ] as Set
+        def requiredPlacementModifiers = ["minecraft:in_square", "minecraft:height_range", "minecraft:biome"] as Set
 
         fileTree(resourceRoot).matching { include "**/*.json" }.files.each { json.parse(it) }
+
+        def legacyConfiguredDir = file("src/main/resources/data/moreminecrafts/worldgen/configured_feature")
+        assert !legacyConfiguredDir.exists() || fileTree(legacyConfiguredDir).matching { include "*.json" }.files.empty :
+                "Legacy worldgen/configured_feature JSON remains; Minecraft 26.3 uses worldgen/feature"
+
         families.each { family, ids ->
-            assert file("src/main/resources/data/moreminecrafts/worldgen/configured_feature/ore_${family}.json").isFile()
-            assert file("src/main/resources/data/moreminecrafts/worldgen/placed_feature/ore_${family}.json").isFile()
+            def featureFile = file("src/main/resources/data/moreminecrafts/worldgen/feature/ore_${family}.json")
+            def placedFile = file("src/main/resources/data/moreminecrafts/worldgen/placed_feature/ore_${family}.json")
+            assert featureFile.isFile() : "Missing Minecraft 26.3 feature ${featureFile}"
+            assert placedFile.isFile() : "Missing placed feature ${placedFile}"
+
+            def feature = json.parse(featureFile)
+            def placed = json.parse(placedFile)
+
+            assert feature.type == "minecraft:ore"
+            assert !feature.containsKey("config") : "Minecraft 26.3 feature config must be inline in ${featureFile}"
+            assert feature.targets instanceof List
+            assert feature.size instanceof Number
+
+            feature.targets.each { target ->
+                assert target.state instanceof String :
+                        "Minecraft 26.3 ore target state must be a block identifier string in ${featureFile}"
+                assert target.state.toString().startsWith("moreminecrafts:")
+            }
+
+            if (family != "adamantium") {
+                def byTag = feature.targets.collectEntries { target ->
+                    [(target.target.tag): target.state]
+                }
+                assert byTag["minecraft:stone_ore_replaceables"] == "moreminecrafts:${family}_ore"
+                assert byTag["minecraft:deepslate_ore_replaceables"] == "moreminecrafts:deepslate_${family}_ore" :
+                        "Deepslate target must use dedicated deepslate block for ${family}"
+            } else {
+                assert feature.targets.size() == 1
+                assert feature.targets[0].target.tag == "minecraft:base_stone_nether"
+                assert feature.targets[0].state == "moreminecrafts:adamantium_debris"
+            }
+
+            assert placed.feature == "moreminecrafts:ore_${family}"
+            def modifierTypes = placed.placement.collect { it.type } as Set
+            assert modifierTypes.containsAll(requiredPlacementModifiers)
+            def heightRange = placed.placement.find { it.type == "minecraft:height_range" }
+            assert validHeightProviders.contains(heightRange.height.type) :
+                    "Unsupported Minecraft 26.3 height provider ${heightRange.height.type} in ${placedFile}"
+
             ids.each { id ->
                 assert file("src/main/resources/assets/moreminecrafts/items/${id}.json").isFile()
             }
+        }
+
+        fileTree("src/main/resources/data/moreminecrafts/worldgen/placed_feature").matching { include "*.json" }.files.each { placedFile ->
+            def placed = json.parse(placedFile)
+            def featureId = placed.feature as String
+            if (featureId?.startsWith("moreminecrafts:")) {
+                def featurePath = featureId.substring("moreminecrafts:".length())
+                assert file("src/main/resources/data/moreminecrafts/worldgen/feature/${featurePath}.json").isFile() :
+                        "Missing Minecraft 26.3 feature ${featureId} referenced by ${placedFile}"
+            }
+            def heightRange = placed.placement.find { it.type == "minecraft:height_range" }
+            assert heightRange != null
+            assert validHeightProviders.contains(heightRange.height.type) :
+                    "Unsupported Minecraft 26.3 height provider ${heightRange.height.type} in ${placedFile}"
         }
 
         fileTree("src/main/resources/assets/moreminecrafts/items").matching { include "*.json" }.files.each { itemFile ->
