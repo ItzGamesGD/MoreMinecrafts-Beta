@@ -1,5 +1,7 @@
 # MoreMinecrafts Content Finalization 복원 기록 - Stage 1-2
 
+상태 주의: 이 복원 기록의 Enhancement +30/+40은 Stage 10 Enhancement 2.0 재설계 및 Stage 2에서 명시적으로 superseded 처리된 역사적 결정이다. 나머지 복원 내용은 해당 결정의 증거 기록으로 보존한다.
+
 상태: RECOVERED DECISION RECORD
 복원 기준점: GitHub 최초 체크리스트 생성 커밋 5e697f6683c1e86915f121883d3fd6f21f60c2cc.
 복원 범위: Content Finalization Checklist의 1. Resource / Mining / Materials 시작부터 2. Equipment Progression 종료까지.
@@ -274,8 +276,8 @@ Lightning:
 
 3.11 Enhancement
 [LOCKED]
-- Vanilla/T1 max +30.
-- T2 Elemental max +40.
+- [SUPERSEDED / HISTORICAL] Vanilla/T1 max +30.
+- [SUPERSEDED / HISTORICAL] T2 Elemental max +40.
 - T3 Special 일반 Enhancement 불가.
 - T4 Endgame 일반 Enhancement 불가.
 - Anvil + Upgrade Stone + Minecraft XP.

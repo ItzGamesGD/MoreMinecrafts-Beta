@@ -1,5 +1,7 @@
 # Stage 11 T2 Elemental reconciliation
 
+> **Stage 2 authority update:** This is a historical implementation-preparation snapshot. Its prototype status, old passive descriptions, undecided right-click/F-key controls, and Wind Step references are superseded by `STAGE_2_GAMEPLAY_RECONCILIATION.md`. Keep it for historical reasoning and roster evidence.
+
 > **Checkpoint 12 overlay:** `CHECKPOINT_12.md` supersedes this implementation-preparation snapshot where
 > runtime status differs. Fire, Water, Wind Sword, Lightning, and Earth contracts are now implemented with
 > provisional values; Wind Bow is intentionally omitted and Staff remains deferred scaffolding.
@@ -26,7 +28,7 @@ Paper Fire Bow, Earth Sword/Bow, Ice Sword/Bow, and Dark/Magic Sword/Bow are his
 Poseidon Spear belongs to T3. There is no T2 Ice equipment. The five material families do not yet imply
 any equipment recipe, material count, boss drop, or workstation.
 
-## 2. Current Fabric prototype audit
+## 2. Current Fabric prototype audit (historical; superseded by Stage 2)
 
 ### Flame Sword
 
@@ -80,7 +82,7 @@ the same ID-based pattern with their actual profile (`SWORD`, `RANGED`, or `MACE
 profile does not exist and must not be invented while the Staff is deferred. `EnhancementOperation` stays
 UI-independent and the Anvil stays a temporary adapter.
 
-## 3. Bounded architecture added in this slice
+## 3. Bounded architecture added in this slice (historical; superseded by Stage 2)
 
 `SuccessfulHitCounter` is an immutable, Minecraft-bootstrap-independent state transition for every-N
 successful-hit passives. One call advances one hit, reports at most one trigger, and resets progress at the

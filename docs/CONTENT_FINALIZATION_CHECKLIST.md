@@ -1,5 +1,7 @@
 # MoreMinecrafts 콘텐츠 최종 확정 체크리스트
 
+> **Historical note:** The Enhancement +30/+40 entries below are superseded by the Stage 10 Enhancement 2.0 redesign and Stage 2 reconciliation. Preserve this checklist as history; do not use those old caps or cost bands as current rules.
+
 > 목적: 이 문서는 Mod 이식 단계와 별개다.
 > 현재 작업은 최종 Paper 플러그인과 기존 설계 위에 새 콘텐츠 결정을 덧씌워, MoreMinecrafts의 최종 게임 디자인을 잠그는 단계다.
 > Stage 1~2의 실제 결정 과정·보류·폐기·최종 상태는 `docs/CONTENT_FINALIZATION_RESTORED_RECORD_STAGE_1_2.md`에 복원되어 있다. 체크리스트는 상태판이며 복원 기록과 각 단계 확정안이 상세 source of truth다.
@@ -86,7 +88,7 @@
 - [LOCKED] T4 Endgame baseline = 무극검 / 천궁 / 천서 3종. 세계수 활은 baseline 밖의 OPTIONAL 후보이며 필요 시 T3로 재분류 가능.
 - [LOCKED] T1/T2/T3/T4는 서로 독립적인 설계 카테고리이며 진화/승급 트리가 아니다. 특정 recipe/해금 조건에서 다른 Tier 장비를 요구할 수는 있으나 장비 상속은 아니다.
 - [LOCKED] T3 Special 7종 전부 유지: 타나토스의 철퇴 / 포세이돈의 창 / 화염 도끼 / 뇌신의 도끼 / 성검 · 솔라리스 / 월야잔광 / 빙결검. 핵심 정체성은 유지하고 Fabric 표현·구현은 재해석.
-- [LOCKED] Enhancement 상한: Vanilla +30 / T2 Elemental +40 / T3 Special·T4 Endgame 일반 강화 불가.
+- [SUPERSEDED / HISTORICAL] Enhancement 상한 기록: Vanilla +30 / T2 Elemental +40 / T3 Special·T4 Endgame 일반 강화 불가.
 - [PROVISIONAL] Enhancement 비용 baseline: Upgrade Stone 1개 고정 + XP level. +1~5=1, +6~10=2, +11~20=3, +21~30=4, +31~40=5. 플레이테스트에서 조정 가능.
 - [LOCKED] Enhancement 성공률 100%. 실패/하락/파괴/실패 누적 보정 없음. Anvil + Upgrade Stone + Minecraft XP 구조 유지.
 - [PROVISIONAL] 장비 획득 밸런스는 실제 재료 recipe를 핵심으로 한다. T4는 희귀재료 제작 중심이며 탐험 상자 완제품 보상을 핵심 획득축으로 삼지 않는다. 정확한 재료 수량은 후속 공급량/플레이테스트와 함께 조정.

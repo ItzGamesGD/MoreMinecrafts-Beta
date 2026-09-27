@@ -1,5 +1,7 @@
 # MoreMinecrafts Enhancement 2.0 재설계안
 
+> **Stage 2 implementation note:** The +20 caps and +5/+10/+15/+20 deterministic milestone rules in this document remain authoritative. Section 11 is a Stage 10 implementation audit and is historical; use `STAGE_2_GAMEPLAY_RECONCILIATION.md` for the current implementation status.
+
 > **Status:** Stage 10 equipment-growth redesign baseline  
 > **Authority:** 이 문서는 기존 `+30 Vanilla / +40 Elemental / Anvil+XP 고정` Enhancement 설계를 대체하는 새 기준 기록이다.  
 > 충돌 시 이 문서의 Enhancement 관련 결정이 기존 `EQUIPMENT_PROGRESSION_FINALIZATION.md` 및 recovery 문서의 구 Enhancement 절보다 우선한다.  
@@ -202,7 +204,7 @@ ordinary Enhancement의 기본 저장 상태는 가능한 한 하나만 사용�
 
 이번 Enhancement 개편은 특정 monster-scaling 방식에 의존하지 않게 설계한다.
 
-## 11. 현재 코드에 필요한 핵심 변화
+## 11. Stage 10 implementation audit (historical; superseded by Stage 2)
 
 현재 Stage 10 코드 기준으로 다음 legacy assumptions가 남아 있다.
 

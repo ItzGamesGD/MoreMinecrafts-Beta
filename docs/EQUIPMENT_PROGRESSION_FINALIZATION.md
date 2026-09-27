@@ -1,5 +1,7 @@
 # MoreMinecrafts Equipment Progression 확정안
 
+> **Historical authority note:** Section 6 records the superseded +30/+40 Enhancement baseline. The current Enhancement rules are in `docs/ENHANCEMENT_2_REDESIGN.md` and its named Drive source, `MoreMinecrafts Enhancement 2.0 재설계안`. Other locked equipment roster and tier decisions in this document remain in force.
+
 > **상태:** 콘텐츠 설계 단계 마감 / Equipment Progression Freeze.  
 > 이 문서는 체크리스트가 아니라 Equipment 단계에서 실제로 확정한 설계 내용을 보존하는 authoritative design record다.  
 > 정확한 수치, VFX, 입력 구현, 제작 수량처럼 플레이테스트와 Fabric 구현에 종속되는 값은 **[PROVISIONAL]** 또는 **[IMPLEMENTATION]**으로 분리한다.
