@@ -54,7 +54,7 @@ public final class FishingLogic {
         return species.lengthDistribution().roll(random);
     }
 
-    public static int rollWeight(FishSpecies species, RandomSource random) {
-        return species.weightDistribution().roll(random);
+    public static int rollWeight(FishSpecies species, int lengthTenthsCm, RandomSource random) {
+        return species.weightForLength(lengthTenthsCm, random.nextDouble() * 2.0 - 1.0);
     }
 }

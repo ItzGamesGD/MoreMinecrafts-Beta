@@ -172,6 +172,7 @@
 ---
 
 # 5. Fishing 축
+> **Historical / superseded:** These were open questions then. Current authority: `docs/STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 
 ## 이미 확정
 - [LOCKED] vanilla cast/wait 흐름은 유지.
@@ -344,6 +345,7 @@
 ---
 
 # 13. Fishing current design overlay — 2026-09-26
+> Historical overlay, superseded on resolved runtime/resource points by `docs/STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 
 > This section supersedes stale Fishing [DECIDE] entries above where the same topic is explicitly resolved here. Existing Stage 7 code remains implementation evidence, not authority over later user-approved design changes.
 
@@ -416,14 +418,15 @@
 
 
 # 14. Fishing design finalization reconciliation — 2026-09-26
+> This was the authority immediately before Stage 3 and remains historical. Stage 3 supersedes independent Weight rolling and post-minigame-only Minnow notice; other decisions remain in force.
 
 > This section is authoritative over stale Fishing entries and the earlier section 13 overlay where they conflict. Resource art remains deferred until the code-side fishing design below is implemented and live-testable.
 
 ## Vocabulary and independent fish variables
 - [LOCKED] Equipment uses Tier I–III only. Fish quality uses Grade I–V only. Equipment Tier and Fish Grade are separate concepts and must never be mapped to each other.
-- [LOCKED] A fish instance persists four independent variables: Species / Grade / Length / Weight.
+- [LOCKED] A fish instance persists Species / Grade / Length / Weight. Grade remains independent; Length informs expected Weight.
 - [LOCKED] Grade does not determine Length or Weight. Length and Weight do not determine Grade.
-- [LOCKED] Each species defines its own independent length distribution and its own independent weight distribution; there is no universal size curve shared by all species.
+- [LOCKED] Each species defines its own Length range and species-specific Weight curve. Weight is statistically dependent on Length, with bounded variation.
 - [LOCKED] Fish remain ItemStacks; no fish entity implementation is planned.
 
 ## Species baseline roster
@@ -441,17 +444,17 @@
 - [LOCKED] The same Crankbait Grade distribution applies regardless of species.
 
 ## Length and Weight
-- [LOCKED] Length and Weight are rolled independently after Species is known and use that species' own distributions.
+- [LOCKED] Length is rolled first; Weight follows the species-specific expected curve for that Length plus bounded individual variation.
 - [LOCKED] Length is displayed in centimeters with one decimal place; Weight is displayed in kilograms with one decimal place.
 - [LOCKED] Extreme individuals become progressively rarer according to each species' distribution. Exact curve parameters are balance data, not a new gameplay system.
 - [LOCKED] No separate Rod Frame / weight-capacity equipment. Fishing Rod remains a carrier for the three modules. Weight remains an individual fish/value variable and does not impose equipment capacity.
 
 ## Value model
-- [LOCKED] Internal value baseline: `Species Base Value × Grade Multiplier × (1 + Length Bonus + Weight Bonus)`.
+- [LOCKED] Internal value remains Species Base Value × Grade Multiplier × (1 + bounded combined size bonus), with correlated size percentiles averaged.
 - [LOCKED] Grade multiplier baseline: I=1.00, II=1.15, III=1.40, IV=1.80, V=2.50.
-- [LOCKED] Length Bonus and Weight Bonus use percentile within that species' own respective distribution, not raw cm/kg and not a universal normalized range.
-- [LOCKED] Baseline bonus form: `LengthBonus = lengthPercentile × 0.75`; `WeightBonus = weightPercentile × 0.75`.
-- [LOCKED] Length and Weight bonuses are additive inside Size Modifier rather than multiplied together, preventing extreme multiplicative price explosions.
+- [LOCKED] The combined size bonus uses per-species Length and Weight percentiles, not raw cm/kg or a universal scale.
+- [LOCKED] Stage 3 implementation: combined size bonus = 0.75 × average(lengthPercentile, weightPercentile).
+- [LOCKED] Combined size bonus is bounded at +75%; Emerald conversion and economy remain balance work.
 - [LOCKED] Species Base Value is an internal value index, not an Emerald amount. Fisherman payout converts the final value index to Emerald only at the final economy boundary.
 - [BALANCE] Current relative Species Base Value index baseline in roster order: 10 / 13 / 16 / 22 / 25 / 30 / 42 / 55 / 75 / 100 / 140 / 200.
 - [BALANCE] Exact Value Index → Emerald conversion remains live-balance work.
@@ -462,7 +465,7 @@
 - [LOCKED] Reel baseline progression groups the 12-species roster into three broad four-species access bands, subject only to final ecology/data tuning.
 - [LOCKED] Minnow controls capture permission only. Species has a required Minnow Tier independent of Grade/Length/Weight. Higher Minnow includes lower requirements.
 - [LOCKED] Reel and Minnow requirements do not have to be identical for a species; this preserves distinct roles.
-- [LOCKED] Insufficient Minnow does not remove the species from the encounter pool. The fish may bite and the minigame may run; after a successful minigame the capture fails with a message stating the required Minnow Tier.
+- [LOCKED] Insufficient Minnow does not remove the species from the encounter pool. The fish may bite and the minigame may run; the encounter and minigame continue; HUD shows the required Minnow Tier before completion, then capture is denied if insufficient.
 - [LOCKED] Reel consumes durability when a valid custom fishing attempt/cast starts. Minnow and Crankbait consume durability only when a permitted capture succeeds.
 - [LOCKED] Failed minigame or insufficient Minnow consumes no Minnow/Crankbait durability.
 - [LOCKED] Module durability reaching 1 means broken/inactive; the module persists rather than disappearing and can be repaired through the Anvil.

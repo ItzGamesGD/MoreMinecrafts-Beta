@@ -52,7 +52,9 @@ public final class FishingChallenges {
         ACTIVE.put(player.getUUID(), new Challenge(startTick, species,
                 worn.tier(FishingEquipmentFamily.CRANKBAIT), worn.tier(FishingEquipmentFamily.MINNOW),
                 hook, player.level(), rod));
-        ServerPlayNetworking.send(player, new FishingChallengePayload(true, startTick, species.fishingDifficulty(), species.ordinal()));
+        ServerPlayNetworking.send(player, new FishingChallengePayload(true, startTick, species.fishingDifficulty(),
+                species.ordinal(), FishingLogic.canCapture(species, worn.tier(FishingEquipmentFamily.MINNOW)),
+                species.requiredMinnowTier()));
         return true;
     }
 
@@ -79,7 +81,7 @@ public final class FishingChallenges {
         if (!challenge.hook().isRemoved()) challenge.hook().discard();
         if (player.fishing == challenge.hook()) player.fishing = null;
         if (minigameSuccess) awardIfPermitted(player, challenge);
-        if (notify) ServerPlayNetworking.send(player, new FishingChallengePayload(false, 0, 1, 0));
+        if (notify) ServerPlayNetworking.send(player, new FishingChallengePayload(false, 0, 1, 0, false, 1));
     }
 
     private static void awardIfPermitted(ServerPlayer player, Challenge challenge) {
@@ -93,7 +95,7 @@ public final class FishingChallenges {
         int crankbaitTier = equipment.tier(FishingEquipmentFamily.CRANKBAIT);
         int grade = FishingLogic.rollGrade(crankbaitTier, player.getRandom());
         int length = FishingLogic.rollLength(challenge.species(), player.getRandom());
-        int weight = FishingLogic.rollWeight(challenge.species(), player.getRandom());
+        int weight = FishingLogic.rollWeight(challenge.species(), length, player.getRandom());
         ItemStack fish = new ItemStack(ModItems.fishItem(challenge.species()));
         fish.set(ModDataComponents.FISH_GRADE, grade);
         fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, length);

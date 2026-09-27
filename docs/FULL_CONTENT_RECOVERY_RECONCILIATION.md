@@ -469,6 +469,8 @@ fire/water/wind/earth/ice fragments and soul-stone currency loops must not retur
 
 ## 10. Fishing
 
+> **HISTORICAL RECOVERY SUMMARY:** Current authority is `docs/STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`; older module tiers, independent size rolls, and encounter-gating decisions below are recovery evidence only.
+
 ### CURRENT_IMPLEMENTED
 
 Vanilla casting/hook/water/wait/Lure/non-catch behavior stays vanilla.

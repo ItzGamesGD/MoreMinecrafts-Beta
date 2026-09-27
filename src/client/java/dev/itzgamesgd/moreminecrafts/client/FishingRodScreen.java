@@ -108,6 +108,33 @@ public final class FishingRodScreen extends AbstractContainerScreen<FishingRodMe
         graphics.pose().popMatrix();
     }
 
+    /**
+     * Route the full visible card rectangle through normal container handling.
+     * The server-owned slot/menu remains authoritative for clicks and quick-craft drags.
+     */
+    private MouseButtonEvent cardSlotEvent(MouseButtonEvent event) {
+        double cardX = event.x() - leftPos;
+        double cardY = event.y() - topPos;
+        for (int i = 0; i < CARD_X.length; i++) {
+            if (cardX >= CARD_X[i] && cardX < CARD_X[i] + 70
+                    && cardY >= CARD_Y && cardY < CARD_Y + 93) {
+                return new MouseButtonEvent(leftPos + 107 + i * 75 + 8,
+                        topPos + 45 + 8, event.buttonInfo());
+            }
+        }
+        return event;
+    }
+
+    @Override
+    public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+        return super.mouseDragged(cardSlotEvent(event), dx, dy);
+    }
+
+    @Override
+    public boolean mouseReleased(MouseButtonEvent event) {
+        return super.mouseReleased(cardSlotEvent(event));
+    }
+
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         if (event.button() == 0 && event.x() >= leftPos + 306 && event.x() < leftPos + 324
@@ -115,6 +142,6 @@ public final class FishingRodScreen extends AbstractContainerScreen<FishingRodMe
             onClose();
             return true;
         }
-        return super.mouseClicked(event, doubleClick);
+        return super.mouseClicked(cardSlotEvent(event), doubleClick);
     }
 }

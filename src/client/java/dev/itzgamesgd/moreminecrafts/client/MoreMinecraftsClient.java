@@ -27,6 +27,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     private static long fishingChallengeStart=-1;
     private static int fishingDifficulty=1;
     private static FishSpecies fishingSpecies;
+    private static boolean fishingCaptureAllowed;
+    private static int fishingRequiredMinnowTier = 1;
     public static boolean fishingChallengeActive() { return fishingChallengeStart >= 0; }
 
     @Override
@@ -36,6 +38,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 {
                     fishingChallengeStart=payload.active() ? payload.startTick() : -1;
                     fishingDifficulty=payload.difficulty();
+                    fishingCaptureAllowed=payload.active() && payload.captureAllowed();
+                    fishingRequiredMinnowTier=payload.requiredMinnowTier();
                     fishingSpecies=payload.active() && payload.speciesOrdinal() >= 0
                             && payload.speciesOrdinal() < FishSpecies.values().length
                             ? FishSpecies.values()[payload.speciesOrdinal()] : null;
@@ -43,6 +47,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             fishingChallengeStart = -1;
             fishingSpecies = null;
+            fishingCaptureAllowed = false;
+            fishingRequiredMinnowTier = 1;
         });
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
                 ModIds.id("fishing_timing"), (graphics, delta) -> {
@@ -67,6 +73,12 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 Component name = Component.translatable("item.moreminecrafts." + fishingSpecies.id());
                 graphics.text(client.font, name, x + (width-client.font.width(name))/2, y - 15,
                         0xFFFFFFFF, true);
+                if (!fishingCaptureAllowed) {
+                    Component required = Component.translatable("hud.moreminecrafts.fishing.minnow_required",
+                            FishingGrade.roman(fishingRequiredMinnowTier));
+                    graphics.text(client.font, required, x + (width-client.font.width(required))/2, y - 4,
+                            0xFFFFD36A, true);
+                }
             }
             Component help = Component.translatable("hud.moreminecrafts.fishing.stop");
             graphics.text(client.font, help, x + 116, y + 57, 0xFFFFFFFF, true);

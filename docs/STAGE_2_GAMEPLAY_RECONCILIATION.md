@@ -31,6 +31,6 @@ Fire, Wind, and Lightning progress remains server-memory state keyed by player U
 
 - JUnit covers the family thresholds, family isolation, Lightning's cumulative threshold/reset, and progress cleanup policy.
 - The repo's existing Enhancement +20/milestone tests remain in force; no Enhancement mechanics were redesigned in this slice.
-- CI run #194 passed `./gradlew build` (JUnit plus configured Stage 6 and Flame Sword C1-A/C1-B validators), distributable JAR collection, server smoke, and client/resource smoke. No separate Fishing-specific validator is configured in the inherited workflow.
+- CI run #195 passed `./gradlew build` (JUnit plus configured Stage 6 and Flame Sword C1-A/C1-B validators), distributable JAR collection, server smoke, and client/resource smoke. No separate Fishing-specific validator is configured in the inherited workflow.
 - Server readiness was confirmed by `Done (4.993s)! For help, type help`; the fatal registry/datapack marker scan was clean. Client smoke created the Vulkan/llvmpipe backend, reloaded `moreminecrafts`, created `minecraft:textures/atlas/items.png-atlas`, and found no texture/model/decode/bake/stitch errors.
 - No live combat-feel or PvP claim is made. Client-side item presentation, movement, targeting, VFX hierarchy, multiplayer behavior, and balance tuning remain LIVE PENDING.

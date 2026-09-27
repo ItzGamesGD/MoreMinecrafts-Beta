@@ -85,5 +85,6 @@
   "menu.moreminecrafts.fishing.effect.reel": "Reel: accessible species",
   "menu.moreminecrafts.fishing.effect.crankbait": "Crankbait: Fish Grade distribution",
   "menu.moreminecrafts.fishing.effect.minnow": "Minnow: capture permission",
-  "hud.moreminecrafts.fishing.stop": "Click to stop the marker"
+  "hud.moreminecrafts.fishing.stop": "Click to stop the marker",
+  "hud.moreminecrafts.fishing.minnow_required": "Minnow %s required"
 }

@@ -1,0 +1,109 @@
+{
+  "package": "Fishing Resource D Final Approved",
+  "fish_species_count": 12,
+  "fish_species": [
+    "crucian_carp",
+    "common_carp",
+    "amur_catfish",
+    "rainbow_trout",
+    "largemouth_bass",
+    "northern_pike",
+    "atlantic_salmon",
+    "yellowfin_tuna",
+    "arapaima",
+    "swordfish",
+    "blue_marlin",
+    "beluga_sturgeon"
+  ],
+  "equipment_item_count": 9,
+  "equipment_families": {
+    "reel": [
+      "reel_1.png",
+      "reel_2.png",
+      "reel_3.png"
+    ],
+    "crankbait": [
+      "crankbait_1.png",
+      "crankbait_2.png",
+      "crankbait_3.png"
+    ],
+    "minnow": [
+      "minnow_1.png",
+      "minnow_2.png",
+      "minnow_3.png"
+    ]
+  },
+  "equipment_ui_contract": {
+    "cards_are_empty": true,
+    "tier": "runtime overlay using Roman numeral I/II/III",
+    "durability": "runtime fill only; low=red, mid=yellow/orange, high=green; higher remaining durability fills farther right",
+    "item_icon": "render actual ItemStack enlarged in card; same logical item as inventory",
+    "effects_text": "runtime/localized; not baked into PNG",
+    "roles": {
+      "rod": "weight-related row reserved; do not invent formula without authoritative rule",
+      "reel": "species encounter/access permission",
+      "crankbait": "Fish Grade distribution shift",
+      "minnow": "capture permission after minigame success"
+    }
+  },
+  "minigame_ui_contract": {
+    "layers": [
+      "fishing_name_panel.png",
+      "fishing_gauge.png",
+      "fishing_marker.png",
+      "fishing_help_panel.png"
+    ],
+    "fish_name": "runtime localized text",
+    "help_text": "runtime localized text",
+    "marker": "moves independently",
+    "zones": {
+      "light_green": "100%",
+      "yellow": "45%",
+      "orange": "15%",
+      "red": "0%"
+    },
+    "difficulty": "species difficulty changes marker speed only"
+  },
+  "notes": [
+    "Only final approved/selected assets are included.",
+    "The previous equipment-card atlas with baked Tier I and green durability fill is intentionally NOT included.",
+    "The three representative fish use the first approved detailed style, not the later vanilla-like alternative."
+  ],
+  "sha256": {
+    "items/equipment/crankbait_1.png": "de9d61603a72fe01632bb60dc1ee15c12cf8f16fb2feb6f0830c662b92689f90",
+    "items/equipment/crankbait_2.png": "54672e9a5593a4394c7e90d53474718f9d9de58fc81d9037f068b0d4879967aa",
+    "items/equipment/crankbait_3.png": "f5faab9563df1b889fa7fd8537ca69ed5931a33023f49af5027ac0fc6709b009",
+    "items/equipment/minnow_1.png": "f9c13f8497ac80fc51260297e074174a290b5b4036afe2630fb493e69f8727fe",
+    "items/equipment/minnow_2.png": "bd3a952ee4ba0a7078b080c5d4af10b21d04d671e9e16cb5105691571064fc8e",
+    "items/equipment/minnow_3.png": "7ab94f064b6b521bc6f4428dd23bd6ca093ea11f1e760a71f008d2758eb2173d",
+    "items/equipment/reel_1.png": "7b7e7bd55daae4592574f54a1cd17bc7091a930706c7681dfa21586e8c65490c",
+    "items/equipment/reel_2.png": "a9e915f7fae8413085134dd683b3879f8898b0ded86cda6f82459b5b122b82e6",
+    "items/equipment/reel_3.png": "fb24c421a83a658d9b44cc9a939de697fb822edf5a1f1664e56ad1d375fb283c",
+    "items/fish/amur_catfish.png": "460ea247e87776798207573b7a974db163e84b5fa8b7ed1f523a2b110e1f9a46",
+    "items/fish/arapaima.png": "c720a1d4acdebdac426b6751b717215b52864fb00f26caba6c00e98741adc486",
+    "items/fish/atlantic_salmon.png": "92451adaedb048e407435b26d4817ba6fd442a075ec2e8b133fe5f088020f685",
+    "items/fish/beluga_sturgeon.png": "78cd444b80bb1f39cc77b9818454877be41d684967231564d2bb319675908d48",
+    "items/fish/blue_marlin.png": "fbea7f887ed325fe4dbf725a6a8b16dae6df11850d4459947d87486583eb6469",
+    "items/fish/common_carp.png": "5c140d5b91615d75a640ecb2c703c2757169437573334ba8c00eccadc40c6737",
+    "items/fish/crucian_carp.png": "c2d97f42e23d341a3a3716002a4f28083a3423174b22152e409398ac20699125",
+    "items/fish/largemouth_bass.png": "dcb55aafe040b411c3d207e6dfd4e6a5589b7aa833fb5dc41a4c61be4e902334",
+    "items/fish/northern_pike.png": "1c5d3737a25fd62b385606fa3ecfe0363625cfc17f4e849af752f3126465e784",
+    "items/fish/rainbow_trout.png": "40eb66bc2807ea5362e8d6de6d4d09b9818834e17176c73c9ce4f312973ca953",
+    "items/fish/swordfish.png": "f5da1a626cea739e59f1f110e191945ea7fb6337cf1ab3d317e9186805e19483",
+    "items/fish/yellowfin_tuna.png": "adb41be0af03dfef7f4258bb85999c0bfba0a70f5f1ebd49184bf10cf97b0096",
+    "ui/equipment/close_button.png": "6f75052eb934b87912dd1b20866d2d8d0046c8580f7030ce0f77085a8a4dd30b",
+    "ui/equipment/crankbait_card_empty.png": "db0c0737657411b8622c15534f98fd7a4b616133d73d81fa89942ae63729472c",
+    "ui/equipment/durability_frame.png": "5b6b31310364f50895e897b8fef3e9647e5927a84a4643113cd2796afcbea719",
+    "ui/equipment/equipment_effects_panel.png": "8f62c4fc58143426a3b3b1f6de35bc053829c2c8cdd5ce451ed8c9ebb33e824a",
+    "ui/equipment/minnow_card_empty.png": "c7c3facc16db64df1050603e6df28a1308c5d5b8f6e3fc9a9dd79f7584ed9acf",
+    "ui/equipment/reel_card_empty.png": "eb089b0dd497eb0031b985841acbb3fc006874a2303ada90db9eea78bed1b8b3",
+    "ui/equipment/rod_panel.png": "e7b0a40913addc611bc90919414f10343c3ed11729eff8b526cfa3cb94e66dc6",
+    "ui/equipment/tier_I.png": "6e2695aeeb36ca90a08669ac3d8eb266ffa351e857e35676f943058ff9383299",
+    "ui/equipment/tier_II.png": "22e16e5d9fe14072e8adb0592f7439939f7870b2320707f72611d0b320852a3a",
+    "ui/equipment/tier_III.png": "6bbc4ecc467eed66488d3445330c8f5b0e1a9f4f3b76c066d5730a215a919978",
+    "ui/minigame/fishing_gauge.png": "2284d3e793db096343cae5ac47f0e821ffebc26e7c3b86ae13a3e6fe80c1ef52",
+    "ui/minigame/fishing_help_panel.png": "2461dda6b8d73c264386655595b0e6f12f2e7595b531ad83aaccc7828dd0a1f5",
+    "ui/minigame/fishing_marker.png": "76deb909743ea6601d53ad1f71694b6bc48986120b545fb691895de7e1637506",
+    "ui/minigame/fishing_name_panel.png": "6cd03ba50fa71f7ac2ddcb0d6d63dd5253d1310ec3f5d6884550a50501fdcba1"
+  }
+}

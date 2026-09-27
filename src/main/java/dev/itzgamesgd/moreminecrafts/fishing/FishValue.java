@@ -9,8 +9,11 @@ public final class FishValue {
     }
 
     public static double calculate(FishSpecies species, int grade, int lengthTenthsCm, int weightTenthsKg) {
-        double lengthBonus = species.lengthDistribution().percentile(lengthTenthsCm) * 0.75;
-        double weightBonus = species.weightDistribution().percentile(weightTenthsKg) * 0.75;
-        return species.baseValue() * gradeMultiplier(grade) * (1.0 + lengthBonus + weightBonus);
+        double lengthPercentile = species.lengthDistribution().percentile(lengthTenthsCm);
+        double weightPercentile = species.weightDistribution().percentile(weightTenthsKg);
+        // Length and correlated Weight are one size signal; average their bounded percentiles
+        // so correlated values do not double the maximum size bonus.
+        double sizeBonus = 0.75 * (lengthPercentile + weightPercentile) / 2.0;
+        return species.baseValue() * gradeMultiplier(grade) * (1.0 + sizeBonus);
     }
 }

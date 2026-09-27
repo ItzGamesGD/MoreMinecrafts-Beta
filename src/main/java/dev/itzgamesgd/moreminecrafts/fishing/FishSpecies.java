@@ -3,7 +3,7 @@ package dev.itzgamesgd.moreminecrafts.fishing;
 import java.util.Set;
 import net.minecraft.util.RandomSource;
 
-/** Tunable species data. Measurements are stored as tenths of cm/kg. */
+/** Tunable species data. Length and Weight measurements are tenths of cm/kg; expected Weight follows Length. */
 public enum FishSpecies {
     CRUCIAN_CARP("crucian_carp", 110, 1, 1, 1, 10, 120, 520, 2, 38, Ecology.FRESHWATER),
     COMMON_CARP("common_carp", 100, 1, 1, 1, 13, 250, 1100, 15, 400, Ecology.FRESHWATER),
@@ -49,6 +49,22 @@ public enum FishSpecies {
     public MeasurementDistribution lengthDistribution() { return length; }
     public MeasurementDistribution weightDistribution() { return weight; }
     public Ecology ecology() { return ecology; }
+
+    /** Expected weight rises nonlinearly with length while remaining species-specific. */
+    public int expectedWeightForLength(int lengthTenthsCm) {
+        double normalizedLength = length.percentile(lengthTenthsCm);
+        double sizeCurve = normalizedLength * normalizedLength;
+        return weight.minimum() + (int) Math.round(sizeCurve * (weight.maximum() - weight.minimum()));
+    }
+
+    /** Applies bounded individual variation around the expected weight; variation must be in [-1, 1]. */
+    public int weightForLength(int lengthTenthsCm, double variation) {
+        if (!Double.isFinite(variation) || variation < -1.0 || variation > 1.0)
+            throw new IllegalArgumentException("Weight variation must be in [-1, 1]");
+        int spread = Math.max(1, (int) Math.round((weight.maximum() - weight.minimum()) * 0.04));
+        int varied = expectedWeightForLength(lengthTenthsCm) + (int) Math.round(variation * spread);
+        return Math.clamp(varied, weight.minimum(), weight.maximum());
+    }
 
     /** A bounded triangular distribution: extremes are possible but less common. */
     public record MeasurementDistribution(int minimum, int maximum) {

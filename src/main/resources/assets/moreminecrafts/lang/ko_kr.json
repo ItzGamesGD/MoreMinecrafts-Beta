@@ -33,5 +33,6 @@
   "item.moreminecrafts.crankbait_3": "크랭크베이트 III",
   "item.moreminecrafts.minnow_1": "미노우 I",
   "item.moreminecrafts.minnow_2": "미노우 II",
-  "item.moreminecrafts.minnow_3": "미노우 III"
+  "item.moreminecrafts.minnow_3": "미노우 III",
+  "hud.moreminecrafts.fishing.minnow_required": "미노우 %s 필요"
 }
