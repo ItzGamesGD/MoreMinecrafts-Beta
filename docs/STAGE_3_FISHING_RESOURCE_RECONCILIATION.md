@@ -6,6 +6,7 @@ Status: implementation foundation for the approved Fishing vertical slice, not a
 - Stage 2 base: `recovery/stage-2-gameplay-reconciliation` at `fde245ab364666cbff31b49ab85b89409b1d8c7b`.
 - Branch: `recovery/stage-3-fishing-resource-reconciliation`.
 - Modules remain Tier I–III, Grades I–V, final 12-species roster; fish are stack-size-one ItemStacks with Species / Grade / Length / Weight stored.
+- Canonical species roster, in registry order: Crucian Carp, Common Carp, Amur Catfish, Rainbow Trout, Largemouth Bass, Northern Pike, Atlantic Salmon, Yellowfin Tuna, Arapaima, Swordfish, Blue Marlin, and Beluga Sturgeon.
 - Reel controls Species, Crankbait controls Grade, Minnow gates capture. Server authority and vanilla fallback remain.
 
 ## Length, Weight, value
@@ -18,7 +19,7 @@ Full card rectangles route click, drag and release through normal menu handling 
 
 ## Resource geometry
 An alpha-run estimate counts an opposing pair of side quads for each contiguous opaque run across horizontal/vertical scans, plus two front/back quads. The 12 square 512×512 fish and 9 modules estimate 138,324 alpha-derived sides +42 broad faces =138,366 quads for 21 generated models. Examples: Blue Marlin 8,724; Minnow I 7,042; Reel I 5,934; Crankbait I 7,454.
-All 21 runtime models use one bounded plane with north/south faces only: 2 quads each, 42 total, estimated 3,294× aggregate reduction. Plane dimensions preserve each master's aspect ratio within a centered 16-unit square. PNG bytes, alpha, padding and source UV remain untouched. Display transforms explicitly cover GUI, both hands, ground, head and fixed/item-frame contexts. Visual appearance is LIVE PENDING.
+Approved master PNGs are immutable image inputs; they do not imply alpha-extruded or per-pixel runtime geometry. Each runtime item model is separately defined as a bounded plane with north/south faces only: 2 quads each, 42 total, estimated 3,294× aggregate reduction. Plane dimensions preserve each master's aspect ratio within a centered 16-unit square. PNG bytes, alpha, padding and source UV remain untouched. Display transforms explicitly cover GUI, both hands, ground, head and fixed/item-frame contexts. Visual appearance is LIVE PENDING.
 The approved Resource D manifest has hashes for 35 item/UI images; source and JAR copies are verified. The new validator is wired to `check`. Flame Sword C1 art/model/validators are unchanged.
 
 ## Preserved flow
