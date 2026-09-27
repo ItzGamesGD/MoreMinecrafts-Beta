@@ -121,7 +121,10 @@ public final class ModItems {
         if (!ModIds.id("wind_sword").equals(windSwordId)) {
             throw new IllegalStateException("MoreMinecrafts Wind Sword was not registered correctly.");
         }
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> entries.accept(WIND_SWORD));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> {
+            entries.accept(FLAME_SWORD);
+            entries.accept(WIND_SWORD);
+        });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
             FISH.values().forEach(entries::accept);
             for (Item[] family : FISHING_EQUIPMENT) for (Item item : family) entries.accept(item);
