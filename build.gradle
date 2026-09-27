@@ -3,6 +3,8 @@ plugins {
     id "maven-publish"
 }
 
+apply from: "gradle/validate-flame-sword-production.gradle"
+
 version = project.mod_version
 group = project.maven_group
 
@@ -64,7 +66,7 @@ java {
 
 tasks.register("validateStage6Data") {
     group = "verification"
-    description = "Validates the required Stage 6 data/resource JSON and custom references."
+    description = "Validates Minecraft 26.3 Stage 6 data/resource JSON and custom references."
     doLast {
         def json = new groovy.json.JsonSlurper()
         def resourceRoot = file("src/main/resources")
@@ -82,6 +84,7 @@ tasks.register("validateStage6Data") {
         def requiredPlacementModifiers = ["minecraft:in_square", "minecraft:height_range", "minecraft:biome"] as Set
 
         fileTree(resourceRoot).matching { include "**/*.json" }.files.each { json.parse(it) }
+
         def legacyConfiguredDir = file("src/main/resources/data/moreminecrafts/worldgen/configured_feature")
         assert !legacyConfiguredDir.exists() || fileTree(legacyConfiguredDir).matching { include "*.json" }.files.empty :
                 "Legacy worldgen/configured_feature JSON remains; Minecraft 26.3 uses worldgen/feature"
@@ -89,26 +92,45 @@ tasks.register("validateStage6Data") {
         families.each { family, ids ->
             def featureFile = file("src/main/resources/data/moreminecrafts/worldgen/feature/ore_${family}.json")
             def placedFile = file("src/main/resources/data/moreminecrafts/worldgen/placed_feature/ore_${family}.json")
-            assert featureFile.isFile()
-            assert placedFile.isFile()
+            assert featureFile.isFile() : "Missing Minecraft 26.3 feature ${featureFile}"
+            assert placedFile.isFile() : "Missing placed feature ${placedFile}"
+
             def feature = json.parse(featureFile)
             def placed = json.parse(placedFile)
+
             assert feature.type == "minecraft:ore"
             assert !feature.containsKey("config") : "Minecraft 26.3 feature config must be inline in ${featureFile}"
             assert feature.targets instanceof List
             assert feature.size instanceof Number
+
             feature.targets.each { target ->
                 assert target.state instanceof String :
                         "Minecraft 26.3 ore target state must be a block identifier string in ${featureFile}"
-                assert !target.state.toString().contains("Name") && !target.state.toString().contains("Properties")
                 assert target.state.toString().startsWith("moreminecrafts:")
+                assert !target.state.toString().contains("Name") && !target.state.toString().contains("Properties") :
+                        "Minecraft 26.3 target state must not use the legacy block-state object format in ${featureFile}"
             }
+
+            if (family != "adamantium") {
+                def byTag = feature.targets.collectEntries { target ->
+                    [(target.target.tag): target.state]
+                }
+                assert byTag["minecraft:stone_ore_replaceables"] == "moreminecrafts:${family}_ore"
+                assert byTag["minecraft:deepslate_ore_replaceables"] == "moreminecrafts:deepslate_${family}_ore" :
+                        "Deepslate target must use dedicated deepslate block for ${family}"
+            } else {
+                assert feature.targets.size() == 1
+                assert feature.targets[0].target.tag == "minecraft:base_stone_nether"
+                assert feature.targets[0].state == "moreminecrafts:adamantium_debris"
+            }
+
             assert placed.feature == "moreminecrafts:ore_${family}"
             def modifierTypes = placed.placement.collect { it.type } as Set
             assert modifierTypes.containsAll(requiredPlacementModifiers)
             def heightRange = placed.placement.find { it.type == "minecraft:height_range" }
             assert validHeightProviders.contains(heightRange.height.type) :
                     "Unsupported Minecraft 26.3 height provider ${heightRange.height.type} in ${placedFile}"
+
             ids.each { id ->
                 assert file("src/main/resources/assets/moreminecrafts/items/${id}.json").isFile()
             }
@@ -141,4 +163,52 @@ tasks.register("validateStage6Data") {
 
 tasks.named("check") {
     dependsOn tasks.named("validateStage6Data")
+}
+
+tasks.register("validateFlameSwordResources") {
+    group = "verification"
+    description = "Checks the C1-A sword model chain and distributable JAR while allowing the temporary or approved texture."
+    dependsOn tasks.named("jar")
+
+    doLast {
+        def json = new groovy.json.JsonSlurper()
+        def source = file("src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModItems.java").text
+        assert (source =~ /public static final ResourceKey<Item> FLAME_SWORD_KEY\s*=/).findAll().size() == 1
+        assert (source =~ /public static final Item FLAME_SWORD\s*=\s*Registry\.register\(\s*BuiltInRegistries\.ITEM,\s*FLAME_SWORD_KEY,/).findAll().size() == 1
+
+        def itemPath = "assets/moreminecrafts/items/flame_sword.json"
+        def modelPath = "assets/moreminecrafts/models/item/flame_sword.json"
+        def enPath = "assets/moreminecrafts/lang/en_us.json"
+        def koPath = "assets/moreminecrafts/lang/ko_kr.json"
+        def paths = [itemPath, modelPath, enPath, koPath]
+        def resources = paths.collectEntries { path ->
+            def resource = file("src/main/resources/${path}")
+            assert resource.isFile() : "Missing Flame Sword resource: ${path}"
+            [(path): json.parse(resource)]
+        }
+
+        assert resources[itemPath].model.type == "minecraft:model"
+        assert resources[itemPath].model.model == "moreminecrafts:item/flame_sword"
+        assert resources[modelPath].parent == "minecraft:item/handheld"
+        // C1-A may use its temporary vanilla reference or the approved C1-B production texture.
+        assert resources[modelPath].textures.layer0 in ["minecraft:item/netherite_sword", "moreminecrafts:item/flame_sword"] :
+                "Flame Sword must reference the temporary vanilla or approved production texture"
+        assert resources[enPath]["item.moreminecrafts.flame_sword"] == "Flame Sword"
+        assert resources[koPath]["item.moreminecrafts.flame_sword"] == "불꽃검"
+
+        def distributable = tasks.named("jar").get().archiveFile.get().asFile
+        assert distributable.isFile() : "Missing distributable mod JAR: ${distributable}"
+        new java.util.zip.ZipFile(distributable).withCloseable { jar ->
+            paths.each { path ->
+                def entries = java.util.Collections.list(jar.entries()).findAll { it.name == path }
+                assert entries.size() == 1 : "Expected exactly one ${path} in ${distributable}"
+                def packed = jar.getInputStream(entries[0]).withCloseable { json.parse(it) }
+                assert packed == resources[path] : "JAR resource differs from source: ${path}"
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn tasks.named("validateFlameSwordResources")
 }

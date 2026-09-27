@@ -1,60 +1,7 @@
 # Cumulative live validation backlog
 
-## Checkpoint 12 — T2 Equipment Completion — LIVE PENDING
-
-### Fire Sword
-- [ ] **LIVE PENDING (Checkpoint 12):** Ordinary valid hits show only lightweight fire/ember VFX.
-- [ ] **LIVE PENDING (Checkpoint 12):** Exactly every 10 valid primary hits triggers one passive; misses, invalid hits, passive damage, and duplicate hooks do not advance it.
-- [ ] **LIVE PENDING (Checkpoint 12):** The horizontal fire sweep reaches intended targets once and does not recursively increment its counter.
-- [ ] **LIVE PENDING (Checkpoint 12):** Right click creates the stronger diagonal flame slash and the cooldown lasts 30 seconds.
-- [ ] **LIVE PENDING (Checkpoint 12):** Enhancement modifies the ordinary attack once and is not duplicated into explicit passive/active damage.
-
-### Water Sword
-- [ ] **LIVE PENDING (Checkpoint 12):** Right click launches upward, then starts a directed dive with correct multiplayer motion synchronization.
-- [ ] **LIVE PENDING (Checkpoint 12):** No pillar resolves in air; it resolves only after an actual airborne-to-ground collision.
-- [ ] **LIVE PENDING (Checkpoint 12):** The strong vertical pillar appears approximately two blocks ahead and applies intended AoE once.
-- [ ] **LIVE PENDING (Checkpoint 12):** A valid enemy kill heals the provisional amount, and the fast attack-speed feel is correct.
-
-### Wind Sword
-- [ ] **LIVE PENDING (Checkpoint 12):** Fast attack speed and cheap ordinary wind VFX are readable.
-- [ ] **LIVE PENDING (Checkpoint 12):** Exactly every 10 valid primary hits triggers one damaging broad AoE with Sweep Attack-like effects at affected targets.
-- [ ] **LIVE PENDING (Checkpoint 12):** Right-click Wind Blade is the sole active and respects block clipping.
-- [ ] **LIVE PENDING (Checkpoint 12):** Wind Step no longer activates through the final item kit or old F/secondary paths.
-
-### Lightning Sword
-- [ ] **LIVE PENDING (Checkpoint 12):** Exactly five successful primary hits trigger one bonus lightning hit and reset the counter.
-- [ ] **LIVE PENDING (Checkpoint 12):** Waiting does not decay charge; reset occurs only on proc or the documented server-process lifecycle boundary.
-- [ ] **LIVE PENDING (Checkpoint 12):** Right click performs Lightning Slash movement and concentrated forward burst hit detection.
-- [ ] **LIVE PENDING (Checkpoint 12):** Ordinary sparks, passive burst, and active VFX have increasing visual weight without duplicate client/server damage.
-
-### Earth Mace
-- [ ] **LIVE PENDING (Checkpoint 12):** Only a valid vanilla Mace Smash Attack triggers Earth Fracture.
-- [ ] **LIVE PENDING (Checkpoint 12):** The narrow fracture travels forward along the ground, damages/slows intended targets once, and never breaks blocks.
-- [ ] **LIVE PENDING (Checkpoint 12):** Grounded right click activates the broader forward Earth Shatter ground-control cone.
-- [ ] **LIVE PENDING (Checkpoint 12):** Earth Shatter displacement/short launch is strong, stable, and affects only intended targets.
-
-### Explicit omissions
-- [ ] **LIVE PENDING (Checkpoint 12):** Wind Archer's Bow remains intentionally unfinished and has no accidental homing, steering, or auto-aim.
-- [ ] **LIVE PENDING (Checkpoint 12):** Dark Energy Staff remains clearly deferred provisional scaffolding and has no Enhancement profile.
-
 Automated build and smoke coverage does not replace the following human gameplay checks. Entries
 remain **LIVE PENDING** until a human records an observed result.
-
-> **Checkpoint 11 enhancement validation note:** Stage 10B / Enhancement 2.0 is the current authoritative enhancement acceptance target. The older Stage 3/4 enhancement sections below are retained as historical validation debt for the superseded pre-2.0 implementation and MUST NOT be interpreted as current +30/+40, +0.65-per-level, or 12%-armor acceptance criteria. Enhancement 2.0 remains intentionally **LIVE PENDING** until human gameplay validation is recorded.
-
-## Stage 10A - Shock Potion - LIVE PENDING
-
-- [ ] **LIVE PENDING (Stage 10A):** Thick Potion + Copper Ingot brews Shock Potion.
-- [ ] **LIVE PENDING (Stage 10A):** Brewing works with 1, 2, and 3 eligible bottles while unrelated bottle slots remain unchanged.
-- [ ] **LIVE PENDING (Stage 10A):** The normal potion bottle liquid appears sky blue (`#87CEEB`).
-- [ ] **LIVE PENDING (Stage 10A):** Shock lasts 1,200 ticks / 60 seconds and pulses every 320 ticks.
-- [ ] **LIVE PENDING (Stage 10A):** Each pulse deals 1.0 damage and roots movement for 20 ticks.
-- [ ] **LIVE PENDING (Stage 10A):** Normal movement returns after each root.
-- [ ] **LIVE PENDING (Stage 10A):** Reapplication refreshes Shock rather than stacking instances or damage.
-- [ ] **LIVE PENDING (Stage 10A):** Death/removal cleans up safely, and save/reload follows native effect persistence.
-- [ ] **LIVE PENDING (Stage 10A):** Unrelated vanilla Brewing Stand recipes remain functional.
-
-The focused procedure and architecture record are in `docs/STAGE_10A_SHOCK_POTION.md`.
 
 ## Stage 3 - LIVE PENDING
 
@@ -254,6 +201,16 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 6):** All five ore/debris blocks, materials, and storage blocks exist.
 - [ ] **LIVE PENDING (Stage 6):** No models or textures are missing.
 - [ ] **LIVE PENDING (Stage 6):** Materials and blocks are discoverable in the intended creative tabs.
+
+### Approved material texture integration
+
+The final 23 human-approved 32x32 PNG files from the task attachment are copied byte-for-byte into the native Minecraft resource namespace. See [APPROVED_MATERIAL_TEXTURES.md](APPROVED_MATERIAL_TEXTURES.md) for source checksums, destination paths, registration audit, and unused deepslate variants.
+
+- IMPLEMENTED (file-level): Titanium, Tungsten, Mythril, Etherium, Adamantium, and Enhancement Stone approved textures.
+- IMPLEMENTED (file-level): Existing registered blocks, block item definitions, and flat item models resolve through the `moreminecrafts` namespace.
+- PRESERVED: Adamantium's existing registered item ID remains `adamantium_ingot`; its item model references the approved `adamantium.png` texture.
+- INCLUDED, CURRENTLY UNUSED: Five deepslate/debris-deepslate textures because no matching deepslate blocks are registered.
+- LIVE PENDING: Inspect all material block faces and item icons in a running Minecraft client; confirm no missing texture or UV issues.
 
 ### World generation
 - [ ] **LIVE PENDING (Stage 6):** Titanium generates in the Overworld from Y -16 through 80 near its intended distribution.
@@ -483,28 +440,3 @@ cooldowns, projectile references, boss-bar viewers, and the active schedule are 
 - **LIVE PENDING:** Dedicated server starts.
 - **LIVE PENDING:** Client starts and connects.
 - **LIVE PENDING:** Previous Stage systems still initialize.
-
-## Stage 10B - Enhancement 2.0 LIVE PENDING
-
-- [ ] Advance representative T1 and T2 items from +0 through +20; verify deterministic milestones at +5/+10/+15/+20 and reject +20 -> +21.
-- [ ] Enhance Flame Sword and Wind Sword through the temporary Anvil adapter; verify abilities, names, enchantments, durability, and custom state survive.
-- [ ] Verify the provisional sword curve applies once in combat.
-- [ ] Verify Bow/Crossbow projectile bonuses and vanilla Crossbow firework explosions; charge-speed changes are intentionally not implemented yet.
-- [ ] Verify Trident melee, thrown, Loyalty return, and persistence behavior.
-- [ ] Verify four +20 armor pieces reduce non-bypass incoming damage by 8% before vanilla armor/toughness, while BYPASSES_ARMOR remains unchanged.
-- [ ] Compare enhanced tools with no Efficiency and Efficiency V on representative stone, ore, and varied-hardness blocks; confirm ineffective blocks retain vanilla speed and normal blocks are not universally instant-break.
-
-## Stage 11 runtime/design stabilization LIVE PENDING
-
-1. Create/load a world successfully; inspect the complete server log for no registry/datapack fatal errors.
-2. Verify Titanium, Tungsten, Mythril, Etherium, and Adamantium ore features can load/generate.
-3. Enhance ordinary equipment +0 -> +1 and confirm the current provisional minimum cost is 1 XP.
-4. Compare vanilla Mace same-height smashes at +0/+10/+20 and test milestone secondary area/caps.
-5. Catch Bluegill, Trout, and Pike; verify Reel unlocks, Minnow only changes species weighting, Crankbait
-   only changes Grade weighting, and each stack shows species/rarity/Grade/Length.
-6. Obtain all seven T2 weapons from the Combat tab.
-7. Trigger Flame's tenth-hit sweep, then right-click its 30-second-cooldown diagonal slash.
-8. Test Water kill heal and right-click movement/water-column damage.
-9. Trigger Wind's tenth-hit sweep, right-click Wind Blade, and confirm Wind Step cannot activate.
-10. Fire Wind Archer's Bow; test Earth Mace, Lightning Sword, and ranged Dark Energy Staff behavior.
-11. Leave/reload where relevant and verify server-owned cooldown/state persistence; report balance anomalies.

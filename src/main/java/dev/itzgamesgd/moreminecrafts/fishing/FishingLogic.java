@@ -1,69 +1,60 @@
 package dev.itzgamesgd.moreminecrafts.fishing;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import net.minecraft.util.RandomSource;
 
-/**
- * Provisional three-species/three-grade live-test sampler.
- * Reel controls eligibility, Minnow only species weighting, and Crankbait only grade weighting.
- */
+/** Pure server-authoritative rolls. Species, grade, length and weight remain separate. */
 public final class FishingLogic {
-    public static final List<FishSpecies> LIVE_TEST_SPECIES =
-            List.of(FishSpecies.BLUEGILL, FishSpecies.TROUT, FishSpecies.PIKE);
-    public static final int LIVE_TEST_GRADE_COUNT = 3;
-
+    private static final int[][] GRADE_WEIGHTS = {
+            {45, 30, 16, 7, 2}, {30, 32, 22, 12, 4},
+            {10, 25, 32, 24, 9}, {0, 8, 34, 38, 20}
+    };
     private FishingLogic() {}
 
-    public static int accessibleTier(int measuredDepth, int reelGrade) {
-        FishingGrade.requireValid(reelGrade);
-        return Math.min(Math.max(1, measuredDepth), Math.min(3, reelGrade));
+    public static List<FishSpecies> accessibleSpecies(int reelTier) {
+        if (reelTier == 0) return List.of();
+        FishingEquipmentTier.requireValid(reelTier);
+        return Arrays.stream(FishSpecies.values()).filter(s -> s.requiredReelTier() <= reelTier).toList();
     }
 
-    public static List<FishSpecies> eligible(int measuredDepth, int reelGrade) {
-        int tier = accessibleTier(measuredDepth, reelGrade);
-        return LIVE_TEST_SPECIES.subList(0, tier);
-    }
-
-    /** Provisional monotonic rarity weight; it cannot add a species to the supplied pool. */
-    public static int speciesWeight(FishSpecies species, int minnowGrade) {
-        FishingGrade.requireValid(minnowGrade);
-        int rarity = LIVE_TEST_SPECIES.indexOf(species);
-        if (rarity < 0) throw new IllegalArgumentException("Species is not in live-test pool: " + species);
-        return species.weight() * (100 + rarity * (minnowGrade - 1) * 25) / 100;
-    }
-
-    /** Provisional grade weighting, deliberately independent of species. */
-    public static int gradeWeight(int grade, int crankbaitGrade) {
-        if (grade < 1 || grade > LIVE_TEST_GRADE_COUNT) throw new IllegalArgumentException("Grade must be 1-3");
-        FishingGrade.requireValid(crankbaitGrade);
-        int base = switch (grade) { case 1 -> 100; case 2 -> 45; case 3 -> 15; default -> throw new AssertionError(); };
-        return base * (100 + (grade - 1) * (crankbaitGrade - 1) * 20) / 100;
-    }
-
-    public static CatchRoll select(List<FishSpecies> eligible, int minnowGrade, int crankbaitGrade,
-                                   RandomSource random) {
-        if (eligible.isEmpty()) throw new IllegalArgumentException("No eligible fish");
-        record Weighted(FishSpecies species, int grade, int weight) {}
-        List<Weighted> values = new ArrayList<>();
-        int total = 0;
-        for (FishSpecies species : eligible) {
-            for (int grade = 1; grade <= LIVE_TEST_GRADE_COUNT; grade++) {
-                int weight = speciesWeight(species, minnowGrade) * gradeWeight(grade, crankbaitGrade);
-                values.add(new Weighted(species, grade, weight));
-                total += weight;
-            }
-        }
+    public static FishSpecies selectSpecies(List<FishSpecies> pool, RandomSource random) {
+        if (pool.isEmpty()) throw new IllegalArgumentException("No accessible species");
+        int total = pool.stream().mapToInt(FishSpecies::encounterWeight).sum();
         int roll = random.nextInt(total);
-        for (Weighted value : values) {
-            if (roll < value.weight()) {
-                int length = value.species().lengthFromRoll(random.nextInt());
-                return new CatchRoll(value.species(), value.grade(), length);
-            }
-            roll -= value.weight();
+        for (FishSpecies species : pool) {
+            if (roll < species.encounterWeight()) return species;
+            roll -= species.encounterWeight();
         }
-        throw new IllegalStateException("Weighted selection exhausted");
+        throw new IllegalStateException("Weighted species selection overflow");
     }
 
-    public record CatchRoll(FishSpecies species, int grade, int lengthCm) {}
+    public static boolean canCapture(FishSpecies species, int minnowTier) {
+        return minnowTier >= species.requiredMinnowTier();
+    }
+
+    /** crankbaitTier zero means no active crankbait and uses the natural distribution. */
+    public static int[] gradeWeights(int crankbaitTier) {
+        if (crankbaitTier < 0 || crankbaitTier > FishingEquipmentTier.MAX)
+            throw new IllegalArgumentException("Crankbait tier must be 0-3");
+        return GRADE_WEIGHTS[crankbaitTier].clone();
+    }
+
+    public static int rollGrade(int crankbaitTier, RandomSource random) {
+        int roll = random.nextInt(100);
+        int[] weights = gradeWeights(crankbaitTier);
+        for (int i = 0; i < weights.length; i++) {
+            if (roll < weights[i]) return i + 1;
+            roll -= weights[i];
+        }
+        throw new IllegalStateException("Grade distribution must sum to 100");
+    }
+
+    public static int rollLength(FishSpecies species, RandomSource random) {
+        return species.lengthDistribution().roll(random);
+    }
+
+    public static int rollWeight(FishSpecies species, RandomSource random) {
+        return species.weightDistribution().roll(random);
+    }
 }

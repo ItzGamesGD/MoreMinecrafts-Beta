@@ -1,1 +1,6 @@
-{"parent": "minecraft:item/tripwire_hook"}
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "moreminecrafts:item/crankbait_1"
+  }
+}

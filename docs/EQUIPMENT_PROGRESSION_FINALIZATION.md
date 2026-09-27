@@ -23,53 +23,13 @@
 | Wind | 바람을 가르는 검 | Sword |
 | Wind | 바람궁수의 활 | Bow |
 | Earth | 대지의 철퇴 | Mace |
-| Lightning | 번개의 검 | Sword |
 | Dark Energy | 마기가 깃든 지팡이 | Staff |
 | Ice | 없음 | 없음 |
 
-- **[LOCKED]** 총 7종, 6개 속성 계열.
-- **[LOCKED]** T2는 Paper에서 정립된 각 장비의 핵심 gameplay identity와 능력 컨셉을 계승하되, 최종 무기 타입과 전투 구조는 Fabric 설계에서 재구성할 수 있다.
-- **[PROVISIONAL]** T2 각 무기는 기본적으로 **고유 액티브 스킬 1개 + 패시브/기타 고유 능력** 구조를 목표로 한다. 정확한 발동 조건과 수치는 후속 설계/플레이테스트에서 조정 가능하다.
-- **[PROVISIONAL]** 모든 T2 원소검은 기본 공격 자체에 해당 원소를 식별할 수 있는 전용 VFX를 가진다. 기본 타격 VFX는 작게, 패시브 발동과 액티브 스킬은 단계적으로 더 큰 연출을 사용한다.
+- **[LOCKED]** 총 6종, 5개 속성 계열.
+- **[LOCKED]** T2는 Paper에서 정립된 각 장비의 핵심 gameplay identity와 능력 컨셉을 계승한다.
 - **[IMPLEMENTATION]** Paper 코드를 그대로 이식하지 않는다. 모델, 텍스처, 애니메이션, VFX/SFX, 정확한 공격력·범위·쿨다운·지속시간, 입력 키, 판정 방식은 Fabric 구현 단계에서 재설계한다.
 - **[IMPLEMENTATION]** Earth와 Dark Energy는 carrier weapon type이 바뀌었으므로 기존 능력 정체성을 새 무기 타입에 맞게 재구성한다.
-
-### 2.1 T2 원소검 전투 설계 — 임시 확정
-
-#### Fire — 불꽃검
-- **[PROVISIONAL]** 기본 공격 적중 시 화염 계열 VFX가 발생한다.
-- **[PROVISIONAL]** 별도 쿨다운 없이 **10회 공격 적중마다** 불꽃이 가로로 크게 휩쓰는 연출과 함께 범위 공격이 발동한다.
-- **[PROVISIONAL]** 우클릭 액티브는 **30초 쿨다운**의 강력한 **사선 화염 베기**다. 일반 10타 패시브보다 명확히 강한 일격/범위 공격으로 설계한다.
-- **[SUPERSEDED-PROTOTYPE]** 현재 Fabric의 Flame Sword splash/Flame Cleave 구현은 기반 프로토타입이며, 위 설계에 맞춰 후속 구현에서 재조정한다.
-
-#### Water — 흐르는 물의 검
-- **[PROVISIONAL]** 기본 공격속도가 빠르며, 기본 공격에 물/수류 계열 VFX가 발생한다.
-- **[PROVISIONAL]** 적 처치 시 체력을 소량 회복한다.
-- **[PROVISIONAL]** 우클릭 시 먼저 위로 튀어오른 뒤 바라보는 방향으로 내려찍고, 착지/타격 지점 기준 약 **2블록 앞에 강력한 물기둥**을 소환한다.
-- **[BALANCE]** 액티브 쿨다운, 이동량, 물기둥 피해량/범위는 후속 밸런싱 대상이다.
-
-#### Wind — 바람을 가르는 검
-- **[PROVISIONAL]** 기본 공격속도가 빠르며, 기본 공격에 바람 계열 VFX가 발생한다.
-- **[PROVISIONAL]** **10회 공격 적중마다** 바람이 넓게 휘날리는 범위 공격이 발동한다.
-- **[PROVISIONAL]** 범위에 닿은 적 각각에 Sweep Attack 계열 효과를 소환하는 방식으로 빠른 다중 참격 느낌을 표현한다.
-- **[IMPLEMENTED / PROVISIONAL VALUES]** 최종 단일 액티브는 우클릭 **Wind Blade**다. Wind Step은 최종 T2 kit에서 제거되었다.
-
-#### Lightning — 번개의 검
-- **[PROVISIONAL]** 기본 공격에 전기/스파크 계열 VFX가 발생한다.
-- **[PROVISIONAL]** 연속 공격 적중으로 전하를 누적하고, 일정 누적치에 도달하면 추가 번개 피해가 발생한다.
-- **[PROVISIONAL]** 고유 액티브는 **뇌격참**이다. 짧은 전진/돌진성 베기와 함께 전방에 순간적인 번개 피해를 집중하는 burst형 스킬로 설계한다.
-- **[LOCKED]** 전하 임계치는 성공한 5타이며 시간 경과로 감소하지 않고 발동 후 0으로 초기화한다.
-- **[BALANCE]** 추가 피해, 액티브 쿨다운과 이동량은 후속 밸런싱 대상이다.
-
-#### T2 검 공통 VFX 원칙
-- **[PROVISIONAL]** 기본 공격 VFX는 원소 정체성을 보여주되 시야를 가리지 않는 소규모 연출로 제한한다.
-- **[PROVISIONAL]** 연출 위계는 **기본 공격 < 패시브/누적 발동 < 액티브 스킬** 순으로 커진다.
-- **[IMPLEMENTATION]** 실제 particle 종류, trail/mesh/model, sound, 색상과 성능 예산은 Fabric 구현 단계에서 확정한다.
-
-#### 아직 별도 설계가 필요한 T2
-- **[INTENTIONALLY OMITTED]** 바람궁수의 활: Checkpoint 12에서는 homing/steering을 의도적으로 구현하지 않는다.
-- **[IMPLEMENTED / PROVISIONAL VALUES]** 대지의 철퇴: Smash 성공 시 좁은 전방 균열(피해+둔화), 우클릭 시 넓은 전방 Earth Shatter(피해+변위)를 사용하며 블록을 파괴하지 않는다.
-- **[DEFERRED]** 마기가 깃든 지팡이: Paper의 약화/흡혈/Wither identity를 참고하되 현재 설계는 보류한다.
 
 ## 3. T3 Special 최종 roster
 
@@ -176,17 +136,27 @@
 - **[LOCKED]** “T3보다 화려한 특수기 하나” 수준의 아이디어는 T4로 채택하지 않는다.
 - **[DISCARDED]** 이전 브레인스토밍의 공간 절단검, 거울/잔상 무기, 낙성창, 공허 사슬, 궤도 칼날, 지형 각성 망치, 바다 가르는 삼지창, 태양 대검, 시간 낫, 성좌 활, 거대/중량 망치, 하늘/중력 창, End/Genesis Pickaxe, Portal Staff, Fortress Shield, 변형 무기, Resonance/Gravity 계열, “무명” 적응형 무기, Return-point 장비 등은 현재 authoritative T4 roster가 아니다.
 
-## 6. Enhancement 2.0 구조
+## 6. Enhancement 최종 구조
 
-- **[LOCKED]** T1 Vanilla와 T2 Elemental ordinary Enhancement는 모두 **+20**까지 성장한다.
-- **[LOCKED]** 연속 성장과 +5/+10/+15/+20의 결정론적 milestone을 사용한다. Promotion/별/랜덤 옵션은 복원하지 않는다.
-- **[LOCKED]** 성공률은 100%이며 실패, 하락, 파괴, reroll, pity, Coin 비용은 없다.
-- **[LOCKED]** T3는 향후 별도 progression을 사용하고 T4는 처치 point 기반 Grade/Mastery를 사용하므로 ordinary Enhancement 대상이 아니다.
-- **[LOCKED]** Anvil은 현재 임시 adapter이며 core transaction policy의 일부가 아니다.
-- **[PROVISIONAL]** 공격력 곡선, milestone bonus, 도구 보조 효과, armor 산술(풀세트 약 8% 이하), 재료/XP 비용은 플레이테스트 대상이다.
-- **[DEFERRED]** Bow draw speed, Crossbow reload speed와 Mace smash 공식은 26.3 integration 검증 및 balance 결정 후 구현한다.
+- **[LOCKED]** Paper 기준 강화 구조 유지.
+- **[LOCKED]** Vanilla equipment 최대 **+30**.
+- **[LOCKED]** T2 Elemental 최대 **+40**.
+- **[LOCKED]** T3 Special / T4 Endgame은 일반 Enhancement 대상이 아님.
+- **[LOCKED]** **Anvil + Upgrade Stone + Minecraft XP**.
+- **[LOCKED]** 성공률 **100%**.
+- **[LOCKED]** 실패 / 강화 하락 / 장비 파괴 / 실패 누적 보정 없음.
 
-현재 임시 비용은 일반 단계 Stone 1/XP 0, milestone 단계 Stone 2/XP 1로 중앙 policy에 격리되어 있다. 최종 economy가 아니다.
+### [PROVISIONAL] 비용 baseline
+
+| 강화 구간 | Upgrade Stone | XP Level |
+|---|---:|---:|
+| +1~+5 | 1 | 1 |
+| +6~+10 | 1 | 2 |
+| +11~+20 | 1 | 3 |
+| +21~+30 | 1 | 4 |
+| +31~+40 | 1 | 5 |
+
+비용표는 플레이테스트와 획득 속도에 따라 조정할 수 있으며 Equipment 단계의 구조적 잠금 대상은 아니다.
 
 ## 7. 장비 제작 / 획득 비용 원칙
 

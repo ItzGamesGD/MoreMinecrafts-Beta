@@ -82,22 +82,23 @@ public final class ModItems {
 
 
     public static final Map<FishSpecies, Item> FISH = new EnumMap<>(FishSpecies.class);
-    public static final Item[][] FISHING_EQUIPMENT = new Item[ FishingEquipmentFamily.values().length ][5];
+    public static final Item[][] FISHING_EQUIPMENT = new Item[FishingEquipmentFamily.values().length][FishingEquipmentTier.MAX];
     static {
         for (FishSpecies species : FishSpecies.values()) FISH.put(species, fish(species));
         for (FishingEquipmentFamily family : FishingEquipmentFamily.values())
-            for (int grade=1; grade<=5; grade++) FISHING_EQUIPMENT[family.ordinal()][grade-1]=equipment(family,grade);
+            for (int tier=1; tier<=FishingEquipmentTier.MAX; tier++) FISHING_EQUIPMENT[family.ordinal()][tier-1]=equipment(family,tier);
     }
     public static Item fishItem(FishSpecies species) { return FISH.get(species); }
-    public static Item equipmentItem(FishingEquipmentFamily family,int grade){return FISHING_EQUIPMENT[family.ordinal()][FishingGrade.requireValid(grade)-1];}
+    public static Item equipmentItem(FishingEquipmentFamily family,int tier){return FISHING_EQUIPMENT[family.ordinal()][FishingEquipmentTier.requireValid(tier)-1];}
     private static Item fish(FishSpecies species){
         ResourceKey<Item> key=ResourceKey.create(Registries.ITEM,ModIds.id(species.id()));
         return Registry.register(BuiltInRegistries.ITEM,key,new FishItem(species,new Item.Properties().stacksTo(1).setId(key)));
     }
-    private static Item equipment(FishingEquipmentFamily family,int grade){
-        String path=family.name().toLowerCase()+"_"+grade;
+    private static Item equipment(FishingEquipmentFamily family,int tier){
+        String path=family.name().toLowerCase()+"_"+tier;
         ResourceKey<Item> key=ResourceKey.create(Registries.ITEM,ModIds.id(path));
-        return Registry.register(BuiltInRegistries.ITEM,key,new FishingEquipmentItem(family,grade,new Item.Properties().durability(96+grade*48).setId(key)));
+        int durability = (family == FishingEquipmentFamily.REEL ? 240 : 96) + tier * 48;
+        return Registry.register(BuiltInRegistries.ITEM,key,new FishingEquipmentItem(family,tier,new Item.Properties().durability(durability).setId(key)));
     }
 
     private ModItems() {
@@ -144,7 +145,13 @@ public final class ModItems {
             throw new IllegalStateException("MoreMinecrafts Wind Sword was not registered correctly.");
         }
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> {
-            entries.accept(FLAME_SWORD); entries.accept(FLOWING_WATER_SWORD); entries.accept(WIND_SWORD);
+            entries.accept(FLAME_SWORD);
+            entries.accept(FLOWING_WATER_SWORD);
+            entries.accept(WIND_SWORD);
+            entries.accept(WIND_ARCHERS_BOW);
+            entries.accept(EARTH_MACE);
+            entries.accept(LIGHTNING_SWORD);
+            entries.accept(DARK_ENERGY_STAFF);
             entries.accept(WIND_ARCHERS_BOW); entries.accept(EARTH_MACE); entries.accept(LIGHTNING_SWORD);
             entries.accept(DARK_ENERGY_STAFF);
         });
@@ -161,9 +168,13 @@ public final class ModItems {
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
             entries.accept(ModBlocks.TITANIUM_ORE);
+            entries.accept(ModBlocks.DEEPSLATE_TITANIUM_ORE);
             entries.accept(ModBlocks.TUNGSTEN_ORE);
+            entries.accept(ModBlocks.DEEPSLATE_TUNGSTEN_ORE);
             entries.accept(ModBlocks.MYTHRIL_ORE);
+            entries.accept(ModBlocks.DEEPSLATE_MYTHRIL_ORE);
             entries.accept(ModBlocks.ETHERIUM_ORE);
+            entries.accept(ModBlocks.DEEPSLATE_ETHERIUM_ORE);
             entries.accept(ModBlocks.ADAMANTIUM_DEBRIS);
             entries.accept(ModBlocks.TITANIUM_BLOCK);
             entries.accept(ModBlocks.TUNGSTEN_BLOCK);

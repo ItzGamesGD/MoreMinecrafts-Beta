@@ -60,10 +60,16 @@ abstract class ItemStackMixin {
         // A vanilla speed of one is the fallback for blocks this stack is not effective against.
         // Only extend the tool's native effective-block result; do not make every block mineable
         // as though it were a preferred tool target.
+        if (vanillaSpeed <= 1.0F) {
+            return;
+        }
+
         double bonus = EnhancementEffects.value(
                 (ItemStack) (Object) this,
                 EnhancementEffect.Target.TOOL_EFFICIENCY
         );
-        callbackInfo.setReturnValue(EnhancementEffects.toolDestroySpeed(vanillaSpeed, bonus));
+        if (bonus > 0.0D) {
+            callbackInfo.setReturnValue(vanillaSpeed + (float) bonus);
+        }
     }
 }

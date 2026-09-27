@@ -101,9 +101,10 @@ jobs:
             exit "$exit_code"
           fi
 
-          # This is deliberately a post-datapack marker, not a mod-initializer marker.
+          # Require actual post-datapack server readiness, not only mod initializer logs.
           grep -E 'Done \([0-9.]+s\)! For help, type "help"' server-smoke.log
-          if grep -Eiq 'Registry loading errors|Failed to load datapacks|Failed to load registries|Registry Loading|Errors in currently selected data packs|Exception in server tick loop|Could not load level' server-smoke.log; then
+
+          if grep -Eiq 'Registry loading errors|Unbound values in registry|Failed to load datapacks|Failed to load registries|Registry Loading|Errors in currently selected data packs|Exception in server tick loop|Could not load level' server-smoke.log; then
             echo "Fatal registry/datapack/server startup marker found"
             exit 1
           fi
@@ -111,7 +112,7 @@ jobs:
           echo "Server runtime smoke test passed."
 
 
-  client-initialization:
+  client-smoke:
     runs-on: ubuntu-latest
     needs: server-smoke
     timeout-minutes: 8
@@ -132,13 +133,14 @@ jobs:
       - name: Install virtual display dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb
+          sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers mesa-utils vulkan-tools
 
-      - name: Run Fabric client initializer/mixin test (not a graphical readiness test)
+      - name: Run Fabric client smoke test
         shell: bash
         run: |
           set +e
-          timeout 180s xvfb-run -a ./gradlew runClient > client-smoke.log 2>&1
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render" env LIBGL_ALWAYS_SOFTWARE=1 glxinfo -B
+          timeout 180s xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render" env LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe ./gradlew runClient > client-smoke.log 2>&1
           exit_code=$?
           set -e
 
@@ -148,9 +150,16 @@ jobs:
           grep -F "Item registration OK: moreminecrafts:enhancement_stone" client-smoke.log
           grep -F "MoreMinecrafts common initialization complete." client-smoke.log
           grep -F "MoreMinecrafts client initialization complete." client-smoke.log
+          grep -F "Using graphics backend" client-smoke.log
+          grep -F "Reloading ResourceManager:" client-smoke.log
+          grep -F "minecraft:textures/atlas/items.png-atlas" client-smoke.log
 
-          if grep -Eiq 'Mixin apply failed|Mixin transformation failed|Registry loading errors|Failed to load datapacks|Failed to load registries' client-smoke.log; then
-            echo "Fatal initializer/mixin/data marker found"
+          if grep -F "Failed to create backend OpenGL" client-smoke.log && grep -F "Failed to create backend Vulkan" client-smoke.log; then
+            echo "Neither rendering backend was created; client resources were not loaded."
+            exit 1
+          fi
+          if grep -E "Missing texture|Unable to load model|Could not load model|Failed to load texture|Unable to decode|Exception while baking|Unable to stitch" client-smoke.log; then
+            echo "Client resource loading reported an error."
             exit 1
           fi
 
@@ -159,4 +168,4 @@ jobs:
             exit "$exit_code"
           fi
 
-          echo "Client initialization/mixin test passed; graphical readiness is not claimed."
+          echo "Client runtime smoke test passed."

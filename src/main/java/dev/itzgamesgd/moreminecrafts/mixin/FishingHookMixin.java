@@ -19,8 +19,7 @@ public abstract class FishingHookMixin {
         FishingHook hook = (FishingHook) (Object) this;
         if (!biting) return;
         if (hook.getOwner() instanceof ServerPlayer player) {
-            FishingChallenges.start(player, hook, rod);
-            result.setReturnValue(1);
+            if (FishingChallenges.start(player, hook, rod)) result.setReturnValue(1);
         } else if (hook.level().isClientSide()) {
             // The server retains the hooked entity until confirmation or cancellation.
             result.setReturnValue(1);

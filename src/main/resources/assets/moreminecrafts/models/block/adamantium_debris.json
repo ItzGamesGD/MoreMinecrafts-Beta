@@ -1,3 +1,6 @@
 {
-  "parent": "minecraft:block/ancient_debris"
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "moreminecrafts:block/adamantium_debris"
+  }
 }
