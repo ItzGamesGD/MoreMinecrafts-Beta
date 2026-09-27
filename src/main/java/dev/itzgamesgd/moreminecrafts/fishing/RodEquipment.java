@@ -13,5 +13,10 @@ public record RodEquipment(ItemStack reel, ItemStack crankbait, ItemStack minnow
     ).apply(instance,RodEquipment::new));
     public RodEquipment { reel=reel.copy(); crankbait=crankbait.copy(); minnow=minnow.copy(); }
     public ItemStack slot(int slot){return switch(slot){case 0->reel;case 1->crankbait;case 2->minnow;default->ItemStack.EMPTY;};}
-    public int grade(FishingEquipmentFamily family){ItemStack s=switch(family){case REEL->reel;case CRANKBAIT->crankbait;case MINNOW->minnow;};return s.getItem() instanceof FishingEquipmentItem e&&e.family()==family?e.grade():1;}
+    /** Returns zero for absent, mismatched, or broken equipment. */
+    public int tier(FishingEquipmentFamily family) {
+        ItemStack stack = switch (family) { case REEL -> reel; case CRANKBAIT -> crankbait; case MINNOW -> minnow; };
+        return ModuleDurability.isActive(stack, family) && stack.getItem() instanceof FishingEquipmentItem item
+                ? item.tier() : 0;
+    }
 }

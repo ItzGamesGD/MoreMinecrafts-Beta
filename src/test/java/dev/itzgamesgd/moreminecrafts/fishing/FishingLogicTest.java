@@ -1,66 +1,58 @@
 package dev.itzgamesgd.moreminecrafts.fishing;
 
-import java.util.List;
+import java.util.Arrays;
 import net.minecraft.util.RandomSource;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FishingLogicTest {
-    @Test void reelExpandsDepthWithoutChangingExistingWeights() {
-        assertEquals(1, FishingLogic.accessibleDepth(5, 1));
-        assertEquals(4, FishingLogic.accessibleDepth(5, 4));
-        List<FishSpecies> low = FishingLogic.eligible(5, 1, 5);
-        List<FishSpecies> high = FishingLogic.eligible(5, 4, 5);
-        assertFalse(low.contains(FishSpecies.STURGEON));
-        assertTrue(high.contains(FishSpecies.STURGEON));
-        assertTrue(high.containsAll(low));
-        assertEquals(FishingLogic.select(List.of(FishSpecies.PERCH), 2, 0, RandomSource.create(91)),
-                FishingLogic.select(high.stream().filter(s -> s == FishSpecies.PERCH).toList(),
-                        2, 0, RandomSource.create(91)));
+    @Test void higherReelsIncludeLowerSpeciesWithoutChangingWeights() {
+        var one = FishingLogic.accessibleSpecies(1);
+        var three = FishingLogic.accessibleSpecies(3);
+        assertEquals(4, one.size());
+        assertEquals(12, three.size());
+        assertTrue(three.containsAll(one));
+        assertEquals(FishSpecies.CRUCIAN_CARP.encounterWeight(), one.getFirst().encounterWeight());
+        assertEquals(FishSpecies.CRUCIAN_CARP.encounterWeight(), three.getFirst().encounterWeight());
     }
 
-    @Test void minnowIsHardGateAndNotWeightModifier() {
-        assertFalse(FishingLogic.eligible(5, 5, 3).contains(FishSpecies.STURGEON));
-        assertTrue(FishingLogic.eligible(5, 5, 4).contains(FishSpecies.STURGEON));
-        List<FishSpecies> atFour = FishingLogic.eligible(5, 5, 4);
-        List<FishSpecies> atFive = FishingLogic.eligible(5, 5, 5);
-        assertTrue(atFour.contains(FishSpecies.PERCH));
-        assertTrue(atFive.contains(FishSpecies.PERCH));
-        assertEquals(FishingLogic.select(atFour.stream().filter(s -> s == FishSpecies.PERCH).toList(),
-                        2, 0, RandomSource.create(17)),
-                FishingLogic.select(atFive.stream().filter(s -> s == FishSpecies.PERCH).toList(),
-                        2, 0, RandomSource.create(17)));
+    @Test void minnowDoesNotFilterEncounterPoolAndValidationComesAfterward() {
+        var pool = FishingLogic.accessibleSpecies(3);
+        assertTrue(pool.contains(FishSpecies.BLUE_MARLIN));
+        assertFalse(FishingLogic.canCapture(FishSpecies.BLUE_MARLIN, 0));
+        assertFalse(FishingLogic.canCapture(FishSpecies.BLUE_MARLIN, 2));
+        assertTrue(FishingLogic.canCapture(FishSpecies.BLUE_MARLIN, 3));
     }
 
-    @Test void crankbaitChangesUpperGradeRatioButNotEligibility() {
-        List<FishSpecies> pool = FishingLogic.eligible(2, 2, 1);
-        assertFalse(pool.contains(FishSpecies.STURGEON));
-        int lowGrade = FishingLogic.weight(FishSpecies.PERCH, 1, 1, 0);
-        int highBefore = FishingLogic.weight(FishSpecies.PERCH, 5, 1, 0);
-        int highAfter = FishingLogic.weight(FishSpecies.PERCH, 5, 5, 0);
-        assertEquals(lowGrade, FishingLogic.weight(FishSpecies.PERCH, 1, 5, 0));
-        assertTrue(highAfter > highBefore);
-        assertEquals(FishSpecies.STURGEON.depthTier(), 4);
-        assertFalse(FishingLogic.eligible(2, 2, 5).contains(FishSpecies.STURGEON));
-        assertEquals(FishingLogic.select(pool, 3, 0, RandomSource.create(42)),
-                FishingLogic.select(List.copyOf(pool), 3, 0, RandomSource.create(42)));
+    @Test void exactCrankbaitDistributionsAreComplete() {
+        assertArrayEquals(new int[]{45,30,16,7,2}, FishingLogic.gradeWeights(0));
+        assertArrayEquals(new int[]{30,32,22,12,4}, FishingLogic.gradeWeights(1));
+        assertArrayEquals(new int[]{10,25,32,24,9}, FishingLogic.gradeWeights(2));
+        assertArrayEquals(new int[]{0,8,34,38,20}, FishingLogic.gradeWeights(3));
+        for (int tier=0;tier<=3;tier++) assertEquals(100, Arrays.stream(FishingLogic.gradeWeights(tier)).sum());
+        assertEquals(0, FishingLogic.gradeWeights(3)[0]);
     }
 
-    @Test void lengthsAndQualityAreBoundedAndDeterministic() {
-        for (FishSpecies species : FishSpecies.values()) {
-            for (int roll : new int[] {Integer.MIN_VALUE, 0, 1, Integer.MAX_VALUE}) {
-                int length = species.lengthFromRoll(roll);
-                assertTrue(length >= species.minLengthCm() && length <= species.maxLengthCm());
-                assertEquals(species.quality(3, length), species.quality(3, length));
-            }
-            assertTrue(species.quality(3, species.maxLengthCm())
-                    >= species.quality(3, species.minLengthCm()));
+    @Test void measurementsAreSpeciesSpecificBoundedAndIndependentFromGrade() {
+        assertNotEquals(FishSpecies.CRUCIAN_CARP.lengthDistribution(), FishSpecies.SWORDFISH.lengthDistribution());
+        assertNotEquals(FishSpecies.CRUCIAN_CARP.weightDistribution(), FishSpecies.SWORDFISH.weightDistribution());
+        for (FishSpecies species : FishSpecies.values()) for (int seed=0;seed<100;seed++) {
+            int length = FishingLogic.rollLength(species, RandomSource.create(seed));
+            int weight = FishingLogic.rollWeight(species, RandomSource.create(seed + 1000));
+            assertTrue(length >= species.lengthDistribution().minimum() && length <= species.lengthDistribution().maximum());
+            assertTrue(weight >= species.weightDistribution().minimum() && weight <= species.weightDistribution().maximum());
+            // Neither API accepts Grade: the identical seed gives identical measurements for any eventual Grade.
+            assertEquals(length, FishingLogic.rollLength(species, RandomSource.create(seed)));
+            assertEquals(weight, FishingLogic.rollWeight(species, RandomSource.create(seed + 1000)));
         }
     }
 
-    @Test void exactlyFiveGrades() {
-        for (int i = 1; i <= 5; i++) assertEquals(i, FishingGrade.requireValid(i));
-        assertThrows(IllegalArgumentException.class, () -> FishingGrade.requireValid(0));
-        assertThrows(IllegalArgumentException.class, () -> FishingGrade.requireValid(6));
+    @Test void valueUsesGradeAndAdditiveSpeciesRelativePercentiles() {
+        FishSpecies species = FishSpecies.COMMON_CARP;
+        int minL=species.lengthDistribution().minimum(), maxL=species.lengthDistribution().maximum();
+        int minW=species.weightDistribution().minimum(), maxW=species.weightDistribution().maximum();
+        assertEquals(species.baseValue(), FishValue.calculate(species,1,minL,minW), 0.0001);
+        assertEquals(species.baseValue()*2.5, FishValue.calculate(species,5,minL,minW), 0.0001);
+        assertEquals(species.baseValue()*2.5, FishValue.calculate(species,1,maxL,maxW), 0.0001);
     }
 }

@@ -2,36 +2,48 @@ package dev.itzgamesgd.moreminecrafts.fishing;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
+import dev.itzgamesgd.moreminecrafts.registry.ModMenuTypes;
 
-/** Server-side slots use the vanilla one-row screen type, with rod-specific slot rules. */
+/** Three server-authoritative module slots, backed by the held rod's data component. */
 public final class FishingRodMenu extends AbstractContainerMenu {
-    private static final int ROD_SLOTS = 9;
+    private static final int ROD_SLOTS = 3;
     private static final int PLAYER_END = ROD_SLOTS + 36;
-    private final RodEquipmentContainer equipment;
+    private final Container equipment;
     private final ItemStack rod;
 
+    /** Client menu receives its slots from normal Minecraft container synchronization. */
+    public FishingRodMenu(int id, Inventory inventory) {
+        this(id, inventory, ItemStack.EMPTY, new SimpleContainer(ROD_SLOTS));
+    }
+
     public FishingRodMenu(int id, Inventory inventory, ItemStack rod) {
-        super(MenuType.GENERIC_9x1, id);
+        this(id, inventory, rod, new RodEquipmentContainer(rod));
+    }
+
+    private FishingRodMenu(int id, Inventory inventory, ItemStack rod, Container equipment) {
+        super(ModMenuTypes.FISHING_ROD, id);
         this.rod = rod;
-        this.equipment = new RodEquipmentContainer(rod);
+        this.equipment = equipment;
         for (int i = 0; i < ROD_SLOTS; i++) {
             final int slot = i;
-            addSlot(new Slot(equipment, i, 8 + i * 18, 18) {
+            addSlot(new Slot(equipment, i, 107 + i * 75, 45) {
                 @Override public boolean mayPlace(ItemStack stack) {
-                    return slot < 3 && equipment.canPlaceItem(slot, stack);
+                    return stack.getItem() instanceof FishingEquipmentItem item
+                            && item.family().ordinal() == slot && equipment.canPlaceItem(slot, stack);
                 }
             });
         }
         for (int row = 0; row < 3; row++)
             for (int col = 0; col < 9; col++)
-                addSlot(playerSlot(inventory, col + row * 9 + 9, 8 + col * 18, 50 + row * 18));
+                addSlot(playerSlot(inventory, col + row * 9 + 9, 82 + col * 18, 190 + row * 18));
         for (int col = 0; col < 9; col++)
-            addSlot(playerSlot(inventory, col, 8 + col * 18, 108));
+            addSlot(playerSlot(inventory, col, 82 + col * 18, 244));
     }
 
     private Slot playerSlot(Inventory inventory, int index, int x, int y) {
@@ -46,7 +58,7 @@ public final class FishingRodMenu extends AbstractContainerMenu {
     }
 
     @Override public boolean stillValid(Player player) {
-        return rod.getItem() instanceof FishingRodItem
+        return rod.isEmpty() || rod.getItem() instanceof FishingRodItem
                 && (player.getMainHandItem() == rod || player.getOffhandItem() == rod);
     }
 

@@ -8,7 +8,7 @@ public final class RodEquipmentContainer extends SimpleContainer {
     private final ItemStack rod;
 
     public RodEquipmentContainer(ItemStack rod) {
-        super(9);
+        super(3);
         this.rod = rod;
         RodEquipment equipment = rod.getOrDefault(ModDataComponents.ROD_EQUIPMENT, RodEquipment.EMPTY);
         for (int i = 0; i < 3; i++) super.setItem(i, equipment.slot(i).copy());
