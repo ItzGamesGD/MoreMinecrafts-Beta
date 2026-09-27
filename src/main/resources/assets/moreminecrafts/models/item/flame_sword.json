@@ -1,6 +1,22 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "minecraft:item/netherite_sword"
-  }
+    "layer0": "moreminecrafts:item/flame_sword"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 7.5],
+      "to": [16, 16, 8.5],
+      "faces": {
+        "north": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#layer0"
+        },
+        "south": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#layer0"
+        }
+      }
+    }
+  ]
 }
