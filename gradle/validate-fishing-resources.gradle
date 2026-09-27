@@ -7,7 +7,7 @@ tasks.register("validateFishingResources") {
   def fishIds=["crucian_carp","common_carp","amur_catfish","rainbow_trout","largemouth_bass","northern_pike","atlantic_salmon","yellowfin_tuna","arapaima","swordfish","blue_marlin","beluga_sturgeon"]
   def families=["reel","minnow","crankbait"], moduleIds=families.collectMany{family->(1..3).collect{tier->"${family}_${tier}"}}
   def src=file("src/main/java/dev/itzgamesgd/moreminecrafts/fishing/FishSpecies.java").text
-  def declared=(src =~ /(?m)^\s+[A-Z_]+\\("([a-z_]+)"/).collect{it[1]}
+  def declared=(src =~ /(?m)^\s+[A-Z_]+\("([a-z_]+)"/).collect{it[1]}
   assert declared==fishIds
   def approval=json.parse(file("docs/FISHING_RESOURCE_D_APPROVED_MANIFEST.json"))
   assert approval["package"]=="Fishing Resource D Final Approved" && approval.fish_species_count==12 && approval.fish_species==fishIds
