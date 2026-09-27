@@ -103,7 +103,7 @@ tasks.named("check") {
 tasks.register("validateFlameSwordResources") {
     group = "verification"
     description = "Checks the C1-A sword model chain and distributable JAR."
-    dependsOn tasks.named("remapJar")
+    dependsOn tasks.named("jar")
 
     doLast {
         def json = new groovy.json.JsonSlurper()
@@ -130,7 +130,7 @@ tasks.register("validateFlameSwordResources") {
         assert resources[enPath]["item.moreminecrafts.flame_sword"] == "Flame Sword"
         assert resources[koPath]["item.moreminecrafts.flame_sword"] == "불꽃검"
 
-        def distributable = tasks.named("remapJar").get().archiveFile.get().asFile
+        def distributable = tasks.named("jar").get().archiveFile.get().asFile
         assert distributable.isFile() : "Missing distributable mod JAR: ${distributable}"
         new java.util.zip.ZipFile(distributable).withCloseable { jar ->
             paths.each { path ->

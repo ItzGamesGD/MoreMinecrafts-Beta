@@ -20,7 +20,7 @@ For later Flowing Water, Wind-Cutting, and Lightning swords, use the same `Regis
 
 ## Static validation
 
-`validateFlameSwordResources` runs from Gradle `check`: it verifies one Flame Sword key and registration declaration; parses source client-item, model, and English/Korean locale JSON; checks the model reference, handheld parent, and temporary vanilla texture identifier; and checks that each resource appears exactly once with matching JSON in the distributable `remapJar` output. The existing `validateStage6Data` and JUnit suite remain in `./gradlew build`. The vanilla texture is deliberately external to the mod JAR and is provided by Minecraft.
+`validateFlameSwordResources` runs from Gradle `check`: it verifies one Flame Sword key and registration declaration; parses source client-item, model, and English/Korean locale JSON; checks the model reference, handheld parent, and temporary vanilla texture identifier; and checks that each resource appears exactly once with matching JSON in the distributable `jar` output. The existing `validateStage6Data` and JUnit suite remain in `./gradlew build`. The vanilla texture is deliberately external to the mod JAR and is provided by Minecraft.
 
 This task changes only the Flame Sword creative tab listing and Korean name, the scoped Gradle validation, and this document. It does not alter existing Fishing, Enhancement, Mining, other gameplay assets, or Flame Sword ability behavior.
 
