@@ -129,13 +129,14 @@ jobs:
       - name: Install virtual display dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb
+          sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers mesa-utils vulkan-tools
 
       - name: Run Fabric client smoke test
         shell: bash
         run: |
           set +e
-          timeout 180s xvfb-run -a ./gradlew runClient > client-smoke.log 2>&1
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render" env LIBGL_ALWAYS_SOFTWARE=1 glxinfo -B
+          timeout 180s xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render" env LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe ./gradlew runClient > client-smoke.log 2>&1
           exit_code=$?
           set -e
 
@@ -145,6 +146,15 @@ jobs:
           grep -F "Item registration OK: moreminecrafts:enhancement_stone" client-smoke.log
           grep -F "MoreMinecrafts common initialization complete." client-smoke.log
           grep -F "MoreMinecrafts client initialization complete." client-smoke.log
+
+          if grep -F "Failed to create backend OpenGL" client-smoke.log && grep -F "Failed to create backend Vulkan" client-smoke.log; then
+            echo "Neither rendering backend was created; client resources were not loaded."
+            exit 1
+          fi
+          if grep -E "Missing texture|Unable to load model|Could not load model|Failed to load texture|Unable to decode|Exception while baking|Unable to stitch" client-smoke.log; then
+            echo "Client resource loading reported an error."
+            exit 1
+          fi
 
           if [ "$exit_code" -ne 0 ] && [ "$exit_code" -ne 124 ]; then
             echo "runClient exited unexpectedly with code $exit_code"
