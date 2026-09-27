@@ -102,7 +102,7 @@ tasks.named("check") {
 
 tasks.register("validateFlameSwordResources") {
     group = "verification"
-    description = "Checks the C1-A sword model chain and distributable JAR."
+    description = "Checks the C1-A sword model chain and distributable JAR while allowing the temporary or approved texture."
     dependsOn tasks.named("jar")
 
     doLast {
@@ -125,8 +125,9 @@ tasks.register("validateFlameSwordResources") {
         assert resources[itemPath].model.type == "minecraft:model"
         assert resources[itemPath].model.model == "moreminecrafts:item/flame_sword"
         assert resources[modelPath].parent == "minecraft:item/handheld"
-        // The temporary texture is supplied by Minecraft, not bundled in the mod JAR.
-        assert resources[modelPath].textures.layer0 == "minecraft:item/netherite_sword"
+        // C1-A may use its temporary vanilla reference or the approved C1-B production texture.
+        assert resources[modelPath].textures.layer0 in ["minecraft:item/netherite_sword", "moreminecrafts:item/flame_sword"] :
+                "Flame Sword must reference the temporary vanilla or approved production texture"
         assert resources[enPath]["item.moreminecrafts.flame_sword"] == "Flame Sword"
         assert resources[koPath]["item.moreminecrafts.flame_sword"] == "불꽃검"
 
