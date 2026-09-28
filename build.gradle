@@ -187,7 +187,6 @@ tasks.register("validateStage6Data") {
             assert expected.message.contains("Unsupported Minecraft 26.3 height provider") :
                     "Nested fixture failed for an unexpected reason: ${expected.message}"
         }
-        }
     }
 }
 
