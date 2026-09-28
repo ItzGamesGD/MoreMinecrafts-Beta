@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.test;
 
 import dev.itzgamesgd.moreminecrafts.alchemy.ModAlchemy;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingEquipmentFamily;
+import dev.itzgamesgd.moreminecrafts.fishing.FishingEquipmentTier;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingState;
 import dev.itzgamesgd.moreminecrafts.zombie.ZombieVariant;
@@ -19,6 +20,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
+
+import java.util.function.BiConsumer;
 
 public final class LiveTestCommand {
     private LiveTestCommand() {}
@@ -59,10 +62,15 @@ public final class LiveTestCommand {
 
     private static int giveFishing(ServerPlayer player) {
         give(player, Items.FISHING_ROD, 1);
-        for (FishingEquipmentFamily family : FishingEquipmentFamily.values())
-            for (int grade = 1; grade <= 5; grade++) give(player, ModItems.equipmentItem(family, grade), 1);
+        forEachFishingEquipment((family, tier) -> give(player, ModItems.equipmentItem(family, tier), 1));
         player.sendSystemMessage(Component.literal("MoreMinecrafts test kit: fishing"));
         return 1;
+    }
+
+    static void forEachFishingEquipment(BiConsumer<FishingEquipmentFamily, Integer> consumer) {
+        for (FishingEquipmentFamily family : FishingEquipmentFamily.values())
+            for (int tier = FishingEquipmentTier.MIN; tier <= FishingEquipmentTier.MAX; tier++)
+                consumer.accept(family, tier);
     }
 
     private static int giveMaterials(ServerPlayer player) {
