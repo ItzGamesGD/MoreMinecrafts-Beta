@@ -68,7 +68,7 @@ public final class ElementalHitProgress {
         return !PROGRESS.isEmpty() || !HELD_FAMILY.isEmpty();
     }
 
-    static float primaryHitBonusDamage(UUID playerId, Weapon weapon) {
+    public static float primaryHitBonusDamage(UUID playerId, Weapon weapon) {
         if (weapon != Weapon.LIGHTNING) return 0.0F;
         return progress(playerId, weapon) == LIGHTNING_THRESHOLD - 1
                 ? LIGHTNING_PROC_BONUS_DAMAGE : 0.0F;
