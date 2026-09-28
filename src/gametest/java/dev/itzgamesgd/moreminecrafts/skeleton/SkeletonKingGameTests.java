@@ -39,7 +39,7 @@ public final class SkeletonKingGameTests implements CustomTestMethodInvoker {
         ((SkeletonKingState) guard).moreminecrafts$setGuardOwner(king.getUUID());
         level.addFreshEntity(guard);
         CompoundTag guardData = save(guard);
-        guard.remove(Entity.RemovalReason.UNLOADED);
+        guard.remove(Entity.RemovalReason.UNLOADED_TO_CHUNK);
 
         Skeleton restoredGuard = reloadSkeleton(level, guardData);
         level.addFreshEntity(restoredGuard);
@@ -58,13 +58,13 @@ public final class SkeletonKingGameTests implements CustomTestMethodInvoker {
         ((SkeletonKingState) king).moreminecrafts$makeSkeletonKing();
         king.setNoAi(true);
 
-        ServerPlayer first = context.makeMockServerPlayer(GameType.SURVIVAL);
+        ServerPlayer first = context.makeMockServerPlayerInLevel();
         ServerPlayer second = context.makeMockServerPlayer(GameType.SURVIVAL);
         first.setPos(king.getX() + 2.0D, king.getY(), king.getZ());
         second.setPos(king.getX() + 3.0D, king.getY(), king.getZ());
         king.setTarget(first);
 
-        context.runAfterDelay(122, () -> king.setTarget(second));
+        context.runAfterDelay(125, () -> king.setTarget(second));
         context.runAfterDelay(151, () -> {
             List<Arrow> arrows = level.getEntitiesOfClass(Arrow.class,
                     new AABB(king.getX() - 32, king.getY() - 8, king.getZ() - 32,
