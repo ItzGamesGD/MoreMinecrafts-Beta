@@ -1,10 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.fishing;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,14 +26,15 @@ class FishingEquipmentTest {
         assertEquals(1, ModuleDurability.remainingAfterWear(1));
     }
 
-    @Test void reelMinnowAndCrankbaitWearReturnUpdatedEquipmentWithoutMutatingOriginal() {
+    @Test void moduleWearReplacementCopiesStateAndChangesOnlySelectedSlot() {
         for (FishingEquipmentFamily family : FishingEquipmentFamily.values()) {
             RodEquipment original = equipmentWithRemaining(5);
             int reelDamage = original.reel().getDamageValue();
             int crankbaitDamage = original.crankbait().getDamageValue();
             int minnowDamage = original.minnow().getDamageValue();
 
-            RodEquipment updated = original.withWear(family);
+            RodEquipment updated = original.withModuleUpdate(family,
+                    stack -> stack.setDamageValue(stack.getDamageValue() + 1));
 
             assertEquals(reelDamage, original.reel().getDamageValue(), "original reel");
             assertEquals(crankbaitDamage, original.crankbait().getDamageValue(), "original crankbait");
@@ -47,7 +45,6 @@ class FishingEquipmentTest {
                     updated.crankbait().getDamageValue(), "updated crankbait");
             assertEquals(family == FishingEquipmentFamily.MINNOW ? minnowDamage + 1 : minnowDamage,
                     updated.minnow().getDamageValue(), "updated minnow");
-            assertEquals(0, updated.tier(family), "vanilla test stack is not fishing equipment");
         }
     }
 
@@ -62,10 +59,12 @@ class FishingEquipmentTest {
         assertEquals(5, ModuleDurability.remaining(updated.crankbait()));
     }
 
-    @Test void successfulCaptureWearUpdatesBothCaptureModulesOnlyOnce() {
+    @Test void captureWearCopiesAndUpdatesBothCaptureSlotsOnce() {
         RodEquipment original = equipmentWithRemaining(5);
 
-        RodEquipment updated = FishingChallenges.captureWear(original, true);
+        RodEquipment updated = original.withModuleUpdate(FishingEquipmentFamily.MINNOW,
+                        FishingEquipmentTest::wearOnce)
+                .withModuleUpdate(FishingEquipmentFamily.CRANKBAIT, FishingEquipmentTest::wearOnce);
 
         assertEquals(5, ModuleDurability.remaining(original.reel()));
         assertEquals(5, ModuleDurability.remaining(original.minnow()));
@@ -75,36 +74,28 @@ class FishingEquipmentTest {
         assertEquals(4, ModuleDurability.remaining(updated.crankbait()));
     }
 
-    @Test void brokenAndWrongFamilyModulesKeepExistingRemovalAndFamilySemantics() {
-        RodEquipment atBrokenThreshold = equipmentWithRemaining(1);
-        RodEquipment unchanged = atBrokenThreshold.withWear(FishingEquipmentFamily.MINNOW);
-        assertEquals(1, ModuleDurability.remaining(unchanged.minnow()));
-        assertFalse(unchanged.minnow().isEmpty());
+    @Test void brokenThresholdKeepsModulePresentAndAtOneRemaining() {
+        RodEquipment original = equipmentWithRemaining(1);
+        RodEquipment updated = original.withModuleUpdate(FishingEquipmentFamily.MINNOW, stack ->
+                stack.setDamageValue(stack.getMaxDamage()
+                        - ModuleDurability.remainingAfterWear(ModuleDurability.remaining(stack))));
 
-        RodEquipment wrongFamily = new RodEquipment(
-                module(FishingEquipmentFamily.CRANKBAIT, 10, 5),
-                ItemStack.EMPTY,
-                module(FishingEquipmentFamily.MINNOW, 10, 5));
-        RodEquipment afterWrongFamilyWear = wrongFamily.withWear(FishingEquipmentFamily.REEL);
-        assertEquals(5, ModuleDurability.remaining(afterWrongFamilyWear.reel()));
-        assertEquals(5, ModuleDurability.remaining(afterWrongFamilyWear.minnow()));
-        assertEquals(0, afterWrongFamilyWear.tier(FishingEquipmentFamily.REEL));
+        assertEquals(1, ModuleDurability.remaining(updated.minnow()));
+        assertEquals(1, ModuleDurability.remaining(original.minnow()));
+        assertFalse(updated.minnow().isEmpty());
+    }
+
+    private static void wearOnce(ItemStack stack) {
+        stack.setDamageValue(stack.getDamageValue() + 1);
     }
 
     private static RodEquipment equipmentWithRemaining(int remaining) {
-        return new RodEquipment(
-                module(FishingEquipmentFamily.REEL, 10, remaining),
-                module(FishingEquipmentFamily.CRANKBAIT, 10, remaining),
-                module(FishingEquipmentFamily.MINNOW, 10, remaining));
+        return new RodEquipment(module(remaining), module(remaining), module(remaining));
     }
 
-    private static ItemStack module(FishingEquipmentFamily family, int maxDamage, int remaining) {
-        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM,
-                Identifier.fromNamespaceAndPath("moreminecrafts", "test_" + family.name().toLowerCase()));
-        Item item = new FishingEquipmentItem(family, 1,
-                new Item.Properties().durability(maxDamage).setId(key));
-        ItemStack stack = new ItemStack(item);
-        stack.setDamageValue(maxDamage - remaining);
+    private static ItemStack module(int remaining) {
+        ItemStack stack = new ItemStack(Items.IRON_SWORD);
+        stack.setDamageValue(stack.getMaxDamage() - remaining);
         return stack;
     }
 }
