@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "moreminecrafts-gametest",
+  "version": "1.0.0",
+  "name": "MoreMinecrafts Game Tests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": ["dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": ">=26.3 <26.4",
+    "fabric-api": "*",
+    "moreminecrafts": "*"
+  }
+}

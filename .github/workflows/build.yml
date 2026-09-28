@@ -101,7 +101,10 @@ jobs:
             exit "$exit_code"
           fi
 
-          # Require actual post-datapack server readiness, not only mod initializer logs.
+          # Require MoreMinecrafts registry/common initialization as well as actual server readiness.
+          grep -F "Registry probe OK: moreminecrafts:foundation_probe" server-smoke.log
+          grep -F "Item registration OK: moreminecrafts:enhancement_stone" server-smoke.log
+          grep -F "MoreMinecrafts common initialization complete." server-smoke.log
           grep -E 'Done \([0-9.]+s\)! For help, type "help"' server-smoke.log
 
           if grep -Eiq 'Registry loading errors|Unbound values in registry|Failed to load datapacks|Failed to load registries|Registry Loading|Errors in currently selected data packs|Exception in server tick loop|Could not load level' server-smoke.log; then

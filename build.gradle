@@ -27,6 +27,15 @@ loom {
         }
     }
 }
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = "moreminecrafts-gametest"
+        enableGameTests = true
+        enableClientGameTests = false
+        eula = true
+    }
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -83,11 +92,33 @@ tasks.register("validateStage6Data") {
                 "minecraft:very_biased_to_bottom", "minecraft:trapezoid", "minecraft:weighted_list"
         ] as Set
         def requiredPlacementModifiers = ["minecraft:in_square", "minecraft:height_range", "minecraft:biome"] as Set
+        def recursiveJsonFiles = { root -> fileTree(root).matching { include "**/*.json" }.files }
+        def validatePlacedFeature = { placedFile ->
+            def placed = json.parse(placedFile)
+            def featureId = placed.feature as String
+            if (featureId?.startsWith("moreminecrafts:")) {
+                def featurePath = featureId.substring("moreminecrafts:".length())
+                assert file("src/main/resources/data/moreminecrafts/worldgen/feature/${featurePath}.json").isFile() :
+                        "Missing Minecraft 26.3 feature ${featureId} referenced by ${placedFile}"
+            }
+            def heightRange = placed.placement.find { it.type == "minecraft:height_range" }
+            assert heightRange != null
+            assert validHeightProviders.contains(heightRange.height.type) :
+                    "Unsupported Minecraft 26.3 height provider ${heightRange.height.type} in ${placedFile}"
+        }
+        def validateItemModelReference = { itemFile ->
+            def model = json.parse(itemFile).model.model as String
+            if (model?.startsWith("moreminecrafts:")) {
+                def modelPath = model.substring("moreminecrafts:".length())
+                assert file("src/main/resources/assets/moreminecrafts/models/${modelPath}.json").isFile() :
+                        "Missing model ${model} referenced by ${itemFile}"
+            }
+        }
 
-        fileTree(resourceRoot).matching { include "**/*.json" }.files.each { json.parse(it) }
+        recursiveJsonFiles(resourceRoot).each { json.parse(it) }
 
         def legacyConfiguredDir = file("src/main/resources/data/moreminecrafts/worldgen/configured_feature")
-        assert !legacyConfiguredDir.exists() || fileTree(legacyConfiguredDir).matching { include "*.json" }.files.empty :
+        assert !legacyConfiguredDir.exists() || recursiveJsonFiles(legacyConfiguredDir).empty :
                 "Legacy worldgen/configured_feature JSON remains; Minecraft 26.3 uses worldgen/feature"
 
         families.each { family, ids ->
@@ -137,27 +168,25 @@ tasks.register("validateStage6Data") {
             }
         }
 
-        fileTree("src/main/resources/data/moreminecrafts/worldgen/placed_feature").matching { include "*.json" }.files.each { placedFile ->
-            def placed = json.parse(placedFile)
-            def featureId = placed.feature as String
-            if (featureId?.startsWith("moreminecrafts:")) {
-                def featurePath = featureId.substring("moreminecrafts:".length())
-                assert file("src/main/resources/data/moreminecrafts/worldgen/feature/${featurePath}.json").isFile() :
-                        "Missing Minecraft 26.3 feature ${featureId} referenced by ${placedFile}"
-            }
-            def heightRange = placed.placement.find { it.type == "minecraft:height_range" }
-            assert heightRange != null
-            assert validHeightProviders.contains(heightRange.height.type) :
-                    "Unsupported Minecraft 26.3 height provider ${heightRange.height.type} in ${placedFile}"
+        recursiveJsonFiles("src/main/resources/data/moreminecrafts/worldgen/placed_feature").each { placedFile ->
+            validatePlacedFeature(placedFile)
         }
 
-        fileTree("src/main/resources/assets/moreminecrafts/items").matching { include "*.json" }.files.each { itemFile ->
-            def model = json.parse(itemFile).model.model as String
-            if (model?.startsWith("moreminecrafts:")) {
-                def modelPath = model.substring("moreminecrafts:".length())
-                assert file("src/main/resources/assets/moreminecrafts/models/${modelPath}.json").isFile() :
-                        "Missing model ${model} referenced by ${itemFile}"
-            }
+        recursiveJsonFiles("src/main/resources/assets/moreminecrafts/items").each { itemFile ->
+            validateItemModelReference(itemFile)
+        }
+
+        def fixtureRoot = file("src/test/resources/validation/stage6/data/moreminecrafts/worldgen/placed_feature")
+        def nestedInvalidFixture = new File(fixtureRoot, "nested/invalid_height.json")
+        assert recursiveJsonFiles(fixtureRoot).contains(nestedInvalidFixture) :
+                "Nested Stage 6 regression fixture was not discovered recursively"
+        try {
+            validatePlacedFeature(nestedInvalidFixture)
+            assert false : "Nested invalid placed-feature fixture escaped validation"
+        } catch (AssertionError expected) {
+            assert expected.message.contains("Unsupported Minecraft 26.3 height provider") :
+                    "Nested fixture failed for an unexpected reason: ${expected.message}"
+        }
         }
     }
 }
