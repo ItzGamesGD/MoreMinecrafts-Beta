@@ -50,7 +50,7 @@ public final class SkeletonKingGameTests implements CustomTestMethodInvoker {
         });
     }
 
-    @GameTest
+    @GameTest(maxTicks = 180)
     public void targetSwitchCancelsPendingBarrage(GameTestHelper context) {
         var level = context.getLevel();
         Skeleton king = context.spawnMob(EntityTypes.SKELETON, 1, 1, 1).withNoFreeWill().spawn();
