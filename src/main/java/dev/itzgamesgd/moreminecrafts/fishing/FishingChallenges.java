@@ -86,7 +86,8 @@ public final class FishingChallenges {
     private static void awardIfPermitted(ServerPlayer player, Challenge challenge) {
         RodEquipment equipment = challenge.rod().getOrDefault(ModDataComponents.ROD_EQUIPMENT, RodEquipment.EMPTY);
         int minnowTier = equipment.tier(FishingEquipmentFamily.MINNOW);
-        if (!FishingLogic.canCapture(challenge.species(), minnowTier)) {
+        boolean capturePermitted = FishingLogic.canCapture(challenge.species(), minnowTier);
+        if (!capturePermitted) {
             player.sendSystemMessage(Component.translatable("message.moreminecrafts.fishing.minnow_required",
                     FishingGrade.roman(challenge.species().requiredMinnowTier())), false);
             return;
@@ -99,11 +100,16 @@ public final class FishingChallenges {
         fish.set(ModDataComponents.FISH_GRADE, grade);
         fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, length);
         fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, weight);
-        RodEquipment worn = equipment.withWear(FishingEquipmentFamily.MINNOW)
-                .withWear(FishingEquipmentFamily.CRANKBAIT);
+        RodEquipment worn = captureWear(equipment, capturePermitted);
         challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, worn);
         player.getInventory().add(fish);
         if (!fish.isEmpty()) player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), fish));
+    }
+
+    static RodEquipment captureWear(RodEquipment equipment, boolean capturePermitted) {
+        return capturePermitted
+                ? equipment.withWear(FishingEquipmentFamily.MINNOW).withWear(FishingEquipmentFamily.CRANKBAIT)
+                : equipment;
     }
 
     public record Challenge(long startTick, FishSpecies species, int crankbaitTier, int minnowTier,

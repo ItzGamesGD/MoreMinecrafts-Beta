@@ -51,11 +51,21 @@ class FishingEquipmentTest {
         }
     }
 
+    @Test void deniedCaptureDoesNotWearMinnowOrCrankbait() {
+        RodEquipment original = equipmentWithRemaining(5);
+
+        RodEquipment updated = FishingChallenges.captureWear(original, false);
+
+        assertEquals(5, ModuleDurability.remaining(original.minnow()));
+        assertEquals(5, ModuleDurability.remaining(original.crankbait()));
+        assertEquals(5, ModuleDurability.remaining(updated.minnow()));
+        assertEquals(5, ModuleDurability.remaining(updated.crankbait()));
+    }
+
     @Test void successfulCaptureWearUpdatesBothCaptureModulesOnlyOnce() {
         RodEquipment original = equipmentWithRemaining(5);
 
-        RodEquipment updated = original.withWear(FishingEquipmentFamily.MINNOW)
-                .withWear(FishingEquipmentFamily.CRANKBAIT);
+        RodEquipment updated = FishingChallenges.captureWear(original, true);
 
         assertEquals(5, ModuleDurability.remaining(original.reel()));
         assertEquals(5, ModuleDurability.remaining(original.minnow()));
