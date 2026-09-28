@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.fishing;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 import net.minecraft.world.item.ItemStack;
 
 public record RodEquipment(ItemStack reel, ItemStack crankbait, ItemStack minnow) {
@@ -27,13 +28,16 @@ public record RodEquipment(ItemStack reel, ItemStack crankbait, ItemStack minnow
     }
 
     RodEquipment withModuleUpdate(FishingEquipmentFamily family, Consumer<ItemStack> update) {
-        RodEquipment updated = new RodEquipment(reel, crankbait, minnow);
-        ItemStack stack = switch (family) {
-            case REEL -> updated.reel();
-            case CRANKBAIT -> updated.crankbait();
-            case MINNOW -> updated.minnow();
+        return switch (family) {
+            case REEL -> new RodEquipment(copyForUpdate(reel, ItemStack::copy, update), crankbait, minnow);
+            case CRANKBAIT -> new RodEquipment(reel, copyForUpdate(crankbait, ItemStack::copy, update), minnow);
+            case MINNOW -> new RodEquipment(reel, crankbait, copyForUpdate(minnow, ItemStack::copy, update));
         };
-        update.accept(stack);
-        return updated;
+    }
+
+    static <T> T copyForUpdate(T original, UnaryOperator<T> copy, Consumer<T> update) {
+        T replacement = copy.apply(original);
+        update.accept(replacement);
+        return replacement;
     }
 }

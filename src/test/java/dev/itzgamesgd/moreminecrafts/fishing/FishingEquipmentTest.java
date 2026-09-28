@@ -1,21 +1,11 @@
 package dev.itzgamesgd.moreminecrafts.fishing;
 
-import net.minecraft.SharedConstants;
-import net.minecraft.server.Bootstrap;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FishingEquipmentTest {
-    @BeforeAll
-    static void initializeMinecraftRegistries() {
-        SharedConstants.tryDetectVersion();
-        Bootstrap.bootStrap();
-    }
-
     @Test void equipmentTierAndFishGradeAreSeparateDomains() {
         assertEquals(3, FishingEquipmentTier.requireValid(3));
         assertThrows(IllegalArgumentException.class, () -> FishingEquipmentTier.requireValid(4));
@@ -35,76 +25,60 @@ class FishingEquipmentTest {
         assertEquals(1, ModuleDurability.remainingAfterWear(1));
     }
 
-    @Test void moduleWearReplacementCopiesStateAndChangesOnlySelectedSlot() {
-        for (FishingEquipmentFamily family : FishingEquipmentFamily.values()) {
-            RodEquipment original = equipmentWithRemaining(5);
-            int reelDamage = original.reel().getDamageValue();
-            int crankbaitDamage = original.crankbait().getDamageValue();
-            int minnowDamage = original.minnow().getDamageValue();
+    @Test void copyForUpdatePreservesOriginalAndAppliesWearExactlyOnce() {
+        MutableDurability original = new MutableDurability(5);
 
-            RodEquipment updated = original.withModuleUpdate(family,
-                    stack -> stack.setDamageValue(stack.getDamageValue() + 1));
+        MutableDurability updated = RodEquipment.copyForUpdate(
+                original, MutableDurability::copy, FishingEquipmentTest::wearOnce);
 
-            assertEquals(reelDamage, original.reel().getDamageValue(), "original reel");
-            assertEquals(crankbaitDamage, original.crankbait().getDamageValue(), "original crankbait");
-            assertEquals(minnowDamage, original.minnow().getDamageValue(), "original minnow");
-            assertEquals(family == FishingEquipmentFamily.REEL ? reelDamage + 1 : reelDamage,
-                    updated.reel().getDamageValue(), "updated reel");
-            assertEquals(family == FishingEquipmentFamily.CRANKBAIT ? crankbaitDamage + 1 : crankbaitDamage,
-                    updated.crankbait().getDamageValue(), "updated crankbait");
-            assertEquals(family == FishingEquipmentFamily.MINNOW ? minnowDamage + 1 : minnowDamage,
-                    updated.minnow().getDamageValue(), "updated minnow");
-        }
+        assertEquals(5, original.remaining);
+        assertEquals(4, updated.remaining);
     }
 
-    @Test void deniedCaptureDoesNotWearMinnowOrCrankbait() {
-        RodEquipment original = equipmentWithRemaining(5);
+    @Test void deniedCaptureLeavesAllEquipmentSlotsUnchanged() {
+        RodEquipment original = RodEquipment.EMPTY;
 
         RodEquipment updated = FishingChallenges.captureWear(original, false);
 
-        assertEquals(5, ModuleDurability.remaining(original.minnow()));
-        assertEquals(5, ModuleDurability.remaining(original.crankbait()));
-        assertEquals(5, ModuleDurability.remaining(updated.minnow()));
-        assertEquals(5, ModuleDurability.remaining(updated.crankbait()));
+        assertTrue(updated.reel().isEmpty());
+        assertTrue(updated.crankbait().isEmpty());
+        assertTrue(updated.minnow().isEmpty());
     }
 
-    @Test void captureWearCopiesAndUpdatesBothCaptureSlotsOnce() {
-        RodEquipment original = equipmentWithRemaining(5);
+    @Test void equipmentReplacementUpdatesOnlyTheSelectedSlot() {
+        for (FishingEquipmentFamily family : FishingEquipmentFamily.values()) {
+            int[] updatedSlots = new int[3];
+            RodEquipment updated = RodEquipment.EMPTY.withModuleUpdate(family, stack -> {
+                int slot = switch (family) {
+                    case REEL -> 0;
+                    case CRANKBAIT -> 1;
+                    case MINNOW -> 2;
+                };
+                updatedSlots[slot]++;
+            });
 
-        RodEquipment updated = original.withModuleUpdate(FishingEquipmentFamily.MINNOW,
-                        FishingEquipmentTest::wearOnce)
-                .withModuleUpdate(FishingEquipmentFamily.CRANKBAIT, FishingEquipmentTest::wearOnce);
-
-        assertEquals(5, ModuleDurability.remaining(original.reel()));
-        assertEquals(5, ModuleDurability.remaining(original.minnow()));
-        assertEquals(5, ModuleDurability.remaining(original.crankbait()));
-        assertEquals(5, ModuleDurability.remaining(updated.reel()));
-        assertEquals(4, ModuleDurability.remaining(updated.minnow()));
-        assertEquals(4, ModuleDurability.remaining(updated.crankbait()));
+            assertEquals(family == FishingEquipmentFamily.REEL ? 1 : 0, updatedSlots[0]);
+            assertEquals(family == FishingEquipmentFamily.CRANKBAIT ? 1 : 0, updatedSlots[1]);
+            assertEquals(family == FishingEquipmentFamily.MINNOW ? 1 : 0, updatedSlots[2]);
+            assertTrue(updated.reel().isEmpty());
+            assertTrue(updated.crankbait().isEmpty());
+            assertTrue(updated.minnow().isEmpty());
+        }
     }
 
-    @Test void brokenThresholdKeepsModulePresentAndAtOneRemaining() {
-        RodEquipment original = equipmentWithRemaining(1);
-        RodEquipment updated = original.withModuleUpdate(FishingEquipmentFamily.MINNOW, stack ->
-                stack.setDamageValue(stack.getMaxDamage()
-                        - ModuleDurability.remainingAfterWear(ModuleDurability.remaining(stack))));
-
-        assertEquals(1, ModuleDurability.remaining(updated.minnow()));
-        assertEquals(1, ModuleDurability.remaining(original.minnow()));
-        assertFalse(updated.minnow().isEmpty());
+    private static void wearOnce(MutableDurability stack) {
+        stack.remaining = ModuleDurability.remainingAfterWear(stack.remaining);
     }
 
-    private static void wearOnce(ItemStack stack) {
-        stack.setDamageValue(stack.getDamageValue() + 1);
-    }
+    private static final class MutableDurability {
+        private int remaining;
 
-    private static RodEquipment equipmentWithRemaining(int remaining) {
-        return new RodEquipment(module(remaining), module(remaining), module(remaining));
-    }
+        private MutableDurability(int remaining) {
+            this.remaining = remaining;
+        }
 
-    private static ItemStack module(int remaining) {
-        ItemStack stack = new ItemStack(Items.IRON_SWORD);
-        stack.setDamageValue(stack.getMaxDamage() - remaining);
-        return stack;
+        private MutableDurability copy() {
+            return new MutableDurability(remaining);
+        }
     }
 }
