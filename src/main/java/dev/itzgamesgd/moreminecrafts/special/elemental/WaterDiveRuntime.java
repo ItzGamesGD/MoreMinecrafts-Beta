@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -24,14 +25,30 @@ public final class WaterDiveRuntime {
 
     private WaterDiveRuntime() {}
 
-    public static void initialize() { ServerTickEvents.END_SERVER_TICK.register(WaterDiveRuntime::tick); }
+    public static void initialize() {
+        ServerLifecycleEvents.SERVER_STARTING.register(WaterDiveRuntime::onServerStarting);
+        ServerLifecycleEvents.SERVER_STOPPED.register(WaterDiveRuntime::onServerStopped);
+        ServerTickEvents.END_SERVER_TICK.register(WaterDiveRuntime::tick);
+    }
+
+    static void onServerStarting(MinecraftServer server) { clearRuntimeState(); }
+
+    static void onServerStopped(MinecraftServer server) { clearRuntimeState(); }
+
+    static void clearRuntimeState() { DIVES.clear(); }
+
+    static void trackDive(UUID playerId) {
+        DIVES.put(playerId, new ActiveDive(WaterDiveState.launched(), 0));
+    }
+
+    static int activeDiveCount() { return DIVES.size(); }
 
     public static boolean launch(ServerPlayer player) {
         if (DIVES.containsKey(player.getUUID()) || player.isPassenger()) return false;
         Vec3 look = player.getLookAngle();
         player.setDeltaMovement(look.x * 0.35D, 0.85D, look.z * 0.35D);
         player.connection.send(new ClientboundSetEntityMotionPacket(player));
-        DIVES.put(player.getUUID(), new ActiveDive(WaterDiveState.launched(), 0));
+        trackDive(player.getUUID());
         return true;
     }
 
