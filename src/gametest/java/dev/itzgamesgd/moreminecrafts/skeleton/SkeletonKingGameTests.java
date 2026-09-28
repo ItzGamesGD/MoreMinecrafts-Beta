@@ -13,7 +13,6 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.skeleton.Skeleton;
 import net.minecraft.world.entity.projectile.arrow.Arrow;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.AABB;
@@ -59,7 +58,7 @@ public final class SkeletonKingGameTests implements CustomTestMethodInvoker {
         king.setNoAi(true);
 
         ServerPlayer first = context.makeMockServerPlayerInLevel();
-        ServerPlayer second = context.makeMockServerPlayer(GameType.SURVIVAL);
+        ServerPlayer second = context.makeMockServerPlayerInLevel();
         first.setPos(king.getX() + 2.0D, king.getY(), king.getZ());
         second.setPos(king.getX() + 3.0D, king.getY(), king.getZ());
         king.setTarget(first);
