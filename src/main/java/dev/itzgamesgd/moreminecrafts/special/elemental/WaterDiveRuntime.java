@@ -8,12 +8,14 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -37,18 +39,23 @@ public final class WaterDiveRuntime {
 
     static void clearRuntimeState() { DIVES.clear(); }
 
-    static void trackDive(UUID playerId) {
-        DIVES.put(playerId, new ActiveDive(WaterDiveState.launched(), 0));
+    static void trackDive(UUID playerId, ResourceKey<Level> originLevel) {
+        DIVES.put(playerId, new ActiveDive(WaterDiveState.launched(), 0, originLevel));
     }
 
     static int activeDiveCount() { return DIVES.size(); }
+
+    static boolean isDiveInOriginLevel(UUID playerId, ResourceKey<Level> currentLevel) {
+        ActiveDive active = DIVES.get(playerId);
+        return active != null && active.originLevel.equals(currentLevel);
+    }
 
     public static boolean launch(ServerPlayer player) {
         if (DIVES.containsKey(player.getUUID()) || player.isPassenger()) return false;
         Vec3 look = player.getLookAngle();
         player.setDeltaMovement(look.x * 0.35D, 0.85D, look.z * 0.35D);
         player.connection.send(new ClientboundSetEntityMotionPacket(player));
-        trackDive(player.getUUID());
+        trackDive(player.getUUID(), player.level().dimension());
         return true;
     }
 
@@ -58,7 +65,8 @@ public final class WaterDiveRuntime {
             Map.Entry<UUID, ActiveDive> entry = iterator.next();
             ServerPlayer player = server.getPlayerList().getPlayer(entry.getKey());
             ActiveDive active = entry.getValue();
-            if (player == null || !player.isAlive() || active.totalTicks >= TIMEOUT_TICKS) {
+            if (player == null || !player.isAlive() || active.totalTicks >= TIMEOUT_TICKS
+                    || !active.originLevel.equals(player.level().dimension())) {
                 iterator.remove();
                 continue;
             }
@@ -66,7 +74,7 @@ public final class WaterDiveRuntime {
             if (next.phase() == WaterDiveState.Phase.DIVING) beginDive(player);
             if (next.phase() == WaterDiveState.Phase.RESOLVE) resolve(player);
             if (next.phase() == WaterDiveState.Phase.CLEANUP) iterator.remove();
-            else entry.setValue(new ActiveDive(next, active.totalTicks + 1));
+            else entry.setValue(new ActiveDive(next, active.totalTicks + 1, active.originLevel));
         }
     }
 
@@ -96,5 +104,5 @@ public final class WaterDiveRuntime {
                 SoundSource.PLAYERS, 1.0F, 0.8F);
     }
 
-    private record ActiveDive(WaterDiveState state, int totalTicks) {}
+    private record ActiveDive(WaterDiveState state, int totalTicks, ResourceKey<Level> originLevel) {}
 }
