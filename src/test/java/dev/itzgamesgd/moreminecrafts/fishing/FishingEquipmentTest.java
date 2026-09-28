@@ -47,7 +47,7 @@ class FishingEquipmentTest {
                     updated.crankbait().getDamageValue(), "updated crankbait");
             assertEquals(family == FishingEquipmentFamily.MINNOW ? minnowDamage + 1 : minnowDamage,
                     updated.minnow().getDamageValue(), "updated minnow");
-            assertEquals(4, updated.tier(family), "updated target remains active at tier one");
+            assertEquals(1, updated.tier(family), "module tier is unchanged");
         }
     }
 
