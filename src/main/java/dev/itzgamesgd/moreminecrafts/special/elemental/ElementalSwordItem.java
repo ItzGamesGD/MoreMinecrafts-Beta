@@ -11,8 +11,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -33,6 +35,18 @@ public final class ElementalSwordItem extends Item {
     }
 
     @Override
+    public float getAttackDamageBonus(Entity target, float baseAttackDamage, DamageSource damageSource) {
+        float bonus = super.getAttackDamageBonus(target, baseAttackDamage, damageSource);
+        if (element == Element.LIGHTNING
+                && damageSource.getEntity() instanceof ServerPlayer player
+                && player.getMainHandItem().getItem() == this) {
+            bonus += ElementalHitProgress.primaryHitBonusDamage(
+                    player.getUUID(), ElementalHitProgress.Weapon.LIGHTNING);
+        }
+        return bonus;
+    }
+
+    @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker instanceof ServerPlayer player) {
             ServerLevel level = player.level();
@@ -43,7 +57,6 @@ public final class ElementalSwordItem extends Item {
                 level.sendParticles(ParticleTypes.ELECTRIC_SPARK, target.getX(), target.getY() + 0.8D, target.getZ(),
                         3, 0.15D, 0.25D, 0.15D, 0.03D);
                 if (ElementalHitProgress.record(player.getUUID(), ElementalHitProgress.Weapon.LIGHTNING)) {
-                    target.hurtServer(level, player.damageSources().playerAttack(player), 4.0F);
                     level.sendParticles(ParticleTypes.ELECTRIC_SPARK, target.getX(), target.getY() + 1.0D,
                             target.getZ(), 28, 0.5D, 0.8D, 0.5D, 0.12D);
                     level.playSound(null, target.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT,

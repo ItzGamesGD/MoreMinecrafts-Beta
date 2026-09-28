@@ -4,7 +4,9 @@ import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import dev.itzgamesgd.moreminecrafts.special.elemental.ElementalSwordItem;
 import dev.itzgamesgd.moreminecrafts.special.flame.FlameSwordItem;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindSwordItem;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -22,6 +24,7 @@ public final class ElementalHitProgress {
     public static final int FIRE_THRESHOLD = 10;
     public static final int WIND_THRESHOLD = 10;
     public static final int LIGHTNING_THRESHOLD = 5;
+    public static final float LIGHTNING_PROC_BONUS_DAMAGE = 4.0F;
 
     private static final Map<UUID, EnumMap<Weapon, SuccessfulHitCounter>> PROGRESS = new HashMap<>();
     private static final Map<UUID, Weapon> HELD_FAMILY = new HashMap<>();
@@ -30,6 +33,8 @@ public final class ElementalHitProgress {
 
     /** Registers server-side lifetime cleanup and main-hand family-switch detection. */
     public static void initialize() {
+        ServerLifecycleEvents.SERVER_STARTING.register(ElementalHitProgress::onServerStarting);
+        ServerLifecycleEvents.SERVER_STOPPED.register(ElementalHitProgress::onServerStopped);
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             Set<UUID> online = new HashSet<>();
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
@@ -44,6 +49,29 @@ public final class ElementalHitProgress {
             PROGRESS.keySet().removeIf(playerId -> !online.contains(playerId));
             HELD_FAMILY.keySet().removeIf(playerId -> !online.contains(playerId));
         });
+    }
+
+    static void onServerStarting(MinecraftServer server) {
+        clearRuntimeState();
+    }
+
+    static void onServerStopped(MinecraftServer server) {
+        clearRuntimeState();
+    }
+
+    static void clearRuntimeState() {
+        PROGRESS.clear();
+        HELD_FAMILY.clear();
+    }
+
+    static boolean hasRuntimeState() {
+        return !PROGRESS.isEmpty() || !HELD_FAMILY.isEmpty();
+    }
+
+    static float primaryHitBonusDamage(UUID playerId, Weapon weapon) {
+        if (weapon != Weapon.LIGHTNING) return 0.0F;
+        return progress(playerId, weapon) == LIGHTNING_THRESHOLD - 1
+                ? LIGHTNING_PROC_BONUS_DAMAGE : 0.0F;
     }
 
     public static boolean record(UUID playerId, Weapon weapon) {
