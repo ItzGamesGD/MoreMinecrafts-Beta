@@ -19,4 +19,16 @@ public record RodEquipment(ItemStack reel, ItemStack crankbait, ItemStack minnow
         return ModuleDurability.isActive(stack, family) && stack.getItem() instanceof FishingEquipmentItem item
                 ? item.tier() : 0;
     }
+
+    /** Returns a replacement value with wear applied to a copy of only the selected module. */
+    public RodEquipment withWear(FishingEquipmentFamily family) {
+        RodEquipment updated = new RodEquipment(reel, crankbait, minnow);
+        ItemStack stack = switch (family) {
+            case REEL -> updated.reel();
+            case CRANKBAIT -> updated.crankbait();
+            case MINNOW -> updated.minnow();
+        };
+        ModuleDurability.wear(stack, family);
+        return updated;
+    }
 }

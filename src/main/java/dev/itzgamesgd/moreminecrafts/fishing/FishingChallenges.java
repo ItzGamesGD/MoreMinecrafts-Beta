@@ -44,8 +44,7 @@ public final class FishingChallenges {
         var pool = FishingLogic.accessibleSpecies(reelTier); // Ecology metadata is scaffolded; broad live validation bypasses it.
         if (pool.isEmpty()) return false;
         FishSpecies species = FishingLogic.selectSpecies(pool, player.getRandom());
-        RodEquipment worn = new RodEquipment(equipment.reel(), equipment.crankbait(), equipment.minnow());
-        ModuleDurability.wear(worn.reel(), FishingEquipmentFamily.REEL);
+        RodEquipment worn = equipment.withWear(FishingEquipmentFamily.REEL);
         rod.set(ModDataComponents.ROD_EQUIPMENT, worn);
 
         long startTick = player.level().getGameTime();
@@ -100,9 +99,9 @@ public final class FishingChallenges {
         fish.set(ModDataComponents.FISH_GRADE, grade);
         fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, length);
         fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, weight);
-        ModuleDurability.wear(equipment.minnow(), FishingEquipmentFamily.MINNOW);
-        ModuleDurability.wear(equipment.crankbait(), FishingEquipmentFamily.CRANKBAIT);
-        challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, equipment);
+        RodEquipment worn = equipment.withWear(FishingEquipmentFamily.MINNOW)
+                .withWear(FishingEquipmentFamily.CRANKBAIT);
+        challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, worn);
         player.getInventory().add(fish);
         if (!fish.isEmpty()) player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), fish));
     }
