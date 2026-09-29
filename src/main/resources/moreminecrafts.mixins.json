@@ -13,7 +13,8 @@
     "FishingHookMixin",
     "FishingRodItemMixin",
     "ZombieMixin",
-    "SkeletonMixin"
+    "SkeletonMixin",
+    "CrossbowItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

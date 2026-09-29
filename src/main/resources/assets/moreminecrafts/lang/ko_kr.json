@@ -34,5 +34,15 @@
   "item.moreminecrafts.minnow_1": "미노우 I",
   "item.moreminecrafts.minnow_2": "미노우 II",
   "item.moreminecrafts.minnow_3": "미노우 III",
-  "hud.moreminecrafts.fishing.minnow_required": "미노우 %s 필요"
+  "hud.moreminecrafts.fishing.minnow_required": "미노우 %s 필요",
+  "enchantment.moreminecrafts.multi_shot": "Multi Shot",
+  "enchantment.moreminecrafts.crossbow_barrage": "Crossbow Barrage",
+  "enchantment.moreminecrafts.vein_mining": "Vein Mining",
+  "enchantment.moreminecrafts.auto_replant": "Auto Replant",
+  "enchantment.moreminecrafts.auto_smelt": "Auto Smelt",
+  "enchantment.moreminecrafts.lumberjack": "Lumberjack",
+  "enchantment.moreminecrafts.elytra_launch": "Elytra Launch",
+  "enchantment.moreminecrafts.explosive_mace": "Explosive Mace",
+  "enchantment.moreminecrafts.feather_boots": "Feather Boots",
+  "enchantment.moreminecrafts.jet_boots": "Jet Boots"
 }
