@@ -1,10 +1,14 @@
 # MoreMinecrafts 콘텐츠 최종 확정 체크리스트
 
-> **Historical note:** The Enhancement +30/+40 entries below are superseded by the Stage 10 Enhancement 2.0 redesign and Stage 2 reconciliation. Preserve this checklist as history; do not use those old caps or cost bands as current rules.
+> **HISTORICAL STATUS CHECKLIST — NOT CURRENT DESIGN AUTHORITY**
+>
+> This document preserves the content-finalization status and decision history from its stage. It is not a current implementation or design authority. Entries marked `[LOCKED]`, `[DECIDE]`, `[PROVISIONAL]`, or otherwise retain their historical meaning only and may have been superseded by later reconciliation documents.
+>
+> Start current design lookup from `docs/CONTENT_AUTHORITY_INDEX.md`. Where this checklist conflicts with an authority or reconciliation document named there, the newer authority wins. Do not implement gameplay values, rosters, controls, progression rules, or other design details from this checklist without checking current authority first.
 
 > 목적: 이 문서는 Mod 이식 단계와 별개다.
 > 현재 작업은 최종 Paper 플러그인과 기존 설계 위에 새 콘텐츠 결정을 덧씌워, MoreMinecrafts의 최종 게임 디자인을 잠그는 단계다.
-> Stage 1~2의 실제 결정 과정·보류·폐기·최종 상태는 `docs/CONTENT_FINALIZATION_RESTORED_RECORD_STAGE_1_2.md`에 복원되어 있다. 체크리스트는 상태판이며 복원 기록과 각 단계 확정안이 상세 source of truth다.
+> Stage 1~2의 당시 결정 과정·보류·폐기·상태는 `docs/CONTENT_FINALIZATION_RESTORED_RECORD_STAGE_1_2.md`에 복원되어 있다. 이 체크리스트와 복원 기록은 historical record이며, 현재 authority routing은 `docs/CONTENT_AUTHORITY_INDEX.md`를 따른다.
 > 구현 방식은 나중의 Fabric Mod Stage에서 다시 설계하되, 여기서는 "무엇을 만들 것인가"를 먼저 확정한다.
 
 ## 상태 표기
