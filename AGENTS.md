@@ -137,7 +137,57 @@ Do not perform speculative cleanup or refactoring simply because it appears bene
 
 ---
 
-## 6. Validation and Completion
+## 6. Task Execution and Resumption
+
+A task should define enough context to establish:
+
+- **BASE:** the branch, checkpoint, commit, or other trusted starting point,
+- **SCOPE:** what is included and explicitly excluded,
+- **AUTHORITY:** where current design authority should be resolved,
+- **ACCEPTANCE:** what must be true for the task to be complete,
+- **STOP CONDITIONS:** conditions that require human input.
+
+These elements do not require a persistent `TASK.md`. Do not create task-state documentation unless the task specifically requires it.
+
+Once a task is approved, execute the approved scope autonomously through implementation, bounded repair, validation, and completion reporting.
+
+Do not request repeated approval for ordinary actions already permitted by the task and this file.
+
+If greater autonomy is needed, expand the explicitly approved task scope rather than weakening repository safety or authority rules.
+
+### Resuming interrupted work
+
+**Resume, do not restart.**
+
+Before continuing an interrupted task:
+
+1. verify the current branch and HEAD,
+2. inspect relevant commits, PR state, and CI/test results when available,
+3. compare the actual repository state with the task acceptance criteria,
+4. preserve already completed and still-valid work,
+5. perform only the remaining work.
+
+Do not repeat completed implementation or validation without a concrete reason.
+
+If repository and CI state are sufficient to reconstruct progress, resume autonomously.
+
+If the intended task itself cannot be reliably reconstructed, stop and ask rather than guessing.
+
+Do not create `HANDOFF.md`, `SESSION_STATE.md`, or similar persistent state documents merely to preserve information already represented by Git, CI, the task, or the completion report.
+
+### Task boundary
+
+Autonomy granted for one task does not authorize beginning another task.
+
+After completing the current task, stop at the completion report and allow the human to decide what happens next.
+
+A completion report may optionally include one `Recommended next task`, but it is a suggestion only and must not be started automatically.
+
+If the suggested next task requires unresolved design decisions, state that explicitly rather than presenting it as implementation-ready.
+
+---
+
+## 7. Validation and Completion
 
 Run validation appropriate to the changed scope.
 
@@ -180,7 +230,7 @@ Do not create new completion-report documents unless the task specifically requi
 
 ---
 
-## 7. Git and Trusted Baselines
+## 8. Git and Trusted Baselines
 
 Agents may commit normally on a task/work branch when needed.
 
@@ -198,7 +248,7 @@ Creating a PR should occur only when required by the task or explicitly approved
 
 ---
 
-## 8. Keep Governance Simple
+## 9. Keep Governance Simple
 
 Do not create additional authority, status, backlog, checkpoint, defect, or completion documents merely to describe work that can be represented by:
 
