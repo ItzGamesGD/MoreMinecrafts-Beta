@@ -32,13 +32,14 @@ Detailed recipes, acquisition, balance values, progression placement, resource d
 
 ### Crossbow Barrage
 - Crossbow enchantment.
-- One normal charge produces a **3-shot barrage**.
+- One normal charge produces a **timed sequential 3-shot barrage**, not a simultaneous volley.
 - The charge-speed behavior remains the same as the normal crossbow charging behavior; this enchantment does not add a separate faster charging rule.
-- A full barrage consumes durability equivalent to **3 uses**.
+- A full barrage consumes **3 ammunition items** and durability equivalent to **3 uses**.
+- The exact interval between the three sequential shots is an implementation/live-tuning parameter.
 - It extends normal crossbow operation; do not restore the old Paper dedicated-key implementation.
 
 ### Vein Mining
-- Mining enchantment.
+- **Pickaxe-only** mining enchantment.
 - Mining one eligible ore block mines the connected vein.
 - Connected-vein search is bounded to a maximum area of **4 chunks** for performance protection.
 - Eligible ores include all vanilla ore/resource blocks such as diamond and other overworld ores, Nether Quartz Ore, Ancient Debris, and the ore/raw-resource families added by MoreMinecrafts.
@@ -49,11 +50,16 @@ Detailed recipes, acquisition, balance values, progression placement, resource d
 
 ### Auto Replant
 - Retained.
-- Automatically replants eligible crops as part of normal farming interaction.
+- **Hoe-only** enchantment.
+- Applies to farmable crops planted on farmland, including ordinary seed crops, carrots, and potatoes; **Nether Wart is also included**. **Cocoa is excluded.**
+- Immature crops are not harvested by the enchantment.
+- When an eligible mature crop is harvested, replanting consumes **one real seed/planting item** from the harvested/available resources.
+- If no valid planting item is available, the crop is simply harvested/destroyed and is **not replanted**.
 - Farming is not a standalone MoreMinecrafts progression axis, but that does not remove this vanilla-action enchantment.
 
 ### Auto Smelt
 - Retained.
+- **Pickaxe-only** enchantment.
 - Migrate the Paper passive concept directly: eligible mined ore yields its smelted result.
 - Its eligible ore/resource coverage follows the same broad ore set as **Vein Mining**, including applicable MoreMinecrafts-added ore/raw-resource families and vanilla ores/resources such as Nether Quartz Ore and Ancient Debris.
 
@@ -74,6 +80,7 @@ Detailed recipes, acquisition, balance values, progression placement, resource d
 - Retained.
 - Elytra enchantment providing self-launch/takeoff functionality.
 - Activation input is **Shift + Jump**.
+- If Elytra Launch and Feather Boots could both respond to the same Shift + Jump input, **Elytra Launch has priority** and Feather Boots does not also trigger.
 - It is launch/takeoff functionality only; it does not restore Precision Flight or provide sustained propulsion.
 
 ### Explosive Mace
@@ -84,6 +91,7 @@ Detailed recipes, acquisition, balance values, progression placement, resource d
 
 ### Feather Boots
 - New/reworked boots enchantment replacing the old Rolling Landing direction.
+- **Mutually exclusive with Jet Boots.**
 - **Fall damage only is reduced by 100%.**
 - This protection does not apply to elytra collision/kinetic damage, projectiles, tridents, explosions, entity attacks, or other non-fall damage sources.
 - Also provides a **Shift + Jump** launch/jump behavior.
@@ -91,6 +99,7 @@ Detailed recipes, acquisition, balance values, progression placement, resource d
 
 ### Jet Boots
 - New boots enchantment.
+- **Mutually exclusive with Feather Boots.**
 - Grants **air jumps**; it is not sustained flight and does not replace elytra propulsion.
 - Level I: **1** air jump.
 - Level II: **2** air jumps.
