@@ -132,6 +132,26 @@ Coating is not deleted from project history, but it is not part of the active pr
 
 Do not implement, rebalance, expand, or connect Coating to T3/T4 until higher-tier armor/progression is reconsidered. The historical coating matrix is reference material only.
 
+## Idea parking lot
+
+The following concepts are intentionally preserved only as ideas. They are not current design authority and are not implementation-ready.
+
+### Knowledge / Research
+
+**Knowledge / Research — IDEA / DEFERRED**
+
+Potential new horizontal progression axis.
+
+Possible direction:
+
+- spend vanilla XP to acquire persistent knowledge,
+- provide small benefits across multiple gameplay systems,
+- do not gate recipes or ordinary content access.
+
+Exact categories, effects, progression structure, balance, and UI are intentionally undefined.
+
+Do not implement or infer missing design from this idea entry. A dedicated design decision is required before promotion into current authority or implementation scope.
+
 ## Live validation
 
 Items marked LIVE PENDING in the Stage 2/Stage 3 reconciliation documents remain live-test work rather than documentation defects.
