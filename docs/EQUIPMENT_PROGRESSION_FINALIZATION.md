@@ -1,6 +1,6 @@
 # MoreMinecrafts Equipment Progression 확정안
 
-> **Historical authority note:** Section 6 records the superseded +30/+40 Enhancement baseline. The current Enhancement rules are in `docs/ENHANCEMENT_2_REDESIGN.md` and its named Drive source, `MoreMinecrafts Enhancement 2.0 재설계안`. Other locked equipment roster and tier decisions in this document remain in force.
+> **Historical authority note:** This document preserves the Equipment Progression design freeze, but later reconciliation supersedes specific parts of it. For current T2 roster/gameplay and ordinary Enhancement rules, use `docs/STAGE_2_GAMEPLAY_RECONCILIATION.md`. In particular, the six-item/five-family T2 roster in Section 2 and the +30/+40 Enhancement baseline in Section 6 are historical. Other equipment-tier, T3, and T4 decisions remain in force unless a later authority document explicitly supersedes them.
 
 > **상태:** 콘텐츠 설계 단계 마감 / Equipment Progression Freeze.  
 > 이 문서는 체크리스트가 아니라 Equipment 단계에서 실제로 확정한 설계 내용을 보존하는 authoritative design record다.  
@@ -16,7 +16,9 @@
 - **[LOCKED]** Promotion, Coin, Fragment 기반 장비 성장 체계는 사용하지 않는다.
 - **[LOCKED]** 갑옷은 무기보다 적은 수의 큰 Tier를 사용한다.
 
-## 2. T2 Elemental 최종 roster
+## 2. T2 Elemental roster (historical freeze; superseded)
+
+> **[SUPERSEDED / HISTORICAL]** This section records the earlier six-item/five-family T2 freeze. The current seven-item roster, including Lightning Sword, is authoritative in `docs/STAGE_2_GAMEPLAY_RECONCILIATION.md`. Do not use this section as the current T2 implementation contract.
 
 | Element | Equipment | Base type |
 |---|---|---|
@@ -28,7 +30,7 @@
 | Dark Energy | 마기가 깃든 지팡이 | Staff |
 | Ice | 없음 | 없음 |
 
-- **[LOCKED]** 총 6종, 5개 속성 계열.
+- **[SUPERSEDED / HISTORICAL]** 당시 freeze 기준 총 6종, 5개 속성 계열. 현재 T2 roster에는 Lightning Sword가 추가되어 이 수치는 더 이상 current authority가 아니다.
 - **[LOCKED]** T2는 Paper에서 정립된 각 장비의 핵심 gameplay identity와 능력 컨셉을 계승한다.
 - **[IMPLEMENTATION]** Paper 코드를 그대로 이식하지 않는다. 모델, 텍스처, 애니메이션, VFX/SFX, 정확한 공격력·범위·쿨다운·지속시간, 입력 키, 판정 방식은 Fabric 구현 단계에서 재설계한다.
 - **[IMPLEMENTATION]** Earth와 Dark Energy는 carrier weapon type이 바뀌었으므로 기존 능력 정체성을 새 무기 타입에 맞게 재구성한다.
