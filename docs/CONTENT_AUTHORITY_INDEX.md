@@ -136,6 +136,20 @@ Do not implement, rebalance, expand, or connect Coating to T3/T4 until higher-ti
 
 The following concepts are intentionally preserved only as ideas. They are not current design authority and are not implementation-ready.
 
+### New gameplay-axis concepts
+
+**New gameplay-axis design — DEFERRED BY DEFAULT**
+
+New standalone or cross-system gameplay axes that are not already part of current authority are intentionally deferred.
+
+Examples include:
+
+- Knowledge / Research,
+- Trading as a new independent economy/exchange axis,
+- other newly proposed progression, economy, research, social, or cross-system axes.
+
+Preserve promising concepts here at idea level only. Do not expand them into detailed design, promote them into current authority, or implement them unless a later human-approved design task explicitly selects that concept.
+
 ### Knowledge / Research
 
 **Knowledge / Research — IDEA / DEFERRED**
