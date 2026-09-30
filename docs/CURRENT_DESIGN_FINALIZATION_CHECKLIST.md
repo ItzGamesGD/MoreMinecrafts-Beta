@@ -19,7 +19,43 @@ Historical checklists, Paper behavior, recovery ledgers, prototypes, and impleme
 
 ---
 
-# 0. Cross-system finalization
+# 0. Design execution order and dependency rule
+
+The numbered system sections below are grouped by system; **their numeric order is not the design execution order**.
+
+Do not assign material sinks first and then invent downstream equipment/content to justify them.
+The project follows demand-first dependency closure:
+
+1. finalize downstream content identities and retained rosters,
+2. finalize their acquisition/recipe/material requirements,
+3. aggregate actual material demand,
+4. only then finalize Mining/Material sink identity, recipe quantities, and long-term supply/worldgen economy,
+5. perform the final cross-system dependency audit.
+
+### Current execution order
+
+1. Utility Equipment roster/roles and remaining mechanics.
+2. Remaining Equipment design: unresolved T2 -> T3 -> T4 identity/progression questions, while leaving material costs open.
+3. Enchantment unresolved cross-system design (Laser Arrow / Multi Catch and related integration points).
+4. Fishing unresolved optional/economy/ecology decisions.
+5. Mobs / Entities roster and gameplay roles.
+6. Boss / Major Combat roster, encounter identity, then reward identity.
+7. World / Structures / Exploration retained scope and reward/encounter connections.
+8. Revisit Resources / Mining / Material Economy using the now-known downstream demand.
+9. Resolve acquisition recipes, material allocation, anchor sinks, and long-term material supply.
+10. Final cross-system closure and authority audit.
+
+Alchemy, Coating, Knowledge/Research, Trading-as-an-axis, and other explicitly deferred systems do not block this order unless the human explicitly reactivates them.
+
+## Dependency rule
+
+- [DONE] Mining/material structure may exist earlier, but its **final sink identity and economy are downstream-dependent**.
+- [DONE] Do not create equipment/content merely to give an existing mineral a use.
+- [DONE] Equipment/content identity is designed first; material assignment follows the resulting demand.
+- [DONE] Boss reward identity is designed before boss-exclusive T3/T4 recipe dependencies.
+- [DONE] Balance/live-validation work does not block unrelated architectural design unless it exposes a design defect.
+
+# 0A. Cross-system finalization
 
 - [OPEN] Complete a final dependency map after the active systems below are designed: material sinks -> recipes -> utility/equipment acquisition -> mobs/boss rewards -> T3/T4 access.
 - [OPEN] Decide the intended overall survival progression ordering without turning MoreMinecrafts into a separate linear RPG progression.
@@ -28,7 +64,7 @@ Historical checklists, Paper behavior, recovery ledgers, prototypes, and impleme
 - [DEFERRED] Knowledge / Research remains idea-only until explicitly promoted.
 - [DEFERRED] Trading as a new independent gameplay axis remains idea-only until explicitly promoted.
 
-# 1. Resources / Mining / Material Economy
+# 1. Resources / Mining / Material Economy — LATE DEPENDENCY CLOSURE
 
 Current structural authority: `RESOURCE_MINING_MATERIALS_FINALIZATION.md` plus the material-economy debt recorded in `CONTENT_AUTHORITY_INDEX.md`.
 
@@ -40,15 +76,15 @@ Current structural authority: `RESOURCE_MINING_MATERIALS_FINALIZATION.md` plus t
 - [DONE] Silk Touch / Fortune / processing families.
 - [DONE] Relative rarity targets and Mythril/Etherium vein ceiling.
 
-## Remaining design
+## Remaining design — blocked until downstream content is finalized
 
-- [OPEN] Give Titanium a meaningful anchor sink/use.
-- [OPEN] Give Tungsten a meaningful anchor sink/use.
-- [OPEN] Give Mythril a meaningful anchor sink/use.
-- [OPEN] Give Etherium a meaningful anchor sink/use.
-- [OPEN] Give Adamantium a meaningful anchor sink/use.
-- [OPEN] Decide final Adamantium processed-item/intermediate identity if recipes require one.
-- [OPEN] Reconcile material demand across Equipment, Utility, and later T3/T4 recipes before locking long-term spawn economy.
+- [DEFERRED] Assign Titanium's anchor sink/use only after retained downstream equipment/content and recipes are known.
+- [DEFERRED] Assign Tungsten's anchor sink/use only after retained downstream equipment/content and recipes are known.
+- [DEFERRED] Assign Mythril's anchor sink/use only after retained downstream equipment/content and recipes are known.
+- [DEFERRED] Assign Etherium's anchor sink/use only after retained downstream equipment/content and recipes are known.
+- [DEFERRED] Assign Adamantium's anchor sink/use only after retained downstream equipment/content and recipes are known.
+- [DEFERRED] Decide final Adamantium processed-item/intermediate identity only if downstream recipes require one.
+- [DEFERRED] Aggregate material demand across Equipment, Utility, Boss rewards, and T3/T4 acquisition before locking long-term spawn economy.
 - [BALANCE] Exact recipe quantities.
 - [BALANCE] Final spawn frequency based on survival acquisition testing.
 
