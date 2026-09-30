@@ -57,6 +57,28 @@ Do not resolve a genuine authority conflict by guessing, choosing the newest dat
 
 ---
 
+### Design finalization and authority synchronization
+
+A gameplay or content design decision is not durably finalized merely because it was agreed in conversation or marked complete in a working checklist.
+
+When a human explicitly approves, finalizes, or checks off a design decision during a task whose approved scope permits maintaining current authority, synchronize that decision into the applicable current-authority document as part of the same design task.
+
+Do not defer an approved authority update to a later implementation task merely because implementation has not started yet.
+
+Before reporting such a design task complete, verify that the authoritative repository state records the approved decision with enough precision to distinguish materially different gameplay outcomes that the decision resolved.
+
+Multiple approved decisions from the same design task may be synchronized together; a separate commit for every checklist item is not required. However, the task must not be reported complete while approved decisions remain only in conversation, a temporary checklist, or other non-authoritative working state.
+
+Discussion, brainstorming, candidate ideas, and unapproved proposals must not be promoted to current authority.
+
+If a decision is explicitly deferred, record that deferred state in current authority when the task requires the project to remember that deferral, without inventing the deferred design itself.
+
+If the correct authority destination is unclear, current authorities conflict, or representing the approved decision would require additional unresolved design decisions, follow the existing `STOP & ASK` rules.
+
+Authority synchronization does not authorize implementation. After synchronization, respect the current task boundary unless implementation is separately in scope.
+
+---
+
 ## 3. Agent Authority
 
 ### AUTO
