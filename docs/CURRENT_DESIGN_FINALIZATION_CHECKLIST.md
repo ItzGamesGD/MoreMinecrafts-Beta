@@ -103,9 +103,9 @@ Current authority is incomplete; historical utility decisions must be reconciled
 
 - [OPEN] Rebuild the final Utility roster from the latest human decisions rather than treating the historical checklist as current authority.
 - [OPEN] For every retained Utility item, define its unique gameplay role and acquisition stage.
-- [OPEN] Resolve movement overlap among Jet Boots, Glider, Grappling Hook, Return Crystal and vanilla Elytra progression.
+- [OPEN] Resolve movement overlap among the retained movement utilities, deferred Grappling Hook, Return Crystal and vanilla Elytra progression; equipment-form Jet Boots is retired and must not be reintroduced.
 - [OPEN] Decide which historical Utility concepts are deleted, retained, or intentionally deferred.
-- [OPEN] Reconcile Jet Boots utility-item identity with the separate Jet Boots enchantment naming/role if both remain.
+- [DONE] Equipment-form Jet Boots is retired. The retained Jet Boots concept is the enchantment defined by `ENCHANTMENT_BRANCH_SKELETON.md`; there is no Utility-vs-Enchantment Jet Boots conflict to resolve.
 
 ## Mechanics / acquisition
 
@@ -160,7 +160,7 @@ Current authority: `ENCHANTMENT_BRANCH_SKELETON.md`.
 - [OPEN] Laser Arrow dedicated projectile/resource/VFX/presentation contract.
 - [OPEN] Multi Catch integration with the current Fishing pipeline; do not restore Paper reward multiplication.
 - [OPEN] Decide final enchantment acquisition weights/distribution only after the complete roster/economy context is ready.
-- [OPEN] Resolve any cross-system naming/role conflict between Jet Boots enchantment and Utility Jet Boots.
+- [DONE] No Jet Boots naming/role conflict remains because the historical Utility equipment-form Jet Boots is retired; the enchantment remains authoritative.
 - [BALANCE] Crossbow Barrage interval and other explicitly live-tunable constants.
 - [LIVE] Stage 17 enchantment interaction/combat feel where headless CI cannot prove behavior.
 
