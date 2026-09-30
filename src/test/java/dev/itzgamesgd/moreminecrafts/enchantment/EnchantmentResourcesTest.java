@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.enchantment;
 import static org.junit.jupiter.api.Assertions.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -29,12 +30,20 @@ class EnchantmentResourcesTest {
         }
     }
 
-    @Test void nativeEffectsAndAcquisitionAreWired() {
+    @Test void nativeEffectsAndAcquisitionAreWired() throws IOException {
         assertTrue(resource("data/moreminecrafts/enchantment/multi_shot.json").getAsJsonObject("effects")
                 .has("minecraft:projectile_count"));
         assertTrue(resource("data/moreminecrafts/enchantment/feather_boots.json").getAsJsonObject("effects")
                 .has("minecraft:damage_immunity"));
-        assertNull(getClass().getClassLoader().getResource("data/minecraft/tags/enchantment/smelts_loot.json"));
+        var tagResources = getClass().getClassLoader()
+                .getResources("data/minecraft/tags/enchantment/smelts_loot.json");
+        while (tagResources.hasMoreElements()) {
+            try (var stream = tagResources.nextElement().openStream()) {
+                String tag = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+                assertFalse(tag.contains("moreminecrafts:auto_smelt"),
+                        "MoreMinecrafts must not contribute Auto Smelt to minecraft:smelts_loot");
+            }
+        }
         String acquisition = resource("data/minecraft/tags/enchantment/non_treasure.json").toString();
         IDS.forEach(id -> assertTrue(acquisition.contains(id), id));
     }
