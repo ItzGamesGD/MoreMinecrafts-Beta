@@ -219,6 +219,40 @@ Keep implementation and validation status distinct:
 
 **Implemented does not automatically mean validated.**
 
+### CI and final acceptance lifecycle
+
+When the current task requires asynchronous CI:
+
+- a push, queued run, or pending run is not task completion,
+- wait for the relevant CI result when the execution environment permits,
+- if CI fails because of a clear in-scope implementation, API, test, resource, or runtime defect, apply the bounded auto-repair rules in this file, re-run affected validation, push the repair when the task permits it, and check the resulting CI again,
+- do not repeatedly rerun a deterministic failure without repairing its cause,
+- if the environment cannot observe the required CI result, report that validation as `NOT RUN` or pending as appropriate rather than claiming completion.
+
+After required automated validation succeeds, perform a final acceptance check of the actual final HEAD against:
+
+- the current task acceptance criteria, and
+- the applicable current design authority.
+
+CI success does not by itself establish semantic correctness.
+
+If that final acceptance check finds a clear in-scope implementation defect that contradicts explicit current authority or task acceptance criteria, and repairing it requires no new design decision:
+
+1. repair it autonomously under the bounded auto-repair rules,
+2. re-run validation affected by the repair,
+3. re-check required asynchronous CI,
+4. repeat the affected acceptance check.
+
+Do not use the final acceptance check to infer or invent missing design. If current authority or acceptance criteria are incomplete, conflicting, or allow materially different gameplay outcomes required to decide correctness, follow the existing `STOP & ASK` rules.
+
+When asynchronous CI is required by the task, completion requires all of the following:
+
+- required automated validation has succeeded,
+- the relevant CI run has completed successfully,
+- the final acceptance check finds no remaining confirmed in-scope implementation defect.
+
+Human-perceptual or interaction-dependent validation may still remain `LIVE VALIDATION PENDING` when allowed by the task.
+
 Completion reports should normally contain only:
 
 - Changed
