@@ -175,24 +175,20 @@ public final class EnchantmentRuntime {
         queue.add(origin);
         seen.add(origin);
         logs.add(origin);
-        int minX = origin.getX(), maxX = minX, minY = origin.getY(), maxY = minY;
-        int minZ = origin.getZ(), maxZ = minZ;
         while (!queue.isEmpty()) {
             BlockPos current = queue.removeFirst();
             for (BlockPos next : neighbours(current)) {
                 if (!seen.add(next)) continue;
                 BlockState state = level.getBlockState(next);
                 if (!state.is(target.getBlock())) continue;
-                minX = Math.min(minX, next.getX()); maxX = Math.max(maxX, next.getX());
-                minY = Math.min(minY, next.getY()); maxY = Math.max(maxY, next.getY());
-                minZ = Math.min(minZ, next.getZ()); maxZ = Math.max(maxZ, next.getZ());
-                if (!EnchantmentMath.withinTreeEnvelope(minX, maxX, minY, maxY, minZ, maxZ)) return null;
                 logs.add(next);
                 queue.addLast(next);
             }
         }
 
-        return logs;
+        // Classify the complete connected structure before installing any chain-break state.
+        // Branch logs may extend outside the trunk footprint, so validate the trunk separately.
+        return EnchantmentMath.isValidTreeStructure(logs) ? logs : null;
     }
 
     private static int breakTree(ServerPlayer player, BlockPos origin, Set<BlockPos> logs) {
