@@ -5,7 +5,10 @@
   "mixins": [
     "AnvilMenuMixin",
     "ItemStackMixin",
+    "BlockMixin",
+    "ServerPlayerGameModeMixin",
     "MaceItemMixin",
+    "ExplosiveMaceMixin",
     "LivingEntityMixin",
     "AbstractArrowAccessor",
     "ProjectileWeaponItemMixin",
@@ -13,7 +16,8 @@
     "FishingHookMixin",
     "FishingRodItemMixin",
     "ZombieMixin",
-    "SkeletonMixin"
+    "SkeletonMixin",
+    "CrossbowItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

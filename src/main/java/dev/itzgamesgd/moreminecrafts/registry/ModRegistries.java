@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.registry;
 
 import dev.itzgamesgd.moreminecrafts.ability.AbilityAttachments;
+import dev.itzgamesgd.moreminecrafts.enchantment.EnchantmentRuntime;
 import dev.itzgamesgd.moreminecrafts.alchemy.ModAlchemy;
 import dev.itzgamesgd.moreminecrafts.worldgen.ModOreGeneration;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingChallenges;
@@ -13,6 +14,7 @@ public final class ModRegistries {
 
     public static void initialize() {
         ModAlchemy.initialize();
+        EnchantmentRuntime.initialize();
         ModBlocks.initialize();
         ModMenuTypes.initialize();
         AbilityAttachments.initialize();
