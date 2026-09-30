@@ -3,38 +3,7 @@
   "description": {
     "translate": "enchantment.moreminecrafts.explosive_mace"
   },
-  "effects": {
-    "minecraft:post_attack": [
-      {
-        "affected": "victim",
-        "enchanted": "attacker",
-        "effect": {
-          "type": "minecraft:explode",
-          "block_interaction": "none",
-          "knockback_multiplier": 1.0,
-          "radius": 3.0,
-          "small_particle": {
-            "type": "minecraft:explosion"
-          },
-          "large_particle": {
-            "type": "minecraft:explosion_emitter"
-          },
-          "sound": "minecraft:entity.generic.explode"
-        },
-        "requirements": {
-          "type": "minecraft:entity_properties",
-          "entity": "direct_attacker",
-          "predicate": {
-            "minecraft:movement": {
-              "fall_distance": {
-                "min": 1.5
-              }
-            }
-          }
-        }
-      }
-    ]
-  },
+  "effects": {},
   "max_cost": {
     "base": 50,
     "per_level_above_first": 10

@@ -21,6 +21,14 @@ class EnchantmentMathTest {
         assertEquals(5, EnchantmentMath.lumberDurability(10, 1));
         assertEquals(4, EnchantmentMath.lumberDurability(10, 2));
     }
+    @Test void lumberjackAcceptsOneByOneAndTwoByTwoTreeEnvelopes() {
+        assertEquals(true, EnchantmentMath.withinTreeEnvelope(4, 4, 10, 43, 8, 8));
+        assertEquals(true, EnchantmentMath.withinTreeEnvelope(4, 5, 10, 43, 8, 9));
+    }
+    @Test void lumberjackRejectsOversizeStructuresBeforeProcessing() {
+        assertEquals(false, EnchantmentMath.withinTreeEnvelope(4, 6, 10, 20, 8, 9));
+        assertEquals(false, EnchantmentMath.withinTreeEnvelope(4, 5, 10, 44, 8, 9));
+    }
     @Test void jetBootChargesAreLevelBounded() {
         assertEquals(0, EnchantmentMath.airJumps(0));
         assertEquals(3, EnchantmentMath.airJumps(9));
