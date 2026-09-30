@@ -5,12 +5,21 @@ import org.junit.jupiter.api.Test;
 
 class EnchantmentMathTest {
     @Test void veinMiningLevelTwoHalvesAndRoundsUp() {
-        assertEquals(3, EnchantmentMath.veinExtraDurability(5, 2));
-        assertEquals(5, EnchantmentMath.veinExtraDurability(5, 1));
+        assertEquals(3, EnchantmentMath.veinDurability(5, 2));
+        assertEquals(5, EnchantmentMath.veinDurability(5, 1));
+        assertEquals(1, EnchantmentMath.veinDurability(1, 2));
+    }
+    @Test void lumberjackVerticalSpanIsInclusiveAndCappedAtThirtyFour() {
+        assertEquals(true, EnchantmentMath.withinTreeHeight(10, 43));
+        assertEquals(false, EnchantmentMath.withinTreeHeight(10, 44));
+    }
+    @Test void veinMiningUsesAUniqueChunkLimitRatherThanABlockLimit() {
+        assertEquals(4, EnchantmentMath.MAX_VEIN_CHUNKS);
     }
     @Test void lumberjackAppliesUnbreakingOnceArithmetically() {
         assertEquals(10, EnchantmentMath.lumberDurability(10, 0));
         assertEquals(5, EnchantmentMath.lumberDurability(10, 1));
+        assertEquals(4, EnchantmentMath.lumberDurability(10, 2));
     }
     @Test void jetBootChargesAreLevelBounded() {
         assertEquals(0, EnchantmentMath.airJumps(0));

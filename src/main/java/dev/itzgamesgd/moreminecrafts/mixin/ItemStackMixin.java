@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementEffect;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementEffects;
+import dev.itzgamesgd.moreminecrafts.enchantment.EnchantmentRuntime;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -21,6 +22,12 @@ import java.util.function.BiConsumer;
 
 @Mixin(ItemStack.class)
 abstract class ItemStackMixin {
+    @Inject(method = "processDurabilityChange", at = @At("HEAD"), cancellable = true)
+    private void moreminecrafts$aggregateDurability(int amount, net.minecraft.server.level.ServerLevel level,
+            net.minecraft.server.level.ServerPlayer player, CallbackInfoReturnable<Integer> callbackInfo) {
+        if (EnchantmentRuntime.suppressVanillaDurability()) callbackInfo.setReturnValue(0);
+        else if (EnchantmentRuntime.usesExactDurability()) callbackInfo.setReturnValue(amount);
+    }
     @Inject(
             method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V",
             at = @At("RETURN")

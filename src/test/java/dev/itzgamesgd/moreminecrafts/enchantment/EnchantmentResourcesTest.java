@@ -34,8 +34,22 @@ class EnchantmentResourcesTest {
                 .has("minecraft:projectile_count"));
         assertTrue(resource("data/moreminecrafts/enchantment/feather_boots.json").getAsJsonObject("effects")
                 .has("minecraft:damage_immunity"));
-        assertTrue(resource("data/minecraft/tags/enchantment/smelts_loot.json").toString().contains("auto_smelt"));
+        assertNull(getClass().getClassLoader().getResource("data/minecraft/tags/enchantment/smelts_loot.json"));
         String acquisition = resource("data/minecraft/tags/enchantment/non_treasure.json").toString();
         IDS.forEach(id -> assertTrue(acquisition.contains(id), id));
+    }
+
+    @Test void koreanEnchantmentNamesAreLocalized() {
+        JsonObject ko = resource("assets/moreminecrafts/lang/ko_kr.json");
+        assertEquals("다중 사격", ko.get("enchantment.moreminecrafts.multi_shot").getAsString());
+        assertEquals("쇠뇌 연발", ko.get("enchantment.moreminecrafts.crossbow_barrage").getAsString());
+        assertEquals("광맥 채굴", ko.get("enchantment.moreminecrafts.vein_mining").getAsString());
+        assertEquals("자동 심기", ko.get("enchantment.moreminecrafts.auto_replant").getAsString());
+        assertEquals("자동 제련", ko.get("enchantment.moreminecrafts.auto_smelt").getAsString());
+        assertEquals("나무꾼", ko.get("enchantment.moreminecrafts.lumberjack").getAsString());
+        assertEquals("겉날개 발사", ko.get("enchantment.moreminecrafts.elytra_launch").getAsString());
+        assertEquals("폭발 철퇴", ko.get("enchantment.moreminecrafts.explosive_mace").getAsString());
+        assertEquals("깃털 부츠", ko.get("enchantment.moreminecrafts.feather_boots").getAsString());
+        assertEquals("제트 부츠", ko.get("enchantment.moreminecrafts.jet_boots").getAsString());
     }
 }
