@@ -86,5 +86,15 @@
   "menu.moreminecrafts.fishing.effect.crankbait": "Crankbait: Fish Grade distribution",
   "menu.moreminecrafts.fishing.effect.minnow": "Minnow: capture permission",
   "hud.moreminecrafts.fishing.stop": "Click to stop the marker",
-  "hud.moreminecrafts.fishing.minnow_required": "Minnow %s required"
+  "hud.moreminecrafts.fishing.minnow_required": "Minnow %s required",
+  "enchantment.moreminecrafts.multi_shot": "Multi Shot",
+  "enchantment.moreminecrafts.crossbow_barrage": "Crossbow Barrage",
+  "enchantment.moreminecrafts.vein_mining": "Vein Mining",
+  "enchantment.moreminecrafts.auto_replant": "Auto Replant",
+  "enchantment.moreminecrafts.auto_smelt": "Auto Smelt",
+  "enchantment.moreminecrafts.lumberjack": "Lumberjack",
+  "enchantment.moreminecrafts.elytra_launch": "Elytra Launch",
+  "enchantment.moreminecrafts.explosive_mace": "Explosive Mace",
+  "enchantment.moreminecrafts.feather_boots": "Feather Boots",
+  "enchantment.moreminecrafts.jet_boots": "Jet Boots"
 }
