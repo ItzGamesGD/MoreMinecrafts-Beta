@@ -17,6 +17,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -245,11 +246,11 @@ public final class EnchantmentRuntime {
     }
 
     /** Converts the result of the exact block loot invocation currently being mined. */
-    public static ItemStack autoSmeltDrop(ServerLevel level, BlockPos pos, ItemStack tool, ItemStack stack) {
+    public static ItemStack autoSmeltDrop(ServerLevel level, BlockPos pos, ItemInstance tool, ItemStack stack) {
         MiningOperation operation = MINING.get();
         BlockPos active = ACTIVE_DROP.get() == null ? operation == null ? null : operation.pos() : ACTIVE_DROP.get();
         if (operation == null || !operation.autoSmelt() || !pos.equals(active)
-                || !operation.tool().is(tool.getItem()) || stack.isEmpty()) return stack;
+                || operation.tool() != tool || stack.isEmpty()) return stack;
         var input = new SingleRecipeInput(stack);
         return level.recipeAccess().getRecipeFor(RecipeType.SMELTING, input, level).map(holder -> {
             ItemStack result = holder.value().assemble(input);
