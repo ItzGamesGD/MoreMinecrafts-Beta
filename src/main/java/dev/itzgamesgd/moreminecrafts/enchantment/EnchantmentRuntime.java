@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -52,6 +53,11 @@ public final class EnchantmentRuntime {
         PlayerBlockBreakEvents.BEFORE.register(EnchantmentRuntime::beforeBreak);
         PlayerBlockBreakEvents.AFTER.register(EnchantmentRuntime::afterBreak);
         ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerList().getPlayers().forEach(EnchantmentRuntime::tickMovement));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            UUID id = handler.player.getUUID();
+            JUMP_HELD.remove(id);
+            REPLANT.remove(id);
+        });
     }
 
     private static boolean beforeBreak(net.minecraft.world.level.Level level, net.minecraft.world.entity.player.Player player,
@@ -61,8 +67,8 @@ public final class EnchantmentRuntime {
         ItemStack tool = player.getMainHandItem();
 
         CropInfo crop = cropInfo(pos, state);
-        if (crop != null && ModEnchantments.level(level, tool, ModEnchantments.AUTO_REPLANT) > 0) {
-            if (!crop.mature()) return false;
+        if (crop != null && crop.mature()
+                && ModEnchantments.level(level, tool, ModEnchantments.AUTO_REPLANT) > 0) {
             Set<UUID> existing = new HashSet<>();
             serverLevel.getEntitiesOfClass(ItemEntity.class, new AABB(crop.root()).inflate(2.0))
                     .forEach(item -> existing.add(item.getUUID()));
@@ -305,7 +311,7 @@ public final class EnchantmentRuntime {
         boolean jump = player.getLastClientInput().jump();
         boolean edge = jump && !JUMP_HELD.getOrDefault(id, false);
         JUMP_HELD.put(id, jump);
-        if (player.onGround()) AIR_JUMPS.put(id, 0);
+        if (player.onGround()) AIR_JUMPS.remove(id);
         if (!edge) return;
         ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
         if (player.isShiftKeyDown() && player.onGround()

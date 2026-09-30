@@ -1,6 +1,8 @@
 package dev.itzgamesgd.moreminecrafts.enchantment;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 
@@ -85,29 +87,61 @@ public final class EnchantmentMath {
         if (trunkHeight < 3 || trunkHeight > MAX_TREE_HEIGHT) return false;
 
         int branchStartY = minY + (trunkHeight + 1) / 2;
+        Set<BlockPos> branches = new HashSet<>();
+        Map<Long, Set<Integer>> branchColumns = new HashMap<>();
         for (BlockPos log : logs) {
-            if (!footprint.contains(column(log.getX(), log.getZ())) && log.getY() < branchStartY) {
-                return false;
+            if (!footprint.contains(column(log.getX(), log.getZ()))) {
+                if (log.getY() < branchStartY) return false;
+                branches.add(log);
+                branchColumns.computeIfAbsent(column(log.getX(), log.getZ()), ignored -> new HashSet<>())
+                        .add(log.getY());
             }
+        }
+        // A branch may angle upward, but a second long vertical column is another trunk, not a
+        // branch extending beyond the validated trunk footprint.
+        for (Set<Integer> heights : branchColumns.values()) {
+            int longestRun = 0, currentRun = 0, previousY = Integer.MIN_VALUE;
+            for (int y : heights.stream().sorted().toList()) {
+                currentRun = y == previousY + 1 ? currentRun + 1 : 1;
+                longestRun = Math.max(longestRun, currentRun);
+                previousY = y;
+            }
+            if (longestRun > 2) return false;
         }
 
-        // A tree canopy has sparse, branching logs. A filled broad horizontal layer is a log
-        // wall/mass, not a branch extending beyond the trunk cross-section.
-        for (int y = minY; y <= maxY; y++) {
-            int layerMinX = Integer.MAX_VALUE, layerMaxX = Integer.MIN_VALUE;
-            int layerMinZ = Integer.MAX_VALUE, layerMaxZ = Integer.MIN_VALUE;
-            int count = 0;
-            for (BlockPos log : logs) {
-                if (log.getY() != y) continue;
-                count++;
-                layerMinX = Math.min(layerMinX, log.getX()); layerMaxX = Math.max(layerMaxX, log.getX());
-                layerMinZ = Math.min(layerMinZ, log.getZ()); layerMaxZ = Math.max(layerMaxZ, log.getZ());
-            }
-            int width = layerMaxX - layerMinX + 1;
-            int depth = layerMaxZ - layerMinZ + 1;
-            if (width > 2 && depth > 2 && count * 4 >= width * depth * 3) return false;
+        // Broad, dense log sheets in any orientation are artificial walls/masses rather than
+        // tree branches. Thin or sparse branches can extend beyond the trunk footprint.
+        if (hasDensePlane(branches, 0) || hasDensePlane(branches, 1) || hasDensePlane(branches, 2)) {
+            return false;
         }
         return true;
+    }
+
+    private static boolean hasDensePlane(Set<BlockPos> logs, int fixedAxis) {
+        for (BlockPos fixed : logs) {
+            int fixedValue = coordinate(fixed, fixedAxis);
+            int minA = Integer.MAX_VALUE, maxA = Integer.MIN_VALUE;
+            int minB = Integer.MAX_VALUE, maxB = Integer.MIN_VALUE;
+            int count = 0;
+            int axisA = fixedAxis == 0 ? 1 : 0;
+            int axisB = fixedAxis == 2 ? 1 : 2;
+            for (BlockPos log : logs) {
+                if (coordinate(log, fixedAxis) != fixedValue) continue;
+                int a = coordinate(log, axisA), b = coordinate(log, axisB);
+                minA = Math.min(minA, a); maxA = Math.max(maxA, a);
+                minB = Math.min(minB, b); maxB = Math.max(maxB, b);
+                count++;
+            }
+            int spanA = maxA - minA + 1;
+            int spanB = maxB - minB + 1;
+            if (spanA > 2 && spanB >= 2 && spanA * spanB >= 6
+                    && count * 4 >= spanA * spanB * 3) return true;
+        }
+        return false;
+    }
+
+    private static int coordinate(BlockPos pos, int axis) {
+        return axis == 0 ? pos.getX() : axis == 1 ? pos.getY() : pos.getZ();
     }
 
     private static long column(int x, int z) {

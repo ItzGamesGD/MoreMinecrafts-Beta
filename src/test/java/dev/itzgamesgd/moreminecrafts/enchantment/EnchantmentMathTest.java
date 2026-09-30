@@ -64,6 +64,17 @@ class EnchantmentMathTest {
             logs.add(new BlockPos(x, y, z));
         assertFalse(EnchantmentMath.isValidTreeStructure(logs));
     }
+    @Test void lumberjackRejectsAnAttachedArtificialLogWall() {
+        Set<BlockPos> logs = tree(0, 0, 0, 9);
+        for (int y = 5; y <= 6; y++) for (int x = 1; x <= 8; x++)
+            logs.add(new BlockPos(x, y, 0));
+        assertFalse(EnchantmentMath.isValidTreeStructure(logs));
+    }
+    @Test void lumberjackRejectsASecondLongVerticalLogColumnAsTrunk() {
+        Set<BlockPos> logs = tree(0, 0, 0, 9);
+        for (int y = 5; y <= 8; y++) logs.add(new BlockPos(1, y, 0));
+        assertFalse(EnchantmentMath.isValidTreeStructure(logs));
+    }
     private static Set<BlockPos> tree(int x, int z, int startY, int height) {
         Set<BlockPos> logs = new HashSet<>();
         for (int y = startY; y < startY + height; y++) logs.add(new BlockPos(x, y, z));
