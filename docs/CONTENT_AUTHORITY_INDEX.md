@@ -51,6 +51,14 @@ Human-approved production PNGs remain immutable unless an explicit later art tas
 
 Flame Sword C1-A/C1-B remains separately authoritative; its approved production PNG and bounded two-face handheld model are unchanged.
 
+## Enchantments
+
+Current enchantment design authority: [Enchantment Branch Skeleton](ENCHANTMENT_BRANCH_SKELETON.md).
+
+Use that document for the approved retained roster, gameplay semantics, compatibility and exclusivity rules, activation behavior, and explicitly unresolved enchantment integration points.
+
+Historical Paper enchantment behavior and older enchantment proposals are reference material only where they conflict with this current skeleton.
+
 ## Explicitly deferred design debt
 
 The following items are known design questions. They are not missing recovery work and must not be silently "fixed" by unrelated stages.
