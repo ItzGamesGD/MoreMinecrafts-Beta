@@ -5,8 +5,10 @@
   "mixins": [
     "AnvilMenuMixin",
     "ItemStackMixin",
-    "ItemEntityMixin",
+    "BlockMixin",
+    "ServerPlayerGameModeMixin",
     "MaceItemMixin",
+    "ExplosiveMaceMixin",
     "LivingEntityMixin",
     "AbstractArrowAccessor",
     "ProjectileWeaponItemMixin",

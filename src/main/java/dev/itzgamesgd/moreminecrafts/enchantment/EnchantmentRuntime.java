@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -17,6 +18,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -37,6 +39,8 @@ import net.minecraft.world.phys.Vec3;
 public final class EnchantmentRuntime {
     private static final TagKey<Block> ORES = TagKey.create(Registries.BLOCK, ModIds.id("vein_mining_ores"));
     private static final ThreadLocal<MiningOperation> MINING = new ThreadLocal<>();
+    private static final ThreadLocal<Integer> BREAK_DEPTH = ThreadLocal.withInitial(() -> 0);
+    private static final ThreadLocal<BlockPos> ACTIVE_DROP = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> CHAIN_BREAK = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> EXACT_DURABILITY = ThreadLocal.withInitial(() -> false);
     private static final Map<UUID, Boolean> JUMP_HELD = new HashMap<>();
@@ -49,6 +53,11 @@ public final class EnchantmentRuntime {
         PlayerBlockBreakEvents.BEFORE.register(EnchantmentRuntime::beforeBreak);
         PlayerBlockBreakEvents.AFTER.register(EnchantmentRuntime::afterBreak);
         ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerList().getPlayers().forEach(EnchantmentRuntime::tickMovement));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            UUID id = handler.player.getUUID();
+            JUMP_HELD.remove(id);
+            REPLANT.remove(id);
+        });
     }
 
     private static boolean beforeBreak(net.minecraft.world.level.Level level, net.minecraft.world.entity.player.Player player,
@@ -58,8 +67,8 @@ public final class EnchantmentRuntime {
         ItemStack tool = player.getMainHandItem();
 
         CropInfo crop = cropInfo(pos, state);
-        if (crop != null && ModEnchantments.level(level, tool, ModEnchantments.AUTO_REPLANT) > 0) {
-            if (!crop.mature()) return false;
+        if (crop != null && crop.mature()
+                && ModEnchantments.level(level, tool, ModEnchantments.AUTO_REPLANT) > 0) {
             Set<UUID> existing = new HashSet<>();
             serverLevel.getEntitiesOfClass(ItemEntity.class, new AABB(crop.root()).inflate(2.0))
                     .forEach(item -> existing.add(item.getUUID()));
@@ -73,13 +82,17 @@ public final class EnchantmentRuntime {
                 && ModEnchantments.level(level, tool, Enchantments.SILK_TOUCH) == 0;
         if (vein > 0 && state.is(ORES)) {
             MINING.set(new MiningOperation(tool, tool.getDamageValue(), vein, false,
-                    autoSmelt));
+                    autoSmelt, pos.immutable(), null));
         } else if (lumber > 0 && state.is(net.minecraft.tags.BlockTags.LOGS)) {
-            MINING.set(new MiningOperation(tool, tool.getDamageValue(), lumber, true, false));
+            Set<BlockPos> tree = findTree(serverLevel, pos, state);
+            if (tree != null) {
+                MINING.set(new MiningOperation(tool, tool.getDamageValue(), lumber, true, false,
+                        pos.immutable(), tree));
+            }
         } else if (autoSmelt && state.is(ORES)) {
             // A level of zero marks an Auto Smelt-only operation: preserve vanilla durability and
             // do not traverse connected blocks, while keeping drop conversion block-scoped.
-            MINING.set(new MiningOperation(tool, tool.getDamageValue(), 0, false, true));
+            MINING.set(new MiningOperation(tool, tool.getDamageValue(), 0, false, true, pos.immutable(), null));
         }
         return true;
     }
@@ -89,9 +102,8 @@ public final class EnchantmentRuntime {
         if (!(level instanceof ServerLevel serverLevel) || !(player instanceof ServerPlayer serverPlayer)) return;
         if (CHAIN_BREAK.get()) return;
         MiningOperation operation = MINING.get();
-        if (operation != null && operation.tool() == player.getMainHandItem()) {
+        if (operation != null && operation.pos().equals(origin) && operation.tool() == player.getMainHandItem()) {
             if (operation.level() == 0) {
-                MINING.remove();
                 finishReplant(serverLevel, serverPlayer);
                 return;
             }
@@ -99,7 +111,7 @@ public final class EnchantmentRuntime {
             CHAIN_BREAK.set(true);
             try {
                 additional = operation.lumber()
-                        ? breakTree(serverPlayer, origin, broken)
+                        ? breakTree(serverPlayer, origin, operation.treeLogs())
                         : breakVein(serverPlayer, origin, broken);
             } finally {
                 CHAIN_BREAK.remove();
@@ -111,9 +123,31 @@ public final class EnchantmentRuntime {
                             ModEnchantments.level(level, operation.tool(), Enchantments.UNBREAKING))
                     : EnchantmentMath.veinDurability(total, operation.level());
             applyExactDurability(operation.tool(), cost, serverPlayer);
-            MINING.remove();
         }
         finishReplant(serverLevel, serverPlayer);
+    }
+
+    /** Brackets the complete vanilla/Fabric destroy call so cancellation and exceptions cannot leak state. */
+    public static void enterBlockBreak() {
+        int depth = BREAK_DEPTH.get();
+        if (depth == 0) clearBlockBreakState();
+        BREAK_DEPTH.set(depth + 1);
+    }
+
+    public static void exitBlockBreak() {
+        int depth = BREAK_DEPTH.get() - 1;
+        if (depth <= 0) {
+            BREAK_DEPTH.remove();
+            clearBlockBreakState();
+        } else {
+            BREAK_DEPTH.set(depth);
+        }
+    }
+
+    private static void clearBlockBreakState() {
+        MINING.remove();
+        ACTIVE_DROP.remove();
+        REPLANT.clear();
     }
 
     private static int breakVein(ServerPlayer player, BlockPos origin, BlockState target) {
@@ -133,37 +167,52 @@ public final class EnchantmentRuntime {
                 ChunkPos chunk = chunkAt(next);
                 if (!chunks.contains(chunk) && chunks.size() == EnchantmentMath.MAX_VEIN_CHUNKS) continue;
                 chunks.add(chunk);
-                if (player.gameMode.destroyBlock(next)) destroyed++;
+                if (destroyScoped(player, next)) destroyed++;
                 queue.addLast(next);
             }
         }
         return destroyed;
     }
 
-    private static int breakTree(ServerPlayer player, BlockPos origin, BlockState target) {
+    private static Set<BlockPos> findTree(ServerLevel level, BlockPos origin, BlockState target) {
         ArrayDeque<BlockPos> queue = new ArrayDeque<>();
         Set<BlockPos> seen = new HashSet<>();
+        Set<BlockPos> logs = new HashSet<>();
         queue.add(origin);
         seen.add(origin);
-        int minY = origin.getY();
-        int maxY = origin.getY();
-        int destroyed = 0;
-        while (!queue.isEmpty() && destroyed < 4 * EnchantmentMath.MAX_TREE_HEIGHT - 1) {
+        logs.add(origin);
+        while (!queue.isEmpty()) {
             BlockPos current = queue.removeFirst();
             for (BlockPos next : neighbours(current)) {
                 if (!seen.add(next)) continue;
-                BlockState state = player.level().getBlockState(next);
+                BlockState state = level.getBlockState(next);
                 if (!state.is(target.getBlock())) continue;
-                int candidateMin = Math.min(minY, next.getY());
-                int candidateMax = Math.max(maxY, next.getY());
-                if (!EnchantmentMath.withinTreeHeight(candidateMin, candidateMax)) continue;
-                minY = candidateMin;
-                maxY = candidateMax;
-                if (player.gameMode.destroyBlock(next)) destroyed++;
+                logs.add(next);
                 queue.addLast(next);
             }
         }
+
+        // Classify the complete connected structure before installing any chain-break state.
+        // Branch logs may extend outside the trunk footprint, so validate the trunk separately.
+        return EnchantmentMath.isValidTreeStructure(logs) ? logs : null;
+    }
+
+    private static int breakTree(ServerPlayer player, BlockPos origin, Set<BlockPos> logs) {
+        int destroyed = 0;
+        for (BlockPos log : logs) {
+            if (log.equals(origin)) continue;
+            if (destroyScoped(player, log)) destroyed++;
+        }
         return destroyed;
+    }
+
+    private static boolean destroyScoped(ServerPlayer player, BlockPos pos) {
+        ACTIVE_DROP.set(pos);
+        try {
+            return player.gameMode.destroyBlock(pos);
+        } finally {
+            ACTIVE_DROP.remove();
+        }
     }
 
     private static BlockPos[] neighbours(BlockPos p) {
@@ -198,12 +247,14 @@ public final class EnchantmentRuntime {
         return EXACT_DURABILITY.get();
     }
 
-    /** Converts only item entities created synchronously by an eligible block-mining operation. */
-    public static ItemStack autoSmeltDrop(net.minecraft.world.level.Level level, ItemStack stack) {
+    /** Converts the result of the exact block loot invocation currently being mined. */
+    public static ItemStack autoSmeltDrop(ServerLevel level, BlockPos pos, ItemInstance tool, ItemStack stack) {
         MiningOperation operation = MINING.get();
-        if (operation == null || !operation.autoSmelt() || !(level instanceof ServerLevel serverLevel) || stack.isEmpty()) return stack;
+        BlockPos active = ACTIVE_DROP.get() == null ? operation == null ? null : operation.pos() : ACTIVE_DROP.get();
+        if (operation == null || !operation.autoSmelt() || !pos.equals(active)
+                || operation.tool() != tool || stack.isEmpty()) return stack;
         var input = new SingleRecipeInput(stack);
-        return serverLevel.recipeAccess().getRecipeFor(RecipeType.SMELTING, input, serverLevel).map(holder -> {
+        return level.recipeAccess().getRecipeFor(RecipeType.SMELTING, input, level).map(holder -> {
             ItemStack result = holder.value().assemble(input);
             if (!result.isEmpty()) {
                 result.setCount(result.getCount() * stack.getCount());
@@ -260,7 +311,7 @@ public final class EnchantmentRuntime {
         boolean jump = player.getLastClientInput().jump();
         boolean edge = jump && !JUMP_HELD.getOrDefault(id, false);
         JUMP_HELD.put(id, jump);
-        if (player.onGround()) AIR_JUMPS.put(id, 0);
+        if (player.onGround()) AIR_JUMPS.remove(id);
         if (!edge) return;
         ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
         if (player.isShiftKeyDown() && player.onGround()
@@ -286,7 +337,8 @@ public final class EnchantmentRuntime {
         }
     }
 
-    private record MiningOperation(ItemStack tool, int initialDamage, int level, boolean lumber, boolean autoSmelt) {}
+    private record MiningOperation(ItemStack tool, int initialDamage, int level, boolean lumber, boolean autoSmelt,
+                                   BlockPos pos, Set<BlockPos> treeLogs) {}
     private record CropInfo(BlockPos root, Item seed, BlockState replanted, boolean mature) {}
     private record ReplantOperation(BlockPos pos, Item seed, BlockState state, Set<UUID> existingDrops) {}
 }

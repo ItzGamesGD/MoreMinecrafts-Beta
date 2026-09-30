@@ -66,8 +66,12 @@ Detailed recipes, acquisition, balance values, progression placement, resource d
 ### Lumberjack
 - Retained.
 - Axe enchantment that extends normal tree cutting into connected-tree felling.
-- Supports trunks up to a **2×2 cross-section**.
-- Connected log processing is bounded to **34 blocks of vertical height**.
+- Activation is based on validating the **complete connected tree structure before chain-felling begins**. These structural limits are activation bounds, not partial-processing caps.
+- The trunk may use a normal vanilla-style **1×1** footprint or a complete **2×2** footprint. The approved maximum trunk cross-section is **2×2**.
+- The continuous trunk height must remain within the approved **3–34 block activation range**.
+- Upper branch logs may extend laterally outside the trunk footprint. Branches do **not** enlarge the trunk cross-section envelope and must not cause an otherwise valid vanilla-style tree to be rejected merely because they extend beyond 2×2 horizontally.
+- Structures with a trunk broader than 2×2, a trunk outside the 3–34 height range, broad/dense artificial log sheets, or additional trunk-like vertical columns are invalid for Lumberjack activation.
+- If the complete connected structure is invalid, Lumberjack does **not** partially process the first valid-looking portion. Chain-felling does not activate and only the block normally mined by the player is broken.
 - Leaves are **not** harvested.
 - Unbreaking is not rolled independently for every destroyed log. Instead, calculate the total destroyed-log count and apply the corresponding Unbreaking durability-saving percentage arithmetically to determine the final durability cost.
 

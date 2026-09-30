@@ -46,6 +46,14 @@ class EnchantmentResourcesTest {
         }
         String acquisition = resource("data/minecraft/tags/enchantment/non_treasure.json").toString();
         IDS.forEach(id -> assertTrue(acquisition.contains(id), id));
+        for (String inherited : List.of("tradeable", "on_random_loot", "in_enchanting_table",
+                "on_mob_spawn_equipment", "on_traded_equipment")) {
+            String tag = resource("data/minecraft/tags/enchantment/" + inherited + ".json").toString();
+            assertTrue(tag.contains("#minecraft:non_treasure"), inherited);
+        }
+        assertTrue(resource("data/moreminecrafts/enchantment/explosive_mace.json")
+                .getAsJsonObject("effects").isEmpty(),
+                "Explosive Mace is runtime-gated by MaceItem.canSmashAttack, not a fall-distance predicate");
     }
 
     @Test void koreanEnchantmentNamesAreLocalized() {
