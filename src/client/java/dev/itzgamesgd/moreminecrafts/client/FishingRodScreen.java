@@ -52,7 +52,7 @@ public final class FishingRodScreen extends AbstractContainerScreen<FishingRodMe
         picture(graphics, "reel_card_empty", x + CARD_X[0], y + CARD_Y, 70, 93, 1086, 1448);
         picture(graphics, "crankbait_card_empty", x + CARD_X[1], y + CARD_Y, 70, 93, 1086, 1448);
         picture(graphics, "minnow_card_empty", x + CARD_X[2], y + CARD_Y, 70, 93, 1086, 1448);
-        picture(graphics, "equipment_effects_panel", x + 8, y + 103, 300, 76, 2172, 724);
+        picture(graphics, "equipment_effects_panel", x + 8, y + 103, 228, 76, 2172, 724);
         picture(graphics, "close_button", x + 306, y + 4, 18, 18, 1254, 1254);
         for (int i = 0; i < 3; i++) {
             ItemStack stack = menu.getSlot(i).getItem();

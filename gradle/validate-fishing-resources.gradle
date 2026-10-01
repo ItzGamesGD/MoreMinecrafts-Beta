@@ -36,6 +36,16 @@ tasks.register("validateFishingResources") {
    assert m.display.ground.translation==[0,2,0]&&m.display.ground.scale==[0.5,0.5,0.5]&&m.display.fixed.rotation==[0,180,0]&&m.display.fixed.scale==[1,1,1]
    assert (png[24]&0xff)==8&&(png[25]&0xff)==6
   }
+  def fishingScreen = file("src/client/java/dev/itzgamesgd/moreminecrafts/client/FishingRodScreen.java").text
+  def effectsPanelDraw = (fishingScreen =~ /picture\\(graphics,\\s*"equipment_effects_panel",\\s*x \\+ 8,\\s*y \\+ 103,\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+)\\)/)
+  assert effectsPanelDraw.find() : "Fishing equipment effects panel draw call is missing"
+  double panelWidth = effectsPanelDraw.group(1) as double
+  double panelHeight = effectsPanelDraw.group(2) as double
+  double textureWidth = effectsPanelDraw.group(3) as double
+  double textureHeight = effectsPanelDraw.group(4) as double
+  assert Math.abs(panelWidth / textureWidth - panelHeight / textureHeight) < 0.000001 :
+          "Fishing equipment effects panel must preserve its source image aspect ratio"
+
   def jar=tasks.named("jar").get().archiveFile.get().asFile
   (approval.sha256 as Map).each{path,hash->
    def resource=path.startsWith("items/")?"assets/moreminecrafts/textures/item/${path.tokenize('/').last()}":path.startsWith("ui/")?"assets/moreminecrafts/textures/gui/fishing/${path.substring(3)}":null
