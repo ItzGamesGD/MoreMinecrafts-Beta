@@ -99,6 +99,12 @@ Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md` and applicable finalized
 - [DONE] T2 final seven-item roster.
 - [DONE] T2 active-skill input uses normal item/right-click semantics rather than old F/Shift+F route.
 - [DONE] T3 remains a separate Special-equipment category; T4 remains Endgame rather than a promotion chain.
+- [DONE] T1 vanilla-style weapon extensions finalized: Dagger / Greatsword / single non-tiered Gauntlet.
+- [DONE] Dagger core contract: ~2.5 reach, Hoe-level speed, ~65% same-tier Sword damage, no sweep, 1 Stick + 1 tier material.
+- [DONE] Greatsword core contract: vertical single-target left-click, diagonal +50% sweep-range right-click, Shield unavailable while equipped, Sword + 2 tier materials recipe.
+- [DONE] Gauntlet core contract: 3-block reach, ~0.6x bare-hand speed, 2 direct damage, X-Z 3.5 x 1.7 secondary region for 0.5 damage + horizontal 2-block push, no Y knockback.
+- [BALANCE] Greatsword exact reach/speed/damage point inside the approved 3.5-4.0 / Axe-or-slower / 130-150% windows and Dagger rounded per-tier values.
+- [DEFERRED] Gauntlet recipe shape/quantities; material pool is already limited to Gold / Diamond / Titanium / Iron.
 
 ## Remaining T2 design
 
@@ -133,25 +139,33 @@ Current authority: `CONTENT_AUTHORITY_INDEX.md`.
 
 # 4. Utility Equipment
 
-Current authority is incomplete; historical utility decisions must be reconciled before implementation.
+Current authority: `UTILITY_EQUIPMENT_FINALIZATION.md`.
 
-## Roster / role reconciliation
+## Active roster / mechanics — resolved
 
-- [OPEN] Rebuild the final Utility roster from the latest human decisions rather than treating the historical checklist as current authority.
-- [OPEN] For every retained Utility item, define its unique gameplay role and acquisition stage.
-- [OPEN] Resolve movement overlap among the retained movement utilities, deferred Grappling Hook, Return Crystal and vanilla Elytra progression; equipment-form Jet Boots is retired and must not be reintroduced.
-- [OPEN] Decide which historical Utility concepts are deleted, retained, or intentionally deferred.
-- [DONE] Equipment-form Jet Boots is retired. The retained Jet Boots concept is the enchantment defined by `ENCHANTMENT_BRANCH_SKELETON.md`; there is no Utility-vs-Enchantment Jet Boots conflict to resolve.
+- [DONE] Active Utility roster: Miner Lantern / Potion Injector / Exploration Sleeping Bag / Portable Furnace / Mining Drill / Backpack.
+- [DONE] Miner Lantern: helmet-adjacent socket in the vanilla inventory UI; LambDynamicLights player-centered dynamic light level 15; no Light Block placement.
+- [DONE] Potion Injector: 9 slots; left-click opens inventory; right-click uses stored potions in 1 -> 9 order; immediate application without drink time.
+- [DONE] Exploration Sleeping Bag: 2 Wool over 2 Wood; skips night; does not set respawn.
+- [DONE] Portable Furnace: item-opened vanilla-furnace-style UI; 3x smelt speed and 3x fuel-consumption rate; 64-stack items capped at 16 per slot; remaining contents drop on close.
+- [DONE] Mining Drill: no durability; single-block near-instant Deepslate target; 1 FP/block; Coal=8 FP; Coal Block=72 FP; fuel slot max 64; Silk Touch/Fortune supported.
+- [DONE] Backpack: player-bound shared persistent storage; 9/27/54-slot tiers; death-safe contents; chest-armor attachment; vanilla container-style UI.
+- [DONE] Equipment-form Jet Boots is retired; the Jet Boots enchantment remains separate authority.
 
-## Mechanics / acquisition
+## Deferred / deleted roster
 
-- [OPEN] Finalize retained Utility controls and interaction semantics.
-- [OPEN] Finalize retained Utility durability/consumption/fuel rules.
-- [OPEN] Finalize retained Utility recipes and material anchors.
-- [OPEN] Finalize Return Crystal destination/channel semantics if retained.
-- [OPEN] Finalize Portable Furnace constraints/efficiency if retained.
-- [OPEN] Finalize Drill mining/fuel contract if retained.
-- [BALANCE] Recipe quantities, acquisition timing and movement values.
+- [DEFERRED] Glider.
+- [DEFERRED] Oxygen Tank.
+- [DEFERRED] Grappling Hook.
+- [DONE] Deleted/retired: Climbing Gloves / equipment-form Jet Boots / Flare / Buoyancy Capsule / Return Crystal.
+
+## Remaining acquisition / balance work
+
+- [DEFERRED] Exact Utility material anchors and unresolved recipe ingredients until downstream material demand is aggregated.
+- [DEFERRED] Exact acquisition timing until recipe/material progression is closed.
+- [BALANCE] Exact recipe quantities where not explicitly fixed.
+- [BALANCE] Mining Drill exact mining-speed constant that realizes the approved near-instant Deepslate target.
+- [DONE] Utility gameplay roles and interaction semantics are sufficiently closed to move to the next downstream design stage.
 
 # 5. Fishing
 
@@ -171,7 +185,10 @@ Current authority: `STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 - [OPEN] Decide whether the current substantial-water eligibility remains the final ecology/environment model or receives a dedicated ecology redesign.
 - [OPEN] Finalize per-species ecology/environment metadata when ecology restrictions become active.
 - [OPEN] Decide the final economy/value use of caught fish.
-- [OPEN] Decide whether fish-container / 어망 functionality returns; Stage 3 explicitly did not add it.
+- [DONE] Fish Trap retained as the only approved passive fish-container/automation concept: 2 x 1 placed block, 9 slots, no bait/fuel, normal current fish ItemStacks, stops when full.
+- [DONE] Fishing Net is deleted from the current design.
+- [BALANCE] Fish Trap catch interval currently uses 1 fish / 5 minutes.
+- [DEFERRED] Fish Trap exact recipe/material assignment; String + structural material such as Titanium is only the approved direction until material-economy closure.
 - [OPEN] Decide whether a dedicated Fisherman sale path returns; Stage 3 explicitly did not add it.
 - [BALANCE] Value Index -> Emerald/reward conversion if selling is retained.
 - [BALANCE] Exact module durability and repair/upgrade material costs.
