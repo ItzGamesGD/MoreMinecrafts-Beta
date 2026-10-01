@@ -75,7 +75,7 @@ tasks.register("validateFlameSwordProductionAsset") {
         assert model.elements instanceof List && model.elements.size() == 1 :
                 "Flame Sword must use one bounded explicit model element"
         def plane = model.elements[0]
-        assert plane.from == [0, 0, 7.5] && plane.to == [16, 16, 8.5] :
+        assert plane.from == [0, 0, 7] && plane.to == [16, 16, 9] :
                 "Unexpected Flame Sword bounded element dimensions"
         assert !plane.containsKey("rotation")
         assert (plane.faces.keySet() as Set) == (["north", "south"] as Set) :
