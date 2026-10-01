@@ -16,6 +16,53 @@
 - **[LOCKED]** Promotion, Coin, Fragment 기반 장비 성장 체계는 사용하지 않는다.
 - **[LOCKED]** 갑옷은 무기보다 적은 수의 큰 Tier를 사용한다.
 
+
+## 1A. T1 vanilla-style weapon extensions
+
+The following weapons extend the ordinary/basic vanilla equipment space. They are not T2 Elemental, T3 Special, T4 Endgame, or a separate T1.5 active-skill tier.
+
+### Dagger
+
+- **[LOCKED]** Exists across the corresponding ordinary vanilla material hierarchy rather than as a special one-off weapon.
+- **[LOCKED]** Reach target: approximately **2.5 blocks**.
+- **[LOCKED]** Attack speed target: approximately **Hoe-level**.
+- **[LOCKED]** Damage target: approximately **65% of the corresponding-tier Sword**, rounded to clean per-tier values.
+- **[LOCKED]** No sweeping attack.
+- **[LOCKED]** No combo, backstab, active skill, or secondary resource system.
+- **[LOCKED]** Base recipe pattern: **1 Stick + 1 corresponding tier material**.
+- **[BALANCE]** Exact rounded per-tier attack values may be normalized during implementation/balance without changing the weapon identity above.
+
+### Greatsword
+
+- **[LOCKED]** Exists in the ordinary vanilla material hierarchy rather than as a special one-off weapon.
+- **[LOCKED]** It is a slow, high-impact basic weapon with two ordinary attack forms, not an active-skill weapon.
+- **[BALANCE]** Reach target: approximately **3.5-4.0 blocks**.
+- **[BALANCE]** Attack speed target: approximately **Axe-level or slightly slower**.
+- **[BALANCE]** Damage target: approximately **130-150% of the corresponding-tier Sword**.
+- **[LOCKED]** **Left-click:** vertical/downward single-target slash; no sweeping.
+- **[LOCKED]** The vertical hit may use light ground-impact particles reminiscent of a Mace impact, but it does not inherit Mace fall-distance damage or shockwave behavior.
+- **[LOCKED]** **Right-click:** diagonal slash with sweeping; sweep range is **50% larger than a normal Sword sweep**.
+- **[LOCKED]** While the Greatsword is equipped/held for combat, **Shield use is unavailable**.
+- **[LOCKED]** Base recipe: **corresponding-tier Sword + 2 units of the corresponding main material**.
+- **[IMPLEMENTATION]** Exact animation/VFX presentation and final numeric point inside the approved balance windows are implementation/live-balance work.
+
+### Gauntlet
+
+- **[LOCKED]** Exactly **one Gauntlet item**; there are no material-tier variants.
+- **[LOCKED]** It is an ordinary/basic weapon extension, not T2/T3/T4 and not T1.5.
+- **[LOCKED]** Reach: **3 blocks**.
+- **[LOCKED]** Attack speed: approximately **0.6x bare-hand attack speed**.
+- **[LOCKED]** No sweeping attack.
+- **[LOCKED]** No right-click active skill.
+- **[LOCKED]** Directly struck target takes **2 damage (1 heart)**.
+- **[LOCKED]** The directly struck entity becomes the reference point for a secondary horizontal **X-Z 3.5 x 1.7** hit/knockback region extending behind the struck target relative to the attack direction.
+- **[LOCKED]** Other entities inside that secondary region take **0.5 damage (0.25 heart)**.
+- **[LOCKED]** Those secondary targets are pushed **2 blocks horizontally**.
+- **[LOCKED]** Secondary knockback has **no Y/upward component**.
+- **[LOCKED]** Recipe material pool is limited to **Gold, Diamond, Titanium, and Iron**.
+- **[OPEN-RECIPE-SHAPE]** Exact recipe arrangement and material quantities are intentionally not designed yet.
+- **[IMPLEMENTATION]** Final item/model shape is intentionally not fixed by this design pass.
+
 ## 2. T2 Elemental roster (historical freeze; superseded)
 
 > **[SUPERSEDED / HISTORICAL]** This section records the earlier six-item/five-family T2 freeze. The current seven-item roster, including Lightning Sword, is authoritative in `docs/STAGE_2_GAMEPLAY_RECONCILIATION.md`. Do not use this section as the current T2 implementation contract.
