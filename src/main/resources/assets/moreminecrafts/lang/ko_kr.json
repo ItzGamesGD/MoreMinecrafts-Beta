@@ -44,5 +44,11 @@
   "enchantment.moreminecrafts.elytra_launch": "겉날개 발사",
   "enchantment.moreminecrafts.explosive_mace": "폭발 철퇴",
   "enchantment.moreminecrafts.feather_boots": "깃털 부츠",
-  "enchantment.moreminecrafts.jet_boots": "제트 부츠"
+  "enchantment.moreminecrafts.jet_boots": "제트 부츠",
+  "tooltip.moreminecrafts.enhancement.effect.attack_damage": "공격 피해: %s",
+  "tooltip.moreminecrafts.enhancement.effect.mace_smash_damage": "강타 피해: %s",
+  "tooltip.moreminecrafts.enhancement.effect.ranged_damage": "발사체 피해: %s",
+  "tooltip.moreminecrafts.enhancement.effect.damage_reduction": "피해 감소: %s",
+  "tooltip.moreminecrafts.enhancement.effect.tool_efficiency": "채굴 속도: %s",
+  "tooltip.moreminecrafts.enhancement.milestones": "달성 이정표: %s / %s"
 }

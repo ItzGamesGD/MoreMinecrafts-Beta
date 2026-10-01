@@ -96,5 +96,11 @@
   "enchantment.moreminecrafts.elytra_launch": "Elytra Launch",
   "enchantment.moreminecrafts.explosive_mace": "Explosive Mace",
   "enchantment.moreminecrafts.feather_boots": "Feather Boots",
-  "enchantment.moreminecrafts.jet_boots": "Jet Boots"
+  "enchantment.moreminecrafts.jet_boots": "Jet Boots",
+  "tooltip.moreminecrafts.enhancement.effect.attack_damage": "Attack damage: %s",
+  "tooltip.moreminecrafts.enhancement.effect.mace_smash_damage": "Smash damage: %s",
+  "tooltip.moreminecrafts.enhancement.effect.ranged_damage": "Projectile damage: %s",
+  "tooltip.moreminecrafts.enhancement.effect.damage_reduction": "Damage reduction: %s",
+  "tooltip.moreminecrafts.enhancement.effect.tool_efficiency": "Mining speed: %s",
+  "tooltip.moreminecrafts.enhancement.milestones": "Milestones reached: %s / %s"
 }

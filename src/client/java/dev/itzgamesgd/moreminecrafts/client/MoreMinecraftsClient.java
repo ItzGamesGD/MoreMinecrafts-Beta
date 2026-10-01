@@ -3,7 +3,12 @@ package dev.itzgamesgd.moreminecrafts.client;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
+import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementCatalog;
+import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementEffect;
+import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementEffects;
 import dev.itzgamesgd.moreminecrafts.network.FishingChallengePayload;
+import dev.itzgamesgd.moreminecrafts.network.MovementJumpPayload;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import dev.itzgamesgd.moreminecrafts.fishing.FishItem;
 import dev.itzgamesgd.moreminecrafts.fishing.FishSpecies;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingGrade;
@@ -29,11 +34,19 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     private static FishSpecies fishingSpecies;
     private static boolean fishingCaptureAllowed;
     private static int fishingRequiredMinnowTier = 1;
+    private static boolean jumpHeld;
     public static boolean fishingChallengeActive() { return fishingChallengeStart >= 0; }
 
     @Override
     public void onInitializeClient() {
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            boolean jump = client.options.keyJump.isDown();
+            if (jump && !jumpHeld && client.getConnection() != null) {
+                ClientPlayNetworking.send(MovementJumpPayload.INSTANCE);
+            }
+            jumpHeld = jump;
+        });
         ClientPlayNetworking.registerGlobalReceiver(FishingChallengePayload.TYPE,(payload,context)-> context.client().execute(() ->
                 {
                     fishingChallengeStart=payload.active() ? payload.startTick() : -1;
@@ -49,6 +62,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
             fishingSpecies = null;
             fishingCaptureAllowed = false;
             fishingRequiredMinnowTier = 1;
+            jumpHeld = false;
         });
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
                 ModIds.id("fishing_timing"), (graphics, delta) -> {
@@ -97,6 +111,19 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
             if (level > 0) {
                 lines.add(Component.translatable("item.moreminecrafts.enhancement_level", level)
                         .withStyle(ChatFormatting.AQUA));
+                EnhancementCatalog.definition(stack.getItem()).ifPresent(definition -> {
+                    for (EnhancementEffect effect : definition.profile().effects()) {
+                        double value = EnhancementEffects.value(definition, level, effect.target());
+                        if (value <= 0.0D) continue;
+                        String formatted = effect.target() == EnhancementEffect.Target.DAMAGE_REDUCTION
+                                ? "%+.1f%%".formatted(value * 100.0D) : "%+.2f".formatted(value);
+                        lines.add(Component.translatable("tooltip.moreminecrafts.enhancement.effect."
+                                + effect.target().name().toLowerCase(), formatted).withStyle(ChatFormatting.GRAY));
+                    }
+                    int reached = Math.min(level, definition.category().maximumLevel()) / 5;
+                    lines.add(Component.translatable("tooltip.moreminecrafts.enhancement.milestones", reached, 4)
+                            .withStyle(ChatFormatting.DARK_AQUA));
+                });
             }
         });
 

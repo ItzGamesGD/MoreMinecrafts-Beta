@@ -55,9 +55,9 @@ tasks.register("validateFlameSwordProductionAsset") {
         ] as Set) : "Flame Sword must explicitly define all four hand contexts"
         assert !model.containsKey("overrides")
         [
-            firstperson: [scale: [0.85, 0.85, 0.85], rotationRight: [0, -90, 25], rotationLeft: [0, 90, -25],
+            firstperson: [scale: [0.68, 0.68, 0.68], rotationRight: [0, -90, 25], rotationLeft: [0, 90, -25],
                           translation: [1.13, 3.2, 1.13]],
-            thirdperson: [scale: [0.95, 0.95, 0.95], rotationRight: [0, -90, 55], rotationLeft: [0, 90, -55],
+            thirdperson: [scale: [0.85, 0.85, 0.85], rotationRight: [0, -90, 55], rotationLeft: [0, 90, -55],
                           translation: [0, 4, 0.5]]
         ].each { mode, expected ->
             def right = model.display[mode + "_righthand"]
@@ -71,15 +71,15 @@ tasks.register("validateFlameSwordProductionAsset") {
         }
 
         // The 1263x1246 source must not be sent through generated per-pixel edge extrusion.
-        // One explicit thin element with only its two broad faces keeps geometry complexity fixed.
+        // One explicit thin cuboid keeps geometry complexity fixed while connecting both broad faces.
         assert model.elements instanceof List && model.elements.size() == 1 :
                 "Flame Sword must use one bounded explicit model element"
         def plane = model.elements[0]
         assert plane.from == [0, 0, 7] && plane.to == [16, 16, 9] :
                 "Unexpected Flame Sword bounded element dimensions"
         assert !plane.containsKey("rotation")
-        assert (plane.faces.keySet() as Set) == (["north", "south"] as Set) :
-                "Flame Sword bounded element must expose exactly two faces"
+        assert (plane.faces.keySet() as Set) == (["north", "south", "east", "west", "up", "down"] as Set) :
+                "Flame Sword bounded element must be a closed six-face solid"
         ["north", "south"].each { faceName ->
             def face = plane.faces[faceName]
             assert face.texture == "#layer0"
@@ -87,7 +87,12 @@ tasks.register("validateFlameSwordProductionAsset") {
             assert face.uv == expectedUv : "Opposite Flame Sword faces must preserve artwork orientation"
             assert !face.containsKey("cullface")
         }
-        assert plane.faces.size() == 2 : "Flame Sword model face count must remain bounded at two"
+        [west: [15.64, 0.55, 15.66, 0.57], east: [15.64, 0.55, 15.66, 0.57],
+         up: [15.64, 0.55, 15.66, 0.57], down: [15.64, 0.55, 15.66, 0.57]].each { faceName, uv ->
+            assert plane.faces[faceName].texture == "#layer0"
+            assert plane.faces[faceName].uv == uv
+        }
+        assert plane.faces.size() == 6 : "Flame Sword model must remain one bounded six-face solid"
 
         def registry = file("src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModItems.java").text
         assert (registry =~ /public static final Item FLAME_SWORD\s*=\s*Registry\.register\(\s*BuiltInRegistries\.ITEM,\s*FLAME_SWORD_KEY,/).findAll().size() == 1

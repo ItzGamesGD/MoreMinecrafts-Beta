@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemInstance;
@@ -43,8 +44,8 @@ public final class EnchantmentRuntime {
     private static final ThreadLocal<BlockPos> ACTIVE_DROP = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> CHAIN_BREAK = ThreadLocal.withInitial(() -> false);
     private static final ThreadLocal<Boolean> EXACT_DURABILITY = ThreadLocal.withInitial(() -> false);
-    private static final Map<UUID, Boolean> JUMP_HELD = new HashMap<>();
     private static final Map<UUID, Integer> AIR_JUMPS = new HashMap<>();
+    private static final Set<UUID> ELYTRA_LAUNCH_PENDING = new HashSet<>();
     private static final Map<UUID, ReplantOperation> REPLANT = new HashMap<>();
 
     private EnchantmentRuntime() {}
@@ -55,7 +56,8 @@ public final class EnchantmentRuntime {
         ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerList().getPlayers().forEach(EnchantmentRuntime::tickMovement));
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             UUID id = handler.player.getUUID();
-            JUMP_HELD.remove(id);
+            AIR_JUMPS.remove(id);
+            ELYTRA_LAUNCH_PENDING.remove(id);
             REPLANT.remove(id);
         });
     }
@@ -286,6 +288,18 @@ public final class EnchantmentRuntime {
         return null; // Cocoa is intentionally excluded.
     }
 
+    /** Consumes a planting item directly from this harvest's loot before it becomes an entity. */
+    public static ItemStack consumeReplantDrop(ServerLevel level, BlockPos pos, Entity entity, ItemStack stack) {
+        if (!(entity instanceof ServerPlayer player) || stack.isEmpty()) return stack;
+        ReplantOperation operation = REPLANT.get(player.getUUID());
+        if (operation == null || !operation.pos().equals(pos) || stack.getItem() != operation.seed()) return stack;
+        ItemStack remainder = stack.copy();
+        remainder.shrink(1);
+        REPLANT.remove(player.getUUID());
+        level.setBlockAndUpdate(operation.pos(), operation.state());
+        return remainder;
+    }
+
     private static void finishReplant(ServerLevel level, ServerPlayer player) {
         ReplantOperation operation = REPLANT.remove(player.getUUID());
         if (operation == null) return;
@@ -308,32 +322,33 @@ public final class EnchantmentRuntime {
     private static void tickMovement(ServerPlayer player) {
         CrossbowBarrageRuntime.tick(player.level().getGameTime());
         UUID id = player.getUUID();
-        boolean jump = player.getLastClientInput().jump();
-        boolean edge = jump && !JUMP_HELD.getOrDefault(id, false);
-        JUMP_HELD.put(id, jump);
         if (player.onGround()) AIR_JUMPS.remove(id);
-        if (!edge) return;
+        if (ELYTRA_LAUNCH_PENDING.remove(id) && !player.onGround()) player.startFallFlying();
+    }
+
+    /** Handles one physical jump-key press reported by the client; all eligibility is checked here. */
+    public static void handleJump(ServerPlayer player) {
         ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
-        if (player.isShiftKeyDown() && player.onGround()
+        if (player.isShiftKeyDown() && player.onGround() && chest.is(Items.ELYTRA)
                 && ModEnchantments.level(player.level(), chest, ModEnchantments.ELYTRA_LAUNCH) > 0) {
             Vec3 look = player.getLookAngle();
             player.setDeltaMovement(look.x * 0.8, 1.0, look.z * 0.8);
-            player.startFallFlying();
+            ELYTRA_LAUNCH_PENDING.add(player.getUUID());
             return;
         }
         ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
         if (player.isShiftKeyDown() && player.onGround()
                 && ModEnchantments.level(player.level(), boots, ModEnchantments.FEATHER_BOOTS) > 0) {
             Vec3 look = player.getLookAngle();
-            player.setDeltaMovement(look.x * 1.0, 0.72, look.z * 1.0);
+            player.setDeltaMovement(look.x, 0.72, look.z);
             return;
         }
         int max = EnchantmentMath.airJumps(ModEnchantments.level(player.level(), boots, ModEnchantments.JET_BOOTS));
-        int used = AIR_JUMPS.getOrDefault(id, 0);
+        int used = AIR_JUMPS.getOrDefault(player.getUUID(), 0);
         if (!player.onGround() && used < max) {
             Vec3 movement = player.getDeltaMovement();
             player.setDeltaMovement(movement.x, 0.55, movement.z);
-            AIR_JUMPS.put(id, used + 1);
+            AIR_JUMPS.put(player.getUUID(), used + 1);
         }
     }
 

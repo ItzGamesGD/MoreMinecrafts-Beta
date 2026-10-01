@@ -121,6 +121,34 @@ tasks.register("validateStage6Data") {
         assert !legacyConfiguredDir.exists() || recursiveJsonFiles(legacyConfiguredDir).empty :
                 "Legacy worldgen/configured_feature JSON remains; Minecraft 26.3 uses worldgen/feature"
 
+        [titanium: "raw_titanium", tungsten: "raw_tungsten", mythril: "mythril"].each { family, drop ->
+            ["", "deepslate_"].each { prefix ->
+                def ore = prefix + family + "_ore"
+                def lootFile = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${ore}.json")
+                assert lootFile.isFile() : "Missing runtime loot table for ${ore}"
+                def loot = json.parse(lootFile)
+                def alternatives = loot.pools[0].entries[0]
+                assert alternatives.type == "minecraft:alternatives"
+                def silk = alternatives.children[0]
+                def normal = alternatives.children[1]
+                assert silk.condition == "minecraft:tool/can_silk_touch" && silk.name == "moreminecrafts:${ore}" :
+                        "${ore} must return itself only through the current Silk Touch condition"
+                assert normal.name == "moreminecrafts:${drop}"
+                assert normal.modifier*.type == ["minecraft:apply_bonus", "minecraft:explosion_decay"]
+                assert normal.modifier[0].enchantment == "minecraft:fortune"
+                assert !lootFile.text.contains('"conditions"') && !lootFile.text.contains('"functions"') :
+                        "${ore} uses obsolete loot field names that Minecraft 26.3 ignores"
+            }
+            if (family != "mythril") {
+                ["smelting", "blasting"].each { method ->
+                    def recipe = json.parse(file("src/main/resources/data/moreminecrafts/recipe/raw_${family}_from_${method}.json"))
+                    assert recipe.type == "minecraft:${method}"
+                    assert recipe.ingredient == "moreminecrafts:raw_${family}"
+                    assert recipe.result.id == "moreminecrafts:${family}_ingot"
+                }
+            }
+        }
+
         families.each { family, ids ->
             def featureFile = file("src/main/resources/data/moreminecrafts/worldgen/feature/ore_${family}.json")
             def placedFile = file("src/main/resources/data/moreminecrafts/worldgen/placed_feature/ore_${family}.json")

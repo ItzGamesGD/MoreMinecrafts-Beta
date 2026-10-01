@@ -23,6 +23,7 @@ abstract class BlockMixin {
     private static void moreminecrafts$smeltMinedBlockDrops(BlockState state, ServerLevel level, BlockPos pos,
             BlockEntity blockEntity, Entity entity, ItemInstance tool, CallbackInfoReturnable<List<ItemStack>> cir) {
         cir.setReturnValue(cir.getReturnValue().stream()
-                .map(stack -> EnchantmentRuntime.autoSmeltDrop(level, pos, tool, stack)).toList());
+                .map(stack -> EnchantmentRuntime.consumeReplantDrop(level, pos, entity,
+                        EnchantmentRuntime.autoSmeltDrop(level, pos, tool, stack))).toList());
     }
 }
