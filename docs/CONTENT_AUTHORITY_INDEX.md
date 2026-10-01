@@ -49,7 +49,7 @@ An approved master image and its Minecraft runtime model are separate concerns.
 
 Human-approved production PNGs remain immutable unless an explicit later art task changes them. Runtime model geometry, display mode, and performance constraints may be changed without altering the approved master asset.
 
-Flame Sword C1-A/C1-B remains separately authoritative; its approved production PNG and bounded two-face handheld model are unchanged.
+Flame Sword C1-A/C1-B remains separately authoritative for its approved production PNG, which is immutable. Its runtime presentation contract was corrected by Stage 18 live-test repair: the obsolete bounded two-face handheld model is superseded by the bounded solid six-face handheld model defined in the Resource asset presentation contract. This geometry correction does not authorize artwork changes.
 
 ## Enchantments
 
