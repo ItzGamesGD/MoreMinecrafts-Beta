@@ -37,7 +37,7 @@ tasks.register("validateFishingResources") {
    assert (png[24]&0xff)==8&&(png[25]&0xff)==6
   }
   def fishingScreen = file("src/client/java/dev/itzgamesgd/moreminecrafts/client/FishingRodScreen.java").text
-  def effectsPanelDraw = (fishingScreen =~ /picture\\(graphics,\\s*"equipment_effects_panel",\\s*x \\+ 8,\\s*y \\+ 103,\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+)\\)/)
+  def effectsPanelDraw = (fishingScreen =~ /picture\(graphics,\s*"equipment_effects_panel",\s*x \+ 8,\s*y \+ 103,\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)\)/)
   assert effectsPanelDraw.find() : "Fishing equipment effects panel draw call is missing"
   double panelWidth = effectsPanelDraw.group(1) as double
   double panelHeight = effectsPanelDraw.group(2) as double
