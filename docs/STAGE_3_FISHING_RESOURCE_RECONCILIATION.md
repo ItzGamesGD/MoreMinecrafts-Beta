@@ -25,6 +25,24 @@ The approved Resource D manifest has hashes for 35 item/UI images; source and JA
 ## Preserved flow
 custom environment eligibility → Reel-filtered Species → minigame → Minnow permission → Grade → Length → Weight → fish ItemStack. Reel wear on valid start, Minnow/Crankbait wear on permitted success, broken-at-1, minigame baselines, substantial-water tolerance, and vanilla fallback remain unchanged. No fish container or fisherman sale is added.
 
+
+## Post-Stage-18 design extension: Fish Trap
+
+This section supersedes the earlier statement that no fish container is added, but only for the explicitly approved Fish Trap below. It does not restore the removed Fishing Net concept.
+
+### Fish Trap
+
+- **[LOCKED]** World-placed **2 x 1 block structure**.
+- **[LOCKED]** Internal inventory: **9 slots**.
+- **[LOCKED]** Requires **no bait, fuel, or recurring material input**.
+- **[BALANCE]** Temporary catch interval: **1 fish every 5 minutes**.
+- **[LOCKED]** Each catch is an ordinary current Fishing-system fish ItemStack, preserving the normal fish identity/data model including Species, Grade, Length, and Length-dependent Weight. Do not create a separate trap-only fish abstraction.
+- **[LOCKED]** Fish remain non-stackable, so the 9-slot inventory holds at most 9 fish.
+- **[LOCKED]** When all 9 slots are full, the Fish Trap stops producing catches until space is freed.
+- **[LOCKED]** Fishing Net is not part of the current design.
+- **[PROVISIONAL-RECIPE]** Recipe direction may use String plus a structural material such as Titanium, but exact material assignment, shape, and quantities are deferred to the later material-economy/recipe pass.
+- **[IMPLEMENTATION]** Exact reuse of ecology/species weighting code is implementation work as long as the resulting catch remains inside the current canonical Fishing fish model and no new trap-only loot family is invented.
+
 ## Validation
 Run `./gradlew build`, JUnit, `validateStage6Data`, `validateFlameSwordResources`, `validateFlameSwordProductionAsset`, `validateFishingResources`, distributable JAR validation, server ready/fatal-marker smoke and client/resource smoke. Headless reload does not verify appearance.
 
