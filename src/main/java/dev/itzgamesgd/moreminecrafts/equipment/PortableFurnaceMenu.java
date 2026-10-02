@@ -88,24 +88,28 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         if (fuel.is(Items.BAMBOO)) return 50;
         if (fuel.is(Items.SCAFFOLDING)) return 300;
         if (burnTime instanceof ResolvableInt.Reference reference) {
-            return switch (reference.key().identifier().getPath()) {
-                case "time_lava_bucket" -> 20_000;
-                case "time_coal_block" -> 16_000;
-                case "time_dried_kelp_block" -> 4_001;
-                case "time_blaze_rod" -> 2_400;
-                case "time_coal" -> 1_600;
-                case "time_boats" -> 1_200;
-                case "time_hanging_signs" -> 800;
-                case "time_wood_items_small", "time_wood_blocks", "time_roots" -> 300;
-                case "time_wood_items_large" -> 200;
-                case "time_wood_slabs" -> 150;
-                case "time_wool", "time_dry_plants", "time_wood_items_extra_small" -> 100;
-                case "time_wool_carpets" -> 67;
-                case "time_wool_slabs" -> 50;
-                default -> 0;
-            };
+            return vanillaFuelTicksForProvider(reference.key().identifier().getPath());
         }
         return 0;
+    }
+
+    static int vanillaFuelTicksForProvider(String providerPath) {
+        return switch (providerPath) {
+            case "time_lava_bucket" -> 20_000;
+            case "time_coal_block" -> 16_000;
+            case "time_dried_kelp_block" -> 4_001;
+            case "time_blaze_rod" -> 2_400;
+            case "time_coal" -> 1_600;
+            case "time_boats" -> 1_200;
+            case "time_hanging_signs" -> 800;
+            case "time_wood_items_small", "time_wood_blocks", "time_roots" -> 300;
+            case "time_wood_items_large" -> 200;
+            case "time_wood_slabs" -> 150;
+            case "time_wool", "time_dry_plants", "time_wood_items_extra_small" -> 100;
+            case "time_wool_carpets" -> 67;
+            case "time_wool_slabs", "time_bamboo" -> 50;
+            default -> 0;
+        };
     }
 
     @Override public void removed(Player player) {
