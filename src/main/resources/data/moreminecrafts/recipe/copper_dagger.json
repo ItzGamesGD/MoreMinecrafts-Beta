@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:copper_ingot",
+    "minecraft:stick"
+  ],
+  "result": {
+    "id": "moreminecrafts:copper_dagger",
+    "count": 1
+  }
+}
