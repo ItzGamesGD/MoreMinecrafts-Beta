@@ -18,7 +18,11 @@ public final class PotionInjectorItem extends Item {
     public PotionInjectorItem(Properties properties) { super(properties); }
 
     public static boolean isUsablePotion(ItemStack stack) {
-        return !stack.isEmpty() && stack.is(Items.POTION) && stack.has(DataComponents.POTION_CONTENTS);
+        return !stack.isEmpty() && isUsablePotionItem(stack.getItem(), stack.has(DataComponents.POTION_CONTENTS));
+    }
+
+    static boolean isUsablePotionItem(Item item, boolean hasPotionContents) {
+        return item == Items.POTION && hasPotionContents;
     }
 
     public static void open(ServerPlayer player, ItemStack injector) {
