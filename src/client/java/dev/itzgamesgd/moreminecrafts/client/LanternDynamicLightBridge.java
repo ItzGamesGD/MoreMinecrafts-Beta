@@ -13,10 +13,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 /** Optional LambDynamicLights 26.3 API integration for the socketed Miner Lantern. */
 public final class LanternDynamicLightBridge implements DynamicLightsInitializer {
     private DynamicLightBehaviorManager manager;
-    private LanternBehavior active;
+    private final Map<UUID, LanternBehavior> active = new HashMap<>();
 
     @Override
     public void onInitializeDynamicLights(DynamicLightsContext context) {
@@ -25,18 +31,29 @@ public final class LanternDynamicLightBridge implements DynamicLightsInitializer
     }
 
     private void tick(Minecraft client) {
-        Player player = client.player;
-        boolean equipped = player != null && player.isAlive()
-                && player.getAttachedOrElse(EquipmentAttachments.LANTERN, ItemStack.EMPTY)
-                        .is(ModItems.MINER_LANTERN);
-        if (active != null && (!equipped || active.player() != player)) {
-            manager.remove(active);
-            active = null;
+        if (client.level == null) {
+            active.values().forEach(manager::remove);
+            active.clear();
+            return;
         }
-        if (active == null && equipped) {
-            active = new LanternBehavior(player);
-            manager.add(active);
+
+        Set<UUID> equippedPlayers = new HashSet<>();
+        for (Player player : client.level.players()) {
+            if (!player.isAlive() || !player.getAttachedOrElse(EquipmentAttachments.LANTERN, ItemStack.EMPTY)
+                    .is(ModItems.MINER_LANTERN)) continue;
+            equippedPlayers.add(player.getUUID());
+            active.computeIfAbsent(player.getUUID(), ignored -> {
+                LanternBehavior behavior = new LanternBehavior(player);
+                manager.add(behavior);
+                return behavior;
+            });
         }
+
+        active.entrySet().removeIf(entry -> {
+            if (equippedPlayers.contains(entry.getKey())) return false;
+            manager.remove(entry.getValue());
+            return true;
+        });
     }
 
     private static final class LanternBehavior implements DynamicLightBehavior {
