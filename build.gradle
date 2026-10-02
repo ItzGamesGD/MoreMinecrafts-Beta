@@ -333,6 +333,28 @@ tasks.register("validateLowerEquipmentResources") {
             }
         }
 
+        def drillSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/MiningDrillItem.java").text
+        def rulesSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/LowerEquipmentRules.java").text
+        assert rulesSource.contains("state.is(BlockTags.MINEABLE_WITH_PICKAXE)")
+        assert drillSource.contains("LowerEquipmentRules.isPickaxeMineable(state) && hasFuel(drill)")
+        assert drillSource.contains("!level.isClientSide() && LowerEquipmentRules.isPickaxeMineable(state)")
+        assert !drillSource.contains("state.is(BlockTags.MINEABLE_WITH_PICKAXE)")
+
+        def furnaceSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/PortableFurnaceMenu.java").text
+        assert furnaceSource.indexOf("if (state.get(0) > 0)") < furnaceSource.indexOf("ItemStack input = contents.getItem(0)") :
+                "Portable Furnace must decrement active burn time before checking whether cooking can proceed"
+        assert furnaceSource.contains("fuel.getItem().getCraftingRemainder()")
+        assert furnaceSource.contains("remainderTemplate.create()")
+        assert furnaceSource.contains("player.getInventory().add(remainder)")
+        assert furnaceSource.contains("player.spawnAtLocation((ServerLevel) player.level(), remainder)")
+        assert furnaceSource.contains("vanillaTicks / LowerEquipmentRules.PORTABLE_FURNACE_FUEL_TICK_MULTIPLIER")
+
+        def greatswordSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/GreatswordItem.java").text
+        assert greatswordSource.contains("attacker.getAttackStrengthScale(0.5F)")
+        assert greatswordSource.contains("attacker.hasLineOfSight(candidate)")
+        assert greatswordSource.contains("LowerEquipmentRules.isWithinGreatswordSweep(offset, direction)")
+        assert !greatswordSource.contains("GREATSWORD_SWEEP_RANGE")
+
         // Regression probe: prove this validator fails on an unresolved block model.
         try {
             validateReferences([variants: [default: [model: "moreminecrafts:block/__missing_validation_probe"]]],
