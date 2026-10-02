@@ -57,6 +57,10 @@ public final class FishTrapBlock extends BaseEntityBlock {
         BlockPos owner = primary(pos, state);
         if (!level.isClientSide() && level.getBlockEntity(owner) instanceof FishTrapBlockEntity trap)
             net.minecraft.world.Containers.dropContents(level, owner, trap);
+        if (!level.isClientSide() && !player.isCreative() && state.getValue(PART) == BedPart.FOOT) {
+            net.minecraft.world.Containers.dropItemStack(level, pos.getX() + 0.5D, pos.getY() + 0.5D,
+                    pos.getZ() + 0.5D, new ItemStack(dev.itzgamesgd.moreminecrafts.registry.ModItems.FISH_TRAP));
+        }
         BlockPos other = state.getValue(PART) == BedPart.FOOT ? pos.relative(state.getValue(FACING))
                 : pos.relative(state.getValue(FACING).getOpposite());
         if (level.getBlockState(other).is(this)) level.removeBlock(other, false);
