@@ -1,5 +1,9 @@
 package dev.itzgamesgd.moreminecrafts.equipment;
 
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+
 /** Centralized, deterministic constants for the finalized lower-equipment contract. */
 public final class LowerEquipmentRules {
     public static final int INJECTOR_SLOTS = 9;
@@ -22,6 +26,31 @@ public final class LowerEquipmentRules {
     public static final double GAUNTLET_REGION_WIDTH = 1.7D;
     /** Grounded impulse tuned for roughly two blocks of horizontal travel, not 2 blocks/tick velocity. */
     public static final double GAUNTLET_HORIZONTAL_KNOCKBACK_SPEED = 0.8D;
+
+    public static boolean isPickaxeMineable(BlockState state) {
+        return state.is(BlockTags.MINEABLE_WITH_PICKAXE);
+    }
+
+    public static boolean isWithinGreatswordSweep(Vec3 offset, Vec3 direction) {
+        double along = offset.dot(direction);
+        double lateral = offset.subtract(direction.scale(along)).length();
+        return along >= 0.0D && along <= GREATSWORD_REACH && lateral <= GREATSWORD_SWEEP_HALF_WIDTH;
+    }
+
+    public static float greatswordDamageMultiplier(float attackStrength) {
+        float strength = Math.max(0.0F, Math.min(1.0F, attackStrength));
+        return 0.2F + 0.8F * strength * strength;
+    }
+
+    public static boolean isInGauntletSecondaryRegion(double longitudinal, double lateral) {
+        return longitudinal <= 0.0D && longitudinal >= -GAUNTLET_REGION_LENGTH
+                && Math.abs(lateral) <= GAUNTLET_REGION_WIDTH / 2.0D;
+    }
+
+    public static int advanceFishTrapTimer(int currentTicks, boolean full) {
+        if (full) return currentTicks;
+        return Math.min(FISH_TRAP_INTERVAL_TICKS, Math.max(0, currentTicks) + 1);
+    }
 
     private LowerEquipmentRules() {}
 
