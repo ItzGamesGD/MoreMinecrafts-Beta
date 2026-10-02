@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:netherite_ingot",
+    "minecraft:stick"
+  ],
+  "result": {
+    "id": "moreminecrafts:netherite_dagger",
+    "count": 1
+  }
+}

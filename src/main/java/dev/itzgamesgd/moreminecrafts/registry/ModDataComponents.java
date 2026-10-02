@@ -8,6 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.core.component.DataComponentType;
 import dev.itzgamesgd.moreminecrafts.fishing.RodEquipment;
+import net.minecraft.world.item.ItemStack;
 
 public final class ModDataComponents {
     public static final DataComponentType<Integer> ENHANCEMENT_LEVEL = Registry.register(
@@ -22,6 +23,11 @@ public final class ModDataComponents {
     public static final DataComponentType<Integer> FISH_GRADE = integerComponent("fish_grade", 1, 5);
     public static final DataComponentType<Integer> FISH_LENGTH_TENTHS_CM = integerComponent("fish_length_tenths_cm", 1, 100000);
     public static final DataComponentType<Integer> FISH_WEIGHT_TENTHS_KG = integerComponent("fish_weight_tenths_kg", 1, 100000);
+    public static final DataComponentType<Integer> DRILL_FUEL_POINTS = integerComponent("drill_fuel_points", 0, 1_000_000);
+    public static final DataComponentType<ItemStack> ATTACHED_BACKPACK = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("attached_backpack"),
+            DataComponentType.<ItemStack>builder().persistent(ItemStack.OPTIONAL_CODEC)
+                    .networkSynchronized(ItemStack.OPTIONAL_STREAM_CODEC).build());
     public static final DataComponentType<RodEquipment> ROD_EQUIPMENT = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("rod_equipment"),
             DataComponentType.<RodEquipment>builder().persistent(RodEquipment.CODEC)

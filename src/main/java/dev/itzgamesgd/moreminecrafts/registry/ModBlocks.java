@@ -12,6 +12,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.item.DyeColor;
+import dev.itzgamesgd.moreminecrafts.fishing.FishTrapBlock;
 
 public final class ModBlocks {
     public static final Block DEEPSLATE_TITANIUM_ORE = ore("deepslate_titanium_ore", UniformInt.of(0, 0), 4.5F);
@@ -28,6 +31,8 @@ public final class ModBlocks {
     public static final Block MYTHRIL_BLOCK = block("mythril_block", 5.0F, 6.0F);
     public static final Block ETHERIUM_BLOCK = block("etherium_block", 5.0F, 6.0F);
     public static final Block ADAMANTIUM_BLOCK = block("adamantium_block", 50.0F, 1200.0F);
+    public static final Block EXPLORATION_SLEEPING_BAG = sleepingBag();
+    public static final Block FISH_TRAP = fishTrap();
 
     private ModBlocks() {}
 
@@ -42,6 +47,20 @@ public final class ModBlocks {
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
         return register(path, key, new Block(BlockBehaviour.Properties.of().strength(strength, resistance)
                 .requiresCorrectToolForDrops().setId(key)));
+    }
+
+    private static Block sleepingBag() {
+        String path = "exploration_sleeping_bag";
+        ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
+        return register(path, key, new BedBlock(DyeColor.GREEN,
+                BlockBehaviour.Properties.of().strength(0.2F).noOcclusion().setId(key)));
+    }
+
+    private static Block fishTrap() {
+        String path = "fish_trap";
+        ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
+        return register(path, key, new FishTrapBlock(
+                BlockBehaviour.Properties.of().strength(2.0F).noOcclusion().setId(key)));
     }
 
     private static Block register(String path, ResourceKey<Block> key, Block block) {

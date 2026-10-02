@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "WW",
+    "PP"
+  ],
+  "key": {
+    "W": "#minecraft:wool",
+    "P": "#minecraft:planks"
+  },
+  "result": {
+    "id": "moreminecrafts:exploration_sleeping_bag",
+    "count": 1
+  }
+}

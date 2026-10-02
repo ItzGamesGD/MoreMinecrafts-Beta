@@ -24,6 +24,18 @@ Authoritative ordinary Enhancement rules:
 
 Current T2 input/gameplay rules include the seven-item final roster, right-click active skills, cumulative Lightning charge semantics, and the removal of Wind Step and the old F / Shift+F T2 path.
 
+### Equipment progression and T1 vanilla-style weapon extensions
+
+Current broader equipment authority: [Equipment Progression Finalization](EQUIPMENT_PROGRESSION_FINALIZATION.md), except where Stage 2 explicitly supersedes its historical T2/Enhancement sections.
+
+The current T1 vanilla-style expansion recorded there adds Dagger, Greatsword, and a single non-tiered Gauntlet as ordinary/basic weapon extensions rather than a T1.5 active-skill system.
+
+### Utility equipment
+
+Current Utility Equipment authority: [Utility Equipment Finalization](UTILITY_EQUIPMENT_FINALIZATION.md).
+
+Use that document for the active Utility roster, deleted/deferred concepts, helmet socket, Miner Lantern, Potion Injector, Exploration Sleeping Bag, Portable Furnace, Mining Drill, and Backpack contracts.
+
 ### Fishing
 
 Current Fishing implementation and runtime/resource contract: [Stage 3 Fishing runtime/resource/UX reconciliation](STAGE_3_FISHING_RESOURCE_RECONCILIATION.md).
@@ -89,11 +101,13 @@ Resolve during future crafting/equipment/material-economy design rather than by 
 
 ### Utility progression
 
-**Movement utility overlap — DEFERRED**
+**Deferred Utility concepts — DEFERRED**
 
-Jet Boots, Glider, Grappling Hook, and Return Crystal may collectively trivialize vanilla terrain/travel if acquisition timing and roles are not separated.
+The active Utility roster and its mechanics are now defined in `UTILITY_EQUIPMENT_FINALIZATION.md`.
 
-Resolve during the Utility implementation/design pass, especially relative to Elytra progression.
+Glider, Oxygen Tank, and Grappling Hook are intentionally deferred and are not part of the active implementation-ready Utility roster.
+
+Equipment-form Jet Boots and Return Crystal are retired/deleted from Utility Equipment and must not be reintroduced by treating older movement-overlap notes as current authority. The separate Jet Boots enchantment remains authoritative under `ENCHANTMENT_BRANCH_SKELETON.md`.
 
 ### Alchemy discoverability
 
