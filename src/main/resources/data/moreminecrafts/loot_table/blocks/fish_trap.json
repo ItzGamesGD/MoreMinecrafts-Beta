@@ -5,9 +5,11 @@
     "entries": [{
       "type": "minecraft:item",
       "name": "moreminecrafts:fish_trap",
-      "condition": "minecraft:block_state_property",
-      "block": "moreminecrafts:fish_trap",
-      "properties": { "part": "head" }
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "moreminecrafts:fish_trap",
+        "state": { "part": "head" }
+      }
     }]
   }]
 }
