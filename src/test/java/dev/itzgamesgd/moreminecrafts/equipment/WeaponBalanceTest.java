@@ -2,8 +2,19 @@ package dev.itzgamesgd.moreminecrafts.equipment;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 class WeaponBalanceTest {
+    @Test void portableFurnaceUsesVanillaFuelComponentsAndRemainders() {
+        assertEquals(1_600, PortableFurnaceMenu.vanillaFuelTicks(new ItemStack(Items.COAL)));
+        assertEquals(16_000, PortableFurnaceMenu.vanillaFuelTicks(new ItemStack(Items.COAL_BLOCK)));
+        assertEquals(20_000, PortableFurnaceMenu.vanillaFuelTicks(new ItemStack(Items.LAVA_BUCKET)));
+        assertEquals(Items.BUCKET, Items.LAVA_BUCKET.getCraftingRemainder().getItem());
+        var slots = new PortableFurnaceMenu.PortableContainer();
+        assertEquals(16, slots.getMaxStackSize(new ItemStack(Items.COAL)));
+    }
+
     @Test void selectedDamageValuesStayInsideAuthorityWindows() {
         for (var value : WeaponBalance.VALUES) {
             assertTrue(value.daggerDamage() >= value.swordDamage() * 0.60F);
