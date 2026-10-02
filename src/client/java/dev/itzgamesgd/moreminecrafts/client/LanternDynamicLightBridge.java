@@ -42,6 +42,11 @@ public final class LanternDynamicLightBridge implements DynamicLightsInitializer
             if (!player.isAlive() || !player.getAttachedOrElse(EquipmentAttachments.LANTERN, ItemStack.EMPTY)
                     .is(ModItems.MINER_LANTERN)) continue;
             equippedPlayers.add(player.getUUID());
+            LanternBehavior existing = active.get(player.getUUID());
+            if (existing != null && existing.player() != player) {
+                manager.remove(existing);
+                active.remove(player.getUUID());
+            }
             active.computeIfAbsent(player.getUUID(), ignored -> {
                 LanternBehavior behavior = new LanternBehavior(player);
                 manager.add(behavior);
