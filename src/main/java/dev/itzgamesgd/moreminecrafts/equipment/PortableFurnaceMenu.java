@@ -31,15 +31,15 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
 
     public void serverTick(ServerPlayer player) {
         if (closed) return;
+        if (state.get(0) > 0) state.set(0, state.get(0) - 1);
         ItemStack input = contents.getItem(0);
         var recipe = input.isEmpty() ? java.util.Optional.<net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.SmeltingRecipe>>empty()
                 : player.level().getServer().getRecipeManager().getRecipeFor(
                         RecipeType.SMELTING, new SingleRecipeInput(input), player.level());
         if (recipe.isEmpty() || !canAccept(recipe.get().value().assemble(new SingleRecipeInput(input)))) {
-            state.set(2, 0); return;
+            state.set(2, 0); broadcastChanges(); return;
         }
-        if (state.get(0) <= 0 && !consumeFuel()) { state.set(2, 0); return; }
-        state.set(0, state.get(0) - 1);
+        if (state.get(0) <= 0 && !consumeFuel(player)) { state.set(2, 0); broadcastChanges(); return; }
         state.set(2, state.get(2) + 1);
         if (state.get(2) >= LowerEquipmentRules.PORTABLE_FURNACE_COOK_TIME) {
             ItemStack result = recipe.get().value().assemble(new SingleRecipeInput(input));
@@ -52,11 +52,17 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         broadcastChanges();
     }
 
-    private boolean consumeFuel() {
+    private boolean consumeFuel(ServerPlayer player) {
         ItemStack fuel = contents.getItem(1);
         int vanillaTicks = vanillaFuelTicks(fuel);
         if (vanillaTicks <= 0) return false;
+        ItemStack remainder = fuel.getItem().getCraftingRemainder();
         fuel.shrink(1);
+        if (!remainder.isEmpty()) {
+            if (fuel.isEmpty()) fuel = remainder;
+            else if (!player.getInventory().add(remainder))
+                player.drop(remainder, false);
+        }
         contents.setItem(1, fuel);
         int accelerated = Math.max(1, vanillaTicks / LowerEquipmentRules.PORTABLE_FURNACE_FUEL_TICK_MULTIPLIER);
         state.set(0, accelerated); state.set(1, accelerated);
@@ -70,11 +76,7 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
     }
 
     static int vanillaFuelTicks(ItemStack fuel) {
-        if (fuel.is(Items.LAVA_BUCKET)) return 20_000;
-        if (fuel.is(Items.COAL_BLOCK)) return 16_000;
-        if (fuel.is(Items.COAL) || fuel.is(Items.CHARCOAL)) return 1_600;
-        if (fuel.is(Items.BLAZE_ROD)) return 2_400;
-        return fuel.has(net.minecraft.core.component.DataComponents.COOKING_FUEL) ? 300 : 0;
+        return fuel.getOrDefault(net.minecraft.core.component.DataComponents.COOKING_FUEL, 0);
     }
 
     @Override public void removed(Player player) {
