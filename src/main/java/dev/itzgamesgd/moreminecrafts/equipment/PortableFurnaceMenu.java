@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -78,7 +79,19 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
     }
 
     static int vanillaFuelTicks(ItemStack fuel) {
-        return vanillaBurnTime(fuel);
+        if (fuel.isEmpty()) return 0;
+        if (fuel.is(Items.LAVA_BUCKET)) return 20_000;
+        if (fuel.is(Items.COAL_BLOCK)) return 16_000;
+        if (fuel.is(Items.DRIED_KELP_BLOCK)) return 4_001;
+        if (fuel.is(Items.BLAZE_ROD)) return 2_400;
+        if (fuel.is(Items.COAL) || fuel.is(Items.CHARCOAL)) return 1_600;
+        if (fuel.is(ItemTags.PLANKS) || fuel.is(ItemTags.LOGS)) return 300;
+        if (fuel.is(Items.BAMBOO)) return 50;
+        if (fuel.is(Items.STICK) || fuel.is(Items.BOW) || fuel.is(Items.CROSSBOW)
+                || fuel.is(Items.FISHING_ROD) || fuel.is(Items.WOODEN_SWORD)
+                || fuel.is(Items.WOODEN_PICKAXE) || fuel.is(Items.WOODEN_AXE)
+                || fuel.is(Items.WOODEN_SHOVEL) || fuel.is(Items.WOODEN_HOE)) return 100;
+        return 0;
     }
 
     @Override public void removed(Player player) {
