@@ -10,7 +10,7 @@ class WeaponBalanceTest {
         assertEquals(1_600, PortableFurnaceMenu.vanillaFuelTicks(new ItemStack(Items.COAL)));
         assertEquals(16_000, PortableFurnaceMenu.vanillaFuelTicks(new ItemStack(Items.COAL_BLOCK)));
         assertEquals(20_000, PortableFurnaceMenu.vanillaFuelTicks(new ItemStack(Items.LAVA_BUCKET)));
-        assertEquals(Items.BUCKET, Items.LAVA_BUCKET.getCraftingRemainder().getItem());
+        assertEquals(Items.BUCKET, Items.LAVA_BUCKET.getCraftingRemainder().create().getItem());
         var slots = new PortableFurnaceMenu.PortableContainer();
         assertEquals(16, slots.getMaxStackSize(new ItemStack(Items.COAL)));
     }
