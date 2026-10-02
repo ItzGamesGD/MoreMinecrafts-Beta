@@ -2,7 +2,12 @@
   "type": "minecraft:block",
   "pools": [{
     "rolls": 1,
-    "entries": [{"type": "minecraft:item", "name": "moreminecrafts:exploration_sleeping_bag"}],
-    "conditions": [{"condition": "minecraft:block_state_property", "block": "moreminecrafts:exploration_sleeping_bag", "properties": {"part": "head"}}]
+    "entries": [{
+      "type": "minecraft:item",
+      "name": "moreminecrafts:exploration_sleeping_bag",
+      "condition": "minecraft:block_state_property",
+      "block": "moreminecrafts:exploration_sleeping_bag",
+      "properties": {"part": "head"}
+    }]
   }]
 }
