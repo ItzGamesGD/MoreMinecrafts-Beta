@@ -16,25 +16,24 @@ public final class GreatswordItem extends BasicWeaponItem {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
         var attacker = (ServerPlayer) user;
         var origin = attacker.getEyePosition();
-        var direction = attacker.getLookAngle().normalize();
-        var center = origin.add(direction.scale(LowerEquipmentRules.GREATSWORD_SWEEP_RANGE * 0.5D));
-        var area = attacker.getBoundingBox().move(center.subtract(attacker.position()))
-                .inflate(LowerEquipmentRules.GREATSWORD_SWEEP_RANGE * 0.5D, 1.0D,
-                        LowerEquipmentRules.GREATSWORD_SWEEP_RANGE * 0.5D);
-        LivingEntity primary = null;
-        double nearest = Double.MAX_VALUE;
+        var direction = attacker.getLookAngle().multiply(1.0D, 0.0D, 1.0D).normalize();
+        float strength = attacker.getAttackStrengthScale(0.5F);
+        float damage = (float) (attacker.getAttributeValue(
+                net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE)
+                * LowerEquipmentRules.greatswordDamageMultiplier(strength));
+        double reach = LowerEquipmentRules.GREATSWORD_REACH;
+        var area = attacker.getBoundingBox().inflate(reach, 1.0D, reach);
+        boolean hit = false;
         for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class, area,
-                candidate -> ElementalCombat.validTarget(attacker, candidate))) {
+                candidate -> ElementalCombat.validTarget(attacker, candidate)
+                        && attacker.hasLineOfSight(candidate))) {
             var offset = target.getBoundingBox().getCenter().subtract(origin);
-            double along = offset.dot(direction);
-            double lateral = offset.subtract(direction.scale(along)).length();
-            if (along >= 0 && along <= LowerEquipmentRules.GREATSWORD_SWEEP_RANGE && lateral <= 1.5D) {
-                target.hurtServer((ServerLevel) level, level.damageSources().playerAttack(attacker),
-                        (float) attacker.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE));
-                if (along < nearest) { nearest = along; primary = target; }
+            if (LowerEquipmentRules.isWithinGreatswordSweep(offset, direction)) {
+                target.hurtServer((ServerLevel) level, level.damageSources().playerAttack(attacker), damage);
+                hit = true;
             }
         }
-        if (primary != null) {
+        if (hit) {
             attacker.resetAttackStrengthTicker();
             return InteractionResult.SUCCESS_SERVER;
         }

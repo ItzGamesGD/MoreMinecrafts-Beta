@@ -2,7 +2,14 @@
   "type": "minecraft:block",
   "pools": [{
     "rolls": 1,
-    "entries": [{"type": "minecraft:item", "name": "moreminecrafts:fish_trap"}],
-    "conditions": [{"condition": "minecraft:block_state_property", "block": "moreminecrafts:fish_trap", "properties": {"part": "foot"}}]
+    "entries": [{
+      "type": "minecraft:item",
+      "name": "moreminecrafts:fish_trap",
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "moreminecrafts:fish_trap",
+        "state": { "part": "head" }
+      }
+    }]
   }]
 }

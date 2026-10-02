@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/barrel"
+    "model": "moreminecrafts:block/fish_trap"
   }
 }

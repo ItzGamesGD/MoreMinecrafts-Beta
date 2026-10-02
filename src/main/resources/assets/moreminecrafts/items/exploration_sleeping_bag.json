@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/green_bed"
+    "model": "moreminecrafts:block/exploration_sleeping_bag"
   }
 }

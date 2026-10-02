@@ -32,7 +32,7 @@ public final class MiningDrillItem extends Item {
     }
 
     @Override public float getDestroySpeed(ItemStack drill, BlockState state) {
-        return hasFuel(drill) ? MINING_SPEED : 0.0F;
+        return LowerEquipmentRules.isPickaxeMineable(state) && hasFuel(drill) ? MINING_SPEED : 1.0F;
     }
 
     @Override public boolean mineBlock(ItemStack drill, Level level, BlockState state, BlockPos pos, LivingEntity miner) {

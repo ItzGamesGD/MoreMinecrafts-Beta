@@ -15,6 +15,10 @@ base {
 
 repositories {
     mavenCentral()
+    maven {
+        url = "https://maven.gegy.dev/releases/"
+        content { includeGroup("dev.lambdaurora.lambdynamiclights") }
+    }
 }
 
 loom {
@@ -41,6 +45,7 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    compileOnly "dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:4.13.0+26.3"
     testImplementation "org.junit.jupiter:junit-jupiter:5.11.4"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 }
@@ -269,3 +274,101 @@ tasks.register("validateFlameSwordResources") {
 tasks.named("check") {
     dependsOn tasks.named("validateFlameSwordResources")
 }
+
+tasks.register("validateLowerEquipmentResources") {
+    group = "verification"
+    description = "Validates lower-equipment blockstate, model, item-model, and loot-table references for Minecraft 26.3."
+
+    doLast {
+        def json = new groovy.json.JsonSlurper()
+        def validateModelId = { String modelId, String origin ->
+            if (modelId.startsWith("moreminecrafts:")) {
+                def modelPath = modelId.substring("moreminecrafts:".length())
+                def modelFile = file("src/main/resources/assets/moreminecrafts/models/${modelPath}.json")
+                assert modelFile.isFile() : "Missing model ${modelId} referenced by ${origin}"
+            }
+        }
+        def validateReferences
+        validateReferences = { Object node, String origin ->
+            if (node instanceof Map) {
+                if (node.model instanceof String) validateModelId(node.model as String, origin)
+                if (node.parent instanceof String) validateModelId(node.parent as String, origin)
+                node.values().each { child -> validateReferences(child, origin) }
+            } else if (node instanceof Collection) {
+                node.each { child -> validateReferences(child, origin) }
+            }
+        }
+        def jsonFiles = { String root ->
+            fileTree(root).matching { include "**/*.json" }.files
+        }
+
+        ["assets/moreminecrafts/items", "assets/moreminecrafts/blockstates",
+         "assets/moreminecrafts/models"].each { root ->
+            jsonFiles("src/main/resources/${root}").each { source ->
+                validateReferences(json.parse(source), source.path)
+            }
+        }
+
+        ["exploration_sleeping_bag", "fish_trap", "portable_furnace"].each { id ->
+            def itemPath = file("src/main/resources/assets/moreminecrafts/items/${id}.json")
+            assert itemPath.isFile()
+            def item = json.parse(itemPath)
+            assert item.model.type == "minecraft:model"
+            if (id == "portable_furnace") {
+                assert item.model.model == "minecraft:block/furnace"
+            } else {
+                assert item.model.model.startsWith("moreminecrafts:block/")
+                def lootPath = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${id}.json")
+                assert lootPath.isFile()
+                def loot = json.parse(lootPath)
+                assert loot.pools instanceof List && !loot.pools.empty
+                loot.pools.each { pool ->
+                    assert !pool.containsKey("conditions") :
+                            "${id} uses the obsolete pool-level loot condition field"
+                    assert pool.entries.any { entry ->
+                        entry.condition.type == "minecraft:match_block"
+                                && entry.condition.blocks == "moreminecrafts:${id}"
+                                && entry.condition.state.part == "head"
+                    } : "${id} must use the current entry-level block-state loot condition"
+                }
+            }
+        }
+
+        def drillSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/MiningDrillItem.java").text
+        def rulesSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/LowerEquipmentRules.java").text
+        assert rulesSource.contains("state.is(BlockTags.MINEABLE_WITH_PICKAXE)")
+        assert drillSource.contains("LowerEquipmentRules.isPickaxeMineable(state) && hasFuel(drill)")
+        assert drillSource.contains("if (!level.isClientSide()) consumeOneFuelPoint(drill)")
+        assert !drillSource.contains("state.is(BlockTags.MINEABLE_WITH_PICKAXE)")
+
+        def furnaceSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/PortableFurnaceMenu.java").text
+        assert furnaceSource.indexOf("if (state.get(0) > 0)") < furnaceSource.indexOf("ItemStack input = contents.getItem(0)") :
+                "Portable Furnace must decrement active burn time before checking whether cooking can proceed"
+        assert furnaceSource.contains("fuel.getItem().getCraftingRemainder()")
+        assert furnaceSource.contains("remainderTemplate.create()")
+        assert furnaceSource.contains("player.getInventory().add(remainder)")
+        assert furnaceSource.contains("player.spawnAtLocation((ServerLevel) player.level(), remainder)")
+        assert furnaceSource.contains("vanillaTicks / LowerEquipmentRules.PORTABLE_FURNACE_FUEL_TICK_MULTIPLIER")
+
+        def greatswordSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/GreatswordItem.java").text
+        assert greatswordSource.contains("attacker.getAttackStrengthScale(0.5F)")
+        assert greatswordSource.contains("attacker.hasLineOfSight(candidate)")
+        assert greatswordSource.contains("LowerEquipmentRules.isWithinGreatswordSweep(offset, direction)")
+        assert !greatswordSource.contains("GREATSWORD_SWEEP_RANGE")
+
+        // Regression probe: prove this validator fails on an unresolved block model.
+        try {
+            validateReferences([variants: [default: [model: "moreminecrafts:block/__missing_validation_probe"]]],
+                    "validator regression probe")
+            throw new GradleException("Missing block-model regression probe escaped validation")
+        } catch (AssertionError expected) {
+            assert expected.message.contains("Missing model") :
+                    "Model regression probe failed for an unexpected reason: ${expected.message}"
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn tasks.named("validateLowerEquipmentResources")
+}
+
