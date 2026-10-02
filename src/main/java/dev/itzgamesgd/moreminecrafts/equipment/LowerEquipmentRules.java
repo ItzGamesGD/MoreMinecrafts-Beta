@@ -45,7 +45,7 @@ public final class LowerEquipmentRules {
     }
 
     public static boolean isInGauntletSecondaryRegion(double longitudinal, double lateral) {
-        return longitudinal <= 0.0D && longitudinal >= -GAUNTLET_REGION_LENGTH
+        return longitudinal >= 0.0D && longitudinal <= GAUNTLET_REGION_LENGTH
                 && Math.abs(lateral) <= GAUNTLET_REGION_WIDTH / 2.0D;
     }
 
