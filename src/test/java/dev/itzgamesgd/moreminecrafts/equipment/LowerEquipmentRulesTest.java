@@ -61,8 +61,10 @@ class LowerEquipmentRulesTest {
         assertEquals(3.75F, LowerEquipmentRules.GREATSWORD_REACH);
         assertEquals(1.5D, LowerEquipmentRules.GREATSWORD_SWEEP_HALF_WIDTH);
         assertEquals(3.0F, LowerEquipmentRules.GAUNTLET_REACH);
-        assertTrue(LowerEquipmentRules.isInGauntletSecondaryRegion(-2.0D, 0.4D));
-        assertFalse(LowerEquipmentRules.isInGauntletSecondaryRegion(2.0D, 0.4D));
+        assertTrue(LowerEquipmentRules.isInGauntletSecondaryRegion(2.0D, 0.4D));
+        assertTrue(LowerEquipmentRules.isInGauntletSecondaryRegion(3.5D, 0.84D));
+        assertFalse(LowerEquipmentRules.isInGauntletSecondaryRegion(-0.1D, 0.4D));
+        assertFalse(LowerEquipmentRules.isInGauntletSecondaryRegion(3.51D, 0.4D));
         assertEquals(0.8D, LowerEquipmentRules.GAUNTLET_HORIZONTAL_KNOCKBACK_SPEED);
     }
 }
