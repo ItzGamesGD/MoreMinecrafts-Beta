@@ -23,8 +23,7 @@ public final class GauntletItem extends BasicWeaponItem {
             Vec3 offset = target.position().subtract(directlyHit.position()).multiply(1, 0, 1);
             double longitudinal = offset.dot(forward);
             double lateral = Math.abs(offset.dot(right));
-            if (longitudinal > 0 || longitudinal < -LowerEquipmentRules.GAUNTLET_REGION_LENGTH
-                    || lateral > LowerEquipmentRules.GAUNTLET_REGION_WIDTH / 2.0D) continue;
+            if (!LowerEquipmentRules.isInGauntletSecondaryRegion(longitudinal, lateral)) continue;
             target.hurtServer(level, level.damageSources().playerAttack(attacker),
                     LowerEquipmentRules.GAUNTLET_SECONDARY_DAMAGE);
             Vec3 push = forward.scale(LowerEquipmentRules.GAUNTLET_HORIZONTAL_KNOCKBACK_SPEED);
