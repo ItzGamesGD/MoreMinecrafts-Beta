@@ -9,7 +9,8 @@ import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -80,17 +81,30 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
 
     static int vanillaFuelTicks(ItemStack fuel) {
         if (fuel.isEmpty()) return 0;
-        if (fuel.is(Items.LAVA_BUCKET)) return 20_000;
-        if (fuel.is(Items.COAL_BLOCK)) return 16_000;
-        if (fuel.is(Items.DRIED_KELP_BLOCK)) return 4_001;
-        if (fuel.is(Items.BLAZE_ROD)) return 2_400;
-        if (fuel.is(Items.COAL) || fuel.is(Items.CHARCOAL)) return 1_600;
-        if (fuel.is(ItemTags.PLANKS) || fuel.is(ItemTags.LOGS)) return 300;
+        var component = fuel.get(DataComponents.COOKING_FUEL);
+        if (component == null) return 0;
+        ResolvableInt burnTime = component.burnTime();
+        if (burnTime instanceof ResolvableInt.Constant constant) return constant.value();
         if (fuel.is(Items.BAMBOO)) return 50;
-        if (fuel.is(Items.STICK) || fuel.is(Items.BOW) || fuel.is(Items.CROSSBOW)
-                || fuel.is(Items.FISHING_ROD) || fuel.is(Items.WOODEN_SWORD)
-                || fuel.is(Items.WOODEN_PICKAXE) || fuel.is(Items.WOODEN_AXE)
-                || fuel.is(Items.WOODEN_SHOVEL) || fuel.is(Items.WOODEN_HOE)) return 100;
+        if (fuel.is(Items.SCAFFOLDING)) return 300;
+        if (burnTime instanceof ResolvableInt.Reference reference) {
+            return switch (reference.key().location().getPath()) {
+                case "time_lava_bucket" -> 20_000;
+                case "time_coal_block" -> 16_000;
+                case "time_dried_kelp_block" -> 4_001;
+                case "time_blaze_rod" -> 2_400;
+                case "time_coal" -> 1_600;
+                case "time_boats" -> 1_200;
+                case "time_hanging_signs" -> 800;
+                case "time_wood_items_small", "time_wood_blocks", "time_roots" -> 300;
+                case "time_wood_items_large" -> 200;
+                case "time_wood_slabs" -> 150;
+                case "time_wool", "time_dry_plants", "time_wood_items_extra_small" -> 100;
+                case "time_wool_carpets" -> 67;
+                case "time_wool_slabs" -> 50;
+                default -> 0;
+            };
+        }
         return 0;
     }
 
