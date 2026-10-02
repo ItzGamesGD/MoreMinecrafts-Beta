@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 
@@ -56,12 +57,13 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         ItemStack fuel = contents.getItem(1);
         int vanillaTicks = vanillaFuelTicks(fuel);
         if (vanillaTicks <= 0) return false;
-        ItemStack remainder = fuel.getItem().getCraftingRemainder();
+        ItemStackTemplate remainderTemplate = fuel.getItem().getCraftingRemainder();
+        ItemStack remainder = remainderTemplate == null ? ItemStack.EMPTY : remainderTemplate.create();
         fuel.shrink(1);
         if (!remainder.isEmpty()) {
             if (fuel.isEmpty()) fuel = remainder;
             else if (!player.getInventory().add(remainder))
-                player.drop(remainder, false);
+                player.spawnAtLocation((ServerLevel) player.level(), remainder);
         }
         contents.setItem(1, fuel);
         int accelerated = Math.max(1, vanillaTicks / LowerEquipmentRules.PORTABLE_FURNACE_FUEL_TICK_MULTIPLIER);
@@ -76,7 +78,7 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
     }
 
     static int vanillaFuelTicks(ItemStack fuel) {
-        return fuel.getOrDefault(net.minecraft.core.component.DataComponents.COOKING_FUEL, 0);
+        return vanillaBurnTime(fuel);
     }
 
     @Override public void removed(Player player) {
