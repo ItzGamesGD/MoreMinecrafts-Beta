@@ -26,7 +26,9 @@ public final class FishTrapBlockEntity extends BaseContainerBlockEntity {
 
     public static void serverTick(ServerLevel level, BlockPos pos, BlockState state, FishTrapBlockEntity trap) {
         if (trap.isFull()) return; // timer is intentionally paused, not reset, while full
-        if (++trap.productionTicks < LowerEquipmentRules.FISH_TRAP_INTERVAL_TICKS) return;
+        trap.productionTicks++;
+        trap.setChanged();
+        if (trap.productionTicks < LowerEquipmentRules.FISH_TRAP_INTERVAL_TICKS) return;
         trap.productionTicks = 0;
         var random = level.getRandom();
         FishSpecies species = FishingLogic.selectSpecies(java.util.List.of(FishSpecies.values()), random);
@@ -54,7 +56,8 @@ public final class FishTrapBlockEntity extends BaseContainerBlockEntity {
     }
     @Override protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input); ContainerHelper.loadAllItems(input, items);
-        productionTicks = input.getIntOr("ProductionTicks", 0);
+        productionTicks = Math.max(0, Math.min(LowerEquipmentRules.FISH_TRAP_INTERVAL_TICKS - 1,
+                input.getIntOr("ProductionTicks", 0)));
     }
     @Override protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output); ContainerHelper.saveAllItems(output, items);
