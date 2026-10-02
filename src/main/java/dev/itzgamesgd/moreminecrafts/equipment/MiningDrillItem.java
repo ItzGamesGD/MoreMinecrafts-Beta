@@ -36,7 +36,7 @@ public final class MiningDrillItem extends Item {
     }
 
     @Override public boolean mineBlock(ItemStack drill, Level level, BlockState state, BlockPos pos, LivingEntity miner) {
-        if (!level.isClientSide() && LowerEquipmentRules.isPickaxeMineable(state)) consumeOneFuelPoint(drill);
+        if (!level.isClientSide()) consumeOneFuelPoint(drill);
         return true; // deliberately avoids vanilla durability damage while retaining normal break/drop pipeline
     }
 
