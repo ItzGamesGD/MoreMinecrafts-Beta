@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -59,7 +59,8 @@ public final class FishTrapBlock extends BaseEntityBlock {
         if (!level.isClientSide() && level.getBlockEntity(owner) instanceof FishTrapBlockEntity trap)
             net.minecraft.world.Containers.dropContents(level, owner, trap);
         if (!level.isClientSide() && !player.isCreative() && state.getValue(PART) == BedPart.FOOT
-                && level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+                && level instanceof ServerLevel serverLevel
+                && serverLevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
             net.minecraft.world.Containers.dropItemStack(level, pos.getX() + 0.5D, pos.getY() + 0.5D,
                     pos.getZ() + 0.5D, new ItemStack(this));
         }
