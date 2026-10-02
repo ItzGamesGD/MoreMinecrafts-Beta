@@ -20,8 +20,7 @@ public abstract class FishingRodInputClientMixin {
     @Inject(method = "startAttack", at = @At("HEAD"), cancellable = true)
     private void moreminecrafts$openFishingEquipment(CallbackInfoReturnable<Boolean> result) {
         Minecraft client = (Minecraft) (Object) this;
-        if (client.player == null || client.gui.screen() != null || client.hitResult == null
-                || client.hitResult.getType() != HitResult.Type.MISS || MoreMinecraftsClient.fishingChallengeActive()) return;
+        if (client.player == null || client.gui.screen() != null) return;
         InteractionHand injectorHand = client.player.getMainHandItem().getItem() instanceof PotionInjectorItem
                 ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         if (client.player.getItemInHand(injectorHand).getItem() instanceof PotionInjectorItem
@@ -30,7 +29,9 @@ public abstract class FishingRodInputClientMixin {
             result.setReturnValue(false);
             return;
         }
-        if (!ClientPlayNetworking.canSend(OpenFishingEquipmentPayload.TYPE)) return;
+        if (client.hitResult == null || client.hitResult.getType() != HitResult.Type.MISS
+                || MoreMinecraftsClient.fishingChallengeActive()
+                || !ClientPlayNetworking.canSend(OpenFishingEquipmentPayload.TYPE)) return;
         InteractionHand hand = client.player.getMainHandItem().getItem() instanceof FishingRodItem
                 ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
         if (!(client.player.getItemInHand(hand).getItem() instanceof FishingRodItem)) return;
