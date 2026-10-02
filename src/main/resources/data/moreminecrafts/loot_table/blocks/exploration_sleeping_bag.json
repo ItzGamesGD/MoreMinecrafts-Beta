@@ -5,9 +5,11 @@
     "entries": [{
       "type": "minecraft:item",
       "name": "moreminecrafts:exploration_sleeping_bag",
-      "condition": "minecraft:block_state_property",
-      "block": "moreminecrafts:exploration_sleeping_bag",
-      "properties": {"part": "head"}
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "moreminecrafts:exploration_sleeping_bag",
+        "state": {"part": "head"}
+      }
     }]
   }]
 }
