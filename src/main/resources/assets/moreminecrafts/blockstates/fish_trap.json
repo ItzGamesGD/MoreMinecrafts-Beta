@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=north,part=head": {
+      "model": "moreminecrafts:block/fish_trap"
+    },
+    "facing=north,part=foot": {
+      "model": "moreminecrafts:block/fish_trap"
+    },
+    "facing=south,part=head": {
+      "model": "moreminecrafts:block/fish_trap"
+    },
+    "facing=south,part=foot": {
+      "model": "moreminecrafts:block/fish_trap"
+    },
+    "facing=east,part=head": {
+      "model": "moreminecrafts:block/fish_trap"
+    },
+    "facing=east,part=foot": {
+      "model": "moreminecrafts:block/fish_trap"
+    },
+    "facing=west,part=head": {
+      "model": "moreminecrafts:block/fish_trap"
+    },
+    "facing=west,part=foot": {
+      "model": "moreminecrafts:block/fish_trap"
+    }
+  }
+}

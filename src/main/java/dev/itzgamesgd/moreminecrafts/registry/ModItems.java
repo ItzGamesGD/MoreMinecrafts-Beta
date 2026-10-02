@@ -21,6 +21,9 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.MaceItem;
+import dev.itzgamesgd.moreminecrafts.equipment.*;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Unit;
 
 public final class ModItems {
     public static final Item RAW_TITANIUM = material("raw_titanium");
@@ -80,10 +83,40 @@ public final class ModItems {
     public static final Item DARK_ENERGY_STAFF = Registry.register(BuiltInRegistries.ITEM, DARK_ENERGY_STAFF_KEY,
             new DarkEnergyStaffItem(new Item.Properties().durability(420).setId(DARK_ENERGY_STAFF_KEY)));
 
+    public static final Item MINER_LANTERN = simpleUtility("miner_lantern");
+    public static final Item POTION_INJECTOR = register("potion_injector", key -> new PotionInjectorItem(
+            new Item.Properties().stacksTo(1).component(DataComponents.CONTAINER,
+                    net.minecraft.world.item.component.ItemContainerContents.EMPTY).setId(key)));
+    public static final Item PORTABLE_FURNACE = register("portable_furnace", key ->
+            new PortableFurnaceItem(new Item.Properties().stacksTo(1).setId(key)));
+    public static final Item MINING_DRILL = register("mining_drill", key -> new MiningDrillItem(
+            new Item.Properties().pickaxe(ToolMaterial.NETHERITE, 1.0F, -2.8F)
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                    .component(DataComponents.CONTAINER, net.minecraft.world.item.component.ItemContainerContents.EMPTY)
+                    .component(ModDataComponents.DRILL_FUEL_POINTS, 0).setId(key)));
+    public static final Item SMALL_BACKPACK = backpack("small_backpack", 9);
+    public static final Item BACKPACK = backpack("backpack", 27);
+    public static final Item LARGE_BACKPACK = backpack("large_backpack", 54);
+    public static final Map<WeaponBalance.Tier, Item> DAGGERS = new EnumMap<>(WeaponBalance.Tier.class);
+    public static final Map<WeaponBalance.Tier, Item> GREATSWORDS = new EnumMap<>(WeaponBalance.Tier.class);
+    public static final Item GAUNTLET;
+
 
     public static final Map<FishSpecies, Item> FISH = new EnumMap<>(FishSpecies.class);
     public static final Item[][] FISHING_EQUIPMENT = new Item[FishingEquipmentFamily.values().length][FishingEquipmentTier.MAX];
     static {
+        for (WeaponBalance.Values value : WeaponBalance.VALUES) {
+            String tier = value.tier().name().toLowerCase();
+            DAGGERS.put(value.tier(), register(tier + "_dagger", key -> new BasicWeaponItem(BasicWeaponItem.Kind.DAGGER,
+                    WeaponProperties.create(key, value.daggerDamage(), WeaponBalance.DAGGER_ATTACK_SPEED,
+                            LowerEquipmentRules.DAGGER_REACH))));
+            GREATSWORDS.put(value.tier(), register(tier + "_greatsword", key -> new GreatswordItem(
+                    WeaponProperties.create(key, value.greatswordDamage(), WeaponBalance.GREATSWORD_ATTACK_SPEED,
+                            LowerEquipmentRules.GREATSWORD_REACH))));
+        }
+        GAUNTLET = register("gauntlet", key -> new GauntletItem(WeaponProperties.create(key,
+                LowerEquipmentRules.GAUNTLET_DIRECT_DAMAGE, WeaponBalance.GAUNTLET_ATTACK_SPEED,
+                LowerEquipmentRules.GAUNTLET_REACH)));
         for (FishSpecies species : FishSpecies.values()) FISH.put(species, fish(species));
         for (FishingEquipmentFamily family : FishingEquipmentFamily.values())
             for (int tier=1; tier<=FishingEquipmentTier.MAX; tier++) FISHING_EQUIPMENT[family.ordinal()][tier-1]=equipment(family,tier);
@@ -115,6 +148,17 @@ public final class ModItems {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, ModIds.id(path));
         return Registry.register(BuiltInRegistries.ITEM, key,
                 new Item(new Item.Properties().fireResistant().setId(key)));
+    }
+
+    private static Item simpleUtility(String path) {
+        return register(path, key -> new Item(new Item.Properties().stacksTo(1).setId(key)));
+    }
+    private static Item backpack(String path, int capacity) {
+        return register(path, key -> new BackpackItem(capacity, new Item.Properties().stacksTo(1).setId(key)));
+    }
+    private static Item register(String path, java.util.function.Function<ResourceKey<Item>, Item> factory) {
+        ResourceKey<Item> key = key(path);
+        return Registry.register(BuiltInRegistries.ITEM, key, factory.apply(key));
     }
 
     public static void initialize() {
@@ -152,6 +196,9 @@ public final class ModItems {
             entries.accept(EARTH_MACE);
             entries.accept(LIGHTNING_SWORD);
             entries.accept(DARK_ENERGY_STAFF);
+            DAGGERS.values().forEach(entries::accept);
+            GREATSWORDS.values().forEach(entries::accept);
+            entries.accept(GAUNTLET);
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
             FISH.values().forEach(entries::accept);
@@ -163,6 +210,13 @@ public final class ModItems {
             entries.accept(MYTHRIL);
             entries.accept(ETHERIUM);
             entries.accept(ADAMANTIUM_INGOT);
+            entries.accept(MINER_LANTERN);
+            entries.accept(POTION_INJECTOR);
+            entries.accept(PORTABLE_FURNACE);
+            entries.accept(MINING_DRILL);
+            entries.accept(SMALL_BACKPACK);
+            entries.accept(BACKPACK);
+            entries.accept(LARGE_BACKPACK);
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
             entries.accept(ModBlocks.TITANIUM_ORE);
@@ -179,6 +233,8 @@ public final class ModItems {
             entries.accept(ModBlocks.MYTHRIL_BLOCK);
             entries.accept(ModBlocks.ETHERIUM_BLOCK);
             entries.accept(ModBlocks.ADAMANTIUM_BLOCK);
+            entries.accept(ModBlocks.EXPLORATION_SLEEPING_BAG);
+            entries.accept(ModBlocks.FISH_TRAP);
         });
         MoreMinecrafts.LOGGER.info("Item registration OK: {}", windSwordId);
     }

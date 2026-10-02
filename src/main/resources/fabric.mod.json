@@ -24,5 +24,8 @@
     "minecraft": ">=26.3 <26.4",
     "java": ">=25",
     "fabric-api": "*"
+  },
+  "suggests": {
+    "lambdynlights": "*"
   }
 }

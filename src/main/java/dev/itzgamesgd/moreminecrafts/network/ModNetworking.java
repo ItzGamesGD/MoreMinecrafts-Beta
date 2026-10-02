@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.FishingRodItem;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import dev.itzgamesgd.moreminecrafts.equipment.PotionInjectorItem;
 
 public final class ModNetworking {
     private ModNetworking() {
@@ -14,6 +15,7 @@ public final class ModNetworking {
 
     public static void initialize() {
         PayloadTypeRegistry.serverboundPlay().register(OpenFishingEquipmentPayload.TYPE, OpenFishingEquipmentPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(OpenPotionInjectorPayload.TYPE, OpenPotionInjectorPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(MovementJumpPayload.TYPE, MovementJumpPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(FishingChallengePayload.TYPE, FishingChallengePayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(MovementJumpPayload.TYPE, (payload, context) ->
@@ -24,6 +26,13 @@ public final class ModNetworking {
             var rod = player.getItemInHand(hand);
             if (player.containerMenu == player.inventoryMenu && !FishingChallenges.active(player)
                     && rod.getItem() instanceof FishingRodItem) FishingEquipmentMenu.open(player, rod);
+        });
+        ServerPlayNetworking.registerGlobalReceiver(OpenPotionInjectorPayload.TYPE, (payload, context) -> {
+            var player = context.player();
+            var hand = payload.offhand() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+            var injector = player.getItemInHand(hand);
+            if (player.containerMenu == player.inventoryMenu && injector.getItem() instanceof PotionInjectorItem)
+                PotionInjectorItem.open(player, injector);
         });
     }
 }

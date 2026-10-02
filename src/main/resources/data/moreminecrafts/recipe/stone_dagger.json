@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:cobblestone",
+    "minecraft:stick"
+  ],
+  "result": {
+    "id": "moreminecrafts:stone_dagger",
+    "count": 1
+  }
+}

@@ -17,7 +17,12 @@
     "FishingRodItemMixin",
     "ZombieMixin",
     "SkeletonMixin",
-    "CrossbowItemMixin"
+    "CrossbowItemMixin",
+    "InventoryMenuMixin",
+    "SleepingBagRespawnMixin",
+    "BackpackDetachMixin",
+    "ShieldItemMixin",
+    "LanternDeathMixin"
   ],
   "injectors": {
     "defaultRequire": 1
