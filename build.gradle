@@ -309,13 +309,17 @@ tasks.register("validateLowerEquipmentResources") {
             }
         }
 
-        ["exploration_sleeping_bag", "fish_trap"].each { id ->
+        ["exploration_sleeping_bag", "fish_trap", "portable_furnace"].each { id ->
             def itemPath = file("src/main/resources/assets/moreminecrafts/items/${id}.json")
             def lootPath = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${id}.json")
             assert itemPath.isFile() && lootPath.isFile()
             def item = json.parse(itemPath)
             assert item.model.type == "minecraft:model"
-            assert item.model.model.startsWith("moreminecrafts:block/")
+            if (id == "portable_furnace") {
+                assert item.model.model == "minecraft:block/furnace"
+            } else {
+                assert item.model.model.startsWith("moreminecrafts:block/")
+            }
             def loot = json.parse(lootPath)
             assert loot.pools instanceof List && !loot.pools.empty
             loot.pools.each { pool ->
