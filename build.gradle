@@ -274,3 +274,74 @@ tasks.register("validateFlameSwordResources") {
 tasks.named("check") {
     dependsOn tasks.named("validateFlameSwordResources")
 }
+
+tasks.register("validateLowerEquipmentResources") {
+    group = "verification"
+    description = "Validates lower-equipment blockstate, model, item-model, and loot-table references for Minecraft 26.3."
+
+    doLast {
+        def json = new groovy.json.JsonSlurper()
+        def validateModelId = { String modelId, String origin ->
+            if (modelId.startsWith("moreminecrafts:")) {
+                def modelPath = modelId.substring("moreminecrafts:".length())
+                def modelFile = file("src/main/resources/assets/moreminecrafts/models/${modelPath}.json")
+                assert modelFile.isFile() : "Missing model ${modelId} referenced by ${origin}"
+            }
+        }
+        def validateReferences
+        validateReferences = { Object node, String origin ->
+            if (node instanceof Map) {
+                if (node.model instanceof String) validateModelId(node.model as String, origin)
+                if (node.parent instanceof String) validateModelId(node.parent as String, origin)
+                node.values().each { child -> validateReferences(child, origin) }
+            } else if (node instanceof Collection) {
+                node.each { child -> validateReferences(child, origin) }
+            }
+        }
+        def jsonFiles = { String root ->
+            fileTree(root).matching { include "**/*.json" }.files
+        }
+
+        ["assets/moreminecrafts/items", "assets/moreminecrafts/blockstates",
+         "assets/moreminecrafts/models"].each { root ->
+            jsonFiles("src/main/resources/${root}").each { source ->
+                validateReferences(json.parse(source), source.path)
+            }
+        }
+
+        ["exploration_sleeping_bag", "fish_trap"].each { id ->
+            def itemPath = file("src/main/resources/assets/moreminecrafts/items/${id}.json")
+            def lootPath = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${id}.json")
+            assert itemPath.isFile() && lootPath.isFile()
+            def item = json.parse(itemPath)
+            assert item.model.type == "minecraft:model"
+            assert item.model.model.startsWith("moreminecrafts:block/")
+            def loot = json.parse(lootPath)
+            assert loot.pools instanceof List && !loot.pools.empty
+            loot.pools.each { pool ->
+                assert !pool.containsKey("conditions") :
+                        "${id} uses the obsolete pool-level loot condition field"
+                assert pool.entries.any { entry ->
+                    entry.condition == "minecraft:block_state_property"
+                            && entry.block == "moreminecrafts:${id}"
+                            && entry.properties.part == "head"
+                } : "${id} must use the current entry-level block-state loot condition"
+            }
+        }
+
+        // Regression probe: prove this validator fails on an unresolved block model.
+        try {
+            validateReferences([variants: [default: [model: "moreminecrafts:block/__missing_validation_probe"]]],
+                    "validator regression probe")
+            throw new GradleException("Missing block-model regression probe escaped validation")
+        } catch (AssertionError expected) {
+            assert expected.message.contains("Missing model") :
+                    "Model regression probe failed for an unexpected reason: ${expected.message}"
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn tasks.named("validateLowerEquipmentResources")
+}
+
