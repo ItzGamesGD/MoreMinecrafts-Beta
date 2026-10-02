@@ -32,8 +32,10 @@ public final class LowerEquipmentRules {
     }
 
     public static boolean isWithinGreatswordSweep(Vec3 offset, Vec3 direction) {
-        double along = offset.dot(direction);
-        double lateral = offset.subtract(direction.scale(along)).length();
+        Vec3 horizontalOffset = new Vec3(offset.x, 0.0D, offset.z);
+        Vec3 horizontalDirection = new Vec3(direction.x, 0.0D, direction.z).normalize();
+        double along = horizontalOffset.dot(horizontalDirection);
+        double lateral = horizontalOffset.subtract(horizontalDirection.scale(along)).length();
         return along >= 0.0D && along <= GREATSWORD_REACH && lateral <= GREATSWORD_SWEEP_HALF_WIDTH;
     }
 
