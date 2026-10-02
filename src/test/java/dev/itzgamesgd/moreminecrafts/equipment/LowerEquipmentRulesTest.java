@@ -61,7 +61,7 @@ class LowerEquipmentRulesTest {
         assertEquals(2.5F, LowerEquipmentRules.DAGGER_REACH);
         assertEquals(0.2F, LowerEquipmentRules.greatswordDamageMultiplier(0.0F));
         assertEquals(1.0F, LowerEquipmentRules.greatswordDamageMultiplier(1.0F));
-        assertTrue(LowerEquipmentRules.isWithinGreatswordSweep(new net.minecraft.world.phys.Vec3(3.5D,0,1.49D), new net.minecraft.world.phys.Vec3(1,0,0)));
+        assertTrue(LowerEquipmentRules.isWithinGreatswordSweep(new net.minecraft.world.phys.Vec3(3.5D,9,1.49D), new net.minecraft.world.phys.Vec3(1,0,0)));
         assertFalse(LowerEquipmentRules.isWithinGreatswordSweep(new net.minecraft.world.phys.Vec3(3.5D,0,1.51D), new net.minecraft.world.phys.Vec3(1,0,0)));
         assertFalse(LowerEquipmentRules.isWithinGreatswordSweep(new net.minecraft.world.phys.Vec3(-0.1D,0,0), new net.minecraft.world.phys.Vec3(1,0,0)));
         assertEquals(3.75F, LowerEquipmentRules.GREATSWORD_REACH);
