@@ -65,7 +65,7 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         }
         contents.setItem(1, fuel);
         int accelerated = Math.max(1, vanillaTicks / LowerEquipmentRules.PORTABLE_FURNACE_FUEL_TICK_MULTIPLIER);
-        state.set(0, accelerated); state.set(1, accelerated);
+        state.set(0, Math.max(0, accelerated - 1)); state.set(1, accelerated);
         return true;
     }
 
