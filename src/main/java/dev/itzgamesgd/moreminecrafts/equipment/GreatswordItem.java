@@ -18,21 +18,17 @@ public final class GreatswordItem extends BasicWeaponItem {
         var origin = attacker.getEyePosition();
         var direction = attacker.getLookAngle().normalize();
         float strength = attacker.getAttackStrengthScale(0.5F);
-        float strengthSquared = strength * strength;
         float damage = (float) (attacker.getAttributeValue(
                 net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE)
-                * (0.2F + 0.8F * strengthSquared));
+                * LowerEquipmentRules.greatswordDamageMultiplier(strength));
         double reach = LowerEquipmentRules.GREATSWORD_REACH;
-        double lateralCoverage = LowerEquipmentRules.GREATSWORD_SWEEP_HALF_WIDTH;
         var area = attacker.getBoundingBox().inflate(reach, 1.0D, reach);
         boolean hit = false;
         for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class, area,
                 candidate -> ElementalCombat.validTarget(attacker, candidate)
                         && attacker.hasLineOfSight(candidate))) {
             var offset = target.getBoundingBox().getCenter().subtract(origin);
-            double along = offset.dot(direction);
-            double lateral = offset.subtract(direction.scale(along)).length();
-            if (along >= 0 && along <= reach && lateral <= lateralCoverage) {
+            if (LowerEquipmentRules.isWithinGreatswordSweep(offset, direction)) {
                 target.hurtServer((ServerLevel) level, level.damageSources().playerAttack(attacker), damage);
                 hit = true;
             }
