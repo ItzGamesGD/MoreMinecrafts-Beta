@@ -60,7 +60,7 @@ public final class FishTrapBlock extends BaseEntityBlock {
             net.minecraft.world.Containers.dropContents(level, owner, trap);
         if (!level.isClientSide() && !player.isCreative() && state.getValue(PART) == BedPart.FOOT
                 && level instanceof ServerLevel serverLevel
-                && serverLevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+                && serverLevel.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
             net.minecraft.world.Containers.dropItemStack(level, pos.getX() + 0.5D, pos.getY() + 0.5D,
                     pos.getZ() + 0.5D, new ItemStack(this));
         }
