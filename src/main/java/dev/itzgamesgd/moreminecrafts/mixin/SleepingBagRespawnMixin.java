@@ -13,24 +13,29 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 abstract class SleepingBagRespawnMixin {
-    @Unique private ServerPlayer.RespawnConfig moreminecrafts$previousRespawn;
     @Unique private boolean moreminecrafts$sleepingBag;
 
     @Inject(method = "startSleepInBed", at = @At("HEAD"))
-    private void moreminecrafts$captureRespawn(AbstractBedBlock bed, BlockState state, BedRule rule, BlockPos pos,
+    private void moreminecrafts$identifySleepingBag(AbstractBedBlock bed, BlockState state, BedRule rule, BlockPos pos,
             CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> cir) {
         moreminecrafts$sleepingBag = state.is(ModBlocks.EXPLORATION_SLEEPING_BAG);
-        if (moreminecrafts$sleepingBag) moreminecrafts$previousRespawn = ((ServerPlayer)(Object)this).getRespawnConfig();
+    }
+
+    @Redirect(method = "startSleepInBed", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/server/level/ServerPlayer$RespawnConfig;Z)V"))
+    private void moreminecrafts$preventSleepingBagRespawn(ServerPlayer player, ServerPlayer.RespawnConfig config,
+                                                           boolean forced) {
+        if (!moreminecrafts$sleepingBag) player.setRespawnPosition(config, forced);
     }
 
     @Inject(method = "startSleepInBed", at = @At("RETURN"))
-    private void moreminecrafts$restoreRespawn(AbstractBedBlock bed, BlockState state, BedRule rule, BlockPos pos,
+    private void moreminecrafts$clearSleepingBagFlag(AbstractBedBlock bed, BlockState state, BedRule rule, BlockPos pos,
             CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> cir) {
-        if (moreminecrafts$sleepingBag) ((ServerPlayer)(Object)this).setRespawnPosition(moreminecrafts$previousRespawn, false);
         moreminecrafts$sleepingBag = false;
     }
 }
