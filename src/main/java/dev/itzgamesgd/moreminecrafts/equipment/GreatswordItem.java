@@ -16,7 +16,7 @@ public final class GreatswordItem extends BasicWeaponItem {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
         var attacker = (ServerPlayer) user;
         var origin = attacker.getEyePosition();
-        var direction = attacker.getLookAngle().normalize();
+        var direction = attacker.getLookAngle().multiply(1.0D, 0.0D, 1.0D).normalize();
         float strength = attacker.getAttackStrengthScale(0.5F);
         float damage = (float) (attacker.getAttributeValue(
                 net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE)
