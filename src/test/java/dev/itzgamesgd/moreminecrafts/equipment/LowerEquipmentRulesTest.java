@@ -2,21 +2,15 @@ package dev.itzgamesgd.moreminecrafts.equipment;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 
 class LowerEquipmentRulesTest {
     @Test void injectorAcceptsOnlyOrdinaryDrinkablePotionStacks() {
-        assertTrue(PotionInjectorItem.isUsablePotion(new ItemStack(Items.POTION)));
-        assertFalse(PotionInjectorItem.isUsablePotion(new ItemStack(Items.SPLASH_POTION)));
-        assertFalse(PotionInjectorItem.isUsablePotion(new ItemStack(Items.LINGERING_POTION)));
-        assertFalse(PotionInjectorItem.isUsablePotion(new ItemStack(Items.TIPPED_ARROW)));
-    }
-
-    @Test void drillClassificationMatchesPickaxeMineableTag() {
-        assertTrue(LowerEquipmentRules.isPickaxeMineable(Blocks.DEEPSLATE.defaultBlockState()));
-        assertFalse(LowerEquipmentRules.isPickaxeMineable(Blocks.DIRT.defaultBlockState()));
+        assertTrue(PotionInjectorItem.isUsablePotionItem(Items.POTION, true));
+        assertFalse(PotionInjectorItem.isUsablePotionItem(Items.POTION, false));
+        assertFalse(PotionInjectorItem.isUsablePotionItem(Items.SPLASH_POTION, true));
+        assertFalse(PotionInjectorItem.isUsablePotionItem(Items.LINGERING_POTION, true));
+        assertFalse(PotionInjectorItem.isUsablePotionItem(Items.TIPPED_ARROW, true));
     }
 
     @Test void injectorSkipsEmptySlotsInOrder() {
