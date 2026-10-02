@@ -88,7 +88,7 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         if (fuel.is(Items.BAMBOO)) return 50;
         if (fuel.is(Items.SCAFFOLDING)) return 300;
         if (burnTime instanceof ResolvableInt.Reference reference) {
-            return switch (reference.key().location().getPath()) {
+            return switch (reference.key().identifier().getPath()) {
                 case "time_lava_bucket" -> 20_000;
                 case "time_coal_block" -> 16_000;
                 case "time_dried_kelp_block" -> 4_001;
