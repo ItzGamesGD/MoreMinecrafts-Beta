@@ -338,7 +338,7 @@ tasks.register("validateLowerEquipmentResources") {
         def rulesSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/LowerEquipmentRules.java").text
         assert rulesSource.contains("state.is(BlockTags.MINEABLE_WITH_PICKAXE)")
         assert drillSource.contains("LowerEquipmentRules.isPickaxeMineable(state) && hasFuel(drill)")
-        assert drillSource.contains("!level.isClientSide() && LowerEquipmentRules.isPickaxeMineable(state)")
+        assert drillSource.contains("if (!level.isClientSide()) consumeOneFuelPoint(drill)")
         assert !drillSource.contains("state.is(BlockTags.MINEABLE_WITH_PICKAXE)")
 
         def furnaceSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/PortableFurnaceMenu.java").text
