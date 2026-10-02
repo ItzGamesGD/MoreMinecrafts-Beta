@@ -322,9 +322,9 @@ tasks.register("validateLowerEquipmentResources") {
                 assert !pool.containsKey("conditions") :
                         "${id} uses the obsolete pool-level loot condition field"
                 assert pool.entries.any { entry ->
-                    entry.condition == "minecraft:block_state_property"
-                            && entry.block == "moreminecrafts:${id}"
-                            && entry.properties.part == "head"
+                    entry.condition.type == "minecraft:match_block"
+                            && entry.condition.blocks == "moreminecrafts:${id}"
+                            && entry.condition.state.part == "head"
                 } : "${id} must use the current entry-level block-state loot condition"
             }
         }
