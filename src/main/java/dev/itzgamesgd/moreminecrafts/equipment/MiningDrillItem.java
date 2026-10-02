@@ -13,6 +13,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
@@ -32,11 +33,11 @@ public final class MiningDrillItem extends Item {
     }
 
     @Override public float getDestroySpeed(ItemStack drill, BlockState state) {
-        return hasFuel(drill) ? MINING_SPEED : 0.0F;
+        return state.is(BlockTags.MINEABLE_WITH_PICKAXE) && hasFuel(drill) ? MINING_SPEED : 1.0F;
     }
 
     @Override public boolean mineBlock(ItemStack drill, Level level, BlockState state, BlockPos pos, LivingEntity miner) {
-        if (!level.isClientSide()) consumeOneFuelPoint(drill);
+        if (!level.isClientSide() && state.is(BlockTags.MINEABLE_WITH_PICKAXE)) consumeOneFuelPoint(drill);
         return true; // deliberately avoids vanilla durability damage while retaining normal break/drop pipeline
     }
 
