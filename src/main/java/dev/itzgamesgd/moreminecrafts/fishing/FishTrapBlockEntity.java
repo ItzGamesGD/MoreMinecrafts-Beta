@@ -26,7 +26,7 @@ public final class FishTrapBlockEntity extends BaseContainerBlockEntity {
 
     public static void serverTick(ServerLevel level, BlockPos pos, BlockState state, FishTrapBlockEntity trap) {
         if (trap.isFull()) return; // timer is intentionally paused, not reset, while full
-        trap.productionTicks++;
+        trap.productionTicks = LowerEquipmentRules.advanceFishTrapTimer(trap.productionTicks, false);
         trap.setChanged();
         if (trap.productionTicks < LowerEquipmentRules.FISH_TRAP_INTERVAL_TICKS) return;
         trap.productionTicks = 0;
