@@ -14,13 +14,14 @@ public final class LowerEquipmentRules {
     public static final int FISH_TRAP_INTERVAL_TICKS = 5 * 60 * 20;
     public static final float DAGGER_REACH = 2.5F;
     public static final float GREATSWORD_REACH = 3.75F;
-    public static final float GREATSWORD_SWEEP_RANGE = 4.5F;
+    public static final double GREATSWORD_SWEEP_HALF_WIDTH = 1.5D;
     public static final float GAUNTLET_REACH = 3.0F;
     public static final float GAUNTLET_DIRECT_DAMAGE = 2.0F;
     public static final float GAUNTLET_SECONDARY_DAMAGE = 0.5F;
     public static final double GAUNTLET_REGION_LENGTH = 3.5D;
     public static final double GAUNTLET_REGION_WIDTH = 1.7D;
-    public static final double GAUNTLET_HORIZONTAL_PUSH = 2.0D;
+    /** Grounded impulse tuned for roughly two blocks of horizontal travel, not 2 blocks/tick velocity. */
+    public static final double GAUNTLET_HORIZONTAL_KNOCKBACK_SPEED = 0.8D;
 
     private LowerEquipmentRules() {}
 
