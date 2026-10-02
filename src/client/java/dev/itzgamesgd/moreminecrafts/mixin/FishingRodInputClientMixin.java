@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Converts only an actual attack miss; block breaking and entity attacks never enter this path. */
+/** Opens the Injector on any crosshair target; Fishing equipment remains miss-only. */
 @Mixin(Minecraft.class)
 public abstract class FishingRodInputClientMixin {
     @Inject(method = "startAttack", at = @At("HEAD"), cancellable = true)
