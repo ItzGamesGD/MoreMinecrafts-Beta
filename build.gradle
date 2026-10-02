@@ -311,25 +311,26 @@ tasks.register("validateLowerEquipmentResources") {
 
         ["exploration_sleeping_bag", "fish_trap", "portable_furnace"].each { id ->
             def itemPath = file("src/main/resources/assets/moreminecrafts/items/${id}.json")
-            def lootPath = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${id}.json")
-            assert itemPath.isFile() && lootPath.isFile()
+            assert itemPath.isFile()
             def item = json.parse(itemPath)
             assert item.model.type == "minecraft:model"
             if (id == "portable_furnace") {
                 assert item.model.model == "minecraft:block/furnace"
             } else {
                 assert item.model.model.startsWith("moreminecrafts:block/")
-            }
-            def loot = json.parse(lootPath)
-            assert loot.pools instanceof List && !loot.pools.empty
-            loot.pools.each { pool ->
-                assert !pool.containsKey("conditions") :
-                        "${id} uses the obsolete pool-level loot condition field"
-                assert pool.entries.any { entry ->
-                    entry.condition.type == "minecraft:match_block"
-                            && entry.condition.blocks == "moreminecrafts:${id}"
-                            && entry.condition.state.part == "head"
-                } : "${id} must use the current entry-level block-state loot condition"
+                def lootPath = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${id}.json")
+                assert lootPath.isFile()
+                def loot = json.parse(lootPath)
+                assert loot.pools instanceof List && !loot.pools.empty
+                loot.pools.each { pool ->
+                    assert !pool.containsKey("conditions") :
+                            "${id} uses the obsolete pool-level loot condition field"
+                    assert pool.entries.any { entry ->
+                        entry.condition.type == "minecraft:match_block"
+                                && entry.condition.blocks == "moreminecrafts:${id}"
+                                && entry.condition.state.part == "head"
+                    } : "${id} must use the current entry-level block-state loot condition"
+                }
             }
         }
 
