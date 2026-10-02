@@ -54,7 +54,10 @@ public final class PotionInjectorItem extends Item {
         }
         private boolean ownsSource() {
             if (player.getMainHandItem() == owner || player.getOffhandItem() == owner) return true;
-            for (ItemStack stack : player.getInventory().items) if (stack == owner) return true;
+            Inventory inventory = player.getInventory();
+            for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+                if (inventory.getItem(slot) == owner) return true;
+            }
             return false;
         }
         @Override public ItemStack getItem(int slot) {
