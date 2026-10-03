@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.special.vfx;
 
 import java.util.List;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -91,7 +92,7 @@ public final class T2ElementalVfx {
 
     public static void waterLanding(ServerLevel level, Vec3 center) {
         burst(level, ParticleTypes.SPLASH, center, 16, 1.0D);
-        ring(level, ParticleTypes.WATER_WAKE, center, 1.25D, 20);
+        ring(level, ParticleTypes.BUBBLE, center, 1.25D, 20);
     }
 
     public static void waterPillar(ServerLevel level, Vec3 center) {
@@ -147,7 +148,7 @@ public final class T2ElementalVfx {
     }
 
     public static void lightningProc(ServerLevel level, Vec3 center) {
-        burst(level, ParticleTypes.FLASH, center, 1, 0.0D);
+        burst(level, ColorParticleOption.create(ParticleTypes.FLASH, 0xFFF7C7), center, 1, 0.0D);
         for (int branch = 0; branch < 3; branch++) {
             double side = branch - 1.0D;
             Vec3 end = center.add(side * 0.42D, 0.55D + (branch % 2) * 0.2D, 0.18D * (1 - branch));
@@ -156,7 +157,8 @@ public final class T2ElementalVfx {
     }
 
     public static void lightningSlash(ServerLevel level, Vec3 start, Vec3 end, Vec3 facing) {
-        burst(level, ParticleTypes.FLASH, start.add(end).scale(0.5D), 1, 0.0D);
+        burst(level, ColorParticleOption.create(ParticleTypes.FLASH, 0xFFF7C7),
+                start.add(end).scale(0.5D), 1, 0.0D);
         beam(level, ParticleTypes.ELECTRIC_SPARK, start, end, 0.32D);
         Vec3 offset = new Vec3(-facing.z, 0.0D, facing.x).scale(0.06D);
         beam(level, ParticleTypes.END_ROD, start.add(offset), end.add(offset), 0.65D);

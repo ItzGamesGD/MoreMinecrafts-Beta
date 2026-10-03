@@ -1,5 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.special.elemental;
 
+import net.minecraft.world.phys.Vec3;
+
 /** Pure horizontal geometry shared by Earth's radial smash passive and forward cone active. */
 public final class EarthCombatMath {
     private EarthCombatMath() {}
