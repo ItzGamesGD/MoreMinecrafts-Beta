@@ -2,7 +2,7 @@ package dev.itzgamesgd.moreminecrafts.special.flame;
 
 import dev.itzgamesgd.moreminecrafts.ability.ActiveEquipmentAbility;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
-import net.minecraft.core.particles.ParticleTypes;
+import dev.itzgamesgd.moreminecrafts.special.vfx.T2ElementalVfx;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -50,18 +50,10 @@ public final class FlameCleaveAbility implements ActiveEquipmentAbility {
             }
             if (target.hurtServer(level, player.damageSources().playerAttack(player), DAMAGE)) {
                 target.igniteForSeconds(IGNITE_SECONDS);
-                level.sendParticles(ParticleTypes.FLAME, target.getX(), target.getY() + 0.8D, target.getZ(),
-                        5, 0.25D, 0.35D, 0.25D, 0.01D);
             }
         }
 
-        // A rising diagonal wave visually distinguishes this active from the horizontal passive.
-        for (double distance = 0.5D; distance <= RANGE; distance += 0.35D) {
-            double rise = distance * 0.45D;
-            level.sendParticles(ParticleTypes.FLAME, player.getX() + facing.x * distance,
-                    player.getY() + 0.25D + rise, player.getZ() + facing.z * distance,
-                    5, 0.28D, 0.16D, 0.28D, 0.025D);
-        }
+        T2ElementalVfx.fireRisingArc(level, player.position(), facing);
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.8F, 1.0F);
         return true;

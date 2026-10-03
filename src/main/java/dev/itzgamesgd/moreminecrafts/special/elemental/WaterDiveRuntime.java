@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -18,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import dev.itzgamesgd.moreminecrafts.special.vfx.T2ElementalVfx;
 
 /** Minimal server-owned launch/dive/landing state machine; no permanent traversal state. */
 public final class WaterDiveRuntime {
@@ -53,9 +53,11 @@ public final class WaterDiveRuntime {
     public static boolean launch(ServerPlayer player) {
         if (DIVES.containsKey(player.getUUID()) || player.isPassenger()) return false;
         Vec3 look = player.getLookAngle();
-        player.setDeltaMovement(look.x * 0.35D, 0.85D, look.z * 0.35D);
+        Vec3 launchVelocity = WaterDiveMotion.launchVelocity(look);
+        player.setDeltaMovement(launchVelocity);
         player.connection.send(new ClientboundSetEntityMotionPacket(player));
         trackDive(player.getUUID(), player.level().dimension());
+        T2ElementalVfx.waterLaunch(player.level(), player.position());
         return true;
     }
 
@@ -65,28 +67,35 @@ public final class WaterDiveRuntime {
             Map.Entry<UUID, ActiveDive> entry = iterator.next();
             ServerPlayer player = server.getPlayerList().getPlayer(entry.getKey());
             ActiveDive active = entry.getValue();
-            if (player == null || !player.isAlive() || active.totalTicks >= TIMEOUT_TICKS
-                    || !active.originLevel.equals(player.level().dimension())) {
+            if (WaterDiveState.shouldExpire(player != null, player != null && player.isAlive(),
+                    player != null && active.originLevel.equals(player.level().dimension()),
+                    active.totalTicks, TIMEOUT_TICKS)) {
                 iterator.remove();
                 continue;
             }
+            if (active.state.phase() == WaterDiveState.Phase.WAITING_FOR_GROUND) {
+                Vec3 end = player.position();
+                T2ElementalVfx.waterDiveTrail(player.level(), end.subtract(player.getDeltaMovement()), end);
+            }
             WaterDiveState next = active.state.tick(player.onGround());
             if (next.phase() == WaterDiveState.Phase.DIVING) beginDive(player);
-            if (next.phase() == WaterDiveState.Phase.RESOLVE) resolve(player);
+            if (next.phase() == WaterDiveState.Phase.RESOLVE) {
+                next = next.withImpactCenter(resolve(player));
+            }
+            if (next.phase() == WaterDiveState.Phase.PILLAR && next.impactCenter() != null) {
+                pillar(player.level(), next.impactCenter());
+            }
             if (next.phase() == WaterDiveState.Phase.CLEANUP) iterator.remove();
             else entry.setValue(new ActiveDive(next, active.totalTicks + 1, active.originLevel));
         }
     }
 
     private static void beginDive(ServerPlayer player) {
-        Vec3 look = player.getLookAngle();
-        Vec3 horizontal = new Vec3(look.x, 0.0D, look.z);
-        if (horizontal.lengthSqr() > 1.0E-8D) horizontal = horizontal.normalize().scale(0.9D);
-        player.setDeltaMovement(horizontal.x, Math.min(-0.9D, look.y * 1.1D), horizontal.z);
+        player.setDeltaMovement(WaterDiveMotion.diveVelocity(player.getLookAngle()));
         player.connection.send(new ClientboundSetEntityMotionPacket(player));
     }
 
-    private static void resolve(ServerPlayer player) {
+    private static Vec3 resolve(ServerPlayer player) {
         ServerLevel level = player.level();
         Vec3 horizontal = new Vec3(player.getLookAngle().x, 0.0D, player.getLookAngle().z);
         if (horizontal.lengthSqr() > 1.0E-8D) horizontal = horizontal.normalize();
@@ -96,12 +105,14 @@ public final class WaterDiveRuntime {
                 target -> ElementalCombat.validTarget(player, target))) {
             target.hurtServer(level, player.damageSources().playerAttack(player), PILLAR_DAMAGE);
         }
-        for (double y = 0.2D; y <= 3.8D; y += 0.4D) {
-            level.sendParticles(ParticleTypes.SPLASH, center.x, center.y + y, center.z,
-                    6, 0.45D, 0.12D, 0.45D, 0.12D);
-        }
+        T2ElementalVfx.waterLanding(level, center);
         level.playSound(null, center.x, center.y, center.z, SoundEvents.PLAYER_SPLASH_HIGH_SPEED,
                 SoundSource.PLAYERS, 1.0F, 0.8F);
+        return center;
+    }
+
+    private static void pillar(ServerLevel level, Vec3 center) {
+        T2ElementalVfx.waterPillar(level, center);
     }
 
     private record ActiveDive(WaterDiveState state, int totalTicks, ResourceKey<Level> originLevel) {}

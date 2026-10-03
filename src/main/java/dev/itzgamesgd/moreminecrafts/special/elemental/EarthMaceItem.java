@@ -3,7 +3,7 @@ package dev.itzgamesgd.moreminecrafts.special.elemental;
 import dev.itzgamesgd.moreminecrafts.ability.AbilityActivation;
 import dev.itzgamesgd.moreminecrafts.ability.ActiveEquipmentAbility;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
-import net.minecraft.core.particles.ParticleTypes;
+import dev.itzgamesgd.moreminecrafts.special.vfx.T2ElementalVfx;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,8 +11,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,29 +24,10 @@ public final class EarthMaceItem extends MaceItem {
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker instanceof ServerPlayer player && MaceItem.canSmashAttack(attacker)) {
-            fracture(player, target.position());
+            EarthGroundAnchor.resolve(player, target)
+                    .ifPresent(impact -> EarthSeismicRuntime.start(player, impact));
         }
         super.hurtEnemy(stack, target, attacker);
-    }
-
-    private static void fracture(ServerPlayer player, Vec3 impact) {
-        ServerLevel level = player.level();
-        Vec3 facing = horizontalFacing(player);
-        for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class,
-                player.getBoundingBox().move(impact.subtract(player.position())).expandTowards(facing.scale(7)).inflate(1.2),
-                target -> ElementalCombat.validTarget(player, target))) {
-            double dx = target.getX() - impact.x;
-            double dz = target.getZ() - impact.z;
-            if (EarthCombatMath.inForwardLane(facing.x, facing.z, dx, dz, 7.0D, 1.1D)
-                    && target.hurtServer(level, player.damageSources().playerAttack(player), 3.0F)) {
-                target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 1));
-            }
-        }
-        for (double distance = 0.5D; distance <= 7.0D; distance += 0.5D) {
-            Vec3 point = impact.add(facing.scale(distance));
-            level.sendParticles(ParticleTypes.ASH, point.x, point.y + 0.12D, point.z,
-                    4, 0.45D, 0.08D, 0.45D, 0.015D);
-        }
     }
 
     @Override
@@ -87,12 +66,7 @@ public final class EarthMaceItem extends MaceItem {
                     target.push(push.x, 0.55D, push.z);
                 }
             }
-            for (double distance = 1.0D; distance <= 8.0D; distance += 0.65D) {
-                double width = distance * 0.9D;
-                Vec3 center = player.position().add(facing.scale(distance));
-                level.sendParticles(ParticleTypes.POOF, center.x, center.y + 0.15D, center.z,
-                        Math.max(2, (int) width), width * 0.35D, 0.12D, width * 0.35D, 0.03D);
-            }
+            T2ElementalVfx.earthCone(level, player.position().add(0.0D, 0.15D, 0.0D), facing, 8.0D);
             level.playSound(null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE.value(),
                     SoundSource.PLAYERS, 0.9F, 0.65F);
             return true;

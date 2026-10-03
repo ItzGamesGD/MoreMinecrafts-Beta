@@ -24,6 +24,8 @@ Authoritative ordinary Enhancement rules:
 
 Current T2 input/gameplay rules include the seven-item final roster, right-click active skills, cumulative Lightning charge semantics, and the removal of Wind Step and the old F / Shift+F T2 path.
 
+The dedicated T2 gameplay finalization accepted the existing Fire and Wind hit-threshold passive structures, including their broad AoE passives. This specific overlap is not pending redesign; their other mechanics and visual identities remain distinct under the Stage 2 contract.
+
 ### Equipment progression and T1 vanilla-style weapon extensions
 
 Current broader equipment authority: [Equipment Progression Finalization](EQUIPMENT_PROGRESSION_FINALIZATION.md), except where Stage 2 explicitly supersedes its historical T2/Enhancement sections.
@@ -74,14 +76,6 @@ Historical Paper enchantment behavior and older enchantment proposals are refere
 ## Explicitly deferred design debt
 
 The following items are known design questions. They are not missing recovery work and must not be silently "fixed" by unrelated stages.
-
-### T2 elemental identity
-
-**Fire / Wind passive identity overlap — DEFERRED**
-
-Both currently use hit-count-based broad AoE passives. Their mechanical identity may need stronger separation after live combat testing.
-
-Handle during a dedicated T2 combat/VFX/balance pass. Do not redesign them during unrelated infrastructure or resource work.
 
 ### Fishing environment eligibility
 
