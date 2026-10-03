@@ -26,6 +26,18 @@ Current T2 input/gameplay rules include the seven-item final roster, right-click
 
 The dedicated T2 gameplay finalization accepted the existing Fire and Wind hit-threshold passive structures, including their broad AoE passives. This specific overlap is not pending redesign; their other mechanics and visual identities remain distinct under the Stage 2 contract.
 
+
+### Stage 19 T2 acceptance state
+
+The Stage 19 checkpoint records four separate T2 acceptance states:
+
+- **T2 IMPLEMENTATION: COMPLETE** — the gameplay structures for Fire Sword, Water Sword, Wind Sword, Earth Mace, and Lightning Sword are integrated.
+- **T2 AUTOMATED ACCEPTANCE: PASS** — PR #66 passed Fabric CI #291, including `./gradlew clean build`, JUnit, GameTests, configured validators, server smoke, client smoke, and registry initialization.
+- **T2 LIVE ACCEPTANCE: PENDING** — no interactive Minecraft live acceptance is claimed. Combat input, targeting, impact behavior, PvP/allied filtering, multiplayer authority, and runtime cleanup remain for direct live validation as listed in the Stage 2 reconciliation.
+- **T2 VFX: DEFERRED** — provisional runtime effects may remain. VFX quality and polish do not block gameplay acceptance.
+
+**T2 BALANCE / FEEL TUNING: LIVE PENDING.** Documented provisional combat and movement values remain subject to live tuning. Wind Bow homing/auto-aim remains deferred. Dark Energy Staff gameplay and Enhancement remain deferred.
+
 ### Equipment progression and T1 vanilla-style weapon extensions
 
 Current broader equipment authority: [Equipment Progression Finalization](EQUIPMENT_PROGRESSION_FINALIZATION.md), except where Stage 2 explicitly supersedes its historical T2/Enhancement sections.
