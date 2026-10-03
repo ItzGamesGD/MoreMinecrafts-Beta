@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.special.elemental;
 
+import java.util.List;
 import net.minecraft.world.phys.Vec3;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +24,36 @@ class EarthCombatMathTest {
         assertTrue(EarthCombatMath.isGroundedTarget(true, -0.4D, 0.75D));
         assertFalse(EarthCombatMath.isGroundedTarget(false, 0.0D, 0.75D));
         assertFalse(EarthCombatMath.isGroundedTarget(true, 0.751D, 0.75D));
+    }
+
+    @Test
+    void groundAnchorChoosesNearestLocalSurfaceForGroundedOrElevatedImpact() {
+        Vec3 groundedImpact = new Vec3(2.0D, 64.25D, 3.0D);
+        Vec3 centerColumn = new Vec3(2.0D, 64.0D, 3.0D);
+        Vec3 nearbyColumn = new Vec3(2.5D, 64.5D, 3.0D);
+
+        assertEquals(centerColumn, EarthCombatMath.selectGroundAnchor(groundedImpact,
+                List.of(centerColumn, nearbyColumn), EarthGroundAnchor.MAX_HORIZONTAL_DISTANCE,
+                EarthGroundAnchor.MAX_VERTICAL_DROP).orElseThrow());
+        Vec3 elevatedImpact = new Vec3(2.0D, 65.25D, 3.0D);
+        assertEquals(nearbyColumn, EarthCombatMath.selectGroundAnchor(elevatedImpact,
+                List.of(nearbyColumn), EarthGroundAnchor.MAX_HORIZONTAL_DISTANCE,
+                EarthGroundAnchor.MAX_VERTICAL_DROP).orElseThrow());
+        Vec3 airborneImpact = new Vec3(2.0D, 70.25D, 3.0D);
+        assertEquals(new Vec3(2.0D, 64.0D, 3.0D), EarthCombatMath.selectGroundAnchor(airborneImpact,
+                List.of(centerColumn), EarthGroundAnchor.MAX_HORIZONTAL_DISTANCE,
+                EarthGroundAnchor.MAX_VERTICAL_DROP).orElseThrow());
+    }
+
+    @Test
+    void groundAnchorRejectsSurfacesOutsideLocalOrVerticalSearchBounds() {
+        Vec3 impact = new Vec3(0.0D, 20.25D, 0.0D);
+        assertTrue(EarthCombatMath.selectGroundAnchor(impact,
+                List.of(new Vec3(0.0D, 20.5D, 0.0D)), 0.75D, 12.0D).isEmpty());
+        assertTrue(EarthCombatMath.selectGroundAnchor(impact,
+                List.of(new Vec3(0.76D, 19.0D, 0.0D)), 0.75D, 12.0D).isEmpty());
+        assertTrue(EarthCombatMath.selectGroundAnchor(impact,
+                List.of(new Vec3(0.0D, 8.0D, 0.0D)), 0.75D, 12.0D).isEmpty());
     }
 
     @Test

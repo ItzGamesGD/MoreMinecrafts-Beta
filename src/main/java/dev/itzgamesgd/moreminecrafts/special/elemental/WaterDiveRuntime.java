@@ -79,8 +79,12 @@ public final class WaterDiveRuntime {
             }
             WaterDiveState next = active.state.tick(player.onGround());
             if (next.phase() == WaterDiveState.Phase.DIVING) beginDive(player);
-            if (next.phase() == WaterDiveState.Phase.RESOLVE) resolve(player);
-            if (next.phase() == WaterDiveState.Phase.PILLAR) pillar(player);
+            if (next.phase() == WaterDiveState.Phase.RESOLVE) {
+                next = next.withImpactCenter(resolve(player));
+            }
+            if (next.phase() == WaterDiveState.Phase.PILLAR && next.impactCenter() != null) {
+                pillar(player.level(), next.impactCenter());
+            }
             if (next.phase() == WaterDiveState.Phase.CLEANUP) iterator.remove();
             else entry.setValue(new ActiveDive(next, active.totalTicks + 1, active.originLevel));
         }
@@ -91,7 +95,7 @@ public final class WaterDiveRuntime {
         player.connection.send(new ClientboundSetEntityMotionPacket(player));
     }
 
-    private static void resolve(ServerPlayer player) {
+    private static Vec3 resolve(ServerPlayer player) {
         ServerLevel level = player.level();
         Vec3 horizontal = new Vec3(player.getLookAngle().x, 0.0D, player.getLookAngle().z);
         if (horizontal.lengthSqr() > 1.0E-8D) horizontal = horizontal.normalize();
@@ -104,13 +108,11 @@ public final class WaterDiveRuntime {
         T2ElementalVfx.waterLanding(level, center);
         level.playSound(null, center.x, center.y, center.z, SoundEvents.PLAYER_SPLASH_HIGH_SPEED,
                 SoundSource.PLAYERS, 1.0F, 0.8F);
+        return center;
     }
 
-    private static void pillar(ServerPlayer player) {
-        Vec3 horizontal = new Vec3(player.getLookAngle().x, 0.0D, player.getLookAngle().z);
-        if (horizontal.lengthSqr() > 1.0E-8D) horizontal = horizontal.normalize();
-        Vec3 center = player.position().add(horizontal.scale(2.0D));
-        T2ElementalVfx.waterPillar(player.level(), center);
+    private static void pillar(ServerLevel level, Vec3 center) {
+        T2ElementalVfx.waterPillar(level, center);
     }
 
     private record ActiveDive(WaterDiveState state, int totalTicks, ResourceKey<Level> originLevel) {}

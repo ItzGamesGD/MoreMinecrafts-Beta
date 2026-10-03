@@ -1,5 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.special.elemental;
 
+import java.util.List;
+import java.util.Optional;
 import net.minecraft.world.phys.Vec3;
 
 /** Pure horizontal geometry shared by Earth's radial smash passive and forward cone active. */
@@ -12,6 +14,26 @@ public final class EarthCombatMath {
 
     public static boolean isGroundedTarget(boolean onGround, double verticalDelta, double tolerance) {
         return onGround && Math.abs(verticalDelta) <= tolerance;
+    }
+
+    /** Picks the nearest valid sampled surface without allowing a remote or excessively low anchor. */
+    public static Optional<Vec3> selectGroundAnchor(Vec3 impactReference, List<Vec3> groundHits,
+                                                     double maxHorizontalDistance, double maxVerticalDrop) {
+        Vec3 nearest = null;
+        double nearestHorizontalDistanceSquared = Double.POSITIVE_INFINITY;
+        for (Vec3 hit : groundHits) {
+            double dx = hit.x - impactReference.x;
+            double dz = hit.z - impactReference.z;
+            double horizontalDistanceSquared = dx * dx + dz * dz;
+            double verticalDrop = impactReference.y - hit.y;
+            if (horizontalDistanceSquared > maxHorizontalDistance * maxHorizontalDistance
+                    || verticalDrop < 0.0D || verticalDrop > maxVerticalDrop) continue;
+            if (horizontalDistanceSquared < nearestHorizontalDistanceSquared) {
+                nearest = hit;
+                nearestHorizontalDistanceSquared = horizontalDistanceSquared;
+            }
+        }
+        return Optional.ofNullable(nearest);
     }
 
     public static Vec3 radialOutwardImpulse(Vec3 center, Vec3 target, double strength) {

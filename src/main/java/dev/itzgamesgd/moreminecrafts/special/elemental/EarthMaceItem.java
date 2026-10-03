@@ -24,7 +24,8 @@ public final class EarthMaceItem extends MaceItem {
     @Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker instanceof ServerPlayer player && MaceItem.canSmashAttack(attacker)) {
-            EarthSeismicRuntime.start(player, target.position());
+            EarthGroundAnchor.resolve(player, target)
+                    .ifPresent(impact -> EarthSeismicRuntime.start(player, impact));
         }
         super.hurtEnemy(stack, target, attacker);
     }
