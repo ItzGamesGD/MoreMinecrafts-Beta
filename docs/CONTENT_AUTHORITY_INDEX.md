@@ -79,11 +79,13 @@ Flame Sword C1-A/C1-B remains separately authoritative for its approved producti
 
 ## Enchantments
 
-Current enchantment design authority: [Enchantment Branch Skeleton](ENCHANTMENT_BRANCH_SKELETON.md).
+Current enchantment gameplay-semantics authority: [Enchantment Branch Skeleton](ENCHANTMENT_BRANCH_SKELETON.md).
 
-Use that document for the approved retained roster, gameplay semantics, compatibility and exclusivity rules, activation behavior, and explicitly unresolved enchantment integration points.
+Current T1 enchantment progression, skill-tree placement, compatibility policy, and XP-cost authority: [T1 Enchantment Skill Tree Finalization](T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md).
 
-Historical Paper enchantment behavior and older enchantment proposals are reference material only where they conflict with this current skeleton.
+The T1 finalization supersedes the skeleton wherever the older skeleton describes vanilla/random-book acquisition, progression placement, or compatibility rules that conflict with the XP-funded skill-tree model. The skeleton remains authoritative for retained custom-enchantment gameplay semantics and unresolved integration behavior.
+
+Historical Paper enchantment behavior and older enchantment proposals are reference material only where they conflict with these current authorities.
 
 ## Explicitly deferred design debt
 
