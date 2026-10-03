@@ -23,6 +23,20 @@ The seven-item roster is Fire Sword, Water Sword, Wind Sword, Wind Bow, Earth Ma
 
 Fire Sword, Wind Sword, and Lightning Sword otherwise retain their current contracts above; their existing hit-threshold structures are intentionally not redesigned in this pass. T2 active skills are requested through the item's normal use/right-click path. The obsolete F/Shift+F client mapping and its unused T2 network dispatch are removed. The server remains authoritative for gameplay effects and hit counters.
 
+## T2 elemental VFX language
+
+The five core elemental combat lineages share a reusable VFX composition model: **Trail -> Impact -> Skill Shape -> Residual**. Individual effects may omit stages that do not improve readability, but new T2 effects should be assembled from this common visual grammar rather than invented as unrelated one-off particle systems.
+
+Reusable world-space VFX primitives are **Arc, Trail, Ring, Beam, Burst, and Ground Decal**. These primitives are intended to be reusable by later tiers. GeckoLib, where used, is for item/model animation needs; world-space slashes, trails, rings, pillars, impacts, and decals remain a separate VFX concern rather than being forced into the model-animation layer.
+
+- **Fire:** thick, irregular, persistent motion language. Primary swings use a short flame trail and ember impact. The tenth-hit sweep uses a broad, thick horizontal flame arc. The rising right-click ability reads as a diagonal upward flame arc rather than a vertical pillar, avoiding silhouette overlap with Water.
+- **Water:** translucent water motion with splash/foam accents. Launch begins with a circular foot-level splash/compression cue; the aiming interval remains visually restrained for readability. The accelerated dive produces a long narrow water trail that reinforces speed. Landing resolves as a circular splash followed shortly by the vertical water pillar.
+- **Wind:** thin, clean, fast-decaying motion language, deliberately contrasting Fire despite their shared tenth-hit threshold structure. Ordinary hits use restrained crescent/air-cut cues. The tenth-hit sweep uses multiple thin curved air lines rather than a filled arc. Wind Blade is represented by layered compressed crescent/air blades travelling forward.
+- **Earth:** dust, debris, seismic rings, and temporary ground-crack decals. A valid smash begins with a landing dust/debris burst, followed by the circular seismic ring; temporary crack presentation may appear along the affected ground but must not modify blocks or terrain. The right-click cone shockwave instead pushes dust and small debris forward, keeping passive and active silhouettes distinct.
+- **Lightning:** sparse particles with intensity concentrated into brightness, branching, and very short timing rather than screen-filling volume. Ordinary pre-proc hits use restrained sparks. The fifth-hit proc uses a brief bright flash with branching electricity. Lightning Slash uses a very short bright slash followed by a thin electrical afterimage.
+
+Exact colors, texture assets, particle counts, lifetimes, dimensions, opacity, sound timing, camera response, and performance budgets remain provisional until implementation and live visual tuning. The governing resource principle is **simple model / strong silhouette / detailed runtime VFX**; high-detail item geometry is not required merely to make an elemental weapon visually rich.
+
 ## Hit-progress lifetime and boundaries
 
 Fire, Wind, and Lightning progress remains server-memory state keyed by player UUID and weapon family. It is recorded only from each item's primary `hurtEnemy` callback, so active and passive direct damage cannot recursively advance the counter. A main-hand family change, leaving the tracked sword families, death, or logout clears progress. Lightning does not decay with elapsed time; restart clears all in-memory progress.
