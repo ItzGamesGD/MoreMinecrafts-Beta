@@ -198,24 +198,41 @@ Current authority: `STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 
 # 6. Enchantments
 
-Current authority: `ENCHANTMENT_BRANCH_SKELETON.md`.
+Current gameplay-semantics authority: `ENCHANTMENT_BRANCH_SKELETON.md`.
+
+Current T1 progression authority: `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`.
 
 ## Already resolved
 
 - [DONE] Retained enchantment roster and removed legacy concepts.
 - [DONE] Core gameplay semantics for Multi Shot, Crossbow Barrage, Vein Mining, Auto Replant, Auto Smelt, Lumberjack, Elytra Launch, Explosive Mace, Feather Boots and Jet Boots.
-- [DONE] Laser Arrow vs Multi Shot exclusivity.
-- [DONE] Feather Boots vs Jet Boots exclusivity.
-- [DONE] Enchantments belong in the vanilla acquisition ecosystem rather than a custom shop/currency.
-
-## Remaining design
-
-- [OPEN] Laser Arrow dedicated projectile/resource/VFX/presentation contract.
-- [OPEN] Multi Catch integration with the current Fishing pipeline; do not restore Paper reward multiplication.
-- [OPEN] Decide final enchantment acquisition weights/distribution only after the complete roster/economy context is ready.
+- [DONE] T1 ordinary/random enchanting progression is replaced by an XP-funded per-equipment skill tree.
+- [DONE] Same-enchantment levels unlock sequentially; ordinary unrelated branches do not receive artificial prerequisites.
+- [DONE] Global durability branch is Unbreaking I -> II -> III -> Mending and is deliberately expensive.
+- [DONE] Compatibility model is free stacking / premium stacking / true structural exclusion.
+- [DONE] Mending + Infinity allowed.
+- [DONE] Crossbow Piercing + Multishot allowed.
+- [DONE] Bow Multi Shot vs Laser Arrow remains structural exclusivity.
+- [DONE] Crossbow Barrage vs Multishot remains structural exclusivity.
+- [DONE] Powerful overlapping damage/protection families may stack through additional XP premiums instead of blanket prohibition.
+- [DONE] Armor protection-family premium baseline is +500 / +1,000 / +2,000 XP for the second / third / fourth families.
+- [DONE] T1 XP cost direction is intentionally expensive; later balance should primarily tune XP supply.
+- [DONE] Approved equipment-tree placements for Sword, Greatsword, Dagger, Axe, Pickaxe, Shovel, Hoe, Mace, Spear, Bow, Crossbow, Helmet, Chestplate, Leggings, Boots, Elytra, Shield and Fishing Rod are recorded in the T1 finalization authority.
+- [DONE] Enhancement remains a separate +0 -> +20 T1 growth axis.
+- [DEFERRED] Quest catalogue and XP/resource reward supply are intentionally deferred to a dedicated cross-system design pass.
 - [DONE] No Jet Boots naming/role conflict remains because the historical Utility equipment-form Jet Boots is retired; the enchantment remains authoritative.
+
+## Remaining design / explicit authority gaps
+
+- [OPEN] Laser Arrow dedicated projectile/resource/VFX/presentation contract; its Bow tree placement is already fixed at Power III and exclusive with Multi Shot.
+- [OPEN] Multi Catch integration with the current Fishing pipeline and its exact skill-tree placement; do not restore Paper reward multiplication.
+- [OPEN] Jet Boots exact placement/prerequisite/cost in the new T1 XP skill tree.
+- [OPEN] Gauntlet enchantment-tree identity/placement.
+- [OPEN] Sword Looting exact tree placement because it was not explicitly placed in the approved Sword-tree pass.
+- [OPEN] Exact respec/reset interaction and cost.
+- [BALANCE] Final per-node numeric costs where only a cost class/range is authoritative.
 - [BALANCE] Crossbow Barrage interval and other explicitly live-tunable constants.
-- [LIVE] Stage 17 enchantment interaction/combat feel where headless CI cannot prove behavior.
+- [LIVE] Enchantment interaction/combat feel where headless CI cannot prove behavior.
 
 # 7. Alchemy
 
