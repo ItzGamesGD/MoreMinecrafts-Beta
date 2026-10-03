@@ -23,7 +23,31 @@ class WaterDiveStateTest {
         assertEquals(WaterDiveState.Phase.WAITING_FOR_GROUND, state.phase());
         state = state.tick(true);
         assertEquals(WaterDiveState.Phase.RESOLVE, state.phase());
-        assertEquals(WaterDiveState.Phase.CLEANUP, state.tick(true).phase());
+        assertEquals(WaterDiveState.Phase.PILLAR, state.tick(true).phase());
+        assertEquals(WaterDiveState.Phase.CLEANUP, state.tick(true).tick(true).phase());
+    }
+
+    @Test
+    void launchAndDiveMovementAreIsolatedAndMateriallyAboveStage18Values() {
+        assertEquals(1.25D, WaterDiveMotion.LAUNCH_VERTICAL_SPEED, 0.0D);
+        assertTrue(WaterDiveMotion.LAUNCH_VERTICAL_SPEED > 0.85D);
+        assertEquals(1.35D, WaterDiveMotion.DIVE_HORIZONTAL_SPEED, 0.0D);
+        assertTrue(WaterDiveMotion.DIVE_HORIZONTAL_SPEED > 0.9D);
+
+        assertEquals(new net.minecraft.world.phys.Vec3(0.0D, 1.25D, 0.0D),
+                WaterDiveMotion.launchVelocity(new net.minecraft.world.phys.Vec3(0.0D, 1.0D, 0.0D)));
+        net.minecraft.world.phys.Vec3 dive = WaterDiveMotion.diveVelocity(new net.minecraft.world.phys.Vec3(0.6D, -0.5D, 0.8D));
+        assertEquals(1.35D, Math.sqrt(dive.x * dive.x + dive.z * dive.z), 1.0E-12D);
+        assertEquals(-1.4D, dive.y, 0.0D);
+    }
+
+    @Test
+    void lifetimePolicyExpiresOnDisconnectDeathDimensionChangeOrTimeout() {
+        assertFalse(WaterDiveState.shouldExpire(true, true, true, 79, 80));
+        assertTrue(WaterDiveState.shouldExpire(false, false, false, 0, 80));
+        assertTrue(WaterDiveState.shouldExpire(true, false, true, 0, 80));
+        assertTrue(WaterDiveState.shouldExpire(true, true, false, 0, 80));
+        assertTrue(WaterDiveState.shouldExpire(true, true, true, 80, 80));
     }
 
     @Test

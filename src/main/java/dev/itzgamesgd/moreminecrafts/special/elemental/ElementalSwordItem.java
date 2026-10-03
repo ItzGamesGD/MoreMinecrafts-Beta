@@ -4,7 +4,7 @@ import dev.itzgamesgd.moreminecrafts.ability.AbilityActivation;
 import dev.itzgamesgd.moreminecrafts.ability.ActiveEquipmentAbility;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.special.ElementalHitProgress;
-import net.minecraft.core.particles.ParticleTypes;
+import dev.itzgamesgd.moreminecrafts.special.vfx.T2ElementalVfx;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
@@ -51,14 +51,14 @@ public final class ElementalSwordItem extends Item {
         if (attacker instanceof ServerPlayer player) {
             ServerLevel level = player.level();
             if (element == Element.WATER) {
-                level.sendParticles(ParticleTypes.SPLASH, target.getX(), target.getY() + 0.8D, target.getZ(),
-                        3, 0.15D, 0.2D, 0.15D, 0.04D);
+                T2ElementalVfx.waterHit(level, player.getEyePosition(),
+                        target.position().add(0.0D, target.getBbHeight() * 0.55D, 0.0D));
             } else {
-                level.sendParticles(ParticleTypes.ELECTRIC_SPARK, target.getX(), target.getY() + 0.8D, target.getZ(),
-                        3, 0.15D, 0.25D, 0.15D, 0.03D);
+                T2ElementalVfx.lightningPrimary(level,
+                        target.position().add(0.0D, target.getBbHeight() * 0.55D, 0.0D));
                 if (ElementalHitProgress.record(player.getUUID(), ElementalHitProgress.Weapon.LIGHTNING)) {
-                    level.sendParticles(ParticleTypes.ELECTRIC_SPARK, target.getX(), target.getY() + 1.0D,
-                            target.getZ(), 28, 0.5D, 0.8D, 0.5D, 0.12D);
+                    T2ElementalVfx.lightningProc(level,
+                            target.position().add(0.0D, target.getBbHeight() * 0.6D, 0.0D));
                     level.playSound(null, target.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT,
                             SoundSource.PLAYERS, 0.7F, 1.5F);
                 }
@@ -121,11 +121,7 @@ public final class ElementalSwordItem extends Item {
                     target.hurtServer(level, player.damageSources().playerAttack(player), 8.0F);
                 }
             }
-            for (double distance = 0.5D; distance <= 4.0D; distance += 0.5D) {
-                Vec3 point = start.add(facing.scale(distance));
-                level.sendParticles(ParticleTypes.ELECTRIC_SPARK, point.x, point.y, point.z,
-                        5, 0.22D, 0.22D, 0.22D, 0.08D);
-            }
+            T2ElementalVfx.lightningSlash(level, start, end, facing);
             level.playSound(null, player.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT,
                     SoundSource.PLAYERS, 0.9F, 1.7F);
             return true;

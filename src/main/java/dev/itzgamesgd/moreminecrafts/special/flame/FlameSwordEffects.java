@@ -1,6 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.special.flame;
 
-import net.minecraft.core.particles.ParticleTypes;
+import dev.itzgamesgd.moreminecrafts.special.vfx.T2ElementalVfx;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,10 +34,7 @@ public final class FlameSwordEffects {
                 nearby.hurtServer(level, attacker.damageSources().playerAttack(attacker), SWEEP_DAMAGE);
             }
         }
-        for (double lateral = -SWEEP_HALF_WIDTH; lateral <= SWEEP_HALF_WIDTH; lateral += 0.35D) {
-            level.sendParticles(ParticleTypes.FLAME,
-                    primaryTarget.getX() - forwardZ * lateral, primaryTarget.getY() + 0.7D,
-                    primaryTarget.getZ() + forwardX * lateral, 2, 0.08D, 0.25D, 0.08D, 0.015D);
-        }
+        T2ElementalVfx.fireSweep(level, primaryTarget.position().add(0.0D, 0.9D, 0.0D),
+                new net.minecraft.world.phys.Vec3(forwardX, 0.0D, forwardZ));
     }
 }

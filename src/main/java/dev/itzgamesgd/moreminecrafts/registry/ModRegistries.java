@@ -6,6 +6,7 @@ import dev.itzgamesgd.moreminecrafts.alchemy.ModAlchemy;
 import dev.itzgamesgd.moreminecrafts.worldgen.ModOreGeneration;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingChallenges;
 import dev.itzgamesgd.moreminecrafts.special.elemental.WaterDiveRuntime;
+import dev.itzgamesgd.moreminecrafts.special.elemental.EarthSeismicRuntime;
 import dev.itzgamesgd.moreminecrafts.special.ElementalHitProgress;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentRuntime;
@@ -26,6 +27,7 @@ public final class ModRegistries {
         ModOreGeneration.initialize();
         FishingChallenges.initialize();
         WaterDiveRuntime.initialize();
+        EarthSeismicRuntime.initialize();
         ElementalHitProgress.initialize();
         EquipmentAttachments.initialize();
         EquipmentRuntime.initialize();
