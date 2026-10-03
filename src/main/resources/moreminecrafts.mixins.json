@@ -19,6 +19,7 @@
     "SkeletonMixin",
     "CrossbowItemMixin",
     "InventoryMenuMixin",
+    "GreatswordInteractionMixin",
     "SleepingBagRespawnMixin",
     "BackpackDetachMixin",
     "ShieldItemMixin",
@@ -29,6 +30,8 @@
   },
   "client": [
     "FishingRodItemClientMixin",
-    "FishingRodInputClientMixin"
+    "FishingRodInputClientMixin",
+    "LanternSocketScreenMixin",
+    "LanternSocketRecipeScreenMixin"
   ]
 }

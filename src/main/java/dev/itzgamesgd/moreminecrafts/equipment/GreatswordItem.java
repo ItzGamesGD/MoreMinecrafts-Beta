@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public final class GreatswordItem extends BasicWeaponItem {
@@ -14,7 +15,18 @@ public final class GreatswordItem extends BasicWeaponItem {
 
     @Override public InteractionResult use(Level level, Player user, InteractionHand hand) {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
-        var attacker = (ServerPlayer) user;
+        return sweep((ServerPlayer) user);
+    }
+
+    @Override public InteractionResult interactLivingEntity(ItemStack stack, Player user,
+                                                            LivingEntity target, InteractionHand hand) {
+        // Client success stops startUseItem from also dispatching the air-use packet.
+        if (user.level().isClientSide()) return InteractionResult.SUCCESS;
+        return sweep((ServerPlayer) user);
+    }
+
+    private InteractionResult sweep(ServerPlayer attacker) {
+        Level level = attacker.level();
         var origin = attacker.getEyePosition();
         var direction = attacker.getLookAngle().multiply(1.0D, 0.0D, 1.0D).normalize();
         float strength = attacker.getAttackStrengthScale(0.5F);

@@ -27,6 +27,9 @@ jobs:
       - name: Build
         run: ./gradlew build
 
+      - name: Run server GameTests
+        run: ./gradlew runGameTest
+
       - name: Collect distributable mod JAR
         shell: bash
         run: |
@@ -172,3 +175,6 @@ jobs:
           fi
 
           echo "Client runtime smoke test passed."
+
+      - name: Run lower equipment client GameTest with LambDynamicLights
+        run: xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render" env LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe SDL_VIDEO_DRIVER=x11 SDL_VIDEO_FORCE_EGL=1 ./gradlew runClientGameTest

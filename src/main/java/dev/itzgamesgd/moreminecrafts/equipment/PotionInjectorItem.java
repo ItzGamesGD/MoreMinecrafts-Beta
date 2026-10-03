@@ -8,7 +8,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -28,8 +27,8 @@ public final class PotionInjectorItem extends Item {
     public static void open(ServerPlayer player, ItemStack injector) {
         var inventory = new ItemComponentContainer(injector, LowerEquipmentRules.INJECTOR_SLOTS);
         player.openMenu(new SimpleMenuProvider((id, playerInventory, ignored) ->
-                new ChestMenu(net.minecraft.world.inventory.MenuType.GENERIC_9x1, id, playerInventory,
-                        new PotionInjectorContainer(player, injector, inventory), 1),
+                new FilteredChestMenu(id, playerInventory,
+                        new PotionInjectorContainer(player, injector, inventory), LowerEquipmentRules.INJECTOR_SLOTS),
                 Component.translatable("container.moreminecrafts.potion_injector")));
     }
 
@@ -80,6 +79,7 @@ public final class PotionInjectorItem extends Item {
         @Override public boolean canPlaceItem(int slot, ItemStack stack) {
             return slot < 9 && ownsSource() && isUsablePotion(stack);
         }
+        @Override public void setChanged() { if (ownsSource()) backing.setChanged(); }
         @Override public int getMaxStackSize() { return 1; }
     }
 }

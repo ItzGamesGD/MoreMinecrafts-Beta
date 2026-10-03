@@ -5,7 +5,11 @@
   "name": "MoreMinecrafts Game Tests",
   "environment": "*",
   "entrypoints": {
-    "fabric-gametest": ["dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests"]
+    "fabric-gametest": [
+      "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",
+      "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests"
+    ],
+    "fabric-client-gametest": ["dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentClientGameTest"]
   },
   "depends": {
     "fabricloader": ">=0.19.5",

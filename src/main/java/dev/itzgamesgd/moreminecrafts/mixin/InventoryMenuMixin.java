@@ -20,9 +20,9 @@ abstract class InventoryMenuMixin extends AbstractContainerMenu {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void moreminecrafts$addLanternSocket(Inventory inventory, boolean active, Player player, CallbackInfo ci) {
-        // Keep the socket inside the vanilla inventory screen's clickable bounds.
+        Slot helmet = slots.get(5);
         var container = new LanternSlotContainer(player);
-        addSlot(new Slot(container, 0, 26, 8) {
+        addSlot(new Slot(container, 0, helmet.x - 18, helmet.y) {
             @Override public boolean mayPlace(ItemStack stack) { return stack.is(ModItems.MINER_LANTERN); }
             @Override public int getMaxStackSize() { return 1; }
         });
