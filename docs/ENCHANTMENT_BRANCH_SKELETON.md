@@ -12,7 +12,9 @@ That is **not** the target for MoreMinecrafts.
 
 MoreMinecrafts enchantments should primarily extend normal vanilla actions and equipment behavior. Legacy Paper enchantments are idea/reference material only unless explicitly retained below. Removed concepts may remain as historical ideas, but they are not current implementation requirements.
 
-Detailed recipes, acquisition, balance values, progression placement, resource dependencies, and unresolved cross-system behavior are outside this skeleton unless explicitly stated.
+Detailed custom-enchantment gameplay semantics remain in this skeleton.
+
+T1 acquisition/progression placement, compatibility policy, prerequisites, and XP-cost structure are now governed by `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`. Where that newer authority conflicts with this skeleton on those subjects, the T1 finalization wins.
 
 ## Current retained roster
 
@@ -136,13 +138,19 @@ Precision Flight is removed from the enchantment roster. The broader need for co
 
 This document does not design that Utility item.
 
-## Vanilla acquisition integration
+## T1 acquisition / progression integration
 
-All implemented custom enchantment books are intended to participate in the normal vanilla acquisition ecosystem, including appropriate **generated chest loot, fishing, villager trading, and other native enchanted-book/enchantment paths**.
+The former vanilla random-book acquisition direction is **superseded for T1 progression**.
 
-Initial probability/weight values may be provisional implementation values. Final acquisition-rate balancing is a later tuning task; provisional weights do not make the integration itself incomplete.
+Current authority is `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`:
 
-Do not create a separate custom enchantment shop, currency, or parallel acquisition system.
+- T1 enchantments are unlocked through an XP-funded per-equipment skill tree.
+- Ordinary unrelated nodes do not receive artificial prerequisite chains.
+- Mending follows Unbreaking III.
+- Compatibility is divided into free stacking, premium stacking, and true structural exclusion.
+- Do not restore a custom enchantment shop, custom enchantment currency, or random-book progression as a substitute.
+
+This section does not alter the gameplay semantics of the retained custom enchantments defined above.
 
 ## Open integration points
 
@@ -158,7 +166,7 @@ Do not infer:
 - final acquisition probability/weight balancing,
 - compatibility not explicitly stated or naturally supplied by vanilla mechanics,
 - resource/material costs,
-- progression placement,
+- progression placement except where explicitly defined by `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`,
 - Multi Catch's final Fishing behavior,
 - Laser Arrow's implementation/resource details from this skeleton,
 - elytra propulsion Utility behavior.
