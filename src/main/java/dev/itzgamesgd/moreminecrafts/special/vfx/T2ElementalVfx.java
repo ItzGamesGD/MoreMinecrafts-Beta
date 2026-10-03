@@ -115,7 +115,7 @@ public final class T2ElementalVfx {
     }
 
     public static void windBlade(ServerLevel level, Vec3 start, Vec3 facing, double range) {
-        Vec3 side = new Vec3(-facing.z, facing.x, 0.0D);
+        Vec3 side = new Vec3(-facing.z, 0.0D, facing.x);
         if (side.lengthSqr() < 1.0E-8D) side = new Vec3(1.0D, 0.0D, 0.0D);
         side = side.normalize();
         for (double distance = 0.9D; distance <= range; distance += 1.2D) {
