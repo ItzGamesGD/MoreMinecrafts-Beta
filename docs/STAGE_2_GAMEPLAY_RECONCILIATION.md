@@ -2,6 +2,17 @@
 
 Status: implementation reconciliation on the cumulative recovery line. This document records the current contract after comparing the Stage 11 implementation with the authoritative `MoreMinecrafts Enhancement 2.0 재설계안` in Google Drive. It does not claim live combat validation.
 
+
+## Stage 19 T2 acceptance state
+
+- **T2 IMPLEMENTATION: COMPLETE** — the implemented gameplay structures for Fire Sword, Water Sword, Wind Sword, Earth Mace, and Lightning Sword are integrated on Stage 19.
+- **T2 AUTOMATED ACCEPTANCE: PASS** — PR #66 passed Fabric CI #291. The run executed `./gradlew clean build`, all 3 required GameTests, JUnit, configured repository validators, and server/client smoke jobs, including registry initialization.
+- **T2 LIVE ACCEPTANCE: PENDING** — no interactive Minecraft test has been performed or is claimed. The gameplay checks below remain live-test debt.
+- **T2 VFX: DEFERRED** — final particles, visual assets, orientation and animation polish, hierarchy, and cosmetic timing/density are outside gameplay acceptance. Existing provisional VFX may remain in place.
+- **T2 BALANCE / FEEL TUNING: LIVE PENDING** — structural mechanics are accepted; combat feel and documented provisional values remain open to direct live tuning.
+
+Promotion on automated evidence does not claim that live acceptance occurred. Any later live failure should be handled as a focused post-checkpoint defect and does not change the historical fact that Stage 19 was promoted with live acceptance pending.
+
 ## Enhancement
 
 - Ordinary T1 and T2 Enhancement cap at +20. Milestones are +5, +10, +15, and +20; transitions are deterministic, with no chance, failure, pity, downgrade, destruction, random options, or promotion.
@@ -43,8 +54,25 @@ Fire, Wind, and Lightning progress remains server-memory state keyed by player U
 
 ## Validation and status
 
-- JUnit covers the family thresholds, family isolation, Lightning's cumulative threshold/reset, and progress cleanup policy.
-- The repo's existing Enhancement +20/milestone tests remain in force; no Enhancement mechanics were redesigned in this slice.
-- CI run #195 passed `./gradlew build` (JUnit plus configured Stage 6 and Flame Sword C1-A/C1-B validators), distributable JAR collection, server smoke, and client/resource smoke. No separate Fishing-specific validator is configured in the inherited workflow.
-- Server readiness was confirmed by `Done (4.993s)! For help, type help`; the fatal registry/datapack marker scan was clean. Client smoke created the Vulkan/llvmpipe backend, reloaded `moreminecrafts`, created `minecraft:textures/atlas/items.png-atlas`, and found no texture/model/decode/bake/stitch errors.
-- No live combat-feel or PvP claim is made. Client-side item presentation, movement, targeting, VFX hierarchy, multiplayer behavior, and balance tuning remain LIVE PENDING.
+### Automated evidence
+
+PR #66 was merged into the Stage 19 candidate from head `7e5dbd730e56d4f4c564e4833ae57bd98955b267`. Fabric CI #291 passed its PR merge candidate with `./gradlew clean build`. The run executed the configured JUnit suite, all 3 required GameTests, Fishing resource validation, Flame Sword production asset/resource validation, lower-equipment validation, and Stage 6 data validation. Server and client smoke jobs passed, and common/client registry initialization completed. This is automated acceptance evidence; it is not live gameplay acceptance.
+
+### Live acceptance — PENDING
+
+No interactive Minecraft client test is recorded. Live validation remains required for:
+
+- Fire's 10th-hit behavior, active combat, and PvP/allied filtering.
+- Water launch and dive feel, aimed movement, ground-contact impact, repeated activation, and cleanup under death, logout, dimension change, and timeout.
+- Wind's 10th-hit behavior, Wind Blade targeting and block clipping, and combat feel.
+- Earth's valid smash gate, impact-ground centering, radial wave, grounded eligibility, damage/Slowness/displacement, and active forward cone.
+- Lightning's fifth-hit proc/reset and Slash targeting/damage.
+- Shared family-switch and runtime cleanup behavior, server authority, and PvP/allied filtering in multiplayer.
+
+### VFX — DEFERRED
+
+Final custom VFX assets, particle/arc appearance and orientation, animation polish, visual hierarchy, cosmetic timing, and density remain deferred. Provisional effects already in the implementation may stay in place. VFX quality does not block T2 gameplay acceptance.
+
+### Balance / feel tuning — LIVE PENDING
+
+Water launch/dive velocities and impact tuning, Earth radius/damage/slow/displacement, Lightning Slash tuning, and other values marked provisional in code remain live-tunable. Their current values do not block structural gameplay acceptance.
