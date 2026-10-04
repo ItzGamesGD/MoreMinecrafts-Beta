@@ -58,7 +58,8 @@ Alchemy, Coating, Knowledge/Research, Trading-as-an-axis, and other explicitly d
 # 0A. Cross-system finalization
 
 - [OPEN] Complete a final dependency map after the active systems below are designed: material sinks -> recipes -> utility/equipment acquisition -> mobs/boss rewards -> T3/T4 access.
-- [OPEN] Decide the intended overall survival progression ordering without turning MoreMinecrafts into a separate linear RPG progression.
+- [DONE] Broad Early -> T1 -> T2 survival identity is fixed without turning MoreMinecrafts into a separate linear RPG tree: vanilla-first early game -> T1 `play Minecraft and grow` -> T2 active exploration/challenge acquisition.
+- [OPEN] Extend/close the survival progression ordering beyond T2 only after T3/T4 identities are separately designed.
 - [OPEN] After design closure, audit all current-authority documents for contradictions and remove/mark stale design debt.
 - [OPEN] Define the boundary between design constants and live-balance/implementation constants consistently across systems.
 - [DEFERRED] Knowledge / Research remains idea-only until explicitly promoted.
@@ -90,7 +91,7 @@ Current structural authority: `RESOURCE_MINING_MATERIALS_FINALIZATION.md` plus t
 
 # 2. Equipment Progression — T1/T2/T3/T4
 
-Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md` and applicable finalized equipment authority.
+Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md`, `EARLY_T1_T2_SURVIVAL_PROGRESSION_LOOP_CHECKPOINT.md`, and applicable finalized equipment authority.
 
 ## Already resolved
 
@@ -99,6 +100,11 @@ Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md` and applicable finalized
 - [DONE] T2 final seven-item roster.
 - [DONE] T2 active-skill input uses normal item/right-click semantics rather than old F/Shift+F route.
 - [DONE] T3 remains a separate Special-equipment category; T4 remains Endgame rather than a promotion chain.
+- [DONE] Early game remains vanilla-first; custom resources/options may appear lightly from roughly iron-era onward but must remain optional rather than forming a mandatory parallel tech tree.
+- [DONE] T1 identity: play ordinary Minecraft, gain XP/resources, and mature equipment through parallel Enhancement + XP Enchantment growth; no dedicated T1 boss gate.
+- [DONE] Enhancement Stone is a cheap/easy-to-craft supporting material sink from ordinary resources, not a rare exploration/boss progression gate; exact recipe remains open.
+- [DONE] XP is the primary T1 progression currency; keep meaningful costs and tune XP supply later rather than trivializing the growth tree. Vanilla XP/farms remain valid.
+- [DEFERRED] Future Quest system acts as fixed one-time challenge/achievement-like XP/resource supply and connective glue; no daily rotation, rerolls, or Quest-shop economy. Catalogue/rewards remain a dedicated later design pass.
 - [DONE] T1 vanilla-style weapon extensions finalized: Dagger / Greatsword / single non-tiered Gauntlet.
 - [DONE] Dagger core contract: ~2.5 reach, Hoe-level speed, ~65% same-tier Sword damage, no sweep, 1 Stick + 1 tier material.
 - [DONE] Greatsword core contract: vertical single-target left-click, diagonal +50% sweep-range right-click, Shield unavailable while equipped, Sword + 2 tier materials recipe.
@@ -108,6 +114,10 @@ Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md` and applicable finalized
 
 ## Remaining T2 design
 
+- [DONE] High-level T2 acquisition identity: active Exploration / Challenge -> Elemental Material or equivalent acquisition reward -> T2 equipment.
+- [DONE] Preferred vanilla-adjacent foundations include Pillager content, Trial Chambers, valuable exploration chests, and selectable harder Trial/wave challenges.
+- [DONE] T2 reward direction may combine random exploration/chest acquisition with guaranteed or higher-value rewards for harder selected Trial/wave content.
+- [OPEN] Finalize exact T2 acquisition contract: material identities, per-element mapping, loot tables/probabilities, Trial/wave mechanics, guaranteed thresholds, and recipe quantities.
 - [OPEN] Resolve Fire Sword vs Wind Sword passive identity overlap after/during dedicated combat design.
 - [OPEN] Design Dark Energy Staff gameplay identity and Enhancement profile; current registered item is only a placeholder.
 - [OPEN] Decide whether Wind Bow receives any homing/aim-correction mechanic and, if retained, its behavioral contract.
