@@ -18,6 +18,8 @@ import java.util.*;
 
 /** Native-style workstation tabs with compact, topology-derived enchantment nodes. */
 public final class EnchantingProgressionScreen extends AbstractContainerScreen<EnchantingProgressionMenu> {
+    private static final int GUI_WIDTH = 330;
+    private static final int GUI_HEIGHT = 360;
     private static final int TREE_PAGE_ROWS = 6;
     private static final int OPTION_PAGE_ROWS = 4;
     private static final int TREE_TOP = 76;
@@ -45,7 +47,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     private Button reset;
 
     public EnchantingProgressionScreen(EnchantingProgressionMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title, 330, 368);
+        super(menu, inventory, title, GUI_WIDTH, GUI_HEIGHT);
         inventoryLabelX = 78;
         inventoryLabelY = 270;
     }
@@ -305,11 +307,11 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
         super.extractBackground(g, mouseX, mouseY, delta);
         int x = leftPos, y = topPos;
-        g.fill(x, y, x + 330, y + 368, 0xFFC6C6C6);
+        g.fill(x, y, x + GUI_WIDTH, y + GUI_HEIGHT, 0xFFC6C6C6);
         g.fill(x + 2, y + 2, x + 328, y + 3, 0xFFFFFFFF);
-        g.fill(x + 2, y + 2, x + 3, y + 366, 0xFFFFFFFF);
-        g.fill(x + 327, y + 3, x + 328, y + 366, 0xFF555555);
-        g.fill(x + 2, y + 365, x + 328, y + 366, 0xFF555555);
+        g.fill(x + 2, y + 2, x + 3, y + GUI_HEIGHT - 2, 0xFFFFFFFF);
+        g.fill(x + GUI_WIDTH - 3, y + 3, x + GUI_WIDTH - 2, y + GUI_HEIGHT - 2, 0xFF555555);
+        g.fill(x + 2, y + GUI_HEIGHT - 3, x + GUI_WIDTH - 2, y + GUI_HEIGHT - 2, 0xFF555555);
         for (var slot : menu.slots) {
             if (!slot.isActive()) continue;
             int sx = x + slot.x - 1, sy = y + slot.y - 1;

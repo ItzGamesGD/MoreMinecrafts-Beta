@@ -100,6 +100,8 @@ public final class T1AnvilScreen extends AnvilScreen {
         if (mode() == 0) {
             // The result slot and arrow belong to the old material→output interaction. Keep only the two inputs.
             g.fill(leftPos + 99, topPos + 34, leftPos + 175, topPos + 71, 0xFFC6C6C6);
+            // The vanilla rename field is inactive in Enhancement mode; use its space for the two cost lines.
+            g.fill(leftPos + 55, topPos + 19, leftPos + 173, topPos + 35, 0xFFC6C6C6);
         }
     }
 
@@ -123,16 +125,15 @@ public final class T1AnvilScreen extends AnvilScreen {
             int xp = requirement.map(EnhancementOperation.Result::experienceCost).orElse(0);
             int stone = requirement.map(EnhancementOperation.Result::materialCost).orElse(0);
             if (!menu.getSlot(0).getItem().isEmpty() && current >= 20) {
-                g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 8, 6, 0xFF303030, false);
-                g.text(font, Component.translatable("menu.moreminecrafts.enhancement_maximum"), 8, 18, 0xFF555555, false);
+                g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, 0xFF303030, false);
             } else {
-                g.text(font, Component.literal("+" + current + " → +" + target), 8, 6, 0xFF303030, false);
+                g.text(font, Component.literal("+" + current + " → +" + target), 62, 6, 0xFF303030, false);
                 g.text(font, Component.translatable("menu.moreminecrafts.enhancement_cost_line",
-                        NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 8, 18, 0xFF303030, false);
+                        NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, 0xFF303030, false);
             }
         } else {
             g.text(font, Component.translatable("menu.moreminecrafts.xp_amount",
-                    NumberFormat.getIntegerInstance(Locale.ROOT).format(menu.getCost())), 8, 6, 0xFF303030, false);
+                    NumberFormat.getIntegerInstance(Locale.ROOT).format(menu.getCost())), 62, 6, 0xFF303030, false);
         }
     }
 }
