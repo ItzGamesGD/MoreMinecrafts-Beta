@@ -42,7 +42,11 @@ The Stage 19 checkpoint records four separate T2 acceptance states:
 
 Current broader equipment authority: [Equipment Progression Finalization](EQUIPMENT_PROGRESSION_FINALIZATION.md), except where Stage 2 explicitly supersedes its historical T2/Enhancement sections.
 
+Current early-game / T1 / high-level T2 survival progression-loop checkpoint: [Early / T1 / T2 Survival Progression Loop Checkpoint](EARLY_T1_T2_SURVIVAL_PROGRESSION_LOOP_CHECKPOINT.md).
+
 The current T1 vanilla-style expansion recorded there adds Dagger, Greatsword, and a single non-tiered Gauntlet as ordinary/basic weapon extensions rather than a T1.5 active-skill system.
+
+The progression-loop checkpoint is authoritative for the vanilla-first early game, T1 `play Minecraft and grow` identity, Enhancement Stone's cheap supporting-material role, XP-supply philosophy, deferred one-time Quest role, and the high-level T2 `exploration/challenge -> elemental acquisition -> T2 equipment` direction. Exact Quest content and T2 loot/encounter rules remain open.
 
 ### Utility equipment
 
