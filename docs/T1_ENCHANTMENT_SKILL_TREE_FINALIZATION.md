@@ -261,7 +261,21 @@ Lunge is independent and has no artificial prerequisite.
 
 Mechanically impossible Spear combinations remain structurally exclusive.
 
-### 5.10 Bow
+### 5.10 Trident
+
+- Impaling I -> II -> III -> IV -> V
+- Loyalty I -> II -> III
+- Riptide I -> II -> III
+- Channeling
+- Unbreaking I -> II -> III -> Mending
+
+Rules:
+
+- Trident combinations that are mechanically impossible to execute together remain **structural exclusions**.
+- Do not relax a true movement/return/channeling mechanical conflict merely because the global compatibility policy relaxes balance-only vanilla exclusions.
+- Ordinary compatible Trident branches remain governed by the global free/premium/structural compatibility model.
+
+### 5.11 Bow
 
 - Power I -> II -> III -> IV -> V
 - Power III -> Multi Shot I -> Multi Shot II
@@ -278,7 +292,7 @@ Rules:
 - Multi Shot retains its current authority: level I = 3 arrows; level II = 5 arrows with narrower spread.
 - Laser Arrow's implementation/resource/VFX task remains deferred even though its skill-tree placement is now fixed.
 
-### 5.11 Crossbow
+### 5.12 Crossbow
 
 - Quick Charge I -> II -> III
 - Quick Charge III -> Crossbow Barrage
@@ -294,7 +308,7 @@ Rules:
 - Piercing + Crossbow Barrage is allowed.
 - Crossbow Barrage retains its current gameplay authority: one charge produces a timed sequential 3-shot barrage; a full barrage consumes 3 ammunition and durability equivalent to 3 uses.
 
-### 5.12 Helmet
+### 5.13 Helmet
 
 - Protection I -> II -> III -> IV
 - Fire Protection I -> II -> III -> IV
@@ -308,7 +322,7 @@ Respiration and Aqua Affinity are independent.
 
 Protection families use premium stacking.
 
-### 5.13 Chestplate
+### 5.14 Chestplate
 
 - Protection I -> II -> III -> IV
 - Fire Protection I -> II -> III -> IV
@@ -320,7 +334,7 @@ No custom Chestplate enchantment is added in this pass.
 
 Backpack/chest attachment remains a separate equipment/utility system and is not an enchantment-tree node.
 
-### 5.14 Leggings
+### 5.15 Leggings
 
 - Protection I -> II -> III -> IV
 - Fire Protection I -> II -> III -> IV
@@ -331,7 +345,7 @@ Backpack/chest attachment remains a separate equipment/utility system and is not
 
 No custom Leggings enchantment is added in this pass.
 
-### 5.15 Boots
+### 5.16 Boots
 
 - Protection I -> II -> III -> IV
 - Fire Protection I -> II -> III -> IV
@@ -352,7 +366,7 @@ Rules:
 
 **Jet Boots note:** Jet Boots remains a retained enchantment in the current skeleton, but its exact placement in the new XP skill tree was not explicitly finalized in this design pass. Do not silently delete it or invent its prerequisite/cost placement.
 
-### 5.16 Elytra
+### 5.17 Elytra
 
 - Unbreaking I -> II -> III -> Mending
 - Elytra Launch as an independent high-cost special node from START
@@ -361,13 +375,13 @@ Elytra Launch has no prerequisite. Its strength is controlled by its high XP cos
 
 Its Shift + Jump gameplay semantics and input priority remain governed by `ENCHANTMENT_BRANCH_SKELETON.md`.
 
-### 5.17 Shield
+### 5.18 Shield
 
 - Unbreaking I -> II -> III -> Mending
 
 No custom Shield enchantment is added in this pass.
 
-### 5.18 Fishing Rod
+### 5.19 Fishing Rod
 
 - Luck of the Sea I -> II -> III
 - Lure I -> II -> III
@@ -387,6 +401,8 @@ The following are deliberately not invented here:
 - Multi Catch's final Fishing integration and therefore its exact skill-tree placement.
 - Jet Boots' exact skill-tree prerequisite/cost placement.
 - Sword Looting's exact placement, because it was not explicitly placed in the approved Sword tree discussion.
+- Chestplate Thorns placement. Its omission from the bulk armor pass must not be interpreted as a confirmed deletion.
+- Exact persistence/binding semantics for the skill tree where implementation needs to distinguish physical-item state from any player/category-wide state.
 - Exact reset/respec interaction and cost.
 - Final per-node numeric costs where only a cost class/range was approved.
 - Future Quest catalogue and reward amounts.
@@ -395,19 +411,40 @@ These gaps must not be filled by guessing during implementation.
 
 ---
 
-## 7. Superseded acquisition rule
+## 7. Superseded acquisition rule and Enchanted Book boundary
 
-The old rule in `ENCHANTMENT_BRANCH_SKELETON.md` that all implemented custom enchantment books participate in normal vanilla generated chest loot, fishing, villager trading, and other native enchanted-book acquisition paths is **superseded for the T1 progression model**.
+The old rule in `ENCHANTMENT_BRANCH_SKELETON.md` that random/generated Enchanted Books are a primary route for acquiring T1 enchantments is **superseded**.
 
-The current direction is the XP-funded equipment skill tree defined here.
+The current primary route is the XP-funded equipment skill tree defined here.
 
-Do not implement a separate enchantment shop, custom enchantment currency, or random-book acquisition system as a substitute.
+The old `Enchanted Book + Anvil -> directly apply the enchantment to equipment` progression path must not remain as a bypass around the XP tree.
+
+Enchanted Book items are not necessarily deleted as a class. The approved current checkpoint is `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md`:
+
+- eligible retained books may become a small **Book Option** optimization layer rather than granting the primary enchantment;
+- one application establishes a fixed base Option;
+- higher-level books may add an additional level bonus on top of that same base Option;
+- changing/removing the applied Option requires a dedicated reset resource;
+- books that cannot support a meaningful Option may have their itemized Enchanted Book variant removed;
+- the exact retained/deleted book roster, Option values, bonus formula, slot model, reset resource, and Librarian supply table remain OPEN.
+
+Do not implement a separate enchantment shop, custom enchantment currency, random-book progression, or book-based XP-tree bypass as a substitute.
 
 ---
 
-## 8. Implementation boundary
+## 8. Villager integration boundary
 
-This authority is sufficient to implement the approved tree framework and the explicitly placed equipment/enchantment nodes, subject to the unresolved items in section 6.
+Targeted changes to vanilla villager trading are **not** the same as promoting Trading into a new independent gameplay axis.
+
+Current villager-trade status is governed by `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md`.
+
+In particular, Armorer / Weaponsmith / Toolsmith equipment sales and the final Librarian book table remain design blockers for their respective trade changes. Do not invent those solutions inside enchantment implementation.
+
+---
+
+## 9. Implementation boundary
+
+This authority is sufficient to implement the approved XP-tree framework and the explicitly placed equipment/enchantment nodes, subject to the unresolved items in section 6. The Book Option/villager checkpoint is architectural authority but is **not yet numerically implementation-ready**.
 
 Implementation must preserve:
 
@@ -416,6 +453,7 @@ Implementation must preserve:
 - premium-stacking behavior,
 - expensive XP progression,
 - the separate Enhancement +0 -> +20 axis,
-- separation of Fishing modules and Utility equipment from enchantment nodes.
+- separation of Fishing modules and Utility equipment from enchantment nodes,
+- no direct Enchanted Book/anvil bypass around the XP skill tree.
 
-Do not use implementation work to invent Quest content, T2 acquisition, unresolved custom-enchantment behavior, or missing tree placements.
+Do not use implementation work to invent Quest content, T2 acquisition, unresolved custom-enchantment behavior, missing tree placements, Book Option numerics/roster, reset-resource design, or unresolved villager trade replacements.
