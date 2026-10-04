@@ -12,6 +12,19 @@ import net.minecraft.world.item.component.Weapon;
 
 public final class WeaponProperties {
     private WeaponProperties() {}
+    public static Item.Properties tierProperties(Item.Properties properties, WeaponBalance.Tier tier) {
+        var material = switch(tier) {
+            case WOOD -> net.minecraft.world.item.ToolMaterial.WOOD;
+            case STONE -> net.minecraft.world.item.ToolMaterial.STONE;
+            case COPPER -> net.minecraft.world.item.ToolMaterial.COPPER;
+            case IRON -> net.minecraft.world.item.ToolMaterial.IRON;
+            case GOLD -> net.minecraft.world.item.ToolMaterial.GOLD;
+            case DIAMOND -> net.minecraft.world.item.ToolMaterial.DIAMOND;
+            case NETHERITE -> net.minecraft.world.item.ToolMaterial.NETHERITE;
+        };
+        return properties.durability(material.durability()).repairable(material.repairItems())
+                .component(DataComponents.WEAPON, new Weapon(1));
+    }
     public static Item.Properties create(net.minecraft.resources.ResourceKey<Item> key, float damage,
                                          float attacksPerSecond, float reach) {
         var attributes = ItemAttributeModifiers.builder()

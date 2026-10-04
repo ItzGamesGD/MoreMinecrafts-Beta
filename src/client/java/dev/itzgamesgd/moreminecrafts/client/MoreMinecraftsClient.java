@@ -40,6 +40,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
+        MenuScreens.register(ModMenuTypes.ENCHANTING_PROGRESSION, EnchantingProgressionScreen::new);
+        MenuScreens.register(net.minecraft.world.inventory.MenuType.ANVIL, T1AnvilScreen::new);
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             boolean jump = client.options.keyJump.isDown();
             if (jump && !jumpHeld && client.getConnection() != null) {

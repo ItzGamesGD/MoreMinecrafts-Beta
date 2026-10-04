@@ -124,6 +124,13 @@ public final class EnchantmentRuntime {
                     ? EnchantmentMath.lumberDurability(total,
                             ModEnchantments.level(level, operation.tool(), Enchantments.UNBREAKING))
                     : EnchantmentMath.veinDurability(total, operation.level());
+            int option = dev.itzgamesgd.moreminecrafts.progression.T1Operations.option(operation.tool(), "unbreaking");
+            if (option > 0 && operation.lumber()) {
+                int unbreaking = ModEnchantments.level(level, operation.tool(), Enchantments.UNBREAKING);
+                cost = (int) Math.ceil(total * Math.max(0, 1.0 / (unbreaking + 1) - .05 * option));
+            } else if (option > 0) {
+                cost = (int) Math.ceil(cost * (1 - .05 * option));
+            }
             applyExactDurability(operation.tool(), cost, serverPlayer);
         }
         finishReplant(serverLevel, serverPlayer);

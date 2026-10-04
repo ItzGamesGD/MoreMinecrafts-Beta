@@ -50,5 +50,18 @@
   "tooltip.moreminecrafts.enhancement.effect.ranged_damage": "발사체 피해: %s",
   "tooltip.moreminecrafts.enhancement.effect.damage_reduction": "피해 감소: %s",
   "tooltip.moreminecrafts.enhancement.effect.tool_efficiency": "채굴 속도: %s",
-  "tooltip.moreminecrafts.enhancement.milestones": "달성 이정표: %s / %s"
+  "tooltip.moreminecrafts.enhancement.milestones": "달성 이정표: %s / %s",
+  "menu.moreminecrafts.enchantment": "인챈트",
+  "menu.moreminecrafts.book_option": "옵션 부여",
+  "menu.moreminecrafts.apply_option": "옵션 부여",
+  "menu.moreminecrafts.reset": "초기화",
+  "menu.moreminecrafts.reset_materials": "다이아몬드 ×1 + 미스릴 ×1 + 네더라이트 주괴 ×1 + 아다만티움 주괴 ×1",
+  "menu.moreminecrafts.enhancement": "강화",
+  "menu.moreminecrafts.normal_anvil": "일반 모루",
+  "menu.moreminecrafts.book_combine": "인챈트 북 합성",
+  "menu.moreminecrafts.insert_equipment": "장비를 넣으세요",
+  "menu.moreminecrafts.maximum": "최대",
+  "menu.moreminecrafts.prerequisite": "잠김",
+  "menu.moreminecrafts.conflict": "충돌",
+  "menu.moreminecrafts.equipment": "장비"
 }

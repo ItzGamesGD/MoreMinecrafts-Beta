@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": ["minecraft:iron_ingot", "minecraft:lapis_lazuli", "minecraft:cobblestone", "minecraft:cobblestone"],
+  "result": {"id": "moreminecrafts:enhancement_stone", "count": 4}
+}

@@ -131,5 +131,18 @@
   "container.moreminecrafts.portable_furnace": "Portable Furnace",
   "container.moreminecrafts.mining_drill": "Mining Drill",
   "container.moreminecrafts.backpack": "Backpack",
-  "container.moreminecrafts.fish_trap": "Fish Trap"
+  "container.moreminecrafts.fish_trap": "Fish Trap",
+  "menu.moreminecrafts.enchantment": "Enchantment",
+  "menu.moreminecrafts.book_option": "Book Option",
+  "menu.moreminecrafts.apply_option": "Apply Option",
+  "menu.moreminecrafts.reset": "Reset",
+  "menu.moreminecrafts.reset_materials": "Diamond ×1 + Mythril ×1 + Netherite Ingot ×1 + Adamantium Ingot ×1",
+  "menu.moreminecrafts.enhancement": "Enhance",
+  "menu.moreminecrafts.normal_anvil": "Anvil",
+  "menu.moreminecrafts.book_combine": "Combine Books",
+  "menu.moreminecrafts.insert_equipment": "Insert equipment",
+  "menu.moreminecrafts.maximum": "Max",
+  "menu.moreminecrafts.prerequisite": "Locked",
+  "menu.moreminecrafts.conflict": "Conflict",
+  "menu.moreminecrafts.equipment": "Equipment"
 }

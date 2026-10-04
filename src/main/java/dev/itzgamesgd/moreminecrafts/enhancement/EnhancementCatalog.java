@@ -31,7 +31,14 @@ public final class EnhancementCatalog {
     }
 
     static Optional<EnhancementDefinition> customDefinition(Identifier id) {
-        return Optional.ofNullable(CUSTOM.get(id));
+        EnhancementDefinition existing = CUSTOM.get(id);
+        if (existing != null) return Optional.of(existing);
+        if (id.getNamespace().equals("moreminecrafts") && java.util.Arrays.stream(
+                dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.values()).anyMatch(tier ->
+                id.getPath().equals(tier.name().toLowerCase(java.util.Locale.ROOT) + "_dagger")
+                || id.getPath().equals(tier.name().toLowerCase(java.util.Locale.ROOT) + "_greatsword")))
+            return Optional.of(definition(EnhancementCategory.VANILLA, EnhancementProfile.SWORD));
+        return Optional.empty();
     }
 
     private static Map<Item, EnhancementDefinition> createVanillaDefinitions() {

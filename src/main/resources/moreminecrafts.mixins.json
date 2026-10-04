@@ -22,7 +22,17 @@
     "SleepingBagRespawnMixin",
     "BackpackDetachMixin",
     "ShieldItemMixin",
-    "LanternDeathMixin"
+    "LanternDeathMixin",
+    "AnvilButtonsMixin",
+    "T1LootMixin",
+    "T1VillagerMixin",
+    "T1MobSupplyMixin",
+    "BookOptionEnchantmentMixin",
+    "BookOptionIgniteMixin",
+    "BookOptionProtectionMixin",
+    "BookOptionAttributesMixin",
+    "BookOptionTooltipMixin",
+    "EnchantingTableBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
