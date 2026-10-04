@@ -6,6 +6,8 @@ Baseline: `stage-19/checkpoint` @ `984418d302cf865b5654fac0a0dcb28449fb6118`
 
 This document records the human-approved T1 enchantment progression redesign finalized after the Stage 19 progression audit.
 
+The broader early-game / T1 / T2 survival progression identity is governed by `EARLY_T1_T2_SURVIVAL_PROGRESSION_LOOP_CHECKPOINT.md`.
+
 It supersedes the acquisition/progression portions of `ENCHANTMENT_BRANCH_SKELETON.md` where they conflict. The retained custom-enchantment gameplay semantics in that skeleton remain authoritative unless this document explicitly changes them.
 
 Implementation is **not** authorized merely by this document. It records design authority.
