@@ -15,9 +15,9 @@ public final class EnchantingProgressionMenu extends AbstractContainerMenu {
     public EnchantingProgressionMenu(int id,Inventory inventory){this(id,inventory,ContainerLevelAccess.NULL);}
     public EnchantingProgressionMenu(int id,Inventory inventory,ContainerLevelAccess access) {
         super(ModMenuTypes.ENCHANTING_PROGRESSION,id);this.access=access;addDataSlot(mode);
-        addSlot(new Slot(inputs,0,12,46){@Override public boolean mayPlace(ItemStack stack){return EquipmentTreeResolver.resolve(stack)!=EnchantmentTrees.Equipment.NONE;}@Override public int getMaxStackSize(){return 1;}});
-        addSlot(new Slot(inputs,1,12,74){@Override public boolean mayPlace(ItemStack stack){return T1Operations.book(stack).isPresent();}});
-        addStandardInventorySlots(inventory,78,202);
+        addSlot(new Slot(inputs,0,12,42){@Override public boolean mayPlace(ItemStack stack){return EquipmentTreeResolver.resolve(stack)!=EnchantmentTrees.Equipment.NONE;}@Override public int getMaxStackSize(){return 1;}});
+        addSlot(new Slot(inputs,1,136,42){@Override public boolean mayPlace(ItemStack stack){return T1Operations.book(stack).isPresent();}@Override public boolean isActive(){return mode.get()==1;}});
+        addStandardInventorySlots(inventory,78,282);
     }
     public int mode(){return mode.get();}
     public java.util.List<EnchantmentTrees.Node> tree(){return EnchantmentTrees.tree(EquipmentTreeResolver.resolve(inputs.getItem(0)));}
@@ -36,7 +36,7 @@ public final class EnchantingProgressionMenu extends AbstractContainerMenu {
         if(index<0||index>=slots.size())return ItemStack.EMPTY;Slot slot=slots.get(index);if(!slot.hasItem())return ItemStack.EMPTY;
         ItemStack stack=slot.getItem(),copy=stack.copy();
         if(index<2){if(!moveItemStackTo(stack,2,slots.size(),true))return ItemStack.EMPTY;}
-        else {int target=T1Operations.book(stack).isPresent()?1:0;if(!slots.get(target).mayPlace(stack)||!moveItemStackTo(stack,target,target+1,false))return ItemStack.EMPTY;}
+        else {int target=T1Operations.book(stack).isPresent()?1:0;if(target==1&&mode()!=1)return ItemStack.EMPTY;if(!slots.get(target).mayPlace(stack)||!moveItemStackTo(stack,target,target+1,false))return ItemStack.EMPTY;}
         if(stack.isEmpty())slot.setByPlayer(ItemStack.EMPTY);else slot.setChanged();return copy;
     }
 }

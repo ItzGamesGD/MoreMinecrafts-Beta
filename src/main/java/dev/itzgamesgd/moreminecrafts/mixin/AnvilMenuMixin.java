@@ -23,7 +23,12 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
     @Override public boolean moreminecrafts$button(Player player,int action){
         if(player.level().isClientSide()||!stillValid(player))return false;
         if(action>=0&&action<=2){moreminecrafts$mode.set(action);((AnvilMenu)(Object)this).createResult();return true;}
-        if(action==3&&getSlot(2).hasItem()&&getSlot(2).mayPickup(player)){quickMoveStack(player,2);return true;}
+        if(action==3&&moreminecrafts$mode()==0){
+            boolean changed=EnhancementOperation.apply(player,getSlot(0).getItem(),getSlot(1).getItem());
+            if(changed){inputSlots.setChanged();cost.set(0);repairItemCountCost=0;((AnvilMenu)(Object)this).createResult();}
+            return changed;
+        }
+        if(action==3&&moreminecrafts$mode()==2&&getSlot(2).hasItem()&&getSlot(2).mayPickup(player)){quickMoveStack(player,2);return true;}
         return false;
     }
     @Inject(method="createResult",at=@At("HEAD"),cancellable=true)
@@ -35,10 +40,7 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
             }return;
         }
         if(moreminecrafts$mode()==0){
-            var preview=EnhancementOperation.preview(equipment,addition);
-            getSlot(2).set(preview.map(EnhancementOperation.Result::stack).orElse(ItemStack.EMPTY));
-            cost.set(preview.map(EnhancementOperation.Result::experienceLevelCost).orElse(0));
-            repairItemCountCost=preview.map(EnhancementOperation.Result::materialCost).orElse(0);
+            getSlot(2).set(ItemStack.EMPTY);cost.set(0);repairItemCountCost=0;
         }else {
             var result=T1Operations.combine(player,equipment,addition);
             getSlot(2).set(result.orElse(ItemStack.EMPTY));cost.set(result.map(T1Operations::combineCost).orElse(0));repairItemCountCost=1;
@@ -66,7 +68,8 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
     }
     @Inject(method="mayPickup",at=@At("HEAD"),cancellable=true)
     private void moreminecrafts$bookPayment(Player player,boolean hasItem,CallbackInfoReturnable<Boolean> cir){
-        if(moreminecrafts$mode()==2)cir.setReturnValue(hasItem&&cost.get()>0&&RawXp.canPay(player,cost.get()));
+        if(moreminecrafts$mode()==0)cir.setReturnValue(false);
+        else if(moreminecrafts$mode()==2)cir.setReturnValue(hasItem&&cost.get()>0&&RawXp.canPay(player,cost.get()));
     }
     @Inject(method="onTake",at=@At("HEAD"),cancellable=true)
     private void moreminecrafts$takeBook(Player player,ItemStack carried,CallbackInfo ci){

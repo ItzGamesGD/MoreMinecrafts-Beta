@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 import java.lang.reflect.Method;
 import java.util.*;
+import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.registry.*;
 import net.fabricmc.fabric.api.gametest.v1.*;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -35,12 +36,28 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         for(Item item:List.of(Items.DIAMOND,ModItems.MYTHRIL,Items.NETHERITE_INGOT,ModItems.ADAMANTIUM_INGOT))ctx.assertTrue(player.getInventory().countItem(item)==0,"reset consumes each material");
         ctx.succeed();
     }
+    @GameTest public void enchantingMenuKeepsModesAndInventoryStable(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var menu=new EnchantingProgressionMenu(3,player.getInventory());
+        menu.getSlot(0).set(new ItemStack(Items.DIAMOND_SWORD));
+        var source=book(player,"minecraft:sharpness",3);
+        player.getInventory().setItem(9,source.copy());
+        int inventoryX=menu.getSlot(2).x,inventoryY=menu.getSlot(2).y;
+        ctx.assertTrue(menu.tree().stream().anyMatch(node->node.id().equals("minecraft:sharpness")),"equipment selects the Sword tree");
+        ctx.assertTrue(!menu.getSlot(1).isActive(),"Book input is hidden in Enchantment mode");
+        ctx.assertTrue(menu.quickMoveStack(player,2).isEmpty()&&menu.getSlot(1).getItem().isEmpty(),"hidden Book input cannot receive quick-moved books");
+        ctx.assertTrue(menu.clickMenuButton(player,1)&&menu.getSlot(1).isActive(),"Book Option mode exposes its compatible book slot");
+        ctx.assertTrue(menu.quickMoveStack(player,2).getItem()==Items.ENCHANTED_BOOK,"eligible book moves into the visible input");
+        ctx.assertTrue(T1Operations.book(menu.getSlot(1).getItem()).orElseThrow().id().equals("minecraft:sharpness"),"book input contains the compatible source book");
+        ctx.assertTrue(menu.getSlot(2).x==inventoryX&&menu.getSlot(2).y==inventoryY,"player inventory placement stays fixed across tabs");
+        ctx.succeed();
+    }
     @GameTest public void anvilModesAndBookCombination(GameTestHelper ctx){
         var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);player.giveExperiencePoints(10000);
         var menu=new AnvilMenu(1,player.getInventory());var modes=(T1AnvilModes)menu;
         menu.getSlot(0).set(new ItemStack(Items.DIAMOND_SWORD));menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE));menu.createResult();
-        ctx.assertTrue(menu.getSlot(2).hasItem(),"enhancement accepts stone");
-        menu.getSlot(1).set(new ItemStack(Items.DIRT));menu.createResult();ctx.assertTrue(!menu.getSlot(2).hasItem(),"enhancement rejects unrelated materials");
+        ctx.assertTrue(!menu.getSlot(2).hasItem(),"Enhance mode has no result slot item");
+        menu.getSlot(1).set(new ItemStack(Items.DIRT));menu.createResult();ctx.assertTrue(!menu.getSlot(2).hasItem(),"Enhance never produces output from unrelated materials");
         modes.moreminecrafts$button(player,1);menu.getSlot(1).set(book(player,"minecraft:sharpness",1));menu.createResult();
         ctx.assertTrue(!menu.getSlot(2).hasItem(),"normal anvil blocks direct book enchantment");
         modes.moreminecrafts$button(player,2);menu.getSlot(0).set(book(player,"minecraft:sharpness",1));menu.getSlot(1).set(book(player,"minecraft:sharpness",1));menu.createResult();
@@ -48,6 +65,40 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         int before=RawXp.available(player);menu.getSlot(2).onTake(player,menu.getSlot(2).getItem().copy());
         ctx.assertTrue(RawXp.available(player)==before-200,"book combination pays raw XP exactly once");
         ctx.assertTrue(menu.getSlot(0).getItem().isEmpty()&&menu.getSlot(1).getItem().isEmpty(),"combination consumes inputs");
+        ctx.succeed();
+    }
+    @GameTest public void enhancementButtonMutatesInputAndSupportsConsecutiveUses(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);player.giveExperiencePoints(200);
+        var menu=new AnvilMenu(1,player.getInventory());var modes=(T1AnvilModes)menu;
+        menu.getSlot(0).set(new ItemStack(Items.DIAMOND_SWORD));
+        menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,2));
+        menu.createResult();
+        int before=RawXp.available(player);
+        ctx.assertTrue(modes.moreminecrafts$button(player,3),"first Enhance click succeeds");
+        ctx.assertTrue(EnhancementOperation.level(menu.getSlot(0).getItem())==1,"equipment remains in its input slot at +1");
+        ctx.assertTrue(menu.getSlot(1).getItem().getCount()==1,"first click consumes one stone from the input stack");
+        ctx.assertTrue(menu.getSlot(2).getItem().isEmpty(),"Enhance mode does not create a result item");
+        ctx.assertTrue(RawXp.available(player)==before-1,"first click consumes the existing one-point XP cost as raw XP");
+        ctx.assertTrue(modes.moreminecrafts$button(player,3),"second Enhance click succeeds without reinsertion");
+        ctx.assertTrue(EnhancementOperation.level(menu.getSlot(0).getItem())==2,"same input equipment advances a second step");
+        ctx.assertTrue(menu.getSlot(1).getItem().isEmpty(),"second click consumes the remaining stone");
+        ctx.assertTrue(RawXp.available(player)==before-2,"each click consumes its raw XP cost once");
+
+        menu.getSlot(0).getItem().set(ModDataComponents.ENHANCEMENT_LEVEL,20);
+        menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,1));
+        int atMaximum=RawXp.available(player);
+        ctx.assertTrue(!modes.moreminecrafts$button(player,3),"+20 rejects another enhancement");
+        ctx.assertTrue(menu.getSlot(1).getItem().getCount()==1,"rejected maximum-level action keeps its stone");
+        ctx.assertTrue(RawXp.available(player)==atMaximum,"rejected maximum-level action keeps XP");
+
+        var poorPlayer=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var poorMenu=new AnvilMenu(2,poorPlayer.getInventory());var poorModes=(T1AnvilModes)poorMenu;
+        poorMenu.getSlot(0).set(new ItemStack(Items.IRON_SWORD));
+        poorMenu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,1));
+        ctx.assertTrue(!poorModes.moreminecrafts$button(poorPlayer,3),"insufficient raw XP rejects the transaction");
+        ctx.assertTrue(EnhancementOperation.level(poorMenu.getSlot(0).getItem())==0
+                &&poorMenu.getSlot(1).getItem().getCount()==1,"insufficient XP preserves equipment and stone");
+        ctx.assertTrue(RawXp.available(poorPlayer)==0,"insufficient XP remains unchanged");
         ctx.succeed();
     }
     @GameTest public void supplyFilteringAndSmithInputs(GameTestHelper ctx){
