@@ -149,6 +149,8 @@ Current authority is `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`:
 - Mending follows Unbreaking III.
 - Compatibility is divided into free stacking, premium stacking, and true structural exclusion.
 - Do not restore a custom enchantment shop, custom enchantment currency, or random-book progression as a substitute.
+- Do not preserve the old Enchanted Book + Anvil path as a direct bypass around the XP tree.
+- Enchanted Book item reuse, Book Options, and villager integration are governed by `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md`. Some books may remain as secondary Option materials; others may be removed after classification.
 
 This section does not alter the gameplay semantics of the retained custom enchantments defined above.
 
