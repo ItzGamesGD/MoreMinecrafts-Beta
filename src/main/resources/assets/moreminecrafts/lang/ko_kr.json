@@ -63,5 +63,7 @@
   "menu.moreminecrafts.maximum": "최대",
   "menu.moreminecrafts.prerequisite": "잠김",
   "menu.moreminecrafts.conflict": "충돌",
-  "menu.moreminecrafts.equipment": "장비"
+  "menu.moreminecrafts.equipment": "장비",
+  "menu.moreminecrafts.xp_cost_base": "총 비용: %1$s XP",
+  "menu.moreminecrafts.xp_cost_total": "총 비용: %1$s XP\n기본 비용: %2$s XP\n추가 계열 프리미엄: +%3$s XP"
 }

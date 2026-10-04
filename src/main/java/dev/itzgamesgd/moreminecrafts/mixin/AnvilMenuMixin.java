@@ -71,9 +71,15 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
     @Inject(method="onTake",at=@At("HEAD"),cancellable=true)
     private void moreminecrafts$takeBook(Player player,ItemStack carried,CallbackInfo ci){
         if(moreminecrafts$mode()!=2)return;
-        RawXp.pay(player,cost.get());
+        if(player.level().isClientSide()){ci.cancel();return;}
+        if(!RawXp.pay(player,cost.get())){
+            getSlot(2).set(carried.copy());
+            broadcastChanges();
+            ci.cancel();
+            return;
+        }
         inputSlots.getItem(0).shrink(1);inputSlots.getItem(1).shrink(1);cost.set(0);
         inputSlots.setChanged();((AnvilMenu)(Object)this).createResult();
-        access.execute((level,pos)->level.levelEvent(1030,pos,0));ci.cancel();
+        T1AnvilUse.complete(access,player,player.getRandom()::nextDouble);ci.cancel();
     }
 }

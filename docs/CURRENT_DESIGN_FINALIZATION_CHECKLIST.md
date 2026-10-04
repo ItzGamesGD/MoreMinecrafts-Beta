@@ -102,7 +102,8 @@ Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md`, `EARLY_T1_T2_SURVIVAL_P
 - [DONE] T3 remains a separate Special-equipment category; T4 remains Endgame rather than a promotion chain.
 - [DONE] Early game remains vanilla-first; custom resources/options may appear lightly from roughly iron-era onward but must remain optional rather than forming a mandatory parallel tech tree.
 - [DONE] T1 identity: play ordinary Minecraft, gain XP/resources, and mature equipment through parallel Enhancement + XP Enchantment growth; no dedicated T1 boss gate.
-- [DONE] Enhancement Stone is a cheap/easy-to-craft supporting material sink from ordinary resources, not a rare exploration/boss progression gate; exact recipe remains open.
+- [DONE] Enhancement Stone is a cheap/easy-to-craft supporting material sink from ordinary resources, not a rare exploration/boss progression gate; recipe is 4 Redstone + 4 Diamonds + 1 Lapis Lazuli -> 16 Enhancement Stones (R D R / D L D / R D R).
+- [DONE] Applicable T2 equipment may use the same Enhancement, XP Enchantment, and Book Option equipment-growth axes as T1 through explicit equipment profiles.
 - [DONE] XP is the primary T1 progression currency; keep meaningful costs and tune XP supply later rather than trivializing the growth tree. Vanilla XP/farms remain valid.
 - [DEFERRED] Future Quest system acts as fixed one-time challenge/achievement-like XP/resource supply and connective glue; no daily rotation, rerolls, or Quest-shop economy. Catalogue/rewards remain a dedicated later design pass.
 - [DONE] T1 vanilla-style weapon extensions finalized: Dagger / Greatsword / single non-tiered Gauntlet.
@@ -262,10 +263,10 @@ Current checkpoint authority: `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHE
 - [DONE] Fisherman: solve through separate custom-Fishing economy design; Vanilla / Custom Fishing trade separation is an allowed direction.
 - [OPEN] Fletcher: retain vanilla baseline, with exact high-throughput economy/combat-supply review deferred to a focused pass.
 - [DONE] Librarian is not automatically replaced wholesale; direct book enchanting is removed and retained books are recontextualized through the Book Option design.
-- [OPEN] Final Librarian retained book inventory/supply after the Book Option keep/redesign/delete classification.
+- [DONE] Librarian retained-book policy: 1% eligible-candidate retention, one use per restock, fixed effective 64-Emerald price despite vanilla modifiers, retained-book allow-list only.
 - [DONE] Cartographer: no current change. Any future promoted Exploration/structure content authority must explicitly review Cartographer trade integration.
 - [DONE] Cleric: no current change. Any future promoted Brewing/Alchemy/relevant supernatural-resource authority must explicitly review Cleric trade integration.
-- [OPEN] Armorer / Weaponsmith / Toolsmith: solve the shared direct-equipment-sale progression-bypass problem before final trade implementation.
+- [DONE] Armorer / Weaponsmith / Toolsmith: corresponding intact equipment + Emeralds upgrades to moderately enchanted corresponding equipment; generated equipment offers are converted, submitted progression is preserved, and no-op upgrades are hidden.
 - [DONE] Mason / Shepherd / Butcher / Leatherworker: keep current vanilla roles unless a later concrete system creates a conflict.
 - [DONE] Villager balance must not depend only on nominal rarity because breeding/restocking can create repeatable supply.
 

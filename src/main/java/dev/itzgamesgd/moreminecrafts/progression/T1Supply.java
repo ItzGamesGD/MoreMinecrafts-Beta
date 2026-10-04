@@ -9,9 +9,15 @@ import net.minecraft.world.item.trading.*;
 
 /** Supply policies preserve ordinary equipment bases and remove only random enchantment bypasses. */
 public final class T1Supply {
+    public static boolean retainNaturalEnchantedCandidate(double roll){
+        return roll>=0 && roll<T1Balance.NATURAL_ENCHANTED_KEEP_CHANCE;
+    }
+    public static boolean retainLibrarianBookCandidate(double roll){
+        return roll>=0 && roll<T1Balance.LIBRARIAN_BOOK_OFFER_CHANCE;
+    }
     public static ItemStack filterLoot(ItemStack stack,DoubleSupplier rng){
-        if(stack.is(Items.ENCHANTED_BOOK))return T1Operations.book(stack).isPresent()&&rng.getAsDouble()<T1Balance.NATURAL_ENCHANTED_KEEP_CHANCE?stack:ItemStack.EMPTY;
-        if(!stack.getOrDefault(DataComponents.ENCHANTMENTS,ItemEnchantments.EMPTY).isEmpty()&&rng.getAsDouble()>=T1Balance.NATURAL_ENCHANTED_KEEP_CHANCE)stack.set(DataComponents.ENCHANTMENTS,ItemEnchantments.EMPTY);
+        if(stack.is(Items.ENCHANTED_BOOK))return T1Operations.book(stack).isPresent()&&retainNaturalEnchantedCandidate(rng.getAsDouble())?stack:ItemStack.EMPTY;
+        if(!stack.getOrDefault(DataComponents.ENCHANTMENTS,ItemEnchantments.EMPTY).isEmpty()&&!retainNaturalEnchantedCandidate(rng.getAsDouble()))stack.set(DataComponents.ENCHANTMENTS,ItemEnchantments.EMPTY);
         return stack;
     }
     public static MerchantOffer smithOffer(Player registryContext,MerchantOffer old){
@@ -33,7 +39,7 @@ public final class T1Supply {
         return profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.ARMORER)||profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.WEAPONSMITH)||profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.TOOLSMITH);
     }
     /** Static merchant offers preview a moderate upgrade; actual output carries the submitted item's state. */
-    public static ItemStack smithUpgrade(ItemStack submitted,ItemStack offered){
+    public static Optional<ItemStack> smithUpgrade(ItemStack submitted,ItemStack offered){
         ItemStack result=submitted.copyWithCount(1);
         Map<String,Integer> owned=T1Operations.enchantments(result);
         EnchantmentHelper.getEnchantmentsForCrafting(offered).entrySet().forEach(entry->{
@@ -42,9 +48,30 @@ public final class T1Supply {
             int current=owned.getOrDefault(id,0);
             // A smith cannot add a conflicting or premium-overlap branch to pre-grown gear.
             if(current==0&&(!quote.allowed()||quote.premium()>0))return;
+            if(entry.getIntValue()<=current)return;
             EnchantmentHelper.updateEnchantments(result,e->e.set(entry.getKey(),Math.max(current,entry.getIntValue())));
         });
-        return result;
+        return T1Operations.enchantments(result).equals(owned) ? Optional.empty() : Optional.of(result);
+    }
+
+    /** Makes retained-book prices immune to special prices and vanilla demand modifiers. */
+    public static void enforceFixedBookPrices(MerchantOffers offers){
+        for(int i=0;i<offers.size();i++){
+            MerchantOffer offer=offers.get(i);
+            if(!isFixedBookOffer(offer))continue;
+            if(offer.getSpecialPriceDiff()!=0||offer.getDemand()!=0||offer.getPriceMultiplier()!=0){
+                offers.set(i,new MerchantOffer(offer.getItemCostA(),offer.getItemCostB(),offer.getResult().copy(),
+                        offer.getUses(),offer.getMaxUses(),offer.getXp(),0,0));
+            }
+        }
+    }
+    public static boolean isFixedBookOffer(MerchantOffer offer){
+        return offer.getMaxUses()==T1Balance.LIBRARIAN_MAX_USES
+                && offer.getBaseCostA().is(Items.EMERALD)
+                && offer.getBaseCostA().getCount()==T1Balance.LIBRARIAN_EMERALDS
+                && offer.getCostB().is(Items.BOOK)
+                && offer.getResult().is(Items.ENCHANTED_BOOK)
+                && T1Operations.book(offer.getResult()).isPresent();
     }
     public static void normalizeTrades(net.minecraft.world.entity.npc.villager.Villager villager,MerchantOffers offers){
         var profession=villager.getVillagerData().profession();
@@ -54,14 +81,15 @@ public final class T1Supply {
             if(result.is(Items.ENCHANTED_BOOK)){
                 if(T1Operations.book(result).isEmpty()){offers.remove(i);continue;}
                 // Existing normalized offers are stable across saves, restocks and repeated UI opens.
-                if(offer.getMaxUses()==T1Balance.LIBRARIAN_MAX_USES&&offer.getBaseCostA().getCount()==T1Balance.LIBRARIAN_EMERALDS)continue;
-                if(villager.getRandom().nextDouble()>=T1Balance.LIBRARIAN_BOOK_OFFER_CHANCE){offers.remove(i);continue;}
+                if(isFixedBookOffer(offer))continue;
+                if(!retainLibrarianBookCandidate(villager.getRandom().nextDouble())){offers.remove(i);continue;}
                 offers.set(i,new MerchantOffer(new ItemCost(Items.EMERALD,T1Balance.LIBRARIAN_EMERALDS),Optional.of(new ItemCost(Items.BOOK)),result.copy(),T1Balance.LIBRARIAN_MAX_USES,offer.getXp(),0));
             }else if(smith&&EquipmentTreeResolver.resolve(result)!=EnchantmentTrees.Equipment.NONE){
                 if(offer.getBaseCostA().is(result.getItem()))continue;
                 offers.set(i,smithOffer(villager.level().registryAccess(),offer,result.copyWithCount(1)));
             }
         }
+        enforceFixedBookPrices(offers);
     }
     private T1Supply(){}
 }

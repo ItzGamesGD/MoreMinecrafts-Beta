@@ -44,7 +44,12 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
                 button.setMessage(q.allowed()?Component.literal(q.cost()+" XP"):Component.translatable("menu.moreminecrafts."+q.reason()));
                 button.active=q.allowed()&&registered&&RawXp.canPay(minecraft.player,q.cost());
                 String requirement=node.prerequisite().isEmpty()?"START":node.prerequisite()+" "+BookOptionRules.roman(node.prerequisiteLevel());
-                button.setTooltip(Tooltip.create(Component.literal(requirement+"\n"+q.cost()+" XP"+(q.premium()>0?" (+"+q.premium()+" premium)":"")+(!registered?"\nDeferred function":""))));
+                int baseCost=node.cost(Math.max(1,q.nextLevel()));
+                Component costBreakdown=q.premium()>0
+                        ?Component.translatable("menu.moreminecrafts.xp_cost_total",q.cost(),baseCost,q.premium())
+                        :Component.translatable("menu.moreminecrafts.xp_cost_base",q.cost());
+                button.setTooltip(Tooltip.create(Component.literal(requirement+"\n").append(costBreakdown)
+                        .append(!registered?Component.literal("\nDeferred function"):Component.empty())));
             }else {
                 button.setMessage(Component.translatable("menu.moreminecrafts.reset"));button.active=T1Operations.options(equipment).containsKey(node.id());
                 button.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.reset_materials")));

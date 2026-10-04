@@ -138,6 +138,7 @@ All values below are **additional bonuses** on top of the corresponding enchantm
 
 **Unbreaking / 내구성**
 - each Option tier adds a further 5 percentage-point reduction to durability-consumption probability.
+- this bonus applies to ordinary eligible durability use and authorized Lumberjack operations; it does not reduce Vein Mining's separately defined block-count / level-II half-cost calculation.
 
 **Mending / 수선**
 - Book Option improves repair efficiency from the normal 2 durability per 1 XP to 4 durability per 1 XP.
@@ -146,17 +147,20 @@ All values below are **additional bonuses** on top of the corresponding enchantm
 
 **Sharpness / 날카로움**
 - Book Option range follows Sharpness's vanilla maximum: (+I) through (+V);
-- source-book level shifts the common binomial distribution.
+- source-book level shifts the common binomial distribution;
+- add +0.25 damage per Option level, on top of the ordinary Sharpness effect.
 
 **Smite / 강타**
 - Book Option range follows Smite's vanilla maximum: (+I) through (+V);
-- source-book level shifts the common binomial distribution.
+- source-book level shifts the common binomial distribution;
+- add +0.25 damage per Option level, on top of the ordinary Smite effect.
 
 **Bane of Arthropods / 살충**
 - Book Option range follows Bane of Arthropods's vanilla maximum: (+I) through (+V);
-- source-book level shifts the common binomial distribution.
+- source-book level shifts the common binomial distribution;
+- add +0.25 damage per Option level, on top of the ordinary Bane of Arthropods effect.
 
-Exact per-option-level damage-family bonus values remain OPEN unless separately recorded.
+A maximum (+V) damage-family Option therefore adds +1.25 damage.
 
 ### 3.3 Sword utility
 
@@ -169,7 +173,7 @@ Exact per-option-level damage-family bonus values remain OPEN unless separately 
 **Knockback / 밀치기**
 - retain as a Book Option;
 - intended direction is an additional 0.5-step correction/bonus relative to the underlying knockback-speed calculation;
-- exact internal formula/application point requires code/runtime verification before implementation and is OPEN.
+- the implementation applies +0.5 to vanilla's pre-halving helper output per Option level, equivalent to +0.25 to the final knockback-speed multiplier; this is an implementation default pending live combat tuning.
 
 **Looting / 약탈**
 - Enchanted Book variant is removed from Book Option supply because the affected loot rules are too heterogeneous for the intended simple Option layer.
@@ -286,7 +290,8 @@ Enchantment-mode direction:
 Book Option Application direction:
 - retain the previously approved simple equipment + compatible Enchanted Book -> resulting equipment presentation;
 - show the relevant Book Option result/range and XP application cost;
-- Book Option application consumes XP in addition to the compatible book; exact XP amount remains a balance value.
+- Book Option application consumes XP in addition to the compatible book;
+- the equipment must already own the corresponding primary Enchantment through XP progression; a Book Option never grants its underlying enchantment.
 
 ### 5.3 Anvil
 
@@ -295,12 +300,12 @@ The Anvil surface is organized around:
 `Enhancement | Normal Anvil | Enchanted Book Combination`
 
 - **Enhancement**: current +0 -> +20 Enhancement flow. Keep this UI intentionally minimal: one equipment slot, one Enhancement Stone slot, and an Enhancement action/button area are sufficient. Enhancement uses Enhancement Stones; do not invent additional material slots for this mode.
-- **Normal Anvil**: ordinary applicable anvil operations, but it must not restore direct Enchanted Book -> equipment enchantment application.
+- **Normal Anvil**: ordinary applicable repair/name operations, but it must not transfer Enchantments from a book or another equipment item. Enchantment progression belongs to the XP Enchantment system. Book renaming need not be supported.
 - **Enchanted Book Combination**: combines compatible books to raise book level. Its interaction/layout should closely follow the familiar vanilla Anvil combination grammar rather than introducing a separate elaborate tree/menu.
 
 Enchanted Book combination uses **XP only** as its additional cost. Do not introduce a new currency/material solely for book-level combination.
 
-Exact XP amounts remain BALANCE/OPEN.
+The current implementation defaults remain 200 raw XP per Book Option application and 100 raw XP times the resulting level for book combination. They are provisional balance values, not finalized authority.
 
 ---
 
@@ -363,7 +368,7 @@ Villager breeding, restocking, and trading can create effectively repeatable sup
 
 Therefore villager balance must not rely only on nominal rarity or low initial appearance rates.
 
-The Librarian's final retained-book inventory, weights, restock behavior, and pricing remain OPEN, but it may only supply books from the retained Book Option roster once the final trade table is designed.
+The Librarian may supply retained-book candidates at a 1% retention/availability chance applied to an eligible retained Enchanted Book trade candidate, not to all Librarian offers. A surviving offer costs a fixed effective 64 Emeralds and a Book, has one use per restock, and receives no vanilla reputation, cure, Hero of the Village, demand, or other price reduction. Removed-book variants remain excluded.
 
 Removed Book variants in Section 4 must not remain available through Librarian trades.
 
@@ -374,12 +379,12 @@ Other profession status remains:
 - Fletcher: retain vanilla baseline; focused review later if needed.
 - Cartographer: KEEP now; future Exploration/structure authority must explicitly review it.
 - Cleric: KEEP now; future Brewing/Alchemy authority must explicitly review it.
-- Armorer / Weaponsmith / Toolsmith: FINAL MODEL — preserve their existing final-sale equipment identities, but replace direct finished-equipment purchase with an equipment-upgrade exchange. The player must provide the corresponding fully intact / undamaged finished equipment item plus Emeralds, and receives the corresponding moderately enchanted equipment. This prevents villagers from bypassing material/equipment acquisition while preserving the familiar final trade outputs. Exact Emerald prices are balance values and may be tuned independently.
+- Armorer / Weaponsmith / Toolsmith: convert their generated equipment-sale offers to corresponding intact equipment + Emeralds -> moderately enchanted corresponding equipment. Preserve each affected equipment identity and the submitted item's legitimate progression state; Emeralds alone must not supply the equipment base. The implementation's broad conversion of equipment-result offers is accepted and supersedes the earlier final-sale-only wording. Emerald price 32 is the current provisional implementation value.
 - Mason / Shepherd / Butcher / Leatherworker: KEEP vanilla unless a later concrete conflict appears.
 
 ---
 
-## 8.1 Armorer / Weaponsmith / Toolsmith final equipment-trade rule
+## 8.1 Armorer / Weaponsmith / Toolsmith equipment-trade rule
 
 The three equipment-selling smith professions use one shared final rule:
 
@@ -390,12 +395,12 @@ Authoritative constraints:
 - the submitted equipment must be the corresponding finished item and must have no durability damage;
 - the villager does not provide the equipment base from Emeralds alone;
 - the returned item is the corresponding equipment with a moderate enchantment specification appropriate to the trade;
-- preserve the professions' existing final-sale equipment identities rather than redesigning their final product roster;
+- preserve each converted offer's equipment identity rather than redesigning the equipment itself;
 - the purpose is to make the villager an upgrade route for equipment the player already acquired, not a bypass around material/equipment progression;
-- exact Emerald prices are balance-tunable and are not fixed by this checkpoint;
+- 32 Emeralds is the current provisional implementation price;
 - exact moderate enchantment rolls/specification should remain compatible with the T1 enchantment authority and must not become a shortcut to theoretical/maximized T1 equipment.
 
-This closes the Armorer / Weaponsmith / Toolsmith progression-bypass problem at the design level without requiring a broader profession redesign.
+This closes the Armorer / Weaponsmith / Toolsmith progression-bypass problem without redesigning their broader professions.
 
 ---
 
@@ -403,12 +408,11 @@ This closes the Armorer / Weaponsmith / Toolsmith progression-bypass problem at 
 
 Naturally/world-supplied enchanted equipment and retained Enchanted Books must be **very, very rare** relative to vanilla-style ordinary availability.
 
-This is a progression-protection direction, not yet a finalized numeric loot table:
+The confirmed candidate-retention probability is **0.5% (0.005)** for otherwise-generated enchanted equipment and retained Enchanted Books. This is a filter on eligible enchanted candidates, not a probability applied to every loot entry.
 
 - enchanted equipment from loot/world sources should have extremely low appearance probability;
 - retained Enchanted Books from loot/world sources should likewise have extremely low appearance probability;
-- exact probabilities, source-by-source weights, chest tables, and villager availability numbers are deferred to a later balance pass;
-- do not choose final numeric rates during implementation unless separately authorized.
+- source-by-source base generation weights and loot-table composition remain outside this retention rule.
 
 The purpose is to prevent random loot from routinely bypassing the XP Enchantment progression or trivializing Book Option acquisition.
 
@@ -416,14 +420,11 @@ The purpose is to prevent random loot from routinely bypassing the XP Enchantmen
 
 ## 9. Remaining OPEN items
 
-Do not invent these during implementation:
+These are balance defaults selected for the current implementation. Keep them centralized and easy to retune; remaining balance openness does not block implementation:
 
-- exact XP costs for Enchanted Book Combination;
-- exact XP amount for Book Option application (XP consumption itself is confirmed);
-- exact Knockback Book Option internal formula/application point;
-- exact per-option-level damage-family bonus values where not separately fixed;
+- Book Option application: initial **200 raw XP**;
+- Enchanted Book Combination: initial **100 raw XP per resulting book level**;
 - final UI texture/icon/spacing polish beyond the confirmed workstation split and interaction direction;
-- Librarian final retained-book trade inventory/weights/prices/restock behavior;
 - Fisherman custom-economy values/final presentation;
 - Fletcher exact trade changes;
 - skill-tree persistence/binding and respec items tracked by the T1 enchantment authority.
@@ -439,7 +440,25 @@ Until the OPEN items above are separately finalized:
 - do not add world-supplied books outside the retained allow-list;
 - do not reinterpret Book Option numbers as replacements for vanilla enchantment values;
 - do not invent bespoke probability tables where the common normalized distribution applies;
-- do not invent final UI art/layout;
-- do not implement a final Librarian trade table;
+- keep the selected provisional XP costs tunable rather than treating them as final balance;
+- do not use these open details to block or contradict the confirmed workstation and progression rules.
 
 This checkpoint preserves the Book Option core architecture while leaving only explicit balance, UI-detail, and remaining villager-integration decisions open.
+
+---
+
+## 11. Post-audit confirmed clarifications (2026-10-04)
+
+These human-approved rules supersede conflicting OPEN statements above:
+
+- A Book Option is allowed only when the equipment already contains the corresponding enchantment from primary XP progression. A retained book cannot grant it.
+- The source book level changes the common binomial distribution only; it is not the rolled Option level.
+- The 1% Librarian candidate rule applies to eligible retained-book trade candidates. Maximum use is one per restock. The effective price is fixed at 64 Emeralds despite vanilla discount and demand modifiers.
+- Enchanted-loot candidate retention is 0.5%.
+- Normal Anvil mode cannot transfer enchantments either from books or by equipment-to-equipment merging. Ordinary applicable non-enchantment operations remain.
+- Successful Enchanted Book Combination is an Anvil use and follows vanilla Anvil degradation/destruction chance. Its own raw XP payment and one-book-per-input consumption happen once.
+- Smith upgrade offers use the broader generated equipment-offer conversion described in section 8.1; unchanged or downgraded equipment is not a valid paid result.
+- Book Option application costs 200 raw XP as a conservative provisional constant. Enchanted Book Combination costs 100 raw XP per resulting book level as a conservative provisional constant. Both values remain tunable.
+- Damage-family Book Options (Sharpness, Smite, and Bane of Arthropods) add 0.25 damage per Option level on top of the normal enchantment.
+- The Enhancement Stone recipe is R-D-R / D-L-D / R-D-R (Redstone, Diamond, Lapis Lazuli) and returns 16 stones.
+- A premium-bearing enchantment node presents total XP, base XP, and additional-family premium separately so the premium is not mistaken as a second charge beyond the total.

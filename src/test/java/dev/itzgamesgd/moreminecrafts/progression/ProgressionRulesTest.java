@@ -1,14 +1,27 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import java.util.Map;
+import dev.itzgamesgd.moreminecrafts.enchantment.EnchantmentMath;
+import net.minecraft.world.item.Items;
+import net.minecraft.resources.Identifier;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProgressionRulesTest {
+    @BeforeAll static void bootstrapMinecraft(){net.minecraft.SharedConstants.tryDetectVersion();net.minecraft.server.Bootstrap.bootStrap();}
     @Test void contextualTreesDoNotLeakOtherEquipment() {
         assertTrue(EnchantmentTrees.tree(EnchantmentTrees.Equipment.SWORD).stream().anyMatch(n -> n.id().equals("minecraft:sharpness")));
         assertFalse(EnchantmentTrees.tree(EnchantmentTrees.Equipment.PICKAXE).stream().anyMatch(n -> n.id().equals("minecraft:sharpness")));
         assertTrue(EnchantmentTrees.tree(EnchantmentTrees.Equipment.NONE).isEmpty());
+        assertEquals(EnchantmentTrees.Equipment.SWORD,EquipmentTreeResolver.vanillaProfile(Items.NETHERITE_SWORD));
+        assertEquals(EnchantmentTrees.Equipment.BOW,EquipmentTreeResolver.vanillaProfile(Items.BOW));
+        assertEquals(EnchantmentTrees.Equipment.CROSSBOW,EquipmentTreeResolver.vanillaProfile(Items.CROSSBOW));
+        assertEquals(EnchantmentTrees.Equipment.HELMET,EquipmentTreeResolver.vanillaProfile(Items.DIAMOND_HELMET));
+        assertEquals(EnchantmentTrees.Equipment.SPEAR,EquipmentTreeResolver.vanillaProfile(Items.IRON_SPEAR));
+        assertEquals(EnchantmentTrees.Equipment.SWORD,EquipmentTreeResolver.customProfile(Identifier.parse("moreminecrafts:flame_sword")));
+        assertEquals(EnchantmentTrees.Equipment.NONE,EquipmentTreeResolver.customProfile(Identifier.parse("othermod:pretend_sword")));
+        assertEquals(EnchantmentTrees.Equipment.NONE,EquipmentTreeResolver.customProfile(Identifier.parse("othermod:pretend_bow")));
     }
     @Test void sequentialCostsAndDurabilityPrerequisite() {
         assertEquals(100, EnchantmentTrees.quote(EnchantmentTrees.Equipment.SWORD, Map.of(), "minecraft:sharpness").cost());
@@ -35,6 +48,16 @@ class ProgressionRulesTest {
         assertEquals(1, BookOptionRules.roll(5,5,5,()->.999));
         assertEquals(1, BookOptionRules.roll(1,1,1,()->{throw new AssertionError("single level must not draw RNG");}));
         assertThrows(IllegalArgumentException.class, ()->BookOptionRules.roll(5,6,5,()->0));
+    }
+    @Test void confirmedDamageOptionAndAnvilUseValues() {
+        assertEquals(.25,T1Balance.DAMAGE_OPTION_PER_LEVEL,1e-12);
+        assertEquals(1.25,5*T1Balance.DAMAGE_OPTION_PER_LEVEL,1e-12);
+        assertTrue(T1AnvilUse.shouldDamage(false,true,.119999));
+        assertFalse(T1AnvilUse.shouldDamage(false,true,.12));
+        assertFalse(T1AnvilUse.shouldDamage(true,true,0));
+        assertFalse(T1AnvilUse.shouldDamage(false,false,0));
+        assertEquals(4,EnchantmentMath.miningOperationDurability(7,2,false,2,0));
+        assertEquals(4,EnchantmentMath.miningOperationDurability(7,2,false,2,3));
     }
     @Test void retainedAllowListAndMatchingBooks() {
         assertTrue(BookOptionRules.retained("minecraft:mending"));

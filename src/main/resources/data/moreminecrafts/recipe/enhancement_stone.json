@@ -1,6 +1,11 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "ingredients": ["minecraft:iron_ingot", "minecraft:lapis_lazuli", "minecraft:cobblestone", "minecraft:cobblestone"],
-  "result": {"id": "moreminecrafts:enhancement_stone", "count": 4}
+  "pattern": ["RDR", "DLD", "RDR"],
+  "key": {
+    "R": "minecraft:redstone",
+    "D": "minecraft:diamond",
+    "L": "minecraft:lapis_lazuli"
+  },
+  "result": {"id": "moreminecrafts:enhancement_stone", "count": 16}
 }

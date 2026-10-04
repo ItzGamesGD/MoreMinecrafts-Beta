@@ -26,6 +26,7 @@
     "AnvilButtonsMixin",
     "T1LootMixin",
     "T1VillagerMixin",
+    "T1LibrarianPriceMixin",
     "T1MobSupplyMixin",
     "BookOptionEnchantmentMixin",
     "BookOptionIgniteMixin",

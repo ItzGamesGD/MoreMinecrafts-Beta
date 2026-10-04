@@ -89,6 +89,8 @@ Current T1 enchantment progression, skill-tree placement, compatibility policy, 
 
 Current Enchanted Book / vanilla villager-trade integration checkpoint: [Villager Trade and Enchanted Book Integration Checkpoint](VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md).
 
+The post-audit authority addenda in these two current documents and the Early / T1 / T2 Survival Progression Loop Checkpoint supersede earlier OPEN statements only for the newly confirmed decisions recorded there. Their older history remains useful context.
+
 The T1 finalization supersedes the skeleton wherever the older skeleton describes vanilla/random-book acquisition, progression placement, or compatibility rules that conflict with the XP-funded skill-tree model. The villager/book checkpoint supersedes the old direct book/anvil acquisition assumption and records the confirmed Book Option architecture plus profession-by-profession trade status. The skeleton remains authoritative for retained custom-enchantment gameplay semantics and unresolved integration behavior.
 
 Historical Paper enchantment behavior and older enchantment proposals are reference material only where they conflict with these current authorities.

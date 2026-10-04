@@ -46,15 +46,28 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         modes.moreminecrafts$button(player,2);menu.getSlot(0).set(book(player,"minecraft:sharpness",1));menu.getSlot(1).set(book(player,"minecraft:sharpness",1));menu.createResult();
         ctx.assertTrue(T1Operations.book(menu.getSlot(2).getItem()).orElseThrow().level()==2,"equal books combine one level");
         int before=RawXp.available(player);menu.getSlot(2).onTake(player,menu.getSlot(2).getItem().copy());
-        ctx.assertTrue(RawXp.available(player)==before-200,"book combination pays raw XP");
+        ctx.assertTrue(RawXp.available(player)==before-200,"book combination pays raw XP exactly once");
         ctx.assertTrue(menu.getSlot(0).getItem().isEmpty()&&menu.getSlot(1).getItem().isEmpty(),"combination consumes inputs");
         ctx.succeed();
     }
     @GameTest public void supplyFilteringAndSmithInputs(GameTestHelper ctx){
         var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
         ctx.assertTrue(T1Supply.filterLoot(book(player,"minecraft:looting",1),()->0).isEmpty(),"removed book filtered even at successful rarity roll");
-        ctx.assertTrue(T1Supply.filterLoot(book(player,"minecraft:sharpness",1),()->.1).isEmpty(),"retained book extremely rare");
-        ctx.assertTrue(!T1Supply.filterLoot(book(player,"minecraft:sharpness",1),()->0).isEmpty(),"retained book rare success");
+        ctx.assertTrue(T1Supply.filterLoot(book(player,"minecraft:sharpness",1),()->.004999).getItem()==Items.ENCHANTED_BOOK,"0.5% enchanted candidate retained below boundary");
+        ctx.assertTrue(T1Supply.filterLoot(book(player,"minecraft:sharpness",1),()->.005).isEmpty(),"candidate at 0.5% boundary is rejected");
+        ctx.assertTrue(T1Supply.retainNaturalEnchantedCandidate(.004999)&&!T1Supply.retainNaturalEnchantedCandidate(.005),"natural enchanted candidate retention is 0.005");
+        ctx.assertTrue(T1Supply.retainLibrarianBookCandidate(.009999)&&!T1Supply.retainLibrarianBookCandidate(.01),"Librarian retention is 1% of eligible book candidates");
+        ctx.assertTrue(T1Balance.LIBRARIAN_MAX_USES==1&&T1Balance.LIBRARIAN_EMERALDS==64,"retained Librarian offer has fixed base price and one use");
+        MerchantOffers librarianOffers=new MerchantOffers();
+        MerchantOffer librarianBook=new MerchantOffer(new ItemCost(Items.EMERALD,64),Optional.of(new ItemCost(Items.BOOK)),book(player,"minecraft:sharpness",1),1,1,.2f);
+        librarianBook.setToOutOfStock();librarianBook.updateDemand();librarianBook.setSpecialPriceDiff(-63);librarianOffers.add(librarianBook);
+        T1Supply.enforceFixedBookPrices(librarianOffers);
+        MerchantOffer fixedBook=librarianOffers.get(0);
+        ctx.assertTrue(fixedBook.getCostA().getCount()==64&&fixedBook.getPriceMultiplier()==0
+                &&fixedBook.getDemand()==0&&fixedBook.getSpecialPriceDiff()==0,
+                "discount and demand cannot lower the fixed 64-Emerald price");
+        fixedBook.addToSpecialPriceDiff(-64);fixedBook.updateDemand();T1Supply.enforceFixedBookPrices(librarianOffers);
+        ctx.assertTrue(librarianOffers.get(0).getCostA().getCount()==64,"repeated Hero/reputation/demand updates stay fixed");
         MerchantOffer old=new MerchantOffer(new ItemCost(Items.EMERALD,10),new ItemStack(Items.DIAMOND_SWORD),3,10,.05f);
         MerchantOffer offer=T1Supply.smithOffer(player,old);
         ctx.assertTrue(!offer.satisfiedBy(new ItemStack(Items.EMERALD,64),new ItemStack(Items.EMERALD,64)),"emerald-only bypass closed");
@@ -87,13 +100,26 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
     }
     @GameTest public void insufficientXpAndContextualEquipment(GameTestHelper ctx){
         var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(Items.NETHERITE_SWORD))==EnchantmentTrees.Equipment.SWORD,"vanilla sword resolves by item category");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(Items.NETHERITE_PICKAXE))==EnchantmentTrees.Equipment.PICKAXE,"vanilla pickaxe resolves by item identity");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(Items.BOW))==EnchantmentTrees.Equipment.BOW,"vanilla bow resolves by item identity");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(Items.DIAMOND_BOOTS))==EnchantmentTrees.Equipment.BOOTS,"vanilla armor resolves by exact slot family");
         ItemStack sword=new ItemStack(Items.DIAMOND_SWORD);
         ctx.assertTrue(!T1Operations.purchase(player,sword,"minecraft:sharpness"),"insufficient XP rejects purchase");
         ctx.assertTrue(T1Operations.enchantments(sword).isEmpty(),"failed purchase does not mutate item");
-        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.DAGGERS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON)))==EnchantmentTrees.Equipment.SWORD,"dagger uses Sword tree");
+        var ironDagger=ModItems.DAGGERS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON);
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ironDagger))==EnchantmentTrees.Equipment.SWORD,
+                "dagger profile for "+net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(ironDagger)+" is "+EquipmentTreeResolver.resolve(new ItemStack(ironDagger)));
         ctx.assertTrue(new ItemStack(ModItems.DAGGERS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON)).isDamageableItem(),"tiered basic weapons need functional durability branches");
         ctx.assertTrue(dev.itzgamesgd.moreminecrafts.enhancement.EnhancementCatalog.definition(ModItems.DAGGERS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON)).isPresent(),"T1 basic weapon supports parallel Enhancement");
         ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.GREATSWORDS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON)))==EnchantmentTrees.Equipment.SWORD,"greatsword uses Sword tree");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.FLAME_SWORD))==EnchantmentTrees.Equipment.SWORD,"T2 Flame Sword uses shared Sword profile");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.WIND_SWORD))==EnchantmentTrees.Equipment.SWORD,"T2 Wind Sword uses shared Sword profile");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.FLOWING_WATER_SWORD))==EnchantmentTrees.Equipment.SWORD,"T2 Water Sword uses shared Sword profile");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.LIGHTNING_SWORD))==EnchantmentTrees.Equipment.SWORD,"T2 Lightning Sword uses shared Sword profile");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.WIND_ARCHERS_BOW))==EnchantmentTrees.Equipment.BOW,"T2 Wind Bow uses shared Bow profile");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.EARTH_MACE))==EnchantmentTrees.Equipment.MACE,"T2 Earth Mace uses shared Mace profile");
+        ctx.assertTrue(EquipmentTreeResolver.resolve(new ItemStack(ModItems.DARK_ENERGY_STAFF))==EnchantmentTrees.Equipment.NONE,"deferred Staff profile stays unassigned");
         var menu=new AnvilMenu(1,player.getInventory());((T1AnvilModes)menu).moreminecrafts$button(player,2);
         menu.getSlot(0).set(book(player,"minecraft:sharpness",1));menu.getSlot(1).set(book(player,"minecraft:sharpness",1));menu.createResult();
         ctx.assertTrue(menu.getSlot(2).hasItem()&&!menu.getSlot(2).mayPickup(player),"combination preview requires XP before pickup");
@@ -133,13 +159,53 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         var offer=T1Supply.smithOffer(player,new MerchantOffer(new ItemCost(Items.EMERALD,32),new ItemStack(Items.DIAMOND_SWORD),3,10,0));
         MerchantOffers offers=villager.getOffers();offers.clear();offers.add(offer);
         ItemStack submitted=new ItemStack(Items.DIAMOND_SWORD);submitted.set(ModDataComponents.ENHANCEMENT_LEVEL,20);
-        EnchantmentHelper.updateEnchantments(submitted,e->e.set(T1Operations.enchantment(player,"minecraft:sharpness").orElseThrow(),5));
+        EnchantmentHelper.updateEnchantments(submitted,e->e.set(T1Operations.enchantment(player,"minecraft:sharpness").orElseThrow(),1));
         submitted.set(ModDataComponents.BOOK_OPTIONS,Map.of("minecraft:sharpness",4));
         MerchantContainer container=new MerchantContainer(villager);container.setItem(0,submitted);container.setItem(1,new ItemStack(Items.EMERALD,32));
         ItemStack output=container.getItem(2);
         ctx.assertTrue(output.getOrDefault(ModDataComponents.ENHANCEMENT_LEVEL,0)==20,"smith preserves Enhancement");
         ctx.assertTrue(T1Operations.option(output,"sharpness")==4,"smith preserves Book Options");
-        ctx.assertTrue(T1Operations.enchantments(output).get("minecraft:sharpness")==5,"smith cannot downgrade purchased enchantments");
+        ctx.assertTrue(T1Operations.enchantments(output).get("minecraft:sharpness")==2,"valid smith upgrade raises inferior Sharpness");
+        ctx.succeed();
+    }
+    @GameTest public void smithRejectsEqualAndSuperiorNoOpOffers(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var villager=net.minecraft.world.entity.EntityTypes.VILLAGER.create(ctx.getLevel(),net.minecraft.world.entity.EntitySpawnReason.COMMAND);
+        villager.setVillagerData(villager.getVillagerData().withProfession(ctx.getLevel().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.VILLAGER_PROFESSION).getOrThrow(net.minecraft.world.entity.npc.villager.VillagerProfession.WEAPONSMITH)));
+        villager.getOffers().clear();
+        var offer=T1Supply.smithOffer(ctx.getLevel().registryAccess(),
+                new MerchantOffer(new ItemCost(Items.EMERALD,32),new ItemStack(Items.DIAMOND_SWORD),3,10,0),
+                new ItemStack(Items.DIAMOND_SWORD));
+        villager.getOffers().add(offer);
+        for(int level:new int[]{2,5}){
+            ItemStack submitted=new ItemStack(Items.DIAMOND_SWORD);
+            EnchantmentHelper.updateEnchantments(submitted,e->e.set(T1Operations.enchantment(player,"minecraft:sharpness").orElseThrow(),level));
+            MerchantContainer container=new MerchantContainer(villager);
+            container.setItem(0,submitted);container.setItem(1,new ItemStack(Items.EMERALD,32));
+            ctx.assertTrue(container.getItem(2).isEmpty(),"equal/superior offer is hidden");
+            ctx.assertTrue(container.getItem(0).getCount()==1&&container.getItem(1).getCount()==32,"rejected no-op consumes neither equipment nor emeralds");
+        }
+        ctx.succeed();
+    }
+    @GameTest public void bookCombinationIsOneAnvilUse(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);player.giveExperiencePoints(10000);
+        var pos=ctx.absolutePos(new net.minecraft.core.BlockPos(1,1,1));
+        ctx.getLevel().setBlock(pos,net.minecraft.world.level.block.Blocks.ANVIL.defaultBlockState(),3);
+        player.setPos(pos.getX()+.5,pos.getY()+1,pos.getZ()+.5);
+        var access=ContainerLevelAccess.create(ctx.getLevel(),pos);
+        var menu=new AnvilMenu(1,player.getInventory(),access);
+        ctx.assertTrue(((T1AnvilModes)menu).moreminecrafts$button(player,2),"in-range player selects Book Combination mode");
+        ctx.assertTrue(((T1AnvilModes)menu).moreminecrafts$mode()==2,"Book Combination mode is active");
+        menu.getSlot(0).set(book(player,"minecraft:sharpness",1));menu.getSlot(1).set(book(player,"minecraft:sharpness",1));menu.createResult();
+        int before=RawXp.available(player);
+        menu.getSlot(2).onTake(player,menu.getSlot(2).getItem().copy());
+        ctx.assertTrue(RawXp.available(player)==before-200,"custom combination deducts raw XP once: before="+before+" after="+RawXp.available(player)+" cost="+menu.getCost());
+        ctx.assertTrue(menu.getSlot(0).getItem().isEmpty()&&menu.getSlot(1).getItem().isEmpty(),"each source book is consumed once");
+        var state=ctx.getLevel().getBlockState(pos);
+        ctx.assertTrue(state.is(net.minecraft.world.level.block.Blocks.ANVIL)
+                ||state.is(net.minecraft.world.level.block.Blocks.CHIPPED_ANVIL)
+                ||state.is(net.minecraft.world.level.block.Blocks.DAMAGED_ANVIL)
+                ||state.isAir(),"successful combination applies vanilla anvil degradation/destruction path");
         ctx.succeed();
     }
     @GameTest public void normalRepairIgnoresSacrificialEnchantmentFees(GameTestHelper ctx){

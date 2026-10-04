@@ -144,5 +144,7 @@
   "menu.moreminecrafts.maximum": "Max",
   "menu.moreminecrafts.prerequisite": "Locked",
   "menu.moreminecrafts.conflict": "Conflict",
-  "menu.moreminecrafts.equipment": "Equipment"
+  "menu.moreminecrafts.equipment": "Equipment",
+  "menu.moreminecrafts.xp_cost_base": "Total: %1$s XP",
+  "menu.moreminecrafts.xp_cost_total": "Total: %1$s XP\nBase: %2$s XP\nAdditional-family premium: +%3$s XP"
 }

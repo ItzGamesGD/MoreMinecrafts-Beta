@@ -66,6 +66,8 @@ T1 ordinary equipment growth has two primary axes:
 
 Neither replaces the other.
 
+The same three equipment-growth axes are available to applicable T2 equipment: Enhancement, XP Enchantment progression, and Book Option. T2 items use an explicitly assigned shared equipment profile (such as Sword, Bow, or Mace); registry-name resemblance does not establish a profile. Dark Energy Staff remains exempt while its gameplay and Enhancement profile are deferred.
+
 ### 3.2 Enhancement Stone role
 
 Enhancement Stone is a **cheap supporting consumable/material sink**, not a rare progression currency.
@@ -76,7 +78,15 @@ Confirmed direction:
 - its purpose is to make Enhancement consume material value as well as XP;
 - it should not be a boss-exclusive drop, rare exploration key, or artificial gate merely to make Enhancement feel important.
 
-Exact recipe composition remains OPEN.
+Confirmed recipe (R = Redstone, D = Diamond, L = Lapis Lazuli):
+
+```text
+R D R
+D L D
+R D R
+```
+
+This crafts 16 Enhancement Stones from four Redstone, four Diamonds, and one Lapis Lazuli. No new ore or material is introduced.
 
 ### 3.3 XP is the main T1 progression currency
 

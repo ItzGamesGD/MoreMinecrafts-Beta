@@ -401,15 +401,12 @@ The following are deliberately not invented here:
 
 - Gauntlet enchantment-tree identity/placement.
 - Multi Catch's final Fishing integration and therefore its exact skill-tree placement.
-- Jet Boots' exact skill-tree prerequisite/cost placement.
-- Sword Looting's exact placement, because it was not explicitly placed in the approved Sword tree discussion.
-- Chestplate Thorns placement. Its omission from the bulk armor pass must not be interpreted as a confirmed deletion.
 - Exact persistence/binding semantics for the skill tree where implementation needs to distinguish physical-item state from any player/category-wide state.
 - Exact reset/respec interaction and cost.
 - Final per-node numeric costs where only a cost class/range was approved.
 - Future Quest catalogue and reward amounts.
 
-These gaps must not be filled by guessing during implementation.
+The initial Sword Looting, Chestplate Thorns, and Jet Boots placements are recorded as provisional implementation defaults in §10. They are not final placement authority. Gauntlet remains deferred as described in §10.3.
 
 ---
 
@@ -428,7 +425,7 @@ Enchanted Book items are not necessarily deleted as a class. The approved curren
 - higher-level books may add an additional level bonus on top of that same base Option;
 - changing/removing the applied Option requires a dedicated reset resource;
 - books that cannot support a meaningful Option may have their itemized Enchanted Book variant removed;
-- the exact retained/deleted book roster, Option values, bonus formula, slot model, reset resource, and Librarian supply table remain OPEN.
+- see the current human-approved roster, probability model, bonus values, reset resource, and Librarian policy in `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md`.
 
 Do not implement a separate enchantment shop, custom enchantment currency, random-book progression, or book-based XP-tree bypass as a substitute.
 
@@ -440,13 +437,13 @@ Targeted changes to vanilla villager trading are **not** the same as promoting T
 
 Current villager-trade status is governed by `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md`.
 
-In particular, Armorer / Weaponsmith / Toolsmith equipment sales and the final Librarian book table remain design blockers for their respective trade changes. Do not invent those solutions inside enchantment implementation.
+Armorer / Weaponsmith / Toolsmith and Librarian integration is recorded in `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md`, including its post-audit clarifications.
 
 ---
 
 ## 9. Implementation boundary
 
-This authority is sufficient to implement the approved XP-tree framework and the explicitly placed equipment/enchantment nodes, subject to the unresolved items in section 6. The Book Option/villager checkpoint is architectural authority but is **not yet numerically implementation-ready**.
+This authority is sufficient to implement the approved XP-tree framework and the explicitly placed equipment/enchantment nodes, subject to the genuinely unresolved items in section 6. The Book Option/villager checkpoint supplies current implementation authority for its retained roster, probability model, bonuses, reset, and economy integration. Its selected provisional costs are recorded there and in `T1Balance`; they remain tunable without blocking implementation.
 
 Implementation must preserve:
 
@@ -458,4 +455,37 @@ Implementation must preserve:
 - separation of Fishing modules and Utility equipment from enchantment nodes,
 - no direct Enchanted Book/anvil bypass around the XP skill tree.
 
-Do not use implementation work to invent Quest content, T2 acquisition, unresolved custom-enchantment behavior, missing tree placements, Book Option numerics/roster, reset-resource design, or unresolved villager trade replacements.
+Do not use implementation work to invent Quest content, T2 acquisition, unresolved custom-enchantment behavior, genuinely missing tree placements, or unrelated economy redesign. For a required open balance detail, use a conservative centralized default and document it. Confirmed Book Option, reset, and villager rules below are implementation authority, not permission to defer them.
+
+---
+
+## 10. Post-audit implementation clarifications (2026-10-04)
+
+These clarifications are current. They supersede conflicting OPEN statements above only where explicitly stated. The T1 skill-tree costs, prerequisites, and compatibility rules otherwise remain as written.
+
+### 10.1 Shared equipment growth axes
+
+Applicable T2 equipment may use the same Enhancement, XP Enchantment, and Book Option axes as T1. Equipment is assigned a shared category profile explicitly; item-name suffixes do not confer an enchantment tree. Current T2 Sword, Bow, and Mace identities use their respective shared trees. Dark Energy Staff remains deferred with no assigned tree while its gameplay/Enhancement profile is unresolved.
+
+### 10.2 Initial tree placement defaults
+
+The first T1 implementation used these conservative, independently reviewable placement defaults:
+
+- Sword Looting is available from START.
+- Chestplate Thorns is available from START.
+- Jet Boots is a three-step Boots branch at 800 / 1,000 / 1,200 XP, available from START.
+
+These defaults explain the existing implementation and are not a new general placement rule. A later dedicated balance/tree pass may revise them.
+
+### 10.3 Gauntlet known implementation defect / deferred authority gap
+
+The current implementation assigns Gauntlet the Sword tree. Since Gauntlet has no ordinary durability semantics, this exposes Unbreaking and its Mending prerequisite even though their normal durability function does not apply. This mismatch is intentionally deferred in PR #68: do not remove Gauntlet progression or invent a replacement tree here. A later dedicated decision must establish Gauntlet's enchantment identity and tree, including the meaning of durability-oriented nodes.
+
+### 10.4 Confirmed repair clarifications
+
+- Premium costs must be shown as one total with a separate base and additional-family premium breakdown. For example, a 100 XP node plus a 500 XP premium is communicated as **Total: 600 XP; Base: 100 XP; Additional-family premium: 500 XP**.
+- A Book Option requires the equipment to already own the corresponding enchantment through primary XP progression. The source book level shifts the common binomial distribution; it never becomes the Option result level.
+- Sharpness, Smite, and Bane of Arthropods Options each add **0.25 damage per Option level** on top of ordinary enchantment behavior.
+- Normal Anvil mode does not transfer enchantments from books or between equipment. Ordinary non-enchantment Anvil operations remain available. Enchanted Book renaming is not required by this clarification.
+- Vein Mining keeps its per-block Level I and half-cost Level II durability rules; the Unbreaking Book Option does not reduce Vein Mining durability. The option remains active for ordinary applicable durability behavior and authorized Lumberjack behavior.
+- The retained-book and natural enchanted-loot supply rules and provisional application/combination XP amounts are specified in the current Book Option/villager checkpoint.

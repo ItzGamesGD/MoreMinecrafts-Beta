@@ -17,6 +17,9 @@ abstract class T1SmithUpgradeMixin {
         var offer=container.getActiveOffer();ItemStack output=container.getItem(2);
         if(offer==null||output.isEmpty()||!offer.getBaseCostA().is(output.getItem()))return;
         ItemStack input=container.getItem(0).is(output.getItem())?container.getItem(0):container.getItem(1);
-        if(input.is(output.getItem())&&!input.isDamaged())container.setItem(2,T1Supply.smithUpgrade(input,output));
+        if(input.is(output.getItem())&&!input.isDamaged()){
+            ItemStack upgraded=T1Supply.smithUpgrade(input,output).orElse(ItemStack.EMPTY);
+            container.setItem(2,upgraded);
+        }
     }
 }

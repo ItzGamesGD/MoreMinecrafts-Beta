@@ -14,6 +14,14 @@ class EnchantmentMathTest {
         assertEquals(5, EnchantmentMath.veinDurability(5, 1));
         assertEquals(1, EnchantmentMath.veinDurability(1, 2));
     }
+    @Test void veinMiningIgnoresUnbreakingBookOptionWhileLumberjackStillUsesIt() {
+        int withoutOption = EnchantmentMath.miningOperationDurability(7, 2, false, 2, 0);
+        int withOption = EnchantmentMath.miningOperationDurability(7, 2, false, 2, 3);
+        assertEquals(4, withoutOption);
+        assertEquals(withoutOption, withOption);
+        assertEquals(7, EnchantmentMath.miningOperationDurability(7, 1, false, 2, 3));
+        assertEquals(6, EnchantmentMath.miningOperationDurability(7, 1, true, 0, 3));
+    }
     @Test void lumberjackVerticalSpanIsInclusiveAndCappedAtThirtyFour() {
         assertEquals(true, EnchantmentMath.withinTreeHeight(10, 43));
         assertEquals(false, EnchantmentMath.withinTreeHeight(10, 44));
