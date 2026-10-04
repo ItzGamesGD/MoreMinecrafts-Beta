@@ -32,13 +32,15 @@
     "BookOptionProtectionMixin",
     "BookOptionAttributesMixin",
     "BookOptionTooltipMixin",
-    "EnchantingTableBlockMixin"
+    "EnchantingTableBlockMixin",
+    "T1SmithUpgradeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
     "FishingRodItemClientMixin",
-    "FishingRodInputClientMixin"
+    "FishingRodInputClientMixin",
+    "T1AnvilScreenFactoryMixin"
   ]
 }

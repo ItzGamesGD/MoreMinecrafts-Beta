@@ -114,6 +114,46 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(menu.tree().stream().noneMatch(n->n.id().equals("minecraft:sharpness")),"changing equipment removes unrelated branches");
         ctx.succeed();
     }
+    @GameTest public void normalAnvilCannotMergeProgressionOrConflicts(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var menu=new AnvilMenu(1,player.getInventory());((T1AnvilModes)menu).moreminecrafts$button(player,1);
+        ItemStack first=new ItemStack(Items.CROSSBOW),second=new ItemStack(Items.CROSSBOW);first.setDamageValue(50);
+        EnchantmentHelper.updateEnchantments(first,e->e.set(T1Operations.enchantment(player,"moreminecrafts:crossbow_barrage").orElseThrow(),1));
+        EnchantmentHelper.updateEnchantments(second,e->e.set(T1Operations.enchantment(player,"minecraft:multishot").orElseThrow(),1));
+        menu.getSlot(0).set(first);menu.getSlot(1).set(second);menu.createResult();
+        ctx.assertTrue(menu.getSlot(2).hasItem(),"normal anvil still repairs equipment");
+        ctx.assertTrue(!T1Operations.enchantments(menu.getSlot(2).getItem()).containsKey("minecraft:multishot"),"repair cannot introduce structural conflict from sacrificial equipment");
+        ctx.assertTrue(T1Operations.enchantments(menu.getSlot(2).getItem()).containsKey("moreminecrafts:crossbow_barrage"),"first item's progression is preserved");
+        ctx.succeed();
+    }
+    @GameTest public void smithUpgradePreservesSubmittedProgress(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var villager=net.minecraft.world.entity.EntityTypes.VILLAGER.create(ctx.getLevel(),net.minecraft.world.entity.EntitySpawnReason.COMMAND);
+        villager.setVillagerData(villager.getVillagerData().withProfession(ctx.getLevel().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.VILLAGER_PROFESSION).getOrThrow(net.minecraft.world.entity.npc.villager.VillagerProfession.WEAPONSMITH)));
+        var offer=T1Supply.smithOffer(player,new MerchantOffer(new ItemCost(Items.EMERALD,32),new ItemStack(Items.DIAMOND_SWORD),3,10,0));
+        MerchantOffers offers=villager.getOffers();offers.clear();offers.add(offer);
+        ItemStack submitted=new ItemStack(Items.DIAMOND_SWORD);submitted.set(ModDataComponents.ENHANCEMENT_LEVEL,20);
+        EnchantmentHelper.updateEnchantments(submitted,e->e.set(T1Operations.enchantment(player,"minecraft:sharpness").orElseThrow(),5));
+        submitted.set(ModDataComponents.BOOK_OPTIONS,Map.of("minecraft:sharpness",4));
+        MerchantContainer container=new MerchantContainer(villager);container.setItem(0,submitted);container.setItem(1,new ItemStack(Items.EMERALD,32));
+        ItemStack output=container.getItem(2);
+        ctx.assertTrue(output.getOrDefault(ModDataComponents.ENHANCEMENT_LEVEL,0)==20,"smith preserves Enhancement");
+        ctx.assertTrue(T1Operations.option(output,"sharpness")==4,"smith preserves Book Options");
+        ctx.assertTrue(T1Operations.enchantments(output).get("minecraft:sharpness")==5,"smith cannot downgrade purchased enchantments");
+        ctx.succeed();
+    }
+    @GameTest public void normalRepairIgnoresSacrificialEnchantmentFees(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var menu=new AnvilMenu(1,player.getInventory());((T1AnvilModes)menu).moreminecrafts$button(player,1);
+        ItemStack first=new ItemStack(Items.DIAMOND_SWORD),second=new ItemStack(Items.DIAMOND_SWORD);first.setDamageValue(100);
+        EnchantmentHelper.updateEnchantments(first,e->e.set(T1Operations.enchantment(player,"minecraft:sharpness").orElseThrow(),5));
+        EnchantmentHelper.updateEnchantments(second,e->e.set(T1Operations.enchantment(player,"minecraft:smite").orElseThrow(),5));
+        menu.getSlot(0).set(first);menu.getSlot(1).set(second);menu.createResult();
+        ctx.assertTrue(menu.getSlot(2).hasItem(),"conflicting sacrifice enchantments do not block ordinary repair");
+        ctx.assertTrue(menu.getCost()<=3,"repair does not charge for enchantments never transferred");
+        ctx.assertTrue(T1Operations.enchantments(second).containsKey("minecraft:smite"),"calculation does not mutate sacrificial input");
+        ctx.succeed();
+    }
     private static ItemStack book(net.minecraft.world.entity.player.Player player,String id,int level){
         var result=new ItemStack(Items.ENCHANTED_BOOK);EnchantmentHelper.updateEnchantments(result,e->e.set(T1Operations.enchantment(player,id).orElseThrow(),level));return result;
     }

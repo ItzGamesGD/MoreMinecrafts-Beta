@@ -28,9 +28,27 @@ public final class T1Supply {
         ItemCost equipment=new ItemCost(result.getItem(),1).withComponents(b->b.expect(DataComponents.DAMAGE,0));
         return new MerchantOffer(equipment,Optional.of(new ItemCost(Items.EMERALD,T1Balance.SMITH_EMERALDS)),result,old.getUses(),old.getMaxUses(),old.getXp(),0);
     }
+    public static boolean isSmith(net.minecraft.world.entity.npc.villager.Villager villager){
+        var profession=villager.getVillagerData().profession();
+        return profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.ARMORER)||profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.WEAPONSMITH)||profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.TOOLSMITH);
+    }
+    /** Static merchant offers preview a moderate upgrade; actual output carries the submitted item's state. */
+    public static ItemStack smithUpgrade(ItemStack submitted,ItemStack offered){
+        ItemStack result=submitted.copyWithCount(1);
+        Map<String,Integer> owned=T1Operations.enchantments(result);
+        EnchantmentHelper.getEnchantmentsForCrafting(offered).entrySet().forEach(entry->{
+            String id=entry.getKey().unwrapKey().map(key->key.identifier().toString()).orElse("");
+            var quote=EnchantmentTrees.quote(EquipmentTreeResolver.resolve(result),owned,id);
+            int current=owned.getOrDefault(id,0);
+            // A smith cannot add a conflicting or premium-overlap branch to pre-grown gear.
+            if(current==0&&(!quote.allowed()||quote.premium()>0))return;
+            EnchantmentHelper.updateEnchantments(result,e->e.set(entry.getKey(),Math.max(current,entry.getIntValue())));
+        });
+        return result;
+    }
     public static void normalizeTrades(net.minecraft.world.entity.npc.villager.Villager villager,MerchantOffers offers){
         var profession=villager.getVillagerData().profession();
-        boolean smith=profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.ARMORER)||profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.WEAPONSMITH)||profession.is(net.minecraft.world.entity.npc.villager.VillagerProfession.TOOLSMITH);
+        boolean smith=isSmith(villager);
         for(int i=offers.size()-1;i>=0;i--){
             MerchantOffer offer=offers.get(i);ItemStack result=offer.getResult();
             if(result.is(Items.ENCHANTED_BOOK)){

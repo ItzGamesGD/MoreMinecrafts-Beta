@@ -14,6 +14,7 @@ public final class EnchantmentTrees {
     private static final int[] ORDINARY = {100,150,200,300,400};
     private static final Set<String> PROTECTION = Set.of("minecraft:protection","minecraft:fire_protection","minecraft:blast_protection","minecraft:projectile_protection");
     private static final Set<String> DAMAGE = Set.of("minecraft:sharpness","minecraft:smite","minecraft:bane_of_arthropods");
+    private static final Set<String> MACE_DAMAGE = Set.of("minecraft:density","minecraft:breach");
     static {
         for (Equipment type : Equipment.values()) {
             List<Node> nodes = new ArrayList<>();
@@ -57,7 +58,7 @@ public final class EnchantmentTrees {
         int next = current+1;
         if(owned.getOrDefault(node.prerequisite(),0)<node.prerequisiteLevel())return new Quote(false,next,node.cost(next),0,"prerequisite");
         for(String other:owned.keySet())if(owned.get(other)>0 && conflicts(id,other))return new Quote(false,next,node.cost(next),0,"conflict");
-        Set<String> family = PROTECTION.contains(id)?PROTECTION:DAMAGE.contains(id)?DAMAGE:Set.of();
+        Set<String> family = PROTECTION.contains(id)?PROTECTION:DAMAGE.contains(id)?DAMAGE:MACE_DAMAGE.contains(id)?MACE_DAMAGE:Set.of();
         int count=(int)family.stream().filter(key->owned.getOrDefault(key,0)>0).count();
         int premium=current==0 && !family.isEmpty()?T1Balance.OVERLAP_PREMIUMS[Math.min(count,3)]:0;
         return new Quote(true,next,node.cost(next)+premium,premium,"");

@@ -45,6 +45,25 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
         }
         broadcastChanges();ci.cancel();
     }
+    @com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation(method="createResult",at=@At(value="INVOKE",
+            target="Lnet/minecraft/world/item/enchantment/EnchantmentHelper;getEnchantmentsForCrafting(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/enchantment/ItemEnchantments;"))
+    private net.minecraft.world.item.enchantment.ItemEnchantments moreminecrafts$ignoreSacrificeEnchantments(
+            ItemStack stack,com.llamalad7.mixinextras.injector.wrapoperation.Operation<net.minecraft.world.item.enchantment.ItemEnchantments> original){
+        return moreminecrafts$mode()==1 && stack==inputSlots.getItem(1)
+                ? net.minecraft.world.item.enchantment.ItemEnchantments.EMPTY : original.call(stack);
+    }
+    @Inject(method="createResult",at=@At("RETURN"))
+    private void moreminecrafts$preservePurchasedEnchantments(CallbackInfo ci){
+        if(moreminecrafts$mode()!=1 || !getSlot(2).hasItem())return;
+        ItemStack original=getSlot(0).getItem(),result=getSlot(2).getItem();
+        result.set(net.minecraft.core.component.DataComponents.ENCHANTMENTS,
+                original.getOrDefault(net.minecraft.core.component.DataComponents.ENCHANTMENTS,net.minecraft.world.item.enchantment.ItemEnchantments.EMPTY));
+        if(result.getDamageValue()==original.getDamageValue()
+                && java.util.Objects.equals(result.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME),original.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME))){
+            getSlot(2).set(ItemStack.EMPTY);cost.set(0);
+        }
+        broadcastChanges();
+    }
     @Inject(method="mayPickup",at=@At("HEAD"),cancellable=true)
     private void moreminecrafts$bookPayment(Player player,boolean hasItem,CallbackInfoReturnable<Boolean> cir){
         if(moreminecrafts$mode()==2)cir.setReturnValue(hasItem&&cost.get()>0&&RawXp.canPay(player,cost.get()));

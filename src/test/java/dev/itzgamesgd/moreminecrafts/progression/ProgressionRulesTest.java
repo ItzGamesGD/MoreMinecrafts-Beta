@@ -22,6 +22,7 @@ class ProgressionRulesTest {
         assertEquals(2100, EnchantmentTrees.quote(EnchantmentTrees.Equipment.BOOTS, Map.of("minecraft:protection",1,"minecraft:fire_protection",1,"minecraft:blast_protection",1), "minecraft:projectile_protection").cost());
     }
     @Test void structuralConflictsAndFreeStacking() {
+        assertEquals(500, EnchantmentTrees.quote(EnchantmentTrees.Equipment.MACE, Map.of("minecraft:density",1), "minecraft:breach").premium());
         assertFalse(EnchantmentTrees.quote(EnchantmentTrees.Equipment.BOW, Map.of("minecraft:power",3,"moreminecrafts:multi_shot",1), "moreminecrafts:laser_arrow").allowed());
         assertFalse(EnchantmentTrees.quote(EnchantmentTrees.Equipment.CROSSBOW, Map.of("minecraft:quick_charge",3,"minecraft:multishot",1), "moreminecrafts:crossbow_barrage").allowed());
         assertTrue(EnchantmentTrees.quote(EnchantmentTrees.Equipment.BOW, Map.of("minecraft:unbreaking",3,"minecraft:infinity",1), "minecraft:mending").allowed());

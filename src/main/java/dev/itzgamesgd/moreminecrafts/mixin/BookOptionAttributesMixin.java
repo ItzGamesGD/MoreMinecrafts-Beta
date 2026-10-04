@@ -19,7 +19,7 @@ abstract class BookOptionAttributesMixin {
             // Only the armor's own equipped slot may contribute; prevents offhand armor bonuses.
             var equippable=stack.get(net.minecraft.core.component.DataComponents.EQUIPPABLE);if(equippable==null||equippable.slot()!=slot)return;
             int fire=T1Operations.option(stack,"fire_protection"),blast=T1Operations.option(stack,"blast_protection");
-            if(fire>0)consumer.accept(Attributes.BURNING_TIME,new AttributeModifier(ModIds.id("book_option_fire_"+slot.getName()),-.05*fire,AttributeModifier.Operation.ADD_VALUE));
+            if(fire>0)consumer.accept(Attributes.BURNING_TIME,new AttributeModifier(ModIds.id("book_option_fire_"+slot.getName()),-.05*fire,AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             if(blast>0)consumer.accept(Attributes.EXPLOSION_KNOCKBACK_RESISTANCE,new AttributeModifier(ModIds.id("book_option_blast_"+slot.getName()),.025*blast,AttributeModifier.Operation.ADD_VALUE));
         }
     }
