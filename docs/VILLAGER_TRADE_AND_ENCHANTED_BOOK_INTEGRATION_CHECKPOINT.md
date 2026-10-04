@@ -256,7 +256,14 @@ Implementation must treat the retained roster in Section 3 as the allow-list for
 
 Use vanilla Minecraft's common UI grammar and interaction language.
 
-Do not design bespoke visual styling/assets yet. Exact layout, textures, icons, spacing, and final presentation are deferred to the implementation/UI design pass.
+The UI is split by workstation. It is **not one shared four-mode menu**.
+
+- Enchanting Table owns: `Enchantment | Book Option Application`.
+- Anvil owns: `Enhancement | Normal Anvil | Enchanted Book Combination`.
+
+Mode selection is exposed as new selectable tabs/buttons at the top of the corresponding workstation UI.
+
+Do not introduce a modern web/mobile visual language. Preserve vanilla-style slots, panels, controls, inventory presentation, and interaction grammar. Exact texture/icon polish may be refined during implementation.
 
 ### 5.2 Enchanting Table
 
@@ -266,8 +273,20 @@ The Enchanting Table becomes the surface for two selectable functions:
 
 `Enchantment Skill Tree | Book Option Application`
 
-- **Enchantment Skill Tree**: XP-funded primary enchantment progression.
+- **Enchantment**: XP-funded primary enchantment progression. The previous working label "Skill Tree" is replaced by the player-facing label "Enchantment / 인챈트".
 - **Book Option Application**: consumes a compatible retained Enchanted Book to roll/apply its optional optimization result.
+
+Enchantment-mode direction:
+- provide one dedicated equipment input slot;
+- the enchantment tree is contextual to the equipment inserted into that slot;
+- do not show unrelated equipment/category nodes mixed into one tree;
+- inserting a sword shows the sword-compatible tree, inserting boots shows the boots-compatible tree, etc.;
+- the already approved connected-node/tree direction remains valid.
+
+Book Option Application direction:
+- retain the previously approved simple equipment + compatible Enchanted Book -> resulting equipment presentation;
+- show the relevant Book Option result/range and XP application cost;
+- Book Option application consumes XP in addition to the compatible book; exact XP amount remains a balance value.
 
 ### 5.3 Anvil
 
@@ -275,9 +294,9 @@ The Anvil surface is organized around:
 
 `Enhancement | Normal Anvil | Enchanted Book Combination`
 
-- **Enhancement**: current +0 -> +20 Enhancement flow. It currently uses the anvil-style flow and may be separated as a functional tab/surface while retaining vanilla UI grammar.
+- **Enhancement**: current +0 -> +20 Enhancement flow. Keep this UI intentionally minimal: one equipment slot, one Enhancement Stone slot, and an Enhancement action/button area are sufficient. Enhancement uses Enhancement Stones; do not invent additional material slots for this mode.
 - **Normal Anvil**: ordinary applicable anvil operations, but it must not restore direct Enchanted Book -> equipment enchantment application.
-- **Enchanted Book Combination**: combines compatible books to raise book level.
+- **Enchanted Book Combination**: combines compatible books to raise book level. Its interaction/layout should closely follow the familiar vanilla Anvil combination grammar rather than introducing a separate elaborate tree/menu.
 
 Enchanted Book combination uses **XP only** as its additional cost. Do not introduce a new currency/material solely for book-level combination.
 
@@ -296,7 +315,13 @@ Reset requires a combined material cost containing all of:
 - Netherite
 - Adamantium
 
-Exact quantities remain OPEN until material acquisition/rarity is sufficiently finalized.
+Current provisional reset quantities are fixed at one of each material:
+- Diamond x1
+- Mythril x1
+- Netherite x1
+- Adamantium x1
+
+These quantities may be revisited only through an explicit later balance decision.
 
 Reset semantics:
 
@@ -374,16 +399,30 @@ This closes the Armorer / Weaponsmith / Toolsmith progression-bypass problem at 
 
 ---
 
+### 8.2 Enchanted loot scarcity direction
+
+Naturally/world-supplied enchanted equipment and retained Enchanted Books must be **very, very rare** relative to vanilla-style ordinary availability.
+
+This is a progression-protection direction, not yet a finalized numeric loot table:
+
+- enchanted equipment from loot/world sources should have extremely low appearance probability;
+- retained Enchanted Books from loot/world sources should likewise have extremely low appearance probability;
+- exact probabilities, source-by-source weights, chest tables, and villager availability numbers are deferred to a later balance pass;
+- do not choose final numeric rates during implementation unless separately authorized.
+
+The purpose is to prevent random loot from routinely bypassing the XP Enchantment progression or trivializing Book Option acquisition.
+
+---
+
 ## 9. Remaining OPEN items
 
 Do not invent these during implementation:
 
 - exact XP costs for Enchanted Book Combination;
-- exact XP/material application cost if Book Option application needs cost beyond consuming the book;
-- exact reset quantities for Diamond / Mythril / Netherite / Adamantium;
+- exact XP amount for Book Option application (XP consumption itself is confirmed);
 - exact Knockback Book Option internal formula/application point;
 - exact per-option-level damage-family bonus values where not separately fixed;
-- exact UI layout/art/design beyond the vanilla-common-grammar requirement;
+- final UI texture/icon/spacing polish beyond the confirmed workstation split and interaction direction;
 - Librarian final retained-book trade inventory/weights/prices/restock behavior;
 - Fisherman custom-economy values/final presentation;
 - Fletcher exact trade changes;
@@ -400,7 +439,6 @@ Until the OPEN items above are separately finalized:
 - do not add world-supplied books outside the retained allow-list;
 - do not reinterpret Book Option numbers as replacements for vanilla enchantment values;
 - do not invent bespoke probability tables where the common normalized distribution applies;
-- do not invent reset quantities;
 - do not invent final UI art/layout;
 - do not implement a final Librarian trade table;
 
