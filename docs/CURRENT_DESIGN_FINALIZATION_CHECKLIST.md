@@ -189,7 +189,8 @@ Current authority: `STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 - [DONE] Fishing Net is deleted from the current design.
 - [BALANCE] Fish Trap catch interval currently uses 1 fish / 5 minutes.
 - [DEFERRED] Fish Trap exact recipe/material assignment; String + structural material such as Titanium is only the approved direction until material-economy closure.
-- [OPEN] Decide whether a dedicated Fisherman sale path returns; Stage 3 explicitly did not add it.
+- [DONE] Fisherman custom-Fishing economy is to be designed separately from ordinary vanilla Fishing trades; a Vanilla / Custom Fishing trade presentation split is an allowed direction.
+- [OPEN] Finalize Fisherman custom trade list, valuation, and whether that separation is implemented as explicit UI sections/tabs or another presentation.
 - [BALANCE] Value Index -> Emerald/reward conversion if selling is retained.
 - [BALANCE] Exact module durability and repair/upgrade material costs.
 - [BALANCE] Species distribution/encounter weights and exact length/weight curves.
@@ -219,6 +220,11 @@ Current T1 progression authority: `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`.
 - [DONE] T1 XP cost direction is intentionally expensive; later balance should primarily tune XP supply.
 - [DONE] Approved equipment-tree placements for Sword, Greatsword, Dagger, Axe, Pickaxe, Shovel, Hoe, Mace, Spear, Bow, Crossbow, Helmet, Chestplate, Leggings, Boots, Elytra, Shield and Fishing Rod are recorded in the T1 finalization authority.
 - [DONE] Enhancement remains a separate +0 -> +20 T1 growth axis.
+- [DONE] Trident tree: Impaling I-V / Loyalty I-III / Riptide I-III / Channeling / Unbreaking I-III -> Mending; mechanically impossible Trident combinations remain structural exclusions.
+- [DONE] The old Enchanted Book + Anvil direct-enchantment route must not bypass the XP skill tree.
+- [DONE] Eligible retained Enchanted Books may serve as a secondary Book Option layer: one application establishes a fixed base Option, while higher book levels may add a level bonus.
+- [DONE] Book Options are not freely overwritten; changing/clearing one requires a dedicated reset resource.
+- [DONE] Not every Enchanted Book must survive; books unsuitable for a meaningful Option may have their itemized book variant removed after classification.
 - [DEFERRED] Quest catalogue and XP/resource reward supply are intentionally deferred to a dedicated cross-system design pass.
 - [DONE] No Jet Boots naming/role conflict remains because the historical Utility equipment-form Jet Boots is retired; the enchantment remains authoritative.
 
@@ -229,10 +235,29 @@ Current T1 progression authority: `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`.
 - [OPEN] Jet Boots exact placement/prerequisite/cost in the new T1 XP skill tree.
 - [OPEN] Gauntlet enchantment-tree identity/placement.
 - [OPEN] Sword Looting exact tree placement because it was not explicitly placed in the approved Sword-tree pass.
+- [OPEN] Chestplate Thorns placement; omission from the bulk armor pass is not authority to delete it.
+- [OPEN] Exact skill-tree persistence/binding semantics if implementation must distinguish physical-item state from player/category-wide state.
+- [OPEN] Classify every Enchanted Book as retained Book Option / special redesign / itemized book removed.
+- [OPEN] Finalize Book Option base effects, level-bonus formula, slot model/UI, and reset-resource identity/economy.
 - [OPEN] Exact respec/reset interaction and cost.
 - [BALANCE] Final per-node numeric costs where only a cost class/range is authoritative.
 - [BALANCE] Crossbow Barrage interval and other explicitly live-tunable constants.
 - [LIVE] Enchantment interaction/combat feel where headless CI cannot prove behavior.
+
+# 6A. Villager trading integration
+
+Current checkpoint authority: `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md`.
+
+- [DONE] Farmer: keep current vanilla role.
+- [DONE] Fisherman: solve through separate custom-Fishing economy design; Vanilla / Custom Fishing trade separation is an allowed direction.
+- [OPEN] Fletcher: retain vanilla baseline, with exact high-throughput economy/combat-supply review deferred to a focused pass.
+- [DONE] Librarian is not automatically replaced wholesale; direct book enchanting is removed and retained books are recontextualized through the Book Option design.
+- [OPEN] Final Librarian retained book inventory/supply after the Book Option keep/redesign/delete classification.
+- [DONE] Cartographer: no current change. Any future promoted Exploration/structure content authority must explicitly review Cartographer trade integration.
+- [DONE] Cleric: no current change. Any future promoted Brewing/Alchemy/relevant supernatural-resource authority must explicitly review Cleric trade integration.
+- [OPEN] Armorer / Weaponsmith / Toolsmith: solve the shared direct-equipment-sale progression-bypass problem before final trade implementation.
+- [DONE] Mason / Shepherd / Butcher / Leatherworker: keep current vanilla roles unless a later concrete system creates a conflict.
+- [DONE] Villager balance must not depend only on nominal rarity because breeding/restocking can create repeatable supply.
 
 # 7. Alchemy
 
