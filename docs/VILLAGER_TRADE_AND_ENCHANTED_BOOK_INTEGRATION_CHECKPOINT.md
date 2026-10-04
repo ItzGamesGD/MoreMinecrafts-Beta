@@ -349,8 +349,28 @@ Other profession status remains:
 - Fletcher: retain vanilla baseline; focused review later if needed.
 - Cartographer: KEEP now; future Exploration/structure authority must explicitly review it.
 - Cleric: KEEP now; future Brewing/Alchemy authority must explicitly review it.
-- Armorer / Weaponsmith / Toolsmith: CORE OPEN PROBLEM because direct equipment sales may bypass/distort T1 equipment progression.
+- Armorer / Weaponsmith / Toolsmith: FINAL MODEL — preserve their existing final-sale equipment identities, but replace direct finished-equipment purchase with an equipment-upgrade exchange. The player must provide the corresponding fully intact / undamaged finished equipment item plus Emeralds, and receives the corresponding moderately enchanted equipment. This prevents villagers from bypassing material/equipment acquisition while preserving the familiar final trade outputs. Exact Emerald prices are balance values and may be tuned independently.
 - Mason / Shepherd / Butcher / Leatherworker: KEEP vanilla unless a later concrete conflict appears.
+
+---
+
+## 8.1 Armorer / Weaponsmith / Toolsmith final equipment-trade rule
+
+The three equipment-selling smith professions use one shared final rule:
+
+`corresponding fully intact finished equipment + Emeralds -> corresponding moderately enchanted equipment`
+
+Authoritative constraints:
+
+- the submitted equipment must be the corresponding finished item and must have no durability damage;
+- the villager does not provide the equipment base from Emeralds alone;
+- the returned item is the corresponding equipment with a moderate enchantment specification appropriate to the trade;
+- preserve the professions' existing final-sale equipment identities rather than redesigning their final product roster;
+- the purpose is to make the villager an upgrade route for equipment the player already acquired, not a bypass around material/equipment progression;
+- exact Emerald prices are balance-tunable and are not fixed by this checkpoint;
+- exact moderate enchantment rolls/specification should remain compatible with the T1 enchantment authority and must not become a shortcut to theoretical/maximized T1 equipment.
+
+This closes the Armorer / Weaponsmith / Toolsmith progression-bypass problem at the design level without requiring a broader profession redesign.
 
 ---
 
@@ -365,7 +385,6 @@ Do not invent these during implementation:
 - exact per-option-level damage-family bonus values where not separately fixed;
 - exact UI layout/art/design beyond the vanilla-common-grammar requirement;
 - Librarian final retained-book trade inventory/weights/prices/restock behavior;
-- Armorer / Weaponsmith / Toolsmith replacement model;
 - Fisherman custom-economy values/final presentation;
 - Fletcher exact trade changes;
 - skill-tree persistence/binding and respec items tracked by the T1 enchantment authority.
@@ -384,6 +403,5 @@ Until the OPEN items above are separately finalized:
 - do not invent reset quantities;
 - do not invent final UI art/layout;
 - do not implement a final Librarian trade table;
-- do not implement a final Armorer / Weaponsmith / Toolsmith solution.
 
 This checkpoint preserves the Book Option core architecture while leaving only explicit balance, UI-detail, and remaining villager-integration decisions open.
