@@ -45,47 +45,86 @@ It must never be interpreted as a replacement value for the vanilla enchantment 
 
 Example: Mending retains its normal behavior and its Book Option improves the repair efficiency from 2 durability per XP to 4 durability per XP.
 
-### 2.2 Option result tiers
+### 2.2 Option level follows the enchantment's vanilla level structure
 
-A compatible retained book is consumed through the Book Option flow and produces one fixed result tier:
+Book Option does **not** use a universal I-III tier cap.
 
-- Option I — lowest
-- Option II
-- Option III — highest
+For each retained enchantment, the Book Option maximum level follows that enchantment's own vanilla maximum level.
 
-Once applied, the rolled option is fixed. It is not freely overwritten.
+Examples:
 
-Higher source-book level improves the probability distribution; it does not directly guarantee the corresponding Option tier.
+- Sharpness V -> Book Option (+I) through (+V)
+- Protection IV -> (+I) through (+IV)
+- Unbreaking III -> (+I) through (+III)
+- Fire Aspect II -> (+I) through (+II)
+- Mending I -> (+I)
 
-### 2.3 Common normalized probability distribution
+A compatible retained book is consumed through the Book Option flow and rolls one level inside that enchantment-specific range.
 
-All retained books that use randomized Option I/II/III quality use one normalized common rule rather than per-enchantment hand-authored probability tables.
+Once applied, that Book Option level is fixed until the expensive reset flow is used.
 
-Normalize source-book level as:
+All compatible retained Book Options on an item may coexist. There is no shared equipment-wide Book Option slot limit and no competition between different enchantments' Book Options. Each supported enchantment independently owns its own bonus level.
 
-`t = (current book level - 1) / (maximum book level - 1)`
+Tooltip/presentation direction is to display the bonus adjacent to the existing enchantment, for example:
 
-For maximum-level-V books, the approved anchor distribution is:
+`Sharpness V (+IV)`
 
-| Source book | Option I | Option II | Option III |
-|---|---:|---:|---:|
-| I/V | 70% | 25% | 5% |
-| II/V | 55% | 35% | 10% |
-| III/V | 40% | 40% | 20% |
-| IV/V | 25% | 45% | 30% |
-| V/V | 10% | 40% | 50% |
+Exact visual styling remains deferred.
 
-Other maximum book levels use the same normalized progression/interpolation rather than receiving unrelated probability tables.
+### 2.3 Common binomial probability rule
 
-Examples already accepted:
+Source-book level changes the probability of rolling higher Book Option levels. It does **not** cap the possible result at the source-book level.
 
-- I/III -> 70 / 25 / 5
-- II/III -> 40 / 40 / 20
-- III/III -> 10 / 40 / 50
+Let:
 
-The highest-level source book therefore still has a 10% chance to produce the lowest Option I. Low-level books retain a small chance to produce Option III.
+- `M` = the enchantment's vanilla maximum level, which is also its maximum Book Option level;
+- `L` = the source Enchanted Book's current level;
+- `B` = the source book's maximum level.
 
-This common probability mechanism is especially relevant to the damage-family retained books; do not invent bespoke probability curves without a later design change.
+For enchantments with `B > 1`, map source-book quality linearly from `p = 0.20` at the lowest book level to `p = 0.80` at the highest:
+
+`p = 0.20 + 0.60 * ((L - 1) / (B - 1))`
+
+Then roll:
+
+`Book Option level = 1 + Binomial(M - 1, p)`
+
+Consequences:
+
+- every result from (+I) through (+M) remains possible for every source-book level;
+- a low-level book can very rarely roll the maximum Book Option;
+- a maximum-level book can still very rarely roll (+I);
+- higher-level books shift the distribution toward stronger results rather than guaranteeing them;
+- one formula handles enchantments with different vanilla maximum levels.
+
+For a maximum-V enchantment, source-book p values are:
+
+| Source book | p |
+|---|---:|
+| I/V | 0.20 |
+| II/V | 0.35 |
+| III/V | 0.50 |
+| IV/V | 0.65 |
+| V/V | 0.80 |
+
+Example distributions for a maximum-V Book Option:
+
+| Source book | (+I) | (+II) | (+III) | (+IV) | (+V) |
+|---|---:|---:|---:|---:|---:|
+| I/V | 40.96% | 40.96% | 15.36% | 2.56% | 0.16% |
+| III/V | 6.25% | 25.00% | 37.50% | 25.00% | 6.25% |
+| V/V | 0.16% | 2.56% | 15.36% | 40.96% | 40.96% |
+
+Examples at other vanilla maximum levels:
+
+- Unbreaking III from an Unbreaking III book: (+I) 4%, (+II) 32%, (+III) 64%.
+- Protection IV from a Protection IV book: (+I) 0.8%, (+II) 9.6%, (+III) 38.4%, (+IV) 51.2%.
+- Fire Aspect I book: (+I) 80%, (+II) 20%.
+- Fire Aspect II book: (+I) 20%, (+II) 80%.
+
+For a maximum-I enchantment such as Mending, the only valid Book Option level is (+I), so the result is deterministic.
+
+Do not restore the superseded universal I/II/III probability table.
 
 ---
 
@@ -106,20 +145,18 @@ All values below are **additional bonuses** on top of the corresponding enchantm
 ### 3.2 Melee damage family
 
 **Sharpness / 날카로움**
-- maximum Book Option tier: III;
-- source-book level modifies the common Option-tier probability distribution.
+- Book Option range follows Sharpness's vanilla maximum: (+I) through (+V);
+- source-book level shifts the common binomial distribution.
 
 **Smite / 강타**
-- same Book Option model as Sharpness;
-- maximum Option tier III;
-- source-book level modifies the common Option-tier probability distribution.
+- Book Option range follows Smite's vanilla maximum: (+I) through (+V);
+- source-book level shifts the common binomial distribution.
 
 **Bane of Arthropods / 살충**
-- same Book Option model;
-- maximum Option tier III;
-- source-book level modifies the common Option-tier probability distribution.
+- Book Option range follows Bane of Arthropods's vanilla maximum: (+I) through (+V);
+- source-book level shifts the common binomial distribution.
 
-Exact per-tier damage-family bonus values beyond the approved tier/probability structure remain OPEN unless separately recorded.
+Exact per-option-level damage-family bonus values remain OPEN unless separately recorded.
 
 ### 3.3 Sword utility
 
@@ -250,7 +287,7 @@ Exact XP amounts remain BALANCE/OPEN.
 
 ## 6. Book Option reset
 
-Book Options are intentionally expensive to reset so that Option III optimization remains a high-end optional pursuit rather than mandatory routine rerolling.
+Book Options are intentionally expensive to reset so that maximum/high Book Option optimization remains a high-end optional pursuit rather than mandatory routine rerolling.
 
 Reset requires a combined material cost containing all of:
 
@@ -280,9 +317,9 @@ The intended player perception is:
 - Enhancement + XP Skill Tree = a complete, strong T1 equipment progression;
 - Book Option = optional investment for players who want to push an item toward its theoretical limit.
 
-Do not balance ordinary T1 survival around the assumption that every player has Option III on every item.
+Do not balance ordinary T1 survival around the assumption that every player has maximum Book Options on every supported enchantment.
 
-High-level books remain valuable because they improve the common probability distribution, but even a maximum-level book does not guarantee Option III.
+High-level books remain valuable because they improve the common binomial probability distribution, but even a maximum-level book does not guarantee the maximum Book Option.
 
 The combination of:
 
@@ -321,12 +358,11 @@ Other profession status remains:
 
 Do not invent these during implementation:
 
-- exact Book Option slot model/count per equipment item;
 - exact XP costs for Enchanted Book Combination;
 - exact XP/material application cost if Book Option application needs cost beyond consuming the book;
 - exact reset quantities for Diamond / Mythril / Netherite / Adamantium;
 - exact Knockback Book Option internal formula/application point;
-- exact per-tier damage-family bonus values where not separately fixed;
+- exact per-option-level damage-family bonus values where not separately fixed;
 - exact UI layout/art/design beyond the vanilla-common-grammar requirement;
 - Librarian final retained-book trade inventory/weights/prices/restock behavior;
 - Armorer / Weaponsmith / Toolsmith replacement model;
