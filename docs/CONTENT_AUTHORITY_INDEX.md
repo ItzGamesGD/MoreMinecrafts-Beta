@@ -83,7 +83,9 @@ Current enchantment gameplay-semantics authority: [Enchantment Branch Skeleton](
 
 Current T1 enchantment progression, skill-tree placement, compatibility policy, and XP-cost authority: [T1 Enchantment Skill Tree Finalization](T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md).
 
-The T1 finalization supersedes the skeleton wherever the older skeleton describes vanilla/random-book acquisition, progression placement, or compatibility rules that conflict with the XP-funded skill-tree model. The skeleton remains authoritative for retained custom-enchantment gameplay semantics and unresolved integration behavior.
+Current Enchanted Book / vanilla villager-trade integration checkpoint: [Villager Trade and Enchanted Book Integration Checkpoint](VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md).
+
+The T1 finalization supersedes the skeleton wherever the older skeleton describes vanilla/random-book acquisition, progression placement, or compatibility rules that conflict with the XP-funded skill-tree model. The villager/book checkpoint supersedes the old direct book/anvil acquisition assumption and records the confirmed Book Option architecture plus profession-by-profession trade status. The skeleton remains authoritative for retained custom-enchantment gameplay semantics and unresolved integration behavior.
 
 Historical Paper enchantment behavior and older enchantment proposals are reference material only where they conflict with these current authorities.
 
@@ -175,7 +177,7 @@ New standalone or cross-system gameplay axes that are not already part of curren
 Examples include:
 
 - Knowledge / Research,
-- Trading as a new independent economy/exchange axis,
+- Trading as a new independent economy/exchange axis (this does not prohibit targeted vanilla villager-trade integration already routed through the current villager/book checkpoint),
 - other newly proposed progression, economy, research, social, or cross-system axes.
 
 Preserve promising concepts here at idea level only. Do not expand them into detailed design, promote them into current authority, or implement them unless a later human-approved design task explicitly selects that concept.
