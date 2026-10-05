@@ -108,11 +108,11 @@ public final class ModItems {
         for (WeaponBalance.Values value : WeaponBalance.VALUES) {
             String tier = value.tier().name().toLowerCase();
             DAGGERS.put(value.tier(), register(tier + "_dagger", key -> new BasicWeaponItem(BasicWeaponItem.Kind.DAGGER,
-                    WeaponProperties.create(key, value.daggerDamage(), WeaponBalance.DAGGER_ATTACK_SPEED,
-                            LowerEquipmentRules.DAGGER_REACH))));
+                    WeaponProperties.tierProperties(WeaponProperties.create(key, value.daggerDamage(), WeaponBalance.DAGGER_ATTACK_SPEED,
+                            LowerEquipmentRules.DAGGER_REACH), value.tier()))));
             GREATSWORDS.put(value.tier(), register(tier + "_greatsword", key -> new GreatswordItem(
-                    WeaponProperties.create(key, value.greatswordDamage(), WeaponBalance.GREATSWORD_ATTACK_SPEED,
-                            LowerEquipmentRules.GREATSWORD_REACH))));
+                    WeaponProperties.tierProperties(WeaponProperties.create(key, value.greatswordDamage(), WeaponBalance.GREATSWORD_ATTACK_SPEED,
+                            LowerEquipmentRules.GREATSWORD_REACH), value.tier()))));
         }
         GAUNTLET = register("gauntlet", key -> new GauntletItem(WeaponProperties.create(key,
                 LowerEquipmentRules.GAUNTLET_DIRECT_DAMAGE, WeaponBalance.GAUNTLET_ATTACK_SPEED,

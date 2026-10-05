@@ -31,7 +31,14 @@ public final class EnhancementCatalog {
     }
 
     static Optional<EnhancementDefinition> customDefinition(Identifier id) {
-        return Optional.ofNullable(CUSTOM.get(id));
+        EnhancementDefinition existing = CUSTOM.get(id);
+        if (existing != null) return Optional.of(existing);
+        if (id.getNamespace().equals("moreminecrafts") && java.util.Arrays.stream(
+                dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.values()).anyMatch(tier ->
+                id.getPath().equals(tier.name().toLowerCase(java.util.Locale.ROOT) + "_dagger")
+                || id.getPath().equals(tier.name().toLowerCase(java.util.Locale.ROOT) + "_greatsword")))
+            return Optional.of(definition(EnhancementCategory.VANILLA, EnhancementProfile.SWORD));
+        return Optional.empty();
     }
 
     private static Map<Item, EnhancementDefinition> createVanillaDefinitions() {
@@ -40,7 +47,9 @@ public final class EnhancementCatalog {
                 Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
         add(result, EnhancementProfile.MACE, Items.MACE);
         add(result, EnhancementProfile.RANGED, Items.BOW, Items.CROSSBOW);
-        add(result, EnhancementProfile.SPEAR, Items.TRIDENT);
+        add(result, EnhancementProfile.SPEAR, Items.TRIDENT,
+                Items.WOODEN_SPEAR, Items.STONE_SPEAR, Items.COPPER_SPEAR, Items.IRON_SPEAR,
+                Items.GOLDEN_SPEAR, Items.DIAMOND_SPEAR, Items.NETHERITE_SPEAR);
         add(result, EnhancementProfile.ARMOR,
                 Items.LEATHER_HELMET, Items.LEATHER_CHESTPLATE, Items.LEATHER_LEGGINGS, Items.LEATHER_BOOTS,
                 Items.CHAINMAIL_HELMET, Items.CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_LEGGINGS, Items.CHAINMAIL_BOOTS,

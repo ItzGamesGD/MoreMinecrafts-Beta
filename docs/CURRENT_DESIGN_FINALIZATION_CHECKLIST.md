@@ -58,7 +58,8 @@ Alchemy, Coating, Knowledge/Research, Trading-as-an-axis, and other explicitly d
 # 0A. Cross-system finalization
 
 - [OPEN] Complete a final dependency map after the active systems below are designed: material sinks -> recipes -> utility/equipment acquisition -> mobs/boss rewards -> T3/T4 access.
-- [OPEN] Decide the intended overall survival progression ordering without turning MoreMinecrafts into a separate linear RPG progression.
+- [DONE] Broad Early -> T1 -> T2 survival identity is fixed without turning MoreMinecrafts into a separate linear RPG tree: vanilla-first early game -> T1 `play Minecraft and grow` -> T2 active exploration/challenge acquisition.
+- [OPEN] Extend/close the survival progression ordering beyond T2 only after T3/T4 identities are separately designed.
 - [OPEN] After design closure, audit all current-authority documents for contradictions and remove/mark stale design debt.
 - [OPEN] Define the boundary between design constants and live-balance/implementation constants consistently across systems.
 - [DEFERRED] Knowledge / Research remains idea-only until explicitly promoted.
@@ -90,7 +91,7 @@ Current structural authority: `RESOURCE_MINING_MATERIALS_FINALIZATION.md` plus t
 
 # 2. Equipment Progression — T1/T2/T3/T4
 
-Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md` and applicable finalized equipment authority.
+Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md`, `EARLY_T1_T2_SURVIVAL_PROGRESSION_LOOP_CHECKPOINT.md`, and applicable finalized equipment authority.
 
 ## Already resolved
 
@@ -99,6 +100,12 @@ Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md` and applicable finalized
 - [DONE] T2 final seven-item roster.
 - [DONE] T2 active-skill input uses normal item/right-click semantics rather than old F/Shift+F route.
 - [DONE] T3 remains a separate Special-equipment category; T4 remains Endgame rather than a promotion chain.
+- [DONE] Early game remains vanilla-first; custom resources/options may appear lightly from roughly iron-era onward but must remain optional rather than forming a mandatory parallel tech tree.
+- [DONE] T1 identity: play ordinary Minecraft, gain XP/resources, and mature equipment through parallel Enhancement + XP Enchantment growth; no dedicated T1 boss gate.
+- [DONE] Enhancement Stone is a cheap/easy-to-craft supporting material sink from ordinary resources, not a rare exploration/boss progression gate; recipe is 4 Redstone + 4 Diamonds + 1 Lapis Lazuli -> 16 Enhancement Stones (R D R / D L D / R D R).
+- [DONE] Applicable T2 equipment may use the same Enhancement, XP Enchantment, and Book Option equipment-growth axes as T1 through explicit equipment profiles.
+- [DONE] XP is the primary T1 progression currency; keep meaningful costs and tune XP supply later rather than trivializing the growth tree. Vanilla XP/farms remain valid.
+- [DEFERRED] Future Quest system acts as fixed one-time challenge/achievement-like XP/resource supply and connective glue; no daily rotation, rerolls, or Quest-shop economy. Catalogue/rewards remain a dedicated later design pass.
 - [DONE] T1 vanilla-style weapon extensions finalized: Dagger / Greatsword / single non-tiered Gauntlet.
 - [DONE] Dagger core contract: ~2.5 reach, Hoe-level speed, ~65% same-tier Sword damage, no sweep, 1 Stick + 1 tier material.
 - [DONE] Greatsword core contract: vertical single-target left-click, diagonal +50% sweep-range right-click, Shield unavailable while equipped, Sword + 2 tier materials recipe.
@@ -108,6 +115,10 @@ Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md` and applicable finalized
 
 ## Remaining T2 design
 
+- [DONE] High-level T2 acquisition identity: active Exploration / Challenge -> Elemental Material or equivalent acquisition reward -> T2 equipment.
+- [DONE] Preferred vanilla-adjacent foundations include Pillager content, Trial Chambers, valuable exploration chests, and selectable harder Trial/wave challenges.
+- [DONE] T2 reward direction may combine random exploration/chest acquisition with guaranteed or higher-value rewards for harder selected Trial/wave content.
+- [OPEN] Finalize exact T2 acquisition contract: material identities, per-element mapping, loot tables/probabilities, Trial/wave mechanics, guaranteed thresholds, and recipe quantities.
 - [OPEN] Resolve Fire Sword vs Wind Sword passive identity overlap after/during dedicated combat design.
 - [OPEN] Design Dark Energy Staff gameplay identity and Enhancement profile; current registered item is only a placeholder.
 - [OPEN] Decide whether Wind Bow receives any homing/aim-correction mechanic and, if retained, its behavioral contract.
@@ -189,7 +200,8 @@ Current authority: `STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 - [DONE] Fishing Net is deleted from the current design.
 - [BALANCE] Fish Trap catch interval currently uses 1 fish / 5 minutes.
 - [DEFERRED] Fish Trap exact recipe/material assignment; String + structural material such as Titanium is only the approved direction until material-economy closure.
-- [OPEN] Decide whether a dedicated Fisherman sale path returns; Stage 3 explicitly did not add it.
+- [DONE] Fisherman custom-Fishing economy is to be designed separately from ordinary vanilla Fishing trades; a Vanilla / Custom Fishing trade presentation split is an allowed direction.
+- [OPEN] Finalize Fisherman custom trade list, valuation, and whether that separation is implemented as explicit UI sections/tabs or another presentation.
 - [BALANCE] Value Index -> Emerald/reward conversion if selling is retained.
 - [BALANCE] Exact module durability and repair/upgrade material costs.
 - [BALANCE] Species distribution/encounter weights and exact length/weight curves.
@@ -198,24 +210,65 @@ Current authority: `STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 
 # 6. Enchantments
 
-Current authority: `ENCHANTMENT_BRANCH_SKELETON.md`.
+Current gameplay-semantics authority: `ENCHANTMENT_BRANCH_SKELETON.md`.
+
+Current T1 progression authority: `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`.
 
 ## Already resolved
 
 - [DONE] Retained enchantment roster and removed legacy concepts.
 - [DONE] Core gameplay semantics for Multi Shot, Crossbow Barrage, Vein Mining, Auto Replant, Auto Smelt, Lumberjack, Elytra Launch, Explosive Mace, Feather Boots and Jet Boots.
-- [DONE] Laser Arrow vs Multi Shot exclusivity.
-- [DONE] Feather Boots vs Jet Boots exclusivity.
-- [DONE] Enchantments belong in the vanilla acquisition ecosystem rather than a custom shop/currency.
-
-## Remaining design
-
-- [OPEN] Laser Arrow dedicated projectile/resource/VFX/presentation contract.
-- [OPEN] Multi Catch integration with the current Fishing pipeline; do not restore Paper reward multiplication.
-- [OPEN] Decide final enchantment acquisition weights/distribution only after the complete roster/economy context is ready.
+- [DONE] T1 ordinary/random enchanting progression is replaced by an XP-funded per-equipment skill tree.
+- [DONE] Same-enchantment levels unlock sequentially; ordinary unrelated branches do not receive artificial prerequisites.
+- [DONE] Global durability branch is Unbreaking I -> II -> III -> Mending and is deliberately expensive.
+- [DONE] Compatibility model is free stacking / premium stacking / true structural exclusion.
+- [DONE] Mending + Infinity allowed.
+- [DONE] Crossbow Piercing + Multishot allowed.
+- [DONE] Bow Multi Shot vs Laser Arrow remains structural exclusivity.
+- [DONE] Crossbow Barrage vs Multishot remains structural exclusivity.
+- [DONE] Powerful overlapping damage/protection families may stack through additional XP premiums instead of blanket prohibition.
+- [DONE] Armor protection-family premium baseline is +500 / +1,000 / +2,000 XP for the second / third / fourth families.
+- [DONE] T1 XP cost direction is intentionally expensive; later balance should primarily tune XP supply.
+- [DONE] Approved equipment-tree placements for Sword, Greatsword, Dagger, Axe, Pickaxe, Shovel, Hoe, Mace, Spear, Bow, Crossbow, Helmet, Chestplate, Leggings, Boots, Elytra, Shield and Fishing Rod are recorded in the T1 finalization authority.
+- [DONE] Enhancement remains a separate +0 -> +20 T1 growth axis.
+- [DONE] Trident tree: Impaling I-V / Loyalty I-III / Riptide I-III / Channeling / Unbreaking I-III -> Mending; mechanically impossible Trident combinations remain structural exclusions.
+- [DONE] The old Enchanted Book + Anvil direct-enchantment route must not bypass the XP skill tree.
+- [DONE] Eligible retained Enchanted Books may serve as a secondary Book Option layer: one application establishes a fixed base Option, while higher book levels may add a level bonus.
+- [DONE] Book Options are not freely overwritten; changing/clearing one requires a dedicated reset resource.
+- [DONE] Not every Enchanted Book must survive; books unsuitable for a meaningful Option may have their itemized book variant removed after classification.
+- [DEFERRED] Quest catalogue and XP/resource reward supply are intentionally deferred to a dedicated cross-system design pass.
 - [DONE] No Jet Boots naming/role conflict remains because the historical Utility equipment-form Jet Boots is retired; the enchantment remains authoritative.
+
+## Remaining design / explicit authority gaps
+
+- [OPEN] Laser Arrow dedicated projectile/resource/VFX/presentation contract; its Bow tree placement is already fixed at Power III and exclusive with Multi Shot.
+- [OPEN] Multi Catch integration with the current Fishing pipeline and its exact skill-tree placement; do not restore Paper reward multiplication.
+- [OPEN] Jet Boots exact placement/prerequisite/cost in the new T1 XP skill tree.
+- [OPEN] Gauntlet enchantment-tree identity/placement.
+- [OPEN] Sword Looting exact tree placement because it was not explicitly placed in the approved Sword-tree pass.
+- [OPEN] Chestplate Thorns placement; omission from the bulk armor pass is not authority to delete it.
+- [OPEN] Exact skill-tree persistence/binding semantics if implementation must distinguish physical-item state from player/category-wide state.
+- [OPEN] Classify every Enchanted Book as retained Book Option / special redesign / itemized book removed.
+- [OPEN] Finalize Book Option base effects, level-bonus formula, slot model/UI, and reset-resource identity/economy.
+- [OPEN] Exact respec/reset interaction and cost.
+- [BALANCE] Final per-node numeric costs where only a cost class/range is authoritative.
 - [BALANCE] Crossbow Barrage interval and other explicitly live-tunable constants.
-- [LIVE] Stage 17 enchantment interaction/combat feel where headless CI cannot prove behavior.
+- [LIVE] Enchantment interaction/combat feel where headless CI cannot prove behavior.
+
+# 6A. Villager trading integration
+
+Current checkpoint authority: `VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md`.
+
+- [DONE] Farmer: keep current vanilla role.
+- [DONE] Fisherman: solve through separate custom-Fishing economy design; Vanilla / Custom Fishing trade separation is an allowed direction.
+- [OPEN] Fletcher: retain vanilla baseline, with exact high-throughput economy/combat-supply review deferred to a focused pass.
+- [DONE] Librarian is not automatically replaced wholesale; direct book enchanting is removed and retained books are recontextualized through the Book Option design.
+- [DONE] Librarian retained-book policy: 1% eligible-candidate retention, one use per restock, fixed effective 64-Emerald price despite vanilla modifiers, retained-book allow-list only.
+- [DONE] Cartographer: no current change. Any future promoted Exploration/structure content authority must explicitly review Cartographer trade integration.
+- [DONE] Cleric: no current change. Any future promoted Brewing/Alchemy/relevant supernatural-resource authority must explicitly review Cleric trade integration.
+- [DONE] Armorer / Weaponsmith / Toolsmith: corresponding intact equipment + Emeralds upgrades to moderately enchanted corresponding equipment; generated equipment offers are converted, submitted progression is preserved, and no-op upgrades are hidden.
+- [DONE] Mason / Shepherd / Butcher / Leatherworker: keep current vanilla roles unless a later concrete system creates a conflict.
+- [DONE] Villager balance must not depend only on nominal rarity because breeding/restocking can create repeatable supply.
 
 # 7. Alchemy
 

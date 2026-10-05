@@ -22,13 +22,26 @@
     "SleepingBagRespawnMixin",
     "BackpackDetachMixin",
     "ShieldItemMixin",
-    "LanternDeathMixin"
+    "LanternDeathMixin",
+    "AnvilButtonsMixin",
+    "T1LootMixin",
+    "T1VillagerMixin",
+    "T1LibrarianPriceMixin",
+    "T1MobSupplyMixin",
+    "BookOptionEnchantmentMixin",
+    "BookOptionIgniteMixin",
+    "BookOptionProtectionMixin",
+    "BookOptionAttributesMixin",
+    "BookOptionTooltipMixin",
+    "EnchantingTableBlockMixin",
+    "T1SmithUpgradeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
     "FishingRodItemClientMixin",
-    "FishingRodInputClientMixin"
+    "FishingRodInputClientMixin",
+    "T1AnvilScreenFactoryMixin"
   ]
 }

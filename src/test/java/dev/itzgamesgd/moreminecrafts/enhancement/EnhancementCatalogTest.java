@@ -25,6 +25,20 @@ class EnhancementCatalogTest {
     }
 
     @Test
+    void everyVanillaSpearHasTheVanillaSpearEnhancementAndCanAdvance() {
+        for (var spear : new net.minecraft.world.item.Item[]{Items.WOODEN_SPEAR, Items.STONE_SPEAR,
+                Items.COPPER_SPEAR, Items.IRON_SPEAR, Items.GOLDEN_SPEAR, Items.DIAMOND_SPEAR,
+                Items.NETHERITE_SPEAR}) {
+            var definition = EnhancementCatalog.definition(spear).orElseThrow(
+                    () -> new AssertionError("Missing Enhancement definition for " + spear));
+            assertEquals(EnhancementCategory.VANILLA, definition.category());
+            assertEquals(EnhancementProfile.SPEAR, definition.profile());
+            assertEquals(1, EnhancementOperation.plan(definition, 0, 1).orElseThrow().targetLevel());
+            assertEquals(20, EnhancementOperation.plan(definition, 19, 2).orElseThrow().targetLevel());
+        }
+    }
+
+    @Test
     void elementalSwordsResolveByRegistryIdWithoutInitializingModItems() {
         var flame = EnhancementCatalog.customDefinition(ModIds.id("flame_sword")).orElseThrow();
         var wind = EnhancementCatalog.customDefinition(ModIds.id("wind_sword")).orElseThrow();

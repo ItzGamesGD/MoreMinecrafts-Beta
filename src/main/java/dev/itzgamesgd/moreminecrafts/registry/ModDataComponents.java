@@ -20,6 +20,13 @@ public final class ModDataComponents {
                     .build()
     );
 
+    public static final DataComponentType<java.util.Map<String,Integer>> BOOK_OPTIONS = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("book_options"),
+            DataComponentType.<java.util.Map<String,Integer>>builder()
+                    .persistent(Codec.unboundedMap(Codec.STRING, Codec.intRange(1,5)))
+                    .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(Codec.unboundedMap(Codec.STRING, Codec.intRange(1,5))))
+                    .build());
+
     public static final DataComponentType<Integer> FISH_GRADE = integerComponent("fish_grade", 1, 5);
     public static final DataComponentType<Integer> FISH_LENGTH_TENTHS_CM = integerComponent("fish_length_tenths_cm", 1, 100000);
     public static final DataComponentType<Integer> FISH_WEIGHT_TENTHS_KG = integerComponent("fish_weight_tenths_kg", 1, 100000);

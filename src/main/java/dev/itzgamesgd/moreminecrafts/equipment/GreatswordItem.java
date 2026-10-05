@@ -29,11 +29,21 @@ public final class GreatswordItem extends BasicWeaponItem {
                         && attacker.hasLineOfSight(candidate))) {
             var offset = target.getBoundingBox().getCenter().subtract(origin);
             if (LowerEquipmentRules.isWithinGreatswordSweep(offset, direction)) {
-                target.hurtServer((ServerLevel) level, level.damageSources().playerAttack(attacker), damage);
-                hit = true;
+                var source = level.damageSources().playerAttack(attacker);
+                float enchanted = net.minecraft.world.item.enchantment.EnchantmentHelper.modifyDamage(
+                        (ServerLevel) level, attacker.getItemInHand(hand), target, source,
+                        damage + (float) (attacker.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE)
+                                * .035 * dev.itzgamesgd.moreminecrafts.progression.T1Operations.option(attacker.getItemInHand(hand), "sweeping_edge")));
+                if (target.hurtServer((ServerLevel) level, source, enchanted)) {
+                    net.minecraft.world.item.enchantment.EnchantmentHelper.doPostAttackEffectsWithItemSource(
+                            (ServerLevel) level, target, source, attacker.getItemInHand(hand));
+                    hit = true;
+                }
             }
         }
         if (hit) {
+            attacker.getItemInHand(hand).hurtAndBreak(1, attacker,
+                    hand == InteractionHand.MAIN_HAND ? net.minecraft.world.entity.EquipmentSlot.MAINHAND : net.minecraft.world.entity.EquipmentSlot.OFFHAND);
             attacker.resetAttackStrengthTicker();
             return InteractionResult.SUCCESS_SERVER;
         }

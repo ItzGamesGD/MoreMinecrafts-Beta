@@ -20,6 +20,17 @@ public final class EnchantmentMath {
         return Math.max(0, (int) Math.ceil(destroyedLogs / (double) (unbreakingLevel + 1)));
     }
 
+    /** Shared aggregate charge; the Unbreaking Option affects Lumberjack, never Vein Mining. */
+    public static int miningOperationDurability(int destroyedBlocks, int level, boolean lumber,
+            int unbreakingLevel, int unbreakingOption) {
+        if (!lumber) return veinDurability(destroyedBlocks, level);
+        if (unbreakingOption > 0) {
+            return (int) Math.ceil(destroyedBlocks
+                    * Math.max(0, 1.0 / (unbreakingLevel + 1) - .05 * unbreakingOption));
+        }
+        return lumberDurability(destroyedBlocks, unbreakingLevel);
+    }
+
     public static boolean withinTreeHeight(int minY, int maxY) {
         return maxY - minY + 1 <= MAX_TREE_HEIGHT;
     }

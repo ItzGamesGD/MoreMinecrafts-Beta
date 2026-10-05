@@ -42,7 +42,11 @@ The Stage 19 checkpoint records four separate T2 acceptance states:
 
 Current broader equipment authority: [Equipment Progression Finalization](EQUIPMENT_PROGRESSION_FINALIZATION.md), except where Stage 2 explicitly supersedes its historical T2/Enhancement sections.
 
+Current early-game / T1 / high-level T2 survival progression-loop checkpoint: [Early / T1 / T2 Survival Progression Loop Checkpoint](EARLY_T1_T2_SURVIVAL_PROGRESSION_LOOP_CHECKPOINT.md).
+
 The current T1 vanilla-style expansion recorded there adds Dagger, Greatsword, and a single non-tiered Gauntlet as ordinary/basic weapon extensions rather than a T1.5 active-skill system.
+
+The progression-loop checkpoint is authoritative for the vanilla-first early game, T1 `play Minecraft and grow` identity, Enhancement Stone's cheap supporting-material role, XP-supply philosophy, deferred one-time Quest role, and the high-level T2 `exploration/challenge -> elemental acquisition -> T2 equipment` direction. Exact Quest content and T2 loot/encounter rules remain open.
 
 ### Utility equipment
 
@@ -79,11 +83,17 @@ Flame Sword C1-A/C1-B remains separately authoritative for its approved producti
 
 ## Enchantments
 
-Current enchantment design authority: [Enchantment Branch Skeleton](ENCHANTMENT_BRANCH_SKELETON.md).
+Current enchantment gameplay-semantics authority: [Enchantment Branch Skeleton](ENCHANTMENT_BRANCH_SKELETON.md).
 
-Use that document for the approved retained roster, gameplay semantics, compatibility and exclusivity rules, activation behavior, and explicitly unresolved enchantment integration points.
+Current T1 enchantment progression, skill-tree placement, compatibility policy, and XP-cost authority: [T1 Enchantment Skill Tree Finalization](T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md).
 
-Historical Paper enchantment behavior and older enchantment proposals are reference material only where they conflict with this current skeleton.
+Current Enchanted Book / vanilla villager-trade integration checkpoint: [Villager Trade and Enchanted Book Integration Checkpoint](VILLAGER_TRADE_AND_ENCHANTED_BOOK_INTEGRATION_CHECKPOINT.md).
+
+The post-audit authority addenda in these two current documents and the Early / T1 / T2 Survival Progression Loop Checkpoint supersede earlier OPEN statements only for the newly confirmed decisions recorded there. Their older history remains useful context.
+
+The T1 finalization supersedes the skeleton wherever the older skeleton describes vanilla/random-book acquisition, progression placement, or compatibility rules that conflict with the XP-funded skill-tree model. The villager/book checkpoint supersedes the old direct book/anvil acquisition assumption and records the confirmed Book Option architecture plus profession-by-profession trade status. The skeleton remains authoritative for retained custom-enchantment gameplay semantics and unresolved integration behavior.
+
+Historical Paper enchantment behavior and older enchantment proposals are reference material only where they conflict with these current authorities.
 
 ## Explicitly deferred design debt
 
@@ -173,7 +183,7 @@ New standalone or cross-system gameplay axes that are not already part of curren
 Examples include:
 
 - Knowledge / Research,
-- Trading as a new independent economy/exchange axis,
+- Trading as a new independent economy/exchange axis (this does not prohibit targeted vanilla villager-trade integration already routed through the current villager/book checkpoint),
 - other newly proposed progression, economy, research, social, or cross-system axes.
 
 Preserve promising concepts here at idea level only. Do not expand them into detailed design, promote them into current authority, or implement them unless a later human-approved design task explicitly selects that concept.

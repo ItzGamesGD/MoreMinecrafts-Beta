@@ -17,7 +17,7 @@ public final class EnhancementRules {
         return Math.min(level, ORDINARY_MAX_LEVEL) / MILESTONE_INTERVAL;
     }
 
-    /** Provisional economy: every transaction currently costs at least 1 XP; milestones cost extra material. */
+    /** Existing numeric XP-level costs remain unchanged; milestone transitions cost extra material. */
     public static Cost costFor(int targetLevel) {
         if (targetLevel < 1 || targetLevel > ORDINARY_MAX_LEVEL) {
             throw new IllegalArgumentException("Target enhancement level must be between 1 and 20: " + targetLevel);
@@ -25,5 +25,5 @@ public final class EnhancementRules {
         return isMilestone(targetLevel) ? new Cost(2, 1) : new Cost(1, 1);
     }
 
-    public record Cost(int materialCount, int experienceLevels) {}
+    public record Cost(int materialCount, int experienceLevelCost) {}
 }

@@ -12,6 +12,9 @@ public final class ModMenuTypes {
             BuiltInRegistries.MENU, ModIds.id("fishing_rod"),
             new MenuType<>(FishingRodMenu::new, FeatureFlagSet.of()));
 
+    public static final MenuType<dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu> ENCHANTING_PROGRESSION = Registry.register(
+            BuiltInRegistries.MENU, ModIds.id("enchanting_progression"),
+            new MenuType<>(dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu::new, FeatureFlagSet.of()));
     private ModMenuTypes() {}
 
     public static void initialize() {}
