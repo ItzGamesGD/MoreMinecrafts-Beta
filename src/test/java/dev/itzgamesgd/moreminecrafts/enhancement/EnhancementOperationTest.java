@@ -15,10 +15,10 @@ class EnhancementOperationTest {
     }
     @Test void transactionPlanExposesMilestoneStateAndCosts() {
         var ordinary = EnhancementOperation.plan(T1, 3, 1).orElseThrow();
-        assertFalse(ordinary.milestone()); assertEquals(1, ordinary.experienceCost());
+        assertFalse(ordinary.milestone()); assertEquals(1, ordinary.experienceLevelCost());
         var milestone = EnhancementOperation.plan(T1, 4, 2).orElseThrow();
         assertTrue(milestone.milestone()); assertEquals(1, milestone.milestoneCount());
-        assertEquals(2, milestone.materialCost()); assertEquals(1, milestone.experienceCost());
+        assertEquals(2, milestone.materialCost()); assertEquals(1, milestone.experienceLevelCost());
         assertTrue(EnhancementOperation.plan(T1, 4, 1).isEmpty());
     }
     @Test void futureAndUnsupportedCategoriesRemainUnavailable() {

@@ -23,7 +23,10 @@ abstract class BookOptionEnchantmentMixin {
     @Inject(method="modifyDamage",at=@At("RETURN"),cancellable=true)
     private static void moreminecrafts$damage(ServerLevel level,ItemStack stack,Entity target,DamageSource source,float base,CallbackInfoReturnable<Float> cir){
         float result=cir.getReturnValue();
-        if(stack.is(Items.BOW)||EquipmentTreeResolver.resolve(stack)==EnchantmentTrees.Equipment.BOW)result+=base*.055f*T1Operations.option(stack,"power");
+        if(stack.is(Items.BOW)||EquipmentTreeResolver.resolve(stack)==EnchantmentTrees.Equipment.BOW){
+            if(source.getDirectEntity() instanceof net.minecraft.world.entity.projectile.Projectile)
+                result+=base*.055f*T1Operations.option(stack,"power");
+        }
         else {
             int tiers=T1Operations.option(stack,"sharpness");
             if(target.getType().builtInRegistryHolder().is(EntityTypeTags.SENSITIVE_TO_SMITE))tiers+=T1Operations.option(stack,"smite");

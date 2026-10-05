@@ -2,7 +2,7 @@ package dev.itzgamesgd.moreminecrafts.enhancement;
 
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
-import dev.itzgamesgd.moreminecrafts.progression.RawXp;
+import dev.itzgamesgd.moreminecrafts.progression.XpLevels;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -51,7 +51,7 @@ public final class EnhancementOperation {
             return false;
         }
         Optional<Result> preview = preview(equipment, material);
-        if (preview.isEmpty() || !RawXp.pay(player, preview.get().experienceCost())) {
+        if (preview.isEmpty() || !XpLevels.pay(player, preview.get().experienceLevelCost())) {
             return false;
         }
         Result result = preview.get();
@@ -63,7 +63,7 @@ public final class EnhancementOperation {
     private static Result result(ItemStack equipment, Plan plan) {
         ItemStack result = equipment.copyWithCount(1);
         result.set(ModDataComponents.ENHANCEMENT_LEVEL, plan.targetLevel());
-        return new Result(result, plan.targetLevel(), plan.experienceCost(), plan.materialCost(),
+        return new Result(result, plan.targetLevel(), plan.experienceLevelCost(), plan.materialCost(),
                 plan.milestone(), plan.milestoneCount());
     }
 
@@ -92,7 +92,7 @@ public final class EnhancementOperation {
         }
         return Optional.of(new Plan(
                 targetLevel,
-                cost.experienceCost(),
+                cost.experienceLevelCost(),
                 cost.materialCount(),
                 EnhancementRules.isMilestone(targetLevel),
                 EnhancementRules.milestoneCount(targetLevel)
@@ -115,11 +115,11 @@ public final class EnhancementOperation {
         return EnhancementEffects.value(stack, EnhancementEffect.Target.ATTACK_DAMAGE);
     }
 
-    record Plan(int targetLevel, int experienceCost, int materialCost,
+    record Plan(int targetLevel, int experienceLevelCost, int materialCost,
                 boolean milestone, int milestoneCount) {
     }
 
-    public record Result(ItemStack stack, int targetLevel, int experienceCost, int materialCost,
+    public record Result(ItemStack stack, int targetLevel, int experienceLevelCost, int materialCost,
                          boolean milestone, int milestoneCount) {
     }
 }

@@ -25,7 +25,11 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
         if(action>=0&&action<=2){moreminecrafts$mode.set(action);((AnvilMenu)(Object)this).createResult();return true;}
         if(action==3&&moreminecrafts$mode()==0){
             boolean changed=EnhancementOperation.apply(player,getSlot(0).getItem(),getSlot(1).getItem());
-            if(changed){inputSlots.setChanged();cost.set(0);repairItemCountCost=0;((AnvilMenu)(Object)this).createResult();}
+            if(changed){
+                inputSlots.setChanged();cost.set(0);repairItemCountCost=0;
+                ((AnvilMenu)(Object)this).createResult();
+                T1AnvilUse.complete(access,player,player.getRandom()::nextDouble);
+            }
             return changed;
         }
         if(action==3&&moreminecrafts$mode()==2&&getSlot(2).hasItem()&&getSlot(2).mayPickup(player)){quickMoveStack(player,2);return true;}

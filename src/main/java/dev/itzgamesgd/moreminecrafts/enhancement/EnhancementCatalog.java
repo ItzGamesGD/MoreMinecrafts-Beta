@@ -47,7 +47,9 @@ public final class EnhancementCatalog {
                 Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD);
         add(result, EnhancementProfile.MACE, Items.MACE);
         add(result, EnhancementProfile.RANGED, Items.BOW, Items.CROSSBOW);
-        add(result, EnhancementProfile.SPEAR, Items.TRIDENT);
+        add(result, EnhancementProfile.SPEAR, Items.TRIDENT,
+                Items.WOODEN_SPEAR, Items.STONE_SPEAR, Items.COPPER_SPEAR, Items.IRON_SPEAR,
+                Items.GOLDEN_SPEAR, Items.DIAMOND_SPEAR, Items.NETHERITE_SPEAR);
         add(result, EnhancementProfile.ARMOR,
                 Items.LEATHER_HELMET, Items.LEATHER_CHESTPLATE, Items.LEATHER_LEGGINGS, Items.LEATHER_BOOTS,
                 Items.CHAINMAIL_HELMET, Items.CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_LEGGINGS, Items.CHAINMAIL_BOOTS,

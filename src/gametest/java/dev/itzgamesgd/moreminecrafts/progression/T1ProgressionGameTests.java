@@ -67,38 +67,115 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(menu.getSlot(0).getItem().isEmpty()&&menu.getSlot(1).getItem().isEmpty(),"combination consumes inputs");
         ctx.succeed();
     }
+
+    @GameTest public void combineBooksActionButtonDeliversOnePaidResultAndOneAnvilUse(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        player.giveExperiencePoints(10000);
+        var pos=ctx.absolutePos(new net.minecraft.core.BlockPos(1,1,1));
+        ctx.getLevel().setBlock(pos,net.minecraft.world.level.block.Blocks.ANVIL.defaultBlockState(),3);
+        player.setPos(pos.getX()+.5,pos.getY()+1,pos.getZ()+.5);
+        var menu=new AnvilMenu(1,player.getInventory(),ContainerLevelAccess.create(ctx.getLevel(),pos));
+        var modes=(T1AnvilModes)menu;
+        ctx.assertTrue(modes.moreminecrafts$button(player,2),"action 2 selects Combine Books mode");
+        menu.getSlot(0).set(book(player,"minecraft:sharpness",2));
+        menu.getSlot(1).set(book(player,"minecraft:sharpness",2));
+        menu.createResult();
+        ctx.assertTrue(T1Operations.book(menu.getSlot(2).getItem()).orElseThrow().level()==3,"equal retained books produce the valid next level");
+        int rawXpBefore=RawXp.available(player);
+        long wearSeed=anvilWearSeed(player,2);
+        player.getRandom().setSeed(wearSeed);
+
+        ctx.assertTrue(modes.moreminecrafts$button(player,3),"action 3 takes the result through the real quick-move path");
+
+        ctx.assertTrue(menu.getSlot(0).getItem().isEmpty()&&menu.getSlot(1).getItem().isEmpty(),"one source book from each input is consumed");
+        ctx.assertTrue(menu.getSlot(2).getItem().isEmpty(),"result slot clears after delivery");
+        ctx.assertTrue(RawXp.available(player)==rawXpBefore-300,"combination consumes its raw XP formula exactly once");
+        ctx.assertTrue(player.getInventory().countItem(Items.ENCHANTED_BOOK)==1,"one upgraded book is delivered with no duplicate");
+        ItemStack delivered=ItemStack.EMPTY;
+        for(int slot=0;slot<player.getInventory().getContainerSize();slot++){
+            ItemStack candidate=player.getInventory().getItem(slot);
+            if(candidate.is(Items.ENCHANTED_BOOK)){delivered=candidate;break;}
+        }
+        ctx.assertTrue(T1Operations.book(delivered).orElseThrow().level()==3,"delivered book has the upgraded level");
+        ctx.assertTrue(ctx.getLevel().getBlockState(pos).is(net.minecraft.world.level.block.Blocks.CHIPPED_ANVIL),
+                "one successful button operation performs exactly one deterministic Anvil wear roll");
+        ctx.succeed();
+    }
+
     @GameTest public void enhancementButtonMutatesInputAndSupportsConsecutiveUses(GameTestHelper ctx){
-        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);player.giveExperiencePoints(200);
-        var menu=new AnvilMenu(1,player.getInventory());var modes=(T1AnvilModes)menu;
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);player.giveExperienceLevels(3);
+        var pos=ctx.absolutePos(new net.minecraft.core.BlockPos(1,1,1));
+        ctx.getLevel().setBlock(pos,net.minecraft.world.level.block.Blocks.ANVIL.defaultBlockState(),3);
+        player.setPos(pos.getX()+.5,pos.getY()+1,pos.getZ()+.5);
+        var menu=new AnvilMenu(1,player.getInventory(),ContainerLevelAccess.create(ctx.getLevel(),pos));var modes=(T1AnvilModes)menu;
         menu.getSlot(0).set(new ItemStack(Items.DIAMOND_SWORD));
         menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,2));
         menu.createResult();
-        int before=RawXp.available(player);
+        int levelsBefore=player.experienceLevel;
+        player.getRandom().setSeed(anvilWearSeed(player,4));
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"first Enhance click succeeds");
         ctx.assertTrue(EnhancementOperation.level(menu.getSlot(0).getItem())==1,"equipment remains in its input slot at +1");
         ctx.assertTrue(menu.getSlot(1).getItem().getCount()==1,"first click consumes one stone from the input stack");
         ctx.assertTrue(menu.getSlot(2).getItem().isEmpty(),"Enhance mode does not create a result item");
-        ctx.assertTrue(RawXp.available(player)==before-1,"first click consumes the existing one-point XP cost as raw XP");
+        ctx.assertTrue(player.experienceLevel==levelsBefore-1,"first click consumes exactly one XP level");
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"second Enhance click succeeds without reinsertion");
         ctx.assertTrue(EnhancementOperation.level(menu.getSlot(0).getItem())==2,"same input equipment advances a second step");
         ctx.assertTrue(menu.getSlot(1).getItem().isEmpty(),"second click consumes the remaining stone");
-        ctx.assertTrue(RawXp.available(player)==before-2,"each click consumes its raw XP cost once");
+        ctx.assertTrue(player.experienceLevel==levelsBefore-2,"each click consumes one XP level");
+        ctx.assertTrue(ctx.getLevel().getBlockState(pos).is(net.minecraft.world.level.block.Blocks.DAMAGED_ANVIL),
+                "two successful clicks count as exactly two Anvil uses");
 
         menu.getSlot(0).getItem().set(ModDataComponents.ENHANCEMENT_LEVEL,20);
         menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,1));
-        int atMaximum=RawXp.available(player);
+        int atMaximum=player.experienceLevel;
+        ctx.getLevel().setBlock(pos,net.minecraft.world.level.block.Blocks.ANVIL.defaultBlockState(),3);
+        player.getRandom().setSeed(anvilWearSeed(player,1));
         ctx.assertTrue(!modes.moreminecrafts$button(player,3),"+20 rejects another enhancement");
         ctx.assertTrue(menu.getSlot(1).getItem().getCount()==1,"rejected maximum-level action keeps its stone");
-        ctx.assertTrue(RawXp.available(player)==atMaximum,"rejected maximum-level action keeps XP");
+        ctx.assertTrue(player.experienceLevel==atMaximum,"rejected maximum-level action keeps XP levels");
+        ctx.assertTrue(ctx.getLevel().getBlockState(pos).is(net.minecraft.world.level.block.Blocks.ANVIL),"+20 rejection causes no Anvil wear");
 
         var poorPlayer=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
-        var poorMenu=new AnvilMenu(2,poorPlayer.getInventory());var poorModes=(T1AnvilModes)poorMenu;
+        poorPlayer.setPos(pos.getX()+.5,pos.getY()+1,pos.getZ()+.5);
+        poorPlayer.giveExperiencePoints(5);
+        var poorMenu=new AnvilMenu(2,poorPlayer.getInventory(),ContainerLevelAccess.create(ctx.getLevel(),pos));var poorModes=(T1AnvilModes)poorMenu;
         poorMenu.getSlot(0).set(new ItemStack(Items.IRON_SWORD));
         poorMenu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,1));
-        ctx.assertTrue(!poorModes.moreminecrafts$button(poorPlayer,3),"insufficient raw XP rejects the transaction");
+        int poorRawXp=RawXp.available(poorPlayer);
+        poorPlayer.getRandom().setSeed(anvilWearSeed(poorPlayer,1));
+        ctx.assertTrue(!poorModes.moreminecrafts$button(poorPlayer,3),"fractional raw XP without a full level rejects the transaction");
         ctx.assertTrue(EnhancementOperation.level(poorMenu.getSlot(0).getItem())==0
-                &&poorMenu.getSlot(1).getItem().getCount()==1,"insufficient XP preserves equipment and stone");
-        ctx.assertTrue(RawXp.available(poorPlayer)==0,"insufficient XP remains unchanged");
+                &&poorMenu.getSlot(1).getItem().getCount()==1,"insufficient XP levels preserve equipment and stone");
+        ctx.assertTrue(RawXp.available(poorPlayer)==poorRawXp,"insufficient XP leaves raw XP untouched");
+        ctx.assertTrue(ctx.getLevel().getBlockState(pos).is(net.minecraft.world.level.block.Blocks.ANVIL),"insufficient XP causes no Anvil wear");
+
+        var stonePoorPlayer=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);stonePoorPlayer.giveExperienceLevels(3);
+        stonePoorPlayer.setPos(pos.getX()+.5,pos.getY()+1,pos.getZ()+.5);
+        var stonePoorMenu=new AnvilMenu(3,stonePoorPlayer.getInventory(),ContainerLevelAccess.create(ctx.getLevel(),pos));
+        var stonePoorModes=(T1AnvilModes)stonePoorMenu;
+        stonePoorMenu.getSlot(0).set(new ItemStack(Items.IRON_SWORD));
+        stonePoorMenu.getSlot(0).getItem().set(ModDataComponents.ENHANCEMENT_LEVEL,4);
+        stonePoorMenu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,1));
+        int stonePoorLevel=stonePoorPlayer.experienceLevel;
+        stonePoorPlayer.getRandom().setSeed(anvilWearSeed(stonePoorPlayer,1));
+        ctx.assertTrue(!stonePoorModes.moreminecrafts$button(stonePoorPlayer,3),"milestone rejects a short Enhancement Stone stack");
+        ctx.assertTrue(EnhancementOperation.level(stonePoorMenu.getSlot(0).getItem())==4
+                &&stonePoorMenu.getSlot(1).getItem().getCount()==1&&stonePoorPlayer.experienceLevel==stonePoorLevel,
+                "insufficient stones preserve equipment, material and XP levels");
+        ctx.assertTrue(ctx.getLevel().getBlockState(pos).is(net.minecraft.world.level.block.Blocks.ANVIL),"insufficient stones cause no Anvil wear");
+
+        var creative=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.CREATIVE);creative.giveExperienceLevels(2);
+        creative.setPos(pos.getX()+.5,pos.getY()+1,pos.getZ()+.5);
+        var creativeMenu=new AnvilMenu(4,creative.getInventory(),ContainerLevelAccess.create(ctx.getLevel(),pos));
+        var creativeModes=(T1AnvilModes)creativeMenu;
+        creativeMenu.getSlot(0).set(new ItemStack(Items.IRON_SWORD));
+        creativeMenu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,1));
+        int creativeLevels=creative.experienceLevel;
+        creative.getRandom().setSeed(anvilWearSeed(creative,1));
+        ctx.assertTrue(creativeModes.moreminecrafts$button(creative,3),"creative Enhancement remains available");
+        ctx.assertTrue(creative.experienceLevel==creativeLevels,"creative Enhancement does not spend XP levels");
+        ctx.assertTrue(creativeMenu.getSlot(1).getItem().isEmpty(),"creative Enhancement follows existing material-consumption conventions");
+        ctx.assertTrue(ctx.getLevel().getBlockState(pos).is(net.minecraft.world.level.block.Blocks.ANVIL),"creative player remains exempt from Anvil wear");
         ctx.succeed();
     }
     @GameTest public void supplyFilteringAndSmithInputs(GameTestHelper ctx){
@@ -136,6 +213,29 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         crossbow.set(ModDataComponents.BOOK_OPTIONS,Map.of("minecraft:quick_charge",3,"minecraft:piercing",4));
         ctx.assertTrue(Math.abs(EnchantmentHelper.modifyCrossbowChargingTime(crossbow,player,1.25f)-(normal-.3f))<.0001,"Quick Charge subtracts 0.1 seconds per option");
         ctx.assertTrue(EnchantmentHelper.getPiercingCount(ctx.getLevel(),crossbow,new ItemStack(Items.ARROW))==piercing+4,"Piercing adds entity penetration");
+        ItemStack bow=new ItemStack(Items.BOW);
+        EnchantmentHelper.updateEnchantments(bow,e->e.set(T1Operations.enchantment(player,"minecraft:power").orElseThrow(),1));
+        var arrow=net.minecraft.world.entity.EntityTypes.ARROW.create(ctx.getLevel(),net.minecraft.world.entity.EntitySpawnReason.COMMAND);
+        var projectileSource=ctx.getLevel().damageSources().arrow(arrow,player);
+        var damageTarget=net.minecraft.world.entity.EntityTypes.ZOMBIE.create(ctx.getLevel(),net.minecraft.world.entity.EntitySpawnReason.COMMAND);
+        float bowProjectileBase=EnchantmentHelper.modifyDamage(ctx.getLevel(),bow,damageTarget,projectileSource,20.0f);
+        float bowMeleeBase=EnchantmentHelper.modifyDamage(ctx.getLevel(),bow,damageTarget,
+                ctx.getLevel().damageSources().playerAttack(player),20.0f);
+        bow.set(ModDataComponents.BOOK_OPTIONS,Map.of("minecraft:power",2));
+        float bowProjectileDamage=EnchantmentHelper.modifyDamage(ctx.getLevel(),bow,
+                net.minecraft.world.entity.EntityTypes.ZOMBIE.create(ctx.getLevel(),net.minecraft.world.entity.EntitySpawnReason.COMMAND),projectileSource,20.0f);
+        float bowMeleeDamage=EnchantmentHelper.modifyDamage(ctx.getLevel(),bow,
+                net.minecraft.world.entity.EntityTypes.ZOMBIE.create(ctx.getLevel(),net.minecraft.world.entity.EntitySpawnReason.COMMAND),
+                ctx.getLevel().damageSources().playerAttack(player),20.0f);
+        ctx.assertTrue(Math.abs((bowProjectileDamage-bowProjectileBase)-2.2f)<.001f,"Power Book Option adds 5.5% per level to Bow projectile damage");
+        ctx.assertTrue(Math.abs(bowMeleeDamage-bowMeleeBase)<.001f,"holding a Bow does not grant Power Option damage to melee hits");
+        ItemStack windBow=new ItemStack(ModItems.WIND_ARCHERS_BOW);
+        EnchantmentHelper.updateEnchantments(windBow,e->e.set(T1Operations.enchantment(player,"minecraft:power").orElseThrow(),1));
+        float windProjectileBase=EnchantmentHelper.modifyDamage(ctx.getLevel(),windBow,damageTarget,projectileSource,20.0f);
+        windBow.set(ModDataComponents.BOOK_OPTIONS,Map.of("minecraft:power",2));
+        float windProjectileDamage=EnchantmentHelper.modifyDamage(ctx.getLevel(),windBow,
+                damageTarget,projectileSource,20.0f);
+        ctx.assertTrue(Math.abs((windProjectileDamage-windProjectileBase)-2.2f)<.001f,"Wind Bow profile receives the same Power projectile bonus");
         ItemStack sword=new ItemStack(Items.DIAMOND_SWORD);
         EnchantmentHelper.updateEnchantments(sword,e->{e.set(T1Operations.enchantment(player,"minecraft:mending").orElseThrow(),1);e.set(T1Operations.enchantment(player,"minecraft:sharpness").orElseThrow(),5);e.set(T1Operations.enchantment(player,"minecraft:fire_aspect").orElseThrow(),2);});
         ctx.assertTrue(EnchantmentHelper.modifyDurabilityToRepairFromXp(ctx.getLevel(),sword,1)==2,"vanilla mending remains 2 durability/XP");
@@ -201,6 +301,29 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(menu.getSlot(2).hasItem(),"normal anvil still repairs equipment");
         ctx.assertTrue(!T1Operations.enchantments(menu.getSlot(2).getItem()).containsKey("minecraft:multishot"),"repair cannot introduce structural conflict from sacrificial equipment");
         ctx.assertTrue(T1Operations.enchantments(menu.getSlot(2).getItem()).containsKey("moreminecrafts:crossbow_barrage"),"first item's progression is preserved");
+        ctx.succeed();
+    }
+
+    @GameTest public void normalAnvilRepairAndRenamePreservesProgressedItemState(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var menu=new AnvilMenu(1,player.getInventory());
+        ((T1AnvilModes)menu).moreminecrafts$button(player,1);
+        ItemStack first=new ItemStack(Items.DIAMOND_SWORD);first.setDamageValue(800);
+        first.set(ModDataComponents.ENHANCEMENT_LEVEL,7);
+        first.set(ModDataComponents.BOOK_OPTIONS,Map.of("minecraft:sharpness",4));
+        first.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,net.minecraft.network.chat.Component.literal("Old name"));
+        EnchantmentHelper.updateEnchantments(first,e->e.set(T1Operations.enchantment(player,"minecraft:sharpness").orElseThrow(),3));
+        ItemStack sacrifice=new ItemStack(Items.DIAMOND_SWORD);sacrifice.setDamageValue(1300);
+        EnchantmentHelper.updateEnchantments(sacrifice,e->e.set(T1Operations.enchantment(player,"minecraft:smite").orElseThrow(),5));
+        menu.getSlot(0).set(first);menu.getSlot(1).set(sacrifice);menu.setItemName("Reforged Blade");menu.createResult();
+        ItemStack output=menu.getSlot(2).getItem();
+
+        ctx.assertTrue(!output.isEmpty()&&output.getDamageValue()<first.getDamageValue(),"ordinary Anvil repair succeeds");
+        ctx.assertTrue(output.getOrDefault(ModDataComponents.ENHANCEMENT_LEVEL,0)==7,"Enhancement level survives repair and rename");
+        ctx.assertTrue(T1Operations.options(output).equals(Map.of("minecraft:sharpness",4)),"Book Options survive repair and rename");
+        ctx.assertTrue(T1Operations.enchantments(output).getOrDefault("minecraft:sharpness",0)==3,"first item's authorized enchantment survives");
+        ctx.assertTrue(!T1Operations.enchantments(output).containsKey("minecraft:smite"),"sacrificial equipment enchantments do not transfer");
+        ctx.assertTrue(output.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME).getString().equals("Reforged Blade"),"requested rename becomes the output's custom name");
         ctx.succeed();
     }
     @GameTest public void smithUpgradePreservesSubmittedProgress(GameTestHelper ctx){
@@ -273,6 +396,16 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
     }
     private static ItemStack book(net.minecraft.world.entity.player.Player player,String id,int level){
         var result=new ItemStack(Items.ENCHANTED_BOOK);EnchantmentHelper.updateEnchantments(result,e->e.set(T1Operations.enchantment(player,id).orElseThrow(),level));return result;
+    }
+    private static long anvilWearSeed(net.minecraft.world.entity.player.Player player,int consecutiveWearRolls){
+        var random=player.getRandom();
+        for(long seed=0;seed<1_000_000;seed++){
+            random.setSeed(seed);
+            boolean qualifies=true;
+            for(int roll=0;roll<consecutiveWearRolls;roll++)qualifies&=random.nextDouble()<.12;
+            if(qualifies){random.setSeed(seed);return seed;}
+        }
+        throw new AssertionError("Could not find deterministic Anvil wear seed");
     }
     @Override public void invokeTestMethod(GameTestHelper context,Method method)throws ReflectiveOperationException{method.invoke(this,context);}
 }
