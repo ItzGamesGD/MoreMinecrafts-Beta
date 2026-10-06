@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -130,7 +131,7 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.WILD_SLIME).is(nonControllingRider)
                         && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_MAGMA_CUBE).is(nonControllingRider),
                 "Slime-family variants must retain vanilla non-controlling rider semantics");
-        Slime vanillaSlime = context.spawn(EntityType.SLIME, new BlockPos(1, 1, 1));
+        Slime vanillaSlime = context.spawn(EntityTypes.SLIME, new BlockPos(1, 1, 1));
         Slime wildSlime = context.spawn(CustomMobCatalog.WILD_SLIME, new BlockPos(2, 1, 1));
         vanillaSlime.setSize(4, true);
         wildSlime.setSize(4, true);
@@ -160,7 +161,7 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                         - vanillaSlime.getAttributeValue(Attributes.MOVEMENT_SPEED) * 1.08) < 0.000001,
                 "Sand Slime size lifecycle must retain its speed profile");
 
-        MagmaCube vanillaMagma = context.spawn(EntityType.MAGMA_CUBE, new BlockPos(5, 1, 1));
+        MagmaCube vanillaMagma = context.spawn(EntityTypes.MAGMA_CUBE, new BlockPos(5, 1, 1));
         MagmaCube lesserMagma = context.spawn(CustomMobCatalog.LESSER_MAGMA_CUBE, new BlockPos(6, 1, 1));
         vanillaMagma.setSize(4, true);
         lesserMagma.setSize(4, true);
