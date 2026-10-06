@@ -84,8 +84,22 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         context.assertTrue(Math.abs(largeZombie.getAttributeValue(Attributes.MAX_HEALTH) - healthAfterFirstFinalize) < 0.001
                         && Math.abs(largeZombie.getAttributeValue(Attributes.MOVEMENT_SPEED) - speedAfterFirstFinalize) < 0.000001,
                 "Catalog stat multipliers must not compound when spawn finalization is invoked twice");
-        context.assertTrue(Math.abs(largeZombie.getAttributeValue(Attributes.SCALE) - 1.30) < 0.001,
-                "Large Zombie must have its approved visible scale profile");
+        context.assertTrue(Math.abs(largeZombie.getBbWidth() - 0.78F) < 0.02F
+                        && Math.abs(largeZombie.getBbHeight() - 2.54F) < 0.02F,
+                "Large Zombie dimensions must come from EntityType sizing exactly once");
+        Mob caveZombie = CustomMobCatalog.CAVE_ZOMBIE.create(context.getLevel(), EntitySpawnReason.COMMAND);
+        context.assertTrue(Math.abs(caveZombie.getBbWidth() - 0.50F) < 0.02F
+                        && Math.abs(caveZombie.getBbHeight() - 1.65F) < 0.02F,
+                "Cave Zombie dimensions must not be multiplied by an additional SCALE attribute");
+        caveZombie.discard();
+        Mob giantBee = CustomMobCatalog.GIANT_BEE.create(context.getLevel(), EntitySpawnReason.COMMAND);
+        context.assertTrue(CustomMobCatalog.GIANT_BEE.getCategory() == net.minecraft.world.entity.MobCategory.CREATURE,
+                "Giant Bee must retain animal-family population metadata");
+        context.assertTrue(CustomMobCatalog.CAVE_BAT.getCategory() == net.minecraft.world.entity.MobCategory.AMBIENT,
+                "Cave Bat must retain ambient-family population metadata");
+        context.assertTrue(CustomMobCatalog.FERAL_WOLF.getCategory() == net.minecraft.world.entity.MobCategory.CREATURE,
+                "Feral Wolf must retain animal-family population metadata");
+        giantBee.discard();
         largeZombie.discard();
         context.succeed();
     }

@@ -40,6 +40,18 @@ class CustomMobRosterDefinitionTest {
                 "Custom stat profiles must never dispatch on an un-namespaced registry path");
         assertTrue(stats.contains("!APPLIED.add(mob)"),
                 "Custom stat application must explicitly guard against repeated finalization");
+        assertTrue(!stats.contains("Attributes.SCALE"),
+                "Entity size must have one source of truth; stat finalization must not rescale sized EntityTypes");
+        assertTrue(catalog.contains("Slime.checkSlimeSpawnRules")
+                        && catalog.contains("MagmaCube.checkMagmaCubeSpawnRules")
+                        && catalog.contains("Drowned.checkDrownedSpawnRules")
+                        && catalog.contains("Piglin.checkPiglinSpawnRules")
+                        && catalog.contains("Wolf.checkWolfSpawnRules")
+                        && catalog.contains("Bat.checkBatSpawnRules")
+                        && catalog.contains("Animal.checkAnimalSpawnRules"),
+                "Natural spawn predicates must preserve family-specific vanilla rules where available");
+        assertTrue(catalog.contains("spec.type.getCategory()"),
+                "Biome spawn registration must use each EntityType's family population category");
         for (String tag : Set.of("undead", "zombies", "skeletons", "raiders", "illager", "arthropod",
                 "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "aquatic", "beehive_inhabitants",
                 "burn_in_daylight", "inverted_healing_and_harm", "wither_friends", "immune_to_oozing",

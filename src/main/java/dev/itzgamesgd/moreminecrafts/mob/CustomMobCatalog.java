@@ -42,6 +42,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.animal.bee.Bee;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 
@@ -91,21 +92,27 @@ public final class CustomMobCatalog {
     public static final EntityType<Pillager> BANDIT_ARCHER = type("bandit_archer", (type, level) -> new BanditArcher(type, level), 0.6f, 1.95f);
     public static final EntityType<Vindicator> BANDIT_WARRIOR = type("bandit_warrior", Vindicator::new, 0.6f, 1.95f);
     public static final EntityType<Pillager> WANDERING_RAIDER = type("wandering_raider", Pillager::new, 0.6f, 1.95f);
-    public static final EntityType<Wolf> FERAL_WOLF = type("feral_wolf", (type, level) -> new FeralWolf(type, level), 0.6f, 0.85f);
-    public static final EntityType<Bat> CAVE_BAT = type("cave_bat", (type, level) -> new CaveBatEntity(type, level), 0.9f, 0.9f);
-    public static final EntityType<Bee> GIANT_BEE = type("giant_bee", Bee::new, 1.0f, 0.8f);
+    public static final EntityType<Wolf> FERAL_WOLF = type("feral_wolf", (type, level) -> new FeralWolf(type, level), 0.6f, 0.85f, MobCategory.CREATURE, false);
+    public static final EntityType<Bat> CAVE_BAT = type("cave_bat", (type, level) -> new CaveBatEntity(type, level), 0.9f, 0.9f, MobCategory.AMBIENT, false);
+    public static final EntityType<Bee> GIANT_BEE = type("giant_bee", Bee::new, 1.0f, 0.8f, MobCategory.CREATURE, false);
     public static final EntityType<Phantom> LESSER_PHANTOM = type("lesser_phantom", Phantom::new, 0.7f, 0.45f);
     public static final EntityType<Creeper> CAVE_CREEPER = type("cave_creeper", Creeper::new, 0.6f, 1.7f);
 
     private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
                                                        float width, float height) {
-        return type(path, factory, width, height, false);
+        return type(path, factory, width, height, MobCategory.MONSTER, false);
     }
 
     private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
                                                        float width, float height, boolean fireImmune) {
+        return type(path, factory, width, height, MobCategory.MONSTER, fireImmune);
+    }
+
+    private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
+                                                       float width, float height, MobCategory category,
+                                                       boolean fireImmune) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ModIds.id(path));
-        EntityType.Builder<T> builder = EntityType.Builder.of(factory, MobCategory.MONSTER)
+        EntityType.Builder<T> builder = EntityType.Builder.of(factory, category)
                 .sized(width, height).clientTrackingRange(8);
         if (fireImmune) builder.fireImmune();
         EntityType<T> result = Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));
@@ -161,9 +168,9 @@ public final class CustomMobCatalog {
                     spec.kind == SpawnKind.WATER ? SpawnPlacementTypes.IN_WATER :
                             spec.kind == SpawnKind.SKY ? SpawnPlacementTypes.NO_RESTRICTIONS : SpawnPlacementTypes.ON_GROUND,
                     spec.kind == SpawnKind.SKY ? Heightmap.Types.MOTION_BLOCKING : Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    (type, level, reason, pos, random) -> Monster.checkMonsterSpawnRules(
-                            type, level, reason, pos, random) && allowed(spec.kind, level, pos));
-            BiomeModifications.addSpawn(BiomeSelectors.tag(spec.biomeTag), MobCategory.MONSTER,
+                    (type, level, reason, pos, random) -> familySpawnRules(type, level, reason, pos, random)
+                            && allowed(spec.kind, level, pos));
+            BiomeModifications.addSpawn(BiomeSelectors.tag(spec.biomeTag), spec.type.getCategory(),
                     spec.type, spec.weight, spec.minGroup, spec.maxGroup);
         }
         MoreMinecrafts.LOGGER.info("Registered {} vanilla-model custom mobs and spawn rules.", SPAWNS.size());
@@ -173,6 +180,34 @@ public final class CustomMobCatalog {
                             net.minecraft.tags.TagKey<net.minecraft.world.level.biome.Biome> biomeTag,
                             int weight, SpawnKind kind) {
         SPAWNS.add(new SpawnSpec(type, attributes, biomeTag, weight, 1, kind == SpawnKind.CAVE ? 2 : 3, kind));
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static boolean familySpawnRules(EntityType<? extends Mob> type,
+                                             net.minecraft.world.level.ServerLevelAccessor level,
+                                             net.minecraft.world.entity.EntitySpawnReason reason,
+                                             BlockPos pos, net.minecraft.util.RandomSource random) {
+        if (type == WILD_SLIME || type == MUD_SLIME || type == SAND_SLIME)
+            return Slime.checkSlimeSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == LESSER_MAGMA_CUBE)
+            return MagmaCube.checkMagmaCubeSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == DROWNED_SAILOR || type == DEEP_SEA_DROWNED || type == RIVER_DROWNED)
+            return Drowned.checkDrownedSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == WILD_PIGLIN)
+            return Piglin.checkPiglinSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == FERAL_WOLF)
+            return Wolf.checkWolfSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == CAVE_BAT)
+            return Bat.checkBatSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == GIANT_BEE)
+            return Animal.checkAnimalSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == CAVE_BUG || type == DESERT_BUG)
+            return Silverfish.checkSilverfishSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == END_BUG)
+            return Endermite.checkEndermiteSpawnRules((EntityType) type, level, reason, pos, random);
+        if (type == MOUNTAIN_SKELETON)
+            return Stray.checkStraySpawnRules((EntityType) type, level, reason, pos, random);
+        return Monster.checkMonsterSpawnRules(type, level, reason, pos, random);
     }
 
     private static boolean allowed(SpawnKind kind, net.minecraft.world.level.ServerLevelAccessor level, BlockPos pos) {

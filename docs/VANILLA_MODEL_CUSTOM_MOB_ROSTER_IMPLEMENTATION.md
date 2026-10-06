@@ -1,6 +1,6 @@
 # Vanilla-Model Custom Mob Implementation Schedule
 
-This companion records implementation choices permitted by the approved roster task. Each entry uses the named vanilla base entity renderer and AI, with the roster-specific exceptions recorded below; dimensions are entity collision dimensions in blocks. Spawn weight is the vanilla biome spawn-list weight. Every type has a group size of 1–3 (underground entries cap at 2). All entries use the monster population category. Cave placement requires no sky access, below sea level, and solid floor; ground placement requires air over solid floor; Nether placement uses air over solid floor; water placement requires water; sky placement requires visible sky above sea level + 12.
+This companion records implementation choices permitted by the approved roster task. Each entry uses the named vanilla base entity renderer and AI, with the roster-specific exceptions recorded below; dimensions are entity collision dimensions in blocks. Spawn weight is the vanilla biome spawn-list weight. Every type has a group size of 1–3 (underground entries cap at 2). Hostile families use the monster population category; Feral Wolf and Giant Bee use creature, and Cave Bat uses ambient, matching their vanilla family population metadata. Cave placement requires no sky access, below sea level, and solid floor; ground placement requires air over solid floor; Nether placement uses air over solid floor; water placement requires water; sky placement requires visible sky above sea level + 12.
 
 | ID | Vanilla base/model | Dimensions | Biome scope | Weight | Position gate |
 |---|---|---:|---|---:|---|
@@ -18,7 +18,7 @@ This companion records implementation choices permitted by the approved roster t
 | lesser_wither_skeleton | Wither Skeleton | 0.55×1.75 | Nether-fortress biomes | 2 | nether |
 | mountain_skeleton | Stray | 0.60×1.99 | Mountains | 3 | ground |
 | miner_skeleton | Skeleton | 0.60×1.99 | Mineshaft biomes, underground only | 2 | cave |
-| small_spider | Spider | 0.55×0.45 | Overworld caves | 2 | cave |
+| small_spider | Spider | 0.55EntityType | Overworld caves | 2 | cave |
 | large_spider | Spider | 1.20×1.00 | Overworld | 1 | ground |
 | forest_spider | Spider | 0.80×0.60 | Forests | 3 | ground |
 | desert_spider | Spider | 0.80×0.60 | Badlands | 3 | ground |
@@ -40,9 +40,9 @@ This companion records implementation choices permitted by the approved roster t
 | bandit_warrior | Vindicator | 0.60×1.95 | Forests | 1 | ground |
 | wandering_raider | Pillager | 0.60×1.95 | Overworld | 1 | ground |
 | feral_wolf | Wolf | 0.60×0.85 | Forests | 1 | ground |
-| cave_bat | Bat | 0.90×0.90 | Overworld caves | 2 | cave |
+| cave_bat | Bat | 0.90EntityType | Overworld caves | 2 | cave |
 | giant_bee | Bee | 1.00×0.80 | Forests | 1 | ground |
-| lesser_phantom | Phantom | 0.70×0.45 | Overworld, visible sky above sea level | 1 | sky |
+| lesser_phantom | Phantom | 0.70EntityType | Overworld, visible sky above sea level | 1 | sky |
 | cave_creeper | Creeper | 0.60×1.70 | Overworld caves | 2 | cave |
 
 ## Spawn-density notes
@@ -55,46 +55,46 @@ Feral Wolf and Cave Bat use simple player-targeting melee behavior; Cave Creeper
 
 ## Stat multipliers
 
-Multipliers are applied once to the matching vanilla base attribute during spawn finalization. Omitted changes use ×1.00. Visual scale multiplies the vanilla `scale` attribute; entity dimensions remain as listed above.
+Multipliers are applied once to the matching vanilla base attribute during spawn finalization. Omitted changes use ×1.00. Entity size has one source of truth: the registered EntityType dimensions listed above. No additional `scale` attribute multiplier is applied.
 
-| ID | Health | Speed | Attack | Visual scale | Armor |
+| ID | Health | Speed | Attack | Size source | Armor |
 |---|---:|---:|---:|---:|---:|
-| swamp_zombie | ×1.20 | ×0.82 | ×1.00 | ×1.00 | ×1.00 |
-| cave_zombie | ×0.90 | ×1.10 | ×1.00 | ×0.88 | ×1.00 |
-| large_zombie | ×1.55 | ×0.78 | ×1.20 | ×1.30 | ×1.00 |
-| frozen_zombie | ×1.08 | ×0.94 | ×1.00 | ×1.00 | ×1.00 |
-| mossy_zombie | ×1.10 | ×0.92 | ×1.00 | ×1.00 | ×1.00 |
-| fungal_zombie | ×0.95 | ×1.02 | ×1.00 | ×1.00 | ×1.00 |
-| miner_zombie | ×1.12 | ×0.92 | ×1.00 | ×1.00 | ×1.00 |
-| rotten_skeleton | ×0.72 | ×1.00 | ×0.82 | ×1.00 | ×1.00 |
-| cave_skeleton | ×0.95 | ×1.04 | ×1.00 | ×1.00 | ×1.00 |
-| armored_skeleton | ×1.30 | ×0.82 | ×1.00 | ×1.00 | ×1.5 |
-| ashen_skeleton | ×1.05 | ×1.00 | ×1.05 | ×1.00 | ×1.00 |
-| lesser_wither_skeleton | ×0.72 | ×1.00 | ×0.78 | ×0.86 | ×1.00 |
-| mountain_skeleton | ×1.05 | ×0.95 | ×1.00 | ×1.00 | ×1.00 |
-| miner_skeleton | ×0.95 | ×1.02 | ×1.00 | ×1.00 | ×1.00 |
-| small_spider | ×0.60 | ×1.20 | ×1.00 | ×0.72 | ×1.00 |
-| large_spider | ×1.65 | ×0.82 | ×1.12 | ×1.25 | ×1.00 |
-| forest_spider | ×1.00 | ×0.94 | ×1.00 | ×1.00 | ×1.00 |
-| desert_spider | ×1.00 | ×1.00 | ×1.12 | ×1.00 | ×1.00 |
-| swamp_spider | ×0.88 | ×1.00 | ×0.80 | ×1.00 | ×1.00 |
-| ice_spider | ×1.08 | ×0.92 | ×1.00 | ×1.00 | ×1.00 |
-| cave_bug | ×1.15 | ×1.00 | ×1.00 | ×1.00 | ×1.00 |
-| desert_bug | ×1.12 | ×1.00 | ×1.05 | ×1.00 | ×1.00 |
-| wild_slime | ×0.82 | ×1.00 | ×1.00 | ×0.82 | ×1.00 |
-| mud_slime | ×1.15 | ×0.78 | ×1.00 | ×0.90 | ×1.00 |
-| sand_slime | ×1.00 | ×1.08 | ×1.00 | ×1.00 | ×1.00 |
-| lesser_magma_cube | ×0.78 | ×1.00 | ×0.80 | ×0.82 | ×1.00 |
-| drowned_sailor | ×1.12 | ×1.00 | ×1.00 | ×1.00 | ×1.00 |
-| deep_sea_drowned | ×1.35 | ×0.90 | ×1.00 | ×1.00 | ×1.00 |
-| river_drowned | ×0.82 | ×1.00 | ×0.88 | ×1.00 | ×1.00 |
-| wild_piglin | ×0.82 | ×1.00 | ×0.82 | ×1.00 | ×0.75 |
-| bandit | ×0.90 | ×1.00 | ×1.00 | ×1.00 | ×1.00 |
-| bandit_archer | ×0.82 | ×1.00 | ×0.92 | ×1.00 | ×1.00 |
-| bandit_warrior | ×0.85 | ×1.00 | ×0.85 | ×1.00 | ×1.00 |
-| wandering_raider | ×0.78 | ×1.00 | ×1.00 | ×1.00 | ×1.00 |
-| feral_wolf | ×1.15 | ×1.00 | ×1.15 | ×1.00 | ×1.00 |
-| cave_bat | ×0.60 | ×1.08 | ×0.55 | ×1.55 | ×1.00 |
-| giant_bee | ×1.65 | ×1.00 | ×1.25 | ×1.45 | ×1.00 |
-| lesser_phantom | ×0.60 | ×1.00 | ×0.72 | ×0.72 | ×1.00 |
-| cave_creeper | ×0.92 | ×1.00 | ×1.00 | ×0.90 | ×1.00 |
+| swamp_zombie | ×1.20 | EntityType | ×1.00 | EntityType | ×1.00 |
+| cave_zombie | EntityType | ×1.10 | ×1.00 | EntityType | ×1.00 |
+| large_zombie | EntityType | ×0.78 | ×1.20 | EntityType | ×1.00 |
+| frozen_zombie | ×1.08 | ×0.94 | ×1.00 | EntityType | ×1.00 |
+| mossy_zombie | ×1.10 | ×0.92 | ×1.00 | EntityType | ×1.00 |
+| fungal_zombie | ×0.95 | ×1.02 | ×1.00 | EntityType | ×1.00 |
+| miner_zombie | ×1.12 | ×0.92 | ×1.00 | EntityType | ×1.00 |
+| rotten_skeleton | EntityType | ×1.00 | EntityType | EntityType | ×1.00 |
+| cave_skeleton | ×0.95 | ×1.04 | ×1.00 | EntityType | ×1.00 |
+| armored_skeleton | EntityType | EntityType | ×1.00 | EntityType | ×1.5 |
+| ashen_skeleton | ×1.05 | ×1.00 | ×1.05 | EntityType | ×1.00 |
+| lesser_wither_skeleton | EntityType | ×1.00 | ×0.78 | EntityType | ×1.00 |
+| mountain_skeleton | ×1.05 | ×0.95 | ×1.00 | EntityType | ×1.00 |
+| miner_skeleton | ×0.95 | ×1.02 | ×1.00 | EntityType | ×1.00 |
+| small_spider | ×0.60 | ×1.20 | ×1.00 | EntityType | ×1.00 |
+| large_spider | ×1.65 | EntityType | ×1.12 | EntityType | ×1.00 |
+| forest_spider | ×1.00 | ×0.94 | ×1.00 | EntityType | ×1.00 |
+| desert_spider | ×1.00 | ×1.00 | ×1.12 | EntityType | ×1.00 |
+| swamp_spider | EntityType | ×1.00 | ×0.80 | EntityType | ×1.00 |
+| ice_spider | ×1.08 | ×0.92 | ×1.00 | EntityType | ×1.00 |
+| cave_bug | ×1.15 | ×1.00 | ×1.00 | EntityType | ×1.00 |
+| desert_bug | ×1.12 | ×1.00 | ×1.05 | EntityType | ×1.00 |
+| wild_slime | EntityType | ×1.00 | ×1.00 | EntityType | ×1.00 |
+| mud_slime | ×1.15 | ×0.78 | ×1.00 | EntityType | ×1.00 |
+| sand_slime | ×1.00 | ×1.08 | ×1.00 | EntityType | ×1.00 |
+| lesser_magma_cube | ×0.78 | ×1.00 | ×0.80 | EntityType | ×1.00 |
+| drowned_sailor | ×1.12 | ×1.00 | ×1.00 | EntityType | ×1.00 |
+| deep_sea_drowned | ×1.35 | EntityType | ×1.00 | EntityType | ×1.00 |
+| river_drowned | EntityType | ×1.00 | EntityType | EntityType | ×1.00 |
+| wild_piglin | EntityType | ×1.00 | EntityType | EntityType | ×0.75 |
+| bandit | EntityType | ×1.00 | ×1.00 | EntityType | ×1.00 |
+| bandit_archer | EntityType | ×1.00 | ×0.92 | EntityType | ×1.00 |
+| bandit_warrior | ×0.85 | ×1.00 | ×0.85 | EntityType | ×1.00 |
+| wandering_raider | ×0.78 | ×1.00 | ×1.00 | EntityType | ×1.00 |
+| feral_wolf | ×1.15 | ×1.00 | ×1.15 | EntityType | ×1.00 |
+| cave_bat | ×0.60 | ×1.08 | EntityType | EntityType | ×1.00 |
+| giant_bee | ×1.65 | ×1.00 | EntityType | EntityType | ×1.00 |
+| lesser_phantom | ×0.60 | ×1.00 | EntityType | EntityType | ×1.00 |
+| cave_creeper | ×0.92 | ×1.00 | ×1.00 | EntityType | ×1.00 |
