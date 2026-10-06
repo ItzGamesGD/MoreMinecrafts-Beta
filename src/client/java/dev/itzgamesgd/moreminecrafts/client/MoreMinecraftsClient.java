@@ -169,7 +169,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
         EntityRendererRegistry.register(CustomMobCatalog.LESSER_WITHER_SKELETON, WitherSkeletonRenderer::new);
         EntityRendererRegistry.register(CustomMobCatalog.MOUNTAIN_SKELETON, StrayRenderer::new);
         EntityRendererRegistry.register(CustomMobCatalog.MINER_SKELETON, SkeletonRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.SMALL_SPIDER, SpiderRenderer::new);
+        EntityRendererRegistry.register(CustomMobCatalog.SMALL_SPIDER, CaveSpiderRenderer::new);
         EntityRendererRegistry.register(CustomMobCatalog.LARGE_SPIDER, SpiderRenderer::new);
         EntityRendererRegistry.register(CustomMobCatalog.FOREST_SPIDER, SpiderRenderer::new);
         EntityRendererRegistry.register(CustomMobCatalog.DESERT_SPIDER, SpiderRenderer::new);

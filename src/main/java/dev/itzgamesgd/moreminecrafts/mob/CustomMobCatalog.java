@@ -71,11 +71,11 @@ public final class CustomMobCatalog {
     public static final EntityType<WitherSkeleton> LESSER_WITHER_SKELETON = type("lesser_wither_skeleton", WitherSkeleton::new, 0.55f, 1.75f, true);
     public static final EntityType<Stray> MOUNTAIN_SKELETON = type("mountain_skeleton", Stray::new, 0.6f, 1.99f);
     public static final EntityType<MeleeSkeleton> MINER_SKELETON = type("miner_skeleton", (type, level) -> new MeleeSkeleton(type, level, Items.IRON_PICKAXE), 0.6f, 1.99f);
-    public static final EntityType<Spider> SMALL_SPIDER = type("small_spider", Spider::new, 0.55f, 0.45f);
+    public static final EntityType<CaveSpider> SMALL_SPIDER = type("small_spider", (type, level) -> new SmallCaveSpider(type, level), 0.55f, 0.45f);
     public static final EntityType<Spider> LARGE_SPIDER = type("large_spider", Spider::new, 1.2f, 1.0f);
     public static final EntityType<Spider> FOREST_SPIDER = type("forest_spider", Spider::new, 0.8f, 0.6f);
     public static final EntityType<Spider> DESERT_SPIDER = type("desert_spider", Spider::new, 0.8f, 0.6f);
-    public static final EntityType<CaveSpider> SWAMP_SPIDER = type("swamp_spider", CaveSpider::new, 0.7f, 0.5f);
+    public static final EntityType<CaveSpider> SWAMP_SPIDER = type("swamp_spider", (type, level) -> new SwampCaveSpider(type, level), 0.7f, 0.5f);
     public static final EntityType<Spider> ICE_SPIDER = type("ice_spider", Spider::new, 0.8f, 0.6f);
     public static final EntityType<Silverfish> CAVE_BUG = type("cave_bug", Silverfish::new, 0.4f, 0.3f);
     public static final EntityType<Silverfish> DESERT_BUG = type("desert_bug", Silverfish::new, 0.4f, 0.3f);
@@ -87,7 +87,7 @@ public final class CustomMobCatalog {
     public static final EntityType<Drowned> DROWNED_SAILOR = type("drowned_sailor", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> DEEP_SEA_DROWNED = type("deep_sea_drowned", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> RIVER_DROWNED = type("river_drowned", Drowned::new, 0.6f, 1.95f);
-    public static final EntityType<Piglin> WILD_PIGLIN = type("wild_piglin", Piglin::new, 0.6f, 1.95f, true);
+    public static final EntityType<Piglin> WILD_PIGLIN = type("wild_piglin", Piglin::new, 0.6f, 1.95f);
     public static final EntityType<Pillager> BANDIT = type("bandit", (type, level) -> new BanditEntity(type, level), 0.6f, 1.95f);
     public static final EntityType<Pillager> BANDIT_ARCHER = type("bandit_archer", (type, level) -> new BanditArcher(type, level), 0.6f, 1.95f);
     public static final EntityType<Vindicator> BANDIT_WARRIOR = type("bandit_warrior", Vindicator::new, 0.6f, 1.95f);
@@ -136,7 +136,7 @@ public final class CustomMobCatalog {
         add(LESSER_WITHER_SKELETON, WitherSkeleton.createAttributes(), BiomeTags.HAS_NETHER_FORTRESS, 2, SpawnKind.NETHER);
         add(MOUNTAIN_SKELETON, Stray.createAttributes(), BiomeTags.IS_MOUNTAIN, 3, SpawnKind.GROUND);
         add(MINER_SKELETON, Skeleton.createAttributes(), BiomeTags.HAS_MINESHAFT, 2, SpawnKind.CAVE);
-        add(SMALL_SPIDER, Spider.createAttributes(), BiomeTags.IS_OVERWORLD, 2, SpawnKind.CAVE);
+        add(SMALL_SPIDER, CaveSpider.createCaveSpider(), BiomeTags.IS_OVERWORLD, 2, SpawnKind.CAVE);
         add(LARGE_SPIDER, Spider.createAttributes(), BiomeTags.IS_OVERWORLD, 1, SpawnKind.GROUND);
         add(FOREST_SPIDER, Spider.createAttributes(), BiomeTags.IS_FOREST, 3, SpawnKind.GROUND);
         add(DESERT_SPIDER, Spider.createAttributes(), BiomeTags.IS_BADLANDS, 3, SpawnKind.GROUND);

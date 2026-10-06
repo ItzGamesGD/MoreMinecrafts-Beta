@@ -53,12 +53,19 @@ class CustomMobRosterDefinitionTest {
         assertTrue(catalog.contains("spec.type.getCategory()"),
                 "Biome spawn registration must use each EntityType's family population category");
         for (String tag : Set.of("undead", "zombies", "skeletons", "raiders", "illager", "arthropod",
-                "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "aquatic", "beehive_inhabitants",
+                "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "aquatic", "beehive_inhabitors",
                 "burn_in_daylight", "inverted_healing_and_harm", "wither_friends", "immune_to_oozing",
                 "frog_food", "axolotl_always_hostiles", "axolotl_hunt_targets", "immune_to_infested")) {
             assertTrue(Files.isRegularFile(Path.of("src/main/resources/data/minecraft/tags/entity_type/" + tag + ".json")),
                     "Missing vanilla semantic tag extension: " + tag);
         }
+        assertTrue(Files.readString(Path.of("src/main/resources/data/moreminecrafts/loot_table/entities/bandit.json"))
+                        .contains("\"minecraft:entities/pillager\""),
+                "Bandit must preserve Pillager-family loot rather than Vindicator loot");
+        assertTrue(catalog.contains("new SmallCaveSpider") && catalog.contains("new SwampCaveSpider"),
+                "Small and Swamp Spider must use their explicit Cave Spider-family behavior classes");
+        assertTrue(!catalog.contains("WILD_PIGLIN = type(\"wild_piglin\", Piglin::new, 0.6f, 1.95f, true)"),
+                "Wild Piglin must not gain non-vanilla fire immunity");
         assertTrue(Files.readString(Path.of("docs/VANILLA_MODEL_CUSTOM_MOB_ROSTER.md"))
                 .contains("VANILLA_MODEL_CUSTOM_MOB_ROSTER_IMPLEMENTATION.md"));
     }
