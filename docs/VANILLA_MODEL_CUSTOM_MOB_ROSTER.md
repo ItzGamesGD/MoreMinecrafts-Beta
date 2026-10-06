@@ -2,7 +2,7 @@
 
 Status: **Approved implementation scope**  
 Resource status: **Approved for follow-up resource work**  
-Baseline: `stage-19/checkpoint`
+Baseline: `stage-20/checkpoint` (`25eede9fcec899f9f827b866853d2c7e37336da7`)
 
 ## Scope rules
 
@@ -125,7 +125,7 @@ The ordinary roster should remain inexpensive and population-friendly. A mob doe
 
 ## Implementation companion
 
-The approved 40-entry roster is implemented on the stage-19 recovery line by `CustomMobCatalog`. Concrete entity sizes, natural-spawn scopes, and spawn weights are recorded in [the implementation schedule](VANILLA_MODEL_CUSTOM_MOB_ROSTER_IMPLEMENTATION.md). Every mob uses its approved vanilla entity family/model and the base family's current attributes and AI, except for the stated entity-size/collision adjustments. The per-mob custom texture work remains pending in [the resource backlog](CUSTOM_MOB_RESOURCE_BACKLOG.md). No roster additions, skills, VFX, custom models, or animations are included.
+The approved 40-entry roster is implemented on the Stage 20-based PR #69 recovery line by `CustomMobCatalog`. Concrete entity sizes, natural-spawn scopes, and spawn weights are recorded in [the implementation schedule](VANILLA_MODEL_CUSTOM_MOB_ROSTER_IMPLEMENTATION.md). Every mob uses its approved vanilla entity family/model and the base family's current attributes and AI, except for the stated entity-size/collision adjustments. The per-mob custom texture work remains pending in [the resource backlog](CUSTOM_MOB_RESOURCE_BACKLOG.md). No roster additions, skills, VFX, custom models, or animations are included.
 
 ## Final implementation decisions
 

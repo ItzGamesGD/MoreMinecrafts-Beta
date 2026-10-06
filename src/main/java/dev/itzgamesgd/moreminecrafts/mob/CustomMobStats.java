@@ -1,6 +1,9 @@
 package dev.itzgamesgd.moreminecrafts.mob;
 
-import net.minecraft.core.registries.BuiltInRegistries;
+import java.util.Collections;
+import java.util.Set;
+import java.util.WeakHashMap;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -8,10 +11,13 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 /** Small, one-time vanilla-attribute adjustments applied during ordinary spawn finalization. */
 public final class CustomMobStats {
+    private static final Set<Mob> APPLIED = Collections.newSetFromMap(new WeakHashMap<>());
+
     private CustomMobStats() {}
 
     public static void apply(Mob mob) {
-        String id = BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType()).getPath();
+        String id = customId(mob.getType());
+        if (id == null || !APPLIED.add(mob)) return;
         double health = 1.0, speed = 1.0, damage = 1.0, scale = 1.0, armor = 1.0;
         switch (id) {
             case "swamp_zombie" -> { health = 1.20; speed = 0.82; }
@@ -61,6 +67,50 @@ public final class CustomMobStats {
         multiply(mob, Attributes.ARMOR, armor);
         multiply(mob, Attributes.SCALE, scale);
         mob.setHealth((float) mob.getAttributeValue(Attributes.MAX_HEALTH));
+    }
+
+    private static String customId(EntityType<?> type) {
+        if (type == CustomMobCatalog.SWAMP_ZOMBIE) return "swamp_zombie";
+        if (type == CustomMobCatalog.CAVE_ZOMBIE) return "cave_zombie";
+        if (type == CustomMobCatalog.LARGE_ZOMBIE) return "large_zombie";
+        if (type == CustomMobCatalog.FROZEN_ZOMBIE) return "frozen_zombie";
+        if (type == CustomMobCatalog.MOSSY_ZOMBIE) return "mossy_zombie";
+        if (type == CustomMobCatalog.FUNGAL_ZOMBIE) return "fungal_zombie";
+        if (type == CustomMobCatalog.MINER_ZOMBIE) return "miner_zombie";
+        if (type == CustomMobCatalog.ROTTEN_SKELETON) return "rotten_skeleton";
+        if (type == CustomMobCatalog.CAVE_SKELETON) return "cave_skeleton";
+        if (type == CustomMobCatalog.ARMORED_SKELETON) return "armored_skeleton";
+        if (type == CustomMobCatalog.ASHEN_SKELETON) return "ashen_skeleton";
+        if (type == CustomMobCatalog.LESSER_WITHER_SKELETON) return "lesser_wither_skeleton";
+        if (type == CustomMobCatalog.MOUNTAIN_SKELETON) return "mountain_skeleton";
+        if (type == CustomMobCatalog.MINER_SKELETON) return "miner_skeleton";
+        if (type == CustomMobCatalog.SMALL_SPIDER) return "small_spider";
+        if (type == CustomMobCatalog.LARGE_SPIDER) return "large_spider";
+        if (type == CustomMobCatalog.FOREST_SPIDER) return "forest_spider";
+        if (type == CustomMobCatalog.DESERT_SPIDER) return "desert_spider";
+        if (type == CustomMobCatalog.SWAMP_SPIDER) return "swamp_spider";
+        if (type == CustomMobCatalog.ICE_SPIDER) return "ice_spider";
+        if (type == CustomMobCatalog.CAVE_BUG) return "cave_bug";
+        if (type == CustomMobCatalog.DESERT_BUG) return "desert_bug";
+        if (type == CustomMobCatalog.END_BUG) return "end_bug";
+        if (type == CustomMobCatalog.WILD_SLIME) return "wild_slime";
+        if (type == CustomMobCatalog.MUD_SLIME) return "mud_slime";
+        if (type == CustomMobCatalog.SAND_SLIME) return "sand_slime";
+        if (type == CustomMobCatalog.LESSER_MAGMA_CUBE) return "lesser_magma_cube";
+        if (type == CustomMobCatalog.DROWNED_SAILOR) return "drowned_sailor";
+        if (type == CustomMobCatalog.DEEP_SEA_DROWNED) return "deep_sea_drowned";
+        if (type == CustomMobCatalog.RIVER_DROWNED) return "river_drowned";
+        if (type == CustomMobCatalog.WILD_PIGLIN) return "wild_piglin";
+        if (type == CustomMobCatalog.BANDIT) return "bandit";
+        if (type == CustomMobCatalog.BANDIT_ARCHER) return "bandit_archer";
+        if (type == CustomMobCatalog.BANDIT_WARRIOR) return "bandit_warrior";
+        if (type == CustomMobCatalog.WANDERING_RAIDER) return "wandering_raider";
+        if (type == CustomMobCatalog.FERAL_WOLF) return "feral_wolf";
+        if (type == CustomMobCatalog.CAVE_BAT) return "cave_bat";
+        if (type == CustomMobCatalog.GIANT_BEE) return "giant_bee";
+        if (type == CustomMobCatalog.LESSER_PHANTOM) return "lesser_phantom";
+        if (type == CustomMobCatalog.CAVE_CREEPER) return "cave_creeper";
+        return null;
     }
 
     private static void multiply(Mob mob, net.minecraft.core.Holder<Attribute> attribute, double multiplier) {

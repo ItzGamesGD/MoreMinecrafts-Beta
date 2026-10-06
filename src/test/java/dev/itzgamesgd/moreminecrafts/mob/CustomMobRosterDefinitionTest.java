@@ -32,6 +32,14 @@ class CustomMobRosterDefinitionTest {
                     "Custom mob loot must preserve its vanilla base-family drops: " + id);
         }
         assertEquals(40, ids.size(), "The implementation must retain the approved forty-entry roster");
+        String stats = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/CustomMobStats.java"));
+        assertTrue(stats.contains("type == CustomMobCatalog.SWAMP_ZOMBIE")
+                        && stats.contains("type == CustomMobCatalog.CAVE_CREEPER"),
+                "Custom stat profiles must be scoped to exact MoreMinecrafts EntityType identities");
+        assertTrue(!stats.contains("getKey(mob.getType()).getPath()"),
+                "Custom stat profiles must never dispatch on an un-namespaced registry path");
+        assertTrue(stats.contains("!APPLIED.add(mob)"),
+                "Custom stat application must explicitly guard against repeated finalization");
         for (String tag : Set.of("undead", "zombies", "skeletons", "raiders", "illager", "arthropod",
                 "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "aquatic", "beehive_inhabitants",
                 "burn_in_daylight", "inverted_healing_and_harm", "wither_friends", "immune_to_oozing",
