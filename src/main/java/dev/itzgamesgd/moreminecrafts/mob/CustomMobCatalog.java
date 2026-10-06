@@ -54,6 +54,10 @@ public final class CustomMobCatalog {
     private static final List<SpawnSpec> SPAWNS = new ArrayList<>();
     private static boolean initialized;
     private static final TagKey<Biome> IS_SWAMP = TagKey.create(Registries.BIOME, Identifier.parse("minecraft:is_swamp"));
+    private static final TagKey<Biome> SNOWY_HABITAT = TagKey.create(Registries.BIOME, ModIds.id("snowy_habitat"));
+    private static final TagKey<Biome> FUNGAL_HABITAT = TagKey.create(Registries.BIOME, ModIds.id("fungal_habitat"));
+    private static final TagKey<Biome> DESERT_HABITAT = TagKey.create(Registries.BIOME, ModIds.id("desert_habitat"));
+    private static final TagKey<Biome> WILD_SLIME_HABITAT = TagKey.create(Registries.BIOME, ModIds.id("wild_slime_habitat"));
 
     private CustomMobCatalog() {}
 
@@ -125,9 +129,9 @@ public final class CustomMobCatalog {
         add(SWAMP_ZOMBIE, Zombie.createAttributes(), IS_SWAMP, 4, SpawnKind.GROUND);
         add(CAVE_ZOMBIE, Zombie.createAttributes(), BiomeTags.IS_OVERWORLD, 3, SpawnKind.CAVE);
         add(LARGE_ZOMBIE, Zombie.createAttributes(), BiomeTags.IS_OVERWORLD, 1, SpawnKind.GROUND);
-        add(FROZEN_ZOMBIE, Zombie.createAttributes(), BiomeTags.IS_MOUNTAIN, 3, SpawnKind.GROUND);
+        add(FROZEN_ZOMBIE, Zombie.createAttributes(), SNOWY_HABITAT, 3, SpawnKind.GROUND);
         add(MOSSY_ZOMBIE, Zombie.createAttributes(), BiomeTags.IS_FOREST, 3, SpawnKind.GROUND);
-        add(FUNGAL_ZOMBIE, Zombie.createAttributes(), BiomeTags.IS_JUNGLE, 2, SpawnKind.CAVE);
+        add(FUNGAL_ZOMBIE, Zombie.createAttributes(), FUNGAL_HABITAT, 2, SpawnKind.CAVE);
         add(MINER_ZOMBIE, Zombie.createAttributes(), BiomeTags.HAS_MINESHAFT, 2, SpawnKind.CAVE);
         add(ROTTEN_SKELETON, Skeleton.createAttributes(), BiomeTags.IS_OVERWORLD, 3, SpawnKind.GROUND);
         add(CAVE_SKELETON, Skeleton.createAttributes(), BiomeTags.IS_OVERWORLD, 3, SpawnKind.CAVE);
@@ -139,15 +143,15 @@ public final class CustomMobCatalog {
         add(SMALL_SPIDER, CaveSpider.createCaveSpider(), BiomeTags.IS_OVERWORLD, 2, SpawnKind.CAVE);
         add(LARGE_SPIDER, Spider.createAttributes(), BiomeTags.IS_OVERWORLD, 1, SpawnKind.GROUND);
         add(FOREST_SPIDER, Spider.createAttributes(), BiomeTags.IS_FOREST, 3, SpawnKind.GROUND);
-        add(DESERT_SPIDER, Spider.createAttributes(), BiomeTags.IS_BADLANDS, 3, SpawnKind.GROUND);
+        add(DESERT_SPIDER, Spider.createAttributes(), DESERT_HABITAT, 3, SpawnKind.GROUND);
         add(SWAMP_SPIDER, CaveSpider.createCaveSpider(), IS_SWAMP, 2, SpawnKind.GROUND);
-        add(ICE_SPIDER, Spider.createAttributes(), BiomeTags.IS_MOUNTAIN, 2, SpawnKind.GROUND);
+        add(ICE_SPIDER, Spider.createAttributes(), SNOWY_HABITAT, 2, SpawnKind.GROUND);
         add(CAVE_BUG, Silverfish.createAttributes(), BiomeTags.IS_OVERWORLD, 3, SpawnKind.CAVE);
         add(DESERT_BUG, Silverfish.createAttributes(), BiomeTags.HAS_DESERT_PYRAMID, 2, SpawnKind.CAVE);
         add(END_BUG, Endermite.createAttributes(), BiomeTags.IS_END, 3, SpawnKind.GROUND);
-        add(WILD_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), BiomeTags.IS_FOREST, 2, SpawnKind.GROUND);
+        add(WILD_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), WILD_SLIME_HABITAT, 2, SpawnKind.GROUND);
         add(MUD_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), IS_SWAMP, 3, SpawnKind.GROUND);
-        add(SAND_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), BiomeTags.IS_BADLANDS, 3, SpawnKind.GROUND);
+        add(SAND_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), DESERT_HABITAT, 3, SpawnKind.GROUND);
         add(LESSER_MAGMA_CUBE, MagmaCube.createAttributes(), BiomeTags.IS_NETHER, 2, SpawnKind.NETHER);
         add(DROWNED_SAILOR, Drowned.createAttributes(), BiomeTags.HAS_SHIPWRECK, 1, SpawnKind.WATER);
         add(DEEP_SEA_DROWNED, Drowned.createAttributes(), BiomeTags.IS_DEEP_OCEAN, 3, SpawnKind.WATER);

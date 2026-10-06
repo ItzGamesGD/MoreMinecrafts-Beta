@@ -6,6 +6,10 @@ import java.util.Set;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
@@ -99,6 +103,29 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                 "Cave Bat must retain ambient-family population metadata");
         context.assertTrue(CustomMobCatalog.FERAL_WOLF.getCategory() == net.minecraft.world.entity.MobCategory.CREATURE,
                 "Feral Wolf must retain animal-family population metadata");
+        var noWindAnger = TagKey.create(Registries.ENTITY_TYPE, Identifier.parse("minecraft:no_anger_from_wind_charge"));
+        var powderSnowWalkable = TagKey.create(Registries.ENTITY_TYPE, Identifier.parse("minecraft:powder_snow_walkable_mobs"));
+        var fallDamageImmune = TagKey.create(Registries.ENTITY_TYPE, Identifier.parse("minecraft:fall_damage_immune"));
+        var freezeHurtsExtra = TagKey.create(Registries.ENTITY_TYPE, Identifier.parse("minecraft:freeze_hurts_extra_types"));
+        var nonControllingRider = TagKey.create(Registries.ENTITY_TYPE, Identifier.parse("minecraft:non_controlling_rider"));
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.SWAMP_ZOMBIE).is(noWindAnger)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.MOUNTAIN_SKELETON).is(noWindAnger)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.SMALL_SPIDER).is(noWindAnger)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.WILD_SLIME).is(noWindAnger),
+                "Vanilla wind-charge anger immunity semantics must follow the corresponding base families");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.CAVE_BUG).is(powderSnowWalkable)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.END_BUG).is(powderSnowWalkable),
+                "Silverfish/Endermite-family variants must retain powder-snow walking semantics");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.CAVE_BAT).is(fallDamageImmune)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.GIANT_BEE).is(fallDamageImmune)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_PHANTOM).is(fallDamageImmune)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_MAGMA_CUBE).is(fallDamageImmune),
+                "Flying and magma-cube variants must retain vanilla fall-damage immunity semantics");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_MAGMA_CUBE).is(freezeHurtsExtra),
+                "Lesser Magma Cube must retain vanilla extra freezing vulnerability");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.WILD_SLIME).is(nonControllingRider)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_MAGMA_CUBE).is(nonControllingRider),
+                "Slime-family variants must retain vanilla non-controlling rider semantics");
         giantBee.discard();
         largeZombie.discard();
         context.succeed();

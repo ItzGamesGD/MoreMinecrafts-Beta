@@ -4,45 +4,45 @@ This companion records implementation choices permitted by the approved roster t
 
 | ID | Vanilla base/model | Dimensions | Biome scope | Weight | Position gate |
 |---|---|---:|---|---:|---|
-| swamp_zombie | ×1.20 | ×0.82 | ×1.00 | EntityType | ×1.00 |
-| cave_zombie | ×0.90 | ×1.10 | ×1.00 | EntityType | ×1.00 |
-| large_zombie | ×1.55 | ×0.78 | ×1.20 | EntityType | ×1.00 |
-| frozen_zombie | Zombie | 0.60×1.95 | Mountains | 3 | ground |
+| swamp_zombie | Zombie | 0.60×1.95 | Swamp biomes | 4 | ground |
+| cave_zombie | Zombie | 0.50×1.65 | Overworld caves | 3 | cave |
+| large_zombie | Zombie | 0.78×2.54 | Overworld | 1 | ground |
+| frozen_zombie | Zombie | 0.60×1.95 | Snowy biomes | 3 | ground |
 | mossy_zombie | Zombie | 0.60×1.95 | Forests | 3 | ground |
-| fungal_zombie | Zombie | 0.60×1.95 | Jungles | 2 | cave |
-| miner_zombie | Zombie | 0.60×1.95 | Mineshaft biomes, underground only | 2 | cave |
-| rotten_skeleton | ×0.72 | ×1.00 | ×0.82 | EntityType | ×1.00 |
+| fungal_zombie | Zombie | 0.60×1.95 | Mushroom fields, lush caves, and damp swamp caves | 2 | cave |
+| miner_zombie | Zombie | 0.60×1.95 | Mineshaft-generation biomes, underground only | 2 | cave |
+| rotten_skeleton | Skeleton | 0.60×1.99 | Overworld | 3 | ground |
 | cave_skeleton | Skeleton | 0.60×1.99 | Overworld caves | 3 | cave |
-| armored_skeleton | ×1.30 | ×0.82 | ×1.00 | EntityType | ×1.5 |
+| armored_skeleton | Skeleton | 0.60×1.99 | Mountains | 2 | ground |
 | ashen_skeleton | Skeleton | 0.60×1.99 | Nether | 3 | ground |
-| lesser_wither_skeleton | ×0.72 | ×1.00 | ×0.78 | EntityType | ×1.00 |
+| lesser_wither_skeleton | Wither Skeleton | 0.55×1.75 | Nether-fortress-generation biomes | 2 | nether |
 | mountain_skeleton | Stray | 0.60×1.99 | Mountains | 3 | ground |
-| miner_skeleton | Skeleton | 0.60×1.99 | Mineshaft biomes, underground only | 2 | cave |
+| miner_skeleton | Skeleton | 0.60×1.99 | Mineshaft-generation biomes, underground only | 2 | cave |
 | small_spider | Cave Spider (poison suppressed) | 0.55×0.45 | Overworld caves | 2 | cave |
-| large_spider | ×1.65 | ×0.82 | ×1.12 | EntityType | ×1.00 |
+| large_spider | Spider | 1.20×1.00 | Overworld | 1 | ground |
 | forest_spider | Spider | 0.80×0.60 | Forests | 3 | ground |
-| desert_spider | Spider | 0.80×0.60 | Badlands | 3 | ground |
-| swamp_spider | ×0.88 | ×1.00 | ×0.80 | EntityType | ×1.00 |
-| ice_spider | Spider | 0.80×0.60 | Mountains | 2 | ground |
+| desert_spider | Spider | 0.80×0.60 | Desert | 3 | ground |
+| swamp_spider | Cave Spider (weak poison) | 0.70×0.50 | Swamp biomes | 2 | ground |
+| ice_spider | Spider | 0.80×0.60 | Snowy biomes | 2 | ground |
 | cave_bug | Silverfish | 0.40×0.30 | Overworld caves | 3 | cave |
-| desert_bug | Silverfish | 0.40×0.30 | Desert-pyramid biomes, underground only | 2 | cave |
+| desert_bug | Silverfish | 0.40×0.30 | Desert-pyramid-generation biomes, underground only | 2 | cave |
 | end_bug | Endermite | 0.40×0.30 | The End | 3 | ground |
-| wild_slime | ×0.82 | ×1.00 | ×1.00 | EntityType | ×1.00 |
+| wild_slime | Slime | 0.52×0.52 | Forests and swamps | 2 | ground |
 | mud_slime | Slime | 0.60×0.60 | Swamp biomes | 3 | ground |
-| sand_slime | Slime | 0.60×0.60 | Badlands | 3 | ground |
+| sand_slime | Slime | 0.60×0.60 | Desert | 3 | ground |
 | lesser_magma_cube | Magma Cube | 0.65×0.65 | Nether | 2 | nether |
-| drowned_sailor | Drowned | 0.60×1.95 | Shipwreck biomes, water only | 1 | water |
-| deep_sea_drowned | ×1.35 | ×0.90 | ×1.00 | EntityType | ×1.00 |
-| river_drowned | ×0.82 | ×1.00 | ×0.88 | EntityType | ×1.00 |
-| wild_piglin | ×0.82 | ×1.00 | ×0.82 | EntityType | ×0.75 |
-| bandit | ×0.90 | ×1.00 | ×1.00 | EntityType | ×1.00 |
-| bandit_archer | ×0.82 | ×1.00 | ×0.92 | EntityType | ×1.00 |
+| drowned_sailor | Drowned | 0.60×1.95 | Shipwreck-generation biomes, water only | 1 | water |
+| deep_sea_drowned | Drowned | 0.60×1.95 | Deep oceans, water only | 3 | water |
+| river_drowned | Drowned | 0.60×1.95 | Rivers, water only | 2 | water |
+| wild_piglin | Piglin | 0.60×1.95 | Nether | 2 | nether |
+| bandit | Pillager | 0.60×1.95 | Forests | 2 | ground |
+| bandit_archer | Pillager | 0.60×1.95 | Forests | 2 | ground |
 | bandit_warrior | Vindicator | 0.60×1.95 | Forests | 1 | ground |
 | wandering_raider | Pillager | 0.60×1.95 | Overworld | 1 | ground |
 | feral_wolf | Wolf | 0.60×0.85 | Forests | 1 | ground |
-| cave_bat | ×0.60 | ×1.08 | ×0.55 | EntityType | ×1.00 |
-| giant_bee | ×1.65 | ×1.00 | ×1.25 | EntityType | ×1.00 |
-| lesser_phantom | ×0.60 | ×1.00 | ×0.72 | EntityType | ×1.00 |
+| cave_bat | Bat | 0.90×0.90 | Overworld caves | 2 | cave |
+| giant_bee | Bee | 1.00×0.80 | Forests | 1 | ground |
+| lesser_phantom | Phantom | 0.70×0.45 | Overworld, visible sky above sea level | 1 | sky |
 | cave_creeper | Creeper | 0.60×1.70 | Overworld caves | 2 | cave |
 
 ## Spawn-density notes
@@ -51,7 +51,7 @@ The weights are deliberately low (1–4 per variant) and variants share the vani
 
 ## Runtime behavior and vanilla integration
 
-Feral Wolf and Cave Bat use simple player-targeting melee behavior; Cave Creeper explosion radius is 60% of a vanilla Creeper blast. Miner Zombie and Miner Skeleton carry iron pickaxes, Rotten/Cave Skeleton carry stone swords, Bandit uses an iron sword with melee AI, Bandit Archer uses a bow, and Armored Skeleton carries an iron helmet and chestplate. Custom entities alias the matching vanilla family loot table and join vanilla entity tags for undead, zombie/skeleton, raider/illager, arthropod, aquatic, Smite/Bane, and beehive behavior. Small Spider uses Cave Spider family/model behavior with poison suppressed; Swamp Spider replaces the normal Cave Spider poison application with a short Poison I application. Wild Piglin is not fire-immune and retains Piglin environmental conversion behavior.
+Feral Wolf and Cave Bat use simple player-targeting melee behavior; Cave Creeper explosion radius is 60% of a vanilla Creeper blast. Miner Zombie and Miner Skeleton carry iron pickaxes, Rotten/Cave Skeleton carry stone swords, Bandit uses an iron sword with melee AI, Bandit Archer uses a bow, and Armored Skeleton carries an iron helmet and chestplate. Custom entities alias the matching vanilla family loot table and join vanilla entity tags for undead, zombie/skeleton, raider/illager, arthropod, aquatic, Smite/Bane, beehive behavior, wind-charge anger immunity, powder-snow walking, fall immunity, freezing vulnerability, and slime rider behavior where the corresponding vanilla base type has those semantics. Small Spider uses Cave Spider family/model behavior with poison suppressed; Swamp Spider replaces the normal Cave Spider poison application with a short Poison I application. Wild Piglin is not fire-immune and retains Piglin environmental conversion behavior.
 
 ## Stat multipliers
 

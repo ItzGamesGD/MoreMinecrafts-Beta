@@ -55,7 +55,9 @@ class CustomMobRosterDefinitionTest {
         for (String tag : Set.of("undead", "zombies", "skeletons", "raiders", "illager", "arthropod",
                 "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "aquatic", "beehive_inhabitors",
                 "burn_in_daylight", "inverted_healing_and_harm", "wither_friends", "immune_to_oozing",
-                "frog_food", "axolotl_always_hostiles", "axolotl_hunt_targets", "immune_to_infested")) {
+                "frog_food", "axolotl_always_hostiles", "axolotl_hunt_targets", "immune_to_infested",
+                "no_anger_from_wind_charge", "powder_snow_walkable_mobs", "fall_damage_immune",
+                "freeze_hurts_extra_types", "non_controlling_rider")) {
             assertTrue(Files.isRegularFile(Path.of("src/main/resources/data/minecraft/tags/entity_type/" + tag + ".json")),
                     "Missing vanilla semantic tag extension: " + tag);
         }
@@ -66,6 +68,17 @@ class CustomMobRosterDefinitionTest {
                 "Small and Swamp Spider must use their explicit Cave Spider-family behavior classes");
         assertTrue(!catalog.contains("WILD_PIGLIN = type(\"wild_piglin\", Piglin::new, 0.6f, 1.95f, true)"),
                 "Wild Piglin must not gain non-vanilla fire immunity");
+        for (String biomeTag : Set.of("snowy_habitat", "fungal_habitat", "desert_habitat", "wild_slime_habitat")) {
+            assertTrue(Files.isRegularFile(Path.of("src/main/resources/data/moreminecrafts/tags/worldgen/biome/" + biomeTag + ".json")),
+                    "Missing approved habitat biome tag: " + biomeTag);
+        }
+        assertTrue(catalog.contains("add(FROZEN_ZOMBIE, Zombie.createAttributes(), SNOWY_HABITAT")
+                        && catalog.contains("add(FUNGAL_ZOMBIE, Zombie.createAttributes(), FUNGAL_HABITAT")
+                        && catalog.contains("add(DESERT_SPIDER, Spider.createAttributes(), DESERT_HABITAT")
+                        && catalog.contains("add(ICE_SPIDER, Spider.createAttributes(), SNOWY_HABITAT")
+                        && catalog.contains("add(WILD_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), WILD_SLIME_HABITAT")
+                        && catalog.contains("add(SAND_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), DESERT_HABITAT"),
+                "Approved biome identities must not regress to mountain/jungle/badlands shortcuts");
         assertTrue(Files.readString(Path.of("docs/VANILLA_MODEL_CUSTOM_MOB_ROSTER.md"))
                 .contains("VANILLA_MODEL_CUSTOM_MOB_ROSTER_IMPLEMENTATION.md"));
     }
