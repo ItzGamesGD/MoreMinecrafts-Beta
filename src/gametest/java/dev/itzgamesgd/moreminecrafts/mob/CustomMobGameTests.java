@@ -5,16 +5,20 @@ import java.util.HashSet;
 import java.util.Set;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.cubemob.MagmaCube;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -126,6 +130,75 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.WILD_SLIME).is(nonControllingRider)
                         && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_MAGMA_CUBE).is(nonControllingRider),
                 "Slime-family variants must retain vanilla non-controlling rider semantics");
+        Slime vanillaSlime = context.spawn(EntityType.SLIME, new BlockPos(1, 1, 1));
+        Slime wildSlime = context.spawn(CustomMobCatalog.WILD_SLIME, new BlockPos(2, 1, 1));
+        vanillaSlime.setSize(4, true);
+        wildSlime.setSize(4, true);
+        context.assertTrue(Math.abs(wildSlime.getAttributeValue(Attributes.MAX_HEALTH)
+                        - vanillaSlime.getAttributeValue(Attributes.MAX_HEALTH) * 0.82) < 0.001,
+                "Wild Slime health multiplier must survive vanilla size-derived attribute rewrites");
+        context.assertTrue(Math.abs(wildSlime.getAttributeValue(Attributes.MOVEMENT_SPEED)
+                        - vanillaSlime.getAttributeValue(Attributes.MOVEMENT_SPEED)) < 0.000001,
+                "Wild Slime keeps vanilla size-derived movement speed");
+        wildSlime.setSize(2, true);
+        vanillaSlime.setSize(2, true);
+        context.assertTrue(Math.abs(wildSlime.getAttributeValue(Attributes.MAX_HEALTH)
+                        - vanillaSlime.getAttributeValue(Attributes.MAX_HEALTH) * 0.82) < 0.001,
+                "Repeated Slime setSize calls must replace, not compound, the approved multiplier");
+
+        Slime mudSlime = context.spawn(CustomMobCatalog.MUD_SLIME, new BlockPos(3, 1, 1));
+        Slime sandSlime = context.spawn(CustomMobCatalog.SAND_SLIME, new BlockPos(4, 1, 1));
+        vanillaSlime.setSize(4, true);
+        mudSlime.setSize(4, true);
+        sandSlime.setSize(4, true);
+        context.assertTrue(Math.abs(mudSlime.getAttributeValue(Attributes.MAX_HEALTH)
+                        - vanillaSlime.getAttributeValue(Attributes.MAX_HEALTH) * 1.15) < 0.001
+                        && Math.abs(mudSlime.getAttributeValue(Attributes.MOVEMENT_SPEED)
+                        - vanillaSlime.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.78) < 0.000001,
+                "Mud Slime size lifecycle must retain its health and speed profile");
+        context.assertTrue(Math.abs(sandSlime.getAttributeValue(Attributes.MOVEMENT_SPEED)
+                        - vanillaSlime.getAttributeValue(Attributes.MOVEMENT_SPEED) * 1.08) < 0.000001,
+                "Sand Slime size lifecycle must retain its speed profile");
+
+        MagmaCube vanillaMagma = context.spawn(EntityType.MAGMA_CUBE, new BlockPos(5, 1, 1));
+        MagmaCube lesserMagma = context.spawn(CustomMobCatalog.LESSER_MAGMA_CUBE, new BlockPos(6, 1, 1));
+        vanillaMagma.setSize(4, true);
+        lesserMagma.setSize(4, true);
+        context.assertTrue(Math.abs(lesserMagma.getAttributeValue(Attributes.MAX_HEALTH)
+                        - vanillaMagma.getAttributeValue(Attributes.MAX_HEALTH) * 0.78) < 0.001
+                        && Math.abs(lesserMagma.getAttributeValue(Attributes.ATTACK_DAMAGE)
+                        - vanillaMagma.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.80) < 0.001,
+                "Lesser Magma Cube size lifecycle must retain its health and damage profile");
+
+        Slime splitter = context.spawn(CustomMobCatalog.WILD_SLIME, new BlockPos(7, 1, 1));
+        splitter.setSize(4, true);
+        splitter.setHealth(0.0F);
+        splitter.remove(Entity.RemovalReason.KILLED);
+        var splitChildren = context.getLevel().getEntitiesOfClass(Slime.class, context.getBounds().inflate(2.0),
+                slime -> slime.getType() == CustomMobCatalog.WILD_SLIME);
+        context.assertTrue(splitChildren.size() >= 2 && splitChildren.size() <= 4,
+                "A dying custom Slime must split into children of the same custom EntityType");
+        for (Slime child : splitChildren) {
+            context.assertTrue(child.getSize() == 2,
+                    "Split custom Slime children must retain vanilla half-size semantics");
+            context.assertTrue(Math.abs(child.getAttributeValue(Attributes.MAX_HEALTH)
+                            - Math.pow(child.getSize(), 2) * 0.82) < 0.001,
+                    "Split custom Slime children must receive the approved health profile");
+            child.discard();
+        }
+
+        FeralWolf feralWolf = (FeralWolf) context.spawn(CustomMobCatalog.FERAL_WOLF, new BlockPos(8, 1, 1));
+        feralWolf.setTame(true, true);
+        context.assertTrue(feralWolf.isTame(),
+                "Feral Wolf remains a vanilla-family tamable wolf; only its untamed player-hunting goal is custom");
+
+        vanillaSlime.discard();
+        wildSlime.discard();
+        mudSlime.discard();
+        sandSlime.discard();
+        vanillaMagma.discard();
+        lesserMagma.discard();
+        feralWolf.discard();
         giantBee.discard();
         largeZombie.discard();
         context.succeed();

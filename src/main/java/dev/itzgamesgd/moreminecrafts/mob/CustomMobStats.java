@@ -42,10 +42,6 @@ public final class CustomMobStats {
             case "ice_spider" -> { health = 1.08; speed = 0.92; }
             case "cave_bug" -> { health = 1.15; }
             case "desert_bug" -> { health = 1.12; damage = 1.05; }
-            case "wild_slime" -> { health = 0.82; }
-            case "mud_slime" -> { health = 1.15; speed = 0.78; }
-            case "sand_slime" -> { speed = 1.08; }
-            case "lesser_magma_cube" -> { health = 0.78; damage = 0.80; }
             case "drowned_sailor" -> { health = 1.12; }
             case "deep_sea_drowned" -> { health = 1.35; speed = 0.90; }
             case "river_drowned" -> { health = 0.82; damage = 0.88; }
@@ -92,10 +88,6 @@ public final class CustomMobStats {
         if (type == CustomMobCatalog.CAVE_BUG) return "cave_bug";
         if (type == CustomMobCatalog.DESERT_BUG) return "desert_bug";
         if (type == CustomMobCatalog.END_BUG) return "end_bug";
-        if (type == CustomMobCatalog.WILD_SLIME) return "wild_slime";
-        if (type == CustomMobCatalog.MUD_SLIME) return "mud_slime";
-        if (type == CustomMobCatalog.SAND_SLIME) return "sand_slime";
-        if (type == CustomMobCatalog.LESSER_MAGMA_CUBE) return "lesser_magma_cube";
         if (type == CustomMobCatalog.DROWNED_SAILOR) return "drowned_sailor";
         if (type == CustomMobCatalog.DEEP_SEA_DROWNED) return "deep_sea_drowned";
         if (type == CustomMobCatalog.RIVER_DROWNED) return "river_drowned";

@@ -84,10 +84,14 @@ public final class CustomMobCatalog {
     public static final EntityType<Silverfish> CAVE_BUG = type("cave_bug", Silverfish::new, 0.4f, 0.3f);
     public static final EntityType<Silverfish> DESERT_BUG = type("desert_bug", Silverfish::new, 0.4f, 0.3f);
     public static final EntityType<Endermite> END_BUG = type("end_bug", Endermite::new, 0.4f, 0.3f);
-    public static final EntityType<Slime> WILD_SLIME = type("wild_slime", Slime::new, 0.52f, 0.52f);
-    public static final EntityType<Slime> MUD_SLIME = type("mud_slime", Slime::new, 0.6f, 0.6f);
-    public static final EntityType<Slime> SAND_SLIME = type("sand_slime", Slime::new, 0.6f, 0.6f);
-    public static final EntityType<MagmaCube> LESSER_MAGMA_CUBE = type("lesser_magma_cube", MagmaCube::new, 0.65f, 0.65f, true);
+    public static final EntityType<Slime> WILD_SLIME = type("wild_slime",
+            (type, level) -> new CatalogSlime(type, level, 0.82, 1.00, 1.00), 0.52f, 0.52f);
+    public static final EntityType<Slime> MUD_SLIME = type("mud_slime",
+            (type, level) -> new CatalogSlime(type, level, 1.15, 0.78, 1.00), 0.6f, 0.6f);
+    public static final EntityType<Slime> SAND_SLIME = type("sand_slime",
+            (type, level) -> new CatalogSlime(type, level, 1.00, 1.08, 1.00), 0.6f, 0.6f);
+    public static final EntityType<MagmaCube> LESSER_MAGMA_CUBE = type("lesser_magma_cube",
+            (type, level) -> new CatalogMagmaCube(type, level, 0.78, 1.00, 0.80), 0.65f, 0.65f, true);
     public static final EntityType<Drowned> DROWNED_SAILOR = type("drowned_sailor", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> DEEP_SEA_DROWNED = type("deep_sea_drowned", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> RIVER_DROWNED = type("river_drowned", Drowned::new, 0.6f, 1.95f);

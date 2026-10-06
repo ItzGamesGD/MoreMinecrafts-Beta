@@ -64,6 +64,13 @@ class CustomMobRosterDefinitionTest {
         assertTrue(Files.readString(Path.of("src/main/resources/data/moreminecrafts/loot_table/entities/bandit.json"))
                         .contains("\"minecraft:entities/pillager\""),
                 "Bandit must preserve Pillager-family loot rather than Vindicator loot");
+        assertTrue(catalog.contains("new CatalogSlime") && catalog.contains("new CatalogMagmaCube"),
+                "Slime-family variants must own size-lifecycle stat scaling instead of relying on one-time finalizeSpawn");
+        assertTrue(!stats.contains("case \"wild_slime\"") && !stats.contains("case \"lesser_magma_cube\""),
+                "Cube-mob stat multipliers must not be duplicated by the global finalizeSpawn stat pass");
+        String feralWolf = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/FeralWolf.java"));
+        assertTrue(feralWolf.contains("NonTameRandomTargetGoal"),
+                "Feral Wolf may hunt players only while untamed; tame wolves must fall back to vanilla tame targeting");
         assertTrue(catalog.contains("new SmallCaveSpider") && catalog.contains("new SwampCaveSpider"),
                 "Small and Swamp Spider must use their explicit Cave Spider-family behavior classes");
         assertTrue(!catalog.contains("WILD_PIGLIN = type(\"wild_piglin\", Piglin::new, 0.6f, 1.95f, true)"),
