@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:bandit",
+    "moreminecrafts:bandit_archer",
+    "moreminecrafts:bandit_warrior",
+    "moreminecrafts:wandering_raider"
+  ]
+}

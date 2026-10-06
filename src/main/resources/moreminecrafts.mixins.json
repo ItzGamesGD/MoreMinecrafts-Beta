@@ -34,7 +34,10 @@
     "BookOptionAttributesMixin",
     "BookOptionTooltipMixin",
     "EnchantingTableBlockMixin",
-    "T1SmithUpgradeMixin"
+    "T1SmithUpgradeMixin",
+    "SpawnPlacementsInvoker",
+    "CustomMobStatsMixin",
+    "CaveCreeperExplosionMixin"
   ],
   "injectors": {
     "defaultRequire": 1

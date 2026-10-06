@@ -10,12 +10,14 @@ import dev.itzgamesgd.moreminecrafts.special.elemental.EarthSeismicRuntime;
 import dev.itzgamesgd.moreminecrafts.special.ElementalHitProgress;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentRuntime;
+import dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog;
 
 public final class ModRegistries {
     private ModRegistries() {
     }
 
     public static void initialize() {
+        CustomMobCatalog.initialize();
         ModAlchemy.initialize();
         EnchantmentRuntime.initialize();
         ModBlocks.initialize();
