@@ -1,0 +1,18 @@
+{
+  "parent": "moreminecrafts:activities/root",
+  "display": {
+    "icon": {"id": "minecraft:diamond"},
+    "title": {"translate": "advancements.moreminecrafts.activities.first_diamond.title"},
+    "description": {"translate": "advancements.moreminecrafts.activities.first_diamond.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "rewards": {"experience": 10},
+  "criteria": {
+    "diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": "minecraft:diamond"}]}
+    }
+  }
+}

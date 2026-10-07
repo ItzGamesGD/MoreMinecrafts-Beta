@@ -33,6 +33,11 @@ public final class ModItems {
     public static final Item MYTHRIL = material("mythril");
     public static final Item ETHERIUM = material("etherium");
     public static final Item ADAMANTIUM_INGOT = fireResistantMaterial("adamantium_ingot");
+    public static final Item EYE_OF_TYPHOON = core("eye_of_typhoon");
+    public static final Item HEART_OF_THUNDER = core("heart_of_thunder");
+    public static final Item BURNING_HEART = core("burning_heart");
+    public static final Item HEART_OF_CURRENTS = core("heart_of_currents");
+    public static final Item ANCIENT_HEART = core("ancient_heart");
     private static final ResourceKey<Item> FOUNDATION_PROBE_KEY =
             ResourceKey.create(Registries.ITEM, ModIds.id("foundation_probe"));
     public static final ResourceKey<Item> ENHANCEMENT_STONE_KEY =
@@ -153,6 +158,9 @@ public final class ModItems {
     private static Item simpleUtility(String path) {
         return register(path, key -> new Item(new Item.Properties().stacksTo(1).setId(key)));
     }
+    private static Item core(String path) {
+        return register(path, key -> new Item(new Item.Properties().stacksTo(1).fireResistant().setId(key)));
+    }
     private static Item backpack(String path, int capacity) {
         return register(path, key -> new BackpackItem(capacity, new Item.Properties().stacksTo(1).setId(key)));
     }
@@ -217,6 +225,11 @@ public final class ModItems {
             entries.accept(SMALL_BACKPACK);
             entries.accept(BACKPACK);
             entries.accept(LARGE_BACKPACK);
+            entries.accept(EYE_OF_TYPHOON);
+            entries.accept(HEART_OF_THUNDER);
+            entries.accept(BURNING_HEART);
+            entries.accept(HEART_OF_CURRENTS);
+            entries.accept(ANCIENT_HEART);
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
             entries.accept(ModBlocks.TITANIUM_ORE);

@@ -57,4 +57,19 @@ public final class FishingLogic {
     public static int rollWeight(FishSpecies species, int lengthTenthsCm, RandomSource random) {
         return species.weightForLength(lengthTenthsCm, random.nextDouble() * 2.0 - 1.0);
     }
+
+    /** Rolls every per-fish field from the caller's server RNG without reusing an ItemStack. */
+    public static FishRoll rollFish(FishSpecies species, int crankbaitTier, RandomSource random) {
+        int grade = rollGrade(crankbaitTier, random);
+        int length = rollLength(species, random);
+        int weight = rollWeight(species, length, random);
+        return new FishRoll(species, grade, length, weight);
+    }
+
+    /** Selects a new species before rolling its independent quality and measurements. */
+    public static FishRoll rollFish(List<FishSpecies> pool, int crankbaitTier, RandomSource random) {
+        return rollFish(selectSpecies(pool, random), crankbaitTier, random);
+    }
+
+    public record FishRoll(FishSpecies species, int grade, int lengthTenthsCm, int weightTenthsKg) {}
 }

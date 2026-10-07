@@ -28,6 +28,29 @@ class FishingLogicTest {
     }
 
     @Test
+    void multiCatchRollsTwoIndependentFishRecords() {
+        var pool = FishingLogic.accessibleSpecies(3);
+        RandomSource random = RandomSource.create(0x5EEDL);
+        var first = FishingLogic.rollFish(pool, 2, random);
+        var second = FishingLogic.rollFish(pool, 2, random);
+
+        assertNotSame(first, second);
+        assertTrue(pool.contains(first.species()));
+        assertTrue(pool.contains(second.species()));
+        assertTrue(first.grade() >= 1 && first.grade() <= FishingGrade.MAX);
+        assertTrue(second.grade() >= 1 && second.grade() <= FishingGrade.MAX);
+        assertTrue(first.lengthTenthsCm() >= first.species().lengthDistribution().minimum());
+        assertTrue(first.lengthTenthsCm() <= first.species().lengthDistribution().maximum());
+        assertTrue(second.lengthTenthsCm() >= second.species().lengthDistribution().minimum());
+        assertTrue(second.lengthTenthsCm() <= second.species().lengthDistribution().maximum());
+        assertTrue(first.weightTenthsKg() >= first.species().weightDistribution().minimum());
+        assertTrue(first.weightTenthsKg() <= first.species().weightDistribution().maximum());
+        assertTrue(second.weightTenthsKg() >= second.species().weightDistribution().minimum());
+        assertTrue(second.weightTenthsKg() <= second.species().weightDistribution().maximum());
+        assertNotEquals(first, second, "a second result must be generated, never stack-copied");
+    }
+
+    @Test
     void exactCrankbaitDistributionsAreComplete() {
         assertArrayEquals(new int[]{45, 30, 16, 7, 2}, FishingLogic.gradeWeights(0));
         assertArrayEquals(new int[]{30, 32, 22, 12, 4}, FishingLogic.gradeWeights(1));

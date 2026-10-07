@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "minecraft:entities/wither_skeleton"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "moreminecrafts:entities/lesser_wither_skeleton"
+}

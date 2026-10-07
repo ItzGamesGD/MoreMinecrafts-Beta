@@ -34,7 +34,7 @@ public final class EnchantmentTrees {
                 case LEGGINGS -> { protection(nodes); add(nodes,"swift_sneak",3); }
                 case BOOTS -> { protection(nodes); add(nodes,"feather_falling",4); custom(nodes,"feather_boots",1,"minecraft:feather_falling",4,1000); add(nodes,"depth_strider",3); add(nodes,"frost_walker",2); add(nodes,"soul_speed",3); custom(nodes,"jet_boots",3,"",0,800,1000,1200); }
                 case ELYTRA -> custom(nodes,"elytra_launch",1,"",0,1000);
-                case FISHING_ROD -> { add(nodes,"luck_of_the_sea",3); add(nodes,"lure",3); }
+                case FISHING_ROD -> { add(nodes,"luck_of_the_sea",3); add(nodes,"lure",3); custom(nodes,"multi_catch",1,"minecraft:lure",3,1000); }
                 default -> {}
             }
             if (type != Equipment.NONE) {

@@ -8,14 +8,12 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 
 public final class MiningDrillItem extends Item {
     public static final float MINING_SPEED = 1000.0F;
@@ -24,9 +22,9 @@ public final class MiningDrillItem extends Item {
     @Override public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
         ItemStack drill = player.getItemInHand(hand);
-        var fuel = new DrillFuelContainer(drill);
+        var fuel = new DrillFuelContainer((ServerPlayer) player, drill);
         ((ServerPlayer) player).openMenu(new SimpleMenuProvider((id, inventory, ignored) ->
-                new ChestMenu(MenuType.GENERIC_9x1, id, inventory, fuel, 1),
+                new FilteredChestMenu(id, inventory, fuel, 1),
                 Component.translatable("container.moreminecrafts.mining_drill")));
         return InteractionResult.SUCCESS_SERVER;
     }
@@ -63,14 +61,34 @@ public final class MiningDrillItem extends Item {
 
     private static final class DrillFuelContainer extends net.minecraft.world.SimpleContainer {
         private final ItemComponentContainer backing;
-        DrillFuelContainer(ItemStack drill) { super(9); backing = new ItemComponentContainer(drill, 1); }
-        @Override public ItemStack getItem(int slot) { return slot == 0 ? backing.getItem(0) : ItemStack.EMPTY; }
-        @Override public ItemStack removeItem(int slot, int count) { return slot == 0 ? backing.removeItem(0, count) : ItemStack.EMPTY; }
-        @Override public ItemStack removeItemNoUpdate(int slot) { return slot == 0 ? backing.removeItemNoUpdate(0) : ItemStack.EMPTY; }
-        @Override public void setItem(int slot, ItemStack stack) { if (slot == 0) backing.setItem(0, stack); }
-        @Override public boolean canPlaceItem(int slot, ItemStack stack) {
-            return slot == 0 && (stack.is(Items.COAL) || stack.is(Items.COAL_BLOCK));
+        private final ServerPlayer player;
+        private final ItemStack owner;
+        DrillFuelContainer(ServerPlayer player, ItemStack drill) {
+            super(9); this.player = player; this.owner = drill; backing = new ItemComponentContainer(drill, 1);
         }
+        private boolean ownsSource() {
+            if (player.getMainHandItem() == owner || player.getOffhandItem() == owner) return true;
+            var inventory = player.getInventory();
+            for (int slot = 0; slot < inventory.getContainerSize(); slot++)
+                if (inventory.getItem(slot) == owner) return true;
+            return false;
+        }
+        @Override public ItemStack getItem(int slot) {
+            return slot == 0 && ownsSource() ? backing.getItem(0) : ItemStack.EMPTY;
+        }
+        @Override public ItemStack removeItem(int slot, int count) {
+            return slot == 0 && ownsSource() ? backing.removeItem(0, count) : ItemStack.EMPTY;
+        }
+        @Override public ItemStack removeItemNoUpdate(int slot) {
+            return slot == 0 && ownsSource() ? backing.removeItemNoUpdate(0) : ItemStack.EMPTY;
+        }
+        @Override public void setItem(int slot, ItemStack stack) {
+            if (slot == 0 && ownsSource()) backing.setItem(0, stack);
+        }
+        @Override public boolean canPlaceItem(int slot, ItemStack stack) {
+            return slot == 0 && ownsSource() && (stack.is(Items.COAL) || stack.is(Items.COAL_BLOCK));
+        }
+        @Override public void setChanged() { if (ownsSource()) backing.setChanged(); }
         @Override public int getMaxStackSize() { return LowerEquipmentRules.DRILL_FUEL_SLOT_LIMIT; }
     }
 }

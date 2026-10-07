@@ -4,6 +4,12 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## Oct 7 follow-up authority overlay
+
+The current design baseline is [the Oct 7 continuation record](CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md). The implementation choices and provisional values made under the user's scoped follow-up are recorded in [the Oct 7 design and implementation follow-up](CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md). Those two documents supersede older `[OPEN]` statements in this index and the current design checklist for T2 core acquisition, Multi Catch, Fisherman fish sales, and the first one-time activity rewards. Numeric loot chances, the Emerald conversion divisor/cap, and all interactive behavior remain balance/live-validation pending.
+
+Documentation history is split across branches: the Oct 7 continuation came from `origin/main`; the source/implementation worktree is based on Stage 20 / PR #69. The continuation was copied into this worktree so its role is explicit. Do not use the older index text below to override those Oct 7 decisions.
+
 ## Current authority
 
 ### Cumulative recovery foundation
@@ -70,6 +76,16 @@ Current Fishing authority:
 - runtime item presentation is a separate model contract and must not default to unsafe generated alpha-extrusion geometry
 
 Tier I–V modules, independent Length/Weight rolls, late-only Minnow notice, retired fish, and generated-item geometry are superseded where they conflict with Stage 3.
+
+**Oct 7 implementation overlay:** Multi Catch is a one-level Fishing Rod node after Lure III for a provisional 1,000 XP; only an unlocked rod resolves two independently rolled fish records, with Minnow permission and Minnow/Crankbait wear applied per fish. The custom Fisherman sale is Shift-right-click with one custom fish and uses all four stored fish fields. Its provisional conversion and explicit remaining validation are in `CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md`.
+
+### T2 acquisition
+
+The five T2 elemental core identities and acquisition sources are locked by the Oct 7 continuation record. Current code adds rare loot to the vanilla normal/ominous Trial reward pools, Bastion treasure, and Ancient City tables, plus a saved one-time Ocean Monument completion claim. Chance values and the Trial table mapping are provisional; no recipes or equipment links are authorized until content demand is known.
+
+### Activity rewards
+
+The first activity set uses one-time vanilla advancements and ordinary XP only. Advancement progress is per player and saved by vanilla. The 60 XP total, activity triggers, and no-daily/no-shop boundary are specified in `CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md`.
 
 ### Approved resource assets
 

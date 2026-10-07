@@ -1,11 +1,20 @@
 package dev.itzgamesgd.moreminecrafts.fishing;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.SharedConstants;
+import net.minecraft.server.Bootstrap;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FishingEquipmentTest {
+    @BeforeAll
+    static void bootstrapMinecraft() {
+        SharedConstants.tryDetectVersion();
+        Bootstrap.bootStrap();
+    }
+
     @Test void equipmentTierAndFishGradeAreSeparateDomains() {
         assertEquals(3, FishingEquipmentTier.requireValid(3));
         assertThrows(IllegalArgumentException.class, () -> FishingEquipmentTier.requireValid(4));

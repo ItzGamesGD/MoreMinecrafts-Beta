@@ -53,7 +53,7 @@ public final class T1Operations {
         equipment.set(ModDataComponents.BOOK_OPTIONS,Map.copyOf(options));source.shrink(1);return true;
     }
     public static Map<String,Integer> options(ItemStack stack){return stack.getOrDefault(ModDataComponents.BOOK_OPTIONS,Map.of());}
-    public static int option(ItemStack stack,String path){String id="minecraft:"+path;return enchantments(stack).getOrDefault(id,0)>0?options(stack).getOrDefault(id,0):0;}
+    public static int option(ItemStack stack,String path){String id=path.indexOf(':')>=0?path:"minecraft:"+path;return enchantments(stack).getOrDefault(id,0)>0?options(stack).getOrDefault(id,0):0;}
     public static boolean reset(Player player,ItemStack equipment,String id) {
         if(player.level().isClientSide() || !options(equipment).containsKey(id))return false;
         List<Item> materials=List.of(Items.DIAMOND,ModItems.MYTHRIL,Items.NETHERITE_INGOT,ModItems.ADAMANTIUM_INGOT);

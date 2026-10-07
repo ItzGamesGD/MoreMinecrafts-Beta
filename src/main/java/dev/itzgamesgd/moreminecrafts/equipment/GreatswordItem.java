@@ -12,6 +12,11 @@ import net.minecraft.world.level.Level;
 public final class GreatswordItem extends BasicWeaponItem {
     public GreatswordItem(Properties properties) { super(Kind.GREATSWORD, properties); }
 
+    /** Shared entry point for the entity interaction hook and the normal item-use action. */
+    public InteractionResult useSweep(Level level, Player user, InteractionHand hand) {
+        return use(level, user, hand);
+    }
+
     @Override public InteractionResult use(Level level, Player user, InteractionHand hand) {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
         var attacker = (ServerPlayer) user;

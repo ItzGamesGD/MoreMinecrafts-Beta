@@ -41,6 +41,15 @@ class ProgressionRulesTest {
         assertTrue(EnchantmentTrees.quote(EnchantmentTrees.Equipment.BOW, Map.of("minecraft:unbreaking",3,"minecraft:infinity",1), "minecraft:mending").allowed());
         assertTrue(EnchantmentTrees.quote(EnchantmentTrees.Equipment.CROSSBOW, Map.of("minecraft:piercing",4), "minecraft:multishot").allowed());
     }
+    @Test void multiCatchIsOneLevelAfterLureThree() {
+        var withoutLure = EnchantmentTrees.quote(EnchantmentTrees.Equipment.FISHING_ROD, Map.of(), "moreminecrafts:multi_catch");
+        var unlocked = EnchantmentTrees.quote(EnchantmentTrees.Equipment.FISHING_ROD,
+                Map.of("minecraft:lure", 3), "moreminecrafts:multi_catch");
+        assertFalse(withoutLure.allowed());
+        assertEquals("prerequisite", withoutLure.reason());
+        assertTrue(unlocked.allowed());
+        assertEquals(1000, unlocked.cost());
+    }
     @Test void binomialBoundariesAndSingleLevel() {
         assertEquals(.2, BookOptionRules.probability(1,5), 1e-9);
         assertEquals(.8, BookOptionRules.probability(5,5), 1e-9);

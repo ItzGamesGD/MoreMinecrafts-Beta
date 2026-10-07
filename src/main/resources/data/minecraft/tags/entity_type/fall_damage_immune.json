@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:cave_bat",
+    "moreminecrafts:giant_bee",
+    "moreminecrafts:lesser_phantom",
+    "moreminecrafts:lesser_magma_cube"
+  ]
+}

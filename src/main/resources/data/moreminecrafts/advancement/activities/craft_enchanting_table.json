@@ -1,0 +1,18 @@
+{
+  "parent": "moreminecrafts:activities/root",
+  "display": {
+    "icon": {"id": "minecraft:enchanting_table"},
+    "title": {"translate": "advancements.moreminecrafts.activities.craft_enchanting_table.title"},
+    "description": {"translate": "advancements.moreminecrafts.activities.craft_enchanting_table.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "rewards": {"experience": 15},
+  "criteria": {
+    "craft": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {"recipes": "minecraft:enchanting_table"}
+    }
+  }
+}

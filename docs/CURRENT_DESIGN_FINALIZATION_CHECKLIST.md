@@ -8,6 +8,19 @@ It is a worklist, not an independent source of gameplay truth. Finalized decisio
 Authority lookup starts at `docs/CONTENT_AUTHORITY_INDEX.md`.
 Historical checklists, Paper behavior, recovery ledgers, prototypes, and implementation code are evidence/reference only where current authority differs.
 
+## Oct 7 follow-up status overlay
+
+Read `CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md` for the latest design decisions and `CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md` for their implementation and provisional constants. The following entries supersede older `[OPEN]` rows below:
+
+- [DONE] T2 elemental core identities and initial source mapping are registered; per-container chances are provisional balance constants. Trial normal/ominous pools are the current vanilla-compatible mapping for the requested Trial level-five reward because vanilla exposes those reward types rather than a level-five state.
+- [DONE] Multi Catch is a one-level Fishing Rod node after Lure III for 1,000 XP; it adds one independently rolled fish to a successful custom catch and applies capture permission/wear per fish. Full hook/vanilla fishing behavior remains [LIVE].
+- [DONE] Fisherman sale target, input, price conversion, repeat, and vanilla-trade coexistence rules are implemented. The value conversion remains [BALANCE] and multiplayer/session behavior remains [LIVE].
+- [DONE] The first five vanilla activity milestones use one-time, saved advancements with 60 XP total per player. No daily quest loop or shop is approved.
+- [DONE] The PR #69 audit fixes the Peaceful hostility metadata issue for Feral Wolf and Cave Bat. PR changes remain local pending tests and external review; no PR was updated.
+- [DONE] Applicable PR #65 fixes were ported selectively to this base. The stale PR branch was not merged or transplanted wholesale.
+- [LIVE] Interactive validation for fishing, villager sale, T2 loot/completion, mob encounters, resources, and lower-equipment screens has not been performed.
+- [DEFERRED] The 40 unique mob texture assets remain pending; no new approved master art was changed.
+
 ## Status
 
 - [OPEN] Human design decision remains.
@@ -118,7 +131,7 @@ Current authority: `STAGE_2_GAMEPLAY_RECONCILIATION.md`, `EARLY_T1_T2_SURVIVAL_P
 - [DONE] High-level T2 acquisition identity: active Exploration / Challenge -> Elemental Material or equivalent acquisition reward -> T2 equipment.
 - [DONE] Preferred vanilla-adjacent foundations include Pillager content, Trial Chambers, valuable exploration chests, and selectable harder Trial/wave challenges.
 - [DONE] T2 reward direction may combine random exploration/chest acquisition with guaranteed or higher-value rewards for harder selected Trial/wave content.
-- [OPEN] Finalize exact T2 acquisition contract: material identities, per-element mapping, loot tables/probabilities, Trial/wave mechanics, guaranteed thresholds, and recipe quantities.
+- [DONE] Initial T2 acquisition contract is recorded in the Oct 7 follow-up; source mapping is implemented, chances remain [BALANCE], and recipes remain deferred until the content-demand pass.
 - [OPEN] Resolve Fire Sword vs Wind Sword passive identity overlap after/during dedicated combat design.
 - [OPEN] Design Dark Energy Staff gameplay identity and Enhancement profile; current registered item is only a placeholder.
 - [OPEN] Decide whether Wind Bow receives any homing/aim-correction mechanic and, if retained, its behavioral contract.
@@ -201,7 +214,7 @@ Current authority: `STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 - [BALANCE] Fish Trap catch interval currently uses 1 fish / 5 minutes.
 - [DEFERRED] Fish Trap exact recipe/material assignment; String + structural material such as Titanium is only the approved direction until material-economy closure.
 - [DONE] Fisherman custom-Fishing economy is to be designed separately from ordinary vanilla Fishing trades; a Vanilla / Custom Fishing trade presentation split is an allowed direction.
-- [OPEN] Finalize Fisherman custom trade list, valuation, and whether that separation is implemented as explicit UI sections/tabs or another presentation.
+- [DONE] One-fish Shift-right-click sales coexist with vanilla Fisherman trades; the provisional Emerald conversion remains [BALANCE]. See the Oct 7 follow-up.
 - [BALANCE] Value Index -> Emerald/reward conversion if selling is retained.
 - [BALANCE] Exact module durability and repair/upgrade material costs.
 - [BALANCE] Species distribution/encounter weights and exact length/weight curves.
@@ -242,7 +255,6 @@ Current T1 progression authority: `T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md`.
 ## Remaining design / explicit authority gaps
 
 - [OPEN] Laser Arrow dedicated projectile/resource/VFX/presentation contract; its Bow tree placement is already fixed at Power III and exclusive with Multi Shot.
-- [OPEN] Multi Catch integration with the current Fishing pipeline and its exact skill-tree placement; do not restore Paper reward multiplication.
 - [OPEN] Jet Boots exact placement/prerequisite/cost in the new T1 XP skill tree.
 - [OPEN] Gauntlet enchantment-tree identity/placement.
 - [OPEN] Sword Looting exact tree placement because it was not explicitly placed in the approved Sword-tree pass.

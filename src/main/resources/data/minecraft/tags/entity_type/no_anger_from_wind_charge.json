@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:swamp_zombie",
+    "moreminecrafts:cave_zombie",
+    "moreminecrafts:large_zombie",
+    "moreminecrafts:frozen_zombie",
+    "moreminecrafts:mossy_zombie",
+    "moreminecrafts:fungal_zombie",
+    "moreminecrafts:miner_zombie",
+    "moreminecrafts:rotten_skeleton",
+    "moreminecrafts:cave_skeleton",
+    "moreminecrafts:armored_skeleton",
+    "moreminecrafts:ashen_skeleton",
+    "moreminecrafts:mountain_skeleton",
+    "moreminecrafts:miner_skeleton",
+    "moreminecrafts:small_spider",
+    "moreminecrafts:large_spider",
+    "moreminecrafts:forest_spider",
+    "moreminecrafts:desert_spider",
+    "moreminecrafts:swamp_spider",
+    "moreminecrafts:ice_spider",
+    "moreminecrafts:wild_slime",
+    "moreminecrafts:mud_slime",
+    "moreminecrafts:sand_slime"
+  ]
+}

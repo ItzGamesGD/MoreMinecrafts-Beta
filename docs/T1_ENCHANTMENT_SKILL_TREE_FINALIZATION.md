@@ -387,11 +387,14 @@ No custom Shield enchantment is added in this pass.
 
 - Luck of the Sea I -> II -> III
 - Lure I -> II -> III
+- Multi Catch I is a custom node after Lure III and costs 1,000 XP.
+- Multi Catch applies only to the custom Fishing catch pipeline: a successful valid minigame gives the announced fish plus one independently selected fish from the same Reel-accessible pool. Both receive independent grade, length, and weight rolls, and Minnow permission and capture-module wear are checked per fish.
+- Without Multi Catch, a successful valid custom catch gives only the announced fish. Failed or invalid attempts give no fish and do not consume capture-module durability.
 - Unbreaking I -> II -> III -> Mending
 
 Luck of the Sea + Lure is allowed.
 
-Fishing Reel / Minnow / Crankbait are **not enchantment-tree nodes**. They remain part of the separate Fishing equipment/module system.
+Fishing Reel / Minnow / Crankbait are **not enchantment-tree nodes**. They remain part of the separate Fishing equipment/module system. Multi Catch does not multiply vanilla fishing loot.
 
 ---
 
@@ -400,7 +403,6 @@ Fishing Reel / Minnow / Crankbait are **not enchantment-tree nodes**. They remai
 The following are deliberately not invented here:
 
 - Gauntlet enchantment-tree identity/placement.
-- Multi Catch's final Fishing integration and therefore its exact skill-tree placement.
 - Exact persistence/binding semantics for the skill tree where implementation needs to distinguish physical-item state from any player/category-wide state.
 - Exact reset/respec interaction and cost.
 - Final per-node numeric costs where only a cost class/range was approved.

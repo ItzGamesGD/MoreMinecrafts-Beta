@@ -1,0 +1,18 @@
+{
+  "parent": "moreminecrafts:activities/root",
+  "display": {
+    "icon": {"id": "moreminecrafts:crucian_carp"},
+    "title": {"translate": "advancements.moreminecrafts.activities.first_custom_fish.title"},
+    "description": {"translate": "advancements.moreminecrafts.activities.first_custom_fish.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "rewards": {"experience": 10},
+  "criteria": {
+    "fish": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": "#moreminecrafts:custom_fish"}]}
+    }
+  }
+}

@@ -21,6 +21,7 @@ public final class ModEnchantments {
     public static final ResourceKey<Enchantment> EXPLOSIVE_MACE = key("explosive_mace");
     public static final ResourceKey<Enchantment> FEATHER_BOOTS = key("feather_boots");
     public static final ResourceKey<Enchantment> JET_BOOTS = key("jet_boots");
+    public static final ResourceKey<Enchantment> MULTI_CATCH = key("multi_catch");
 
     private ModEnchantments() {}
 
