@@ -136,6 +136,47 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.WILD_SLIME).is(nonControllingRider)
                         && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_MAGMA_CUBE).is(nonControllingRider),
                 "Slime-family variants must retain vanilla non-controlling rider semantics");
+
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.SWAMP_ZOMBIE)
+                        .is(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_PHANTOM)
+                        .is(EntityTypeTags.CAN_BREATHE_UNDER_WATER),
+                "Custom undead must inherit vanilla underwater-breathing semantics through #minecraft:undead");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.CAVE_SKELETON)
+                        .is(EntityTypeTags.IGNORES_POISON_AND_REGEN)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.DROWNED_SAILOR)
+                        .is(EntityTypeTags.WITHER_FRIENDS),
+                "Nested undead tags must propagate poison/regen immunity and Wither friendship to custom undead");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.BANDIT)
+                        .is(EntityTypeTags.ILLAGER_FRIENDS),
+                "Custom illagers must inherit vanilla illager-friend semantics through #minecraft:illager");
+        context.assertTrue(!BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.DROWNED_SAILOR)
+                        .is(EntityTypeTags.AQUATIC)
+                        && !BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.DROWNED_SAILOR)
+                        .is(EntityTypeTags.AXOLOTL_HUNT_TARGETS)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.DROWNED_SAILOR)
+                        .is(EntityTypeTags.AXOLOTL_ALWAYS_HOSTILES),
+                "Drowned variants must match vanilla Drowned tags: not aquatic prey, but always hostile to axolotls");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.MOUNTAIN_SKELETON)
+                        .is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES),
+                "Mountain Skeleton must retain Stray freeze immunity");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LARGE_SPIDER)
+                        .is(EntityTypeTags.DISMOUNTS_UNDERWATER)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.ICE_SPIDER)
+                        .is(EntityTypeTags.DISMOUNTS_UNDERWATER)
+                        && !BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.SMALL_SPIDER)
+                        .is(EntityTypeTags.DISMOUNTS_UNDERWATER),
+                "Spider-based variants must retain Spider underwater-dismount semantics without applying them to Cave Spider variants");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.FERAL_WOLF)
+                        .is(EntityTypeTags.FOLLOWABLE_FRIENDLY_MOBS)
+                        && BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.GIANT_BEE)
+                        .is(EntityTypeTags.FOLLOWABLE_FRIENDLY_MOBS),
+                "Wolf- and Bee-family variants must retain vanilla adult-sensor followable semantics");
+        context.assertTrue(BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.WILD_SLIME)
+                        .is(EntityTypeTags.IMMUNE_TO_OOZING)
+                        && !BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(CustomMobCatalog.LESSER_MAGMA_CUBE)
+                        .is(EntityTypeTags.IMMUNE_TO_OOZING),
+                "Oozing immunity belongs to Slime, not Magma Cube");
         Slime vanillaSlime = context.spawn(EntityTypes.SLIME, new BlockPos(1, 1, 1));
         Slime wildSlime = context.spawn(CustomMobCatalog.WILD_SLIME, new BlockPos(2, 1, 1));
         vanillaSlime.setSize(4, true);

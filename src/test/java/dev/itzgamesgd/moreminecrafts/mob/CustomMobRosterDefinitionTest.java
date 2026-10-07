@@ -53,11 +53,12 @@ class CustomMobRosterDefinitionTest {
         assertTrue(catalog.contains("spec.type.getCategory()"),
                 "Biome spawn registration must use each EntityType's family population category");
         for (String tag : Set.of("undead", "zombies", "skeletons", "raiders", "illager", "arthropod",
-                "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "aquatic", "beehive_inhabitors",
+                "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "beehive_inhabitors",
                 "burn_in_daylight", "inverted_healing_and_harm", "wither_friends", "immune_to_oozing",
-                "frog_food", "axolotl_always_hostiles", "axolotl_hunt_targets", "immune_to_infested",
+                "frog_food", "axolotl_always_hostiles", "immune_to_infested",
                 "no_anger_from_wind_charge", "powder_snow_walkable_mobs", "fall_damage_immune",
-                "freeze_hurts_extra_types", "non_controlling_rider")) {
+                "freeze_hurts_extra_types", "freeze_immune_entity_types", "dismounts_underwater",
+                "followable_friendly_mobs", "non_controlling_rider")) {
             assertTrue(Files.isRegularFile(Path.of("src/main/resources/data/minecraft/tags/entity_type/" + tag + ".json")),
                     "Missing vanilla semantic tag extension: " + tag);
         }
@@ -123,6 +124,26 @@ class CustomMobRosterDefinitionTest {
                         && catalog.contains("add(WILD_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), WILD_SLIME_HABITAT")
                         && catalog.contains("add(SAND_SLIME, net.minecraft.world.entity.monster.Monster.createMonsterAttributes(), DESERT_HABITAT"),
                 "Approved biome identities must not regress to mountain/jungle/badlands shortcuts");
+        assertTrue(!Files.exists(Path.of("src/main/resources/data/minecraft/tags/entity_type/aquatic.json"))
+                        && !Files.exists(Path.of("src/main/resources/data/minecraft/tags/entity_type/axolotl_hunt_targets.json")),
+                "Drowned variants must not be injected into vanilla aquatic or axolotl prey tags");
+        String oozingTag = Files.readString(Path.of("src/main/resources/data/minecraft/tags/entity_type/immune_to_oozing.json"));
+        assertTrue(oozingTag.contains("moreminecrafts:wild_slime")
+                        && !oozingTag.contains("moreminecrafts:lesser_magma_cube"),
+                "Oozing immunity must follow vanilla Slime rather than Magma Cube");
+        assertTrue(Files.readString(Path.of("src/main/resources/data/minecraft/tags/entity_type/freeze_immune_entity_types.json"))
+                        .contains("moreminecrafts:mountain_skeleton"),
+                "Stray-based Mountain Skeleton must extend vanilla freeze immunity");
+        String dismountTag = Files.readString(Path.of("src/main/resources/data/minecraft/tags/entity_type/dismounts_underwater.json"));
+        assertTrue(dismountTag.contains("moreminecrafts:large_spider")
+                        && dismountTag.contains("moreminecrafts:ice_spider")
+                        && !dismountTag.contains("moreminecrafts:small_spider")
+                        && !dismountTag.contains("moreminecrafts:swamp_spider"),
+                "Only Spider-based variants, not Cave Spider variants, inherit underwater dismount semantics");
+        String followableTag = Files.readString(Path.of("src/main/resources/data/minecraft/tags/entity_type/followable_friendly_mobs.json"));
+        assertTrue(followableTag.contains("moreminecrafts:feral_wolf")
+                        && followableTag.contains("moreminecrafts:giant_bee"),
+                "Wolf- and Bee-family variants must extend the vanilla followable-friendly-mobs tag");
         assertTrue(Files.readString(Path.of("docs/VANILLA_MODEL_CUSTOM_MOB_ROSTER.md"))
                 .contains("VANILLA_MODEL_CUSTOM_MOB_ROSTER_IMPLEMENTATION.md"));
     }

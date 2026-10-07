@@ -3,7 +3,6 @@
   "values": [
     "moreminecrafts:wild_slime",
     "moreminecrafts:mud_slime",
-    "moreminecrafts:sand_slime",
-    "moreminecrafts:lesser_magma_cube"
+    "moreminecrafts:sand_slime"
   ]
 }
