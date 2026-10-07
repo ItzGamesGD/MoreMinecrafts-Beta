@@ -73,6 +73,16 @@ class CustomMobRosterDefinitionTest {
                 "Feral Wolf may hunt players only while untamed; tame wolves must fall back to vanilla tame targeting");
         assertTrue(catalog.contains("new SmallCaveSpider") && catalog.contains("new SwampCaveSpider"),
                 "Small and Swamp Spider must use their explicit Cave Spider-family behavior classes");
+        String smallSpider = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/SmallCaveSpider.java"));
+        String swampSpider = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/SwampCaveSpider.java"));
+        assertTrue(smallSpider.contains("MobEffectInstance.CODEC.encodeStart")
+                        && smallSpider.contains("MobEffectInstance.CODEC.parse")
+                        && swampSpider.contains("MobEffectInstance.CODEC.encodeStart")
+                        && swampSpider.contains("MobEffectInstance.CODEC.parse"),
+                "Cave-spider poison replacement must deep-copy the full pre-existing effect chain instead of dropping hidden effects");
+        assertTrue(!smallSpider.contains("new MobEffectInstance(poison)")
+                        && !swampSpider.contains("new MobEffectInstance(poison)"),
+                "Poison restoration must not use the shallow MobEffectInstance copy constructor");
         assertTrue(!catalog.contains("WILD_PIGLIN = type(\"wild_piglin\", Piglin::new, 0.6f, 1.95f, true)"),
                 "Wild Piglin must not gain non-vanilla fire immunity");
         for (String biomeTag : Set.of("snowy_habitat", "fungal_habitat", "desert_habitat", "wild_slime_habitat")) {

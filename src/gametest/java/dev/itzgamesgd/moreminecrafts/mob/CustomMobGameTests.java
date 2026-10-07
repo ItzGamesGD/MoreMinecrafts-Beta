@@ -18,6 +18,9 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.entity.monster.cubemob.MagmaCube;
 import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.tags.EntityTypeTags;
@@ -203,6 +206,68 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         giantBee.discard();
         largeZombie.discard();
         context.succeed();
+    }
+
+
+    @GameTest
+    public void spiderPoisonSemantics(GameTestHelper context) {
+        SmallCaveSpider smallSpider = (SmallCaveSpider) context.spawn(CustomMobCatalog.SMALL_SPIDER, new BlockPos(1, 1, 1));
+        var cleanTarget = context.spawn(EntityTypes.COW, new BlockPos(2, 1, 1));
+        context.assertTrue(smallSpider.doHurtTarget(context.getLevel(), cleanTarget),
+                "Small Spider test attack must connect");
+        context.assertTrue(cleanTarget.getEffect(MobEffects.POISON) == null,
+                "Small Spider must never introduce Cave Spider poison");
+
+        var preservedTarget = context.spawn(EntityTypes.COW, new BlockPos(3, 1, 1));
+        preservedTarget.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
+        context.assertTrue(smallSpider.doHurtTarget(context.getLevel(), preservedTarget),
+                "Small Spider preservation test attack must connect");
+        var preservedPoison = preservedTarget.getEffect(MobEffects.POISON);
+        context.assertTrue(preservedPoison != null && preservedPoison.getAmplifier() == 1
+                        && preservedPoison.getDuration() == 200,
+                "Small Spider must preserve a pre-existing stronger poison exactly");
+
+        SwampCaveSpider swampSpider = (SwampCaveSpider) context.spawn(CustomMobCatalog.SWAMP_SPIDER, new BlockPos(4, 1, 1));
+        var weakTarget = context.spawn(EntityTypes.COW, new BlockPos(5, 1, 1));
+        context.assertTrue(swampSpider.doHurtTarget(context.getLevel(), weakTarget),
+                "Swamp Spider test attack must connect");
+        var weakPoison = weakTarget.getEffect(MobEffects.POISON);
+        context.assertTrue(weakPoison != null && weakPoison.getAmplifier() == 0
+                        && weakPoison.getDuration() == 60,
+                "Swamp Spider must replace vanilla Cave Spider poison with exactly 60 ticks of Poison I");
+
+        var strongTarget = context.spawn(EntityTypes.COW, new BlockPos(6, 1, 1));
+        strongTarget.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
+        context.assertTrue(swampSpider.doHurtTarget(context.getLevel(), strongTarget),
+                "Swamp Spider stronger-effect test attack must connect");
+        var strongPoison = strongTarget.getEffect(MobEffects.POISON);
+        context.assertTrue(strongPoison != null && strongPoison.getAmplifier() == 1
+                        && strongPoison.getDuration() == 200,
+                "Swamp Spider must not downgrade an existing stronger poison");
+
+        smallSpider.discard();
+        swampSpider.discard();
+        cleanTarget.discard();
+        preservedTarget.discard();
+        weakTarget.discard();
+        strongTarget.discard();
+        context.succeed();
+    }
+
+    @GameTest
+    public void wildPiglinRetainsEnvironmentalConversion(GameTestHelper context) {
+        Piglin wildPiglin = (Piglin) context.spawn(CustomMobCatalog.WILD_PIGLIN, new BlockPos(1, 1, 1));
+        wildPiglin.setTimeInOverworld(300);
+        context.runAfterDelay(5, () -> {
+            context.assertTrue(wildPiglin.isRemoved(),
+                    "Wild Piglin must complete normal Piglin overworld zombification");
+            var converted = context.getLevel().getEntities(EntityTypes.ZOMBIFIED_PIGLIN,
+                    context.getBounds().inflate(2.0), Entity::isAlive);
+            context.assertTrue(!converted.isEmpty(),
+                    "Wild Piglin conversion must produce a vanilla Zombified Piglin");
+            converted.forEach(Entity::discard);
+            context.succeed();
+        });
     }
 
     @Override

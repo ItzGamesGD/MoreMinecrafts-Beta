@@ -1,8 +1,12 @@
 package dev.itzgamesgd.moreminecrafts.mob;
 
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.spider.CaveSpider;
 import net.minecraft.world.level.Level;
 
@@ -12,13 +16,20 @@ public final class SmallCaveSpider extends CaveSpider {
 
     @Override
     public boolean doHurtTarget(ServerLevel level, Entity target) {
-        var poison = target instanceof net.minecraft.world.entity.LivingEntity living
-                ? living.getEffect(net.minecraft.world.effect.MobEffects.POISON) : null;
+        MobEffectInstance previousPoison = target instanceof LivingEntity living
+                ? deepCopy(level, living.getEffect(MobEffects.POISON)) : null;
         boolean hit = super.doHurtTarget(level, target);
-        if (target instanceof net.minecraft.world.entity.LivingEntity living) {
-            living.removeEffect(net.minecraft.world.effect.MobEffects.POISON);
-            if (poison != null) living.addEffect(new net.minecraft.world.effect.MobEffectInstance(poison));
+        if (hit && target instanceof LivingEntity living) {
+            living.removeEffect(MobEffects.POISON);
+            if (previousPoison != null) living.addEffect(previousPoison);
         }
         return hit;
+    }
+
+    private static MobEffectInstance deepCopy(ServerLevel level, MobEffectInstance effect) {
+        if (effect == null) return null;
+        var ops = level.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+        var encoded = MobEffectInstance.CODEC.encodeStart(ops, effect).getOrThrow();
+        return MobEffectInstance.CODEC.parse(ops, encoded).getOrThrow();
     }
 }
