@@ -22,7 +22,7 @@ public final class CustomMobStats {
     public static void apply(Mob mob) {
         String id = customId(mob.getType());
         if (id == null || !APPLIED.add(mob)) return;
-        double health = 1.0, speed = 1.0, damage = 1.0, armor = 1.0;
+        double health = 1.0, speed = 1.0, damage = 1.0;
         switch (id) {
             case "swamp_zombie" -> { health = 1.20; speed = 0.82; }
             case "cave_zombie" -> { health = 0.90; speed = 1.10; }
@@ -33,7 +33,7 @@ public final class CustomMobStats {
             case "miner_zombie" -> { health = 1.12; speed = 0.92; }
             case "rotten_skeleton" -> { health = 0.72; damage = 0.82; }
             case "cave_skeleton" -> { health = 0.95; speed = 1.04; }
-            case "armored_skeleton" -> { health = 1.30; speed = 0.82; armor = 1.5; }
+            case "armored_skeleton" -> { health = 1.30; speed = 0.82; }
             case "ashen_skeleton" -> { health = 1.05; damage = 1.05; }
             case "lesser_wither_skeleton" -> { health = 0.72; damage = 0.78; }
             case "mountain_skeleton" -> { health = 1.05; speed = 0.95; }
@@ -49,7 +49,7 @@ public final class CustomMobStats {
             case "drowned_sailor" -> { health = 1.12; }
             case "deep_sea_drowned" -> { health = 1.35; speed = 0.90; }
             case "river_drowned" -> { health = 0.82; damage = 0.88; }
-            case "wild_piglin" -> { health = 0.82; damage = 0.82; armor = 0.75; }
+            case "wild_piglin" -> { health = 0.82; damage = 0.82; }
             case "bandit" -> { health = 0.90; }
             case "bandit_archer" -> { health = 0.82; }
             case "bandit_warrior" -> { health = 0.85; damage = 0.85; }
@@ -64,8 +64,30 @@ public final class CustomMobStats {
         multiply(mob, Attributes.MAX_HEALTH, health);
         multiply(mob, Attributes.MOVEMENT_SPEED, speed);
         multiply(mob, Attributes.ATTACK_DAMAGE, damage);
-        multiplyTotal(mob, Attributes.ARMOR, armor);
+        refreshArmorProfile(mob);
         mob.setHealth((float) mob.getAttributeValue(Attributes.MAX_HEALTH));
+    }
+
+    /** Reapplies armor profiles after vanilla equipment changes, including subclass spawn equipment. */
+    public static void refreshArmorProfile(Mob mob) {
+        String id = customId(mob.getType());
+        if (id == null) return;
+        double multiplier = switch (id) {
+            case "armored_skeleton" -> 1.5;
+            case "wild_piglin" -> 0.75;
+            default -> 1.0;
+        };
+        AttributeInstance instance = mob.getAttribute(Attributes.ARMOR);
+        if (instance == null) return;
+        instance.removeModifier(ARMOR_PROFILE_MODIFIER);
+        if (multiplier != 1.0) {
+            double unscaledArmor = instance.getValue();
+            if (unscaledArmor != 0.0) {
+                instance.addPermanentModifier(new AttributeModifier(
+                        ARMOR_PROFILE_MODIFIER, unscaledArmor * (multiplier - 1.0),
+                        AttributeModifier.Operation.ADD_VALUE));
+            }
+        }
     }
 
     private static String customId(EntityType<?> type) {
@@ -114,12 +136,4 @@ public final class CustomMobStats {
         if (instance != null) instance.setBaseValue(instance.getBaseValue() * multiplier);
     }
 
-    private static void multiplyTotal(Mob mob, net.minecraft.core.Holder<Attribute> attribute, double multiplier) {
-        if (multiplier == 1.0) return;
-        AttributeInstance instance = mob.getAttribute(attribute);
-        if (instance == null) return;
-        instance.removeModifier(ARMOR_PROFILE_MODIFIER);
-        instance.addPermanentModifier(new AttributeModifier(
-                ARMOR_PROFILE_MODIFIER, multiplier - 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-    }
 }

@@ -1,0 +1,18 @@
+{
+  "parent": "moreminecrafts:activities/root",
+  "display": {
+    "icon": {"id": "minecraft:obsidian"},
+    "title": {"translate": "advancements.moreminecrafts.activities.enter_nether.title"},
+    "description": {"translate": "advancements.moreminecrafts.activities.enter_nether.description"},
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "rewards": {"experience": 15},
+  "criteria": {
+    "enter_nether": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {"to": "minecraft:the_nether"}
+    }
+  }
+}

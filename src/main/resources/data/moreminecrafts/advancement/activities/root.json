@@ -1,0 +1,11 @@
+{
+  "display": {
+    "icon": {"id": "minecraft:compass"},
+    "title": {"translate": "advancements.moreminecrafts.activities.root.title"},
+    "description": {"translate": "advancements.moreminecrafts.activities.root.description"},
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {"tick": {"trigger": "minecraft:tick"}}
+}

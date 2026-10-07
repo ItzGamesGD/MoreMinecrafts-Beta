@@ -5,13 +5,19 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.wolf.Wolf;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public final class FeralWolf extends Wolf {
+public final class FeralWolf extends Wolf implements Enemy {
     private static final double HEALTH_MULTIPLIER = 1.15;
 
     public FeralWolf(EntityType<? extends Wolf> type, Level level) { super(type, level); }
+
+    @Override
+    public boolean removeWhenFarAway(double distance) {
+        return !isTame() && distance > 128.0D;
+    }
 
     @Override
     public void setTame(boolean isTame, boolean includeSideEffects) {

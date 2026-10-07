@@ -5,6 +5,22 @@
 Automated build and smoke coverage does not replace the following human gameplay checks. Entries
 remain **LIVE PENDING** until a human records an observed result.
 
+## Oct 7 scoped follow-up — LIVE PENDING
+
+- [ ] **LIVE PENDING (T2 cores):** Generate new Bastion treasure and Ancient City chest loot; verify one-time contents persist after closing, chunk unload, reconnect, and world re-entry.
+- [ ] **LIVE PENDING (Trial cores):** Open normal and ominous Trial Vaults and verify the Eye of the Typhoon / Heart of Thunder source mapping, chance behavior, per-player key consumption, and no repeat reward from the same vault/player.
+- [ ] **LIVE PENDING (Ocean Monument):** Defeat all three Elder Guardians across rooms/chunk boundaries; verify exactly one Heart of Currents drops, pickup works in multiplayer, and reconnect/restart does not grant a second core.
+- [ ] **LIVE PENDING (Multi Catch):** Verify two independently generated fish with potentially different species, grade, length, and weight after success; verify no fish on minigame failure or missing Minnow permission.
+- [ ] **LIVE PENDING (Multi Catch durability):** Verify one Reel charge per valid attempt and one Minnow/Crankbait charge per permitted fish, including a module that becomes broken after the first result.
+- [ ] **LIVE PENDING (Fishing cancellation):** Verify logout, death, hook removal, rod removal, dimension travel, and timeout cancel both rewards while retaining the already-spent Reel charge.
+- [ ] **LIVE PENDING (Fishing regression):** Verify vanilla rod casting/retrieval outside eligible custom water and the eligible custom fishing loop/HUD remain functional.
+- [ ] **LIVE PENDING (Fisherman sale):** Shift-right-click sells exactly one data-bearing fish at the component-derived value, handles a full inventory, supports repeat sales, and leaves ordinary vanilla trades/restock unchanged.
+- [ ] **LIVE PENDING (Fisherman multiplayer):** Two players selling to the same Fisherman each receive only their own server-calculated payment; inventory movement and reconnect preserve unsold fish data.
+- [ ] **LIVE PENDING (Activity rewards):** Verify the five advancement milestones appear once per player, toast correctly in Korean/English, award exactly 60 XP total, and remain complete after reconnect/restart.
+- [ ] **LIVE PENDING (PR #69 mobs):** Confirm Peaceful difficulty removes/blocks Feral Wolf and Cave Bat while their Creature/Ambient category caps and ordinary difficulty behaviors remain correct.
+- [ ] **LIVE PENDING (PR #65 equipment):** Click Armor Stands with the Greatsword, move/remove a Mining Drill during its menu, test all portable-furnace fuel families, and visually inspect Injector/Drill/furnace slot placement and filters.
+- [ ] **LIVE PENDING (resources):** Review all 40 custom mob textures after production art is connected; inspect vanilla-model silhouettes, equipment, scale, held items, first/third person and GUI. The five core icons currently use vanilla model references and are not final artwork.
+
 ## Stage 3 - LIVE PENDING
 
 - [ ] **LIVE PENDING (Stage 3):** Create the actual Iron Sword enhancement result in an anvil.

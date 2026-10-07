@@ -115,10 +115,11 @@ class CustomMobRosterDefinitionTest {
                         && banditEntity.contains("Items.IRON_SWORD")
                         && !banditEntity.contains("super.applyRaidBuffs"),
                 "Melee Bandit must retain its approved sword through Pillager raid buff lifecycle");
-        assertTrue(stats.contains("AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL")
+        assertTrue(stats.contains("AttributeModifier.Operation.ADD_VALUE")
                         && stats.contains("ARMOR_PROFILE_MODIFIER")
-                        && !stats.contains("multiply(mob, Attributes.ARMOR, armor)"),
-                "Armor profiles must scale total armor, including equipment modifiers, rather than multiplying a zero base value");
+                        && stats.contains("refreshArmorProfile(mob)")
+                        && stats.contains("instance.getValue()"),
+                "Armor profiles must scale current armor, including equipment added after spawn finalization");
         String lesserPhantom = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/LesserPhantom.java"));
         assertTrue(lesserPhantom.contains("(6.0 + getPhantomSize()) * ATTACK_MULTIPLIER")
                         && !stats.contains("case \"lesser_phantom\" -> { health = 0.60; damage = 0.72; }"),

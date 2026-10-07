@@ -6,9 +6,10 @@ import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
-public final class CaveBatEntity extends Bat {
+public final class CaveBatEntity extends Bat implements Enemy {
     private int attackCooldown;
 
     public CaveBatEntity(EntityType<? extends Bat> type, Level level) { super(type, level); }

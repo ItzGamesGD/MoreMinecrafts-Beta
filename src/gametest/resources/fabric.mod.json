@@ -8,7 +8,8 @@
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.T1ProgressionGameTests",
-      "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests"
+      "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests"
     ]
   },
   "depends": {

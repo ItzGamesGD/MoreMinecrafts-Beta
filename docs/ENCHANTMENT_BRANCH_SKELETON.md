@@ -78,9 +78,10 @@ T1 acquisition/progression placement, compatibility policy, prerequisites, and X
 - Unbreaking is not rolled independently for every destroyed log. Instead, calculate the total destroyed-log count and apply the corresponding Unbreaking durability-saving percentage arithmetically to determine the final durability cost.
 
 ### Multi Catch
-- Retained concept, **Fishing integration unresolved**.
-- Do not directly port the old Paper reward multiplication behavior.
-- Final behavior must be designed against the current MoreMinecrafts Fishing pipeline, including fish instances, grade/species, length/weight, minigame outcome, equipment validation, consumable use, and XP/reward semantics.
+- A single-level Fishing Rod skill-tree node after Lure III, costing 1,000 XP. It is available only through the custom XP skill tree.
+- A successful valid custom Fishing minigame awards the announced fish and one additional fish selected independently from the same Reel-accessible pool. Each fish gets an independent grade, length, and weight roll.
+- Minnow permission and Minnow/Crankbait durability are evaluated per fish. The second fish can be denied if the first fish exhausts a capture module. Reel durability is still charged once when the custom attempt starts.
+- No Multi Catch means one fish on a successful custom catch. Failure or invalidation awards no fish and does not consume capture-module durability. Vanilla fishing loot is unchanged.
 
 ### Elytra Launch
 - Retained.
@@ -157,7 +158,6 @@ This section does not alter the gameplay semantics of the retained custom enchan
 ## Open integration points
 
 - **Laser Arrow** is intentionally separated into its own resource/VFX and implementation task.
-- **Multi Catch** intentionally requires a dedicated cross-system design pass against the current MoreMinecrafts Fishing pipeline before implementation.
 
 ## Authority boundary
 

@@ -6,6 +6,8 @@
 >
 > Start current design lookup from `docs/CONTENT_AUTHORITY_INDEX.md`. Where this checklist conflicts with an authority or reconciliation document named there, the newer authority wins. Do not implement gameplay values, rosters, controls, progression rules, or other design details from this checklist without checking current authority first.
 
+> **Oct 7 follow-up:** For T2 acquisition, Multi Catch, Fisherman sale, activity rewards, and current implementation status, use `CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md` and `CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md`.
+
 > 목적: 이 문서는 Mod 이식 단계와 별개다.
 > 현재 작업은 최종 Paper 플러그인과 기존 설계 위에 새 콘텐츠 결정을 덧씌워, MoreMinecrafts의 최종 게임 디자인을 잠그는 단계다.
 > Stage 1~2의 당시 결정 과정·보류·폐기·상태는 `docs/CONTENT_FINALIZATION_RESTORED_RECORD_STAGE_1_2.md`에 복원되어 있다. 이 체크리스트와 복원 기록은 historical record이며, 현재 authority routing은 `docs/CONTENT_AUTHORITY_INDEX.md`를 따른다.

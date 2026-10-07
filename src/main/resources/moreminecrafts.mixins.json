@@ -18,6 +18,7 @@
     "ZombieMixin",
     "SkeletonMixin",
     "CrossbowItemMixin",
+    "GreatswordPlayerInteractionMixin",
     "InventoryMenuMixin",
     "SleepingBagRespawnMixin",
     "BackpackDetachMixin",

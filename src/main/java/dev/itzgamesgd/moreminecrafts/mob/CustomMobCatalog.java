@@ -142,7 +142,8 @@ public final class CustomMobCatalog {
                 .sized(width, height).clientTrackingRange(trackingRange);
         if (fireImmune) builder.fireImmune();
         if (canSpawnFarFromPlayer) builder.canSpawnFarFromPlayer();
-        if (category == MobCategory.MONSTER && !path.equals("wild_piglin")) builder.notInPeaceful();
+        if ((category == MobCategory.MONSTER && !path.equals("wild_piglin"))
+                || path.equals("feral_wolf") || path.equals("cave_bat")) builder.notInPeaceful();
         if (path.equals("wild_slime") || path.equals("mud_slime") || path.equals("sand_slime")
                 || path.equals("lesser_magma_cube")) {
             builder.spawnDimensionsScale(4.0F);

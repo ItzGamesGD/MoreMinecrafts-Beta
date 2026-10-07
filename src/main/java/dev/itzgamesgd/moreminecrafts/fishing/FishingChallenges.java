@@ -4,6 +4,8 @@ import dev.itzgamesgd.moreminecrafts.network.FishingChallengePayload;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -48,7 +50,7 @@ public final class FishingChallenges {
         rod.set(ModDataComponents.ROD_EQUIPMENT, worn);
 
         long startTick = player.level().getGameTime();
-        ACTIVE.put(player.getUUID(), new Challenge(startTick, species,
+        ACTIVE.put(player.getUUID(), new Challenge(startTick, species, List.copyOf(pool),
                 worn.tier(FishingEquipmentFamily.CRANKBAIT), worn.tier(FishingEquipmentFamily.MINNOW),
                 hook, player.level(), rod));
         ServerPlayNetworking.send(player, new FishingChallengePayload(true, startTick, species.fishingDifficulty(),
@@ -62,14 +64,17 @@ public final class FishingChallenges {
         if (challenge == null) return;
         long elapsed = player.level().getGameTime() - challenge.startTick();
         FishingTiming.Zone zone = FishingTiming.zone(FishingTiming.position(elapsed, challenge.species().fishingDifficulty()));
-        finish(player, valid(player, challenge) && !FishingTiming.timedOut(elapsed)
-                && FishingTiming.captures(zone, player.getRandom()), true);
+        boolean connected = player.connection != null;
+        boolean valid = valid(player, challenge);
+        boolean success = !FishingTiming.timedOut(elapsed) && FishingTiming.captures(zone, player.getRandom());
+        finish(player, FishingChallengeRules.shouldAward(success, connected, valid), true);
     }
 
     private static boolean valid(ServerPlayer player, Challenge challenge) {
-        return player.isAlive() && player.level() == challenge.level() && !challenge.hook().isRemoved()
-                && challenge.hook().getOwner() == player && player.fishing == challenge.hook()
-                && (player.getMainHandItem() == challenge.rod() || player.getOffhandItem() == challenge.rod());
+        return FishingChallengeRules.valid(player.connection != null, player.isAlive(),
+                player.level() == challenge.level(), !challenge.hook().isRemoved(),
+                challenge.hook().getOwner() == player, player.fishing == challenge.hook(),
+                player.getMainHandItem() == challenge.rod() || player.getOffhandItem() == challenge.rod());
     }
 
     private static void cancel(ServerPlayer player, boolean notify) { finish(player, false, notify); }
@@ -84,24 +89,38 @@ public final class FishingChallenges {
     }
 
     private static void awardIfPermitted(ServerPlayer player, Challenge challenge) {
-        RodEquipment equipment = challenge.rod().getOrDefault(ModDataComponents.ROD_EQUIPMENT, RodEquipment.EMPTY);
-        int minnowTier = equipment.tier(FishingEquipmentFamily.MINNOW);
-        boolean capturePermitted = FishingLogic.canCapture(challenge.species(), minnowTier);
-        if (!capturePermitted) {
-            player.sendSystemMessage(Component.translatable("message.moreminecrafts.fishing.minnow_required",
-                    FishingGrade.roman(challenge.species().requiredMinnowTier())), false);
-            return;
+        List<FishSpecies> speciesRolls = new ArrayList<>(2);
+        speciesRolls.add(challenge.species());
+        int multiCatchLevel = dev.itzgamesgd.moreminecrafts.progression.T1Operations.enchantments(challenge.rod())
+                .getOrDefault("moreminecrafts:multi_catch", 0);
+        for (int i = 1; i < FishingChallengeRules.catchCount(multiCatchLevel > 0); i++) {
+            speciesRolls.add(FishingLogic.selectSpecies(challenge.speciesPool(), player.getRandom()));
         }
-        int crankbaitTier = equipment.tier(FishingEquipmentFamily.CRANKBAIT);
-        int grade = FishingLogic.rollGrade(crankbaitTier, player.getRandom());
-        int length = FishingLogic.rollLength(challenge.species(), player.getRandom());
-        int weight = FishingLogic.rollWeight(challenge.species(), length, player.getRandom());
-        ItemStack fish = new ItemStack(ModItems.fishItem(challenge.species()));
-        fish.set(ModDataComponents.FISH_GRADE, grade);
-        fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, length);
-        fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, weight);
-        RodEquipment worn = captureWear(equipment, capturePermitted);
-        challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, worn);
+        int deniedRequiredTier = 0;
+        for (FishSpecies species : speciesRolls) {
+            RodEquipment equipment = challenge.rod().getOrDefault(ModDataComponents.ROD_EQUIPMENT, RodEquipment.EMPTY);
+            int minnowTier = equipment.tier(FishingEquipmentFamily.MINNOW);
+            if (!FishingLogic.canCapture(species, minnowTier)) {
+                deniedRequiredTier = Math.max(deniedRequiredTier, species.requiredMinnowTier());
+                continue;
+            }
+            int crankbaitTier = equipment.tier(FishingEquipmentFamily.CRANKBAIT);
+            FishingLogic.FishRoll roll = FishingLogic.rollFish(species, crankbaitTier, player.getRandom());
+            ItemStack fish = new ItemStack(ModItems.fishItem(roll.species()));
+            fish.set(ModDataComponents.FISH_GRADE, roll.grade());
+            fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, roll.lengthTenthsCm());
+            fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, roll.weightTenthsKg());
+            equipment = captureWear(equipment, true);
+            challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, equipment);
+            deliver(player, fish);
+        }
+        if (deniedRequiredTier > 0) {
+            player.sendSystemMessage(Component.translatable("message.moreminecrafts.fishing.minnow_required",
+                    FishingGrade.roman(deniedRequiredTier)), false);
+        }
+    }
+
+    private static void deliver(ServerPlayer player, ItemStack fish) {
         player.getInventory().add(fish);
         if (!fish.isEmpty()) player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), fish));
     }
@@ -112,6 +131,7 @@ public final class FishingChallenges {
                 : equipment;
     }
 
-    public record Challenge(long startTick, FishSpecies species, int crankbaitTier, int minnowTier,
+    public record Challenge(long startTick, FishSpecies species, List<FishSpecies> speciesPool,
+                            int crankbaitTier, int minnowTier,
                             FishingHook hook, Level level, ItemStack rod) {}
 }

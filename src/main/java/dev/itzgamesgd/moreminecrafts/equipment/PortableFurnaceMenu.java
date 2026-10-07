@@ -8,12 +8,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
+import net.minecraft.world.item.component.CookingFuel;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import java.util.Optional;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 
 /** Ephemeral furnace session. Nothing in this menu is serialized into its opener item. */
 public final class PortableFurnaceMenu extends FurnaceMenu {
@@ -57,7 +63,7 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
 
     private boolean consumeFuel(ServerPlayer player) {
         ItemStack fuel = contents.getItem(1);
-        int vanillaTicks = vanillaFuelTicks(fuel);
+        int vanillaTicks = vanillaFuelTicks((ServerLevel) player.level(), player, fuel);
         if (vanillaTicks <= 0) return false;
         ItemStackTemplate remainderTemplate = fuel.getItem().getCraftingRemainder();
         ItemStack remainder = remainderTemplate == null ? ItemStack.EMPTY : remainderTemplate.create();
@@ -74,42 +80,24 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
     }
 
     private boolean canAccept(ItemStack result) {
-        ItemStack output = contents.getItem(2);
+        return canAcceptResult(contents.getItem(2), result, contents.getMaxStackSize(result));
+    }
+
+    static boolean canAcceptResult(ItemStack output, ItemStack result, int slotLimit) {
+        if (result.isEmpty() || slotLimit < 1 || result.getCount() > slotLimit) return false;
         return output.isEmpty() || ItemStack.isSameItemSameComponents(output, result)
-                && output.getCount() + result.getCount() <= contents.getMaxStackSize(result);
+                && output.getCount() + result.getCount() <= slotLimit;
     }
 
-    static int vanillaFuelTicks(ItemStack fuel) {
+    static int vanillaFuelTicks(ServerLevel level, Player player, ItemStack fuel) {
         if (fuel.isEmpty()) return 0;
-        var component = fuel.get(DataComponents.COOKING_FUEL);
-        if (component == null) return 0;
-        ResolvableInt burnTime = component.burnTime();
-        if (burnTime instanceof ResolvableInt.Constant constant) return constant.value();
-        if (fuel.is(Items.BAMBOO)) return 50;
-        if (fuel.is(Items.SCAFFOLDING)) return 300;
-        if (burnTime instanceof ResolvableInt.Reference reference) {
-            return vanillaFuelTicksForProvider(reference.key().identifier().getPath());
-        }
-        return 0;
-    }
-
-    static int vanillaFuelTicksForProvider(String providerPath) {
-        return switch (providerPath) {
-            case "time_lava_bucket" -> 20_000;
-            case "time_coal_block" -> 16_000;
-            case "time_dried_kelp_block" -> 4_001;
-            case "time_blaze_rod" -> 2_400;
-            case "time_coal" -> 1_600;
-            case "time_boats" -> 1_200;
-            case "time_hanging_signs" -> 800;
-            case "time_wood_items_small", "time_wood_blocks", "time_roots" -> 300;
-            case "time_wood_items_large" -> 200;
-            case "time_wood_slabs" -> 150;
-            case "time_wool", "time_dry_plants", "time_wood_items_extra_small" -> 100;
-            case "time_wool_carpets" -> 67;
-            case "time_wool_slabs", "time_bamboo" -> 50;
-            default -> 0;
-        };
+        // Provider values depend on the furnace context, including fast-cooking predicates.
+        LootContext context = new LootContext.Builder(new LootParams.Builder(level)
+                .withParameter(LootContextParams.BLOCK_STATE, Blocks.FURNACE.defaultBlockState())
+                .withParameter(LootContextParams.ORIGIN, player.position())
+                .create(LootContextParamSets.BLOCK_INTERACT)).create(Optional.empty());
+        return ResolvableInt.getFromItem(fuel, DataComponents.COOKING_FUEL,
+                CookingFuel::burnTime, context, 0);
     }
 
     @Override public void removed(Player player) {
@@ -124,6 +112,7 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
 
     public static final class PortableContainer extends SimpleContainer {
         public PortableContainer() { super(3); }
+        @Override public int getMaxStackSize() { return LowerEquipmentRules.PORTABLE_FURNACE_STACK_LIMIT; }
         @Override public int getMaxStackSize(ItemStack stack) {
             return stack.getMaxStackSize() == 64 ? LowerEquipmentRules.PORTABLE_FURNACE_STACK_LIMIT
                     : stack.getMaxStackSize();

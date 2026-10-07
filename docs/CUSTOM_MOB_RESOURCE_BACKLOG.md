@@ -2,6 +2,12 @@
 
 Gameplay registry, vanilla base renderers, localized names, and spawn configuration are implemented. Unique custom mob textures are intentionally not fabricated as placeholders. Until art is approved, each renderer uses its vanilla family texture. Each path is a reserved target for a future art task; using it will require the client renderer to route that entity to its approved texture, without changing entity registration or gameplay code.
 
+## Oct 7 production-art status
+
+The Oct 7 task authorizes production of unique mob textures and gives the visual direction: preserve the vanilla-family read while using biome/family color and pattern differences. No custom-mob texture files were produced in this follow-up. The 40 UV templates were not present as repository assets, and an unverified generated image cannot establish exact UV alignment, dimensions, equipment visibility, or in-game readability. Keep the vanilla texture fallback until each correctly mapped asset is reviewed. A future production set must use the paths below, preserve the vanilla texture dimensions/UV layout for its renderer family, and record creation method, source, and license status beside the asset manifest. Existing approved master PNGs remain unchanged.
+
+The five new T2 core items currently reference vanilla item models as temporary display references. Those references are functional, but they are not custom production icons.
+
 | Mob | Future texture path | Status |
 |---|---|---|
 | Swamp Zombie | `assets/moreminecrafts/textures/entity/mobs/swamp_zombie.png` | Pending art |

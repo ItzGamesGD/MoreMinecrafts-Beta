@@ -32,8 +32,33 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.entity.monster.illager.AbstractIllager;
+import net.minecraft.world.entity.monster.Enemy;
 
 public final class CustomMobGameTests implements CustomTestMethodInvoker {
+    @GameTest
+    public void aggressiveAnimalVariantsRetainPeacefulHostilityMetadata(GameTestHelper context) {
+        context.assertTrue(CustomMobCatalog.FERAL_WOLF.getCategory() == MobCategory.CREATURE,
+                "Feral Wolf must keep the vanilla Wolf population category");
+        context.assertTrue(CustomMobCatalog.CAVE_BAT.getCategory() == MobCategory.AMBIENT,
+                "Cave Bat must keep the vanilla Bat population category");
+        context.assertTrue(!CustomMobCatalog.FERAL_WOLF.isAllowedInPeaceful()
+                        && !CustomMobCatalog.CAVE_BAT.isAllowedInPeaceful(),
+                "Aggressive animal-family variants must not spawn or persist as peaceful mobs");
+        Mob wolf = CustomMobCatalog.FERAL_WOLF.create(context.getLevel(), EntitySpawnReason.COMMAND);
+        Mob bat = CustomMobCatalog.CAVE_BAT.create(context.getLevel(), EntitySpawnReason.COMMAND);
+        context.assertTrue(wolf instanceof Enemy && bat instanceof Enemy,
+                "Player-targeting Feral Wolf and Cave Bat must retain hostile entity semantics");
+        FeralWolf feralWolf = (FeralWolf) wolf;
+        context.assertTrue(feralWolf.removeWhenFarAway(129.0D),
+                "Untamed hostile Feral Wolves must despawn at hostile-distance ranges despite the Wolf family category");
+        feralWolf.setTame(true, true);
+        context.assertTrue(!feralWolf.removeWhenFarAway(129.0D),
+                "Tamed Feral Wolves must retain ordinary pet persistence");
+        wolf.discard();
+        bat.discard();
+        context.succeed();
+    }
+
     @GameTest
     public void allRosterEntriesRegisterAttributesAndInstantiate(GameTestHelper context) {
         var types = CustomMobCatalog.allTypes();
@@ -83,6 +108,12 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                 context.assertTrue(mob.getItemBySlot(EquipmentSlot.HEAD).is(Items.IRON_HELMET)
                                 && mob.getItemBySlot(EquipmentSlot.CHEST).is(Items.IRON_CHESTPLATE),
                         "Armored Skeleton must spawn with its armor");
+                mob.tick(); // Vanilla applies equipment attribute modifiers during its first equipment scan.
+                context.assertTrue(Math.abs(mob.getAttributeValue(Attributes.ARMOR) - 12.0D) < 0.001D,
+                        "Armored Skeleton's ×1.5 profile must scale the equipped iron armor total; armor="
+                                + mob.getAttributeValue(Attributes.ARMOR) + ", head="
+                                + mob.getItemBySlot(EquipmentSlot.HEAD) + ", chest="
+                                + mob.getItemBySlot(EquipmentSlot.CHEST));
             } else if (id.getPath().equals("bandit_archer")) {
                 context.assertTrue(mob.getItemBySlot(EquipmentSlot.MAINHAND).is(Items.BOW),
                         "Bandit Archer must spawn with a bow");
@@ -110,6 +141,7 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         context.assertTrue(Math.abs(largeZombie.getAttributeValue(Attributes.MAX_HEALTH) - healthAfterFirstFinalize) < 0.001
                         && Math.abs(largeZombie.getAttributeValue(Attributes.MOVEMENT_SPEED) - speedAfterFirstFinalize) < 0.000001,
                 "Catalog stat multipliers must not compound when spawn finalization is invoked twice");
+        largeZombie.setBaby(false); // Keep the dimension assertion independent of the vanilla random baby-spawn roll.
         context.assertTrue(Math.abs(largeZombie.getBbWidth() - 0.78F) < 0.02F
                         && Math.abs(largeZombie.getBbHeight() - 2.54F) < 0.02F,
                 "Large Zombie dimensions must come from EntityType sizing exactly once");
