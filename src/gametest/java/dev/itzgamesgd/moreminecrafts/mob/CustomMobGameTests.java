@@ -215,6 +215,11 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
     @GameTest
     public void banditArcherUsesRangedDamageMultiplier(GameTestHelper context) {
         BanditArcher archer = (BanditArcher) context.spawn(CustomMobCatalog.BANDIT_ARCHER, new BlockPos(1, 1, 1));
+        archer.finalizeSpawn(context.getLevel(),
+                context.getLevel().getCurrentDifficultyAt(archer.blockPosition()),
+                EntitySpawnReason.NATURAL, null);
+        context.assertTrue(archer.getMainHandItem().is(Items.BOW),
+                "Bandit Archer natural spawn finalization must equip its bow before ranged AI can fire");
         var target = context.spawn(EntityTypes.COW, new BlockPos(5, 1, 1));
         archer.performRangedAttack(target, 1.0F);
         var arrows = context.getLevel().getEntitiesOfClass(Arrow.class, archer.getBoundingBox().inflate(4.0));
