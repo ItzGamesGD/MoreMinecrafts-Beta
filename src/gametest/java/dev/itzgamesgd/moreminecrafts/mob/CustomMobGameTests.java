@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.monster.piglin.Piglin;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.monster.cubemob.MagmaCube;
 import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.tags.EntityTypeTags;
@@ -209,6 +210,40 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         context.succeed();
     }
 
+
+
+    @GameTest
+    public void banditArcherUsesRangedDamageMultiplier(GameTestHelper context) {
+        BanditArcher archer = (BanditArcher) context.spawn(CustomMobCatalog.BANDIT_ARCHER, new BlockPos(1, 1, 1));
+        var target = context.spawn(EntityTypes.COW, new BlockPos(5, 1, 1));
+        archer.performRangedAttack(target, 1.0F);
+        var arrows = context.getLevel().getEntitiesOfClass(AbstractArrow.class, archer.getBoundingBox().inflate(4.0));
+        context.assertTrue(arrows.size() == 1,
+                "Bandit Archer must spawn exactly one bow arrow per ranged attack");
+        AbstractArrow arrow = arrows.getFirst();
+        context.assertTrue(Math.abs(arrow.getBaseDamage() - 1.84) < 0.000001,
+                "Bandit Archer ×0.92 attack profile must scale projectile base damage, not unused melee ATTACK_DAMAGE");
+        arrow.discard();
+        archer.discard();
+        target.discard();
+        context.succeed();
+    }
+
+    @GameTest
+    public void customEntityTypeMetadataMatchesBaseFamilies(GameTestHelper context) {
+        context.assertTrue(CustomMobCatalog.WILD_SLIME.clientTrackingRange() == EntityTypes.SLIME.clientTrackingRange()
+                        && CustomMobCatalog.MUD_SLIME.clientTrackingRange() == EntityTypes.SLIME.clientTrackingRange(),
+                "Slime-family variants must retain vanilla Slime tracking range");
+        context.assertTrue(CustomMobCatalog.FERAL_WOLF.clientTrackingRange() == EntityTypes.WOLF.clientTrackingRange(),
+                "Feral Wolf must retain vanilla Wolf tracking range");
+        context.assertTrue(CustomMobCatalog.CAVE_BAT.clientTrackingRange() == EntityTypes.BAT.clientTrackingRange(),
+                "Cave Bat must retain vanilla Bat tracking range");
+        context.assertTrue(CustomMobCatalog.BANDIT.canSpawnFarFromPlayer()
+                        && CustomMobCatalog.BANDIT_ARCHER.canSpawnFarFromPlayer()
+                        && CustomMobCatalog.WANDERING_RAIDER.canSpawnFarFromPlayer(),
+                "Pillager-family variants must retain vanilla far-from-player spawn metadata");
+        context.succeed();
+    }
 
     @GameTest
     public void spiderPoisonSemantics(GameTestHelper context) {

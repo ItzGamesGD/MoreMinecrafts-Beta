@@ -89,6 +89,14 @@ class CustomMobRosterDefinitionTest {
             assertTrue(Files.isRegularFile(Path.of("src/main/resources/data/moreminecrafts/tags/worldgen/biome/" + biomeTag + ".json")),
                     "Missing approved habitat biome tag: " + biomeTag);
         }
+        String banditArcher = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/BanditArcher.java"));
+        assertTrue(banditArcher.contains("arrow.setBaseDamage(arrow.getBaseDamage() * 0.92)")
+                        && !stats.contains("case \"bandit_archer\" -> { health = 0.82; damage = 0.92; }"),
+                "Bandit Archer ranged multiplier must affect projectile damage rather than unused melee ATTACK_DAMAGE");
+        assertTrue(catalog.contains("MobCategory.AMBIENT, false, 5, false")
+                        && catalog.contains("MobCategory.CREATURE, false, 10, false")
+                        && catalog.contains("MobCategory.MONSTER, false, 8, true"),
+                "Custom EntityTypes with non-default vanilla-family metadata must declare it explicitly");
         assertTrue(!catalog.contains("minecraft:is_swamp"),
                 "26.3 has no vanilla minecraft:is_swamp biome tag; swamp variants must use the mod-owned habitat tag");
         assertTrue(Files.readString(Path.of("src/main/resources/data/moreminecrafts/tags/worldgen/biome/wild_slime_habitat.json"))

@@ -47,7 +47,7 @@ public final class CustomMobStats {
             case "river_drowned" -> { health = 0.82; damage = 0.88; }
             case "wild_piglin" -> { health = 0.82; damage = 0.82; armor = 0.75; }
             case "bandit" -> { health = 0.90; }
-            case "bandit_archer" -> { health = 0.82; damage = 0.92; }
+            case "bandit_archer" -> { health = 0.82; }
             case "bandit_warrior" -> { health = 0.85; damage = 0.85; }
             case "wandering_raider" -> { health = 0.78; }
             case "feral_wolf" -> { health = 1.15; damage = 1.15; }

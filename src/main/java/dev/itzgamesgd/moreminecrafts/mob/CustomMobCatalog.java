@@ -85,9 +85,11 @@ public final class CustomMobCatalog {
     public static final EntityType<Silverfish> DESERT_BUG = type("desert_bug", Silverfish::new, 0.4f, 0.3f);
     public static final EntityType<Endermite> END_BUG = type("end_bug", Endermite::new, 0.4f, 0.3f);
     public static final EntityType<Slime> WILD_SLIME = type("wild_slime",
-            (type, level) -> new CatalogSlime(type, level, 0.82, 1.00, 1.00), 0.52f, 0.52f);
+            (type, level) -> new CatalogSlime(type, level, 0.82, 1.00, 1.00), 0.52f, 0.52f,
+            MobCategory.MONSTER, false, 10, false);
     public static final EntityType<Slime> MUD_SLIME = type("mud_slime",
-            (type, level) -> new CatalogSlime(type, level, 1.15, 0.78, 1.00), 0.6f, 0.6f);
+            (type, level) -> new CatalogSlime(type, level, 1.15, 0.78, 1.00), 0.6f, 0.6f,
+            MobCategory.MONSTER, false, 10, false);
     public static final EntityType<Slime> SAND_SLIME = type("sand_slime",
             (type, level) -> new CatalogSlime(type, level, 1.00, 1.08, 1.00), 0.6f, 0.6f);
     public static final EntityType<MagmaCube> LESSER_MAGMA_CUBE = type("lesser_magma_cube",
@@ -96,35 +98,44 @@ public final class CustomMobCatalog {
     public static final EntityType<Drowned> DEEP_SEA_DROWNED = type("deep_sea_drowned", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> RIVER_DROWNED = type("river_drowned", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Piglin> WILD_PIGLIN = type("wild_piglin", Piglin::new, 0.6f, 1.95f);
-    public static final EntityType<Pillager> BANDIT = type("bandit", (type, level) -> new BanditEntity(type, level), 0.6f, 1.95f);
-    public static final EntityType<Pillager> BANDIT_ARCHER = type("bandit_archer", (type, level) -> new BanditArcher(type, level), 0.6f, 1.95f);
+    public static final EntityType<Pillager> BANDIT = type("bandit", (type, level) -> new BanditEntity(type, level), 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
+    public static final EntityType<Pillager> BANDIT_ARCHER = type("bandit_archer", (type, level) -> new BanditArcher(type, level), 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
     public static final EntityType<Vindicator> BANDIT_WARRIOR = type("bandit_warrior", Vindicator::new, 0.6f, 1.95f);
-    public static final EntityType<Pillager> WANDERING_RAIDER = type("wandering_raider", Pillager::new, 0.6f, 1.95f);
-    public static final EntityType<Wolf> FERAL_WOLF = type("feral_wolf", (type, level) -> new FeralWolf(type, level), 0.6f, 0.85f, MobCategory.CREATURE, false);
-    public static final EntityType<Bat> CAVE_BAT = type("cave_bat", (type, level) -> new CaveBatEntity(type, level), 0.9f, 0.9f, MobCategory.AMBIENT, false);
+    public static final EntityType<Pillager> WANDERING_RAIDER = type("wandering_raider", Pillager::new, 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
+    public static final EntityType<Wolf> FERAL_WOLF = type("feral_wolf", (type, level) -> new FeralWolf(type, level), 0.6f, 0.85f,
+            MobCategory.CREATURE, false, 10, false);
+    public static final EntityType<Bat> CAVE_BAT = type("cave_bat", (type, level) -> new CaveBatEntity(type, level), 0.9f, 0.9f,
+            MobCategory.AMBIENT, false, 5, false);
     public static final EntityType<Bee> GIANT_BEE = type("giant_bee", Bee::new, 1.0f, 0.8f, MobCategory.CREATURE, false);
     public static final EntityType<Phantom> LESSER_PHANTOM = type("lesser_phantom", Phantom::new, 0.7f, 0.45f);
     public static final EntityType<Creeper> CAVE_CREEPER = type("cave_creeper", Creeper::new, 0.6f, 1.7f);
 
     private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
                                                        float width, float height) {
-        return type(path, factory, width, height, MobCategory.MONSTER, false);
+        return type(path, factory, width, height, MobCategory.MONSTER, false, 8, false);
     }
 
     private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
                                                        float width, float height, boolean fireImmune) {
-        return type(path, factory, width, height, MobCategory.MONSTER, fireImmune);
+        return type(path, factory, width, height, MobCategory.MONSTER, fireImmune, 8, false);
     }
 
     private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
                                                        float width, float height, MobCategory category,
                                                        boolean fireImmune) {
+        return type(path, factory, width, height, category, fireImmune, 8, false);
+    }
+
+    private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
+                                                       float width, float height, MobCategory category,
+                                                       boolean fireImmune, int trackingRange,
+                                                       boolean canSpawnFarFromPlayer) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ModIds.id(path));
         EntityType.Builder<T> builder = EntityType.Builder.of(factory, category)
-                .sized(width, height).clientTrackingRange(8);
+                .sized(width, height).clientTrackingRange(trackingRange);
         if (fireImmune) builder.fireImmune();
-        EntityType<T> result = Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));
-        return result;
+        if (canSpawnFarFromPlayer) builder.canSpawnFarFromPlayer();
+        return Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));
     }
 
     public static synchronized void initialize() {
