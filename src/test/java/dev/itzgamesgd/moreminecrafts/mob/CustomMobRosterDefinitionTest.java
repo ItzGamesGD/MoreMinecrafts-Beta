@@ -85,10 +85,15 @@ class CustomMobRosterDefinitionTest {
                 "Poison restoration must not use the shallow MobEffectInstance copy constructor");
         assertTrue(!catalog.contains("WILD_PIGLIN = type(\"wild_piglin\", Piglin::new, 0.6f, 1.95f, true)"),
                 "Wild Piglin must not gain non-vanilla fire immunity");
-        for (String biomeTag : Set.of("snowy_habitat", "fungal_habitat", "desert_habitat", "wild_slime_habitat")) {
+        for (String biomeTag : Set.of("snowy_habitat", "fungal_habitat", "desert_habitat", "swamp_habitat", "wild_slime_habitat")) {
             assertTrue(Files.isRegularFile(Path.of("src/main/resources/data/moreminecrafts/tags/worldgen/biome/" + biomeTag + ".json")),
                     "Missing approved habitat biome tag: " + biomeTag);
         }
+        assertTrue(!catalog.contains("minecraft:is_swamp"),
+                "26.3 has no vanilla minecraft:is_swamp biome tag; swamp variants must use the mod-owned habitat tag");
+        assertTrue(Files.readString(Path.of("src/main/resources/data/moreminecrafts/tags/worldgen/biome/wild_slime_habitat.json"))
+                        .contains("#moreminecrafts:swamp_habitat"),
+                "Wild Slime habitat must compose the mod-owned swamp tag instead of a missing vanilla tag");
         assertTrue(catalog.contains("add(FROZEN_ZOMBIE, Zombie.createAttributes(), SNOWY_HABITAT")
                         && catalog.contains("add(FUNGAL_ZOMBIE, Zombie.createAttributes(), FUNGAL_HABITAT")
                         && catalog.contains("add(DESERT_SPIDER, Spider.createAttributes(), DESERT_HABITAT")

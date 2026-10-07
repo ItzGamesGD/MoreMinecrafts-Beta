@@ -176,9 +176,10 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
 
         Slime splitter = context.spawn(CustomMobCatalog.WILD_SLIME, new BlockPos(7, 1, 1));
         splitter.setSize(4, true);
+        var splitSearchBounds = splitter.getBoundingBox().inflate(4.0);
         splitter.setHealth(0.0F);
         splitter.remove(Entity.RemovalReason.KILLED);
-        var splitChildren = context.getLevel().getEntitiesOfClass(Slime.class, context.getBounds().inflate(2.0),
+        var splitChildren = context.getLevel().getEntitiesOfClass(Slime.class, splitSearchBounds,
                 slime -> slime.getType() == CustomMobCatalog.WILD_SLIME);
         context.assertTrue(splitChildren.size() >= 2 && splitChildren.size() <= 4,
                 "A dying custom Slime must split into children of the same custom EntityType");
