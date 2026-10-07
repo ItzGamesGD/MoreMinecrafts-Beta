@@ -16,6 +16,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -43,6 +44,11 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
             context.assertTrue(id != null && id.getNamespace().equals("moreminecrafts"),
                     "Every roster type must have a stable MoreMinecrafts registry id");
             context.assertTrue(ids.add(id.toString()), "Roster registry ids must be unique: " + id);
+            MobCategory expectedCategory = id.getPath().equals("cave_bat") ? MobCategory.AMBIENT
+                    : (id.getPath().equals("feral_wolf") || id.getPath().equals("giant_bee"))
+                    ? MobCategory.CREATURE : MobCategory.MONSTER;
+            context.assertTrue(type.getCategory() == expectedCategory,
+                    "Every roster entry must retain its approved population category: " + id);
             context.assertTrue(SpawnPlacements.getPlacementType(type) != null,
                     "Every naturally spawned roster entry must have a placement rule: " + id);
             Mob mob = type.create(context.getLevel(), EntitySpawnReason.COMMAND);
@@ -83,6 +89,10 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
             } else if (id.getPath().equals("bandit")) {
                 context.assertTrue(mob.getItemBySlot(EquipmentSlot.MAINHAND).is(Items.IRON_SWORD),
                         "Bandit must use its approved melee sword");
+                BanditEntity banditMob = (BanditEntity) mob;
+                banditMob.applyRaidBuffs(context.getLevel(), 6, false);
+                context.assertTrue(banditMob.getMainHandItem().is(Items.IRON_SWORD),
+                        "Raid buff handling must not replace melee Bandit's sword with a crossbow");
             }
             mob.discard();
         }
@@ -227,6 +237,16 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         feralWolf.setTame(true, true);
         context.assertTrue(feralWolf.isTame() && feralWolf.getTarget() == null,
                 "Taming a Feral Wolf must immediately clear any player target, including direct setTame paths");
+        context.assertTrue(Math.abs(feralWolf.getAttributeValue(Attributes.MAX_HEALTH) - 46.0) < 0.001,
+                "Feral Wolf must retain the approved ×1.15 health profile after vanilla tame health rewrites");
+
+        LesserPhantom lesserPhantom = context.spawn(CustomMobCatalog.LESSER_PHANTOM, new BlockPos(9, 1, 1));
+        lesserPhantom.setPhantomSize(3);
+        context.assertTrue(Math.abs(lesserPhantom.getAttributeValue(Attributes.ATTACK_DAMAGE) - 6.48) < 0.001,
+                "Lesser Phantom size changes must preserve the approved ×0.72 attack profile");
+        lesserPhantom.setPhantomSize(0);
+        context.assertTrue(Math.abs(lesserPhantom.getAttributeValue(Attributes.ATTACK_DAMAGE) - 4.32) < 0.001,
+                "Repeated Lesser Phantom size rewrites must replace rather than compound its attack profile");
 
         vanillaSlime.discard();
         wildSlime.discard();
@@ -235,6 +255,7 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         vanillaMagma.discard();
         lesserMagma.discard();
         feralWolf.discard();
+        lesserPhantom.discard();
         mockPlayer.discard();
         giantBee.discard();
         largeZombie.discard();

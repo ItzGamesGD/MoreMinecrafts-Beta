@@ -113,7 +113,8 @@ public final class CustomMobCatalog {
     public static final EntityType<Bat> CAVE_BAT = type("cave_bat", (type, level) -> new CaveBatEntity(type, level), 0.9f, 0.9f,
             MobCategory.AMBIENT, false, 5, false);
     public static final EntityType<Bee> GIANT_BEE = type("giant_bee", Bee::new, 1.0f, 0.8f, MobCategory.CREATURE, false);
-    public static final EntityType<Phantom> LESSER_PHANTOM = type("lesser_phantom", Phantom::new, 0.7f, 0.45f);
+    public static final EntityType<LesserPhantom> LESSER_PHANTOM = type("lesser_phantom",
+            (type, level) -> new LesserPhantom(type, level), 0.7f, 0.45f);
     public static final EntityType<Creeper> CAVE_CREEPER = type("cave_creeper", Creeper::new, 0.6f, 1.7f);
 
     private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
@@ -221,7 +222,7 @@ public final class CustomMobCatalog {
                                              net.minecraft.world.entity.EntitySpawnReason reason,
                                              BlockPos pos, net.minecraft.util.RandomSource random) {
         if (type == WILD_SLIME || type == MUD_SLIME || type == SAND_SLIME)
-            return Slime.checkSlimeSpawnRules((EntityType) type, level, reason, pos, random);
+            return Monster.checkMonsterSpawnRules(type, level, reason, pos, random);
         if (type == LESSER_MAGMA_CUBE)
             return MagmaCube.checkMagmaCubeSpawnRules((EntityType) type, level, reason, pos, random);
         if (type == DROWNED_SAILOR || type == DEEP_SEA_DROWNED || type == RIVER_DROWNED)

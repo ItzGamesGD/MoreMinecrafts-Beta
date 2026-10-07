@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.mob;
 
+import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -7,11 +8,14 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 /** Small, one-time vanilla-attribute adjustments applied during ordinary spawn finalization. */
 public final class CustomMobStats {
     private static final Set<Mob> APPLIED = Collections.newSetFromMap(new WeakHashMap<>());
+    static final net.minecraft.resources.Identifier ARMOR_PROFILE_MODIFIER =
+            ModIds.id("custom_mob_armor_profile");
 
     private CustomMobStats() {}
 
@@ -53,14 +57,14 @@ public final class CustomMobStats {
             case "feral_wolf" -> { health = 1.15; damage = 1.15; }
             case "cave_bat" -> { health = 0.60; damage = 0.55; speed = 1.08; }
             case "giant_bee" -> { health = 1.65; damage = 1.25; }
-            case "lesser_phantom" -> { health = 0.60; damage = 0.72; }
+            case "lesser_phantom" -> { health = 0.60; }
             case "cave_creeper" -> { health = 0.92; }
             default -> { return; }
         }
         multiply(mob, Attributes.MAX_HEALTH, health);
         multiply(mob, Attributes.MOVEMENT_SPEED, speed);
         multiply(mob, Attributes.ATTACK_DAMAGE, damage);
-        multiply(mob, Attributes.ARMOR, armor);
+        multiplyTotal(mob, Attributes.ARMOR, armor);
         mob.setHealth((float) mob.getAttributeValue(Attributes.MAX_HEALTH));
     }
 
@@ -108,5 +112,14 @@ public final class CustomMobStats {
         if (multiplier == 1.0) return;
         AttributeInstance instance = mob.getAttribute(attribute);
         if (instance != null) instance.setBaseValue(instance.getBaseValue() * multiplier);
+    }
+
+    private static void multiplyTotal(Mob mob, net.minecraft.core.Holder<Attribute> attribute, double multiplier) {
+        if (multiplier == 1.0) return;
+        AttributeInstance instance = mob.getAttribute(attribute);
+        if (instance == null) return;
+        instance.removeModifier(ARMOR_PROFILE_MODIFIER);
+        instance.addPermanentModifier(new AttributeModifier(
+                ARMOR_PROFILE_MODIFIER, multiplier - 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
     }
 }

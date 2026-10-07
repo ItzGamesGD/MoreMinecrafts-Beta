@@ -3,11 +3,14 @@ package dev.itzgamesgd.moreminecrafts.mob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public final class FeralWolf extends Wolf {
+    private static final double HEALTH_MULTIPLIER = 1.15;
+
     public FeralWolf(EntityType<? extends Wolf> type, Level level) { super(type, level); }
 
     @Override
@@ -20,9 +23,28 @@ public final class FeralWolf extends Wolf {
     }
 
     @Override
+    protected void applyTamingSideEffects() {
+        super.applyTamingSideEffects();
+        var maxHealth = getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealth != null) {
+            maxHealth.setBaseValue(maxHealth.getBaseValue() * HEALTH_MULTIPLIER);
+            if (isTame()) {
+                setHealth(getMaxHealth());
+            } else if (getHealth() > getMaxHealth()) {
+                setHealth(getMaxHealth());
+            }
+        }
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.15, true));
-        targetSelector.addGoal(2, new NonTameRandomTargetGoal<>(this, Player.class, true, null));
+        targetSelector.addGoal(2, new NonTameRandomTargetGoal<Player>(this, Player.class, true, null) {
+            @Override
+            public boolean canContinueToUse() {
+                return !FeralWolf.this.isTame() && super.canContinueToUse();
+            }
+        });
     }
 }

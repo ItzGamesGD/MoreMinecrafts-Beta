@@ -42,14 +42,16 @@ class CustomMobRosterDefinitionTest {
                 "Custom stat application must explicitly guard against repeated finalization");
         assertTrue(!stats.contains("Attributes.SCALE"),
                 "Entity size must have one source of truth; stat finalization must not rescale sized EntityTypes");
-        assertTrue(catalog.contains("Slime.checkSlimeSpawnRules")
+        assertTrue(!catalog.contains("Slime.checkSlimeSpawnRules")
+                        && catalog.contains("type == WILD_SLIME || type == MUD_SLIME || type == SAND_SLIME")
+                        && catalog.contains("return Monster.checkMonsterSpawnRules(type, level, reason, pos, random);")
                         && catalog.contains("MagmaCube.checkMagmaCubeSpawnRules")
                         && catalog.contains("Drowned.checkDrownedSpawnRules")
                         && catalog.contains("Piglin.checkPiglinSpawnRules")
                         && catalog.contains("Wolf.checkWolfSpawnRules")
                         && catalog.contains("Bat.checkBatSpawnRules")
                         && catalog.contains("Animal.checkAnimalSpawnRules"),
-                "Natural spawn predicates must preserve family-specific vanilla rules where available");
+                "Natural spawn predicates must preserve family rules except where an approved explicit habitat replaces vanilla's unrelated spawn gate");
         assertTrue(catalog.contains("spec.type.getCategory()"),
                 "Biome spawn registration must use each EntityType's family population category");
         for (String tag : Set.of("undead", "zombies", "skeletons", "raiders", "illager", "arthropod",
@@ -65,6 +67,9 @@ class CustomMobRosterDefinitionTest {
         assertTrue(Files.readString(Path.of("src/main/resources/data/moreminecrafts/loot_table/entities/bandit.json"))
                         .contains("\"minecraft:entities/pillager\""),
                 "Bandit must preserve Pillager-family loot rather than Vindicator loot");
+        assertTrue(Files.readString(Path.of("src/main/resources/data/moreminecrafts/loot_table/entities/small_spider.json"))
+                        .contains("\"minecraft:entities/cave_spider\""),
+                "Small Spider must preserve its Cave Spider-family loot alias");
         assertTrue(catalog.contains("new CatalogSlime") && catalog.contains("new CatalogMagmaCube"),
                 "Slime-family variants must own size-lifecycle stat scaling instead of relying on one-time finalizeSpawn");
         assertTrue(!stats.contains("case \"wild_slime\"") && !stats.contains("case \"lesser_magma_cube\""),
@@ -72,8 +77,11 @@ class CustomMobRosterDefinitionTest {
         String feralWolf = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/FeralWolf.java"));
         assertTrue(feralWolf.contains("NonTameRandomTargetGoal")
                         && feralWolf.contains("public void setTame(boolean isTame, boolean includeSideEffects)")
+                        && feralWolf.contains("return !FeralWolf.this.isTame() && super.canContinueToUse()")
+                        && feralWolf.contains("protected void applyTamingSideEffects()")
+                        && feralWolf.contains("HEALTH_MULTIPLIER = 1.15")
                         && feralWolf.contains("setTarget(null)"),
-                "Feral Wolf may hunt players only while untamed and must clear an acquired player target immediately when tamed");
+                "Feral Wolf player hunting must stop on tame and vanilla tame-health rewrites must retain the approved health profile");
         assertTrue(catalog.contains("new SmallCaveSpider") && catalog.contains("new SwampCaveSpider"),
                 "Small and Swamp Spider must use their explicit Cave Spider-family behavior classes");
         String smallSpider = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/SmallCaveSpider.java"));
@@ -102,6 +110,19 @@ class CustomMobRosterDefinitionTest {
                         && !banditArcher.contains("super.applyRaidBuffs")
                         && !stats.contains("case \"bandit_archer\" -> { health = 0.82; damage = 0.92; }"),
                 "Bandit Archer must preserve bow projectile semantics, aiming pose, raid-stable equipment, and ranged damage scaling");
+        String banditEntity = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/BanditEntity.java"));
+        assertTrue(banditEntity.contains("public void applyRaidBuffs")
+                        && banditEntity.contains("Items.IRON_SWORD")
+                        && !banditEntity.contains("super.applyRaidBuffs"),
+                "Melee Bandit must retain its approved sword through Pillager raid buff lifecycle");
+        assertTrue(stats.contains("AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL")
+                        && stats.contains("ARMOR_PROFILE_MODIFIER")
+                        && !stats.contains("multiply(mob, Attributes.ARMOR, armor)"),
+                "Armor profiles must scale total armor, including equipment modifiers, rather than multiplying a zero base value");
+        String lesserPhantom = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/LesserPhantom.java"));
+        assertTrue(lesserPhantom.contains("(6.0 + getPhantomSize()) * ATTACK_MULTIPLIER")
+                        && !stats.contains("case \"lesser_phantom\" -> { health = 0.60; damage = 0.72; }"),
+                "Lesser Phantom must own dynamic size-derived attack scaling instead of losing it after vanilla rewrites");
         assertTrue(catalog.contains("MobCategory.AMBIENT, false, 5, false")
                         && catalog.contains("MobCategory.CREATURE, false, 10, false")
                         && catalog.contains("MobCategory.MONSTER, false, 8, true"),
@@ -156,6 +177,15 @@ class CustomMobRosterDefinitionTest {
         assertTrue(followableTag.contains("moreminecrafts:feral_wolf")
                         && followableTag.contains("moreminecrafts:giant_bee"),
                 "Wolf- and Bee-family variants must extend the vanilla followable-friendly-mobs tag");
+        String client = Files.readString(Path.of("src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java"));
+        Matcher rendererMatcher = Pattern.compile("EntityRendererRegistry\\.register\\(CustomMobCatalog\\.").matcher(client);
+        int rendererCount = 0;
+        while (rendererMatcher.find()) rendererCount++;
+        assertEquals(40, rendererCount, "All forty custom EntityTypes must retain client renderer registrations");
+        assertTrue(client.contains("CustomMobCatalog.SMALL_SPIDER, CaveSpiderRenderer::new")
+                        && client.contains("CustomMobCatalog.LESSER_WITHER_SKELETON, WitherSkeletonRenderer::new")
+                        && client.contains("CustomMobCatalog.MOUNTAIN_SKELETON, StrayRenderer::new"),
+                "Representative renderer families must remain aligned with their approved vanilla bases");
         assertTrue(Files.readString(Path.of("docs/VANILLA_MODEL_CUSTOM_MOB_ROSTER.md"))
                 .contains("VANILLA_MODEL_CUSTOM_MOB_ROSTER_IMPLEMENTATION.md"));
     }

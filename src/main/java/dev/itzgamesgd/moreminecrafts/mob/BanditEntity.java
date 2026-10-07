@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.mob;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
@@ -24,5 +25,12 @@ public final class BanditEntity extends Pillager {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+    }
+
+    @Override
+    public void applyRaidBuffs(ServerLevel level, int wave, boolean isCaptain) {
+        if (!getMainHandItem().is(Items.IRON_SWORD)) {
+            setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+        }
     }
 }
