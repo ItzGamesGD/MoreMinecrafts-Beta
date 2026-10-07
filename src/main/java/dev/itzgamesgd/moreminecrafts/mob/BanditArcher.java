@@ -10,8 +10,7 @@ import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
 import net.minecraft.world.entity.ai.goal.RangedCrossbowAttackGoal;
 import net.minecraft.world.entity.monster.illager.Pillager;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -35,9 +34,11 @@ public final class BanditArcher extends Pillager {
     public void performRangedAttack(LivingEntity target, float velocity) {
         if (!(level() instanceof ServerLevel serverLevel)) return;
         ItemStack bow = getMainHandItem();
-        ItemStack projectile = getProjectile(bow);
-        AbstractArrow arrow = ProjectileUtil.getMobArrow(this, projectile, velocity, bow);
-        arrow.setBaseDamage(arrow.getBaseDamage() * 0.92);
+        ItemStack projectile = new ItemStack(Items.ARROW);
+        Arrow arrow = new Arrow(level(), this, projectile, bow);
+        double vanillaBaseDamage = velocity * 2.0F
+                + getRandom().triangle(serverLevel.getDifficulty().getId() * 0.11, 0.57425);
+        arrow.setBaseDamage(vanillaBaseDamage * 0.92);
         double dx = target.getX() - getX();
         double dz = target.getZ() - getZ();
         double dy = target.getY(0.3333333333333333) - arrow.getY();

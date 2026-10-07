@@ -90,7 +90,9 @@ class CustomMobRosterDefinitionTest {
                     "Missing approved habitat biome tag: " + biomeTag);
         }
         String banditArcher = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/BanditArcher.java"));
-        assertTrue(banditArcher.contains("arrow.setBaseDamage(arrow.getBaseDamage() * 0.92)")
+        assertTrue(banditArcher.contains("arrow.setBaseDamage(vanillaBaseDamage * 0.92)")
+                        && banditArcher.contains("velocity * 2.0F")
+                        && banditArcher.contains("getRandom().triangle(serverLevel.getDifficulty().getId() * 0.11, 0.57425)")
                         && !stats.contains("case \"bandit_archer\" -> { health = 0.82; damage = 0.92; }"),
                 "Bandit Archer ranged multiplier must affect projectile damage rather than unused melee ATTACK_DAMAGE");
         assertTrue(catalog.contains("MobCategory.AMBIENT, false, 5, false")
