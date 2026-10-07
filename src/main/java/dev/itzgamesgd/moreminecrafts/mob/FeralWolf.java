@@ -11,6 +11,15 @@ public final class FeralWolf extends Wolf {
     public FeralWolf(EntityType<? extends Wolf> type, Level level) { super(type, level); }
 
     @Override
+    public void setTame(boolean isTame, boolean includeSideEffects) {
+        super.setTame(isTame, includeSideEffects);
+        if (isTame) {
+            setTarget(null);
+            getNavigation().stop();
+        }
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.15, true));

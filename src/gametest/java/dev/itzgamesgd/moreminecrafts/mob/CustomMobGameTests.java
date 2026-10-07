@@ -29,6 +29,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.entity.monster.illager.AbstractIllager;
 
 public final class CustomMobGameTests implements CustomTestMethodInvoker {
     @GameTest
@@ -218,9 +220,13 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                 "Lesser Magma Cube size lifecycle must retain its health and damage profile");
 
         FeralWolf feralWolf = (FeralWolf) context.spawn(CustomMobCatalog.FERAL_WOLF, new BlockPos(8, 1, 1));
+        var mockPlayer = context.makeMockPlayer(GameType.SURVIVAL);
+        feralWolf.setTarget(mockPlayer);
+        context.assertTrue(feralWolf.getTarget() == mockPlayer,
+                "Feral Wolf target-clearing test must begin with an acquired player target");
         feralWolf.setTame(true, true);
-        context.assertTrue(feralWolf.isTame(),
-                "Feral Wolf remains a vanilla-family tamable wolf; only its untamed player-hunting goal is custom");
+        context.assertTrue(feralWolf.isTame() && feralWolf.getTarget() == null,
+                "Taming a Feral Wolf must immediately clear any player target, including direct setTame paths");
 
         vanillaSlime.discard();
         wildSlime.discard();
@@ -229,6 +235,7 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         vanillaMagma.discard();
         lesserMagma.discard();
         feralWolf.discard();
+        mockPlayer.discard();
         giantBee.discard();
         largeZombie.discard();
         context.succeed();
@@ -271,6 +278,14 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                 EntitySpawnReason.NATURAL, null);
         context.assertTrue(archer.getMainHandItem().is(Items.BOW),
                 "Bandit Archer natural spawn finalization must equip its bow before ranged AI can fire");
+        context.assertTrue(archer.canUseNonMeleeWeapon(archer.getMainHandItem()),
+                "Bandit Archer must classify its bow as its usable ranged weapon");
+        archer.setAggressive(true);
+        context.assertTrue(archer.getArmPose() == AbstractIllager.IllagerArmPose.BOW_AND_ARROW,
+                "Bandit Archer must expose the bow-and-arrow illager pose while aiming");
+        archer.applyRaidBuffs(context.getLevel(), 6, false);
+        context.assertTrue(archer.getMainHandItem().is(Items.BOW),
+                "Raid buff handling must not replace Bandit Archer's bow with a crossbow after the crossbow goal is removed");
         var target = context.spawn(EntityTypes.COW, new BlockPos(5, 1, 1));
         archer.performRangedAttack(target, 1.0F);
         var arrows = context.getLevel().getEntitiesOfClass(Arrow.class, archer.getBoundingBox().inflate(4.0));

@@ -70,8 +70,10 @@ class CustomMobRosterDefinitionTest {
         assertTrue(!stats.contains("case \"wild_slime\"") && !stats.contains("case \"lesser_magma_cube\""),
                 "Cube-mob stat multipliers must not be duplicated by the global finalizeSpawn stat pass");
         String feralWolf = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/FeralWolf.java"));
-        assertTrue(feralWolf.contains("NonTameRandomTargetGoal"),
-                "Feral Wolf may hunt players only while untamed; tame wolves must fall back to vanilla tame targeting");
+        assertTrue(feralWolf.contains("NonTameRandomTargetGoal")
+                        && feralWolf.contains("public void setTame(boolean isTame, boolean includeSideEffects)")
+                        && feralWolf.contains("setTarget(null)"),
+                "Feral Wolf may hunt players only while untamed and must clear an acquired player target immediately when tamed");
         assertTrue(catalog.contains("new SmallCaveSpider") && catalog.contains("new SwampCaveSpider"),
                 "Small and Swamp Spider must use their explicit Cave Spider-family behavior classes");
         String smallSpider = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/SmallCaveSpider.java"));
@@ -94,8 +96,12 @@ class CustomMobRosterDefinitionTest {
         assertTrue(banditArcher.contains("arrow.setBaseDamage(vanillaBaseDamage * 0.92)")
                         && banditArcher.contains("velocity * 2.0F")
                         && banditArcher.contains("getRandom().triangle(serverLevel.getDifficulty().getId() * 0.11, 0.57425)")
+                        && banditArcher.contains("getProjectile(bow)")
+                        && banditArcher.contains("BOW_AND_ARROW")
+                        && banditArcher.contains("public void applyRaidBuffs")
+                        && !banditArcher.contains("super.applyRaidBuffs")
                         && !stats.contains("case \"bandit_archer\" -> { health = 0.82; damage = 0.92; }"),
-                "Bandit Archer ranged multiplier must affect projectile damage rather than unused melee ATTACK_DAMAGE");
+                "Bandit Archer must preserve bow projectile semantics, aiming pose, raid-stable equipment, and ranged damage scaling");
         assertTrue(catalog.contains("MobCategory.AMBIENT, false, 5, false")
                         && catalog.contains("MobCategory.CREATURE, false, 10, false")
                         && catalog.contains("MobCategory.MONSTER, false, 8, true"),
@@ -111,7 +117,13 @@ class CustomMobRosterDefinitionTest {
                         && catalog.contains("BuiltinStructures.DESERT_PYRAMID")
                         && catalog.contains("BuiltinStructures.SHIPWRECK")
                         && catalog.contains("getStructureWithPieceAt(pos.getX(), pos.getY(), pos.getZ(), structure)"),
-                "Structure-associated roster entries must require an actual generated structure piece, not only a structure-capable biome");
+                "Structure-associated roster entries must require generated structures, not only structure-capable biomes");
+        assertTrue(catalog.contains("insideDesertPyramidUnderground(level, pos)")
+                        && catalog.contains("DESERT_PYRAMID_BELOW_PIECE_DEPTH = 14")
+                        && catalog.contains("startsForStructure(chunkX, chunkZ")
+                        && catalog.contains("pos.getY() < box.minY()")
+                        && catalog.contains("box.minY() - DESERT_PYRAMID_BELOW_PIECE_DEPTH"),
+                "Desert Bug must recognize the pyramid's vanilla-generated underground volume below its recorded piece bounding box");
         assertTrue(!catalog.contains("minecraft:is_swamp"),
                 "26.3 has no vanilla minecraft:is_swamp biome tag; swamp variants must use the mod-owned habitat tag");
         assertTrue(Files.readString(Path.of("src/main/resources/data/moreminecrafts/tags/worldgen/biome/wild_slime_habitat.json"))

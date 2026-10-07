@@ -48,6 +48,7 @@ import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public final class CustomMobCatalog {
     private static final TagKey<Biome> FUNGAL_HABITAT = TagKey.create(Registries.BIOME, ModIds.id("fungal_habitat"));
     private static final TagKey<Biome> DESERT_HABITAT = TagKey.create(Registries.BIOME, ModIds.id("desert_habitat"));
     private static final TagKey<Biome> WILD_SLIME_HABITAT = TagKey.create(Registries.BIOME, ModIds.id("wild_slime_habitat"));
+    private static final int DESERT_PYRAMID_BELOW_PIECE_DEPTH = 14;
 
     private CustomMobCatalog() {}
 
@@ -249,7 +251,7 @@ public final class CustomMobCatalog {
         if (type == LESSER_WITHER_SKELETON)
             return insideStructure(level, pos, BuiltinStructures.FORTRESS);
         if (type == DESERT_BUG)
-            return insideStructure(level, pos, BuiltinStructures.DESERT_PYRAMID);
+            return insideDesertPyramidUnderground(level, pos);
         if (type == DROWNED_SAILOR)
             return insideStructure(level, pos, BuiltinStructures.SHIPWRECK);
         return true;
@@ -262,6 +264,34 @@ public final class CustomMobCatalog {
         return structure != null && level.getLevel().structureManager()
                 .getStructureWithPieceAt(pos.getX(), pos.getY(), pos.getZ(), structure)
                 .isValid();
+    }
+
+    /**
+     * Desert pyramids generate their treasure shaft/cellar below the piece's recorded Y bounding box.
+     * A strict 3D piece lookup therefore rejects the actual underground rooms. Preserve exact X/Z
+     * association with the generated pyramid piece while extending only the vanilla-generated
+     * fourteen-block depth below its recorded minimum Y.
+     */
+    private static boolean insideDesertPyramidUnderground(net.minecraft.world.level.ServerLevelAccessor level,
+                                                           BlockPos pos) {
+        Structure targetStructure = level.registryAccess().lookupOrThrow(Registries.STRUCTURE)
+                .getValue(BuiltinStructures.DESERT_PYRAMID);
+        if (targetStructure == null) return false;
+
+        int chunkX = SectionPos.blockToSectionCoord(pos.getX());
+        int chunkZ = SectionPos.blockToSectionCoord(pos.getZ());
+        for (var start : level.getLevel().structureManager()
+                .startsForStructure(chunkX, chunkZ, structure -> structure == targetStructure)) {
+            for (var piece : start.getPieces()) {
+                var box = piece.getBoundingBox();
+                boolean insideHorizontalFootprint = pos.getX() >= box.minX() && pos.getX() <= box.maxX()
+                        && pos.getZ() >= box.minZ() && pos.getZ() <= box.maxZ();
+                boolean insideGeneratedBelowPieceDepth = pos.getY() < box.minY()
+                        && pos.getY() >= box.minY() - DESERT_PYRAMID_BELOW_PIECE_DEPTH;
+                if (insideHorizontalFootprint && insideGeneratedBelowPieceDepth) return true;
+            }
+        }
+        return false;
     }
 
     private static boolean allowed(SpawnKind kind, net.minecraft.world.level.ServerLevelAccessor level, BlockPos pos) {
