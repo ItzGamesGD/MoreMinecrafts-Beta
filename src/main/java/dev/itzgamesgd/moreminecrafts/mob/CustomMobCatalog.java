@@ -12,6 +12,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.EntityType;
@@ -93,7 +94,8 @@ public final class CustomMobCatalog {
             (type, level) -> new CatalogSlime(type, level, 1.15, 0.78, 1.00), 0.6f, 0.6f,
             MobCategory.MONSTER, false, 10, false);
     public static final EntityType<Slime> SAND_SLIME = type("sand_slime",
-            (type, level) -> new CatalogSlime(type, level, 1.00, 1.08, 1.00), 0.6f, 0.6f);
+            (type, level) -> new CatalogSlime(type, level, 1.00, 1.08, 1.00), 0.6f, 0.6f,
+            MobCategory.MONSTER, false, 10, false);
     public static final EntityType<MagmaCube> LESSER_MAGMA_CUBE = type("lesser_magma_cube",
             (type, level) -> new CatalogMagmaCube(type, level, 0.78, 1.00, 0.80), 0.65f, 0.65f, true);
     public static final EntityType<Drowned> DROWNED_SAILOR = type("drowned_sailor", Drowned::new, 0.6f, 1.95f);
@@ -137,6 +139,13 @@ public final class CustomMobCatalog {
                 .sized(width, height).clientTrackingRange(trackingRange);
         if (fireImmune) builder.fireImmune();
         if (canSpawnFarFromPlayer) builder.canSpawnFarFromPlayer();
+        if (category == MobCategory.MONSTER && !path.equals("wild_piglin")) builder.notInPeaceful();
+        if (path.equals("wild_slime") || path.equals("mud_slime") || path.equals("sand_slime")
+                || path.equals("lesser_magma_cube")) {
+            builder.spawnDimensionsScale(4.0F);
+        }
+        if (path.equals("lesser_wither_skeleton")) builder.immuneTo(BlockTags.WITHER_SKELETON_IMMUNE_TO);
+        if (path.equals("mountain_skeleton")) builder.immuneTo(BlockTags.STRAY_IMMUNE_TO);
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));
     }
 

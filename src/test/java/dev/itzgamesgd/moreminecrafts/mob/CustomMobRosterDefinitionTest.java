@@ -99,6 +99,11 @@ class CustomMobRosterDefinitionTest {
                         && catalog.contains("MobCategory.CREATURE, false, 10, false")
                         && catalog.contains("MobCategory.MONSTER, false, 8, true"),
                 "Custom EntityTypes with non-default vanilla-family metadata must declare it explicitly");
+        assertTrue(catalog.contains("builder.notInPeaceful()")
+                        && catalog.contains("builder.spawnDimensionsScale(4.0F)")
+                        && catalog.contains("BlockTags.WITHER_SKELETON_IMMUNE_TO")
+                        && catalog.contains("BlockTags.STRAY_IMMUNE_TO"),
+                "EntityType metadata parity must include Peaceful exclusion, cube spawn sizing, and family block immunities");
         assertTrue(catalog.contains("structureAssociationAllowed(type, level, pos)")
                         && catalog.contains("BuiltinStructures.MINESHAFT")
                         && catalog.contains("BuiltinStructures.FORTRESS")

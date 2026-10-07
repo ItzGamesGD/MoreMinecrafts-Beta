@@ -249,10 +249,30 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                 "Feral Wolf must retain vanilla Wolf tracking range");
         context.assertTrue(CustomMobCatalog.CAVE_BAT.clientTrackingRange() == EntityTypes.BAT.clientTrackingRange(),
                 "Cave Bat must retain vanilla Bat tracking range");
+        context.assertTrue(CustomMobCatalog.SAND_SLIME.clientTrackingRange() == EntityTypes.SLIME.clientTrackingRange(),
+                "All Slime-family variants, including Sand Slime, must retain vanilla Slime tracking range");
         context.assertTrue(CustomMobCatalog.BANDIT.canSpawnFarFromPlayer()
                         && CustomMobCatalog.BANDIT_ARCHER.canSpawnFarFromPlayer()
                         && CustomMobCatalog.WANDERING_RAIDER.canSpawnFarFromPlayer(),
                 "Pillager-family variants must retain vanilla far-from-player spawn metadata");
+        context.assertTrue(!CustomMobCatalog.SWAMP_ZOMBIE.isAllowedInPeaceful()
+                        && !CustomMobCatalog.LESSER_WITHER_SKELETON.isAllowedInPeaceful()
+                        && !CustomMobCatalog.WILD_SLIME.isAllowedInPeaceful()
+                        && !CustomMobCatalog.BANDIT_ARCHER.isAllowedInPeaceful()
+                        && !CustomMobCatalog.LESSER_PHANTOM.isAllowedInPeaceful(),
+                "Hostile variants whose vanilla families are excluded from Peaceful must retain that EntityType metadata");
+        context.assertTrue(CustomMobCatalog.WILD_PIGLIN.isAllowedInPeaceful() == EntityTypes.PIGLIN.isAllowedInPeaceful(),
+                "Wild Piglin must retain vanilla Piglin Peaceful metadata rather than generic monster metadata");
+        context.assertTrue(CustomMobCatalog.WILD_SLIME.updateInterval() == EntityTypes.SLIME.updateInterval()
+                        && CustomMobCatalog.CAVE_BAT.updateInterval() == EntityTypes.BAT.updateInterval()
+                        && CustomMobCatalog.BANDIT_ARCHER.updateInterval() == EntityTypes.PILLAGER.updateInterval(),
+                "Representative custom families must retain vanilla update intervals");
+        context.assertTrue(CustomMobCatalog.LESSER_WITHER_SKELETON.isBlockDangerous(Blocks.WITHER_ROSE.defaultBlockState())
+                        == EntityTypes.WITHER_SKELETON.isBlockDangerous(Blocks.WITHER_ROSE.defaultBlockState()),
+                "Lesser Wither Skeleton must retain vanilla Wither Skeleton block immunity metadata");
+        context.assertTrue(CustomMobCatalog.MOUNTAIN_SKELETON.isBlockDangerous(Blocks.POWDER_SNOW.defaultBlockState())
+                        == EntityTypes.STRAY.isBlockDangerous(Blocks.POWDER_SNOW.defaultBlockState()),
+                "Mountain Skeleton must retain vanilla Stray powder-snow block immunity metadata");
         context.succeed();
     }
 
