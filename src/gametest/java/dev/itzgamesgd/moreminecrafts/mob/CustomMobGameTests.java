@@ -28,6 +28,7 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
 public final class CustomMobGameTests implements CustomTestMethodInvoker {
     @GameTest
