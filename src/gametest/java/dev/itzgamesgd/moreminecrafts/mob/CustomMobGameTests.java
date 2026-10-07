@@ -175,24 +175,6 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                         - vanillaMagma.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.80) < 0.001,
                 "Lesser Magma Cube size lifecycle must retain its health and damage profile");
 
-        Slime splitter = context.spawn(CustomMobCatalog.WILD_SLIME, new BlockPos(7, 1, 1));
-        splitter.setSize(4, true);
-        var splitSearchBounds = splitter.getBoundingBox().inflate(4.0);
-        splitter.setHealth(0.0F);
-        splitter.remove(Entity.RemovalReason.KILLED);
-        var splitChildren = context.getLevel().getEntitiesOfClass(Slime.class, splitSearchBounds,
-                slime -> slime.getType() == CustomMobCatalog.WILD_SLIME);
-        context.assertTrue(splitChildren.size() >= 2 && splitChildren.size() <= 4,
-                "A dying custom Slime must split into children of the same custom EntityType");
-        for (Slime child : splitChildren) {
-            context.assertTrue(child.getSize() == 2,
-                    "Split custom Slime children must retain vanilla half-size semantics");
-            context.assertTrue(Math.abs(child.getAttributeValue(Attributes.MAX_HEALTH)
-                            - Math.pow(child.getSize(), 2) * 0.82) < 0.001,
-                    "Split custom Slime children must receive the approved health profile");
-            child.discard();
-        }
-
         FeralWolf feralWolf = (FeralWolf) context.spawn(CustomMobCatalog.FERAL_WOLF, new BlockPos(8, 1, 1));
         feralWolf.setTame(true, true);
         context.assertTrue(feralWolf.isTame(),
@@ -211,6 +193,33 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
     }
 
 
+
+    @GameTest
+    public void customSlimeSplitLifecycle(GameTestHelper context) {
+        Slime splitter = context.spawn(CustomMobCatalog.WILD_SLIME, new BlockPos(2, 1, 2));
+        splitter.setSize(4, true);
+        var splitSearchBounds = splitter.getBoundingBox().inflate(4.0);
+        splitter.setHealth(0.0F);
+        splitter.remove(Entity.RemovalReason.KILLED);
+
+        // Conversion children are admitted through the server entity manager at the end of the
+        // current tick. Querying them synchronously makes this test order-dependent/flaky.
+        context.runAfterDelay(2, () -> {
+            var splitChildren = context.getLevel().getEntitiesOfClass(Slime.class, splitSearchBounds,
+                    slime -> slime.getType() == CustomMobCatalog.WILD_SLIME);
+            context.assertTrue(splitChildren.size() >= 2 && splitChildren.size() <= 4,
+                    "A dying custom Slime must split into 2-4 children of the same custom EntityType");
+            for (Slime child : splitChildren) {
+                context.assertTrue(child.getSize() == 2,
+                        "Split custom Slime children must retain vanilla half-size semantics");
+                context.assertTrue(Math.abs(child.getAttributeValue(Attributes.MAX_HEALTH)
+                                - Math.pow(child.getSize(), 2) * 0.82) < 0.001,
+                        "Split custom Slime children must receive the approved health profile");
+                child.discard();
+            }
+            context.succeed();
+        });
+    }
 
     @GameTest
     public void banditArcherUsesRangedDamageMultiplier(GameTestHelper context) {
