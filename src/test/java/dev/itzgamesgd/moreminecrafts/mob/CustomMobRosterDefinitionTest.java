@@ -99,6 +99,13 @@ class CustomMobRosterDefinitionTest {
                         && catalog.contains("MobCategory.CREATURE, false, 10, false")
                         && catalog.contains("MobCategory.MONSTER, false, 8, true"),
                 "Custom EntityTypes with non-default vanilla-family metadata must declare it explicitly");
+        assertTrue(catalog.contains("structureAssociationAllowed(type, level, pos)")
+                        && catalog.contains("BuiltinStructures.MINESHAFT")
+                        && catalog.contains("BuiltinStructures.FORTRESS")
+                        && catalog.contains("BuiltinStructures.DESERT_PYRAMID")
+                        && catalog.contains("BuiltinStructures.SHIPWRECK")
+                        && catalog.contains("getStructureWithPieceAt(pos.getX(), pos.getY(), pos.getZ(), structure)"),
+                "Structure-associated roster entries must require an actual generated structure piece, not only a structure-capable biome");
         assertTrue(!catalog.contains("minecraft:is_swamp"),
                 "26.3 has no vanilla minecraft:is_swamp biome tag; swamp variants must use the mod-owned habitat tag");
         assertTrue(Files.readString(Path.of("src/main/resources/data/moreminecrafts/tags/worldgen/biome/wild_slime_habitat.json"))

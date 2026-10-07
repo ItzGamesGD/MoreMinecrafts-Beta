@@ -10,14 +10,14 @@ This companion records implementation choices permitted by the approved roster t
 | frozen_zombie | Zombie | 0.60×1.95 | Snowy biomes | 3 | ground |
 | mossy_zombie | Zombie | 0.60×1.95 | Forests | 3 | ground |
 | fungal_zombie | Zombie | 0.60×1.95 | Mushroom fields, lush caves, and damp swamp caves | 2 | cave |
-| miner_zombie | Zombie | 0.60×1.95 | Mineshaft-generation biomes, underground only | 2 | cave |
+| miner_zombie | Zombie | 0.60×1.95 | Generated mineshaft pieces, underground only | 2 | cave + mineshaft piece |
 | rotten_skeleton | Skeleton | 0.60×1.99 | Overworld | 3 | ground |
 | cave_skeleton | Skeleton | 0.60×1.99 | Overworld caves | 3 | cave |
 | armored_skeleton | Skeleton | 0.60×1.99 | Mountains | 2 | ground |
 | ashen_skeleton | Skeleton | 0.60×1.99 | Nether | 3 | ground |
-| lesser_wither_skeleton | Wither Skeleton | 0.55×1.75 | Nether-fortress-generation biomes | 2 | nether |
+| lesser_wither_skeleton | Wither Skeleton | 0.55×1.75 | Generated Nether Fortress pieces | 2 | nether + fortress piece |
 | mountain_skeleton | Stray | 0.60×1.99 | Mountains | 3 | ground |
-| miner_skeleton | Skeleton | 0.60×1.99 | Mineshaft-generation biomes, underground only | 2 | cave |
+| miner_skeleton | Skeleton | 0.60×1.99 | Generated mineshaft pieces, underground only | 2 | cave + mineshaft piece |
 | small_spider | Cave Spider (poison suppressed) | 0.55×0.45 | Overworld caves | 2 | cave |
 | large_spider | Spider | 1.20×1.00 | Overworld | 1 | ground |
 | forest_spider | Spider | 0.80×0.60 | Forests | 3 | ground |
@@ -25,13 +25,13 @@ This companion records implementation choices permitted by the approved roster t
 | swamp_spider | Cave Spider (weak poison) | 0.70×0.50 | Swamp biomes | 2 | ground |
 | ice_spider | Spider | 0.80×0.60 | Snowy biomes | 2 | ground |
 | cave_bug | Silverfish | 0.40×0.30 | Overworld caves | 3 | cave |
-| desert_bug | Silverfish | 0.40×0.30 | Desert-pyramid-generation biomes, underground only | 2 | cave |
+| desert_bug | Silverfish | 0.40×0.30 | Generated desert-pyramid pieces, underground only | 2 | cave + pyramid piece |
 | end_bug | Endermite | 0.40×0.30 | The End | 3 | ground |
 | wild_slime | Slime | 0.52×0.52 | Forests and swamps | 2 | ground |
 | mud_slime | Slime | 0.60×0.60 | Swamp biomes | 3 | ground |
 | sand_slime | Slime | 0.60×0.60 | Desert | 3 | ground |
 | lesser_magma_cube | Magma Cube | 0.65×0.65 | Nether | 2 | nether |
-| drowned_sailor | Drowned | 0.60×1.95 | Shipwreck-generation biomes, water only | 1 | water |
+| drowned_sailor | Drowned | 0.60×1.95 | Generated ocean shipwreck pieces, water only | 1 | water + shipwreck piece |
 | deep_sea_drowned | Drowned | 0.60×1.95 | Deep oceans, water only | 3 | water |
 | river_drowned | Drowned | 0.60×1.95 | Rivers, water only | 2 | water |
 | wild_piglin | Piglin | 0.60×1.95 | Nether | 2 | nether |
@@ -47,7 +47,7 @@ This companion records implementation choices permitted by the approved roster t
 
 ## Spawn-density notes
 
-The weights are deliberately low (1–4 per variant) and variants share the vanilla monster cap rather than creating a separate population budget. The aggregate roster weights by broad class are zombies 18, skeletons 18, spiders 13, small creatures/slimes 20, drowned 6, piglin/illagers 8, and other 7. Because biome predicates often overlap, custom variants replace a modest portion of ordinary monster rolls; they do not add an independent cap. No variant has a structure-distance scan: structure-themed entries use the corresponding vanilla biome structure tag plus their ordinary cave/water/Nether position gate.
+The weights are deliberately low (1–4 per variant) and variants share the vanilla monster cap rather than creating a separate population budget. The aggregate roster weights by broad class are zombies 18, skeletons 18, spiders 13, small creatures/slimes 20, drowned 6, piglin/illagers 8, and other 7. Because biome predicates often overlap, custom variants replace a modest portion of ordinary monster rolls; they do not add an independent cap. The five structure-associated variants use exact generated-piece checks in addition to their ordinary position gates: Miner Zombie and Miner Skeleton require a mineshaft piece, Lesser Wither Skeleton a Nether Fortress piece, Desert Bug a desert-pyramid piece, and Drowned Sailor an ocean shipwreck piece. These checks use the server StructureManager and do not perform radius scans.
 
 ## Runtime behavior and vanilla integration
 

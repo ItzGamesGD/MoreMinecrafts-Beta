@@ -21,6 +21,8 @@ import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.monster.zombie.Drowned;
 import net.minecraft.world.entity.monster.skeleton.Skeleton;
@@ -188,7 +190,8 @@ public final class CustomMobCatalog {
                             spec.kind == SpawnKind.SKY ? SpawnPlacementTypes.NO_RESTRICTIONS : SpawnPlacementTypes.ON_GROUND,
                     spec.kind == SpawnKind.SKY ? Heightmap.Types.MOTION_BLOCKING : Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                     (type, level, reason, pos, random) -> familySpawnRules(type, level, reason, pos, random)
-                            && allowed(spec.kind, level, pos));
+                            && allowed(spec.kind, level, pos)
+                            && structureAssociationAllowed(type, level, pos));
             BiomeModifications.addSpawn(BiomeSelectors.tag(spec.biomeTag), spec.type.getCategory(),
                     spec.type, spec.weight, spec.minGroup, spec.maxGroup);
         }
@@ -227,6 +230,29 @@ public final class CustomMobCatalog {
         if (type == MOUNTAIN_SKELETON)
             return Stray.checkStraySpawnRules((EntityType) type, level, reason, pos, random);
         return Monster.checkMonsterSpawnRules(type, level, reason, pos, random);
+    }
+
+    private static boolean structureAssociationAllowed(EntityType<? extends Mob> type,
+                                                       net.minecraft.world.level.ServerLevelAccessor level,
+                                                       BlockPos pos) {
+        if (type == MINER_ZOMBIE || type == MINER_SKELETON)
+            return insideStructure(level, pos, BuiltinStructures.MINESHAFT);
+        if (type == LESSER_WITHER_SKELETON)
+            return insideStructure(level, pos, BuiltinStructures.FORTRESS);
+        if (type == DESERT_BUG)
+            return insideStructure(level, pos, BuiltinStructures.DESERT_PYRAMID);
+        if (type == DROWNED_SAILOR)
+            return insideStructure(level, pos, BuiltinStructures.SHIPWRECK);
+        return true;
+    }
+
+    private static boolean insideStructure(net.minecraft.world.level.ServerLevelAccessor level,
+                                           BlockPos pos,
+                                           ResourceKey<Structure> key) {
+        Structure structure = level.registryAccess().lookupOrThrow(Registries.STRUCTURE).getValue(key);
+        return structure != null && level.getLevel().structureManager()
+                .getStructureWithPieceAt(pos.getX(), pos.getY(), pos.getZ(), structure)
+                .isValid();
     }
 
     private static boolean allowed(SpawnKind kind, net.minecraft.world.level.ServerLevelAccessor level, BlockPos pos) {
