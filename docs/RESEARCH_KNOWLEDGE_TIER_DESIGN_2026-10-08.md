@@ -413,3 +413,298 @@ Alchemy 63 양조 기초 -> 양조 기초; 64 물약 성질 -> 물약 연구; 65
 - Deferred after checklist item 10-6: compression anti-dupe, quest/XP demand, user interface and multiplayer runtime audits. These are not completed by writing this design record.
 - Retain resource/production research name lists only for features above; the old 88-item brainstorm is historical, NOT an approved scope.
 ==================================================
+
+============================================================
+RESEARCH COSTS V3 — USER-APPROVED FINAL PRICE CHECKPOINT
+STATUS: [LOCKED — EXPLICIT USER APPROVAL] The user approved the complete research materials/XP proposal. This checkpoint overrides all previous provisional/recommendation cost tables, except research effects and mechanics previously locked remain governed by V2. This is documentation only; no mod implementation or runtime validation.
+RULE: All prices below are paid once PER RESEARCH LEVEL purchased. Listed XP numbers are raw XP POINTS, not XP levels. Materials are consumed alongside XP and may be paid in normal material and 64:1 research-only compressed variants as defined in the V2 design. No compression discount or overpayment allowed.
+LEGEND: '압N' means N compressed units, i.e. 64×N original resource items. Other items and numbers are literal original counts. The exact server-side compression/recipe transaction remains an implementation follow-up; non-stackable/below-64-cap items require exception testing.
+LIMITS: 70 paid research nodes, 178 level purchases, 130,360 raw XP for buying every listed level. This is not the cost of completing ordinary enchantment skill trees, enhancement systems, equipment/device craft recipes or quests. Skills, books, anvil etc. have independent XP sinks.
+EXCLUSIONS: paid T1 채집 research removed; 70 free knowledge entries including 식물 채집 retained. Logistics Control T2 and Parallel Production T3 excluded after inconclusive recovery (conditional removal pending stronger primary source); do not reintroduce costs. Tactical Shooting T3 retains content category but detailed arrow/rocket recipes pending. Cross-dimensional transport T3 remains conditional on technical feasibility.
+SUPERSESSION: The earlier lower 'crying obsidian' costs override the first draft: Ecology Piglin Lv1 8 / Lv2 16 / Lv3 32; World Piglin Bartering Lv3 16. All other listed costs reproduce the user-approved proposal. This section is the price authority over V1 and V2 example prices.
+============================================================
+SUMMARY BY DISCIPLINE
+자원학: 5개 연구, 17회 구매, 12,320 XP
+생산공학: 8개 연구, 25회 구매, 20,920 XP
+생활기술학: 13개 연구, 31회 구매, 23,280 XP
+전투학: 9개 연구, 21회 구매, 13,320 XP
+생태학: 13개 연구, 29회 구매, 18,580 XP
+세계학: 10개 연구, 28회 구매, 22,630 XP
+연금·마법학: 12개 연구, 27회 구매, 19,310 XP
+TOTAL: 70 RESEARCH NODES; 178 LEVEL TRANSACTIONS; 130,360 RAW XP.
+
+FULL APPROVED PER-LEVEL XP AND MATERIAL COSTS
+
+[자원학]
+• 광석 채굴 [T1] Lv.5 | total 2,960 XP
+  Lv.1: 260 raw XP | 철 블록 2, 석탄 압1
+  Lv.2: 390 raw XP | 철 블록 4, 레드스톤 압2
+  Lv.3: 560 raw XP | 금 블록 2, 다이아 8, 청금석 압2
+  Lv.4: 750 raw XP | 다이아 블록 2, 구리 블록 8
+  Lv.5: 1,000 raw XP | 다이아 블록 3, 에메랄드 블록 2, 흑요석 압4
+• 벌목 [T1] Lv.5 | total 2,280 XP
+  Lv.1: 200 raw XP | 원목 압2, 철 주괴 16
+  Lv.2: 300 raw XP | 원목 압4, 구리 주괴 압1
+  Lv.3: 420 raw XP | 원목 압6, 철 블록 2
+  Lv.4: 580 raw XP | 원목 압8, 다이아 8
+  Lv.5: 780 raw XP | 원목 압12, 다이아 16
+• 광물 보존 [T1] Lv.5 | total 2,680 XP
+  Lv.1: 240 raw XP | 철 블록 2, 흑요석 32
+  Lv.2: 360 raw XP | 철 블록 4, 흑요석 압1
+  Lv.3: 500 raw XP | 다이아 8, 청금석 압2
+  Lv.4: 680 raw XP | 다이아 블록 1, 레드스톤 압4
+  Lv.5: 900 raw XP | 다이아 블록 2, 청금석 블록 8
+• 광역 굴착 [T3] Lv.1 | total 1,600 XP
+  Lv.1: 1,600 raw XP | 철 블록 8, 다이아 8, 레드스톤 블록 8, 흑요석 압2
+• 자동 벌목 장치 [T3] Lv.1 | total 2,800 XP
+  Lv.1: 2,800 raw XP | 원목 압16, 철 블록 12, 석탄 압8, 레드스톤 블록 8
+
+[생산공학]
+• 연료 절약 [T1] Lv.3 | total 1,080 XP
+  Lv.1: 220 raw XP | 석탄 압2, 철 블록 2
+  Lv.2: 340 raw XP | 석탄 압4, 블레이즈 막대 16, 철 블록 4
+  Lv.3: 520 raw XP | 석탄 압8, 블레이즈 가루 압2, 금 블록 4
+• 정밀 제련 [T1] Lv.5 | total 3,700 XP
+  Lv.1: 320 raw XP | 철 블록 4, 금 주괴 압1
+  Lv.2: 480 raw XP | 철 블록 6, 레드스톤 압2
+  Lv.3: 700 raw XP | 금 블록 4, 네더 석영 압2
+  Lv.4: 950 raw XP | 금 블록 8, 다이아 8, 발광석 가루 압4
+  Lv.5: 1,250 raw XP | 금 블록 12, 다이아 블록 1, 블레이즈 가루 압4
+• 정밀 제작 [T1] Lv.5 | total 3,370 XP
+  Lv.1: 300 raw XP | 철 블록 3, 레드스톤 압2
+  Lv.2: 450 raw XP | 금 블록 2, 네더 석영 압2
+  Lv.3: 620 raw XP | 다이아 8, 청금석 압3
+  Lv.4: 850 raw XP | 다이아 16, 슬라임볼 압3
+  Lv.5: 1,150 raw XP | 다이아 블록 2, 에메랄드 블록 4, 레드스톤 블록 8
+• 목재 가공 [T1] Lv.2 | total 790 XP
+  Lv.1: 240 raw XP | 원목 압4, 판자 압8
+  Lv.2: 550 raw XP | 원목 압12, 철 블록 2
+• 장비 정비 [T1] Lv.5 | total 2,980 XP
+  Lv.1: 260 raw XP | 철 블록 4, 네더 석영 압1
+  Lv.2: 400 raw XP | 철 블록 6, 청금석 압1
+  Lv.3: 560 raw XP | 금 블록 4, 다이아 8
+  Lv.4: 760 raw XP | 철 블록 12, 레드스톤 압4
+  Lv.5: 1,000 raw XP | 다이아 블록 2, 청금석 블록 8
+• 고속 제련 [T2] Lv.3 | total 3,900 XP
+  Lv.1: 850 raw XP | 석탄 블록 8, 레드스톤 압4, 구리 블록 8
+  Lv.2: 1,250 raw XP | 석탄 블록 16, 금 블록 8, 블레이즈 가루 압2
+  Lv.3: 1,800 raw XP | 석탄 블록 24, 금 블록 12, 다이아 블록 2
+• 고속·고효율 화로 [T3] Lv.1 | total 3,500 XP
+  Lv.1: 3,500 raw XP | 석탄 블록 32, 철 블록 16, 레드스톤 블록 16, 금 블록 8
+• 상자 정렬 [T3] Lv.1 | total 1,600 XP
+  Lv.1: 1,600 raw XP | 레드스톤 압4, 종이 압4, 철 블록 4, 에메랄드 압1
+
+[생활기술학]
+• 작물 재배 [T1] Lv.5 | total 2,740 XP
+  Lv.1: 240 raw XP | 밀 압2, 밀 씨앗 압2
+  Lv.2: 350 raw XP | 밀 압4, 당근 압2
+  Lv.3: 500 raw XP | 감자 압4, 호박 압2
+  Lv.4: 700 raw XP | 밀 압8, 황금 당근 16
+  Lv.5: 950 raw XP | 밀 압16, 건초 더미 16
+• 종자 연구 [T1] Lv.3 | total 790 XP
+  Lv.1: 160 raw XP | 밀 씨앗 압2, 호박 씨앗 압1
+  Lv.2: 250 raw XP | 밀 씨앗 압4, 수박 씨앗 압2
+  Lv.3: 380 raw XP | 밀 씨앗 압8, 비트 씨앗 압4
+• 토양 연구 [T1] Lv.3 | total 1,000 XP
+  Lv.1: 180 raw XP | 흙 압4, 뼛가루 압1
+  Lv.2: 320 raw XP | 흙 압8, 뼛가루 압3
+  Lv.3: 500 raw XP | 흙 압16, 진흙 압8, 레드스톤 압2
+• 가축 사육 [T1] Lv.3 | total 1,420 XP
+  Lv.1: 260 raw XP | 밀 압4, 당근 압2, 가죽 압1
+  Lv.2: 460 raw XP | 밀 압8, 가죽 압2, 생 소고기 압1
+  Lv.3: 700 raw XP | 밀 압16, 황금 당근 32, 가죽 압4
+• 양봉 연구 [T1] Lv.3 | total 1,080 XP
+  Lv.1: 220 raw XP | 벌집 조각 압1, 민들레 압2
+  Lv.2: 340 raw XP | 벌집 조각 압2, 꿀이 든 병 16
+  Lv.3: 520 raw XP | 벌집 조각 압4, 꿀 블록 16
+• 어업 연구 [T1] Lv.5 | total 2,600 XP
+  Lv.1: 250 raw XP | 생대구 압2, 생연어 압1
+  Lv.2: 360 raw XP | 생대구 압4, 실 압2
+  Lv.3: 490 raw XP | 생연어 압4, 프리즈머린 조각 압2
+  Lv.4: 650 raw XP | 생대구 압8, 생연어 압4
+  Lv.5: 850 raw XP | 생대구 압8, 생연어 압8, 앵무조개 껍데기 4
+• 3×3 경작 [T2] Lv.1 | total 850 XP
+  Lv.1: 850 raw XP | 철 블록 6, 레드스톤 블록 4, 흙 압8
+• 성숙 작물 일괄 수확 [T2] Lv.1 | total 1,050 XP
+  Lv.1: 1,050 raw XP | 밀 압8, 사탕수수 압4, 뼛가루 압4, 다이아 8
+• 먹이 투척·번식 [T2] Lv.1 | total 950 XP
+  Lv.1: 950 raw XP | 밀 압8, 당근 압8, 황금 당근 32
+• 낚시 기술 [T2] Lv.3 | total 3,300 XP
+  Lv.1: 700 raw XP | 생대구 압4, 실 압4, 프리즈머린 조각 압2
+  Lv.2: 1,100 raw XP | 생대구 압8, 생연어 압4, 청금석 압2
+  Lv.3: 1,500 raw XP | 생연어 압8, 앵무조개 껍데기 4, 다이아 블록 1
+• 자동 농장 [T3] Lv.1 | total 3,500 XP
+  Lv.1: 3,500 raw XP | 밀 압16, 밀 씨앗 압16, 철 블록 16, 레드스톤 블록 8, 다이아 블록 2
+• 관개 장치 [T3] Lv.1 | total 2,200 XP
+  Lv.1: 2,200 raw XP | 흙 압16, 구리 블록 16, 프리즈머린 조각 압4, 청금석 블록 4
+• 통발 개선 [T3] Lv.1 | total 1,800 XP
+  Lv.1: 1,800 raw XP | 생대구 압16, 생연어 압8, 프리즈머린 조각 압4, 다이아 8
+
+[전투학]
+• 검술 [T1] Lv.3 | total 1,330 XP
+  Lv.1: 250 raw XP | 철 블록 4, 썩은 살점 압2
+  Lv.2: 430 raw XP | 다이아 8, 뼈 압2
+  Lv.3: 650 raw XP | 다이아 블록 1, 화약 압3
+• 도끼 전투 [T1] Lv.3 | total 1,220 XP
+  Lv.1: 230 raw XP | 철 블록 4, 원목 압2
+  Lv.2: 390 raw XP | 철 블록 8, 원목 압4
+  Lv.3: 600 raw XP | 다이아 8, 원목 압8
+• 사격 [T1] Lv.3 | total 1,330 XP
+  Lv.1: 260 raw XP | 화살 압4, 실 압2
+  Lv.2: 420 raw XP | 화살 압8, 화약 압2
+  Lv.3: 650 raw XP | 화살 압12, 깃털 압4, 다이아 8
+• 방패 [T1] Lv.3 | total 1,050 XP
+  Lv.1: 200 raw XP | 철 블록 4, 판자 압4
+  Lv.2: 330 raw XP | 철 블록 8, 가죽 압2
+  Lv.3: 520 raw XP | 철 블록 12, 흑요석 압2
+• 방어구 운용 [T1] Lv.3 | total 1,250 XP
+  Lv.1: 250 raw XP | 가죽 압4, 철 블록 4
+  Lv.2: 400 raw XP | 철 블록 8, 네더 석영 압2
+  Lv.3: 600 raw XP | 다이아 8, 철 블록 12
+• 투척 전투 [T1] Lv.3 | total 1,340 XP
+  Lv.1: 270 raw XP | 철 블록 4, 프리즈머린 조각 압2
+  Lv.2: 420 raw XP | 프리즈머린 조각 압4, 화살 압4
+  Lv.3: 650 raw XP | 프리즈머린 조각 압8, 다이아 8
+• 연속 검격 [T2] Lv.1 | total 900 XP
+  Lv.1: 900 raw XP | 철 블록 12, 금 블록 4, 네더 석영 압4
+• 반격 방패 [T3] Lv.1 | total 2,300 XP
+  Lv.1: 2,300 raw XP | 철 블록 12, 다이아 블록 2, 흑요석 압4
+• 전술 사격 [T3] Lv.1 | total 2,600 XP
+  Lv.1: 2,600 raw XP | 화살 압16, 화약 압8, 레드스톤 블록 16, 다이아 블록 2
+
+[생태학]
+• 좀비 [생태 계열 연구 / 티어 분리 완화] Lv.3 | total 1,000 XP
+  Lv.1: 200 raw XP | 썩은 살점 압4, 철 블록 2
+  Lv.2: 320 raw XP | 썩은 살점 압8, 철 블록 4
+  Lv.3: 480 raw XP | 썩은 살점 압16, 철 블록 8
+• 스켈레톤 [생태 계열 연구 / 티어 분리 완화] Lv.3 | total 1,030 XP
+  Lv.1: 210 raw XP | 뼈 압4, 화살 압2
+  Lv.2: 330 raw XP | 뼈 압8, 화살 압4
+  Lv.3: 490 raw XP | 뼈 압16, 화살 압8
+• 크리퍼 [생태 계열 연구 / 티어 분리 완화] Lv.3 | total 1,250 XP
+  Lv.1: 250 raw XP | 화약 압4, 흑요석 32
+  Lv.2: 400 raw XP | 화약 압8, 흑요석 압1
+  Lv.3: 600 raw XP | 화약 압16, 흑요석 압2
+• 거미 [생태 계열 연구 / 티어 분리 완화] Lv.1 | total 850 XP
+  Lv.1: 850 raw XP | 실 압8, 거미 눈 압2, 발효된 거미 눈 16
+• 엔더맨 [생태 계열 연구 / 티어 분리 완화] Lv.1 | total 1,200 XP
+  Lv.1: 1,200 raw XP | 엔더 진주 압3, 흑요석 압2, 엔더의 눈 8
+• 슬라임 [생태 계열 연구 / 티어 분리 완화] Lv.1 | total 1,050 XP
+  Lv.1: 1,050 raw XP | 슬라임볼 압8, 슬라임 블록 16, 마그마 크림 압2
+• 일리저 [생태 계열 연구 / 티어 분리 완화] Lv.1 | total 1,000 XP
+  Lv.1: 1,000 raw XP | 에메랄드 블록 4, 화살 압8, 철 블록 4
+• 피글린 [생태 계열 연구 / 티어 분리 완화] Lv.3 | total 1,400 XP
+  Lv.1: 300 raw XP | 금 블록 4, 우는 흑요석 8
+  Lv.2: 450 raw XP | 금 블록 8, 우는 흑요석 16
+  Lv.3: 650 raw XP | 금 블록 12, 우는 흑요석 32, 블레이즈 막대 16
+• 호글린 [생태 계열 연구 / 티어 분리 완화] Lv.3 | total 1,160 XP
+  Lv.1: 240 raw XP | 생 돼지고기 압4, 진홍빛 자루 압2
+  Lv.2: 380 raw XP | 생 돼지고기 압8, 진홍빛 자루 압4
+  Lv.3: 540 raw XP | 생 돼지고기 압12, 진홍빛 자루 압6
+• 수중 적대 생물 [생태 계열 연구 / 티어 분리 완화] Lv.3 | total 1,260 XP
+  Lv.1: 250 raw XP | 썩은 살점 압4, 프리즈머린 조각 압2
+  Lv.2: 410 raw XP | 프리즈머린 조각 압4, 구리 블록 4
+  Lv.3: 600 raw XP | 프리즈머린 조각 압8, 프리즈머린 수정 압2, 다이아 8
+• 희귀 생물 [생태 계열 연구 / 티어 분리 완화] Lv.3 | total 1,780 XP
+  Lv.1: 350 raw XP | 엔더 진주 32, 에메랄드 32, 프리즈머린 조각 32
+  Lv.2: 580 raw XP | 엔더 진주 압1, 에메랄드 블록 4, 프리즈머린 조각 압2
+  Lv.3: 850 raw XP | 엔더 진주 압2, 에메랄드 블록 8, 프리즈머린 수정 압4
+• 보스 생태 [생태 계열 연구 / 티어 분리 완화] Lv.3 | total 2,800 XP
+  Lv.1: 600 raw XP | 흑요석 압4, 블레이즈 막대 압2
+  Lv.2: 900 raw XP | 엔더 진주 압4, 금 블록 8
+  Lv.3: 1,300 raw XP | 엔더의 눈 16, 다이아 블록 2
+• 생물 추적 장치 [T3] Lv.1 | total 2,800 XP
+  Lv.1: 2,800 raw XP | 엔더의 눈 32, 에메랄드 블록 8, 다이아 블록 4, 레드스톤 블록 16
+
+[세계학]
+• 항법 [T1] Lv.3 | total 1,040 XP
+  Lv.1: 200 raw XP | 원목 압4, 종이 압2
+  Lv.2: 340 raw XP | 원목 압8, 구리 블록 4
+  Lv.3: 500 raw XP | 원목 압16, 레드스톤 압4
+• 승마 [T1] Lv.5 | total 2,390 XP
+  Lv.1: 220 raw XP | 건초 더미 4, 가죽 압2
+  Lv.2: 320 raw XP | 건초 더미 8, 가죽 압4
+  Lv.3: 450 raw XP | 가죽 압8, 황금 당근 16
+  Lv.4: 600 raw XP | 건초 더미 16, 황금 당근 32
+  Lv.5: 800 raw XP | 건초 더미 24, 황금 당근 압1, 다이아 블록 1
+• 비행 [T1] Lv.3 | total 1,550 XP
+  Lv.1: 300 raw XP | 팬텀 막 8, 화약 압2
+  Lv.2: 500 raw XP | 팬텀 막 16, 화약 압4
+  Lv.3: 750 raw XP | 팬텀 막 32, 화약 압8, 다이아 8
+• 고고학 [T1] Lv.3 | total 1,340 XP
+  Lv.1: 260 raw XP | 벽돌 압2, 점토 덩이 압2
+  Lv.2: 430 raw XP | 벽돌 압4, 에메랄드 16
+  Lv.3: 650 raw XP | 벽돌 압8, 에메랄드 32, 다이아 8
+• 주민 거래 [T1] Lv.3 | total 1,430 XP
+  Lv.1: 280 raw XP | 에메랄드 블록 2, 종이 압4
+  Lv.2: 450 raw XP | 에메랄드 블록 4, 종이 압8
+  Lv.3: 700 raw XP | 에메랄드 블록 8, 책 32
+• 피글린 교역 [T1] Lv.3 | total 1,360 XP
+  Lv.1: 260 raw XP | 금 블록 4, 흑요석 압1
+  Lv.2: 420 raw XP | 금 블록 8, 네더 석영 압4
+  Lv.3: 680 raw XP | 금 블록 12, 우는 흑요석 16
+• 생존·원정 준비 [T1] Lv.3 | total 1,020 XP
+  Lv.1: 200 raw XP | 밀 압4, 가죽 압2
+  Lv.2: 320 raw XP | 당근 압4, 양털 압2
+  Lv.3: 500 raw XP | 밀 압8, 철 블록 4
+• 정밀 비행 [T2] Lv.3 | total 5,500 XP
+  Lv.1: 1,200 raw XP | 팬텀 막 16, 폭죽 로켓 압4
+  Lv.2: 1,800 raw XP | 팬텀 막 32, 폭죽 로켓 압8, 네더 석영 압4
+  Lv.3: 2,500 raw XP | 팬텀 막 압1, 폭죽 로켓 압16, 다이아 블록 2
+• 동력 보트 [T3] Lv.1 | total 3,000 XP
+  Lv.1: 3,000 raw XP | 원목 압16, 철 블록 16, 구리 블록 16, 레드스톤 블록 12
+• 차원 간 물품 운송 [T3] Lv.1 | total 4,000 XP
+  Lv.1: 4,000 raw XP | 엔더 진주 압4, 흑요석 압8, 다이아 블록 6, 엔더의 눈 32
+
+[연금·마법학]
+• 양조 기초 [T1] Lv.3 | total 1,040 XP
+  Lv.1: 200 raw XP | 네더 사마귀 압2, 블레이즈 가루 32
+  Lv.2: 340 raw XP | 네더 사마귀 압4, 레드스톤 압2
+  Lv.3: 500 raw XP | 네더 사마귀 압8, 블레이즈 가루 압2
+• 물약 연구 [T1] Lv.3 | total 1,300 XP
+  Lv.1: 260 raw XP | 레드스톤 압4, 발광석 가루 압2
+  Lv.2: 420 raw XP | 레드스톤 압8, 발광석 가루 압4
+  Lv.3: 620 raw XP | 레드스톤 압12, 발광석 가루 압8
+• 투척·잔류 물약 [T1] Lv.3 | total 1,280 XP
+  Lv.1: 260 raw XP | 화약 압2, 발광석 가루 압1
+  Lv.2: 420 raw XP | 화약 압4, 드래곤의 숨결 4
+  Lv.3: 600 raw XP | 화약 압8, 드래곤의 숨결 8
+• 상태 효과 [T1] Lv.3 | total 1,240 XP
+  Lv.1: 240 raw XP | 발효된 거미 눈 압2, 레드스톤 압2
+  Lv.2: 400 raw XP | 발효된 거미 눈 압4, 마그마 크림 압2
+  Lv.3: 600 raw XP | 발효된 거미 눈 압8, 가스트의 눈물 8, 금 블록 4
+• 마법 재료 [T1] Lv.3 | total 1,240 XP
+  Lv.1: 240 raw XP | 블레이즈 막대 압2, 청금석 압4
+  Lv.2: 400 raw XP | 엔더 진주 압2, 블레이즈 가루 압4
+  Lv.3: 600 raw XP | 블레이즈 막대 압4, 엔더 진주 압4, 다이아 8
+• XP 획득 [T1] Lv.3 | total 1,530 XP
+  Lv.1: 300 raw XP | 청금석 압4, 네더 석영 압2
+  Lv.2: 480 raw XP | 청금석 압8, 금 블록 4
+  Lv.3: 750 raw XP | 청금석 압12, 에메랄드 블록 8, 다이아 블록 1
+• 촉매 보존 [T1] Lv.3 | total 1,130 XP
+  Lv.1: 220 raw XP | 네더 사마귀 압2, 레드스톤 압2
+  Lv.2: 360 raw XP | 네더 사마귀 압4, 발광석 가루 압4
+  Lv.3: 550 raw XP | 네더 사마귀 압8, 블레이즈 가루 압4
+• 고급 양조 [T2] Lv.1 | total 900 XP
+  Lv.1: 900 raw XP | 블레이즈 막대 압4, 네더 사마귀 압8, 금 블록 4
+• XP 제어 [T2] Lv.2 | total 1,350 XP
+  Lv.1: 500 raw XP | 청금석 압4, 엔더 진주 32
+  Lv.2: 850 raw XP | 청금석 압8, 엔더 진주 압2
+• 물약 혼합 [T2] Lv.1 | total 1,700 XP
+  Lv.1: 1,700 raw XP | 네더 사마귀 압8, 발광석 가루 압8, 레드스톤 압8, 드래곤의 숨결 16
+• 양조 공정 제어 [T2] Lv.1 | total 2,400 XP
+  Lv.1: 2,400 raw XP | 네더 사마귀 압16, 블레이즈 가루 압8, 레드스톤 블록 12, 철 블록 8
+• 물약 농축 [T3] Lv.1 | total 4,200 XP
+  Lv.1: 4,200 raw XP | 네더 사마귀 압24, 블레이즈 막대 압8, 드래곤의 숨결 32, 다이아 블록 4, 네더라이트 주괴 2
+
+ECONOMY INTERPRETATION
+- The research prices are LOCKED. The research effects, unlock mechanics and basic equipment recipes continue to follow the V2 accepted checkpoint. A separate craftable tool or device also consumes its already-approved crafting ingredients upon actual crafting; no multiple finished gear/workstation inputs silently reappear as research payment.
+- Precision Smelting includes all vanilla and MoreMinecrafts ores, while auto-smelt enchant bonus drops stay independently processed; eventual loot interaction audit is required. Large material costs (logs, crops, creature drops) use 64:1 compression, but scarce goods are priced as literal quantities.
+- No additional exact costs may be invented for removed nodes or for tactical ammunition subtypes whose design was deferred. Any player-facing display must render each level independently and preview total XP and each required material before purchase.
+
+NEXT STAGE — PREPARATION ONLY, NOT YET USER-APPROVED NEW MECHANICS
+1) Complete natural advancement/research graph connections: T2 must require a related T1, T3 a related T2; avoid misfit links (e.g., shield<-sword, motorboat<-elytra). Gaps: resource studies needs T2 bridges before 3×3 mining / automated lumber; production chest sorting T3 needs relevant T2 storage link; combat counter-shield/tactical shooting need corresponding T2 lines; ecology tracker needs T2/lineage policy; world motorboat and delivery need valid T2 branches. Identify minimal remedies (reclassification, meaningful branch link, or genuinely needed nodes) without silently adding content.
+2) Then calculate XP supply/one-time development quest (발전 과제) rewards from 130,360 research XP maximum plus existing enchant/book/anvil/equipment XP systems. No invented daily quest or assumption every player purchases all 70 research nodes.
+3) Audit compressed research-only item transaction safety, exact XP+inventory atomicity, recipe selection/shift-click, save+reload/dupe, player ownership and shared machines, custom crop/ore/mob compatibility and Minecraft Fabric client/server testing. This remains a follow-up, not checked off by documentation.
+4) Keep 3×3 mining tool (150 durability, no enchantment, lower-cost recipe) and 3×3 hoe (100 durability, approved recipe) CRAFTING costs separate from research unlock purchase costs. Automated logging is sequential with break sound; do not reinterpret research material costs as fuel/upkeep.
+============================================================
