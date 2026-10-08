@@ -123,6 +123,10 @@ class CustomMobRosterDefinitionTest {
                 "Natural spawn predicates must preserve family rules except where an approved explicit habitat replaces vanilla's unrelated spawn gate");
         assertTrue(catalog.contains("spec.type.getCategory()"),
                 "Biome spawn registration must use each EntityType's family population category");
+        assertTrue(catalog.contains("BiomeModifications.addSpawn(BiomeSelectors.tag(spec.biomeTag), spec.type.getCategory()")
+                        && catalog.contains("case GROUND -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();")
+                        && !catalog.contains("Blocks.MAGMA_BLOCK"),
+                "Variants must use the shared vanilla category list/cap without an extra magma-floor restriction");
         for (String tag : Set.of("undead", "zombies", "skeletons", "raiders", "illager", "arthropod",
                 "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "beehive_inhabitors",
                 "burn_in_daylight", "inverted_healing_and_harm", "wither_friends", "immune_to_oozing",
@@ -151,6 +155,20 @@ class CustomMobRosterDefinitionTest {
                         && feralWolf.contains("HEALTH_MULTIPLIER = 1.15")
                         && feralWolf.contains("setTarget(null)"),
                 "Feral Wolf player hunting must stop on tame and vanilla tame-health rewrites must retain the approved health profile");
+        assertTrue(feralWolf.contains("getBreedOffspring(ServerLevel level, AgeableMob otherParent)")
+                        && feralWolf.contains("CustomMobCatalog.FERAL_WOLF.create(level, EntitySpawnReason.BREEDING)")
+                        && feralWolf.contains("CustomMobStats.apply(child)"),
+                "Feral Wolf breeding must preserve its custom type and approved stat profile");
+        String wildPiglin = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/WildPiglin.java"));
+        assertTrue(catalog.contains("WILD_PIGLIN = type(\"wild_piglin\", WildPiglin::new")
+                        && wildPiglin.contains("setTimeInOverworld(0)")
+                        && wildPiglin.contains("super.tick()"),
+                "Wild Piglin must retain Piglin behavior while preventing overworld conversion");
+        String giantBee = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/GiantBeeEntity.java"));
+        assertTrue(catalog.contains("GIANT_BEE = type(\"giant_bee\", GiantBeeEntity::new")
+                        && giantBee.contains("CustomMobCatalog.GIANT_BEE.create(level, EntitySpawnReason.BREEDING)")
+                        && giantBee.contains("CustomMobStats.apply(child)"),
+                "Giant Bee breeding must preserve its custom type and approved stat profile");
         assertTrue(catalog.contains("new SmallCaveSpider") && catalog.contains("new SwampCaveSpider"),
                 "Small and Swamp Spider must use their explicit Cave Spider-family behavior classes");
         String smallSpider = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/SmallCaveSpider.java"));

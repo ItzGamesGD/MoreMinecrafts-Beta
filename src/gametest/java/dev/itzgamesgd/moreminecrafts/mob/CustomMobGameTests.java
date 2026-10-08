@@ -398,6 +398,20 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                         - wolfMate.getAttributeValue(Attributes.MAX_HEALTH) * 1.15) < 0.001,
                 "Bred Feral Wolves must receive the approved health multiplier");
 
+        feralWolf.setTame(true, true);
+        wolfMate.setTame(true, true);
+        var tameWolfOffspring = feralWolf.getBreedOffspring(context.getLevel(), wolfMate);
+        context.assertTrue(tameWolfOffspring != null
+                        && tameWolfOffspring.getType() == CustomMobCatalog.FERAL_WOLF
+                        && tameWolfOffspring.isTame(),
+                "Breeding a tamed Feral Wolf must produce a tamed Feral Wolf");
+        context.assertTrue(tameWolfOffspring != null
+                        && Math.abs(tameWolfOffspring.getAttributeValue(Attributes.MAX_HEALTH)
+                        - wolfMate.getAttributeValue(Attributes.MAX_HEALTH) * 1.15) < 0.001
+                        && Math.abs(tameWolfOffspring.getAttributeValue(Attributes.ATTACK_DAMAGE)
+                        - wolfMate.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.15) < 0.001,
+                "Tamed Feral Wolf offspring must retain the approved health and damage profiles");
+
         var giantBee = context.spawn(CustomMobCatalog.GIANT_BEE, new BlockPos(3, 1, 1));
         var beeMate = context.spawn(EntityTypes.BEE, new BlockPos(4, 1, 1));
         var beeOffspring = giantBee.getBreedOffspring(context.getLevel(), beeMate);
@@ -409,6 +423,7 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
                 "Bred Giant Bees must receive the approved health multiplier");
 
         if (wolfOffspring != null) wolfOffspring.discard();
+        if (tameWolfOffspring != null) tameWolfOffspring.discard();
         if (beeOffspring != null) beeOffspring.discard();
         feralWolf.discard();
         wolfMate.discard();
