@@ -387,6 +387,37 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
+    public void bredAnimalVariantsKeepTheirCustomTypeAndStatProfile(GameTestHelper context) {
+        FeralWolf feralWolf = (FeralWolf) context.spawn(CustomMobCatalog.FERAL_WOLF, new BlockPos(1, 1, 1));
+        var wolfMate = context.spawn(EntityTypes.WOLF, new BlockPos(2, 1, 1));
+        var wolfOffspring = feralWolf.getBreedOffspring(context.getLevel(), wolfMate);
+        context.assertTrue(wolfOffspring != null && wolfOffspring.getType() == CustomMobCatalog.FERAL_WOLF,
+                "Breeding a Feral Wolf must preserve the custom entity type");
+        context.assertTrue(wolfOffspring != null
+                        && Math.abs(wolfOffspring.getAttributeValue(Attributes.MAX_HEALTH)
+                        - wolfMate.getAttributeValue(Attributes.MAX_HEALTH) * 1.15) < 0.001,
+                "Bred Feral Wolves must receive the approved health multiplier");
+
+        var giantBee = context.spawn(CustomMobCatalog.GIANT_BEE, new BlockPos(3, 1, 1));
+        var beeMate = context.spawn(EntityTypes.BEE, new BlockPos(4, 1, 1));
+        var beeOffspring = giantBee.getBreedOffspring(context.getLevel(), beeMate);
+        context.assertTrue(beeOffspring != null && beeOffspring.getType() == CustomMobCatalog.GIANT_BEE,
+                "Breeding a Giant Bee must preserve the custom entity type");
+        context.assertTrue(beeOffspring != null
+                        && Math.abs(beeOffspring.getAttributeValue(Attributes.MAX_HEALTH)
+                        - beeMate.getAttributeValue(Attributes.MAX_HEALTH) * 1.65) < 0.001,
+                "Bred Giant Bees must receive the approved health multiplier");
+
+        if (wolfOffspring != null) wolfOffspring.discard();
+        if (beeOffspring != null) beeOffspring.discard();
+        feralWolf.discard();
+        wolfMate.discard();
+        giantBee.discard();
+        beeMate.discard();
+        context.succeed();
+    }
+
+    @GameTest
     public void spiderPoisonSemantics(GameTestHelper context) {
         SmallCaveSpider smallSpider = (SmallCaveSpider) context.spawn(CustomMobCatalog.SMALL_SPIDER, new BlockPos(1, 1, 1));
         var cleanTarget = context.spawn(EntityTypes.COW, new BlockPos(2, 1, 1));
@@ -432,17 +463,19 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
-    public void wildPiglinRetainsEnvironmentalConversion(GameTestHelper context) {
+    public void wildPiglinKeepsItsIdentityInTheOverworld(GameTestHelper context) {
         Piglin wildPiglin = (Piglin) context.spawn(CustomMobCatalog.WILD_PIGLIN, new BlockPos(1, 1, 1));
         wildPiglin.setTimeInOverworld(300);
         context.runAfterDelay(5, () -> {
-            context.assertTrue(wildPiglin.isRemoved(),
-                    "Wild Piglin must complete normal Piglin overworld zombification");
+            context.assertTrue(!wildPiglin.isRemoved()
+                            && wildPiglin.getType() == CustomMobCatalog.WILD_PIGLIN,
+                    "Wild Piglin must remain a live Wild Piglin after the vanilla conversion threshold");
             var converted = context.getLevel().getEntities(EntityTypes.ZOMBIFIED_PIGLIN,
                     context.getBounds().inflate(2.0), Entity::isAlive);
-            context.assertTrue(!converted.isEmpty(),
-                    "Wild Piglin conversion must produce a vanilla Zombified Piglin");
+            context.assertTrue(converted.isEmpty(),
+                    "Wild Piglin must never be replaced by a vanilla Zombified Piglin");
             converted.forEach(Entity::discard);
+            wildPiglin.discard();
             context.succeed();
         });
     }
