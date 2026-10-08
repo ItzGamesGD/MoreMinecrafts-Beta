@@ -276,3 +276,140 @@ F. [PENDING] NEXT DESIGN PASS (NOT IMPLEMENTATION)
 5. Sum research XP sink together with existing enchant skill tree, book option/combining, equipment enhancement and vanilla XP consumption; only then design one-time quest XP rewards.
 6. Keep GitHub and Google Drive checkpoint text in sync. No code edits, PR merges, stage promotion, or claims of client/server tests from this documentation-only update.
 ==================================================
+
+==================================================
+RESEARCH EFFECTS V2 — USER-APPROVED DESIGN OVERLAY
+PRECEDENCE: This newest section supersedes conflicting V1 / 88-idea / initial provisional price rows. DESIGN ONLY. No mod implementation, merge or main-branch promotion was performed.
+AUTHORITY: [DIRECT] explicit user specifications; [ACCEPTED-DELEGATED] assistant detail subsequently accepted by user ("위임한거 나쁘지 않아", "장비 정비표도 좋다", "어업 연구 위임 좋다", "경작용 괭이 레시피도 좋고", "이대로 확정해도 될정도야"); [FOLLOW-UP] deferred design, balance or runtime testing; [REMOVED] removed. Numerical example prices are TEMPORARY and will be fully recalibrated after design is complete.
+==================================================
+
+0. IMMEDIATE AMENDMENTS AND SCOPE
+[REMOVED/DIRECT] Delete paid Resource Studies T1 '채집' / Gathering research altogether: too much overlap. Do NOT delete knowledge entry #06 '식물 채집' from the LOCKED set of 70 knowledge nodes. Retarget #06 to T1 seed studies and/or magical ingredient research. Knowledge #07 토양 분석 now targets soil study, not deleted gathering. No paid gathering research, effects, cost, recipe, or node.
+[DIRECT] 3x3 mining PICK is a 150-durability, non-enchantable, diamond-pickaxe-class tool, mainly convenient for flattening land. The originally proposed costly recipe containing a diamond block and other blocks is SUPERSEDED: reduce repeat craft cost.
+[ACCEPTED-DELEGATED / REVISED ECONOMY] New lighter, shaped 3x3 mining tool recipe, positions numbered 1–9:
+1 iron ingot; 2 diamond; 3 iron ingot;
+4 copper ingot; 5 diamond pickaxe; 6 copper ingot;
+7 redstone dust; 8 stick; 9 redstone dust.
+This uses 1 extra diamond, 2 iron ingots, 2 copper ingots, 2 redstone dust, 1 stick plus an existing diamond pickaxe; no diamond blocks/netherite. Recipe is authorized as the cost-lowered resolution within the user's delegated recipe scope; later economic rebalance may tune crafting recipes separately.
+[DIRECT] Automated lumbering must visibly process TREE LOG BLOCKS ONE AT A TIME over multiple ticks, with a normal wood-block-breaking sound on each block. No instant whole-tree disappearance. [ACCEPTED-DELEGATED] use a bounded server work queue; propose a starting interval of 4 ticks per block, adjustable after live tests. Drops appear immediately above the 1×1 machine; no built-in inventory. No chunk force-load. Coal: 1 per 8 log blocks (supersedes 1 per 5); axe durability: 1 point per 3 logged blocks. Apply accumulated metering so interruptions do not duplicate cost. Tree identification, build protection and unload/restore are implementation responsibilities; do not claim solved or tested.
+[DIRECT] Earlier 70 knowledge acquisition events and tiny bonuses remain approved. Do NOT redesign, claim they were unspecified, or confuse free knowledge with paid research. 7 disciplines still exist.
+[DIRECT] Research reset/refund is NOT allowed. Each research T2 requires prior T1 unlock and each T3 requires a prior T2 unlock. Branch rather than linear three-node ladder. Do not force nonsensical cross-domain prerequisites merely to satisfy the hierarchy; exact valid graph and node positions are [FOLLOW-UP].
+[DIRECT] Prior assistant example material/XP costs are TEMPORARILY used, NOT economically final. Final per-research recosting after content design; remove spurious completed tool/workstation bulk costs. Compression rule remains 64:1 research-only, irreversible; see section 9.
+[DIRECT] Checklist section 10-6 onward (anti-dupe and technical auditing), quest+XP economy and UI/multiplayer implementation are FOLLOW-UP, not work claimed complete here.
+
+1. RESOURCE STUDIES / 자원학
+[DIRECT] Ore mining Lv1–5: level 1 grants base additional-drop effect; Lv2 increases proc chance, Lv3 increases max added drop, Lv4 increases proc chance, Lv5 increases max added drop. [ACCEPTED-DELEGATED] chances/max extra: L1 10%,1; L2 20%,1; L3 20%,2; L4 30%,2; L5 30%,3. Successful extras uniformly select 1..max. Works on vanilla+MoreMinecrafts ore; audit Fortune/Silk Touch and existing auto-smelt drop buffs before implementation.
+[DIRECT] Lumbering Lv1–5 follows SAME ladder and [ACCEPTED-DELEGATED] same numeric distribution: 10/20/20/30/30%, extra max 1/1/2/2/3 logs. Tree-harvest drops only; this does not fell extra blocks or duplicate chain logging enchant.
+[DIRECT] Mineral conservation Lv1–5: mining tool durability-consumption prevention, linear chance; [ACCEPTED-DELEGATED] 5% per level up to 25%, additive independent prevention check without double-consuming damage.
+[DIRECT] Wide excavation T3: 3×3 according to face and diamond-pickaxe permitted blocks; 150 durability; 1 durability for the whole successful operation even if 9 blocks mined; no enchantments; documented future protected-block exclusion despite no current protect-block structure. Full ore/loot/tool compatibility and non-minable exclusions require runtime audit. REVISED CRAFT as section 0.
+[DIRECT] Lumber machine T3: size 1×1; axe + coal UI, no item storage; chunk-local single-tree sequential processing, drop above machine, no sound/VFX except vanilla-like wood breaking SFX per block; coal 1/8 logs; axe durability -1/3 logs; no loaded chunk work when unloaded; no unintended building destruction.
+[REMOVED] Gathering T1 removed (see 0).
+
+2. PRODUCTION ENGINEERING / 생산공학
+[DIRECT] Fuel Saving Lv1–3: ALL fuel types and ALL furnaces (vanilla furnace, blast furnace, smoker, portable furnace, multiplier furnaces and future modded furnace family). Fuel consumption -8.5% per level: 8.5/17/25.5%. Maintain a permanent compatibility checklist for every new furnace/recipe as well as code changes.
+[DIRECT] Precision Smelting Lv1–5: +7.5 percentage points per level to grant one extra finished product (7.5/15/22.5/30/37.5%), ALL vanilla AND modded MINERAL smelting; exclude nonmineral/cooking. Bonus rolled at product creation, not output pickup. Auto-smelt enchant has a distinct bonus-drop axis; roll research no more than ONCE per smelted base unit, plus auto-smelt bonus independently, without recursive processing or re-rolling bonus products.
+[DIRECT] Precision Crafting has rarity-dependent preservation distribution [ACCEPTED-DELEGATED]: max 5 levels, at levels 1/3/5: ordinary materials 10/20/30%; processed iron/copper/redstone 7/14/21%; precious gold/diamond/emerald 4/8/12%; rare netherite/special part 2/4/6%; unique/nonreplaceable 0%. Intermediate L2/L4 interpolate. On each complete crafting transaction at most ONE input slot may be saved; apply probability of the candidate ingredient class, special remainders and shift-click guarded, and exclude compressed research tokens.
+[DIRECT] Wood Processing max L2: each level adds +1 produced item to ALL wood-based crafting results: e.g. 4 planks ->5, doors 3->4, trapdoors 2->3, slabs 6->7 at L1, +2 by L2. Account for recipes returning different wood objects without overwriting existing results.
+[DIRECT] Equipment Maintenance max L5: L1/L3/L5 each +10 percentage points to per-material anvil durability restoration (+10/+20/+30% cumulative); L2/L4 each reduce all anvil XP consumption by 4.5 percentage points (-4.5/-9% cumulative), rounded, minimum 1 XP LEVEL when applicable. Restoration only actual repair; XP discount for renaming/repair/enchant/anvil operations. Prior approved table preserved.
+[DIRECT] Faster Smelting max L3: +10% speed each (110/120/130% baseline); same ALL furnace families as Fuel Saving, and STACKS with it. Default functional interpretation: -fuel consumption and +processing speed apply together; reconcile fuel duration and cooking timeline transactionally.
+[RECOVERY STATUS] Logistics Control T2: older record lists node but no verified, sufficiently defined effect. User says recheck and DELETE if absent. As no completed rule was verified in consulted GitHub/checklist material, EXCLUDE it from approved functional roster, marking [NOT RECONSTRUCTED; CONDITIONAL REMOVAL]. Do not present invention as restored fact.
+[DIRECT] High-Speed High-Efficiency Furnace T3: one research unlocks ALL 3x/5x/7x furnaces; both speed and fuel efficiency scale by 3,5,7 respectively; separate craft recipes:
+3x: slots 1,3,7,9 iron ingot; 2,4,6,8 iron BLOCK; center slot 5 furnace.
+5x: slots 1,2,3,4,6,7,8,9 iron BLOCK; center furnace.
+7x: slots 1,3,7,9 netherite INGOT; 2,4,6,8 gold BLOCK; center furnace.
+Extra research speed/fuel saving stack with these furnaces.
+[RECOVERY STATUS] Parallel Production T3: name/idea exists, finished exact machine behavior not recovered from source; omit from currently approved functional roster, mark [NOT RECONSTRUCTED; CONDITIONAL REMOVAL]; don't invent or silently keep it.
+[DIRECT/PRIOR LOCKED] Chest Sort T3 is UI-ONLY unlock: existing chest screen gains TWO side buttons, name/item-type sorting and tag/category sorting. No module, new block, extra recipe, quantity sorting. Preserve per-item data/components/enchants/durability/custom non-stackable fish. Exact comparator and special slot interaction implementation tests are follow-up.
+
+3. LIVING TECHNOLOGIES / 생활기술학
+[DIRECT] Crop Cultivation max L5 bonus harvested items: L1 exactly +1; L2 +2 with 40% else +1; L3 exactly +2; L4 +3 with 30% else +2; L5 +3 with 50% else +2. Includes future registered crops via compatibility hook, exact extra drop type per crop.
+[ACCEPTED-DELEGATED] Seed Study max L3: extra seed proc 15/30/45% for eligible seed harvests. Do not modify crop bonus recursively.
+[DIRECT + ACCEPTED-DELEGATED] Soil Study L1 farmland trample protection; L2 +30% seed yield; L3 farmland stays hydrated for up to 5 additional minutes during water interruption (conditional on no other sustaining mechanism). Soil and seed bonus interactions tested once per ordinary crop event.
+[DIRECT] Livestock L1: offspring TWO with 60% chance else normal ONE; L2 TWO guaranteed; L3 THREE 20% else TWO. Standard breeding conditions, parents/cooldown remain vanilla.
+[ACCEPTED-DELEGATED] Beekeeping max L3: honeycomb harvest +1 with 20/40/60% chance; no duplicate harvest activation.
+[PRIOR LOCKED + ACCEPTED-DELEGATED] Fisheries Study L1–5 changes existing Fishing GRADE probabilities, never species/length/weight. BASE tier 0/1/2/3 distributions = [45,30,16,7,2]; [30,32,22,12,4]; [10,25,32,24,9]; [0,8,34,38,20]. L5 = [40,32,17,8,3]; [25,33,23,13,6]; [7,24,33,24,12]; [0,6,33,37,24]. L1–L4 linear interpolate from baseline to L5 (L0 baseline), distribute rounding residual to ensure exactly 100%.
+[DIRECT + ACCEPTED-DELEGATED] 3x3 tilling HOE T2: vanilla hoe-like tilling mechanics, 3x3 footprint, durability 100; no enchantments and no huge bulk-workstation requirements. APPROVED recipe shaped 1 iron ingot, 2 iron block, 3 iron ingot / 4 copper ingot, 5 diamond hoe, 6 copper ingot / 7 stick, 8 redstone block, 9 stick. Earlier reply's exact numbers retained as accepted, with future recipe economy recheck.
+[DIRECT] Mature-only AoE harvest T2: future custom crops plus ALL vanilla eligible crops; does not itself consume tool durability. Only mature crops targeted; process item rewards safely and permit crop-type registration for future mod additions.
+[DIRECT] Throw Feed/Breeding T2: 7x7 horizontal area; vanilla animal-specific feed, breeding/growth and cooldown rules, no bypass of vanilla restrictions.
+[ACCEPTED-DELEGATED] Fishing Technique T2 L1–3: broaden fishing minigame SUCCESS window by +2/+4/+6 percentage points respectively, without changing Grade, species, size, fish instance, or fishing reward rerolls.
+[DIRECT] Auto Farm T3: manages exactly ONE vertical layer of a 9x9 farm; never any stacked farms at same x/z at other elevations. Automatically breaks MATURE plants and replants instantly; harvest drops directly captured, not item entities. GUI 5x5 'seed/replanting stock' first, 5x5 output second; harvested replantable material/seed refills SEED stock first and excess flows to results. Carrot, potato, sugar cane etc need no rigid seed-vs-result item type partition; seed/inventory slot priority remains. NO top hopper needed or inserted; ONLY bottom hopper extracts results. When both compartments full, pause safely; sugarcane/bamboo-like crop handlers preserve growing base. Redstone active mode per prior design; no work in unloaded chunks; support future crops via hook/documented compatibility list.
+[DIRECT] Irrigation T3: 9x9 hydration, 5 water-bucket charges, 20 REAL minutes operation each, max 100 min, six exterior gauge states 0..5; hydration stops at zero. ALL devices inactive in unloaded chunks. Irrigation pauses consumption/operation when RAINING (doesn't consume charges while rain already wets land); resume remaining timer afterward. No imaginary top feeder.
+[ACCEPTED-DELEGATED] Fish Trap Improvement T3: existing fish trap interval 5 min -> 3 min 30 sec, no species/grade/length/weight modifications.
+
+4. COMBAT / 전투학
+[ACCEPTED-DELEGATED] T1:
+Swordsmanship L1–3: full-charge sword hit damage +2/+4/+6%.
+Axe Combat L1–3: first strike after >=3 sec without attack +3/+6/+9%.
+Shooting L1–3: bow draw and crossbow charge time -6/-12/-18%; crossbow Quick Charge and research durations additively combine (not multiplied); clamp minimum duration; server/client charging animation sync.
+Shield L1–3: 10/20/30% chance prevent shield durability loss.
+Armor Operation L1–3: knockback taken while equipped -5/-10/-15%.
+Throwing Combat L1–3: trident/custom thrown projectile speed +6/+12/+18%.
+[DIRECT + ACCEPTED-DELEGATED] Consecutive Sword Sweeps T2: valid consecutive sword hits build max 5 stages; reset after 5sec from LAST valid hit. Each stage +4/+8/+12/+16/+20% sweep damage, not generic attack speed, and targeting a different enemy does not reset chain.
+[USER CORRECTION + ACCEPTED-DELEGATED] Defense Engineering T3 is a CRAFTABLE COUNTER-SHIELD (NOT generic protective armor), which KNOCKS AN ATTACKER BACK upon a successful shield block; suggested exact effect: eligible attacker within 3 blocks, knockback about 2 blocks, cooldown 2 sec; vanilla shield blocking otherwise retained. Recipe itself not settled and is future recipe-balance content.
+[DIRECT] Tactical Shooting T3: retain SPECIAL ARROWS and FIREWORK AMMO as research concepts; exact kinds, effects, recipes and art are FOLLOW-UP, do not invent them.
+
+5. ECOLOGY / 생태학
+[DIRECT] All 12 already-locked FREE knowledge branches give relevant mob-family +5% damage; NOT duplicated when classification overlaps; do not multiply with research default blindly.
+[USER DELEGATION ACCEPTED] Favor one substantive lineage research over fabricated empty T1 nodes, with tier semantics relaxed except unique T3 mob tracker. Research mechanics:
+Zombie reinforcement relative chance reduction L1–3 25/50/75%.
+Skeleton aim reset L1–3 probability 20/30/40%.
+Creeper fuse delay L1–3 +0.3/+0.6/+1.0 sec.
+Spider: BLOCK poison application and jump attack; NO climbing restriction.
+Enderman: BLOCK teleporting for an Enderman engaged with the researcher; previous REJECTED label superseded.
+Slime: STOP splitting; give all descendant-equivalent loot and XP recursively from large to smallest exactly once, Looting safe, without spawning extra slimes.
+Illager: movement speed -12%, not attack/cast speed.
+Piglin: chest-opening/gold-mining anger prevention L1–3 chance 30/45/60%; ongoing anger handling must not be silently overridden.
+Hoglin paid-research damage L1–3 +4/+6/+8%; underwater-hostile paid damage same; rare mob paid damage +5/+8/+12%; bosses paid damage +3/+5/+7%, in addition to separate knowledge +5% applied once per classification.
+[ACCEPTED-DELEGATED] Rare knowledge discovery 3 tentative species for baseline: Endermite, Evoker, Elder Guardian; integrate more custom 40-mob roster after audit. Cross-family overlaps don't add multiple +5% knowledge awards.
+[ACCEPTED-DELEGATED] Mob Tracking T3: detector radius 32 blocks in loaded world area, species filter UI and glowing highlighting; no cross-dimensional/unloaded-chunk scanning.
+Exact mob tags, paid-effect trigger exceptions and implementation compatibility with 40 custom mobs remain runtime follow-up.
+
+6. WORLD STUDIES / 세계학
+[DIRECT] Navigation/Boating T1 L1–3: ordinary boat movement speed +10/+20/+30%. Applies to powered boat too.
+[DIRECT + ACCEPTED-DELEGATED] Riding T1 L1–5: every level increases movement speed, jump strength and max health each by 5% of that ATTRIBUTE'S OWN VANILLA NATURAL DISTRIBUTION WIDTH (max-min), not flat +4 or generic multiplicative +5% on disparate units; retain each individual animal's native base.
+[DIRECT] Flight T1 L1–3: firework propulsion duration +8/+16/+24%; also cooperate with precision flight firework-use interval.
+[ACCEPTED-DELEGATED] Archaeology T1 L1–3: brush time -10/-20/-30%; archaeology-related structure chest rare reward weight +3/+6/+9%; extra thematic loot roll probability 10/20/30%. Limit scope to archaeology-relevant loot sources.
+[ACCEPTED-DELEGATED] Villager Trading T1 L1–3: show current/maximum trade STOCK in existing trade UI from L1; cost -2/-4/-6% (min 1).
+[ACCEPTED-DELEGATED] Piglin Bartering T1 L1–3: rare-barter reward weight +5/+10/+15%, not duplicate piglin anger prevention.
+[ACCEPTED-DELEGATED] Survival & Expedition T1 L1–3: sprint/swim hunger consumption -8/-16/-24%.
+[VERIFIED ORIGINAL SOURCE] Precision Flight T2 moves the REAL existing Paper 'precision_flight' ENCHANT feature to research, no duplicate enchant. Source: ItzGamesGD/rpg-plugin-for-minecraft-26.1.2-paper: src/main/resources/enchants.yml, EquipmentEnchantContentService.java. Paper original 3 levels, hotbar-slot target speeds 1..9 = [0.45,0.60,0.75,0.88,1.00,1.30,1.60,1.90,2.20] velocity values; acceleration 0.20; fireworks & elytra damage intervals 200 ticks; damage-debt recovery intervals by level = [120,100,80] ticks. Activates on Elytra firework boost; deactivates at gliding stop, sneak, invalid gear, missing fuel. The native data are CODE REFERENCE, not proof of Fabric port/live performance. Move this mechanic from enchant to paid research.
+[DIRECT + ACCEPTED-DELEGATED] Motorized Boat T3: Shift+right-click fuel-slot UI, hotbar speeds 1–9, speed-proportional fuel consumption. Proposed speed multipliers start at 0.5x for slot 1, 1.0x for slot 5, 2.0x for slot 9; exact intervening table FOLLOW-UP. Navigation research multiplies speed, without extra fuel charge from that bonus.
+[PRIOR LOCKED + ACCEPTED-DELEGATED] Cross-Dimension Home Item Transport T3: send items toward player's bed/home across dimensions, server-authoritative persisted idempotent delivery queue plus bound receiving storage. Cosmetic in-world flight only in loaded chunks. Existing Paper InventoryDeliveryService is only ordinary reward delivery and is NOT verified implementation of this research. ABANDON feature if risk/complexity exceeds reasonable reliability. Crash, missing bed, unloaded chunks and full inventory are FOLLOW-UP and must never cause dupes.
+
+7. ALCHEMY / MAGIC / 연금·마법학
+[DIRECT] Brewing Basics T1 L1–3: brewing time -15/-30/-45%.
+[DIRECT + ACCEPTED-DELEGATED] Potion Study T1 L1–3: redstone extended potion duration bonus +8/+16/+24%; glowstone-associated duration penalty mitigation 10/20/30%. Explicit catalyst interactions tracked.
+[ACCEPTED-DELEGATED] Splash/Lingering T1 L1–3: splash effect reach +10/+20/+30%; lingering-cloud duration +8/+16/+24%.
+[DIRECT + ACCEPTED-DELEGATED] Status Effects T1 L1–3: beneficial effect time +5/+10/+15%; harmful effect time -5/-10/-15%, for effects applied to player. No arbitrary amplifier boost.
+[ACCEPTED-DELEGATED] Magical Material Study T1 L1–3: extra magic/brewing ingredient on actual gathering/mob drops 10/20/30%, no output recursive duplication.
+[OLDER DIRECTION FOUND; DETAILS ACCEPTED-DELEGATED] XP acquisition research T1 L1–3: XP ORB amounts +3/+6/+9%, not reduced research/enchant spend. Note this is not proof all underlying original mechanics were located.
+[OLDER DIRECTION FOUND; DETAILS ACCEPTED-DELEGATED] Catalyst preservation T1 L1–3: brewing catalyst preservation probability 5/10/15%, where it makes sense, distinct from removed T3 elemental catalyst research.
+[ACCEPTED-DELEGATED] Advanced Brewing T2 single unlock: increase brewing stand fuel efficiency from 20 to 25 brew operations per blaze powder, otherwise retain vanilla rules.
+[ACCEPTED-DELEGATED] XP Control T2 two levels: XP pickup radius 4 / 6 blocks; not XP assignment, splitting or redistribution (older rejected proposals remain removed).
+[DIRECT + ACCEPTED-DELEGATED] Potion Mixing T2: not anvil anymore (earlier idea superseded). Add MIXING/CONCENTRATION tab to vanilla brewing stand UI; two compatible different finished potions become one combined potion containing both effects with original durations x0.70, consuming the two input potions; conflict pair restrictions. The exact compatibility whitelist to be audited.
+[PRIOR LOCKED + ACCEPTED-DELEGATED] Brewing Process Control T2: vanilla brewing stand extended UI, 9 material waiting slots and 9 finished output slots; choose goal recipe, take ingredients regardless of insertion order, process vanilla recipe steps in order automatically, respect fuel/material/output limits, manual ON/OFF, hopper input accepted and lower hopper extracts FINISHED output only (not intermediates). Persist unfinished brew state; no loss or dupe.
+[DIRECT + ACCEPTED-DELEGATED] Potion Concentration T3: allow ONE amplification stage past normally obtainable max for qualifying potion effects, never repeated concentration; implemented in same custom Brewing Stand MIXING/CONCENTRATION TAB instead of anvil. Example Strength II -> Strength III. Bad Omen special handling: existing level I–V ominous bottle system, one-step increase allowed only while not exceeding vanilla V as conservative delegated design. Effect-specific restrictions, data components and balance to audit.
+
+8. KNOWLEDGE PREREQUISITE LINKS: ALL 70 RETAINED, PAID GATHERING DELETED
+Original 70 knowledge names, triggers, knowledge micro-rewards are preserved from previous checkpoint; these mappings are user-delegated design connections, not replacement knowledge achievements.
+Resource 01 광석 식별 -> 광석 채굴; 02 심층 광물학 -> 광석 채굴/광역 굴착; 03 희귀 광물학 -> 광역 굴착; 04 수목 관찰 -> 벌목; 05 거목 생태 -> 자동 벌목 장치; 06 식물 채집 -> 종자 연구/마법 재료 연구 (NOT deleted 채집 연구); 07 토양 분석 -> 토양 연구; 08 암석 분류 -> 광물 보존; 09 광맥 탐사 -> 광석 채굴/광역 굴착; 10 자원 보존 -> 광물 보존.
+Production 11 제련 원리 -> 연료 절약/정밀 제련; 12 고온 제련 -> 고속 제련/상위 화로; 13 합금 이해 -> 상위 화로; 14 제작 기술 -> 정밀 제작/목재 가공; 15 정밀 제작 -> 정밀 제작; 16 장비 정비 -> 장비 정비; 17 보관 기술 -> 상자 정렬; 18 물류 공학 -> 상자 정렬; 19 자동화 원리 -> 자동 농장/자동 벌목 장치.
+Living 20 작물 생장 -> 작물 재배; 21 종자 연구 -> 종자 연구; 22 토양 관리 -> 토양 연구; 23 관개 기술 -> 관개 장치; 24 농업 자동화 -> 자동 농장; 25 가축 사육 -> 가축 사육; 26 번식 생태 -> 먹이 투척/번식; 27 어류 도감 -> 어업 연구; 28 수역 분석 -> 낚시 기술/통발 개선; 29 낚시 기술 -> 낚시 기술; 30 식품 가공 -> 연료 절약/고속 제련의 조리 파트.
+Combat 31 검술 관찰 -> 검술; 32 연속 공격 -> 연속 검격; 33 중량 무기 -> 도끼 전투; 34 궁술 이해 -> 사격; 35 석궁 구조 -> 사격/전술 사격; 36 방패 방어 -> 방패/반격 방패; 37 방어구 구조 -> 방어구 운용/반격 방패; 38 투척 무기 -> 투척 전투; 39 전투 기동 -> 방어구 운용; 40 특수 탄약 -> 전술 사격.
+Ecology 41 좀비 -> 좀비 연구; 42 스켈레톤 -> 스켈레톤 연구; 43 크리퍼 -> 크리퍼 연구; 44 거미 -> 거미 연구; 45 엔더맨 -> 엔더맨 연구; 46 슬라임 -> 슬라임 연구; 47 일리저 사회 -> 일리저 연구; 48 피글린 사회 -> 피글린 연구; 49 호글린 -> 호글린 연구; 50 수중 적대 생물 -> 수중 적대 생물 연구; 51 희귀 생물 -> 희귀 생물 연구; 52 보스 생태 -> 보스 연구.
+World 53 지형 탐사 -> 항법/원정 준비; 54 동굴 탐사 -> 원정 준비; 55 해양 항해 -> 항법/동력 보트; 56 승마 -> 승마 연구; 57 비행 관찰 -> 비행/정밀 비행; 58 차원 탐험 -> 차원 운송; 59 고고학 -> 고고학; 60 고대 유적 -> 고고학; 61 주민 사회 -> 주민 거래; 62 원정 기술 -> 원정 준비/차원 운송.
+Alchemy 63 양조 기초 -> 양조 기초; 64 물약 성질 -> 물약 연구; 65 투척 물약 -> 투척/잔류 물약; 66 잔류 물약 -> 투척/잔류 물약; 67 상태 효과 -> 상태 효과 연구; 68 마법 재료 -> 마법 재료/촉매 보존; 69 고급 양조 -> 고급 양조/공정 제어; 70 물약 농축 -> 물약 혼합/농축 장치.
+[WARNING] The above 70-node linkage is a design mapping, NOT validated final branching dependency topology. Build natural same-domain T1->T2->T3 branches without forced mismatched links (e.g. shield not forced behind sword skill; motorboat not forced behind elytra precision flight). User tier prerequisite rule is LOCKED, precise tree topology is FOLLOW-UP.
+
+9. RESEARCH COMPRESSION — LATEST USER DECISIONS
+[DIRECT] Compress every ordinary 64-stackable MATERIAL and all researched material inputs where representable. Compression input is any crafting-grid slot, not only center; sum up to 64 eligible source materials for a conversion; mixed wood species become ONE generic '압축된 원목' material value. Other item-type family identity remains distinguishable unless explicitly unified.
+[DIRECT] 64 units -> 1 compressed research-only item, original texture + enchant-glint, recognizable name, max 64 stack of compressed. Irreversible: no decompression, and NEVER ordinary craft, repair/anvil, smelt/fuel, brew, villager trade or material-consuming automation. Only server-authoritative research payment accepts compressed plus original by 64:1 exact equivalence. Deduct REQUIRED quantities, not arbitrary inventory extras; e.g. wheat 150 = 2 compressed + 22 normal, never overcharge; tooltip warns irreversible.
+[FOLLOW-UP] Specific data registration, handling research materials with stack cap <64, multi-species match/input shapes, normal recipe collision protections, shift-click, automation and anti-dupe require implementation proof, not asserted as tested.
+
+10. FOLLOW-UP / IMPLEMENTATION SAFETY / ECONOMY
+- Research economic prices from assistant's prior draft remain TEMPORARY until complete redesign after approved mechanics. Final cost per level, resource amounts, rare materials and device separate crafting economy not yet final.
+- T1->T2->T3 prior tier purchase and 7-discipline radial UI are required; final branching topology and research-per-level gates remain implementation/design follow-up. Do not set false locked edges.
+- Protect existing item NBT/data, all 40 custom mobs, Fortune/Silk Touch/AutoSmelt enchant behavior, brewing caps and other mods' special recipes; no work has been compiled or client-tested by this checkpoint.
+- Deferred after checklist item 10-6: compression anti-dupe, quest/XP demand, user interface and multiplayer runtime audits. These are not completed by writing this design record.
+- Retain resource/production research name lists only for features above; the old 88-item brainstorm is historical, NOT an approved scope.
+==================================================
