@@ -65,13 +65,19 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   fi
 
   # Focus the actual Minecraft window, then request the game native F2 screenshot.
-  window_id="$(xdotool search --onlyvisible --name "Minecraft" 2>/dev/null | head -n 1 || true)"
+  window_ids="$(xdotool search --onlyvisible --name '.*' 2>/dev/null || true)"
+  window_id="$(printf "%s\\n" "$window_ids" | tail -n 1)"
   if [ -z "$window_id" ]; then
+    window_id="$(xdotool getactivewindow 2>/dev/null || true)"
+  fi
+  if [ -z "$window_id" ]; then
+    xwininfo -root -tree 2>&1 | tee -a "$client_log"
     cat "$client_log"
-    echo "Could not locate the visible Minecraft window for F2 capture."
+    echo "Could not locate a visible X11 window for F2 capture."
     exit 1
   fi
-  printf "Focusing Minecraft window %s (%s)\n" "$window_id" "$(xdotool getwindowname "$window_id")" | tee -a "$client_log"
+  window_title="$(xdotool getwindowname "$window_id" 2>/dev/null || true)"
+  printf "Focusing visible X11 window %s (%s)\\n" "$window_id" "$window_title" | tee -a "$client_log"
   xdotool windowfocus --sync "$window_id"
   sleep 2
   xdotool key --clearmodifiers F2
