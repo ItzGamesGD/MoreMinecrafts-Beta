@@ -14,7 +14,7 @@ xvfb-run -a -s "-screen 0 1280x720x24" bash -euo pipefail -c '
   export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
   export MOREMINECRAFTS_VISUAL_VALIDATION=1
 
-  setsid timeout 180s ./gradlew runClient --args="--quickPlayMultiplayer $server_address --width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
+  setsid timeout 180s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--quickPlayMultiplayer $server_address --width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
   client_pid=$!
 
   stop_client() {

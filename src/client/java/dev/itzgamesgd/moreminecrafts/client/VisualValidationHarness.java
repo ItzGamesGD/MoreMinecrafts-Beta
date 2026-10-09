@@ -38,7 +38,7 @@ public final class VisualValidationHarness {
         readySignalEmitted = true;
         MoreMinecrafts.LOGGER.info(
                 "VISUAL_VALIDATION_WORLD_READY dimension={} player=({}, {}, {}) ticks={}",
-                client.level.dimension().location(),
+                client.level.dimension(),
                 client.player.getX(),
                 client.player.getY(),
                 client.player.getZ(),

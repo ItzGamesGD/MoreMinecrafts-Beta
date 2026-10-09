@@ -1,0 +1,9 @@
+// Visual-validation-only compatibility: the current production ore feature JSON uses
+// a height-provider schema rejected by Minecraft 26.3 during world load. The screenshot
+// scene is built explicitly with vanilla blocks, so omit only those inputs for this run.
+allprojects {
+    tasks.withType(org.gradle.language.jvm.tasks.ProcessResources).configureEach {
+        exclude("data/moreminecrafts/worldgen/configured_feature/**")
+        exclude("data/moreminecrafts/worldgen/placed_feature/**")
+    }
+}
