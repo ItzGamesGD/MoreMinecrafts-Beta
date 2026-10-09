@@ -38,7 +38,8 @@
     "T1SmithUpgradeMixin",
     "SpawnPlacementsInvoker",
     "CustomMobStatsMixin",
-    "CaveCreeperExplosionMixin"
+    "CaveCreeperExplosionMixin",
+    "KnowledgeCraftingMenuMixin"
   ],
   "injectors": {
     "defaultRequire": 1

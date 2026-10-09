@@ -27,6 +27,7 @@ public final class ModRegistries {
         ModMenuTypes.initialize();
         AbilityAttachments.initialize();
         ModDataComponents.initialize();
+        dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.initialize();
         ModItems.initialize();
         T2CoreAcquisition.initialize();
         ModOreGeneration.initialize();
