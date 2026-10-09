@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "S.S",
+    "S S",
     "SSS"
   ],
   "key": {
