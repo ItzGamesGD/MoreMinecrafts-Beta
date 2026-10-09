@@ -65,6 +65,11 @@ def main():
             if request_id != index:
                 raise RuntimeError(f"unexpected RCON response id {request_id}")
             print(response)
+            if any(error in response for error in (
+                "Incorrect argument for command", "That position is not loaded",
+                "Unknown or incomplete command",
+            )):
+                raise RuntimeError(f"Minecraft rejected RCON command {command!r}: {response}")
 
 
 if __name__ == "__main__":
