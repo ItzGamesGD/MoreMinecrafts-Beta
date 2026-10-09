@@ -96,4 +96,4 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" bash -euo
   echo "Minecraft client reported the test world ready and saved an F2 screenshot."
   stop_client
   trap - EXIT
-' bash "$RESULTS_DIR" "$SERVER_ADDRESS"
+'
