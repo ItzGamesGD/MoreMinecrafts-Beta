@@ -38,9 +38,9 @@ public final class MobCaptureRuntime {
     private static boolean forbiddenBoss(Mob mob) {
         // Wither and dragon are intentionally excluded. The Warden is treated
         // as boss-class for this tool. Other modded bosses need a data tag.
-        return mob.getType() == EntityType.WITHER
-                || mob.getType() == EntityType.WARDEN
-                || mob.getType() == EntityType.ENDER_DRAGON;
+        String id = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType()).toString();
+        return id.equals("minecraft:wither") || id.equals("minecraft:warden")
+                || id.equals("minecraft:ender_dragon");
     }
 
     private static boolean capture(ServerPlayer player, ServerLevel level, ItemStack tool, Mob mob) {
