@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PPP",
+    "SSP"
+  ],
+  "key": {
+    "P": "minecraft:cherry_planks",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "minecraft:cherry_trapdoor",
+    "count": 2
+  }
+}

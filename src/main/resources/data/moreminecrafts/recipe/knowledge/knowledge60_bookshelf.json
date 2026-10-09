@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PBP",
+    "PBP"
+  ],
+  "key": {
+    "P": "#minecraft:planks",
+    "B": "minecraft:book"
+  },
+  "result": {
+    "id": "minecraft:bookshelf",
+    "count": 1
+  }
+}

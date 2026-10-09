@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PPP",
+    "SSP"
+  ],
+  "key": {
+    "P": "minecraft:mangrove_planks",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "minecraft:mangrove_trapdoor",
+    "count": 2
+  }
+}
