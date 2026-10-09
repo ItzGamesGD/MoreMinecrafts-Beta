@@ -69,7 +69,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          setsid timeout 300s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runServer --args="--safeMode" > visual-validation-results/server.log 2>&1 &
+          MOREMINECRAFTS_VISUAL_VALIDATION=1 setsid timeout 300s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runServer --args="--safeMode" > visual-validation-results/server.log 2>&1 &
           server_pid=$!
           cleanup() {
             kill -TERM -- "-$server_pid" 2>/dev/null || true
