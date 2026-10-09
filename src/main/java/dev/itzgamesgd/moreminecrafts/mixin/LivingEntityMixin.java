@@ -14,6 +14,7 @@ import java.util.Map;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -35,6 +36,14 @@ abstract class LivingEntityMixin {
                 && state.moreminecrafts$hasLeapFallImmunity(entity.level().getGameTime())) {
             cir.setReturnValue(false);
         }
+    }
+
+    @ModifyVariable(method = "causeFallDamage", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    private float moreminecrafts$fallRoll(float multiplier) {
+        if ((Object) this instanceof ServerPlayer player
+                && dev.itzgamesgd.moreminecrafts.progression.ResearchMovementRuntime.consumeFallRoll(player))
+            return multiplier * 0.4F;
+        return multiplier;
     }
 
     @ModifyArgs(

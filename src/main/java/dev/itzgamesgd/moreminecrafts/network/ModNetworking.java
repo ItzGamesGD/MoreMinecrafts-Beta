@@ -19,7 +19,10 @@ public final class ModNetworking {
         PayloadTypeRegistry.serverboundPlay().register(MovementJumpPayload.TYPE, MovementJumpPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(FishingChallengePayload.TYPE, FishingChallengePayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(MovementJumpPayload.TYPE, (payload, context) ->
-                context.server().execute(() -> EnchantmentRuntime.handleJump(context.player())));
+                context.server().execute(() -> {
+                    if (!dev.itzgamesgd.moreminecrafts.progression.ResearchMovementRuntime.onJump(context.player()))
+                        EnchantmentRuntime.handleJump(context.player());
+                }));
         ServerPlayNetworking.registerGlobalReceiver(OpenFishingEquipmentPayload.TYPE, (payload, context) -> {
             var player = context.player();
             var hand = payload.offhand() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
