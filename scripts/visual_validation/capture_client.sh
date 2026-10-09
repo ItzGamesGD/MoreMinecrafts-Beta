@@ -4,7 +4,6 @@ set -euo pipefail
 RESULTS_DIR="${1:-visual-validation-results}"
 SERVER_ADDRESS="${2:-127.0.0.1:25565}"
 mkdir -p "$RESULTS_DIR"
-touch "$RESULTS_DIR/screenshot-start.marker"
 
 xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUAL_RESULTS_DIR="$RESULTS_DIR" VISUAL_SERVER_ADDRESS="$SERVER_ADDRESS" bash -euo pipefail -c '
   results_dir="$VISUAL_RESULTS_DIR"
@@ -22,9 +21,9 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   openbox --sm-disable > "$results_dir/openbox.log" 2>&1 &
   window_manager_pid=$!
   sleep 2
-  echo "Xvfb display=$DISPLAY window_manager_pid=$window_manager_pid" | tee -a "$results_dir/client.log"
+  echo "Xvfb display=$DISPLAY window_manager_pid=$window_manager_pid" | tee -a "$client_log"
 
-  setsid timeout 180s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
+  setsid timeout 240s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
   client_pid=$!
 
   stop_client() {
@@ -33,7 +32,18 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     kill "$window_manager_pid" 2>/dev/null || true
     wait "$window_manager_pid" 2>/dev/null || true
   }
-  trap stop_client EXIT
+  collect_x11_diagnostics() {
+    if command -v xwininfo >/dev/null 2>&1; then
+      xwininfo -root -tree > "$results_dir/x11-window-tree.txt" 2>&1 || true
+    fi
+    if command -v glxinfo >/dev/null 2>&1; then
+      glxinfo -B > "$results_dir/graphics-backend.txt" 2>&1 || true
+    fi
+    if command -v vulkaninfo >/dev/null 2>&1; then
+      vulkaninfo --summary > "$results_dir/vulkan-backend.txt" 2>&1 || true
+    fi
+  }
+  trap "collect_x11_diagnostics; stop_client" EXIT
 
   joined=0
   for attempt in $(seq 1 90); do
@@ -48,7 +58,6 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     fi
     sleep 2
   done
-
   if [ "$joined" -ne 1 ]; then
     cat "$client_log"
     echo "Timed out waiting for the client to join the test world."
@@ -71,51 +80,42 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     exit 1
   fi
 
-  # Focus the actual Minecraft window, then request the game native F2 screenshot.
-  window_id="$(xdotool search --onlyvisible --name "Minecraft" 2>/dev/null | head -n 1 || true)"
-  if [ -z "$window_id" ]; then
-    window_id="$(xdotool search --onlyvisible --class "Minecraft" 2>/dev/null | head -n 1 || true)"
-  fi
-  if [ -z "$window_id" ]; then
-    xwininfo -root -tree 2>&1 | tee -a "$client_log"
-    cat "$client_log"
-    echo "Could not locate the Minecraft X11 window for F2 capture."
-    exit 1
-  fi
-  if [ -z "$window_id" ]; then
-    cat "$client_log"
-    echo "Could not locate an X11 window for F2 capture."
-    exit 1
-  fi
-  window_title="$(xdotool getwindowname "$window_id" 2>/dev/null || true)"
-  printf "Focusing visible X11 window %s (%s)\\n" "$window_id" "$window_title" | tee -a "$client_log"
-  xdotool windowmap --sync "$window_id"
-  xdotool windowraise "$window_id"
-  xdotool windowactivate --sync "$window_id" || xdotool windowfocus --sync "$window_id"
-  sleep 2
-  xdotool key --clearmodifiers F2
-  xdotool key --window "$window_id" --clearmodifiers F2
-
-  screenshot=""
-  for attempt in $(seq 1 30); do
-    screenshot="$(find . -type f -path "*/screenshots/*.png" -newer "$results_dir/screenshot-start.marker" -print -quit)"
-    if [ -n "$screenshot" ]; then
+  capture_done=0
+  for attempt in $(seq 1 90); do
+    if grep -Fq "VISUAL_CAPTURE_WRITTEN" "$client_log"; then
+      capture_done=1
       break
+    fi
+    if grep -Fq "VISUAL_CAPTURE_FAILED" "$client_log"; then
+      cat "$client_log"
+      echo "Minecraft native screenshot capture reported failure."
+      exit 1
+    fi
+    if ! kill -0 "$client_pid" 2>/dev/null; then
+      cat "$client_log"
+      echo "Minecraft client exited before native screenshot capture completed."
+      exit 1
     fi
     sleep 1
   done
-
-  if [ -n "$screenshot" ]; then
-    cp "$screenshot" "$results_dir/visual-world.png"
-    echo "Minecraft F2 screenshot under Xvfb" > "$results_dir/capture-source.txt"
-    printf "Captured Minecraft F2 screenshot from %s\\n" "$screenshot" | tee -a "$client_log"
-  else
-    scrot --focused --overwrite "$results_dir/visual-world.png"
-    test -s "$results_dir/visual-world.png"
-    echo "Focused X11 window capture (scrot)" > "$results_dir/capture-source.txt"
-    echo "Captured the focused Minecraft window after world readiness." | tee -a "$client_log"
+  if [ "$capture_done" -ne 1 ]; then
+    collect_x11_diagnostics
+    cat "$client_log"
+    echo "Timed out waiting for VISUAL_CAPTURE_WRITTEN or VISUAL_CAPTURE_FAILED."
+    exit 1
   fi
-  echo "Visual validation capture complete after Minecraft world readiness."
+
+  screenshot="$(sed -n "s/.*VISUAL_CAPTURE_WRITTEN path=//p" "$client_log" | tail -n 1 | sed "s/ bytes=.*//")"
+  if [ -z "$screenshot" ] || [ ! -s "$screenshot" ]; then
+    cat "$client_log"
+    echo "Client-reported native screenshot path does not exist: $screenshot"
+    exit 1
+  fi
+  cp "$screenshot" "$results_dir/visual-world.png"
+  printf "Minecraft native Screenshot.grab via mainRenderTarget\nsource=%s\n" "$screenshot" > "$results_dir/capture-source.txt"
+  echo "Copied native Minecraft screenshot from $screenshot" | tee -a "$client_log"
+
+  collect_x11_diagnostics
   stop_client
   trap - EXIT
 '
