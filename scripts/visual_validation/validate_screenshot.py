@@ -11,6 +11,7 @@ from PIL import Image, ImageStat
 image_path = Path(sys.argv[1] if len(sys.argv) > 1 else "visual-validation-results/visual-world.png")
 result_path = Path(sys.argv[2] if len(sys.argv) > 2 else "visual-validation-results/validation.json")
 readiness_log = Path("visual-validation-results/client.log")
+capture_source_path = Path("visual-validation-results/capture-source.txt")
 if not image_path.is_file():
     raise SystemExit(f"Screenshot missing: {image_path}")
 if not readiness_log.is_file() or "VISUAL_VALIDATION_WORLD_READY" not in readiness_log.read_text(errors="replace"):
@@ -37,7 +38,7 @@ checks = {
     "not_uniform_or_blank": distinct_colors >= 128 and mean_stdev >= 8.0,
     "scene_region_has_visual_detail": center_distinct_colors >= 64,
     "world_readiness_signal": True,
-    "capture_source": "Minecraft F2 screenshot under Xvfb",
+    "capture_source": capture_source_path.read_text().strip() if capture_source_path.is_file() else "unknown",
     "visual_content": "NEEDS_MANUAL_REVIEW",
     "distinct_colors": distinct_colors,
     "center_distinct_colors": center_distinct_colors,
