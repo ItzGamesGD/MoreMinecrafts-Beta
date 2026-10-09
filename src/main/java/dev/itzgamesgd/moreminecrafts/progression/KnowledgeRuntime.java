@@ -27,6 +27,23 @@ public final class KnowledgeRuntime {
     private KnowledgeRuntime() {}
 
     public static void initialize() {
+        // Record five distinct actually feedable species across normal right-clicks.
+        // An observer callback never consumes or cancels the original interaction.
+        net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register(
+                (player, level, hand, entity, hitResult) -> {
+                    if (player instanceof ServerPlayer serverPlayer
+                            && entity instanceof net.minecraft.world.entity.animal.Animal animal
+                            && animal.isFood(player.getItemInHand(hand))
+                            && (animal.canFallInLove() || animal.isBaby())
+                            && !knows(serverPlayer, 25)) {
+                        String type = String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
+                        set(serverPlayer, "fed_species." + type, 1);
+                        long count = serverPlayer.getAttachedOrCreate(STATE).counters().keySet().stream()
+                                .filter(s -> s.startsWith("fed_species.")).count();
+                        set(serverPlayer, "fed_species", (int) count);
+                    }
+                    return net.minecraft.world.InteractionResult.PASS;
+                });
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             if (server.getTickCount() % 100 != 0) return;
             for (ServerPlayer player : server.getPlayerList().getPlayers()) refresh(player);
