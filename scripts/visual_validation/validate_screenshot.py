@@ -28,8 +28,9 @@ if missing:
     raise SystemExit(f"Client capture lifecycle markers missing: {', '.join(missing)}")
 if "VISUAL_CAPTURE_FAILED" in log:
     raise SystemExit("Client also emitted VISUAL_CAPTURE_FAILED.")
-if not capture_source_path.is_file() or "Minecraft Screenshot.grab" not in capture_source_path.read_text():
-    raise SystemExit("Screenshot was not produced through the native Minecraft capture API.")
+capture_source = capture_source_path.read_text(errors="replace") if capture_source_path.is_file() else ""
+if "Screenshot.grab" not in capture_source or "mainRenderTarget" not in capture_source:
+    raise SystemExit("Screenshot was not produced through Minecraft Screenshot.grab from mainRenderTarget.")
 
 with Image.open(image_path) as source:
     source.verify()
