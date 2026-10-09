@@ -37,5 +37,6 @@ public final class ModRegistries {
         ElementalHitProgress.initialize();
         EquipmentAttachments.initialize();
         EquipmentRuntime.initialize();
+        dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
     }
 }
