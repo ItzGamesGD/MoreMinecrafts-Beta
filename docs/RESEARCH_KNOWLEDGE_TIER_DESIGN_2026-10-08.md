@@ -888,3 +888,14 @@ IMPORTANT RETAIN: The existing 70 FREE knowledge roster and ALL THIRTEEN user-ap
 
 This overrides all prior adoption statements about automatic crafting in this document. No code implementation, main merge or research cost ledger updates are claimed.
 ============================================================
+
+============================================================
+FINAL T3 MOB CAPTURE — DURABILITY 30, FULL ENTITY STATE, NO BOSSES
+[USER-APPROVED DIRECT DESIGN] Dedicated capture TOOL, 30 durability. Right-click a mob with the tool to capture it, remove that exact original entity from the world and give ONE spawn egg containing that individual's MOB TYPE and ALL of its persistent state/data, including NBT and data-bearing mod components as necessary for faithful restoration. The tool uses ONE durability point per SUCCESSFUL capture; one new tool can capture up to 30 entities. Do not consume durability or remove mob when capture fails. Eggs represent INDIVIDUAL INSTANCES and must not stack when they hold distinct entity state.
+
+TARGETING: ALL mobs INCLUDING villagers and custom MoreMinecrafts mobs, with ONLY BOSS MOBS excluded. Do not silently impose a passive-only, tame-only, hostile-only, profession-only, or species whitelist. Exact boss classification/tagging implementation pending. Villagers must retain their FULL trades, profession, levels, experience, usage count, price modifiers/discounts, reputation/gossip and other persistent interaction state, not merely type, name or profession.
+
+RELEASE: Use the captured egg to restore its recorded MOB TYPE and original persistent state, consuming that egg exactly once. Any change of entity identifier required to avoid collisions in a multiplayer world must not erase gameplay-visible historical state. Implement atomic, server-authoritative capture, inventory delivery and release to prevent entity loss or duplication, without inventing player-facing exception menus or complex extra mechanics. Do NOT treat the egg as an ordinary generic species spawn egg that spawns a fresh vanilla copy.
+
+This supersedes previous [PENDING] questions about allowing bosses or an unspecified tool durability. Crafting ingredients, visuals, tool name, specific boss taxonomy and implementation test cases remain undetermined. DESIGN RECORD ONLY, no claim of tested Fabric Minecraft 26.3 implementation; no alteration to prior thirteen knowledge-gated recipes or T3 research costs.
+============================================================
