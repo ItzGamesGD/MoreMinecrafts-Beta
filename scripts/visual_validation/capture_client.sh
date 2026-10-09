@@ -82,9 +82,12 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   fi
   window_title="$(xdotool getwindowname "$window_id" 2>/dev/null || true)"
   printf "Focusing visible X11 window %s (%s)\\n" "$window_id" "$window_title" | tee -a "$client_log"
+  xdotool windowmap --sync "$window_id"
+  xdotool windowraise "$window_id"
   xdotool windowfocus --sync "$window_id"
   sleep 2
   xdotool key --clearmodifiers F2
+  xdotool key --window "$window_id" --clearmodifiers F2
 
   screenshot=""
   for attempt in $(seq 1 30); do
