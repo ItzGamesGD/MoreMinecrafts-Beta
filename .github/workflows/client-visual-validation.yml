@@ -20,6 +20,9 @@ permissions:
 
 jobs:
   client-visual-validation:
+    # Pushes to the dedicated experimental branch already exercise this exact PR head.
+    # Avoid running the expensive server/client job a second time for the matching PR event.
+    if: github.event_name == 'push'
     name: client-visual-validation
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -35,6 +38,9 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+
+      - name: Compile client sources before preparing runtime
+        run: ./gradlew compileClientJava
 
       - name: Install isolated display and PNG validation dependencies
         run: |
@@ -115,7 +121,9 @@ jobs:
           python3 scripts/visual_validation/rcon.py "${rcon_commands[@]}"
           sleep 3
           bash scripts/visual_validation/capture_client.sh visual-validation-results 127.0.0.1:25565
-          python3 scripts/visual_validation/validate_screenshot.py             visual-validation-results/visual-world.png             visual-validation-results/validation.json
+          python3 scripts/visual_validation/validate_screenshot.py \
+            visual-validation-results/visual-world.png \
+            visual-validation-results/validation.json
 
       - name: Upload screenshot and diagnostics
         if: always()

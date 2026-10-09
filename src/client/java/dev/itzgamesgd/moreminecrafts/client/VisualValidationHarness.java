@@ -1,8 +1,10 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
+import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.ConnectScreen;
@@ -20,6 +22,7 @@ public final class VisualValidationHarness {
     private static boolean connectionRequested;
     private static boolean playerJoinedSignalEmitted;
     private static boolean readySignalEmitted;
+    private static volatile boolean frameReady;
     private static volatile boolean captureRequested;
     private static volatile boolean captureFinished;
     private static int startupTicks;
@@ -36,7 +39,11 @@ public final class VisualValidationHarness {
 
         MoreMinecrafts.LOGGER.info("Visual-validation test hook enabled by {}", OPT_IN_ENV);
         ClientTickEvents.END_CLIENT_TICK.register(VisualValidationHarness::onClientTick);
-        WorldRenderEvents.END.register(context -> onWorldRenderEnd(Minecraft.getInstance()));
+        HudElementRegistry.attachElementAfter(
+                VanillaHudElements.CHAT,
+                ModIds.id("visual_validation_frame"),
+                (graphics, delta) -> onHudRender(Minecraft.getInstance())
+        );
     }
 
     private static void onClientTick(Minecraft client) {
@@ -45,10 +52,14 @@ public final class VisualValidationHarness {
         }
 
         if (readySignalEmitted) {
+            if (frameReady && !captureRequested) {
+                requestNativeScreenshot(client);
+                return;
+            }
             if (++readyTicks > 1800) {
-                failCapture(captureRequested
+                failCapture(frameReady
                         ? "native screenshot callback did not complete within 90 seconds"
-                        : "no completed world-render frame within 90 seconds");
+                        : "no rendered HUD frame within 90 seconds");
             }
             return;
         }
@@ -84,29 +95,29 @@ public final class VisualValidationHarness {
         );
     }
 
-    private static void onWorldRenderEnd(Minecraft client) {
-        if (!readySignalEmitted || captureRequested || captureFinished
+    private static void onHudRender(Minecraft client) {
+        if (!readySignalEmitted || frameReady || captureRequested || captureFinished
                 || client.player == null || client.level == null || client.gui.screen() != null) {
             return;
         }
 
-        // WorldRenderEvents.END runs after the client has rendered the world into its main target.
+        // This HUD hook runs after the world has rendered into the main target for this frame.
         if (++renderedFramesAfterReady < 30) {
             return;
         }
 
+        frameReady = true;
         MoreMinecrafts.LOGGER.info(
-                "VISUAL_VALIDATION_FRAME_READY milestone=WorldRenderEvents.END rendered_frames={}",
+                "VISUAL_VALIDATION_FRAME_READY milestone=HudElementRegistry.after(CHAT) rendered_frames={}",
                 renderedFramesAfterReady
         );
-        requestNativeScreenshot(client);
     }
 
     private static void requestNativeScreenshot(Minecraft client) {
         captureRequested = true;
         Path screenshot = client.gameDirectory.toPath().resolve("screenshots").resolve(SCREENSHOT_NAME);
         MoreMinecrafts.LOGGER.info(
-                "VISUAL_CAPTURE_REQUESTED path={} source=Minecraft.mainRenderTarget frame_milestone=WorldRenderEvents.END",
+                "VISUAL_CAPTURE_REQUESTED path={} source=Minecraft.mainRenderTarget frame_milestone=HudElementRegistry.after(CHAT)",
                 screenshot.toAbsolutePath()
         );
 
