@@ -73,7 +73,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   if [ -z "$window_id" ]; then
     window_tree="$(xwininfo -root -tree 2>&1 || true)"
     printf "%s\\n" "$window_tree" | tee -a "$client_log"
-    window_id="$(printf "%s\\n" "$window_tree" | awk '/^[[:space:]]*0x[[:xdigit:]]+/ { print $1; exit }')"
+    window_id="$(printf "%s\\n" "$window_tree" | grep -Eo "0x[[:xdigit:]]+" | tail -n 1)"
   fi
   if [ -z "$window_id" ]; then
     cat "$client_log"
