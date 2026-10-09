@@ -34,7 +34,7 @@ public final class CapturedMobEggItem extends Item {
         // Preserve saved UUID and all per-villager/other persistent state.
         // Refuse an already-loaded UUID; never consume the egg on failure.
         if (serverLevel.getEntity(entity.getUUID()) != null) return InteractionResult.FAIL;
-        entity.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+        entity.absSnapTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
                 entity.getYRot(), entity.getXRot());
         if (!serverLevel.noCollision(entity)) return InteractionResult.FAIL;
         if (!serverLevel.addFreshEntity(entity)) return InteractionResult.FAIL;
