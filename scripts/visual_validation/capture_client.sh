@@ -28,10 +28,10 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" bash -euo
   }
   trap stop_client EXIT
 
-  ready=0
+  joined=0
   for attempt in $(seq 1 90); do
-    if grep -Fq "VISUAL_VALIDATION_WORLD_READY" "$client_log"; then
-      ready=1
+    if grep -Fq "VISUAL_VALIDATION_PLAYER_JOINED" "$client_log"; then
+      joined=1
       break
     fi
     if ! kill -0 "$client_pid" 2>/dev/null; then
@@ -42,14 +42,38 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" bash -euo
     sleep 2
   done
 
-  if [ "$ready" -ne 1 ]; then
+  if [ "$joined" -ne 1 ]; then
     cat "$client_log"
-    echo "Timed out waiting for the test-world readiness signal."
+    echo "Timed out waiting for the client to join the test world."
     exit 1
   fi
 
-  # Let the first-person renderer settle after the explicit in-world readiness signal.
-  sleep 3
+  python3 scripts/visual_validation/rcon.py "tp VisualValidation 0.5 64 12.5"
+
+  ready=0
+  for attempt in $(seq 1 60); do
+    if grep -Fq "VISUAL_VALIDATION_WORLD_READY" "$client_log"; then
+      ready=1
+      break
+    fi
+    sleep 2
+  done
+  if [ "$ready" -ne 1 ]; then
+    cat "$client_log"
+    echo "Timed out waiting for the test-world readiness signal after teleport."
+    exit 1
+  fi
+
+  # Focus the actual Minecraft window, then request the game's native F2 screenshot.
+  window_id="$(xdotool search --onlyvisible --name "Minecraft" 2>/dev/null | head -n 1 || true)"
+  if [ -z "$window_id" ]; then
+    cat "$client_log"
+    echo "Could not locate the visible Minecraft window for F2 capture."
+    exit 1
+  fi
+  printf "Focusing Minecraft window %s (%s)\n" "$window_id" "$(xdotool getwindowname "$window_id")" | tee -a "$client_log"
+  xdotool windowfocus --sync "$window_id"
+  sleep 2
   xdotool key --clearmodifiers F2
 
   screenshot=""

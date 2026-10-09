@@ -12,6 +12,7 @@ public final class VisualValidationHarness {
     private static final String SERVER_ENV = "MOREMINECRAFTS_VISUAL_SERVER_ADDRESS";
     private static final boolean ENABLED = "1".equals(System.getenv(OPT_IN_ENV));
     private static boolean connectionRequested;
+    private static boolean playerJoinedSignalEmitted;
     private static boolean readySignalEmitted;
     private static int startupTicks;
     private static int readyTicks;
@@ -38,6 +39,11 @@ public final class VisualValidationHarness {
                 connectToTestServer(client);
             }
             return;
+        }
+
+        if (!playerJoinedSignalEmitted) {
+            playerJoinedSignalEmitted = true;
+            MoreMinecrafts.LOGGER.info("VISUAL_VALIDATION_PLAYER_JOINED");
         }
 
         if (client.gui.screen() != null || ++readyTicks < 120) {
