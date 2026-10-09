@@ -828,3 +828,54 @@ AUTHORITY: USER-DIRECT acceptance of ONLY the listed five recipes from an assist
 #20 작물 생장: 1 hay bale -> 3 bread; criticized as MORE EXPENSIVE than converting the hay back to wheat and using ordinary bread recipe, do NOT add.
 All other unselected recipe suggestions from the 24-candidate set remain NOT APPROVED; neither insert nor price them as confirmed designs. The five newly approved recipes do not automatically approve their exact crafting-grid arrangement or currently absent client assets. The 70 preexisting knowledge acquisition rewards and research cost baseline remain untouched.
 ============================================================
+
+============================================================
+KNOWLEDGE-GATED EFFICIENCY RECIPES — EIGHT APPROVED SHAPES
+STATUS: [USER-APPROVED DESIGN]. Eight more FREE-knowledge-gated efficiency/alternative recipes. Existing vanilla recipes stay usable. These eight are ADDITIONAL to the five previously approved (#15, #25, #42, #44, #57) and do not overwrite their decisions. Implementations, runtime test results, assets and balance verification are NOT claimed.
+
+SHAPE LEGEND: '.' empty; P plank; S stick; I iron ingot; C chest; L wooden slab; W wheat; B book. For wood-specific stairs the output must correspond to the SAME PLANK VARIANT; details of mixed planks in other recipes are pending compatibility check.
+
+[APPROVED] #04 수목 관찰: 4 planks -> 4 wooden stairs. User-CORRECTED exact two-row staggered pattern (replaces earlier assistant's inaccurate vertical pattern):
+P P .
+. P P
+. . .
+Do NOT invert or reshape. Shaped pattern may be TRANSLATED to other valid crafting-grid positions while preserving the pattern; do not force upper-left placement.
+
+[APPROVED] #14 제작 기술: 5 sticks -> 3 ladders (사다리):
+S . S
+S S S
+. . .
+
+[APPROVED] #17 보관 기술: 6 planks + 2 sticks -> 1 chest (상자):
+P S P
+P . P
+P S P
+
+[APPROVED] #18 물류 공학: 4 iron ingots + 1 chest -> 1 hopper (호퍼):
+. I .
+I C I
+. I .
+
+[APPROVED] #19 자동화 원리: 4 iron ingots + 1 stick -> 16 rails (레일):
+I . I
+I S I
+. . .
+
+[APPROVED] #22 토양 관리: 5 wooden slabs -> 1 composter (퇴비통):
+L . L
+L . L
+. L .
+
+[APPROVED] #30 식품 가공: 2 wheat -> 1 bread (빵):
+W W .
+. . .
+. . .
+User expressly requires horizontal adjacent pairs to WORK at ALL translated positions, including slots 1+2, 2+3, 4+5, 5+6, 7+8, 8+9 in a 3x3 inventory/workbench grid as applicable; this is a SHAPED HORIZONTAL TWO-WHEAT recipe, NOT pinned to top-left. Vertical or separated wheat positions are not implicitly approved. Normal 3-wheat vanilla bread recipe stays available.
+
+[APPROVED] #60 고대 유적: 4 planks + 2 books -> 1 bookshelf (책장):
+P B P
+P B P
+. . .
+
+GENERAL SHAPED-RECIPE RULE: Crafting pattern translates anywhere within grid bounds, preserving relative geometry and ingredient positions (as in vanilla Minecraft shaped recipes). Preserve same-output variant semantics, vanilla base recipes, 70 free-knowledge rewards, and existing research mechanic rewards. Do not create new intermediary research paths or link these free-knowledge rewards to extra paid nodes. Exact vanilla 2x2 compatibility, mirrored patterns, matching recipe conflict checks, mixed wood rules and server-authoritative player-specific knowledge recipe validation must be audited before implementation. No unstated recipes from prior 14/24-item brainstorming batches are approved by implication. This section supersedes earlier assistant mockup shape for #04 only.
+============================================================
