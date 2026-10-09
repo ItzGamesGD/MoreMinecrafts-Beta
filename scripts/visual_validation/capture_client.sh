@@ -64,7 +64,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     exit 1
   fi
 
-  # Focus the actual Minecraft window, then request the game's native F2 screenshot.
+  # Focus the actual Minecraft window, then request the game native F2 screenshot.
   window_id="$(xdotool search --onlyvisible --name "Minecraft" 2>/dev/null | head -n 1 || true)"
   if [ -z "$window_id" ]; then
     cat "$client_log"
