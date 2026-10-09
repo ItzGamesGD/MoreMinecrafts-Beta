@@ -71,9 +71,13 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     window_id="$(xdotool getactivewindow 2>/dev/null || true)"
   fi
   if [ -z "$window_id" ]; then
-    xwininfo -root -tree 2>&1 | tee -a "$client_log"
+    window_tree="$(xwininfo -root -tree 2>&1 || true)"
+    printf "%s\\n" "$window_tree" | tee -a "$client_log"
+    window_id="$(printf "%s\\n" "$window_tree" | awk '/^[[:space:]]*0x[[:xdigit:]]+/ { print $1; exit }')"
+  fi
+  if [ -z "$window_id" ]; then
     cat "$client_log"
-    echo "Could not locate a visible X11 window for F2 capture."
+    echo "Could not locate an X11 window for F2 capture."
     exit 1
   fi
   window_title="$(xdotool getwindowname "$window_id" 2>/dev/null || true)"
