@@ -6,9 +6,7 @@ SERVER_ADDRESS="${2:-127.0.0.1:25565}"
 mkdir -p "$RESULTS_DIR"
 touch "$RESULTS_DIR/screenshot-start.marker"
 
-xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" bash -euo pipefail -c '
-  results_dir="$1"
-  server_address="$2"
+xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUAL_RESULTS_DIR="$RESULTS_DIR" VISUAL_SERVER_ADDRESS="$SERVER_ADDRESS" bash -euo pipefail -c '\n  results_dir="$VISUAL_RESULTS_DIR"\n  server_address="$VISUAL_SERVER_ADDRESS"
   client_log="$results_dir/client.log"
   export LIBGL_ALWAYS_SOFTWARE=1
   export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
