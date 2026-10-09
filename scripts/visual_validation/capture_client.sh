@@ -19,12 +19,18 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   export MOREMINECRAFTS_VISUAL_VALIDATION=1
   export MOREMINECRAFTS_VISUAL_SERVER_ADDRESS="$server_address"
 
+  openbox --sm-disable > "$results_dir/openbox.log" 2>&1 &
+  window_manager_pid=$!
+  sleep 2
+
   setsid timeout 180s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
   client_pid=$!
 
   stop_client() {
     kill -TERM -- "-$client_pid" 2>/dev/null || true
     wait "$client_pid" 2>/dev/null || true
+    kill "$window_manager_pid" 2>/dev/null || true
+    wait "$window_manager_pid" 2>/dev/null || true
   }
   trap stop_client EXIT
 
@@ -84,7 +90,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   printf "Focusing visible X11 window %s (%s)\\n" "$window_id" "$window_title" | tee -a "$client_log"
   xdotool windowmap --sync "$window_id"
   xdotool windowraise "$window_id"
-  xdotool windowfocus --sync "$window_id"
+  xdotool windowactivate --sync "$window_id" || xdotool windowfocus --sync "$window_id"
   sleep 2
   xdotool key --clearmodifiers F2
   xdotool key --window "$window_id" --clearmodifiers F2
