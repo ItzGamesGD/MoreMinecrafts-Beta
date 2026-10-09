@@ -2,6 +2,8 @@ package dev.itzgamesgd.moreminecrafts.special.flame;
 
 import dev.itzgamesgd.moreminecrafts.ability.AbilityActivation;
 import dev.itzgamesgd.moreminecrafts.special.ElementalHitProgress;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -19,6 +21,10 @@ public final class FlameSwordItem extends Item {
         if (attacker instanceof ServerPlayer player) {
             T2ElementalVfx.firePrimary(player.level(), player.getEyePosition(),
                     target.position().add(0.0D, target.getBbHeight() * 0.55D, 0.0D));
+            ServerLevel level = player.level();
+            level.sendParticles(ParticleTypes.SWEEP_ATTACK,
+                    target.getX(), target.getY() + target.getBbHeight() * 0.5D, target.getZ(),
+                    1, 0.0D, 0.0D, 0.0D, 0.0D);
             if (ElementalHitProgress.record(player.getUUID(), ElementalHitProgress.Weapon.FIRE)) {
                 FlameSwordEffects.sweep(player, target);
             }
