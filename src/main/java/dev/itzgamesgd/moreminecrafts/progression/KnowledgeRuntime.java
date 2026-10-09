@@ -62,7 +62,7 @@ public final class KnowledgeRuntime {
     /** Knowledge-gated recipes are never allowed from recipe-book appearance alone. */
     public static boolean canCraft(ServerPlayer player, RecipeHolder<?> recipe) {
         if (recipe == null) return true;
-        var id = recipe.id().location();
+        var id = recipe.id().identifier();
         if (!id.getNamespace().equals("moreminecrafts") || !id.getPath().startsWith("knowledge/knowledge"))
             return true;
         String path = id.getPath().substring("knowledge/knowledge".length());
