@@ -812,3 +812,19 @@ C. CONTINUITY
 - Controlled Logging T2 and separate Field Repair remain rejected; T3 lumber machine retained; Furnace Residual Heat folded into existing Fuel Saving; ledge hanging integrated with Wall Climbing; T3 Rope Arrow embedded in Tactical Shooting.
 - Research mindmaps are topology drafts only; do not falsely claim that paid prerequisite graph was previously ratified or implemented. Respect already confirmed functions/cost baseline until explicit rescope.
 ============================================================
+
+============================================================
+USER-APPROVED KNOWLEDGE-GATED CRAFTING RECIPES — FIVE SELECTIONS
+AUTHORITY: USER-DIRECT acceptance of ONLY the listed five recipes from an assistant's 24-candidate brainstorming pass. These unlock through existing FREE knowledge entries (numbers/names below), without making new paid research nodes. Keep the original vanilla recipes available, with new alternatives coexisting. Approval is DESIGN ONLY, not code, registered JSON, implemented unlock, art, tested balancing or main merge.
+
+[APPROVED] #15 정밀 제작 (Production knowledge): 4 wooden planks + 2 sticks -> 2 trapdoors (다락문). New ALTERNATIVE recipe to existing vanilla trapdoor crafting, not replacement. Determine compatible wood species/output type, shaped geometry and recipe-book mapping in implementation design. Note vanilla's trapdoor baseline is 6 planks -> 2 trapdoors, so added 2 sticks is still lower wood-equivalent consumption than vanilla, but not universally in all resource contexts.
+[APPROVED] #25 가축 사육 (Living knowledge): 3 leather + 2 string -> 2 leads (끈). Alternative to existing vanilla lead recipes; keep original.
+[APPROVED] #42 스켈레톤 생태 (Ecology knowledge): 2 bones + 1 flint -> 4 arrows (화살). NO stick in this approved alternative. Preserve original vanilla arrow recipe; distinguish material substitutes and shape placement later.
+[APPROVED] #44 거미 생태 (Ecology knowledge): 9 string -> 1 cobweb block (거미줄). The material count is nine string, not one.
+[APPROVED] #57 비행 관찰 (World knowledge): 4 wool + 2 string + 1 leather -> 1 parachute (낙하산), a NEW ITEM; actual behavior, cooldown, durability/consumption, deployment, model, fall-roll/elytra overlaps remain TO BE DESIGNED. Do not claim those unspecified mechanics are approved.
+
+[EXPLICITLY NOT APPROVED; REJECTED FROM THIS BATCH]
+#17 보관 기술: 6 planks + 2 logs -> 1 chest; criticized as MORE EXPENSIVE than existing vanilla chest, do NOT add.
+#20 작물 생장: 1 hay bale -> 3 bread; criticized as MORE EXPENSIVE than converting the hay back to wheat and using ordinary bread recipe, do NOT add.
+All other unselected recipe suggestions from the 24-candidate set remain NOT APPROVED; neither insert nor price them as confirmed designs. The five newly approved recipes do not automatically approve their exact crafting-grid arrangement or currently absent client assets. The 70 preexisting knowledge acquisition rewards and research cost baseline remain untouched.
+============================================================
