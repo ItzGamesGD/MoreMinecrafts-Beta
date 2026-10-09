@@ -69,10 +69,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          timeout 300s ./gradlew runServer > visual-validation-results/server.log 2>&1 &
+          setsid timeout 300s ./gradlew runServer --args="--safeMode" > visual-validation-results/server.log 2>&1 &
           server_pid=$!
           cleanup() {
-            kill -TERM "$server_pid" 2>/dev/null || true
+            kill -TERM -- "-$server_pid" 2>/dev/null || true
             wait "$server_pid" 2>/dev/null || true
           }
           trap cleanup EXIT
@@ -99,12 +99,6 @@ jobs:
           python3 scripts/visual_validation/rcon.py             "gamerule doDaylightCycle false"             "gamerule doWeatherCycle false"             "time set noon"             "weather clear 1000000"             "fill -10 63 -10 10 63 18 minecraft:stone_bricks"             "fill -10 64 -10 10 80 18 minecraft:air"             "fill -5 64 4 5 64 4 minecraft:stone_bricks"             "fill -3 65 4 -3 66 4 minecraft:red_concrete"             "fill 3 65 4 3 66 4 minecraft:blue_concrete"             "setblock 0 65 4 minecraft:gold_block"             "setblock 0 66 4 minecraft:emerald_block"             "setblock 0 67 4 minecraft:diamond_block"             "setworldspawn 0 64 12"             "gamerule doMobSpawning false"
           python3 scripts/visual_validation/capture_client.sh visual-validation-results 127.0.0.1:25565
           python3 scripts/visual_validation/validate_screenshot.py             visual-validation-results/visual-world.png             visual-validation-results/validation.json
-
-      - name: Stop isolated Minecraft server
-        if: always()
-        shell: bash
-        run: |
-          pkill -f 'net.fabricmc.loader.impl.launch.server.FabricServerLauncher' || true
 
       - name: Upload screenshot and diagnostics
         if: always()
