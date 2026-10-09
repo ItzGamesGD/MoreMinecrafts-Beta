@@ -4,6 +4,14 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## Current research/knowledge authority (latest human-approved V4)
+
+The earlier **Knowledge / Research — IDEA / DEFERRED** paragraph at the bottom of this index is HISTORICAL and superseded, not active. The current, explicitly user-approved Knowledge / Research design authority is [RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md](RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md), especially its **RESEARCH V4 EXECUTION AUTHORITY — 2026-10-10** amendment and the later user-confirmed recipe/mob-capture decisions.
+
+This explicitly promotes the 7-disciplines / 70 free-knowledge roster and paid research with materials + raw XP to active design authority for the scoped V4 project. Research tier markers T1/T2/T3 are development classifications, NOT mandatory uninterrupted purchase gates: T1 may link directly to T3. Existing combat/ecology discipline headings can be their own very small paid branch-root research nodes; do NOT insert new intermediate paths. Previously approved V3 prices remain authoritative until rebalanced deliberately; V4 additions are specified in the linked price addendum.
+
+13 user-approved knowledge-gated recipe alternatives are retained, all vanilla recipes remain available. Automatic crafting was rejected entirely. T3 mob capture (30-durability tool, original mob persistent state including villager trades, no bosses) and the latest mobility/hostile-target redirection/parachute clarifications are active scoped design. Defer rope arrows. This promotion does NOT itself assert runtime implementation and does not overturn separate existing equipment/fishing/enchantment authorities outside the new research scope.
+
 ## Oct 7 follow-up authority overlay
 
 The current design baseline is [the Oct 7 continuation record](CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md). The implementation choices and provisional values made under the user's scoped follow-up are recorded in [the Oct 7 design and implementation follow-up](CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md). Those two documents supersede older `[OPEN]` statements in this index and the current design checklist for T2 core acquisition, Multi Catch, Fisherman fish sales, and the first one-time activity rewards. Numeric loot chances, the Emerald conversion divisor/cap, and all interactive behavior remain balance/live-validation pending.
@@ -204,9 +212,11 @@ Examples include:
 
 Preserve promising concepts here at idea level only. Do not expand them into detailed design, promote them into current authority, or implement them unless a later human-approved design task explicitly selects that concept.
 
-### Knowledge / Research
+### Knowledge / Research (historical superseded proposal)
 
-**Knowledge / Research — IDEA / DEFERRED**
+**Historical only — NOT current authority; V4 research is approved above.**
+
+~~Knowledge / Research — IDEA / DEFERRED~~
 
 Potential new horizontal progression axis.
 
