@@ -303,5 +303,7 @@
   "advancements.moreminecrafts.activities.first_custom_fish.title": "First Custom Catch",
   "advancements.moreminecrafts.activities.first_custom_fish.description": "Catch a fish with the MoreMinecrafts Fishing system.",
   "tag.item.moreminecrafts.custom_fish": "Custom fish",
-  "item.moreminecrafts.parachute": "Parachute"
+  "item.moreminecrafts.parachute": "Parachute",
+  "item.moreminecrafts.mob_capture_tool": "Mob Capture Tool",
+  "item.moreminecrafts.captured_mob_egg": "Captured Mob Egg"
 }
