@@ -63,6 +63,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     public void onInitializeClient() {
         registerCustomMobRenderers();
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
+        MenuScreens.register(ModMenuTypes.AUTO_FARM, AutoFarmScreen::new);
         MenuScreens.register(ModMenuTypes.ENCHANTING_PROGRESSION, EnchantingProgressionScreen::new);
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             boolean jump = client.options.keyJump.isDown();

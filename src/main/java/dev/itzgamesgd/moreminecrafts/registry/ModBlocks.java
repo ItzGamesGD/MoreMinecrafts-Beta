@@ -33,6 +33,7 @@ public final class ModBlocks {
     public static final Block ADAMANTIUM_BLOCK = block("adamantium_block", 50.0F, 1200.0F);
     public static final Block EXPLORATION_SLEEPING_BAG = sleepingBag();
     public static final Block FISH_TRAP = fishTrap();
+    public static final Block AUTO_FARM = autoFarm();
 
     private ModBlocks() {}
 
@@ -61,6 +62,13 @@ public final class ModBlocks {
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
         return register(path, key, new FishTrapBlock(
                 BlockBehaviour.Properties.of().strength(2.0F).noOcclusion().setId(key)));
+    }
+
+    private static Block autoFarm() {
+        String path = "auto_farm";
+        ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
+        return register(path, key, new dev.itzgamesgd.moreminecrafts.progression.AutoFarmBlock(
+                BlockBehaviour.Properties.of().strength(3.0F).setId(key)));
     }
 
     private static Block register(String path, ResourceKey<Block> key, Block block) {

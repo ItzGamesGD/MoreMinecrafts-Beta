@@ -305,5 +305,8 @@
   "tag.item.moreminecrafts.custom_fish": "Custom fish",
   "item.moreminecrafts.parachute": "Parachute",
   "item.moreminecrafts.mob_capture_tool": "Mob Capture Tool",
-  "item.moreminecrafts.captured_mob_egg": "Captured Mob Egg"
+  "item.moreminecrafts.captured_mob_egg": "Captured Mob Egg",
+  "container.moreminecrafts.auto_farm": "Auto Farm",
+  "menu.moreminecrafts.auto_farm.seeds": "Replanting Stock",
+  "menu.moreminecrafts.auto_farm.output": "Harvest Output"
 }

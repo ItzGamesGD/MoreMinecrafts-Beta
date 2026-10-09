@@ -15,6 +15,9 @@ public final class ModMenuTypes {
     public static final MenuType<dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu> ENCHANTING_PROGRESSION = Registry.register(
             BuiltInRegistries.MENU, ModIds.id("enchanting_progression"),
             new MenuType<>(dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu::new, FeatureFlagSet.of()));
+    public static final MenuType<dev.itzgamesgd.moreminecrafts.progression.AutoFarmMenu> AUTO_FARM =
+        Registry.register(BuiltInRegistries.MENU, ModIds.id("auto_farm"),
+            new MenuType<>(dev.itzgamesgd.moreminecrafts.progression.AutoFarmMenu::new, FeatureFlagSet.of()));
     private ModMenuTypes() {}
 
     public static void initialize() {}

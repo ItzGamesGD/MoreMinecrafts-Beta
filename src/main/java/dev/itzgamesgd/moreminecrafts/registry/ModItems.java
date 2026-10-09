@@ -224,6 +224,7 @@ public final class ModItems {
             entries.accept(MINER_LANTERN);
             entries.accept(PARACHUTE);
             entries.accept(MOB_CAPTURE_TOOL);
+            entries.accept(ModBlocks.AUTO_FARM.asItem());
             entries.accept(CAPTURED_MOB_EGG);
             entries.accept(POTION_INJECTOR);
             entries.accept(PORTABLE_FURNACE);

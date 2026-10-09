@@ -184,5 +184,8 @@
   "tag.item.moreminecrafts.custom_fish": "특별한 물고기",
   "item.moreminecrafts.parachute": "낙하산",
   "item.moreminecrafts.mob_capture_tool": "몹 포획 도구",
-  "item.moreminecrafts.captured_mob_egg": "포획한 개체의 알"
+  "item.moreminecrafts.captured_mob_egg": "포획한 개체의 알",
+  "container.moreminecrafts.auto_farm": "자동 농장",
+  "menu.moreminecrafts.auto_farm.seeds": "재파종 재료",
+  "menu.moreminecrafts.auto_farm.output": "수확물"
 }
