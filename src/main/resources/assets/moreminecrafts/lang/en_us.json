@@ -302,5 +302,6 @@
   "advancements.moreminecrafts.activities.craft_enchanting_table.description": "Craft an enchanting table.",
   "advancements.moreminecrafts.activities.first_custom_fish.title": "First Custom Catch",
   "advancements.moreminecrafts.activities.first_custom_fish.description": "Catch a fish with the MoreMinecrafts Fishing system.",
-  "tag.item.moreminecrafts.custom_fish": "Custom fish"
+  "tag.item.moreminecrafts.custom_fish": "Custom fish",
+  "item.moreminecrafts.parachute": "Parachute"
 }
