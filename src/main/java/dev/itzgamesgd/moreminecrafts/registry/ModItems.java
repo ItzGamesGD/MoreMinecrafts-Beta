@@ -88,6 +88,7 @@ public final class ModItems {
     public static final Item DARK_ENERGY_STAFF = Registry.register(BuiltInRegistries.ITEM, DARK_ENERGY_STAFF_KEY,
             new DarkEnergyStaffItem(new Item.Properties().durability(420).setId(DARK_ENERGY_STAFF_KEY)));
 
+    public static final Item PARACHUTE = register("parachute", key -> new ParachuteItem(new Item.Properties().stacksTo(16).setId(key)));
     public static final Item MINER_LANTERN = simpleUtility("miner_lantern");
     public static final Item POTION_INJECTOR = register("potion_injector", key -> new PotionInjectorItem(
             new Item.Properties().stacksTo(1).component(DataComponents.CONTAINER,
@@ -219,6 +220,7 @@ public final class ModItems {
             entries.accept(ETHERIUM);
             entries.accept(ADAMANTIUM_INGOT);
             entries.accept(MINER_LANTERN);
+            entries.accept(PARACHUTE);
             entries.accept(POTION_INJECTOR);
             entries.accept(PORTABLE_FURNACE);
             entries.accept(MINING_DRILL);
