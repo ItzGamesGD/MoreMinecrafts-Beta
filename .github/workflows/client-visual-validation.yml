@@ -55,6 +55,8 @@ jobs:
           server-ip=127.0.0.1
           server-port=25565
           online-mode=false
+          white-list=false
+          enforce-whitelist=false
           enable-rcon=true
           rcon.port=25575
           rcon.password=$RCON_PASSWORD
