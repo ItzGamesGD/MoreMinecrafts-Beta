@@ -787,3 +787,28 @@ Earlier approved Shield Counter Preparation, Ballistic Control expected impact m
 E. ECONOMY / VALIDATION
 Previously locked priced roster (70 paid research nodes / 178 level purchases / 130,360 raw XP) remains a HISTORICAL APPROVED BASELINE ONLY; new candidate nodes and all new knowledge-gated recipes are not added to pricing or formally wired in graph yet. No claims of compiled/live tests or feature implementation. Keep original T3 lumber-machine specs, item recipes and all earlier approved research effects unless specifically overridden above.
 ============================================================
+
+============================================================
+FINAL CORRECTION — DISCIPLINE ROOT NODES AND MINIMAL AUTO-CRAFT UX
+AUTHORITY: USER-DIRECT FINAL CLARIFICATION. This section supersedes any earlier assistant proposal for an intermediate '전투 기초' or '생태 기초' purchase-node, separate route, full skill-tree editor, scripting UI, prioritization UI, or rule-chain UI. Concept/design only; no code, cost ledger, or locked XP edits.
+
+A. DISCIPLINE ROOTS AS SMALL PAID RESEARCH NODES
+- The EXISTING LARGE DISCIPLINE CATEGORIES THEMSELVES, such as 전투학 (Combat) and 생태학 (Ecology), may be low-cost, small-reward research targets and act as the skill-tree branch-access node.
+- The root/category node branches DIRECTLY into its existing research children. This is NOT the creation of any additional intervening node such as '전투 기초'/'생태 기초', NOT a new extra research path, and NOT an instruction to insert starter nodes between every tier.
+- Focus this lightweight category-as-research design on especially branched areas such as Combat and Ecology; do NOT indiscriminately require all seven disciplines to receive a new intermediate node. Tier labels T1/T2/T3 are development classifications, and a valid dependency can skip T2 and connect T1 directly to T3.
+- Exact tiny reward, minimal cost, which categories receive paid root treatment, whether category-root purchase gating affects existing knowledge and research, and concrete edges remain for follow-up design. No silent global branch redesign, separate path or extra prerequisite approved.
+
+B. AUTOMATIC CRAFTING UI — SIMPLE JEI-LIKE INVENTORY SEARCH
+- [APPROVED] UI is a MINIMAL inventory-attached, JEI-like recipe/item search. Click a searched item to toggle its auto-craft ACTIVE state.
+- Provide ONLY ONE ADDITIONAL per-item toggle/control for putting a selected auto-craft target ON HOLD / PAUSED as a bookmark/favorite for later, without crafting it. This is a small additional toggle, not a separate extensive rule editor, priority arrangement, custom scripting language, or complex workflow screen. Distinguish OFF, ACTIVE, HELD; ensure paused items are not active.
+- Auto-crafting concept remains: acquiring items into the player's inventory triggers crafting of selected, compatible recipe targets when inputs become available; multiple selected outputs may support natural chained crafting. The player voluntarily selects recipes; do NOT add user-facing cycle-breaking settings or arbitrary rules screens as if required.
+- [NEW APPROVED CONFLICT RULE] Two DIFFERENT auto-craft recipes that REQUIRE THE SAME/OVERLAPPING INPUT MATERIAL are NOT ALLOWED TO BE ACTIVE SIMULTANEOUSLY. Example: fence and trapdoor both use wooden planks (even though fence has additional stick requirements); selecting another auto-craft recipe that competes for any same ingredient type must be blocked from activating simultaneously. A held/bookmarked target is not active and may remain selected. Enforce competition using actual ingredient match/alternatives, with details about ingredient tags/variant resolution, quantities and conflict UX still to be implemented. Do not assume requiring an IDENTICAL entire recipe ingredient list is necessary; overlapping demand for material is enough. The requirement applies to concurrent active recipe targets, not to adding additional vanilla recipes or free knowledge unlocks.
+- Server-side elementary safety guard may still cap work per acquisition event to prevent re-entrance, but should not surface complex scripting or configuration tools in UI. No priority editor is authorized.
+- Keep prior research links, recipe expansion via free-knowledge unlock, nearby chest 16x16 BLOCK horizontal range independent of Minecraft chunk borders, no automatic chest withdrawals except recipe-book autofill, and all previously final accepted mechanics.
+- This USER clarification supersedes prior assistant text referring to an additional '전투 기초' node or elaborate auto-craft priorities/modes. The earlier display/mockup was only an illustrative proposal, not user-approved design.
+
+C. CONTINUITY
+- Piglin villager-like T3 trading belongs under WORLD studies / 세계학, not Ecology. T1 piglin barter bonus remains.
+- Controlled Logging T2 and separate Field Repair remain rejected; T3 lumber machine retained; Furnace Residual Heat folded into existing Fuel Saving; ledge hanging integrated with Wall Climbing; T3 Rope Arrow embedded in Tactical Shooting.
+- Research mindmaps are topology drafts only; do not falsely claim that paid prerequisite graph was previously ratified or implemented. Respect already confirmed functions/cost baseline until explicit rescope.
+============================================================
