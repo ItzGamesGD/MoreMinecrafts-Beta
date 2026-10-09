@@ -3,11 +3,17 @@ package dev.itzgamesgd.moreminecrafts.client;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ConnectScreen;
+import net.minecraft.client.multiplayer.ServerAddress;
+import net.minecraft.client.multiplayer.ServerData;
 
 public final class VisualValidationHarness {
     private static final String OPT_IN_ENV = "MOREMINECRAFTS_VISUAL_VALIDATION";
+    private static final String SERVER_ENV = "MOREMINECRAFTS_VISUAL_SERVER_ADDRESS";
     private static final boolean ENABLED = "1".equals(System.getenv(OPT_IN_ENV));
+    private static boolean connectionRequested;
     private static boolean readySignalEmitted;
+    private static int startupTicks;
     private static int readyTicks;
 
     private VisualValidationHarness() {
@@ -23,12 +29,18 @@ public final class VisualValidationHarness {
     }
 
     private static void onClientTick(Minecraft client) {
-        if (readySignalEmitted || client.player == null || client.level == null
-                || client.gui.screen() != null) {
+        if (readySignalEmitted) {
             return;
         }
 
-        if (++readyTicks < 120) {
+        if (client.player == null || client.level == null) {
+            if (!connectionRequested && client.gui.screen() != null && ++startupTicks >= 60) {
+                connectToTestServer(client);
+            }
+            return;
+        }
+
+        if (client.gui.screen() != null || ++readyTicks < 120) {
             return;
         }
 
@@ -44,5 +56,28 @@ public final class VisualValidationHarness {
                 client.player.getZ(),
                 readyTicks
         );
+    }
+
+    private static void connectToTestServer(Minecraft client) {
+        String address = System.getenv(SERVER_ENV);
+        if (address == null || address.isBlank()) {
+            MoreMinecrafts.LOGGER.error("Visual-validation server address missing from {}", SERVER_ENV);
+            return;
+        }
+
+        ServerData serverData = new ServerData(
+                "MoreMinecrafts Visual Validation",
+                address,
+                ServerData.Type.OTHER
+        );
+        ConnectScreen.startConnecting(
+                client.gui.screen(),
+                client,
+                ServerAddress.parseString(address),
+                serverData,
+                false
+        );
+        connectionRequested = true;
+        MoreMinecrafts.LOGGER.info("Visual-validation client connecting to local test server");
     }
 }

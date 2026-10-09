@@ -17,8 +17,9 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" bash -euo
     export VK_ICD_FILENAMES="$vulkan_icd"
   fi
   export MOREMINECRAFTS_VISUAL_VALIDATION=1
+  export MOREMINECRAFTS_VISUAL_SERVER_ADDRESS="$server_address"
 
-  setsid timeout 180s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--quickPlayMultiplayer $server_address --width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
+  setsid timeout 180s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
   client_pid=$!
 
   stop_client() {
