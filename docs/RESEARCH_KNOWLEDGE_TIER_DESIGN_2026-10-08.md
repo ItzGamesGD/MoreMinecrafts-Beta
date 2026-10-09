@@ -879,3 +879,12 @@ P B P
 
 GENERAL SHAPED-RECIPE RULE: Crafting pattern translates anywhere within grid bounds, preserving relative geometry and ingredient positions (as in vanilla Minecraft shaped recipes). Preserve same-output variant semantics, vanilla base recipes, 70 free-knowledge rewards, and existing research mechanic rewards. Do not create new intermediary research paths or link these free-knowledge rewards to extra paid nodes. Exact vanilla 2x2 compatibility, mirrored patterns, matching recipe conflict checks, mixed wood rules and server-authoritative player-specific knowledge recipe validation must be audited before implementation. No unstated recipes from prior 14/24-item brainstorming batches are approved by implication. This section supersedes earlier assistant mockup shape for #04 only.
 ============================================================
+
+============================================================
+FINAL OVERRIDE — AUTO-CRAFT RESEARCH FULLY REJECTED
+[USER FINAL DIRECTIVE] Inventory-triggered 자동제작 / Automatic Crafting as research feature is ABANDONED IN FULL. Remove it from all future research node candidates, branch placement, research cost planning and UI implementation work. Its earlier JEI-like search/toggle/bookmark flow, acquisition-triggered crafting, selected recipe chains, and duplicate-input conflict behavior are historical superseded notes ONLY, not active design requirements. Do NOT create another node or alternative automation implementation to replace it without new user approval. The motive was disproportionate exception-rule burden, but do not attempt a redesign by default.
+
+IMPORTANT RETAIN: The existing 70 FREE knowledge roster and ALL THIRTEEN user-approved knowledge-gated crafting recipes (earlier batch 5 plus efficiency batch 8), their shapes and unlocks, and the ordinary vanilla crafting system remain unchanged. Prior selected nearby-chest recipe-book material reference and hopper filtering are SEPARATE candidate features and are NOT automatically rejected by this automatic-crafting cancellation. Previously selected T3 individual-data-preserving mob capture is NEXT design topic, with only simple capture -> storage -> release intended until approved details.
+
+This overrides all prior adoption statements about automatic crafting in this document. No code implementation, main merge or research cost ledger updates are claimed.
+============================================================
