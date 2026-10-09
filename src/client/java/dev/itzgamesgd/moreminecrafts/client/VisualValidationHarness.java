@@ -75,7 +75,8 @@ public final class VisualValidationHarness {
                 client,
                 ServerAddress.parseString(address),
                 serverData,
-                false
+                false,
+                null
         );
         connectionRequested = true;
         MoreMinecrafts.LOGGER.info("Visual-validation client connecting to local test server");
