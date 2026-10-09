@@ -161,7 +161,6 @@
   "menu.moreminecrafts.effect.unbreaking": "내구도 소모가 감소합니다.",
   "menu.moreminecrafts.effect.mending": "경험치를 사용해 아이템을 수리합니다.",
   "enchantment.moreminecrafts.laser_arrow": "레이저 화살",
-  "menu.moreminecrafts.maximum": "최대",
   "menu.moreminecrafts.enhancement_maximum": "최대 강화 레벨에 도달했습니다.",
   "item.moreminecrafts.eye_of_typhoon": "태풍의 눈",
   "item.moreminecrafts.heart_of_thunder": "천둥의 심장",
@@ -182,5 +181,6 @@
   "advancements.moreminecrafts.activities.craft_enchanting_table.description": "마법 부여대를 제작하세요.",
   "advancements.moreminecrafts.activities.first_custom_fish.title": "첫 특별한 포획",
   "advancements.moreminecrafts.activities.first_custom_fish.description": "MoreMinecrafts 낚시 시스템으로 물고기를 잡으세요.",
-  "tag.item.moreminecrafts.custom_fish": "특별한 물고기"
+  "tag.item.moreminecrafts.custom_fish": "특별한 물고기",
+  "item.moreminecrafts.parachute": "낙하산"
 }
