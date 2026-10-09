@@ -745,3 +745,10 @@ E. SCOPE, DEPENDENCIES, ECONOMY, VERIFICATION
 • Earlier V3 locked base cost total remains 130,360 raw XP for 70 PREVIOUSLY PRICED research nodes / 178 purchases. These new candidates may increase it in a later user-approved V4; do not report unchanged total as a complete total including future additions.
 • No coding, tests, CI, modpack research, fabricated compatibility guarantees, or remote branch merge claimed by this addendum.
 ============================================================
+
+============================================================
+T2 NEARBY CHEST RANGE — USER CLARIFICATION (2026-10-09)
+STATUS: USER-APPROVED, OVERRIDES THE PRIOR UNRESOLVED CHUNK-GEOMETRY NOTE.
+주변 재료 참조 / Nearby Chest Ingredient Reference: the '1청크' range means a fixed 16×16-block HORIZONTAL AREA centered/aligned relative to the crafting table, NOT the actual Minecraft chunk grid or chunk borders. The search must NOT abruptly stop at chunk boundaries; a crafting table near a chunk edge can include eligible chests on the other side of that boundary if inside the 16×16 area. Vertical Y range, exact centered even-width rectangle origin/tie-breaking, access permissions and performance bounds remain implementation details requiring confirmation; do not infer a 16×16×16 volume or 3×3 chunk radius. Previously approved rules remain: nearby chest material included in recipe-book craftability if feasible, chest withdrawals ONLY upon recipe-book auto-fill and only required quantities, unspent materials returned when crafting is cancelled/closed, with safe server-authoritative transactions.
+Remaining T2 branches for next design: resource mining -> T3 3×3 mining tool; ecology observation/tracking -> T3 mob tracker; world navigation/transport -> T3 powered boat and cross-dimension home delivery. Generate candidate designs for user selection; DO NOT approve any new candidates, prices or topology without user decision.
+============================================================
