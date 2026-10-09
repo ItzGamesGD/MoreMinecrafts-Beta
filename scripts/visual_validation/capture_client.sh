@@ -22,6 +22,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   openbox --sm-disable > "$results_dir/openbox.log" 2>&1 &
   window_manager_pid=$!
   sleep 2
+  echo "Xvfb display=$DISPLAY window_manager_pid=$window_manager_pid" | tee -a "$results_dir/client.log"
 
   setsid timeout 180s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
   client_pid=$!
