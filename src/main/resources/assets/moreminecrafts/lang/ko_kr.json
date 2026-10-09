@@ -182,5 +182,7 @@
   "advancements.moreminecrafts.activities.first_custom_fish.title": "첫 특별한 포획",
   "advancements.moreminecrafts.activities.first_custom_fish.description": "MoreMinecrafts 낚시 시스템으로 물고기를 잡으세요.",
   "tag.item.moreminecrafts.custom_fish": "특별한 물고기",
-  "item.moreminecrafts.parachute": "낙하산"
+  "item.moreminecrafts.parachute": "낙하산",
+  "item.moreminecrafts.mob_capture_tool": "몹 포획 도구",
+  "item.moreminecrafts.captured_mob_egg": "포획한 개체의 알"
 }
