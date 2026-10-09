@@ -65,7 +65,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   fi
 
   # Focus the actual Minecraft window, then request the game native F2 screenshot.
-  window_ids="$(xdotool search --onlyvisible --name '.*' 2>/dev/null || true)"
+  window_ids="$(xdotool search --onlyvisible --name ".*" 2>/dev/null || true)"
   window_id="$(printf "%s\\n" "$window_ids" | tail -n 1)"
   if [ -z "$window_id" ]; then
     window_id="$(xdotool getactivewindow 2>/dev/null || true)"
