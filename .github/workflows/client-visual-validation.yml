@@ -39,7 +39,7 @@ jobs:
       - name: Install isolated display and PNG validation dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb xdotool x11-utils python3-pil libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+          sudo apt-get install -y xvfb xdotool x11-utils scrot python3-pil libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
 
       - name: Prepare deterministic test server
         shell: bash

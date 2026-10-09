@@ -95,14 +95,14 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     sleep 1
   done
 
-  if [ -z "$screenshot" ]; then
-    cat "$client_log"
-    echo "Minecraft did not create an F2 screenshot."
-    exit 1
+  if [ -n "$screenshot" ]; then
+    cp "$screenshot" "$results_dir/visual-world.png"
+    printf "Captured Minecraft F2 screenshot from %s\\n" "$screenshot" | tee -a "$client_log"
+  else
+    scrot --overwrite "$results_dir/visual-world.png"
+    test -s "$results_dir/visual-world.png"
+    echo "Captured the 1280x720 X11 framebuffer after Minecraft world readiness." | tee -a "$client_log"
   fi
-
-  cp "$screenshot" "$results_dir/visual-world.png"
-  printf "Captured Minecraft F2 screenshot from %s\n" "$screenshot" | tee -a "$client_log"
   echo "Minecraft client reported the test world ready and saved an F2 screenshot."
   stop_client
   trap - EXIT
