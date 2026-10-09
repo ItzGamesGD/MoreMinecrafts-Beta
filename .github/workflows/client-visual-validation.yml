@@ -1,0 +1,116 @@
+name: Minecraft Client Visual Validation
+
+on:
+  push:
+    branches:
+      - codex/prototype-client-visual-validation-20261009
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/client-visual-validation.yml"
+      - "src/client/**"
+      - "src/main/resources/**"
+      - "scripts/visual_validation/**"
+      - "build.gradle"
+      - "gradle.properties"
+
+permissions:
+  contents: read
+
+jobs:
+  client-visual-validation:
+    name: client-visual-validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install isolated display and PNG validation dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb xdotool python3-pil
+
+      - name: Prepare deterministic test server
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p run visual-validation-results
+          printf 'eula=true\n' > run/eula.txt
+          RCON_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_urlsafe(24))')"
+          echo "::add-mask::$RCON_PASSWORD"
+          cat > run/server.properties <<EOF
+          level-name=visual-validation-world
+          level-seed=2632026
+          server-ip=127.0.0.1
+          server-port=25565
+          online-mode=false
+          enable-rcon=true
+          rcon.port=25575
+          rcon.password=$RCON_PASSWORD
+          spawn-protection=0
+          spawn-radius=0
+          max-players=2
+          motd=MoreMinecrafts isolated visual validation
+          EOF
+          echo "RCON_PASSWORD=$RCON_PASSWORD" >> "$GITHUB_ENV"
+
+      - name: Start server, build the scene, and capture the client
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 300s ./gradlew runServer > visual-validation-results/server.log 2>&1 &
+          server_pid=$!
+          cleanup() {
+            kill -TERM "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          server_ready=0
+          for attempt in $(seq 1 150); do
+            if grep -Fq "Done (" visual-validation-results/server.log; then
+              server_ready=1
+              break
+            fi
+            if ! kill -0 "$server_pid" 2>/dev/null; then
+              cat visual-validation-results/server.log
+              echo "Minecraft test server exited before becoming ready."
+              exit 1
+            fi
+            sleep 2
+          done
+          if [ "$server_ready" -ne 1 ]; then
+            cat visual-validation-results/server.log
+            echo "Timed out waiting for Minecraft test server readiness."
+            exit 1
+          fi
+
+          python3 scripts/visual_validation/rcon.py             "gamerule doDaylightCycle false"             "gamerule doWeatherCycle false"             "time set noon"             "weather clear 1000000"             "fill -10 63 -10 10 63 18 minecraft:stone_bricks"             "fill -10 64 -10 10 80 18 minecraft:air"             "fill -5 64 4 5 64 4 minecraft:stone_bricks"             "fill -3 65 4 -3 66 4 minecraft:red_concrete"             "fill 3 65 4 3 66 4 minecraft:blue_concrete"             "setblock 0 65 4 minecraft:gold_block"             "setblock 0 66 4 minecraft:emerald_block"             "setblock 0 67 4 minecraft:diamond_block"             "setworldspawn 0 64 12"             "gamerule doMobSpawning false"
+          python3 scripts/visual_validation/capture_client.sh visual-validation-results 127.0.0.1:25565
+          python3 scripts/visual_validation/validate_screenshot.py             visual-validation-results/visual-world.png             visual-validation-results/validation.json
+
+      - name: Stop isolated Minecraft server
+        if: always()
+        shell: bash
+        run: |
+          pkill -f 'net.fabricmc.loader.impl.launch.server.FabricServerLauncher' || true
+
+      - name: Upload screenshot and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: minecraft-client-visual-validation-${{ github.run_id }}
+          path: visual-validation-results/
+          if-no-files-found: warn
+          retention-days: 14
