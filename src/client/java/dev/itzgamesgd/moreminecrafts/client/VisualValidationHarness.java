@@ -8,8 +8,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.ConnectScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +30,16 @@ public final class VisualValidationHarness {
     private static int startupTicks;
     private static int readyTicks;
     private static int renderedFramesAfterReady;
+    private static boolean uiJourneyStarted;
+    private static boolean uiJourneyFailed;
+    private static int uiJourneyStage;
+    private static int uiFrames;
+    private static String uiCaptureName;
+    private static volatile boolean uiCaptureComplete;
+    private static int purchaseXpBefore;
+    private static int purchaseChestBefore;
+    private static int purchaseIronBlocksBefore;
+    private static int purchasePaperBefore;
 
     private VisualValidationHarness() {
     }
@@ -48,6 +60,7 @@ public final class VisualValidationHarness {
 
     private static void onClientTick(Minecraft client) {
         if (captureFinished) {
+            runUiJourney(client);
             return;
         }
 
@@ -96,6 +109,10 @@ public final class VisualValidationHarness {
     }
 
     private static void onHudRender(Minecraft client) {
+        if (uiCaptureName != null && ++uiFrames >= 4) {
+            captureUiScreenshot(client);
+            return;
+        }
         if (!readySignalEmitted || frameReady || captureRequested || captureFinished
                 || client.player == null || client.level == null || client.gui.screen() != null) {
             return;
@@ -111,6 +128,136 @@ public final class VisualValidationHarness {
                 "VISUAL_VALIDATION_FRAME_READY milestone=HudElementRegistry.after(CHAT) rendered_frames={}",
                 renderedFramesAfterReady
         );
+    }
+
+    /**
+     * Opt-in synthetic widget interaction for headless client validation. It runs the same
+     * Screen click callbacks as a mouse input and sends the final purchase through the normal
+     * client/server payload; production clients never register this route.
+     */
+    private static void runUiJourney(Minecraft client) {
+        if (uiJourneyFailed || client.player == null || client.level == null) return;
+        if (!uiJourneyStarted) {
+            uiJourneyStarted = true;
+            client.gui.setScreen(new ProgressionSelectionScreen());
+            queueUiScreenshot("progression-selection.png");
+            uiJourneyStage = 1;
+            return;
+        }
+        if (uiCaptureName != null || !uiCaptureComplete && uiJourneyStage > 0) return;
+        switch (uiJourneyStage) {
+            case 1 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                clickScreen(client, 640, 348);
+                queueUiScreenshot("knowledge-screen.png");
+                uiJourneyStage = 2;
+            }
+            case 2 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                clickScreen(client, 477, 181);
+                clickScreen(client, 640, 374);
+                queueUiScreenshot("research-screen.png");
+                uiJourneyStage = 3;
+            }
+            case 3 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                for (int page = 0; page < 6; page++) clickScreen(client, 623, 481);
+                clickScreen(client, 543, 244);
+                queueUiScreenshot("research-purchasable-entry.png");
+                uiJourneyStage = 4;
+            }
+            case 4 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                purchaseXpBefore = dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player);
+                purchaseChestBefore = itemCount(client, "minecraft:chest");
+                purchaseIronBlocksBefore = itemCount(client, "minecraft:iron_block");
+                purchasePaperBefore = itemCount(client, "minecraft:paper");
+                clickScreen(client, 698, 482);
+                uiJourneyStage = 5;
+            }
+            case 5 -> {
+                int expectedResult = dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseService.Result.PURCHASED.ordinal();
+                if (!"research:nearby_chest_ingredients".equals(ProgressionClientApi.lastAction())
+                        || ProgressionClientApi.lastActionResult() != expectedResult) return;
+                var row = ProgressionClientApi.research(null).stream()
+                        .filter(entry -> entry.id().equals("nearby_chest_ingredients")).findFirst().orElse(null);
+                if (row == null || row.level() != 1) return;
+                int xpSpent = purchaseXpBefore - dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player);
+                int chestsSpent = purchaseChestBefore - itemCount(client, "minecraft:chest");
+                int ironBlocksSpent = purchaseIronBlocksBefore - itemCount(client, "minecraft:iron_block");
+                int paperSpent = purchasePaperBefore - itemCount(client, "minecraft:paper");
+                if (xpSpent != 1100 || chestsSpent != 8 || ironBlocksSpent != 4 || paperSpent != 64) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error(
+                            "CLIENT_UI_PURCHASE_FAILED xp={} chest={} iron_blocks={} paper={}",
+                            xpSpent, chestsSpent, ironBlocksSpent, paperSpent
+                    );
+                    return;
+                }
+                queueUiScreenshot("research-purchase-state.png");
+                uiJourneyStage = 6;
+                MoreMinecrafts.LOGGER.info(
+                        "CLIENT_UI_PURCHASE_VERIFIED result=PURCHASED research=nearby_chest_ingredients level=1 xp=1100 chest=8 iron_blocks=4 paper=64"
+                );
+            }
+            case 6 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                MoreMinecrafts.LOGGER.info(
+                        "CLIENT_INTERACTION_PATH synthetic Screen mouse events: selector -> knowledge -> research -> purchase"
+                );
+                uiJourneyStage = 7;
+            }
+            default -> { }
+        }
+    }
+
+    private static void clickScreen(Minecraft client, double x, double y) {
+        Screen screen = client.gui.screen();
+        if (screen == null || !screen.mouseClicked(x, y, 0)) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED x={} y={} screen={}", x, y, screen);
+        }
+    }
+
+    private static int itemCount(Minecraft client, String itemId) {
+        var item = BuiltInRegistries.ITEM.get(net.minecraft.resources.Identifier.parse(itemId));
+        int total = 0;
+        for (int slot = 0; slot < client.player.getInventory().getContainerSize(); slot++) {
+            var stack = client.player.getInventory().getItem(slot);
+            if (!stack.isEmpty() && stack.getItem() == item) total += stack.getCount();
+        }
+        return total;
+    }
+
+    private static void queueUiScreenshot(String name) {
+        uiCaptureName = name;
+        uiFrames = 0;
+    }
+
+    private static void captureUiScreenshot(Minecraft client) {
+        String name = uiCaptureName;
+        uiCaptureName = null;
+        Path screenshot = client.gameDirectory.toPath().resolve("screenshots").resolve(name);
+        try {
+            Files.createDirectories(screenshot.getParent());
+            Screenshot.grab(client.gameDirectory, name, client.gameRenderer.mainRenderTarget(), 1, message -> {
+                if (!Files.isRegularFile(screenshot) || Files.size(screenshot) <= 8L) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_SCREENSHOT_FAILED name={} callback={}", name, message.getString());
+                    return;
+                }
+                uiCaptureComplete = true;
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_SCREENSHOT_WRITTEN name={} bytes={}", name, Files.size(screenshot));
+            });
+        } catch (Exception exception) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_SCREENSHOT_FAILED name={}", name, exception);
+        }
     }
 
     private static void requestNativeScreenshot(Minecraft client) {
