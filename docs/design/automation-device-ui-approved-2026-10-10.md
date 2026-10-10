@@ -30,3 +30,12 @@ Status: **DESIGN APPROVED / NOT IMPLEMENTED**. This document is normative. Gener
 - Use vanilla-aligned slot spacing, pixel-perfect dimensions, and existing vanilla elements where required; game code renders actual items, counts, progress, tooltips, and state.
 - UI screenshots and AI-generated images are **visual references only**. Never infer or override mechanics from them.
 - Actual package compatibility requires texture path/atlas mapping, Screen/ScreenHandler slot alignment and runtime validation; **none is claimed complete by this document**.
+
+## 8. Chest Sorting UI — APPROVED (2026-10-10)
+- **Chest sorting, NOT chest filtering.** Do not introduce filter slots, whitelist/blacklist, NBT-ignore settings or rename the chest UI to "상자 정렬".
+- Keep the existing vanilla chest title (e.g. **상자**) and its **original inventory slot count, grid geometry, slot spacing, proportions and player inventory**. Do not shrink or replace the vanilla grid to fit controls. Single/double chest sizes must follow their actual vanilla layouts; reference artwork is not a slot-count specification.
+- Add a **sorting-only side panel** on the left or right (approved visual reference places it on the right), adjacent to—not overlapping—the vanilla chest inventory.
+- Approved side-panel actions: **sort by item type**, **merge compatible stacks of identical items**, **compact empty gaps**, **toggle sorting direction**. Each is a separate control, not an item-filtering rule.
+- Preserve item counts, item identity, components/data, stack-size limits, and inventory ownership; never combine incompatible stacks or move items into the player's inventory. Sorting affects the opened chest's slots only.
+- Generated images are **visual references only** and are not package-ready resources or binding implementation requirements. Pixel positions, sorting comparison/tie-break rules, and button behaviors must be checked during implementation; no implementation or runtime verification is claimed.
+- This section updates **only item 8 (chest)**. It does not modify crafting-table nearby-ingredient rules (item 7), hopper filtering rules (item 9), or automation device rules (items 1–3).
