@@ -3,9 +3,9 @@ package dev.itzgamesgd.moreminecrafts.progression;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.world.entity.player.GameType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameType;
 
 public final class ProgressionPurchaseGameTests implements CustomTestMethodInvoker {
     @GameTest

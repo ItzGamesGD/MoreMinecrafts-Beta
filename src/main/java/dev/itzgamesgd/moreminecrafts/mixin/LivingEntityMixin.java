@@ -22,14 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /** Applies player armor enhancements immediately before vanilla armor/toughness mitigation. */
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
-    @Inject(method = "blockUsingShield", at = @At("TAIL"))
-    private void moreminecrafts$recordShieldBlock(LivingEntity attacker, org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
-        if ((Object) this instanceof ServerPlayer player)
-            dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.recordCondition(player,
-                    "shield_blocks", dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.state(player)
-                            .conditionProgress("shield_blocks") + 1);
-    }
-
     @Inject(method = "collectEquipmentChanges", at = @At("RETURN"))
     private void moreminecrafts$refreshCustomMobArmor(Map<EquipmentSlot, ItemStack> oldItems,
             CallbackInfoReturnable<Map<EquipmentSlot, ItemStack>> cir) {
