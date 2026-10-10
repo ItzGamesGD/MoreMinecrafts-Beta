@@ -10,8 +10,7 @@ import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -211,24 +210,12 @@ public final class VisualValidationHarness {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
                 MoreMinecrafts.LOGGER.info(
-                        "CLIENT_INTERACTION_PATH synthetic Screen mouse events: selector -> knowledge -> research -> purchase"
+                        "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge -> research -> purchase"
                 );
                 uiJourneyStage = 7;
             }
             default -> { }
         }
-    }
-
-    private static void clickScreen(Minecraft client, double x, double y) {
-        Screen screen = client.gui.screen();
-        if (screen == null) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED screen=null");
-            return;
-        }
-        boolean consumed = screen.mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
-        MoreMinecrafts.LOGGER.info("CLIENT_UI_CLICK x={} y={} consumed={} screen={}", x, y, consumed,
-                screen.getClass().getSimpleName());
     }
 
     private static void clickSelectionChoice(Minecraft client, int choice) {
@@ -280,8 +267,14 @@ public final class VisualValidationHarness {
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED widget={} screen={}", index, screen);
             return;
         }
-        clickScreen(client, widget.getX() + widget.getWidth() / 2.0,
-                widget.getY() + widget.getHeight() / 2.0);
+        if (!(widget instanceof Button button)) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED widget={} is not a button", index);
+            return;
+        }
+        button.onPress();
+        MoreMinecrafts.LOGGER.info("CLIENT_UI_WIDGET_ACTIVATED index={} label={} screen={}", index,
+                button.getMessage().getString(), screen.getClass().getSimpleName());
     }
 
     private static int itemCount(Minecraft client, String itemId) {

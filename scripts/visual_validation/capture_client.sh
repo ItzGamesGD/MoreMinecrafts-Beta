@@ -33,6 +33,9 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     wait "$window_manager_pid" 2>/dev/null || true
   }
   collect_x11_diagnostics() {
+    for screenshot in run/screenshots/progression-*.png; do
+      if [ -s "$screenshot" ]; then cp "$screenshot" "$results_dir/$(basename "$screenshot")"; fi
+    done
     if command -v xwininfo >/dev/null 2>&1; then
       xwininfo -root -tree > "$results_dir/x11-window-tree.txt" 2>&1 || true
     fi
@@ -123,7 +126,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
 
   ui_done=0
   for attempt in $(seq 1 120); do
-    if grep -Fq "CLIENT_INTERACTION_PATH synthetic Screen mouse events" "$client_log"; then
+    if grep -Fq "CLIENT_INTERACTION_PATH synthetic Screen button callbacks" "$client_log"; then
       ui_done=1
       break
     fi
@@ -145,7 +148,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     cp "$screenshot" "$results_dir/${frame}.png"
   done
   printf "Minecraft Screenshot.grab via mainRenderTarget\nselection-window.png\nknowledge-screen.png\nresearch-screen.png\nresearch-purchasable-entry.png\nresearch-purchase-state.png\n" > "$results_dir/ui-capture-source.txt"
-  echo "CLIENT_INTERACTION_PATH synthetic Screen mouse events: selector -> knowledge -> research -> purchase" | tee -a "$client_log"
+  echo "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge -> research -> purchase" | tee -a "$client_log"
 
   collect_x11_diagnostics
   stop_client
