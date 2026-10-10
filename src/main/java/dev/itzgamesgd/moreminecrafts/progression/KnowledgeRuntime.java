@@ -32,7 +32,6 @@ public final class KnowledgeRuntime {
     private static List<Item> logItems = List.of();
     private static List<Item> plantItems = List.of();
     private static List<Item> seedItems = List.of();
-    private static List<Item> registeredItems = List.of();
     private static final java.util.Map<java.util.UUID, PickaxeDamageSnapshot> PICKAXE_DAMAGE = new java.util.HashMap<>();
     private record PickaxeDamageSnapshot(Item item, int damage, int maximumDamage) {}
 
@@ -55,9 +54,6 @@ public final class KnowledgeRuntime {
         logItems = List.copyOf(logs);
         plantItems = List.copyOf(plants);
         seedItems = List.copyOf(seeds);
-        var all = new java.util.ArrayList<Item>();
-        for (Item item : BuiltInRegistries.ITEM) all.add(item);
-        registeredItems = List.copyOf(all);
     }
 
     public static void initialize() {
@@ -221,7 +217,7 @@ public final class KnowledgeRuntime {
             if (!entry.conditionKey().equals(conditionKey)) continue;
             String key = "condition." + conditionKey;
             int current = value(player, key);
-            int next = KnowledgeRules.monotonicProgress(current, totalProgress);
+            int next = Math.min(entry.target(), KnowledgeRules.monotonicProgress(current, totalProgress));
             if (next == current) continue;
             set(player, key, next);
             if (KnowledgeRules.conditionMet(next, entry.target())) grantKnowledge(player, entry.number());
@@ -363,13 +359,6 @@ public final class KnowledgeRuntime {
                 Items.WOODEN_SHOVEL, Items.STONE_SHOVEL, Items.IRON_SHOVEL, Items.DIAMOND_SHOVEL,
                 Items.WOODEN_SWORD, Items.STONE_SWORD, Items.IRON_SWORD, Items.DIAMOND_SWORD)) >= 5)
             grantKnowledge(p, 14);
-        if (!knows(p, 15)) {
-            int total = 0;
-            for (Item item : registeredItems)
-                total = (int) Math.min(Integer.MAX_VALUE, (long) total + crafted(p, item));
-            recordCondition(p, "recipes_completed", total);
-            if (total >= 50) grantKnowledge(p, 15);
-        }
         if (!knows(p, 17) && crafted(p, Items.CHEST) >= 10) grantKnowledge(p, 17);
         if (!knows(p, 18) && used(p, Items.HOPPER) >= 5) grantKnowledge(p, 18);
         if (!knows(p, 19) && usedSum(p, List.of(Items.REDSTONE, Items.REPEATER, Items.COMPARATOR,
