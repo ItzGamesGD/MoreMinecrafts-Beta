@@ -3,11 +3,13 @@ set -euo pipefail
 
 RESULTS_DIR="${1:-visual-validation-results}"
 SERVER_ADDRESS="${2:-127.0.0.1:25565}"
+VISUAL_USERNAME="${3:-VisualValidation}"
 mkdir -p "$RESULTS_DIR"
 
-xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUAL_RESULTS_DIR="$RESULTS_DIR" VISUAL_SERVER_ADDRESS="$SERVER_ADDRESS" bash -euo pipefail -c '
+xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUAL_RESULTS_DIR="$RESULTS_DIR" VISUAL_SERVER_ADDRESS="$SERVER_ADDRESS" VISUAL_USERNAME="$VISUAL_USERNAME" bash -euo pipefail -c '
   results_dir="$VISUAL_RESULTS_DIR"
   server_address="$VISUAL_SERVER_ADDRESS"
+  username="$VISUAL_USERNAME"
   client_log="$results_dir/client.log"
   export LIBGL_ALWAYS_SOFTWARE=1
   export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
@@ -24,7 +26,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   sleep 2
   echo "Xvfb display=$DISPLAY window_manager_pid=$window_manager_pid" | tee -a "$client_log"
 
-  setsid timeout 240s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username VisualValidation" > "$client_log" 2>&1 &
+  setsid timeout 240s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username $username" > "$client_log" 2>&1 &
   client_pid=$!
 
   stop_client() {
@@ -69,12 +71,12 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   fi
 
   python3 scripts/visual_validation/rcon.py \
-    "execute as VisualValidation run mmresearch test crafting" \
-    "xp add VisualValidation 1200 points" \
-    "give VisualValidation minecraft:chest 8" \
-    "give VisualValidation minecraft:iron_block 4" \
-    "give VisualValidation minecraft:paper 64" \
-    "tp VisualValidation 0.5 64 12.5"
+    "execute as $username run mmresearch test crafting" \
+    "xp add $username 1200 points" \
+    "give $username minecraft:chest 8" \
+    "give $username minecraft:iron_block 4" \
+    "give $username minecraft:paper 64" \
+    "tp $username 0.5 64 12.5"
 
   ready=0
   for attempt in $(seq 1 60); do
@@ -142,8 +144,10 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
       sleep 1
     done
     if [ -z "$ready_line" ]; then cat "$client_log"; echo "No physical-click target announced: $target"; exit 1; fi
-    x="$(sed -n 's/.* x=\([0-9][0-9]*\) y=.*/\1/p' <<< "$ready_line")"
-    y="$(sed -n 's/.* y=\([0-9][0-9]*\) gui_scale=.*/\1/p' <<< "$ready_line")"
+    x="${ready_line#* x=}"
+    x="${x%% *}"
+    y="${ready_line#* y=}"
+    y="${y%% *}"
     if [ -z "$x" ] || [ -z "$y" ]; then echo "Invalid physical-click coordinates: $ready_line"; exit 1; fi
     window_id="$(xdotool getactivewindow)"
     eval "$(xdotool getwindowgeometry --shell "$window_id")"
@@ -151,7 +155,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     for attempt in $(seq 1 20); do
       if grep -Fq "SELECTOR_PHYSICAL_VERIFIED target=$target input=xdotool" "$client_log"; then
         echo "Physical mouse click verified: $target at window=($x,$y) root=($((X+x)),$((Y+y)))" | tee -a "$client_log"
-        printf '%s window=%s local=%s,%s root=%s,%s\n' "$target" "$window_id" "$x" "$y" "$((X+x))" "$((Y+y))" >> "$results_dir/selector-physical-inputs.txt"
+        printf "%s window=%s local=%s,%s root=%s,%s\n" "$target" "$window_id" "$x" "$y" "$((X+x))" "$((Y+y))" >> "$results_dir/selector-physical-inputs.txt"
         return 0
       fi
       if grep -Fq "SELECTOR_PHYSICAL_TEST_FAILED" "$client_log" || grep -Fq "CLIENT_UI_INTERACTION_FAILED" "$client_log"; then

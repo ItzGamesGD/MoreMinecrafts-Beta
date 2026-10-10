@@ -8,8 +8,8 @@ from PIL import Image, ImageStat
 
 image_path = Path(sys.argv[1] if len(sys.argv) > 1 else "visual-validation-results/visual-world.png")
 result_path = Path(sys.argv[2] if len(sys.argv) > 2 else "visual-validation-results/validation.json")
-log_path = Path("visual-validation-results/client.log")
-capture_source_path = Path("visual-validation-results/capture-source.txt")
+log_path = image_path.parent / "client.log"
+capture_source_path = image_path.parent / "capture-source.txt"
 ui_capture = "--ui" in sys.argv[3:]
 
 if not image_path.is_file():

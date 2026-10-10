@@ -120,16 +120,22 @@ jobs:
           )
           python3 scripts/visual_validation/rcon.py "${rcon_commands[@]}"
           sleep 3
-          bash scripts/visual_validation/capture_client.sh visual-validation-results 127.0.0.1:25565
-          for screenshot in visual-validation-results/*.png; do
-            stem="$(basename "$screenshot" .png)"
-            if [ "$stem" = "visual-world" ]; then
-              python3 scripts/visual_validation/validate_screenshot.py \
-                "$screenshot" "visual-validation-results/${stem}-validation.json"
-            else
-              python3 scripts/visual_validation/validate_screenshot.py \
-                "$screenshot" "visual-validation-results/${stem}-validation.json" --ui
-            fi
+          for gui_scale in 2 3 4; do
+            mkdir -p run
+            printf 'guiScale:%s\n' "$gui_scale" > run/options.txt
+            results_dir="visual-validation-results/gui-scale-${gui_scale}"
+            bash scripts/visual_validation/capture_client.sh \
+              "$results_dir" 127.0.0.1:25565 "SelectorScale${gui_scale}"
+            for screenshot in "$results_dir"/*.png; do
+              stem="$(basename "$screenshot" .png)"
+              if [ "$stem" = "visual-world" ]; then
+                python3 scripts/visual_validation/validate_screenshot.py \
+                  "$screenshot" "$results_dir/${stem}-validation.json"
+              else
+                python3 scripts/visual_validation/validate_screenshot.py \
+                  "$screenshot" "$results_dir/${stem}-validation.json" --ui
+              fi
+            done
           done
 
       - name: Upload screenshot and diagnostics
