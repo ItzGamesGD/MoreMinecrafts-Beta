@@ -79,6 +79,7 @@ public final class KnowledgeRuntime {
                             && (animal.canFallInLove() || animal.isBaby())
                             && !knows(serverPlayer, 25)) {
                         String type = String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
+                        recordDistinctCondition(serverPlayer, "animal_types_fed", type);
                         set(serverPlayer, "fed_species." + type, 1);
                         long count = serverPlayer.getAttachedOrCreate(STATE).counters().keySet().stream()
                                 .filter(s -> s.startsWith("fed_species.")).count();
@@ -118,7 +119,8 @@ public final class KnowledgeRuntime {
             var clicked = level.getBlockState(hit.getBlockPos());
             if (held.is(ItemTags.HOES) && clicked.is(BlockTags.DIRT))
                 recordCondition(serverPlayer, "farmland_tilled", value(serverPlayer,"condition.farmland_tilled") + 1);
-            if (held.is(Items.WATER_BUCKET) && clicked.is(BlockTags.DIRT))
+            if (held.is(Items.WATER_BUCKET)
+                    && (clicked.is(BlockTags.DIRT) || clicked.is(Blocks.FARMLAND)))
                 recordCondition(serverPlayer, "farmland_watered", 1);
             if (clicked.is(Blocks.BLAST_FURNACE))
                 recordCondition(serverPlayer, "furnace_blast_furnace_used", 1);

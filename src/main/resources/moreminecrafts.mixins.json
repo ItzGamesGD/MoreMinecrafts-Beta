@@ -39,7 +39,8 @@
     "SpawnPlacementsInvoker",
     "CustomMobStatsMixin",
     "CaveCreeperExplosionMixin",
-    "KnowledgeCraftingMenuMixin"
+    "KnowledgeCraftingMenuMixin",
+    "KnowledgeRecipeCraftCountMixin"
   ],
   "injectors": {
     "defaultRequire": 1
