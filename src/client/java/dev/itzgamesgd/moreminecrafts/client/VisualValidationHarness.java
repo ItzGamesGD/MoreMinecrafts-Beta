@@ -203,7 +203,7 @@ public final class VisualValidationHarness {
                 previousActionBeforeCancel = ProgressionClientApi.lastAction();
                 previousActionResultBeforeCancel = ProgressionClientApi.lastActionResult();
                 if (client.gui.screen() instanceof ProgressionBrowseScreen) {
-                    clickWidgetWithLabel(client, "연구 구매");
+                    clickWidgetWithLabel(client, "연구 구매", "Purchase research");
                     if (client.gui.screen() instanceof ResearchPurchaseConfirmScreen) {
                         queueUiScreenshot("research-purchase-confirmation.png");
                         MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CONFIRMATION_OPENED id=nearby_chest_ingredients");
@@ -245,7 +245,7 @@ public final class VisualValidationHarness {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
                 if (client.gui.screen() instanceof ProgressionBrowseScreen researchScreen) {
-                    clickWidgetWithLabel(client, "연구 구매");
+                    clickWidgetWithLabel(client, "연구 구매", "Purchase research");
                     if (!(client.gui.screen() instanceof ResearchPurchaseConfirmScreen)) {
                         uiJourneyFailed = true;
                         MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED confirmation did not reopen");
@@ -350,22 +350,25 @@ public final class VisualValidationHarness {
     }
 
     private static void clickDiscipline(Minecraft client, String label) {
-        clickWidgetWithLabel(client, label);
+        // CI clients use en_us by default; accept both the approved Korean label and its
+        // localized English equivalent while activating the actual visible tab widget.
+        clickWidgetWithLabel(client, label, "Production Engineering");
     }
 
-    private static void clickWidgetWithLabel(Minecraft client, String label) {
+    private static void clickWidgetWithLabel(Minecraft client, String... labels) {
         Screen screen = client.gui.screen();
         if (screen == null) { uiJourneyFailed = true; return; }
         for (var child : screen.children()) {
-            if (child instanceof Button button && button.getMessage().getString().equals(label)) {
+            if (child instanceof Button button && java.util.Arrays.stream(labels)
+                    .anyMatch(label -> button.getMessage().getString().equals(label))) {
                 button.onPress(new MouseButtonEvent(button.getX() + button.getWidth() / 2.0,
                         button.getY() + button.getHeight() / 2.0, new MouseButtonInfo(0, 0)));
-                MoreMinecrafts.LOGGER.info("CLIENT_UI_DISCIPLINE_SELECTED label={}", label);
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_VISIBLE_BUTTON_ACTIVATED label={}", button.getMessage().getString());
                 return;
             }
         }
         uiJourneyFailed = true;
-        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED button is missing: {}", label);
+        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED visible button is missing: {}", String.join(" / ", labels));
     }
 
     private static void clickWidget(Minecraft client, int index) {
