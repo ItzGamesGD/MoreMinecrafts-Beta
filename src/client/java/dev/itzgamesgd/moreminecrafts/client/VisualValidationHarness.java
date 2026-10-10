@@ -149,7 +149,7 @@ public final class VisualValidationHarness {
             uiJourneyStage = 1;
             return;
         }
-        if (uiCaptureName != null || !uiCaptureComplete && uiJourneyStage > 0) return;
+        if (uiCaptureName != null) return;
         switch (uiJourneyStage) {
             case 1 -> {
                 if (!uiCaptureComplete) return;
