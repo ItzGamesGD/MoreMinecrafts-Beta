@@ -15,19 +15,19 @@ public final class ProgressionSelectionScreen extends Screen {
         int y = height / 2 - 48;
         addRenderableWidget(Button.builder(Component.literal("발전 과제"), b -> {
             if (minecraft != null && minecraft.player != null)
-                minecraft.setScreen(new AdvancementsScreen(minecraft.player.connection.getAdvancements()));
+                minecraft.gui.setScreen(new AdvancementsScreen(minecraft.player.connection.getAdvancements()));
         }).bounds(x, y, 190, 20).build());
         addRenderableWidget(Button.builder(Component.literal("지식"), b ->
-                minecraft.setScreen(new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.KNOWLEDGE))).bounds(x, y + 26, 190, 20).build());
+                minecraft.gui.setScreen(new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.KNOWLEDGE))).bounds(x, y + 26, 190, 20).build());
         addRenderableWidget(Button.builder(Component.literal("연구"), b ->
-                minecraft.setScreen(new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.RESEARCH))).bounds(x, y + 52, 190, 20).build());
+                minecraft.gui.setScreen(new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.RESEARCH))).bounds(x, y + 52, 190, 20).build());
     }
 
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         super.extractRenderState(graphics, mouseX, mouseY, delta);
         int x = (width - 220) / 2, y = height / 2 - 82;
         graphics.fill(x, y, x + 220, y + 152, 0xEE172129);
-        graphics.text(font, Component.literal("MoreMinecrafts"), x + 8, y + 8, 0xFFFFFFFF, true);
-        graphics.text(font, Component.literal("Progression access (provisional)"), x + 8, y + 22, 0xFFB8C8D0, false);
+        graphics.text(font, Component.literal("MoreMinecrafts"), x + 8, y + 8, 0xFFFFFFFF);
+        graphics.text(font, Component.literal("Progression access (provisional)"), x + 8, y + 22, 0xFFB8C8D0);
     }
 }

@@ -40,7 +40,7 @@ public final class ProgressionBrowseScreen extends Screen {
         dataRevision = ProgressionClientApi.revision();
         int left = (width - 390) / 2, top = Math.max(25, (height - 330) / 2);
         addRenderableWidget(Button.builder(Component.literal("← 선택"), b ->
-                minecraft.setScreen(new ProgressionSelectionScreen())).bounds(left, top - 24, 64, 20).build());
+                minecraft.gui.setScreen(new ProgressionSelectionScreen())).bounds(left, top - 24, 64, 20).build());
         int count = mode == Mode.KNOWLEDGE ? knowledge.size() : research.size();
         int pageSize = mode == Mode.KNOWLEDGE ? 12 : 8;
         int pages = Math.max(1, (count + pageSize - 1) / pageSize);
@@ -78,22 +78,22 @@ public final class ProgressionBrowseScreen extends Screen {
         super.extractRenderState(g, mouseX, mouseY, delta);
         int x = (width - 390) / 2, y = Math.max(25, (height - 330) / 2);
         g.fill(x, y, x + 390, y + 324, 0xEE172129);
-        g.text(font, title, x + 8, y - 19, 0xFFFFFFFF, true);
+        g.text(font, title, x + 8, y - 19, 0xFFFFFFFF);
         g.fill(x + 198, y + 3, x + 384, y + 270, 0xB8202D35);
         if (mode == Mode.KNOWLEDGE && selected >= 0 && selected < knowledge.size()) {
             var row = knowledge.get(selected);
-            g.text(font, Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF, true);
-            g.text(font, Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED, false);
-            g.text(font, Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED, false);
+            g.text(font, Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF);
+            g.text(font, Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED);
+            g.text(font, Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED);
             text(g, "상태: " + (row.unlocked() ? "해금" : "미해금"), x + 205, y + 61, 0xFFE2E9ED);
             text(g, "조건: " + row.conditionKey(), x + 205, y + 78, 0xFFE2E9ED);
             text(g, "진행: " + row.conditionProgress() + " / " + row.conditionTarget(), x + 205, y + 95, 0xFFE2E9ED);
             text(g, "보상: " + row.rewardKey(), x + 205, y + 112, 0xFFE2E9ED);
         } else if (mode == Mode.RESEARCH && selected >= 0 && selected < research.size()) {
             var row = research.get(selected);
-            g.text(Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF, true);
-            g.text(Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED, false);
-            g.text(Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED, false);
+            g.text(Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF);
+            g.text(Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED);
+            g.text(Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED);
             text(g, "레벨: " + row.level() + " / " + row.maximumLevel(), x + 205, y + 61, 0xFFE2E9ED);
             text(g, "선행 지식: " + row.requiredKnowledge(), x + 205, y + 78, 0xFFE2E9ED);
             text(g, "선행 연구: " + row.prerequisiteResearch(), x + 205, y + 95, 0xFFE2E9ED);
@@ -113,6 +113,6 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     private void text(GuiGraphicsExtractor g, String value, int x, int y, int color) {
-        g.text(font, Component.literal(value), x, y, color, false);
+        g.text(font, Component.literal(value), x, y, color);
     }
 }

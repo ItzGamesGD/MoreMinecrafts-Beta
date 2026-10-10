@@ -14,6 +14,6 @@ abstract class ProgressionAdvancementKeyMixin {
     private void moreminecrafts$openProgressionSelector(CallbackInfo ci) {
         Minecraft client = (Minecraft) (Object) this;
         if (client.options.keyAdvancements.consumeClick() && client.player != null)
-            client.setScreen(new ProgressionSelectionScreen());
+            client.gui.setScreen(new ProgressionSelectionScreen());
     }
 }
