@@ -97,6 +97,7 @@ public final class FishingChallenges {
             speciesRolls.add(FishingLogic.selectSpecies(challenge.speciesPool(), player.getRandom()));
         }
         int deniedRequiredTier = 0;
+        boolean caught = false;
         for (FishSpecies species : speciesRolls) {
             RodEquipment equipment = challenge.rod().getOrDefault(ModDataComponents.ROD_EQUIPMENT, RodEquipment.EMPTY);
             int minnowTier = equipment.tier(FishingEquipmentFamily.MINNOW);
@@ -113,7 +114,16 @@ public final class FishingChallenges {
             equipment = captureWear(equipment, true);
             challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, equipment);
             deliver(player, fish);
+            caught = true;
+            dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.recordDistinctCondition(
+                    player, "fish_species_caught", roll.species().id());
+            var biome = player.level().getBiome(player.blockPosition()).unwrapKey();
+            biome.ifPresent(key -> dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.recordDistinctCondition(
+                    player, "water_biomes_fished", key.identifier().toString()));
         }
+        if (caught) dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.recordCondition(player, "fishing_successes",
+                dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.state(player)
+                        .conditionProgress("fishing_successes") + 1);
         if (deniedRequiredTier > 0) {
             player.sendSystemMessage(Component.translatable("message.moreminecrafts.fishing.minnow_required",
                     FishingGrade.roman(deniedRequiredTier)), false);

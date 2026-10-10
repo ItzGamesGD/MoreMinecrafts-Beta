@@ -8,6 +8,9 @@ import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementEffect;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementEffects;
 import dev.itzgamesgd.moreminecrafts.network.FishingChallengePayload;
 import dev.itzgamesgd.moreminecrafts.network.MovementJumpPayload;
+import dev.itzgamesgd.moreminecrafts.network.ProgressionSnapshotPayload;
+import dev.itzgamesgd.moreminecrafts.network.ProgressionDeltaPayload;
+import dev.itzgamesgd.moreminecrafts.network.ProgressionActionResultPayload;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import dev.itzgamesgd.moreminecrafts.fishing.FishItem;
 import dev.itzgamesgd.moreminecrafts.fishing.FishSpecies;
@@ -82,7 +85,18 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                             && payload.speciesOrdinal() < FishSpecies.values().length
                             ? FishSpecies.values()[payload.speciesOrdinal()] : null;
                 }));
+        ClientPlayNetworking.registerGlobalReceiver(ProgressionSnapshotPayload.TYPE, (payload, context) ->
+                context.client().execute(() -> ProgressionClientApi.replace(payload.revision(), payload.values())));
+        ClientPlayNetworking.registerGlobalReceiver(ProgressionDeltaPayload.TYPE, (payload, context) ->
+                context.client().execute(() -> {
+                    if (!ProgressionClientApi.apply(payload.revision(), payload.changes()))
+                        ProgressionClientApi.requestSnapshot();
+                }));
+        ClientPlayNetworking.registerGlobalReceiver(ProgressionActionResultPayload.TYPE, (payload, context) ->
+                context.client().execute(() -> ProgressionClientApi.actionResult(payload.actionId(), payload.resultCode())));
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> ProgressionClientApi.requestSnapshot());
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            ProgressionClientApi.reset();
             fishingChallengeStart = -1;
             fishingSpecies = null;
             fishingCaptureAllowed = false;
