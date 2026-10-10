@@ -11,6 +11,8 @@ import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -272,7 +274,8 @@ public final class VisualValidationHarness {
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED widget={} is not a button", index);
             return;
         }
-        button.onPress();
+        button.onPress(new MouseButtonEvent(button.getX() + button.getWidth() / 2.0,
+                button.getY() + button.getHeight() / 2.0, new MouseButtonInfo(0, 0)));
         MoreMinecrafts.LOGGER.info("CLIENT_UI_WIDGET_ACTIVATED index={} label={} screen={}", index,
                 button.getMessage().getString(), screen.getClass().getSimpleName());
     }
