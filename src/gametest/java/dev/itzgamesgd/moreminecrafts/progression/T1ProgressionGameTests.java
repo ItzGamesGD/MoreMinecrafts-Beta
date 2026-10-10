@@ -394,6 +394,19 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(T1Operations.enchantments(second).containsKey("minecraft:smite"),"calculation does not mutate sacrificial input");
         ctx.succeed();
     }
+    @GameTest public void knowledgeRepairCounterTracksSuccessfulDamagedAnvilOutput(GameTestHelper ctx){
+        var player=ctx.makeMockServerPlayerInLevel();
+        var menu=new AnvilMenu(1,player.getInventory());
+        ((T1AnvilModes)menu).moreminecrafts$button(player,1);
+        ItemStack first=new ItemStack(Items.IRON_SWORD),second=new ItemStack(Items.IRON_SWORD);
+        first.setDamageValue(100);second.setDamageValue(100);
+        menu.getSlot(0).set(first);menu.getSlot(1).set(second);menu.createResult();
+        ctx.assertTrue(menu.getSlot(2).hasItem(),"damaged swords produce a repair output");
+        menu.getSlot(2).onTake(player,menu.getSlot(2).getItem().copy());
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("anvil_repairs")==1,
+                "taking a successful repaired output increments the repair counter once");
+        ctx.succeed();
+    }
     private static ItemStack book(net.minecraft.world.entity.player.Player player,String id,int level){
         var result=new ItemStack(Items.ENCHANTED_BOOK);EnchantmentHelper.updateEnchantments(result,e->e.set(T1Operations.enchantment(player,id).orElseThrow(),level));return result;
     }

@@ -16,6 +16,7 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
     @Shadow @Final private DataSlot cost;
     @Shadow private int repairItemCountCost;
     @Unique private final DataSlot moreminecrafts$mode=DataSlot.standalone();
+    @Unique private boolean moreminecrafts$repairingDamagedInput;
     protected AnvilMenuMixin(MenuType<?> type,int id,Inventory inventory,ContainerLevelAccess access,ItemCombinerMenuSlotDefinition slots){super(type,id,inventory,access,slots);}
     @Inject(method="<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",at=@At("RETURN"))
     private void moreminecrafts$syncMode(int id,Inventory inventory,ContainerLevelAccess access,CallbackInfo ci){addDataSlot(moreminecrafts$mode);}
@@ -88,5 +89,18 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
         inputSlots.getItem(0).shrink(1);inputSlots.getItem(1).shrink(1);cost.set(0);
         inputSlots.setChanged();((AnvilMenu)(Object)this).createResult();
         T1AnvilUse.complete(access,player,player.getRandom()::nextDouble);ci.cancel();
+    }
+    @Inject(method="onTake",at=@At("HEAD"))
+    private void moreminecrafts$captureRepairInput(Player player,ItemStack carried,CallbackInfo ci){
+        moreminecrafts$repairingDamagedInput=moreminecrafts$mode()==1
+                && (getSlot(0).getItem().isDamaged()||getSlot(1).getItem().isDamaged());
+    }
+    @Inject(method="onTake",at=@At("TAIL"))
+    private void moreminecrafts$recordRepair(Player player,ItemStack carried,CallbackInfo ci){
+        if(moreminecrafts$repairingDamagedInput&&player instanceof net.minecraft.server.level.ServerPlayer serverPlayer
+                && !carried.isEmpty())
+            KnowledgeRuntime.recordCondition(serverPlayer,"anvil_repairs",
+                    KnowledgeRuntime.state(serverPlayer).conditionProgress("anvil_repairs")+1);
+        moreminecrafts$repairingDamagedInput=false;
     }
 }
