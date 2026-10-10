@@ -64,14 +64,8 @@ public final class ProgressionClientApi {
             ClientPlayNetworking.send(ProgressionSyncRequestPayload.INSTANCE);
     }
     public static void purchase(String id, int level) {
-        if (ClientPlayNetworking.canSend(ResearchPurchaseRequestPayload.TYPE)) {
-            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
-                    "PROGRESSION_PURCHASE_REQUEST_SEND id={} level={}", id, level);
+        if (ClientPlayNetworking.canSend(ResearchPurchaseRequestPayload.TYPE))
             ClientPlayNetworking.send(new ResearchPurchaseRequestPayload(id, level));
-        } else {
-            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.error(
-                    "PROGRESSION_PURCHASE_REQUEST_UNSUPPORTED id={} level={}", id, level);
-        }
     }
     public static void claim(String id) {
         if (ClientPlayNetworking.canSend(QuestClaimRequestPayload.TYPE))

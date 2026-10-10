@@ -35,14 +35,8 @@ public final class ModNetworking {
                         dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRuntime.snapshot(context.player())));
         ServerPlayNetworking.registerGlobalReceiver(ResearchPurchaseRequestPayload.TYPE, (payload, context) ->
                 context.server().execute(() -> {
-                    dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
-                            "PROGRESSION_PURCHASE_REQUEST_RECEIVED player={} id={} level={}",
-                            context.player().getGameProfile().name(), payload.researchId(), payload.level());
                     var result = dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseService.purchase(
                             context.player(), payload.researchId(), payload.level());
-                    dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
-                            "PROGRESSION_PURCHASE_RESULT player={} id={} result={}",
-                            context.player().getGameProfile().name(), payload.researchId(), result);
                     dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRuntime.actionResult(
                             context.player(), "research:" + payload.researchId(), result.ordinal());
                 }));
