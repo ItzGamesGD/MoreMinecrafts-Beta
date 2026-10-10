@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 
 /** The only gameplay purchase path. Call it on the authoritative server thread. */
 public final class ResearchPurchaseService {
+    private static final int PLAYER_STORAGE_SLOTS = 36;
     public enum Result {
         PURCHASED, INVALID_ID, INVALID_LEVEL, MISSING_KNOWLEDGE, MISSING_PREREQUISITE,
         MISSING_MATERIALS, INSUFFICIENT_XP, ALREADY_PURCHASED, MAX_LEVEL, INVALID_STATE
@@ -21,6 +22,8 @@ public final class ResearchPurchaseService {
     private ResearchPurchaseService() {}
 
     public static Result purchase(ServerPlayer player, String id, int requestedLevel) {
+        if (player == null || player.getServer() == null || !player.getServer().isSameThread())
+            return Result.INVALID_STATE;
         ResearchDefinition definition = ResearchCatalog.byId(id);
         if (definition == null) return Result.INVALID_ID;
         ResearchProgressState state = KnowledgeRuntime.state(player);
@@ -88,7 +91,7 @@ public final class ResearchPurchaseService {
     private static Map<String, Integer> materialTotals(ServerPlayer player) {
         Map<String, Integer> totals = new HashMap<>();
         var inventory = player.getInventory();
-        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+        for (int slot = 0; slot < PLAYER_STORAGE_SLOTS; slot++) {
             ItemStack stack = inventory.getItem(slot);
             if (!stack.isEmpty()) totals.merge(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString(),
                     stack.getCount(), Integer::sum);
@@ -101,7 +104,7 @@ public final class ResearchPurchaseService {
         for (var material : materials) remaining.merge(material.itemId(), material.count(), Integer::sum);
         List<Debit> result = new ArrayList<>();
         var inventory = player.getInventory();
-        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+        for (int slot = 0; slot < PLAYER_STORAGE_SLOTS; slot++) {
             ItemStack stack = inventory.getItem(slot);
             if (stack.isEmpty()) continue;
             String itemId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
