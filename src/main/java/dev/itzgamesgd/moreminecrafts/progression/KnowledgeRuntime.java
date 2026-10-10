@@ -34,6 +34,8 @@ public final class KnowledgeRuntime {
     private static List<Item> plantItems = List.of();
     private static List<Item> seedItems = List.of();
     private static List<Item> registeredItems = List.of();
+    private static final java.util.Map<java.util.UUID, PickaxeDamageSnapshot> PICKAXE_DAMAGE = new java.util.HashMap<>();
+    private record PickaxeDamageSnapshot(Item item, int damage, int maximumDamage) {}
 
     private static void cacheTrackedItems() {
         var logs = new java.util.ArrayList<Item>();
@@ -63,6 +65,15 @@ public final class KnowledgeRuntime {
         // Registry item components are not bound during the mod entrypoint. Cache tags only
         // after the server has completed datapack/registry startup.
         ServerLifecycleEvents.SERVER_STARTED.register(server -> cacheTrackedItems());
+        PlayerBlockBreakEvents.BEFORE.register((level, player, pos, state, blockEntity) -> {
+            if (player instanceof ServerPlayer serverPlayer) {
+                ItemStack tool = serverPlayer.getMainHandItem();
+                if (tool.is(ItemTags.PICKAXES) && tool.getMaxDamage() > 0)
+                    PICKAXE_DAMAGE.put(serverPlayer.getUUID(), new PickaxeDamageSnapshot(
+                            tool.getItem(), tool.getDamageValue(), tool.getMaxDamage()));
+            }
+            return true;
+        });
         // Record five distinct actually feedable species across normal right-clicks.
         // An observer callback never consumes or cancels the original interaction.
         net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register(
@@ -82,6 +93,16 @@ public final class KnowledgeRuntime {
                 });
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
             if (!(player instanceof ServerPlayer serverPlayer)) return;
+            PickaxeDamageSnapshot before = PICKAXE_DAMAGE.remove(serverPlayer.getUUID());
+            if (before != null && serverPlayer.getMainHandItem().getItem() == before.item()) {
+                int spent = Math.max(0, serverPlayer.getMainHandItem().getDamageValue() - before.damage());
+                if (spent > 0) recordCondition(serverPlayer, "pickaxe_durability_used",
+                        value(serverPlayer, "condition.pickaxe_durability_used") + spent);
+            } else if (before != null && serverPlayer.getMainHandItem().isEmpty()) {
+                int spent = before.maximumDamage() - before.damage() + 1;
+                if (spent > 0) recordCondition(serverPlayer, "pickaxe_durability_used",
+                        value(serverPlayer, "condition.pickaxe_durability_used") + spent);
+            }
             String blockId = String.valueOf(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
             String blockPath = blockId.substring(blockId.indexOf(':') + 1);
             if (blockPath.endsWith("_ore") || blockPath.equals("ancient_debris")) {
@@ -151,8 +172,12 @@ public final class KnowledgeRuntime {
             }
         });
         ServerTickEvents.END_SERVER_TICK.register(server -> {
-            if (server.getTickCount() % 100 != 0) return;
-            for (ServerPlayer player : server.getPlayerList().getPlayers()) refresh(player);
+            boolean refreshStatistics = server.getTickCount() % 100 == 0;
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                observeExploration(player);
+                observeEffectTypes(player);
+                if (refreshStatistics) refresh(player);
+            }
         });
     }
 
@@ -269,6 +294,36 @@ public final class KnowledgeRuntime {
             recordDistinctCondition(player, condition, String.valueOf(BuiltInRegistries.ITEM.getKey(item)));
     }
 
+    private static void observeEffectTypes(ServerPlayer player) {
+        for (var effect : player.getActiveEffects()) {
+            var id = BuiltInRegistries.MOB_EFFECT.getKey(effect.getEffect().value());
+            if (id != null) recordDistinctCondition(player, "effect_types_experienced", id.toString());
+        }
+    }
+
+    private static void observeExploration(ServerPlayer p) {
+        var biome = p.level().getBiome(p.blockPosition()).unwrapKey();
+        biome.ifPresent(key -> {
+            String biomeId = key.identifier().toString();
+            recordDistinctCondition(p, "biomes_visited", biomeId);
+            if (biomeId.endsWith(":deep_dark") || biomeId.endsWith(":lush_caves")
+                    || biomeId.endsWith(":dripstone_caves"))
+                recordDistinctCondition(p, "cave_biomes_visited", biomeId);
+        });
+        if (p.level().dimension().identifier().equals(net.minecraft.world.level.Level.NETHER.identifier()))
+            recordDistinctCondition(p, "nether_and_end_visited", "minecraft:the_nether");
+        if (p.level().dimension().identifier().equals(net.minecraft.world.level.Level.END.identifier()))
+            recordDistinctCondition(p, "nether_and_end_visited", "minecraft:the_end");
+        for (var structure : p.level().structureManager().getAllStructuresAt(p.blockPosition()).keySet()) {
+            var id = p.level().registryAccess().lookupOrThrow(Registries.STRUCTURE).getKey(structure);
+            if (id != null) recordDistinctCondition(p, "structures_visited", id.toString());
+        }
+        long structures = p.getAttachedOrCreate(STATE).counters().keySet().stream()
+                .filter(key -> key.startsWith("condition.structures_visited.seen.")).count();
+        if (structures >= 5) grantKnowledge(p, 60);
+        if (structures >= 10) grantKnowledge(p, 62);
+    }
+
     /** Only the 13 recipe-bearing knowledge entries are sampled here, not a fake full 70-entry unlock. */
     private static void refresh(ServerPlayer p) {
         observeTypes(p, "log_types_acquired", logItems);
@@ -323,41 +378,8 @@ public final class KnowledgeRuntime {
         if (!knows(p, 25) && value(p, "fed_species") >= 5) grantKnowledge(p, 25);
         if (!knows(p, 57) && p.getStats().getValue(Stats.CUSTOM.get(Stats.AVIATE_ONE_CM)) >= 200000)
             grantKnowledge(p, 57);
-        if (!knows(p, 60)) {
-            for (var structure : p.level().structureManager().getAllStructuresAt(p.blockPosition()).keySet()) {
-                var id = p.level().registryAccess().lookupOrThrow(Registries.STRUCTURE).getKey(structure);
-                if (id != null) set(p, "visited_structure." + id, 1);
-            }
-            long unique = p.getAttachedOrCreate(STATE).counters().keySet().stream()
-                    .filter(key -> key.startsWith("visited_structure.")).count();
-            if (unique >= 5) grantKnowledge(p, 60);
-        }
-        var biome = p.level().getBiome(p.blockPosition()).unwrapKey();
-        biome.ifPresent(key -> {
-            String biomeId = key.identifier().toString();
-            recordDistinctCondition(p, "biomes_visited", biomeId);
-            if (biomeId.endsWith(":deep_dark") || biomeId.endsWith(":lush_caves")
-                    || biomeId.endsWith(":dripstone_caves"))
-                recordDistinctCondition(p, "cave_biomes_visited", biomeId);
-        });
-        if (p.level().dimension().identifier().equals(net.minecraft.world.level.Level.NETHER.identifier()))
-            recordDistinctCondition(p, "nether_and_end_visited", "minecraft:the_nether");
-        if (p.level().dimension().identifier().equals(net.minecraft.world.level.Level.END.identifier()))
-            recordDistinctCondition(p, "nether_and_end_visited", "minecraft:the_end");
         recordCondition(p, "boat_distance", p.getStats().getValue(Stats.CUSTOM.get(Stats.BOAT_ONE_CM)) / 100);
         recordCondition(p, "horse_distance", p.getStats().getValue(Stats.CUSTOM.get(Stats.HORSE_ONE_CM)) / 100);
         recordCondition(p, "elytra_distance", p.getStats().getValue(Stats.CUSTOM.get(Stats.AVIATE_ONE_CM)) / 100);
-        for (var structure : p.level().structureManager().getAllStructuresAt(p.blockPosition()).keySet()) {
-            var id = p.level().registryAccess().lookupOrThrow(Registries.STRUCTURE).getKey(structure);
-            if (id != null) {
-                String structureId = id.toString();
-                recordDistinctCondition(p, "structures_visited", structureId);
-                recordDistinctCondition(p, "visited_structure", structureId);
-            }
-        }
-        long structures = p.getAttachedOrCreate(STATE).counters().keySet().stream()
-                .filter(key -> key.startsWith("condition.structures_visited.seen.")).count();
-        if (structures >= 5) grantKnowledge(p,60);
-        if (structures >= 10) grantKnowledge(p,62);
     }
 }
