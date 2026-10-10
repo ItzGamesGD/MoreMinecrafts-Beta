@@ -5,6 +5,7 @@ import java.util.List;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -59,7 +60,9 @@ public final class KnowledgeRuntime {
     }
 
     public static void initialize() {
-        cacheTrackedItems();
+        // Registry item components are not bound during the mod entrypoint. Cache tags only
+        // after the server has completed datapack/registry startup.
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> cacheTrackedItems());
         // Record five distinct actually feedable species across normal right-clicks.
         // An observer callback never consumes or cancels the original interaction.
         net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register(
@@ -261,11 +264,6 @@ public final class KnowledgeRuntime {
                 .filter(key -> key.startsWith(prefix)).count();
     }
 
-    private static void observeDistinctAcquired(ServerPlayer player, String condition, List<Item> items) {
-        for (Item item : items) if (acquired(player, item) > 0)
-            recordDistinctCondition(player, condition, String.valueOf(BuiltInRegistries.ITEM.getKey(item)));
-    }
-
     private static void observeTypes(ServerPlayer player, String condition, List<Item> items) {
         for (Item item : items) if (acquired(player, item) > 0)
             recordDistinctCondition(player, condition, String.valueOf(BuiltInRegistries.ITEM.getKey(item)));
@@ -295,11 +293,6 @@ public final class KnowledgeRuntime {
                 Items.DIAMOND_PICKAXE, Items.WOODEN_AXE, Items.STONE_AXE, Items.IRON_AXE, Items.DIAMOND_AXE,
                 Items.WOODEN_SHOVEL, Items.STONE_SHOVEL, Items.IRON_SHOVEL, Items.DIAMOND_SHOVEL,
                 Items.WOODEN_SWORD, Items.STONE_SWORD, Items.IRON_SWORD, Items.DIAMOND_SWORD)));
-        List<Item> foods = List.of(Items.BREAD, Items.COOKIE, Items.CAKE, Items.PUMPKIN_PIE,
-                Items.MUSHROOM_STEW, Items.RABBIT_STEW, Items.BEETROOT_SOUP, Items.COOKED_BEEF,
-                Items.COOKED_PORKCHOP, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_RABBIT,
-                Items.COOKED_COD, Items.COOKED_SALMON, Items.BAKED_POTATO);
-        recordCondition(p, "foods_crafted_or_cooked", itemCount(p, foods));
         recordCondition(p, "villager_trades", p.getStats().getValue(Stats.CUSTOM.get(Stats.TRADED_WITH_VILLAGER)));
         recordCondition(p, "animal_breedings", p.getStats().getValue(Stats.CUSTOM.get(Stats.ANIMALS_BRED)));
         boolean fullArmor = !p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.HEAD).isEmpty()
@@ -307,9 +300,6 @@ public final class KnowledgeRuntime {
                 && !p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.LEGS).isEmpty()
                 && !p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.FEET).isEmpty();
         recordCondition(p, "full_armor_worn", fullArmor ? 1 : 0);
-        recordCondition(p, "splash_potions_brewed", crafted(p, Items.SPLASH_POTION));
-        recordCondition(p, "lingering_potions_brewed", crafted(p, Items.LINGERING_POTION));
-        recordCondition(p, "potions_brewed", itemCount(p, List.of(Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION)));
         long kinds = p.getAttachedOrCreate(STATE).counters().keySet().stream()
                 .filter(key -> key.startsWith("log.")).count();
         if (kinds >= 6) grantKnowledge(p, 4); // migrate legacy per-log observations
