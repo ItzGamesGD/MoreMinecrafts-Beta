@@ -48,12 +48,12 @@ public final class ProgressionBrowseScreen extends Screen {
         for (int i = 0; i < pageSize; i++) {
             final int index = page * pageSize + i;
             if (index >= count) break;
-            String label = mode == Mode.KNOWLEDGE
-                    ? knowledge.get(index).id() + " · " + KnowledgeName(index)
-                    : research.get(index).id();
-            if (mode == Mode.KNOWLEDGE && knowledge.get(index).unlocked()) label = "✓ " + label;
-            if (mode == Mode.RESEARCH) label = "Lv." + research.get(index).level() + " " + label;
-            addRenderableWidget(Button.builder(Component.literal(label), b -> { selected = index; refresh(); })
+            Component label = mode == Mode.KNOWLEDGE
+                    ? Component.translatable(knowledge.get(index).titleKey())
+                    : Component.translatable(research.get(index).titleKey());
+            if (mode == Mode.RESEARCH) label = Component.literal("Lv." + research.get(index).level() + " ").append(label);
+            if (mode == Mode.KNOWLEDGE && knowledge.get(index).unlocked()) label = Component.literal("✓ ").append(label);
+            addRenderableWidget(Button.builder(label, b -> { selected = index; refresh(); })
                     .bounds(left + 4, top + 5 + i * 22, 188, 20).build());
         }
         previous = addRenderableWidget(Button.builder(Component.literal("<"), b -> { page--; refresh(); })
@@ -74,10 +74,6 @@ public final class ProgressionBrowseScreen extends Screen {
         }
     }
 
-    private String KnowledgeName(int index) {
-        return dev.itzgamesgd.moreminecrafts.progression.KnowledgeCatalog.byNumber(index + 1).koreanName();
-    }
-
     @Override public void extractRenderState(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
         super.extractRenderState(g, mouseX, mouseY, delta);
         int x = (width - 390) / 2, y = Math.max(25, (height - 330) / 2);
@@ -86,23 +82,25 @@ public final class ProgressionBrowseScreen extends Screen {
         g.fill(x + 198, y + 3, x + 384, y + 270, 0xB8202D35);
         if (mode == Mode.KNOWLEDGE && selected >= 0 && selected < knowledge.size()) {
             var row = knowledge.get(selected);
-            text(g, "지식 " + row.id(), x + 205, y + 10, 0xFFFFFFFF);
-            text(g, "분야: " + row.discipline(), x + 205, y + 27, 0xFFE2E9ED);
-            text(g, "상태: " + (row.unlocked() ? "해금" : "미해금"), x + 205, y + 44, 0xFFE2E9ED);
-            text(g, "조건: " + row.conditionKey(), x + 205, y + 61, 0xFFE2E9ED);
-            text(g, "진행: " + row.conditionProgress() + " / " + row.conditionTarget(), x + 205, y + 78, 0xFFE2E9ED);
-            text(g, "보상: " + row.rewardKey(), x + 205, y + 95, 0xFFE2E9ED);
+            g.text(font, Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF, true);
+            g.text(font, Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED, false);
+            g.text(font, Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED, false);
+            text(g, "상태: " + (row.unlocked() ? "해금" : "미해금"), x + 205, y + 61, 0xFFE2E9ED);
+            text(g, "조건: " + row.conditionKey(), x + 205, y + 78, 0xFFE2E9ED);
+            text(g, "진행: " + row.conditionProgress() + " / " + row.conditionTarget(), x + 205, y + 95, 0xFFE2E9ED);
+            text(g, "보상: " + row.rewardKey(), x + 205, y + 112, 0xFFE2E9ED);
         } else if (mode == Mode.RESEARCH && selected >= 0 && selected < research.size()) {
             var row = research.get(selected);
-            text(g, row.id(), x + 205, y + 10, 0xFFFFFFFF);
-            text(g, "분야: " + row.discipline(), x + 205, y + 27, 0xFFE2E9ED);
-            text(g, "레벨: " + row.level() + " / " + row.maximumLevel(), x + 205, y + 44, 0xFFE2E9ED);
-            text(g, "선행 지식: " + row.requiredKnowledge(), x + 205, y + 61, 0xFFE2E9ED);
-            text(g, "선행 연구: " + row.prerequisiteResearch(), x + 205, y + 78, 0xFFE2E9ED);
-            text(g, "구매 상태: " + row.availability(), x + 205, y + 95, 0xFFE2E9ED);
+            g.text(Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF, true);
+            g.text(Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED, false);
+            g.text(Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED, false);
+            text(g, "레벨: " + row.level() + " / " + row.maximumLevel(), x + 205, y + 61, 0xFFE2E9ED);
+            text(g, "선행 지식: " + row.requiredKnowledge(), x + 205, y + 78, 0xFFE2E9ED);
+            text(g, "선행 연구: " + row.prerequisiteResearch(), x + 205, y + 95, 0xFFE2E9ED);
+            text(g, "구매 상태: " + row.availability(), x + 205, y + 112, 0xFFE2E9ED);
             if (row.nextCost() != null) {
-                text(g, "원시 XP: " + row.nextCost().rawXp(), x + 205, y + 112, 0xFFE2E9ED);
-                int cy = y + 129;
+                text(g, "원시 XP: " + row.nextCost().rawXp(), x + 205, y + 129, 0xFFE2E9ED);
+                int cy = y + 146;
                 for (var material : row.nextCost().materials()) {
                     text(g, material.itemId() + " × " + material.count(), x + 205, cy, 0xFFE2E9ED);
                     cy += 15;
