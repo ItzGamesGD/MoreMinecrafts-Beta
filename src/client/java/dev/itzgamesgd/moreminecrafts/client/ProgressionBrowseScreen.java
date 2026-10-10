@@ -91,9 +91,9 @@ public final class ProgressionBrowseScreen extends Screen {
             text(g, "보상: " + row.rewardKey(), x + 205, y + 112, 0xFFE2E9ED);
         } else if (mode == Mode.RESEARCH && selected >= 0 && selected < research.size()) {
             var row = research.get(selected);
-            g.text(Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF);
-            g.text(Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED);
-            g.text(Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED);
+            g.text(font, Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF);
+            g.text(font, Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED);
+            g.text(font, Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED);
             text(g, "레벨: " + row.level() + " / " + row.maximumLevel(), x + 205, y + 61, 0xFFE2E9ED);
             text(g, "선행 지식: " + row.requiredKnowledge(), x + 205, y + 78, 0xFFE2E9ED);
             text(g, "선행 연구: " + row.prerequisiteResearch(), x + 205, y + 95, 0xFFE2E9ED);
