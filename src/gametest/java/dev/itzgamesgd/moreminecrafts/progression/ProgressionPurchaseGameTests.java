@@ -76,6 +76,22 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
                 == ResearchPurchaseService.Result.INVALID_ID, "unknown research IDs are rejected");
         ctx.assertTrue(ResearchPurchaseService.purchase(buyer, "throwable_pickaxe", 2)
                 == ResearchPurchaseService.Result.INVALID_LEVEL, "levels above the cap are rejected");
+
+        ServerPlayer equippedBuyer = ctx.makeMockServerPlayerInLevel();
+        equippedBuyer.giveExperiencePoints(1000);
+        equippedBuyer.getInventory().add(new ItemStack(Items.FEATHER, 64));
+        equippedBuyer.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET,
+                new ItemStack(Items.LEATHER_BOOTS));
+        KnowledgeRuntime.grantKnowledge(equippedBuyer, 54);
+        int equippedXpBefore = RawXp.available(equippedBuyer);
+        ctx.assertTrue(ResearchPurchaseService.purchase(equippedBuyer, "fall_roll", 1)
+                == ResearchPurchaseService.Result.MISSING_MATERIALS,
+                "equipped items do not count as available research materials");
+        ctx.assertTrue(equippedBuyer.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.FEET)
+                        .is(Items.LEATHER_BOOTS)
+                && RawXp.available(equippedBuyer) == equippedXpBefore
+                && KnowledgeRuntime.state(equippedBuyer).researchLevel("fall_roll") == 0,
+                "rejected purchase preserves equipped gear, XP, and state");
         ctx.succeed();
     }
 
