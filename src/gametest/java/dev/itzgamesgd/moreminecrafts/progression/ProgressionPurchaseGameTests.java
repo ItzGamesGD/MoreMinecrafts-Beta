@@ -49,7 +49,40 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
         ctx.assertTrue(RawXp.available(poorBuyer) == poorXpBefore
                 && KnowledgeRuntime.state(poorBuyer).researchLevel("throwable_pickaxe") == 0,
                 "failed purchase preserves XP and research state");
+
+        ServerPlayer unqualified = ctx.makeMockServerPlayerInLevel();
+        fillThrowablePickaxeMaterials(unqualified);
+        unqualified.giveExperiencePoints(1200);
+        int unqualifiedXp = RawXp.available(unqualified);
+        ctx.assertTrue(ResearchPurchaseService.purchase(unqualified, "throwable_pickaxe", 1)
+                == ResearchPurchaseService.Result.MISSING_KNOWLEDGE, "missing knowledge rejects purchase");
+        ctx.assertTrue(unqualified.getInventory().countItem(Items.IRON_BLOCK) == 4
+                && RawXp.available(unqualified) == unqualifiedXp
+                && KnowledgeRuntime.state(unqualified).researchLevel("throwable_pickaxe") == 0,
+                "missing knowledge consumes nothing");
+
+        ServerPlayer lowXp = ctx.makeMockServerPlayerInLevel();
+        fillThrowablePickaxeMaterials(lowXp);
+        KnowledgeRuntime.grantKnowledge(lowXp, 9);
+        int lowXpBefore = RawXp.available(lowXp);
+        ctx.assertTrue(ResearchPurchaseService.purchase(lowXp, "throwable_pickaxe", 1)
+                == ResearchPurchaseService.Result.INSUFFICIENT_XP, "insufficient raw XP rejects purchase");
+        ctx.assertTrue(lowXp.getInventory().countItem(Items.IRON_BLOCK) == 4
+                && RawXp.available(lowXp) == lowXpBefore
+                && KnowledgeRuntime.state(lowXp).researchLevel("throwable_pickaxe") == 0,
+                "insufficient XP consumes nothing");
+
+        ctx.assertTrue(ResearchPurchaseService.purchase(buyer, "unknown_research", 1)
+                == ResearchPurchaseService.Result.INVALID_ID, "unknown research IDs are rejected");
+        ctx.assertTrue(ResearchPurchaseService.purchase(buyer, "throwable_pickaxe", 2)
+                == ResearchPurchaseService.Result.INVALID_LEVEL, "levels above the cap are rejected");
         ctx.succeed();
+    }
+
+    private static void fillThrowablePickaxeMaterials(ServerPlayer player) {
+        player.getInventory().add(new ItemStack(Items.IRON_BLOCK, 4));
+        player.getInventory().add(new ItemStack(Items.REDSTONE, 64));
+        player.getInventory().add(new ItemStack(Items.DIAMOND, 4));
     }
 
     @Override
