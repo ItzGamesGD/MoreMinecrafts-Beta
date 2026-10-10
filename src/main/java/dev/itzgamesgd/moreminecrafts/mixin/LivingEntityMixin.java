@@ -56,7 +56,15 @@ abstract class LivingEntityMixin {
     private void moreminecrafts$applyArmorEnhancementReduction(Args args) {
         DamageSource source = args.get(0);
         float incomingDamage = args.get(1);
+        if (source.getEntity() instanceof ServerPlayer attacker
+                && (Object) this instanceof net.minecraft.world.entity.monster.Monster
+                && !attacker.level().isClientSide()) {
+            double bonus = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
+                    attacker, "combat_root", "hostile_damage");
+            if (bonus > 0.0D) incomingDamage = (float) (incomingDamage * (1.0D + bonus));
+        }
         if (!((Object) this instanceof ServerPlayer player) || source.is(DamageTypeTags.BYPASSES_ARMOR)) {
+            args.set(1, incomingDamage);
             return;
         }
 
