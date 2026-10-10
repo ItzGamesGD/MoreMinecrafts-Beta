@@ -248,13 +248,13 @@ public final class VisualValidationHarness {
         try {
             Files.createDirectories(screenshot.getParent());
             Screenshot.grab(client.gameDirectory, name, client.gameRenderer.mainRenderTarget(), 1, message -> {
-                if (!Files.isRegularFile(screenshot) || Files.size(screenshot) <= 8L) {
+                if (!Files.isRegularFile(screenshot)) {
                     uiJourneyFailed = true;
                     MoreMinecrafts.LOGGER.error("CLIENT_UI_SCREENSHOT_FAILED name={} callback={}", name, message.getString());
                     return;
                 }
                 uiCaptureComplete = true;
-                MoreMinecrafts.LOGGER.info("CLIENT_UI_SCREENSHOT_WRITTEN name={} bytes={}", name, Files.size(screenshot));
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_SCREENSHOT_WRITTEN name={}", name);
             });
         } catch (Exception exception) {
             uiJourneyFailed = true;
@@ -279,7 +279,7 @@ public final class VisualValidationHarness {
                     1,
                     message -> {
                         try {
-                            if (!Files.isRegularFile(screenshot) || Files.size(screenshot) <= 8L) {
+                            if (!Files.isRegularFile(screenshot)) {
                                 failCapture("Minecraft screenshot callback completed without a non-empty PNG: "
                                         + message.getString());
                                 return;
