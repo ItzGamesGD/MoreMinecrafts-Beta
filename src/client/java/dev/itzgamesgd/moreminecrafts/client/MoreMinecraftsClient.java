@@ -94,7 +94,11 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                         ProgressionClientApi.requestSnapshot();
                 }));
         ClientPlayNetworking.registerGlobalReceiver(ProgressionActionResultPayload.TYPE, (payload, context) ->
-                context.client().execute(() -> ProgressionClientApi.actionResult(payload.actionId(), payload.resultCode())));
+                context.client().execute(() -> {
+                    ProgressionClientApi.actionResult(payload.actionId(), payload.resultCode());
+                    MoreMinecrafts.LOGGER.info("PROGRESSION_ACTION_RESULT_RECEIVED id={} code={}",
+                            payload.actionId(), payload.resultCode());
+                }));
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> ProgressionClientApi.requestSnapshot());
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             ProgressionClientApi.reset();
