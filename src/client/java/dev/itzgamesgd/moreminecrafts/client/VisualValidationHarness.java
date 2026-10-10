@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -218,14 +219,14 @@ public final class VisualValidationHarness {
 
     private static void clickScreen(Minecraft client, double x, double y) {
         Screen screen = client.gui.screen();
-        if (screen == null || !screen.mouseClicked(x, y, 0)) {
+        if (screen == null || !screen.mouseClicked(new MouseButtonEvent(x, y, 0, 0), false)) {
             uiJourneyFailed = true;
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED x={} y={} screen={}", x, y, screen);
         }
     }
 
     private static int itemCount(Minecraft client, String itemId) {
-        var item = BuiltInRegistries.ITEM.get(net.minecraft.resources.Identifier.parse(itemId));
+        var item = BuiltInRegistries.ITEM.getValue(net.minecraft.resources.Identifier.parse(itemId));
         int total = 0;
         for (int slot = 0; slot < client.player.getInventory().getContainerSize(); slot++) {
             var stack = client.player.getInventory().getItem(slot);
