@@ -220,9 +220,17 @@ public final class VisualValidationHarness {
 
     private static void clickScreen(Minecraft client, double x, double y) {
         Screen screen = client.gui.screen();
-        if (screen == null || !screen.mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false)) {
+        if (screen == null) {
             uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED x={} y={} screen={}", x, y, screen);
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED screen=null");
+            return;
+        }
+        double scaledX = x * screen.width / client.getWindow().getScreenWidth();
+        double scaledY = y * screen.height / client.getWindow().getScreenHeight();
+        if (!screen.mouseClicked(new MouseButtonEvent(scaledX, scaledY, new MouseButtonInfo(0, 0)), false)) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED x={} y={} scaledX={} scaledY={} size={}x{}",
+                    x, y, scaledX, scaledY, screen.width, screen.height);
         }
     }
 
