@@ -26,6 +26,10 @@ public final class ProgressionBrowseScreen extends Screen {
         this.mode = mode;
     }
 
+    public Mode mode() { return mode; }
+    public int validationPage() { return page; }
+    public int validationSelection() { return selected; }
+
     @Override protected void init() { refresh(); }
 
     @Override public void tick() {

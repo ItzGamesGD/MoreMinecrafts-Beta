@@ -225,17 +225,22 @@ public final class VisualValidationHarness {
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED screen=null");
             return;
         }
-        if (!screen.mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false)) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED x={} y={} size={}x{}",
-                    x, y, screen.width, screen.height);
-        }
+        boolean consumed = screen.mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
+        MoreMinecrafts.LOGGER.info("CLIENT_UI_CLICK x={} y={} consumed={} screen={}", x, y, consumed,
+                screen.getClass().getSimpleName());
     }
 
     private static void clickSelectionChoice(Minecraft client, int choice) {
         Screen screen = client.gui.screen();
         if (screen == null) { uiJourneyFailed = true; return; }
         clickScreen(client, screen.width / 2.0, screen.height / 2.0 - 48 + 10 + (choice - 1) * 26);
+        if (choice == 2 || choice == 3) {
+            if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                    || browse.mode() != (choice == 2 ? ProgressionBrowseScreen.Mode.KNOWLEDGE : ProgressionBrowseScreen.Mode.RESEARCH)) {
+                uiJourneyFailed = true;
+                MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED selector choice={} did not open expected screen", choice);
+            }
+        }
     }
 
     private static void clickProgressionBack(Minecraft client) {
@@ -244,6 +249,10 @@ public final class VisualValidationHarness {
         int left = (screen.width - 390) / 2;
         int top = Math.max(28, (screen.height - 220) / 2);
         clickScreen(client, left + 32, top - 24 + 10);
+        if (!(client.gui.screen() instanceof ProgressionSelectionScreen)) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED back button did not return to selector");
+        }
     }
 
     private static void clickResearchNext(Minecraft client) {
@@ -252,6 +261,11 @@ public final class VisualValidationHarness {
         int left = (screen.width - 390) / 2;
         int top = Math.max(28, (screen.height - 220) / 2);
         clickScreen(client, left + 164 + 14, top + 184 + 9);
+        if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                || browse.mode() != ProgressionBrowseScreen.Mode.RESEARCH) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED research page navigation changed screen");
+        }
     }
 
     private static void clickResearchRow(Minecraft client, int row) {
@@ -260,6 +274,10 @@ public final class VisualValidationHarness {
         int left = (screen.width - 390) / 2;
         int top = Math.max(28, (screen.height - 220) / 2);
         clickScreen(client, left + 4 + 94, top + 5 + row * 20 + 9);
+        if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse) || browse.validationSelection() != 50) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchasable research row was not selected");
+        }
     }
 
     private static void clickResearchPurchase(Minecraft client) {
