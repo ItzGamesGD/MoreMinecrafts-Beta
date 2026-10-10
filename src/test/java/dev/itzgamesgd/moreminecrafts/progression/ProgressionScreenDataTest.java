@@ -16,6 +16,8 @@ final class ProgressionScreenDataTest {
             assertFalse(row.rewardKey().isBlank());
             assertFalse(row.unlocked());
         }
+        assertTrue(rows.get(50).unresolved(), "the rare-mob definition stays visibly unresolved");
+        assertFalse(rows.get(49).unresolved());
     }
 
     @Test void researchScreenDataExposesServerRuleAvailabilityAndRequirements() {

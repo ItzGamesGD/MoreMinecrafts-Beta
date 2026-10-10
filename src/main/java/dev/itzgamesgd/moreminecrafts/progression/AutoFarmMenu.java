@@ -17,7 +17,7 @@ public final class AutoFarmMenu extends AbstractContainerMenu {
         super(ModMenuTypes.AUTO_FARM, id);
         this.farm = farm;
         for (int i = 0; i < 50; i++) {
-            int local=i%25, x=(i<25?10:122)+(local%5)*18, y=18+(local/5)*18;
+            int local=i%25, x=(i<25?10:122)+(local%5)*18, y=32+(local/5)*18;
             addSlot(new Slot(farm,i,x,y) {
                 @Override public boolean mayPlace(ItemStack stack) {
                     return index < 25 && super.mayPlace(stack);
@@ -25,8 +25,8 @@ public final class AutoFarmMenu extends AbstractContainerMenu {
             });
         }
         for(int row=0;row<3;row++)for(int col=0;col<9;col++)
-            addSlot(new Slot(inv,9+row*9+col,35+col*18,136+row*18));
-        for(int col=0;col<9;col++)addSlot(new Slot(inv,col,35+col*18,194));
+            addSlot(new Slot(inv,9+row*9+col,30+col*18,130+row*18));
+        for(int col=0;col<9;col++)addSlot(new Slot(inv,col,30+col*18,188));
     }
     @Override public boolean stillValid(Player player){return farm.stillValid(player);}
     @Override public ItemStack quickMoveStack(Player player,int slotIndex) {

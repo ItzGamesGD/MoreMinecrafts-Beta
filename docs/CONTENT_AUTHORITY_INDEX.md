@@ -1,5 +1,5 @@
 
-> **USER CORRECTION (2026-10-10; latest UI authority):** Pressing the vanilla advancement key opens a **small dedicated selection window with exactly three choices: 발전 과제 / 지식 / 연구**. Each opens its **own respective screen**. A **fourth XP 퀘스트** choice is added later, not now. The previously approved vanilla-advancement-like knowledge and research internal screen styling, knowledge tooltip 해금 조건 + 해금 보상, and research cost/purchase behavior remain valid. Any prior text describing a single combined tree without a selection window, or saying the three-choice landing window was superseded, is **WRONG and superseded by this correction**. The landing window's visual mockup is NOT YET APPROVED. Do not code it or claim it was implemented.
+> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents.
 
 # Current content authority and deferred design debt
 
@@ -9,8 +9,8 @@ It does not replace the detailed design documents. When an older document confli
 
 ## Latest user-approved UI authority — 2026-10-10
 
-- [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md): one advancement-key entry for vanilla advancements + 70 free knowledge + paid research, 7 disciplines, vanilla advancement-style navigation, knowledge tooltip **해금 조건 + 해금 보상**, research prerequisite/material/XP/purchase; XP quests deferred. Supersedes older three-choice landing screen, forced radial hub and mandatory tier chain wherever they conflict.
-- [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): 15 new/reworked UI groups, 9 existing UI contracts, 11 visual asset/indicator groups, retired/conditional exclusions, and approval status. **Design inventory only; no authorization to merge provisional PR #75 UI.**
+- [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md): one advancement-key entry opens the four-card selector; the first three cards open their own screens and XP Quest is a visible disabled placeholder. Preserve 7 disciplines, vanilla-inspired navigation, knowledge condition/reward details, research costs and explicit confirmation.
+- [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): amended with the approved selector, chest sort, hopper filter, Mob Tracker range controls, boat inventory interpretation, and separate potion systems. Historical conflicts remain labeled as superseded/deferred rather than silently erased.
 
 ## Current research/knowledge authority (latest human-approved V4)
 

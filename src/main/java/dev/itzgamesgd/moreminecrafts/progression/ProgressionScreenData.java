@@ -8,7 +8,8 @@ import java.util.Set;
 public final class ProgressionScreenData {
     public record KnowledgeRow(String id, String discipline, String titleKey, String descriptionKey,
                                KnowledgeCatalog.ConditionType conditionType, String conditionKey,
-                               int conditionProgress, int conditionTarget, String rewardKey, boolean unlocked) {}
+                               int conditionProgress, int conditionTarget, String rewardKey, boolean unlocked,
+                               boolean unresolved) {}
     public record ResearchRow(String id, String discipline, String titleKey, String descriptionKey,
                               int level, int maximumLevel, String catalogVersion, String tier, boolean prerequisitesDefined,
                               java.util.Set<Integer> requiredKnowledge,
@@ -25,7 +26,7 @@ public final class ProgressionScreenData {
                 .map(entry -> new KnowledgeRow(entry.id(), entry.discipline(), entry.titleKey(),
                         entry.descriptionKey(), entry.conditionType(), entry.conditionKey(),
                         state.conditionProgress(entry.conditionKey()), entry.target(),
-                        entry.rewardKey(), state.hasKnowledge(entry.number())))
+                        entry.rewardKey(), state.hasKnowledge(entry.number()), entry.unresolved()))
                 .toList();
     }
     public static List<ResearchRow> research(ResearchProgressState state, String discipline,

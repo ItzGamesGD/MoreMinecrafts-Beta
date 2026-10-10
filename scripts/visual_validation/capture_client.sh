@@ -89,6 +89,12 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     exit 1
   fi
 
+  # Complete the vanilla movement tutorial so its toast does not cover progression details.
+  xdotool keydown w
+  sleep 0.25
+  xdotool keyup w
+  sleep 1
+
   capture_done=0
   for attempt in $(seq 1 90); do
     if grep -Fq "VISUAL_CAPTURE_WRITTEN" "$client_log"; then
@@ -142,12 +148,12 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     echo "Timed out waiting for the in-client progression purchase journey."
     exit 1
   fi
-  for frame in progression-selection knowledge-screen research-screen research-purchasable-entry research-purchase-state; do
+  for frame in progression-selection knowledge-screen research-screen research-purchasable-entry research-purchase-confirmation research-purchase-cancelled research-purchase-state auto-farm-screen; do
     screenshot="run/screenshots/${frame}.png"
     if [ ! -s "$screenshot" ]; then echo "Missing native Minecraft frame: $screenshot"; exit 1; fi
     cp "$screenshot" "$results_dir/${frame}.png"
   done
-  printf "Minecraft Screenshot.grab via mainRenderTarget\nselection-window.png\nknowledge-screen.png\nresearch-screen.png\nresearch-purchasable-entry.png\nresearch-purchase-state.png\n" > "$results_dir/ui-capture-source.txt"
+  printf "Minecraft Screenshot.grab via mainRenderTarget\nprogression-selection.png\nknowledge-screen.png\nresearch-screen.png\nresearch-purchasable-entry.png\nresearch-purchase-confirmation.png\nresearch-purchase-cancelled.png\nresearch-purchase-state.png\nauto-farm-screen.png (screen backed by real menu; empty client-side container is a synthetic render fixture)\n" > "$results_dir/ui-capture-source.txt"
   echo "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge -> research -> purchase" | tee -a "$client_log"
 
   collect_x11_diagnostics

@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.client;
 
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import dev.itzgamesgd.moreminecrafts.progression.AutoFarmMenu;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
@@ -16,6 +17,8 @@ import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.SimpleContainer;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,6 +48,8 @@ public final class VisualValidationHarness {
     private static int purchaseIronBlocksBefore;
     private static int purchasePaperBefore;
     private static int purchaseResearchIndex = -1;
+    private static String previousActionBeforeCancel;
+    private static int previousActionResultBeforeCancel;
 
     private VisualValidationHarness() {
     }
@@ -169,7 +174,8 @@ public final class VisualValidationHarness {
             case 3 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
-                var rows = ProgressionClientApi.research(null);
+                clickDiscipline(client, "생산공학");
+                var rows = ProgressionClientApi.research("production");
                 purchaseResearchIndex = -1;
                 for (int index = 0; index < rows.size(); index++) {
                     if (rows.get(index).id().equals("nearby_chest_ingredients")) {
@@ -194,9 +200,17 @@ public final class VisualValidationHarness {
                 purchaseChestBefore = itemCount(client, "minecraft:chest");
                 purchaseIronBlocksBefore = itemCount(client, "minecraft:iron_block");
                 purchasePaperBefore = itemCount(client, "minecraft:paper");
-                if (client.gui.screen() instanceof ProgressionBrowseScreen researchScreen) {
-                    researchScreen.validationActivatePurchase();
-                    MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_REQUESTED id=nearby_chest_ingredients");
+                previousActionBeforeCancel = ProgressionClientApi.lastAction();
+                previousActionResultBeforeCancel = ProgressionClientApi.lastActionResult();
+                if (client.gui.screen() instanceof ProgressionBrowseScreen) {
+                    clickWidgetWithLabel(client, "연구 구매");
+                    if (client.gui.screen() instanceof ResearchPurchaseConfirmScreen) {
+                        queueUiScreenshot("research-purchase-confirmation.png");
+                        MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CONFIRMATION_OPENED id=nearby_chest_ingredients");
+                    } else {
+                        uiJourneyFailed = true;
+                        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchase confirmation did not open");
+                    }
                 } else {
                     uiJourneyFailed = true;
                     MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchase screen disappeared");
@@ -204,6 +218,49 @@ public final class VisualValidationHarness {
                 uiJourneyStage = 5;
             }
             case 5 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (!(client.gui.screen() instanceof ResearchPurchaseConfirmScreen)) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED confirmation screen disappeared before cancel");
+                    return;
+                }
+                clickWidget(client, 1);
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen)
+                        || ProgressionClientApi.lastActionResult() != previousActionResultBeforeCancel
+                        || !ProgressionClientApi.lastAction().equals(previousActionBeforeCancel)
+                        || purchaseXpBefore != dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player)
+                        || purchaseChestBefore != itemCount(client, "minecraft:chest")
+                        || purchaseIronBlocksBefore != itemCount(client, "minecraft:iron_block")
+                        || purchasePaperBefore != itemCount(client, "minecraft:paper")) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_PURCHASE_CANCEL_FAILED cancellation changed action or resources");
+                    return;
+                }
+                queueUiScreenshot("research-purchase-cancelled.png");
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CANCEL_VERIFIED resources_unchanged=true");
+                uiJourneyStage = 6;
+            }
+            case 6 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (client.gui.screen() instanceof ProgressionBrowseScreen researchScreen) {
+                    clickWidgetWithLabel(client, "연구 구매");
+                    if (!(client.gui.screen() instanceof ResearchPurchaseConfirmScreen)) {
+                        uiJourneyFailed = true;
+                        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED confirmation did not reopen");
+                        return;
+                    }
+                    clickWidget(client, 0);
+                    MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CONFIRMED id=nearby_chest_ingredients");
+                } else {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchase screen disappeared after cancel");
+                    return;
+                }
+                uiJourneyStage = 7;
+            }
+            case 7 -> {
                 int expectedResult = dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseService.Result.PURCHASED.ordinal();
                 if (!"research:nearby_chest_ingredients".equals(ProgressionClientApi.lastAction())
                         || ProgressionClientApi.lastActionResult() != expectedResult) return;
@@ -223,18 +280,29 @@ public final class VisualValidationHarness {
                     return;
                 }
                 queueUiScreenshot("research-purchase-state.png");
-                uiJourneyStage = 6;
+                uiJourneyStage = 8;
                 MoreMinecrafts.LOGGER.info(
                         "CLIENT_UI_PURCHASE_VERIFIED result=PURCHASED research=nearby_chest_ingredients level=1 xp=1100 chest=8 iron_blocks=4 paper=64"
                 );
             }
-            case 6 -> {
+            case 8 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                var inventory = client.player.getInventory();
+                var menu = new AutoFarmMenu(1, inventory, new SimpleContainer(50));
+                client.gui.setScreen(new AutoFarmScreen(menu, inventory, Component.translatable("container.moreminecrafts.auto_farm")));
+                queueUiScreenshot("auto-farm-screen.png");
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_RENDER_FIXTURE screen=auto_farm backend=real_menu empty_container=synthetic");
+                uiJourneyStage = 9;
+            }
+            case 9 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
                 MoreMinecrafts.LOGGER.info(
                         "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge -> research -> purchase"
                 );
-                uiJourneyStage = 7;
+                MoreMinecrafts.LOGGER.info("CLIENT_INTERACTION_PATH auto_farm=render_only_synthetic_empty_container");
+                uiJourneyStage = 10;
             }
             default -> { }
         }
@@ -279,6 +347,25 @@ public final class VisualValidationHarness {
 
     private static void clickResearchPurchase(Minecraft client) {
         clickWidget(client, 10);
+    }
+
+    private static void clickDiscipline(Minecraft client, String label) {
+        clickWidgetWithLabel(client, label);
+    }
+
+    private static void clickWidgetWithLabel(Minecraft client, String label) {
+        Screen screen = client.gui.screen();
+        if (screen == null) { uiJourneyFailed = true; return; }
+        for (var child : screen.children()) {
+            if (child instanceof Button button && button.getMessage().getString().equals(label)) {
+                button.onPress(new MouseButtonEvent(button.getX() + button.getWidth() / 2.0,
+                        button.getY() + button.getHeight() / 2.0, new MouseButtonInfo(0, 0)));
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_DISCIPLINE_SELECTED label={}", label);
+                return;
+            }
+        }
+        uiJourneyFailed = true;
+        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED button is missing: {}", label);
     }
 
     private static void clickWidget(Minecraft client, int index) {
