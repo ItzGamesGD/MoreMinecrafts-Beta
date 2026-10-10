@@ -1,3 +1,6 @@
+
+> **USER CORRECTION (2026-10-10; latest UI authority):** Pressing the vanilla advancement key opens a **small dedicated selection window with exactly three choices: 발전 과제 / 지식 / 연구**. Each opens its **own respective screen**. A **fourth XP 퀘스트** choice is added later, not now. The previously approved vanilla-advancement-like knowledge and research internal screen styling, knowledge tooltip 해금 조건 + 해금 보상, and research cost/purchase behavior remain valid. Any prior text describing a single combined tree without a selection window, or saying the three-choice landing window was superseded, is **WRONG and superseded by this correction**. The landing window's visual mockup is NOT YET APPROVED. Do not code it or claim it was implemented.
+
 # MoreMinecrafts — UI/System Inventory and Visual-Approval Audit
 Date: 2026-10-10. Scope: current Draft PR #75 branch tree, V4 research design (938 lines before this audit), content authority, utility, fishing, equipment, T1 enchantment, and current design finalization records. This is a **design/source-document and repository inventory audit**, not an assertion that all code paths or 70 research effects have been functionally tested.
 
