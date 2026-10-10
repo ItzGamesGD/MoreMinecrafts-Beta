@@ -22,7 +22,8 @@ public final class ResearchPurchaseService {
     private ResearchPurchaseService() {}
 
     public static Result purchase(ServerPlayer player, String id, int requestedLevel) {
-        if (player == null || player.getServer() == null || !player.getServer().isSameThread())
+        if (player == null || player.level().getServer() == null
+                || !player.level().getServer().isSameThread())
             return Result.INVALID_STATE;
         ResearchDefinition definition = ResearchCatalog.byId(id);
         if (definition == null) return Result.INVALID_ID;
