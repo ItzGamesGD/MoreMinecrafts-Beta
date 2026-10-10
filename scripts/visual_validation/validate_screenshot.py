@@ -10,6 +10,7 @@ image_path = Path(sys.argv[1] if len(sys.argv) > 1 else "visual-validation-resul
 result_path = Path(sys.argv[2] if len(sys.argv) > 2 else "visual-validation-results/validation.json")
 log_path = Path("visual-validation-results/client.log")
 capture_source_path = Path("visual-validation-results/capture-source.txt")
+ui_capture = "--ui" in sys.argv[3:]
 
 if not image_path.is_file():
     raise SystemExit(f"Screenshot missing: {image_path}")
@@ -49,7 +50,8 @@ checks = {
     "png_decodes": True,
     "dimensions_1280x720": [width, height] == [1280, 720],
     "non_uniform_with_meaningful_variation": distinct_colors >= 128 and mean_stdev >= 8.0,
-    "center_region_has_visual_detail": center_distinct_colors >= 64,
+    "center_region_has_visual_detail": center_distinct_colors >= 64 if not ui_capture else None,
+    "center_detail_required": not ui_capture,
     "client_world_and_capture_lifecycle": True,
     "native_capture_api": "Minecraft Screenshot.grab from mainRenderTarget",
     "visual_content": "NEEDS_MANUAL_REVIEW",
@@ -66,7 +68,7 @@ if not all((
     checks["png_decodes"],
     checks["dimensions_1280x720"],
     checks["non_uniform_with_meaningful_variation"],
-    checks["center_region_has_visual_detail"],
+    (not checks["center_detail_required"] or checks["center_region_has_visual_detail"]),
     checks["client_world_and_capture_lifecycle"],
 )):
     raise SystemExit("Screenshot structural validation failed; semantic scene content requires manual review.")

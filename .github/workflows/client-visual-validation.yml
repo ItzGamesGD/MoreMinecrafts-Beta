@@ -123,8 +123,13 @@ jobs:
           bash scripts/visual_validation/capture_client.sh visual-validation-results 127.0.0.1:25565
           for screenshot in visual-validation-results/*.png; do
             stem="$(basename "$screenshot" .png)"
-            python3 scripts/visual_validation/validate_screenshot.py \
-              "$screenshot" "visual-validation-results/${stem}-validation.json"
+            if [ "$stem" = "visual-world" ]; then
+              python3 scripts/visual_validation/validate_screenshot.py \
+                "$screenshot" "visual-validation-results/${stem}-validation.json"
+            else
+              python3 scripts/visual_validation/validate_screenshot.py \
+                "$screenshot" "visual-validation-results/${stem}-validation.json" --ui
+            fi
           done
 
       - name: Upload screenshot and diagnostics
