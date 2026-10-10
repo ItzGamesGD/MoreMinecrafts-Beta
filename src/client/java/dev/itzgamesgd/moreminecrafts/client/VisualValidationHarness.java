@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
@@ -231,9 +232,7 @@ public final class VisualValidationHarness {
     }
 
     private static void clickSelectionChoice(Minecraft client, int choice) {
-        Screen screen = client.gui.screen();
-        if (screen == null) { uiJourneyFailed = true; return; }
-        clickScreen(client, screen.width / 2.0, screen.height / 2.0 - 48 + 10 + (choice - 1) * 26);
+        clickWidget(client, choice - 1);
         if (choice == 2 || choice == 3) {
             if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
                     || browse.mode() != (choice == 2 ? ProgressionBrowseScreen.Mode.KNOWLEDGE : ProgressionBrowseScreen.Mode.RESEARCH)) {
@@ -244,11 +243,7 @@ public final class VisualValidationHarness {
     }
 
     private static void clickProgressionBack(Minecraft client) {
-        Screen screen = client.gui.screen();
-        if (screen == null) { uiJourneyFailed = true; return; }
-        int left = (screen.width - 390) / 2;
-        int top = Math.max(28, (screen.height - 220) / 2);
-        clickScreen(client, left + 32, top - 24 + 10);
+        clickWidget(client, 0);
         if (!(client.gui.screen() instanceof ProgressionSelectionScreen)) {
             uiJourneyFailed = true;
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED back button did not return to selector");
@@ -256,11 +251,7 @@ public final class VisualValidationHarness {
     }
 
     private static void clickResearchNext(Minecraft client) {
-        Screen screen = client.gui.screen();
-        if (screen == null) { uiJourneyFailed = true; return; }
-        int left = (screen.width - 390) / 2;
-        int top = Math.max(28, (screen.height - 220) / 2);
-        clickScreen(client, left + 164 + 14, top + 184 + 9);
+        clickWidget(client, 9);
         if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
                 || browse.mode() != ProgressionBrowseScreen.Mode.RESEARCH) {
             uiJourneyFailed = true;
@@ -269,11 +260,7 @@ public final class VisualValidationHarness {
     }
 
     private static void clickResearchRow(Minecraft client, int row) {
-        Screen screen = client.gui.screen();
-        if (screen == null) { uiJourneyFailed = true; return; }
-        int left = (screen.width - 390) / 2;
-        int top = Math.max(28, (screen.height - 220) / 2);
-        clickScreen(client, left + 4 + 94, top + 5 + row * 20 + 9);
+        clickWidget(client, 1 + row);
         if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse) || browse.validationSelection() != 50) {
             uiJourneyFailed = true;
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchasable research row was not selected");
@@ -281,11 +268,20 @@ public final class VisualValidationHarness {
     }
 
     private static void clickResearchPurchase(Minecraft client) {
+        clickWidget(client, 10);
+    }
+
+    private static void clickWidget(Minecraft client, int index) {
         Screen screen = client.gui.screen();
-        if (screen == null) { uiJourneyFailed = true; return; }
-        int left = (screen.width - 390) / 2;
-        int top = Math.max(28, (screen.height - 220) / 2);
-        clickScreen(client, left + 203 + 50, top + 183 + 10);
+        if (screen == null || index < 0 || index >= screen.children().size()
+                || !(screen.children().get(index) instanceof AbstractWidget widget)
+                || !widget.active || !widget.visible) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED widget={} screen={}", index, screen);
+            return;
+        }
+        clickScreen(client, widget.getX() + widget.getWidth() / 2.0,
+                widget.getY() + widget.getHeight() / 2.0);
     }
 
     private static int itemCount(Minecraft client, String itemId) {
