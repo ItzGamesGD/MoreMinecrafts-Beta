@@ -17,6 +17,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   fi
   export MOREMINECRAFTS_VISUAL_VALIDATION=1
   export MOREMINECRAFTS_VISUAL_SERVER_ADDRESS="$server_address"
+  export MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL=1
 
   openbox --sm-disable > "$results_dir/openbox.log" 2>&1 &
   window_manager_pid=$!
@@ -130,13 +131,50 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   printf "Minecraft native Screenshot.grab via mainRenderTarget\nsource=%s\n" "$screenshot" > "$results_dir/capture-source.txt"
   echo "Copied native Minecraft screenshot from $screenshot" | tee -a "$client_log"
 
+  click_selector_target() {
+    local target="$1" ready_line x y window_id
+    for attempt in $(seq 1 45); do
+      ready_line="$(grep -F "SELECTOR_PHYSICAL_READY target=$target " "$client_log" | tail -n 1 || true)"
+      if [ -n "$ready_line" ]; then break; fi
+      if grep -Fq "SELECTOR_PHYSICAL_TEST_FAILED" "$client_log"; then
+        cat "$client_log"; echo "Physical selector test failed before target=$target."; exit 1
+      fi
+      sleep 1
+    done
+    if [ -z "$ready_line" ]; then cat "$client_log"; echo "No physical-click target announced: $target"; exit 1; fi
+    x="$(sed -n 's/.* x=\([0-9][0-9]*\) y=.*/\1/p' <<< "$ready_line")"
+    y="$(sed -n 's/.* y=\([0-9][0-9]*\) gui_scale=.*/\1/p' <<< "$ready_line")"
+    if [ -z "$x" ] || [ -z "$y" ]; then echo "Invalid physical-click coordinates: $ready_line"; exit 1; fi
+    window_id="$(xdotool getactivewindow)"
+    eval "$(xdotool getwindowgeometry --shell "$window_id")"
+    xdotool mousemove --sync "$((X + x))" "$((Y + y))" click --clearmodifiers 1
+    for attempt in $(seq 1 20); do
+      if grep -Fq "SELECTOR_PHYSICAL_VERIFIED target=$target input=xdotool" "$client_log"; then
+        echo "Physical mouse click verified: $target at window=($x,$y) root=($((X+x)),$((Y+y)))" | tee -a "$client_log"
+        printf '%s window=%s local=%s,%s root=%s,%s\n' "$target" "$window_id" "$x" "$y" "$((X+x))" "$((Y+y))" >> "$results_dir/selector-physical-inputs.txt"
+        return 0
+      fi
+      if grep -Fq "SELECTOR_PHYSICAL_TEST_FAILED" "$client_log" || grep -Fq "CLIENT_UI_INTERACTION_FAILED" "$client_log"; then
+        cat "$client_log"; echo "Physical click did not activate target=$target."; exit 1
+      fi
+      sleep 1
+    done
+    cat "$client_log"
+    echo "Timed out verifying physical click for target=$target."
+    exit 1
+  }
+
+  for target in knowledge research advancements xp_quest close; do
+    click_selector_target "$target"
+  done
+
   ui_done=0
   for attempt in $(seq 1 120); do
     if grep -Fq "CLIENT_INTERACTION_PATH synthetic Screen button callbacks" "$client_log"; then
       ui_done=1
       break
     fi
-    if grep -Eq "CLIENT_UI_INTERACTION_FAILED|CLIENT_UI_PURCHASE_FAILED|CLIENT_UI_SCREENSHOT_FAILED" "$client_log"; then
+    if grep -Eq "CLIENT_UI_INTERACTION_FAILED|CLIENT_UI_PURCHASE_FAILED|CLIENT_UI_SCREENSHOT_FAILED|SELECTOR_PHYSICAL_TEST_FAILED" "$client_log"; then
       cat "$client_log"
       echo "Minecraft progression UI interaction or purchase assertion failed."
       exit 1
@@ -154,6 +192,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     cp "$screenshot" "$results_dir/${frame}.png"
   done
   printf "Minecraft Screenshot.grab via mainRenderTarget\nprogression-selection.png\nknowledge-screen.png\nresearch-screen.png\nresearch-purchasable-entry.png\nresearch-purchase-confirmation.png\nresearch-purchase-cancelled.png\nresearch-purchase-state.png\nauto-farm-screen.png (screen backed by real menu; empty client-side container is a synthetic render fixture)\n" > "$results_dir/ui-capture-source.txt"
+  printf "Selector hitboxes exercised via xdotool/XTEST mouse clicks; research purchase journey uses synthetic Screen widget callbacks.\n" >> "$results_dir/ui-capture-source.txt"
   echo "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge -> research -> purchase" | tee -a "$client_log"
 
   collect_x11_diagnostics

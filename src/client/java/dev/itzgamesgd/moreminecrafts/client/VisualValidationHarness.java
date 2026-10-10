@@ -26,6 +26,7 @@ import java.nio.file.Path;
 public final class VisualValidationHarness {
     private static final String OPT_IN_ENV = "MOREMINECRAFTS_VISUAL_VALIDATION";
     private static final String SERVER_ENV = "MOREMINECRAFTS_VISUAL_SERVER_ADDRESS";
+    private static final boolean PHYSICAL_SELECTOR_TEST = "1".equals(System.getenv("MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL"));
     private static final boolean ENABLED = "1".equals(System.getenv(OPT_IN_ENV));
     private static final String SCREENSHOT_NAME = "visual-world.png";
     private static boolean connectionRequested;
@@ -50,6 +51,8 @@ public final class VisualValidationHarness {
     private static int purchaseResearchIndex = -1;
     private static String previousActionBeforeCancel;
     private static int previousActionResultBeforeCancel;
+    private static int physicalSelectorStage;
+    private static boolean physicalSelectorDone;
 
     private VisualValidationHarness() {
     }
@@ -154,11 +157,20 @@ public final class VisualValidationHarness {
             uiJourneyStage = 1;
             return;
         }
+        if (PHYSICAL_SELECTOR_TEST && physicalSelectorStage > 0 && !physicalSelectorDone) {
+            advancePhysicalSelectorTest(client);
+            if (!physicalSelectorDone) return;
+        }
         if (uiCaptureName != null) return;
         switch (uiJourneyStage) {
             case 1 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
+                if (PHYSICAL_SELECTOR_TEST && physicalSelectorStage == 0) {
+                    physicalSelectorStage = 1;
+                    announcePhysicalSelectorTarget(client, "knowledge");
+                    return;
+                }
                 clickSelectionChoice(client, 2);
                 queueUiScreenshot("knowledge-screen.png");
                 uiJourneyStage = 2;
@@ -308,8 +320,83 @@ public final class VisualValidationHarness {
         }
     }
 
+    private static void advancePhysicalSelectorTest(Minecraft client) {
+        Screen screen = client.gui.screen();
+        switch (physicalSelectorStage) {
+            case 1 -> {
+                if (screen instanceof ProgressionBrowseScreen browse
+                        && browse.mode() == ProgressionBrowseScreen.Mode.KNOWLEDGE) {
+                    verifyPhysicalSelectorTarget("knowledge");
+                    openSelectorForPhysicalTest(client, 2, "research");
+                }
+            }
+            case 2 -> {
+                if (screen instanceof ProgressionBrowseScreen browse
+                        && browse.mode() == ProgressionBrowseScreen.Mode.RESEARCH) {
+                    verifyPhysicalSelectorTarget("research");
+                    openSelectorForPhysicalTest(client, 3, "advancements");
+                }
+            }
+            case 3 -> {
+                if (screen instanceof net.minecraft.client.gui.screens.advancements.AdvancementsScreen) {
+                    verifyPhysicalSelectorTarget("advancements");
+                    openSelectorForPhysicalTest(client, 4, "xp_quest");
+                }
+            }
+            case 4 -> {
+                if (screen instanceof ProgressionSelectionScreen
+                        && "xp_quest".equals(ProgressionSelectionScreen.lastClickedTarget())) {
+                    verifyPhysicalSelectorTarget("xp_quest");
+                    openSelectorForPhysicalTest(client, 5, "close");
+                }
+            }
+            case 5 -> {
+                if (screen == null && "close".equals(ProgressionSelectionScreen.lastClickedTarget())) {
+                    verifyPhysicalSelectorTarget("close");
+                    physicalSelectorDone = true;
+                    client.gui.setScreen(new ProgressionSelectionScreen());
+                    uiCaptureComplete = true;
+                    MoreMinecrafts.LOGGER.info("SELECTOR_PHYSICAL_TEST_COMPLETE gui_scale={}", client.getWindow().getGuiScale());
+                }
+            }
+            default -> { }
+        }
+    }
+
+    private static void openSelectorForPhysicalTest(Minecraft client, int nextStage, String target) {
+        physicalSelectorStage = nextStage;
+        client.gui.setScreen(new ProgressionSelectionScreen());
+        announcePhysicalSelectorTarget(client, target);
+    }
+
+    private static void announcePhysicalSelectorTarget(Minecraft client, String target) {
+        if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("SELECTOR_PHYSICAL_TEST_FAILED expected_selector target={}", target);
+            return;
+        }
+        MoreMinecrafts.LOGGER.info("SELECTOR_PHYSICAL_READY target={} x={} y={} gui_scale={} resolution={}x{}",
+                target, selector.validationPhysicalX(target), selector.validationPhysicalY(target),
+                client.getWindow().getGuiScale(), client.getWindow().getWidth(), client.getWindow().getHeight());
+    }
+
+    private static void verifyPhysicalSelectorTarget(String target) {
+        if (!target.equals(ProgressionSelectionScreen.lastClickedTarget())) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("SELECTOR_PHYSICAL_TEST_FAILED target={} actual={}", target,
+                    ProgressionSelectionScreen.lastClickedTarget());
+            return;
+        }
+        MoreMinecrafts.LOGGER.info("SELECTOR_PHYSICAL_VERIFIED target={} input=xdotool", target);
+    }
+
     private static void clickSelectionChoice(Minecraft client, int choice) {
-        clickWidget(client, choice - 1);
+        if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)
+                || !selector.validationClick(choice == 2 ? "knowledge" : "research")) {
+            uiJourneyFailed = true;
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED selector choice={} was not hit", choice);
+            return;
+        }
         if (choice == 2 || choice == 3) {
             if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
                     || browse.mode() != (choice == 2 ? ProgressionBrowseScreen.Mode.KNOWLEDGE : ProgressionBrowseScreen.Mode.RESEARCH)) {
