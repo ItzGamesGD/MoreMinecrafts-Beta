@@ -4,10 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import com.google.gson.Gson;
 
 /** Human-approved V4 additions. Older V3 pricing remains sourced from its locked price ledger. */
 public final class ResearchCatalog {
     private static final Map<String, ResearchDefinition> V4;
+    private static final Map<String, ResearchDefinition> V3 = loadV3();
     static {
         Map<String, ResearchDefinition> entries = new LinkedHashMap<>();
         add(entries, "combat_root", "combat", 80, any(31,32,33,34,35,36,37,38,39,40), m("minecraft:stick",16), m("minecraft:bone",16));
@@ -47,5 +51,53 @@ public final class ResearchCatalog {
         return V4.values().stream().sorted(java.util.Comparator.comparing(ResearchDefinition::discipline)
                 .thenComparing(ResearchDefinition::id)).toList();
     }
-    public static ResearchDefinition byId(String id) { return V4.get(id); }
+    public static List<ResearchDefinition> v3Catalog() {
+        return V3.values().stream().sorted(java.util.Comparator.comparing(ResearchDefinition::id)).toList();
+    }
+    public static List<ResearchDefinition> allCatalogEntries() {
+        return java.util.stream.Stream.concat(V3.values().stream(), V4.values().stream())
+                .sorted(java.util.Comparator.comparing(ResearchDefinition::discipline)
+                        .thenComparing(ResearchDefinition::catalogVersion)
+                        .thenComparing(ResearchDefinition::id)).toList();
+    }
+    public static ResearchDefinition byId(String id) {
+        ResearchDefinition v4 = V4.get(id);
+        return v4 != null ? v4 : V3.get(id);
+    }
+
+    private record V3File(List<V3Node> entries) {}
+    private record V3Node(String id, String discipline, String tier, int levelCap,
+                          String titleKey, String descriptionKey, boolean prerequisitesDefined,
+                          Set<Integer> knowledgePrerequisites, Set<String> researchPrerequisites,
+                          List<V3Cost> costs) {}
+    private record V3Cost(int rawXp, List<V3Material> materials) {}
+    private record V3Material(String itemId, int count, int compressedUnits) {}
+
+    private static Map<String, ResearchDefinition> loadV3() {
+        var stream = ResearchCatalog.class.getResourceAsStream("/data/moreminecrafts/research/research_v3.json");
+        if (stream == null) throw new ExceptionInInitializerError("Missing approved V3 research ledger");
+        try (var reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+            V3File file = new Gson().fromJson(reader, V3File.class);
+            Map<String, ResearchDefinition> parsed = new LinkedHashMap<>();
+            for (V3Node node : file.entries()) {
+                List<ResearchDefinition.LevelCost> costs = node.costs().stream().map(cost ->
+                        new ResearchDefinition.LevelCost(cost.rawXp(), cost.materials().stream().map(material ->
+                                new ResearchDefinition.MaterialCost(material.itemId(), material.count(), material.compressedUnits()))
+                                .toList())).toList();
+                var definition = new ResearchDefinition(node.id(), node.discipline(), node.titleKey(),
+                        node.descriptionKey(), node.levelCap(), node.knowledgePrerequisites(),
+                        node.researchPrerequisites(), costs, "v3", node.tier(), node.prerequisitesDefined());
+                if (parsed.putIfAbsent(definition.id(), definition) != null)
+                    throw new IllegalStateException("Duplicate research " + definition.id());
+            }
+            long purchases = parsed.values().stream().mapToLong(ResearchDefinition::maximumLevel).sum();
+            long xp = parsed.values().stream().flatMap(entry -> entry.costs().stream())
+                    .mapToLong(ResearchDefinition.LevelCost::rawXp).sum();
+            if (parsed.size() != 70 || purchases != 178 || xp != 130_360)
+                throw new IllegalStateException("V3 research ledger totals are invalid");
+            return Map.copyOf(parsed);
+        } catch (Exception exception) {
+            throw new ExceptionInInitializerError(exception);
+        }
+    }
 }

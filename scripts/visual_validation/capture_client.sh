@@ -115,31 +115,39 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   printf "Minecraft native Screenshot.grab via mainRenderTarget\nsource=%s\n" "$screenshot" > "$results_dir/capture-source.txt"
   echo "Copied native Minecraft screenshot from $screenshot" | tee -a "$client_log"
 
-  window_id="$(xdotool search --onlyvisible --name Minecraft | head -n 1)"
-  if [ -z "$window_id" ]; then
-    echo "Minecraft window was not found for progression UI interaction."
-    exit 1
-  fi
-  xdotool windowactivate --sync "$window_id"
+  latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
+  previous_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
   xdotool key --clearmodifiers l
   sleep 2
   xdotool key F2
   sleep 3
-  cp "$(ls -t run/screenshots/*.png | head -n 1)" "$results_dir/selection-window.png"
+  latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  if [ "$current_hash" = "$previous_hash" ]; then echo "Advancement selection frame was not captured."; exit 1; fi
+  previous_hash="$current_hash"
+  cp "$latest_screenshot" "$results_dir/selection-window.png"
 
-  xdotool mousemove --window "$window_id" 640 348 click 1
+  xdotool mousemove 640 348 click 1
   sleep 2
   xdotool key F2
   sleep 3
-  cp "$(ls -t run/screenshots/*.png | head -n 1)" "$results_dir/knowledge-screen.png"
+  latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  if [ "$current_hash" = "$previous_hash" ]; then echo "Knowledge screen frame was not captured."; exit 1; fi
+  previous_hash="$current_hash"
+  cp "$latest_screenshot" "$results_dir/knowledge-screen.png"
 
-  xdotool mousemove --window "$window_id" 477 181 click 1
+  xdotool mousemove 477 181 click 1
   sleep 1
-  xdotool mousemove --window "$window_id" 640 374 click 1
+  xdotool mousemove 640 374 click 1
   sleep 2
   xdotool key F2
   sleep 3
-  cp "$(ls -t run/screenshots/*.png | head -n 1)" "$results_dir/research-screen.png"
+  latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  if [ "$current_hash" = "$previous_hash" ]; then echo "Research screen frame was not captured."; exit 1; fi
+  previous_hash="$current_hash"
+  cp "$latest_screenshot" "$results_dir/research-screen.png"
 
   # The scripted fixture equips an approved purchasable research row. The click sequence
   # below follows the visible paginated list and purchase button through normal screen widgets.
@@ -149,15 +157,20 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     "give VisualValidation minecraft:chest 8" \
     "give VisualValidation minecraft:iron_block 4" \
     "give VisualValidation minecraft:paper 64"
-  xdotool mousemove --window "$window_id" 623 481 click 1
+  for page in $(seq 1 8); do
+    xdotool mousemove 623 481 click 1
+    sleep 0.2
+  done
+  xdotool mousemove 543 276 click 1
   sleep 1
-  xdotool mousemove --window "$window_id" 543 298 click 1
-  sleep 1
-  xdotool mousemove --window "$window_id" 698 482 click 1
+  xdotool mousemove 698 482 click 1
   sleep 3
   xdotool key F2
   sleep 3
-  cp "$(ls -t run/screenshots/*.png | head -n 1)" "$results_dir/research-purchase-state.png"
+  latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  if [ "$current_hash" = "$previous_hash" ]; then echo "Research purchase state frame was not captured."; exit 1; fi
+  cp "$latest_screenshot" "$results_dir/research-purchase-state.png"
   printf "Minecraft vanilla keyScreenshot F2 captures
 selection-window.png
 knowledge-screen.png

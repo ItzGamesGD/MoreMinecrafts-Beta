@@ -10,7 +10,8 @@ public final class ProgressionScreenData {
                                KnowledgeCatalog.ConditionType conditionType, String conditionKey,
                                int conditionProgress, int conditionTarget, String rewardKey, boolean unlocked) {}
     public record ResearchRow(String id, String discipline, String titleKey, String descriptionKey,
-                              int level, int maximumLevel, java.util.Set<Integer> requiredKnowledge,
+                              int level, int maximumLevel, String catalogVersion, String tier, boolean prerequisitesDefined,
+                              java.util.Set<Integer> requiredKnowledge,
                               java.util.Set<String> prerequisiteResearch, ResearchDefinition.LevelCost nextCost,
                               ResearchPurchaseRules.Result availability) {}
     public record QuestRow(String id, String category, String titleKey, String descriptionKey,
@@ -31,10 +32,10 @@ public final class ProgressionScreenData {
                                              Map<String, Integer> inventory, int rawXp) {
         Set<Integer> unlockedKnowledge = java.util.stream.IntStream.rangeClosed(1,70)
                 .filter(state::hasKnowledge).boxed().collect(java.util.stream.Collectors.toUnmodifiableSet());
-        Set<String> purchased = ResearchCatalog.v4Additions().stream()
+        Set<String> purchased = ResearchCatalog.allCatalogEntries().stream()
                 .filter(definition -> state.researchLevel(definition.id()) > 0)
                 .map(ResearchDefinition::id).collect(java.util.stream.Collectors.toUnmodifiableSet());
-        return ResearchCatalog.v4Additions().stream()
+        return ResearchCatalog.allCatalogEntries().stream()
                 .filter(entry -> discipline == null || discipline.equals(entry.discipline()))
                 .map(entry -> {
                     int level = state.researchLevel(entry.id());
@@ -44,7 +45,8 @@ public final class ProgressionScreenData {
                             : ResearchPurchaseRules.validate(entry, level + 1, level, unlockedKnowledge,
                                     purchased, inventory, rawXp);
                     return new ResearchRow(entry.id(), entry.discipline(), entry.titleKey(),
-                            entry.descriptionKey(), level, entry.maximumLevel(), entry.knowledgePrerequisites(),
+                            entry.descriptionKey(), level, entry.maximumLevel(), entry.catalogVersion(), entry.tier(), entry.prerequisitesDefined(),
+                            entry.knowledgePrerequisites(),
                             entry.researchPrerequisites(), next, result);
                 }).toList();
     }

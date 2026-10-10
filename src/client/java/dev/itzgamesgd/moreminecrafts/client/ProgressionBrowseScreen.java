@@ -94,15 +94,18 @@ public final class ProgressionBrowseScreen extends Screen {
             g.text(font, Component.translatable(row.titleKey()), x + 205, y + 10, 0xFFFFFFFF);
             g.text(font, Component.translatable(row.descriptionKey()), x + 205, y + 27, 0xFFE2E9ED);
             g.text(font, Component.translatable("moreminecrafts.discipline." + row.discipline()), x + 205, y + 44, 0xFFE2E9ED);
-            text(g, "레벨: " + row.level() + " / " + row.maximumLevel(), x + 205, y + 61, 0xFFE2E9ED);
-            text(g, "선행 지식: " + row.requiredKnowledge(), x + 205, y + 78, 0xFFE2E9ED);
-            text(g, "선행 연구: " + row.prerequisiteResearch(), x + 205, y + 95, 0xFFE2E9ED);
+            text(g, "카탈로그/티어: " + row.catalogVersion() + " / " + row.tier(), x + 205, y + 61, 0xFFE2E9ED);
+            text(g, "레벨: " + row.level() + " / " + row.maximumLevel(), x + 205, y + 78, 0xFFE2E9ED);
+            text(g, "선행 조건: " + (row.prerequisitesDefined()
+                    ? row.requiredKnowledge() + " / " + row.prerequisiteResearch() : "미확정"), x + 205, y + 95, 0xFFE2E9ED);
             text(g, "구매 상태: " + row.availability(), x + 205, y + 112, 0xFFE2E9ED);
             if (row.nextCost() != null) {
                 text(g, "원시 XP: " + row.nextCost().rawXp(), x + 205, y + 129, 0xFFE2E9ED);
                 int cy = y + 146;
                 for (var material : row.nextCost().materials()) {
-                    text(g, material.itemId() + " × " + material.count(), x + 205, cy, 0xFFE2E9ED);
+                    text(g, material.compressedUnits() > 0
+                            ? material.itemId() + " × " + material.compressedUnits() + " compressed (deferred) or " + material.count() + " original"
+                            : material.itemId() + " × " + material.count(), x + 205, cy, 0xFFE2E9ED);
                     cy += 15;
                     if (cy > y + 255) break;
                 }

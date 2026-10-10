@@ -20,6 +20,7 @@ public final class ResearchPurchaseRules {
         if (currentLevel >= requestedLevel) return Result.ALREADY_PURCHASED;
         if (currentLevel >= definition.maximumLevel()) return Result.MAX_LEVEL;
         if (requestedLevel != currentLevel + 1) return Result.INVALID_LEVEL;
+        if (!definition.prerequisitesDefined()) return Result.MISSING_PREREQUISITE;
         if (!definition.knowledgePrerequisites().isEmpty()
                 && definition.knowledgePrerequisites().stream().noneMatch(knowledge::contains))
             return Result.MISSING_KNOWLEDGE;

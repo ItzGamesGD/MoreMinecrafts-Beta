@@ -21,14 +21,15 @@ final class ProgressionScreenDataTest {
     @Test void researchScreenDataExposesServerRuleAvailabilityAndRequirements() {
         var state = new ResearchProgressState(Map.of());
         var rows = ProgressionScreenData.research(state, null, Map.of(), 0);
-        assertEquals(ResearchCatalog.v4Additions().size(), rows.size());
+        assertEquals(ResearchCatalog.v3Catalog().size() + ResearchCatalog.v4Additions().size(), rows.size());
         for (var row : rows) {
             assertEquals(0, row.level());
-            assertEquals(1, row.maximumLevel());
+            assertTrue(row.maximumLevel() > 0);
             assertNotNull(row.nextCost());
             assertNotNull(row.requiredKnowledge());
             assertNotNull(row.prerequisiteResearch());
-            assertEquals(ResearchPurchaseRules.Result.MISSING_KNOWLEDGE, row.availability());
+            assertEquals(row.prerequisitesDefined() ? ResearchPurchaseRules.Result.MISSING_KNOWLEDGE
+                    : ResearchPurchaseRules.Result.MISSING_PREREQUISITE, row.availability());
         }
     }
 }
