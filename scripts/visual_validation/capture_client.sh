@@ -149,7 +149,16 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     y="${ready_line#* y=}"
     y="${y%% *}"
     if [ -z "$x" ] || [ -z "$y" ]; then echo "Invalid physical-click coordinates: $ready_line"; exit 1; fi
-    window_id="$(xdotool getactivewindow)"
+    window_id="$(xdotool getactivewindow 2>/dev/null || true)"
+    if [ -z "$window_id" ]; then
+      window_id="$(xdotool search --onlyvisible --name "Minecraft" | tail -n 1)"
+    fi
+    if [ -z "$window_id" ]; then
+      xwininfo -root -tree > "$results_dir/x11-window-tree.txt" 2>&1 || true
+      cat "$results_dir/x11-window-tree.txt"
+      echo "Could not locate the visible Minecraft window for physical input."
+      exit 1
+    fi
     eval "$(xdotool getwindowgeometry --shell "$window_id")"
     xdotool mousemove --sync "$((X + x))" "$((Y + y))" click --clearmodifiers 1
     for attempt in $(seq 1 20); do
