@@ -40,7 +40,6 @@
     "CustomMobStatsMixin",
     "CaveCreeperExplosionMixin",
     "KnowledgeCraftingMenuMixin",
-    "KnowledgeInventoryCraftingMenuMixin",
     "KnowledgeRecipeCraftCountMixin"
   ],
   "injectors": {
