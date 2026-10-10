@@ -54,6 +54,12 @@ public final class ProgressionSelectionScreen extends Screen {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if ("1".equals(System.getenv("MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL"))) {
+            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
+                    "SELECTOR_MOUSE_EVENT x={} y={} button={} scale={} window={}x{}",
+                    event.x(), event.y(), event.button(), minecraft.getWindow().getGuiScale(),
+                    minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
+        }
         if (event.button() != 0) return super.mouseClicked(event, doubleClick);
         for (Target target : TARGETS) {
             if (!contains(target, event.x(), event.y())) continue;

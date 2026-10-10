@@ -177,6 +177,8 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     eval "$(xdotool getwindowgeometry --shell "$window_id")"
     echo "Physical input window geometry x=$X y=$Y size=${WIDTH}x${HEIGHT}"
     xdotool mousemove --sync "$((X + x))" "$((Y + y))" click --clearmodifiers 1
+    pointer="$(xdotool getmouselocation --shell)"
+    echo "Physical input pointer=$pointer focus=$(xdotool getwindowfocus 2>/dev/null || true)"
     for attempt in $(seq 1 20); do
       if grep -Fq "SELECTOR_PHYSICAL_VERIFIED target=$target input=xdotool" "$client_log"; then
         echo "Physical mouse click verified: $target at window=($x,$y) root=($((X+x)),$((Y+y)))" | tee -a "$client_log"
