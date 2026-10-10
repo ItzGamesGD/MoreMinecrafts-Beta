@@ -116,13 +116,13 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   echo "Copied native Minecraft screenshot from $screenshot" | tee -a "$client_log"
 
   latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
-  previous_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  previous_hash="$(sha256sum "$latest_screenshot" | cut -d " " -f 1)"
   xdotool key --clearmodifiers l
   sleep 2
   xdotool key F2
   sleep 3
   latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
-  current_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d " " -f 1)"
   if [ "$current_hash" = "$previous_hash" ]; then echo "Advancement selection frame was not captured."; exit 1; fi
   previous_hash="$current_hash"
   cp "$latest_screenshot" "$results_dir/selection-window.png"
@@ -132,7 +132,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   xdotool key F2
   sleep 3
   latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
-  current_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d " " -f 1)"
   if [ "$current_hash" = "$previous_hash" ]; then echo "Knowledge screen frame was not captured."; exit 1; fi
   previous_hash="$current_hash"
   cp "$latest_screenshot" "$results_dir/knowledge-screen.png"
@@ -144,7 +144,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   xdotool key F2
   sleep 3
   latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
-  current_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d " " -f 1)"
   if [ "$current_hash" = "$previous_hash" ]; then echo "Research screen frame was not captured."; exit 1; fi
   previous_hash="$current_hash"
   cp "$latest_screenshot" "$results_dir/research-screen.png"
@@ -168,7 +168,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   xdotool key F2
   sleep 3
   latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
-  current_hash="$(sha256sum "$latest_screenshot" | cut -d ' ' -f 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d " " -f 1)"
   if [ "$current_hash" = "$previous_hash" ]; then echo "Research purchase state frame was not captured."; exit 1; fi
   cp "$latest_screenshot" "$results_dir/research-purchase-state.png"
   printf "Minecraft vanilla keyScreenshot F2 captures
