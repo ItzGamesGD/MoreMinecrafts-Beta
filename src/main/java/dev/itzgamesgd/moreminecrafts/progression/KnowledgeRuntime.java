@@ -18,6 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.block.Blocks;
 
 /** Server-owned knowledge state; permanent and free, independent from paid research. */
 public final class KnowledgeRuntime {
@@ -40,8 +41,12 @@ public final class KnowledgeRuntime {
         for (Item item : BuiltInRegistries.ITEM) {
             ItemStack probe = new ItemStack(item);
             if (probe.is(ItemTags.LOGS)) logs.add(item);
-            if (probe.is(ItemTags.FLOWERS) || probe.is(ItemTags.SAPLINGS)) plants.add(item);
+            if (probe.is(ItemTags.SAPLINGS)) plants.add(item);
         }
+        plants.addAll(List.of(Items.DANDELION, Items.POPPY, Items.BLUE_ORCHID, Items.ALLIUM,
+                Items.AZURE_BLUET, Items.RED_TULIP, Items.ORANGE_TULIP, Items.WHITE_TULIP,
+                Items.PINK_TULIP, Items.OXEYE_DAISY, Items.CORNFLOWER, Items.LILY_OF_THE_VALLEY,
+                Items.SUNFLOWER, Items.LILAC, Items.ROSE_BUSH, Items.PEONY));
         seeds.addAll(List.of(Items.WHEAT_SEEDS, Items.PUMPKIN_SEEDS, Items.MELON_SEEDS,
                 Items.BEETROOT_SEEDS, Items.TORCHFLOWER_SEEDS, Items.PITCHER_POD));
         plants.addAll(seeds);
@@ -75,21 +80,17 @@ public final class KnowledgeRuntime {
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
             if (!(player instanceof ServerPlayer serverPlayer)) return;
             String blockId = String.valueOf(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
-            if (state.is(BlockTags.COAL_ORES) || state.is(BlockTags.IRON_ORES)
-                    || state.is(BlockTags.COPPER_ORES) || state.is(BlockTags.GOLD_ORES)
-                    || state.is(BlockTags.REDSTONE_ORES) || state.is(BlockTags.LAPIS_ORES)
-                    || state.is(BlockTags.DIAMOND_ORES) || state.is(BlockTags.EMERALD_ORES)) {
+            String blockPath = blockId.substring(blockId.indexOf(':') + 1);
+            if (blockPath.endsWith("_ore") || blockPath.equals("ancient_debris")) {
                 // Deepslate variants are still the same ore type for the general survey.
                 recordDistinctCondition(serverPlayer, "ore_types_mined", blockId.replace("deepslate_", ""));
                 if (blockId.contains("deepslate_")) recordDistinctCondition(serverPlayer, "deepslate_ore_types_mined", blockId);
-                recordCondition(serverPlayer, "ore_items_mined",
-                        state.is(BlockTags.COAL_ORES) ? value(serverPlayer,"condition.ore_items_mined") + 1
-                                : value(serverPlayer,"condition.ore_items_mined") + 1);
+                recordCondition(serverPlayer, "ore_items_mined", value(serverPlayer,"condition.ore_items_mined") + 1);
             }
             if (state.is(BlockTags.BASE_STONE_OVERWORLD) || state.is(BlockTags.BASE_STONE_NETHER))
                 recordDistinctCondition(serverPlayer, "rock_types_mined", blockId);
             if (state.getBlock() instanceof net.minecraft.world.level.block.CropBlock crop
-                    && state.getValue(crop.getAgeProperty()) >= crop.getMaxAge())
+                    && state.getValue(net.minecraft.world.level.block.CropBlock.AGE) >= crop.getMaxAge())
                 recordCondition(serverPlayer, "crops_harvested", value(serverPlayer,"condition.crops_harvested") + 1);
         });
         UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
@@ -100,6 +101,8 @@ public final class KnowledgeRuntime {
                 recordCondition(serverPlayer, "farmland_tilled", value(serverPlayer,"condition.farmland_tilled") + 1);
             if (held.is(Items.WATER_BUCKET) && clicked.is(BlockTags.DIRT))
                 recordCondition(serverPlayer, "farmland_watered", 1);
+            if (clicked.is(Blocks.BLAST_FURNACE))
+                recordCondition(serverPlayer, "furnace_blast_furnace_used", 1);
             return net.minecraft.world.InteractionResult.PASS;
         });
         net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
@@ -126,13 +129,13 @@ public final class KnowledgeRuntime {
                     recordDistinctCondition(player, killKey, path);
                 else recordCondition(player, killKey, amount);
             }
-            if (entity.getType() == EntityType.PIGLIN)
+            if (path.equals("piglin"))
                 recordCondition(player, "piglin_kills", value(player,"condition.piglin_kills") + 1);
             if (entity instanceof net.minecraft.world.entity.monster.Monster) {
                 var held = player.getMainHandItem();
-                if (held.getItem() instanceof net.minecraft.world.item.SwordItem)
+                if (held.is(ItemTags.SWORDS))
                     recordCondition(player, "sword_hostile_kills", value(player,"condition.sword_hostile_kills") + 1);
-                if (held.getItem() instanceof net.minecraft.world.item.AxeItem)
+                if (held.is(ItemTags.AXES))
                     recordCondition(player, "axe_hostile_kills", value(player,"condition.axe_hostile_kills") + 1);
                 if (held.getItem() instanceof net.minecraft.world.item.BowItem)
                     recordCondition(player, "bow_hostile_kills", value(player,"condition.bow_hostile_kills") + 1);
@@ -268,11 +271,6 @@ public final class KnowledgeRuntime {
             recordDistinctCondition(player, condition, String.valueOf(BuiltInRegistries.ITEM.getKey(item)));
     }
 
-    private static void observeSmeltedTypes(ServerPlayer player, List<Item> items) {
-        for (Item item : items) if (player.getStats().getValue(Stats.ITEM_SMELTED.get(item)) > 0)
-            recordDistinctCondition(player, "ore_types_smelted", String.valueOf(BuiltInRegistries.ITEM.getKey(item)));
-    }
-
     /** Only the 13 recipe-bearing knowledge entries are sampled here, not a fake full 70-entry unlock. */
     private static void refresh(ServerPlayer p) {
         observeTypes(p, "log_types_acquired", logItems);
@@ -284,13 +282,12 @@ public final class KnowledgeRuntime {
                 Items.REDSTONE, Items.GLOWSTONE_DUST, Items.GHAST_TEAR, Items.MAGMA_CREAM,
                 Items.SPIDER_EYE, Items.PUFFERFISH, Items.GOLDEN_CARROT, Items.RABBIT_FOOT));
         recordCondition(p, "large_tree_logs_acquired", itemCount(p, logItems));
-        observeSmeltedTypes(p, List.of(Items.COAL, Items.IRON_INGOT, Items.COPPER_INGOT, Items.GOLD_INGOT,
-                Items.REDSTONE, Items.LAPIS_LAZULI, Items.DIAMOND, Items.EMERALD));
         recordCondition(p, "chests_crafted", crafted(p, Items.CHEST));
         recordCondition(p, "hoppers_placed", used(p, Items.HOPPER));
         recordCondition(p, "redstone_components_placed", usedSum(p, List.of(Items.REDSTONE, Items.REPEATER,
                 Items.COMPARATOR, Items.OBSERVER, Items.PISTON, Items.STICKY_PISTON)));
         recordCondition(p, "netherite_ingot_crafted", crafted(p, Items.NETHERITE_INGOT));
+        recordCondition(p, "furnace_blast_furnace_used", crafted(p, Items.BLAST_FURNACE));
         recordCondition(p, "farm_automation_parts_crafted",
                 countCrafted(p, List.of(Items.OBSERVER, Items.PISTON, Items.HOPPER)));
         recordCondition(p, "tool_types_crafted", craftedSum(p, List.of(
