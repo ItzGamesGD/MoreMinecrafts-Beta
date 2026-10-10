@@ -67,16 +67,21 @@ public final class ProgressionBrowseScreen extends Screen {
         previous.active = page > 0;
         next.active = page + 1 < pages;
         if (mode == Mode.RESEARCH) {
-            purchase = addRenderableWidget(Button.builder(Component.literal("구매 요청"), b -> {
-                if (selected >= 0 && selected < research.size()) {
-                    var row = research.get(selected);
-                    if (row.nextCost() != null) ProgressionClientApi.purchase(row.id(), row.level() + 1);
-                }
-            }).bounds(left + 203, top + 183, 100, 20).build());
+            purchase = addRenderableWidget(Button.builder(Component.literal("구매 요청"), b -> purchaseSelected())
+                    .bounds(left + 203, top + 183, 100, 20).build());
             purchase.active = selected >= 0 && selected < research.size()
                     && research.get(selected).availability() == dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseRules.Result.PURCHASED;
         }
     }
+
+    private void purchaseSelected() {
+        if (mode != Mode.RESEARCH || selected < 0 || selected >= research.size()) return;
+        var row = research.get(selected);
+        if (row.nextCost() != null) ProgressionClientApi.purchase(row.id(), row.level() + 1);
+    }
+
+    /** Invokes the same selected-entry action as the visible purchase button for headless UI validation. */
+    public void validationActivatePurchase() { purchaseSelected(); }
 
     @Override public void extractRenderState(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
         int x = (width - 390) / 2, y = Math.max(28, (height - 220) / 2);

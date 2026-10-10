@@ -194,7 +194,13 @@ public final class VisualValidationHarness {
                 purchaseChestBefore = itemCount(client, "minecraft:chest");
                 purchaseIronBlocksBefore = itemCount(client, "minecraft:iron_block");
                 purchasePaperBefore = itemCount(client, "minecraft:paper");
-                clickResearchPurchase(client);
+                if (client.gui.screen() instanceof ProgressionBrowseScreen researchScreen) {
+                    researchScreen.validationActivatePurchase();
+                    MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_REQUESTED id=nearby_chest_ingredients");
+                } else {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchase screen disappeared");
+                }
                 uiJourneyStage = 5;
             }
             case 5 -> {
