@@ -157,12 +157,19 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     "give VisualValidation minecraft:chest 8" \
     "give VisualValidation minecraft:iron_block 4" \
     "give VisualValidation minecraft:paper 64"
-  for page in $(seq 1 8); do
+  for page in $(seq 1 6); do
     xdotool mousemove 623 481 click 1
     sleep 0.2
   done
-  xdotool mousemove 543 276 click 1
+  xdotool mousemove 543 244 click 1
   sleep 1
+  xdotool key F2
+  sleep 3
+  latest_screenshot="$(ls -t run/screenshots/*.png | head -n 1)"
+  current_hash="$(sha256sum "$latest_screenshot" | cut -d " " -f 1)"
+  if [ "$current_hash" = "$previous_hash" ]; then echo "Purchasable research entry frame was not captured."; exit 1; fi
+  previous_hash="$current_hash"
+  cp "$latest_screenshot" "$results_dir/research-purchasable-entry.png"
   xdotool mousemove 698 482 click 1
   sleep 3
   xdotool key F2
@@ -175,6 +182,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
 selection-window.png
 knowledge-screen.png
 research-screen.png
+research-purchasable-entry.png
 research-purchase-state.png
 " > "$results_dir/ui-capture-source.txt"
   echo "CLIENT_INTERACTION_PATH advancement-key -> selection -> knowledge -> research -> purchase-button" | tee -a "$client_log"
