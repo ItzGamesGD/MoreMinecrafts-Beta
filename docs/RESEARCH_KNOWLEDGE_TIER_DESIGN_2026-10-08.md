@@ -414,6 +414,8 @@ Alchemy 63 양조 기초 -> 양조 기초; 64 물약 성질 -> 물약 연구; 65
 - Retain resource/production research name lists only for features above; the old 88-item brainstorm is historical, NOT an approved scope.
 ==================================================
 
+> **LATEST UI AUTHORITY (2026-10-10):** [UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md) supersedes the historical three-choice L-key landing screen, separate large research UI and obligatory seven-discipline radial layout wherever conflicting. The approved visual reference is the **vanilla advancements UI** with one integrated advancement-key experience for Advancements + Knowledge + Research, future XP quests deferred; knowledge tooltips explicitly show **해금 조건** and **해금 보상**. See [UI_SYSTEM_FULL_AUDIT_2026-10-10.md](UI_SYSTEM_FULL_AUDIT_2026-10-10.md) for full UI inventory. This note does not approve provisional AutoFarmScreen artwork or authorize merge.
+
 ============================================================
 RESEARCH COSTS V3 — USER-APPROVED FINAL PRICE CHECKPOINT
 STATUS: [LOCKED — EXPLICIT USER APPROVAL] The user approved the complete research materials/XP proposal. This checkpoint overrides all previous provisional/recommendation cost tables, except research effects and mechanics previously locked remain governed by V2. This is documentation only; no mod implementation or runtime validation.
