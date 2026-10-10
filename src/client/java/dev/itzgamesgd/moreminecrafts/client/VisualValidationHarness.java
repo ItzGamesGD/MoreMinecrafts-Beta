@@ -10,6 +10,7 @@ import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -219,7 +220,7 @@ public final class VisualValidationHarness {
 
     private static void clickScreen(Minecraft client, double x, double y) {
         Screen screen = client.gui.screen();
-        if (screen == null || !screen.mouseClicked(new MouseButtonEvent(x, y, 0, 0), false)) {
+        if (screen == null || !screen.mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false)) {
             uiJourneyFailed = true;
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED x={} y={} screen={}", x, y, screen);
         }
