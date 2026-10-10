@@ -44,6 +44,7 @@ public final class VisualValidationHarness {
     private static int purchaseChestBefore;
     private static int purchaseIronBlocksBefore;
     private static int purchasePaperBefore;
+    private static int purchaseResearchIndex = -1;
 
     private VisualValidationHarness() {
     }
@@ -168,8 +169,21 @@ public final class VisualValidationHarness {
             case 3 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
-                for (int page = 0; page < 7; page++) clickResearchNext(client);
-                clickResearchRow(client, 1);
+                var rows = ProgressionClientApi.research(null);
+                purchaseResearchIndex = -1;
+                for (int index = 0; index < rows.size(); index++) {
+                    if (rows.get(index).id().equals("nearby_chest_ingredients")) {
+                        purchaseResearchIndex = index;
+                        break;
+                    }
+                }
+                if (purchaseResearchIndex < 0) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchasable research entry is missing");
+                    return;
+                }
+                for (int page = 0; page < purchaseResearchIndex / 7; page++) clickResearchNext(client);
+                clickResearchRow(client, purchaseResearchIndex % 7);
                 queueUiScreenshot("research-purchasable-entry.png");
                 uiJourneyStage = 4;
             }
@@ -250,7 +264,8 @@ public final class VisualValidationHarness {
 
     private static void clickResearchRow(Minecraft client, int row) {
         clickWidget(client, 1 + row);
-        if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse) || browse.validationSelection() != 50) {
+        if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                || browse.validationSelection() != purchaseResearchIndex) {
             uiJourneyFailed = true;
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchasable research row was not selected");
         }

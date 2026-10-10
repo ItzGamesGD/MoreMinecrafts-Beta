@@ -33,7 +33,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     wait "$window_manager_pid" 2>/dev/null || true
   }
   collect_x11_diagnostics() {
-    for screenshot in run/screenshots/progression-*.png; do
+    for screenshot in run/screenshots/*.png; do
       if [ -s "$screenshot" ]; then cp "$screenshot" "$results_dir/$(basename "$screenshot")"; fi
     done
     if command -v xwininfo >/dev/null 2>&1; then

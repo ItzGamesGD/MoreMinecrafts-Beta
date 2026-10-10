@@ -24,10 +24,10 @@ public final class ProgressionSelectionScreen extends Screen {
     }
 
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-        super.extractRenderState(graphics, mouseX, mouseY, delta);
         int x = (width - 220) / 2, y = height / 2 - 82;
         graphics.fill(x, y, x + 220, y + 152, 0xEE172129);
         graphics.text(font, Component.literal("MoreMinecrafts"), x + 8, y + 8, 0xFFFFFFFF);
         graphics.text(font, Component.literal("Progression access (provisional)"), x + 8, y + 22, 0xFFB8C8D0);
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
     }
 }

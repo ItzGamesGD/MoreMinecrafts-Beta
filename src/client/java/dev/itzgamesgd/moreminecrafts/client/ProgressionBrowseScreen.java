@@ -79,7 +79,6 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     @Override public void extractRenderState(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
-        super.extractRenderState(g, mouseX, mouseY, delta);
         int x = (width - 390) / 2, y = Math.max(28, (height - 220) / 2);
         g.fill(x, y, x + 390, y + 210, 0xEE172129);
         g.text(font, title, x + 8, y - 19, 0xFFFFFFFF);
@@ -117,6 +116,7 @@ public final class ProgressionBrowseScreen extends Screen {
             int result = ProgressionClientApi.lastActionResult();
             if (row.id().equals(ProgressionClientApi.lastAction())) text(g, "서버 응답: " + result, x + 205, y + 166, 0xFFFFFF80);
         }
+        super.extractRenderState(g, mouseX, mouseY, delta);
     }
 
     private void text(GuiGraphicsExtractor g, String value, int x, int y, int color) {
