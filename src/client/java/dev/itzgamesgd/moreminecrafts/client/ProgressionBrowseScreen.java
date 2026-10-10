@@ -1,0 +1,120 @@
+package dev.itzgamesgd.moreminecrafts.client;
+
+import dev.itzgamesgd.moreminecrafts.progression.ProgressionScreenData;
+import dev.itzgamesgd.moreminecrafts.progression.ResearchCatalog;
+import java.util.List;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+
+/** Data-driven, provisional list/detail screens. Purchase availability comes from shared server rules. */
+public final class ProgressionBrowseScreen extends Screen {
+    public enum Mode { KNOWLEDGE, RESEARCH }
+    private final Mode mode;
+    private int page;
+    private int selected;
+    private List<ProgressionScreenData.KnowledgeRow> knowledge = List.of();
+    private List<ProgressionScreenData.ResearchRow> research = List.of();
+    private Button purchase;
+    private Button previous;
+    private Button next;
+    private int dataRevision = -1;
+
+    public ProgressionBrowseScreen(Mode mode) {
+        super(Component.literal(mode == Mode.KNOWLEDGE ? "지식" : "연구"));
+        this.mode = mode;
+    }
+
+    @Override protected void init() { refresh(); }
+
+    @Override public void tick() {
+        super.tick();
+        if (dataRevision != ProgressionClientApi.revision()) refresh();
+    }
+
+    private void refresh() {
+        clearWidgets();
+        knowledge = ProgressionClientApi.knowledge(null);
+        research = ProgressionClientApi.research(null);
+        dataRevision = ProgressionClientApi.revision();
+        int left = (width - 390) / 2, top = Math.max(25, (height - 330) / 2);
+        addRenderableWidget(Button.builder(Component.literal("← 선택"), b ->
+                minecraft.setScreen(new ProgressionSelectionScreen())).bounds(left, top - 24, 64, 20).build());
+        int count = mode == Mode.KNOWLEDGE ? knowledge.size() : research.size();
+        int pageSize = mode == Mode.KNOWLEDGE ? 12 : 8;
+        int pages = Math.max(1, (count + pageSize - 1) / pageSize);
+        page = Math.min(page, pages - 1);
+        for (int i = 0; i < pageSize; i++) {
+            final int index = page * pageSize + i;
+            if (index >= count) break;
+            String label = mode == Mode.KNOWLEDGE
+                    ? knowledge.get(index).id() + " · " + KnowledgeName(index)
+                    : research.get(index).id();
+            if (mode == Mode.KNOWLEDGE && knowledge.get(index).unlocked()) label = "✓ " + label;
+            if (mode == Mode.RESEARCH) label = "Lv." + research.get(index).level() + " " + label;
+            addRenderableWidget(Button.builder(Component.literal(label), b -> { selected = index; refresh(); })
+                    .bounds(left + 4, top + 5 + i * 22, 188, 20).build());
+        }
+        previous = addRenderableWidget(Button.builder(Component.literal("<"), b -> { page--; refresh(); })
+                .bounds(left + 4, top + 277, 28, 18).build());
+        next = addRenderableWidget(Button.builder(Component.literal(">"), b -> { page++; refresh(); })
+                .bounds(left + 164, top + 277, 28, 18).build());
+        previous.active = page > 0;
+        next.active = page + 1 < pages;
+        if (mode == Mode.RESEARCH) {
+            purchase = addRenderableWidget(Button.builder(Component.literal("구매 요청"), b -> {
+                if (selected >= 0 && selected < research.size()) {
+                    var row = research.get(selected);
+                    if (row.nextCost() != null) ProgressionClientApi.purchase(row.id(), row.level() + 1);
+                }
+            }).bounds(left + 203, top + 277, 100, 20).build());
+            purchase.active = selected >= 0 && selected < research.size()
+                    && research.get(selected).availability() == dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseRules.Result.PURCHASED;
+        }
+    }
+
+    private String KnowledgeName(int index) {
+        return dev.itzgamesgd.moreminecrafts.progression.KnowledgeCatalog.byNumber(index + 1).koreanName();
+    }
+
+    @Override public void extractRenderState(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(g, mouseX, mouseY, delta);
+        int x = (width - 390) / 2, y = Math.max(25, (height - 330) / 2);
+        g.fill(x, y, x + 390, y + 324, 0xEE172129);
+        g.text(font, title, x + 8, y - 19, 0xFFFFFFFF, true);
+        g.fill(x + 198, y + 3, x + 384, y + 270, 0xB8202D35);
+        if (mode == Mode.KNOWLEDGE && selected >= 0 && selected < knowledge.size()) {
+            var row = knowledge.get(selected);
+            text(g, "지식 " + row.id(), x + 205, y + 10, 0xFFFFFFFF);
+            text(g, "분야: " + row.discipline(), x + 205, y + 27, 0xFFE2E9ED);
+            text(g, "상태: " + (row.unlocked() ? "해금" : "미해금"), x + 205, y + 44, 0xFFE2E9ED);
+            text(g, "조건: " + row.conditionKey(), x + 205, y + 61, 0xFFE2E9ED);
+            text(g, "진행: " + row.conditionProgress() + " / " + row.conditionTarget(), x + 205, y + 78, 0xFFE2E9ED);
+            text(g, "보상: " + row.rewardKey(), x + 205, y + 95, 0xFFE2E9ED);
+        } else if (mode == Mode.RESEARCH && selected >= 0 && selected < research.size()) {
+            var row = research.get(selected);
+            text(g, row.id(), x + 205, y + 10, 0xFFFFFFFF);
+            text(g, "분야: " + row.discipline(), x + 205, y + 27, 0xFFE2E9ED);
+            text(g, "레벨: " + row.level() + " / " + row.maximumLevel(), x + 205, y + 44, 0xFFE2E9ED);
+            text(g, "선행 지식: " + row.requiredKnowledge(), x + 205, y + 61, 0xFFE2E9ED);
+            text(g, "선행 연구: " + row.prerequisiteResearch(), x + 205, y + 78, 0xFFE2E9ED);
+            text(g, "구매 상태: " + row.availability(), x + 205, y + 95, 0xFFE2E9ED);
+            if (row.nextCost() != null) {
+                text(g, "원시 XP: " + row.nextCost().rawXp(), x + 205, y + 112, 0xFFE2E9ED);
+                int cy = y + 129;
+                for (var material : row.nextCost().materials()) {
+                    text(g, material.itemId() + " × " + material.count(), x + 205, cy, 0xFFE2E9ED);
+                    cy += 15;
+                    if (cy > y + 255) break;
+                }
+            }
+            int result = ProgressionClientApi.lastActionResult();
+            if (row.id().equals(ProgressionClientApi.lastAction())) text(g, "서버 응답: " + result, x + 205, y + 253, 0xFFFFFF80);
+        }
+    }
+
+    private void text(GuiGraphicsExtractor g, String value, int x, int y, int color) {
+        g.text(font, Component.literal(value), x, y, color, false);
+    }
+}

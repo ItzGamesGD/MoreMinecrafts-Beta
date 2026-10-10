@@ -10,7 +10,8 @@ public final class ProgressionScreenData {
                                KnowledgeCatalog.ConditionType conditionType, String conditionKey,
                                int conditionProgress, int conditionTarget, String rewardKey, boolean unlocked) {}
     public record ResearchRow(String id, String discipline, String titleKey, String descriptionKey,
-                              int level, int maximumLevel, ResearchDefinition.LevelCost nextCost,
+                              int level, int maximumLevel, java.util.Set<Integer> requiredKnowledge,
+                              java.util.Set<String> prerequisiteResearch, ResearchDefinition.LevelCost nextCost,
                               ResearchPurchaseRules.Result availability) {}
     public record QuestRow(String id, String category, String titleKey, String descriptionKey,
                            String objectiveKey, int progress, int target, int rewardRawXp,
@@ -43,7 +44,8 @@ public final class ProgressionScreenData {
                             : ResearchPurchaseRules.validate(entry, level + 1, level, unlockedKnowledge,
                                     purchased, inventory, rawXp);
                     return new ResearchRow(entry.id(), entry.discipline(), entry.titleKey(),
-                            entry.descriptionKey(), level, entry.maximumLevel(), next, result);
+                            entry.descriptionKey(), level, entry.maximumLevel(), entry.knowledgePrerequisites(),
+                            entry.researchPrerequisites(), next, result);
                 }).toList();
     }
     public static List<QuestRow> quests(ResearchProgressState state, String category) {

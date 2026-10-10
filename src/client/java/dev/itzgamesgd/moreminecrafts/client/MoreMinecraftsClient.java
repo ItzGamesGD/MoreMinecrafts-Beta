@@ -64,6 +64,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        VisualValidationHarness.register();
         registerCustomMobRenderers();
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
         MenuScreens.register(ModMenuTypes.AUTO_FARM, AutoFarmScreen::new);
