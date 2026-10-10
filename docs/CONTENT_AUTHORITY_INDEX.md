@@ -4,6 +4,11 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## Latest user-approved UI authority — 2026-10-10
+
+- [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md): one advancement-key entry for vanilla advancements + 70 free knowledge + paid research, 7 disciplines, vanilla advancement-style navigation, knowledge tooltip **해금 조건 + 해금 보상**, research prerequisite/material/XP/purchase; XP quests deferred. Supersedes older three-choice landing screen, forced radial hub and mandatory tier chain wherever they conflict.
+- [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): 15 new/reworked UI groups, 9 existing UI contracts, 11 visual asset/indicator groups, retired/conditional exclusions, and approval status. **Design inventory only; no authorization to merge provisional PR #75 UI.**
+
 ## Current research/knowledge authority (latest human-approved V4)
 
 The earlier **Knowledge / Research — IDEA / DEFERRED** paragraph at the bottom of this index is HISTORICAL and superseded, not active. The current, explicitly user-approved Knowledge / Research design authority is [RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md](RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md), especially its **RESEARCH V4 EXECUTION AUTHORITY — 2026-10-10** amendment and the later user-confirmed recipe/mob-capture decisions.
