@@ -39,3 +39,23 @@ Status: **DESIGN APPROVED / NOT IMPLEMENTED**. This document is normative. Gener
 - Preserve item counts, item identity, components/data, stack-size limits, and inventory ownership; never combine incompatible stacks or move items into the player's inventory. Sorting affects the opened chest's slots only.
 - Generated images are **visual references only** and are not package-ready resources or binding implementation requirements. Pixel positions, sorting comparison/tie-break rules, and button behaviors must be checked during implementation; no implementation or runtime verification is claimed.
 - This section updates **only item 8 (chest)**. It does not modify crafting-table nearby-ingredient rules (item 7), hopper filtering rules (item 9), or automation device rules (items 1–3).
+
+## 7. Nearby Ingredient Reference — APPROVED (2026-10-10)
+- No new GUI; retain vanilla crafting table and recipe book.
+- Recipe availability includes eligible materials stored in nearby chests.
+- Clicking a recipe pulls needed materials from those chests into the crafting grid.
+- Closing the crafting table returns unused chest-sourced materials to their source chests; consumed materials remain consumed. Preserve source tracking and prevent item loss/duplication.
+- Pending implementation choices: nearby search radius, eligible container types, source ordering, and full/removed chest conflict handling. Do not invent values.
+
+## 9. Hopper Filtering — APPROVED (2026-10-10)
+- Retain the vanilla title **호퍼**, five functional hopper slots, and vanilla player inventory geometry; add filter controls without reducing or reinterpreting the actual hopper inventory.
+- A **five-slot ghost/filter configuration row** specifies item types without consuming or storing those items; configuration remains effective even when the hopper is empty.
+- Support **allowlist** and **blocklist** modes, with allowlist as the default; a single mode toggle is sufficient.
+- Filtering governs which items the hopper transfers; ghost slots do not constitute hopper storage and must not be extractable.
+- Exact component/NBT matching policy remains pending: the mockup's 'NBT 무시' toggle is a visual suggestion, not a confirmed requirement.
+- Images are illustrative only, never authority for actual slot coordinates, item icons, or feature scope.
+
+## 8/9 Visual Reference Correction
+- Chest title remains **상자**. Chest **sorting** (not filtering) is an optional adjacent panel: sort by type, merge identical compatible stacks, compact gaps, change direction. Preserve the original vanilla chest slots and player inventory. Any mockup with fewer slots is inaccurate.
+- Hopper title remains **호퍼**, and its filtering extension does not replace the original hopper slots.
+- All AI mockups are reference-only; no image is approved as a runtime GUI texture without independent pixel-accurate implementation and validation.
