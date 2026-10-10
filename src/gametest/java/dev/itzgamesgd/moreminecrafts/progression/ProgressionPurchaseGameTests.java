@@ -1,16 +1,17 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
+import java.lang.reflect.Method;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameType;
 
 public final class ProgressionPurchaseGameTests implements CustomTestMethodInvoker {
     @GameTest
     public void researchPurchaseConsumesResourcesOnceAndIsPlayerPrivate(GameTestHelper ctx) {
-        var buyer = ctx.makeMockServerPlayer(GameType.SURVIVAL);
+        ServerPlayer buyer = ctx.makeMockServerPlayerInLevel();
         buyer.giveExperiencePoints(1200);
         buyer.getInventory().add(new ItemStack(Items.IRON_BLOCK, 4));
         buyer.getInventory().add(new ItemStack(Items.REDSTONE, 64));
@@ -34,12 +35,12 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
         ctx.assertTrue(RawXp.available(buyer) == xpAfterFirstPurchase,
                 "duplicate request does not spend more XP");
 
-        var otherPlayer = ctx.makeMockServerPlayer(GameType.SURVIVAL);
+        ServerPlayer otherPlayer = ctx.makeMockServerPlayerInLevel();
         ctx.assertTrue(!KnowledgeRuntime.state(otherPlayer).hasKnowledge(9)
                 && KnowledgeRuntime.state(otherPlayer).researchLevel("throwable_pickaxe") == 0,
                 "progression does not leak to another player");
 
-        var poorBuyer = ctx.makeMockServerPlayer(GameType.SURVIVAL);
+        ServerPlayer poorBuyer = ctx.makeMockServerPlayerInLevel();
         poorBuyer.giveExperiencePoints(1200);
         KnowledgeRuntime.grantKnowledge(poorBuyer, 9);
         int poorXpBefore = RawXp.available(poorBuyer);
@@ -49,5 +50,10 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
                 && KnowledgeRuntime.state(poorBuyer).researchLevel("throwable_pickaxe") == 0,
                 "failed purchase preserves XP and research state");
         ctx.succeed();
+    }
+
+    @Override
+    public void invokeTestMethod(GameTestHelper context, Method method) throws ReflectiveOperationException {
+        method.invoke(this, context);
     }
 }
