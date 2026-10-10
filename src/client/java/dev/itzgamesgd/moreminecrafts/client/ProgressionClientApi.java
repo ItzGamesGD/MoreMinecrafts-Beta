@@ -49,7 +49,7 @@ public final class ProgressionClientApi {
         var player = Minecraft.getInstance().player;
         if (player == null) return java.util.List.of();
         Map<String,Integer> materials = new HashMap<>();
-        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
+        for (int slot = 0; slot < Math.min(36, player.getInventory().getContainerSize()); slot++) {
             var stack = player.getInventory().getItem(slot);
             if (!stack.isEmpty()) materials.merge(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString(),
                     stack.getCount(), Integer::sum);

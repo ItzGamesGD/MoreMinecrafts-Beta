@@ -64,6 +64,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        VisualValidationHarness.register();
         registerCustomMobRenderers();
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
         MenuScreens.register(ModMenuTypes.AUTO_FARM, AutoFarmScreen::new);
@@ -93,7 +94,11 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                         ProgressionClientApi.requestSnapshot();
                 }));
         ClientPlayNetworking.registerGlobalReceiver(ProgressionActionResultPayload.TYPE, (payload, context) ->
-                context.client().execute(() -> ProgressionClientApi.actionResult(payload.actionId(), payload.resultCode())));
+                context.client().execute(() -> {
+                    ProgressionClientApi.actionResult(payload.actionId(), payload.resultCode());
+                    // Resolve any missed/out-of-order progression deltas before refreshing visible data.
+                    ProgressionClientApi.requestSnapshot();
+                }));
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> ProgressionClientApi.requestSnapshot());
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             ProgressionClientApi.reset();
