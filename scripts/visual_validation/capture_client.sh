@@ -227,13 +227,17 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     fail_selector_input "timed out waiting for Minecraft mouseClicked and screen transition target=$target event_count_before=$event_count_before event_count_after=$event_count_after"
   }
 
-  # The first click is isolated: later selector actions run only after Minecraft logs
-  # mouseClicked and confirms the knowledge screen transition.
-  click_selector_target knowledge
-  echo "First physical selector click passed; continuing staged interactions."
-  for target in research advancements xp_quest close; do
-    click_selector_target "$target"
-  done
+  if [[ "${MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL:-0}" == "1" ]]; then
+    # The first click is isolated: later selector actions run only after Minecraft logs
+    # mouseClicked and confirms the knowledge screen transition.
+    click_selector_target knowledge
+    echo "First physical selector click passed; continuing staged interactions."
+    for target in research advancements xp_quest close; do
+      click_selector_target "$target"
+    done
+  else
+    echo "Physical selector click path is opt-in; the in-client Screen callback journey is active."
+  fi
 
   ui_done=0
   for attempt in $(seq 1 120); do
