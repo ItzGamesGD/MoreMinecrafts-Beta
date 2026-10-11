@@ -200,8 +200,26 @@ public final class VisualValidationHarness {
                     MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchasable research entry is missing");
                     return;
                 }
-                for (int page = 0; page < purchaseResearchIndex / 7; page++) clickResearchNext(client);
-                clickResearchRow(client, purchaseResearchIndex % 7);
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                        || !browse.validationClickNode("nearby_chest_ingredients")
+                        || !"nearby_chest_ingredients".equals(browse.validationSelectedNodeId())) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED node canvas did not select target research");
+                    return;
+                }
+                if (browse.validationCompact()) {
+                    browse.validationOpenDetails();
+                    queueUiScreenshot("research-compact-details.png");
+                    uiJourneyStage = 30;
+                } else {
+                    queueUiScreenshot("research-purchasable-entry.png");
+                    uiJourneyStage = 4;
+                }
+            }
+            case 30 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (client.gui.screen() instanceof ProgressionBrowseScreen browse) browse.validationCloseDetails();
                 queueUiScreenshot("research-purchasable-entry.png");
                 uiJourneyStage = 4;
             }
@@ -215,7 +233,7 @@ public final class VisualValidationHarness {
                 previousActionBeforeCancel = ProgressionClientApi.lastAction();
                 previousActionResultBeforeCancel = ProgressionClientApi.lastActionResult();
                 if (client.gui.screen() instanceof ProgressionBrowseScreen) {
-                    clickWidgetWithLabel(client, "연구 구매", "Purchase research");
+                    clickWidgetWithLabel(client, "연구 구매", "Purchase research", "구매", "Buy");
                     if (client.gui.screen() instanceof ResearchPurchaseConfirmScreen) {
                         queueUiScreenshot("research-purchase-confirmation.png");
                         MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CONFIRMATION_OPENED id=nearby_chest_ingredients");
@@ -257,7 +275,7 @@ public final class VisualValidationHarness {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
                 if (client.gui.screen() instanceof ProgressionBrowseScreen researchScreen) {
-                    clickWidgetWithLabel(client, "연구 구매", "Purchase research");
+                    clickWidgetWithLabel(client, "연구 구매", "Purchase research", "구매", "Buy");
                     if (!(client.gui.screen() instanceof ResearchPurchaseConfirmScreen)) {
                         uiJourneyFailed = true;
                         MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED confirmation did not reopen");
@@ -411,24 +429,6 @@ public final class VisualValidationHarness {
         if (!(client.gui.screen() instanceof ProgressionSelectionScreen)) {
             uiJourneyFailed = true;
             MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED back button did not return to selector");
-        }
-    }
-
-    private static void clickResearchNext(Minecraft client) {
-        clickWidget(client, 9);
-        if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
-                || browse.mode() != ProgressionBrowseScreen.Mode.RESEARCH) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED research page navigation changed screen");
-        }
-    }
-
-    private static void clickResearchRow(Minecraft client, int row) {
-        clickWidget(client, 1 + row);
-        if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
-                || browse.validationSelection() != purchaseResearchIndex) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchasable research row was not selected");
         }
     }
 
