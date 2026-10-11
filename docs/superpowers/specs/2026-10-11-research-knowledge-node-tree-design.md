@@ -1,6 +1,6 @@
 # Research and Knowledge Node Tree Design
 
-**Status:** User-approved architecture; specification prepared for review 2026-10-11
+**Status:** Conditionally approved architecture; amended for review 2026-10-11
 **Base:** Draft PR #75 current head `d1f113720cf7d71720450d4709b3834b137d43f4`
 **Scope:** Replace the paginated knowledge/research button lists with vanilla-advancements-inspired node canvases. This is a presentation and navigation change. It does not change progression data or gameplay.
 
@@ -31,7 +31,7 @@ At the fetched PR head, source counts are:
 
 The V3 source ledger totals 178 level purchases and 130,360 raw XP. The 17 V4 additions total 17 purchases and 16,910 raw XP. The combined source inventory therefore contains 87 nodes, 195 level purchases and 147,270 raw XP. These are source-ledger checksums only; the UI task does not change them.
 
-The manifest enumerates each record, not a sample. V3 costs retain each level’s raw XP and each material’s item ID, count, compressed units, and source material name. V4 costs and effect IDs/kinds/values come from their source catalog/reward table. Knowledge eligibility and rewards are descriptive node data; they are not paid purchases.
+The manifest enumerates each record, not a sample. V3 costs retain each level’s raw XP and each material’s item ID, count, compressed units, and source material name. V4 costs and effect IDs/kinds/values come from their source catalog/reward table. Knowledge eligibility and rewards are descriptive node data; they are not paid purchases. Every row also names a representative vanilla item sprite in `iconItemId`.
 
 ### Research thematic branch mapping
 
@@ -91,7 +91,9 @@ Node rectangles are collision-checked after padding by 8 logical pixels on every
 - Keep the existing selector and its approved image untouched.
 - Keep Knowledge and Research as separate screens. Keep the seven existing discipline tabs, in current order, on both screens.
 - Retain a vanilla advancements visual language: textured frame, restrained canvas backdrop, framed node states and connected branch presentation. Avoid a new dashboard style.
-- Divide available GUI logical width between a clipped canvas (about 62%) and selected-node details (about 34%), with remaining space for gutters. Keep the title, discipline navigation, and pan/zoom/recenter controls outside the canvas scissor. Use responsive min/max bounds rather than assuming one physical resolution.
+- At normal logical sizes, divide available GUI width between a clipped canvas (about 62%) and selected-node details (about 34%), with remaining space for gutters. Keep the title, discipline navigation, and pan/zoom/recenter controls outside the canvas scissor. Use responsive min/max bounds rather than assuming one physical resolution.
+- Compact mode activates when logical width is below 640 or logical height is below 360. This specifically includes a 1280×720 display at GUI Scale 4 (about 320×180 logical pixels). Compact mode removes the simultaneous details split: the canvas gets the content area, and selected-node details open as a full-screen overlay with its own scrollable body. Keep overlay close/back at the top and any context action pinned at the bottom. The research confirmation view must also fit compact mode: scroll its cost/details body while confirm and cancel remain pinned and reachable.
+- In compact mode, use a horizontally scrollable discipline tab strip with visible previous/next controls and a clear active discipline label. Back, tab-strip arrows, branch picker, fit all, focus selected, zoom in/out, details, close, confirm and cancel hit targets remain at least 20×20 GUI logical pixels. Keep the canvas viewport between the navigation strip and pinned canvas-control footer; controls never enter its scissor.
 - The canvas initially frames its discipline’s node bounds at a fit scale capped by the zoom range. Camera transform is `screen = viewportOrigin + (world - pan) * zoom`; inverse transform is used for hit testing.
 
 ### Input and navigation
@@ -99,10 +101,13 @@ Node rectangles are collision-checked after padding by 8 logical pixels on every
 - Clicking a discipline tab switches the canvas, selects that discipline’s first node when present, and resets camera fit. Knowledge and Research screen navigation remains as currently routed.
 - Left click on a node selects it; the click does not pan and does not buy. Hover shows a compact tooltip. Selected-node details persist while the pointer moves away.
 - Left dragging empty canvas pans. A node drag does not start a pan. Middle-button drag may pan as an alternate mouse gesture. Recenter/fit control restores the initial framing.
-- Mouse wheel zooms around the cursor using fixed 1.1 steps, clamped to 0.5×–1.5×. Zoom changes preserve the world point under the cursor. Panning is clamped so the canvas cannot be lost entirely.
+- Mouse wheel zooms around the cursor using fixed 1.1 steps, clamped to 0.1×–1.5×. Zoom changes preserve the world point under the cursor. Panning is clamped so the canvas cannot be lost entirely.
+- Initial framing uses fit-to-view when the whole discipline canvas fits at 0.75× or greater. If the computed fit would make nodes smaller than 27 logical pixels for research or 24 for knowledge, initial framing instead centers the selected node at 0.75×. Selection defaults to the first node in the first declared branch; changing discipline applies the same rule. Large trees therefore start legibly, while explicit **Fit all** still frames the full canvas even if its overview scale is below 0.75×.
+- **Focus selected** is always available in the canvas footer and details view. It centers the selected node and uses at least 0.75× zoom, up to the 1.5× maximum. Selecting an off-screen node by keyboard applies the same focus behavior automatically. Pointer selection of a visible node does not unexpectedly move the canvas.
+- When a whole branch cannot fit at legible scale, navigate with nearest-node arrow-key focus, previous/next node actions in details, and a branch picker listing the non-purchasable thematic branch labels. Choosing a branch focuses its first node. Pan and zoom remain available. These actions change selection/camera only.
 - Scissor/clipping bounds use the canvas viewport in GUI logical coordinates after layout and camera calculations. Apply clipping to branch lines, nodes, and hover surfaces; restore clipping in a `finally` path. Do not clip tabs, controls, details, or Minecraft tooltips.
 - Keyboard focus reaches discipline tabs, canvas nodes, recenter, back and purchase controls. Left/right changes discipline when tab-focused; arrow keys move node focus to the nearest node in that direction; Enter selects; Escape follows the existing screen close/back behavior. Focus movement never purchases.
-- At GUI scales 2, 3, and 4, hit targets, clipping, tooltip placement and details remain usable. GUI-scale testing is live visual validation, not a claim made by code-level tests.
+- At GUI scales 2, 3, and 4, hit targets, clipping, tooltip placement and details remain usable. Specifically inspect 1280×720 at GUI Scale 4 for compact mode, tab scrolling, footer access, the detail overlay and its scrollable purchase controls. GUI-scale testing is live visual validation, not a claim made by code-level tests.
 
 ### Node states and details
 
@@ -123,10 +128,16 @@ PNG textures are limited to non-text elements:
 | `textures/gui/progression/tree_frame.png` | Advancements-inspired outer frame, sliced/repeated by the renderer as needed. |
 | `textures/gui/progression/tree_background.png` | Low-contrast tileable canvas backdrop. |
 | `textures/gui/progression/node_borders.png` | Sprite sheet for knowledge/research node border and state treatments (locked, available/unlocked, selected, hovered, purchased/maxed, unresolved). No embedded labels. |
-| Existing vanilla/mod item PNG textures through item sprites | Per-node non-text icons rendered as item stacks; icon-to-node mapping is presentation metadata. No Korean image labels. |
+| Existing vanilla/mod item PNG textures through item sprites | Per-node non-text icons rendered as item stacks; exact `iconItemId` mapping is specified in the manifest. No Korean image labels. |
 | Optional `textures/gui/progression/branch_line.png` | Subtle repeating connector segment if a vanilla-compatible line cannot be rendered cleanly with GUI primitives. No text. |
 
-Do not add a new background, node-icon atlas, border variant, or art style to the approved selector. Individual node icon mappings are intentionally unresolved in the manifest; icon selection must use an existing representative item sprite and cannot change mechanics or imply eligibility.
+### Deterministic icon selection
+
+Use the manifest's explicit `iconItemId` for every node. The 157 assignments use existing vanilla item sprites; reuse is allowed when an icon represents the same subject. When maintaining mappings, follow this order: (1) use the exact represented item/device/tool if one exists; (2) for knowledge, use the concrete item, block item, mob spawn egg or reward subject named by its discovery condition/reward; (3) for abstract research, use the closest existing tool, material or device from that node's topic; (4) if no suitable icon exists, use the fixed fallback `minecraft:book`. Never choose from hash/map iteration, current state, tier or purchase eligibility. Keep every result explicit in the manifest.
+
+At runtime, resolve the configured ID through the item registry and render it with Minecraft's item renderer, which uses the existing PNG item atlas. If the configured ID is missing or cannot produce an item stack, render `minecraft:book` and emit a diagnostic naming the node ID and configured icon. This is the sole runtime fallback. Do not create a custom icon atlas or custom node art unless a future approved asset review establishes that existing item icons cannot represent an entry. Icon selection and fallback affect presentation only.
+
+Do not add a new background, node-icon atlas, border variant, or art style to the approved selector.
 
 ## 6. Proposed client data boundary
 
@@ -149,8 +160,9 @@ Add automated checks for:
 3. **Reference validity:** branch and discipline references exist; all V4 knowledge requirement IDs exist; no visual link is accepted as a gameplay requirement or sent in a purchase payload.
 4. **Bounds and collision:** every node lies in its discipline canvas bounds; padded node rectangles do not overlap; no branch spine/spur crosses a node interior or escapes its viewport after clipping.
 5. **Determinism:** repeated resolution from identical manifest/catalog input gives byte-for-byte identical ordered coordinates and connector paths; localized strings and state changes do not reorder nodes.
-6. **Navigation and input:** discipline switching, node selection, arrow focus, enter, escape/back, pan, cursor-centered zoom, recenter, clipping and node-vs-background drag hit testing.
-7. **Purchase flow regression:** selecting a node does not purchase; valid V4 selection opens the same confirmation; cancel/close send no request; confirm sends one request; V3 unresolved stays disabled; eligibility remains server-validated.
+6. **Navigation and input:** discipline switching, node selection, arrow focus, enter, escape/back, pan, cursor-centered zoom, fit-all, focus-selected, clipping and node-vs-background drag hit testing. Assert a large canvas opens at readable selected-node focus when full fit is smaller than 0.75×.
+7. **Responsive controls and purchase flow:** at 320×180 logical units, canvas-first mode replaces the split, tabs can be scrolled, details and confirmation overlays keep close/confirm/cancel reachable, and fixed controls remain outside canvas clipping. Selecting a node does not purchase; valid V4 selection opens the existing confirmation; cancel/close send no request; confirm sends one request; V3 unresolved stays disabled; eligibility remains server-validated.
+8. **Icon resolution:** all 157 manifest icon IDs resolve to registered items; missing IDs use `minecraft:book` and emit a node-specific diagnostic. No node label or state is embedded in icon textures.
 
 Live acceptance must capture Research and Knowledge screens at GUI scales 2, 3 and 4 in Minecraft. Review clipping, legibility, Korean font rendering, icon recognition, node density and pan/zoom at those scales. Until these captures are inspected, visual approval is pending.
 
@@ -158,9 +170,9 @@ Live acceptance must capture Research and Knowledge screens at GUI scales 2, 3 a
 
 These are presentation/integration gaps, not permission to change gameplay:
 
-- **Per-node icon mapping:** all inventory rows currently mark `iconMapping: UNRESOLVED`. Choose an existing item/ block sprite for each node, or document deliberate reuse. No custom text artwork.
 - **PNG state treatment details:** exact pixel dimensions, palette and slice margins for frame/background/border assets need asset authoring and Minecraft captures. Keep assets non-text and consistent with vanilla advancements.
-- **Fit and minimum responsive dimensions:** initial fit behavior is specified, but exact panel dimensions and minimum supported GUI window size need live testing at GUI scales 2–4.
+- **Compact-mode live fit:** validate the 640×360 logical breakpoint, 320×180 compact composition, and 20×20 logical hit-target minimum on the target Minecraft build at GUI scales 2–4.
+- **Icon validation:** the manifest assigns existing vanilla item IDs and a `minecraft:book` fallback. Verify each ID against the runtime registry and review icon recognition in screenshots. Custom icons remain a future approval-only exception.
 - **V3 reward links:** runtime source explicitly leaves reward links unresolved and purchase disabled. This UI task must show that truth; a separate approved gameplay task is needed to resolve rewards and prerequisites.
 - **V3 prerequisites:** remain unresolved and non-purchasable until authority is updated. The manifest’s empty arrays are retained as raw source data, not interpreted as “none.”
 - **Knowledge entry 51:** its source `unresolved` flag remains true; preserve its unresolved condition/reward display.
@@ -168,6 +180,6 @@ These are presentation/integration gaps, not permission to change gameplay:
 
 ## 9. Implementation readiness and exclusions
 
-The screen architecture, source inventory, branch assignments, coordinate formula, no-overlap spacing, connector semantics, interaction model and test requirements are sufficiently specified for a later implementation plan. The icon mapping and exact asset geometry remain visual tasks; V3 eligibility/rewards remain gameplay-authority blockers only for making those nodes purchasable. This spec does not authorize resolving those blockers.
+The screen architecture, source inventory, branch assignments, coordinate formula, no-overlap spacing, connector semantics, compact presentation, deterministic icon mapping, zoom/focus behavior, and test requirements are specified for implementation planning. Exact PNG geometry and live visual acceptance remain outstanding; V3 eligibility/rewards remain gameplay-authority blockers only for making those nodes purchasable. This spec does not authorize resolving those blockers.
 
 Excluded: gameplay or balance changes; changing any catalog/backend or saved identifier; inventing prerequisite edges; adding artificial purchasable roots; altering research tiers/costs/caps/rewards; changing knowledge triggers/rewards; selector edits; PR merge; main-branch edits; and visual-approval claims without Minecraft captures.

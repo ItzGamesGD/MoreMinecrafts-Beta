@@ -2,6 +2,8 @@
   "schemaVersion": 1,
   "sourceHead": "d1f113720cf7d71720450d4709b3834b137d43f4",
   "coordinateSpace": "unscaled canvas logical pixels, node center",
+  "fallbackIconItemId": "minecraft:book",
+  "iconSelectionPolicy": "explicit per-node representative vanilla item sprite; if requested item is unavailable use minecraft:book; never guess from runtime iteration order",
   "grid": {
     "firstCenter": [
       64,
@@ -160,8 +162,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:diamond_pickaxe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
     },
     {
       "id": "v3.research.03",
@@ -277,8 +280,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_pickaxe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
     },
     {
       "id": "v3.research.04",
@@ -334,8 +338,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:diamond_pickaxe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
     },
     {
       "id": "throwable_pickaxe",
@@ -389,8 +394,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:diamond_pickaxe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
     },
     {
       "id": "v3.research.02",
@@ -506,8 +512,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:oak_log",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
     },
     {
       "id": "v3.research.05",
@@ -563,8 +570,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:oak_log",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
     },
     {
       "id": "climbing",
@@ -618,8 +626,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.field_mobility",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_pickaxe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.field_mobility"
     },
     {
       "id": "v3.research.06",
@@ -711,8 +720,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:coal",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
     },
     {
       "id": "v3.research.07",
@@ -840,8 +850,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:furnace",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
     },
     {
       "id": "v3.research.11",
@@ -939,8 +950,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:blast_furnace",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
     },
     {
       "id": "v3.research.12",
@@ -996,8 +1008,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:blast_furnace",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
     },
     {
       "id": "v3.research.08",
@@ -1119,8 +1132,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:crafting_table",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
     },
     {
       "id": "v3.research.10",
@@ -1236,8 +1250,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:anvil",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
     },
     {
       "id": "automatic_tool_switch",
@@ -1296,8 +1311,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_pickaxe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
     },
     {
       "id": "v3.research.09",
@@ -1359,8 +1375,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.woodworking",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:oak_planks",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.woodworking"
     },
     {
       "id": "v3.research.13",
@@ -1416,8 +1433,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:chest",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
     },
     {
       "id": "nearby_chest_ingredients",
@@ -1471,8 +1489,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:chest",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
     },
     {
       "id": "hopper_filter",
@@ -1526,8 +1545,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:hopper",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
     },
     {
       "id": "v3.research.14",
@@ -1643,8 +1663,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:wheat",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
       "id": "v3.research.15",
@@ -1724,8 +1745,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:wheat_seeds",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
       "id": "v3.research.16",
@@ -1811,8 +1833,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:dirt",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
       "id": "v3.research.20",
@@ -1862,8 +1885,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_hoe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
       "id": "v3.research.21",
@@ -1919,8 +1943,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:wheat",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
       "id": "v3.research.24",
@@ -1982,8 +2007,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:composter",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
       "id": "v3.research.25",
@@ -2039,8 +2065,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:water_bucket",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
       "id": "v3.research.17",
@@ -2138,8 +2165,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:cow_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
     },
     {
       "id": "v3.research.18",
@@ -2219,8 +2247,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:bee_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
     },
     {
       "id": "v3.research.22",
@@ -2270,8 +2299,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:wheat",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
     },
     {
       "id": "v3.research.19",
@@ -2393,8 +2423,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:cod",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
     },
     {
       "id": "v3.research.23",
@@ -2492,8 +2523,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:fishing_rod",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
     },
     {
       "id": "v3.research.26",
@@ -2549,8 +2581,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:fishing_rod",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
     },
     {
       "id": "combat_root",
@@ -2608,8 +2641,9 @@
         "valuePerLevel": 0.01,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.discipline_foundation",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_sword",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.discipline_foundation"
     },
     {
       "id": "v3.research.27",
@@ -2689,8 +2723,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_sword",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
     },
     {
       "id": "v3.research.28",
@@ -2770,8 +2805,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_axe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
     },
     {
       "id": "v3.research.33",
@@ -2821,8 +2857,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_sword",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
     },
     {
       "id": "falling_axe_smash",
@@ -2871,8 +2908,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_axe",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
     },
     {
       "id": "weapon_swap_handling",
@@ -2921,8 +2959,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_sword",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
     },
     {
       "id": "v3.research.29",
@@ -3008,8 +3047,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:bow",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
     },
     {
       "id": "v3.research.35",
@@ -3065,8 +3105,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:arrow",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
     },
     {
       "id": "ballistic_control",
@@ -3120,8 +3161,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:bow",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
     },
     {
       "id": "bow_charge_mobility",
@@ -3170,8 +3212,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:bow",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
     },
     {
       "id": "v3.research.30",
@@ -3251,8 +3294,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:shield",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
     },
     {
       "id": "v3.research.31",
@@ -3332,8 +3376,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:iron_chestplate",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
     },
     {
       "id": "v3.research.34",
@@ -3383,8 +3428,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:shield",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
     },
     {
       "id": "shield_counter",
@@ -3433,8 +3479,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:shield",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
     },
     {
       "id": "v3.research.32",
@@ -3514,8 +3561,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.thrown_weapons",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:trident",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.thrown_weapons"
     },
     {
       "id": "ecology_root",
@@ -3575,8 +3623,9 @@
         "valuePerLevel": 0.01,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.discipline_foundation",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:rotten_flesh",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.discipline_foundation"
     },
     {
       "id": "v3.research.36",
@@ -3656,8 +3705,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:zombie_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
       "id": "v3.research.37",
@@ -3737,8 +3787,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:skeleton_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
       "id": "v3.research.38",
@@ -3818,8 +3869,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:creeper_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
       "id": "v3.research.39",
@@ -3869,8 +3921,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:spider_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
       "id": "v3.research.40",
@@ -3920,8 +3973,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:enderman_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
       "id": "v3.research.41",
@@ -3971,8 +4025,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:slime_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
       "id": "v3.research.42",
@@ -4022,8 +4077,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:pillager_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
       "id": "v3.research.43",
@@ -4109,8 +4165,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:piglin_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles"
     },
     {
       "id": "v3.research.44",
@@ -4190,8 +4247,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:hoglin_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles"
     },
     {
       "id": "v3.research.45",
@@ -4277,8 +4335,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.aquatic_hostiles",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:drowned_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.aquatic_hostiles"
     },
     {
       "id": "v3.research.46",
@@ -4376,8 +4435,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:evoker_spawn_egg",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
     },
     {
       "id": "v3.research.47",
@@ -4457,8 +4517,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:wither_skeleton_skull",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
     },
     {
       "id": "v3.research.48",
@@ -4514,8 +4575,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:compass",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
     },
     {
       "id": "mob_aggro_redirection",
@@ -4569,8 +4631,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:bone",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
     },
     {
       "id": "mob_capture",
@@ -4624,8 +4687,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:lead",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
     },
     {
       "id": "v3.research.49",
@@ -4705,8 +4769,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:compass",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
     },
     {
       "id": "v3.research.50",
@@ -4828,8 +4893,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:saddle",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
     },
     {
       "id": "v3.research.51",
@@ -4915,8 +4981,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:elytra",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
     },
     {
       "id": "v3.research.56",
@@ -5008,8 +5075,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:elytra",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
     },
     {
       "id": "v3.research.57",
@@ -5065,8 +5133,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:oak_boat",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
     },
     {
       "id": "v3.research.58",
@@ -5122,8 +5191,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:ender_chest",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
     },
     {
       "id": "v3.research.52",
@@ -5209,8 +5279,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:brush",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition"
     },
     {
       "id": "v3.research.55",
@@ -5290,8 +5361,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:compass",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition"
     },
     {
       "id": "v3.research.53",
@@ -5371,8 +5443,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:emerald",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
     },
     {
       "id": "v3.research.54",
@@ -5452,8 +5525,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:gold_ingot",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
     },
     {
       "id": "piglin_barter",
@@ -5507,8 +5581,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:gold_ingot",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
     },
     {
       "id": "wall_jump",
@@ -5557,8 +5632,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:slime_ball",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility"
     },
     {
       "id": "fall_roll",
@@ -5607,8 +5683,9 @@
         "valuePerLevel": 1.0,
         "maximumLevel": 1
       },
-      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:leather_boots",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility"
     },
     {
       "id": "v3.research.59",
@@ -5688,8 +5765,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:brewing_stand",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
     },
     {
       "id": "v3.research.60",
@@ -5769,8 +5847,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:potion",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
     },
     {
       "id": "v3.research.63",
@@ -5856,8 +5935,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:nether_wart",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
     },
     {
       "id": "v3.research.61",
@@ -5937,8 +6017,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:splash_potion",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling"
     },
     {
       "id": "v3.research.68",
@@ -5994,8 +6075,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:potion",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling"
     },
     {
       "id": "v3.research.62",
@@ -6081,8 +6163,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:honey_bottle",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts"
     },
     {
       "id": "v3.research.65",
@@ -6162,8 +6245,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:blaze_powder",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts"
     },
     {
       "id": "v3.research.64",
@@ -6249,8 +6333,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:experience_bottle",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience"
     },
     {
       "id": "v3.research.67",
@@ -6312,8 +6397,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:experience_bottle",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience"
     },
     {
       "id": "v3.research.66",
@@ -6363,8 +6449,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:brewing_stand",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
     },
     {
       "id": "v3.research.69",
@@ -6420,8 +6507,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:brewing_stand",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
     },
     {
       "id": "v3.research.70",
@@ -6483,8 +6571,9 @@
       ],
       "rewardStatus": "unresolved_in_runtime_source",
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
-      "iconMapping": "UNRESOLVED"
+      "iconItemId": "minecraft:glowstone_dust",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
     }
   ],
   "knowledge": [
@@ -6507,7 +6596,8 @@
       "rewardKey": "ore_xp",
       "rewardDisplayKey": "moreminecrafts.ui.reward.xp",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:iron_pickaxe",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.geology"
     },
     {
@@ -6529,7 +6619,8 @@
       "rewardKey": "deepslate_ore_xp",
       "rewardDisplayKey": "moreminecrafts.ui.reward.xp",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:deepslate",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.geology"
     },
     {
@@ -6551,7 +6642,8 @@
       "rewardKey": "rare_ore_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:diamond",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.geology"
     },
     {
@@ -6573,7 +6665,8 @@
       "rewardKey": "sapling_drop",
       "rewardDisplayKey": "moreminecrafts.ui.reward.sapling",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:oak_sapling",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
     },
     {
@@ -6595,7 +6688,8 @@
       "rewardKey": "tree_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:oak_log",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
     },
     {
@@ -6617,7 +6711,8 @@
       "rewardKey": "plant_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:poppy",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.flora_and_soil"
     },
     {
@@ -6639,7 +6734,8 @@
       "rewardKey": "soil_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:dirt",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.flora_and_soil"
     },
     {
@@ -6661,7 +6757,8 @@
       "rewardKey": "rock_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:stone",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.rock_classification"
     },
     {
@@ -6683,7 +6780,8 @@
       "rewardKey": "ore_xp",
       "rewardDisplayKey": "moreminecrafts.ui.reward.xp",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:raw_iron",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.extraction_and_tools"
     },
     {
@@ -6705,7 +6803,8 @@
       "rewardKey": "pickaxe_durability",
       "rewardDisplayKey": "moreminecrafts.ui.reward.durability",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:iron_pickaxe",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.resources.extraction_and_tools"
     },
     {
@@ -6727,7 +6826,8 @@
       "rewardKey": "smelting_xp",
       "rewardDisplayKey": "moreminecrafts.ui.reward.xp",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:iron_ingot",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys"
     },
     {
@@ -6749,7 +6849,8 @@
       "rewardKey": "smelting_xp",
       "rewardDisplayKey": "moreminecrafts.ui.reward.xp",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:blast_furnace",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys"
     },
     {
@@ -6771,7 +6872,8 @@
       "rewardKey": "alloy_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:netherite_ingot",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys"
     },
     {
@@ -6793,7 +6895,8 @@
       "rewardKey": "crafting_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:crafting_table",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
     },
     {
@@ -6815,7 +6918,8 @@
       "rewardKey": "recipe_hints",
       "rewardDisplayKey": "moreminecrafts.ui.reward.unlock",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:book",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
     },
     {
@@ -6837,7 +6941,8 @@
       "rewardKey": "repair_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:anvil",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
     },
     {
@@ -6859,7 +6964,8 @@
       "rewardKey": "storage_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:chest",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation"
     },
     {
@@ -6881,7 +6987,8 @@
       "rewardKey": "logistics_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:hopper",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation"
     },
     {
@@ -6903,7 +7010,8 @@
       "rewardKey": "redstone_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:redstone",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation"
     },
     {
@@ -6925,7 +7033,8 @@
       "rewardKey": "growth_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:wheat",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
@@ -6947,7 +7056,8 @@
       "rewardKey": "seed_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:wheat_seeds",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
@@ -6969,7 +7079,8 @@
       "rewardKey": "farming_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:wooden_hoe",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
@@ -6991,7 +7102,8 @@
       "rewardKey": "irrigation_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:water_bucket",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
@@ -7013,7 +7125,8 @@
       "rewardKey": "automation_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:observer",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
     },
     {
@@ -7035,7 +7148,8 @@
       "rewardKey": "breeding_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:wheat",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.livestock_and_bees"
     },
     {
@@ -7057,7 +7171,8 @@
       "rewardKey": "breeding_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:cow_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.livestock_and_bees"
     },
     {
@@ -7079,7 +7194,8 @@
       "rewardKey": "fish_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:honeycomb",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.fishing"
     },
     {
@@ -7101,7 +7217,8 @@
       "rewardKey": "water_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:cod",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.fishing"
     },
     {
@@ -7123,7 +7240,8 @@
       "rewardKey": "fishing_xp",
       "rewardDisplayKey": "moreminecrafts.ui.reward.xp",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:fishing_rod",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.fishing"
     },
     {
@@ -7145,7 +7263,8 @@
       "rewardKey": "food_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:bread",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.living.food"
     },
     {
@@ -7167,7 +7286,8 @@
       "rewardKey": "sword_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:iron_sword",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
     },
     {
@@ -7189,7 +7309,8 @@
       "rewardKey": "sword_xp",
       "rewardDisplayKey": "moreminecrafts.ui.reward.xp",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:iron_sword",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
     },
     {
@@ -7211,7 +7332,8 @@
       "rewardKey": "heavy_weapon_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:iron_axe",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
     },
     {
@@ -7233,7 +7355,8 @@
       "rewardKey": "bow_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:bow",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
     },
     {
@@ -7255,7 +7378,8 @@
       "rewardKey": "crossbow_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:crossbow",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
     },
     {
@@ -7277,7 +7401,8 @@
       "rewardKey": "shield_durability",
       "rewardDisplayKey": "moreminecrafts.ui.reward.durability",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:shield",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons"
     },
     {
@@ -7299,7 +7424,8 @@
       "rewardKey": "armor_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:iron_chestplate",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons"
     },
     {
@@ -7321,7 +7447,8 @@
       "rewardKey": "thrown_weapon_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:trident",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons"
     },
     {
@@ -7343,7 +7470,8 @@
       "rewardKey": "mobility_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:iron_boots",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.movement_and_ammunition"
     },
     {
@@ -7365,7 +7493,8 @@
       "rewardKey": "ammunition_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:arrow",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.combat.movement_and_ammunition"
     },
     {
@@ -7387,7 +7516,8 @@
       "rewardKey": "zombie_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:zombie_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
@@ -7409,7 +7539,8 @@
       "rewardKey": "skeleton_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:skeleton_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
@@ -7431,7 +7562,8 @@
       "rewardKey": "creeper_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:creeper_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
@@ -7453,7 +7585,8 @@
       "rewardKey": "spider_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:spider_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
@@ -7475,7 +7608,8 @@
       "rewardKey": "enderman_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:enderman_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
@@ -7497,7 +7631,8 @@
       "rewardKey": "slime_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:slime_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
@@ -7519,7 +7654,8 @@
       "rewardKey": "illager_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:pillager_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
     },
     {
@@ -7541,7 +7677,8 @@
       "rewardKey": "piglin_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:piglin_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic"
     },
     {
@@ -7563,7 +7700,8 @@
       "rewardKey": "hoglin_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:hoglin_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic"
     },
     {
@@ -7585,7 +7723,8 @@
       "rewardKey": "aquatic_hostile_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:drowned_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic"
     },
     {
@@ -7607,7 +7746,8 @@
       "rewardKey": "rare_mob_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.unresolved",
       "unresolved": true,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:evoker_spawn_egg",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
     },
     {
@@ -7629,7 +7769,8 @@
       "rewardKey": "boss_damage",
       "rewardDisplayKey": "moreminecrafts.ui.reward.damage",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:dragon_head",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
     },
     {
@@ -7651,7 +7792,8 @@
       "rewardKey": "terrain_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:grass_block",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.biomes_and_caves"
     },
     {
@@ -7673,7 +7815,8 @@
       "rewardKey": "cave_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:dripstone_block",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.biomes_and_caves"
     },
     {
@@ -7695,7 +7838,8 @@
       "rewardKey": "navigation_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:oak_boat",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.travel"
     },
     {
@@ -7717,7 +7861,8 @@
       "rewardKey": "riding_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:saddle",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.travel"
     },
     {
@@ -7739,7 +7884,8 @@
       "rewardKey": "parachute_recipe",
       "rewardDisplayKey": "moreminecrafts.ui.reward.recipe",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:elytra",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.travel"
     },
     {
@@ -7761,7 +7907,8 @@
       "rewardKey": "dimension_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:ender_pearl",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.travel"
     },
     {
@@ -7783,7 +7930,8 @@
       "rewardKey": "archaeology_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:brush",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_structures"
     },
     {
@@ -7805,7 +7953,8 @@
       "rewardKey": "ruin_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:ancient_debris",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_structures"
     },
     {
@@ -7827,7 +7976,8 @@
       "rewardKey": "trading_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:emerald",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.villager_trade"
     },
     {
@@ -7849,7 +7999,8 @@
       "rewardKey": "expedition_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:compass",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.world.expeditions"
     },
     {
@@ -7871,7 +8022,8 @@
       "rewardKey": "brewing_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:brewing_stand",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions"
     },
     {
@@ -7893,7 +8045,8 @@
       "rewardKey": "potion_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:potion",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions"
     },
     {
@@ -7915,7 +8068,8 @@
       "rewardKey": "splash_potion_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:splash_potion",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions"
     },
     {
@@ -7937,7 +8091,8 @@
       "rewardKey": "lingering_potion_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:lingering_potion",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions"
     },
     {
@@ -7959,7 +8114,8 @@
       "rewardKey": "effect_info",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:honey_bottle",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_ingredients"
     },
     {
@@ -7981,7 +8137,8 @@
       "rewardKey": "ingredient_guide",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:nether_wart",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_ingredients"
     },
     {
@@ -8003,7 +8160,8 @@
       "rewardKey": "brewing_xp",
       "rewardDisplayKey": "moreminecrafts.ui.reward.xp",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:brewing_stand",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
     },
     {
@@ -8025,7 +8183,8 @@
       "rewardKey": "concentration_hint",
       "rewardDisplayKey": "moreminecrafts.ui.reward.guide",
       "unresolved": false,
-      "iconMapping": "UNRESOLVED",
+      "iconItemId": "minecraft:glowstone_dust",
+      "iconRule": "explicit_knowledge_condition_subject_mapping",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
     }
   ]
