@@ -49,7 +49,10 @@ checks = {
     "file_exists": image_path.is_file(),
     "png_decodes": True,
     "dimensions_1280x720": [width, height] == [1280, 720],
-    "non_uniform_with_meaningful_variation": distinct_colors >= 128 and mean_stdev >= 8.0,
+    # Flat-color Minecraft UI panels (especially confirmation dialogs) can be
+    # structurally valid with fewer than 128 colors. Keep the stricter world
+    # threshold, while requiring meaningful color diversity in UI captures.
+    "non_uniform_with_meaningful_variation": distinct_colors >= (64 if ui_capture else 128) and mean_stdev >= 8.0,
     "center_region_has_visual_detail": center_distinct_colors >= 64 if not ui_capture else None,
     "center_detail_required": not ui_capture,
     "client_world_and_capture_lifecycle": True,
