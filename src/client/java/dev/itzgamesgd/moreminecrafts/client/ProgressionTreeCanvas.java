@@ -160,7 +160,10 @@ public final class ProgressionTreeCanvas {
             }
             if (hoveredId != null) {
                 Component tooltip = tooltip(knowledgeRows.get(hoveredId), researchRows.get(hoveredId));
-                if (tooltip != null) graphics.setTooltipForNextFrame(font, tooltip, mouseX, mouseY);
+                if (tooltip != null) {
+                    int tooltipWidth = Math.max(120, Math.min(240, viewport.width() - 16));
+                    graphics.setTooltipForNextFrame(font, font.split(tooltip, tooltipWidth), mouseX, mouseY);
+                }
             }
         } finally {
             graphics.disableScissor();
