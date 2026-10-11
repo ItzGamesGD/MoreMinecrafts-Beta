@@ -4,7 +4,7 @@
 
 **Architecture:** Keep existing catalog and purchase APIs authoritative. Add presentation-only manifest parsing and pure geometry/camera policy with headless tests; render those layouts through a client canvas component. Adapt the current browse and confirmation screens for responsive navigation and compact overlays. Validate interaction paths through existing JUnit coverage and the client visual validation harness.
 
-**Tech Stack:** Java 25, Minecraft/NeoForge client GUI and item rendering APIs already used by the repository, JUnit 5, JSON resources, PNG GUI textures, Gradle, existing visual validation shell/CI harness.
+**Tech Stack (verified against repository):** Minecraft 26.3, Fabric Loader 0.19.5, Fabric API 0.161.0+26.3, Fabric Loom 1.17.21, Java 25, and JUnit 5. The project uses Loom's `splitEnvironmentSourceSets()` with `main` and `client` source sets. Existing client screens use Minecraft `Screen`, `GuiGraphicsExtractor`, `Button`, `Tooltip`, and `Component` APIs. Use the matching Minecraft 26.3 item-rendering and input APIs available to this Fabric client; do not use NeoForge APIs.
 
 **Spec:** [Research and Knowledge Node Tree Design](../specs/2026-10-11-research-knowledge-node-tree-design.md) and [node layout manifest](../specs/2026-10-11-research-knowledge-node-tree-manifest.json).
 
@@ -17,6 +17,8 @@
 - Keep Knowledge and Research separate; preserve the existing confirmation and cancellation behavior.
 - Render Korean text with Minecraft fonts and `Component`s; PNG assets contain only non-text visuals.
 - Add automated checks and perform live screenshot review at GUI scales 2, 3, and 4 before claiming visual approval. Do not merge or edit `main` as part of this plan.
+- Re-fetch PR #75 and base integration work on its current head. Keep implementation on a separate working branch; never push implementation commits to the PR branch during this task.
+- Preserve and extend the existing successful client visual-validation infrastructure: `VisualValidationHarness`, `scripts/visual_validation/capture_client.sh`, its Xvfb/X11 and RCON setup, screenshot validation, and `.github/workflows/client-visual-validation.yml` scale-2/3/4 loop. Add tree journeys and screenshots to that pipeline; do not replace its working launch, input, capture, or artifact-upload mechanisms.
 
 ## Review Focus
 
@@ -121,7 +123,7 @@
 **Work:**
 1. Author non-text frame/background/border assets with slice margins and state variants documented in a nearby asset note or constants. Do not edit selector assets.
 2. Extend the harness to cover seven tabs, keyboard focus, branch selection, Fit All, Focus Selected, drag/zoom clipping, compact details overlay, confirmation scroll, and pinned confirm/cancel controls.
-3. Make the capture harness exercise Research and Knowledge at GUI scales 2, 3, and 4, including 1280×720 at scale 4, plus a large canvas whose overview zoom is below the legibility threshold.
+3. Extend the existing `VisualValidationHarness` and capture script/workflow so their successful Xvfb, X11 input, RCON, native screenshot capture, validation, and artifact-upload path also exercises Research and Knowledge at GUI scales 2, 3, and 4. Include 1280×720 at scale 4 and a large canvas whose overview zoom is below the legibility threshold. Preserve existing selector validation journeys and their current physical-input checks.
 4. Run automated validation, then launch the actual Minecraft client and capture screenshots at scales 2/3/4. Review clipping, responsive controls, node legibility, Korean font rendering, icon recognition, tooltip placement, and purchase/cancel screens.
 5. Record screenshot paths and findings in the PR review materials. Do not label the visuals approved until actual Minecraft screenshots are inspected.
 
