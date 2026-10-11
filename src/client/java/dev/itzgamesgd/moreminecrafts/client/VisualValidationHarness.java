@@ -179,50 +179,89 @@ public final class VisualValidationHarness {
                     return;
                 }
                 clickSelectionChoice(client, 2);
-                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
-                        || !browse.validationVisitAllDisciplines()
-                        || !browse.validationExerciseCanvasControls()
-                        || !browse.validationKeyboardNodeFocus()) {
+                if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
+                        || hub.mode() != ProgressionBrowseScreen.Mode.KNOWLEDGE
+                        || !hub.validationVisitAllSectors()) {
                     uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Knowledge discipline tabs, branch navigation, drag pan, wheel zoom, or keyboard focus");
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Knowledge seven-sector menu routing");
                     return;
                 }
-                if (browse.validationCompact()) {
-                    browse.validationOpenDetails();
-                    queueUiScreenshot("knowledge-compact-details.png");
-                    uiJourneyStage = 11;
-                } else {
-                    queueUiScreenshot("knowledge-screen.png");
-                    uiJourneyStage = 2;
+                queueUiScreenshot("knowledge-sector-selection.png");
+                uiJourneyStage = 10;
+            }
+            case 10 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
+                        || !hub.validationOpenSector("resources")
+                        || !(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                        || !browse.validationTreeReady()
+                        || !browse.validationExerciseCanvasControls()
+                        || !browse.validationKeyboardNodeFocus()
+                        || !browse.validationHoverNode("knowledge.1")) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Knowledge sector tree, hover, pan, zoom, or keyboard focus");
+                    return;
                 }
+                queueUiScreenshot("knowledge-node-tooltip.png");
+                uiJourneyStage = 11;
             }
             case 11 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
-                if (client.gui.screen() instanceof ProgressionBrowseScreen browse) browse.validationCloseDetails();
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
+                browse.validationClearHover();
                 queueUiScreenshot("knowledge-screen.png");
-                uiJourneyStage = 2;
+                uiJourneyStage = 12;
             }
-            case 2 -> {
+            case 12 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
+                if (browse.validationCompact()) {
+                    browse.validationOpenDetails();
+                    queueUiScreenshot("knowledge-compact-details.png");
+                    uiJourneyStage = 13;
+                } else {
+                    browse.onClose();
+                    ((ProgressionDisciplineSelectionScreen) client.gui.screen()).onClose();
+                    clickSelectionChoice(client, 3);
+                    queueUiScreenshot("research-sector-selection.png");
+                    uiJourneyStage = 3;
+                }
+            }
+            case 13 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (client.gui.screen() instanceof ProgressionBrowseScreen browse) browse.validationCloseDetails();
                 clickProgressionBack(client);
+                if (client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub) hub.onClose();
                 clickSelectionChoice(client, 3);
-                queueUiScreenshot("research-screen.png");
+                queueUiScreenshot("research-sector-selection.png");
                 uiJourneyStage = 3;
             }
             case 3 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
-                if (!(client.gui.screen() instanceof ProgressionBrowseScreen initialResearch)
-                        || !initialResearch.validationVisitAllDisciplines()
+                if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
+                        || hub.mode() != ProgressionBrowseScreen.Mode.RESEARCH
+                        || !hub.validationVisitAllSectors()
+                        || !hub.validationOpenSector("production")
+                        || !(client.gui.screen() instanceof ProgressionBrowseScreen initialResearch)
+                        || !initialResearch.validationTreeReady()
                         || !initialResearch.validationExerciseCanvasControls()
                         || !initialResearch.validationKeyboardNodeFocus()) {
                     uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Research discipline tabs, branch navigation, drag pan, wheel zoom, or keyboard focus");
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Research sector tree, branch navigation, drag pan, wheel zoom, or keyboard focus");
                     return;
                 }
-                clickDiscipline(client, "생산공학");
+                queueUiScreenshot("research-screen.png");
+                uiJourneyStage = 31;
+            }
+            case 31 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
                 var rows = ProgressionClientApi.research("production");
                 purchaseResearchIndex = -1;
                 for (int index = 0; index < rows.size(); index++) {
@@ -236,8 +275,7 @@ public final class VisualValidationHarness {
                     MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchasable research entry is missing");
                     return;
                 }
-                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
-                        || !browse.validationClickNode("nearby_chest_ingredients")
+                if (!browse.validationClickNode("nearby_chest_ingredients")
                         || !"nearby_chest_ingredients".equals(browse.validationSelectedNodeId())) {
                     uiJourneyFailed = true;
                     MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED node canvas did not select target research");
@@ -245,9 +283,9 @@ public final class VisualValidationHarness {
                 }
                 browse.validationFitAll();
                 queueUiScreenshot("research-fit-all.png");
-                uiJourneyStage = 31;
+                uiJourneyStage = 32;
             }
-            case 31 -> {
+            case 32 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
                 if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
@@ -257,6 +295,19 @@ public final class VisualValidationHarness {
                     MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED focus selected did not recenter node");
                     return;
                 }
+                if (!browse.validationHoverNode("nearby_chest_ingredients")) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED target research node was not available for hover");
+                    return;
+                }
+                queueUiScreenshot("research-node-tooltip.png");
+                uiJourneyStage = 33;
+            }
+            case 33 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
+                browse.validationClearHover();
                 if (browse.validationCompact()) {
                     browse.validationOpenDetails();
                     queueUiScreenshot("research-compact-details.png");
@@ -387,7 +438,7 @@ public final class VisualValidationHarness {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
                 MoreMinecrafts.LOGGER.info(
-                        "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge -> research -> purchase"
+                    "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge sectors -> knowledge tree -> research sectors -> research tree -> purchase"
                 );
                 MoreMinecrafts.LOGGER.info("CLIENT_INTERACTION_PATH auto_farm=render_only_synthetic_empty_container");
                 uiJourneyStage = 10;
@@ -400,15 +451,15 @@ public final class VisualValidationHarness {
         Screen screen = client.gui.screen();
         switch (physicalSelectorStage) {
             case 1 -> {
-                if (screen instanceof ProgressionBrowseScreen browse
-                        && browse.mode() == ProgressionBrowseScreen.Mode.KNOWLEDGE) {
+                if (screen instanceof ProgressionDisciplineSelectionScreen hub
+                        && hub.mode() == ProgressionBrowseScreen.Mode.KNOWLEDGE) {
                     verifyPhysicalSelectorTarget("knowledge");
                     openSelectorForPhysicalTest(client, 2, "research");
                 }
             }
             case 2 -> {
-                if (screen instanceof ProgressionBrowseScreen browse
-                        && browse.mode() == ProgressionBrowseScreen.Mode.RESEARCH) {
+                if (screen instanceof ProgressionDisciplineSelectionScreen hub
+                        && hub.mode() == ProgressionBrowseScreen.Mode.RESEARCH) {
                     verifyPhysicalSelectorTarget("research");
                     openSelectorForPhysicalTest(client, 3, "advancements");
                 }
@@ -474,8 +525,8 @@ public final class VisualValidationHarness {
             return;
         }
         if (choice == 2 || choice == 3) {
-            if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
-                    || browse.mode() != (choice == 2 ? ProgressionBrowseScreen.Mode.KNOWLEDGE : ProgressionBrowseScreen.Mode.RESEARCH)) {
+            if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
+                    || hub.mode() != (choice == 2 ? ProgressionBrowseScreen.Mode.KNOWLEDGE : ProgressionBrowseScreen.Mode.RESEARCH)) {
                 uiJourneyFailed = true;
                 MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED selector choice={} did not open expected screen", choice);
             }
@@ -484,20 +535,14 @@ public final class VisualValidationHarness {
 
     private static void clickProgressionBack(Minecraft client) {
         clickWidget(client, 0);
-        if (!(client.gui.screen() instanceof ProgressionSelectionScreen)) {
+        if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen)) {
             uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED back button did not return to selector");
+            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED back button did not return to the sector menu");
         }
     }
 
     private static void clickResearchPurchase(Minecraft client) {
         clickWidget(client, 10);
-    }
-
-    private static void clickDiscipline(Minecraft client, String label) {
-        // CI clients use en_us by default; accept both the approved Korean label and its
-        // localized English equivalent while activating the actual visible tab widget.
-        clickWidgetWithLabel(client, label, "Production Engineering");
     }
 
     private static void clickWidgetWithLabel(Minecraft client, String... labels) {

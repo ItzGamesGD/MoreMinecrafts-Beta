@@ -68,9 +68,9 @@ public final class ProgressionSelectionScreen extends Screen {
             switch (target.id()) {
                 case "advancements" -> openAdvancements();
                 case "knowledge" -> minecraft.gui.setScreen(
-                        new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.KNOWLEDGE));
+                        new ProgressionDisciplineSelectionScreen(ProgressionBrowseScreen.Mode.KNOWLEDGE));
                 case "research" -> minecraft.gui.setScreen(
-                        new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.RESEARCH));
+                        new ProgressionDisciplineSelectionScreen(ProgressionBrowseScreen.Mode.RESEARCH));
                 case "close" -> onClose();
                 default -> { }
             }

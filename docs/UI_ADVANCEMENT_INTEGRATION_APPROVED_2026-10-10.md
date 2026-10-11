@@ -5,6 +5,14 @@
 
 Status: **USER-APPROVED DESIGN AUTHORITY — UI AND VISUAL REFERENCE**. The attached approved concept reference set and direct implementation instruction supersede conflicting earlier selector/device-screen statements in this file. This task authorizes implementation of the in-scope UI.
 
+## Seven-sector navigation follow-up — 2026-10-11
+
+The later user task and `MoreMinecrafts_Vanilla_UI_Alignment_v1.zip` supersede only the older navigation/grouping decision below that ruled out a separate seven-sector selector. Preserve the existing four-card selector unchanged. Research and Knowledge each enter the same navigation-only seven-sector screen, then open the selected discipline's node canvas; Back returns to the sector screen, and the sector screen returns to the four-card selector. The sector screen has no purchase nodes.
+
+Use the existing source discipline IDs and display names: `resources` / 자원학, `production` / 생산공학, `living` / 생활기술학, `combat` / 전투학, `ecology` / 생태학, `world` / 세계학, and `alchemy` / 연금·마법학. The 7-sector package supplies geometry and hit-area reference only. Render the menu in the Minecraft advancement visual language with the default font, vanilla advancement background/frame sprites, and actual item icons; do not import its preview or selected-sector PNGs as final art.
+
+The selected discipline's tree reuses vanilla advancement box/frame sprites, item rendering, tooltips and connector style. Tree-only mouse-wheel zoom and blank-canvas drag remain separate from sector selection. Existing knowledge discovery/unlock behavior, research costs/prerequisites, server-authoritative purchase checks, detail view and confirm/cancel flow remain unchanged. This follow-up changes navigation and presentation only.
+
 ## Superseding selector and device decisions — 2026-10-10
 
 - Pressing the vanilla advancement key opens a selector with four visible cards: **발전 과제**, **지식**, and **연구** are active; **XP 퀘스트** is visibly disabled and marked as coming later. The disabled Quest card opens no screen. The first three cards each open their corresponding separate screen. Vanilla Advancements content remains accessible.
@@ -17,11 +25,11 @@ Status: **USER-APPROVED DESIGN AUTHORITY — UI AND VISUAL REFERENCE**. The atta
 
 ## Main experience
 
-- Use the **vanilla Minecraft Advancements screen** as the authoritative layout, textures, visual language, connected-node tree and navigation reference. Avoid a new RPG dashboard, bespoke radial research wheel, floating purchase side-panel or unrelated visual theme.
+- Use the **vanilla Minecraft Advancements screen** as the authoritative layout, textures, visual language, connected-node tree and navigation reference. Avoid a new RPG dashboard, decorative custom art, floating purchase side-panel or unrelated visual theme.
 - The **same advancement key** opens the four-card selector described above. 발전 과제 opens vanilla Advancements, 지식 opens its own screen, and 연구 opens its own screen. XP 퀘스트 remains a disabled, visible future placeholder and has no functioning screen.
 - Existing 7 disciplines: 자원학 / 생산공학 / 생활기술학 / 전투학 / 생태학 / 세계학 / 연금·마법학. Retain them as navigation/grouping within the vanilla-advancement-like layout; distinguish knowledge and research through **node size, icon and click behavior**, rather than wholesale redesign. The exact screen dimensions are not yet pixel-locked.
 - Existing vanilla advancement content and mechanics remain accessible and intact.
-- Keep ordinary vanilla-style connected nodes and pan/navigation behavior; the prior mandatory seven-discipline *radial* layout and separate three-choice landing screen are **superseded** if they prevent the approved vanilla-like unified UI.
+- Keep ordinary vanilla-style connected nodes and pan/navigation behavior. The later seven-sector navigation follow-up above supersedes the earlier sentence that rejected a separate radial discipline selector.
 - Knowledge nodes **automatically unlock for free** upon their achievement condition. Clicking a knowledge node opens vanilla-style details containing exactly the newly approved explicit information sections:
   1. **해금 조건** — concrete discovery/action requirement.
   2. **해금 보상** — actual unlocked recipe/effect/research access.

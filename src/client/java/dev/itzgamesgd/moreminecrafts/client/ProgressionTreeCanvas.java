@@ -1,7 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
-import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionNodeLayoutCatalog;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionScreenData;
@@ -24,8 +23,12 @@ import net.minecraft.client.renderer.RenderPipelines;
 
 /** Draws and navigates a single discipline's presentation-only node canvas. */
 public final class ProgressionTreeCanvas {
-    private static final Identifier BACKGROUND = ModIds.id("textures/gui/progression/tree_background.png");
-    private static final Identifier BORDERS = ModIds.id("textures/gui/progression/node_borders.png");
+    private static final Identifier BACKGROUND = Identifier.withDefaultNamespace(
+            "textures/gui/advancements/backgrounds/stone.png");
+    private static final Identifier OBTAINED_BOX = Identifier.withDefaultNamespace("advancements/box_obtained");
+    private static final Identifier UNOBTAINED_BOX = Identifier.withDefaultNamespace("advancements/box_unobtained");
+    private static final Identifier OBTAINED_FRAME = Identifier.withDefaultNamespace("advancements/task_frame_obtained");
+    private static final Identifier UNOBTAINED_FRAME = Identifier.withDefaultNamespace("advancements/task_frame_unobtained");
     private static final Set<String> REPORTED_MISSING_ICONS = new HashSet<>();
 
     private final String screen;
@@ -37,6 +40,7 @@ public final class ProgressionTreeCanvas {
     private ProgressionCanvasGeometry.Camera camera = new ProgressionCanvasGeometry.Camera(0, 0, 1.0);
     private String selectedId;
     private String hoveredId;
+    private String validationHoveredId;
 
     public ProgressionTreeCanvas(String screen, String discipline) {
         this.screen = screen;
@@ -53,6 +57,7 @@ public final class ProgressionTreeCanvas {
     public List<ProgressionNodeLayoutCatalog.Node> nodes() { return nodes; }
     public String selectedId() { return selectedId; }
     public String hoveredId() { return hoveredId; }
+    public void validationHover(String id) { validationHoveredId = byId.containsKey(id) ? id : null; }
     public ProgressionCanvasGeometry.Camera camera() { return camera; }
     public double canvasWidth() { return canvasWidth; }
     public double canvasHeight() { return canvasHeight; }
@@ -152,7 +157,7 @@ public final class ProgressionTreeCanvas {
         graphics.enableScissor(viewport.x(), viewport.y(), viewport.right(), viewport.bottom());
         try {
             drawBranches(graphics, font);
-            hoveredId = hitTest(mouseX, mouseY);
+            hoveredId = validationHoveredId != null ? validationHoveredId : hitTest(mouseX, mouseY);
             for (var node : nodes) {
                 var knowledge = knowledgeRows.get(node.id());
                 var research = researchRows.get(node.id());
@@ -162,7 +167,9 @@ public final class ProgressionTreeCanvas {
                 Component tooltip = tooltip(knowledgeRows.get(hoveredId), researchRows.get(hoveredId));
                 if (tooltip != null) {
                     int tooltipWidth = Math.max(120, Math.min(240, viewport.width() - 16));
-                    graphics.setTooltipForNextFrame(font, font.split(tooltip, tooltipWidth), mouseX, mouseY);
+                    int tooltipX = validationHoveredId == null ? mouseX : screenX(byId.get(hoveredId).x());
+                    int tooltipY = validationHoveredId == null ? mouseY : screenY(byId.get(hoveredId).y());
+                    graphics.setTooltipForNextFrame(font, font.split(tooltip, tooltipWidth), tooltipX, tooltipY);
                 }
             }
         } finally {
@@ -171,9 +178,9 @@ public final class ProgressionTreeCanvas {
     }
 
     private void drawBackground(GuiGraphicsExtractor graphics) {
-        for (int y = viewport.y(); y < viewport.bottom(); y += 32) for (int x = viewport.x(); x < viewport.right(); x += 32) {
-            int width = Math.min(32, viewport.right() - x), height = Math.min(32, viewport.bottom() - y);
-            graphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, x, y, 0, 0, width, height, width, height);
+        for (int y = viewport.y(); y < viewport.bottom(); y += 16) for (int x = viewport.x(); x < viewport.right(); x += 16) {
+            int width = Math.min(16, viewport.right() - x), height = Math.min(16, viewport.bottom() - y);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, x, y, 0, 0, width, height, 16, 16, 16, 16);
         }
     }
 
@@ -210,31 +217,23 @@ public final class ProgressionTreeCanvas {
     private void drawNode(GuiGraphicsExtractor graphics, Font font, ProgressionNodeLayoutCatalog.Node node,
                           ProgressionScreenData.KnowledgeRow knowledge,
                           ProgressionScreenData.ResearchRow research, boolean selected, boolean hovered) {
-        int size = Math.max(8, (int) Math.round(("research".equals(screen) ? 36 : 32) * camera.zoom()));
+        int size = Math.max(14, (int) Math.round(26 * camera.zoom()));
         int left = screenX(node.x()) - size / 2;
         int top = screenY(node.y()) - size / 2;
-        int state = selected ? 3 : hovered ? 4 : state(knowledge, research);
-        graphics.blit(RenderPipelines.GUI_TEXTURED, BORDERS, left, top, state * 36, 0, size, size, 36, 36, 252, 36);
+        boolean achieved = knowledge != null ? knowledge.unlocked()
+                : research != null && (research.level() > 0 || research.availability() == ResearchPurchaseRules.Result.PURCHASED);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, achieved ? OBTAINED_BOX : UNOBTAINED_BOX,
+                left, top, size, size);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, achieved ? OBTAINED_FRAME : UNOBTAINED_FRAME,
+                left, top, size, size);
+        if (selected) graphics.outline(left - 2, top - 2, size + 4, size + 4, 0xFFFFFFFF);
         ItemStack icon = icon(node);
-        int iconSize = Math.max(8, (int) Math.round(16 * Math.min(1.0, camera.zoom())));
+        int iconSize = Math.max(8, Math.min(size - 6, (int) Math.round(16 * Math.min(1.0, camera.zoom()))));
         graphics.pose().pushMatrix();
         graphics.pose().translate(screenX(node.x()), screenY(node.y()));
         graphics.pose().scale(iconSize / 16.0F, iconSize / 16.0F);
         graphics.item(icon, -8, -8);
         graphics.pose().popMatrix();
-        if (research != null) {
-            String tier = research.tier().matches("T[1-3]") ? research.tier() : "?";
-            String level = tier + " " + research.level() + "/" + research.maximumLevel();
-            graphics.text(font, level, left, top + size + 1, 0xFFE8E2D1, false);
-        }
-    }
-
-    private int state(ProgressionScreenData.KnowledgeRow knowledge, ProgressionScreenData.ResearchRow research) {
-        if (knowledge != null) return knowledge.unresolved() ? 6 : knowledge.unlocked() ? 2 : 0;
-        if (research == null) return 0;
-        if (!research.prerequisitesDefined()) return 6;
-        if (research.level() > 0) return 5;
-        return research.availability() == ResearchPurchaseRules.Result.PURCHASED ? 1 : 0;
     }
 
     private ItemStack icon(ProgressionNodeLayoutCatalog.Node node) {

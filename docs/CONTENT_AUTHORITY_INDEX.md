@@ -7,9 +7,9 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
-## Latest user-approved UI authority — 2026-10-10
+## Latest user-approved UI authority — 2026-10-11 follow-up
 
-- [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md): one advancement-key entry opens the four-card selector; the first three cards open their own screens and XP Quest is a visible disabled placeholder. Preserve 7 disciplines, vanilla-inspired navigation, knowledge condition/reward details, research costs and explicit confirmation.
+- [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 task-specific follow-up: retain the four-card selector and its behavior, then route Research and Knowledge separately through a shared seven-sector navigation screen before their node canvas. The follow-up supersedes only the older no-heptagon navigation sentence; vanilla advancement sprites, the node/detail/purchase behavior, source discipline IDs, and gameplay rules remain as routed below.
 - [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): amended with the approved selector, chest sort, hopper filter, Mob Tracker range controls, boat inventory interpretation, and separate potion systems. Historical conflicts remain labeled as superseded/deferred rather than silently erased.
 
 ## Current research/knowledge authority (latest human-approved V4)

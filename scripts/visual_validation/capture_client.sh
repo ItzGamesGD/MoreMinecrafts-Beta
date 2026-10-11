@@ -241,7 +241,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
 
   ui_done=0
   for attempt in $(seq 1 120); do
-    if grep -Fq "CLIENT_INTERACTION_PATH synthetic Screen button callbacks" "$client_log"; then
+    if grep -Fq "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge sectors -> knowledge tree -> research sectors -> research tree -> purchase" "$client_log"; then
       ui_done=1
       break
     fi
@@ -258,7 +258,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     exit 1
   fi
   gui_scale="$(sed -n 's/^guiScale://p' run/options.txt | tail -n 1)"
-  required_frames=(progression-selection knowledge-screen research-screen research-fit-all research-purchasable-entry research-purchase-cancelled research-purchase-state auto-farm-screen)
+  required_frames=(progression-selection knowledge-sector-selection research-sector-selection knowledge-screen research-screen knowledge-node-tooltip research-node-tooltip research-fit-all research-purchasable-entry research-purchase-cancelled research-purchase-state auto-farm-screen)
   if [ "$gui_scale" -ge 3 ]; then
     required_frames+=(knowledge-compact-details research-compact-details research-purchase-confirmation-compact-scrolled)
   else
@@ -269,14 +269,14 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     if [ ! -s "$screenshot" ]; then echo "Missing native Minecraft frame: $screenshot"; exit 1; fi
     cp "$screenshot" "$results_dir/${frame}.png"
   done
-  printf "Minecraft Screenshot.grab via mainRenderTarget\nprogression-selection.png\nknowledge-screen.png\nresearch-screen.png\nresearch-fit-all.png\nresearch-purchasable-entry.png\nresearch-purchase-cancelled.png\nresearch-purchase-state.png\nauto-farm-screen.png (screen backed by real menu; empty client-side container is a synthetic render fixture)\n" > "$results_dir/ui-capture-source.txt"
+  printf "Minecraft Screenshot.grab via mainRenderTarget\nprogression-selection.png\nknowledge-sector-selection.png\nresearch-sector-selection.png\nknowledge-screen.png\nresearch-screen.png\nknowledge-node-tooltip.png\nresearch-node-tooltip.png\nresearch-fit-all.png\nresearch-purchasable-entry.png\nresearch-purchase-cancelled.png\nresearch-purchase-state.png\nauto-farm-screen.png (screen backed by real menu; empty client-side container is a synthetic render fixture)\n" > "$results_dir/ui-capture-source.txt"
   if [ "$gui_scale" -ge 3 ]; then
     printf "knowledge-compact-details.png\nresearch-compact-details.png\nresearch-purchase-confirmation-compact-scrolled.png\n" >> "$results_dir/ui-capture-source.txt"
   else
     printf "research-purchase-confirmation.png\n" >> "$results_dir/ui-capture-source.txt"
   fi
   printf "Selector and progression navigation use the in-client Screen callback journey; X11 input transform remains separately fixture-tested. Tree node selection, fit/focus, compact details, and research purchase/cancellation use the same journey.\n" >> "$results_dir/ui-capture-source.txt"
-  echo "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge -> research -> purchase" | tee -a "$client_log"
+  echo "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge sectors -> knowledge tree -> research sectors -> research tree -> purchase" | tee -a "$client_log"
 
   collect_x11_diagnostics
   stop_client
