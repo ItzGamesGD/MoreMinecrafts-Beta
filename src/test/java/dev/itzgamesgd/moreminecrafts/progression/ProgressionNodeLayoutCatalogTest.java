@@ -17,6 +17,9 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Items;
 
 final class ProgressionNodeLayoutCatalogTest {
     private JsonObject load() throws Exception {
@@ -47,6 +50,13 @@ final class ProgressionNodeLayoutCatalogTest {
         var stream = getClass().getResourceAsStream("/assets/moreminecrafts/progression/node_layout.json");
         assertNotNull(stream, "runtime presentation layout resource must exist");
         try (var reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+            return JsonParser.parseReader(reader).getAsJsonObject();
+        }
+    }
+
+    private JsonObject loadLocale(String locale) throws Exception {
+        try (var reader = Files.newBufferedReader(Path.of("src/main/resources/assets/moreminecrafts/lang/" + locale + ".json"),
+                StandardCharsets.UTF_8)) {
             return JsonParser.parseReader(reader).getAsJsonObject();
         }
     }
@@ -118,6 +128,8 @@ final class ProgressionNodeLayoutCatalogTest {
 
     @Test void visualReferencesCoordinatesIconsAndPaddedNodeBoundsAreValid() throws Exception {
         JsonObject layout = load();
+        JsonObject english = loadLocale("en_us");
+        JsonObject korean = loadLocale("ko_kr");
         Set<String> disciplines = Set.of("resources", "production", "living", "combat", "ecology", "world", "alchemy");
         Set<Integer> knowledgeIds = KnowledgeCatalog.entries().stream().map(KnowledgeCatalog.Entry::number).collect(Collectors.toSet());
         List<JsonObject> nodes = new ArrayList<>();
@@ -132,7 +144,12 @@ final class ProgressionNodeLayoutCatalogTest {
             assertFalse(branch.isBlank(), id);
             assertEquals("moreminecrafts.ui.branch." + discipline + "." + branch,
                     node.get("branchTitleKey").getAsString(), id);
+            assertTrue(english.has(node.get("branchTitleKey").getAsString()), "missing en_us branch label for " + id);
+            assertTrue(korean.has(node.get("branchTitleKey").getAsString()), "missing ko_kr branch label for " + id);
             assertTrue(node.get("iconItemId").getAsString().matches("[a-z0-9_.-]+:[a-z0-9_./-]+"), id);
+            assertTrue(node.get("iconItemId").getAsString().startsWith("minecraft:"), id);
+            assertNotSame(Items.AIR, BuiltInRegistries.ITEM.getValue(Identifier.parse(node.get("iconItemId").getAsString())),
+                    "unregistered representative item icon for " + id);
             assertEquals("minecraft:book", node.get("fallbackIconItemId").getAsString(), id);
             int branchOrder = node.get("branchOrder").getAsInt();
             int nodeOrder = node.get("nodeOrder").getAsInt();

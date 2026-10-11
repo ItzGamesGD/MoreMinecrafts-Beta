@@ -53,12 +53,13 @@ public final class ResearchPurchaseConfirmScreen extends Screen {
     public void validationConfirm() { confirm(); }
     public void validationCancel() { cancel(); }
     public boolean validationCompact() { return compact; }
+    public void validationScrollBody() { if (compact) bodyScroll = Math.min(1200, bodyScroll + 18); }
 
     @Override public void onClose() { cancel(); }
 
     @Override public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         if (compact) {
-            bodyScroll = Math.max(0, Math.min(1200, bodyScroll + (int) Math.signum(verticalAmount) * 18));
+            bodyScroll = Math.max(0, Math.min(1200, bodyScroll - (int) Math.signum(verticalAmount) * 18));
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
@@ -78,6 +79,7 @@ public final class ResearchPurchaseConfirmScreen extends Screen {
         graphics.fill(0, 0, width, height, 0xFF272727);
         graphics.fill(x, y, x + w, y + h, 0xFF171717);
         graphics.fill(x + 3, y + 3, x + w - 3, y + h - 3, 0xFFD8D8D5);
+        ProgressionBrowseScreen.drawFrameTexture(graphics, x, y, w, h);
         graphics.fill(x + 8, y + 8, x + w - 8, y + 36, 0xFFB6B6B2);
         graphics.centeredText(font, Component.translatable("moreminecrafts.ui.purchase.confirm.title"), x + w / 2, y + 17, 0xFF161616);
         int bodyTop = y + 44;

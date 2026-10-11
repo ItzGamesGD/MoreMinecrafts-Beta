@@ -193,10 +193,13 @@ public final class ProgressionTreeCanvas {
             }
             var sample = branch.get(0);
             String label = Component.translatable(sample.branchTitleKey()).getString();
-            if (font.width(label) > 176) label = font.plainSubstrByWidth(label, 172) + "…";
-            int labelX = screenX(64 + 192 * sample.branchOrder() - 72);
+            int labelWidth = Math.min(176, (int) Math.floor(192 * zoom) - 12);
+            if (labelWidth < 36) continue;
+            if (font.width(label) > labelWidth - 8) label = font.plainSubstrByWidth(label, labelWidth - 12) + "…";
+            int labelCenterX = screenX(64 + 192 * sample.branchOrder() - 40);
+            int labelX = labelCenterX - labelWidth / 2;
             int labelY = screenY(20);
-            graphics.fill(labelX - 2, labelY - 2, labelX + 178, labelY + 14, 0xB522211F);
+            graphics.fill(labelX - 2, labelY - 2, labelX + labelWidth + 2, labelY + 14, 0xB522211F);
             graphics.text(font, label, labelX, labelY, 0xFFE0D9C7, false);
         }
     }
@@ -217,7 +220,8 @@ public final class ProgressionTreeCanvas {
         graphics.item(icon, -8, -8);
         graphics.pose().popMatrix();
         if (research != null) {
-            String level = research.level() + "/" + research.maximumLevel();
+            String tier = research.tier().matches("T[1-3]") ? research.tier() : "?";
+            String level = tier + " " + research.level() + "/" + research.maximumLevel();
             graphics.text(font, level, left, top + size + 1, 0xFFE8E2D1, false);
         }
     }
@@ -231,6 +235,27 @@ public final class ProgressionTreeCanvas {
     }
 
     private ItemStack icon(ProgressionNodeLayoutCatalog.Node node) {
+        Item item = resolveIcon(node);
+        return item == null || item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
+    }
+
+    /** Validates every mapping in the opt-in client harness, including nodes off the current canvas. */
+    public static int validateIconMappings() {
+        int missing = 0;
+        for (var node : ProgressionNodeLayoutCatalog.load().nodes()) {
+            Item configured = BuiltInRegistries.ITEM.getValue(Identifier.parse(node.iconItemId()));
+            if (configured == null || configured == Items.AIR) {
+                missing++;
+                resolveIcon(node);
+            }
+        }
+        Item fallback = BuiltInRegistries.ITEM.getValue(Identifier.parse(ProgressionNodeLayoutCatalog.FALLBACK_ICON));
+        if (fallback == null || fallback == Items.AIR)
+            throw new IllegalStateException("Required progression icon fallback is missing from the runtime item registry");
+        return missing;
+    }
+
+    private static Item resolveIcon(ProgressionNodeLayoutCatalog.Node node) {
         Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(node.iconItemId()));
         if (item == null || item == Items.AIR) {
             if (REPORTED_MISSING_ICONS.add(node.id()))
@@ -238,7 +263,7 @@ public final class ProgressionTreeCanvas {
                         node.id(), node.iconItemId(), node.fallbackIconItemId());
             item = BuiltInRegistries.ITEM.getValue(Identifier.parse(node.fallbackIconItemId()));
         }
-        return item == null || item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
+        return item;
     }
 
     private Component tooltip(ProgressionScreenData.KnowledgeRow knowledge, ProgressionScreenData.ResearchRow research) {
@@ -251,11 +276,23 @@ public final class ProgressionTreeCanvas {
         if (research != null) {
             return Component.translatable(research.titleKey()).append(Component.literal("\n"))
                     .append(Component.translatable("moreminecrafts.ui.research.tier_level",
-                            Component.translatable("moreminecrafts.ui.tier." + research.tier().toLowerCase()),
+                            Component.translatable(tierKey(research.tier())),
                             research.level(), research.maximumLevel())).append(Component.literal("\n"))
-                    .append(Component.translatable("moreminecrafts.ui.purchase.state." + research.availability().name().toLowerCase()));
+                    .append(Component.translatable("moreminecrafts.ui.purchase.state." + research.availability().name().toLowerCase()))
+                    .append(research.nextCost() == null ? Component.empty() : Component.literal("\n"))
+                    .append(research.nextCost() == null ? Component.empty()
+                            : Component.translatable("moreminecrafts.ui.cost_xp", research.nextCost().rawXp()));
         }
         return null;
+    }
+
+    private static String tierKey(String tier) {
+        return switch (tier) {
+            case "T1" -> "moreminecrafts.ui.tier.t1";
+            case "T2" -> "moreminecrafts.ui.tier.t2";
+            case "T3" -> "moreminecrafts.ui.tier.t3";
+            default -> "moreminecrafts.ui.tier.unresolved";
+        };
     }
 
     private int screenX(double worldX) {

@@ -24,6 +24,9 @@ final class ProgressionCanvasGeometryTest {
         assertTrue(normal.viewport().width() > normal.details().width());
         assertTrue(normal.details().width() >= 240);
         assertTrue(normal.viewport().right() <= normal.details().x());
+        var scaleTwoBoundary = ProgressionCanvasGeometry.responsiveLayout(640, 360);
+        assertFalse(scaleTwoBoundary.compact());
+        assertTrue(scaleTwoBoundary.details().width() >= 240);
     }
 
     @Test void initialCameraUsesFitOnlyWhenNodeRemainsReadableOtherwiseFocusesSelection() {

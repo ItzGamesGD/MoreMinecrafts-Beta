@@ -52,7 +52,8 @@ public final class ProgressionCanvasGeometry {
                 new Rect(margin, viewportY, availableWidth, viewportHeight), new Rect(0, 0, 0, 0), footer);
 
         int gap = 16;
-        int canvasWidth = Math.max(0, (availableWidth - gap) * 62 / 100);
+        int canvasPercent = width < 760 ? 55 : 62;
+        int canvasWidth = Math.max(0, (availableWidth - gap) * canvasPercent / 100);
         int detailsX = margin + canvasWidth + gap;
         int detailsWidth = Math.max(0, width - margin - detailsX);
         return new ResponsiveLayout(false, tabs,

@@ -251,13 +251,25 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     echo "Timed out waiting for the in-client progression purchase journey."
     exit 1
   fi
-  for frame in progression-selection knowledge-screen research-screen research-purchasable-entry research-purchase-confirmation research-purchase-cancelled research-purchase-state auto-farm-screen; do
+  gui_scale="$(sed -n 's/^guiScale://p' run/options.txt | tail -n 1)"
+  required_frames=(progression-selection knowledge-screen research-screen research-fit-all research-purchasable-entry research-purchase-cancelled research-purchase-state auto-farm-screen)
+  if [ "$gui_scale" -ge 3 ]; then
+    required_frames+=(knowledge-compact-details research-compact-details research-purchase-confirmation-compact-scrolled)
+  else
+    required_frames+=(research-purchase-confirmation)
+  fi
+  for frame in "${required_frames[@]}"; do
     screenshot="run/screenshots/${frame}.png"
     if [ ! -s "$screenshot" ]; then echo "Missing native Minecraft frame: $screenshot"; exit 1; fi
     cp "$screenshot" "$results_dir/${frame}.png"
   done
-  printf "Minecraft Screenshot.grab via mainRenderTarget\nprogression-selection.png\nknowledge-screen.png\nresearch-screen.png\nresearch-purchasable-entry.png\nresearch-purchase-confirmation.png\nresearch-purchase-cancelled.png\nresearch-purchase-state.png\nauto-farm-screen.png (screen backed by real menu; empty client-side container is a synthetic render fixture)\n" > "$results_dir/ui-capture-source.txt"
-  printf "Selector hitboxes exercised via xdotool/XTEST mouse clicks; research purchase journey uses synthetic Screen widget callbacks.\n" >> "$results_dir/ui-capture-source.txt"
+  printf "Minecraft Screenshot.grab via mainRenderTarget\nprogression-selection.png\nknowledge-screen.png\nresearch-screen.png\nresearch-fit-all.png\nresearch-purchasable-entry.png\nresearch-purchase-cancelled.png\nresearch-purchase-state.png\nauto-farm-screen.png (screen backed by real menu; empty client-side container is a synthetic render fixture)\n" > "$results_dir/ui-capture-source.txt"
+  if [ "$gui_scale" -ge 3 ]; then
+    printf "knowledge-compact-details.png\nresearch-compact-details.png\nresearch-purchase-confirmation-compact-scrolled.png\n" >> "$results_dir/ui-capture-source.txt"
+  else
+    printf "research-purchase-confirmation.png\n" >> "$results_dir/ui-capture-source.txt"
+  fi
+  printf "Selector hitboxes exercised via xdotool/XTEST mouse clicks; tree node selection, fit/focus, compact details, and research purchase/cancellation use the existing in-client validation journey.\n" >> "$results_dir/ui-capture-source.txt"
   echo "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge -> research -> purchase" | tee -a "$client_log"
 
   collect_x11_diagnostics

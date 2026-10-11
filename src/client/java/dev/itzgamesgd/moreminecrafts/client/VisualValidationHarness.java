@@ -151,6 +151,13 @@ public final class VisualValidationHarness {
     private static void runUiJourney(Minecraft client) {
         if (uiJourneyFailed || client.player == null || client.level == null) return;
         if (!uiJourneyStarted) {
+            int missingIcons = ProgressionTreeCanvas.validateIconMappings();
+            if (missingIcons != 0) {
+                uiJourneyFailed = true;
+                MoreMinecrafts.LOGGER.error("CLIENT_UI_ICON_MAPPING_FAILED missing={} of 157 configured node icons", missingIcons);
+                return;
+            }
+            MoreMinecrafts.LOGGER.info("CLIENT_UI_ICON_MAPPING_VALIDATED count=157 fallback=minecraft:book");
             uiJourneyStarted = true;
             client.gui.setScreen(new ProgressionSelectionScreen());
             queueUiScreenshot("progression-selection.png");
@@ -172,6 +179,27 @@ public final class VisualValidationHarness {
                     return;
                 }
                 clickSelectionChoice(client, 2);
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                        || !browse.validationVisitAllDisciplines()
+                        || !browse.validationExerciseCanvasControls()
+                        || !browse.validationKeyboardNodeFocus()) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Knowledge discipline tabs, branch navigation, drag pan, wheel zoom, or keyboard focus");
+                    return;
+                }
+                if (browse.validationCompact()) {
+                    browse.validationOpenDetails();
+                    queueUiScreenshot("knowledge-compact-details.png");
+                    uiJourneyStage = 11;
+                } else {
+                    queueUiScreenshot("knowledge-screen.png");
+                    uiJourneyStage = 2;
+                }
+            }
+            case 11 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (client.gui.screen() instanceof ProgressionBrowseScreen browse) browse.validationCloseDetails();
                 queueUiScreenshot("knowledge-screen.png");
                 uiJourneyStage = 2;
             }
@@ -186,6 +214,14 @@ public final class VisualValidationHarness {
             case 3 -> {
                 if (!uiCaptureComplete) return;
                 uiCaptureComplete = false;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen initialResearch)
+                        || !initialResearch.validationVisitAllDisciplines()
+                        || !initialResearch.validationExerciseCanvasControls()
+                        || !initialResearch.validationKeyboardNodeFocus()) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Research discipline tabs, branch navigation, drag pan, wheel zoom, or keyboard focus");
+                    return;
+                }
                 clickDiscipline(client, "생산공학");
                 var rows = ProgressionClientApi.research("production");
                 purchaseResearchIndex = -1;
@@ -205,6 +241,20 @@ public final class VisualValidationHarness {
                         || !"nearby_chest_ingredients".equals(browse.validationSelectedNodeId())) {
                     uiJourneyFailed = true;
                     MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED node canvas did not select target research");
+                    return;
+                }
+                browse.validationFitAll();
+                queueUiScreenshot("research-fit-all.png");
+                uiJourneyStage = 31;
+            }
+            case 31 -> {
+                if (!uiCaptureComplete) return;
+                uiCaptureComplete = false;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
+                browse.validationFocusSelected();
+                if (!browse.validationSelectedCentered()) {
+                    uiJourneyFailed = true;
+                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED focus selected did not recenter node");
                     return;
                 }
                 if (browse.validationCompact()) {
@@ -232,10 +282,18 @@ public final class VisualValidationHarness {
                 purchasePaperBefore = itemCount(client, "minecraft:paper");
                 previousActionBeforeCancel = ProgressionClientApi.lastAction();
                 previousActionResultBeforeCancel = ProgressionClientApi.lastActionResult();
-                if (client.gui.screen() instanceof ProgressionBrowseScreen) {
-                    clickWidgetWithLabel(client, "연구 구매", "Purchase research", "구매", "Buy");
+                if (client.gui.screen() instanceof ProgressionBrowseScreen browse) {
+                    if (!browse.validationActivatePurchaseWithKeyboard()) {
+                        uiJourneyFailed = true;
+                        MoreMinecrafts.LOGGER.error("CLIENT_UI_KEYBOARD_FAILED focused purchase activation did not open confirmation");
+                        return;
+                    }
                     if (client.gui.screen() instanceof ResearchPurchaseConfirmScreen) {
-                        queueUiScreenshot("research-purchase-confirmation.png");
+                        ResearchPurchaseConfirmScreen confirmation = (ResearchPurchaseConfirmScreen) client.gui.screen();
+                        if (confirmation.validationCompact()) confirmation.validationScrollBody();
+                        queueUiScreenshot(confirmation.validationCompact()
+                                ? "research-purchase-confirmation-compact-scrolled.png"
+                                : "research-purchase-confirmation.png");
                         MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CONFIRMATION_OPENED id=nearby_chest_ingredients");
                     } else {
                         uiJourneyFailed = true;

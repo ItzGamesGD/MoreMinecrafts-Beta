@@ -47,6 +47,10 @@ public final class ProgressionBrowseScreen extends Screen {
     private Button focusButton;
     private Button zoomOut;
     private Button zoomIn;
+    private final java.util.ArrayList<Button> disciplineTabs = new java.util.ArrayList<>();
+    private final Map<String, Button> disciplineTabByKey = new HashMap<>();
+    private Button previousDisciplineWindow;
+    private Button nextDisciplineWindow;
 
     public ProgressionBrowseScreen(Mode mode) {
         super(Component.translatable(mode == Mode.KNOWLEDGE ? "moreminecrafts.ui.knowledge.title" : "moreminecrafts.ui.research.title"));
@@ -65,6 +69,11 @@ public final class ProgressionBrowseScreen extends Screen {
         if (node == null) return false;
         double x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), responsive.viewport().x(), node.x());
         double y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), responsive.viewport().y(), node.y());
+        if (!responsive.viewport().contains(x, y)) {
+            canvas.select(id, true);
+            x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), responsive.viewport().x(), node.x());
+            y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), responsive.viewport().y(), node.y());
+        }
         return mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
     }
     public void validationOpenDetails() {
@@ -75,6 +84,81 @@ public final class ProgressionBrowseScreen extends Screen {
     public void validationCloseDetails() {
         if (closeDetails != null) closeDetails.onPress(new MouseButtonEvent(closeDetails.getX() + 1,
                 closeDetails.getY() + 1, new MouseButtonInfo(0, 0)));
+    }
+    public void validationFitAll() { if (fitButton != null) fitButton.onPress(new MouseButtonEvent(fitButton.getX() + 1,
+            fitButton.getY() + 1, new MouseButtonInfo(0, 0))); }
+    public void validationFocusSelected() { if (focusButton != null) focusButton.onPress(new MouseButtonEvent(focusButton.getX() + 1,
+            focusButton.getY() + 1, new MouseButtonInfo(0, 0))); }
+    public boolean validationSelectedCentered() {
+        var node = canvas.nodes().stream().filter(value -> value.id().equals(canvas.selectedId())).findFirst().orElse(null);
+        if (node == null) return false;
+        var view = responsive.viewport();
+        return Math.abs(ProgressionCanvasGeometry.screenToWorldX(canvas.camera(), view.x(), view.x() + view.width() / 2.0) - node.x()) < 0.01
+                && Math.abs(ProgressionCanvasGeometry.screenToWorldY(canvas.camera(), view.y(), view.y() + view.height() / 2.0) - node.y()) < 0.01;
+    }
+    public boolean validationVisitAllDisciplines() {
+        for (String key : DISCIPLINES) if (!validationSelectDiscipline(key)) return false;
+        return validationSelectDiscipline("resources");
+    }
+    private boolean validationSelectDiscipline(String key) {
+        int target = java.util.Arrays.asList(DISCIPLINES).indexOf(key);
+        if (target < 0) return false;
+        for (int attempt = 0; attempt < DISCIPLINES.length; attempt++) {
+            Button tab = disciplineTabByKey.get(key);
+            if (tab != null) {
+                tab.onPress(new MouseButtonEvent(tab.getX() + tab.getWidth() / 2.0,
+                        tab.getY() + tab.getHeight() / 2.0, new MouseButtonInfo(0, 0)));
+                return key.equals(discipline);
+            }
+            Button scroll = target < tabScrollStart ? previousDisciplineWindow : nextDisciplineWindow;
+            if (scroll == null) return false;
+            scroll.onPress(new MouseButtonEvent(scroll.getX() + scroll.getWidth() / 2.0,
+                    scroll.getY() + scroll.getHeight() / 2.0, new MouseButtonInfo(0, 0)));
+        }
+        return false;
+    }
+    public boolean validationExerciseCanvasControls() {
+        var view = responsive.viewport();
+        double startX = 0, startY = 0;
+        boolean foundBlank = false;
+        for (int y = view.y() + 4; y < view.bottom() && !foundBlank; y += 8) {
+            for (int x = view.x() + 4; x < view.right(); x += 8) {
+                if (canvas.hitTest(x, y) == null) { startX = x; startY = y; foundBlank = true; break; }
+            }
+        }
+        if (!foundBlank) return false;
+        var beforePan = canvas.camera();
+        mouseClicked(new MouseButtonEvent(startX, startY, new MouseButtonInfo(0, 0)), false);
+        mouseDragged(new MouseButtonEvent(startX + 12, startY + 8, new MouseButtonInfo(0, 0)), 12, 8);
+        mouseReleased(new MouseButtonEvent(startX + 12, startY + 8, new MouseButtonInfo(0, 0)));
+        if (beforePan.equals(canvas.camera())) return false;
+        double zoomBefore = canvas.camera().zoom();
+        mouseScrolled(view.x() + view.width() / 2.0, view.y() + view.height() / 2.0, 0, 1);
+        if (canvas.camera().zoom() <= zoomBefore) return false;
+        String selectedBefore = canvas.selectedId();
+        if (branchButton != null) branchButton.onPress(new MouseButtonEvent(branchButton.getX() + 1,
+                branchButton.getY() + 1, new MouseButtonInfo(0, 0)));
+        List<String> branches = ProgressionNodeLayoutCatalog.load().branches(
+                mode == Mode.KNOWLEDGE ? "knowledge" : "research", discipline);
+        return branches.size() <= 1 || !selectedBefore.equals(canvas.selectedId());
+    }
+    public boolean validationKeyboardNodeFocus() {
+        setFocused(null);
+        for (int key : new int[]{80, 79, 82, 81}) {
+            String before = canvas.selectedId();
+            keyPressed(new KeyEvent(key, 0, 0));
+            if (!before.equals(canvas.selectedId())) {
+                syncSelectedIndex();
+                updatePurchaseState();
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean validationActivatePurchaseWithKeyboard() {
+        if (purchase == null || !purchase.active) return false;
+        setFocused(purchase);
+        return keyPressed(new KeyEvent(40, 257, 0));
     }
 
     @Override protected void init() {
@@ -119,26 +203,31 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     private void addNavigationWidgets() {
+        disciplineTabs.clear();
+        disciplineTabByKey.clear();
+        previousDisciplineWindow = null;
+        nextDisciplineWindow = null;
         int margin = margin();
         int top = responsive.tabs().y() - (responsive.compact() ? 22 : 30);
         addRenderableWidget(Button.builder(Component.translatable("moreminecrafts.ui.back"), b ->
                 minecraft.gui.setScreen(new ProgressionSelectionScreen()))
                 .bounds(margin, top, responsive.compact() ? 54 : 76, 20).build());
 
-        int visible = responsive.compact() ? 2 : DISCIPLINES.length;
-        int arrowWidth = responsive.compact() ? 20 : 0;
+        int visible = tabWindowSize();
+        tabScrollStart = Math.max(0, Math.min(DISCIPLINES.length - visible, tabScrollStart));
+        int arrowWidth = visible < DISCIPLINES.length ? 20 : 0;
         int available = responsive.tabs().width() - arrowWidth * 2;
         int tabWidth = Math.max(20, available / visible);
-        if (responsive.compact()) {
-            addRenderableWidget(Button.builder(Component.literal("‹"), b -> {
+        if (arrowWidth > 0) {
+            previousDisciplineWindow = addRenderableWidget(Button.builder(Component.literal("‹"), b -> {
                 tabScrollStart = Math.max(0, tabScrollStart - 1); refresh(false);
             }).bounds(responsive.tabs().x(), responsive.tabs().y(), arrowWidth, 22).build());
-            addRenderableWidget(Button.builder(Component.literal("›"), b -> {
+            nextDisciplineWindow = addRenderableWidget(Button.builder(Component.literal("›"), b -> {
                 tabScrollStart = Math.min(DISCIPLINES.length - visible, tabScrollStart + 1); refresh(false);
             }).bounds(responsive.tabs().right() - arrowWidth, responsive.tabs().y(), arrowWidth, 22).build());
         }
         for (int slot = 0; slot < visible; slot++) {
-            int index = responsive.compact() ? tabScrollStart + slot : slot;
+            int index = arrowWidth > 0 ? tabScrollStart + slot : slot;
             if (index >= DISCIPLINES.length) break;
             String key = DISCIPLINES[index];
             int x = responsive.tabs().x() + arrowWidth + slot * tabWidth;
@@ -149,6 +238,8 @@ public final class ProgressionBrowseScreen extends Screen {
                 canvas = null;
                 refresh(true);
             }).bounds(x, responsive.tabs().y(), tabWidth, 22).build());
+            disciplineTabs.add(tab);
+            disciplineTabByKey.put(key, tab);
             tab.active = !key.equals(discipline);
         }
     }
@@ -237,6 +328,28 @@ public final class ProgressionBrowseScreen extends Screen {
         rebuildWidgetsOnly();
     }
 
+    private void changeDiscipline(int delta) {
+        int index = java.util.Arrays.asList(DISCIPLINES).indexOf(discipline);
+        int target = Math.max(0, Math.min(DISCIPLINES.length - 1, index + delta));
+        if (target == index) return;
+        int visibleTabs = tabWindowSize();
+        if (visibleTabs < DISCIPLINES.length) {
+            if (target < tabScrollStart) tabScrollStart = target;
+            else if (target >= tabScrollStart + visibleTabs) tabScrollStart = target - visibleTabs + 1;
+        }
+        discipline = DISCIPLINES[target];
+        canvas = null;
+        detailsOpen = false;
+        refresh(true);
+    }
+
+    private int tabWindowSize() {
+        if (responsive.compact()) return 2;
+        if (width < 700) return 4;
+        if (width < 920) return 5;
+        return DISCIPLINES.length;
+    }
+
     private String currentBranchKey() {
         if (canvas == null) return "moreminecrafts.ui.canvas.branch";
         return canvas.nodes().stream().filter(n -> n.id().equals(canvas.selectedId())).findFirst()
@@ -276,11 +389,10 @@ public final class ProgressionBrowseScreen extends Screen {
         graphics.fill(0, 0, width, height, 0xFF272727);
         graphics.text(font, title, margin + (responsive.compact() ? 62 : 86), margin + 6, 0xFFF2F0E9);
         var viewport = responsive.viewport();
-        graphics.blit(RenderPipelines.GUI_TEXTURED, FRAME, viewport.x() - 5, viewport.y() - 5,
-                0, 0, viewport.width() + 10, viewport.height() + 10, 64, 64);
+        drawFrameTexture(graphics, viewport.x() - 5, viewport.y() - 5, viewport.width() + 10, viewport.height() + 10);
         canvas.render(graphics, font, mouseX, mouseY, knowledgeById, researchById);
         graphics.outline(viewport.x() - 1, viewport.y() - 1, viewport.width() + 2, viewport.height() + 2, 0xFF171717);
-        if (!responsive.compact()) renderDetails(graphics, responsive.details(), mouseX, mouseY, 0);
+        if (!responsive.compact()) renderDetails(graphics, responsive.details(), mouseX, mouseY, detailsScroll);
         if (detailsOpen && responsive.compact()) renderDetailsOverlay(graphics, mouseX, mouseY);
         graphics.text(font, Component.translatable(responsive.compact()
                 ? "moreminecrafts.ui.canvas.connection_legend.short" : "moreminecrafts.ui.canvas.connection_legend"),
@@ -373,6 +485,25 @@ public final class ProgressionBrowseScreen extends Screen {
         if (w > 18 && h > 14) graphics.fill(x + 7, y + 7, x + w - 7, y + 10, 0xFFB5B5B2);
     }
 
+    static void drawFrameTexture(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
+        int corner = 16;
+        blitFrameSlice(graphics, x, y, 0, 0, corner, corner, corner, corner);
+        blitFrameSlice(graphics, x + width - corner, y, 48, 0, corner, corner, corner, corner);
+        blitFrameSlice(graphics, x, y + height - corner, 0, 48, corner, corner, corner, corner);
+        blitFrameSlice(graphics, x + width - corner, y + height - corner, 48, 48, corner, corner, corner, corner);
+        blitFrameSlice(graphics, x + corner, y, 16, 0, width - corner * 2, corner, 32, corner);
+        blitFrameSlice(graphics, x + corner, y + height - corner, 16, 48, width - corner * 2, corner, 32, corner);
+        blitFrameSlice(graphics, x, y + corner, 0, 16, corner, height - corner * 2, corner, 32);
+        blitFrameSlice(graphics, x + width - corner, y + corner, 48, 16, corner, height - corner * 2, corner, 32);
+    }
+
+    private static void blitFrameSlice(GuiGraphicsExtractor graphics, int x, int y, int u, int v,
+                                       int width, int height, int sourceWidth, int sourceHeight) {
+        if (width <= 0 || height <= 0) return;
+        graphics.blit(RenderPipelines.GUI_TEXTURED, FRAME, x, y, u, v, width, height,
+                sourceWidth, sourceHeight, 64, 64);
+    }
+
     @Override public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         if (detailsOpen && responsive.compact()) {
             if (closeDetails != null && event.x() >= closeDetails.getX() && event.x() < closeDetails.getX() + closeDetails.getWidth()
@@ -414,7 +545,11 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         if (detailsOpen && responsive.compact()) {
-            detailsScroll = Math.max(0, Math.min(1200, detailsScroll + (int) Math.signum(verticalAmount) * 18));
+            detailsScroll = Math.max(0, Math.min(1200, detailsScroll - (int) Math.signum(verticalAmount) * 18));
+            return true;
+        }
+        if (!responsive.compact() && responsive.details().contains(mouseX, mouseY)) {
+            detailsScroll = Math.max(0, Math.min(1200, detailsScroll - (int) Math.signum(verticalAmount) * 18));
             return true;
         }
         if (responsive.viewport().contains(mouseX, mouseY)) {
@@ -434,6 +569,9 @@ public final class ProgressionBrowseScreen extends Screen {
             else return super.keyPressed(event);
             return true;
         }
+        if (event.isConfirmation() && getFocused() != null) return super.keyPressed(event);
+        if (disciplineTabs.contains(getFocused()) && event.isLeft()) { changeDiscipline(-1); return true; }
+        if (disciplineTabs.contains(getFocused()) && event.isRight()) { changeDiscipline(1); return true; }
         if (event.isLeft()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.LEFT);
         else if (event.isRight()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.RIGHT);
         else if (event.isUp()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.UP);
