@@ -11,9 +11,13 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   server_address="$VISUAL_SERVER_ADDRESS"
   username="$VISUAL_USERNAME"
   client_log="$results_dir/client.log"
+  source scripts/visual_validation/x11_input.sh
   export LIBGL_ALWAYS_SOFTWARE=1
   export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
-  vulkan_icd="$(find /usr/share/vulkan/icd.d -maxdepth 1 -name "lvp_icd*.json" -print -quit)"
+  vulkan_icd=""
+  if [ -d /usr/share/vulkan/icd.d ]; then
+    vulkan_icd="$(find /usr/share/vulkan/icd.d -maxdepth 1 -name "lvp_icd*.json" -print -quit)"
+  fi
   if [ -n "$vulkan_icd" ]; then
     export VK_ICD_FILENAMES="$vulkan_icd"
   fi
@@ -42,6 +46,26 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     if command -v xwininfo >/dev/null 2>&1; then
       xwininfo -root -tree > "$results_dir/x11-window-tree.txt" 2>&1 || true
     fi
+    {
+      echo "DISPLAY=$DISPLAY"
+      echo "X11 root:"
+      xwininfo -root -int 2>&1 || true
+      echo "Active window: $(xdotool getactivewindow 2>&1 || true)"
+      echo "Focused window: $(xdotool getwindowfocus 2>&1 || true)"
+      echo "Root active property: $(xprop -root _NET_ACTIVE_WINDOW 2>&1 || true)"
+      echo "Visible X11 windows (id, name, WM_CLASS, PID, process, geometry):"
+      for candidate in $(xdotool search --onlyvisible --name ".*" 2>/dev/null || true); do
+        candidate_name="$(xdotool getwindowname "$candidate" 2>&1 || true)"
+        candidate_class="$(x11_window_property "$candidate" WM_CLASS)"
+        candidate_pid="$(x11_window_property "$candidate" _NET_WM_PID)"
+        candidate_process="$(ps -p "$candidate_pid" -o comm= 2>/dev/null || true)"
+        candidate_geometry="$(xdotool getwindowgeometry --shell "$candidate" 2>&1 || true)"
+        printf "id=%s name=%q wm_class=%q pid=%q process=%q geometry=%q\n" \
+          "$candidate" "$candidate_name" "$candidate_class" "$candidate_pid" "$candidate_process" "$candidate_geometry"
+      done
+      echo "Recent Minecraft client log:"
+      tail -n 160 "$client_log" 2>&1 || true
+    } > "$results_dir/x11-input-diagnostics.txt" 2>&1
     if command -v glxinfo >/dev/null 2>&1; then
       glxinfo -B > "$results_dir/graphics-backend.txt" 2>&1 || true
     fi
@@ -50,6 +74,13 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     fi
   }
   trap "collect_x11_diagnostics; stop_client" EXIT
+
+  fail_selector_input() {
+    echo "SELECTOR_PHYSICAL_INPUT_FAILED reason=$*" | tee -a "$client_log"
+    collect_x11_diagnostics
+    cat "$results_dir/x11-input-diagnostics.txt"
+    exit 1
+  }
 
   joined=0
   for attempt in $(seq 1 90); do
@@ -134,7 +165,8 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   echo "Copied native Minecraft screenshot from $screenshot" | tee -a "$client_log"
 
   click_selector_target() {
-    local target="$1" ready_line x y window_id
+    local target="$1" ready_line x y resolution render_width render_height event_count_before event_count_after
+    local pointer_geometry pointer_x pointer_y pointer_window attempt
     for attempt in $(seq 1 45); do
       ready_line="$(grep -F "SELECTOR_PHYSICAL_READY target=$target " "$client_log" | tail -n 1 || true)"
       if [ -n "$ready_line" ]; then break; fi
@@ -143,60 +175,61 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
       fi
       sleep 1
     done
-    if [ -z "$ready_line" ]; then cat "$client_log"; echo "No physical-click target announced: $target"; exit 1; fi
+    if [ -z "$ready_line" ]; then fail_selector_input "no target announced: $target"; fi
     x="${ready_line#* x=}"
     x="${x%% *}"
     y="${ready_line#* y=}"
     y="${y%% *}"
-    if [ -z "$x" ] || [ -z "$y" ]; then echo "Invalid physical-click coordinates: $ready_line"; exit 1; fi
-    window_id="$(xdotool getactivewindow 2>/dev/null || true)"
-    if [ -z "$window_id" ]; then
-      window_id="$(xdotool search --onlyvisible --name "Minecraft" 2>/dev/null | tail -n 1 || true)"
+    resolution="${ready_line##* resolution=}"
+    render_width="${resolution%%x*}"
+    render_height="${resolution#*x}"
+    if [[ ! "$x" =~ ^[0-9]+$ || ! "$y" =~ ^[0-9]+$ \
+          || ! "$render_width" =~ ^[1-9][0-9]*$ || ! "$render_height" =~ ^[1-9][0-9]*$ ]]; then
+      fail_selector_input "invalid render coordinates: $ready_line"
     fi
-    if [ -z "$window_id" ]; then
-      largest_area=0
-      for candidate in $(xdotool search --onlyvisible --name ".*" 2>/dev/null || true); do
-        geometry="$(xdotool getwindowgeometry --shell "$candidate" 2>/dev/null || true)"
-        [ -n "$geometry" ] || continue
-        eval "$geometry"
-        area=$((WIDTH * HEIGHT))
-        if [ "$area" -gt "$largest_area" ]; then
-          largest_area="$area"
-          window_id="$candidate"
-        fi
-      done
+    if ! discover_minecraft_window; then
+      fail_selector_input "could not uniquely identify Minecraft X11 window"
     fi
-    if [ -z "$window_id" ]; then
-      xwininfo -root -tree > "$results_dir/x11-window-tree.txt" 2>&1 || true
-      cat "$results_dir/x11-window-tree.txt"
-      echo "Could not locate a visible window for physical Minecraft input."
-      exit 1
+    echo "Minecraft X11 window id=$X11_GAME_WINDOW_ID wm_class=$X11_GAME_WINDOW_CLASS pid=$X11_GAME_WINDOW_PID geometry=${X11_GAME_WINDOW_X},${X11_GAME_WINDOW_Y} ${X11_GAME_WINDOW_WIDTH}x${X11_GAME_WINDOW_HEIGHT}"
+    if ! activate_minecraft_window; then
+      fail_selector_input "focus/active mismatch target_id=$X11_GAME_WINDOW_ID active=$X11_GAME_ACTIVE_WINDOW focused=$X11_GAME_FOCUSED_WINDOW activate_status=$X11_WINDOWACTIVATE_STATUS focus_status=$X11_WINDOWFOCUS_STATUS"
     fi
-    echo "Physical input window id=$window_id name=$(xdotool getwindowname "$window_id" 2>/dev/null || true)"
-    xdotool windowactivate --sync "$window_id" 2>/dev/null || xdotool windowfocus --sync "$window_id"
-    focused_window="$(xdotool getwindowfocus 2>/dev/null || true)"
-    eval "$(xdotool getwindowgeometry --shell "$window_id")"
-    echo "Physical input client window id=$window_id geometry x=$X y=$Y size=${WIDTH}x${HEIGHT} focus=$focused_window"
-    xdotool mousemove --sync "$((X + x))" "$((Y + y))" click --clearmodifiers 1
-    eval "$(xdotool getmouselocation --shell)"
-    echo "Physical input pointer=($X,$Y) window=$WINDOW focus=$(xdotool getwindowfocus 2>/dev/null || true)"
+    if ! x11_transform_coordinates "$x" "$y" "$render_width" "$render_height"; then
+      fail_selector_input "render-to-window coordinate transform failed target=$x,$y render=${render_width}x${render_height} window=${X11_GAME_WINDOW_WIDTH}x${X11_GAME_WINDOW_HEIGHT}"
+    fi
+    event_count_before="$(grep -Fc "SELECTOR_MOUSE_EVENT" "$client_log" || true)"
+    echo "Physical input target=$target window_id=$X11_GAME_WINDOW_ID local=($X11_CLICK_LOCAL_X,$X11_CLICK_LOCAL_Y) root=($X11_CLICK_ROOT_X,$X11_CLICK_ROOT_Y) active=$X11_GAME_ACTIVE_WINDOW focus=$X11_GAME_FOCUSED_WINDOW"
+    xdotool mousemove --sync "$X11_CLICK_ROOT_X" "$X11_CLICK_ROOT_Y"
+    xdotool click --clearmodifiers 1
+    pointer_geometry="$(xdotool getmouselocation --shell 2>/dev/null || true)"
+    pointer_x="$(x11_geometry_value "$pointer_geometry" X)"
+    pointer_y="$(x11_geometry_value "$pointer_geometry" Y)"
+    pointer_window="$(x11_geometry_value "$pointer_geometry" WINDOW)"
+    echo "Physical pointer after click=($pointer_x,$pointer_y) window=$pointer_window focus=$(xdotool getwindowfocus 2>/dev/null || true)"
     for attempt in $(seq 1 20); do
-      if grep -Fq "SELECTOR_PHYSICAL_VERIFIED target=$target input=xdotool" "$client_log"; then
-        echo "Physical mouse click verified: $target at window=($x,$y) root=($((X+x)),$((Y+y)))" | tee -a "$client_log"
-        printf "%s window=%s local=%s,%s root=%s,%s\n" "$target" "$window_id" "$x" "$y" "$((X+x))" "$((Y+y))" >> "$results_dir/selector-physical-inputs.txt"
+      event_count_after="$(grep -Fc "SELECTOR_MOUSE_EVENT" "$client_log" || true)"
+      if (( event_count_after > event_count_before )) \
+          && grep -Fq "SELECTOR_PHYSICAL_VERIFIED target=$target input=xdotool" "$client_log"; then
+        echo "Physical mouse event and screen transition verified: $target window_id=$X11_GAME_WINDOW_ID" | tee -a "$client_log"
+        printf "%s window=%s wm_class=%s pid=%s local=%s,%s root=%s,%s focus=%s active=%s mouse_event_count=%s\n" \
+          "$target" "$X11_GAME_WINDOW_ID" "$X11_GAME_WINDOW_CLASS" "$X11_GAME_WINDOW_PID" \
+          "$X11_CLICK_LOCAL_X" "$X11_CLICK_LOCAL_Y" "$X11_CLICK_ROOT_X" "$X11_CLICK_ROOT_Y" \
+          "$X11_GAME_FOCUSED_WINDOW" "$X11_GAME_ACTIVE_WINDOW" "$event_count_after" >> "$results_dir/selector-physical-inputs.txt"
         return 0
       fi
       if grep -Fq "SELECTOR_PHYSICAL_TEST_FAILED" "$client_log" || grep -Fq "CLIENT_UI_INTERACTION_FAILED" "$client_log"; then
-        cat "$client_log"; echo "Physical click did not activate target=$target."; exit 1
+        fail_selector_input "Minecraft rejected physical click target=$target"
       fi
       sleep 1
     done
-    cat "$client_log"
-    echo "Timed out verifying physical click for target=$target."
-    exit 1
+    fail_selector_input "timed out waiting for Minecraft mouseClicked and screen transition target=$target event_count_before=$event_count_before event_count_after=$event_count_after"
   }
 
-  for target in knowledge research advancements xp_quest close; do
+  # The first click is isolated: later selector actions run only after Minecraft logs
+  # mouseClicked and confirms the knowledge screen transition.
+  click_selector_target knowledge
+  echo "First physical selector click passed; continuing staged interactions."
+  for target in research advancements xp_quest close; do
     click_selector_target "$target"
   done
 

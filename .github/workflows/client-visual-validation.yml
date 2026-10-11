@@ -42,6 +42,9 @@ jobs:
       - name: Compile client sources before preparing runtime
         run: ./gradlew compileClientJava
 
+      - name: Test X11 Minecraft window selection and coordinate mapping
+        run: bash scripts/visual_validation/test_x11_input.sh
+
       - name: Install isolated display and PNG validation dependencies
         run: |
           sudo apt-get update
