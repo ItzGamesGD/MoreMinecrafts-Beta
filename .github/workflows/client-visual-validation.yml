@@ -126,7 +126,7 @@ jobs:
           sleep 3
           for gui_scale in 2 3 4; do
             mkdir -p run
-            printf 'guiScale:%s\ntutorialStep:none\n' "$gui_scale" > run/options.txt
+            printf 'guiScale:%s\ntutorialStep:none\nlang:ko_kr\n' "$gui_scale" > run/options.txt
             results_dir="visual-validation-results/gui-scale-${gui_scale}"
             bash scripts/visual_validation/capture_client.sh \
               "$results_dir" 127.0.0.1:25565 "SelectorScale${gui_scale}"
