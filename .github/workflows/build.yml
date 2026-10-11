@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "stage-*/**"
+      - codex/pr75-research-node-tree-impl
   pull_request:
 
 jobs:

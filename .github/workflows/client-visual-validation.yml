@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feat/research-v4-a-c-20261010
+      - codex/pr75-research-node-tree-impl
   pull_request:
     branches:
       - main
