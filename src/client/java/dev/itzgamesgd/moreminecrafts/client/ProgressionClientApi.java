@@ -11,6 +11,10 @@ import java.util.Map;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 /** Read-only screen data and validated request helpers for future progression screens. */
 public final class ProgressionClientApi {
@@ -58,6 +62,10 @@ public final class ProgressionClientApi {
     }
     public static java.util.List<ProgressionScreenData.QuestRow> quests(String category) {
         return ProgressionScreenData.quests(state(), category);
+    }
+    public static String materialName(String itemId) {
+        Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(itemId));
+        return item == null || item == Items.AIR ? itemId : new ItemStack(item).getHoverName().getString();
     }
     public static void requestSnapshot() {
         if (ClientPlayNetworking.canSend(ProgressionSyncRequestPayload.TYPE))

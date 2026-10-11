@@ -94,7 +94,7 @@ public final class ResearchPurchaseConfirmScreen extends Screen {
                 graphics.text(font, Component.translatable("moreminecrafts.ui.cost_xp", row.nextCost().rawXp()), x + 16, yy, 0xFF333333);
                 yy += 20;
                 for (var cost : row.nextCost().materials()) {
-                    String itemName = Component.translatable("item." + cost.itemId().replace(':', '.')).getString();
+                    String itemName = ProgressionClientApi.materialName(cost.itemId());
                     String key = cost.compressedUnits() > 0
                             ? "moreminecrafts.ui.cost_material_compressed" : "moreminecrafts.ui.cost_material";
                     Component text = cost.compressedUnits() > 0

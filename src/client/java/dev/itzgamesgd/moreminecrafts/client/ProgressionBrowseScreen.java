@@ -397,7 +397,7 @@ public final class ProgressionBrowseScreen extends Screen {
             if (row.nextCost() != null) {
                 yy = drawWrapped(graphics, Component.translatable("moreminecrafts.ui.cost_xp", row.nextCost().rawXp()), x, yy + 4, w, 0xFF34312B);
                 for (var cost : row.nextCost().materials()) {
-                    String itemName = Component.translatable("item." + cost.itemId().replace(':', '.')).getString();
+                    String itemName = ProgressionClientApi.materialName(cost.itemId());
                     String key = cost.compressedUnits() > 0 ? "moreminecrafts.ui.cost_material_compressed" : "moreminecrafts.ui.cost_material";
                     Component value = cost.compressedUnits() > 0
                             ? Component.translatable(key, itemName, cost.count(), cost.compressedUnits())

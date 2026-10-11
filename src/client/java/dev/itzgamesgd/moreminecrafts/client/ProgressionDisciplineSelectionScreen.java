@@ -98,7 +98,7 @@ public final class ProgressionDisciplineSelectionScreen extends Screen {
         int active = hoveredSector >= 0 ? hoveredSector : focusedSector;
         var activeSector = ProgressionSectorGeometry.sectors().get(active);
         graphics.centeredText(font, Component.translatable(activeSector.titleKey()), width / 2,
-                panelY + (int) Math.round(panelHeight) - 15, 0xFF181818);
+                panelY + (int) Math.round(panelHeight) - 34, 0xFF181818);
         super.extractRenderState(graphics, mouseX, mouseY, delta);
     }
 
