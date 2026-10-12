@@ -38,15 +38,15 @@ public final class KnowledgeEventCollectors {
             int current = KnowledgeRuntime.state(player).conditionProgress("hoppers_placed");
             KnowledgeRuntime.recordCondition(player, "hoppers_placed", current + 1);
         }
-        if (isEligibleRedstoneComponent(placed)) {
+        if (isEligibleRedstoneComponent(placed.getItem())) {
             int current = KnowledgeRuntime.state(player).conditionProgress("redstone_components_placed");
             KnowledgeRuntime.recordCondition(player, "redstone_components_placed", current + 1);
         }
     }
 
-    public static boolean isEligibleRedstoneComponent(ItemStack stack) {
-        return stack.is(Items.REDSTONE) || stack.is(Items.REPEATER) || stack.is(Items.COMPARATOR)
-                || stack.is(Items.OBSERVER) || stack.is(Items.PISTON) || stack.is(Items.STICKY_PISTON);
+    public static boolean isEligibleRedstoneComponent(net.minecraft.world.item.Item item) {
+        return item == Items.REDSTONE || item == Items.REPEATER || item == Items.COMPARATOR
+                || item == Items.OBSERVER || item == Items.PISTON || item == Items.STICKY_PISTON;
     }
 
     public static void successfulFarmlandCultivation(ServerPlayer player) {
