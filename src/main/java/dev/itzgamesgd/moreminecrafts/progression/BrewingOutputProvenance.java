@@ -47,6 +47,25 @@ public final class BrewingOutputProvenance {
         return amount;
     }
 
+    /**
+     * Reconcile pending output after inventory mutations that do not pass through a player output slot.
+     * Hopper extraction is not eligible for player credit; if it removes some output, only the remaining
+     * portion stays eligible. A missing, changed, or enlarged replacement invalidates the evidence.
+     */
+    public static void reconcile(BrewingStandBlockEntity stand) {
+        Map<Integer, Pending> outputs = OUTPUTS.get(stand);
+        if (outputs == null) return;
+        outputs.entrySet().removeIf(entry -> {
+            Pending pending = entry.getValue();
+            ItemStack current = stand.getItem(entry.getKey());
+            if (current.isEmpty() || !ItemStack.isSameItemSameComponents(pending.prototype, current)
+                    || current.getCount() > pending.count) return true;
+            pending.count = current.getCount();
+            return false;
+        });
+        if (outputs.isEmpty()) OUTPUTS.remove(stand);
+    }
+
     public static java.util.List<Pending> save(BrewingStandBlockEntity stand) {
         Map<Integer, Pending> outputs = OUTPUTS.get(stand);
         return outputs == null ? java.util.List.of() : outputs.values().stream().map(Pending::copy).toList();
@@ -60,14 +79,6 @@ public final class BrewingOutputProvenance {
         }
         if (valid.isEmpty()) OUTPUTS.remove(stand);
         else OUTPUTS.put(stand, valid);
-    }
-
-    /** Discard evidence when another action replaces one brewing output slot. */
-    public static void discard(BrewingStandBlockEntity stand, int slot) {
-        Map<Integer, Pending> outputs = OUTPUTS.get(stand);
-        if (outputs == null) return;
-        outputs.remove(slot);
-        if (outputs.isEmpty()) OUTPUTS.remove(stand);
     }
 
     public static final class Pending {

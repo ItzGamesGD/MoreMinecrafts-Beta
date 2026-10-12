@@ -4,7 +4,9 @@ import dev.itzgamesgd.moreminecrafts.progression.BrewingOutputProvenance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +19,12 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 /** Captures only the output mutation made by vanilla's successful brew operation. */
 @Mixin(BrewingStandBlockEntity.class)
 abstract class KnowledgeBrewingMixin {
+    @Inject(method = "serverTick", at = @At("HEAD"))
+    private static void moreminecrafts$reconcileOutputProvenance(Level level, BlockPos pos, BlockState state,
+            BrewingStandBlockEntity stand, CallbackInfo ci) {
+        BrewingOutputProvenance.reconcile(stand);
+    }
+
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void moreminecrafts$saveBrewProvenance(ValueOutput output, CallbackInfo ci) {
         BrewingStandBlockEntity stand = (BrewingStandBlockEntity) (Object) this;

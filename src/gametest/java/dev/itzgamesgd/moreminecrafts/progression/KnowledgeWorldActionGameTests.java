@@ -27,6 +27,8 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         ctx.setBlock(base, Blocks.STONE);
         InteractionResult placed = useOnTop(ctx, player, base);
         ctx.assertTrue(placed.consumesAction(), "vanilla places a hopper on the supported location");
+        ctx.assertTrue(ctx.getBlockState(base.above()).is(Blocks.HOPPER),
+                "the successful action produced an actual hopper block");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("hoppers_placed") == 1,
                 "successful hopper placement reaches the installed BlockItem hook");
 

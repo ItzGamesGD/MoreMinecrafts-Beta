@@ -134,13 +134,14 @@ public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethod
             ItemStack automated = stand.removeItem(0, 1);
             ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("potions_brewed") == 0,
                     "non-player extraction has no player attribution");
-
-            stand.setItem(0, automated.copy());
-            ItemStack manuallyTaken = stand.removeItem(0, 1);
-            new Slot(stand, 0, 0, 0).onTake(player, manuallyTaken.copy());
-            ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("potions_brewed") == 0,
-                    "identical replacement output cannot inherit stale brew provenance");
-            ctx.succeed();
+            ctx.runAfterDelay(2, () -> {
+                stand.setItem(0, automated.copy());
+                ItemStack manuallyTaken = stand.removeItem(0, 1);
+                new Slot(stand, 0, 0, 0).onTake(player, manuallyTaken.copy());
+                ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("potions_brewed") == 0,
+                        "identical replacement output cannot inherit stale brew provenance");
+                ctx.succeed();
+            });
         });
     }
 
