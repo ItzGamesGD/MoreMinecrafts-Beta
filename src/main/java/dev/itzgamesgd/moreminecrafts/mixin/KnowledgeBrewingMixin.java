@@ -4,7 +4,6 @@ import dev.itzgamesgd.moreminecrafts.progression.BrewingOutputProvenance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -20,7 +19,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 @Mixin(BrewingStandBlockEntity.class)
 abstract class KnowledgeBrewingMixin {
     @Inject(method = "serverTick", at = @At("HEAD"))
-    private static void moreminecrafts$reconcileOutputProvenance(Level level, BlockPos pos, BlockState state,
+    private static void moreminecrafts$reconcileOutputProvenance(ServerLevel level, BlockPos pos, BlockState state,
             BrewingStandBlockEntity stand, CallbackInfo ci) {
         BrewingOutputProvenance.reconcile(stand);
     }
