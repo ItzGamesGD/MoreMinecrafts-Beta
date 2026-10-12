@@ -6,21 +6,26 @@
 
 ## Approved semantics
 
-K5 unlocks after one player acquires 128 distinct log units originating from naturally world-generated 2×2 large-tree features. This counts acquired logs, not blocks broken and not discovery of a tree. Player-grown trees, player-placed logs, small natural trees, Creative-mode acquisition, repeat collection of a source log, and old-world logs without recorded provenance are ineligible.
+K5 unlocks when a player acquires 128 distinct log units originating from naturally world-generated 2×2 large-tree features. This counts acquired logs, not blocks broken and not discovery of a tree. Player-grown trees, player-placed logs, small natural trees, Creative-mode acquisition, repeat collection of the same source log by the same player, and old-world logs without recorded provenance are ineligible.
 
-The existing per-player K5 target remains 128. No existing K5 counter or unlock is cleared. No geometry, leaf, biome, or species-only heuristic establishes provenance.
+The achievement and its progress are player-specific. The same authentic natural log unit may contribute once to each player's progress. A transfer does not consume the log's eligibility globally. Example: A receives 64 eligible logs and gains 64; B receives those logs from A and also gains 64; when B returns them to A, A gains zero; later transfers between them grant neither player additional progress for those source units.
+
+The existing target remains 128 per player. No geometry, leaf, biome, or species-only heuristic establishes provenance. Previously saved Knowledge state remains subject to the existing save-compatibility authority; the unresolved legacy-counter issue is listed below.
 
 ## Recommendation
 
-Use a hybrid of generation-position provenance and item-carried source tokens:
+Use a hybrid of generation-position provenance, authenticated item-carried source tokens, and persistent player-specific redemption history:
 
 1. During an identified natural tree-feature invocation, record only surviving qualifying log positions in a persistent chunk attachment.
-2. At successful harvest, consume the exact position token and attach a unique source token to the matching log drop before the item enters the world.
-3. Preserve that token in the ItemStack data through item entities and containers. Credit only after a successful transfer into a Survival player's inventory.
-4. Persist a world claim ledger so duplicate stack copies, repeated pickup, and another player's later collection cannot redeem one source log twice.
-5. Fail closed for missing, corrupt, unknown-version, or unsupported provenance.
+2. At successful harvest, consume the exact position marker and attach an authenticated unique source token to the matching log drop before it enters the world.
+3. Preserve the token through inventory and container transfers. Each player records the token only on that player's first successful Survival inventory acquisition.
+4. Do not maintain a global redeemed/owner set. A token remains authentic and transferable after any player's acquisition.
+5. Keep per-player token history exact while the player is progressing. Since K5 progress caps at 128, at most 127 source identities are needed before unlock; after permanent unlock, further K5 credit is impossible and the history can be discarded.
+6. Fail closed for missing, corrupt, forged, unknown-version, or unsupported provenance.
 
-The project’s Fabric callbacks do not supply generation cause or resulting drops. A narrow worldgen source mixin, block-drop mixin, item data component, inventory-acquisition observer, and persistent claim ledger are needed. The design is feasible but invasive and version-sensitive. The most material ongoing cost is the monotonically growing anti-duplication ledger. Do not substitute block-break counting unless the user approves that semantic change.
+The original global claim ledger proposed in the first draft is removed. Global authenticity and per-player redemption are separate: a server-held world secret authenticates token contents without globally consuming a token; each player's bounded persistent history prevents only that player from counting the same token twice. The exact history is bounded because the achievement target is fixed and progress saturates, not because entries are evicted from a cache.
+
+The project’s Fabric callbacks do not supply generation cause or resulting drops. A narrow worldgen source mixin, block-drop mixin, authenticated item data component, inventory-acquisition observer, and player attachment update are needed. The natural feature path and exact 26.3 mixin descriptors remain runtime gates.
 
 ## Investigated APIs and evidence
 
@@ -67,15 +72,15 @@ Vanilla containers generally move the ItemStack and its data. Backpack/mod compa
 
 ### Stack split/merge and container behavior
 
-A provenance component participates in ItemStack component equality. Vanilla can merge equal payloads; unequal payloads safely remain separate. Do not overwrite or discard distinct token lists to force a merge. A future custom union merge must handle every vanilla merge path and requires separate design/testing.
+A provenance component participates in ItemStack component equality. Vanilla can merge equal payloads; distinct token payloads will not ordinarily merge. The implementation must preserve eligibility while merging by an explicit tested operation that forms the set union of unique authenticated tokens, bounded by resulting stack count. Splitting partitions tokens between resulting stacks so each eligible physical unit has one token. Any stack count without a corresponding token is ineligible. If any vanilla split, copy, merge, or inventory path cannot preserve these rules, it must fail closed for that path.
 
-Vanilla split/copy operations may copy component data. Thus tokens in a stack are references to eligible source logs, not proof each copy owns the source. On actual inventory receipt, claim no more tokens than the number of units transferred and atomically mark each token in the persistent ledger. Split copies may carry overlapping tokens, but only one can redeem a token. Partial transfers claim only the transferred quantity; the unclaimed payload remains eligible.
+Item duplication may copy a token payload, but does not create a new source identity. Each player's exact redemption history means a duplicated token cannot give that player a second progress unit. Another player may redeem the same authentic token once, as approved. A transfer does not strip or globally consume the token.
 
-Hopper movement preserves stack data but earns no credit; a later Survival player extracting the item does. Chest/container storage preserves provenance if the implementation preserves data components. Furnace fuel use destroys the log without acquisition credit. Custom backpacks and recipes that strip/rebuild stack data fail closed.
+Chest, hopper, and supported backpack storage carries the component with the stack. Hopper-to-container movement grants no player credit; the first successful Survival transfer into each player's inventory can grant that player credit. Container code that strips/rebuilds item data loses eligibility. Furnace fuel consumption yields no log acquisition and does not pass provenance to furnace output.
 
 ## Persistent schema proposal
 
-All records are server-authoritative. Decode errors and unknown versions reject provenance; they never grant it.
+All data is server-authoritative. Decode errors and unknown versions reject provenance; they never grant it.
 
 ### Chunk attachment, version 1
 
@@ -88,67 +93,87 @@ Value is an immutable sparse record:
 | version | integer | Exactly 1; unknown values fail closed. |
 | trees | list | Sparse feature records for this chunk. |
 | feature_id | UUID | Unique successful natural feature invocation. |
-| feature_key | namespaced ID, optional | Diagnostic configured/placed feature identity; not sufficient alone. |
+| feature_key | namespaced ID, optional | Diagnostic feature identity, not sufficient alone. |
 | placer_key | namespaced ID | Reviewed trunk-placer registry identity. |
 | log_positions | sorted packed positions | Exact surviving eligible logs in this chunk. |
 
-Validate each position belongs to the chunk and still contains the expected log state. Remove the marker when a tracked position changes. Store no leaves, attempted writes, or scan results. Test attachment copying through ProtoChunk-to-LevelChunk conversion.
+Validate each position belongs to the chunk and still contains the expected log state. Remove the marker on replacement or other invalidating mutation. Store no leaves, attempted writes, or scan results. Test attachment copying through ProtoChunk-to-LevelChunk conversion.
 
-### Item component, version 1
+### Authenticated item component, version 1
 
-Identifier: moreminecrafts:k5_natural_log_provenance. Codec fields: version integer (exactly 1) and bounded unique token list. Bound the list by legal item stack size plus a defensive codec limit.
+Identifier: moreminecrafts:k5_natural_log_provenance. Fields: version, source token, and authentication tag. A token identifies world-instance UUID, dimension key, feature UUID, source packed position, and log registry ID. The server signs the canonical token fields with an HMAC-SHA-256 key held only in versioned world SavedData. Verify the tag on every server-side credit path. A copied or edited token cannot be turned into a new source identity; copying an authentic token retains the same identity. The secret is never sent to clients or exposed through commands.
 
-Token identity is the tuple of world-instance UUID, dimension key, feature UUID, and source packed position. Do not use ItemEntity UUID, which can change during ordinary movement/merge.
+The world secret is fixed-size rather than a global issuance list. Loss/corruption of the secret invalidates token verification and disables new K5 credit; do not silently mint a replacement key for an existing world. This protects against item/NBT forgery by clients and ordinary gameplay. It is not a trust boundary against a world operator or server mod that can read/replace server save data.
 
-### Persistent world claim ledger
+A stack carries one unique token per eligible log unit, up to its legal count. Component decoding is bounded. Tokens must be partitioned on split and unioned without duplication on merge.
 
-Store a versioned sparse set of redeemed token identities in overworld/world SavedData. After a successful Survival inventory transfer, atomically claim up to the actual eligible transferred count, add that quantity to the existing player's K5 condition, and remove claimed tokens from that transferred stack. The server thread serializes the state transition; mutations mark data dirty.
+### Player-specific redemption history, version 1
 
-The ledger stores redeemed logs, not all generated logs or loaded chunks. It grows monotonically with eligible acquired logs. It cannot safely be an in-memory map, expire, or reset on reload: old copies could then be credited again. Measure its size and save/load cost. If this growth is unacceptable, pause for approval of the semantic alternative below.
+Persist on the existing player attachment (or a separately versioned player attachment if isolation is needed). Store the schema version and an exact canonical set of authenticated source tokens already counted for this player's still-locked K5 progress. On successful Survival inventory receipt:
+
+1. Verify token authenticity.
+2. Compute the actual number of eligible units received.
+3. Ignore tokens already in this player's history.
+4. Record no more distinct tokens than the transferred eligible quantity and remaining K5 target.
+5. Increase only this player's existing K5 counter by that count.
+
+Do not remove or globally consume tokens when a player receives them. Transfer to another player is valid because that player's history is independent. Player death, reconnect, inventory movement, and world reload must preserve the history according to the existing player-attachment lifecycle.
+
+### Exact storage bound
+
+For a locked player starting with valid K5 progress p, at most min(127, 128 - p) new token identities can affect the achievement before it unlocks. Thus the exact set is bounded by 127 tokens per locked player, assuming progress is derived only from valid token acquisitions. The set can be stored as exact token values, optionally grouped by feature UUID with sorted source positions/bitsets; it is not a fixed-size probabilistic filter and has no eviction. At unlock, no later acquisition can add K5 progress, so progress-relevant history can be discarded while the permanent unlock flag remains.
+
+This bound does not apply if the game later tracks post-unlock collection statistics, raises the target, or allows K5 progress to decrease/reset. Those features would require retaining more history or a new design. A nonzero legacy K5 counter without corresponding source-token history is also unresolved: its prior source identities cannot be reconstructed. See approval decisions.
 
 ### Save compatibility
 
-Existing player counters/unlocks remain unchanged. Old chunks without this attachment and old container stacks without this component are ineligible. Do not scan or migrate old chunks. Missing/corrupt/unknown-version chunk, item, or ledger data fails closed. A new version unable to read the claim ledger must disable K5 credit rather than reset it. Any future migration must be explicit and versioned.
+Existing Knowledge unlocks/counters remain subject to current save compatibility policy. New chunk data without an attachment, old item stacks without a signed component, and unknown-origin logs are ineligible. Do not scan/migrate old chunks. Missing/corrupt/unknown-version chunk, token, key, or player-history data fails closed. If player history is corrupt, disable further K5 credit for that player rather than replace it with an empty set. Any schema migration must be explicit and versioned.
 
 ## Hook integration plan
 
-Exact method names/descriptors require validation against the resolved 26.3 sources before implementation.
+Exact method names/descriptors require validation against resolved Minecraft 26.3 sources before implementation.
 
 1. Scope only the natural biome feature-decoration invocation of a configured tree; prove sapling growth is outside it.
-2. Inspect actual tree configuration and trunk placer against reviewed 2×2 allowlist.
+2. Inspect actual tree configuration and trunk placer against a reviewed 2×2 allowlist.
 3. Capture successful log writes locally; commit surviving positions only after successful feature placement.
-4. Invalidate a marker on any replacement or non-player removal, including piston/explosion/commands. Do not retain chunk objects in global maps.
-5. At successful Survival break loot materialization, consume that exact marker and tag only its matching log output before ItemEntity insertion. Failed/canceled breaks preserve; Creative/non-player removals do not mint.
-6. Register a bounded codec-backed custom item data component; verify ItemStack, ItemEntity save/load, split, pickup, and container persistence.
-7. Observe successful Survival inventory additions across pickup and supported container transfer paths; compute actual delta, atomically claim tokens, and update existing K5 progress once.
-8. Keep hopper-to-container transfer uncredited. Preserve vanilla non-merge behavior for differing payloads. Never credit an already claimed token.
-9. Mark chunk/world data dirty on mutation; invocation context is transient and scoped. Chunk unload discards transient state; persistent attachment/component/ledger reloads.
+4. Invalidate a marker on replacement or non-player removal, including piston/explosion/commands. Do not retain chunk objects in global maps.
+5. At successful Survival break loot materialization, consume that exact marker and issue its signed token only to matching log output before ItemEntity insertion. Failed/canceled breaks preserve; Creative/non-player removals do not mint.
+6. Register a bounded codec-backed item component. Verify signature, split/merge, ItemEntity save/load, pickup, and container persistence.
+7. Observe successful Survival inventory additions across pickup and supported container transfers. Verify signatures, consult only the acquiring player's history, credit new tokens once for that player, and retain tokens for future players.
+8. Keep hopper-to-container transfer uncredited. Different token sets require a tested union merge; never drop token identities to force a stack.
+9. Persist player history on the player attachment and key material in world SavedData. Chunk unload discards only transient invocation state; persistent attachment/component/player history/world key survive reload.
+
+No global redeemed-token history or first-owner rule is used.
 
 ## Performance and memory
 
-No benchmark was run. Work is sparse and proportional to qualifying feature calls, placed logs, and acquired token lists:
+No benchmark was run. Work is sparse and proportional to qualifying feature calls, placed logs, and eligible inventory transfers:
 
 - Worldgen: one scope/config check per candidate tree; capture only successful log writes for supported placers. No full-world scan.
 - Chunk data: approximately 8 raw bytes per packed log position before codec/container overhead, plus per-tree metadata.
-- Item data: one token per eligible log unit while unredeemed, bounded by the item max stack size.
-- Ledger: one compact redeemed token per acquired eligible log, monotonically growing.
+- Item data: one authenticated token per eligible log unit while held; bounded by legal stack count.
+- World authentication key: fixed-size secret plus schema metadata; no world-global redeemed-token list.
+- Player history: at most 127 exact source tokens per locked player under the current 128 target. This is a mathematical bound from the achievement cap, not an expiring cache.
 - Transient data: a feature-scoped local capture object and bounded operation context. No unbounded static maps or retained chunks.
 
-Measure generation median/p95 and allocations with mixin on/off at representative tree densities, bytes per saved chunk, ledger size at 128/10,000/1,000,000 claims, and ledger decode/save duration. Agree a regression budget before implementation; no performance number is claimed here.
+Measure generation median/p95 and allocations with mixin on/off, chunk bytes, item component size, per-player history size at 0/64/127 claims, key/history load-save duration, and concurrent acquisition contention. If future semantics require post-unlock collection counting or progress reset, redo the storage analysis.
 
 ## Abuse and edge cases
 
-- Sapling-grown 2×2 and player-built imitations receive no marker, regardless of final shape.
+- Sapling-grown 2×2 trees and player-built imitations receive no marker regardless of final shape.
 - Small natural trees and unknown trunk placers are excluded.
-- Failed/canceled breaks preserve source marker. Successful Survival harvest transfers at most one token for the source log.
-- Creative acquisition, explosions, pistons, automation, commands, and other non-player removals earn no credit and invalidate original block provenance.
-- Another player who first receives an unclaimed token gets credit; later copies/recipients cannot reuse it.
-- Fortune/multiple loot outputs: one token maximum for one original log block.
-- Furnace fuel consumption earns no credit and does not transfer token to output.
-- Old chunks/container items without provenance remain ineligible.
-- Corrupt positions, duplicate tokens, oversized data, invalid chunk membership, absent feature records, and unknown schema fail closed with rate-limited diagnostics.
-- A modded block-moving path not observed by mutation hooks is unsupported until integration exists.
-- All chunk unload/reload, item entity unload/reload, world restart, and player reconnect paths must preserve the durable records.
+- Successful Survival harvest binds at most one authentic token to the matching log unit. Failed/canceled breaks preserve the source marker.
+- Creative-generated/acquired items, forged token fields/signatures, and unknown-origin logs never gain provenance or progress.
+- A token remains globally authentic and transferable. Each player independently receives credit at most once per token.
+- Repeated A/B transfers do not re-credit either player after that player's first receipt.
+- Splitting partitions tokens; merging unions unique tokens; duplicated payloads do not create new token identities or repeat credit for a player.
+- Fortune/multiple loot outputs issue no more tokens than original qualifying log units.
+- Hopper movement grants no progress; player inventory receipt does. Component-stripping containers fail closed.
+- Furnace fuel use earns no credit and transfers no token to output.
+- Explosions, pistons, commands, automation, and other non-player removal invalidate the block-position marker and do not mint a player-acquisition token.
+- Old chunks/items without provenance remain ineligible. Corrupt/unknown data fails closed.
+- Data key loss invalidates verification; do not regenerate a key and accept old tokens.
+- Modded block-moving or inventory paths not covered by hooks remain unsupported until tested.
 
 ## Test plan
 
@@ -158,60 +183,66 @@ These tests are proposed and were not executed. Existing PR #80 CI results do no
 
 | Test | Expected assertion |
 |---|---|
-| Codecs and versions | Version 1 round-trips; unknown versions, oversized lists, malformed positions, and duplicates fail closed. |
-| Position store | Insert/remove/consume is idempotent and chunk-scoped; empty old data stays empty. |
-| Trunk allowlist | Verified 2×2 vanilla placers qualify; small/unknown placers reject. |
-| Claim ledger | Repeated/competing claims have one winner; claimed count never exceeds transfer count. |
-| Progress | 127 distinct acquisitions locked; 128th unlocks exactly once; duplicate does not advance. |
-| Transfer arithmetic | Partial, failed, canceled, Creative, Survival, and mixed stacks produce exact credit. |
-| Split/merge | Overlapping split copies cannot over-credit; equal payloads merge safely; different payloads remain distinct. |
-| Compatibility | Missing component or unsupported version yields zero eligible units. |
+| Token codec/authentication | Valid signed tokens verify; modified fields, forged signatures, unknown versions, oversized payloads, and duplicates fail closed. |
+| Player history | Exact insert/contains round-trip; duplicate token is idempotent; no eviction; locked history cannot exceed 127 valid progress tokens. |
+| Split/merge arithmetic | Split partitions token sets; merge unions without duplicates; stack eligible quantity never exceeds unique authentic token count or item count. |
+| Per-player independence | Same token is new for B after A claimed it; repeat is old for A. |
+| Progress threshold | 127 valid per-player acquisitions remain locked; 128th unlocks exactly once. |
+| Transfer arithmetic | Partial, failed, canceled, Creative, Survival, and mixed stacks credit the actual unique-token delta only. |
+| Corrupt history | Corrupt/unknown player history disables credit instead of resetting to empty. |
 
 ### Minecraft 26.3 runtime/GameTests
 
 | Scenario | Runtime assertion |
 |---|---|
-| Natural 2×2 tree | Real biome feature path creates markers only for final qualifying logs. |
-| Sapling-grown 2×2 tree | Same feature/tree configuration from saplings creates no markers. |
-| Small natural tree | No markers or item tokens. |
-| Player-built imitation | No markers or item tokens. |
-| Survival drop/pickup | One matching log token; credit only after successful pickup. |
-| Creative acquisition | No progress; provenance invalidated. |
-| Split/merge/duplication | Partial pickups credit actual quantity; clones/repeats never exceed unique token count. |
-| Hopper/chest | Hopper moves tags but earns none; Survival extraction earns once, including after reload. |
-| Backpack/container | Supported implementations preserve data; stripping implementation fails closed. |
-| Furnace | Fuel use yields no new credit or tagged output. |
-| Save/reload and chunk unload/reload | Chunk markers, item tokens, containers, and claim ledger survive; no duplicate minting. |
-| Multiplayer | First successful Survival receipt gets token; other player and duplicate copy get none. |
-| Threshold 127→128 | Locked at 127; exactly one unlock on 128th distinct acquired log. |
-| Old chunks | Previously generated tree-shaped logs remain ineligible; no scan/migration. |
-| Piston/explosion/automation | No player credit; source token invalidated and not recoverable at destination/replacement. |
-| Modded tree | Each explicitly supported natural placer qualifies; unknown placer and sapling counterpart reject. |
+| Natural 2×2 tree | Real natural feature path creates markers only for final qualifying logs. |
+| Sapling-grown 2×2 tree | Same-looking/player-grown counterpart creates no markers. |
+| Small natural tree / player-built imitation | Neither creates provenance. |
+| Survival drop and pickup | Exact matching log output receives authenticated source token; credit occurs only after successful inventory receipt. |
+| Creative-generated/rejected item | Creative source is untagged; forged/copied unsigned component is rejected; no progress. |
+| A receives 64 logs | A gains 64 and records those 64 source IDs. |
+| A transfers 64 logs to B | B gains 64; A retains its own 64-entry history; token remains authentic. |
+| B returns logs to A | A gains zero additional progress. |
+| Repeated A/B transfers | Neither player gains further progress for those tokens. |
+| Partial stack transfers | Each player gains only the unique token count actually transferred, capped by inventory delta. |
+| Split/merge | Normal splits partition tokens; merges union IDs; duplicates do not create eligible IDs or repeat credit. |
+| Chest/hopper/backpack | Storage transfer alone earns none; each player's first Survival inventory receipt earns once; supported container preserves signed tokens. |
+| Save/reload between transfers | Item tokens, key, and both players' histories persist; after restart A gets zero and B still gets one first credit if not yet received. |
+| Player reconnect | History survives disconnect/reconnect and prevents repeat credit. |
+| Concurrent multiplayer pickup | Server serialization gives each player only their own first redemption; simultaneous receipt does not mutate another player's history. |
+| Duplication/forgery | Clone/copy same signed token; no player can count it twice. Alter token/ID/signature; invalid. Replaying an authentic token to a different player may count once for that player, as approved. |
+| Threshold 127→128 | Locked at 127; 128th distinct authentic token unlocks once; repeats do not advance. |
+| Old chunks | Old tree-shaped logs remain ineligible without attachment; no migration scan. |
+| Piston/explosion/automation | No player progress; source position becomes invalid. |
+| Modded trees | Explicitly supported natural placers qualify; unknown placers and player-grown variants reject. |
 
-Each runtime test must use a dedicated 26.3 server with pinned Fabric versions and installed mixins. Record the action and resulting state. Compilation alone is not runtime evidence.
+Runtime tests require a dedicated 26.3 server with pinned Fabric versions and installed mixins. Report execution results separately.
 
 ## Decisions requiring approval
 
 1. **Modded trees:** recommendation: vanilla allowlist plus explicit modded opt-in and runtime coverage; unknown placers fail closed.
-2. **Acquisition meaning:** recommendation: any successful transfer into a Survival player's inventory, including taking from supported containers; hopper-to-container is not player acquisition.
-3. **Global first claim:** recommendation: one world-global redemption; the first Survival player to receive a token owns that credit. Confirm logs should not count for multiple players.
-4. **Creative handling:** recommendation: invalidate token when received into Creative inventory so it cannot later qualify after moving to Survival.
-5. **Ledger growth:** strict repeat/duplication resistance needs durable source identities. Approve sparse monotonically growing world data and agree on supported scale. Smallest alternative: credit each qualifying log at successful Survival block break and consume its chunk position. That changes “acquired logs” to “logs harvested” and requires approval.
-6. **Natural generation scope:** confirm whether structure-generated or other non-biome natural features count. Proposed hook covers biome tree-feature decoration only.
-7. **Data-stripping mods:** recommendation: fail closed unless an integration explicitly preserves and tests the token.
+2. **Acquisition boundary:** recommendation: successful transfer into a Survival player's inventory, including chest/backpack extraction; hopper-to-container movement is not acquisition.
+3. **Creative transition:** recommendation: Creative-generated logs are untagged; token-bearing items received into Creative inventory are invalidated. Confirm whether Creative receipt should invalidate the item for later Survival transfers.
+4. **Natural generation scope:** confirm whether structure-generated or other non-biome natural features count. Proposed mixin scope covers biome tree-feature decoration.
+5. **Legacy K5 progress:** an old nonzero K5 counter may have no token history, so its prior source logs cannot be deduplicated against new tokens. Decide whether to grandfather that progress, defer new K5 credit for such players, or authorize a targeted migration/reset. No value should be silently cleared or treated as verified.
+6. **Post-unlock behavior:** current bounded-history proof assumes K5 is permanently unlocked at 128 and no post-unlock acquisition count is required. If post-unlock statistics or resetting K5 is desired, approve a new storage design.
+7. **Data-stripping mods:** recommendation: fail closed unless integration explicitly preserves and tests the signed token.
 
 ## Implementation acceptance criteria
 
-- Exact 26.3 natural generation and sapling call chains verified; runtime tests prove source distinction.
+- Exact 26.3 natural-generation and sapling call paths verified; runtime tests prove source distinction.
 - Reviewed trunk-placer allowlist reflects actual 2×2 implementations.
-- Only successful final natural log positions persist; replacement/non-player removal invalidates them.
-- Exact source block mints at most one token on its matching actual log drop.
-- Item, container, split, partial-transfer, multiplayer, unload/reload, and restart paths preserve/fail closed correctly.
-- Player-grown, small, imitation, Creative, old-world, canceled, automated, and unknown-provenance cases never add progress.
-- Persistent ledger prevents repeat/duplicate claims across players and restart.
-- Existing K5 state remains compatible; unlock is exactly 127 locked/128 unlocked.
-- All deterministic and runtime tests run on pinned dependencies; outcomes reported separately.
-- Generation cost, allocations, chunk bytes, ledger growth, and save/load costs are measured against an agreed budget.
+- Only successful natural log positions persist; replacement/non-player removal invalidates them.
+- Exact source block mints one authenticated token only on its matching log drop.
+- Authenticity is global and non-consuming; redemption history is per player.
+- Each player counts a token at most once, while different players may each count the same token once.
+- Player history is exact and bounded by the current target; no cache eviction or probabilistic filter.
+- Splits partition and merges union provenance without increasing unique eligible quantity.
+- Item/container/inventory/save/reload/concurrent transfer paths preserve or fail closed correctly.
+- Creative, player-grown, small, imitation, old-world, canceled, automated, forged, and unknown-origin cases never add progress.
+- Existing K5 save state is handled according to an approved legacy policy; threshold is exactly 127 locked/128 unlocked.
+- Runtime and deterministic tests run on pinned dependencies; outcomes are reported separately.
+- Worldgen, item component, per-player history, and save/load costs are measured.
 
 ## Verification status
 
