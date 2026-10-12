@@ -26,6 +26,17 @@ final class KnowledgeConditionSemanticsTest {
         assertNotEquals("bow_hostile_kills", "trident_hostile_kills");
     }
 
+    @Test void placementAllowlistIncludesTrackedComponentsAndRejectsUnrelatedItems() {
+        assertTrue(KnowledgeEventCollectors.isEligibleRedstoneComponent(
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.REDSTONE)));
+        assertTrue(KnowledgeEventCollectors.isEligibleRedstoneComponent(
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PISTON)));
+        assertFalse(KnowledgeEventCollectors.isEligibleRedstoneComponent(
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.REDSTONE_BLOCK)));
+        assertFalse(KnowledgeEventCollectors.isEligibleRedstoneComponent(
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.STONE)));
+    }
+
     @Test void knowledgeProgressAndDistinctFoodKeysSurviveAttachmentCodecRoundTrip() {
         ResearchProgressState state = new ResearchProgressState(Map.of(
                 "condition.foods_crafted_or_cooked", 2,
