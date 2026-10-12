@@ -22,8 +22,11 @@ abstract class KnowledgeBlockPlacementMixin {
                 result.getReturnValue().consumesAction())
                 || !(context.getPlayer() instanceof ServerPlayer player)) return;
         ItemStack placed = context.getItemInHand();
+        // Redstone dust is handled by KnowledgeItemUseMixin after the wire appears.
+        // It is also a BlockItem, so counting it here would credit one placement twice.
         if (placed.is(net.minecraft.world.item.Items.HOPPER)
-                || KnowledgeEventCollectors.isEligibleRedstoneComponent(placed.getItem()))
+                || (placed.getItem() != net.minecraft.world.item.Items.REDSTONE
+                        && KnowledgeEventCollectors.isEligibleRedstoneComponent(placed.getItem())))
             KnowledgeEventCollectors.blockPlaced(player, placed);
     }
 }
