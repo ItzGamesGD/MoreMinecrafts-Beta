@@ -8,9 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -19,7 +16,7 @@ public final class KnowledgeAnimalFeedGameTests implements CustomTestMethodInvok
     @GameTest
     public void successfulFoodConsumptionCountsDistinctAnimalSpecies(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        Cow cow = ctx.spawn(EntityTypes.COW, new net.minecraft.core.BlockPos(2, 2, 2));
+        var cow = ctx.spawn(EntityTypes.COW, new net.minecraft.core.BlockPos(2, 2, 2));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WHEAT, 2));
         InteractionResult fed = cow.mobInteract(player, InteractionHand.MAIN_HAND);
         ctx.assertTrue(fed.consumesAction(), "adult cow accepts and consumes breeding wheat");
@@ -27,14 +24,14 @@ public final class KnowledgeAnimalFeedGameTests implements CustomTestMethodInvok
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("animal_types_fed") == 1,
                 "the installed Animal.mobInteract return hook records the cow species");
 
-        Cow secondCow = ctx.spawn(EntityTypes.COW, new net.minecraft.core.BlockPos(4, 2, 2));
+        var secondCow = ctx.spawn(EntityTypes.COW, new net.minecraft.core.BlockPos(4, 2, 2));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WHEAT));
         InteractionResult fedAgain = secondCow.mobInteract(player, InteractionHand.MAIN_HAND);
         ctx.assertTrue(fedAgain.consumesAction(), "a second cow also accepts wheat");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("animal_types_fed") == 1,
                 "feeding the same species again is deduplicated");
 
-        Sheep sheep = ctx.spawn(EntityTypes.SHEEP, new net.minecraft.core.BlockPos(6, 2, 2));
+        var sheep = ctx.spawn(EntityTypes.SHEEP, new net.minecraft.core.BlockPos(6, 2, 2));
         ServerPlayer otherPlayer = ctx.makeMockServerPlayerInLevel();
         otherPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WHEAT));
         InteractionResult otherFed = sheep.mobInteract(otherPlayer, InteractionHand.MAIN_HAND);
@@ -49,7 +46,7 @@ public final class KnowledgeAnimalFeedGameTests implements CustomTestMethodInvok
     @GameTest
     public void unsuccessfulNonFoodInteractionDoesNotCountAnAnimalSpecies(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        Cow cow = ctx.spawn(EntityTypes.COW, new net.minecraft.core.BlockPos(2, 2, 2));
+        var cow = ctx.spawn(EntityTypes.COW, new net.minecraft.core.BlockPos(2, 2, 2));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.STONE));
         InteractionResult result = cow.mobInteract(player, InteractionHand.MAIN_HAND);
         ctx.assertTrue(!result.consumesAction(), "cow rejects a non-food item");
