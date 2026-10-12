@@ -17,7 +17,9 @@ abstract class KnowledgeShieldBlockMixin {
     private void moreminecrafts$recordShieldBlock(LivingEntity attacker, DamageSource source,
             float blockedDamage, boolean fullyBlocked, CallbackInfo ci) {
         Object self = this;
-        if (blockedDamage > 0.0F && self instanceof ServerPlayer player
+        // Fully absorbed hits can report zero residual blocked damage; blockedByItem is only
+        // called after vanilla confirms that the active blocking item intercepted the hit.
+        if ((blockedDamage > 0.0F || fullyBlocked) && self instanceof ServerPlayer player
                 && player.getItemBlockingWith().getItem() instanceof ShieldItem)
             KnowledgeEventCollectors.shieldBlocked(player);
     }
