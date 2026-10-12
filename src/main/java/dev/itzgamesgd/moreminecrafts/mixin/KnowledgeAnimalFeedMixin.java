@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeConditionSemantics;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -43,7 +44,7 @@ abstract class KnowledgeAnimalFeedMixin {
         Animal animal = (Animal) (Object) this;
         ItemStack offered = new ItemStack(before.item());
         ItemStack after = player.getItemInHand(hand);
-        if (before.count() <= after.getCount() || !animal.isFood(offered)) return;
+        if (!KnowledgeConditionSemantics.consumedItem(before.count(), after.getCount()) || !animal.isFood(offered)) return;
         KnowledgeRuntime.recordDistinctCondition(serverPlayer, "animal_types_fed",
                 String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(animal.getType())));
     }
