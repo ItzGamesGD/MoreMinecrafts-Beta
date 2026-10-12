@@ -25,4 +25,13 @@ final class KnowledgeEventRulesTest {
         assertFalse(KnowledgeEventRules.isSpecialAmmunitionId(Identifier.parse("minecraft:arrow")));
         assertFalse(KnowledgeEventRules.isSpecialAmmunitionId(Identifier.parse("minecraft:spectral_arrow")));
     }
+
+    @Test void fireworkAmmunitionRequiresCrossbowLaunchOrigin() {
+        Identifier firework = Identifier.parse("minecraft:firework_rocket");
+        Identifier tippedArrow = Identifier.parse("minecraft:tipped_arrow");
+        assertFalse(KnowledgeEventRules.isEligibleSpecialAmmunitionId(firework, false));
+        assertTrue(KnowledgeEventRules.isEligibleSpecialAmmunitionId(firework, true));
+        assertTrue(KnowledgeEventRules.isEligibleSpecialAmmunitionId(tippedArrow, false));
+        assertTrue(KnowledgeEventRules.isEligibleSpecialAmmunitionId(tippedArrow, true));
+    }
 }

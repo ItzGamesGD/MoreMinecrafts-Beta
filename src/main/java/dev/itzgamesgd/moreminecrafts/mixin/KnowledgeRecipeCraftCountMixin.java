@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchProgressState;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +19,7 @@ abstract class KnowledgeRecipeCraftCountMixin {
     private void moreminecrafts$countCompletedRecipe(Player player, ItemStack crafted,
                                                       CallbackInfo ci) {
         if (!(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty()) return;
+        KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, crafted);
         ResearchProgressState state = KnowledgeRuntime.state(serverPlayer);
         KnowledgeRuntime.recordCondition(serverPlayer, "recipes_completed",
                 state.conditionProgress("recipes_completed") + 1);

@@ -72,10 +72,12 @@ public final class KnowledgeEventRules {
     }
 
     /** Only actual projectile launches from bow/crossbow hooks call this rule. */
-    public static boolean isSpecialAmmunition(Projectile projectile) {
+    public static boolean isSpecialAmmunition(Projectile projectile, boolean crossbowOrigin) {
         if (projectile instanceof AbstractArrow arrow)
-            return isSpecialAmmunition(arrow.getPickupItemStackOrigin());
-        return projectile instanceof FireworkRocketEntity rocket && isSpecialAmmunition(rocket.getItem());
+            return isEligibleSpecialAmmunitionId(
+                    BuiltInRegistries.ITEM.getKey(arrow.getPickupItemStackOrigin().getItem()), crossbowOrigin);
+        return projectile instanceof FireworkRocketEntity rocket
+                && isEligibleSpecialAmmunitionId(BuiltInRegistries.ITEM.getKey(rocket.getItem().getItem()), crossbowOrigin);
     }
 
     /** Approved special ammunition: tipped arrows and crossbow-fired fireworks. */
@@ -86,6 +88,11 @@ public final class KnowledgeEventRules {
     public static boolean isSpecialAmmunitionId(Identifier itemId) {
         return itemId.equals(Identifier.parse("minecraft:tipped_arrow"))
                 || itemId.equals(Identifier.parse("minecraft:firework_rocket"));
+    }
+
+    public static boolean isEligibleSpecialAmmunitionId(Identifier itemId, boolean crossbowOrigin) {
+        return itemId.equals(Identifier.parse("minecraft:tipped_arrow"))
+                || (crossbowOrigin && itemId.equals(Identifier.parse("minecraft:firework_rocket")));
     }
 
     public static Optional<String> potionType(ItemStack stack) {

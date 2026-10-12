@@ -44,6 +44,23 @@ public final class KnowledgeEventCollectors {
         }
     }
 
+    /** Called only by the successful server-side block-break event. */
+    public static void rockTypeMined(ServerPlayer player, net.minecraft.world.level.block.state.BlockState state) {
+        var block = state.getBlock();
+        if (!KnowledgeEligibleRosters.isEligibleRock(block)) return;
+        var id = BuiltInRegistries.BLOCK.getKey(block);
+        if (id != null) KnowledgeRuntime.recordDistinctCondition(player, "rock_types_mined", id.toString());
+    }
+
+    /** A crafting result is credited to the player who takes it, by its actual output quantity. */
+    public static void vanillaToolCrafted(ServerPlayer player, ItemStack crafted) {
+        if (player.gameMode.isCreative() || crafted.isEmpty()
+                || !KnowledgeEligibleRosters.isEligibleVanillaTool(crafted.getItem())) return;
+        int current = KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted");
+        KnowledgeRuntime.recordCondition(player, "tool_types_crafted",
+                KnowledgeToolCraftProgress.advance(current, crafted));
+    }
+
     public static boolean isEligibleRedstoneComponent(net.minecraft.world.item.Item item) {
         return item == Items.REDSTONE || item == Items.REPEATER || item == Items.COMPARATOR
                 || item == Items.OBSERVER || item == Items.PISTON || item == Items.STICKY_PISTON;
@@ -61,7 +78,8 @@ public final class KnowledgeEventCollectors {
     public static void rememberProjectileWeapon(ServerPlayer player, Projectile projectile, boolean crossbow) {
         // Vanilla arrows persist their weapon stack and owner on the projectile itself. Keep
         // ephemeral attribution only for crossbow fireworks, which have no native weapon field.
-        if (projectile instanceof FireworkRocketEntity)
+        if (crossbow && projectile instanceof FireworkRocketEntity
+                && projectile.getOwner() == player)
             KNOWLEDGE_WEAPON_ORIGINS.put(projectile, new ProjectileWeaponOrigin(player.getUUID(),
                     KnowledgeConditionSemantics.projectileKillCondition(true)));
     }
@@ -99,8 +117,8 @@ public final class KnowledgeEventCollectors {
                 KnowledgeRuntime.state(player).get("condition.shield_blocks") + 1);
     }
 
-    public static void specialAmmunitionUsed(ServerPlayer player, Projectile projectile) {
-        if (KnowledgeEventRules.isSpecialAmmunition(projectile))
+    public static void specialAmmunitionUsed(ServerPlayer player, Projectile projectile, boolean crossbow) {
+        if (KnowledgeEventRules.isSpecialAmmunition(projectile, crossbow))
             KnowledgeRuntime.recordCondition(player, "special_ammunition_used", 1);
     }
 

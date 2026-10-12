@@ -21,7 +21,7 @@ abstract class KnowledgeProjectileWeaponMixin {
         if (shooter instanceof ServerPlayer player) {
             boolean crossbow = (Object) this instanceof CrossbowItem;
             KnowledgeEventCollectors.rememberProjectileWeapon(player, projectile, crossbow);
-            KnowledgeEventCollectors.specialAmmunitionUsed(player, projectile);
+            KnowledgeEventCollectors.specialAmmunitionUsed(player, projectile, crossbow);
         }
     }
 }

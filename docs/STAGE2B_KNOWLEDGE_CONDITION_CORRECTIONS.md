@@ -2,14 +2,14 @@
 
 Baseline: Stage 2-A PR #79 head `04fd5780658f847f74be6beda76754e08a0b5520`. This branch changes acquisition observation only. Knowledge rewards, Research prices, V3 prerequisite graphs, saved Knowledge flags, and unrelated progression behavior are out of scope.
 
-The existing `ResearchProgressState` attachment remains the durable counter store. Distinct observations use the existing `condition.<key>.seen.<id>` keys, so repeat observations do not add progress and save/reload preserves both progress and deduplication. Previously unlocked Knowledge is never cleared. For K5 and K8, new observations are paused rather than derived from speculative taxonomies; historical progress and unlocks remain untouched.
+The existing `ResearchProgressState` attachment remains the durable counter store. Distinct observations use the existing `condition.<key>.seen.<id>` keys, so repeat observations do not add progress and save/reload preserves both progress and deduplication. Previously unlocked Knowledge is never cleared. The human-approved 2026-10-12 K5/K8/K14 decisions below supersede the earlier provisional interpretations in this document.
 
 | Node | Stage 2-B status | Event and evidence / limitation |
 |---|---|---|
-| K5 거목 생태 | PARTIAL — new progress paused | The approved wording requires 128 logs genuinely acquired from large trees, but supplies no taxonomy or provenance rule for what counts as a large tree. The old all-log statistic no longer advances K5. Saved counters and unlocks remain intact. No speculative tree classifier was added. |
-| K8 암석 분류 | PARTIAL — new progress paused | The approved wording requires eight distinct eligible, survival-reachable rock types, but does not define the eligible roster. Broad base-stone tags are no longer counted. Saved counters and unlocks remain intact. |
+| K5 거목 생태 | BLOCKED_BY_DESIGN | Approved semantics: acquire 128 logs from naturally world-generated 2×2 large-tree features. Player-grown, player-placed, and ordinary small-tree logs are excluded. Provenance must be recorded before progress is granted. See the provenance investigation below; no heuristic was substituted. Existing progress and unlocks remain unchanged. |
+| K8 암석 분류 | IMPLEMENTED_NOT_VERIFIED | Approved semantics: mine eight distinct allowlisted rock types; successful server-side player mining is required. The explicit roster is in the K8 roster section below. The post-break observer rejects creative breaks, unlisted blocks, canceled breaks, and repeats via persistent distinct keys. |
 | K12 고온 제련 | IMPLEMENTED_NOT_RUNTIME_VERIFIED | Requires a player's vanilla crafted-blast-furnace statistic and taking a non-empty product from a blast furnace output. Merely attempting to use a furnace, placing one, or crafting it without collected output does not qualify. The output-taking player must have a recorded blast-furnace craft. |
-| K14 제작 기술 | PARTIAL — current authority interpretation retained | The approved wording says five tools crafted. The implementation retains cumulative crafted-item quantity rather than silently requiring five distinct tool IDs. The current finite list of counted tool items is retained because the authority does not define the complete tool roster; omissions require an explicit roster decision. |
+| K14 제작 기술 | IMPLEMENTED_NOT_VERIFIED | Approved semantics: craft five tools total, with repeats counting. The result-slot observer counts output quantity for the five approved vanilla tool families across each registered vanilla material variant; creative crafting, loot, pickup, unrelated equipment, and modded tools are excluded. The roster and persistence strategy are below. |
 | K18 물류 공학 | IMPLEMENTED_NOT_RUNTIME_VERIFIED | Counts successful server-side hopper item placements after the block-item placement reports success; item-use statistics and failed placement attempts do not count. Each successful placement is one event. |
 | K19 자동화 원리 | IMPLEMENTED_NOT_RUNTIME_VERIFIED | Counts successful placements of the existing eligible set: redstone dust, repeater, comparator, observer, piston, and sticky piston. Redstone dust has its own placement hook. Other components are not added without authority. |
 | K22 토양 관리 | IMPLEMENTED_NOT_RUNTIME_VERIFIED | Counts successful server-side hoe actions only when the clicked block is farmland after the action. Failed or no-op interactions do not count. |
@@ -24,7 +24,7 @@ The existing `ResearchProgressState` attachment remains the durable counter stor
 
 `KnowledgeConditionSemanticsTest` covers success versus failure predicates, item consumption, blast furnace craft-plus-output conjunction, bow/crossbow key distinction, threshold boundaries, persistent attachment codec round-trip, and distinct food-key deduplication. These are focused unit checks, not proof that Fabric mixins execute in a live server.
 
-No Stage 2-B action-level GameTest has yet demonstrated these hooks. In particular, K12 crafting/output attribution, K18/K19 placement callbacks, K22/K23 world transitions, K25 species attribution, K30 cooking statistics, and K34–K38 real damage-source attribution remain **IMPLEMENTED_NOT_RUNTIME_VERIFIED** pending CI/runtime evidence.
+The existing K19 action-level GameTest proves one successful redstone-dust placement only. A new K8 action-level GameTest exercises the installed `PlayerBlockBreakEvents.AFTER` hook for eight unique blocks, repeats, creative breaking, and an excluded block; this task's final full suite could not start locally, so its result is **NOT RUN**. K14 has a runtime `ResultSlot.onTake` hook, plus JUnit quantity/roster/codec cases and a GameTest that calls the collector for two separate players. That GameTest does not execute `ResultSlot.onTake`; identical-tool and mixed-family result taking remain **NOT RUN**. K12 crafting/output attribution, K18 placement, K22/K23 world transitions, K25 species attribution, K30 cooking, K34–K38 real damage-source attribution, and all Stage 2-A collectors remain **IMPLEMENTED_NOT_VERIFIED** pending action-level evidence.
 
 ## Stage 2-A integration and regression audit (2026-10-12)
 
@@ -38,8 +38,59 @@ The final-tree dedicated server smoke reached registry/common initialization and
 
 The audit found a K19 double count in Stage 2-B's preexisting redstone path: Minecraft 26.3 registers `Items.REDSTONE` as a `BlockItem`, so one successful placement reached both `KnowledgeBlockPlacementMixin` and `KnowledgeItemUseMixin`. A new action-level GameTest placed one dust item and failed on the expected single increment before the fix. `KnowledgeBlockPlacementMixin` now leaves dust to the existing `KnowledgeItemUseMixin` observer; other eligible block placements continue through the BlockItem observer. This is a narrowly scoped correction to retain K19's intended one-event-per-placement behavior. Other K19 placement scenarios remain unverified.
 
-Crossbow firework attribution remains temporary: launch records the player's UUID against the live `FireworkRocketEntity`; a hostile death is credited only when the direct damage entity is that same projectile and the player is still online. Vanilla's firework damage source uses the rocket as direct entity, but the weak map has no reload codec. A launch-to-kill test, explosion splash attribution test, disconnect test, and projectile save/reload test are still needed. Bow and crossbow arrows instead use the arrow's persisted weapon and owner; tridents use the direct thrown trident's stored weapon and owner. K40 special-ammunition launch observation is separate from kill credit.
+Crossbow firework attribution remains temporary: launch records the player's UUID against the live `FireworkRocketEntity` only when the `shootProjectile` callback says crossbow and the projectile owner is that shooter. A hostile death is credited only when the direct damage entity is that same projectile and the player is still online. Vanilla's firework damage source uses the rocket as direct entity, but the weak map has no reload codec; save/reload between launch and impact loses kill attribution. This origin state is intentionally in-memory and is not serialized. A launch-to-kill test, explosion splash attribution test, disconnect test, and projectile save/reload test are still needed. Bow and crossbow arrows instead use the arrow's persisted weapon and owner; tridents use the direct thrown trident's stored weapon and owner. K40 special-ammunition launch observation is separate from kill credit.
 
-Decisions still needed from the user: for K5, which large trees qualify and what proves collected logs came from one; for K8, the eligible eight-or-more survival-reachable rock roster; for K14, the complete set of craftable tools counted toward the already approved quantity of five. No distinct-tool requirement has been inferred.
+## Approved K8 rock roster
+
+All selected blocks are registered vanilla blocks in Minecraft 26.3. MoreMinecrafts registers ore blocks, adamantium debris, and refined metal blocks, but no additional geological rock block eligible for K8. Ore and metal blocks are not counted as rock types. Eligibility is a fixed object allowlist, not the vanilla stone tag, so structure blocks, crafted masonry, and unrelated blocks cannot enter by tag membership.
+
+| Registry ID | Origin | Survival acquisition | Rock classification |
+|---|---|---|---|
+| `minecraft:stone` | Vanilla | Mine exposed Overworld stone with a pickaxe; without Silk Touch it drops cobblestone. | Common natural rock substrate. |
+| `minecraft:granite` | Vanilla | Mine Overworld granite deposits with a pickaxe. | Naturally generated igneous rock variant. |
+| `minecraft:diorite` | Vanilla | Mine Overworld diorite deposits with a pickaxe. | Naturally generated igneous rock variant. |
+| `minecraft:andesite` | Vanilla | Mine Overworld andesite deposits with a pickaxe. | Naturally generated igneous rock variant. |
+| `minecraft:tuff` | Vanilla | Mine underground tuff deposits with a pickaxe. | Naturally generated volcanic rock. |
+| `minecraft:deepslate` | Vanilla | Mine below the Overworld deepslate transition with a pickaxe. | Naturally generated deep-crust rock. |
+| `minecraft:calcite` | Vanilla | Mine calcite from amethyst-geode formations with a pickaxe. | Naturally generated crystalline mineral rock. |
+| `minecraft:dripstone_block` | Vanilla | Mine dripstone cave deposits with a pickaxe. | Naturally generated cave limestone. |
+| `minecraft:basalt` | Vanilla | Mine basalt deltas or naturally generated basalt formations with a pickaxe. | Naturally generated volcanic rock. |
+| `minecraft:blackstone` | Vanilla | Mine Nether terrain and bastion formations with a pickaxe. | Naturally generated Nether rock. |
+| `minecraft:netherrack` | Vanilla | Mine exposed Nether terrain with a pickaxe. | Common naturally generated Nether rock. |
+| `minecraft:end_stone` | Vanilla | Mine exposed End-island terrain with a pickaxe. | Common naturally generated End rock. |
+
+`KnowledgeEventCollectors.rockTypeMined` is called only from the successful Fabric player-break `AFTER` event, with creative mode excluded. It stores the block registry ID through the existing distinct-condition counter. The existing flat player attachment persists the counter and deduplication keys; no existing value is cleared.
+
+## Approved K14 tool roster and persistence
+
+Allowed vanilla material prefixes are `wooden`, `stone`, `copper`, `iron`, `golden`, `diamond`, and `netherite`; allowed families are `pickaxe`, `axe`, `shovel`, `hoe`, and `sword`. The exact registry roster is the registered intersection of these 35 IDs:
+
+```text
+minecraft:{wooden,stone,copper,iron,golden,diamond,netherite}_{pickaxe,axe,shovel,hoe,sword}
+```
+
+Every registered ID in that cross-product is included, and missing IDs are excluded after registry inspection at server start. No MoreMinecrafts or other namespace item can match. Bows, crossbows, tridents, maces, brushes, armor, and other equipment are outside the roster.
+
+`KnowledgeRecipeCraftCountMixin` observes `ResultSlot.onTake` after the player successfully takes a non-empty crafting result. Its server player receives the actual output stack count; K14 uses the existing shared monotonic counter capped at its target. Creative crafting is excluded. Existing `Stats.ITEM_CRAFTED` values for eligible tools continue to reconcile into the counter as a restart/migration source; vanilla item-crafted statistics are per-player and saved by Minecraft. The persistent `ResearchProgressState` counter preserves already-recorded progress and unlocks. These semantics have code and roster tests, but runtime test outcomes remain NOT RUN in this environment.
+
+## K5 provenance investigation and safety gate
+
+Approved semantics: acquire 128 logs originating in naturally world-generated 2×2 large-tree features. Player-grown trees, player-placed logs, ordinary small trees, leaves, and tree-species-only observations do not qualify. The old generic log statistic is not used, and existing saved counters/unlocks are left intact.
+
+The current source has no tree-generation provenance on blocks or dropped items. `PlayerBlockBreakEvents` supplies the player and broken state, but not whether a log came from natural world generation. Tree placement APIs can be invoked by both natural biome-feature generation and player-grown sapling growth; a later 2×2 shape or nearby leaf check cannot distinguish them. The relevant source and target Fabric API therefore expose no non-invasive event that identifies both the cause (natural generation versus sapling growth) and the configured 2×2 trunk placer. A reliable implementation would need a generation-scope mixin around biome decoration, capture of the specific successful large-trunk feature's placed log positions, persistent per-chunk provenance, one-time consumption on player break, provenance transfer to actual item drops, and player-only item pickup attribution. This crosses worldgen, chunk persistence, block-drop, and item-pickup lifecycles and cannot be validated here; K5 remains **BLOCKED_BY_DESIGN**, with no heuristic credit.
+
+Minimal alternative design for approval: add a versioned persistent chunk attachment containing only packed positions for logs emitted by approved 2×2 trunk placers while natural biome decoration is active. On a successful non-creative player break, consume each source position once and tag only the matching log drops with a compact provenance count. Consume that count only when a player picks up the item; never credit hopper transfer, nearby players, or untagged old-chunk logs. Retain item/entity metadata across unload/reload and test normal drops, Silk Touch, split stacks, re-placement, duplicate pickup, and two-player attribution before enabling K5. This task does not implement that invasive pipeline without runtime verification.
+
 
 Remaining action-level scenarios: K11 completed ore smelt, partial output take, manually inserted output, hopper extraction, and furnace chunk/world reload; K36 actual shield damage reduction; K40 tipped-arrow and firework launch plus ordinary/spectral exclusion; K48 successful/empty barter and disconnected offerer; K59 successful archaeology spawn count; K63/K64/K65/K66/K69/K70 brewed output, distinct potion types, strengthened count, inserted output, partial take, and brewing chunk/world reload. For Stage 2-B: K12 player craft plus collected blast-furnace output and negative cases; K18/K19 successful/failed placement and one increment per action; K22/K23 real farmland and hydration transitions; K25 accepted species feeding and item consumption; K30 crafted/cooked food deduplication after save/reload; K34/K35/K38 real hostile kills with bow, crossbow arrow/firework, trident, and incorrect-weapon/owner controls. Multiplayer announcement recipients, gamerule behavior, first-ever guidance, translated presentation, reconnect silence, prior unlocked flags, saved counters, and research/UI interaction across save/reload remain unexercised by the current tests.
+
+## Final condition status summary
+
+`VERIFIED_RUNTIME` requires an action-level test of the installed hook in an actual Minecraft server/GameTest. No Stage 2-A/B condition gains this label from compilation or smoke startup alone.
+
+| Status | Conditions |
+|---|---|
+| `BLOCKED_BY_DESIGN` | K5 — generation provenance requires the invasive pipeline above. |
+| `IMPLEMENTED_NOT_VERIFIED` | K8, K11, K12, K14, K18, K19, K22, K23, K25, K30, K34, K35, K36, K38, K40, K48, K59, K63, K64, K65, K66, K69, K70. Hooks are implemented; only the existing K19 placement GameTest has prior action-level runtime evidence. K8's new GameTest is NOT RUN. |
+| `PARTIAL` | None of the approved K8/K14 behavior remains intentionally paused. K5 is represented as blocked because its required source provenance is unavailable from existing non-invasive callbacks. |
+| `VERIFIED_RUNTIME` | None newly established by this task. Existing K19 single-placement evidence remains limited to that exact scenario. |

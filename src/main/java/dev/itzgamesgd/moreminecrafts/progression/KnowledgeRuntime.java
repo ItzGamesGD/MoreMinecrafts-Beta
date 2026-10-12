@@ -31,6 +31,7 @@ public final class KnowledgeRuntime {
     private static List<Item> plantItems = List.of();
     private static List<Item> seedItems = List.of();
     private static List<Item> foodItems = List.of();
+    private static List<Item> toolItems = List.of();
     private static final java.util.Map<java.util.UUID, PickaxeDamageSnapshot> PICKAXE_DAMAGE = new java.util.HashMap<>();
     private static final java.util.Set<java.util.UUID> SILENT_RECONCILIATION = new java.util.HashSet<>();
     private record PickaxeDamageSnapshot(Item item, int damage, int maximumDamage) {}
@@ -57,6 +58,7 @@ public final class KnowledgeRuntime {
         plantItems = List.copyOf(plants);
         seedItems = List.copyOf(seeds);
         foodItems = List.copyOf(foods);
+        toolItems = KnowledgeEligibleRosters.vanillaToolItems();
     }
 
     public static void initialize() {
@@ -103,8 +105,8 @@ public final class KnowledgeRuntime {
                 if (blockId.contains("deepslate_")) recordDistinctCondition(serverPlayer, "deepslate_ore_types_mined", blockId);
                 recordCondition(serverPlayer, "ore_items_mined", value(serverPlayer,"condition.ore_items_mined") + 1);
             }
-            // K8 progress is paused until its eligible survival rock roster is verified.
-            // Existing saved progress and Knowledge unlocks are preserved.
+            if (!serverPlayer.gameMode.isCreative())
+                KnowledgeEventCollectors.rockTypeMined(serverPlayer, state);
             if (state.getBlock() instanceof net.minecraft.world.level.block.CropBlock crop
                     && state.getValue(net.minecraft.world.level.block.CropBlock.AGE) >= crop.getMaxAge())
                 recordCondition(serverPlayer, "crops_harvested", value(serverPlayer,"condition.crops_harvested") + 1);
@@ -327,11 +329,7 @@ public final class KnowledgeRuntime {
         recordCondition(p, "netherite_ingot_crafted", crafted(p, Items.NETHERITE_INGOT));
         recordCondition(p, "farm_automation_parts_crafted",
                 countCrafted(p, List.of(Items.OBSERVER, Items.PISTON, Items.HOPPER)));
-        recordCondition(p, "tool_types_crafted", craftedSum(p, List.of(
-                Items.WOODEN_PICKAXE, Items.STONE_PICKAXE, Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE,
-                Items.DIAMOND_PICKAXE, Items.WOODEN_AXE, Items.STONE_AXE, Items.IRON_AXE, Items.DIAMOND_AXE,
-                Items.WOODEN_SHOVEL, Items.STONE_SHOVEL, Items.IRON_SHOVEL, Items.DIAMOND_SHOVEL,
-                Items.WOODEN_SWORD, Items.STONE_SWORD, Items.IRON_SWORD, Items.DIAMOND_SWORD)));
+        recordCondition(p, "tool_types_crafted", craftedSum(p, toolItems));
         recordCondition(p, "villager_trades", p.getStats().getValue(Stats.CUSTOM.get(Stats.TRADED_WITH_VILLAGER)));
         recordCondition(p, "animal_breedings", p.getStats().getValue(Stats.CUSTOM.get(Stats.ANIMALS_BRED)));
         boolean fullArmor = !p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.HEAD).isEmpty()
