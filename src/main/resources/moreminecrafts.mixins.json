@@ -50,10 +50,8 @@
     "KnowledgeBrewingOutputMixin",
     "KnowledgeFurnaceOutputMixin",
     "KnowledgeBlockPlacementMixin",
-    "KnowledgeHoeUseMixin",
-    "KnowledgeWaterBucketMixin",
     "KnowledgeAnimalFeedMixin",
-    "KnowledgeRedstonePlacementMixin"
+    "KnowledgeItemUseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
