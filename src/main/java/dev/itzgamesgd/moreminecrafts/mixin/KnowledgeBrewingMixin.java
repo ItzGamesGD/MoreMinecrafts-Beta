@@ -17,12 +17,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 /** Captures only the output mutation made by vanilla's successful brew operation. */
 @Mixin(BrewingStandBlockEntity.class)
 abstract class KnowledgeBrewingMixin {
-    @Inject(method = "setItem", at = @At("HEAD"))
-    private void moreminecrafts$discardReplacedOutput(int slot, ItemStack stack, CallbackInfo ci) {
-        if (slot >= 0 && slot <= 2)
-            BrewingOutputProvenance.discard((BrewingStandBlockEntity) (Object) this, slot);
-    }
-
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void moreminecrafts$saveBrewProvenance(ValueOutput output, CallbackInfo ci) {
         BrewingStandBlockEntity stand = (BrewingStandBlockEntity) (Object) this;
