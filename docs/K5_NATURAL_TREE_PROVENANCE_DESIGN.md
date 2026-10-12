@@ -53,23 +53,31 @@ The project uses the existing persistent player attachment for condition progres
 
 ### Natural feature source and tree configuration
 
-A later break callback cannot distinguish a natural tree from an identical sapling-grown tree. No public Fabric event inspected at the pinned version provides both generation cause and tree configuration.
+A later break callback cannot distinguish a natural tree from an identical sapling-grown tree. The inspected Fabric events provide no generation-cause callback, but Minecraft's 26.3 source has a promising call-path boundary.
 
-The proposed discriminator is a narrow mixin scope around natural biome feature decoration. Within that scope, inspect the actual configured tree feature and trunk placer, then capture successful final log writes. Sapling growth must not enter this scope. Qualify only trunk-placer types verified to emit the approved 2×2 trunks. This does not infer origin from the final shape.
+The official Mojang 26.3 client jar SHA-1 e877b6a07acd633fb3bb475002175cec036e7b87 matches Mojang's version manifest. CFR 0.152 decompilation of that jar verifies these Mojang-named paths and descriptors:
+- ChunkGenerator.applyBiomeDecoration(WorldGenLevel, ChunkAccess, StructureManager):void iterates biome placed features and calls FeaturePlacer.placeWithBiomeCheck(PlacedFeature, RandomSource, BlockPos):boolean.
+- FeaturePlacer.placeWithBiomeCheck calls the configured Feature.place(WorldGenLevel, ChunkGenerator, RandomSource, BlockPos):boolean.
+- SaplingBlock.randomTick(BlockState, ServerLevel, BlockPos, RandomSource):void and performBonemeal(ServerLevel, RandomSource, BlockPos, BlockState, BonemealSource):void both invoke advanceTree(ServerLevel, BlockPos, BlockState, RandomSource):void. TreeGrower.growTree(ServerLevel, ChunkGenerator, BlockPos, BlockState, RandomSource):boolean resolves a configured feature and directly calls Feature.place. It bypasses ChunkGenerator.applyBiomeDecoration and FeaturePlacer.placeWithBiomeCheck in the inspected code.
+This verifies distinguishable natural-biome and sapling source calls at source level, but not runtime Mixin remapping or all worldgen sources. Gradle could not resolve Loom 1.17.21, so Loom-generated mapped sources were unavailable; verify the descriptors in resolved bytecode and run a GameTest probe before implementation.
 
-The exact Minecraft 26.3 mapped call chain, method descriptors, complete vanilla 2×2 trunk-placer allowlist, and whether sapling growth bypasses that natural-decoration boundary were not independently verified from a 26.3 mapped source artifact in this environment. Verify against Loom-resolved sources before implementation. A runtime probe must show natural feature generation enters the scope and sapling growth does not. If a reliable source-specific boundary cannot be verified, block implementation.
+The vanilla configured 2×2 trunk placer configurations found in TreeFeatures are:
+- DarkOakTrunkPlacer: DARK_OAK, PALE_OAK, PALE_OAK_BONEMEAL, and PALE_OAK_CREAKING.
+- MegaJungleTrunkPlacer: MEGA_JUNGLE_TREE; it extends GiantTrunkPlacer.
+- GiantTrunkPlacer: MEGA_SPRUCE and MEGA_PINE.
+Their decompiled implementations place four trunk columns at a 2×2 base. Use an explicit feature-key + configured-placer + expected log-state allowlist; do not infer provenance from observed shape. PALE_OAK_BONEMEAL is a sapling/bonemeal feature reached through TreeGrower and is not eligible as natural provenance. The natural candidate feature keys are DARK_OAK, PALE_OAK, PALE_OAK_CREAKING, MEGA_JUNGLE_TREE, MEGA_SPRUCE, and MEGA_PINE, subject to registry-level runtime confirmation that their placed-feature entries invoke those configured features. Explicitly decide structure scope and modded opt-in before implementation.
 
-Capture must be invocation-scoped: keep candidate final block writes locally, discard on failed feature placement, and commit only surviving logs on success. Use a reviewed registry-backed trunk-placer allowlist. Unknown placers fail closed. Whether explicitly registered modded trees count is an approval decision.
+Capture must be invocation-scoped. Buffer qualifying final log writes for one allowed natural feature call, discard them if placement fails, and persist only final surviving trunk logs after success. Unknown feature keys, placers, state providers, or output states fail closed.
 
 ### Drop and acquisition boundary
 
-A source position must be consumed at the loot-to-item boundary, not inferred from an ItemEntity's later location. PlayerBlockBreakEvents.AFTER is a success signal, but does not provide the resulting drop. A Minecraft 26.3 mixin must correlate the exact successful Survival break with only matching log output before ItemEntity insertion.
+The decompiled Block.dropResources overload with descriptor (BlockState, Level, BlockPos, BlockEntity, Entity, ItemStack):void invokes loot and then Block.popResource(Level, BlockPos, ItemStack):void. Fabric PlayerBlockBreakEvents.AFTER is server-side success evidence with the pre-break state and no resulting drops. Use it for cleanup/validation only; correlate the exact source marker with matching log output at the server-side loot/item creation boundary before ItemEntity insertion. Creative/tool/loot conditions must be checked before issuing a token. Explosions, pistons, commands, and other non-player removals do not mint player-acquisition provenance and invalidate the marker.
 
-Canceled/failed breaks preserve the marker. Creative breaks do not issue a token and invalidate the original marker. Explosions, pistons, commands, and other non-player removals invalidate the position without minting an item token. A matching log drop receives at most one source token even if loot produces multiple items/stacks.
+ItemEntity.playerTouch(Player):void runs server-side and calls player.getInventory().add(ItemStack) before discarding the emptied entity. This is a direct pickup integration point. No general Fabric API item-pickup or inventory-acquired callback was found in Fabric API 0.161.0+26.3. Vanilla menu transfers route through AbstractContainerMenu.doClick(int, int, ContainerInput, Player):void and moveItemStackTo(ItemStack, int, int, boolean):boolean; these are candidate vanilla-container hooks. Inventory.add(ItemStack):boolean has non-pickup callers, so it cannot by itself define eligible acquisition. Backpacks and modded inventories require specific integration adapters; generic support is not established.
 
-Acquisition means successful addition of eligible units to a Survival ServerPlayer inventory. This includes direct item pickup and taking items from supported containers. A hopper moving items between storage blocks is not player acquisition. The inventory observer must check successful before/after transfer counts and cover pickup, partial pickup, quick-move, shift-click, and cursor transfers. Creative receipt invalidates provenance without credit. A tagged log used as furnace fuel is consumed and cannot pass provenance to furnace output.
+Acquisition means the actual unique-token delta successfully moved into a Survival ServerPlayer inventory, including item pickup and supported menu extraction. Hopper movement between storage blocks is not player acquisition. Creative receipt earns no credit. The recommendation to invalidate provenance on Creative receipt is a policy proposal and remains unapproved. Furnace fuel use consumes a tagged log and must not pass its token to furnace output.
 
-Vanilla containers generally move the ItemStack and its data. Backpack/mod compatibility depends on retaining unknown item data; if a mod strips or reconstructs it, provenance is lost and must not be inferred.
+Item data components can be serialized with ItemStack and participate in stack equality, but that alone does not preserve per-unit identities. ItemStack.split(int):ItemStack uses copyWithCount(min(amount,count)) and then shrinks the source, so the full component value is copied to the split result unless a hook partitions token identities. ItemStack.isSameItemSameComponents(ItemStack,ItemStack):boolean requires equal component maps for ordinary merging; stacks with different provenance payloads will not naturally merge. Chest/menu and hopper paths therefore need verified split/merge behavior. A container that strips or reconstructs components loses provenance and fails closed.
 
 ## Architecture comparison
 
@@ -150,19 +158,36 @@ Existing Knowledge unlocks/counters remain subject to current save compatibility
 
 ## Hook integration plan
 
-Exact method names/descriptors require validation against resolved Minecraft 26.3 sources before implementation.
+The following Mojang-named class/method descriptors were verified from the official 26.3 jar's class files and CFR output. Fabric/Loom-mapped compile descriptors and runtime invocation order are still gates.
 
-1. Scope only the natural biome feature-decoration invocation of a configured tree; prove sapling growth is outside it.
-2. Inspect actual tree configuration and trunk placer against a reviewed 2×2 allowlist.
-3. Capture successful log writes locally; commit surviving positions only after successful feature placement.
-4. Invalidate a marker on replacement or non-player removal, including piston/explosion/commands. Do not retain chunk objects in global maps.
-5. At successful Survival break loot materialization, consume that exact marker and issue its signed token only to matching log output before ItemEntity insertion. Failed/canceled breaks preserve; Creative/non-player removals do not mint.
-6. Register a bounded codec-backed item component. Verify signature, split/merge, ItemEntity save/load, pickup, and container persistence.
-7. Observe successful Survival inventory additions across pickup and supported container transfers. Verify signatures, consult only the acquiring player's history, credit new tokens once for that player, and retain tokens for future players.
-8. Keep hopper-to-container transfer uncredited. Different token sets require a tested union merge; never drop token identities to force a stack.
-9. Persist player history on the player attachment and key material in world SavedData. Chunk unload discards only transient invocation state; persistent attachment/component/player history/world key survive reload.
+| Purpose | Candidate class/method and descriptor | Verified boundary |
+|---|---|---|
+| Natural biome source | ChunkGenerator.applyBiomeDecoration(WorldGenLevel, ChunkAccess, StructureManager):void, wrapping its call to FeaturePlacer.placeWithBiomeCheck(PlacedFeature, RandomSource, BlockPos):boolean | Biome placed-feature loop; inspect the actual PlacedFeature. Wrap only the candidate tree feature call. |
+| Feature/config/output | FeaturePlacer.placeWithBiomeCheck(PlacedFeature, RandomSource, BlockPos):boolean; Feature.place(WorldGenLevel, ChunkGenerator, RandomSource, BlockPos):boolean; TreeFeature.place(WorldGenLevel, ChunkGenerator, RandomSource, BlockPos):boolean | Configuration and success are available to a scoped capture. Exact write-capture site requires implementation probing. |
+| Sapling exclusion | SaplingBlock.randomTick(BlockState, ServerLevel, BlockPos, RandomSource):void; advanceTree(ServerLevel, BlockPos, BlockState, RandomSource):void; performBonemeal(ServerLevel, RandomSource, BlockPos, BlockState, BonemealSource):void; TreeGrower.growTree(ServerLevel, ChunkGenerator, BlockPos, BlockState, RandomSource):boolean | Both growth triggers enter advanceTree; TreeGrower directly places configured Feature rather than using natural biome feature decoration. |
+| Chunk storage | Fabric AttachmentRegistry.createPersistent(Identifier, Codec):AttachmentType; ServerChunkEvents Load(ServerLevel, LevelChunk, boolean), Unload(ServerLevel, LevelChunk) | Persistent codec attachments and chunk lifecycle callbacks exist. AttachmentType documents ChunkAccess targets and ProtoChunk-to-LevelChunk copying. Load/unload are not generation-cause signals. |
+| Player break/drop | PlayerBlockBreakEvents.AFTER(Level, Player, BlockPos, BlockState, @Nullable BlockEntity):void; Block.dropResources(BlockState, Level, BlockPos, BlockEntity, Entity, ItemStack):void; Block.popResource(Level, BlockPos, ItemStack):void | Break callback has no drops; correlate exact loot output before entity insertion. |
+| Pickup | ItemEntity.playerTouch(Player):void; Inventory.add(ItemStack):boolean | Pickup adds to inventory on server then discards an emptied ItemEntity; generic inventory adds have other sources. |
+| Menu transfer/stack math | AbstractContainerMenu.doClick(int, int, ContainerInput, Player):void; moveItemStackTo(ItemStack, int, int, boolean):boolean; ItemStack.split(int):ItemStack; isSameItemSameComponents(ItemStack, ItemStack):boolean | Vanilla component-aware merge plus component-copying split; requires explicit token partition/union logic and tests. |
+| Item data | ItemStack.CODEC and its component map | Components serialize with stacks and equality considers components. Exact custom component registration under the resolved Fabric/Loom namespace remains unverified. |
 
-No global redeemed-token history or first-owner rule is used.
+Pinned Fabric source evidence:
+- PlayerBlockBreakEvents.AFTER callback signature is void afterBlockBreak(Level, Player, BlockPos, BlockState, @Nullable BlockEntity); the source documents it fires after a successful server-side break, and CANCELED is separate.
+- ServerChunkEvents.Load and Unload signatures are void onChunkLoad(ServerLevel, LevelChunk, boolean) and void onChunkUnload(ServerLevel, LevelChunk).
+- AttachmentRegistry.createPersistent(Identifier, Codec) uses a codec for restart persistence; AttachmentType documents chunk targets and ProtoChunk-to-LevelChunk copying.
+- A source-tree search of Fabric API 0.161.0+26.3 found no universal item-pickup/inventory-acquisition event. This does not rule out per-mod APIs.
+
+### Staged implementation plan and gates
+
+1. **Resolve source/dependency baseline.** Resolve Loom 1.17.21 in the pinned Gradle environment, generate mapped sources and verify the descriptors above against mappings/bytecode. Stop if dependency resolution fails or signatures differ.
+2. **Worldgen proof.** In a separate implementation task, exercise natural biome generation, 2×2 sapling random tick, bonemeal, structure placement, and player placement. Confirm only approved natural feature calls enter capture. Approve structure scope first. Build the explicit feature-key/placer/log allowlist from runtime registry objects.
+3. **Position persistence prototype.** Use a versioned immutable persistent chunk attachment. Capture only final source-log positions from successful allowed feature calls. Test ProtoChunk conversion, chunk unload/reload, replacement, piston, explosion and command invalidation. Measure chunk bytes and worldgen overhead.
+4. **Drop/token prototype.** Correlate a successful Survival break with exactly one source unit in loot output and prevent Fortune/multi-drop from multiplying identities. Prototype a codec-backed component and world-key save/load/loss behavior. Stop if the mixin cannot distinguish exact output units from unrelated drops.
+5. **Stack conservation gate.** Before enabling gameplay credit, instrument ItemStack.split, copy/copyWithCount, shrink/grow, vanilla menu merges, ItemEntity merges, pickup remainders, Creative clone, commands, hopper/container movement and save/load. Prove supported operations never create new token identities or duplicate per-player credit. A valid HMAC does not prevent copying a valid signed stack. If policy requires detecting copies delivered to other players separately from legitimate transfers, prove a global live-custody design and cost first; otherwise stop and request a policy/architecture decision.
+6. **Player credit.** Persist exact per-player token history. On successful Survival receipt, atomically insert unseen identities and increment only that player's K5 progress by the unique-token delta. A token may be redeemed once by A and once by B; no global redemption restriction. Exercise concurrent pickups on the server thread, reconnect and reload.
+7. **Compatibility and rollout.** Obtain decisions for legacy/structure/modded/Creative policies. Run deterministic and dedicated-server runtime matrices. Retain a disable/rollback gate: stop issuing and crediting tokens while preserving saved data and unlocked Knowledge; never regenerate the signing key to accept old tokens. Re-enable only after compatibility, schema and duplication checks pass.
+
+No universal modded backpack or inventory guarantee is identified. Publish the tested compatibility list and fail closed outside it.
 
 ## Performance and memory
 
