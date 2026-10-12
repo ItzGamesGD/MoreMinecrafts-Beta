@@ -4,6 +4,10 @@ This change adds observers for the approved Stage 2-A conditions without changin
 
 Status reflects evidence available at this commit: **IMPLEMENTED_NOT_VERIFIED** means a runtime hook is present, but compilation and actual hook execution have not yet been demonstrated. The local Gradle process cannot start in this environment because wildcard network-interface enumeration fails with `SocketException: Operation not permitted`.
 
+## Change from the Stage 1 audit
+
+Stage 1 classified each of the 11 in-scope entries K11, K36, K40, K48, K59, K63–66, K69 and K70 as **C**, with no runtime event handler and acquisition unreachable without a collector. This change adds an observer path for each and routes its condition through the existing automatic unlock API. They remain **IMPLEMENTED_NOT_VERIFIED** until their mixins are exercised by action-level server tests. Their reward consumers are still absent, so none is promoted to implementation class A by this work. K51 remains Stage 1 class F and unresolved; it is not modified.
+
 | ID / name | Condition and target | Event / successful action | Collector and attribution / deduplication | Current status |
 |---|---|---|---|---|
 | K11 제련 원리 | `ore_types_smelted`, 5 | A recipe-backed cooking result recorded by a furnace, blast furnace, or smoker and awarded when a player collects furnace output. Only ore-family inputs recognized by `KnowledgeEventRules` count. | `KnowledgeFurnaceMixin` → `KnowledgeEventCollectors.smeltingCollected`; distinct input family tokens use `recordDistinctCondition`. Vanilla XP and recipe award behavior is left intact. | IMPLEMENTED_NOT_VERIFIED |
