@@ -51,7 +51,8 @@
     "KnowledgeFurnaceOutputMixin",
     "KnowledgeBlockPlacementMixin",
     "KnowledgeAnimalFeedMixin",
-    "KnowledgeItemUseMixin"
+    "KnowledgeItemUseMixin",
+    "KnowledgeBucketMixin"
   ],
   "injectors": {
     "defaultRequire": 1

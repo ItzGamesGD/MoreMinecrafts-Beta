@@ -51,23 +51,10 @@ abstract class KnowledgeItemUseMixin {
                 && level.getBlockState(snapshot.clicked()).is(Blocks.FARMLAND))
             KnowledgeEventCollectors.successfulFarmlandCultivation(snapshot.player());
 
-        if (snapshot.item() == Items.WATER_BUCKET
-                && ((level.getFluidState(snapshot.clicked()).isSource() && irrigatesFarmland(level, snapshot.clicked()))
-                || (level.getFluidState(snapshot.adjacent()).isSource() && irrigatesFarmland(level, snapshot.adjacent()))))
-            KnowledgeEventCollectors.successfulFarmlandIrrigation(snapshot.player());
-
         if (snapshot.item() == Items.REDSTONE
                 && (level.getBlockState(snapshot.clicked()).is(Blocks.REDSTONE_WIRE)
                 || level.getBlockState(snapshot.adjacent()).is(Blocks.REDSTONE_WIRE)))
             KnowledgeEventCollectors.blockPlaced(snapshot.player(), originalItem);
     }
 
-    private static boolean irrigatesFarmland(Level level, BlockPos water) {
-        for (int dx = -4; dx <= 4; dx++) for (int dz = -4; dz <= 4; dz++) {
-            if (Math.abs(dx) + Math.abs(dz) > 4) continue;
-            for (int dy = -1; dy <= 0; dy++)
-                if (level.getBlockState(water.offset(dx, dy, dz)).is(Blocks.FARMLAND)) return true;
-        }
-        return false;
-    }
 }

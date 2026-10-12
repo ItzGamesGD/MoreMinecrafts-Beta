@@ -102,8 +102,10 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         ctx.setBlock(support, Blocks.STONE);
         ctx.setBlock(farmland, Blocks.FARMLAND);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WATER_BUCKET));
-        InteractionResult result = useOnTop(ctx, player, support);
-        ctx.assertTrue(result.consumesAction(), "water bucket action succeeds on the supported block: " + result);
+        aimDownAt(ctx, player, support);
+        var result = player.getMainHandItem().use(ctx.getLevel(), player, InteractionHand.MAIN_HAND);
+        ctx.assertTrue(result.getResult().consumesAction(),
+                "actual water-bucket use succeeds when aimed at a supported block: " + result.getResult());
         ctx.assertTrue(ctx.getLevel().getFluidState(ctx.absolutePos(source)).isSource(),
                 "water bucket places a source block beside nearby farmland");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("farmland_watered") == 1,
@@ -114,8 +116,11 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         ctx.setBlock(farSupport, Blocks.STONE);
         ctx.setBlock(farmlandBeyondReach, Blocks.FARMLAND);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WATER_BUCKET));
-        InteractionResult distant = useOnTop(ctx, player, farSupport);
-        ctx.assertTrue(distant.consumesAction(), "water placement itself succeeds at the distant location");
+        aimDownAt(ctx, player, farSupport);
+        var distant = player.getMainHandItem().use(ctx.getLevel(), player, InteractionHand.MAIN_HAND);
+        ctx.assertTrue(distant.getResult().consumesAction(), "water placement itself succeeds at the distant location");
+        ctx.assertTrue(ctx.getLevel().getFluidState(ctx.absolutePos(farSupport.above())).isSource(),
+                "the second bucket action places another real source block");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("farmland_watered") == 1,
                 "water outside farmland hydration reach adds no progress");
         ctx.succeed();
@@ -147,6 +152,13 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         BlockPos world = ctx.absolutePos(position);
         var hit = new BlockHitResult(Vec3.atCenterOf(world), Direction.UP, world, false);
         return player.getMainHandItem().useOn(new UseOnContext(player, InteractionHand.MAIN_HAND, hit));
+    }
+
+    private static void aimDownAt(GameTestHelper ctx, ServerPlayer player, BlockPos support) {
+        BlockPos world = ctx.absolutePos(support);
+        player.setPos(world.getX() + 0.5, world.getY() + 2.0, world.getZ() + 0.5);
+        player.setYRot(0.0F);
+        player.setXRot(90.0F);
     }
 
     @Override
