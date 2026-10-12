@@ -23,7 +23,21 @@ public final class ProgressionCanvasGeometry {
         }
     }
 
-    public record ResponsiveLayout(boolean compact, Rect tabs, Rect viewport, Rect details, Rect footer) {}
+    /** The displayed advancement frame's logical-pixel size for the current camera zoom. */
+    public static int nodeFrameSize(double zoom) {
+        if (!Double.isFinite(zoom) || zoom <= 0) throw new IllegalArgumentException("Invalid node-frame zoom");
+        return Math.max(14, (int) Math.round(26 * zoom));
+    }
+
+    /** Half-open frame bounds centered on the same rounded screen coordinate used by rendering. */
+    public static Rect nodeFrameBounds(int roundedCenterX, int roundedCenterY, double zoom) {
+        int size = nodeFrameSize(zoom);
+        int left = roundedCenterX - size / 2;
+        int top = roundedCenterY - size / 2;
+        return new Rect(left, top, size, size);
+    }
+
+    public record ResponsiveLayout(boolean compact, Rect tabs, Rect viewport) {}
     public record Camera(double panX, double panY, double zoom) {
         public Camera {
             if (!Double.isFinite(panX) || !Double.isFinite(panY) || !Double.isFinite(zoom)
@@ -40,25 +54,13 @@ public final class ProgressionCanvasGeometry {
         int margin = compact ? 8 : 20;
         int headerHeight = compact ? 22 : 38;
         int tabHeight = compact ? 22 : 30;
-        int footerHeight = compact ? 26 : 34;
         int availableWidth = Math.max(0, width - margin * 2);
         int tabY = margin + headerHeight;
         Rect tabs = new Rect(margin, tabY, availableWidth, Math.min(tabHeight, Math.max(0, height - tabY)));
         int viewportY = tabs.bottom();
-        int viewportBottom = Math.max(viewportY, height - margin - footerHeight);
+        int viewportBottom = Math.max(viewportY, height - margin);
         int viewportHeight = viewportBottom - viewportY;
-        Rect footer = new Rect(margin, height - margin - footerHeight, availableWidth, footerHeight);
-        if (compact) return new ResponsiveLayout(true, tabs,
-                new Rect(margin, viewportY, availableWidth, viewportHeight), new Rect(0, 0, 0, 0), footer);
-
-        int gap = 16;
-        int canvasPercent = width < 760 ? 55 : 62;
-        int canvasWidth = Math.max(0, (availableWidth - gap) * canvasPercent / 100);
-        int detailsX = margin + canvasWidth + gap;
-        int detailsWidth = Math.max(0, width - margin - detailsX);
-        return new ResponsiveLayout(false, tabs,
-                new Rect(margin, viewportY, canvasWidth, viewportHeight),
-                new Rect(detailsX, viewportY, detailsWidth, viewportHeight), footer);
+        return new ResponsiveLayout(compact, tabs, new Rect(margin, viewportY, availableWidth, viewportHeight));
     }
 
     public static Camera initialCamera(Rect viewport, double canvasWidth, double canvasHeight,

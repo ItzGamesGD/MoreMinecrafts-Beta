@@ -4,6 +4,8 @@ import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionNodeLayoutCatalog;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionScreenData;
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeCatalog;
+import dev.itzgamesgd.moreminecrafts.progression.ResearchCatalog;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseRules;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +15,9 @@ import java.util.Map;
 import java.util.Set;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -88,12 +93,6 @@ public final class ProgressionTreeCanvas {
         }
     }
 
-    public void fitAll() {
-        if (viewport == null || nodes.isEmpty()) return;
-        camera = ProgressionCanvasGeometry.clampPan(
-                ProgressionCanvasGeometry.fitAll(viewport, canvasWidth, canvasHeight), viewport, canvasWidth, canvasHeight);
-    }
-
     public void focusSelected() {
         if (viewport == null || selectedId == null) return;
         var node = byId.get(selectedId);
@@ -115,14 +114,10 @@ public final class ProgressionTreeCanvas {
 
     public String hitTest(double mouseX, double mouseY) {
         if (viewport == null || !viewport.contains(mouseX, mouseY)) return null;
-        double worldX = ProgressionCanvasGeometry.screenToWorldX(camera, viewport.x(), mouseX);
-        double worldY = ProgressionCanvasGeometry.screenToWorldY(camera, viewport.y(), mouseY);
-        int baseSize = "research".equals(screen) ? ProgressionNodeLayoutCatalog.RESEARCH_NODE_SIZE
-                : ProgressionNodeLayoutCatalog.KNOWLEDGE_NODE_SIZE;
         for (int i = nodes.size() - 1; i >= 0; i--) {
             var node = nodes.get(i);
-            if (Math.abs(node.x() - worldX) <= baseSize / 2.0
-                    && Math.abs(node.y() - worldY) <= baseSize / 2.0) return node.id();
+            var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+            if (frame.contains(mouseX, mouseY)) return node.id();
         }
         return null;
     }
@@ -163,17 +158,17 @@ public final class ProgressionTreeCanvas {
                 var research = researchRows.get(node.id());
                 drawNode(graphics, font, node, knowledge, research, node.id().equals(selectedId), node.id().equals(hoveredId));
             }
-            if (hoveredId != null) {
-                Component tooltip = tooltip(knowledgeRows.get(hoveredId), researchRows.get(hoveredId));
-                if (tooltip != null) {
-                    int tooltipWidth = Math.max(120, Math.min(240, viewport.width() - 16));
-                    int tooltipX = validationHoveredId == null ? mouseX : screenX(byId.get(hoveredId).x());
-                    int tooltipY = validationHoveredId == null ? mouseY : screenY(byId.get(hoveredId).y());
-                    graphics.setTooltipForNextFrame(font, font.split(tooltip, tooltipWidth), tooltipX, tooltipY);
-                }
-            }
         } finally {
             graphics.disableScissor();
+        }
+        if (hoveredId != null) {
+            List<ClientTooltipComponent> tooltip = tooltip(font, byId.get(hoveredId),
+                    knowledgeRows.get(hoveredId), researchRows.get(hoveredId), graphics.guiWidth());
+            if (!tooltip.isEmpty()) {
+                int tooltipX = validationHoveredId == null ? mouseX : screenX(byId.get(hoveredId).x());
+                int tooltipY = validationHoveredId == null ? mouseY : screenY(byId.get(hoveredId).y());
+                graphics.tooltip(font, tooltip, tooltipX, tooltipY, DefaultTooltipPositioner.INSTANCE, null, false);
+            }
         }
     }
 
@@ -197,8 +192,7 @@ public final class ProgressionTreeCanvas {
             graphics.fill(spineX, Math.min(firstY, lastY), spineX + 2, Math.max(firstY + 1, lastY + 1), 0xFF756D5E);
             for (var node : branch) {
                 int centerY = screenY(node.y());
-                int half = (int) Math.round(("research".equals(screen) ? 36 : 32) * zoom / 2.0);
-                int left = screenX(node.x()) - half;
+                int left = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), centerY, zoom).x();
                 graphics.fill(Math.min(spineX, left), centerY - 1, Math.max(spineX, left), centerY + 1, 0xFF756D5E);
             }
             var sample = branch.get(0);
@@ -217,15 +211,18 @@ public final class ProgressionTreeCanvas {
     private void drawNode(GuiGraphicsExtractor graphics, Font font, ProgressionNodeLayoutCatalog.Node node,
                           ProgressionScreenData.KnowledgeRow knowledge,
                           ProgressionScreenData.ResearchRow research, boolean selected, boolean hovered) {
-        int size = Math.max(14, (int) Math.round(26 * camera.zoom()));
-        int left = screenX(node.x()) - size / 2;
-        int top = screenY(node.y()) - size / 2;
-        boolean achieved = knowledge != null ? knowledge.unlocked()
-                : research != null && (research.level() > 0 || research.availability() == ResearchPurchaseRules.Result.PURCHASED);
+        var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+        int size = frame.width();
+        int left = frame.x();
+        int top = frame.y();
+        boolean achieved = knowledge != null ? knowledge.unlocked() : research != null && research.level() > 0;
+        boolean purchasable = research != null && research.level() < research.maximumLevel()
+                && research.prerequisitesDefined() && research.availability() == ResearchPurchaseRules.Result.PURCHASED;
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, achieved ? OBTAINED_BOX : UNOBTAINED_BOX,
                 left, top, size, size);
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, achieved ? OBTAINED_FRAME : UNOBTAINED_FRAME,
                 left, top, size, size);
+        if (purchasable) graphics.outline(left, top, size, size, 0xFFE5D7A4);
         if (selected) graphics.outline(left - 2, top - 2, size + 4, size + 4, 0xFFFFFFFF);
         ItemStack icon = icon(node);
         int iconSize = Math.max(8, Math.min(size - 6, (int) Math.round(16 * Math.min(1.0, camera.zoom()))));
@@ -268,24 +265,113 @@ public final class ProgressionTreeCanvas {
         return item;
     }
 
-    private Component tooltip(ProgressionScreenData.KnowledgeRow knowledge, ProgressionScreenData.ResearchRow research) {
+    private List<ClientTooltipComponent> tooltip(Font font, ProgressionNodeLayoutCatalog.Node node,
+                                                  ProgressionScreenData.KnowledgeRow knowledge,
+                                                  ProgressionScreenData.ResearchRow research, int guiWidth) {
+        int maxWidth = Math.max(100, Math.min(300, guiWidth - 24));
+        List<ClientTooltipComponent> lines = new ArrayList<>();
         if (knowledge != null) {
-            return Component.translatable(knowledge.titleKey()).append(Component.literal("\n"))
-                    .append(Component.translatable("moreminecrafts.ui.knowledge.condition")).append(Component.literal(": "))
-                    .append(Component.translatable(knowledge.descriptionKey())).append(Component.literal("\n"))
-                    .append(Component.translatable("moreminecrafts.ui.progress", knowledge.conditionProgress(), knowledge.conditionTarget()));
+            addText(lines, font, Component.translatable(knowledge.titleKey()).withStyle(ChatFormatting.WHITE), maxWidth);
+            addText(lines, font, Component.translatable("moreminecrafts.ui.discipline_branch",
+                    Component.translatable("moreminecrafts.discipline." + knowledge.discipline()),
+                    Component.translatable(node.branchTitleKey())), maxWidth);
+            addText(lines, font, Component.translatable("moreminecrafts.ui.knowledge.condition").append(Component.literal(": "))
+                    .append(Component.translatable(knowledge.descriptionKey())), maxWidth);
+            addText(lines, font, Component.translatable("moreminecrafts.ui.progress",
+                    knowledge.conditionProgress(), knowledge.conditionTarget()), maxWidth);
+            addText(lines, font, Component.translatable("moreminecrafts.ui.knowledge.reward").append(Component.literal(": "))
+                    .append(Component.translatable(rewardKey(knowledge.rewardKey()))), maxWidth);
+            addText(lines, font, Component.translatable(knowledge.unlocked()
+                    ? "moreminecrafts.ui.state.unlocked" : "moreminecrafts.ui.state.locked"), maxWidth);
+            if (knowledge.unresolved()) addText(lines, font,
+                    Component.translatable("moreminecrafts.ui.unresolved").withStyle(ChatFormatting.RED), maxWidth);
+            return lines;
         }
         if (research != null) {
-            return Component.translatable(research.titleKey()).append(Component.literal("\n"))
-                    .append(Component.translatable("moreminecrafts.ui.research.tier_level",
-                            Component.translatable(tierKey(research.tier())),
-                            research.level(), research.maximumLevel())).append(Component.literal("\n"))
-                    .append(Component.translatable("moreminecrafts.ui.purchase.state." + research.availability().name().toLowerCase()))
-                    .append(research.nextCost() == null ? Component.empty() : Component.literal("\n"))
-                    .append(research.nextCost() == null ? Component.empty()
-                            : Component.translatable("moreminecrafts.ui.cost_xp", research.nextCost().rawXp()));
+            addText(lines, font, Component.translatable(research.titleKey()).withStyle(ChatFormatting.WHITE), maxWidth);
+            addText(lines, font, Component.translatable("moreminecrafts.ui.discipline_branch",
+                    Component.translatable("moreminecrafts.discipline." + research.discipline()),
+                    Component.translatable(node.branchTitleKey())), maxWidth);
+            addText(lines, font, Component.translatable("moreminecrafts.ui.research.tier_level",
+                    Component.translatable(tierKey(research.tier())), research.level(), research.maximumLevel()), maxWidth);
+            String effectLabel = research.maximumLevel() == 1
+                    ? (research.level() > 0 ? "moreminecrafts.ui.research.effect.current" : "moreminecrafts.ui.research.effect.next")
+                    : "moreminecrafts.ui.research.effect.summary";
+            addText(lines, font, Component.translatable(effectLabel), maxWidth);
+            addText(lines, font, Component.translatable(research.descriptionKey()), maxWidth);
+            if (research.maximumLevel() > 1) addText(lines, font,
+                    Component.translatable("moreminecrafts.ui.research.level_effect_unspecified").withStyle(ChatFormatting.GRAY), maxWidth);
+            if (!research.prerequisitesDefined()) {
+                addText(lines, font, Component.translatable("moreminecrafts.ui.unresolved").withStyle(ChatFormatting.RED), maxWidth);
+            } else {
+                if (!research.requiredKnowledge().isEmpty()) {
+                    String required = research.requiredKnowledge().stream().sorted()
+                            .map(ProgressionTreeCanvas::knowledgeName).reduce((a, b) -> a + ", " + b).orElse("");
+                    addText(lines, font, Component.translatable(research.catalogVersion().equals("v4")
+                            ? "moreminecrafts.ui.research.any_one_requirement" : "moreminecrafts.ui.research.prerequisites", required), maxWidth);
+                }
+                if (!research.prerequisiteResearch().isEmpty()) {
+                    String required = research.prerequisiteResearch().stream().sorted().map(ProgressionTreeCanvas::researchName)
+                            .reduce((a, b) -> a + ", " + b).orElse("");
+                    addText(lines, font, Component.translatable("moreminecrafts.ui.research.prerequisite_research", required), maxWidth);
+                }
+            }
+            if (research.nextCost() != null) {
+                addText(lines, font, Component.translatable("moreminecrafts.ui.tooltip.cost_xp",
+                        research.nextCost().rawXp(), ProgressionClientApi.availableXp()), maxWidth);
+                for (var cost : research.nextCost().materials()) {
+                    Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(cost.itemId()));
+                    if (item == null || item == Items.AIR) continue;
+                    int held = ProgressionClientApi.materialCount(cost.itemId());
+                    String materialKey = cost.compressedUnits() > 0
+                            ? "moreminecrafts.ui.tooltip.material_compressed_row" : "moreminecrafts.ui.tooltip.material_row";
+                    Component rowLabel = cost.compressedUnits() > 0
+                            ? Component.translatable(materialKey, ProgressionClientApi.materialName(cost.itemId()),
+                                    cost.count(), cost.compressedUnits(), held)
+                            : Component.translatable(materialKey, ProgressionClientApi.materialName(cost.itemId()), cost.count(), held);
+                    String label = rowLabel.getString();
+                    lines.add(new ProgressionMaterialTooltipComponent(new ItemStack(item), Component.literal(label)));
+                }
+            }
+            addText(lines, font, Component.translatable("moreminecrafts.ui.purchase.state."
+                    + research.availability().name().toLowerCase()), maxWidth);
+            if (ProgressionClientApi.purchasePending(research.id())) {
+                addText(lines, font, Component.translatable("moreminecrafts.ui.purchase.pending"), maxWidth);
+            } else if (research.availability() == ResearchPurchaseRules.Result.PURCHASED
+                    && research.prerequisitesDefined() && research.nextCost() != null) {
+                addText(lines, font, Component.translatable("moreminecrafts.ui.purchase.click_to_buy"), maxWidth);
+            }
         }
-        return null;
+        return lines;
+    }
+
+    private static void addText(List<ClientTooltipComponent> target, Font font, Component value, int maxWidth) {
+        font.split(value, maxWidth).forEach(line -> target.add(ClientTooltipComponent.create(line)));
+    }
+
+    private static String knowledgeName(int number) {
+        return KnowledgeCatalog.entries().stream().filter(entry -> entry.number() == number)
+                .findFirst().map(entry -> Component.translatable(entry.titleKey()).getString())
+                .orElse(Component.translatable("moreminecrafts.ui.unresolved").getString());
+    }
+
+    private static String researchName(String id) {
+        var definition = ResearchCatalog.byId(id);
+        return definition == null ? Component.translatable("moreminecrafts.ui.unresolved").getString()
+                : Component.translatable(definition.titleKey()).getString();
+    }
+
+    private static String rewardKey(String key) {
+        return switch (key) {
+            case "rare_mob_damage" -> "moreminecrafts.ui.reward.unresolved";
+            case "parachute_recipe" -> "moreminecrafts.ui.reward.recipe";
+            case "sapling_drop" -> "moreminecrafts.ui.reward.sapling";
+            default -> key.endsWith("_damage") ? "moreminecrafts.ui.reward.damage"
+                    : key.endsWith("_xp") ? "moreminecrafts.ui.reward.xp"
+                    : key.endsWith("_guide") || key.endsWith("_info") || key.endsWith("_hint") ? "moreminecrafts.ui.reward.guide"
+                    : key.endsWith("_durability") ? "moreminecrafts.ui.reward.durability"
+                    : "moreminecrafts.ui.reward.unlock";
+        };
     }
 
     private static String tierKey(String tier) {

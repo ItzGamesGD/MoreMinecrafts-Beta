@@ -95,7 +95,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 }));
         ClientPlayNetworking.registerGlobalReceiver(ProgressionActionResultPayload.TYPE, (payload, context) ->
                 context.client().execute(() -> {
-                    ProgressionClientApi.actionResult(payload.actionId(), payload.resultCode());
+                    ProgressionClientApi.actionResult(payload.actionId(), payload.resultCode(), payload.revision());
                     // Resolve any missed/out-of-order progression deltas before refreshing visible data.
                     ProgressionClientApi.requestSnapshot();
                 }));

@@ -4,6 +4,8 @@ import dev.itzgamesgd.moreminecrafts.network.ProgressionSyncRequestPayload;
 import dev.itzgamesgd.moreminecrafts.network.QuestClaimRequestPayload;
 import dev.itzgamesgd.moreminecrafts.network.ResearchPurchaseRequestPayload;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionScreenData;
+import dev.itzgamesgd.moreminecrafts.progression.ProgressionPurchaseGate;
+import dev.itzgamesgd.moreminecrafts.progression.ProgressionPurchasePolicy;
 import dev.itzgamesgd.moreminecrafts.progression.RawXp;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchProgressState;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ public final class ProgressionClientApi {
     private static Map<String,Integer> values = Map.of();
     private static String lastAction = "";
     private static int lastActionResult = -1;
+    private static final ProgressionPurchaseGate PURCHASE_GATE = new ProgressionPurchaseGate();
     private ProgressionClientApi() {}
 
     static synchronized void replace(int nextRevision, Map<String,Integer> next) {
@@ -29,6 +32,7 @@ public final class ProgressionClientApi {
                 revision, values, nextRevision, next);
         revision = updated.revision();
         values = updated.values();
+        PURCHASE_GATE.synchronizedAt(revision);
     }
     static synchronized boolean apply(int nextRevision, Map<String,Integer> changes) {
         var updated = dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRules.delta(
@@ -37,13 +41,21 @@ public final class ProgressionClientApi {
             return false;
         values = updated.values();
         revision = updated.revision();
+        PURCHASE_GATE.synchronizedAt(revision);
         return true;
     }
-    static synchronized void actionResult(String id, int result) { lastAction = id; lastActionResult = result; }
-    static synchronized void reset() { revision = -1; values = Map.of(); lastAction = ""; lastActionResult = -1; }
+    static synchronized void actionResult(String id, int result, int resultRevision) {
+        lastAction = id;
+        lastActionResult = result;
+        PURCHASE_GATE.actionResult(id, resultRevision);
+    }
+    static synchronized void reset() {
+        revision = -1; values = Map.of(); lastAction = ""; lastActionResult = -1; PURCHASE_GATE.reset();
+    }
     public static synchronized int revision() { return revision; }
     public static synchronized String lastAction() { return lastAction; }
     public static synchronized int lastActionResult() { return lastActionResult; }
+    public static synchronized boolean purchasePending(String id) { return PURCHASE_GATE.pending("research:" + id); }
     private static synchronized ResearchProgressState state() { return new ResearchProgressState(values); }
 
     public static java.util.List<ProgressionScreenData.KnowledgeRow> knowledge(String discipline) {
@@ -67,13 +79,35 @@ public final class ProgressionClientApi {
         Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(itemId));
         return item == null || item == Items.AIR ? itemId : new ItemStack(item).getHoverName().getString();
     }
+    public static int materialCount(String itemId) {
+        var player = Minecraft.getInstance().player;
+        if (player == null) return 0;
+        Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(itemId));
+        if (item == null || item == Items.AIR) return 0;
+        int count = 0;
+        for (int slot = 0; slot < Math.min(36, player.getInventory().getContainerSize()); slot++) {
+            var stack = player.getInventory().getItem(slot);
+            if (!stack.isEmpty() && stack.getItem() == item) count += stack.getCount();
+        }
+        return count;
+    }
+    public static int availableXp() {
+        var player = Minecraft.getInstance().player;
+        return player == null ? 0 : RawXp.available(player);
+    }
     public static void requestSnapshot() {
         if (ClientPlayNetworking.canSend(ProgressionSyncRequestPayload.TYPE))
             ClientPlayNetworking.send(ProgressionSyncRequestPayload.INSTANCE);
     }
-    public static void purchase(String id, int level) {
-        if (ClientPlayNetworking.canSend(ResearchPurchaseRequestPayload.TYPE))
-            ClientPlayNetworking.send(new ResearchPurchaseRequestPayload(id, level));
+    public static synchronized boolean purchaseIfEligible(ProgressionScreenData.ResearchRow row) {
+        if (row == null || !ProgressionPurchasePolicy.canRequest(true, row.prerequisitesDefined(), row.level(),
+                row.maximumLevel(), row.nextCost() != null, row.availability())
+                || !ClientPlayNetworking.canSend(ResearchPurchaseRequestPayload.TYPE))
+            return false;
+        String actionId = "research:" + row.id();
+        if (!PURCHASE_GATE.begin(actionId, revision)) return false;
+        ClientPlayNetworking.send(new ResearchPurchaseRequestPayload(row.id(), row.level() + 1));
+        return true;
     }
     public static void claim(String id) {
         if (ClientPlayNetworking.canSend(QuestClaimRequestPayload.TYPE))

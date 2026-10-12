@@ -6,27 +6,24 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 final class ProgressionCanvasGeometryTest {
-    @Test void compactLogicalViewportIsCanvasFirstAndKeepsNavigationAndFooterReachable() {
+    @Test void compactLogicalViewportKeepsNavigationAndUsesAllSpaceForTheCanvas() {
         var compact = ProgressionCanvasGeometry.responsiveLayout(320, 180);
         assertTrue(compact.compact());
-        assertEquals(0, compact.details().width());
         assertTrue(compact.viewport().width() >= 300);
         assertTrue(compact.viewport().height() >= 80);
         assertTrue(compact.tabs().height() >= 20);
-        assertTrue(compact.footer().height() >= 20);
         assertTrue(compact.viewport().y() >= compact.tabs().bottom());
-        assertTrue(compact.footer().y() >= compact.viewport().bottom());
+        assertEquals(180 - 8, compact.viewport().bottom());
     }
 
-    @Test void normalViewportRetainsCanvasAndDetailsRegions() {
+    @Test void normalViewportUsesTheFullCanvasAndRemovesTheDetailsAndFooterColumns() {
         var normal = ProgressionCanvasGeometry.responsiveLayout(900, 520);
         assertFalse(normal.compact());
-        assertTrue(normal.viewport().width() > normal.details().width());
-        assertTrue(normal.details().width() >= 240);
-        assertTrue(normal.viewport().right() <= normal.details().x());
+        assertEquals(900 - 40, normal.viewport().width());
+        assertEquals(520 - 20, normal.viewport().bottom());
         var scaleTwoBoundary = ProgressionCanvasGeometry.responsiveLayout(640, 360);
         assertFalse(scaleTwoBoundary.compact());
-        assertTrue(scaleTwoBoundary.details().width() >= 240);
+        assertEquals(640 - 40, scaleTwoBoundary.viewport().width());
     }
 
     @Test void initialCameraUsesFitOnlyWhenNodeRemainsReadableOtherwiseFocusesSelection() {
@@ -65,6 +62,57 @@ final class ProgressionCanvasGeometryTest {
                 ProgressionCanvasGeometry.zoomAt(start, viewport, 170, 110, 20).zoom(), 0.000001);
         assertEquals(ProgressionCanvasGeometry.MIN_ZOOM,
                 ProgressionCanvasGeometry.zoomAt(start, viewport, 170, 110, -100).zoom(), 0.000001);
+    }
+
+    @Test void frameBoundsMatchTheRenderedSquareAtEveryZoomAndExcludeTheFirstOutsidePixel() {
+        int[] expectedSizes = {14, 26, 33, 39};
+        double[] zooms = {ProgressionCanvasGeometry.MIN_ZOOM, 1.0, 1.25, ProgressionCanvasGeometry.MAX_ZOOM};
+        for (int i = 0; i < zooms.length; i++) {
+            assertEquals(expectedSizes[i], ProgressionCanvasGeometry.nodeFrameSize(zooms[i]));
+            var bounds = ProgressionCanvasGeometry.nodeFrameBounds(101, 77, zooms[i]);
+            assertEquals(expectedSizes[i], bounds.width());
+            assertEquals(expectedSizes[i], bounds.height());
+            assertTrue(bounds.contains(bounds.x(), bounds.y()));
+            assertTrue(bounds.contains(bounds.right() - 1, bounds.bottom() - 1));
+            assertFalse(bounds.contains(bounds.x() - 1, bounds.y()));
+            assertFalse(bounds.contains(bounds.right(), bounds.bottom() - 1));
+            assertFalse(bounds.contains(bounds.x(), bounds.bottom()));
+        }
+    }
+
+    @Test void frameHitCoordinatesStayLogicalAndExactAtGuiScalesTwoThreeAndFour() {
+        for (int scale = 2; scale <= 4; scale++) {
+            int guiWidth = (int) Math.ceil(1280.0 / scale);
+            int guiHeight = (int) Math.ceil(720.0 / scale);
+            var layout = ProgressionCanvasGeometry.responsiveLayout(guiWidth, guiHeight);
+            int centerX = layout.viewport().x() + layout.viewport().width() / 2;
+            int centerY = layout.viewport().y() + layout.viewport().height() / 2;
+            var frame = ProgressionCanvasGeometry.nodeFrameBounds(centerX, centerY, 1.0);
+            assertTrue(layout.viewport().contains(frame.x(), frame.y()));
+            assertTrue(layout.viewport().contains(frame.right() - 1, frame.bottom() - 1));
+            assertFalse(frame.contains(frame.right(), centerY));
+        }
+    }
+
+    @Test void frameHitBoundsFollowCursorZoomAndCanvasPan() {
+        var viewport = new ProgressionCanvasGeometry.Rect(20, 30, 300, 200);
+        var camera = new ProgressionCanvasGeometry.Camera(100, 80, 1.0);
+        for (var transform : List.of(camera,
+                ProgressionCanvasGeometry.zoomAt(camera, viewport, 140, 110, 4),
+                ProgressionCanvasGeometry.panBy(camera, 23, -17))) {
+            int centerX = (int) Math.round(ProgressionCanvasGeometry.worldToScreenX(transform, viewport.x(), 240));
+            int centerY = (int) Math.round(ProgressionCanvasGeometry.worldToScreenY(transform, viewport.y(), 180));
+            var frame = ProgressionCanvasGeometry.nodeFrameBounds(centerX, centerY, transform.zoom());
+            assertTrue(frame.contains(centerX, centerY));
+            assertFalse(frame.contains(frame.right(), centerY));
+        }
+    }
+
+    @Test void adjacentRenderedFramesDoNotClaimTheGapBetweenThem() {
+        var left = ProgressionCanvasGeometry.nodeFrameBounds(50, 50, 1.0);
+        var right = ProgressionCanvasGeometry.nodeFrameBounds(80, 50, 1.0);
+        assertEquals(4, right.x() - left.right());
+        for (int x = left.right(); x < right.x(); x++) assertFalse(left.contains(x, 50) || right.contains(x, 50));
     }
 
     @Test void panClampKeepsPartOfCanvasVisibleAndDirectionalNavigationIsDeterministic() {

@@ -10,10 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -48,9 +44,6 @@ public final class VisualValidationHarness {
     private static int purchaseChestBefore;
     private static int purchaseIronBlocksBefore;
     private static int purchasePaperBefore;
-    private static int purchaseResearchIndex = -1;
-    private static String previousActionBeforeCancel;
-    private static int previousActionResultBeforeCancel;
     private static int physicalSelectorStage;
     private static boolean physicalSelectorDone;
 
@@ -144,9 +137,8 @@ public final class VisualValidationHarness {
     }
 
     /**
-     * Opt-in synthetic widget interaction for headless client validation. It runs the same
-     * Screen click callbacks as a mouse input and sends the final purchase through the normal
-     * client/server payload; production clients never register this route.
+     * Synthetic Screen callback journey. These checks are explicitly distinct from X11 input,
+     * which is only called physical when the shell harness observes the resulting screen event.
      */
     private static void runUiJourney(Minecraft client) {
         if (uiJourneyFailed || client.player == null || client.level == null) return;
@@ -157,7 +149,6 @@ public final class VisualValidationHarness {
                 MoreMinecrafts.LOGGER.error("CLIENT_UI_ICON_MAPPING_FAILED missing={} of 157 configured node icons", missingIcons);
                 return;
             }
-            MoreMinecrafts.LOGGER.info("CLIENT_UI_ICON_MAPPING_VALIDATED count=157 fallback=minecraft:book");
             uiJourneyStarted = true;
             client.gui.setScreen(new ProgressionSelectionScreen());
             queueUiScreenshot("progression-selection.png");
@@ -171,280 +162,188 @@ public final class VisualValidationHarness {
         if (uiCaptureName != null) return;
         switch (uiJourneyStage) {
             case 1 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
-                if (PHYSICAL_SELECTOR_TEST && physicalSelectorStage == 0) {
-                    physicalSelectorStage = 1;
-                    announcePhysicalSelectorTarget(client, "knowledge");
-                    return;
-                }
+                if (!takeCapture()) return;
                 clickSelectionChoice(client, 2);
                 if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
-                        || hub.mode() != ProgressionBrowseScreen.Mode.KNOWLEDGE
-                        || !hub.validationVisitAllSectors()) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Knowledge seven-sector menu routing");
-                    return;
+                        || hub.mode() != ProgressionBrowseScreen.Mode.KNOWLEDGE || !hub.validationVisitAllSectors()) {
+                    failJourney("knowledge selector did not reach the seven-sector menu"); return;
                 }
                 queueUiScreenshot("knowledge-sector-selection.png");
                 uiJourneyStage = 10;
             }
             case 10 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
+                if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
                         || !hub.validationOpenSector("resources")
                         || !(client.gui.screen() instanceof ProgressionBrowseScreen browse)
-                        || !browse.validationTreeReady()
-                        || !browse.validationExerciseCanvasControls()
-                        || !browse.validationKeyboardNodeFocus()
-                        || !browse.validationHoverNode("knowledge.1")) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Knowledge sector tree, hover, pan, zoom, or keyboard focus");
-                    return;
+                        || !browse.validationTreeReady() || !browse.validationExerciseCanvasControls()
+                        || !browse.validationKeyboardNodeFocus() || !browse.validationOpenBranchMenu()) {
+                    failJourney("knowledge tree navigation, pan, wheel zoom, or branch menu failed"); return;
                 }
-                queueUiScreenshot("knowledge-node-tooltip.png");
+                queueUiScreenshot("knowledge-branch-menu.png");
                 uiJourneyStage = 11;
             }
             case 11 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
-                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
-                browse.validationClearHover();
-                queueUiScreenshot("knowledge-screen.png");
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) { failJourney("knowledge tree disappeared"); return; }
+                if (!browse.validationClickBranchForNode("knowledge.1")
+                        || !browse.validationHoverNode("knowledge.1")) { failJourney("knowledge direct branch selection or tooltip target missing"); return; }
+                queueUiScreenshot("knowledge-node-tooltip.png");
                 uiJourneyStage = 12;
             }
             case 12 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
+                if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
-                if (browse.validationCompact()) {
-                    browse.validationOpenDetails();
-                    queueUiScreenshot("knowledge-compact-details.png");
-                    uiJourneyStage = 13;
-                } else {
-                    browse.onClose();
-                    ((ProgressionDisciplineSelectionScreen) client.gui.screen()).onClose();
-                    clickSelectionChoice(client, 3);
-                    queueUiScreenshot("research-sector-selection.png");
-                    uiJourneyStage = 3;
-                }
+                browse.validationClearHover();
+                queueUiScreenshot("knowledge-screen.png");
+                uiJourneyStage = 13;
             }
             case 13 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
-                if (client.gui.screen() instanceof ProgressionBrowseScreen browse) browse.validationCloseDetails();
-                clickProgressionBack(client);
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
+                browse.onClose();
                 if (client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub) hub.onClose();
                 clickSelectionChoice(client, 3);
+                if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
+                        || hub.mode() != ProgressionBrowseScreen.Mode.RESEARCH || !hub.validationVisitAllSectors()) {
+                    failJourney("research selector did not reach the seven-sector menu"); return;
+                }
                 queueUiScreenshot("research-sector-selection.png");
                 uiJourneyStage = 3;
             }
             case 3 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
+                if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
-                        || hub.mode() != ProgressionBrowseScreen.Mode.RESEARCH
-                        || !hub.validationVisitAllSectors()
                         || !hub.validationOpenSector("production")
-                        || !(client.gui.screen() instanceof ProgressionBrowseScreen initialResearch)
-                        || !initialResearch.validationTreeReady()
-                        || !initialResearch.validationExerciseCanvasControls()
-                        || !initialResearch.validationKeyboardNodeFocus()) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_NAVIGATION_FAILED Research sector tree, branch navigation, drag pan, wheel zoom, or keyboard focus");
-                    return;
+                        || !(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                        || !browse.validationTreeReady() || !browse.validationExerciseCanvasControls()
+                        || !browse.validationKeyboardNodeFocus()) {
+                    failJourney("research tree navigation, pan, wheel zoom, or branch menu failed"); return;
                 }
                 queueUiScreenshot("research-screen.png");
+                uiJourneyStage = 30;
+            }
+            case 30 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                        || !browse.validationOpenBranchMenu()) { failJourney("research branch list did not open"); return; }
+                queueUiScreenshot("research-branch-menu.png");
                 uiJourneyStage = 31;
             }
             case 31 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
+                if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
-                var rows = ProgressionClientApi.research("production");
-                purchaseResearchIndex = -1;
-                for (int index = 0; index < rows.size(); index++) {
-                    if (rows.get(index).id().equals("nearby_chest_ingredients")) {
-                        purchaseResearchIndex = index;
-                        break;
-                    }
+                if (!browse.validationClickBranchForNode("nearby_chest_ingredients")
+                        || !browse.validationHoverNode("nearby_chest_ingredients")) {
+                    failJourney("purchasable research branch or tooltip target missing"); return;
                 }
-                if (purchaseResearchIndex < 0) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchasable research entry is missing");
-                    return;
-                }
-                if (!browse.validationClickNode("nearby_chest_ingredients")
-                        || !"nearby_chest_ingredients".equals(browse.validationSelectedNodeId())) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED node canvas did not select target research");
-                    return;
-                }
-                browse.validationFitAll();
-                queueUiScreenshot("research-fit-all.png");
+                queueUiScreenshot("research-node-tooltip.png");
                 uiJourneyStage = 32;
             }
             case 32 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
+                if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
-                browse.validationFocusSelected();
-                if (!browse.validationSelectedCentered()) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED focus selected did not recenter node");
-                    return;
-                }
-                if (!browse.validationHoverNode("nearby_chest_ingredients")) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED target research node was not available for hover");
-                    return;
-                }
-                queueUiScreenshot("research-node-tooltip.png");
+                browse.validationClearHover();
+                double beforeZoom = browse.validationCanvas().camera().zoom();
+                var view = dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry.responsiveLayout(
+                        client.getWindow().getGuiScaledWidth(), client.getWindow().getGuiScaledHeight()).viewport();
+                browse.mouseScrolled(view.x() + view.width() / 2.0, view.y() + view.height() / 2.0, 0, 1);
+                if (browse.validationCanvas().camera().zoom() <= beforeZoom) { failJourney("wheel zoom did not increase tree zoom"); return; }
+                queueUiScreenshot("research-zoomed.png");
                 uiJourneyStage = 33;
             }
             case 33 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
+                if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
-                browse.validationClearHover();
-                if (browse.validationCompact()) {
-                    browse.validationOpenDetails();
-                    queueUiScreenshot("research-compact-details.png");
-                    uiJourneyStage = 30;
-                } else {
-                    queueUiScreenshot("research-purchasable-entry.png");
-                    uiJourneyStage = 4;
-                }
-            }
-            case 30 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
-                if (client.gui.screen() instanceof ProgressionBrowseScreen browse) browse.validationCloseDetails();
                 queueUiScreenshot("research-purchasable-entry.png");
-                uiJourneyStage = 4;
+                uiJourneyStage = 34;
             }
-            case 4 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
+            case 34 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
+                browse.validationFocusSelected();
                 purchaseXpBefore = dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player);
                 purchaseChestBefore = itemCount(client, "minecraft:chest");
                 purchaseIronBlocksBefore = itemCount(client, "minecraft:iron_block");
                 purchasePaperBefore = itemCount(client, "minecraft:paper");
-                previousActionBeforeCancel = ProgressionClientApi.lastAction();
-                previousActionResultBeforeCancel = ProgressionClientApi.lastActionResult();
-                if (client.gui.screen() instanceof ProgressionBrowseScreen browse) {
-                    if (!browse.validationActivatePurchaseWithKeyboard()) {
-                        uiJourneyFailed = true;
-                        MoreMinecrafts.LOGGER.error("CLIENT_UI_KEYBOARD_FAILED focused purchase activation did not open confirmation");
-                        return;
-                    }
-                    if (client.gui.screen() instanceof ResearchPurchaseConfirmScreen) {
-                        ResearchPurchaseConfirmScreen confirmation = (ResearchPurchaseConfirmScreen) client.gui.screen();
-                        if (confirmation.validationCompact()) confirmation.validationScrollBody();
-                        queueUiScreenshot(confirmation.validationCompact()
-                                ? "research-purchase-confirmation-compact-scrolled.png"
-                                : "research-purchase-confirmation.png");
-                        MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CONFIRMATION_OPENED id=nearby_chest_ingredients");
-                    } else {
-                        uiJourneyFailed = true;
-                        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchase confirmation did not open");
-                    }
-                } else {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchase screen disappeared");
+                if (!browse.validationClickNode("nearby_chest_ingredients")
+                        || client.gui.screen() != browse
+                        || !ProgressionClientApi.purchasePending("nearby_chest_ingredients")) {
+                    failJourney("one-click purchase did not submit one pending server request"); return;
                 }
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_ONE_CLICK_SUBMITTED research=nearby_chest_ingredients input=synthetic_screen_callback");
+                uiJourneyStage = 4;
+            }
+            case 4 -> {
+                if (ProgressionClientApi.lastActionResult() < 0
+                        || !"research:nearby_chest_ingredients".equals(ProgressionClientApi.lastAction())) return;
+                int expected = dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseService.Result.PURCHASED.ordinal();
+                var row = ProgressionClientApi.research(null).stream()
+                        .filter(entry -> entry.id().equals("nearby_chest_ingredients")).findFirst().orElse(null);
+                if (ProgressionClientApi.lastActionResult() != expected || row == null || row.level() != 1) return;
+                int xpSpent = purchaseXpBefore - dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player);
+                int chestsSpent = purchaseChestBefore - itemCount(client, "minecraft:chest");
+                int ironSpent = purchaseIronBlocksBefore - itemCount(client, "minecraft:iron_block");
+                int paperSpent = purchasePaperBefore - itemCount(client, "minecraft:paper");
+                if (xpSpent != 1100 || chestsSpent != 8 || ironSpent != 4 || paperSpent != 64) {
+                    failJourney("one-click server purchase did not debit the expected existing costs"); return;
+                }
+                queueUiScreenshot("research-purchase-state.png");
                 uiJourneyStage = 5;
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_ONE_CLICK_PURCHASE_VERIFIED result=PURCHASED xp=1100 chest=8 iron_blocks=4 paper=64");
             }
             case 5 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
-                if (!(client.gui.screen() instanceof ResearchPurchaseConfirmScreen)) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED confirmation screen disappeared before cancel");
-                    return;
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
+                browse.onClose();
+                if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
+                        || !hub.validationOpenSector("combat")
+                        || !(client.gui.screen() instanceof ProgressionBrowseScreen combat)
+                        || !combat.validationHoverNode("combat_root")) {
+                    failJourney("locked research tooltip target missing"); return;
                 }
-                clickWidget(client, 1);
-                if (!(client.gui.screen() instanceof ProgressionBrowseScreen)
-                        || ProgressionClientApi.lastActionResult() != previousActionResultBeforeCancel
-                        || !ProgressionClientApi.lastAction().equals(previousActionBeforeCancel)
-                        || purchaseXpBefore != dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player)
-                        || purchaseChestBefore != itemCount(client, "minecraft:chest")
-                        || purchaseIronBlocksBefore != itemCount(client, "minecraft:iron_block")
-                        || purchasePaperBefore != itemCount(client, "minecraft:paper")) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_PURCHASE_CANCEL_FAILED cancellation changed action or resources");
-                    return;
-                }
-                queueUiScreenshot("research-purchase-cancelled.png");
-                MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CANCEL_VERIFIED resources_unchanged=true");
+                queueUiScreenshot("research-unavailable-tooltip.png");
                 uiJourneyStage = 6;
             }
             case 6 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
-                if (client.gui.screen() instanceof ProgressionBrowseScreen researchScreen) {
-                    clickWidgetWithLabel(client, "연구 구매", "Purchase research", "구매", "Buy");
-                    if (!(client.gui.screen() instanceof ResearchPurchaseConfirmScreen)) {
-                        uiJourneyFailed = true;
-                        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED confirmation did not reopen");
-                        return;
-                    }
-                    clickWidget(client, 0);
-                    MoreMinecrafts.LOGGER.info("CLIENT_UI_PURCHASE_CONFIRMED id=nearby_chest_ingredients");
-                } else {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED purchase screen disappeared after cancel");
-                    return;
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen combat)) return;
+                String previousAction = ProgressionClientApi.lastAction();
+                int previousResult = ProgressionClientApi.lastActionResult();
+                int xpBefore = dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player);
+                combat.validationClickNode("combat_root");
+                if (!previousAction.equals(ProgressionClientApi.lastAction())
+                        || previousResult != ProgressionClientApi.lastActionResult()
+                        || xpBefore != dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player)) {
+                    failJourney("ineligible research click submitted or spent resources"); return;
                 }
-                uiJourneyStage = 7;
-            }
-            case 7 -> {
-                int expectedResult = dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseService.Result.PURCHASED.ordinal();
-                if (!"research:nearby_chest_ingredients".equals(ProgressionClientApi.lastAction())
-                        || ProgressionClientApi.lastActionResult() != expectedResult) return;
-                var row = ProgressionClientApi.research(null).stream()
-                        .filter(entry -> entry.id().equals("nearby_chest_ingredients")).findFirst().orElse(null);
-                if (row == null || row.level() != 1) return;
-                int xpSpent = purchaseXpBefore - dev.itzgamesgd.moreminecrafts.progression.RawXp.available(client.player);
-                int chestsSpent = purchaseChestBefore - itemCount(client, "minecraft:chest");
-                int ironBlocksSpent = purchaseIronBlocksBefore - itemCount(client, "minecraft:iron_block");
-                int paperSpent = purchasePaperBefore - itemCount(client, "minecraft:paper");
-                if (xpSpent != 1100 || chestsSpent != 8 || ironBlocksSpent != 4 || paperSpent != 64) {
-                    uiJourneyFailed = true;
-                    MoreMinecrafts.LOGGER.error(
-                            "CLIENT_UI_PURCHASE_FAILED xp={} chest={} iron_blocks={} paper={}",
-                            xpSpent, chestsSpent, ironBlocksSpent, paperSpent
-                    );
-                    return;
-                }
-                queueUiScreenshot("research-purchase-state.png");
-                uiJourneyStage = 8;
-                MoreMinecrafts.LOGGER.info(
-                        "CLIENT_UI_PURCHASE_VERIFIED result=PURCHASED research=nearby_chest_ingredients level=1 xp=1100 chest=8 iron_blocks=4 paper=64"
-                );
-            }
-            case 8 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
+                combat.onClose();
+                if (client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub) hub.onClose();
                 var inventory = client.player.getInventory();
                 var menu = new AutoFarmMenu(1, inventory, new SimpleContainer(50));
                 client.gui.setScreen(new AutoFarmScreen(menu, inventory, Component.translatable("container.moreminecrafts.auto_farm")));
                 queueUiScreenshot("auto-farm-screen.png");
-                MoreMinecrafts.LOGGER.info("CLIENT_UI_RENDER_FIXTURE screen=auto_farm backend=real_menu empty_container=synthetic");
-                uiJourneyStage = 9;
+                uiJourneyStage = 7;
             }
-            case 9 -> {
-                if (!uiCaptureComplete) return;
-                uiCaptureComplete = false;
-                MoreMinecrafts.LOGGER.info(
-                    "CLIENT_INTERACTION_PATH synthetic Screen button callbacks: selector -> knowledge sectors -> knowledge tree -> research sectors -> research tree -> purchase"
-                );
+            case 7 -> {
+                if (!takeCapture()) return;
+                MoreMinecrafts.LOGGER.info("CLIENT_INTERACTION_PATH synthetic Screen callbacks: selector -> both sector menus -> node hover -> one-click server purchase");
                 MoreMinecrafts.LOGGER.info("CLIENT_INTERACTION_PATH auto_farm=render_only_synthetic_empty_container");
-                uiJourneyStage = 10;
+                uiJourneyStage = 8;
             }
             default -> { }
         }
+    }
+
+    private static boolean takeCapture() {
+        if (!uiCaptureComplete) return false;
+        uiCaptureComplete = false;
+        return true;
+    }
+
+    private static void failJourney(String reason) {
+        uiJourneyFailed = true;
+        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED {}", reason);
     }
 
     private static void advancePhysicalSelectorTest(Minecraft client) {
@@ -531,54 +430,6 @@ public final class VisualValidationHarness {
                 MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED selector choice={} did not open expected screen", choice);
             }
         }
-    }
-
-    private static void clickProgressionBack(Minecraft client) {
-        clickWidget(client, 0);
-        if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen)) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED back button did not return to the sector menu");
-        }
-    }
-
-    private static void clickResearchPurchase(Minecraft client) {
-        clickWidget(client, 10);
-    }
-
-    private static void clickWidgetWithLabel(Minecraft client, String... labels) {
-        Screen screen = client.gui.screen();
-        if (screen == null) { uiJourneyFailed = true; return; }
-        for (var child : screen.children()) {
-            if (child instanceof Button button && java.util.Arrays.stream(labels)
-                    .anyMatch(label -> button.getMessage().getString().equals(label))) {
-                button.onPress(new MouseButtonEvent(button.getX() + button.getWidth() / 2.0,
-                        button.getY() + button.getHeight() / 2.0, new MouseButtonInfo(0, 0)));
-                MoreMinecrafts.LOGGER.info("CLIENT_UI_VISIBLE_BUTTON_ACTIVATED label={}", button.getMessage().getString());
-                return;
-            }
-        }
-        uiJourneyFailed = true;
-        MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED visible button is missing: {}", String.join(" / ", labels));
-    }
-
-    private static void clickWidget(Minecraft client, int index) {
-        Screen screen = client.gui.screen();
-        if (screen == null || index < 0 || index >= screen.children().size()
-                || !(screen.children().get(index) instanceof AbstractWidget widget)
-                || !widget.active || !widget.visible) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED widget={} screen={}", index, screen);
-            return;
-        }
-        if (!(widget instanceof Button button)) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED widget={} is not a button", index);
-            return;
-        }
-        button.onPress(new MouseButtonEvent(button.getX() + button.getWidth() / 2.0,
-                button.getY() + button.getHeight() / 2.0, new MouseButtonInfo(0, 0)));
-        MoreMinecrafts.LOGGER.info("CLIENT_UI_WIDGET_ACTIVATED index={} label={} screen={}", index,
-                button.getMessage().getString(), screen.getClass().getSimpleName());
     }
 
     private static int itemCount(Minecraft client, String itemId) {
