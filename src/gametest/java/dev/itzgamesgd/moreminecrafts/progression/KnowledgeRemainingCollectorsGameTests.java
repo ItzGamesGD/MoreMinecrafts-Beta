@@ -102,7 +102,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         ctx.succeed();
     }
 
-    @GameTest
+    @GameTest(maxTicks = 20)
     public void k36CountsOnlyAnActualShieldBlock(GameTestHelper ctx) {
         ServerPlayer shielded = ctx.makeMockServerPlayerInLevel();
         shielded.setGameMode(GameType.SURVIVAL);
@@ -115,19 +115,22 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         attacker.setNoAi(true);
         attacker.setPos(shielded.getX(), shielded.getY(), shielded.getZ() + 2.0D);
 
-        ctx.assertTrue(!shielded.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().mobAttack(attacker), 6.0F),
-                "the active shield blocks the incoming front-facing melee hit");
-        ctx.assertTrue(shielded.getUseItem().getDamageValue() > shieldDamageBefore,
-                "vanilla damages the shield as a result of blocking the hit");
-        ctx.assertTrue(KnowledgeRuntime.state(shielded).conditionProgress("shield_blocks") == 1,
-                "the installed blockedByItem hook records the successfully blocked hit");
+        ctx.runAfterDelay(6, () -> {
+            ctx.assertTrue(shielded.isBlocking(), "the shield has completed vanilla's raise delay");
+            ctx.assertTrue(!shielded.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().mobAttack(attacker),
+                    6.0F), "the raised shield blocks the incoming front-facing melee hit");
+            ctx.assertTrue(shielded.getUseItem().getDamageValue() > shieldDamageBefore,
+                    "vanilla damages the shield as a result of blocking the hit");
+            ctx.assertTrue(KnowledgeRuntime.state(shielded).conditionProgress("shield_blocks") == 1,
+                    "the installed blockedByItem hook records the successfully blocked hit");
 
-        ServerPlayer unshielded = ctx.makeMockServerPlayerInLevel();
-        ctx.assertTrue(unshielded.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().mobAttack(attacker), 6.0F),
-                "the control player takes the same hit without a shield");
-        ctx.assertTrue(KnowledgeRuntime.state(unshielded).conditionProgress("shield_blocks") == 0,
-                "an unblocked hit does not advance shield knowledge");
-        ctx.succeed();
+            ServerPlayer unshielded = ctx.makeMockServerPlayerInLevel();
+            ctx.assertTrue(unshielded.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().mobAttack(attacker),
+                    6.0F), "the control player takes the same hit without a shield");
+            ctx.assertTrue(KnowledgeRuntime.state(unshielded).conditionProgress("shield_blocks") == 0,
+                    "an unblocked hit does not advance shield knowledge");
+            ctx.succeed();
+        });
     }
 
     @GameTest(maxTicks = 360)
