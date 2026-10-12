@@ -31,7 +31,22 @@ bin/
 
 # Local environment / secrets
 .env
+.env.*
+!.env.example
 *.local
+
+# Key material and machine-local credentials (not a substitute for secret scanning)
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.asc
+id_rsa*
+id_ed25519*
+**/*credentials*.json
+**/*secrets*.json
 
 # OS
 .DS_Store
