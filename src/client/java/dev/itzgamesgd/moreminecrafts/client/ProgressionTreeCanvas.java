@@ -31,8 +31,8 @@ import net.minecraft.client.renderer.RenderPipelines;
 public final class ProgressionTreeCanvas {
     private static final ClientTooltipPositioner BOUNDED_TOOLTIP_POSITIONER = (screenWidth, screenHeight,
             x, y, tooltipWidth, tooltipHeight) -> new Vector2i(
-            Math.max(0, Math.min(x + 12, screenWidth - tooltipWidth)),
-            Math.max(0, Math.min(y + 12, screenHeight - tooltipHeight)));
+            clampTooltipOrigin(x + 12, screenWidth, tooltipWidth),
+            clampTooltipOrigin(y + 12, screenHeight, tooltipHeight));
     private static final Identifier BACKGROUND = Identifier.withDefaultNamespace(
             "textures/gui/advancements/backgrounds/stone.png");
     private static final Identifier OBTAINED_BOX = Identifier.withDefaultNamespace("advancements/box_obtained");
@@ -273,7 +273,7 @@ public final class ProgressionTreeCanvas {
     private List<ClientTooltipComponent> tooltip(Font font, ProgressionNodeLayoutCatalog.Node node,
                                                   ProgressionScreenData.KnowledgeRow knowledge,
                                                   ProgressionScreenData.ResearchRow research, int guiWidth) {
-        int maxWidth = Math.max(100, Math.min(300, guiWidth - 24));
+        int maxWidth = Math.max(100, Math.min(300, guiWidth - 56));
         List<ClientTooltipComponent> lines = new ArrayList<>();
         if (knowledge != null) {
             addText(lines, font, Component.translatable(knowledge.titleKey()).withStyle(ChatFormatting.WHITE), maxWidth);
@@ -352,6 +352,12 @@ public final class ProgressionTreeCanvas {
 
     private static void addText(List<ClientTooltipComponent> target, Font font, Component value, int maxWidth) {
         font.split(value, maxWidth).forEach(line -> target.add(ClientTooltipComponent.create(line)));
+    }
+
+    private static int clampTooltipOrigin(int preferred, int screenExtent, int tooltipExtent) {
+        int margin = 12;
+        int maximum = Math.max(margin, screenExtent - tooltipExtent - margin);
+        return Math.max(margin, Math.min(preferred, maximum));
     }
 
     private static String knowledgeName(int number) {
