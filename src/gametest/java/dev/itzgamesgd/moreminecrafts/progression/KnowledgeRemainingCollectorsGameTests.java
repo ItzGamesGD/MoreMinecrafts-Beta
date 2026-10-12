@@ -16,8 +16,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -37,7 +37,7 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
-import net.minecraft.world.level.storage.ProblemReporter;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 
@@ -69,10 +69,10 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         BlockPos pos = ctx.absolutePos(new BlockPos(4, 2, 2));
         ctx.setBlock(new BlockPos(4, 2, 2), Blocks.BLAST_FURNACE);
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) ctx.getLevel().getBlockEntity(pos);
-        furnace.setItem(0, new ItemStack(Items.RAW_BEEF));
+        furnace.setItem(0, new ItemStack(Items.BEEF));
         furnace.setItem(1, new ItemStack(Items.COAL));
         ctx.runAfterDelay(230, () -> {
-            AbstractContainerMenu menu = furnace.createMenu(2, player.getInventory());
+            AbstractContainerMenu menu = furnace.createMenu(2, player.getInventory(), player);
             var output = menu.getSlot(2);
             ctx.assertTrue(output.getItem().is(Items.COOKED_BEEF),
                     "vanilla blast-furnace processing creates cooked beef");
@@ -91,7 +91,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) ctx.getLevel()
                 .getBlockEntity(ctx.absolutePos(new BlockPos(2, 2, 2)));
         furnace.setItem(2, new ItemStack(Items.IRON_INGOT));
-        AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory());
+        AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory(), player);
         var output = menu.getSlot(2);
         ItemStack taken = output.remove(1);
         output.onTake(player, taken);
@@ -107,7 +107,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         shielded.setYRot(0.0F);
         shielded.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
         shielded.startUsingItem(InteractionHand.OFF_HAND);
-        var attacker = ctx.spawnMob(EntityType.ZOMBIE, 2, 2, 4);
+        var attacker = ctx.spawnMob(EntityTypes.ZOMBIE, 2, 2, 4).spawn();
         attacker.setNoAi(true);
         attacker.setPos(shielded.getX(), shielded.getY(), shielded.getZ() + 2.0D);
 
@@ -130,10 +130,10 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         ctx.setBlock(new BlockPos(2, 2, 2), Blocks.FURNACE);
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) ctx.getLevel().getBlockEntity(pos);
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        furnace.setItem(0, new ItemStack(Items.RAW_BEEF));
+        furnace.setItem(0, new ItemStack(Items.BEEF));
         furnace.setItem(1, new ItemStack(Items.COAL));
         ctx.runAfterDelay(230, () -> {
-            AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory());
+            AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory(), player);
             var result = menu.getSlot(2);
             ctx.assertTrue(result.getItem().is(Items.COOKED_BEEF), "vanilla cooking produces steak");
             ItemStack taken = result.remove(1);
@@ -156,7 +156,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         furnace.setItem(0, new ItemStack(Items.RAW_IRON));
         furnace.setItem(1, new ItemStack(Items.COAL));
         ctx.runAfterDelay(230, () -> {
-            AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory());
+            AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory(), player);
             var result = menu.getSlot(2);
             ctx.assertTrue(result.getItem().is(Items.IRON_INGOT), "vanilla smelting produces an iron ingot");
             ItemStack taken = result.remove(1);
@@ -172,7 +172,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     @GameTest(maxTicks = 230)
     public void k48CreditsCompletedPiglinBarterToTheDirectGoldOfferer(GameTestHelper ctx) {
         ServerPlayer offerer = ctx.makeMockServerPlayerInLevel();
-        Piglin piglin = ctx.spawnMob(EntityType.PIGLIN, 3, 2, 2);
+        Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 3, 2, 2).spawn();
         offerer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT));
         InteractionResult offered = offerer.interactOn(piglin, InteractionHand.MAIN_HAND, piglin.position());
         ctx.assertTrue(offered.consumesAction(), "the piglin accepts the player's direct gold-ingot offer");
@@ -187,7 +187,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     @GameTest(maxTicks = 220)
     public void k48PiglinWithoutAnOfferDoesNotCreateBarterProgress(GameTestHelper ctx) {
         ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
-        ctx.spawnMob(EntityType.PIGLIN, 3, 2, 2);
+        ctx.spawnMob(EntityTypes.PIGLIN, 3, 2, 2).spawn();
         ctx.runAfterDelay(200, () -> {
             ctx.assertTrue(KnowledgeRuntime.state(bystander).conditionProgress("piglin_barters") == 0,
                     "piglin activity without a gold offer does not create player progress");
@@ -225,7 +225,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         bowOwner.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.CROSSBOW));
         Arrow bowArrow = arrow(ctx, bowOwner, Items.BOW);
         invokeShootProjectile((BowItem) Items.BOW, bowOwner, bowArrow);
-        var bowTarget = ctx.spawnMob(EntityType.ZOMBIE, 3, 2, 2);
+        var bowTarget = ctx.spawnMob(EntityTypes.ZOMBIE, 3, 2, 2).spawn();
         ctx.assertTrue(bowTarget.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().arrow(bowArrow, bowOwner), 100.0F),
                 "a hostile mob dies from a direct bow-origin arrow damage source");
         ctx.assertTrue(KnowledgeRuntime.state(bowOwner).conditionProgress("bow_hostile_kills") == 1,
@@ -237,7 +237,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         crossbowOwner.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
         Arrow crossbowArrow = arrow(ctx, crossbowOwner, Items.CROSSBOW);
         invokeShootProjectile((CrossbowItem) Items.CROSSBOW, crossbowOwner, crossbowArrow);
-        var crossbowTarget = ctx.spawnMob(EntityType.ZOMBIE, 4, 2, 2);
+        var crossbowTarget = ctx.spawnMob(EntityTypes.ZOMBIE, 4, 2, 2).spawn();
         ctx.assertTrue(crossbowTarget.hurtServer(ctx.getLevel(),
                 ctx.getLevel().damageSources().arrow(crossbowArrow, crossbowOwner), 100.0F),
                 "a hostile mob dies from a direct crossbow-origin arrow damage source");
@@ -250,7 +250,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         ServerPlayer projectileOwner = ctx.makeMockServerPlayerInLevel();
         Arrow transferredArrow = arrow(ctx, projectileOwner, Items.BOW);
         invokeShootProjectile((BowItem) Items.BOW, launchActor, transferredArrow);
-        var ownerTarget = ctx.spawnMob(EntityType.ZOMBIE, 5, 2, 2);
+        var ownerTarget = ctx.spawnMob(EntityTypes.ZOMBIE, 5, 2, 2).spawn();
         ctx.assertTrue(ownerTarget.hurtServer(ctx.getLevel(),
                 ctx.getLevel().damageSources().arrow(transferredArrow, launchActor), 100.0F),
                 "a hostile mob dies from a projectile whose stored owner differs from the launch argument");
@@ -289,7 +289,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         ctx.assertTrue(KnowledgeRuntime.state(crossbowPlayer).conditionProgress("special_ammunition_used") == 1,
                 "the actual crossbow shootProjectile hook recognizes a launched firework");
 
-        var target = ctx.spawnMob(EntityType.ZOMBIE, 3, 2, 2);
+        var target = ctx.spawnMob(EntityTypes.ZOMBIE, 3, 2, 2).spawn();
         ctx.assertTrue(target.hurtServer(ctx.getLevel(),
                 ctx.getLevel().damageSources().fireworks(rocket, crossbowPlayer), 100.0F),
                 "a hostile mob dies from a fireworks explosion damage source");
@@ -301,7 +301,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
                 bowPlayer.getY(), bowPlayer.getZ(), new ItemStack(Items.FIREWORK_ROCKET));
         wrongOrigin.setOwner(bowPlayer);
         invokeShootProjectile((BowItem) Items.BOW, bowPlayer, wrongOrigin);
-        var wrongTarget = ctx.spawnMob(EntityType.ZOMBIE, 4, 2, 2);
+        var wrongTarget = ctx.spawnMob(EntityTypes.ZOMBIE, 4, 2, 2).spawn();
         wrongTarget.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().fireworks(wrongOrigin, bowPlayer), 100.0F);
         ctx.assertTrue(KnowledgeRuntime.state(bowPlayer).conditionProgress("crossbow_hostile_kills") == 0,
                 "a firework passed through a bow-origin hook cannot receive crossbow kill credit");
@@ -321,10 +321,10 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
                 ctx.getLevel().registryAccess());
         launched.saveWithoutId(output);
         CompoundTag saved = output.buildResult();
-        FireworkRocketEntity reloaded = EntityType.FIREWORK_ROCKET.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
+        FireworkRocketEntity reloaded = EntityTypes.FIREWORK_ROCKET.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
         ctx.assertTrue(reloaded != null, "a vanilla firework projectile can be recreated from saved state");
         reloaded.load(TagValueInput.create(ProblemReporter.DISCARDING, ctx.getLevel().registryAccess(), saved));
-        var target = ctx.spawnMob(EntityType.ZOMBIE, 3, 2, 2);
+        var target = ctx.spawnMob(EntityTypes.ZOMBIE, 3, 2, 2).spawn();
         target.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().fireworks(reloaded, owner), 100.0F);
         ctx.assertTrue(KnowledgeRuntime.state(owner).conditionProgress("crossbow_hostile_kills") == 0,
                 "ephemeral launch provenance cannot be forged or duplicated after projectile reload");
@@ -335,22 +335,22 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     public void tridentKillRequiresAStoredTridentAndServerPlayerOwner(GameTestHelper ctx) {
         ServerPlayer owner = ctx.makeMockServerPlayerInLevel();
         owner.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
-        ThrownTrident trident = EntityType.TRIDENT.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
+        ThrownTrident trident = EntityTypes.TRIDENT.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
         ctx.assertTrue(trident != null, "a vanilla thrown trident can be constructed");
         trident.setOwner(owner);
         setProjectileItem(trident, "setWeaponItem", new ItemStack(Items.TRIDENT));
         ctx.getLevel().addFreshEntity(trident);
-        var target = ctx.spawnMob(EntityType.ZOMBIE, 3, 2, 2);
+        var target = ctx.spawnMob(EntityTypes.ZOMBIE, 3, 2, 2).spawn();
         ctx.assertTrue(target.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().trident(trident, owner), 100.0F),
                 "the hostile mob dies from the direct thrown-trident damage source");
         ctx.assertTrue(KnowledgeRuntime.state(owner).conditionProgress("trident_hostile_kills") == 1,
                 "the direct projectile type, stored trident, and owner satisfy the trident condition");
 
-        ThrownTrident unowned = EntityType.TRIDENT.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
+        ThrownTrident unowned = EntityTypes.TRIDENT.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
         ctx.assertTrue(unowned != null, "a second vanilla thrown trident can be constructed");
         setProjectileItem(unowned, "setWeaponItem", new ItemStack(Items.TRIDENT));
         ctx.getLevel().addFreshEntity(unowned);
-        var secondTarget = ctx.spawnMob(EntityType.ZOMBIE, 4, 2, 2);
+        var secondTarget = ctx.spawnMob(EntityTypes.ZOMBIE, 4, 2, 2).spawn();
         ctx.assertTrue(secondTarget.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().trident(unowned, null),
                 100.0F), "a hostile mob dies from a trident without a player owner");
         ctx.assertTrue(KnowledgeRuntime.state(owner).conditionProgress("trident_hostile_kills") == 1,
@@ -388,7 +388,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     }
 
     private static Arrow arrow(GameTestHelper ctx, ServerPlayer owner, net.minecraft.world.item.Item weapon) {
-        Arrow arrow = EntityType.ARROW.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
+        Arrow arrow = EntityTypes.ARROW.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
         if (arrow == null) throw new AssertionError("vanilla arrow should be constructible");
         arrow.setOwner(owner);
         setProjectileItem(arrow, "setWeaponItem", new ItemStack(weapon));
