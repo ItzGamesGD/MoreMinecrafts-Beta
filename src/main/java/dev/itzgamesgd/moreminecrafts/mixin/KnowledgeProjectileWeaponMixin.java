@@ -18,7 +18,10 @@ abstract class KnowledgeProjectileWeaponMixin {
     private void moreminecrafts$recordSpecialAmmo(LivingEntity shooter, Projectile projectile,
             int projectileIndex, float velocity, float divergence, float yaw, LivingEntity target,
             CallbackInfo ci) {
-        if (shooter instanceof ServerPlayer player)
+        if (shooter instanceof ServerPlayer player) {
+            boolean crossbow = (Object) this instanceof CrossbowItem;
+            KnowledgeEventCollectors.rememberProjectileWeapon(player, projectile, crossbow);
             KnowledgeEventCollectors.specialAmmunitionUsed(player, projectile);
+        }
     }
 }
