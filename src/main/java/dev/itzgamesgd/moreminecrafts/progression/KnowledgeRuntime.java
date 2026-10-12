@@ -8,18 +8,15 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.block.Blocks;
 
 /** Server-owned knowledge state; permanent and free, independent from paid research. */
 public final class KnowledgeRuntime {
@@ -343,7 +340,6 @@ public final class KnowledgeRuntime {
                         String.valueOf(BuiltInRegistries.ITEM.getKey(food)));
         }
         recordCondition(p, "netherite_ingot_crafted", crafted(p, Items.NETHERITE_INGOT));
-        recordCondition(p, "furnace_blast_furnace_used", crafted(p, Items.BLAST_FURNACE));
         recordCondition(p, "farm_automation_parts_crafted",
                 countCrafted(p, List.of(Items.OBSERVER, Items.PISTON, Items.HOPPER)));
         recordCondition(p, "tool_types_crafted", craftedSum(p, List.of(
@@ -362,10 +358,6 @@ public final class KnowledgeRuntime {
                 .filter(key -> key.startsWith("log.")).count();
         if (kinds >= 6) grantKnowledge(p, 4); // migrate legacy per-log observations
         if (!knows(p, 17) && crafted(p, Items.CHEST) >= 10) grantKnowledge(p, 17);
-        if (!knows(p, 18) && used(p, Items.HOPPER) >= 5) grantKnowledge(p, 18);
-        if (!knows(p, 19) && usedSum(p, List.of(Items.REDSTONE, Items.REPEATER, Items.COMPARATOR,
-                Items.OBSERVER, Items.PISTON, Items.STICKY_PISTON)) >= 20) grantKnowledge(p, 19);
-        if (!knows(p, 25) && value(p, "fed_species") >= 5) grantKnowledge(p, 25);
         if (!knows(p, 57) && p.getStats().getValue(Stats.CUSTOM.get(Stats.AVIATE_ONE_CM)) >= 200000)
             grantKnowledge(p, 57);
         recordCondition(p, "boat_distance", p.getStats().getValue(Stats.CUSTOM.get(Stats.BOAT_ONE_CM)) / 100);
