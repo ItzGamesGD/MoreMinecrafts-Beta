@@ -112,7 +112,10 @@ def main():
     if not REPO or not TOKEN:
         raise RuntimeError("missing repository or read-only token")
     artifacts = [a for a in records("/actions/artifacts", "artifacts") if not a.get("expired")]
-    runs = records("/actions/runs", "workflow_runs")
+    all_runs = records("/actions/runs", "workflow_runs")
+    # Running workflows cannot publish their own logs yet; audit completed runs.
+    runs = [run for run in all_runs if run.get("status") == "completed"]
+    print(f"Pending/in-progress run logs excluded: {len(all_runs) - len(runs)}", flush=True)
     print(f"Inventory: {len(artifacts)} active artifacts, {len(runs)} workflow runs", flush=True)
     print(f"Artifact bytes: {sum(a.get('size_in_bytes') or 0 for a in artifacts)}", flush=True)
     findings, skips, unavailable = [], [], []
