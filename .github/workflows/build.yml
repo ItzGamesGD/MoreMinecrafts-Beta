@@ -1,5 +1,9 @@
 name: Fabric CI
 
+# All jobs use the minimum repository token scope.
+permissions:
+  contents: read
+
 on:
   push:
     branches:
