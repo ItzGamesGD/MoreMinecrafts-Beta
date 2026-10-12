@@ -28,13 +28,13 @@ final class KnowledgeConditionSemanticsTest {
 
     @Test void placementAllowlistIncludesTrackedComponentsAndRejectsUnrelatedItems() {
         assertTrue(KnowledgeEventCollectors.isEligibleRedstoneComponent(
-                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.REDSTONE)));
+                net.minecraft.world.item.Items.REDSTONE));
         assertTrue(KnowledgeEventCollectors.isEligibleRedstoneComponent(
-                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PISTON)));
+                net.minecraft.world.item.Items.PISTON));
         assertFalse(KnowledgeEventCollectors.isEligibleRedstoneComponent(
-                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.REDSTONE_BLOCK)));
+                net.minecraft.world.item.Items.REDSTONE_BLOCK));
         assertFalse(KnowledgeEventCollectors.isEligibleRedstoneComponent(
-                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.STONE)));
+                net.minecraft.world.item.Items.STONE));
     }
 
     @Test void knowledgeProgressAndDistinctFoodKeysSurviveAttachmentCodecRoundTrip() {
