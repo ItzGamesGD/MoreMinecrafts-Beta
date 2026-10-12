@@ -33,6 +33,7 @@ public final class KnowledgeRuntime {
     private static List<Item> logItems = List.of();
     private static List<Item> plantItems = List.of();
     private static List<Item> seedItems = List.of();
+    private static List<Item> foodItems = List.of();
     private static final java.util.Map<java.util.UUID, PickaxeDamageSnapshot> PICKAXE_DAMAGE = new java.util.HashMap<>();
     private static final java.util.Set<java.util.UUID> SILENT_RECONCILIATION = new java.util.HashSet<>();
     private record PickaxeDamageSnapshot(Item item, int damage, int maximumDamage) {}
@@ -41,10 +42,12 @@ public final class KnowledgeRuntime {
         var logs = new java.util.ArrayList<Item>();
         var plants = new java.util.ArrayList<Item>();
         var seeds = new java.util.ArrayList<Item>();
+        var foods = new java.util.ArrayList<Item>();
         for (Item item : BuiltInRegistries.ITEM) {
             ItemStack probe = new ItemStack(item);
             if (probe.is(ItemTags.LOGS)) logs.add(item);
             if (probe.is(ItemTags.SAPLINGS)) plants.add(item);
+            if (probe.is(ItemTags.FOOD)) foods.add(item);
         }
         plants.addAll(List.of(Items.DANDELION, Items.POPPY, Items.BLUE_ORCHID, Items.ALLIUM,
                 Items.AZURE_BLUET, Items.RED_TULIP, Items.ORANGE_TULIP, Items.WHITE_TULIP,
@@ -56,6 +59,7 @@ public final class KnowledgeRuntime {
         logItems = List.copyOf(logs);
         plantItems = List.copyOf(plants);
         seedItems = List.copyOf(seeds);
+        foodItems = List.copyOf(foods);
     }
 
     public static void initialize() {
@@ -82,24 +86,6 @@ public final class KnowledgeRuntime {
             }
             return true;
         });
-        // Record five distinct actually feedable species across normal right-clicks.
-        // An observer callback never consumes or cancels the original interaction.
-        net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register(
-                (player, level, hand, entity, hitResult) -> {
-                    if (player instanceof ServerPlayer serverPlayer
-                            && entity instanceof net.minecraft.world.entity.animal.Animal animal
-                            && animal.isFood(player.getItemInHand(hand))
-                            && (animal.canFallInLove() || animal.isBaby())
-                            && !knows(serverPlayer, 25)) {
-                        String type = String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
-                        recordDistinctCondition(serverPlayer, "animal_types_fed", type);
-                        set(serverPlayer, "fed_species." + type, 1);
-                        long count = serverPlayer.getAttachedOrCreate(STATE).counters().keySet().stream()
-                                .filter(s -> s.startsWith("fed_species.")).count();
-                        set(serverPlayer, "fed_species", (int) count);
-                    }
-                    return net.minecraft.world.InteractionResult.PASS;
-                });
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
             if (!(player instanceof ServerPlayer serverPlayer)) return;
             PickaxeDamageSnapshot before = PICKAXE_DAMAGE.remove(serverPlayer.getUUID());
@@ -120,66 +106,55 @@ public final class KnowledgeRuntime {
                 if (blockId.contains("deepslate_")) recordDistinctCondition(serverPlayer, "deepslate_ore_types_mined", blockId);
                 recordCondition(serverPlayer, "ore_items_mined", value(serverPlayer,"condition.ore_items_mined") + 1);
             }
-            if (state.is(BlockTags.BASE_STONE_OVERWORLD) || state.is(BlockTags.BASE_STONE_NETHER))
-                recordDistinctCondition(serverPlayer, "rock_types_mined", blockId);
+            // K8 progress is paused until its eligible survival rock roster is verified.
+            // Existing saved progress and Knowledge unlocks are preserved.
             if (state.getBlock() instanceof net.minecraft.world.level.block.CropBlock crop
                     && state.getValue(net.minecraft.world.level.block.CropBlock.AGE) >= crop.getMaxAge())
                 recordCondition(serverPlayer, "crops_harvested", value(serverPlayer,"condition.crops_harvested") + 1);
         });
-        UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
-            if (!(player instanceof ServerPlayer serverPlayer) || level.isClientSide()) return net.minecraft.world.InteractionResult.PASS;
-            var held = player.getItemInHand(hand);
-            var clicked = level.getBlockState(hit.getBlockPos());
-            if (held.is(ItemTags.HOES) && clicked.is(BlockTags.DIRT))
-                recordCondition(serverPlayer, "farmland_tilled", value(serverPlayer,"condition.farmland_tilled") + 1);
-            if (held.is(Items.WATER_BUCKET)
-                    && (clicked.is(BlockTags.DIRT) || clicked.is(Blocks.FARMLAND)))
-                recordCondition(serverPlayer, "farmland_watered", 1);
-            if (clicked.is(Blocks.BLAST_FURNACE))
-                recordCondition(serverPlayer, "furnace_blast_furnace_used", 1);
-            return net.minecraft.world.InteractionResult.PASS;
-        });
         net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
-            if (!(damageSource.getEntity() instanceof ServerPlayer player)) return;
+            if (!(entity instanceof net.minecraft.world.entity.monster.Monster)) return;
             String entityId = String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
             String path = entityId.substring(entityId.indexOf(':') + 1);
-            String killKey = switch (path) {
-                case "zombie" -> "zombie_kills";
-                case "skeleton" -> "skeleton_kills";
-                case "creeper" -> "creeper_kills";
-                case "spider", "cave_spider" -> "spider_kills";
-                case "enderman" -> "enderman_kills";
-                case "slime" -> "slime_kills";
-                case "hoglin" -> "hoglin_kills";
-                case "pillager", "vindicator" -> "pillager_and_vindicator_kills";
-                case "drowned", "guardian" -> "drowned_and_guardian_kills";
-                case "ender_dragon", "wither" -> "ender_dragon_or_wither_killed";
-                default -> null;
-            };
-            if (killKey != null) {
-                int amount = killKey.equals("pillager_and_vindicator_kills") || killKey.equals("drowned_and_guardian_kills")
-                        ? 1 : value(player, "condition." + killKey) + 1;
-                if (killKey.equals("pillager_and_vindicator_kills") || killKey.equals("drowned_and_guardian_kills"))
-                    recordDistinctCondition(player, killKey, path);
-                else recordCondition(player, killKey, amount);
-            }
-            if (path.equals("piglin"))
-                recordCondition(player, "piglin_kills", value(player,"condition.piglin_kills") + 1);
-            if (entity instanceof net.minecraft.world.entity.monster.Monster) {
-                var held = player.getMainHandItem();
-                if (held.is(ItemTags.SWORDS))
+            ServerPlayer player = damageSource.getEntity() instanceof ServerPlayer p ? p : null;
+            if (player != null) {
+                String killKey = switch (path) {
+                    case "zombie" -> "zombie_kills";
+                    case "skeleton" -> "skeleton_kills";
+                    case "creeper" -> "creeper_kills";
+                    case "spider", "cave_spider" -> "spider_kills";
+                    case "enderman" -> "enderman_kills";
+                    case "slime" -> "slime_kills";
+                    case "hoglin" -> "hoglin_kills";
+                    case "pillager", "vindicator" -> "pillager_and_vindicator_kills";
+                    case "drowned", "guardian" -> "drowned_and_guardian_kills";
+                    case "ender_dragon", "wither" -> "ender_dragon_or_wither_killed";
+                    default -> null;
+                };
+                if (killKey != null) {
+                    int amount = killKey.equals("pillager_and_vindicator_kills") || killKey.equals("drowned_and_guardian_kills")
+                            ? 1 : value(player, "condition." + killKey) + 1;
+                    if (killKey.equals("pillager_and_vindicator_kills") || killKey.equals("drowned_and_guardian_kills"))
+                        recordDistinctCondition(player, killKey, path);
+                    else recordCondition(player, killKey, amount);
+                }
+                if (path.equals("piglin"))
+                    recordCondition(player, "piglin_kills", value(player,"condition.piglin_kills") + 1);
+                if (player.getMainHandItem().is(ItemTags.SWORDS))
                     recordCondition(player, "sword_hostile_kills", value(player,"condition.sword_hostile_kills") + 1);
-                if (held.is(ItemTags.AXES))
+                if (player.getMainHandItem().is(ItemTags.AXES))
                     recordCondition(player, "axe_hostile_kills", value(player,"condition.axe_hostile_kills") + 1);
-                if (held.getItem() instanceof net.minecraft.world.item.BowItem)
-                    recordCondition(player, "bow_hostile_kills", value(player,"condition.bow_hostile_kills") + 1);
-                if (held.getItem() instanceof net.minecraft.world.item.CrossbowItem)
-                    recordCondition(player, "crossbow_hostile_kills", value(player,"condition.crossbow_hostile_kills") + 1);
-                if (held.getItem() instanceof net.minecraft.world.item.TridentItem)
-                    recordCondition(player, "trident_hostile_kills", value(player,"condition.trident_hostile_kills") + 1);
                 if (player.isSprinting())
                     recordCondition(player, "running_hostile_kills", value(player,"condition.running_hostile_kills") + 1);
             }
+            var direct = damageSource.getDirectEntity();
+            if (direct instanceof net.minecraft.world.entity.projectile.arrow.ThrownTrident trident
+                    && trident.getWeaponItem().is(Items.TRIDENT)
+                    && trident.getOwner() instanceof ServerPlayer thrower)
+                recordCondition(thrower, "trident_hostile_kills",
+                        value(thrower, "condition.trident_hostile_kills") + 1);
+            if (direct instanceof net.minecraft.world.entity.projectile.Projectile projectile)
+                KnowledgeEventCollectors.projectileKill(projectile);
         });
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             boolean refreshStatistics = server.getTickCount() % 100 == 0;
@@ -357,11 +332,13 @@ public final class KnowledgeRuntime {
         observeTypes(p, "brewing_ingredients_acquired", List.of(Items.NETHER_WART, Items.BLAZE_POWDER,
                 Items.REDSTONE, Items.GLOWSTONE_DUST, Items.GHAST_TEAR, Items.MAGMA_CREAM,
                 Items.SPIDER_EYE, Items.PUFFERFISH, Items.GOLDEN_CARROT, Items.RABBIT_FOOT));
-        recordCondition(p, "large_tree_logs_acquired", itemCount(p, logItems));
+        // K5 progress is paused because generic log statistics have no tree-size provenance.
         recordCondition(p, "chests_crafted", crafted(p, Items.CHEST));
-        recordCondition(p, "hoppers_placed", used(p, Items.HOPPER));
-        recordCondition(p, "redstone_components_placed", usedSum(p, List.of(Items.REDSTONE, Items.REPEATER,
-                Items.COMPARATOR, Items.OBSERVER, Items.PISTON, Items.STICKY_PISTON)));
+        for (Item food : foodItems) {
+            if (crafted(p, food) > 0)
+                recordDistinctCondition(p, "foods_crafted_or_cooked",
+                        String.valueOf(BuiltInRegistries.ITEM.getKey(food)));
+        }
         recordCondition(p, "netherite_ingot_crafted", crafted(p, Items.NETHERITE_INGOT));
         recordCondition(p, "furnace_blast_furnace_used", crafted(p, Items.BLAST_FURNACE));
         recordCondition(p, "farm_automation_parts_crafted",
@@ -381,12 +358,6 @@ public final class KnowledgeRuntime {
         long kinds = p.getAttachedOrCreate(STATE).counters().keySet().stream()
                 .filter(key -> key.startsWith("log.")).count();
         if (kinds >= 6) grantKnowledge(p, 4); // migrate legacy per-log observations
-        if (!knows(p, 14) && craftedSum(p, List.of(
-                Items.WOODEN_PICKAXE, Items.STONE_PICKAXE, Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.DIAMOND_PICKAXE,
-                Items.WOODEN_AXE, Items.STONE_AXE, Items.IRON_AXE, Items.DIAMOND_AXE,
-                Items.WOODEN_SHOVEL, Items.STONE_SHOVEL, Items.IRON_SHOVEL, Items.DIAMOND_SHOVEL,
-                Items.WOODEN_SWORD, Items.STONE_SWORD, Items.IRON_SWORD, Items.DIAMOND_SWORD)) >= 5)
-            grantKnowledge(p, 14);
         if (!knows(p, 17) && crafted(p, Items.CHEST) >= 10) grantKnowledge(p, 17);
         if (!knows(p, 18) && used(p, Items.HOPPER) >= 5) grantKnowledge(p, 18);
         if (!knows(p, 19) && usedSum(p, List.of(Items.REDSTONE, Items.REPEATER, Items.COMPARATOR,
