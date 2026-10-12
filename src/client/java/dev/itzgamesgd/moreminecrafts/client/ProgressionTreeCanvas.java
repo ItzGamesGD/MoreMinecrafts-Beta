@@ -16,7 +16,7 @@ import java.util.Set;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -24,10 +24,15 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.joml.Vector2i;
 import net.minecraft.client.renderer.RenderPipelines;
 
 /** Draws and navigates a single discipline's presentation-only node canvas. */
 public final class ProgressionTreeCanvas {
+    private static final ClientTooltipPositioner BOUNDED_TOOLTIP_POSITIONER = (screenWidth, screenHeight,
+            x, y, tooltipWidth, tooltipHeight) -> new Vector2i(
+            Math.max(0, Math.min(x + 12, screenWidth - tooltipWidth)),
+            Math.max(0, Math.min(y + 12, screenHeight - tooltipHeight)));
     private static final Identifier BACKGROUND = Identifier.withDefaultNamespace(
             "textures/gui/advancements/backgrounds/stone.png");
     private static final Identifier OBTAINED_BOX = Identifier.withDefaultNamespace("advancements/box_obtained");
@@ -167,7 +172,7 @@ public final class ProgressionTreeCanvas {
             if (!tooltip.isEmpty()) {
                 int tooltipX = validationHoveredId == null ? mouseX : screenX(byId.get(hoveredId).x());
                 int tooltipY = validationHoveredId == null ? mouseY : screenY(byId.get(hoveredId).y());
-                graphics.tooltip(font, tooltip, tooltipX, tooltipY, DefaultTooltipPositioner.INSTANCE, null, false);
+                graphics.tooltip(font, tooltip, tooltipX, tooltipY, BOUNDED_TOOLTIP_POSITIONER, null, false);
             }
         }
     }
