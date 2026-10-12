@@ -34,7 +34,9 @@ abstract class KnowledgePiglinBarterMixin {
     @Inject(method = "pickUpItem", at = @At("TAIL"))
     private static void moreminecrafts$rememberDroppedOffer(ServerLevel level, Piglin piglin,
             ItemEntity item, CallbackInfo ci) {
-        if (item.getItem().is(Items.GOLD_INGOT) && piglin.getOffhandItem().is(Items.GOLD_INGOT)
+        // Vanilla may consume the complete one-ingot entity during this call. Check
+        // the post-pickup offhand and captured owner instead of requiring leftovers.
+        if (piglin.getOffhandItem().is(Items.GOLD_INGOT)
                 && item.getOwner() instanceof ServerPlayer serverPlayer)
             KnowledgeEventCollectors.rememberPiglinOffer(piglin, serverPlayer);
     }
