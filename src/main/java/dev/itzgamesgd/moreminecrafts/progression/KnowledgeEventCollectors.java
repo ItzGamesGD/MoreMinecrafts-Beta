@@ -59,17 +59,34 @@ public final class KnowledgeEventCollectors {
     }
 
     public static void rememberProjectileWeapon(ServerPlayer player, Projectile projectile, boolean crossbow) {
-        KNOWLEDGE_WEAPON_ORIGINS.put(projectile, new ProjectileWeaponOrigin(player.getUUID(),
-                KnowledgeConditionSemantics.projectileKillCondition(crossbow)));
+        // Vanilla arrows persist their weapon stack and owner on the projectile itself. Keep
+        // ephemeral attribution only for crossbow fireworks, which have no native weapon field.
+        if (projectile instanceof FireworkRocketEntity)
+            KNOWLEDGE_WEAPON_ORIGINS.put(projectile, new ProjectileWeaponOrigin(player.getUUID(),
+                    KnowledgeConditionSemantics.projectileKillCondition(true)));
     }
 
     public static void projectileKill(Projectile projectile) {
-        ProjectileWeaponOrigin origin = KNOWLEDGE_WEAPON_ORIGINS.get(projectile);
-        if (origin == null || !(projectile.level() instanceof ServerLevel level)) return;
-        ServerPlayer player = level.getServer().getPlayerList().getPlayer(origin.player());
-        if (player != null)
-            KnowledgeRuntime.recordCondition(player, origin.condition(),
-                    KnowledgeRuntime.state(player).conditionProgress(origin.condition()) + 1);
+        if (!(projectile.level() instanceof ServerLevel level)) return;
+        String condition = null;
+        ServerPlayer player = null;
+        if (projectile instanceof net.minecraft.world.entity.projectile.arrow.AbstractArrow arrow) {
+            var weapon = arrow.getWeaponItem();
+            if (weapon.getItem() instanceof net.minecraft.world.item.CrossbowItem)
+                condition = KnowledgeConditionSemantics.projectileKillCondition(true);
+            else if (weapon.getItem() instanceof net.minecraft.world.item.BowItem)
+                condition = KnowledgeConditionSemantics.projectileKillCondition(false);
+            if (condition != null && arrow.getOwner() instanceof ServerPlayer owner) player = owner;
+        } else {
+            ProjectileWeaponOrigin origin = KNOWLEDGE_WEAPON_ORIGINS.get(projectile);
+            if (origin != null) {
+                player = level.getServer().getPlayerList().getPlayer(origin.player());
+                condition = origin.condition();
+            }
+        }
+        if (player != null && condition != null)
+            KnowledgeRuntime.recordCondition(player, condition,
+                    KnowledgeRuntime.state(player).conditionProgress(condition) + 1);
     }
 
     public static void smeltingCollected(ServerPlayer player, AbstractFurnaceBlockEntity furnace, ItemStack taken) {
