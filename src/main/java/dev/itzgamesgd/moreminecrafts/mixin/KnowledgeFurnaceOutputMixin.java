@@ -23,6 +23,7 @@ abstract class KnowledgeFurnaceOutputMixin {
         Slot slot = (Slot) (Object) this;
         if (player instanceof ServerPlayer serverPlayer && container instanceof AbstractFurnaceBlockEntity furnace
                 && slot.getContainerSlot() == 2)
+            KnowledgeEventCollectors.blastFurnaceProductTaken(serverPlayer, furnace, taken);
             KnowledgeEventCollectors.smeltingCollected(serverPlayer, furnace, taken);
     }
 }
