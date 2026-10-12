@@ -230,9 +230,9 @@ public final class KnowledgeRuntime {
     /** Record one unique discovered ID (species, biome, structure, item type, etc.) exactly once. */
     public static void recordDistinctCondition(ServerPlayer player, String conditionKey, String discoveredId) {
         if (conditionKey == null || discoveredId == null || discoveredId.isBlank()) return;
-        String token = discoveredId.replace(':', '.');
-        String key = "condition." + conditionKey + ".seen." + token;
-        if (value(player, key) != 0) return;
+        String key = KnowledgeConditionSemantics.distinctObservationKey(conditionKey, discoveredId);
+        if (KnowledgeConditionSemantics.alreadyObserved(
+                player.getAttachedOrCreate(STATE).counters(), conditionKey, discoveredId)) return;
         set(player, key, 1);
         int total = (int) player.getAttachedOrCreate(STATE).counters().keySet().stream()
                 .filter(counter -> counter.startsWith("condition." + conditionKey + ".seen.")).count();
