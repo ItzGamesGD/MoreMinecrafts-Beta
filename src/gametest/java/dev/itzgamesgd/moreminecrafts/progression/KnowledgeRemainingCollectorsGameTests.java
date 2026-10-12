@@ -107,15 +107,18 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         ServerPlayer shielded = ctx.makeMockServerPlayerInLevel();
         shielded.setGameMode(GameType.SURVIVAL);
         shielded.setYRot(0.0F);
-        shielded.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
-        shielded.startUsingItem(InteractionHand.OFF_HAND);
-        ctx.assertTrue(shielded.isBlocking(), "the player is actively blocking with the offhand shield");
+        shielded.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.SHIELD));
+        Items.SHIELD.use(ctx.getLevel(), shielded, InteractionHand.OFF_HAND);
+        ctx.assertTrue(shielded.getUseItem().is(Items.SHIELD), "vanilla shield use starts a shield block");
+        int shieldDamageBefore = shielded.getUseItem().getDamageValue();
         var attacker = ctx.spawnMob(EntityTypes.ZOMBIE, 2, 2, 4).spawn();
         attacker.setNoAi(true);
         attacker.setPos(shielded.getX(), shielded.getY(), shielded.getZ() + 2.0D);
 
         ctx.assertTrue(!shielded.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().mobAttack(attacker), 6.0F),
                 "the active shield blocks the incoming front-facing melee hit");
+        ctx.assertTrue(shielded.getUseItem().getDamageValue() > shieldDamageBefore,
+                "vanilla damages the shield as a result of blocking the hit");
         ctx.assertTrue(KnowledgeRuntime.state(shielded).conditionProgress("shield_blocks") == 1,
                 "the installed blockedByItem hook records the successfully blocked hit");
 
