@@ -184,7 +184,7 @@ public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethod
                     "partial and repeated collection credits the first player once for the distinct ore family");
             ctx.assertTrue(KnowledgeRuntime.state(second).conditionProgress("ore_types_smelted") == 1,
                     "the second player is credited only for the output they actually take");
-            ctx.assertTrue(KnowledgeRuntime.state(first).get("condition.ore_types_smelted.seen.minecraft.iron") == 1,
+            ctx.assertTrue(KnowledgeRuntime.state(first).get("condition.ore_types_smelted.seen.iron") == 1,
                     "the real result-slot hook records the persisted iron provenance token");
             ctx.succeed();
         });
