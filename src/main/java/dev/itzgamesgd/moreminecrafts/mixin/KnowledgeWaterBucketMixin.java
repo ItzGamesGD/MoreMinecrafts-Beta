@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeConditionSemantics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -20,7 +21,8 @@ abstract class KnowledgeWaterBucketMixin {
     private void moreminecrafts$recordIrrigation(UseOnContext context,
             CallbackInfoReturnable<InteractionResult> result) {
         Level level = context.getLevel();
-        if (level.isClientSide() || !result.getReturnValue().consumesAction()
+        if (!KnowledgeConditionSemantics.successfulServerAction(!level.isClientSide(),
+                result.getReturnValue().consumesAction())
                 || !(context.getPlayer() instanceof ServerPlayer player)) return;
         BlockPos clicked = context.getClickedPos();
         BlockPos adjacent = clicked.relative(context.getClickedFace());
