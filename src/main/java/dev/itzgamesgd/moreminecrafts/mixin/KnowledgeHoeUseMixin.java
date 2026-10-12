@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeConditionSemantics;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoeItem;
@@ -17,7 +18,8 @@ abstract class KnowledgeHoeUseMixin {
     @Inject(method = "useOn", at = @At("RETURN"))
     private void moreminecrafts$recordCultivation(UseOnContext context,
             CallbackInfoReturnable<InteractionResult> result) {
-        if (context.getLevel().isClientSide() || !result.getReturnValue().consumesAction()
+        if (!KnowledgeConditionSemantics.successfulServerAction(!context.getLevel().isClientSide(),
+                result.getReturnValue().consumesAction())
                 || !(context.getPlayer() instanceof ServerPlayer player)
                 || !context.getLevel().getBlockState(context.getClickedPos()).is(Blocks.FARMLAND)) return;
         KnowledgeEventCollectors.successfulFarmlandCultivation(player);
