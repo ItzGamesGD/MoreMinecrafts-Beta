@@ -23,7 +23,7 @@ abstract class KnowledgeBlockPlacementMixin {
                 || !(context.getPlayer() instanceof ServerPlayer player)) return;
         ItemStack placed = context.getItemInHand();
         if (placed.is(net.minecraft.world.item.Items.HOPPER)
-                || KnowledgeEventCollectors.isEligibleRedstoneComponent(placed))
+                || KnowledgeEventCollectors.isEligibleRedstoneComponent(placed.getItem()))
             KnowledgeEventCollectors.blockPlaced(player, placed);
     }
 }
