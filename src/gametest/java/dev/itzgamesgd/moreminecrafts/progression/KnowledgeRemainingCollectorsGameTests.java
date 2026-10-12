@@ -70,13 +70,13 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         BlockPos pos = ctx.absolutePos(new BlockPos(4, 2, 2));
         ctx.setBlock(new BlockPos(4, 2, 2), Blocks.BLAST_FURNACE);
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) ctx.getLevel().getBlockEntity(pos);
-        furnace.setItem(0, new ItemStack(Items.BEEF));
+        furnace.setItem(0, new ItemStack(Items.RAW_IRON));
         furnace.setItem(1, new ItemStack(Items.COAL));
         ctx.runAfterDelay(230, () -> {
             AbstractContainerMenu menu = furnace.createMenu(2, player.getInventory(), player);
             var output = menu.getSlot(2);
-            ctx.assertTrue(output.getItem().is(Items.COOKED_BEEF),
-                    "vanilla blast-furnace processing creates cooked beef");
+            ctx.assertTrue(output.getItem().is(Items.IRON_INGOT),
+                    "vanilla blast-furnace processing creates an iron ingot");
             ItemStack taken = output.remove(1);
             output.onTake(player, taken);
             ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("furnace_blast_furnace_used") == 1,
@@ -109,6 +109,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         shielded.setYRot(0.0F);
         shielded.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
         shielded.startUsingItem(InteractionHand.OFF_HAND);
+        ctx.assertTrue(shielded.isBlocking(), "the player is actively blocking with the offhand shield");
         var attacker = ctx.spawnMob(EntityTypes.ZOMBIE, 2, 2, 4).spawn();
         attacker.setNoAi(true);
         attacker.setPos(shielded.getX(), shielded.getY(), shielded.getZ() + 2.0D);
