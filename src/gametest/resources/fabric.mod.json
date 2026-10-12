@@ -11,6 +11,9 @@
       "dev.itzgamesgd.moreminecrafts.progression.ProgressionPurchaseGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAcquisitionGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.KnowledgePlacementGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeOutputLifecycleGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeWorldActionGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAnimalFeedGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests"
