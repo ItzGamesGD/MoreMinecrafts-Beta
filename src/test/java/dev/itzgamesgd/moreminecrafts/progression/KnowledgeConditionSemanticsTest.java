@@ -42,6 +42,16 @@ final class KnowledgeConditionSemanticsTest {
         assertTrue(KnowledgeRules.conditionMet(10, 10));
     }
 
+    @Test void repeatedFoodObservationIsDeduplicatedByPersistentTypeKey() {
+        ResearchProgressState state = ResearchProgressState.empty()
+                .with(KnowledgeConditionSemantics.distinctObservationKey(
+                        "foods_crafted_or_cooked", "minecraft:bread"), 1);
+        assertTrue(KnowledgeConditionSemantics.alreadyObserved(state.counters(),
+                "foods_crafted_or_cooked", "minecraft:bread"));
+        assertFalse(KnowledgeConditionSemantics.alreadyObserved(state.counters(),
+                "foods_crafted_or_cooked", "minecraft:cooked_beef"));
+    }
+
     @Test void blastFurnaceRequiresBothCraftingAndCollectedOutput() {
         assertTrue(KnowledgeConditionSemantics.blastFurnaceUseQualifies(true, true));
         assertFalse(KnowledgeConditionSemantics.blastFurnaceUseQualifies(false, true));
