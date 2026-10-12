@@ -52,7 +52,8 @@
     "KnowledgeBlockPlacementMixin",
     "KnowledgeHoeUseMixin",
     "KnowledgeWaterBucketMixin",
-    "KnowledgeAnimalFeedMixin"
+    "KnowledgeAnimalFeedMixin",
+    "KnowledgeRedstonePlacementMixin"
   ],
   "injectors": {
     "defaultRequire": 1
