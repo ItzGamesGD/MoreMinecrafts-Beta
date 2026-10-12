@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /** Invalidates brewing evidence at the shared default container mutation hook. */
 @Mixin(Container.class)
-abstract class KnowledgeBrewingContainerMixin {
+interface KnowledgeBrewingContainerMixin {
     @Inject(method = "setItem", at = @At("HEAD"))
-    private void moreminecrafts$discardReplacedBrewOutput(int slot, ItemStack stack, CallbackInfo ci) {
+    default void moreminecrafts$discardReplacedBrewOutput(int slot, ItemStack stack, CallbackInfo ci) {
         if ((Object) this instanceof BrewingStandBlockEntity stand && slot >= 0 && slot <= 2)
             BrewingOutputProvenance.discard(stand, slot);
     }
