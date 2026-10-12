@@ -1,8 +1,9 @@
 # K5 Natural Giant Tree Provenance Architecture
 
 **Status:** Design only; no production code, migration, or gameplay change is included.  
-**Baseline:** PR #80 head 096d9c825422a2fc1220b88ea6ee75967e7fa1bf  
-**Runtime dependencies:** Minecraft 26.3, Fabric Loader 0.19.5, Fabric API 0.161.0+26.3, Java 25.
+**Ancestry baseline:** PR #80 head 096d9c825422a2fc1220b88ea6ee75967e7fa1bf  
+**Runtime dependencies:** Minecraft 26.3, Fabric Loader 0.19.5, Fabric API 0.161.0+26.3, Loom 1.17.21, Java 25.  
+**Remote review snapshot (2026-10-12):** PR #80 current head 7fc0b2094e41ff65c931af50a6384acc7ca22134; PR #81 current head before this amendment ee1112066ba9fe98af7d15795bd2e25e34341a56. GitHub compare reports PR #81's head diverged from current PR #80 with common ancestor 096d9c825422a2fc1220b88ea6ee75967e7fa1bf (3 commits ahead, 16 behind). The requested dependency pins were re-fetched from PR #80's current head and match this review. This update remains documentation-only.
 
 ## Approved semantics
 
@@ -33,7 +34,11 @@ The project’s Fabric callbacks do not supply generation cause or resulting dro
 
 ## Investigated APIs and evidence
 
-The repository pins Minecraft 26.3, Fabric Loader 0.19.5, Fabric API 0.161.0+26.3, Loom 1.17.21, Java 25, and JUnit 5.11.4 in [gradle.properties](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/blob/096d9c825422a2fc1220b88ea6ee75967e7fa1bf/gradle.properties) and [build.gradle](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/blob/096d9c825422a2fc1220b88ea6ee75967e7fa1bf/build.gradle). Mod metadata limits the supported game version to 26.3.
+The repository's current PR #80 head was re-fetched before review; the dependency declarations in gradle.properties and build.gradle at 7fc0b2094e41ff65c931af50a6384acc7ca22134 pin the following. The repository pins Minecraft 26.3, Fabric Loader 0.19.5, Fabric API 0.161.0+26.3, Loom 1.17.21, Java 25, and JUnit 5.11.4 in [gradle.properties](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/blob/096d9c825422a2fc1220b88ea6ee75967e7fa1bf/gradle.properties) and [build.gradle](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/blob/096d9c825422a2fc1220b88ea6ee75967e7fa1bf/build.gradle). Mod metadata limits the supported game version to 26.3.
+
+Minecraft source evidence inspected:
+- Mojang version metadata for 26.3 and the official client jar; SHA-1 e877b6a07acd633fb3bb475002175cec036e7b87 matches the version manifest. Relevant Mojang-named classes include ChunkGenerator, FeaturePlacer, PlacedFeature, Feature, TreeFeature, TreeGrower, SaplingBlock, TreeFeatures, DarkOakTrunkPlacer, GiantTrunkPlacer, MegaJungleTrunkPlacer, Block, ItemEntity, ItemStack, Inventory, AbstractContainerMenu, and Slot. The listed method descriptors are from the class files in that jar and CFR 0.152 output.
+- Loom source generation was attempted against the pinned build but Gradle could not resolve the Loom 1.17.21 plugin marker/artifact in this environment. Therefore this review did not claim Loom-generated named sources or a successful Mixin remap/build.
 
 The baseline K5 audit in [Stage 2-B Knowledge condition corrections](STAGE2B_KNOWLEDGE_CONDITION_CORRECTIONS.md) records that current player-break callbacks lack natural-origin provenance and explicitly rejects matching trunk shape or leaves as a substitute.
 
@@ -129,6 +134,16 @@ For a locked player starting with valid K5 progress p, at most min(127, 128 - p)
 
 This bound does not apply if the game later tracks post-unlock collection statistics, raises the target, or allows K5 progress to decrease/reset. Those features would require retaining more history or a new design. A nonzero legacy K5 counter without corresponding source-token history is also unresolved: its prior source identities cannot be reconstructed. See approval decisions.
 
+### Storage and security feasibility
+
+The exact player-specific redemption set is reasonably small: at 127 source identities, a compact 32-byte identity costs about 4 KiB raw, before codec/map overhead. At 100,000 locked players that is roughly 400 MiB raw in the worst case if all reach the cap, but normal total storage scales with actual player count and progress. Per-player history is exact, persistent and capped only because K5 progress permanently saturates at 128. Never evict entries while the player can still gain K5 progress. Existing unlocked players need only retain the permanent Knowledge unlock if no post-unlock statistic is introduced.
+
+Item-carried identity has a different scaling profile. At an estimated 64–96 bytes per signed identity, a full 64-log stack can carry roughly 4–6 KiB of token payload before component/container encoding overhead. Measure real serialized bytes, save size, network sync cost, merge cost and pickup latency. Chunk position provenance is sparse and approximately 8 bytes per packed position before codec overhead.
+
+A world HMAC authenticates that token fields were minted by this server key. It does not prevent an operator, command, mod, or copied ItemStack from duplicating a valid signed component. Player history ensures any one player can count a token identity at most once, but it cannot tell a valid transfer to a new player from a copied token delivered to that player. Under the approved rule both can result in that player counting the same source identity once. If “no duplication” requires global physical-unit conservation across players, an additional exact live-custody ledger and exhaustive interception of every copy/split/merge/serialization/container path would be required. Such a ledger must track extant units and likely retain invalidation/tombstone information; it can grow with lifetime world provenance, unlike the bounded player set. Arbitrary modded inventories, commands and offline saves make exhaustive custody guarantees impractical without restricting supported paths. This is an unresolved strict-semantics blocker, not a problem solved by signing.
+
+The recommended bounded alternative preserves the approved per-player result: mint one identity per natural source position, carry identity sets on item stacks, reject forged/new identities, and credit each player once per identity. A copied token cannot increase that player's count for that identity, but may be presented to another player with the same effect as a legitimate transfer. If this is not sufficient for the no-duplication rule, implementation must stop for policy/architecture review rather than claiming exact physical conservation.
+
 ### Save compatibility
 
 Existing Knowledge unlocks/counters remain subject to current save compatibility policy. New chunk data without an attachment, old item stacks without a signed component, and unknown-origin logs are ineligible. Do not scan/migrate old chunks. Missing/corrupt/unknown-version chunk, token, key, or player-history data fails closed. If player history is corrupt, disable further K5 credit for that player rather than replace it with an empty set. Any schema migration must be explicit and versioned.
@@ -214,7 +229,7 @@ These tests are proposed and were not executed. Existing PR #80 CI results do no
 | Save/reload between transfers | Item tokens, key, and both players' histories persist; after restart A gets zero and B still gets one first credit if not yet received. |
 | Player reconnect | History survives disconnect/reconnect and prevents repeat credit. |
 | Concurrent multiplayer pickup | Server serialization gives each player only their own first redemption; simultaneous receipt does not mutate another player's history. |
-| Duplication/forgery | Clone/copy same signed token; no player can count it twice. Alter token/ID/signature; invalid. Replaying an authentic token to a different player may count once for that player, as approved. |
+| Duplication/forgery | Clone/copy the same signed token; one player cannot count that identity twice. Alter token/ID/signature; invalid. Presenting a copied authentic token to a different player is indistinguishable from a legitimate transfer and may count once for that player under the approved per-player rule; global physical-copy detection remains an unresolved constraint. |
 | Threshold 127→128 | Locked at 127; 128th distinct authentic token unlocks once; repeats do not advance. |
 | Old chunks | Old tree-shaped logs remain ineligible without attachment; no migration scan. |
 | Piston/explosion/automation | No player progress; source position becomes invalid. |
@@ -222,15 +237,18 @@ These tests are proposed and were not executed. Existing PR #80 CI results do no
 
 Runtime tests require a dedicated 26.3 server with pinned Fabric versions and installed mixins. Report execution results separately.
 
-## Decisions requiring approval
+## Policy recommendations and approval gates
 
-1. **Modded trees:** recommendation: vanilla allowlist plus explicit modded opt-in and runtime coverage; unknown placers fail closed.
-2. **Acquisition boundary:** recommendation: successful transfer into a Survival player's inventory, including chest/backpack extraction; hopper-to-container movement is not acquisition.
-3. **Creative transition:** recommendation: Creative-generated logs are untagged; token-bearing items received into Creative inventory are invalidated. Confirm whether Creative receipt should invalidate the item for later Survival transfers.
-4. **Natural generation scope:** confirm whether structure-generated or other non-biome natural features count. Proposed mixin scope covers biome tree-feature decoration.
-5. **Legacy K5 progress:** an old nonzero K5 counter may have no token history, so its prior source logs cannot be deduplicated against new tokens. Decide whether to grandfather that progress, defer new K5 credit for such players, or authorize a targeted migration/reset. No value should be silently cleared or treated as verified.
-6. **Post-unlock behavior:** current bounded-history proof assumes K5 is permanently unlocked at 128 and no post-unlock acquisition count is required. If post-unlock statistics or resetting K5 is desired, approve a new storage design.
-7. **Data-stripping mods:** recommendation: fail closed unless integration explicitly preserves and tests the signed token.
+These are recommendations only. None of the following is approved by this document; obtain a decision before implementation.
+
+1. **Legacy K5 progress.** Preserve all already-unlocked Knowledge. Recommend resetting an old partial K5 counter to zero when its exact prior token history is absent, because old provenance cannot be reconstructed and keeping the counter can double-count a log that is still in the world. Consequence: locked players may lose unverified partial progress. Alternative: grandfather the numeric counter, accepting that strict distinct-source semantics cannot be guaranteed across the migration boundary. Do not change existing saves until approved.
+2. **Structure-generated trees.** Recommend excluding structure trees initially and counting only approved biome-decoration tree features. This bounds the source hook and prevents player-built/structure template logs from being mislabeled. Consequence: a naturally generated structure containing a giant tree would not count. A broader rule needs structure placement cause coverage and separate tests.
+3. **Modded natural 2×2 trees.** Recommend vanilla feature/placer allowlist by default and explicit mod opt-in per supported mod, with a source hook and runtime test. Unknown/modded placers fail closed. Consequence: eligible modded trees do not count until integrated; this avoids shape heuristics and accidental player-grown attribution.
+4. **Creative receipt and duplication.** Recommend no credit in Creative and invalidating a token when received into a Creative player's inventory; Creative-created items never receive tokens. Consequence: an otherwise authentic log taken into Creative cannot later count after returning to Survival. This is stricter than merely withholding credit, but helps close creative-copy paths. Authentication alone cannot prevent copying an already valid signed component. Per-player exact history prevents repeated credit for that player; it cannot distinguish a copied authentic token offered to another player from a legitimate transfer. Decide whether the approved no-duplication rule means no new token identities/per-player progress from copies, or requires global live physical-unit custody.
+5. **Acquisition boundary and compatibility.** Recommend pickup and explicit supported vanilla container/menu transfers into a Survival inventory. Hopper-only moves do not count. Backpack/mod support requires a tested integration preserving per-unit identity and stack arithmetic; otherwise fail closed.
+6. **Exact physical conservation feasibility.** If copies to different players must be distinguished from legitimate transfers, require a global live-custody system and constrain supported item paths. This is materially larger and can become lifetime-growing storage. Approve that tradeoff or approve the per-player identity interpretation above; no implementation should silently choose.
+
+The 128 threshold remains per-player and acquisition-based. Existing unlocked Knowledge must remain unlocked. K5 is assumed permanently unlocked at 128; storing post-unlock collection statistics or allowing reset requires a new storage review.
 
 ## Implementation acceptance criteria
 
@@ -241,7 +259,8 @@ Runtime tests require a dedicated 26.3 server with pinned Fabric versions and in
 - Authenticity is global and non-consuming; redemption history is per player.
 - Each player counts a token at most once, while different players may each count the same token once.
 - Player history is exact and bounded by the current target; no cache eviction or probabilistic filter.
-- Splits partition and merges union provenance without increasing unique eligible quantity.
+- Splits partition and merges union provenance without increasing unique eligible quantity; copied valid components do not create a new source identity.
+- Tests establish whether supported paths enforce the required per-player interpretation; the design does not claim HMAC prevents copying or claim global physical custody without a tested ledger.
 - Item/container/inventory/save/reload/concurrent transfer paths preserve or fail closed correctly.
 - Creative, player-grown, small, imitation, old-world, canceled, automated, forged, and unknown-origin cases never add progress.
 - Existing K5 save state is handled according to an approved legacy policy; threshold is exactly 127 locked/128 unlocked.
@@ -250,4 +269,4 @@ Runtime tests require a dedicated 26.3 server with pinned Fabric versions and in
 
 ## Verification status
 
-This task added no K5 code and ran no K5 tests. API evidence above is based on the declared project dependency and Fabric API sources at the pinned tag. Minecraft 26.3 mapped mixin descriptors and runtime call-path tests remain unverified and are implementation gates.
+This task added no K5 code and ran no K5 tests. Fabric API sources were fetched from tag 0.161.0+26.3. Minecraft source evidence comes from Mojang's official 26.3 client jar with matching manifest SHA-1, decompiled with CFR 0.152. Gradle source generation could not complete because Gradle could not resolve the pinned Loom 1.17.21 plugin in this environment; direct official jar inspection was the fallback. Thus Mojang-named source paths and descriptors are verified against the jar, but mapped Mixin descriptors, custom component registration under the project's resolved Loom namespace, and runtime hook order remain unverified implementation gates. No K5 tests were executed.
