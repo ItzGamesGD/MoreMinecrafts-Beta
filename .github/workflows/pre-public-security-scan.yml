@@ -3,8 +3,16 @@ name: Pre-public full-history secret audit
 on:
   push:
     branches:
+      - main
       - security/pre-public-hardening-20261012
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
+
+concurrency:
+  group: pre-public-audit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -78,6 +86,8 @@ jobs:
           exit "$status"
 
   artifacts-inventory:
+    # Inventory is an explicit audit step, not an every-PR requirement.
+    if: github.event_name == 'workflow_dispatch'
     name: actions-artifact-inventory
     runs-on: ubuntu-latest
     timeout-minutes: 5
