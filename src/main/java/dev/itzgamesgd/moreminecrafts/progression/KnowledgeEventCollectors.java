@@ -58,7 +58,7 @@ public final class KnowledgeEventCollectors {
                 || !KnowledgeEligibleRosters.isEligibleVanillaTool(crafted.getItem())) return;
         int current = KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted");
         KnowledgeRuntime.recordCondition(player, "tool_types_crafted",
-                KnowledgeToolCraftProgress.advance(current, crafted));
+                KnowledgeToolCraftProgress.advance(current, BuiltInRegistries.ITEM.getKey(crafted.getItem()), crafted.getCount()));
     }
 
     public static boolean isEligibleRedstoneComponent(net.minecraft.world.item.Item item) {
