@@ -40,7 +40,13 @@
     "CustomMobStatsMixin",
     "CaveCreeperExplosionMixin",
     "KnowledgeCraftingMenuMixin",
-    "KnowledgeRecipeCraftCountMixin"
+    "KnowledgeRecipeCraftCountMixin",
+    "KnowledgeFurnaceMixin",
+    "KnowledgeShieldBlockMixin",
+    "KnowledgeProjectileWeaponMixin",
+    "KnowledgePiglinBarterMixin",
+    "KnowledgeArchaeologyMixin",
+    "KnowledgeBrewingOutputMixin"
   ],
   "injectors": {
     "defaultRequire": 1
