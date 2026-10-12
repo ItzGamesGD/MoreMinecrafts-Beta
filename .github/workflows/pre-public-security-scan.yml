@@ -115,3 +115,19 @@ jobs:
           print("Live artifact name-prefix counts: " + json.dumps(dict(categories), sort_keys=True))
           print("These are metadata counts only, not proof of harmless artifact contents.")
           PY
+
+  exposure-audit:
+    name: actions-exposure-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Checkout the audit script
+        uses: actions/checkout@v4
+      - name: Scan all retained artifact archives and accessible workflow logs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/security/audit_actions_exposure.py
