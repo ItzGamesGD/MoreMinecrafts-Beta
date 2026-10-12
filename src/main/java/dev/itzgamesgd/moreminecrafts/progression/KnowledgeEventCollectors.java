@@ -27,8 +27,9 @@ public final class KnowledgeEventCollectors {
     private KnowledgeEventCollectors() {}
 
     public static void blastFurnaceProductTaken(ServerPlayer player, AbstractFurnaceBlockEntity furnace, ItemStack taken) {
-        if (!taken.isEmpty() && furnace.getBlockState().is(Blocks.BLAST_FURNACE)
-                && player.getStats().getValue(net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.BLAST_FURNACE)) > 0)
+        boolean crafted = player.getStats().getValue(net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.BLAST_FURNACE)) > 0;
+        boolean productTaken = !taken.isEmpty() && furnace.getBlockState().is(Blocks.BLAST_FURNACE);
+        if (KnowledgeConditionSemantics.blastFurnaceUseQualifies(crafted, productTaken))
             KnowledgeRuntime.recordCondition(player, "furnace_blast_furnace_used", 1);
     }
 
@@ -59,7 +60,7 @@ public final class KnowledgeEventCollectors {
 
     public static void rememberProjectileWeapon(ServerPlayer player, Projectile projectile, boolean crossbow) {
         KNOWLEDGE_WEAPON_ORIGINS.put(projectile, new ProjectileWeaponOrigin(player.getUUID(),
-                crossbow ? "crossbow_hostile_kills" : "bow_hostile_kills"));
+                KnowledgeConditionSemantics.projectileKillCondition(crossbow)));
     }
 
     public static void projectileKill(Projectile projectile) {
