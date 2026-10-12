@@ -1,8 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.List;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
@@ -29,7 +27,6 @@ import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingMenu;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.BowItem;
@@ -62,9 +59,11 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         crafting.getSlot(9).set(new ItemStack(Items.SMOOTH_STONE));
         crafting.slotsChanged(crafting.getSlot(1).container);
         player.containerMenu = crafting;
-        ItemStack crafted = crafting.getSlot(0).getItem().copy();
+        var craftingResult = crafting.getSlot(0);
+        ItemStack crafted = craftingResult.getItem().copy();
         ctx.assertTrue(crafted.is(Items.BLAST_FURNACE), "the vanilla recipe creates a blast furnace");
-        crafting.clicked(0, 0, ClickType.PICKUP, player);
+        ItemStack takenCraft = craftingResult.remove(1);
+        craftingResult.onTake(player, takenCraft);
         ctx.assertTrue(player.getStats().getValue(Stats.ITEM_CRAFTED.get(Items.BLAST_FURNACE)) == 1,
                 "taking the actual result-slot output records the vanilla craft statistic");
 
@@ -96,7 +95,8 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory(), player);
         player.containerMenu = menu;
         var output = menu.getSlot(2);
-        menu.clicked(2, 0, ClickType.PICKUP, player);
+        ItemStack taken = output.remove(1);
+        output.onTake(player, taken);
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("furnace_blast_furnace_used") == 0,
                 "a manually inserted output without the vanilla blast-furnace craft statistic is excluded");
         ctx.succeed();
@@ -139,7 +139,8 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
             player.containerMenu = menu;
             var result = menu.getSlot(2);
             ctx.assertTrue(result.getItem().is(Items.COOKED_BEEF), "vanilla cooking produces steak");
-            menu.clicked(2, 0, ClickType.PICKUP, player);
+            ItemStack taken = result.remove(1);
+            result.onTake(player, taken);
             ctx.runAfterDelay(110, () -> {
                 ctx.assertTrue(KnowledgeRuntime.state(player)
                                 .get("condition.foods_crafted_or_cooked.seen.minecraft.cooked_beef") == 1,
@@ -162,7 +163,8 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
             player.containerMenu = menu;
             var result = menu.getSlot(2);
             ctx.assertTrue(result.getItem().is(Items.IRON_INGOT), "vanilla smelting produces an iron ingot");
-            menu.clicked(2, 0, ClickType.PICKUP, player);
+            ItemStack taken = result.remove(1);
+            result.onTake(player, taken);
             ctx.runAfterDelay(110, () -> {
                 ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("foods_crafted_or_cooked") == 0,
                         "a non-food crafted statistic does not add a food ID");
