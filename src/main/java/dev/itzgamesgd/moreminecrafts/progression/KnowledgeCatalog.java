@@ -100,7 +100,7 @@ public final class KnowledgeCatalog {
         e(67,"alchemy","상태 효과",ConditionType.EFFECT_TYPES_EXPERIENCED,8,"effect_types_experienced","effect_info",false),
         e(68,"alchemy","마법 재료",ConditionType.BREWING_INGREDIENTS_ACQUIRED,8,"brewing_ingredients_acquired","ingredient_guide",false),
         e(69,"alchemy","고급 양조",ConditionType.POTION_ITEMS_BREWED,50,"potions_brewed","brewing_xp",false),
-        e(70,"alchemy","물약 농축",ConditionType.POTION_ITEMS_BREWED,5,"strengthened_potions_brewed","concentration_hint",false)
+        e(70,"alchemy","물약 농축",ConditionType.POTION_TYPES_BREWED,5,"strengthened_potions_brewed","concentration_hint",false)
     );
 
     private KnowledgeCatalog() {}
