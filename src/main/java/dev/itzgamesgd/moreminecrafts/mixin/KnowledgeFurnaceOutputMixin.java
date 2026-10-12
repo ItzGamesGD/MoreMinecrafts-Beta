@@ -22,8 +22,9 @@ abstract class KnowledgeFurnaceOutputMixin {
     private void moreminecrafts$recordCollectedOreOutput(Player player, ItemStack taken, CallbackInfo ci) {
         Slot slot = (Slot) (Object) this;
         if (player instanceof ServerPlayer serverPlayer && container instanceof AbstractFurnaceBlockEntity furnace
-                && slot.getContainerSlot() == 2)
+                && slot.getContainerSlot() == 2) {
             KnowledgeEventCollectors.blastFurnaceProductTaken(serverPlayer, furnace, taken);
             KnowledgeEventCollectors.smeltingCollected(serverPlayer, furnace, taken);
+        }
     }
 }
