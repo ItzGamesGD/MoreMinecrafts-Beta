@@ -113,7 +113,6 @@ public final class KnowledgeRuntime {
                 recordCondition(serverPlayer, "crops_harvested", value(serverPlayer,"condition.crops_harvested") + 1);
         });
         net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
-            if (!(entity instanceof net.minecraft.world.entity.monster.Monster)) return;
             String entityId = String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
             String path = entityId.substring(entityId.indexOf(':') + 1);
             ServerPlayer player = damageSource.getEntity() instanceof ServerPlayer p ? p : null;
@@ -138,22 +137,26 @@ public final class KnowledgeRuntime {
                         recordDistinctCondition(player, killKey, path);
                     else recordCondition(player, killKey, amount);
                 }
-                if (path.equals("piglin"))
-                    recordCondition(player, "piglin_kills", value(player,"condition.piglin_kills") + 1);
-                if (player.getMainHandItem().is(ItemTags.SWORDS))
-                    recordCondition(player, "sword_hostile_kills", value(player,"condition.sword_hostile_kills") + 1);
-                if (player.getMainHandItem().is(ItemTags.AXES))
-                    recordCondition(player, "axe_hostile_kills", value(player,"condition.axe_hostile_kills") + 1);
-                if (player.isSprinting())
-                    recordCondition(player, "running_hostile_kills", value(player,"condition.running_hostile_kills") + 1);
+                if (entity instanceof net.minecraft.world.entity.monster.Monster) {
+                    if (path.equals("piglin"))
+                        recordCondition(player, "piglin_kills", value(player,"condition.piglin_kills") + 1);
+                    if (player.getMainHandItem().is(ItemTags.SWORDS))
+                        recordCondition(player, "sword_hostile_kills", value(player,"condition.sword_hostile_kills") + 1);
+                    if (player.getMainHandItem().is(ItemTags.AXES))
+                        recordCondition(player, "axe_hostile_kills", value(player,"condition.axe_hostile_kills") + 1);
+                    if (player.isSprinting())
+                        recordCondition(player, "running_hostile_kills", value(player,"condition.running_hostile_kills") + 1);
+                }
             }
             var direct = damageSource.getDirectEntity();
-            if (direct instanceof net.minecraft.world.entity.projectile.arrow.ThrownTrident trident
+            if (entity instanceof net.minecraft.world.entity.monster.Monster
+                    && direct instanceof net.minecraft.world.entity.projectile.arrow.ThrownTrident trident
                     && trident.getWeaponItem().is(Items.TRIDENT)
                     && trident.getOwner() instanceof ServerPlayer thrower)
                 recordCondition(thrower, "trident_hostile_kills",
                         value(thrower, "condition.trident_hostile_kills") + 1);
-            if (direct instanceof net.minecraft.world.entity.projectile.Projectile projectile)
+            if (entity instanceof net.minecraft.world.entity.monster.Monster
+                    && direct instanceof net.minecraft.world.entity.projectile.Projectile projectile)
                 KnowledgeEventCollectors.projectileKill(projectile);
         });
         ServerTickEvents.END_SERVER_TICK.register(server -> {
