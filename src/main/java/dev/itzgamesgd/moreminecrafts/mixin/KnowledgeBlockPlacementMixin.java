@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeConditionSemantics;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
@@ -17,9 +18,9 @@ abstract class KnowledgeBlockPlacementMixin {
     @Inject(method = "place", at = @At("RETURN"))
     private void moreminecrafts$recordSuccessfulPlacement(BlockPlaceContext context,
             CallbackInfoReturnable<InteractionResult> result) {
-        if (!result.getReturnValue().consumesAction()
-                || !(context.getPlayer() instanceof ServerPlayer player)
-                || context.getLevel().isClientSide()) return;
+        if (!KnowledgeConditionSemantics.successfulServerAction(!context.getLevel().isClientSide(),
+                result.getReturnValue().consumesAction())
+                || !(context.getPlayer() instanceof ServerPlayer player)) return;
         ItemStack placed = context.getItemInHand();
         if (placed.is(net.minecraft.world.item.Items.HOPPER)
                 || KnowledgeEventCollectors.isEligibleRedstoneComponent(placed))
