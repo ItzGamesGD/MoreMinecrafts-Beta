@@ -22,8 +22,7 @@ abstract class KnowledgeRecipeCraftCountMixin {
         KnowledgeRuntime.recordCondition(serverPlayer, "recipes_completed",
                 state.conditionProgress("recipes_completed") + 1);
         if (crafted.has(net.minecraft.core.component.DataComponents.FOOD))
-            KnowledgeRuntime.recordCondition(serverPlayer, "foods_crafted_or_cooked",
-                    KnowledgeRuntime.state(serverPlayer).conditionProgress("foods_crafted_or_cooked")
-                            + crafted.getCount());
+            KnowledgeRuntime.recordDistinctCondition(serverPlayer, "foods_crafted_or_cooked",
+                    String.valueOf(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(crafted.getItem())));
     }
 }
