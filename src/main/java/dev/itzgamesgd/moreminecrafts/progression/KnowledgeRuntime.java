@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 6203)
-Total output lines: 401
-
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
@@ -186,7 +183,27 @@ public final class KnowledgeRuntime {
         });
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             boolean refreshStatistics = server.getTickCount() % 100 == 0;
-            f…203 tokens truncated…ogressState after = state.with("progression.revision",
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                observeExploration(player);
+                observeEffectTypes(player);
+                if (refreshStatistics) refresh(player);
+            }
+        });
+    }
+
+    private static void set(ServerPlayer player, String key, int value) {
+        ResearchProgressState old = player.getAttachedOrCreate(STATE);
+        if (old.get(key) != value) updateState(player, old.with(key, value));
+    }
+
+    public static ResearchProgressState state(ServerPlayer player) {
+        return player.getAttachedOrCreate(STATE);
+    }
+
+    static void updateState(ServerPlayer player, ResearchProgressState state) {
+        ResearchProgressState before = player.getAttachedOrCreate(STATE);
+        if (state.equals(before)) return;
+        ResearchProgressState after = state.with("progression.revision",
                 Math.max(0, before.get("progression.revision")) + 1);
         player.setAttached(STATE, after);
         ProgressionSyncRuntime.delta(player, before, after);
