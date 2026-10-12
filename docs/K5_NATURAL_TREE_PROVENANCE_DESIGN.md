@@ -12,6 +12,10 @@ The achievement and its progress are player-specific. The same authentic natural
 
 The existing target remains 128 per player. No geometry, leaf, biome, or species-only heuristic establishes provenance. Previously saved Knowledge state remains subject to the existing save-compatibility authority; the unresolved legacy-counter issue is listed below.
 
+### User-approved design amendment (2026-10-12)
+
+The user approved player-specific K5 credit in this amendment. Provenance authenticity is global and non-consuming; redemption history is per player. The same authentic generated log may count once for each player, but no player may count the same token twice. The original 128 acquired qualifying logs per-player threshold and all earlier origin exclusions remain in force. This amendment supersedes the earlier draft's proposed world-global first-claim ownership and globally redeemed-token ledger.
+
 ## Recommendation
 
 Use a hybrid of generation-position provenance, authenticated item-carried source tokens, and persistent player-specific redemption history:
