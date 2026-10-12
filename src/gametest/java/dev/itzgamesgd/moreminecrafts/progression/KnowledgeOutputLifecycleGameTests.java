@@ -16,7 +16,7 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
-import net.minecraft.world.level.storage.ProblemReporter;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
@@ -242,7 +242,9 @@ public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethod
         stand.setItem(4, new ItemStack(Items.BLAZE_POWDER));
 
         ctx.runAfterDelay(420, () -> {
-            ctx.assertTrue(hopper.getItems().stream().anyMatch(stack -> stack.is(Items.POTION)),
+            ctx.assertTrue(hopper.getItem(0).is(Items.POTION) || hopper.getItem(1).is(Items.POTION)
+                    || hopper.getItem(2).is(Items.POTION) || hopper.getItem(3).is(Items.POTION)
+                    || hopper.getItem(4).is(Items.POTION),
                     "a live hopper extracts a potion produced by the vanilla brewing tick");
             ctx.assertTrue(stand.getItem(0).isEmpty(), "automated extraction removes the brewing output");
             ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("potions_brewed") == 0,
