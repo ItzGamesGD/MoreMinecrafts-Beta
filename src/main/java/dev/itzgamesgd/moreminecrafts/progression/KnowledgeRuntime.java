@@ -216,13 +216,14 @@ public final class KnowledgeRuntime {
     /** Event adapters report durable, server-observed condition progress through this API. */
     public static void recordCondition(ServerPlayer player, String conditionKey, int totalProgress) {
         if (conditionKey == null || totalProgress <= 0) return;
-        for (KnowledgeCatalog.Entry entry : KnowledgeCatalog.entries()) {
-            if (!entry.conditionKey().equals(conditionKey)) continue;
-            String key = "condition." + conditionKey;
-            int current = value(player, key);
-            int next = Math.min(entry.target(), KnowledgeRules.monotonicProgress(current, totalProgress));
-            if (next == current) continue;
-            set(player, key, next);
+        List<KnowledgeCatalog.Entry> matching = KnowledgeCatalog.entries().stream()
+                .filter(entry -> entry.conditionKey().equals(conditionKey)).toList();
+        if (matching.isEmpty()) return;
+        int maximumTarget = matching.stream().mapToInt(KnowledgeCatalog.Entry::target).max().orElse(0);
+        String key = "condition." + conditionKey;
+        int next = KnowledgeConditionProgress.advance(value(player, key), totalProgress, maximumTarget);
+        if (next != value(player, key)) set(player, key, next);
+        for (KnowledgeCatalog.Entry entry : matching) {
             if (KnowledgeRules.conditionMet(next, entry.target())) grantKnowledge(player, entry.number());
         }
     }

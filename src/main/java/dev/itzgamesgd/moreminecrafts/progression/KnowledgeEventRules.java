@@ -26,6 +26,14 @@ public final class KnowledgeEventRules {
 
     private KnowledgeEventRules() {}
 
+    public static boolean isKnownOreType(String oreType) {
+        return switch (oreType) {
+            case "iron", "copper", "gold", "netherite", "titanium", "tungsten", "adamantium",
+                    "coal", "diamond", "redstone", "lapis", "emerald", "mythril", "etherium" -> true;
+            default -> false;
+        };
+    }
+
     /** Returns the canonical ore family represented by a furnace input, if it is ore-derived. */
     public static Optional<String> oreType(ItemStack input) {
         if (input.isEmpty()) return Optional.empty();
