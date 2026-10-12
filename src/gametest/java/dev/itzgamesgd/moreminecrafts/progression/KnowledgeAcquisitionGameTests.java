@@ -75,7 +75,9 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
     public void k14CountsToolsTakenFromTheVanillaCraftingResultSlot(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
-        CraftingMenu menu = new CraftingMenu(1, player.getInventory());
+        CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
+                net.minecraft.world.inventory.ContainerLevelAccess.create(ctx.getLevel(),
+                        ctx.absolutePos(new BlockPos(1, 1, 1))));
 
         for (int craft = 0; craft < 5; craft++) {
             menu.getSlot(1).set(new ItemStack(Items.OAK_PLANKS));
@@ -99,7 +101,9 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
     public void k14CreativeResultSlotTakesDoNotAdvanceProgress(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.CREATIVE);
-        CraftingMenu menu = new CraftingMenu(1, player.getInventory());
+        CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
+                net.minecraft.world.inventory.ContainerLevelAccess.create(ctx.getLevel(),
+                        ctx.absolutePos(new BlockPos(1, 1, 1))));
         menu.getSlot(1).set(new ItemStack(Items.OAK_PLANKS));
         menu.getSlot(2).set(new ItemStack(Items.OAK_PLANKS));
         menu.getSlot(3).set(new ItemStack(Items.OAK_PLANKS));

@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
 
 /** Action-level tests for provenance production, extraction, and output replacement. */
 public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethodInvoker {
-    @GameTest
+    @GameTest(maxTicks = 240)
     public void furnaceSmeltCreditsThePlayerWhoTakesTheProducedOutput(GameTestHelper ctx) {
         BlockPos pos = ctx.absolutePos(new BlockPos(2, 2, 2));
         ctx.setBlock(new BlockPos(2, 2, 2), Blocks.FURNACE);
@@ -34,7 +34,7 @@ public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethod
         });
     }
 
-    @GameTest
+    @GameTest(maxTicks = 240)
     public void hopperRemovedFurnaceOutputCannotCreditIdenticalManualReplacement(GameTestHelper ctx) {
         BlockPos furnacePos = ctx.absolutePos(new BlockPos(2, 2, 2));
         BlockPos hopperPos = ctx.absolutePos(new BlockPos(2, 1, 2));
@@ -90,7 +90,7 @@ public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethod
         ctx.succeed();
     }
 
-    @GameTest
+    @GameTest(maxTicks = 430)
     public void vanillaBrewOutputCreditsThePlayerWhoTakesIt(GameTestHelper ctx) {
         BlockPos pos = ctx.absolutePos(new BlockPos(2, 2, 2));
         ctx.setBlock(new BlockPos(2, 2, 2), Blocks.BREWING_STAND);
@@ -114,7 +114,7 @@ public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethod
         });
     }
 
-    @GameTest
+    @GameTest(maxTicks = 430)
     public void removedBrewOutputCannotCreditIdenticalManualReplacement(GameTestHelper ctx) {
         BlockPos pos = ctx.absolutePos(new BlockPos(2, 2, 2));
         ctx.setBlock(new BlockPos(2, 2, 2), Blocks.BREWING_STAND);

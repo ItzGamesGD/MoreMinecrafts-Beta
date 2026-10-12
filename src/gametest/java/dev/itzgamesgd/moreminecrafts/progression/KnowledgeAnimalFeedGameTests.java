@@ -10,12 +10,14 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameType;
 
 /** Exercises Animal.mobInteract so feeding credit is checked at the installed mixin. */
 public final class KnowledgeAnimalFeedGameTests implements CustomTestMethodInvoker {
     @GameTest
     public void successfulFoodConsumptionCountsDistinctAnimalSpecies(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
         var cow = ctx.spawn(EntityTypes.COW, new net.minecraft.core.BlockPos(2, 2, 2));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WHEAT, 2));
         InteractionResult fed = cow.mobInteract(player, InteractionHand.MAIN_HAND);
@@ -33,6 +35,7 @@ public final class KnowledgeAnimalFeedGameTests implements CustomTestMethodInvok
 
         var sheep = ctx.spawn(EntityTypes.SHEEP, new net.minecraft.core.BlockPos(6, 2, 2));
         ServerPlayer otherPlayer = ctx.makeMockServerPlayerInLevel();
+        otherPlayer.setGameMode(GameType.SURVIVAL);
         otherPlayer.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WHEAT));
         InteractionResult otherFed = sheep.mobInteract(otherPlayer, InteractionHand.MAIN_HAND);
         ctx.assertTrue(otherFed.consumesAction(), "another player successfully feeds a different species");
@@ -46,6 +49,7 @@ public final class KnowledgeAnimalFeedGameTests implements CustomTestMethodInvok
     @GameTest
     public void unsuccessfulNonFoodInteractionDoesNotCountAnAnimalSpecies(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
         var cow = ctx.spawn(EntityTypes.COW, new net.minecraft.core.BlockPos(2, 2, 2));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.STONE));
         InteractionResult result = cow.mobInteract(player, InteractionHand.MAIN_HAND);

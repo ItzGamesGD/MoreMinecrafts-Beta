@@ -99,8 +99,8 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         ctx.setBlock(farmland, Blocks.FARMLAND);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WATER_BUCKET));
         InteractionResult result = useOnTop(ctx, player, support);
-        ctx.assertTrue(result.consumesAction()
-                        && ctx.getLevel().getFluidState(ctx.absolutePos(source)).isSource(),
+        ctx.assertTrue(result.consumesAction(), "water bucket action succeeds on the supported block");
+        ctx.assertTrue(ctx.getLevel().getFluidState(ctx.absolutePos(source)).isSource(),
                 "water bucket places a source block beside nearby farmland");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("farmland_watered") == 1,
                 "the installed item-use hook records nearby farmland irrigation");
@@ -121,17 +121,13 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
     public void foodCraftingResultSlotCountsDistinctFoodIdsOnce(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
-        var menu = new net.minecraft.world.inventory.CraftingMenu(1, player.getInventory());
+        var menu = new net.minecraft.world.inventory.CraftingMenu(1, player.getInventory(),
+                net.minecraft.world.inventory.ContainerLevelAccess.create(ctx.getLevel(),
+                        ctx.absolutePos(new BlockPos(1, 1, 1))));
         for (int craft = 0; craft < 2; craft++) {
-            menu.getSlot(1).set(new ItemStack(Items.WHEAT));
-            menu.getSlot(2).set(new ItemStack(Items.WHEAT));
-            menu.getSlot(3).set(new ItemStack(Items.WHEAT));
             menu.getSlot(4).set(new ItemStack(Items.WHEAT));
             menu.getSlot(5).set(new ItemStack(Items.WHEAT));
             menu.getSlot(6).set(new ItemStack(Items.WHEAT));
-            menu.getSlot(7).set(new ItemStack(Items.WHEAT));
-            menu.getSlot(8).set(new ItemStack(Items.WHEAT));
-            menu.getSlot(9).set(new ItemStack(Items.WHEAT));
             menu.slotsChanged(menu.getSlot(1).container);
             ItemStack output = menu.getSlot(0).getItem().copy();
             ctx.assertTrue(output.is(Items.BREAD), "vanilla bread recipe produces the food result");
