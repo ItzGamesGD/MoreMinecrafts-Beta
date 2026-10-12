@@ -1,6 +1,6 @@
 # Stage 2-A Knowledge collector implementation status
 
-This corrective pass adds provenance for completed/collected furnace and brewing outputs and a centralized first-unlock chat notification. Progress remains in the existing persistent `ResearchProgressState` attachment; its existing condition update path unlocks entries and syncs deltas. K59 remains an item-count condition (10 actual spawned items); K70 remains a cumulative item-count condition (5 registered `strong_*` potion items). K70's metadata enum now reflects item-count semantics while its persisted key and target remain unchanged.
+This corrective pass adds provenance for completed/collected furnace and brewing outputs and a centralized first-unlock chat notification. Progress remains in the existing persistent `ResearchProgressState` attachment; its existing condition update path unlocks entries and syncs deltas. K59 remains an item-count condition (10 actual spawned items); K70 remains a cumulative item-count condition (5 registered `strong_*` potion items). K70's existing enum label remains unchanged to preserve the approved node-tree manifest and catalog consistency; runtime collection semantics remain cumulative item count.
 
 Status reflects evidence available at this commit: **IMPLEMENTED_NOT_VERIFIED** means a runtime hook is present, but compilation and actual hook execution have not yet been demonstrated. The local Gradle process cannot start in this environment because wildcard network-interface enumeration fails with `SocketException: Operation not permitted`.
 
