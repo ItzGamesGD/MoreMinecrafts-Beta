@@ -232,8 +232,8 @@ public final class KnowledgeRuntime {
         var title = net.minecraft.network.chat.Component.translatable(entry.titleKey()).withStyle(net.minecraft.ChatFormatting.GREEN);
         var message = net.minecraft.network.chat.Component.translatable("moreminecrafts.chat.knowledge_unlocked",
                 player.getDisplayName(), title);
-        if (player.level().getGameRules().getBoolean(net.minecraft.world.level.gamerules.GameRules.SHOW_ADVANCEMENT_MESSAGES))
-            player.getServer().getPlayerList().broadcastSystemMessage(message, false);
+        if (player.level().getGameRules().get(net.minecraft.world.level.gamerules.GameRules.SHOW_ADVANCEMENT_MESSAGES))
+            player.level().getServer().getPlayerList().broadcastSystemMessage(message, false);
         if (first) player.sendSystemMessage(net.minecraft.network.chat.Component.translatable(
                 "moreminecrafts.chat.first_knowledge_guidance", net.minecraft.network.chat.Component.keybind("key.advancements")));
     }
