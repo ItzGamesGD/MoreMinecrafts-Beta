@@ -44,7 +44,7 @@ public final class KnowledgeRuntime {
             ItemStack probe = new ItemStack(item);
             if (probe.is(ItemTags.LOGS)) logs.add(item);
             if (probe.is(ItemTags.SAPLINGS)) plants.add(item);
-            if (probe.is(ItemTags.FOOD)) foods.add(item);
+            if (probe.has(net.minecraft.core.component.DataComponents.FOOD)) foods.add(item);
         }
         plants.addAll(List.of(Items.DANDELION, Items.POPPY, Items.BLUE_ORCHID, Items.ALLIUM,
                 Items.AZURE_BLUET, Items.RED_TULIP, Items.ORANGE_TULIP, Items.WHITE_TULIP,
@@ -248,10 +248,6 @@ public final class KnowledgeRuntime {
         return player.getStats().getValue(Stats.ITEM_CRAFTED.get(item));
     }
 
-    private static int used(ServerPlayer player, Item item) {
-        return player.getStats().getValue(Stats.ITEM_USED.get(item));
-    }
-
     private static int craftedSum(ServerPlayer player, List<Item> items) {
         int count = 0;
         for (Item item : items) count = (int) Math.min(Integer.MAX_VALUE, (long) count + crafted(player, item));
@@ -261,18 +257,6 @@ public final class KnowledgeRuntime {
     private static int acquired(ServerPlayer player, Item item) {
         return player.getStats().getValue(Stats.ITEM_PICKED_UP.get(item))
                 + player.getStats().getValue(Stats.ITEM_CRAFTED.get(item));
-    }
-
-    private static int itemCount(ServerPlayer player, List<Item> items) {
-        int total = 0;
-        for (Item item : items) total = (int) Math.min(Integer.MAX_VALUE, (long) total + acquired(player, item));
-        return total;
-    }
-
-    private static int usedSum(ServerPlayer player, List<Item> items) {
-        int total = 0;
-        for (Item item : items) total = (int) Math.min(Integer.MAX_VALUE, (long) total + used(player, item));
-        return total;
     }
 
     private static int countCrafted(ServerPlayer player, List<Item> items) {
