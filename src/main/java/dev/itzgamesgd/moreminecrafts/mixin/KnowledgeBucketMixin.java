@@ -3,7 +3,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.BlockHitResult;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BucketItem.class)
 abstract class KnowledgeBucketMixin {
     @Inject(method = "emptyContents", at = @At("RETURN"))
-    private void moreminecrafts$recordSuccessfulWaterPlacement(Player player, Level level, BlockPos pos,
+    private void moreminecrafts$recordSuccessfulWaterPlacement(LivingEntity player, Level level, BlockPos pos,
             BlockHitResult hitResult, CallbackInfoReturnable<Boolean> result) {
         if ((Object) this != Items.WATER_BUCKET || level.isClientSide()
                 || !(player instanceof ServerPlayer serverPlayer)
