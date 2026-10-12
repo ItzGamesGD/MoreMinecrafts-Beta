@@ -9,6 +9,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
@@ -96,7 +98,7 @@ public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethod
         ctx.setBlock(new BlockPos(2, 2, 2), Blocks.BREWING_STAND);
         BrewingStandBlockEntity stand = (BrewingStandBlockEntity) ctx.getLevel().getBlockEntity(pos);
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        ItemStack waterPotion = new ItemStack(Items.POTION);
+        ItemStack waterPotion = PotionContents.createItemStack(Items.POTION, Potions.WATER);
         stand.setItem(0, waterPotion.copy());
         stand.setItem(3, new ItemStack(Items.NETHER_WART));
         stand.setItem(4, new ItemStack(Items.BLAZE_POWDER));
@@ -120,7 +122,7 @@ public final class KnowledgeOutputLifecycleGameTests implements CustomTestMethod
         ctx.setBlock(new BlockPos(2, 2, 2), Blocks.BREWING_STAND);
         BrewingStandBlockEntity stand = (BrewingStandBlockEntity) ctx.getLevel().getBlockEntity(pos);
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        ItemStack waterPotion = new ItemStack(Items.POTION);
+        ItemStack waterPotion = PotionContents.createItemStack(Items.POTION, Potions.WATER);
         stand.setItem(0, waterPotion.copy());
         stand.setItem(3, new ItemStack(Items.NETHER_WART));
         stand.setItem(4, new ItemStack(Items.BLAZE_POWDER));

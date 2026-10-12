@@ -21,6 +21,7 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
     @GameTest
     public void hopperPlacementRequiresSuccessfulBlockPlacement(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.HOPPER));
         BlockPos base = new BlockPos(1, 1, 1);
         ctx.setBlock(base, Blocks.STONE);
@@ -92,6 +93,7 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
     @GameTest
     public void irrigationRequiresSourceWaterWithinFarmlandHydrationReach(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
         BlockPos support = new BlockPos(1, 1, 1);
         BlockPos farmland = new BlockPos(2, 1, 1);
         BlockPos source = support.above();
@@ -99,7 +101,7 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         ctx.setBlock(farmland, Blocks.FARMLAND);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WATER_BUCKET));
         InteractionResult result = useOnTop(ctx, player, support);
-        ctx.assertTrue(result.consumesAction(), "water bucket action succeeds on the supported block");
+        ctx.assertTrue(result.consumesAction(), "water bucket action succeeds on the supported block: " + result);
         ctx.assertTrue(ctx.getLevel().getFluidState(ctx.absolutePos(source)).isSource(),
                 "water bucket places a source block beside nearby farmland");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("farmland_watered") == 1,

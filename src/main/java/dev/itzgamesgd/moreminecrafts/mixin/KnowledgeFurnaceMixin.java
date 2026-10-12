@@ -16,6 +16,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /** Records the exact input/output pair after vanilla has accepted a completed cooking result. */
 @Mixin(AbstractFurnaceBlockEntity.class)
 abstract class KnowledgeFurnaceMixin {
+    @Inject(method = "setItem", at = @At("HEAD"))
+    private void moreminecrafts$discardReplacedOutput(int slot, ItemStack stack, CallbackInfo ci) {
+        if (slot == 2)
+            SmeltingOutputProvenance.discard((AbstractFurnaceBlockEntity) (Object) this);
+    }
+
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void moreminecrafts$saveSmeltProvenance(ValueOutput output, CallbackInfo ci) {
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) (Object) this;

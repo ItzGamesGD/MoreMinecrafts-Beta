@@ -72,6 +72,11 @@ public final class SmeltingOutputProvenance {
         else PENDING.put(furnace, new ArrayList<>(valid));
     }
 
+    /** Discard evidence when another action replaces the furnace output slot. */
+    public static void discard(AbstractFurnaceBlockEntity furnace) {
+        PENDING.remove(furnace);
+    }
+
     public static final class PendingOutput {
         private final ItemStack prototype;
         private final String oreType;

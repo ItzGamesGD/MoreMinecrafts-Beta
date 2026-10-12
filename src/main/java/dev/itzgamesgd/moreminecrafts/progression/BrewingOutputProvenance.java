@@ -62,6 +62,14 @@ public final class BrewingOutputProvenance {
         else OUTPUTS.put(stand, valid);
     }
 
+    /** Discard evidence when another action replaces one brewing output slot. */
+    public static void discard(BrewingStandBlockEntity stand, int slot) {
+        Map<Integer, Pending> outputs = OUTPUTS.get(stand);
+        if (outputs == null) return;
+        outputs.remove(slot);
+        if (outputs.isEmpty()) OUTPUTS.remove(stand);
+    }
+
     public static final class Pending {
         private final int slot;
         private final ItemStack prototype;
