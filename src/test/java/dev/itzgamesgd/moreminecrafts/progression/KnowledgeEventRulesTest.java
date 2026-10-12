@@ -6,9 +6,17 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.SharedConstants;
+import net.minecraft.server.Bootstrap;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 final class KnowledgeEventRulesTest {
+    @BeforeAll static void bootstrapMinecraft() {
+        SharedConstants.tryDetectVersion();
+        Bootstrap.bootStrap();
+    }
+
     @Test void oreSmeltingTypesAreRecognizedAndNotConfusedWithOrdinaryCooking() {
         assertEquals("iron", KnowledgeEventRules.oreType(new ItemStack(Items.RAW_IRON)).orElseThrow());
         assertEquals("iron", KnowledgeEventRules.oreType(new ItemStack(Items.IRON_ORE)).orElseThrow());
