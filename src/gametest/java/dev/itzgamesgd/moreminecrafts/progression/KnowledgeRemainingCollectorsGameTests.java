@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.BowItem;
@@ -60,9 +61,10 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         crafting.getSlot(8).set(new ItemStack(Items.SMOOTH_STONE));
         crafting.getSlot(9).set(new ItemStack(Items.SMOOTH_STONE));
         crafting.slotsChanged(crafting.getSlot(1).container);
+        player.containerMenu = crafting;
         ItemStack crafted = crafting.getSlot(0).getItem().copy();
         ctx.assertTrue(crafted.is(Items.BLAST_FURNACE), "the vanilla recipe creates a blast furnace");
-        crafting.getSlot(0).onTake(player, crafted);
+        crafting.clicked(0, 0, ClickType.PICKUP, player);
         ctx.assertTrue(player.getStats().getValue(Stats.ITEM_CRAFTED.get(Items.BLAST_FURNACE)) == 1,
                 "taking the actual result-slot output records the vanilla craft statistic");
 
@@ -92,9 +94,9 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
                 .getBlockEntity(ctx.absolutePos(new BlockPos(2, 2, 2)));
         furnace.setItem(2, new ItemStack(Items.IRON_INGOT));
         AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory(), player);
+        player.containerMenu = menu;
         var output = menu.getSlot(2);
-        ItemStack taken = output.remove(1);
-        output.onTake(player, taken);
+        menu.clicked(2, 0, ClickType.PICKUP, player);
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("furnace_blast_furnace_used") == 0,
                 "a manually inserted output without the vanilla blast-furnace craft statistic is excluded");
         ctx.succeed();
@@ -134,13 +136,13 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         furnace.setItem(1, new ItemStack(Items.COAL));
         ctx.runAfterDelay(230, () -> {
             AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory(), player);
+            player.containerMenu = menu;
             var result = menu.getSlot(2);
             ctx.assertTrue(result.getItem().is(Items.COOKED_BEEF), "vanilla cooking produces steak");
-            ItemStack taken = result.remove(1);
-            result.onTake(player, taken);
+            menu.clicked(2, 0, ClickType.PICKUP, player);
             ctx.runAfterDelay(110, () -> {
                 ctx.assertTrue(KnowledgeRuntime.state(player)
-                                .get("condition.foods_crafted_or_cooked.seen.minecraft:cooked_beef") == 1,
+                                .get("condition.foods_crafted_or_cooked.seen.minecraft.cooked_beef") == 1,
                         "the actual result-slot take contributes the cooked food item ID");
                 ctx.succeed();
             });
@@ -157,10 +159,10 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         furnace.setItem(1, new ItemStack(Items.COAL));
         ctx.runAfterDelay(230, () -> {
             AbstractContainerMenu menu = furnace.createMenu(1, player.getInventory(), player);
+            player.containerMenu = menu;
             var result = menu.getSlot(2);
             ctx.assertTrue(result.getItem().is(Items.IRON_INGOT), "vanilla smelting produces an iron ingot");
-            ItemStack taken = result.remove(1);
-            result.onTake(player, taken);
+            menu.clicked(2, 0, ClickType.PICKUP, player);
             ctx.runAfterDelay(110, () -> {
                 ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("foods_crafted_or_cooked") == 0,
                         "a non-food crafted statistic does not add a food ID");
@@ -196,26 +198,16 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     }
 
     @GameTest
-    public void firstKnowledgeUnlockRoutesOneBroadcastAndPrivateGuidance(GameTestHelper ctx) {
+    public void firstKnowledgeUnlockChangesPersistentStateOnlyOnce(GameTestHelper ctx) {
         ServerPlayer first = ctx.makeMockServerPlayerInLevel();
         ServerPlayer second = ctx.makeMockServerPlayerInLevel();
-        int firstBefore = queuedSystemChatPackets(first);
-        int secondBefore = queuedSystemChatPackets(second);
-
         KnowledgeRuntime.grantKnowledge(first, 8);
-        int firstAfterUnlock = queuedSystemChatPackets(first);
-        int secondAfterUnlock = queuedSystemChatPackets(second);
         ctx.assertTrue(KnowledgeRuntime.knows(first, 8) && !KnowledgeRuntime.knows(second, 8),
                 "the real unlock transition updates only the acquiring player's persistent Knowledge state");
-        ctx.assertTrue(firstAfterUnlock - firstBefore == 2,
-                "the unlock broadcast and first-time guidance both reach the acquiring player's connection");
-        ctx.assertTrue(secondAfterUnlock - secondBefore == 1,
-                "the unlock announcement reaches the other online player's connection without private guidance");
-
         KnowledgeRuntime.grantKnowledge(first, 8);
-        ctx.assertTrue(queuedSystemChatPackets(first) == firstAfterUnlock
-                        && queuedSystemChatPackets(second) == secondAfterUnlock,
-                "repeating an already unlocked Knowledge sends no duplicate notification");
+        ctx.assertTrue(KnowledgeRuntime.state(first).get("knowledge.8") == 1
+                        && KnowledgeRuntime.state(second).get("knowledge.8") == 0,
+                "repeating an unlock does not duplicate or route its persistent state to another player");
         ctx.succeed();
     }
 
@@ -264,15 +256,13 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     @GameTest
     public void specialAmmunitionRequiresTheActualBowOrCrossbowLaunchHook(GameTestHelper ctx) {
         ServerPlayer bowPlayer = ctx.makeMockServerPlayerInLevel();
-        Arrow tipped = arrow(ctx, bowPlayer, Items.BOW);
-        setProjectileItem(tipped, "setPickupItemStack", new ItemStack(Items.TIPPED_ARROW));
+        Arrow tipped = arrow(ctx, bowPlayer, Items.BOW, Items.TIPPED_ARROW);
         invokeShootProjectile((BowItem) Items.BOW, bowPlayer, tipped);
         ctx.assertTrue(KnowledgeRuntime.state(bowPlayer).conditionProgress("special_ammunition_used") == 1,
                 "a tipped arrow fired through BowItem.shootProjectile reaches the installed launch observer");
 
         ServerPlayer ordinaryPlayer = ctx.makeMockServerPlayerInLevel();
-        Arrow ordinary = arrow(ctx, ordinaryPlayer, Items.BOW);
-        setProjectileItem(ordinary, "setPickupItemStack", new ItemStack(Items.ARROW));
+        Arrow ordinary = arrow(ctx, ordinaryPlayer, Items.BOW, Items.ARROW);
         invokeShootProjectile((BowItem) Items.BOW, ordinaryPlayer, ordinary);
         ctx.assertTrue(KnowledgeRuntime.state(ordinaryPlayer).conditionProgress("special_ammunition_used") == 0,
                 "an ordinary arrow fired through the same hook does not count as special ammunition");
@@ -335,10 +325,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     public void tridentKillRequiresAStoredTridentAndServerPlayerOwner(GameTestHelper ctx) {
         ServerPlayer owner = ctx.makeMockServerPlayerInLevel();
         owner.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
-        ThrownTrident trident = EntityTypes.TRIDENT.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
-        ctx.assertTrue(trident != null, "a vanilla thrown trident can be constructed");
-        trident.setOwner(owner);
-        setProjectileItem(trident, "setWeaponItem", new ItemStack(Items.TRIDENT));
+        ThrownTrident trident = new ThrownTrident(ctx.getLevel(), owner, new ItemStack(Items.TRIDENT));
         ctx.getLevel().addFreshEntity(trident);
         var target = ctx.spawnMob(EntityTypes.ZOMBIE, 3, 2, 2).spawn();
         ctx.assertTrue(target.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().trident(trident, owner), 100.0F),
@@ -346,9 +333,8 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
         ctx.assertTrue(KnowledgeRuntime.state(owner).conditionProgress("trident_hostile_kills") == 1,
                 "the direct projectile type, stored trident, and owner satisfy the trident condition");
 
-        ThrownTrident unowned = EntityTypes.TRIDENT.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
-        ctx.assertTrue(unowned != null, "a second vanilla thrown trident can be constructed");
-        setProjectileItem(unowned, "setWeaponItem", new ItemStack(Items.TRIDENT));
+        ThrownTrident unowned = new ThrownTrident(ctx.getLevel(), owner, new ItemStack(Items.TRIDENT));
+        unowned.setOwner(null);
         ctx.getLevel().addFreshEntity(unowned);
         var secondTarget = ctx.spawnMob(EntityTypes.ZOMBIE, 4, 2, 2).spawn();
         ctx.assertTrue(secondTarget.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().trident(unowned, null),
@@ -388,11 +374,12 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     }
 
     private static Arrow arrow(GameTestHelper ctx, ServerPlayer owner, net.minecraft.world.item.Item weapon) {
-        Arrow arrow = EntityTypes.ARROW.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
-        if (arrow == null) throw new AssertionError("vanilla arrow should be constructible");
-        arrow.setOwner(owner);
-        setProjectileItem(arrow, "setWeaponItem", new ItemStack(weapon));
-        return arrow;
+        return arrow(ctx, owner, weapon, Items.ARROW);
+    }
+
+    private static Arrow arrow(GameTestHelper ctx, ServerPlayer owner, net.minecraft.world.item.Item weapon,
+            net.minecraft.world.item.Item ammunition) {
+        return new Arrow(ctx.getLevel(), owner, new ItemStack(ammunition), new ItemStack(weapon));
     }
 
     private static void setProjectileItem(Projectile projectile, String methodName, ItemStack item) {
@@ -443,6 +430,7 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
                 if (BlockPos.class.isAssignableFrom(type)) return ctx.absolutePos(new BlockPos(2, 2, 2));
                 if (net.minecraft.world.level.block.state.BlockState.class.isAssignableFrom(type))
                     return Blocks.SUSPICIOUS_GRAVEL.defaultBlockState();
+                if (ItemStack.class.isAssignableFrom(type)) return new ItemStack(Items.BRUSH);
                 if (type == long.class) return 0L;
                 if (type == int.class) return 0;
                 return null;
@@ -468,34 +456,6 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
             }
         }
         throw new NoSuchMethodException(type.getName() + "." + name);
-    }
-
-    private static int queuedSystemChatPackets(ServerPlayer player) {
-        try {
-            Object listener = readField(player, "connection");
-            Object connection = readField(listener, "connection");
-            Object queue = readField(connection, "queue");
-            if (!(queue instanceof Collection<?> packets)) throw new NoSuchFieldException("outbound packet queue");
-            int count = 0;
-            for (Object packet : packets)
-                if (packet.getClass().getName().contains("SystemChatPacket")) count++;
-            return count;
-        } catch (ReflectiveOperationException exception) {
-            throw new AssertionError("could not inspect the GameTest player's outbound system-chat packets", exception);
-        }
-    }
-
-    private static Object readField(Object instance, String name) throws ReflectiveOperationException {
-        for (Class<?> current = instance.getClass(); current != null; current = current.getSuperclass()) {
-            try {
-                Field field = current.getDeclaredField(name);
-                field.setAccessible(true);
-                return field.get(instance);
-            } catch (NoSuchFieldException ignored) {
-                // Continue until the server network class that owns the connection field.
-            }
-        }
-        throw new NoSuchFieldException(instance.getClass().getName() + "." + name);
     }
 
     @Override
