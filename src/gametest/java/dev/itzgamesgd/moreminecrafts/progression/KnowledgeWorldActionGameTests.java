@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -98,7 +99,8 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         ctx.setBlock(farmland, Blocks.FARMLAND);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WATER_BUCKET));
         InteractionResult result = useOnTop(ctx, player, support);
-        ctx.assertTrue(result.consumesAction() && ctx.getFluidState(source).isSource(),
+        ctx.assertTrue(result.consumesAction()
+                        && ctx.getLevel().getFluidState(ctx.absolutePos(source)).isSource(),
                 "water bucket places a source block beside nearby farmland");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("farmland_watered") == 1,
                 "the installed item-use hook records nearby farmland irrigation");
@@ -130,7 +132,7 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
             menu.getSlot(7).set(new ItemStack(Items.WHEAT));
             menu.getSlot(8).set(new ItemStack(Items.WHEAT));
             menu.getSlot(9).set(new ItemStack(Items.WHEAT));
-            menu.slotsChanged(menu.getCraftSlots());
+            menu.slotsChanged(menu.getSlot(1).container);
             ItemStack output = menu.getSlot(0).getItem().copy();
             ctx.assertTrue(output.is(Items.BREAD), "vanilla bread recipe produces the food result");
             menu.getSlot(0).onTake(player, output);

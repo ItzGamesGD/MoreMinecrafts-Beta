@@ -83,7 +83,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
             menu.getSlot(3).set(new ItemStack(Items.OAK_PLANKS));
             menu.getSlot(5).set(new ItemStack(Items.STICK));
             menu.getSlot(8).set(new ItemStack(Items.STICK));
-            menu.slotsChanged(menu.getCraftSlots());
+            menu.slotsChanged(menu.getSlot(1).container);
             ItemStack output = menu.getSlot(0).getItem().copy();
             ctx.assertTrue(output.is(Items.WOODEN_PICKAXE), "vanilla recipe computes a wooden pickaxe output");
             menu.getSlot(0).onTake(player, output);
@@ -105,7 +105,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
         menu.getSlot(3).set(new ItemStack(Items.OAK_PLANKS));
         menu.getSlot(5).set(new ItemStack(Items.STICK));
         menu.getSlot(8).set(new ItemStack(Items.STICK));
-        menu.slotsChanged(menu.getCraftSlots());
+        menu.slotsChanged(menu.getSlot(1).container);
         ItemStack output = menu.getSlot(0).getItem().copy();
         ctx.assertTrue(output.is(Items.WOODEN_PICKAXE), "creative player still has the vanilla craft result");
         menu.getSlot(0).onTake(player, output);
