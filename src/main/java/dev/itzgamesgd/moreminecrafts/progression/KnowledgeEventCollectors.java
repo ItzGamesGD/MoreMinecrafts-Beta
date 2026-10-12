@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.progression;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.UUID;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
@@ -20,8 +21,55 @@ import net.minecraft.world.item.LingeringPotionItem;
 /** Server event adapters for the existing persistent Knowledge condition pipeline. */
 public final class KnowledgeEventCollectors {
     private static final Map<Piglin, UUID> PIGLIN_OFFERERS = new WeakHashMap<>();
+    private static final Map<Projectile, ProjectileWeaponOrigin> KNOWLEDGE_WEAPON_ORIGINS = new WeakHashMap<>();
+    private record ProjectileWeaponOrigin(UUID player, String condition) {}
 
     private KnowledgeEventCollectors() {}
+
+    public static void blastFurnaceProductTaken(ServerPlayer player, AbstractFurnaceBlockEntity furnace, ItemStack taken) {
+        if (!taken.isEmpty() && furnace.getBlockState().is(Blocks.BLAST_FURNACE)
+                && player.getStats().getValue(net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.BLAST_FURNACE)) > 0)
+            KnowledgeRuntime.recordCondition(player, "furnace_blast_furnace_used", 1);
+    }
+
+    public static void blockPlaced(ServerPlayer player, ItemStack placed) {
+        if (placed.is(Items.HOPPER)) {
+            int current = KnowledgeRuntime.state(player).conditionProgress("hoppers_placed");
+            KnowledgeRuntime.recordCondition(player, "hoppers_placed", current + 1);
+        }
+        if (isEligibleRedstoneComponent(placed)) {
+            int current = KnowledgeRuntime.state(player).conditionProgress("redstone_components_placed");
+            KnowledgeRuntime.recordCondition(player, "redstone_components_placed", current + 1);
+        }
+    }
+
+    public static boolean isEligibleRedstoneComponent(ItemStack stack) {
+        return stack.is(Items.REDSTONE) || stack.is(Items.REPEATER) || stack.is(Items.COMPARATOR)
+                || stack.is(Items.OBSERVER) || stack.is(Items.PISTON) || stack.is(Items.STICKY_PISTON);
+    }
+
+    public static void successfulFarmlandCultivation(ServerPlayer player) {
+        int current = KnowledgeRuntime.state(player).conditionProgress("farmland_tilled");
+        KnowledgeRuntime.recordCondition(player, "farmland_tilled", current + 1);
+    }
+
+    public static void successfulFarmlandIrrigation(ServerPlayer player) {
+        KnowledgeRuntime.recordCondition(player, "farmland_watered", 1);
+    }
+
+    public static void rememberProjectileWeapon(ServerPlayer player, Projectile projectile, boolean crossbow) {
+        KNOWLEDGE_WEAPON_ORIGINS.put(projectile, new ProjectileWeaponOrigin(player.getUUID(),
+                crossbow ? "crossbow_hostile_kills" : "bow_hostile_kills"));
+    }
+
+    public static void projectileKill(Projectile projectile) {
+        ProjectileWeaponOrigin origin = KNOWLEDGE_WEAPON_ORIGINS.get(projectile);
+        if (origin == null || !(projectile.level() instanceof ServerLevel level)) return;
+        ServerPlayer player = level.getServer().getPlayerList().getPlayer(origin.player());
+        if (player != null)
+            KnowledgeRuntime.recordCondition(player, origin.condition(),
+                    KnowledgeRuntime.state(player).conditionProgress(origin.condition()) + 1);
+    }
 
     public static void smeltingCollected(ServerPlayer player, AbstractFurnaceBlockEntity furnace, ItemStack taken) {
         for (String oreType : SmeltingOutputProvenance.collect(furnace, taken))
