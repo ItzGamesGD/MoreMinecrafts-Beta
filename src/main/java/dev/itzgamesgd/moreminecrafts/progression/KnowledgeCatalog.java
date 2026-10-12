@@ -17,7 +17,7 @@ public final class KnowledgeCatalog {
         RUNNING_KILLS, AMMUNITION_USED, ENTITY_KILLS, PIGLIN_BARTERS,
         DISTINCT_ENTITY_TYPES_ENCOUNTERED, BIOMES_VISITED, BOAT_DISTANCE, HORSE_DISTANCE,
         ELYTRA_DISTANCE, DIMENSIONS_VISITED, ARCHAEOLOGY_ITEMS_BRUSHED,
-        DISTINCT_STRUCTURES_VISITED, VILLAGER_TRADES, BREWING_FIRST, POTION_TYPES_BREWED,
+        DISTINCT_STRUCTURES_VISITED, VILLAGER_TRADES, BREWING_FIRST, POTION_TYPES_BREWED, POTION_ITEMS_BREWED,
         POTION_ITEMS_BREWED, EFFECT_TYPES_EXPERIENCED, BREWING_INGREDIENTS_ACQUIRED
     }
 
@@ -100,7 +100,7 @@ public final class KnowledgeCatalog {
         e(67,"alchemy","상태 효과",ConditionType.EFFECT_TYPES_EXPERIENCED,8,"effect_types_experienced","effect_info",false),
         e(68,"alchemy","마법 재료",ConditionType.BREWING_INGREDIENTS_ACQUIRED,8,"brewing_ingredients_acquired","ingredient_guide",false),
         e(69,"alchemy","고급 양조",ConditionType.POTION_ITEMS_BREWED,50,"potions_brewed","brewing_xp",false),
-        e(70,"alchemy","물약 농축",ConditionType.POTION_TYPES_BREWED,5,"strengthened_potions_brewed","concentration_hint",false)
+        e(70,"alchemy","물약 농축",ConditionType.POTION_ITEMS_BREWED,5,"strengthened_potions_brewed","concentration_hint",false)
     );
 
     private KnowledgeCatalog() {}

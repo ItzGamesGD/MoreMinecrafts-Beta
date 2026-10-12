@@ -24,6 +24,7 @@ abstract class KnowledgeBrewingOutputMixin {
         if (player instanceof ServerPlayer serverPlayer && container instanceof BrewingStandBlockEntity
                 && slot.getContainerSlot() >= 0 && slot.getContainerSlot() <= 2
                 && KnowledgeEventCollectors.isPotionItem(taken))
-            KnowledgeEventCollectors.potionCollected(serverPlayer, taken);
+            KnowledgeEventCollectors.potionCollected(serverPlayer, (BrewingStandBlockEntity) container,
+                    slot.getContainerSlot(), taken);
     }
 }

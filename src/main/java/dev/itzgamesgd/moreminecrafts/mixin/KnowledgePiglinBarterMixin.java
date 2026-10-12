@@ -31,10 +31,11 @@ abstract class KnowledgePiglinBarterMixin {
             KnowledgeEventCollectors.rememberPiglinOffer(piglin, serverPlayer);
     }
 
-    @Inject(method = "pickUpItem", at = @At("HEAD"))
+    @Inject(method = "pickUpItem", at = @At("TAIL"))
     private static void moreminecrafts$rememberDroppedOffer(ServerLevel level, Piglin piglin,
             ItemEntity item, CallbackInfo ci) {
-        if (item.getItem().is(Items.GOLD_INGOT) && item.getOwner() instanceof ServerPlayer serverPlayer)
+        if (item.getItem().is(Items.GOLD_INGOT) && piglin.getOffhandItem().is(Items.GOLD_INGOT)
+                && item.getOwner() instanceof ServerPlayer serverPlayer)
             KnowledgeEventCollectors.rememberPiglinOffer(piglin, serverPlayer);
     }
 

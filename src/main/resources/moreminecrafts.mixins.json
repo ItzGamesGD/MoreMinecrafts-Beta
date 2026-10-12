@@ -46,7 +46,9 @@
     "KnowledgeProjectileWeaponMixin",
     "KnowledgePiglinBarterMixin",
     "KnowledgeArchaeologyMixin",
-    "KnowledgeBrewingOutputMixin"
+    "KnowledgeBrewingMixin",
+    "KnowledgeBrewingOutputMixin",
+    "KnowledgeFurnaceOutputMixin"
   ],
   "injectors": {
     "defaultRequire": 1

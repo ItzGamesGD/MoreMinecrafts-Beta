@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 6203)
+Total output lines: 401
+
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
@@ -6,6 +9,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,6 +37,7 @@ public final class KnowledgeRuntime {
     private static List<Item> plantItems = List.of();
     private static List<Item> seedItems = List.of();
     private static final java.util.Map<java.util.UUID, PickaxeDamageSnapshot> PICKAXE_DAMAGE = new java.util.HashMap<>();
+    private static final java.util.Set<java.util.UUID> SILENT_RECONCILIATION = new java.util.HashSet<>();
     private record PickaxeDamageSnapshot(Item item, int damage, int maximumDamage) {}
 
     private static void cacheTrackedItems() {
@@ -57,6 +62,17 @@ public final class KnowledgeRuntime {
     }
 
     public static void initialize() {
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayer player = handler.player;
+            SILENT_RECONCILIATION.add(player.getUUID());
+            try {
+                observeExploration(player);
+                observeEffectTypes(player);
+                refresh(player);
+            } finally {
+                SILENT_RECONCILIATION.remove(player.getUUID());
+            }
+        });
         // Registry item components are not bound during the mod entrypoint. Cache tags only
         // after the server has completed datapack/registry startup.
         ServerLifecycleEvents.SERVER_STARTED.register(server -> cacheTrackedItems());
@@ -170,27 +186,7 @@ public final class KnowledgeRuntime {
         });
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             boolean refreshStatistics = server.getTickCount() % 100 == 0;
-            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-                observeExploration(player);
-                observeEffectTypes(player);
-                if (refreshStatistics) refresh(player);
-            }
-        });
-    }
-
-    private static void set(ServerPlayer player, String key, int value) {
-        ResearchProgressState old = player.getAttachedOrCreate(STATE);
-        if (old.get(key) != value) updateState(player, old.with(key, value));
-    }
-
-    public static ResearchProgressState state(ServerPlayer player) {
-        return player.getAttachedOrCreate(STATE);
-    }
-
-    static void updateState(ServerPlayer player, ResearchProgressState state) {
-        ResearchProgressState before = player.getAttachedOrCreate(STATE);
-        if (state.equals(before)) return;
-        ResearchProgressState after = state.with("progression.revision",
+            f…203 tokens truncated…ogressState after = state.with("progression.revision",
                 Math.max(0, before.get("progression.revision")) + 1);
         player.setAttached(STATE, after);
         ProgressionSyncRuntime.delta(player, before, after);
@@ -209,7 +205,20 @@ public final class KnowledgeRuntime {
     }
 
     public static void grantKnowledge(ServerPlayer player, int number) {
-        if (number >= 1 && number <= 70) set(player, "knowledge." + number, 1);
+        if (number < 1 || number > 70 || knows(player, number)) return;
+        boolean first = player.getAttachedOrCreate(STATE).counters().keySet().stream()
+                .noneMatch(key -> key.startsWith("knowledge.") && value(player, key) != 0);
+        set(player, "knowledge." + number, 1);
+        if (SILENT_RECONCILIATION.contains(player.getUUID())) return;
+        var entry = KnowledgeCatalog.entries().stream().filter(e -> e.number() == number).findFirst().orElse(null);
+        if (entry == null) return;
+        var title = net.minecraft.network.chat.Component.translatable(entry.titleKey()).withStyle(net.minecraft.ChatFormatting.GREEN);
+        var message = net.minecraft.network.chat.Component.translatable("moreminecrafts.chat.knowledge_unlocked",
+                player.getDisplayName(), title);
+        if (player.level().getGameRules().getBoolean(net.minecraft.world.level.gamerules.GameRules.SHOW_ADVANCEMENT_MESSAGES))
+            player.getServer().getPlayerList().broadcastSystemMessage(message, false);
+        if (first) player.sendSystemMessage(net.minecraft.network.chat.Component.translatable(
+                "moreminecrafts.chat.first_knowledge_guidance", net.minecraft.network.chat.Component.keybind("key.advancements")));
     }
 
     /** Event adapters report durable, server-observed condition progress through this API. */
