@@ -104,8 +104,8 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WATER_BUCKET));
         aimDownAt(ctx, player, support);
         var result = player.getMainHandItem().use(ctx.getLevel(), player, InteractionHand.MAIN_HAND);
-        ctx.assertTrue(result.getResult().consumesAction(),
-                "actual water-bucket use succeeds when aimed at a supported block: " + result.getResult());
+        ctx.assertTrue(result.consumesAction(),
+                "actual water-bucket use succeeds when aimed at a supported block: " + result);
         ctx.assertTrue(ctx.getLevel().getFluidState(ctx.absolutePos(source)).isSource(),
                 "water bucket places a source block beside nearby farmland");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("farmland_watered") == 1,
@@ -118,7 +118,7 @@ public final class KnowledgeWorldActionGameTests implements CustomTestMethodInvo
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.WATER_BUCKET));
         aimDownAt(ctx, player, farSupport);
         var distant = player.getMainHandItem().use(ctx.getLevel(), player, InteractionHand.MAIN_HAND);
-        ctx.assertTrue(distant.getResult().consumesAction(), "water placement itself succeeds at the distant location");
+        ctx.assertTrue(distant.consumesAction(), "water placement itself succeeds at the distant location");
         ctx.assertTrue(ctx.getLevel().getFluidState(ctx.absolutePos(farSupport.above())).isSource(),
                 "the second bucket action places another real source block");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("farmland_watered") == 1,
