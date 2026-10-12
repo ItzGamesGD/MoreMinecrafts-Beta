@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.inventory.CraftingMenu;
 
 /** Action-level tests for the K8 block-break observer and K14 crafting result observer. */
 public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvoker {
@@ -67,6 +68,47 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
                 "first player receives the five crafted tools");
         ctx.assertTrue(KnowledgeRuntime.state(second).conditionProgress("tool_types_crafted") == 2,
                 "second player receives only their own crafted tools");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k14CountsToolsTakenFromTheVanillaCraftingResultSlot(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        CraftingMenu menu = new CraftingMenu(1, player.getInventory());
+
+        for (int craft = 0; craft < 5; craft++) {
+            menu.getSlot(1).set(new ItemStack(Items.OAK_PLANKS));
+            menu.getSlot(2).set(new ItemStack(Items.OAK_PLANKS));
+            menu.getSlot(3).set(new ItemStack(Items.OAK_PLANKS));
+            menu.getSlot(5).set(new ItemStack(Items.STICK));
+            menu.getSlot(8).set(new ItemStack(Items.STICK));
+            ItemStack output = menu.getSlot(0).getItem().copy();
+            ctx.assertTrue(output.is(Items.WOODEN_PICKAXE), "vanilla recipe computes a wooden pickaxe output");
+            menu.getSlot(0).onTake(player, output);
+            ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == craft + 1,
+                    "taking each actual result-slot output advances K14 once");
+        }
+
+        ctx.assertTrue(KnowledgeRuntime.knows(player, 14), "five result-slot tools unlock K14");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k14CreativeResultSlotTakesDoNotAdvanceProgress(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.CREATIVE);
+        CraftingMenu menu = new CraftingMenu(1, player.getInventory());
+        menu.getSlot(1).set(new ItemStack(Items.OAK_PLANKS));
+        menu.getSlot(2).set(new ItemStack(Items.OAK_PLANKS));
+        menu.getSlot(3).set(new ItemStack(Items.OAK_PLANKS));
+        menu.getSlot(5).set(new ItemStack(Items.STICK));
+        menu.getSlot(8).set(new ItemStack(Items.STICK));
+        ItemStack output = menu.getSlot(0).getItem().copy();
+        ctx.assertTrue(output.is(Items.WOODEN_PICKAXE), "creative player still has the vanilla craft result");
+        menu.getSlot(0).onTake(player, output);
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 0,
+                "creative result-slot take is excluded from K14");
         ctx.succeed();
     }
 
