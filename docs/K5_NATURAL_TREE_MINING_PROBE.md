@@ -34,3 +34,14 @@ Only probe/test code and audit documentation in this PR. Keep PR #79, #80, #81 u
 - **Natural-tree probe/GameTest: NOT IMPLEMENTED / NOT RUN.** The checklist requires stopping when source resolution fails, so natural feature and block-break hooks were not guessed. No K5 condition update, counter increment, or unlock path was added or enabled.
 - **Probe scenarios (natural tree species, sapling growth, placement, structures, piston/explosion, persistence): UNVERIFIED.**
 - **Readiness:** blocked pending a Java 25 environment that can resolve the pinned Loom/Minecraft sources. Resume at checklist item 1, record mapped signatures, then implement the diagnostic-only probe and its GameTests before claiming K5 technical readiness.
+
+
+## 2026-10-13 GitHub Actions source-resolution breakthrough and next gate
+
+- Dedicated workflow: `.github/workflows/k5-mapped-sources-probe.yml`.
+- **PASS:** [K5 Mapped Sources Probe run #38338849034](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38338849034), commit `415cb0d9e995f55390ed118079fe2699b5f5ff58`. The `Resolve mapped sources` step (`./gradlew genSources --stacktrace --no-daemon`) completed successfully on GitHub-hosted Ubuntu with Java 25. Diagnostic log artifact upload also succeeded.
+- This **supersedes the earlier statement that source resolution is globally blocked**. The earlier local sandbox remains network-blocked. A passing genSources step **does not** verify natural tree hooks, persistence, or K5 gameplay.
+- **Next implementation gate:** Obtain actual generated mapped source/signatures from the GitHub Actions runner. The current workflow uploads the command log, **not the generated source files**. If local access remains blocked, add a narrowly scoped source-inspection CI step that outputs only verified relevant class/method descriptors and/or a small inspection report artifact; do not upload proprietary/full Minecraft sources or redistribute them. Inspect Fabric API hook sources and mapping correctness before coding.
+- Once verified, implement an isolated **no-credit** worldgen-versus-sapling diagnostic probe and targeted GameTests, run them on Actions, capture results, and only then assess production K5 readiness.
+- Keep PR #82 Draft; do not alter PR #79-#81, enable K5 progress, merge PRs, or start Stage 2-C.
+- At the time of this addendum, **K5-specific runtime probe and tests remain NOT IMPLEMENTED / NOT RUN**.
