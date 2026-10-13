@@ -47,10 +47,13 @@ then run `scripts/structures/validate_ancient_city_arena.py`.
 - **IMPLEMENTED: PASS** — production template and additive registration exist.
 - **STATICALLY VERIFIED: PASS** — reproducible NBT, palette/index/bounds and
   entrance checks; actual runtime template loading and vanilla connector attachment.
-- **RUNTIME VERIFIED: PASS** — local `./gradlew clean build`, all existing unit
-  tests/resource validators and all **32 GameTests** passed. A normal Fabric
+- **RUNTIME VERIFIED: PASS** — local `./gradlew clean build`, all **154 unit tests** in 34 suites, resource validators and all **32 GameTests** passed. A normal Fabric
   server reached `Done` with the complete production resources.
-- **WORLDGEN VERIFIED: pending** — normal-terrain search is running.
+- **WORLDGEN VERIFIED: PASS** — seed 2632026, production weight 1, arena at
+  bounds `(-7088,-51,-3902)` through `(-7052,-39,-3866)`, rotation
+  COUNTERCLOCKWISE_90, city chunk `(-443,-238)`, 52 vanilla pieces. Five physical
+  floor samples resolved to wool/sculk. A city without the arena at chunk
+  `(246,-353)` retained 76 vanilla pieces. Found after 19 deterministic locate origins.
 - **VISUALLY VERIFIED: pending** — native Minecraft client captures and actual
   image inspection are required; a PNG quality check alone is insufficient.
 
@@ -73,7 +76,12 @@ after client world rendering. It uses spectator mode and night vision for
 visibility, without editing the generated terrain. No safe-mode resource
 exclusion or external renderer is used. Validation hooks are disabled normally.
 
-Workflow run/artifact IDs and screenshot inspection: pending execution.
+First Actions run **38343896620** passed the build, template validation, and
+normal worldgen. Native capture was blocked by the validation server whitelist;
+the isolated workflow now explicitly disables its whitelist, matching the
+proven repository capture setup. Diagnostics artifact ID **11787588477**
+(`ancient-city-arena-visual-validation-38343896620`) preserves that attempt.
+Screenshot inspection: pending the corrected capture run.
 Artifact name: `ancient-city-arena-visual-validation-<run-id>`.
 Screenshot names: `arena-camera-0.png`, `arena-camera-1.png`.
 
