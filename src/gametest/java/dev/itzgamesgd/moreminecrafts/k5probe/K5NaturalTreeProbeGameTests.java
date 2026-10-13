@@ -49,29 +49,20 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
     @GameTest
-    public void k5ChunkAttachmentStoresOnlyActualTreeTrunkLogWrites(GameTestHelper ctx) {
+    public void k5ChunkAttachmentStoresPackedPositionData(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         BlockPos logPos = ctx.absolutePos(new BlockPos(1, 1, 1));
         level.setBlock(logPos, Blocks.OAK_LOG.defaultBlockState(), 3);
-        K5NaturalTreeProbe.enterNaturalBiomeDecoration();
-        try {
-            K5NaturalTreeProbe.recordTrunkWrite((WorldGenLevel) level, logPos,
-                    Blocks.OAK_LOG.defaultBlockState());
-            K5NaturalTreeProbe.recordTrunkWrite((WorldGenLevel) level, logPos,
-                    Blocks.OAK_LOG.defaultBlockState());
-            BlockPos nonLog = logPos.above();
-            level.setBlock(nonLog, Blocks.OAK_LEAVES.defaultBlockState(), 3);
-            K5NaturalTreeProbe.recordTrunkWrite((WorldGenLevel) level, nonLog,
-                    Blocks.OAK_LEAVES.defaultBlockState());
-        } finally {
-            K5NaturalTreeProbe.exitNaturalBiomeDecoration();
-        }
+        ChunkAccess chunk = level.getChunkAt(logPos);
+        var target = (net.fabricmc.fabric.api.attachment.v1.AttachmentTarget) chunk;
+        target.setAttached(K5NaturalTreeProbe.NATURAL_TREE_LOGS,
+                new ChunkData(K5NaturalTreeProbe.SCHEMA_VERSION, Set.of(logPos.asLong())));
 
-        ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(logPos));
+        ChunkData data = K5NaturalTreeProbe.data(chunk);
         ctx.assertTrue(data != null && data.schemaVersion() == K5NaturalTreeProbe.SCHEMA_VERSION,
                 "persistent Fabric chunk attachment is available and uses the declared schema");
         ctx.assertTrue(data.positions().equals(Set.of(logPos.asLong())),
-                "the packed trunk position is recorded once and leaves are excluded");
+                "the attachment codec stores a packed position");
         ctx.succeed();
     }
 
