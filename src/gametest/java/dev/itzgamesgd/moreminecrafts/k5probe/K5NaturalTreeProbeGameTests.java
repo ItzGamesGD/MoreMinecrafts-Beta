@@ -192,6 +192,16 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     public void k5PlayerGrownTwoByTwoSpruceTreeIsNotTagged(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         BlockPos origin = ctx.absolutePos(new BlockPos(2, 1, 2));
+        // mega_pine is the registered feature selected by the spruce TreeGrower. Remove
+        // ambient terrain/structures in a fixed clearance volume so placement does not
+        // depend on the GameTest runner's randomly assigned world coordinates.
+        for (int x = -8; x <= 8; x++) {
+            for (int z = -8; z <= 8; z++) {
+                for (int y = 0; y <= 48; y++) {
+                    level.setBlock(origin.offset(x, y, z), Blocks.AIR.defaultBlockState(), 3);
+                }
+            }
+        }
         for (int x = 0; x < 4; x++) {
             for (int z = 0; z < 4; z++) {
                 level.setBlock(origin.offset(x, -1, z), Blocks.DIRT.defaultBlockState(), 3);
