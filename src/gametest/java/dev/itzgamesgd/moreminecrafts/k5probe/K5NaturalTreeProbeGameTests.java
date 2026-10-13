@@ -31,28 +31,30 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 /** Runtime-only checks for the diagnostic hooks. These tests never touch Knowledge state. */
 public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoker {
     @GameTest
-    public void k5PlacedFeatureIdentityRejectsModdedAndUnknownSources(GameTestHelper ctx) {
-        Identifier ordinaryVanilla = Identifier.fromNamespaceAndPath("minecraft", "trees_plains");
-        Identifier vanillaLargeTreeBiome = Identifier.fromNamespaceAndPath("minecraft", "trees_dark_forest");
-        Identifier vanillaTreeFeature = Identifier.fromNamespaceAndPath("minecraft", "tree");
-        Identifier moddedSource = Identifier.fromNamespaceAndPath("examplemod", "custom_tree");
-        Identifier nonVanillaTreeIdInVanillaNamespace =
-                Identifier.fromNamespaceAndPath("minecraft", "custom_tree");
+    public void k5FeatureIdentityUsesRegistryAllowlistAndFailsClosed(GameTestHelper ctx) {
+        Identifier vanillaForestPlacement = Identifier.fromNamespaceAndPath("minecraft", "trees_birch_and_oak_leaf_litter");
+        Identifier vanillaOakVariant = Identifier.fromNamespaceAndPath("minecraft", "oak_bees_0002_leaf_litter");
+        Identifier vanillaLargeSpruce = Identifier.fromNamespaceAndPath("minecraft", "mega_spruce");
+        Identifier moddedFeature = Identifier.fromNamespaceAndPath("examplemod", "custom_tree");
+        Identifier unknownVanillaFeature = Identifier.fromNamespaceAndPath("minecraft", "custom_tree");
 
-        ctx.assertTrue(K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, vanillaTreeFeature, true),
-                "registered vanilla placed-feature and TreeFeature registry identities are eligible");
-        ctx.assertTrue(K5NaturalTreeProbe.isEligibleTreeIdentity(vanillaLargeTreeBiome, vanillaTreeFeature, true),
-                "vanilla large-tree placement identity remains eligible");
-        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(moddedSource, vanillaTreeFeature, true),
+        ctx.assertTrue(K5NaturalTreeProbe.isEligibleTreeIdentity(vanillaForestPlacement, vanillaOakVariant, true),
+                "the runtime-observed vanilla forest tree identity is allowlisted");
+        ctx.assertTrue(K5NaturalTreeProbe.isEligibleTreeIdentity(vanillaForestPlacement, vanillaLargeSpruce, true),
+                "a registered vanilla large-tree identity is allowlisted");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(vanillaForestPlacement, moddedFeature, true),
                 "a mod namespace cannot authorize a tree feature");
-        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, moddedSource, true),
-                "a mod-registered TreeFeature cannot be authorized by a vanilla placed feature");
-        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, nonVanillaTreeIdInVanillaNamespace, true),
-                "an unknown Feature registry key under minecraft cannot masquerade as the vanilla tree identity");
-        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, vanillaTreeFeature, false),
-                "non-TreeFeature implementations are excluded");
-        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(null, vanillaTreeFeature, true),
-                "unknown or unregistered placed-feature identity fails closed");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(
+                        Identifier.fromNamespaceAndPath("examplemod", "trees"), vanillaOakVariant, true),
+                "a modded placed feature cannot authorize a vanilla tree source");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(vanillaForestPlacement, unknownVanillaFeature, true),
+                "an unknown minecraft feature key is rejected even in the vanilla namespace");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(vanillaForestPlacement, null, true),
+                "an unregistered feature with no registry key fails closed");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(vanillaForestPlacement, vanillaOakVariant, false),
+                "a non-TreeFeature implementation is rejected");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(null, vanillaOakVariant, true),
+                "an unknown placed-feature identity fails closed");
         ctx.succeed();
     }
 
@@ -70,7 +72,12 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         var featureRegistry = level.registryAccess().lookupOrThrow(Registries.FEATURE);
         for (Feature registeredFeature : featureRegistry) {
             if (registeredFeature instanceof TreeFeature) {
-                registeredTreeFeatureIds.add(featureRegistry.getKey(registeredFeature));
+                Identifier key = featureRegistry.getKey(registeredFeature);
+                registeredTreeFeatureIds.add(key);
+                if (key != null && key.getNamespace().equals("minecraft")) {
+                    ctx.assertTrue(K5NaturalTreeProbe.isKnownVanillaTreeFeatureId(key),
+                            "every registered vanilla TreeFeature key is in the pinned allowlist: " + key);
+                }
             }
         }
         Set<Identifier> vanillaForestTreePlacements = new TreeSet<>();
@@ -130,8 +137,11 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 + " markers=" + positions);
         ctx.assertTrue(K5NaturalTreeProbe.naturalTreeTrunkCallbacks() > callbacksBefore,
                 "natural biome decoration invoked an actual registered TreeFeature trunk setter");
-        ctx.assertTrue(!observedTreeFeatureIds.isEmpty() && !observedTrunkPositions.isEmpty(),
-                "the runtime trace identifies actual registered vanilla TreeFeature source IDs and positions");
+        ctx.assertTrue(observedTreeFeatureIds.contains(
+                        Identifier.fromNamespaceAndPath("minecraft", "oak_bees_0002_leaf_litter")),
+                "the deterministic forest invokes the runtime-observed registered vanilla Feature identity");
+        ctx.assertTrue(!observedTrunkPositions.isEmpty(),
+                "the runtime trace identifies actual trunk callback positions");
         Set<Long> actualLogPositions = new TreeSet<>();
         var callbackStates = new java.util.TreeMap<String, String>();
         for (long packed : observedTrunkPositions) {
@@ -145,6 +155,8 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 "at least one natural TreeFeature callback position remains a real log block after decoration");
         ctx.assertTrue(data != null && !data.positions().isEmpty(),
                 "the natural TreeFeature marker predicate records at least one actual trunk position");
+        ctx.assertTrue(actualLogPositions.containsAll(positions),
+                "every marker was independently observed as a final log at a trunk callback position");
         for (long packed : positions) {
             BlockPos markedPos = BlockPos.of(packed);
             var state = level.getBlockState(markedPos);
