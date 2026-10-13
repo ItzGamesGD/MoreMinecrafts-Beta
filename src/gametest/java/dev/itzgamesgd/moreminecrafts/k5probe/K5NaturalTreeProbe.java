@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.k5probe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +38,8 @@ public final class K5NaturalTreeProbe {
 
     private static final ThreadLocal<Integer> BIOME_DECORATION_DEPTH = ThreadLocal.withInitial(() -> 0);
     private static final ThreadLocal<RegistryAccess> ACTIVE_REGISTRIES = new ThreadLocal<>();
-    private static final ThreadLocal<Integer> VANILLA_PLACED_FEATURE_DEPTH = ThreadLocal.withInitial(() -> 0);
+    private static final ThreadLocal<ArrayDeque<Identifier>> ACTIVE_PLACED_FEATURE_IDS =
+            ThreadLocal.withInitial(ArrayDeque::new);
     private static final AtomicLong BIOME_DECORATION_CALLS = new AtomicLong();
     private static final AtomicLong NATURAL_TRUNK_WRITES = new AtomicLong();
 
@@ -56,15 +58,15 @@ public final class K5NaturalTreeProbe {
         if (registries == null) return false;
         Identifier key = registries.lookupOrThrow(Registries.PLACED_FEATURE).getKey(placedFeature);
         boolean eligible = isVanillaNamespace(key);
-        if (eligible) VANILLA_PLACED_FEATURE_DEPTH.set(VANILLA_PLACED_FEATURE_DEPTH.get() + 1);
+        if (eligible) ACTIVE_PLACED_FEATURE_IDS.get().push(key);
         return eligible;
     }
 
     public static void exitPlacedFeature(boolean entered) {
         if (!entered) return;
-        int depth = VANILLA_PLACED_FEATURE_DEPTH.get() - 1;
-        if (depth <= 0) VANILLA_PLACED_FEATURE_DEPTH.remove();
-        else VANILLA_PLACED_FEATURE_DEPTH.set(depth);
+        ArrayDeque<Identifier> active = ACTIVE_PLACED_FEATURE_IDS.get();
+        if (!active.isEmpty()) active.pop();
+        if (active.isEmpty()) ACTIVE_PLACED_FEATURE_IDS.remove();
     }
 
     private static boolean isVanillaNamespace(Identifier key) {
@@ -77,7 +79,7 @@ public final class K5NaturalTreeProbe {
     }
 
     public static boolean hasEligiblePlacedFeatureScope() {
-        return VANILLA_PLACED_FEATURE_DEPTH.get() > 0;
+        return !ACTIVE_PLACED_FEATURE_IDS.get().isEmpty();
     }
 
     public static long biomeDecorationCalls() {
@@ -89,7 +91,7 @@ public final class K5NaturalTreeProbe {
         if (depth <= 0) {
             BIOME_DECORATION_DEPTH.remove();
             ACTIVE_REGISTRIES.remove();
-            VANILLA_PLACED_FEATURE_DEPTH.remove();
+            ACTIVE_PLACED_FEATURE_IDS.remove();
         } else {
             BIOME_DECORATION_DEPTH.set(depth);
         }
@@ -109,8 +111,9 @@ public final class K5NaturalTreeProbe {
         RegistryAccess registries = ACTIVE_REGISTRIES.get();
         Identifier treeFeatureKey = registries == null ? null
                 : registries.lookupOrThrow(Registries.FEATURE).getKey(source);
+        Identifier placedFeatureKey = ACTIVE_PLACED_FEATURE_IDS.get().peek();
         if (!isNaturalBiomeDecoration() || !hasEligiblePlacedFeatureScope()
-                || !isEligibleTreeIdentity(null, treeFeatureKey, source instanceof TreeFeature)
+                || !isEligibleTreeIdentity(placedFeatureKey, treeFeatureKey, source instanceof TreeFeature)
                 || !state.is(BlockTags.LOGS) || !level.getBlockState(pos).equals(state)) return;
         NATURAL_TRUNK_WRITES.incrementAndGet();
         ChunkAccess chunk = level.getChunk(pos);
