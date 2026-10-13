@@ -66,10 +66,16 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                     "every positive marker resolves to an existing log block");
         }
 
-        BlockPos playerLog = ctx.absolutePos(new BlockPos(15, 28, 15));
-        level.setBlock(playerLog, Blocks.OAK_LOG.defaultBlockState(), 3);
-        ctx.assertTrue(!data.positions().contains(playerLog.asLong()),
-                "a player-placed log outside the natural tree setter remains unmarked");
+        BlockPos consumedMarker = BlockPos.of(data.positions().iterator().next());
+        level.setBlock(consumedMarker, Blocks.AIR.defaultBlockState(), 3);
+        ChunkData afterRemoval = K5NaturalTreeProbe.data(level.getChunkAt(consumedMarker));
+        ctx.assertTrue(afterRemoval == null || !afterRemoval.positions().contains(consumedMarker.asLong()),
+                "replacing the original log removes its marker");
+
+        level.setBlock(consumedMarker, Blocks.OAK_LOG.defaultBlockState(), 3);
+        ChunkData afterPlayerPlacement = K5NaturalTreeProbe.data(level.getChunkAt(consumedMarker));
+        ctx.assertTrue(afterPlayerPlacement == null || !afterPlayerPlacement.positions().contains(consumedMarker.asLong()),
+                "placing a log at a consumed natural position does not restore eligibility");
         ctx.succeed();
     }
 
