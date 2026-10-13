@@ -132,7 +132,7 @@ public final class K5NaturalTreeProbe {
     }
 
     public static boolean isKnownVanillaTreeFeatureId(Identifier treeFeatureKey) {
-        return VANILLA_TREE_FEATURE_IDS.contains(treeFeatureKey);
+        return treeFeatureKey != null && VANILLA_TREE_FEATURE_IDS.contains(treeFeatureKey);
     }
 
     public static boolean isEligibleTreeIdentity(Identifier placedFeatureKey, Identifier treeFeatureKey,
