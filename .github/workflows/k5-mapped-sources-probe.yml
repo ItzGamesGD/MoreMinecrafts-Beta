@@ -123,6 +123,8 @@ jobs:
               jar = class_jars.get(name)
               if jar:
                   out = subprocess.run(["javap", "-classpath", str(jar), "-p", "-s", name], text=True, capture_output=True, check=True).stdout.splitlines()
+                  if name.endswith("TicketType"):
+                      report.extend(f"  MEMBER {line.strip()}" for line in out if "UNKNOWN" in line or "FORCED" in line or "TicketType(" in line or "create(" in line)
                   if name.endswith("ChunkAccess"):
                       report.append(f"  DECLARATION {out[0].strip() if out else '<missing>'}")
                   for i, line in enumerate(out):
@@ -143,7 +145,7 @@ jobs:
                   archive_path, entry = source
                   with zipfile.ZipFile(archive_path) as archive:
                       lines = archive.read(entry).decode("utf-8", "replace").splitlines()
-                  matches = [i for i, line in enumerate(lines) if any(re.search(rf"\b{method}\s*\(", line) for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature", "configuredFeature.place(", ".place("))]
+                  matches = [i for i, line in enumerate(lines) if any(re.search(rf"\b{method}\s*\(", line) for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature", "configuredFeature.place(", ".place(")) or (name.endswith("TicketType") and ("UNKNOWN" in line or "create(" in line))]
                   emitted = set()
                   for match in matches:
                       radius = 10 if "placeWithBiomeCheck" in lines[match] else 2
