@@ -232,7 +232,7 @@ The six K5 GameTests run in the 74-test suite are:
 - `k5BonemealGrownTreeIsNotTagged`
 - `k5PlayerPlacedLogIsNotTagged`
 
-The identity test covers registered live vanilla Feature IDs plus synthetic modded/unknown IDs, null identity, non-tree type, and unknown placed-feature identity. It is a predicate test for those negative identities, not a live modded-feature worldgen test. The bonemeal case uses actual Survival bone-meal item use and requires logs from a grown tree; the player-placement case uses actual Survival log item placement and verifies the resulting block. The spruce case requires actual 2×2 growth and checks zero natural markers.
+The identity test covers registered live vanilla Feature IDs plus synthetic modded/unknown Feature IDs, null identity, non-tree type, and a missing placed-feature registry key. It is a predicate test for those negative identities, not a live modded-feature worldgen test. The bonemeal case uses actual Survival bone-meal item use and requires logs from a grown tree; the player-placement case uses actual Survival log item placement and verifies the resulting block. The spruce case requires actual 2×2 growth and checks zero natural markers.
 
 ### Validation and gate status
 
