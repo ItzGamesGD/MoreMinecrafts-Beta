@@ -1,8 +1,8 @@
 package dev.itzgamesgd.moreminecrafts.k5probe;
 
 import dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbe.ChunkData;
+import java.lang.reflect.Method;
 import java.util.Set;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
@@ -85,5 +85,10 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ctx.assertTrue(data == null || data.positions().isEmpty(),
                 "sapling TreeGrower direct Feature.place calls did not enter natural-biome scope");
         ctx.succeed();
+    }
+
+    @Override
+    public void invokeTestMethod(GameTestHelper context, Method method) throws ReflectiveOperationException {
+        method.invoke(this, context);
     }
 }
