@@ -44,11 +44,15 @@ jobs:
 
           targets = {
               "net.minecraft.world.level.chunk.ChunkGenerator": ["applyBiomeDecoration"],
+              "net.minecraft.world.level.chunk.ChunkAccess": ["getPos"],
               "net.minecraft.world.level.levelgen.placement.PlacedFeature": ["place", "placeWithBiomeCheck"],
+              "net.minecraft.world.level.levelgen.placement.FeaturePlacer": ["place", "placeWithBiomeCheck"],
               "net.minecraft.world.level.levelgen.feature.Feature": ["place"],
               "net.minecraft.world.level.levelgen.feature.TreeFeature": ["place", "doPlace"],
               "net.minecraft.world.level.block.grower.TreeGrower": ["growTree", "getConfiguredFeature"],
               "net.minecraft.world.level.block.SaplingBlock": ["advanceTree", "randomTick", "performBonemeal"],
+              "net.minecraft.world.level.WorldGenLevel": ["getChunk", "setBlock"],
+              "net.minecraft.world.level.LevelWriter": ["setBlock"],
               "net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry": ["create"],
               "net.fabricmc.fabric.api.attachment.v1.AttachmentTarget": ["getAttached", "setAttached", "removeAttached"],
           }
@@ -88,6 +92,13 @@ jobs:
                       if any(re.search(rf"\b{method}\s*\(", line) for method in method_names):
                           descriptor = out[i + 1].strip() if i + 1 < len(out) else "<descriptor missing>"
                           report.append(f"  {line.strip()} | {descriptor}")
+                  if name.endswith("TreeFeature"):
+                      code = subprocess.run(["javap", "-classpath", str(jar), "-p", "-c", name], text=True, capture_output=True, check=True).stdout.splitlines()
+                      for i, line in enumerate(code):
+                          if "setBlock:" in line:
+                              report.append(f"  BYTECODE {line.strip()}")
+                              if i + 1 < len(code):
+                                  report.append(f"  BYTECODE {code[i + 1].strip()}")
               else:
                   report.append("  CLASS FILE NOT FOUND IN GENERATED MAPPED JARS")
               source = source_jars.get(name)
