@@ -17,7 +17,7 @@ abstract class ChunkGeneratorProbeMixin {
             StructureManager structureManager, Operation<Void> original) {
         K5NaturalTreeProbe.enterNaturalBiomeDecoration();
         try {
-            original.call(level, chunk, structureManager);
+            original.call((ChunkGenerator) (Object) this, level, chunk, structureManager);
         } finally {
             K5NaturalTreeProbe.exitNaturalBiomeDecoration();
         }
