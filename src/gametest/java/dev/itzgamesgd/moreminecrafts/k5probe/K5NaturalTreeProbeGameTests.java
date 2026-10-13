@@ -65,21 +65,19 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         var forest = biomeRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "forest")).orElseThrow();
         var noiseRegistry = level.registryAccess().lookupOrThrow(Registries.NOISE_SETTINGS);
         var overworldNoise = noiseRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
-        var featureRegistry = level.registryAccess().lookupOrThrow(Registries.FEATURE);
+        var placedFeatureRegistry = level.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE);
         Set<Identifier> registeredTreeFeatureIds = new TreeSet<>();
+        var featureRegistry = level.registryAccess().lookupOrThrow(Registries.FEATURE);
         for (Feature registeredFeature : featureRegistry) {
             if (registeredFeature instanceof TreeFeature) {
                 registeredTreeFeatureIds.add(featureRegistry.getKey(registeredFeature));
             }
         }
-        System.out.println("K5_REGISTERED_TREE_FEATURE_IDS " + registeredTreeFeatureIds);
-        var treeFeature = featureRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "tree")).orElseThrow().value();
-        var placedFeatureRegistry = level.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE);
         Set<Identifier> vanillaForestTreePlacements = new TreeSet<>();
         for (HolderSet<PlacedFeature> step : forest.value().getGenerationSettings().features()) {
             for (Holder<PlacedFeature> placedHolder : step) {
                 PlacedFeature placed = placedHolder.value();
-                if (placed.getFeatures().anyMatch(feature -> feature.value() == treeFeature)) {
+                if (placed.getFeatures().anyMatch(feature -> feature.value() instanceof TreeFeature)) {
                     Identifier key = placedFeatureRegistry.getKey(placed);
                     if (key != null && key.getNamespace().equals("minecraft")) {
                         vanillaForestTreePlacements.add(key);
@@ -109,26 +107,38 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ctx.assertTrue(before == null || before.positions().isEmpty(),
                 "the controlled target chunk starts without provenance markers");
         long callsBefore = K5NaturalTreeProbe.biomeDecorationCalls();
-        long trunkWritesBefore = K5NaturalTreeProbe.naturalTrunkWrites();
+        long callbacksBefore = K5NaturalTreeProbe.naturalTreeTrunkCallbacks();
         fixtureGenerator.applyBiomeDecoration(level, chunk, level.structureManager());
 
         ctx.assertTrue(K5NaturalTreeProbe.biomeDecorationCalls() == callsBefore + 1,
                 "the verified natural ChunkGenerator.applyBiomeDecoration hook was entered");
         ctx.assertTrue(!K5NaturalTreeProbe.isNaturalBiomeDecoration(),
                 "natural-generation scope is cleared after biome decoration returns");
-        ctx.assertTrue(K5NaturalTreeProbe.naturalTrunkWrites() > trunkWritesBefore,
-                "the registered vanilla forest configuration placed a real TreeFeature trunk");
-
+        Set<Identifier> observedTreeFeatureIds = K5NaturalTreeProbe.lastNaturalTreeFeatureIds();
+        Set<Long> observedTrunkPositions = K5NaturalTreeProbe.lastNaturalTreeCallbackPositions();
         ChunkData data = K5NaturalTreeProbe.data(chunk);
-        ctx.assertTrue(data != null && !data.positions().isEmpty(),
-                "actual TreeFeature trunk writes were recorded in this chunk's provenance attachment");
-        var positions = new TreeSet<>(data.positions());
+        var positions = new TreeSet<>(data == null ? Set.<Long>of() : data.positions());
         System.out.println("K5_DETERMINISTIC_FIXTURE seed=0 dimension=" + level.dimension().identifier()
                 + " generator=NoiseBasedChunkGenerator"
                 + " noiseSettings=minecraft:overworld biome=minecraft:forest chunk=[0,0]"
+                + " configuredTreeFeatureIds=" + registeredTreeFeatureIds
                 + " treePlacements=" + vanillaForestTreePlacements
+                + " observedTreeFeatureIds=" + observedTreeFeatureIds
+                + " callbackCount=" + (K5NaturalTreeProbe.naturalTreeTrunkCallbacks() - callbacksBefore)
+                + " callbackPositions=" + new TreeSet<>(observedTrunkPositions)
                 + " markerCount=" + positions.size()
                 + " markers=" + positions);
+        ctx.assertTrue(K5NaturalTreeProbe.naturalTreeTrunkCallbacks() > callbacksBefore,
+                "natural biome decoration invoked an actual registered TreeFeature trunk setter");
+        ctx.assertTrue(!observedTreeFeatureIds.isEmpty() && !observedTrunkPositions.isEmpty(),
+                "the runtime trace identifies actual registered vanilla TreeFeature source IDs and positions");
+        for (long packed : observedTrunkPositions) {
+            BlockPos callbackPos = BlockPos.of(packed);
+            ctx.assertTrue(level.getBlockState(callbackPos).is(net.minecraft.tags.BlockTags.LOGS),
+                    "the natural TreeFeature callback placed a real log at " + callbackPos);
+        }
+        ctx.assertTrue(data != null && !data.positions().isEmpty(),
+                "the natural TreeFeature marker predicate records at least one actual trunk position");
         for (long packed : positions) {
             BlockPos markedPos = BlockPos.of(packed);
             var state = level.getBlockState(markedPos);
