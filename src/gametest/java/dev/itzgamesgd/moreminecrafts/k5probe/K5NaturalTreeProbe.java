@@ -5,6 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.lang.ref.WeakReference;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +15,9 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
@@ -96,6 +101,7 @@ public final class K5NaturalTreeProbe {
     private static final ThreadLocal<Set<Long>> LAST_NATURAL_TREE_CALLBACK_POSITIONS =
             ThreadLocal.withInitial(HashSet::new);
     private static final AtomicLong SAVED_CHUNKS_WITH_MARKERS = new AtomicLong();
+    private static final AtomicReference<ChunkUnloadObservation> LAST_MARKED_CHUNK_UNLOAD = new AtomicReference<>();
     private static final ThreadLocal<List<String>> TREE_GROWER_FEATURE_ATTEMPTS =
             ThreadLocal.withInitial(ArrayList::new);
 
@@ -207,6 +213,23 @@ public final class K5NaturalTreeProbe {
         SAVED_CHUNKS_WITH_MARKERS.incrementAndGet();
     }
 
+    public static void clearLastMarkedChunkUnload() {
+        LAST_MARKED_CHUNK_UNLOAD.set(null);
+    }
+
+    public static void recordMarkedChunkUnload(ServerLevel level, LevelChunk chunk) {
+        LAST_MARKED_CHUNK_UNLOAD.set(new ChunkUnloadObservation(
+                level.dimension().identifier(), chunk.getPos(), new WeakReference<>(chunk)));
+    }
+
+    public static boolean observedMarkedChunkUnload(ServerLevel level, ChunkPos pos, LevelChunk expectedInstance) {
+        ChunkUnloadObservation event = LAST_MARKED_CHUNK_UNLOAD.get();
+        return event != null
+                && event.dimension().equals(level.dimension().identifier())
+                && event.chunkPos().equals(pos)
+                && event.chunk().get() == expectedInstance;
+    }
+
     /** Called only by TreeFeature's actual trunk setter while natural biome decoration is active. */
     public static void recordTrunkWrite(Feature source, WorldGenLevel level, BlockPos pos,
             net.minecraft.world.level.block.state.BlockState state) {
@@ -225,10 +248,8 @@ public final class K5NaturalTreeProbe {
         NATURAL_TRUNK_WRITES.incrementAndGet();
         ChunkAccess chunk = level.getChunk(pos);
         if (!(chunk instanceof AttachmentTarget target)) return;
-        ChunkData previous = target.getAttached(NATURAL_TREE_LOGS);
-        if (previous == null || previous.schemaVersion() != SCHEMA_VERSION) {
-            previous = new ChunkData(SCHEMA_VERSION, Set.of());
-        }
+        ChunkData previous = data(chunk);
+        if (previous == null) previous = new ChunkData(SCHEMA_VERSION, Set.of());
         Set<Long> positions = new HashSet<>(previous.positions());
         if (positions.add(pos.asLong()))
             target.setAttached(NATURAL_TREE_LOGS, new ChunkData(SCHEMA_VERSION, Set.copyOf(positions)));
@@ -238,8 +259,8 @@ public final class K5NaturalTreeProbe {
     public static void invalidatePosition(Level level, BlockPos pos) {
         ChunkAccess chunk = level.getChunkAt(pos);
         if (!(chunk instanceof AttachmentTarget target)) return;
-        ChunkData previous = target.getAttached(NATURAL_TREE_LOGS);
-        if (previous == null || previous.schemaVersion() != SCHEMA_VERSION) return;
+        ChunkData previous = data(chunk);
+        if (previous == null) return;
         Set<Long> positions = new HashSet<>(previous.positions());
         if (!positions.remove(pos.asLong())) return;
         if (positions.isEmpty()) target.removeAttached(NATURAL_TREE_LOGS);
@@ -248,8 +269,25 @@ public final class K5NaturalTreeProbe {
 
     public static ChunkData data(ChunkAccess chunk) {
         if (!(chunk instanceof AttachmentTarget target)) return null;
-        return target.getAttached(NATURAL_TREE_LOGS);
+        ChunkData attached = target.getAttached(NATURAL_TREE_LOGS);
+        if (attached == null) return null;
+        if (attached.schemaVersion() != SCHEMA_VERSION
+                || attached.positions().stream().anyMatch(packed -> {
+                    BlockPos pos = BlockPos.of(packed);
+                    return !new ChunkPos(pos.getX() >> 4, pos.getZ() >> 4).equals(chunk.getPos());
+                })) {
+            target.removeAttached(NATURAL_TREE_LOGS);
+            return null;
+        }
+        return attached;
     }
 
-    public record ChunkData(int schemaVersion, Set<Long> positions) {}
+    public record ChunkData(int schemaVersion, Set<Long> positions) {
+        public ChunkData {
+            positions = Set.copyOf(positions);
+        }
+    }
+
+    private record ChunkUnloadObservation(Identifier dimension, ChunkPos chunkPos,
+            WeakReference<LevelChunk> chunk) {}
 }
