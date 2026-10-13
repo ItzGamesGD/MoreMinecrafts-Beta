@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 /** Test-mod-only scope around the verified natural biome-decoration entry point. */
 @Mixin(ChunkGenerator.class)
 abstract class ChunkGeneratorProbeMixin {
-    @WrapMethod(method = "applyBiomeDecoration")
+    @WrapMethod(method = "applyBiomeDecoration(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/world/level/StructureManager;)V")
     private void moreminecrafts$probeNaturalBiomeDecoration(WorldGenLevel level, ChunkAccess chunk,
             StructureManager structureManager, Operation<Void> original) {
         K5NaturalTreeProbe.enterNaturalBiomeDecoration();

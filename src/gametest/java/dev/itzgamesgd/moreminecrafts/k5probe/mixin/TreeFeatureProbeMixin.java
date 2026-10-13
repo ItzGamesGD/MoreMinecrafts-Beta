@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 /** Captures only TreeFeature's trunk callback, never tree shape or arbitrary log writes. */
 @Mixin(TreeFeature.class)
 abstract class TreeFeatureProbeMixin {
-    @WrapOperation(method = "place", at = @At(value = "INVOKE", target =
+    @WrapOperation(method = "place(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/chunk/ChunkGenerator;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;)Z", at = @At(value = "INVOKE", target =
             "Lnet/minecraft/world/level/levelgen/feature/TreeFeature;doPlace(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;Ljava/util/function/BiConsumer;Ljava/util/function/BiConsumer;Lnet/minecraft/world/level/levelgen/feature/foliageplacers/FoliagePlacer$FoliageSetter;)Z"))
     private boolean moreminecrafts$recordNaturalTreeTrunk(TreeFeature self, WorldGenLevel level,
             RandomSource random, BlockPos origin, BiConsumer<BlockPos, BlockState> rootSetter,
