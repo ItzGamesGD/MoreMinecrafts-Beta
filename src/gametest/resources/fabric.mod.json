@@ -17,7 +17,8 @@
       "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAnimalFeedGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
-      "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests"
+      "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
+      "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests"
     ]
   },
   "mixins": [
