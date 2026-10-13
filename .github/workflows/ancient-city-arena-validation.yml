@@ -49,7 +49,7 @@ jobs:
           export RCON_PASSWORD
           cat > run/server.properties <<EOF
           level-name=arena-validation-world
-          level-seed=2632026
+          level-seed=2632027
           server-ip=127.0.0.1
           server-port=25565
           online-mode=false

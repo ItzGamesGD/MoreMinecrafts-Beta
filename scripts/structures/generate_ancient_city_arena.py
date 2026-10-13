@@ -64,7 +64,7 @@ def build():
                     else:
                         put(x, tier, z, "deepslate_brick_slab", {"type": "bottom", "waterlogged": "false"})
                 if r >= 17.25 and not ruined:
-                    for y in range(tier, 6):
+                    for y in range(tier, 5):
                         put(x, y, z, "deepslate_bricks")
                 # Thin arcade lintel, supported at regular piers. One contiguous sector is gone.
                 angle = math.degrees(math.atan2(dz, dx)) % 360
