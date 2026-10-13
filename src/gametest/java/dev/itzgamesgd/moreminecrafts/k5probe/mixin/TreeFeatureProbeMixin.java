@@ -24,7 +24,7 @@ abstract class TreeFeatureProbeMixin {
             Operation<Boolean> original) {
         BiConsumer<BlockPos, BlockState> probeTrunkSetter = (pos, state) -> {
             trunkSetter.accept(pos, state);
-            K5NaturalTreeProbe.recordTrunkWrite(level, pos, state);
+            K5NaturalTreeProbe.recordTrunkWrite(self, level, pos, state);
         };
         return original.call(self, level, random, origin, rootSetter, probeTrunkSetter, foliageSetter);
     }
