@@ -66,6 +66,11 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                     "every positive marker resolves to an existing log block");
         }
 
+        long savesBefore = K5NaturalTreeProbe.savedChunksWithMarkers();
+        level.getChunkSource().save(true);
+        ctx.assertTrue(K5NaturalTreeProbe.savedChunksWithMarkers() > savesBefore,
+                "Minecraft ChunkMap.save serialized a chunk carrying natural-tree markers");
+
         BlockPos consumedMarker = BlockPos.of(data.positions().iterator().next());
         level.setBlock(consumedMarker, Blocks.AIR.defaultBlockState(), 3);
         ChunkData afterRemoval = K5NaturalTreeProbe.data(level.getChunkAt(consumedMarker));
