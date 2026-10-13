@@ -96,6 +96,23 @@ public final class K5NaturalTreeProbe {
     private static final ThreadLocal<Set<Long>> LAST_NATURAL_TREE_CALLBACK_POSITIONS =
             ThreadLocal.withInitial(HashSet::new);
     private static final AtomicLong SAVED_CHUNKS_WITH_MARKERS = new AtomicLong();
+    private static final ThreadLocal<List<String>> TREE_GROWER_FEATURE_ATTEMPTS =
+            ThreadLocal.withInitial(ArrayList::new);
+
+    public static void beginTreeGrowerTrace() {
+        TREE_GROWER_FEATURE_ATTEMPTS.get().clear();
+    }
+
+    /** Test-only trace of the actual registered Feature.place calls made by TreeGrower.growTree. */
+    public static void recordTreeGrowerFeatureAttempt(WorldGenLevel level, Feature feature, BlockPos pos,
+            boolean succeeded) {
+        Identifier featureKey = level.registryAccess().lookupOrThrow(Registries.FEATURE).getKey(feature);
+        TREE_GROWER_FEATURE_ATTEMPTS.get().add(featureKey + "@" + pos + " succeeded=" + succeeded);
+    }
+
+    public static List<String> treeGrowerFeatureAttempts() {
+        return List.copyOf(TREE_GROWER_FEATURE_ATTEMPTS.get());
+    }
 
     private K5NaturalTreeProbe() {}
 
