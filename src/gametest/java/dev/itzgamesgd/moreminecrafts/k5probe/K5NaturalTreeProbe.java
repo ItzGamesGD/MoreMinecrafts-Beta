@@ -17,6 +17,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.TreeFeature;
@@ -106,7 +107,7 @@ public final class K5NaturalTreeProbe {
     }
 
     /** Called only by TreeFeature's actual trunk setter while natural biome decoration is active. */
-    public static void recordTrunkWrite(TreeFeature source, WorldGenLevel level, BlockPos pos,
+    public static void recordTrunkWrite(Feature source, WorldGenLevel level, BlockPos pos,
             net.minecraft.world.level.block.state.BlockState state) {
         RegistryAccess registries = ACTIVE_REGISTRIES.get();
         Identifier treeFeatureKey = registries == null ? null
