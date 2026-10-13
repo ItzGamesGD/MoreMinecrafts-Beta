@@ -8,7 +8,6 @@ import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerPlayerGameMode;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,7 +26,7 @@ abstract class ServerPlayerGameModeMixin {
         EnchantmentRuntime.enterBlockBreak();
         try {
             boolean result = original.call(pos);
-            if (eligible && result && !player.level().getBlockState(pos).is(BlockTags.LOGS)
+            if (eligible && result && player.level().getBlockState(pos).isAir()
                     && !K5NaturalTreeProvenance.containsMarker(player.level(), pos))
                 KnowledgeRuntime.recordK5NaturalLogMined(player);
             return result;

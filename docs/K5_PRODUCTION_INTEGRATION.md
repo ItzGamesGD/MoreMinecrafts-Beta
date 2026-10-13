@@ -10,7 +10,7 @@ The existing `research_progress_v4` player attachment stores `condition.natural_
 
 ## Position provenance
 
-`K5NaturalTreeProvenance` owns a Fabric persistent chunk attachment `moreminecrafts:k5_natural_tree_logs_v1`: schema version 1 and a sparse set of packed absolute block positions. A missing attachment, unknown schema, cross-chunk position or absent log fails closed. Old chunks without this attachment receive no inferred markers. The probe's former `k5_natural_tree_probe_v1` attachment is test-only and has no production migration; it was never distributed as gameplay state.
+`K5NaturalTreeProvenance` owns a Fabric persistent chunk attachment `moreminecrafts:k5_natural_tree_logs_v1`: schema version 1 and a sparse set of packed absolute block positions. A missing attachment, unknown schema, cross-chunk position or absent vanilla-registered log fails closed. Old chunks without this attachment receive no inferred markers. The probe's former `k5_natural_tree_probe_v1` attachment is test-only and has no production migration; it was never distributed as gameplay state.
 
 Minecraft 26.3 mapped hooks:
 
@@ -25,7 +25,7 @@ Minecraft 26.3 mapped hooks:
 
 These names and signatures were checked against locally resolved Minecraft 26.3 sources and the mapped-source workflow. The existing `ServerPlayerGameModeMixin` wraps the method once, retaining the enchantment break scope. The four old test-only worldgen and mutation wrappers were removed; test observations now listen to production hooks and use the production attachment, leaving one provenance store.
 
-The mining wrapper snapshots valid position provenance before the original method removes the block. It credits only when the result is true, the block is no longer a log and the *stored marker itself* is absent afterward. This extra postcondition matters because mapped `destroyBlock` returns true even if `Level.removeBlock` returned false. Fabric cancellation is exercised by a runtime test. `Level.removeBlock` routes through `Level.setBlock`; successful changes consume the marker before progress is recorded. Later replacement logs at the same position cannot inherit it. The server's single world thread serializes competing break calls.
+The mining wrapper snapshots valid position provenance before the original method removes the block. It credits only when the result is true, the block is air and the *stored marker itself* is absent afterward. This extra postcondition matters because mapped `destroyBlock` returns true even if `Level.removeBlock` returned false. Fabric cancellation is exercised by a runtime test. `Level.removeBlock` routes through `Level.setBlock`; successful changes consume the marker before progress is recorded. Later replacement logs at the same position cannot inherit it. The server's single world thread serializes competing break calls.
 
 ## Tests and evidence
 

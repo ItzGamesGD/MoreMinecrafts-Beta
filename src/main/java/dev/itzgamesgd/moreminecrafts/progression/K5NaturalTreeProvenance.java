@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
@@ -152,6 +153,10 @@ public final class K5NaturalTreeProvenance {
         return isVanillaNamespace(placedKey) && isKnownVanillaTreeFeatureId(featureKey) && treeFeature;
     }
 
+    private static boolean isVanillaLog(BlockState state) {
+        return state.is(BlockTags.LOGS) && isVanillaNamespace(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
+    }
+
     public static void recordTrunkWrite(Feature source, WorldGenLevel level, BlockPos pos, BlockState state) {
         RegistryAccess registries = ACTIVE_REGISTRIES.get();
         Identifier featureKey = registries == null ? null
@@ -161,7 +166,7 @@ public final class K5NaturalTreeProvenance {
         if (observer != null && isNaturalBiomeDecoration() && placedKey != null && source instanceof TreeFeature)
             observer.trunkCallback(featureKey, pos);
         if (!isNaturalBiomeDecoration() || !isEligibleTreeIdentity(placedKey, featureKey, source instanceof TreeFeature)
-                || !state.is(BlockTags.LOGS) || !level.getBlockState(pos).equals(state)) return;
+                || !isVanillaLog(state) || !level.getBlockState(pos).equals(state)) return;
         ChunkAccess chunk = level.getChunk(pos);
         if (!(chunk instanceof AttachmentTarget target)) return;
         ChunkData previous = data(chunk);
@@ -174,7 +179,7 @@ public final class K5NaturalTreeProvenance {
     }
 
     public static boolean hasMarker(Level level, BlockPos pos) {
-        return level.getBlockState(pos).is(BlockTags.LOGS) && containsMarker(level, pos);
+        return isVanillaLog(level.getBlockState(pos)) && containsMarker(level, pos);
     }
 
     /** Raw stored marker check, used after a block is gone to prove it was consumed. */
