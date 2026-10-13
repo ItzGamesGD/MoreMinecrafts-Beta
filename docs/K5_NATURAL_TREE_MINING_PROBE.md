@@ -274,7 +274,9 @@ The test calls Minecraft's `ServerChunkCache.save(true)`. A test-only Mixin obse
 
 #### Runtime results
 
-Fabric CI run [#38414287323](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38414287323), on code head `a2dc9b5105e7e0683fccaa45742331b68ca28e8d`, ran `./gradlew clean test build compileGametestJava runGameTest`. The GameTest server reported **all 76 required tests passed** and `BUILD SUCCESSFUL`. The persistence fixture runtime trace recorded seed `0`, biome `minecraft:forest`, chunk `[64,64]`, dimension `minecraft:overworld`, and 28 natural trunk markers before the save/unload lifecycle assertions. The same Fabric CI run's dedicated-server smoke passed; client smoke was pending at the time this section was drafted and is reported separately in PR status.
+Fabric CI run [#38414287323](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38414287323), on code head `a2dc9b5105e7e0683fccaa45742331b68ca28e8d`, ran `./gradlew clean test build compileGametestJava runGameTest`. The GameTest server reported **all 76 required tests passed** and `BUILD SUCCESSFUL`. The persistence fixture runtime trace recorded seed `0`, biome `minecraft:forest`, chunk `[64,64]`, dimension `minecraft:overworld`, and 28 natural trunk markers before the save/unload lifecycle assertions. The first persistence implementation compile run [#38413593480](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38413593480) exposed an unsupported `GameTestHelper.runAtTick` call in the new fixture. Mapped-source run [#38413893665](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38413893665) verified the supported `runAfterDelay(long,Runnable)` API; the fixture was corrected to use that API, and the final runtime run below passed. No assertion was removed or weakened.
+
+The same Fabric CI run's dedicated-server smoke passed; client smoke was pending at the time this section was drafted and is reported separately in PR status.
 
 The new lifecycle GameTest is `k5NaturalChunkProvenanceSurvivesRealSaveUnloadReloadAndInvalidation`. It verifies:
 
