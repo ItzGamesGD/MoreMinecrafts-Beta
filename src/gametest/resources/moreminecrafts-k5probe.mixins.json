@@ -7,7 +7,8 @@
     "TreeFeatureProbeMixin",
     "FeaturePlacerProbeMixin",
     "LevelBlockMutationProbeMixin",
-    "ChunkMapPersistenceProbeMixin"
+    "ChunkMapPersistenceProbeMixin",
+    "TreeGrowerProbeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
