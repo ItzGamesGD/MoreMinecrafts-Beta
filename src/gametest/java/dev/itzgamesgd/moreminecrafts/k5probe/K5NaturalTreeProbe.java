@@ -31,6 +31,7 @@ public final class K5NaturalTreeProbe {
 
     private static final ThreadLocal<Integer> BIOME_DECORATION_DEPTH = ThreadLocal.withInitial(() -> 0);
     private static final AtomicLong BIOME_DECORATION_CALLS = new AtomicLong();
+    private static final AtomicLong NATURAL_TRUNK_WRITES = new AtomicLong();
 
     private K5NaturalTreeProbe() {}
 
@@ -53,10 +54,15 @@ public final class K5NaturalTreeProbe {
         return BIOME_DECORATION_DEPTH.get() > 0;
     }
 
+    public static long naturalTrunkWrites() {
+        return NATURAL_TRUNK_WRITES.get();
+    }
+
     /** Called only by TreeFeature's actual trunk setter while natural biome decoration is active. */
     public static void recordTrunkWrite(WorldGenLevel level, BlockPos pos, net.minecraft.world.level.block.state.BlockState state) {
         if (!isNaturalBiomeDecoration() || !state.is(BlockTags.LOGS)
                 || !level.getBlockState(pos).equals(state)) return;
+        NATURAL_TRUNK_WRITES.incrementAndGet();
         ChunkAccess chunk = level.getChunk(pos);
         if (!(chunk instanceof AttachmentTarget target)) return;
         ChunkData previous = target.getAttached(NATURAL_TREE_LOGS);
