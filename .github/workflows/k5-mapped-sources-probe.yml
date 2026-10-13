@@ -96,7 +96,8 @@ jobs:
                   matches = [i for i, line in enumerate(lines) if any(re.search(rf"\b{method}\s*\(", line) for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature", "configuredFeature.place("))]
                   emitted = set()
                   for match in matches:
-                      for i in range(max(0, match - 2), min(len(lines), match + 4)):
+                      radius = 10 if "placeWithBiomeCheck" in lines[match] else 2
+                      for i in range(max(0, match - radius), min(len(lines), match + 4)):
                           if i not in emitted:
                               report.append(f"  SOURCE {entry}:{i + 1}: {lines[i].strip()}")
                               emitted.add(i)
