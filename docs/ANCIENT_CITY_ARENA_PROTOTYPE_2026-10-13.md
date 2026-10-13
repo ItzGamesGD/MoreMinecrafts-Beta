@@ -63,7 +63,7 @@ and ordinary non-empty candidates selected **3,399** times. The test verifies
 the configured weight participates in the expanded pool and preserves all
 vanilla weighted slots. A second GameTest uses actual `JigsawBlock.canAttach`.
 
-Runtime world seed: **2632026**. `MOREMINECRAFTS_ARENA_VALIDATION=1` enables the
+Runtime world seeds: **2632026**, then **2632027** for the visual revision. `MOREMINECRAFTS_ARENA_VALIDATION=1` enables the
 operator-only `mmarena validate` observer. It locates normal Ancient City starts,
 inspects actual assembled pieces, generates full terrain, and checks physical
 voxel samples. It never places a template or increases production weight.
@@ -81,7 +81,21 @@ normal worldgen. Native capture was blocked by the validation server whitelist;
 the isolated workflow now explicitly disables its whitelist, matching the
 proven repository capture setup. Diagnostics artifact ID **11787588477**
 (`ancient-city-arena-visual-validation-38343896620`) preserves that attempt.
-Screenshot inspection: pending the corrected capture run.
+Corrected Actions run **38344533474** at `04c2986a9871b1289b384e78d602685abcecb63a`
+passed all automated stages. Artifact ID **11788422346** is
+`ancient-city-arena-visual-validation-38344533474`; both 1280×720 native
+screenshots were opened and visually inspected. The ring, chiseled piers,
+seating, ruins and palette belonged to the surrounding city; there were no
+obvious detached components or catastrophic clipping. However, the near
+parapet occluded much of the fighting floor, and a natural waterfall crossed
+the bowl. Both initial images remain preserved in the artifact.
+
+Visually motivated revision: lower the perimeter parapet by one block, keep
+the supported colonnade and seating, raise the overview camera, and move the
+second camera inside the ring to expose the floor. Capture another normal
+world sample at seed 2632027 with unchanged production weight 1. Revised
+image inspection is pending. Natural cave water can still enter an open arena;
+this prototype does not suppress terrain aquifers or claim all seeds are dry.
 Artifact name: `ancient-city-arena-visual-validation-<run-id>`.
 Screenshot names: `arena-camera-0.png`, `arena-camera-1.png`.
 
@@ -89,3 +103,26 @@ Limitations: prototype weight is provisional; a template can be rejected by
 normal jigsaw collision rules. Vanilla degradation and terrain may alter the
 authored appearance. Cave clipping, accessibility, and visual coherence must
 be judged from the real generated-world captures before visual acceptance.
+
+## Changed files
+
+- `.github/workflows/ancient-city-arena-validation.yml`
+- `docs/ANCIENT_CITY_ARENA_PROTOTYPE_2026-10-13.md`
+- `scripts/arena_validation/capture_client.sh`
+- `scripts/arena_validation/check_screenshots.py`
+- `scripts/arena_validation/rcon.py`
+- `scripts/structures/generate_ancient_city_arena.py`
+- `scripts/structures/requirements.txt`
+- `scripts/structures/validate_ancient_city_arena.py`
+- `src/client/java/dev/itzgamesgd/moreminecrafts/client/ArenaVisualValidationHarness.java`
+- `src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java`
+- `src/gametest/java/dev/itzgamesgd/moreminecrafts/worldgen/AncientCityArenaGameTests.java`
+- `src/gametest/resources/fabric.mod.json`
+- `src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java`
+- `src/main/java/dev/itzgamesgd/moreminecrafts/mixin/StructureTemplatePoolMixin.java`
+- `src/main/java/dev/itzgamesgd/moreminecrafts/worldgen/structure/ArenaWorldgenProbe.java`
+- `src/main/java/dev/itzgamesgd/moreminecrafts/worldgen/structure/StructurePoolContributions.java`
+- `src/main/java/dev/itzgamesgd/moreminecrafts/worldgen/structure/StructurePoolExtension.java`
+- `src/main/resources/data/moreminecrafts/structure/ancient_city/arena.nbt`
+- `src/main/resources/data/moreminecrafts/worldgen/template_pool/ancient_city/arena_additions.json`
+- `src/main/resources/moreminecrafts.mixins.json`

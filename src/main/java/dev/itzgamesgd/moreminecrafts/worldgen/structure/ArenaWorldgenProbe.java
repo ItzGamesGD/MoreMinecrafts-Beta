@@ -120,7 +120,7 @@ public final class ArenaWorldgenProbe {
             if (surviving < 3) throw new IllegalStateException("Placed arena voxel probes failed: " + samples);
             RESULT.put("physical_voxel_samples", samples);
             var center = StructureTemplate.transform(new BlockPos(18, 0, 18), Mirror.NONE, arena.getRotation(), BlockPos.ZERO).offset(arena.getPosition());
-            RESULT.put("cameras", new Object[]{camera(center, 22, 12, 24), camera(center, -17, 8, 20)});
+            RESULT.put("cameras", new Object[]{camera(center, 22, 19, 24), camera(center, 9, 11, 13)});
             Files.createDirectories(Path.of("../arena-validation-results"));
             Files.writeString(Path.of("../arena-validation-results/worldgen.json"), new GsonBuilder().setPrettyPrinting().create().toJson(RESULT));
             running = false;
