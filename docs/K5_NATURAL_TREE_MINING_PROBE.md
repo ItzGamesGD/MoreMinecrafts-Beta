@@ -245,3 +245,67 @@ On code head `6a33ee25999a7209b80f109c33f46dddd4da7ccb`, Fabric CI run [#3839798
 | Chunk persistence/unload/reload | **UNVERIFIED** | This task does not close that separate lifecycle gate. The attachment value test is not a disk readback test. |
 
 PR #82 remains a diagnostic-only Draft. The approved 200-log direct Survival mining objective is unchanged. No K5 counter, unlock, production collector, or item provenance was added. Production readiness is **not established** while the independent persistence and production block-break gates remain open.
+
+
+### Final chunk persistence validation — 2026-10-13
+
+This section records the final chunk lifecycle validation on PR #82. It supersedes the earlier statements above that chunk persistence was unverified. PR #81 remains authoritative: K5 requires **200 naturally world-generated vanilla tree log blocks directly mined by a Survival player**. This PR remains diagnostic only; it does not add the counter, unlock, or production block-break collector.
+
+#### Storage and lifecycle path
+
+The diagnostic continues to use the existing Fabric persistent chunk attachment, `moreminecrafts:k5_natural_tree_probe_v1`, with schema version 1 and packed block positions. It does not use a global provenance map or add a second storage system. Malformed schema data and positions outside the owning chunk are rejected.
+
+Resolved Minecraft 26.3 sources and the pinned Fabric API were inspected in mapped-source Actions run [#38414287837](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38414287837), tested against code head `a2dc9b5105e7e0683fccaa45742331b68ca28e8d`. `genSources` and the selected API report step passed. The report artifact was 15,824 bytes and contains selected signatures/source excerpts only; no Minecraft source archives were uploaded.
+
+Verified integration APIs include:
+
+- Fabric `AttachmentRegistry.create(Identifier, Consumer<Builder<A>>): AttachmentType<A>`, descriptor `(Lnet/minecraft/resources/Identifier;Ljava/util/function/Consumer;)Lnet/fabricmc/fabric/api/attachment/v1/AttachmentType;`.
+- Fabric `AttachmentTarget.getAttached(AttachmentType)`, `setAttached(AttachmentType,A)`, and `removeAttached(AttachmentType)`; the registered attachment uses the persistent Codec builder.
+- `ServerChunkCache.save(boolean): void`, descriptor `(Z)V`.
+- `ChunkMap.save(ChunkAccess): boolean`, descriptor `(Lnet/minecraft/world/level/chunk/ChunkAccess;)Z`.
+- `ChunkMap.scheduleUnload(long, ChunkHolder): void`, descriptor `(JLnet/minecraft/server/level/ChunkHolder;)V`. Mapped source shows its completed save future leads to `save(chunk)`, then `ServerLevel.unload(LevelChunk)`.
+- `ServerLevel.unload(LevelChunk): void`, descriptor `(Lnet/minecraft/world/level/chunk/LevelChunk;)V`.
+- `ChunkMap.scheduleChunkLoad(ChunkPos): CompletableFuture<ChunkAccess>`, descriptor `(Lnet/minecraft/world/level/ChunkPos;)Ljava/util/concurrent/CompletableFuture;`.
+- `ServerChunkCache.getChunkFuture(int,int,ChunkStatus,boolean)`, descriptor `(IILnet/minecraft/world/level/chunk/status/ChunkStatus;Z)Ljava/util/concurrent/CompletableFuture;`, and `hasChunk(int,int): boolean`.
+- `SerializableChunkData.copyOf(ServerLevel,ChunkAccess)`, `write(): CompoundTag`, and `parse(LevelHeightAccessor,PalettedContainerFactory,CompoundTag)`, which are used by Minecraft's chunk serialization/load path.
+- `TicketType.FORCED` and `ServerChunkCache.addTicketWithRadius/removeTicketWithRadius(TicketType,ChunkPos,int)`. The test adds a radius-zero forced ticket while operating on the chunk and removes it to allow the real scheduler to unload the chunk.
+
+The test calls Minecraft's `ServerChunkCache.save(true)`. A test-only Mixin observes a successful `ChunkMap.save` with markers. Removing the forced ticket drives the regular `ChunkMap.scheduleUnload` flow; a test-only observer captures the original chunk weakly at `ServerLevel.unload`. The test then requires `hasChunk` to be false, reloads with `getChunkFuture(..., FULL, true)`, and asserts that the returned `LevelChunk` is a different object. Markers are read from the restored persistent attachment, not reconstructed from the test observer. The test also confirms each restored marked position still contains an eligible log in the expected dimension and chunk.
+
+#### Runtime results
+
+Fabric CI run [#38414287323](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38414287323), on code head `a2dc9b5105e7e0683fccaa45742331b68ca28e8d`, ran `./gradlew clean test build compileGametestJava runGameTest`. The GameTest server reported **all 76 required tests passed** and `BUILD SUCCESSFUL`. The persistence fixture runtime trace recorded seed `0`, biome `minecraft:forest`, chunk `[64,64]`, dimension `minecraft:overworld`, and 28 natural trunk markers before the save/unload lifecycle assertions. The same Fabric CI run's dedicated-server smoke passed; client smoke was pending at the time this section was drafted and is reported separately in PR status.
+
+The new lifecycle GameTest is `k5NaturalChunkProvenanceSurvivesRealSaveUnloadReloadAndInvalidation`. It verifies:
+
+1. Real natural biome decoration marks 28 trunk positions in the target chunk.
+2. Successful Minecraft chunk save observes those markers.
+3. The forced ticket is removed; the original chunk unload callback fires and the server no longer serves that chunk.
+4. Reload returns a new `LevelChunk` instance with the same marker positions and eligible log blocks.
+5. Removing a marked log clears its marker. Replacing that position with a new oak log does not restore it.
+6. After 24 repeated remove/replace cycles, marker cardinality stays bounded. Save/unload/reload keeps the consumed position unmarked.
+7. A neighboring chunk does not receive the target markers; the Nether chunk at the same coordinates does not receive Overworld markers.
+
+The fail-closed GameTest `k5MalformedAndCrossChunkAttachmentDataFailsClosed` checks malformed/version-invalid attachment data and a packed position belonging to a different chunk. Missing or invalid data does not become valid provenance. Existing K5 positive/identity/growth/placement tests also ran in the same 76-test suite:
+
+- `k5FeatureIdentityUsesRegistryAllowlistAndFailsClosed`
+- `k5DeterministicNaturalForestDecorationMarksRealVanillaTrunkLogs`
+- `k5ChunkAttachmentStoresPackedPositionData`
+- `k5PlayerGrownTwoByTwoSpruceTreeIsNotTagged`
+- `k5BonemealGrownTreeIsNotTagged`
+- `k5PlayerPlacedLogIsNotTagged`
+
+No test used a static map as the provenance store. The single test observer retains only a weak reference to the unloaded chunk to prove object identity/lifecycle; attachment data is independently restored through Minecraft's persisted chunk load.
+
+#### Server process restart and final gate status
+
+A genuine process restart was **not executed**. The Actions run exposes a single `runGameTest` server lifecycle and separate build/server-smoke/client-smoke jobs; it has no step that exports the generated GameTest world and hands that same world directory to a second server process. The GameTest runner stops its embedded server after the suite, as visible in the build log. Therefore process-restart restoration is **UNVERIFIED**; this is not simulated by clearing memory or counted as passed.
+
+| Gate | Status | Evidence / boundary |
+|---|---|---|
+| Deterministic natural-tree positive | **VERIFIED** | Real biome decoration places vanilla tree logs, and actual marker positions are checked against logs. |
+| Vanilla feature identity | **VERIFIED within tested scope** | Mapped registry identity and runtime vanilla allowlist cases pass; synthetic unknown/modded identity predicates fail closed. A live third-party tree feature was not generated. |
+| Chunk save/unload/reload and consumed-marker invalidation | **VERIFIED** | Successful Minecraft save, real unload, fresh chunk instance, attachment restoration, removal/replacement, bounded repeated mutation, malformed data, and chunk/dimension isolation pass. |
+| Separate server process restart | **UNVERIFIED** | Current Actions infrastructure does not retain and hand the generated GameTest world to a second server process. |
+
+**Overall recommendation: NOT READY for production K5 integration yet.** The three diagnostic gates are now verified within their stated scopes, including chunk save/unload/reload. A real server restart was not exercised, and the direct Survival block-break collector/counter is a separate production implementation task not covered by this probe. Do not interpret this diagnostic as full production readiness. No K5 progress, unlock, or 200-log counter is enabled.
