@@ -197,6 +197,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         long successfulSeed = -1L;
         int baseTrunkLogs = 0;
         int totalSpruceLogs = 0;
+        K5NaturalTreeProbe.beginTreeGrowerTrace();
 
         // TreeGrower selects a mega feature from its RNG. Search a fixed seed sequence,
         // restoring identical support and four mature saplings before each actual growth call.
@@ -235,7 +236,8 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         }
 
         System.out.println("K5_SAPLING_2X2 seed=" + successfulSeed
-                + " baseTrunkLogs=" + baseTrunkLogs + " totalSpruceLogs=" + totalSpruceLogs);
+                + " baseTrunkLogs=" + baseTrunkLogs + " totalSpruceLogs=" + totalSpruceLogs
+                + " featureAttempts=" + K5NaturalTreeProbe.treeGrowerFeatureAttempts());
         ctx.assertTrue(successfulSeed >= 0 && baseTrunkLogs == 4 && totalSpruceLogs >= 4,
                 "the real SaplingBlock.advanceTree -> TreeGrower.growTree path grew a 2x2 spruce trunk");
         ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(origin));
