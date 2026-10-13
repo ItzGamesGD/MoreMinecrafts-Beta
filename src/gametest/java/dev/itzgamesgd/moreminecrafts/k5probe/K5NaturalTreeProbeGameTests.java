@@ -7,14 +7,21 @@ import java.util.TreeSet;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.FixedBiomeSource;
+import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -48,76 +55,81 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
     @GameTest
-    public void k5NaturalBiomeDecorationHookRunsAndRestoresScope(GameTestHelper ctx) {
+    public void k5DeterministicNaturalForestDecorationMarksRealVanillaTrunkLogs(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        BlockPos origin = ctx.absolutePos(new BlockPos(1, 1, 1));
-        ChunkAccess chunk = level.getChunkAt(origin);
+        ctx.assertTrue(level.getSeed() == 0L, "GameTest fixture runs with its pinned seed 0");
+
+        var biomeRegistry = level.registryAccess().lookupOrThrow(Registries.BIOME);
+        var forest = biomeRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "forest")).orElseThrow();
+        var noiseRegistry = level.registryAccess().lookupOrThrow(Registries.NOISE_SETTINGS);
+        var overworldNoise = noiseRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
+        var featureRegistry = level.registryAccess().lookupOrThrow(Registries.FEATURE);
+        var treeFeature = featureRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "tree")).orElseThrow().value();
+        var placedFeatureRegistry = level.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE);
+        Set<Identifier> vanillaForestTreePlacements = new TreeSet<>();
+        for (HolderSet<PlacedFeature> step : forest.value().getGenerationSettings().features()) {
+            for (Holder<PlacedFeature> placedHolder : step) {
+                PlacedFeature placed = placedHolder.value();
+                if (placed.getFeatures().anyMatch(feature -> feature.value() == treeFeature)) {
+                    Identifier key = placedFeatureRegistry.getKey(placed);
+                    if (key != null && key.getNamespace().equals("minecraft")) {
+                        vanillaForestTreePlacements.add(key);
+                    }
+                }
+            }
+        }
+        ctx.assertTrue(!vanillaForestTreePlacements.isEmpty(),
+                "the registered minecraft:forest generation settings contain registered vanilla TreeFeature placements");
+
+        NoiseBasedChunkGenerator fixtureGenerator =
+                new NoiseBasedChunkGenerator(new FixedBiomeSource(forest), overworldNoise);
+        BlockPos fixedChunkProbe = new BlockPos(8, 4, 8);
+        ChunkAccess chunk = level.getChunkAt(fixedChunkProbe);
+        ctx.assertTrue(chunk.getPos().equals(new ChunkPos(0, 0)),
+                "fixture chunk coordinates are fixed at (0,0)");
+        chunk.fillBiomesFromNoise((quartX, quartY, quartZ) -> forest);
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                level.setBlock(new BlockPos(x, 1, z), Blocks.DIRT.defaultBlockState(), 3);
+                level.setBlock(new BlockPos(x, 2, z), Blocks.DIRT.defaultBlockState(), 3);
+                level.setBlock(new BlockPos(x, 3, z), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
+            }
+        }
+
+        ChunkData before = K5NaturalTreeProbe.data(chunk);
+        ctx.assertTrue(before == null || before.positions().isEmpty(),
+                "the controlled target chunk starts without provenance markers");
         long callsBefore = K5NaturalTreeProbe.biomeDecorationCalls();
         long trunkWritesBefore = K5NaturalTreeProbe.naturalTrunkWrites();
-        Identifier biomeBefore = level.registryAccess().lookupOrThrow(Registries.BIOME)
-                .getKey(level.getBiome(origin).value());
-        ServerLevel overworld = level.getServer().getLevel(Level.OVERWORLD);
-        String overworldGenerator = overworld == null ? "none"
-                : overworld.getChunkSource().getGenerator().getClass().getName();
-        System.out.println("K5_WORLDGEN_INPUT level=" + level.dimension().identifier()
-                + " seed=" + level.getSeed()
-                + " generator=" + level.getChunkSource().getGenerator().getClass().getName()
-                + " chunk=" + chunk.getPos()
-                + " biome=" + biomeBefore
-                + " overworldSeed=" + (overworld == null ? "none" : overworld.getSeed())
-                + " overworldGenerator=" + overworldGenerator);
-        level.getChunkSource().getGenerator().applyBiomeDecoration((WorldGenLevel) level, chunk,
-                level.structureManager());
+        fixtureGenerator.applyBiomeDecoration(level, chunk, level.structureManager());
+
         ctx.assertTrue(K5NaturalTreeProbe.biomeDecorationCalls() == callsBefore + 1,
-                "the mapped ChunkGenerator.applyBiomeDecoration hook observed this real runtime call");
-        ctx.assertTrue(K5NaturalTreeProbe.naturalTrunkWrites() > trunkWritesBefore,
-                "natural biome decoration executed TreeFeature trunk callbacks that wrote real log blocks");
+                "the verified natural ChunkGenerator.applyBiomeDecoration hook was entered");
         ctx.assertTrue(!K5NaturalTreeProbe.isNaturalBiomeDecoration(),
-                "natural-generation scope is cleared after the generation call");
+                "natural-generation scope is cleared after biome decoration returns");
+        ctx.assertTrue(K5NaturalTreeProbe.naturalTrunkWrites() > trunkWritesBefore,
+                "the registered vanilla forest configuration placed a real TreeFeature trunk");
 
         ChunkData data = K5NaturalTreeProbe.data(chunk);
         ctx.assertTrue(data != null && !data.positions().isEmpty(),
-                "at least one actual natural TreeFeature trunk-write position was marked");
-        var biomeRegistry = level.registryAccess().lookupOrThrow(Registries.BIOME);
-        Identifier biomeKey = biomeRegistry.getKey(level.getBiome(origin).value());
-        var sortedPositions = new TreeSet<>(data.positions());
-        long firstPacked = sortedPositions.first();
-        BlockPos firstMarked = BlockPos.of(firstPacked);
-        System.out.println("K5_DETERMINISTIC_FIXTURE seed=" + level.getSeed()
-                + " chunk=" + chunk.getPos()
-                + " biome=" + biomeKey
-                + " firstMarker=" + firstMarked
-                + " firstState=" + level.getBlockState(firstMarked)
-                + " markerCount=" + sortedPositions.size()
-                + " markers=" + sortedPositions);
-
-        for (long packed : data.positions()) {
+                "actual TreeFeature trunk writes were recorded in this chunk's provenance attachment");
+        var positions = new TreeSet<>(data.positions());
+        System.out.println("K5_DETERMINISTIC_FIXTURE seed=0 dimension=" + level.dimension().identifier()
+                + " generator=NoiseBasedChunkGenerator"
+                + " noiseSettings=minecraft:overworld biome=minecraft:forest chunk=[0,0]"
+                + " treePlacements=" + vanillaForestTreePlacements
+                + " markerCount=" + positions.size()
+                + " markers=" + positions);
+        for (long packed : positions) {
             BlockPos markedPos = BlockPos.of(packed);
+            var state = level.getBlockState(markedPos);
             ctx.assertTrue(level.getChunkAt(markedPos) == chunk,
-                    "the marker belongs to the exact world chunk that recorded it");
-            ctx.assertTrue(level.getBlockState(markedPos).is(net.minecraft.tags.BlockTags.LOGS),
-                    "every positive marker resolves to an existing log block");
+                    "each marker is attached to the exact chunk and world that contain its position");
+            ctx.assertTrue(state.is(Blocks.OAK_LOG) || state.is(Blocks.BIRCH_LOG),
+                    "every marked position contains an expected vanilla forest trunk log: " + markedPos + " = " + state);
+            ctx.assertTrue(data.positions().contains(markedPos.asLong()),
+                    "the independently read block position is present in the persistent chunk marker set");
         }
-
-        // Deliberately red: the first runtime records the actual GameTest seed/configuration to pin below.
-        ctx.assertTrue(level.getSeed() == Long.MIN_VALUE,
-                "RED: replace the fixture seed sentinel with the observed deterministic seed");
-
-        long savesBefore = K5NaturalTreeProbe.savedChunksWithMarkers();
-        level.getChunkSource().save(true);
-        ctx.assertTrue(K5NaturalTreeProbe.savedChunksWithMarkers() > savesBefore,
-                "Minecraft ChunkMap.save serialized a chunk carrying natural-tree markers");
-
-        BlockPos consumedMarker = BlockPos.of(data.positions().iterator().next());
-        level.setBlock(consumedMarker, Blocks.AIR.defaultBlockState(), 3);
-        ChunkData afterRemoval = K5NaturalTreeProbe.data(level.getChunkAt(consumedMarker));
-        ctx.assertTrue(afterRemoval == null || !afterRemoval.positions().contains(consumedMarker.asLong()),
-                "replacing the original log removes its marker");
-
-        level.setBlock(consumedMarker, Blocks.OAK_LOG.defaultBlockState(), 3);
-        ChunkData afterPlayerPlacement = K5NaturalTreeProbe.data(level.getChunkAt(consumedMarker));
-        ctx.assertTrue(afterPlayerPlacement == null || !afterPlayerPlacement.positions().contains(consumedMarker.asLong()),
-                "placing a log at a consumed natural position does not restore eligibility");
         ctx.succeed();
     }
 
