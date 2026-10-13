@@ -141,7 +141,7 @@ Full Fabric CI run [#38358418452](https://github.com/ItzGamesGD/MoreMinecrafts-B
 - JUnit `test`, production build, GameTest compilation and runtime completed.
 - GameTest server reported **all 68 required tests passed**.
 - The first attempt failed one unrelated existing mob GameTest assertion (`CustomMobGameTests.allRosterEntriesRegisterAttributesAndInstantiate`, catalog stat multiplier assertion); rerunning the build job passed. No unrelated gameplay code was changed.
-- Dedicated-server and client-smoke results for this run are recorded after completion below.
+- Dedicated-server and client-smoke both passed on the successful run [#38358418452](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358418452).
 - The earlier mapping compile failure on run [#38356783314](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38356783314) was caused by using obsolete feature constants and a guessed `ResourceKey.location()` accessor. It was corrected using the inspected 26.3 registry types and `Registry.getKey`.
 
 GameTests present in the probe source cover: positive natural-decoration trunk writes and actual log positions; feature namespace/type predicate cases; chunk attachment value storage; real 2×2 spruce sapling growth remaining unmarked; marker invalidation on block replacement; no marker restoration after placing a log at the same position; and successful passage through Minecraft's actual `ChunkMap.save` method with a marked chunk. The attachment-value test is a fixture test only and is not treated as persistence evidence. The save assertion is not a readback test.
@@ -149,3 +149,10 @@ GameTests present in the probe source cover: positive natural-decoration trunk w
 ### Final readiness
 
 **Recommendation: NOT READY for production K5 implementation.** The positive path is observed in runtime, the mapped source path is verified, and the no-credit identity gate is implemented diagnostically. However, the task's deterministic fixture, live synthetic/modded feature identity test, and actual chunk unload/reload persistence gates are not all closed. No progress counter, Knowledge unlock, player-break collector, or production Mixin was added. The approved K5 semantics remain unchanged.
+
+
+### Final branch-head CI confirmation (2026-10-13)
+
+On documentation/probe head `577de9df5bfcb6d6acad8f89291e9dfeb26ef149`, focused mapped-source workflow [#38358732806](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358732806) completed successfully: `genSources` and selected signature inspection passed. The only uploaded source artifact was `k5-mapped-api-report` (6,687 bytes); no Minecraft source archive was uploaded.
+
+Fabric CI [#38358732792](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358732792) completed successfully across build, dedicated-server smoke, and client smoke. The build job ran `./gradlew clean test build compileGametestJava runGameTest`; all **68 required GameTests** passed, including the K5 diagnostic GameTests. This confirms compilation and runtime suite execution on that head, but does not close the three acceptance gates above: the positive generation test is not pinned to deterministic inputs, a live synthetic non-vanilla `TreeFeature` is not tested, and persisted chunk data is not read back after unload/reload or server restart. Final K5 technical recommendation remains **NOT READY**.
