@@ -1,3 +1,32 @@
+# K5 — Natural Tree Logging (200 Logs): Approved Redesign
+
+**Status:** User-approved gameplay specification; technical probe pending. **No K5 gameplay code has been changed.**
+**Approval:** 2026-10-13. This section **supersedes all older K5 gameplay requirements and implementation recommendations below**, including 2×2 giant-tree restrictions, 128-log target, player-to-player acquisition credit, per-item UUIDs, item provenance components, player redemption ledgers, item stack split/merge hooks, and acquisition-on-inventory-receipt logic.
+
+## Binding gameplay rules
+
+- **Goal:** Personally mine **200 log blocks** originating from **naturally world-generated trees of any vanilla tree species** in Survival mode.
+- **Credit event:** Successful **direct player block break** of an eligible natural-origin log; count one per eligible log block actually mined. Do not credit merely for obtaining an item.
+- **Transfers explicitly excluded:** Items given by other players, picked up from the ground, taken from containers/hoppers, traded, or otherwise received do **not** count, regardless of the source of those items.
+- **Ineligible:** Sapling-grown trees, player-placed logs, structure-generated trees, modded tree sources unless separately approved, Creative actions, piston-moved or explosion-destroyed blocks, and unknown provenance. These exclusions describe the approved direct-natural-tree-mining scope; no need to track dropped items.
+- **Legacy development data:** K5 counters/unlocks may be reset during development. No migration or backwards-compatibility requirement. Do not reset unrelated Knowledge/Research data.
+- **No anti-cheat expansion:** Admin commands, malicious mods and nonstandard duplication are outside scope.
+
+## Simplified architecture and technical probe
+
+1. Identify log positions placed by **natural biome/world-generation tree features** and persist sparse per-position provenance through chunk lifecycle. Support all verified vanilla natural tree species, not just 2×2 trunk placers.
+2. Distinguish worldgen trees from sapling growth by **verified runtime source paths**, not by log type, species, geometry, leaves, or biome heuristics.
+3. On successful server-side Survival player block break, verify the position's natural-tree marker, consume it exactly once, and increment K5 by one. Do not credit drops, transfers, explosions, piston actions or inventory receipt.
+4. Do not implement per-log UUIDs, item data components, stack split/merge hooks, global or player redemption token histories, or acquisition listeners for K5.
+5. Before enabling progress: synchronize with the **current** PR #80 HEAD, run `./gradlew genSources`, verify mapped Mixin descriptors and Fabric hooks, and run a **no-credit** natural-tree-versus-sapling runtime/GameTest probe. Validate at least several vanilla tree species, save/reload, chunk unload/reload, failed/cancelled breaks and player-placed logs. Report blocked checks truthfully.
+6. Prefer an isolated probe branch based on current PR #80 for code-only experimentation. Keep PR #81 documentation-only until technical evidence is available; do not merge or alter PR #79/#80 as part of this design change.
+
+**Important:** Everything after the divider is preserved as historical research only and is **NOT authoritative** for the redesigned K5. Its 128-unit, giant-tree, item-transfer, UUID, token-ledger and item-stack requirements are withdrawn. Do not implement them.
+
+---
+
+## Archived previous K5 investigation (superseded; reference only)
+
 # K5 Natural Giant Tree Provenance Architecture
 
 **Status:** Design only; no production code, migration, or gameplay change is included.  
