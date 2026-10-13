@@ -127,6 +127,18 @@ public final class K5NaturalTreeProbe {
             target.setAttached(NATURAL_TREE_LOGS, new ChunkData(SCHEMA_VERSION, Set.copyOf(positions)));
     }
 
+    /** Removes stale provenance when the referenced block is replaced or removed. */
+    public static void invalidatePosition(Level level, BlockPos pos) {
+        ChunkAccess chunk = level.getChunkAt(pos);
+        if (!(chunk instanceof AttachmentTarget target)) return;
+        ChunkData previous = target.getAttached(NATURAL_TREE_LOGS);
+        if (previous == null || previous.schemaVersion() != SCHEMA_VERSION) return;
+        Set<Long> positions = new HashSet<>(previous.positions());
+        if (!positions.remove(pos.asLong())) return;
+        if (positions.isEmpty()) target.removeAttached(NATURAL_TREE_LOGS);
+        else target.setAttached(NATURAL_TREE_LOGS, new ChunkData(SCHEMA_VERSION, Set.copyOf(positions)));
+    }
+
     public static ChunkData data(ChunkAccess chunk) {
         if (!(chunk instanceof AttachmentTarget target)) return null;
         return target.getAttached(NATURAL_TREE_LOGS);
