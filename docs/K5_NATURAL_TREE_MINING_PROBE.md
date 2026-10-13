@@ -176,3 +176,72 @@ On run #38363866846, 70 of 72 required GameTests passed. The exact failed tests 
 The identity predicate GameTest and in-memory chunk-attachment value test passed, as did the other 68 required tests. Bonemeal-grown and player-placed negative-control GameTests are not present. No K5 progress or unlock code is enabled.
 
 **Gate status: BLOCKED.** The fixture deterministically invokes real natural biome decoration and observes actual vanilla tree trunk logs, but the existing feature-identity filter prevents a positive marker. Changing that filter would address the separate vanilla feature-identity gate, which was explicitly excluded from this task. Persistence remains unverified; this update does not change its status. The required negative controls and a passing regression run are also outstanding.
+
+
+## 2026-10-13 feature identity and deterministic fixture recovery
+
+This is the latest validation record and supersedes the earlier BLOCKED/UNVERIFIED conclusions above for the natural-tree positive and vanilla-feature identity gates. PR #81 was re-fetched before this work and remains at `be0b6c7874a5c78e4e87fee4431c2a1c78ae3c86`; its approved rule is **200 naturally world-generated vanilla tree logs directly mined by a Survival player**. PR #80 remains at `1a17f8e77792ab1b106d92ac03fe10c86227d599`. PR #82 remains Draft. No K5 progress, unlock, or production block-break collector is enabled.
+
+### Feature identities and mapped call paths
+
+The runtime distinguishes three identities:
+
+- The natural biome-decoration entry is a registered `PlacedFeature` with registry key `minecraft:trees_birch_and_oak_leaf_litter`.
+- Its underlying entry in `Registries.FEATURE` resolves to `minecraft:oak_bees_0002_leaf_litter`.
+- The underlying object is an instance of the mapped Java type `TreeFeature`.
+
+The diagnostic accepts only an exact allowlisted `Registries.FEATURE` key, a registered `minecraft` placed-feature key, and a runtime `TreeFeature` object, all while the natural biome-decoration scope is active. The allowlist contains the 45 `minecraft` TreeFeature keys found in the pinned Minecraft 26.3 runtime. The GameTest walks the live feature registry and asserts every registered vanilla `TreeFeature` key is represented. Missing registry keys, unknown Feature IDs, non-minecraft namespaces, and non-TreeFeature objects fail closed. The tests exercise synthetic mod and unknown identifiers at the predicate boundary; no claim is made that an actual modded registered worldgen feature was loaded or generated.
+
+The mapped source report from Actions run [#38397985383](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38397985383) passed `genSources` and selected source/signature inspection. It uploaded a 9,746-byte report artifact and no Minecraft source archive. Verified named methods and descriptors are:
+
+- `ChunkGenerator.applyBiomeDecoration(WorldGenLevel, ChunkAccess, StructureManager): void` — `(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/world/level/StructureManager;)V`.
+- `FeaturePlacer.placeWithBiomeCheck(PlacedFeature, RandomSource, BlockPos): boolean` — `(Lnet/minecraft/world/level/levelgen/placement/PlacedFeature;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;)Z`. The source resolves the underlying Feature from the placed entry before calling `Feature.place`.
+- `TreeFeature.place(WorldGenLevel, ChunkGenerator, RandomSource, BlockPos): boolean` — `(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/chunk/ChunkGenerator;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;)Z`.
+- `TreeFeature.doPlace(WorldGenLevel, RandomSource, BlockPos, BiConsumer, BiConsumer, FoliagePlacer.FoliageSetter): boolean` — `(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;Ljava/util/function/BiConsumer;Ljava/util/function/BiConsumer;Lnet/minecraft/world/level/levelgen/feature/foliageplacers/FoliagePlacer$FoliageSetter;)Z`. The test probe wraps the actual trunk setter passed into this method.
+- `Registry.getKey(T): Identifier` — `(Ljava/lang/Object;)Lnet/minecraft/resources/Identifier;`.
+- `SaplingBlock.advanceTree(ServerLevel, BlockPos, BlockState, RandomSource): void` — `(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/util/RandomSource;)V`.
+- `TreeGrower.growTree(ServerLevel, ChunkGenerator, BlockPos, BlockState, RandomSource): boolean` — `(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/chunk/ChunkGenerator;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/util/RandomSource;)Z`.
+- `Feature.place(WorldGenLevel, ChunkGenerator, RandomSource, BlockPos): boolean` — `(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/chunk/ChunkGenerator;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;)Z`.
+
+Mapped source shows the natural route `applyBiomeDecoration → FeaturePlacer.placeWithBiomeCheck → Feature.place → TreeFeature.place/doPlace`. Sapling growth follows `SaplingBlock.advanceTree → TreeGrower.growTree → Feature.place`, outside the natural decoration and FeaturePlacer scope. Test-only Mixins observe these paths; no gameplay code is installed.
+
+### Failure investigation and fixture corrections
+
+- The original positive test filtered for `minecraft:tree`. Actions run [#38395965412](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38395965412) showed that the deterministic forest actually places `minecraft:trees_birch_and_oak_leaf_litter`, whose underlying registered TreeFeature key is `minecraft:oak_bees_0002_leaf_litter`. That mismatch caused 28 real trunk callbacks and zero markers. The registry-backed allowlist corrected the identity check; the same runtime fixture now records markers at actual log positions.
+- The spruce fixture was made dependent on a randomly assigned GameTest location and initially had no controlled clearance. Test-only trace on run [#38396646648](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38396646648) recorded 32 `minecraft:mega_pine` `Feature.place` calls returning false after the test repeatedly cleared only a 7×7 volume and required a specific `Blocks.SPRUCE_LOG` pattern. Restoring the prior seed-0 setup alone still failed at another assigned location (run [#38396903001](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38396903001): `minecraft:mega_pine` returned false). The repaired fixture clears a fixed 17×17×49 volume, adds a 4×4 dirt support platform, places four mature spruce saplings, and calls the real `SaplingBlock.advanceTree` path with `RandomSource.create(0L)`. It then verifies all four base trunk positions contain logs before checking the marker set. This removes reliance on incidental terrain around the GameTest location.
+- The null identity helper was also made explicitly null-safe after `Set.of().contains(null)` threw on an unregistered-feature test. The fail-closed null case now passes.
+
+### Deterministic runtime fixtures and GameTests
+
+Natural positive fixture: seed `0`, dimension `minecraft:overworld`, `NoiseBasedChunkGenerator`, `minecraft:overworld` noise settings, fixed `minecraft:forest` biome, chunk `[0,0]`, and a fixed dirt/grass platform at Y 1–3. It invokes the real `applyBiomeDecoration` route using the configured forest's registered placed features; it does not call `TreeFeature.place` directly or manually insert markers.
+
+On Fabric CI run [#38397985357](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38397985357), the positive test observed:
+
+- The biome-decoration wrapper entered and then cleared its scope.
+- Registered placed-feature ID `minecraft:trees_birch_and_oak_leaf_litter` and underlying TreeFeature ID `minecraft:oak_bees_0002_leaf_litter`.
+- 28 actual trunk-setter callbacks.
+- 23 recorded positions; each marker intersected a callback position whose final block was independently read as an oak log in the same world and chunk.
+- The spruce trace recorded `minecraft:mega_pine` with placement result `true`, four of four base trunk logs, and 69 total logs.
+
+The six K5 GameTests run in the 74-test suite are:
+
+- `k5FeatureIdentityUsesRegistryAllowlistAndFailsClosed`
+- `k5DeterministicNaturalForestDecorationMarksRealVanillaTrunkLogs`
+- `k5ChunkAttachmentStoresPackedPositionData`
+- `k5PlayerGrownTwoByTwoSpruceTreeIsNotTagged`
+- `k5BonemealGrownTreeIsNotTagged`
+- `k5PlayerPlacedLogIsNotTagged`
+
+The identity test covers registered live vanilla Feature IDs plus synthetic modded/unknown IDs, null identity, non-tree type, and unknown placed-feature identity. It is a predicate test for those negative identities, not a live modded-feature worldgen test. The bonemeal case uses actual Survival bone-meal item use and requires logs from a grown tree; the player-placement case uses actual Survival log item placement and verifies the resulting block. The spruce case requires actual 2×2 growth and checks zero natural markers.
+
+### Validation and gate status
+
+On code head `6a33ee25999a7209b80f109c33f46dddd4da7ccb`, Fabric CI run [#38397985357](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38397985357) passed `./gradlew clean test build compileGametestJava runGameTest` with **all 74 required GameTests passing**, plus dedicated-server and client smoke checks. The deterministic positive assertions also passed on the earlier executions [#38395593166](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38395593166) and [#38395965412](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38395965412); those full runs had other K5 failures at the time, which were subsequently corrected. Run #38397985357 is the first full green execution after the feature identity, spruce fixture, bonemeal, and player-placement assertions were all present.
+
+| Gate | Status | Evidence / boundary |
+|---|---|---|
+| Deterministic natural-tree positive | **VERIFIED** | Genuine biome decoration generated the registered vanilla tree; 23 marked trunk positions were independently checked as real oak logs. Repeated execution passed. |
+| Vanilla Feature identity | **VERIFIED** | Mapped registry/type relationships, live runtime identity, complete allowlist coverage for registered vanilla TreeFeature entries, and negative predicate cases passed. A live registered modded tree feature was not available and is not claimed tested. |
+| Chunk persistence/unload/reload | **UNVERIFIED** | This task does not close that separate lifecycle gate. The attachment value test is not a disk readback test. |
+
+PR #82 remains a diagnostic-only Draft. The approved 200-log direct Survival mining objective is unchanged. No K5 counter, unlock, production collector, or item provenance was added. Production readiness is **not established** while the independent persistence and production block-break gates remain open.
