@@ -5,7 +5,8 @@
   "mixins": [
     "ChunkGeneratorProbeMixin",
     "TreeFeatureProbeMixin",
-    "FeaturePlacerProbeMixin"
+    "FeaturePlacerProbeMixin",
+    "LevelBlockMutationProbeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
