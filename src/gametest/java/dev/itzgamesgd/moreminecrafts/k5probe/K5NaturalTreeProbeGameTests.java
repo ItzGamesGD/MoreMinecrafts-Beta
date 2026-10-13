@@ -14,6 +14,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -53,6 +54,18 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ChunkAccess chunk = level.getChunkAt(origin);
         long callsBefore = K5NaturalTreeProbe.biomeDecorationCalls();
         long trunkWritesBefore = K5NaturalTreeProbe.naturalTrunkWrites();
+        Identifier biomeBefore = level.registryAccess().lookupOrThrow(Registries.BIOME)
+                .getKey(level.getBiome(origin).value());
+        ServerLevel overworld = level.getServer().getLevel(Level.OVERWORLD);
+        String overworldGenerator = overworld == null ? "none"
+                : overworld.getChunkSource().getGenerator().getClass().getName();
+        System.out.println("K5_WORLDGEN_INPUT level=" + level.dimension().identifier()
+                + " seed=" + level.getSeed()
+                + " generator=" + level.getChunkSource().getGenerator().getClass().getName()
+                + " chunk=" + chunk.getPos()
+                + " biome=" + biomeBefore
+                + " overworldSeed=" + (overworld == null ? "none" : overworld.getSeed())
+                + " overworldGenerator=" + overworldGenerator);
         level.getChunkSource().getGenerator().applyBiomeDecoration((WorldGenLevel) level, chunk,
                 level.structureManager());
         ctx.assertTrue(K5NaturalTreeProbe.biomeDecorationCalls() == callsBefore + 1,
