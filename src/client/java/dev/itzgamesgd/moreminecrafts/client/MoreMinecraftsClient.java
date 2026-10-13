@@ -49,6 +49,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 net.minecraft.client.Minecraft.getInstance().execute(() ->
                         net.minecraft.client.Minecraft.getInstance().gui.setScreen(new ContractScreen(contractId))));
         VisualValidationHarness.register();
+        ArenaVisualValidationHarness.register();
         registerCustomMobRenderers();
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
         MenuScreens.register(ModMenuTypes.AUTO_FARM, AutoFarmScreen::new);

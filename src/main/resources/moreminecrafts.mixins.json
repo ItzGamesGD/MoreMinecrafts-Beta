@@ -104,7 +104,8 @@
     "QuestRaidVictoryMixin",
     "QuestBlockPlacementMixin",
     "QuestTameAnimalTriggerMixin",
-    "QuestMovementStatMixin"
+    "QuestMovementStatMixin",
+    "StructureTemplatePoolMixin"
   ],
   "injectors": {
     "defaultRequire": 1

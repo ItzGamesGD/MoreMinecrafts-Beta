@@ -65,7 +65,8 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityIntegrationGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIsolationGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractExplorationGameTests",
-      "dev.itzgamesgd.moreminecrafts.bounty.ContractPricingGameTests"
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractPricingGameTests",
+      "dev.itzgamesgd.moreminecrafts.worldgen.AncientCityArenaGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",
