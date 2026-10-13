@@ -13,7 +13,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.level.WorldGenLevel;
@@ -54,8 +54,8 @@ public final class K5NaturalTreeProbe {
         if (!isNaturalBiomeDecoration()) return false;
         RegistryAccess registries = ACTIVE_REGISTRIES.get();
         if (registries == null) return false;
-        var key = registries.lookupOrThrow(Registries.PLACED_FEATURE).getResourceKey(placedFeature);
-        boolean eligible = key.filter(K5NaturalTreeProbe::isVanillaNamespace).isPresent();
+        Identifier key = registries.lookupOrThrow(Registries.PLACED_FEATURE).getKey(placedFeature);
+        boolean eligible = isVanillaNamespace(key);
         if (eligible) VANILLA_PLACED_FEATURE_DEPTH.set(VANILLA_PLACED_FEATURE_DEPTH.get() + 1);
         return eligible;
     }
@@ -67,12 +67,13 @@ public final class K5NaturalTreeProbe {
         else VANILLA_PLACED_FEATURE_DEPTH.set(depth);
     }
 
-    private static boolean isVanillaNamespace(ResourceKey<?> key) {
-        return key.location().getNamespace().equals("minecraft");
+    private static boolean isVanillaNamespace(Identifier key) {
+        return key != null && key.getNamespace().equals("minecraft");
     }
 
-    public static boolean isEligibleTreeIdentity(ResourceKey<?> placedFeatureKey, Feature<?> feature) {
-        return placedFeatureKey != null && isVanillaNamespace(placedFeatureKey) && feature == Feature.TREE;
+    public static boolean isEligibleTreeIdentity(Identifier placedFeatureKey, Identifier treeFeatureKey,
+            boolean isTreeFeature) {
+        return isVanillaNamespace(placedFeatureKey) && isVanillaNamespace(treeFeatureKey) && isTreeFeature;
     }
 
     public static boolean hasEligiblePlacedFeatureScope() {
@@ -105,7 +106,11 @@ public final class K5NaturalTreeProbe {
     /** Called only by TreeFeature's actual trunk setter while natural biome decoration is active. */
     public static void recordTrunkWrite(TreeFeature source, WorldGenLevel level, BlockPos pos,
             net.minecraft.world.level.block.state.BlockState state) {
-        if (!isNaturalBiomeDecoration() || !hasEligiblePlacedFeatureScope() || source != Feature.TREE
+        RegistryAccess registries = ACTIVE_REGISTRIES.get();
+        Identifier treeFeatureKey = registries == null ? null
+                : registries.lookupOrThrow(Registries.FEATURE).getKey(source);
+        if (!isNaturalBiomeDecoration() || !hasEligiblePlacedFeatureScope()
+                || !isEligibleTreeIdentity(null, treeFeatureKey, source instanceof TreeFeature)
                 || !state.is(BlockTags.LOGS) || !level.getBlockState(pos).equals(state)) return;
         NATURAL_TRUNK_WRITES.incrementAndGet();
         ChunkAccess chunk = level.getChunk(pos);
