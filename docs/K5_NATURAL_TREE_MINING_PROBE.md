@@ -1,5 +1,7 @@
 # K5 natural-tree mining technical probe — execution checklist
 
+> This is PR #82's chronological probe record. Its initial status below is historical; later sections record the verified probe gates. Production K5 integration and current test evidence are tracked in [K5_PRODUCTION_INTEGRATION.md](K5_PRODUCTION_INTEGRATION.md) on the dependent Draft PR.
+
 Status: **BLOCKED BEFORE PROBE IMPLEMENTATION**. The source-generation gate could not resolve the pinned Fabric Loom plugin in this environment. Per the execution checklist, mapped hooks were not guessed and no probe code was added. The CI result below validates the pre-existing PR #82 tree only; it does not validate a natural-tree probe.
 
 ## Authority

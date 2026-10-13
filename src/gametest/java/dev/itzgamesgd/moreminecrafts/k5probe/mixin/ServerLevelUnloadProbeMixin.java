@@ -3,7 +3,7 @@ package dev.itzgamesgd.moreminecrafts.k5probe.mixin;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbe;
-import dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbe.ChunkData;
+import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance.ChunkData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.spongepowered.asm.mixin.Mixin;

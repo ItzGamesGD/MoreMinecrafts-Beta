@@ -35,7 +35,7 @@ public final class KnowledgeCatalog {
         e(2,"resources","심층 광물학",ConditionType.DEEPSLATE_ORE_TYPES_MINED,5,"deepslate_ore_types_mined","deepslate_ore_xp",false),
         e(3,"resources","희귀 광물학",ConditionType.ITEM_SET_ACQUIRED,3,"rare_ores_acquired","rare_ore_guide",false),
         e(4,"resources","수목 관찰",ConditionType.ITEM_SET_ACQUIRED,6,"log_types_acquired","sapling_drop",false),
-        e(5,"resources","거목 생태",ConditionType.ITEM_COUNT_ACQUIRED,128,"large_tree_logs_acquired","tree_guide",false),
+        e(5,"resources","자연 수목 생태",ConditionType.BLOCKS_HARVESTED,200,"natural_vanilla_logs_mined","tree_guide",false),
         e(6,"resources","식물 채집",ConditionType.PLANT_TYPES_ACQUIRED,10,"plant_types_acquired","plant_guide",false),
         e(7,"resources","토양 분석",ConditionType.SOIL_TYPES_ACQUIRED,4,"soil_types_acquired","soil_guide",false),
         e(8,"resources","암석 분류",ConditionType.ROCK_TYPES_MINED,8,"rock_types_mined","rock_guide",false),

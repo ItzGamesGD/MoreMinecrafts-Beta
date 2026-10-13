@@ -1,6 +1,8 @@
 package dev.itzgamesgd.moreminecrafts.k5probe;
 
-import dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbe.ChunkData;
+import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance.ChunkData;
+import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance;
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
 import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.HashSet;
@@ -35,7 +37,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 
-/** Runtime-only checks for the diagnostic hooks. These tests never touch Knowledge state. */
+/** Runtime checks for production K5 provenance, direct mining, and diagnostic lifecycle evidence. */
 public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoker {
     @GameTest
     public void k5FeatureIdentityUsesRegistryAllowlistAndFailsClosed(GameTestHelper ctx) {
@@ -174,6 +176,87 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
             ctx.assertTrue(data.positions().contains(markedPos.asLong()),
                     "the independently read block position is present in the persistent chunk marker set");
         }
+        // The same deterministic natural fixture now exercises the production collector.
+        ctx.assertTrue(positions.size() >= 6, "natural fixture has enough distinct logs for collector controls");
+        var marked = positions.stream().map(BlockPos::of).toList();
+        var miner = ctx.makeMockServerPlayerInLevel();
+        miner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        BlockPos first = marked.get(0);
+        ctx.assertTrue(miner.gameMode.destroyBlock(first), "Survival player directly mined a natural marked log");
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 1,
+                "successful direct mining awards exactly one K5 progress point");
+        ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, first), "mined marker was consumed");
+        miner.gameMode.destroyBlock(first);
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 1,
+                "the same original log cannot be counted twice");
+
+        var other = ctx.makeMockServerPlayerInLevel();
+        other.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        ctx.assertTrue(other.gameMode.destroyBlock(marked.get(1)), "second player mined a separate natural log");
+        ctx.assertTrue(KnowledgeRuntime.state(other).get("condition.natural_vanilla_logs_mined") == 1
+                        && KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 1,
+                "separate players have independent progress");
+
+        var creative = ctx.makeMockServerPlayerInLevel();
+        creative.setGameMode(net.minecraft.world.level.GameType.CREATIVE);
+        creative.gameMode.destroyBlock(marked.get(2));
+        ctx.assertTrue(KnowledgeRuntime.state(creative).get("condition.natural_vanilla_logs_mined") == 0,
+                "Creative removal never awards K5");
+        var spectator = ctx.makeMockServerPlayerInLevel();
+        spectator.setGameMode(net.minecraft.world.level.GameType.SPECTATOR);
+        spectator.gameMode.destroyBlock(marked.get(3));
+        ctx.assertTrue(KnowledgeRuntime.state(spectator).get("condition.natural_vanilla_logs_mined") == 0,
+                "Spectator removal never awards K5");
+
+        var thresholdMiner = ctx.makeMockServerPlayerInLevel();
+        thresholdMiner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        KnowledgeRuntime.recordCondition(thresholdMiner, "natural_vanilla_logs_mined", 199);
+        ctx.assertTrue(!KnowledgeRuntime.knows(thresholdMiner, 5), "K5 remains locked at 199");
+        ctx.assertTrue(thresholdMiner.gameMode.destroyBlock(marked.get(4)),
+                "threshold log was directly mined from the verified natural fixture");
+        ctx.assertTrue(KnowledgeRuntime.state(thresholdMiner).get("condition.natural_vanilla_logs_mined") == 200
+                        && KnowledgeRuntime.knows(thresholdMiner, 5), "K5 unlocks at 200");
+        thresholdMiner.gameMode.destroyBlock(marked.get(4));
+        ctx.assertTrue(KnowledgeRuntime.state(thresholdMiner).get("condition.natural_vanilla_logs_mined") == 200,
+                "post-unlock duplicate mining does not increase progress");
+
+        level.setBlock(first, Blocks.OAK_LOG.defaultBlockState(), 3);
+        ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, first),
+                "replacement at a consumed position has no natural provenance");
+        miner.gameMode.destroyBlock(first);
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 1,
+                "a mined replacement log cannot restore progress");
+
+        BlockPos indirect = marked.get(5);
+        ctx.assertTrue(level.destroyBlock(indirect, true), "server destroyed a natural log without a player mining it");
+        ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, indirect)
+                        && KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 1,
+                "indirect removal consumes provenance without awarding a player");
+
+        BlockPos blocked = marked.get(6);
+        var cancel = new java.util.concurrent.atomic.AtomicBoolean(true);
+        net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.register(
+                (world, actor, breakingPos, breakingState, blockEntity) ->
+                        !(cancel.get() && world == level && breakingPos.equals(blocked)));
+        boolean cancelledResult = miner.gameMode.destroyBlock(blocked);
+        cancel.set(false);
+        ctx.assertTrue(!cancelledResult && K5NaturalTreeProvenance.hasMarker(level, blocked),
+                "cancelled direct break leaves both block and marker intact");
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 1,
+                "cancelled direct break gives no progress");
+
+        BlockPos raced = marked.get(7);
+        ctx.assertTrue(miner.gameMode.destroyBlock(raced), "first player mined the shared position");
+        other.gameMode.destroyBlock(raced);
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 2
+                        && KnowledgeRuntime.state(other).get("condition.natural_vanilla_logs_mined") == 1,
+                "only the first successful miner of one physical log receives credit");
+
+        miner.getInventory().add(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.OAK_LOG, 64));
+        other.getInventory().add(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.OAK_LOG, 64));
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 2
+                        && KnowledgeRuntime.state(other).get("condition.natural_vanilla_logs_mined") == 1,
+                "inventory receipt and gifted log stacks never grant direct-mining progress");
         ctx.succeed();
     }
 
@@ -198,7 +281,119 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
 
     @GameTest
     public void k5NaturalChunkProvenanceSurvivesRealSaveUnloadReloadAndInvalidation(GameTestHelper ctx) {
+        String restartPhase = System.getProperty("moreminecrafts.k5.restart.phase");
+        if ("write".equals(restartPhase)) {
+            new RestartPersistenceRun(ctx).write();
+            return;
+        }
+        if ("read".equals(restartPhase)) {
+            new RestartPersistenceRun(ctx).read();
+            return;
+        }
         new ChunkPersistenceRun(ctx).start();
+    }
+
+    /** A filtered GameTest runs in two fresh JVM processes sharing the same saved world. */
+    private static final class RestartPersistenceRun {
+        private static final java.util.UUID PLAYER_ID =
+                java.util.UUID.fromString("45d315ee-09d7-40d9-81c9-6c04438da132");
+        private static final java.nio.file.Path MANIFEST = java.nio.file.Path.of("k5-restart-fixture.txt");
+        private static final ChunkPos CHUNK = new ChunkPos(64, 64);
+        private final GameTestHelper ctx;
+        private final ServerLevel level;
+
+        private RestartPersistenceRun(GameTestHelper ctx) {
+            this.ctx = ctx;
+            this.level = ctx.getLevel();
+        }
+
+        private net.minecraft.server.level.ServerPlayer player(boolean loadFromDisk) {
+            var profile = new com.mojang.authlib.GameProfile(PLAYER_ID, "k5-restart-player");
+            var cookie = net.minecraft.server.network.CommonListenerCookie.createInitial(profile, false);
+            var player = new net.minecraft.server.level.ServerPlayer(
+                    level.getServer(), level, cookie.gameProfile(), cookie.clientInformation());
+            if (loadFromDisk) {
+                var saved = level.getServer().getPlayerList().loadPlayerData(player.nameAndId());
+                ctx.assertTrue(saved.isPresent(), "Minecraft PlayerDataStorage loaded the fixed player UUID");
+                player.load(net.minecraft.world.level.storage.TagValueInput.create(
+                        net.minecraft.util.ProblemReporter.DISCARDING, player.registryAccess(), saved.orElseThrow()));
+            }
+            var connection = new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND);
+            new io.netty.channel.embedded.EmbeddedChannel(connection);
+            level.getServer().getPlayerList().placeNewPlayer(connection, player, cookie);
+            player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+            return player;
+        }
+
+        private void write() {
+            try {
+                ctx.assertTrue(level.getSeed() == 0L, "restart fixture uses the pinned seed 0");
+                level.getChunkSource().addTicketWithRadius(TicketType.FORCED, CHUNK, 0);
+                LevelChunk chunk = level.getChunk(CHUNK.x(), CHUNK.z());
+                ChunkPersistenceRun fixture = new ChunkPersistenceRun(ctx);
+                fixture.generateDeterministicNaturalTree(chunk);
+                var marked = fixture.originalMarkers.stream().sorted().map(BlockPos::of).toList();
+                ctx.assertTrue(marked.size() >= 4, "restart fixture generated four real natural trunk logs");
+                BlockPos removed = marked.get(0);
+                BlockPos replaced = marked.get(1);
+                BlockPos mined = marked.get(2);
+                BlockPos surviving = marked.get(3);
+                ctx.assertTrue(level.destroyBlock(removed, true), "indirectly removed original log before save");
+                level.setBlock(replaced, Blocks.OAK_LOG.defaultBlockState(), 3);
+                ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, removed)
+                                && !K5NaturalTreeProvenance.hasMarker(level, replaced),
+                        "removed and replaced logs lose provenance before disk save");
+                var player = player(false);
+                KnowledgeRuntime.recordCondition(player, "natural_vanilla_logs_mined", 37);
+                ctx.assertTrue(player.gameMode.destroyBlock(mined), "fixed player directly mined a natural marked log");
+                ctx.assertTrue(KnowledgeRuntime.state(player).get("condition.natural_vanilla_logs_mined") == 38,
+                        "K5 progress was recorded before player save");
+                ctx.assertTrue(K5NaturalTreeProvenance.hasMarker(level, surviving),
+                        "surviving natural marker remains before save");
+                java.nio.file.Files.writeString(MANIFEST,
+                        removed.asLong() + "," + replaced.asLong() + "," + mined.asLong() + ","
+                                + surviving.asLong());
+                level.getServer().getPlayerList().saveAll();
+                level.getChunkSource().save(true);
+                System.out.println("K5_RESTART_WRITE worldSeed=0 chunk=[64,64] player=" + PLAYER_ID
+                        + " progress=38 surviving=" + surviving);
+                ctx.succeed();
+            } catch (java.io.IOException exception) {
+                throw new IllegalStateException("could not write restart fixture manifest", exception);
+            }
+        }
+
+        private void read() {
+            try {
+                ctx.assertTrue(level.getSeed() == 0L, "restarted process reopened the pinned world seed");
+                var parts = java.nio.file.Files.readString(MANIFEST).trim().split(",");
+                ctx.assertTrue(parts.length == 4, "process A recorded four fixture positions");
+                BlockPos removed = BlockPos.of(Long.parseLong(parts[0]));
+                BlockPos replaced = BlockPos.of(Long.parseLong(parts[1]));
+                BlockPos mined = BlockPos.of(Long.parseLong(parts[2]));
+                BlockPos surviving = BlockPos.of(Long.parseLong(parts[3]));
+                LevelChunk chunk = level.getChunk(CHUNK.x(), CHUNK.z());
+                ctx.assertTrue(chunk.getPos().equals(CHUNK), "Minecraft loaded the correct persisted chunk");
+                ctx.assertTrue(K5NaturalTreeProvenance.hasMarker(level, surviving)
+                                && level.getBlockState(surviving).is(net.minecraft.tags.BlockTags.LOGS),
+                        "fresh process restored a marker at its real surviving log position");
+                ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, removed)
+                                && !K5NaturalTreeProvenance.hasMarker(level, replaced)
+                                && !K5NaturalTreeProvenance.hasMarker(level, mined),
+                        "consumed natural markers did not reappear after process restart");
+                ctx.assertTrue(level.getBlockState(replaced).is(Blocks.OAK_LOG),
+                        "replacement log exists after reload without inherited provenance");
+                var player = player(true);
+                ctx.assertTrue(KnowledgeRuntime.state(player).get("condition.natural_vanilla_logs_mined") == 38,
+                        "Minecraft player data restored K5 progress into a fresh player instance");
+                ctx.assertTrue(!KnowledgeRuntime.knows(player, 5), "K5 remains locked below 200 after restart");
+                System.out.println("K5_RESTART_READ chunk=[64,64] player=" + PLAYER_ID
+                        + " progress=38 surviving=" + surviving);
+                ctx.succeed();
+            } catch (java.io.IOException exception) {
+                throw new IllegalStateException("could not read restart fixture manifest", exception);
+            }
+        }
     }
 
     @GameTest
@@ -513,6 +708,11 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(origin));
         ctx.assertTrue(data == null || data.positions().isEmpty(),
                 "sapling TreeGrower direct Feature.place calls did not enter natural-biome scope");
+        var miner = ctx.makeMockServerPlayerInLevel();
+        miner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        ctx.assertTrue(miner.gameMode.destroyBlock(origin), "player directly mined a grown spruce trunk log");
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 0,
+                "direct mining a player-grown 2x2 tree awards no K5 progress");
         ctx.succeed();
     }
 
@@ -546,6 +746,9 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ctx.assertTrue(logs > 0, "vanilla bone-meal use grew a real oak sapling tree");
         ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(saplingPos));
         ctx.assertTrue(data == null || data.positions().isEmpty(), "bonemeal TreeGrower placement is outside natural decoration");
+        ctx.assertTrue(player.gameMode.destroyBlock(saplingPos), "player directly mined a bone-meal-grown log");
+        ctx.assertTrue(KnowledgeRuntime.state(player).get("condition.natural_vanilla_logs_mined") == 0,
+                "bone-meal-grown trunk awards no K5 progress");
         ctx.succeed();
     }
 
@@ -567,6 +770,76 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 "ordinary Survival item use placed a real oak log");
         ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(placedPos));
         ctx.assertTrue(data == null || data.positions().isEmpty(), "a player item placement has no natural worldgen scope");
+        ctx.assertTrue(player.gameMode.destroyBlock(placedPos), "player directly mined their placed log");
+        ctx.assertTrue(KnowledgeRuntime.state(player).get("condition.natural_vanilla_logs_mined") == 0,
+                "placed log cannot award K5 progress");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k5PistonMovementConsumesPositionMarkerWithoutMiningCredit(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos log = ctx.absolutePos(new BlockPos(5, 3, 5));
+        BlockPos piston = log.east();
+        for (int distance = 1; distance <= 3; distance++)
+            level.setBlock(log.west(distance), Blocks.AIR.defaultBlockState(), 3);
+        level.setBlock(log, Blocks.OAK_LOG.defaultBlockState(), 3);
+        var chunk = level.getChunkAt(log);
+        ((net.fabricmc.fabric.api.attachment.v1.AttachmentTarget) chunk).setAttached(
+                K5NaturalTreeProvenance.NATURAL_TREE_LOGS,
+                new ChunkData(K5NaturalTreeProvenance.SCHEMA_VERSION, Set.of(log.asLong())));
+        var observer = ctx.makeMockServerPlayerInLevel();
+        observer.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        level.setBlock(piston, Blocks.PISTON.defaultBlockState().setValue(
+                net.minecraft.world.level.block.piston.PistonBaseBlock.FACING,
+                net.minecraft.core.Direction.WEST), 3);
+        level.setBlock(piston.east(), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
+        ctx.runAfterDelay(5, () -> {
+            ctx.assertTrue(level.getBlockState(log.west()).is(Blocks.OAK_LOG),
+                    "vanilla piston actually moved the marked log");
+            ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, log)
+                            && !K5NaturalTreeProvenance.hasMarker(level, log.west()),
+                    "piston movement neither preserves nor transfers natural provenance");
+            ctx.assertTrue(KnowledgeRuntime.state(observer).get("condition.natural_vanilla_logs_mined") == 0,
+                    "piston movement cannot grant K5 mining credit");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest
+    public void k5ExplosionConsumesPositionMarkerWithoutMiningCredit(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos log = ctx.absolutePos(new BlockPos(5, 3, 5));
+        level.setBlock(log, Blocks.OAK_LOG.defaultBlockState(), 3);
+        var chunk = level.getChunkAt(log);
+        ((net.fabricmc.fabric.api.attachment.v1.AttachmentTarget) chunk).setAttached(
+                K5NaturalTreeProvenance.NATURAL_TREE_LOGS,
+                new ChunkData(K5NaturalTreeProvenance.SCHEMA_VERSION, Set.of(log.asLong())));
+        var observer = ctx.makeMockServerPlayerInLevel();
+        observer.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        level.explode(null, log.getX() + 0.5, log.getY() + 0.5, log.getZ() + 0.5, 4.0F,
+                net.minecraft.world.level.Level.ExplosionInteraction.TNT);
+        ctx.assertTrue(!level.getBlockState(log).is(net.minecraft.tags.BlockTags.LOGS),
+                "vanilla explosion actually destroyed the marked log");
+        ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, log),
+                "explosion destruction consumes the original position marker");
+        ctx.assertTrue(KnowledgeRuntime.state(observer).get("condition.natural_vanilla_logs_mined") == 0,
+                "explosion destruction cannot grant direct-mining credit");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k5ProgressSurvivesVanillaRespawn(GameTestHelper ctx) {
+        var original = ctx.makeMockServerPlayerInLevel();
+        original.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        KnowledgeRuntime.recordCondition(original, "natural_vanilla_logs_mined", 37);
+        ctx.assertTrue(KnowledgeRuntime.state(original).get("condition.natural_vanilla_logs_mined") == 37,
+                "K5 condition is attached to the original server player");
+        var respawned = ctx.getLevel().getServer().getPlayerList().respawn(
+                original, false, net.minecraft.world.entity.Entity.RemovalReason.KILLED);
+        ctx.assertTrue(respawned != original, "vanilla respawn constructed a new server player");
+        ctx.assertTrue(KnowledgeRuntime.state(respawned).get("condition.natural_vanilla_logs_mined") == 37,
+                "persistent Knowledge attachment copied K5 progress across death");
         ctx.succeed();
     }
 

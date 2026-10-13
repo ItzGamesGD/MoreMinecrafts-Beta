@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 abstract class ChunkMapPersistenceProbeMixin {
     @WrapMethod(method = "save(Lnet/minecraft/world/level/chunk/ChunkAccess;)Z")
     private boolean moreminecrafts$observeMarkedChunkSave(ChunkAccess chunk, Operation<Boolean> original) {
-        K5NaturalTreeProbe.ChunkData data = K5NaturalTreeProbe.data(chunk);
+        dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance.ChunkData data = K5NaturalTreeProbe.data(chunk);
         boolean hasMarkers = data != null && !data.positions().isEmpty();
         boolean saved = original.call(chunk);
         if (saved && hasMarkers) K5NaturalTreeProbe.recordSuccessfulChunkSaveWithMarkers();

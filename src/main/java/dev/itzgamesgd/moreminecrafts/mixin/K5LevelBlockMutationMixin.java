@@ -1,17 +1,17 @@
-package dev.itzgamesgd.moreminecrafts.k5probe.mixin;
+package dev.itzgamesgd.moreminecrafts.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbe;
+import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-/** Test-only removal hook ensures stale markers cannot survive a block replacement. */
+/** Production removal hook ensures stale markers cannot survive a block replacement. */
 @Mixin(Level.class)
-abstract class LevelBlockMutationProbeMixin {
+abstract class K5LevelBlockMutationMixin {
     @Shadow
     public abstract BlockState getBlockState(BlockPos pos);
 
@@ -21,7 +21,7 @@ abstract class LevelBlockMutationProbeMixin {
         BlockState previous = this.getBlockState(pos);
         boolean changed = original.call(pos, state, updateFlags, updateLimit);
         if (changed && !previous.equals(state)) {
-            K5NaturalTreeProbe.invalidatePosition((Level) (Object) this, pos);
+            K5NaturalTreeProvenance.invalidatePosition((Level) (Object) this, pos);
         }
         return changed;
     }

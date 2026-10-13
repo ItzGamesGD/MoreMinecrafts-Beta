@@ -62,6 +62,7 @@ public final class KnowledgeRuntime {
     }
 
     public static void initialize() {
+        K5NaturalTreeProvenance.initialize();
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
             SILENT_RECONCILIATION.add(player.getUUID());
@@ -230,6 +231,13 @@ public final class KnowledgeRuntime {
         }
     }
 
+    /** Called only after the server has removed one marked natural vanilla log. */
+    public static void recordK5NaturalLogMined(ServerPlayer player) {
+        if (player.gameMode.getGameModeForPlayer() != net.minecraft.world.level.GameType.SURVIVAL) return;
+        recordCondition(player, "natural_vanilla_logs_mined",
+                value(player, "condition.natural_vanilla_logs_mined") + 1);
+    }
+
     /** Record one unique discovered ID (species, biome, structure, item type, etc.) exactly once. */
     public static void recordDistinctCondition(ServerPlayer player, String conditionKey, String discoveredId) {
         if (conditionKey == null || discoveredId == null || discoveredId.isBlank()) return;
@@ -319,7 +327,7 @@ public final class KnowledgeRuntime {
         observeTypes(p, "brewing_ingredients_acquired", List.of(Items.NETHER_WART, Items.BLAZE_POWDER,
                 Items.REDSTONE, Items.GLOWSTONE_DUST, Items.GHAST_TEAR, Items.MAGMA_CREAM,
                 Items.SPIDER_EYE, Items.PUFFERFISH, Items.GOLDEN_CARROT, Items.RABBIT_FOOT));
-        // K5 progress is paused because generic log statistics have no tree-size provenance.
+        // K5 advances only from successful direct mining of persisted natural tree markers.
         recordCondition(p, "chests_crafted", crafted(p, Items.CHEST));
         for (Item food : foodItems) {
             if (crafted(p, food) > 0)
