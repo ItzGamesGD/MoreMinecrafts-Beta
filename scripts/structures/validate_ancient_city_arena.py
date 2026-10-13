@@ -3,7 +3,7 @@
 from collections import Counter
 import json
 import nbtlib
-from generate_ancient_city_arena import ROOT, OUTPUT, SIZE, DATA_VERSION, build
+from generate_ancient_city_arena import ROOT, OUTPUT, SIZE, DATA_VERSION
 
 
 def main():
@@ -29,6 +29,17 @@ def main():
         if name == "minecraft:jigsaw":
             jigsaws.append(block)
     assert len(jigsaws) == 1
+    solid = {pos for pos, name in positions.items() if name != "minecraft:air"}
+    pending = [next(iter(solid))]
+    reached = set(pending)
+    while pending:
+        x, y, z = pending.pop()
+        for neighbor in ((x + 1, y, z), (x - 1, y, z), (x, y + 1, z),
+                         (x, y - 1, z), (x, y, z + 1), (x, y, z - 1)):
+            if neighbor in solid and neighbor not in reached:
+                reached.add(neighbor)
+                pending.append(neighbor)
+    assert reached == solid, f"Detached authored blocks: {sorted(solid - reached)}"
     assert str(jigsaws[0]["nbt"]["name"]) == "minecraft:connect_structure"
     assert positions[18, 1, 18] == "minecraft:air"
     for x in range(19):
