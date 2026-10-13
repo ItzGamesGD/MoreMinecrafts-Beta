@@ -8,6 +8,7 @@
     "FeaturePlacerProbeMixin",
     "LevelBlockMutationProbeMixin",
     "ChunkMapPersistenceProbeMixin",
+    "ServerLevelUnloadProbeMixin",
     "TreeGrowerProbeMixin"
   ],
   "injectors": {
