@@ -192,28 +192,109 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     public void k5PlayerGrownTwoByTwoSpruceTreeIsNotTagged(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         BlockPos origin = ctx.absolutePos(new BlockPos(2, 1, 2));
-        for (int x = 0; x < 4; x++)
-            for (int z = 0; z < 4; z++)
-                level.setBlock(origin.offset(x, -1, z), Blocks.DIRT.defaultBlockState(), 3);
         SaplingBlock sapling = (SaplingBlock) Blocks.SPRUCE_SAPLING;
         var matureSapling = sapling.defaultBlockState().setValue(SaplingBlock.STAGE, 1);
-        level.setBlock(origin, matureSapling, 3);
-        level.setBlock(origin.east(), matureSapling, 3);
-        level.setBlock(origin.south(), matureSapling, 3);
-        level.setBlock(origin.east().south(), matureSapling, 3);
-        sapling.advanceTree(level, origin, matureSapling, RandomSource.create(0L));
+        long successfulSeed = -1L;
+        int baseTrunkLogs = 0;
+        int totalSpruceLogs = 0;
 
-        int generatedLogCount = 0;
-        for (int x = -1; x <= 5; x++)
-            for (int z = -1; z <= 5; z++)
-                for (int y = 1; y <= 64; y++)
-                    if (level.getBlockState(origin.offset(x, y - 1, z)).is(net.minecraft.tags.BlockTags.LOGS))
-                        generatedLogCount++;
-        ctx.assertTrue(generatedLogCount >= 4,
-                "the 2x2 sapling path generated a real tree trunk through TreeGrower.growTree");
+        // TreeGrower selects a mega feature from its RNG. Search a fixed seed sequence,
+        // restoring identical support and four mature saplings before each actual growth call.
+        for (long seed = 0; seed < 32 && baseTrunkLogs < 4; seed++) {
+            for (int x = -1; x <= 5; x++) {
+                for (int z = -1; z <= 5; z++) {
+                    for (int y = 1; y <= 48; y++) {
+                        level.setBlock(origin.offset(x, y - 1, z), Blocks.AIR.defaultBlockState(), 3);
+                    }
+                    level.setBlock(origin.offset(x, -1, z), Blocks.DIRT.defaultBlockState(), 3);
+                }
+            }
+            level.setBlock(origin, matureSapling, 3);
+            level.setBlock(origin.east(), matureSapling, 3);
+            level.setBlock(origin.south(), matureSapling, 3);
+            level.setBlock(origin.east().south(), matureSapling, 3);
+
+            sapling.advanceTree(level, origin, matureSapling, RandomSource.create(seed));
+
+            baseTrunkLogs = 0;
+            totalSpruceLogs = 0;
+            for (int x = -1; x <= 5; x++) {
+                for (int z = -1; z <= 5; z++) {
+                    for (int y = 1; y <= 48; y++) {
+                        BlockPos pos = origin.offset(x, y - 1, z);
+                        if (level.getBlockState(pos).is(Blocks.SPRUCE_LOG)) {
+                            totalSpruceLogs++;
+                            if ((x == 0 || x == 1) && (z == 0 || z == 1) && y == 1) {
+                                baseTrunkLogs++;
+                            }
+                        }
+                    }
+                }
+            }
+            if (baseTrunkLogs == 4) successfulSeed = seed;
+        }
+
+        System.out.println("K5_SAPLING_2X2 seed=" + successfulSeed
+                + " baseTrunkLogs=" + baseTrunkLogs + " totalSpruceLogs=" + totalSpruceLogs);
+        ctx.assertTrue(successfulSeed >= 0 && baseTrunkLogs == 4 && totalSpruceLogs >= 4,
+                "the real SaplingBlock.advanceTree -> TreeGrower.growTree path grew a 2x2 spruce trunk");
         ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(origin));
         ctx.assertTrue(data == null || data.positions().isEmpty(),
                 "sapling TreeGrower direct Feature.place calls did not enter natural-biome scope");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k5BonemealGrownTreeIsNotTagged(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos soil = ctx.absolutePos(new BlockPos(2, 1, 2));
+        BlockPos saplingPos = soil.above();
+        level.setBlock(soil, Blocks.DIRT.defaultBlockState(), 3);
+        level.setBlock(saplingPos, Blocks.OAK_SAPLING.defaultBlockState()
+                .setValue(SaplingBlock.STAGE, 1), 3);
+        var player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BONE_MEAL, 64));
+        var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(saplingPos),
+                net.minecraft.core.Direction.UP, saplingPos, false);
+
+        for (int attempt = 0; attempt < 64 && level.getBlockState(saplingPos).is(Blocks.OAK_SAPLING); attempt++) {
+            player.getMainHandItem().useOn(new net.minecraft.world.item.context.UseOnContext(
+                    player, net.minecraft.world.InteractionHand.MAIN_HAND, hit));
+        }
+        int logs = 0;
+        for (int x = -1; x <= 4; x++) {
+            for (int z = -1; z <= 4; z++) {
+                for (int y = 1; y <= 40; y++) {
+                    if (level.getBlockState(saplingPos.offset(x, y, z)).is(net.minecraft.tags.BlockTags.LOGS)) logs++;
+                }
+            }
+        }
+        ctx.assertTrue(logs > 0, "vanilla bone-meal use grew a real oak sapling tree");
+        ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(saplingPos));
+        ctx.assertTrue(data == null || data.positions().isEmpty(), "bonemeal TreeGrower placement is outside natural decoration");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k5PlayerPlacedLogIsNotTagged(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos support = ctx.absolutePos(new BlockPos(2, 1, 2));
+        level.setBlock(support, Blocks.STONE.defaultBlockState(), 3);
+        var player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.OAK_LOG, 1));
+        var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(support),
+                net.minecraft.core.Direction.UP, support, false);
+        var result = player.getMainHandItem().useOn(new net.minecraft.world.item.context.UseOnContext(
+                player, net.minecraft.world.InteractionHand.MAIN_HAND, hit));
+        BlockPos placedPos = support.above();
+        ctx.assertTrue(result.consumesAction() && level.getBlockState(placedPos).is(Blocks.OAK_LOG),
+                "ordinary Survival item use placed a real oak log");
+        ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(placedPos));
+        ctx.assertTrue(data == null || data.positions().isEmpty(), "a player item placement has no natural worldgen scope");
         ctx.succeed();
     }
 
