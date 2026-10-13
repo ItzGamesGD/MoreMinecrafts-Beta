@@ -6,6 +6,11 @@ import java.util.Set;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -16,6 +21,28 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 
 /** Runtime-only checks for the diagnostic hooks. These tests never touch Knowledge state. */
 public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoker {
+    @GameTest
+    public void k5PlacedFeatureIdentityRejectsModdedAndUnknownSources(GameTestHelper ctx) {
+        ResourceKey<PlacedFeature> ordinaryVanilla =
+                ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath("minecraft", "trees_plains"));
+        ResourceKey<PlacedFeature> vanillaLargeTreeBiome =
+                ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath("minecraft", "trees_dark_forest"));
+        ResourceKey<PlacedFeature> moddedSource =
+                ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath("examplemod", "custom_tree"));
+
+        ctx.assertTrue(K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, Feature.TREE),
+                "registered vanilla placed-feature identity plus vanilla TreeFeature is eligible");
+        ctx.assertTrue(K5NaturalTreeProbe.isEligibleTreeIdentity(vanillaLargeTreeBiome, Feature.TREE),
+                "vanilla large-tree biome feature identity plus vanilla TreeFeature is eligible");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(moddedSource, Feature.TREE),
+                "a mod namespace cannot authorize a vanilla TreeFeature");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, Feature.ORE),
+                "a non-tree vanilla feature cannot authorize tree provenance");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(null, Feature.TREE),
+                "unknown or unregistered feature identity fails closed");
+        ctx.succeed();
+    }
+
     @GameTest
     public void k5NaturalBiomeDecorationHookRunsAndRestoresScope(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
