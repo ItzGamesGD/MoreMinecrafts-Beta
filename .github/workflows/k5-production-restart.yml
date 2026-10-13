@@ -35,7 +35,7 @@ jobs:
         run: |
           set -o pipefail
           ./gradlew runGameTest --no-daemon 2>&1 | tee k5-restart-write.log
-          rg 'K5_RESTART_WRITE' k5-restart-write.log
+          grep -F 'K5_RESTART_WRITE' k5-restart-write.log
       - name: Process B reloads the same world and player from disk
         env:
           JAVA_TOOL_OPTIONS: >-
@@ -44,7 +44,7 @@ jobs:
         run: |
           set -o pipefail
           ./gradlew runGameTest --no-daemon 2>&1 | tee k5-restart-read.log
-          rg 'K5_RESTART_READ' k5-restart-read.log
+          grep -F 'K5_RESTART_READ' k5-restart-read.log
       - name: Upload focused logs and manifest
         if: always()
         uses: actions/upload-artifact@v4
