@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "dev.itzgamesgd.moreminecrafts.k5probe.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "ChunkGeneratorProbeMixin",
+    "TreeFeatureProbeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

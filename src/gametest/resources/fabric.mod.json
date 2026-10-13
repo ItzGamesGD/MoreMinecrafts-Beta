@@ -20,6 +20,9 @@
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests"
     ]
   },
+  "mixins": [
+    "moreminecrafts-k5probe.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.5",
     "minecraft": ">=26.3 <26.4",

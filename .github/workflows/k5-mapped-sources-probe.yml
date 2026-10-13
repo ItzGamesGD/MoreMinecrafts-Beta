@@ -8,6 +8,7 @@ on:
       - 'build.gradle'
       - 'settings.gradle'
       - 'gradle/**'
+      - 'src/gametest/**'
   workflow_dispatch:
 
 permissions:
@@ -88,6 +89,8 @@ jobs:
               jar = class_jars.get(name)
               if jar:
                   out = subprocess.run(["javap", "-classpath", str(jar), "-p", "-s", name], text=True, capture_output=True, check=True).stdout.splitlines()
+                  if name.endswith("ChunkAccess"):
+                      report.append(f"  DECLARATION {out[0].strip() if out else '<missing>'}")
                   for i, line in enumerate(out):
                       if any(re.search(rf"\b{method}\s*\(", line) for method in method_names):
                           descriptor = out[i + 1].strip() if i + 1 < len(out) else "<descriptor missing>"
