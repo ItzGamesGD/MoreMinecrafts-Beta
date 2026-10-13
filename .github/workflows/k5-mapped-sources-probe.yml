@@ -45,10 +45,13 @@ jobs:
 
           targets = {
               "net.minecraft.world.level.chunk.ChunkGenerator": ["applyBiomeDecoration"],
-              "net.minecraft.world.level.chunk.ChunkAccess": ["getPos"],
+              "net.minecraft.world.level.chunk.ChunkAccess": ["getPos", "getSection", "getSections"],
+              "net.minecraft.world.level.chunk.LevelChunkSection": ["setBiome", "getNoiseBiome"],
               "net.minecraft.resources.ResourceKey": ["identifier", "location", "registry"],
               "net.minecraft.resources.Identifier": ["getNamespace", "namespace", "getPath", "path"],
-              "net.minecraft.core.Registry": ["getKey", "getResourceKey"],
+              "net.minecraft.core.Registry": ["getKey", "getResourceKey", "get", "getHolderOrThrow"],
+              "net.minecraft.world.level.levelgen.FlatLevelSource": ["getBiomeGenerationSettings"],
+              "net.minecraft.world.level.biome.BiomeGenerationSettings": ["features", "getFeatures"],
               "net.minecraft.core.registries.Registries": ["FEATURE", "PLACED_FEATURE"],
               "net.minecraft.world.level.levelgen.feature.Feature": ["place", "codec"],
               "net.minecraft.world.level.chunk.storage.ChunkSerializer": ["write", "read"],
