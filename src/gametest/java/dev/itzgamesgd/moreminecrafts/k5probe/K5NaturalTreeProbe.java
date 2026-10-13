@@ -27,6 +27,8 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 /** GameTest-only diagnostic storage. It never updates K5 or any player progression. */
 public final class K5NaturalTreeProbe {
     public static final int SCHEMA_VERSION = 1;
+    private static final Identifier VANILLA_TREE_FEATURE_ID =
+            Identifier.fromNamespaceAndPath("minecraft", "tree");
     private static final Codec<List<Long>> POSITIONS_CODEC = Codec.LONG.listOf();
     public static final Codec<ChunkData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("schema_version").forGetter(ChunkData::schemaVersion),
@@ -77,7 +79,9 @@ public final class K5NaturalTreeProbe {
 
     public static boolean isEligibleTreeIdentity(Identifier placedFeatureKey, Identifier treeFeatureKey,
             boolean isTreeFeature) {
-        return isVanillaNamespace(placedFeatureKey) && isVanillaNamespace(treeFeatureKey) && isTreeFeature;
+        return isVanillaNamespace(placedFeatureKey)
+                && VANILLA_TREE_FEATURE_ID.equals(treeFeatureKey)
+                && isTreeFeature;
     }
 
     public static boolean hasEligiblePlacedFeatureScope() {
