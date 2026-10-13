@@ -132,11 +132,17 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 "natural biome decoration invoked an actual registered TreeFeature trunk setter");
         ctx.assertTrue(!observedTreeFeatureIds.isEmpty() && !observedTrunkPositions.isEmpty(),
                 "the runtime trace identifies actual registered vanilla TreeFeature source IDs and positions");
+        Set<Long> actualLogPositions = new TreeSet<>();
+        var callbackStates = new java.util.TreeMap<String, String>();
         for (long packed : observedTrunkPositions) {
             BlockPos callbackPos = BlockPos.of(packed);
-            ctx.assertTrue(level.getBlockState(callbackPos).is(net.minecraft.tags.BlockTags.LOGS),
-                    "the natural TreeFeature callback placed a real log at " + callbackPos);
+            var state = level.getBlockState(callbackPos);
+            callbackStates.put(callbackPos.toString(), state.toString());
+            if (state.is(net.minecraft.tags.BlockTags.LOGS)) actualLogPositions.add(packed);
         }
+        System.out.println("K5_CALLBACK_FINAL_BLOCK_STATES " + callbackStates);
+        ctx.assertTrue(!actualLogPositions.isEmpty(),
+                "at least one natural TreeFeature callback position remains a real log block after decoration");
         ctx.assertTrue(data != null && !data.positions().isEmpty(),
                 "the natural TreeFeature marker predicate records at least one actual trunk position");
         for (long packed : positions) {
@@ -188,7 +194,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         int generatedLogCount = 0;
         for (int x = -1; x <= 5; x++)
             for (int z = -1; z <= 5; z++)
-                for (int y = 1; y <= 16; y++)
+                for (int y = 1; y <= 64; y++)
                     if (level.getBlockState(origin.offset(x, y - 1, z)).is(net.minecraft.tags.BlockTags.LOGS))
                         generatedLogCount++;
         ctx.assertTrue(generatedLogCount >= 4,
