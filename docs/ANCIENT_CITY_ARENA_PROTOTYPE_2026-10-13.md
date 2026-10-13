@@ -105,6 +105,12 @@ Native screenshots: `arena-validation-results/arena-camera-0.png` and
 [Workflow and artifact](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38345195208).
 The artifact includes worldgen JSON, server/client logs, test reports and mod JARs.
 
+The reviewed screenshots are also committed here so they display with the PR:
+
+![Ancient City Arena overview](images/ancient-city-arena/arena-camera-0.png)
+
+![Ancient City Arena interior and fighting floor](images/ancient-city-arena/arena-camera-1.png)
+
 Final visual inspection: the overview shows an identifiable arena ring in an
 existing city, stepped seating, supported masonry, a lower broken sector, and
 wool paths meeting the city. The interior view clearly shows the dry fighting
@@ -132,6 +138,8 @@ seeds, not a guarantee of placement quality in every possible cave.
 
 - `.github/workflows/ancient-city-arena-validation.yml`
 - `docs/ANCIENT_CITY_ARENA_PROTOTYPE_2026-10-13.md`
+- `docs/images/ancient-city-arena/arena-camera-0.png`
+- `docs/images/ancient-city-arena/arena-camera-1.png`
 - `scripts/arena_validation/capture_client.sh`
 - `scripts/arena_validation/check_screenshots.py`
 - `scripts/arena_validation/rcon.py`
