@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "ChunkGeneratorProbeMixin",
-    "TreeFeatureProbeMixin"
+    "TreeFeatureProbeMixin",
+    "FeaturePlacerProbeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
