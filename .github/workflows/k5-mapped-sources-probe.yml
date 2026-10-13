@@ -150,7 +150,7 @@ jobs:
                   if name.endswith("ServerChunkCache"):
                       matches = [i for i, line in enumerate(lines) if "addTicketWithRadius" in line or "removeTicketWithRadius" in line]
                   elif name.endswith(("GameTestHelper", "GameTestSequence")):
-                      matches = [i for i, line in enumerate(lines) if any(re.search(rf"\\b{method}\\s*\\(", line) for method in method_names)]
+                      matches = [i for i, line in enumerate(lines) if any(method in line and "(" in line for method in method_names)]
                   else:
                       matches = [i for i, line in enumerate(lines) if any(re.search(rf"\b{method}\s*\(", line) for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature", "configuredFeature.place(", ".place(")) or (name.endswith("TicketType") and ("UNKNOWN" in line or "FORCED" in line or "create(" in line))]
                   emitted = set()
