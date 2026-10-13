@@ -85,6 +85,7 @@ jobs:
           jars = sorted({p for root in roots if root.exists() for p in root.rglob("*.jar")})
           class_jars, source_jars = {}, {}
           dynamic_basenames = {"PlacedFeature.class", "ConfiguredFeature.class", "FeaturePlacer.class", "MegaPineTrunkPlacer.class", "AttachmentType.class", "AttachmentTarget.class", "ChunkAttachment.class", "ChunkDataAttachment.class", "ChunkSerializer.class", "ChunkStorage.class", "ChunkMap.class"}
+          trunk_placer_prefix = "net/minecraft/world/level/levelgen/feature/trunkplacers/"
           for jar in jars:
               try:
                   with zipfile.ZipFile(jar) as archive:
@@ -96,7 +97,9 @@ jobs:
                           if entry + ".java" in names:
                               source_jars.setdefault(name, (jar, entry + ".java"))
                       for entry in names:
-                          if entry.endswith(".class") and entry.rsplit("/", 1)[-1] in dynamic_basenames:
+                          basename = entry.rsplit("/", 1)[-1]
+                          is_trunk_placer = entry.startswith(trunk_placer_prefix) and basename.endswith("TrunkPlacer.class")
+                          if entry.endswith(".class") and (basename in dynamic_basenames or is_trunk_placer):
                               name = entry[:-6].replace("/", ".")
                               class_jars.setdefault(name, jar)
                               source_entry = entry[:-6] + ".java"
@@ -108,7 +111,7 @@ jobs:
           report = []
           dynamic_classes = set(class_jars) - set(targets)
           for name in sorted(set(targets) | dynamic_classes):
-              method_names = targets.get(name, ["place", "placeWithBiomeCheck", "placeFeature", "generate"])
+              method_names = targets.get(name, ["placeTrunk", "getTreeHeight", "getType", "TrunkPlacer"])
               report.append(f"CLASS {name}")
               jar = class_jars.get(name)
               if jar:
