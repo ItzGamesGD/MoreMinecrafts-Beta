@@ -44,8 +44,7 @@ jobs:
 
           targets = {
               "net.minecraft.world.level.chunk.ChunkGenerator": ["applyBiomeDecoration"],
-              "net.minecraft.world.level.levelgen.placement.PlacedFeature": ["placeWithBiomeCheck"],
-              "net.minecraft.world.level.levelgen.feature.ConfiguredFeature": ["place"],
+              "net.minecraft.world.level.levelgen.placement.PlacedFeature": ["place", "placeWithBiomeCheck"],
               "net.minecraft.world.level.levelgen.feature.Feature": ["place"],
               "net.minecraft.world.level.levelgen.feature.TreeFeature": ["place", "doPlace"],
               "net.minecraft.world.level.block.grower.TreeGrower": ["growTree", "getConfiguredFeature"],
@@ -54,6 +53,7 @@ jobs:
           roots = [Path(".gradle"), Path.home() / ".gradle/caches/fabric-loom"]
           jars = sorted({p for root in roots if root.exists() for p in root.rglob("*.jar")})
           class_jars, source_jars = {}, {}
+          dynamic_basenames = {"PlacedFeature.class", "ConfiguredFeature.class", "FeaturePlacer.class"}
           for jar in jars:
               try:
                   with zipfile.ZipFile(jar) as archive:
@@ -64,11 +64,20 @@ jobs:
                               class_jars.setdefault(name, jar)
                           if entry + ".java" in names:
                               source_jars.setdefault(name, (jar, entry + ".java"))
+                      for entry in names:
+                          if entry.endswith(".class") and entry.rsplit("/", 1)[-1] in dynamic_basenames:
+                              name = entry[:-6].replace("/", ".")
+                              class_jars.setdefault(name, jar)
+                              source_entry = entry[:-6] + ".java"
+                              if source_entry in names:
+                                  source_jars.setdefault(name, (jar, source_entry))
               except (OSError, zipfile.BadZipFile):
                   continue
 
           report = []
-          for name, method_names in targets.items():
+          dynamic_classes = set(class_jars) - set(targets)
+          for name in sorted(set(targets) | dynamic_classes):
+              method_names = targets.get(name, ["place", "placeWithBiomeCheck", "placeFeature", "generate"])
               report.append(f"CLASS {name}")
               jar = class_jars.get(name)
               if jar:
@@ -84,10 +93,16 @@ jobs:
                   archive_path, entry = source
                   with zipfile.ZipFile(archive_path) as archive:
                       lines = archive.read(entry).decode("utf-8", "replace").splitlines()
-                  for number, line in enumerate(lines, 1):
-                      if any(method in line for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature")):
-                          if "(" in line or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature")):
-                              report.append(f"  SOURCE {entry}:{number}: {line.strip()}")
+                  matches = [i for i, line in enumerate(lines) if any(re.search(rf"\b{method}\s*\(", line) for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature", "configuredFeature.place("))]
+                  emitted = set()
+                  for match in matches:
+                      for i in range(max(0, match - 2), min(len(lines), match + 4)):
+                          if i not in emitted:
+                              report.append(f"  SOURCE {entry}:{i + 1}: {lines[i].strip()}")
+                              emitted.add(i)
+                      if len(emitted) >= 80:
+                          report.append("  SOURCE CONTEXT TRUNCATED AT 80 LINES")
+                          break
               else:
                   report.append("  SOURCE FILE NOT FOUND IN GENERATED MAPPED JARS")
           print("\n".join(report))
