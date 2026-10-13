@@ -15,7 +15,7 @@ abstract class ChunkGeneratorProbeMixin {
     @WrapMethod(method = "applyBiomeDecoration(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/world/level/StructureManager;)V")
     private void moreminecrafts$probeNaturalBiomeDecoration(WorldGenLevel level, ChunkAccess chunk,
             StructureManager structureManager, Operation<Void> original) {
-        K5NaturalTreeProbe.enterNaturalBiomeDecoration();
+        K5NaturalTreeProbe.enterNaturalBiomeDecoration(level.registryAccess());
         try {
             original.call(level, chunk, structureManager);
         } finally {
