@@ -22,12 +22,29 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         BlockPos origin = ctx.absolutePos(new BlockPos(1, 1, 1));
         ChunkAccess chunk = level.getChunkAt(origin);
         long callsBefore = K5NaturalTreeProbe.biomeDecorationCalls();
+        long trunkWritesBefore = K5NaturalTreeProbe.naturalTrunkWrites();
         level.getChunkSource().getGenerator().applyBiomeDecoration((WorldGenLevel) level, chunk,
                 level.structureManager());
         ctx.assertTrue(K5NaturalTreeProbe.biomeDecorationCalls() == callsBefore + 1,
                 "the mapped ChunkGenerator.applyBiomeDecoration hook observed this real runtime call");
+        ctx.assertTrue(K5NaturalTreeProbe.naturalTrunkWrites() > trunkWritesBefore,
+                "natural biome decoration executed TreeFeature trunk callbacks that wrote real log blocks");
         ctx.assertTrue(!K5NaturalTreeProbe.isNaturalBiomeDecoration(),
                 "natural-generation scope is cleared after the generation call");
+
+        ChunkData data = K5NaturalTreeProbe.data(chunk);
+        ctx.assertTrue(data != null && !data.positions().isEmpty(),
+                "at least one actual natural TreeFeature trunk-write position was marked");
+        for (long packed : data.positions()) {
+            BlockPos markedPos = BlockPos.of(packed);
+            ctx.assertTrue(level.getBlockState(markedPos).is(net.minecraft.tags.BlockTags.LOGS),
+                    "every positive marker resolves to an existing log block");
+        }
+
+        BlockPos playerLog = ctx.absolutePos(new BlockPos(15, 28, 15));
+        level.setBlock(playerLog, Blocks.OAK_LOG.defaultBlockState(), 3);
+        ctx.assertTrue(!data.positions().contains(playerLog.asLong()),
+                "a player-placed log outside the natural tree setter remains unmarked");
         ctx.succeed();
     }
 
