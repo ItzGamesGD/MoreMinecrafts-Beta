@@ -72,7 +72,7 @@ public final class K5NaturalTreeProbe {
     }
 
     public static boolean isEligibleTreeIdentity(ResourceKey<?> placedFeatureKey, Feature<?> feature) {
-        return isVanillaNamespace(placedFeatureKey) && feature == Feature.TREE;
+        return placedFeatureKey != null && isVanillaNamespace(placedFeatureKey) && feature == Feature.TREE;
     }
 
     public static boolean hasEligiblePlacedFeatureScope() {
