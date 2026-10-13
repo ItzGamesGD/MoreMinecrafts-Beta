@@ -91,7 +91,7 @@ This section supersedes the earlier local-network blocker and the earlier “pro
 
 ## 2026-10-13 final technical validation
 
-This review re-fetched PR #82 at head `9e3d486652eddb1f150e101e4e27da05adb1513e`, PR #80 at `1a17f8e77792ab1b106d92ac03fe10c86227d599`, and PR #81 at `be0b6c7874a5c78e4e87fee4431c2a1c78ae3c86`. PR #81's approved section still defines K5 as 200 naturally world-generated vanilla tree log blocks directly mined by a Survival player. No authority conflict was found. No K5 progress or unlock path was enabled.
+This review re-fetched PR #82 at code head `b52e68f87f1e47b4f01ae172d51db82690611c87`, PR #80 at `1a17f8e77792ab1b106d92ac03fe10c86227d599`, and PR #81 at `be0b6c7874a5c78e4e87fee4431c2a1c78ae3c86`. PR #81's approved section still defines K5 as 200 naturally world-generated vanilla tree log blocks directly mined by a Survival player. No authority conflict was found. No K5 progress or unlock path was enabled.
 
 ### Gate results
 
@@ -99,13 +99,13 @@ This review re-fetched PR #82 at head `9e3d486652eddb1f150e101e4e27da05adb1513e`
 |---|---|---|
 | Deterministic positive natural-tree detection | **UNVERIFIED** | The updated GameTest calls the mapped `ChunkGenerator.applyBiomeDecoration` on a real test-world chunk. The test requires actual `TreeFeature` trunk callbacks, a nonempty position attachment, and each marked position to resolve to a current log block. It passed in the successful Actions attempt below. A fixed seed/biome fixture is not pinned, so the positive case is not yet deterministic across independently created test worlds. |
 | Vanilla feature identity | **UNVERIFIED** | The diagnostic now resolves actual registry identifiers through `Registry.getKey`: both the top-level `PlacedFeature` and the `Feature` used by the trunk callback must have the `minecraft` namespace, and the feature implementation must be `TreeFeature`. Missing registry keys fail closed. The GameTest exercises vanilla, mod namespace, non-tree, and unknown predicate cases, and the positive worldgen test uses live registry lookups. A custom/test-registered `TreeFeature` instance and each vanilla large-tree variant have not been exercised through live registry generation. |
-| Persistent position provenance | **UNVERIFIED** | The test verifies that changing/removing a marked block removes its marker and replacing that position with a player-placed log does not restore it. Fabric's persistent chunk attachment and the actual Minecraft save/unload source path are confirmed below, but no GameTest has unloaded/reloaded the marked chunk or restarted the server and read the marker back from disk. |
+| Persistent position provenance | **UNVERIFIED** | The test verifies that changing/removing a marked block removes its marker and replacing that position with a player-placed log does not restore it. The test calls `ServerChunkCache.save(true)` and a test-only wrapper confirms `ChunkMap.save(ChunkAccess)` successfully saved a chunk carrying the marker. This exercises Minecraft's real save path; no GameTest has yet unloaded/reloaded the marked chunk or restarted the server and read the marker back from disk. |
 
 The successful positive test is evidence that the current GameTest world generated and marked a real natural tree on that run. It does not close the determinism gate because the test does not set a fixed world seed and biome.
 
 ### Verified Minecraft 26.3 mapped APIs
 
-Mapped-source Actions run [#38357453531](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38357453531) passed `genSources` and its focused signature/source inspection. Its 6,687-byte artifact contains only selected API signatures/source excerpts and logs; no Minecraft source archive was uploaded.
+Mapped-source Actions run [#38358044976](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358044976) passed `genSources` and its focused signature/source inspection. Its 6,688-byte artifact contains only selected API signatures/source excerpts and logs; no Minecraft source archive was uploaded.
 
 Verified declarations and call-path evidence:
 
@@ -116,7 +116,7 @@ Verified declarations and call-path evidence:
 - `Registry.getKey(T): Identifier` — `(Ljava/lang/Object;)Lnet/minecraft/resources/Identifier;`. This Minecraft 26.3 version uses the non-generic `Feature` interface and a concrete `TreeFeature`; it does not expose the older `Feature.TREE` constant or `ResourceKey.location()`. The initial compile exposed these mapping differences; the implementation was corrected to use the resolved registry API.
 - `WorldGenLevel.setCurrentlyGenerating(Supplier<String>): void` is present, but its interface default is empty. The probe therefore uses the verified `FeaturePlacer` invocation and registry lookups rather than treating that string as authentication.
 - Sapling source remains distinct: `SaplingBlock.advanceTree(ServerLevel, BlockPos, BlockState, RandomSource): void` calls `TreeGrower.growTree(...): boolean`, which calls `Feature.place` directly and does not use `ChunkGenerator.applyBiomeDecoration` or `FeaturePlacer.placeWithBiomeCheck`.
-- Persistent save/unload source: `ServerChunkCache.save(boolean): void` calls `ChunkMap.saveAllChunks(boolean)`; `ChunkMap.scheduleUnload(long, ChunkHolder)` saves a chunk and invokes `ServerLevel.unload(LevelChunk)`; the mapped `ChunkMap.scheduleChunkLoad` path reads chunk data and parses `SerializableChunkData`. These are source findings, not runtime persistence evidence.
+- Persistent save/unload source: `ServerChunkCache.save(boolean): void` calls `ChunkMap.saveAllChunks(boolean)`; `ChunkMap.scheduleUnload(long, ChunkHolder)` saves a chunk and invokes `ServerLevel.unload(LevelChunk)`; the mapped `ChunkMap.scheduleChunkLoad` path reads chunk data and parses `SerializableChunkData`. The test observes the `ChunkMap.save` write path at runtime, but has not yet tested reload or restart persistence.
 
 The local `./gradlew genSources` attempt remains blocked before Gradle startup because the sandbox denies downloading the Gradle 9.6.0 distribution (`SocketException: Operation not permitted`). The hosted Actions source job completed successfully; this local restriction is not counted as a failed source inspection.
 
@@ -131,20 +131,20 @@ All new hooks remain in `src/gametest` and the GameTest-only Mixin configuration
 - The test-only `Level.setBlock(BlockPos, BlockState, int, int): boolean` wrapper invalidates a marker after a successful state change. Empty chunk attachments are removed. This prevents a placed log at a consumed position from reusing an old marker.
 - Ordinary sapling growth remains outside the biome-decoration / placed-feature scope.
 
-Chunk lifecycle cleanup and persistence remain incomplete until an actual storage round trip is tested. The next diagnostic step is to drive a marked, non-player-ticketed chunk through Minecraft's `ChunkMap` save, unload, and reload path in GameTest, then assert marker preservation. Repeat with a removed marker and a player-placed replacement, and add a two-process server restart check if the Gradle GameTest server supports reusing a world directory.
+Chunk lifecycle cleanup and persistence remain incomplete until an actual storage read/write round trip is tested. The next diagnostic step is to drive a marked, non-player-ticketed chunk through Minecraft's `ChunkMap` save, unload, and reload path in GameTest, then assert marker preservation. Repeat with a removed marker and a player-placed replacement, and add a two-process server restart check if the Gradle GameTest server supports reusing a world directory.
 
 ### Runtime and CI results
 
-Full Fabric CI run [#38357453423](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38357453423), on probe code head `9e3d486652eddb1f150e101e4e27da05adb1513e), passed on the successful retry:
+Full Fabric CI run [#38358044989](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358044989), on probe code head `b52e68f87f1e47b4f01ae172d51db82690611c87`, passed:
 
 - `./gradlew clean test build compileGametestJava runGameTest` completed with `BUILD SUCCESSFUL`.
 - JUnit `test`, production build, GameTest compilation and runtime completed.
 - GameTest server reported **all 68 required tests passed**.
-- The first attempt at the same run failed one unrelated existing mob GameTest assertion (`CustomMobGameTests.allRosterEntriesRegisterAttributesAndInstantiate`, catalog stat multiplier assertion). The build job was rerun and passed; no unrelated gameplay code was changed.
-- Dedicated-server and client-smoke jobs were rerun as downstream jobs and were still in progress at the time this section was recorded; their final result must be recorded on the documentation commit's CI run.
+- An earlier run attempt failed one unrelated existing mob GameTest assertion (`CustomMobGameTests.allRosterEntriesRegisterAttributesAndInstantiate`, catalog stat multiplier assertion). The final code-head run passed; no unrelated gameplay code was changed.
+- Dedicated-server and client-smoke results for this run are recorded after completion below.
 - The earlier mapping compile failure on run [#38356783314](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38356783314) was caused by using obsolete feature constants and a guessed `ResourceKey.location()` accessor. It was corrected using the inspected 26.3 registry types and `Registry.getKey`.
 
-GameTests present in the probe source cover: positive natural-decoration trunk writes and actual log positions; feature namespace/type predicate cases; chunk attachment value storage; real 2×2 spruce sapling growth remaining unmarked; marker invalidation on block replacement; and no marker restoration after placing a log at the same position. The attachment-value test is a fixture test only and is not treated as persistence evidence.
+GameTests present in the probe source cover: positive natural-decoration trunk writes and actual log positions; feature namespace/type predicate cases; chunk attachment value storage; real 2×2 spruce sapling growth remaining unmarked; marker invalidation on block replacement; no marker restoration after placing a log at the same position; and successful passage through Minecraft's actual `ChunkMap.save` method with a marked chunk. The attachment-value test is a fixture test only and is not treated as persistence evidence. The save assertion is not a readback test.
 
 ### Final readiness
 
