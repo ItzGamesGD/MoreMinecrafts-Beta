@@ -6,6 +6,7 @@ import dev.itzgamesgd.moreminecrafts.zombie.BombZombieEffects;
 import dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingCommand;
 import dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingLifecycle;
 import dev.itzgamesgd.moreminecrafts.test.LiveTestCommand;
+import dev.itzgamesgd.moreminecrafts.worldgen.structure.StructurePoolContributions;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,8 @@ public final class MoreMinecrafts implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        StructurePoolContributions.initialize();
+        dev.itzgamesgd.moreminecrafts.worldgen.structure.ArenaWorldgenProbe.initialize();
         ModRegistries.initialize();
         ModNetworking.initialize();
         BombZombieEffects.initialize();

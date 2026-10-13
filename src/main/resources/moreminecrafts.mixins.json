@@ -38,7 +38,8 @@
     "T1SmithUpgradeMixin",
     "SpawnPlacementsInvoker",
     "CustomMobStatsMixin",
-    "CaveCreeperExplosionMixin"
+    "CaveCreeperExplosionMixin",
+    "StructureTemplatePoolMixin"
   ],
   "injectors": {
     "defaultRequire": 1
