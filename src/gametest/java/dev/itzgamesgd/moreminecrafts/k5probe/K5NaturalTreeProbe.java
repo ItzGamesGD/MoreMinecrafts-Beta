@@ -27,8 +27,53 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 /** GameTest-only diagnostic storage. It never updates K5 or any player progression. */
 public final class K5NaturalTreeProbe {
     public static final int SCHEMA_VERSION = 1;
-    private static final Identifier VANILLA_TREE_FEATURE_ID =
-            Identifier.fromNamespaceAndPath("minecraft", "tree");
+    private static final Set<Identifier> VANILLA_TREE_FEATURE_IDS = Set.of(
+        Identifier.fromNamespaceAndPath("minecraft", "acacia"),
+        Identifier.fromNamespaceAndPath("minecraft", "azalea_tree"),
+        Identifier.fromNamespaceAndPath("minecraft", "birch"),
+        Identifier.fromNamespaceAndPath("minecraft", "birch_bees_0002"),
+        Identifier.fromNamespaceAndPath("minecraft", "birch_bees_0002_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "birch_bees_002"),
+        Identifier.fromNamespaceAndPath("minecraft", "birch_bees_005"),
+        Identifier.fromNamespaceAndPath("minecraft", "birch_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "cherry"),
+        Identifier.fromNamespaceAndPath("minecraft", "cherry_bees_005"),
+        Identifier.fromNamespaceAndPath("minecraft", "dark_oak"),
+        Identifier.fromNamespaceAndPath("minecraft", "dark_oak_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "fancy_oak"),
+        Identifier.fromNamespaceAndPath("minecraft", "fancy_oak_bees"),
+        Identifier.fromNamespaceAndPath("minecraft", "fancy_oak_bees_0002_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "fancy_oak_bees_002"),
+        Identifier.fromNamespaceAndPath("minecraft", "fancy_oak_bees_005"),
+        Identifier.fromNamespaceAndPath("minecraft", "fancy_oak_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "jungle_bush"),
+        Identifier.fromNamespaceAndPath("minecraft", "jungle_tree"),
+        Identifier.fromNamespaceAndPath("minecraft", "jungle_tree_no_vine"),
+        Identifier.fromNamespaceAndPath("minecraft", "mangrove"),
+        Identifier.fromNamespaceAndPath("minecraft", "mega_jungle_tree"),
+        Identifier.fromNamespaceAndPath("minecraft", "mega_pine"),
+        Identifier.fromNamespaceAndPath("minecraft", "mega_spruce"),
+        Identifier.fromNamespaceAndPath("minecraft", "oak"),
+        Identifier.fromNamespaceAndPath("minecraft", "oak_bees_0002_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "oak_bees_002"),
+        Identifier.fromNamespaceAndPath("minecraft", "oak_bees_005"),
+        Identifier.fromNamespaceAndPath("minecraft", "oak_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "orange_poplar"),
+        Identifier.fromNamespaceAndPath("minecraft", "orange_poplar_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "pale_oak"),
+        Identifier.fromNamespaceAndPath("minecraft", "pale_oak_bonemeal"),
+        Identifier.fromNamespaceAndPath("minecraft", "pale_oak_creaking"),
+        Identifier.fromNamespaceAndPath("minecraft", "pine"),
+        Identifier.fromNamespaceAndPath("minecraft", "red_poplar"),
+        Identifier.fromNamespaceAndPath("minecraft", "red_poplar_leaf_litter"),
+        Identifier.fromNamespaceAndPath("minecraft", "spruce"),
+        Identifier.fromNamespaceAndPath("minecraft", "super_birch_bees"),
+        Identifier.fromNamespaceAndPath("minecraft", "super_birch_bees_0002"),
+        Identifier.fromNamespaceAndPath("minecraft", "swamp_oak"),
+        Identifier.fromNamespaceAndPath("minecraft", "tall_mangrove"),
+        Identifier.fromNamespaceAndPath("minecraft", "yellow_poplar"),
+        Identifier.fromNamespaceAndPath("minecraft", "yellow_poplar_leaf_litter")
+    );
     private static final Codec<List<Long>> POSITIONS_CODEC = Codec.LONG.listOf();
     public static final Codec<ChunkData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("schema_version").forGetter(ChunkData::schemaVersion),
@@ -89,7 +134,7 @@ public final class K5NaturalTreeProbe {
     public static boolean isEligibleTreeIdentity(Identifier placedFeatureKey, Identifier treeFeatureKey,
             boolean isTreeFeature) {
         return isVanillaNamespace(placedFeatureKey)
-                && VANILLA_TREE_FEATURE_ID.equals(treeFeatureKey)
+                && VANILLA_TREE_FEATURE_IDS.contains(treeFeatureKey)
                 && isTreeFeature;
     }
 
