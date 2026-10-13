@@ -73,6 +73,7 @@ jobs:
               "net.minecraft.world.level.levelgen.placement.FeaturePlacer": ["place", "placeWithBiomeCheck"],
               "net.minecraft.world.level.levelgen.feature.Feature": ["place"],
               "net.minecraft.world.level.levelgen.feature.TreeFeature": ["place", "doPlace"],
+              "net.minecraft.world.level.levelgen.feature.trunkplacers.MegaPineTrunkPlacer": ["MegaPineTrunkPlacer", "placeTrunk", "getTreeHeight"],
               "net.minecraft.world.level.block.grower.TreeGrower": ["growTree", "getConfiguredFeature"],
               "net.minecraft.world.level.block.SaplingBlock": ["advanceTree", "randomTick", "performBonemeal"],
               "net.minecraft.world.level.WorldGenLevel": ["getChunk", "setBlock", "setCurrentlyGenerating", "getCurrentlyGenerating"],
@@ -83,7 +84,7 @@ jobs:
           roots = [Path(".gradle"), Path.home() / ".gradle/caches/fabric-loom", Path.home() / ".gradle/caches/modules-2/files-2.1/net.fabricmc.fabric-api"]
           jars = sorted({p for root in roots if root.exists() for p in root.rglob("*.jar")})
           class_jars, source_jars = {}, {}
-          dynamic_basenames = {"PlacedFeature.class", "ConfiguredFeature.class", "FeaturePlacer.class", "AttachmentType.class", "AttachmentTarget.class", "ChunkAttachment.class", "ChunkDataAttachment.class", "ChunkSerializer.class", "ChunkStorage.class", "ChunkMap.class"}
+          dynamic_basenames = {"PlacedFeature.class", "ConfiguredFeature.class", "FeaturePlacer.class", "MegaPineTrunkPlacer.class", "AttachmentType.class", "AttachmentTarget.class", "ChunkAttachment.class", "ChunkDataAttachment.class", "ChunkSerializer.class", "ChunkStorage.class", "ChunkMap.class"}
           for jar in jars:
               try:
                   with zipfile.ZipFile(jar) as archive:
