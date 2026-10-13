@@ -25,6 +25,8 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         Identifier vanillaLargeTreeBiome = Identifier.fromNamespaceAndPath("minecraft", "trees_dark_forest");
         Identifier vanillaTreeFeature = Identifier.fromNamespaceAndPath("minecraft", "tree");
         Identifier moddedSource = Identifier.fromNamespaceAndPath("examplemod", "custom_tree");
+        Identifier nonVanillaTreeIdInVanillaNamespace =
+                Identifier.fromNamespaceAndPath("minecraft", "custom_tree");
 
         ctx.assertTrue(K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, vanillaTreeFeature, true),
                 "registered vanilla placed-feature and TreeFeature registry identities are eligible");
@@ -34,6 +36,8 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 "a mod namespace cannot authorize a tree feature");
         ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, moddedSource, true),
                 "a mod-registered TreeFeature cannot be authorized by a vanilla placed feature");
+        ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, nonVanillaTreeIdInVanillaNamespace, true),
+                "an unknown Feature registry key under minecraft cannot masquerade as the vanilla tree identity");
         ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(ordinaryVanilla, vanillaTreeFeature, false),
                 "non-TreeFeature implementations are excluded");
         ctx.assertTrue(!K5NaturalTreeProbe.isEligibleTreeIdentity(null, vanillaTreeFeature, true),
