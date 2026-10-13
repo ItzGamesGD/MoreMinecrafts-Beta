@@ -62,10 +62,13 @@ jobs:
               "net.minecraft.core.registries.Registries": ["FEATURE", "PLACED_FEATURE", "BIOME", "NOISE_SETTINGS"],
               "net.minecraft.world.level.levelgen.feature.Feature": ["place", "codec"],
               "net.minecraft.world.level.chunk.storage.ChunkSerializer": ["write", "read"],
-              "net.minecraft.server.level.ChunkMap": ["saveAllChunks", "save", "scheduleUnload", "readChunk", "prepareAccessibleChunk"],
+              "net.minecraft.server.level.ChunkMap": ["saveAllChunks", "save", "scheduleUnload", "scheduleChunkLoad", "readChunk", "prepareAccessibleChunk", "updateChunkScheduling"],
               "net.minecraft.world.level.chunk.storage.ChunkStorage": ["read", "write", "readSync", "write"],
               "net.minecraft.world.level.chunk.ChunkMap": ["save", "prepareAccessibleChunk", "readChunk", "write"],
-              "net.minecraft.server.level.ServerChunkCache": ["save", "getChunkFuture", "addRegionTicket", "removeRegionTicket", "runDistanceManagerUpdates"],
+              "net.minecraft.server.level.ServerChunkCache": ["save", "getChunkFuture", "addRegionTicket", "removeRegionTicket", "addTicketWithRadius", "removeTicketWithRadius", "getVisibleChunkIfPresent", "runDistanceManagerUpdates"],
+              "net.minecraft.server.level.DistanceManager": ["addRegionTicket", "removeRegionTicket", "runAllUpdates"],
+              "net.minecraft.server.level.ChunkLevel": ["FULL_CHUNK_LEVEL", "byStatus"],
+              "net.minecraft.server.level.TicketType": ["FORCED", "UNKNOWN", "create"],
               "net.minecraft.server.level.ChunkHolder": ["getSaveSyncFuture", "getLatestChunk", "getFullChunkNow"],
               "net.minecraft.world.level.chunk.storage.SerializableChunkData": ["parse", "copyOf", "write"],
               "net.minecraft.server.level.ServerLevel": ["unload", "getChunkSource"],
@@ -88,7 +91,7 @@ jobs:
           roots = [Path(".gradle"), Path.home() / ".gradle/caches/fabric-loom", Path.home() / ".gradle/caches/modules-2/files-2.1/net.fabricmc.fabric-api"]
           jars = sorted({p for root in roots if root.exists() for p in root.rglob("*.jar")})
           class_jars, source_jars = {}, {}
-          dynamic_basenames = {"PlacedFeature.class", "ConfiguredFeature.class", "FeaturePlacer.class", "MegaPineTrunkPlacer.class", "AttachmentType.class", "AttachmentTarget.class", "ChunkAttachment.class", "ChunkDataAttachment.class", "ChunkSerializer.class", "ChunkStorage.class", "ChunkMap.class", "SerializableChunkData.class", "ChunkHolder.class", "ServerChunkCache.class", "ServerLevel.class", "LevelChunk.class"}
+          dynamic_basenames = {"PlacedFeature.class", "ConfiguredFeature.class", "FeaturePlacer.class", "MegaPineTrunkPlacer.class", "AttachmentType.class", "AttachmentTarget.class", "ChunkAttachment.class", "ChunkDataAttachment.class", "ChunkSerializer.class", "ChunkStorage.class", "ChunkMap.class", "SerializableChunkData.class", "ChunkHolder.class", "ServerChunkCache.class", "ServerLevel.class", "LevelChunk.class", "DistanceManager.class", "TicketType.class", "ChunkLevel.class"}
           trunk_placer_prefix = "net/minecraft/world/level/levelgen/feature/trunkplacers/"
           for jar in jars:
               try:
