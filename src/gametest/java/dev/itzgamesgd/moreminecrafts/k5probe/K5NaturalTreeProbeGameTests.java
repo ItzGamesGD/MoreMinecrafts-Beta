@@ -17,6 +17,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
@@ -64,6 +66,13 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         var noiseRegistry = level.registryAccess().lookupOrThrow(Registries.NOISE_SETTINGS);
         var overworldNoise = noiseRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
         var featureRegistry = level.registryAccess().lookupOrThrow(Registries.FEATURE);
+        Set<Identifier> registeredTreeFeatureIds = new TreeSet<>();
+        for (Feature registeredFeature : featureRegistry) {
+            if (registeredFeature instanceof TreeFeature) {
+                registeredTreeFeatureIds.add(featureRegistry.getKey(registeredFeature));
+            }
+        }
+        System.out.println("K5_REGISTERED_TREE_FEATURE_IDS " + registeredTreeFeatureIds);
         var treeFeature = featureRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "tree")).orElseThrow().value();
         var placedFeatureRegistry = level.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE);
         Set<Identifier> vanillaForestTreePlacements = new TreeSet<>();
