@@ -33,11 +33,74 @@ jobs:
         run: |
           set -o pipefail
           ./gradlew genSources --stacktrace --no-daemon 2>&1 | tee k5-gensources.log
+      - name: Inspect only tree-generation API signatures
+        shell: bash
+        run: |
+          python3 - <<'PY' | tee k5-mapped-api-report.txt
+          from pathlib import Path
+          import re
+          import subprocess
+          import zipfile
+
+          targets = {
+              "net.minecraft.world.level.chunk.ChunkGenerator": ["applyBiomeDecoration"],
+              "net.minecraft.world.level.levelgen.placement.PlacedFeature": ["placeWithBiomeCheck"],
+              "net.minecraft.world.level.levelgen.feature.ConfiguredFeature": ["place"],
+              "net.minecraft.world.level.levelgen.feature.Feature": ["place"],
+              "net.minecraft.world.level.levelgen.feature.TreeFeature": ["place", "doPlace"],
+              "net.minecraft.world.level.block.grower.TreeGrower": ["growTree", "getConfiguredFeature"],
+              "net.minecraft.world.level.block.SaplingBlock": ["advanceTree", "randomTick", "performBonemeal"],
+          }
+          roots = [Path(".gradle"), Path.home() / ".gradle/caches/fabric-loom"]
+          jars = sorted({p for root in roots if root.exists() for p in root.rglob("*.jar")})
+          class_jars, source_jars = {}, {}
+          for jar in jars:
+              try:
+                  with zipfile.ZipFile(jar) as archive:
+                      names = set(archive.namelist())
+                      for name in targets:
+                          entry = name.replace(".", "/")
+                          if entry + ".class" in names:
+                              class_jars.setdefault(name, jar)
+                          if entry + ".java" in names:
+                              source_jars.setdefault(name, (jar, entry + ".java"))
+              except (OSError, zipfile.BadZipFile):
+                  continue
+
+          report = []
+          for name, method_names in targets.items():
+              report.append(f"CLASS {name}")
+              jar = class_jars.get(name)
+              if jar:
+                  out = subprocess.run(["javap", "-classpath", str(jar), "-p", "-s", name], text=True, capture_output=True, check=True).stdout.splitlines()
+                  for i, line in enumerate(out):
+                      if any(re.search(rf"\b{method}\s*\(", line) for method in method_names):
+                          descriptor = out[i + 1].strip() if i + 1 < len(out) else "<descriptor missing>"
+                          report.append(f"  {line.strip()} | {descriptor}")
+              else:
+                  report.append("  CLASS FILE NOT FOUND IN GENERATED MAPPED JARS")
+              source = source_jars.get(name)
+              if source:
+                  archive_path, entry = source
+                  with zipfile.ZipFile(archive_path) as archive:
+                      lines = archive.read(entry).decode("utf-8", "replace").splitlines()
+                  for number, line in enumerate(lines, 1):
+                      if any(method in line for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature")):
+                          if "(" in line or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature")):
+                              report.append(f"  SOURCE {entry}:{number}: {line.strip()}")
+              else:
+                  report.append("  SOURCE FILE NOT FOUND IN GENERATED MAPPED JARS")
+          print("\n".join(report))
+          if not class_jars:
+              raise SystemExit("No generated mapped Minecraft class jars were found")
+          PY
       - name: Upload diagnostic log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: k5-gensources-diagnostic
-          path: k5-gensources.log
+          name: k5-mapped-api-report
+          path: |
+            k5-gensources.log
+            k5-mapped-api-report.txt
           if-no-files-found: warn
           retention-days: 14
