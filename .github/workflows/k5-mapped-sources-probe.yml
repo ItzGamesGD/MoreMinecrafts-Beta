@@ -136,7 +136,8 @@ jobs:
                   emitted = set()
                   for match in matches:
                       radius = 10 if "placeWithBiomeCheck" in lines[match] else 2
-                      for i in range(max(0, match - radius), min(len(lines), match + 4)):
+                      after = 18 if name.endswith(("SaplingBlock", "TreeGrower")) else 4
+                      for i in range(max(0, match - radius), min(len(lines), match + after)):
                           if i not in emitted:
                               report.append(f"  SOURCE {entry}:{i + 1}: {lines[i].strip()}")
                               emitted.add(i)
