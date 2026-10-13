@@ -145,7 +145,10 @@ jobs:
                   archive_path, entry = source
                   with zipfile.ZipFile(archive_path) as archive:
                       lines = archive.read(entry).decode("utf-8", "replace").splitlines()
-                  matches = [i for i, line in enumerate(lines) if (name.endswith("ServerChunkCache") and ("addTicketWithRadius" in line or "removeTicketWithRadius" in line)) or any(re.search(rf"\b{method}\s*\(", line) for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature", "configuredFeature.place(", ".place(")) or (name.endswith("TicketType") and ("UNKNOWN" in line or "create(" in line))]
+                  if name.endswith("ServerChunkCache"):
+                      matches = [i for i, line in enumerate(lines) if "addTicketWithRadius" in line or "removeTicketWithRadius" in line]
+                  else:
+                      matches = [i for i, line in enumerate(lines) if any(re.search(rf"\b{method}\s*\(", line) for method in method_names) or any(token in line for token in ("placeWithBiomeCheck", "getConfiguredFeature", "configuredFeature.place(", ".place(")) or (name.endswith("TicketType") and ("UNKNOWN" in line or "create(" in line))]
                   emitted = set()
                   for match in matches:
                       radius = 10 if "placeWithBiomeCheck" in lines[match] else 2
