@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.k5probe;
 import dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbe.ChunkData;
 import java.lang.reflect.Method;
 import java.util.Set;
+import java.util.TreeSet;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
@@ -64,11 +65,30 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ChunkData data = K5NaturalTreeProbe.data(chunk);
         ctx.assertTrue(data != null && !data.positions().isEmpty(),
                 "at least one actual natural TreeFeature trunk-write position was marked");
+        var biomeRegistry = level.registryAccess().lookupOrThrow(Registries.BIOME);
+        Identifier biomeKey = biomeRegistry.getKey(level.getBiome(origin).value());
+        var sortedPositions = new TreeSet<>(data.positions());
+        long firstPacked = sortedPositions.first();
+        BlockPos firstMarked = BlockPos.of(firstPacked);
+        System.out.println("K5_DETERMINISTIC_FIXTURE seed=" + level.getSeed()
+                + " chunk=" + chunk.getPos()
+                + " biome=" + biomeKey
+                + " firstMarker=" + firstMarked
+                + " firstState=" + level.getBlockState(firstMarked)
+                + " markerCount=" + sortedPositions.size()
+                + " markers=" + sortedPositions);
+
         for (long packed : data.positions()) {
             BlockPos markedPos = BlockPos.of(packed);
+            ctx.assertTrue(level.getChunkAt(markedPos) == chunk,
+                    "the marker belongs to the exact world chunk that recorded it");
             ctx.assertTrue(level.getBlockState(markedPos).is(net.minecraft.tags.BlockTags.LOGS),
                     "every positive marker resolves to an existing log block");
         }
+
+        // Deliberately red: the first runtime records the actual GameTest seed/configuration to pin below.
+        ctx.assertTrue(level.getSeed() == Long.MIN_VALUE,
+                "RED: replace the fixture seed sentinel with the observed deterministic seed");
 
         long savesBefore = K5NaturalTreeProbe.savedChunksWithMarkers();
         level.getChunkSource().save(true);
