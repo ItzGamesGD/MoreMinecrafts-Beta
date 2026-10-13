@@ -49,13 +49,15 @@ then run `scripts/structures/validate_ancient_city_arena.py`.
   entrance checks; actual runtime template loading and vanilla connector attachment.
 - **RUNTIME VERIFIED: PASS** — local `./gradlew clean build`, all **154 unit tests** in 34 suites, resource validators and all **32 GameTests** passed. A normal Fabric
   server reached `Done` with the complete production resources.
-- **WORLDGEN VERIFIED: PASS** — seed 2632026, production weight 1, arena at
-  bounds `(-7088,-51,-3902)` through `(-7052,-39,-3866)`, rotation
-  COUNTERCLOCKWISE_90, city chunk `(-443,-238)`, 52 vanilla pieces. Five physical
-  floor samples resolved to wool/sculk. A city without the arena at chunk
-  `(246,-353)` retained 76 vanilla pieces. Found after 19 deterministic locate origins.
-- **VISUALLY VERIFIED: pending** — native Minecraft client captures and actual
-  image inspection are required; a PNG quality check alone is insufficient.
+- **WORLDGEN VERIFIED: PASS** — final seed **2632027**, production weight 1,
+  arena bounds `(7824,-51,-5616)` through `(7860,-39,-5580)`, rotation
+  COUNTERCLOCKWISE_90, city chunk `(485,-348)`, **72 vanilla pieces**. Five
+  physical floor samples resolved to wool/sculk. A city without the arena at
+  chunk `(194,-423)` retained **77 vanilla pieces**. Found after 17 locate origins.
+  The earlier seed 2632026 independently produced an arena with 52 vanilla pieces.
+- **VISUALLY VERIFIED: PASS** — two final native Minecraft screenshots were
+  opened and inspected after a visually motivated layout/camera revision.
+
 
 Deterministic selection test: 4,096 seeds, arena selected **88** times by
 `getRandomTemplate`, arena first **106** times in the real jigsaw shuffled list,
@@ -93,16 +95,38 @@ the bowl. Both initial images remain preserved in the artifact.
 Visually motivated revision: lower the perimeter parapet by one block, keep
 the supported colonnade and seating, raise the overview camera, and move the
 second camera inside the ring to expose the floor. Capture another normal
-world sample at seed 2632027 with unchanged production weight 1. Revised
-image inspection is pending. Natural cave water can still enter an open arena;
+world sample at seed 2632027 with unchanged production weight 1. The revised captures visibly improve floor and seating readability. Natural cave water can still enter an open arena;
 this prototype does not suppress terrain aquifers or claim all seeds are dry.
-Artifact name: `ancient-city-arena-visual-validation-<run-id>`.
-Screenshot names: `arena-camera-0.png`, `arena-camera-1.png`.
+Final successful workflow run: **38345195208**, validated source revision
+`41c429e8d073cf96ef916e8d4617515db0ad03c7`.
+Artifact: **ancient-city-arena-visual-validation-38345195208**, ID **11787944376**.
+Native screenshots: `arena-validation-results/arena-camera-0.png` and
+`arena-validation-results/arena-camera-1.png`, both **1280×720**.
+[Workflow and artifact](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38345195208).
+The artifact includes worldgen JSON, server/client logs, test reports and mod JARs.
+
+Final visual inspection: the overview shows an identifiable arena ring in an
+existing city, stepped seating, supported masonry, a lower broken sector, and
+wool paths meeting the city. The interior view clearly shows the dry fighting
+floor, sculk patches/sensors, four seating tiers, and soul-lit colonnade.
+There are no obvious disconnected pieces, catastrophic terrain intersections,
+malformed palette substitutions, or inaccessible buried room. Small floor holes
+are expected vanilla degradation, not wholesale template failure. Natural cave
+waterfalls/lava remain visible outside this final arena; the earlier seed's
+waterfall through the bowl remains a documented terrain limitation.
+
+The final authored template has **3,004 non-air blocks** (including the connector,
+which becomes wool in generation), in one face-connected component. Local and
+Actions normal-worldgen evidence agrees. The static connectivity validator also
+rejected an isolated detached-block regression probe. Shell/Python syntax checks
+passed; no existing validation was weakened. No external inference API or
+external renderer was used.
 
 Limitations: prototype weight is provisional; a template can be rejected by
 normal jigsaw collision rules. Vanilla degradation and terrain may alter the
-authored appearance. Cave clipping, accessibility, and visual coherence must
-be judged from the real generated-world captures before visual acceptance.
+authored appearance. The inspected final world sample passes cave clipping, accessibility, and
+visual coherence checks. This is a prototype validation of two deterministic
+seeds, not a guarantee of placement quality in every possible cave.
 
 ## Changed files
 
