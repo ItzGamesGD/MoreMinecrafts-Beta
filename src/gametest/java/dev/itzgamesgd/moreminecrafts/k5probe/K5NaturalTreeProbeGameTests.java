@@ -256,7 +256,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
             pendingLoad = level.getChunkSource().getChunkFuture(
                     chunkX, chunkZ, ChunkStatus.FULL, true);
             phaseTicks = 0;
-            ctx.runAtTick(1, this::pollInitialLoad);
+            ctx.runAfterDelay(1, this::pollInitialLoad);
         }
 
         private void pollInitialLoad() {
@@ -266,7 +266,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                     ctx.assertTrue(false, "forced remote chunk did not reach FULL status");
                     return;
                 }
-                ctx.runAtTick(1, this::pollInitialLoad);
+                ctx.runAfterDelay(1, this::pollInitialLoad);
                 return;
             }
             if (!(access instanceof LevelChunk levelChunk)) {
@@ -286,7 +286,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
             K5NaturalTreeProbe.clearLastMarkedChunkUnload();
             level.getChunkSource().removeTicketWithRadius(TicketType.FORCED, targetPos, 0);
             phaseTicks = 0;
-            ctx.runAtTick(1, this::pollFirstUnload);
+            ctx.runAfterDelay(1, this::pollFirstUnload);
         }
 
         private void generateDeterministicNaturalTree(LevelChunk chunk) {
@@ -340,7 +340,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(false, "removing the FORCED ticket did not reach ServerLevel.unload");
                 return;
             }
-            ctx.runAtTick(1, this::pollFirstUnload);
+            ctx.runAfterDelay(1, this::pollFirstUnload);
         }
 
         private void requestReload(int reloadPhase) {
@@ -349,7 +349,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
             pendingLoad = level.getChunkSource().getChunkFuture(
                     chunkX, chunkZ, ChunkStatus.FULL, true);
             phaseTicks = 0;
-            ctx.runAtTick(1, this::pollReload);
+            ctx.runAfterDelay(1, this::pollReload);
         }
 
         private void pollReload() {
@@ -359,7 +359,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                     ctx.assertTrue(false, "Minecraft chunk loading did not return the persisted chunk");
                     return;
                 }
-                ctx.runAtTick(1, this::pollReload);
+                ctx.runAfterDelay(1, this::pollReload);
                 return;
             }
             if (!(access instanceof LevelChunk levelChunk)) {
@@ -401,7 +401,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 K5NaturalTreeProbe.clearLastMarkedChunkUnload();
                 level.getChunkSource().removeTicketWithRadius(TicketType.FORCED, targetPos, 0);
                 phaseTicks = 0;
-                ctx.runAtTick(1, this::pollSecondUnload);
+                ctx.runAfterDelay(1, this::pollSecondUnload);
             } else {
                 Set<Long> expectedRemaining = new HashSet<>(originalMarkers);
                 expectedRemaining.remove(replacedPos.asLong());
@@ -428,7 +428,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(false, "second mutation save did not unload the marked chunk");
                 return;
             }
-            ctx.runAtTick(1, this::pollSecondUnload);
+            ctx.runAfterDelay(1, this::pollSecondUnload);
         }
 
         private ChunkAccess completedChunk() {
