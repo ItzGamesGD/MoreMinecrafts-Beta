@@ -43,6 +43,7 @@ public final class K5NaturalTreeProbe {
             ThreadLocal.withInitial(ArrayDeque::new);
     private static final AtomicLong BIOME_DECORATION_CALLS = new AtomicLong();
     private static final AtomicLong NATURAL_TRUNK_WRITES = new AtomicLong();
+    private static final AtomicLong SAVED_CHUNKS_WITH_MARKERS = new AtomicLong();
 
     private K5NaturalTreeProbe() {}
 
@@ -104,6 +105,14 @@ public final class K5NaturalTreeProbe {
 
     public static long naturalTrunkWrites() {
         return NATURAL_TRUNK_WRITES.get();
+    }
+
+    public static long savedChunksWithMarkers() {
+        return SAVED_CHUNKS_WITH_MARKERS.get();
+    }
+
+    public static void recordSuccessfulChunkSaveWithMarkers() {
+        SAVED_CHUNKS_WITH_MARKERS.incrementAndGet();
     }
 
     /** Called only by TreeFeature's actual trunk setter while natural biome decoration is active. */
