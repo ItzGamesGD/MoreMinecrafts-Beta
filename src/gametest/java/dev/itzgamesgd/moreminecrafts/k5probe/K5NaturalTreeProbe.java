@@ -45,13 +45,22 @@ public final class K5NaturalTreeProbe {
             ThreadLocal.withInitial(ArrayDeque::new);
     private static final AtomicLong BIOME_DECORATION_CALLS = new AtomicLong();
     private static final AtomicLong NATURAL_TRUNK_WRITES = new AtomicLong();
+    private static final AtomicLong NATURAL_TREE_TRUNK_CALLBACKS = new AtomicLong();
+    private static final ThreadLocal<Set<Identifier>> LAST_NATURAL_TREE_FEATURE_IDS =
+            ThreadLocal.withInitial(HashSet::new);
+    private static final ThreadLocal<Set<Long>> LAST_NATURAL_TREE_CALLBACK_POSITIONS =
+            ThreadLocal.withInitial(HashSet::new);
     private static final AtomicLong SAVED_CHUNKS_WITH_MARKERS = new AtomicLong();
 
     private K5NaturalTreeProbe() {}
 
     public static void enterNaturalBiomeDecoration(RegistryAccess registries) {
         BIOME_DECORATION_CALLS.incrementAndGet();
-        if (BIOME_DECORATION_DEPTH.get() == 0) ACTIVE_REGISTRIES.set(registries);
+        if (BIOME_DECORATION_DEPTH.get() == 0) {
+            ACTIVE_REGISTRIES.set(registries);
+            LAST_NATURAL_TREE_FEATURE_IDS.get().clear();
+            LAST_NATURAL_TREE_CALLBACK_POSITIONS.get().clear();
+        }
         BIOME_DECORATION_DEPTH.set(BIOME_DECORATION_DEPTH.get() + 1);
     }
 
@@ -111,6 +120,19 @@ public final class K5NaturalTreeProbe {
         return NATURAL_TRUNK_WRITES.get();
     }
 
+    /** Counts real TreeFeature trunk-setter invocations before the still-unverified feature-identity filter. */
+    public static long naturalTreeTrunkCallbacks() {
+        return NATURAL_TREE_TRUNK_CALLBACKS.get();
+    }
+
+    public static Set<Identifier> lastNaturalTreeFeatureIds() {
+        return Set.copyOf(LAST_NATURAL_TREE_FEATURE_IDS.get());
+    }
+
+    public static Set<Long> lastNaturalTreeCallbackPositions() {
+        return Set.copyOf(LAST_NATURAL_TREE_CALLBACK_POSITIONS.get());
+    }
+
     public static long savedChunksWithMarkers() {
         return SAVED_CHUNKS_WITH_MARKERS.get();
     }
@@ -126,6 +148,11 @@ public final class K5NaturalTreeProbe {
         Identifier treeFeatureKey = registries == null ? null
                 : registries.lookupOrThrow(Registries.FEATURE).getKey(source);
         Identifier placedFeatureKey = ACTIVE_PLACED_FEATURE_IDS.get().peek();
+        if (isNaturalBiomeDecoration() && hasEligiblePlacedFeatureScope() && source instanceof TreeFeature) {
+            NATURAL_TREE_TRUNK_CALLBACKS.incrementAndGet();
+            if (treeFeatureKey != null) LAST_NATURAL_TREE_FEATURE_IDS.get().add(treeFeatureKey);
+            LAST_NATURAL_TREE_CALLBACK_POSITIONS.get().add(pos.asLong());
+        }
         if (!isNaturalBiomeDecoration() || !hasEligiblePlacedFeatureScope()
                 || !isEligibleTreeIdentity(placedFeatureKey, treeFeatureKey, source instanceof TreeFeature)
                 || !state.is(BlockTags.LOGS) || !level.getBlockState(pos).equals(state)) return;
