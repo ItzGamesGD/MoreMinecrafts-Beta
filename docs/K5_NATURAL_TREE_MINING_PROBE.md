@@ -91,21 +91,21 @@ This section supersedes the earlier local-network blocker and the earlier “pro
 
 ## 2026-10-13 final technical validation
 
-This review re-fetched PR #82 at code head `b52e68f87f1e47b4f01ae172d51db82690611c87`, PR #80 at `1a17f8e77792ab1b106d92ac03fe10c86227d599`, and PR #81 at `be0b6c7874a5c78e4e87fee4431c2a1c78ae3c86`. PR #81's approved section still defines K5 as 200 naturally world-generated vanilla tree log blocks directly mined by a Survival player. No authority conflict was found. No K5 progress or unlock path was enabled.
+This review re-fetched PR #82 at code head `989d63e30f6c13d3e5a45aece9ef7ba77f6f5830`, PR #80 at `1a17f8e77792ab1b106d92ac03fe10c86227d599`, and PR #81 at `be0b6c7874a5c78e4e87fee4431c2a1c78ae3c86`. PR #81's approved section still defines K5 as 200 naturally world-generated vanilla tree log blocks directly mined by a Survival player. No authority conflict was found. No K5 progress or unlock path was enabled.
 
 ### Gate results
 
 | Gate | Status | Evidence and remaining limit |
 |---|---|---|
 | Deterministic positive natural-tree detection | **UNVERIFIED** | The updated GameTest calls the mapped `ChunkGenerator.applyBiomeDecoration` on a real test-world chunk. The test requires actual `TreeFeature` trunk callbacks, a nonempty position attachment, and each marked position to resolve to a current log block. It passed in the successful Actions attempt below. A fixed seed/biome fixture is not pinned, so the positive case is not yet deterministic across independently created test worlds. |
-| Vanilla feature identity | **UNVERIFIED** | The diagnostic now resolves actual registry identifiers through `Registry.getKey`: both the top-level `PlacedFeature` and the `Feature` used by the trunk callback must have the `minecraft` namespace, and the feature implementation must be `TreeFeature`. Missing registry keys fail closed. The GameTest exercises vanilla, mod namespace, non-tree, and unknown predicate cases, and the positive worldgen test uses live registry lookups. A custom/test-registered `TreeFeature` instance and each vanilla large-tree variant have not been exercised through live registry generation. |
+| Vanilla feature identity | **UNVERIFIED** | The diagnostic now resolves actual registry identifiers through `Registry.getKey`: the top-level `PlacedFeature` must be a registered `minecraft` entry and the trunk callback must resolve to the exact vanilla `minecraft:tree` feature identity, and the feature implementation must be `TreeFeature`. Missing registry keys fail closed. The GameTest exercises vanilla identity, a mod feature, an unknown key, a spoofed `minecraft:custom_tree` feature key, and a non-tree predicate case; the positive natural worldgen test uses live registry lookups. A custom/test-registered `TreeFeature` object and each vanilla large-tree variant have not been exercised through live registry generation. |
 | Persistent position provenance | **UNVERIFIED** | The test verifies that changing/removing a marked block removes its marker and replacing that position with a player-placed log does not restore it. The test calls `ServerChunkCache.save(true)` and a test-only wrapper confirms `ChunkMap.save(ChunkAccess)` successfully saved a chunk carrying the marker. This exercises Minecraft's real save path; no GameTest has yet unloaded/reloaded the marked chunk or restarted the server and read the marker back from disk. |
 
 The successful positive test is evidence that the current GameTest world generated and marked a real natural tree on that run. It does not close the determinism gate because the test does not set a fixed world seed and biome.
 
 ### Verified Minecraft 26.3 mapped APIs
 
-Mapped-source Actions run [#38358044976](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358044976) passed `genSources` and its focused signature/source inspection. Its 6,688-byte artifact contains only selected API signatures/source excerpts and logs; no Minecraft source archive was uploaded.
+Mapped-source Actions run [#38358418443](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358418443) passed `genSources` and its focused signature/source inspection. Its 6,688-byte artifact contains only selected API signatures/source excerpts and logs; no Minecraft source archive was uploaded.
 
 Verified declarations and call-path evidence:
 
@@ -126,7 +126,7 @@ All new hooks remain in `src/gametest` and the GameTest-only Mixin configuration
 
 - The worldgen scope is attached to the verified `applyBiomeDecoration` invocation.
 - Each `FeaturePlacer.placeWithBiomeCheck` call resolves the placed feature's identifier from `Registries.PLACED_FEATURE`. A stack-scoped ThreadLocal holds only the active identifier and is cleared in `finally`.
-- The actual `TreeFeature` trunk callback resolves its feature identifier from `Registries.FEATURE`, checks both identifiers for the `minecraft` namespace, and requires the runtime source object to be a `TreeFeature`. No tree-shape or log-type heuristic grants provenance.
+- The actual `TreeFeature` trunk callback resolves its feature identifier from `Registries.FEATURE`, checks the placed-feature namespace, requires the exact registered vanilla feature ID `minecraft:tree`, and requires the runtime source object to be a `TreeFeature`. No tree-shape or log-type heuristic grants provenance.
 - Final log positions are stored as packed longs in the persistent chunk attachment `moreminecrafts:k5_natural_tree_probe_v1`, schema 1. Storage is chunk-local; there is no global position map.
 - The test-only `Level.setBlock(BlockPos, BlockState, int, int): boolean` wrapper invalidates a marker after a successful state change. Empty chunk attachments are removed. This prevents a placed log at a consumed position from reusing an old marker.
 - Ordinary sapling growth remains outside the biome-decoration / placed-feature scope.
@@ -135,12 +135,12 @@ Chunk lifecycle cleanup and persistence remain incomplete until an actual storag
 
 ### Runtime and CI results
 
-Full Fabric CI run [#38358044989](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358044989), on probe code head `b52e68f87f1e47b4f01ae172d51db82690611c87`, passed:
+Full Fabric CI run [#38358418452](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38358418452), on probe code head `989d63e30f6c13d3e5a45aece9ef7ba77f6f5830`, passed on the successful retry:
 
 - `./gradlew clean test build compileGametestJava runGameTest` completed with `BUILD SUCCESSFUL`.
 - JUnit `test`, production build, GameTest compilation and runtime completed.
 - GameTest server reported **all 68 required tests passed**.
-- An earlier run attempt failed one unrelated existing mob GameTest assertion (`CustomMobGameTests.allRosterEntriesRegisterAttributesAndInstantiate`, catalog stat multiplier assertion). The final code-head run passed; no unrelated gameplay code was changed.
+- The first attempt failed one unrelated existing mob GameTest assertion (`CustomMobGameTests.allRosterEntriesRegisterAttributesAndInstantiate`, catalog stat multiplier assertion); rerunning the build job passed. No unrelated gameplay code was changed.
 - Dedicated-server and client-smoke results for this run are recorded after completion below.
 - The earlier mapping compile failure on run [#38356783314](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38356783314) was caused by using obsolete feature constants and a guessed `ResourceKey.location()` accessor. It was corrected using the inspected 26.3 registry types and `Registry.getKey`.
 
