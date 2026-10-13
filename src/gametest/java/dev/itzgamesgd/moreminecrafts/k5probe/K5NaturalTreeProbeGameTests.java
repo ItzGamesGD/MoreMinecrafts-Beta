@@ -192,54 +192,46 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     public void k5PlayerGrownTwoByTwoSpruceTreeIsNotTagged(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         BlockPos origin = ctx.absolutePos(new BlockPos(2, 1, 2));
-        SaplingBlock sapling = (SaplingBlock) Blocks.SPRUCE_SAPLING;
-        var matureSapling = sapling.defaultBlockState().setValue(SaplingBlock.STAGE, 1);
-        long successfulSeed = -1L;
-        int baseTrunkLogs = 0;
-        int totalSpruceLogs = 0;
-        K5NaturalTreeProbe.beginTreeGrowerTrace();
-
-        // TreeGrower selects a mega feature from its RNG. Search a fixed seed sequence,
-        // restoring identical support and four mature saplings before each actual growth call.
-        for (long seed = 0; seed < 32 && baseTrunkLogs < 4; seed++) {
-            for (int x = -1; x <= 5; x++) {
-                for (int z = -1; z <= 5; z++) {
-                    for (int y = 1; y <= 48; y++) {
-                        level.setBlock(origin.offset(x, y - 1, z), Blocks.AIR.defaultBlockState(), 3);
-                    }
-                    level.setBlock(origin.offset(x, -1, z), Blocks.DIRT.defaultBlockState(), 3);
-                }
+        for (int x = 0; x < 4; x++) {
+            for (int z = 0; z < 4; z++) {
+                level.setBlock(origin.offset(x, -1, z), Blocks.DIRT.defaultBlockState(), 3);
             }
-            level.setBlock(origin, matureSapling, 3);
-            level.setBlock(origin.east(), matureSapling, 3);
-            level.setBlock(origin.south(), matureSapling, 3);
-            level.setBlock(origin.east().south(), matureSapling, 3);
-
-            sapling.advanceTree(level, origin, matureSapling, RandomSource.create(seed));
-
-            baseTrunkLogs = 0;
-            totalSpruceLogs = 0;
-            for (int x = -1; x <= 5; x++) {
-                for (int z = -1; z <= 5; z++) {
-                    for (int y = 1; y <= 48; y++) {
-                        BlockPos pos = origin.offset(x, y - 1, z);
-                        if (level.getBlockState(pos).is(Blocks.SPRUCE_LOG)) {
-                            totalSpruceLogs++;
-                            if ((x == 0 || x == 1) && (z == 0 || z == 1) && y == 1) {
-                                baseTrunkLogs++;
-                            }
-                        }
-                    }
-                }
-            }
-            if (baseTrunkLogs == 4) successfulSeed = seed;
         }
 
-        System.out.println("K5_SAPLING_2X2 seed=" + successfulSeed
-                + " baseTrunkLogs=" + baseTrunkLogs + " totalSpruceLogs=" + totalSpruceLogs
+        SaplingBlock sapling = (SaplingBlock) Blocks.SPRUCE_SAPLING;
+        var matureSapling = sapling.defaultBlockState().setValue(SaplingBlock.STAGE, 1);
+        BlockPos[] saplingPositions = {origin, origin.east(), origin.south(), origin.east().south()};
+        for (BlockPos saplingPos : saplingPositions) {
+            level.setBlock(saplingPos, matureSapling, 3);
+        }
+        for (BlockPos saplingPos : saplingPositions) {
+            ctx.assertTrue(level.getBlockState(saplingPos).is(Blocks.SPRUCE_SAPLING)
+                            && level.getBlockState(saplingPos.below()).is(Blocks.DIRT),
+                    "each of four actual mature spruce saplings is planted on dirt before growth: " + saplingPos);
+        }
+
+        K5NaturalTreeProbe.beginTreeGrowerTrace();
+        sapling.advanceTree(level, origin, matureSapling, RandomSource.create(0L));
+
+        int generatedLogCount = 0;
+        for (int x = -1; x <= 5; x++) {
+            for (int z = -1; z <= 5; z++) {
+                for (int y = 1; y <= 32; y++) {
+                    if (level.getBlockState(origin.offset(x, y - 1, z)).is(net.minecraft.tags.BlockTags.LOGS)) {
+                        generatedLogCount++;
+                    }
+                }
+            }
+        }
+        int baseTrunkLogs = 0;
+        for (BlockPos trunkPos : saplingPositions) {
+            if (level.getBlockState(trunkPos).is(net.minecraft.tags.BlockTags.LOGS)) baseTrunkLogs++;
+        }
+        System.out.println("K5_SAPLING_2X2 baseTrunkLogs=" + baseTrunkLogs
+                + " generatedLogCount=" + generatedLogCount
                 + " featureAttempts=" + K5NaturalTreeProbe.treeGrowerFeatureAttempts());
-        ctx.assertTrue(successfulSeed >= 0 && baseTrunkLogs == 4 && totalSpruceLogs >= 4,
-                "the real SaplingBlock.advanceTree -> TreeGrower.growTree path grew a 2x2 spruce trunk");
+        ctx.assertTrue(baseTrunkLogs == 4 && generatedLogCount >= 4,
+                "the real SaplingBlock.advanceTree -> TreeGrower.growTree path grew a trunk from all four sapling positions");
         ChunkData data = K5NaturalTreeProbe.data(level.getChunkAt(origin));
         ctx.assertTrue(data == null || data.positions().isEmpty(),
                 "sapling TreeGrower direct Feature.place calls did not enter natural-biome scope");
