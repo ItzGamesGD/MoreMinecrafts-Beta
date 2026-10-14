@@ -181,6 +181,27 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
     }
 
     @GameTest
+    public void k14ShiftClickThenNormalTakeOnSameMenuCountsBoth(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        CraftingMenu menu = craftingMenu(ctx, player);
+
+        prepareWoodenPickaxe(menu, 1, 1);
+        ItemStack shifted = menu.quickMoveStack(player, 0);
+        ctx.assertTrue(shifted.is(Items.WOODEN_PICKAXE), "shift-click successfully transfers the first tool");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 1,
+                "the shift-click receives exactly one point");
+
+        prepareWoodenPickaxe(menu, 1, 1);
+        menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        ItemStack taken = menu.getCarried().copy();
+        ctx.assertTrue(taken.is(Items.WOODEN_PICKAXE), "the same menu can take a later normal result");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 2,
+                "the later normal take is not suppressed by the earlier empty shift-click callback");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void k14AdventureCraftCountsAndSpectatorTakeIsRejected(GameTestHelper ctx) {
         ServerPlayer adventure = ctx.makeMockServerPlayerInLevel();
         adventure.setGameMode(GameType.ADVENTURE);

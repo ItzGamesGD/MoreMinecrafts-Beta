@@ -36,9 +36,13 @@ abstract class KnowledgeRecipeCraftCountMixin {
     @Inject(method = "onTake", at = @At("TAIL"))
     private void moreminecrafts$countCompletedRecipe(Player player, ItemStack crafted,
                                                       CallbackInfo ci) {
+        // CraftingMenu.quickMoveStack calls onQuickCraft before onTake, and a full shift-click
+        // passes an empty remaining stack to onTake. Consume the paired-callback marker before
+        // any early return so it cannot suppress a later, unrelated normal take.
+        boolean alreadyCreditedInQuickCraft = moreminecrafts$k14CreditedInQuickCraft;
+        moreminecrafts$k14CreditedInQuickCraft = false;
         if (!(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty()) return;
-        if (moreminecrafts$k14CreditedInQuickCraft) moreminecrafts$k14CreditedInQuickCraft = false;
-        else KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, crafted);
+        if (!alreadyCreditedInQuickCraft) KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, crafted);
         ResearchProgressState state = KnowledgeRuntime.state(serverPlayer);
         KnowledgeRuntime.recordCondition(serverPlayer, "recipes_completed",
                 state.conditionProgress("recipes_completed") + 1);
