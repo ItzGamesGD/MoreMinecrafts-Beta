@@ -185,10 +185,10 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
         };
         for (String id : legacyItems) {
             var item = BuiltInRegistries.ITEM.get(ModIds.id(id));
-            ctx.assertTrue(item != null && item != Items.AIR,
+            ctx.assertTrue(item.map(reference -> reference.value() != Items.AIR).orElse(false),
                     "existing saved item ID remains registered: moreminecrafts:" + id);
         }
-        ctx.assertTrue(BuiltInRegistries.DATA_COMPONENT_TYPE.get(ModIds.id("fish_length")) != null,
+        ctx.assertTrue(BuiltInRegistries.DATA_COMPONENT_TYPE.get(ModIds.id("fish_length")).isPresent(),
                 "the legacy fish_length component remains available to decode existing stacks");
         ctx.succeed();
     }
