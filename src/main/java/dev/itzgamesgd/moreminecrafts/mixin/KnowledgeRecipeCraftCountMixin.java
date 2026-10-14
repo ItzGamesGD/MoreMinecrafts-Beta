@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Counts an actual player take from the crafting output, once per completed recipe action. */
+/** Counts a server-observed completed crafting result transfer once per recipe action. */
 @Mixin(ResultSlot.class)
 abstract class KnowledgeRecipeCraftCountMixin {
     @Shadow @Final private Player player;
@@ -23,14 +23,16 @@ abstract class KnowledgeRecipeCraftCountMixin {
 
     /** Shift-click transfers call Slot.onQuickCraft with the successfully moved output quantity. */
     @Inject(method = "onQuickCraft(Lnet/minecraft/world/item/ItemStack;I)V", at = @At("TAIL"))
-    private void moreminecrafts$countQuickCraftedTools(ItemStack crafted, int amount, CallbackInfo ci) {
-        if (amount <= 0 || !(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty()
-                || !dev.itzgamesgd.moreminecrafts.progression.KnowledgeEligibleRosters
-                        .isEligibleVanillaTool(crafted.getItem())) return;
-        ItemStack moved = crafted.copy();
-        moved.setCount(amount);
-        KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, moved);
-        moreminecrafts$k14CreditedInQuickCraft = true;
+    private void moreminecrafts$countQuickCraftedOutput(ItemStack crafted, int amount, CallbackInfo ci) {
+        if (amount <= 0 || !(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty()) return;
+        if (dev.itzgamesgd.moreminecrafts.progression.KnowledgeEligibleRosters
+                .isEligibleVanillaTool(crafted.getItem())) {
+            ItemStack moved = crafted.copy();
+            moved.setCount(amount);
+            KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, moved);
+        }
+        moreminecrafts$recordCompletedRecipe(serverPlayer, crafted);
+        moreminecrafts$creditedInQuickCraft = true;
     }
 
     @Inject(method = "onTake", at = @At("TAIL"))
@@ -39,10 +41,9 @@ abstract class KnowledgeRecipeCraftCountMixin {
         // CraftingMenu.quickMoveStack calls onQuickCraft before onTake, and a full shift-click
         // passes an empty remaining stack to onTake. Consume the paired-callback marker before
         // any early return so it cannot suppress a later, unrelated normal take.
-        boolean alreadyCreditedInQuickCraft = moreminecrafts$k14CreditedInQuickCraft;
-        moreminecrafts$k14CreditedInQuickCraft = false;
-        if (!(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty()) return;
-        if (alreadyCreditedInQuickCraft) return;
+        boolean alreadyCreditedInQuickCraft = moreminecrafts$creditedInQuickCraft;
+        moreminecrafts$creditedInQuickCraft = false;
+        if (!(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty() || alreadyCreditedInQuickCraft) return;
         if (dev.itzgamesgd.moreminecrafts.progression.KnowledgeEligibleRosters
                 .isEligibleVanillaTool(crafted.getItem()))
             KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, crafted);
