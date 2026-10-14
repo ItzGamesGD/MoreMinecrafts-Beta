@@ -15,11 +15,11 @@ abstract class K5FeaturePlacerMixin {
     @WrapMethod(method = "placeWithBiomeCheck(Lnet/minecraft/world/level/levelgen/placement/PlacedFeature;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;)Z")
     private boolean moreminecrafts$placedFeatureIdentity(PlacedFeature placedFeature, RandomSource random,
             BlockPos origin, Operation<Boolean> original) {
-        boolean eligible = K5NaturalTreeProvenance.enterPlacedFeature(placedFeature);
+        K5NaturalTreeProvenance.PlacedFeatureScope scope = K5NaturalTreeProvenance.enterPlacedFeature(placedFeature);
         try {
             return original.call(placedFeature, random, origin);
         } finally {
-            K5NaturalTreeProvenance.exitPlacedFeature(eligible);
+            K5NaturalTreeProvenance.exitPlacedFeature(scope);
         }
     }
 }

@@ -5,7 +5,9 @@
   "mixins": [
     "ChunkMapPersistenceProbeMixin",
     "ServerLevelUnloadProbeMixin",
-    "TreeGrowerProbeMixin"
+    "TreeGrowerProbeMixin",
+    "K5CooperatingServerPlayerGameModeMixin",
+    "K5CooperatingLevelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

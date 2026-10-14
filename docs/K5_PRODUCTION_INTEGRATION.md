@@ -19,11 +19,12 @@ Minecraft 26.3 mapped hooks:
 | Natural decoration | `ChunkGenerator.applyBiomeDecoration` | `(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/world/level/StructureManager;)V` | Open natural generation scope |
 | Placed feature | `FeaturePlacer.placeWithBiomeCheck` | `(Lnet/minecraft/world/level/levelgen/placement/PlacedFeature;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;)Z` | Require registered Minecraft placed-feature key |
 | Trunk setter | `TreeFeature.place` wrapping `doPlace` | See `K5TreeFeatureMixin` | Record successful actual log writes only for pinned vanilla TreeFeature registry IDs |
+| Fallen-tree placement | `FallenTreeFeature.place` | `(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/chunk/ChunkGenerator;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;)Z` | Collect changed log writes within only the pinned vanilla fallen-tree feature call |
 | Server mutation | `Level.setBlock` | `(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z` | Invalidate changed positions |
-| Worldgen mutation | `WorldGenRegion.setBlock` | `(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z` | Invalidate later worldgen replacements |
+| Worldgen mutation | `WorldGenRegion.setBlock` | `(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z` | Invalidate later worldgen replacements and capture actual log writes only inside an active pinned FallenTreeFeature call |
 | Direct mining | `ServerPlayerGameMode.destroyBlock` | `(Lnet/minecraft/core/BlockPos;)Z` | Attribute one successful Survival mining action |
 
-These names and signatures were checked against locally resolved Minecraft 26.3 sources and the mapped-source workflow. The existing `ServerPlayerGameModeMixin` wraps the method once, retaining the enchantment break scope. The four old test-only worldgen and mutation wrappers were removed; test observations now listen to production hooks and use the production attachment, leaving one provenance store.
+These names and signatures were checked against locally resolved Minecraft 26.3 sources and the mapped-source workflow. `FallenTreeFeature.place` was checked against the resolved source and the required GameTest Mixin config loads its wrapper. The existing `ServerPlayerGameModeMixin` wraps the method once, retaining the enchantment break scope. The four old test-only worldgen and mutation wrappers were removed; test observations now listen to production hooks and use the production attachment, leaving one provenance store.
 
 The mining wrapper snapshots valid position provenance before the original method removes the block. It credits only when the result is true, the block is air and the *stored marker itself* is absent afterward. This extra postcondition matters because mapped `destroyBlock` returns true even if `Level.removeBlock` returned false. Fabric cancellation is exercised by a runtime test. `Level.removeBlock` routes through `Level.setBlock`; successful changes consume the marker before progress is recorded. Later replacement logs at the same position cannot inherit it. The server's single world thread serializes competing break calls.
 
@@ -36,7 +37,39 @@ The mining wrapper snapshots valid position provenance before the original metho
 - The dedicated `K5 Production Restart` workflow filters one GameTest across two JVM processes sharing one world. Process A saves an actual natural marker, consumed/replaced markers and a fixed-UUID player's progress; process B loads the chunk and player data through Minecraft APIs. The small test manifest contains expected positions and is not gameplay storage. This is a headless GameTest server restart; the separate Fabric CI job runs dedicated-server and client smoke checks.
 - JUnit checks the 200 target, counter cap, codec round trip and existing UI progress row. No client packet can grant K5; serverbound networking remains limited to existing non-K5 requests.
 
-Local development evidence before the final CI run: `genSources` succeeded; `./gradlew clean test build` passed 225 JUnit tests after the latest test-only additions; `compileGametestJava runGameTest` passed 82/82 on a fresh world; the two-process restart write and read phases each passed 1/1 on the production code. Record final-HEAD CI results in the Draft PR before recommending review.
+## Production K5 audit remediation
+
+The approved PR #81 rule remains unchanged: Survival players must directly and successfully mine 200 marked logs from naturally world-generated vanilla trees. Progress remains server-side, position-backed, persistent and capped at 200.
+
+### Findings and changes
+
+- Before remediation, `recordTrunkWrite` copied and revalidated the full immutable marker set for each trunk callback. For a tree with *n* trunk writes in one chunk, that repeated copy/validation path was O(n²). `TreeFeature.doPlace` callbacks are now buffered until successful placement, grouped by chunk and committed as one immutable attachment update per affected chunk.
+- `data(chunk)` previously rescanned all packed positions for chunk ownership on every lookup. It now validates each immutable attachment object once and keeps a weak-key cache of the validated object identity. A replacement attachment object is revalidated; malformed schema or cross-chunk data is removed and fails closed. The cache holds no strong reference from values back to chunk keys.
+- `invalidatePosition` still uses copy-on-write for each removal. Fabric's persistent attachment dirty tracking is driven by `setAttached` value changes; mutating an attached set in place would risk an unsaved chunk. The removal path remains O(n), deliberately preserving correct serialization and dirty tracking. The 1,000-marker stress run below measured the complete consume loop at 74.1 ms (about 74 μs per removal in this synthetic fixture); this is not a server TPS measurement.
+- Review found that nested non-vanilla placed features did not shadow an eligible outer frame. Every nested feature now pushes an identity frame, so the current top frame fails closed when it is unknown or untrusted.
+- Runtime registry inspection found six `FallenTreeFeature` IDs nested in vanilla biome-generation settings: `minecraft:fallen_oak_tree`, `fallen_birch_tree`, `fallen_super_birch_tree`, `fallen_spruce_tree`, `fallen_jungle_tree` and `fallen_poplar_tree`. These are real vanilla natural-tree variants, separate from `TreeFeature`, and use the same feature placements that can also be reached by sapling growth. The production probe now recognizes only these six registered identities inside natural biome decoration and captures their actual changed log writes through `WorldGenRegion.setBlock`; sapling growth remains outside the natural-decoration scope. Unknown fallen-tree IDs remain rejected. A runtime scan of seed-0 forest did not execute a fallen variant, so an actual fallen-tree marker is not claimed as runtime verified.
+- Test-only cooperating Mixin wrappers now wrap `ServerPlayerGameMode.destroyBlock` and `Level.setBlock` during GameTests. The natural-log mining test confirms that both wrappers ran alongside production credit and marker invalidation. This is focused MixinExtras composition evidence, not a claim of broad modpack compatibility.
+
+### High-density microbenchmark
+
+The GameTest builds synthetic marker sets in one chunk at 100, 500 and 1,000 positions. It checks exact counts, repeated marker lookup, immutable attachment codec/NBT round-trip, serialized payload size and complete marker consumption. Each timing is a median of three measured repetitions after one warmup in the same test JVM. These are focused operation timings, not realistic world-generation or server TPS measurements; allocations were not sampled with a profiler.
+
+| Markers | Insert batch | Lookup batch | Consume all | Codec/NBT round-trip | NBT payload |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 100 | 0.314 ms | 0.047 ms | 1.731 ms | 0.295 ms | 857 B |
+| 500 | 0.911 ms | 0.104 ms | 19.515 ms | 0.321 ms | 4,057 B |
+| 1,000 | 1.219 ms | 0.204 ms | 74.072 ms | 0.593 ms | 8,057 B |
+
+The recorded pre-change baseline used the prior per-position insertion and uncached validation path in the same GameTest shape: 100 markers took 2.455 ms insert / 1.181 ms lookup / 2.187 ms consume; 500 took 26.998 / 2.518 / 24.632 ms; 1,000 took 62.521 / 8.885 / 61.211 ms. Payload sizes were 857 / 4,057 / 8,057 B. The new batched insertion and cached lookup paths improve these measured cases. Removal remains linear per mutation; measured total is noisy and was not improved. The before/after runs were not collected under a dedicated benchmark harness, so treat the ratios as indicative microbenchmark evidence only.
+
+### Identity and compatibility limits
+
+- Deterministic seed-0 `minecraft:forest` positive runtime generation still verifies the actual registered `minecraft:oak_bees_0002_leaf_litter` `TreeFeature`, 28 observed trunk callbacks and 23 final marked log positions. The new registry GameTest confirms all six runtime-registered vanilla `FallenTreeFeature` IDs are allowlisted and an unknown fallen ID is rejected.
+- An attempted extra runtime scan over 48 generated chunks did not observe an executed fallen feature and produced unregistered-biome serialization noise from the synthetic fixture. It was removed rather than treated as evidence. The new fallen-tree capture path is source- and Mixin-transform-verified, but a deterministic natural `FallenTreeFeature` marker test remains outstanding.
+- Tree features newly introduced by mods, unknown identities and non-vanilla placed features fail closed. A deliberately malicious mod reusing the `minecraft` namespace and an allowlisted feature identity remains outside the approved threat model. Synthetic wrappers only establish cooperation with the tested MixinExtras wrappers; arbitrary Mixin ordering and modpack combinations still require release testing.
+- Same-process chunk unload/reload and the existing two-process restart workflow continue to exercise persisted marker and progress state. Record final-HEAD results after all checks complete.
+
+Latest local verification before final CI: `clean test build` passed 225/225 JUnit tests. `compileGametestJava runGameTest` passed 85/85 on one fresh-world run. Two other full fresh-world runs failed only the existing unrelated `CustomMobGameTests.allRosterEntriesRegisterAttributesAndInstantiate` assertion that repeated Large Zombie spawn finalization must preserve multipliers; one retry passed. The K5-specific tests passed in these runs. Because the unrelated failure recurred, final CI is required to determine whether the suite is stable on the final commit; this audit does not alter mob gameplay or test assertions.
 
 ## Limits and release gate
 

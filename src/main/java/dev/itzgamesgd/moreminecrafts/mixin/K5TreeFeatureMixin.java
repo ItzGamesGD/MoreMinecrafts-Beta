@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance;
+import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -22,10 +23,13 @@ abstract class K5TreeFeatureMixin {
             RandomSource random, BlockPos origin, BiConsumer<BlockPos, BlockState> rootSetter,
             BiConsumer<BlockPos, BlockState> trunkSetter, FoliagePlacer.FoliageSetter foliageSetter,
             Operation<Boolean> original) {
+        ArrayList<K5NaturalTreeProvenance.TrunkWrite> trunkWrites = new ArrayList<>();
         BiConsumer<BlockPos, BlockState> probeTrunkSetter = (pos, state) -> {
             trunkSetter.accept(pos, state);
-            K5NaturalTreeProvenance.recordTrunkWrite(self, level, pos, state);
+            trunkWrites.add(new K5NaturalTreeProvenance.TrunkWrite(pos.immutable(), state));
         };
-        return original.call(self, level, random, origin, rootSetter, probeTrunkSetter, foliageSetter);
+        boolean placed = original.call(self, level, random, origin, rootSetter, probeTrunkSetter, foliageSetter);
+        K5NaturalTreeProvenance.recordTrunkWrites(self, level, trunkWrites, placed);
+        return placed;
     }
 }

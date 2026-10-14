@@ -61,6 +61,7 @@ jobs:
               "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator": ["NoiseBasedChunkGenerator"],
               "net.minecraft.world.level.levelgen.NoiseGeneratorSettings": ["OVERWORLD"],
               "net.minecraft.world.level.levelgen.feature.FeatureSorter": ["buildFeaturesPerStep"],
+              "net.minecraft.world.level.levelgen.feature.FallenTreeFeature": ["place"],
               "net.minecraft.server.level.WorldGenRegion": ["WorldGenRegion", "getBiome", "getChunk", "setBlock"],
               "net.minecraft.world.level.levelgen.placement.FeaturePlacer": ["FeaturePlacer", "placeWithBiomeCheck"],
               "net.minecraft.core.registries.Registries": ["FEATURE", "PLACED_FEATURE", "BIOME", "NOISE_SETTINGS"],
@@ -97,7 +98,7 @@ jobs:
           roots = [Path(".gradle"), Path.home() / ".gradle/caches/fabric-loom", Path.home() / ".gradle/caches/modules-2/files-2.1/net.fabricmc.fabric-api"]
           jars = sorted({p for root in roots if root.exists() for p in root.rglob("*.jar")})
           class_jars, source_jars = {}, {}
-          dynamic_basenames = {"PlacedFeature.class", "ConfiguredFeature.class", "FeaturePlacer.class", "MegaPineTrunkPlacer.class", "AttachmentType.class", "AttachmentTarget.class", "ChunkAttachment.class", "ChunkDataAttachment.class", "ChunkSerializer.class", "ChunkStorage.class", "ChunkMap.class", "SerializableChunkData.class", "ChunkHolder.class", "ServerChunkCache.class", "ServerLevel.class", "LevelChunk.class", "DistanceManager.class", "TicketType.class", "ChunkLevel.class", "GameTestHelper.class", "GameTestSequence.class"}
+          dynamic_basenames = {"PlacedFeature.class", "ConfiguredFeature.class", "FeaturePlacer.class", "FallenTreeFeature.class", "MegaPineTrunkPlacer.class", "AttachmentType.class", "AttachmentTarget.class", "ChunkAttachment.class", "ChunkDataAttachment.class", "ChunkSerializer.class", "ChunkStorage.class", "ChunkMap.class", "SerializableChunkData.class", "ChunkHolder.class", "ServerChunkCache.class", "ServerLevel.class", "LevelChunk.class", "DistanceManager.class", "TicketType.class", "ChunkLevel.class", "GameTestHelper.class", "GameTestSequence.class"}
           trunk_placer_prefix = "net/minecraft/world/level/levelgen/feature/trunkplacers/"
           for jar in jars:
               try:

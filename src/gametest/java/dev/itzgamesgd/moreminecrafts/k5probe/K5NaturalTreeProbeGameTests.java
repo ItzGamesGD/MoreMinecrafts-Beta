@@ -3,7 +3,12 @@ package dev.itzgamesgd.moreminecrafts.k5probe;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance.ChunkData;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
+import dev.itzgamesgd.moreminecrafts.k5probe.K5CooperatingMixinProbe;
 import java.lang.reflect.Method;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
@@ -23,7 +28,9 @@ import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FallenTreeFeature;
 import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.FallenTreeFeature;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
@@ -36,6 +43,8 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.NbtOps;
 
 /** Runtime checks for production K5 provenance, direct mining, and diagnostic lifecycle evidence. */
 public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoker {
@@ -80,12 +89,16 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         Set<Identifier> registeredTreeFeatureIds = new TreeSet<>();
         var featureRegistry = level.registryAccess().lookupOrThrow(Registries.FEATURE);
         for (Feature registeredFeature : featureRegistry) {
-            if (registeredFeature instanceof TreeFeature) {
+            if (registeredFeature instanceof TreeFeature || registeredFeature instanceof FallenTreeFeature) {
                 Identifier key = featureRegistry.getKey(registeredFeature);
                 registeredTreeFeatureIds.add(key);
-                if (key != null && key.getNamespace().equals("minecraft")) {
+                if (registeredFeature instanceof TreeFeature && key != null && key.getNamespace().equals("minecraft")) {
                     ctx.assertTrue(K5NaturalTreeProbe.isKnownVanillaTreeFeatureId(key),
                             "every registered vanilla TreeFeature key is in the pinned allowlist: " + key);
+                } else if (registeredFeature instanceof FallenTreeFeature && key != null
+                        && key.getNamespace().equals("minecraft")) {
+                    ctx.assertTrue(K5NaturalTreeProvenance.isKnownVanillaFallenTreeFeatureId(key),
+                            "every registered vanilla FallenTreeFeature key is in the pinned allowlist: " + key);
                 }
             }
         }
@@ -182,7 +195,12 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         var miner = ctx.makeMockServerPlayerInLevel();
         miner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
         BlockPos first = marked.get(0);
+        K5CooperatingMixinProbe.reset();
         ctx.assertTrue(miner.gameMode.destroyBlock(first), "Survival player directly mined a natural marked log");
+        ctx.assertTrue(K5CooperatingMixinProbe.blockBreakCount() == 1,
+                "the GameTest-only destroyBlock wrapper and production mining wrapper both ran once");
+        ctx.assertTrue(K5CooperatingMixinProbe.levelMutationCount() > 0,
+                "the GameTest-only Level.setBlock wrapper composed with production marker invalidation");
         ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 1,
                 "successful direct mining awards exactly one K5 progress point");
         ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, first), "mined marker was consumed");
@@ -957,6 +975,176 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                     "chest and hopper transfers followed by player receipt cannot advance K5");
             ctx.succeed();
         });
+    }
+
+    @GameTest
+    public void k5NestedUntrustedPlacedFeatureCannotInheritVanillaIdentity(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        var registries = level.registryAccess();
+        var placedRegistry = registries.lookupOrThrow(Registries.PLACED_FEATURE);
+        var vanilla = placedRegistry.get(Identifier.fromNamespaceAndPath(
+                "minecraft", "trees_birch_and_oak_leaf_litter")).orElseThrow();
+        var untrusted = placedRegistry.get(Identifier.fromNamespaceAndPath(
+                "moreminecrafts-gametest", "k5_untrusted_oak")).orElseThrow();
+        Feature oak = registries.lookupOrThrow(Registries.FEATURE)
+                .get(Identifier.fromNamespaceAndPath("minecraft", "oak_bees_0002_leaf_litter")).orElseThrow().value();
+        BlockPos pos = ctx.absolutePos(new BlockPos(3, 4, 3));
+        level.setBlock(pos, Blocks.OAK_LOG.defaultBlockState(), 3);
+
+        K5NaturalTreeProvenance.enterNaturalBiomeDecoration(registries);
+        var vanillaScope = K5NaturalTreeProvenance.enterPlacedFeature(vanilla.value());
+        var untrustedScope = K5NaturalTreeProvenance.enterPlacedFeature(untrusted.value());
+        try {
+            ctx.assertTrue(vanillaScope.eligible() && !untrustedScope.eligible(),
+                    "nested placement identities are individually classified");
+            K5NaturalTreeProvenance.recordTrunkWrites((Feature) oak, level,
+                    java.util.List.of(new K5NaturalTreeProvenance.TrunkWrite(pos, level.getBlockState(pos))), true);
+        } finally {
+            K5NaturalTreeProvenance.exitPlacedFeature(untrustedScope);
+            K5NaturalTreeProvenance.exitPlacedFeature(vanillaScope);
+            K5NaturalTreeProvenance.exitNaturalBiomeDecoration();
+        }
+        ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, pos),
+                "an untrusted nested placed feature cannot inherit the outer vanilla feature identity");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k5NaturalVanillaFallenTreeFeaturesUseExplicitFailClosedAllowlist(GameTestHelper ctx) {
+        var registries = ctx.getLevel().registryAccess();
+        var biomeRegistry = registries.lookupOrThrow(Registries.BIOME);
+        var placedRegistry = registries.lookupOrThrow(Registries.PLACED_FEATURE);
+        var featureRegistry = registries.lookupOrThrow(Registries.FEATURE);
+        Set<String> naturalUses = new TreeSet<>();
+        Set<Identifier> fallenFeatureIds = new TreeSet<>();
+        for (Biome biome : biomeRegistry) {
+            for (HolderSet<PlacedFeature> step : biome.getGenerationSettings().features()) {
+                for (Holder<PlacedFeature> placedHolder : step) {
+                    PlacedFeature placed = placedHolder.value();
+                    for (Holder<Feature> featureHolder : placed.getFeatures().toList()) {
+                        Feature feature = featureHolder.value();
+                        if (feature instanceof FallenTreeFeature) {
+                            Identifier biomeId = biomeRegistry.getKey(biome);
+                            Identifier placedId = placedRegistry.getKey(placed);
+                            Identifier featureId = featureRegistry.getKey(feature);
+                            naturalUses.add(biomeId + " -> " + placedId + " -> " + featureId);
+                            fallenFeatureIds.add(featureId);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("K5_FALLEN_TREE_NATURAL_BIOME_USES " + naturalUses);
+        ctx.assertTrue(!naturalUses.isEmpty(), "vanilla biome decoration registers natural fallen-tree feature variants");
+        for (Identifier featureId : fallenFeatureIds) {
+            ctx.assertTrue(K5NaturalTreeProvenance.isKnownVanillaFallenTreeFeatureId(featureId),
+                    "each runtime-observed natural FallenTreeFeature ID is allowlisted: " + featureId);
+            ctx.assertTrue(K5NaturalTreeProvenance.isEligibleTreeIdentity(
+                            Identifier.fromNamespaceAndPath("minecraft", "trees_birch"), featureId, true),
+                    "a registered natural fallen-tree feature passes the placed-feature identity gate: " + featureId);
+        }
+        ctx.assertTrue(!K5NaturalTreeProvenance.isEligibleTreeIdentity(
+                        Identifier.fromNamespaceAndPath("minecraft", "trees_birch"),
+                        Identifier.fromNamespaceAndPath("minecraft", "fallen_unknown_tree"), true),
+                "unknown fallen-tree feature IDs remain fail-closed");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k5HighDensityProvenanceMicrobenchmarkPreservesCountsAndCodec(GameTestHelper ctx) throws Exception {
+        ServerLevel level = ctx.getLevel();
+        var registries = level.registryAccess();
+        var placed = registries.lookupOrThrow(Registries.PLACED_FEATURE)
+                .get(Identifier.fromNamespaceAndPath("minecraft", "trees_birch_and_oak_leaf_litter")).orElseThrow();
+        var tree = registries.lookupOrThrow(Registries.FEATURE)
+                .get(Identifier.fromNamespaceAndPath("minecraft", "oak_bees_0002_leaf_litter")).orElseThrow();
+        ChunkAccess chunk = level.getChunkAt(ctx.absolutePos(new BlockPos(2, 2, 2)));
+        int[] sizes = {100, 500, 1_000};
+        for (int size : sizes) {
+            ArrayList<BlockPos> positions = new ArrayList<>(size);
+            ArrayList<K5NaturalTreeProvenance.TrunkWrite> writes = new ArrayList<>(size);
+            int minX = chunk.getPos().getMinBlockX();
+            int minZ = chunk.getPos().getMinBlockZ();
+            int baseY = level.getMinY() + 48;
+            for (int i = 0; i < size; i++) {
+                BlockPos pos = new BlockPos(minX + (i & 15), baseY + (i >> 8), minZ + ((i >> 4) & 15));
+                chunk.setBlockState(pos, Blocks.OAK_LOG.defaultBlockState(), 0);
+                positions.add(pos);
+                writes.add(new K5NaturalTreeProvenance.TrunkWrite(pos, Blocks.OAK_LOG.defaultBlockState()));
+            }
+            ArrayList<Long> insertTimes = new ArrayList<>();
+            ArrayList<Long> lookupTimes = new ArrayList<>();
+            ArrayList<Long> consumeTimes = new ArrayList<>();
+            ArrayList<Long> codecTimes = new ArrayList<>();
+            int encodedBytes = 0;
+            for (int sample = 0; sample < 4; sample++) {
+                chunk.removeAttached(K5NaturalTreeProvenance.NATURAL_TREE_LOGS);
+                long started = System.nanoTime();
+                K5NaturalTreeProvenance.enterNaturalBiomeDecoration(registries);
+                var featureScope = K5NaturalTreeProvenance.enterPlacedFeature(placed.value());
+                try {
+                    K5NaturalTreeProvenance.recordTrunkWrites((Feature) tree.value(), level, writes, true);
+                } finally {
+                    K5NaturalTreeProvenance.exitPlacedFeature(featureScope);
+                    K5NaturalTreeProvenance.exitNaturalBiomeDecoration();
+                }
+                long insertElapsed = System.nanoTime() - started;
+                ChunkData data = K5NaturalTreeProvenance.data(chunk);
+                if (sample == 0) {
+                    System.out.println("K5_DENSITY_DIAGNOSTIC source=" + registries.lookupOrThrow(Registries.FEATURE).getKey(tree.value())
+                            + " placed=" + registries.lookupOrThrow(Registries.PLACED_FEATURE).getKey(placed.value())
+                            + " eligible=" + K5NaturalTreeProvenance.isEligibleTreeIdentity(
+                                    registries.lookupOrThrow(Registries.PLACED_FEATURE).getKey(placed.value()),
+                                    registries.lookupOrThrow(Registries.FEATURE).getKey(tree.value()), true)
+                            + " chunkTarget=" + (chunk instanceof net.fabricmc.fabric.api.attachment.v1.AttachmentTarget)
+                            + " markerCount=" + (data == null ? -1 : data.positions().size()));
+                }
+                ctx.assertTrue(data != null && data.positions().size() == size,
+                        "all synthetic marked log positions are retained at density " + size);
+                if (sample > 0) insertTimes.add(insertElapsed);
+
+                started = System.nanoTime();
+                int foundMarkers = 0;
+                for (BlockPos pos : positions) if (K5NaturalTreeProvenance.hasMarker(level, pos)) foundMarkers++;
+                ctx.assertTrue(foundMarkers == size, "every dense marker is found at density " + size);
+                long lookupElapsed = System.nanoTime() - started;
+                if (sample > 0) lookupTimes.add(lookupElapsed);
+
+                started = System.nanoTime();
+                var encoded = K5NaturalTreeProvenance.CODEC.encodeStart(NbtOps.INSTANCE, data).getOrThrow();
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                NbtIo.writeAnyTag(encoded, new DataOutputStream(output));
+                encodedBytes = output.size();
+                var restored = K5NaturalTreeProvenance.CODEC.parse(NbtOps.INSTANCE, encoded).getOrThrow();
+                long codecElapsed = System.nanoTime() - started;
+                ctx.assertTrue(restored.positions().equals(data.positions()),
+                        "persistent attachment codec round trip retains every marker at density " + size);
+                if (sample > 0) codecTimes.add(codecElapsed);
+
+                started = System.nanoTime();
+                int consumedMarkers = 0;
+                for (BlockPos pos : positions) if (K5NaturalTreeProvenance.invalidatePosition(chunk, pos)) consumedMarkers++;
+                long consumeElapsed = System.nanoTime() - started;
+                ctx.assertTrue(consumedMarkers == size && K5NaturalTreeProvenance.data(chunk) == null,
+                        "all dense markers are consumed at density " + size);
+                if (sample > 0) consumeTimes.add(consumeElapsed);
+            }
+            long insertMedian = median(insertTimes);
+            long lookupMedian = median(lookupTimes);
+            long consumeMedian = median(consumeTimes);
+            long codecMedian = median(codecTimes);
+            System.out.println("K5_DENSITY_BENCHMARK markers=" + size + " insertMedianNs=" + insertMedian
+                    + " lookupBatchMedianNs=" + lookupMedian + " consumeMedianNs=" + consumeMedian
+                    + " codecRoundTripMedianNs=" + codecMedian
+                    + " nbtPayloadBytes=" + encodedBytes + " repetitions=3 warmup=1");
+        }
+        ctx.succeed();
+    }
+
+    private static long median(ArrayList<Long> values) {
+        ArrayList<Long> sorted = new ArrayList<>(values);
+        Collections.sort(sorted);
+        return sorted.get(sorted.size() / 2);
     }
 
     @Override
