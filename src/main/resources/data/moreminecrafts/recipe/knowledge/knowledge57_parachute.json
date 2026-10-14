@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#minecraft:wool",
+    "#minecraft:wool",
+    "#minecraft:wool",
+    "#minecraft:wool",
+    "minecraft:string",
+    "minecraft:string",
+    "minecraft:leather"
+  ],
+  "result": {
+    "id": "moreminecrafts:parachute",
+    "count": 1
+  }
+}

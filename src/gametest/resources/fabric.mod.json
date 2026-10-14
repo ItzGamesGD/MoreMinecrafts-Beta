@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "moreminecrafts-gametest",
+  "version": "1.0.0",
+  "name": "MoreMinecrafts Game Tests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": [
+      "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.T1ProgressionGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.ProgressionPurchaseGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAcquisitionGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgePlacementGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeOutputLifecycleGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeRemainingCollectorsGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeWorldActionGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAnimalFeedGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
+      "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests"
+    ]
+  },
+  "mixins": [
+    "moreminecrafts-k5probe.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": ">=26.3 <26.4",
+    "fabric-api": "*",
+    "moreminecrafts": "*"
+  }
+}

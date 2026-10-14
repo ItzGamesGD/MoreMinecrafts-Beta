@@ -1,37 +1,26 @@
 package dev.itzgamesgd.moreminecrafts.fishing;
 
+import net.minecraft.util.RandomSource;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FishingTimingTest {
-    @Test void pingPongMovesOneStepEveryTick() {
-        for (int tick = 0; tick < 20; tick++)
-            assertEquals(1.0 / 20, FishingTiming.position(tick + 1)
-                    - FishingTiming.position(tick), 0.0000001);
-        for (int tick = 20; tick < 40; tick++)
-            assertEquals(-1.0 / 20, FishingTiming.position(tick + 1)
-                    - FishingTiming.position(tick), 0.0000001);
-        assertEquals(FishingTiming.position(7), FishingTiming.position(47));
+    @Test void difficultyControlsOnlyDeterministicMarkerSpeed() {
+        assertEquals(1.8, FishingTiming.oneWaySeconds(1));
+        assertEquals(1.5, FishingTiming.oneWaySeconds(2));
+        assertEquals(1.25, FishingTiming.oneWaySeconds(3));
+        assertEquals(1.0, FishingTiming.oneWaySeconds(4));
+        assertEquals(0.8, FishingTiming.oneWaySeconds(5));
+        assertEquals(FishingTiming.position(7,3), FishingTiming.position(57,3));
     }
 
-    @Test void serverAndClientUseTheSameSynchronizedStartTick() {
-        long start = 123456;
-        long packetArrival = start + 5;
-        long now = start + 10;
-        assertEquals(0.5, FishingTiming.position(now - start));
-        assertEquals(0.25, FishingTiming.position(now - packetArrival));
-        assertNotEquals(FishingTiming.position(now - start),
-                FishingTiming.position(now - packetArrival));
-    }
-
-    @Test void centerBoundsAreInclusive() {
-        assertTrue(FishingTiming.inSuccessWindow(FishingTiming.SUCCESS_MIN));
-        assertTrue(FishingTiming.inSuccessWindow(FishingTiming.SUCCESS_MAX));
-        assertFalse(FishingTiming.inSuccessWindow(FishingTiming.SUCCESS_MIN - 0.0001));
-        assertFalse(FishingTiming.inSuccessWindow(FishingTiming.SUCCESS_MAX + 0.0001));
-        assertTrue(FishingTiming.successful(10));
-        assertFalse(FishingTiming.successful(8));
-        assertFalse(FishingTiming.successful(12));
+    @Test void zonesClassifyAndApplyCaptureProbabilities() {
+        assertEquals(FishingTiming.Zone.LIGHT_GREEN, FishingTiming.zone(.5));
+        assertEquals(FishingTiming.Zone.YELLOW, FishingTiming.zone(.35));
+        assertEquals(FishingTiming.Zone.ORANGE, FishingTiming.zone(.2));
+        assertEquals(FishingTiming.Zone.RED, FishingTiming.zone(.01));
+        for(int i=0;i<100;i++) assertTrue(FishingTiming.captures(FishingTiming.Zone.LIGHT_GREEN, RandomSource.create(i)));
+        for(int i=0;i<100;i++) assertFalse(FishingTiming.captures(FishingTiming.Zone.RED, RandomSource.create(i)));
     }
 
     @Test void timeoutBoundaryIsExplicit() {

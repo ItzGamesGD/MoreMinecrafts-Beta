@@ -1,5 +1,7 @@
 # MoreMinecrafts Equipment Progression 확정안
 
+> **Historical authority note:** This document preserves the Equipment Progression design freeze, but later reconciliation supersedes specific parts of it. For current T2 roster/gameplay and ordinary Enhancement rules, use `docs/STAGE_2_GAMEPLAY_RECONCILIATION.md`. In particular, the six-item/five-family T2 roster in Section 2 and the +30/+40 Enhancement baseline in Section 6 are historical. Other equipment-tier, T3, and T4 decisions remain in force unless a later authority document explicitly supersedes them.
+
 > **상태:** 콘텐츠 설계 단계 마감 / Equipment Progression Freeze.  
 > 이 문서는 체크리스트가 아니라 Equipment 단계에서 실제로 확정한 설계 내용을 보존하는 authoritative design record다.  
 > 정확한 수치, VFX, 입력 구현, 제작 수량처럼 플레이테스트와 Fabric 구현에 종속되는 값은 **[PROVISIONAL]** 또는 **[IMPLEMENTATION]**으로 분리한다.
@@ -14,7 +16,56 @@
 - **[LOCKED]** Promotion, Coin, Fragment 기반 장비 성장 체계는 사용하지 않는다.
 - **[LOCKED]** 갑옷은 무기보다 적은 수의 큰 Tier를 사용한다.
 
-## 2. T2 Elemental 최종 roster
+
+## 1A. T1 vanilla-style weapon extensions
+
+The following weapons extend the ordinary/basic vanilla equipment space. They are not T2 Elemental, T3 Special, T4 Endgame, or a separate T1.5 active-skill tier.
+
+### Dagger
+
+- **[LOCKED]** Exists across the corresponding ordinary vanilla material hierarchy rather than as a special one-off weapon.
+- **[LOCKED]** Reach target: approximately **2.5 blocks**.
+- **[LOCKED]** Attack speed target: approximately **Hoe-level**.
+- **[LOCKED]** Damage target: approximately **65% of the corresponding-tier Sword**, rounded to clean per-tier values.
+- **[LOCKED]** No sweeping attack.
+- **[LOCKED]** No combo, backstab, active skill, or secondary resource system.
+- **[LOCKED]** Base recipe pattern: **1 Stick + 1 corresponding tier material**.
+- **[BALANCE]** Exact rounded per-tier attack values may be normalized during implementation/balance without changing the weapon identity above.
+
+### Greatsword
+
+- **[LOCKED]** Exists in the ordinary vanilla material hierarchy rather than as a special one-off weapon.
+- **[LOCKED]** It is a slow, high-impact basic weapon with two ordinary attack forms, not an active-skill weapon.
+- **[BALANCE]** Reach target: approximately **3.5-4.0 blocks**.
+- **[BALANCE]** Attack speed target: approximately **Axe-level or slightly slower**.
+- **[BALANCE]** Damage target: approximately **130-150% of the corresponding-tier Sword**.
+- **[LOCKED]** **Left-click:** vertical/downward single-target slash; no sweeping.
+- **[LOCKED]** The vertical hit may use light ground-impact particles reminiscent of a Mace impact, but it does not inherit Mace fall-distance damage or shockwave behavior.
+- **[LOCKED]** **Right-click:** diagonal slash with sweeping; sweep range is **50% larger than a normal Sword sweep**.
+- **[LOCKED]** While the Greatsword is equipped/held for combat, **Shield use is unavailable**.
+- **[LOCKED]** Base recipe: **corresponding-tier Sword + 2 units of the corresponding main material**.
+- **[IMPLEMENTATION]** Exact animation/VFX presentation and final numeric point inside the approved balance windows are implementation/live-balance work.
+
+### Gauntlet
+
+- **[LOCKED]** Exactly **one Gauntlet item**; there are no material-tier variants.
+- **[LOCKED]** It is an ordinary/basic weapon extension, not T2/T3/T4 and not T1.5.
+- **[LOCKED]** Reach: **3 blocks**.
+- **[LOCKED]** Attack speed: approximately **0.6x bare-hand attack speed**.
+- **[LOCKED]** No sweeping attack.
+- **[LOCKED]** No right-click active skill.
+- **[LOCKED]** Directly struck target takes **2 damage (1 heart)**.
+- **[LOCKED]** The directly struck entity becomes the reference point for a secondary horizontal **X-Z 3.5 x 1.7** hit/knockback region extending behind the struck target relative to the attack direction.
+- **[LOCKED]** Other entities inside that secondary region take **0.5 damage (0.25 heart)**.
+- **[LOCKED]** Those secondary targets are pushed **2 blocks horizontally**.
+- **[LOCKED]** Secondary knockback has **no Y/upward component**.
+- **[LOCKED]** Recipe material pool is limited to **Gold, Diamond, Titanium, and Iron**.
+- **[OPEN-RECIPE-SHAPE]** Exact recipe arrangement and material quantities are intentionally not designed yet.
+- **[IMPLEMENTATION]** Final item/model shape is intentionally not fixed by this design pass.
+
+## 2. T2 Elemental roster (historical freeze; superseded)
+
+> **[SUPERSEDED / HISTORICAL]** This section records the earlier six-item/five-family T2 freeze. The current seven-item roster, including Lightning Sword, is authoritative in `docs/STAGE_2_GAMEPLAY_RECONCILIATION.md`. Do not use this section as the current T2 implementation contract.
 
 | Element | Equipment | Base type |
 |---|---|---|
@@ -26,7 +77,7 @@
 | Dark Energy | 마기가 깃든 지팡이 | Staff |
 | Ice | 없음 | 없음 |
 
-- **[LOCKED]** 총 6종, 5개 속성 계열.
+- **[SUPERSEDED / HISTORICAL]** 당시 freeze 기준 총 6종, 5개 속성 계열. 현재 T2 roster에는 Lightning Sword가 추가되어 이 수치는 더 이상 current authority가 아니다.
 - **[LOCKED]** T2는 Paper에서 정립된 각 장비의 핵심 gameplay identity와 능력 컨셉을 계승한다.
 - **[IMPLEMENTATION]** Paper 코드를 그대로 이식하지 않는다. 모델, 텍스처, 애니메이션, VFX/SFX, 정확한 공격력·범위·쿨다운·지속시간, 입력 키, 판정 방식은 Fabric 구현 단계에서 재설계한다.
 - **[IMPLEMENTATION]** Earth와 Dark Energy는 carrier weapon type이 바뀌었으므로 기존 능력 정체성을 새 무기 타입에 맞게 재구성한다.
@@ -136,11 +187,11 @@
 - **[LOCKED]** “T3보다 화려한 특수기 하나” 수준의 아이디어는 T4로 채택하지 않는다.
 - **[DISCARDED]** 이전 브레인스토밍의 공간 절단검, 거울/잔상 무기, 낙성창, 공허 사슬, 궤도 칼날, 지형 각성 망치, 바다 가르는 삼지창, 태양 대검, 시간 낫, 성좌 활, 거대/중량 망치, 하늘/중력 창, End/Genesis Pickaxe, Portal Staff, Fortress Shield, 변형 무기, Resonance/Gravity 계열, “무명” 적응형 무기, Return-point 장비 등은 현재 authoritative T4 roster가 아니다.
 
-## 6. Enhancement 최종 구조
+## 6. Enhancement 최종 구조 (historical; superseded by Enhancement 2.0)
 
-- **[LOCKED]** Paper 기준 강화 구조 유지.
-- **[LOCKED]** Vanilla equipment 최대 **+30**.
-- **[LOCKED]** T2 Elemental 최대 **+40**.
+- **[SUPERSEDED / HISTORICAL]** Paper 기준 강화 구조 유지.
+- **[SUPERSEDED / HISTORICAL]** Vanilla equipment 최대 **+30**.
+- **[SUPERSEDED / HISTORICAL]** T2 Elemental 최대 **+40**.
 - **[LOCKED]** T3 Special / T4 Endgame은 일반 Enhancement 대상이 아님.
 - **[LOCKED]** **Anvil + Upgrade Stone + Minecraft XP**.
 - **[LOCKED]** 성공률 **100%**.

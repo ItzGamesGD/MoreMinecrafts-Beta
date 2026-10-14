@@ -1,8 +1,16 @@
 # MoreMinecrafts 콘텐츠 최종 확정 체크리스트
 
+> **HISTORICAL STATUS CHECKLIST — NOT CURRENT DESIGN AUTHORITY**
+>
+> This document preserves the content-finalization status and decision history from its stage. It is not a current implementation or design authority. Entries marked `[LOCKED]`, `[DECIDE]`, `[PROVISIONAL]`, or otherwise retain their historical meaning only and may have been superseded by later reconciliation documents.
+>
+> Start current design lookup from `docs/CONTENT_AUTHORITY_INDEX.md`. Where this checklist conflicts with an authority or reconciliation document named there, the newer authority wins. Do not implement gameplay values, rosters, controls, progression rules, or other design details from this checklist without checking current authority first.
+
+> **Oct 7 follow-up:** For T2 acquisition, Multi Catch, Fisherman sale, activity rewards, and current implementation status, use `CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md` and `CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md`.
+
 > 목적: 이 문서는 Mod 이식 단계와 별개다.
 > 현재 작업은 최종 Paper 플러그인과 기존 설계 위에 새 콘텐츠 결정을 덧씌워, MoreMinecrafts의 최종 게임 디자인을 잠그는 단계다.
-> Stage 1~2의 실제 결정 과정·보류·폐기·최종 상태는 `docs/CONTENT_FINALIZATION_RESTORED_RECORD_STAGE_1_2.md`에 복원되어 있다. 체크리스트는 상태판이며 복원 기록과 각 단계 확정안이 상세 source of truth다.
+> Stage 1~2의 당시 결정 과정·보류·폐기·상태는 `docs/CONTENT_FINALIZATION_RESTORED_RECORD_STAGE_1_2.md`에 복원되어 있다. 이 체크리스트와 복원 기록은 historical record이며, 현재 authority routing은 `docs/CONTENT_AUTHORITY_INDEX.md`를 따른다.
 > 구현 방식은 나중의 Fabric Mod Stage에서 다시 설계하되, 여기서는 "무엇을 만들 것인가"를 먼저 확정한다.
 
 ## 상태 표기
@@ -86,8 +94,8 @@
 - [LOCKED] T4 Endgame baseline = 무극검 / 천궁 / 천서 3종. 세계수 활은 baseline 밖의 OPTIONAL 후보이며 필요 시 T3로 재분류 가능.
 - [LOCKED] T1/T2/T3/T4는 서로 독립적인 설계 카테고리이며 진화/승급 트리가 아니다. 특정 recipe/해금 조건에서 다른 Tier 장비를 요구할 수는 있으나 장비 상속은 아니다.
 - [LOCKED] T3 Special 7종 전부 유지: 타나토스의 철퇴 / 포세이돈의 창 / 화염 도끼 / 뇌신의 도끼 / 성검 · 솔라리스 / 월야잔광 / 빙결검. 핵심 정체성은 유지하고 Fabric 표현·구현은 재해석.
-- [LOCKED] Enhancement 상한: Vanilla +30 / T2 Elemental +40 / T3 Special·T4 Endgame 일반 강화 불가.
-- [PROVISIONAL] Enhancement 비용 baseline: Upgrade Stone 1개 고정 + XP level. +1~5=1, +6~10=2, +11~20=3, +21~30=4, +31~40=5. 플레이테스트에서 조정 가능.
+- [SUPERSEDED / HISTORICAL] Enhancement 상한 기록: Vanilla +30 / T2 Elemental +40 / T3 Special·T4 Endgame 일반 강화 불가.
+- [SUPERSEDED / STALE] Enhancement 비용 baseline 기록: Upgrade Stone 1개 고정 + XP level, 구형 +30/+40 범위. 플레이테스트에서 조정 가능하다고 기록했으나 현재 비용 규칙이 아님.
 - [LOCKED] Enhancement 성공률 100%. 실패/하락/파괴/실패 누적 보정 없음. Anvil + Upgrade Stone + Minecraft XP 구조 유지.
 - [PROVISIONAL] 장비 획득 밸런스는 실제 재료 recipe를 핵심으로 한다. T4는 희귀재료 제작 중심이며 탐험 상자 완제품 보상을 핵심 획득축으로 삼지 않는다. 정확한 재료 수량은 후속 공급량/플레이테스트와 함께 조정.
 - [REVIEW-COMPLETE] Paper Special Equipment vs Content Freeze v3 대조 완료. Freeze v3에는 개별 T2/T3/T4 weapon roster/능력 명세가 없고 `02_EQUIPMENT.md`는 Utility Equipment 문서이므로 충돌하는 개별 Special Equipment 설계 없음.
@@ -170,6 +178,7 @@
 ---
 
 # 5. Fishing 축
+> **Historical / superseded:** These were open questions then. Current authority: `docs/STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 
 ## 이미 확정
 - [LOCKED] vanilla cast/wait 흐름은 유지.
@@ -342,6 +351,7 @@
 ---
 
 # 13. Fishing current design overlay — 2026-09-26
+> Historical overlay, superseded on resolved runtime/resource points by `docs/STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`.
 
 > This section supersedes stale Fishing [DECIDE] entries above where the same topic is explicitly resolved here. Existing Stage 7 code remains implementation evidence, not authority over later user-approved design changes.
 
@@ -414,14 +424,15 @@
 
 
 # 14. Fishing design finalization reconciliation — 2026-09-26
+> This was the authority immediately before Stage 3 and remains historical. Stage 3 supersedes independent Weight rolling and post-minigame-only Minnow notice; other decisions remain in force.
 
 > This section is authoritative over stale Fishing entries and the earlier section 13 overlay where they conflict. Resource art remains deferred until the code-side fishing design below is implemented and live-testable.
 
 ## Vocabulary and independent fish variables
 - [LOCKED] Equipment uses Tier I–III only. Fish quality uses Grade I–V only. Equipment Tier and Fish Grade are separate concepts and must never be mapped to each other.
-- [LOCKED] A fish instance persists four independent variables: Species / Grade / Length / Weight.
+- [LOCKED] A fish instance persists Species / Grade / Length / Weight. Grade remains independent; Length informs expected Weight.
 - [LOCKED] Grade does not determine Length or Weight. Length and Weight do not determine Grade.
-- [LOCKED] Each species defines its own independent length distribution and its own independent weight distribution; there is no universal size curve shared by all species.
+- [LOCKED] Each species defines its own Length range and species-specific Weight curve. Weight is statistically dependent on Length, with bounded variation.
 - [LOCKED] Fish remain ItemStacks; no fish entity implementation is planned.
 
 ## Species baseline roster
@@ -439,17 +450,17 @@
 - [LOCKED] The same Crankbait Grade distribution applies regardless of species.
 
 ## Length and Weight
-- [LOCKED] Length and Weight are rolled independently after Species is known and use that species' own distributions.
+- [LOCKED] Length is rolled first; Weight follows the species-specific expected curve for that Length plus bounded individual variation.
 - [LOCKED] Length is displayed in centimeters with one decimal place; Weight is displayed in kilograms with one decimal place.
 - [LOCKED] Extreme individuals become progressively rarer according to each species' distribution. Exact curve parameters are balance data, not a new gameplay system.
 - [LOCKED] No separate Rod Frame / weight-capacity equipment. Fishing Rod remains a carrier for the three modules. Weight remains an individual fish/value variable and does not impose equipment capacity.
 
 ## Value model
-- [LOCKED] Internal value baseline: `Species Base Value × Grade Multiplier × (1 + Length Bonus + Weight Bonus)`.
+- [LOCKED] Internal value remains Species Base Value × Grade Multiplier × (1 + bounded combined size bonus), with correlated size percentiles averaged.
 - [LOCKED] Grade multiplier baseline: I=1.00, II=1.15, III=1.40, IV=1.80, V=2.50.
-- [LOCKED] Length Bonus and Weight Bonus use percentile within that species' own respective distribution, not raw cm/kg and not a universal normalized range.
-- [LOCKED] Baseline bonus form: `LengthBonus = lengthPercentile × 0.75`; `WeightBonus = weightPercentile × 0.75`.
-- [LOCKED] Length and Weight bonuses are additive inside Size Modifier rather than multiplied together, preventing extreme multiplicative price explosions.
+- [LOCKED] The combined size bonus uses per-species Length and Weight percentiles, not raw cm/kg or a universal scale.
+- [LOCKED] Stage 3 implementation: combined size bonus = 0.75 × average(lengthPercentile, weightPercentile).
+- [LOCKED] Combined size bonus is bounded at +75%; Emerald conversion and economy remain balance work.
 - [LOCKED] Species Base Value is an internal value index, not an Emerald amount. Fisherman payout converts the final value index to Emerald only at the final economy boundary.
 - [BALANCE] Current relative Species Base Value index baseline in roster order: 10 / 13 / 16 / 22 / 25 / 30 / 42 / 55 / 75 / 100 / 140 / 200.
 - [BALANCE] Exact Value Index → Emerald conversion remains live-balance work.
@@ -460,7 +471,7 @@
 - [LOCKED] Reel baseline progression groups the 12-species roster into three broad four-species access bands, subject only to final ecology/data tuning.
 - [LOCKED] Minnow controls capture permission only. Species has a required Minnow Tier independent of Grade/Length/Weight. Higher Minnow includes lower requirements.
 - [LOCKED] Reel and Minnow requirements do not have to be identical for a species; this preserves distinct roles.
-- [LOCKED] Insufficient Minnow does not remove the species from the encounter pool. The fish may bite and the minigame may run; after a successful minigame the capture fails with a message stating the required Minnow Tier.
+- [LOCKED] Insufficient Minnow does not remove the species from the encounter pool. The fish may bite and the minigame may run; the encounter and minigame continue; HUD shows the required Minnow Tier before completion, then capture is denied if insufficient.
 - [LOCKED] Reel consumes durability when a valid custom fishing attempt/cast starts. Minnow and Crankbait consume durability only when a permitted capture succeeds.
 - [LOCKED] Failed minigame or insufficient Minnow consumes no Minnow/Crankbait durability.
 - [LOCKED] Module durability reaching 1 means broken/inactive; the module persists rather than disappearing and can be repaired through the Anvil.

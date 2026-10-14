@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:multi_shot",
+    "moreminecrafts:crossbow_barrage",
+    "moreminecrafts:vein_mining",
+    "moreminecrafts:auto_replant",
+    "moreminecrafts:auto_smelt",
+    "moreminecrafts:lumberjack",
+    "moreminecrafts:elytra_launch",
+    "moreminecrafts:explosive_mace",
+    "moreminecrafts:feather_boots",
+    "moreminecrafts:jet_boots"
+  ]
+}

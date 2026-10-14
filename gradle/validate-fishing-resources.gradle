@@ -1,0 +1,77 @@
+tasks.register("validateFishingResources") {
+ group="verification"
+ description="Validates Fishing roster, approved hashes, model graph, and bounded geometry."
+ dependsOn tasks.named("jar")
+ doLast {
+  def json=new groovy.json.JsonSlurper()
+  def fishIds=["crucian_carp","common_carp","amur_catfish","rainbow_trout","largemouth_bass","northern_pike","atlantic_salmon","yellowfin_tuna","arapaima","swordfish","blue_marlin","beluga_sturgeon"]
+  def families=["reel","minnow","crankbait"], moduleIds=families.collectMany{family->(1..3).collect{tier->"${family}_${tier}"}}
+  def legacyFishIds=["bluegill","perch","trout","catfish","salmon","pike","sturgeon","golden_koi","abyssal_angler","ancient_coelacanth"]
+  def legacyModuleIds=families.collectMany{family->(4..5).collect{tier->"${family}_${tier}"}}
+  def src=file("src/main/java/dev/itzgamesgd/moreminecrafts/fishing/FishSpecies.java").text
+  def declared=(src =~ /(?m)^\s+[A-Z_]+\("([a-z_]+)"/).collect{it[1]}
+  assert declared==fishIds
+  def approval=json.parse(file("docs/FISHING_RESOURCE_D_APPROVED_MANIFEST.json"))
+  assert approval["package"]=="Fishing Resource D Final Approved" && approval.fish_species_count==12 && approval.fish_species==fishIds
+  assert approval.equipment_item_count==9 && approval.sha256.size()==35
+  def items=file("src/main/resources/assets/moreminecrafts/items"),models=file("src/main/resources/assets/moreminecrafts/models/item"),textures=file("src/main/resources/assets/moreminecrafts/textures/item")
+  def ids={dir,re,ext->dir.listFiles().findAll{it.name==~re}.collect{it.name-ext}.sort()}
+  assert ids(items,/^(reel|minnow|crankbait)_\d+\.json$/,".json")== (moduleIds+legacyModuleIds).sort()
+  assert ids(models,/^(reel|minnow|crankbait)_\d+\.json$/,".json")== (moduleIds+legacyModuleIds).sort()
+  assert ids(textures,/^(reel|minnow|crankbait)_\d+\.png$/,".png")==moduleIds.sort()
+  legacyFishIds.each{id->
+   def ip=file("src/main/resources/assets/moreminecrafts/items/${id}.json"),mp=file("src/main/resources/assets/moreminecrafts/models/item/${id}.json")
+   assert ip.isFile()&&mp.isFile()&&!file("src/main/resources/assets/moreminecrafts/textures/item/${id}.png").exists()
+   def item=json.parse(ip),m=json.parse(mp)
+   assert item.model.model=="moreminecrafts:item/${id}"&&m.parent=="minecraft:item/generated"&&m.textures.layer0=="minecraft:item/cod"
+  }
+  def legacyModuleTextures=[reel:"minecraft:item/iron_nugget",crankbait:"minecraft:item/tripwire_hook",minnow:"minecraft:item/tropical_fish"]
+  legacyModuleIds.each{id->
+   def ip=file("src/main/resources/assets/moreminecrafts/items/${id}.json"),mp=file("src/main/resources/assets/moreminecrafts/models/item/${id}.json")
+   assert ip.isFile()&&mp.isFile()&&!file("src/main/resources/assets/moreminecrafts/textures/item/${id}.png").exists()
+   def item=json.parse(ip),m=json.parse(mp),family=id.substring(0,id.lastIndexOf("_"))
+   assert item.model.model=="moreminecrafts:item/${id}"&&m.parent=="minecraft:item/generated"&&m.textures.layer0==legacyModuleTextures[family]
+  }
+  (4..5).each{tier->families.each{family->assert !file("src/main/resources/assets/moreminecrafts/textures/item/${family}_${tier}.png").exists()}}
+  def fishTextures=textures.listFiles().findAll{p->if(!p.name.endsWith(".png"))return false;byte[] b=p.bytes;b.length>=26&&java.util.HexFormat.of().formatHex(b,0,8)=="89504e470d0a1a0a"&&java.nio.ByteBuffer.wrap(b).getInt(16)==512&&java.nio.ByteBuffer.wrap(b).getInt(20)==512}.collect{it.name[0..-5]}.sort()
+  assert fishTextures==fishIds.sort() : "Fish master texture set differs from final roster"
+  def contexts=["gui","firstperson_righthand","firstperson_lefthand","thirdperson_righthand","thirdperson_lefthand","ground","fixed","head"] as Set
+  (fishIds+moduleIds).each{id->
+   def ip=file("src/main/resources/assets/moreminecrafts/items/${id}.json"),mp=file("src/main/resources/assets/moreminecrafts/models/item/${id}.json"),tp=file("src/main/resources/assets/moreminecrafts/textures/item/${id}.png")
+   assert ip.isFile()&&mp.isFile()&&tp.isFile()
+   def item=json.parse(ip),m=json.parse(mp);assert item.model.type=="minecraft:model"&&item.model.model=="moreminecrafts:item/${id}"
+   assert !m.containsKey("parent")&&m.textures.layer0=="moreminecrafts:item/${id}"&&m.textures.particle=="moreminecrafts:item/${id}"&&m.gui_light=="front"&&m.elements.size()==1
+   byte[] png=tp.bytes;assert java.util.HexFormat.of().formatHex(png,0,8)=="89504e470d0a1a0a"
+   int iw=java.nio.ByteBuffer.wrap(png).getInt(16),ih=java.nio.ByteBuffer.wrap(png).getInt(20);double z=Math.max(iw,ih),w=16.0*iw/z,h=16.0*ih/z,x=(16.0-w)/2,y=(16.0-h)/2
+   def e=m.elements[0];assert Math.abs(e.from[0]-x)<.001&&Math.abs(e.to[0]-(x+w))<.001&&Math.abs(e.from[1]-y)<.001&&Math.abs(e.to[1]-(y+h))<.001&&e.from[2]==7.5&&e.to[2]==8.5
+   assert (e.faces.keySet() as Set)==(["north","south"] as Set);e.faces.values().each{face->assert face.texture=="#layer0"&&face.uv==[0,0,16,16]}
+   assert (m.display.keySet() as Set).containsAll(contexts)&&m.display.gui.rotation==[0,0,0]&&m.display.gui.scale==[1,1,1]
+   assert m.display.firstperson_righthand.rotation==[0,-90,25]&&m.display.firstperson_righthand.translation==[1.13,3.2,1.13]&&m.display.firstperson_righthand.scale==[0.68,0.68,0.68]
+   assert m.display.thirdperson_righthand.rotation==[0,0,0]&&m.display.thirdperson_righthand.translation==[0,3,1]&&m.display.thirdperson_righthand.scale==[0.55,0.55,0.55]
+   assert m.display.ground.translation==[0,2,0]&&m.display.ground.scale==[0.5,0.5,0.5]&&m.display.fixed.rotation==[0,180,0]&&m.display.fixed.scale==[1,1,1]
+   assert (png[24]&0xff)==8&&(png[25]&0xff)==6
+  }
+  def fishingScreen = file("src/client/java/dev/itzgamesgd/moreminecrafts/client/FishingRodScreen.java").text
+  def effectsPanelDraw = (fishingScreen =~ /picture\(graphics,\s*"equipment_effects_panel",\s*x \+ 8,\s*y \+ 103,\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)\)/)
+  assert effectsPanelDraw.find() : "Fishing equipment effects panel draw call is missing"
+  double panelWidth = effectsPanelDraw.group(1) as double
+  double panelHeight = effectsPanelDraw.group(2) as double
+  double textureWidth = effectsPanelDraw.group(3) as double
+  double textureHeight = effectsPanelDraw.group(4) as double
+  assert Math.abs(panelWidth / textureWidth - panelHeight / textureHeight) < 0.000001 :
+          "Fishing equipment effects panel must preserve its source image aspect ratio"
+
+  def jar=tasks.named("jar").get().archiveFile.get().asFile
+  (approval.sha256 as Map).each{path,hash->
+   def resource=path.startsWith("items/")?"assets/moreminecrafts/textures/item/${path.tokenize('/').last()}":path.startsWith("ui/")?"assets/moreminecrafts/textures/gui/fishing/${path.substring(3)}":null
+   assert resource!=null
+   def source=file("src/main/resources/${resource}");assert source.isFile()
+   assert java.security.MessageDigest.getInstance("SHA-256").digest(source.bytes).encodeHex().toString()==hash : "Approved asset changed: ${path}"
+   new java.util.zip.ZipFile(jar).withCloseable{zip->def e=java.util.Collections.list(zip.entries()).findAll{it.name==resource};assert e.size()==1;byte[] b=zip.getInputStream(e[0]).withCloseable{it.bytes};assert java.security.MessageDigest.getInstance("SHA-256").digest(b).encodeHex().toString()==hash}
+  }
+  ["cod","pufferfish","tropical_fish","clownfish"].each{id->["items/${id}.json","models/item/${id}.json","textures/item/${id}.png"].each{p->assert !file("src/main/resources/assets/moreminecrafts/${p}").exists()}}
+  // The legacy moreminecrafts:salmon item/model is retained for saved stacks, without a mod texture.
+  assert !file("src/main/resources/assets/moreminecrafts/textures/item/salmon.png").exists()
+ }
+}
+tasks.named("check"){dependsOn tasks.named("validateFishingResources")}

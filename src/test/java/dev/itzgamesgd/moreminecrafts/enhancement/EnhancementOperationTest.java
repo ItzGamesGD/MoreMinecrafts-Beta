@@ -1,62 +1,32 @@
 package dev.itzgamesgd.moreminecrafts.enhancement;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class EnhancementOperationTest {
-    private static final EnhancementDefinition VANILLA_SWORD =
-            new EnhancementDefinition(EnhancementCategory.VANILLA, EnhancementProfile.SWORD);
-    private static final EnhancementDefinition ELEMENTAL_SWORD =
-            new EnhancementDefinition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD);
+    private static final EnhancementDefinition T1 = new EnhancementDefinition(EnhancementCategory.VANILLA, EnhancementProfile.SWORD);
+    private static final EnhancementDefinition T2 = new EnhancementDefinition(EnhancementCategory.ELEMENTAL, EnhancementProfile.SWORD);
 
-    @Test
-    void advancesSequentiallyWithTargetLevelCosts() {
-        var first = EnhancementOperation.plan(VANILLA_SWORD, 0, 1).orElseThrow();
-        assertEquals(1, first.targetLevel());
-        assertEquals(1, first.experienceLevelCost());
-        assertEquals(1, first.materialCost());
-
-        var second = EnhancementOperation.plan(VANILLA_SWORD, first.targetLevel(), 1).orElseThrow();
-        assertEquals(2, second.targetLevel());
-        assertEquals(1, second.experienceLevelCost());
-        assertEquals(1, second.materialCost());
+    @Test void ordinaryTiersStopAtTwenty() {
+        assertEquals(20, EnhancementOperation.plan(T1, 19, 2).orElseThrow().targetLevel());
+        assertEquals(20, EnhancementOperation.plan(T2, 19, 2).orElseThrow().targetLevel());
+        assertTrue(EnhancementOperation.plan(T1, 20, 64).isEmpty());
+        assertTrue(EnhancementOperation.plan(T2, 20, 64).isEmpty());
     }
-
-    @Test
-    void vanillaStopsAtThirtyAndElementalAtForty() {
-        assertEquals(30, EnhancementOperation.plan(VANILLA_SWORD, 29, 1).orElseThrow().targetLevel());
-        assertTrue(EnhancementOperation.plan(VANILLA_SWORD, 30, 1).isEmpty());
-
-        assertEquals(40, EnhancementOperation.plan(ELEMENTAL_SWORD, 39, 1).orElseThrow().targetLevel());
-        assertTrue(EnhancementOperation.plan(ELEMENTAL_SWORD, 40, 1).isEmpty());
+    @Test void transactionPlanExposesMilestoneStateAndCosts() {
+        var ordinary = EnhancementOperation.plan(T1, 3, 1).orElseThrow();
+        assertFalse(ordinary.milestone()); assertEquals(1, ordinary.experienceLevelCost());
+        var milestone = EnhancementOperation.plan(T1, 4, 2).orElseThrow();
+        assertTrue(milestone.milestone()); assertEquals(1, milestone.milestoneCount());
+        assertEquals(2, milestone.materialCost()); assertEquals(1, milestone.experienceLevelCost());
+        assertTrue(EnhancementOperation.plan(T1, 4, 1).isEmpty());
     }
-
-    @Test
-    void nonEnhanceableCategoriesAreRejected() {
-        for (EnhancementCategory category : new EnhancementCategory[]{
-                EnhancementCategory.SPECIAL,
-                EnhancementCategory.ENDGAME,
-                EnhancementCategory.UNSUPPORTED
-        }) {
-            var definition = new EnhancementDefinition(category, EnhancementProfile.SWORD);
-            assertTrue(EnhancementOperation.plan(definition, 0, 1).isEmpty());
-        }
+    @Test void futureAndUnsupportedCategoriesRemainUnavailable() {
+        for (var category : new EnhancementCategory[]{EnhancementCategory.SPECIAL, EnhancementCategory.ENDGAME, EnhancementCategory.UNSUPPORTED})
+            assertTrue(EnhancementOperation.plan(new EnhancementDefinition(category, EnhancementProfile.SWORD), 0, 64).isEmpty());
     }
-
-    @Test
-    void materialPolicyConsumesExactlyOneFromAnyPositiveStack() {
-        assertTrue(EnhancementOperation.plan(VANILLA_SWORD, 0, 0).isEmpty());
-
-        var one = EnhancementOperation.plan(VANILLA_SWORD, 0, 1).orElseThrow();
-        var stack = EnhancementOperation.plan(VANILLA_SWORD, 0, 64).orElseThrow();
-        assertEquals(1, one.materialCost());
-        assertEquals(1, stack.materialCost());
-    }
-
-    @Test
-    void malformedLevelsFailClosedWithoutOverflow() {
-        assertTrue(EnhancementOperation.plan(VANILLA_SWORD, -1, 1).isEmpty());
-        assertTrue(EnhancementOperation.plan(VANILLA_SWORD, Integer.MAX_VALUE, 1).isEmpty());
+    @Test void malformedLevelsFailClosedWithoutOverflow() {
+        assertTrue(EnhancementOperation.plan(T1, -1, 64).isEmpty());
+        assertTrue(EnhancementOperation.plan(T1, Integer.MAX_VALUE, 64).isEmpty());
     }
 }

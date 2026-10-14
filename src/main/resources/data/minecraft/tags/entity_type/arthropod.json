@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:small_spider",
+    "moreminecrafts:large_spider",
+    "moreminecrafts:forest_spider",
+    "moreminecrafts:desert_spider",
+    "moreminecrafts:swamp_spider",
+    "moreminecrafts:ice_spider",
+    "moreminecrafts:cave_bug",
+    "moreminecrafts:desert_bug",
+    "moreminecrafts:end_bug",
+    "moreminecrafts:giant_bee"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:swamp_zombie",
+    "moreminecrafts:cave_zombie",
+    "moreminecrafts:large_zombie",
+    "moreminecrafts:frozen_zombie",
+    "moreminecrafts:mossy_zombie",
+    "moreminecrafts:fungal_zombie",
+    "moreminecrafts:miner_zombie",
+    "moreminecrafts:drowned_sailor",
+    "moreminecrafts:deep_sea_drowned",
+    "moreminecrafts:river_drowned"
+  ]
+}

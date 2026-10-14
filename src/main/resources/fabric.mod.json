@@ -14,6 +14,9 @@
     ],
     "client": [
       "dev.itzgamesgd.moreminecrafts.client.MoreMinecraftsClient"
+    ],
+    "lambdynlights:initializer": [
+      "dev.itzgamesgd.moreminecrafts.client.LanternDynamicLightBridge"
     ]
   },
   "mixins": [
@@ -24,5 +27,9 @@
     "minecraft": ">=26.3 <26.4",
     "java": ">=25",
     "fabric-api": "*"
+  },
+  "suggests": {
+    "lambdynlights": ">=4.13.0",
+    "lambdynlights_api": ">=4.13.0"
   }
 }

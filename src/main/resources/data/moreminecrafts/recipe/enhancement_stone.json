@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["RDR", "DLD", "RDR"],
+  "key": {
+    "R": "minecraft:redstone",
+    "D": "minecraft:diamond",
+    "L": "minecraft:lapis_lazuli"
+  },
+  "result": {"id": "moreminecrafts:enhancement_stone", "count": 16}
+}

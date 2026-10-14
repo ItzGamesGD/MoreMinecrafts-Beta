@@ -3,6 +3,9 @@ plugins {
     id "maven-publish"
 }
 
+apply from: "gradle/validate-flame-sword-production.gradle"
+apply from: "gradle/validate-fishing-resources.gradle"
+
 version = project.mod_version
 group = project.maven_group
 
@@ -12,6 +15,10 @@ base {
 
 repositories {
     mavenCentral()
+    maven {
+        url = "https://maven.gegy.dev/releases/"
+        content { includeGroup("dev.lambdaurora.lambdynamiclights") }
+    }
 }
 
 loom {
@@ -24,11 +31,21 @@ loom {
         }
     }
 }
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = "moreminecrafts-gametest"
+        enableGameTests = true
+        enableClientGameTests = false
+        eula = true
+    }
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    compileOnly "dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:4.13.0+26.3"
     testImplementation "org.junit.jupiter:junit-jupiter:5.11.4"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 }
@@ -64,7 +81,7 @@ java {
 
 tasks.register("validateStage6Data") {
     group = "verification"
-    description = "Validates the required Stage 6 data/resource JSON and custom references."
+    description = "Validates Minecraft 26.3 Stage 6 data/resource JSON and custom references."
     doLast {
         def json = new groovy.json.JsonSlurper()
         def resourceRoot = file("src/main/resources")
@@ -75,17 +92,26 @@ tasks.register("validateStage6Data") {
                 etherium: ["etherium_ore", "etherium"],
                 adamantium: ["adamantium_debris", "adamantium_ingot"]
         ]
-
-        fileTree(resourceRoot).matching { include "**/*.json" }.files.each { json.parse(it) }
-        families.each { family, ids ->
-            assert file("src/main/resources/data/moreminecrafts/worldgen/configured_feature/ore_${family}.json").isFile()
-            assert file("src/main/resources/data/moreminecrafts/worldgen/placed_feature/ore_${family}.json").isFile()
-            ids.each { id ->
-                assert file("src/main/resources/assets/moreminecrafts/items/${id}.json").isFile()
+        def validHeightProviders = [
+                "minecraft:constant", "minecraft:uniform", "minecraft:biased_to_bottom",
+                "minecraft:very_biased_to_bottom", "minecraft:trapezoid", "minecraft:weighted_list"
+        ] as Set
+        def requiredPlacementModifiers = ["minecraft:in_square", "minecraft:height_range", "minecraft:biome"] as Set
+        def recursiveJsonFiles = { root -> fileTree(root).matching { include "**/*.json" }.files }
+        def validatePlacedFeature = { placedFile ->
+            def placed = json.parse(placedFile)
+            def featureId = placed.feature as String
+            if (featureId?.startsWith("moreminecrafts:")) {
+                def featurePath = featureId.substring("moreminecrafts:".length())
+                assert file("src/main/resources/data/moreminecrafts/worldgen/feature/${featurePath}.json").isFile() :
+                        "Missing Minecraft 26.3 feature ${featureId} referenced by ${placedFile}"
             }
+            def heightRange = placed.placement.find { it.type == "minecraft:height_range" }
+            assert heightRange != null
+            assert validHeightProviders.contains(heightRange.height.type) :
+                    "Unsupported Minecraft 26.3 height provider ${heightRange.height.type} in ${placedFile}"
         }
-
-        fileTree("src/main/resources/assets/moreminecrafts/items").matching { include "*.json" }.files.each { itemFile ->
+        def validateItemModelReference = { itemFile ->
             def model = json.parse(itemFile).model.model as String
             if (model?.startsWith("moreminecrafts:")) {
                 def modelPath = model.substring("moreminecrafts:".length())
@@ -93,9 +119,256 @@ tasks.register("validateStage6Data") {
                         "Missing model ${model} referenced by ${itemFile}"
             }
         }
+
+        recursiveJsonFiles(resourceRoot).each { json.parse(it) }
+
+        def legacyConfiguredDir = file("src/main/resources/data/moreminecrafts/worldgen/configured_feature")
+        assert !legacyConfiguredDir.exists() || recursiveJsonFiles(legacyConfiguredDir).empty :
+                "Legacy worldgen/configured_feature JSON remains; Minecraft 26.3 uses worldgen/feature"
+
+        [titanium: "raw_titanium", tungsten: "raw_tungsten", mythril: "mythril"].each { family, drop ->
+            ["", "deepslate_"].each { prefix ->
+                def ore = prefix + family + "_ore"
+                def lootFile = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${ore}.json")
+                assert lootFile.isFile() : "Missing runtime loot table for ${ore}"
+                def loot = json.parse(lootFile)
+                def alternatives = loot.pools[0].entries[0]
+                assert alternatives.type == "minecraft:alternatives"
+                def silk = alternatives.children[0]
+                def normal = alternatives.children[1]
+                assert silk.condition == "minecraft:tool/can_silk_touch" && silk.name == "moreminecrafts:${ore}" :
+                        "${ore} must return itself only through the current Silk Touch condition"
+                assert normal.name == "moreminecrafts:${drop}"
+                assert normal.modifier*.type == ["minecraft:apply_bonus", "minecraft:explosion_decay"]
+                assert normal.modifier[0].enchantment == "minecraft:fortune"
+                assert !lootFile.text.contains('"conditions"') && !lootFile.text.contains('"functions"') :
+                        "${ore} uses obsolete loot field names that Minecraft 26.3 ignores"
+            }
+            if (family != "mythril") {
+                ["smelting", "blasting"].each { method ->
+                    def recipe = json.parse(file("src/main/resources/data/moreminecrafts/recipe/raw_${family}_from_${method}.json"))
+                    assert recipe.type == "minecraft:${method}"
+                    assert recipe.ingredient == "moreminecrafts:raw_${family}"
+                    assert recipe.result.id == "moreminecrafts:${family}_ingot"
+                }
+            }
+        }
+
+        families.each { family, ids ->
+            def featureFile = file("src/main/resources/data/moreminecrafts/worldgen/feature/ore_${family}.json")
+            def placedFile = file("src/main/resources/data/moreminecrafts/worldgen/placed_feature/ore_${family}.json")
+            assert featureFile.isFile() : "Missing Minecraft 26.3 feature ${featureFile}"
+            assert placedFile.isFile() : "Missing placed feature ${placedFile}"
+
+            def feature = json.parse(featureFile)
+            def placed = json.parse(placedFile)
+
+            assert feature.type == "minecraft:ore"
+            assert !feature.containsKey("config") : "Minecraft 26.3 feature config must be inline in ${featureFile}"
+            assert feature.targets instanceof List
+            assert feature.size instanceof Number
+
+            feature.targets.each { target ->
+                assert target.state instanceof String :
+                        "Minecraft 26.3 ore target state must be a block identifier string in ${featureFile}"
+                assert target.state.toString().startsWith("moreminecrafts:")
+                assert !target.state.toString().contains("Name") && !target.state.toString().contains("Properties") :
+                        "Minecraft 26.3 target state must not use the legacy block-state object format in ${featureFile}"
+            }
+
+            if (family != "adamantium") {
+                def byTag = feature.targets.collectEntries { target ->
+                    [(target.target.tag): target.state]
+                }
+                assert byTag["minecraft:stone_ore_replaceables"] == "moreminecrafts:${family}_ore"
+                assert byTag["minecraft:deepslate_ore_replaceables"] == "moreminecrafts:deepslate_${family}_ore" :
+                        "Deepslate target must use dedicated deepslate block for ${family}"
+            } else {
+                assert feature.targets.size() == 1
+                assert feature.targets[0].target.tag == "minecraft:base_stone_nether"
+                assert feature.targets[0].state == "moreminecrafts:adamantium_debris"
+            }
+
+            assert placed.feature == "moreminecrafts:ore_${family}"
+            def modifierTypes = placed.placement.collect { it.type } as Set
+            assert modifierTypes.containsAll(requiredPlacementModifiers)
+            def heightRange = placed.placement.find { it.type == "minecraft:height_range" }
+            assert validHeightProviders.contains(heightRange.height.type) :
+                    "Unsupported Minecraft 26.3 height provider ${heightRange.height.type} in ${placedFile}"
+
+            ids.each { id ->
+                assert file("src/main/resources/assets/moreminecrafts/items/${id}.json").isFile()
+            }
+        }
+
+        recursiveJsonFiles("src/main/resources/data/moreminecrafts/worldgen/placed_feature").each { placedFile ->
+            validatePlacedFeature(placedFile)
+        }
+
+        recursiveJsonFiles("src/main/resources/assets/moreminecrafts/items").each { itemFile ->
+            validateItemModelReference(itemFile)
+        }
+
+        def fixtureRoot = file("src/test/resources/validation/stage6/data/moreminecrafts/worldgen/placed_feature")
+        def nestedInvalidFixture = new File(fixtureRoot, "nested/invalid_height.json")
+        assert recursiveJsonFiles(fixtureRoot).contains(nestedInvalidFixture) :
+                "Nested Stage 6 regression fixture was not discovered recursively"
+        try {
+            validatePlacedFeature(nestedInvalidFixture)
+            assert false : "Nested invalid placed-feature fixture escaped validation"
+        } catch (AssertionError expected) {
+            assert expected.message.contains("Unsupported Minecraft 26.3 height provider") :
+                    "Nested fixture failed for an unexpected reason: ${expected.message}"
+        }
     }
 }
 
 tasks.named("check") {
     dependsOn tasks.named("validateStage6Data")
 }
+
+tasks.register("validateFlameSwordResources") {
+    group = "verification"
+    description = "Checks the C1-A sword model chain and distributable JAR while allowing the temporary or approved texture."
+    dependsOn tasks.named("jar")
+
+    doLast {
+        def json = new groovy.json.JsonSlurper()
+        def source = file("src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModItems.java").text
+        assert (source =~ /public static final ResourceKey<Item> FLAME_SWORD_KEY\s*=/).findAll().size() == 1
+        assert (source =~ /public static final Item FLAME_SWORD\s*=\s*Registry\.register\(\s*BuiltInRegistries\.ITEM,\s*FLAME_SWORD_KEY,/).findAll().size() == 1
+
+        def itemPath = "assets/moreminecrafts/items/flame_sword.json"
+        def modelPath = "assets/moreminecrafts/models/item/flame_sword.json"
+        def enPath = "assets/moreminecrafts/lang/en_us.json"
+        def koPath = "assets/moreminecrafts/lang/ko_kr.json"
+        def paths = [itemPath, modelPath, enPath, koPath]
+        def resources = paths.collectEntries { path ->
+            def resource = file("src/main/resources/${path}")
+            assert resource.isFile() : "Missing Flame Sword resource: ${path}"
+            [(path): json.parse(resource)]
+        }
+
+        assert resources[itemPath].model.type == "minecraft:model"
+        assert resources[itemPath].model.model == "moreminecrafts:item/flame_sword"
+        assert resources[modelPath].parent == "minecraft:item/handheld"
+        // C1-A may use its temporary vanilla reference or the approved C1-B production texture.
+        assert resources[modelPath].textures.layer0 in ["minecraft:item/netherite_sword", "moreminecrafts:item/flame_sword"] :
+                "Flame Sword must reference the temporary vanilla or approved production texture"
+        assert resources[enPath]["item.moreminecrafts.flame_sword"] == "Flame Sword"
+        assert resources[koPath]["item.moreminecrafts.flame_sword"] == "불꽃검"
+
+        def distributable = tasks.named("jar").get().archiveFile.get().asFile
+        assert distributable.isFile() : "Missing distributable mod JAR: ${distributable}"
+        new java.util.zip.ZipFile(distributable).withCloseable { jar ->
+            paths.each { path ->
+                def entries = java.util.Collections.list(jar.entries()).findAll { it.name == path }
+                assert entries.size() == 1 : "Expected exactly one ${path} in ${distributable}"
+                def packed = jar.getInputStream(entries[0]).withCloseable { json.parse(it) }
+                assert packed == resources[path] : "JAR resource differs from source: ${path}"
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn tasks.named("validateFlameSwordResources")
+}
+
+tasks.register("validateLowerEquipmentResources") {
+    group = "verification"
+    description = "Validates lower-equipment blockstate, model, item-model, and loot-table references for Minecraft 26.3."
+
+    doLast {
+        def json = new groovy.json.JsonSlurper()
+        def validateModelId = { String modelId, String origin ->
+            if (modelId.startsWith("moreminecrafts:")) {
+                def modelPath = modelId.substring("moreminecrafts:".length())
+                def modelFile = file("src/main/resources/assets/moreminecrafts/models/${modelPath}.json")
+                assert modelFile.isFile() : "Missing model ${modelId} referenced by ${origin}"
+            }
+        }
+        def validateReferences
+        validateReferences = { Object node, String origin ->
+            if (node instanceof Map) {
+                if (node.model instanceof String) validateModelId(node.model as String, origin)
+                if (node.parent instanceof String) validateModelId(node.parent as String, origin)
+                node.values().each { child -> validateReferences(child, origin) }
+            } else if (node instanceof Collection) {
+                node.each { child -> validateReferences(child, origin) }
+            }
+        }
+        def jsonFiles = { String root ->
+            fileTree(root).matching { include "**/*.json" }.files
+        }
+
+        ["assets/moreminecrafts/items", "assets/moreminecrafts/blockstates",
+         "assets/moreminecrafts/models"].each { root ->
+            jsonFiles("src/main/resources/${root}").each { source ->
+                validateReferences(json.parse(source), source.path)
+            }
+        }
+
+        ["exploration_sleeping_bag", "fish_trap", "portable_furnace"].each { id ->
+            def itemPath = file("src/main/resources/assets/moreminecrafts/items/${id}.json")
+            assert itemPath.isFile()
+            def item = json.parse(itemPath)
+            assert item.model.type == "minecraft:model"
+            if (id == "portable_furnace") {
+                assert item.model.model == "minecraft:block/furnace"
+            } else {
+                assert item.model.model.startsWith("moreminecrafts:block/")
+                def lootPath = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${id}.json")
+                assert lootPath.isFile()
+                def loot = json.parse(lootPath)
+                assert loot.pools instanceof List && !loot.pools.empty
+                loot.pools.each { pool ->
+                    assert !pool.containsKey("conditions") :
+                            "${id} uses the obsolete pool-level loot condition field"
+                    assert pool.entries.any { entry ->
+                        entry.condition.type == "minecraft:match_block"
+                                && entry.condition.blocks == "moreminecrafts:${id}"
+                                && entry.condition.state.part == "head"
+                    } : "${id} must use the current entry-level block-state loot condition"
+                }
+            }
+        }
+
+        def drillSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/MiningDrillItem.java").text
+        def rulesSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/LowerEquipmentRules.java").text
+        assert rulesSource.contains("state.is(BlockTags.MINEABLE_WITH_PICKAXE)")
+        assert drillSource.contains("LowerEquipmentRules.isPickaxeMineable(state) && hasFuel(drill)")
+        assert drillSource.contains("if (!level.isClientSide()) consumeOneFuelPoint(drill)")
+        assert !drillSource.contains("state.is(BlockTags.MINEABLE_WITH_PICKAXE)")
+
+        def furnaceSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/PortableFurnaceMenu.java").text
+        assert furnaceSource.indexOf("if (state.get(0) > 0)") < furnaceSource.indexOf("ItemStack input = contents.getItem(0)") :
+                "Portable Furnace must decrement active burn time before checking whether cooking can proceed"
+        assert furnaceSource.contains("fuel.getItem().getCraftingRemainder()")
+        assert furnaceSource.contains("remainderTemplate.create()")
+        assert furnaceSource.contains("player.getInventory().add(remainder)")
+        assert furnaceSource.contains("player.spawnAtLocation((ServerLevel) player.level(), remainder)")
+        assert furnaceSource.contains("vanillaTicks / LowerEquipmentRules.PORTABLE_FURNACE_FUEL_TICK_MULTIPLIER")
+
+        def greatswordSource = file("src/main/java/dev/itzgamesgd/moreminecrafts/equipment/GreatswordItem.java").text
+        assert greatswordSource.contains("attacker.getAttackStrengthScale(0.5F)")
+        assert greatswordSource.contains("attacker.hasLineOfSight(candidate)")
+        assert greatswordSource.contains("LowerEquipmentRules.isWithinGreatswordSweep(offset, direction)")
+        assert !greatswordSource.contains("GREATSWORD_SWEEP_RANGE")
+
+        // Regression probe: prove this validator fails on an unresolved block model.
+        try {
+            validateReferences([variants: [default: [model: "moreminecrafts:block/__missing_validation_probe"]]],
+                    "validator regression probe")
+            throw new GradleException("Missing block-model regression probe escaped validation")
+        } catch (AssertionError expected) {
+            assert expected.message.contains("Missing model") :
+                    "Model regression probe failed for an unexpected reason: ${expected.message}"
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn tasks.named("validateLowerEquipmentResources")
+}
+

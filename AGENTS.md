@@ -1,0 +1,317 @@
+# AGENTS.md
+
+## Purpose
+
+This file defines how coding agents should behave while working in this repository.
+
+It does not define gameplay design, balance values, content rosters, or implementation status.
+
+For current design authority, start from:
+
+`docs/CONTENT_AUTHORITY_INDEX.md`
+
+---
+
+## 1. Core Principle
+
+**WHAT = Human**  
+**HOW = Agent**
+
+Humans decide what the project should do.
+
+Agents may independently decide how to implement an already-defined requirement, provided the implementation remains within the current task scope and current authority.
+
+Do not introduce new design decisions while solving implementation problems.
+
+---
+
+## 2. Authority
+
+Before implementing gameplay or content behavior, consult:
+
+`docs/CONTENT_AUTHORITY_INDEX.md`
+
+Use the current authority or reconciliation document routed from that index.
+
+Historical, superseded, checkpoint, checklist, audit, and recovery documents may provide context, but they must not override current authority.
+
+If a historical document conflicts with current authority, follow current authority without escalation.
+
+If `docs/CONTENT_AUTHORITY_INDEX.md` does not route to an authority that defines a design decision required by the task, or if the routed authority is incomplete on that decision:
+
+1. identify the missing or incomplete requirement,
+2. explain why it is required to continue,
+3. stop and ask for a decision.
+
+Do not invent missing gameplay behavior, content, parameters, balance values, progression rules, controls, or other design requirements.
+
+Existing code behavior is not automatically design authority.
+
+If two documents that both appear to be current authority conflict in a way that affects the task:
+
+1. identify the conflicting requirements,
+2. explain their effect on the current task,
+3. stop and ask for a decision.
+
+Do not resolve a genuine authority conflict by guessing, choosing the newest date, copying current code behavior, or selecting the interpretation that is easiest to implement.
+
+---
+
+### Design finalization and authority synchronization
+
+A gameplay or content design decision is not durably finalized merely because it was agreed in conversation or marked complete in a working checklist.
+
+When a human explicitly approves, finalizes, or checks off a design decision during a task whose approved scope permits maintaining current authority, synchronize that decision into the applicable current-authority document as part of the same design task.
+
+Do not defer an approved authority update to a later implementation task merely because implementation has not started yet.
+
+Before reporting such a design task complete, verify that the authoritative repository state records the approved decision with enough precision to distinguish materially different gameplay outcomes that the decision resolved.
+
+Multiple approved decisions from the same design task may be synchronized together; a separate commit for every checklist item is not required. However, the task must not be reported complete while approved decisions remain only in conversation, a temporary checklist, or other non-authoritative working state.
+
+Discussion, brainstorming, candidate ideas, and unapproved proposals must not be promoted to current authority.
+
+If a decision is explicitly deferred, record that deferred state in current authority when the task requires the project to remember that deferral, without inventing the deferred design itself.
+
+If the correct authority destination is unclear, current authorities conflict, or representing the approved decision would require additional unresolved design decisions, follow the existing `STOP & ASK` rules.
+
+Authority synchronization does not authorize implementation. After synchronization, respect the current task boundary unless implementation is separately in scope.
+
+---
+
+## 3. Agent Authority
+
+### AUTO
+
+Agents may independently:
+
+- choose implementation details,
+- fix compilation errors,
+- fix test failures caused by the current task,
+- correct imports or API usage,
+- fix clear implementation defects within task scope,
+- perform formatting or lint corrections,
+- make the minimum dependency repair required for the task to function.
+
+These actions do not require approval if they do not change intended design.
+
+### STOP & ASK
+
+Stop and request a decision when:
+
+- current authority conflicts,
+- required design authority is missing or incomplete,
+- requirements allow multiple materially different gameplay outcomes,
+- completing the task requires expanding its intended scope,
+- an existing approved design would need to change,
+- acceptance criteria cannot be satisfied without making a new design decision.
+
+### NEVER WITHOUT APPROVAL
+
+Do not independently:
+
+- change current design authority,
+- change approved gameplay requirements,
+- perform destructive or broad repository changes,
+- perform unrelated large refactors,
+- merge branches,
+- move or modify trusted checkpoints,
+- modify `main`,
+- delete branches,
+- perform other irreversible baseline changes.
+
+---
+
+## 4. Bounded Auto-Repair
+
+When an ordinary implementation, compilation, or test failure occurs, attempt to diagnose and repair it autonomously.
+
+Do not escalate ordinary engineering problems immediately.
+
+For the same underlying failure, make at most **3 bounded repair attempts**.
+
+If the problem remains after those attempts, stop and provide a handoff in this format:
+
+### Repair Failure Handoff
+- **Failure:** what is still failing
+- **Evidence:** relevant error/test/build result
+- **Attempts:** what was changed in each repair attempt
+- **Current state:** what works and what remains broken
+- **Next decision:** whether human input is required, and why
+
+Include only the relevant error-log excerpt or summary. Do not dump large raw logs unless specifically requested.
+
+Do not continue an unbounded repair loop.
+
+---
+
+## 5. Task Scope
+
+Only make changes necessary to satisfy the current task and its acceptance criteria.
+
+Do not opportunistically fix unrelated problems merely because they were discovered during the task.
+
+If an out-of-scope defect directly prevents completion of the current task, the minimum necessary dependency repair is allowed.
+
+Otherwise, leave the unrelated issue unchanged and report it as an out-of-scope finding.
+
+Do not perform speculative cleanup or refactoring simply because it appears beneficial.
+
+---
+
+## 6. Task Execution and Resumption
+
+A task should define enough context to establish:
+
+- **BASE:** the branch, checkpoint, commit, or other trusted starting point,
+- **SCOPE:** what is included and explicitly excluded,
+- **AUTHORITY:** where current design authority should be resolved,
+- **ACCEPTANCE:** what must be true for the task to be complete,
+- **STOP CONDITIONS:** conditions that require human input.
+
+These elements do not require a persistent `TASK.md`. Do not create task-state documentation unless the task specifically requires it.
+
+Once a task is approved, execute the approved scope autonomously through implementation, bounded repair, validation, and completion reporting.
+
+Do not request repeated approval for ordinary actions already permitted by the task and this file.
+
+If greater autonomy is needed, expand the explicitly approved task scope rather than weakening repository safety or authority rules.
+
+### Resuming interrupted work
+
+**Resume, do not restart.**
+
+Before continuing an interrupted task:
+
+1. verify the current branch and HEAD,
+2. inspect relevant commits, PR state, and CI/test results when available,
+3. compare the actual repository state with the task acceptance criteria,
+4. preserve already completed and still-valid work,
+5. perform only the remaining work.
+
+Do not repeat completed implementation or validation without a concrete reason.
+
+If repository and CI state are sufficient to reconstruct progress, resume autonomously.
+
+If the intended task itself cannot be reliably reconstructed, stop and ask rather than guessing.
+
+Do not create `HANDOFF.md`, `SESSION_STATE.md`, or similar persistent state documents merely to preserve information already represented by Git, CI, the task, or the completion report.
+
+### Task boundary
+
+Autonomy granted for one task does not authorize beginning another task.
+
+After completing the current task, stop at the completion report and allow the human to decide what happens next.
+
+A completion report may optionally include one `Recommended next task`, but it is a suggestion only and must not be started automatically.
+
+If the suggested next task requires unresolved design decisions, state that explicitly rather than presenting it as implementation-ready.
+
+---
+
+## 7. Validation and Completion
+
+Run validation appropriate to the changed scope.
+
+Examples include:
+
+- compilation/build validation,
+- relevant automated tests,
+- registry or resource-reference validation,
+- command/runtime checks where automatable,
+- other checks directly required by the task.
+
+A successful build alone does not prove that every kind of change is validated.
+
+If a required validation could not be executed, report it as:
+
+`NOT RUN`
+
+and state why.
+
+Do not report unexecuted validation as passed.
+
+Human-perceptual or interaction-dependent checks such as gameplay feel, VFX quality, UI readability, or control feel may remain:
+
+`LIVE VALIDATION PENDING`
+
+Do not repeat previously completed validation without reason. Re-run it when the current changes could invalidate the earlier result.
+
+Keep implementation and validation status distinct:
+
+**Implemented does not automatically mean validated.**
+
+### CI and final acceptance lifecycle
+
+When the current task requires asynchronous CI:
+
+- a push, queued run, or pending run is not task completion,
+- wait for the relevant CI result when the execution environment permits,
+- if CI fails because of a clear in-scope implementation, API, test, resource, or runtime defect, apply the bounded auto-repair rules in this file, re-run affected validation, push the repair when the task permits it, and check the resulting CI again,
+- do not repeatedly rerun a deterministic failure without repairing its cause,
+- if the environment cannot observe the required CI result, report that validation as `NOT RUN` or pending as appropriate rather than claiming completion.
+
+After required automated validation succeeds, perform a final acceptance check of the actual final HEAD against:
+
+- the current task acceptance criteria, and
+- the applicable current design authority.
+
+CI success does not by itself establish semantic correctness.
+
+If that final acceptance check finds a clear in-scope implementation defect that contradicts explicit current authority or task acceptance criteria, and repairing it requires no new design decision:
+
+1. repair it autonomously under the bounded auto-repair rules,
+2. re-run validation affected by the repair,
+3. re-check required asynchronous CI,
+4. repeat the affected acceptance check.
+
+Do not use the final acceptance check to infer or invent missing design. If current authority or acceptance criteria are incomplete, conflicting, or allow materially different gameplay outcomes required to decide correctness, follow the existing `STOP & ASK` rules.
+
+When asynchronous CI is required by the task, completion requires all of the following:
+
+- required automated validation has succeeded,
+- the relevant CI run has completed successfully,
+- the final acceptance check finds no remaining confirmed in-scope implementation defect.
+
+Human-perceptual or interaction-dependent validation may still remain `LIVE VALIDATION PENDING` when allowed by the task.
+
+Completion reports should normally contain only:
+
+- Changed
+- Validation
+- Live validation
+- Out-of-scope findings
+
+Do not create new completion-report documents unless the task specifically requires one.
+
+---
+
+## 8. Git and Trusted Baselines
+
+Agents may commit normally on a task/work branch when needed.
+
+The following require explicit approval:
+
+- modifying `main`,
+- moving or modifying a trusted `stage-*/checkpoint`,
+- merging,
+- deleting branches,
+- other changes to trusted repository baselines.
+
+Task completion does not imply permission to merge.
+
+Creating a PR should occur only when required by the task or explicitly approved.
+
+---
+
+## 9. Keep Governance Simple
+
+Do not create additional authority, status, backlog, checkpoint, defect, or completion documents merely to describe work that can be represented by:
+
+- current authority documents,
+- the current task,
+- Git history,
+- CI/test results,
+- the completion report.
+
+Prefer the smallest durable source of truth necessary.

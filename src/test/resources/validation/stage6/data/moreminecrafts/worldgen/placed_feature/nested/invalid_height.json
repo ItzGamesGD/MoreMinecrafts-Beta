@@ -1,0 +1,8 @@
+{
+  "feature": "moreminecrafts:ore_titanium",
+  "placement": [
+    { "type": "minecraft:in_square" },
+    { "type": "minecraft:height_range", "height": { "type": "minecraft:noise" } },
+    { "type": "minecraft:biome" }
+  ]
+}

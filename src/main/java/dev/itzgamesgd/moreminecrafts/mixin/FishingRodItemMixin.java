@@ -1,6 +1,5 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingChallenges;
-import dev.itzgamesgd.moreminecrafts.fishing.FishingEquipmentMenu;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -17,7 +16,6 @@ public abstract class FishingRodItemMixin {
  private void moreminecrafts$specialUse(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir){
   if(player instanceof ServerPlayer server){
    if(FishingChallenges.active(server)){FishingChallenges.confirm(server);cir.setReturnValue(InteractionResult.SUCCESS);return;}
-   if(player.isShiftKeyDown()){FishingEquipmentMenu.open(server,player.getItemInHand(hand));cir.setReturnValue(InteractionResult.SUCCESS);}
-  } else if(player.isShiftKeyDown()) cir.setReturnValue(InteractionResult.SUCCESS);
+  }
  }
 }

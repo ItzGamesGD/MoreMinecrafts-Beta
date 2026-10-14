@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "facing=north,occupied=false,part=head": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=north,occupied=false,part=foot": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=north,occupied=true,part=head": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=north,occupied=true,part=foot": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=south,occupied=false,part=head": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=south,occupied=false,part=foot": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=south,occupied=true,part=head": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=south,occupied=true,part=foot": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=east,occupied=false,part=head": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=east,occupied=false,part=foot": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=east,occupied=true,part=head": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=east,occupied=true,part=foot": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=west,occupied=false,part=head": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=west,occupied=false,part=foot": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=west,occupied=true,part=head": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    },
+    "facing=west,occupied=true,part=foot": {
+      "model": "moreminecrafts:block/exploration_sleeping_bag"
+    }
+  }
+}
