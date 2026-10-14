@@ -5,7 +5,7 @@ import dev.itzgamesgd.moreminecrafts.network.ModNetworking;
 import dev.itzgamesgd.moreminecrafts.zombie.BombZombieEffects;
 import dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingCommand;
 import dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingLifecycle;
-import dev.itzgamesgd.moreminecrafts.test.LiveTestCommand;
+import dev.itzgamesgd.moreminecrafts.test.LiveTestCommand;\nimport dev.itzgamesgd.moreminecrafts.worldgen.structure.AncientCityWholeVariantProbe;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public final class MoreMinecrafts implements ModInitializer {
         BombZombieEffects.initialize();
         SkeletonKingCommand.initialize();
         SkeletonKingLifecycle.initialize();
-        LiveTestCommand.initialize();
+        LiveTestCommand.initialize();\n        AncientCityWholeVariantProbe.initialize();
         LOGGER.info("MoreMinecrafts common initialization complete.");
     }
 }
