@@ -6,6 +6,8 @@ tasks.register("validateFishingResources") {
   def json=new groovy.json.JsonSlurper()
   def fishIds=["crucian_carp","common_carp","amur_catfish","rainbow_trout","largemouth_bass","northern_pike","atlantic_salmon","yellowfin_tuna","arapaima","swordfish","blue_marlin","beluga_sturgeon"]
   def families=["reel","minnow","crankbait"], moduleIds=families.collectMany{family->(1..3).collect{tier->"${family}_${tier}"}}
+  def legacyFishIds=["bluegill","perch","trout","catfish","salmon","pike","sturgeon","golden_koi","abyssal_angler","ancient_coelacanth"]
+  def legacyModuleIds=families.collectMany{family->(4..5).collect{tier->"${family}_${tier}"}}
   def src=file("src/main/java/dev/itzgamesgd/moreminecrafts/fishing/FishSpecies.java").text
   def declared=(src =~ /(?m)^\s+[A-Z_]+\("([a-z_]+)"/).collect{it[1]}
   assert declared==fishIds
@@ -14,10 +16,22 @@ tasks.register("validateFishingResources") {
   assert approval.equipment_item_count==9 && approval.sha256.size()==35
   def items=file("src/main/resources/assets/moreminecrafts/items"),models=file("src/main/resources/assets/moreminecrafts/models/item"),textures=file("src/main/resources/assets/moreminecrafts/textures/item")
   def ids={dir,re,ext->dir.listFiles().findAll{it.name==~re}.collect{it.name-ext}.sort()}
-  assert ids(items,/^(reel|minnow|crankbait)_\d+\.json$/,".json")==moduleIds.sort()
-  assert ids(models,/^(reel|minnow|crankbait)_\d+\.json$/,".json")==moduleIds.sort()
+  assert ids(items,/^(reel|minnow|crankbait)_\d+\.json$/,".json")== (moduleIds+legacyModuleIds).sort()
+  assert ids(models,/^(reel|minnow|crankbait)_\d+\.json$/,".json")== (moduleIds+legacyModuleIds).sort()
   assert ids(textures,/^(reel|minnow|crankbait)_\d+\.png$/,".png")==moduleIds.sort()
-  (4..5).each{tier->families.each{family->["items/${family}_${tier}.json","models/item/${family}_${tier}.json","textures/item/${family}_${tier}.png"].each{rel->assert !file("src/main/resources/assets/moreminecrafts/${rel}").exists()}}}
+  legacyFishIds.each{id->
+   def ip=file("src/main/resources/assets/moreminecrafts/items/${id}.json"),mp=file("src/main/resources/assets/moreminecrafts/models/item/${id}.json")
+   assert ip.isFile()&&mp.isFile()&&!file("src/main/resources/assets/moreminecrafts/textures/item/${id}.png").exists()
+   def item=json.parse(ip),m=json.parse(mp)
+   assert item.model.model=="moreminecrafts:item/${id}"&&m.parent=="minecraft:item/generated"&&m.textures.layer0=="minecraft:item/cod"
+  }
+  legacyModuleIds.each{id->
+   def ip=file("src/main/resources/assets/moreminecrafts/items/${id}.json"),mp=file("src/main/resources/assets/moreminecrafts/models/item/${id}.json")
+   assert ip.isFile()&&mp.isFile()&&!file("src/main/resources/assets/moreminecrafts/textures/item/${id}.png").exists()
+   def item=json.parse(ip),m=json.parse(mp)
+   assert item.model.model=="moreminecrafts:item/${id}"&&m.parent=="minecraft:item/generated"&&m.textures.layer0=="minecraft:item/iron_nugget"
+  }
+  (4..5).each{tier->families.each{family->assert !file("src/main/resources/assets/moreminecrafts/textures/item/${family}_${tier}.png").exists()}}
   def fishTextures=textures.listFiles().findAll{p->if(!p.name.endsWith(".png"))return false;byte[] b=p.bytes;b.length>=26&&java.util.HexFormat.of().formatHex(b,0,8)=="89504e470d0a1a0a"&&java.nio.ByteBuffer.wrap(b).getInt(16)==512&&java.nio.ByteBuffer.wrap(b).getInt(20)==512}.collect{it.name[0..-5]}.sort()
   assert fishTextures==fishIds.sort() : "Fish master texture set differs from final roster"
   def contexts=["gui","firstperson_righthand","firstperson_lefthand","thirdperson_righthand","thirdperson_lefthand","ground","fixed","head"] as Set
