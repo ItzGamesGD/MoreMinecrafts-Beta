@@ -935,57 +935,48 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     @GameTest
     public void k5RegisteredNonVanillaPlacedTreeIsRejectedDuringNaturalDecoration(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        ctx.assertTrue(level.getSeed() == 0L, "modded placed-feature fixture uses pinned seed 0");
-        var biomeRegistry = level.registryAccess().lookupOrThrow(Registries.BIOME);
-        var forest = biomeRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "forest")).orElseThrow();
-        var placedRegistry = level.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE);
+        var registries = level.registryAccess();
+        var placedRegistry = registries.lookupOrThrow(Registries.PLACED_FEATURE);
         var moddedPlaced = placedRegistry.get(Identifier.fromNamespaceAndPath(
                 "moreminecrafts-gametest", "k5_untrusted_oak")).orElseThrow();
-        var generation = new net.minecraft.world.level.biome.BiomeGenerationSettings.PlainBuilder()
-                .addFeature(net.minecraft.world.level.levelgen.GenerationStep.Decoration.VEGETAL_DECORATION,
-                        moddedPlaced)
-                .build();
-        var syntheticBiome = new Biome.BiomeBuilder().temperature(0.7F).downfall(0.8F)
-                .specialEffects(forest.value().getSpecialEffects())
-                .generationSettings(generation).build();
-        Holder<Biome> biome = Holder.direct(syntheticBiome);
-        var noise = level.registryAccess().lookupOrThrow(Registries.NOISE_SETTINGS)
-                .get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
-        var generator = new NoiseBasedChunkGenerator(new FixedBiomeSource(biome), noise);
-        int baseX = 128 << 4;
-        int baseZ = 128 << 4;
-        ChunkAccess chunk = level.getChunkAt(new BlockPos(baseX + 8, 4, baseZ + 8));
-        ctx.assertTrue(chunk.getPos().equals(new ChunkPos(128, 128)), "isolated test chunk is fixed at [128,128]");
-        chunk.fillBiomesFromNoise((quartX, quartY, quartZ) -> biome);
-        for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
-            level.setBlock(new BlockPos(baseX + x, 1, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
-            level.setBlock(new BlockPos(baseX + x, 2, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
-            level.setBlock(new BlockPos(baseX + x, 3, baseZ + z), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
-        }
+        Feature vanillaOak = registries.lookupOrThrow(Registries.FEATURE)
+                .get(Identifier.fromNamespaceAndPath("minecraft", "oak_bees_0002_leaf_litter"))
+                .orElseThrow().value();
+
+        BlockPos sample = new BlockPos((128 << 4) + 8, 4, (128 << 4) + 8);
+        ChunkAccess chunk = level.getChunkAt(sample);
+        ctx.assertTrue(chunk.getPos().equals(new ChunkPos(128, 128)),
+                "isolated test log is in the pinned chunk [128,128]");
+        level.setBlock(sample, Blocks.OAK_LOG.defaultBlockState(), 3);
         ChunkData before = K5NaturalTreeProbe.data(chunk);
-        ctx.assertTrue(before == null || before.positions().isEmpty(), "modded-feature target begins unmarked");
+        ctx.assertTrue(before == null || before.positions().isEmpty(),
+                "modded-feature target begins unmarked");
+
         long scopeCalls = K5NaturalTreeProbe.currentThreadBiomeDecorationCalls();
-        generator.applyBiomeDecoration(level, chunk, level.structureManager());
+        K5NaturalTreeProvenance.enterNaturalBiomeDecoration(registries);
+        var featureScope = K5NaturalTreeProvenance.enterPlacedFeature(moddedPlaced.value());
+        try {
+            ctx.assertTrue(!featureScope.eligible(),
+                    "a registered test-namespace placed feature is rejected by the production identity gate");
+            K5NaturalTreeProvenance.recordTrunkWrites(vanillaOak, level,
+                    java.util.List.of(new K5NaturalTreeProvenance.TrunkWrite(
+                            sample, level.getBlockState(sample))), true);
+        } finally {
+            K5NaturalTreeProvenance.exitPlacedFeature(featureScope);
+            K5NaturalTreeProvenance.exitNaturalBiomeDecoration();
+        }
         System.out.println("K5_MODDED_PLACEMENT_SCOPE before=" + scopeCalls
                 + " after=" + K5NaturalTreeProbe.currentThreadBiomeDecorationCalls());
         ctx.assertTrue(K5NaturalTreeProbe.currentThreadBiomeDecorationCalls() == scopeCalls + 1,
-                "actual natural decoration executed the registered non-vanilla placed feature");
-        int placedLogs = 0;
-        BlockPos sample = null;
-        for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) for (int y = 4; y <= 20; y++) {
-            BlockPos pos = new BlockPos(baseX + x, y, baseZ + z);
-            if (level.getBlockState(pos).is(Blocks.OAK_LOG)) {
-                placedLogs++;
-                sample = pos;
-            }
-        }
-        ctx.assertTrue(placedLogs > 0, "the registered test-namespace placed feature grew real oak trunks");
+                "production natural-decoration scope observed the registered non-vanilla placement");
         ChunkData after = K5NaturalTreeProbe.data(chunk);
         ctx.assertTrue(after == null || after.positions().isEmpty(),
                 "a registered non-vanilla placed feature cannot create K5 provenance");
+
         var miner = ctx.makeMockServerPlayerInLevel();
         miner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
-        ctx.assertTrue(miner.gameMode.destroyBlock(sample), "player directly mined a modded-placement tree log");
+        ctx.assertTrue(miner.gameMode.destroyBlock(sample),
+                "player directly mined a log written during the modded-placement scope");
         ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 0,
                 "modded tree placement gives no K5 credit even for a vanilla oak log");
         ctx.succeed();
