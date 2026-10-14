@@ -63,6 +63,13 @@ final class KnowledgeConditionSemanticsTest {
                 "foods_crafted_or_cooked", "minecraft:cooked_beef"));
     }
 
+    @Test void distinctObservationKeysDoNotCollapseValidDottedIdentifiers() {
+        String first = KnowledgeConditionSemantics.distinctObservationKey("structures_visited", "foo.bar:baz");
+        String second = KnowledgeConditionSemantics.distinctObservationKey("structures_visited", "foo:bar.baz");
+
+        assertNotEquals(first, second);
+    }
+
     @Test void blastFurnaceRequiresBothCraftingAndCollectedOutput() {
         assertTrue(KnowledgeConditionSemantics.blastFurnaceUseQualifies(true, true));
         assertFalse(KnowledgeConditionSemantics.blastFurnaceUseQualifies(false, true));
