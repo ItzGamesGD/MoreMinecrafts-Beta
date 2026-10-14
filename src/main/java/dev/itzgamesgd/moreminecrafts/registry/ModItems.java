@@ -128,6 +128,23 @@ public final class ModItems {
         for (FishSpecies species : FishSpecies.values()) FISH.put(species, fish(species));
         for (FishingEquipmentFamily family : FishingEquipmentFamily.values())
             for (int tier=1; tier<=FishingEquipmentTier.MAX; tier++) FISHING_EQUIPMENT[family.ordinal()][tier-1]=equipment(family,tier);
+
+        // Keep old save identifiers decodable without restoring them to active catch or module logic.
+        String[] legacyFishIds = {
+                "bluegill", "perch", "trout", "catfish", "salmon",
+                "pike", "sturgeon", "golden_koi", "abyssal_angler", "ancient_coelacanth"
+        };
+        for (String id : legacyFishIds) {
+            register(id, key -> new Item(new Item.Properties().stacksTo(1).setId(key)));
+        }
+        for (FishingEquipmentFamily family : FishingEquipmentFamily.values()) {
+            for (int tier = FishingEquipmentTier.MAX + 1; tier <= 5; tier++) {
+                String id = family.name().toLowerCase() + "_" + tier;
+                int maxDamage = 96 + tier * 48;
+                register(id, key -> new Item(new Item.Properties()
+                        .stacksTo(1).durability(maxDamage).setId(key)));
+            }
+        }
     }
     public static Item fishItem(FishSpecies species) { return FISH.get(species); }
     public static Item equipmentItem(FishingEquipmentFamily family,int tier){return FISHING_EQUIPMENT[family.ordinal()][FishingEquipmentTier.requireValid(tier)-1];}

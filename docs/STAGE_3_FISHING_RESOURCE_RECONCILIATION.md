@@ -9,6 +9,12 @@ Status: implementation foundation for the approved Fishing vertical slice, not a
 - Canonical species roster, in registry order: Crucian Carp, Common Carp, Amur Catfish, Rainbow Trout, Largemouth Bass, Northern Pike, Atlantic Salmon, Yellowfin Tuna, Arapaima, Swordfish, Blue Marlin, and Beluga Sturgeon.
 - Reel controls Species, Crankbait controls Grade, Minnow gates capture. Server authority and vanilla fallback remain.
 
+## Legacy save compatibility
+
+Previously issued fishing items and rod components retain their registry identifiers so saved stacks remain readable. The ten retired fish identifiers are registered as generic stack-size-one items outside the active species map. The old `fish_length` component retains its original whole-centimeter range (1–10,000) and is kept separate from the active `fish_length_tenths_cm` component. Existing `fish_grade` data remains unchanged.
+
+The retired `reel_4`/`reel_5`, `crankbait_4`/`crankbait_5`, and `minnow_4`/`minnow_5` identifiers remain generic items with their old durability metadata. They are not `FishingEquipmentItem` instances, are excluded from creative tabs and recipes, and cannot act as current equipment. Old item definitions and models are retained for saved-stack display. These compatibility entries do not change the active 12-species roster or Tier I–III module rules.
+
 ## Length, Weight, value
 Length uses its species distribution. Expected Weight follows a species-specific quadratic curve of normalized Length, then receives bounded individual variation of ±4% of species Weight range and is clamped. Longer fish trend heavier; same-Length individuals may differ. Grade and modules are not size-roll inputs.
 Value architecture and Grade multipliers remain. Correlated Length/Weight percentiles are averaged into one bounded 0–75% size bonus instead of separately awarding the former +75% bonuses. This narrow normalization keeps Species Base Value and Grade distinct. Emerald conversion remains BALANCE PENDING.

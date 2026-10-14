@@ -28,6 +28,8 @@ public final class ModDataComponents {
                     .build());
 
     public static final DataComponentType<Integer> FISH_GRADE = integerComponent("fish_grade", 1, 5);
+    // Legacy saved stacks use whole centimeters. Keep separate from the active tenths-cm component.
+    public static final DataComponentType<Integer> LEGACY_FISH_LENGTH = integerComponent("fish_length", 1, 10000);
     public static final DataComponentType<Integer> FISH_LENGTH_TENTHS_CM = integerComponent("fish_length_tenths_cm", 1, 100000);
     public static final DataComponentType<Integer> FISH_WEIGHT_TENTHS_KG = integerComponent("fish_weight_tenths_kg", 1, 100000);
     public static final DataComponentType<Integer> DRILL_FUEL_POINTS = integerComponent("drill_fuel_points", 0, 1_000_000);

@@ -22,15 +22,15 @@ permissions:
 
 jobs:
   client-visual-validation:
-    # Pushes to the dedicated experimental branch already exercise this exact PR head.
-    # Avoid running the expensive server/client job a second time for the matching PR event.
-    if: github.event_name == 'push'
+    # Run for the integration pull request so captured Knowledge screens are attached to its review.
     name: client-visual-validation
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Java 25
         uses: actions/setup-java@v5

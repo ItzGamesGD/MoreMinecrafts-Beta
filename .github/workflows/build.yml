@@ -1,5 +1,8 @@
 name: Fabric CI
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -15,6 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Java 25
         uses: actions/setup-java@v5
@@ -72,6 +77,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Java 25
         uses: actions/setup-java@v5
@@ -124,6 +131,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Java 25
         uses: actions/setup-java@v5

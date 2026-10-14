@@ -1,7 +1,12 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import dev.itzgamesgd.moreminecrafts.fishing.FishingEquipmentFamily;
+import dev.itzgamesgd.moreminecrafts.fishing.RodEquipment;
+import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.nbt.NbtOps;
 
 import java.lang.reflect.Method;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
@@ -190,6 +195,42 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
         }
         ctx.assertTrue(BuiltInRegistries.DATA_COMPONENT_TYPE.get(ModIds.id("fish_length")).isPresent(),
                 "the legacy fish_length component remains available to decode existing stacks");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void legacyFishingSaveDataRoundTripsWithoutActivatingRetiredModules(GameTestHelper ctx) {
+        var ops = RegistryOps.create(NbtOps.INSTANCE, ctx.getLevel().registryAccess());
+        var oldFishItem = BuiltInRegistries.ITEM.get(ModIds.id("bluegill")).orElseThrow().value();
+        ItemStack oldFish = new ItemStack(oldFishItem);
+        oldFish.set(ModDataComponents.FISH_GRADE, 5);
+        oldFish.set(ModDataComponents.LEGACY_FISH_LENGTH, 123);
+
+        var encodedFish = ItemStack.CODEC.encodeStart(ops, oldFish).getOrThrow();
+        ItemStack restoredFish = ItemStack.CODEC.parse(ops, encodedFish).getOrThrow();
+        ctx.assertTrue(restoredFish.getItem() == oldFishItem
+                        && Integer.valueOf(5).equals(restoredFish.get(ModDataComponents.FISH_GRADE))
+                        && Integer.valueOf(123).equals(restoredFish.get(ModDataComponents.LEGACY_FISH_LENGTH)),
+                "legacy fish ID, grade, and whole-centimeter length survive stack serialization");
+
+        var oldReel = BuiltInRegistries.ITEM.get(ModIds.id("reel_4")).orElseThrow().value();
+        var oldCrankbait = BuiltInRegistries.ITEM.get(ModIds.id("crankbait_5")).orElseThrow().value();
+        var oldMinnow = BuiltInRegistries.ITEM.get(ModIds.id("minnow_4")).orElseThrow().value();
+        ItemStack reel = new ItemStack(oldReel);
+        reel.setDamageValue(11);
+        RodEquipment oldEquipment = new RodEquipment(reel, new ItemStack(oldCrankbait), new ItemStack(oldMinnow));
+
+        var encodedEquipment = RodEquipment.CODEC.encodeStart(ops, oldEquipment).getOrThrow();
+        RodEquipment restoredEquipment = RodEquipment.CODEC.parse(ops, encodedEquipment).getOrThrow();
+        ctx.assertTrue(restoredEquipment.reel().getItem() == oldReel
+                        && restoredEquipment.reel().getDamageValue() == 11
+                        && restoredEquipment.crankbait().getItem() == oldCrankbait
+                        && restoredEquipment.minnow().getItem() == oldMinnow,
+                "nested retired module IDs and durability survive rod component serialization");
+        ctx.assertTrue(restoredEquipment.tier(FishingEquipmentFamily.REEL) == 0
+                        && restoredEquipment.tier(FishingEquipmentFamily.CRANKBAIT) == 0
+                        && restoredEquipment.tier(FishingEquipmentFamily.MINNOW) == 0,
+                "compatibility modules remain inert and cannot act as current Tier I–III equipment");
         ctx.succeed();
     }
 
