@@ -134,14 +134,16 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         Mob largeZombie = CustomMobCatalog.LARGE_ZOMBIE.create(context.getLevel(), EntitySpawnReason.COMMAND);
         largeZombie.finalizeSpawn(context.getLevel(), context.getLevel().getCurrentDifficultyAt(largeZombie.blockPosition()),
                 EntitySpawnReason.COMMAND, null);
+        // Normalize vanilla's random baby variant so this assertion isolates the catalog stat multiplier.
+        largeZombie.setBaby(false);
         double healthAfterFirstFinalize = largeZombie.getAttributeValue(Attributes.MAX_HEALTH);
         double speedAfterFirstFinalize = largeZombie.getAttributeValue(Attributes.MOVEMENT_SPEED);
         largeZombie.finalizeSpawn(context.getLevel(), context.getLevel().getCurrentDifficultyAt(largeZombie.blockPosition()),
                 EntitySpawnReason.COMMAND, null);
+        largeZombie.setBaby(false);
         context.assertTrue(Math.abs(largeZombie.getAttributeValue(Attributes.MAX_HEALTH) - healthAfterFirstFinalize) < 0.001
                         && Math.abs(largeZombie.getAttributeValue(Attributes.MOVEMENT_SPEED) - speedAfterFirstFinalize) < 0.000001,
                 "Catalog stat multipliers must not compound when spawn finalization is invoked twice");
-        largeZombie.setBaby(false); // Keep the dimension assertion independent of the vanilla random baby-spawn roll.
         context.assertTrue(Math.abs(largeZombie.getBbWidth() - 0.78F) < 0.02F
                         && Math.abs(largeZombie.getBbHeight() - 2.54F) < 0.02F,
                 "Large Zombie dimensions must come from EntityType sizing exactly once");
