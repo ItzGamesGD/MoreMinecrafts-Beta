@@ -69,7 +69,9 @@ tasks.register("validateFishingResources") {
    assert java.security.MessageDigest.getInstance("SHA-256").digest(source.bytes).encodeHex().toString()==hash : "Approved asset changed: ${path}"
    new java.util.zip.ZipFile(jar).withCloseable{zip->def e=java.util.Collections.list(zip.entries()).findAll{it.name==resource};assert e.size()==1;byte[] b=zip.getInputStream(e[0]).withCloseable{it.bytes};assert java.security.MessageDigest.getInstance("SHA-256").digest(b).encodeHex().toString()==hash}
   }
-  ["cod","salmon","pufferfish","tropical_fish","clownfish"].each{id->["items/${id}.json","models/item/${id}.json","textures/item/${id}.png"].each{p->assert !file("src/main/resources/assets/moreminecrafts/${p}").exists()}}
+  ["cod","pufferfish","tropical_fish","clownfish"].each{id->["items/${id}.json","models/item/${id}.json","textures/item/${id}.png"].each{p->assert !file("src/main/resources/assets/moreminecrafts/${p}").exists()}}
+  // The legacy moreminecrafts:salmon item/model is retained for saved stacks, without a mod texture.
+  assert !file("src/main/resources/assets/moreminecrafts/textures/item/salmon.png").exists()
  }
 }
 tasks.named("check"){dependsOn tasks.named("validateFishingResources")}
