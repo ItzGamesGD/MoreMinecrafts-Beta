@@ -25,7 +25,7 @@ tasks.register("validateFishingResources") {
    def item=json.parse(ip),m=json.parse(mp)
    assert item.model.model=="moreminecrafts:item/${id}"&&m.parent=="minecraft:item/generated"&&m.textures.layer0=="minecraft:item/cod"
   }
-  def legacyModuleTextures=[reel:"minecraft:item/iron_nugget",crankbait:"minecraft:item/tripwire_hook",minnow:"minecraft:item/tropical_fish"]
+  def legacyModuleTextures=[reel:"minecraft:item/iron_nugget",crankbait:"moreminecrafts:item/crankbait_3",minnow:"minecraft:item/tropical_fish"]
   legacyModuleIds.each{id->
    def ip=file("src/main/resources/assets/moreminecrafts/items/${id}.json"),mp=file("src/main/resources/assets/moreminecrafts/models/item/${id}.json")
    assert ip.isFile()&&mp.isFile()&&!file("src/main/resources/assets/moreminecrafts/textures/item/${id}.png").exists()
