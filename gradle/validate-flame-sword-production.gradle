@@ -1,0 +1,118 @@
+// Resource C1-B: verify the immutable approved sword PNG and bounded vanilla-handheld model route.
+tasks.register("validateFlameSwordProductionAsset") {
+    group = "verification"
+    description = "Checks the approved Flame Sword PNG, bounded model chain, and packaged JAR."
+    dependsOn tasks.named("jar")
+
+    doLast {
+        def expectedHash = "67292219456c8975319c6d45caf5c9ac1f4b583176407d24eedcd7f643cad186"
+        def texturePath = "assets/moreminecrafts/textures/item/flame_sword.png"
+        def itemPath = "assets/moreminecrafts/items/flame_sword.json"
+        def modelPath = "assets/moreminecrafts/models/item/flame_sword.json"
+        def root = file("src/main/resources")
+        def source = new File(root, texturePath)
+        assert source.isFile() : "Missing approved Flame Sword texture"
+        byte[] bytes = source.bytes
+        def sha256 = { byte[] data ->
+            java.security.MessageDigest.getInstance("SHA-256").digest(data).encodeHex().toString()
+        }
+        assert sha256(bytes) == expectedHash : "Approved Flame Sword PNG was changed"
+
+        assert bytes.length > 33
+        assert java.util.Arrays.equals(java.util.Arrays.copyOfRange(bytes, 0, 8),
+                java.util.HexFormat.of().parseHex("89504e470d0a1a0a")) : "Invalid PNG signature"
+        assert new String(bytes, 12, 4, java.nio.charset.StandardCharsets.US_ASCII) == "IHDR"
+        def header = java.nio.ByteBuffer.wrap(bytes)
+        assert header.getInt(16) == 1263 && header.getInt(20) == 1246
+        assert (bytes[24] & 0xff) == 8 && (bytes[25] & 0xff) == 6 :
+                "Expected 8-bit RGBA PNG (PNG color type 6)"
+        def image = javax.imageio.ImageIO.read(new java.io.ByteArrayInputStream(bytes))
+        assert image != null && image.width == 1263 && image.height == 1246
+        assert image.colorModel.hasAlpha()
+        boolean transparent = false
+        boolean opaque = false
+        boolean partial = false
+        for (int y = 0; y < image.height; y++) {
+            for (int x = 0; x < image.width; x++) {
+                int alpha = (image.getRGB(x, y) >>> 24) & 0xff
+                if (alpha == 0) transparent = true
+                else if (alpha == 255) opaque = true
+                else partial = true
+            }
+        }
+        assert transparent && opaque && partial : "Approved alpha distribution changed"
+
+        def json = new groovy.json.JsonSlurper()
+        def item = json.parse(new File(root, itemPath))
+        def model = json.parse(new File(root, modelPath))
+        assert item.model.type == "minecraft:model"
+        assert item.model.model == "moreminecrafts:item/flame_sword"
+        assert model.parent == "minecraft:item/handheld"
+        assert model.textures.layer0 == "moreminecrafts:item/flame_sword"
+        assert model.display.keySet() == ([
+                "firstperson_righthand", "firstperson_lefthand",
+                "thirdperson_righthand", "thirdperson_lefthand"
+        ] as Set) : "Flame Sword must explicitly define all four hand contexts"
+        assert !model.containsKey("overrides")
+        [
+            firstperson: [scale: [0.68, 0.68, 0.68], rotationRight: [0, -90, 25], rotationLeft: [0, 90, -25],
+                          translation: [1.13, 3.2, 1.13]],
+            thirdperson: [scale: [0.85, 0.85, 0.85], rotationRight: [0, -90, 55], rotationLeft: [0, 90, -55],
+                          translation: [0, 4, 0.5]]
+        ].each { mode, expected ->
+            def right = model.display[mode + "_righthand"]
+            def left = model.display[mode + "_lefthand"]
+            assert right.rotation == expected.rotationRight && left.rotation == expected.rotationLeft :
+                    "Unexpected asymmetric Flame Sword ${mode} rotations"
+            assert right.translation == expected.translation && left.translation == expected.translation :
+                    "Flame Sword ${mode} hand placement must be paired"
+            assert right.scale == expected.scale && left.scale == expected.scale :
+                    "Flame Sword ${mode} hand scales must match and retain the approved enlarged presentation"
+        }
+
+        // The 1263x1246 source must not be sent through generated per-pixel edge extrusion.
+        // One explicit thin cuboid keeps geometry complexity fixed while connecting both broad faces.
+        assert model.elements instanceof List && model.elements.size() == 1 :
+                "Flame Sword must use one bounded explicit model element"
+        def plane = model.elements[0]
+        assert plane.from == [0, 0, 7] && plane.to == [16, 16, 9] :
+                "Unexpected Flame Sword bounded element dimensions"
+        assert !plane.containsKey("rotation")
+        assert (plane.faces.keySet() as Set) == (["north", "south", "east", "west", "up", "down"] as Set) :
+                "Flame Sword bounded element must be a closed six-face solid"
+        ["north", "south"].each { faceName ->
+            def face = plane.faces[faceName]
+            assert face.texture == "#layer0"
+            def expectedUv = faceName == "north" ? [0, 0, 16, 16] : [16, 0, 0, 16]
+            assert face.uv == expectedUv : "Opposite Flame Sword faces must preserve artwork orientation"
+            assert !face.containsKey("cullface")
+        }
+        [west: [15.64, 0.55, 15.66, 0.57], east: [15.64, 0.55, 15.66, 0.57],
+         up: [15.64, 0.55, 15.66, 0.57], down: [15.64, 0.55, 15.66, 0.57]].each { faceName, uv ->
+            assert plane.faces[faceName].texture == "#layer0"
+            assert plane.faces[faceName].uv == uv
+        }
+        assert plane.faces.size() == 6 : "Flame Sword model must remain one bounded six-face solid"
+
+        def registry = file("src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModItems.java").text
+        assert (registry =~ /public static final Item FLAME_SWORD\s*=\s*Registry\.register\(\s*BuiltInRegistries\.ITEM,\s*FLAME_SWORD_KEY,/).findAll().size() == 1
+
+        def packedJar = tasks.named("jar").get().archiveFile.get().asFile
+        new java.util.zip.ZipFile(packedJar).withCloseable { jar ->
+            [itemPath, modelPath, texturePath].each { path ->
+                def entries = java.util.Collections.list(jar.entries()).findAll { it.name == path }
+                assert entries.size() == 1 : "Expected exactly one ${path} in JAR"
+            }
+            def packedItem = jar.getInputStream(jar.getEntry(itemPath)).withCloseable { json.parse(it) }
+            def packedModel = jar.getInputStream(jar.getEntry(modelPath)).withCloseable { json.parse(it) }
+            byte[] packedPng = jar.getInputStream(jar.getEntry(texturePath)).withCloseable { it.bytes }
+            assert packedItem == item && packedModel == model : "JAR model graph differs from source"
+            assert java.util.Arrays.equals(packedPng, bytes) && sha256(packedPng) == expectedHash :
+                    "JAR Flame Sword PNG differs from approved source"
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn tasks.named("validateFlameSwordProductionAsset")
+}

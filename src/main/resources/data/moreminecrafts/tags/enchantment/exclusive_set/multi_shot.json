@@ -1,0 +1,9 @@
+{
+  "values": [
+    "moreminecrafts:multi_shot",
+    {
+      "id": "moreminecrafts:laser_arrow",
+      "required": false
+    }
+  ]
+}

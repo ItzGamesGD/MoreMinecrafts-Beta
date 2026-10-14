@@ -1,0 +1,60 @@
+name: K5 Production Restart
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/k5-production-restart.yml'
+      - 'src/main/**'
+      - 'src/gametest/**'
+      - 'build.gradle'
+      - 'gradle.properties'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  persisted-k5:
+    name: Two-process chunk and player persistence
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Process A saves natural markers and K5 progress
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:k5natural_tree_probe_game_tests_k5natural_chunk_provenance_survives_real_save_unload_reload_and_invalidation
+            -Dmoreminecrafts.k5.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee k5-restart-write.log
+          grep -F 'K5_RESTART_WRITE' k5-restart-write.log
+      - name: Process B reloads the same world and player from disk
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:k5natural_tree_probe_game_tests_k5natural_chunk_provenance_survives_real_save_unload_reload_and_invalidation
+            -Dmoreminecrafts.k5.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee k5-restart-read.log
+          grep -F 'K5_RESTART_READ' k5-restart-read.log
+      - name: Upload focused logs and manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k5-production-restart-evidence
+          path: |
+            k5-restart-write.log
+            k5-restart-read.log
+            build/run/gameTest/k5-restart-fixture.txt
+          if-no-files-found: warn
+          retention-days: 14

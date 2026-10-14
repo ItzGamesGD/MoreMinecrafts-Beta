@@ -1,0 +1,4767 @@
+{
+  "version": "v3",
+  "entries": [
+    {
+      "id": "v3.research.01",
+      "catalog": "v3",
+      "discipline": "resources",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 2960,
+      "title": "광석 채굴",
+      "titleKey": "moreminecrafts.research.v3_01.title",
+      "descriptionKey": "moreminecrafts.research.v3_01.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:coal",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "석탄"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 390,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 560,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 750,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 1000,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 3,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.02",
+      "catalog": "v3",
+      "discipline": "resources",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 2280,
+      "title": "벌목",
+      "titleKey": "moreminecrafts.research.v3_02.title",
+      "descriptionKey": "moreminecrafts.research.v3_02.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_ingot",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "철 주괴"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:copper_ingot",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "구리 주괴"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 384,
+              "compressedUnits": 6,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 580,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 780,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.03",
+      "catalog": "v3",
+      "discipline": "resources",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 2680,
+      "title": "광물 보존",
+      "titleKey": "moreminecrafts.research.v3_03.title",
+      "descriptionKey": "moreminecrafts.research.v3_03.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 360,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 680,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 900,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:lapis_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "청금석 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.04",
+      "catalog": "v3",
+      "discipline": "resources",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 1600,
+      "title": "광역 굴착",
+      "titleKey": "moreminecrafts.research.v3_04.title",
+      "descriptionKey": "moreminecrafts.research.v3_04.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1600,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.05",
+      "catalog": "v3",
+      "discipline": "resources",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 2800,
+      "title": "자동 벌목 장치",
+      "titleKey": "moreminecrafts.research.v3_05.title",
+      "descriptionKey": "moreminecrafts.research.v3_05.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2800,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:coal",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "석탄"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.06",
+      "catalog": "v3",
+      "discipline": "production",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1080,
+      "title": "연료 절약",
+      "titleKey": "moreminecrafts.research.v3_06.title",
+      "descriptionKey": "moreminecrafts.research.v3_06.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 220,
+          "materials": [
+            {
+              "itemId": "minecraft:coal",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "석탄"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 340,
+          "materials": [
+            {
+              "itemId": "minecraft:coal",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "석탄"
+            },
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 520,
+          "materials": [
+            {
+              "itemId": "minecraft:coal",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "석탄"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 가루"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.07",
+      "catalog": "v3",
+      "discipline": "production",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 3700,
+      "title": "정밀 제련",
+      "titleKey": "moreminecrafts.research.v3_07.title",
+      "descriptionKey": "moreminecrafts.research.v3_07.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:gold_ingot",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "금 주괴"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 480,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 6,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 950,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 1250,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.08",
+      "catalog": "v3",
+      "discipline": "production",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 3370,
+      "title": "정밀 제작",
+      "titleKey": "moreminecrafts.research.v3_08.title",
+      "descriptionKey": "moreminecrafts.research.v3_08.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 3,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 450,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 620,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:slime_ball",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "슬라임볼"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 1150,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.09",
+      "catalog": "v3",
+      "discipline": "production",
+      "tier": "T1",
+      "levelCap": 2,
+      "approvedTotalRawXp": 790,
+      "title": "목재 가공",
+      "titleKey": "moreminecrafts.research.v3_09.title",
+      "descriptionKey": "moreminecrafts.research.v3_09.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "#minecraft:planks",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "판자"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 550,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.10",
+      "catalog": "v3",
+      "discipline": "production",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 2980,
+      "title": "장비 정비",
+      "titleKey": "moreminecrafts.research.v3_10.title",
+      "descriptionKey": "moreminecrafts.research.v3_10.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 6,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 560,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 760,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 1000,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:lapis_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "청금석 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.11",
+      "catalog": "v3",
+      "discipline": "production",
+      "tier": "T2",
+      "levelCap": 3,
+      "approvedTotalRawXp": 3900,
+      "title": "고속 제련",
+      "titleKey": "moreminecrafts.research.v3_11.title",
+      "descriptionKey": "moreminecrafts.research.v3_11.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:coal_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "석탄 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 1250,
+          "materials": [
+            {
+              "itemId": "minecraft:coal_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "석탄 블록"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 1800,
+          "materials": [
+            {
+              "itemId": "minecraft:coal_block",
+              "count": 24,
+              "compressedUnits": 0,
+              "materialName": "석탄 블록"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.12",
+      "catalog": "v3",
+      "discipline": "production",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 3500,
+      "title": "고속·고효율 화로",
+      "titleKey": "moreminecrafts.research.v3_12.title",
+      "descriptionKey": "moreminecrafts.research.v3_12.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 3500,
+          "materials": [
+            {
+              "itemId": "minecraft:coal_block",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "석탄 블록"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.13",
+      "catalog": "v3",
+      "discipline": "production",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 1600,
+      "title": "상자 정렬",
+      "titleKey": "moreminecrafts.research.v3_13.title",
+      "descriptionKey": "moreminecrafts.research.v3_13.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1600,
+          "materials": [
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "종이"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "에메랄드"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.14",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 2740,
+      "title": "작물 재배",
+      "titleKey": "moreminecrafts.research.v3_14.title",
+      "descriptionKey": "moreminecrafts.research.v3_14.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "밀 씨앗"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 350,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:carrot",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "당근"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:potato",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "감자"
+            },
+            {
+              "itemId": "minecraft:pumpkin",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "호박"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 950,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.15",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 790,
+      "title": "종자 연구",
+      "titleKey": "moreminecrafts.research.v3_15.title",
+      "descriptionKey": "moreminecrafts.research.v3_15.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 160,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "밀 씨앗"
+            },
+            {
+              "itemId": "minecraft:pumpkin_seeds",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "호박 씨앗"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "밀 씨앗"
+            },
+            {
+              "itemId": "minecraft:melon_seeds",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "수박 씨앗"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 380,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀 씨앗"
+            },
+            {
+              "itemId": "minecraft:beetroot_seeds",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "비트 씨앗"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.16",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1000,
+      "title": "토양 연구",
+      "titleKey": "moreminecrafts.research.v3_16.title",
+      "descriptionKey": "moreminecrafts.research.v3_16.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 180,
+          "materials": [
+            {
+              "itemId": "minecraft:dirt",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "흙"
+            },
+            {
+              "itemId": "minecraft:bone_meal",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "뼛가루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:dirt",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "흙"
+            },
+            {
+              "itemId": "minecraft:bone_meal",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "뼛가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:dirt",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "흙"
+            },
+            {
+              "itemId": "minecraft:mud",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "진흙"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.17",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1420,
+      "title": "가축 사육",
+      "titleKey": "moreminecrafts.research.v3_17.title",
+      "descriptionKey": "moreminecrafts.research.v3_17.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:carrot",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "당근"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 460,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "가죽"
+            },
+            {
+              "itemId": "minecraft:beef",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "생 소고기"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "가죽"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.18",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1080,
+      "title": "양봉 연구",
+      "titleKey": "moreminecrafts.research.v3_18.title",
+      "descriptionKey": "moreminecrafts.research.v3_18.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 220,
+          "materials": [
+            {
+              "itemId": "minecraft:honeycomb",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "벌집 조각"
+            },
+            {
+              "itemId": "minecraft:dandelion",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "민들레"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 340,
+          "materials": [
+            {
+              "itemId": "minecraft:honeycomb",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "벌집 조각"
+            },
+            {
+              "itemId": "minecraft:honey_bottle",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "꿀이 든 병"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 520,
+          "materials": [
+            {
+              "itemId": "minecraft:honeycomb",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "벌집 조각"
+            },
+            {
+              "itemId": "minecraft:honey_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "꿀 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.19",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 2600,
+      "title": "어업 연구",
+      "titleKey": "moreminecrafts.research.v3_19.title",
+      "descriptionKey": "moreminecrafts.research.v3_19.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "생연어"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 360,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:string",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "실"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 490,
+          "materials": [
+            {
+              "itemId": "minecraft:salmon",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생연어"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:nautilus_shell",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "앵무조개 껍데기"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.20",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T2",
+      "levelCap": 1,
+      "approvedTotalRawXp": 850,
+      "title": "3×3 경작",
+      "titleKey": "moreminecrafts.research.v3_20.title",
+      "descriptionKey": "moreminecrafts.research.v3_20.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 6,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:dirt",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "흙"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.21",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T2",
+      "levelCap": 1,
+      "approvedTotalRawXp": 1050,
+      "title": "성숙 작물 일괄 수확",
+      "titleKey": "moreminecrafts.research.v3_21.title",
+      "descriptionKey": "moreminecrafts.research.v3_21.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1050,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:sugar_cane",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "사탕수수"
+            },
+            {
+              "itemId": "minecraft:bone_meal",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "뼛가루"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.22",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T2",
+      "levelCap": 1,
+      "approvedTotalRawXp": 950,
+      "title": "먹이 투척·번식",
+      "titleKey": "moreminecrafts.research.v3_22.title",
+      "descriptionKey": "moreminecrafts.research.v3_22.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 950,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:carrot",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "당근"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.23",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T2",
+      "levelCap": 3,
+      "approvedTotalRawXp": 3300,
+      "title": "낚시 기술",
+      "titleKey": "moreminecrafts.research.v3_23.title",
+      "descriptionKey": "moreminecrafts.research.v3_23.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:string",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "실"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 1100,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 1500,
+          "materials": [
+            {
+              "itemId": "minecraft:salmon",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:nautilus_shell",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "앵무조개 껍데기"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.24",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 3500,
+      "title": "자동 농장",
+      "titleKey": "moreminecrafts.research.v3_24.title",
+      "descriptionKey": "moreminecrafts.research.v3_24.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 3500,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "밀 씨앗"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.25",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 2200,
+      "title": "관개 장치",
+      "titleKey": "moreminecrafts.research.v3_25.title",
+      "descriptionKey": "moreminecrafts.research.v3_25.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2200,
+          "materials": [
+            {
+              "itemId": "minecraft:dirt",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "흙"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:lapis_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "청금석 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.26",
+      "catalog": "v3",
+      "discipline": "living",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 1800,
+      "title": "통발 개선",
+      "titleKey": "moreminecrafts.research.v3_26.title",
+      "descriptionKey": "moreminecrafts.research.v3_26.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1800,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.27",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1330,
+      "title": "검술",
+      "titleKey": "moreminecrafts.research.v3_27.title",
+      "descriptionKey": "moreminecrafts.research.v3_27.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "썩은 살점"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 430,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:bone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "뼈"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "화약"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.28",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1220,
+      "title": "도끼 전투",
+      "titleKey": "moreminecrafts.research.v3_28.title",
+      "descriptionKey": "moreminecrafts.research.v3_28.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 230,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "#minecraft:logs",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "원목"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 390,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "#minecraft:logs",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "원목"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "#minecraft:logs",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "원목"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.29",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1330,
+      "title": "사격",
+      "titleKey": "moreminecrafts.research.v3_29.title",
+      "descriptionKey": "moreminecrafts.research.v3_29.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:arrow",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:string",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "실"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:arrow",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "화약"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:arrow",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:feather",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "깃털"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.30",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1050,
+      "title": "방패",
+      "titleKey": "moreminecrafts.research.v3_30.title",
+      "descriptionKey": "moreminecrafts.research.v3_30.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "#minecraft:planks",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "판자"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 330,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 520,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.31",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1250,
+      "title": "방어구 운용",
+      "titleKey": "moreminecrafts.research.v3_31.title",
+      "descriptionKey": "moreminecrafts.research.v3_31.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:leather",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "가죽"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.32",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1340,
+      "title": "투척 전투",
+      "titleKey": "moreminecrafts.research.v3_32.title",
+      "descriptionKey": "moreminecrafts.research.v3_32.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 270,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화살"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.33",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T2",
+      "levelCap": 1,
+      "approvedTotalRawXp": 900,
+      "title": "연속 검격",
+      "titleKey": "moreminecrafts.research.v3_33.title",
+      "descriptionKey": "moreminecrafts.research.v3_33.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 900,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 석영"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.34",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 2300,
+      "title": "반격 방패",
+      "titleKey": "moreminecrafts.research.v3_34.title",
+      "descriptionKey": "moreminecrafts.research.v3_34.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2300,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.35",
+      "catalog": "v3",
+      "discipline": "combat",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 2600,
+      "title": "전술 사격",
+      "titleKey": "moreminecrafts.research.v3_35.title",
+      "descriptionKey": "moreminecrafts.research.v3_35.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2600,
+          "materials": [
+            {
+              "itemId": "minecraft:arrow",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.36",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1000,
+      "title": "좀비",
+      "titleKey": "moreminecrafts.research.v3_36.title",
+      "descriptionKey": "moreminecrafts.research.v3_36.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "썩은 살점"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "썩은 살점"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 480,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "썩은 살점"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.37",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1030,
+      "title": "스켈레톤",
+      "titleKey": "moreminecrafts.research.v3_37.title",
+      "descriptionKey": "moreminecrafts.research.v3_37.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 210,
+          "materials": [
+            {
+              "itemId": "minecraft:bone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "뼈"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "화살"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 330,
+          "materials": [
+            {
+              "itemId": "minecraft:bone",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "뼈"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화살"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 490,
+          "materials": [
+            {
+              "itemId": "minecraft:bone",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "뼈"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화살"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.38",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1250,
+      "title": "크리퍼",
+      "titleKey": "moreminecrafts.research.v3_38.title",
+      "descriptionKey": "moreminecrafts.research.v3_38.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.39",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "approvedTotalRawXp": 850,
+      "title": "거미",
+      "titleKey": "moreminecrafts.research.v3_39.title",
+      "descriptionKey": "moreminecrafts.research.v3_39.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:string",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "실"
+            },
+            {
+              "itemId": "minecraft:spider_eye",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "거미 눈"
+            },
+            {
+              "itemId": "minecraft:fermented_spider_eye",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "발효된 거미 눈"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.40",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "approvedTotalRawXp": 1200,
+      "title": "엔더맨",
+      "titleKey": "moreminecrafts.research.v3_40.title",
+      "descriptionKey": "moreminecrafts.research.v3_40.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1200,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "흑요석"
+            },
+            {
+              "itemId": "minecraft:ender_eye",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "엔더의 눈"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.41",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "approvedTotalRawXp": 1050,
+      "title": "슬라임",
+      "titleKey": "moreminecrafts.research.v3_41.title",
+      "descriptionKey": "moreminecrafts.research.v3_41.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1050,
+          "materials": [
+            {
+              "itemId": "minecraft:slime_ball",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "슬라임볼"
+            },
+            {
+              "itemId": "minecraft:slime_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "슬라임 블록"
+            },
+            {
+              "itemId": "minecraft:magma_cream",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "마그마 크림"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.42",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "approvedTotalRawXp": 1000,
+      "title": "일리저",
+      "titleKey": "moreminecrafts.research.v3_42.title",
+      "descriptionKey": "moreminecrafts.research.v3_42.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1000,
+          "materials": [
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.43",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1400,
+      "title": "피글린",
+      "titleKey": "moreminecrafts.research.v3_43.title",
+      "descriptionKey": "moreminecrafts.research.v3_43.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "우는 흑요석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 450,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "우는 흑요석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "우는 흑요석"
+            },
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "블레이즈 막대"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.44",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1160,
+      "title": "호글린",
+      "titleKey": "moreminecrafts.research.v3_44.title",
+      "descriptionKey": "moreminecrafts.research.v3_44.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:porkchop",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생 돼지고기"
+            },
+            {
+              "itemId": "minecraft:crimson_fungus",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "진홍빛 자루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 380,
+          "materials": [
+            {
+              "itemId": "minecraft:porkchop",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생 돼지고기"
+            },
+            {
+              "itemId": "minecraft:crimson_fungus",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "진홍빛 자루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 540,
+          "materials": [
+            {
+              "itemId": "minecraft:porkchop",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "생 돼지고기"
+            },
+            {
+              "itemId": "minecraft:crimson_fungus",
+              "count": 384,
+              "compressedUnits": 6,
+              "materialName": "진홍빛 자루"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.45",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1260,
+      "title": "수중 적대 생물",
+      "titleKey": "moreminecrafts.research.v3_45.title",
+      "descriptionKey": "moreminecrafts.research.v3_45.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "썩은 살점"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 410,
+          "materials": [
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:prismarine_crystals",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 수정"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.46",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1780,
+      "title": "희귀 생물",
+      "titleKey": "moreminecrafts.research.v3_46.title",
+      "descriptionKey": "moreminecrafts.research.v3_46.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 350,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "에메랄드"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 580,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:prismarine_crystals",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 수정"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.47",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "approvedTotalRawXp": 2800,
+      "title": "보스 생태",
+      "titleKey": "moreminecrafts.research.v3_47.title",
+      "descriptionKey": "moreminecrafts.research.v3_47.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "흑요석"
+            },
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 막대"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 900,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 1300,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_eye",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "엔더의 눈"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.48",
+      "catalog": "v3",
+      "discipline": "ecology",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 2800,
+      "title": "생물 추적 장치",
+      "titleKey": "moreminecrafts.research.v3_48.title",
+      "descriptionKey": "moreminecrafts.research.v3_48.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2800,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_eye",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "엔더의 눈"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.49",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1040,
+      "title": "항법",
+      "titleKey": "moreminecrafts.research.v3_49.title",
+      "descriptionKey": "moreminecrafts.research.v3_49.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "종이"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 340,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.50",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T1",
+      "levelCap": 5,
+      "approvedTotalRawXp": 2390,
+      "title": "승마",
+      "titleKey": "moreminecrafts.research.v3_50.title",
+      "descriptionKey": "moreminecrafts.research.v3_50.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 220,
+          "materials": [
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 450,
+          "materials": [
+            {
+              "itemId": "minecraft:leather",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "가죽"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 800,
+          "materials": [
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 24,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "황금 당근"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.51",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1550,
+      "title": "비행",
+      "titleKey": "moreminecrafts.research.v3_51.title",
+      "descriptionKey": "moreminecrafts.research.v3_51.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "화약"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화약"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 750,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.52",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1340,
+      "title": "고고학",
+      "titleKey": "moreminecrafts.research.v3_52.title",
+      "descriptionKey": "moreminecrafts.research.v3_52.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:brick",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "벽돌"
+            },
+            {
+              "itemId": "minecraft:clay_ball",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "점토 덩이"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 430,
+          "materials": [
+            {
+              "itemId": "minecraft:brick",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "벽돌"
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "에메랄드"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:brick",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "벽돌"
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "에메랄드"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.53",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1430,
+      "title": "주민 거래",
+      "titleKey": "moreminecrafts.research.v3_53.title",
+      "descriptionKey": "moreminecrafts.research.v3_53.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 280,
+          "materials": [
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "종이"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 450,
+          "materials": [
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "종이"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:book",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "책"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.54",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1360,
+      "title": "피글린 교역",
+      "titleKey": "moreminecrafts.research.v3_54.title",
+      "descriptionKey": "moreminecrafts.research.v3_54.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 680,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "우는 흑요석"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.55",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1020,
+      "title": "생존·원정 준비",
+      "titleKey": "moreminecrafts.research.v3_55.title",
+      "descriptionKey": "moreminecrafts.research.v3_55.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:carrot",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "당근"
+            },
+            {
+              "itemId": "#minecraft:wool",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "양털"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.56",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T2",
+      "levelCap": 3,
+      "approvedTotalRawXp": 5500,
+      "title": "정밀 비행",
+      "titleKey": "moreminecrafts.research.v3_56.title",
+      "descriptionKey": "moreminecrafts.research.v3_56.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1200,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:firework_rocket",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "폭죽 로켓"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 1800,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:firework_rocket",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "폭죽 로켓"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 2500,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:firework_rocket",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "폭죽 로켓"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.57",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 3000,
+      "title": "동력 보트",
+      "titleKey": "moreminecrafts.research.v3_57.title",
+      "descriptionKey": "moreminecrafts.research.v3_57.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 3000,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.58",
+      "catalog": "v3",
+      "discipline": "world",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 4000,
+      "title": "차원 간 물품 운송",
+      "titleKey": "moreminecrafts.research.v3_58.title",
+      "descriptionKey": "moreminecrafts.research.v3_58.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 4000,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "흑요석"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 6,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:ender_eye",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "엔더의 눈"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.59",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1040,
+      "title": "양조 기초",
+      "titleKey": "moreminecrafts.research.v3_59.title",
+      "descriptionKey": "moreminecrafts.research.v3_59.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 340,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.60",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1300,
+      "title": "물약 연구",
+      "titleKey": "moreminecrafts.research.v3_60.title",
+      "descriptionKey": "moreminecrafts.research.v3_60.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:redstone",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 620,
+          "materials": [
+            {
+              "itemId": "minecraft:redstone",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "발광석 가루"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.61",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1280,
+      "title": "투척·잔류 물약",
+      "titleKey": "moreminecrafts.research.v3_61.title",
+      "descriptionKey": "moreminecrafts.research.v3_61.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:dragon_breath",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "드래곤의 숨결"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:dragon_breath",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "드래곤의 숨결"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.62",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1240,
+      "title": "상태 효과",
+      "titleKey": "moreminecrafts.research.v3_62.title",
+      "descriptionKey": "moreminecrafts.research.v3_62.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:fermented_spider_eye",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "발효된 거미 눈"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:fermented_spider_eye",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "발효된 거미 눈"
+            },
+            {
+              "itemId": "minecraft:magma_cream",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "마그마 크림"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:fermented_spider_eye",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "발효된 거미 눈"
+            },
+            {
+              "itemId": "minecraft:ghast_tear",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "가스트의 눈물"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.63",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1240,
+      "title": "마법 재료",
+      "titleKey": "moreminecrafts.research.v3_63.title",
+      "descriptionKey": "moreminecrafts.research.v3_63.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.64",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1530,
+      "title": "XP 획득",
+      "titleKey": "moreminecrafts.research.v3_64.title",
+      "descriptionKey": "moreminecrafts.research.v3_64.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 480,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 750,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.65",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T1",
+      "levelCap": 3,
+      "approvedTotalRawXp": 1130,
+      "title": "촉매 보존",
+      "titleKey": "moreminecrafts.research.v3_65.title",
+      "descriptionKey": "moreminecrafts.research.v3_65.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 220,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 360,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 550,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.66",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T2",
+      "levelCap": 1,
+      "approvedTotalRawXp": 900,
+      "title": "고급 양조",
+      "titleKey": "moreminecrafts.research.v3_66.title",
+      "descriptionKey": "moreminecrafts.research.v3_66.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 900,
+          "materials": [
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.67",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T2",
+      "levelCap": 2,
+      "approvedTotalRawXp": 1350,
+      "title": "XP 제어",
+      "titleKey": "moreminecrafts.research.v3_67.title",
+      "descriptionKey": "moreminecrafts.research.v3_67.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "엔더 진주"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "엔더 진주"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.68",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T2",
+      "levelCap": 1,
+      "approvedTotalRawXp": 1700,
+      "title": "물약 혼합",
+      "titleKey": "moreminecrafts.research.v3_68.title",
+      "descriptionKey": "moreminecrafts.research.v3_68.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1700,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "발광석 가루"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:dragon_breath",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "드래곤의 숨결"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.69",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T2",
+      "levelCap": 1,
+      "approvedTotalRawXp": 2400,
+      "title": "양조 공정 제어",
+      "titleKey": "moreminecrafts.research.v3_69.title",
+      "descriptionKey": "moreminecrafts.research.v3_69.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2400,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "블레이즈 가루"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "v3.research.70",
+      "catalog": "v3",
+      "discipline": "alchemy",
+      "tier": "T3",
+      "levelCap": 1,
+      "approvedTotalRawXp": 4200,
+      "title": "물약 농축",
+      "titleKey": "moreminecrafts.research.v3_70.title",
+      "descriptionKey": "moreminecrafts.research.v3_70.description",
+      "prerequisitesDefined": false,
+      "knowledgePrerequisites": [],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 4200,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 1536,
+              "compressedUnits": 24,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:dragon_breath",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "드래곤의 숨결"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:netherite_ingot",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "네더라이트 주괴"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

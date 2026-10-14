@@ -1,7 +1,25 @@
 # Cumulative live validation backlog
 
+> Historical status: the Stage 5 Flame prototype, F/Shift+F routing, 100-tick Flame cooldown, and Wind Step entries below are stale and superseded. Current behavior is documented in `STAGE_2_GAMEPLAY_RECONCILIATION.md`; retain the old entries only as historical test intent. Unrelated live checks remain pending until observed.
+
 Automated build and smoke coverage does not replace the following human gameplay checks. Entries
 remain **LIVE PENDING** until a human records an observed result.
+
+## Oct 7 scoped follow-up — LIVE PENDING
+
+- [ ] **LIVE PENDING (T2 cores):** Generate new Bastion treasure and Ancient City chest loot; verify one-time contents persist after closing, chunk unload, reconnect, and world re-entry.
+- [ ] **LIVE PENDING (Trial cores):** Open normal and ominous Trial Vaults and verify the Eye of the Typhoon / Heart of Thunder source mapping, chance behavior, per-player key consumption, and no repeat reward from the same vault/player.
+- [ ] **LIVE PENDING (Ocean Monument):** Defeat all three Elder Guardians across rooms/chunk boundaries; verify exactly one Heart of Currents drops, pickup works in multiplayer, and reconnect/restart does not grant a second core.
+- [ ] **LIVE PENDING (Multi Catch):** Verify two independently generated fish with potentially different species, grade, length, and weight after success; verify no fish on minigame failure or missing Minnow permission.
+- [ ] **LIVE PENDING (Multi Catch durability):** Verify one Reel charge per valid attempt and one Minnow/Crankbait charge per permitted fish, including a module that becomes broken after the first result.
+- [ ] **LIVE PENDING (Fishing cancellation):** Verify logout, death, hook removal, rod removal, dimension travel, and timeout cancel both rewards while retaining the already-spent Reel charge.
+- [ ] **LIVE PENDING (Fishing regression):** Verify vanilla rod casting/retrieval outside eligible custom water and the eligible custom fishing loop/HUD remain functional.
+- [ ] **LIVE PENDING (Fisherman sale):** Shift-right-click sells exactly one data-bearing fish at the component-derived value, handles a full inventory, supports repeat sales, and leaves ordinary vanilla trades/restock unchanged.
+- [ ] **LIVE PENDING (Fisherman multiplayer):** Two players selling to the same Fisherman each receive only their own server-calculated payment; inventory movement and reconnect preserve unsold fish data.
+- [ ] **LIVE PENDING (Activity rewards):** Verify the five advancement milestones appear once per player, toast correctly in Korean/English, award exactly 60 XP total, and remain complete after reconnect/restart.
+- [ ] **LIVE PENDING (PR #69 mobs):** Confirm Peaceful difficulty removes/blocks Feral Wolf and Cave Bat while their Creature/Ambient category caps and ordinary difficulty behaviors remain correct.
+- [ ] **LIVE PENDING (PR #65 equipment):** Click Armor Stands with the Greatsword, move/remove a Mining Drill during its menu, test all portable-furnace fuel families, and visually inspect Injector/Drill/furnace slot placement and filters.
+- [ ] **LIVE PENDING (resources):** Review all 40 custom mob textures after production art is connected; inspect vanilla-model silhouettes, equipment, scale, held items, first/third person and GUI. The five core icons currently use vanilla model references and are not final artwork.
 
 ## Stage 3 - LIVE PENDING
 
@@ -104,21 +122,21 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 
 ## Stage 5A - Flame Sword - LIVE PENDING
 
-### Flame Sword
+### Flame Sword (historical F-key checks; current active uses right-click)
 - [ ] **LIVE PENDING (Stage 5A):** `flame_sword` exists and can be obtained.
 - [ ] **LIVE PENDING (Stage 5A):** A normal melee attack works.
 - [ ] **LIVE PENDING (Stage 5A):** Expected attack damage and attack speed attributes apply.
 
-### Passive splash
+### Passive splash (superseded Stage 5 prototype; stale)
 - [ ] **LIVE PENDING (Stage 5A):** A melee hit triggers damage on nearby valid entities.
 - [ ] **LIVE PENDING (Stage 5A):** The primary target is not double-hit by splash.
 - [ ] **LIVE PENDING (Stage 5A):** The attacker is excluded.
 - [ ] **LIVE PENDING (Stage 5A):** Nearby valid entities are damaged exactly once.
 - [ ] **LIVE PENDING (Stage 5A):** Entities outside the 2.5-block radius are unaffected.
-- [ ] **LIVE PENDING (Stage 5A):** Splash cannot recursively trigger itself.
-- [ ] **LIVE PENDING (Stage 5A):** Flame particles appear around affected entities.
+- [SUPERSEDED / STALE] Stage 5A recursive splash assertion; current passive is every tenth successful hit.
+- [SUPERSEDED / STALE] Stage 5A splash VFX assertion.
 
-### Flame Cleave
+### Flame Cleave (historical Stage 5 checks; right-click and 600-tick cooldown are current)
 - [ ] **LIVE PENDING (Stage 5A):** Right-click activates Flame Cleave.
 - [ ] **LIVE PENDING (Stage 5A):** Frontal targets are hit.
 - [ ] **LIVE PENDING (Stage 5A):** Targets behind the player are not hit.
@@ -131,7 +149,7 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 - [ ] **LIVE PENDING (Stage 5A):** An empty cast still starts cooldown.
 
 ### Cooldown
-- [ ] **LIVE PENDING (Stage 5A):** Flame Cleave cooldown lasts 100 ticks.
+- [SUPERSEDED / STALE] Stage 5A recorded a 100-tick Flame Cleave cooldown; current cooldown is 600 ticks.
 - [ ] **LIVE PENDING (Stage 5A):** Immediate reuse is blocked.
 - [ ] **LIVE PENDING (Stage 5A):** Reuse after expiry works.
 - [ ] **LIVE PENDING (Stage 5A):** Swapping duplicate Flame Swords cannot bypass cooldown.
@@ -147,9 +165,9 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 
 ## Stage 5B - Special Equipment System - LIVE PENDING
 
-### Input
-- [ ] **LIVE PENDING (Stage 5B):** F is detected in the client and sends one PRIMARY request per press.
-- [ ] **LIVE PENDING (Stage 5B):** Shift+F is detected distinctly and sends one SECONDARY request per press.
+### Input (superseded F / Shift+F route; T2 actives use item right-click)
+- [SUPERSEDED / STALE] Stage 5B F-key PRIMARY route; T2 uses item right-click.
+- [SUPERSEDED / STALE] Stage 5B Shift+F SECONDARY route and Wind Step input.
 - [ ] **LIVE PENDING (Stage 5B):** Unrelated keys are unaffected.
 - [ ] **LIVE PENDING (Stage 5B):** Holding an unsupported vanilla item safely does nothing.
 - [ ] **LIVE PENDING (Stage 5B):** Dedicated-server startup remains client-class safe.
@@ -162,26 +180,26 @@ The detailed original procedure remains in `docs/STAGE_3_VALIDATION.md`.
 
 ### Flame Sword
 - [ ] **LIVE PENDING (Stage 5B):** Normal melee and the Stage 5A splash passive still work.
-- [ ] **LIVE PENDING (Stage 5B):** F activates Flame Cleave; right-click no longer does.
-- [ ] **LIVE PENDING (Stage 5B):** Shift+F does nothing with Flame Sword.
-- [ ] **LIVE PENDING (Stage 5B):** Flame Cleave remains a 100-tick cooldown and an empty cast consumes it.
+- [SUPERSEDED / STALE] Stage 5B F-key Flame Cleave route; current active uses right-click.
+- [SUPERSEDED / STALE] Stage 5B Shift+F Flame Sword assertion.
+- [SUPERSEDED / STALE] F-key-era 100-tick Flame cooldown and empty-cast assertion.
 - [ ] **LIVE PENDING (Stage 5B):** Swapping duplicate Flame Swords cannot bypass cooldown.
 
 ### Wind Sword
 - [ ] **LIVE PENDING (Stage 5B):** `wind_sword` is obtainable, performs normal melee, and has expected native attributes.
 
-### Wind Blade
-- [ ] **LIVE PENDING (Stage 5B):** F launches the visible forward attack and plays its sound.
+### Wind Blade (historical F-key route; current active uses item right-click)
+- [SUPERSEDED / STALE] Stage 5B F-key Wind Blade route; current active uses right-click.
 - [ ] **LIVE PENDING (Stage 5B):** A forward target is hit; off-path and beyond-range targets are unaffected.
 - [ ] **LIVE PENDING (Stage 5B):** The caster is unaffected and one cast cannot repeatedly damage the same target.
 - [ ] **LIVE PENDING (Stage 5B):** Terrain is unaffected and solid terrain stops the attack path.
 - [ ] **LIVE PENDING (Stage 5B):** Wind Blade has a 60-tick cooldown; duplicate sword swapping cannot bypass it.
 
-### Wind Step
+### Wind Step (removed from current design; stale historical checklist)
 - [ ] **LIVE PENDING (Stage 5B):** Shift+F starts a short forward movement burst with visible particles and sound.
-- [ ] **LIVE PENDING (Stage 5B):** A solid wall is not bypassed, collision remains sane, and vertical velocity behaves sanely.
-- [ ] **LIVE PENDING (Stage 5B):** A rejected Wind Step does not consume cooldown.
-- [ ] **LIVE PENDING (Stage 5B):** Wind Step has an 80-tick cooldown; duplicate sword swapping cannot bypass it.
+- [SUPERSEDED / STALE] Wind Step collision assertion.
+- [SUPERSEDED / STALE] Wind Step rejection assertion.
+- [SUPERSEDED / STALE] Wind Step cooldown assertion.
 
 ### Persistence
 - [ ] **LIVE PENDING (Stage 5B):** Cooldowns survive inventory movement and dropping/reacquiring equipment.

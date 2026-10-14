@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:netherite_sword",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_ingot"
+  ],
+  "result": {
+    "id": "moreminecrafts:netherite_greatsword",
+    "count": 1
+  }
+}

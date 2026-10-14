@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:rotten_skeleton",
+    "moreminecrafts:cave_skeleton",
+    "moreminecrafts:armored_skeleton",
+    "moreminecrafts:ashen_skeleton",
+    "moreminecrafts:lesser_wither_skeleton",
+    "moreminecrafts:mountain_skeleton",
+    "moreminecrafts:miner_skeleton"
+  ]
+}

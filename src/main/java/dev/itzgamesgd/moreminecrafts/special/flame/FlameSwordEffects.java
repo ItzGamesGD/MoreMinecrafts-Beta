@@ -1,48 +1,40 @@
 package dev.itzgamesgd.moreminecrafts.special.flame;
 
-import net.minecraft.core.particles.ParticleTypes;
+import dev.itzgamesgd.moreminecrafts.special.vfx.T2ElementalVfx;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 
 public final class FlameSwordEffects {
-    public static final double SPLASH_RADIUS = 2.5D;
-    public static final float SPLASH_FRACTION = 0.35F;
-    /**
-     * The 26.3 Item#hurtEnemy callback confirms a successful hit but does not expose resolved damage.
-     * This therefore mirrors the sword's nine-point prototype attack value, before armor mitigation.
-     */
-    public static final float PROTOTYPE_DIRECT_DAMAGE = 9.0F;
-
-    private static final ThreadLocal<Boolean> APPLYING_SPLASH = ThreadLocal.withInitial(() -> false);
+    public static final double SWEEP_HALF_WIDTH = 3.5D;
+    public static final double SWEEP_DEPTH = 1.5D;
+    public static final float SWEEP_DAMAGE = 3.5F; // PROVISIONAL, intentionally independent of melee modifiers
 
     private FlameSwordEffects() {
     }
 
-    public static void splash(ServerPlayer attacker, LivingEntity primaryTarget) {
-        if (APPLYING_SPLASH.get()) {
-            return;
-        }
-        float damage = FlameCombatMath.splashDamage(PROTOTYPE_DIRECT_DAMAGE, SPLASH_FRACTION);
+    public static void sweep(ServerPlayer attacker, LivingEntity primaryTarget) {
         ServerLevel level = attacker.level();
-        AABB search = primaryTarget.getBoundingBox().inflate(SPLASH_RADIUS);
-        APPLYING_SPLASH.set(true);
-        try {
-            for (LivingEntity nearby : level.getEntitiesOfClass(LivingEntity.class, search, candidate ->
-                    candidate != attacker
-                            && candidate != primaryTarget
-                            && candidate.isAlive()
-                            && !candidate.isAlliedTo(attacker)
-                            && candidate.distanceToSqr(primaryTarget) <= SPLASH_RADIUS * SPLASH_RADIUS
-                            && (!(candidate instanceof ServerPlayer player) || attacker.canHarmPlayer(player)))) {
-                if (nearby.hurtServer(level, attacker.damageSources().playerAttack(attacker), damage)) {
-                    level.sendParticles(ParticleTypes.FLAME, nearby.getX(), nearby.getY() + 0.7D, nearby.getZ(),
-                            4, 0.2D, 0.3D, 0.2D, 0.01D);
-                }
+        AABB search = primaryTarget.getBoundingBox().inflate(SWEEP_HALF_WIDTH, 1.0D, SWEEP_HALF_WIDTH);
+        double forwardX = attacker.getLookAngle().x;
+        double forwardZ = attacker.getLookAngle().z;
+        double length = Math.sqrt(forwardX * forwardX + forwardZ * forwardZ);
+        if (length < 1.0E-8D) return;
+        forwardX /= length;
+        forwardZ /= length;
+        for (LivingEntity nearby : level.getEntitiesOfClass(LivingEntity.class, search, candidate ->
+                candidate != attacker && candidate.isAlive() && !candidate.isAlliedTo(attacker)
+                        && (!(candidate instanceof ServerPlayer player) || attacker.canHarmPlayer(player)))) {
+            double dx = nearby.getX() - primaryTarget.getX();
+            double dz = nearby.getZ() - primaryTarget.getZ();
+            double depth = Math.abs(dx * forwardX + dz * forwardZ);
+            double lateral = Math.abs(-dx * forwardZ + dz * forwardX);
+            if (depth <= SWEEP_DEPTH && lateral <= SWEEP_HALF_WIDTH) {
+                nearby.hurtServer(level, attacker.damageSources().playerAttack(attacker), SWEEP_DAMAGE);
             }
-        } finally {
-            APPLYING_SPLASH.remove();
         }
+        T2ElementalVfx.fireSweep(level, primaryTarget.position().add(0.0D, 0.9D, 0.0D),
+                new net.minecraft.world.phys.Vec3(forwardX, 0.0D, forwardZ));
     }
 }

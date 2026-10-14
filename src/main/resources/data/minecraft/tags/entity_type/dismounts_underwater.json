@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:large_spider",
+    "moreminecrafts:forest_spider",
+    "moreminecrafts:desert_spider",
+    "moreminecrafts:ice_spider"
+  ]
+}

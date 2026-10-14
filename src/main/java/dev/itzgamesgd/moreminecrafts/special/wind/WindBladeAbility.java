@@ -2,7 +2,7 @@ package dev.itzgamesgd.moreminecrafts.special.wind;
 
 import dev.itzgamesgd.moreminecrafts.ability.ActiveEquipmentAbility;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
-import net.minecraft.core.particles.ParticleTypes;
+import dev.itzgamesgd.moreminecrafts.special.vfx.T2ElementalVfx;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,11 +47,7 @@ public final class WindBladeAbility implements ActiveEquipmentAbility {
                 target.hurtServer(level, player.damageSources().playerAttack(player), DAMAGE);
             }
         }
-        for (double distance = 0.75D; distance <= effectiveRange; distance += 0.75D) {
-            Vec3 point = start.add(facing.scale(distance));
-            level.sendParticles(ParticleTypes.SWEEP_ATTACK, point.x, point.y, point.z,
-                    1, 0.12D, 0.12D, 0.12D, 0.0D);
-        }
+        T2ElementalVfx.windBlade(level, start, facing, effectiveRange);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP,
                 SoundSource.PLAYERS, 0.9F, 1.35F);
         return true;

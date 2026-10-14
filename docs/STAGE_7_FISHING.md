@@ -1,3 +1,5 @@
+> **HISTORICAL / SUPERSEDED:** This early Stage 7 description records the pre-reconciliation implementation and design. Current Fishing authority is `docs/STAGE_3_FISHING_RESOURCE_RECONCILIATION.md`; equipment is Tier I–III, Minnow does not gate encounters, and Length informs expected Weight.
+
 # Stage 7 Fishing vertical slice
 
 Stage 7 intercepts `FishingHook.retrieve(ItemStack)` only when vanilla has set the hook's `biting` state. Casting, hook simulation, water checks, waiting, Lure, and non-catch reel behavior remain vanilla. The original retrieve call reports one durability point while the custom challenge owns catch resolution; ordinary treasure/junk is replaced only for this valid custom-fish catch path.

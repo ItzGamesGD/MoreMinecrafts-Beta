@@ -1,0 +1,24 @@
+package dev.itzgamesgd.moreminecrafts.mixin;
+
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ShieldItem;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+/** LivingEntity calls this only after an incoming hit has been reduced by the blocking item. */
+@Mixin(LivingEntity.class)
+abstract class KnowledgeShieldBlockMixin {
+    @Inject(method = "blockedByItem", at = @At("TAIL"))
+    private void moreminecrafts$recordShieldBlock(LivingEntity attacker, DamageSource source,
+            float blockedDamage, boolean fullyBlocked, CallbackInfo ci) {
+        Object self = this;
+        if (blockedDamage > 0.0F && self instanceof ServerPlayer player
+                && player.getItemBlockingWith().getItem() instanceof ShieldItem)
+            KnowledgeEventCollectors.shieldBlocked(player);
+    }
+}

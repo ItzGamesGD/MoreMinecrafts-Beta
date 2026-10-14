@@ -2,6 +2,8 @@ package dev.itzgamesgd.moreminecrafts.enhancement;
 
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
+import dev.itzgamesgd.moreminecrafts.progression.XpLevels;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
@@ -31,17 +33,38 @@ public final class EnhancementOperation {
             return Optional.empty();
         }
 
-        return plan(definition.get(), level(equipment), material.getCount())
-                .map(plan -> {
-                    ItemStack result = equipment.copyWithCount(1);
-                    result.set(ModDataComponents.ENHANCEMENT_LEVEL, plan.targetLevel());
-                    return new Result(
-                            result,
-                            plan.targetLevel(),
-                            plan.experienceLevelCost(),
-                            plan.materialCost()
-                    );
-                });
+        return plan(definition.get(), level(equipment), material.getCount()).map(plan -> result(equipment, plan));
+    }
+
+    /** Requirement shown by the UI even when the inserted stone stack is too small. */
+    public static Optional<Result> requirement(ItemStack equipment) {
+        Optional<EnhancementDefinition> definition = EnhancementCatalog.definition(equipment.getItem());
+        if (equipment.isEmpty() || definition.isEmpty()) {
+            return Optional.empty();
+        }
+        return plan(definition.get(), level(equipment), Integer.MAX_VALUE).map(plan -> result(equipment, plan));
+    }
+
+    /** Server-authoritative one-step transaction; inputs stay in their workstation slots. */
+    public static boolean apply(Player player, ItemStack equipment, ItemStack material) {
+        if (player.level().isClientSide()) {
+            return false;
+        }
+        Optional<Result> preview = preview(equipment, material);
+        if (preview.isEmpty() || !XpLevels.pay(player, preview.get().experienceLevelCost())) {
+            return false;
+        }
+        Result result = preview.get();
+        equipment.set(ModDataComponents.ENHANCEMENT_LEVEL, result.targetLevel());
+        material.shrink(result.materialCost());
+        return true;
+    }
+
+    private static Result result(ItemStack equipment, Plan plan) {
+        ItemStack result = equipment.copyWithCount(1);
+        result.set(ModDataComponents.ENHANCEMENT_LEVEL, plan.targetLevel());
+        return new Result(result, plan.targetLevel(), plan.experienceLevelCost(), plan.materialCost(),
+                plan.milestone(), plan.milestoneCount());
     }
 
     /**
@@ -49,7 +72,7 @@ public final class EnhancementOperation {
      * Data Component, Fabric, or menu interaction so it is safe to exercise with plain JUnit.
      */
     static Optional<Plan> plan(EnhancementDefinition definition, int currentLevel, int materialCount) {
-        if (materialCount < EnhancementRules.MATERIAL_COST || currentLevel < 0) {
+        if (currentLevel < 0) {
             return Optional.empty();
         }
 
@@ -63,10 +86,16 @@ public final class EnhancementOperation {
             return Optional.empty();
         }
 
+        EnhancementRules.Cost cost = EnhancementRules.costFor(targetLevel);
+        if (materialCount < cost.materialCount()) {
+            return Optional.empty();
+        }
         return Optional.of(new Plan(
                 targetLevel,
-                EnhancementRules.experienceLevelCost(targetLevel),
-                EnhancementRules.MATERIAL_COST
+                cost.experienceLevelCost(),
+                cost.materialCount(),
+                EnhancementRules.isMilestone(targetLevel),
+                EnhancementRules.milestoneCount(targetLevel)
         ));
     }
 
@@ -86,9 +115,11 @@ public final class EnhancementOperation {
         return EnhancementEffects.value(stack, EnhancementEffect.Target.ATTACK_DAMAGE);
     }
 
-    record Plan(int targetLevel, int experienceLevelCost, int materialCost) {
+    record Plan(int targetLevel, int experienceLevelCost, int materialCost,
+                boolean milestone, int milestoneCount) {
     }
 
-    public record Result(ItemStack stack, int targetLevel, int experienceLevelCost, int materialCost) {
+    public record Result(ItemStack stack, int targetLevel, int experienceLevelCost, int materialCost,
+                         boolean milestone, int milestoneCount) {
     }
 }
