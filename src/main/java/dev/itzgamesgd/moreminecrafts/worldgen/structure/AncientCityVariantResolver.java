@@ -9,7 +9,7 @@ import net.minecraft.world.level.ChunkPos;
  * seed is mixed with that identity and a fixed domain salt, so selection does
  * not depend on generation order, mutable global state, or chunk load order.</p>
  */
-public final class AncientCityVariantResolver {
+public final class AncientCityVariantResolver {\n    // Architecture probe only: this class does not alter Ancient City generation by itself.
     private static final long DOMAIN_SALT = 0x4D4D5F414E434954L;
     private static final long X_MIX = 0x9E3779B97F4A7C15L;
     private static final long Z_MIX = 0xC2B2AE3D27D4EB4FL;
