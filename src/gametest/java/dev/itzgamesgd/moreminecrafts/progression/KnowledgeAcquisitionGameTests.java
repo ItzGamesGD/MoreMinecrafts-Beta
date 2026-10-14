@@ -174,6 +174,36 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
     }
 
     @GameTest
+    public void k15AndK30CountShiftClickedRecipesAndDistinctFoods(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        CraftingMenu menu = craftingMenu(ctx, player);
+
+        menu.getSlot(1).set(new ItemStack(Items.WHEAT));
+        menu.getSlot(2).set(new ItemStack(Items.WHEAT));
+        menu.getSlot(3).set(new ItemStack(Items.WHEAT));
+        menu.slotsChanged(menu.getSlot(1).container);
+        ItemStack bread = menu.quickMoveStack(player, 0);
+        ctx.assertTrue(bread.is(Items.BREAD), "shift-click transfers a crafted bread output");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("recipes_completed") == 1,
+                "one completed shift-click craft advances K15 once");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("foods_crafted_or_cooked") == 1,
+                "one distinct crafted food advances K30 once");
+
+        menu.getSlot(1).set(new ItemStack(Items.WHEAT));
+        menu.getSlot(2).set(new ItemStack(Items.COCOA_BEANS));
+        menu.getSlot(3).set(new ItemStack(Items.WHEAT));
+        menu.slotsChanged(menu.getSlot(1).container);
+        ItemStack cookie = menu.quickMoveStack(player, 0);
+        ctx.assertTrue(cookie.is(Items.COOKIE), "shift-click transfers a second crafted food");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("recipes_completed") == 2,
+                "the second completed shift-click craft advances K15 once");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("foods_crafted_or_cooked") == 2,
+                "K30 counts a second food identity and deduplicates the paired result callback");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void k14ShiftClickAndBulkResultTakesCountEachOutputOnce(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
