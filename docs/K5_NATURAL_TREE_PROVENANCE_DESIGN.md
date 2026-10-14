@@ -1,6 +1,6 @@
 # K5 — Natural Tree Logging (200 Logs): Approved Redesign
 
-**Status:** User-approved gameplay specification; technical probe pending. **No K5 gameplay code has been changed.**
+**Status:** User-approved gameplay specification. The production implementation and current validation evidence are tracked in [K5 production integration](K5_PRODUCTION_INTEGRATION.md); this file remains the binding gameplay contract.
 **Approval:** 2026-10-13. This section **supersedes all older K5 gameplay requirements and implementation recommendations below**, including 2×2 giant-tree restrictions, 128-log target, player-to-player acquisition credit, per-item UUIDs, item provenance components, player redemption ledgers, item stack split/merge hooks, and acquisition-on-inventory-receipt logic.
 
 ## Binding gameplay rules
@@ -18,8 +18,8 @@
 2. Distinguish worldgen trees from sapling growth by **verified runtime source paths**, not by log type, species, geometry, leaves, or biome heuristics.
 3. On successful server-side Survival player block break, verify the position's natural-tree marker, consume it exactly once, and increment K5 by one. Do not credit drops, transfers, explosions, piston actions or inventory receipt.
 4. Do not implement per-log UUIDs, item data components, stack split/merge hooks, global or player redemption token histories, or acquisition listeners for K5.
-5. Before enabling progress: synchronize with the **current** PR #80 HEAD, run `./gradlew genSources`, verify mapped Mixin descriptors and Fabric hooks, and run a **no-credit** natural-tree-versus-sapling runtime/GameTest probe. Validate at least several vanilla tree species, save/reload, chunk unload/reload, failed/cancelled breaks and player-placed logs. Report blocked checks truthfully.
-6. Prefer an isolated probe branch based on current PR #80 for code-only experimentation. Keep PR #81 documentation-only until technical evidence is available; do not merge or alter PR #79/#80 as part of this design change.
+5. Implementation and validation status: the production path, mapped hooks, natural-generation versus sapling coverage, persistence/lifecycle checks, break eligibility, and known limits are recorded in [K5 production integration](K5_PRODUCTION_INTEGRATION.md). Use that record for the current evidence; this document remains the gameplay specification.
+6. The isolated probe and documentation-only boundary applied at the original design checkpoint. PR #81 remains the documentation source; the production implementation and evidence were added later in the dependent #82/#84 stack. This file records gameplay authority, not a pending implementation gate.
 
 **Important:** Everything after the divider is preserved as historical research only and is **NOT authoritative** for the redesigned K5. Its 128-unit, giant-tree, item-transfer, UUID, token-ledger and item-stack requirements are withdrawn. Do not implement them.
 
