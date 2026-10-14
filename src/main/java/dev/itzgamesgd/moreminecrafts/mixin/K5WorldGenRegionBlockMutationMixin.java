@@ -20,7 +20,6 @@ abstract class K5WorldGenRegionBlockMutationMixin {
         BlockState previous = getBlockState(pos);
         boolean changed = original.call(pos, state, updateFlags, updateLimit);
         if (changed && !previous.equals(state)) {
-            K5NaturalTreeProvenance.captureFallenTreeWrite(pos, state);
             WorldGenRegion region = (WorldGenRegion) (Object) this;
             K5NaturalTreeProvenance.invalidatePosition(region.getChunk(pos.getX() >> 4, pos.getZ() >> 4), pos);
         }

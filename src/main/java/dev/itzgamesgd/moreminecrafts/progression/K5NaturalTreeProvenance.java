@@ -119,6 +119,8 @@ public final class K5NaturalTreeProvenance {
     public interface DiagnosticListener {
         void naturalDecorationEntered();
         void trunkCallback(Identifier featureId, BlockPos position);
+        void treeFeaturePlacement(Identifier placedFeatureId, Identifier featureId, boolean succeeded,
+                Set<Long> successfulLogPositions);
         void eligibleTrunkRecorded();
     }
     private static volatile DiagnosticListener diagnosticListener;
@@ -189,7 +191,7 @@ public final class K5NaturalTreeProvenance {
         if (active.isEmpty()) ACTIVE_FALLEN_TREE_WRITES.remove();
     }
 
-    /** Called only after a real successful WorldGenRegion block write. */
+    /** Called only after FallenTreeFeature's real setBlockAndUpdate succeeds for a log state. */
     public static void captureFallenTreeWrite(BlockPos pos, BlockState state) {
         ArrayDeque<List<TrunkWrite>> active = ACTIVE_FALLEN_TREE_WRITES.get();
         if (!active.isEmpty() && state.is(BlockTags.LOGS))
@@ -215,6 +217,8 @@ public final class K5NaturalTreeProvenance {
         DiagnosticListener observer = diagnosticListener;
         if (observer != null && isNaturalBiomeDecoration() && activeFeature != null && isTreePlacementFeature(source)) {
             for (TrunkWrite write : writes) observer.trunkCallback(featureKey, write.position());
+            observer.treeFeaturePlacement(activeFeature.key(), featureKey, treePlacementSucceeded,
+                    writes.stream().map(write -> write.position().asLong()).collect(java.util.stream.Collectors.toUnmodifiableSet()));
         }
         if (!treePlacementSucceeded || !isNaturalBiomeDecoration()
                 || !isEligibleTreeIdentity(placedKey, featureKey, isTreePlacementFeature(source))) return;

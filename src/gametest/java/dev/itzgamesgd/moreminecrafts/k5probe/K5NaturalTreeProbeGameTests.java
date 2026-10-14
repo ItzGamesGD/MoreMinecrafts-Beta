@@ -1051,6 +1051,117 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
     @GameTest
+    public void k5ControlledNaturalDecorationGeneratesAndCreditsRegisteredFallenTree(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        ctx.assertTrue(level.getSeed() == 0L, "fallen-tree fixture uses the pinned GameTest seed 0");
+
+        var registries = level.registryAccess();
+        var biomes = registries.lookupOrThrow(Registries.BIOME);
+        Holder<Biome> forest = biomes.get(Identifier.fromNamespaceAndPath("minecraft", "forest")).orElseThrow();
+        var placedRegistry = registries.lookupOrThrow(Registries.PLACED_FEATURE);
+        PlacedFeature naturalFallenPlacement = placedRegistry.get(Identifier.fromNamespaceAndPath(
+                "minecraft", "trees_birch_and_oak_leaf_litter")).orElseThrow().value();
+        ctx.assertTrue(naturalFallenPlacement.getFeatures().anyMatch(feature ->
+                        feature.value() instanceof FallenTreeFeature
+                                && K5NaturalTreeProvenance.isKnownVanillaFallenTreeFeatureId(
+                                        registries.lookupOrThrow(Registries.FEATURE).getKey(feature.value()))),
+                "registered vanilla forest placed feature contains an allowlisted FallenTreeFeature variant");
+        var noise = registries.lookupOrThrow(Registries.NOISE_SETTINGS)
+                .get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
+        NoiseBasedChunkGenerator fixtureGenerator = new NoiseBasedChunkGenerator(
+                new FixedBiomeSource(forest), noise);
+
+        ChunkPos fixtureChunkPos = new ChunkPos(128, 128);
+        int baseX = fixtureChunkPos.getMinBlockX();
+        int baseZ = fixtureChunkPos.getMinBlockZ();
+        BlockPos chunkCenter = new BlockPos(baseX + 8, 4, baseZ + 8);
+        ChunkAccess chunk = level.getChunkAt(chunkCenter);
+        ctx.assertTrue(chunk.getPos().equals(fixtureChunkPos), "fixture uses the pinned chunk [128,128]");
+        chunk.fillBiomesFromNoise((quartX, quartY, quartZ) -> forest);
+        for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
+            level.setBlock(new BlockPos(baseX + x, 1, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
+            level.setBlock(new BlockPos(baseX + x, 2, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
+            level.setBlock(new BlockPos(baseX + x, 3, baseZ + z), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
+        }
+
+        long decorationCallsBefore = K5NaturalTreeProbe.biomeDecorationCalls();
+        Identifier forcedFeatureId = Identifier.fromNamespaceAndPath("minecraft", "fallen_birch_tree");
+        K5NaturalTreeProbe.armDeterministicFallenBranch(forcedFeatureId,
+                registries.lookupOrThrow(Registries.FEATURE));
+        try {
+            fixtureGenerator.applyBiomeDecoration(level, chunk, level.structureManager());
+        } finally {
+            K5NaturalTreeProbe.disarmDeterministicFallenBranch();
+        }
+        ctx.assertTrue(K5NaturalTreeProbe.biomeDecorationCalls() == decorationCallsBefore + 1,
+                "fixture enters the production ChunkGenerator.applyBiomeDecoration scope exactly once");
+        ctx.assertTrue(K5NaturalTreeProbe.forcedFallenBranchCount() == 1,
+                "one deterministic random-selector value selected the first registered fallen-birch branch");
+        ctx.assertTrue(!K5NaturalTreeProbe.isNaturalBiomeDecoration(),
+                "production natural-decoration scope closes after the worldgen call");
+
+        Set<Identifier> knownFallenIds = Set.of(
+                Identifier.fromNamespaceAndPath("minecraft", "fallen_oak_tree"),
+                Identifier.fromNamespaceAndPath("minecraft", "fallen_birch_tree"),
+                Identifier.fromNamespaceAndPath("minecraft", "fallen_super_birch_tree"),
+                Identifier.fromNamespaceAndPath("minecraft", "fallen_spruce_tree"),
+                Identifier.fromNamespaceAndPath("minecraft", "fallen_jungle_tree"),
+                Identifier.fromNamespaceAndPath("minecraft", "fallen_poplar_tree"));
+        var featureRuns = K5NaturalTreeProbe.lastNaturalTreeFeaturePlacements();
+        var fallenRuns = featureRuns.stream()
+                .filter(run -> knownFallenIds.contains(run.featureId()) && !run.successfulLogPositions().isEmpty())
+                .toList();
+        ChunkData persisted = K5NaturalTreeProbe.data(chunk);
+        Set<Long> markers = persisted == null ? Set.of() : persisted.positions();
+        var fallenLogPositions = fallenRuns.stream().flatMap(run -> run.successfulLogPositions().stream())
+                .filter(markers::contains).map(BlockPos::of).distinct().toList();
+        var placedFeatureIds = Set.of(placedRegistry.getKey(naturalFallenPlacement));
+        System.out.println("K5_FALLEN_TREE_POSITIVE seed=" + level.getSeed()
+                + " biome=minecraft:forest controlledRandomSelector=firstChanceValue0.0"
+                + " dimension=" + level.dimension().identifier() + " chunk=" + fixtureChunkPos
+                + " placedFeatureIds=" + placedFeatureIds
+                + " actualFeatureRuns=" + featureRuns
+                + " successfulFallenRuns=" + fallenRuns
+                + " markerCount=" + markers.size() + " fallenMarkedLogs=" + fallenLogPositions);
+        ctx.assertTrue(!fallenRuns.isEmpty(),
+                "natural decoration invoked an actual registered FallenTreeFeature and changed log blocks");
+        ctx.assertTrue(!fallenLogPositions.isEmpty(),
+                "production provenance marked actual log positions written by FallenTreeFeature");
+        ctx.assertTrue(fallenRuns.stream().allMatch(run -> placedFeatureIds.contains(run.placedFeatureId())),
+                "observed feature runs belong to exact registered vanilla placed-feature identities");
+
+        BlockPos minedPos = fallenLogPositions.get(0);
+        var originalLog = level.getBlockState(minedPos);
+        ctx.assertTrue(originalLog.is(net.minecraft.tags.BlockTags.LOGS),
+                "recorded fallen-tree position independently contains a real log block");
+        ctx.assertTrue(level.getChunkAt(minedPos) == chunk && K5NaturalTreeProvenance.hasMarker(level, minedPos),
+                "the marker is attached to this world and fixture chunk at the real log position");
+        var miner = ctx.makeMockServerPlayerInLevel();
+        miner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        int progressBefore = KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined");
+        ctx.assertTrue(progressBefore == 0,
+                "fallen-tree miner starts with zero K5 progress");
+        ctx.assertTrue(miner.gameMode.destroyBlock(minedPos), "Survival player directly mines generated fallen-tree log");
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 1,
+                "successful direct mining of one generated fallen log grants exactly one K5 point");
+        ctx.assertTrue(!K5NaturalTreeProvenance.containsMarker(level, minedPos),
+                "successful mining consumes the original fallen-log marker");
+        miner.gameMode.destroyBlock(minedPos);
+        level.setBlock(minedPos, originalLog, 3);
+        boolean replacementHasMarker = K5NaturalTreeProvenance.hasMarker(level, minedPos);
+        ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, minedPos),
+                "a replacement log at the consumed fallen-tree position remains unmarked");
+        miner.gameMode.destroyBlock(minedPos);
+        int progressAfterRepeat = KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined");
+        ctx.assertTrue(progressAfterRepeat == 1,
+                "repeat mining and replacement cannot credit the same source position twice");
+        System.out.println("K5_FALLEN_TREE_MINING position=" + minedPos + " initialMarker=true"
+                + " progress=" + progressBefore + "->1 repeatAndReplacementProgress=" + progressAfterRepeat
+                + " replacementMarker=" + replacementHasMarker);
+        ctx.succeed();
+    }
+
+    @GameTest
     public void k5HighDensityProvenanceMicrobenchmarkPreservesCountsAndCodec(GameTestHelper ctx) throws Exception {
         ServerLevel level = ctx.getLevel();
         var registries = level.registryAccess();

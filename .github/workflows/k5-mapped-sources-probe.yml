@@ -61,7 +61,8 @@ jobs:
               "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator": ["NoiseBasedChunkGenerator"],
               "net.minecraft.world.level.levelgen.NoiseGeneratorSettings": ["OVERWORLD"],
               "net.minecraft.world.level.levelgen.feature.FeatureSorter": ["buildFeaturesPerStep"],
-              "net.minecraft.world.level.levelgen.feature.FallenTreeFeature": ["place"],
+              "net.minecraft.world.level.levelgen.feature.FallenTreeFeature": ["place", "placeLogBlock"],
+              "net.minecraft.world.level.levelgen.feature.RandomSelectorFeature": ["place"],
               "net.minecraft.server.level.WorldGenRegion": ["WorldGenRegion", "getBiome", "getChunk", "setBlock"],
               "net.minecraft.world.level.levelgen.placement.FeaturePlacer": ["FeaturePlacer", "placeWithBiomeCheck"],
               "net.minecraft.core.registries.Registries": ["FEATURE", "PLACED_FEATURE", "BIOME", "NOISE_SETTINGS"],
@@ -90,7 +91,7 @@ jobs:
               "net.minecraft.world.level.levelgen.feature.trunkplacers.MegaPineTrunkPlacer": ["MegaPineTrunkPlacer", "placeTrunk", "getTreeHeight"],
               "net.minecraft.world.level.block.grower.TreeGrower": ["growTree", "getConfiguredFeature"],
               "net.minecraft.world.level.block.SaplingBlock": ["advanceTree", "randomTick", "performBonemeal"],
-              "net.minecraft.world.level.WorldGenLevel": ["getChunk", "setBlock", "setCurrentlyGenerating", "getCurrentlyGenerating"],
+              "net.minecraft.world.level.WorldGenLevel": ["getChunk", "setBlock", "setBlockAndUpdate", "setCurrentlyGenerating", "getCurrentlyGenerating"],
               "net.minecraft.world.level.LevelWriter": ["setBlock"],
               "net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry": ["create"],
               "net.fabricmc.fabric.api.attachment.v1.AttachmentTarget": ["getAttached", "setAttached", "removeAttached"],
@@ -141,7 +142,7 @@ jobs:
                   if name.endswith("TreeFeature"):
                       code = subprocess.run(["javap", "-classpath", str(jar), "-p", "-c", name], text=True, capture_output=True, check=True).stdout.splitlines()
                       for i, line in enumerate(code):
-                          if "setBlock:" in line:
+                          if "setBlock:" in line or "setBlockAndUpdate:" in line or "nextFloat:" in line:
                               report.append(f"  BYTECODE {line.strip()}")
                               if i + 1 < len(code):
                                   report.append(f"  BYTECODE {code[i + 1].strip()}")

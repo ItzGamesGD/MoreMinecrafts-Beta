@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +21,8 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FallenTreeFeature;
+import net.minecraft.world.level.levelgen.feature.RandomSelectorFeature;
 
 /** GameTest observations of production hooks. No parallel marker store or worldgen wrappers. */
 public final class K5NaturalTreeProbe {
@@ -33,9 +36,14 @@ public final class K5NaturalTreeProbe {
     private static final AtomicLong SAVED_CHUNKS = new AtomicLong();
     private static final ThreadLocal<Set<Identifier>> FEATURE_IDS = ThreadLocal.withInitial(HashSet::new);
     private static final ThreadLocal<Set<Long>> CALLBACK_POSITIONS = ThreadLocal.withInitial(HashSet::new);
+    private static final ThreadLocal<List<FeaturePlacementObservation>> FEATURE_PLACEMENTS =
+            ThreadLocal.withInitial(ArrayList::new);
     private static final ThreadLocal<List<String>> TREE_GROWER_ATTEMPTS =
             ThreadLocal.withInitial(ArrayList::new);
     private static final AtomicReference<ChunkUnloadObservation> LAST_UNLOAD = new AtomicReference<>();
+    private static final AtomicReference<Identifier> FORCED_FALLEN_BRANCH = new AtomicReference<>();
+    private static final AtomicLong FORCED_FALLEN_BRANCH_COUNT = new AtomicLong();
+    private static volatile Registry<Feature> FEATURE_REGISTRY;
 
     static {
         K5NaturalTreeProvenance.setDiagnosticListener(new K5NaturalTreeProvenance.DiagnosticListener() {
@@ -44,11 +52,17 @@ public final class K5NaturalTreeProbe {
                 THREAD_DECORATION_CALLS.set(THREAD_DECORATION_CALLS.get() + 1);
                 FEATURE_IDS.get().clear();
                 CALLBACK_POSITIONS.get().clear();
+                FEATURE_PLACEMENTS.get().clear();
             }
             @Override public void trunkCallback(Identifier featureId, BlockPos pos) {
                 TRUNK_CALLBACKS.incrementAndGet();
                 if (featureId != null) FEATURE_IDS.get().add(featureId);
                 CALLBACK_POSITIONS.get().add(pos.asLong());
+            }
+            @Override public void treeFeaturePlacement(Identifier placedFeatureId, Identifier featureId,
+                    boolean succeeded, Set<Long> successfulLogPositions) {
+                FEATURE_PLACEMENTS.get().add(new FeaturePlacementObservation(
+                        placedFeatureId, featureId, succeeded, Set.copyOf(successfulLogPositions)));
             }
             @Override public void eligibleTrunkRecorded() { TRUNK_WRITES.incrementAndGet(); }
         });
@@ -70,6 +84,34 @@ public final class K5NaturalTreeProbe {
     public static long naturalTrunkWrites() { return TRUNK_WRITES.get(); }
     public static Set<Identifier> lastNaturalTreeFeatureIds() { return Set.copyOf(FEATURE_IDS.get()); }
     public static Set<Long> lastNaturalTreeCallbackPositions() { return Set.copyOf(CALLBACK_POSITIONS.get()); }
+    public static List<FeaturePlacementObservation> lastNaturalTreeFeaturePlacements() {
+        return List.copyOf(FEATURE_PLACEMENTS.get());
+    }
+    public static void armDeterministicFallenBranch(Identifier featureId, Registry<Feature> registry) {
+        FORCED_FALLEN_BRANCH_COUNT.set(0L);
+        FEATURE_REGISTRY = registry;
+        FORCED_FALLEN_BRANCH.set(featureId);
+    }
+    public static void disarmDeterministicFallenBranch() {
+        FORCED_FALLEN_BRANCH.set(null);
+        FEATURE_REGISTRY = null;
+    }
+    public static long forcedFallenBranchCount() { return FORCED_FALLEN_BRANCH_COUNT.get(); }
+    public static boolean consumeDeterministicFallenBranch(RandomSelectorFeature selector) {
+        Identifier wanted = FORCED_FALLEN_BRANCH.get();
+        if (wanted == null || selector.features().isEmpty()) return false;
+        var first = selector.features().getFirst().feature().value();
+        boolean firstIsRequestedFallenFeature = first.getFeatures().anyMatch(holder -> {
+            Feature feature = holder.value();
+            return feature instanceof FallenTreeFeature
+                    && FEATURE_REGISTRY != null && wanted.equals(FEATURE_REGISTRY.getKey(feature));
+        });
+        if (!firstIsRequestedFallenFeature || !FORCED_FALLEN_BRANCH.compareAndSet(wanted, null)) return false;
+        FORCED_FALLEN_BRANCH_COUNT.incrementAndGet();
+        return true;
+    }
+    public record FeaturePlacementObservation(Identifier placedFeatureId, Identifier featureId,
+            boolean succeeded, Set<Long> successfulLogPositions) {}
     public static ChunkData data(ChunkAccess chunk) { return K5NaturalTreeProvenance.data(chunk); }
 
     public static void beginTreeGrowerTrace() { TREE_GROWER_ATTEMPTS.get().clear(); }

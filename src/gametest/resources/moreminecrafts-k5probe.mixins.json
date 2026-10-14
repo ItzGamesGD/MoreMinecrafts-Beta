@@ -6,6 +6,7 @@
     "ChunkMapPersistenceProbeMixin",
     "ServerLevelUnloadProbeMixin",
     "TreeGrowerProbeMixin",
+    "K5DeterministicFallenSelectorMixin",
     "K5CooperatingServerPlayerGameModeMixin",
     "K5CooperatingLevelMixin"
   ],
