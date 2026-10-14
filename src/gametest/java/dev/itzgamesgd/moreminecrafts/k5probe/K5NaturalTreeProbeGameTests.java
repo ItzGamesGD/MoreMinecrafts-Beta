@@ -141,11 +141,11 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ChunkData before = K5NaturalTreeProbe.data(chunk);
         ctx.assertTrue(before == null || before.positions().isEmpty(),
                 "the controlled target chunk starts without provenance markers");
-        long callsBefore = K5NaturalTreeProbe.biomeDecorationCalls();
+        long callsBefore = K5NaturalTreeProbe.currentThreadBiomeDecorationCalls();
         long callbacksBefore = K5NaturalTreeProbe.naturalTreeTrunkCallbacks();
         fixtureGenerator.applyBiomeDecoration(level, chunk, level.structureManager());
 
-        ctx.assertTrue(K5NaturalTreeProbe.biomeDecorationCalls() == callsBefore + 1,
+        ctx.assertTrue(K5NaturalTreeProbe.currentThreadBiomeDecorationCalls() == callsBefore + 1,
                 "the verified natural ChunkGenerator.applyBiomeDecoration hook was entered");
         ctx.assertTrue(!K5NaturalTreeProbe.isNaturalBiomeDecoration(),
                 "natural-generation scope is cleared after biome decoration returns");
@@ -1192,7 +1192,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
             level.setBlock(new BlockPos(baseX + x, 3, baseZ + z), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
         }
 
-        long decorationCallsBefore = K5NaturalTreeProbe.biomeDecorationCalls();
+        long decorationCallsBefore = K5NaturalTreeProbe.currentThreadBiomeDecorationCalls();
         Identifier forcedFeatureId = Identifier.fromNamespaceAndPath("minecraft", "fallen_birch_tree");
         K5NaturalTreeProbe.armDeterministicFallenBranch(forcedFeatureId,
                 registries.lookupOrThrow(Registries.FEATURE));
@@ -1201,7 +1201,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         } finally {
             K5NaturalTreeProbe.disarmDeterministicFallenBranch();
         }
-        ctx.assertTrue(K5NaturalTreeProbe.biomeDecorationCalls() == decorationCallsBefore + 1,
+        ctx.assertTrue(K5NaturalTreeProbe.currentThreadBiomeDecorationCalls() == decorationCallsBefore + 1,
                 "fixture enters the production ChunkGenerator.applyBiomeDecoration scope exactly once");
         ctx.assertTrue(K5NaturalTreeProbe.forcedFallenBranchCount() == 1,
                 "one deterministic random-selector value selected the first registered fallen-birch branch");
