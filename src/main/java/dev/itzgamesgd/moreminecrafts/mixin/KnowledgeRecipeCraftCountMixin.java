@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ResultSlot.class)
 abstract class KnowledgeRecipeCraftCountMixin {
     @Shadow @Final private Player player;
-    @Unique private boolean moreminecrafts$k14CreditedInQuickCraft;
+    @Unique private boolean moreminecrafts$creditedInQuickCraft;
 
     /** Shift-click transfers call Slot.onQuickCraft with the successfully moved output quantity. */
     @Inject(method = "onQuickCraft(Lnet/minecraft/world/item/ItemStack;I)V", at = @At("TAIL"))
@@ -42,12 +42,20 @@ abstract class KnowledgeRecipeCraftCountMixin {
         boolean alreadyCreditedInQuickCraft = moreminecrafts$k14CreditedInQuickCraft;
         moreminecrafts$k14CreditedInQuickCraft = false;
         if (!(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty()) return;
-        if (!alreadyCreditedInQuickCraft) KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, crafted);
-        ResearchProgressState state = KnowledgeRuntime.state(serverPlayer);
-        KnowledgeRuntime.recordCondition(serverPlayer, "recipes_completed",
+        if (alreadyCreditedInQuickCraft) return;
+        if (dev.itzgamesgd.moreminecrafts.progression.KnowledgeEligibleRosters
+                .isEligibleVanillaTool(crafted.getItem()))
+            KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, crafted);
+        moreminecrafts$recordCompletedRecipe(serverPlayer, crafted);
+    }
+
+    @Unique
+    private static void moreminecrafts$recordCompletedRecipe(ServerPlayer player, ItemStack crafted) {
+        ResearchProgressState state = KnowledgeRuntime.state(player);
+        KnowledgeRuntime.recordCondition(player, "recipes_completed",
                 state.conditionProgress("recipes_completed") + 1);
         if (crafted.has(net.minecraft.core.component.DataComponents.FOOD))
-            KnowledgeRuntime.recordDistinctCondition(serverPlayer, "foods_crafted_or_cooked",
+            KnowledgeRuntime.recordDistinctCondition(player, "foods_crafted_or_cooked",
                     String.valueOf(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(crafted.getItem())));
     }
 }
