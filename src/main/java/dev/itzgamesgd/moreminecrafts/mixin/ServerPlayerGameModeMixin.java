@@ -23,15 +23,18 @@ abstract class ServerPlayerGameModeMixin {
         // true even when removeBlock failed, so verify the postcondition as well.
         boolean eligible = player.gameMode.getGameModeForPlayer() == GameType.SURVIVAL
                 && K5NaturalTreeProvenance.hasMarker(player.level(), pos);
-        EnchantmentRuntime.enterBlockBreak();
-        try {
-            boolean result = original.call(pos);
-            if (eligible && result && player.level().getBlockState(pos).isAir()
-                    && !K5NaturalTreeProvenance.containsMarker(player.level(), pos))
-                KnowledgeRuntime.recordK5NaturalLogMined(player);
-            return result;
-        } finally {
-            EnchantmentRuntime.exitBlockBreak();
+        try (var pickaxeDamage = KnowledgeRuntime.beginPickaxeDamageTracking(player)) {
+            EnchantmentRuntime.enterBlockBreak();
+            try {
+                boolean result = original.call(pos);
+                boolean removed = result && player.level().getBlockState(pos).isAir();
+                KnowledgeRuntime.finishPickaxeDamageTracking(player, pickaxeDamage, removed);
+                if (eligible && removed && !K5NaturalTreeProvenance.containsMarker(player.level(), pos))
+                    KnowledgeRuntime.recordK5NaturalLogMined(player);
+                return result;
+            } finally {
+                EnchantmentRuntime.exitBlockBreak();
+            }
         }
     }
 }

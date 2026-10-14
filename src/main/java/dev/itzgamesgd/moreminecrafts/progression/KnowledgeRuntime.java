@@ -31,7 +31,6 @@ public final class KnowledgeRuntime {
     private static List<Item> plantItems = List.of();
     private static List<Item> seedItems = List.of();
     private static List<Item> foodItems = List.of();
-    private static List<Item> toolItems = List.of();
     private static final PickaxeDamageSnapshotTracker PICKAXE_DAMAGE = new PickaxeDamageSnapshotTracker();
     private static final java.util.Set<java.util.UUID> SILENT_RECONCILIATION = new java.util.HashSet<>();
 
@@ -57,7 +56,6 @@ public final class KnowledgeRuntime {
         plantItems = List.copyOf(plants);
         seedItems = List.copyOf(seeds);
         foodItems = List.copyOf(foods);
-        toolItems = KnowledgeEligibleRosters.vanillaToolItems();
     }
 
     public static void initialize() {
@@ -76,27 +74,8 @@ public final class KnowledgeRuntime {
         // Registry item components are not bound during the mod entrypoint. Cache tags only
         // after the server has completed datapack/registry startup.
         ServerLifecycleEvents.SERVER_STARTED.register(server -> cacheTrackedItems());
-        PlayerBlockBreakEvents.BEFORE.register((level, player, pos, state, blockEntity) -> {
-            if (player instanceof ServerPlayer serverPlayer) {
-                ItemStack tool = serverPlayer.getMainHandItem();
-                if (tool.is(ItemTags.PICKAXES) && tool.getMaxDamage() > 0)
-                    PICKAXE_DAMAGE.capture(serverPlayer.getUUID(), tool.getItem(),
-                            tool.getDamageValue(), tool.getMaxDamage());
-            }
-            return true;
-        });
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
             if (!(player instanceof ServerPlayer serverPlayer)) return;
-            PickaxeDamageSnapshotTracker.Snapshot before = PICKAXE_DAMAGE.complete(serverPlayer.getUUID());
-            if (before != null && serverPlayer.getMainHandItem().getItem() == before.item()) {
-                int spent = Math.max(0, serverPlayer.getMainHandItem().getDamageValue() - before.damage());
-                if (spent > 0) recordCondition(serverPlayer, "pickaxe_durability_used",
-                        value(serverPlayer, "condition.pickaxe_durability_used") + spent);
-            } else if (before != null && serverPlayer.getMainHandItem().isEmpty()) {
-                int spent = before.maximumDamage() - before.damage() + 1;
-                if (spent > 0) recordCondition(serverPlayer, "pickaxe_durability_used",
-                        value(serverPlayer, "condition.pickaxe_durability_used") + spent);
-            }
             String blockId = String.valueOf(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
             String blockPath = blockId.substring(blockId.indexOf(':') + 1);
             if (blockPath.endsWith("_ore") || blockPath.equals("ancient_debris")) {
@@ -110,10 +89,6 @@ public final class KnowledgeRuntime {
             if (state.getBlock() instanceof net.minecraft.world.level.block.CropBlock crop
                     && state.getValue(net.minecraft.world.level.block.CropBlock.AGE) >= crop.getMaxAge())
                 recordCondition(serverPlayer, "crops_harvested", value(serverPlayer,"condition.crops_harvested") + 1);
-        });
-        PlayerBlockBreakEvents.CANCELED.register((level, player, pos, state, blockEntity) -> {
-            if (player instanceof ServerPlayer serverPlayer)
-                PICKAXE_DAMAGE.cancelBreak(serverPlayer.getUUID());
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
                 PICKAXE_DAMAGE.playerDisconnected(handler.player.getUUID()));
@@ -236,6 +211,29 @@ public final class KnowledgeRuntime {
         }
     }
 
+    /** Opens a synchronous per-break frame so nested Vein Mining calls retain their own baseline. */
+    public static PickaxeDamageSnapshotTracker.Scope beginPickaxeDamageTracking(ServerPlayer player) {
+        ItemStack tool = player.getMainHandItem();
+        Item item = tool.is(ItemTags.PICKAXES) && tool.getMaxDamage() > 0 ? tool.getItem() : null;
+        return PICKAXE_DAMAGE.begin(player.getUUID(), item, tool.getDamageValue(), tool.getMaxDamage());
+    }
+
+    /** Completes one frame only after the enclosing server block-break call actually removed its block. */
+    public static void finishPickaxeDamageTracking(ServerPlayer player,
+            PickaxeDamageSnapshotTracker.Scope scope, boolean successfulRemoval) {
+        PickaxeDamageSnapshotTracker.Snapshot before = scope.complete();
+        if (!successfulRemoval || before == null) return;
+        ItemStack after = player.getMainHandItem();
+        int spent = 0;
+        if (after.getItem() == before.item()) {
+            spent = Math.max(0, after.getDamageValue() - before.damage());
+        } else if (after.isEmpty()) {
+            spent = before.maximumDamage() - before.damage() + 1;
+        }
+        if (spent > 0) recordCondition(player, "pickaxe_durability_used",
+                value(player, "condition.pickaxe_durability_used") + spent);
+    }
+
     /** Called only after the server has removed one marked natural vanilla log. */
     public static void recordK5NaturalLogMined(ServerPlayer player) {
         if (player.gameMode.getGameModeForPlayer() != net.minecraft.world.level.GameType.SURVIVAL) return;
@@ -262,12 +260,6 @@ public final class KnowledgeRuntime {
 
     private static int crafted(ServerPlayer player, Item item) {
         return player.getStats().getValue(Stats.ITEM_CRAFTED.get(item));
-    }
-
-    private static int craftedSum(ServerPlayer player, List<Item> items) {
-        int count = 0;
-        for (Item item : items) count = (int) Math.min(Integer.MAX_VALUE, (long) count + crafted(player, item));
-        return count;
     }
 
     private static int acquired(ServerPlayer player, Item item) {
@@ -342,7 +334,6 @@ public final class KnowledgeRuntime {
         recordCondition(p, "netherite_ingot_crafted", crafted(p, Items.NETHERITE_INGOT));
         recordCondition(p, "farm_automation_parts_crafted",
                 countCrafted(p, List.of(Items.OBSERVER, Items.PISTON, Items.HOPPER)));
-        recordCondition(p, "tool_types_crafted", craftedSum(p, toolItems));
         recordCondition(p, "villager_trades", p.getStats().getValue(Stats.CUSTOM.get(Stats.TRADED_WITH_VILLAGER)));
         recordCondition(p, "animal_breedings", p.getStats().getValue(Stats.CUSTOM.get(Stats.ANIMALS_BRED)));
         boolean fullArmor = !p.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.HEAD).isEmpty()

@@ -81,6 +81,33 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
     }
 
     @GameTest
+    public void k10CanceledBreakDoesNotCountAndNextBreakUsesFreshSnapshot(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, pickaxe);
+        BlockPos canceled = ctx.absolutePos(new BlockPos(1, 1, 1));
+        BlockPos successful = ctx.absolutePos(new BlockPos(2, 1, 1));
+        ctx.getLevel().setBlock(canceled, Blocks.COPPER_ORE.defaultBlockState(), 3);
+        ctx.getLevel().setBlock(successful, Blocks.COPPER_ORE.defaultBlockState(), 3);
+        net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.register(
+                (level, breaker, pos, state, blockEntity) -> breaker != player || !pos.equals(canceled));
+
+        ctx.assertTrue(!player.gameMode.destroyBlock(canceled), "the scoped Fabric break is cancelled");
+        ctx.assertTrue(ctx.getLevel().getBlockState(canceled).is(Blocks.COPPER_ORE),
+                "cancelled block remains present");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("pickaxe_durability_used") == 0
+                        && pickaxe.getDamageValue() == 0,
+                "cancelled mining gives no durability progress or item damage");
+
+        ctx.assertTrue(player.gameMode.destroyBlock(successful), "a later permitted mining action succeeds");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("pickaxe_durability_used") == 1
+                        && pickaxe.getDamageValue() == 1,
+                "the later break completes only its own snapshot without stale state");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void k14ToolCraftCollectorKeepsTwoPlayersProgressSeparate(GameTestHelper ctx) {
         var first = ctx.makeMockServerPlayerInLevel();
         var second = ctx.makeMockServerPlayerInLevel();

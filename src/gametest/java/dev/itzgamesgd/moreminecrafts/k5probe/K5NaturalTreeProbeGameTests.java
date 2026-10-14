@@ -43,6 +43,12 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.inventory.CraftingMenu;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameType;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtOps;
 
@@ -297,7 +303,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
 
-    @GameTest
+    @GameTest(maxTicks = 180)
     public void k5NaturalChunkProvenanceSurvivesRealSaveUnloadReloadAndInvalidation(GameTestHelper ctx) {
         String restartPhase = System.getProperty("moreminecrafts.k5.restart.phase");
         if ("write".equals(restartPhase)) {
@@ -371,11 +377,37 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 java.nio.file.Files.writeString(MANIFEST,
                         removed.asLong() + "," + replaced.asLong() + "," + mined.asLong() + ","
                                 + surviving.asLong());
-                level.getServer().getPlayerList().saveAll();
-                level.getChunkSource().save(true);
-                System.out.println("K5_RESTART_WRITE worldSeed=0 chunk=[64,64] player=" + PLAYER_ID
-                        + " progress=38 surviving=" + surviving);
-                ctx.succeed();
+                player.setAttached(KnowledgeRuntime.STATE,
+                        KnowledgeRuntime.state(player).with("condition.tool_types_crafted", 3)
+                                .with("knowledge.14", 1));
+                player.setGameMode(GameType.CREATIVE);
+                player.awardStat(net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE), 12);
+                CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
+                        ContainerLevelAccess.create(level, ctx.absolutePos(new BlockPos(1, 1, 1))));
+                setWoodenPickaxeRecipe(menu);
+                ctx.assertTrue(menu.getSlot(0).getItem().is(Items.WOODEN_PICKAXE),
+                        "Creative result slot has a real vanilla recipe output");
+                menu.clicked(0, 0, ContainerInput.PICKUP, player);
+                ctx.assertTrue(player.getStats().getValue(
+                                net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE)) > 12,
+                        "Creative crafting persists an ambiguous vanilla crafted statistic");
+                ctx.runAfterDelay(110, () -> {
+                    try {
+                        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 3
+                                        && KnowledgeRuntime.knows(player, 14),
+                                "periodic refresh preserves existing K14 progress and unlock after Creative crafting");
+                        level.getServer().getPlayerList().saveAll();
+                        level.getChunkSource().save(true);
+                        System.out.println("K5_RESTART_WRITE worldSeed=0 chunk=[64,64] player=" + PLAYER_ID
+                                + " k5Progress=38 k14Progress=3 k14Unlocked=true creativeCraftStats="
+                                + player.getStats().getValue(
+                                        net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE))
+                                + " surviving=" + surviving);
+                        ctx.succeed();
+                    } catch (RuntimeException exception) {
+                        throw exception;
+                    }
+                });
             } catch (java.io.IOException exception) {
                 throw new IllegalStateException("could not write restart fixture manifest", exception);
             }
@@ -405,12 +437,27 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(KnowledgeRuntime.state(player).get("condition.natural_vanilla_logs_mined") == 38,
                         "Minecraft player data restored K5 progress into a fresh player instance");
                 ctx.assertTrue(!KnowledgeRuntime.knows(player, 5), "K5 remains locked below 200 after restart");
+                ctx.assertTrue(player.getStats().getValue(
+                                net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE)) > 12,
+                        "ambiguous Creative-crafted statistics remain present after restart");
+                ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 3
+                                && KnowledgeRuntime.knows(player, 14),
+                        "fresh-process JOIN refresh preserves K14 progress and unlock without importing stats");
                 System.out.println("K5_RESTART_READ chunk=[64,64] player=" + PLAYER_ID
-                        + " progress=38 surviving=" + surviving);
+                        + " k5Progress=38 k14Progress=3 k14Unlocked=true surviving=" + surviving);
                 ctx.succeed();
             } catch (java.io.IOException exception) {
                 throw new IllegalStateException("could not read restart fixture manifest", exception);
             }
+        }
+
+        private void setWoodenPickaxeRecipe(CraftingMenu menu) {
+            menu.getSlot(1).set(new ItemStack(Items.OAK_PLANKS));
+            menu.getSlot(2).set(new ItemStack(Items.OAK_PLANKS));
+            menu.getSlot(3).set(new ItemStack(Items.OAK_PLANKS));
+            menu.getSlot(5).set(new ItemStack(Items.STICK));
+            menu.getSlot(8).set(new ItemStack(Items.STICK));
+            menu.slotsChanged(menu.getSlot(1).container);
         }
     }
 

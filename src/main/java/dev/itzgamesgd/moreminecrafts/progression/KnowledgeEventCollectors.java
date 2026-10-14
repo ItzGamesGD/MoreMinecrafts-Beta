@@ -54,7 +54,9 @@ public final class KnowledgeEventCollectors {
 
     /** A crafting result is credited to the player who takes it, by its actual output quantity. */
     public static void vanillaToolCrafted(ServerPlayer player, ItemStack crafted) {
-        if (player.gameMode.isCreative() || crafted.isEmpty()
+        net.minecraft.world.level.GameType mode = player.gameMode.getGameModeForPlayer();
+        if (mode == net.minecraft.world.level.GameType.CREATIVE
+                || mode == net.minecraft.world.level.GameType.SPECTATOR || crafted.isEmpty()
                 || !KnowledgeEligibleRosters.isEligibleVanillaTool(crafted.getItem())) return;
         int current = KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted");
         KnowledgeRuntime.recordCondition(player, "tool_types_crafted",
