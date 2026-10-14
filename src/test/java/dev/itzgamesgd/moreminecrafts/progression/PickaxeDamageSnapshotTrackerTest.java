@@ -9,11 +9,14 @@ final class PickaxeDamageSnapshotTrackerTest {
     @Test void canceledBreakDiscardsPendingSnapshot() {
         var tracker = new PickaxeDamageSnapshotTracker();
         UUID player = UUID.randomUUID();
+        UUID otherPlayer = UUID.randomUUID();
         tracker.capture(player, Items.IRON_PICKAXE, 12, 250);
+        tracker.capture(otherPlayer, Items.DIAMOND_PICKAXE, 42, 1561);
 
-        tracker.discard(player);
+        tracker.cancelBreak(player);
 
-        assertNull(tracker.take(player));
+        assertNull(tracker.complete(player));
+        assertNotNull(tracker.complete(otherPlayer));
         assertEquals(0, tracker.pendingCount());
     }
 
@@ -22,9 +25,9 @@ final class PickaxeDamageSnapshotTrackerTest {
         UUID player = UUID.randomUUID();
         tracker.capture(player, Items.DIAMOND_PICKAXE, 42, 1561);
 
-        tracker.discard(player);
+        tracker.playerDisconnected(player);
 
-        assertNull(tracker.take(player));
+        assertNull(tracker.complete(player));
         assertEquals(0, tracker.pendingCount());
     }
 
@@ -33,13 +36,13 @@ final class PickaxeDamageSnapshotTrackerTest {
         UUID player = UUID.randomUUID();
         tracker.capture(player, Items.IRON_PICKAXE, 12, 250);
 
-        var snapshot = tracker.take(player);
+        var snapshot = tracker.complete(player);
 
         assertNotNull(snapshot);
         assertSame(Items.IRON_PICKAXE, snapshot.item());
         assertEquals(12, snapshot.damage());
         assertEquals(250, snapshot.maximumDamage());
-        assertNull(tracker.take(player));
+        assertNull(tracker.complete(player));
         assertEquals(0, tracker.pendingCount());
     }
 }

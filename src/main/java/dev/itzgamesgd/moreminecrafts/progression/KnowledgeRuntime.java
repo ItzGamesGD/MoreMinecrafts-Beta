@@ -87,7 +87,7 @@ public final class KnowledgeRuntime {
         });
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
             if (!(player instanceof ServerPlayer serverPlayer)) return;
-            PickaxeDamageSnapshotTracker.Snapshot before = PICKAXE_DAMAGE.take(serverPlayer.getUUID());
+            PickaxeDamageSnapshotTracker.Snapshot before = PICKAXE_DAMAGE.complete(serverPlayer.getUUID());
             if (before != null && serverPlayer.getMainHandItem().getItem() == before.item()) {
                 int spent = Math.max(0, serverPlayer.getMainHandItem().getDamageValue() - before.damage());
                 if (spent > 0) recordCondition(serverPlayer, "pickaxe_durability_used",
@@ -113,10 +113,10 @@ public final class KnowledgeRuntime {
         });
         PlayerBlockBreakEvents.CANCELED.register((level, player, pos, state, blockEntity) -> {
             if (player instanceof ServerPlayer serverPlayer)
-                PICKAXE_DAMAGE.discard(serverPlayer.getUUID());
+                PICKAXE_DAMAGE.cancelBreak(serverPlayer.getUUID());
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                PICKAXE_DAMAGE.discard(handler.player.getUUID()));
+                PICKAXE_DAMAGE.playerDisconnected(handler.player.getUUID()));
         net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
             String entityId = String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
             String path = entityId.substring(entityId.indexOf(':') + 1);

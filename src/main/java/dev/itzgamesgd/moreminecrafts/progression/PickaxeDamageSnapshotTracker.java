@@ -15,11 +15,15 @@ final class PickaxeDamageSnapshotTracker {
         snapshots.put(playerId, new Snapshot(item, damage, maximumDamage));
     }
 
-    Snapshot take(UUID playerId) {
+    Snapshot complete(UUID playerId) {
         return snapshots.remove(playerId);
     }
 
-    void discard(UUID playerId) {
+    void cancelBreak(UUID playerId) {
+        snapshots.remove(playerId);
+    }
+
+    void playerDisconnected(UUID playerId) {
         snapshots.remove(playerId);
     }
 
