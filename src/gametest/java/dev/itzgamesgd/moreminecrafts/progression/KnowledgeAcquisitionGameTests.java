@@ -1,5 +1,8 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
+import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import net.minecraft.core.registries.BuiltInRegistries;
+
 import java.lang.reflect.Method;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
@@ -170,6 +173,23 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
                 "Creative result take reaches vanilla crafted statistics");
         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 0,
                 "creative result-slot take is excluded from K14");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void legacyFishingItemAndComponentIdsRemainResolvable(GameTestHelper ctx) {
+        String[] legacyItems = {
+                "bluegill", "perch", "trout", "catfish", "salmon", "pike", "sturgeon",
+                "golden_koi", "abyssal_angler", "ancient_coelacanth",
+                "reel_4", "reel_5", "crankbait_4", "crankbait_5", "minnow_4", "minnow_5"
+        };
+        for (String id : legacyItems) {
+            var item = BuiltInRegistries.ITEM.get(ModIds.id(id));
+            ctx.assertTrue(item != null && item != Items.AIR,
+                    "existing saved item ID remains registered: moreminecrafts:" + id);
+        }
+        ctx.assertTrue(BuiltInRegistries.DATA_COMPONENT_TYPE.get(ModIds.id("fish_length")) != null,
+                "the legacy fish_length component remains available to decode existing stacks");
         ctx.succeed();
     }
 
