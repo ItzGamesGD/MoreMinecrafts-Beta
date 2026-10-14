@@ -31,12 +31,12 @@ The mining wrapper snapshots valid position provenance before the original metho
 
 - Deterministic natural fixture: seed 0, `minecraft:forest`, `minecraft:overworld` noise settings, chunk `[0,0]`, genuine `applyBiomeDecoration`, runtime-observed `minecraft:oak_bees_0002_leaf_litter`, 23 final markers in the local run. The test then directly mines actual marked logs and checks 0→1, independent players, no double count, Creative/Spectator exclusions, 199→200 unlock, cancelled break, indirect removal and replacement.
 - Existing sapling, bonemeal and player-placement GameTests additionally mine their ineligible logs and assert zero K5 progress.
-- Separate GameTests exercise vanilla piston movement, vanilla explosion destruction and the vanilla player respawn path.
+- Separate GameTests exercise vanilla piston movement, vanilla explosion destruction, Minecraft StructureTemplate log placement, ItemEntity pickup, chest-to-hopper movement, a registered test-namespace tree placement during natural decoration, and the vanilla player respawn path. The non-vanilla feature test confirms that real oak trunks grow but remain unmarked and give no mining credit.
 - Existing probe lifecycle test checks save, real unload/reload, invalidation, replacement, cross-chunk and cross-dimension isolation with the production attachment.
 - The dedicated `K5 Production Restart` workflow filters one GameTest across two JVM processes sharing one world. Process A saves an actual natural marker, consumed/replaced markers and a fixed-UUID player's progress; process B loads the chunk and player data through Minecraft APIs. The small test manifest contains expected positions and is not gameplay storage. This is a headless GameTest server restart; the separate Fabric CI job runs dedicated-server and client smoke checks.
 - JUnit checks the 200 target, counter cap, codec round trip and existing UI progress row. No client packet can grant K5; serverbound networking remains limited to existing non-K5 requests.
 
-Local development evidence before the final CI run: `genSources` succeeded; `compileGametestJava runGameTest` passed 78/78 before the respawn and worldgen-mutation additions; the focused respawn test passed 1/1; the two-process restart write and read phases each passed 1/1. These local runs are intermediate evidence only. Record final-HEAD CI results in the Draft PR before recommending review.
+Local development evidence before the final CI run: `genSources` succeeded; `./gradlew clean test build` passed 225 JUnit tests after the latest test-only additions; `compileGametestJava runGameTest` passed 82/82 on a fresh world; the two-process restart write and read phases each passed 1/1 on the production code. Record final-HEAD CI results in the Draft PR before recommending review.
 
 ## Limits and release gate
 

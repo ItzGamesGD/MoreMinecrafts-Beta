@@ -27,6 +27,7 @@ public final class K5NaturalTreeProbe {
     public static final Codec<ChunkData> CODEC = K5NaturalTreeProvenance.CODEC;
     public static final AttachmentType<ChunkData> NATURAL_TREE_LOGS = K5NaturalTreeProvenance.NATURAL_TREE_LOGS;
     private static final AtomicLong DECORATION_CALLS = new AtomicLong();
+    private static final ThreadLocal<Long> THREAD_DECORATION_CALLS = ThreadLocal.withInitial(() -> 0L);
     private static final AtomicLong TRUNK_CALLBACKS = new AtomicLong();
     private static final AtomicLong TRUNK_WRITES = new AtomicLong();
     private static final AtomicLong SAVED_CHUNKS = new AtomicLong();
@@ -40,6 +41,7 @@ public final class K5NaturalTreeProbe {
         K5NaturalTreeProvenance.setDiagnosticListener(new K5NaturalTreeProvenance.DiagnosticListener() {
             @Override public void naturalDecorationEntered() {
                 DECORATION_CALLS.incrementAndGet();
+                THREAD_DECORATION_CALLS.set(THREAD_DECORATION_CALLS.get() + 1);
                 FEATURE_IDS.get().clear();
                 CALLBACK_POSITIONS.get().clear();
             }
@@ -63,6 +65,7 @@ public final class K5NaturalTreeProbe {
         return K5NaturalTreeProvenance.isNaturalBiomeDecoration();
     }
     public static long biomeDecorationCalls() { return DECORATION_CALLS.get(); }
+    public static long currentThreadBiomeDecorationCalls() { return THREAD_DECORATION_CALLS.get(); }
     public static long naturalTreeTrunkCallbacks() { return TRUNK_CALLBACKS.get(); }
     public static long naturalTrunkWrites() { return TRUNK_WRITES.get(); }
     public static Set<Identifier> lastNaturalTreeFeatureIds() { return Set.copyOf(FEATURE_IDS.get()); }

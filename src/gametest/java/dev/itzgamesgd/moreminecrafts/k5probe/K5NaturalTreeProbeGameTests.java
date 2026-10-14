@@ -843,6 +843,122 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ctx.succeed();
     }
 
+    @GameTest
+    public void k5StructureTemplateLogHasNoNaturalMiningCredit(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos source = ctx.absolutePos(new BlockPos(2, 3, 2));
+        BlockPos structureLog = ctx.absolutePos(new BlockPos(6, 3, 6));
+        level.setBlock(source, Blocks.OAK_LOG.defaultBlockState(), 3);
+        var template = new net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate();
+        template.fillFromWorld(level, source, new net.minecraft.core.Vec3i(1, 1, 1), false, java.util.List.of());
+        level.setBlock(structureLog, Blocks.AIR.defaultBlockState(), 3);
+        boolean placed = template.placeInWorld(level, structureLog, structureLog,
+                new net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings(),
+                RandomSource.create(0L), 3);
+        ctx.assertTrue(placed && level.getBlockState(structureLog).is(Blocks.OAK_LOG),
+                "Minecraft StructureTemplate placed an actual vanilla log");
+        ctx.assertTrue(!K5NaturalTreeProvenance.hasMarker(level, structureLog),
+                "structure placement did not inherit natural biome-decoration provenance");
+        var miner = ctx.makeMockServerPlayerInLevel();
+        miner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        ctx.assertTrue(miner.gameMode.destroyBlock(structureLog), "player directly mined the structure log");
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 0,
+                "structure-generated log cannot advance K5");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k5RegisteredNonVanillaPlacedTreeIsRejectedDuringNaturalDecoration(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        ctx.assertTrue(level.getSeed() == 0L, "modded placed-feature fixture uses pinned seed 0");
+        var biomeRegistry = level.registryAccess().lookupOrThrow(Registries.BIOME);
+        var forest = biomeRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "forest")).orElseThrow();
+        var placedRegistry = level.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE);
+        var moddedPlaced = placedRegistry.get(Identifier.fromNamespaceAndPath(
+                "moreminecrafts-gametest", "k5_untrusted_oak")).orElseThrow();
+        var generation = new net.minecraft.world.level.biome.BiomeGenerationSettings.PlainBuilder()
+                .addFeature(net.minecraft.world.level.levelgen.GenerationStep.Decoration.VEGETAL_DECORATION,
+                        moddedPlaced)
+                .build();
+        var syntheticBiome = new Biome.BiomeBuilder().temperature(0.7F).downfall(0.8F)
+                .specialEffects(forest.value().getSpecialEffects())
+                .generationSettings(generation).build();
+        Holder<Biome> biome = Holder.direct(syntheticBiome);
+        var noise = level.registryAccess().lookupOrThrow(Registries.NOISE_SETTINGS)
+                .get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
+        var generator = new NoiseBasedChunkGenerator(new FixedBiomeSource(biome), noise);
+        int baseX = 128 << 4;
+        int baseZ = 128 << 4;
+        ChunkAccess chunk = level.getChunkAt(new BlockPos(baseX + 8, 4, baseZ + 8));
+        ctx.assertTrue(chunk.getPos().equals(new ChunkPos(128, 128)), "isolated test chunk is fixed at [128,128]");
+        chunk.fillBiomesFromNoise((quartX, quartY, quartZ) -> biome);
+        for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
+            level.setBlock(new BlockPos(baseX + x, 1, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
+            level.setBlock(new BlockPos(baseX + x, 2, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
+            level.setBlock(new BlockPos(baseX + x, 3, baseZ + z), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
+        }
+        ChunkData before = K5NaturalTreeProbe.data(chunk);
+        ctx.assertTrue(before == null || before.positions().isEmpty(), "modded-feature target begins unmarked");
+        long scopeCalls = K5NaturalTreeProbe.currentThreadBiomeDecorationCalls();
+        generator.applyBiomeDecoration(level, chunk, level.structureManager());
+        System.out.println("K5_MODDED_PLACEMENT_SCOPE before=" + scopeCalls
+                + " after=" + K5NaturalTreeProbe.currentThreadBiomeDecorationCalls());
+        ctx.assertTrue(K5NaturalTreeProbe.currentThreadBiomeDecorationCalls() == scopeCalls + 1,
+                "actual natural decoration executed the registered non-vanilla placed feature");
+        int placedLogs = 0;
+        BlockPos sample = null;
+        for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) for (int y = 4; y <= 20; y++) {
+            BlockPos pos = new BlockPos(baseX + x, y, baseZ + z);
+            if (level.getBlockState(pos).is(Blocks.OAK_LOG)) {
+                placedLogs++;
+                sample = pos;
+            }
+        }
+        ctx.assertTrue(placedLogs > 0, "the registered test-namespace placed feature grew real oak trunks");
+        ChunkData after = K5NaturalTreeProbe.data(chunk);
+        ctx.assertTrue(after == null || after.positions().isEmpty(),
+                "a registered non-vanilla placed feature cannot create K5 provenance");
+        var miner = ctx.makeMockServerPlayerInLevel();
+        miner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        ctx.assertTrue(miner.gameMode.destroyBlock(sample), "player directly mined a modded-placement tree log");
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 0,
+                "modded tree placement gives no K5 credit even for a vanilla oak log");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void k5PickupAndHopperContainerTransferDoNotCountAsMining(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        var recipient = ctx.makeMockServerPlayerInLevel();
+        recipient.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        var drop = new net.minecraft.world.entity.item.ItemEntity(level,
+                recipient.getX(), recipient.getY(), recipient.getZ(),
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.OAK_LOG, 32));
+        drop.setNoPickUpDelay();
+        level.addFreshEntity(drop);
+        drop.playerTouch(recipient);
+        ctx.assertTrue(recipient.getInventory().countItem(net.minecraft.world.item.Items.OAK_LOG) >= 32,
+                "ordinary ItemEntity pickup delivered a vanilla log stack");
+        ctx.assertTrue(KnowledgeRuntime.state(recipient).get("condition.natural_vanilla_logs_mined") == 0,
+                "item pickup cannot advance the direct-mining condition");
+
+        BlockPos hopperPos = ctx.absolutePos(new BlockPos(4, 2, 4));
+        BlockPos chestPos = hopperPos.above();
+        level.setBlock(hopperPos, Blocks.HOPPER.defaultBlockState(), 3);
+        level.setBlock(chestPos, Blocks.CHEST.defaultBlockState(), 3);
+        var chest = (net.minecraft.world.Container) level.getBlockEntity(chestPos);
+        chest.setItem(0, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.OAK_LOG, 16));
+        ctx.runAfterDelay(16, () -> {
+            var hopper = (net.minecraft.world.Container) level.getBlockEntity(hopperPos);
+            ctx.assertTrue(!hopper.getItem(0).isEmpty(), "vanilla hopper actually moved logs out of the chest");
+            var extracted = hopper.removeItem(0, 1);
+            recipient.getInventory().add(extracted);
+            ctx.assertTrue(KnowledgeRuntime.state(recipient).get("condition.natural_vanilla_logs_mined") == 0,
+                    "chest and hopper transfers followed by player receipt cannot advance K5");
+            ctx.succeed();
+        });
+    }
+
     @Override
     public void invokeTestMethod(GameTestHelper context, Method method) throws ReflectiveOperationException {
         method.invoke(this, context);
