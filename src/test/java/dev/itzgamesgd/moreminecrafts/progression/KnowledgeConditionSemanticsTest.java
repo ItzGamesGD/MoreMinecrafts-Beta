@@ -68,6 +68,16 @@ final class KnowledgeConditionSemanticsTest {
         String second = KnowledgeConditionSemantics.distinctObservationKey("structures_visited", "foo:bar.baz");
 
         assertNotEquals(first, second);
+        assertTrue(KnowledgeConditionSemantics.alreadyObserved(
+                Map.of(first, 1), "structures_visited", "foo.bar:baz"));
+        assertFalse(KnowledgeConditionSemantics.alreadyObserved(
+                Map.of(first, 1), "structures_visited", "foo:bar.baz"));
+    }
+
+    @Test void distinctObservationKeysRecognizeLegacyFlattenedEntries() {
+        String legacyKey = "condition.structures_visited.seen.foo.bar.baz";
+        assertTrue(KnowledgeConditionSemantics.alreadyObserved(
+                Map.of(legacyKey, 1), "structures_visited", "foo.bar:baz"));
     }
 
     @Test void blastFurnaceRequiresBothCraftingAndCollectedOutput() {

@@ -23,10 +23,19 @@ public final class KnowledgeConditionSemantics {
     }
 
     public static String distinctObservationKey(String condition, String discoveredId) {
-        return "condition." + condition + ".seen." + discoveredId.replace(':', '.');
+        // Keep the namespace separator. Both namespace and path may contain dots, so replacing
+        // ':' with '.' is not injective (for example foo.bar:baz and foo:bar.baz).
+        return "condition." + condition + ".seen." + discoveredId;
     }
 
     public static boolean alreadyObserved(Map<String, Integer> counters, String condition, String discoveredId) {
-        return counters.getOrDefault(distinctObservationKey(condition, discoveredId), 0) != 0;
+        if (counters.getOrDefault(distinctObservationKey(condition, discoveredId), 0) != 0) return true;
+        // Older saves flattened ':' to '.', which can be ambiguous. Recognize that old key so
+        // previously observed IDs do not gain credit again; new observations use the exact ID.
+        return counters.getOrDefault(legacyDistinctObservationKey(condition, discoveredId), 0) != 0;
+    }
+
+    private static String legacyDistinctObservationKey(String condition, String discoveredId) {
+        return "condition." + condition + ".seen." + discoveredId.replace(':', '.');
     }
 }

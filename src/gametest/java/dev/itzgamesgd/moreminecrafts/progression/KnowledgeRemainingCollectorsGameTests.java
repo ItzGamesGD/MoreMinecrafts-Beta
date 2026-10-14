@@ -149,7 +149,8 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
             result.onTake(player, taken);
             ctx.runAfterDelay(110, () -> {
                 ctx.assertTrue(KnowledgeRuntime.state(player)
-                                .get("condition.foods_crafted_or_cooked.seen.minecraft.cooked_beef") == 1,
+                                .get(KnowledgeConditionSemantics.distinctObservationKey(
+                                        "foods_crafted_or_cooked", "minecraft:cooked_beef")) == 1,
                         "the actual result-slot take contributes the cooked food item ID");
                 ctx.succeed();
             });
