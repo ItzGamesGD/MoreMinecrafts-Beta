@@ -139,9 +139,21 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
             menu.setCarried(ItemStack.EMPTY);
             ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == craft + 1,
                     "one successful result take advances K14 exactly once");
+            ctx.assertTrue(KnowledgeRuntime.knows(player, 14) == (craft == 4),
+                    "K14 remains locked through four tools and unlocks at the fifth");
         }
 
         ctx.assertTrue(KnowledgeRuntime.knows(player, 14), "five result-slot tools unlock K14");
+
+        prepareWoodenPickaxe(menu, 1, 1);
+        menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        ItemStack sixthOutput = menu.getCarried().copy();
+        ctx.assertTrue(sixthOutput.is(Items.WOODEN_PICKAXE), "the same result slot supports a post-unlock craft");
+        ctx.assertTrue(player.getInventory().add(sixthOutput), "the sixth tool transfers to inventory");
+        menu.setCarried(ItemStack.EMPTY);
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 5
+                        && KnowledgeRuntime.knows(player, 14),
+                "post-unlock crafting preserves capped progress and the one-time unlocked state");
         ctx.succeed();
     }
 
