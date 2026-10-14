@@ -40,12 +40,12 @@ final class KnowledgeToolCraftProgressTest {
 
     @Test void savedK14CounterSurvivesResearchProgressAttachmentCodec() {
         var state = ResearchProgressState.empty().with("condition.tool_types_crafted", 4)
-                .with("knowledge.14", 0);
+                .with("knowledge.14", 1);
         var encoded = ResearchProgressState.CODEC.encodeStart(com.mojang.serialization.JsonOps.INSTANCE, state)
                 .result().orElseThrow();
         var decoded = ResearchProgressState.CODEC.parse(com.mojang.serialization.JsonOps.INSTANCE, encoded)
                 .result().orElseThrow();
         assertEquals(4, decoded.conditionProgress("tool_types_crafted"));
-        assertEquals(0, decoded.get("knowledge.14"));
+        assertEquals(1, decoded.get("knowledge.14"), "an unlocked K14 remains persisted independently of statistics");
     }
 }
