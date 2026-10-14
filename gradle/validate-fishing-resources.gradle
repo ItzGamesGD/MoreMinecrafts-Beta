@@ -25,11 +25,12 @@ tasks.register("validateFishingResources") {
    def item=json.parse(ip),m=json.parse(mp)
    assert item.model.model=="moreminecrafts:item/${id}"&&m.parent=="minecraft:item/generated"&&m.textures.layer0=="minecraft:item/cod"
   }
+  def legacyModuleTextures=[reel:"minecraft:item/iron_nugget",crankbait:"minecraft:item/tripwire_hook",minnow:"minecraft:item/tropical_fish"]
   legacyModuleIds.each{id->
    def ip=file("src/main/resources/assets/moreminecrafts/items/${id}.json"),mp=file("src/main/resources/assets/moreminecrafts/models/item/${id}.json")
    assert ip.isFile()&&mp.isFile()&&!file("src/main/resources/assets/moreminecrafts/textures/item/${id}.png").exists()
-   def item=json.parse(ip),m=json.parse(mp)
-   assert item.model.model=="moreminecrafts:item/${id}"&&m.parent=="minecraft:item/generated"&&m.textures.layer0=="minecraft:item/iron_nugget"
+   def item=json.parse(ip),m=json.parse(mp),family=id.substring(0,id.lastIndexOf("_"))
+   assert item.model.model=="moreminecrafts:item/${id}"&&m.parent=="minecraft:item/generated"&&m.textures.layer0==legacyModuleTextures[family]
   }
   (4..5).each{tier->families.each{family->assert !file("src/main/resources/assets/moreminecrafts/textures/item/${family}_${tier}.png").exists()}}
   def fishTextures=textures.listFiles().findAll{p->if(!p.name.endsWith(".png"))return false;byte[] b=p.bytes;b.length>=26&&java.util.HexFormat.of().formatHex(b,0,8)=="89504e470d0a1a0a"&&java.nio.ByteBuffer.wrap(b).getInt(16)==512&&java.nio.ByteBuffer.wrap(b).getInt(20)==512}.collect{it.name[0..-5]}.sort()
