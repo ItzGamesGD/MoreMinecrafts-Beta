@@ -945,6 +945,66 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
     @GameTest
+    public void k5RegisteredNonVanillaFallenTreeFeatureRemainsUnmarked(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        ctx.assertTrue(level.getSeed() == 0L, "registered modded-fallen fixture uses pinned seed 0");
+        var registries = level.registryAccess();
+        var biomes = registries.lookupOrThrow(Registries.BIOME);
+        Holder<Biome> biome = biomes.get(Identifier.fromNamespaceAndPath(
+                "moreminecrafts-gametest", "k5_untrusted_fallen_fixture")).orElseThrow();
+        var placedRegistry = registries.lookupOrThrow(Registries.PLACED_FEATURE);
+        Identifier placedId = Identifier.fromNamespaceAndPath("moreminecrafts-gametest", "k5_untrusted_fallen");
+        PlacedFeature placed = placedRegistry.get(placedId).orElseThrow().value();
+        var featureRegistry = registries.lookupOrThrow(Registries.FEATURE);
+        Feature configured = featureRegistry.get(Identifier.fromNamespaceAndPath(
+                "moreminecrafts-gametest", "k5_untrusted_fallen")).orElseThrow().value();
+        ctx.assertTrue(configured instanceof FallenTreeFeature,
+                "the non-vanilla registry entry is a genuine registered FallenTreeFeature instance");
+        ctx.assertTrue(!K5NaturalTreeProvenance.isKnownVanillaFallenTreeFeatureId(featureRegistry.getKey(configured)),
+                "the non-vanilla FallenTreeFeature identity is outside the allowlist");
+        var noise = registries.lookupOrThrow(Registries.NOISE_SETTINGS)
+                .get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
+        NoiseBasedChunkGenerator generator = new NoiseBasedChunkGenerator(new FixedBiomeSource(biome), noise);
+        ChunkPos fixtureChunkPos = new ChunkPos(140, 140);
+        int baseX = fixtureChunkPos.getMinBlockX();
+        int baseZ = fixtureChunkPos.getMinBlockZ();
+        ChunkAccess chunk = level.getChunkAt(new BlockPos(baseX + 8, 4, baseZ + 8));
+        chunk.fillBiomesFromNoise((quartX, quartY, quartZ) -> biome);
+        for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
+            level.setBlock(new BlockPos(baseX + x, 1, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
+            level.setBlock(new BlockPos(baseX + x, 2, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
+            level.setBlock(new BlockPos(baseX + x, 3, baseZ + z), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
+        }
+        long decorationBefore = K5NaturalTreeProbe.currentThreadBiomeDecorationCalls();
+        generator.applyBiomeDecoration(level, chunk, level.structureManager());
+        ctx.assertTrue(K5NaturalTreeProbe.currentThreadBiomeDecorationCalls() == decorationBefore + 1,
+                "the registered non-vanilla fallen feature runs inside natural biome-decoration scope");
+        var runs = K5NaturalTreeProbe.lastNaturalTreeFeaturePlacements().stream()
+                .filter(run -> placedId.equals(run.placedFeatureId())
+                        && featureRegistry.getKey(configured).equals(run.featureId())
+                        && !run.successfulLogPositions().isEmpty())
+                .toList();
+        ctx.assertTrue(!runs.isEmpty(),
+                "the genuine registered non-vanilla FallenTreeFeature successfully writes real log states");
+        var sample = runs.stream().flatMap(run -> run.successfulLogPositions().stream())
+                .map(BlockPos::of).filter(pos -> level.getBlockState(pos).is(net.minecraft.tags.BlockTags.LOGS))
+                .findFirst().orElseThrow();
+        ChunkData markerData = K5NaturalTreeProbe.data(chunk);
+        ctx.assertTrue(markerData == null || markerData.positions().isEmpty(),
+                "a non-vanilla FallenTreeFeature receives no production natural-log markers");
+        var miner = ctx.makeMockServerPlayerInLevel();
+        miner.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        ctx.assertTrue(miner.gameMode.destroyBlock(sample),
+                "Survival directly mines a real log from the registered non-vanilla fallen tree");
+        ctx.assertTrue(KnowledgeRuntime.state(miner).get("condition.natural_vanilla_logs_mined") == 0,
+                "non-vanilla FallenTreeFeature logs cannot grant K5 credit");
+        System.out.println("K5_UNTRUSTED_FALLEN_TEST biome=" + biomes.getKey(biome.value())
+                + " placedFeature=" + placedId + " feature=" + featureRegistry.getKey(configured)
+                + " chunk=" + fixtureChunkPos + " generatedLog=" + sample + " markerCount=0 progress=0");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void k5PickupAndHopperContainerTransferDoNotCountAsMining(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         var recipient = ctx.makeMockServerPlayerInLevel();
@@ -1016,7 +1076,8 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         var placedRegistry = registries.lookupOrThrow(Registries.PLACED_FEATURE);
         var featureRegistry = registries.lookupOrThrow(Registries.FEATURE);
         Set<String> naturalUses = new TreeSet<>();
-        Set<Identifier> fallenFeatureIds = new TreeSet<>();
+        Set<Identifier> vanillaFallenFeatureIds = new TreeSet<>();
+        Set<Identifier> nonVanillaFallenFeatureIds = new TreeSet<>();
         for (Biome biome : biomeRegistry) {
             for (HolderSet<PlacedFeature> step : biome.getGenerationSettings().features()) {
                 for (Holder<PlacedFeature> placedHolder : step) {
@@ -1028,7 +1089,8 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                             Identifier placedId = placedRegistry.getKey(placed);
                             Identifier featureId = featureRegistry.getKey(feature);
                             naturalUses.add(biomeId + " -> " + placedId + " -> " + featureId);
-                            fallenFeatureIds.add(featureId);
+                            if (featureId.getNamespace().equals("minecraft")) vanillaFallenFeatureIds.add(featureId);
+                            else nonVanillaFallenFeatureIds.add(featureId);
                         }
                     }
                 }
@@ -1036,12 +1098,20 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         }
         System.out.println("K5_FALLEN_TREE_NATURAL_BIOME_USES " + naturalUses);
         ctx.assertTrue(!naturalUses.isEmpty(), "vanilla biome decoration registers natural fallen-tree feature variants");
-        for (Identifier featureId : fallenFeatureIds) {
+        for (Identifier featureId : vanillaFallenFeatureIds) {
             ctx.assertTrue(K5NaturalTreeProvenance.isKnownVanillaFallenTreeFeatureId(featureId),
                     "each runtime-observed natural FallenTreeFeature ID is allowlisted: " + featureId);
             ctx.assertTrue(K5NaturalTreeProvenance.isEligibleTreeIdentity(
                             Identifier.fromNamespaceAndPath("minecraft", "trees_birch"), featureId, true),
                     "a registered natural fallen-tree feature passes the placed-feature identity gate: " + featureId);
+        }
+        Identifier testNamespaceFallen = Identifier.fromNamespaceAndPath(
+                "moreminecrafts-gametest", "k5_untrusted_fallen");
+        ctx.assertTrue(nonVanillaFallenFeatureIds.contains(testNamespaceFallen),
+                "registry scan observes the genuine test-namespace FallenTreeFeature control");
+        for (Identifier featureId : nonVanillaFallenFeatureIds) {
+            ctx.assertTrue(!K5NaturalTreeProvenance.isKnownVanillaFallenTreeFeatureId(featureId),
+                    "non-vanilla FallenTreeFeature identities are outside the allowlist: " + featureId);
         }
         ctx.assertTrue(!K5NaturalTreeProvenance.isEligibleTreeIdentity(
                         Identifier.fromNamespaceAndPath("minecraft", "trees_birch"),
