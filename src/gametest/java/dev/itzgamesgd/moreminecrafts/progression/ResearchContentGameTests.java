@@ -18,9 +18,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
@@ -180,20 +179,18 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         breeder.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(breeder, KnowledgeRuntime.state(breeder).with("v3.research.17", 2));
         BlockPos center = ctx.absolutePos(new BlockPos(3, 2, 3));
-        Cow parent = new Cow(EntityType.COW, ctx.getLevel());
-        Cow partner = new Cow(EntityType.COW, ctx.getLevel());
-        parent.setPos(center.getX() + 0.25D, center.getY(), center.getZ());
-        partner.setPos(center.getX() + 0.75D, center.getY(), center.getZ());
+        var parent = ctx.spawn(EntityTypes.COW, center);
+        var partner = ctx.spawn(EntityTypes.COW, center.east());
         parent.setInLove(breeder);
         partner.setInLove(breeder);
         ctx.getLevel().addFreshEntity(parent);
         ctx.getLevel().addFreshEntity(partner);
 
         parent.spawnChildFromBreeding((ServerLevel) ctx.getLevel(), partner);
-        long babies = ctx.getLevel().getEntitiesOfClass(Cow.class,
+        long babies = ctx.getLevel().getEntitiesOfClass(Animal.class,
                 new AABB(center.getX() - 2, center.getY() - 2, center.getZ() - 2,
                         center.getX() + 3, center.getY() + 3, center.getZ() + 3)).stream()
-                .filter(Cow::isBaby).count();
+                .filter(animal -> animal.getType() == EntityTypes.COW && animal.isBaby()).count();
         ctx.assertTrue(babies == 2,
                 "level two adds exactly one baby to vanilla's one-baby breeding result");
         ctx.assertTrue(parent.getAge() > 0 && partner.getAge() > 0,
@@ -207,14 +204,10 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         attacker.setGameMode(GameType.SURVIVAL);
         attacker.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_AXE));
         KnowledgeRuntime.updateState(attacker, KnowledgeRuntime.state(attacker).with("v3.research.28", 3));
-        Zombie researchedTarget = new Zombie(EntityType.ZOMBIE, ctx.getLevel());
-        researchedTarget.setPos(ctx.absolutePos(new BlockPos(2, 2, 2)).getCenter());
-        ctx.getLevel().addFreshEntity(researchedTarget);
+        var researchedTarget = ctx.spawn(EntityTypes.ZOMBIE, new BlockPos(2, 2, 2));
         attacker.attack(researchedTarget);
 
-        Zombie unresearchedTarget = new Zombie(EntityType.ZOMBIE, ctx.getLevel());
-        unresearchedTarget.setPos(ctx.absolutePos(new BlockPos(4, 2, 2)).getCenter());
-        ctx.getLevel().addFreshEntity(unresearchedTarget);
+        var unresearchedTarget = ctx.spawn(EntityTypes.ZOMBIE, new BlockPos(4, 2, 2));
         ServerPlayer unresearched = ctx.makeMockServerPlayerInLevel();
         unresearched.setGameMode(GameType.SURVIVAL);
         unresearched.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_AXE));

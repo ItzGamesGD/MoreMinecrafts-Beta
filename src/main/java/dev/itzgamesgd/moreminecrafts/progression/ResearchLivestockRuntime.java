@@ -11,7 +11,9 @@ public final class ResearchLivestockRuntime {
 
     public static void afterVanillaBreeding(Animal parent, ServerLevel level, Animal partner) {
         if (level.isClientSide()) return;
-        if (!(parent.getLoveCause() instanceof ServerPlayer breeder)) return;
+        ServerPlayer breeder = parent.getLoveCause();
+        if (breeder == null) breeder = partner.getLoveCause();
+        if (breeder == null) return;
         int researchLevel = ResearchRewards.level(breeder, "v3.research.17", "livestock_offspring");
         if (researchLevel <= 0) return;
         double roll = researchLevel == 2 ? 0.0D : breeder.getRandom().nextDouble();
@@ -20,6 +22,7 @@ public final class ResearchLivestockRuntime {
             AgeableMob offspring = parent.getBreedOffspring(level, partner);
             if (offspring == null) continue;
             offspring.setBaby(true);
+            offspring.snapTo(parent.getX(), parent.getY(), parent.getZ(), 0.0F, 0.0F);
             level.addFreshEntityWithPassengers(offspring);
         }
     }
