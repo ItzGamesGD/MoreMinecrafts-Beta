@@ -955,3 +955,8 @@ This amendment records the approved implementation boundaries for the following 
 
 The T3 Counter-Shield is a craftable item, separate from the `shield_counter` research effect. Its recipe is already approved by `RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md`: six iron ingots and one obsidian in the vanilla shield pattern. Preserve that decision; do not treat it as a `shield_counter` research purchase or reopen its recipe.
 ============================================================
+
+STAGE 23-A FISHERIES STUDY ROUNDING CLARIFICATION — USER APPROVED 2026-10-15
+
+For `v3.research.19` (Fisheries Study), keep the approved baseline and level-5 grade distributions and linearly interpolate the integer grade percentages at purchased levels 1–4. Allocate integer percentage residuals with the largest remainder method: floor each interpolated grade percentage, then award remaining points in descending fractional-remainder order. Resolve equal remainders in favor of the lower grade index. Each final grade table must sum to exactly 100%. This only defines integer rounding; it does not change species, fish length, fish weight, fishing payloads, server-authoritative grade selection, or the separate `v3.research.23` fishing-timing effect.
+============================================================

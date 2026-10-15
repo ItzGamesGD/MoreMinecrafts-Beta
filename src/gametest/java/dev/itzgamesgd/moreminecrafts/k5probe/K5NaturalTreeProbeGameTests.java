@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.k5probe;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance.ChunkData;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
+import dev.itzgamesgd.moreminecrafts.progression.ResearchXpAcquisition;
 import dev.itzgamesgd.moreminecrafts.k5probe.K5CooperatingMixinProbe;
 import java.lang.reflect.Method;
 import java.io.ByteArrayOutputStream;
@@ -379,7 +380,9 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                                 + surviving.asLong());
                 player.setAttached(KnowledgeRuntime.STATE,
                         KnowledgeRuntime.state(player).with("condition.tool_types_crafted", 3)
-                                .with("knowledge.14", 1));
+                                .with("knowledge.14", 1)
+                                .with("research.v3.research.64", 3)
+                                .with("research.xp_fraction.v3.research.64", 63));
                 player.setGameMode(GameType.CREATIVE);
                 player.awardStat(net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE), 12);
                 CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
@@ -396,13 +399,16 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 3
                                         && KnowledgeRuntime.knows(player, 14),
                                 "periodic refresh preserves existing K14 progress and unlock after Creative crafting");
+                        ctx.assertTrue(KnowledgeRuntime.state(player)
+                                        .get("research.xp_fraction.v3.research.64") == 63,
+                                "the per-player XP Acquisition fractional remainder is present before disk save");
                         level.getServer().getPlayerList().saveAll();
                         level.getChunkSource().save(true);
                         System.out.println("K5_RESTART_WRITE worldSeed=0 chunk=[64,64] player=" + PLAYER_ID
                                 + " k5Progress=38 k14Progress=3 k14Unlocked=true creativeCraftStats="
                                 + player.getStats().getValue(
                                         net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE))
-                                + " surviving=" + surviving);
+                                + " xpAcquisitionFraction=63 surviving=" + surviving);
                         ctx.succeed();
                     } catch (RuntimeException exception) {
                         throw exception;
@@ -443,8 +449,16 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 3
                                 && KnowledgeRuntime.knows(player, 14),
                         "fresh-process JOIN refresh preserves K14 progress and unlock without importing stats");
+                ctx.assertTrue(KnowledgeRuntime.state(player)
+                                .get("research.xp_fraction.v3.research.64") == 63,
+                        "fresh process reloads the per-player XP Acquisition fractional remainder");
+                ctx.assertTrue(ResearchXpAcquisition.adjustedAmount(player, 5) == 6
+                                && KnowledgeRuntime.state(player)
+                                        .get("research.xp_fraction.v3.research.64") == 8,
+                        "the reloaded remainder contributes to the next receiver's XP Acquisition award");
                 System.out.println("K5_RESTART_READ chunk=[64,64] player=" + PLAYER_ID
-                        + " k5Progress=38 k14Progress=3 k14Unlocked=true surviving=" + surviving);
+                        + " k5Progress=38 k14Progress=3 k14Unlocked=true xpAcquisitionFraction=63"
+                        + " nextXpAward=6 nextFraction=8 surviving=" + surviving);
                 ctx.succeed();
             } catch (java.io.IOException exception) {
                 throw new IllegalStateException("could not read restart fixture manifest", exception);
