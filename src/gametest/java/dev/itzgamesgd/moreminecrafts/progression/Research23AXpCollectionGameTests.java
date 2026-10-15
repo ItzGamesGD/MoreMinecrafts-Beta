@@ -70,6 +70,6 @@ public final class Research23AXpCollectionGameTests implements CustomTestMethodI
 
     @Override
     public void invokeTestMethod(GameTestHelper helper, Method testMethod) throws ReflectiveOperationException {
-        CustomTestMethodInvoker.super.invokeTestMethod(helper, testMethod);
+        testMethod.invoke(this, helper);
     }
 }
