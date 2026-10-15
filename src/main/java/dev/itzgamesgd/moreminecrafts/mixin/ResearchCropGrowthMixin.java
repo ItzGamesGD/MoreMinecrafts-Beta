@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,7 +28,7 @@ abstract class ResearchCropGrowthMixin {
     }
 
     private static boolean moreminecrafts$hasNearbyResearcher(ServerLevel level, BlockPos pos) {
-        var cropCenter = pos.getCenter();
+        Vec3 cropCenter = Vec3.atCenterOf(pos);
         for (ServerPlayer player : level.players()) {
             if (player.isAlive() && KnowledgeRuntime.researched(player, "living_root")
                     && player.position().distanceToSqr(cropCenter) <= 256.0D) return true;

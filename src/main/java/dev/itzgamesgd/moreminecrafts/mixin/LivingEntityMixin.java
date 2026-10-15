@@ -87,10 +87,10 @@ abstract class LivingEntityMixin {
     @ModifyVariable(method = "knockback", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private double moreminecrafts$reduceResearchedArmorKnockback(double strength) {
         if (!((Object) this instanceof ServerPlayer player)) return strength;
-        boolean armored = player.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof net.minecraft.world.item.ArmorItem
-                || player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof net.minecraft.world.item.ArmorItem
-                || player.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof net.minecraft.world.item.ArmorItem
-                || player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof net.minecraft.world.item.ArmorItem;
+        boolean armored = !player.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                || !player.getItemBySlot(EquipmentSlot.CHEST).isEmpty()
+                || !player.getItemBySlot(EquipmentSlot.LEGS).isEmpty()
+                || !player.getItemBySlot(EquipmentSlot.FEET).isEmpty();
         if (!armored) return strength;
         double reduction = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
                 player, "v3.research.31", "armor_knockback_reduction");
