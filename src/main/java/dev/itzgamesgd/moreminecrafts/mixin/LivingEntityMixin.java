@@ -64,6 +64,11 @@ abstract class LivingEntityMixin {
                 if (bonus > 0.0D) incomingDamage = (float)
                         dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath.scaleByBonus(incomingDamage, bonus);
             }
+            double ecologyBonus = dev.itzgamesgd.moreminecrafts.progression.ResearchEcologyDamage
+                    .bonus(attacker, (LivingEntity) (Object) this);
+            if (ecologyBonus > 0.0D) incomingDamage = (float)
+                    dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath
+                            .scaleByBonus(incomingDamage, ecologyBonus);
             if (attacker.getMainHandItem().is(net.minecraft.tags.ItemTags.SWORDS)
                     && attacker.getAttackStrengthScale(0.5F) >= 1.0F) {
                 double bonus = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(

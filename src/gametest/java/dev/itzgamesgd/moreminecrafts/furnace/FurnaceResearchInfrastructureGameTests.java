@@ -66,7 +66,7 @@ public final class FurnaceResearchInfrastructureGameTests implements CustomTestM
         assertOwner(ctx, furnace, first.getUUID(), "closing another viewer does not clear actual attribution");
 
         FurnaceResearchAttribution.opened(furnace, second);
-        assertOwner(ctx, furnace, second.getUUID(), "reopening sets a new baseline attribution");
+        assertOwner(ctx, furnace, first.getUUID(), "reopening cannot supersede actual inventory interaction");
         ctx.succeed();
     }
 
@@ -179,7 +179,7 @@ public final class FurnaceResearchInfrastructureGameTests implements CustomTestM
         try {
             TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING,
                     ctx.getLevel().registryAccess());
-            Method save = furnace.getClass().getDeclaredMethod("saveAdditional", ValueOutput.class);
+            Method save = AbstractFurnaceBlockEntity.class.getDeclaredMethod("saveAdditional", ValueOutput.class);
             save.setAccessible(true);
             save.invoke(furnace, output);
             return output.buildResult();
@@ -190,7 +190,7 @@ public final class FurnaceResearchInfrastructureGameTests implements CustomTestM
 
     private static void loadAdditional(AbstractFurnaceBlockEntity furnace, CompoundTag data, GameTestHelper ctx) {
         try {
-            Method load = furnace.getClass().getDeclaredMethod("loadAdditional", ValueInput.class);
+            Method load = AbstractFurnaceBlockEntity.class.getDeclaredMethod("loadAdditional", ValueInput.class);
             load.setAccessible(true);
             load.invoke(furnace, TagValueInput.create(ProblemReporter.DISCARDING,
                     ctx.getLevel().registryAccess(), data));
