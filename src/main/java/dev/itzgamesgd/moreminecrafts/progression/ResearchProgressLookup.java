@@ -1,6 +1,5 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
-import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 import java.util.Map;
@@ -8,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.players.NameAndId;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.ValueInput;
@@ -31,7 +31,7 @@ public final class ResearchProgressLookup {
         var online = server.getPlayerList().getPlayer(playerId);
         if (online != null) return Optional.of(KnowledgeRuntime.state(online));
 
-        var saved = server.getPlayerList().loadPlayerData(new GameProfile(playerId, ""));
+        var saved = server.getPlayerList().loadPlayerData(new NameAndId(playerId, ""));
         if (saved.isEmpty()) return Optional.empty();
 
         return decodePlayerData(server, saved.orElseThrow());
