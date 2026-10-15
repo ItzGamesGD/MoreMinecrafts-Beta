@@ -192,7 +192,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
         researchedMenu.slotsChanged(researchedMenu.getSlot(1).container);
         seedFirstPrecisionCraftingRoll(researcher, 300);
         researchedMenu.clicked(0, 0, ContainerInput.PICKUP, researcher);
-        ctx.assertTrue(researcher.getCarried().is(Items.OAK_PLANKS)
+        ctx.assertTrue(researchedMenu.getCarried().is(Items.OAK_PLANKS)
                         && researchedMenu.getSlot(1).getItem().is(Items.OAK_LOG),
                 "the actual paid crafter receives one result and the successful preservation");
 
