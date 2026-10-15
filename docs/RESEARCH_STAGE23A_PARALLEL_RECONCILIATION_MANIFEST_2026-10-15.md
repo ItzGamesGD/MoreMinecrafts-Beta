@@ -21,6 +21,15 @@ Before the reconciliation implementation was delivered, the user explicitly appr
 
 The documentation checkpoint records approval only; the audit status remains DATA_ONLY until the production hook and focused tests are implemented. PR #92 supplies reference code and expected values, but this branch ports only the approved Fisheries behavior, not its duplicate `.02`, `.03`, or `.18` handlers.
 
+| Crankbait tier | Approved baseline Grade I–V | Approved level-5 Grade I–V |
+|---|---|---|
+| 0 | 45/30/16/7/2% | 40/32/17/8/3% |
+| 1 | 30/32/22/12/4% | 25/33/23/13/6% |
+| 2 | 10/25/32/24/9% | 7/24/33/24/12% |
+| 3 | 0/8/34/38/20% | 0/6/33/37/24% |
+
+Target hook: the successful server-side `FishingChallenges.awardIfPermitted` path obtains only that `ServerPlayer`'s purchased `.19` level through the existing progression state and passes it with the rod's existing crankbait tier into `FishingLogic`. V3 catalog, purchase costs/prerequisites, and progression serialization stay unchanged. The paid level is already player-scoped and saved; `.19` adds no state. A valid catch still produces only the existing fish result(s), with existing equipment wear and delivery behavior. No global/shared odds, extra fish, bonus wear, XP, or alternate trap reward is added.
+
 | ID | Comparison / authority | Reconciliation |
 |---|---|---|
 | `v3.research.02` Lumbering | Both implementations use the approved L1–L5 10/20/20/30/30% chance and 1/1/2/2/3 extra-log cap, with a one-pass log-only extra drop. PR #90 processes already-generated loot, honoring custom log loot and the player’s drop event; PR #92 uses the broken block’s default item and explicitly Auto-Smelt-processes the extra. | Retain PR #90’s single handler and ownership gate. Move the one-pass research drop augmentation before the existing Auto Smelt/Replant processing so bonus drops receive the same enchantment processing once. No tree scan, extra block break, or recursive drop call. |
