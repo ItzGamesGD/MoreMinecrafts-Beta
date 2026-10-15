@@ -67,8 +67,10 @@ class Research23AEffectRulesTest {
         assertEquals(6.0, Research23AEffectRules.xpCollectionRadius(3));
         assertTrue(Research23AEffectRules.withinXpCollectionRadius(4.0, 0.0, 0.0, 1));
         assertFalse(Research23AEffectRules.withinXpCollectionRadius(4.001, 0.0, 0.0, 1));
-        assertTrue(Research23AEffectRules.withinXpCollectionRadius(3.0, 0.0, 5.0, 2));
-        assertFalse(Research23AEffectRules.withinXpCollectionRadius(3.001, 0.0, 5.0, 2));
+        assertTrue(Research23AEffectRules.withinXpCollectionRadius(6.0, 0.0, 0.0, 2));
+        assertFalse(Research23AEffectRules.withinXpCollectionRadius(6.001, 0.0, 0.0, 2));
+        assertTrue(Research23AEffectRules.withinXpCollectionRadius(4.8, 0.0, 3.6, 2));
+        assertFalse(Research23AEffectRules.withinXpCollectionRadius(4.8, 0.0, 3.601, 2));
         assertFalse(Research23AEffectRules.withinXpCollectionRadius(0.0, 0.0, 0.0, 0));
     }
 
