@@ -1,0 +1,126 @@
+name: K5 Stage 23-A Batch 3 Crafting Probe
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/k5-stage23a-batch3-crafting-probe.yml'
+      - 'gradle.properties'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle/**'
+      - 'src/main/**'
+      - 'src/gametest/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mapped-crafting-source:
+    name: Verify Minecraft 26.3 crafting transaction source
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Java 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Resolve mapped sources
+        shell: bash
+        run: ./gradlew genSources --stacktrace --no-daemon
+      - name: Inspect completed crafting transaction and remainder order
+        shell: bash
+        run: |
+          python3 - <<'PY' | tee k5-batch3-crafting-source-report.txt
+          from pathlib import Path
+          import zipfile
+
+          targets = {
+              "net/minecraft/world/inventory/ResultSlot.java",
+              "net/minecraft/world/inventory/CraftingContainer.java",
+              "net/minecraft/world/Container.java",
+              "net/minecraft/world/inventory/CraftingMenu.java",
+          }
+          roots = [Path(".gradle"), Path.home() / ".gradle/caches/fabric-loom"]
+          sources = {}
+          for root in roots:
+              if not root.exists():
+                  continue
+              for jar in sorted(root.rglob("*.jar")):
+                  try:
+                      with zipfile.ZipFile(jar) as archive:
+                          names = set(archive.namelist())
+                          for target in targets - sources.keys():
+                              if target in names:
+                                  sources[target] = (jar, archive.read(target).decode("utf-8", "replace"))
+                  except (OSError, zipfile.BadZipFile):
+                      continue
+          missing = targets - sources.keys()
+          if missing:
+              raise SystemExit("Mapped source files missing: " + ", ".join(sorted(missing)))
+
+          result_slot = sources["net/minecraft/world/inventory/ResultSlot.java"][1]
+          take = result_slot.index("public void onTake(")
+          remainder = result_slot.index("this.getRemainingItems(input, player.level())", take)
+          consume = result_slot.index("this.craftSlots.removeItem(slot, 1);", remainder)
+          refresh = result_slot.index("itemStack = this.craftSlots.getItem(slot);", consume)
+          remainder_commit = result_slot.index("this.craftSlots.setItem(slot, replacement);", refresh)
+          if not (take < remainder < consume < refresh < remainder_commit):
+              raise SystemExit("ResultSlot remainder/consumption ordering changed")
+
+          crafting_container = sources["net/minecraft/world/inventory/CraftingContainer.java"][1]
+          vanilla_container = sources["net/minecraft/world/Container.java"][1]
+          if "extends Container" not in crafting_container:
+              raise SystemExit("CraftingContainer no longer inherits the Container removal API")
+          if "removeItem(final int slot, final int amount)" not in vanilla_container:
+              raise SystemExit("Mapped Container.removeItem(int,int) source was not found")
+
+          crafting_menu = sources["net/minecraft/world/inventory/CraftingMenu.java"][1]
+          quick_move = crafting_menu.index("public ItemStack quickMoveStack(")
+          transfer = crafting_menu.index("this.moveItemStackTo(stack", quick_move)
+          quick_craft = crafting_menu.index("slot.onQuickCraft(stack, clicked);", transfer)
+          completed_take = crafting_menu.index("slot.onTake(player, stack);", quick_craft)
+          if not (quick_move < transfer < quick_craft < completed_take):
+              raise SystemExit("CraftingMenu shift-click completion order changed")
+
+          report = {
+              "net/minecraft/world/inventory/ResultSlot.java": result_slot,
+              "net/minecraft/world/inventory/CraftingContainer.java": crafting_container,
+              "net/minecraft/world/Container.java": vanilla_container,
+              "net/minecraft/world/inventory/CraftingMenu.java": crafting_menu,
+          }
+          markers = {
+              "net/minecraft/world/inventory/ResultSlot.java": ["public void onTake(", "this.getRemainingItems(input, player.level())", "this.craftSlots.removeItem(slot, 1);", "this.craftSlots.setItem(slot, replacement);"],
+              "net/minecraft/world/inventory/CraftingContainer.java": ["interface CraftingContainer extends Container", "asCraftInput()"],
+              "net/minecraft/world/Container.java": ["removeItem(final int slot, final int amount)"],
+              "net/minecraft/world/inventory/CraftingMenu.java": ["public ItemStack quickMoveStack(", "slot.onQuickCraft(stack, clicked);", "slot.onTake(player, stack);"],
+          }
+          for path, tokens in markers.items():
+              source = report[path]
+              print(f"SOURCE {path}")
+              lines = source.splitlines()
+              for token in tokens:
+                  for index, line in enumerate(lines):
+                      if token in line:
+                          start, end = max(0, index - 2), min(len(lines), index + 5)
+                          print(f"  MATCH {token}")
+                          for number in range(start, end):
+                              print(f"  {number + 1}: {lines[number]}")
+                          break
+          print("All crafting transaction and remainder-order checks passed.")
+          PY
+      - name: Upload mapped crafting source report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k5-batch3-crafting-source-report
+          path: k5-batch3-crafting-source-report.txt
+          if-no-files-found: warn
+          retention-days: 14
