@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 
 /** Server-path and fish-payload coverage for Fisheries Study. */
 public final class FisheriesStudyGameTests implements CustomTestMethodInvoker {
@@ -19,8 +20,6 @@ public final class FisheriesStudyGameTests implements CustomTestMethodInvoker {
         researched.setAttached(KnowledgeRuntime.STATE, KnowledgeRuntime.state(researched)
                 .with("research.v3.research.19", 4)
                 .with("research.v3.research.23", 1));
-        unowned.getRandom().setSeed(1_234_567L);
-        researched.getRandom().setSeed(1_234_567L);
 
         ctx.assertTrue(FishingChallenges.fisheriesStudyLevel(unowned) == 0,
                 "an unpurchased player resolves to the baseline grade table");
@@ -31,8 +30,8 @@ public final class FisheriesStudyGameTests implements CustomTestMethodInvoker {
                 "the existing timing research remains separately player-gated");
 
         FishSpecies species = FishSpecies.COMMON_CARP;
-        var baseline = FishingChallenges.rollFishForPlayer(unowned, species, 2);
-        var improved = FishingChallenges.rollFishForPlayer(researched, species, 2);
+        var baseline = FishingChallenges.rollFishForPlayer(unowned, species, 2, RandomSource.create(1_234_567L));
+        var improved = FishingChallenges.rollFishForPlayer(researched, species, 2, RandomSource.create(1_234_567L));
         ctx.assertTrue(baseline.species() == improved.species()
                         && baseline.lengthTenthsCm() == improved.lengthTenthsCm()
                         && baseline.weightTenthsKg() == improved.weightTenthsKg(),

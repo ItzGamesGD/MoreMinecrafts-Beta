@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -142,7 +143,12 @@ public final class FishingChallenges {
 
     /** Called only from the server-side successful fishing award path. */
     static FishingLogic.FishRoll rollFishForPlayer(ServerPlayer player, FishSpecies species, int crankbaitTier) {
-        return FishingLogic.rollFish(species, crankbaitTier, fisheriesStudyLevel(player), player.getRandom());
+        return rollFishForPlayer(player, species, crankbaitTier, player.getRandom());
+    }
+
+    static FishingLogic.FishRoll rollFishForPlayer(ServerPlayer player, FishSpecies species, int crankbaitTier,
+            RandomSource random) {
+        return FishingLogic.rollFish(species, crankbaitTier, fisheriesStudyLevel(player), random);
     }
 
     static ItemStack createFishStack(FishingLogic.FishRoll roll) {
