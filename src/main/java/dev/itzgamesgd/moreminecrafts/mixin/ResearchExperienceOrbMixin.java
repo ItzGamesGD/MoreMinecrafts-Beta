@@ -6,7 +6,7 @@ import dev.itzgamesgd.moreminecrafts.progression.ResearchRewards;
 import java.util.Comparator;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.item.ExperienceOrb;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;

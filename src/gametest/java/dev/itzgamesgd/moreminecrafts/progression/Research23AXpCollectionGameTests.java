@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.item.ExperienceOrb;
+import net.minecraft.world.entity.ExperienceOrb;
 
 public final class Research23AXpCollectionGameTests implements CustomTestMethodInvoker {
     @GameTest
