@@ -104,7 +104,7 @@ class ResearchContentRulesTest {
         assertEquals(3, ResearchRewards.effects("v3.research.15").getFirst().maximumLevel());
         assertEquals(3, ResearchRewards.effects("v3.research.18").getFirst().maximumLevel());
         assertEquals(3, ResearchRewards.effects("v3.research.23").getFirst().maximumLevel());
-        var owned = ResearchProgressState.empty().with("v3.research.09", 8);
+        var owned = ResearchProgressState.empty().with("research.v3.research.09", 8);
         assertEquals(2, ResearchRewards.level(owned, "v3.research.09", "wood_processing"));
         assertEquals(0, ResearchRewards.level(ResearchProgressState.empty(), "v3.research.09", "wood_processing"));
     }

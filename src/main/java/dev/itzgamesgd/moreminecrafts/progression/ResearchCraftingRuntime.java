@@ -11,7 +11,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.inventory.ResultContainer;
 
 /** Applies Wood Processing to the server-created recipe result before either take path runs. */
 public final class ResearchCraftingRuntime {
@@ -27,17 +26,14 @@ public final class ResearchCraftingRuntime {
         return TagKey.create(Registries.ITEM, Identifier.withDefaultNamespace(path));
     }
 
-    public static void applyWoodProcessing(ServerPlayer player, ResultContainer result,
+    public static ItemStack applyWoodProcessing(ServerPlayer player, ItemStack result,
                                            RecipeHolder<?> recipe) {
-        if (player == null || result == null || recipe == null || !hasWoodIngredient(recipe)) return;
+        if (player == null || result == null || result.isEmpty() || recipe == null || !hasWoodIngredient(recipe)) return result;
         int level = ResearchRewards.level(player, "v3.research.09", "wood_processing");
-        if (level <= 0) return;
-        ItemStack original = result.getItem(0);
-        if (original.isEmpty()) return;
-        ItemStack updated = original.copy();
-        updated.setCount(ResearchContentRules.woodCraftOutputCount(
-                original.getCount(), level, original.getMaxStackSize()));
-        result.setItem(0, updated);
+        if (level <= 0) return result;
+        result.setCount(ResearchContentRules.woodCraftOutputCount(
+                result.getCount(), level, result.getMaxStackSize()));
+        return result;
     }
 
     static boolean hasWoodIngredient(RecipeHolder<?> recipe) {

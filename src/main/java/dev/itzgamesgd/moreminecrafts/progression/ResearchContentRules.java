@@ -34,11 +34,21 @@ public final class ResearchContentRules {
     }
 
     public static double seedChance(int level) {
-        return 0.15D * boundedLevel(level, 3);
+        return switch (boundedLevel(level, 3)) {
+            case 1 -> 0.15D;
+            case 2 -> 0.30D;
+            case 3 -> 0.45D;
+            default -> 0.0D;
+        };
     }
 
     public static double honeycombChance(int level) {
-        return 0.20D * boundedLevel(level, 3);
+        return switch (boundedLevel(level, 3)) {
+            case 1 -> 0.20D;
+            case 2 -> 0.40D;
+            case 3 -> 0.60D;
+            default -> 0.0D;
+        };
     }
 
     public static boolean extraItemSucceeds(double roll, double chance) {
