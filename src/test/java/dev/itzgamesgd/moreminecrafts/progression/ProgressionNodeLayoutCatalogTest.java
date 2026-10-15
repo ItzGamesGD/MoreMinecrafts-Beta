@@ -71,11 +71,12 @@ final class ProgressionNodeLayoutCatalogTest {
             (node.get("screen").getAsString().equals("research") ? researchNodes : knowledgeNodes).add(node);
         }
 
-        assertEquals(157, nodes.size());
-        assertEquals(87, researchNodes.size());
+        assertEquals(162, nodes.size());
+        assertEquals(92, researchNodes.size());
         assertEquals(70, knowledgeNodes.size());
         assertEquals(70, researchNodes.stream().filter(n -> n.get("catalog").getAsString().equals("v3")).count());
         assertEquals(17, researchNodes.stream().filter(n -> n.get("catalog").getAsString().equals("v4")).count());
+        assertEquals(5, researchNodes.stream().filter(n -> n.get("catalog").getAsString().equals("stage22")).count());
         assertEquals(researchNodes.size(), researchNodes.stream().map(n -> n.get("id").getAsString()).collect(Collectors.toSet()).size());
         assertEquals(knowledgeNodes.size(), knowledgeNodes.stream().map(n -> n.get("id").getAsString()).collect(Collectors.toSet()).size());
 
@@ -92,7 +93,7 @@ final class ProgressionNodeLayoutCatalogTest {
             assertEquals(source.prerequisitesDefined(), node.get("prerequisitesDefined").getAsBoolean(), source.id());
             assertEquals(source.knowledgePrerequisites(), intSet(node.getAsJsonArray("knowledgePrerequisites")), source.id());
             assertEquals(source.researchPrerequisites(), stringSet(node.getAsJsonArray("researchPrerequisites")), source.id());
-            assertEquals("v3".equals(source.catalogVersion()) ? "undefined_non_purchasable" : "any_of_knowledge",
+            assertEquals("v3".equals(source.catalogVersion()) ? "all_of_knowledge_and_research" : "any_of_knowledge",
                     node.get("prerequisiteSemantics").getAsString(), source.id());
             assertEquals(source.costs().size(), node.getAsJsonArray("costs").size(), source.id());
             for (int level = 0; level < source.costs().size(); level++) {
@@ -158,7 +159,7 @@ final class ProgressionNodeLayoutCatalogTest {
             assertEquals(64 + 72 * nodeOrder, node.get("y").getAsInt(), id);
             if (node.get("screen").getAsString().equals("research")) {
                 for (var req : node.getAsJsonArray("knowledgePrerequisites")) assertTrue(knowledgeIds.contains(req.getAsInt()), id);
-                if (node.get("catalog").getAsString().equals("v3")) assertFalse(node.get("prerequisitesDefined").getAsBoolean(), id);
+                if (node.get("catalog").getAsString().equals("v3")) assertTrue(node.get("prerequisitesDefined").getAsBoolean(), id);
             }
         }
 

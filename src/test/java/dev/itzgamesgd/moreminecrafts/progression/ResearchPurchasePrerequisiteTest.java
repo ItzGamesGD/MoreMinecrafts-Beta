@@ -70,13 +70,26 @@ final class ResearchPurchasePrerequisiteTest {
 
     @Test void registeredCatalogPreservesIdentitiesAndApprovedTotals() {
         var all = ResearchCatalog.allCatalogEntries();
-        assertEquals(87, all.size());
-        assertEquals(87, all.stream().map(ResearchDefinition::id).distinct().count());
-        assertEquals(195, all.stream().mapToInt(ResearchDefinition::maximumLevel).sum());
-        assertEquals(147_270, all.stream().flatMap(entry -> entry.costs().stream())
+        assertEquals(92, all.size());
+        assertEquals(92, all.stream().map(ResearchDefinition::id).distinct().count());
+        assertEquals(200, all.stream().mapToInt(ResearchDefinition::maximumLevel).sum());
+        assertEquals(147_670, all.stream().flatMap(entry -> entry.costs().stream())
                 .mapToInt(ResearchDefinition.LevelCost::rawXp).sum());
         assertEquals(70, all.stream().filter(entry -> entry.catalogVersion().equals("v3")).count());
         assertEquals(17, all.stream().filter(entry -> entry.catalogVersion().equals("v4")).count());
+        assertEquals(5, all.stream().filter(entry -> entry.catalogVersion().equals("stage22")).count());
         for (ResearchDefinition entry : all) assertSame(entry, ResearchCatalog.byId(entry.id()));
+    }
+
+    @Test void disciplineRootsAcceptAnyMatchingKnowledgeAndGateTheirResearch() {
+        var root = ResearchCatalog.byId("resources_root");
+        assertEquals(Set.of(1,2,3,4,5,6,7,8,9,10), root.knowledgePrerequisites());
+        assertEquals(ResearchPurchaseRules.Result.PURCHASED,
+                ResearchPurchaseRules.validate(root, 1, 0, Set.of(8), Set.of(),
+                        Map.of("minecraft:cobblestone",16,"minecraft:coal",16), 80));
+        var child = ResearchCatalog.byId("v3.research.01");
+        assertTrue(child.researchPrerequisites().contains("resources_root"));
+        assertEquals(ResearchPurchaseRules.Result.MISSING_PREREQUISITE,
+                ResearchPurchaseRules.validate(child, 1, 0, Set.of(1), Set.of(), Map.of(), Integer.MAX_VALUE));
     }
 }

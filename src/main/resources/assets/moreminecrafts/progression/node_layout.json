@@ -8,13 +8,127 @@
       "catalog": "v3",
       "discipline": "resources",
       "branch": "geology_and_quarry",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
-      "x": 64,
+      "x": 256,
       "y": 64,
       "iconItemId": "minecraft:diamond_pickaxe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        1
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:coal",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "석탄"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 390,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 560,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 750,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 1000,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 3,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.03",
@@ -22,13 +136,115 @@
       "catalog": "v3",
       "discipline": "resources",
       "branch": "geology_and_quarry",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
-      "x": 64,
+      "x": 256,
       "y": 136,
       "iconItemId": "minecraft:iron_pickaxe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        10
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 360,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 680,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 900,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:lapis_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "청금석 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.04",
@@ -36,13 +252,57 @@
       "catalog": "v3",
       "discipline": "resources",
       "branch": "geology_and_quarry",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
-      "x": 64,
+      "x": 256,
       "y": 208,
       "iconItemId": "minecraft:diamond_pickaxe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        2,
+        3
+      ],
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.01"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1600,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "throwable_pickaxe",
@@ -50,13 +310,19 @@
       "catalog": "v4",
       "discipline": "resources",
       "branch": "geology_and_quarry",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 3,
-      "x": 64,
+      "x": 256,
       "y": 280,
       "iconItemId": "minecraft:diamond_pickaxe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.01"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.02",
@@ -64,13 +330,115 @@
       "catalog": "v3",
       "discipline": "resources",
       "branch": "forestry",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
-      "x": 256,
+      "x": 448,
       "y": 64,
       "iconItemId": "minecraft:oak_log",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        4
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_ingot",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "철 주괴"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:copper_ingot",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "구리 주괴"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 384,
+              "compressedUnits": 6,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 580,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 780,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.05",
@@ -78,13 +446,56 @@
       "catalog": "v3",
       "discipline": "resources",
       "branch": "forestry",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
-      "x": 256,
+      "x": 448,
       "y": 136,
       "iconItemId": "minecraft:oak_log",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        5
+      ],
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.02"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2800,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:coal",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "석탄"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "climbing",
@@ -92,13 +503,19 @@
       "catalog": "v4",
       "discipline": "resources",
       "branch": "field_mobility",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
-      "x": 448,
+      "x": 640,
       "y": 64,
       "iconItemId": "minecraft:iron_pickaxe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.field_mobility"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.field_mobility",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.03"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.06",
@@ -106,13 +523,91 @@
       "catalog": "v3",
       "discipline": "production",
       "branch": "smelting_and_fuels",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
-      "x": 64,
+      "x": 256,
       "y": 64,
       "iconItemId": "minecraft:coal",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        11
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 220,
+          "materials": [
+            {
+              "itemId": "minecraft:coal",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "석탄"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 340,
+          "materials": [
+            {
+              "itemId": "minecraft:coal",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "석탄"
+            },
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 520,
+          "materials": [
+            {
+              "itemId": "minecraft:coal",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "석탄"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 가루"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.07",
@@ -120,13 +615,127 @@
       "catalog": "v3",
       "discipline": "production",
       "branch": "smelting_and_fuels",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
-      "x": 64,
+      "x": 256,
       "y": 136,
       "iconItemId": "minecraft:furnace",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        11
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:gold_ingot",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "금 주괴"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 480,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 6,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 950,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 1250,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.11",
@@ -134,13 +743,98 @@
       "catalog": "v3",
       "discipline": "production",
       "branch": "smelting_and_fuels",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
-      "x": 64,
+      "x": 256,
       "y": 208,
       "iconItemId": "minecraft:blast_furnace",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        12
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.07"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:coal_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "석탄 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 1250,
+          "materials": [
+            {
+              "itemId": "minecraft:coal_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "석탄 블록"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 1800,
+          "materials": [
+            {
+              "itemId": "minecraft:coal_block",
+              "count": 24,
+              "compressedUnits": 0,
+              "materialName": "석탄 블록"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.12",
@@ -148,13 +842,57 @@
       "catalog": "v3",
       "discipline": "production",
       "branch": "smelting_and_fuels",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 3,
-      "x": 64,
+      "x": 256,
       "y": 280,
       "iconItemId": "minecraft:blast_furnace",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        12,
+        13
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.11"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 3500,
+          "materials": [
+            {
+              "itemId": "minecraft:coal_block",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "석탄 블록"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.08",
@@ -162,13 +900,121 @@
       "catalog": "v3",
       "discipline": "production",
       "branch": "crafting_and_maintenance",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
-      "x": 256,
+      "x": 448,
       "y": 64,
       "iconItemId": "minecraft:crafting_table",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        14
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 3,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 450,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 620,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:slime_ball",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "슬라임볼"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 1150,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.10",
@@ -176,13 +1022,115 @@
       "catalog": "v3",
       "discipline": "production",
       "branch": "crafting_and_maintenance",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
-      "x": 256,
+      "x": 448,
       "y": 136,
       "iconItemId": "minecraft:anvil",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        16
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 6,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 560,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 760,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 1000,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:lapis_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "청금석 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "automatic_tool_switch",
@@ -190,13 +1138,19 @@
       "catalog": "v4",
       "discipline": "production",
       "branch": "crafting_and_maintenance",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 2,
-      "x": 256,
+      "x": 448,
       "y": 208,
       "iconItemId": "minecraft:iron_pickaxe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.10"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.09",
@@ -204,13 +1158,61 @@
       "catalog": "v3",
       "discipline": "production",
       "branch": "woodworking",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
-      "x": 448,
+      "x": 640,
       "y": 64,
       "iconItemId": "minecraft:oak_planks",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.woodworking"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.woodworking",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 2,
+      "knowledgePrerequisites": [
+        14
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "#minecraft:planks",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "판자"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 550,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.13",
@@ -218,13 +1220,56 @@
       "catalog": "v3",
       "discipline": "production",
       "branch": "storage_and_logistics",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 0,
-      "x": 640,
+      "x": 832,
       "y": 64,
       "iconItemId": "minecraft:chest",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        17
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.08"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1600,
+          "materials": [
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "종이"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "에메랄드"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "nearby_chest_ingredients",
@@ -232,13 +1277,19 @@
       "catalog": "v4",
       "discipline": "production",
       "branch": "storage_and_logistics",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 1,
-      "x": 640,
+      "x": 832,
       "y": 136,
       "iconItemId": "minecraft:chest",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.08"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "hopper_filter",
@@ -246,13 +1297,19 @@
       "catalog": "v4",
       "discipline": "production",
       "branch": "storage_and_logistics",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 2,
-      "x": 640,
+      "x": 832,
       "y": 208,
       "iconItemId": "minecraft:hopper",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.08"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.14",
@@ -260,13 +1317,115 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
-      "x": 64,
+      "x": 256,
       "y": 64,
       "iconItemId": "minecraft:wheat",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        20
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "밀 씨앗"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 350,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:carrot",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "당근"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:potato",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "감자"
+            },
+            {
+              "itemId": "minecraft:pumpkin",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "호박"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 950,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.15",
@@ -274,13 +1433,79 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
-      "x": 64,
+      "x": 256,
       "y": 136,
       "iconItemId": "minecraft:wheat_seeds",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        21
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 160,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "밀 씨앗"
+            },
+            {
+              "itemId": "minecraft:pumpkin_seeds",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "호박 씨앗"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "밀 씨앗"
+            },
+            {
+              "itemId": "minecraft:melon_seeds",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "수박 씨앗"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 380,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀 씨앗"
+            },
+            {
+              "itemId": "minecraft:beetroot_seeds",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "비트 씨앗"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.16",
@@ -288,13 +1513,85 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
-      "x": 64,
+      "x": 256,
       "y": 208,
       "iconItemId": "minecraft:dirt",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        22
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 180,
+          "materials": [
+            {
+              "itemId": "minecraft:dirt",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "흙"
+            },
+            {
+              "itemId": "minecraft:bone_meal",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "뼛가루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:dirt",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "흙"
+            },
+            {
+              "itemId": "minecraft:bone_meal",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "뼛가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:dirt",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "흙"
+            },
+            {
+              "itemId": "minecraft:mud",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "진흙"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.20",
@@ -302,13 +1599,50 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 3,
-      "x": 64,
+      "x": 256,
       "y": 280,
       "iconItemId": "minecraft:iron_hoe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        22
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.16"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 6,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:dirt",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "흙"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.21",
@@ -316,13 +1650,56 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 4,
-      "x": 64,
+      "x": 256,
       "y": 352,
       "iconItemId": "minecraft:wheat",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        20
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.14"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1050,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:sugar_cane",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "사탕수수"
+            },
+            {
+              "itemId": "minecraft:bone_meal",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "뼛가루"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.24",
@@ -330,13 +1707,63 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 5,
-      "x": 64,
+      "x": 256,
       "y": 424,
       "iconItemId": "minecraft:composter",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        24
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.14",
+        "v3.research.15"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 3500,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "밀 씨앗"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.25",
@@ -344,13 +1771,56 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 6,
-      "x": 64,
+      "x": 256,
       "y": 496,
       "iconItemId": "minecraft:water_bucket",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        23
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.16"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2200,
+          "materials": [
+            {
+              "itemId": "minecraft:dirt",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "흙"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:lapis_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "청금석 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.17",
@@ -358,13 +1828,97 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "animal_care",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
-      "x": 256,
+      "x": 448,
       "y": 64,
       "iconItemId": "minecraft:cow_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        25
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:carrot",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "당근"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 460,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "가죽"
+            },
+            {
+              "itemId": "minecraft:beef",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "생 소고기"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "가죽"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.18",
@@ -372,13 +1926,79 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "animal_care",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
-      "x": 256,
+      "x": 448,
       "y": 136,
       "iconItemId": "minecraft:bee_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        26
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 220,
+          "materials": [
+            {
+              "itemId": "minecraft:honeycomb",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "벌집 조각"
+            },
+            {
+              "itemId": "minecraft:dandelion",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "민들레"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 340,
+          "materials": [
+            {
+              "itemId": "minecraft:honeycomb",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "벌집 조각"
+            },
+            {
+              "itemId": "minecraft:honey_bottle",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "꿀이 든 병"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 520,
+          "materials": [
+            {
+              "itemId": "minecraft:honeycomb",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "벌집 조각"
+            },
+            {
+              "itemId": "minecraft:honey_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "꿀 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.22",
@@ -386,13 +2006,50 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "animal_care",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 2,
-      "x": 256,
+      "x": 448,
       "y": 208,
       "iconItemId": "minecraft:wheat",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        26
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.17"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 950,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:carrot",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "당근"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.19",
@@ -400,13 +2057,121 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "fisheries",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
-      "x": 448,
+      "x": 640,
       "y": 64,
       "iconItemId": "minecraft:cod",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        27
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "생연어"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 360,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:string",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "실"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 490,
+          "materials": [
+            {
+              "itemId": "minecraft:salmon",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생연어"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:nautilus_shell",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "앵무조개 껍데기"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.23",
@@ -414,13 +2179,98 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "fisheries",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 1,
-      "x": 448,
+      "x": 640,
       "y": 136,
       "iconItemId": "minecraft:fishing_rod",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        29
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.19"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:string",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "실"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 1100,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 1500,
+          "materials": [
+            {
+              "itemId": "minecraft:salmon",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:nautilus_shell",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "앵무조개 껍데기"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.26",
@@ -428,13 +2278,56 @@
       "catalog": "v3",
       "discipline": "living",
       "branch": "fisheries",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 2,
-      "x": 448,
+      "x": 640,
       "y": 208,
       "iconItemId": "minecraft:fishing_rod",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        28
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.19"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1800,
+          "materials": [
+            {
+              "itemId": "minecraft:cod",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "생대구"
+            },
+            {
+              "itemId": "minecraft:salmon",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생연어"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "combat_root",
@@ -448,7 +2341,42 @@
       "y": 64,
       "iconItemId": "minecraft:iron_sword",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.discipline_foundation"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.discipline_foundation",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:stick",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:bone",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.27",
@@ -462,7 +2390,73 @@
       "y": 64,
       "iconItemId": "minecraft:iron_sword",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        31
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "썩은 살점"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 430,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:bone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "뼈"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "화약"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.28",
@@ -476,7 +2470,73 @@
       "y": 136,
       "iconItemId": "minecraft:iron_axe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        33
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 230,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "#minecraft:logs",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "원목"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 390,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "#minecraft:logs",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "원목"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "#minecraft:logs",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "원목"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.33",
@@ -490,7 +2550,44 @@
       "y": 208,
       "iconItemId": "minecraft:iron_sword",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        32
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.27"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 900,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 석영"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "falling_axe_smash",
@@ -504,7 +2601,13 @@
       "y": 280,
       "iconItemId": "minecraft:iron_axe",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.28"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "weapon_swap_handling",
@@ -518,7 +2621,13 @@
       "y": 352,
       "iconItemId": "minecraft:iron_sword",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.27"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.29",
@@ -532,7 +2641,79 @@
       "y": 64,
       "iconItemId": "minecraft:bow",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        34
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:arrow",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:string",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "실"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:arrow",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "화약"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:arrow",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:feather",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "깃털"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.35",
@@ -546,7 +2727,51 @@
       "y": 136,
       "iconItemId": "minecraft:arrow",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        35,
+        40
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.29"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2600,
+          "materials": [
+            {
+              "itemId": "minecraft:arrow",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "ballistic_control",
@@ -560,7 +2785,13 @@
       "y": 208,
       "iconItemId": "minecraft:bow",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.29"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "bow_charge_mobility",
@@ -574,7 +2805,13 @@
       "y": 280,
       "iconItemId": "minecraft:bow",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.29"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.30",
@@ -588,7 +2825,73 @@
       "y": 64,
       "iconItemId": "minecraft:shield",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        36
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "#minecraft:planks",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "판자"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 330,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 520,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.31",
@@ -602,7 +2905,73 @@
       "y": 136,
       "iconItemId": "minecraft:iron_chestplate",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        37
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:leather",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "가죽"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.34",
@@ -616,7 +2985,44 @@
       "y": 208,
       "iconItemId": "minecraft:shield",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        36
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.30"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2300,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "shield_counter",
@@ -630,7 +3036,13 @@
       "y": 280,
       "iconItemId": "minecraft:shield",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.30"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.32",
@@ -644,7 +3056,73 @@
       "y": 64,
       "iconItemId": "minecraft:trident",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.thrown_weapons"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.thrown_weapons",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        38
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 270,
+          "materials": [
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화살"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "ecology_root",
@@ -658,7 +3136,44 @@
       "y": 64,
       "iconItemId": "minecraft:rotten_flesh",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.discipline_foundation"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.discipline_foundation",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:bone",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.36",
@@ -672,7 +3187,73 @@
       "y": 64,
       "iconItemId": "minecraft:zombie_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        41
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "썩은 살점"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "썩은 살점"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 480,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "썩은 살점"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.37",
@@ -686,7 +3267,73 @@
       "y": 136,
       "iconItemId": "minecraft:skeleton_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        42
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 210,
+          "materials": [
+            {
+              "itemId": "minecraft:bone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "뼈"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "화살"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 330,
+          "materials": [
+            {
+              "itemId": "minecraft:bone",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "뼈"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화살"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 490,
+          "materials": [
+            {
+              "itemId": "minecraft:bone",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "뼈"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화살"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.38",
@@ -700,7 +3347,73 @@
       "y": 208,
       "iconItemId": "minecraft:creeper_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        43
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "흑요석"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.39",
@@ -714,7 +3427,43 @@
       "y": 280,
       "iconItemId": "minecraft:spider_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        44
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:string",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "실"
+            },
+            {
+              "itemId": "minecraft:spider_eye",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "거미 눈"
+            },
+            {
+              "itemId": "minecraft:fermented_spider_eye",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "발효된 거미 눈"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.40",
@@ -728,7 +3477,43 @@
       "y": 352,
       "iconItemId": "minecraft:enderman_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        45
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1200,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 192,
+              "compressedUnits": 3,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "흑요석"
+            },
+            {
+              "itemId": "minecraft:ender_eye",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "엔더의 눈"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.41",
@@ -742,7 +3527,43 @@
       "y": 424,
       "iconItemId": "minecraft:slime_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        46
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1050,
+          "materials": [
+            {
+              "itemId": "minecraft:slime_ball",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "슬라임볼"
+            },
+            {
+              "itemId": "minecraft:slime_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "슬라임 블록"
+            },
+            {
+              "itemId": "minecraft:magma_cream",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "마그마 크림"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.42",
@@ -756,7 +3577,43 @@
       "y": 496,
       "iconItemId": "minecraft:pillager_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        47
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1000,
+          "materials": [
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:arrow",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화살"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.43",
@@ -770,7 +3627,79 @@
       "y": 64,
       "iconItemId": "minecraft:piglin_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        48
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "우는 흑요석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 450,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "우는 흑요석"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "우는 흑요석"
+            },
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "블레이즈 막대"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.44",
@@ -784,7 +3713,73 @@
       "y": 136,
       "iconItemId": "minecraft:hoglin_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        49
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:porkchop",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "생 돼지고기"
+            },
+            {
+              "itemId": "minecraft:crimson_fungus",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "진홍빛 자루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 380,
+          "materials": [
+            {
+              "itemId": "minecraft:porkchop",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "생 돼지고기"
+            },
+            {
+              "itemId": "minecraft:crimson_fungus",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "진홍빛 자루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 540,
+          "materials": [
+            {
+              "itemId": "minecraft:porkchop",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "생 돼지고기"
+            },
+            {
+              "itemId": "minecraft:crimson_fungus",
+              "count": 384,
+              "compressedUnits": 6,
+              "materialName": "진홍빛 자루"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.45",
@@ -798,7 +3793,79 @@
       "y": 64,
       "iconItemId": "minecraft:drowned_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.aquatic_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.aquatic_hostiles",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        50
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 250,
+          "materials": [
+            {
+              "itemId": "minecraft:rotten_flesh",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "썩은 살점"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 410,
+          "materials": [
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "프리즈머린 조각"
+            },
+            {
+              "itemId": "minecraft:prismarine_crystals",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 수정"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.46",
@@ -812,7 +3879,91 @@
       "y": 64,
       "iconItemId": "minecraft:evoker_spawn_egg",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        51
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 350,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "에메랄드"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 580,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:prismarine_shard",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "프리즈머린 조각"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:prismarine_crystals",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "프리즈머린 수정"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.47",
@@ -826,7 +3977,73 @@
       "y": 136,
       "iconItemId": "minecraft:wither_skeleton_skull",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "UNSPECIFIED",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        52
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "흑요석"
+            },
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 막대"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 900,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 1300,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_eye",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "엔더의 눈"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.48",
@@ -840,7 +4057,50 @@
       "y": 64,
       "iconItemId": "minecraft:compass",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        51
+      ],
+      "researchPrerequisites": [
+        "ecology_root",
+        "v3.research.46"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2800,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_eye",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "엔더의 눈"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "mob_aggro_redirection",
@@ -854,7 +4114,13 @@
       "y": 136,
       "iconItemId": "minecraft:bone",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "ecology_root",
+        "v3.research.37"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "mob_capture",
@@ -868,7 +4134,13 @@
       "y": 208,
       "iconItemId": "minecraft:lead",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "ecology_root",
+        "v3.research.46"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.49",
@@ -876,13 +4148,79 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
-      "x": 64,
+      "x": 256,
       "y": 64,
       "iconItemId": "minecraft:compass",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        55
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "종이"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 340,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.50",
@@ -890,13 +4228,121 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
-      "x": 64,
+      "x": 256,
       "y": 136,
       "iconItemId": "minecraft:saddle",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 5,
+      "knowledgePrerequisites": [
+        56
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 220,
+          "materials": [
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 450,
+          "materials": [
+            {
+              "itemId": "minecraft:leather",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "가죽"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "황금 당근"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "rawXp": 800,
+          "materials": [
+            {
+              "itemId": "minecraft:hay_block",
+              "count": 24,
+              "compressedUnits": 0,
+              "materialName": "건초 더미"
+            },
+            {
+              "itemId": "minecraft:golden_carrot",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "황금 당근"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.51",
@@ -904,13 +4350,85 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
-      "x": 64,
+      "x": 256,
       "y": 208,
       "iconItemId": "minecraft:elytra",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        57
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "화약"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화약"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 750,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.56",
@@ -918,13 +4436,92 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 3,
-      "x": 64,
+      "x": 256,
       "y": 280,
       "iconItemId": "minecraft:elytra",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        57
+      ],
+      "researchPrerequisites": [
+        "v3.research.51",
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1200,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:firework_rocket",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "폭죽 로켓"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 1800,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:firework_rocket",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "폭죽 로켓"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 2500,
+          "materials": [
+            {
+              "itemId": "minecraft:phantom_membrane",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "팬텀 막"
+            },
+            {
+              "itemId": "minecraft:firework_rocket",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "폭죽 로켓"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.57",
@@ -932,13 +4529,56 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 4,
-      "x": 64,
+      "x": 256,
       "y": 352,
       "iconItemId": "minecraft:oak_boat",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        55
+      ],
+      "researchPrerequisites": [
+        "v3.research.49",
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 3000,
+          "materials": [
+            {
+              "itemId": "#minecraft:logs",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "원목"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            },
+            {
+              "itemId": "minecraft:copper_block",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "구리 블록"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.58",
@@ -946,13 +4586,57 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 5,
-      "x": 64,
+      "x": 256,
       "y": 424,
       "iconItemId": "minecraft:ender_chest",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        58,
+        62
+      ],
+      "researchPrerequisites": [
+        "v3.research.55",
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 4000,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "흑요석"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 6,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:ender_eye",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "엔더의 눈"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.52",
@@ -960,13 +4644,85 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "archaeology_and_expedition",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
-      "x": 256,
+      "x": 448,
       "y": 64,
       "iconItemId": "minecraft:brush",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        59
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:brick",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "벽돌"
+            },
+            {
+              "itemId": "minecraft:clay_ball",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "점토 덩이"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 430,
+          "materials": [
+            {
+              "itemId": "minecraft:brick",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "벽돌"
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "에메랄드"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 650,
+          "materials": [
+            {
+              "itemId": "minecraft:brick",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "벽돌"
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "에메랄드"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.55",
@@ -974,13 +4730,79 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "archaeology_and_expedition",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
-      "x": 256,
+      "x": 448,
       "y": 136,
       "iconItemId": "minecraft:compass",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        53
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:leather",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "가죽"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 320,
+          "materials": [
+            {
+              "itemId": "minecraft:carrot",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "당근"
+            },
+            {
+              "itemId": "#minecraft:wool",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "양털"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "밀"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.53",
@@ -988,13 +4810,79 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "trading",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
-      "x": 448,
+      "x": 640,
       "y": 64,
       "iconItemId": "minecraft:emerald",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        61
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 280,
+          "materials": [
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "종이"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 450,
+          "materials": [
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "종이"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 700,
+          "materials": [
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:book",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "책"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.54",
@@ -1002,13 +4890,79 @@
       "catalog": "v3",
       "discipline": "world",
       "branch": "trading",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 1,
-      "x": 448,
+      "x": 640,
       "y": 136,
       "iconItemId": "minecraft:gold_ingot",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        48
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:obsidian",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "흑요석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 680,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "우는 흑요석"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "piglin_barter",
@@ -1016,13 +4970,19 @@
       "catalog": "v4",
       "discipline": "world",
       "branch": "trading",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 2,
-      "x": 448,
+      "x": 640,
       "y": 208,
       "iconItemId": "minecraft:gold_ingot",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "v3.research.54",
+        "world_root"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "wall_jump",
@@ -1030,13 +4990,19 @@
       "catalog": "v4",
       "discipline": "world",
       "branch": "mobility",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 0,
-      "x": 640,
+      "x": 832,
       "y": 64,
       "iconItemId": "minecraft:slime_ball",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "v3.research.55",
+        "world_root"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "fall_roll",
@@ -1044,13 +5010,19 @@
       "catalog": "v4",
       "discipline": "world",
       "branch": "mobility",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 1,
-      "x": 640,
+      "x": 832,
       "y": 136,
       "iconItemId": "minecraft:leather_boots",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "researchPrerequisites": [
+        "v3.research.55",
+        "world_root"
+      ],
+      "prerequisitesDefined": true
     },
     {
       "id": "v3.research.59",
@@ -1058,13 +5030,79 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "brewing_basics",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
-      "x": 64,
+      "x": 256,
       "y": 64,
       "iconItemId": "minecraft:brewing_stand",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        63
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 200,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 340,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.60",
@@ -1072,13 +5110,80 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "brewing_basics",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
-      "x": 64,
+      "x": 256,
       "y": 136,
       "iconItemId": "minecraft:potion",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        64
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:redstone",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:redstone",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 620,
+          "materials": [
+            {
+              "itemId": "minecraft:redstone",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "발광석 가루"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.63",
@@ -1086,13 +5191,85 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "brewing_basics",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
-      "x": 64,
+      "x": 256,
       "y": 208,
       "iconItemId": "minecraft:nether_wart",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        68
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "청금석"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "엔더 진주"
+            },
+            {
+              "itemId": "minecraft:diamond",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "다이아"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.61",
@@ -1100,13 +5277,81 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "potion_handling",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
-      "x": 256,
+      "x": 448,
       "y": 64,
       "iconItemId": "minecraft:splash_potion",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        65,
+        66
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 260,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 64,
+              "compressedUnits": 1,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 420,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:dragon_breath",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "드래곤의 숨결"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:gunpowder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "화약"
+            },
+            {
+              "itemId": "minecraft:dragon_breath",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "드래곤의 숨결"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.68",
@@ -1114,13 +5359,56 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "potion_handling",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
-      "x": 256,
+      "x": 448,
       "y": 136,
       "iconItemId": "minecraft:potion",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        64
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 1700,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "발광석 가루"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "레드스톤"
+            },
+            {
+              "itemId": "minecraft:dragon_breath",
+              "count": 16,
+              "compressedUnits": 0,
+              "materialName": "드래곤의 숨결"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.62",
@@ -1128,13 +5416,86 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "effects_and_catalysts",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
-      "x": 448,
+      "x": 640,
       "y": 64,
       "iconItemId": "minecraft:honey_bottle",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        67
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 240,
+          "materials": [
+            {
+              "itemId": "minecraft:fermented_spider_eye",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "발효된 거미 눈"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 400,
+          "materials": [
+            {
+              "itemId": "minecraft:fermented_spider_eye",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "발효된 거미 눈"
+            },
+            {
+              "itemId": "minecraft:magma_cream",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "마그마 크림"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 600,
+          "materials": [
+            {
+              "itemId": "minecraft:fermented_spider_eye",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "발효된 거미 눈"
+            },
+            {
+              "itemId": "minecraft:ghast_tear",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "가스트의 눈물"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.65",
@@ -1142,13 +5503,80 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "effects_and_catalysts",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 1,
-      "x": 448,
+      "x": 640,
       "y": 136,
       "iconItemId": "minecraft:blaze_powder",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        68
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.63"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 220,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:redstone",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "레드스톤"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 360,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:glowstone_dust",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "발광석 가루"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 550,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 가루"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.64",
@@ -1156,13 +5584,85 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "experience",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 0,
-      "x": 640,
+      "x": 832,
       "y": 64,
       "iconItemId": "minecraft:experience_bottle",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T1",
+      "levelCap": 3,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 300,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:quartz",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "네더 석영"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 480,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "rawXp": 750,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 768,
+              "compressedUnits": 12,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:emerald_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "에메랄드 블록"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 1,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.67",
@@ -1170,13 +5670,62 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "experience",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 1,
-      "x": 640,
+      "x": 832,
       "y": 136,
       "iconItemId": "minecraft:experience_bottle",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 2,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.64"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 500,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "엔더 진주"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "rawXp": 850,
+          "materials": [
+            {
+              "itemId": "minecraft:lapis_lazuli",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "청금석"
+            },
+            {
+              "itemId": "minecraft:ender_pearl",
+              "count": 128,
+              "compressedUnits": 2,
+              "materialName": "엔더 진주"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.66",
@@ -1184,13 +5733,50 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "advanced_brewing",
-      "branchOrder": 4,
+      "branchOrder": 5,
       "nodeOrder": 0,
-      "x": 832,
+      "x": 1024,
       "y": 64,
       "iconItemId": "minecraft:brewing_stand",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 900,
+          "materials": [
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 256,
+              "compressedUnits": 4,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "금 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.69",
@@ -1198,13 +5784,56 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "advanced_brewing",
-      "branchOrder": 4,
+      "branchOrder": 5,
       "nodeOrder": 1,
-      "x": 832,
+      "x": 1024,
       "y": 136,
       "iconItemId": "minecraft:brewing_stand",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T2",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2400,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 1024,
+              "compressedUnits": 16,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_powder",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "블레이즈 가루"
+            },
+            {
+              "itemId": "minecraft:redstone_block",
+              "count": 12,
+              "compressedUnits": 0,
+              "materialName": "레드스톤 블록"
+            },
+            {
+              "itemId": "minecraft:iron_block",
+              "count": 8,
+              "compressedUnits": 0,
+              "materialName": "철 블록"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "v3.research.70",
@@ -1212,13 +5841,62 @@
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "advanced_brewing",
-      "branchOrder": 4,
+      "branchOrder": 5,
       "nodeOrder": 2,
-      "x": 832,
+      "x": 1024,
       "y": 208,
       "iconItemId": "minecraft:glowstone_dust",
       "fallbackIconItemId": "minecraft:book",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
+      "prerequisitesDefined": true,
+      "tier": "T3",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        70
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.68"
+      ],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 4200,
+          "materials": [
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 1536,
+              "compressedUnits": 24,
+              "materialName": "네더 사마귀"
+            },
+            {
+              "itemId": "minecraft:blaze_rod",
+              "count": 512,
+              "compressedUnits": 8,
+              "materialName": "블레이즈 막대"
+            },
+            {
+              "itemId": "minecraft:dragon_breath",
+              "count": 32,
+              "compressedUnits": 0,
+              "materialName": "드래곤의 숨결"
+            },
+            {
+              "itemId": "minecraft:diamond_block",
+              "count": 4,
+              "compressedUnits": 0,
+              "materialName": "다이아 블록"
+            },
+            {
+              "itemId": "minecraft:netherite_ingot",
+              "count": 2,
+              "compressedUnits": 0,
+              "materialName": "네더라이트 주괴"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "knowledge.1",
@@ -2199,6 +6877,249 @@
       "iconItemId": "minecraft:glowstone_dust",
       "fallbackIconItemId": "minecraft:book",
       "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+    },
+    {
+      "id": "resources_root",
+      "screen": "research",
+      "catalog": "stage22",
+      "discipline": "resources",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "x": 64,
+      "y": 64,
+      "iconItemId": "minecraft:coal",
+      "fallbackIconItemId": "minecraft:book",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.discipline_foundation",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:cobblestone",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:coal",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "prerequisitesDefined": true
+    },
+    {
+      "id": "production_root",
+      "screen": "research",
+      "catalog": "stage22",
+      "discipline": "production",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "x": 64,
+      "y": 64,
+      "iconItemId": "minecraft:furnace",
+      "fallbackIconItemId": "minecraft:book",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.discipline_foundation",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:furnace",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:iron_ingot",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "prerequisitesDefined": true
+    },
+    {
+      "id": "living_root",
+      "screen": "research",
+      "catalog": "stage22",
+      "discipline": "living",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "x": 64,
+      "y": 64,
+      "iconItemId": "minecraft:wheat",
+      "fallbackIconItemId": "minecraft:book",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.discipline_foundation",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:wheat",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "prerequisitesDefined": true
+    },
+    {
+      "id": "world_root",
+      "screen": "research",
+      "catalog": "stage22",
+      "discipline": "world",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "x": 64,
+      "y": 64,
+      "iconItemId": "minecraft:compass",
+      "fallbackIconItemId": "minecraft:book",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.discipline_foundation",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:compass",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "prerequisitesDefined": true
+    },
+    {
+      "id": "alchemy_root",
+      "screen": "research",
+      "catalog": "stage22",
+      "discipline": "alchemy",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "x": 64,
+      "y": 64,
+      "iconItemId": "minecraft:glass_bottle",
+      "fallbackIconItemId": "minecraft:book",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.discipline_foundation",
+      "prerequisiteSemantics": "any_of_knowledge",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "knowledgePrerequisites": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70
+      ],
+      "researchPrerequisites": [],
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:glass_bottle",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "prerequisitesDefined": true
     }
   ]
 }

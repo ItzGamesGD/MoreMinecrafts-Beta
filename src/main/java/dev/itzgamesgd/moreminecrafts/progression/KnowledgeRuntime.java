@@ -64,6 +64,9 @@ public final class KnowledgeRuntime {
             ServerPlayer player = handler.player;
             SILENT_RECONCILIATION.add(player.getUUID());
             try {
+                ResearchProgressState beforeMigration = state(player);
+                ResearchProgressState migrated = ResearchRootMigration.migrate(beforeMigration);
+                if (!migrated.equals(beforeMigration)) updateState(player, migrated);
                 observeExploration(player);
                 observeEffectTypes(player);
                 refresh(player);
