@@ -277,6 +277,42 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
+    public void xpControlLevelTwoCollectsAtTheInclusiveSixBlockBoundary(GameTestHelper ctx) {
+        ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
+        researcher.setGameMode(GameType.SURVIVAL);
+        researcher.setPos(5.0D, 2.0D, 5.0D);
+        KnowledgeRuntime.updateState(researcher, KnowledgeRuntime.state(researcher)
+                .with("research.v3.research.67", 2));
+        int before = RawXp.available(researcher);
+        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0D, 2.0D, 11.0D, 9);
+        ctx.getLevel().addFreshEntity(orb);
+        orb.tick();
+        ctx.assertTrue(orb.isRemoved(), "level two immediately collects at the inclusive six-block boundary");
+        ctx.assertTrue(RawXp.available(researcher) - before == 9,
+                "the six-block pickup preserves the exact vanilla orb value");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void xpControlLevelTwoLeavesOrbsOutsideSixBlocksToVanilla(GameTestHelper ctx) {
+        ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
+        researcher.setGameMode(GameType.SURVIVAL);
+        researcher.setPos(5.0D, 2.0D, 5.0D);
+        KnowledgeRuntime.updateState(researcher, KnowledgeRuntime.state(researcher)
+                .with("research.v3.research.67", 2));
+        int before = RawXp.available(researcher);
+        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0D, 2.0D, 11.01D, 5);
+        ctx.getLevel().addFreshEntity(orb);
+        orb.tick();
+        ctx.assertTrue(!orb.isRemoved() && RawXp.available(researcher) == before,
+                "paid level two leaves an orb just outside its six-block radius untouched");
+        orb.playerTouch(researcher);
+        ctx.assertTrue(orb.isRemoved() && RawXp.available(researcher) - before == 5,
+                "ordinary vanilla pickup still grants the exact orb value");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void combinedXpControlAndXpAcquisitionAwardOnceToNearestEligiblePlayer(GameTestHelper ctx) {
         ServerPlayer nearer = ctx.makeMockServerPlayerInLevel();
         ServerPlayer farther = ctx.makeMockServerPlayerInLevel();

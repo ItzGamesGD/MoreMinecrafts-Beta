@@ -29,7 +29,7 @@ Only one runtime path remains for each duplicate ID. Where PR #90’s behavior i
 - Keep the existing PR #90 event-level mining durability and full-hive harvest GameTests and existing Batch 2 `.64` recipient-isolation GameTest.
 - Add `.18` failed/unpurchased attribution GameTests.
 - Add `.55` scaling tests for levels 0–3, unpurchased players, unrelated wall-jump/fall-roll ownership, and independent players. The mapped-source probe verifies only the swim/sprint call sites are modified.
-- Add `.67` GameTests for `.64` only, `.67` only, both, neither, nearest eligible among multiple players, exact vanilla XP conservation, and one-time orb removal.
+- Add `.67` GameTests for `.64` only, `.67` only at the inclusive 4- and 6-block boundaries, just outside the level-two radius, both effects, neither, nearest eligible among multiple players, exact vanilla XP conservation, and one-time orb removal.
 - Serialize/reload `.64` fractional state and `.67` paid level through the existing player progression codec; `.67` adds no state.
 - Keep PR #92’s complete Fisheries candidate table tests, labeled candidate-only, and verify ordinary fishing continues to use its unchanged base tables.
 
