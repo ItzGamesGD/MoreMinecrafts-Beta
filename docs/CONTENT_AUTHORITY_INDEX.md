@@ -20,6 +20,10 @@ The user approved delegation of the remaining seven-discipline research-tree, ne
 
 The scoped implementation manifest is [RESEARCH_STAGE23A_BATCH1_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_BATCH1_MANIFEST_2026-10-15.md). It selects eight existing M1 research events and records their approved behavior, hooks, dependencies, and focused verification. It does not replace the research effect authority above. The 87-node audit is maintained in [RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md](RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md); its verified pre-batch baseline was 74 DATA_ONLY, 11 PARTIAL, and 2 BLOCKED. With eight Batch 1 handlers and focused tests added but integration evidence pending, the current counts are 66 DATA_ONLY, 19 PARTIAL, and 2 BLOCKED.
 
+## Stage 23-A Batch 2 execution record (2026-10-15)
+
+The Batch 2 manifest is [RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md). It continues from PR #90, selects three DATA_ONLY M1 V3 effects (`v3.research.17`, `.28`, `.64`), and adds focused movement validation for the existing `wall_jump` and `fall_roll` handlers. The Batch 2 audit update recounts all 87 rows as 63 DATA_ONLY, 22 PARTIAL, and 2 BLOCKED. Fisheries Study is explicitly excluded because its approved grade-table interpolation leaves rounding-residual placement unspecified; do not infer a grade allocation without a design decision. Java 25 CI and Draft PR status are recorded in the Batch 2 PR when complete.
+
 ## Current research/knowledge authority (latest human-approved V4)
 
 The earlier **Knowledge / Research — IDEA / DEFERRED** paragraph at the bottom of this index is HISTORICAL and superseded, not active. The current, explicitly user-approved Knowledge / Research design authority is [RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md](RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md), especially its **RESEARCH V4 EXECUTION AUTHORITY — 2026-10-10** amendment and the later user-confirmed recipe/mob-capture decisions.

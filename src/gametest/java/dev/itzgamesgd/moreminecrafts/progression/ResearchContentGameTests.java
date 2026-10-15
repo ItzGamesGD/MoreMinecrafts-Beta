@@ -17,6 +17,10 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
@@ -166,6 +170,108 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(ctx.getLevel().getBlockState(pos)
                         .getValue(net.minecraft.world.level.block.BeehiveBlock.HONEY_LEVEL) == 0,
                 "bonus grant does not re-run or preserve the vanilla harvest");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void livestockAddsOnlyThePurchasedNumberAfterVanillaBreeding(GameTestHelper ctx) {
+        ServerPlayer breeder = ctx.makeMockServerPlayerInLevel();
+        breeder.setGameMode(GameType.SURVIVAL);
+        KnowledgeRuntime.updateState(breeder, KnowledgeRuntime.state(breeder).with("v3.research.17", 2));
+        BlockPos center = ctx.absolutePos(new BlockPos(3, 2, 3));
+        var parent = ctx.spawn(EntityTypes.COW, center);
+        var partner = ctx.spawn(EntityTypes.COW, center.east());
+        parent.setInLove(breeder);
+        partner.setInLove(breeder);
+        ctx.getLevel().addFreshEntity(parent);
+        ctx.getLevel().addFreshEntity(partner);
+
+        parent.spawnChildFromBreeding((ServerLevel) ctx.getLevel(), partner);
+        long babies = ctx.getLevel().getEntitiesOfClass(Animal.class,
+                new AABB(center.getX() - 2, center.getY() - 2, center.getZ() - 2,
+                        center.getX() + 3, center.getY() + 3, center.getZ() + 3)).stream()
+                .filter(animal -> animal.getType() == EntityTypes.COW && animal.isBaby()).count();
+        ctx.assertTrue(babies == 2,
+                "level two adds exactly one baby to vanilla's one-baby breeding result");
+        ctx.assertTrue(parent.getAge() > 0 && partner.getAge() > 0,
+                "vanilla breeding cooldown remains in effect for both parents");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void axeFirstStrikeBonusUsesTheAttackersResearchAndQuietPeriod(GameTestHelper ctx) {
+        ServerPlayer attacker = ctx.makeMockServerPlayerInLevel();
+        attacker.setGameMode(GameType.SURVIVAL);
+        attacker.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_AXE));
+        KnowledgeRuntime.updateState(attacker, KnowledgeRuntime.state(attacker).with("v3.research.28", 3));
+        var researchedTarget = ctx.spawn(EntityTypes.ZOMBIE, new BlockPos(2, 2, 2));
+        attacker.attack(researchedTarget);
+
+        var unresearchedTarget = ctx.spawn(EntityTypes.ZOMBIE, new BlockPos(4, 2, 2));
+        ServerPlayer unresearched = ctx.makeMockServerPlayerInLevel();
+        unresearched.setGameMode(GameType.SURVIVAL);
+        unresearched.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_AXE));
+        unresearched.attack(unresearchedTarget);
+        ctx.assertTrue(researchedTarget.getHealth() < unresearchedTarget.getHealth(),
+                "only a purchased level-three first axe strike gets the nine percent damage increase");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void xpAcquisitionBonusBelongsToThePlayerCollectingTheOrb(GameTestHelper ctx) {
+        ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+        researcher.setGameMode(GameType.SURVIVAL);
+        other.setGameMode(GameType.SURVIVAL);
+        KnowledgeRuntime.updateState(researcher,
+                KnowledgeRuntime.state(researcher).with("v3.research.64", 3));
+        ExperienceOrb researchedOrb = new ExperienceOrb(ctx.getLevel(), 2.0D, 2.0D, 2.0D, 100);
+        researchedOrb.playerTouch(researcher);
+        ExperienceOrb ordinaryOrb = new ExperienceOrb(ctx.getLevel(), 4.0D, 2.0D, 2.0D, 100);
+        ordinaryOrb.playerTouch(other);
+        ctx.assertTrue(researcher.totalExperience == 109,
+                "a level-three recipient gets the approved nine percent bonus on the orb pickup");
+        ctx.assertTrue(other.totalExperience == 100,
+                "an unresearched recipient receives vanilla XP even beside the researcher");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void movementResearchHonorsPurchaseWindowAndConsumesEachActionOnce(GameTestHelper ctx) {
+        ServerPlayer jumper = ctx.makeMockServerPlayerInLevel();
+        jumper.setGameMode(GameType.SURVIVAL);
+        jumper.setOnGround(false);
+        KnowledgeRuntime.updateState(jumper,
+                KnowledgeRuntime.state(jumper).with("wall_jump", 1).with("fall_roll", 1));
+        ResearchMovementRuntime.observeWallContact(jumper, true);
+        ctx.assertTrue(ResearchMovementRuntime.onJump(jumper),
+                "a purchased wall jump consumes a recent wall-contact window");
+        ctx.assertTrue(jumper.getDeltaMovement().y == 0.55D
+                        && jumper.getDeltaMovement().horizontalDistance() > 0.54D,
+                "the accepted jump impulse pushes up and away from the wall");
+        ctx.assertTrue(!ResearchMovementRuntime.onJump(jumper),
+                "the same contact window cannot trigger a second jump");
+
+        ServerPlayer unownedJumper = ctx.makeMockServerPlayerInLevel();
+        unownedJumper.setGameMode(GameType.SURVIVAL);
+        unownedJumper.setOnGround(false);
+        ResearchMovementRuntime.observeWallContact(unownedJumper, true);
+        ctx.assertTrue(!ResearchMovementRuntime.onJump(unownedJumper),
+                "wall contact alone does not grant an unpurchased wall jump");
+
+        ServerPlayer faller = ctx.makeMockServerPlayerInLevel();
+        faller.setGameMode(GameType.SURVIVAL);
+        KnowledgeRuntime.updateState(faller, KnowledgeRuntime.state(faller).with("fall_roll", 1));
+        faller.setDeltaMovement(0.0D, -0.5D, 0.0D);
+        faller.fallDistance = 5.0F;
+        ResearchMovementRuntime.observeFallRollInput(faller, false);
+        ResearchMovementRuntime.observeFallRollInput(faller, true);
+        float healthBefore = faller.getHealth();
+        faller.causeFallDamage(10.0F, 1.0F, faller.damageSources().fall());
+        ctx.assertTrue(faller.getHealth() > healthBefore - 3.0F,
+                "a purchased roll reduces fall damage by sixty percent");
+        ctx.assertTrue(!ResearchMovementRuntime.consumeFallRoll(faller),
+                "the same roll window cannot mitigate a second damage event");
         ctx.succeed();
     }
 
