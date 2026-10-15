@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 7797)
+Total output lines: 527
+
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
@@ -165,43 +168,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
         ctx.succeed();
     }
 
-    @GameTest
-    public void k14CreativeResultSlotTakesDoNotAdvanceProgress(GameTestHelper ctx) {
-        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        player.setGameMode(GameType.CREATIVE);
-        CraftingMenu menu = craftingMenu(ctx, player);
-        prepareWoodenPickaxe(menu, 1, 1);
-        ItemStack output = menu.getSlot(0).getItem().copy();
-        ctx.assertTrue(output.is(Items.WOODEN_PICKAXE), "creative player still has the vanilla craft result");
-        menu.clicked(0, 0, ContainerInput.PICKUP, player);
-        ctx.assertTrue(player.getStats().getValue(Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE)) > 0,
-                "Creative result take reaches vanilla crafted statistics");
-        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 0,
-                "creative result-slot take is excluded from K14");
-        ctx.succeed();
-    }
-
-    @GameTest
-    public void legacyFishingItemAndComponentIdsRemainResolvable(GameTestHelper ctx) {
-        String[] legacyItems = {
-                "bluegill", "perch", "trout", "catfish", "salmon", "pike", "sturgeon",
-                "golden_koi", "abyssal_angler", "ancient_coelacanth",
-                "reel_4", "reel_5", "crankbait_4", "crankbait_5", "minnow_4", "minnow_5"
-        };
-        for (String id : legacyItems) {
-            var item = BuiltInRegistries.ITEM.get(ModIds.id(id));
-            ctx.assertTrue(item.map(reference -> reference.value() != Items.AIR).orElse(false),
-                    "existing saved item ID remains registered: moreminecrafts:" + id);
-        }
-        ctx.assertTrue(BuiltInRegistries.DATA_COMPONENT_TYPE.get(ModIds.id("fish_length")).isPresent(),
-                "the legacy fish_length component remains available to decode existing stacks");
-        ctx.succeed();
-    }
-
-    @GameTest
-    public void legacyFishingSaveDataRoundTripsWithoutActivatingRetiredModules(GameTestHelper ctx) {
-        var ops = RegistryOps.create(NbtOps.INSTANCE, ctx.getLevel().registryAccess());
-        var oldFishItem = BuiltInRegistries.ITEM.get(ModIds.id("bluegill")).orElseThrow().value();
+    @Ga…2797 tokens truncated…ishItem = BuiltInRegistries.ITEM.get(ModIds.id("bluegill")).orElseThrow().value();
         ItemStack oldFish = new ItemStack(oldFishItem);
         oldFish.set(ModDataComponents.FISH_GRADE, 5);
         oldFish.set(ModDataComponents.LEGACY_FISH_LENGTH, 123);

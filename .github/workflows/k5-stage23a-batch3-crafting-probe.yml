@@ -40,6 +40,7 @@ jobs:
         run: |
           python3 - <<'PY' | tee k5-batch3-crafting-source-report.txt
           from pathlib import Path
+          import subprocess
           import zipfile
 
           targets = {
@@ -90,6 +91,34 @@ jobs:
           if not (quick_move < transfer < quick_craft < completed_take):
               raise SystemExit("CraftingMenu shift-click completion order changed")
 
+          class_target = "net/minecraft/world/inventory/ResultSlot.class"
+          class_jar = None
+          for root in roots:
+              if not root.exists():
+                  continue
+              for jar in sorted(root.rglob("*.jar")):
+                  try:
+                      with zipfile.ZipFile(jar) as archive:
+                          if class_target in archive.namelist():
+                              class_jar = jar
+                              break
+                  except (OSError, zipfile.BadZipFile):
+                      continue
+              if class_jar is not None:
+                  break
+          if class_jar is None:
+              raise SystemExit("Mapped ResultSlot class file is missing")
+          bytecode = subprocess.run(
+              ["javap", "-classpath", str(class_jar), "-c", "-p", "net.minecraft.world.inventory.ResultSlot"],
+              text=True, capture_output=True, check=True).stdout.splitlines()
+          method = next(i for i, line in enumerate(bytecode) if "public void onTake(" in line)
+          end = next((i for i in range(method + 1, len(bytecode))
+                      if bytecode[i].startswith("  public ") or bytecode[i].startswith("  protected ")),
+                     len(bytecode))
+          remove_call = next((line.strip() for line in bytecode[method:end] if "removeItem:" in line), None)
+          if remove_call is None:
+              raise SystemExit("Mapped ResultSlot.onTake bytecode has no removeItem invocation")
+
           report = {
               "net/minecraft/world/inventory/ResultSlot.java": result_slot,
               "net/minecraft/world/inventory/CraftingContainer.java": crafting_container,
@@ -114,6 +143,7 @@ jobs:
                           for number in range(start, end):
                               print(f"  {number + 1}: {lines[number]}")
                           break
+          print(f"BYTECODE ResultSlot.onTake removal owner: {remove_call}")
           print("All crafting transaction and remainder-order checks passed.")
           PY
       - name: Upload mapped crafting source report
