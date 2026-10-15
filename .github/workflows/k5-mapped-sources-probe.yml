@@ -60,7 +60,9 @@ jobs:
               "net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect": ["apply"],
               "net.minecraft.world.inventory.FurnaceResultSlot": ["onTake"],
               "net.minecraft.world.inventory.AnvilMenu": ["createResult", "mayPickup", "onTake"],
-              "net.minecraft.world.inventory.CraftingMenu": ["slotChangedCraftingGrid", "slotsChanged"],
+              "net.minecraft.world.inventory.CraftingMenu": ["slotChangedCraftingGrid", "slotsChanged", "quickMoveStack"],
+              "net.minecraft.world.inventory.ResultSlot": ["onTake", "remove", "checkTakeAchievements", "onQuickCraft"],
+              "net.minecraft.world.inventory.CraftingContainer": ["removeItem", "removeItemNoUpdate", "setItem", "asCraftInput"],
               "net.minecraft.world.inventory.ResultContainer": ["setItem", "setRecipeUsed", "getItem"],
               "net.minecraft.world.item.crafting.CraftingRecipe": ["placementInfo", "assemble"],
               "net.minecraft.world.item.crafting.Ingredient": ["items", "values", "test"],
@@ -189,9 +191,10 @@ jobs:
                       radius = 10 if "placeWithBiomeCheck" in lines[match] else 2
                       after = (160 if name.endswith("ServerPlayer") else
                                (125 if name.endswith("ServerPlayerGameMode") else
+                               (160 if name.endswith(("ResultSlot", "CraftingContainer")) else
                                (100 if name.endswith(("AnvilMenu", "CraftingMenu", "ResultContainer", "BeehiveBlock")) else
                                 (25 if name.endswith(("ApplyStatusEffectsConsumeEffect", "Projectile")) else
-                                 (18 if name.endswith(("SaplingBlock", "TreeGrower")) else 8)))))
+                                 (18 if name.endswith(("SaplingBlock", "TreeGrower")) else 8))))))
                       for i in range(max(0, match - radius), min(len(lines), match + after)):
                           if i not in emitted:
                               report.append(f"  SOURCE {entry}:{i + 1}: {lines[i].strip()}")
@@ -210,6 +213,20 @@ jobs:
               raise SystemExit("Mapped ServerPlayer.checkMovementStatistics source was not found")
           if sum("causeFoodExhaustion(" in line for line in server_player_source) < 4:
               raise SystemExit("Expected sprint/swim exhaustion call sites were not present in mapped source")
+          result_slot_source = [line for line in report if line.startswith("  SOURCE ")
+                               and "ResultSlot.java" in line]
+          if not any("onTake(" in line for line in result_slot_source):
+              raise SystemExit("Mapped ResultSlot.onTake source was not found")
+          if not any("remove(" in line for line in result_slot_source):
+              raise SystemExit("Mapped ResultSlot.remove source was not found")
+          crafting_container_source = [line for line in report if line.startswith("  SOURCE ")
+                                       and "CraftingContainer.java" in line]
+          if not any("removeItem(" in line for line in crafting_container_source):
+              raise SystemExit("Mapped CraftingContainer.removeItem source was not found")
+          crafting_menu_source = [line for line in report if line.startswith("  SOURCE ")
+                                  and "CraftingMenu.java" in line]
+          if not any("slot.onTake(player, stack)" in line for line in crafting_menu_source):
+              raise SystemExit("Mapped CraftingMenu result transfer completion path was not found")
           PY
       - name: Upload diagnostic log
         if: always()
