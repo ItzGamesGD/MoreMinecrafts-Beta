@@ -961,3 +961,13 @@ RESEARCH 67 — INSTANT XP ORB COLLECTION CLARIFICATION — 2026-10-15
 
 [USER-APPROVED] `v3.research.67` XP Control immediately collects XP orbs within 4 blocks at paid level 1 and 6 blocks at paid level 2. Collection is server-authoritative and must award an orb at most once even when multiple eligible players are nearby. Use the vanilla `ExperienceOrb.playerTouch` pathway so the orb's actual value and supported XP pickup effects are preserved. Outside the paid radius, vanilla pickup behavior remains unchanged. This effect adds no persistent state and composes with `v3.research.64` XP Acquisition: the collecting player's `.64` bonus is applied once to the exact XP award from the single vanilla pickup. The existing `.64` fractional bonus remains saved with that player's progression state.
 ============================================================
+
+============================================================
+RESEARCH 19 — FISHERIES STUDY ROUNDING POLICY — 2026-10-15
+
+[USER-APPROVED] This amendment records the explicit Fisheries Study allocation approval given on 2026-10-15, before the Stage 23-A reconciliation implementation was delivered. It supersedes the earlier statement that the residual-allocation method was unspecified and the temporary decision to keep PR #92's method inactive.
+
+For every crankbait tier (0–3) and purchased Fisheries Study level (1–5), linearly interpolate each grade probability from the approved baseline table to its approved level-5 table using level/5. At level 0 or while unpurchased, use the approved baseline distribution. Convert interpolated probabilities to integer percentages with the largest-remainder method: take each grade's floor, then assign the remaining percentage points in descending fractional-remainder order. Break equal-remainder ties in favor of the lower grade index (Grade I before Grade II, and so on). Each resulting distribution must total exactly 100%.
+
+Fisheries Study changes only the grade probability used by the server-authoritative player fishing challenge for that player's purchased `.19` level and the rod's crankbait tier. Preserve species selection, fish length, fish weight, existing fish item components/payload, and the separate Fishing Technique (`.23`) timing-window behavior. Do not add persistent state or a second fishing reward path.
+============================================================
