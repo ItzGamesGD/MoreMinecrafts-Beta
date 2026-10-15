@@ -53,6 +53,10 @@ public final class ResearchProgressLookup {
     /** Returns zero for missing, malformed, or unpurchased saved data; it never invents a level. */
     public static int researchLevel(MinecraftServer server, UUID playerId, String researchId) {
         if (researchId == null || researchId.isBlank()) return 0;
-        return state(server, playerId).map(saved -> Math.max(0, saved.researchLevel(researchId))).orElse(0);
+        ResearchDefinition definition = ResearchCatalog.byId(researchId);
+        if (definition == null) return 0;
+        return state(server, playerId)
+                .map(saved -> Math.min(definition.maximumLevel(), saved.researchLevel(researchId)))
+                .orElse(0);
     }
 }
