@@ -7035,7 +7035,7 @@
       "title": "Resources",
       "titleKey": "moreminecrafts.research.resources_root.title",
       "descriptionKey": "moreminecrafts.research.resources_root.description",
-      "tier": "UNSPECIFIED",
+      "tier": "ROOT",
       "levelCap": 1,
       "prerequisitesDefined": true,
       "knowledgePrerequisites": [
@@ -7089,7 +7089,7 @@
       "title": "Production Engineering",
       "titleKey": "moreminecrafts.research.production_root.title",
       "descriptionKey": "moreminecrafts.research.production_root.description",
-      "tier": "UNSPECIFIED",
+      "tier": "ROOT",
       "levelCap": 1,
       "prerequisitesDefined": true,
       "knowledgePrerequisites": [
@@ -7142,7 +7142,7 @@
       "title": "Living Skills",
       "titleKey": "moreminecrafts.research.living_root.title",
       "descriptionKey": "moreminecrafts.research.living_root.description",
-      "tier": "UNSPECIFIED",
+      "tier": "ROOT",
       "levelCap": 1,
       "prerequisitesDefined": true,
       "knowledgePrerequisites": [
@@ -7197,7 +7197,7 @@
       "title": "World Studies",
       "titleKey": "moreminecrafts.research.world_root.title",
       "descriptionKey": "moreminecrafts.research.world_root.description",
-      "tier": "UNSPECIFIED",
+      "tier": "ROOT",
       "levelCap": 1,
       "prerequisitesDefined": true,
       "knowledgePrerequisites": [
@@ -7251,7 +7251,7 @@
       "title": "Alchemy and Magic",
       "titleKey": "moreminecrafts.research.alchemy_root.title",
       "descriptionKey": "moreminecrafts.research.alchemy_root.description",
-      "tier": "UNSPECIFIED",
+      "tier": "ROOT",
       "levelCap": 1,
       "prerequisitesDefined": true,
       "knowledgePrerequisites": [
