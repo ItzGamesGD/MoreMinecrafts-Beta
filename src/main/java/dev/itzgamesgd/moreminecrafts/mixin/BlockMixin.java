@@ -30,7 +30,9 @@ abstract class BlockMixin {
                 .collect(java.util.stream.Collectors.toCollection(java.util.ArrayList::new));
         ServerPlayer player = entity instanceof ServerPlayer serverPlayer
                 ? serverPlayer : dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext.currentPlayer();
-        if (player != null && player.gameMode.getGameModeForPlayer() == net.minecraft.world.level.GameType.SURVIVAL
+        if (player != null
+                && dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext.currentPlayer() == player
+                && player.gameMode.getGameModeForPlayer() != net.minecraft.world.level.GameType.CREATIVE
                 && state.is(BlockTags.LOGS)) {
             int paidLevel = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
                     player, "v3.research.02", "lumbering_extra_logs");

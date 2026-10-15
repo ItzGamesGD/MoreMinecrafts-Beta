@@ -40,8 +40,7 @@ abstract class ItemStackMixin {
             method = "processDurabilityChange", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private int moreminecrafts$preserveMiningToolDurability(int amount,
             @com.llamalad7.mixinextras.sugar.Local(argsOnly = true) ServerPlayer player) {
-        if (amount <= 0 || player == null || player.gameMode.getGameModeForPlayer()
-                != net.minecraft.world.level.GameType.SURVIVAL
+        if (amount <= 0 || player == null
                 || dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext.currentPlayer() != player
                 || !((Object) this instanceof ItemStack stack)
                 || !stack.is(net.minecraft.tags.ItemTags.PICKAXES)) return amount;
