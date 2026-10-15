@@ -130,7 +130,8 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
-    public void beekeepingAddsOneCombOnlyAfterAFullHiveShearsHarvest(GameTestHelper ctx) {
+    public void beekeepingAddsOneCombOnlyAfterAFullHiveShearsHarvest(GameTestHelper ctx)
+            throws ReflectiveOperationException {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(player,
@@ -147,8 +148,13 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
                 .setValue(net.minecraft.world.level.block.BeehiveBlock.HONEY_LEVEL, 5);
         ctx.getLevel().setBlock(pos, before, 3);
         BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false);
-        InteractionResult result = Blocks.BEEHIVE.useItemOn(player.getMainHandItem(), before,
-                ctx.getLevel(), pos, player, InteractionHand.MAIN_HAND, hit);
+        var useItemOn = Blocks.BEEHIVE.getClass().getDeclaredMethod("useItemOn",
+                ItemStack.class, net.minecraft.world.level.block.state.BlockState.class,
+                net.minecraft.world.level.Level.class, BlockPos.class,
+                net.minecraft.world.entity.player.Player.class, InteractionHand.class, BlockHitResult.class);
+        useItemOn.setAccessible(true);
+        InteractionResult result = (InteractionResult) useItemOn.invoke(Blocks.BEEHIVE,
+                player.getMainHandItem(), before, ctx.getLevel(), pos, player, InteractionHand.MAIN_HAND, hit);
         ctx.assertTrue(result.consumesAction(), "vanilla handles the full-hive shears action");
         int honeycombCount = ctx.getLevel().getEntitiesOfClass(ItemEntity.class,
                 new AABB(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1,
