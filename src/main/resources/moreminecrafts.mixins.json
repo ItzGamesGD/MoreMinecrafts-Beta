@@ -59,7 +59,13 @@
     "KnowledgeAnimalFeedMixin",
     "KnowledgeItemUseMixin",
     "KnowledgeBucketMixin",
-    "KnowledgeBrewingContainerMixin"
+    "KnowledgeBrewingContainerMixin",
+    "ResearchCropGrowthMixin",
+    "ResearchPotionDurationMixin",
+    "ResearchMobXpMixin",
+    "ResearchExperienceOrbMixin",
+    "ResearchThrownProjectileMixin",
+    "ResearchFurnaceResultSlotMixin"
   ],
   "injectors": {
     "defaultRequire": 1

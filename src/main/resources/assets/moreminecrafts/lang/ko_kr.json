@@ -641,5 +641,20 @@
   "moreminecrafts.ui.purchase.short": "구매",
   "moreminecrafts.ui.canvas.connection_legend.short": "주제 연결선은 구매 조건이 아닙니다.",
   "moreminecrafts.chat.knowledge_unlocked": "%s님이 [%s] 지식을 습득했습니다!",
-  "moreminecrafts.chat.first_knowledge_guidance": "%s 키를 눌러 지식을 확인하세요."
+  "moreminecrafts.chat.first_knowledge_guidance": "%s 키를 눌러 지식을 확인하세요.",
+  "moreminecrafts.research.resources_root.title": "자원학",
+  "moreminecrafts.research.resources_root.description": "+1% 적격 광석 채굴 경험치",
+  "moreminecrafts.ui.branch.resources.discipline_foundation": "학문 기초",
+  "moreminecrafts.research.production_root.title": "생산공학",
+  "moreminecrafts.research.production_root.description": "+1% 적격 제련 경험치",
+  "moreminecrafts.ui.branch.production.discipline_foundation": "학문 기초",
+  "moreminecrafts.research.living_root.title": "생활기술학",
+  "moreminecrafts.research.living_root.description": "적격 작물의 무작위 성장 확률 +1%",
+  "moreminecrafts.ui.branch.living.discipline_foundation": "학문 기초",
+  "moreminecrafts.research.world_root.title": "세계학",
+  "moreminecrafts.research.world_root.description": "지상 보행 기본 이동 속도 +1%",
+  "moreminecrafts.ui.branch.world.discipline_foundation": "학문 기초",
+  "moreminecrafts.research.alchemy_root.title": "연금·마법학",
+  "moreminecrafts.research.alchemy_root.description": "사용한 이로운 지속형 물약 효과 시간 +1%",
+  "moreminecrafts.ui.branch.alchemy.discipline_foundation": "학문 기초"
 }

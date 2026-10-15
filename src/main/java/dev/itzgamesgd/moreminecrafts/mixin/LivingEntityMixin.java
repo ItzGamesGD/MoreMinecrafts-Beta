@@ -57,11 +57,20 @@ abstract class LivingEntityMixin {
         DamageSource source = args.get(0);
         float incomingDamage = args.get(1);
         if (source.getEntity() instanceof ServerPlayer attacker
-                && (Object) this instanceof net.minecraft.world.entity.monster.Monster
                 && !attacker.level().isClientSide()) {
-            double bonus = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
-                    attacker, "combat_root", "hostile_damage");
-            if (bonus > 0.0D) incomingDamage = (float) (incomingDamage * (1.0D + bonus));
+            if ((Object) this instanceof net.minecraft.world.entity.monster.Monster) {
+                double bonus = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
+                        attacker, "combat_root", "hostile_damage");
+                if (bonus > 0.0D) incomingDamage = (float)
+                        dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath.scaleByBonus(incomingDamage, bonus);
+            }
+            if (attacker.getMainHandItem().is(net.minecraft.tags.ItemTags.SWORDS)
+                    && attacker.getAttackStrengthScale(0.5F) >= 1.0F) {
+                double bonus = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
+                        attacker, "v3.research.27", "swordsmanship_damage");
+                incomingDamage = (float) dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath
+                        .scaleByBonus(incomingDamage, bonus);
+            }
         }
         if (!((Object) this instanceof ServerPlayer player) || source.is(DamageTypeTags.BYPASSES_ARMOR)) {
             args.set(1, incomingDamage);
@@ -73,5 +82,18 @@ abstract class LivingEntityMixin {
                 + EnhancementEffects.damageReduction(player.getItemBySlot(EquipmentSlot.LEGS))
                 + EnhancementEffects.damageReduction(player.getItemBySlot(EquipmentSlot.FEET));
         args.set(1, (float) (incomingDamage * (1.0D - reduction)));
+    }
+
+    @ModifyVariable(method = "knockback", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    private double moreminecrafts$reduceResearchedArmorKnockback(double strength) {
+        if (!((Object) this instanceof ServerPlayer player)) return strength;
+        boolean armored = !player.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                || !player.getItemBySlot(EquipmentSlot.CHEST).isEmpty()
+                || !player.getItemBySlot(EquipmentSlot.LEGS).isEmpty()
+                || !player.getItemBySlot(EquipmentSlot.FEET).isEmpty();
+        if (!armored) return strength;
+        double reduction = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
+                player, "v3.research.31", "armor_knockback_reduction");
+        return dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath.reduceByPercent(strength, reduction);
     }
 }

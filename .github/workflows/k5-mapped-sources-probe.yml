@@ -47,6 +47,16 @@ jobs:
           import zipfile
 
           targets = {
+              "net.minecraft.world.entity.LivingEntity": ["dropExperience"],
+              "net.minecraft.world.entity.Mob": ["dropExperience"],
+              "net.minecraft.world.entity.ExperienceOrb": ["ExperienceOrb", "award"],
+              "net.minecraft.world.item.PotionItem": ["finishUsingItem"],
+              "net.minecraft.world.item.Item": ["finishUsingItem"],
+              "net.minecraft.world.item.component.Consumable": ["onConsume"],
+              "net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect": ["apply"],
+              "net.minecraft.world.inventory.FurnaceResultSlot": ["onTake"],
+              "net.minecraft.world.level.block.CropBlock": ["randomTick"],
+              "net.minecraft.world.entity.projectile.Projectile": ["shoot"],
               "net.minecraft.server.level.ServerPlayerGameMode": ["destroyBlock"],
               "net.minecraft.world.level.Level": ["setBlock", "removeBlock", "destroyBlock"],
               "net.minecraft.world.level.chunk.ProtoChunk": ["ProtoChunk"],
@@ -164,7 +174,7 @@ jobs:
                   emitted = set()
                   for match in matches:
                       radius = 10 if "placeWithBiomeCheck" in lines[match] else 2
-                      after = 125 if name.endswith("ServerPlayerGameMode") else (18 if name.endswith(("SaplingBlock", "TreeGrower")) else 8)
+                      after = 125 if name.endswith("ServerPlayerGameMode") else (25 if name.endswith(("ApplyStatusEffectsConsumeEffect", "Projectile")) else (18 if name.endswith(("SaplingBlock", "TreeGrower")) else 8))
                       for i in range(max(0, match - radius), min(len(lines), match + after)):
                           if i not in emitted:
                               report.append(f"  SOURCE {entry}:{i + 1}: {lines[i].strip()}")

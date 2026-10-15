@@ -19,21 +19,31 @@ abstract class ServerPlayerGameModeMixin {
 
     @WrapMethod(method = "destroyBlock")
     private boolean moreminecrafts$scopeBlockBreak(BlockPos pos, Operation<Boolean> original) {
+        var brokenState = player.level().getBlockState(pos);
+        String blockId = String.valueOf(net.minecraft.core.registries.BuiltInRegistries.BLOCK
+                .getKey(brokenState.getBlock()));
+        String path = blockId.substring(blockId.indexOf(':') + 1);
+        boolean eligibleOre = path.endsWith("_ore");
         // Snapshot before Level.removeBlock invalidates the chunk marker. Vanilla can return
         // true even when removeBlock failed, so verify the postcondition as well.
         boolean eligible = player.gameMode.getGameModeForPlayer() == GameType.SURVIVAL
                 && K5NaturalTreeProvenance.hasMarker(player.level(), pos);
         try (var pickaxeDamage = KnowledgeRuntime.beginPickaxeDamageTracking(player)) {
-            EnchantmentRuntime.enterBlockBreak();
-            try {
-                boolean result = original.call(pos);
-                boolean removed = result && player.level().getBlockState(pos).isAir();
-                KnowledgeRuntime.finishPickaxeDamageTracking(player, pickaxeDamage, removed);
-                if (eligible && removed && !K5NaturalTreeProvenance.containsMarker(player.level(), pos))
-                    KnowledgeRuntime.recordK5NaturalLogMined(player);
-                return result;
-            } finally {
-                EnchantmentRuntime.exitBlockBreak();
+            try (var xpScope = eligibleOre
+                    ? dev.itzgamesgd.moreminecrafts.progression.ResearchXpOrbContext.enter(player,
+                            "resources_root", "ore_mining_xp", "resources_ore")
+                    : dev.itzgamesgd.moreminecrafts.progression.ResearchXpOrbContext.enter(null, "", "", "")) {
+                EnchantmentRuntime.enterBlockBreak();
+                try {
+                    boolean result = original.call(pos);
+                    boolean removed = result && player.level().getBlockState(pos).isAir();
+                    KnowledgeRuntime.finishPickaxeDamageTracking(player, pickaxeDamage, removed);
+                    if (eligible && removed && !K5NaturalTreeProvenance.containsMarker(player.level(), pos))
+                        KnowledgeRuntime.recordK5NaturalLogMined(player);
+                    return result;
+                } finally {
+                    EnchantmentRuntime.exitBlockBreak();
+                }
             }
         }
     }
