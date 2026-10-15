@@ -49,3 +49,8 @@ Checked against `docs/CONTENT_AUTHORITY_INDEX.md`, current research V4 execution
 ### Clarifications to preserve
 - The earlier audit lists automatic farm, automatic lumbering, chest sorting, hopper filter, and brewing process control as examples of existing approved devices, not new categories or additional requested features.
 - This section is a working audit log, not a replacement for the active research design authority. Do not silently implement pending choices from this draft.
+
+## User correction and delegation — 2026-10-15 (latest)
+- **Counter-shield recipe — EXPLICIT CORRECTION supersedes prior ambiguous material-tier note:** use the exact vanilla shield 3x3 shape. Replace each of the SIX wooden planks with ONE iron ingot; replace the single iron ingot in the TOP-CENTER (crafting slot 2) with ONE obsidian. Recipe: row 1 = iron ingot / obsidian / iron ingot; row 2 = iron ingot / iron ingot / iron ingot; row 3 = empty / iron ingot / empty. Output one counter-shield. This is ONE recipe, NOT wooden→iron→obsidian shield upgrade tiers.
+- **Automation edge cases delegated:** assistant may design remaining operational rules for approved auto farm, auto lumber, chest sorting, hopper filtering, and brewing process control, preserving previously locked mechanics. Must handle full outputs, unload/reload, restart, interruption, atomic transactions and no item loss/duplication.
+- The user specifically delegated these decisions; distinguish them from pending Tactical Shooting design, which remains deferred to a separate conversation.
