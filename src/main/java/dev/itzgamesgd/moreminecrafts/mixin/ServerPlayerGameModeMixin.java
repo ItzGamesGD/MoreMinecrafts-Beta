@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.itzgamesgd.moreminecrafts.enchantment.EnchantmentRuntime;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
+import dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerPlayerGameMode;
@@ -28,7 +29,8 @@ abstract class ServerPlayerGameModeMixin {
         // true even when removeBlock failed, so verify the postcondition as well.
         boolean eligible = player.gameMode.getGameModeForPlayer() == GameType.SURVIVAL
                 && K5NaturalTreeProvenance.hasMarker(player.level(), pos);
-        try (var pickaxeDamage = KnowledgeRuntime.beginPickaxeDamageTracking(player)) {
+        try (var miningScope = ResearchMiningContext.enter(player, pos, brokenState);
+             var pickaxeDamage = KnowledgeRuntime.beginPickaxeDamageTracking(player)) {
             try (var xpScope = eligibleOre
                     ? dev.itzgamesgd.moreminecrafts.progression.ResearchXpOrbContext.enter(player,
                             "resources_root", "ore_mining_xp", "resources_ore")

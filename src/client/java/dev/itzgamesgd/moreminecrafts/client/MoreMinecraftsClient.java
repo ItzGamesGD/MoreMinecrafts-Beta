@@ -56,6 +56,7 @@ import net.minecraft.network.chat.Component;
 public final class MoreMinecraftsClient implements ClientModInitializer {
     private static long fishingChallengeStart=-1;
     private static int fishingDifficulty=1;
+    private static int fishingTechniqueLevel;
     private static FishSpecies fishingSpecies;
     private static boolean fishingCaptureAllowed;
     private static int fishingRequiredMinnowTier = 1;
@@ -80,6 +81,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 {
                     fishingChallengeStart=payload.active() ? payload.startTick() : -1;
                     fishingDifficulty=payload.difficulty();
+                    fishingTechniqueLevel=payload.active() ? payload.fishingTechniqueLevel() : 0;
                     fishingCaptureAllowed=payload.active() && payload.captureAllowed();
                     fishingRequiredMinnowTier=payload.requiredMinnowTier();
                     fishingSpecies=payload.active() && payload.speciesOrdinal() >= 0
@@ -106,6 +108,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
             fishingSpecies = null;
             fishingCaptureAllowed = false;
             fishingRequiredMinnowTier = 1;
+            fishingTechniqueLevel = 0;
             jumpHeld = false;
         });
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
@@ -123,6 +126,15 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
             graphics.blit(RenderPipelines.GUI_TEXTURED,
                     fishingTexture("fishing_gauge"), 0, 0, 946, 0, 68, 277, 68, 277, 1960, 277);
             graphics.pose().popMatrix();
+            int gaugeStart = x + 11;
+            int gaugeWidth = width - 22;
+            int greenWidth = (int) Math.round(gaugeWidth
+                    * 2.0D * dev.itzgamesgd.moreminecrafts.progression.ResearchContentRules
+                    .fishingGreenHalfWidth(fishingTechniqueLevel));
+            int gaugeCenter = gaugeStart + gaugeWidth / 2;
+            if (fishingTechniqueLevel > 0)
+                graphics.fill(gaugeCenter - greenWidth / 2, y + 16,
+                        gaugeCenter + greenWidth / 2, y + 29, 0x9952D875);
             double position=FishingTiming.position(client.level.getGameTime()-fishingChallengeStart, fishingDifficulty);
             int marker=x+11+(int)(position*(width-22));
             drawFishingMarker(graphics, marker - 8, y);

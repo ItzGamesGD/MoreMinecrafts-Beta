@@ -940,3 +940,18 @@ TOTAL NEW: 17 nodes / 17 purchases / 16,910 RAW XP. V3 historical baseline 70 no
 ELIGIBILITY NOTE: For Combat/Ecology root categories, the indicated first knowledge (#31/#41) is an accessible candidate entry trigger, not a new linear prerequisite on every child branch; other same-discipline discoveries also qualify. Older completed combat/ecology research should grandfather an eligible root where necessary rather than becoming unusable. Individual 70-knowledge prereqs remain preserved. Do not lock unrelated disciplines behind those two roots.
 STATUS: Documentation-level authority and delegated price DESIGN only. No claim that the 70-knowledge runtime, research purchases, 13 crafting recipes, new item actions, world data serialization, Fabric 26.3 build or live tests are already implemented/verified.
 ============================================================
+
+============================================================
+STAGE 23-B RESEARCH EFFECT CLARIFICATIONS — USER APPROVED 2026-10-15
+
+This amendment records the approved implementation boundaries for the following V4 research effects. It supersedes only conflicting earlier wording on these decisions; existing research IDs, prices, prerequisites, and unrelated authority remain unchanged.
+
+- `shield_counter` is separate from the T3 Counter-Shield item. After a successful timed shield defense, the approved 1.5-second first-melee-attack opportunity is transient server-side state and expires when the player logs out. The approved +20% damage and 5-second reactivation cooldown remain as recorded in the combat/ecology approval.
+- `falling_axe_smash` enforces its approved 3-second cooldown using server ticks. Cooldown state must persist across logout and server restart so neither can bypass the cooldown.
+- `mob_aggro_redirection` retains the approved 30% chance, 12-block eligibility radius, and 200-tick retry restriction. The retry restriction is keyed per acquiring hostile mob, not per player or target.
+- `bow_charge_mobility` reduces the existing bow-draw movement penalty by 50% for bows only; crossbows are excluded. Client and server movement behavior must remain consistent.
+- `ballistic_control` provides visual prediction only. It must never modify projectile velocity, gravity, collision detection, or any other actual projectile physics.
+- `hopper_filter` is deferred to a separate high-complexity inventory/UI implementation batch. Its approved server-authoritative allow-list and item-conservation requirements remain in force.
+
+The T3 Counter-Shield is a craftable item, separate from the `shield_counter` research effect. Its recipe is already approved by `RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md`: six iron ingots and one obsidian in the vanilla shield pattern. Preserve that decision; do not treat it as a `shield_counter` research purchase or reopen its recipe.
+============================================================
