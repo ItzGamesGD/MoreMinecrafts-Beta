@@ -1,10 +1,10 @@
 # Stage 23-A Batch 3 Implementation Manifest
 
-**Branch:** `codex/stage23a-batch3-20261015`  
-**Base:** PR #94 branch `codex/stage23a-integrated-research-20261015`, exact HEAD `5e48deacbeed95783902f2b71e04e2ae25005606`  
-**Target:** PR #94's branch; do not merge automatically.  
-**Manifest state:** the published manifest and authority commits contain no gameplay edits; publication precedes all gameplay changes.  
-**Selected IDs:** `v3.research.06`, `.07`, `.08`, and `.11`.
+- **Branch:** `codex/stage23a-batch3-20261015`
+- **Base:** PR #94 branch `codex/stage23a-integrated-research-20261015`, exact HEAD `5e48deacbeed95783902f2b71e04e2ae25005606`
+- **Target:** PR #94's branch; do not merge automatically.
+- **Manifest state:** the published manifest and authority commits contain no gameplay edits; publication precedes all gameplay changes.
+- **Selected IDs:** `v3.research.06`, `.07`, `.08`, and `.11`.
 
 ## Base and ownership verification
 
