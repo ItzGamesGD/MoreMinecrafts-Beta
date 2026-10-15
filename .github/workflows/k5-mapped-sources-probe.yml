@@ -49,7 +49,10 @@ jobs:
           targets = {
               "net.minecraft.world.entity.LivingEntity": ["dropExperience"],
               "net.minecraft.world.entity.Mob": ["dropExperience"],
-              "net.minecraft.world.entity.ExperienceOrb": ["ExperienceOrb", "award"],
+              "net.minecraft.world.entity.ExperienceOrb": ["ExperienceOrb", "award", "tick", "playerTouch"],
+              "net.minecraft.server.level.ServerPlayer": ["checkMovementStatistics", "causeFoodExhaustion"],
+              "net.minecraft.world.item.ItemStack": ["processDurabilityChange"],
+              "net.minecraft.world.level.block.BeehiveBlock": ["useItemOn", "dropHoneycomb"],
               "net.minecraft.world.item.PotionItem": ["finishUsingItem"],
               "net.minecraft.world.item.Item": ["finishUsingItem"],
               "net.minecraft.world.item.component.Consumable": ["onConsume"],

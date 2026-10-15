@@ -28,7 +28,8 @@ abstract class ServerPlayerGameModeMixin {
         // true even when removeBlock failed, so verify the postcondition as well.
         boolean eligible = player.gameMode.getGameModeForPlayer() == GameType.SURVIVAL
                 && K5NaturalTreeProvenance.hasMarker(player.level(), pos);
-        try (var pickaxeDamage = KnowledgeRuntime.beginPickaxeDamageTracking(player)) {
+        try (var miningContext = dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext.enter(player);
+                var pickaxeDamage = KnowledgeRuntime.beginPickaxeDamageTracking(player)) {
             try (var xpScope = eligibleOre
                     ? dev.itzgamesgd.moreminecrafts.progression.ResearchXpOrbContext.enter(player,
                             "resources_root", "ore_mining_xp", "resources_ore")
