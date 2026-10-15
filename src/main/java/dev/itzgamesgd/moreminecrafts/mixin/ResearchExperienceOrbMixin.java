@@ -8,9 +8,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 /** Scales only experience orbs created inside a classified, purchase-gated source scope. */
 @Mixin(net.minecraft.world.entity.ExperienceOrb.class)
 abstract class ResearchExperienceOrbMixin {
-    @ModifyVariable(method = "<init>(Lnet/minecraft/server/level/ServerLevel;DDDI)V",
+    @ModifyVariable(method = "award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V",
             at = @At("HEAD"), argsOnly = true, ordinal = 0)
-    private int moreminecrafts$applySourceResearchBonus(int value) {
+    private static int moreminecrafts$applySourceResearchBonus(int value) {
         return ResearchXpOrbContext.adjustOrbValue(value);
     }
 }
