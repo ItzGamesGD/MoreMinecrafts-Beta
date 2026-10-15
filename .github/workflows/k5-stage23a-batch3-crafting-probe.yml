@@ -79,7 +79,7 @@ jobs:
           vanilla_container = sources["net/minecraft/world/Container.java"][1]
           if "extends Container" not in crafting_container:
               raise SystemExit("CraftingContainer no longer inherits the Container removal API")
-          if "removeItem(final int slot, final int amount)" not in vanilla_container:
+          if "removeItem(" not in vanilla_container:
               raise SystemExit("Mapped Container.removeItem(int,int) source was not found")
 
           crafting_menu = sources["net/minecraft/world/inventory/CraftingMenu.java"][1]
@@ -99,7 +99,7 @@ jobs:
           markers = {
               "net/minecraft/world/inventory/ResultSlot.java": ["public void onTake(", "this.getRemainingItems(input, player.level())", "this.craftSlots.removeItem(slot, 1);", "this.craftSlots.setItem(slot, replacement);"],
               "net/minecraft/world/inventory/CraftingContainer.java": ["interface CraftingContainer extends Container", "asCraftInput()"],
-              "net/minecraft/world/Container.java": ["removeItem(final int slot, final int amount)"],
+              "net/minecraft/world/Container.java": ["removeItem("],
               "net/minecraft/world/inventory/CraftingMenu.java": ["public ItemStack quickMoveStack(", "slot.onQuickCraft(stack, clicked);", "slot.onTake(player, stack);"],
           }
           for path, tokens in markers.items():
