@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
@@ -404,24 +405,30 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         unowned.checkMovementStatistics(1.0D, 0.0D, 0.0D);
         levelOne.checkMovementStatistics(1.0D, 0.0D, 0.0D);
         levelThree.checkMovementStatistics(1.0D, 0.0D, 0.0D);
-        ctx.assertTrue(Math.abs(unowned.getFoodData().getExhaustionLevel() - 0.1F) < 1.0E-6F,
+        ctx.assertTrue(Math.abs(foodExhaustion(unowned) - 0.1F) < 1.0E-6F,
                 "unowned sprinting retains the vanilla exhaustion amount");
-        ctx.assertTrue(Math.abs(levelOne.getFoodData().getExhaustionLevel() - 0.092F) < 1.0E-6F,
+        ctx.assertTrue(Math.abs(foodExhaustion(levelOne) - 0.092F) < 1.0E-6F,
                 "level one reduces the actual sprint exhaustion call by eight percent");
-        ctx.assertTrue(Math.abs(levelThree.getFoodData().getExhaustionLevel() - 0.076F) < 1.0E-6F,
+        ctx.assertTrue(Math.abs(foodExhaustion(levelThree) - 0.076F) < 1.0E-6F,
                 "level three reduces the actual sprint exhaustion call by twenty-four percent");
 
-        for (ServerPlayer player : List.of(unowned, levelOne, levelThree)) {
-            player.getFoodData().setExhaustion(0.0F);
-            player.setSprinting(false);
+        ServerPlayer unownedSwimmer = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer levelOneSwimmer = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer levelThreeSwimmer = ctx.makeMockServerPlayerInLevel();
+        KnowledgeRuntime.updateState(levelOneSwimmer, KnowledgeRuntime.state(levelOneSwimmer)
+                .with("research.v3.research.55", 1));
+        KnowledgeRuntime.updateState(levelThreeSwimmer, KnowledgeRuntime.state(levelThreeSwimmer)
+                .with("research.v3.research.55", 3));
+        for (ServerPlayer player : List.of(unownedSwimmer, levelOneSwimmer, levelThreeSwimmer)) {
+            player.setGameMode(GameType.SURVIVAL);
             player.setSwimming(true);
             player.checkMovementStatistics(0.0D, 0.0D, 1.0D);
         }
-        ctx.assertTrue(Math.abs(unowned.getFoodData().getExhaustionLevel() - 0.01F) < 1.0E-6F,
+        ctx.assertTrue(Math.abs(foodExhaustion(unownedSwimmer) - 0.01F) < 1.0E-6F,
                 "unowned swimming retains the vanilla exhaustion amount");
-        ctx.assertTrue(Math.abs(levelOne.getFoodData().getExhaustionLevel() - 0.0092F) < 1.0E-6F,
+        ctx.assertTrue(Math.abs(foodExhaustion(levelOneSwimmer) - 0.0092F) < 1.0E-6F,
                 "level one reduces the actual swimming exhaustion call by eight percent");
-        ctx.assertTrue(Math.abs(levelThree.getFoodData().getExhaustionLevel() - 0.0076F) < 1.0E-6F,
+        ctx.assertTrue(Math.abs(foodExhaustion(levelThreeSwimmer) - 0.0076F) < 1.0E-6F,
                 "level three reduces the actual swimming exhaustion call by twenty-four percent");
         ctx.succeed();
     }
@@ -484,6 +491,16 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
                         pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2)).stream()
                 .filter(item -> item.getItem().is(Items.HONEYCOMB))
                 .mapToInt(item -> item.getItem().getCount()).sum();
+    }
+
+    private static float foodExhaustion(ServerPlayer player) {
+        try {
+            Field exhaustion = player.getFoodData().getClass().getDeclaredField("exhaustionLevel");
+            exhaustion.setAccessible(true);
+            return exhaustion.getFloat(player.getFoodData());
+        } catch (ReflectiveOperationException exception) {
+            throw new AssertionError("Minecraft 26.3 FoodData exhaustion field was not available", exception);
+        }
     }
 
     @Override

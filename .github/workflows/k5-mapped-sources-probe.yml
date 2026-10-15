@@ -50,6 +50,7 @@ jobs:
               "net.minecraft.world.entity.LivingEntity": ["dropExperience"],
               "net.minecraft.world.entity.Mob": ["dropExperience"],
               "net.minecraft.world.entity.ExperienceOrb": ["ExperienceOrb", "award", "playerTouch", "tick"],
+              "net.minecraft.world.food.FoodData": ["exhaustionLevel", "addExhaustion"],
               "net.minecraft.world.entity.animal.Animal": ["spawnChildFromBreeding", "finalizeSpawnChildFromBreeding", "getBreedOffspring", "getLoveCause"],
               "net.minecraft.world.entity.AgeableMob": ["setBaby", "snapTo"],
               "net.minecraft.world.entity.player.Player": ["attack", "giveExperiencePoints"],
