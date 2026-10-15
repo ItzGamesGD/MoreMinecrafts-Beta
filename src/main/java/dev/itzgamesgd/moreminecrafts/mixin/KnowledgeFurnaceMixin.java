@@ -2,6 +2,11 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchAttribution;
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState;
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchStateAccess;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import dev.itzgamesgd.moreminecrafts.progression.SmeltingOutputProvenance;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +20,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /** Records the exact input/output pair after vanilla has accepted a completed cooking result. */
 @Mixin(AbstractFurnaceBlockEntity.class)
-abstract class KnowledgeFurnaceMixin {
+abstract class KnowledgeFurnaceMixin implements FurnaceResearchStateAccess {
+    @org.spongepowered.asm.mixin.Unique
+    private FurnaceResearchState moreminecrafts$researchState = FurnaceResearchState.empty();
+
+    @Override
+    public FurnaceResearchState moreminecrafts$getResearchState() {
+        return moreminecrafts$researchState;
+    }
+
+    @Override
+    public void moreminecrafts$setResearchState(FurnaceResearchState state) {
+        moreminecrafts$researchState = state == null ? FurnaceResearchState.empty() : state;
+        ((AbstractFurnaceBlockEntity) (Object) this).setChanged();
+    }
+
+    @Inject(method = "startOpen", at = @At("HEAD"))
+    private void moreminecrafts$attributeGuiOpener(Player player, CallbackInfo ci) {
+        if (player instanceof ServerPlayer serverPlayer)
+            FurnaceResearchAttribution.opened((AbstractFurnaceBlockEntity) (Object) this, serverPlayer);
+    }
+
     @Inject(method = "setItem", at = @At("HEAD"))
     private void moreminecrafts$discardReplacedOutput(int slot, ItemStack stack, CallbackInfo ci) {
         if (slot == 2)
@@ -25,6 +50,11 @@ abstract class KnowledgeFurnaceMixin {
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void moreminecrafts$saveSmeltProvenance(ValueOutput output, CallbackInfo ci) {
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) (Object) this;
+        if (!moreminecrafts$researchState.equals(FurnaceResearchState.empty())) {
+            output.putInt("MoreMinecraftsFurnaceResearchVersion", 1);
+            output.store("MoreMinecraftsFurnaceResearchState", FurnaceResearchState.CODEC,
+                    moreminecrafts$researchState);
+        }
         var pending = SmeltingOutputProvenance.save(furnace);
         if (!pending.isEmpty()) {
             output.putInt("MoreMinecraftsSmeltProvenanceVersion", SmeltingOutputProvenance.DATA_VERSION);
@@ -35,6 +65,10 @@ abstract class KnowledgeFurnaceMixin {
     @Inject(method = "loadAdditional", at = @At("TAIL"))
     private void moreminecrafts$loadSmeltProvenance(ValueInput input, CallbackInfo ci) {
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) (Object) this;
+        moreminecrafts$researchState = FurnaceResearchState.empty();
+        if (input.getIntOr("MoreMinecraftsFurnaceResearchVersion", 0) == 1)
+            input.read("MoreMinecraftsFurnaceResearchState", FurnaceResearchState.CODEC)
+                    .ifPresent(state -> moreminecrafts$researchState = state);
         if (input.getIntOr("MoreMinecraftsSmeltProvenanceVersion", 0) == SmeltingOutputProvenance.DATA_VERSION)
             input.read("MoreMinecraftsSmeltProvenance", SmeltingOutputProvenance.CODEC)
                     .ifPresent(pending -> SmeltingOutputProvenance.load(furnace, pending));

@@ -48,6 +48,7 @@
     "KnowledgeCraftingMenuMixin",
     "KnowledgeRecipeCraftCountMixin",
     "KnowledgeFurnaceMixin",
+    "FurnaceMenuInteractionMixin",
     "KnowledgeShieldBlockMixin",
     "KnowledgeProjectileWeaponMixin",
     "KnowledgePiglinBarterMixin",
