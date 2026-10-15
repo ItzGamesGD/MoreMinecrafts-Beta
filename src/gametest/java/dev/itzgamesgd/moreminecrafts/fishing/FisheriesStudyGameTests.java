@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchRewards;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
+import java.lang.reflect.Method;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -15,7 +16,7 @@ public final class FisheriesStudyGameTests implements CustomTestMethodInvoker {
     public void fisheriesStudyIsPlayerScopedAndPreservesFishPayloadAndTechniqueTiming(GameTestHelper ctx) {
         ServerPlayer unowned = ctx.makeMockServerPlayerInLevel();
         ServerPlayer researched = ctx.makeMockServerPlayerInLevel();
-        KnowledgeRuntime.updateState(researched, KnowledgeRuntime.state(researched)
+        researched.setAttached(KnowledgeRuntime.STATE, KnowledgeRuntime.state(researched)
                 .with("research.v3.research.19", 4)
                 .with("research.v3.research.23", 1));
         unowned.getRandom().setSeed(1_234_567L);
@@ -55,5 +56,10 @@ public final class FisheriesStudyGameTests implements CustomTestMethodInvoker {
                                 "v3.research.23", "fishing_technique_window")) == FishingTiming.Zone.LIGHT_GREEN,
                 "the .23 timing window continues to work independently with Fisheries Study");
         ctx.succeed();
+    }
+
+    @Override
+    public void invokeTestMethod(GameTestHelper ctx, Method method) throws ReflectiveOperationException {
+        method.invoke(this, ctx);
     }
 }
