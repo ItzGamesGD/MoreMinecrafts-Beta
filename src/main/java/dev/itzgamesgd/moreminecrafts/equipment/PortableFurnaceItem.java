@@ -20,7 +20,8 @@ public final class PortableFurnaceItem extends Item {
         var stateComponent = dev.itzgamesgd.moreminecrafts.registry.ModDataComponents.PORTABLE_FURNACE_RESEARCH_STATE;
         var state = opener.getOrDefault(stateComponent,
                 dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState.empty());
-        opener.set(stateComponent, state.attributedTo(player.getUUID()));
+        opener.set(stateComponent, dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchAttribution
+                .openedState(state, player.getUUID()));
         player.getInventory().setChanged();
         ((ServerPlayer) player).openMenu(new SimpleMenuProvider(
                 (id, inventory, ignored) -> new PortableFurnaceMenu(id, inventory, contents, opener),

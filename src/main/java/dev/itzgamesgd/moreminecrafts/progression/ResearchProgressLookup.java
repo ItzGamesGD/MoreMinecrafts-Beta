@@ -5,6 +5,8 @@ import com.mojang.serialization.Dynamic;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.HashMap;
+import java.util.WeakHashMap;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.players.NameAndId;
@@ -16,6 +18,10 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 
 /** Reads the existing persistent player attachment without constructing an offline ServerPlayer. */
 public final class ResearchProgressLookup {
+    private static final int OFFLINE_CACHE_TICKS = 200;
+    /** Server-thread-only, short-lived snapshots; the player attachment remains the sole saved authority. */
+    private static final Map<MinecraftServer, Map<UUID, CachedState>> OFFLINE_CACHE = new WeakHashMap<>();
+    private record CachedState(Optional<ResearchProgressState> state, long expiresAt) {}
     private static final Codec<Map<Identifier, Dynamic<?>>> SAVED_ATTACHMENTS =
             Codec.unboundedMap(Identifier.CODEC, Codec.PASSTHROUGH);
 
@@ -31,10 +37,31 @@ public final class ResearchProgressLookup {
         var online = server.getPlayerList().getPlayer(playerId);
         if (online != null) return Optional.of(KnowledgeRuntime.state(online));
 
-        var saved = server.getPlayerList().loadPlayerData(new NameAndId(playerId, ""));
-        if (saved.isEmpty()) return Optional.empty();
+        var byPlayer = OFFLINE_CACHE.computeIfAbsent(server, ignored -> new HashMap<>());
+        CachedState cached = byPlayer.get(playerId);
+        if (cached != null && cached.expiresAt() >= server.getTickCount()) return cached.state();
 
-        return decodePlayerData(server, saved.orElseThrow());
+        Optional<ResearchProgressState> resolved;
+        try {
+            var saved = server.getPlayerList().loadPlayerData(new NameAndId(playerId, ""));
+            resolved = saved.flatMap(data -> decodePlayerData(server, data));
+        } catch (RuntimeException malformedPlayerData) {
+            resolved = Optional.empty();
+        }
+        byPlayer.put(playerId, new CachedState(resolved, (long) server.getTickCount() + OFFLINE_CACHE_TICKS));
+        return resolved;
+    }
+
+    public static void playerJoined(MinecraftServer server, UUID playerId) {
+        if (server != null && server.isSameThread() && playerId != null)
+            OFFLINE_CACHE.computeIfAbsent(server, ignored -> new HashMap<>()).remove(playerId);
+    }
+
+    public static void playerDisconnected(MinecraftServer server, net.minecraft.server.level.ServerPlayer player) {
+        if (server != null && server.isSameThread() && player != null)
+            OFFLINE_CACHE.computeIfAbsent(server, ignored -> new HashMap<>()).put(player.getUUID(),
+                    new CachedState(Optional.of(KnowledgeRuntime.state(player)),
+                            (long) server.getTickCount() + OFFLINE_CACHE_TICKS));
     }
 
     public static Optional<ResearchProgressState> decodePlayerData(MinecraftServer server, CompoundTag playerData) {

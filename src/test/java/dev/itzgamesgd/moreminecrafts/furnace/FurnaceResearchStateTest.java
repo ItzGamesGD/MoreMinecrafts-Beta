@@ -21,7 +21,7 @@ class FurnaceResearchStateTest {
     }
 
     @Test
-    void latestOpenOrActualInventoryInteractionWinsAndClosingHasNoResetOperation() {
+    void actualInventoryInteractionOutranksLaterGuiOpenAndClosingHasNoResetOperation() {
         UUID first = UUID.randomUUID();
         UUID second = UUID.randomUUID();
         UUID third = UUID.randomUUID();
@@ -29,7 +29,7 @@ class FurnaceResearchStateTest {
         state = FurnaceResearchAttribution.interactedState(state, second);
         assertEquals(second, state.attributedPlayer().orElseThrow());
         state = FurnaceResearchAttribution.openedState(state, third);
-        assertEquals(third, state.attributedPlayer().orElseThrow());
+        assertEquals(second, state.attributedPlayer().orElseThrow());
     }
 
     @Test
@@ -43,11 +43,19 @@ class FurnaceResearchStateTest {
     @Test
     void versionedStateCodecRoundTripsAndOldFurnacesUseEmptyDefaults() {
         UUID player = UUID.randomUUID();
-        FurnaceResearchState original = new FurnaceResearchState(java.util.Optional.of(player), 0.25D, 0.75D);
+        FurnaceResearchState original = new FurnaceResearchState(java.util.Optional.of(player),
+                0.25D, 0.75D, true, 1);
         var encoded = FurnaceResearchState.CODEC.encodeStart(JsonOps.INSTANCE, original).getOrThrow();
         FurnaceResearchState restored = FurnaceResearchState.CODEC.parse(JsonOps.INSTANCE, encoded).getOrThrow();
         assertEquals(original, restored);
         assertEquals(FurnaceResearchState.empty(), FurnaceResearchState.empty());
+        var legacy = FurnaceResearchState.CODEC.parse(JsonOps.INSTANCE,
+                com.google.gson.JsonParser.parseString("{\"attributed_player\":\"" + player
+                        + "\",\"fuel_saving_remainder\":0.25,\"cooking_progress_remainder\":0.75}"))
+                .getOrThrow();
+        assertEquals(player, legacy.attributedPlayer().orElseThrow());
+        assertFalse(legacy.actualInteraction());
+        assertEquals(0, legacy.cookingCredit());
     }
 
     @Test

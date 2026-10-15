@@ -18,11 +18,11 @@ public final class FurnaceResearchAttribution {
     }
 
     public static FurnaceResearchState openedState(FurnaceResearchState state, UUID player) {
-        return state.attributedTo(player);
+        return state.actualInteraction() ? state : state.attributedTo(player);
     }
 
     public static FurnaceResearchState interactedState(FurnaceResearchState state, UUID player) {
-        return state.attributedTo(player);
+        return state.interactedBy(player);
     }
 
     private static FurnaceResearchState stateOf(AbstractFurnaceBlockEntity furnace) {

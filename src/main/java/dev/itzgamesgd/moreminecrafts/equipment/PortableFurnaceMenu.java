@@ -57,7 +57,8 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
     }
 
     public void recordResearchInteraction(ServerPlayer player) {
-        updateResearchState(state -> state.attributedTo(player.getUUID()));
+        updateResearchState(state -> dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchAttribution
+                .interactedState(state, player.getUUID()));
         player.getInventory().setChanged();
     }
 
