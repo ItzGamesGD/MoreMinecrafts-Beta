@@ -3,7 +3,7 @@
 - **Branch:** `codex/stage23a-batch3-20261015`
 - **Base:** PR #94 branch `codex/stage23a-integrated-research-20261015`, exact HEAD `5e48deacbeed95783902f2b71e04e2ae25005606`
 - **Target:** PR #94's branch; do not merge automatically.
-- **Manifest state:** the published manifest and authority commits contain no gameplay edits; publication precedes all gameplay changes.
+- **Manifest state:** the manifest and authority were published before gameplay changes. `.08` is implemented; `.06`, `.07`, and `.11` remain deferred by their documented stop gates.
 - **Selected IDs:** `v3.research.06`, `.07`, `.08`, and `.11`.
 
 ## Base and ownership verification
@@ -23,7 +23,7 @@ The controlling design authority is `docs/RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10
 |---|---|---|---|
 | `v3.research.06` Fuel Saving | Fuel-use reductions 8.5/17/25.5% at L1/L2/L3; fixed-point per-furnace remainder; preserve fuel/container behavior and compose with multiplier efficiency. | `AbstractFurnaceBlockEntity.serverTick` plus portable-furnace processing; attributed UUID and remainder in persistent block-entity state. | **DEFERRED.** No production authoritative progression lookup by offline attributed UUID exists. The only `PlayerList.loadPlayerData` usage restores a synthetic `ServerPlayer` in a restart GameTest. The portable furnace is a non-persistent session menu without a block entity. |
 | `v3.research.07` Precision Smelting | Mineral-only extra-product chance 7.5/15/22.5/30/37.5% at L1–L5; one roll at base-product creation, no recursion, independent from Auto Smelt. | Existing recipe-completion path for each audited furnace family; attributed player's paid level; conservative recipe/tag classifier; lossless output commit. | **DEFERRED** for the offline-attribution and portable-furnace persistence blockers. No output or random-roll code will be added while ownership is unresolved. |
-| `v3.research.08` Precision Crafting | Approved material-class chances and L2/L4 interpolation; choose exactly one rarest eligible consumed slot, lowest slot index on ties; preserve at most one unit after a successful roll. | Server-side `ResultSlot.onTake`; select from the pre-consumption `CraftingInput`, then intercept its one-unit `CraftingContainer.removeItem` call for the chosen slot. The actual mapped method is inherited by `CraftingContainer`; the 26.3 `ResultSlot` source confirms remainder resolution occurs before removal and slot replacement/inventory/drop handling follows it. `CraftingMenu.quickMoveStack` calls `onTake` only after a successful transfer. No persistent state. | **SOURCE CONFIRMED; implementation may proceed in the existing result-slot mixin.** Server-only execution at `onTake` is one opportunity per completed craft transaction, including each successful shift-click iteration. Never modify preview/result creation. |
+| `v3.research.08` Precision Crafting | Approved material-class chances and L2/L4 interpolation; choose exactly one rarest eligible consumed slot, lowest slot index on ties; preserve at most one unit after a successful roll. | Server-side `ResultSlot.onTake`; select from the pre-consumption `CraftingInput`, then intercept its one-unit `CraftingContainer.removeItem` call for the chosen slot. The actual mapped bytecode owner is `CraftingContainer`; 26.3 source confirms remainder calculation precedes consumption, and `CraftingMenu.quickMoveStack` calls `onTake` only after successful transfer. Successful shift-click preservation refreshes its result at the menu return boundary. No persistent state. | **IMPLEMENTED; Java 25 automated validation passed on code commit `72b8da58162e2cf4df585224799f4ebf34d8e1fd`.** Server-only paid level, exact approved class probabilities, one transaction-scoped preservation, vanilla remainders, and `.09` integration. Live verification remains outstanding. |
 | `v3.research.11` Faster Smelting | Processing multipliers 110/120/130% at L1/L2/L3; fractional cooking progress, persisted and composable with `.06` and existing furnace multipliers. | `AbstractFurnaceBlockEntity.serverTick` plus portable-furnace processing; attributed UUID and fractional progress in persistent block-entity state. | **DEFERRED** for the offline-attribution and portable-furnace persistence blockers. |
 
 ### Furnace stop-gate findings
@@ -34,7 +34,7 @@ The portable furnace runs only while an online player has its menu open. Its `Po
 
 ## `.08` ownership and persistence plan
 
-No parallel branch contains a `.08` implementation. Mapped sources came from Java 25 K5 source-probe run `38704984780` at commit `72b4168bae68bf98a1b652b3c02c5b104986e47c`. That probe's source report confirms the transaction order, although its check failed because it incorrectly expected the inherited `removeItem` method to be declared in `CraftingContainer.java`. The `.08` source-check will be isolated in a Batch 3 workflow. Expected Batch 3 files:
+No parallel branch contained a `.08` implementation at ownership review. The dedicated Java 25 Batch 3 crafting probe run `38709897738` passed on code commit `72b8da58162e2cf4df585224799f4ebf34d8e1fd`; it verifies source ordering, the `CraftingContainer.removeItem` bytecode owner, and the `quickMoveStack` completion boundary. An earlier generic probe had a faulty assertion about the inherited method's declaration owner; the dedicated check corrects it. Expected Batch 3 files:
 
 | File/path | Batch 3 ownership |
 |---|---|
@@ -61,6 +61,20 @@ The `.08` implementation adds no player/world persistence and does not change pr
 
 ## Audit and validation
 
-The canonical audit is `docs/RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md`, one row per 87 IDs. PR #94 baseline is 60 DATA_ONLY / 25 PARTIAL / 0 COMPLETE / 0 MISSING / 2 BLOCKED. After only `.08` has runtime code and focused tests, expected counts are 59 DATA_ONLY / 26 PARTIAL / 0 COMPLETE / 0 MISSING / 2 BLOCKED; recalculate from every row rather than imposing those totals. Live validation remains pending, so no node is COMPLETE solely from automation.
+The canonical audit is `docs/RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md`, one row per 87 IDs. The PR #94 baseline had 60 DATA_ONLY / 25 PARTIAL / 0 COMPLETE / 0 MISSING / 2 BLOCKED. After implementing `.08`, the 87-row recount is 59 DATA_ONLY / 26 PARTIAL / 0 COMPLETE / 0 MISSING / 2 BLOCKED. `.08` remains PARTIAL pending live validation; no node is COMPLETE solely from automation.
 
-After implementation, use Java 25 and run `./gradlew clean test build compileGametestJava runGameTest`, mapped-source checks, server/client smoke, two-process persistence checks, mixin/resource validation, audit recount, and `git diff --check`. Report unrun checks as NOT RUN. Merge readiness remains **NOT READY** pending live gameplay checks. Do not modify PRs #88–#94, merge any PR, or implement Stage 23-B reserved features.
+## Validation evidence
+
+All listed runs tested code commit `72b8da58162e2cf4df585224799f4ebf34d8e1fd` using Java 25:
+
+| Check | Result | Run |
+|---|---|---|
+| `./gradlew clean test build compileGametestJava runGameTest`; 101 GameTests | Passed | [Fabric CI #780](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38709897588) |
+| Fabric server smoke | Passed | [Fabric CI #780](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38709897588) |
+| Fabric client smoke | Passed | [Fabric CI #780](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38709897588) |
+| Minecraft 26.3 crafting completion/remainder and mapped-owner probe | Passed | [Batch 3 crafting probe #13](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38709897738) |
+| General Minecraft 26.3 mapped-source probe | Passed | [Mapped Sources #201](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38709897732) |
+| Two-process world/player persistence regression | Passed | [Production Restart #107](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/38709897582) |
+| Tag JSON validation and `git diff --check` | Passed locally | — |
+
+Live gameplay validation remains outstanding for multiplayer crafting attribution, tag extensions, remainder compatibility, and client/server synchronization. The audit keeps `.08` PARTIAL and the furnace nodes DATA_ONLY. Merge readiness remains **NOT READY**. PRs #88–#94 are unchanged and unmerged; Batch 3 does not implement Stage 23-B reserved features.
