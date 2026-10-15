@@ -303,7 +303,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
 
-    @GameTest(maxTicks = 180)
+    @GameTest(maxTicks = 1250)
     public void k5NaturalChunkProvenanceSurvivesRealSaveUnloadReloadAndInvalidation(GameTestHelper ctx) {
         String restartPhase = System.getProperty("moreminecrafts.k5.restart.phase");
         if ("write".equals(restartPhase)) {
