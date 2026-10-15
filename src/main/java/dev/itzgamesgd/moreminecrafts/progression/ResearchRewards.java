@@ -12,8 +12,17 @@ public final class ResearchRewards {
     public enum Kind { PASSIVE_PERCENT, NUMERICAL_LEVEL, OPERATION_IMPROVEMENT, RECIPE_UNLOCK, DEVICE_ELIGIBILITY }
     public record Effect(String id, Kind kind, double valuePerLevel, int maximumLevel) {}
     private static final Map<String, List<Effect>> EFFECTS = Map.ofEntries(
+            Map.entry("resources_root", List.of(new Effect("ore_mining_xp", Kind.PASSIVE_PERCENT, 0.01, 1))),
+            Map.entry("production_root", List.of(new Effect("smelting_xp", Kind.PASSIVE_PERCENT, 0.01, 1))),
+            Map.entry("living_root", List.of(new Effect("crop_growth_probability", Kind.PASSIVE_PERCENT, 0.01, 1))),
             Map.entry("combat_root", List.of(new Effect("hostile_damage", Kind.PASSIVE_PERCENT, 0.01, 1))),
             Map.entry("ecology_root", List.of(new Effect("hostile_xp_orbs", Kind.PASSIVE_PERCENT, 0.01, 1))),
+            Map.entry("world_root", List.of(new Effect("ground_movement_speed", Kind.PASSIVE_PERCENT, 0.01, 1))),
+            Map.entry("alchemy_root", List.of(new Effect("beneficial_potion_duration", Kind.PASSIVE_PERCENT, 0.01, 1))),
+            Map.entry("v3.research.27", List.of(new Effect("swordsmanship_damage", Kind.PASSIVE_PERCENT, 0.02, 3))),
+            Map.entry("v3.research.30", List.of(new Effect("shield_durability_preservation", Kind.PASSIVE_PERCENT, 0.10, 3))),
+            Map.entry("v3.research.31", List.of(new Effect("armor_knockback_reduction", Kind.PASSIVE_PERCENT, 0.05, 3))),
+            Map.entry("v3.research.32", List.of(new Effect("thrown_projectile_speed", Kind.PASSIVE_PERCENT, 0.06, 3))),
             Map.entry("climbing", List.of(new Effect("wall_climb", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
             Map.entry("wall_jump", List.of(new Effect("wall_jump", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
             Map.entry("fall_roll", List.of(new Effect("fall_roll", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),

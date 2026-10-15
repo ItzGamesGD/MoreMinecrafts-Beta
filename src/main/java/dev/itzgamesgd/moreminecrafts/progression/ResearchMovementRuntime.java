@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.phys.Vec3;
@@ -18,6 +20,8 @@ public final class ResearchMovementRuntime {
     private static final int JUMP_GRACE_TICKS = 15;
     private static final int ROLL_GRACE_TICKS = 6;
     private static final int HANG_TICKS = 100;
+    private static final net.minecraft.resources.Identifier ROOT_SPEED_ID =
+            dev.itzgamesgd.moreminecrafts.core.ModIds.id("research_world_root_speed");
 
     private static final class State {
         long wallUntil, rollUntil;
@@ -35,6 +39,16 @@ public final class ResearchMovementRuntime {
     }
 
     private static void tick(ServerPlayer player) {
+        var movement = player.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (movement != null) {
+            boolean speedActive = KnowledgeRuntime.researched(player, "world_root")
+                    && player.onGround() && !player.isPassenger() && !player.isFallFlying();
+            if (speedActive && movement.getModifier(ROOT_SPEED_ID) == null)
+                movement.addTransientModifier(new AttributeModifier(ROOT_SPEED_ID, 0.01D,
+                        AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            else if (!speedActive && movement.getModifier(ROOT_SPEED_ID) != null)
+                movement.removeModifier(ROOT_SPEED_ID);
+        }
         State state = STATE.computeIfAbsent(player.getUUID(), ignored -> new State());
         long now = player.level().getGameTime();
         boolean shift = player.getLastClientInput().shift();
