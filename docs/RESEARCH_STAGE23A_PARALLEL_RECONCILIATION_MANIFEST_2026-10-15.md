@@ -1,8 +1,10 @@
 # Stage 23-A Parallel Branch Reconciliation Manifest
 
-Date: 2026-10-15  
-Branch: `codex/stage23a-reconcile-20261015`  
-Base and target: PR #91 head `68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3`, branch `codex/stage23a-batch2-20261015`  
+Date: 2026-10-15
+
+Branch: `codex/stage23a-reconcile-20261015`
+
+Base and target: PR #91 head `68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3`, branch `codex/stage23a-batch2-20261015`
 Parallel source: PR #92 head `f632f4f521c782c9614a3bbb71f1ab5579a3358d`, code-tested head `f0f9c2d07f4e74fae63cb8c5b704c558917fc70b`, based on PR #89 head `53c2374e84356ff3b5ccaa84df26897dd7ce4b5b`.
 
 ## Ancestry and reconciliation rules
