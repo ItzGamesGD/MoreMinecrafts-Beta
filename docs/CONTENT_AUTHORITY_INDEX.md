@@ -26,7 +26,7 @@ The Batch 2 manifest is [RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md](RESEAR
 
 ## Stage 23-A integration of unique Batch 1 effects (2026-10-15)
 
-The scoped integration manifest is [RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md). It starts from PR #91 and imports only unique PR #92 behavior for `v3.research.19`, `.55`, and `.67`, retaining PR #90 ownership of `.02`, `.03`, `.18`, and `.23` and PR #91 ownership of `.17`, `.28`, `.64`, `wall_jump`, and `fall_roll`. The current Fisheries Study rounding authority is recorded at the end of `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`. The regenerated canonical 87-row audit currently counts 60 DATA_ONLY, 25 PARTIAL, and 2 BLOCKED; it separates automated evidence from live gameplay verification. Java 25 CI and live gameplay checks remain pending.
+The scoped integration manifest is [RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md). It starts from PR #91 and imports only unique PR #92 behavior for `v3.research.19`, `.55`, and `.67`, retaining PR #90 ownership of `.02`, `.03`, `.18`, and `.23` and PR #91 ownership of `.17`, `.28`, `.64`, `wall_jump`, and `fall_roll`. The current Fisheries Study rounding authority is recorded at the end of `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`. The regenerated canonical 87-row audit currently counts 60 DATA_ONLY, 25 PARTIAL, and 2 BLOCKED; it separates automated evidence from live gameplay verification. Java 25 Fabric CI #754, mapped-source probe #179, and K5 restart #87 passed on code commit `227749d`; live gameplay checks remain pending.
 
 ## Current research/knowledge authority (latest human-approved V4)
 
