@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.inventory.ResultContainer;
 
@@ -40,11 +41,11 @@ public final class ResearchCraftingRuntime {
     }
 
     static boolean hasWoodIngredient(RecipeHolder<?> recipe) {
-        for (Ingredient ingredient : recipe.value().getIngredients()) {
-            for (ItemStack stack : ingredient.getItems()) {
-                if (stack.is(Items.STICK) || stack.is(Items.BAMBOO)
-                        || WOOD_MATERIAL_TAGS.stream().anyMatch(stack::is)) return true;
-            }
+        if (!(recipe.value() instanceof CraftingRecipe craftingRecipe)) return false;
+        for (Ingredient ingredient : craftingRecipe.placementInfo().ingredients()) {
+            if (ingredient.items().anyMatch(item -> item.value() == Items.STICK
+                    || item.value() == Items.BAMBOO
+                    || WOOD_MATERIAL_TAGS.stream().anyMatch(item::is))) return true;
         }
         return false;
     }

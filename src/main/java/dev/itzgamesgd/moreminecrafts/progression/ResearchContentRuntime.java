@@ -6,7 +6,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.CropBlock;
@@ -16,6 +15,8 @@ import net.minecraft.world.level.block.state.BlockState;
 public final class ResearchContentRuntime {
     private static final TagKey<net.minecraft.world.level.block.Block> RESEARCH_ORES = TagKey.create(
             Registries.BLOCK, Identifier.fromNamespaceAndPath("moreminecrafts", "research_ores"));
+    private static final TagKey<net.minecraft.world.item.Item> RESEARCH_SEEDS = TagKey.create(
+            Registries.ITEM, Identifier.fromNamespaceAndPath("moreminecrafts", "research_seeds"));
 
     private ResearchContentRuntime() {}
 
@@ -67,7 +68,7 @@ public final class ResearchContentRuntime {
         }
         if (state.is(BlockTags.LOGS)) {
             addGatheringBonus(player, "v3.research.02", "lumbering_extra_drops", drops,
-                    stack -> stack.is(ItemTags.LOGS), random);
+                    stack -> stack.is(net.minecraft.tags.ItemTags.LOGS), random);
         }
         return drops;
     }
@@ -96,9 +97,9 @@ public final class ResearchContentRuntime {
                                      java.util.function.DoubleSupplier random) {
         int level = ResearchRewards.level(player, "v3.research.15", "seed_extra_drops");
         double chance = ResearchContentRules.seedChance(level);
-        if (chance <= 0.0D || drops.stream().noneMatch(stack -> stack.is(ItemTags.SEEDS) && stack.getCount() > 0)
+        if (chance <= 0.0D || drops.stream().noneMatch(stack -> stack.is(RESEARCH_SEEDS) && stack.getCount() > 0)
                 || !ResearchContentRules.extraItemSucceeds(random.getAsDouble(), chance)) return;
-        drops.stream().filter(stack -> stack.is(ItemTags.SEEDS) && stack.getCount() > 0)
+        drops.stream().filter(stack -> stack.is(RESEARCH_SEEDS) && stack.getCount() > 0)
                 .findFirst().ifPresent(stack -> drops.add(stack.copyWithCount(1)));
     }
 
