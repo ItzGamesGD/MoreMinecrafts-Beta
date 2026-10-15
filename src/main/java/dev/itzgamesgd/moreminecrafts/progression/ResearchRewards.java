@@ -43,12 +43,18 @@ public final class ResearchRewards {
     private ResearchRewards() {}
     public static List<Effect> effects(String researchId) { return EFFECTS.getOrDefault(researchId, List.of()); }
     public static int level(ServerPlayer player, String researchId, String effectId) {
-        int level = KnowledgeRuntime.state(player).researchLevel(researchId);
+        return level(KnowledgeRuntime.state(player), researchId, effectId);
+    }
+    static int level(ResearchProgressState state, String researchId, String effectId) {
+        int level = state.researchLevel(researchId);
         return effects(researchId).stream().filter(effect -> effect.id().equals(effectId))
                 .mapToInt(effect -> Math.min(level, effect.maximumLevel())).findFirst().orElse(0);
     }
     public static double value(ServerPlayer player, String researchId, String effectId) {
-        int level = level(player, researchId, effectId);
+        return value(KnowledgeRuntime.state(player), researchId, effectId);
+    }
+    static double value(ResearchProgressState state, String researchId, String effectId) {
+        int level = level(state, researchId, effectId);
         return effects(researchId).stream().filter(effect -> effect.id().equals(effectId))
                 .mapToDouble(effect -> effect.valuePerLevel() * level).findFirst().orElse(0.0);
     }
