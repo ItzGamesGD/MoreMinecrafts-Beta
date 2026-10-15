@@ -15,12 +15,14 @@ public final class Research23AMovementExhaustionGameTests implements CustomTestM
         KnowledgeRuntime.updateState(player, ResearchProgressState.empty()
                 .with("research.v3.research.55", 3));
 
-        float before = player.getFoodData().getExhaustionLevel();
-        player.causeFoodExhaustion(0.25F);
-        float after = player.getFoodData().getExhaustionLevel();
+        var food = player.getFoodData();
+        int beforeFood = food.getFoodLevel();
+        food.setSaturation(0.0F);
+        player.causeFoodExhaustion(4.25F);
+        food.tick(player);
 
-        ctx.assertTrue(Math.abs((after - before) - 0.25F) < 0.0001F,
-                "non-movement exhaustion does not pass through the sprint/swim reduction");
+        ctx.assertTrue(food.getFoodLevel() == beforeFood - 1,
+                "an unrelated exhaustion call reaches vanilla food processing without reduction");
         ctx.succeed();
     }
 
