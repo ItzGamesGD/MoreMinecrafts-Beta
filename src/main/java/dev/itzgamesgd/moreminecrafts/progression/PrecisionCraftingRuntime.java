@@ -12,6 +12,11 @@ import net.minecraft.world.item.crafting.CraftingInput;
 
 /** Applies the paid preservation rule only inside a completed server crafting transaction. */
 public final class PrecisionCraftingRuntime {
+    public interface MenuRefreshAccess {
+        boolean isQuickMoveRunning();
+        void requestPrecisionCraftingRefresh();
+    }
+
     private static final String RESEARCH_ID = "v3.research.08";
     private static final TagKey<Item> ORDINARY = tag("ordinary");
     private static final TagKey<Item> PROCESSED = tag("processed");

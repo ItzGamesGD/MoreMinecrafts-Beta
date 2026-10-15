@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
+import dev.itzgamesgd.moreminecrafts.progression.PrecisionCraftingRuntime;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.ResultContainer;
@@ -18,17 +19,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Deny creating output until the respective FREE knowledge is recorded. */
 @Mixin(CraftingMenu.class)
-abstract class KnowledgeCraftingMenuMixin implements PrecisionCraftingMenuRefreshAccess {
+abstract class KnowledgeCraftingMenuMixin implements PrecisionCraftingRuntime.MenuRefreshAccess {
     @Unique private boolean moreminecrafts$quickMoveRunning;
     @Unique private boolean moreminecrafts$precisionCraftingRefreshPending;
 
     @Override
-    public boolean moreminecrafts$isQuickMoveRunning() {
+    public boolean isQuickMoveRunning() {
         return moreminecrafts$quickMoveRunning;
     }
 
     @Override
-    public void moreminecrafts$requestPrecisionCraftingRefresh() {
+    public void requestPrecisionCraftingRefresh() {
         moreminecrafts$precisionCraftingRefreshPending = true;
     }
 

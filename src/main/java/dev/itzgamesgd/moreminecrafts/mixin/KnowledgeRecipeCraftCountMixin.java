@@ -20,11 +20,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-interface PrecisionCraftingMenuRefreshAccess {
-    boolean moreminecrafts$isQuickMoveRunning();
-    void moreminecrafts$requestPrecisionCraftingRefresh();
-}
-
 /** Counts a server-observed completed crafting result transfer once per recipe action. */
 @Mixin(ResultSlot.class)
 abstract class KnowledgeRecipeCraftCountMixin {
@@ -78,9 +73,9 @@ abstract class KnowledgeRecipeCraftCountMixin {
         moreminecrafts$precisionCraftingPreserveSlot = -1;
         moreminecrafts$precisionCraftingPreserved = false;
         if (preserved) {
-            if (player.containerMenu instanceof PrecisionCraftingMenuRefreshAccess menu
-                    && menu.moreminecrafts$isQuickMoveRunning()) {
-                menu.moreminecrafts$requestPrecisionCraftingRefresh();
+            if (player.containerMenu instanceof PrecisionCraftingRuntime.MenuRefreshAccess menu
+                    && menu.isQuickMoveRunning()) {
+                menu.requestPrecisionCraftingRefresh();
             } else {
                 craftSlots.setChanged();
             }
