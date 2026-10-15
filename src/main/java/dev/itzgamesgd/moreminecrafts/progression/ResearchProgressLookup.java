@@ -31,9 +31,7 @@ public final class ResearchProgressLookup {
         var online = server.getPlayerList().getPlayer(playerId);
         if (online != null) return Optional.of(KnowledgeRuntime.state(online));
 
-        var profile = server.getProfileCache().get(playerId)
-                .orElseGet(() -> new GameProfile(playerId, ""));
-        var saved = server.getPlayerList().loadPlayerData(profile);
+        var saved = server.getPlayerList().loadPlayerData(new GameProfile(playerId, ""));
         if (saved.isEmpty()) return Optional.empty();
 
         return decodePlayerData(server, saved.orElseThrow());
@@ -49,7 +47,7 @@ public final class ResearchProgressLookup {
         if (encodedState == null) return Optional.empty();
         var codec = KnowledgeRuntime.STATE.persistenceCodec();
         return codec == null ? Optional.empty()
-                : codec.parse(encodedState.getOps(), encodedState.getValue()).result();
+                : codec.parse(encodedState).result();
     }
 
     /** Returns zero for missing, malformed, or unpurchased saved data; it never invents a level. */
