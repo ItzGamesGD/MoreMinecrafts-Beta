@@ -62,6 +62,26 @@ class FishingLogicTest {
     }
 
     @Test
+    void fisheriesStudyChangesOnlyGradeAcrossTheProductionFishRoll() {
+        for (FishSpecies species : FishSpecies.values()) {
+            for (int crankbaitTier = 0; crankbaitTier <= FishingEquipmentTier.MAX; crankbaitTier++) {
+                for (int level = 0; level <= 5; level++) {
+                    for (int seed = 0; seed < 20; seed++) {
+                        var baseline = FishingLogic.rollFish(species, crankbaitTier, 0,
+                                RandomSource.create(seed));
+                        var researched = FishingLogic.rollFish(species, crankbaitTier, level,
+                                RandomSource.create(seed));
+                        assertEquals(baseline.species(), researched.species());
+                        assertEquals(baseline.lengthTenthsCm(), researched.lengthTenthsCm());
+                        assertEquals(baseline.weightTenthsKg(), researched.weightTenthsKg());
+                        assertTrue(researched.grade() >= 1 && researched.grade() <= FishingGrade.MAX);
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     void expectedWeightIsSpeciesSpecificMonotonicAndBounded() {
         for (FishSpecies species : FishSpecies.values()) {
             int minLength = species.lengthDistribution().minimum();

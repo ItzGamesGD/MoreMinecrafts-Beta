@@ -32,27 +32,40 @@ final class ResearchParallelBranchRulesTest {
     }
 
     @Test
-    void largestRemainderFisheriesMethodIsPreservedAsCandidateOnly() {
+    void fisheriesStudyUsesApprovedLargestRemainderTablesAtEveryLevelAndCrankbaitTier() {
         int[][][] expected = {
                 {{45,30,16,7,2}, {30,32,22,12,4}, {10,25,32,24,9}, {0,8,34,38,20}},
                 {{44,31,16,7,2}, {29,32,22,12,5}, {9,25,32,24,10}, {0,7,34,38,21}},
-                {{43,31,16,8,2}, {28,32,22,13,5}, {9,25,32,24,10}, {0,7,34,38,21}},
-                {{42,31,17,7,3}, {27,33,23,12,5}, {8,24,33,24,11}, {0,7,34,37,22}},
+                {{43,31,17,7,2}, {28,33,22,12,5}, {9,25,32,24,10}, {0,7,34,38,21}},
+                {{42,31,17,8,2}, {27,33,23,12,5}, {8,24,33,24,11}, {0,7,34,37,22}},
                 {{41,31,17,8,3}, {26,33,23,13,5}, {8,24,33,24,11}, {0,7,33,37,23}},
                 {{40,32,17,8,3}, {25,33,23,13,6}, {7,24,33,24,12}, {0,6,33,37,24}}
         };
+        assertEquals(5, ResearchRewards.effects("v3.research.19").getFirst().maximumLevel());
+        assertEquals(0, ResearchRewards.level(ResearchProgressState.empty(),
+                "v3.research.19", "fisheries_grade"), "unowned Fisheries Study uses level zero");
+        assertEquals(1, ResearchRewards.level(ResearchProgressState.empty()
+                .with("research.v3.research.19", 1), "v3.research.19", "fisheries_grade"));
+        assertEquals(5, ResearchRewards.level(ResearchProgressState.empty()
+                .with("research.v3.research.19", 99), "v3.research.19", "fisheries_grade"));
+
         for (int level = 0; level <= 5; level++) {
             for (int tier = 0; tier <= 3; tier++) {
-                int[] candidate = ResearchParallelBranchRules.fisheriesLargestRemainderCandidate(tier, level);
-                assertArrayEquals(expected[level][tier], candidate, "candidate level=" + level + " tier=" + tier);
-                assertEquals(100, Arrays.stream(candidate).sum());
+                int[] weights = FishingLogic.gradeWeights(tier, level);
+                assertArrayEquals(expected[level][tier], weights, "level=" + level + " tier=" + tier);
+                assertEquals(100, Arrays.stream(weights).sum(), "level=" + level + " tier=" + tier);
+                if (level == 0) {
+                    assertArrayEquals(expected[0][tier], FishingLogic.gradeWeights(tier),
+                            "legacy fishing uses baseline at tier=" + tier);
+                }
             }
         }
-        assertTrue(ResearchRewards.effects("v3.research.19").isEmpty(),
-                "the unresolved allocation is not registered as an active reward");
-        for (int tier = 0; tier <= 3; tier++)
-            assertArrayEquals(expected[0][tier], FishingLogic.gradeWeights(tier),
-                    "active fishing still uses the unchanged vanilla/custom baseline");
+    }
+
+    @Test
+    void fisheriesLargestRemainderTiesGoToTheLowerGradeIndex() {
+        // Tier 0, level 2 has equal .4 remainders for grades III–V; only one can receive a point.
+        assertArrayEquals(new int[]{43, 31, 17, 7, 2}, FishingLogic.gradeWeights(0, 2));
     }
 
     @Test

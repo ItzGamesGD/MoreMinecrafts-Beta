@@ -26,6 +26,7 @@ public final class ResearchRewards {
             Map.entry("v3.research.10", List.of(new Effect("equipment_maintenance", Kind.OPERATION_IMPROVEMENT, 0.0, 5))),
             Map.entry("v3.research.15", List.of(new Effect("seed_extra_drops", Kind.PASSIVE_PERCENT, 0.15, 3))),
             Map.entry("v3.research.18", List.of(new Effect("beekeeping_extra_honeycomb", Kind.PASSIVE_PERCENT, 0.20, 3))),
+            Map.entry("v3.research.19", List.of(new Effect("fisheries_grade", Kind.OPERATION_IMPROVEMENT, 0.0, 5))),
             Map.entry("v3.research.23", List.of(new Effect("fishing_technique_window", Kind.OPERATION_IMPROVEMENT, 0.02, 3))),
             Map.entry("v3.research.17", List.of(new Effect("livestock_offspring", Kind.OPERATION_IMPROVEMENT, 0.0, 3))),
             Map.entry("v3.research.28", List.of(new Effect("axe_combat_first_strike", Kind.PASSIVE_PERCENT, 0.03, 3))),

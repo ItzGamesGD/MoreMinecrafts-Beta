@@ -109,11 +109,8 @@ public final class FishingChallenges {
                 continue;
             }
             int crankbaitTier = equipment.tier(FishingEquipmentFamily.CRANKBAIT);
-            FishingLogic.FishRoll roll = FishingLogic.rollFish(species, crankbaitTier, player.getRandom());
-            ItemStack fish = new ItemStack(ModItems.fishItem(roll.species()));
-            fish.set(ModDataComponents.FISH_GRADE, roll.grade());
-            fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, roll.lengthTenthsCm());
-            fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, roll.weightTenthsKg());
+            FishingLogic.FishRoll roll = rollFishForPlayer(player, species, crankbaitTier);
+            ItemStack fish = createFishStack(roll);
             equipment = captureWear(equipment, true);
             challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, equipment);
             deliver(player, fish);
@@ -136,6 +133,24 @@ public final class FishingChallenges {
     private static void deliver(ServerPlayer player, ItemStack fish) {
         player.getInventory().add(fish);
         if (!fish.isEmpty()) player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), fish));
+    }
+
+    static int fisheriesStudyLevel(ServerPlayer player) {
+        return dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                player, "v3.research.19", "fisheries_grade");
+    }
+
+    /** Called only from the server-side successful fishing award path. */
+    static FishingLogic.FishRoll rollFishForPlayer(ServerPlayer player, FishSpecies species, int crankbaitTier) {
+        return FishingLogic.rollFish(species, crankbaitTier, fisheriesStudyLevel(player), player.getRandom());
+    }
+
+    static ItemStack createFishStack(FishingLogic.FishRoll roll) {
+        ItemStack fish = new ItemStack(ModItems.fishItem(roll.species()));
+        fish.set(ModDataComponents.FISH_GRADE, roll.grade());
+        fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, roll.lengthTenthsCm());
+        fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, roll.weightTenthsKg());
+        return fish;
     }
 
     static RodEquipment captureWear(RodEquipment equipment, boolean capturePermitted) {

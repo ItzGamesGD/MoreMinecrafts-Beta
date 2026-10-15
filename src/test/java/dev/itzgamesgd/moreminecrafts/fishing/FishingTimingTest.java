@@ -31,6 +31,13 @@ class FishingTimingTest {
         assertEquals(FishingTiming.Zone.ORANGE, FishingTiming.zone(.2, 3));
     }
 
+    @Test void fisheriesGradeDistributionComposesWithTheExistingTechniqueWindow() {
+        assertEquals(FishingTiming.Zone.YELLOW, FishingTiming.zone(.415, 0));
+        assertEquals(FishingTiming.Zone.LIGHT_GREEN, FishingTiming.zone(.415, 1));
+        assertArrayEquals(new int[]{27, 33, 23, 12, 5}, FishingLogic.gradeWeights(1, 3));
+        assertArrayEquals(new int[]{25, 33, 23, 13, 6}, FishingLogic.gradeWeights(1, 5));
+    }
+
     @Test void timeoutBoundaryIsExplicit() {
         assertFalse(FishingTiming.timedOut(FishingTiming.TIMEOUT_TICKS - 1));
         assertTrue(FishingTiming.timedOut(FishingTiming.TIMEOUT_TICKS));
