@@ -109,7 +109,10 @@ public final class FishingChallenges {
                 continue;
             }
             int crankbaitTier = equipment.tier(FishingEquipmentFamily.CRANKBAIT);
-            FishingLogic.FishRoll roll = FishingLogic.rollFish(species, crankbaitTier, player.getRandom());
+            int fisheriesStudyLevel = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                    player, "v3.research.19", "fisheries_grade");
+            FishingLogic.FishRoll roll = FishingLogic.rollFish(species, crankbaitTier,
+                    fisheriesStudyLevel, player.getRandom());
             ItemStack fish = new ItemStack(ModItems.fishItem(roll.species()));
             fish.set(ModDataComponents.FISH_GRADE, roll.grade());
             fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, roll.lengthTenthsCm());

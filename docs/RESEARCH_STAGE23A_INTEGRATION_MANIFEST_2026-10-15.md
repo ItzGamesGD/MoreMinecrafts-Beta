@@ -42,9 +42,12 @@ The PR #91 tree is the starting point for every shared file. Only the additions 
 | `src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchMovementExhaustionMixin.java` | Add a narrow adapter for only sprint and swim exhaustion call sites. |
 | `src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchExperienceOrbMixin.java` | Add `.67` collection to the existing server orb lifecycle, preserving root XP attribution and vanilla pickup semantics. |
 | `src/main/resources/moreminecrafts.mixins.json` | Register the `.55` adapter once; retain all PR #90/#91 registrations, especially `.64` XP acquisition. |
+| `.github/workflows/k5-mapped-sources-probe.yml` | Include mapped `ExperienceOrb.tick/playerTouch` and `ServerPlayer.checkMovementStatistics/causeFoodExhaustion` source; require the sprint/swim exhaustion call sites to be present. |
 | `src/test/java/dev/itzgamesgd/moreminecrafts/progression/Research23AEffectRulesTest.java` | Add unique `.19`, `.55`, and `.67` rule/purchase-gate tests only; do not copy `.02`, `.03`, `.18` tests from PR #92. |
 | `src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AXpCollectionGameTests.java` | Add focused server tests for `.67`, including one-time vanilla pickup, nearest recipient, competing players, unpurchased players, and `.64` bonus composition. |
-| `src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java` | Preserve all PR #90/#91 test methods. Add only nonduplicative fisheries/exhaustion integration checks if feasible in the existing class. |
+| `src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AMovementExhaustionGameTests.java` | Check that unrelated food exhaustion remains unchanged at `.55` level 3. |
+| `src/gametest/java/dev/itzgamesgd/moreminecrafts/k5probe/K5NaturalTreeProbeGameTests.java` | Extend the existing two-process player-data workflow to save/reload `.64` level and fractional XP state, then verify the reloaded remainder affects the next award. |
+| `src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java` | Preserve all PR #90/#91 test methods, including `.17`, `.28`, and `.64`; no duplicate effect paths are added here. |
 | `docs/RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md` | Recount the canonical 87-row roster from the final integrated tree; upgrade only rows with concrete automated evidence; distinguish automated status from pending live checks. |
 | `docs/CONTENT_AUTHORITY_INDEX.md`, `docs/RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md` | Record this manifest/current authority amendment only; avoid unrelated authority edits. |
 
@@ -61,3 +64,7 @@ No PR #92 wholesale merge, cherry-pick, branch retarget, or replacement of PR #9
 ## Manual validation obligations
 
 Automated tests and CI do not establish live gameplay acceptance. Keep merge readiness **NOT READY** pending gameplay checks for all three imported effects: Fisheries Study grades for each paid level and crankbait tier alongside `.23`; sprint/swim exhaustion and unchanged other exhaustion causes; exact `.67` radius, competing players, `.64` composition, Mending, ordinary pickup, and real restart persistence of existing `.64` fractional state. Do not claim live verification unless it occurs.
+
+## Integration implementation status
+
+The integration code and focused tests are authored on this branch for `.19`, `.55`, and `.67`; PR #90/#91 runtime paths and existing tests remain in the base. The canonical audit recount is 87 unique rows (70 V3, 17 V4): 60 DATA_ONLY, 25 PARTIAL, 0 COMPLETE, 0 MISSING, and 2 BLOCKED. A standalone Java 25 harness passed the fisheries tables, tie-break, exhaustion scaling, and XP radius checks; the mapped-source workflow's embedded Python and mixin JSON parse checks also passed. The required Gradle command could not reach project configuration because Gradle could not resolve the pinned `net.fabricmc.fabric-loom:1.17.21` plugin from the configured repositories. CI and live gameplay validation remain pending; keep merge readiness **NOT READY** until required CI passes and the manual obligations above are complete.
