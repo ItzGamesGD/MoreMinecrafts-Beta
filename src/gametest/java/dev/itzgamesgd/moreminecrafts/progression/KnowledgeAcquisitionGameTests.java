@@ -213,6 +213,11 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
                 "an unpurchased player receives the unchanged vanilla recipe output");
         ctx.assertTrue(menu.getSlot(1).getItem().isEmpty(),
                 "an actual unpurchased craft consumes the ingredient exactly once");
+        menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        ctx.assertTrue(menu.getCarried().is(Items.OAK_PLANKS)
+                        && menu.getCarried().getCount() == 4
+                        && menu.getSlot(1).getItem().isEmpty(),
+                "repeated extraction of the cleared result cannot duplicate the output");
         ctx.succeed();
     }
 
