@@ -28,12 +28,20 @@ abstract class ItemStackMixin {
             method = "processDurabilityChange", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private int moreminecrafts$preserveShieldDurability(int amount,
             @com.llamalad7.mixinextras.sugar.Local(argsOnly = true) ServerPlayer player) {
-        if (amount <= 0 || !((Object) this instanceof ItemStack stack)
-                || !(stack.getItem() instanceof ShieldItem) || player == null) return amount;
-        double chance = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
-                player, "v3.research.30", "shield_durability_preservation");
-        return dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath.preventDurabilityLoss(
-                amount, player.getRandom().nextFloat(), chance);
+        if (amount <= 0 || !((Object) this instanceof ItemStack stack) || player == null) return amount;
+        if (stack.getItem() instanceof ShieldItem) {
+            double chance = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
+                    player, "v3.research.30", "shield_durability_preservation");
+            return dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath.preventDurabilityLoss(
+                    amount, player.getRandom().nextFloat(), chance);
+        }
+        if (dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext.applies(player, stack)) {
+            int level = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                    player, "v3.research.03", "mineral_durability_preservation");
+            return dev.itzgamesgd.moreminecrafts.progression.ResearchContentRules.preservedMiningDamage(
+                    amount, player.getRandom().nextDouble(), level);
+        }
+        return amount;
     }
 
     @Inject(method = "processDurabilityChange", at = @At("HEAD"), cancellable = true)

@@ -50,12 +50,14 @@ public final class FishingChallenges {
         rod.set(ModDataComponents.ROD_EQUIPMENT, worn);
 
         long startTick = player.level().getGameTime();
+        int fishingTechniqueLevel = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                player, "v3.research.23", "fishing_technique_window");
         ACTIVE.put(player.getUUID(), new Challenge(startTick, species, List.copyOf(pool),
                 worn.tier(FishingEquipmentFamily.CRANKBAIT), worn.tier(FishingEquipmentFamily.MINNOW),
-                hook, player.level(), rod));
+                hook, player.level(), rod, fishingTechniqueLevel));
         ServerPlayNetworking.send(player, new FishingChallengePayload(true, startTick, species.fishingDifficulty(),
                 species.ordinal(), FishingLogic.canCapture(species, worn.tier(FishingEquipmentFamily.MINNOW)),
-                species.requiredMinnowTier()));
+                species.requiredMinnowTier(), fishingTechniqueLevel));
         return true;
     }
 
@@ -63,7 +65,8 @@ public final class FishingChallenges {
         Challenge challenge = ACTIVE.get(player.getUUID());
         if (challenge == null) return;
         long elapsed = player.level().getGameTime() - challenge.startTick();
-        FishingTiming.Zone zone = FishingTiming.zone(FishingTiming.position(elapsed, challenge.species().fishingDifficulty()));
+        FishingTiming.Zone zone = FishingTiming.zone(FishingTiming.position(elapsed, challenge.species().fishingDifficulty()),
+                challenge.fishingTechniqueLevel());
         boolean connected = player.connection != null;
         boolean valid = valid(player, challenge);
         boolean success = !FishingTiming.timedOut(elapsed) && FishingTiming.captures(zone, player.getRandom());
@@ -85,7 +88,7 @@ public final class FishingChallenges {
         if (!challenge.hook().isRemoved()) challenge.hook().discard();
         if (player.fishing == challenge.hook()) player.fishing = null;
         if (minigameSuccess) awardIfPermitted(player, challenge);
-        if (notify) ServerPlayNetworking.send(player, new FishingChallengePayload(false, 0, 1, 0, false, 1));
+        if (notify) ServerPlayNetworking.send(player, new FishingChallengePayload(false, 0, 1, 0, false, 1, 0));
     }
 
     private static void awardIfPermitted(ServerPlayer player, Challenge challenge) {
@@ -143,5 +146,5 @@ public final class FishingChallenges {
 
     public record Challenge(long startTick, FishSpecies species, List<FishSpecies> speciesPool,
                             int crankbaitTier, int minnowTier,
-                            FishingHook hook, Level level, ItemStack rod) {}
+                            FishingHook hook, Level level, ItemStack rod, int fishingTechniqueLevel) {}
 }

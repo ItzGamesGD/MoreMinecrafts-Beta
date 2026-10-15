@@ -65,7 +65,8 @@
     "ResearchMobXpMixin",
     "ResearchExperienceOrbMixin",
     "ResearchThrownProjectileMixin",
-    "ResearchFurnaceResultSlotMixin"
+    "ResearchFurnaceResultSlotMixin",
+    "ResearchBeehiveMixin"
   ],
   "injectors": {
     "defaultRequire": 1

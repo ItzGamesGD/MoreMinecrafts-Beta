@@ -18,6 +18,9 @@ abstract class KnowledgeCraftingMenuMixin {
                     target = "Lnet/minecraft/world/inventory/ResultContainer;setRecipeUsed(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/item/crafting/RecipeHolder;)Z"))
     private static boolean moreminecrafts$knowledgeGate(ResultContainer output, ServerPlayer player,
             RecipeHolder<?> recipe, Operation<Boolean> original) {
-        return KnowledgeRuntime.canCraft(player, recipe) && original.call(output, player, recipe);
+        boolean used = KnowledgeRuntime.canCraft(player, recipe) && original.call(output, player, recipe);
+        if (used) dev.itzgamesgd.moreminecrafts.progression.ResearchCraftingRuntime
+                .applyWoodProcessing(player, output, recipe);
+        return used;
     }
 }
