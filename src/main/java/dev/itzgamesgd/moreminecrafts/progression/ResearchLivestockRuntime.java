@@ -13,7 +13,9 @@ public final class ResearchLivestockRuntime {
         if (level.isClientSide()) return;
         if (!(parent.getLoveCause() instanceof ServerPlayer breeder)) return;
         int researchLevel = ResearchRewards.level(breeder, "v3.research.17", "livestock_offspring");
-        int extra = ResearchLivestockRules.additionalOffspring(researchLevel, breeder.getRandom().nextDouble());
+        if (researchLevel <= 0) return;
+        double roll = researchLevel == 2 ? 0.0D : breeder.getRandom().nextDouble();
+        int extra = ResearchLivestockRules.additionalOffspring(researchLevel, roll);
         for (int i = 0; i < extra; i++) {
             AgeableMob offspring = parent.getBreedOffspring(level, partner);
             if (offspring == null) continue;
