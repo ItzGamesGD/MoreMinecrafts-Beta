@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,15 +29,14 @@ abstract class ResearchBeehiveMixin {
             CallbackInfoReturnable<InteractionResult> result) {
         if (!(level instanceof ServerLevel serverLevel) || !(player instanceof ServerPlayer serverPlayer)
                 || !held.is(Items.SHEARS) || !result.getReturnValue().consumesAction()
-                || before.getValue(BeehiveBlock.HONEY_LEVEL) < 5
-                || serverLevel.getBlockState(pos).getValue(BeehiveBlock.HONEY_LEVEL) != 0) return;
+                || before.getValue(BeehiveBlock.HONEY_LEVEL) < 5) return;
+        BlockState after = serverLevel.getBlockState(pos);
+        if (!after.is(before.getBlock()) || after.getValue(BeehiveBlock.HONEY_LEVEL) != 0) return;
         int researchLevel = ResearchRewards.level(serverPlayer,
                 "v3.research.18", "beekeeping_extra_honeycomb");
         double chance = ResearchContentRules.honeycombChance(researchLevel);
         if (ResearchContentRules.extraItemSucceeds(serverPlayer.getRandom().nextDouble(), chance)) {
-            serverLevel.addFreshEntity(new net.minecraft.world.entity.item.ItemEntity(serverLevel,
-                    pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
-                    new ItemStack(Items.HONEYCOMB)));
+            Block.popResource(serverLevel, pos, new ItemStack(Items.HONEYCOMB));
         }
     }
 }

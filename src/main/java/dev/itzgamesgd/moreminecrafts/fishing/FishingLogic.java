@@ -10,6 +10,10 @@ public final class FishingLogic {
             {45, 30, 16, 7, 2}, {30, 32, 22, 12, 4},
             {10, 25, 32, 24, 9}, {0, 8, 34, 38, 20}
     };
+    private static final int[][] FISHERIES_GRADE_WEIGHTS = {
+            {40, 32, 17, 8, 3}, {25, 33, 23, 13, 6},
+            {7, 24, 33, 24, 12}, {0, 6, 33, 37, 24}
+    };
     private FishingLogic() {}
 
     public static List<FishSpecies> accessibleSpecies(int reelTier) {
@@ -35,14 +39,45 @@ public final class FishingLogic {
 
     /** crankbaitTier zero means no active crankbait and uses the natural distribution. */
     public static int[] gradeWeights(int crankbaitTier) {
+        return gradeWeights(crankbaitTier, 0);
+    }
+
+    /** Fisheries Study changes only grade probabilities, with exact integer largest-remainder allocation. */
+    public static int[] gradeWeights(int crankbaitTier, int fisheriesStudyLevel) {
         if (crankbaitTier < 0 || crankbaitTier > FishingEquipmentTier.MAX)
             throw new IllegalArgumentException("Crankbait tier must be 0-3");
-        return GRADE_WEIGHTS[crankbaitTier].clone();
+        int level = Math.max(0, Math.min(5, fisheriesStudyLevel));
+        if (level == 0) return GRADE_WEIGHTS[crankbaitTier].clone();
+
+        int[] result = new int[GRADE_WEIGHTS[crankbaitTier].length];
+        int[] remainders = new int[result.length];
+        int total = 0;
+        for (int grade = 0; grade < result.length; grade++) {
+            int numerator = GRADE_WEIGHTS[crankbaitTier][grade] * 5
+                    + (FISHERIES_GRADE_WEIGHTS[crankbaitTier][grade]
+                    - GRADE_WEIGHTS[crankbaitTier][grade]) * level;
+            result[grade] = numerator / 5;
+            remainders[grade] = numerator % 5;
+            total += result[grade];
+        }
+
+        Integer[] order = new Integer[result.length];
+        for (int grade = 0; grade < order.length; grade++) order[grade] = grade;
+        Arrays.sort(order, (left, right) -> {
+            int remainderOrder = Integer.compare(remainders[right], remainders[left]);
+            return remainderOrder != 0 ? remainderOrder : Integer.compare(left, right);
+        });
+        for (int i = 0; i < 100 - total; i++) result[order[i]]++;
+        return result;
     }
 
     public static int rollGrade(int crankbaitTier, RandomSource random) {
+        return rollGrade(crankbaitTier, 0, random);
+    }
+
+    public static int rollGrade(int crankbaitTier, int fisheriesStudyLevel, RandomSource random) {
         int roll = random.nextInt(100);
-        int[] weights = gradeWeights(crankbaitTier);
+        int[] weights = gradeWeights(crankbaitTier, fisheriesStudyLevel);
         for (int i = 0; i < weights.length; i++) {
             if (roll < weights[i]) return i + 1;
             roll -= weights[i];
@@ -60,7 +95,12 @@ public final class FishingLogic {
 
     /** Rolls every per-fish field from the caller's server RNG without reusing an ItemStack. */
     public static FishRoll rollFish(FishSpecies species, int crankbaitTier, RandomSource random) {
-        int grade = rollGrade(crankbaitTier, random);
+        return rollFish(species, crankbaitTier, 0, random);
+    }
+
+    public static FishRoll rollFish(FishSpecies species, int crankbaitTier, int fisheriesStudyLevel,
+            RandomSource random) {
+        int grade = rollGrade(crankbaitTier, fisheriesStudyLevel, random);
         int length = rollLength(species, random);
         int weight = rollWeight(species, length, random);
         return new FishRoll(species, grade, length, weight);

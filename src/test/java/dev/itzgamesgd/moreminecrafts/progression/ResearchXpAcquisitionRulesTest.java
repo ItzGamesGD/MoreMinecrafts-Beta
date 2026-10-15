@@ -28,9 +28,17 @@ final class ResearchXpAcquisitionRulesTest {
 
     @Test void perPlayerFractionKeySurvivesProgressionSerialization() {
         String key = "research.xp_fraction.v3.research.64";
-        ResearchProgressState original = ResearchProgressState.empty().with(key, 63);
+        ResearchProgressState original = ResearchProgressState.empty()
+                .with(key, 63)
+                .with("research.v3.research.64", 3)
+                .with("research.v3.research.67", 2);
         var encoded = ResearchProgressState.CODEC.encodeStart(JsonOps.INSTANCE, original).getOrThrow();
         ResearchProgressState restored = ResearchProgressState.CODEC.parse(JsonOps.INSTANCE, encoded).getOrThrow();
         assertEquals(63, restored.get(key));
+        assertEquals(3, restored.researchLevel("v3.research.64"));
+        assertEquals(2, restored.researchLevel("v3.research.67"));
+        assertEquals(ResearchXpAcquisitionRules.apply(7, 3, 63),
+                ResearchXpAcquisitionRules.apply(7, restored.researchLevel("v3.research.64"),
+                        restored.get(key)));
     }
 }

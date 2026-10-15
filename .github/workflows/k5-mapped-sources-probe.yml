@@ -49,7 +49,8 @@ jobs:
           targets = {
               "net.minecraft.world.entity.LivingEntity": ["dropExperience"],
               "net.minecraft.world.entity.Mob": ["dropExperience"],
-              "net.minecraft.world.entity.ExperienceOrb": ["ExperienceOrb", "award", "playerTouch"],
+              "net.minecraft.world.entity.ExperienceOrb": ["ExperienceOrb", "award", "playerTouch", "tick"],
+              "net.minecraft.world.food.FoodData": ["exhaustionLevel", "addExhaustion"],
               "net.minecraft.world.entity.animal.Animal": ["spawnChildFromBreeding", "finalizeSpawnChildFromBreeding", "getBreedOffspring", "getLoveCause"],
               "net.minecraft.world.entity.AgeableMob": ["setBaby", "snapTo"],
               "net.minecraft.world.entity.player.Player": ["attack", "giveExperiencePoints"],
@@ -70,6 +71,7 @@ jobs:
               "net.minecraft.world.level.block.CropBlock": ["randomTick"],
               "net.minecraft.world.entity.projectile.Projectile": ["shoot"],
               "net.minecraft.server.level.ServerPlayerGameMode": ["destroyBlock"],
+              "net.minecraft.server.level.ServerPlayer": ["checkMovementStatistics", "causeFoodExhaustion"],
               "net.minecraft.world.level.Level": ["setBlock", "removeBlock", "destroyBlock"],
               "net.minecraft.world.level.chunk.ProtoChunk": ["ProtoChunk"],
               "net.minecraft.world.level.chunk.ChunkGenerator": ["applyBiomeDecoration"],

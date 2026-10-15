@@ -69,7 +69,8 @@
     "ResearchBeehiveMixin",
     "ResearchLivestockMixin",
     "ResearchAxeAttackMixin",
-    "ResearchXpAcquisitionMixin"
+    "ResearchXpAcquisitionMixin",
+    "ResearchMovementExhaustionMixin"
   ],
   "injectors": {
     "defaultRequire": 1
