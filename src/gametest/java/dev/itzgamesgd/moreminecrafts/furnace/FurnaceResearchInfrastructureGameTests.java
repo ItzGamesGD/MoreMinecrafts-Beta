@@ -44,12 +44,12 @@ public final class FurnaceResearchInfrastructureGameTests implements CustomTestM
         ServerPlayer first = ctx.makeMockServerPlayerInLevel();
         ServerPlayer second = ctx.makeMockServerPlayerInLevel();
 
-        furnace.startOpen(first);
+        FurnaceResearchAttribution.opened(furnace, first);
         assertOwner(ctx, furnace, first.getUUID(), "opening establishes the first player's attribution");
         furnace.stopOpen(first);
         assertOwner(ctx, furnace, first.getUUID(), "closing the GUI retains attribution");
 
-        furnace.startOpen(second);
+        FurnaceResearchAttribution.opened(furnace, second);
         assertOwner(ctx, furnace, second.getUUID(), "a later GUI open becomes the current attribution");
         FurnaceMenu menu = new FurnaceMenu(81, first.getInventory(), furnace, new SimpleContainerData(4));
         first.containerMenu = menu;
@@ -65,7 +65,7 @@ public final class FurnaceResearchInfrastructureGameTests implements CustomTestM
         furnace.stopOpen(second);
         assertOwner(ctx, furnace, first.getUUID(), "closing another viewer does not clear actual attribution");
 
-        furnace.startOpen(second);
+        FurnaceResearchAttribution.opened(furnace, second);
         assertOwner(ctx, furnace, second.getUUID(), "reopening sets a new baseline attribution");
         ctx.succeed();
     }

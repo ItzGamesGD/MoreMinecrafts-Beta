@@ -5,8 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchAttribution;
 import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState;
 import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchStateAccess;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import dev.itzgamesgd.moreminecrafts.progression.SmeltingOutputProvenance;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
@@ -33,12 +31,6 @@ abstract class KnowledgeFurnaceMixin implements FurnaceResearchStateAccess {
     public void moreminecrafts$setResearchState(FurnaceResearchState state) {
         moreminecrafts$researchState = state == null ? FurnaceResearchState.empty() : state;
         ((AbstractFurnaceBlockEntity) (Object) this).setChanged();
-    }
-
-    @Inject(method = "startOpen", at = @At("HEAD"))
-    private void moreminecrafts$attributeGuiOpener(Player player, CallbackInfo ci) {
-        if (player instanceof ServerPlayer serverPlayer)
-            FurnaceResearchAttribution.opened((AbstractFurnaceBlockEntity) (Object) this, serverPlayer);
     }
 
     @Inject(method = "setItem", at = @At("HEAD"))
