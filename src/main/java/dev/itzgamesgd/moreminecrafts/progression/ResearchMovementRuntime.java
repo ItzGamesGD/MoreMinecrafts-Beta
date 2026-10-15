@@ -58,14 +58,8 @@ public final class ResearchMovementRuntime {
             state.lastWallJump = null;
             state.hangingTicks = 0;
         } else {
-            if (player.horizontalCollision) state.wallUntil = now + JUMP_GRACE_TICKS;
-            if (KnowledgeRuntime.researched(player, "fall_roll")
-                    && shift && !state.previousShift
-                    && player.getDeltaMovement().y < -0.1
-                    && player.fallDistance > 2.5f) {
-                // The short landing window is validated when the damage event fires.
-                state.rollUntil = now + ROLL_GRACE_TICKS;
-            }
+            observeWallContact(player, player.horizontalCollision);
+            observeFallRollInput(player, shift);
             if (KnowledgeRuntime.researched(player, "climbing")
                     && player.horizontalCollision && player.getLastClientInput().forward()
                     && player.getMainHandItem().is(ItemTags.PICKAXES)) {
@@ -90,12 +84,30 @@ public final class ResearchMovementRuntime {
         state.previousShift = shift;
     }
 
+    static void observeWallContact(ServerPlayer player, boolean touchingWall) {
+        if (!touchingWall || player.onGround()) return;
+        State state = STATE.computeIfAbsent(player.getUUID(), ignored -> new State());
+        state.wallUntil = player.level().getGameTime() + JUMP_GRACE_TICKS;
+    }
+
+    static void observeFallRollInput(ServerPlayer player, boolean shiftPressed) {
+        State state = STATE.computeIfAbsent(player.getUUID(), ignored -> new State());
+        if (KnowledgeRuntime.researched(player, "fall_roll")
+                && shiftPressed && !state.previousShift
+                && player.getDeltaMovement().y < -0.1
+                && player.fallDistance > 2.5f) {
+            // The short landing window is validated when the damage event fires.
+            state.rollUntil = player.level().getGameTime() + ROLL_GRACE_TICKS;
+        }
+        state.previousShift = shiftPressed;
+    }
+
     /** Returns true when this jump-edge was consumed, so enchantments do not double-trigger. */
     public static boolean onJump(ServerPlayer player) {
         if (!KnowledgeRuntime.researched(player, "wall_jump") || player.onGround()) return false;
         State state = STATE.computeIfAbsent(player.getUUID(), ignored -> new State());
         long now = player.level().getGameTime();
-        if (state.wallUntil < now) return false;
+        if (!ResearchMovementRules.inGraceWindow(now, state.wallUntil)) return false;
         BlockPos wall = player.blockPosition().relative(player.getDirection());
         if (wall.equals(state.lastWallJump)) return false;
         Vec3 horizontal = new Vec3(-player.getLookAngle().x, 0, -player.getLookAngle().z);
@@ -112,7 +124,7 @@ public final class ResearchMovementRuntime {
     public static boolean consumeFallRoll(ServerPlayer player) {
         if (!KnowledgeRuntime.researched(player, "fall_roll")) return false;
         State state = STATE.get(player.getUUID());
-        if (state == null || state.rollUntil < player.level().getGameTime()) return false;
+        if (state == null || !ResearchMovementRules.inGraceWindow(player.level().getGameTime(), state.rollUntil)) return false;
         state.rollUntil = 0;
         return true;
     }
