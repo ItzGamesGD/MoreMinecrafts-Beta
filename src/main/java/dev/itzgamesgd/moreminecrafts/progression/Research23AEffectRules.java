@@ -12,6 +12,10 @@ public final class Research23AEffectRules {
             {40, 32, 17, 8, 3}, {25, 33, 23, 13, 6},
             {7, 24, 33, 24, 12}, {0, 6, 33, 37, 24}
     };
+    private static final int FISH_GRADE_INTERPOLATION_DENOMINATOR = 5;
+    private static final int FISH_GRADE_TOTAL = 100;
+    private static final long FISH_GRADE_TOTAL_FIFTHS =
+            (long) FISH_GRADE_TOTAL * FISH_GRADE_INTERPOLATION_DENOMINATOR;
 
     private Research23AEffectRules() {}
 
@@ -24,44 +28,45 @@ public final class Research23AEffectRules {
         int level = clamp(researchLevel, 0, 5);
         if (level == 0) return FISH_GRADE_BASE[crankbaitTier].clone();
 
-        double[] interpolated = new double[FISH_GRADE_BASE[crankbaitTier].length];
-        for (int grade = 0; grade < interpolated.length; grade++) {
+        long[] interpolatedFifths = new long[FISH_GRADE_BASE[crankbaitTier].length];
+        for (int grade = 0; grade < interpolatedFifths.length; grade++) {
             int base = FISH_GRADE_BASE[crankbaitTier][grade];
             int maximum = FISH_GRADE_MAX[crankbaitTier][grade];
-            interpolated[grade] = base + (maximum - base) * level / 5.0;
+            interpolatedFifths[grade] = (long) base * FISH_GRADE_INTERPOLATION_DENOMINATOR
+                    + (long) (maximum - base) * level;
         }
-        return allocateLargestRemainder(interpolated);
+        return allocateLargestRemainder(interpolatedFifths);
     }
 
     /**
      * Floors each percentage, then allocates the points needed to reach 100 in descending
      * fractional-remainder order. Equal remainders favor the lower (earlier) grade index.
      */
-    static int[] allocateLargestRemainder(double[] percentages) {
-        if (percentages.length == 0) throw new IllegalArgumentException("At least one grade is required");
-        double rawTotal = 0.0;
-        int[] result = new int[percentages.length];
-        double[] fractions = new double[percentages.length];
+    static int[] allocateLargestRemainder(long[] percentageFifths) {
+        if (percentageFifths.length == 0) throw new IllegalArgumentException("At least one grade is required");
+        long rawTotalFifths = 0L;
+        int[] result = new int[percentageFifths.length];
+        int[] remainders = new int[percentageFifths.length];
         int floorTotal = 0;
-        for (int i = 0; i < percentages.length; i++) {
-            double value = percentages[i];
-            if (!Double.isFinite(value) || value < 0.0)
-                throw new IllegalArgumentException("Grade percentages must be finite and nonnegative");
-            rawTotal += value;
-            result[i] = (int) Math.floor(value);
-            fractions[i] = value - result[i];
+        for (int i = 0; i < percentageFifths.length; i++) {
+            long value = percentageFifths[i];
+            if (value < 0L)
+                throw new IllegalArgumentException("Grade percentages must be nonnegative");
+            rawTotalFifths += value;
+            result[i] = Math.toIntExact(value / FISH_GRADE_INTERPOLATION_DENOMINATOR);
+            remainders[i] = (int) (value % FISH_GRADE_INTERPOLATION_DENOMINATOR);
             floorTotal += result[i];
         }
-        if (Math.abs(rawTotal - 100.0) > 1.0e-9)
+        if (rawTotalFifths != FISH_GRADE_TOTAL_FIFTHS)
             throw new IllegalArgumentException("Interpolated grade percentages must sum to 100");
 
-        Integer[] order = new Integer[percentages.length];
+        Integer[] order = new Integer[percentageFifths.length];
         for (int i = 0; i < order.length; i++) order[i] = i;
         Arrays.sort(order, (left, right) -> {
-            int remainderOrder = Double.compare(fractions[right], fractions[left]);
+            int remainderOrder = Integer.compare(remainders[right], remainders[left]);
             return remainderOrder != 0 ? remainderOrder : Integer.compare(left, right);
         });
-        int residual = 100 - floorTotal;
+        int residual = FISH_GRADE_TOTAL - floorTotal;
         if (residual < 0 || residual > order.length)
             throw new IllegalStateException("Largest-remainder allocation cannot reach 100");
         for (int i = 0; i < residual; i++) result[order[i]]++;
