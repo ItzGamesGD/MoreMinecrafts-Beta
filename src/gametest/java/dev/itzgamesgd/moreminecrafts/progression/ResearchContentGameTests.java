@@ -385,6 +385,48 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
+    public void sprintAndSwimMovementStatisticsApplyThePaidExhaustionReduction(GameTestHelper ctx) {
+        ServerPlayer unowned = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer levelOne = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer levelThree = ctx.makeMockServerPlayerInLevel();
+        for (ServerPlayer player : List.of(unowned, levelOne, levelThree)) {
+            player.setGameMode(GameType.SURVIVAL);
+            player.setOnGround(true);
+        }
+        KnowledgeRuntime.updateState(levelOne,
+                KnowledgeRuntime.state(levelOne).with("research.v3.research.55", 1));
+        KnowledgeRuntime.updateState(levelThree,
+                KnowledgeRuntime.state(levelThree).with("research.v3.research.55", 3));
+
+        unowned.setSprinting(true);
+        levelOne.setSprinting(true);
+        levelThree.setSprinting(true);
+        unowned.checkMovementStatistics(1.0D, 0.0D, 0.0D);
+        levelOne.checkMovementStatistics(1.0D, 0.0D, 0.0D);
+        levelThree.checkMovementStatistics(1.0D, 0.0D, 0.0D);
+        ctx.assertTrue(Math.abs(unowned.getFoodData().getExhaustionLevel() - 0.1F) < 1.0E-6F,
+                "unowned sprinting retains the vanilla exhaustion amount");
+        ctx.assertTrue(Math.abs(levelOne.getFoodData().getExhaustionLevel() - 0.092F) < 1.0E-6F,
+                "level one reduces the actual sprint exhaustion call by eight percent");
+        ctx.assertTrue(Math.abs(levelThree.getFoodData().getExhaustionLevel() - 0.076F) < 1.0E-6F,
+                "level three reduces the actual sprint exhaustion call by twenty-four percent");
+
+        for (ServerPlayer player : List.of(unowned, levelOne, levelThree)) {
+            player.getFoodData().setExhaustion(0.0F);
+            player.setSprinting(false);
+            player.setSwimming(true);
+            player.checkMovementStatistics(0.0D, 0.0D, 1.0D);
+        }
+        ctx.assertTrue(Math.abs(unowned.getFoodData().getExhaustionLevel() - 0.01F) < 1.0E-6F,
+                "unowned swimming retains the vanilla exhaustion amount");
+        ctx.assertTrue(Math.abs(levelOne.getFoodData().getExhaustionLevel() - 0.0092F) < 1.0E-6F,
+                "level one reduces the actual swimming exhaustion call by eight percent");
+        ctx.assertTrue(Math.abs(levelThree.getFoodData().getExhaustionLevel() - 0.0076F) < 1.0E-6F,
+                "level three reduces the actual swimming exhaustion call by twenty-four percent");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void movementResearchHonorsPurchaseWindowAndConsumesEachActionOnce(GameTestHelper ctx) {
         ServerPlayer jumper = ctx.makeMockServerPlayerInLevel();
         jumper.setGameMode(GameType.SURVIVAL);
