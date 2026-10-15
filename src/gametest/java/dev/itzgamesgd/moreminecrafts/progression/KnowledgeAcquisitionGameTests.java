@@ -186,7 +186,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
         ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
         researcher.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(researcher,
-                KnowledgeRuntime.state(researcher).with("v3.research.08", 5));
+                KnowledgeRuntime.state(researcher).with("research.v3.research.08", 5));
         CraftingMenu researchedMenu = craftingMenu(ctx, researcher);
         researchedMenu.getSlot(1).set(new ItemStack(Items.OAK_LOG));
         researchedMenu.slotsChanged(researchedMenu.getSlot(1).container);
@@ -220,7 +220,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
     public void precisionCraftingPreservesOneRarestSlotAndCakeBucketRemainders(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
-        KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player).with("v3.research.08", 5));
+        KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player).with("research.v3.research.08", 5));
         CraftingMenu menu = craftingMenu(ctx, player);
 
         menu.getSlot(1).set(new ItemStack(Items.MILK_BUCKET));
@@ -258,7 +258,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player)
-                .with("v3.research.08", 5).with("v3.research.09", 2));
+                .with("research.v3.research.08", 5).with("research.v3.research.09", 2));
         CraftingMenu menu = craftingMenu(ctx, player);
         menu.getSlot(1).set(new ItemStack(Items.OAK_LOG));
         menu.slotsChanged(menu.getSlot(1).container);
@@ -284,7 +284,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
     public void precisionCraftingDoesNotRunWhenShiftClickCannotTransferTheResult(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
-        KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player).with("v3.research.08", 5));
+        KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player).with("research.v3.research.08", 5));
         for (int slot = 0; slot < 36; slot++)
             player.getInventory().setItem(slot, new ItemStack(Items.COBBLESTONE, 64));
         CraftingMenu menu = craftingMenu(ctx, player);
