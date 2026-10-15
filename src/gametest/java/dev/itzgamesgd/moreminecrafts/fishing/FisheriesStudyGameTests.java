@@ -42,10 +42,11 @@ public final class FisheriesStudyGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(baselineStack.is(ModItems.fishItem(species))
                         && improvedStack.is(ModItems.fishItem(species)),
                 "both results retain the same species item");
-        ctx.assertTrue(baselineStack.getOrDefault(ModDataComponents.FISH_LENGTH_TENTHS_CM, -1)
-                        == improvedStack.getOrDefault(ModDataComponents.FISH_LENGTH_TENTHS_CM, -1)
-                        && baselineStack.getOrDefault(ModDataComponents.FISH_WEIGHT_TENTHS_KG, -1)
-                        == improvedStack.getOrDefault(ModDataComponents.FISH_WEIGHT_TENTHS_KG, -1),
+        int baselineLength = baselineStack.getOrDefault(ModDataComponents.FISH_LENGTH_TENTHS_CM, -1);
+        int improvedLength = improvedStack.getOrDefault(ModDataComponents.FISH_LENGTH_TENTHS_CM, -1);
+        int baselineWeight = baselineStack.getOrDefault(ModDataComponents.FISH_WEIGHT_TENTHS_KG, -1);
+        int improvedWeight = improvedStack.getOrDefault(ModDataComponents.FISH_WEIGHT_TENTHS_KG, -1);
+        ctx.assertTrue(baselineLength == improvedLength && baselineWeight == improvedWeight,
                 "the serialized fish length and weight payload remains unchanged");
         ctx.assertTrue(baselineStack.getOrDefault(ModDataComponents.FISH_GRADE, 0) == baseline.grade()
                         && improvedStack.getOrDefault(ModDataComponents.FISH_GRADE, 0) == improved.grade(),
