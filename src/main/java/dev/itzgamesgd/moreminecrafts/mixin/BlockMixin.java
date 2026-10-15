@@ -24,15 +24,17 @@ abstract class BlockMixin {
     private static void moreminecrafts$smeltMinedBlockDrops(BlockState state, ServerLevel level, BlockPos pos,
             BlockEntity blockEntity, Entity entity, ItemInstance tool, CallbackInfoReturnable<List<ItemStack>> cir) {
         List<ItemStack> drops = cir.getReturnValue();
-        if (entity instanceof ServerPlayer player)
+        if (entity instanceof ServerPlayer player) {
             drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
                     .applySeedHarvestResearch(player, state, drops);
+            // Add gathering extras to vanilla loot before the one existing enchantment pass so
+            // Lumbering extras receive Auto Smelt/Replant processing exactly once as well.
+            drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
+                    .applyOreAndLogResearch(player, state, drops);
+        }
         drops = drops.stream()
                 .map(stack -> EnchantmentRuntime.consumeReplantDrop(level, pos, entity,
                         EnchantmentRuntime.autoSmeltDrop(level, pos, tool, stack))).toList();
-        if (entity instanceof ServerPlayer player)
-            drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
-                    .applyOreAndLogResearch(player, state, drops);
         cir.setReturnValue(drops);
     }
 }

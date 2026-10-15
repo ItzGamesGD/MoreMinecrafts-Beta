@@ -955,3 +955,9 @@ This amendment records the approved implementation boundaries for the following 
 
 The T3 Counter-Shield is a craftable item, separate from the `shield_counter` research effect. Its recipe is already approved by `RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md`: six iron ingots and one obsidian in the vanilla shield pattern. Preserve that decision; do not treat it as a `shield_counter` research purchase or reopen its recipe.
 ============================================================
+
+============================================================
+RESEARCH 67 — INSTANT XP ORB COLLECTION CLARIFICATION — 2026-10-15
+
+[USER-APPROVED] `v3.research.67` XP Control immediately collects XP orbs within 4 blocks at paid level 1 and 6 blocks at paid level 2. Collection is server-authoritative and must award an orb at most once even when multiple eligible players are nearby. Use the vanilla `ExperienceOrb.playerTouch` pathway so the orb's actual value and supported XP pickup effects are preserved. Outside the paid radius, vanilla pickup behavior remains unchanged. This effect adds no persistent state and composes with `v3.research.64` XP Acquisition: the collecting player's `.64` bonus is applied once to the exact XP award from the single vanilla pickup. The existing `.64` fractional bonus remains saved with that player's progression state.
+============================================================

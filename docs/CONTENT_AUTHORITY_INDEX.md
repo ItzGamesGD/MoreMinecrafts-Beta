@@ -24,6 +24,10 @@ The scoped implementation manifest is [RESEARCH_STAGE23A_BATCH1_MANIFEST_2026-10
 
 The Batch 2 manifest is [RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md). It continues from PR #90, selects three DATA_ONLY M1 V3 effects (`v3.research.17`, `.28`, `.64`), and adds focused movement validation for the existing `wall_jump` and `fall_roll` handlers. The Batch 2 audit update recounts all 87 rows as 63 DATA_ONLY, 22 PARTIAL, and 2 BLOCKED. Fisheries Study is explicitly excluded because its approved grade-table interpolation leaves rounding-residual placement unspecified; do not infer a grade allocation without a design decision. Java 25 CI and Draft PR status are recorded in the Batch 2 PR when complete.
 
+## Stage 23-A parallel branch reconciliation (2026-10-15)
+
+The reconciliation manifest is [RESEARCH_STAGE23A_PARALLEL_RECONCILIATION_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_PARALLEL_RECONCILIATION_MANIFEST_2026-10-15.md). It preserves PR #92 as an authorized parallel branch record while integrating its unique approved `.55` and `.67` effects on PR #91's cumulative line. Duplicate `.02`, `.03`, and `.18` handlers remain single and are reconciled against PR #90. The PR #92 largest-remainder Fisheries Study method is retained only as an inactive candidate; do not activate `.19` until the residual-allocation policy is explicitly selected. The audit is recounted from all 87 rows; effect rows stay PARTIAL pending remaining live compatibility checks.
+
 ## Current research/knowledge authority (latest human-approved V4)
 
 The earlier **Knowledge / Research — IDEA / DEFERRED** paragraph at the bottom of this index is HISTORICAL and superseded, not active. The current, explicitly user-approved Knowledge / Research design authority is [RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md](RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md), especially its **RESEARCH V4 EXECUTION AUTHORITY — 2026-10-10** amendment and the later user-confirmed recipe/mob-capture decisions.

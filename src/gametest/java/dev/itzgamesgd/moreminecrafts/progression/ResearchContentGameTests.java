@@ -38,9 +38,9 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
                 "an unowned player receives only the post-enchantment base ore result");
 
         KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player)
-                .with("v3.research.01", 5)
-                .with("v3.research.02", 1)
-                .with("v3.research.15", 3));
+                .with("research.v3.research.01", 5)
+                .with("research.v3.research.02", 1)
+                .with("research.v3.research.15", 3));
         var oreDrops = ResearchContentRuntime.applyBlockDropResearch(player,
                 Blocks.DIAMOND_ORE.defaultBlockState(), List.of(new ItemStack(Items.DIAMOND)), () -> 0.0D);
         ctx.assertTrue(oreDrops.size() == 2 && oreDrops.get(1).is(Items.DIAMOND)
@@ -66,7 +66,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(player,
-                KnowledgeRuntime.state(player).with("v3.research.09", 2));
+                KnowledgeRuntime.state(player).with("research.v3.research.09", 2));
         CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
                 net.minecraft.world.inventory.ContainerLevelAccess.create(ctx.getLevel(),
                         ctx.absolutePos(new BlockPos(1, 1, 1))));
@@ -87,7 +87,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(player,
-                KnowledgeRuntime.state(player).with("v3.research.03", 5));
+                KnowledgeRuntime.state(player).with("research.v3.research.03", 5));
         ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
         player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, pickaxe);
         BlockPos pos = ctx.absolutePos(new BlockPos(2, 2, 2));
@@ -119,7 +119,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
         researcher.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(researcher,
-                KnowledgeRuntime.state(researcher).with("v3.research.10", 1));
+                KnowledgeRuntime.state(researcher).with("research.v3.research.10", 1));
         AnvilMenu researchMenu = new AnvilMenu(1, researcher.getInventory());
         ((T1AnvilModes) researchMenu).moreminecrafts$button(researcher, 1);
         ItemStack researchSword = new ItemStack(Items.DIAMOND_SWORD);
@@ -139,7 +139,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(player,
-                KnowledgeRuntime.state(player).with("v3.research.18", 3));
+                KnowledgeRuntime.state(player).with("research.v3.research.18", 3));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.SHEARS));
         long seed = 0;
         do {
@@ -151,14 +151,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         var before = Blocks.BEEHIVE.defaultBlockState()
                 .setValue(net.minecraft.world.level.block.BeehiveBlock.HONEY_LEVEL, 5);
         ctx.getLevel().setBlock(pos, before, 3);
-        BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false);
-        var useItemOn = Blocks.BEEHIVE.getClass().getDeclaredMethod("useItemOn",
-                ItemStack.class, net.minecraft.world.level.block.state.BlockState.class,
-                net.minecraft.world.level.Level.class, BlockPos.class,
-                net.minecraft.world.entity.player.Player.class, InteractionHand.class, BlockHitResult.class);
-        useItemOn.setAccessible(true);
-        InteractionResult result = (InteractionResult) useItemOn.invoke(Blocks.BEEHIVE,
-                player.getMainHandItem(), before, ctx.getLevel(), pos, player, InteractionHand.MAIN_HAND, hit);
+        InteractionResult result = useBeehive(player, ctx.getLevel(), pos, player.getMainHandItem(), before);
         ctx.assertTrue(result.consumesAction(), "vanilla handles the full-hive shears action");
         int honeycombCount = ctx.getLevel().getEntitiesOfClass(ItemEntity.class,
                 new AABB(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1,
@@ -174,10 +167,39 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
+    public void beekeepingRequiresPurchaseAndSuccessfulFullHiveShearsHarvest(GameTestHelper ctx)
+            throws ReflectiveOperationException {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.SHEARS));
+
+        BlockPos unownedPos = ctx.absolutePos(new BlockPos(2, 2, 2));
+        var fullHive = Blocks.BEEHIVE.defaultBlockState()
+                .setValue(net.minecraft.world.level.block.BeehiveBlock.HONEY_LEVEL, 5);
+        ctx.getLevel().setBlock(unownedPos, fullHive, 3);
+        InteractionResult unownedResult = useBeehive(player, ctx.getLevel(), unownedPos,
+                player.getMainHandItem(), fullHive);
+        ctx.assertTrue(unownedResult.consumesAction(), "vanilla accepts the unowned shears harvest");
+        ctx.assertTrue(honeycombCount(ctx, unownedPos) == 3,
+                "an unpurchased player receives only the three vanilla combs");
+
+        BlockPos failedPos = ctx.absolutePos(new BlockPos(7, 2, 2));
+        ctx.getLevel().setBlock(failedPos, fullHive, 3);
+        InteractionResult failedResult = useBeehive(player, ctx.getLevel(), failedPos, ItemStack.EMPTY, fullHive);
+        ctx.assertTrue(!failedResult.consumesAction(), "a non-shears interaction is not a harvest");
+        ctx.assertTrue(honeycombCount(ctx, failedPos) == 0
+                        && ctx.getLevel().getBlockState(failedPos)
+                                .getValue(net.minecraft.world.level.block.BeehiveBlock.HONEY_LEVEL) == 5,
+                "failed interactions neither drop nor consume honeycomb");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void livestockAddsOnlyThePurchasedNumberAfterVanillaBreeding(GameTestHelper ctx) {
         ServerPlayer breeder = ctx.makeMockServerPlayerInLevel();
         breeder.setGameMode(GameType.SURVIVAL);
-        KnowledgeRuntime.updateState(breeder, KnowledgeRuntime.state(breeder).with("v3.research.17", 2));
+        KnowledgeRuntime.updateState(breeder,
+                KnowledgeRuntime.state(breeder).with("research.v3.research.17", 2));
         BlockPos center = ctx.absolutePos(new BlockPos(3, 2, 3));
         var parent = ctx.spawn(EntityTypes.COW, center);
         var partner = ctx.spawn(EntityTypes.COW, center.east());
@@ -203,7 +225,8 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer attacker = ctx.makeMockServerPlayerInLevel();
         attacker.setGameMode(GameType.SURVIVAL);
         attacker.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_AXE));
-        KnowledgeRuntime.updateState(attacker, KnowledgeRuntime.state(attacker).with("v3.research.28", 3));
+        KnowledgeRuntime.updateState(attacker,
+                KnowledgeRuntime.state(attacker).with("research.v3.research.28", 3));
         var researchedTarget = ctx.spawn(EntityTypes.ZOMBIE, new BlockPos(2, 2, 2));
         attacker.attack(researchedTarget);
 
@@ -224,7 +247,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         researcher.setGameMode(GameType.SURVIVAL);
         other.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(researcher,
-                KnowledgeRuntime.state(researcher).with("v3.research.64", 3));
+                KnowledgeRuntime.state(researcher).with("research.v3.research.64", 3));
         ExperienceOrb researchedOrb = new ExperienceOrb(ctx.getLevel(), 2.0D, 2.0D, 2.0D, 100);
         researchedOrb.playerTouch(researcher);
         ExperienceOrb ordinaryOrb = new ExperienceOrb(ctx.getLevel(), 4.0D, 2.0D, 2.0D, 100);
@@ -233,6 +256,95 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
                 "a level-three recipient gets the approved nine percent bonus on the orb pickup");
         ctx.assertTrue(other.totalExperience == 100,
                 "an unresearched recipient receives vanilla XP even beside the researcher");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void xpControlOnlyCollectsForPurchasedPlayersAndUsesTheVanillaAward(GameTestHelper ctx) {
+        ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
+        researcher.setGameMode(GameType.SURVIVAL);
+        researcher.setPos(5.0D, 2.0D, 5.0D);
+        KnowledgeRuntime.updateState(researcher, KnowledgeRuntime.state(researcher)
+                .with("research.v3.research.67", 1));
+        int before = RawXp.available(researcher);
+        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0D, 2.0D, 9.0D, 7);
+        ctx.getLevel().addFreshEntity(orb);
+        orb.tick();
+        ctx.assertTrue(orb.isRemoved(), "level one immediately collects at the inclusive four-block boundary");
+        ctx.assertTrue(RawXp.available(researcher) - before == 7,
+                "XP Control alone preserves and awards the exact vanilla orb value");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void combinedXpControlAndXpAcquisitionAwardOnceToNearestEligiblePlayer(GameTestHelper ctx) {
+        ServerPlayer nearer = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer farther = ctx.makeMockServerPlayerInLevel();
+        nearer.setGameMode(GameType.SURVIVAL);
+        farther.setGameMode(GameType.SURVIVAL);
+        nearer.setPos(5.0D, 2.0D, 5.0D);
+        farther.setPos(9.0D, 2.0D, 5.0D);
+        KnowledgeRuntime.updateState(nearer, KnowledgeRuntime.state(nearer)
+                .with("research.v3.research.64", 3).with("research.v3.research.67", 2));
+        KnowledgeRuntime.updateState(farther, KnowledgeRuntime.state(farther)
+                .with("research.v3.research.64", 3).with("research.v3.research.67", 2));
+
+        int nearerBefore = RawXp.available(nearer);
+        int fartherBefore = RawXp.available(farther);
+        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0D, 2.0D, 7.0D, 100);
+        ctx.getLevel().addFreshEntity(orb);
+        orb.tick();
+
+        ctx.assertTrue(orb.isRemoved(), "the shared vanilla pickup removes the orb once");
+        ctx.assertTrue(RawXp.available(nearer) - nearerBefore == 109,
+                "the nearest collector receives one vanilla award plus its level-three .64 bonus");
+        ctx.assertTrue(RawXp.available(farther) == fartherBefore,
+                "the competing researched player receives no duplicate or cross-player XP");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void noXpResearchLeavesRemoteOrbForAnExactVanillaPickup(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        player.setPos(5.0D, 2.0D, 5.0D);
+        int before = RawXp.available(player);
+        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0D, 2.0D, 7.0D, 11);
+        ctx.getLevel().addFreshEntity(orb);
+        orb.tick();
+        ctx.assertTrue(!orb.isRemoved() && RawXp.available(player) == before,
+                "neither unpurchased effect changes a remote orb");
+        orb.playerTouch(player);
+        ctx.assertTrue(orb.isRemoved() && RawXp.available(player) - before == 11,
+                "vanilla pickup still awards the exact value once");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void sprintSwimExhaustionUsesOnlyItsOwnPaidLevel(GameTestHelper ctx) {
+        ServerPlayer unowned = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer unrelatedMovementResearch = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer levelOne = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer levelThree = ctx.makeMockServerPlayerInLevel();
+        KnowledgeRuntime.updateState(unrelatedMovementResearch, KnowledgeRuntime.state(unrelatedMovementResearch)
+                .with("wall_jump", 1).with("fall_roll", 1));
+        KnowledgeRuntime.updateState(levelOne, KnowledgeRuntime.state(levelOne)
+                .with("research.v3.research.55", 1));
+        KnowledgeRuntime.updateState(levelThree, KnowledgeRuntime.state(levelThree)
+                .with("research.v3.research.55", 3));
+
+        float vanilla = ResearchMovementExhaustion.scale(unowned, 0.1F);
+        ctx.assertTrue(Math.abs(vanilla - 0.1F) < 1.0E-6F,
+                "unowned players retain vanilla sprint/swim exhaustion");
+        ctx.assertTrue(Math.abs(ResearchMovementExhaustion.scale(unrelatedMovementResearch, 0.1F) - vanilla)
+                        < 1.0E-6F,
+                "Wall Jump and Fall Roll do not change exhaustion");
+        ctx.assertTrue(Math.abs(ResearchMovementExhaustion.scale(levelOne, 0.1F) - 0.092F) < 1.0E-6F,
+                "level one reduces the scoped amount by eight percent");
+        ctx.assertTrue(Math.abs(ResearchMovementExhaustion.scale(levelThree, 0.1F) - 0.076F) < 1.0E-6F,
+                "level three reduces the scoped amount by twenty-four percent");
+        ctx.assertTrue(Math.abs(ResearchMovementExhaustion.scale(unowned, 0.1F) - vanilla) < 1.0E-6F,
+                "one player's research cannot leak into another");
         ctx.succeed();
     }
 
@@ -273,6 +385,27 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(!ResearchMovementRuntime.consumeFallRoll(faller),
                 "the same roll window cannot mitigate a second damage event");
         ctx.succeed();
+    }
+
+    private static InteractionResult useBeehive(ServerPlayer player, ServerLevel level, BlockPos pos,
+            ItemStack usedStack, net.minecraft.world.level.block.state.BlockState initialState)
+            throws ReflectiveOperationException {
+        BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false);
+        var useItemOn = Blocks.BEEHIVE.getClass().getDeclaredMethod("useItemOn",
+                ItemStack.class, net.minecraft.world.level.block.state.BlockState.class,
+                net.minecraft.world.level.Level.class, BlockPos.class,
+                net.minecraft.world.entity.player.Player.class, InteractionHand.class, BlockHitResult.class);
+        useItemOn.setAccessible(true);
+        return (InteractionResult) useItemOn.invoke(Blocks.BEEHIVE, usedStack, initialState, level, pos,
+                player, InteractionHand.MAIN_HAND, hit);
+    }
+
+    private static int honeycombCount(GameTestHelper ctx, BlockPos pos) {
+        return ctx.getLevel().getEntitiesOfClass(ItemEntity.class,
+                new AABB(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1,
+                        pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2)).stream()
+                .filter(item -> item.getItem().is(Items.HONEYCOMB))
+                .mapToInt(item -> item.getItem().getCount()).sum();
     }
 
     @Override
