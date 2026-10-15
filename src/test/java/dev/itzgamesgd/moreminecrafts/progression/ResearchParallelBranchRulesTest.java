@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.progression;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.mojang.serialization.JsonOps;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingLogic;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
@@ -66,6 +67,17 @@ final class ResearchParallelBranchRulesTest {
     void fisheriesLargestRemainderTiesGoToTheLowerGradeIndex() {
         // Tier 0, level 2 has equal .4 remainders for grades III–V; only one can receive a point.
         assertArrayEquals(new int[]{43, 31, 17, 7, 2}, FishingLogic.gradeWeights(0, 2));
+    }
+
+    @Test
+    void fisheriesPurchasedLevelSurvivesProgressionSerialization() {
+        ResearchProgressState original = ResearchProgressState.empty()
+                .with("research.v3.research.19", 4);
+        var encoded = ResearchProgressState.CODEC.encodeStart(JsonOps.INSTANCE, original).getOrThrow();
+        ResearchProgressState restored = ResearchProgressState.CODEC.parse(JsonOps.INSTANCE, encoded).getOrThrow();
+
+        assertEquals(original, restored);
+        assertEquals(4, ResearchRewards.level(restored, "v3.research.19", "fisheries_grade"));
     }
 
     @Test
