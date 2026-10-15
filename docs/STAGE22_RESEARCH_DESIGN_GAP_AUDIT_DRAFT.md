@@ -37,3 +37,15 @@ Checked against `docs/CONTENT_AUTHORITY_INDEX.md`, current research V4 execution
 2. Synchronize approved decisions into current authority (do not promote draft proposals).
 3. Implement five roots, bonus behavior, complete prerequisites, server-side purchase gates, migration/grandfathering, localization and UI.
 4. Run unit/GameTests, Gradle build, and client visual validation where available. Keep PR #88 open/unmerged until separately approved.
+
+## User decisions — 2026-10-15 (recorded as conversation decisions, pending authority reconciliation)
+- **Delegated to assistant:** complete 70-node research-tree prerequisite topology, five new paid discipline-root specifics, cross-dimensional item transport edge policies, and motorized boat balance/implementation details. Delegation authorizes design proposals and authority synchronization within approved scope, not unreviewed merge.
+- **Tactical Shooting:** defer complete design to a separate conversation; no inferred ammunition/effects/recipes now.
+- **Counter-shield recipe direction:** upgrade shield material from wood to iron, and iron to obsidian. Precise crafting pattern, whether there are distinct shield tiers, and component amounts should be checked before implementation; do not infer a complete recipe solely from the material-substitution statement.
+- **Potion mixing/concentration:** permit all potion effects to combine (no compatibility whitelist); one shared UI. When combining potions with the same effect and same level, perform concentration instead. Maximum number of combined effects and material requirements delegated to assistant. Audit whether same-effect unequal levels and ordinary vanilla effect caps need consistent rules.
+- **Ecology categories:** include custom MoreMinecrafts mobs in research taxonomy and effects; avoid unintended stacking for overlapping tags.
+- **Automation devices:** user requested explanation of what remained undefined, NOT authorization for blanket redesign. Distinguish design choices from technical edge-case tests.
+
+### Clarifications to preserve
+- The earlier audit lists automatic farm, automatic lumbering, chest sorting, hopper filter, and brewing process control as examples of existing approved devices, not new categories or additional requested features.
+- This section is a working audit log, not a replacement for the active research design authority. Do not silently implement pending choices from this draft.
