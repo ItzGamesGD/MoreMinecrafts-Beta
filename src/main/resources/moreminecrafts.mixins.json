@@ -64,6 +64,8 @@
     "ResearchPotionDurationMixin",
     "ResearchMobXpMixin",
     "ResearchExperienceOrbMixin",
+    "ResearchBeehiveHarvestMixin",
+    "ResearchMovementExhaustionMixin",
     "ResearchThrownProjectileMixin",
     "ResearchFurnaceResultSlotMixin"
   ],

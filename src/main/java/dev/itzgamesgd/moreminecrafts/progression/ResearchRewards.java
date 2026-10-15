@@ -12,6 +12,12 @@ public final class ResearchRewards {
     public enum Kind { PASSIVE_PERCENT, NUMERICAL_LEVEL, OPERATION_IMPROVEMENT, RECIPE_UNLOCK, DEVICE_ELIGIBILITY }
     public record Effect(String id, Kind kind, double valuePerLevel, int maximumLevel) {}
     private static final Map<String, List<Effect>> EFFECTS = Map.ofEntries(
+            Map.entry("v3.research.02", List.of(new Effect("lumbering_extra_logs", Kind.OPERATION_IMPROVEMENT, 0.0, 5))),
+            Map.entry("v3.research.03", List.of(new Effect("mineral_conservation", Kind.PASSIVE_PERCENT, 0.05, 5))),
+            Map.entry("v3.research.18", List.of(new Effect("beekeeping_honeycomb", Kind.OPERATION_IMPROVEMENT, 0.0, 3))),
+            Map.entry("v3.research.19", List.of(new Effect("fisheries_grade", Kind.OPERATION_IMPROVEMENT, 0.0, 5))),
+            Map.entry("v3.research.55", List.of(new Effect("sprint_swim_exhaustion", Kind.PASSIVE_PERCENT, 0.08, 3))),
+            Map.entry("v3.research.67", List.of(new Effect("xp_orb_collection", Kind.OPERATION_IMPROVEMENT, 0.0, 2))),
             Map.entry("resources_root", List.of(new Effect("ore_mining_xp", Kind.PASSIVE_PERCENT, 0.01, 1))),
             Map.entry("production_root", List.of(new Effect("smelting_xp", Kind.PASSIVE_PERCENT, 0.01, 1))),
             Map.entry("living_root", List.of(new Effect("crop_growth_probability", Kind.PASSIVE_PERCENT, 0.01, 1))),

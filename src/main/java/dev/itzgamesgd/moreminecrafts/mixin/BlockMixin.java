@@ -5,8 +5,10 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,8 +24,27 @@ abstract class BlockMixin {
             at = @At("RETURN"), cancellable = true)
     private static void moreminecrafts$smeltMinedBlockDrops(BlockState state, ServerLevel level, BlockPos pos,
             BlockEntity blockEntity, Entity entity, ItemInstance tool, CallbackInfoReturnable<List<ItemStack>> cir) {
-        cir.setReturnValue(cir.getReturnValue().stream()
+        List<ItemStack> drops = cir.getReturnValue().stream()
                 .map(stack -> EnchantmentRuntime.consumeReplantDrop(level, pos, entity,
-                        EnchantmentRuntime.autoSmeltDrop(level, pos, tool, stack))).toList());
+                        EnchantmentRuntime.autoSmeltDrop(level, pos, tool, stack)))
+                .collect(java.util.stream.Collectors.toCollection(java.util.ArrayList::new));
+        ServerPlayer player = entity instanceof ServerPlayer serverPlayer
+                ? serverPlayer : dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext.currentPlayer();
+        if (player != null && player.gameMode.getGameModeForPlayer() == net.minecraft.world.level.GameType.SURVIVAL
+                && state.is(BlockTags.LOGS)) {
+            int paidLevel = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                    player, "v3.research.02", "lumbering_extra_logs");
+            int cap = dev.itzgamesgd.moreminecrafts.progression.Research23AEffectRules.maximumExtraLogs(paidLevel);
+            if (cap > 0) {
+                int extra = dev.itzgamesgd.moreminecrafts.progression.Research23AEffectRules.rollExtraLogs(
+                        paidLevel, player.getRandom().nextFloat(), player.getRandom().nextInt(cap));
+                if (extra > 0 && !state.getBlock().asItem().getDefaultInstance().isEmpty()) {
+                    ItemStack bonus = EnchantmentRuntime.autoSmeltDrop(level, pos, tool,
+                            new ItemStack(state.getBlock().asItem(), extra));
+                    if (!bonus.isEmpty()) drops.add(bonus);
+                }
+            }
+        }
+        cir.setReturnValue(drops);
     }
 }

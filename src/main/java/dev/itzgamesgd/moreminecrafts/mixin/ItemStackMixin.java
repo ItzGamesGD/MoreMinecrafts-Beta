@@ -36,6 +36,22 @@ abstract class ItemStackMixin {
                 amount, player.getRandom().nextFloat(), chance);
     }
 
+    @org.spongepowered.asm.mixin.injection.ModifyVariable(
+            method = "processDurabilityChange", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    private int moreminecrafts$preserveMiningToolDurability(int amount,
+            @com.llamalad7.mixinextras.sugar.Local(argsOnly = true) ServerPlayer player) {
+        if (amount <= 0 || player == null || player.gameMode.getGameModeForPlayer()
+                != net.minecraft.world.level.GameType.SURVIVAL
+                || dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext.currentPlayer() != player
+                || !((Object) this instanceof ItemStack stack)
+                || !stack.is(net.minecraft.tags.ItemTags.PICKAXES)) return amount;
+        int level = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                player, "v3.research.03", "mineral_conservation");
+        if (level == 0) return amount;
+        return dev.itzgamesgd.moreminecrafts.progression.Research23AEffectRules.shouldPreventMiningDamage(
+                amount, player.getRandom().nextFloat(), level) ? 0 : amount;
+    }
+
     @Inject(method = "processDurabilityChange", at = @At("HEAD"), cancellable = true)
     private void moreminecrafts$aggregateDurability(int amount, net.minecraft.server.level.ServerLevel level,
             net.minecraft.server.level.ServerPlayer player, CallbackInfoReturnable<Integer> callbackInfo) {
