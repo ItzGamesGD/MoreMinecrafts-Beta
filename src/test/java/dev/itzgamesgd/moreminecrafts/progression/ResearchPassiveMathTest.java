@@ -16,7 +16,7 @@ final class ResearchPassiveMathTest {
         assertEquals(0.0101D, ResearchPassiveMath.multipliedProbability(0.01D, 0.01D), 1.0E-12);
         assertEquals(1.0D, ResearchPassiveMath.multipliedProbability(0.999D, 0.01D), 1.0E-12);
         double extra = ResearchPassiveMath.conditionalExtraProbability(1.0D / 3.0D, 0.01D);
-        assertEquals(0.0101D, (1.0D / 3.0D) + (2.0D / 3.0D) * extra, 1.0E-12);
+        assertEquals((1.0D / 3.0D) * 1.01D, (1.0D / 3.0D) + (2.0D / 3.0D) * extra, 1.0E-12);
     }
 
     @Test void potionDurationRoundsTicksWithoutTouchingInstantOrInfiniteDurationsAtCallSite() {

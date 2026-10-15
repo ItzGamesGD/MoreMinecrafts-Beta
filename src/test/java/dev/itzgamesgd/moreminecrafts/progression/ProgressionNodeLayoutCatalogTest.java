@@ -192,7 +192,7 @@ final class ProgressionNodeLayoutCatalogTest {
             JsonObject node = element.getAsJsonObject();
             approvedById.put(node.get("id").getAsString(), node);
         }
-        assertEquals(157, runtime.size());
+        assertEquals(162, runtime.size());
         assertEquals(approvedById.size(), runtime.size());
         for (var element : runtime) {
             JsonObject node = element.getAsJsonObject();
@@ -209,9 +209,9 @@ final class ProgressionNodeLayoutCatalogTest {
 
     @Test void runtimeResolverFailsClosedOnCatalogMismatchAndReturnsStableBranchOrder() {
         ProgressionNodeLayoutCatalog catalog = ProgressionNodeLayoutCatalog.load();
-        assertEquals(157, catalog.nodes().size());
-        assertEquals(7, catalog.nodes("research", "resources").size());
-        assertEquals(List.of("geology_and_quarry", "forestry", "field_mobility"),
+        assertEquals(162, catalog.nodes().size());
+        assertEquals(8, catalog.nodes("research", "resources").size());
+        assertEquals(List.of("geology_and_quarry", "forestry", "field_mobility", "discipline_foundation"),
                 catalog.branches("research", "resources"));
         assertEquals("minecraft:book", catalog.fallbackIconItemId());
         assertNotNull(catalog.byId("combat_root"));

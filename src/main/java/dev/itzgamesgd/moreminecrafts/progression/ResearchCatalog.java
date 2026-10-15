@@ -15,11 +15,11 @@ public final class ResearchCatalog {
     private static final Map<String, ResearchDefinition> V3 = loadV3();
     static {
         Map<String, ResearchDefinition> roots = new LinkedHashMap<>();
-        add(roots, "resources_root", "resources", 80, any(1,2,3,4,5,6,7,8,9,10), Set.of(), m("minecraft:cobblestone",16), m("minecraft:coal",16));
-        add(roots, "production_root", "production", 80, any(11,12,13,14,15,16,17,18,19), Set.of(), m("minecraft:furnace",16), m("minecraft:iron_ingot",16));
-        add(roots, "living_root", "living", 80, any(20,21,22,23,24,25,26,27,28,29,30), Set.of(), m("minecraft:wheat_seeds",16), m("minecraft:wheat",16));
-        add(roots, "world_root", "world", 80, any(53,54,55,56,57,58,59,60,61,62), Set.of(), m("minecraft:compass",16), m("minecraft:paper",16));
-        add(roots, "alchemy_root", "alchemy", 80, any(63,64,65,66,67,68,69,70), Set.of(), m("minecraft:glass_bottle",16), m("minecraft:nether_wart",16));
+        addStage22Root(roots, "resources_root", "resources", any(1,2,3,4,5,6,7,8,9,10), m("minecraft:cobblestone",16), m("minecraft:coal",16));
+        addStage22Root(roots, "production_root", "production", any(11,12,13,14,15,16,17,18,19), m("minecraft:furnace",16), m("minecraft:iron_ingot",16));
+        addStage22Root(roots, "living_root", "living", any(20,21,22,23,24,25,26,27,28,29,30), m("minecraft:wheat_seeds",16), m("minecraft:wheat",16));
+        addStage22Root(roots, "world_root", "world", any(53,54,55,56,57,58,59,60,61,62), m("minecraft:compass",16), m("minecraft:paper",16));
+        addStage22Root(roots, "alchemy_root", "alchemy", any(63,64,65,66,67,68,69,70), m("minecraft:glass_bottle",16), m("minecraft:nether_wart",16));
         STAGE22_ROOTS = Map.copyOf(roots);
         Map<String, ResearchDefinition> entries = new LinkedHashMap<>();
         add(entries, "combat_root", "combat", 80, any(31,32,33,34,35,36,37,38,39,40), Set.of(), m("minecraft:stick",16), m("minecraft:bone",16));
@@ -60,6 +60,14 @@ public final class ResearchCatalog {
                 "moreminecrafts.research." + id + ".title",
                 "moreminecrafts.research." + id + ".description", 1,
                 knowledge, prerequisites, List.of(new ResearchDefinition.LevelCost(xp, List.of(costs))));
+        if (map.putIfAbsent(id, definition) != null) throw new IllegalStateException("Duplicate research " + id);
+    }
+    private static void addStage22Root(Map<String, ResearchDefinition> map, String id, String discipline,
+            Set<Integer> knowledge, ResearchDefinition.MaterialCost... materials) {
+        var definition = new ResearchDefinition(id, discipline,
+                "moreminecrafts.research." + id + ".title",
+                "moreminecrafts.research." + id + ".description", 1, knowledge, Set.of(),
+                List.of(new ResearchDefinition.LevelCost(80, List.of(materials))), "stage22", "ROOT", true);
         if (map.putIfAbsent(id, definition) != null) throw new IllegalStateException("Duplicate research " + id);
     }
     public static List<ResearchDefinition> v4Additions() {

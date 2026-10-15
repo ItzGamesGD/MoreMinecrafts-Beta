@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceHead": "d1f113720cf7d71720450d4709b3834b137d43f4",
+  "sourceHead": "Stage 22 research graph and root migration implementation; base PR #88",
   "coordinateSpace": "unscaled canvas logical pixels, node center",
   "fallbackIconItemId": "minecraft:book",
   "iconSelectionPolicy": "explicit per-node representative vanilla item sprite; if requested item is unavailable use minecraft:book; never guess from runtime iteration order",
@@ -41,10 +41,10 @@
       "catalog": "v3",
       "discipline": "resources",
       "branch": "geology_and_quarry",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
       "center": [
-        64,
+        256,
         64
       ],
       "title": "광석 채굴",
@@ -52,10 +52,14 @@
       "descriptionKey": "moreminecrafts.research.v3_01.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        1
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -164,17 +168,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:diamond_pickaxe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.03",
       "catalog": "v3",
       "discipline": "resources",
       "branch": "geology_and_quarry",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
       "center": [
-        64,
+        256,
         136
       ],
       "title": "광물 보존",
@@ -182,10 +187,14 @@
       "descriptionKey": "moreminecrafts.research.v3_03.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        10
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -282,17 +291,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:iron_pickaxe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.04",
       "catalog": "v3",
       "discipline": "resources",
       "branch": "geology_and_quarry",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
       "center": [
-        64,
+        256,
         208
       ],
       "title": "광역 굴착",
@@ -300,10 +310,16 @@
       "descriptionKey": "moreminecrafts.research.v3_04.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        2,
+        3
+      ],
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.01"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -340,17 +356,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:diamond_pickaxe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "throwable_pickaxe",
       "catalog": "v4",
       "discipline": "resources",
       "branch": "geology_and_quarry",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 3,
       "center": [
-        64,
+        256,
         280
       ],
       "title": "곡괭이 투척",
@@ -362,7 +379,10 @@
       "knowledgePrerequisites": [
         9
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.01"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -396,17 +416,18 @@
       },
       "iconItemId": "minecraft:diamond_pickaxe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology_and_quarry",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.02",
       "catalog": "v3",
       "discipline": "resources",
       "branch": "forestry",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
       "center": [
-        256,
+        448,
         64
       ],
       "title": "벌목",
@@ -414,10 +435,14 @@
       "descriptionKey": "moreminecrafts.research.v3_02.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        4
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -514,17 +539,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:oak_log",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.05",
       "catalog": "v3",
       "discipline": "resources",
       "branch": "forestry",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
       "center": [
-        256,
+        448,
         136
       ],
       "title": "자동 벌목 장치",
@@ -532,10 +558,15 @@
       "descriptionKey": "moreminecrafts.research.v3_05.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        5
+      ],
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.02"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -572,17 +603,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:oak_log",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "climbing",
       "catalog": "v4",
       "discipline": "resources",
       "branch": "field_mobility",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
       "center": [
-        448,
+        640,
         64
       ],
       "title": "암벽 등반·절벽 매달리기",
@@ -594,7 +626,10 @@
       "knowledgePrerequisites": [
         8
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.03"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -628,17 +663,18 @@
       },
       "iconItemId": "minecraft:iron_pickaxe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.field_mobility"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.field_mobility",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.06",
       "catalog": "v3",
       "discipline": "production",
       "branch": "smelting_and_fuels",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
       "center": [
-        64,
+        256,
         64
       ],
       "title": "연료 절약",
@@ -646,10 +682,14 @@
       "descriptionKey": "moreminecrafts.research.v3_06.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        11
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -722,17 +762,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:coal",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.07",
       "catalog": "v3",
       "discipline": "production",
       "branch": "smelting_and_fuels",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
       "center": [
-        64,
+        256,
         136
       ],
       "title": "정밀 제련",
@@ -740,10 +781,14 @@
       "descriptionKey": "moreminecrafts.research.v3_07.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        11
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -852,17 +897,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:furnace",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.11",
       "catalog": "v3",
       "discipline": "production",
       "branch": "smelting_and_fuels",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
       "center": [
-        64,
+        256,
         208
       ],
       "title": "고속 제련",
@@ -870,10 +916,15 @@
       "descriptionKey": "moreminecrafts.research.v3_11.description",
       "tier": "T2",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        12
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.07"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -952,17 +1003,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:blast_furnace",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.12",
       "catalog": "v3",
       "discipline": "production",
       "branch": "smelting_and_fuels",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 3,
       "center": [
-        64,
+        256,
         280
       ],
       "title": "고속·고효율 화로",
@@ -970,10 +1022,16 @@
       "descriptionKey": "moreminecrafts.research.v3_12.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        12,
+        13
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.11"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1010,17 +1068,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:blast_furnace",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_fuels",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.08",
       "catalog": "v3",
       "discipline": "production",
       "branch": "crafting_and_maintenance",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
       "center": [
-        256,
+        448,
         64
       ],
       "title": "정밀 제작",
@@ -1028,10 +1087,14 @@
       "descriptionKey": "moreminecrafts.research.v3_08.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        14
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1134,17 +1197,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:crafting_table",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.10",
       "catalog": "v3",
       "discipline": "production",
       "branch": "crafting_and_maintenance",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
       "center": [
-        256,
+        448,
         136
       ],
       "title": "장비 정비",
@@ -1152,10 +1216,14 @@
       "descriptionKey": "moreminecrafts.research.v3_10.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        16
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1252,17 +1320,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:anvil",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "automatic_tool_switch",
       "catalog": "v4",
       "discipline": "production",
       "branch": "crafting_and_maintenance",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 2,
       "center": [
-        256,
+        448,
         208
       ],
       "title": "자동 도구 교체",
@@ -1274,7 +1343,10 @@
       "knowledgePrerequisites": [
         14
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.10"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -1313,17 +1385,18 @@
       },
       "iconItemId": "minecraft:iron_pickaxe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.09",
       "catalog": "v3",
       "discipline": "production",
       "branch": "woodworking",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
       "center": [
-        448,
+        640,
         64
       ],
       "title": "목재 가공",
@@ -1331,10 +1404,14 @@
       "descriptionKey": "moreminecrafts.research.v3_09.description",
       "tier": "T1",
       "levelCap": 2,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        14
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1377,17 +1454,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:oak_planks",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.woodworking"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.woodworking",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.13",
       "catalog": "v3",
       "discipline": "production",
       "branch": "storage_and_logistics",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 0,
       "center": [
-        640,
+        832,
         64
       ],
       "title": "상자 정렬",
@@ -1395,10 +1473,15 @@
       "descriptionKey": "moreminecrafts.research.v3_13.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        17
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.08"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1435,17 +1518,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:chest",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "nearby_chest_ingredients",
       "catalog": "v4",
       "discipline": "production",
       "branch": "storage_and_logistics",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 1,
       "center": [
-        640,
+        832,
         136
       ],
       "title": "주변 재료 참조",
@@ -1457,7 +1541,10 @@
       "knowledgePrerequisites": [
         17
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.08"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -1491,17 +1578,18 @@
       },
       "iconItemId": "minecraft:chest",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "hopper_filter",
       "catalog": "v4",
       "discipline": "production",
       "branch": "storage_and_logistics",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 2,
       "center": [
-        640,
+        832,
         208
       ],
       "title": "호퍼 필터링",
@@ -1513,7 +1601,10 @@
       "knowledgePrerequisites": [
         18
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.08"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -1547,17 +1638,18 @@
       },
       "iconItemId": "minecraft:hopper",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_logistics",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.14",
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
       "center": [
-        64,
+        256,
         64
       ],
       "title": "작물 재배",
@@ -1565,10 +1657,14 @@
       "descriptionKey": "moreminecrafts.research.v3_14.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        20
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1665,17 +1761,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:wheat",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.15",
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
       "center": [
-        64,
+        256,
         136
       ],
       "title": "종자 연구",
@@ -1683,10 +1780,14 @@
       "descriptionKey": "moreminecrafts.research.v3_15.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        21
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1747,17 +1848,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:wheat_seeds",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.16",
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
       "center": [
-        64,
+        256,
         208
       ],
       "title": "토양 연구",
@@ -1765,10 +1867,14 @@
       "descriptionKey": "moreminecrafts.research.v3_16.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        22
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1835,17 +1941,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:dirt",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.20",
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 3,
       "center": [
-        64,
+        256,
         280
       ],
       "title": "3×3 경작",
@@ -1853,10 +1960,15 @@
       "descriptionKey": "moreminecrafts.research.v3_20.description",
       "tier": "T2",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        22
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.16"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1887,17 +1999,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:iron_hoe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.21",
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 4,
       "center": [
-        64,
+        256,
         352
       ],
       "title": "성숙 작물 일괄 수확",
@@ -1905,10 +2018,15 @@
       "descriptionKey": "moreminecrafts.research.v3_21.description",
       "tier": "T2",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        20
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.14"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -1945,17 +2063,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:wheat",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.24",
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 5,
       "center": [
-        64,
+        256,
         424
       ],
       "title": "자동 농장",
@@ -1963,10 +2082,16 @@
       "descriptionKey": "moreminecrafts.research.v3_24.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        24
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.14",
+        "v3.research.15"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2009,17 +2134,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:composter",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.25",
       "catalog": "v3",
       "discipline": "living",
       "branch": "cultivation_and_soil",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 6,
       "center": [
-        64,
+        256,
         496
       ],
       "title": "관개 장치",
@@ -2027,10 +2153,15 @@
       "descriptionKey": "moreminecrafts.research.v3_25.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        23
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.16"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2067,17 +2198,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:water_bucket",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.17",
       "catalog": "v3",
       "discipline": "living",
       "branch": "animal_care",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
       "center": [
-        256,
+        448,
         64
       ],
       "title": "가축 사육",
@@ -2085,10 +2217,14 @@
       "descriptionKey": "moreminecrafts.research.v3_17.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        25
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2167,17 +2303,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:cow_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.18",
       "catalog": "v3",
       "discipline": "living",
       "branch": "animal_care",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
       "center": [
-        256,
+        448,
         136
       ],
       "title": "양봉 연구",
@@ -2185,10 +2322,14 @@
       "descriptionKey": "moreminecrafts.research.v3_18.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        26
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2249,17 +2390,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:bee_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.22",
       "catalog": "v3",
       "discipline": "living",
       "branch": "animal_care",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 2,
       "center": [
-        256,
+        448,
         208
       ],
       "title": "먹이 투척·번식",
@@ -2267,10 +2409,15 @@
       "descriptionKey": "moreminecrafts.research.v3_22.description",
       "tier": "T2",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        26
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.17"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2301,17 +2448,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:wheat",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.animal_care",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.19",
       "catalog": "v3",
       "discipline": "living",
       "branch": "fisheries",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
       "center": [
-        448,
+        640,
         64
       ],
       "title": "어업 연구",
@@ -2319,10 +2467,14 @@
       "descriptionKey": "moreminecrafts.research.v3_19.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        27
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2425,17 +2577,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:cod",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.23",
       "catalog": "v3",
       "discipline": "living",
       "branch": "fisheries",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 1,
       "center": [
-        448,
+        640,
         136
       ],
       "title": "낚시 기술",
@@ -2443,10 +2596,15 @@
       "descriptionKey": "moreminecrafts.research.v3_23.description",
       "tier": "T2",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        29
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.19"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2525,17 +2683,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:fishing_rod",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.26",
       "catalog": "v3",
       "discipline": "living",
       "branch": "fisheries",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 2,
       "center": [
-        448,
+        640,
         208
       ],
       "title": "통발 개선",
@@ -2543,10 +2702,15 @@
       "descriptionKey": "moreminecrafts.research.v3_26.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        28
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.19"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2583,7 +2747,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:fishing_rod",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fisheries",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "combat_root",
@@ -2643,7 +2808,8 @@
       },
       "iconItemId": "minecraft:iron_sword",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.discipline_foundation"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.discipline_foundation",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.27",
@@ -2661,10 +2827,14 @@
       "descriptionKey": "moreminecrafts.research.v3_27.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        31
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2725,7 +2895,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:iron_sword",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.28",
@@ -2743,10 +2914,14 @@
       "descriptionKey": "moreminecrafts.research.v3_28.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        33
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2807,7 +2982,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:iron_axe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.33",
@@ -2825,10 +3001,15 @@
       "descriptionKey": "moreminecrafts.research.v3_33.description",
       "tier": "T2",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        32
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.27"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -2859,7 +3040,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:iron_sword",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "falling_axe_smash",
@@ -2881,7 +3063,10 @@
       "knowledgePrerequisites": [
         33
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.28"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -2910,7 +3095,8 @@
       },
       "iconItemId": "minecraft:iron_axe",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "weapon_swap_handling",
@@ -2932,7 +3118,10 @@
       "knowledgePrerequisites": [
         39
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.27"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -2961,7 +3150,8 @@
       },
       "iconItemId": "minecraft:iron_sword",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.29",
@@ -2979,10 +3169,14 @@
       "descriptionKey": "moreminecrafts.research.v3_29.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        34
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3049,7 +3243,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:bow",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.35",
@@ -3067,10 +3262,16 @@
       "descriptionKey": "moreminecrafts.research.v3_35.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        35,
+        40
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.29"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3107,7 +3308,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:arrow",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "ballistic_control",
@@ -3129,7 +3331,10 @@
       "knowledgePrerequisites": [
         34
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.29"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -3163,7 +3368,8 @@
       },
       "iconItemId": "minecraft:bow",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "bow_charge_mobility",
@@ -3185,7 +3391,10 @@
       "knowledgePrerequisites": [
         34
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.29"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -3214,7 +3423,8 @@
       },
       "iconItemId": "minecraft:bow",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.30",
@@ -3232,10 +3442,14 @@
       "descriptionKey": "moreminecrafts.research.v3_30.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        36
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3296,7 +3510,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:shield",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.31",
@@ -3314,10 +3529,14 @@
       "descriptionKey": "moreminecrafts.research.v3_31.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        37
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3378,7 +3597,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:iron_chestplate",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.34",
@@ -3396,10 +3616,15 @@
       "descriptionKey": "moreminecrafts.research.v3_34.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        36
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.30"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3430,7 +3655,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:shield",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "shield_counter",
@@ -3452,7 +3678,10 @@
       "knowledgePrerequisites": [
         36
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.30"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -3481,7 +3710,8 @@
       },
       "iconItemId": "minecraft:shield",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.32",
@@ -3499,10 +3729,14 @@
       "descriptionKey": "moreminecrafts.research.v3_32.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        38
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3563,7 +3797,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:trident",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.thrown_weapons"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.thrown_weapons",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "ecology_root",
@@ -3625,7 +3860,8 @@
       },
       "iconItemId": "minecraft:rotten_flesh",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.discipline_foundation"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.discipline_foundation",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.36",
@@ -3643,10 +3879,14 @@
       "descriptionKey": "moreminecrafts.research.v3_36.description",
       "tier": "UNSPECIFIED",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        41
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3707,7 +3947,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:zombie_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.37",
@@ -3725,10 +3966,14 @@
       "descriptionKey": "moreminecrafts.research.v3_37.description",
       "tier": "UNSPECIFIED",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        42
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3789,7 +4034,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:skeleton_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.38",
@@ -3807,10 +4053,14 @@
       "descriptionKey": "moreminecrafts.research.v3_38.description",
       "tier": "UNSPECIFIED",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        43
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3871,7 +4121,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:creeper_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.39",
@@ -3889,10 +4140,14 @@
       "descriptionKey": "moreminecrafts.research.v3_39.description",
       "tier": "UNSPECIFIED",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        44
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3923,7 +4178,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:spider_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.40",
@@ -3941,10 +4197,14 @@
       "descriptionKey": "moreminecrafts.research.v3_40.description",
       "tier": "UNSPECIFIED",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        45
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -3975,7 +4235,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:enderman_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.41",
@@ -3993,10 +4254,14 @@
       "descriptionKey": "moreminecrafts.research.v3_41.description",
       "tier": "UNSPECIFIED",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        46
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4027,7 +4292,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:slime_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.42",
@@ -4045,10 +4311,14 @@
       "descriptionKey": "moreminecrafts.research.v3_42.description",
       "tier": "UNSPECIFIED",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        47
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4079,7 +4349,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:pillager_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.43",
@@ -4097,10 +4368,14 @@
       "descriptionKey": "moreminecrafts.research.v3_43.description",
       "tier": "UNSPECIFIED",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        48
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4167,7 +4442,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:piglin_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.44",
@@ -4185,10 +4461,14 @@
       "descriptionKey": "moreminecrafts.research.v3_44.description",
       "tier": "UNSPECIFIED",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        49
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4249,7 +4529,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:hoglin_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.45",
@@ -4267,10 +4548,14 @@
       "descriptionKey": "moreminecrafts.research.v3_45.description",
       "tier": "UNSPECIFIED",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        50
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4337,7 +4622,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:drowned_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.aquatic_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.aquatic_hostiles",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.46",
@@ -4355,10 +4641,14 @@
       "descriptionKey": "moreminecrafts.research.v3_46.description",
       "tier": "UNSPECIFIED",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        51
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4437,7 +4727,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:evoker_spawn_egg",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.47",
@@ -4455,10 +4746,14 @@
       "descriptionKey": "moreminecrafts.research.v3_47.description",
       "tier": "UNSPECIFIED",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        52
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4519,7 +4814,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:wither_skeleton_skull",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.48",
@@ -4537,10 +4833,15 @@
       "descriptionKey": "moreminecrafts.research.v3_48.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        51
+      ],
+      "researchPrerequisites": [
+        "ecology_root",
+        "v3.research.46"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4577,7 +4878,8 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:compass",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "mob_aggro_redirection",
@@ -4599,7 +4901,10 @@
       "knowledgePrerequisites": [
         42
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "ecology_root",
+        "v3.research.37"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -4633,7 +4938,8 @@
       },
       "iconItemId": "minecraft:bone",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "mob_capture",
@@ -4655,7 +4961,10 @@
       "knowledgePrerequisites": [
         51
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "ecology_root",
+        "v3.research.46"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -4689,17 +4998,18 @@
       },
       "iconItemId": "minecraft:lead",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.tracking_and_capture",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.49",
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
       "center": [
-        64,
+        256,
         64
       ],
       "title": "항법",
@@ -4707,10 +5017,14 @@
       "descriptionKey": "moreminecrafts.research.v3_49.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        55
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4771,17 +5085,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:compass",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.50",
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
       "center": [
-        64,
+        256,
         136
       ],
       "title": "승마",
@@ -4789,10 +5104,14 @@
       "descriptionKey": "moreminecrafts.research.v3_50.description",
       "tier": "T1",
       "levelCap": 5,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        56
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4895,17 +5214,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:saddle",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.51",
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
       "center": [
-        64,
+        256,
         208
       ],
       "title": "비행",
@@ -4913,10 +5233,14 @@
       "descriptionKey": "moreminecrafts.research.v3_51.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        57
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -4983,17 +5307,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:elytra",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.56",
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 3,
       "center": [
-        64,
+        256,
         280
       ],
       "title": "정밀 비행",
@@ -5001,10 +5326,15 @@
       "descriptionKey": "moreminecrafts.research.v3_56.description",
       "tier": "T2",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        57
+      ],
+      "researchPrerequisites": [
+        "v3.research.51",
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5077,17 +5407,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:elytra",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.57",
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 4,
       "center": [
-        64,
+        256,
         352
       ],
       "title": "동력 보트",
@@ -5095,10 +5426,15 @@
       "descriptionKey": "moreminecrafts.research.v3_57.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        55
+      ],
+      "researchPrerequisites": [
+        "v3.research.49",
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5135,17 +5471,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:oak_boat",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.58",
       "catalog": "v3",
       "discipline": "world",
       "branch": "travel_and_transport",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 5,
       "center": [
-        64,
+        256,
         424
       ],
       "title": "차원 간 물품 운송",
@@ -5153,10 +5490,16 @@
       "descriptionKey": "moreminecrafts.research.v3_58.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        58,
+        62
+      ],
+      "researchPrerequisites": [
+        "v3.research.55",
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5193,17 +5536,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:ender_chest",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel_and_transport",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.52",
       "catalog": "v3",
       "discipline": "world",
       "branch": "archaeology_and_expedition",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
       "center": [
-        256,
+        448,
         64
       ],
       "title": "고고학",
@@ -5211,10 +5555,14 @@
       "descriptionKey": "moreminecrafts.research.v3_52.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        59
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5281,17 +5629,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:brush",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.55",
       "catalog": "v3",
       "discipline": "world",
       "branch": "archaeology_and_expedition",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
       "center": [
-        256,
+        448,
         136
       ],
       "title": "생존·원정 준비",
@@ -5299,10 +5648,14 @@
       "descriptionKey": "moreminecrafts.research.v3_55.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        53
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5363,17 +5716,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:compass",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_expedition",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.53",
       "catalog": "v3",
       "discipline": "world",
       "branch": "trading",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
       "center": [
-        448,
+        640,
         64
       ],
       "title": "주민 거래",
@@ -5381,10 +5735,14 @@
       "descriptionKey": "moreminecrafts.research.v3_53.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        61
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5445,17 +5803,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:emerald",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.54",
       "catalog": "v3",
       "discipline": "world",
       "branch": "trading",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 1,
       "center": [
-        448,
+        640,
         136
       ],
       "title": "피글린 교역",
@@ -5463,10 +5822,14 @@
       "descriptionKey": "moreminecrafts.research.v3_54.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        48
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5527,17 +5890,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:gold_ingot",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "piglin_barter",
       "catalog": "v4",
       "discipline": "world",
       "branch": "trading",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 2,
       "center": [
-        448,
+        640,
         208
       ],
       "title": "피글린 거래",
@@ -5549,7 +5913,10 @@
       "knowledgePrerequisites": [
         48
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "v3.research.54",
+        "world_root"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -5583,17 +5950,18 @@
       },
       "iconItemId": "minecraft:gold_ingot",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "wall_jump",
       "catalog": "v4",
       "discipline": "world",
       "branch": "mobility",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 0,
       "center": [
-        640,
+        832,
         64
       ],
       "title": "벽면 도약",
@@ -5605,7 +5973,10 @@
       "knowledgePrerequisites": [
         62
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "v3.research.55",
+        "world_root"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -5634,17 +6005,18 @@
       },
       "iconItemId": "minecraft:slime_ball",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "fall_roll",
       "catalog": "v4",
       "discipline": "world",
       "branch": "mobility",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 1,
       "center": [
-        640,
+        832,
         136
       ],
       "title": "낙하 구르기",
@@ -5656,7 +6028,10 @@
       "knowledgePrerequisites": [
         54
       ],
-      "researchPrerequisites": [],
+      "researchPrerequisites": [
+        "v3.research.55",
+        "world_root"
+      ],
       "prerequisiteSemantics": "any_of_knowledge",
       "costs": [
         {
@@ -5685,17 +6060,18 @@
       },
       "iconItemId": "minecraft:leather_boots",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.mobility",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.59",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "brewing_basics",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 0,
       "center": [
-        64,
+        256,
         64
       ],
       "title": "양조 기초",
@@ -5703,10 +6079,14 @@
       "descriptionKey": "moreminecrafts.research.v3_59.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        63
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5767,17 +6147,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:brewing_stand",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.60",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "brewing_basics",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 1,
       "center": [
-        64,
+        256,
         136
       ],
       "title": "물약 연구",
@@ -5785,10 +6166,15 @@
       "descriptionKey": "moreminecrafts.research.v3_60.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        64
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5849,17 +6235,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:potion",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.63",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "brewing_basics",
-      "branchOrder": 0,
+      "branchOrder": 1,
       "nodeOrder": 2,
       "center": [
-        64,
+        256,
         208
       ],
       "title": "마법 재료",
@@ -5867,10 +6254,14 @@
       "descriptionKey": "moreminecrafts.research.v3_63.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        68
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -5937,17 +6328,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:nether_wart",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_basics",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.61",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "potion_handling",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 0,
       "center": [
-        256,
+        448,
         64
       ],
       "title": "투척·잔류 물약",
@@ -5955,10 +6347,16 @@
       "descriptionKey": "moreminecrafts.research.v3_61.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        65,
+        66
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6019,17 +6417,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:splash_potion",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.68",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "potion_handling",
-      "branchOrder": 1,
+      "branchOrder": 2,
       "nodeOrder": 1,
       "center": [
-        256,
+        448,
         136
       ],
       "title": "물약 혼합",
@@ -6037,10 +6436,15 @@
       "descriptionKey": "moreminecrafts.research.v3_68.description",
       "tier": "T2",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        64
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6077,17 +6481,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:potion",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.potion_handling",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.62",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "effects_and_catalysts",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 0,
       "center": [
-        448,
+        640,
         64
       ],
       "title": "상태 효과",
@@ -6095,10 +6500,15 @@
       "descriptionKey": "moreminecrafts.research.v3_62.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        67
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6165,17 +6575,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:honey_bottle",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.65",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "effects_and_catalysts",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 1,
       "center": [
-        448,
+        640,
         136
       ],
       "title": "촉매 보존",
@@ -6183,10 +6594,15 @@
       "descriptionKey": "moreminecrafts.research.v3_65.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        68
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.63"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6247,17 +6663,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:blaze_powder",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_catalysts",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.64",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "experience",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 0,
       "center": [
-        640,
+        832,
         64
       ],
       "title": "XP 획득",
@@ -6265,10 +6682,14 @@
       "descriptionKey": "moreminecrafts.research.v3_64.description",
       "tier": "T1",
       "levelCap": 3,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6335,17 +6756,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:experience_bottle",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.67",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "experience",
-      "branchOrder": 3,
+      "branchOrder": 4,
       "nodeOrder": 1,
       "center": [
-        640,
+        832,
         136
       ],
       "title": "XP 제어",
@@ -6353,10 +6775,15 @@
       "descriptionKey": "moreminecrafts.research.v3_67.description",
       "tier": "T2",
       "levelCap": 2,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.64"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6399,17 +6826,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:experience_bottle",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.experience",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.66",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "advanced_brewing",
-      "branchOrder": 4,
+      "branchOrder": 5,
       "nodeOrder": 0,
       "center": [
-        832,
+        1024,
         64
       ],
       "title": "고급 양조",
@@ -6417,10 +6845,15 @@
       "descriptionKey": "moreminecrafts.research.v3_66.description",
       "tier": "T2",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6451,17 +6884,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:brewing_stand",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.69",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "advanced_brewing",
-      "branchOrder": 4,
+      "branchOrder": 5,
       "nodeOrder": 1,
       "center": [
-        832,
+        1024,
         136
       ],
       "title": "양조 공정 제어",
@@ -6469,10 +6903,15 @@
       "descriptionKey": "moreminecrafts.research.v3_69.description",
       "tier": "T2",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6509,17 +6948,18 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:brewing_stand",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "v3.research.70",
       "catalog": "v3",
       "discipline": "alchemy",
       "branch": "advanced_brewing",
-      "branchOrder": 4,
+      "branchOrder": 5,
       "nodeOrder": 2,
       "center": [
-        832,
+        1024,
         208
       ],
       "title": "물약 농축",
@@ -6527,10 +6967,15 @@
       "descriptionKey": "moreminecrafts.research.v3_70.description",
       "tier": "T3",
       "levelCap": 1,
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
-      "prerequisiteSemantics": "undefined_non_purchasable",
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        70
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.68"
+      ],
+      "prerequisiteSemantics": "all_of_knowledge_and_research",
       "costs": [
         {
           "level": 1,
@@ -6573,7 +7018,276 @@
       "rewardEvidence": "V3 승인 비용표입니다. 선행 조건과 보상 연결이 확정되지 않아 현재 구매할 수 없습니다.",
       "iconItemId": "minecraft:glowstone_dust",
       "iconRule": "explicit_catalog_topic_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
+      "fallbackIconItemId": "minecraft:book"
+    },
+    {
+      "id": "resources_root",
+      "catalog": "stage22",
+      "discipline": "resources",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "center": [
+        64,
+        64
+      ],
+      "title": "Resources",
+      "titleKey": "moreminecrafts.research.resources_root.title",
+      "descriptionKey": "moreminecrafts.research.resources_root.description",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "researchPrerequisites": [],
+      "prerequisiteSemantics": "any_of_knowledge",
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:cobblestone",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:coal",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "iconItemId": "minecraft:coal",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.discipline_foundation",
+      "fallbackIconItemId": "minecraft:book"
+    },
+    {
+      "id": "production_root",
+      "catalog": "stage22",
+      "discipline": "production",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "center": [
+        64,
+        64
+      ],
+      "title": "Production Engineering",
+      "titleKey": "moreminecrafts.research.production_root.title",
+      "descriptionKey": "moreminecrafts.research.production_root.description",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "researchPrerequisites": [],
+      "prerequisiteSemantics": "any_of_knowledge",
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:furnace",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:iron_ingot",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "iconItemId": "minecraft:furnace",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.production.discipline_foundation",
+      "fallbackIconItemId": "minecraft:book"
+    },
+    {
+      "id": "living_root",
+      "catalog": "stage22",
+      "discipline": "living",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "center": [
+        64,
+        64
+      ],
+      "title": "Living Skills",
+      "titleKey": "moreminecrafts.research.living_root.title",
+      "descriptionKey": "moreminecrafts.research.living_root.description",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "researchPrerequisites": [],
+      "prerequisiteSemantics": "any_of_knowledge",
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:wheat_seeds",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:wheat",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "iconItemId": "minecraft:wheat",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.living.discipline_foundation",
+      "fallbackIconItemId": "minecraft:book"
+    },
+    {
+      "id": "world_root",
+      "catalog": "stage22",
+      "discipline": "world",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "center": [
+        64,
+        64
+      ],
+      "title": "World Studies",
+      "titleKey": "moreminecrafts.research.world_root.title",
+      "descriptionKey": "moreminecrafts.research.world_root.description",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "researchPrerequisites": [],
+      "prerequisiteSemantics": "any_of_knowledge",
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:compass",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:paper",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "iconItemId": "minecraft:compass",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.discipline_foundation",
+      "fallbackIconItemId": "minecraft:book"
+    },
+    {
+      "id": "alchemy_root",
+      "catalog": "stage22",
+      "discipline": "alchemy",
+      "branch": "discipline_foundation",
+      "branchOrder": 0,
+      "nodeOrder": 0,
+      "center": [
+        64,
+        64
+      ],
+      "title": "Alchemy and Magic",
+      "titleKey": "moreminecrafts.research.alchemy_root.title",
+      "descriptionKey": "moreminecrafts.research.alchemy_root.description",
+      "tier": "UNSPECIFIED",
+      "levelCap": 1,
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70
+      ],
+      "researchPrerequisites": [],
+      "prerequisiteSemantics": "any_of_knowledge",
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 80,
+          "materials": [
+            {
+              "itemId": "minecraft:glass_bottle",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:nether_wart",
+              "count": 16,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "iconItemId": "minecraft:glass_bottle",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.discipline_foundation",
+      "fallbackIconItemId": "minecraft:book"
     }
   ],
   "knowledge": [
@@ -6598,7 +7312,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:iron_pickaxe",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.2",
@@ -6621,7 +7337,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:deepslate",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.3",
@@ -6644,7 +7362,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:diamond",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.geology",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.4",
@@ -6667,7 +7387,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:oak_sapling",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.5",
@@ -6690,7 +7412,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:oak_log",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.forestry",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.6",
@@ -6713,7 +7437,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:poppy",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.flora_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.flora_and_soil",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.7",
@@ -6736,7 +7462,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:dirt",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.flora_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.flora_and_soil",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.8",
@@ -6759,7 +7487,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:stone",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.rock_classification"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.rock_classification",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.9",
@@ -6782,7 +7512,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:raw_iron",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.extraction_and_tools"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.extraction_and_tools",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.10",
@@ -6805,7 +7537,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:iron_pickaxe",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.resources.extraction_and_tools"
+      "branchTitleKey": "moreminecrafts.ui.branch.resources.extraction_and_tools",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.11",
@@ -6828,7 +7562,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:iron_ingot",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.12",
@@ -6851,7 +7587,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:blast_furnace",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.13",
@@ -6874,7 +7612,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:netherite_ingot",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.smelting_and_alloys",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.14",
@@ -6897,7 +7637,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:crafting_table",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.15",
@@ -6920,7 +7662,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:book",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.16",
@@ -6943,7 +7687,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:anvil",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.crafting_and_maintenance",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.17",
@@ -6966,7 +7712,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:chest",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.18",
@@ -6989,7 +7737,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:hopper",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.19",
@@ -7012,7 +7762,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:redstone",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation"
+      "branchTitleKey": "moreminecrafts.ui.branch.production.storage_and_automation",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.20",
@@ -7035,7 +7787,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:wheat",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.21",
@@ -7058,7 +7812,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:wheat_seeds",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.22",
@@ -7081,7 +7837,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:wooden_hoe",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.23",
@@ -7104,7 +7862,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:water_bucket",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.24",
@@ -7127,7 +7887,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:observer",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.cultivation_and_soil",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.25",
@@ -7150,7 +7912,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:wheat",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.livestock_and_bees"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.livestock_and_bees",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.26",
@@ -7173,7 +7937,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:cow_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.livestock_and_bees"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.livestock_and_bees",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.27",
@@ -7196,7 +7962,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:honeycomb",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fishing"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fishing",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.28",
@@ -7219,7 +7987,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:cod",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fishing"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fishing",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.29",
@@ -7242,7 +8012,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:fishing_rod",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.fishing"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.fishing",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.30",
@@ -7265,7 +8037,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:bread",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.living.food"
+      "branchTitleKey": "moreminecrafts.ui.branch.living.food",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.31",
@@ -7288,7 +8062,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:iron_sword",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.32",
@@ -7311,7 +8087,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:iron_sword",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.33",
@@ -7334,7 +8112,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:iron_axe",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.melee",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.34",
@@ -7357,7 +8137,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:bow",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.35",
@@ -7380,7 +8162,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:crossbow",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.ranged",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.36",
@@ -7403,7 +8187,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:shield",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.37",
@@ -7426,7 +8212,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:iron_chestplate",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.38",
@@ -7449,7 +8237,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:trident",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.defense_and_thrown_weapons",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.39",
@@ -7472,7 +8262,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:iron_boots",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.movement_and_ammunition"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.movement_and_ammunition",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.40",
@@ -7495,7 +8287,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:arrow",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.combat.movement_and_ammunition"
+      "branchTitleKey": "moreminecrafts.ui.branch.combat.movement_and_ammunition",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.41",
@@ -7518,7 +8312,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:zombie_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.42",
@@ -7541,7 +8337,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:skeleton_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.43",
@@ -7564,7 +8362,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:creeper_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.44",
@@ -7587,7 +8387,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:spider_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.45",
@@ -7610,7 +8412,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:enderman_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.46",
@@ -7633,7 +8437,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:slime_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.47",
@@ -7656,7 +8462,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:pillager_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.overworld_hostiles",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.48",
@@ -7679,7 +8487,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:piglin_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.49",
@@ -7702,7 +8512,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:hoglin_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.50",
@@ -7725,7 +8537,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:drowned_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.nether_and_aquatic",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.51",
@@ -7748,7 +8562,9 @@
       "unresolved": true,
       "iconItemId": "minecraft:evoker_spawn_egg",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.52",
@@ -7771,7 +8587,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:dragon_head",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs"
+      "branchTitleKey": "moreminecrafts.ui.branch.ecology.rare_and_boss_mobs",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.53",
@@ -7794,7 +8612,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:grass_block",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.biomes_and_caves"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.biomes_and_caves",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.54",
@@ -7817,7 +8637,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:dripstone_block",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.biomes_and_caves"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.biomes_and_caves",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.55",
@@ -7840,7 +8662,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:oak_boat",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.56",
@@ -7863,7 +8687,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:saddle",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.57",
@@ -7886,7 +8712,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:elytra",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.58",
@@ -7909,7 +8737,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:ender_pearl",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.travel"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.travel",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.59",
@@ -7932,7 +8762,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:brush",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_structures"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_structures",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.60",
@@ -7955,7 +8787,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:ancient_debris",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_structures"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.archaeology_and_structures",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.61",
@@ -7978,7 +8812,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:emerald",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.villager_trade"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.villager_trade",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.62",
@@ -8001,7 +8837,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:compass",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.world.expeditions"
+      "branchTitleKey": "moreminecrafts.ui.branch.world.expeditions",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.63",
@@ -8024,7 +8862,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:brewing_stand",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.64",
@@ -8047,7 +8887,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:potion",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.65",
@@ -8070,7 +8912,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:splash_potion",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.66",
@@ -8093,7 +8937,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:lingering_potion",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.brewing_and_potions",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.67",
@@ -8116,7 +8962,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:honey_bottle",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_ingredients"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_ingredients",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.68",
@@ -8139,7 +8987,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:nether_wart",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_ingredients"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.effects_and_ingredients",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.69",
@@ -8162,7 +9012,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:brewing_stand",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     },
     {
       "id": "knowledge.70",
@@ -8185,7 +9037,9 @@
       "unresolved": false,
       "iconItemId": "minecraft:glowstone_dust",
       "iconRule": "explicit_knowledge_condition_subject_mapping",
-      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing"
+      "branchTitleKey": "moreminecrafts.ui.branch.alchemy.advanced_brewing",
+      "catalog": "knowledge",
+      "fallbackIconItemId": "minecraft:book"
     }
   ]
 }
