@@ -260,6 +260,7 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
         KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player)
                 .with("research.v3.research.08", 5).with("research.v3.research.09", 2));
         CraftingMenu menu = craftingMenu(ctx, player);
+        player.containerMenu = menu;
         menu.getSlot(1).set(new ItemStack(Items.OAK_LOG));
         menu.slotsChanged(menu.getSlot(1).container);
         seedFirstPrecisionCraftingRoll(player, 300);
