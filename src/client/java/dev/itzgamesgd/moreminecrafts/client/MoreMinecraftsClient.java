@@ -27,26 +27,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog;
-import net.minecraft.client.renderer.entity.ZombieRenderer;
-import net.minecraft.client.renderer.entity.SkeletonRenderer;
-import net.minecraft.client.renderer.entity.StrayRenderer;
-import net.minecraft.client.renderer.entity.WitherSkeletonRenderer;
-import net.minecraft.client.renderer.entity.SpiderRenderer;
-import net.minecraft.client.renderer.entity.CaveSpiderRenderer;
-import net.minecraft.client.renderer.entity.SilverfishRenderer;
-import net.minecraft.client.renderer.entity.EndermiteRenderer;
-import net.minecraft.client.renderer.entity.SlimeRenderer;
-import net.minecraft.client.renderer.entity.MagmaCubeRenderer;
-import net.minecraft.client.renderer.entity.DrownedRenderer;
-import net.minecraft.client.renderer.entity.PiglinRenderer;
-import net.minecraft.client.renderer.entity.PillagerRenderer;
-import net.minecraft.client.renderer.entity.VindicatorRenderer;
-import net.minecraft.client.renderer.entity.WolfRenderer;
-import net.minecraft.client.renderer.entity.BatRenderer;
-import net.minecraft.client.renderer.entity.BeeRenderer;
-import net.minecraft.client.renderer.entity.PhantomRenderer;
-import net.minecraft.client.renderer.entity.CreeperRenderer;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -187,47 +167,86 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     }
 
     private static void registerCustomMobRenderers() {
-        EntityRendererRegistry.register(CustomMobCatalog.SWAMP_ZOMBIE, ZombieRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.CAVE_ZOMBIE, ZombieRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.LARGE_ZOMBIE, ZombieRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.FROZEN_ZOMBIE, ZombieRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.MOSSY_ZOMBIE, ZombieRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.FUNGAL_ZOMBIE, ZombieRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.MINER_ZOMBIE, ZombieRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.ROTTEN_SKELETON, SkeletonRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.CAVE_SKELETON, SkeletonRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.ARMORED_SKELETON, SkeletonRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.ASHEN_SKELETON, SkeletonRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.LESSER_WITHER_SKELETON, WitherSkeletonRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.MOUNTAIN_SKELETON, StrayRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.MINER_SKELETON, SkeletonRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.SMALL_SPIDER, CaveSpiderRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.LARGE_SPIDER, SpiderRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.FOREST_SPIDER, SpiderRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.DESERT_SPIDER, SpiderRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.SWAMP_SPIDER, CaveSpiderRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.ICE_SPIDER, SpiderRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.CAVE_BUG, SilverfishRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.DESERT_BUG, SilverfishRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.END_BUG, EndermiteRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.WILD_SLIME, SlimeRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.MUD_SLIME, SlimeRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.SAND_SLIME, SlimeRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.LESSER_MAGMA_CUBE, MagmaCubeRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.DROWNED_SAILOR, DrownedRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.DEEP_SEA_DROWNED, DrownedRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.RIVER_DROWNED, DrownedRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.WILD_PIGLIN, context -> new PiglinRenderer(context,
-                ModelLayers.PIGLIN, ModelLayers.PIGLIN_BABY, ModelLayers.PIGLIN_ARMOR, ModelLayers.PIGLIN_BABY_ARMOR));
-        EntityRendererRegistry.register(CustomMobCatalog.BANDIT, PillagerRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.BANDIT_ARCHER, PillagerRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.BANDIT_WARRIOR, VindicatorRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.WANDERING_RAIDER, PillagerRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.FERAL_WOLF, WolfRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.CAVE_BAT, BatRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.GIANT_BEE, BeeRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.LESSER_PHANTOM, PhantomRenderer::new);
-        EntityRendererRegistry.register(CustomMobCatalog.CAVE_CREEPER, CreeperRenderer::new);
+        EntityRendererRegistry.register(CustomMobCatalog.SWAMP_ZOMBIE,
+                context -> CustomMobRenderers.zombie(context, "swamp_zombie"));
+        EntityRendererRegistry.register(CustomMobCatalog.CAVE_ZOMBIE,
+                context -> CustomMobRenderers.zombie(context, "cave_zombie"));
+        EntityRendererRegistry.register(CustomMobCatalog.LARGE_ZOMBIE,
+                context -> CustomMobRenderers.zombie(context, "large_zombie"));
+        EntityRendererRegistry.register(CustomMobCatalog.FROZEN_ZOMBIE,
+                context -> CustomMobRenderers.zombie(context, "frozen_zombie"));
+        EntityRendererRegistry.register(CustomMobCatalog.MOSSY_ZOMBIE,
+                context -> CustomMobRenderers.zombie(context, "mossy_zombie"));
+        EntityRendererRegistry.register(CustomMobCatalog.FUNGAL_ZOMBIE,
+                context -> CustomMobRenderers.zombie(context, "fungal_zombie"));
+        EntityRendererRegistry.register(CustomMobCatalog.MINER_ZOMBIE,
+                context -> CustomMobRenderers.zombie(context, "miner_zombie"));
+        EntityRendererRegistry.register(CustomMobCatalog.ROTTEN_SKELETON,
+                context -> CustomMobRenderers.skeleton(context, "rotten_skeleton"));
+        EntityRendererRegistry.register(CustomMobCatalog.CAVE_SKELETON,
+                context -> CustomMobRenderers.skeleton(context, "cave_skeleton"));
+        EntityRendererRegistry.register(CustomMobCatalog.ARMORED_SKELETON,
+                context -> CustomMobRenderers.skeleton(context, "armored_skeleton"));
+        EntityRendererRegistry.register(CustomMobCatalog.ASHEN_SKELETON,
+                context -> CustomMobRenderers.skeleton(context, "ashen_skeleton"));
+        EntityRendererRegistry.register(CustomMobCatalog.LESSER_WITHER_SKELETON,
+                context -> CustomMobRenderers.witherSkeleton(context, "lesser_wither_skeleton"));
+        EntityRendererRegistry.register(CustomMobCatalog.MOUNTAIN_SKELETON,
+                context -> CustomMobRenderers.stray(context, "mountain_skeleton"));
+        EntityRendererRegistry.register(CustomMobCatalog.MINER_SKELETON,
+                context -> CustomMobRenderers.skeleton(context, "miner_skeleton"));
+        EntityRendererRegistry.register(CustomMobCatalog.SMALL_SPIDER,
+                context -> CustomMobRenderers.caveSpider(context, "small_spider"));
+        EntityRendererRegistry.register(CustomMobCatalog.LARGE_SPIDER,
+                context -> CustomMobRenderers.spider(context, "large_spider"));
+        EntityRendererRegistry.register(CustomMobCatalog.FOREST_SPIDER,
+                context -> CustomMobRenderers.spider(context, "forest_spider"));
+        EntityRendererRegistry.register(CustomMobCatalog.DESERT_SPIDER,
+                context -> CustomMobRenderers.spider(context, "desert_spider"));
+        EntityRendererRegistry.register(CustomMobCatalog.SWAMP_SPIDER,
+                context -> CustomMobRenderers.caveSpider(context, "swamp_spider"));
+        EntityRendererRegistry.register(CustomMobCatalog.ICE_SPIDER,
+                context -> CustomMobRenderers.spider(context, "ice_spider"));
+        EntityRendererRegistry.register(CustomMobCatalog.CAVE_BUG,
+                context -> CustomMobRenderers.silverfish(context, "cave_bug"));
+        EntityRendererRegistry.register(CustomMobCatalog.DESERT_BUG,
+                context -> CustomMobRenderers.silverfish(context, "desert_bug"));
+        EntityRendererRegistry.register(CustomMobCatalog.END_BUG,
+                context -> CustomMobRenderers.endermite(context, "end_bug"));
+        EntityRendererRegistry.register(CustomMobCatalog.WILD_SLIME,
+                context -> CustomMobRenderers.slime(context, "wild_slime"));
+        EntityRendererRegistry.register(CustomMobCatalog.MUD_SLIME,
+                context -> CustomMobRenderers.slime(context, "mud_slime"));
+        EntityRendererRegistry.register(CustomMobCatalog.SAND_SLIME,
+                context -> CustomMobRenderers.slime(context, "sand_slime"));
+        EntityRendererRegistry.register(CustomMobCatalog.LESSER_MAGMA_CUBE,
+                context -> CustomMobRenderers.magmaCube(context, "lesser_magma_cube"));
+        EntityRendererRegistry.register(CustomMobCatalog.DROWNED_SAILOR,
+                context -> CustomMobRenderers.drowned(context, "drowned_sailor"));
+        EntityRendererRegistry.register(CustomMobCatalog.DEEP_SEA_DROWNED,
+                context -> CustomMobRenderers.drowned(context, "deep_sea_drowned"));
+        EntityRendererRegistry.register(CustomMobCatalog.RIVER_DROWNED,
+                context -> CustomMobRenderers.drowned(context, "river_drowned"));
+        EntityRendererRegistry.register(CustomMobCatalog.WILD_PIGLIN,
+                context -> CustomMobRenderers.piglin(context, "wild_piglin"));
+        EntityRendererRegistry.register(CustomMobCatalog.BANDIT,
+                context -> CustomMobRenderers.pillager(context, "bandit"));
+        EntityRendererRegistry.register(CustomMobCatalog.BANDIT_ARCHER,
+                context -> CustomMobRenderers.pillager(context, "bandit_archer"));
+        EntityRendererRegistry.register(CustomMobCatalog.BANDIT_WARRIOR,
+                context -> CustomMobRenderers.vindicator(context, "bandit_warrior"));
+        EntityRendererRegistry.register(CustomMobCatalog.WANDERING_RAIDER,
+                context -> CustomMobRenderers.pillager(context, "wandering_raider"));
+        EntityRendererRegistry.register(CustomMobCatalog.FERAL_WOLF,
+                context -> CustomMobRenderers.wolf(context, "feral_wolf"));
+        EntityRendererRegistry.register(CustomMobCatalog.CAVE_BAT,
+                context -> CustomMobRenderers.bat(context, "cave_bat"));
+        EntityRendererRegistry.register(CustomMobCatalog.GIANT_BEE,
+                context -> CustomMobRenderers.bee(context, "giant_bee"));
+        EntityRendererRegistry.register(CustomMobCatalog.LESSER_PHANTOM,
+                context -> CustomMobRenderers.phantom(context, "lesser_phantom"));
+        EntityRendererRegistry.register(CustomMobCatalog.CAVE_CREEPER,
+                context -> CustomMobRenderers.creeper(context, "cave_creeper"));
     }
 
     private static String formatTenths(int value) { return "%d.%d".formatted(value / 10, Math.abs(value % 10)); }

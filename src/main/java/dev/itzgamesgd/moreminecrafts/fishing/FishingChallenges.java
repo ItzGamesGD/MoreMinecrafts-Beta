@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -109,14 +110,8 @@ public final class FishingChallenges {
                 continue;
             }
             int crankbaitTier = equipment.tier(FishingEquipmentFamily.CRANKBAIT);
-            int fisheriesStudyLevel = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
-                    player, "v3.research.19", "fisheries_grade");
-            FishingLogic.FishRoll roll = FishingLogic.rollFish(species, crankbaitTier,
-                    fisheriesStudyLevel, player.getRandom());
-            ItemStack fish = new ItemStack(ModItems.fishItem(roll.species()));
-            fish.set(ModDataComponents.FISH_GRADE, roll.grade());
-            fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, roll.lengthTenthsCm());
-            fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, roll.weightTenthsKg());
+            FishingLogic.FishRoll roll = rollFishForPlayer(player, species, crankbaitTier);
+            ItemStack fish = createFishStack(roll);
             equipment = captureWear(equipment, true);
             challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, equipment);
             deliver(player, fish);
@@ -139,6 +134,29 @@ public final class FishingChallenges {
     private static void deliver(ServerPlayer player, ItemStack fish) {
         player.getInventory().add(fish);
         if (!fish.isEmpty()) player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), fish));
+    }
+
+    /** Uses only the catching player's purchased Fisheries Study level. */
+    static int fisheriesStudyLevel(ServerPlayer player) {
+        return dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                player, "v3.research.19", "fisheries_grade");
+    }
+
+    static FishingLogic.FishRoll rollFishForPlayer(ServerPlayer player, FishSpecies species, int crankbaitTier) {
+        return rollFishForPlayer(player, species, crankbaitTier, player.getRandom());
+    }
+
+    static FishingLogic.FishRoll rollFishForPlayer(ServerPlayer player, FishSpecies species, int crankbaitTier,
+            RandomSource random) {
+        return FishingLogic.rollFish(species, crankbaitTier, fisheriesStudyLevel(player), random);
+    }
+
+    static ItemStack createFishStack(FishingLogic.FishRoll roll) {
+        ItemStack fish = new ItemStack(ModItems.fishItem(roll.species()));
+        fish.set(ModDataComponents.FISH_GRADE, roll.grade());
+        fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, roll.lengthTenthsCm());
+        fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, roll.weightTenthsKg());
+        return fish;
     }
 
     static RodEquipment captureWear(RodEquipment equipment, boolean capturePermitted) {

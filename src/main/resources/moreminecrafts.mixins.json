@@ -45,6 +45,7 @@
     "SpawnPlacementsInvoker",
     "CustomMobStatsMixin",
     "CaveCreeperExplosionMixin",
+    "WolfMixinAccessors",
     "KnowledgeCraftingMenuMixin",
     "KnowledgeRecipeCraftCountMixin",
     "KnowledgeFurnaceMixin",

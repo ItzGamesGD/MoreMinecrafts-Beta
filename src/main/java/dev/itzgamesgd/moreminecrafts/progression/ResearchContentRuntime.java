@@ -59,17 +59,55 @@ public final class ResearchContentRuntime {
     private static List<ItemStack> applyOreAndLogResearch(ServerPlayer player, BlockState state,
                                                            List<ItemStack> baseDrops,
                                                            java.util.function.DoubleSupplier random) {
-        if (player == null || player.isCreative() || baseDrops.isEmpty()) return baseDrops;
-        List<ItemStack> drops = copyDrops(baseDrops);
+        // Kept for deterministic rules tests and call sites combining these independent effects.
+        return applyLumberingResearch(player, state, applyOreResearch(player, state, baseDrops, random), random);
+    }
 
-        if (state.is(RESEARCH_ORES)) {
-            addGatheringBonus(player, "v3.research.01", "ore_extra_drops", drops,
-                    stack -> !stack.isEmpty(), random);
-        }
-        if (state.is(BlockTags.LOGS)) {
-            addGatheringBonus(player, "v3.research.02", "lumbering_extra_drops", drops,
-                    stack -> stack.is(net.minecraft.tags.ItemTags.LOGS), random);
-        }
+    /** Run only after Auto Smelt, so Ore Mining duplicates the final processed loot. */
+    public static List<ItemStack> applyOreResearch(ServerPlayer player, BlockState state,
+                                                    List<ItemStack> baseDrops) {
+        if (player == null) return baseDrops;
+        return applyOreResearch(player, state, baseDrops, player.getRandom()::nextDouble);
+    }
+
+    static List<ItemStack> applyOreResearch(ServerPlayer player, BlockState state,
+                                                     List<ItemStack> baseDrops,
+                                                     java.util.function.DoubleSupplier random) {
+        if (player == null || player.isCreative()) return baseDrops;
+        return oreDropsAtPaidLevel(state, baseDrops,
+                ResearchRewards.level(player, "v3.research.01", "ore_extra_drops"), random);
+    }
+
+    /** Pure deterministic stage for testing the drop rule independently of GameTest mock abilities. */
+    static List<ItemStack> oreDropsAtPaidLevel(BlockState state, List<ItemStack> baseDrops,
+                                                int paidLevel, java.util.function.DoubleSupplier random) {
+        if (baseDrops.isEmpty() || !state.is(RESEARCH_ORES)) return baseDrops;
+        List<ItemStack> drops = copyDrops(baseDrops);
+        addGatheringBonus(paidLevel, drops, stack -> !stack.isEmpty(), random);
+        return drops;
+    }
+
+    /** Run before the one existing enchantment pass so Lumbering bonuses share its processing. */
+    public static List<ItemStack> applyLumberingResearch(ServerPlayer player, BlockState state,
+                                                          List<ItemStack> baseDrops) {
+        if (player == null) return baseDrops;
+        return applyLumberingResearch(player, state, baseDrops, player.getRandom()::nextDouble);
+    }
+
+    static List<ItemStack> applyLumberingResearch(ServerPlayer player, BlockState state,
+                                                           List<ItemStack> baseDrops,
+                                                           java.util.function.DoubleSupplier random) {
+        if (player == null || player.isCreative()) return baseDrops;
+        return lumberingDropsAtPaidLevel(state, baseDrops,
+                ResearchRewards.level(player, "v3.research.02", "lumbering_extra_drops"), random);
+    }
+
+    /** Pure deterministic stage: log extras are created before the enchantment pass. */
+    static List<ItemStack> lumberingDropsAtPaidLevel(BlockState state, List<ItemStack> baseDrops,
+                                                      int paidLevel, java.util.function.DoubleSupplier random) {
+        if (baseDrops.isEmpty() || !state.is(BlockTags.LOGS)) return baseDrops;
+        List<ItemStack> drops = copyDrops(baseDrops);
+        addGatheringBonus(paidLevel, drops, stack -> stack.is(net.minecraft.tags.ItemTags.LOGS), random);
         return drops;
     }
 
@@ -79,11 +117,9 @@ public final class ResearchContentRuntime {
         return result;
     }
 
-    private static void addGatheringBonus(ServerPlayer player, String researchId, String effectId,
-                                           List<ItemStack> drops,
+    private static void addGatheringBonus(int level, List<ItemStack> drops,
                                            java.util.function.Predicate<ItemStack> eligible,
                                            java.util.function.DoubleSupplier random) {
-        int level = ResearchRewards.level(player, researchId, effectId);
         int maximum = ResearchContentRules.maximumGatheringExtra(level);
         if (maximum == 0) return;
         if (!ResearchContentRules.extraItemSucceeds(random.getAsDouble(),
