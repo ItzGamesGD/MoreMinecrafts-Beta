@@ -5,7 +5,6 @@ import dev.itzgamesgd.moreminecrafts.client.ProgressionSelectionScreen;
 import dev.itzgamesgd.moreminecrafts.client.ProgressionBrowseScreen;
 import dev.itzgamesgd.moreminecrafts.equipment.BackpackItem;
 import dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents;
-import dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceMenu;
 import dev.itzgamesgd.moreminecrafts.progression.ViewportScale;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
@@ -20,12 +19,14 @@ import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
@@ -93,7 +94,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
         if (!suiteStarted) {
             suiteStarted = true;
             LOGGER.info("STAGE23B_QA_WORLD_JOINED dimension={} player={} pos=({}, {}, {}) server_connection={} registries=items:{},components:{}",
-                    client.level.dimension(), client.player.getGameProfile().getName(),
+                    client.level.dimension(), client.player.getName().getString(),
                     client.player.getX(), client.player.getY(), client.player.getZ(),
                     client.getConnection().getConnection().isConnected(), BuiltInRegistries.ITEM.size(),
                     BuiltInRegistries.DATA_COMPONENT_TYPE.size());
@@ -208,7 +209,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
             if (backpackStage == 0) {
                 backpackHotbarSlot = findInventoryItem(client, ModItems.LARGE_BACKPACK);
                 if (backpackHotbarSlot < 0) throw new IllegalStateException("RCON fixture backpack was not synchronized to the client inventory");
-                client.player.getInventory().selected = backpackHotbarSlot;
+                client.player.getInventory().setSelectedSlot(backpackHotbarSlot);
                 client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
                 backpackStage = 1;
                 LOGGER.info("STAGE23B_QA_BACKPACK_ACTION input_path=synthetic_client_game_packet action=use_item inventory_slot={}", backpackHotbarSlot);
@@ -223,8 +224,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
             if (backpackStage == 1) {
                 int stoneSource = findMenuStack(menu, Items.STONE, 54);
                 if (stoneSource < 0) throw new IllegalStateException("RCON fixture stone stack was not synchronized into the player inventory menu");
-                client.gameMode.handleInventoryMouseClick(menu.containerId, stoneSource, 0, ContainerInput.PICKUP, client.player);
-                client.gameMode.handleInventoryMouseClick(menu.containerId, 0, 0, ContainerInput.PICKUP, client.player);
+                clickContainerSlot(client, menu, stoneSource, false);
+                clickContainerSlot(client, menu, 0, false);
                 backpackStage = 2;
                 waitTicks = 0;
                 return;
@@ -240,8 +241,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 waitForCapture(client, () -> {
                     AbstractContainerMenu current = client.player.containerMenu;
                     int destination = findEmptyPlayerMenuSlot(current, 54);
-                    client.gameMode.handleInventoryMouseClick(current.containerId, 0, 0, ContainerInput.PICKUP, client.player);
-                    client.gameMode.handleInventoryMouseClick(current.containerId, destination, 0, ContainerInput.PICKUP, client.player);
+                    clickContainerSlot(client, current, 0, false);
+                    clickContainerSlot(client, current, destination, false);
                     backpackStage = 4;
                     waitTicks = 0;
                 });
@@ -253,7 +254,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 boolean movedOut = moved.isEmpty() && stoneTotal == 32;
                 if (!movedOut && ++waitTicks <= 100) return;
                 if (client.player.containerMenu != client.player.inventoryMenu) client.player.closeContainer();
-                ResultsAdd("large_backpack_icon_and_movement", movedOut ? "PASS" : "FAIL", "synthetic_client_game_packet",
+                ResultsAdd("large_backpack_icon_and_movement", movedOut ? "PASS" : "FAIL", "synthetic_client_game_packet_and_screen_callback",
                         "joined_world=true real_server_backed_menu=true visible_stack_before=stone:32 movement_out_of_storage=" + movedOut
                                 + "; item icon semantic correctness requires human review; OS_XTEST_XDOTool=NOT_RUN", List.of());
                 queueCapture("large_backpack_icon_and_movement", "after", "large_backpack_icon_and_movement", "after server-backed slot transfer out of Backpack");
@@ -270,29 +271,29 @@ public final class Stage23BClientQa implements ClientModInitializer {
             if (furnaceStage == 0) {
                 furnaceHotbarSlot = findInventoryItem(client, ModItems.PORTABLE_FURNACE);
                 if (furnaceHotbarSlot < 0) throw new IllegalStateException("RCON fixture Portable Furnace was not synchronized to the client inventory");
-                client.player.getInventory().selected = furnaceHotbarSlot;
+                client.player.getInventory().setSelectedSlot(furnaceHotbarSlot);
                 client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
                 furnaceStage = 1;
                 LOGGER.info("STAGE23B_QA_FURNACE_ACTION input_path=synthetic_client_game_packet action=use_same_item inventory_slot={}", furnaceHotbarSlot);
                 return;
             }
             if (furnaceStage == 1) {
-                if (!(client.player.containerMenu instanceof PortableFurnaceMenu menu)) {
-                    if (++waitTicks > 100) throw new IllegalStateException("server did not open PortableFurnaceMenu after use packet");
+                if (!(client.player.containerMenu instanceof FurnaceMenu menu)) {
+                    if (++waitTicks > 100) throw new IllegalStateException("server did not open the vanilla furnace screen type for the portable item");
                     return;
                 }
                 int rawIron = findMenuStack(menu, Items.RAW_IRON, 3);
                 int coal = findMenuStack(menu, Items.COAL, 3);
                 if (rawIron < 0 || coal < 0) throw new IllegalStateException("RCON fixture raw iron or coal was not present in the server menu");
-                client.gameMode.handleInventoryMouseClick(menu.containerId, rawIron, 0, ContainerInput.PICKUP, client.player);
-                client.gameMode.handleInventoryMouseClick(menu.containerId, 0, 0, ContainerInput.PICKUP, client.player);
-                client.gameMode.handleInventoryMouseClick(menu.containerId, coal, 0, ContainerInput.PICKUP, client.player);
-                client.gameMode.handleInventoryMouseClick(menu.containerId, 1, 0, ContainerInput.PICKUP, client.player);
+                clickContainerSlot(client, menu, rawIron, true);
+                clickContainerSlot(client, menu, 0, true);
+                clickContainerSlot(client, menu, coal, true);
+                clickContainerSlot(client, menu, 1, true);
                 furnaceStage = 2;
                 waitTicks = 0;
                 return;
             }
-            if (furnaceStage == 2 && client.player.containerMenu instanceof PortableFurnaceMenu menu) {
+            if (furnaceStage == 2 && client.player.containerMenu instanceof FurnaceMenu menu) {
                 if (++waitTicks < 90) return;
                 queueCapture("portable_furnace_inventory_cooking_persistence", "before", "portable_furnace_inventory_cooking_persistence", "real server-backed Portable Furnace menu with input and fuel loaded");
                 furnaceStage = 3;
@@ -318,15 +319,15 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 return;
             }
             if (furnaceStage == 5) {
-                if (!(client.player.containerMenu instanceof PortableFurnaceMenu menu)) {
-                    if (++waitTicks > 100) throw new IllegalStateException("same Portable Furnace item did not reopen its menu");
+                if (!(client.player.containerMenu instanceof FurnaceMenu menu)) {
+                    if (++waitTicks > 100) throw new IllegalStateException("same Portable Furnace item did not reopen its furnace screen type");
                     return;
                 }
                 boolean inputRestored = ItemStack.matches(menu.getSlot(0).getItem(), furnaceSavedAfterClose.items().get(0));
                 boolean fuelRestored = ItemStack.matches(menu.getSlot(1).getItem(), furnaceSavedAfterClose.items().get(1));
                 boolean cookingPersisted = inputRestored && fuelRestored && furnaceSavedAfterClose.burnTime() > 0 && furnaceSavedAfterClose.cookTime() > 0;
                 queueCapture("portable_furnace_inventory_cooking_persistence", "after", "portable_furnace_inventory_cooking_persistence", "same item reopened; server menu inventory restored; saved burn/cook values retained");
-                ResultsAdd("portable_furnace_inventory_cooking_persistence", cookingPersisted ? "PASS" : "FAIL", "synthetic_client_game_packet",
+                ResultsAdd("portable_furnace_inventory_cooking_persistence", cookingPersisted ? "PASS" : "FAIL", "synthetic_client_game_packet_and_screen_callback",
                         "same_item_server_close_reopen=true input_restored=" + inputRestored + " fuel_restored=" + fuelRestored
                                 + " burn_time=" + furnaceSavedAfterClose.burnTime() + " cook_time=" + furnaceSavedAfterClose.cookTime()
                                 + "; client state came from server menu and synced item component", List.of());
@@ -364,6 +365,19 @@ public final class Stage23BClientQa implements ClientModInitializer {
             if (stack.is(item)) count += stack.getCount();
         }
         return count;
+    }
+
+    private static boolean clickContainerSlot(Minecraft client, AbstractContainerMenu menu, int slotIndex, boolean furnace) {
+        if (!(client.gui.screen() instanceof AbstractContainerScreen<?> screen))
+            throw new IllegalStateException("expected live AbstractContainerScreen before synthetic slot callback");
+        var slot = menu.getSlot(slotIndex);
+        int guiHeight = furnace ? 166 : 114 + 6 * 18;
+        double x = (client.getWindow().getGuiScaledWidth() - 176) / 2.0 + slot.x + 8;
+        double y = (client.getWindow().getGuiScaledHeight() - guiHeight) / 2.0 + slot.y + 8;
+        boolean consumed = screen.mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
+        LOGGER.info("STAGE23B_QA_MENU_INPUT input_path=synthetic_screen_callback menu={} slot={} consumed={} coordinates=({}, {})",
+                menu.getClass().getSimpleName(), slotIndex, consumed, x, y);
+        return consumed;
     }
 
     private static void finishRemainingProbes(Minecraft client) {
@@ -413,7 +427,9 @@ public final class Stage23BClientQa implements ClientModInitializer {
                     .append("\",\"status\":\"").append(result.status())
                     .append("\",\"visual_status\":\"LIVE PENDING\",\"input_path\":\"").append(escape(result.inputPath()))
                     .append("\",\"os_xtest_xdotool\":\"NOT RUN\",\"synthetic_screen_callback\":\"")
-                    .append(result.inputPath().equals("synthetic_screen_callback") ? "EXECUTED" : "NOT RUN")
+                    .append(result.inputPath().contains("screen_callback") ? "EXECUTED" : "NOT RUN")
+                    .append("\",\"synthetic_client_game_packet\":\"")
+                    .append(result.inputPath().contains("client_game_packet") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"direct_state_fixture\":\"").append(result.inputPath().equals("direct_state_fixture") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"human_manual_play\":\"NOT RUN\",\"evidence\":\"").append(escape(result.evidence()))
                     .append("\",\"screenshots\":[");
