@@ -588,6 +588,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
             }
             if (lanternStage == 1) return;
             if (lanternStage == 2) {
+                invokeLanternBridgeTick(client);
                 Map<?, ?> active = lanternActiveMap();
                 lanternBehavior = active.get(client.player.getUUID());
                 lanternWaitTicks++;
@@ -608,6 +609,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
             }
             if (lanternStage == 3) return;
             if (lanternStage == 4) {
+                invokeLanternBridgeTick(client);
                 Map<?, ?> active = lanternActiveMap();
                 double lightOff = lanternLightValue(lanternBehavior, client.player.blockPosition());
                 lanternWaitTicks++;
@@ -651,6 +653,12 @@ public final class Stage23BClientQa implements ClientModInitializer {
         java.lang.reflect.Field field = lanternBridge.getClass().getDeclaredField("active");
         field.setAccessible(true);
         return (Map<?, ?>) field.get(lanternBridge);
+    }
+
+    private static void invokeLanternBridgeTick(Minecraft client) throws ReflectiveOperationException {
+        Method tick = lanternBridge.getClass().getDeclaredMethod("tick", Minecraft.class);
+        tick.setAccessible(true);
+        tick.invoke(lanternBridge, client);
     }
 
     private static double lanternLightValue(Object behavior, BlockPos pos) throws ReflectiveOperationException {
