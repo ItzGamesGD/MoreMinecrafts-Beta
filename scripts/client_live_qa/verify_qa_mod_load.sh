@@ -97,7 +97,7 @@ python3 scripts/visual_validation/rcon.py \
   "weather clear 1000000" \
   "fill -10 63 -10 10 63 18 minecraft:stone_bricks" \
   "fill -10 64 -10 10 80 18 minecraft:air" \
-  "fill -5 64 4 5 64 4 minecraft:stone_bricks"
+  "fill -5 64 4 5 64 4 minecraft:stone_bricks" \
   "setblock 0 64 4 minecraft:enchanting_table"
 
 vulkan_icd=""
