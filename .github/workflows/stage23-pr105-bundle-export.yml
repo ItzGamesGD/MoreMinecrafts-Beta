@@ -1,0 +1,48 @@
+name: Export Stage 23 PR105 Git Bundle
+
+on:
+  push:
+    branches:
+      - codex/stage23-pr105-bundle-export-20261016
+
+permissions:
+  contents: read
+
+jobs:
+  export-git-bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out exact PR105 baseline with full history
+        uses: actions/checkout@v4
+        with:
+          ref: 5682be107145b9e4f3f7c4acc6e6dd8835ebe01b
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Create and independently verify a self-contained bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected=5682be107145b9e4f3f7c4acc6e6dd8835ebe01b
+          test "$(git rev-parse HEAD)" = "$expected"
+          mkdir -p export
+          git branch pr105-baseline "$expected"
+          git bundle create export/stage23-pr105-full.bundle refs/heads/pr105-baseline
+          git bundle verify export/stage23-pr105-full.bundle
+          git bundle list-heads export/stage23-pr105-full.bundle | tee export/bundle-refs.txt
+          grep -F "$expected refs/heads/pr105-baseline" export/bundle-refs.txt
+          sha256sum export/stage23-pr105-full.bundle | tee export/SHA256SUMS.txt
+          git clone --no-checkout --branch pr105-baseline export/stage23-pr105-full.bundle /tmp/pr105-bundle-check
+          test "$(git -C /tmp/pr105-bundle-check rev-parse HEAD)" = "$expected"
+          git -C /tmp/pr105-bundle-check cat-file -e "$expected^{commit}"
+          printf '%s\n' "source_repository=ItzGamesGD/MoreMinecrafts-Beta" "baseline_ref=refs/heads/pr105-baseline" "baseline_sha=$expected" "bundle_type=full_history_self_contained" > export/BASELINE.txt
+
+      - name: Upload bundle and verification metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage23-pr105-git-bundle
+          path: export/
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
