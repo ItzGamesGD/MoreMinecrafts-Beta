@@ -72,6 +72,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
     private static int backpackHotbarSlot = -1;
     private static int furnaceHotbarSlot = -1;
     private static PortableFurnaceContents furnaceSavedAfterClose;
+    private static int flameSwordStage;
+    private static int flameSwordHotbarSlot = -1;
 
     @Override
     public void onInitializeClient() {
@@ -413,13 +415,40 @@ public final class Stage23BClientQa implements ClientModInitializer {
     }
 
     private static void finishRemainingProbes(Minecraft client) {
+        if (flameSwordStage < 3) {
+            try {
+                if (flameSwordHotbarSlot < 0) {
+                    flameSwordHotbarSlot = findInventoryItem(client, ModItems.FLAME_SWORD);
+                    if (flameSwordHotbarSlot < 0) throw new IllegalStateException("RCON fixture Flame Sword is not present in the joined player inventory");
+                }
+                client.player.getInventory().setSelectedSlot(flameSwordHotbarSlot);
+                String[] views = {"FIRST_PERSON", "THIRD_PERSON_BACK", "THIRD_PERSON_FRONT"};
+                String[] phases = {"first_person", "third_person_back", "third_person_front"};
+                setCameraType(client, views[flameSwordStage]);
+                queueCapture("flame_sword_front_back_model_texture", phases[flameSwordStage],
+                        "flame_sword_front_back_model_texture", "joined world; Flame Sword selected in the real client; rendered camera=" + views[flameSwordStage]);
+                flameSwordStage++;
+                waitForCapture(client, () -> {});
+                return;
+            } catch (Throwable t) {
+                ResultsAdd("flame_sword_front_back_model_texture", "BLOCKED", "direct_state_fixture",
+                        "joined_world=true; rendered camera fixture could not be prepared: " + t, List.of());
+                flameSwordStage = 4;
+            }
+        }
+        if (flameSwordStage == 3) {
+            ResultsAdd("flame_sword_front_back_model_texture", "LIVE PENDING", "direct_state_fixture",
+                    "three genuine client frames captured from first-person, third-person-back, and third-person-front; model/texture appearance requires human review; OS input was not used", List.of());
+            flameSwordStage = 4;
+        }
         try {
-            boolean sword = BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath("moreminecrafts", "flame_sword")) == ModItems.FLAME_SWORD
-                    && client.getResourceManager().getResource(Identifier.fromNamespaceAndPath("moreminecrafts", "models/item/flame_sword.json")).isPresent()
-                    && client.getResourceManager().getResource(Identifier.fromNamespaceAndPath("moreminecrafts", "textures/item/flame_sword.png")).isPresent();
-            ResultsAdd("flame_sword_front_back_model_texture", sword ? "LIVE PENDING" : "FAIL", "none",
-                    "joined_world=true item_model_texture_resources_present=" + sword + "; rendered front/back orientation requires human review", List.of());
-        } catch (Throwable t) { ResultsAdd("flame_sword_front_back_model_texture", "FAIL", "none", "resource check exception=" + t, List.of()); }
+            Result backpack = RESULTS.stream().filter(result -> result.id().equals("large_backpack_icon_and_movement")).findFirst().orElse(null);
+            if (backpack != null) {
+                RESULTS.set(RESULTS.indexOf(backpack), new Result(backpack.id(), backpack.status(), backpack.inputPath(),
+                        backpack.evidence() + "; Phase 2 in-world screenshot independently shows transparent selected Large Backpack icon while neighboring item icons render; icon_rendering_status=FAIL, movement_status=PASS",
+                        backpack.screenshots()));
+            }
+        } catch (Throwable t) { LOGGER.warn("Could not attach prior Backpack visual finding to ledger", t); }
         ResultsAdd("greatsword_hit_miss_sweep_particles", "LIVE PENDING", "none", "joined_world=true; hit/miss combat and rendered VFX not exercised", List.of());
         int[][] sizes = {{1280, 720}, {854, 480}, {640, 360}};
         boolean fit = true;
@@ -435,6 +464,18 @@ public final class Stage23BClientQa implements ClientModInitializer {
                         : "joined_world=true LambDynamicLights runtime not installed; only this optional scenario is blocked", List.of());
         writeLedger(client);
         suiteFinished = true;
+    }
+
+    private static void setCameraType(Minecraft client, String cameraName) throws ReflectiveOperationException {
+        Object options = client.options;
+        for (Method method : options.getClass().getMethods()) {
+            if (!method.getName().equals("setCameraType") || method.getParameterCount() != 1 || !method.getParameterTypes()[0].isEnum()) continue;
+            @SuppressWarnings({"rawtypes", "unchecked"}) Object value = Enum.valueOf((Class) method.getParameterTypes()[0], cameraName);
+            method.invoke(options, value);
+            LOGGER.info("STAGE23B_QA_CAMERA camera={} input_path=direct_state_fixture", cameraName);
+            return;
+        }
+        throw new NoSuchMethodException("Options.setCameraType(enum)");
     }
 
     private static void ResultsAdd(String id, String status, String inputPath, String evidence, List<String> screenshots) {
@@ -465,6 +506,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
                     .append("\",\"synthetic_client_game_api\":\"")
                     .append(result.inputPath().contains("game_api") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"direct_state_fixture\":\"").append(result.inputPath().equals("direct_state_fixture") ? "EXECUTED" : "NOT RUN")
+                    .append("\",\"movement_status\":\"").append(result.id().equals("large_backpack_icon_and_movement") ? result.status() : "NOT APPLICABLE")
+                    .append("\",\"icon_rendering_status\":\"").append(result.id().equals("large_backpack_icon_and_movement") && result.evidence().contains("icon_rendering_status=FAIL") ? "FAIL" : "NOT REVIEWED")
                     .append("\",\"human_manual_play\":\"NOT RUN\",\"evidence\":\"").append(escape(result.evidence()))
                     .append("\",\"screenshots\":[");
             List<String> images = SCREENSHOTS.getOrDefault(result.id(), List.of());
