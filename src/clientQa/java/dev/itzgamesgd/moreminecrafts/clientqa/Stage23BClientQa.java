@@ -539,6 +539,13 @@ public final class Stage23BClientQa implements ClientModInitializer {
     }
 
     private static void setWindowSize(Minecraft client, int width, int height) throws ReflectiveOperationException {
+        for (Method method : client.getWindow().getClass().getMethods()) {
+            if (method.getName().equals("setWindowed") && method.getParameterCount() == 2
+                    && method.getParameterTypes()[0] == int.class && method.getParameterTypes()[1] == int.class) {
+                method.invoke(client.getWindow(), width, height);
+                return;
+            }
+        }
         long handle = 0;
         for (Class<?> type = client.getWindow().getClass(); type != null && handle == 0; type = type.getSuperclass()) {
             for (java.lang.reflect.Field field : type.getDeclaredFields()) {
@@ -576,7 +583,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
             if (lanternStage == 2) {
                 Map<?, ?> active = lanternActiveMap();
                 lanternBehavior = active.get(client.player.getUUID());
-                if (lanternBehavior == null || ++lanternWaitTicks < 5) {
+                lanternWaitTicks++;
+                if (lanternBehavior == null || lanternWaitTicks < 5) {
                     if (lanternWaitTicks > 100) throw new IllegalStateException("socketed lantern fixture did not activate a LambDynamicLights behavior");
                     return;
                 }
