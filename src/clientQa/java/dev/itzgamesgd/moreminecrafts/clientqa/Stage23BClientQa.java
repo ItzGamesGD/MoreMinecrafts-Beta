@@ -279,6 +279,11 @@ public final class Stage23BClientQa implements ClientModInitializer {
     private static void runPortableFurnaceFixture(Minecraft client) {
         try {
             if (furnaceStage == 0) {
+                if (client.player.containerMenu != client.player.inventoryMenu) {
+                    if (++waitTicks > 100) throw new IllegalStateException("previous server-backed container did not close before Portable Furnace setup");
+                    return;
+                }
+                waitTicks = 0;
                 furnaceHotbarSlot = findInventoryItem(client, ModItems.PORTABLE_FURNACE);
                 if (furnaceHotbarSlot < 0) throw new IllegalStateException("RCON fixture Portable Furnace was not synchronized to the client inventory");
                 client.player.getInventory().setSelectedSlot(furnaceHotbarSlot);
