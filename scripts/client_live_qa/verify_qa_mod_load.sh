@@ -10,6 +10,62 @@ export GRADLE_USER_HOME
 
 ./gradlew compileClientQaJava verifyClientQaExcludedFromRemapJar --no-daemon
 
+mkdir -p run
+printf 'eula=true\n' > run/eula.txt
+RCON_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_urlsafe(24))')"
+export RCON_PASSWORD
+cat > run/server.properties <<EOF
+level-name=visual-validation-world
+level-seed=2632026
+server-ip=127.0.0.1
+server-port=25565
+online-mode=false
+white-list=false
+enforce-whitelist=false
+enable-rcon=true
+rcon.port=25575
+rcon.password=$RCON_PASSWORD
+spawn-protection=0
+spawn-radius=0
+max-players=2
+motd=MoreMinecrafts isolated Stage 23-B client QA
+EOF
+
+MOREMINECRAFTS_VISUAL_VALIDATION=1 setsid timeout 900s \
+  ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runServer --args="--safeMode" \
+  > "$RESULTS_DIR/test-server.log" 2>&1 &
+server_pid=$!
+cleanup_server() {
+  kill -TERM -- "-$server_pid" 2>/dev/null || true
+  wait "$server_pid" 2>/dev/null || true
+}
+trap cleanup_server EXIT
+
+server_ready=0
+for attempt in $(seq 1 150); do
+  if grep -Fq "Done (" "$RESULTS_DIR/test-server.log"; then server_ready=1; break; fi
+  if ! kill -0 "$server_pid" 2>/dev/null; then
+    cat "$RESULTS_DIR/test-server.log"
+    echo "Deterministic QA server exited before readiness." >&2
+    exit 1
+  fi
+  sleep 2
+done
+if [[ "$server_ready" -ne 1 ]]; then
+  cat "$RESULTS_DIR/test-server.log"
+  echo "Timed out waiting for the deterministic QA server." >&2
+  exit 1
+fi
+
+python3 scripts/visual_validation/rcon.py \
+  "setworldspawn 0 64 12" \
+  "forceload add -10 -10 10 18" \
+  "time set noon" \
+  "weather clear 1000000" \
+  "fill -10 63 -10 10 63 18 minecraft:stone_bricks" \
+  "fill -10 64 -10 10 80 18 minecraft:air" \
+  "fill -5 64 4 5 64 4 minecraft:stone_bricks"
+
 vulkan_icd=""
 if [[ -d /usr/share/vulkan/icd.d ]]; then
   vulkan_icd="$(find /usr/share/vulkan/icd.d -maxdepth 1 -name 'lvp_icd*.json' -print -quit)"
@@ -17,12 +73,42 @@ fi
 if [[ -n "$vulkan_icd" ]]; then export VK_ICD_FILENAMES="$vulkan_icd"; fi
 
 set +e
-timeout 240s xvfb-run -a \
+setsid timeout 600s xvfb-run -a \
   -s "-screen 0 1280x720x24 +extension GLX +render -noreset" \
-  env LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe \
-  MOREMINECRAFTS_CLIENT_QA=1 \
-  ./gradlew runClient --args="--width 1280 --height 720 --username ClientQaProbe" \
-  > "$RESULTS_DIR/qa-mod-load.log" 2>&1
+  env MOREMINECRAFTS_QA_RESULTS_DIR="$RESULTS_DIR" bash -euo pipefail -c '
+    results_dir="$MOREMINECRAFTS_QA_RESULTS_DIR"
+    openbox --sm-disable > "$results_dir/openbox.log" 2>&1 &
+    window_manager_pid=$!
+    trap "kill $window_manager_pid 2>/dev/null || true; wait $window_manager_pid 2>/dev/null || true" EXIT
+    sleep 2
+    export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+    export MOREMINECRAFTS_CLIENT_QA=1
+    export MOREMINECRAFTS_CLIENT_QA_SERVER_ADDRESS=127.0.0.1:25565
+    ./gradlew runClient --args="--width 1280 --height 720 --username ClientQaProbe"
+  ' > "$RESULTS_DIR/qa-mod-load.log" 2>&1 &
+client_pid=$!
+joined=0
+for attempt in $(seq 1 180); do
+  if grep -Fq "STAGE23B_QA_WORLD_JOINED" "$RESULTS_DIR/qa-mod-load.log"; then joined=1; break; fi
+  if ! kill -0 "$client_pid" 2>/dev/null; then break; fi
+  sleep 2
+done
+if [[ "$joined" -eq 1 ]]; then
+  python3 scripts/visual_validation/rcon.py \
+    "give ClientQaProbe moreminecrafts:large_backpack 1" \
+    "give ClientQaProbe moreminecrafts:portable_furnace 1" \
+    "give ClientQaProbe minecraft:stone 32" \
+    "give ClientQaProbe minecraft:raw_iron 2" \
+    "give ClientQaProbe minecraft:coal 2" \
+    "tp ClientQaProbe 0.5 64 12.5"
+fi
+for attempt in $(seq 1 180); do
+  if [[ -s run/client-qa-results/scenario-results.jsonl ]]; then break; fi
+  if ! kill -0 "$client_pid" 2>/dev/null; then break; fi
+  sleep 2
+done
+kill -TERM -- "-$client_pid" 2>/dev/null || true
+wait "$client_pid"
 client_status=$?
 set -e
 
@@ -39,7 +125,14 @@ if [[ ! -s "$scenario_report" ]]; then
   exit 1
 fi
 cp "$scenario_report" "$RESULTS_DIR/scenario-results.jsonl"
-python3 - "$scenario_report" <<'PYREPORT'
+mkdir -p "$RESULTS_DIR/screenshots"
+for screenshot in run/screenshots/stage23b_*.png; do
+  [[ -s "$screenshot" ]] || continue
+  cp "$screenshot" "$RESULTS_DIR/screenshots/"
+done
+find "$RESULTS_DIR/screenshots" -maxdepth 1 -type f -name '*.png' -printf '%f %s bytes\n' \
+  > "$RESULTS_DIR/screenshot-manifest.txt"
+python3 - "$scenario_report" "$RESULTS_DIR/screenshots" <<'PYREPORT'
 import json
 import sys
 from pathlib import Path
@@ -62,10 +155,24 @@ assert all({"os_xtest_xdotool", "direct_state_fixture", "human_manual_play"} <= 
 failed = [row["scenario"] for row in rows if row["status"] == "FAIL"]
 if failed:
     raise SystemExit("Scenario regression assertions failed: " + ", ".join(failed))
+if not any(row.get("scenario") == "four_card_selector" and row.get("status") == "PASS" for row in rows):
+    raise SystemExit("In-world selector callback did not verify the displayed destination screen")
+images = list(Path(sys.argv[2]).glob("*.png"))
+required_cases = (
+    "portable_furnace_inventory_cooking_persistence",
+    "large_backpack_icon_and_movement",
+    "four_card_selector",
+)
+missing = [case for case in required_cases if not any(
+    image.name.startswith(f"stage23b_{case}_before_") for image in images
+) or not any(image.name.startswith(f"stage23b_{case}_after_") for image in images)]
+if missing:
+    raise SystemExit("Missing genuine before/after Minecraft frames for: " + ", ".join(missing))
 print("STAGE23B_QA_SCENARIO_LEDGER_VERIFIED count=7")
+print(f"STAGE23B_QA_IN_WORLD_ACCEPTANCE_VERIFIED screenshots={len(images)}")
 PYREPORT
 
-if [[ "$client_status" -ne 124 && "$client_status" -ne 0 ]]; then
+if [[ "$client_status" -ne 124 && "$client_status" -ne 0 && "$client_status" -ne 143 ]]; then
   if grep -Fq "Couldn't find matching GLX visual" "$RESULTS_DIR/qa-mod-load.log"; then
     cat > "$RESULTS_DIR/client-runtime.json" <<'JSON'
 {"status":"BLOCKED","capability":"OpenGL/GLX window creation","reason":"Xvfb did not expose a matching GLX visual; the QA mod loaded and wrote all independent nonvisual fixture results before the render backend failed.","visual_status":"LIVE PENDING"}
@@ -78,7 +185,7 @@ JSON
   fi
 else
   cat > "$RESULTS_DIR/client-runtime.json" <<JSON
-{"status":"RUNNING_WITHOUT_FATAL_BACKEND_ERROR","exit_code":$client_status,"visual_status":"LIVE PENDING"}
+{"status":"RESULT_LEDGER_WRITTEN_CLIENT_STOPPED","exit_code":$client_status,"visual_status":"LIVE PENDING"}
 JSON
 fi
 
