@@ -16,7 +16,7 @@ public final class ResearchDebugCommands {
                 .then(Commands.literal("test")
                     .then(Commands.literal("purchase").executes(ctx -> {
                         ServerPlayer p=ctx.getSource().getPlayerOrException();
-                        KnowledgeRuntime.updateState(p, KnowledgeRuntime.state(p).with("v3.research.08", 1));
+                        KnowledgeRuntime.updateState(p, KnowledgeRuntime.state(p).with("research.v3.research.08", 1));
                         p.sendSystemMessage(Component.literal("Granted legacy research prerequisite for live purchase validation."));
                         return 1;
                     }))
