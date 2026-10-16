@@ -14,6 +14,12 @@ public final class ResearchDebugCommands {
             dispatcher.register(Commands.literal("mmresearch")
                 .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("test")
+                    .then(Commands.literal("purchase").executes(ctx -> {
+                        ServerPlayer p=ctx.getSource().getPlayerOrException();
+                        KnowledgeRuntime.updateState(p, KnowledgeRuntime.state(p).with("v3.research.08", 1));
+                        p.sendSystemMessage(Component.literal("Granted legacy research prerequisite for live purchase validation."));
+                        return 1;
+                    }))
                     .then(Commands.literal("crafting").executes(ctx -> {
                         ServerPlayer p=ctx.getSource().getPlayerOrException();
                         for (int id : new int[]{4,14,15,17,18,19,22,25,30,42,44,57,60})

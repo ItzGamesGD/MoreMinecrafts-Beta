@@ -104,6 +104,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   fi
 
   python3 scripts/visual_validation/rcon.py \
+    "execute as $username run mmresearch test purchase" \
     "execute as $username run mmresearch test crafting" \
     "xp add $username 1200 points" \
     "give $username minecraft:chest 8" \
