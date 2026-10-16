@@ -257,12 +257,14 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 int stoneTotal = countMenuItem(menu, Items.STONE);
                 boolean movedOut = moved.isEmpty() && stoneTotal == 32;
                 if (!movedOut && ++waitTicks <= 100) return;
-                if (client.player.containerMenu != client.player.inventoryMenu) client.player.closeContainer();
                 ResultsAdd("large_backpack_icon_and_movement", movedOut ? "PASS" : "FAIL", "synthetic_client_game_packet_and_game_api",
                         "joined_world=true real_server_backed_menu=true visible_stack_before=stone:32 movement_out_of_storage=" + movedOut
                                 + "; item icon semantic correctness requires human review; OS_XTEST_XDOTool=NOT_RUN", List.of());
-                queueCapture("large_backpack_icon_and_movement", "after", "large_backpack_icon_and_movement", "after server-backed slot transfer out of Backpack");
+                queueCapture("large_backpack_icon_and_movement", "after", "large_backpack_icon_and_movement", "same Backpack menu after server-backed transfer; returned stone stack visible in player inventory");
                 backpackStage = 5;
+                waitForCapture(client, () -> {
+                    if (client.player.containerMenu != client.player.inventoryMenu) client.player.closeContainer();
+                });
                 return;
             }
         } catch (Throwable t) {
