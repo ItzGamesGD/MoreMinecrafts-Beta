@@ -19,13 +19,12 @@ import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -34,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.lang.reflect.Method;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -150,11 +150,13 @@ public final class Stage23BClientQa implements ClientModInitializer {
             Files.createDirectories(screenshotDir);
             Screenshot.grab(client.gameDirectory, filename, client.gameRenderer.mainRenderTarget(), 1, message -> {
                 boolean exists = Files.isRegularFile(output) && fileSize(output) > 0;
-                LOGGER.info("STAGE23B_QA_SCREENSHOT case={} phase={} saved={} path={} bytes={} meaning=LIVE_PENDING source=Minecraft.Screenshot.grab(mainRenderTarget)",
-                        capture.caseId(), capture.phase(), exists, output.toAbsolutePath(), fileSize(output));
-                if (!exists) LOGGER.error("STAGE23B_QA_SCREENSHOT_FAILED case={} phase={} callback={}", capture.caseId(), capture.phase(), message.getString());
-                if (exists) SCREENSHOTS.computeIfAbsent(capture.caseId(), ignored -> new ArrayList<>()).add(filename);
-                capture.complete(exists, output.toString());
+                client.execute(() -> {
+                    LOGGER.info("STAGE23B_QA_SCREENSHOT case={} phase={} saved={} path={} bytes={} meaning=LIVE_PENDING source=Minecraft.Screenshot.grab(mainRenderTarget)",
+                            capture.caseId(), capture.phase(), exists, output.toAbsolutePath(), fileSize(output));
+                    if (!exists) LOGGER.error("STAGE23B_QA_SCREENSHOT_FAILED case={} phase={} callback={}", capture.caseId(), capture.phase(), message.getString());
+                    if (exists) SCREENSHOTS.computeIfAbsent(capture.caseId(), ignored -> new ArrayList<>()).add(filename);
+                    capture.complete(exists, output.toString());
+                });
             });
         } catch (Exception e) {
             LOGGER.error("STAGE23B_QA_SCREENSHOT_FAILED case={} phase={} error={}", capture.caseId(), capture.phase(), e.toString());
@@ -224,8 +226,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
             if (backpackStage == 1) {
                 int stoneSource = findMenuStack(menu, Items.STONE, 54);
                 if (stoneSource < 0) throw new IllegalStateException("RCON fixture stone stack was not synchronized into the player inventory menu");
-                clickContainerSlot(client, menu, stoneSource, false);
-                clickContainerSlot(client, menu, 0, false);
+                clickContainerSlot(client, menu, stoneSource);
+                clickContainerSlot(client, menu, 0);
                 backpackStage = 2;
                 waitTicks = 0;
                 return;
@@ -241,8 +243,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 waitForCapture(client, () -> {
                     AbstractContainerMenu current = client.player.containerMenu;
                     int destination = findEmptyPlayerMenuSlot(current, 54);
-                    clickContainerSlot(client, current, 0, false);
-                    clickContainerSlot(client, current, destination, false);
+                    clickContainerSlot(client, current, 0);
+                    clickContainerSlot(client, current, destination);
                     backpackStage = 4;
                     waitTicks = 0;
                 });
@@ -254,7 +256,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 boolean movedOut = moved.isEmpty() && stoneTotal == 32;
                 if (!movedOut && ++waitTicks <= 100) return;
                 if (client.player.containerMenu != client.player.inventoryMenu) client.player.closeContainer();
-                ResultsAdd("large_backpack_icon_and_movement", movedOut ? "PASS" : "FAIL", "synthetic_client_game_packet_and_screen_callback",
+                ResultsAdd("large_backpack_icon_and_movement", movedOut ? "PASS" : "FAIL", "synthetic_client_game_packet_and_game_api",
                         "joined_world=true real_server_backed_menu=true visible_stack_before=stone:32 movement_out_of_storage=" + movedOut
                                 + "; item icon semantic correctness requires human review; OS_XTEST_XDOTool=NOT_RUN", List.of());
                 queueCapture("large_backpack_icon_and_movement", "after", "large_backpack_icon_and_movement", "after server-backed slot transfer out of Backpack");
@@ -285,10 +287,10 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 int rawIron = findMenuStack(menu, Items.RAW_IRON, 3);
                 int coal = findMenuStack(menu, Items.COAL, 3);
                 if (rawIron < 0 || coal < 0) throw new IllegalStateException("RCON fixture raw iron or coal was not present in the server menu");
-                clickContainerSlot(client, menu, rawIron, true);
-                clickContainerSlot(client, menu, 0, true);
-                clickContainerSlot(client, menu, coal, true);
-                clickContainerSlot(client, menu, 1, true);
+                clickContainerSlot(client, menu, rawIron);
+                clickContainerSlot(client, menu, 0);
+                clickContainerSlot(client, menu, coal);
+                clickContainerSlot(client, menu, 1);
                 furnaceStage = 2;
                 waitTicks = 0;
                 return;
@@ -327,7 +329,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 boolean fuelRestored = ItemStack.matches(menu.getSlot(1).getItem(), furnaceSavedAfterClose.items().get(1));
                 boolean cookingPersisted = inputRestored && fuelRestored && furnaceSavedAfterClose.burnTime() > 0 && furnaceSavedAfterClose.cookTime() > 0;
                 queueCapture("portable_furnace_inventory_cooking_persistence", "after", "portable_furnace_inventory_cooking_persistence", "same item reopened; server menu inventory restored; saved burn/cook values retained");
-                ResultsAdd("portable_furnace_inventory_cooking_persistence", cookingPersisted ? "PASS" : "FAIL", "synthetic_client_game_packet_and_screen_callback",
+                ResultsAdd("portable_furnace_inventory_cooking_persistence", cookingPersisted ? "PASS" : "FAIL", "synthetic_client_game_packet_and_game_api",
                         "same_item_server_close_reopen=true input_restored=" + inputRestored + " fuel_restored=" + fuelRestored
                                 + " burn_time=" + furnaceSavedAfterClose.burnTime() + " cook_time=" + furnaceSavedAfterClose.cookTime()
                                 + "; client state came from server menu and synced item component", List.of());
@@ -367,17 +369,26 @@ public final class Stage23BClientQa implements ClientModInitializer {
         return count;
     }
 
-    private static boolean clickContainerSlot(Minecraft client, AbstractContainerMenu menu, int slotIndex, boolean furnace) {
-        if (!(client.gui.screen() instanceof AbstractContainerScreen<?> screen))
-            throw new IllegalStateException("expected live AbstractContainerScreen before synthetic slot callback");
-        var slot = menu.getSlot(slotIndex);
-        int guiHeight = furnace ? 166 : 114 + 6 * 18;
-        double x = (client.getWindow().getGuiScaledWidth() - 176) / 2.0 + slot.x + 8;
-        double y = (client.getWindow().getGuiScaledHeight() - guiHeight) / 2.0 + slot.y + 8;
-        boolean consumed = screen.mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
-        LOGGER.info("STAGE23B_QA_MENU_INPUT input_path=synthetic_screen_callback menu={} slot={} consumed={} coordinates=({}, {})",
-                menu.getClass().getSimpleName(), slotIndex, consumed, x, y);
-        return consumed;
+    private static boolean clickContainerSlot(Minecraft client, AbstractContainerMenu menu, int slotIndex) {
+        Method adapter = null;
+        for (Method method : client.gameMode.getClass().getMethods()) {
+            Class<?>[] parameters = method.getParameterTypes();
+            if (parameters.length == 5 && parameters[0] == int.class && parameters[1] == int.class
+                    && parameters[2] == int.class && parameters[3] == ContainerInput.class
+                    && parameters[4].isAssignableFrom(client.player.getClass())) {
+                adapter = method;
+                break;
+            }
+        }
+        if (adapter == null) throw new IllegalStateException("no mapped MultiPlayerGameMode container click API is available");
+        try {
+            adapter.invoke(client.gameMode, menu.containerId, slotIndex, 0, ContainerInput.PICKUP, client.player);
+            LOGGER.info("STAGE23B_QA_MENU_INPUT input_path=synthetic_client_game_api method={} menu={} slot={}",
+                    adapter.getName(), menu.getClass().getSimpleName(), slotIndex);
+            return true;
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("synthetic client game API rejected menu click", e);
+        }
     }
 
     private static void finishRemainingProbes(Minecraft client) {
@@ -427,9 +438,11 @@ public final class Stage23BClientQa implements ClientModInitializer {
                     .append("\",\"status\":\"").append(result.status())
                     .append("\",\"visual_status\":\"LIVE PENDING\",\"input_path\":\"").append(escape(result.inputPath()))
                     .append("\",\"os_xtest_xdotool\":\"NOT RUN\",\"synthetic_screen_callback\":\"")
-                    .append(result.inputPath().contains("screen_callback") ? "EXECUTED" : "NOT RUN")
+                    .append(result.inputPath().equals("synthetic_screen_callback") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"synthetic_client_game_packet\":\"")
                     .append(result.inputPath().contains("client_game_packet") ? "EXECUTED" : "NOT RUN")
+                    .append("\",\"synthetic_client_game_api\":\"")
+                    .append(result.inputPath().contains("game_api") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"direct_state_fixture\":\"").append(result.inputPath().equals("direct_state_fixture") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"human_manual_play\":\"NOT RUN\",\"evidence\":\"").append(escape(result.evidence()))
                     .append("\",\"screenshots\":[");
