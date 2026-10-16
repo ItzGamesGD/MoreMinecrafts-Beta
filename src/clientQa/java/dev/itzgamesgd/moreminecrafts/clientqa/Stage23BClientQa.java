@@ -132,9 +132,9 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 return new ScenarioProbe("FAIL", "direct_state_fixture", "Large Backpack registration/capacity assertion failed");
             }
             BackpackStorage fixture = BackpackStorage.empty();
-            boolean capacityMatches = fixture.items().getContainerSize() == 54;
+            boolean capacityMatches = fixture.items().size() == 54;
             return new ScenarioProbe(capacityMatches ? "PASS" : "FAIL", "direct_state_fixture",
-                    "direct_state_fixture capacity=54 storage_slots=" + fixture.items().getContainerSize()
+                    "direct_state_fixture capacity=54 storage_slots=" + fixture.items().size()
                             + "; item movement and icon transparency remain unverified");
         } catch (RuntimeException | AssertionError error) {
             return new ScenarioProbe("FAIL", "direct_state_fixture", "backpack fixture error=" + error);
