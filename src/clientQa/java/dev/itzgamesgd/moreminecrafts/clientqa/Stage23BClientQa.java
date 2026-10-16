@@ -472,12 +472,12 @@ public final class Stage23BClientQa implements ClientModInitializer {
             ViewportScale scale = ViewportScale.fit(size[0], size[1], 330, 360, 8);
             fit &= scale.scale() > 0 && scale.scale() <= 1 && scale.left() >= 0 && scale.top() >= 0;
         }
-        ResultsAdd("enchanting_gui_multiple_scales", fit ? "LIVE PENDING" : "FAIL", "none",
-                "joined_world=true layout_bounds_fit=" + fit + " sizes=1280x720,854x480,640x360; rendered GUI review remains pending", List.of());
+        ResultsAdd("enchanting_gui_multiple_scales", "BLOCKED", "none",
+                "joined_world=true arithmetic_layout_bounds_fit=" + fit + " requested_sizes=1280x720,854x480,640x360; this run did not open the real table menu, resize the client, or capture those GUI frames", List.of());
         boolean lamb = FabricLoader.getInstance().isModLoaded("lambdynlights");
-        ResultsAdd("miner_lantern_lambdynamiclights", lamb ? "LIVE PENDING" : "BLOCKED", "none",
-                lamb ? "joined_world=true LambDynamicLights installed; lantern field needs rendered validation"
-                        : "joined_world=true LambDynamicLights runtime not installed; only this optional scenario is blocked", List.of());
+        ResultsAdd("miner_lantern_lambdynamiclights", "BLOCKED", "none",
+                lamb ? "joined_world=true LambDynamicLights loaded, but socket activation/deactivation, light response, and unchanged block-state assertions were not exercised"
+                        : "joined_world=true LambDynamicLights runtime is not loaded; only this optional scenario is blocked", List.of());
         writeLedger(client);
         suiteFinished = true;
     }
