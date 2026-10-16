@@ -769,6 +769,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
             client.player.getInventory().setSelectedSlot(greatswordHotbarSlot);
             ItemStack sword = client.player.getMainHandItem();
             if (greatswordStage == 0) {
+                setCameraType(client, "FIRST_PERSON");
+                LOGGER.info("STAGE23B_QA_CAMERA_RESET camera=FIRST_PERSON input_path=direct_state_fixture before_greatsword");
                 hitTargetInitialHealth = hitTarget.getHealth();
                 hitSwordInitialDamage = sword.getDamageValue();
                 queueCapture("greatsword_hit_miss_sweep_particles", "before", "greatsword_hit_miss_sweep_particles", "in-world target fixtures and iron Greatsword selected; state baseline recorded");
@@ -809,7 +811,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 boolean hitChangedDurability = hitSwordAfterSweep > hitSwordInitialDamage;
                 boolean missUnchanged = missTargetAfterSweep == missTargetInitialHealth && missSwordAfterSweep == missSwordInitialDamage;
                 queueCapture("greatsword_hit_miss_sweep_particles", "after_miss", "greatsword_hit_miss_sweep_particles", "same in-world entities after out-of-sweep use; no-hit frame");
-                ResultsAdd("greatsword_hit_miss_sweep_particles", hitChangedHealth && hitChangedDurability && missUnchanged ? "PASS" : "FAIL", "synthetic_client_game_packet",
+                ResultsAdd("greatsword_hit_miss_sweep_particles", hitChangedHealth && hitChangedDurability && missUnchanged ? "PASS" : "FAIL", "synthetic_client_game_packet+direct_state_fixture",
                         "hit_health=" + hitTargetInitialHealth + "->" + hitTargetAfterSweep + " hit_durability=" + hitSwordInitialDamage + "->" + hitSwordAfterSweep
                                 + " miss_health=" + missTargetInitialHealth + "->" + missTargetAfterSweep + " miss_durability=" + missSwordInitialDamage + "->" + missSwordAfterSweep
                                 + "; particle rendering requires screenshot review; attack entered through normal client use-item packet",
@@ -868,7 +870,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
                     .append(result.inputPath().contains("client_game_packet") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"synthetic_client_game_api\":\"")
                     .append(result.inputPath().contains("game_api") ? "EXECUTED" : "NOT RUN")
-                    .append("\",\"direct_state_fixture\":\"").append(result.inputPath().equals("direct_state_fixture") ? "EXECUTED" : "NOT RUN")
+                    .append("\",\"direct_state_fixture\":\"").append(result.inputPath().contains("direct_state_fixture") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"movement_status\":\"").append(result.id().equals("large_backpack_icon_and_movement") ? result.status() : "NOT APPLICABLE")
                     .append("\",\"icon_rendering_status\":\"").append(result.id().equals("large_backpack_icon_and_movement") && result.evidence().contains("icon_rendering_status=FAIL") ? "FAIL" : "NOT REVIEWED")
                     .append("\",\"evidence\":\"").append(escape(result.evidence()))
