@@ -126,9 +126,9 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         graphics.pose().pushMatrix();
-        graphics.pose().translate(viewportScale.left() - leftPos * viewportScale.scale(),
-                viewportScale.top() - topPos * viewportScale.scale());
-        graphics.pose().scale(viewportScale.scale(), viewportScale.scale());
+        graphics.pose().translate((float) (viewportScale.left() - leftPos * viewportScale.scale()),
+                (float) (viewportScale.top() - topPos * viewportScale.scale()));
+        graphics.pose().scale((float) viewportScale.scale(), (float) viewportScale.scale());
         super.extractRenderState(graphics,
                 (int) Math.round(viewportScale.contentX(mouseX, leftPos)),
                 (int) Math.round(viewportScale.contentY(mouseY, topPos)), delta);
