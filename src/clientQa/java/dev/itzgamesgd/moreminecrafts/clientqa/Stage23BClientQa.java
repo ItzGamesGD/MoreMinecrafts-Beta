@@ -769,7 +769,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 rows.append("{\"scenario\":\"").append(escape(result.id()))
                     .append("\",\"status\":\"").append(result.status())
                     .append("\",\"visual_status\":\"LIVE PENDING\",\"input_path\":\"").append(escape(result.inputPath()))
-                    .append("\",\"os_xtest_xdotool\":\"NOT RUN\",\"synthetic_screen_callback\":\"")
+                    .append("\",\"os_xtest_xdotool\":\"NOT RUN\",\"physical_pointer_status\":\"BLOCKED\",\"physical_pointer_evidence\":\"Xvfb Minecraft window was not discoverable by the existing XTest/xdotool probe; no physical-equivalent click was delivered\",\"human_manual_play\":\"NOT RUN\",\"synthetic_screen_callback\":\"")
                     .append(result.inputPath().equals("synthetic_screen_callback") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"synthetic_client_game_packet\":\"")
                     .append(result.inputPath().contains("client_game_packet") ? "EXECUTED" : "NOT RUN")
@@ -778,7 +778,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
                     .append("\",\"direct_state_fixture\":\"").append(result.inputPath().equals("direct_state_fixture") ? "EXECUTED" : "NOT RUN")
                     .append("\",\"movement_status\":\"").append(result.id().equals("large_backpack_icon_and_movement") ? result.status() : "NOT APPLICABLE")
                     .append("\",\"icon_rendering_status\":\"").append(result.id().equals("large_backpack_icon_and_movement") && result.evidence().contains("icon_rendering_status=FAIL") ? "FAIL" : "NOT REVIEWED")
-                    .append("\",\"human_manual_play\":\"NOT RUN\",\"evidence\":\"").append(escape(result.evidence()))
+                    .append("\",\"evidence\":\"").append(escape(result.evidence()))
                     .append("\",\"screenshots\":[");
             List<String> images = SCREENSHOTS.getOrDefault(result.id(), List.of());
             for (int i = 0; i < images.size(); i++) {
