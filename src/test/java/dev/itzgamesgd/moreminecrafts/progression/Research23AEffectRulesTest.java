@@ -13,8 +13,8 @@ class Research23AEffectRulesTest {
         int[][][] expected = {
                 {{45,30,16,7,2}, {30,32,22,12,4}, {10,25,32,24,9}, {0,8,34,38,20}},
                 {{44,31,16,7,2}, {29,32,22,12,5}, {9,25,32,24,10}, {0,7,34,38,21}},
-                {{43,31,16,8,2}, {28,32,22,13,5}, {9,25,32,24,10}, {0,7,34,38,21}},
-                {{42,31,17,7,3}, {27,33,23,12,5}, {8,24,33,24,11}, {0,7,34,37,22}},
+                {{43,31,17,7,2}, {28,33,22,12,5}, {9,25,32,24,10}, {0,7,34,38,21}},
+                {{42,31,17,8,2}, {27,33,23,12,5}, {8,24,33,24,11}, {0,7,34,37,22}},
                 {{41,31,17,8,3}, {26,33,23,13,5}, {8,24,33,24,11}, {0,7,33,37,23}},
                 {{40,32,17,8,3}, {25,33,23,13,6}, {7,24,33,24,12}, {0,6,33,37,24}}
         };
@@ -23,6 +23,10 @@ class Research23AEffectRulesTest {
                 int[] weights = FishingLogic.gradeWeights(tier, level);
                 assertArrayEquals(expected[level][tier], weights, "level=" + level + " tier=" + tier);
                 assertEquals(100, Arrays.stream(weights).sum());
+                if (level == 0) {
+                    assertArrayEquals(expected[0][tier], FishingLogic.gradeWeights(tier),
+                            "unpurchased Fisheries Study retains the tier baseline");
+                }
             }
         }
     }
@@ -30,7 +34,9 @@ class Research23AEffectRulesTest {
     @Test
     void largestRemainderTiesAwardThePointToTheLowerGradeIndex() {
         assertArrayEquals(new int[]{34, 33, 33},
-                Research23AEffectRules.allocateLargestRemainder(new double[]{33.5, 33.5, 33.0}));
+                Research23AEffectRules.allocateLargestRemainder(new long[]{167, 167, 166}));
+        assertArrayEquals(new int[]{43, 31, 17, 7, 2}, FishingLogic.gradeWeights(0, 2),
+                "tier-zero level-two ties award the residual point to grade III, the lowest tied index");
     }
 
     @Test
