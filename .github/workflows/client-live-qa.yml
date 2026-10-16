@@ -31,7 +31,7 @@ jobs:
       - name: Install software display
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb openbox libgl1-mesa-dri libglx-mesa0
+          sudo apt-get install -y xvfb openbox libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
       - name: Prove isolated QA mod loading and JAR exclusion
         run: bash scripts/client_live_qa/verify_qa_mod_load.sh client-live-qa-results/bootstrap
       - name: Upload bootstrap evidence
