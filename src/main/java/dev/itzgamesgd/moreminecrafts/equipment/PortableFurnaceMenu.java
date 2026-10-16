@@ -7,6 +7,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CookingFuel;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -21,28 +23,52 @@ import java.util.Optional;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 
-/** Ephemeral furnace session; only attribution and fractional research state live on the opener item. */
+/** Portable furnace whose inventory and processing state follow its single-stack opener item. */
 public final class PortableFurnaceMenu extends FurnaceMenu {
     private final PortableContainer contents;
     private final SimpleContainerData state;
     private final ItemStack opener;
+    private final Inventory playerInventory;
+    private final ServerPlayer openerOwner;
     private boolean closed;
 
     public PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents) {
-        this(id, playerInventory, contents, ItemStack.EMPTY, new SimpleContainerData(4));
+        this(id, playerInventory, contents, ItemStack.EMPTY,
+                PortableFurnaceContents.empty(LowerEquipmentRules.PORTABLE_FURNACE_COOK_TIME),
+                new SimpleContainerData(4), null);
     }
 
     public PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents, ItemStack opener) {
-        this(id, playerInventory, contents, opener, new SimpleContainerData(4));
+        this(id, playerInventory, contents, opener,
+                PortableFurnaceContents.empty(LowerEquipmentRules.PORTABLE_FURNACE_COOK_TIME),
+                new SimpleContainerData(4), null);
+    }
+
+    public PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents, ItemStack opener,
+                               PortableFurnaceContents saved) {
+        this(id, playerInventory, contents, opener, saved, new SimpleContainerData(4), null);
+    }
+
+    public PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents, ItemStack opener,
+                               PortableFurnaceContents saved, ServerPlayer openerOwner) {
+        this(id, playerInventory, contents, opener, saved, new SimpleContainerData(4), openerOwner);
     }
 
     private PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents,
-                                ItemStack opener, SimpleContainerData state) {
+                                ItemStack opener, PortableFurnaceContents saved, SimpleContainerData state,
+                                ServerPlayer openerOwner) {
         super(id, playerInventory, contents, state);
         this.contents = contents;
         this.state = state;
         this.opener = opener;
-        state.set(3, LowerEquipmentRules.PORTABLE_FURNACE_COOK_TIME);
+        this.playerInventory = playerInventory;
+        this.openerOwner = openerOwner;
+        state.set(0, saved.burnTime());
+        state.set(1, saved.burnDuration());
+        state.set(2, saved.cookTime());
+        state.set(3, saved.cookDuration());
+        contents.setChangeListener(this::saveContents);
+        contents.itemsChanged();
     }
 
     public java.util.List<ItemStack> researchInventorySnapshot() {
@@ -60,6 +86,38 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         updateResearchState(state -> dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchAttribution
                 .interactedState(state, player.getUUID()));
         player.getInventory().setChanged();
+    }
+
+    @Override public void clicked(int slotId, int button, ContainerInput clickType, Player player) {
+        if (isOpenerSlot(slotId)
+                || clickType == ContainerInput.SWAP && isOpenerHotbarSwap(button)
+                || clickType == ContainerInput.PICKUP_ALL && hasOpenerInPlayerInventory()) return;
+        super.clicked(slotId, button, clickType, player);
+    }
+
+    @Override public ItemStack quickMoveStack(Player player, int slotId) {
+        if (isOpenerSlot(slotId)) return ItemStack.EMPTY;
+        return super.quickMoveStack(player, slotId);
+    }
+
+    private boolean isOpenerSlot(int slotId) {
+        return slotId >= 0 && slotId < slots.size()
+                && slots.get(slotId).container == playerInventory
+                && slots.get(slotId).getItem() == opener;
+    }
+
+    private boolean isOpenerHotbarSwap(int inventorySlot) {
+        for (Slot slot : slots) {
+            if (slot.container == playerInventory && slot.getContainerSlot() == inventorySlot
+                    && slot.getItem() == opener) return true;
+        }
+        return false;
+    }
+
+    private boolean hasOpenerInPlayerInventory() {
+        for (Slot slot : slots)
+            if (slot.container == playerInventory && slot.getItem() == opener) return true;
+        return false;
     }
 
     private void updateResearchState(java.util.function.UnaryOperator<
@@ -80,9 +138,9 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
                 : player.level().getServer().getRecipeManager().getRecipeFor(
                         RecipeType.SMELTING, new SingleRecipeInput(input), player.level());
         if (recipe.isEmpty() || !canAccept(recipe.get().value().assemble(new SingleRecipeInput(input)))) {
-            state.set(2, 0); broadcastChanges(); return;
+            state.set(2, 0); saveContents(); broadcastChanges(); return;
         }
-        if (state.get(0) <= 0 && !consumeFuel(player)) { state.set(2, 0); broadcastChanges(); return; }
+        if (state.get(0) <= 0 && !consumeFuel(player)) { state.set(2, 0); saveContents(); broadcastChanges(); return; }
         state.set(2, state.get(2) + 1);
         if (state.get(2) >= LowerEquipmentRules.PORTABLE_FURNACE_COOK_TIME) {
             ItemStack result = recipe.get().value().assemble(new SingleRecipeInput(input));
@@ -92,6 +150,7 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
             if (output.isEmpty()) contents.setItem(2, result.copy()); else output.grow(result.getCount());
             state.set(2, 0);
         }
+        saveContents();
         broadcastChanges();
     }
 
@@ -117,6 +176,13 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         return canAcceptResult(contents.getItem(2), result, contents.getMaxStackSize(result));
     }
 
+    private void saveContents() {
+        if (opener.isEmpty()) return;
+        opener.set(dev.itzgamesgd.moreminecrafts.registry.ModDataComponents.PORTABLE_FURNACE_CONTENTS,
+                PortableFurnaceContents.from(contents, state.get(0), state.get(1), state.get(2), state.get(3)));
+        if (openerOwner != null) openerOwner.getInventory().setChanged();
+    }
+
     static boolean canAcceptResult(ItemStack output, ItemStack result, int slotLimit) {
         if (result.isEmpty() || slotLimit < 1 || result.getCount() > slotLimit) return false;
         return output.isEmpty() || ItemStack.isSameItemSameComponents(output, result)
@@ -137,15 +203,22 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
     @Override public void removed(Player player) {
         if (!closed && !player.level().isClientSide()) {
             closed = true;
-            var serverLevel = (ServerLevel) player.level();
-            for (ItemStack stack : contents.removeAllItems())
-                if (!stack.isEmpty()) player.spawnAtLocation(serverLevel, stack);
+            saveContents();
+            player.getInventory().setChanged();
         }
         super.removed(player);
     }
 
     public static final class PortableContainer extends SimpleContainer {
+        private Runnable changeListener = () -> {};
         public PortableContainer() { super(3); }
+        public PortableContainer(java.util.List<ItemStack> items) {
+            super(3);
+            for (int i = 0; i < Math.min(3, items.size()); i++) setItem(i, items.get(i).copy());
+        }
+        void setChangeListener(Runnable listener) { changeListener = listener; }
+        void itemsChanged() { changeListener.run(); }
+        @Override public void setChanged() { super.setChanged(); changeListener.run(); }
         @Override public int getMaxStackSize() { return LowerEquipmentRules.PORTABLE_FURNACE_STACK_LIMIT; }
         @Override public int getMaxStackSize(ItemStack stack) {
             return stack.getMaxStackSize() == 64 ? LowerEquipmentRules.PORTABLE_FURNACE_STACK_LIMIT

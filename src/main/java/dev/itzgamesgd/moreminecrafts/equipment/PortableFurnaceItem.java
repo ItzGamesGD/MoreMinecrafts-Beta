@@ -15,16 +15,22 @@ public final class PortableFurnaceItem extends Item {
 
     @Override public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
-        var contents = new PortableFurnaceMenu.PortableContainer();
         ItemStack opener = player.getItemInHand(hand);
+        var contentsComponent = dev.itzgamesgd.moreminecrafts.registry.ModDataComponents.PORTABLE_FURNACE_CONTENTS;
+        var storedContents = opener.getOrDefault(contentsComponent,
+                dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents.empty(
+                        LowerEquipmentRules.PORTABLE_FURNACE_COOK_TIME));
+        var contents = new PortableFurnaceMenu.PortableContainer(storedContents.items());
         var stateComponent = dev.itzgamesgd.moreminecrafts.registry.ModDataComponents.PORTABLE_FURNACE_RESEARCH_STATE;
         var state = opener.getOrDefault(stateComponent,
                 dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState.empty());
         opener.set(stateComponent, dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchAttribution
                 .openedState(state, player.getUUID()));
         player.getInventory().setChanged();
-        ((ServerPlayer) player).openMenu(new SimpleMenuProvider(
-                (id, inventory, ignored) -> new PortableFurnaceMenu(id, inventory, contents, opener),
+        ServerPlayer serverPlayer = (ServerPlayer) player;
+        serverPlayer.openMenu(new SimpleMenuProvider(
+                (id, inventory, ignored) -> new PortableFurnaceMenu(id, inventory, contents, opener,
+                        storedContents, serverPlayer),
                 Component.translatable("container.moreminecrafts.portable_furnace")));
         return InteractionResult.SUCCESS_SERVER;
     }

@@ -139,7 +139,7 @@ public final class FurnaceResearchInfrastructureGameTests implements CustomTestM
     }
 
     @GameTest
-    public void portableFurnaceKeepsItemDataAndExistingCloseDropLifecycle(GameTestHelper ctx) {
+    public void portableFurnaceInventoryAndCookingPersistOnItsItem(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         ItemStack opener = new ItemStack(dev.itzgamesgd.moreminecrafts.registry.ModItems.PORTABLE_FURNACE);
         player.setItemInHand(InteractionHand.MAIN_HAND, opener);
@@ -148,8 +148,25 @@ public final class FurnaceResearchInfrastructureGameTests implements CustomTestM
         ctx.assertTrue(player.containerMenu instanceof PortableFurnaceMenu,
                 "using the item still opens its existing session menu");
         PortableFurnaceMenu menu = (PortableFurnaceMenu) player.containerMenu;
+        int openerSlot = -1;
+        for (int slot = 3; slot < menu.slots.size(); slot++)
+            if (menu.getSlot(slot).getItem() == opener) openerSlot = slot;
+        ctx.assertTrue(openerSlot >= 0, "the opener remains in the player's inventory while the menu is open");
+        menu.clicked(openerSlot, -1, ContainerInput.THROW, player);
+        ctx.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND) == opener && opener.getCount() == 1,
+                "the active portable furnace cannot be removed while its menu is bound to that item");
         menu.setCarried(new ItemStack(Items.RAW_IRON, 2));
         menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        menu.setCarried(new ItemStack(Items.COAL, 1));
+        menu.clicked(1, 0, ContainerInput.PICKUP, player);
+        menu.serverTick(player);
+        var active = opener.getOrDefault(ModDataComponents.PORTABLE_FURNACE_CONTENTS,
+                dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents.empty(67));
+        ctx.assertTrue(active.items().get(0).is(Items.RAW_IRON)
+                        && active.items().get(0).getCount() == 2
+                        && active.items().get(1).isEmpty()
+                        && active.burnTime() > 0 && active.burnDuration() > 0 && active.cookTime() == 1,
+                "menu inventory and live cooking progress are written to the opener item");
         var savedItemOps = RegistryOps.create(NbtOps.INSTANCE, ctx.getLevel().registryAccess());
         var encodedOpener = ItemStack.CODEC.encodeStart(savedItemOps, opener).getOrThrow();
         ItemStack restoredOpener = ItemStack.CODEC.parse(savedItemOps, encodedOpener).getOrThrow();
@@ -158,14 +175,28 @@ public final class FurnaceResearchInfrastructureGameTests implements CustomTestM
                 "portable metadata survives the existing item-stack save format");
         menu.removed(player);
 
-        ctx.assertTrue(menu.getSlot(0).getItem().isEmpty(), "closing still removes session contents from the menu");
+        ctx.assertTrue(menu.getSlot(0).getItem().getCount() == 2,
+                "closing keeps the furnace inventory in its persistent item state");
         var dropped = ctx.getLevel().getEntitiesOfClass(ItemEntity.class,
                 new AABB(player.blockPosition()).inflate(8.0D)).stream()
                 .anyMatch(item -> item.getItem().is(Items.RAW_IRON) && item.getItem().getCount() == 2);
-        ctx.assertTrue(dropped, "closing still drops the portable session's remaining inventory");
+        ctx.assertTrue(!dropped, "closing does not drop a second copy of the stored inventory");
         ctx.assertTrue(opener.getOrDefault(ModDataComponents.PORTABLE_FURNACE_RESEARCH_STATE,
                         FurnaceResearchState.empty()).attributedPlayer().orElseThrow().equals(owner),
-                "portable attribution remains item-backed without persisting or changing its container lifecycle");
+                "portable attribution remains item-backed and separate from processing effects");
+
+        player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+        player.setItemInHand(InteractionHand.OFF_HAND, opener);
+        ((PortableFurnaceItem) opener.getItem()).use(ctx.getLevel(), player, InteractionHand.OFF_HAND);
+        ctx.assertTrue(player.containerMenu instanceof PortableFurnaceMenu,
+                "using the same item reopens its portable furnace");
+        PortableFurnaceMenu reopened = (PortableFurnaceMenu) player.containerMenu;
+        var reopenedState = opener.getOrDefault(ModDataComponents.PORTABLE_FURNACE_CONTENTS,
+                dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents.empty(67));
+        ctx.assertTrue(reopened.getSlot(0).getItem().is(Items.RAW_IRON)
+                        && reopened.getSlot(0).getItem().getCount() == 2
+                        && reopenedState.cookTime() == 1 && reopenedState.burnTime() > 0,
+                "reopening restores all slots and exact in-progress cooking state");
         ctx.succeed();
     }
 
