@@ -3,9 +3,11 @@ package dev.itzgamesgd.moreminecrafts.clientqa;
 import dev.itzgamesgd.moreminecrafts.client.ProgressionDisciplineSelectionScreen;
 import dev.itzgamesgd.moreminecrafts.client.ProgressionSelectionScreen;
 import dev.itzgamesgd.moreminecrafts.client.ProgressionBrowseScreen;
+import dev.itzgamesgd.moreminecrafts.client.EnchantingProgressionScreen;
 import dev.itzgamesgd.moreminecrafts.equipment.BackpackItem;
 import dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents;
 import dev.itzgamesgd.moreminecrafts.progression.ViewportScale;
+import dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import net.fabricmc.api.ClientModInitializer;
@@ -86,6 +88,11 @@ public final class Stage23BClientQa implements ClientModInitializer {
     private static int hitSwordAfterSweep;
     private static int missSwordInitialDamage;
     private static int missSwordAfterSweep;
+    private static int enchantingStage;
+    private static int enchantingWaitTicks;
+    private static boolean enchantingLayoutValid = true;
+    private static EnchantingProgressionScreen enchantingScreen;
+    private static EnchantingProgressionMenu enchantingMenu;
 
     @Override
     public void onInitializeClient() {
@@ -461,25 +468,77 @@ public final class Stage23BClientQa implements ClientModInitializer {
             Result backpack = RESULTS.stream().filter(result -> result.id().equals("large_backpack_icon_and_movement")).findFirst().orElse(null);
             if (backpack != null) {
                 RESULTS.set(RESULTS.indexOf(backpack), new Result(backpack.id(), backpack.status(), backpack.inputPath(),
-                        backpack.evidence() + "; Phase 2 in-world screenshot independently shows transparent selected Large Backpack icon while neighboring item icons render; icon_rendering_status=FAIL, movement_status=PASS",
+                        backpack.evidence().contains("icon_rendering_status=FAIL") ? backpack.evidence()
+                                : backpack.evidence() + "; Phase 2 in-world screenshot independently shows transparent selected Large Backpack icon while neighboring item icons render; icon_rendering_status=FAIL, movement_status=PASS",
                         backpack.screenshots()));
             }
         } catch (Throwable t) { LOGGER.warn("Could not attach prior Backpack visual finding to ledger", t); }
         if (greatswordStage < 5) return;
-        int[][] sizes = {{1280, 720}, {854, 480}, {640, 360}};
-        boolean fit = true;
-        for (int[] size : sizes) {
-            ViewportScale scale = ViewportScale.fit(size[0], size[1], 330, 360, 8);
-            fit &= scale.scale() > 0 && scale.scale() <= 1 && scale.left() >= 0 && scale.top() >= 0;
+        if (enchantingStage < 6) {
+            runEnchantingViewportProbe(client);
+            return;
         }
-        ResultsAdd("enchanting_gui_multiple_scales", "BLOCKED", "none",
-                "joined_world=true arithmetic_layout_bounds_fit=" + fit + " requested_sizes=1280x720,854x480,640x360; this run did not open the real table menu, resize the client, or capture those GUI frames", List.of());
         boolean lamb = FabricLoader.getInstance().isModLoaded("lambdynlights");
         ResultsAdd("miner_lantern_lambdynamiclights", "BLOCKED", "none",
                 lamb ? "joined_world=true LambDynamicLights loaded, but socket activation/deactivation, light response, and unchanged block-state assertions were not exercised"
                         : "joined_world=true LambDynamicLights runtime is not loaded; only this optional scenario is blocked", List.of());
         writeLedger(client);
         suiteFinished = true;
+    }
+
+    private static void runEnchantingViewportProbe(Minecraft client) {
+        int[][] sizes = {{1280, 720}, {854, 480}, {640, 360}};
+        String[] phases = {"1280x720", "854x480", "640x360"};
+        try {
+            if (enchantingScreen == null) {
+                enchantingMenu = new EnchantingProgressionMenu(client.player.containerMenu.containerId + 1000, client.player.getInventory());
+                enchantingScreen = new EnchantingProgressionScreen(enchantingMenu, client.player.getInventory(), Component.translatable("menu.moreminecrafts.enchantment"));
+                client.gui.setScreen(enchantingScreen);
+            }
+            int view = enchantingStage / 2;
+            if (enchantingStage % 2 == 0) {
+                setWindowSize(client, sizes[view][0], sizes[view][1]);
+                if (++enchantingWaitTicks < 8) return;
+                int width = client.getWindow().getGuiScaledWidth();
+                int height = client.getWindow().getGuiScaledHeight();
+                ViewportScale scale = ViewportScale.fit(width, height, 330, 360, 8);
+                boolean slots = enchantingMenu.slots.size() == 38 && enchantingMenu.slots.stream()
+                        .allMatch(slot -> slot.x >= 0 && slot.x <= 322 && slot.y >= 0 && slot.y <= 360);
+                boolean widgets = enchantingScreen.children().size() >= 10;
+                enchantingLayoutValid &= scale.scale() > 0 && scale.left() >= 0 && scale.top() >= 0 && slots && widgets;
+                LOGGER.info("STAGE23B_QA_ENCHANT_LAYOUT resolution={}x{} gui={}x{} scale={} visible_interaction_bounds={} menu_slots={} widget_children={}",
+                        sizes[view][0], sizes[view][1], width, height, scale.scale(), scale.scale() > 0, enchantingMenu.slots.size(), enchantingScreen.children().size());
+                queueCapture("enchanting_gui_multiple_scales", phases[view], "enchanting_gui_multiple_scales",
+                        "actual EnchantingProgressionScreen rendered in joined world; direct local menu fixture; GUI viewport=" + sizes[view][0] + "x" + sizes[view][1]);
+                enchantingStage++;
+                enchantingWaitTicks = 0;
+                waitForCapture(client, () -> {});
+                return;
+            }
+            enchantingStage++;
+            enchantingWaitTicks = 0;
+            if (enchantingStage < 6) return;
+            ResultsAdd("enchanting_gui_multiple_scales", enchantingLayoutValid ? "LIVE PENDING" : "FAIL", "direct_state_fixture",
+                    "actual custom EnchantingProgressionScreen captured at 1280x720, 854x480, 640x360; menu slots/widgets and scaled viewport bounds asserted=" + enchantingLayoutValid + "; visual clipping and interaction hit accuracy remain for human screenshot review",
+                    List.of());
+            client.gui.setScreen(null);
+        } catch (Throwable t) {
+            ResultsAdd("enchanting_gui_multiple_scales", "BLOCKED", "direct_state_fixture", "joined-world EnchantingProgressionScreen probe blocked: " + t, List.of());
+            enchantingStage = 6;
+        }
+    }
+
+    private static void setWindowSize(Minecraft client, int width, int height) throws ReflectiveOperationException {
+        long handle = 0;
+        for (Method method : client.getWindow().getClass().getMethods()) {
+            if (method.getName().equals("getWindow") && method.getParameterCount() == 0 && method.getReturnType() == long.class) {
+                handle = (long) method.invoke(client.getWindow());
+                break;
+            }
+        }
+        if (handle == 0) throw new NoSuchMethodException("Window native handle accessor");
+        Class<?> glfw = Class.forName("org.lwjgl.glfw.GLFW");
+        glfw.getMethod("glfwSetWindowSize", long.class, int.class, int.class).invoke(null, handle, width, height);
     }
 
     private static void runGreatswordProbe(Minecraft client) {
