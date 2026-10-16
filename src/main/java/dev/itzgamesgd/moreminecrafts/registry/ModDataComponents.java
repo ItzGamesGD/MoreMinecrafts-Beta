@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState;
+import dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -46,6 +47,10 @@ public final class ModDataComponents {
             BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("portable_furnace_research_state"),
             DataComponentType.<FurnaceResearchState>builder().persistent(FurnaceResearchState.CODEC)
                     .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(FurnaceResearchState.CODEC)).build());
+    public static final DataComponentType<PortableFurnaceContents> PORTABLE_FURNACE_CONTENTS = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("portable_furnace_contents"),
+            DataComponentType.<PortableFurnaceContents>builder().persistent(PortableFurnaceContents.CODEC)
+                    .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(PortableFurnaceContents.CODEC)).build());
 
     private static DataComponentType<Integer> integerComponent(String id, int min, int max) {
         return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id(id),
