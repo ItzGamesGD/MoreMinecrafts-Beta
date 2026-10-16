@@ -13,19 +13,6 @@ base {
     archivesName = project.archives_base_name
 }
 
-sourceSets {
-    clientQa {
-        compileClasspath += sourceSets.main.output + sourceSets.client.output
-        runtimeClasspath += output + compileClasspath
-    }
-}
-
-configurations {
-    clientQaImplementation.extendsFrom clientImplementation
-    clientQaCompileOnly.extendsFrom clientCompileOnly
-    clientQaRuntimeOnly.extendsFrom clientRuntimeOnly
-}
-
 repositories {
     mavenCentral()
     maven {
@@ -45,6 +32,18 @@ loom {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
         }
+    }
+}
+
+sourceSets {
+    clientQa {
+        compileClasspath += sourceSets.main.output + sourceSets.client.output + sourceSets.client.compileClasspath
+        runtimeClasspath += output + compileClasspath + sourceSets.client.runtimeClasspath
+    }
+}
+
+loom {
+    mods {
         "moreminecrafts_client_qa" {
             sourceSet sourceSets.clientQa
         }
