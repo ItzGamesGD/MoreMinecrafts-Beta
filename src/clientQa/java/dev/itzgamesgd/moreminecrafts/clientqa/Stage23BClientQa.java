@@ -691,9 +691,16 @@ public final class Stage23BClientQa implements ClientModInitializer {
     }
 
     private static void invokeLanternBridgeTick(Minecraft client) throws ReflectiveOperationException {
+        java.lang.reflect.Field manager = lanternBridge.getClass().getDeclaredField("manager");
+        manager.setAccessible(true);
+        if (manager.get(lanternBridge) == null)
+            throw new IllegalStateException("LambDynamicLights did not initialize the bridge manager through its initializer entrypoint");
         Method tick = lanternBridge.getClass().getDeclaredMethod("tick", Minecraft.class);
         tick.setAccessible(true);
-        tick.invoke(lanternBridge, client);
+        try { tick.invoke(lanternBridge, client); }
+        catch (java.lang.reflect.InvocationTargetException e) {
+            throw new IllegalStateException("bridge tick failed: " + e.getCause(), e.getCause());
+        }
     }
 
     private static double lanternLightValue(Object behavior, BlockPos pos) throws ReflectiveOperationException {
