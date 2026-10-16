@@ -59,17 +59,43 @@ public final class ResearchContentRuntime {
     private static List<ItemStack> applyOreAndLogResearch(ServerPlayer player, BlockState state,
                                                            List<ItemStack> baseDrops,
                                                            java.util.function.DoubleSupplier random) {
-        if (player == null || player.isCreative() || baseDrops.isEmpty()) return baseDrops;
-        List<ItemStack> drops = copyDrops(baseDrops);
+        // Kept for deterministic rules tests and call sites combining these independent effects.
+        return applyLumberingResearch(player, state, applyOreResearch(player, state, baseDrops, random), random);
+    }
 
-        if (state.is(RESEARCH_ORES)) {
-            addGatheringBonus(player, "v3.research.01", "ore_extra_drops", drops,
-                    stack -> !stack.isEmpty(), random);
-        }
-        if (state.is(BlockTags.LOGS)) {
-            addGatheringBonus(player, "v3.research.02", "lumbering_extra_drops", drops,
-                    stack -> stack.is(net.minecraft.tags.ItemTags.LOGS), random);
-        }
+    /** Run only after Auto Smelt, so Ore Mining duplicates the final processed loot. */
+    public static List<ItemStack> applyOreResearch(ServerPlayer player, BlockState state,
+                                                    List<ItemStack> baseDrops) {
+        if (player == null) return baseDrops;
+        return applyOreResearch(player, state, baseDrops, player.getRandom()::nextDouble);
+    }
+
+    private static List<ItemStack> applyOreResearch(ServerPlayer player, BlockState state,
+                                                     List<ItemStack> baseDrops,
+                                                     java.util.function.DoubleSupplier random) {
+        if (player == null || player.isCreative() || baseDrops.isEmpty() || !state.is(RESEARCH_ORES))
+            return baseDrops;
+        List<ItemStack> drops = copyDrops(baseDrops);
+        addGatheringBonus(player, "v3.research.01", "ore_extra_drops", drops,
+                stack -> !stack.isEmpty(), random);
+        return drops;
+    }
+
+    /** Run before the one existing enchantment pass so Lumbering bonuses share its processing. */
+    public static List<ItemStack> applyLumberingResearch(ServerPlayer player, BlockState state,
+                                                          List<ItemStack> baseDrops) {
+        if (player == null) return baseDrops;
+        return applyLumberingResearch(player, state, baseDrops, player.getRandom()::nextDouble);
+    }
+
+    private static List<ItemStack> applyLumberingResearch(ServerPlayer player, BlockState state,
+                                                           List<ItemStack> baseDrops,
+                                                           java.util.function.DoubleSupplier random) {
+        if (player == null || player.isCreative() || baseDrops.isEmpty() || !state.is(BlockTags.LOGS))
+            return baseDrops;
+        List<ItemStack> drops = copyDrops(baseDrops);
+        addGatheringBonus(player, "v3.research.02", "lumbering_extra_drops", drops,
+                stack -> stack.is(net.minecraft.tags.ItemTags.LOGS), random);
         return drops;
     }
 
