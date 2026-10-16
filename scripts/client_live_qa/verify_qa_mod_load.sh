@@ -57,6 +57,11 @@ expected = {
 assert len(rows) == len(expected), f"Expected 7 independent scenarios, got {len(rows)}"
 assert {row["scenario"] for row in rows} == expected, "Scenario ledger is incomplete or duplicated"
 assert all(row["status"] in {"PASS", "FAIL", "BLOCKED", "LIVE PENDING"} for row in rows)
+assert all(row["visual_status"] == "LIVE PENDING" for row in rows), "Visual PASS requires semantic review evidence"
+assert all({"os_xtest_xdotool", "direct_state_fixture", "human_manual_play"} <= row.keys() for row in rows)
+failed = [row["scenario"] for row in rows if row["status"] == "FAIL"]
+if failed:
+    raise SystemExit("Scenario regression assertions failed: " + ", ".join(failed))
 print("STAGE23B_QA_SCENARIO_LEDGER_VERIFIED count=7")
 PYREPORT
 
