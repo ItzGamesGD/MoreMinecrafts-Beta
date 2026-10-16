@@ -521,10 +521,10 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 ViewportScale scale = ViewportScale.fit(width, height, 330, 360, 8);
                 boolean slots = enchantingMenu.slots.size() == 38 && enchantingMenu.slots.stream()
                         .allMatch(slot -> slot.x >= 0 && slot.x <= 322 && slot.y >= 0 && slot.y <= 360);
-                boolean widgets = enchantingScreen.children().size() >= 10;
+                boolean widgets = visibleWidgetBoundsFit(enchantingScreen, scale, width, height);
                 enchantingLayoutValid &= scale.scale() > 0 && scale.left() >= 0 && scale.top() >= 0 && slots && widgets;
                 LOGGER.info("STAGE23B_QA_ENCHANT_LAYOUT resolution={}x{} gui={}x{} scale={} visible_interaction_bounds={} menu_slots={} widget_children={}",
-                        sizes[view][0], sizes[view][1], width, height, scale.scale(), scale.scale() > 0, enchantingMenu.slots.size(), enchantingScreen.children().size());
+                        sizes[view][0], sizes[view][1], width, height, scale.scale(), widgets, enchantingMenu.slots.size(), enchantingScreen.children().size());
                 queueCapture("enchanting_gui_multiple_scales", phases[view], "enchanting_gui_multiple_scales",
                         "actual EnchantingProgressionScreen rendered in joined world; direct local menu fixture; GUI viewport=" + sizes[view][0] + "x" + sizes[view][1]);
                 enchantingStage++;
@@ -565,6 +565,41 @@ public final class Stage23BClientQa implements ClientModInitializer {
         if (handle == 0) throw new NoSuchMethodException("Window native handle accessor");
         Class<?> glfw = Class.forName("org.lwjgl.glfw.GLFW");
         glfw.getMethod("glfwSetWindowSize", long.class, int.class, int.class).invoke(null, handle, width, height);
+    }
+
+    private static boolean visibleWidgetBoundsFit(EnchantingProgressionScreen screen, ViewportScale scale, int viewportWidth, int viewportHeight) throws ReflectiveOperationException {
+        int frameLeft = screenFieldInt(screen, "leftPos");
+        int frameTop = screenFieldInt(screen, "topPos");
+        int checked = 0;
+        for (Object widget : screen.children()) {
+            Method visibleMethod = widget.getClass().getMethod("isVisible");
+            if (!(boolean) visibleMethod.invoke(widget)) continue;
+            int x = (int) widget.getClass().getMethod("getX").invoke(widget);
+            int y = (int) widget.getClass().getMethod("getY").invoke(widget);
+            int widgetWidth = (int) widget.getClass().getMethod("getWidth").invoke(widget);
+            int widgetHeight = (int) widget.getClass().getMethod("getHeight").invoke(widget);
+            double left = scale.screenX(x, frameLeft);
+            double top = scale.screenY(y, frameTop);
+            double right = scale.screenX(x + widgetWidth, frameLeft);
+            double bottom = scale.screenY(y + widgetHeight, frameTop);
+            if (left < 0 || top < 0 || right > viewportWidth || bottom > viewportHeight) return false;
+            double mappedContentX = scale.contentX((left + right) / 2.0D, frameLeft);
+            double mappedContentY = scale.contentY((top + bottom) / 2.0D, frameTop);
+            if (mappedContentX < x || mappedContentX > x + widgetWidth || mappedContentY < y || mappedContentY > y + widgetHeight) return false;
+            checked++;
+        }
+        return checked >= 10;
+    }
+
+    private static int screenFieldInt(Object instance, String name) throws ReflectiveOperationException {
+        for (Class<?> type = instance.getClass(); type != null; type = type.getSuperclass()) {
+            try {
+                java.lang.reflect.Field field = type.getDeclaredField(name);
+                field.setAccessible(true);
+                return field.getInt(instance);
+            } catch (NoSuchFieldException ignored) { }
+        }
+        throw new NoSuchFieldException(name);
     }
 
     private static void runLanternProbe(Minecraft client) {
