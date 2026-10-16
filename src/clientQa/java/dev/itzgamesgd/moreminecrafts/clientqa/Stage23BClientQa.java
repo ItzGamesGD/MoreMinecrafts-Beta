@@ -385,14 +385,22 @@ public final class Stage23BClientQa implements ClientModInitializer {
                     if (++waitTicks > 100) throw new IllegalStateException("same Portable Furnace item did not reopen its furnace screen type");
                     return;
                 }
-                boolean inputRestored = ItemStack.matches(menu.getSlot(0).getItem(), furnaceSavedAfterClose.items().get(0));
+                ItemStack savedInput = furnaceSavedAfterClose.items().get(0);
+                ItemStack savedOutput = furnaceSavedAfterClose.items().get(2);
+                ItemStack reopenedInput = menu.getSlot(0).getItem();
+                ItemStack reopenedOutput = menu.getSlot(2).getItem();
+                int savedSmeltableCount = countStack(savedInput, Items.RAW_IRON) + countStack(savedOutput, Items.IRON_INGOT);
+                int reopenedSmeltableCount = countStack(reopenedInput, Items.RAW_IRON) + countStack(reopenedOutput, Items.IRON_INGOT);
                 boolean fuelRestored = ItemStack.matches(menu.getSlot(1).getItem(), furnaceSavedAfterClose.items().get(1));
-                boolean cookingPersisted = inputRestored && fuelRestored && furnaceSavedAfterClose.burnTime() > 0 && furnaceSavedAfterClose.cookTime() > 0;
+                boolean contentsRestored = savedSmeltableCount == reopenedSmeltableCount;
+                boolean cookingPersisted = contentsRestored && fuelRestored && furnaceSavedAfterClose.burnTime() > 0 && furnaceSavedAfterClose.cookTime() > 0;
                 queueCapture("portable_furnace_inventory_cooking_persistence", "after", "portable_furnace_inventory_cooking_persistence", "same item reopened; server menu inventory restored; saved burn/cook values retained");
                 ResultsAdd("portable_furnace_inventory_cooking_persistence", cookingPersisted ? "PASS" : "FAIL", "synthetic_client_game_packet_and_game_api",
-                        "same_item_server_close_reopen=true input_restored=" + inputRestored + " fuel_restored=" + fuelRestored
+                        "same_item_server_close_reopen=true smeltable_contents_conserved=" + contentsRestored + " fuel_restored=" + fuelRestored
+                                + " raw_iron_before_reopen=" + savedInput.getCount() + " ingots_before_reopen=" + savedOutput.getCount()
+                                + " raw_iron_after_reopen=" + reopenedInput.getCount() + " ingots_after_reopen=" + reopenedOutput.getCount()
                                 + " burn_time=" + furnaceSavedAfterClose.burnTime() + " cook_time=" + furnaceSavedAfterClose.cookTime()
-                                + "; client state came from server menu and synced item component", List.of());
+                                + "; input-to-output smelting while closed is accepted when item count is conserved; client state came from reopened server menu and synced item component", List.of());
                 furnaceStage = 6;
                 waitForCapture(client, () -> client.player.closeContainer());
                 return;
@@ -400,6 +408,10 @@ public final class Stage23BClientQa implements ClientModInitializer {
         } catch (Throwable t) {
             ResultsAdd("portable_furnace_inventory_cooking_persistence", "FAIL", "synthetic_client_game_packet", "in-world Portable Furnace gameplay exception=" + t, List.of());
         }
+    }
+
+    private static int countStack(ItemStack stack, net.minecraft.world.item.Item target) {
+        return stack.is(target) ? stack.getCount() : 0;
     }
 
     private static int findInventoryItem(Minecraft client, net.minecraft.world.item.Item target) {
