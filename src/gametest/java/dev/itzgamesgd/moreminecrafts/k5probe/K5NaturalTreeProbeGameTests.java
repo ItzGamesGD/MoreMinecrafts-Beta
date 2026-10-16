@@ -396,6 +396,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                                 .with("research.v3.research.64", 3)
                         .with("research.v3.research.06", 2)
                                 .with("research.xp_fraction.v3.research.64", 63));
+                dev.itzgamesgd.moreminecrafts.furnace.PortableFurnaceRestartFixture.write(ctx, player);
                 player.setGameMode(GameType.CREATIVE);
                 player.awardStat(net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE), 12);
                 CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
@@ -458,6 +459,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(ResearchProgressLookup.researchLevel(level.getServer(), PLAYER_ID,
                                 "v3.research.06") == 2,
                         "server-thread offline lookup reads the purchased research level directly from player data");
+                dev.itzgamesgd.moreminecrafts.furnace.PortableFurnaceRestartFixture.readOffline(ctx, PLAYER_ID);
                 var player = player(true);
                 ctx.assertTrue(KnowledgeRuntime.state(player).get("condition.natural_vanilla_logs_mined") == 38,
                         "Minecraft player data restored K5 progress into a fresh player instance");

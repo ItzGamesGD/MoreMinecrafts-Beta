@@ -73,7 +73,13 @@
     "ResearchBeehiveMixin",
     "ResearchLivestockMixin",
     "ResearchAxeAttackMixin",
-    "ResearchXpAcquisitionMixin"
+    "ResearchXpAcquisitionMixin",
+    "ResearchEndermanMixin",
+    "ResearchSpiderLeapMixin",
+    "ResearchStatusEffectMixin",
+    "ResearchEffectDurationAccessor",
+    "ResearchFlightMixin",
+    "ResearchCreeperMixin"
   ],
   "injectors": {
     "defaultRequire": 1

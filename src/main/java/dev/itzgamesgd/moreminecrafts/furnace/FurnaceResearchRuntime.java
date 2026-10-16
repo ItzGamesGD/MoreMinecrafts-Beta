@@ -53,6 +53,11 @@ public final class FurnaceResearchRuntime {
 
     public static boolean eligibleMineral(AbstractFurnaceBlockEntity furnace, ItemStack ingredient,
                                            ItemStack result) {
+        return eligibleMineral(ingredient, result);
+    }
+
+    /** Shared recipe-context eligibility for permanent and item-backed furnace processing. */
+    public static boolean eligibleMineral(ItemStack ingredient, ItemStack result) {
         return !ingredient.isEmpty() && !result.isEmpty()
                 && ingredient.is(MINERAL_INPUTS) && result.is(MINERAL_OUTPUTS);
     }
