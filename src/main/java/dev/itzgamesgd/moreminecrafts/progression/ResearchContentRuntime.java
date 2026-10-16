@@ -70,7 +70,7 @@ public final class ResearchContentRuntime {
         return applyOreResearch(player, state, baseDrops, player.getRandom()::nextDouble);
     }
 
-    private static List<ItemStack> applyOreResearch(ServerPlayer player, BlockState state,
+    static List<ItemStack> applyOreResearch(ServerPlayer player, BlockState state,
                                                      List<ItemStack> baseDrops,
                                                      java.util.function.DoubleSupplier random) {
         if (player == null || player.isCreative() || baseDrops.isEmpty() || !state.is(RESEARCH_ORES))
@@ -88,7 +88,7 @@ public final class ResearchContentRuntime {
         return applyLumberingResearch(player, state, baseDrops, player.getRandom()::nextDouble);
     }
 
-    private static List<ItemStack> applyLumberingResearch(ServerPlayer player, BlockState state,
+    static List<ItemStack> applyLumberingResearch(ServerPlayer player, BlockState state,
                                                            List<ItemStack> baseDrops,
                                                            java.util.function.DoubleSupplier random) {
         if (player == null || player.isCreative() || baseDrops.isEmpty() || !state.is(BlockTags.LOGS))
