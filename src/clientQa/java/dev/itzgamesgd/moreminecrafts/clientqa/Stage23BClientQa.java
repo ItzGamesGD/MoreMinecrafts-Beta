@@ -309,10 +309,15 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 return;
             }
             if (furnaceStage == 2 && client.player.containerMenu instanceof FurnaceMenu menu) {
-                // The isolated server can advance more ticks than client ticks while the
-                // software renderer is under load. Capture early to retain partial cooking
-                // progress instead of allowing the two fixture ingots to finish smelting.
                 if (++waitTicks < 12) return;
+                ItemStack furnaceItem = client.player.getInventory().getItem(furnaceHotbarSlot);
+                PortableFurnaceContents running = furnaceItem.get(ModDataComponents.PORTABLE_FURNACE_CONTENTS);
+                if (running == null || running.cookTime() <= 0) {
+                    if (waitTicks < 100) return;
+                    throw new IllegalStateException("Portable Furnace did not produce observable cooking progress before timeout; burn="
+                            + (running == null ? "missing" : running.burnTime()) + " cook="
+                            + (running == null ? "missing" : running.cookTime()));
+                }
                 queueCapture("portable_furnace_inventory_cooking_persistence", "before", "portable_furnace_inventory_cooking_persistence", "real server-backed Portable Furnace menu with input and fuel loaded");
                 furnaceStage = 3;
                 waitForCapture(client, () -> {
