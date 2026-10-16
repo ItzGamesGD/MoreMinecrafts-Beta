@@ -28,6 +28,7 @@ public final class Research23AReconciliationGameTests implements CustomTestMetho
     public void lumberingRunsBeforeProcessingWhileOreCopiesFinalProcessedDrop(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
+        player.getAbilities().instabuild = false; // The mock player can retain creative abilities after mode setup.
         var logState = Blocks.OAK_LOG.defaultBlockState();
         var oreState = Blocks.IRON_ORE.defaultBlockState();
         var baseLogs = List.of(new ItemStack(Items.OAK_LOG));
@@ -48,6 +49,7 @@ public final class Research23AReconciliationGameTests implements CustomTestMetho
         boolean logItemTagged = baseLogs.getFirst().is(net.minecraft.tags.ItemTags.LOGS);
         ctx.assertTrue(withLumbering.size() == 2 && withLumbering.get(1).is(Items.OAK_LOG),
                 "Lumbering before the enchantment pass: paidLevel=" + lumberLevel
+                        + ", creative=" + player.isCreative()
                         + ", blockTag=" + logBlockTagged + ", itemTag=" + logItemTagged
                         + ", drops=" + withLumbering);
         var logAtOreStage = ResearchContentRuntime.applyOreResearch(player, logState, withLumbering, () -> 0.0D);
