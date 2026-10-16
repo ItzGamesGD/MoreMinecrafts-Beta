@@ -304,9 +304,11 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 return;
             }
             if (furnaceStage == 4) {
+                if (++waitTicks < 10) return;
                 ItemStack sameItem = client.player.getInventory().getItem(furnaceHotbarSlot);
                 furnaceSavedAfterClose = sameItem.get(ModDataComponents.PORTABLE_FURNACE_CONTENTS);
-                if (client.player.containerMenu != client.player.inventoryMenu && ++waitTicks < 100) return;
+                if (furnaceSavedAfterClose == null && waitTicks < 100) return;
+                if (client.player.containerMenu != client.player.inventoryMenu && waitTicks < 100) return;
                 if (furnaceSavedAfterClose == null) throw new IllegalStateException("Portable Furnace item lacks persisted contents after close");
                 if (furnaceSavedAfterClose.burnTime() <= 0 || furnaceSavedAfterClose.cookTime() <= 0)
                     throw new IllegalStateException("Portable Furnace did not persist positive burn and cooking progress after in-world ticks: burn=" + furnaceSavedAfterClose.burnTime() + " cook=" + furnaceSavedAfterClose.cookTime());
