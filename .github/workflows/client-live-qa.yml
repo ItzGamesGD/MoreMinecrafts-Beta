@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   loom-qa-mod-bootstrap:
-    name: Loom QA mod load and production JAR boundary
+    name: Loom QA mod load, in-world scenarios, and production JAR boundary
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -38,7 +38,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: client-live-qa-bootstrap
+          name: client-live-qa-in-world-${{ github.run_id }}
           path: client-live-qa-results/bootstrap/
           if-no-files-found: error
           retention-days: 14
