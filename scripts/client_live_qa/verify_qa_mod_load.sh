@@ -13,7 +13,7 @@ export GRADLE_USER_HOME
 # Optional renderer integration is pinned and integrity-checked in the isolated QA runtime only.
 # A download or metadata failure marks the Lantern case blocked but does not stop other cases.
 mkdir -p run/mods
-python3 - <<'PYLAMB' "$PWD/run/mods" "$PWD/client-live-qa-results/lambdynamiclights-install.json"
+python3 - <<'PYLAMB' "$PWD/run/mods" "$PWD/$RESULTS_DIR/lambdynamiclights-install.json"
 import hashlib, json, pathlib, sys, urllib.request
 mods = pathlib.Path(sys.argv[1])
 report = pathlib.Path(sys.argv[2])
