@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.equipment;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
@@ -17,7 +18,7 @@ final class GreatswordSweepVfx {
 
     static void emit(ServerPlayer attacker) {
         Vec3 at = position(attacker.position(), attacker.getLookAngle());
-        attacker.serverLevel().sendParticles(ParticleTypes.SWEEP_ATTACK,
+        ((ServerLevel) attacker.level()).sendParticles(ParticleTypes.SWEEP_ATTACK,
                 at.x, at.y, at.z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
     }
 }
