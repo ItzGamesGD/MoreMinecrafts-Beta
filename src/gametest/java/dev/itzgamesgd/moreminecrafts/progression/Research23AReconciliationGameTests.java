@@ -28,38 +28,39 @@ public final class Research23AReconciliationGameTests implements CustomTestMetho
     public void lumberingRunsBeforeProcessingWhileOreCopiesFinalProcessedDrop(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
-        player.getAbilities().instabuild = false; // The mock player can retain creative abilities after mode setup.
         var logState = Blocks.OAK_LOG.defaultBlockState();
         var oreState = Blocks.IRON_ORE.defaultBlockState();
         var baseLogs = List.of(new ItemStack(Items.OAK_LOG));
         var baseOre = List.of(new ItemStack(Items.RAW_IRON));
         var processedOre = List.of(new ItemStack(Items.IRON_INGOT));
 
-        ctx.assertTrue(ResearchContentRuntime.applyLumberingResearch(player, logState, baseLogs, () -> 0.0D)
-                        .size() == 1, "unowned Lumbering cannot add bonus logs");
-        ctx.assertTrue(ResearchContentRuntime.applyOreResearch(player, oreState, processedOre, () -> 0.0D)
-                        .size() == 1, "unowned Ore Mining cannot add bonus items");
+        ctx.assertTrue(ResearchContentRuntime.lumberingDropsAtPaidLevel(logState, baseLogs, 0, () -> 0.0D)
+                        .size() == 1, "level-zero Lumbering cannot add bonus logs");
+        ctx.assertTrue(ResearchContentRuntime.oreDropsAtPaidLevel(oreState, processedOre, 0, () -> 0.0D)
+                        .size() == 1, "level-zero Ore Mining cannot add bonus items");
 
         KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player)
                 .with("research.v3.research.01", 5).with("research.v3.research.02", 5));
 
-        var withLumbering = ResearchContentRuntime.applyLumberingResearch(player, logState, baseLogs, () -> 0.0D);
+        int oreLevel = ResearchRewards.level(player, "v3.research.01", "ore_extra_drops");
         int lumberLevel = ResearchRewards.level(player, "v3.research.02", "lumbering_extra_drops");
-        boolean logBlockTagged = logState.is(net.minecraft.tags.BlockTags.LOGS);
-        boolean logItemTagged = baseLogs.getFirst().is(net.minecraft.tags.ItemTags.LOGS);
+        ctx.assertTrue(oreLevel == 5 && lumberLevel == 5,
+                "purchased research levels remain player-scoped even for mock players");
+        var withLumbering = ResearchContentRuntime.lumberingDropsAtPaidLevel(logState, baseLogs,
+                lumberLevel, () -> 0.0D);
         ctx.assertTrue(withLumbering.size() == 2 && withLumbering.get(1).is(Items.OAK_LOG),
-                "Lumbering before the enchantment pass: paidLevel=" + lumberLevel
-                        + ", creative=" + player.isCreative()
-                        + ", blockTag=" + logBlockTagged + ", itemTag=" + logItemTagged
-                        + ", drops=" + withLumbering);
-        var logAtOreStage = ResearchContentRuntime.applyOreResearch(player, logState, withLumbering, () -> 0.0D);
+                "Lumbering before enchantment pass: drops=" + withLumbering);
+        var logAtOreStage = ResearchContentRuntime.oreDropsAtPaidLevel(logState, withLumbering,
+                oreLevel, () -> 0.0D);
         ctx.assertTrue(logAtOreStage.size() == 2,
                 "Ore Mining must not generate a second bonus for a log");
 
-        var unprocessedOre = ResearchContentRuntime.applyLumberingResearch(player, oreState, baseOre, () -> 0.0D);
+        var unprocessedOre = ResearchContentRuntime.lumberingDropsAtPaidLevel(oreState, baseOre,
+                lumberLevel, () -> 0.0D);
         ctx.assertTrue(unprocessedOre.size() == 1 && unprocessedOre.getFirst().is(Items.RAW_IRON),
                 "ore must remain unchanged in the pre-processing Lumbering stage");
-        var withOreBonus = ResearchContentRuntime.applyOreResearch(player, oreState, processedOre, () -> 0.0D);
+        var withOreBonus = ResearchContentRuntime.oreDropsAtPaidLevel(oreState, processedOre,
+                oreLevel, () -> 0.0D);
         ctx.assertTrue(withOreBonus.size() == 2
                         && withOreBonus.getFirst().is(Items.IRON_INGOT)
                         && withOreBonus.get(1).is(Items.IRON_INGOT),
