@@ -10,6 +10,12 @@ export GRADLE_USER_HOME
 
 ./gradlew compileClientQaJava verifyClientQaExcludedFromRemapJar --no-daemon
 
+vulkan_icd=""
+if [[ -d /usr/share/vulkan/icd.d ]]; then
+  vulkan_icd="$(find /usr/share/vulkan/icd.d -maxdepth 1 -name 'lvp_icd*.json' -print -quit)"
+fi
+if [[ -n "$vulkan_icd" ]]; then export VK_ICD_FILENAMES="$vulkan_icd"; fi
+
 set +e
 timeout 240s xvfb-run -a \
   -s "-screen 0 1280x720x24 +extension GLX +render -noreset" \
