@@ -10,6 +10,39 @@ export GRADLE_USER_HOME
 
 ./gradlew compileClientQaJava verifyClientQaExcludedFromRemapJar --no-daemon
 
+# Optional renderer integration is pinned and integrity-checked in the isolated QA runtime only.
+# A download or metadata failure marks the Lantern case blocked but does not stop other cases.
+mkdir -p run/mods
+python3 - <<'PYLAMB' "$PWD/run/mods" "$PWD/client-live-qa-results/lambdynamiclights-install.json"
+import hashlib, json, pathlib, sys, urllib.request
+mods = pathlib.Path(sys.argv[1])
+report = pathlib.Path(sys.argv[2])
+version_id = "rylKnJ4M"
+try:
+    with urllib.request.urlopen(f"https://api.modrinth.com/v2/version/{version_id}", timeout=30) as response:
+        metadata = json.load(response)
+    files = [item for item in metadata["files"] if item.get("primary") and item["filename"].endswith(".jar")]
+    if not files:
+        files = [item for item in metadata["files"] if item["filename"].endswith(".jar")]
+    if len(files) != 1:
+        raise RuntimeError(f"expected one pinned primary jar, got {len(files)}")
+    artifact = files[0]
+    with urllib.request.urlopen(artifact["url"], timeout=120) as response:
+        data = response.read()
+    expected = artifact["hashes"]["sha512"].lower()
+    actual = hashlib.sha512(data).hexdigest()
+    if actual != expected:
+        raise RuntimeError("SHA-512 mismatch for pinned Modrinth artifact")
+    destination = mods / artifact["filename"]
+    destination.write_bytes(data)
+    result = {"status":"INSTALLED", "modrinth_version_id":version_id, "filename":artifact["filename"], "sha512":actual, "runtime_scope":"run/mods QA only"}
+except Exception as exc:
+    result = {"status":"BLOCKED", "modrinth_version_id":version_id, "reason":str(exc), "runtime_scope":"run/mods QA only"}
+report.parent.mkdir(parents=True, exist_ok=True)
+report.write_text(json.dumps(result, sort_keys=True) + "\\n")
+print("STAGE23B_LAMBDYNAMICLIGHTS_" + result["status"] + " " + json.dumps(result, sort_keys=True))
+PYLAMB
+
 mkdir -p run
 printf 'eula=true\n' > run/eula.txt
 RCON_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_urlsafe(24))')"
@@ -65,6 +98,7 @@ python3 scripts/visual_validation/rcon.py \
   "fill -10 63 -10 10 63 18 minecraft:stone_bricks" \
   "fill -10 64 -10 10 80 18 minecraft:air" \
   "fill -5 64 4 5 64 4 minecraft:stone_bricks"
+  "setblock 0 64 4 minecraft:enchanting_table"
 
 vulkan_icd=""
 if [[ -d /usr/share/vulkan/icd.d ]]; then
@@ -97,10 +131,15 @@ if [[ "$joined" -eq 1 ]]; then
   python3 scripts/visual_validation/rcon.py \
     "give ClientQaProbe moreminecrafts:large_backpack 1" \
     "give ClientQaProbe moreminecrafts:portable_furnace 1" \
+    "give ClientQaProbe moreminecrafts:flame_sword 1" \
+    "give ClientQaProbe moreminecrafts:iron_greatsword 1" \
+    "give ClientQaProbe moreminecrafts:miner_lantern 1" \
     "give ClientQaProbe minecraft:stone 32" \
     "give ClientQaProbe minecraft:raw_iron 2" \
     "give ClientQaProbe minecraft:coal 2" \
-    "tp ClientQaProbe 0.5 64 12.5"
+    "tp ClientQaProbe 0.5 64 12.5 0 0" \
+    "summon minecraft:armor_stand 0.5 64 15 {CustomName:'{\"text\":\"QA_GS_HIT\"}',Tags:[\"stage23b_gs_hit\"],NoGravity:1b,NoBasePlate:1b}" \
+    "summon minecraft:armor_stand 8.5 64 15 {CustomName:'{\"text\":\"QA_GS_MISS\"}',Tags:[\"stage23b_gs_miss\"],NoGravity:1b,NoBasePlate:1b}"
 fi
 for attempt in $(seq 1 180); do
   if [[ -s run/client-qa-results/scenario-results.jsonl ]]; then break; fi
