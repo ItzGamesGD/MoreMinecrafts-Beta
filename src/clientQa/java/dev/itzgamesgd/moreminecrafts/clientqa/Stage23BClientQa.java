@@ -6,6 +6,7 @@ import dev.itzgamesgd.moreminecrafts.client.ProgressionBrowseScreen;
 import dev.itzgamesgd.moreminecrafts.client.EnchantingProgressionScreen;
 import dev.itzgamesgd.moreminecrafts.equipment.BackpackItem;
 import dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents;
+import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import dev.itzgamesgd.moreminecrafts.progression.ViewportScale;
 import dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
@@ -22,6 +23,8 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
@@ -93,6 +96,13 @@ public final class Stage23BClientQa implements ClientModInitializer {
     private static boolean enchantingLayoutValid = true;
     private static EnchantingProgressionScreen enchantingScreen;
     private static EnchantingProgressionMenu enchantingMenu;
+    private static int lanternStage;
+    private static int lanternWaitTicks;
+    private static ItemStack lanternAttachmentBefore = ItemStack.EMPTY;
+    private static Map<BlockPos, BlockState> lanternBlockSnapshot = Map.of();
+    private static Object lanternBridge;
+    private static Object lanternBehavior;
+    private static double lanternLightOn;
 
     @Override
     public void onInitializeClient() {
@@ -478,10 +488,10 @@ public final class Stage23BClientQa implements ClientModInitializer {
             runEnchantingViewportProbe(client);
             return;
         }
-        boolean lamb = FabricLoader.getInstance().isModLoaded("lambdynlights");
-        ResultsAdd("miner_lantern_lambdynamiclights", "BLOCKED", "none",
-                lamb ? "joined_world=true LambDynamicLights loaded, but socket activation/deactivation, light response, and unchanged block-state assertions were not exercised"
-                        : "joined_world=true LambDynamicLights runtime is not loaded; only this optional scenario is blocked", List.of());
+        if (lanternStage < 6) {
+            runLanternProbe(client);
+            return;
+        }
         writeLedger(client);
         suiteFinished = true;
     }
@@ -530,15 +540,122 @@ public final class Stage23BClientQa implements ClientModInitializer {
 
     private static void setWindowSize(Minecraft client, int width, int height) throws ReflectiveOperationException {
         long handle = 0;
-        for (Method method : client.getWindow().getClass().getMethods()) {
-            if (method.getName().equals("getWindow") && method.getParameterCount() == 0 && method.getReturnType() == long.class) {
-                handle = (long) method.invoke(client.getWindow());
-                break;
+        for (Class<?> type = client.getWindow().getClass(); type != null && handle == 0; type = type.getSuperclass()) {
+            for (java.lang.reflect.Field field : type.getDeclaredFields()) {
+                if (field.getType() != long.class) continue;
+                field.setAccessible(true);
+                long candidate = field.getLong(client.getWindow());
+                if (candidate != 0L) { handle = candidate; break; }
             }
         }
         if (handle == 0) throw new NoSuchMethodException("Window native handle accessor");
         Class<?> glfw = Class.forName("org.lwjgl.glfw.GLFW");
         glfw.getMethod("glfwSetWindowSize", long.class, int.class, int.class).invoke(null, handle, width, height);
+    }
+
+    private static void runLanternProbe(Minecraft client) {
+        try {
+            if (!FabricLoader.getInstance().isModLoaded("lambdynlights"))
+                throw new IllegalStateException("integrity-checked LambDynamicLights runtime did not load");
+            if (lanternBridge == null) lanternBridge = findLanternBridge();
+            if (lanternBridge == null) throw new IllegalStateException("LambDynamicLights initializer did not expose the MoreMinecrafts bridge");
+            if (lanternStage == 0) {
+                lanternAttachmentBefore = client.player.getAttachedOrElse(EquipmentAttachments.LANTERN, ItemStack.EMPTY).copy();
+                client.player.setAttached(EquipmentAttachments.LANTERN, ItemStack.EMPTY);
+                lanternBlockSnapshot = snapshotNearbyBlocks(client);
+                queueCapture("miner_lantern_lambdynamiclights", "before", "miner_lantern_lambdynamiclights", "joined world before direct attachment fixture; block snapshot recorded");
+                lanternStage = 1;
+                waitForCapture(client, () -> {
+                    client.player.setAttached(EquipmentAttachments.LANTERN, new ItemStack(ModItems.MINER_LANTERN));
+                    lanternStage = 2;
+                    lanternWaitTicks = 0;
+                });
+                return;
+            }
+            if (lanternStage == 1) return;
+            if (lanternStage == 2) {
+                Map<?, ?> active = lanternActiveMap();
+                lanternBehavior = active.get(client.player.getUUID());
+                if (lanternBehavior == null || ++lanternWaitTicks < 5) {
+                    if (lanternWaitTicks > 100) throw new IllegalStateException("socketed lantern fixture did not activate a LambDynamicLights behavior");
+                    return;
+                }
+                lanternLightOn = lanternLightValue(lanternBehavior, client.player.blockPosition());
+                if (lanternLightOn <= 0.0D) throw new IllegalStateException("active lantern behavior returned no nearby light");
+                queueCapture("miner_lantern_lambdynamiclights", "after_on", "miner_lantern_lambdynamiclights", "direct local attachment produced active behavior with light_at_player=" + lanternLightOn);
+                lanternStage = 3;
+                waitForCapture(client, () -> {
+                    client.player.setAttached(EquipmentAttachments.LANTERN, ItemStack.EMPTY);
+                    lanternStage = 4;
+                    lanternWaitTicks = 0;
+                });
+                return;
+            }
+            if (lanternStage == 3) return;
+            if (lanternStage == 4) {
+                Map<?, ?> active = lanternActiveMap();
+                double lightOff = lanternLightValue(lanternBehavior, client.player.blockPosition());
+                if (active.containsKey(client.player.getUUID()) || lightOff > 0.0D || ++lanternWaitTicks < 5) {
+                    if (lanternWaitTicks > 100) throw new IllegalStateException("lantern behavior did not deactivate after attachment removal");
+                    return;
+                }
+                queueCapture("miner_lantern_lambdynamiclights", "after_off", "miner_lantern_lambdynamiclights", "attachment removed; behavior inactive and light_at_player=" + lightOff);
+                lanternStage = 5;
+                waitForCapture(client, () -> {});
+                return;
+            }
+            if (lanternStage == 5) {
+                boolean blocksUnchanged = sameBlockSnapshot(client, lanternBlockSnapshot);
+                client.player.setAttached(EquipmentAttachments.LANTERN, lanternAttachmentBefore);
+                boolean assertions = lanternLightOn > 0.0D && blocksUnchanged;
+                ResultsAdd("miner_lantern_lambdynamiclights", assertions ? "PASS" : "FAIL", "direct_state_fixture",
+                        "LambDynamicLights active behavior observed; light_at_player_on=" + lanternLightOn + " off=0; nearby_block_states_unchanged=" + blocksUnchanged
+                                + "; socket UI/network path was not exercised; rendered light brightness remains for human screenshot review",
+                        List.of());
+                lanternStage = 6;
+            }
+        } catch (Throwable t) {
+            client.player.setAttached(EquipmentAttachments.LANTERN, lanternAttachmentBefore);
+            ResultsAdd("miner_lantern_lambdynamiclights", "BLOCKED", "direct_state_fixture", "joined-world dynamic-light probe blocked: " + t, List.of());
+            lanternStage = 6;
+        }
+    }
+
+    private static Object findLanternBridge() throws ReflectiveOperationException {
+        Method method = FabricLoader.class.getMethod("getEntrypointContainers", String.class, Class.class);
+        List<?> entries = (List<?>) method.invoke(FabricLoader.getInstance(), "lambdynlights:initializer", Object.class);
+        for (Object entry : entries) {
+            Object instance = entry.getClass().getMethod("getEntrypoint").invoke(entry);
+            if (instance.getClass().getName().equals("dev.itzgamesgd.moreminecrafts.client.LanternDynamicLightBridge")) return instance;
+        }
+        return null;
+    }
+
+    private static Map<?, ?> lanternActiveMap() throws ReflectiveOperationException {
+        java.lang.reflect.Field field = lanternBridge.getClass().getDeclaredField("active");
+        field.setAccessible(true);
+        return (Map<?, ?>) field.get(lanternBridge);
+    }
+
+    private static double lanternLightValue(Object behavior, BlockPos pos) throws ReflectiveOperationException {
+        if (behavior == null) return 0.0D;
+        Method method = behavior.getClass().getDeclaredMethod("lightAtPos", BlockPos.class, double.class);
+        method.setAccessible(true);
+        return (double) method.invoke(behavior, pos, 1.0D);
+    }
+
+    private static Map<BlockPos, BlockState> snapshotNearbyBlocks(Minecraft client) {
+        Map<BlockPos, BlockState> snapshot = new HashMap<>();
+        BlockPos center = client.player.blockPosition();
+        for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++) for (int z = -1; z <= 1; z++) {
+            BlockPos pos = center.offset(x, y, z).immutable();
+            snapshot.put(pos, client.level.getBlockState(pos));
+        }
+        return snapshot;
+    }
+
+    private static boolean sameBlockSnapshot(Minecraft client, Map<BlockPos, BlockState> snapshot) {
+        return snapshot.entrySet().stream().allMatch(entry -> client.level.getBlockState(entry.getKey()).equals(entry.getValue()));
     }
 
     private static void runGreatswordProbe(Minecraft client) {
@@ -547,11 +664,14 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 greatswordHotbarSlot = findInventoryItem(client, ModItems.GREATSWORDS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON));
                 if (greatswordHotbarSlot < 0) throw new IllegalStateException("iron greatsword fixture is not present in player inventory");
             }
-            LivingEntity hitTarget = findNamedLivingEntity(client, "QA_GS_HIT");
-            LivingEntity missTarget = findNamedLivingEntity(client, "QA_GS_MISS");
+            LivingEntity hitTarget = findGreatswordTarget(client, 0.5D, 15.0D);
+            LivingEntity missTarget = findGreatswordTarget(client, 8.5D, 15.0D);
             if (hitTarget == null || missTarget == null) {
                 if (++greatswordWaitTicks < 100) return;
-                throw new IllegalStateException("RCON ArmorStand hit/miss targets did not synchronize to the client");
+                throw new IllegalStateException("RCON ArmorStand hit/miss targets did not synchronize as LivingEntity candidates; nearby="
+                        + client.level.getEntitiesOfClass(LivingEntity.class, client.player.getBoundingBox().inflate(24.0D), entity -> true).stream()
+                        .map(entity -> entity.getType() + "@" + entity.getX() + "," + entity.getY() + "," + entity.getZ())
+                        .toList());
             }
             client.player.getInventory().setSelectedSlot(greatswordHotbarSlot);
             ItemStack sword = client.player.getMainHandItem();
@@ -610,9 +730,10 @@ public final class Stage23BClientQa implements ClientModInitializer {
         }
     }
 
-    private static LivingEntity findNamedLivingEntity(Minecraft client, String name) {
+    private static LivingEntity findGreatswordTarget(Minecraft client, double targetX, double targetZ) {
         return client.level.getEntitiesOfClass(LivingEntity.class, client.player.getBoundingBox().inflate(14.0D),
-                entity -> entity.getCustomName() != null && name.equals(entity.getCustomName().getString())).stream().findFirst().orElse(null);
+                entity -> Math.abs(entity.getX() - targetX) < 1.25D && Math.abs(entity.getZ() - targetZ) < 1.25D)
+                .stream().findFirst().orElse(null);
     }
 
     private static void setCameraType(Minecraft client, String cameraName) throws ReflectiveOperationException {
