@@ -43,8 +43,13 @@ public final class Research23AReconciliationGameTests implements CustomTestMetho
                 .with("research.v3.research.01", 5).with("research.v3.research.02", 5));
 
         var withLumbering = ResearchContentRuntime.applyLumberingResearch(player, logState, baseLogs, () -> 0.0D);
+        int lumberLevel = ResearchRewards.level(player, "v3.research.02", "lumbering_extra_drops");
+        boolean logBlockTagged = logState.is(net.minecraft.tags.BlockTags.LOGS);
+        boolean logItemTagged = baseLogs.getFirst().is(net.minecraft.tags.ItemTags.LOGS);
         ctx.assertTrue(withLumbering.size() == 2 && withLumbering.get(1).is(Items.OAK_LOG),
-                "Lumbering generates its log bonus before the single enchantment pass");
+                "Lumbering before the enchantment pass: paidLevel=" + lumberLevel
+                        + ", blockTag=" + logBlockTagged + ", itemTag=" + logItemTagged
+                        + ", drops=" + withLumbering);
         var logAtOreStage = ResearchContentRuntime.applyOreResearch(player, logState, withLumbering, () -> 0.0D);
         ctx.assertTrue(logAtOreStage.size() == 2,
                 "Ore Mining must not generate a second bonus for a log");
