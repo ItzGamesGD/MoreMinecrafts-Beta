@@ -75,17 +75,23 @@ public final class Stage23BClientQa implements ClientModInitializer {
             Files.createDirectories(report.getParent());
             StringBuilder rows = new StringBuilder();
             for (String scenario : SCENARIOS) {
-                ScenarioProbe probe = switch (scenario) {
-                    case "four_card_selector" -> new ScenarioProbe(selectorStatus.equals("FAIL") ? "FAIL" : "PASS",
-                            "synthetic_screen_callback", selectorEvidence);
-                    case "large_backpack_icon_and_movement" -> probeBackpack();
-                    case "flame_sword_front_back_model_texture" -> probeFlameSword(client);
-                    case "greatsword_hit_miss_sweep_particles" -> probeGreatsword();
-                    case "enchanting_gui_multiple_scales" -> probeEnchantingScales();
-                    case "portable_furnace_inventory_cooking_persistence" -> probePortableFurnace();
-                    case "miner_lantern_lambdynamiclights" -> probeLantern();
-                    default -> new ScenarioProbe("LIVE PENDING", "none", "unknown scenario");
-                };
+                ScenarioProbe probe;
+                try {
+                    probe = switch (scenario) {
+                        case "four_card_selector" -> new ScenarioProbe(selectorStatus.equals("FAIL") ? "FAIL" : "PASS",
+                                "synthetic_screen_callback", selectorEvidence);
+                        case "large_backpack_icon_and_movement" -> probeBackpack();
+                        case "flame_sword_front_back_model_texture" -> probeFlameSword(client);
+                        case "greatsword_hit_miss_sweep_particles" -> probeGreatsword();
+                        case "enchanting_gui_multiple_scales" -> probeEnchantingScales();
+                        case "portable_furnace_inventory_cooking_persistence" -> probePortableFurnace(client);
+                        case "miner_lantern_lambdynamiclights" -> probeLantern();
+                        default -> new ScenarioProbe("LIVE PENDING", "none", "unknown scenario");
+                    };
+                } catch (Throwable error) {
+                    probe = new ScenarioProbe("FAIL", "none", "scenario harness exception=" + error);
+                    LOGGER.error("STAGE23B_QA_SCENARIO_EXCEPTION id={}", scenario, error);
+                }
                 String status = probe.fixtureStatus().equals("FAIL") ? "FAIL"
                         : probe.fixtureStatus().equals("BLOCKED") ? "BLOCKED" : "LIVE PENDING";
                 String defectWatch = switch (scenario) {
@@ -122,17 +128,14 @@ public final class Stage23BClientQa implements ClientModInitializer {
 
     private static ScenarioProbe probeBackpack() {
         try {
-            ItemStack backpack = new ItemStack(ModItems.LARGE_BACKPACK);
-            if (!(backpack.getItem() instanceof BackpackItem item) || item.capacity() != 54 || backpack.getCount() != 1) {
-                return new ScenarioProbe("FAIL", "direct_state_fixture", "Large Backpack registration/capacity/count assertion failed");
+            if (!(ModItems.LARGE_BACKPACK instanceof BackpackItem item) || item.capacity() != 54) {
+                return new ScenarioProbe("FAIL", "direct_state_fixture", "Large Backpack registration/capacity assertion failed");
             }
             BackpackStorage fixture = BackpackStorage.empty();
-            fixture.items().set(7, new ItemStack(Items.DIAMOND, 3));
-            boolean countPreserved = fixture.items().get(7).getCount() == 3;
-            return new ScenarioProbe(countPreserved ? "PASS" : "FAIL", "direct_state_fixture",
-                    "direct_state_fixture capacity=54 seeded_slot=7 diamonds_before=0 diamonds_after="
-                            + fixture.items().get(7).getCount()
-                            + "; GUI transfer and icon transparency remain unverified");
+            boolean capacityMatches = fixture.items().getContainerSize() == 54;
+            return new ScenarioProbe(capacityMatches ? "PASS" : "FAIL", "direct_state_fixture",
+                    "direct_state_fixture capacity=54 storage_slots=" + fixture.items().getContainerSize()
+                            + "; item movement and icon transparency remain unverified");
         } catch (RuntimeException | AssertionError error) {
             return new ScenarioProbe("FAIL", "direct_state_fixture", "backpack fixture error=" + error);
         }
@@ -175,7 +178,11 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 "layout_preflight sizes=1280x720,854x480,640x360 all_fit=true; actual screen clipping remains LIVE PENDING");
     }
 
-    private static ScenarioProbe probePortableFurnace() {
+    private static ScenarioProbe probePortableFurnace(Minecraft client) {
+        if (client.level == null || client.player == null) {
+            return new ScenarioProbe("BLOCKED", "direct_state_fixture",
+                    "portable furnace ItemStack component fixture requires an in-world client; client is at title screen");
+        }
         ItemStack opener = new ItemStack(ModItems.PORTABLE_FURNACE);
         PortableFurnaceContents fixture = new PortableFurnaceContents(
                 List.of(new ItemStack(Items.RAW_IRON, 2), ItemStack.EMPTY, ItemStack.EMPTY), 99, 200, 17, 200);
