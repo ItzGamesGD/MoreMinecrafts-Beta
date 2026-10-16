@@ -13,6 +13,19 @@ base {
     archivesName = project.archives_base_name
 }
 
+sourceSets {
+    clientQa {
+        compileClasspath += sourceSets.main.output + sourceSets.client.output
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+configurations {
+    clientQaImplementation.extendsFrom clientImplementation
+    clientQaCompileOnly.extendsFrom clientCompileOnly
+    clientQaRuntimeOnly.extendsFrom clientRuntimeOnly
+}
+
 repositories {
     mavenCentral()
     maven {
@@ -31,6 +44,9 @@ loom {
         "moreminecrafts" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
+        }
+        "moreminecrafts_client_qa" {
+            sourceSet sourceSets.clientQa
         }
     }
 }
@@ -74,6 +90,29 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     options.release = 25
+}
+
+tasks.register("verifyClientQaExcludedFromRemapJar") {
+    group = "verification"
+    description = "Checks the production remap JAR does not contain the client QA mod."
+    dependsOn tasks.named("remapJar")
+    doLast {
+        def archive = tasks.named("remapJar").get().archiveFile.get().asFile
+        def qaPackage = "dev/itzgamesgd/moreminecrafts/clientqa/"
+        def zip = new java.util.zip.ZipFile(archive)
+        try {
+            def names = zip.entries().collect { it.name }
+            assert names.every { !it.startsWith(qaPackage) } :
+                    "Production JAR contains a client QA class from " + qaPackage
+            def metadata = zip.getEntry("fabric.mod.json")
+            assert metadata != null : "Production JAR has no fabric.mod.json"
+            def metadataText = zip.getInputStream(metadata).getText("UTF-8")
+            assert !metadataText.contains("moreminecrafts_client_qa") :
+                    "Production JAR metadata declares the client QA mod"
+        } finally {
+            zip.close()
+        }
+    }
 }
 
 java {
