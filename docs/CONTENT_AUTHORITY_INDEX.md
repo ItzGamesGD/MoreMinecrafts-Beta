@@ -28,6 +28,10 @@ The Batch 2 manifest is [RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md](RESEAR
 
 The scoped integration manifest is [RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md). It starts from PR #91 and imports only unique PR #92 behavior for `v3.research.19`, `.55`, and `.67`, retaining PR #90 ownership of `.02`, `.03`, `.18`, and `.23` and PR #91 ownership of `.17`, `.28`, `.64`, `wall_jump`, and `fall_roll`. The current Fisheries Study rounding authority is recorded at the end of `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`. The regenerated canonical 87-row audit currently counts 60 DATA_ONLY, 25 PARTIAL, and 2 BLOCKED; it separates automated evidence from live gameplay verification. Java 25 Fabric CI #754, mapped-source probe #179, and K5 restart #87 passed on code commit `227749d`; live gameplay checks remain pending.
 
+## Stage 23-A Expanded Batch 2 execution record (2026-10-17)
+
+[Expanded Batch 2 manifest](RESEARCH_STAGE23A_EXPANDED_BATCH2_MANIFEST_2026-10-17.md) records all 53 remaining DATA_ONLY candidate evaluations at PR #105, five added runtime effects (`.38/.39/.40/.51/.62`), and persistent portable `.06/.07/.11` integration. The canonical audit recount is 48 DATA_ONLY, 37 PARTIAL, 2 BLOCKED, zero COMPLETE/MISSING. This is an implementation record; it introduces no design authority or live acceptance.
+
 ## Current research/knowledge authority (latest human-approved V4)
 
 The earlier **Knowledge / Research — IDEA / DEFERRED** paragraph at the bottom of this index is HISTORICAL and superseded, not active. The current, explicitly user-approved Knowledge / Research design authority is [RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md](RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md), especially its **RESEARCH V4 EXECUTION AUTHORITY — 2026-10-10** amendment and the later user-confirmed recipe/mob-capture decisions.

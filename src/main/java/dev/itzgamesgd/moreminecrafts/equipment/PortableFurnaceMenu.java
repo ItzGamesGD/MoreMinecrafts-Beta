@@ -1,5 +1,10 @@
 package dev.itzgamesgd.moreminecrafts.equipment;
 
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchRules;
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchRuntime;
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState;
+import dev.itzgamesgd.moreminecrafts.progression.ResearchProgressLookup;
+import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleContainer;
@@ -137,13 +142,25 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         var recipe = input.isEmpty() ? java.util.Optional.<net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.SmeltingRecipe>>empty()
                 : player.level().getServer().getRecipeManager().getRecipeFor(
                         RecipeType.SMELTING, new SingleRecipeInput(input), player.level());
-        if (recipe.isEmpty() || !canAccept(recipe.get().value().assemble(new SingleRecipeInput(input)))) {
+        ItemStack result = recipe.isEmpty() ? ItemStack.EMPTY
+                : recipe.get().value().assemble(new SingleRecipeInput(input));
+        int precisionLevel = researchLevel(player, "v3.research.07");
+        boolean precisionEligible = precisionLevel > 0 && FurnaceResearchRuntime.eligibleMineral(input, result);
+        boolean bonusFits = !precisionEligible || FurnaceResearchRules.fitsPossibleBonus(
+                contents.getItem(2).getCount(), result.getCount(), contents.getMaxStackSize(result));
+        if (recipe.isEmpty() || !canAccept(result) || !bonusFits) {
             state.set(2, 0); saveContents(); broadcastChanges(); return;
         }
         if (state.get(0) <= 0 && !consumeFuel(player)) { state.set(2, 0); saveContents(); broadcastChanges(); return; }
-        state.set(2, state.get(2) + 1);
-        if (state.get(2) >= LowerEquipmentRules.PORTABLE_FURNACE_COOK_TIME) {
-            ItemStack result = recipe.get().value().assemble(new SingleRecipeInput(input));
+        var research = researchState();
+        var cooking = FurnaceResearchRules.cookingTick(state.get(2) + 1, state.get(3),
+                researchLevel(player, "v3.research.11"), research.cookingProgressRemainder(), research.cookingCredit());
+        updateResearchState(current -> current.withCooking(cooking.remainder(), cooking.credit()));
+        state.set(2, cooking.timer());
+        if (state.get(2) >= state.get(3)) {
+            // The possible bonus was reserved before consuming fuel or advancing this unit.
+            if (precisionEligible && FurnaceResearchRules.precisionBonus(precisionLevel,
+                    player.level().getRandom().nextInt(10000))) result = result.copyWithCount(result.getCount() + 1);
             input.shrink(1);
             contents.setItem(0, input);
             ItemStack output = contents.getItem(2);
@@ -168,8 +185,22 @@ public final class PortableFurnaceMenu extends FurnaceMenu {
         }
         contents.setItem(1, fuel);
         int accelerated = Math.max(1, vanillaTicks / LowerEquipmentRules.PORTABLE_FURNACE_FUEL_TICK_MULTIPLIER);
-        state.set(0, Math.max(0, accelerated - 1)); state.set(1, accelerated);
+        var fuelAccounting = FurnaceResearchRules.fuelDuration(accelerated,
+                researchLevel(player, "v3.research.06"), researchState().fuelSavingRemainder());
+        updateResearchState(current -> current.withFuelRemainder(fuelAccounting.remainder()));
+        state.set(0, Math.max(0, fuelAccounting.burnTicks() - 1));
+        state.set(1, fuelAccounting.burnTicks());
         return true;
+    }
+
+    private FurnaceResearchState researchState() {
+        return opener.getOrDefault(ModDataComponents.PORTABLE_FURNACE_RESEARCH_STATE, FurnaceResearchState.empty());
+    }
+
+    private int researchLevel(ServerPlayer processor, String researchId) {
+        return researchState().attributedPlayer()
+                .map(owner -> ResearchProgressLookup.researchLevel(processor.level().getServer(), owner, researchId))
+                .orElse(0);
     }
 
     private boolean canAccept(ItemStack result) {
