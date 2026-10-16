@@ -173,7 +173,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
         if (pendingCapture == null || client.level == null || client.player == null) return;
         // Wait through several complete renders after a Screen transition so the target
         // contains the destination Screen rather than the previous Screen's final frame.
-        if (++renderFrames < 8) return;
+        int framesNeeded = captureFastParticleFrame(pendingCapture) ? 1 : 8;
+        if (++renderFrames < framesNeeded) return;
         Capture capture = pendingCapture;
         pendingCapture = null;
         renderFrames = 0;
@@ -203,6 +204,11 @@ public final class Stage23BClientQa implements ClientModInitializer {
 
     private static long fileSize(Path path) {
         try { return Files.size(path); } catch (Exception ignored) { return 0; }
+    }
+
+    private static boolean captureFastParticleFrame(Capture capture) {
+        return capture != null && capture.caseId().equals("greatsword_hit_miss_sweep_particles")
+                && capture.phase().equals("after_hit");
     }
 
     private static void queueCapture(String caseId, String phase, String scenario, String note) {
@@ -502,6 +508,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
         try {
             if (enchantingScreen == null) {
                 enchantingMenu = new EnchantingProgressionMenu(client.player.containerMenu.containerId + 1000, client.player.getInventory());
+                enchantingMenu.getSlot(0).set(new ItemStack(ModItems.FLAME_SWORD));
                 enchantingScreen = new EnchantingProgressionScreen(enchantingMenu, client.player.getInventory(), Component.translatable("menu.moreminecrafts.enchantment"));
                 client.gui.setScreen(enchantingScreen);
             }
@@ -698,7 +705,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
             }
             if (greatswordStage == 1) return;
             if (greatswordStage == 2) {
-                if (++greatswordWaitTicks < 10) return;
+                if (++greatswordWaitTicks < 2) return;
                 hitTargetAfterSweep = hitTarget.getHealth();
                 hitSwordAfterSweep = sword.getDamageValue();
                 queueCapture("greatsword_hit_miss_sweep_particles", "after_hit", "greatsword_hit_miss_sweep_particles", "captured shortly after the real in-world hit packet; particle appearance remains visual-review pending");
