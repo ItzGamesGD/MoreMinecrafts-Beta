@@ -21,21 +21,55 @@ import java.util.Optional;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 
-/** Ephemeral furnace session. Nothing in this menu is serialized into its opener item. */
+/** Ephemeral furnace session; only attribution and fractional research state live on the opener item. */
 public final class PortableFurnaceMenu extends FurnaceMenu {
     private final PortableContainer contents;
     private final SimpleContainerData state;
+    private final ItemStack opener;
     private boolean closed;
 
     public PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents) {
-        this(id, playerInventory, contents, new SimpleContainerData(4));
+        this(id, playerInventory, contents, ItemStack.EMPTY, new SimpleContainerData(4));
     }
 
-    private PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents, SimpleContainerData state) {
+    public PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents, ItemStack opener) {
+        this(id, playerInventory, contents, opener, new SimpleContainerData(4));
+    }
+
+    private PortableFurnaceMenu(int id, Inventory playerInventory, PortableContainer contents,
+                                ItemStack opener, SimpleContainerData state) {
         super(id, playerInventory, contents, state);
         this.contents = contents;
         this.state = state;
+        this.opener = opener;
         state.set(3, LowerEquipmentRules.PORTABLE_FURNACE_COOK_TIME);
+    }
+
+    public java.util.List<ItemStack> researchInventorySnapshot() {
+        return java.util.List.of(contents.getItem(0).copy(), contents.getItem(1).copy(), contents.getItem(2).copy());
+    }
+
+    public boolean researchInventoryChanged(java.util.List<ItemStack> before) {
+        if (before.size() != 3) return false;
+        for (int slot = 0; slot < 3; slot++)
+            if (!ItemStack.matches(before.get(slot), contents.getItem(slot))) return true;
+        return false;
+    }
+
+    public void recordResearchInteraction(ServerPlayer player) {
+        updateResearchState(state -> dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchAttribution
+                .interactedState(state, player.getUUID()));
+        player.getInventory().setChanged();
+    }
+
+    private void updateResearchState(java.util.function.UnaryOperator<
+            dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState> update) {
+        if (opener.isEmpty()) return;
+        var component = dev.itzgamesgd.moreminecrafts.registry.ModDataComponents.PORTABLE_FURNACE_RESEARCH_STATE;
+        var before = opener.getOrDefault(component,
+                dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState.empty());
+        var after = update.apply(before);
+        if (!after.equals(before)) opener.set(component, after);
     }
 
     public void serverTick(ServerPlayer player) {

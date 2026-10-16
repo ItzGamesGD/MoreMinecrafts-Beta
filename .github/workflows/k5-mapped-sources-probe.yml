@@ -49,7 +49,8 @@ jobs:
           targets = {
               "net.minecraft.world.entity.LivingEntity": ["dropExperience"],
               "net.minecraft.world.entity.Mob": ["dropExperience"],
-              "net.minecraft.world.entity.ExperienceOrb": ["ExperienceOrb", "award", "playerTouch"],
+              "net.minecraft.world.entity.ExperienceOrb": ["ExperienceOrb", "award", "tick", "playerTouch"],
+              "net.minecraft.server.level.ServerPlayer": ["checkMovementStatistics", "causeFoodExhaustion"],
               "net.minecraft.world.entity.animal.Animal": ["spawnChildFromBreeding", "finalizeSpawnChildFromBreeding", "getBreedOffspring", "getLoveCause"],
               "net.minecraft.world.entity.AgeableMob": ["setBaby", "snapTo"],
               "net.minecraft.world.entity.player.Player": ["attack", "giveExperiencePoints"],
@@ -186,22 +187,29 @@ jobs:
                   emitted = set()
                   for match in matches:
                       radius = 10 if "placeWithBiomeCheck" in lines[match] else 2
-                      after = (125 if name.endswith("ServerPlayerGameMode") else
+                      after = (160 if name.endswith("ServerPlayer") else
+                               (125 if name.endswith("ServerPlayerGameMode") else
                                (100 if name.endswith(("AnvilMenu", "CraftingMenu", "ResultContainer", "BeehiveBlock")) else
                                 (25 if name.endswith(("ApplyStatusEffectsConsumeEffect", "Projectile")) else
-                                 (18 if name.endswith(("SaplingBlock", "TreeGrower")) else 8))))
+                                 (18 if name.endswith(("SaplingBlock", "TreeGrower")) else 8)))))
                       for i in range(max(0, match - radius), min(len(lines), match + after)):
                           if i not in emitted:
                               report.append(f"  SOURCE {entry}:{i + 1}: {lines[i].strip()}")
                               emitted.add(i)
-                      if len(emitted) >= (160 if name.endswith("ServerPlayerGameMode") else 80):
-                          report.append("  SOURCE CONTEXT TRUNCATED AT 80 LINES")
+                      if len(emitted) >= (200 if name.endswith(("ServerPlayer", "ServerPlayerGameMode")) else 80):
+                          report.append("  SOURCE CONTEXT TRUNCATED AT 200 LINES")
                           break
               else:
                   report.append("  SOURCE FILE NOT FOUND IN GENERATED MAPPED JARS")
           print("\n".join(report))
           if not class_jars:
               raise SystemExit("No generated mapped Minecraft class jars were found")
+          server_player_source = [line for line in report if line.startswith("  SOURCE ")
+                                  and "ServerPlayer.java" in line]
+          if not any("checkMovementStatistics(" in line for line in server_player_source):
+              raise SystemExit("Mapped ServerPlayer.checkMovementStatistics source was not found")
+          if sum("causeFoodExhaustion(" in line for line in server_player_source) < 4:
+              raise SystemExit("Expected sprint/swim exhaustion call sites were not present in mapped source")
           PY
       - name: Upload diagnostic log
         if: always()
