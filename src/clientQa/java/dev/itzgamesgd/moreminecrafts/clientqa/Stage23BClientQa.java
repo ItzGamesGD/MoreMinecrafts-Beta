@@ -64,6 +64,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
     private static boolean connectRequested;
     private static boolean suiteStarted;
     private static boolean suiteFinished;
+    private static boolean captureInFlight;
     private static Capture pendingCapture;
     private static int backpackStage;
     private static int furnaceStage;
@@ -102,7 +103,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
             queueCapture("in_world", "before", "four_card_selector", "client level and player present; untouched deterministic scene");
             return;
         }
-        if (pendingCapture != null) return;
+        if (pendingCapture != null || captureInFlight) return;
         if (++worldTicks < 3) return;
         worldTicks = 0;
 
@@ -145,6 +146,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
         Capture capture = pendingCapture;
         pendingCapture = null;
         renderFrames = 0;
+        captureInFlight = true;
         Path screenshotDir = client.gameDirectory.toPath().resolve("screenshots");
         String filename = "stage23b_" + capture.caseId() + "_" + capture.phase() + "_" + STAMP.format(Instant.now()) + ".png";
         Path output = screenshotDir.resolve(filename);
@@ -157,10 +159,12 @@ public final class Stage23BClientQa implements ClientModInitializer {
                             capture.caseId(), capture.phase(), exists, output.toAbsolutePath(), fileSize(output));
                     if (!exists) LOGGER.error("STAGE23B_QA_SCREENSHOT_FAILED case={} phase={} callback={}", capture.caseId(), capture.phase(), message.getString());
                     if (exists) SCREENSHOTS.computeIfAbsent(capture.caseId(), ignored -> new ArrayList<>()).add(filename);
+                    captureInFlight = false;
                     capture.complete(exists, output.toString());
                 });
             });
         } catch (Exception e) {
+            captureInFlight = false;
             LOGGER.error("STAGE23B_QA_SCREENSHOT_FAILED case={} phase={} error={}", capture.caseId(), capture.phase(), e.toString());
             capture.complete(false, "");
         }
