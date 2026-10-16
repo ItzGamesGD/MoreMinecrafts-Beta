@@ -28,6 +28,7 @@ import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.LivingEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,17 @@ public final class Stage23BClientQa implements ClientModInitializer {
     private static PortableFurnaceContents furnaceSavedAfterClose;
     private static int flameSwordStage;
     private static int flameSwordHotbarSlot = -1;
+    private static int greatswordStage;
+    private static int greatswordHotbarSlot = -1;
+    private static int greatswordWaitTicks;
+    private static float hitTargetInitialHealth;
+    private static float hitTargetAfterSweep;
+    private static float missTargetInitialHealth;
+    private static float missTargetAfterSweep;
+    private static int hitSwordInitialDamage;
+    private static int hitSwordAfterSweep;
+    private static int missSwordInitialDamage;
+    private static int missSwordAfterSweep;
 
     @Override
     public void onInitializeClient() {
@@ -441,6 +453,10 @@ public final class Stage23BClientQa implements ClientModInitializer {
                     "three genuine client frames captured from first-person, third-person-back, and third-person-front; model/texture appearance requires human review; OS input was not used", List.of());
             flameSwordStage = 4;
         }
+        if (greatswordStage < 5) {
+            runGreatswordProbe(client);
+            return;
+        }
         try {
             Result backpack = RESULTS.stream().filter(result -> result.id().equals("large_backpack_icon_and_movement")).findFirst().orElse(null);
             if (backpack != null) {
@@ -449,7 +465,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
                         backpack.screenshots()));
             }
         } catch (Throwable t) { LOGGER.warn("Could not attach prior Backpack visual finding to ledger", t); }
-        ResultsAdd("greatsword_hit_miss_sweep_particles", "LIVE PENDING", "none", "joined_world=true; hit/miss combat and rendered VFX not exercised", List.of());
+        if (greatswordStage < 5) return;
         int[][] sizes = {{1280, 720}, {854, 480}, {640, 360}};
         boolean fit = true;
         for (int[] size : sizes) {
@@ -464,6 +480,80 @@ public final class Stage23BClientQa implements ClientModInitializer {
                         : "joined_world=true LambDynamicLights runtime not installed; only this optional scenario is blocked", List.of());
         writeLedger(client);
         suiteFinished = true;
+    }
+
+    private static void runGreatswordProbe(Minecraft client) {
+        try {
+            if (greatswordHotbarSlot < 0) {
+                greatswordHotbarSlot = findInventoryItem(client, ModItems.GREATSWORDS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON));
+                if (greatswordHotbarSlot < 0) throw new IllegalStateException("iron greatsword fixture is not present in player inventory");
+            }
+            LivingEntity hitTarget = findNamedLivingEntity(client, "QA_GS_HIT");
+            LivingEntity missTarget = findNamedLivingEntity(client, "QA_GS_MISS");
+            if (hitTarget == null || missTarget == null) {
+                if (++greatswordWaitTicks < 100) return;
+                throw new IllegalStateException("RCON ArmorStand hit/miss targets did not synchronize to the client");
+            }
+            client.player.getInventory().setSelectedSlot(greatswordHotbarSlot);
+            ItemStack sword = client.player.getMainHandItem();
+            if (greatswordStage == 0) {
+                hitTargetInitialHealth = hitTarget.getHealth();
+                hitSwordInitialDamage = sword.getDamageValue();
+                queueCapture("greatsword_hit_miss_sweep_particles", "before", "greatsword_hit_miss_sweep_particles", "in-world target fixtures and iron Greatsword selected; state baseline recorded");
+                greatswordStage = 1;
+                waitForCapture(client, () -> {
+                    client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
+                    LOGGER.info("STAGE23B_QA_GREATSWORD_ACTION path=synthetic_client_game_packet case=hit target=QA_GS_HIT");
+                    greatswordStage = 2;
+                    greatswordWaitTicks = 0;
+                });
+                return;
+            }
+            if (greatswordStage == 1) return;
+            if (greatswordStage == 2) {
+                if (++greatswordWaitTicks < 10) return;
+                hitTargetAfterSweep = hitTarget.getHealth();
+                hitSwordAfterSweep = sword.getDamageValue();
+                queueCapture("greatsword_hit_miss_sweep_particles", "after_hit", "greatsword_hit_miss_sweep_particles", "captured shortly after the real in-world hit packet; particle appearance remains visual-review pending");
+                greatswordStage = 3;
+                waitForCapture(client, () -> greatswordWaitTicks = 0);
+                return;
+            }
+            if (greatswordStage == 3) {
+                if (++greatswordWaitTicks < 40) return;
+                missTargetInitialHealth = missTarget.getHealth();
+                missSwordInitialDamage = sword.getDamageValue();
+                client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
+                LOGGER.info("STAGE23B_QA_GREATSWORD_ACTION path=synthetic_client_game_packet case=miss target=QA_GS_MISS");
+                greatswordStage = 4;
+                greatswordWaitTicks = 0;
+                return;
+            }
+            if (greatswordStage == 4) {
+                if (++greatswordWaitTicks < 10) return;
+                missTargetAfterSweep = missTarget.getHealth();
+                missSwordAfterSweep = sword.getDamageValue();
+                boolean hitChangedHealth = hitTargetAfterSweep < hitTargetInitialHealth;
+                boolean hitChangedDurability = hitSwordAfterSweep > hitSwordInitialDamage;
+                boolean missUnchanged = missTargetAfterSweep == missTargetInitialHealth && missSwordAfterSweep == missSwordInitialDamage;
+                queueCapture("greatsword_hit_miss_sweep_particles", "after_miss", "greatsword_hit_miss_sweep_particles", "same in-world entities after out-of-sweep use; no-hit frame");
+                ResultsAdd("greatsword_hit_miss_sweep_particles", hitChangedHealth && hitChangedDurability && missUnchanged ? "PASS" : "FAIL", "synthetic_client_game_packet",
+                        "hit_health=" + hitTargetInitialHealth + "->" + hitTargetAfterSweep + " hit_durability=" + hitSwordInitialDamage + "->" + hitSwordAfterSweep
+                                + " miss_health=" + missTargetInitialHealth + "->" + missTargetAfterSweep + " miss_durability=" + missSwordInitialDamage + "->" + missSwordAfterSweep
+                                + "; particle rendering requires screenshot review; attack entered through normal client use-item packet",
+                        List.of());
+                greatswordStage = 5;
+                waitForCapture(client, () -> {});
+            }
+        } catch (Throwable t) {
+            ResultsAdd("greatsword_hit_miss_sweep_particles", "BLOCKED", "synthetic_client_game_packet", "in-world Greatsword probe blocked: " + t, List.of());
+            greatswordStage = 5;
+        }
+    }
+
+    private static LivingEntity findNamedLivingEntity(Minecraft client, String name) {
+        return client.level.getEntitiesOfClass(LivingEntity.class, client.player.getBoundingBox().inflate(14.0D),
+                entity -> entity.getCustomName() != null && name.equals(entity.getCustomName().getString())).stream().findFirst().orElse(null);
     }
 
     private static void setCameraType(Minecraft client, String cameraName) throws ReflectiveOperationException {
