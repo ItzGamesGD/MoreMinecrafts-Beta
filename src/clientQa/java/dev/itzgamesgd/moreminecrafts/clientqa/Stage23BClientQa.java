@@ -1,9 +1,20 @@
 package dev.itzgamesgd.moreminecrafts.clientqa;
 
 import dev.itzgamesgd.moreminecrafts.client.ProgressionSelectionScreen;
+import dev.itzgamesgd.moreminecrafts.equipment.BackpackItem;
+import dev.itzgamesgd.moreminecrafts.equipment.BackpackStorage;
+import dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents;
+import dev.itzgamesgd.moreminecrafts.progression.ViewportScale;
+import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
+import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,32 +75,38 @@ public final class Stage23BClientQa implements ClientModInitializer {
             Files.createDirectories(report.getParent());
             StringBuilder rows = new StringBuilder();
             for (String scenario : SCENARIOS) {
-                String status = scenario.equals("four_card_selector") ? selectorStatus : "LIVE PENDING";
-                String inputPath = scenario.equals("four_card_selector") ? "synthetic_screen_callback" : "none";
-                String evidence = scenario.equals("four_card_selector")
-                        ? selectorEvidence
-                        : "not exercised: no scenario-specific in-client fixture or semantic observer is available";
+                ScenarioProbe probe = switch (scenario) {
+                    case "four_card_selector" -> new ScenarioProbe(selectorStatus.equals("FAIL") ? "FAIL" : "PASS",
+                            "synthetic_screen_callback", selectorEvidence);
+                    case "large_backpack_icon_and_movement" -> probeBackpack();
+                    case "flame_sword_front_back_model_texture" -> probeFlameSword(client);
+                    case "greatsword_hit_miss_sweep_particles" -> probeGreatsword();
+                    case "enchanting_gui_multiple_scales" -> probeEnchantingScales();
+                    case "portable_furnace_inventory_cooking_persistence" -> probePortableFurnace();
+                    case "miner_lantern_lambdynamiclights" -> probeLantern();
+                    default -> new ScenarioProbe("LIVE PENDING", "none", "unknown scenario");
+                };
+                String status = probe.fixtureStatus().equals("FAIL") ? "FAIL"
+                        : probe.fixtureStatus().equals("BLOCKED") ? "BLOCKED" : "LIVE PENDING";
                 String defectWatch = switch (scenario) {
                     case "four_card_selector" -> "known click-inability defect remains unconfirmed by OS-level input";
                     case "large_backpack_icon_and_movement" -> "known transparent-icon defect remains unconfirmed by semantic rendering";
                     default -> "none recorded";
                 };
-                if (scenario.equals("four_card_selector")) {
-                    LOGGER.info("STAGE23B_QA_SCENARIO id={} status={} input_path={} evidence={}",
-                            scenario, status, inputPath, selectorEvidence);
-                } else {
-                    LOGGER.info("STAGE23B_QA_SCENARIO id={} status={} input_path={} evidence={}",
-                            scenario, status, inputPath, evidence);
-                }
+                LOGGER.info("STAGE23B_QA_SCENARIO id={} status={} fixture_status={} input_path={} evidence={}",
+                        scenario, status, probe.fixtureStatus(), probe.inputPath(), probe.evidence());
                 rows.append("{\"scenario\":\"").append(scenario)
                         .append("\",\"status\":\"").append(status)
                         .append("\",\"visual_status\":\"LIVE PENDING\"")
-                        .append(",\"input_path\":\"").append(inputPath).append("\"")
+                        .append(",\"fixture_status\":\"").append(probe.fixtureStatus()).append("\"")
+                        .append(",\"input_path\":\"").append(probe.inputPath()).append("\"")
                         .append(",\"os_xtest_xdotool\":\"NOT RUN\"")
-                        .append(",\"direct_state_fixture\":\"NOT RUN\"")
+                        .append(",\"direct_state_fixture\":\"")
+                        .append(probe.inputPath().equals("direct_state_fixture") ? probe.fixtureStatus() : "NOT RUN")
+                        .append("\"")
                         .append(",\"human_manual_play\":\"NOT RUN\"")
                         .append(",\"known_defect_watch\":\"").append(jsonEscape(defectWatch)).append("\"")
-                        .append(",\"evidence\":\"").append(jsonEscape(evidence)).append("\"}").append('\n');
+                        .append(",\"evidence\":\"").append(jsonEscape(probe.evidence())).append("\"}").append('\n');
             }
             Files.writeString(report, rows.toString());
             LOGGER.info("STAGE23B_QA_RESULT_FILE path={} scenario_count={}", report.toAbsolutePath(), SCENARIOS.size());
@@ -102,4 +119,85 @@ public final class Stage23BClientQa implements ClientModInitializer {
         return text.replace("\\", "\\\\").replace("\"", "\\\"")
                 .replace("\n", "\\n").replace("\r", "\\r");
     }
+
+    private static ScenarioProbe probeBackpack() {
+        try {
+            ItemStack backpack = new ItemStack(ModItems.LARGE_BACKPACK);
+            if (!(backpack.getItem() instanceof BackpackItem item) || item.capacity() != 54 || backpack.getCount() != 1) {
+                return new ScenarioProbe("FAIL", "direct_state_fixture", "Large Backpack registration/capacity/count assertion failed");
+            }
+            BackpackStorage fixture = BackpackStorage.empty();
+            fixture.items().set(7, new ItemStack(Items.DIAMOND, 3));
+            boolean countPreserved = fixture.items().get(7).getCount() == 3;
+            return new ScenarioProbe(countPreserved ? "PASS" : "FAIL", "direct_state_fixture",
+                    "direct_state_fixture capacity=54 seeded_slot=7 diamonds_before=0 diamonds_after="
+                            + fixture.items().get(7).getCount()
+                            + "; GUI transfer and icon transparency remain unverified");
+        } catch (RuntimeException | AssertionError error) {
+            return new ScenarioProbe("FAIL", "direct_state_fixture", "backpack fixture error=" + error);
+        }
+    }
+
+    private static ScenarioProbe probeFlameSword(Minecraft client) {
+        try {
+            boolean item = BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath("moreminecrafts", "flame_sword"))
+                    == ModItems.FLAME_SWORD;
+            boolean model = client.getResourceManager().getResource(
+                    Identifier.fromNamespaceAndPath("moreminecrafts", "models/item/flame_sword.json")).isPresent();
+            boolean texture = client.getResourceManager().getResource(
+                    Identifier.fromNamespaceAndPath("moreminecrafts", "textures/item/flame_sword.png")).isPresent();
+            boolean valid = item && model && texture;
+            return new ScenarioProbe(valid ? "PASS" : "FAIL", "none",
+                    "client_resource_preflight item_registered=" + item + " model_present=" + model
+                            + " texture_present=" + texture
+                            + "; first/third-person front/back visual orientation remains LIVE PENDING");
+        } catch (RuntimeException | AssertionError error) {
+            return new ScenarioProbe("FAIL", "none", "Flame Sword resource preflight error=" + error);
+        }
+    }
+
+    private static ScenarioProbe probeGreatsword() {
+        boolean registered = !ModItems.GREATSWORDS.isEmpty();
+        return new ScenarioProbe(registered ? "PASS" : "FAIL", "none",
+                "client_registry_preflight greatsword_tier_count=" + ModItems.GREATSWORDS.size()
+                        + "; hit/miss health, durability and rendered sweep particles remain LIVE PENDING");
+    }
+
+    private static ScenarioProbe probeEnchantingScales() {
+        int[][] sizes = {{1280, 720}, {854, 480}, {640, 360}};
+        for (int[] size : sizes) {
+            ViewportScale fit = ViewportScale.fit(size[0], size[1], 330, 360, 8);
+            if (!(fit.scale() > 0 && fit.scale() <= 1 && fit.left() >= 0 && fit.top() >= 0)) {
+                return new ScenarioProbe("FAIL", "none", "viewport_bounds_failed size=" + size[0] + "x" + size[1]);
+            }
+        }
+        return new ScenarioProbe("PASS", "none",
+                "layout_preflight sizes=1280x720,854x480,640x360 all_fit=true; actual screen clipping remains LIVE PENDING");
+    }
+
+    private static ScenarioProbe probePortableFurnace() {
+        ItemStack opener = new ItemStack(ModItems.PORTABLE_FURNACE);
+        PortableFurnaceContents fixture = new PortableFurnaceContents(
+                List.of(new ItemStack(Items.RAW_IRON, 2), ItemStack.EMPTY, ItemStack.EMPTY), 99, 200, 17, 200);
+        opener.set(ModDataComponents.PORTABLE_FURNACE_CONTENTS, fixture);
+        PortableFurnaceContents observed = opener.get(ModDataComponents.PORTABLE_FURNACE_CONTENTS);
+        boolean retained = observed != null && observed.items().get(0).getCount() == 2
+                && observed.burnTime() == 99 && observed.cookTime() == 17;
+        return new ScenarioProbe(retained ? "PASS" : "FAIL", "direct_state_fixture",
+                "direct_state_fixture input=raw_ironx2 burn_time=99 cook_time=17 observed=" + retained
+                        + "; close/reopen save restoration remains LIVE PENDING");
+    }
+
+    private static ScenarioProbe probeLantern() {
+        if (!FabricLoader.getInstance().isModLoaded("lambdynamiclights")) {
+            return new ScenarioProbe("BLOCKED", "none",
+                    "LambDynamicLights runtime mod is not installed in this QA client; lighting checks were skipped independently");
+        }
+        boolean lanternRegistered = ModItems.MINER_LANTERN != null;
+        return new ScenarioProbe(lanternRegistered ? "PASS" : "FAIL", "direct_state_fixture",
+                "client_registry_preflight lantern_registered=" + lanternRegistered
+                        + "; attached behavior/light-field visualization remains LIVE PENDING");
+    }
+
+    private record ScenarioProbe(String fixtureStatus, String inputPath, String evidence) { }
 }
