@@ -32,4 +32,32 @@ if [[ "$client_status" -ne 124 && "$client_status" -ne 0 ]]; then
   exit "$client_status"
 fi
 
+scenario_report="run/client-qa-results/scenario-results.jsonl"
+if [[ ! -s "$scenario_report" ]]; then
+  cat "$RESULTS_DIR/qa-mod-load.log"
+  echo "The isolated client QA mod did not write its independent scenario ledger." >&2
+  exit 1
+fi
+cp "$scenario_report" "$RESULTS_DIR/scenario-results.jsonl"
+python3 - "$scenario_report" <<'PYREPORT'
+import json
+import sys
+from pathlib import Path
+
+rows = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines() if line.strip()]
+expected = {
+    "four_card_selector",
+    "large_backpack_icon_and_movement",
+    "flame_sword_front_back_model_texture",
+    "greatsword_hit_miss_sweep_particles",
+    "enchanting_gui_multiple_scales",
+    "portable_furnace_inventory_cooking_persistence",
+    "miner_lantern_lambdynamiclights",
+}
+assert len(rows) == len(expected), f"Expected 7 independent scenarios, got {len(rows)}"
+assert {row["scenario"] for row in rows} == expected, "Scenario ledger is incomplete or duplicated"
+assert all(row["status"] in {"PASS", "FAIL", "BLOCKED", "LIVE PENDING"} for row in rows)
+print("STAGE23B_QA_SCENARIO_LEDGER_VERIFIED count=7")
+PYREPORT
+
 echo "STAGE23B_QA_MOD_LOAD_VERIFIED"
