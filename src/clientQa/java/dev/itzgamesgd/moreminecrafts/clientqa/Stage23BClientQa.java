@@ -4,7 +4,6 @@ import dev.itzgamesgd.moreminecrafts.client.ProgressionSelectionScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Screenshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +69,11 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 String evidence = scenario.equals("four_card_selector")
                         ? selectorEvidence
                         : "not exercised: no scenario-specific in-client fixture or semantic observer is available";
+                String defectWatch = switch (scenario) {
+                    case "four_card_selector" -> "known click-inability defect remains unconfirmed by OS-level input";
+                    case "large_backpack_icon_and_movement" -> "known transparent-icon defect remains unconfirmed by semantic rendering";
+                    default -> "none recorded";
+                };
                 if (scenario.equals("four_card_selector")) {
                     LOGGER.info("STAGE23B_QA_SCENARIO id={} status={} input_path={} evidence={}",
                             scenario, status, inputPath, selectorEvidence);
@@ -79,8 +83,13 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 }
                 rows.append("{\"scenario\":\"").append(scenario)
                         .append("\",\"status\":\"").append(status)
-                        .append("\",\"input_path\":\"").append(inputPath)
-                        .append("\",\"evidence\":\"").append(jsonEscape(evidence)).append("\"}\n");
+                        .append("\",\"visual_status\":\"LIVE PENDING\"")
+                        .append(",\"input_path\":\"").append(inputPath).append("\"")
+                        .append(",\"os_xtest_xdotool\":\"NOT RUN\"")
+                        .append(",\"direct_state_fixture\":\"NOT RUN\"")
+                        .append(",\"human_manual_play\":\"NOT RUN\"")
+                        .append(",\"known_defect_watch\":\"").append(jsonEscape(defectWatch)).append("\"")
+                        .append(",\"evidence\":\"").append(jsonEscape(evidence)).append("\"}").append('\n');
             }
             Files.writeString(report, rows.toString());
             LOGGER.info("STAGE23B_QA_RESULT_FILE path={} scenario_count={}", report.toAbsolutePath(), SCENARIOS.size());
