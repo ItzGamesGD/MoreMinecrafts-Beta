@@ -138,8 +138,8 @@ if [[ "$joined" -eq 1 ]]; then
     "give ClientQaProbe minecraft:raw_iron 2" \
     "give ClientQaProbe minecraft:coal 2" \
     "tp ClientQaProbe 0.5 64 12.5 0 0" \
-    "summon minecraft:armor_stand 0.5 64 15 {CustomName:'{\"text\":\"QA_GS_HIT\"}',Tags:[\"stage23b_gs_hit\"],NoGravity:1b,NoBasePlate:1b}" \
-    "summon minecraft:armor_stand 8.5 64 15 {CustomName:'{\"text\":\"QA_GS_MISS\"}',Tags:[\"stage23b_gs_miss\"],NoGravity:1b,NoBasePlate:1b}"
+    "summon minecraft:zombie 0.5 64 15 {CustomName:'{\"text\":\"QA_GS_HIT\"}',Tags:[\"stage23b_gs_hit\"],NoAI:1b,Silent:1b,PersistenceRequired:1b}" \
+    "summon minecraft:zombie 8.5 64 15 {CustomName:'{\"text\":\"QA_GS_MISS\"}',Tags:[\"stage23b_gs_miss\"],NoAI:1b,Silent:1b,PersistenceRequired:1b}"
 fi
 for attempt in $(seq 1 180); do
   if [[ -s run/client-qa-results/scenario-results.jsonl ]]; then break; fi
