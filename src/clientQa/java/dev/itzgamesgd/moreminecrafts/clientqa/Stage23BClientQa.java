@@ -139,7 +139,9 @@ public final class Stage23BClientQa implements ClientModInitializer {
 
     private static void onRenderedFrame(Minecraft client) {
         if (pendingCapture == null || client.level == null || client.player == null) return;
-        if (++renderFrames < 3) return;
+        // Wait through several complete renders after a Screen transition so the target
+        // contains the destination Screen rather than the previous Screen's final frame.
+        if (++renderFrames < 8) return;
         Capture capture = pendingCapture;
         pendingCapture = null;
         renderFrames = 0;
@@ -296,7 +298,10 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 return;
             }
             if (furnaceStage == 2 && client.player.containerMenu instanceof FurnaceMenu menu) {
-                if (++waitTicks < 90) return;
+                // The isolated server can advance more ticks than client ticks while the
+                // software renderer is under load. Capture early to retain partial cooking
+                // progress instead of allowing the two fixture ingots to finish smelting.
+                if (++waitTicks < 12) return;
                 queueCapture("portable_furnace_inventory_cooking_persistence", "before", "portable_furnace_inventory_cooking_persistence", "real server-backed Portable Furnace menu with input and fuel loaded");
                 furnaceStage = 3;
                 waitForCapture(client, () -> {
