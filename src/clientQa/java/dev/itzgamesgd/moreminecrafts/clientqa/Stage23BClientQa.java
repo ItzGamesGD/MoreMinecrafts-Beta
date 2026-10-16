@@ -474,7 +474,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
         }
         ResultsAdd("enchanting_gui_multiple_scales", fit ? "LIVE PENDING" : "FAIL", "none",
                 "joined_world=true layout_bounds_fit=" + fit + " sizes=1280x720,854x480,640x360; rendered GUI review remains pending", List.of());
-        boolean lamb = FabricLoader.getInstance().isModLoaded("lambdynamiclights");
+        boolean lamb = FabricLoader.getInstance().isModLoaded("lambdynlights");
         ResultsAdd("miner_lantern_lambdynamiclights", lamb ? "LIVE PENDING" : "BLOCKED", "none",
                 lamb ? "joined_world=true LambDynamicLights installed; lantern field needs rendered validation"
                         : "joined_world=true LambDynamicLights runtime not installed; only this optional scenario is blocked", List.of());
