@@ -64,7 +64,17 @@ public final class ProgressionSelectionScreen extends Screen {
         for (Target target : TARGETS) {
             if (!contains(target, event.x(), event.y())) continue;
             lastClickedTarget = target.id();
-            if (!target.enabled()) return true;
+            String screenBefore = screenName();
+            if (!target.enabled()) {
+                logDispatch(target, screenBefore, event.x(), event.y());
+                if ("1".equals(System.getenv("MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL"))) {
+                    dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
+                            "SELECTOR_SCREEN_TRANSITION target={} from={} to={} consumed=true",
+                            target.id(), screenBefore, screenName());
+                }
+                return true;
+            }
+            logDispatch(target, screenBefore, event.x(), event.y());
             switch (target.id()) {
                 case "advancements" -> openAdvancements();
                 case "knowledge" -> minecraft.gui.setScreen(
@@ -74,9 +84,27 @@ public final class ProgressionSelectionScreen extends Screen {
                 case "close" -> onClose();
                 default -> { }
             }
+            if ("1".equals(System.getenv("MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL"))) {
+                dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
+                        "SELECTOR_SCREEN_TRANSITION target={} from={} to={} consumed=true",
+                        target.id(), screenBefore, screenName());
+            }
             return true;
         }
         return super.mouseClicked(event, doubleClick);
+    }
+
+    private void logDispatch(Target target, String screenBefore, double mouseX, double mouseY) {
+        if ("1".equals(System.getenv("MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL"))) {
+            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
+                    "SELECTOR_INPUT_DISPATCH target={} enabled={} from={} x={} y={} consumed=true",
+                    target.id(), target.enabled(), screenBefore, mouseX, mouseY);
+        }
+    }
+
+    private String screenName() {
+        var screen = minecraft == null ? null : minecraft.gui.screen();
+        return screen == null ? "none" : screen.getClass().getSimpleName();
     }
 
     private void openAdvancements() {
