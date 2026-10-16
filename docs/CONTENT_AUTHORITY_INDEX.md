@@ -94,6 +94,8 @@ Current Utility Equipment authority: [Utility Equipment Finalization](UTILITY_EQ
 
 Use that document for the active Utility roster, deleted/deferred concepts, helmet socket, Miner Lantern, Potion Injector, Exploration Sleeping Bag, Portable Furnace, Mining Drill, and Backpack contracts.
 
+The **Stage 23-B Portable Furnace persistence amendment (2026-10-16)** in that document supersedes the earlier close-and-drop rule: the three inventory slots and burn/cook progress follow the single-stack Portable Furnace item across close/reopen and item transfer. This does not authorize portable furnace research bonuses.
+
 ### Fishing
 
 Current Fishing implementation and runtime/resource contract: [Stage 3 Fishing runtime/resource/UX reconciliation](STAGE_3_FISHING_RESOURCE_RECONCILIATION.md).
