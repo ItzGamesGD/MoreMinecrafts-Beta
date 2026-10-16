@@ -83,6 +83,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
     private static int greatswordStage;
     private static int greatswordHotbarSlot = -1;
     private static int greatswordWaitTicks;
+    private static LivingEntity greatswordHitTarget;
+    private static LivingEntity greatswordMissTarget;
     private static float hitTargetInitialHealth;
     private static float hitTargetAfterSweep;
     private static float missTargetInitialHealth;
@@ -572,8 +574,7 @@ public final class Stage23BClientQa implements ClientModInitializer {
         int frameTop = screenFieldInt(screen, "topPos");
         int checked = 0;
         for (Object widget : screen.children()) {
-            Method visibleMethod = widget.getClass().getMethod("isVisible");
-            if (!(boolean) visibleMethod.invoke(widget)) continue;
+            if (!widgetVisible(widget)) continue;
             int x = (int) widget.getClass().getMethod("getX").invoke(widget);
             int y = (int) widget.getClass().getMethod("getY").invoke(widget);
             int widgetWidth = (int) widget.getClass().getMethod("getWidth").invoke(widget);
@@ -589,6 +590,17 @@ public final class Stage23BClientQa implements ClientModInitializer {
             checked++;
         }
         return checked >= 10;
+    }
+
+    private static boolean widgetVisible(Object widget) throws ReflectiveOperationException {
+        for (Class<?> type = widget.getClass(); type != null; type = type.getSuperclass()) {
+            try {
+                java.lang.reflect.Field field = type.getDeclaredField("visible");
+                field.setAccessible(true);
+                return field.getBoolean(widget);
+            } catch (NoSuchFieldException ignored) { }
+        }
+        throw new NoSuchFieldException(widget.getClass().getName() + ".visible");
     }
 
     private static int screenFieldInt(Object instance, String name) throws ReflectiveOperationException {
@@ -730,11 +742,14 @@ public final class Stage23BClientQa implements ClientModInitializer {
                 greatswordHotbarSlot = findInventoryItem(client, ModItems.GREATSWORDS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON));
                 if (greatswordHotbarSlot < 0) throw new IllegalStateException("iron greatsword fixture is not present in player inventory");
             }
-            LivingEntity hitTarget = findGreatswordTarget(client, 0.5D, 15.0D);
-            LivingEntity missTarget = findGreatswordTarget(client, 8.5D, 15.0D);
-            if (hitTarget == null || missTarget == null) {
+            if (greatswordHitTarget == null) greatswordHitTarget = findGreatswordTarget(client, 0.5D, 15.0D);
+            if (greatswordMissTarget == null) greatswordMissTarget = findGreatswordTarget(client, 8.5D, 15.0D);
+            LivingEntity hitTarget = greatswordHitTarget;
+            LivingEntity missTarget = greatswordMissTarget;
+            boolean hitTargetRequired = greatswordStage < 3;
+            if ((hitTargetRequired && hitTarget == null) || missTarget == null) {
                 if (++greatswordWaitTicks < 100) return;
-                throw new IllegalStateException("RCON ArmorStand hit/miss targets did not synchronize as LivingEntity candidates; nearby="
+                throw new IllegalStateException("RCON Greatsword target fixtures did not synchronize as LivingEntity candidates; nearby="
                         + client.level.getEntitiesOfClass(LivingEntity.class, client.player.getBoundingBox().inflate(24.0D), entity -> true).stream()
                         .map(entity -> entity.getType() + "@" + entity.getX() + "," + entity.getY() + "," + entity.getZ())
                         .toList());
