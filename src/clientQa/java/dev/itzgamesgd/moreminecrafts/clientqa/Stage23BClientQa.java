@@ -610,7 +610,8 @@ public final class Stage23BClientQa implements ClientModInitializer {
             if (lanternStage == 4) {
                 Map<?, ?> active = lanternActiveMap();
                 double lightOff = lanternLightValue(lanternBehavior, client.player.blockPosition());
-                if (active.containsKey(client.player.getUUID()) || lightOff > 0.0D || ++lanternWaitTicks < 5) {
+                lanternWaitTicks++;
+                if (active.containsKey(client.player.getUUID()) || lightOff > 0.0D || lanternWaitTicks < 5) {
                     if (lanternWaitTicks > 100) throw new IllegalStateException("lantern behavior did not deactivate after attachment removal");
                     return;
                 }
