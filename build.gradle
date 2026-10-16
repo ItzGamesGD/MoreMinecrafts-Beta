@@ -49,6 +49,13 @@ loom {
         }
     }
 }
+
+// The default runClient classpath contains main/client outputs only. Add the QA
+// mod's own source-set output to this development-only run task explicitly.
+tasks.named("runClient") {
+    dependsOn tasks.named("clientQaClasses")
+    classpath += sourceSets.clientQa.output
+}
 fabricApi {
     configureTests {
         createSourceSet = true
