@@ -197,6 +197,21 @@ if failed:
 if not any(row.get("scenario") == "four_card_selector" and row.get("status") == "PASS" for row in rows):
     raise SystemExit("In-world selector callback did not verify the displayed destination screen")
 images = list(Path(sys.argv[2]).glob("*.png"))
+by_case = {row["scenario"]: row for row in rows}
+for case, phases in {
+    "flame_sword_front_back_model_texture": ("first_person", "third_person_back", "third_person_front"),
+    "enchanting_gui_multiple_scales": ("1280x720", "854x480", "640x360"),
+}.items():
+    if by_case[case]["status"] == "LIVE PENDING":
+        missing_views = [phase for phase in phases if not any(
+            image.name.startswith(f"stage23b_{case}_{phase}_") for image in images
+        )]
+        if missing_views:
+            raise SystemExit(f"Missing real client frames for {case}: " + ", ".join(missing_views))
+if by_case["greatsword_hit_miss_sweep_particles"]["status"] == "PASS":
+    for phase in ("before", "after_hit", "after_miss"):
+        if not any(image.name.startswith(f"stage23b_greatsword_hit_miss_sweep_particles_{phase}_") for image in images):
+            raise SystemExit(f"Greatsword state PASS lacks its {phase} rendered frame")
 required_cases = (
     "portable_furnace_inventory_cooking_persistence",
     "large_backpack_icon_and_movement",
