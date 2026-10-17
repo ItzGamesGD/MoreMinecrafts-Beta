@@ -18,6 +18,20 @@ Promotion on automated evidence does not claim that live acceptance occurred. An
 - Ordinary T1 and T2 Enhancement cap at +20. Milestones are +5, +10, +15, and +20; transitions are deterministic, with no chance, failure, pity, downgrade, destruction, random options, or promotion.
 - Existing pure `EnhancementOperation` remains independent of Anvil UI. Anvil remains a thin temporary adapter.
 - Current provisional sword growth remains +2.60 total attack damage at +20. T3 and T4 are excluded from ordinary Enhancement.
+- **Enhancement XP cost amendment — 2026-10-17 (user-approved, provisional values).**
+  - Enhancement no longer charges whole XP levels. Each step charges a fixed **raw XP** amount by target level:
+    | Target levels | Raw XP per step |
+    |---|---|
+    | +1–+5 | 40 |
+    | +6–+10 | 70 |
+    | +11–+15 | 110 |
+    | +16–+20 | 160 |
+  - Total +0→+20 is **1,900 raw XP**.
+  - Material costs are unchanged: 1 Enhancement Stone per step, 2 at the +5/+10/+15/+20 milestones. Milestones carry no extra XP.
+  - T1 Vanilla and T2 Elemental use the same table for now.
+  - Payment uses exact raw-XP deduction, not level arithmetic and not the float-accumulating `giveExperiencePoints(-n)` path.
+  - The operation must be transactional: validate cost and materials, deduct XP and materials, and apply the result as one server-side step, with full rollback on any failure. No partial charge or free result is allowed.
+  - Vanilla enchanting-table and anvil costs are unchanged.
 - Historical +30 Vanilla / +40 T2 text is marked superseded in the older progression/checklist records. Coating remains on hold.
 
 ## T2 roster and ability contracts

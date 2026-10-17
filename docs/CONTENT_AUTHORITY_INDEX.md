@@ -12,6 +12,18 @@ It does not replace the detailed design documents. When an older document confli
 - [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 navigation follow-up and 2026-10-12 interaction correction: retain the four-card selector, route Research and Knowledge through the shared seven-sector picker, and use each existing branch list for top-left direct tree navigation. The 2026-10-12 correction supersedes only node-screen footer controls, the separate detail panel, and confirmation purchase flow; it requires exact vanilla-frame hit bounds, one-click server-authoritative Research purchase, Knowledge non-purchase, and localized item-rich tooltips. Preserve vanilla advancement visuals, source discipline/branch IDs, progression data, prerequisites, costs, and gameplay rules.
 - [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): amended with the approved selector, chest sort, hopper filter, Mob Tracker range controls, boat inventory interpretation, and separate potion systems. Historical conflicts remain labeled as superseded/deferred rather than silently erased.
 
+## XP Quest and Enhancement XP-cost authority (2026-10-17)
+
+Approved XP Quest decisions are recorded in the **XP Quest amendment — 2026-10-17** section at the end of [UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md):
+- vanilla Advancements-screen reuse with click-to-claim;
+- three node states and a completion toast;
+- server-authoritative claim-once rewards;
+- unclaimed quests as an XP store;
+- exact raw-XP grants and deductions;
+- a 180,000 raw-XP total.
+
+Its scope (obtainable-only vs including future quests) is still pending, as are the quest catalog and individual values. The Enhancement raw-XP cost table and transaction rule are recorded in the Enhancement section of [STAGE_2_GAMEPLAY_RECONCILIATION.md](STAGE_2_GAMEPLAY_RECONCILIATION.md). These are design authority only; implementation has not started.
+
 ## Stage 22 research completion authority (2026-10-15)
 
 The user approved delegation of the remaining seven-discipline research-tree, new paid roots, motorized boat, cross-dimensional transport and automation edge-case design. The current controlling completion addendum is [RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md](RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md). It supersedes older incompatible research-root/topology, counter-shield recipe and potion-combination restrictions while retaining the approved V3/V4 price ledgers and already locked research effects. Tactical Shooting ammunition/effects/recipes remain DEFERRED to another conversation. This is design authority, not implementation or merge approval.

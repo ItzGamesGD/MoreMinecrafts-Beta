@@ -45,3 +45,30 @@ The selected discipline's tree reuses vanilla advancement box/frame sprites, ite
 - The illustrative mockup's sample names, sample icons, XP values, example item costs and arbitrary example connections are **NOT authoritative content or economy**. Source actual node names, prerequisites and prices from the V4 research authority document.
 - Existing Draft PR #75 contains earlier provisional gameplay/UI work. Apply the attached Auto Farm reference to its existing supported menu, and retain the backend limitations for device screens with no functioning feature implementation.
 - Runtime capture and interaction evidence must be reported separately. A render or successful CI job alone does not prove gameplay interaction or visual match.
+
+## XP Quest amendment — 2026-10-17 (user-approved)
+
+This amendment supersedes, for the XP Quest card only, the earlier lines stating that the XP Quest card is a disabled placeholder and that XP quest objectives and rewards are DEFERRED. The approved items below are design authority, not implementation.
+
+### Approved UI
+
+- The XP Quest screen **directly reuses the vanilla Advancements screen** (`AdvancementsScreen`) through client-side synthesis. The server keeps quest progress, completion and claim state in the existing `quest.progress.*`, `quest.complete.*` and `quest.claimed.*` keys of the player progression attachment and syncs them as today. The client builds a separate `ClientAdvancements` instance from the quest catalog and that synced state, then opens `AdvancementsScreen` with it.
+- Kept vanilla: tabs, nodes, connector lines, tooltips, scrolling/dragging, frame types and obtained/unobtained display. No custom UI design is added.
+- The only interaction added is **clicking a completed, unclaimed node to claim its XP**. Clicking any other node does nothing beyond vanilla behaviour.
+- Three node states must be distinguishable:
+  1. **Not achieved** — vanilla unobtained display.
+  2. **Achieved, unclaimed** — vanilla obtained display plus a claim indicator.
+  3. **Claimed** — vanilla obtained display plus a claimed indicator.
+  The exact indicator art is an implementation detail and stays LIVE VALIDATION PENDING.
+- On completion, the client shows a **vanilla-style toast**. Completing a quest grants no XP. XP is granted **only** when the player clicks to claim.
+- Visual node connections are not unlock locks.
+
+### Approved reward and transaction rules
+
+- Claims are server-authoritative and claim-once. The existing `QuestProgressService.claim` order is retained: check claimed → record claimed → grant XP, on the server thread. Duplicate requests return `ALREADY_CLAIMED`. Claim state persists across death, relog and restart through the persistent, copy-on-death attachment.
+- **Unclaimed quests may be held as an XP store.** Claiming at any later time is allowed.
+- Quest XP grants and all MoreMinecrafts XP deductions use **exact raw-XP calculation**. The target total raw XP is converted to level + remaining points and applied with `ServerPlayer.setExperienceLevels` / `setExperiencePoints`, with `totalExperience` kept consistent. The float-accumulating `giveExperiencePoints(±n)` path is not used for these transactions.
+- Quest rewards are delivered directly, not as experience orbs, so Research XP-acquisition multipliers and Mending do not apply.
+- **XP Quest total reward: scenario D, 180,000 raw XP.** The catalog itself, individual quest values, and whether the 180,000 covers only currently obtainable quests or all quests including future/survival-locked ones are **NOT yet approved** (pending decision).
+- No separate research-only XP currency is introduced.
+- No dedicated Creative-mode design or validation is required for XP Quests.
