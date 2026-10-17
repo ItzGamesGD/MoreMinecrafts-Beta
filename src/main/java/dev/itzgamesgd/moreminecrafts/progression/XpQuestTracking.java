@@ -26,6 +26,7 @@ public final class XpQuestTracking {
 
     /** Call after {@link KnowledgeRuntime#initialize()} so the join reconciliation sees Knowledge's own refresh. */
     public static void initialize() {
+        XpQuestHooks.initialize(); // baselines are captured before the reconciliation join listener runs
         for (XpQuestCatalogData.Spec spec : XpQuestCatalogData.catalog().quests())
             if (spec.registered()) register(spec);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> reconcile(handler.player));
@@ -62,12 +63,8 @@ public final class XpQuestTracking {
     static ResearchProgressState reconcile(ServerPlayer player, ResearchProgressState state,
                                            Collection<XpQuestCatalogData.Spec> specs) {
         if (specs.isEmpty()) return state; // nothing registered: leave every save untouched
+        // Q1-B: history enters through per-key baselines captured once (XpQuestHooks), not by seeding.
         ResearchProgressState next = migrate(state);
-        for (XpQuestCatalogData.Spec spec : specs) {
-            XpQuestCatalogData.Tracker tracker = spec.tracker();
-            if (tracker.seedCondition() != null && !tracker.seedCondition().isBlank())
-                next = QuestRules.seedCounter(next, tracker.key(), next.conditionProgress(tracker.seedCondition()));
-        }
         XpQuestEvaluator evaluator = new XpQuestEvaluator(player, next);
         for (XpQuestCatalogData.Spec spec : specs) {
             QuestDefinition quest = QuestCatalog.byId(spec.id());

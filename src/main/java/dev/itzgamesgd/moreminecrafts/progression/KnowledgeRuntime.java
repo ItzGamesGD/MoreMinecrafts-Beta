@@ -209,6 +209,7 @@ public final class KnowledgeRuntime {
         List<KnowledgeCatalog.Entry> matching = KnowledgeCatalog.entries().stream()
                 .filter(entry -> entry.conditionKey().equals(conditionKey)).toList();
         if (matching.isEmpty()) return;
+        XpQuestHooks.knowledgeConditionReported(player, conditionKey, totalProgress); // XP Quest uncapped counters
         int maximumTarget = matching.stream().mapToInt(KnowledgeCatalog.Entry::target).max().orElse(0);
         String key = "condition." + conditionKey;
         int next = KnowledgeConditionProgress.advance(value(player, key), totalProgress, maximumTarget);

@@ -26,8 +26,42 @@ final class XpQuestCatalogDataTest {
         assertEquals(20, count("FUTURE"));
     }
 
-    @Test void noQuestIsRegisteredBeforeItsOwnTestGate() {
-        assertTrue(CATALOG.quests().stream().noneMatch(XpQuestCatalogData.Spec::registered));
+    /** Q1-B registers exactly the quests whose live detection has its own GameTest. */
+    static final java.util.Set<String> Q1B_REGISTERED = java.util.Set.of(
+            "xpq.bld.place_1000", "xpq.bld.place_10000", "xpq.bld.place_50000", "xpq.bld.place_200000",
+            "xpq.bld.variety_50", "xpq.bld.variety_150",
+            "xpq.min.ore_1000", "xpq.min.ore_5000", "xpq.min.ore_20000", "xpq.min.diamond_ore_64",
+            "xpq.min.debris_16", "xpq.min.adamantium_10", "xpq.min.first_custom_ore", "xpq.min.custom_ore_survey",
+            "xpq.min.deepslate_custom", "xpq.min.logs_1000", "xpq.min.pickaxe_5000",
+            "xpq.frm.tame_5", "xpq.frm.harvest_1000", "xpq.frm.harvest_5000", "xpq.frm.till_1000",
+            "xpq.frm.barter_200", "xpq.frm.composite_foods",
+            "xpq.dim.nether_travel_50k", "xpq.fsh.first_sale", "xpq.fsh.sale_64", "xpq.fsh.emerald_500",
+            "xpq.fsh.catch_500", "xpq.cft.sleeping_bag", "xpq.cft.parachute", "xpq.cft.all_daggers",
+            "xpq.cft.all_greatswords", "xpq.cft.mm_blocks", "xpq.cft.anvil_50", "xpq.cft.redstone_100",
+            "xpq.exp.archaeology_30", "xpq.cmb.shield_500", "xpq.cmb.trident_50", "xpq.alc.potions_250");
+
+    @Test void onlyQuestsWithTheirOwnTestGateAreRegistered() {
+        java.util.Set<String> registered = new java.util.TreeSet<>();
+        CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered).forEach(q -> registered.add(q.id()));
+        assertEquals(new java.util.TreeSet<>(Q1B_REGISTERED), registered);
+        assertTrue(CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered)
+                .allMatch(q -> q.status().equals("NOW") && XpQuestCatalogData.EVALUABLE_KINDS.contains(q.tracker().kind())));
+    }
+
+    @Test void setQuestTargetsMatchTheirEntryLists() {
+        assertEquals(4, spec("xpq.min.custom_ore_survey").target());
+        assertEquals(4, spec("xpq.min.deepslate_custom").target());
+        assertEquals(5, spec("xpq.frm.composite_foods").target());
+        assertEquals(7, spec("xpq.cft.all_daggers").target());
+        assertEquals(7, spec("xpq.cft.all_greatswords").target());
+        assertEquals(5, spec("xpq.cft.mm_blocks").target());
+        for (XpQuestCatalogData.Spec q : CATALOG.quests()) {
+            if (!q.registered()) continue;
+            String kind = q.tracker().kind();
+            if (kind.equals("distinct_groups") || kind.equals("stat_crafted_distinct")
+                    || (kind.equals("distinct_set") && !q.tracker().entries().isEmpty()))
+                assertTrue(q.tracker().entries().size() >= q.target(), q.id() + " has enough entries for its target");
+        }
     }
 
     @Test void representativeRewardsMatchCatalogA() {
@@ -35,7 +69,8 @@ final class XpQuestCatalogDataTest {
         assertEquals(200_000, spec("xpq.bld.place_200000").target());
         assertEquals("VERIFY", spec("xpq.boss.monument_clear").status());
         assertEquals("NOW", spec("xpq.alc.shock_potion").status());
-        assertEquals("pending", spec("xpq.min.ore_1000").tracker().kind(), "ore counts wait for Q1-B provenance");
+        assertEquals("counter", spec("xpq.min.ore_1000").tracker().kind(), "verified-natural ore counter (Q1-B)");
+        assertEquals("natural_ore_mined", spec("xpq.min.ore_1000").tracker().key());
         assertEquals("crops_harvested", spec("xpq.frm.harvest_1000").tracker().seedCondition());
     }
 

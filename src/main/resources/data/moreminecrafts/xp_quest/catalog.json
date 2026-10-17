@@ -64,7 +64,7 @@
    "tier": "EARLY_MID",
    "status": "NOW",
    "rewardRawXp": 350,
-   "target": 1,
+   "target": 2,
    "tracker": {
     "kind": "pending"
    },
@@ -76,7 +76,7 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 500,
-   "target": 1,
+   "target": 3,
    "tracker": {
     "kind": "pending"
    },
@@ -88,7 +88,7 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 500,
-   "target": 1,
+   "target": 3,
    "tracker": {
     "kind": "pending"
    },
@@ -154,7 +154,7 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 400,
-   "target": 1,
+   "target": 2,
    "tracker": {
     "kind": "pending"
    },
@@ -172,7 +172,7 @@
     "key": "archaeology_items_brushed",
     "seedCondition": "archaeology_items_brushed"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.sleeping_bag_biomes",
@@ -180,7 +180,7 @@
    "tier": "MID",
    "status": "VERIFY",
    "rewardRawXp": 500,
-   "target": 1,
+   "target": 5,
    "tracker": {
     "kind": "pending"
    },
@@ -410,7 +410,7 @@
    "tier": "MID_LATE",
    "status": "NOW",
    "rewardRawXp": 900,
-   "target": 1,
+   "target": 3,
    "tracker": {
     "kind": "pending"
    },
@@ -422,7 +422,7 @@
    "tier": "LATE",
    "status": "NOW",
    "rewardRawXp": 1350,
-   "target": 1,
+   "target": 4,
    "tracker": {
     "kind": "pending"
    },
@@ -446,7 +446,7 @@
    "tier": "LATE",
    "status": "NOW",
    "rewardRawXp": 1100,
-   "target": 1,
+   "target": 3,
    "tracker": {
     "kind": "pending"
    },
@@ -458,7 +458,7 @@
    "tier": "LATE",
    "status": "NOW",
    "rewardRawXp": 1000,
-   "target": 1,
+   "target": 4,
    "tracker": {
     "kind": "pending"
    },
@@ -484,9 +484,13 @@
    "rewardRawXp": 2500,
    "target": 50000,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "nether_travel_cm",
+    "entries": [],
+    "divisor": 100,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.hostile_100",
@@ -507,7 +511,7 @@
    "tier": "EARLY",
    "status": "NOW",
    "rewardRawXp": 250,
-   "target": 1,
+   "target": 2,
    "tracker": {
     "kind": "pending"
    },
@@ -538,7 +542,7 @@
     "key": "shield_blocks",
     "seedCondition": "shield_blocks"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.hostile_500",
@@ -621,7 +625,7 @@
    "tier": "MID",
    "status": "VERIFY",
    "rewardRawXp": 500,
-   "target": 1,
+   "target": 6,
    "tracker": {
     "kind": "pending"
    },
@@ -639,7 +643,7 @@
     "key": "trident_hostile_kills",
     "seedCondition": "trident_hostile_kills"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.breeze_10",
@@ -754,7 +758,7 @@
    "tier": "LATE",
    "status": "NOW",
    "rewardRawXp": 1100,
-   "target": 1,
+   "target": 2,
    "tracker": {
     "kind": "pending"
    },
@@ -796,7 +800,7 @@
    "tier": "LATE",
    "status": "NOW",
    "rewardRawXp": 1100,
-   "target": 1,
+   "target": 3,
    "tracker": {
     "kind": "pending"
    },
@@ -890,7 +894,7 @@
    "tier": "ENDGAME",
    "status": "NOW",
    "rewardRawXp": 3150,
-   "target": 1,
+   "target": 2,
    "tracker": {
     "kind": "pending"
    },
@@ -955,9 +959,15 @@
    "rewardRawXp": 250,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_groups",
+    "key": "set.natural_ore_mined",
+    "entries": [
+     "moreminecrafts:titanium_ore|moreminecrafts:tungsten_ore|moreminecrafts:mythril_ore|moreminecrafts:etherium_ore|moreminecrafts:deepslate_titanium_ore|moreminecrafts:deepslate_tungsten_ore|moreminecrafts:deepslate_mythril_ore|moreminecrafts:deepslate_etherium_ore"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.custom_ore_survey",
@@ -965,11 +975,20 @@
    "tier": "EARLY_MID",
    "status": "NOW",
    "rewardRawXp": 350,
-   "target": 1,
+   "target": 4,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_groups",
+    "key": "set.natural_ore_mined",
+    "entries": [
+     "moreminecrafts:titanium_ore|moreminecrafts:deepslate_titanium_ore",
+     "moreminecrafts:tungsten_ore|moreminecrafts:deepslate_tungsten_ore",
+     "moreminecrafts:mythril_ore|moreminecrafts:deepslate_mythril_ore",
+     "moreminecrafts:etherium_ore|moreminecrafts:deepslate_etherium_ore"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.obsidian_64",
@@ -994,9 +1013,13 @@
    "rewardRawXp": 500,
    "target": 1000,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "natural_ore_mined",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.deepslate_custom",
@@ -1004,11 +1027,20 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 500,
-   "target": 1,
+   "target": 4,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.natural_ore_mined",
+    "entries": [
+     "moreminecrafts:deepslate_titanium_ore",
+     "moreminecrafts:deepslate_tungsten_ore",
+     "moreminecrafts:deepslate_mythril_ore",
+     "moreminecrafts:deepslate_etherium_ore"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.stone_10000",
@@ -1044,7 +1076,7 @@
     "key": "natural_vanilla_logs_mined",
     "seedCondition": "natural_vanilla_logs_mined"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.amethyst_spyglass",
@@ -1052,7 +1084,7 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 400,
-   "target": 1,
+   "target": 2,
    "tracker": {
     "kind": "pending"
    },
@@ -1076,7 +1108,7 @@
    "tier": "MID_LATE",
    "status": "NOW",
    "rewardRawXp": 750,
-   "target": 1,
+   "target": 12,
    "tracker": {
     "kind": "pending"
    },
@@ -1094,7 +1126,7 @@
     "key": "pickaxe_durability_used",
     "seedCondition": "pickaxe_durability_used"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.vein_500",
@@ -1128,9 +1160,13 @@
    "rewardRawXp": 1100,
    "target": 5000,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "natural_ore_mined",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.diamond_ore_64",
@@ -1140,9 +1176,16 @@
    "rewardRawXp": 1100,
    "target": 64,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter_sum",
+    "key": "",
+    "entries": [
+     "natural_mined.minecraft:diamond_ore",
+     "natural_mined.minecraft:deepslate_diamond_ore"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.adamantium_10",
@@ -1152,9 +1195,13 @@
    "rewardRawXp": 1250,
    "target": 10,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "natural_mined.moreminecrafts:adamantium_debris",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.debris_16",
@@ -1164,9 +1211,13 @@
    "rewardRawXp": 1100,
    "target": 16,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "natural_mined.minecraft:ancient_debris",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.ore_20000",
@@ -1176,9 +1227,13 @@
    "rewardRawXp": 3150,
    "target": 20000,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "natural_ore_mined",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.frm.harvest_all_crops",
@@ -1186,7 +1241,7 @@
    "tier": "EARLY",
    "status": "NOW",
    "rewardRawXp": 250,
-   "target": 1,
+   "target": 9,
    "tracker": {
     "kind": "pending"
    },
@@ -1198,11 +1253,21 @@
    "tier": "EARLY",
    "status": "NOW",
    "rewardRawXp": 200,
-   "target": 1,
+   "target": 5,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "minecraft:cake",
+     "minecraft:pumpkin_pie",
+     "minecraft:cookie",
+     "minecraft:bread",
+     "minecraft:rabbit_stew"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.frm.tame_5",
@@ -1212,9 +1277,19 @@
    "rewardRawXp": 350,
    "target": 5,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.tamed",
+    "entries": [
+     "minecraft:wolf",
+     "minecraft:cat",
+     "minecraft:parrot",
+     "minecraft:horse",
+     "minecraft:llama"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.frm.harvest_1000",
@@ -1228,7 +1303,7 @@
     "key": "crops_harvested",
     "seedCondition": "crops_harvested"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.frm.till_1000",
@@ -1242,7 +1317,7 @@
     "key": "farmland_tilled",
     "seedCondition": "farmland_tilled"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.frm.breed_200",
@@ -1302,7 +1377,7 @@
    "tier": "MID_LATE",
    "status": "NOW",
    "rewardRawXp": 750,
-   "target": 1,
+   "target": 2,
    "tracker": {
     "kind": "pending"
    },
@@ -1344,7 +1419,7 @@
     "key": "crops_harvested",
     "seedCondition": "crops_harvested"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.frm.trades_200",
@@ -1374,7 +1449,7 @@
     "key": "piglin_barters",
     "seedCondition": "piglin_barters"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.frm.soil_study_harvest",
@@ -1382,7 +1457,7 @@
    "tier": "LATE",
    "status": "VERIFY",
    "rewardRawXp": 1100,
-   "target": 1,
+   "target": 500,
    "tracker": {
     "kind": "pending"
    },
@@ -1396,9 +1471,13 @@
    "rewardRawXp": 250,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "fish_sold",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.fsh.freshwater_4",
@@ -1451,9 +1530,13 @@
    "rewardRawXp": 500,
    "target": 64,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "fish_sold",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.fsh.tier3_rig",
@@ -1535,7 +1618,7 @@
     "key": "fishing_successes",
     "seedCondition": "fishing_successes"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.fsh.full_catalogue",
@@ -1572,9 +1655,13 @@
    "rewardRawXp": 1100,
    "target": 500,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "fish_sale_emeralds",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.fsh.giant_catch",
@@ -1608,9 +1695,15 @@
    "rewardRawXp": 150,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:exploration_sleeping_bag"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cft.enchanting_30",
@@ -1642,11 +1735,23 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 500,
-   "target": 1,
+   "target": 7,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:wood_dagger",
+     "moreminecrafts:stone_dagger",
+     "moreminecrafts:copper_dagger",
+     "moreminecrafts:iron_dagger",
+     "moreminecrafts:gold_dagger",
+     "moreminecrafts:diamond_dagger",
+     "moreminecrafts:netherite_dagger"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cft.anvil_50",
@@ -1660,7 +1765,7 @@
     "key": "anvil_repairs",
     "seedCondition": "anvil_repairs"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cft.redstone_100",
@@ -1674,7 +1779,7 @@
     "key": "redstone_components_placed",
     "seedCondition": "redstone_components_placed"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cft.parachute",
@@ -1684,9 +1789,15 @@
    "rewardRawXp": 400,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:parachute"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cft.conduit",
@@ -1718,7 +1829,7 @@
    "tier": "LATE",
    "status": "NOW",
    "rewardRawXp": 1350,
-   "target": 1,
+   "target": 5,
    "tracker": {
     "kind": "pending"
    },
@@ -1730,11 +1841,23 @@
    "tier": "LATE",
    "status": "NOW",
    "rewardRawXp": 1100,
-   "target": 1,
+   "target": 7,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:wood_greatsword",
+     "moreminecrafts:stone_greatsword",
+     "moreminecrafts:copper_greatsword",
+     "moreminecrafts:iron_greatsword",
+     "moreminecrafts:gold_greatsword",
+     "moreminecrafts:diamond_greatsword",
+     "moreminecrafts:netherite_greatsword"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cft.netherite_tools",
@@ -1742,7 +1865,7 @@
    "tier": "LATE",
    "status": "NOW",
    "rewardRawXp": 1100,
-   "target": 1,
+   "target": 5,
    "tracker": {
     "kind": "pending"
    },
@@ -1754,11 +1877,21 @@
    "tier": "ENDGAME",
    "status": "NOW",
    "rewardRawXp": 3150,
-   "target": 1,
+   "target": 5,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:titanium_block",
+     "moreminecrafts:tungsten_block",
+     "moreminecrafts:mythril_block",
+     "moreminecrafts:etherium_block",
+     "moreminecrafts:adamantium_block"
+    ],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.bld.place_1000",
@@ -1768,9 +1901,13 @@
    "rewardRawXp": 250,
    "target": 1000,
    "tracker": {
-    "kind": "stat_block_items_used"
+    "kind": "placement",
+    "key": "",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.bld.variety_50",
@@ -1780,9 +1917,13 @@
    "rewardRawXp": 350,
    "target": 50,
    "tracker": {
-    "kind": "stat_block_items_distinct"
+    "kind": "distinct_set",
+    "key": "set.blocks_placed",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.bld.place_10000",
@@ -1792,9 +1933,13 @@
    "rewardRawXp": 500,
    "target": 10000,
    "tracker": {
-    "kind": "stat_block_items_used"
+    "kind": "placement",
+    "key": "",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.bld.storage_50",
@@ -1814,7 +1959,7 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 450,
-   "target": 1,
+   "target": 4,
    "tracker": {
     "kind": "pending"
    },
@@ -1828,9 +1973,13 @@
    "rewardRawXp": 1100,
    "target": 150,
    "tracker": {
-    "kind": "stat_block_items_distinct"
+    "kind": "distinct_set",
+    "key": "set.blocks_placed",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.bld.place_50000",
@@ -1840,9 +1989,13 @@
    "rewardRawXp": 1100,
    "target": 50000,
    "tracker": {
-    "kind": "stat_block_items_used"
+    "kind": "placement",
+    "key": "",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.bld.place_200000",
@@ -1852,9 +2005,13 @@
    "rewardRawXp": 3150,
    "target": 200000,
    "tracker": {
-    "kind": "stat_block_items_used"
+    "kind": "placement",
+    "key": "",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.alc.shock_potion",
@@ -1888,7 +2045,7 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 500,
-   "target": 1,
+   "target": 6,
    "tracker": {
     "kind": "pending"
    },
@@ -1939,7 +2096,7 @@
    "tier": "MID_LATE",
    "status": "NOW",
    "rewardRawXp": 750,
-   "target": 1,
+   "target": 3,
    "tracker": {
     "kind": "pending"
    },
@@ -1969,7 +2126,7 @@
     "key": "potions_brewed",
     "seedCondition": "potions_brewed"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.eqp.enhance_5",
@@ -2013,7 +2170,7 @@
    "tier": "MID_LATE",
    "status": "NOW",
    "rewardRawXp": 850,
-   "target": 1,
+   "target": 3,
    "tracker": {
     "kind": "pending"
    },
@@ -2085,7 +2242,7 @@
    "tier": "ENDGAME",
    "status": "NOW",
    "rewardRawXp": 3750,
-   "target": 1,
+   "target": 4,
    "tracker": {
     "kind": "pending"
    },
@@ -2097,7 +2254,7 @@
    "tier": "ENDGAME",
    "status": "VERIFY",
    "rewardRawXp": 3150,
-   "target": 1,
+   "target": 11,
    "tracker": {
     "kind": "pending"
    },
@@ -2109,7 +2266,7 @@
    "tier": "ENDGAME",
    "status": "NOW",
    "rewardRawXp": 3750,
-   "target": 1,
+   "target": 5,
    "tracker": {
     "kind": "pending"
    },
@@ -2369,7 +2526,7 @@
    "tier": "MID_LATE",
    "status": "VERIFY",
    "rewardRawXp": 700,
-   "target": 1,
+   "target": 100,
    "tracker": {
     "kind": "pending"
    },
@@ -2393,7 +2550,7 @@
    "tier": "ENDGAME",
    "status": "FUTURE",
    "rewardRawXp": 4050,
-   "target": 1,
+   "target": 7,
    "tracker": {
     "kind": "pending"
    },
@@ -2429,7 +2586,7 @@
    "tier": "LATE",
    "status": "FUTURE",
    "rewardRawXp": 1250,
-   "target": 1,
+   "target": 5,
    "tracker": {
     "kind": "pending"
    },
@@ -2453,7 +2610,7 @@
    "tier": "LATE",
    "status": "FUTURE",
    "rewardRawXp": 1250,
-   "target": 1,
+   "target": 5,
    "tracker": {
     "kind": "pending"
    },
@@ -2465,7 +2622,7 @@
    "tier": "ENDGAME",
    "status": "FUTURE",
    "rewardRawXp": 3750,
-   "target": 1,
+   "target": 12,
    "tracker": {
     "kind": "pending"
    },
@@ -2549,7 +2706,7 @@
    "tier": "MID",
    "status": "FUTURE",
    "rewardRawXp": 500,
-   "target": 1,
+   "target": 64,
    "tracker": {
     "kind": "pending"
    },
@@ -2561,7 +2718,7 @@
    "tier": "MID_LATE",
    "status": "FUTURE",
    "rewardRawXp": 750,
-   "target": 1,
+   "target": 10,
    "tracker": {
     "kind": "pending"
    },
@@ -2609,7 +2766,7 @@
    "tier": "ENDGAME",
    "status": "FUTURE",
    "rewardRawXp": 4050,
-   "target": 1,
+   "target": 5,
    "tracker": {
     "kind": "pending"
    },

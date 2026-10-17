@@ -79,12 +79,14 @@ public final class XpQuestTrackingGameTests implements CustomTestMethodInvoker {
     public void cappedKnowledgeCounterSeedsAndUncappedCounterContinues(GameTestHelper ctx) {
         activate("xpq.frm.harvest_1000");
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        for (int i = 1; i <= 150; i++) KnowledgeRuntime.recordCondition(player, "crops_harvested", i);
+        // Collectors report "stored + 1" per event (Q1-B: the delta past the Knowledge cap is live evidence).
+        for (int i = 1; i <= 150; i++)
+            KnowledgeRuntime.recordCondition(player, "crops_harvested", state(player).conditionProgress("crops_harvested") + 1);
         ctx.assertTrue(state(player).conditionProgress("crops_harvested") == 100, "Knowledge counter stays capped at 100");
         XpQuestTracking.reconcile(player);
-        ctx.assertTrue(QuestRules.counter(state(player), "crops_harvested") == 100
-                && state(player).questProgress("xpq.frm.harvest_1000") == 100, "seeded only from recorded evidence");
-        XpQuestTracking.addCounter(player, "crops_harvested", 899);
+        ctx.assertTrue(state(player).questProgress("xpq.frm.harvest_1000") == 150,
+                "baseline + live counter follows every recorded event: " + state(player).questProgress("xpq.frm.harvest_1000"));
+        XpQuestTracking.addCounter(player, "crops_harvested", 849);
         XpQuestTracking.reconcile(player);
         ctx.assertTrue(state(player).questProgress("xpq.frm.harvest_1000") == 999
                 && !state(player).questComplete("xpq.frm.harvest_1000"), "counter passes the Knowledge cap");
