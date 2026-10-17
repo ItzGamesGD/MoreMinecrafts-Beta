@@ -6,7 +6,7 @@ Status vocabulary: **CODE VERIFIED** (checked in repository/26.3 bytecode) · **
 
 ## 1. Owner-locked policies (2026-10-17)
 
-- **Ore mining:** player-placed ores never count. Provenance = negative marking of player-placed ore blocks (§3.4). Ores whose origin predates tracking are *unknown* and are counted as natural — a documented limitation, not an exact guarantee.
+- **Ore mining (revised and approved 2026-10-17):** player-placed ores never count. Only **verified naturally generated** ores count. Unknown origin is **not** assumed natural (§3.4).
 - **Building:** every successful server-authoritative block placement counts, including repeats; failed/cancelled placement does not.
 - **Retroactivity:** full recognition only from reliable persisted evidence; no invented history.
 - **Ocean monument:** all verified participants are credited (Elder Guardian damage OR verified combat inside the monument; presence alone never counts).
@@ -41,9 +41,32 @@ Reuse the existing player attachment `KnowledgeRuntime.STATE` (`ResearchProgress
 
 `QuestStats` reads `ServerStatsCounter`: CUSTOM (*_ONE_CM, ANIMALS_BRED, TRADED_WITH_VILLAGER), ENTITY_KILLED, BLOCK_MINED, and ITEM_USED summed over `BlockItem`s (26.3 `ItemStack.useOn` awards ITEM_USED only on success — CODE VERIFIED). Evaluated on login and on the existing 100-tick refresh. Full retroactivity.
 
-### 3.4 Ore provenance
+### 3.4 Ore provenance (revised 2026-10-17 — supersedes the earlier "unknown counts as natural" text)
 
-Tracked set `#moreminecrafts:quest_ores` (vanilla `#c`/`*_ore` blocks, ancient debris, MM ores, adamantium debris). On successful player placement of a tracked block (BlockItem place success) store the position in a per-chunk persistent attachment. On break: marked → no count, clear mark; unmarked → count. Piston moves: transfer marks via a `PistonBaseBlock.moveBlocks` hook (DESIGN SPECIFIED, TEST PENDING); other relocation (structure templates, commands) is out of scope and treated as natural. Explosions/fluids clear marks when the block is removed. Unknown/pre-tracking origins counted as natural (documented limitation).
+Investigated precedent: `K5NaturalTreeProvenance`. It uses positive marking during world generation, a per-chunk persistent attachment and a GameTest-proven restart round trip. A chunk with no attachment has no natural markers, so pre-K5 logs never count. The ore design reuses the same principle without storing every ore position.
+
+- **Chunk tracking flag:**
+  - When a chunk passes natural biome decoration with the mod installed, mark it `ore_tracked_since_generation`.
+  - The hook is the same `ChunkGenerator.applyBiomeDecoration` point K5 already wraps.
+  - The flag is stored in a new persistent chunk attachment `moreminecrafts:quest_ore_provenance_v1 {schema, tracked, nonNatural: Set<Long>}`.
+- **Non-natural marks:**
+  - Any tracked-ore block state written outside natural world generation is added to `nonNatural`. This covers player placement and any other `Level.setBlock` write, such as commands, structure templates and other mods using the vanilla setter.
+  - The hook follows the K5 `LevelBlockMutation` pattern.
+  - Piston moves transfer the mark, or its absence, to the destination.
+  - Removing the block clears the mark.
+- **Verdict at break time:**
+  - **natural** = chunk `tracked` AND position not in `nonNatural`;
+  - **non-natural** = position in `nonNatural`;
+  - **unknown** = chunk not `tracked`. This means chunks generated before the update, or chunks whose attachment is missing. Only natural counts.
+- **Exactness argument:** in a tracked chunk, every ore that exists was either written by world generation or written later through a hooked path. The only non-exact case is a write that bypasses `Level.setBlock`, such as a mod writing chunk sections directly. That case is documented, not claimed exact.
+- **Existing-world compatibility:**
+  - In pre-update chunks, ores are *unknown* and never count. This is conservative and consistent with policy 3: no invented history.
+  - Players progress in newly generated terrain. Reported as a gameplay consequence: LIVE PENDING, balance.
+  - No reliable evidence exists to classify pre-update ores. Chunk `InhabitedTime` and vanilla statistics cannot tell placed ores from natural ones.
+- **Status:**
+  - The mining-count and mining-type quests stay **NOW (DESIGN SPECIFIED · TEST PENDING)**, because in tracked chunks the verdict is exact. Registration needs GameTests for natural, placed, piston, setblock, explosion, restart and pre-update-chunk (unknown) cases.
+  - If those tests cannot prove exactness, the affected conditions move to VERIFY per policy 1.
+- **Batch:** implemented in **Q1-B**. It does not block Q1-A/A2, which only provide the counter they increment.
 
 ### 3.5 Distinct-ID tracking
 
@@ -228,7 +251,7 @@ Categories: **A** owner decision · **B** technical specification · **C** imple
 - **Integration (client):** synthetic tree build, three states, toast once (delta, not snapshot), pending lifecycle, no `ServerboundSeenAdvancementsPacket`/telemetry from the quest screen.
 - **Live (LIVE PENDING):** 12 tabs, badges, click vs drag, Korean tooltips, scroll retention, balance incl. place_200000 duration and mid-game bottleneck.
 
-## 8. Authority changes requiring owner approval (not applied)
+## 8. Authority changes (approved and applied 2026-10-17, commit `6417f95`)
 
 - UI amendment says "Until then the registered set is the 161 NOW quests." → proposed: "160 NOW quests, each registered only after its automated test passes."
 - Record the six owner-locked policies (§1) in the XP Quest amendment (required by AGENTS.md design-finalization rule once approved for authority).
