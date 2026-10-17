@@ -20,9 +20,10 @@ Approved XP Quest decisions are recorded in the **XP Quest amendment — 2026-10
 - server-authoritative claim-once rewards;
 - unclaimed quests as an XP store;
 - exact raw-XP grants and deductions;
-- a 180,000 raw-XP total.
+- reward scope: 180,000 raw XP exactly across the 180 active quests, plus 29,100 for 20 future quests (209,100 target), with no reduction of existing rewards when content is added;
+- VERIFY quests stay unregistered until they pass verification.
 
-Its scope (obtainable-only vs including future quests) is still pending, as are the quest catalog and individual values. The Enhancement raw-XP cost table and transaction rule are recorded in the Enhancement section of [STAGE_2_GAMEPLAY_RECONCILIATION.md](STAGE_2_GAMEPLAY_RECONCILIATION.md). These are design authority only; implementation has not started.
+Individual quest content and values remain subject to approval. The Enhancement raw-XP cost table and transaction rule are recorded in the Enhancement section of [STAGE_2_GAMEPLAY_RECONCILIATION.md](STAGE_2_GAMEPLAY_RECONCILIATION.md). These are design authority only; implementation has not started.
 
 ## Stage 22 research completion authority (2026-10-15)
 

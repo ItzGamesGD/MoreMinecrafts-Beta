@@ -29,9 +29,18 @@ Promotion on automated evidence does not claim that live acceptance occurred. An
   - Total +0→+20 is **1,900 raw XP**.
   - Material costs are unchanged: 1 Enhancement Stone per step, 2 at the +5/+10/+15/+20 milestones. Milestones carry no extra XP.
   - T1 Vanilla and T2 Elemental use the same table for now.
-  - Payment uses exact raw-XP deduction, not level arithmetic and not the float-accumulating `giveExperiencePoints(-n)` path.
+  - Payment uses exact raw-XP deduction: set level, then points, and **update `totalExperience` in the same operation**, as specified in the XP Quest amendment of `UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md`. Level arithmetic and the float-accumulating `giveExperiencePoints(-n)` path are not used.
   - The operation must be transactional: validate cost and materials, deduct XP and materials, and apply the result as one server-side step, with full rollback on any failure. No partial charge or free result is allowed.
   - Vanilla enchanting-table and anvil costs are unchanged.
+  - **Required tests (before acceptance):** a GameTest must force a failure after validation and after each mutation point. That covers XP deducted, materials removed and result not yet applied, plus an exception while applying the result. After each failure the test asserts that:
+    - level, progress and `totalExperience` equal their pre-operation values;
+    - inventory and materials are fully restored;
+    - the equipment's Enhancement level and components are unchanged;
+    - no partial charge and no free result occurred.
+  - Also required:
+    - exact deduction at level boundaries 15/16 and 30/31, and for a large balance;
+    - identical cost regardless of the player's current level;
+    - rejection without any mutation when XP or materials are insufficient.
 - Historical +30 Vanilla / +40 T2 text is marked superseded in the older progression/checklist records. Coating remains on hold.
 
 ## T2 roster and ability contracts

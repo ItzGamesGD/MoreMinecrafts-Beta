@@ -67,8 +67,21 @@ This amendment supersedes, for the XP Quest card only, the earlier lines stating
 
 - Claims are server-authoritative and claim-once. The existing `QuestProgressService.claim` order is retained: check claimed → record claimed → grant XP, on the server thread. Duplicate requests return `ALREADY_CLAIMED`. Claim state persists across death, relog and restart through the persistent, copy-on-death attachment.
 - **Unclaimed quests may be held as an XP store.** Claiming at any later time is allowed.
-- Quest XP grants and all MoreMinecrafts XP deductions use **exact raw-XP calculation**. The target total raw XP is converted to level + remaining points and applied with `ServerPlayer.setExperienceLevels` / `setExperiencePoints`, with `totalExperience` kept consistent. The float-accumulating `giveExperiencePoints(±n)` path is not used for these transactions.
+- Quest XP grants and all MoreMinecrafts XP deductions use **exact raw-XP calculation**.
+  - **Implementation requirement:**
+    1. Compute the new total raw XP (current `RawXp.available` ± amount).
+    2. Convert it to level + remaining points.
+    3. Apply `ServerPlayer.setExperienceLevels(level)` **first**, then `setExperiencePoints(remainingPoints)`.
+    4. **Set `player.totalExperience` to the same new total in the same operation.** Neither setter updates `totalExperience` (verified in 26.3 bytecode).
+  - The setters reset the server's experience sync marker, so the client receives the updated level, progress and total on the next tick.
+  - The float-accumulating `giveExperiencePoints(±n)` path is not used for these transactions.
 - Quest rewards are delivered directly, not as experience orbs, so Research XP-acquisition multipliers and Mending do not apply.
-- **XP Quest total reward: scenario D, 180,000 raw XP.** The catalog itself, individual quest values, and whether the 180,000 covers only currently obtainable quests or all quests including future/survival-locked ones are **NOT yet approved** (pending decision).
+- **XP Quest reward scope (decided 2026-10-17): 180,000 raw XP across the 180 active quests (NOW + VERIFY), exactly.**
+  - Rounding loss from 50-XP rounding is redistributed across individual quest rewards so the active sum is exactly 180,000. Method: largest remainder in 50-XP units; ties go to catalog order.
+  - The 20 FUTURE / SURVIVAL-LOCKED quests add **29,100 raw XP** on top, for a target of **209,100 raw XP across all 200 quests**.
+  - When new content or quests are added, existing rewards are, in principle, **not reduced**. New rewards are added on top.
+  - FUTURE quests are not registered until their survival acquisition route exists.
+  - **VERIFY quests (19) are not registered until they pass verification.** Until then the registered set is the 161 NOW quests.
+  - Individual quest content and values in the working catalog remain subject to approval.
 - No separate research-only XP currency is introduced.
 - No dedicated Creative-mode design or validation is required for XP Quests.
