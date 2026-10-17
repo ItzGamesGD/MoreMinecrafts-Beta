@@ -58,7 +58,9 @@ public final class ResearchPurchaseService {
                 ItemStack removed = inventory.removeItem(debit.slot(), debit.count());
                 if (removed.getCount() != debit.count()) throw new IllegalStateException("Inventory changed during purchase");
             }
-            player.giveExperiencePoints(-cost.rawXp());
+            // Exact raw-XP deduction (validation above already confirmed the balance). Charged in every
+            // game mode, as before; the catch block restores level, progress and totalExperience.
+            RawXp.setTotal(player, (long) RawXp.available(player) - cost.rawXp());
             KnowledgeRuntime.updateState(player, state.with("research." + id, requestedLevel));
             return Result.PURCHASED;
         } catch (RuntimeException failure) {

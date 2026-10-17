@@ -3,7 +3,7 @@ package dev.itzgamesgd.moreminecrafts.client;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.progression.T1AnvilModes;
 import dev.itzgamesgd.moreminecrafts.progression.T1Balance;
-import dev.itzgamesgd.moreminecrafts.progression.XpLevels;
+import dev.itzgamesgd.moreminecrafts.progression.RawXp;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -74,11 +74,11 @@ public final class T1AnvilScreen extends AnvilScreen {
                     && EnhancementOperation.isEnhancementMaterial(material)
                     && material.getCount() >= requirement.get().materialCost();
             action.active = requirement.isPresent() && enoughMaterial
-                    && XpLevels.canPay(minecraft.player, requirement.get().experienceLevelCost());
+                    && RawXp.canPay(minecraft.player, requirement.get().rawXpCost());
             if (requirement.isPresent()) {
                 var state = requirement.get();
                 action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_requirement",
-                        state.targetLevel() - 1, state.targetLevel(), state.experienceLevelCost(), state.materialCost())));
+                        state.targetLevel() - 1, state.targetLevel(), state.rawXpCost(), state.materialCost())));
             } else if (!equipment.isEmpty() && EnhancementOperation.level(equipment) >= 20) {
                 action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_maximum")));
             } else {
@@ -122,7 +122,7 @@ public final class T1AnvilScreen extends AnvilScreen {
             int current = EnhancementOperation.level(menu.getSlot(0).getItem());
             var requirement = EnhancementOperation.requirement(menu.getSlot(0).getItem());
             int target = requirement.map(EnhancementOperation.Result::targetLevel).orElse(current);
-            int xp = requirement.map(EnhancementOperation.Result::experienceLevelCost).orElse(0);
+            int xp = requirement.map(EnhancementOperation.Result::rawXpCost).orElse(0);
             int stone = requirement.map(EnhancementOperation.Result::materialCost).orElse(0);
             if (!menu.getSlot(0).getItem().isEmpty() && current >= 20) {
                 g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, 0xFF303030, false);
