@@ -20,6 +20,9 @@ public final class EnhancementTransactionGameTests implements CustomTestMethodIn
     static ServerPlayer survival(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        // Orbs from neighbouring tests can reach a fresh mock player; start every test from zero.
+        RawXp.setTotal(player, 0);
+        player.setScore(0);
         return player;
     }
 

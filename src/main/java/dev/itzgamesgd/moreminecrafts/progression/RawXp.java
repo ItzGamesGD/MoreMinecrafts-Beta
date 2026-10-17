@@ -19,9 +19,14 @@ public final class RawXp {
         if(!player.hasInfiniteMaterials())setTotal(player,(long)available(player)-cost);
         return true;
     }
-    /** Exact grant; saturates at the largest representable total. */
+    /**
+     * Exact grant; saturates at the largest representable total. Like vanilla giveExperiencePoints,
+     * a grant raises the player's score. Deductions leave the score alone, as vanilla level spending does.
+     */
     public static void grant(Player player,int amount){
-        if(amount>0)setTotal(player,(long)available(player)+amount);
+        if(amount<=0)return;
+        setTotal(player,(long)available(player)+amount);
+        player.increaseScore(amount);
     }
     /**
      * Sets level first (so the bar uses the new level's requirement), then the leftover points, then
@@ -40,14 +45,15 @@ public final class RawXp {
         player.totalExperience=(int)Math.min(Integer.MAX_VALUE,XpMath.totalForLevel(split.level())+split.points());
     }
     /** Captured XP fields for transaction rollback. */
-    public record Snapshot(int level,float progress,int totalExperience){
-        public static Snapshot of(Player player){return new Snapshot(player.experienceLevel,player.experienceProgress,player.totalExperience);}
+    public record Snapshot(int level,float progress,int totalExperience,int score){
+        public static Snapshot of(Player player){return new Snapshot(player.experienceLevel,player.experienceProgress,player.totalExperience,player.getScore());}
         public void restore(Player player){
             if(player instanceof ServerPlayer serverPlayer){
                 serverPlayer.setExperienceLevels(level);
                 serverPlayer.setExperiencePoints(Math.round(progress*serverPlayer.getXpNeededForNextLevel()));
             }
             player.experienceLevel=level;player.experienceProgress=progress;player.totalExperience=totalExperience;
+            player.setScore(score);
         }
     }
     private RawXp(){}

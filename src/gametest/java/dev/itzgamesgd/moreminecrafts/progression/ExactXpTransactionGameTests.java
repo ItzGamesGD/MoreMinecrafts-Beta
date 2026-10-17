@@ -30,6 +30,9 @@ public final class ExactXpTransactionGameTests implements CustomTestMethodInvoke
     static ServerPlayer survival(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        // Orbs from neighbouring tests can reach a fresh mock player; start every test from zero.
+        RawXp.setTotal(player, 0);
+        player.setScore(0);
         return player;
     }
 
@@ -86,7 +89,7 @@ public final class ExactXpTransactionGameTests implements CustomTestMethodInvoke
         ctx.assertTrue(failed == QuestProgressService.ClaimResult.INVALID_STATE, "failure reported");
         ctx.assertTrue(!KnowledgeRuntime.state(player).questClaimed(id)
                 && KnowledgeRuntime.state(player).questComplete(id), "claim rolled back, completion kept");
-        ctx.assertTrue(consistent(player, 1_507), "XP unchanged after rollback");
+        ctx.assertTrue(consistent(player, 1_507) && player.getScore() == 0, "XP and score unchanged after rollback");
         ctx.assertTrue(QuestProgressService.claim(player, id) == QuestProgressService.ClaimResult.CLAIMED
                 && consistent(player, 2_007), "retry after rollback succeeds once");
         ctx.succeed();
@@ -131,6 +134,61 @@ public final class ExactXpTransactionGameTests implements CustomTestMethodInvoke
         ctx.assertTrue(QuestProgressService.claim(restarted, id) == QuestProgressService.ClaimResult.ALREADY_CLAIMED
                 && consistent(restarted, 1_400), "post-claim record: no second grant");
         ctx.succeed();
+    }
+
+    /** Score parity with vanilla: grants raise the score like giveExperiencePoints; spending does not. */
+    @GameTest
+    public void exactGrantMatchesVanillaScoreAndSpendingKeepsScore(GameTestHelper ctx) {
+        ServerPlayer vanilla = survival(ctx);
+        ServerPlayer exact = survival(ctx);
+        vanilla.giveExperiencePoints(1_000);
+        RawXp.grant(exact, 1_000);
+        ctx.assertTrue(exact.getScore() == vanilla.getScore() && exact.getScore() == 1_000,
+                "grant score " + exact.getScore() + " vs vanilla " + vanilla.getScore());
+        ctx.assertTrue(exact.experienceLevel == vanilla.experienceLevel && exact.totalExperience == vanilla.totalExperience
+                && RawXp.available(exact) == 1_000, "grant level/total match vanilla");
+        int levelsBefore = vanilla.getScore();
+        vanilla.giveExperienceLevels(-5); // vanilla spending path
+        ctx.assertTrue(vanilla.getScore() == levelsBefore, "vanilla level spending keeps score");
+        ctx.assertTrue(RawXp.pay(exact, 300) && exact.getScore() == 1_000, "exact spending keeps score too");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void scoreboardExperienceAndLevelCriteriaFollowExactWrites(GameTestHelper ctx) {
+        ServerPlayer player = survival(ctx);
+        var scoreboard = ctx.getLevel().getScoreboard();
+        String suffix = Integer.toString(IDS.incrementAndGet());
+        var xp = scoreboard.addObjective("q1xp" + suffix, net.minecraft.world.scores.criteria.ObjectiveCriteria.EXPERIENCE,
+                net.minecraft.network.chat.Component.literal("xp"), net.minecraft.world.scores.criteria.ObjectiveCriteria.RenderType.INTEGER, false, null);
+        var level = scoreboard.addObjective("q1lv" + suffix, net.minecraft.world.scores.criteria.ObjectiveCriteria.LEVEL,
+                net.minecraft.network.chat.Component.literal("lv"), net.minecraft.world.scores.criteria.ObjectiveCriteria.RenderType.INTEGER, false, null);
+        // doTick also runs Player.aiStep, which may pick up a stray orb from a neighbouring test, so
+        // compare the criteria with the player's own fields after the tick rather than fixed numbers.
+        RawXp.grant(player, 1_507);
+        ctx.assertTrue(consistent(player, 1_507), "exact grant");
+        player.doTick();
+        ctx.assertTrue(scoreboard.getPlayerScoreInfo(player, xp).value() == player.totalExperience
+                && player.totalExperience == RawXp.available(player) && player.totalExperience >= 1_507
+                && scoreboard.getPlayerScoreInfo(player, level).value() == player.experienceLevel,
+                "scoreboard after grant: xp=" + info(scoreboard, player, xp) + " level=" + info(scoreboard, player, level)
+                        + " total=" + player.totalExperience);
+        int beforePay = player.totalExperience;
+        RawXp.pay(player, 112);
+        ctx.assertTrue(consistent(player, beforePay - 112), "exact deduction");
+        player.doTick();
+        ctx.assertTrue(scoreboard.getPlayerScoreInfo(player, xp).value() == player.totalExperience
+                && player.totalExperience == RawXp.available(player)
+                && scoreboard.getPlayerScoreInfo(player, level).value() == player.experienceLevel,
+                "scoreboard after exact deduction");
+        scoreboard.removeObjective(xp);
+        scoreboard.removeObjective(level);
+        ctx.succeed();
+    }
+
+    private static String info(net.minecraft.world.scores.Scoreboard board, ServerPlayer player, net.minecraft.world.scores.Objective objective) {
+        var info = board.getPlayerScoreInfo(player, objective);
+        return info == null ? "none" : Integer.toString(info.value());
     }
 
     static CompoundTag save(GameTestHelper ctx, ServerPlayer player) {
