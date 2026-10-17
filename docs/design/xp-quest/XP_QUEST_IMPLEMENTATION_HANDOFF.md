@@ -56,7 +56,7 @@ How the current Q1-A tracker works: `stat_block_items_used` sums `Stats.ITEM_USE
 - **Q1-B requirement:**
   - Hook `BlockItem.place` at RETURN. When the result is `InteractionResult.Success` and the context player is a `ServerPlayer`, add 1 to `quest.counter.blocks_placed`, and record the placed block for the variety quests.
   - This hook is the live source of truth. It covers the `useOn` and `use` paths alike.
-  - Vanilla `ITEM_USED` over `BlockItem`s stays the retroactive seed. It is a reliable lower bound (policy 3): seed `max(counter, statSum)` once per evaluation, as for the capped-counter seeds.
+  - Vanilla `ITEM_USED` over `BlockItem`s stays the retroactive seed (policy 3). Q1-B owner task (2026-10-17): the seed is captured **once** per player as `quest.baseline.block_items_used` (at join, or before the first live event), and progress = baseline + live counter, so every confirmed placement after the update counts and none is counted twice.
   - Required GameTests:
     - normal placement +1;
     - lily pad on water +1;
@@ -125,6 +125,22 @@ Completion: set `quest.complete.<id>` once (server thread). Claim: existing `Que
 ### 3.12 Sync & UI
 
 State reaches the client through the existing snapshot/delta payloads. The client synthesises a `ClientAdvancements` subclass and opens vanilla `AdvancementsScreen` (D document). Toast only on a delta flipping `quest.complete` 0→1, never on snapshot (fixes D-20). Pending claim cleared on result payload, claimed delta, 5 s timeout, screen reopen or reconnect (fixes D-21).
+
+### 3.13 Q1-B implementation record (2026-10-17)
+
+- **Baselines:** history enters once per key through `quest.baseline.<key>` (placement: the `ITEM_USED` sum over `BlockItem`s; capped counters: the stored `condition.<key>`). The live counter then adds only events after capture. This is equivalent to the `max(counter, condition)` seed of §3.2 for the counters, and it counts post-update lily pads and other `use`-path placements that `ITEM_USED` misses.
+- **Uncapped counters:** `KnowledgeRuntime.recordCondition` forwards each report to `XpQuestHooks`. For the twelve increment-style collectors (all report `stored + n`), the delta = reported − stored is the event amount, including past the Knowledge cap.
+- **Ore provenance:** as in §3.4, with two recorded details.
+  - **OPEN owner decision:** the Q1-B task states that piston-moved ore does not count. §3.4 says a piston move transfers the mark or its absence. The implementation follows the task: any tracked ore arriving through `Level.setBlock` is non-natural.
+  - A mark is cleared when a player mines the position. A non-player removal (explosion, piston departure) leaves the mark at a now non-ore position. That is conservative (a later ore there is non-natural anyway) and bounded by the number of non-natural ore writes.
+- **Registered in Q1-B (39):**
+  - **Placement:** `bld.place_1000/10000/50000/200000`, `bld.variety_50/150`.
+  - **Ore:** `min.ore_1000/5000/20000`, `min.diamond_ore_64`, `min.debris_16`, `min.adamantium_10`, `min.first_custom_ore`, `min.custom_ore_survey`, `min.deepslate_custom`.
+  - **Counters:** `min.logs_1000`, `min.pickaxe_5000`, `frm.harvest_1000/5000`, `frm.till_1000`, `frm.barter_200`, `fsh.catch_500`, `cft.anvil_50`, `cft.redstone_100`, `exp.archaeology_30`, `cmb.shield_500`, `cmb.trident_50`, `alc.potions_250`.
+  - **Other events:** `frm.tame_5`, `dim.nether_travel_50k` (every CUSTOM `*_one_cm` statistic awarded in the Nether), `fsh.first_sale/sale_64/emerald_500`.
+  - **Crafting statistics:** `cft.sleeping_bag`, `cft.parachute`, `cft.all_daggers`, `cft.all_greatswords`, `cft.mm_blocks`, `frm.composite_foods`.
+  - Every other NOW quest stays unregistered until its own detection and test exist.
+- **Catalog target correction:** `catalog.json` had set-quest targets defaulted to 1 by the generator. They now match catalog A's entry counts, for example `all_daggers` 7. Rewards and the ledger are unchanged.
 
 ## 4. 82-quest reconciliation (62 audit NOW\* + 20 VERIFY)
 
