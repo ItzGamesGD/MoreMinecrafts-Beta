@@ -91,6 +91,8 @@
     "QuestOreLevelSetBlockMixin",
     "QuestOreFeatureMixin",
     "QuestScatteredOreFeatureMixin",
+    "QuestBlockLootGenerationMixin",
+    "QuestEntityLootGenerationMixin",
     "QuestBlockPlacementMixin",
     "QuestTameAnimalTriggerMixin",
     "QuestMovementStatMixin"
