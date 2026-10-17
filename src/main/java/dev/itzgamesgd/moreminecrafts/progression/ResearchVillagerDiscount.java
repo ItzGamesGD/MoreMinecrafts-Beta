@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 
@@ -13,10 +14,11 @@ public final class ResearchVillagerDiscount {
     /** Approved discount: 5/10/15% for purchased levels 1/2/3. */
     public static int discountPercent(int level) { return 5 * Math.clamp(level, 0, 3); }
 
-    /** Rounds to the nearest emerald count (half up) and never goes below one. */
+    /** Rounds the discount amount upward for prices above one, then clamps the cost to one. */
     public static int discountedCost(int cost, int level) {
         if (cost <= 1 || level <= 0) return cost;
-        return Math.max(1, (cost * (100 - discountPercent(level)) + 50) / 100);
+        int discount = (cost * discountPercent(level) + 99) / 100;
+        return Math.max(1, cost - discount);
     }
 
     /**
@@ -31,7 +33,13 @@ public final class ResearchVillagerDiscount {
             if (T1Supply.isFixedBookOffer(offer)) continue;
             int current = offer.getCostA().getCount();
             int target = discountedCost(current, level);
-            if (target < current) offer.addToSpecialPriceDiff(target - current);
+            if (target < current) {
+                // getCostA clamps demand-inflated prices to the item's stack limit. Subtracting
+                // from that clamped value can leave the offer stuck at the cap.
+                int base = offer.getBaseCostA().getCount();
+                int demand = Math.max(0, Mth.floor(base * offer.getDemand() * offer.getPriceMultiplier()));
+                offer.setSpecialPriceDiff(target - base - demand);
+            }
         }
     }
 }
