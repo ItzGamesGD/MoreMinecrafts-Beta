@@ -1,5 +1,5 @@
 
-> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents.
+> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents. **The XP 퀘스트 card's disabled/later status is itself superseded by the XP Quest amendment — 2026-10-17 (see the XP Quest section below).**
 
 # Current content authority and deferred design debt
 
@@ -21,7 +21,10 @@ Approved XP Quest decisions are recorded in the **XP Quest amendment — 2026-10
 - unclaimed quests as an XP store;
 - exact raw-XP grants and deductions;
 - reward scope: 180,000 raw XP exactly across the 180 active quests, plus 29,100 for 20 future quests (209,100 target), with no reduction of existing rewards when content is added;
-- VERIFY quests stay unregistered until they pass verification.
+- VERIFY quests stay unregistered until they pass verification;
+- each of the 160 NOW quests registers only after its own automated test passes;
+- the claim rolls back if the XP grant fails;
+- the six owner-locked tracking policies apply. The ore policy counts only verified-natural ores; unknown origin does not count.
 
 Individual quest content and values remain subject to approval. The Enhancement raw-XP cost table and transaction rule are recorded in the Enhancement section of [STAGE_2_GAMEPLAY_RECONCILIATION.md](STAGE_2_GAMEPLAY_RECONCILIATION.md). These are design authority only; implementation has not started.
 
