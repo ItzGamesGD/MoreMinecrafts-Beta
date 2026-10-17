@@ -1,5 +1,5 @@
 
-> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents.
+> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents. **The XP 퀘스트 card's disabled/later status is itself superseded by the XP Quest amendment — 2026-10-17 (see the XP Quest section below).**
 
 # Current content authority and deferred design debt
 
@@ -11,6 +11,22 @@ It does not replace the detailed design documents. When an older document confli
 
 - [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 navigation follow-up and 2026-10-12 interaction correction: retain the four-card selector, route Research and Knowledge through the shared seven-sector picker, and use each existing branch list for top-left direct tree navigation. The 2026-10-12 correction supersedes only node-screen footer controls, the separate detail panel, and confirmation purchase flow; it requires exact vanilla-frame hit bounds, one-click server-authoritative Research purchase, Knowledge non-purchase, and localized item-rich tooltips. Preserve vanilla advancement visuals, source discipline/branch IDs, progression data, prerequisites, costs, and gameplay rules.
 - [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): amended with the approved selector, chest sort, hopper filter, Mob Tracker range controls, boat inventory interpretation, and separate potion systems. Historical conflicts remain labeled as superseded/deferred rather than silently erased.
+
+## XP Quest and Enhancement XP-cost authority (2026-10-17)
+
+Approved XP Quest decisions are recorded in the **XP Quest amendment — 2026-10-17** section at the end of [UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md):
+- vanilla Advancements-screen reuse with click-to-claim;
+- three node states and a completion toast;
+- server-authoritative claim-once rewards;
+- unclaimed quests as an XP store;
+- exact raw-XP grants and deductions;
+- reward scope: 180,000 raw XP exactly across the 180 active quests, plus 29,100 for 20 future quests (209,100 target), with no reduction of existing rewards when content is added;
+- VERIFY quests stay unregistered until they pass verification;
+- each of the 160 NOW quests registers only after its own automated test passes;
+- the claim rolls back if the XP grant fails;
+- the six owner-locked tracking policies apply. The ore policy counts only verified-natural ores; unknown origin does not count.
+
+Individual quest content and values remain subject to approval. The Enhancement raw-XP cost table and transaction rule are recorded in the Enhancement section of [STAGE_2_GAMEPLAY_RECONCILIATION.md](STAGE_2_GAMEPLAY_RECONCILIATION.md). These are design authority only; implementation has not started.
 
 ## Stage 22 research completion authority (2026-10-15)
 
