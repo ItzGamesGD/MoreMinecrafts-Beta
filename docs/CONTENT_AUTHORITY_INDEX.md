@@ -36,6 +36,8 @@ The scoped integration manifest is [RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-
 
 The [remaining candidate survey and campaign manifest](RESEARCH_STAGE23A_REMAINING_CAMPAIGN_MANIFEST_2026-10-17.md) starts from PR #108 and evaluates all 48 then-DATA_ONLY nodes. Group 1 adds `.33` consecutive sword sweeps and `.61` splash/lingering potion behavior. Group 2 adds ordinary-Horse `.50` Riding support and repairs the existing `mob_capture` purchase gate. The canonical 87-node audit now records 45 DATA_ONLY, 40 PARTIAL and 2 BLOCKED; no node is COMPLETE without live acceptance. This is an implementation record and does not amend effect design authority.
 
+The Claude economy/soil implementation adds `.53` Villager Trading and `.16` Soil Study (group 4 of the same manifest); the canonical audit now records 43 DATA_ONLY, 42 PARTIAL and 2 BLOCKED. Still an implementation record only; the approved values come from the separate user-decision document and live acceptance is pending.
+
 ## Current research/knowledge authority (latest human-approved V4)
 
 The earlier **Knowledge / Research — IDEA / DEFERRED** paragraph at the bottom of this index is HISTORICAL and superseded, not active. The current, explicitly user-approved Knowledge / Research design authority is [RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md](RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md), especially its **RESEARCH V4 EXECUTION AUTHORITY — 2026-10-10** amendment and the later user-confirmed recipe/mob-capture decisions.

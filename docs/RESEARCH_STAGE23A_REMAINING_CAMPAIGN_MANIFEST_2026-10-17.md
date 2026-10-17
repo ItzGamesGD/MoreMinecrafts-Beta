@@ -77,3 +77,7 @@ The canonical pre-campaign recount is **48 DATA_ONLY + 37 PARTIAL + 2 BLOCKED = 
 ## Implemented campaign group 3
 
 Existing PARTIAL `climbing` now sets 0.075 upward velocity per tick, matching the approved 1.5 blocks/s. Server input GameTest verifies purchased/unpurchased, airborne, forward wall and pickaxe conditions. This repair changes no purchase data and does not change the 87-node status totals. Java 25 clean build, all 308 JUnit tests and all 131 GameTests passed; exact-HEAD CI and live movement feel remain pending.
+
+## Implemented campaign group 4 (Claude economy/soil PR)
+
+`.53` Villager Trading: a per-player 5/10/15% reduction of each offer's first cost, applied once per vanilla special-price rebuild, rounded to the nearest count (anvil-discount precedent) with a minimum of 1. `.16` Soil Study L1–L3 with a persistent chunk-scoped last-cultivator record (research attribution only, not ownership): L1 trample resistance by recorded cultivator, L2 +30% seed yield by harvester (30% of the vanilla seed count, fractional part probabilistic), L3 water reach 6 and +20% relative natural crop growth by recorded cultivator, with one 16-block nearby-researcher fallback for unknown owners. Status totals become 43 DATA_ONLY, 42 PARTIAL, 2 BLOCKED; nothing is COMPLETE and live acceptance is pending.

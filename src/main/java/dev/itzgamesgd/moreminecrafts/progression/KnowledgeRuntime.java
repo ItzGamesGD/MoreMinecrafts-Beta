@@ -60,6 +60,7 @@ public final class KnowledgeRuntime {
 
     public static void initialize() {
         K5NaturalTreeProvenance.initialize();
+        FarmlandCultivators.initialize();
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
             ResearchProgressLookup.playerJoined(server, player.getUUID());
