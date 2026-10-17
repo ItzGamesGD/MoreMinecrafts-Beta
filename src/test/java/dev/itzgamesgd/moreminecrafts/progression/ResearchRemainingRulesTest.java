@@ -4,6 +4,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResearchRemainingRulesTest {
+    @Test void ridingUsesEachNaturalHorseAttributeWidthWithoutReplacingBase() {
+        for (int level = 0; level <= 5; level++) {
+            assertEquals(level * 0.01125D, ResearchRemainingRules.horseSpeedBonus(level), 1.0e-9);
+            assertEquals(level * 0.03D, ResearchRemainingRules.horseJumpBonus(level), 1.0e-9);
+            assertEquals(level * 0.75D, ResearchRemainingRules.horseHealthBonus(level), 1.0e-9);
+        }
+        assertEquals(0.0D, ResearchRemainingRules.horseSpeedBonus(-1));
+        assertEquals(0.05625D, ResearchRemainingRules.horseSpeedBonus(99), 1.0e-9);
+    }
     @Test void consecutiveSweepCapsAtFiveAndExpiresAfterFiveSeconds() {
         int stage = 0;
         for (int i = 1; i <= 7; i++) {

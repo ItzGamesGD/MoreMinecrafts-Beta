@@ -22,6 +22,76 @@ import net.minecraft.world.phys.Vec3;
 
 public final class ResearchRemainingGameTests implements CustomTestMethodInvoker {
     @GameTest
+    public void mobCaptureDraftRequiresPurchasedResearchBeforeRemovingTarget(GameTestHelper ctx) {
+        var player = survivalPlayer(ctx);
+        var tool = new ItemStack(dev.itzgamesgd.moreminecrafts.registry.ModItems.MOB_CAPTURE_TOOL);
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, tool);
+        var mob = ctx.spawn(EntityTypes.COW, new BlockPos(3, 2, 3));
+        var result = net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.invoker().interact(
+                player, ctx.getLevel(), net.minecraft.world.InteractionHand.MAIN_HAND, mob,
+                new net.minecraft.world.phys.EntityHitResult(mob));
+        ctx.assertTrue(result == net.minecraft.world.InteractionResult.FAIL && mob.isAlive(),
+                "the item cannot capture or remove a mob without its paid research");
+        KnowledgeRuntime.updateState(player, ResearchProgressState.empty().with("research.mob_capture", 1));
+        result = net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.invoker().interact(
+                player, ctx.getLevel(), net.minecraft.world.InteractionHand.MAIN_HAND, mob,
+                new net.minecraft.world.phys.EntityHitResult(mob));
+        ctx.assertTrue(result == net.minecraft.world.InteractionResult.SUCCESS_SERVER && mob.isRemoved(),
+                "the same valid target can be captured after purchase");
+        ctx.assertTrue(player.getInventory().countItem(dev.itzgamesgd.moreminecrafts.registry.ModItems.CAPTURED_MOB_EGG) == 1,
+                "a successful capture stores one egg");
+        ctx.assertTrue(tool.getDamageValue() == 1, "the tool spends exactly one durability");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void normalHorseUsesRiderResearchWithoutChangingNativeAttributes(GameTestHelper ctx) {
+        var paid = survivalPlayer(ctx);
+        var unpaid = survivalPlayer(ctx);
+        var horse = ctx.spawn(EntityTypes.HORSE, new BlockPos(3, 2, 3));
+        horse.setTamed(true);
+        horse.setItemSlot(net.minecraft.world.entity.EquipmentSlot.SADDLE, new ItemStack(Items.SADDLE));
+        paid.startRiding(horse, true, true);
+        ctx.assertTrue(horse.getControllingPassenger() == paid, "the saddled horse has the researched rider");
+        double baseSpeed = horse.getAttributeBaseValue(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED);
+        double baseJump = horse.getAttributeBaseValue(net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH);
+        double baseHealth = horse.getAttributeBaseValue(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
+        for (int level = 0; level <= 5; level++) {
+            KnowledgeRuntime.updateState(paid, ResearchProgressState.empty().with("research.v3.research.50", level));
+            horse.tick();
+            ctx.assertTrue(Math.abs(horse.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED)
+                    - baseSpeed - ResearchRemainingRules.horseSpeedBonus(level)) < 1.0e-7, "speed level " + level);
+            ctx.assertTrue(Math.abs(horse.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH)
+                    - baseJump - ResearchRemainingRules.horseJumpBonus(level)) < 1.0e-7, "jump level " + level);
+            ctx.assertTrue(Math.abs(horse.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH)
+                    - baseHealth - ResearchRemainingRules.horseHealthBonus(level)) < 1.0e-7, "health level " + level);
+            ctx.assertTrue(horse.getAttributeBaseValue(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH) == baseHealth,
+                    "the native horse base is not rewritten");
+        }
+        var saved = net.minecraft.world.level.storage.TagValueOutput.createWithContext(
+                net.minecraft.util.ProblemReporter.DISCARDING, ctx.getLevel().registryAccess());
+        horse.saveWithoutId(saved);
+        var restored = new net.minecraft.world.entity.animal.equine.Horse(EntityTypes.HORSE, ctx.getLevel());
+        restored.load(net.minecraft.world.level.storage.TagValueInput.create(
+                net.minecraft.util.ProblemReporter.DISCARDING, ctx.getLevel().registryAccess(), saved.buildResult()));
+        ctx.assertTrue(Math.abs(restored.getAttributeBaseValue(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED)
+                - baseSpeed) < 1.0e-7, "save/reload retains the native speed base");
+        ctx.assertTrue(restored.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED)
+                .getModifier(ResearchRidingRuntime.SPEED_ID) == null,
+                "transient rider bonuses are recomputed from the next controller, not saved");
+        paid.stopRiding();
+        unpaid.startRiding(horse, true, true);
+        horse.tick();
+        ctx.assertTrue(horse.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED)
+                .getModifier(ResearchRidingRuntime.SPEED_ID) == null, "an unpaid rider cannot borrow bonuses");
+        ctx.assertTrue(horse.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH)
+                .getModifier(ResearchRidingRuntime.JUMP_ID) == null, "jump bonus is removed on rider switch");
+        ctx.assertTrue(horse.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH)
+                .getModifier(ResearchRidingRuntime.HEALTH_ID) == null, "health bonus is removed on rider switch");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void swordHitBuildsSweepStageOnlyForPurchaser(GameTestHelper ctx) throws Exception {
         var player = survivalPlayer(ctx);
         var unpaid = survivalPlayer(ctx);
@@ -71,6 +141,16 @@ public final class ResearchRemainingGameTests implements CustomTestMethodInvoker
             var cloud = clouds.getFirst();
             ctx.assertTrue(cloud.getDuration() == 600 + level * 48, "cloud lifetime matches purchased level " + level);
             ctx.assertTrue(cloud.getOwner() == shooter, "the cloud retains thrower attribution");
+            if (level == 3) {
+                var saved = net.minecraft.world.level.storage.TagValueOutput.createWithContext(
+                        net.minecraft.util.ProblemReporter.DISCARDING, ctx.getLevel().registryAccess());
+                cloud.saveWithoutId(saved);
+                var restored = new AreaEffectCloud(EntityTypes.AREA_EFFECT_CLOUD, ctx.getLevel());
+                restored.load(net.minecraft.world.level.storage.TagValueInput.create(
+                        net.minecraft.util.ProblemReporter.DISCARDING, ctx.getLevel().registryAccess(), saved.buildResult()));
+                ctx.assertTrue(restored.getDuration() == cloud.getDuration(),
+                        "the researched duration persists without applying the multiplier again");
+            }
             cloud.discard();
         }
         ctx.succeed();

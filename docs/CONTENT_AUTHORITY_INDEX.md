@@ -34,7 +34,7 @@ The scoped integration manifest is [RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-
 
 ## Stage 23-A remaining implementation campaign record (2026-10-17)
 
-The [remaining candidate survey and campaign manifest](RESEARCH_STAGE23A_REMAINING_CAMPAIGN_MANIFEST_2026-10-17.md) starts from PR #108 and evaluates all 48 then-DATA_ONLY nodes. The first implementation group adds `.33` consecutive sword sweeps and `.61` splash/lingering potion behavior. The canonical 87-node audit now records 46 DATA_ONLY, 39 PARTIAL and 2 BLOCKED; no node is COMPLETE without live acceptance. This is an implementation record and does not amend effect design authority.
+The [remaining candidate survey and campaign manifest](RESEARCH_STAGE23A_REMAINING_CAMPAIGN_MANIFEST_2026-10-17.md) starts from PR #108 and evaluates all 48 then-DATA_ONLY nodes. Group 1 adds `.33` consecutive sword sweeps and `.61` splash/lingering potion behavior. Group 2 adds ordinary-Horse `.50` Riding support and repairs the existing `mob_capture` purchase gate. The canonical 87-node audit now records 45 DATA_ONLY, 40 PARTIAL and 2 BLOCKED; no node is COMPLETE without live acceptance. This is an implementation record and does not amend effect design authority.
 
 ## Current research/knowledge authority (latest human-approved V4)
 

@@ -82,7 +82,8 @@
     "ResearchCreeperMixin",
     "ResearchSplashPotionMixin",
     "ResearchLingeringPotionMixin",
-    "ResearchConsecutiveSweepMixin"
+    "ResearchConsecutiveSweepMixin",
+    "ResearchHorseRidingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
