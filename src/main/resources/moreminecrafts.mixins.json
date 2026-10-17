@@ -79,7 +79,11 @@
     "ResearchStatusEffectMixin",
     "ResearchEffectDurationAccessor",
     "ResearchFlightMixin",
-    "ResearchCreeperMixin"
+    "ResearchCreeperMixin",
+    "ResearchSplashPotionMixin",
+    "ResearchLingeringPotionMixin",
+    "ResearchConsecutiveSweepMixin",
+    "ResearchHorseRidingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
