@@ -12,7 +12,7 @@ Authority: catalog A and XP Quest handoff. All 39 reward values were compared ag
 | `xpq.min.custom_ore_survey` | 4 | 350 | BEFORE+AFTER block break, positive chunk ore marker | none | `threshold_min_custom_ore_survey` | ore feature/break/piston tests |
 | `xpq.min.ore_1000` | 1000 | 500 | BEFORE+AFTER block break, positive chunk ore marker | none | `threshold_min_ore_1000` | ore feature/break/piston tests |
 | `xpq.min.deepslate_custom` | 4 | 500 | BEFORE+AFTER block break, positive chunk ore marker | none | `threshold_min_deepslate_custom` | ore feature/break/piston tests |
-| `xpq.min.logs_1000` | 1000 | 500 | KnowledgeRuntime.recordCondition: natural_vanilla_logs_mined (K5 tree marker) | capped Knowledge seed (lower bound) | `threshold_min_logs_1000` | LIVE SOURCE TEST PENDING |
+| `xpq.min.logs_1000` | 1000 | 500 | KnowledgeRuntime.recordCondition: natural_vanilla_logs_mined (K5 tree marker) | capped Knowledge seed (lower bound) | `threshold_min_logs_1000` | K5 natural-tree mined/replaced/multiplayer GameTests |
 | `xpq.min.pickaxe_5000` | 5000 | 700 | KnowledgeRuntime.recordCondition: pickaxe_durability_used | capped Knowledge seed (lower bound) | `threshold_min_pickaxe_5000` | K10 nested/cancelled durability GameTests |
 | `xpq.min.ore_5000` | 5000 | 1100 | BEFORE+AFTER block break, positive chunk ore marker | none | `threshold_min_ore_5000` | ore feature/break/piston tests |
 | `xpq.min.diamond_ore_64` | 64 | 1100 | BEFORE+AFTER block break, positive chunk ore marker | none | `threshold_min_diamond_ore_64` | ore feature/break/piston tests |
