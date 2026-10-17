@@ -408,15 +408,15 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
 
     // ---------------------------------------------------------------- B4 per-quest registration
 
-    /** Every registered quest: target-1 evidence stays incomplete, target evidence completes. */
-    @GameTest(maxTicks = 400)
-    public void everyRegisteredQuestCompletesExactlyAtItsTarget(GameTestHelper ctx) {
+    /** Registered quests have valid production evidence keys and eligible NOW status. */
+    @GameTest
+    public void registeredQuestEvidenceKeysAreValid(GameTestHelper ctx) {
         List<XpQuestCatalogData.Spec> registered = XpQuestCatalogData.catalog().quests().stream()
                 .filter(XpQuestCatalogData.Spec::registered).toList();
         ctx.assertTrue(registered.size() == 39, "39 quests registered for Q1-B: " + registered.size());
         for (XpQuestCatalogData.Spec spec : registered) {
             XpQuestCatalogData.Tracker t = spec.tracker();
-            // A missing id would resolve to air and make the threshold check below pass vacuously.
+            // A missing id would resolve to air and make an injected threshold test pass vacuously.
             if (t.kind().equals("stat_crafted_distinct"))
                 for (String id : t.entries())
                     ctx.assertTrue(BuiltInRegistries.ITEM.containsKey(Identifier.parse(id)), spec.id() + " crafts a real item " + id);
@@ -432,19 +432,222 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
                                     Identifier.parse(key.substring("natural_mined.".length()))).defaultBlockState()),
                             spec.id() + " counts a tracked ore " + key);
         }
-        for (XpQuestCatalogData.Spec spec : registered) {
-            ctx.assertTrue(spec.status().equals("NOW") && QuestCatalog.byId(spec.id()) != null,
-                    spec.id() + " is NOW and registered at startup");
-            ServerPlayer player = survival(ctx);
-            List<XpQuestCatalogData.Spec> one = List.of(spec);
-            KnowledgeRuntime.updateState(player, inject(player, spec, spec.target() - 1));
-            ResearchProgressState partial = XpQuestTracking.reconcile(player, state(player), one);
-            ctx.assertTrue(!partial.questComplete(spec.id()), spec.id() + " incomplete at target - 1");
-            KnowledgeRuntime.updateState(player, inject(player, spec, spec.target()));
-            ResearchProgressState full = XpQuestTracking.reconcile(player, state(player), one);
-            ctx.assertTrue(full.questComplete(spec.id()), spec.id() + " complete at target");
-        }
         ctx.succeed();
+    }
+
+    /** One threshold test per registered quest; source-event acceptance is tracked separately. */
+    private void assertQuestThreshold(GameTestHelper ctx, String id) {
+        XpQuestCatalogData.Spec spec = spec(id);
+        ctx.assertTrue(spec.status().equals("NOW") && QuestCatalog.byId(spec.id()) != null,
+                spec.id() + " is NOW and registered at startup");
+        ServerPlayer player = survival(ctx);
+        List<XpQuestCatalogData.Spec> one = List.of(spec);
+        KnowledgeRuntime.updateState(player, inject(player, spec, spec.target() - 1));
+        ResearchProgressState partial = XpQuestTracking.reconcile(player, state(player), one);
+        ctx.assertTrue(!partial.questComplete(spec.id()), spec.id() + " incomplete at target - 1");
+        KnowledgeRuntime.updateState(player, inject(player, spec, spec.target()));
+        ResearchProgressState full = XpQuestTracking.reconcile(player, state(player), one);
+        ctx.assertTrue(full.questComplete(spec.id()), spec.id() + " complete at target");
+        ServerPlayer other = survival(ctx);
+        ResearchProgressState unrelated = XpQuestTracking.reconcile(other, state(other), one);
+        ctx.assertTrue(!unrelated.questComplete(spec.id()) && unrelated.questProgress(spec.id()) == 0,
+                spec.id() + " gives no progress to another player");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void threshold_exp_archaeology_30(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.exp.archaeology_30");
+    }
+
+    @GameTest
+    public void threshold_dim_nether_travel_50k(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.dim.nether_travel_50k");
+    }
+
+    @GameTest
+    public void threshold_cmb_shield_500(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cmb.shield_500");
+    }
+
+    @GameTest
+    public void threshold_cmb_trident_50(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cmb.trident_50");
+    }
+
+    @GameTest
+    public void threshold_min_first_custom_ore(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.first_custom_ore");
+    }
+
+    @GameTest
+    public void threshold_min_custom_ore_survey(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.custom_ore_survey");
+    }
+
+    @GameTest
+    public void threshold_min_ore_1000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.ore_1000");
+    }
+
+    @GameTest
+    public void threshold_min_deepslate_custom(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.deepslate_custom");
+    }
+
+    @GameTest
+    public void threshold_min_logs_1000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.logs_1000");
+    }
+
+    @GameTest
+    public void threshold_min_pickaxe_5000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.pickaxe_5000");
+    }
+
+    @GameTest
+    public void threshold_min_ore_5000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.ore_5000");
+    }
+
+    @GameTest
+    public void threshold_min_diamond_ore_64(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.diamond_ore_64");
+    }
+
+    @GameTest
+    public void threshold_min_adamantium_10(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.adamantium_10");
+    }
+
+    @GameTest
+    public void threshold_min_debris_16(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.debris_16");
+    }
+
+    @GameTest
+    public void threshold_min_ore_20000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.min.ore_20000");
+    }
+
+    @GameTest
+    public void threshold_frm_composite_foods(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.frm.composite_foods");
+    }
+
+    @GameTest
+    public void threshold_frm_tame_5(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.frm.tame_5");
+    }
+
+    @GameTest
+    public void threshold_frm_harvest_1000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.frm.harvest_1000");
+    }
+
+    @GameTest
+    public void threshold_frm_till_1000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.frm.till_1000");
+    }
+
+    @GameTest
+    public void threshold_frm_harvest_5000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.frm.harvest_5000");
+    }
+
+    @GameTest
+    public void threshold_frm_barter_200(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.frm.barter_200");
+    }
+
+    @GameTest
+    public void threshold_fsh_first_sale(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.fsh.first_sale");
+    }
+
+    @GameTest
+    public void threshold_fsh_sale_64(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.fsh.sale_64");
+    }
+
+    @GameTest
+    public void threshold_fsh_catch_500(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.fsh.catch_500");
+    }
+
+    @GameTest
+    public void threshold_fsh_emerald_500(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.fsh.emerald_500");
+    }
+
+    @GameTest
+    public void threshold_cft_sleeping_bag(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cft.sleeping_bag");
+    }
+
+    @GameTest
+    public void threshold_cft_all_daggers(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cft.all_daggers");
+    }
+
+    @GameTest
+    public void threshold_cft_anvil_50(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cft.anvil_50");
+    }
+
+    @GameTest
+    public void threshold_cft_redstone_100(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cft.redstone_100");
+    }
+
+    @GameTest
+    public void threshold_cft_parachute(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cft.parachute");
+    }
+
+    @GameTest
+    public void threshold_cft_all_greatswords(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cft.all_greatswords");
+    }
+
+    @GameTest
+    public void threshold_cft_mm_blocks(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.cft.mm_blocks");
+    }
+
+    @GameTest
+    public void threshold_bld_place_1000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.bld.place_1000");
+    }
+
+    @GameTest
+    public void threshold_bld_variety_50(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.bld.variety_50");
+    }
+
+    @GameTest
+    public void threshold_bld_place_10000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.bld.place_10000");
+    }
+
+    @GameTest
+    public void threshold_bld_variety_150(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.bld.variety_150");
+    }
+
+    @GameTest
+    public void threshold_bld_place_50000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.bld.place_50000");
+    }
+
+    @GameTest
+    public void threshold_bld_place_200000(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.bld.place_200000");
+    }
+
+    @GameTest
+    public void threshold_alc_potions_250(GameTestHelper ctx) {
+        assertQuestThreshold(ctx, "xpq.alc.potions_250");
     }
 
     /** Writes the evidence a tracker reads, at {@code amount} units of the quest target. */
