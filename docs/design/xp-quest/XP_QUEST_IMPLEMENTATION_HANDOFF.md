@@ -41,6 +41,32 @@ Reuse the existing player attachment `KnowledgeRuntime.STATE` (`ResearchProgress
 
 `QuestStats` reads `ServerStatsCounter`: CUSTOM (*_ONE_CM, ANIMALS_BRED, TRADED_WITH_VILLAGER), ENTITY_KILLED, BLOCK_MINED, and ITEM_USED summed over `BlockItem`s (26.3 `ItemStack.useOn` awards ITEM_USED only on success — CODE VERIFIED). Evaluated on login and on the existing 100-tick refresh. Full retroactivity.
 
+### 3.3a Block placement — Q1-B replacement requirement (verified 2026-10-17 against 26.3 bytecode)
+
+How the current Q1-A tracker works: `stat_block_items_used` sums `Stats.ITEM_USED` over `BlockItem`s.
+
+- **No over-counting:**
+  - `ItemStack.useOn` awards `ITEM_USED` only when `Item.useOn` returns `InteractionResult.Success` with `wasItemInteraction()`.
+  - `BlockItem.useOn` returns the result of `BlockItem.place`.
+  - `place` returns `SUCCESS` only after `placeBlock` succeeds; every other path returns `FAIL`.
+  - So every counted use is a real successful placement.
+- **Under-counting — not guaranteed complete, violates policy 2:**
+  - `PlaceOnWaterBlockItem.use` (lily pad, frogspawn) calls `BlockItem.useOn` directly. It never goes through `ItemStack.useOn`, so those placements never award `ITEM_USED`.
+  - Any mod item that calls `BlockItem.useOn`/`place` directly is missed the same way.
+- **Q1-B requirement:**
+  - Hook `BlockItem.place` at RETURN. When the result is `InteractionResult.Success` and the context player is a `ServerPlayer`, add 1 to `quest.counter.blocks_placed`, and record the placed block for the variety quests.
+  - This hook is the live source of truth. It covers the `useOn` and `use` paths alike.
+  - Vanilla `ITEM_USED` over `BlockItem`s stays the retroactive seed. It is a reliable lower bound (policy 3): seed `max(counter, statSum)` once per evaluation, as for the capped-counter seeds.
+  - Required GameTests:
+    - normal placement +1;
+    - lily pad on water +1;
+    - occupied or refused placement +0;
+    - door = one placement;
+    - stat seed applied once and never double-counted against the hook.
+- **Registration:**
+  - `xpq.bld.place_1000/10000/50000/200000` and `xpq.bld.variety_50/150` stay **unregistered** until this hook and its tests land.
+  - The `catalog.json` trackers for these six quests change from `stat_block_items_*` to the counter-plus-stat-seed form in Q1-B.
+
 ### 3.4 Ore provenance (revised 2026-10-17 — supersedes the earlier "unknown counts as natural" text)
 
 Investigated precedent: `K5NaturalTreeProvenance`. It uses positive marking during world generation, a per-chunk persistent attachment and a GameTest-proven restart round trip. A chunk with no attachment has no natural markers, so pre-K5 logs never count. The ore design reuses the same principle without storing every ore position.
@@ -249,6 +275,9 @@ Categories: **A** owner decision · **B** technical specification · **C** imple
 - **GameTest — XP transactions:** grant/deduct at 0, exact balance, 1 short, 15/16, 30/31, ±100,000 (assert `RawXp.available` and `totalExperience`); duplicate/replayed/random-ID claims; exception during grant → full rollback; enhancement rollback after XP deduction, material removal and item modification (authority); insufficient XP/materials → no mutation; same enhancement cost at any level; no Research multiplier / Mending on quest XP.
 - **GameTest — tracking:** each hook in §3.6 fires once; post-completion re-trigger no-op; capped-counter seeding; placed-ore exclusion incl. piston move and restart; successful vs failed placement; loot block vs minecart vs re-open vs other player; vault per-player per-vault; monument multi-participant, presence-only rejection, deferred completion, offline credit, restart; possession scan inclusions/exclusions; retroactive login evaluation on a pre-populated world.
 - **Integration (client):** synthetic tree build, three states, toast once (delta, not snapshot), pending lifecycle, no `ServerboundSeenAdvancementsPacket`/telemetry from the quest screen.
+- **Durability — keep these two separate:**
+  - *In-process crash simulation* (implemented in #115): save the player record before and after a claim, then reload each into a fresh player. This proves the claim flag and the XP are stored in the same record, so they are lost or kept together.
+  - *Actual JVM-kill durability* (**NOT RUN, TEST PENDING**): `kill -9` the server between a claim and the next autosave, restart on the same world, and assert there is no duplicate and no loss. It needs a two-process harness like the K5 Production Restart workflow. In-process results must never be reported as JVM-kill results.
 - **Live (LIVE PENDING):** 12 tabs, badges, click vs drag, Korean tooltips, scroll retention, balance incl. place_200000 duration and mid-game bottleneck.
 
 ## 8. Authority changes (approved and applied 2026-10-17, commit `6417f95`)
