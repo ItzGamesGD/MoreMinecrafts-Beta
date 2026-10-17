@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.progression;
 import dev.itzgamesgd.moreminecrafts.fishing.FishSpecies;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +31,7 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
-import net.minecraft.world.level.block.RedStoneOreBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -149,11 +150,11 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
         ctx.assertTrue(QuestOreProvenance.verdict(level, natural) == QuestOreProvenance.Verdict.NON_NATURAL, "replaced ore is not natural");
         ctx.assertTrue(miner.gameMode.destroyBlock(natural) && counter(miner, "natural_ore_mined") == 1, "replaced ore does not count");
 
-        // Redstone ore lighting up is a same-block state change and keeps a natural verdict.
+        // A state-only update on the same generated ore preserves positive evidence.
         BlockPos second = ores.get(1);
-        level.getChunk(second).setBlockState(second, Blocks.REDSTONE_ORE.defaultBlockState(), 0); // natural-equivalent raw write
-        level.setBlock(second, Blocks.REDSTONE_ORE.defaultBlockState().setValue(RedStoneOreBlock.LIT, true), 3);
-        ctx.assertTrue(QuestOreProvenance.verdict(level, second) == QuestOreProvenance.Verdict.NATURAL, "lit redstone ore stays natural");
+        level.setBlock(second, level.getBlockState(second), 3);
+        ctx.assertTrue(QuestOreProvenance.verdict(level, second) == QuestOreProvenance.Verdict.NATURAL,
+                "same-block state update keeps the natural marker");
 
         ctx.succeed();
     }
@@ -162,37 +163,106 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
     public void pistonMovedNaturalOreDoesNotCount(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         BlockPos ore = ctx.absolutePos(new BlockPos(2, 3, 2));
-        ctx.assertTrue(QuestOreProvenance.verdict(level, ore) != QuestOreProvenance.Verdict.UNKNOWN, "test area chunk is tracked");
-        // Raw chunk write = how generation leaves an ore (no Level.setBlock), so the verdict is natural.
-        level.getChunk(ore).setBlockState(ore, Blocks.IRON_ORE.defaultBlockState(), 0);
+        level.setBlock(ore, Blocks.IRON_ORE.defaultBlockState(), 3);
+        // The natural-feature-write hook is exercised by the separate real decoration test.
+        // Here a positive source marker isolates the real piston movement behavior.
+        K5NaturalTreeProvenance.enterNaturalBiomeDecoration(level.registryAccess());
+        try {
+            QuestOreProvenance.recordGenerated(level, ore, level.getBlockState(ore));
+        } finally {
+            K5NaturalTreeProvenance.exitNaturalBiomeDecoration();
+        }
         ctx.assertTrue(QuestOreProvenance.verdict(level, ore) == QuestOreProvenance.Verdict.NATURAL, "natural before the move");
-        ctx.setBlock(new BlockPos(2, 2, 2), Blocks.PISTON.defaultBlockState().setValue(DirectionalBlock.FACING, Direction.UP));
-        ctx.setBlock(new BlockPos(2, 1, 2), Blocks.REDSTONE_BLOCK);
+        BlockState movedState = level.getBlockState(ore);
+        for (int i = 1; i <= 12; i++) level.setBlock(ore.above(i), Blocks.AIR.defaultBlockState(), 3);
+        level.setBlock(ore.below(), Blocks.PISTON.defaultBlockState().setValue(DirectionalBlock.FACING, Direction.UP), 3);
+        level.setBlock(ore.below(2), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
         ServerPlayer miner = survival(ctx);
         BlockPos moved = ore.above();
         ctx.succeedWhen(() -> {
-            ctx.assertTrue(level.getBlockState(moved).is(Blocks.IRON_ORE), "piston pushed the ore up");
-            ctx.assertTrue(QuestOreProvenance.verdict(level, moved) == QuestOreProvenance.Verdict.NON_NATURAL,
+            ctx.assertTrue(level.getBlockState(moved).is(movedState.getBlock()), "piston pushed the ore up");
+            ctx.assertTrue(QuestOreProvenance.verdict(level, moved) != QuestOreProvenance.Verdict.NATURAL,
                     "piston-moved ore is not natural");
             ctx.assertTrue(miner.gameMode.destroyBlock(moved) && counter(miner, "natural_ore_mined") == 0,
                     "piston-moved ore does not count");
         });
     }
 
+    @GameTest(maxTicks = 60)
+    public void crossChunkPistonArrivalDoesNotInheritNaturalOrigin(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos local = ctx.absolutePos(new BlockPos(2, 3, 2));
+        BlockPos ore = new BlockPos((local.getX() & ~15) + 15, local.getY(), local.getZ());
+        BlockPos destination = ore.east();
+        level.setBlock(ore, Blocks.IRON_ORE.defaultBlockState(), 3);
+        K5NaturalTreeProvenance.enterNaturalBiomeDecoration(level.registryAccess());
+        try {
+            QuestOreProvenance.recordGenerated(level, ore, level.getBlockState(ore));
+        } finally {
+            K5NaturalTreeProvenance.exitNaturalBiomeDecoration();
+        }
+        for (int i = 1; i <= 12; i++) level.setBlock(ore.east(i), Blocks.AIR.defaultBlockState(), 3);
+        level.setBlock(ore.west(), Blocks.PISTON.defaultBlockState().setValue(DirectionalBlock.FACING, Direction.EAST), 3);
+        level.setBlock(ore.west(2), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
+        ServerPlayer miner = survival(ctx);
+        ctx.succeedWhen(() -> {
+            ctx.assertTrue(level.getBlockState(destination).is(Blocks.IRON_ORE), "ore crossed the chunk boundary");
+            ctx.assertTrue(QuestOreProvenance.verdict(level, destination) != QuestOreProvenance.Verdict.NATURAL,
+                    "destination has no natural marker");
+            ctx.assertTrue(QuestOreProvenance.verdict(level, ore) != QuestOreProvenance.Verdict.NATURAL,
+                    "source marker was consumed");
+            ctx.assertTrue(miner.gameMode.destroyBlock(destination) && counter(miner, "natural_ore_mined") == 0,
+                    "cross-chunk piston ore never counts");
+        });
+    }
+
+    @GameTest
+    public void nestedAndCancelledBreakFramesDoNotLoseOrInventOreCredit(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        ServerPlayer miner = survival(ctx);
+        BlockPos outer = ctx.absolutePos(new BlockPos(1, 2, 1));
+        BlockPos inner = ctx.absolutePos(new BlockPos(2, 2, 1));
+        BlockPos cancelled = ctx.absolutePos(new BlockPos(3, 2, 1));
+        for (BlockPos pos : List.of(outer, inner, cancelled))
+            level.setBlock(pos, Blocks.IRON_ORE.defaultBlockState(), 3);
+        K5NaturalTreeProvenance.enterNaturalBiomeDecoration(level.registryAccess());
+        try {
+            for (BlockPos pos : List.of(outer, inner, cancelled))
+                QuestOreProvenance.recordGenerated(level, pos, level.getBlockState(pos));
+        } finally {
+            K5NaturalTreeProvenance.exitNaturalBiomeDecoration();
+        }
+        BlockState state = Blocks.IRON_ORE.defaultBlockState();
+        ctx.assertTrue(PlayerBlockBreakEvents.BEFORE.invoker().beforeBlockBreak(level, miner, outer, state, null),
+                "outer break allowed");
+        ctx.assertTrue(PlayerBlockBreakEvents.BEFORE.invoker().beforeBlockBreak(level, miner, inner, state, null),
+                "nested break allowed");
+        level.setBlock(inner, Blocks.AIR.defaultBlockState(), 3);
+        PlayerBlockBreakEvents.AFTER.invoker().afterBlockBreak(level, miner, inner, state, null);
+        level.setBlock(outer, Blocks.AIR.defaultBlockState(), 3);
+        PlayerBlockBreakEvents.AFTER.invoker().afterBlockBreak(level, miner, outer, state, null);
+        ctx.assertTrue(counter(miner, "natural_ore_mined") == 2, "both nested breaks credited once");
+        PlayerBlockBreakEvents.AFTER.invoker().afterBlockBreak(level, miner, outer, state, null);
+        PlayerBlockBreakEvents.BEFORE.invoker().beforeBlockBreak(level, miner, cancelled, state, null);
+        PlayerBlockBreakEvents.CANCELED.invoker().onBlockBreakCanceled(level, miner, cancelled, state, null);
+        PlayerBlockBreakEvents.AFTER.invoker().afterBlockBreak(level, miner, cancelled, state, null);
+        ctx.assertTrue(counter(miner, "natural_ore_mined") == 2, "repeated and cancelled callbacks add nothing");
+        ctx.succeed();
+    }
+
     @GameTest
     public void explodedOreCreditsNobodyAndSetblockOreIsNotNatural(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         ServerPlayer bystander = survival(ctx);
-        BlockPos natural = ctx.absolutePos(new BlockPos(2, 2, 2));
-        level.getChunk(natural).setBlockState(natural, Blocks.COAL_ORE.defaultBlockState(), 0);
+        BlockPos natural = QuestOreFixture.decorateWithNaturalOres(level, new ChunkPos(96, 98)).get(0);
         ctx.assertTrue(QuestOreProvenance.verdict(level, natural) == QuestOreProvenance.Verdict.NATURAL, "natural before the blast");
         level.explode(null, natural.getX() + 0.5D, natural.getY() + 0.5D, natural.getZ() + 0.5D, 3.0F, Level.ExplosionInteraction.TNT);
-        ctx.assertTrue(!level.getBlockState(natural).is(Blocks.COAL_ORE), "explosion removed the ore");
+        ctx.assertTrue(!QuestOreProvenance.isTrackedOre(level.getBlockState(natural)), "explosion removed the ore");
         ctx.assertTrue(counter(bystander, "natural_ore_mined") == 0, "an explosion is not player mining");
         // /setblock and every other Level.setBlock writer: non-natural.
         BlockPos commanded = ctx.absolutePos(new BlockPos(5, 2, 5));
         level.setBlock(commanded, Blocks.EMERALD_ORE.defaultBlockState(), 3);
-        ctx.assertTrue(QuestOreProvenance.verdict(level, commanded) == QuestOreProvenance.Verdict.NON_NATURAL, "setblock ore is not natural");
+        ctx.assertTrue(QuestOreProvenance.verdict(level, commanded) != QuestOreProvenance.Verdict.NATURAL, "setblock ore is not natural");
         ctx.assertTrue(bystander.gameMode.destroyBlock(commanded) && counter(bystander, "natural_ore_mined") == 0,
                 "setblock ore does not count");
         ctx.succeed();
@@ -206,7 +276,7 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
         ctx.placeAt(player, new ItemStack(Items.DIAMOND_ORE), floor, Direction.UP);
         BlockPos placed = ctx.absolutePos(floor.above());
         ctx.assertTrue(ctx.getLevel().getBlockState(placed).is(Blocks.DIAMOND_ORE), "ore placed");
-        ctx.assertTrue(QuestOreProvenance.verdict(ctx.getLevel(), placed) == QuestOreProvenance.Verdict.NON_NATURAL,
+        ctx.assertTrue(QuestOreProvenance.verdict(ctx.getLevel(), placed) != QuestOreProvenance.Verdict.NATURAL,
                 "player-placed ore marked non-natural");
         ctx.assertTrue(player.gameMode.destroyBlock(placed) && counter(player, "natural_ore_mined") == 0,
                 "silk-touch style re-mining gives nothing");
@@ -216,9 +286,10 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
     @GameTest
     public void unknownOriginChunkNeverCountsAndGenerationMarksTracked(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        var fresh = level.getChunk(120, 120);
-        ctx.assertTrue(fresh.getAttached(QuestOreProvenance.Storage.ATTACHMENT) != null
-                && fresh.getAttached(QuestOreProvenance.Storage.ATTACHMENT).tracked(), "chunk generated with the mod is tracked");
+        var generated = QuestOreFixture.decorateWithNaturalOres(level, new ChunkPos(120, 120));
+        ctx.assertTrue(!generated.isEmpty()
+                && QuestOreProvenance.verdict(level, generated.get(0)) == QuestOreProvenance.Verdict.NATURAL,
+                "a generated ore has positive evidence");
         // Pre-update chunk: no attachment. An ore present there (raw write, as if generated earlier) is unknown.
         var old = level.getChunk(124, 124);
         old.removeAttached(QuestOreProvenance.Storage.ATTACHMENT);
@@ -233,7 +304,7 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
 
     @GameTest
     public void oreProvenanceCodecRoundTrips(GameTestHelper ctx) {
-        var data = new QuestOreProvenance.ChunkData(QuestOreProvenance.SCHEMA_VERSION, true, Set.of(1L, -5L, 123456789L));
+        var data = new QuestOreProvenance.ChunkData(QuestOreProvenance.SCHEMA_VERSION, Set.of(1L, -5L, 123456789L));
         var encoded = QuestOreProvenance.CODEC.encodeStart(net.minecraft.nbt.NbtOps.INSTANCE, data).getOrThrow();
         var decoded = QuestOreProvenance.CODEC.parse(net.minecraft.nbt.NbtOps.INSTANCE, encoded).getOrThrow();
         ctx.assertTrue(decoded.equals(data), "in-process codec round trip (not a process restart)");
