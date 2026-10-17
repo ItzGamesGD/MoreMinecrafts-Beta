@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:logs",
+    "#minecraft:planks",
+    "#minecraft:stone_crafting_materials",
+    "#minecraft:wool",
+    "minecraft:stick",
+    "minecraft:string",
+    "minecraft:leather",
+    "minecraft:paper",
+    "minecraft:clay_ball",
+    "minecraft:brick",
+    "minecraft:glass",
+    "minecraft:glass_pane",
+    "minecraft:sand",
+    "minecraft:red_sand",
+    "minecraft:sugar",
+    "minecraft:wheat",
+    "minecraft:egg",
+    "minecraft:bone",
+    "minecraft:feather",
+    "minecraft:flint",
+    "minecraft:coal",
+    "minecraft:charcoal"
+  ]
+}

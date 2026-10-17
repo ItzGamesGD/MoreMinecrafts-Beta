@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
+import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasInput;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionNodeLayoutCatalog;
@@ -100,8 +101,11 @@ public final class ProgressionBrowseScreen extends Screen {
                 ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), responsive.viewport().y(), node.y()))) canvas.select(id, true);
         double x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), responsive.viewport().x(), node.x());
         double y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), responsive.viewport().y(), node.y());
+        String hitBefore = canvas.hitTest(x, y);
         boolean accepted = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
         mouseReleased(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)));
+        MoreMinecrafts.LOGGER.info("VISUAL_NODE_CLICK id={} x={} y={} hit={} accepted={} selected={} pending={}",
+                id, x, y, hitBefore, accepted, canvas.selectedId(), ProgressionClientApi.purchasePending(id));
         return accepted;
     }
 

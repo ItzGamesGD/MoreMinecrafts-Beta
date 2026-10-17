@@ -9,8 +9,10 @@ on:
   pull_request:
     branches:
       - main
+      - integration/stage23-final-reconciliation-20261016
     paths:
       - ".github/workflows/client-visual-validation.yml"
+      - "src/**"
       - "src/client/**"
       - "src/main/resources/**"
       - "scripts/visual_validation/**"

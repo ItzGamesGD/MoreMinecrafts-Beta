@@ -266,10 +266,16 @@ public final class VisualValidationHarness {
                 purchaseChestBefore = itemCount(client, "minecraft:chest");
                 purchaseIronBlocksBefore = itemCount(client, "minecraft:iron_block");
                 purchasePaperBefore = itemCount(client, "minecraft:paper");
-                if (!browse.validationClickNode("nearby_chest_ingredients")
-                        || client.gui.screen() != browse
-                        || !ProgressionClientApi.purchasePending("nearby_chest_ingredients")) {
-                    failJourney("one-click purchase did not submit one pending server request"); return;
+                boolean clickAccepted = browse.validationClickNode("nearby_chest_ingredients");
+                boolean sameScreen = client.gui.screen() == browse;
+                boolean purchasePending = ProgressionClientApi.purchasePending("nearby_chest_ingredients");
+                var clickedRow = ProgressionClientApi.research(null).stream()
+                        .filter(entry -> entry.id().equals("nearby_chest_ingredients")).findFirst().orElse(null);
+                if (!clickAccepted || !sameScreen || !purchasePending) {
+                    failJourney("one-click purchase failed: accepted=" + clickAccepted + " same_screen=" + sameScreen
+                            + " pending=" + purchasePending + " availability="
+                            + (clickedRow == null ? "missing" : clickedRow.availability())
+                            + " level=" + (clickedRow == null ? -1 : clickedRow.level())); return;
                 }
                 MoreMinecrafts.LOGGER.info("CLIENT_UI_ONE_CLICK_SUBMITTED research=nearby_chest_ingredients input=synthetic_screen_callback");
                 uiJourneyStage = 4;

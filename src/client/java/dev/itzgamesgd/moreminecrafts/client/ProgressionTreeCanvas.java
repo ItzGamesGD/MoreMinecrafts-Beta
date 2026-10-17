@@ -157,6 +157,7 @@ public final class ProgressionTreeCanvas {
         graphics.enableScissor(viewport.x(), viewport.y(), viewport.right(), viewport.bottom());
         try {
             drawBranches(graphics, font);
+            if ("research".equals(screen)) drawPrerequisiteEdges(graphics, researchRows);
             hoveredId = validationHoveredId != null ? validationHoveredId : hitTest(mouseX, mouseY);
             for (var node : nodes) {
                 var knowledge = knowledgeRows.get(node.id());
@@ -211,6 +212,35 @@ public final class ProgressionTreeCanvas {
             graphics.fill(labelX - 2, labelY - 2, labelX + labelWidth + 2, labelY + 14, 0xB522211F);
             graphics.text(font, label, labelX, labelY, 0xFFE0D9C7, false);
         }
+    }
+
+    /** Draws the authoritative research graph; branch columns are only visual grouping. */
+    private void drawPrerequisiteEdges(GuiGraphicsExtractor graphics,
+            Map<String, ProgressionScreenData.ResearchRow> researchRows) {
+        for (var row : researchRows.values()) {
+            var child = byId.get(row.id());
+            if (child == null) continue;
+            for (String prerequisiteId : row.prerequisiteResearch()) {
+                var parent = byId.get(prerequisiteId);
+                if (parent == null) continue;
+                int startX = screenX(parent.x());
+                int startY = screenY(parent.y());
+                int endX = screenX(child.x());
+                int endY = screenY(child.y());
+                int bendX = startX + (endX - startX) / 2;
+                drawHorizontal(graphics, startX, bendX, startY);
+                drawVertical(graphics, bendX, startY, endY);
+                drawHorizontal(graphics, bendX, endX, endY);
+            }
+        }
+    }
+
+    private static void drawHorizontal(GuiGraphicsExtractor graphics, int x1, int x2, int y) {
+        graphics.fill(Math.min(x1, x2), y - 1, Math.max(x1, x2) + 1, y + 1, 0xFF756D5E);
+    }
+
+    private static void drawVertical(GuiGraphicsExtractor graphics, int x, int y1, int y2) {
+        graphics.fill(x - 1, Math.min(y1, y2), x + 1, Math.max(y1, y2) + 1, 0xFF756D5E);
     }
 
     private void drawNode(GuiGraphicsExtractor graphics, Font font, ProgressionNodeLayoutCatalog.Node node,

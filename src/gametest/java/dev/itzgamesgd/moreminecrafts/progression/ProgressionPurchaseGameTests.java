@@ -17,6 +17,7 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
         buyer.getInventory().add(new ItemStack(Items.REDSTONE, 64));
         buyer.getInventory().add(new ItemStack(Items.DIAMOND, 4));
         KnowledgeRuntime.grantKnowledge(buyer, 9);
+        own(buyer, "resources_root", "v3.research.01");
         int xpBefore = RawXp.available(buyer);
 
         ctx.assertTrue(ResearchPurchaseService.purchase(buyer, "throwable_pickaxe", 1)
@@ -43,6 +44,7 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
         ServerPlayer poorBuyer = ctx.makeMockServerPlayerInLevel();
         poorBuyer.giveExperiencePoints(1200);
         KnowledgeRuntime.grantKnowledge(poorBuyer, 9);
+        own(poorBuyer, "resources_root", "v3.research.01");
         int poorXpBefore = RawXp.available(poorBuyer);
         ctx.assertTrue(ResearchPurchaseService.purchase(poorBuyer, "throwable_pickaxe", 1)
                 == ResearchPurchaseService.Result.MISSING_MATERIALS, "missing materials reject the purchase");
@@ -64,6 +66,7 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
         ServerPlayer lowXp = ctx.makeMockServerPlayerInLevel();
         fillThrowablePickaxeMaterials(lowXp);
         KnowledgeRuntime.grantKnowledge(lowXp, 9);
+        own(lowXp, "resources_root", "v3.research.01");
         int lowXpBefore = RawXp.available(lowXp);
         ctx.assertTrue(ResearchPurchaseService.purchase(lowXp, "throwable_pickaxe", 1)
                 == ResearchPurchaseService.Result.INSUFFICIENT_XP, "insufficient raw XP rejects purchase");
@@ -83,6 +86,7 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
         equippedBuyer.setItemSlot(net.minecraft.world.entity.EquipmentSlot.FEET,
                 new ItemStack(Items.LEATHER_BOOTS));
         KnowledgeRuntime.grantKnowledge(equippedBuyer, 54);
+        own(equippedBuyer, "world_root", "v3.research.55");
         int equippedXpBefore = RawXp.available(equippedBuyer);
         ctx.assertTrue(ResearchPurchaseService.purchase(equippedBuyer, "fall_roll", 1)
                 == ResearchPurchaseService.Result.MISSING_MATERIALS,
@@ -99,6 +103,12 @@ public final class ProgressionPurchaseGameTests implements CustomTestMethodInvok
         player.getInventory().add(new ItemStack(Items.IRON_BLOCK, 4));
         player.getInventory().add(new ItemStack(Items.REDSTONE, 64));
         player.getInventory().add(new ItemStack(Items.DIAMOND, 4));
+    }
+
+    private static void own(ServerPlayer player, String... ids) {
+        ResearchProgressState state = KnowledgeRuntime.state(player);
+        for (String id : ids) state = state.with("research." + id, 1);
+        KnowledgeRuntime.updateState(player, state);
     }
 
     @Override

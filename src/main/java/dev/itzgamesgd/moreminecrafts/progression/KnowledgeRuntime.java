@@ -60,10 +60,15 @@ public final class KnowledgeRuntime {
 
     public static void initialize() {
         K5NaturalTreeProvenance.initialize();
+        FarmlandCultivators.initialize();
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
+            ResearchProgressLookup.playerJoined(server, player.getUUID());
             SILENT_RECONCILIATION.add(player.getUUID());
             try {
+                ResearchProgressState beforeMigration = state(player);
+                ResearchProgressState migrated = ResearchRootMigration.migrate(beforeMigration);
+                if (!migrated.equals(beforeMigration)) updateState(player, migrated);
                 observeExploration(player);
                 observeEffectTypes(player);
                 refresh(player);
@@ -90,8 +95,10 @@ public final class KnowledgeRuntime {
                     && state.getValue(net.minecraft.world.level.block.CropBlock.AGE) >= crop.getMaxAge())
                 recordCondition(serverPlayer, "crops_harvested", value(serverPlayer,"condition.crops_harvested") + 1);
         });
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                PICKAXE_DAMAGE.playerDisconnected(handler.player.getUUID()));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            ResearchProgressLookup.playerDisconnected(server, handler.player);
+            PICKAXE_DAMAGE.playerDisconnected(handler.player.getUUID());
+        });
         net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
             String entityId = String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
             String path = entityId.substring(entityId.indexOf(':') + 1);
