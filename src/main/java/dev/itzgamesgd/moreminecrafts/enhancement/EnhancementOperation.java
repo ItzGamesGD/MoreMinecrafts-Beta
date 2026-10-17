@@ -2,7 +2,7 @@ package dev.itzgamesgd.moreminecrafts.enhancement;
 
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
-import dev.itzgamesgd.moreminecrafts.progression.XpLevels;
+import dev.itzgamesgd.moreminecrafts.progression.RawXp;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -45,25 +45,49 @@ public final class EnhancementOperation {
         return plan(definition.get(), level(equipment), Integer.MAX_VALUE).map(plan -> result(equipment, plan));
     }
 
-    /** Server-authoritative one-step transaction; inputs stay in their workstation slots. */
+    /** GameTest seam: runs after XP and material are taken and the level is written. */
+    static volatile Runnable failureInjectionForTests;
+
+    /**
+     * Server-authoritative one-step transaction; inputs stay in their workstation slots.
+     * Validation happens before any mutation. If anything fails after the exact raw-XP deduction,
+     * the XP fields, the material count and the equipment's full component state are restored.
+     */
     public static boolean apply(Player player, ItemStack equipment, ItemStack material) {
         if (player.level().isClientSide()) {
             return false;
         }
         Optional<Result> preview = preview(equipment, material);
-        if (preview.isEmpty() || !XpLevels.pay(player, preview.get().experienceLevelCost())) {
+        if (preview.isEmpty() || !RawXp.canPay(player, preview.get().rawXpCost())) {
             return false;
         }
         Result result = preview.get();
-        equipment.set(ModDataComponents.ENHANCEMENT_LEVEL, result.targetLevel());
-        material.shrink(result.materialCost());
-        return true;
+        RawXp.Snapshot xpBefore = RawXp.Snapshot.of(player);
+        Integer levelBefore = equipment.get(ModDataComponents.ENHANCEMENT_LEVEL);
+        int materialBefore = material.getCount();
+        try {
+            if (!RawXp.pay(player, result.rawXpCost())) {
+                return false;
+            }
+            material.shrink(result.materialCost());
+            equipment.set(ModDataComponents.ENHANCEMENT_LEVEL, result.targetLevel());
+            Runnable injection = failureInjectionForTests;
+            if (injection != null) injection.run();
+            return true;
+        } catch (RuntimeException failure) {
+            xpBefore.restore(player);
+            material.setCount(materialBefore);
+            // The transition writes only the enhancement level, so restoring it restores the item.
+            if (levelBefore == null) equipment.remove(ModDataComponents.ENHANCEMENT_LEVEL);
+            else equipment.set(ModDataComponents.ENHANCEMENT_LEVEL, levelBefore);
+            return false;
+        }
     }
 
     private static Result result(ItemStack equipment, Plan plan) {
         ItemStack result = equipment.copyWithCount(1);
         result.set(ModDataComponents.ENHANCEMENT_LEVEL, plan.targetLevel());
-        return new Result(result, plan.targetLevel(), plan.experienceLevelCost(), plan.materialCost(),
+        return new Result(result, plan.targetLevel(), plan.rawXpCost(), plan.materialCost(),
                 plan.milestone(), plan.milestoneCount());
     }
 
@@ -92,7 +116,7 @@ public final class EnhancementOperation {
         }
         return Optional.of(new Plan(
                 targetLevel,
-                cost.experienceLevelCost(),
+                cost.rawXpCost(),
                 cost.materialCount(),
                 EnhancementRules.isMilestone(targetLevel),
                 EnhancementRules.milestoneCount(targetLevel)
@@ -115,11 +139,11 @@ public final class EnhancementOperation {
         return EnhancementEffects.value(stack, EnhancementEffect.Target.ATTACK_DAMAGE);
     }
 
-    record Plan(int targetLevel, int experienceLevelCost, int materialCost,
+    record Plan(int targetLevel, int rawXpCost, int materialCost,
                 boolean milestone, int milestoneCount) {
     }
 
-    public record Result(ItemStack stack, int targetLevel, int experienceLevelCost, int materialCost,
+    public record Result(ItemStack stack, int targetLevel, int rawXpCost, int materialCost,
                          boolean milestone, int milestoneCount) {
     }
 }
