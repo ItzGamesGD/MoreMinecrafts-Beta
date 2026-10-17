@@ -28,6 +28,7 @@ public final class ModRegistries {
         AbilityAttachments.initialize();
         ModDataComponents.initialize();
         dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.initialize();
+        dev.itzgamesgd.moreminecrafts.progression.XpQuestTracking.initialize();
         dev.itzgamesgd.moreminecrafts.progression.ResearchMovementRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.progression.ResearchDebugCommands.initialize();
         ModItems.initialize();
