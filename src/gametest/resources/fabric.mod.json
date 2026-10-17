@@ -25,7 +25,9 @@
       "dev.itzgamesgd.moreminecrafts.progression.Research23AExpandedGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.Research23ABatch2GameTests",
       "dev.itzgamesgd.moreminecrafts.progression.ResearchRemainingGameTests",
-      "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests"
+      "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.SoilStudyGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.VillagerTradingGameTests"
     ]
   },
   "mixins": [

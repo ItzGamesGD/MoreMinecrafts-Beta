@@ -24,9 +24,12 @@ abstract class BlockMixin {
     private static void moreminecrafts$smeltMinedBlockDrops(BlockState state, ServerLevel level, BlockPos pos,
             BlockEntity blockEntity, Entity entity, ItemInstance tool, CallbackInfoReturnable<List<ItemStack>> cir) {
         List<ItemStack> drops = cir.getReturnValue();
+        List<ItemStack> vanillaDrops = drops;
         if (entity instanceof ServerPlayer player) {
             drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
                     .applySeedHarvestResearch(player, state, drops);
+            drops = dev.itzgamesgd.moreminecrafts.progression.SoilStudyRuntime
+                    .applySeedYield(player, state, vanillaDrops, drops);
             // Lumbering extra logs enter the one enchantment pass alongside vanilla drops.
             drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
                     .applyLumberingResearch(player, state, drops);

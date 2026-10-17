@@ -83,7 +83,11 @@
     "ResearchSplashPotionMixin",
     "ResearchLingeringPotionMixin",
     "ResearchConsecutiveSweepMixin",
-    "ResearchHorseRidingMixin"
+    "ResearchHorseRidingMixin",
+    "SoilStudyFarmlandMixin",
+    "SoilStudyFarmlandMutationMixin",
+    "SoilStudyStemGrowthMixin",
+    "ResearchVillagerDiscountMixin"
   ],
   "injectors": {
     "defaultRequire": 1
