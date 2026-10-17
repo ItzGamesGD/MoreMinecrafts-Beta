@@ -121,12 +121,12 @@ State reaches the client through the existing snapshot/delta payloads. The clien
 - **Baselines:** history enters once per key through `quest.baseline.<key>` (placement: the `ITEM_USED` sum over `BlockItem`s; capped counters: the stored `condition.<key>`). The live counter then adds only events after capture. This is equivalent to the `max(counter, condition)` seed of §3.2 for the counters, and it counts post-update lily pads and other `use`-path placements that `ITEM_USED` misses.
 - **Uncapped counters:** `KnowledgeRuntime.recordCondition` forwards each report to `XpQuestHooks`. For the twelve increment-style collectors (all report `stored + n`), the delta = reported − stored is the event amount, including past the Knowledge cap.
 - **Ore provenance:** §3.4 now records the owner-approved piston rule and the positive-evidence v2 repair. Piston-moved ore does not count, including cross-chunk movement. Explosion, piston departure and replacement consume the source marker. The eight MoreMinecrafts ore variants count for `min.first_custom_ore`; adamantium debris is excluded there and remains eligible for `min.adamantium_10`. Rewards and the catalog ledger are unchanged.
-- **Registered in Q1-B (39):**
+- **Registered in Q1-B after independent source gate (30):**
   - **Placement:** `bld.place_1000/10000/50000/200000`, `bld.variety_50/150`.
   - **Ore:** `min.ore_1000/5000/20000`, `min.diamond_ore_64`, `min.debris_16`, `min.adamantium_10`, `min.first_custom_ore`, `min.custom_ore_survey`, `min.deepslate_custom`.
-  - **Counters:** `min.logs_1000`, `min.pickaxe_5000`, `frm.harvest_1000/5000`, `frm.till_1000`, `frm.barter_200`, `fsh.catch_500`, `cft.anvil_50`, `cft.redstone_100`, `exp.archaeology_30`, `cmb.shield_500`, `cmb.trident_50`, `alc.potions_250`.
+  - **Counters:** `min.logs_1000`, `min.pickaxe_5000`, `frm.till_1000`, `frm.barter_200`, `cft.anvil_50`, `cft.redstone_100`, `exp.archaeology_30`, `cmb.shield_500`, `cmb.trident_50`, `alc.potions_250`.
   - **Other events:** `frm.tame_5`, `dim.nether_travel_50k` (every CUSTOM `*_one_cm` statistic awarded in the Nether), `fsh.first_sale/sale_64/emerald_500`.
-  - **Crafting statistics:** `cft.sleeping_bag`, `cft.parachute`, `cft.all_daggers`, `cft.all_greatswords`, `cft.mm_blocks`, `frm.composite_foods`.
+  - **Source-gated/unregistered (9):** `frm.harvest_1000/5000`, `fsh.catch_500`, `cft.sleeping_bag`, `cft.parachute`, `cft.all_daggers`, `cft.all_greatswords`, `cft.mm_blocks`, `frm.composite_foods`. Their IDs, targets, rewards and any saved evidence remain in the catalog. Mature-crop harvest, successful custom fish catch and all approved crafting-result statistics need focused live player-attribution and rejection tests before registration.
   - Every other NOW quest stays unregistered until its own detection and test exist.
 - **Catalog target correction:** `catalog.json` had set-quest targets defaulted to 1 by the generator. They now match catalog A's entry counts, for example `all_daggers` 7. Rewards and the ledger are unchanged.
 
