@@ -31,7 +31,18 @@ final class XpQuestEvaluator {
 
     long value(XpQuestCatalogData.Tracker tracker) {
         return switch (tracker.kind()) {
-            case "counter" -> QuestRules.counter(state, tracker.key());
+            case "counter" -> (baseline(tracker.seedCondition()) + QuestRules.counter(state, tracker.key())) / tracker.divisor();
+            case "counter_sum" -> tracker.entries().stream().mapToLong(k -> QuestRules.counter(state, k)).sum();
+            case "placement" -> baseline(XpQuestHooks.BLOCK_ITEMS_USED_BASELINE)
+                    + QuestRules.counter(state, XpQuestHooks.BLOCKS_PLACED);
+            case "distinct_set" -> tracker.entries().isEmpty() ? QuestRules.distinctCount(state, tracker.key())
+                    : tracker.entries().stream().filter(e -> state.get(QuestRules.seenKey(tracker.key(), e)) != 0).count();
+            case "distinct_groups" -> tracker.entries().stream().filter(group -> java.util.Arrays.stream(group.split("\\|"))
+                    .anyMatch(e -> state.get(QuestRules.seenKey(tracker.key(), e)) != 0)).count();
+            case "stat_crafted_distinct" -> tracker.entries().stream().filter(id -> {
+                var item = BuiltInRegistries.ITEM.getOptional(Identifier.parse(id));
+                return item.isPresent() && stats().getValue(Stats.ITEM_CRAFTED.get(item.get())) > 0;
+            }).count();
             case "stat_custom" -> customStats(tracker) / tracker.divisor();
             case "stat_block_items_used" -> memo("block_items_used", () -> blockItemsUsed(false));
             case "stat_block_items_distinct" -> memo("block_items_distinct", () -> blockItemsUsed(true));
@@ -43,6 +54,11 @@ final class XpQuestEvaluator {
             case "knowledge_count" -> knowledgeCount("resolved".equals(tracker.key()));
             default -> XpQuestResearchValue.value(state, tracker);
         };
+    }
+
+    /** Baseline captured once by XpQuestHooks; absent or blank means no recognised history. */
+    private long baseline(String key) {
+        return key == null || key.isBlank() ? 0 : Math.max(0, state.get(XpQuestHooks.baselineKey(key)));
     }
 
     private long memo(String key, java.util.function.LongSupplier supplier) {

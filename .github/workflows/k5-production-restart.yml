@@ -47,6 +47,24 @@ jobs:
           set -o pipefail
           ./gradlew runGameTest --no-daemon 2>&1 | tee k5-restart-read.log
           grep -F 'K5_RESTART_READ' k5-restart-read.log
+      - name: Process A saves XP Quest ore provenance
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_ore_restart_game_tests_ore_provenance_survives_real_save_unload_and_reload
+            -Dmoreminecrafts.questore.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-ore-restart-write.log
+          grep -F 'QUEST_ORE_RESTART_WRITE' quest-ore-restart-write.log
+      - name: Process B reloads XP Quest ore provenance from disk
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_ore_restart_game_tests_ore_provenance_survives_real_save_unload_and_reload
+            -Dmoreminecrafts.questore.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-ore-restart-read.log
+          grep -F 'QUEST_ORE_RESTART_READ' quest-ore-restart-read.log
       - name: Upload focused logs and manifest
         if: always()
         uses: actions/upload-artifact@v4
@@ -56,5 +74,8 @@ jobs:
             k5-restart-write.log
             k5-restart-read.log
             build/run/gameTest/k5-restart-fixture.txt
+            quest-ore-restart-write.log
+            quest-ore-restart-read.log
+            build/run/gameTest/quest-ore-restart-fixture.txt
           if-no-files-found: warn
           retention-days: 14

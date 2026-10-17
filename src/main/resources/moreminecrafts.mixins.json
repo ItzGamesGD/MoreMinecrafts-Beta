@@ -87,7 +87,12 @@
     "SoilStudyFarmlandMixin",
     "SoilStudyFarmlandMutationMixin",
     "SoilStudyStemGrowthMixin",
-    "ResearchVillagerDiscountMixin"
+    "ResearchVillagerDiscountMixin",
+    "QuestOreChunkGeneratorMixin",
+    "QuestOreLevelSetBlockMixin",
+    "QuestBlockPlacementMixin",
+    "QuestTameAnimalTriggerMixin",
+    "QuestMovementStatMixin"
   ],
   "injectors": {
     "defaultRequire": 1

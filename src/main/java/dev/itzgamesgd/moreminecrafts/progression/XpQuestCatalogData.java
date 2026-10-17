@@ -22,7 +22,8 @@ public final class XpQuestCatalogData {
     public static final Set<String> EVALUABLE_KINDS = Set.of("counter", "stat_custom", "stat_block_items_used",
             "stat_block_items_distinct", "stat_killed", "stat_killed_monsters", "stat_killed_monsters_distinct",
             "stat_mined", "knowledge_seen", "knowledge_count", "research_nodes", "research_roots", "research_tier",
-            "research_breadth", "research_discipline_complete", "research_value");
+            "research_breadth", "research_discipline_complete", "research_value",
+            "counter_sum", "placement", "distinct_set", "distinct_groups", "stat_crafted_distinct");
 
     public record Tracker(String kind, String key, List<String> entries, int divisor, String seedCondition) {
         public Tracker {
