@@ -44,6 +44,21 @@ fabricApi {
     }
 }
 
+loom {
+    runs {
+        // Experimental underground-kingdom worldgen probe (docs/UNDERGROUND_KINGDOM_WORLDGEN_PROBE.md).
+        // Dedicated server + the gametest mod (which hosts the inert-by-default WorldgenProbe entrypoint).
+        // Driven by tools/worldgen-probe/run_matrix.sh; not part of check/build/CI.
+        worldgenProbe {
+            server()
+            name = "Worldgen Probe"
+            source sourceSets.gametest
+            runDir = "build/worldgen-probe/run"
+            ideConfigGenerated false
+        }
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
