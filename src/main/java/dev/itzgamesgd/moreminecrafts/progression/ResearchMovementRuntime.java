@@ -66,7 +66,7 @@ public final class ResearchMovementRuntime {
                 BlockPos wall = player.blockPosition().relative(player.getDirection());
                 if (player.level().getBlockState(wall).is(BlockTags.MINEABLE_WITH_PICKAXE)) {
                     var velocity = player.getDeltaMovement();
-                    player.setDeltaMovement(velocity.x, 0.15D, velocity.z);
+                    player.setDeltaMovement(velocity.x, ResearchMovementRules.climbVelocityPerTick(), velocity.z);
                     player.fallDistance = 0;
                     state.hangingTicks = 0;
                 }

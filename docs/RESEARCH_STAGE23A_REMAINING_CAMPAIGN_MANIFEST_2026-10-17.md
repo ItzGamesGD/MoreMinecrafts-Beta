@@ -64,7 +64,7 @@ The canonical pre-campaign recount is **48 DATA_ONLY + 37 PARTIAL + 2 BLOCKED = 
 - `.59` and `.66` have vanilla brewing stands and output provenance, but no attributed purchaser for unattended brewing time/fuel. **DESIGN_MISSING**.
 - `.49` has ordinary boats; the approved powered engine has no registered runtime, and vanilla boat propulsion is client-authoritative. Implementing a universal navigation bonus needs the approved powered-boat prerequisite and synchronized movement path. **PREREQUISITE_MISSING / RUNTIME_LIMITATION**.
 - `.14/.16/.52/.54/.63/.65` retain the exact crop/ownership/thematic/rare/catalyst definitions noted in their rows. V4 `piglin_barter` is one catalog level although older approved descriptions list three increments; its composition with `.54` remains unresolved. **DESIGN_MISSING / DESIGN_CONFLICT**.
-- `climbing` is PARTIAL with an existing climb velocity of 0.15 block/tick versus approved 1.5 blocks/s (0.075/tick). `mob_capture` is PARTIAL but its draft callback does not require purchase. These are implementation defects; they are tracked separately from the DATA_ONLY count.
+- `climbing` and `mob_capture` had code-level defects at the parent: 0.15 block/tick climb versus approved 0.075, and a capture callback without the purchased gate. Both were corrected in campaign groups 2–3. Remaining draft capture roundtrip risks and physical climb validation are tracked separately from the DATA_ONLY count.
 
 ## Implemented campaign group 1
 
@@ -73,3 +73,7 @@ The canonical pre-campaign recount is **48 DATA_ONLY + 37 PARTIAL + 2 BLOCKED = 
 ## Implemented campaign group 2
 
 `.50` Riding: for ordinary vanilla Horses, each purchased level adds 5% of the relevant natural distribution width to speed (0.225), jump (0.6) and max health (15) through rider-owned transient attribute modifiers. The native base is unchanged; dismount, rider switch and restart remove/recompute the bonus. Other equine species need their own distribution audit before claiming universal support. Existing PARTIAL `mob_capture` now requires the paid V4 purchase before capture; unpaid use does not remove a target or consume durability. Its preexisting draft release/UUID/custom-mob limitations remain. Java 25 clean build, 307 JUnit tests, all 130 GameTests, focused horse/capture tests and a separate researched cloud save/load test passed. Exact-HEAD CI remains pending. The canonical audit is **45 DATA_ONLY + 40 PARTIAL + 2 BLOCKED = 87**.
+
+## Implemented campaign group 3
+
+Existing PARTIAL `climbing` now sets 0.075 upward velocity per tick, matching the approved 1.5 blocks/s. Server input GameTest verifies purchased/unpurchased, airborne, forward wall and pickaxe conditions. This repair changes no purchase data and does not change the 87-node status totals. Java 25 clean build, all 308 JUnit tests and all 131 GameTests passed; exact-HEAD CI and live movement feel remain pending.

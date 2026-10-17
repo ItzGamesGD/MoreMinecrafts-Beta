@@ -22,6 +22,34 @@ import net.minecraft.world.phys.Vec3;
 
 public final class ResearchRemainingGameTests implements CustomTestMethodInvoker {
     @GameTest
+    public void climbingUsesApprovedVelocityOnlyWithPurchasedPickaxeAndForwardWallInput(GameTestHelper ctx)
+            throws Exception {
+        var player = survivalPlayer(ctx);
+        var above = ctx.absolutePos(new BlockPos(3, 4, 3));
+        player.setPos(above.getX() + 0.5D, above.getY(), above.getZ() + 0.5D);
+        player.setOnGround(false);
+        player.horizontalCollision = true;
+        player.setLastClientInput(new net.minecraft.world.entity.player.Input(true, false, false, false,
+                false, false, false));
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_PICKAXE));
+        ctx.getLevel().setBlockAndUpdate(player.blockPosition().relative(player.getDirection()),
+                net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
+        var tick = ResearchMovementRuntime.class.getDeclaredMethod("tick", net.minecraft.server.level.ServerPlayer.class);
+        tick.setAccessible(true);
+        tick.invoke(null, player);
+        ctx.assertTrue(player.getDeltaMovement().y == 0.0D, "unpaid player has no climbing impulse");
+        KnowledgeRuntime.updateState(player, ResearchProgressState.empty().with("research.climbing", 1));
+        tick.invoke(null, player);
+        ctx.assertTrue(Math.abs(player.getDeltaMovement().y - 1.5D / 20.0D) < 1.0e-9,
+                "the purchased player receives exactly the approved upward velocity");
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+        player.setDeltaMovement(Vec3.ZERO);
+        tick.invoke(null, player);
+        ctx.assertTrue(player.getDeltaMovement().y == 0.0D, "a pickaxe remains required");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void mobCaptureDraftRequiresPurchasedResearchBeforeRemovingTarget(GameTestHelper ctx) {
         var player = survivalPlayer(ctx);
         var tool = new ItemStack(dev.itzgamesgd.moreminecrafts.registry.ModItems.MOB_CAPTURE_TOOL);
