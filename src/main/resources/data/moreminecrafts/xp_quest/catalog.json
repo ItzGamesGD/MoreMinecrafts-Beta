@@ -1267,7 +1267,7 @@
     "divisor": 1,
     "seedCondition": null
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.frm.tame_5",
@@ -1303,7 +1303,7 @@
     "key": "crops_harvested",
     "seedCondition": "crops_harvested"
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.frm.till_1000",
@@ -1419,7 +1419,7 @@
     "key": "crops_harvested",
     "seedCondition": "crops_harvested"
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.frm.trades_200",
@@ -1618,7 +1618,7 @@
     "key": "fishing_successes",
     "seedCondition": "fishing_successes"
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.fsh.full_catalogue",
@@ -1703,7 +1703,7 @@
     "divisor": 1,
     "seedCondition": null
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.cft.enchanting_30",
@@ -1751,7 +1751,7 @@
     "divisor": 1,
     "seedCondition": null
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.cft.anvil_50",
@@ -1797,7 +1797,7 @@
     "divisor": 1,
     "seedCondition": null
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.cft.conduit",
@@ -1857,7 +1857,7 @@
     "divisor": 1,
     "seedCondition": null
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.cft.netherite_tools",
@@ -1891,7 +1891,7 @@
     "divisor": 1,
     "seedCondition": null
    },
-   "registered": true
+   "registered": false
   },
   {
    "id": "xpq.bld.place_1000",

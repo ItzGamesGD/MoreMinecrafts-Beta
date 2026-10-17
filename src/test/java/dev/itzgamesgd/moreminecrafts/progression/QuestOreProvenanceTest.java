@@ -9,24 +9,25 @@ import org.junit.jupiter.api.Test;
 class QuestOreProvenanceTest {
     private static final long POS = 42L;
 
-    @Test void missingOrUntrackedChunkDataIsUnknownNeverNatural() {
+    @Test void missingOrLegacyChunkDataIsUnknownNeverNatural() {
         assertEquals(QuestOreProvenance.Verdict.UNKNOWN, QuestOreProvenance.verdict(null, POS));
         assertEquals(QuestOreProvenance.Verdict.UNKNOWN, QuestOreProvenance.verdict(
-                new QuestOreProvenance.ChunkData(QuestOreProvenance.SCHEMA_VERSION, false, Set.of()), POS));
+                new QuestOreProvenance.ChunkData(1, Set.of(POS)), POS));
     }
 
-    @Test void trackedChunkIsNaturalUntilMarked() {
-        var tracked = QuestOreProvenance.ChunkData.TRACKED;
-        assertEquals(QuestOreProvenance.Verdict.NATURAL, QuestOreProvenance.verdict(tracked, POS));
-        var marked = tracked.withNonNatural(POS, true);
-        assertEquals(QuestOreProvenance.Verdict.NON_NATURAL, QuestOreProvenance.verdict(marked, POS));
-        assertEquals(QuestOreProvenance.Verdict.NATURAL, QuestOreProvenance.verdict(marked, POS + 1));
-        assertEquals(QuestOreProvenance.Verdict.NATURAL, QuestOreProvenance.verdict(marked.withNonNatural(POS, false), POS));
+    @Test void onlyPositiveOreWriteEvidenceIsNatural() {
+        var empty = new QuestOreProvenance.ChunkData(QuestOreProvenance.SCHEMA_VERSION, Set.of());
+        assertEquals(QuestOreProvenance.Verdict.NON_NATURAL, QuestOreProvenance.verdict(empty, POS));
+        var marked = empty.withNatural(POS, true);
+        assertEquals(QuestOreProvenance.Verdict.NATURAL, QuestOreProvenance.verdict(marked, POS));
+        assertEquals(QuestOreProvenance.Verdict.NON_NATURAL, QuestOreProvenance.verdict(marked, POS + 1));
+        assertEquals(QuestOreProvenance.Verdict.NON_NATURAL, QuestOreProvenance.verdict(marked.withNatural(POS, false), POS));
     }
 
     @Test void unchangedMarksReuseTheSameInstance() {
-        var marked = QuestOreProvenance.ChunkData.TRACKED.withNonNatural(POS, true);
-        assertSame(marked, marked.withNonNatural(POS, true));
-        assertSame(QuestOreProvenance.ChunkData.TRACKED, QuestOreProvenance.ChunkData.TRACKED.withNonNatural(POS, false));
+        var empty = new QuestOreProvenance.ChunkData(QuestOreProvenance.SCHEMA_VERSION, Set.of());
+        var marked = empty.withNatural(POS, true);
+        assertSame(marked, marked.withNatural(POS, true));
+        assertSame(empty, empty.withNatural(POS, false));
     }
 }

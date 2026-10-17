@@ -88,8 +88,9 @@
     "SoilStudyFarmlandMutationMixin",
     "SoilStudyStemGrowthMixin",
     "ResearchVillagerDiscountMixin",
-    "QuestOreChunkGeneratorMixin",
     "QuestOreLevelSetBlockMixin",
+    "QuestOreFeatureMixin",
+    "QuestScatteredOreFeatureMixin",
     "QuestBlockPlacementMixin",
     "QuestTameAnimalTriggerMixin",
     "QuestMovementStatMixin"

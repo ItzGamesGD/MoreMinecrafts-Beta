@@ -1,6 +1,11 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import java.util.Set;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Iterator;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
@@ -36,6 +41,8 @@ public final class XpQuestHooks {
     static final String TAMED_SET = "set.tamed";
     /** Bound for per-player distinct sets; the largest catalog target is 150. */
     static final int DISTINCT_CAP = 200;
+    private record PendingOre(Level level, BlockPos pos, BlockState state, boolean natural) {}
+    private static final Map<ServerPlayer, Deque<PendingOre>> PENDING_ORE = new WeakHashMap<>();
 
     private XpQuestHooks() {}
 
@@ -43,9 +50,41 @@ public final class XpQuestHooks {
     static void initialize() {
         QuestOreProvenance.initialize();
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> captureBaselines(handler.player));
-        PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
-            if (player instanceof ServerPlayer serverPlayer) oreMined(serverPlayer, level, pos, state);
+        PlayerBlockBreakEvents.BEFORE.register((level, player, pos, state, blockEntity) -> {
+            if (player instanceof ServerPlayer serverPlayer) {
+                boolean natural = QuestOreProvenance.isTrackedOre(state)
+                        && QuestOreProvenance.verdict(level, pos) == QuestOreProvenance.Verdict.NATURAL;
+                PENDING_ORE.computeIfAbsent(serverPlayer, ignored -> new ArrayDeque<>())
+                        .push(new PendingOre(level, pos.immutable(), state, natural));
+            }
+            return true;
         });
+        PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
+            if (player instanceof ServerPlayer serverPlayer) {
+                PendingOre pending = removePending(serverPlayer, level, pos, state);
+                if (pending != null && pending.natural()) oreMined(serverPlayer, state);
+            }
+        });
+        PlayerBlockBreakEvents.CANCELED.register((level, player, pos, state, blockEntity) -> {
+            if (player instanceof ServerPlayer serverPlayer) removePending(serverPlayer, level, pos, state);
+        });
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> PENDING_ORE.remove(handler.player));
+    }
+
+    /** Match the most recent frame; nested Vein Mining breaks can occur before an outer AFTER. */
+    private static PendingOre removePending(ServerPlayer player, Level level, BlockPos pos, BlockState state) {
+        Deque<PendingOre> frames = PENDING_ORE.get(player);
+        if (frames == null) return null;
+        for (Iterator<PendingOre> iterator = frames.iterator(); iterator.hasNext();) {
+            PendingOre pending = iterator.next();
+            if (pending.level() == level && pending.pos().equals(pos)
+                    && pending.state().getBlock() == state.getBlock()) {
+                iterator.remove();
+                if (frames.isEmpty()) PENDING_ORE.remove(player);
+                return pending;
+            }
+        }
+        return null;
     }
 
     static String baselineKey(String key) { return "quest.baseline." + key; }
@@ -111,12 +150,8 @@ public final class XpQuestHooks {
         write(player, before, next);
     }
 
-    /** Player-mined tracked ore: counts only when provenance is verified natural. */
-    static void oreMined(ServerPlayer player, Level level, BlockPos pos, BlockState state) {
-        if (!QuestOreProvenance.isTrackedOre(state)) return;
-        QuestOreProvenance.Verdict verdict = QuestOreProvenance.verdict(level, pos);
-        QuestOreProvenance.clear(level, pos);
-        if (verdict != QuestOreProvenance.Verdict.NATURAL) return;
+    /** Called only after a successful break whose pre-break origin was positively verified. */
+    private static void oreMined(ServerPlayer player, BlockState state) {
         String id = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
         ResearchProgressState before = KnowledgeRuntime.state(player);
         ResearchProgressState next = QuestRules.addCounter(before, "natural_ore_mined", 1);

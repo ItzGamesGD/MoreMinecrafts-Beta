@@ -33,17 +33,20 @@ final class XpQuestCatalogDataTest {
             "xpq.min.ore_1000", "xpq.min.ore_5000", "xpq.min.ore_20000", "xpq.min.diamond_ore_64",
             "xpq.min.debris_16", "xpq.min.adamantium_10", "xpq.min.first_custom_ore", "xpq.min.custom_ore_survey",
             "xpq.min.deepslate_custom", "xpq.min.logs_1000", "xpq.min.pickaxe_5000",
-            "xpq.frm.tame_5", "xpq.frm.harvest_1000", "xpq.frm.harvest_5000", "xpq.frm.till_1000",
-            "xpq.frm.barter_200", "xpq.frm.composite_foods",
+            "xpq.frm.tame_5", "xpq.frm.till_1000", "xpq.frm.barter_200",
             "xpq.dim.nether_travel_50k", "xpq.fsh.first_sale", "xpq.fsh.sale_64", "xpq.fsh.emerald_500",
-            "xpq.fsh.catch_500", "xpq.cft.sleeping_bag", "xpq.cft.parachute", "xpq.cft.all_daggers",
-            "xpq.cft.all_greatswords", "xpq.cft.mm_blocks", "xpq.cft.anvil_50", "xpq.cft.redstone_100",
+            "xpq.cft.anvil_50", "xpq.cft.redstone_100",
             "xpq.exp.archaeology_30", "xpq.cmb.shield_500", "xpq.cmb.trident_50", "xpq.alc.potions_250");
+    static final java.util.Set<String> Q1B_SOURCE_BLOCKED = java.util.Set.of(
+            "xpq.frm.harvest_1000", "xpq.frm.harvest_5000", "xpq.fsh.catch_500",
+            "xpq.frm.composite_foods", "xpq.cft.sleeping_bag", "xpq.cft.parachute",
+            "xpq.cft.all_daggers", "xpq.cft.all_greatswords", "xpq.cft.mm_blocks");
 
     @Test void onlyQuestsWithTheirOwnTestGateAreRegistered() {
         java.util.Set<String> registered = new java.util.TreeSet<>();
         CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered).forEach(q -> registered.add(q.id()));
         assertEquals(new java.util.TreeSet<>(Q1B_REGISTERED), registered);
+        assertTrue(Q1B_SOURCE_BLOCKED.stream().allMatch(id -> !spec(id).registered()));
         assertTrue(CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered)
                 .allMatch(q -> q.status().equals("NOW") && XpQuestCatalogData.EVALUABLE_KINDS.contains(q.tracker().kind())));
     }

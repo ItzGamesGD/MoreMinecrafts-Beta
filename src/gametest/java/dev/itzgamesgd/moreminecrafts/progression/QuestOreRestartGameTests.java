@@ -55,9 +55,11 @@ public final class QuestOreRestartGameTests implements CustomTestMethodInvoker {
 
     private static void verifyRestored(GameTestHelper ctx, ServerLevel level, LevelChunk chunk, Fixture fixture) {
         QuestOreProvenance.ChunkData data = chunk.getAttached(QuestOreProvenance.Storage.ATTACHMENT);
-        ctx.assertTrue(data != null && data.tracked() && data.schemaVersion() == QuestOreProvenance.SCHEMA_VERSION,
-                "tracked attachment restored from disk");
-        ctx.assertTrue(data.nonNatural().equals(Set.of(fixture.replaced().asLong())), "exact non-natural set restored");
+        ctx.assertTrue(data != null && data.schemaVersion() == QuestOreProvenance.SCHEMA_VERSION,
+                "positive ore attachment restored from disk");
+        ctx.assertTrue(!data.natural().contains(fixture.replaced().asLong()), "replaced marker remains consumed");
+        for (BlockPos ore : fixture.natural())
+            ctx.assertTrue(data.natural().contains(ore.asLong()), "generated marker restored " + ore);
         for (BlockPos ore : fixture.natural())
             ctx.assertTrue(QuestOreProvenance.verdict(level, ore) == QuestOreProvenance.Verdict.NATURAL, "natural after reload " + ore);
         ServerPlayer miner = ctx.makeMockServerPlayerInLevel();
