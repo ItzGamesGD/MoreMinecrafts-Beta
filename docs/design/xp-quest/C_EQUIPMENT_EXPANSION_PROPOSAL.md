@@ -1,6 +1,6 @@
 # C. 장비 콘텐츠 확장 제안서 (제안, 2026-10-17)
 
-> **최신 결정 반영 (2026-10-17):** §5의 XP 값은 시나리오 B 단계값 기준 잠정치다. 확정 시나리오 D에 맞추려면 동일 단계 곡선으로 재산정한다(≈×1.38). 장비 확장 자체는 미승인 제안이다. 승인된 결정의 정본은 `docs/UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md`(XP Quest amendment)와 `docs/STAGE_2_GAMEPLAY_RECONCILIATION.md`(Enhancement)이다. 이 설계 문서는 권한 문서가 아니다.
+> **최신 결정 반영 (2026-10-17):** §5의 XP 값은 시나리오 B 단계값 기준 잠정치이며 카탈로그 A·원장(209,100)에 포함되지 않는다. §2의 신규 장비 후보는 **미승인**이고 A의 FUTURE `t3_*` 퀘스트는 LOCKED T3 7종 기준으로 정정되었다. 확정 시나리오 D에 맞추려면 동일 단계 곡선으로 재산정한다(≈×1.38). 장비 확장 자체는 미승인 제안이다. 승인된 결정의 정본은 `docs/UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md`(XP Quest amendment)와 `docs/STAGE_2_GAMEPLAY_RECONCILIATION.md`(Enhancement)이다. 이 설계 문서는 권한 문서가 아니다.
 
 
 상태: **제안 — 장비 authority 아님, 미구현.** XP Quest 확정·구현의 선행 조건이 아니다.
