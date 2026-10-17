@@ -16,6 +16,8 @@
       "dev.itzgamesgd.moreminecrafts.progression.KnowledgeWorldActionGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAnimalFeedGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.ExactXpTransactionGameTests",
+      "dev.itzgamesgd.moreminecrafts.enhancement.EnhancementTransactionGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.fishing.FisheriesStudyGameTests",
