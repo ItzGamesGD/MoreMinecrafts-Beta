@@ -307,6 +307,28 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
 
+    /**
+     * Harness regression: the unload the persistence test waits for must stay observable even when an
+     * unrelated chunk that also has K5 markers unloads in the same window (the observation used to be a single
+     * last-writer-wins slot, so a second unload hid the first and the wait ran into its tick limit).
+     */
+    @GameTest
+    public void k5UnloadObservationSurvivesUnrelatedMarkedChunkUnloads(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        LevelChunk awaited = level.getChunkAt(ctx.absolutePos(new BlockPos(1, 2, 1)));
+        LevelChunk unrelated = level.getChunkAt(ctx.absolutePos(new BlockPos(1 + 48, 2, 1)));
+        ctx.assertTrue(awaited != unrelated, "two different chunk instances");
+        K5NaturalTreeProbe.recordMarkedChunkUnload(level, awaited);
+        K5NaturalTreeProbe.recordMarkedChunkUnload(level, unrelated);
+        ctx.assertTrue(K5NaturalTreeProbe.observedMarkedChunkUnload(level, awaited.getPos(), awaited),
+                "the awaited unload is still observable after an unrelated marked chunk unloaded");
+        ctx.assertTrue(K5NaturalTreeProbe.observedMarkedChunkUnload(level, unrelated.getPos(), unrelated),
+                "the unrelated unload is observable too");
+        ctx.assertTrue(!K5NaturalTreeProbe.observedMarkedChunkUnload(level, awaited.getPos(), unrelated),
+                "an observation never matches a different chunk instance");
+        ctx.succeed();
+    }
+
     @GameTest(maxTicks = 1250)
     public void k5NaturalChunkProvenanceSurvivesRealSaveUnloadReloadAndInvalidation(GameTestHelper ctx) {
         String restartPhase = System.getProperty("moreminecrafts.k5.restart.phase");
@@ -586,7 +608,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
             level.getChunkSource().save(true);
             ctx.assertTrue(K5NaturalTreeProbe.savedChunksWithMarkers() > savesBefore,
                     "ServerChunkCache.save(true) reached ChunkMap.save for a marked chunk");
-            K5NaturalTreeProbe.clearLastMarkedChunkUnload();
+            K5NaturalTreeProbe.clearMarkedChunkUnloads(level, targetPos);
             level.getChunkSource().removeTicketWithRadius(TicketType.FORCED, targetPos, 0);
             phaseTicks = 0;
             ctx.runAfterDelay(1, this::pollFirstUnload);
@@ -704,7 +726,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 level.getChunkSource().save(true);
                 ctx.assertTrue(K5NaturalTreeProbe.savedChunksWithMarkers() > savesBefore,
                         "mutated marker set was written through the real ChunkMap save path");
-                K5NaturalTreeProbe.clearLastMarkedChunkUnload();
+                K5NaturalTreeProbe.clearMarkedChunkUnloads(level, targetPos);
                 level.getChunkSource().removeTicketWithRadius(TicketType.FORCED, targetPos, 0);
                 phaseTicks = 0;
                 ctx.runAfterDelay(1, this::pollSecondUnload);
