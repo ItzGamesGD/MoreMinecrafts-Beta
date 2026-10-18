@@ -1,41 +1,87 @@
 # MoreMinecrafts — 희귀 교역단 및 인챈트 룬 결정 (2026-10-18)
 
-**Status:** User-confirmed design directions; documentation only. Merchant catalog, exact price, rarity, stock/restock and complete rune UI details remain to be designed. This document corrects the previous assistant misunderstanding of rune/option/enchantment relationships. Do not implement guessed rules.
+**Status: user-confirmed design decisions; DOCUMENTATION ONLY / NOT IMPLEMENTED.** This revision supersedes earlier two-merchant, undecided-stock, all-tier rune quotas, and normal-level rune merchandise proposals. Numerical prices, spawn replacement rate, tier probabilities, slot counts, exclusive custom merchandise and specific armor-trim selection are **NOT approved**.
 
-## 1. Rare merchant caravan: confirmed
+## 1. Rare merchant caravan — confirmed
 
-- **Five entities total:** caravan leader merchant (1), materials merchant (1), guard (1), pack llamas (2).
-- **Spawn model A:** replace **some existing vanilla wandering trader appearances** with caravans. The exact replacement chance and any proposed slight total-frequency increase are NOT approved numerical values; retain vanilla game-rule compatibility and avoid a second independent patrol-like timer.
-- **Merchandise model C:** mixture of unique functional goods and powerful equipment. Exact exclusive goods are deferred for later detailed design.
-- **Implicit merchant tiers and combinations:** vary generated equipment and merchandise across merchant appearances, so distinct merchant/stock combinations imply different quality tiers **without requiring visible tier labels**. Actual weighted pools and tier thresholds TBD.
-- **Purchase restrictions:** control purchases **through pricing**, not per-player purchase caps or arbitrary per-item transaction quotas. Exact shared stock, infinite stock, and restocking behavior are separate unresolved choices; do not silently reintroduce a purchase cap via stock policy.
-- The **Sharpness VI and VII enchantment runes** are explicitly important prospective caravan merchandise. Pricing, availability and whether any other acquisition path exists TBD.
+- **Exactly five entities: ONE merchant (1) + guard NPC (1) + pack llamas (3).** The previous merchant leader + materials merchant + guard + 2 llamas roster is rejected. All merchandise categories are handled by the single merchant.
+- **Spawn mode A:** replace some existing vanilla wandering trader spawn appearances, preserving relevant vanilla gamerules. Exact replacement percentage and any change to total wandering-trader frequency are not approved.
+- **Merchandise model C:** a broad specialty caravan carrying hard-to-obtain vanilla items, higher-level real-enchantment runes, enhanced/enchantment equipment, and later-designed exclusive functional gear. Do not populate generic food, logs, stone, ordinary ores/ingots or routine materials simply to fill a category.
+- **Implicit merchant quality tier:** merchandise mix/quality may vary by spawn, but do not show explicit tier labels. Proposed 60/30/9/1 weights, fixed per-tier SKU counts and tier-dependent guaranteed rune slots are NOT approved.
+- **Unlimited stock:** any offered trade can be repeated as long as the player can pay. **Price-only purchase control**: no per-player quotas, arbitrary cooldowns, depletion, restock throttles or mandatory limited quantities. Trade selection and pricing should persist across chunk reload/server restart; no reroll exploit.
+- **Vanilla merchant trade has two payment input slots.** Accept emerald blocks (worth 9 emeralds each) plus emeralds where necessary, instead of assuming six stacks of emeralds are required for a 384-emerald price. For a price P, block count = floor(P/9), remainder = P mod 9, within vanilla input stack limits; validate actual trade/slot compatibility during implementation. Example: 384 = 42 blocks + 6 emeralds. No custom checkout UI is authorized solely by that price.
+- **Not every tier must offer runes.** Do not force a rune minimum on normal or other tier merchants. Runes are rare specialty merchandise selected from the approved over-cap list only.
 
-## 2. Critical system distinction: runes are real enchantments, books are options
+## 2. Approved vanilla rare merchandise: eleven groups
 
-**User correction (normative):** Enchantment runes **apply the actual enchantment** to equipment; they do **not** reroll or grant a separate option and are not merely a voucher to unlock an enchantment progression tier.
+The user explicitly selected these eleven **candidate sale groups** as approved caravan inventory. Variant types within a group may expand the SKU pool.
 
-- **Enchantment Rune:** inserted **instead of an Enhancement Stone** in the relevant enhancement interface; performs an **actual enchantment application** to the target equipment. The resulting enchantment must be represented by the same enchantment data/logic used by the existing enchantment system, not a second custom stat modifier.
-- **Vanilla Enchanted Book in the MoreMinecrafts system:** belongs to the **separate option grant/reroll workflow**, not the rune workflow. Maintain this distinction throughout UI, costs, data storage and tooltips.
-- **Enhancement Stone:** the equipment enhancement resource; remains distinct from both enchantment runes and books.
-- Sharpness VI and Sharpness VII are **real Sharpness levels 6 and 7**, part of the **existing enchantment table's level/progression structure**, not independent modifiers. No extra option slot consumed by applying a rune.
-- Rune combination/fusion is **not allowed**. Do not assume combining enchanted books creates level VI/VII or that Sharpness V must be upgraded sequentially first.
-- **A Sharpness VI rune can apply Sharpness VI directly** (no prerequisite Sharpness V). Similarly, rune application is not a mandatory VI-then-VII ladder; detailed downgrade prevention and level compatibility rules can be specified separately.
-- **Critical UI behavior:** if an item already has **Sharpness VI**, placing it in the existing enchantment table/interface must automatically show **Sharpness levels I–V as completed** (and level VI as already applied), **without adding duplicate lower-level enchantment entries**. The player must still be able to work on **other compatible enchantments** normally. This is a state/UI interpretation of the item's actual enchantment level, not separate purchases of five levels.
-- The same monotonic completed-lower-level display should generalize to level VII and other rune-based over-cap levels where appropriate; do not regress the current enchantment progression.
-- The enchantment table's inclusion of Sharpness VI/VII in its progression **does not by itself authorize normal random vanilla enchanting to roll VI/VII**. Whether these levels are obtainable there without runes remains unresolved; avoid guessing.
+1. Enchanted Golden Apple (마법이 부여된 황금 사과)
+2. Echo Shard (메아리 조각)
+3. Sniffer Egg (스니퍼 알)
+4. Trident (삼지창)
+5. Wither Skeleton Skull (위더 스켈레톤 해골)
+6. Heart of the Sea (바다의 심장)
+7. Totem of Undying (불사의 토템)
+8. Shulker Shell (셜커 껍데기)
+9. Breeze Rod (브리즈 막대)
+10. Ominous Bottle levels III–V (불길한 병 III~V)
+11. Rare Armor Trim Smithing Templates (희귀 갑옷 장식 형판); exact eligible template IDs still need approval.
 
-## 3. Required future implementation checks
+**Not approved for this catalog:** generic everyday supplies, ordinary mineral/material bulk trade, elytra, wind charges, rare music discs, pottery sherds, and other unselected candidate goods. These are not silently added.
 
-1. Audit existing MoreMinecrafts enchanting/options UI and code; preserve book-as-option behavior and distinguish enchantment-table workflow from anvil/equipment enhancement workflow where they are separate.
-2. A rune transaction consumes exactly the appropriate rune and applies a true enchantment once; preserve unrelated enchantments, other options and enhancement levels.
-3. Sharpness VI on sword => enchantment table marks I–V complete, VI applied, and unrelated compatible enchantments remain actionable; no duplicate enchantments or option rerolls.
-4. Sharpness VII => corresponding lower-tier completion state; lower-level runes cannot silently downgrade a higher-level enchantment.
-5. Enchantment compatibility, server-authoritative state, UI sync, inventory rollback and persistence after reconnect/restart.
-6. Explicitly document **exactly which UI input slot** accepts a rune and how it coexists with accessory enhancement/catalyst UI, after checking existing screens. The statement 'instead of enhancement stone' is authoritative; UI geometry is not yet settled.
-7. Check vanilla maximum-enchantment-level constraints, anvil/book combination routes, tooltip presentation and actual damage calculation so levels VI/VII work as real enchantments rather than visually-only values.
-8. Merchant stock/price/tier distribution and the rune acquisition economy must be balanced later; do not claim these have been implemented or validated.
+**Prior assistant-only pricing remains unapproved:** enchanted golden apple 108, echo shards 4 for 36, sniffer egg 72, trident 81, skull 90, heart 108, totem 72, shulker shells 2 for 81, breeze rods 4 for 36, ominous bottles III/IV/V 27/45/72, and trim templates by category. Do not implement these as confirmed economy settings. Trade quantity per purchase is also provisional.
 
-## 4. Supersession note
+## 3. Enchantment system distinction — authoritative
 
-Any prior assistant proposal that runes are **upgrade unlock vouchers** requiring a Sharpness V item before applying VI, or requiring VI before VII, is **rejected**. Any prior conflation of enchanted books with applying real enchantments rather than the established option/reroll workflow is **rejected**. The confirmed user distinction in this document takes precedence over such proposals.
+- **Rune = the role of a vanilla enchanted book for actual enchantment application.** It gives the equipment a **real enchantment** at the rune's level, not an unlock token, custom stat modifier or option reroll.
+- **Vanilla enchanted books in MoreMinecrafts = separate option granting/rerolling**, not the actual-enchantment application path.
+- **Enhancement stones** remain separate equipment enhancement resources. Earlier design placed rune in the relevant enhancement interface in lieu of a stone; exact UI placement and application transaction require an implementation audit. Do not invent a different mechanic merely because rune behaves like a vanilla enchanted book.
+- **Normal enchantments obtainable by paying XP at the existing enchantment table have no reason to be sold as caravan runes.** Merchant rune inventory contains **only the specifically approved above-normal-table-cap levels** below.
+- No rune fusion; no sequential lower-level prerequisite. A Sharpness VI rune can directly apply VI without acquiring V first; VII can directly apply VII.
+- If a higher level is present, all lower levels appear completed in the existing enchantment-table progression, without duplicate enchantments; other compatible enchantments remain available. Do not silently downgrade a higher level.
+- Enchantment incompatibility, genuine level effect, preservation of existing options/enchantments, persistence and server authority apply.
+
+### Approved over-cap rune SKU catalog — 24 distinct level variants
+
+| Enchantment (Korean) | Rune levels | SKU count |
+| --- | --- | ---: |
+| Sharpness (날카로움) | VI, VII | 2 |
+| Smite (강타) | VI, VII | 2 |
+| Looting (약탈) | IV, V | 2 |
+| Efficiency (효율) | VI, VII, VIII | 3 |
+| Fortune (행운) | IV, V | 2 |
+| Protection (보호) | V, VI | 2 |
+| Fire Protection (화염 보호) | V, VI | 2 |
+| Blast Protection (폭발 보호) | V, VI | 2 |
+| Projectile Protection (발사체 보호) | V, VI | 2 |
+| Depth Strider (물갈퀴) | IV | 1 |
+| Power (힘) | VI | 1 |
+| Unbreaking (내구성) | IV, V | 2 |
+| Mending (수선) | II | 1 |
+| **TOTAL** | | **24** |
+
+**Mending expansion:** base Mending I repairs 2 durability per 1 XP; new Mending II repairs 4 per 1 XP. The existing enchantment enhancement mechanic adds **+2 repair per XP**: enhanced I = 4/XP, enhanced II = 6/XP. Treat enchantment level and enhanced state as separate if the current implementation supports that distinction; audit actual mechanics rather than assuming how its flag is stored.
+
+**Rune price proposals are NOT approved:** earlier 192 emeralds for Sharpness VI, 384 for Sharpness VII, 54 for Mending I and 162 for Mending II, and any generic level-squared pricing formula. In particular **Mending I is NOT a caravan rune SKU** under this design.
+
+## 4. Merchant merchandise generation: confirmed vs pending
+
+**Confirmed:** one merchant, varied implicit quality, eleven selected vanilla rare-goods groups, 24 above-cap rune SKUs, specialty/enhanced equipment category, future exclusive/custom items (design deferred), unlimited repeat purchase, price-only gating, and **no mandatory rune inventory in every merchant tier**.
+
+**Pending approval:** exact tier distribution, chance to have any rune by tier, rune selection weights, number of trade entries, prices, per-trade item quantity, exact eligible rare armor trims, enhanced equipment level ranges, exclusive merchandise, trader replacement probability and despawn/lifecycle details. Do not treat previously suggested 16/21/26/32 trade counts, 60/30/9/1 tier weights or fixed rune slots as settled.
+
+## 5. Future implementation and QA checks
+
+1. Inspect actual Minecraft 26.3 mapped wandering trader spawning and trade input slots, and current MoreMinecrafts enchanting, options, enhancement, rune, and merchant source before editing gameplay.
+2. Ensure only **one** merchant appears with one guard and three llamas; do not spawn the obsolete second merchant.
+3. Unlimited repeat trades with correct server-side payment, emerald-block conversion, stable catalog after reload, and no duplicated output.
+4. Verify all eleven vanilla groups and exactly 24 rune level SKUs resolve to real registered items/enchantments; keep unapproved rare trim IDs out until selected.
+5. Applying runes yields true levels and expected mechanics (including Efficiency VIII and Mending II); never use vanilla books as rune substitutes or options as real enchantments.
+6. Table/UI automatically marks lower levels completed for rune-applied higher enchantments while allowing other compatible enchants.
+7. Confirm the existing enchantment enhancement rule yields Mending I 2→4 and II 4→6 durability per XP without double-applying bonus or incorrect XP consumption.
+8. Distinguish **design documented** from CODE VERIFIED, LIVE VERIFIED and gameplay implementation. This update claims none of those validations.
+
+## 6. Superseded proposals
+
+Rejected: two merchants, two llamas, finite/undecided stock, per-tier guaranteed rune slots, low-level runes available from normal XP enchanting, routine materials/ores as filler, rune-as-unlock-voucher, books-as-real-enchantment-items, and sequential rune upgrades. Preserve the exact user decisions above over older proposals.
