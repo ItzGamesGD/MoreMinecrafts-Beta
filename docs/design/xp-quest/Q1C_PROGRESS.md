@@ -1,6 +1,19 @@
 # Q1-C implementation progress
 
-Parent: corrected Q1-B `fd4aa831139054f6c736edf58fa6fe5f8cc77814`.
+Parent: corrected Q1-B `fd4aa831139054f6c736edf58fa6fe5f8cc77814` (PR #120). Verified checkpoint resumed: `8de8a1864ab92c3fc6a8c228d5c73ea1065ecb3f` (C1 and the partial C2 vault hook, preserved unchanged).
+
+| Phase | Subsystem | Commit |
+|---|---|---|
+| 1 | C2 vault acceptance, 2 quests registered | `7531fa7` |
+| 2 | C2 unique structures, 4 quests registered | `dff2721` |
+| 3 | C3 combat and kill attribution, 24 quests registered | `5d3e7e9` |
+| 4 | C4 Ender Dragon rematch, 1 quest registered | `7184c22` |
+| 5 | C5 raid victory, 2 quests registered | `2e125e6` |
+| 6 | C6 Ocean Monument participants (monument quests stay VERIFY); T2 monument id repair | `e3e61ff` |
+| 7 | Q1-C threshold table and registration invariants | `61154a8` |
+| 7 | K5 chunk-persistence harness race (separate commit) | `61a13b0` |
+
+Status words: IMPLEMENTED, TESTED (automated GameTest or unit test passes), REGISTERED (`registered: true` in the catalog), VERIFY (held by authority), BLOCKED.
 
 ## C1 structure loot
 
@@ -96,6 +109,51 @@ Tests: `QuestMonumentGameTests` (7): melee, owned-arrow-from-outside and guardia
 | `xpq.boss.monument_clear` | VERIFY. CODE VERIFIED, TEST VERIFIED, REGISTRATION BLOCKED pending separate owner authorization. Tracker preconfigured as `distinct_set` `set.monuments_cleared`, target 1; still `registered: false`. |
 | `xpq.boss.monuments_3` | VERIFY. CODE VERIFIED, TEST VERIFIED (three-distinct-monuments test), REGISTRATION BLOCKED pending separate owner authorization. Tracker preconfigured the same way, target 3; still `registered: false`. |
 
-## Remaining C2-C6
+## Per-quest registration gates
 
-Unique structure identities, combat attribution, dragon rematch, ominous raids and monument participants are not implemented or registered on this branch. Monument VERIFY quests remain unregistered. Q1-C is not ready for final integration review.
+Newly registered by this task (33): `xpq.dim.trial_vaults_5`, `xpq.dim.ominous_vaults_5`, `xpq.dim.end_cities_3`, `xpq.exp.villages_5`, `xpq.exp.structures_15`, `xpq.exp.grand_expedition`, `xpq.cmb.hostile_100`, `hostile_500`, `hostile_2000`, `hostile_5000`, `vanilla_species_20`, `bestiary_5`, `bestiary_10`, `breeze_10`, `guardians_30`, `lesser_wither_10`, `ravagers_5`, `brutes_3`, `mm_arms`, `dagger_100`, `greatsword_100`, `netherite_blades`, `bandits_20`, `long_shot_25`, `mace_smash_10`, `xpq.boss.elder_guardian`, `warden`, `wither`, `warden_3`, `twin_bosses`, `dragon_rematch`, `omen_raid`, and `xpq.cmb.raids_3`. Together with the nine C1 loot quests registered earlier on this branch, Q1-C registers 42 quests; 72 quests are registered in total (30 Q1-B + 42 Q1-C), 70,900 raw XP.
+
+Every registered quest has: its source-specific positive, negative and attribution tests (sections above), the `QuestC3ThresholdGameTests` target-1/target table or a Q1-B/C1 `threshold_*` test, and a persistence test (player save/load, rejoin, and a clean two-process restart where evidence lives in world or statistics files).
+
+| Quest | IMPLEMENTED | TESTED | REGISTERED | Notes |
+|---|---|---|---|---|
+| `xpq.boss.monument_clear` | yes | yes | no | VERIFY; REGISTRATION BLOCKED pending separate owner authorization |
+| `xpq.boss.monuments_3` | yes | yes | no | VERIFY; REGISTRATION BLOCKED pending separate owner authorization |
+| `xpq.cmb.cave_dwellers` | no | no | no | VERIFY; list names unregistered ids (`small_cave_spider`, `swamp_cave_spider`) and an Ambient mob (`cave_bat`); needs an authority correction |
+| `xpq.cmb.bestiary_25` | tracker exists | registry audit only | no | VERIFY; 37 Monster-category custom types exist, obtainability of 25 not established |
+| `xpq.cmb.habitats_5` | no | no | no | VERIFY; no authority mapping from habitat to mob types |
+| `xpq.cmb.wither_skulls_3` | no | no | no | NOW but an item-acquisition event, not kill attribution; no hook written in this batch |
+| other VERIFY / FUTURE quests | no | no | no | untouched |
+
+Invariants checked against the base catalog: identical order and ids, `tab`, `tier`, `status`, `rewardRawXp` and `target` for all 200 entries; 200 entries; NOW 160 / VERIFY 20 / FUTURE 20; active NOW+VERIFY 180,000; FUTURE 29,100; total 209,100 (unit-asserted). Only `registered` flags and trackers of the quests above changed; the two monument quests have a preconfigured tracker but remain unregistered.
+
+## Validation record
+
+Java 25.0.4 (Temurin) `./gradlew clean test build compileGametestJava runGameTest --no-daemon` on the head before this document: BUILD SUCCESSFUL, 342 unit tests and 287 GameTests passed (checkpoint `8de8a18` was 336 and 229). The focused `quest_*` GameTests (72) passed on six consecutive fresh worlds. Interrupted: owner stopped the task after the local restart-chain run (see F-6); the final GitHub check on the last pushed head was not awaited. Local server startup is exercised by the GameTest server; the official server and client smoke results are the GitHub checks below. Local client smoke is NOT RUN (no graphics support in this container).
+
+Durability, kept distinct:
+- *In-process save/reload*: player save and load (vault, structure, raid, monument), disconnect and rejoin (combat, dragon, monument), a real chunk save with Minecraft unload and reload (vault chunk, monument deferred completion).
+- *Clean two-process JVM restart* (write JVM exits, read JVM starts on the same world): vault, structure entry, combat statistics and counters, dragon pending credit and fight flag, raid credit, monument participant evidence and pending offline credit, in addition to the earlier C1 and ore tests. All are in the K5 Production Restart workflow and were also run locally in workflow order.
+- *Forced JVM termination and recovery*: NOT RUN. A clean restart is not a `kill -9` test.
+- *Actual multiplayer / live acceptance*: LIVE VALIDATION PENDING.
+
+## Findings
+
+| ID | Sev | Finding | Disposition |
+|---|---|---|---|
+| F-1 | P1 | `T2CoreAcquisition` matched structure id `minecraft:ocean_monument`; the 26.3 id is `minecraft:monument`, so the existing Ocean Monument completion and Heart of Currents reward never ran for a real monument | Repaired in `e3e61ff` (required dependency of C6); real-start probe showed `claimed=false` before and `claimed=true` after |
+| F-2 | P1 | Knowledge `structures_visited` keys come from chunk structure *references* (X/Z box-vs-chunk, no Y, no piece test), so they record proximity, not entry | Not used; piece-level `QuestStructureEntry` replaces them for the four structure quests. Retroactive import of old keys is therefore not applied (see C2 section) |
+| F-3 | P1, out of scope | `KnowledgeEventCollectors.projectileKill` dereferences `AbstractArrow.getWeaponItem()` which is `@Nullable`; an arrow with no weapon item (dispenser-fired) that kills any `Monster` throws a `NullPointerException` out of `LivingEntity.die` | NOT repaired (AGENTS section 5); confirmed with a GameTest probe; Q1-C code is null-safe. Recommend a one-line null guard as a separate task |
+| F-4 | P2 | K5 chunk-persistence GameTest waited on a single last-writer-wins unload slot; another marked chunk unloading in the same window hid the awaited unload and the wait hit its 240-tick limit (reported as `tick 241`) | Repaired in `61a13b0`, see below |
+| F-6 | P2, open, UNDIAGNOSED | Local run of the whole K5 Production Restart chain in workflow order on one fresh world passed 16 of 18 steps; the two monument steps (write and read) each reported `1 required tests failed` and printed no marker. The same monument pair passed when run alone on a fresh world, and the GitHub K5 Production Restart check was green at `61154a8` (which already contained the monument steps) | Work was stopped by the owner before investigation. Next step: rerun the chain locally, read `rc_step.log` for the monument write step, and check for state shared with the earlier steps |
+| F-5 | P2, open | `k5RegisteredNonVanillaPlacedTreeIsRejectedDuringNaturalDecoration` fails intermittently ("modded-feature target begins unmarked") when the K5 GameTest class is run on its own (4 of 20 runs after F-4, 2 of 9 before); it never failed in 14 full-suite runs | Unchanged, unrelated to Q1-C; retained as an open P2 test-isolation defect |
+
+K5 disposition: the 240-tick timeout was not simply raised. Root cause (test-harness defect, not production behavior): `K5NaturalTreeProbe` kept only the most recent marked-chunk unload, so two unloads between polls lost the first. Reproduction: with the K5 GameTest group on a clean world and the old harness, 3 of 9 runs failed with `removing the FORCED ticket did not reach ServerLevel.unload on tick 241` (the same message and tick as the CI failure); with the fix 0 of 20 failed. A new deterministic regression test (`k5UnloadObservationSurvivesUnrelatedMarkedChunkUnloads`) fails on the old harness and passes on the new one. Standalone the original test passed 15 of 15 and the full suite passed 12 of 12 locally, so the failure needs concurrent K5 unloads; the Q1-C changes do not touch that code path.
+
+## LIVE VALIDATION PENDING
+
+Real-world feel and balance of every registered Q1-C quest; naturally generated vaults, end cities, villages and monuments (tests use real `StructureStart` records with end-city template pieces under the tested structure ids); a live Ender Dragon rematch with the full crystal respawn sequence; a live omen raid; real monument fights with several players; multiplayer attribution on a dedicated server; JVM-kill durability; official client smoke beyond the GitHub check.
+
+## Remaining work and recommendation
+
+Not started, by instruction: Q1-D and Q1-E. Open: F-3 and F-5 above, the VERIFY quests in the table, and `xpq.cmb.wither_skulls_3`. Integration review of PR #121 should wait for the owner's decision on retroactivity of the three Knowledge-tracker structure quests (C2 section) and on promoting the two monument quests.
