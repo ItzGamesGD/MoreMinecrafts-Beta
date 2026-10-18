@@ -36,7 +36,9 @@
       "dev.itzgamesgd.moreminecrafts.progression.QuestStructureLootGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestLootRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestVaultRewardGameTests",
-      "dev.itzgamesgd.moreminecrafts.progression.QuestVaultRestartGameTests"
+      "dev.itzgamesgd.moreminecrafts.progression.QuestVaultRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestStructureEntryGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestStructureRestartGameTests"
     ]
   },
   "mixins": [

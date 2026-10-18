@@ -150,8 +150,8 @@
    "rewardRawXp": 550,
    "target": 5,
    "tracker": {
-    "kind": "knowledge_seen",
-    "key": "structures_visited",
+    "kind": "distinct_set",
+    "key": "set.structure_types_entered",
     "entries": [
      "minecraft:village_plains",
      "minecraft:village_desert",
@@ -160,7 +160,7 @@
      "minecraft:village_taiga"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.height_extremes",
@@ -252,11 +252,10 @@
    "rewardRawXp": 1150,
    "target": 15,
    "tracker": {
-    "kind": "knowledge_seen",
-    "key": "structures_visited",
-    "entries": []
+    "kind": "distinct_set",
+    "key": "set.structure_types_entered"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.grand_expedition",
@@ -266,8 +265,8 @@
    "rewardRawXp": 1450,
    "target": 5,
    "tracker": {
-    "kind": "knowledge_seen",
-    "key": "structures_visited",
+    "kind": "distinct_set",
+    "key": "set.structure_types_entered",
     "entries": [
      "minecraft:stronghold",
      "minecraft:ancient_city",
@@ -276,7 +275,7 @@
      "minecraft:trial_chambers"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.sherds_15",
@@ -473,9 +472,10 @@
    "rewardRawXp": 1100,
    "target": 3,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.end_city_starts"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.dim.shulker_boxes",

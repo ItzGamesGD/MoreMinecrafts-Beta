@@ -45,6 +45,8 @@ final class XpQuestCatalogDataTest {
             "xpq.exp.first_structure_loot", "xpq.exp.mineshaft_loot", "xpq.exp.dungeon_loot",
             "xpq.exp.temples", "xpq.exp.ocean_relics", "xpq.dim.fortress_loot",
             "xpq.dim.ancient_city_loot", "xpq.dim.bastion_all", "xpq.dim.end_city_loot_10");
+    static final java.util.Set<String> Q1C_STRUCTURE_REGISTERED = java.util.Set.of(
+            "xpq.dim.end_cities_3", "xpq.exp.villages_5", "xpq.exp.structures_15", "xpq.exp.grand_expedition");
     static final java.util.Set<String> Q1C_VAULT_REGISTERED = java.util.Set.of(
             "xpq.dim.trial_vaults_5", "xpq.dim.ominous_vaults_5");
 
@@ -54,6 +56,7 @@ final class XpQuestCatalogDataTest {
         java.util.Set<String> approved = new java.util.TreeSet<>(Q1B_REGISTERED);
         approved.addAll(Q1C_LOOT_REGISTERED);
         approved.addAll(Q1C_VAULT_REGISTERED);
+        approved.addAll(Q1C_STRUCTURE_REGISTERED);
         assertEquals(approved, registered);
         assertTrue(Q1B_SOURCE_BLOCKED.stream().allMatch(id -> !spec(id).registered()));
         assertTrue(CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered)

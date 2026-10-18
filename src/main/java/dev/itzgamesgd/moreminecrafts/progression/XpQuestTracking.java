@@ -27,6 +27,7 @@ public final class XpQuestTracking {
     /** Call after {@link KnowledgeRuntime#initialize()} so the join reconciliation sees Knowledge's own refresh. */
     public static void initialize() {
         XpQuestHooks.initialize(); // baselines are captured before the reconciliation join listener runs
+        QuestStructureEntry.initialize();
         for (XpQuestCatalogData.Spec spec : XpQuestCatalogData.catalog().quests())
             if (spec.registered()) register(spec);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> reconcile(handler.player));
