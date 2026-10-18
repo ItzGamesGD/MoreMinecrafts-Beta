@@ -44,7 +44,8 @@
       "dev.itzgamesgd.moreminecrafts.progression.QuestDragonRematchGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestRaidGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestMonumentGameTests",
-      "dev.itzgamesgd.moreminecrafts.progression.QuestMonumentRestartGameTests"
+      "dev.itzgamesgd.moreminecrafts.progression.QuestMonumentRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestC3ThresholdGameTests"
     ]
   },
   "mixins": [
