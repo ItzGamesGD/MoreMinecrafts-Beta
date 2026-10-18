@@ -70,33 +70,7 @@ public final class QuestMonumentRestartGameTests implements CustomTestMethodInvo
                 first.hurtServer(level, hitter.damageSources().playerAttack(hitter), 1F);
                 ctx.assertTrue(victim.hurtServer(level, level.damageSources().indirectMagic(beam, beam), 1F),
                         "the guardian damaged the survival player");
-                // Diagnose whether the entity manager actually exposes both guardians before the kill.
-                // addFreshEntity may return before the target chunk is available for entity queries.
-                var bounds = monument.start().getBoundingBox();
-                var area = new net.minecraft.world.phys.AABB(bounds.minX(), bounds.minY(), bounds.minZ(),
-                        bounds.maxX() + 1, bounds.maxY() + 1, bounds.maxZ() + 1).inflate(4);
-                var beforeKill = level.getEntitiesOfClass(ElderGuardian.class, area, ElderGuardian::isAlive);
-                ctx.assertTrue(beforeKill.contains(first) && beforeKill.contains(second),
-                        "F-6 precondition: both elders must be query-visible before a kill; firstAlive="
-                        + first.isAlive() + " secondAlive=" + second.isAlive()
-                        + " visible=" + beforeKill.size() + " firstPresent=" + beforeKill.contains(first)
-                        + " secondPresent=" + beforeKill.contains(second));
-                // One elder dies while the other lives: the monument is not complete and keeps its evidence.
-                second.hurtServer(level, hitter.damageSources().playerAttack(hitter), 100_000F);
-                var afterKill = level.getEntitiesOfClass(ElderGuardian.class, area, ElderGuardian::isAlive);
-                ctx.assertTrue(!data(level).isClaimed(key),
-                        "F-6 unexpected monument completion; firstAlive=" + first.isAlive()
-                        + " firstPresent=" + afterKill.contains(first)
-                        + " visibleElders=" + afterKill.size() + " secondAlive=" + second.isAlive()
-                        + " pending=" + (data(level).pending(key) != null));
-                data(level).addPendingCredit(LEFT_BEFORE, key);
-                ctx.assertTrue(data(level).participant(key, hitter.getUUID()).elderDamage()
-                        && data(level).participant(key, victim.getUUID()) != null, "evidence recorded before saving");
-                level.getServer().getPlayerList().saveAll();
-                level.getChunkSource().save(true);
-                level.getServer().overworld().getDataStorage().saveAndJoin();
-                System.out.println("QUEST_MONUMENT_RESTART_WRITE monument=" + key);
-                ctx.succeed();
+                finishWriteWhenEldersVisible(ctx, level, monument, key, hitter, victim, first, second, 0);
                 return;
             }
             ctx.assertTrue(data(level).participant(key, ELDER_HITTER) != null && data(level).participant(key, ELDER_HITTER).elderDamage()
@@ -126,6 +100,40 @@ public final class QuestMonumentRestartGameTests implements CustomTestMethodInvo
             System.out.println("QUEST_MONUMENT_RESTART_READ monument=" + key);
             ctx.succeed();
         });
+    }
+
+
+    /** Wait for the entity manager to register freshly spawned guardians before testing completion. */
+    private static void finishWriteWhenEldersVisible(GameTestHelper ctx, ServerLevel level,
+            QuestStructureFixture.Registered monument, long key, ServerPlayer hitter, ServerPlayer victim,
+            ElderGuardian first, ElderGuardian second, int waited) {
+        var box = monument.start().getBoundingBox();
+        var area = new net.minecraft.world.phys.AABB(box.minX(), box.minY(), box.minZ(),
+                box.maxX() + 1, box.maxY() + 1, box.maxZ() + 1);
+        var visible = level.getEntitiesOfClass(ElderGuardian.class, area, ElderGuardian::isAlive);
+        if (!visible.contains(first) || !visible.contains(second)) {
+            ctx.assertTrue(first.isAlive() && second.isAlive(), "an elder died before entity registration");
+            ctx.assertTrue(waited < 60, "elders were not query-visible within 60 ticks: count=" + visible.size()
+                    + " first=" + visible.contains(first) + " second=" + visible.contains(second));
+            ctx.runAfterDelay(1, () -> finishWriteWhenEldersVisible(
+                    ctx, level, monument, key, hitter, victim, first, second, waited + 1));
+            return;
+        }
+        ctx.assertTrue(!data(level).isClaimed(key), "monument must be unclaimed before first elder kill");
+        second.hurtServer(level, hitter.damageSources().playerAttack(hitter), 100_000F);
+        var after = level.getEntitiesOfClass(ElderGuardian.class, area, ElderGuardian::isAlive);
+        ctx.assertTrue(first.isAlive() && after.contains(first) && !data(level).isClaimed(key),
+                "tracked living elder blocks completion: firstAlive=" + first.isAlive()
+                + " firstVisible=" + after.contains(first) + " claimed=" + data(level).isClaimed(key));
+        data(level).addPendingCredit(LEFT_BEFORE, key);
+        ctx.assertTrue(data(level).participant(key, hitter.getUUID()).elderDamage()
+                && data(level).participant(key, victim.getUUID()) != null, "evidence recorded before saving");
+        level.getServer().getPlayerList().saveAll();
+        level.getChunkSource().save(true);
+        level.getServer().overworld().getDataStorage().saveAndJoin();
+        System.out.println("QUEST_MONUMENT_RESTART_WRITE monument=" + key
+                + " entityRegistrationWaitTicks=" + waited);
+        ctx.succeed();
     }
 
     @Override public void invokeTestMethod(GameTestHelper context, Method method) throws ReflectiveOperationException {
