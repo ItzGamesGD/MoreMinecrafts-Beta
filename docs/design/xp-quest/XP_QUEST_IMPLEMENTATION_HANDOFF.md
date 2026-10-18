@@ -335,3 +335,30 @@ Habitat group assignment is by registered entity type, not kill coordinates. Eac
 `xpq.cmb.cave_dwellers` now uses the existing exact-type `stat_killed_each` evaluator and the owner-approved six IDs. GameTests cover each kill, AMBIENT cave_bat inclusion without changing other hostile filters, duplicate kills, another player, an unlisted type, retroactive vanilla statistics, and persistence across rejoin/restart. The tracker has no new `AFTER_DEATH` implementation and production registration remains gated by `registered=false`/`VERIFY`.
 
 These findings do not authorize any catalog status or reward change. The 72 registered quests, all 200 quest ids, total 209,100 XP, active 180,000 XP, both unregistered monument VERIFY quests, and the pending item-pickup basis for wither_skulls_3 remain covered by catalog data tests.
+
+
+### Owner approval (2026-10-18): ecology registration, habitat mapping, and in-game checklist UI
+
+The owner explicitly approved promotion of `xpq.cmb.cave_dwellers` and the five habitat groups below, **with the additional mandatory requirement that players can view the complete target roster and their own completion state inside the quest UI**. This is not merely a tooltip showing "3/6" or "2/5".
+
+**Approved quest semantics**
+- `xpq.cmb.cave_dwellers`: exact six species `cave_zombie`, `cave_skeleton`, `cave_creeper`, `small_spider`, `swamp_spider`, `cave_bat`. The AMBIENT cave bat counts only here. Completion means at least one credited kill of **each** species, including retroactive `ENTITY_KILLED` statistics. No repeat credit per species.
+- `xpq.cmb.bestiary_25`: distinct registered MoreMinecrafts MONSTER-category species killed; goal 25 of the 37 audited candidates. The UI must show the eligible species roster, which ones have been killed, and a 25-species completion threshold. The three non-MONSTER custom types remain excluded. Existing `stat_killed_monsters_distinct` is reusable; owner approval covers implementation and registration only after UI+tests pass.
+- `xpq.cmb.habitats_5`: five independent groups; a group completes once the player has killed **any one** of its eligible species. Approved groups:
+  - Desert: `desert_spider`, `sand_slime`.
+  - Swamp: `swamp_zombie`, `swamp_spider`, `mud_slime`.
+  - Snowy: `frozen_zombie`, `ice_spider`.
+  - Fungal: `fungal_zombie`.
+  - Wild slime: `wild_slime`.
+  Group identity is based on the entity type, **not** the kill location or biome. One entity type must not satisfy multiple groups; duplicates do not add progress. Use durable player `ENTITY_KILLED` statistics where possible and retain retroactivity. Target 5 groups.
+
+**Mandatory quest UI acceptance criteria**
+1. Selecting any of the three quests opens a readable **target checklist** in the quest detail view (scrollable if necessary), showing all required species or all eligible species per group; localized display names with the stable registry ID available as fallback.
+2. Each required species in `cave_dwellers` shows **done/not done** independently; total `n/6`. An uncredited cave bat kill must not appear done.
+3. `habitats_5` shows five named groups, each with its eligible mob list and **done/not done**; total `n/5`. Within each group, indicate which eligible species the player has actually killed, rather than hiding the other choices.
+4. `bestiary_25` shows the full eligible MONSTER species roster with per-species discovered/undiscovered completion, count `n/25` and an unambiguous threshold (more than 25 possible). The UI must not falsely imply that all 37 are mandatory.
+5. Server owns progress and syncs checklist states to the client; no client-side kill inference or reward grant. Persisted and retroactive evidence should render correctly on first opening and after reconnect. No private per-player data leakage to another player.
+6. Keyboard/controller navigation, scroll clipping, small-screen legibility, and non-overlapping buttons/text must be tested. The XP Quest selector card is currently disabled in the four-card progression menu: **verify the actual navigation path**; do not claim a functioning in-game checklist merely because data or localization exists.
+7. GameTests/unit tests for tracker math, category exception, disjoint group mapping, persistence and multiplayer attribution; client smoke or real UI screenshots for the actual checklist. Label visual status `VISUAL PENDING` when not directly observed.
+
+**Implementation gate:** The owner authorized the *direction*, not an untested immediate release. Until the checklist UI and tracker tests pass, keep existing `VERIFY`/unregistered flags where applicable. Do not change the 200-quest ledger or rewards, and do not merge PR #121 without separate approval. The checklist requirement applies to other future multi-target XP quests as a reusable UI component, not just these three.
