@@ -22,6 +22,10 @@ public final class QuestStructureLootGameTests implements CustomTestMethodInvoke
         return ResourceKey.create(Registries.LOOT_TABLE, Identifier.parse("minecraft:chests/" + name));
     }
 
+    private static ResourceKey<LootTable> modTable(String name) {
+        return ResourceKey.create(Registries.LOOT_TABLE, Identifier.parse("moreminecrafts:chests/" + name));
+    }
+
     private static int seen(ServerPlayer player, String key) {
         return QuestRules.distinctCount(KnowledgeRuntime.state(player), key);
     }
@@ -94,6 +98,19 @@ public final class QuestStructureLootGameTests implements CustomTestMethodInvoke
         second.unpackLootTable(player);
         ctx.assertTrue(seen(player, "set.structure_loot_ancient_city") == 2,
                 "different ancient city containers count, reopened first does not");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void samePathInAnotherNamespaceDoesNotImpersonateVanillaTable(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        var chest = chest(ctx, new BlockPos(1, 1, 1), "simple_dungeon");
+        chest.setLootTable(modTable("simple_dungeon"));
+        chest.unpackLootTable(player);
+        ctx.assertTrue(seen(player, "set.structure_loot_any") == 1,
+                "real mod loot table passes generic structure loot classification");
+        ctx.assertTrue(seen(player, "set.structure_loot_dungeon") == 0,
+                "mod namespace table does not count as vanilla dungeon loot");
         ctx.succeed();
     }
 

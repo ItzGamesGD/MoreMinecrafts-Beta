@@ -34,6 +34,14 @@ public final class QuestStructureLoot {
         if (!path.startsWith("chests/")) return;
         ResearchProgressState before = KnowledgeRuntime.state(player);
         ResearchProgressState next = observe(before, "set.structure_loot_any", container, 1);
+        // The approved structure-specific tables are vanilla identities, not just matching paths.
+        if (!"minecraft".equals(table.identifier().getNamespace())) {
+            if (!next.equals(before)) {
+                KnowledgeRuntime.updateState(player, next);
+                XpQuestTracking.reconcile(player);
+            }
+            return;
+        }
         String name = path.substring("chests/".length());
         if (name.equals("abandoned_mineshaft")) next = observe(next, "set.structure_loot_mineshaft", container, 1);
         if (name.equals("simple_dungeon")) next = observe(next, "set.structure_loot_dungeon", container, 1);
