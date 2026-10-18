@@ -119,7 +119,7 @@
 | `xpq.cmb.greatsword_100` | 거인의 일격 | 중반 | 대검으로 적대 몹 100마리 처치 | 500 | 350 | mm_arms | I | 없음 | NOW |
 | `xpq.cmb.bestiary_10` | 현장 도감 | 중반 | MoreMinecrafts 적대 몹 10종 처치 | 500 | 350 | bestiary_5 | S | 없음 | NOW |
 | `xpq.cmb.bandits_20` | 산적 토벌 | 중반 | bandit, bandit_archer, bandit_warrior 합계 20마리 처치(3종 각 1 이상) | 500 | 350 | bestiary_5 | I | 없음 | NOW |
-| `xpq.cmb.cave_dwellers` | 동굴 소탕 | 중반 | cave_zombie, cave_skeleton, cave_creeper, small_cave_spider, swamp_cave_spider, cave_bat 처치 | 500 | 350 | bestiary_5 | I | 없음 | VERIFY |
+| `xpq.cmb.cave_dwellers` | 동굴 소탕 | 중반 | cave_zombie, cave_skeleton, cave_creeper, small_spider, swamp_spider, cave_bat 각 1종 처치(총 6종; cave_bat은 비적대 AMBIENT지만 이 퀘스트에 한해 포함) | 500 | 350 | bestiary_5 | I | 없음 | VERIFY |
 | `xpq.cmb.trident_50` | 바다의 창 | 중반 | 삼지창 투척으로 적대 몹 50마리 처치 | 450 | 350 | hostile_500 | R부분 | 수량증가: K38(10) | NOW |
 | `xpq.cmb.breeze_10` | 바람 사냥 | 중반 | 브리즈 10마리 처치 | 450 | 350 | vanilla_species_20 | S | 부분: blowback(풍력구 처치 1) | NOW |
 | `xpq.cmb.guardians_30` | 해저 파수꾼 | 중반 | 가디언 30마리 처치 | 450 | 350 | vanilla_species_20 | S | 수량증가: K50(드라운드+가디언 2) | NOW |
