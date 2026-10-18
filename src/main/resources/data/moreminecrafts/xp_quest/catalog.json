@@ -898,7 +898,8 @@
    "rewardRawXp": 1450,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.monuments_cleared"
    },
    "registered": false
   },
@@ -982,7 +983,8 @@
    "rewardRawXp": 3450,
    "target": 3,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.monuments_cleared"
    },
    "registered": false
   },

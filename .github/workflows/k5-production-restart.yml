@@ -173,6 +173,24 @@ jobs:
           set -o pipefail
           ./gradlew runGameTest --no-daemon 2>&1 | tee quest-raid-restart-read.log
           grep -F 'QUEST_RAID_RESTART_READ' quest-raid-restart-read.log
+      - name: Process A saves Q1-C monument participant evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_monument_restart_game_tests_*
+            -Dmoreminecrafts.questmonument.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-monument-restart-write.log
+          grep -F 'QUEST_MONUMENT_RESTART_WRITE' quest-monument-restart-write.log
+      - name: Process B completes the monument from restored participant evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_monument_restart_game_tests_*
+            -Dmoreminecrafts.questmonument.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-monument-restart-read.log
+          grep -F 'QUEST_MONUMENT_RESTART_READ' quest-monument-restart-read.log
       - name: Upload focused logs and manifest
         if: always()
         uses: actions/upload-artifact@v4
@@ -197,5 +215,7 @@ jobs:
             quest-dragon-restart-read.log
             quest-raid-restart-write.log
             quest-raid-restart-read.log
+            quest-monument-restart-write.log
+            quest-monument-restart-read.log
           if-no-files-found: warn
           retention-days: 14

@@ -30,6 +30,7 @@ public final class XpQuestTracking {
         QuestStructureEntry.initialize();
         QuestCombatKills.initialize();
         QuestDragonRematch.initialize();
+        QuestMonumentParticipation.initialize();
         for (XpQuestCatalogData.Spec spec : XpQuestCatalogData.catalog().quests())
             if (spec.registered()) register(spec);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> reconcile(handler.player));
