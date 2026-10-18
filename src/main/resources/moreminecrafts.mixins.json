@@ -93,6 +93,7 @@
     "QuestScatteredOreFeatureMixin",
     "QuestBlockLootGenerationMixin",
     "QuestEntityLootGenerationMixin",
+    "QuestVaultRewardMixin",
     "QuestBlockPlacementMixin",
     "QuestTameAnimalTriggerMixin",
     "QuestMovementStatMixin"
