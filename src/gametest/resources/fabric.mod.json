@@ -33,7 +33,8 @@
       "dev.itzgamesgd.moreminecrafts.progression.XpQuestTrackingGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.XpQuestEventTrackingGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestOreRestartGameTests",
-      "dev.itzgamesgd.moreminecrafts.progression.QuestStructureLootGameTests"
+      "dev.itzgamesgd.moreminecrafts.progression.QuestStructureLootGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestLootRestartGameTests"
     ]
   },
   "mixins": [

@@ -65,6 +65,24 @@ jobs:
           set -o pipefail
           ./gradlew runGameTest --no-daemon 2>&1 | tee quest-ore-restart-read.log
           grep -F 'QUEST_ORE_RESTART_READ' quest-ore-restart-read.log
+      - name: Process A saves Q1-C structure loot evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_loot_restart_game_tests_structure_loot_persists_across_clean_jvms
+            -Dmoreminecrafts.questloot.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-loot-restart-write.log
+          grep -F 'QUEST_LOOT_RESTART_WRITE' quest-loot-restart-write.log
+      - name: Process B reloads Q1-C structure loot and player evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_loot_restart_game_tests_structure_loot_persists_across_clean_jvms
+            -Dmoreminecrafts.questloot.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-loot-restart-read.log
+          grep -F 'QUEST_LOOT_RESTART_READ' quest-loot-restart-read.log
       - name: Upload focused logs and manifest
         if: always()
         uses: actions/upload-artifact@v4
@@ -77,5 +95,7 @@ jobs:
             quest-ore-restart-write.log
             quest-ore-restart-read.log
             build/run/gameTest/quest-ore-restart-fixture.txt
+            quest-loot-restart-write.log
+            quest-loot-restart-read.log
           if-no-files-found: warn
           retention-days: 14
