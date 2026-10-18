@@ -307,3 +307,11 @@ Dependency analysis supports the requested order with one change: the exact-XP/c
 ## 10. Verdict
 
 **READY FOR IMPLEMENTATION APPROVAL** for Q1-A and Q1-A2, conditional on the §8 authority items being approved. No P0 remains unresolved at design level; every NOW quest has a specified server detection mechanism; remaining blockers affect only VERIFY/FUTURE quests and UI art. Nothing here is implemented or runtime-verified.
+
+### Owner decision (2026-10-18): `xpq.cmb.wither_skulls_3` acquisition semantics
+
+- **Approved event:** server-authoritative player pickup of an `minecraft:wither_skeleton_skull` item entity into the player's inventory. Count the number of items **actually transferred** by a successful pickup, not item entities, kill events, drops, crafting, trading, inventory scans, or merely approaching the item.
+- **Progress:** cumulative successful pickup quantity across events (target **3**). Re-picking up the same physical skull after dropping it **does count again**: the owner selected **item pickup**, not unique skull acquisition. This is deliberate and should be covered by a regression test; no deduplication or origin tracking is authorized.
+- **Attribution:** the player who actually receives the picked-up items. A failed pickup, full inventory, cancelled interaction, or pickup with zero transferred items grants no progress. Split/partial stacks count only the transferred quantity. Other players receive no credit.
+- **History:** only the vanilla `minecraft:nether/find_fortress`-independent advancement `get_wither_skull` (where present and provable) may seed the existing historical lower bound of 1; do not infer quantity 3 from a single advancement or current inventory. Never double-count a seeded pickup; document the exact seed/first-live-event boundary.
+- **Scope:** implementation and GameTests are deferred to the next authorized quest implementation batch. Until passing tests, keep catalog `registered=false`, `tracker.kind=pending`, `status=NOW`, `target=3`, and `rewardRawXp=1100`. Do not alter the 200-quest reward ledger.
