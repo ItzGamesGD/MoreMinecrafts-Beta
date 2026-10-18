@@ -83,6 +83,24 @@ jobs:
           set -o pipefail
           ./gradlew runGameTest --no-daemon 2>&1 | tee quest-loot-restart-read.log
           grep -F 'QUEST_LOOT_RESTART_READ' quest-loot-restart-read.log
+      - name: Process A saves Q1-C vault evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_vault_restart_game_tests_vault_evidence_survives_reload_unload_and_restart
+            -Dmoreminecrafts.questvault.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-vault-restart-write.log
+          grep -F 'QUEST_VAULT_RESTART_WRITE' quest-vault-restart-write.log
+      - name: Process B reloads Q1-C vault chunk and player evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_vault_restart_game_tests_vault_evidence_survives_reload_unload_and_restart
+            -Dmoreminecrafts.questvault.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-vault-restart-read.log
+          grep -F 'QUEST_VAULT_RESTART_READ' quest-vault-restart-read.log
       - name: Upload focused logs and manifest
         if: always()
         uses: actions/upload-artifact@v4
@@ -97,5 +115,7 @@ jobs:
             build/run/gameTest/quest-ore-restart-fixture.txt
             quest-loot-restart-write.log
             quest-loot-restart-read.log
+            quest-vault-restart-write.log
+            quest-vault-restart-read.log
           if-no-files-found: warn
           retention-days: 14

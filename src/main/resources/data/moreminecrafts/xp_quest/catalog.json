@@ -415,9 +415,10 @@
    "rewardRawXp": 500,
    "target": 5,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.normal_vault_rewards"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.dim.ancient_city_loot",
@@ -459,9 +460,10 @@
    "rewardRawXp": 1350,
    "target": 5,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.ominous_vault_rewards"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.dim.end_cities_3",
