@@ -20,7 +20,7 @@ import net.minecraft.resources.Identifier;
 
 /** Separate Knowledge/Research screen backed by a deterministic node tree. */
 public final class ProgressionBrowseScreen extends Screen {
-    public enum Mode { KNOWLEDGE, RESEARCH }
+    public enum Mode { KNOWLEDGE, RESEARCH, QUEST }
     private static final Identifier VANILLA_WINDOW = Identifier.withDefaultNamespace("textures/gui/advancements/window.png");
     private final Mode mode;
     private final String discipline;
@@ -31,6 +31,8 @@ public final class ProgressionBrowseScreen extends Screen {
     private List<ProgressionScreenData.ResearchRow> research = List.of();
     private Map<String, ProgressionScreenData.KnowledgeRow> knowledgeById = Map.of();
     private Map<String, ProgressionScreenData.ResearchRow> researchById = Map.of();
+    private List<ProgressionScreenData.QuestRow> quests = List.of();
+    private Map<String, ProgressionScreenData.QuestRow> questsById = Map.of();
     private ProgressionTreeCanvas canvas;
     private ProgressionCanvasGeometry.ResponsiveLayout responsive;
     private Button branchButton;
@@ -43,8 +45,8 @@ public final class ProgressionBrowseScreen extends Screen {
     public ProgressionBrowseScreen(Mode mode) { this(mode, "resources"); }
 
     public ProgressionBrowseScreen(Mode mode, String discipline) {
-        super(Component.translatable(mode == Mode.KNOWLEDGE
-                ? "moreminecrafts.ui.knowledge.title" : "moreminecrafts.ui.research.title"));
+        super(Component.translatable(mode == Mode.KNOWLEDGE ? "moreminecrafts.ui.knowledge.title"
+                : mode == Mode.QUEST ? "moreminecrafts.ui.quest.title" : "moreminecrafts.ui.research.title"));
         this.mode = mode;
         this.discipline = List.of("resources", "production", "living", "combat", "ecology", "world", "alchemy")
                 .contains(discipline) ? discipline : "resources";
@@ -58,6 +60,19 @@ public final class ProgressionBrowseScreen extends Screen {
     public boolean validationCompact() { return responsive != null && responsive.compact(); }
     public ProgressionTreeCanvas validationCanvas() { return canvas; }
     public boolean validationTreeReady() { return canvas != null && !canvas.nodes().isEmpty(); }
+    public int validationQuestTargetCount(String id) {
+        return questsById.getOrDefault(id, new ProgressionScreenData.QuestRow("", "", "", "", "", 0, 0, 0,
+                false, false, List.of())).groups().stream().mapToInt(group -> group.targets().size()).sum();
+    }
+    public int validationQuestGroupCount(String id) {
+        return questsById.getOrDefault(id, new ProgressionScreenData.QuestRow("", "", "", "", "", 0, 0, 0,
+                false, false, List.of())).groups().size();
+    }
+    public void validationScrollQuestTooltip(int lines) { if (canvas != null) canvas.scrollTooltip(lines); }
+    public int validationTooltipScroll() { return canvas == null ? 0 : canvas.tooltipScroll(); }
+    public boolean validationTooltipWithinScreen() {
+        return canvas != null && canvas.tooltipWithinScreen(width, height);
+    }
     public List<String> validationBranches() { return branches(); }
     public boolean validationSelectBranch(String branch) { return selectBranch(branch); }
     public boolean validationSelectBranchForNode(String id) {
@@ -154,17 +169,21 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     private int margin() { return responsive.compact() ? 8 : 20; }
-    private String catalogScreen() { return mode == Mode.KNOWLEDGE ? "knowledge" : "research"; }
+    private String catalogScreen() { return mode == Mode.KNOWLEDGE ? "knowledge" : mode == Mode.QUEST ? "quests" : "research"; }
 
     private void refresh(boolean resetCamera) {
         clearWidgets();
         responsive = ProgressionCanvasGeometry.responsiveLayout(width, height);
         knowledge = ProgressionClientApi.knowledge(discipline);
         research = ProgressionClientApi.research(discipline);
+        quests = ProgressionClientApi.quests(null).stream().filter(row -> List.of("xpq.cmb.cave_dwellers",
+                "xpq.cmb.bestiary_25", "xpq.cmb.habitats_5").contains(row.id())).toList();
         knowledgeById = knowledge.stream().collect(java.util.stream.Collectors.toMap(
                 ProgressionScreenData.KnowledgeRow::id, row -> row));
         researchById = research.stream().collect(java.util.stream.Collectors.toMap(
                 ProgressionScreenData.ResearchRow::id, row -> row));
+        questsById = quests.stream().collect(java.util.stream.Collectors.toMap(
+                ProgressionScreenData.QuestRow::id, row -> row));
         dataRevision = ProgressionClientApi.revision();
         if (canvas == null || resetCamera) {
             canvas = new ProgressionTreeCanvas(catalogScreen(), discipline);
@@ -177,8 +196,10 @@ public final class ProgressionBrowseScreen extends Screen {
     private void syncSelectedIndex() {
         if (mode == Mode.KNOWLEDGE) {
             for (int i = 0; i < knowledge.size(); i++) if (knowledge.get(i).id().equals(canvas.selectedId())) { selected = i; return; }
-        } else {
+        } else if (mode == Mode.RESEARCH) {
             for (int i = 0; i < research.size(); i++) if (research.get(i).id().equals(canvas.selectedId())) { selected = i; return; }
+        } else {
+            for (int i = 0; i < quests.size(); i++) if (quests.get(i).id().equals(canvas.selectedId())) { selected = i; return; }
         }
         selected = 0;
     }
@@ -189,8 +210,10 @@ public final class ProgressionBrowseScreen extends Screen {
         int backWidth = responsive.compact() ? 54 : 76;
         addRenderableWidget(Button.builder(Component.translatable("moreminecrafts.ui.back"), b -> {
             branchMenuOpen = false;
-            minecraft.gui.setScreen(new ProgressionDisciplineSelectionScreen(mode));
+            minecraft.gui.setScreen(mode == Mode.QUEST ? new ProgressionSelectionScreen()
+                    : new ProgressionDisciplineSelectionScreen(mode));
         }).bounds(margin, y, backWidth, 20).build());
+        if (mode == Mode.QUEST) return;
         branchButtonX = margin + backWidth + 8;
         branchButtonY = y;
         branchButtonWidth = Math.max(96, Math.min(190, width - branchButtonX - margin));
@@ -233,7 +256,7 @@ public final class ProgressionBrowseScreen extends Screen {
                 width / 2, responsive.tabs().y() + 6, 0xFF292722);
         var viewport = responsive.viewport();
         drawFrameTexture(graphics, viewport.x() - 5, viewport.y() - 5, viewport.width() + 10, viewport.height() + 10);
-        canvas.render(graphics, font, mouseX, mouseY, knowledgeById, researchById);
+        canvas.render(graphics, font, mouseX, mouseY, knowledgeById, researchById, questsById);
         graphics.outline(viewport.x() - 1, viewport.y() - 1, viewport.width() + 2, viewport.height() + 2, 0xFF171717);
         if (branchMenuOpen) renderBranchMenu(graphics);
         super.extractRenderState(graphics, mouseX, mouseY, delta);
@@ -284,6 +307,7 @@ public final class ProgressionBrowseScreen extends Screen {
             branchMenuOpen = false;
         }
         if (super.mouseClicked(event, doubleClick)) return true;
+        if (mode == Mode.QUEST && canvas.tooltipContains(event.x(), event.y())) return true;
         if (!responsive.viewport().contains(event.x(), event.y())) return false;
         if (event.button() != 0) return false;
         gesture.begin(event.button(), event.x(), event.y(), canvas.hitTest(event.x(), event.y()));
@@ -318,6 +342,10 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         if (branchMenuOpen) return true;
+        if (canvas.tooltipContains(mouseX, mouseY)) {
+            canvas.scrollTooltip((int) Math.signum(verticalAmount) * 3);
+            return true;
+        }
         if (responsive.viewport().contains(mouseX, mouseY)) {
             canvas.zoomAt(mouseX, mouseY, (int) Math.signum(verticalAmount));
             return true;
@@ -327,6 +355,10 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public boolean keyPressed(KeyEvent event) {
         if (event.isEscape() && branchMenuOpen) { branchMenuOpen = false; return true; }
+        if (mode == Mode.QUEST && (event.isUp() || event.isDown())) {
+            canvas.scrollTooltip(event.isDown() ? 3 : -3);
+            return true;
+        }
         if (event.isLeft()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.LEFT);
         else if (event.isRight()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.RIGHT);
         else if (event.isUp()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.UP);
@@ -339,6 +371,7 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public void onClose() {
         if (branchMenuOpen) { branchMenuOpen = false; return; }
-        minecraft.gui.setScreen(new ProgressionDisciplineSelectionScreen(mode));
+        minecraft.gui.setScreen(mode == Mode.QUEST ? new ProgressionSelectionScreen()
+                : new ProgressionDisciplineSelectionScreen(mode));
     }
 }

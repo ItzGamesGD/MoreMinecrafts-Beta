@@ -660,7 +660,7 @@
    "id": "xpq.cmb.cave_dwellers",
    "tab": "combat",
    "tier": "MID",
-   "status": "VERIFY",
+   "status": "NOW",
    "rewardRawXp": 500,
    "target": 6,
    "tracker": {
@@ -674,7 +674,7 @@
      "moreminecrafts:cave_bat"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.trident_50",
@@ -778,26 +778,33 @@
    "id": "xpq.cmb.bestiary_25",
    "tab": "combat",
    "tier": "LATE",
-   "status": "VERIFY",
+   "status": "NOW",
    "rewardRawXp": 1350,
    "target": 25,
    "tracker": {
     "kind": "stat_killed_monsters_distinct",
     "key": "moreminecrafts"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.habitats_5",
    "tab": "combat",
    "tier": "LATE",
-   "status": "VERIFY",
+   "status": "NOW",
    "rewardRawXp": 1100,
    "target": 5,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_killed_groups_each",
+    "entries": [
+     "desert|moreminecrafts:desert_spider|moreminecrafts:sand_slime",
+     "swamp|moreminecrafts:swamp_zombie|moreminecrafts:swamp_spider|moreminecrafts:mud_slime",
+     "snowy|moreminecrafts:frozen_zombie|moreminecrafts:ice_spider",
+     "fungal|moreminecrafts:fungal_zombie",
+     "wild_slime|moreminecrafts:wild_slime"
+    ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.netherite_blades",

@@ -161,6 +161,19 @@ Real-world feel and balance of every registered Q1-C quest; naturally generated 
 Not started, by instruction: Q1-D and Q1-E. No open P0/P1/P2 defect is known after the fixes above. Remaining gated work: owner decisions on VERIFY promotions and the habitat mapping; implement the approved pickup event for `xpq.cmb.wither_skulls_3`; live acceptance, multiplayer, and JVM-kill validation; and the owner's separate decisions on retroactivity of the three Knowledge-tracker structure quests (C2 section) and promotion of the two monument quests.
 
 
+## Ecology final implementation checkpoint (2026-10-18)
+
+The final owner request and UX decision supersede the earlier cave-only registration gate and previous detail-view wording. The three approved ecology quests are now registered as `NOW`: `cave_dwellers` (500 XP, exact six species using `stat_killed_each`), `bestiary_25` (1,350 XP, 25 of 37 registered MoreMinecrafts MONSTER types using `stat_killed_monsters_distinct`), and `habitats_5` (1,100 XP, five disjoint type groups using player `ENTITY_KILLED` stats). `cave_bat` remains `AMBIENT` and only the explicit cave roster includes it. No other VERIFY quest was promoted.
+
+The five approved habitat groups are encoded by eligible entity type, independent of kill location: desert (`desert_spider`, `sand_slime`), swamp (`swamp_zombie`, `swamp_spider`, `mud_slime`), snowy (`frozen_zombie`, `ice_spider`), fungal (`fungal_zombie`), and wild slime (`wild_slime`). Candidate types are unique across groups. Retrospective reconciliation reads each player's persistent vanilla kill statistics; per-target done flags are stored in the same player progression state and synchronized through the existing per-player snapshot/delta protocol.
+
+The XP Quests card now opens a three-node advancement-style ecology tree. Node hover and keyboard focus show title, description, XP, progress and per-type/group completion. The bestiary panel lists all 37 eligible Monster types and scrolls inside the anchored hover panel; habitat panel shows all five groups and all nine candidates. The UI reuses the existing canvas pan/zoom, node frame and bounded screen conventions. A client visual harness journey covers menu entry, tooltip, bestiary roster/scroll and habitat groups.
+
+Catalog invariants remain 200 ids, 209,100 XP total, 180,000 active NOW+VERIFY XP. Registered quests increase from 72 to 75; the three promotions move 2,950 XP from VERIFY to NOW without changing the active subtotal. Both monument quests stay VERIFY/unregistered; `wither_skulls_3` retains item-pickup semantics. Existing F-3/F-5/F-6 repairs are unchanged.
+
+**Validation state:** Java 25 `clean test build compileGametestJava runGameTest` passed on this implementation (344 unit tests and 294 GameTests, including the 36-quest Q1-C threshold table). The dedicated two-JVM combat restart fixture passed its write and read phases for cave, bestiary-25 and habitats-5 statistics/checklist persistence. The client visual harness has not been executed in this environment: **VISUAL PENDING**. PR CI and captured UI evidence are pending the implementation push.
+
+
 ## Owner-approved cave roster and ecology audit (2026-10-18)
 
 - **Decision:** `xpq.cmb.cave_dwellers` requires one player-credited kill of each of exactly six registered types: `moreminecrafts:cave_zombie`, `cave_skeleton`, `cave_creeper`, `small_spider`, `swamp_spider`, and `cave_bat`. `cave_bat` is `MobCategory.AMBIENT` and is explicitly included as a **quest-specific exception**; do not apply a generic Monster-category filter to this quest.

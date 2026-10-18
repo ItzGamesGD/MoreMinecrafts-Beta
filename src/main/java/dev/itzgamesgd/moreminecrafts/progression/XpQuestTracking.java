@@ -75,6 +75,7 @@ public final class XpQuestTracking {
             if (quest == null) continue;
             long observed;
             try {
+                next = syncTargetStatuses(player, next, spec);
                 observed = evaluator.value(spec.tracker(), spec.target());
             } catch (RuntimeException failure) {
                 // Fail closed for this quest only: no progress, and joins/ticks keep working.
@@ -85,6 +86,34 @@ public final class XpQuestTracking {
             next = QuestRules.raiseProgress(next, quest, observed);
         }
         return next;
+    }
+
+    private static ResearchProgressState syncTargetStatuses(ServerPlayer player, ResearchProgressState state,
+                                                             XpQuestCatalogData.Spec spec) {
+        var entries = switch (spec.tracker().kind()) {
+            case "stat_killed_each", "stat_killed_monsters_distinct" -> spec.tracker().entries();
+            case "stat_killed_groups_each" -> spec.tracker().entries().stream()
+                    .flatMap(group -> java.util.Arrays.stream(group.split("\\|")).skip(1)).toList();
+            default -> java.util.List.<String>of();
+        };
+        if ("stat_killed_monsters_distinct".equals(spec.tracker().kind())) {
+            entries = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.stream()
+                    .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
+                    .filter(type -> spec.tracker().key().isBlank() || net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
+                            .getKey(type).getNamespace().equals(spec.tracker().key()))
+                    .map(type -> net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(type).toString()).toList();
+        }
+        for (String id : entries) {
+            var type = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
+                    .getOptional(net.minecraft.resources.Identifier.parse(id));
+            int done = type.isPresent() && player.getStats().getValue(net.minecraft.stats.Stats.ENTITY_KILLED.get(type.get())) > 0 ? 1 : 0;
+            state = state.with(targetStatusKey(spec.id(), id), done);
+        }
+        return state;
+    }
+
+    static String targetStatusKey(String questId, String entityId) {
+        return "quest.target." + questId + "." + entityId;
     }
 
     /** Schema 0 → 1 adds no transformation: earlier saves have no XP Quest keys to convert. */

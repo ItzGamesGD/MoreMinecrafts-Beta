@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import java.util.List;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
@@ -20,7 +21,7 @@ public final class ProgressionSelectionScreen extends Screen {
             new Target("advancements", 46, 129, 299, 494, true),
             new Target("knowledge", 361, 129, 295, 494, true),
             new Target("research", 673, 129, 296, 494, true),
-            new Target("xp_quest", 985, 129, 296, 494, false),
+            new Target("xp_quest", 985, 129, 296, 494, true),
             new Target("close", 487, 656, 350, 63, true)
     };
     private static volatile String lastClickedTarget;
@@ -48,8 +49,30 @@ public final class ProgressionSelectionScreen extends Screen {
         graphics.pose().scale(imageScale, imageScale);
         graphics.blit(RenderPipelines.GUI_TEXTURED, PANEL, 0, 0, 0, 0,
                 IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_HEIGHT);
+        drawEnabledQuestCard(graphics);
         graphics.pose().popMatrix();
         super.extractRenderState(graphics, mouseX, mouseY, delta);
+    }
+
+    private void drawEnabledQuestCard(GuiGraphicsExtractor graphics) {
+        int left = 985, top = 129, right = 1281, bottom = 623;
+        graphics.fill(left, top, right, bottom, 0xFF173326);
+        graphics.outline(left, top, right - left, bottom - top, 0xFF86B995);
+        graphics.fill(left + 5, top + 5, right - 5, top + 5 + 285, 0xFF202B26);
+        graphics.item(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.SLIME_BALL), 1117, top + 95);
+        graphics.fill(left + 14, top + 282, right - 14, top + 332, 0xFF29463A);
+        graphics.outline(left + 14, top + 282, right - left - 28, 50, 0xFFB7D6BE);
+        graphics.centeredText(font, Component.translatable("moreminecrafts.ui.selector.quests"),
+                (left + right) / 2, top + 299, 0xFFE5F0E7);
+        var description = font.split(Component.translatable("moreminecrafts.ui.selector.quests.description"), right - left - 40);
+        int y = top + 364;
+        for (var line : description) {
+            graphics.text(font, line, (left + right - font.width(line)) / 2, y, 0xFFD7E1D9, false);
+            y += 15;
+        }
+        graphics.fill(left + 52, bottom - 54, right - 52, bottom - 23, 0xFF345C45);
+        graphics.centeredText(font, Component.translatable("moreminecrafts.ui.selector.active"),
+                (left + right) / 2, bottom - 44, 0xFFFFFFFF);
     }
 
     @Override
@@ -81,6 +104,8 @@ public final class ProgressionSelectionScreen extends Screen {
                         new ProgressionDisciplineSelectionScreen(ProgressionBrowseScreen.Mode.KNOWLEDGE));
                 case "research" -> minecraft.gui.setScreen(
                         new ProgressionDisciplineSelectionScreen(ProgressionBrowseScreen.Mode.RESEARCH));
+                case "xp_quest" -> minecraft.gui.setScreen(
+                        new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.QUEST));
                 case "close" -> onClose();
                 default -> { }
             }

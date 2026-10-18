@@ -413,8 +413,8 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
     public void registeredQuestEvidenceKeysAreValid(GameTestHelper ctx) {
         List<XpQuestCatalogData.Spec> registered = XpQuestCatalogData.catalog().quests().stream()
                 .filter(XpQuestCatalogData.Spec::registered).toList();
-        ctx.assertTrue(registered.size() == 72,
-                "30 Q1-B, nine C1 loot, two vault, four structure and 27 combat/boss/raid quests registered: " + registered.size());
+        ctx.assertTrue(registered.size() == 75,
+                "30 Q1-B, nine C1 loot, two vault, four structure, 27 combat/boss/raid and three ecology quests registered: " + registered.size());
         for (XpQuestCatalogData.Spec spec : registered) {
             XpQuestCatalogData.Tracker t = spec.tracker();
             // A missing id would resolve to air and make an injected threshold test pass vacuously.

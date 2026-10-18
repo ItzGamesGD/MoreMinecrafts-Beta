@@ -68,6 +68,15 @@ public final class QuestCombatRestartGameTests implements CustomTestMethodInvoke
         killWith(ctx, player, "minecraft:iron_sword", EntityTypes.ELDER_GUARDIAN);
         for (String path : new String[] {"cave_zombie", "cave_skeleton", "cave_creeper", "small_spider", "swamp_spider", "cave_bat"})
             killWith(ctx, player, "minecraft:iron_sword", mm(path));
+        for (String path : new String[] {"desert_spider", "swamp_zombie", "frozen_zombie", "fungal_zombie", "wild_slime"})
+            killWith(ctx, player, "minecraft:iron_sword", mm(path));
+        BuiltInRegistries.ENTITY_TYPE.stream()
+                .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
+                .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
+                .sorted(java.util.Comparator.comparing(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).toString()))
+                .limit(25)
+                .forEach(type -> player.getStats().setValue(player, Stats.ENTITY_KILLED.get(type),
+                        Math.max(1, killed(player, type))));
         QuestCombatGameTests.reconcileCaveDwellersForTest(player);
         XpQuestTracking.reconcile(player);
         ResearchProgressState state = KnowledgeRuntime.state(player);
@@ -81,10 +90,14 @@ public final class QuestCombatRestartGameTests implements CustomTestMethodInvoke
                         + " bandit=" + counter(player, "kills_bandit"));
         ctx.assertTrue(state.questComplete("xpq.cmb.mm_arms") && state.questComplete("xpq.boss.elder_guardian")
                 && state.questProgress("xpq.cmb.bestiary_5") == 5
-                && state.questComplete("xpq.cmb.cave_dwellers"),
+                && state.questComplete("xpq.cmb.cave_dwellers")
+                && state.questComplete("xpq.cmb.bestiary_25")
+                && state.questComplete("xpq.cmb.habitats_5"),
                 "completed and partial quests before saving: arms=" + state.questComplete("xpq.cmb.mm_arms")
                         + " elder=" + state.questComplete("xpq.boss.elder_guardian")
                         + " bestiary=" + state.questProgress("xpq.cmb.bestiary_5")
+                        + " bestiary25=" + state.questProgress("xpq.cmb.bestiary_25")
+                        + " habitats=" + state.questProgress("xpq.cmb.habitats_5")
                         + " cave=" + state.questProgress("xpq.cmb.cave_dwellers")
                         + "/" + state.questComplete("xpq.cmb.cave_dwellers"));
     }
@@ -99,10 +112,12 @@ public final class QuestCombatRestartGameTests implements CustomTestMethodInvoke
         ctx.assertTrue(counter(player, "kills_dagger") == 1 && counter(player, "kills_greatsword") == 1
                 && counter(player, "kills_bandit") == 1 && counter(player, "kills_bandit_archer") == 0,
                 "event counters restored");
+        for (String path : new String[] {"desert_spider", "swamp_zombie", "frozen_zombie", "fungal_zombie", "wild_slime"})
+            ctx.assertTrue(killed(player, mm(path)) >= 1, "habitat candidate statistic restored: " + path);
         XpQuestTracking.reconcile(player);
         state = KnowledgeRuntime.state(player);
         ctx.assertTrue(state.questComplete("xpq.cmb.mm_arms") && state.questComplete("xpq.boss.elder_guardian")
-                && state.questProgress("xpq.cmb.bestiary_5") == 5 && state.questProgress("xpq.cmb.hostile_100") == 9
+                && state.questProgress("xpq.cmb.bestiary_5") == 5 && state.questProgress("xpq.cmb.hostile_100") >= 9
                 && state.questComplete("xpq.cmb.cave_dwellers"),
                 "quest state and statistic-derived progress restored: arms=" + state.questComplete("xpq.cmb.mm_arms")
                         + " elder=" + state.questComplete("xpq.boss.elder_guardian")
@@ -110,6 +125,23 @@ public final class QuestCombatRestartGameTests implements CustomTestMethodInvoke
                         + " hostile=" + state.questProgress("xpq.cmb.hostile_100")
                         + " cave=" + state.questProgress("xpq.cmb.cave_dwellers")
                         + "/" + state.questComplete("xpq.cmb.cave_dwellers"));
+        ctx.assertTrue(state.questProgress("xpq.cmb.bestiary_25") == 25
+                        && state.questComplete("xpq.cmb.bestiary_25")
+                        && state.questProgress("xpq.cmb.habitats_5") == 5
+                        && state.questComplete("xpq.cmb.habitats_5"),
+                "the new bestiary and habitat completion evidence restore and reconcile after the clean restart");
+        var bestiaryUi = ProgressionScreenData.quests(state, "combat").stream()
+                .filter(row -> row.id().equals("xpq.cmb.bestiary_25")).findFirst().orElseThrow();
+        long completedTargets = bestiaryUi.groups().getFirst().targets().stream()
+                .filter(ProgressionScreenData.QuestTarget::complete).count();
+        long persistedMonsterStats = BuiltInRegistries.ENTITY_TYPE.stream()
+                .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
+                .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
+                .filter(type -> killed(player, type) > 0).count();
+        ctx.assertTrue(bestiaryUi.groups().getFirst().targets().size() == 37
+                        && completedTargets == persistedMonsterStats && completedTargets >= 25,
+                "the restored player's checklist has all 37 entries and matches persisted kills: UI="
+                        + completedTargets + " stats=" + persistedMonsterStats);
         ResearchProgressState caveState = QuestCombatGameTests.reconcileCaveDwellersForTest(player);
         ctx.assertTrue(caveState.questProgress("xpq.cmb.cave_dwellers") == 6
                         && caveState.questComplete("xpq.cmb.cave_dwellers"),

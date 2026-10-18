@@ -325,6 +325,48 @@ public final class VisualValidationHarness {
                 }
                 combat.onClose();
                 if (client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub) hub.onClose();
+                if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)
+                        || !selector.validationClick("xp_quest")
+                        || !(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || quests.mode() != ProgressionBrowseScreen.Mode.QUEST
+                        || !quests.validationTreeReady()
+                        || quests.validationQuestTargetCount("xpq.cmb.bestiary_25") != 37
+                        || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5
+                        || !quests.validationHoverNode("xpq.cmb.bestiary_25")) {
+                    failJourney("XP Quest selector did not open the three-node tree with all 37 bestiary targets"); return;
+                }
+                queueUiScreenshot("xp-quest-bestiary-tooltip.png");
+                uiJourneyStage = 60;
+            }
+            case 60 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || !quests.validationTooltipWithinScreen()) {
+                    failJourney("bestiary hover panel exceeded the client screen bounds"); return;
+                }
+                quests.validationScrollQuestTooltip(12);
+                if (quests.validationTooltipScroll() <= 0) {
+                    failJourney("the full bestiary target list did not enable internal tooltip scrolling"); return;
+                }
+                queueUiScreenshot("xp-quest-bestiary-scrolled.png");
+                uiJourneyStage = 61;
+            }
+            case 61 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || !quests.validationHoverNode("xpq.cmb.habitats_5")) {
+                    failJourney("habitat quest tooltip target was unavailable"); return;
+                }
+                queueUiScreenshot("xp-quest-habitats-tooltip.png");
+                uiJourneyStage = 62;
+            }
+            case 62 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5) {
+                    failJourney("habitat quest did not show its five groups"); return;
+                }
+                client.gui.setScreen(null);
                 var inventory = client.player.getInventory();
                 var menu = new AutoFarmMenu(1, inventory, new SimpleContainer(50));
                 client.gui.setScreen(new AutoFarmScreen(menu, inventory, Component.translatable("container.moreminecrafts.auto_farm")));
@@ -376,7 +418,7 @@ public final class VisualValidationHarness {
                 }
             }
             case 4 -> {
-                if (screen instanceof ProgressionSelectionScreen
+                if (screen instanceof ProgressionBrowseScreen browse && browse.mode() == ProgressionBrowseScreen.Mode.QUEST
                         && "xp_quest".equals(ProgressionSelectionScreen.lastClickedTarget())) {
                     verifyPhysicalSelectorTarget("xp_quest");
                     openSelectorForPhysicalTest(client, 5, "close");

@@ -24,7 +24,7 @@ public final class XpQuestCatalogData {
             "stat_mined", "knowledge_seen", "knowledge_count", "research_nodes", "research_roots", "research_tier",
             "research_breadth", "research_discipline_complete", "research_value",
             "counter_sum", "placement", "distinct_set", "distinct_groups", "stat_crafted_distinct",
-            "counter_each", "counter_gated", "stat_killed_each");
+            "counter_each", "counter_gated", "stat_killed_each", "stat_killed_groups_each");
 
     public record Tracker(String kind, String key, List<String> entries, int divisor, String seedCondition) {
         public Tracker {
@@ -99,6 +99,20 @@ public final class XpQuestCatalogData {
                 problems.add(q.id() + " registered without an implemented tracker");
             if (q.tracker() != null && "counter".equals(q.tracker().kind()) && q.tracker().key().isBlank())
                 problems.add(q.id() + " counter without key");
+            if (q.tracker() != null && "stat_killed_groups_each".equals(q.tracker().kind())) {
+                Set<String> assigned = new HashSet<>();
+                Set<String> groups = new HashSet<>();
+                for (String encoded : q.tracker().entries()) {
+                    String[] parts = encoded.split("\\|");
+                    if (parts.length < 2 || parts[0].isBlank() || !groups.add(parts[0])) {
+                        problems.add(q.id() + " invalid or duplicate kill group " + encoded);
+                        continue;
+                    }
+                    for (int i = 1; i < parts.length; i++)
+                        if (parts[i].isBlank() || !assigned.add(parts[i]))
+                            problems.add(q.id() + " invalid or duplicate grouped entity " + parts[i]);
+                }
+            }
         }
         int active = catalog.total("NOW") + catalog.total("VERIFY");
         int future = catalog.total("FUTURE");

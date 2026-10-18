@@ -16,13 +16,13 @@ final class XpQuestCatalogDataTest {
         assertTrue(XpQuestCatalogData.validate(CATALOG).isEmpty(), () -> XpQuestCatalogData.validate(CATALOG).toString());
         assertEquals(200, CATALOG.quests().size());
         assertEquals(200, new HashSet<>(CATALOG.quests().stream().map(XpQuestCatalogData.Spec::id).toList()).size());
-        assertEquals(156_050, CATALOG.total("NOW"));
-        assertEquals(23_950, CATALOG.total("VERIFY"));
+        assertEquals(159_000, CATALOG.total("NOW"));
+        assertEquals(21_000, CATALOG.total("VERIFY"));
         assertEquals(29_100, CATALOG.total("FUTURE"));
         assertEquals(180_000, CATALOG.total("NOW") + CATALOG.total("VERIFY"));
         assertEquals(209_100, CATALOG.total("NOW") + CATALOG.total("VERIFY") + CATALOG.total("FUTURE"));
-        assertEquals(160, count("NOW"));
-        assertEquals(20, count("VERIFY"));
+        assertEquals(163, count("NOW"));
+        assertEquals(17, count("VERIFY"));
         assertEquals(20, count("FUTURE"));
     }
 
@@ -66,6 +66,7 @@ final class XpQuestCatalogDataTest {
         approved.addAll(Q1C_VAULT_REGISTERED);
         approved.addAll(Q1C_STRUCTURE_REGISTERED);
         approved.addAll(Q1C_COMBAT_REGISTERED);
+        approved.addAll(java.util.Set.of("xpq.cmb.cave_dwellers", "xpq.cmb.bestiary_25", "xpq.cmb.habitats_5"));
         assertEquals(approved, registered);
         assertTrue(Q1B_SOURCE_BLOCKED.stream().allMatch(id -> !spec(id).registered()));
         assertTrue(CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered)
@@ -98,10 +99,10 @@ final class XpQuestCatalogDataTest {
         assertEquals("crops_harvested", spec("xpq.frm.harvest_1000").tracker().seedCondition());
     }
 
-    @Test void caveDwellersHasTheOwnerConfirmedRosterAndRemainsVerifyUnregistered() {
+    @Test void caveDwellersHasTheOwnerConfirmedRosterAndIsRegistered() {
         XpQuestCatalogData.Spec cave = spec("xpq.cmb.cave_dwellers");
-        assertEquals("VERIFY", cave.status());
-        assertFalse(cave.registered());
+        assertEquals("NOW", cave.status());
+        assertTrue(cave.registered());
         assertEquals(500, cave.rewardRawXp());
         assertEquals(6, cave.target());
         assertEquals("stat_killed_each", cave.tracker().kind());
@@ -114,20 +115,24 @@ final class XpQuestCatalogDataTest {
                 "moreminecrafts:cave_bat"), cave.tracker().entries());
     }
 
-    @Test void ecologyAndMonumentVerifyQuestsRemainUnregistered() {
+    @Test void approvedEcologyQuestsAreRegisteredWhileMonumentsRemainUnregistered() {
         XpQuestCatalogData.Spec bestiary = spec("xpq.cmb.bestiary_25");
-        assertEquals("VERIFY", bestiary.status());
-        assertFalse(bestiary.registered());
+        assertEquals("NOW", bestiary.status());
+        assertTrue(bestiary.registered());
         assertEquals(1_350, bestiary.rewardRawXp());
         assertEquals(25, bestiary.target());
         assertEquals("stat_killed_monsters_distinct", bestiary.tracker().kind());
 
         XpQuestCatalogData.Spec habitats = spec("xpq.cmb.habitats_5");
-        assertEquals("VERIFY", habitats.status());
-        assertFalse(habitats.registered());
+        assertEquals("NOW", habitats.status());
+        assertTrue(habitats.registered());
         assertEquals(1_100, habitats.rewardRawXp());
         assertEquals(5, habitats.target());
-        assertEquals("pending", habitats.tracker().kind());
+        assertEquals("stat_killed_groups_each", habitats.tracker().kind());
+        assertEquals(List.of("desert|moreminecrafts:desert_spider|moreminecrafts:sand_slime",
+                "swamp|moreminecrafts:swamp_zombie|moreminecrafts:swamp_spider|moreminecrafts:mud_slime",
+                "snowy|moreminecrafts:frozen_zombie|moreminecrafts:ice_spider",
+                "fungal|moreminecrafts:fungal_zombie", "wild_slime|moreminecrafts:wild_slime"), habitats.tracker().entries());
 
         for (String id : List.of("xpq.boss.monument_clear", "xpq.boss.monuments_3")) {
             assertEquals("VERIFY", spec(id).status());

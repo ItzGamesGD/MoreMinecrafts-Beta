@@ -71,6 +71,14 @@ public final class QuestC3ThresholdGameTests implements CustomTestMethodInvoker 
                     player.getStats().setValue(player, Stats.ENTITY_KILLED.get(
                             BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse(t.entries().get(i)))), 3);
             }
+            case "stat_killed_groups_each" -> {
+                clearKills(player);
+                for (int i = 0; i < amount; i++) {
+                    String typeId = t.entries().get(i).split("\\|")[1];
+                    player.getStats().setValue(player, Stats.ENTITY_KILLED.get(
+                            BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse(typeId))), 2);
+                }
+            }
             case "stat_killed_monsters" -> {
                 clearKills(player);
                 player.getStats().setValue(player, Stats.ENTITY_KILLED.get(EntityTypes.ZOMBIE), amount);
@@ -110,7 +118,7 @@ public final class QuestC3ThresholdGameTests implements CustomTestMethodInvoker 
                 failures.add(spec.id() + " gives another player progress " + nothing.questProgress(spec.id()));
         }
         System.out.println("QUEST_C3_THRESHOLDS checked=" + checked);
-        ctx.assertTrue(checked == 33, "the table covered every Q1-C registered quest without a Q1-B threshold test: " + checked);
+        ctx.assertTrue(checked == 36, "the table covered every Q1-C registered quest without a Q1-B threshold test: " + checked);
         ctx.assertTrue(failures.isEmpty(), "threshold failures: " + failures);
         ctx.succeed();
     }

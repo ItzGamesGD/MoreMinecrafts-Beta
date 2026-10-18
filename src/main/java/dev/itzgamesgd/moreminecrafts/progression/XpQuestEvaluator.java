@@ -52,6 +52,8 @@ final class XpQuestEvaluator {
             case "stat_block_items_distinct" -> memo("block_items_distinct", () -> blockItemsUsed(true));
             case "stat_killed" -> killed(tracker);
             case "stat_killed_each" -> killedEach(tracker);
+            case "stat_killed_groups_each" -> tracker.entries().stream().filter(group -> java.util.Arrays.stream(group.split("\\|"))
+                    .skip(1).anyMatch(id -> killedType(id) > 0)).count();
             case "stat_killed_monsters" -> memo("monsters:" + tracker.key(), () -> monsters(tracker.key(), false));
             case "stat_killed_monsters_distinct" -> memo("monster_types:" + tracker.key(), () -> monsters(tracker.key(), true));
             case "stat_mined" -> mined(tracker);
@@ -110,6 +112,11 @@ final class XpQuestEvaluator {
             if (type.isPresent() && stats().getValue(Stats.ENTITY_KILLED.get(type.get())) > 0) types++;
         }
         return types;
+    }
+
+    private int killedType(String id) {
+        var type = BuiltInRegistries.ENTITY_TYPE.getOptional(Identifier.parse(id));
+        return type.map(entityType -> stats().getValue(Stats.ENTITY_KILLED.get(entityType))).orElse(0);
     }
 
     /** Sum of the counters, but the quest cannot complete until every listed counter is at least one. */

@@ -71,7 +71,7 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
                 .filter(q -> q.id().equals("xpq.cmb.cave_dwellers")).findFirst().orElseThrow();
     }
 
-    /** Test-only evaluation of an unregistered VERIFY quest; production continues to honor registered=false. */
+    /** Reuses the same stat reconciliation helper for focused cave-roster assertions. */
     static ResearchProgressState reconcileCaveDwellersForTest(ServerPlayer player) {
         XpQuestCatalogData.Spec spec = caveDwellersSpec();
         if (QuestCatalog.byId(spec.id()) == null) QuestCatalog.register(spec.definition());
@@ -500,6 +500,64 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(complete.questProgress("xpq.cmb.cave_dwellers") == 6
                         && complete.questComplete("xpq.cmb.cave_dwellers"),
                 "the stored AMBIENT cave-bat statistic completes the sixth species");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void habitatsUseDisjointTypeGroupsAndPersistPerPlayerStats(GameTestHelper ctx) {
+        ServerPlayer hunter = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
+        setKills(hunter, mm("desert_spider"), 2);
+        setKills(hunter, mm("sand_slime"), 1);
+        setKills(hunter, mm("swamp_spider"), 1);
+        setKills(hunter, mm("frozen_zombie"), 1);
+        setKills(hunter, mm("fungal_zombie"), 1);
+        setKills(hunter, mm("wild_slime"), 1);
+        XpQuestTracking.reconcile(hunter);
+        ResearchProgressState state = KnowledgeRuntime.state(hunter);
+        ctx.assertTrue(state.questProgress("xpq.cmb.habitats_5") == 5
+                        && state.questComplete("xpq.cmb.habitats_5"),
+                "one qualifying kill per disjoint type group completes all five habitats");
+        ctx.assertTrue(state.get(XpQuestTracking.targetStatusKey("xpq.cmb.habitats_5", "moreminecrafts:desert_spider")) == 1
+                        && state.get(XpQuestTracking.targetStatusKey("xpq.cmb.habitats_5", "moreminecrafts:sand_slime")) == 1,
+                "both candidate kills remain visible without adding duplicate group progress");
+        XpQuestTracking.reconcile(bystander);
+        ctx.assertTrue(KnowledgeRuntime.state(bystander).questProgress("xpq.cmb.habitats_5") == 0,
+                "another player's statistics do not leak into habitat progress");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void bestiaryCountsDistinctRegisteredMonsterTypesAndExcludesNonMonsterTypes(GameTestHelper ctx) {
+        ServerPlayer hunter = ctx.makeMockServerPlayerInLevel();
+        List<EntityType<?>> monsters = BuiltInRegistries.ENTITY_TYPE.stream()
+                .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
+                .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
+                .sorted(java.util.Comparator.comparing(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).toString()))
+                .toList();
+        ctx.assertTrue(monsters.size() == 37, "the live registry supplies all 37 eligible bestiary types");
+        for (EntityType<?> type : monsters.subList(0, 25)) setKills(hunter, type, 3);
+        setKills(hunter, monsters.getFirst(), 99);
+        setKills(hunter, mm("cave_bat"), 5);
+        XpQuestTracking.reconcile(hunter);
+        ResearchProgressState state = KnowledgeRuntime.state(hunter);
+        ctx.assertTrue(state.questProgress("xpq.cmb.bestiary_25") == 25
+                        && state.questComplete("xpq.cmb.bestiary_25"),
+                "repeated kills do not inflate the 25 distinct-type threshold");
+        ctx.assertTrue(state.get(XpQuestTracking.targetStatusKey("xpq.cmb.bestiary_25",
+                        BuiltInRegistries.ENTITY_TYPE.getKey(monsters.getFirst()).toString())) == 1
+                        && state.get(XpQuestTracking.targetStatusKey("xpq.cmb.bestiary_25", "moreminecrafts:cave_bat")) == 0,
+                "all 37 monster statuses are player-specific and cave_bat remains outside bestiary");
+        var bestiaryRow = ProgressionScreenData.quests(state, "combat").stream()
+                .filter(row -> row.id().equals("xpq.cmb.bestiary_25")).findFirst().orElseThrow();
+        ctx.assertTrue(bestiaryRow.groups().size() == 1 && bestiaryRow.groups().getFirst().targets().size() == 37
+                        && bestiaryRow.groups().getFirst().targets().stream().filter(ProgressionScreenData.QuestTarget::complete).count() == 25,
+                "the server-produced UI row exposes all 37 species and the player's 25 completed targets");
+        var habitatRow = ProgressionScreenData.quests(state, "combat").stream()
+                .filter(row -> row.id().equals("xpq.cmb.habitats_5")).findFirst().orElseThrow();
+        ctx.assertTrue(habitatRow.groups().size() == 5 && habitatRow.groups().stream()
+                        .mapToInt(group -> group.targets().size()).sum() == 9,
+                "the server-produced habitat checklist exposes five groups and all nine eligible candidate types");
         ctx.succeed();
     }
 
