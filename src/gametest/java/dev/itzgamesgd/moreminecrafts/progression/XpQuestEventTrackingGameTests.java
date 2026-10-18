@@ -413,8 +413,8 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
     public void registeredQuestEvidenceKeysAreValid(GameTestHelper ctx) {
         List<XpQuestCatalogData.Spec> registered = XpQuestCatalogData.catalog().quests().stream()
                 .filter(XpQuestCatalogData.Spec::registered).toList();
-        ctx.assertTrue(registered.size() == 33,
-                "30 source-verified Q1-B and three C1 loot quests registered: " + registered.size());
+        ctx.assertTrue(registered.size() == 39,
+                "30 source-verified Q1-B and nine C1 loot quests registered: " + registered.size());
         for (XpQuestCatalogData.Spec spec : registered) {
             XpQuestCatalogData.Tracker t = spec.tracker();
             // A missing id would resolve to air and make an injected threshold test pass vacuously.
@@ -424,8 +424,13 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
             if (t.kind().equals("distinct_set") || t.kind().equals("distinct_groups"))
                 for (String group : t.entries())
                     for (String id : group.split("\\|"))
-                        ctx.assertTrue(BuiltInRegistries.BLOCK.containsKey(Identifier.parse(id))
-                                || BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(id)), spec.id() + " names a real id " + id);
+                        ctx.assertTrue(t.key().equals("set.structure_loot_tables")
+                                ? ctx.getLevel().getServer().reloadableRegistries().getLootTable(
+                                    net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE,
+                                            Identifier.parse(id))) != net.minecraft.world.level.storage.loot.LootTable.EMPTY
+                                : BuiltInRegistries.BLOCK.containsKey(Identifier.parse(id))
+                                    || BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(id)),
+                                spec.id() + " names a real id " + id);
             if (t.kind().equals("counter_sum") || (t.kind().equals("counter") && t.key().startsWith("natural_mined.")))
                 for (String key : t.kind().equals("counter") ? List.of(t.key()) : t.entries())
                     ctx.assertTrue(BuiltInRegistries.BLOCK.containsKey(Identifier.parse(key.substring("natural_mined.".length())))

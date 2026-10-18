@@ -69,9 +69,14 @@
    "rewardRawXp": 350,
    "target": 2,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.structure_loot_tables",
+    "entries": [
+     "minecraft:chests/desert_pyramid",
+     "minecraft:chests/jungle_temple"
+    ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.ocean_relics",
@@ -81,9 +86,15 @@
    "rewardRawXp": 500,
    "target": 3,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_groups",
+    "key": "set.structure_loot_tables",
+    "entries": [
+     "minecraft:chests/shipwreck_supply|minecraft:chests/shipwreck_map|minecraft:chests/shipwreck_treasure",
+     "minecraft:chests/underwater_ruin_big|minecraft:chests/underwater_ruin_small",
+     "minecraft:chests/buried_treasure"
+    ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.explorer_maps",
@@ -379,9 +390,10 @@
    "rewardRawXp": 350,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.structure_loot_fortress"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.dim.blaze_rods_32",
@@ -415,9 +427,10 @@
    "rewardRawXp": 900,
    "target": 3,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.structure_loot_ancient_city"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.dim.bastion_all",
@@ -427,9 +440,16 @@
    "rewardRawXp": 1350,
    "target": 4,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.structure_loot_tables",
+    "entries": [
+     "minecraft:chests/bastion_bridge",
+     "minecraft:chests/bastion_hoglin_stable",
+     "minecraft:chests/bastion_other",
+     "minecraft:chests/bastion_treasure"
+    ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.dim.ominous_vaults_5",
@@ -475,9 +495,10 @@
    "rewardRawXp": 3150,
    "target": 10,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.structure_loot_end_city"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.dim.nether_travel_50k",

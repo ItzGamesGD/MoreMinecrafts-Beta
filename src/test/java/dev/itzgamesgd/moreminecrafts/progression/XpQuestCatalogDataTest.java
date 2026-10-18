@@ -42,7 +42,9 @@ final class XpQuestCatalogDataTest {
             "xpq.frm.composite_foods", "xpq.cft.sleeping_bag", "xpq.cft.parachute",
             "xpq.cft.all_daggers", "xpq.cft.all_greatswords", "xpq.cft.mm_blocks");
     static final java.util.Set<String> Q1C_LOOT_REGISTERED = java.util.Set.of(
-            "xpq.exp.first_structure_loot", "xpq.exp.mineshaft_loot", "xpq.exp.dungeon_loot");
+            "xpq.exp.first_structure_loot", "xpq.exp.mineshaft_loot", "xpq.exp.dungeon_loot",
+            "xpq.exp.temples", "xpq.exp.ocean_relics", "xpq.dim.fortress_loot",
+            "xpq.dim.ancient_city_loot", "xpq.dim.bastion_all", "xpq.dim.end_city_loot_10");
 
     @Test void onlyQuestsWithTheirOwnTestGateAreRegistered() {
         java.util.Set<String> registered = new java.util.TreeSet<>();
