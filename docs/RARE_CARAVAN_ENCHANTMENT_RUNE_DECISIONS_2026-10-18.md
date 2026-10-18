@@ -1,6 +1,6 @@
 # MoreMinecrafts — 희귀 교역단 및 인챈트 룬 결정 (2026-10-18)
 
-**Status: user-confirmed design decisions; DOCUMENTATION ONLY / NOT IMPLEMENTED.** This revision supersedes earlier two-merchant, undecided-stock, all-tier rune quotas, and normal-level rune merchandise proposals. Numerical prices, spawn replacement rate, tier probabilities, slot counts, exclusive custom merchandise and specific armor-trim selection are **NOT approved**.
+**Status: user-confirmed design decisions; DOCUMENTATION ONLY / NOT IMPLEMENTED.** This revision supersedes earlier two-merchant, undecided-stock, all-tier rune quotas, and normal-level rune merchandise proposals. Specific rune prices, per-rune draw weights, exclusive custom merchandise and template identities are **NOT approved**; see section 7 for newly approved v1 spawn/generation baselines and vanilla merchandise prices.
 
 ## 1. Rare merchant caravan — confirmed
 
@@ -85,3 +85,39 @@ The user explicitly selected these eleven **candidate sale groups** as approved 
 ## 6. Superseded proposals
 
 Rejected: two merchants, two llamas, finite/undecided stock, per-tier guaranteed rune slots, low-level runes available from normal XP enchanting, routine materials/ores as filler, rune-as-unlock-voucher, books-as-real-enchantment-items, and sequential rune upgrades. Preserve the exact user decisions above over older proposals.
+
+
+## 7. User-approved v1 spawn and generation baseline (2026-10-18)
+
+This section supersedes prior language saying that the replacement chance, tier distribution, SKU counts, or rune-presence rates are wholly undecided. **These are accepted v1 design targets, NOT tested gameplay balance or implemented code.**
+
+- **Vanilla wandering trader : rare caravan = 1:1.** On a *successful eligible vanilla wandering-trader appearance*, replace with caravan at **50%**, otherwise preserve vanilla trader. Do not double spawn or change vanilla attempt frequency, eligibility or gamerules. Verify precise mapped 26.3 spawn-hook behavior; avoid consuming a vanilla spawn on caravan-placement failure without an intentional fallback.
+- **Implicit merchant tier distribution, conditional on caravan:** COMMON 55%, ADVANCED 30%, RARE 12%, LEGENDARY 3%; do not display tier labels.
+- **Total distinct trade offers, by tier:** COMMON 12–16; ADVANCED 15–20; RARE 18–24; LEGENDARY 22–28. Trade entries are not purchase caps; all offered trades have unlimited repeat stock.
+- **Chance a merchant offers at least one over-cap rune:** COMMON 0%, ADVANCED 15%, RARE 50%, LEGENDARY 90%. Proposed counts when runes are present: ADVANCED 1, RARE 1–2, LEGENDARY 2–4. The number of rune offers is a v1 design baseline, not a guaranteed quota across all tiers.
+- **Rune level access:** highest-level runes are weighted toward LEGENDARY, but **RARE merchants may offer top-level runes at extremely low nonzero chance** (user selected probability-based option B). The exact per-rune weights are still unresolved. Do not hard-lock every top-level rune to LEGENDARY.
+- **Remaining merchandise mix v1 suggestion:** after optional rune selection, draw ordinary rare vanilla goods, enhanced/enchantment equipment and (when designed) exclusive specialty goods using tier-specific weights: COMMON 65/30/5%; ADVANCED 55/35/10%; RARE 45/40/15%; LEGENDARY 35/45/20%. These percentages are recommended algorithm baselines; specialty items are still deferred and must not be fabricated or silently shipped as filler.
+- Deduplicate identical offers; persist generated offer list and prices; no reload rerolls; no forced guaranteed rune in every caravan.
+
+### 7.1 User-adjusted vanilla merchandise price baseline
+
+These **user-adjusted** prices replace prior conflicting assistant-only prices. All blocks mean **emerald blocks (9 emeralds each)**. Other prices were accepted by user instruction '나머진 그대로' and retained from the immediately preceding proposal.
+
+| Item | Output quantity | Price |
+| --- | ---: | --- |
+| Breeze Rod | 4 | 8 emeralds |
+| Echo Shard | 4 | 4 emeralds |
+| Sniffer Egg | 1 | 1 emerald block |
+| Heart of the Sea | 1 | 4 emerald blocks |
+| Wither Skeleton Skull | 1 | 15 emerald blocks |
+| Shulker Shell | 2 | 9 emerald blocks |
+| Trident | 1 | 9 emerald blocks |
+| Totem of Undying | 1 | 8 emerald blocks |
+| Enchanted Golden Apple | 1 | 12 emerald blocks |
+| Ominous Bottle III | 1 | 3 emerald blocks |
+| Ominous Bottle IV | 1 | 5 emerald blocks |
+| Ominous Bottle V | 1 | 8 emerald blocks |
+
+**Template placeholder:** record only **'형판' (template)** as a reserved merchandise group. Do not preselect vanilla armor-trim template IDs, prices or recipes. Later connect this placeholder to future equipment upgrade trees beyond netherite; design deferred.
+
+**Unresolved:** specific 24 over-cap rune SKU prices, exact per-rune draw weights, caravan-exclusive custom merchandise and final merchant UI/persistence details. Earlier price suggestions for rune levels are not user-approved and must not be implemented as final.
