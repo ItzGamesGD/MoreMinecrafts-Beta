@@ -35,6 +35,37 @@ Note on historical evidence for the three Knowledge-tracker quests: catalog A ta
 
 Tests: `QuestStructureEntryGameTests` (9), `QuestStructureRestartGameTests` (clean two-process restart, wired into the K5 Production Restart workflow). The structure fixture registers real `StructureStart`/chunk-reference records with genuine end-city template pieces under the structure id being tested, so the unmodified vanilla `StructureManager` queries run.
 
+## C3 combat and kill attribution (phase 3)
+
+Two evidence sources, chosen by the catalog's own tracking tag:
+
+- **Vanilla `ENTITY_KILLED` statistic (tag `S`, retroactive).** CODE VERIFIED in 26.3: `LivingEntity.die` calls `source.getEntity().killedEntity(...)`, and `Player.killedEntity` awards the statistic. The statistic therefore goes to the *final blow's causing entity*: a player's melee, an arrow they own, TNT they lit. A tamed wolf, fire after the hit, lava and falls do not award it, even though vanilla still gives the kill credit (loot, advancements) to the last player who hurt the victim for 100 ticks. Nothing is double counted because `die` runs once per entity (a second `die` call and repeated callbacks are tested). Existing statistics count at the first reconciliation (policy 3).
+- **`ServerLivingEntityEvents.AFTER_DEATH` + `getKillCredit()` (tag `I`, install-forward).** `QuestCombatKills` credits the vanilla kill-credit `ServerPlayer` once per victim UUID (bounded recent-set guard). Weapon, mace and long-shot counters additionally require that same player to be the damage source's causing *and* direct entity (melee) or the owner of the arrow; bandit counters use plain kill credit.
+
+New tracker kinds: `counter_each` (number of listed counters >= 1), `counter_gated` (sum of counters, capped at target-1 until every listed counter is >= 1) and `stat_killed_each` (number of listed entity types with a credited kill). New item tags `#moreminecrafts:daggers` and `#moreminecrafts:greatswords` (seven registry ids each, as specified in the handoff).
+
+| Quest | Source | Registration |
+|---|---|---|
+| `xpq.cmb.hostile_100/500/2000/5000` | `ENTITY_KILLED`, every `MobCategory.MONSTER` type | REGISTERED |
+| `xpq.cmb.vanilla_species_20` | distinct `minecraft:` Monster types | REGISTERED |
+| `xpq.cmb.bestiary_5/10` | distinct `moreminecrafts:` Monster types (37 registered, audit test) | REGISTERED |
+| `xpq.cmb.breeze_10`, `guardians_30`, `lesser_wither_10`, `ravagers_5`, `brutes_3` | exact entity type | REGISTERED |
+| `xpq.boss.elder_guardian`, `warden`, `wither`, `warden_3` | exact entity type (live wither and warden kills tested) | REGISTERED |
+| `xpq.boss.twin_bosses` | `stat_killed_each` {ender_dragon, wither}; repeats of one boss never substitute | REGISTERED |
+| `xpq.cmb.mm_arms`, `dagger_100`, `greatsword_100`, `netherite_blades` | final blow with the tagged / exact weapon on a Monster | REGISTERED |
+| `xpq.cmb.bandits_20` | kill credit; 20 total and each of three species >= 1 | REGISTERED |
+| `xpq.cmb.long_shot_25` | arrow owned by the player, weapon is a bow or crossbow, >= 30 blocks (3-D) | REGISTERED |
+| `xpq.cmb.mace_smash_10` | `mace_smash` damage type by the player on a Monster | REGISTERED |
+| `xpq.cmb.cave_dwellers` | VERIFY: the list names `small_cave_spider` and `swamp_cave_spider`, which are not registered ids (the registry has `small_spider`, `swamp_spider`), and `cave_bat` is Ambient, not Monster | unregistered |
+| `xpq.cmb.bestiary_25` | VERIFY: 37 Monster-category types exist, but natural obtainability of 25 is the open question | unregistered |
+| `xpq.cmb.habitats_5` | VERIFY: the habitat-to-mob mapping is not defined in authority | unregistered |
+| `xpq.cmb.wither_skulls_3` | NOW but an item-acquisition quest, not kill attribution; no hook in this batch | unregistered |
+| `xpq.cmb.raids_3` | handled with the raid hook (phase 5) | see phase 5 |
+
+Tests (`QuestCombatGameTests`, 17): melee credits only the attacker; projectile owner credited and a mob-owned arrow credits nobody; owned TNT credited, lava and fall credit nobody; last player attacker wins; repeated `die` and repeated `AFTER_DEATH` count once; exact entity types (cow, cave zombie vs zombie, elder guardian vs guardian, wither skeleton vs lesser, piglin vs brute, pillager vs bandit); live kills for breeze, guardian, ravager, brute, lesser wither skeleton, wither and warden; exact count and species thresholds (99/100, 19/20, 4/5 custom, 1,999/2,000/5,000); retroactive statistics; weapon final-blow rules including fire-after-hit and a shared kill; bandit gating; long-shot distance, weapon and owner; mace smash; bestiary registry audit. `QuestCombatRestartGameTests`: disconnect/rejoin in one process and a clean two-process restart (statistics file + player record), wired into the K5 Production Restart workflow.
+
+Out-of-scope finding (not repaired): `KnowledgeEventCollectors.projectileKill` calls `arrow.getWeaponItem().getItem()` although `AbstractArrow.getWeaponItem()` is `@Nullable` (dispenser-fired arrows have no weapon). A GameTest probe confirmed that an arrow without a weapon killing any `Monster` throws a `NullPointerException` out of `LivingEntity.die` through the AFTER_DEATH event. This predates Q1-C and is left unchanged per the task boundary; Q1-C's own hook is null-safe.
+
 ## Remaining C2-C6
 
 Unique structure identities, combat attribution, dragon rematch, ominous raids and monument participants are not implemented or registered on this branch. Monument VERIFY quests remain unregistered. Q1-C is not ready for final integration review.

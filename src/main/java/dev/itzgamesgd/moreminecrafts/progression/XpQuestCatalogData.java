@@ -23,7 +23,8 @@ public final class XpQuestCatalogData {
             "stat_block_items_distinct", "stat_killed", "stat_killed_monsters", "stat_killed_monsters_distinct",
             "stat_mined", "knowledge_seen", "knowledge_count", "research_nodes", "research_roots", "research_tier",
             "research_breadth", "research_discipline_complete", "research_value",
-            "counter_sum", "placement", "distinct_set", "distinct_groups", "stat_crafted_distinct");
+            "counter_sum", "placement", "distinct_set", "distinct_groups", "stat_crafted_distinct",
+            "counter_each", "counter_gated", "stat_killed_each");
 
     public record Tracker(String kind, String key, List<String> entries, int divisor, String seedCondition) {
         public Tracker {

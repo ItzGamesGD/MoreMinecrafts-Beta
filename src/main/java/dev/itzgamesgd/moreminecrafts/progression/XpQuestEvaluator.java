@@ -29,9 +29,13 @@ final class XpQuestEvaluator {
         this.state = state;
     }
 
-    long value(XpQuestCatalogData.Tracker tracker) {
+    long value(XpQuestCatalogData.Tracker tracker) { return value(tracker, Integer.MAX_VALUE); }
+
+    long value(XpQuestCatalogData.Tracker tracker, int target) {
         return switch (tracker.kind()) {
             case "counter" -> (baseline(tracker.seedCondition()) + QuestRules.counter(state, tracker.key())) / tracker.divisor();
+            case "counter_each" -> tracker.entries().stream().filter(k -> QuestRules.counter(state, k) > 0).count();
+            case "counter_gated" -> gatedSum(tracker, target);
             case "counter_sum" -> tracker.entries().stream().mapToLong(k -> QuestRules.counter(state, k)).sum();
             case "placement" -> baseline(XpQuestHooks.BLOCK_ITEMS_USED_BASELINE)
                     + QuestRules.counter(state, XpQuestHooks.BLOCKS_PLACED);
@@ -47,6 +51,7 @@ final class XpQuestEvaluator {
             case "stat_block_items_used" -> memo("block_items_used", () -> blockItemsUsed(false));
             case "stat_block_items_distinct" -> memo("block_items_distinct", () -> blockItemsUsed(true));
             case "stat_killed" -> killed(tracker);
+            case "stat_killed_each" -> killedEach(tracker);
             case "stat_killed_monsters" -> memo("monsters:" + tracker.key(), () -> monsters(tracker.key(), false));
             case "stat_killed_monsters_distinct" -> memo("monster_types:" + tracker.key(), () -> monsters(tracker.key(), true));
             case "stat_mined" -> mined(tracker);
@@ -95,6 +100,23 @@ final class XpQuestEvaluator {
             if (type.isPresent()) sum += stats().getValue(Stats.ENTITY_KILLED.get(type.get()));
         }
         return sum;
+    }
+
+    /** Distinct entity types of the list with at least one credited kill. */
+    private long killedEach(XpQuestCatalogData.Tracker tracker) {
+        long types = 0;
+        for (String id : tracker.entries()) {
+            var type = BuiltInRegistries.ENTITY_TYPE.getOptional(Identifier.parse(id));
+            if (type.isPresent() && stats().getValue(Stats.ENTITY_KILLED.get(type.get())) > 0) types++;
+        }
+        return types;
+    }
+
+    /** Sum of the counters, but the quest cannot complete until every listed counter is at least one. */
+    private long gatedSum(XpQuestCatalogData.Tracker tracker, int target) {
+        long sum = tracker.entries().stream().mapToLong(k -> QuestRules.counter(state, k)).sum();
+        boolean all = tracker.entries().stream().allMatch(k -> QuestRules.counter(state, k) > 0);
+        return all ? sum : Math.min(sum, Math.max(0, (long) target - 1));
     }
 
     private long monsters(String namespace, boolean distinct) {

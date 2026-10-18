@@ -47,6 +47,13 @@ final class XpQuestCatalogDataTest {
             "xpq.dim.ancient_city_loot", "xpq.dim.bastion_all", "xpq.dim.end_city_loot_10");
     static final java.util.Set<String> Q1C_STRUCTURE_REGISTERED = java.util.Set.of(
             "xpq.dim.end_cities_3", "xpq.exp.villages_5", "xpq.exp.structures_15", "xpq.exp.grand_expedition");
+    static final java.util.Set<String> Q1C_COMBAT_REGISTERED = java.util.Set.of(
+            "xpq.cmb.hostile_100", "xpq.cmb.hostile_500", "xpq.cmb.hostile_2000", "xpq.cmb.hostile_5000",
+            "xpq.cmb.vanilla_species_20", "xpq.cmb.bestiary_5", "xpq.cmb.bestiary_10", "xpq.cmb.breeze_10",
+            "xpq.cmb.guardians_30", "xpq.cmb.lesser_wither_10", "xpq.cmb.ravagers_5", "xpq.cmb.brutes_3",
+            "xpq.boss.elder_guardian", "xpq.boss.warden", "xpq.boss.wither", "xpq.boss.warden_3",
+            "xpq.boss.twin_bosses", "xpq.cmb.mm_arms", "xpq.cmb.dagger_100", "xpq.cmb.greatsword_100",
+            "xpq.cmb.netherite_blades", "xpq.cmb.bandits_20", "xpq.cmb.long_shot_25", "xpq.cmb.mace_smash_10");
     static final java.util.Set<String> Q1C_VAULT_REGISTERED = java.util.Set.of(
             "xpq.dim.trial_vaults_5", "xpq.dim.ominous_vaults_5");
 
@@ -57,6 +64,7 @@ final class XpQuestCatalogDataTest {
         approved.addAll(Q1C_LOOT_REGISTERED);
         approved.addAll(Q1C_VAULT_REGISTERED);
         approved.addAll(Q1C_STRUCTURE_REGISTERED);
+        approved.addAll(Q1C_COMBAT_REGISTERED);
         assertEquals(approved, registered);
         assertTrue(Q1B_SOURCE_BLOCKED.stream().allMatch(id -> !spec(id).registered()));
         assertTrue(CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered)

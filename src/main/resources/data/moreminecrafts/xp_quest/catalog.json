@@ -529,7 +529,7 @@
     "kind": "stat_killed_monsters",
     "key": ""
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.mm_arms",
@@ -539,9 +539,13 @@
    "rewardRawXp": 250,
    "target": 2,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter_each",
+    "entries": [
+     "kills_dagger",
+     "kills_greatsword"
+    ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.bestiary_5",
@@ -554,7 +558,7 @@
     "kind": "stat_killed_monsters_distinct",
     "key": "moreminecrafts"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.shield_500",
@@ -581,7 +585,7 @@
     "kind": "stat_killed_monsters",
     "key": ""
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.vanilla_species_20",
@@ -594,7 +598,7 @@
     "kind": "stat_killed_monsters_distinct",
     "key": "minecraft"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.dagger_100",
@@ -604,9 +608,10 @@
    "rewardRawXp": 500,
    "target": 100,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "kills_dagger"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.greatsword_100",
@@ -616,9 +621,10 @@
    "rewardRawXp": 500,
    "target": 100,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "kills_greatsword"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.bestiary_10",
@@ -631,7 +637,7 @@
     "kind": "stat_killed_monsters_distinct",
     "key": "moreminecrafts"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.bandits_20",
@@ -641,9 +647,14 @@
    "rewardRawXp": 500,
    "target": 20,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter_gated",
+    "entries": [
+     "kills_bandit",
+     "kills_bandit_archer",
+     "kills_bandit_warrior"
+    ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.cave_dwellers",
@@ -684,7 +695,7 @@
      "minecraft:breeze"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.guardians_30",
@@ -699,7 +710,7 @@
      "minecraft:guardian"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.long_shot_25",
@@ -709,9 +720,10 @@
    "rewardRawXp": 850,
    "target": 25,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "kills_long_shot"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.mace_smash_10",
@@ -721,9 +733,10 @@
    "rewardRawXp": 750,
    "target": 10,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "kills_mace_smash"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.lesser_wither_10",
@@ -738,7 +751,7 @@
      "moreminecrafts:lesser_wither_skeleton"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.hostile_2000",
@@ -751,7 +764,7 @@
     "kind": "stat_killed_monsters",
     "key": ""
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.bestiary_25",
@@ -786,9 +799,13 @@
    "rewardRawXp": 1100,
    "target": 2,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter_each",
+    "entries": [
+     "kills_netherite_dagger",
+     "kills_netherite_greatsword"
+    ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.ravagers_5",
@@ -803,7 +820,7 @@
      "minecraft:ravager"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.brutes_3",
@@ -818,7 +835,7 @@
      "minecraft:piglin_brute"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.wither_skulls_3",
@@ -855,7 +872,7 @@
     "kind": "stat_killed_monsters",
     "key": ""
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.boss.elder_guardian",
@@ -870,7 +887,7 @@
      "minecraft:elder_guardian"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.boss.monument_clear",
@@ -897,7 +914,7 @@
      "minecraft:warden"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.boss.wither",
@@ -912,7 +929,7 @@
      "minecraft:wither"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.boss.twin_bosses",
@@ -922,9 +939,13 @@
    "rewardRawXp": 3150,
    "target": 2,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_killed_each",
+    "entries": [
+     "minecraft:ender_dragon",
+     "minecraft:wither"
+    ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.boss.dragon_rematch",
@@ -975,7 +996,7 @@
      "minecraft:warden"
     ]
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.min.first_custom_ore",

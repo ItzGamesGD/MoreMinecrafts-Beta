@@ -119,6 +119,24 @@ jobs:
           set -o pipefail
           ./gradlew runGameTest --no-daemon 2>&1 | tee quest-city-restart-read.log
           grep -F 'QUEST_CITY_RESTART_READ' quest-city-restart-read.log
+      - name: Process A saves Q1-C combat kill evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_combat_restart_game_tests_kill_evidence_survives_rejoin_and_clean_restart
+            -Dmoreminecrafts.questcombat.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-combat-restart-write.log
+          grep -F 'QUEST_COMBAT_RESTART_WRITE' quest-combat-restart-write.log
+      - name: Process B reloads Q1-C combat statistics and counters
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_combat_restart_game_tests_kill_evidence_survives_rejoin_and_clean_restart
+            -Dmoreminecrafts.questcombat.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-combat-restart-read.log
+          grep -F 'QUEST_COMBAT_RESTART_READ' quest-combat-restart-read.log
       - name: Upload focused logs and manifest
         if: always()
         uses: actions/upload-artifact@v4
@@ -137,5 +155,7 @@ jobs:
             quest-vault-restart-read.log
             quest-city-restart-write.log
             quest-city-restart-read.log
+            quest-combat-restart-write.log
+            quest-combat-restart-read.log
           if-no-files-found: warn
           retention-days: 14
