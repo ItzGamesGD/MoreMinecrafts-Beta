@@ -362,3 +362,16 @@ The owner explicitly approved promotion of `xpq.cmb.cave_dwellers` and the five 
 7. GameTests/unit tests for tracker math, category exception, disjoint group mapping, persistence and multiplayer attribution; client smoke or real UI screenshots for the actual checklist. Label visual status `VISUAL PENDING` when not directly observed.
 
 **Implementation gate:** The owner authorized the *direction*, not an untested immediate release. Until the checklist UI and tracker tests pass, keep existing `VERIFY`/unregistered flags where applicable. Do not change the 200-quest ledger or rewards, and do not merge PR #121 without separate approval. The checklist requirement applies to other future multi-target XP quests as a reusable UI component, not just these three.
+
+
+### FINAL owner UX decision (2026-10-18): advancement-style node hover, NOT a separate detail screen
+
+This section **supersedes the presentation/navigation portions** of the earlier "Mandatory quest UI acceptance criteria" above. The owner clarified that XP Quests must follow the previously agreed **vanilla advancements-style quest node tree**, using the **same pointer-hover interaction as the Research tree**. The requirement to expose full eligible targets and personal completion state remains unchanged.
+
+- Show quests as icons/nodes on the existing quest tree, with prerequisite edges where defined. Do **not** invent a separate quest detail screen, modal, or checklist page as the primary interaction.
+- **Pointer hover over a node** displays a contextual tooltip containing quest title, description, XP reward, overall progress, and individual target status. Examples: cave dwellers 6 distinct species; habitats 5 named groups with eligible species and their actual kills; bestiary all 37 eligible Monster species with a 25-of-37 completion threshold.
+- For a long target roster (especially the 37-species bestiary), keep the tooltip anchored to the hovered node or a stable adjacent hover panel with scroll/pagination/expansion **within the hover interaction**. Ensure moving the pointer into an interactive overflow area does not unexpectedly close the tooltip. No standalone details screen.
+- The same tooltip content must be accessible through **node selection/focus** for keyboard/controller/touch or when hover is unavailable; retain focus until the user dismisses or selects another node.
+- Reuse the Research tree's pan/zoom, node hover/focus, clipping and layering conventions wherever compatible. Tooltips must remain readable near viewport edges and at small GUI scales.
+- Server-authoritative per-player progress sync and tests still apply; no fabricated client-side progress. The four-card XP Quest entry must open the quest node tree when implemented.
+- Treat any earlier wording requiring "selecting a quest opens a detail view" as **superseded** by this owner decision. Do not build an independent detail UI.
