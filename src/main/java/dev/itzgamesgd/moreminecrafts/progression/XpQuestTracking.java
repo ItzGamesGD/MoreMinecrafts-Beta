@@ -29,6 +29,7 @@ public final class XpQuestTracking {
         XpQuestHooks.initialize(); // baselines are captured before the reconciliation join listener runs
         QuestStructureEntry.initialize();
         QuestCombatKills.initialize();
+        QuestDragonRematch.initialize();
         for (XpQuestCatalogData.Spec spec : XpQuestCatalogData.catalog().quests())
             if (spec.registered()) register(spec);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> reconcile(handler.player));

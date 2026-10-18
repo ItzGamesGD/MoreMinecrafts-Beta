@@ -40,7 +40,8 @@
       "dev.itzgamesgd.moreminecrafts.progression.QuestStructureEntryGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestStructureRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestCombatGameTests",
-      "dev.itzgamesgd.moreminecrafts.progression.QuestCombatRestartGameTests"
+      "dev.itzgamesgd.moreminecrafts.progression.QuestCombatRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestDragonRematchGameTests"
     ]
   },
   "mixins": [

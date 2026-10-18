@@ -53,7 +53,8 @@ final class XpQuestCatalogDataTest {
             "xpq.cmb.guardians_30", "xpq.cmb.lesser_wither_10", "xpq.cmb.ravagers_5", "xpq.cmb.brutes_3",
             "xpq.boss.elder_guardian", "xpq.boss.warden", "xpq.boss.wither", "xpq.boss.warden_3",
             "xpq.boss.twin_bosses", "xpq.cmb.mm_arms", "xpq.cmb.dagger_100", "xpq.cmb.greatsword_100",
-            "xpq.cmb.netherite_blades", "xpq.cmb.bandits_20", "xpq.cmb.long_shot_25", "xpq.cmb.mace_smash_10");
+            "xpq.cmb.netherite_blades", "xpq.cmb.bandits_20", "xpq.cmb.long_shot_25", "xpq.cmb.mace_smash_10",
+            "xpq.boss.dragon_rematch");
     static final java.util.Set<String> Q1C_VAULT_REGISTERED = java.util.Set.of(
             "xpq.dim.trial_vaults_5", "xpq.dim.ominous_vaults_5");
 

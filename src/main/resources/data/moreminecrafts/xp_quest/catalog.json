@@ -955,9 +955,10 @@
    "rewardRawXp": 3150,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "dragon_rematch_kills"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.boss.omen_raid",
