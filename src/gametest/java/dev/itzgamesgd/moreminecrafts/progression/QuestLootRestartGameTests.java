@@ -83,6 +83,10 @@ public final class QuestLootRestartGameTests implements CustomTestMethodInvoker 
             cartContainer.unpackChestVehicleLootTable(opener);
             ctx.assertTrue(QuestRules.distinctCount(KnowledgeRuntime.state(opener), "set.structure_loot_mineshaft") == 1,
                     "entity container records its own classified evidence");
+            ctx.assertTrue(KnowledgeRuntime.state(opener).questComplete("xpq.exp.first_structure_loot")
+                    && KnowledgeRuntime.state(opener).questComplete("xpq.exp.dungeon_loot")
+                    && KnowledgeRuntime.state(opener).questComplete("xpq.exp.mineshaft_loot"),
+                    "all three tested loot quests complete for the generating player");
             level.getServer().getPlayerList().saveAll();
             level.getChunkSource().save(true);
             System.out.println("QUEST_LOOT_RESTART_WRITE chunk=" + CHUNK + " player=" + PLAYER_ID);
@@ -94,6 +98,10 @@ public final class QuestLootRestartGameTests implements CustomTestMethodInvoker 
             ctx.assertTrue(QuestRules.distinctCount(KnowledgeRuntime.state(opener), "set.structure_loot_any") == 1
                     && QuestRules.distinctCount(KnowledgeRuntime.state(opener), "set.structure_loot_mineshaft") == 1,
                     "block and entity loot evidence restored from disk");
+            ctx.assertTrue(KnowledgeRuntime.state(opener).questComplete("xpq.exp.first_structure_loot")
+                    && KnowledgeRuntime.state(opener).questComplete("xpq.exp.dungeon_loot")
+                    && KnowledgeRuntime.state(opener).questComplete("xpq.exp.mineshaft_loot"),
+                    "all three completed quests restored from disk");
             var chest = (RandomizableContainerBlockEntity) level.getBlockEntity(CHEST);
             ctx.assertTrue(chest != null && chest.getLootTable() == null,
                     "container has no loot table after generation and restart");
@@ -107,6 +115,10 @@ public final class QuestLootRestartGameTests implements CustomTestMethodInvoker 
             cartContainer.unpackChestVehicleLootTable(other);
             ctx.assertTrue(QuestRules.distinctCount(KnowledgeRuntime.state(other), "set.structure_loot_any") == 0,
                     "another player gains no credit from reopening after restart");
+            ctx.assertTrue(!KnowledgeRuntime.state(other).questComplete("xpq.exp.first_structure_loot")
+                    && !KnowledgeRuntime.state(other).questComplete("xpq.exp.dungeon_loot")
+                    && !KnowledgeRuntime.state(other).questComplete("xpq.exp.mineshaft_loot"),
+                    "reopening after restart cannot complete loot quests for another player");
             System.out.println("QUEST_LOOT_RESTART_READ chunk=" + CHUNK + " player=" + PLAYER_ID);
             ctx.succeed();
             return;

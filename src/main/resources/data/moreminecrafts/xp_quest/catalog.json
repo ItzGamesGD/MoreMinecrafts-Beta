@@ -12,9 +12,10 @@
    "rewardRawXp": 250,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.structure_loot_any"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.mineshaft_loot",
@@ -24,9 +25,10 @@
    "rewardRawXp": 250,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.structure_loot_mineshaft"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.dungeon_loot",
@@ -36,9 +38,10 @@
    "rewardRawXp": 250,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "distinct_set",
+    "key": "set.structure_loot_dungeon"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.exp.walk_10k",

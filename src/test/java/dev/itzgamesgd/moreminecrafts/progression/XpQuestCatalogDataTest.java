@@ -41,11 +41,15 @@ final class XpQuestCatalogDataTest {
             "xpq.frm.harvest_1000", "xpq.frm.harvest_5000", "xpq.fsh.catch_500",
             "xpq.frm.composite_foods", "xpq.cft.sleeping_bag", "xpq.cft.parachute",
             "xpq.cft.all_daggers", "xpq.cft.all_greatswords", "xpq.cft.mm_blocks");
+    static final java.util.Set<String> Q1C_LOOT_REGISTERED = java.util.Set.of(
+            "xpq.exp.first_structure_loot", "xpq.exp.mineshaft_loot", "xpq.exp.dungeon_loot");
 
     @Test void onlyQuestsWithTheirOwnTestGateAreRegistered() {
         java.util.Set<String> registered = new java.util.TreeSet<>();
         CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered).forEach(q -> registered.add(q.id()));
-        assertEquals(new java.util.TreeSet<>(Q1B_REGISTERED), registered);
+        java.util.Set<String> approved = new java.util.TreeSet<>(Q1B_REGISTERED);
+        approved.addAll(Q1C_LOOT_REGISTERED);
+        assertEquals(approved, registered);
         assertTrue(Q1B_SOURCE_BLOCKED.stream().allMatch(id -> !spec(id).registered()));
         assertTrue(CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered)
                 .allMatch(q -> q.status().equals("NOW") && XpQuestCatalogData.EVALUABLE_KINDS.contains(q.tracker().kind())));

@@ -47,9 +47,9 @@ public final class QuestStructureLootGameTests implements CustomTestMethodInvoke
         chest.unpackLootTable(opener);
         ctx.assertTrue(seen(opener, "set.structure_loot_any") == 1
                 && seen(opener, "set.structure_loot_dungeon") == 1, "actual opener credited");
-        ctx.assertTrue(!KnowledgeRuntime.state(opener).questComplete("xpq.exp.first_structure_loot")
-                && !KnowledgeRuntime.state(opener).questComplete("xpq.exp.dungeon_loot"),
-                "source evidence stays unregistered until the reload gate passes");
+        ctx.assertTrue(KnowledgeRuntime.state(opener).questComplete("xpq.exp.first_structure_loot")
+                && KnowledgeRuntime.state(opener).questComplete("xpq.exp.dungeon_loot"),
+                "first loot and dungeon quests complete for the generating player");
         chest.unpackLootTable(other);
         ctx.assertTrue(seen(other, "set.structure_loot_any") == 0, "reopening gives other player nothing");
         ctx.assertTrue(!KnowledgeRuntime.state(other).questComplete("xpq.exp.first_structure_loot"),
@@ -73,10 +73,13 @@ public final class QuestStructureLootGameTests implements CustomTestMethodInvoke
         container.setContainerLootTable(table("abandoned_mineshaft"));
         container.unpackChestVehicleLootTable(opener);
         ctx.assertTrue(seen(opener, "set.structure_loot_mineshaft") == 1, "minecart opener credited");
-        ctx.assertTrue(!KnowledgeRuntime.state(opener).questComplete("xpq.exp.mineshaft_loot"),
-                "minecart source evidence stays unregistered until the reload gate passes");
+        ctx.assertTrue(KnowledgeRuntime.state(opener).questComplete("xpq.exp.first_structure_loot")
+                && KnowledgeRuntime.state(opener).questComplete("xpq.exp.mineshaft_loot"),
+                "minecart opener completes only supported loot quests");
         container.unpackChestVehicleLootTable(other);
         ctx.assertTrue(seen(other, "set.structure_loot_any") == 0, "other player gets no minecart credit");
+        ctx.assertTrue(!KnowledgeRuntime.state(other).questComplete("xpq.exp.mineshaft_loot"),
+                "other player cannot complete mineshaft loot quest on reopening");
         var hopperChest = chest(ctx, new BlockPos(3, 1, 2), "simple_dungeon");
         hopperChest.unpackLootTable(null);
         ctx.assertTrue(seen(opener, "set.structure_loot_dungeon") == 0
