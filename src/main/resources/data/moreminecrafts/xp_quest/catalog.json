@@ -857,9 +857,10 @@
    "rewardRawXp": 1350,
    "target": 3,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "raid_victories"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.hostile_5000",
@@ -968,9 +969,10 @@
    "rewardRawXp": 3150,
    "target": 1,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "omen_raid_wins"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.boss.monuments_3",

@@ -95,6 +95,7 @@
     "QuestEntityLootGenerationMixin",
     "QuestVaultRewardMixin",
     "QuestDragonFightMixin",
+    "QuestRaidVictoryMixin",
     "QuestBlockPlacementMixin",
     "QuestTameAnimalTriggerMixin",
     "QuestMovementStatMixin"
