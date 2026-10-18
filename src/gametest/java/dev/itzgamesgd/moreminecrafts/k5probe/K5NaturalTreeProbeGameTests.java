@@ -1026,11 +1026,13 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         var noise = registries.lookupOrThrow(Registries.NOISE_SETTINGS)
                 .get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
         var generator = new NoiseBasedChunkGenerator(new FixedBiomeSource(biome), noise);
-        int baseX = 128 << 4;
-        int baseZ = 128 << 4;
+        // Do not share chunk [128,128] with the positive fallen-tree provenance GameTest.
+        // Its real natural markers can persist into this negative fixture between tests.
+        int baseX = 160 << 4;
+        int baseZ = 160 << 4;
         ChunkAccess chunk = level.getChunkAt(new BlockPos(baseX + 8, 4, baseZ + 8));
-        ctx.assertTrue(chunk.getPos().equals(new ChunkPos(128, 128)),
-                "isolated test chunk is fixed at [128,128]");
+        ctx.assertTrue(chunk.getPos().equals(new ChunkPos(160, 160)),
+                "isolated negative-provenance fixture uses distinct chunk [160,160]");
         chunk.fillBiomesFromNoise((quartX, quartY, quartZ) -> biome);
         for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
             level.setBlock(new BlockPos(baseX + x, 1, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
