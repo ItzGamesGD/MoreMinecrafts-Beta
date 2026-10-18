@@ -664,7 +664,15 @@
    "rewardRawXp": 500,
    "target": 6,
    "tracker": {
-    "kind": "pending"
+    "kind": "stat_killed_each",
+    "entries": [
+     "moreminecrafts:cave_zombie",
+     "moreminecrafts:cave_skeleton",
+     "moreminecrafts:cave_creeper",
+     "moreminecrafts:small_spider",
+     "moreminecrafts:swamp_spider",
+     "moreminecrafts:cave_bat"
+    ]
    },
    "registered": false
   },

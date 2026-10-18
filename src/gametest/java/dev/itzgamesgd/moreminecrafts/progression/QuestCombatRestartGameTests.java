@@ -47,37 +47,73 @@ public final class QuestCombatRestartGameTests implements CustomTestMethodInvoke
         return player.getStats().getValue(Stats.ENTITY_KILLED.get(type));
     }
 
+    private static void resetKillStat(ServerPlayer player, EntityType<?> type) {
+        player.getStats().setValue(player, Stats.ENTITY_KILLED.get(type), 0);
+    }
+
     private static int counter(ServerPlayer player, String key) {
         return QuestRules.counter(KnowledgeRuntime.state(player), key);
     }
 
     private static void write(GameTestHelper ctx, ServerPlayer player) {
+        // This fixed-UUID fixture is reused across local runs. Clear its prior player record and
+        // vanilla Monster stats so earlier read-phase kills cannot seed or inflate this run.
+        KnowledgeRuntime.updateState(player, ResearchProgressState.empty());
+        for (EntityType<?> type : BuiltInRegistries.ENTITY_TYPE)
+            if (type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER) resetKillStat(player, type);
+        resetKillStat(player, mm("cave_bat"));
         killWith(ctx, player, "moreminecrafts:iron_dagger", EntityTypes.ZOMBIE);
         killWith(ctx, player, "moreminecrafts:iron_greatsword", mm("cave_zombie"));
         killWith(ctx, player, "minecraft:iron_sword", mm("bandit"));
         killWith(ctx, player, "minecraft:iron_sword", EntityTypes.ELDER_GUARDIAN);
+        for (String path : new String[] {"cave_zombie", "cave_skeleton", "cave_creeper", "small_spider", "swamp_spider", "cave_bat"})
+            killWith(ctx, player, "minecraft:iron_sword", mm(path));
+        QuestCombatGameTests.reconcileCaveDwellersForTest(player);
         XpQuestTracking.reconcile(player);
         ResearchProgressState state = KnowledgeRuntime.state(player);
-        ctx.assertTrue(killed(player, EntityTypes.ZOMBIE) == 1 && killed(player, mm("cave_zombie")) == 1
+        ctx.assertTrue(killed(player, EntityTypes.ZOMBIE) == 1 && killed(player, mm("cave_zombie")) == 2
                 && counter(player, "kills_dagger") == 1 && counter(player, "kills_greatsword") == 1
-                && counter(player, "kills_bandit") == 1, "live kills recorded before saving");
+                && counter(player, "kills_bandit") == 1,
+                "live kills recorded before saving: zombie=" + killed(player, EntityTypes.ZOMBIE)
+                        + " cave_zombie=" + killed(player, mm("cave_zombie"))
+                        + " dagger=" + counter(player, "kills_dagger")
+                        + " greatsword=" + counter(player, "kills_greatsword")
+                        + " bandit=" + counter(player, "kills_bandit"));
         ctx.assertTrue(state.questComplete("xpq.cmb.mm_arms") && state.questComplete("xpq.boss.elder_guardian")
-                && state.questProgress("xpq.cmb.bestiary_5") == 2, "completed and partial quests before saving");
+                && state.questProgress("xpq.cmb.bestiary_5") == 5
+                && state.questComplete("xpq.cmb.cave_dwellers"),
+                "completed and partial quests before saving: arms=" + state.questComplete("xpq.cmb.mm_arms")
+                        + " elder=" + state.questComplete("xpq.boss.elder_guardian")
+                        + " bestiary=" + state.questProgress("xpq.cmb.bestiary_5")
+                        + " cave=" + state.questProgress("xpq.cmb.cave_dwellers")
+                        + "/" + state.questComplete("xpq.cmb.cave_dwellers"));
     }
 
     private static void verify(GameTestHelper ctx, ServerPlayer player) {
         ResearchProgressState state = KnowledgeRuntime.state(player);
-        ctx.assertTrue(killed(player, EntityTypes.ZOMBIE) == 1 && killed(player, mm("cave_zombie")) == 1
+        ctx.assertTrue(killed(player, EntityTypes.ZOMBIE) == 1 && killed(player, mm("cave_zombie")) == 2
                 && killed(player, mm("bandit")) == 1 && killed(player, EntityTypes.ELDER_GUARDIAN) == 1,
                 "kill statistics restored");
+        for (String path : new String[] {"cave_zombie", "cave_skeleton", "cave_creeper", "small_spider", "swamp_spider", "cave_bat"})
+            ctx.assertTrue(killed(player, mm(path)) >= 1, "cave-dwellers statistic restored: " + path);
         ctx.assertTrue(counter(player, "kills_dagger") == 1 && counter(player, "kills_greatsword") == 1
                 && counter(player, "kills_bandit") == 1 && counter(player, "kills_bandit_archer") == 0,
                 "event counters restored");
         XpQuestTracking.reconcile(player);
         state = KnowledgeRuntime.state(player);
         ctx.assertTrue(state.questComplete("xpq.cmb.mm_arms") && state.questComplete("xpq.boss.elder_guardian")
-                && state.questProgress("xpq.cmb.bestiary_5") == 2 && state.questProgress("xpq.cmb.hostile_100") == 4
-                && !state.questComplete("xpq.cmb.bestiary_5"), "quest state and statistic-derived progress restored");
+                && state.questProgress("xpq.cmb.bestiary_5") == 5 && state.questProgress("xpq.cmb.hostile_100") == 9
+                && state.questComplete("xpq.cmb.cave_dwellers"),
+                "quest state and statistic-derived progress restored: arms=" + state.questComplete("xpq.cmb.mm_arms")
+                        + " elder=" + state.questComplete("xpq.boss.elder_guardian")
+                        + " bestiary=" + state.questProgress("xpq.cmb.bestiary_5")
+                        + " hostile=" + state.questProgress("xpq.cmb.hostile_100")
+                        + " cave=" + state.questProgress("xpq.cmb.cave_dwellers")
+                        + "/" + state.questComplete("xpq.cmb.cave_dwellers"));
+        ResearchProgressState caveState = QuestCombatGameTests.reconcileCaveDwellersForTest(player);
+        ctx.assertTrue(caveState.questProgress("xpq.cmb.cave_dwellers") == 6
+                        && caveState.questComplete("xpq.cmb.cave_dwellers"),
+                "the persisted six-species evidence still reconciles after process restart");
         killWith(ctx, player, "moreminecrafts:iron_dagger", EntityTypes.SKELETON);
         ctx.assertTrue(counter(player, "kills_dagger") == 2 && killed(player, EntityTypes.SKELETON) == 1,
                 "new kills continue from the restored totals");

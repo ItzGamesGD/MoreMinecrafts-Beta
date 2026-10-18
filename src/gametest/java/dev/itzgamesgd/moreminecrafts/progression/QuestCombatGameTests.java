@@ -66,6 +66,21 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
 
     private static int counter(ServerPlayer player, String key) { return QuestRules.counter(KnowledgeRuntime.state(player), key); }
 
+    static XpQuestCatalogData.Spec caveDwellersSpec() {
+        return XpQuestCatalogData.catalog().quests().stream()
+                .filter(q -> q.id().equals("xpq.cmb.cave_dwellers")).findFirst().orElseThrow();
+    }
+
+    /** Test-only evaluation of an unregistered VERIFY quest; production continues to honor registered=false. */
+    static ResearchProgressState reconcileCaveDwellersForTest(ServerPlayer player) {
+        XpQuestCatalogData.Spec spec = caveDwellersSpec();
+        if (QuestCatalog.byId(spec.id()) == null) QuestCatalog.register(spec.definition());
+        ResearchProgressState before = KnowledgeRuntime.state(player);
+        ResearchProgressState after = XpQuestTracking.reconcile(player, before, List.of(spec));
+        if (!after.equals(before)) KnowledgeRuntime.updateState(player, after);
+        return KnowledgeRuntime.state(player);
+    }
+
     private static void holding(ServerPlayer player, String item) {
         player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,
                 new ItemStack(BuiltInRegistries.ITEM.getValue(Identifier.parse(item))));
@@ -416,12 +431,75 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
                 .map(BuiltInRegistries.ENTITY_TYPE::getKey)
                 .filter(k -> k.getNamespace().equals("moreminecrafts")).sorted().toList();
         System.out.println("QUEST_BESTIARY_AUDIT monster-category MoreMinecrafts types=" + custom.size() + " " + custom);
-        ctx.assertTrue(custom.size() >= 10, "bestiary_10 is satisfiable by registered types: " + custom.size());
+        ctx.assertTrue(custom.size() == 37, "the actual registry contains all 37 Monster-category MoreMinecrafts types: " + custom.size());
         for (String missing : List.of("small_cave_spider", "swamp_cave_spider"))
             ctx.assertTrue(!BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse("moreminecrafts:" + missing)),
                     "cave_dwellers lists an id that is not registered: " + missing);
         ctx.assertTrue(BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse("moreminecrafts:cave_bat")).getCategory()
                 != net.minecraft.world.entity.MobCategory.MONSTER, "cave_bat is not a Monster-category type");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void caveDwellersCountsOneKillOfEachExactTypeIncludingAmbientBat(GameTestHelper ctx) {
+        ServerPlayer hunter = ctx.makeMockServerPlayerInLevel();
+        List<EntityType<? extends LivingEntity>> roster = List.of(
+                mm("cave_zombie"), mm("cave_skeleton"), mm("cave_creeper"),
+                mm("small_spider"), mm("swamp_spider"), mm("cave_bat"));
+        for (EntityType<? extends LivingEntity> type : roster) kill(ctx, hunter, type);
+
+        ctx.assertTrue(mm("cave_bat").getCategory() == net.minecraft.world.entity.MobCategory.AMBIENT,
+                "the included cave bat retains its AMBIENT population category");
+        for (EntityType<? extends LivingEntity> type : roster)
+            ctx.assertTrue(killed(hunter, type) == 1, "the vanilla statistic records the player kill for "
+                    + BuiltInRegistries.ENTITY_TYPE.getKey(type));
+
+        ResearchProgressState state = reconcileCaveDwellersForTest(hunter);
+        ctx.assertTrue(state.questProgress("xpq.cmb.cave_dwellers") == 6
+                        && state.questComplete("xpq.cmb.cave_dwellers"),
+                "one credited kill of each exact type, including cave_bat, completes the VERIFY quest in the test fixture");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void caveDwellersIgnoresDuplicateKillsOtherPlayersAndUnlistedTypes(GameTestHelper ctx) {
+        ServerPlayer hunter = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+        EntityType<? extends LivingEntity> caveZombie = mm("cave_zombie");
+        kill(ctx, hunter, caveZombie);
+        kill(ctx, hunter, caveZombie);
+        kill(ctx, other, mm("small_spider"));
+        kill(ctx, hunter, EntityTypes.ZOMBIE);
+
+        ResearchProgressState hunterState = reconcileCaveDwellersForTest(hunter);
+        ResearchProgressState otherState = reconcileCaveDwellersForTest(other);
+        ctx.assertTrue(hunterState.questProgress("xpq.cmb.cave_dwellers") == 1
+                        && !hunterState.questComplete("xpq.cmb.cave_dwellers"),
+                "repeated kills of one species and an unlisted vanilla zombie still count as one species");
+        ctx.assertTrue(otherState.questProgress("xpq.cmb.cave_dwellers") == 1,
+                "the other player receives only their own small_spider kill");
+        ctx.assertTrue(killed(hunter, mm("small_spider")) == 0 && killed(other, caveZombie) == 0,
+                "a player's statistics do not include another player's kill");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void caveDwellersRecognizesPersistedVanillaStatisticsRetroactively(GameTestHelper ctx) {
+        ServerPlayer veteran = ctx.makeMockServerPlayerInLevel();
+        List<EntityType<? extends LivingEntity>> roster = List.of(
+                mm("cave_zombie"), mm("cave_skeleton"), mm("cave_creeper"),
+                mm("small_spider"), mm("swamp_spider"), mm("cave_bat"));
+        for (int i = 0; i < roster.size() - 1; i++) setKills(veteran, roster.get(i), 3 + i);
+
+        ResearchProgressState partial = reconcileCaveDwellersForTest(veteran);
+        ctx.assertTrue(partial.questProgress("xpq.cmb.cave_dwellers") == 5
+                        && !partial.questComplete("xpq.cmb.cave_dwellers"),
+                "existing ENTITY_KILLED totals for five species are recognized without inventing the sixth");
+        setKills(veteran, roster.getLast(), 1);
+        ResearchProgressState complete = reconcileCaveDwellersForTest(veteran);
+        ctx.assertTrue(complete.questProgress("xpq.cmb.cave_dwellers") == 6
+                        && complete.questComplete("xpq.cmb.cave_dwellers"),
+                "the stored AMBIENT cave-bat statistic completes the sixth species");
         ctx.succeed();
     }
 

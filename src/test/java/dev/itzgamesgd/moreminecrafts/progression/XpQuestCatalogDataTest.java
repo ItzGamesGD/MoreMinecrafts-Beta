@@ -98,6 +98,50 @@ final class XpQuestCatalogDataTest {
         assertEquals("crops_harvested", spec("xpq.frm.harvest_1000").tracker().seedCondition());
     }
 
+    @Test void caveDwellersHasTheOwnerConfirmedRosterAndRemainsVerifyUnregistered() {
+        XpQuestCatalogData.Spec cave = spec("xpq.cmb.cave_dwellers");
+        assertEquals("VERIFY", cave.status());
+        assertFalse(cave.registered());
+        assertEquals(500, cave.rewardRawXp());
+        assertEquals(6, cave.target());
+        assertEquals("stat_killed_each", cave.tracker().kind());
+        assertEquals(List.of(
+                "moreminecrafts:cave_zombie",
+                "moreminecrafts:cave_skeleton",
+                "moreminecrafts:cave_creeper",
+                "moreminecrafts:small_spider",
+                "moreminecrafts:swamp_spider",
+                "moreminecrafts:cave_bat"), cave.tracker().entries());
+    }
+
+    @Test void ecologyAndMonumentVerifyQuestsRemainUnregistered() {
+        XpQuestCatalogData.Spec bestiary = spec("xpq.cmb.bestiary_25");
+        assertEquals("VERIFY", bestiary.status());
+        assertFalse(bestiary.registered());
+        assertEquals(1_350, bestiary.rewardRawXp());
+        assertEquals(25, bestiary.target());
+        assertEquals("stat_killed_monsters_distinct", bestiary.tracker().kind());
+
+        XpQuestCatalogData.Spec habitats = spec("xpq.cmb.habitats_5");
+        assertEquals("VERIFY", habitats.status());
+        assertFalse(habitats.registered());
+        assertEquals(1_100, habitats.rewardRawXp());
+        assertEquals(5, habitats.target());
+        assertEquals("pending", habitats.tracker().kind());
+
+        for (String id : List.of("xpq.boss.monument_clear", "xpq.boss.monuments_3")) {
+            assertEquals("VERIFY", spec(id).status());
+            assertFalse(spec(id).registered());
+        }
+
+        XpQuestCatalogData.Spec witherSkulls = spec("xpq.cmb.wither_skulls_3");
+        assertEquals("NOW", witherSkulls.status());
+        assertFalse(witherSkulls.registered());
+        assertEquals(1_100, witherSkulls.rewardRawXp());
+        assertEquals(3, witherSkulls.target());
+        assertEquals("pending", witherSkulls.tracker().kind(), "item-pickup tracking remains separate from kill stats");
+    }
+
     @Test void validatorRejectsLedgerAndRegistrationViolations() {
         List<XpQuestCatalogData.Spec> quests = new ArrayList<>(CATALOG.quests());
         XpQuestCatalogData.Spec first = quests.get(0);
