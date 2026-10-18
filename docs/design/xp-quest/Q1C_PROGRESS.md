@@ -157,3 +157,12 @@ Real-world feel and balance of every registered Q1-C quest; naturally generated 
 ## Remaining work and recommendation
 
 Not started, by instruction: Q1-D and Q1-E. Open: F-3 and F-5 above, the VERIFY quests in the table, and `xpq.cmb.wither_skulls_3`. Integration review of PR #121 should wait for the owner's decision on retroactivity of the three Knowledge-tracker structure quests (C2 section) and on promoting the two monument quests.
+
+
+## Owner-approved cave-dwellers roster and next ecology audit (2026-10-18)
+
+- **Decision:** `xpq.cmb.cave_dwellers` requires one player-credited kill of each of exactly six registered types: `moreminecrafts:cave_zombie`, `cave_skeleton`, `cave_creeper`, `small_spider`, `swamp_spider`, and `cave_bat`. `cave_bat` is `MobCategory.AMBIENT` and is explicitly included as a **quest-specific exception**; do not apply a generic Monster-category filter to this quest.
+- The two incorrect spider IDs were corrected in the authority catalog and implementation handoff. The six entity declarations and corresponding natural-spawn registration calls were verified in `CustomMobCatalog`. The `swamp_spider` uses the swamp habitat spawn tag, so the quest is **not** restricted to caves despite its title.
+- **Implementation pending:** `xpq.cmb.cave_dwellers` remains `status=VERIFY`, `registered=false` until GameTests demonstrate six unique species, ambient bat inclusion, unrelated type rejection, other-player attribution, duplicate kills, persistent completion, and safe stat retroactivity. No XP or status change authorized.
+- **Next audit (not an owner decision):** `CustomMobCatalog.initialize()` explicitly registers natural spawn candidates for all 37 Monster-category types, but declaration and `addSpawn` calls alone do **not** prove that 25 species can actually spawn under reachable world conditions. Verify biome tag JSONs, spawn predicate/structure restrictions and live worldgen before `bestiary_25` registration.
+- **Five habitat candidate mappings for review:** desert `desert_spider`/`sand_slime`, swamp `swamp_zombie`/`swamp_spider`/`mud_slime`, snowy `frozen_zombie`/`ice_spider`, fungal `fungal_zombie`, wild slime `wild_slime`. These are candidates derived from `CustomMobCatalog`'s `add(..., HABITAT, ...)` calls, **not approved authoritative quest mappings**. Check biome tag reachability and spawn predicates before locking or registering `habitats_5`.
