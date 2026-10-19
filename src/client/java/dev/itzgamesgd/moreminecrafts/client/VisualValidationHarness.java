@@ -488,8 +488,19 @@ public final class VisualValidationHarness {
                 if (before.equals(quests.validationSelectedId())) {
                     failJourney("Right arrow did not move quest focus"); return;
                 }
+                // Let a frame render so the tooltip bounds used by the click are current, not the previous test's.
+                queueUiScreenshot("xp-quest-keyboard-focus-tooltip.png");
+                uiJourneyStage = 66;
+            }
+            case 66 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || !checkQuestTooltip(client, quests, "keyboard_focus")) {
+                    failJourney("keyboard-focus tooltip failed checks"); return;
+                }
                 if (!quests.validationClickNode("xpq.cmb.habitats_5") || !"xpq.cmb.habitats_5".equals(quests.validationSelectedId())) {
-                    failJourney("clicking the habitats node did not select it"); return;
+                    failJourney("clicking the habitats node did not select it (selected=" + quests.validationSelectedId()
+                            + " tooltip=" + quests.validationTooltipGeometry() + ")"); return;
                 }
                 MoreMinecrafts.LOGGER.info("QUEST_INTERACTION_VERIFIED keyboard_focus=true click_select=true scroll_reset=true");
                 queueUiScreenshot("xp-quest-selected-tooltip.png");

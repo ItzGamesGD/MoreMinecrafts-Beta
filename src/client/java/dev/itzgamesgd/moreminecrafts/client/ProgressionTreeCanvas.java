@@ -156,7 +156,9 @@ public final class ProgressionTreeCanvas {
     public void scrollTooltip(int amount) { tooltipScroll = Math.max(0, tooltipScroll + amount); }
     public int tooltipScroll() { return tooltipScroll; }
     public boolean tooltipWithinScreen(int width, int height) {
-        return tooltipWidth > 0 && tooltipX >= 0 && tooltipY >= 0
+        boolean inViewport = viewport == null || (tooltipX >= viewport.x() && tooltipY >= viewport.y()
+                && tooltipX + tooltipWidth <= viewport.right() && tooltipY + tooltipHeight <= viewport.bottom());
+        return inViewport && tooltipWidth > 0 && tooltipX >= 0 && tooltipY >= 0
                 && tooltipX + tooltipWidth <= width && tooltipY + tooltipHeight <= height;
     }
 
@@ -548,7 +550,7 @@ public final class ProgressionTreeCanvas {
         int screenW = graphics.guiWidth(), screenH = graphics.guiHeight();
         final int pad = 6, lineHeight = 10, separator = 4, margin = 6, scrollbar = 5;
         List<TooltipRow> rows = questTooltipRows(quest);
-        int maxWidth = Math.max(120, Math.min(250, screenW - margin * 2));
+        int maxWidth = Math.max(120, Math.min(250, viewport.width() - margin * 2));
         int natural = 0;
         for (TooltipRow row : rows) natural = Math.max(natural, font.width(row.text()));
         int width = Math.max(110, Math.min(maxWidth, natural + pad * 2 + scrollbar));
@@ -558,7 +560,7 @@ public final class ProgressionTreeCanvas {
         int fixedHeight = fixed.size() * lineHeight;
         int listHeight = list.size() * lineHeight;
         int separatorHeight = list.isEmpty() ? 0 : separator;
-        int maxHeight = Math.max(60, Math.min(screenH - margin * 2, Math.min(190, (int) (screenH * 0.7))));
+        int maxHeight = Math.max(60, Math.min(viewport.height() - margin * 2, Math.min(190, (int) (screenH * 0.7))));
         int fullHeight = pad * 2 + fixedHeight + separatorHeight + listHeight;
         var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
         List<ProgressionCanvasGeometry.Rect> allFrames = new ArrayList<>();
@@ -566,7 +568,7 @@ public final class ProgressionTreeCanvas {
                 screenX(other.x()), screenY(other.y()), camera.zoom()));
         int minUseful = Math.min(fullHeight, pad * 2 + fixedHeight + separatorHeight + lineHeight * 3);
         int[] placement = placeTooltip(frame, allFrames, width, Math.min(fullHeight, maxHeight), minUseful,
-                screenW, screenH, margin);
+                viewport, margin);
         int height = placement[2];
         int visibleHeight = Math.max(lineHeight, (height - pad * 2 - fixedHeight - separatorHeight) / lineHeight * lineHeight);
         boolean scrolls = !list.isEmpty() && listHeight > visibleHeight;
@@ -606,14 +608,15 @@ public final class ProgressionTreeCanvas {
      * trimmed to the room available (the list scrolls), but never below {@code minUseful}. Returns {x, y, height}.
      */
     private static int[] placeTooltip(ProgressionCanvasGeometry.Rect node, List<ProgressionCanvasGeometry.Rect> allFrames,
-                                      int width, int wantedHeight, int minUseful, int screenW, int screenH, int margin) {
+                                      int width, int wantedHeight, int minUseful, ProgressionCanvasGeometry.Rect bounds, int margin) {
+        int left = bounds.x(), top = bounds.y(), right = bounds.right(), bottom = bounds.bottom();
         final int gap = 4;
-        int centeredX = Math.max(margin, Math.min(node.x() + node.width() / 2 - width / 2, screenW - width - margin));
-        int below = screenH - margin - (node.bottom() + gap);
-        int above = node.y() - gap - margin;
+        int centeredX = Math.max(left + margin, Math.min(node.x() + node.width() / 2 - width / 2, right - width - margin));
+        int below = bottom - margin - (node.bottom() + gap);
+        int above = node.y() - gap - (top + margin);
         int hBelow = Math.min(wantedHeight, below), hAbove = Math.min(wantedHeight, above);
-        int hSide = Math.min(wantedHeight, screenH - margin * 2);
-        int sideY = Math.max(margin, Math.min(node.y() + node.height() / 2 - 14, screenH - hSide - margin));
+        int hSide = Math.min(wantedHeight, bounds.height() - margin * 2);
+        int sideY = Math.max(top + margin, Math.min(node.y() + node.height() / 2 - 14, bottom - hSide - margin));
         int[][] candidates = {
                 {centeredX, node.bottom() + gap, hBelow},
                 {centeredX, node.y() - gap - hAbove, hAbove},
@@ -622,8 +625,8 @@ public final class ProgressionTreeCanvas {
         int[] best = null, bestFit = null;
         long bestScore = Long.MAX_VALUE;
         for (int[] c : candidates) {
-            boolean fits = c[2] >= minUseful && c[0] >= margin && c[0] + width <= screenW - margin
-                    && c[1] >= margin && c[1] + c[2] <= screenH - margin;
+            boolean fits = c[2] >= minUseful && c[0] >= left + margin && c[0] + width <= right - margin
+                    && c[1] >= top + margin && c[1] + c[2] <= bottom - margin;
             long overlap = 0;
             for (var frame : allFrames) {
                 long w = Math.max(0, Math.min(c[0] + width, frame.right()) - Math.max(c[0], frame.x()));
@@ -635,9 +638,9 @@ public final class ProgressionTreeCanvas {
             if (score < bestScore) { bestScore = score; best = c; }
         }
         if (bestFit != null) return bestFit;
-        int x = Math.max(margin, Math.min(best[0], screenW - width - margin));
-        int h = Math.max(Math.min(minUseful, screenH - margin * 2), best[2]);
-        int y = Math.max(margin, Math.min(best[1], screenH - h - margin));
+        int x = Math.max(left + margin, Math.min(best[0], right - width - margin));
+        int h = Math.max(Math.min(minUseful, bounds.height() - margin * 2), best[2]);
+        int y = Math.max(top + margin, Math.min(best[1], bottom - h - margin));
         return new int[] {x, y, h};
     }
 
