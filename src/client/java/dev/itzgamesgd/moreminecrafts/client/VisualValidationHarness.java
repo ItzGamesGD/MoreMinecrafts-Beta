@@ -17,7 +17,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.SimpleContainer;
 
 import java.nio.file.Files;
+import com.mojang.blaze3d.platform.InputConstants;
 import java.nio.file.Path;
+import net.minecraft.client.input.KeyEvent;
 
 public final class VisualValidationHarness {
     private static final String OPT_IN_ENV = "MOREMINECRAFTS_VISUAL_VALIDATION";
@@ -152,7 +154,7 @@ public final class VisualValidationHarness {
             uiJourneyStarted = true;
             client.gui.setScreen(new ProgressionSelectionScreen());
             queueUiScreenshot("progression-selection.png");
-            uiJourneyStage = 1;
+            uiJourneyStage = 200;
             return;
         }
         if (PHYSICAL_SELECTOR_TEST && physicalSelectorStage > 0 && !physicalSelectorDone) {
@@ -161,6 +163,66 @@ public final class VisualValidationHarness {
         }
         if (uiCaptureName != null) return;
         switch (uiJourneyStage) {
+            case 200 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)
+                        || !selector.validationHitboxesAligned()) {
+                    failJourney("selector card hitboxes do not match the card bounds"); return;
+                }
+                MoreMinecrafts.LOGGER.info("SELECTOR_HITBOXES_ALIGNED gui_scale={} size={}x{}",
+                        client.getWindow().getGuiScale(), client.getWindow().getGuiScaledWidth(),
+                        client.getWindow().getGuiScaledHeight());
+                if (!selector.validationQuestTextFits(net.minecraft.network.chat.Component.translatable("moreminecrafts.ui.selector.quests"),
+                        net.minecraft.network.chat.Component.translatable("moreminecrafts.ui.selector.quests.description"))
+                        || !selector.validationQuestTextFits(net.minecraft.network.chat.Component.literal("XP Quests"),
+                        net.minecraft.network.chat.Component.literal("Special objectives that grant experience when completed."))) {
+                    failJourney("XP Quest card text does not fit its boxes (active or English text)"); return;
+                }
+                MoreMinecrafts.LOGGER.info("SELECTOR_TEXT_FITS active_language_and_english=true");
+                selector.validationSetHover("xp_quest");
+                queueUiScreenshot("selector-xp-hover.png");
+                uiJourneyStage = 201;
+            }
+            case 201 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)) {
+                    failJourney("selector closed before the focus check"); return;
+                }
+                selector.validationSetHover(null);
+                for (int i = 0; i < 4; i++) selector.validationKey(InputConstants.KEY_TAB, false);
+                if (!"xp_quest".equals(selector.validationFocusedTarget())) {
+                    failJourney("Tab x4 did not focus the XP Quest card"); return;
+                }
+                selector.validationKey(InputConstants.KEY_LEFT, false);
+                if ("none".equals(selector.validationFocusedTarget()) || "xp_quest".equals(selector.validationFocusedTarget())) {
+                    failJourney("Left arrow did not move focus off the XP Quest card"); return;
+                }
+                selector.validationKey(InputConstants.KEY_RIGHT, false);
+                if (!"xp_quest".equals(selector.validationFocusedTarget())) {
+                    failJourney("Left/Right arrows did not round-trip on the XP Quest card"); return;
+                }
+                queueUiScreenshot("selector-xp-focus.png");
+                uiJourneyStage = 202;
+            }
+            case 202 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)
+                        || !selector.validationKey(InputConstants.KEY_RETURN, false)
+                        || !(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || quests.mode() != ProgressionBrowseScreen.Mode.QUEST
+                        || !quests.validationTreeReady()) {
+                    failJourney("Enter on the focused XP Quest card did not open the quest tree"); return;
+                }
+                MoreMinecrafts.LOGGER.info("SELECTOR_KEYBOARD_VERIFIED target=xp_quest keys=Tab,Left,Right,Enter");
+                queueUiScreenshot("selector-xp-quest-opened-by-keyboard.png");
+                uiJourneyStage = 203;
+            }
+            case 203 -> {
+                if (!takeCapture()) return;
+                client.gui.setScreen(new ProgressionSelectionScreen());
+                queueUiScreenshot("selector-normal-final.png");
+                uiJourneyStage = 1;
+            }
             case 1 -> {
                 if (!takeCapture()) return;
                 clickSelectionChoice(client, 2);
@@ -331,40 +393,139 @@ public final class VisualValidationHarness {
                         || quests.mode() != ProgressionBrowseScreen.Mode.QUEST
                         || !quests.validationTreeReady()
                         || quests.validationQuestTargetCount("xpq.cmb.bestiary_25") != 37
-                        || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5
-                        || !quests.validationHoverNode("xpq.cmb.bestiary_25")) {
+                        || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5) {
                     failJourney("XP Quest selector did not open the three-node tree with all 37 bestiary targets"); return;
                 }
-                queueUiScreenshot("xp-quest-bestiary-tooltip.png");
+                for (String id : QUEST_IDS) {
+                    String text = quests.validationQuestTooltipText(id);
+                    if (!quests.validationQuestNamesResolved(id) || text.contains("moreminecrafts:") || text.contains("minecraft:")
+                            || text.contains(" (") && text.contains("_")) {
+                        failJourney("quest " + id + " shows an unresolved or raw entity name"); return;
+                    }
+                }
+                MoreMinecrafts.LOGGER.info("QUEST_NAMES_RESOLVED quests=3 bestiary_targets=37 lang={} raw_ids=0",
+                        client.getLanguageManager().getSelected());
+                if (!quests.validationAllNodesVisible()) {
+                    failJourney("the compact quest tree does not fit the viewport"); return;
+                }
+                MoreMinecrafts.LOGGER.info("QUEST_TREE_LAYOUT gui_scale={} nodes=3 min_spacing_px={} all_visible=true",
+                        client.getWindow().getGuiScale(), quests.validationMinNodeSpacingPx());
+                double fill = quests.validationContentFill();
+                MoreMinecrafts.LOGGER.info("QUEST_CANVAS_VIEW gui_scale={} zoom={} content_fill_ratio={}",
+                        client.getWindow().getGuiScale(), String.format("%.2f", quests.validationZoomLevel()),
+                        String.format("%.2f", fill));
+                if (fill < 0.85) { failJourney("the initial quest view leaves the canvas under-filled (fill=" + fill + ")"); return; }
+                quests.validationClearHover();
+                queueUiScreenshot("xp-quest-tree-compact.png");
+                uiJourneyStage = 58;
+            }
+            case 58 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)) { failJourney("quest screen closed"); return; }
+                double before = quests.validationZoomLevel();
+                quests.validationZoom(-4);
+                if (quests.validationZoomLevel() >= before) { failJourney("zooming out did not change the quest canvas zoom"); return; }
+                queueUiScreenshot("xp-quest-tree-zoomed-out.png");
+                uiJourneyStage = 59;
+            }
+            case 59 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)) { failJourney("quest screen closed"); return; }
+                quests.validationResetCamera();
+                if (!quests.validationHoverNode("xpq.cmb.cave_dwellers")) {
+                    failJourney("cave dwellers node was unavailable"); return;
+                }
+                queueUiScreenshot("xp-quest-tooltip-cave.png");
                 uiJourneyStage = 60;
             }
             case 60 -> {
                 if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
-                        || !quests.validationTooltipWithinScreen()) {
-                    failJourney("bestiary hover panel exceeded the client screen bounds"); return;
+                        || !checkQuestTooltip(client, quests, "cave_dwellers")
+                        || !quests.validationHoverNode("xpq.cmb.bestiary_25")) {
+                    failJourney("cave dwellers tooltip failed bounds/overlap checks"); return;
+                }
+                queueUiScreenshot("xp-quest-bestiary-tooltip.png");
+                uiJourneyStage = 61;
+            }
+            case 61 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || !checkQuestTooltip(client, quests, "bestiary_25")) {
+                    failJourney("bestiary tooltip failed bounds/overlap checks"); return;
                 }
                 quests.validationScrollQuestTooltip(12);
                 if (quests.validationTooltipScroll() <= 0) {
                     failJourney("the full bestiary target list did not enable internal tooltip scrolling"); return;
                 }
                 queueUiScreenshot("xp-quest-bestiary-scrolled.png");
-                uiJourneyStage = 61;
-            }
-            case 61 -> {
-                if (!takeCapture()) return;
-                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
-                        || !quests.validationHoverNode("xpq.cmb.habitats_5")) {
-                    failJourney("habitat quest tooltip target was unavailable"); return;
-                }
-                queueUiScreenshot("xp-quest-habitats-tooltip.png");
                 uiJourneyStage = 62;
             }
             case 62 -> {
                 if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
-                        || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5) {
-                    failJourney("habitat quest did not show its five groups"); return;
+                        || !quests.validationHoverNode("xpq.cmb.habitats_5")) {
+                    failJourney("habitat quest tooltip target was unavailable"); return;
+                }
+                if (quests.validationTooltipScroll() != 0) { /* scroll resets per quest on the next render */ }
+                queueUiScreenshot("xp-quest-habitats-tooltip.png");
+                uiJourneyStage = 63;
+            }
+            case 63 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5
+                        || !checkQuestTooltip(client, quests, "habitats_5")
+                        || quests.validationTooltipScroll() != 0
+                        || !quests.validationHoverNode("xpq.cmb.bestiary_25")) {
+                    failJourney("habitat tooltip failed checks or kept the previous quest's scroll"); return;
+                }
+                questEdgeIndex = 0;
+                quests.validationPlaceNodeAtEdge(QUEST_EDGES[0]);
+                queueUiScreenshot("xp-quest-tooltip-edge-" + QUEST_EDGES[0] + ".png");
+                uiJourneyStage = 64;
+            }
+            case 64 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || !checkQuestTooltip(client, quests, "edge_" + QUEST_EDGES[questEdgeIndex])) {
+                    failJourney("tooltip failed bounds/overlap checks at the " + QUEST_EDGES[questEdgeIndex] + " edge"); return;
+                }
+                if (++questEdgeIndex < QUEST_EDGES.length) {
+                    quests.validationPlaceNodeAtEdge(QUEST_EDGES[questEdgeIndex]);
+                    queueUiScreenshot("xp-quest-tooltip-edge-" + QUEST_EDGES[questEdgeIndex] + ".png");
+                    return;
+                }
+                quests.validationResetCamera();
+                quests.validationClearHover();
+                String before = quests.validationSelectedId();
+                quests.keyPressed(new KeyEvent(InputConstants.KEY_RIGHT, 0, 0));
+                if (before.equals(quests.validationSelectedId())) {
+                    failJourney("Right arrow did not move quest focus"); return;
+                }
+                // Let a frame render so the tooltip bounds used by the click are current, not the previous test's.
+                queueUiScreenshot("xp-quest-keyboard-focus-tooltip.png");
+                uiJourneyStage = 66;
+            }
+            case 66 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || !checkQuestTooltip(client, quests, "keyboard_focus")) {
+                    failJourney("keyboard-focus tooltip failed checks"); return;
+                }
+                if (!quests.validationClickNode("xpq.cmb.habitats_5") || !"xpq.cmb.habitats_5".equals(quests.validationSelectedId())) {
+                    failJourney("clicking the habitats node did not select it (selected=" + quests.validationSelectedId()
+                            + " tooltip=" + quests.validationTooltipGeometry() + ")"); return;
+                }
+                MoreMinecrafts.LOGGER.info("QUEST_INTERACTION_VERIFIED keyboard_focus=true click_select=true scroll_reset=true");
+                queueUiScreenshot("xp-quest-selected-tooltip.png");
+                uiJourneyStage = 65;
+            }
+            case 65 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || !checkQuestTooltip(client, quests, "selected_habitats")) {
+                    failJourney("selected-node tooltip failed checks"); return;
                 }
                 client.gui.setScreen(null);
                 var inventory = client.player.getInventory();
@@ -381,6 +542,20 @@ public final class VisualValidationHarness {
             }
             default -> { }
         }
+    }
+
+    private static final String[] QUEST_IDS = {"xpq.cmb.cave_dwellers", "xpq.cmb.bestiary_25", "xpq.cmb.habitats_5"};
+    private static final String[] QUEST_EDGES = {"left", "right", "top", "bottom"};
+    private static int questEdgeIndex;
+
+    private static boolean checkQuestTooltip(Minecraft client, ProgressionBrowseScreen quests, String label) {
+        String geometry = quests.validationTooltipGeometry();
+        boolean within = quests.validationTooltipWithinScreen();
+        boolean clears = quests.validationTooltipClearsNode();
+        MoreMinecrafts.LOGGER.info("QUEST_TOOLTIP label={} gui_scale={} screen={}x{} geometry(x,y,w,h;clearsNode)={} within_screen={} scroll={}",
+                label, client.getWindow().getGuiScale(), client.getWindow().getGuiScaledWidth(),
+                client.getWindow().getGuiScaledHeight(), geometry, within, quests.validationTooltipScroll());
+        return within && clears;
     }
 
     private static boolean takeCapture() {

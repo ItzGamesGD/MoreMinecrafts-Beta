@@ -68,6 +68,30 @@ public final class ProgressionBrowseScreen extends Screen {
         return questsById.getOrDefault(id, new ProgressionScreenData.QuestRow("", "", "", "", "", 0, 0, 0,
                 false, false, List.of())).groups().size();
     }
+    public String validationSelectedId() { return canvas == null ? null : canvas.selectedId(); }
+    public boolean validationQuestNamesResolved(String id) {
+        var row = questsById.get(id);
+        return row != null && canvas.questNamesResolved(row);
+    }
+    public String validationQuestTooltipText(String id) {
+        var row = questsById.get(id);
+        return row == null ? "" : canvas.questTooltipText(row);
+    }
+    public double validationContentFill() { return canvas == null ? 0 : canvas.contentFillRatio(); }
+    public double validationZoomLevel() { return canvas == null ? 0 : canvas.camera().zoom(); }
+    public void validationZoom(int steps) { if (canvas != null) canvas.validationZoom(steps); }
+    public boolean validationAllNodesVisible() { return canvas != null && canvas.allNodesVisible(); }
+    public int validationMinNodeSpacingPx() { return canvas == null ? 0 : canvas.minNodeSpacingPx(); }
+    public void validationPlaceNodeAtEdge(String edge) { if (canvas != null) canvas.validationPlaceSelectedAtEdge(edge, 20); }
+    public void validationResetCamera() { if (canvas != null) canvas.validationResetCamera(); }
+    /** "x,y,w,h;clearsNode" for the open quest tooltip. */
+    public String validationTooltipGeometry() {
+        if (canvas == null) return "none";
+        int[] b = canvas.tooltipBounds();
+        boolean clears = canvas.tooltipClearsAllNodes();
+        return b[0] + "," + b[1] + "," + b[2] + "," + b[3] + ";" + clears;
+    }
+    public boolean validationTooltipClearsNode() { return validationTooltipGeometry().endsWith(";true"); }
     public void validationScrollQuestTooltip(int lines) { if (canvas != null) canvas.scrollTooltip(lines); }
     public int validationTooltipScroll() { return canvas == null ? 0 : canvas.tooltipScroll(); }
     public boolean validationTooltipWithinScreen() {
@@ -176,8 +200,8 @@ public final class ProgressionBrowseScreen extends Screen {
         responsive = ProgressionCanvasGeometry.responsiveLayout(width, height);
         knowledge = ProgressionClientApi.knowledge(discipline);
         research = ProgressionClientApi.research(discipline);
-        quests = ProgressionClientApi.quests(null).stream().filter(row -> List.of("xpq.cmb.cave_dwellers",
-                "xpq.cmb.bestiary_25", "xpq.cmb.habitats_5").contains(row.id())).toList();
+        List<String> questIds = dev.itzgamesgd.moreminecrafts.progression.QuestTreeStructure.current().allNodeIds();
+        quests = ProgressionClientApi.quests(null).stream().filter(row -> questIds.contains(row.id())).toList();
         knowledgeById = knowledge.stream().collect(java.util.stream.Collectors.toMap(
                 ProgressionScreenData.KnowledgeRow::id, row -> row));
         researchById = research.stream().collect(java.util.stream.Collectors.toMap(
@@ -245,6 +269,7 @@ public final class ProgressionBrowseScreen extends Screen {
         if (first == null) return false;
         canvas.select(first, true);
         branchMenuOpen = false;
+        if (mode == Mode.QUEST) canvas.setSelectionTooltip(true);
         syncSelectedIndex();
         if (branchButton != null) branchButton.setMessage(Component.translatable(currentBranchKey()));
         return true;
@@ -252,8 +277,8 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         graphics.fill(0, 0, width, height, 0xFF272727);
-        graphics.centeredText(font, Component.translatable("moreminecrafts.discipline." + discipline),
-                width / 2, responsive.tabs().y() + 6, 0xFF292722);
+        graphics.centeredText(font, mode == Mode.QUEST ? title : Component.translatable("moreminecrafts.discipline." + discipline),
+                width / 2, responsive.tabs().y() + 6, mode == Mode.QUEST ? 0xFFE0D9C7 : 0xFF292722);
         var viewport = responsive.viewport();
         drawFrameTexture(graphics, viewport.x() - 5, viewport.y() - 5, viewport.width() + 10, viewport.height() + 10);
         canvas.render(graphics, font, mouseX, mouseY, knowledgeById, researchById, questsById);
@@ -310,6 +335,7 @@ public final class ProgressionBrowseScreen extends Screen {
         if (mode == Mode.QUEST && canvas.tooltipContains(event.x(), event.y())) return true;
         if (!responsive.viewport().contains(event.x(), event.y())) return false;
         if (event.button() != 0) return false;
+        if (mode == Mode.QUEST && canvas.hitTest(event.x(), event.y()) == null) canvas.setSelectionTooltip(false);
         gesture.begin(event.button(), event.x(), event.y(), canvas.hitTest(event.x(), event.y()));
         doubleClickPress = doubleClick;
         return true;
@@ -328,6 +354,7 @@ public final class ProgressionBrowseScreen extends Screen {
         doubleClickPress = false;
         if (nodeId != null) {
             canvas.select(nodeId, false);
+            if (mode == Mode.QUEST) canvas.setSelectionTooltip(true);
             syncSelectedIndex();
             if (mode == Mode.RESEARCH) {
                 ProgressionScreenData.ResearchRow row = researchById.get(nodeId);
