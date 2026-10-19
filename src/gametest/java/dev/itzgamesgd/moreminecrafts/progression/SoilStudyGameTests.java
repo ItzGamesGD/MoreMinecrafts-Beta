@@ -32,6 +32,8 @@ import net.minecraft.world.phys.Vec3;
 
 /** Soil Study (`v3.research.16`) attribution, L1/L2/L3 effects, persistence and multiplayer isolation. */
 public final class SoilStudyGameTests implements CustomTestMethodInvoker {
+    private static final BlockPos RESTART_FARMLAND = new BlockPos((200 << 4) + 1, 80, (200 << 4) + 1);
+    private static final UUID RESTART_CULTIVATOR = UUID.fromString("5c1f6a3e-0000-4000-8000-0000000000bb");
     private final List<ServerPlayer> players = new ArrayList<>();
 
     @GameTest
@@ -114,6 +116,56 @@ public final class SoilStudyGameTests implements CustomTestMethodInvoker {
                 "Minecraft's chunk write/parse path restores the persistent cultivator record: " + restored);
         ctx.assertTrue(restored.cultivators().size() == FarmlandCultivators.data(chunk).cultivators().size(),
                 "no records are lost or invented by reload");
+        ctx.succeed();
+    }
+
+    /** Run with soil.restart.phase=write, then read in a second JVM sharing build/run/gameTest. */
+    @GameTest
+    public void attributionSurvivesRealServerRestart(GameTestHelper ctx) {
+        String phase = System.getProperty("moreminecrafts.soil.restart.phase");
+        ServerLevel level = ctx.getLevel();
+        if (phase == null || phase.equals("write")) {
+            level.setBlock(RESTART_FARMLAND, Blocks.FARMLAND.defaultBlockState(), Block.UPDATE_ALL);
+            BlockPos otherChunkFarmland = RESTART_FARMLAND.offset(16, 0, 0);
+            level.setBlock(otherChunkFarmland, Blocks.FARMLAND.defaultBlockState(), Block.UPDATE_ALL);
+            LevelChunk chunk = level.getChunkAt(RESTART_FARMLAND);
+            LevelChunk otherChunk = level.getChunkAt(otherChunkFarmland);
+            ServerLevel nether = level.getServer().getLevel(net.minecraft.world.level.Level.NETHER);
+            ctx.assertTrue(nether != null, "Nether dimension is available for isolation check");
+            nether.setBlock(RESTART_FARMLAND, Blocks.FARMLAND.defaultBlockState(), Block.UPDATE_ALL);
+            LevelChunk netherChunk = nether.getChunkAt(RESTART_FARMLAND);
+            level.getChunkSource().save(true);
+            nether.getChunkSource().save(true);
+            FarmlandCultivators.record(level, RESTART_FARMLAND, RESTART_CULTIVATOR);
+            ctx.assertTrue(chunk.isUnsaved(), "attachment mutation marks the chunk dirty after a save");
+            level.getChunkSource().save(true);
+            ctx.assertTrue(FarmlandCultivators.cultivator(nether, RESTART_FARMLAND).isEmpty(),
+                    "the same packed position in another dimension has no inherited cultivator");
+            ctx.assertTrue(FarmlandCultivators.cultivator(level, otherChunkFarmland).isEmpty(),
+                    "a neighboring chunk at the same Y/Z position has no inherited cultivator");
+            System.out.println("SOIL_RESTART_WRITE overworld=" + chunk.getPos() + " nether=" + netherChunk.getPos()
+                    + " neighboringChunk=" + otherChunk.getPos() + " cultivator=" + RESTART_CULTIVATOR);
+            if (phase == null) ctx.succeed();
+        } else if (phase.equals("read")) {
+            ctx.assertTrue(level.getBlockState(RESTART_FARMLAND).is(Blocks.FARMLAND),
+                    "saved farmland survives a fresh server process");
+            ctx.assertTrue(FarmlandCultivators.cultivator(level, RESTART_FARMLAND)
+                            .equals(java.util.Optional.of(RESTART_CULTIVATOR)),
+                    "the cultivator attachment survives a fresh server process");
+            ServerLevel nether = level.getServer().getLevel(net.minecraft.world.level.Level.NETHER);
+            ctx.assertTrue(nether != null && nether.getBlockState(RESTART_FARMLAND).is(Blocks.FARMLAND),
+                    "the corresponding Nether farmland survives independently");
+            ctx.assertTrue(nether != null && FarmlandCultivators.cultivator(nether, RESTART_FARMLAND).isEmpty(),
+                    "a restart does not leak attribution across dimensions");
+            BlockPos otherChunkFarmland = RESTART_FARMLAND.offset(16, 0, 0);
+            ctx.assertTrue(level.getBlockState(otherChunkFarmland).is(Blocks.FARMLAND)
+                            && FarmlandCultivators.cultivator(level, otherChunkFarmland).isEmpty(),
+                    "neighboring chunk data survives independently without inheriting attribution");
+            System.out.println("SOIL_RESTART_READ chunk=" + level.getChunkAt(RESTART_FARMLAND).getPos()
+                    + " cultivator=" + RESTART_CULTIVATOR);
+        } else {
+            ctx.assertTrue(false, "unknown Soil Study restart phase: " + phase);
+        }
         ctx.succeed();
     }
 
