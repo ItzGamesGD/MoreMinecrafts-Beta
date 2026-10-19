@@ -33,8 +33,8 @@ public final class ProgressionSelectionScreen extends Screen {
     private static final int TITLE_CENTER_Y = 295;
     private static final int TITLE_MAX_WIDTH = 236;
     private static final int TITLE_MAX_HEIGHT = 50;
-    private static final int DESC_TOP = 346;
-    private static final int DESC_HEIGHT = 100;
+    private static final int DESC_TOP = 342;
+    private static final int DESC_HEIGHT = 108;
     private static final int DESC_MAX_WIDTH = 244;
     private static volatile String lastClickedTarget;
     private int hoveredTarget = -1;
@@ -94,7 +94,7 @@ public final class ProgressionSelectionScreen extends Screen {
         drawScaledText(graphics, title.getVisualOrderText(), centerX,
                 imageTop + (card.y() + TITLE_CENTER_Y) * imageScale - font.lineHeight * layout.titleScale() / 2.0F,
                 layout.titleScale());
-        float lineHeight = (font.lineHeight + 2) * layout.descScale();
+        float lineHeight = (font.lineHeight + 1) * layout.descScale();
         float boxHeight = DESC_HEIGHT * imageScale;
         float y = imageTop + (card.y() + DESC_TOP) * imageScale + (boxHeight - layout.lines().size() * lineHeight) / 2.0F;
         for (FormattedCharSequence line : layout.lines()) {
@@ -103,13 +103,16 @@ public final class ProgressionSelectionScreen extends Screen {
         }
     }
 
-    private record TextLayout(int titleScale, int descScale, List<FormattedCharSequence> lines, boolean fits) { }
+    private record TextLayout(float titleScale, float descScale, List<FormattedCharSequence> lines, boolean fits) { }
+
+    private static final float[] TITLE_SCALES = {4, 3, 2, 1, 0.75F, 0.5F};
+    private static final float[] DESC_SCALES = {3, 2, 1, 0.75F, 0.5F};
 
     private TextLayout layoutQuestText(Component title, Component description) {
         float titleMaxWidth = TITLE_MAX_WIDTH * imageScale;
         float titleMaxHeight = TITLE_MAX_HEIGHT * imageScale;
-        int titleScale = 1;
-        for (int candidate = 4; candidate > 1; candidate--) {
+        float titleScale = TITLE_SCALES[TITLE_SCALES.length - 1];
+        for (float candidate : TITLE_SCALES) {
             if (font.width(title) * candidate <= titleMaxWidth && font.lineHeight * candidate <= titleMaxHeight) {
                 titleScale = candidate;
                 break;
@@ -117,18 +120,18 @@ public final class ProgressionSelectionScreen extends Screen {
         }
         float boxWidth = DESC_MAX_WIDTH * imageScale;
         float boxHeight = DESC_HEIGHT * imageScale;
-        int scale = 1;
-        List<FormattedCharSequence> lines = font.split(description, Math.max(1, (int) boxWidth));
-        for (int candidate = 3; candidate > 1; candidate--) {
+        float scale = DESC_SCALES[DESC_SCALES.length - 1];
+        List<FormattedCharSequence> lines = font.split(description, Math.max(1, (int) (boxWidth / scale)));
+        for (float candidate : DESC_SCALES) {
             List<FormattedCharSequence> trial = font.split(description, Math.max(1, (int) (boxWidth / candidate)));
-            if (trial.size() * (font.lineHeight + 2) * candidate <= boxHeight) {
+            if (trial.size() * (font.lineHeight + 1) * candidate <= boxHeight) {
                 scale = candidate;
                 lines = trial;
                 break;
             }
         }
         boolean fits = font.width(title) * titleScale <= titleMaxWidth
-                && lines.size() * (font.lineHeight + 2) * scale <= boxHeight;
+                && lines.size() * (font.lineHeight + 1) * scale <= boxHeight;
         for (FormattedCharSequence line : lines) fits &= font.width(line) * scale <= boxWidth;
         return new TextLayout(titleScale, scale, lines, fits);
     }
@@ -138,7 +141,7 @@ public final class ProgressionSelectionScreen extends Screen {
         return layoutQuestText(title, description).fits();
     }
 
-    private void drawScaledText(GuiGraphicsExtractor graphics, FormattedCharSequence text, float centerX, float top, int scale) {
+    private void drawScaledText(GuiGraphicsExtractor graphics, FormattedCharSequence text, float centerX, float top, float scale) {
         graphics.pose().pushMatrix();
         graphics.pose().translate(Math.round(centerX - font.width(text) * scale / 2.0F), Math.round(top));
         graphics.pose().scale(scale, scale);
