@@ -65,10 +65,10 @@ final class QuestStructurePreview {
             JsonObject icons = parse(root.resolve("quest_icons.json"));
             boolean ko = languageCode != null && languageCode.startsWith("ko");
             List<QuestTreeStructure.Chapter> chapters = new ArrayList<>();
-            Map<String, List<String>> idsByChapter = new LinkedHashMap<>();
+            Map<String, List<String>> idsBySub = new LinkedHashMap<>();
             for (JsonElement element : mapping.getAsJsonArray("quests")) {
                 JsonObject quest = element.getAsJsonObject();
-                idsByChapter.computeIfAbsent(quest.get("chapter").getAsString(), key -> new ArrayList<>())
+                idsBySub.computeIfAbsent(quest.get("sub_branch").getAsString(), key -> new ArrayList<>())
                         .add(quest.get("quest_id").getAsString());
             }
             int subs = 0;
@@ -77,8 +77,14 @@ final class QuestStructurePreview {
             for (JsonElement element : mapping.getAsJsonArray("chapters")) chapterObjects.add(element.getAsJsonObject());
             for (JsonObject chapter : chapterObjects) {
                 String id = chapter.get("id").getAsString();
-                chapters.add(QuestTreeStructure.Chapter.of(id, "proposal.chapter." + id, idsByChapter.getOrDefault(id, List.of())));
-                subs += chapter.getAsJsonArray("sub_branches").size();
+                // Every declared sub-branch becomes a layout sub-branch, so the large layout sees the real 52-way split.
+                List<QuestTreeStructure.SubBranch> branches = new ArrayList<>();
+                for (JsonElement sub : chapter.getAsJsonArray("sub_branches")) {
+                    String subId = sub.getAsJsonObject().get("id").getAsString();
+                    branches.add(new QuestTreeStructure.SubBranch(subId, "proposal.chapter." + id, idsBySub.getOrDefault(subId, List.of())));
+                }
+                chapters.add(new QuestTreeStructure.Chapter(id, "proposal.chapter." + id, branches));
+                subs += branches.size();
             }
             List<QuestTreeStructure.Edge> edges = new ArrayList<>();
             for (JsonElement element : ledger.getAsJsonArray("edges")) {
