@@ -1,3 +1,11 @@
+## Stage D1 reconciliation router — 2026-10-19
+
+For the scoped territory/economy/bounty/accessory/caravan and XP Quest reconciliation on Draft PR #131, read [DESIGN_AUTHORITY_MATRIX.md](DESIGN_AUTHORITY_MATRIX.md), [DESIGN_CONFLICT_REGISTER.md](DESIGN_CONFLICT_REGISTER.md), [DESIGN_BRANCH_COVERAGE.md](DESIGN_BRANCH_COVERAGE.md) and [IMPLEMENTATION_PHASE_PLAN.md](IMPLEMENTATION_PHASE_PLAN.md).
+
+The preserved historical text below is not an override of the explicitly approved Oct 19 territory/economy/commission overlays. Its disabled-XP-card statement and pre-amendment Enhancement costs are superseded by the [#112 XP Quest amendment](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/blob/63107098fcde6742704a07394439e5cdf9c6ad49/docs/UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md#xp-quest-amendment--2026-10-17-user-approved) and [raw-XP Enhancement amendment](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/blob/63107098fcde6742704a07394439e5cdf9c6ad49/docs/STAGE_2_GAMEPLAY_RECONCILIATION.md). Exact scoped approval and remaining gaps are in the matrix; proposals remain proposals, and Sands of Time remains SOURCE MISSING. This router adds no gameplay requirements or implementation acceptance. Unrelated authority below remains applicable.
+
+---
+
 
 > **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents.
 
