@@ -46,6 +46,7 @@ public final class ProgressionTreeCanvas {
     private static final Map<String, String> QUEST_ICONS = Map.of("xpq.cmb.cave_dwellers", "minecraft:spider_eye",
             "xpq.cmb.bestiary_25", "minecraft:book", "xpq.cmb.habitats_5", "minecraft:slime_ball");
 
+    private final QuestStructurePreview preview;
     private final String screen;
     private final QuestTreeStructure questStructure;
     private final QuestTreeLayout.Result questLayout;
@@ -66,9 +67,19 @@ public final class ProgressionTreeCanvas {
     private final java.util.Set<String> reportedMissingNames = new HashSet<>();
 
     public ProgressionTreeCanvas(String screen, String discipline) {
+        this(screen, discipline, null);
+    }
+
+    /** Test-only: renders the proposed structure supplied by the visual-validation harness. */
+    ProgressionTreeCanvas(QuestStructurePreview preview) {
+        this("quests", "resources", preview);
+    }
+
+    private ProgressionTreeCanvas(String screen, String discipline, QuestStructurePreview preview) {
+        this.preview = preview;
         this.screen = screen;
         if ("quests".equals(screen)) {
-            this.questStructure = QuestTreeStructure.current();
+            this.questStructure = preview != null ? preview.structure() : QuestTreeStructure.current();
             List<String> problems = questStructure.validate();
             if (!problems.isEmpty()) throw new IllegalStateException("Invalid quest tree structure: " + problems);
             this.questLayout = QuestTreeLayout.layout(questStructure);
@@ -77,7 +88,8 @@ public final class ProgressionTreeCanvas {
                 var chapter = questStructure.chapters().get(placed.laneIndex());
                 questNodes.add(new ProgressionNodeLayoutCatalog.Node(placed.id(), "quests", "quest", chapter.id(), chapter.id(),
                         placed.laneIndex(), placed.index(), placed.x(), placed.y(),
-                        QUEST_ICONS.getOrDefault(placed.id(), ProgressionNodeLayoutCatalog.FALLBACK_ICON),
+                        preview != null ? preview.iconFor(placed.chapterId())
+                                : QUEST_ICONS.getOrDefault(placed.id(), ProgressionNodeLayoutCatalog.FALLBACK_ICON),
                         ProgressionNodeLayoutCatalog.FALLBACK_ICON, chapter.titleKey()));
             }
             this.nodes = List.copyOf(questNodes);
@@ -109,7 +121,15 @@ public final class ProgressionTreeCanvas {
                 && y >= tooltipY - margin && y < tooltipY + tooltipHeight + margin;
     }
     /** Keyboard focus or a click keeps the selected quest's tooltip open without hovering. */
-    public void setSelectionTooltip(boolean value) { selectionTooltip = value; }
+    public void setSelectionTooltip(boolean value) {
+        selectionTooltip = value;
+        if (!value && pinnedQuestId == null) tooltipWidth = 0;
+    }
+    /** True when the centre of the node lies under the currently open tooltip (a click there is swallowed). */
+    public boolean nodeUnderTooltip(String id) {
+        var node = byId.get(id);
+        return node != null && viewport != null && tooltipContains(screenX(node.x()), screenY(node.y()));
+    }
     /** Share of the viewport width spanned by the canvas content at the current zoom (initial view fit). */
     public double contentFillRatio() {
         return viewport == null || viewport.width() == 0 ? 0 : canvasWidth * camera.zoom() / viewport.width();
@@ -152,6 +172,67 @@ public final class ProgressionTreeCanvas {
                     && tooltipY < frame.bottom() && tooltipY + tooltipHeight > frame.y()) return false;
         }
         return true;
+    }
+    /** Node counts at the current camera: total, intersecting the viewport, partly clipped, and overlapping pairs. */
+    public int[] nodeStats() {
+        int visible = 0, clipped = 0, overlaps = 0;
+        if (viewport == null) return new int[] {nodes.size(), 0, 0, 0};
+        List<ProgressionCanvasGeometry.Rect> frames = new ArrayList<>();
+        for (var node : nodes) {
+            var f = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+            boolean intersects = f.x() < viewport.right() && f.right() > viewport.x() && f.y() < viewport.bottom() && f.bottom() > viewport.y();
+            if (!intersects) continue;
+            visible++;
+            if (f.x() < viewport.x() || f.y() < viewport.y() || f.right() > viewport.right() || f.bottom() > viewport.bottom()) clipped++;
+            frames.add(f);
+        }
+        for (int i = 0; i < frames.size(); i++) for (int j = i + 1; j < frames.size(); j++) {
+            var a = frames.get(i);
+            var b = frames.get(j);
+            if (a.x() < b.right() && a.right() > b.x() && a.y() < b.bottom() && a.bottom() > b.y()) overlaps++;
+        }
+        return new int[] {nodes.size(), visible, clipped, overlaps};
+    }
+    /** Validation: centre the camera on a world point at an exact zoom (clamped like a real pan). */
+    public void validationViewAt(double worldX, double worldY, double zoom) {
+        if (viewport == null) return;
+        double z = Math.max(ProgressionCanvasGeometry.MIN_ZOOM, Math.min(ProgressionCanvasGeometry.MAX_ZOOM, zoom));
+        camera = new ProgressionCanvasGeometry.Camera(worldX - viewport.width() / (2.0 * z), worldY - viewport.height() / (2.0 * z), z);
+        camera = ProgressionCanvasGeometry.clampPan(camera, viewport, canvasWidth, canvasHeight);
+    }
+    public void validationFitAll() {
+        if (viewport == null) return;
+        camera = ProgressionCanvasGeometry.clampPan(ProgressionCanvasGeometry.fitAll(viewport, canvasWidth, canvasHeight),
+                viewport, canvasWidth, canvasHeight);
+    }
+    public String validationLaneCenter(String chapterId) {
+        if (questLayout == null) return null;
+        for (var lane : questLayout.lanes()) if (lane.chapterId().equals(chapterId))
+            return (questLayout.width() / 2.0) + "," + (lane.top() + lane.height() / 2.0);
+        return null;
+    }
+    /** World coordinates under the viewport centre, used to measure zoom drift. */
+    public double[] validationCentreWorld() {
+        if (viewport == null) return new double[] {0, 0};
+        return new double[] {
+                ProgressionCanvasGeometry.screenToWorldX(camera, viewport.x(), viewport.x() + viewport.width() / 2.0),
+                ProgressionCanvasGeometry.screenToWorldY(camera, viewport.y(), viewport.y() + viewport.height() / 2.0)};
+    }
+    public boolean selectedNodeInViewport() {
+        var node = byId.get(selectedId);
+        if (node == null || viewport == null) return false;
+        var f = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+        return f.x() >= viewport.x() && f.y() >= viewport.y() && f.right() <= viewport.right() && f.bottom() <= viewport.bottom();
+    }
+    /** Nodes (other than the open tooltip's own) covered by the open tooltip. */
+    public int tooltipCoveredNodes() {
+        if (tooltipWidth <= 0 || viewport == null) return 0;
+        int covered = 0;
+        for (var node : nodes) {
+            var f = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+            if (tooltipX < f.right() && tooltipX + tooltipWidth > f.x() && tooltipY < f.bottom() && tooltipY + tooltipHeight > f.y()) covered++;
+        }
+        return covered;
     }
     public int[] tooltipBounds() { return new int[] {tooltipX, tooltipY, tooltipWidth, tooltipHeight}; }
     public ProgressionCanvasGeometry.Rect selectedNodeFrame() {
@@ -287,6 +368,7 @@ public final class ProgressionTreeCanvas {
         } finally {
             graphics.disableScissor();
         }
+        if (hoveredId == null) tooltipWidth = 0; // an undrawn tooltip must not keep swallowing clicks and scrolls
         if (hoveredId != null) {
             if ("quests".equals(screen)) {
                 drawQuestTooltip(graphics, font, byId.get(hoveredId), questRows.get(hoveredId));
@@ -329,6 +411,16 @@ public final class ProgressionTreeCanvas {
     }
 
     /** Chapter lanes: a band that continues past the viewport edges and a label gutter at the lane start. */
+    private Component chapterTitle(String key) {
+        Component override = preview == null ? null : preview.chapterTitle(key);
+        return override != null ? override : Component.translatable(key);
+    }
+
+    private Component questTitle(ProgressionScreenData.QuestRow quest) {
+        Component override = preview == null ? null : preview.questTitle(quest.id());
+        return override != null ? override : Component.translatable(quest.titleKey());
+    }
+
     private void drawQuestLanes(GuiGraphicsExtractor graphics, Font font,
                                 Map<String, ProgressionScreenData.QuestRow> questRows) {
         int gutterLeft = screenX(0), gutterRight = screenX(QuestTreeLayout.GUTTER);
@@ -344,9 +436,10 @@ public final class ProgressionTreeCanvas {
                 var row = questRows.get(placed.id());
                 if (placed.chapterId().equals(lane.chapterId()) && row != null && row.complete()) done++;
             }
+            if (preview != null) drawPreviewSubBranches(graphics, font, lane);
             int labelWidth = gutterRight - gutterLeft - 14;
             if (labelWidth < 24) continue;
-            String title = Component.translatable(lane.titleKey()).getString();
+            String title = chapterTitle(lane.titleKey()).getString();
             if (font.width(title) > labelWidth) title = font.plainSubstrByWidth(title, Math.max(0, labelWidth - 8)) + "…";
             String progress = Component.translatable("moreminecrafts.ui.quest.chapter.progress", done, lane.nodeCount()).getString();
             int centerX = (gutterLeft + gutterRight) / 2, centerY = (top + bottom) / 2;
@@ -355,6 +448,24 @@ public final class ProgressionTreeCanvas {
                 graphics.text(font, title, centerX - font.width(title) / 2, centerY - 11, 0xFFF2D58A, true);
                 graphics.text(font, progress, centerX - font.width(progress) / 2, centerY + 2, 0xFFB8B4AA, false);
             } finally { graphics.disableScissor(); }
+        }
+    }
+
+    /** Preview only: a divider and caption where a new sub-branch starts inside a lane. */
+    private void drawPreviewSubBranches(GuiGraphicsExtractor graphics, Font font, QuestTreeLayout.Lane lane) {
+        if (camera.zoom() < 0.45) return;
+        String previous = null;
+        int half = ProgressionCanvasGeometry.nodeFrameSize(camera.zoom()) / 2;
+        for (var placed : questLayout.nodes()) {
+            if (!placed.chapterId().equals(lane.chapterId())) continue;
+            String sub = preview.subOf(placed.id());
+            if (!sub.equals(previous)) {
+                previous = sub;
+                int x = screenX(placed.x()) - half, y = screenY(placed.y()) - half;
+                String caption = font.plainSubstrByWidth(preview.subTitle(sub).getString(), Math.max(20, (int) (QuestTreeLayout.NODE_SPACING * 2.6 * camera.zoom())));
+                graphics.fill(x - 3, y - 12, x - 2, y + 2 * half + 4, 0x66C8A951);
+                graphics.text(font, caption, x, y - 11, 0xFFB8B08A, false);
+            }
         }
     }
 
@@ -592,9 +703,14 @@ public final class ProgressionTreeCanvas {
     private List<TooltipRow> questTooltipRows(ProgressionScreenData.QuestRow quest) {
         List<TooltipRow> rows = new ArrayList<>();
         rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.tooltip.title",
-                Component.translatable(quest.titleKey()), quest.progress(), quest.target()).withStyle(ChatFormatting.WHITE), false));
+                questTitle(quest), quest.progress(), quest.target()).withStyle(ChatFormatting.WHITE), false));
         rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.reward", quest.rewardRawXp())
                 .withStyle(ChatFormatting.GOLD), false));
+        if (preview != null) {
+            String sub = preview.subOf(quest.id());
+            rows.add(new TooltipRow(Component.literal(preview.detail(quest.id())).withStyle(ChatFormatting.AQUA), false));
+            if (sub != null) rows.add(new TooltipRow(preview.subTitle(sub).copy().withStyle(ChatFormatting.DARK_AQUA), false));
+        }
         int total = quest.groups().stream().mapToInt(group -> group.targets().size()).sum();
         boolean choose = quest.groups().size() == 1 && quest.target() < total;
         if (choose) rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.tooltip.choose",
