@@ -443,6 +443,7 @@ public final class ProgressionBrowseScreen extends Screen {
         else if (event.isUp()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.UP);
         else if (event.isDown()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.DOWN);
         else return super.keyPressed(event);
+        if (mode == Mode.QUEST) canvas.setSelectionTooltip(true); // keyboard focus opens the selected quest's tooltip
         syncSelectedIndex();
         if (branchButton != null) branchButton.setMessage(Component.translatable(currentBranchKey()));
         return true;
