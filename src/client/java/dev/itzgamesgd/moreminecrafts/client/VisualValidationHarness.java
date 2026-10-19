@@ -673,11 +673,16 @@ public final class VisualValidationHarness {
         steps.add(new PreviewStep("structure-preview-pan-bosses", q -> {
             double[] c = laneCentre(q, "bosses");
             q.validationViewAt(c[0], c[1], 0.75);
-            // Drag far to one end: the camera clamps and keeps a 32 px strip of canvas on screen (by design, so the
-            // view can never be dragged off the canvas entirely). Then drag back to the other end: nodes must return.
+            // Drag far in each direction. The clamp keeps the view centre inside the canvas (a 32 px strip of canvas
+            // always stays on screen, so the ends can show no nodes; that is expected, not a layout fault).
+            double limit = q.validationCanvasHeight();
             q.validationPan(0, -100000);
+            double[] low = q.validationCentreWorld();
             q.validationPan(0, 100000);
-            return q.validationNodeStats()[1] > 0 ? null : "panning back from the far end did not restore any nodes";
+            double[] high = q.validationCentreWorld();
+            if (low[1] < 0 || low[1] > limit || high[1] < 0 || high[1] > limit)
+                return "pan left the canvas: centre y " + low[1] + " and " + high[1] + " outside 0.." + limit;
+            return null;
         }));
         steps.add(new PreviewStep("structure-preview-tooltip-long-label", viewLane("exploration", 0.75, 3)));
         steps.add(new PreviewStep("structure-preview-tooltip-groups", viewLane("exploration", 0.75, 11)));
