@@ -147,3 +147,19 @@ Do not concurrently change a shared attachment codec, entitlement API, merchant 
 | Live | Native interactions, visuals/AI/pathing/terrain/economy feel and existing-save multiplayer acceptance, explicitly reported LIVE PENDING until run |
 
 D1 validation is limited to document/source identity, ledger/table checks, links and remote diff/branch/Draft inspection. Builds, unit tests, GameTests, CI acceptance and live gameplay are **NOT RUN** for D1 because no gameplay change is made; the gates above describe future work. Audit completion does not mean implementation readiness for every phase.
+
+## Stage D2-A refinement of P1/P2 — 2026-10-19
+
+This is documentation planning on a fresh branch from PR #131 HEAD `befa4c8a44c8e3556be2dca9af502d36b0cf11ad`, not the start of implementation. Read [historical recovery](TERRITORY_PAPER_RECOVERY_2026-10-19.md), [Fabric spec](TERRITORY_REGISTRATION_FABRIC_SPEC.md) and [OC decisions](TERRITORY_OWNERSHIP_CONFLICTS.md). Prior eight-phase dependencies remain; only territory entry gates are refined.
+
+| Suggested future boundary | Entry / dependency | Gate before proceeding |
+|---|---|---|
+| P1a identity + registration-policy approval | Review historical first-contributor/physical-throw flow and optional vanilla villages; choose canonical village/anchor identity | OC01–OC07: exact recipe and historical-cap applicability, first-valid/tie/helpers, ownership loss/cancel/refund and registration→tier conversion explicitly resolved; no invented costs |
+| P1b receipt and state foundation | P1a policies plus exact26.3/Fabric API check | OC08/OC12: authenticated manual-drop routes, contribution lineage before merge, atomic owner/allocation index, recoverable player→drop→deposit receipt protocol. Compile and actual multi-JVM forced-halt/reversed-save tests; no duplicate or lost material |
+| P1c physical registration interface | P1b durable backend | TextDisplay + Interaction are state projections; click alone cannot claim. Loaded-only bounded collector, stale/replayed drops, partial/excess items, helper rejection, unload/restart and two-player first-owner tests. No forced global village scan |
+| P1d separately approved development upgrade | Registration backend accepted and OC04 conversion policy approved | LIBERATED must not auto-grant T1 by inference. Existing whole-territory tier/cost tests remain; vanilla village play works without registering |
+| P2a managed footprints + safe construction | P1 identity/entitlements; OC09–OC11 decisions | Preflight/provenance, exact managed-block boundary, owner/non-owner/environment permissions, reserved plans, effect-bounded write journal and compare-and-set rollback that never overwrites later edits. Confirm entity/container/POI/drop/neighbor and cross-save recovery |
+| P2b guards / staffing | Accepted P2a facilities and existing tier allocations | Preserve original morning healing/replenishment and non-adventure role; registration/material completion does not independently spawn guards or villagers |
+
+Safe parallel work after shared-interface agreement: policy/source/API review and construction-template safety analysis can proceed independently. Live payment collector depends on the receipt protocol; UI geometry cannot substitute for ownership validation. Construction and tier commits share an integration owner for state/escrow/journals. This refinement does not authorize a Paper runtime port, auto-enable tiers, change other active PRs or start any of these implementation branches.
+

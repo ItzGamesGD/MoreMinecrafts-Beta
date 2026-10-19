@@ -75,3 +75,15 @@ All 24 original documents are preserved. [Coverage](DESIGN_BRANCH_COVERAGE.md) r
 ## Audit status versus implementation readiness
 
 Source comparison is complete for the requested 24 documents, including the four source PRs. Open issues are registered, not resolved by guesses. APPROVED architecture is not a complete content spec. P1 ownership/protection, P3 recipes/discount scope, P4 coefficients/food/maps, P5 artifact/category/pricing, P6 clock/base attributes, P7 generation/special economics and P8 UI contract gates remain. No gameplay code, tests, assets, catalog registration or other PR branches are changed by this reconciliation.
+
+## Stage D2-A territory recovery addendum — 2026-10-19
+
+This addendum was prepared on a separate task branch from verified PR #131 HEAD `befa4c8a44c8e3556be2dca9af502d36b0cf11ad`. The D1 text above is preserved. Sources: [Paper recovery](TERRITORY_PAPER_RECOVERY_2026-10-19.md), [Fabric registration spec](TERRITORY_REGISTRATION_FABRIC_SPEC.md), [ownership decisions](TERRITORY_OWNERSHIP_CONFLICTS.md). No unrelated authority changes.
+
+| ID | Scoped finding | Status / source | Effect on D1 |
+|---|---|---|---|
+| A37 | Direct village registration through Text Display + Interaction and physically thrown vanilla materials; first valid contributor owner; AVAILABLE→CLAIMING→LIBERATED; historical one-per-biome cap; wood/cobblestone/sticks/planks/coal/iron with quantities unfinalized | USER-CONFIRMED HISTORICAL INPUT in D2-A; Paper sync/review corroborate physical deposits, interface and player/biome attribution. Original exact enum/owner/cap/material document SOURCE MISSING | Refines A03/F02 provenance. Does not approve missing Fabric quantities, cap applicability, lifecycle or T0–T3 mapping |
+| A38 | Keep registration status separate from development tier; server-serialized claim/allocation and attributed durable receipts | PROPOSED technical design, not adopted gameplay; spec §§3–6, OC01–OC08 | No invented LIBERATED=T1, no click-based claim, no false crash-atomicity claim. P1 activation remains gated |
+| A39 | Pinned Fabric0.161.0+26.3 upstream tag `84831249df47bd923b48186d169bc0d8501b547b` exposes Display/Interaction tracked-data access and UseEntityCallback; mapped26.3 sources inspected | SOURCE/API INSPECTED; compile/binary match/runtime NOT RUN, OC12 | Technical feasibility evidence only; no implementation or native visual acceptance |
+| A40 | Current Fabric managed-block/no-overwrite rule prevails over blanket historical region protection; old Paper exploration/farming runtime and T1–T9 work units are not Fabric progression | APPROVED current T boundary; SUPERSEDED historical broad interpretation; detailed permission/adoption/rollback design PROPOSED, OC09–OC11/OC14 | A04/F03 stay open for exact boundaries and effect-safe construction. Unregistered villages remain fully usable |
+
