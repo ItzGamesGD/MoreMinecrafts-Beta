@@ -77,6 +77,9 @@ public final class ProgressionBrowseScreen extends Screen {
         var row = questsById.get(id);
         return row == null ? "" : canvas.questTooltipText(row);
     }
+    public double validationContentFill() { return canvas == null ? 0 : canvas.contentFillRatio(); }
+    public double validationZoomLevel() { return canvas == null ? 0 : canvas.camera().zoom(); }
+    public void validationZoom(int steps) { if (canvas != null) canvas.validationZoom(steps); }
     public boolean validationAllNodesVisible() { return canvas != null && canvas.allNodesVisible(); }
     public int validationMinNodeSpacingPx() { return canvas == null ? 0 : canvas.minNodeSpacingPx(); }
     public void validationPlaceNodeAtEdge(String edge) { if (canvas != null) canvas.validationPlaceSelectedAtEdge(edge, 20); }
@@ -197,8 +200,8 @@ public final class ProgressionBrowseScreen extends Screen {
         responsive = ProgressionCanvasGeometry.responsiveLayout(width, height);
         knowledge = ProgressionClientApi.knowledge(discipline);
         research = ProgressionClientApi.research(discipline);
-        quests = ProgressionClientApi.quests(null).stream().filter(row -> List.of("xpq.cmb.cave_dwellers",
-                "xpq.cmb.bestiary_25", "xpq.cmb.habitats_5").contains(row.id())).toList();
+        List<String> questIds = dev.itzgamesgd.moreminecrafts.progression.QuestTreeStructure.current().allNodeIds();
+        quests = ProgressionClientApi.quests(null).stream().filter(row -> questIds.contains(row.id())).toList();
         knowledgeById = knowledge.stream().collect(java.util.stream.Collectors.toMap(
                 ProgressionScreenData.KnowledgeRow::id, row -> row));
         researchById = research.stream().collect(java.util.stream.Collectors.toMap(

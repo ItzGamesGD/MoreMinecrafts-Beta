@@ -1,37 +1,75 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class QuestTreeLayoutTest {
-    @Test
-    void threeQuestsShareOneCompactRow() {
-        var points = QuestTreeLayout.grid(3);
-        assertEquals(3, points.size());
-        assertEquals(1, points.stream().map(QuestTreeLayout.Point::y).distinct().count());
-        assertEquals(QuestTreeLayout.SPACING, points.get(1).x() - points.get(0).x());
-        assertEquals(QuestTreeLayout.SPACING, points.get(2).x() - points.get(1).x());
-        // 26px frames never touch at the minimum spacing.
-        assertTrue(QuestTreeLayout.SPACING >= 26 + 16);
+    private static QuestTreeStructure.Chapter chapter(String id, int count) {
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < count; i++) ids.add(id + "." + i);
+        return new QuestTreeStructure.Chapter(id, "key." + id, ids);
     }
 
     @Test
-    void largerCatalogsWrapIntoRowsWithoutOverlap() {
-        var points = QuestTreeLayout.grid(10);
-        assertEquals(10, points.size());
-        assertEquals(QuestTreeLayout.MAX_COLUMNS, points.stream().mapToInt(QuestTreeLayout.Point::column).max().getAsInt() + 1);
-        assertEquals(3, points.stream().mapToInt(QuestTreeLayout.Point::row).max().getAsInt() + 1);
+    void currentSliceIsOneEcologyLaneWithNoInventedDependencies() {
+        var structure = QuestTreeStructure.current();
+        assertEquals(1, structure.chapters().size());
+        assertEquals(3, structure.allNodeIds().size());
+        assertTrue(structure.edges().isEmpty(), "no prerequisite exists between the current quests");
+        assertTrue(structure.validate().isEmpty());
+        var result = QuestTreeLayout.layout(structure);
+        assertEquals(1, result.nodes().stream().map(QuestTreeLayout.Placed::y).distinct().count());
+        assertEquals(QuestTreeLayout.NODE_SPACING, result.nodes().get(1).x() - result.nodes().get(0).x());
+        assertTrue(result.width() >= QuestTreeLayout.MIN_WIDTH);
+    }
+
+    @Test
+    void nodesStartRightOfTheLabelGutterAndStayInsideTheirLane() {
+        var result = QuestTreeLayout.layout(new QuestTreeStructure(List.of(chapter("a", 8)), List.of()));
+        var lane = result.lanes().get(0);
+        for (var node : result.nodes()) {
+            assertTrue(node.x() >= QuestTreeLayout.GUTTER + 26);
+            assertTrue(node.y() - 13 >= lane.top() && node.y() + 13 <= lane.bottom());
+            assertTrue(node.x() + 13 <= result.width());
+        }
+    }
+
+    @Test
+    void manyChaptersStackWithoutOverlapAndGrowTheCanvas() {
+        var structure = new QuestTreeStructure(List.of(chapter("a", 3), chapter("b", 14), chapter("c", 1)), List.of());
+        var result = QuestTreeLayout.layout(structure);
+        assertEquals(3, result.lanes().size());
+        for (int i = 1; i < result.lanes().size(); i++)
+            assertTrue(result.lanes().get(i).top() >= result.lanes().get(i - 1).bottom() + QuestTreeLayout.LANE_GAP);
+        assertTrue(result.height() > result.lanes().get(2).bottom());
         var seen = new HashSet<String>();
-        for (var point : points) assertTrue(seen.add(point.x() + "," + point.y()));
+        for (var node : result.nodes()) assertTrue(seen.add(node.x() + "," + node.y()), "overlap at " + node);
+        assertEquals(18, result.nodes().size());
+        assertTrue(result.nodes().stream().filter(n -> n.chapterId().equals("b")).mapToInt(QuestTreeLayout.Placed::y)
+                .distinct().count() > 1, "wide chapters wrap into rows");
     }
 
     @Test
-    void emptyAndSingleCountsAreStable() {
-        assertTrue(QuestTreeLayout.grid(0).isEmpty());
-        assertEquals(1, QuestTreeLayout.grid(1).size());
-        assertEquals(1, QuestTreeLayout.columnsFor(0));
+    void emptyStructureStillProducesACanvas() {
+        var result = QuestTreeLayout.layout(new QuestTreeStructure(List.of(), List.of()));
+        assertTrue(result.nodes().isEmpty());
+        assertTrue(result.width() > 0 && result.height() > 0);
+    }
+
+    @Test
+    void validationRejectsUnknownSelfAndCyclicDependencies() {
+        var chapters = List.of(chapter("a", 3));
+        assertFalse(new QuestTreeStructure(chapters, List.of(new QuestTreeStructure.Edge("a.0", "zzz"))).validate().isEmpty());
+        assertFalse(new QuestTreeStructure(chapters, List.of(new QuestTreeStructure.Edge("a.0", "a.0"))).validate().isEmpty());
+        assertFalse(new QuestTreeStructure(chapters, List.of(new QuestTreeStructure.Edge("a.0", "a.1"),
+                new QuestTreeStructure.Edge("a.1", "a.2"), new QuestTreeStructure.Edge("a.2", "a.0"))).validate().isEmpty());
+        assertTrue(new QuestTreeStructure(chapters, List.of(new QuestTreeStructure.Edge("a.0", "a.1"),
+                new QuestTreeStructure.Edge("a.1", "a.2"))).validate().isEmpty());
     }
 }

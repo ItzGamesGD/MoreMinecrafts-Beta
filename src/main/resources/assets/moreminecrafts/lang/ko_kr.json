@@ -718,5 +718,6 @@
   "moreminecrafts.ui.quest.tooltip.title": "%s — %s/%s",
   "moreminecrafts.ui.quest.tooltip.choose": "필요 %s종 · 후보 %s종",
   "moreminecrafts.ui.quest.group.candidates": "후보 몬스터 (%s종)",
-  "moreminecrafts.ui.quest.unknown_entity": "알 수 없는 몹"
+  "moreminecrafts.ui.quest.unknown_entity": "알 수 없는 몹",
+  "moreminecrafts.ui.quest.chapter.progress": "%s / %s 완료"
 }

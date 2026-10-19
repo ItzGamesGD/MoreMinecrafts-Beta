@@ -799,5 +799,6 @@
   "moreminecrafts.ui.quest.tooltip.title": "%s — %s/%s",
   "moreminecrafts.ui.quest.tooltip.choose": "Required: %s species · %s candidates",
   "moreminecrafts.ui.quest.group.candidates": "Eligible species (%s)",
-  "moreminecrafts.ui.quest.unknown_entity": "Unknown mob"
+  "moreminecrafts.ui.quest.unknown_entity": "Unknown mob",
+  "moreminecrafts.ui.quest.chapter.progress": "%s / %s done"
 }

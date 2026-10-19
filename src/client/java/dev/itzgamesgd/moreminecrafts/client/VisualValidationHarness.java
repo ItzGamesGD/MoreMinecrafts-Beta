@@ -410,14 +410,29 @@ public final class VisualValidationHarness {
                 }
                 MoreMinecrafts.LOGGER.info("QUEST_TREE_LAYOUT gui_scale={} nodes=3 min_spacing_px={} all_visible=true",
                         client.getWindow().getGuiScale(), quests.validationMinNodeSpacingPx());
+                double fill = quests.validationContentFill();
+                MoreMinecrafts.LOGGER.info("QUEST_CANVAS_VIEW gui_scale={} zoom={} content_fill_ratio={}",
+                        client.getWindow().getGuiScale(), String.format("%.2f", quests.validationZoomLevel()),
+                        String.format("%.2f", fill));
+                if (fill < 0.85) { failJourney("the initial quest view leaves the canvas under-filled (fill=" + fill + ")"); return; }
                 quests.validationClearHover();
                 queueUiScreenshot("xp-quest-tree-compact.png");
+                uiJourneyStage = 58;
+            }
+            case 58 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)) { failJourney("quest screen closed"); return; }
+                double before = quests.validationZoomLevel();
+                quests.validationZoom(-4);
+                if (quests.validationZoomLevel() >= before) { failJourney("zooming out did not change the quest canvas zoom"); return; }
+                queueUiScreenshot("xp-quest-tree-zoomed-out.png");
                 uiJourneyStage = 59;
             }
             case 59 -> {
                 if (!takeCapture()) return;
-                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)
-                        || !quests.validationHoverNode("xpq.cmb.cave_dwellers")) {
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests)) { failJourney("quest screen closed"); return; }
+                quests.validationResetCamera();
+                if (!quests.validationHoverNode("xpq.cmb.cave_dwellers")) {
                     failJourney("cave dwellers node was unavailable"); return;
                 }
                 queueUiScreenshot("xp-quest-tooltip-cave.png");

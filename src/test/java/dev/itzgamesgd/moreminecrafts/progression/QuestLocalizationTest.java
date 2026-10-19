@@ -96,7 +96,7 @@ class QuestLocalizationTest {
         for (String code : List.of("en_us", "ko_kr")) {
             JsonObject lang = lang(code);
             for (String key : List.of("moreminecrafts.ui.quest.tooltip.title", "moreminecrafts.ui.quest.tooltip.choose",
-                    "moreminecrafts.ui.quest.group.candidates", "moreminecrafts.ui.quest.unknown_entity",
+                    "moreminecrafts.ui.quest.group.candidates", "moreminecrafts.ui.quest.unknown_entity", "moreminecrafts.ui.quest.chapter.progress",
                     "moreminecrafts.ui.quest.reward", "moreminecrafts.ui.quest.group.desert",
                     "moreminecrafts.ui.quest.group.swamp", "moreminecrafts.ui.quest.group.snowy",
                     "moreminecrafts.ui.quest.group.fungal", "moreminecrafts.ui.quest.group.wild_slime")) {
