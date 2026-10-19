@@ -317,6 +317,7 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         touch(drop, player);
         ctx.assertTrue(credited(player) == 1, "repeated callbacks for one pickup credit once");
         clearItems(ctx);
+        int heldBeforeDrop = skulls(player);
         ItemStack held = ItemStack.EMPTY;
         for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
             if (player.getInventory().getItem(slot).is(Items.WITHER_SKELETON_SKULL)) {
@@ -329,7 +330,7 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         ctx.assertTrue(redropped != null && !QuestWitherSkullProvenance.isGenuine(redropped),
                 "a skull the player dropped has no provenance");
         touch(redropped, player);
-        ctx.assertTrue(skulls(player) == 1 && credited(player) == 1 && progress(player) == 1,
+        ctx.assertTrue(skulls(player) == heldBeforeDrop && credited(player) == 1 && progress(player) == 1,
                 "dropping and re-picking an already credited skull grants nothing");
         ctx.succeed();
     }
