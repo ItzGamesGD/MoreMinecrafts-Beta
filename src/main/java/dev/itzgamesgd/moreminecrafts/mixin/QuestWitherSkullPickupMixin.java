@@ -14,17 +14,30 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ItemEntity.class)
 abstract class QuestWitherSkullPickupMixin {
-    /** Credit is the count that actually left the item entity into the inventory, so duplicates cannot recount. */
+    /** Inventory.add may delete creative overflow; only a matching inventory increase proves receipt. */
     @WrapOperation(method = "playerTouch", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/player/Inventory;add(Lnet/minecraft/world/item/ItemStack;)Z"))
     private boolean moreminecrafts$creditGenuineSkull(Inventory inventory, ItemStack stack,
             Operation<Boolean> original, @Local(argsOnly = true) Player player) {
         ItemEntity self = (ItemEntity) (Object) this;
         boolean genuine = QuestWitherSkullProvenance.isGenuine(self);
-        int before = stack.getCount();
+        ItemStack identity = genuine ? stack.copy() : ItemStack.EMPTY;
+        int offered = stack.getCount();
+        int before = genuine ? moreminecrafts$countMatching(inventory, identity) : 0;
         boolean added = original.call(inventory, stack);
-        if (genuine && player instanceof ServerPlayer serverPlayer)
-            QuestWitherSkullProvenance.pickedUp(serverPlayer, self, before - stack.getCount());
+        if (genuine && player instanceof ServerPlayer serverPlayer) {
+            int received = Math.min(offered, Math.max(0, moreminecrafts$countMatching(inventory, identity) - before));
+            QuestWitherSkullProvenance.pickedUp(serverPlayer, self, received);
+        }
         return added;
+    }
+
+    private static int moreminecrafts$countMatching(Inventory inventory, ItemStack identity) {
+        int count = 0;
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            ItemStack held = inventory.getItem(slot);
+            if (ItemStack.isSameItemSameComponents(held, identity)) count += held.getCount();
+        }
+        return count;
     }
 }
