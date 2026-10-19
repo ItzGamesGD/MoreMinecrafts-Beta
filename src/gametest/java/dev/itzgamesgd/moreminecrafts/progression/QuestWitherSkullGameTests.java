@@ -227,7 +227,7 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         if (!phase.equals("write") && !phase.equals("read"))
             throw new IllegalArgumentException("questskull halt phase must be write or read");
         ServerLevel level = ctx.getLevel();
-        var chunk = new net.minecraft.world.level.ChunkPos(HALT_POS);
+        var chunk = new net.minecraft.world.level.ChunkPos(HALT_POS.getX() >> 4, HALT_POS.getZ() >> 4);
         level.getChunkSource().addTicketWithRadius(net.minecraft.server.level.TicketType.FORCED, chunk, 0);
         level.getChunk(chunk.x(), chunk.z());
         if (phase.equals("write")) {
@@ -317,13 +317,18 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         touch(drop, player);
         ctx.assertTrue(credited(player) == 1, "repeated callbacks for one pickup credit once");
         clearItems(ctx);
-        // Dropping from an inventory always creates a brand-new item entity (Player.drop), never the old one.
-        player.getInventory().clearContent();
-        plainSkull(ctx, 1);
-        var redropped = items(ctx);
-        ctx.assertTrue(redropped.size() == 1 && !QuestWitherSkullProvenance.isGenuine(redropped.getFirst()),
+        ItemStack held = ItemStack.EMPTY;
+        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
+            if (player.getInventory().getItem(slot).is(Items.WITHER_SKELETON_SKULL)) {
+                held = player.getInventory().removeItem(slot, 1);
+                break;
+            }
+        }
+        ctx.assertTrue(!held.isEmpty(), "the actual received skull was removed from inventory for Player.drop");
+        ItemEntity redropped = player.drop(held, false, net.minecraft.util.Prediction.SERVER_ONLY);
+        ctx.assertTrue(redropped != null && !QuestWitherSkullProvenance.isGenuine(redropped),
                 "a skull the player dropped has no provenance");
-        touch(redropped.getFirst(), player);
+        touch(redropped, player);
         ctx.assertTrue(skulls(player) == 1 && credited(player) == 1 && progress(player) == 1,
                 "dropping and re-picking an already credited skull grants nothing");
         ctx.succeed();
@@ -458,6 +463,30 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         touch(out, player);
         ctx.assertTrue(credited(player) == 0, "a skull that left its item entity via a hopper never credits");
         ctx.succeed();
+    }
+
+    @GameTest(maxTicks = 100)
+    public void actualHopperBlockTickRemovesProvenance(GameTestHelper ctx) {
+        ServerPlayer player = QuestPersistentPlayers.mock(ctx.getLevel(), GameType.SURVIVAL);
+        player.getAbilities().instabuild = false;
+        player.getInventory().clearContent();
+        ItemEntity drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        BlockPos hopperPos = at(ctx);
+        ctx.getLevel().setBlock(hopperPos, net.minecraft.world.level.block.Blocks.HOPPER.defaultBlockState(), 3);
+        drop.setPos(hopperPos.getX() + 0.5D, hopperPos.getY() + 1.2D, hopperPos.getZ() + 0.5D);
+        drop.setDeltaMovement(net.minecraft.world.phys.Vec3.ZERO);
+        ctx.runAfterDelay(40, () -> {
+            var hopper = (net.minecraft.world.level.block.entity.HopperBlockEntity) ctx.getLevel().getBlockEntity(hopperPos);
+            ctx.assertTrue(hopper != null && drop.isRemoved() && hopper.getItem(0).is(Items.WITHER_SKELETON_SKULL),
+                    "a real scheduled hopper block tick took the genuine item entity");
+            ItemStack extracted = hopper.removeItem(0, 1);
+            ItemEntity out = new ItemEntity(ctx.getLevel(), hopperPos.getX(), hopperPos.getY() + 2, hopperPos.getZ(), extracted);
+            ctx.getLevel().addFreshEntity(out);
+            touch(out, player);
+            ctx.assertTrue(skulls(player) == 1 && credited(player) == 0,
+                    "hopper output is physically received but has no genuine provenance");
+            ctx.succeed();
+        });
     }
 
     @Override public void invokeTestMethod(GameTestHelper context, Method method) throws ReflectiveOperationException {
