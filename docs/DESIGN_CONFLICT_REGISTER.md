@@ -36,3 +36,17 @@ Severity: P0 risks duplicate/lost state or destructive world edits; P1 blocks a 
 ## Disposition
 
 Evidence resolves F09, F12's routing, F14's precedence and F20's core policy without a gameplay decision. Other entries retain explicit content/technical gates. No proposed resolution in this register changes approved gameplay. The [phase plan](IMPLEMENTATION_PHASE_PLAN.md) assigns these gates to separate future PRs; D1 acceptance is documentation publication, not closure of these design questions.
+
+## Stage D2-A territory evidence refinement — 2026-10-19
+
+Prepared separately from PR #131 at base `befa4c8a44c8e3556be2dca9af502d36b0cf11ad`; the original D1 entries above are retained. [Recovery](TERRITORY_PAPER_RECOVERY_2026-10-19.md), [proposed spec](TERRITORY_REGISTRATION_FABRIC_SPEC.md) and [OC01–OC14](TERRITORY_OWNERSHIP_CONFLICTS.md) provide exact source/disposition details.
+
+| D1 finding | Recovered evidence | Revised disposition |
+|---|---|---|
+| F02 ownership / claiming | User confirms direct physical-item registration, first valid contributor, AVAILABLE→CLAIMING→LIBERATED and historical one-per-biome limit. Paper sync `d2944f78cfb3f0d214f6bbbc85010facddf14643` corroborates deposit/interface/separate territory ownership | Historical design partially recovered; **not closed**. OC01–OC07 retain identity, Fabric cap/mapping, exact recipe, helper/tie/loss/transfer/refund policies. Original precise Paper artifact remains SOURCE MISSING (OC13) |
+| F03 managed protection / expansion | Paper sync allows normal door/button/lever interactions; current Fabric requires managed-block boundaries and no player-build overwrite | Broad historical region-protection interpretation SUPERSEDED by current scoped rule. OC09–OC11 still block adoption/permission details and safe construction rollback |
+| New registration durability risk | Mapped26.3 ItemEntity merge/save behavior plus independent player/entity/territory persistence; click records do not identify thrown-item contributor | OC08 P0: proposed durable drop/deposit receipts require actual save-order/JVM-kill proof before material consumption. No UUID-only guarantee |
+| New API gate | Primary pinned Fabric classtweaker/callback and mapped26.3 source inspected | OC12 P1: source feasibility assessed; local binary/compile/runtime NOT RUN. No gameplay code or prototype added |
+
+Unrelated F01/F04–F26 dispositions remain unchanged. Historical recovery does not reopen rejected recurring bulk contracts or change current trading, guards, mercenaries, artifact or bounty rules.
+
