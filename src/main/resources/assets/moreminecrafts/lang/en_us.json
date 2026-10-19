@@ -795,5 +795,9 @@
   "moreminecrafts.ui.branch.world.discipline_foundation": "Discipline Foundation",
   "moreminecrafts.research.alchemy_root.title": "Alchemy and Magic",
   "moreminecrafts.research.alchemy_root.description": "+1% duration for beneficial timed potion effects from potions you use",
-  "moreminecrafts.ui.branch.alchemy.discipline_foundation": "Discipline Foundation"
+  "moreminecrafts.ui.branch.alchemy.discipline_foundation": "Discipline Foundation",
+  "moreminecrafts.ui.quest.tooltip.title": "%s — %s/%s",
+  "moreminecrafts.ui.quest.tooltip.choose": "Required: %s species · %s candidates",
+  "moreminecrafts.ui.quest.group.candidates": "Eligible species (%s)",
+  "moreminecrafts.ui.quest.unknown_entity": "Unknown mob"
 }

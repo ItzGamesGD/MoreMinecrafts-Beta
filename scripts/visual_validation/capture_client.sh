@@ -259,7 +259,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     exit 1
   fi
   gui_scale="$(sed -n 's/^guiScale://p' run/options.txt | tail -n 1)"
-  required_frames=(progression-selection selector-xp-hover selector-xp-focus selector-xp-quest-opened-by-keyboard selector-normal-final knowledge-sector-selection knowledge-branch-menu knowledge-screen research-sector-selection research-screen research-branch-menu knowledge-node-tooltip research-node-tooltip research-zoomed research-purchasable-entry research-purchase-state research-unavailable-tooltip auto-farm-screen)
+  required_frames=(progression-selection selector-xp-hover selector-xp-focus selector-xp-quest-opened-by-keyboard selector-normal-final xp-quest-tree-compact xp-quest-tooltip-cave xp-quest-bestiary-tooltip xp-quest-bestiary-scrolled xp-quest-habitats-tooltip xp-quest-tooltip-edge-left xp-quest-tooltip-edge-right xp-quest-tooltip-edge-top xp-quest-tooltip-edge-bottom xp-quest-selected-tooltip knowledge-sector-selection knowledge-branch-menu knowledge-screen research-sector-selection research-screen research-branch-menu knowledge-node-tooltip research-node-tooltip research-zoomed research-purchasable-entry research-purchase-state research-unavailable-tooltip auto-farm-screen)
   for frame in "${required_frames[@]}"; do
     screenshot="run/screenshots/${frame}.png"
     if [ ! -s "$screenshot" ]; then echo "Missing native Minecraft frame: $screenshot"; exit 1; fi

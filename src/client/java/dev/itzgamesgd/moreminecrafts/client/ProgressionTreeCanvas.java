@@ -17,6 +17,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import dev.itzgamesgd.moreminecrafts.progression.QuestTreeLayout;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -54,6 +55,9 @@ public final class ProgressionTreeCanvas {
     private int tooltipScroll;
     private int tooltipX, tooltipY, tooltipWidth, tooltipHeight;
     private String pinnedQuestId;
+    private String tooltipQuestId;
+    private boolean selectionTooltip;
+    private final java.util.Set<String> reportedMissingNames = new HashSet<>();
 
     public ProgressionTreeCanvas(String screen, String discipline) {
         this.screen = screen;
@@ -61,8 +65,9 @@ public final class ProgressionTreeCanvas {
             List<String> ids = List.of("xpq.cmb.cave_dwellers", "xpq.cmb.bestiary_25", "xpq.cmb.habitats_5");
             String[] icons = {"minecraft:spider_eye", "minecraft:book", "minecraft:slime_ball"};
             List<ProgressionNodeLayoutCatalog.Node> questNodes = new ArrayList<>();
+            var grid = QuestTreeLayout.grid(ids.size());
             for (int i = 0; i < ids.size(); i++) questNodes.add(new ProgressionNodeLayoutCatalog.Node(ids.get(i),
-                    "quests", "quest", "ecology", "ecology", i, 0, 64 + 192 * i, 64,
+                    "quests", "quest", "ecology", "ecology", 0, i, grid.get(i).x(), grid.get(i).y(),
                     icons[i], ProgressionNodeLayoutCatalog.FALLBACK_ICON, "moreminecrafts.ui.quest.branch.ecology"));
             this.nodes = List.copyOf(questNodes);
         } else this.nodes = ProgressionNodeLayoutCatalog.load().nodes(screen, discipline);
@@ -82,9 +87,62 @@ public final class ProgressionTreeCanvas {
     public ProgressionCanvasGeometry.Camera camera() { return camera; }
     public double canvasWidth() { return canvasWidth; }
     public double canvasHeight() { return canvasHeight; }
-    public boolean tooltipContains(double x, double y) {
-        return tooltipWidth > 0 && x >= tooltipX && x < tooltipX + tooltipWidth && y >= tooltipY && y < tooltipY + tooltipHeight;
+    public boolean tooltipContains(double x, double y) { return tooltipContains(x, y, 0); }
+    /** The margin lets the pointer cross the small gap between a node and its tooltip. */
+    public boolean tooltipContains(double x, double y, int margin) {
+        return tooltipWidth > 0 && x >= tooltipX - margin && x < tooltipX + tooltipWidth + margin
+                && y >= tooltipY - margin && y < tooltipY + tooltipHeight + margin;
     }
+    /** Keyboard focus or a click keeps the selected quest's tooltip open without hovering. */
+    public void setSelectionTooltip(boolean value) { selectionTooltip = value; }
+    public boolean allNodesVisible() {
+        if (viewport == null) return false;
+        for (var node : nodes) {
+            var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+            if (frame.x() < viewport.x() || frame.y() < viewport.y() || frame.right() > viewport.right()
+                    || frame.bottom() > viewport.bottom()) return false;
+        }
+        return true;
+    }
+    /** Smallest centre-to-centre distance between two nodes in screen pixels (0 for fewer than two nodes). */
+    public int minNodeSpacingPx() {
+        int best = Integer.MAX_VALUE;
+        for (int i = 0; i < nodes.size(); i++) for (int j = i + 1; j < nodes.size(); j++) {
+            double dx = screenX(nodes.get(i).x()) - screenX(nodes.get(j).x());
+            double dy = screenY(nodes.get(i).y()) - screenY(nodes.get(j).y());
+            best = Math.min(best, (int) Math.round(Math.hypot(dx, dy)));
+        }
+        return best == Integer.MAX_VALUE ? 0 : best;
+    }
+    /** All visible tooltip text for a quest, joined; validation uses it to reject raw registry ids. */
+    public String questTooltipText(ProgressionScreenData.QuestRow quest) {
+        StringBuilder text = new StringBuilder();
+        for (TooltipRow row : questTooltipRows(quest)) text.append(row.text().getString()).append('\n');
+        return text.toString();
+    }
+    public int[] tooltipBounds() { return new int[] {tooltipX, tooltipY, tooltipWidth, tooltipHeight}; }
+    public ProgressionCanvasGeometry.Rect selectedNodeFrame() {
+        var node = byId.get(hoveredId != null ? hoveredId : selectedId);
+        return node == null || viewport == null ? null
+                : ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+    }
+    /** Validation only: pans so the selected node sits {@code inset} px from the given viewport edge. */
+    public void validationPlaceSelectedAtEdge(String edge, int inset) {
+        var node = byId.get(validationHoveredId != null ? validationHoveredId : selectedId);
+        if (node == null || viewport == null) return;
+        double zoom = camera.zoom();
+        double targetX = viewport.x() + viewport.width() / 2.0, targetY = viewport.y() + viewport.height() / 2.0;
+        switch (edge) {
+            case "left" -> targetX = viewport.x() + inset;
+            case "right" -> targetX = viewport.right() - inset;
+            case "top" -> targetY = viewport.y() + inset;
+            case "bottom" -> targetY = viewport.bottom() - inset;
+            default -> { }
+        }
+        camera = new ProgressionCanvasGeometry.Camera(node.x() - (targetX - viewport.x()) / zoom,
+                node.y() - (targetY - viewport.y()) / zoom, zoom);
+    }
+    public void validationResetCamera() { if (viewport != null) initializeCamera(viewport, false); }
     public void scrollTooltip(int amount) { tooltipScroll = Math.max(0, tooltipScroll + amount); }
     public int tooltipScroll() { return tooltipScroll; }
     public boolean tooltipWithinScreen(int width, int height) {
@@ -181,8 +239,8 @@ public final class ProgressionTreeCanvas {
             if ("research".equals(screen)) drawPrerequisiteEdges(graphics, researchRows);
             String nodeHit = validationHoveredId != null ? validationHoveredId : hitTest(mouseX, mouseY);
             if (nodeHit != null && questRows.containsKey(nodeHit)) pinnedQuestId = nodeHit;
-            else if (!tooltipContains(mouseX, mouseY)) pinnedQuestId = null;
-            hoveredId = "quests".equals(screen) ? (pinnedQuestId != null ? pinnedQuestId : selectedId) : nodeHit;
+            else if (!tooltipContains(mouseX, mouseY, 8)) pinnedQuestId = null;
+            hoveredId = "quests".equals(screen) ? (pinnedQuestId != null ? pinnedQuestId : selectionTooltip ? selectedId : null) : nodeHit;
             for (var node : nodes) {
                 var knowledge = knowledgeRows.get(node.id());
                 var research = researchRows.get(node.id());
@@ -214,7 +272,25 @@ public final class ProgressionTreeCanvas {
         }
     }
 
+    /** One bordered group with its title; spacing is presentation only and implies no prerequisite. */
+    private void drawQuestGroup(GuiGraphicsExtractor graphics, Font font) {
+        int minX = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::x).min().orElse(0);
+        int maxX = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::x).max().orElse(0);
+        int minY = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::y).min().orElse(0);
+        int maxY = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::y).max().orElse(0);
+        int pad = QuestTreeLayout.GROUP_PADDING;
+        int left = screenX(minX - pad), right = screenX(maxX + pad);
+        int top = screenY(minY - pad - QuestTreeLayout.GROUP_LABEL_HEIGHT), bottom = screenY(maxY + pad);
+        graphics.fill(left, top, right, bottom, 0x66201E1B);
+        graphics.outline(left, top, right - left, bottom - top, 0xFF756D5E);
+        String label = Component.translatable(nodes.get(0).branchTitleKey()).getString();
+        int labelWidth = Math.max(0, right - left - 12);
+        if (font.width(label) > labelWidth) label = font.plainSubstrByWidth(label, Math.max(0, labelWidth - 8)) + "…";
+        graphics.text(font, label, left + 6, top + 5, 0xFFE0D9C7, false);
+    }
+
     private void drawBranches(GuiGraphicsExtractor graphics, Font font) {
+        if ("quests".equals(screen)) { drawQuestGroup(graphics, font); return; }
         Map<Integer, List<ProgressionNodeLayoutCatalog.Node>> branches = new java.util.TreeMap<>();
         for (var node : nodes) branches.computeIfAbsent(node.branchOrder(), ignored -> new ArrayList<>()).add(node);
         double zoom = camera.zoom();
@@ -411,69 +487,126 @@ public final class ProgressionTreeCanvas {
         return lines;
     }
 
+    private record TooltipRow(Component text, boolean scrollable) {}
+
+    private Component entityName(ProgressionScreenData.QuestTarget target) {
+        if (net.minecraft.locale.Language.getInstance().has(target.titleKey())) return Component.translatable(target.titleKey());
+        if (reportedMissingNames.add(target.entityId()))
+            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.warn("Missing quest entity name key {} for {}",
+                    target.titleKey(), target.entityId());
+        return Component.translatable("moreminecrafts.ui.quest.unknown_entity");
+    }
+
+    /** True when every target of the quest has a finished localized name (used by validation). */
+    public boolean questNamesResolved(ProgressionScreenData.QuestRow quest) {
+        for (var group : quest.groups()) for (var target : group.targets())
+            if (!net.minecraft.locale.Language.getInstance().has(target.titleKey())) return false;
+        return true;
+    }
+
+    private List<TooltipRow> questTooltipRows(ProgressionScreenData.QuestRow quest) {
+        List<TooltipRow> rows = new ArrayList<>();
+        rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.tooltip.title",
+                Component.translatable(quest.titleKey()), quest.progress(), quest.target()).withStyle(ChatFormatting.WHITE), false));
+        rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.reward", quest.rewardRawXp())
+                .withStyle(ChatFormatting.GOLD), false));
+        int total = quest.groups().stream().mapToInt(group -> group.targets().size()).sum();
+        boolean choose = quest.groups().size() == 1 && quest.target() < total;
+        if (choose) rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.tooltip.choose",
+                quest.target(), total).withStyle(ChatFormatting.GRAY), false));
+        boolean grouped = quest.groups().size() > 1;
+        for (ProgressionScreenData.QuestGroup group : quest.groups()) {
+            if (grouped) rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.group." + group.id())
+                    .append(Component.literal(group.complete() ? " ✓" : " ○"))
+                    .withStyle(group.complete() ? ChatFormatting.GREEN : ChatFormatting.YELLOW), true));
+            else if (choose) rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.group.candidates",
+                    group.targets().size()).withStyle(ChatFormatting.YELLOW), true));
+            List<ProgressionScreenData.QuestTarget> targets = new ArrayList<>(group.targets());
+            if (choose) targets.sort(java.util.Comparator.comparing(target -> entityName(target).getString()));
+            for (ProgressionScreenData.QuestTarget target : targets) {
+                rows.add(new TooltipRow(Component.literal(target.complete() ? (grouped ? "  ✓ " : "✓ ") : (grouped ? "  ○ " : "○ "))
+                        .append(entityName(target)).withStyle(target.complete() ? ChatFormatting.GREEN : ChatFormatting.GRAY), true));
+            }
+        }
+        return rows;
+    }
+
     private void drawQuestTooltip(GuiGraphicsExtractor graphics, Font font,
                                   ProgressionNodeLayoutCatalog.Node node, ProgressionScreenData.QuestRow quest) {
         if (quest == null) return;
+        if (!quest.id().equals(tooltipQuestId)) { tooltipQuestId = quest.id(); tooltipScroll = 0; }
         int screenW = graphics.guiWidth(), screenH = graphics.guiHeight();
-        tooltipWidth = Math.max(150, Math.min(310, screenW - 24));
-        tooltipHeight = Math.max(90, Math.min(screenH - 24, 430));
-        int anchorX = screenX(node.x()) + 20;
-        int anchorY = screenY(node.y()) - 12;
-        tooltipX = Math.max(12, Math.min(anchorX, screenW - tooltipWidth - 12));
-        tooltipY = Math.max(12, Math.min(anchorY, screenH - tooltipHeight - 12));
-        graphics.fill(tooltipX, tooltipY, tooltipX + tooltipWidth, tooltipY + tooltipHeight, 0xF0100D0A);
-        graphics.outline(tooltipX, tooltipY, tooltipWidth, tooltipHeight, 0xFFE0D9C7);
+        final int pad = 6, lineHeight = 10, separator = 4, margin = 6, scrollbar = 5;
+        List<TooltipRow> rows = questTooltipRows(quest);
+        int maxWidth = Math.max(120, Math.min(250, screenW - margin * 2));
+        int natural = 0;
+        for (TooltipRow row : rows) natural = Math.max(natural, font.width(row.text()));
+        int width = Math.max(110, Math.min(maxWidth, natural + pad * 2 + scrollbar));
+        int textWidth = width - pad * 2 - scrollbar;
+        List<net.minecraft.util.FormattedCharSequence> fixed = new ArrayList<>(), list = new ArrayList<>();
+        for (TooltipRow row : rows) (row.scrollable() ? list : fixed).addAll(font.split(row.text(), textWidth));
+        int fixedHeight = fixed.size() * lineHeight;
+        int listHeight = list.size() * lineHeight;
+        int separatorHeight = list.isEmpty() ? 0 : separator;
+        int maxHeight = Math.max(60, Math.min(screenH - margin * 2, Math.min(190, (int) (screenH * 0.7))));
+        int fullHeight = pad * 2 + fixedHeight + separatorHeight + listHeight;
+        int height = Math.min(fullHeight, maxHeight);
+        int visibleHeight = height - pad * 2 - fixedHeight - separatorHeight;
+        boolean scrolls = !list.isEmpty() && listHeight > visibleHeight;
+        if (!scrolls) { height = fullHeight; visibleHeight = listHeight; }
+        tooltipWidth = width;
+        tooltipHeight = height;
 
-        List<Component> header = new ArrayList<>();
-        header.add(Component.translatable(quest.titleKey()).withStyle(ChatFormatting.WHITE));
-        header.add(Component.translatable(quest.descriptionKey()));
-        header.add(Component.translatable("moreminecrafts.ui.quest.reward", quest.rewardRawXp()));
-        header.add(Component.translatable("moreminecrafts.ui.progress", quest.progress(), quest.target()));
-        int y = tooltipY + 7;
-        int textWidth = tooltipWidth - 16;
-        for (Component value : header) {
-            for (var line : font.split(value, textWidth)) {
-                graphics.text(font, line, tooltipX + 8, y, 0xFFE8E5DE, false);
-                y += 10;
-            }
-        }
-        int listTop = y + 3;
-        int listBottom = tooltipY + tooltipHeight - 7;
-        List<Component> lines = new ArrayList<>();
-        for (ProgressionScreenData.QuestGroup group : quest.groups()) {
-            String groupName = group.id().equals("species") ? "moreminecrafts.ui.quest.group.species"
-                    : "moreminecrafts.ui.quest.group." + group.id();
-            lines.add(Component.translatable(groupName).append(Component.literal(group.complete() ? " ✓" : " ○")));
-            for (ProgressionScreenData.QuestTarget target : group.targets()) {
-                Component name = Component.translatable(target.titleKey());
-                if (!name.getString().equals(target.titleKey())) name = name.copy().append(Component.literal(" (" + target.entityId() + ")"));
-                else name = Component.literal(target.entityId());
-                lines.add(Component.literal(target.complete() ? "  ✓ " : "  ○ ").append(name));
-            }
-        }
-        int totalLines = 0;
-        for (Component line : lines) totalLines += Math.max(1, font.split(line, textWidth - 10).size());
-        int visibleLines = Math.max(1, (listBottom - listTop) / 10);
-        tooltipScroll = Math.min(tooltipScroll, Math.max(0, totalLines - visibleLines));
-        graphics.enableScissor(tooltipX + 5, listTop, tooltipX + tooltipWidth - 5, listBottom);
+        var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+        int[] origin = placeTooltip(frame, width, height, screenW, screenH, margin);
+        tooltipX = origin[0];
+        tooltipY = origin[1];
+        graphics.fill(tooltipX, tooltipY, tooltipX + width, tooltipY + height, 0xF0100D0A);
+        graphics.outline(tooltipX, tooltipY, width, height, 0xFFE0D9C7);
+
+        int y = tooltipY + pad;
+        for (var line : fixed) { graphics.text(font, line, tooltipX + pad, y, 0xFFE8E5DE, false); y += lineHeight; }
+        int listTop = y + separatorHeight;
+        int visibleLines = Math.max(1, visibleHeight / lineHeight);
+        int maxScroll = Math.max(0, list.size() - visibleLines);
+        tooltipScroll = Math.min(tooltipScroll, maxScroll);
+        if (separatorHeight > 0) graphics.fill(tooltipX + pad, y + 1, tooltipX + width - pad, y + 2, 0xFF49443A);
+        graphics.enableScissor(tooltipX + 1, listTop, tooltipX + width - 1, listTop + visibleHeight);
         try {
-            int skipped = 0;
-            int rowY = listTop - tooltipScroll * 10;
-            for (Component line : lines) for (var wrapped : font.split(line, textWidth - 10)) {
-                if (skipped++ == 0 || true) {
-                    graphics.text(font, wrapped, tooltipX + 8, rowY, 0xFFE0DED8, false);
-                    rowY += 10;
-                }
-            }
+            int rowY = listTop - tooltipScroll * lineHeight;
+            for (var line : list) { graphics.text(font, line, tooltipX + pad, rowY, 0xFFE0DED8, false); rowY += lineHeight; }
         } finally { graphics.disableScissor(); }
-        if (totalLines > visibleLines) {
-            int trackX = tooltipX + tooltipWidth - 5;
-            graphics.fill(trackX, listTop, trackX + 2, listBottom, 0xFF49443A);
-            int thumbHeight = Math.max(12, (listBottom - listTop) * visibleLines / totalLines);
-            int travel = Math.max(0, listBottom - listTop - thumbHeight);
-            int thumbY = listTop + (int) Math.round(travel * tooltipScroll / (double) Math.max(1, totalLines - visibleLines));
+        if (scrolls) {
+            int trackX = tooltipX + width - scrollbar;
+            graphics.fill(trackX, listTop, trackX + 2, listTop + visibleHeight, 0xFF49443A);
+            int thumbHeight = Math.max(12, visibleHeight * visibleLines / Math.max(1, list.size()));
+            int travel = Math.max(0, visibleHeight - thumbHeight);
+            int thumbY = listTop + (int) Math.round(travel * tooltipScroll / (double) Math.max(1, maxScroll));
             graphics.fill(trackX, thumbY, trackX + 2, thumbY + thumbHeight, 0xFFE0D9C7);
         }
+    }
+
+    /** Prefers beside the node (right, then left), then below/above; never covers the node when avoidable. */
+    private static int[] placeTooltip(ProgressionCanvasGeometry.Rect node, int width, int height,
+                                      int screenW, int screenH, int margin) {
+        final int gap = 4;
+        int centeredY = Math.max(margin, Math.min(node.y() + node.height() / 2 - 14, screenH - height - margin));
+        int centeredX = Math.max(margin, Math.min(node.x() + node.width() / 2 - width / 2, screenW - width - margin));
+        int[][] candidates = {
+                {node.right() + gap, centeredY}, {node.x() - gap - width, centeredY},
+                {centeredX, node.bottom() + gap}, {centeredX, node.y() - gap - height}};
+        for (int[] c : candidates)
+            if (c[0] >= margin && c[1] >= margin && c[0] + width <= screenW - margin && c[1] + height <= screenH - margin) return c;
+        int[] best = candidates[0];
+        long bestOverlap = Long.MAX_VALUE;
+        for (int[] c : candidates) {
+            int x = Math.max(margin, Math.min(c[0], screenW - width - margin));
+            int y = Math.max(margin, Math.min(c[1], screenH - height - margin));
+            long overlapW = Math.max(0, Math.min(x + width, node.right()) - Math.max(x, node.x()));
+            long overlapH = Math.max(0, Math.min(y + height, node.bottom()) - Math.max(y, node.y()));
+            if (overlapW * overlapH < bestOverlap) { bestOverlap = overlapW * overlapH; best = new int[] {x, y}; }
+        }
+        return best;
     }
 
     private static void addText(List<ClientTooltipComponent> target, Font font, Component value, int maxWidth) {
