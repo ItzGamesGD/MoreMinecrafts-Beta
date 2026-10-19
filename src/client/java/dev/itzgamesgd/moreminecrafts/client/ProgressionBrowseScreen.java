@@ -108,6 +108,7 @@ public final class ProgressionBrowseScreen extends Screen {
     public int validationOverlappingFrames() { return canvas == null ? 0 : canvas.overlappingFrames(); }
     /** Sends a key through the real keyPressed path; {@code shift} sets the shift modifier. */
     public boolean validationKey(int key, boolean shift) { return keyPressed(new KeyEvent(key, 0, shift ? 1 : 0)); }
+    public double validationViewportHeight() { return responsive.viewport().height(); }
     public double validationCanvasHeight() { return canvas == null ? 0 : canvas.canvasHeight(); }
     public int validationViewportX() { return responsive.viewport().x(); }
     public int validationViewportY() { return responsive.viewport().y(); }

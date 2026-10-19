@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.client;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.progression.AutoFarmMenu;
+import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
@@ -675,14 +676,11 @@ public final class VisualValidationHarness {
             q.validationViewAt(c[0], c[1], 0.75);
             // Drag far in each direction. The clamp keeps the view centre inside the canvas (a 32 px strip of canvas
             // always stays on screen, so the ends can show no nodes; that is expected, not a layout fault).
-            double limit = q.validationCanvasHeight();
             q.validationPan(0, -100000);
-            double[] low = q.validationCentreWorld();
+            String low = panOverlapViolation(q);
+            if (low != null) return low;
             q.validationPan(0, 100000);
-            double[] high = q.validationCentreWorld();
-            if (low[1] < 0 || low[1] > limit || high[1] < 0 || high[1] > limit)
-                return "pan left the canvas: centre y " + low[1] + " and " + high[1] + " outside 0.." + limit;
-            return null;
+            return panOverlapViolation(q);
         }));
         steps.add(new PreviewStep("structure-preview-tooltip-long-label", viewLane("exploration", 0.75, 3)));
         steps.add(new PreviewStep("structure-preview-tooltip-groups", viewLane("exploration", 0.75, 11)));
@@ -769,6 +767,20 @@ public final class VisualValidationHarness {
             return drift <= 2.0 && Math.abs(zoomBefore - q.validationZoomLevel()) < 0.001 ? null : "zoom round trip drifted by " + drift;
         }));
         return steps;
+    }
+
+    /** clampPan keeps the canvas overlapping the viewport by at least MIN_VISIBLE_PIXELS in world units at both ends. */
+    private static String panOverlapViolation(ProgressionBrowseScreen q) {
+        double zoom = q.validationZoomValue();
+        double half = q.validationViewportHeight() / (2.0 * zoom);
+        double viewTop = q.validationCentreWorld()[1] - half;
+        double viewBottom = viewTop + 2.0 * half;
+        double minVisible = ProgressionCanvasGeometry.MIN_VISIBLE_PIXELS / zoom;
+        double canvasHeight = q.validationCanvasHeight();
+        if (viewTop > canvasHeight - minVisible + 0.5 || viewBottom < minVisible - 0.5)
+            return "pan left less than " + ProgressionCanvasGeometry.MIN_VISIBLE_PIXELS + " px of the canvas on screen: view "
+                    + viewTop + ".." + viewBottom + " over canvas 0.." + canvasHeight;
+        return null;
     }
 
     private static boolean logPreviewView(Minecraft client, ProgressionBrowseScreen q, String name) {
