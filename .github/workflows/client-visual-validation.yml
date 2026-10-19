@@ -133,6 +133,7 @@ jobs:
             gui_scale="${run_spec%%:*}"
             language="${run_spec##*:}"
             mkdir -p run
+            rm -rf run/screenshots
             printf 'guiScale:%s\ntutorialStep:none\nlang:%s\n' "$gui_scale" "$language" > run/options.txt
             results_dir="visual-validation-results/gui-scale-${gui_scale}-${language}"
             bash scripts/visual_validation/capture_client.sh \

@@ -576,7 +576,7 @@ public final class ProgressionTreeCanvas {
         tooltipHeight = height;
         tooltipX = placement[0];
         tooltipY = placement[1] + placement[2] <= frame.y() ? placement[1] + placement[2] - height : placement[1];
-        graphics.fill(tooltipX, tooltipY, tooltipX + width, tooltipY + height, 0xF0100D0A);
+        graphics.fill(tooltipX, tooltipY, tooltipX + width, tooltipY + height, 0xFF100D0A);
         graphics.outline(tooltipX, tooltipY, width, height, 0xFFE0D9C7);
 
         int y = tooltipY + pad;
@@ -602,7 +602,7 @@ public final class ProgressionTreeCanvas {
     }
 
     /**
-     * Picks the placement that keeps every node uncovered: below, above, then beside the node. The height is
+     * Picks the placement that keeps every node uncovered and offers the most room: below, above, then beside the node. The height is
      * trimmed to the room available (the list scrolls), but never below {@code minUseful}. Returns {x, y, height}.
      */
     private static int[] placeTooltip(ProgressionCanvasGeometry.Rect node, List<ProgressionCanvasGeometry.Rect> allFrames,
@@ -619,7 +619,7 @@ public final class ProgressionTreeCanvas {
                 {centeredX, node.y() - gap - hAbove, hAbove},
                 {node.right() + gap, sideY, hSide},
                 {node.x() - gap - width, sideY, hSide}};
-        int[] best = null;
+        int[] best = null, bestFit = null;
         long bestScore = Long.MAX_VALUE;
         for (int[] c : candidates) {
             boolean fits = c[2] >= minUseful && c[0] >= margin && c[0] + width <= screenW - margin
@@ -630,10 +630,11 @@ public final class ProgressionTreeCanvas {
                 long h = Math.max(0, Math.min(c[1] + c[2], frame.bottom()) - Math.max(c[1], frame.y()));
                 overlap += w * h;
             }
-            if (fits && overlap == 0) return c;
+            if (fits && overlap == 0 && (bestFit == null || c[2] > bestFit[2])) bestFit = c;
             long score = overlap * 4 + (fits ? 0 : 1_000_000L) + (wantedHeight - c[2]);
             if (score < bestScore) { bestScore = score; best = c; }
         }
+        if (bestFit != null) return bestFit;
         int x = Math.max(margin, Math.min(best[0], screenW - width - margin));
         int h = Math.max(Math.min(minUseful, screenH - margin * 2), best[2]);
         int y = Math.max(margin, Math.min(best[1], screenH - h - margin));
