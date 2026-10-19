@@ -98,6 +98,119 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         return total;
     }
 
+    private static ServerPlayer fullInventory(GameTestHelper ctx, GameType mode) {
+        ServerPlayer player = QuestPersistentPlayers.mock(ctx.getLevel(), mode);
+        player.getAbilities().instabuild = mode == GameType.CREATIVE;
+        player.getInventory().clearContent();
+        for (int i = 0; i < 36; i++)
+            player.getInventory().setItem(i, new ItemStack(Items.STONE, 64));
+        return player;
+    }
+
+    /** Merge real death-loot drops, keeping this fixture valid when provenance becomes per-unit. */
+    private static ItemEntity mergedDrops(GameTestHelper ctx, ServerPlayer killer, int count) throws Exception {
+        Method merge = ItemEntity.class.getDeclaredMethod("tryToMerge", ItemEntity.class);
+        merge.setAccessible(true);
+        ItemEntity survivor = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON).getFirst();
+        for (int i = 1; i < count; i++) {
+            ItemEntity previous = survivor;
+            ItemEntity next = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON).stream()
+                    .filter(e -> e != previous).findFirst().orElseThrow();
+            merge.invoke(survivor, next);
+            if (survivor.isRemoved()) survivor = next;
+        }
+        ctx.assertTrue(survivor.getItem().getCount() == count, "fixture merged genuine drops");
+        return survivor;
+    }
+
+    @GameTest
+    public void fullCreativeInventoryDeletesSkullWithoutCrediting(GameTestHelper ctx) {
+        ServerPlayer player = fullInventory(ctx, GameType.CREATIVE);
+        ItemEntity drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, player);
+        ctx.assertTrue(drop.isRemoved(), "vanilla creative overflow removes the item entity");
+        ctx.assertTrue(skulls(player) == 0 && credited(player) == 0 && progress(player) == 0,
+                "no actual receipt must mean no credit: held=" + skulls(player) + " credited=" + credited(player));
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void partialCreativePickupCreditsOnlyInventoryIncrease(GameTestHelper ctx) throws Exception {
+        ServerPlayer player = fullInventory(ctx, GameType.CREATIVE);
+        player.getInventory().setItem(5, new ItemStack(Items.WITHER_SKELETON_SKULL, 63));
+        ItemEntity drop = mergedDrops(ctx, player, 3);
+        touch(drop, player);
+        ctx.assertTrue(drop.isRemoved() && skulls(player) == 64, "one fits; creative overflow deletes two");
+        ctx.assertTrue(credited(player) == 1 && progress(player) == 1, "credit only the one actually received");
+        touch(drop, player);
+        ctx.assertTrue(credited(player) == 1, "repeat callback cannot credit deleted overflow");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void creativeWithCapacityStillCreditsGenuineReceipt(GameTestHelper ctx) {
+        ServerPlayer player = fullInventory(ctx, GameType.CREATIVE);
+        player.getInventory().setItem(5, ItemStack.EMPTY);
+        ItemEntity drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, player);
+        ctx.assertTrue(skulls(player) == 1 && credited(player) == 1 && progress(player) == 1,
+                "creative mode is eligible when an item actually enters inventory");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void partialMergedPickupCreditsEachActualRecipient(GameTestHelper ctx) throws Exception {
+        ServerPlayer first = fullInventory(ctx, GameType.SURVIVAL);
+        first.getInventory().setItem(5, new ItemStack(Items.WITHER_SKELETON_SKULL, 63));
+        ServerPlayer second = QuestPersistentPlayers.mock(ctx.getLevel(), GameType.SURVIVAL);
+        second.getAbilities().instabuild = false;
+        second.getInventory().clearContent();
+        ItemEntity drop = mergedDrops(ctx, first, 3);
+        touch(drop, first);
+        ctx.assertTrue(skulls(first) == 64 && credited(first) == 1 && drop.getItem().getCount() == 2,
+                "first recipient gets exactly one into an existing stack");
+        touch(drop, second);
+        ctx.assertTrue(skulls(second) == 2 && credited(second) == 2 && credited(first) == 1,
+                "second recipient receives and gets credit for only the remaining two");
+        touch(drop, first);
+        touch(drop, second);
+        ctx.assertTrue(credited(first) + credited(second) == 3, "repeat callbacks do not change either total");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void fullSurvivalInventoryLeavesSkullForAnotherPlayer(GameTestHelper ctx) {
+        ServerPlayer first = fullInventory(ctx, GameType.SURVIVAL);
+        ServerPlayer second = QuestPersistentPlayers.mock(ctx.getLevel(), GameType.SURVIVAL);
+        second.getAbilities().instabuild = false;
+        second.getInventory().clearContent();
+        ItemEntity drop = killDroppingSkull(ctx, first, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, first);
+        ctx.assertTrue(!drop.isRemoved() && skulls(first) == 0 && credited(first) == 0,
+                "full survival inventory receives and credits nothing");
+        touch(drop, second);
+        ctx.assertTrue(skulls(second) == 1 && credited(second) == 1 && credited(first) == 0,
+                "only the later actual recipient gets credit");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void componentMismatchDoesNotCreateInventoryCapacity(GameTestHelper ctx) {
+        ServerPlayer player = fullInventory(ctx, GameType.SURVIVAL);
+        ItemStack named = new ItemStack(Items.WITHER_SKELETON_SKULL, 63);
+        named.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,
+                net.minecraft.network.chat.Component.literal("Different components"));
+        player.getInventory().setItem(5, named);
+        ItemEntity drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, player);
+        ctx.assertTrue(!drop.isRemoved() && skulls(player) == 63 && credited(player) == 0,
+                "an unrelated component identity cannot accept this skull or earn credit");
+        player.getInventory().setItem(5, ItemStack.EMPTY);
+        touch(drop, player);
+        ctx.assertTrue(skulls(player) == 1 && credited(player) == 1, "actual receipt after space opens credits once");
+        ctx.succeed();
+    }
+
     @GameTest
     public void questIsRegisteredWithApprovedIdentity(GameTestHelper ctx) {
         QuestDefinition quest = QuestCatalog.byId(QUEST);
