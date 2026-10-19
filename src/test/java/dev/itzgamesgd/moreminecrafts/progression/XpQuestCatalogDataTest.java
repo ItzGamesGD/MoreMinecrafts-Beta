@@ -66,7 +66,8 @@ final class XpQuestCatalogDataTest {
         approved.addAll(Q1C_VAULT_REGISTERED);
         approved.addAll(Q1C_STRUCTURE_REGISTERED);
         approved.addAll(Q1C_COMBAT_REGISTERED);
-        approved.addAll(java.util.Set.of("xpq.cmb.cave_dwellers", "xpq.cmb.bestiary_25", "xpq.cmb.habitats_5"));
+        approved.addAll(java.util.Set.of("xpq.cmb.cave_dwellers", "xpq.cmb.bestiary_25", "xpq.cmb.habitats_5",
+                "xpq.cmb.wither_skulls_3"));
         assertEquals(approved, registered);
         assertTrue(Q1B_SOURCE_BLOCKED.stream().allMatch(id -> !spec(id).registered()));
         assertTrue(CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered)
@@ -141,10 +142,11 @@ final class XpQuestCatalogDataTest {
 
         XpQuestCatalogData.Spec witherSkulls = spec("xpq.cmb.wither_skulls_3");
         assertEquals("NOW", witherSkulls.status());
-        assertFalse(witherSkulls.registered());
+        assertTrue(witherSkulls.registered(), "registered once provenance tracking and its tests exist");
         assertEquals(1_100, witherSkulls.rewardRawXp());
         assertEquals(3, witherSkulls.target());
-        assertEquals("pending", witherSkulls.tracker().kind(), "item-pickup tracking remains separate from kill stats");
+        assertEquals("counter", witherSkulls.tracker().kind(), "credited provenance pickups, separate from kill stats");
+        assertEquals("wither_skull_drops", witherSkulls.tracker().key());
     }
 
     @Test void validatorRejectsLedgerAndRegistrationViolations() {

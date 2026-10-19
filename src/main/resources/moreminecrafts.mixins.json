@@ -98,7 +98,11 @@
     "QuestRaidVictoryMixin",
     "QuestBlockPlacementMixin",
     "QuestTameAnimalTriggerMixin",
-    "QuestMovementStatMixin"
+    "QuestMovementStatMixin",
+    "QuestWitherSkullDeathLootMixin",
+    "QuestWitherSkullSpawnMixin",
+    "QuestWitherSkullPickupMixin",
+    "QuestWitherSkullMergeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
