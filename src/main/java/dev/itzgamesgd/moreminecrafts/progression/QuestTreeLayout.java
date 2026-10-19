@@ -14,7 +14,8 @@ public final class QuestTreeLayout {
     public static final int ORIGIN_Y = 104;
     public static final int MAX_COLUMNS = 4;
     /** Padding between the outermost node centres and the drawn group panel. */
-    public static final int GROUP_PADDING = 36;
+    public static final int GROUP_PADDING_X = 32;
+    public static final int GROUP_PADDING_Y = 24;
     public static final int GROUP_LABEL_HEIGHT = 12;
 
     public record Point(int x, int y, int column, int row) {}

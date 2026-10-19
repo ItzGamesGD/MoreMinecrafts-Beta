@@ -120,6 +120,16 @@ public final class ProgressionTreeCanvas {
         for (TooltipRow row : questTooltipRows(quest)) text.append(row.text().getString()).append('\n');
         return text.toString();
     }
+    /** True when the open tooltip overlaps no node frame (selected or neighbouring). */
+    public boolean tooltipClearsAllNodes() {
+        if (tooltipWidth <= 0 || viewport == null) return true;
+        for (var node : nodes) {
+            var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+            if (tooltipX < frame.right() && tooltipX + tooltipWidth > frame.x()
+                    && tooltipY < frame.bottom() && tooltipY + tooltipHeight > frame.y()) return false;
+        }
+        return true;
+    }
     public int[] tooltipBounds() { return new int[] {tooltipX, tooltipY, tooltipWidth, tooltipHeight}; }
     public ProgressionCanvasGeometry.Rect selectedNodeFrame() {
         var node = byId.get(hoveredId != null ? hoveredId : selectedId);
@@ -278,9 +288,9 @@ public final class ProgressionTreeCanvas {
         int maxX = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::x).max().orElse(0);
         int minY = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::y).min().orElse(0);
         int maxY = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::y).max().orElse(0);
-        int pad = QuestTreeLayout.GROUP_PADDING;
-        int left = screenX(minX - pad), right = screenX(maxX + pad);
-        int top = screenY(minY - pad - QuestTreeLayout.GROUP_LABEL_HEIGHT), bottom = screenY(maxY + pad);
+        int left = screenX(minX - QuestTreeLayout.GROUP_PADDING_X), right = screenX(maxX + QuestTreeLayout.GROUP_PADDING_X);
+        int top = screenY(minY - QuestTreeLayout.GROUP_PADDING_Y - QuestTreeLayout.GROUP_LABEL_HEIGHT);
+        int bottom = screenY(maxY + QuestTreeLayout.GROUP_PADDING_Y);
         graphics.fill(left, top, right, bottom, 0x66201E1B);
         graphics.outline(left, top, right - left, bottom - top, 0xFF756D5E);
         String label = Component.translatable(nodes.get(0).branchTitleKey()).getString();
@@ -550,17 +560,22 @@ public final class ProgressionTreeCanvas {
         int separatorHeight = list.isEmpty() ? 0 : separator;
         int maxHeight = Math.max(60, Math.min(screenH - margin * 2, Math.min(190, (int) (screenH * 0.7))));
         int fullHeight = pad * 2 + fixedHeight + separatorHeight + listHeight;
-        int height = Math.min(fullHeight, maxHeight);
-        int visibleHeight = height - pad * 2 - fixedHeight - separatorHeight;
+        var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+        List<ProgressionCanvasGeometry.Rect> allFrames = new ArrayList<>();
+        for (var other : nodes) allFrames.add(ProgressionCanvasGeometry.nodeFrameBounds(
+                screenX(other.x()), screenY(other.y()), camera.zoom()));
+        int minUseful = Math.min(fullHeight, pad * 2 + fixedHeight + separatorHeight + lineHeight * 3);
+        int[] placement = placeTooltip(frame, allFrames, width, Math.min(fullHeight, maxHeight), minUseful,
+                screenW, screenH, margin);
+        int height = placement[2];
+        int visibleHeight = Math.max(lineHeight, (height - pad * 2 - fixedHeight - separatorHeight) / lineHeight * lineHeight);
         boolean scrolls = !list.isEmpty() && listHeight > visibleHeight;
-        if (!scrolls) { height = fullHeight; visibleHeight = listHeight; }
+        if (!scrolls) { visibleHeight = listHeight; }
+        height = pad * 2 + fixedHeight + separatorHeight + visibleHeight;
         tooltipWidth = width;
         tooltipHeight = height;
-
-        var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
-        int[] origin = placeTooltip(frame, width, height, screenW, screenH, margin);
-        tooltipX = origin[0];
-        tooltipY = origin[1];
+        tooltipX = placement[0];
+        tooltipY = placement[1] + placement[2] <= frame.y() ? placement[1] + placement[2] - height : placement[1];
         graphics.fill(tooltipX, tooltipY, tooltipX + width, tooltipY + height, 0xF0100D0A);
         graphics.outline(tooltipX, tooltipY, width, height, 0xFFE0D9C7);
 
@@ -586,27 +601,43 @@ public final class ProgressionTreeCanvas {
         }
     }
 
-    /** Prefers beside the node (right, then left), then below/above; never covers the node when avoidable. */
-    private static int[] placeTooltip(ProgressionCanvasGeometry.Rect node, int width, int height,
-                                      int screenW, int screenH, int margin) {
+    /**
+     * Picks the placement that keeps every node uncovered: below, above, then beside the node. The height is
+     * trimmed to the room available (the list scrolls), but never below {@code minUseful}. Returns {x, y, height}.
+     */
+    private static int[] placeTooltip(ProgressionCanvasGeometry.Rect node, List<ProgressionCanvasGeometry.Rect> allFrames,
+                                      int width, int wantedHeight, int minUseful, int screenW, int screenH, int margin) {
         final int gap = 4;
-        int centeredY = Math.max(margin, Math.min(node.y() + node.height() / 2 - 14, screenH - height - margin));
         int centeredX = Math.max(margin, Math.min(node.x() + node.width() / 2 - width / 2, screenW - width - margin));
+        int below = screenH - margin - (node.bottom() + gap);
+        int above = node.y() - gap - margin;
+        int hBelow = Math.min(wantedHeight, below), hAbove = Math.min(wantedHeight, above);
+        int hSide = Math.min(wantedHeight, screenH - margin * 2);
+        int sideY = Math.max(margin, Math.min(node.y() + node.height() / 2 - 14, screenH - hSide - margin));
         int[][] candidates = {
-                {node.right() + gap, centeredY}, {node.x() - gap - width, centeredY},
-                {centeredX, node.bottom() + gap}, {centeredX, node.y() - gap - height}};
-        for (int[] c : candidates)
-            if (c[0] >= margin && c[1] >= margin && c[0] + width <= screenW - margin && c[1] + height <= screenH - margin) return c;
-        int[] best = candidates[0];
-        long bestOverlap = Long.MAX_VALUE;
+                {centeredX, node.bottom() + gap, hBelow},
+                {centeredX, node.y() - gap - hAbove, hAbove},
+                {node.right() + gap, sideY, hSide},
+                {node.x() - gap - width, sideY, hSide}};
+        int[] best = null;
+        long bestScore = Long.MAX_VALUE;
         for (int[] c : candidates) {
-            int x = Math.max(margin, Math.min(c[0], screenW - width - margin));
-            int y = Math.max(margin, Math.min(c[1], screenH - height - margin));
-            long overlapW = Math.max(0, Math.min(x + width, node.right()) - Math.max(x, node.x()));
-            long overlapH = Math.max(0, Math.min(y + height, node.bottom()) - Math.max(y, node.y()));
-            if (overlapW * overlapH < bestOverlap) { bestOverlap = overlapW * overlapH; best = new int[] {x, y}; }
+            boolean fits = c[2] >= minUseful && c[0] >= margin && c[0] + width <= screenW - margin
+                    && c[1] >= margin && c[1] + c[2] <= screenH - margin;
+            long overlap = 0;
+            for (var frame : allFrames) {
+                long w = Math.max(0, Math.min(c[0] + width, frame.right()) - Math.max(c[0], frame.x()));
+                long h = Math.max(0, Math.min(c[1] + c[2], frame.bottom()) - Math.max(c[1], frame.y()));
+                overlap += w * h;
+            }
+            if (fits && overlap == 0) return c;
+            long score = overlap * 4 + (fits ? 0 : 1_000_000L) + (wantedHeight - c[2]);
+            if (score < bestScore) { bestScore = score; best = c; }
         }
-        return best;
+        int x = Math.max(margin, Math.min(best[0], screenW - width - margin));
+        int h = Math.max(Math.min(minUseful, screenH - margin * 2), best[2]);
+        int y = Math.max(margin, Math.min(best[1], screenH - h - margin));
+        return new int[] {x, y, h};
     }
 
     private static void addText(List<ClientTooltipComponent> target, Font font, Component value, int maxWidth) {

@@ -85,9 +85,7 @@ public final class ProgressionBrowseScreen extends Screen {
     public String validationTooltipGeometry() {
         if (canvas == null) return "none";
         int[] b = canvas.tooltipBounds();
-        var node = canvas.selectedNodeFrame();
-        boolean clears = node == null || b[0] + b[2] <= node.x() || b[0] >= node.right()
-                || b[1] + b[3] <= node.y() || b[1] >= node.bottom();
+        boolean clears = canvas.tooltipClearsAllNodes();
         return b[0] + "," + b[1] + "," + b[2] + "," + b[3] + ";" + clears;
     }
     public boolean validationTooltipClearsNode() { return validationTooltipGeometry().endsWith(";true"); }
@@ -276,7 +274,7 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         graphics.fill(0, 0, width, height, 0xFF272727);
-        graphics.centeredText(font, Component.translatable("moreminecrafts.discipline." + discipline),
+        graphics.centeredText(font, mode == Mode.QUEST ? title : Component.translatable("moreminecrafts.discipline." + discipline),
                 width / 2, responsive.tabs().y() + 6, 0xFF292722);
         var viewport = responsive.viewport();
         drawFrameTexture(graphics, viewport.x() - 5, viewport.y() - 5, viewport.width() + 10, viewport.height() + 10);
