@@ -109,6 +109,7 @@ public final class ProgressionBrowseScreen extends Screen {
     /** Sends a key through the real keyPressed path; {@code shift} sets the shift modifier. */
     public boolean validationKey(int key, boolean shift) { return keyPressed(new KeyEvent(key, 0, shift ? 1 : 0)); }
     public double validationViewportHeight() { return responsive.viewport().height(); }
+    public void validationOwnPointer(boolean owns) { if (canvas != null) canvas.validationOwnPointer(owns); }
     public int[] validationEmptyPoint() { return canvas == null ? null : canvas.validationEmptyPoint(); }
     public double validationCanvasHeight() { return canvas == null ? 0 : canvas.canvasHeight(); }
     public int validationViewportX() { return responsive.viewport().x(); }

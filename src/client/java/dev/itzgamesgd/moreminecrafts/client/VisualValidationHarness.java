@@ -562,6 +562,7 @@ public final class VisualValidationHarness {
                 }
                 MoreMinecrafts.LOGGER.info("QUEST_ICONS checked={} missing_from_registry={}", iconsChecked, iconsMissing);
                 if (iconsChecked != 200 || iconsMissing != 0) { failJourney("quest icons: " + iconsMissing + " missing of " + iconsChecked); return; }
+                quests.validationOwnPointer(true);
                 previewSteps = previewSteps();
                 previewStepIndex = 0;
                 previewPendingName = null;

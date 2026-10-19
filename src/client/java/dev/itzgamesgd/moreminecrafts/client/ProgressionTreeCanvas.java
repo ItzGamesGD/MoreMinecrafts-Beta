@@ -78,6 +78,7 @@ public final class ProgressionTreeCanvas {
     private String pinnedQuestId;
     private String tooltipQuestId;
     private boolean selectionTooltip;
+    private boolean validationOwnsPointer;
     private final java.util.Set<String> reportedMissingNames = new HashSet<>();
 
     public ProgressionTreeCanvas(String screen, String discipline) {
@@ -385,9 +386,11 @@ public final class ProgressionTreeCanvas {
             else if (questLayout != null) { drawQuestLanes(graphics, font, questRows); drawQuestEdges(graphics, questRows); }
             else drawBranches(graphics, font);
             if ("research".equals(screen)) drawPrerequisiteEdges(graphics, researchRows);
-            String nodeHit = validationHoveredId != null ? validationHoveredId : hitTest(mouseX, mouseY);
+            // A validation run that owns the pointer must not depend on where the real cursor happens to rest.
+            double pointerX = validationOwnsPointer ? -1 : mouseX, pointerY = validationOwnsPointer ? -1 : mouseY;
+            String nodeHit = validationHoveredId != null ? validationHoveredId : hitTest(pointerX, pointerY);
             if (nodeHit != null && questRows.containsKey(nodeHit)) pinnedQuestId = nodeHit;
-            else if (!tooltipContains(mouseX, mouseY, 8)) pinnedQuestId = null;
+            else if (!tooltipContains(pointerX, pointerY, 8)) pinnedQuestId = null;
             hoveredId = "quests".equals(screen) ? (pinnedQuestId != null ? pinnedQuestId : selectionTooltip ? selectedId : null) : nodeHit;
             if (largeGraph()) {
                 drawLargeNodes(graphics, font, questRows);
@@ -434,6 +437,8 @@ public final class ProgressionTreeCanvas {
     /** Validation: true while a tooltip is drawn (its hit rectangle is live). */
     public boolean tooltipVisible() { return tooltipWidth > 0 && hoveredId != null; }
     public double zoom() { return camera.zoom(); }
+    /** Validation only: ignore the real cursor for hover and tooltip state while a scripted run drives the canvas. */
+    public void validationOwnPointer(boolean owns) { validationOwnsPointer = owns; }
     /** Validation: a canvas point that is neither a node, nor inside the open tooltip, nor inside a chapter label. */
     public int[] validationEmptyPoint() {
         if (viewport == null) return null;
