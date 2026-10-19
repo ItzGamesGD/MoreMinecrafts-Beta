@@ -738,7 +738,11 @@ public final class VisualValidationHarness {
         steps.add(new PreviewStep("structure-preview-regression-tooltip-open", viewLane("exploration", 0.75, 17)));
         steps.add(new PreviewStep("structure-preview-regression-stale-tooltip", q -> {
             q.validationClearHover();
-            q.validationClickAt(q.validationViewportX() + 3, q.validationViewportY() + 3);
+            // Click genuinely empty canvas. The top-left corner can sit inside the open tooltip, where a click is
+            // correctly absorbed by the tooltip rather than dismissing it.
+            int[] empty = q.validationEmptyPoint();
+            if (empty == null) return "no empty canvas point available";
+            q.validationClickAt(empty[0], empty[1]);
             return null;
         }));
         steps.add(new PreviewStep("structure-preview-regression-stale-click", q -> {

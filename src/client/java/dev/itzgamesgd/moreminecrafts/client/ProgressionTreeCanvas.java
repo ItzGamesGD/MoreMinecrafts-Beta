@@ -434,6 +434,16 @@ public final class ProgressionTreeCanvas {
     /** Validation: true while a tooltip is drawn (its hit rectangle is live). */
     public boolean tooltipVisible() { return tooltipWidth > 0 && hoveredId != null; }
     public double zoom() { return camera.zoom(); }
+    /** Validation: a canvas point that is neither a node, nor inside the open tooltip, nor inside a chapter label. */
+    public int[] validationEmptyPoint() {
+        if (viewport == null) return null;
+        for (int y = viewport.y() + 4; y < viewport.bottom() - 4; y += 6) {
+            for (int x = viewport.x() + 4; x < viewport.right() - 4; x += 6) {
+                if (hitTest(x, y) == null && !tooltipContains(x, y) && !insideLabel(x, y)) return new int[] {x, y};
+            }
+        }
+        return null;
+    }
 
     /** Screen rectangle of a chapter card, or null. Chapter cards exist only at the chapter-index level. */
     public String chapterCardAt(double mouseX, double mouseY) {
