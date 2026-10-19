@@ -860,9 +860,10 @@
    "rewardRawXp": 1100,
    "target": 3,
    "tracker": {
-    "kind": "pending"
+    "kind": "counter",
+    "key": "wither_skull_drops"
    },
-   "registered": false
+   "registered": true
   },
   {
    "id": "xpq.cmb.raids_3",

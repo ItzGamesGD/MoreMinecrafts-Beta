@@ -118,7 +118,7 @@ public final class QuestC3ThresholdGameTests implements CustomTestMethodInvoker 
                 failures.add(spec.id() + " gives another player progress " + nothing.questProgress(spec.id()));
         }
         System.out.println("QUEST_C3_THRESHOLDS checked=" + checked);
-        ctx.assertTrue(checked == 36, "the table covered every Q1-C registered quest without a Q1-B threshold test: " + checked);
+        ctx.assertTrue(checked == 37, "the table covered every Q1-C registered quest without a Q1-B threshold test: " + checked);
         ctx.assertTrue(failures.isEmpty(), "threshold failures: " + failures);
         ctx.succeed();
     }
