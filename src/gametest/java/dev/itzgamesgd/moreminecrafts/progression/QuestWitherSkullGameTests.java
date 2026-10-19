@@ -31,6 +31,9 @@ import net.minecraft.world.level.storage.loot.LootTable;
  */
 public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker {
     private static final String QUEST = "xpq.cmb.wither_skulls_3";
+    private static final java.util.UUID HALT_PLAYER = java.util.UUID.fromString("b16cb186-70ce-4dcc-9bfa-d2728c3d4b01");
+    private static final java.nio.file.Path HALT_FIXTURE = java.nio.file.Path.of("quest-skull-halt-fixture.txt");
+    private static final BlockPos HALT_POS = new BlockPos(6408, 100, 6408);
     private static final ResourceKey<LootTable> ALWAYS_SKULL = ResourceKey.create(Registries.LOOT_TABLE,
             Identifier.parse("moreminecrafts-gametest:wither_skull_always"));
 
@@ -209,6 +212,63 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         touch(drop, player);
         ctx.assertTrue(skulls(player) == 1 && credited(player) == 1, "actual receipt after space opens credits once");
         ctx.succeed();
+    }
+
+    /**
+     * Opt-in acceptance test: two actual Minecraft JVMs sharing a world, never an NBT simulation.
+     * Write saves the ground entity, picks it up, saves only players, then halts the game JVM.
+     * Read must recover A's credit and reject B's pickup of the restored identical entity UUID.
+     * This remains RED while P1 is unresolved. Run only in a disposable dedicated fixture world.
+     */
+    @GameTest(maxTicks = 600)
+    public void playerOnlySaveThenForcedHaltCannotCreditSecondRecipient(GameTestHelper ctx) throws java.io.IOException {
+        String phase = System.getProperty("moreminecrafts.questskull.halt.phase");
+        if (phase == null) { ctx.succeed(); return; }
+        if (!phase.equals("write") && !phase.equals("read"))
+            throw new IllegalArgumentException("questskull halt phase must be write or read");
+        ServerLevel level = ctx.getLevel();
+        var chunk = new net.minecraft.world.level.ChunkPos(HALT_POS);
+        level.getChunkSource().addTicketWithRadius(net.minecraft.server.level.TicketType.FORCED, chunk, 0);
+        level.getChunk(chunk.x(), chunk.z());
+        if (phase.equals("write")) {
+            ServerPlayer first = QuestPersistentPlayers.join(ctx, HALT_PLAYER, "xpq-skull-halt-A", false);
+            first.getInventory().clearContent();
+            KnowledgeRuntime.updateState(first, ResearchProgressState.empty());
+            ItemEntity drop = killDroppingSkull(ctx, first, EntityTypes.WITHER_SKELETON).getFirst();
+            drop.setPos(HALT_POS.getX() + 0.5D, HALT_POS.getY(), HALT_POS.getZ() + 0.5D);
+            drop.setNoGravity(true);
+            drop.setDeltaMovement(net.minecraft.world.phys.Vec3.ZERO);
+            ctx.runAfterDelay(5, () -> {
+                level.save(null, true, false); // flush chunks AND persistent entity sections before pickup
+                try { java.nio.file.Files.writeString(HALT_FIXTURE, drop.getUUID().toString()); }
+                catch (java.io.IOException error) { throw new IllegalStateException("cannot save halt fixture", error); }
+                touch(drop, first);
+                ctx.assertTrue(credited(first) == 1 && skulls(first) == 1, "A really received and was credited");
+                level.getServer().getPlayerList().saveAll(); // deliberately do not save the changed ground entity
+                System.out.println("QUEST_SKULL_HALT_WRITE pid=" + ProcessHandle.current().pid()
+                        + " entity=" + drop.getUUID() + " A=" + credited(first) + " heldA=" + skulls(first));
+                System.out.flush();
+                Runtime.getRuntime().halt(77);
+            });
+            return;
+        }
+        java.util.UUID expected = java.util.UUID.fromString(java.nio.file.Files.readString(HALT_FIXTURE).trim());
+        ServerPlayer first = QuestPersistentPlayers.join(ctx, HALT_PLAYER, "xpq-skull-halt-A", true);
+        ServerPlayer second = QuestPersistentPlayers.mock(level, GameType.SURVIVAL);
+        second.getAbilities().instabuild = false;
+        second.getInventory().clearContent();
+        ctx.runAfterDelay(20, () -> {
+            var restored = level.getEntitiesOfClass(ItemEntity.class, new net.minecraft.world.phys.AABB(HALT_POS).inflate(3),
+                    entity -> entity.getUUID().equals(expected));
+            ctx.assertTrue(restored.size() == 1, "the identical saved ground entity UUID restored from world storage");
+            touch(restored.getFirst(), second);
+            System.out.println("QUEST_SKULL_HALT_READ pid=" + ProcessHandle.current().pid()
+                    + " entity=" + expected + " A=" + credited(first) + " B=" + credited(second)
+                    + " heldA=" + skulls(first) + " heldB=" + skulls(second));
+            ctx.assertTrue(credited(first) == 1, "A's durable credit must recover without loss");
+            ctx.assertTrue(credited(second) == 0, "B cannot credit the same restored skull a second time");
+            ctx.succeed();
+        });
     }
 
     @GameTest
