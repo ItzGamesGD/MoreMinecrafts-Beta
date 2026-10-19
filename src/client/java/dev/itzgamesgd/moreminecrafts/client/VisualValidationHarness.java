@@ -152,7 +152,7 @@ public final class VisualValidationHarness {
             uiJourneyStarted = true;
             client.gui.setScreen(new ProgressionSelectionScreen());
             queueUiScreenshot("progression-selection.png");
-            uiJourneyStage = 1;
+            uiJourneyStage = 200;
             return;
         }
         if (PHYSICAL_SELECTOR_TEST && physicalSelectorStage > 0 && !physicalSelectorDone) {
@@ -161,6 +161,56 @@ public final class VisualValidationHarness {
         }
         if (uiCaptureName != null) return;
         switch (uiJourneyStage) {
+            case 200 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)
+                        || !selector.validationHitboxesAligned()) {
+                    failJourney("selector card hitboxes do not match the card bounds"); return;
+                }
+                MoreMinecrafts.LOGGER.info("SELECTOR_HITBOXES_ALIGNED gui_scale={} size={}x{}",
+                        client.getWindow().getGuiScale(), client.getWindow().getGuiScaledWidth(),
+                        client.getWindow().getGuiScaledHeight());
+                selector.validationSetHover("xp_quest");
+                queueUiScreenshot("selector-xp-hover.png");
+                uiJourneyStage = 201;
+            }
+            case 201 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)) {
+                    failJourney("selector closed before the focus check"); return;
+                }
+                selector.validationSetHover(null);
+                for (int i = 0; i < 4; i++) selector.validationKey(258, false);
+                if (!"xp_quest".equals(selector.validationFocusedTarget())) {
+                    failJourney("Tab x4 did not focus the XP Quest card"); return;
+                }
+                selector.validationKey(263, false);
+                selector.validationKey(262, false);
+                if (!"xp_quest".equals(selector.validationFocusedTarget())) {
+                    failJourney("Left/Right arrows did not round-trip on the XP Quest card"); return;
+                }
+                queueUiScreenshot("selector-xp-focus.png");
+                uiJourneyStage = 202;
+            }
+            case 202 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)
+                        || !selector.validationKey(257, false)
+                        || !(client.gui.screen() instanceof ProgressionBrowseScreen quests)
+                        || quests.mode() != ProgressionBrowseScreen.Mode.QUEST
+                        || !quests.validationTreeReady()) {
+                    failJourney("Enter on the focused XP Quest card did not open the quest tree"); return;
+                }
+                MoreMinecrafts.LOGGER.info("SELECTOR_KEYBOARD_VERIFIED target=xp_quest keys=Tab,Left,Right,Enter");
+                queueUiScreenshot("selector-xp-quest-opened-by-keyboard.png");
+                uiJourneyStage = 203;
+            }
+            case 203 -> {
+                if (!takeCapture()) return;
+                client.gui.setScreen(new ProgressionSelectionScreen());
+                queueUiScreenshot("selector-normal-final.png");
+                uiJourneyStage = 1;
+            }
             case 1 -> {
                 if (!takeCapture()) return;
                 clickSelectionChoice(client, 2);
