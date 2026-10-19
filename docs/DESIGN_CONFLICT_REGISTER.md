@@ -50,3 +50,13 @@ Prepared separately from PR #131 at base `befa4c8a44c8e3556be2dca9af502d36b0cf11
 
 Unrelated F01/F04–F26 dispositions remain unchanged. Historical recovery does not reopen rejected recurring bulk contracts or change current trading, guards, mercenaries, artifact or bounty rules.
 
+## Owner-decision reconciliation — 2026-10-20
+
+Governing record: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECISIONS_2026-10-20.md). Preserved rows above are history.
+
+| Finding | Updated disposition |
+|---|---|
+| F02 | PARTLY RESOLVED by D01–D03, D54–D58. Liberation challenge, registration recipe and tier conversion remain open |
+| F03 | Boundary and owner edits resolved by D05; rollback/provenance machinery WITHDRAWN. D04 plus D59–D66 govern. Non-owner permission details remain open |
+| F04 | Cumulative targets restated as D06; tier allocation still open |
+| F05 | Guard lifecycle/healing SUPERSEDED by D29–D32, D41–D43. Guard/mercenary/caravan guard remain distinct roles |

@@ -163,3 +163,11 @@ This is documentation planning on a fresh branch from PR #131 HEAD `befa4c8a44c8
 
 Safe parallel work after shared-interface agreement: policy/source/API review and construction-template safety analysis can proceed independently. Live payment collector depends on the receipt protocol; UI geometry cannot substitute for ownership validation. Construction and tier commits share an integration owner for state/escrow/journals. This refinement does not authorize a Paper runtime port, auto-enable tiers, change other active PRs or start any of these implementation branches.
 
+## Owner-decision reconciliation — 2026-10-20
+
+Governing record: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECISIONS_2026-10-20.md). This is documentation only and does not authorize implementation.
+
+- P2a: "Preflight/provenance", "effect-bounded write journal" and "compare-and-set rollback" are WITHDRAWN (D67–D78). The gate is D04 whole-layout prevalidation with atomic apply, D05 building protection and D59–D66 conservative placement. Block-level provenance tracking is not a prerequisite.
+- P2 / P2b guard text (morning 35/50/70% healing, next-morning replenishment max 2/day) is SUPERSEDED by D29–D32 and D41–D43. P2b guard behavior now follows D25–D54.
+- P1a: the historical per-biome cap is SUPERSEDED by D02; liberation challenge (D03a) stays an open input.
+- P1b OC08 receipts remain PROPOSED and unapproved; do not extend them to world-edit history.

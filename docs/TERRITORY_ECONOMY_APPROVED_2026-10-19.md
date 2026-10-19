@@ -27,8 +27,8 @@ These are size-sensitive design targets, not a command to spawn everyone immedia
 **Guard contract:**
 - Guards are friendly to their territory's player; they **never retaliate/attack the player on accidental hits**. Ordinary village reputation consequences may still apply.
 - Guard stays to defend territory and villagers; **does not follow on adventures** (separate from hireable mercenaries).
-- Recover HP **once at morning**, not continuously: T1 **35%**, T2 **50%**, T3 **70%** of maximum health.
-- Missing guards replenish **from the next morning, at most 2 per Minecraft day**; no money and no immediate mid-combat replacement.
+- *[SUPERSEDED 2026-10-20 by owner D29–D32, D41–D43; see TERRITORY_OWNER_DECISIONS_2026-10-20.md]* Recover HP **once at morning**, not continuously: T1 **35%**, T2 **50%**, T3 **70%** of maximum health.
+- *[SUPERSEDED by D29–D32]* Missing guards replenish **from the next morning, at most 2 per Minecraft day**; no money and no immediate mid-combat replacement.
 - Earlier *provisional* baseline guard stats: T1 24 HP / 4 attack / 2 armor; T2 32 / 5 / 4; T3 40 / 6 / 6. Treat these as subject to vanilla combat/playtest reconciliation rather than unreviewed hardcoded final balance.
 - A failed raid should not reduce town tier or invoke upkeep/regression.
 
@@ -71,7 +71,7 @@ These are instant purchases/orders by the **player**, not quest-like missions or
 - This document records **design authority**, not executed work, CI PASS, or live acceptance. No source code was changed by this checkpoint.
 
 ## 5. Open decisions / not approved
-- Territory ownership claim/loss, per-player territory count, village liberation and detailed claiming UI need re-confirmation rather than assumption from old proposals.
+- Territory ownership claim/loss, per-player territory count, village liberation and detailed claiming UI need re-confirmation rather than assumption from old proposals. *(2026-10-20: ownership, count and relinquishment are partly resolved by owner D01–D03, D54–D58; the liberation challenge and registration details remain open.)*
 - Individual profession trades, T2 food recipes, dismantle coefficients and excluded tiers.
 - T3 detailed trade roster/prices/stock and desert artifact exact effects/rarity (except preexisting Sands of Time mechanics).
 - Merchant placement mechanics, pathing/expansion validation, guard balancing under actual combat.

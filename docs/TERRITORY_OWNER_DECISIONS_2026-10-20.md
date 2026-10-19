@@ -84,6 +84,31 @@ D64 New-road default width 3 blocks.
 D65 Automatically build ramps/stairs for manageable elevation differences; exclude unsafe/too-steep sites.
 D66 Clear only a conservative allowlist of safe natural obstacles for new roads; protect existing structures and owner edits. No uncertain-provenance block removal.
 
+## Reconciliation with earlier territory documents (2026-10-20 review)
+
+Precedence: for the scope of D01–D66 this document governs over the PR #131 overlays, the D2-A recovery/spec and the OC/F/A ledgers wherever they differ. Earlier text is preserved as history, not deleted. Anything in those documents that is not contradicted here keeps its labeled status (APPROVED / PROPOSED / DEFERRED / SOURCE MISSING).
+
+| Earlier text | Disposition under D01–D66 |
+|---|---|
+| Guard morning-only healing 35/50/70%, replenishment next morning max 2/day (T §2, A06, F05, phase plan P2/P2b) | SUPERSEDED by D29–D32 (free respawn after 12,000 progressing ticks) and D41–D43 (out-of-combat 1% per 100 ticks after 400 ticks). "Never retaliate on accidental hit" is replaced by D50–D52. Provisional 24/32/40 HP, 4/5/6 attack, 2/4/6 armor remain PROPOSED and unapproved; D18/D45 only require guards and mercenaries to share base combat stats |
+| Historical one-territory-per-biome cap (OC02, A37) | SUPERSEDED by D02 (one territory per player). The Paper cap stays recorded as history only |
+| Ownership loss/transfer/abandonment undefined (OC06, A03) | PARTLY RESOLVED: D01, D03b, D54–D58. Cancel/refund, administrative repair and registration-recipe migration remain open |
+| Protection boundary and permission matrix (OC09, OC10, A04, F03) | PARTLY RESOLVED: D05a (entire managed building volume), D05b (owner may edit, edits survive upgrades), D05c (explosions, pistons, liquids). Non-owner interaction details (doors, containers, fire, mob grief) and which original village buildings become managed at registration remain open. Per-building block manifests (spec §7) are no longer required; D05a defines the unit as the building volume |
+| Construction journal, snapshots, compare-and-set rollback, quarantine (OC11, spec §7 and §8, phase plan P2a) | WITHDRAWN by D67–D78 intent; replaced by D04 atomic prevalidation plus D59–D66 conservative placement. See annotations in those documents |
+| "Provenance/adoption" of original buildings and terrain (spec §7, phase plan) | Block-level provenance is withdrawn. Where a block cannot safely be classified as removable natural terrain, preserve it and reroute or reject (D66, D04) |
+| Mercenary five-day term and "no follow/stay command finalized" (desert doc) | Term length equals 120,000 ticks; D08 fixes the clock (employer online only, persisted remainder). D19 supplies the Follow/Stay toggle |
+| Desert artifact candidate list and draft effects (desert doc) | D14-1..D14-7 give the owner-approved effect directions. Candidate names and numbers in the desert doc remain unapproved drafts; the mapping from old candidate names to D14 names is NOT confirmed. Do not assume it |
+| Ancient Coin as draft "-3% villager trade cost" | D14-5 (bonus-reward chance) and D15 (stacking with research discounts) govern the direction. Whether the old discount survives is OPEN |
+| Commission numbers (D20 vs BOUNTY_COMMISSION_APPROVED) | Status mismatch preserved, not resolved: the bounty document labels its board "user-approved", D20 says the audited numbers are not necessarily separately ratified. Verify with the owner before implementation |
+
+### Registration receipts (OC08) versus the withdrawn scope
+
+The OC08 intent/receipt ledger protects registration-material payment (no duplicate, no loss) and is an unapproved PROPOSAL. It is not a block-change history, and nothing here approves it or extends it to world edits, backups or restore. Whether registration needs a durable receipt design at all is an open implementation question tied to D03a/D04.
+
+### Classification rule
+
+Only the numbered D-items above are OWNER-APPROVED. Everything labeled PROPOSED in the D2-A spec, OC ledger, phase plan and matrix is an implementation proposal with no approval, and any such proposal that needs a journal, history, bitset or backup mechanism is invalid.
+
 ## Open owner decisions (not approved by this document)
 Exact liberation challenge; registration materials and limits from missing Paper source; T1–T3 building and resident distribution; trade SKUs and prices; recycling allowlist/refunds; map allowlist; T3 exclusives; fixed special commissions; caravan stock and odds; artifact probabilities and cooldowns; guard spawn fallback; road routing specifics; unresolved 24-rune prices and Sands of Time source. Do not invent approvals.
 
