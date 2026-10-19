@@ -90,6 +90,16 @@ public final class ProgressionBrowseScreen extends Screen {
         return row == null ? "" : canvas.questTooltipText(row);
     }
     public String validationQuestIdAt(int index) { return quests.get(index).id(); }
+    public boolean validationNodeUnderTooltip(String id) { return canvas != null && canvas.nodeUnderTooltip(id); }
+    /** Simulates a user clicking empty canvas (dismisses the selection tooltip), through the real click path. */
+    public boolean validationClickEmpty() {
+        var view = responsive.viewport();
+        double x = view.x() + 3, y = view.y() + 3;
+        if (canvas.hitTest(x, y) != null) return false;
+        boolean handled = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
+        mouseReleased(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)));
+        return handled;
+    }
     public boolean validationIsPreview() { return preview != null; }
     public int validationPreviewSubBranches() { return preview == null ? 0 : preview.subBranchCount(); }
     public int[] validationNodeStats() { return canvas == null ? new int[4] : canvas.nodeStats(); }

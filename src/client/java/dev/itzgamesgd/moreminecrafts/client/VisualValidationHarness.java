@@ -691,13 +691,21 @@ public final class VisualValidationHarness {
             MoreMinecrafts.LOGGER.info("PREVIEW_KEYBOARD moved={}/{} path={}", moved, keys.length, path);
             return moved >= 4 ? null : "keyboard navigation moved only " + moved + " of " + keys.length + " keys";
         }));
-        steps.add(new PreviewStep("structure-preview-mouse-click-far-node", q -> {
+        steps.add(new PreviewStep("structure-preview-mouse-prepare-far-node", q -> {
             double[] c = laneCentre(q, "bosses");
             q.validationViewAt(c[0], c[1], 0.75);
+            return null; // the tooltip left open by the keyboard step stays visible so its effect is captured
+        }));
+        steps.add(new PreviewStep("structure-preview-mouse-click-far-node", q -> {
             String target = q.validationQuestIdAt(199);
-            if (!q.validationClickNode(target) || !target.equals(q.validationSelectedId())) return "clicking the last node did not select it";
-            MoreMinecrafts.LOGGER.info("PREVIEW_MOUSE selected_far_node=true id_index=199");
-            return null;
+            boolean blocked = q.validationNodeUnderTooltip(target);
+            boolean dismissed = false;
+            if (blocked) dismissed = q.validationClickEmpty();
+            boolean stillBlocked = q.validationNodeUnderTooltip(target);
+            boolean clicked = q.validationClickNode(target);
+            MoreMinecrafts.LOGGER.info("PREVIEW_MOUSE far_node_index=199 blocked_by_open_tooltip={} dismissed_with_empty_click={} still_blocked={} selected={}",
+                    blocked, dismissed, stillBlocked, target.equals(q.validationSelectedId()));
+            return clicked && target.equals(q.validationSelectedId()) ? null : "clicking the last node did not select it";
         }));
         steps.add(new PreviewStep("structure-preview-zoom-roundtrip", q -> {
             double[] c = laneCentre(q, "farming");

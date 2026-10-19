@@ -121,7 +121,15 @@ public final class ProgressionTreeCanvas {
                 && y >= tooltipY - margin && y < tooltipY + tooltipHeight + margin;
     }
     /** Keyboard focus or a click keeps the selected quest's tooltip open without hovering. */
-    public void setSelectionTooltip(boolean value) { selectionTooltip = value; }
+    public void setSelectionTooltip(boolean value) {
+        selectionTooltip = value;
+        if (!value && pinnedQuestId == null) tooltipWidth = 0;
+    }
+    /** True when the centre of the node lies under the currently open tooltip (a click there is swallowed). */
+    public boolean nodeUnderTooltip(String id) {
+        var node = byId.get(id);
+        return node != null && viewport != null && tooltipContains(screenX(node.x()), screenY(node.y()));
+    }
     /** Share of the viewport width spanned by the canvas content at the current zoom (initial view fit). */
     public double contentFillRatio() {
         return viewport == null || viewport.width() == 0 ? 0 : canvasWidth * camera.zoom() / viewport.width();
@@ -360,6 +368,7 @@ public final class ProgressionTreeCanvas {
         } finally {
             graphics.disableScissor();
         }
+        if (hoveredId == null) tooltipWidth = 0; // an undrawn tooltip must not keep swallowing clicks and scrolls
         if (hoveredId != null) {
             if ("quests".equals(screen)) {
                 drawQuestTooltip(graphics, font, byId.get(hoveredId), questRows.get(hoveredId));
