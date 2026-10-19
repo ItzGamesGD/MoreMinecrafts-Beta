@@ -87,3 +87,14 @@ This addendum was prepared on a separate task branch from verified PR #131 HEAD 
 | A39 | Pinned Fabric0.161.0+26.3 upstream tag `84831249df47bd923b48186d169bc0d8501b547b` exposes Display/Interaction tracked-data access and UseEntityCallback; mapped26.3 sources inspected | SOURCE/API INSPECTED; compile/binary match/runtime NOT RUN, OC12 | Technical feasibility evidence only; no implementation or native visual acceptance |
 | A40 | Current Fabric managed-block/no-overwrite rule prevails over blanket historical region protection; old Paper exploration/farming runtime and T1–T9 work units are not Fabric progression | APPROVED current T boundary; SUPERSEDED historical broad interpretation; detailed permission/adoption/rollback design PROPOSED, OC09–OC11/OC14 | A04/F03 stay open for exact boundaries and effect-safe construction. Unregistered villages remain fully usable |
 
+## Owner-decision reconciliation — 2026-10-20
+
+Governing record: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECISIONS_2026-10-20.md) (D01–D66 approved; D67–D78 WITHDRAWN). Rows above are preserved as history.
+
+| Row | Effect |
+|---|---|
+| A03 | PARTLY RESOLVED: D01–D03, D54–D58. Liberation challenge and registration materials remain open |
+| A04 | Refined by D05 and D59–D66; no journal, provenance or backup subsystem is required |
+| A06 | Healing and replenishment SUPERSEDED by D29–D32, D41–D43; retaliation by D50–D52. Provisional stats stay PROPOSED |
+| A37 | Per-biome cap SUPERSEDED by D02; other input unchanged |
+| A38 / A40 | Receipts, permissions and rollback remain PROPOSED/unapproved; rollback journal WITHDRAWN |

@@ -26,3 +26,18 @@ P0 = risk of duplicated/lost material/ownership or destructive world mutation; P
 Evidence closes the discovery claim that no prior physical-deposit/interface design exists: Paper sync corroborates it, and the user confirms the detailed historical inputs. It **does not** close D1 F02 as a whole. First resolve OC01–OC07 (identity, cap applicability, recipe, mapping, multiplayer and lifecycle). Review OC08 alongside technical API gate OC12 before live payments. Review OC09–OC11 before construction/protection. OC13 tracks provenance without overriding current confirmations; OC14 prevents scope drift.
 
 The Fabric spec recommends separate state axes and durable receipts because they isolate these decisions. It does not select final registration costs, biome quota policy, helpers, ownership loss, tier conversion or protection permissions on behalf of the owner. These explicit unresolved choices are compatible with completing a documentation recovery task; they block later gameplay implementation, not publication of this Draft design PR.
+
+## Reconciliation with owner decisions D01–D66 — 2026-10-20
+
+Source: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECISIONS_2026-10-20.md). The table above is preserved as history; where it conflicts with the owner record, the owner record governs. D67–D78 are WITHDRAWN and must not be revived as prerequisites. This section authorizes no implementation.
+
+| ID | Updated disposition |
+|---|---|
+| OC02 | Historical per-biome cap SUPERSEDED by D02 (one territory per player). Dimension/world scope and whether CLAIMING reserves the slot remain open |
+| OC04 | Unchanged and open. D57 says re-registration starts at T0 and D03a requires liberation/challenge; the registration-to-tier conversion is still undefined |
+| OC05 | Unchanged and open; D01 confirms a single owner with no co-owner |
+| OC06 | PARTLY RESOLVED by D03b, D54–D58: voluntary relinquish only, no transfer, no inactivity repossession. Cancel/refund and administrative repair remain open |
+| OC08 | Registration-payment receipt remains an unapproved PROPOSAL; see the owner record for its boundary. Not a block-history system |
+| OC09 / OC10 | PARTLY RESOLVED by D05a–c. Non-owner permission matrix and adoption of original buildings remain open |
+| OC11 | Journal, snapshot, compare-and-set rollback and quarantine are WITHDRAWN. Replaced by D04 (prevalidate everything, apply atomically, consume nothing on failure) and D59–D66 (conservative, non-destructive placement). Construction durability across a crash is an ordinary implementation concern bounded by that rule; do not add a history subsystem |
+| OC13 / OC01 / OC03 / OC07 / OC12 / OC14 | Unchanged; SOURCE MISSING labels preserved |
