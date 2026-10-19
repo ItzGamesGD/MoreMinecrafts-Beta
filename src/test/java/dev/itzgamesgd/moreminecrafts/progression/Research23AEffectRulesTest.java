@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
+import com.mojang.serialization.JsonOps;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingLogic;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingTiming;
 import java.util.Arrays;
@@ -78,6 +79,17 @@ class Research23AEffectRulesTest {
         assertTrue(Research23AEffectRules.withinXpCollectionRadius(4.8, 0.0, 3.6, 2));
         assertFalse(Research23AEffectRules.withinXpCollectionRadius(4.8, 0.0, 3.601, 2));
         assertFalse(Research23AEffectRules.withinXpCollectionRadius(0.0, 0.0, 0.0, 0));
+    }
+
+    /** Retains PR #93's unique purchased Fisheries Study codec regression. */
+    @Test
+    void fisheriesResearchLevelSurvivesProgressionSerialization() {
+        ResearchProgressState initial = ResearchProgressState.empty()
+                .with("research.v3.research.19", 4);
+        var encoded = ResearchProgressState.CODEC.encodeStart(JsonOps.INSTANCE, initial).getOrThrow();
+        ResearchProgressState decoded = ResearchProgressState.CODEC.parse(JsonOps.INSTANCE, encoded).getOrThrow();
+        assertEquals(initial, decoded);
+        assertEquals(4, ResearchRewards.level(decoded, "v3.research.19", "fisheries_grade"));
     }
 
     @Test
