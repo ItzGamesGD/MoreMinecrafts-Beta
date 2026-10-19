@@ -673,9 +673,11 @@ public final class VisualValidationHarness {
         steps.add(new PreviewStep("structure-preview-pan-bosses", q -> {
             double[] c = laneCentre(q, "bosses");
             q.validationViewAt(c[0], c[1], 0.75);
-            // Drag far past the end: the camera must clamp and keep nodes in view.
+            // Drag far to one end: the camera clamps and keeps a 32 px strip of canvas on screen (by design, so the
+            // view can never be dragged off the canvas entirely). Then drag back to the other end: nodes must return.
             q.validationPan(0, -100000);
-            return q.validationNodeStats()[1] > 0 ? null : "panning past the end lost every node";
+            q.validationPan(0, 100000);
+            return q.validationNodeStats()[1] > 0 ? null : "panning back from the far end did not restore any nodes";
         }));
         steps.add(new PreviewStep("structure-preview-tooltip-long-label", viewLane("exploration", 0.75, 3)));
         steps.add(new PreviewStep("structure-preview-tooltip-groups", viewLane("exploration", 0.75, 11)));
