@@ -171,6 +171,13 @@ public final class VisualValidationHarness {
                 MoreMinecrafts.LOGGER.info("SELECTOR_HITBOXES_ALIGNED gui_scale={} size={}x{}",
                         client.getWindow().getGuiScale(), client.getWindow().getGuiScaledWidth(),
                         client.getWindow().getGuiScaledHeight());
+                if (!selector.validationQuestTextFits(net.minecraft.network.chat.Component.translatable("moreminecrafts.ui.selector.quests"),
+                        net.minecraft.network.chat.Component.translatable("moreminecrafts.ui.selector.quests.description"))
+                        || !selector.validationQuestTextFits(net.minecraft.network.chat.Component.literal("XP Quests"),
+                        net.minecraft.network.chat.Component.literal("Special objectives that grant experience when completed."))) {
+                    failJourney("XP Quest card text does not fit its boxes (active or English text)"); return;
+                }
+                MoreMinecrafts.LOGGER.info("SELECTOR_TEXT_FITS active_language_and_english=true");
                 selector.validationSetHover("xp_quest");
                 queueUiScreenshot("selector-xp-hover.png");
                 uiJourneyStage = 201;

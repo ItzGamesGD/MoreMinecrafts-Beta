@@ -32,6 +32,7 @@ public final class ProgressionSelectionScreen extends Screen {
     // Text boxes inside the 296x494 card texture (card-local source pixels).
     private static final int TITLE_CENTER_Y = 295;
     private static final int TITLE_MAX_WIDTH = 236;
+    private static final int TITLE_MAX_HEIGHT = 50;
     private static final int DESC_TOP = 346;
     private static final int DESC_HEIGHT = 100;
     private static final int DESC_MAX_WIDTH = 244;
@@ -69,6 +70,7 @@ public final class ProgressionSelectionScreen extends Screen {
             if (TARGETS[i].enabled()) drawInteractionState(graphics, TARGETS[i], i == hoveredTarget, i == focusedTarget);
         }
         graphics.pose().popMatrix();
+        drawQuestText(graphics);
         super.extractRenderState(graphics, mouseX, mouseY, delta);
     }
 
@@ -77,32 +79,71 @@ public final class ProgressionSelectionScreen extends Screen {
         Target card = TARGETS[XP_TARGET];
         graphics.blit(RenderPipelines.GUI_TEXTURED, XP_QUEST_CARD, card.x(), card.y(), 0, 0,
                 card.width(), card.height(), card.width(), card.height());
-        Component title = Component.translatable("moreminecrafts.ui.selector.quests");
-        float titleScale = Math.min(3.0F, TITLE_MAX_WIDTH / (float) Math.max(1, font.width(title)));
-        float centerX = card.x() + card.width() / 2.0F;
-        graphics.pose().pushMatrix();
-        graphics.pose().translate(centerX, card.y() + TITLE_CENTER_Y);
-        graphics.pose().scale(titleScale, titleScale);
-        graphics.text(font, title.getVisualOrderText(), -font.width(title) / 2, -font.lineHeight / 2, 0xFFFFFFFF, true);
-        graphics.pose().popMatrix();
+    }
 
+    /**
+     * Card text is laid out in GUI pixels (not the scaled source space) with integer font scales,
+     * so glyphs stay crisp at every GUI scale. Scales adapt to the card's current on-screen size.
+     */
+    private void drawQuestText(GuiGraphicsExtractor graphics) {
+        Target card = TARGETS[XP_TARGET];
+        float centerX = imageLeft + (card.x() + card.width() / 2.0F) * imageScale;
+        Component title = Component.translatable("moreminecrafts.ui.selector.quests");
         Component description = Component.translatable("moreminecrafts.ui.selector.quests.description");
-        float scale = 2.0F;
-        List<FormattedCharSequence> lines = font.split(description, (int) (DESC_MAX_WIDTH / scale));
-        while (lines.size() * (font.lineHeight + 2) * scale > DESC_HEIGHT && scale > 1.0F) {
-            scale -= 0.25F;
-            lines = font.split(description, (int) (DESC_MAX_WIDTH / scale));
-        }
-        float lineHeight = (font.lineHeight + 2) * scale;
-        float y = card.y() + DESC_TOP + (DESC_HEIGHT - lines.size() * lineHeight) / 2.0F;
-        for (FormattedCharSequence line : lines) {
-            graphics.pose().pushMatrix();
-            graphics.pose().translate(centerX - font.width(line) * scale / 2.0F, y);
-            graphics.pose().scale(scale, scale);
-            graphics.text(font, line, 0, 0, 0xFFFFFFFF, true);
-            graphics.pose().popMatrix();
+        TextLayout layout = layoutQuestText(title, description);
+        drawScaledText(graphics, title.getVisualOrderText(), centerX,
+                imageTop + (card.y() + TITLE_CENTER_Y) * imageScale - font.lineHeight * layout.titleScale() / 2.0F,
+                layout.titleScale());
+        float lineHeight = (font.lineHeight + 2) * layout.descScale();
+        float boxHeight = DESC_HEIGHT * imageScale;
+        float y = imageTop + (card.y() + DESC_TOP) * imageScale + (boxHeight - layout.lines().size() * lineHeight) / 2.0F;
+        for (FormattedCharSequence line : layout.lines()) {
+            drawScaledText(graphics, line, centerX, y, layout.descScale());
             y += lineHeight;
         }
+    }
+
+    private record TextLayout(int titleScale, int descScale, List<FormattedCharSequence> lines, boolean fits) { }
+
+    private TextLayout layoutQuestText(Component title, Component description) {
+        float titleMaxWidth = TITLE_MAX_WIDTH * imageScale;
+        float titleMaxHeight = TITLE_MAX_HEIGHT * imageScale;
+        int titleScale = 1;
+        for (int candidate = 4; candidate > 1; candidate--) {
+            if (font.width(title) * candidate <= titleMaxWidth && font.lineHeight * candidate <= titleMaxHeight) {
+                titleScale = candidate;
+                break;
+            }
+        }
+        float boxWidth = DESC_MAX_WIDTH * imageScale;
+        float boxHeight = DESC_HEIGHT * imageScale;
+        int scale = 1;
+        List<FormattedCharSequence> lines = font.split(description, Math.max(1, (int) boxWidth));
+        for (int candidate = 3; candidate > 1; candidate--) {
+            List<FormattedCharSequence> trial = font.split(description, Math.max(1, (int) (boxWidth / candidate)));
+            if (trial.size() * (font.lineHeight + 2) * candidate <= boxHeight) {
+                scale = candidate;
+                lines = trial;
+                break;
+            }
+        }
+        boolean fits = font.width(title) * titleScale <= titleMaxWidth
+                && lines.size() * (font.lineHeight + 2) * scale <= boxHeight;
+        for (FormattedCharSequence line : lines) fits &= font.width(line) * scale <= boxWidth;
+        return new TextLayout(titleScale, scale, lines, fits);
+    }
+
+    /** True when the given title/description fit the card's text boxes at the current GUI scale. */
+    public boolean validationQuestTextFits(Component title, Component description) {
+        return layoutQuestText(title, description).fits();
+    }
+
+    private void drawScaledText(GuiGraphicsExtractor graphics, FormattedCharSequence text, float centerX, float top, int scale) {
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(Math.round(centerX - font.width(text) * scale / 2.0F), Math.round(top));
+        graphics.pose().scale(scale, scale);
+        graphics.text(font, text, 0, 0, 0xFFFFFFFF, true);
+        graphics.pose().popMatrix();
     }
 
     /** Hover: warm tint + gold inner line. Keyboard focus: white outer outline. They never share a look. */
