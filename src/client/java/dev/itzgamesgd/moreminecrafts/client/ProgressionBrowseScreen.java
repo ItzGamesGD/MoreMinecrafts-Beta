@@ -41,6 +41,11 @@ public final class ProgressionBrowseScreen extends Screen {
     private int branchButtonWidth;
     private boolean branchMenuOpen;
     private boolean doubleClickPress;
+    /** TEST-ONLY structure preview; null in normal play. Set only through {@link #forStructurePreview}. */
+    private QuestStructurePreview preview;
+    private long renderNanosTotal;
+    private long renderNanosMax;
+    private int renderFrames;
 
     public ProgressionBrowseScreen(Mode mode) { this(mode, "resources"); }
 
@@ -50,6 +55,13 @@ public final class ProgressionBrowseScreen extends Screen {
         this.mode = mode;
         this.discipline = List.of("resources", "production", "living", "combat", "ecology", "world", "alchemy")
                 .contains(discipline) ? discipline : "resources";
+    }
+
+    /** Package-private on purpose: only the visual-validation harness constructs the preview screen. */
+    static ProgressionBrowseScreen forStructurePreview(QuestStructurePreview data) {
+        ProgressionBrowseScreen screen = new ProgressionBrowseScreen(Mode.QUEST);
+        screen.preview = data;
+        return screen;
     }
 
     public Mode mode() { return mode; }
@@ -76,6 +88,25 @@ public final class ProgressionBrowseScreen extends Screen {
     public String validationQuestTooltipText(String id) {
         var row = questsById.get(id);
         return row == null ? "" : canvas.questTooltipText(row);
+    }
+    public String validationQuestIdAt(int index) { return quests.get(index).id(); }
+    public boolean validationIsPreview() { return preview != null; }
+    public int validationPreviewSubBranches() { return preview == null ? 0 : preview.subBranchCount(); }
+    public int[] validationNodeStats() { return canvas == null ? new int[4] : canvas.nodeStats(); }
+    public int validationChapterCount() { return canvas == null ? 0 : canvas.chapterCount(); }
+    public int validationTooltipCoveredNodes() { return canvas == null ? 0 : canvas.tooltipCoveredNodes(); }
+    public boolean validationSelectedInViewport() { return canvas != null && canvas.selectedNodeInViewport(); }
+    public void validationViewAt(double x, double y, double zoom) { if (canvas != null) canvas.validationViewAt(x, y, zoom); }
+    public void validationFitAll() { if (canvas != null) canvas.validationFitAll(); }
+    public String validationLaneCenter(String chapter) { return canvas == null ? null : canvas.validationLaneCenter(chapter); }
+    public double[] validationCentreWorld() { return canvas == null ? new double[2] : canvas.validationCentreWorld(); }
+    public void validationPan(double dx, double dy) { if (canvas != null) canvas.panBy(dx, dy); }
+    public String validationSelectedId2() { return canvas == null ? "" : canvas.selectedId(); }
+    public void validationResetRenderStats() { renderNanosTotal = 0; renderNanosMax = 0; renderFrames = 0; }
+    /** "frames=N avg_us=A max_us=M" for canvas render calls since the last reset (preview only). */
+    public String validationRenderStats() {
+        return "frames=" + renderFrames + " avg_us=" + (renderFrames == 0 ? 0 : renderNanosTotal / renderFrames / 1000)
+                + " max_us=" + renderNanosMax / 1000;
     }
     public double validationContentFill() { return canvas == null ? 0 : canvas.contentFillRatio(); }
     public double validationZoomLevel() { return canvas == null ? 0 : canvas.camera().zoom(); }
@@ -189,7 +220,7 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public void tick() {
         super.tick();
-        if (dataRevision != ProgressionClientApi.revision()) refresh(false);
+        if (preview == null && dataRevision != ProgressionClientApi.revision()) refresh(false);
     }
 
     private int margin() { return responsive.compact() ? 8 : 20; }
@@ -200,8 +231,12 @@ public final class ProgressionBrowseScreen extends Screen {
         responsive = ProgressionCanvasGeometry.responsiveLayout(width, height);
         knowledge = ProgressionClientApi.knowledge(discipline);
         research = ProgressionClientApi.research(discipline);
-        List<String> questIds = dev.itzgamesgd.moreminecrafts.progression.QuestTreeStructure.current().allNodeIds();
-        quests = ProgressionClientApi.quests(null).stream().filter(row -> questIds.contains(row.id())).toList();
+        if (preview != null) {
+            quests = List.copyOf(preview.rows().values());
+        } else {
+            List<String> questIds = dev.itzgamesgd.moreminecrafts.progression.QuestTreeStructure.current().allNodeIds();
+            quests = ProgressionClientApi.quests(null).stream().filter(row -> questIds.contains(row.id())).toList();
+        }
         knowledgeById = knowledge.stream().collect(java.util.stream.Collectors.toMap(
                 ProgressionScreenData.KnowledgeRow::id, row -> row));
         researchById = research.stream().collect(java.util.stream.Collectors.toMap(
@@ -210,7 +245,7 @@ public final class ProgressionBrowseScreen extends Screen {
                 ProgressionScreenData.QuestRow::id, row -> row));
         dataRevision = ProgressionClientApi.revision();
         if (canvas == null || resetCamera) {
-            canvas = new ProgressionTreeCanvas(catalogScreen(), discipline);
+            canvas = preview != null ? new ProgressionTreeCanvas(preview) : new ProgressionTreeCanvas(catalogScreen(), discipline);
             canvas.initializeCamera(responsive.viewport(), mode == Mode.KNOWLEDGE);
         } else canvas.setViewport(responsive.viewport());
         syncSelectedIndex();
@@ -277,11 +312,18 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         graphics.fill(0, 0, width, height, 0xFF272727);
-        graphics.centeredText(font, mode == Mode.QUEST ? title : Component.translatable("moreminecrafts.discipline." + discipline),
+        graphics.centeredText(font, preview != null ? Component.literal(preview.banner()) : mode == Mode.QUEST ? title : Component.translatable("moreminecrafts.discipline." + discipline),
                 width / 2, responsive.tabs().y() + 6, mode == Mode.QUEST ? 0xFFE0D9C7 : 0xFF292722);
         var viewport = responsive.viewport();
         drawFrameTexture(graphics, viewport.x() - 5, viewport.y() - 5, viewport.width() + 10, viewport.height() + 10);
+        long renderStart = preview != null ? System.nanoTime() : 0L;
         canvas.render(graphics, font, mouseX, mouseY, knowledgeById, researchById, questsById);
+        if (preview != null) {
+            long elapsed = System.nanoTime() - renderStart;
+            renderNanosTotal += elapsed;
+            renderNanosMax = Math.max(renderNanosMax, elapsed);
+            renderFrames++;
+        }
         graphics.outline(viewport.x() - 1, viewport.y() - 1, viewport.width() + 2, viewport.height() + 2, 0xFF171717);
         if (branchMenuOpen) renderBranchMenu(graphics);
         super.extractRenderState(graphics, mouseX, mouseY, delta);
@@ -382,7 +424,7 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public boolean keyPressed(KeyEvent event) {
         if (event.isEscape() && branchMenuOpen) { branchMenuOpen = false; return true; }
-        if (mode == Mode.QUEST && (event.isUp() || event.isDown())) {
+        if (mode == Mode.QUEST && preview == null && (event.isUp() || event.isDown())) {
             canvas.scrollTooltip(event.isDown() ? 3 : -3);
             return true;
         }

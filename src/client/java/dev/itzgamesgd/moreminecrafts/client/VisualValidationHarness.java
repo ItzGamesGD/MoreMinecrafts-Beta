@@ -19,6 +19,7 @@ import net.minecraft.world.SimpleContainer;
 import java.nio.file.Files;
 import com.mojang.blaze3d.platform.InputConstants;
 import java.nio.file.Path;
+import java.util.List;
 import net.minecraft.client.input.KeyEvent;
 
 public final class VisualValidationHarness {
@@ -527,6 +528,58 @@ public final class VisualValidationHarness {
                         || !checkQuestTooltip(client, quests, "selected_habitats")) {
                     failJourney("selected-node tooltip failed checks"); return;
                 }
+                previewRowsBefore = ProgressionClientApi.quests(null).size();
+                uiJourneyStage = 80;
+            }
+            case 80 -> {
+                structurePreview = QuestStructurePreview.load(client.getLanguageManager().getSelected());
+                if (structurePreview == null) {
+                    MoreMinecrafts.LOGGER.info("STRUCTURE_PREVIEW_SKIPPED reason=not_configured");
+                    uiJourneyStage = 99;
+                    return;
+                }
+                var screen = ProgressionBrowseScreen.forStructurePreview(structurePreview);
+                client.gui.setScreen(screen);
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests) || !quests.validationIsPreview()
+                        || quests.validationNodeStats()[0] != 200 || quests.validationChapterCount() != 15
+                        || quests.validationPreviewSubBranches() != 52) {
+                    failJourney("structure preview did not load 200 nodes, 15 chapters and 52 sub-branches"); return;
+                }
+                MoreMinecrafts.LOGGER.info("PREVIEW_OPEN nodes=200 chapters=15 sub_branches=52 lang={} gui_scale={}",
+                        client.getLanguageManager().getSelected(), client.getWindow().getGuiScale());
+                previewSteps = previewSteps();
+                previewStepIndex = 0;
+                previewPendingName = null;
+                quests.validationResetRenderStats();
+                uiJourneyStage = 81;
+            }
+            case 81 -> {
+                if (previewPendingName != null && !takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen quests) || !quests.validationIsPreview()) {
+                    failJourney("structure preview screen was closed"); return;
+                }
+                if (previewPendingName != null) {
+                    if (!logPreviewView(client, quests, previewPendingName)) return;
+                }
+                if (previewStepIndex >= previewSteps.size()) {
+                    client.gui.setScreen(null);
+                    int rowsAfter = ProgressionClientApi.quests(null).size();
+                    long registered = dev.itzgamesgd.moreminecrafts.progression.XpQuestCatalogData.catalog().quests().stream()
+                            .filter(q -> q.registered()).count();
+                    MoreMinecrafts.LOGGER.info("PREVIEW_ISOLATION client_quest_rows_before={} after={} catalog_registered={} claims_sent=0",
+                            previewRowsBefore, rowsAfter, registered);
+                    if (previewRowsBefore != rowsAfter) { failJourney("preview changed the client quest rows"); return; }
+                    uiJourneyStage = 99;
+                    return;
+                }
+                PreviewStep step = previewSteps.get(previewStepIndex++);
+                quests.validationResetRenderStats();
+                String failure = step.apply().apply(quests);
+                if (failure != null) { failJourney("preview step " + step.name() + ": " + failure); return; }
+                previewPendingName = step.name();
+                queueUiScreenshot(step.name() + ".png");
+            }
+            case 99 -> {
                 client.gui.setScreen(null);
                 var inventory = client.player.getInventory();
                 var menu = new AutoFarmMenu(1, inventory, new SimpleContainer(50));
@@ -556,6 +609,124 @@ public final class VisualValidationHarness {
                 label, client.getWindow().getGuiScale(), client.getWindow().getGuiScaledWidth(),
                 client.getWindow().getGuiScaledHeight(), geometry, within, quests.validationTooltipScroll());
         return within && clears;
+    }
+
+    private static QuestStructurePreview structurePreview;
+    private static List<PreviewStep> previewSteps;
+    private static int previewStepIndex;
+    private static String previewPendingName;
+    private static int previewRowsBefore;
+
+    private record PreviewStep(String name, java.util.function.Function<ProgressionBrowseScreen, String> apply) { }
+
+    private static double[] laneCentre(ProgressionBrowseScreen q, String chapter) {
+        String[] parts = q.validationLaneCenter(chapter).split(",");
+        return new double[] {Double.parseDouble(parts[0]), Double.parseDouble(parts[1])};
+    }
+
+    private static java.util.function.Function<ProgressionBrowseScreen, String> viewLane(String chapter, double zoom, int hoverIndex) {
+        return q -> {
+            double[] c = laneCentre(q, chapter);
+            q.validationViewAt(c[0], c[1], zoom);
+            if (hoverIndex >= 0) q.validationHoverNode(q.validationQuestIdAt(hoverIndex)); else q.validationClearHover();
+            return null;
+        };
+    }
+
+    private static List<PreviewStep> previewSteps() {
+        List<PreviewStep> steps = new java.util.ArrayList<>();
+        steps.add(new PreviewStep("structure-preview-initial", q -> null));
+        steps.add(new PreviewStep("structure-preview-overview", q -> { q.validationFitAll(); q.validationClearHover(); return null; }));
+        steps.add(new PreviewStep("structure-preview-mid-zoom", q -> {
+            double[] c = laneCentre(q, "mining");
+            q.validationViewAt(c[0], c[1], 0.3);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-dense-exploration", viewLane("exploration", 0.75, -1)));
+        steps.add(new PreviewStep("structure-preview-dense-mining", viewLane("mining", 0.75, -1)));
+        steps.add(new PreviewStep("structure-preview-sparse-ecology", viewLane("ecology", 0.75, -1)));
+        steps.add(new PreviewStep("structure-preview-zoomed-in", viewLane("exploration", 1.5, -1)));
+        steps.add(new PreviewStep("structure-preview-pan-farming", viewLane("farming", 0.75, -1)));
+        steps.add(new PreviewStep("structure-preview-pan-bosses", q -> {
+            double[] c = laneCentre(q, "bosses");
+            q.validationViewAt(c[0], c[1], 0.75);
+            // Drag far past the end: the camera must clamp and keep nodes in view.
+            q.validationPan(0, -100000);
+            return q.validationNodeStats()[1] > 0 ? null : "panning past the end lost every node";
+        }));
+        steps.add(new PreviewStep("structure-preview-tooltip-long-label", viewLane("exploration", 0.75, 3)));
+        steps.add(new PreviewStep("structure-preview-tooltip-groups", viewLane("exploration", 0.75, 11)));
+        steps.add(new PreviewStep("structure-preview-tooltip-scroll-list", viewLane("exploration", 0.75, 17)));
+        steps.add(new PreviewStep("structure-preview-tooltip-scrolled", q -> {
+            q.validationScrollQuestTooltip(15);
+            return q.validationTooltipScroll() > 0 ? null : "the 40-entry list did not scroll";
+        }));
+        for (String edge : new String[] {"left", "right", "top", "bottom"}) {
+            steps.add(new PreviewStep("structure-preview-tooltip-edge-" + edge, q -> {
+                double[] c = laneCentre(q, "exploration");
+                q.validationViewAt(c[0], c[1], 0.75);
+                q.validationHoverNode(q.validationQuestIdAt(17));
+                q.validationPlaceNodeAtEdge(edge);
+                return null;
+            }));
+        }
+        steps.add(new PreviewStep("structure-preview-keyboard-navigation", q -> {
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            if (!q.validationClickNode(q.validationQuestIdAt(3))) return "could not select the starting node";
+            StringBuilder path = new StringBuilder(q.validationSelectedId());
+            int[] keys = {InputConstants.KEY_RIGHT, InputConstants.KEY_RIGHT, InputConstants.KEY_DOWN, InputConstants.KEY_DOWN,
+                    InputConstants.KEY_LEFT, InputConstants.KEY_UP};
+            String[] names = {"Right", "Right", "Down", "Down", "Left", "Up"};
+            int moved = 0;
+            for (int i = 0; i < keys.length; i++) {
+                String before = q.validationSelectedId();
+                q.keyPressed(new KeyEvent(keys[i], 0, 0));
+                boolean changed = !before.equals(q.validationSelectedId());
+                if (changed) moved++;
+                path.append(" -").append(names[i]).append(changed ? "-> " : "(no move)-> ").append(q.validationSelectedId());
+                if (!q.validationSelectedInViewport()) return "selected node left the viewport after " + names[i];
+            }
+            MoreMinecrafts.LOGGER.info("PREVIEW_KEYBOARD moved={}/{} path={}", moved, keys.length, path);
+            return moved >= 4 ? null : "keyboard navigation moved only " + moved + " of " + keys.length + " keys";
+        }));
+        steps.add(new PreviewStep("structure-preview-mouse-click-far-node", q -> {
+            double[] c = laneCentre(q, "bosses");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String target = q.validationQuestIdAt(199);
+            if (!q.validationClickNode(target) || !target.equals(q.validationSelectedId())) return "clicking the last node did not select it";
+            MoreMinecrafts.LOGGER.info("PREVIEW_MOUSE selected_far_node=true id_index=199");
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-zoom-roundtrip", q -> {
+            double[] c = laneCentre(q, "farming");
+            q.validationViewAt(c[0], c[1], 0.75);
+            double[] before = q.validationCentreWorld();
+            double zoomBefore = q.validationZoomLevel();
+            q.validationZoom(3);
+            q.validationZoom(-3);
+            double[] after = q.validationCentreWorld();
+            double drift = Math.hypot(before[0] - after[0], before[1] - after[1]);
+            MoreMinecrafts.LOGGER.info("PREVIEW_ZOOM_STABILITY zoom_before={} zoom_after={} centre_drift_world_units={}",
+                    String.format("%.3f", zoomBefore), String.format("%.3f", q.validationZoomLevel()), String.format("%.2f", drift));
+            return drift <= 2.0 && Math.abs(zoomBefore - q.validationZoomLevel()) < 0.001 ? null : "zoom round trip drifted by " + drift;
+        }));
+        return steps;
+    }
+
+    private static boolean logPreviewView(Minecraft client, ProgressionBrowseScreen q, String name) {
+        int[] n = q.validationNodeStats();
+        String geometry = q.validationTooltipGeometry();
+        boolean tooltip = !geometry.equals("none") && q.validationTooltipWithinScreen();
+        MoreMinecrafts.LOGGER.info("PREVIEW_VIEW name={} gui_scale={} lang={} zoom={} nodes_total={} nodes_visible={} nodes_clipped={} overlapping_pairs={} tooltip_covered_nodes={} tooltip_in_viewport={} geometry(x,y,w,h;clears)={} render[{}]",
+                name, client.getWindow().getGuiScale(), client.getLanguageManager().getSelected(),
+                String.format("%.2f", q.validationZoomLevel()), n[0], n[1], n[2], n[3], q.validationTooltipCoveredNodes(),
+                tooltip, geometry, q.validationRenderStats());
+        if (name.contains("tooltip-edge") && !tooltip) {
+            failJourney("tooltip left the viewport at " + name); return false;
+        }
+        return true;
     }
 
     private static boolean takeCapture() {
