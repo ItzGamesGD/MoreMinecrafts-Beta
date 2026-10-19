@@ -566,9 +566,13 @@ public final class ProgressionTreeCanvas {
         List<ProgressionCanvasGeometry.Rect> allFrames = new ArrayList<>();
         for (var other : nodes) allFrames.add(ProgressionCanvasGeometry.nodeFrameBounds(
                 screenX(other.x()), screenY(other.y()), camera.zoom()));
-        int minUseful = Math.min(fullHeight, pad * 2 + fixedHeight + separatorHeight + lineHeight * 3);
-        int[] placement = placeTooltip(frame, allFrames, width, Math.min(fullHeight, maxHeight), minUseful,
-                viewport, margin);
+        int[] placement = null;
+        // Prefer three visible list rows, then two, then one, before ever overlapping a node.
+        for (int wantedRows = 3; wantedRows >= 1 && placement == null; wantedRows--) {
+            int minUseful = Math.min(fullHeight, pad * 2 + fixedHeight + separatorHeight + lineHeight * wantedRows);
+            int[] candidate = placeTooltip(frame, allFrames, width, Math.min(fullHeight, maxHeight), minUseful, viewport, margin);
+            if (wantedRows == 1 || candidate[3] == 1) placement = candidate;
+        }
         int height = placement[2];
         int visibleHeight = Math.max(lineHeight, (height - pad * 2 - fixedHeight - separatorHeight) / lineHeight * lineHeight);
         boolean scrolls = !list.isEmpty() && listHeight > visibleHeight;
@@ -605,7 +609,7 @@ public final class ProgressionTreeCanvas {
 
     /**
      * Picks the placement that keeps every node uncovered and offers the most room: below, above, then beside the node. The height is
-     * trimmed to the room available (the list scrolls), but never below {@code minUseful}. Returns {x, y, height}.
+     * trimmed to the room available (the list scrolls), but never below {@code minUseful}. Returns {x, y, height, clear} where clear is 1 when no node is covered.
      */
     private static int[] placeTooltip(ProgressionCanvasGeometry.Rect node, List<ProgressionCanvasGeometry.Rect> allFrames,
                                       int width, int wantedHeight, int minUseful, ProgressionCanvasGeometry.Rect bounds, int margin) {
@@ -633,7 +637,7 @@ public final class ProgressionTreeCanvas {
                 long h = Math.max(0, Math.min(c[1] + c[2], frame.bottom()) - Math.max(c[1], frame.y()));
                 overlap += w * h;
             }
-            if (fits && overlap == 0 && (bestFit == null || c[2] > bestFit[2])) bestFit = c;
+            if (fits && overlap == 0 && (bestFit == null || c[2] > bestFit[2])) bestFit = new int[] {c[0], c[1], c[2], 1};
             long score = overlap * 4 + (fits ? 0 : 1_000_000L) + (wantedHeight - c[2]);
             if (score < bestScore) { bestScore = score; best = c; }
         }
@@ -641,7 +645,7 @@ public final class ProgressionTreeCanvas {
         int x = Math.max(left + margin, Math.min(best[0], right - width - margin));
         int h = Math.max(Math.min(minUseful, bounds.height() - margin * 2), best[2]);
         int y = Math.max(top + margin, Math.min(best[1], bottom - h - margin));
-        return new int[] {x, y, h};
+        return new int[] {x, y, h, 0};
     }
 
     private static void addText(List<ClientTooltipComponent> target, Font font, Component value, int maxWidth) {
