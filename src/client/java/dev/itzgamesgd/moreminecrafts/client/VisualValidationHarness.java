@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.SimpleContainer;
 
 import java.nio.file.Files;
+import com.mojang.blaze3d.platform.InputConstants;
 import java.nio.file.Path;
 
 public final class VisualValidationHarness {
@@ -180,12 +181,15 @@ public final class VisualValidationHarness {
                     failJourney("selector closed before the focus check"); return;
                 }
                 selector.validationSetHover(null);
-                for (int i = 0; i < 4; i++) selector.validationKey(258, false);
+                for (int i = 0; i < 4; i++) selector.validationKey(InputConstants.KEY_TAB, false);
                 if (!"xp_quest".equals(selector.validationFocusedTarget())) {
                     failJourney("Tab x4 did not focus the XP Quest card"); return;
                 }
-                selector.validationKey(263, false);
-                selector.validationKey(262, false);
+                selector.validationKey(InputConstants.KEY_LEFT, false);
+                if ("none".equals(selector.validationFocusedTarget()) || "xp_quest".equals(selector.validationFocusedTarget())) {
+                    failJourney("Left arrow did not move focus off the XP Quest card"); return;
+                }
+                selector.validationKey(InputConstants.KEY_RIGHT, false);
                 if (!"xp_quest".equals(selector.validationFocusedTarget())) {
                     failJourney("Left/Right arrows did not round-trip on the XP Quest card"); return;
                 }
@@ -195,7 +199,7 @@ public final class VisualValidationHarness {
             case 202 -> {
                 if (!takeCapture()) return;
                 if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)
-                        || !selector.validationKey(257, false)
+                        || !selector.validationKey(InputConstants.KEY_RETURN, false)
                         || !(client.gui.screen() instanceof ProgressionBrowseScreen quests)
                         || quests.mode() != ProgressionBrowseScreen.Mode.QUEST
                         || !quests.validationTreeReady()) {

@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import java.util.List;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -162,7 +163,7 @@ public final class ProgressionSelectionScreen extends Screen {
     @Override
     public boolean keyPressed(KeyEvent event) {
         int count = TARGETS.length;
-        if (event.key() == 258) { // GLFW_KEY_TAB
+        if (event.input() == InputConstants.KEY_TAB) {
             focusedTarget = focusedTarget < 0 ? (event.hasShiftDown() ? count - 1 : 0)
                     : Math.floorMod(focusedTarget + (event.hasShiftDown() ? -1 : 1), count);
             return true;
