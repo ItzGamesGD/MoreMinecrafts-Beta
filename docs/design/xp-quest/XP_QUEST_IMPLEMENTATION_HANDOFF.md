@@ -308,7 +308,9 @@ Dependency analysis supports the requested order with one change: the exact-XP/c
 
 **READY FOR IMPLEMENTATION APPROVAL** for Q1-A and Q1-A2, conditional on the §8 authority items being approved. No P0 remains unresolved at design level; every NOW quest has a specified server detection mechanism; remaining blockers affect only VERIFY/FUTURE quests and UI art. Nothing here is implemented or runtime-verified.
 
-### Owner decision (2026-10-18): `xpq.cmb.wither_skulls_3` acquisition semantics
+### Superseded owner decision (2026-10-18): `xpq.cmb.wither_skulls_3` acquisition semantics
+
+The pickup-quantity rule below is historical. The later Q1-C recovery decision supersedes it: credit only the first player pickup of each skull genuinely dropped by a Wither Skeleton. The picker need not be the killer. Chest, creative, command, and unknown-origin skulls do not qualify. Dropping and picking up the same skull again grants no new credit. Provenance must survive supported unload/reload boundaries; stack merges, hoppers, multiplayer attribution, and persistence require tests. Keep the quest ID, target, reward, classification, and registration gate unchanged until implementation passes its tests.
 
 - **Approved event:** server-authoritative player pickup of an `minecraft:wither_skeleton_skull` item entity into the player's inventory. Count the number of items **actually transferred** by a successful pickup, not item entities, kill events, drops, crafting, trading, inventory scans, or merely approaching the item.
 - **Progress:** cumulative successful pickup quantity across events (target **3**). Re-picking up the same physical skull after dropping it **does count again**: the owner selected **item pickup**, not unique skull acquisition. This is deliberate and should be covered by a regression test; no deduplication or origin tracking is authorized.
