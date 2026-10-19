@@ -43,6 +43,9 @@ final class QuestStructurePreview {
     private final Map<String, Component> subTitles = new HashMap<>();
     private final int subBranchCount;
     private final boolean korean;
+    private final Map<String, String> questIcons = new HashMap<>();
+    private final Map<String, String> statuses = new HashMap<>();
+    private final Map<String, Boolean> registered = new HashMap<>();
 
     private QuestStructurePreview(QuestTreeStructure structure, int subBranchCount, boolean korean) {
         this.structure = structure;
@@ -59,6 +62,7 @@ final class QuestStructurePreview {
             Path root = Path.of(directory);
             JsonObject mapping = parse(root.resolve("quest_structure_mapping.json"));
             JsonObject ledger = parse(root.resolve("edge_ledger.json"));
+            JsonObject icons = parse(root.resolve("quest_icons.json"));
             boolean ko = languageCode != null && languageCode.startsWith("ko");
             List<QuestTreeStructure.Chapter> chapters = new ArrayList<>();
             Map<String, List<String>> idsByChapter = new LinkedHashMap<>();
@@ -73,7 +77,7 @@ final class QuestStructurePreview {
             for (JsonElement element : mapping.getAsJsonArray("chapters")) chapterObjects.add(element.getAsJsonObject());
             for (JsonObject chapter : chapterObjects) {
                 String id = chapter.get("id").getAsString();
-                chapters.add(new QuestTreeStructure.Chapter(id, "proposal.chapter." + id, idsByChapter.getOrDefault(id, List.of())));
+                chapters.add(QuestTreeStructure.Chapter.of(id, "proposal.chapter." + id, idsByChapter.getOrDefault(id, List.of())));
                 subs += chapter.getAsJsonArray("sub_branches").size();
             }
             List<QuestTreeStructure.Edge> edges = new ArrayList<>();
@@ -85,6 +89,10 @@ final class QuestStructurePreview {
             }
             QuestStructurePreview preview = new QuestStructurePreview(new QuestTreeStructure(chapters, edges), subs, ko);
             preview.populate(mapping, chapterObjects);
+            for (JsonElement element : icons.getAsJsonArray("icons")) {
+                JsonObject icon = element.getAsJsonObject();
+                preview.questIcons.put(icon.get("quest_id").getAsString(), icon.get("icon_item_id").getAsString());
+            }
             return preview;
         } catch (IOException | RuntimeException e) {
             dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.error("STRUCTURE_PREVIEW_LOAD_FAILED {}", e.toString());
@@ -125,6 +133,8 @@ final class QuestStructurePreview {
                     + (longLabel ? (korean ? " — 툴팁 줄바꿈을 확인하기 위해 일부러 길게 만든 임시 미리보기 라벨입니다"
                             : " — a deliberately long temporary preview label used to test tooltip wrapping") : "");
             titles.put(id, Component.literal(label));
+            statuses.put(id, quest.get("status").getAsString());
+            registered.put(id, quest.get("registered").getAsBoolean());
             details.put(id, (korean ? "미리보기: 상태 " : "Preview: status ") + quest.get("status").getAsString()
                     + (quest.get("registered").getAsBoolean() ? (korean ? " · 등록됨" : " · registered") : (korean ? " · 미등록" : " · unregistered"))
                     + " · " + quest.get("tier").getAsString());
@@ -167,6 +177,11 @@ final class QuestStructurePreview {
     String subOf(String id) { return subOfQuest.get(id); }
     Component subTitle(String subId) { return subTitles.get(subId); }
     Component chapterTitle(String key) { return chapterTitles.get(key); }
+    /** Deterministic per-quest icon (D4); falls back to the chapter icon only if the file has no entry. */
+    String iconForQuest(String questId, String chapterId) { return questIcons.getOrDefault(questId, iconFor(chapterId)); }
+    java.util.Collection<String> iconItemIds() { return questIcons.values(); }
+    String statusOf(String questId) { return statuses.getOrDefault(questId, "NOW"); }
+    boolean isRegistered(String questId) { return registered.getOrDefault(questId, false); }
     String iconFor(String chapterId) { return icons.getOrDefault(chapterId, "minecraft:book"); }
     int subBranchCount() { return subBranchCount; }
     boolean korean() { return korean; }

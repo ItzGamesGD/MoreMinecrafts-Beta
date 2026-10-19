@@ -18,6 +18,8 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
 import dev.itzgamesgd.moreminecrafts.progression.QuestTreeLayout;
+import dev.itzgamesgd.moreminecrafts.progression.QuestLevelOfDetail;
+import dev.itzgamesgd.moreminecrafts.progression.QuestTooltipPlacement;
 import dev.itzgamesgd.moreminecrafts.progression.QuestTreeStructure;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,6 +49,18 @@ public final class ProgressionTreeCanvas {
             "xpq.cmb.bestiary_25", "minecraft:book", "xpq.cmb.habitats_5", "minecraft:slime_ball");
 
     private final QuestStructurePreview preview;
+    private record IndexCard(String chapterId, int x, int y, int width, int height) {}
+    private QuestLevelOfDetail.Level level = QuestLevelOfDetail.Level.SUB_BRANCH;
+    private final List<IndexCard> indexCards = new ArrayList<>();
+    private final List<int[]> labelBoxes = new ArrayList<>();
+    private int labelOverflows;
+    private int labelCollisions;
+    private int labelsCulled;
+    private int captionsDrawn;
+    private int captionCollisions;
+    private int indexOverflows;
+    private int markersDrawn;
+    private int nodesDrawn;
     private final String screen;
     private final QuestTreeStructure questStructure;
     private final QuestTreeLayout.Result questLayout;
@@ -88,7 +102,7 @@ public final class ProgressionTreeCanvas {
                 var chapter = questStructure.chapters().get(placed.laneIndex());
                 questNodes.add(new ProgressionNodeLayoutCatalog.Node(placed.id(), "quests", "quest", chapter.id(), chapter.id(),
                         placed.laneIndex(), placed.index(), placed.x(), placed.y(),
-                        preview != null ? preview.iconFor(placed.chapterId())
+                        preview != null ? preview.iconForQuest(placed.id(), placed.chapterId())
                                 : QUEST_ICONS.getOrDefault(placed.id(), ProgressionNodeLayoutCatalog.FALLBACK_ICON),
                         ProgressionNodeLayoutCatalog.FALLBACK_ICON, chapter.titleKey()));
             }
@@ -313,6 +327,20 @@ public final class ProgressionTreeCanvas {
 
     public String hitTest(double mouseX, double mouseY) {
         if (viewport == null || !viewport.contains(mouseX, mouseY)) return null;
+        if (largeGraph()) {
+            if (level == QuestLevelOfDetail.Level.CHAPTER_INDEX || insideLabel(mouseX, mouseY)) return null;
+            for (int i = nodes.size() - 1; i >= 0; i--) {
+                var node = nodes.get(i);
+                int sx = screenX(node.x()), sy = screenY(node.y());
+                if (level == QuestLevelOfDetail.Level.SUB_BRANCH) {
+                    if (Math.abs(mouseX - sx) <= MARKER_HIT && Math.abs(mouseY - sy) <= MARKER_HIT) return node.id();
+                } else {
+                    var frame = ProgressionCanvasGeometry.nodeFrameBounds(sx, sy, camera.zoom());
+                    if (frame.contains(mouseX, mouseY)) return node.id();
+                }
+            }
+            return null;
+        }
         for (int i = nodes.size() - 1; i >= 0; i--) {
             var node = nodes.get(i);
             var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
@@ -348,18 +376,23 @@ public final class ProgressionTreeCanvas {
                        Map<String, ProgressionScreenData.ResearchRow> researchRows,
                        Map<String, ProgressionScreenData.QuestRow> questRows) {
         if (viewport == null) return;
+        if (largeGraph()) level = QuestLevelOfDetail.next(level, camera.zoom());
         drawBackground(graphics);
         if (questLayout != null) drawQuestWorkspaceGrid(graphics);
         graphics.enableScissor(viewport.x(), viewport.y(), viewport.right(), viewport.bottom());
         try {
-            if (questLayout != null) { drawQuestLanes(graphics, font, questRows); drawQuestEdges(graphics, questRows); }
+            if (largeGraph()) drawLargeGraphBase(graphics, font, questRows);
+            else if (questLayout != null) { drawQuestLanes(graphics, font, questRows); drawQuestEdges(graphics, questRows); }
             else drawBranches(graphics, font);
             if ("research".equals(screen)) drawPrerequisiteEdges(graphics, researchRows);
             String nodeHit = validationHoveredId != null ? validationHoveredId : hitTest(mouseX, mouseY);
             if (nodeHit != null && questRows.containsKey(nodeHit)) pinnedQuestId = nodeHit;
             else if (!tooltipContains(mouseX, mouseY, 8)) pinnedQuestId = null;
             hoveredId = "quests".equals(screen) ? (pinnedQuestId != null ? pinnedQuestId : selectionTooltip ? selectedId : null) : nodeHit;
-            for (var node : nodes) {
+            if (largeGraph()) {
+                drawLargeNodes(graphics, font, questRows);
+                drawLargeOverlays(graphics, font, questRows);
+            } else for (var node : nodes) {
                 var knowledge = knowledgeRows.get(node.id());
                 var research = researchRows.get(node.id());
                 drawNode(graphics, font, node, knowledge, research, questRows.get(node.id()),
@@ -382,6 +415,235 @@ public final class ProgressionTreeCanvas {
                 graphics.tooltip(font, tooltip, tooltipX, tooltipY, BOUNDED_TOOLTIP_POSITIONER, null, false);
             }
         }
+    }
+
+    private static final int MARKER_HIT = 6;
+    private static final int MARKER_SIZE = 6;
+    private static final int INDEX_GAP = 4;
+    private static final int INDEX_PAD = 6;
+
+    /** True for graphs above the production size: semantic zoom, sub-branch rows and sticky labels apply. */
+    public boolean largeGraph() { return questLayout != null && questLayout.large(); }
+    public QuestLevelOfDetail.Level level() { return level; }
+    /** Validation: centre of a chapter card in screen pixels at the chapter-index level, or null. */
+    public int[] validationChapterCardCentre(String chapterId) {
+        for (var card : indexCards) if (card.chapterId().equals(chapterId))
+            return new int[] {card.x() + card.width() / 2, card.y() + card.height() / 2};
+        return null;
+    }
+    /** Validation: true while a tooltip is drawn (its hit rectangle is live). */
+    public boolean tooltipVisible() { return tooltipWidth > 0 && hoveredId != null; }
+    public double zoom() { return camera.zoom(); }
+
+    /** Screen rectangle of a chapter card, or null. Chapter cards exist only at the chapter-index level. */
+    public String chapterCardAt(double mouseX, double mouseY) {
+        if (!largeGraph() || level != QuestLevelOfDetail.Level.CHAPTER_INDEX) return null;
+        for (var card : indexCards) {
+            if (mouseX >= card.x() && mouseX < card.x() + card.width() && mouseY >= card.y() && mouseY < card.y() + card.height())
+                return card.chapterId();
+        }
+        return null;
+    }
+
+    /** Focuses a chapter from the index: centres its lane at a sub-branch zoom. */
+    public void focusChapter(String chapterId) {
+        if (viewport == null || questLayout == null) return;
+        for (var lane : questLayout.lanes()) {
+            if (!lane.chapterId().equals(chapterId)) continue;
+            double zoom = QuestLevelOfDetail.focusZoom(QuestLevelOfDetail.Level.SUB_BRANCH);
+            camera = new ProgressionCanvasGeometry.Camera(questLayout.width() / 2.0 - viewport.width() / (2.0 * zoom),
+                    lane.top() + lane.height() / 2.0 - viewport.height() / (2.0 * zoom), zoom);
+            camera = ProgressionCanvasGeometry.clampPan(camera, viewport, canvasWidth, canvasHeight);
+            level = QuestLevelOfDetail.next(level, camera.zoom());
+            return;
+        }
+    }
+
+    private boolean insideLabel(double x, double y) {
+        for (int[] box : labelBoxes) if (x >= box[0] && x < box[0] + box[2] && y >= box[1] && y < box[1] + box[3]) return true;
+        return false;
+    }
+
+    private Component subTitleFor(QuestTreeLayout.SubBranchBounds sub) {
+        Component override = preview == null ? null : preview.subTitle(sub.id());
+        return override != null ? override : Component.translatable(sub.titleKey());
+    }
+
+    private int chapterDone(String chapterId, Map<String, ProgressionScreenData.QuestRow> questRows) {
+        int done = 0;
+        for (var placed : questLayout.nodes()) {
+            if (!placed.chapterId().equals(chapterId)) continue;
+            var row = questRows.get(placed.id());
+            if (row != null && row.complete()) done++;
+        }
+        return done;
+    }
+
+    private int chapterCount(String chapterId) {
+        int count = 0;
+        for (var placed : questLayout.nodes()) if (placed.chapterId().equals(chapterId)) count++;
+        return count;
+    }
+
+    /** Lanes and, at sub-branch and quest levels, sub-branch boxes and quest edges. Chapter index draws lanes faintly. */
+    private void drawLargeGraphBase(GuiGraphicsExtractor graphics, Font font,
+                                    Map<String, ProgressionScreenData.QuestRow> questRows) {
+        for (var lane : questLayout.lanes()) {
+            int top = screenY(lane.top()), bottom = screenY(lane.bottom());
+            if (bottom < viewport.y() || top > viewport.bottom()) continue;
+            int tint = level == QuestLevelOfDetail.Level.CHAPTER_INDEX ? 0x22000000 : 0x3A000000;
+            graphics.fill(viewport.x(), top, viewport.right(), bottom, tint);
+            graphics.fill(viewport.x(), top, viewport.right(), top + 1, 0xFF7A6840);
+            graphics.fill(viewport.x(), bottom - 1, viewport.right(), bottom, 0xFF7A6840);
+        }
+        if (level == QuestLevelOfDetail.Level.CHAPTER_INDEX) return;
+        for (var sub : questLayout.subBranches()) {
+            int left = screenX(sub.x()), top = screenY(sub.y()), right = screenX(sub.right()), bottom = screenY(sub.bottom());
+            if (right < viewport.x() || left > viewport.right() || bottom < viewport.y() || top > viewport.bottom()) continue;
+            graphics.fill(left, top, right, bottom, 0x22000000);
+            graphics.fill(left, top, left + 1, bottom, 0x66C8A951);
+        }
+        if (level == QuestLevelOfDetail.Level.QUEST) drawQuestEdges(graphics, questRows);
+    }
+
+    private void drawLargeNodes(GuiGraphicsExtractor graphics, Font font,
+                                Map<String, ProgressionScreenData.QuestRow> questRows) {
+        nodesDrawn = 0;
+        markersDrawn = 0;
+        if (level == QuestLevelOfDetail.Level.CHAPTER_INDEX) return;
+        for (var node : nodes) {
+            int sx = screenX(node.x()), sy = screenY(node.y());
+            if (sx < viewport.x() - 16 || sx > viewport.right() + 16 || sy < viewport.y() - 16 || sy > viewport.bottom() + 16) continue;
+            var quest = questRows.get(node.id());
+            boolean selected = node.id().equals(selectedId);
+            if (level == QuestLevelOfDetail.Level.SUB_BRANCH) {
+                String status = preview == null ? "NOW" : preview.statusOf(node.id());
+                boolean complete = quest != null && quest.complete();
+                int fill = complete ? 0xFFD8B04C : "FUTURE".equals(status) ? 0xFF4A463E : 0xFF9C968A;
+                int half = MARKER_SIZE / 2;
+                graphics.fill(sx - half, sy - half, sx + half, sy + half, fill);
+                if ("VERIFY".equals(status)) graphics.outline(sx - half - 1, sy - half - 1, MARKER_SIZE + 2, MARKER_SIZE + 2, 0xFFC8A040);
+                if (selected) graphics.outline(sx - half - 2, sy - half - 2, MARKER_SIZE + 4, MARKER_SIZE + 4, 0xFFFFFFFF);
+                markersDrawn++;
+            } else {
+                drawNode(graphics, font, node, null, null, quest, selected, node.id().equals(hoveredId));
+                nodesDrawn++;
+            }
+        }
+    }
+
+    /** Captions, sticky chapter labels and the chapter index. All in screen space, so they do not scale with zoom. */
+    private void drawLargeOverlays(GuiGraphicsExtractor graphics, Font font,
+                                   Map<String, ProgressionScreenData.QuestRow> questRows) {
+        labelBoxes.clear();
+        indexCards.clear();
+        labelOverflows = 0;
+        labelCollisions = 0;
+        labelsCulled = 0;
+        captionsDrawn = 0;
+        captionCollisions = 0;
+        indexOverflows = 0;
+        if (level == QuestLevelOfDetail.Level.CHAPTER_INDEX) {
+            drawChapterIndex(graphics, font, questRows);
+            return;
+        }
+        List<int[]> captionBoxes = new ArrayList<>();
+        for (var sub : questLayout.subBranches()) {
+            int sx = screenX(sub.x()) + 6, sy = screenY(sub.y()) + 3;
+            if (sy + font.lineHeight < viewport.y() || sy > viewport.bottom()) continue;
+            if (sx > viewport.right()) continue;
+            Component caption = subTitleFor(sub);
+            int width = font.width(caption);
+            int[] box = {sx, sy, width, font.lineHeight};
+            for (int[] other : captionBoxes) if (overlaps(box, other)) captionCollisions++;
+            // A caption must stay clear of the first row of markers beneath it.
+            int firstRowTop = screenY(sub.firstRowY()) - (level == QuestLevelOfDetail.Level.SUB_BRANCH ? MARKER_SIZE / 2 : 13);
+            if (sy + font.lineHeight > firstRowTop) captionCollisions++;
+            captionBoxes.add(box);
+            graphics.text(font, caption, sx, sy, 0xFFC9C0A4, false);
+            captionsDrawn++;
+        }
+        for (var lane : questLayout.lanes()) drawStickyLabel(graphics, font, lane, questRows);
+    }
+
+    private void drawStickyLabel(GuiGraphicsExtractor graphics, Font font, QuestTreeLayout.Lane lane,
+                                 Map<String, ProgressionScreenData.QuestRow> questRows) {
+        int visTop = Math.max(viewport.y(), screenY(lane.top()));
+        int visBottom = Math.min(viewport.bottom(), screenY(lane.bottom()));
+        if (visBottom - visTop < 12) { labelsCulled++; return; }
+        int width = Math.max(60, Math.min(112, (int) Math.round(viewport.width() * 0.24)));
+        int textWidth = width - 8;
+        var titleLines = font.split(chapterTitle(lane.titleKey()), textWidth);
+        var progressLines = font.split(Component.translatable("moreminecrafts.ui.quest.chapter.progress",
+                chapterDone(lane.chapterId(), questRows), chapterCount(lane.chapterId())), textWidth);
+        int lineHeight = font.lineHeight + 1;
+        int blockHeight = (titleLines.size() + progressLines.size()) * lineHeight + 4;
+        if (blockHeight > visBottom - visTop) labelOverflows++;
+        int x = viewport.x() + 4;
+        int y = (visTop + visBottom) / 2 - blockHeight / 2;
+        y = Math.max(viewport.y() + 2, Math.min(y, viewport.bottom() - blockHeight - 2));
+        int[] box = {x - 2, y - 2, width + 4, blockHeight + 4};
+        for (int[] other : labelBoxes) if (overlaps(box, other)) labelCollisions++;
+        labelBoxes.add(box);
+        graphics.fill(box[0], box[1], box[0] + box[2], box[1] + box[3], 0xD8140F08);
+        graphics.fill(box[0], box[1], box[0] + 2, box[1] + box[3], 0xFFC8A951);
+        int lineY = y;
+        for (var line : titleLines) { graphics.text(font, line, x + 4, lineY, 0xFFF2D58A, false); lineY += lineHeight; }
+        for (var line : progressLines) { graphics.text(font, line, x + 4, lineY, 0xFFB8B4AA, false); lineY += lineHeight; }
+    }
+
+    private void drawChapterIndex(GuiGraphicsExtractor graphics, Font font,
+                                  Map<String, ProgressionScreenData.QuestRow> questRows) {
+        int lanesCount = questLayout.lanes().size();
+        int columns = viewport.width() >= 300 ? 3 : 2;
+        int rows = Math.max(1, (lanesCount + columns - 1) / columns);
+        int cardWidth = (viewport.width() - INDEX_PAD * 2 - INDEX_GAP * (columns - 1)) / columns;
+        int available = (viewport.height() - INDEX_PAD * 2 - INDEX_GAP * (rows - 1)) / rows;
+        int cardHeight = Math.min(34, available);
+        for (int i = 0; i < lanesCount; i++) {
+            var lane = questLayout.lanes().get(i);
+            int x = viewport.x() + INDEX_PAD + (i % columns) * (cardWidth + INDEX_GAP);
+            int y = viewport.y() + INDEX_PAD + (i / columns) * (cardHeight + INDEX_GAP);
+            graphics.fill(x, y, x + cardWidth, y + cardHeight, 0xE6140F08);
+            graphics.fill(x, y, x + 2, y + cardHeight, 0xFFC8A951);
+            var titleLines = font.split(chapterTitle(lane.titleKey()), cardWidth - 10);
+            String progress = Component.translatable("moreminecrafts.ui.quest.chapter.progress",
+                    chapterDone(lane.chapterId(), questRows), lane.nodeCount()).getString();
+            int needed = titleLines.size() * (font.lineHeight + 1) + font.lineHeight + 4;
+            if (needed > cardHeight) indexOverflows++;
+            int lineY = y + 3;
+            for (var line : titleLines) { graphics.text(font, line, x + 6, lineY, 0xFFF2D58A, false); lineY += font.lineHeight + 1; }
+            graphics.text(font, progress, x + 6, lineY, 0xFFB8B4AA, false);
+            indexCards.add(new IndexCard(lane.chapterId(), x, y, cardWidth, cardHeight));
+        }
+    }
+
+    private static boolean overlaps(int[] a, int[] b) {
+        return a[0] < b[0] + b[2] && a[0] + a[2] > b[0] && a[1] < b[1] + b[3] && a[1] + a[3] > b[1];
+    }
+
+    /** Screen-space layout metrics for the validation harness. */
+    public int[] largeGraphMetrics() {
+        return new int[] {labelOverflows, labelCollisions, labelsCulled, captionsDrawn, captionCollisions,
+                indexOverflows, markersDrawn, nodesDrawn, indexCards.size(), labelBoxes.size()};
+    }
+
+    /** Overlapping node frames at the current level and camera (quest level uses real frames, sub level uses markers). */
+    public int overlappingFrames() {
+        if (!largeGraph() || level == QuestLevelOfDetail.Level.CHAPTER_INDEX) return 0;
+        List<int[]> boxes = new ArrayList<>();
+        for (var node : nodes) {
+            int sx = screenX(node.x()), sy = screenY(node.y());
+            if (level == QuestLevelOfDetail.Level.SUB_BRANCH) {
+                boxes.add(new int[] {sx - MARKER_SIZE / 2, sy - MARKER_SIZE / 2, MARKER_SIZE, MARKER_SIZE});
+            } else {
+                var f = ProgressionCanvasGeometry.nodeFrameBounds(sx, sy, camera.zoom());
+                boxes.add(new int[] {f.x(), f.y(), f.width(), f.height()});
+            }
+        }
+        int pairs = 0;
+        for (int i = 0; i < boxes.size(); i++) for (int j = i + 1; j < boxes.size(); j++) if (overlaps(boxes.get(i), boxes.get(j))) pairs++;
+        return pairs;
     }
 
     private void drawBackground(GuiGraphicsExtractor graphics) {
@@ -759,7 +1021,7 @@ public final class ProgressionTreeCanvas {
         // Prefer three visible list rows, then two, then one, before ever overlapping a node.
         for (int wantedRows = 3; wantedRows >= 1 && placement == null; wantedRows--) {
             int minUseful = Math.min(fullHeight, pad * 2 + fixedHeight + separatorHeight + lineHeight * wantedRows);
-            int[] candidate = placeTooltip(frame, allFrames, width, Math.min(fullHeight, maxHeight), minUseful, viewport, margin);
+            int[] candidate = QuestTooltipPlacement.place(frame, allFrames, width, Math.min(fullHeight, maxHeight), minUseful, viewport, margin);
             if (wantedRows == 1 || candidate[3] == 1) placement = candidate;
         }
         int height = placement[2];
@@ -795,47 +1057,6 @@ public final class ProgressionTreeCanvas {
             int thumbY = listTop + (int) Math.round(travel * tooltipScroll / (double) Math.max(1, maxScroll));
             graphics.fill(trackX, thumbY, trackX + 2, thumbY + thumbHeight, 0xFFE0D9C7);
         }
-    }
-
-    /**
-     * Picks the placement that keeps every node uncovered and offers the most room: below, above, then beside the node. The height is
-     * trimmed to the room available (the list scrolls), but never below {@code minUseful}. Returns {x, y, height, clear} where clear is 1 when no node is covered.
-     */
-    private static int[] placeTooltip(ProgressionCanvasGeometry.Rect node, List<ProgressionCanvasGeometry.Rect> allFrames,
-                                      int width, int wantedHeight, int minUseful, ProgressionCanvasGeometry.Rect bounds, int margin) {
-        int left = bounds.x(), top = bounds.y(), right = bounds.right(), bottom = bounds.bottom();
-        final int gap = 4;
-        int centeredX = Math.max(left + margin, Math.min(node.x() + node.width() / 2 - width / 2, right - width - margin));
-        int below = bottom - margin - (node.bottom() + gap);
-        int above = node.y() - gap - (top + margin);
-        int hBelow = Math.min(wantedHeight, below), hAbove = Math.min(wantedHeight, above);
-        int hSide = Math.min(wantedHeight, bounds.height() - margin * 2);
-        int sideY = Math.max(top + margin, Math.min(node.y() + node.height() / 2 - 14, bottom - hSide - margin));
-        int[][] candidates = {
-                {centeredX, node.bottom() + gap, hBelow},
-                {centeredX, node.y() - gap - hAbove, hAbove},
-                {node.right() + gap, sideY, hSide},
-                {node.x() - gap - width, sideY, hSide}};
-        int[] best = null, bestFit = null;
-        long bestScore = Long.MAX_VALUE;
-        for (int[] c : candidates) {
-            boolean fits = c[2] >= minUseful && c[0] >= left + margin && c[0] + width <= right - margin
-                    && c[1] >= top + margin && c[1] + c[2] <= bottom - margin;
-            long overlap = 0;
-            for (var frame : allFrames) {
-                long w = Math.max(0, Math.min(c[0] + width, frame.right()) - Math.max(c[0], frame.x()));
-                long h = Math.max(0, Math.min(c[1] + c[2], frame.bottom()) - Math.max(c[1], frame.y()));
-                overlap += w * h;
-            }
-            if (fits && overlap == 0 && (bestFit == null || c[2] > bestFit[2])) bestFit = new int[] {c[0], c[1], c[2], 1};
-            long score = overlap * 4 + (fits ? 0 : 1_000_000L) + (wantedHeight - c[2]);
-            if (score < bestScore) { bestScore = score; best = c; }
-        }
-        if (bestFit != null) return bestFit;
-        int x = Math.max(left + margin, Math.min(best[0], right - width - margin));
-        int h = Math.max(Math.min(minUseful, bounds.height() - margin * 2), best[2]);
-        int y = Math.max(top + margin, Math.min(best[1], bottom - h - margin));
-        return new int[] {x, y, h, 0};
     }
 
     private static void addText(List<ClientTooltipComponent> target, Font font, Component value, int maxWidth) {

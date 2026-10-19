@@ -459,6 +459,12 @@ public final class VisualValidationHarness {
                 if (quests.validationTooltipScroll() <= 0) {
                     failJourney("the full bestiary target list did not enable internal tooltip scrolling"); return;
                 }
+                int scrollBefore = quests.validationTooltipScroll();
+                quests.validationKey(InputConstants.KEY_DOWN, false);
+                if (quests.validationTooltipScroll() != scrollBefore) { failJourney("plain Down arrow scrolled the tooltip in production"); return; }
+                quests.validationKey(InputConstants.KEY_DOWN, true);
+                if (quests.validationTooltipScroll() <= scrollBefore) { failJourney("Shift+Down did not scroll the tooltip in production"); return; }
+                MoreMinecrafts.LOGGER.info("PRODUCTION_KEYBOARD plain_arrow_scrolls=false shift_arrow_scrolls=true");
                 queueUiScreenshot("xp-quest-bestiary-scrolled.png");
                 uiJourneyStage = 62;
             }
@@ -547,6 +553,14 @@ public final class VisualValidationHarness {
                 }
                 MoreMinecrafts.LOGGER.info("PREVIEW_OPEN nodes=200 chapters=15 sub_branches=52 lang={} gui_scale={}",
                         client.getLanguageManager().getSelected(), client.getWindow().getGuiScale());
+                int iconsMissing = 0, iconsChecked = 0;
+                for (String icon : structurePreview.iconItemIds()) {
+                    iconsChecked++;
+                    var item = net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(net.minecraft.resources.Identifier.parse(icon));
+                    if (item == null || item == net.minecraft.world.item.Items.AIR) iconsMissing++;
+                }
+                MoreMinecrafts.LOGGER.info("QUEST_ICONS checked={} missing_from_registry={}", iconsChecked, iconsMissing);
+                if (iconsChecked != 200 || iconsMissing != 0) { failJourney("quest icons: " + iconsMissing + " missing of " + iconsChecked); return; }
                 previewSteps = previewSteps();
                 previewStepIndex = 0;
                 previewPendingName = null;
@@ -637,6 +651,15 @@ public final class VisualValidationHarness {
         List<PreviewStep> steps = new java.util.ArrayList<>();
         steps.add(new PreviewStep("structure-preview-initial", q -> null));
         steps.add(new PreviewStep("structure-preview-overview", q -> { q.validationFitAll(); q.validationClearHover(); return null; }));
+        steps.add(new PreviewStep("structure-preview-index-card-click", q -> {
+            q.validationFitAll();
+            q.validationClearHover();
+            int[] card = q.validationChapterCardCentre("building");
+            if (card == null) return "no chapter card for building at the index level";
+            if (!q.validationClickAt(card[0], card[1])) return "chapter card click was not handled";
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-medium-zoom-exploration", viewLane("exploration", 0.36, -1)));
         steps.add(new PreviewStep("structure-preview-mid-zoom", q -> {
             double[] c = laneCentre(q, "mining");
             q.validationViewAt(c[0], c[1], 0.3);
@@ -707,6 +730,24 @@ public final class VisualValidationHarness {
                     blocked, dismissed, stillBlocked, target.equals(q.validationSelectedId()));
             return clicked && target.equals(q.validationSelectedId()) ? null : "clicking the last node did not select it";
         }));
+        steps.add(new PreviewStep("structure-preview-regression-tooltip-open", viewLane("exploration", 0.75, 17)));
+        steps.add(new PreviewStep("structure-preview-regression-stale-tooltip", q -> {
+            q.validationClearHover();
+            q.validationClickAt(q.validationViewportX() + 3, q.validationViewportY() + 3);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-stale-click", q -> {
+            q.validationClearHover();
+            String target = q.validationQuestIdAt(17);
+            if (!q.validationClickNode(target) || !target.equals(q.validationSelectedId()))
+                return "a stale tooltip rectangle swallowed a click on a visible node";
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-keyboard-tooltip", q -> {
+            q.validationClearHover();
+            q.validationKey(InputConstants.KEY_RIGHT, false);
+            return null;
+        }));
         steps.add(new PreviewStep("structure-preview-zoom-roundtrip", q -> {
             double[] c = laneCentre(q, "farming");
             q.validationViewAt(c[0], c[1], 0.75);
@@ -727,6 +768,24 @@ public final class VisualValidationHarness {
         int[] n = q.validationNodeStats();
         String geometry = q.validationTooltipGeometry();
         boolean tooltip = !geometry.equals("none") && q.validationTooltipWithinScreen();
+        int[] lod = q.validationLargeMetrics();
+        int overlapping = q.validationOverlappingFrames();
+        String level = q.validationLevel();
+        MoreMinecrafts.LOGGER.info("PREVIEW_LOD name={} level={} zoom={} overlapping_frames={} label_overflows={} label_collisions={} labels_culled={} caption_collisions={} captions={} index_cards={} index_overflows={} markers={} quest_nodes={} tooltip_visible={}",
+                name, level, String.format("%.3f", q.validationZoomValue()), overlapping, lod[0], lod[1], lod[2], lod[4], lod[3],
+                lod[8], lod[5], lod[6], lod[7], q.validationTooltipVisible());
+        if (!level.equals("CHAPTER_INDEX") && overlapping != 0) {
+            failJourney("overlapping node frames at " + level + " in " + name + ": " + overlapping); return false;
+        }
+        if (lod[1] != 0) { failJourney("chapter labels collide in " + name); return false; }
+        if (lod[4] != 0) { failJourney("sub-branch captions collide with markers or captions in " + name); return false; }
+        if (name.endsWith("overview") && !level.equals("CHAPTER_INDEX")) { failJourney("overview did not use the chapter index"); return false; }
+        if (name.contains("medium-zoom") && !level.equals("SUB_BRANCH")) { failJourney("medium zoom did not show sub-branches"); return false; }
+        if (name.equals("structure-preview-zoomed-in") && !level.equals("QUEST")) { failJourney("close zoom did not show quest nodes"); return false; }
+        if (name.equals("structure-preview-index-card-click") && !level.equals("SUB_BRANCH")) { failJourney("choosing a chapter card did not zoom into its sub-branches"); return false; }
+        if (name.equals("structure-preview-regression-tooltip-open") && !q.validationTooltipVisible()) { failJourney("regression: keyboard/hover tooltip did not open"); return false; }
+        if (name.equals("structure-preview-regression-stale-tooltip") && q.validationTooltipVisible()) { failJourney("regression: tooltip stayed open after an empty click"); return false; }
+        if (name.equals("structure-preview-regression-keyboard-tooltip") && !q.validationTooltipVisible()) { failJourney("regression: keyboard focus did not open the tooltip"); return false; }
         MoreMinecrafts.LOGGER.info("PREVIEW_VIEW name={} gui_scale={} lang={} zoom={} nodes_total={} nodes_visible={} nodes_clipped={} overlapping_pairs={} tooltip_covered_nodes={} tooltip_in_viewport={} geometry(x,y,w,h;clears)={} render[{}]",
                 name, client.getWindow().getGuiScale(), client.getLanguageManager().getSelected(),
                 String.format("%.2f", q.validationZoomLevel()), n[0], n[1], n[2], n[3], q.validationTooltipCoveredNodes(),
