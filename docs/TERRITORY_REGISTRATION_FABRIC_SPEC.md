@@ -4,7 +4,9 @@ Stage D2-A, 2026-10-19 (Asia/Seoul). **PROPOSED technical specification; not imp
 
 ## 1. Contract and scope
 
-Preserve optional village participation and normal use of unregistered villages. The recovered historical interface is Text Display + Interaction with actual player-thrown vanilla items. The historical first valid contributor owns the registration; AVAILABLE → CLAIMING → LIBERATED describes registration, not development tier. Historical one-per-biome limits and material families are recovered inputs with unresolved Fabric applicability/definitions. No arbitrary material quantities, tier equivalences, radius, claim expiry, taxes or automatic ownership loss are introduced.
+Preserve optional village participation and normal use of unregistered villages. The recovered historical interface is Text Display + Interaction with actual player-thrown vanilla items. The historical first valid contributor owns the registration; AVAILABLE → CLAIMING → LIBERATED describes registration, not development tier. The historical one-per-biome limit is **SUPERSEDED by D02: one territory per player**. **D79** now approves exact registration materials/counts and **D80** approves T0 → T1 immediately on successful registration. The 2026-10-19 statements that those approvals were missing are historical, not current authority. Item-family registry/tag predicates, radius, claim expiry, taxes and automatic loss are not invented.
+
+**D79/D80 approved gameplay overlay (2026-10-20):** The village-center Text Display + Interaction setup collects **physically thrown vanilla items** for **both registration and future upgrades**. Registration requires **64 logs (원목), 128 cobblestone (조약돌), 32 sticks (막대기), 64 planks (판자), 32 coal (석탄), 16 iron ingots (철 주괴)**, counted as exact required totals. With the D03a liberation/challenge prerequisite satisfied (challenge details still OPEN), the completed registration grants **T1 at once**, without any additional T0→T1 payment. Subsequent T1→T2/T2→T3 fees remain OPEN. Tag/species/variant acceptance and drop-receipt durability remain unapproved. T0 is an unregistered vanilla village; accepting only part of the registration recipe does not grant T1.
 
 This document proposes serialization, validation, display reconstruction, attributed collection, non-destructive construction and failure recovery. Production admission is blocked until the associated policy and durability gates are met. “Must” inside a proposed algorithm states its technical invariant, not that the algorithm has been approved or proven.
 
@@ -32,8 +34,8 @@ Proposed durable record:
 
 - Stable `territoryId`, schema/revision, dimension and verified village identity; anchor identity/position/version kept separately. A moved/destroyed bell must not create a new claim. Generated structure identity versus player-made POI village eligibility remains OC01.
 - `registrationStatus = AVAILABLE | CLAIMING | LIBERATED`, nullable owner UUID, first accepted receipt, pinned registration-recipe version and per-material delivered totals.
-- Independent development `tier`/upgrade record governed by approved T0–T3 rules. No new default tier for a LIBERATED village is selected here; the transition/admission predicate remains disabled pending OC04.
-- Player/biome allocation index and pending reservations derived from the same authoritative registration ledger if the historical cap is adopted. The biome classifier/dimension scope remain OC02.
+- Independent development `tier`/upgrade record governed by approved T0–T3 rules. **D80 fixes the outcome:** AVAILABLE/CLAIMING has T0 entitlement; successful LIBERATED registration grants T1 **in the same completion transition**, without a second resource payment. Keep the status and tier as distinct conceptual fields, but never persist a successful newly LIBERATED registration as T0. T1→T2 and T2→T3 remain paid tier upgrades. The exact D03a challenge is still an eligibility gate, not a reason to leave the T1 result undecided.
+- Player allocation index and pending reservations must enforce the **D02 one-territory-per-player** cap across the approved village biome families; the historical per-biome cap is not current policy. The exact world/dimension scope and whether a partly funded CLAIMING state reserves a slot remain implementation/policy questions (OC02).
 - Separate operational condition `READY | RECONCILING | QUARANTINED` and construction job state. These are technical health states, not additional gameplay tiers or historical states. Errors must not silently set AVAILABLE, remove ownership or erase deposits.
 
 ```mermaid
@@ -43,11 +45,11 @@ stateDiagram-v2
     CLAIMING --> LIBERATED: pinned requirements satisfied
     note right of CLAIMING
       Historical first contributor is owner
-      No T1 entitlement inferred
+      Remains T0 until all completion gates
     end note
     note right of LIBERATED
-      Registration complete only
-      Development T0–T3 is separate
+      Registration complete; T1 granted D80
+      Later tiers T2/T3 are separate upgrades
     end note
 ```
 
@@ -58,18 +60,18 @@ No timer, logout, death, raid failure, absent interface or missing chunk automat
 | AVAILABLE | Click or walk into area | Show current requirements/status only | Owner, quota, items, delivered totals |
 | AVAILABLE | Authenticated eligible player's accepted positive quantity for an outstanding approved material; village + player allocation atomically available | Set owner and first receipt, reserve allocation, credit exactly accepted quantity; enter CLAIMING | On invalid item/unknown thrower/missing recipe/cap failure, no consumption or ownership |
 | CLAIMING | Same owner contributes outstanding material | Credit up to remaining requirement; preserve excess and receipt identity | Other player drops cannot steal ownership; helper contribution admission remains OC05 |
-| CLAIMING | All pinned requirements complete | Commit LIBERATED once; preserve owner and totals | No automatic tier increase, construction, guards or rewards |
+| CLAIMING | All D79 material totals met **and** D03a liberation/challenge satisfied | Commit LIBERATED and T1 **together, exactly once**; preserve owner and totals; do not charge for T0→T1 again | No premature T1 on partial/failed registration, no unsafe facility construction, no duplicate charges/entitlements |
 | LIBERATED | Replayed/late/excess deposit | No registration charge; preserve or reconcile already accepted item projection | No second completion or upgrade |
 | Any | Reload/missing UI | Reconcile durable state and reconstruct projections | No owner assignment from entity proximity or client text |
 | Any | Corrupt/contradictory ledger or unresolved receipt | Quarantine this registration path, retain evidence; ordinary village interaction remains usable | No guessed refund, duplicate credit or blanket village freeze |
 
-Production validation requires a complete approved recipe. “Wood”, “iron” etc. are not registry predicates until OC03 is resolved. Fixture recipes can test logic but must not be survival-registered. Recipe edits cannot retroactively reprice accepted deposits: pin a version; changing an in-flight recipe requires a reviewed migration/refund policy.
+**D79 fixes exact item families and counts.** However, a numeric recipe is not a complete registry predicate: permitted log/plank species, stripped variants, item components and charcoal-versus-coal handling remain OC03 decisions. Do not infer unsupported variants or substitute charcoal for coal. Fixture recipes can test logic; a live collector must await clear predicates, authenticated attribution and persistence/receipt validation. Recipe edits cannot retroactively reprice accepted deposits: pin a version; changing an in-flight recipe requires a reviewed migration/refund policy.
 
 ## 4. Multiplayer ownership conflict handling
 
 Recommended **PROPOSED** arbitration is first **server-serialized, successfully committed positive contribution**, not client timestamp, first click, item entity creation time, nearest player, largest donation or final payer. Revalidate eligibility at commit. An atomic compare-and-set on AVAILABLE plus allocation index prevents two owners. A transaction sequence provides a replay-stable order; do not sort concurrent items by player UUID as an undocumented gameplay advantage. Define and test deterministic processing when multiple items enter between collector runs; the policy must be accepted under OC05.
 
-If one player concurrently attempts two villages of the same biome, reserve/recheck the player-biome slot in the **same transaction** as ownership; only one can win if the historical cap is adopted. The losing item remains unconsumed. CLAIMING should count as a reservation to avoid evasion, but this is PROPOSED until OC02. Do not silently reset quotas on death, logout, tier changes or a bell replacement.
+If one player concurrently attempts two villages **of any biome**, reserve/recheck the player's single territory slot in the **same transaction** as ownership; only one can win under D02. The losing item remains unconsumed. Whether CLAIMING occupies the slot until completion, cancellation or release is still an OPEN subpolicy of OC02. Do not silently reset quotas on death, logout, tier changes or a bell replacement.
 
 Recommended helpers policy: owner-only deposits initially; reject other players' drops without consuming them. Alternative: explicit owner-authorized helper donations, irrevocable or refundable according to a reviewed rule. Public donations are another distinct gameplay outcome. None is approved by “first contributor owns”; OC05 remains open. No click-based preclaim is added.
 
@@ -123,7 +125,7 @@ Propose four distinct geometries: village identity/search envelope, deposit volu
 | Reserve | Validate loaded chunks, slopes, structures, clearance, villagers/entities and neighbor effects; acquire footprint reservation and revision; reserve approved materials without committing a successful upgrade. A reservation is not permanent world protection |
 | Revalidate | Immediately before mutation compare all relevant preconditions to captured snapshots. Concurrent edit or other job overlap invalidates plan. Exact route/placement/clearance thresholds require a later approved design, not guessed numbers |
 | Apply **[journal WITHDRAWN]** | Journal intended and completed writes; update only approved owned positions. Handle block entity components, scheduled fluid/redstone updates, drops and external callbacks explicitly. Avoid producing items/entities that rollback cannot retract. Do not run arbitrary template effects outside the validated footprint/halo |
-| Verify | Check complete building and safety invariants. Establish beds/workstations before adding population. Unique job/member identities prevent duplicate villagers/guards on retry. Registration completion does not start this job by itself |
+| Verify | Check complete building and safety invariants. Establish beds/workstations before adding population. Unique job/member identities prevent duplicate villagers/guards on retry. Registration completion **does grant T1 by D80** but does not start this construction job without separate D04 safety validation |
 | Commit | Only after verified durable success update development tier and resource receipt as one recoverable domain operation. One territory-wide tier; no facility levels. Publish new protected footprint/revision, then release temporary reservation |
 | Roll back **[WITHDRAWN; D04 prevalidation replaces it]** | In reverse journal order, restore a position only if it is still this job's write and its current after-state/fingerprint matches. Restore supported block-entity state; remove only exact job-created entity IDs. Never overwrite later player/other-system edits or duplicate drops/resources |
 | Conflict / restart **[WITHDRAWN]** | Resume or undo through journal evidence and reservations. If inverse operation is unsafe, quarantine the job, retain progress/escrow and require explicit repair. Do not report rollback complete, auto-charge twice, or reset territory tier/ownership merely because recovery is blocked |
@@ -138,13 +140,13 @@ All tests here are **specified, NOT RUN**. D2-A inspects sources and publishes d
 |---|---|
 | API | Java25 compile against exact pinned26.3/Fabric stack; confirm classtweaker application and real descriptors, TextDisplay spawning/text sync, Interaction width/height/reach, click before spectator check; no custom registration renderer needed solely for text |
 | Identity | Same village from multiple chunks/anchors resolves once; moved/replaced bell does not clone ownership; ambiguous/overlapping/player-made village cases follow approved policy; no forced global scans |
-| Ownership | Invalid/wrong/zero contribution cannot claim; two simultaneous eligible players yield one first owner; one player/same-biome concurrent claims obey adopted cap; final payer does not replace owner; click alone does not claim |
+| Ownership | Invalid/wrong/zero contribution cannot claim; two simultaneous eligible players yield one first owner; D02 one-territory cap applies across biomes; final payer does not replace owner; click alone does not claim |
 | Items | Accepted partial stack/excess remainder; owner/helper rules; unknown/dispensed/death/water/hopper/creative routes; mixed contributor merge, splits, pickup/burn/despawn races, item out of bounds; exact vanilla components remain intact |
 | Durability | Separate JVMs: kill at every drop issuance/inventory-save/entity-save/PREPARED/ACCEPT/credit/owner-save boundary; reverse save order, restore older chunks/playerdata, replay same token and partial remainder; require no duplicate units and no lost legitimate contribution. Disk-full/corruption and world mismatch fail without guessed repair |
 | Interface | One display+interaction role pair after reload/unload/restart; no click grants owner, UI reflects canonical committed state, stale revision shows a retry; unregistered villagers/beds/doors remain normal |
 | Protection | Exact managed bounds, player block outside/inside envelope, owner/non-owner, container/door/lever/button, pistons/fire/explosion/fluids; no blanket village freeze while CLAIMING |
 | Construction **[journal/rollback test items WITHDRAWN; keep atomic prevalidation and no-overwrite checks]** | Player-edited plans rejected; concurrent edit between plan/apply invalidates; injected failure at every write; compare-and-set rollback refuses to overwrite later edits; container/entity/POI/drop/neighbor effects; unloaded chunk/restart journal reconciliation, no duplicate villagers or charges |
-| Tier | AVAILABLE/CLAIMING/LIBERATED never grant T1–T3 through an inferred mapping; only a separately approved development transition can grant entitlements |
+| Tier | T0 until successful registration; all D79 totals plus approved D03a challenge trigger **LIBERATED + T1 once** under D80. Reject partial material delivery, replay, second-payment/T0→T1 upgrade and premature building edits; separately paid T1→T2/T2→T3 follow D04 |
 | Live | Native26.3 client display readability, real hand throws/geometry, two-player arbitration, vanilla village usability, terrain/pathing, existing-world saves and server restart. No synthetic screenshot or source inspection is live acceptance |
 
 The next step is policy review of the companion conflict ledger and a receipt/projection proof on an authorized implementation base. This task starts neither prototype nor production code.
