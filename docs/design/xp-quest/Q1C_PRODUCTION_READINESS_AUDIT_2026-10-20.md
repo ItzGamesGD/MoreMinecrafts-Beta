@@ -17,7 +17,7 @@ Completed:
 - Confirmed Q1-C `17e980912d636b0572a3f25b24995ffde31c754c` is 139 commits / 376 files ahead of `main`, with `main` as merge-base.
 - Confirmed `integration/stage23-final-reconciliation-20261016` is 76 commits / 231 files ahead of `main`. PR #104 merged to that integration line only, not to `main`.
 
-Completed publication: Draft audit PR [#139](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/pull/139), targeting main. GitHub reports its exact remote head as aedc32e261fc76ac1e32e72a6bdec157a929e23f and Draft=true. The shell git push attempt was blocked by the unavailable network proxy; the complete audit document was synchronized to the same dedicated GitHub branch with the authenticated GitHub contents API. No uncommitted work remains. Local commit f6b3403 is an equivalent copy of the audit content; the GitHub API created the authoritative remote commit above.
+Completed publication: Draft audit PR [#139](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/pull/139), targeting main. The shell git push attempt was blocked by the unavailable network proxy; the complete audit document was synchronized to the dedicated GitHub branch with the authenticated GitHub contents API. GitHub PR metadata is the authority for the current remote head and Draft state. No uncommitted work remains. Local commits f6b3403 and f2dca0b are equivalent local copies of the audit document; the GitHub API created the authoritative remote commits.
 
 ## Phase A — verified dependency inventory
 
@@ -180,4 +180,4 @@ Recommended path: B as the bounded target, delivered through narrow staged units
 
 ### Continuation checkpoint
 
-Audit analysis and doc are complete; no production gameplay/UI source was changed, no project tests were run, and no prerequisite PR was approved or merged. Audit PR: https://github.com/ItzGamesGD/MoreMinecrafts-Beta/pull/139 (Draft; base main; exact head aedc32e261fc76ac1e32e72a6bdec157a929e23f). GitHub contents API synchronization is confirmed; direct shell push was blocked by proxy connectivity. If continuing in a new session, read this document and AGENTS.md, fetch and verify current refs, then resume only from an explicitly approved next task.
+Audit analysis and doc are complete; no production gameplay/UI source was changed, no project tests were run, and no prerequisite PR was approved or merged. Audit PR: https://github.com/ItzGamesGD/MoreMinecrafts-Beta/pull/139 (Draft, base main). The exact remote head is reported by GitHub PR metadata. GitHub contents API synchronization is confirmed; direct shell push was blocked by proxy connectivity. If continuing in a new session, read this document and AGENTS.md, fetch and verify current refs, then resume only from an explicitly approved next task.
