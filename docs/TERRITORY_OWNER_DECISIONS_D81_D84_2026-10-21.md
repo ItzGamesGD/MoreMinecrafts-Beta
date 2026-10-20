@@ -1,3 +1,5 @@
+> **LATEST OWNER SCOPE CHANGE (2026-10-21): TERRITORY SHELVED.** This document is historical design reference, **not an active implementation specification**. See [territory shelving and independent-content decision](TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21.md). Do not implement D01–D84 as a territory system without explicit owner reactivation.
+
 # Territory owner decisions D81–D84 and facility design handoff — 2026-10-21
 
 Status: **OWNER-APPROVED gameplay policy, documentation only**. Stacked on Draft PR #136 HEAD `d641075f2078697e432f123d61178a73d26fbdf8`. This supplements [D01–D80](TERRITORY_OWNER_DECISIONS_2026-10-20.md); it does not authorize gameplay code or merges.
