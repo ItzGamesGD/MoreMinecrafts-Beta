@@ -136,3 +136,8 @@ Exact liberation challenge; acceptance tags/variants and crash-safe payment engi
 
 ## Implementation and QA boundaries
 No gameplay code authorized by this documentation PR. Keep Draft, do not merge, do not change main or other active branches. For later implementation, rely on established protection and non-destructive preflight validation. Do not silently reintroduce withdrawn D67–D78 as technical prerequisites. Treat proposed numeric defaults as pending unless specifically approved above.
+
+
+## Subsequent owner-approved decisions D81–D84 (2026-10-21)
+
+**Authoritative continuation:** [D81–D84 and facility design handoff](TERRITORY_OWNER_DECISIONS_D81_D84_2026-10-21.md). D81 bell-centered physical registration resolves the separate D03a challenge at owner-policy level; D82 approves item variants including charcoal; D83 approves T1→T2 and T2→T3 upgrade costs; D84 approves conservative automatic site search/clearing and full refund with space-clearance notice on failed upgrade. These supersede the corresponding OPEN owner-decision labels above; technical drop attribution, crash-safe payment/refund, exact item identifiers, and initial T1 placement remain unresolved. D01–D66 and D79–D80 remain in force, D67–D78 remain WITHDRAWN. Documentation only; do not implement or merge from this note.
