@@ -34,13 +34,13 @@ Source: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECISIONS_2026
 | ID | Updated disposition |
 |---|---|
 | OC02 | Historical per-biome cap SUPERSEDED by D02 (one territory per player). Dimension/world scope and whether CLAIMING reserves the slot remain open |
-| OC04 | Unchanged and open. D57 says re-registration starts at T0 and D03a requires liberation/challenge; the registration-to-tier conversion is still undefined |
+| OC04 | **HISTORICAL D01–D66 REVIEW, SUPERSEDED BY D80:** D57 starts re-registration at T0 and D03a still requires a liberation/challenge; successful registration now grants T1 immediately. See D79–D80 overlay below |
 | OC05 | Unchanged and open; D01 confirms a single owner with no co-owner |
 | OC06 | PARTLY RESOLVED by D03b, D54–D58: voluntary relinquish only, no transfer, no inactivity repossession. Cancel/refund and administrative repair remain open |
 | OC08 | Registration-payment receipt remains an unapproved PROPOSAL; see the owner record for its boundary. Not a block-history system |
 | OC09 / OC10 | PARTLY RESOLVED by D05a–c. Non-owner permission matrix and adoption of original buildings remain open |
 | OC11 | Journal, snapshot, compare-and-set rollback and quarantine are WITHDRAWN. Replaced by D04 (prevalidate everything, apply atomically, consume nothing on failure) and D59–D66 (conservative, non-destructive placement). Construction durability across a crash is an ordinary implementation concern bounded by that rule; do not add a history subsystem |
-| OC13 / OC01 / OC03 / OC07 / OC12 / OC14 | Unchanged; SOURCE MISSING labels preserved |
+| OC13 / OC01 / OC03 / OC07 / OC12 / OC14 | **Historical source evidence preserved**, but **OC03 material counts now RESOLVED by D79**. Variant/technical/source details remain open; see D79–D80 overlay |
 
 
 ## D79–D80 owner decisions — later resolution overlay (2026-10-20)
