@@ -23,11 +23,11 @@ def validate(catalog_path: Path, inventory_path: Path) -> None:
         ):
             value = quest["tracker"][key] if field == "tracker_kind" else quest[key]
             assert row[field] == value, (quest["id"], field)
-        assert row["registered"] == str(quest["registered"]), quest["id"]
+        assert row["registered"] == str(quest["registered"]).lower(), quest["id"]
         assert int(row["target"]) == quest["target"], quest["id"]
         assert int(row["raw_xp"]) == quest["rewardRawXp"], quest["id"]
         assert json.loads(row["tracker_json"]) == quest["tracker"], quest["id"]
-    assert Counter(row["registered"] for row in rows) == {"True": 75, "False": 125}
+    assert Counter(row["registered"] for row in rows) == {"true": 75, "false": 125}
     assert Counter(row["status"] for row in rows) == {"NOW": 163, "VERIFY": 17, "FUTURE": 20}
     assert sum(int(row["raw_xp"]) for row in rows) == 209100
     assert sum(int(row["raw_xp"]) for row in rows if row["status"] != "FUTURE") == 180000
