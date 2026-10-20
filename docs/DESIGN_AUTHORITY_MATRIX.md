@@ -93,8 +93,20 @@ Governing record: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECI
 
 | Row | Effect |
 |---|---|
-| A03 | PARTLY RESOLVED: D01–D03, D54–D58. Liberation challenge and registration materials remain open |
+| A03 | **HISTORICAL D01–D66 review; later D79/D80 supersede the material-count and T1-mapping gaps.** Liberation challenge, item-acceptance predicates and lifecycle details remain open; see A41–A42 below |
 | A04 | Refined by D05 and D59–D66; no journal, provenance or backup subsystem is required |
 | A06 | Healing and replenishment SUPERSEDED by D29–D32, D41–D43; retaliation by D50–D52. Provisional stats stay PROPOSED |
-| A37 | Per-biome cap SUPERSEDED by D02; other input unchanged |
+| A37 | Per-biome cap SUPERSEDED by D02; **historical material-quantity uncertainty superseded by D79 and tier relationship approved by D80 (A41–A42)** |
 | A38 / A40 | Receipts, permissions and rollback remain PROPOSED/unapproved; rollback journal WITHDRAWN |
+
+## D79–D80 owner-approved registration outcome — 2026-10-20 (later authority)
+
+Governing source: [Territory owner decisions D79–D80](TERRITORY_OWNER_DECISIONS_2026-10-20.md). D01–D66 remain approved; **D67–D78 remain WITHDRAWN**. Old D1/D2-A rows above are preserved as historical audit and do **not** supersede D79/D80.
+
+| ID | Approval and precise scope | Status / source | Effect on earlier entries |
+|---|---|---|---|
+| A41 / D79 | Direct physical **village-center Text Display + Interaction item-throw registration**, with exactly **64 logs (원목), 128 cobblestone (조약돌), 32 sticks (막대기), 64 planks (판자), 32 coal (석탄), 16 iron ingots (철 주괴)** per registration. **Later upgrades use the same item-throw interface**. | **APPROVED exact item families/counts/interface**; owner D79, D22 | Replaces 'registration materials/counts unknown' in A03/A37, OC03/F02 and D2-A spec. Does **not** set item-registry/tag variants, receipt algorithm, T1→T2/T2→T3 prices or permit GUI-only upgrade payment. Historical Paper source remains SOURCE MISSING, not needed to disbelieve current user approval. |
+| A42 / D80 | **T0** = unregistered ordinary village; once D79 requirements **and** eligible D03a liberation/challenge are fulfilled, completion **CLAIMING → LIBERATED** awards **T1 immediately, exactly once** without separate T0→T1 payment/upgrade. Tier data may remain a distinct record; **T1→T2→T3 are separately paid upgrades**. D57 relinquishment returns village to T0. | **APPROVED registration→tier outcome**; owner D80, D03a, D04, D57 | Resolves A38/OC04's old missing T1 relationship, replaces D2-A spec's 'no T1 inferred' rule. Does **not** settle the exact D03a challenge, construction template placement, entitlement save-order proof or cancellation/migration. Do not grant T1 from partial deposits. |
+
+**Still-open implementation gates:** precise log/plank/coal item predicates, challenge details, ownership/eligibility edges, acceptance provenance and no-dup/no-loss crash proof, registration migration, T1 facilities and upgrade costs. **Resolved game design questions:** D79 required counts and D80 instant T1; do not ask owner to reconfirm those.
+
