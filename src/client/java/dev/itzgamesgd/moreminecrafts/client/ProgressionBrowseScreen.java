@@ -113,6 +113,8 @@ public final class ProgressionBrowseScreen extends Screen {
         return canvas != null && canvas.viewport() != null ? canvas.viewport() : responsive.viewport();
     }
     public String validationTooltipCoveredNodeId() { return canvas == null ? null : canvas.tooltipCoveredNodeId(); }
+    public String validationLabelOverflowNotes() { return canvas == null ? "" : canvas.labelOverflowNotes(); }
+    public String validationObstructingQuestId() { return canvas == null ? null : canvas.validationObstructingQuestId(); }
     public double validationViewportHeight() { return canvasView().height(); }
     public void validationOwnPointer(boolean owns) { if (canvas != null) canvas.validationOwnPointer(owns); }
     public int[] validationEmptyPoint() { return canvas == null ? null : canvas.validationEmptyPoint(); }

@@ -54,6 +54,7 @@ public final class ProgressionTreeCanvas {
     private final List<IndexCard> indexCards = new ArrayList<>();
     private final List<int[]> labelBoxes = new ArrayList<>();
     private int labelOverflows;
+    private final List<String> labelOverflowNotes = new ArrayList<>();
     private int labelCollisions;
     private int labelsCulled;
     private int captionsDrawn;
@@ -70,6 +71,9 @@ public final class ProgressionTreeCanvas {
     private final double canvasHeight;
     private ProgressionCanvasGeometry.Rect viewport;
     private ProgressionCanvasGeometry.Rect fullViewport;
+    private Font lastFont;
+    private Map<String, ProgressionScreenData.QuestRow> lastQuestRows;
+    private int lastGuiHeight;
     private int gutter;
     private ProgressionCanvasGeometry.Camera camera = new ProgressionCanvasGeometry.Camera(0, 0, 1.0);
     private String selectedId;
@@ -256,9 +260,24 @@ public final class ProgressionTreeCanvas {
         if (tooltipWidth <= 0 || viewport == null) return null;
         for (var node : nodes) {
             if (node.id().equals(hoveredId)) continue;
-            var f = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
-            if (tooltipX < f.right() && tooltipX + tooltipWidth > f.x() && tooltipY < f.bottom() && tooltipY + tooltipHeight > f.y()
-                    && f.right() > viewport.x() && f.x() < viewport.right() && f.bottom() > viewport.y() && f.y() < viewport.bottom()) return node.id();
+            int sx = screenX(node.x()), sy = screenY(node.y());
+            if (viewport.contains(sx, sy) && tooltipContains(sx, sy)) return node.id();
+        }
+        return null;
+    }
+    /** Validation: a quest whose tooltip, placed by the same geometry the render uses, hides another visible node's centre. */
+    public String validationObstructingQuestId() {
+        if (!largeGraph() || lastFont == null || lastQuestRows == null || viewport == null) return null;
+        for (var node : nodes) {
+            var quest = lastQuestRows.get(node.id());
+            if (quest == null || !viewport.contains(screenX(node.x()), screenY(node.y()))) continue;
+            var sizing = questTooltipSizing(lastFont, quest);
+            int[] p = questTooltipPlacement(lastFont, node, sizing, lastGuiHeight);
+            for (var other : nodes) {
+                if (other.id().equals(node.id())) continue;
+                int ox = screenX(other.x()), oy = screenY(other.y());
+                if (viewport.contains(ox, oy) && ox >= p[0] && ox < p[0] + sizing.width() && oy >= p[1] && oy < p[1] + p[2]) return node.id();
+            }
         }
         return null;
     }
@@ -403,6 +422,9 @@ public final class ProgressionTreeCanvas {
                        Map<String, ProgressionScreenData.ResearchRow> researchRows,
                        Map<String, ProgressionScreenData.QuestRow> questRows) {
         if (viewport == null) return;
+        lastFont = font;
+        lastQuestRows = questRows;
+        lastGuiHeight = graphics.guiHeight();
         if (largeGraph()) level = QuestLevelOfDetail.next(level, camera.zoom());
         drawBackground(graphics);
         if (questLayout != null) drawQuestWorkspaceGrid(graphics);
@@ -578,6 +600,7 @@ public final class ProgressionTreeCanvas {
     private void drawLargeOverlays(GuiGraphicsExtractor graphics, Font font,
                                    Map<String, ProgressionScreenData.QuestRow> questRows) {
         labelBoxes.clear();
+        labelOverflowNotes.clear();
         indexCards.clear();
         labelOverflows = 0;
         labelCollisions = 0;
@@ -593,10 +616,7 @@ public final class ProgressionTreeCanvas {
             if (sx > viewport.right() || screenX(sub.right()) < viewport.x()) continue;
             Component caption = subTitleFor(sub);
             int width = font.width(caption);
-            // Keep the caption readable when its sub-branch starts left of the viewport: slide it in, but never
-            // past the sub-branch's own right edge.
-            int slid = Math.max(sx, viewport.x() + 4);
-            sx = Math.max(sx, Math.min(slid, screenX(sub.right()) - 4 - width));
+            sx = captionX(sub, width);
             int[] box = {sx, sy, width, font.lineHeight};
             for (int[] other : captionBoxes) if (overlaps(box, other)) captionCollisions++;
             // A caption must stay clear of the first row of markers beneath it.
@@ -606,6 +626,15 @@ public final class ProgressionTreeCanvas {
             graphics.text(font, caption, sx, sy, 0xFFC9C0A4, false);
             captionsDrawn++;
         }
+    }
+
+    /**
+     * Left edge of a caption. A sub-branch that starts left of the viewport slides its caption into view, but never past
+     * the sub-branch's own right edge, so the text is readable at every pan position.
+     */
+    private int captionX(QuestTreeLayout.SubBranchBounds sub, int width) {
+        int sx = screenX(sub.x()) + 6;
+        return Math.max(sx, Math.min(Math.max(sx, viewport.x() + 4), screenX(sub.right()) - 4 - width));
     }
 
     /** Chapter labels (or the chapter index) live in screen space, in the gutter beside the canvas. */
@@ -627,7 +656,11 @@ public final class ProgressionTreeCanvas {
                 chapterDone(lane.chapterId(), questRows), chapterCount(lane.chapterId())), textWidth);
         int lineHeight = font.lineHeight + 1;
         int blockHeight = (titleLines.size() + progressLines.size()) * lineHeight + 4;
-        if (blockHeight > visBottom - visTop) labelOverflows++;
+        if (blockHeight > visBottom - visTop) {
+            labelOverflows++;
+            labelOverflowNotes.add(lane.chapterId() + " visible=" + (visBottom - visTop) + " block=" + blockHeight
+                    + (screenY(lane.top()) < viewport.y() ? " cut_top" : "") + (screenY(lane.bottom()) > viewport.bottom() ? " cut_bottom" : ""));
+        }
         int x = fullViewport.x() + 4;
         int y = (visTop + visBottom) / 2 - blockHeight / 2;
         y = Math.max(viewport.y() + 2, Math.min(y, viewport.bottom() - blockHeight - 2));
@@ -687,6 +720,8 @@ public final class ProgressionTreeCanvas {
     }
 
     /** Screen-space layout metrics for the validation harness. */
+    /** Validation: one line per chapter label taller than its visible lane band, with whether the lane is cut by the viewport. */
+    public String labelOverflowNotes() { return String.join("; ", labelOverflowNotes); }
     public int[] largeGraphMetrics() {
         return new int[] {labelOverflows, labelCollisions, labelsCulled, captionsDrawn, captionCollisions,
                 indexOverflows, markersDrawn, nodesDrawn, indexCards.size(), labelBoxes.size()};
@@ -1060,44 +1095,91 @@ public final class ProgressionTreeCanvas {
         return rows;
     }
 
-    private void drawQuestTooltip(GuiGraphicsExtractor graphics, Font font,
-                                  ProgressionNodeLayoutCatalog.Node node, ProgressionScreenData.QuestRow quest) {
-        if (quest == null) return;
-        if (!quest.id().equals(tooltipQuestId)) { tooltipQuestId = quest.id(); tooltipScroll = 0; }
-        int screenW = graphics.guiWidth(), screenH = graphics.guiHeight();
-        final int pad = 6, lineHeight = 10, separator = 4, margin = 6, scrollbar = 5;
+    private static final int TIP_PAD = 6, TIP_LINE = 10, TIP_SEPARATOR = 4, TIP_MARGIN = 6, TIP_SCROLLBAR = 5;
+
+    /** Text and size of the quest tooltip, independent of where it is placed. */
+    private record TooltipSizing(int width, int fixedHeight, int listHeight, int separatorHeight, int fullHeight,
+                                 List<net.minecraft.util.FormattedCharSequence> fixed,
+                                 List<net.minecraft.util.FormattedCharSequence> list) {}
+
+    private TooltipSizing questTooltipSizing(Font font, ProgressionScreenData.QuestRow quest) {
         List<TooltipRow> rows = questTooltipRows(quest);
         // Responsive limit: at most 250 px, but never more than ~42% of the canvas, so a small GUI (scale 3) keeps room
         // for the nodes the tooltip would otherwise hide. Long content scrolls inside the tooltip instead.
         int responsiveCap = largeGraph() ? (int) (viewport.width() * 0.42) : 250; // production tooltips keep their size
-        int maxWidth = Math.max(120, Math.min(Math.min(250, responsiveCap), viewport.width() - margin * 2));
+        int maxWidth = Math.max(120, Math.min(Math.min(250, responsiveCap), viewport.width() - TIP_MARGIN * 2));
         int natural = 0;
         for (TooltipRow row : rows) natural = Math.max(natural, font.width(row.text()));
-        int width = Math.max(110, Math.min(maxWidth, natural + pad * 2 + scrollbar));
-        int textWidth = width - pad * 2 - scrollbar;
+        int width = Math.max(110, Math.min(maxWidth, natural + TIP_PAD * 2 + TIP_SCROLLBAR));
+        int textWidth = width - TIP_PAD * 2 - TIP_SCROLLBAR;
         List<net.minecraft.util.FormattedCharSequence> fixed = new ArrayList<>(), list = new ArrayList<>();
         for (TooltipRow row : rows) (row.scrollable() ? list : fixed).addAll(font.split(row.text(), textWidth));
-        int fixedHeight = fixed.size() * lineHeight;
-        int listHeight = list.size() * lineHeight;
-        int separatorHeight = list.isEmpty() ? 0 : separator;
-        int maxHeight = Math.max(60, Math.min(viewport.height() - margin * 2, Math.min(190, (int) (screenH * 0.7))));
-        int fullHeight = pad * 2 + fixedHeight + separatorHeight + listHeight;
-        var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+        int fixedHeight = fixed.size() * TIP_LINE;
+        int listHeight = list.size() * TIP_LINE;
+        int separatorHeight = list.isEmpty() ? 0 : TIP_SEPARATOR;
+        int fullHeight = TIP_PAD * 2 + fixedHeight + separatorHeight + listHeight;
+        return new TooltipSizing(width, fixedHeight, listHeight, separatorHeight, fullHeight, fixed, list);
+    }
+
+    private ProgressionCanvasGeometry.Rect nodeFrame(ProgressionNodeLayoutCatalog.Node node) {
+        return ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
+    }
+
+    /**
+     * Where the tooltip goes: {x, y, height, nodesCovered, captionsCovered, anchorCovered}. Large graphs use the
+     * collision-aware choice; the production three-node layout keeps its original rule and never covers a node.
+     */
+    private int[] questTooltipPlacement(Font font, ProgressionNodeLayoutCatalog.Node node, TooltipSizing sizing, int guiHeight) {
+        int maxHeight = Math.max(60, Math.min(viewport.height() - TIP_MARGIN * 2, Math.min(190, (int) (guiHeight * 0.7))));
+        var frame = nodeFrame(node);
         List<ProgressionCanvasGeometry.Rect> allFrames = new ArrayList<>();
         for (var other : nodes) allFrames.add(ProgressionCanvasGeometry.nodeFrameBounds(
                 screenX(other.x()), screenY(other.y()), camera.zoom()));
         int[] placement = null;
         // Prefer three visible list rows, then two, then one, before ever overlapping a node.
         for (int wantedRows = 3; wantedRows >= 1 && placement == null; wantedRows--) {
-            int minUseful = Math.min(fullHeight, pad * 2 + fixedHeight + separatorHeight + lineHeight * wantedRows);
-            int[] candidate = QuestTooltipPlacement.place(frame, allFrames, width, Math.min(fullHeight, maxHeight), minUseful, viewport, margin);
-            if (wantedRows == 1 || candidate[3] == 1) placement = candidate;
+            int minUseful = Math.min(sizing.fullHeight(), TIP_PAD * 2 + sizing.fixedHeight() + sizing.separatorHeight() + TIP_LINE * wantedRows);
+            int wanted = Math.min(sizing.fullHeight(), maxHeight);
+            if (largeGraph()) {
+                var selected = selectedId != null && !selectedId.equals(node.id()) && byId.containsKey(selectedId)
+                        ? nodeFrame(byId.get(selectedId)) : null;
+                int[] c = QuestTooltipPlacement.choose(frame, selected, allFrames, captionFrames(font), sizing.width(), wanted,
+                        minUseful, viewport, TIP_MARGIN);
+                // Accept once the tooltip covers no node other than its own anchor; otherwise try fewer rows.
+                if (wantedRows == 1 || c[3] - c[5] == 0) placement = c;
+            } else {
+                int[] c = QuestTooltipPlacement.place(frame, allFrames, sizing.width(), wanted, minUseful, viewport, TIP_MARGIN);
+                if (wantedRows == 1 || c[3] == 1) placement = new int[] {c[0], c[1], c[2], 0, 0, 0};
+            }
         }
-        int height = placement[2];
-        int visibleHeight = Math.max(lineHeight, (height - pad * 2 - fixedHeight - separatorHeight) / lineHeight * lineHeight);
-        boolean scrolls = !list.isEmpty() && listHeight > visibleHeight;
-        if (!scrolls) { visibleHeight = listHeight; }
-        height = pad * 2 + fixedHeight + separatorHeight + visibleHeight;
+        return placement;
+    }
+
+    /** Screen rectangles of the sub-branch captions drawn at this level, so the tooltip can avoid them. */
+    private List<ProgressionCanvasGeometry.Rect> captionFrames(Font font) {
+        List<ProgressionCanvasGeometry.Rect> out = new ArrayList<>();
+        if (!largeGraph() || level == QuestLevelOfDetail.Level.CHAPTER_INDEX) return out;
+        for (var sub : questLayout.subBranches()) {
+            int width = font.width(subTitleFor(sub));
+            int sy = screenY(sub.y()) + 3;
+            if (sy + font.lineHeight < viewport.y() || sy > viewport.bottom() || screenX(sub.right()) < viewport.x()) continue;
+            out.add(new ProgressionCanvasGeometry.Rect(captionX(sub, width), sy, width, font.lineHeight));
+        }
+        return out;
+    }
+
+    private void drawQuestTooltip(GuiGraphicsExtractor graphics, Font font,
+                                  ProgressionNodeLayoutCatalog.Node node, ProgressionScreenData.QuestRow quest) {
+        if (quest == null) return;
+        if (!quest.id().equals(tooltipQuestId)) { tooltipQuestId = quest.id(); tooltipScroll = 0; }
+        var sizing = questTooltipSizing(font, quest);
+        int[] placement = questTooltipPlacement(font, node, sizing, graphics.guiHeight());
+        int width = sizing.width();
+        int visibleHeight = Math.max(TIP_LINE, (placement[2] - TIP_PAD * 2 - sizing.fixedHeight() - sizing.separatorHeight()) / TIP_LINE * TIP_LINE);
+        boolean scrolls = !sizing.list().isEmpty() && sizing.listHeight() > visibleHeight;
+        if (!scrolls) visibleHeight = sizing.listHeight();
+        int height = TIP_PAD * 2 + sizing.fixedHeight() + sizing.separatorHeight() + visibleHeight;
+        var frame = nodeFrame(node);
         tooltipWidth = width;
         tooltipHeight = height;
         tooltipX = placement[0];
@@ -1106,22 +1188,22 @@ public final class ProgressionTreeCanvas {
         graphics.outline(tooltipX, tooltipY, width, height, 0xFFC8A951);
         graphics.outline(tooltipX + 1, tooltipY + 1, width - 2, height - 2, 0x55000000);
 
-        int y = tooltipY + pad;
-        for (var line : fixed) { graphics.text(font, line, tooltipX + pad, y, 0xFFE8E5DE, false); y += lineHeight; }
-        int listTop = y + separatorHeight;
-        int visibleLines = Math.max(1, visibleHeight / lineHeight);
-        int maxScroll = Math.max(0, list.size() - visibleLines);
+        int y = tooltipY + TIP_PAD;
+        for (var line : sizing.fixed()) { graphics.text(font, line, tooltipX + TIP_PAD, y, 0xFFE8E5DE, false); y += TIP_LINE; }
+        int listTop = y + sizing.separatorHeight();
+        int visibleLines = Math.max(1, visibleHeight / TIP_LINE);
+        int maxScroll = Math.max(0, sizing.list().size() - visibleLines);
         tooltipScroll = Math.min(tooltipScroll, maxScroll);
-        if (separatorHeight > 0) graphics.fill(tooltipX + pad, y + 1, tooltipX + width - pad, y + 2, 0xFF49443A);
+        if (sizing.separatorHeight() > 0) graphics.fill(tooltipX + TIP_PAD, y + 1, tooltipX + width - TIP_PAD, y + 2, 0xFF49443A);
         graphics.enableScissor(tooltipX + 1, listTop, tooltipX + width - 1, listTop + visibleHeight);
         try {
-            int rowY = listTop - tooltipScroll * lineHeight;
-            for (var line : list) { graphics.text(font, line, tooltipX + pad, rowY, 0xFFE0DED8, false); rowY += lineHeight; }
+            int rowY = listTop - tooltipScroll * TIP_LINE;
+            for (var line : sizing.list()) { graphics.text(font, line, tooltipX + TIP_PAD, rowY, 0xFFE0DED8, false); rowY += TIP_LINE; }
         } finally { graphics.disableScissor(); }
         if (scrolls) {
-            int trackX = tooltipX + width - scrollbar;
+            int trackX = tooltipX + width - TIP_SCROLLBAR;
             graphics.fill(trackX, listTop, trackX + 2, listTop + visibleHeight, 0xFF49443A);
-            int thumbHeight = Math.max(12, visibleHeight * visibleLines / Math.max(1, list.size()));
+            int thumbHeight = Math.max(12, visibleHeight * visibleLines / Math.max(1, sizing.list().size()));
             int travel = Math.max(0, visibleHeight - thumbHeight);
             int thumbY = listTop + (int) Math.round(travel * tooltipScroll / (double) Math.max(1, maxScroll));
             graphics.fill(trackX, thumbY, trackX + 2, thumbY + thumbHeight, 0xFFE0D9C7);

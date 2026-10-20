@@ -761,29 +761,35 @@ public final class VisualValidationHarness {
             q.validationKey(InputConstants.KEY_RIGHT, false);
             return null;
         }));
-        steps.add(new PreviewStep("structure-preview-regression-obstruction-prepare", viewLane("exploration", 0.75, 17)));
+        steps.add(new PreviewStep("structure-preview-regression-obstruction-prepare", q -> {
+            // Find a quest whose tooltip, in this view, hides another visible node's centre. A view with no such quest fails.
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String quest = q.validationObstructingQuestId();
+            if (quest == null) return "no quest tooltip in this view hides another visible node, so no obstruction was exercised";
+            q.validationHoverNode(quest);
+            return null;
+        }));
         steps.add(new PreviewStep("structure-preview-regression-obstructed-dismiss", q -> {
-            // A node that the open tooltip covers must still be selectable: an empty click dismisses the tooltip,
-            // and after the next rendered frame the node takes the click instead of a stale rectangle swallowing it.
+            // The tooltip is open here. The covered node must be under it before the dismissing click.
             obstructedTarget = q.validationTooltipCoveredNodeId();
-            if (obstructedTarget == null) {
-                MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node=none (the tooltip hides no node in this view)");
-                return null;
-            }
+            if (obstructedTarget == null) return "the open tooltip covers no visible node: no obstruction was exercised";
             boolean blocked = q.validationNodeUnderTooltip(obstructedTarget);
+            MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node={} blocked_by_tooltip={}", obstructedTarget, blocked);
+            if (!blocked) return "covered node " + obstructedTarget + " is not under the open tooltip";
             int[] empty = q.validationEmptyPoint();
             if (empty == null) return "no empty canvas point available";
             q.validationClearHover();
             q.validationClickAt(empty[0], empty[1]);
-            MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node={} blocked_by_tooltip={}", obstructedTarget, blocked);
             return null;
         }));
         steps.add(new PreviewStep("structure-preview-regression-obstructed-click", q -> {
-            if (obstructedTarget == null) return null;
+            // After dismissal and a rendered frame the node must take the click.
+            if (obstructedTarget == null) return "no obstructed node was recorded before dismissal";
             boolean clicked = q.validationClickNode(obstructedTarget);
             boolean selected = obstructedTarget.equals(q.validationSelectedId());
             MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION selected_after_click={}", selected);
-            return clicked && selected ? null : "a node hidden by an open tooltip could not be selected";
+            return clicked && selected ? null : "a node hidden by an open tooltip could not be selected after dismissal";
         }));
         steps.add(new PreviewStep("structure-preview-regression-keyboard-resized", q -> {
             q.validationClearHover();
@@ -850,6 +856,8 @@ public final class VisualValidationHarness {
         if (name.contains("medium-zoom") && !level.equals("SUB_BRANCH")) { failJourney("medium zoom did not show sub-branches"); return false; }
         if (name.equals("structure-preview-zoomed-in") && !level.equals("QUEST")) { failJourney("close zoom did not show quest nodes"); return false; }
         if (name.equals("structure-preview-index-card-click") && !level.equals("SUB_BRANCH")) { failJourney("choosing a chapter card did not zoom into its sub-branches"); return false; }
+        String overflowNotes = q.validationLabelOverflowNotes();
+        if (!overflowNotes.isEmpty()) MoreMinecrafts.LOGGER.info("PREVIEW_LABEL_OVERFLOW name={} {}", name, overflowNotes);
         if (name.equals("structure-preview-regression-tooltip-open") && !q.validationTooltipVisible()) { failJourney("regression: keyboard/hover tooltip did not open"); return false; }
         if (name.equals("structure-preview-regression-stale-tooltip") && q.validationTooltipVisible()) { failJourney("regression: tooltip stayed open after an empty click"); return false; }
         if (name.equals("structure-preview-regression-keyboard-resized") && !q.validationTooltipVisible()) { failJourney("regression: tooltip not shown for keyboard focus after navigation"); return false; }
