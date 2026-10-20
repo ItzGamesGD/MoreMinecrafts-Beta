@@ -60,3 +60,17 @@ Governing record: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECI
 | F03 | Boundary and owner edits resolved by D05; rollback/provenance machinery WITHDRAWN. D04 plus D59–D66 govern. Non-owner permission details remain open |
 | F04 | Cumulative targets restated as D06; tier allocation still open |
 | F05 | Guard lifecycle/healing SUPERSEDED by D29–D32, D41–D43. Guard/mercenary/caravan guard remain distinct roles |
+
+
+## D79–D80 follow-up resolution — 2026-10-20 (later owner authority)
+
+Governing source: [owner decisions D79–D80](TERRITORY_OWNER_DECISIONS_2026-10-20.md). This section overrides older D1/D2-A descriptions that **registration quantities** or **successful registration→T1** are still undecided. Historical entries above remain for traceability; D67–D78 remain WITHDRAWN.
+
+| Finding | Updated disposition | Still blocked / not approved |
+|---|---|---|
+| F02 / OC03 registration recipe | **RESOLVED for required material families and quantities by D79:** 64 logs, 128 cobblestone, 32 sticks, 64 planks, 32 coal, 16 iron ingots. Physical throw at village-center Text Display + Interaction. | Exact registry/tag variants (e.g., log/plank species or stripped wood, charcoal exclusion/acceptance), contributor admission, recipe migration, save-order durability and D03a challenge remain OPEN. Historical Paper source remains SOURCE MISSING; no additional Paper cost invented. |
+| F02 / OC04 registration→tier mapping | **RESOLVED as a gameplay decision by D80:** unregistered T0; successful full registration (including D03a) grants LIBERATED **and T1 together**. No second T0→T1 purchase. D57 relinquishment returns to T0. | Exact challenge procedure, identity/eligibility, concurrency/crash-safety and T1 building placement remain OPEN. F02 overall is still PARTLY RESOLVED, not fully closed. |
+| F03 / OC11 construction | **UNCHANGED:** D04 whole-layout prevalidation and atomic apply, D05 protection, D59–D66 conservative placement. | Non-owner permission details and technical atomicity proof remain OPEN. No D67–D78 journals, edit histories or backups reinstated. |
+| Future upgrade payment | **APPROVED interface** (D79 with D22): **same physical Text Display + Interaction item-throw deposit** for T1→T2/T2→T3. | Future upgrade materials/quantities and building requirements remain OPEN. Do not confuse D79 registration recipe with these upgrade costs. |
+
+**P0 durability risks are not magically resolved by clarifying a numeric recipe.** OC08 remains a technical proof obligation, not a new approved construction-history system. No gameplay code/tests are part of this reconciliation.
