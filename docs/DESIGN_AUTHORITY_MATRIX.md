@@ -93,10 +93,10 @@ Governing record: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECI
 
 | Row | Effect |
 |---|---|
-| A03 | PARTLY RESOLVED: D01–D03, D54–D58. Liberation challenge and registration materials remain open |
+| A03 | **HISTORICAL D01–D66 review; later D79/D80 supersede the material-count and T1-mapping gaps.** Liberation challenge, item-acceptance predicates and lifecycle details remain open; see A41–A42 below |
 | A04 | Refined by D05 and D59–D66; no journal, provenance or backup subsystem is required |
 | A06 | Healing and replenishment SUPERSEDED by D29–D32, D41–D43; retaliation by D50–D52. Provisional stats stay PROPOSED |
-| A37 | Per-biome cap SUPERSEDED by D02; other input unchanged |
+| A37 | Per-biome cap SUPERSEDED by D02; **historical material-quantity uncertainty superseded by D79 and tier relationship approved by D80 (A41–A42)** |
 | A38 / A40 | Receipts, permissions and rollback remain PROPOSED/unapproved; rollback journal WITHDRAWN |
 
 ## D79–D80 owner-approved registration outcome — 2026-10-20 (later authority)
