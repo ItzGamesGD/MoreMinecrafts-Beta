@@ -5,7 +5,8 @@
 ## 1. Principles & exclusions [APPROVED]
 - Optional village **territory/estate (영지)** progression. Vanilla village use remains possible without joining this system.
 - Five village biome families: **plains, desert, savanna, taiga, snowy**. No obligation to invent a unique artifact for every biome.
-- **One global tier per territory**: T0 ordinary village → T1 settlement → T2 developed → T3 prosperous. Upgrading advances the whole territory simultaneously; do **not** add independently leveled facilities.
+- **One global tier per territory**: T0 unregistered ordinary village → **T1 immediately on successful direct registration (D80)** → T2 developed → T3 prosperous. There is **no second T0→T1 upgrade cost**. Later upgrades advance the whole territory simultaneously; do **not** add independently leveled facilities.
+- **D79 registration cost is APPROVED:** 64 logs (원목), 128 cobblestone, 32 sticks, 64 planks, 32 coal, 16 iron ingots. The player physically throws these at the village-center **Text Display + Interaction**. T1 is granted on successful completion as per D80, subject to the still-open D03a liberation/challenge specification. **Later T1→T2 and T2→T3 upgrade costs are OPEN** and those upgrades use the same physical thrown-item interface.
 - Upgrade costs may use resources, but **no recurring upkeep, taxes, happiness, recruitment/population micromanagement, market-demand simulation, or regression on raid failure**.
 - Visual development matters: more villagers and friendly guards, upgrading existing buildings and constructing additional homes/commercial buildings. Population should respect available beds/workstations; grow after facilities are available.
 - Territory-managed buildings/protected blocks must resist player breaking/modification so expansions cannot overwrite resident edits. **Do not blanket-protect every player-placed block.** Future placement must check terrain slopes, structures, collisions, roads, and existing player construction. Implementation/testing may be delegated to structure-generator; placement algorithms are **not** already validated.
@@ -71,7 +72,7 @@ These are instant purchases/orders by the **player**, not quest-like missions or
 - This document records **design authority**, not executed work, CI PASS, or live acceptance. No source code was changed by this checkpoint.
 
 ## 5. Open decisions / not approved
-- Territory ownership claim/loss, per-player territory count, village liberation and detailed claiming UI need re-confirmation rather than assumption from old proposals. *(2026-10-20: ownership, count and relinquishment are partly resolved by owner D01–D03, D54–D58; the liberation challenge and registration details remain open.)*
+- **Historical note superseded by D01–D03, D54–D58, D79–D80:** one owner and one territory/player; voluntary relinquishment; D79 fixes registration materials/quantities; D80 fixes immediate T1 on successful registration. Still OPEN: exact liberation challenge (D03a), accepted item variant/tag policies, eligibility/first-owner arbitration details, cancellation/repair, and later upgrade fees/structures. Do not treat these OPEN details as a second T0→T1 payment.
 - Individual profession trades, T2 food recipes, dismantle coefficients and excluded tiers.
 - T3 detailed trade roster/prices/stock and desert artifact exact effects/rarity (except preexisting Sands of Time mechanics).
 - Merchant placement mechanics, pathing/expansion validation, guard balancing under actual combat.
