@@ -13,7 +13,7 @@ class QuestTreeLayoutTest {
     private static QuestTreeStructure.Chapter chapter(String id, int count) {
         List<String> ids = new ArrayList<>();
         for (int i = 0; i < count; i++) ids.add(id + "." + i);
-        return new QuestTreeStructure.Chapter(id, "key." + id, ids);
+        return QuestTreeStructure.Chapter.of(id, "key." + id, ids);
     }
 
     @Test

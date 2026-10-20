@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.client;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.progression.AutoFarmMenu;
+import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
@@ -459,6 +460,14 @@ public final class VisualValidationHarness {
                 if (quests.validationTooltipScroll() <= 0) {
                     failJourney("the full bestiary target list did not enable internal tooltip scrolling"); return;
                 }
+                int scrollBefore = quests.validationTooltipScroll();
+                quests.validationKey(InputConstants.KEY_DOWN, false);
+                if (quests.validationTooltipScroll() != scrollBefore) { failJourney("plain Down arrow scrolled the tooltip in production"); return; }
+                quests.validationKey(InputConstants.KEY_DOWN, true);
+                if (quests.validationTooltipScroll() <= scrollBefore) { failJourney("Shift+Down did not scroll the tooltip in production"); return; }
+                MoreMinecrafts.LOGGER.info("PRODUCTION_KEYBOARD plain_arrow_scrolls=false shift_arrow_scrolls=true");
+                // The frame keeps the scroll offset it had in #129 (12 lines); the Shift+Down probe above must not move it.
+                quests.validationScrollQuestTooltip(scrollBefore - quests.validationTooltipScroll());
                 queueUiScreenshot("xp-quest-bestiary-scrolled.png");
                 uiJourneyStage = 62;
             }
@@ -547,6 +556,15 @@ public final class VisualValidationHarness {
                 }
                 MoreMinecrafts.LOGGER.info("PREVIEW_OPEN nodes=200 chapters=15 sub_branches=52 lang={} gui_scale={}",
                         client.getLanguageManager().getSelected(), client.getWindow().getGuiScale());
+                int iconsMissing = 0, iconsChecked = 0;
+                for (String icon : structurePreview.iconItemIds()) {
+                    iconsChecked++;
+                    var item = net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(net.minecraft.resources.Identifier.parse(icon));
+                    if (item == null || item == net.minecraft.world.item.Items.AIR) iconsMissing++;
+                }
+                MoreMinecrafts.LOGGER.info("QUEST_ICONS checked={} missing_from_registry={}", iconsChecked, iconsMissing);
+                if (iconsChecked != 200 || iconsMissing != 0) { failJourney("quest icons: " + iconsMissing + " missing of " + iconsChecked); return; }
+                quests.validationOwnPointer(true);
                 previewSteps = previewSteps();
                 previewStepIndex = 0;
                 previewPendingName = null;
@@ -617,6 +635,7 @@ public final class VisualValidationHarness {
     private static String previewPendingName;
     private static int previewRowsBefore;
 
+    private static String obstructedTarget;
     private record PreviewStep(String name, java.util.function.Function<ProgressionBrowseScreen, String> apply) { }
 
     private static double[] laneCentre(ProgressionBrowseScreen q, String chapter) {
@@ -637,6 +656,15 @@ public final class VisualValidationHarness {
         List<PreviewStep> steps = new java.util.ArrayList<>();
         steps.add(new PreviewStep("structure-preview-initial", q -> null));
         steps.add(new PreviewStep("structure-preview-overview", q -> { q.validationFitAll(); q.validationClearHover(); return null; }));
+        steps.add(new PreviewStep("structure-preview-index-card-click", q -> {
+            q.validationFitAll();
+            q.validationClearHover();
+            int[] card = q.validationChapterCardCentre("building");
+            if (card == null) return "no chapter card for building at the index level";
+            if (!q.validationClickAt(card[0], card[1])) return "chapter card click was not handled";
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-medium-zoom-exploration", viewLane("exploration", 0.36, -1)));
         steps.add(new PreviewStep("structure-preview-mid-zoom", q -> {
             double[] c = laneCentre(q, "mining");
             q.validationViewAt(c[0], c[1], 0.3);
@@ -650,9 +678,13 @@ public final class VisualValidationHarness {
         steps.add(new PreviewStep("structure-preview-pan-bosses", q -> {
             double[] c = laneCentre(q, "bosses");
             q.validationViewAt(c[0], c[1], 0.75);
-            // Drag far past the end: the camera must clamp and keep nodes in view.
+            // Drag far in each direction. The clamp keeps the view centre inside the canvas (a 32 px strip of canvas
+            // always stays on screen, so the ends can show no nodes; that is expected, not a layout fault).
             q.validationPan(0, -100000);
-            return q.validationNodeStats()[1] > 0 ? null : "panning past the end lost every node";
+            String low = panOverlapViolation(q);
+            if (low != null) return low;
+            q.validationPan(0, 100000);
+            return panOverlapViolation(q);
         }));
         steps.add(new PreviewStep("structure-preview-tooltip-long-label", viewLane("exploration", 0.75, 3)));
         steps.add(new PreviewStep("structure-preview-tooltip-groups", viewLane("exploration", 0.75, 11)));
@@ -707,6 +739,194 @@ public final class VisualValidationHarness {
                     blocked, dismissed, stillBlocked, target.equals(q.validationSelectedId()));
             return clicked && target.equals(q.validationSelectedId()) ? null : "clicking the last node did not select it";
         }));
+        steps.add(new PreviewStep("structure-preview-regression-tooltip-open", viewLane("exploration", 0.75, 17)));
+        steps.add(new PreviewStep("structure-preview-regression-stale-tooltip", q -> {
+            q.validationClearHover();
+            // Click genuinely empty canvas. The top-left corner can sit inside the open tooltip, where a click is
+            // correctly absorbed by the tooltip rather than dismissing it.
+            int[] empty = q.validationEmptyPoint();
+            if (empty == null) return "no empty canvas point available";
+            q.validationClickAt(empty[0], empty[1]);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-stale-click", q -> {
+            q.validationClearHover();
+            String target = q.validationQuestIdAt(17);
+            if (!q.validationClickNode(target) || !target.equals(q.validationSelectedId()))
+                return "a stale tooltip rectangle swallowed a click on a visible node";
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-keyboard-tooltip", q -> {
+            q.validationClearHover();
+            q.validationKey(InputConstants.KEY_RIGHT, false);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-obstruction-prepare", q -> {
+            // Find a quest whose tooltip, in this view, hides another visible node's centre. A view with no such quest fails.
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String quest = q.validationObstructingQuestId();
+            if (quest == null) return "no quest tooltip in this view hides another visible node, so no obstruction was exercised";
+            q.validationHoverNode(quest);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-obstructed-dismiss", q -> {
+            // The tooltip is open here. The covered node must be under it before the dismissing click.
+            obstructedTarget = q.validationTooltipCoveredNodeId();
+            if (obstructedTarget == null) return "the open tooltip covers no visible node: no obstruction was exercised";
+            boolean blocked = q.validationNodeUnderTooltip(obstructedTarget);
+            MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node={} blocked_by_tooltip={}", obstructedTarget, blocked);
+            if (!blocked) return "covered node " + obstructedTarget + " is not under the open tooltip";
+            int[] empty = q.validationEmptyPoint();
+            if (empty == null) return "no empty canvas point available";
+            q.validationClearHover();
+            q.validationClickAt(empty[0], empty[1]);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-obstructed-click", q -> {
+            // After dismissal and a rendered frame the node must take the click.
+            if (obstructedTarget == null) return "no obstructed node was recorded before dismissal";
+            boolean clicked = q.validationClickNode(obstructedTarget);
+            boolean selected = obstructedTarget.equals(q.validationSelectedId());
+            MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION selected_after_click={}", selected);
+            return clicked && selected ? null : "a node hidden by an open tooltip could not be selected after dismissal";
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-keyboard-resized", q -> {
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            if (!q.validationClickNode(q.validationQuestIdAt(8))) return "could not select the starting node";
+            String start = q.validationSelectedId();
+            int moved = 0;
+            for (int key : new int[] {InputConstants.KEY_RIGHT, InputConstants.KEY_DOWN, InputConstants.KEY_LEFT}) {
+                String before = q.validationSelectedId();
+                q.keyPressed(new KeyEvent(key, 0, 0));
+                if (!before.equals(q.validationSelectedId())) moved++;
+                if (!q.validationSelectedInViewport()) return "selected node left the viewport during keyboard navigation";
+            }
+            MoreMinecrafts.LOGGER.info("PREVIEW_KEYBOARD_RESIZED start={} moved={}/3 end={}", start, moved, q.validationSelectedId());
+            return moved >= 2 ? null : "keyboard navigation stopped working with the resized tooltip";
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-exploration-left", q -> {
+            // The selected node is placed at the left edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in exploration";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("left");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-exploration-right", q -> {
+            // The selected node is placed at the right edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in exploration";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("right");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-exploration-top", q -> {
+            // The selected node is placed at the top edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in exploration";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("top");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-exploration-bottom", q -> {
+            // The selected node is placed at the bottom edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in exploration";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("bottom");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-ecology-left", q -> {
+            // The selected node is placed at the left edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "ecology");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in ecology";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("left");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-ecology-right", q -> {
+            // The selected node is placed at the right edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "ecology");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in ecology";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("right");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-ecology-top", q -> {
+            // The selected node is placed at the top edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "ecology");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in ecology";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("top");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-ecology-bottom", q -> {
+            // The selected node is placed at the bottom edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "ecology");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in ecology";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("bottom");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
         steps.add(new PreviewStep("structure-preview-zoom-roundtrip", q -> {
             double[] c = laneCentre(q, "farming");
             q.validationViewAt(c[0], c[1], 0.75);
@@ -723,10 +943,50 @@ public final class VisualValidationHarness {
         return steps;
     }
 
+    /** clampPan keeps the canvas overlapping the viewport by at least MIN_VISIBLE_PIXELS in world units at both ends. */
+    private static String panOverlapViolation(ProgressionBrowseScreen q) {
+        double zoom = q.validationZoomValue();
+        double half = q.validationViewportHeight() / (2.0 * zoom);
+        double viewTop = q.validationCentreWorld()[1] - half;
+        double viewBottom = viewTop + 2.0 * half;
+        double minVisible = ProgressionCanvasGeometry.MIN_VISIBLE_PIXELS / zoom;
+        double canvasHeight = q.validationCanvasHeight();
+        if (viewTop > canvasHeight - minVisible + 0.5 || viewBottom < minVisible - 0.5)
+            return "pan left less than " + ProgressionCanvasGeometry.MIN_VISIBLE_PIXELS + " px of the canvas on screen: view "
+                    + viewTop + ".." + viewBottom + " over canvas 0.." + canvasHeight;
+        return null;
+    }
+
     private static boolean logPreviewView(Minecraft client, ProgressionBrowseScreen q, String name) {
         int[] n = q.validationNodeStats();
         String geometry = q.validationTooltipGeometry();
         boolean tooltip = !geometry.equals("none") && q.validationTooltipWithinScreen();
+        int[] lod = q.validationLargeMetrics();
+        int overlapping = q.validationOverlappingFrames();
+        String level = q.validationLevel();
+        MoreMinecrafts.LOGGER.info("PREVIEW_LOD name={} level={} zoom={} overlapping_frames={} label_overflows={} label_collisions={} labels_culled={} caption_collisions={} captions={} index_cards={} index_overflows={} markers={} quest_nodes={} tooltip_visible={}",
+                name, level, String.format("%.3f", q.validationZoomValue()), overlapping, lod[0], lod[1], lod[2], lod[4], lod[3],
+                lod[8], lod[5], lod[6], lod[7], q.validationTooltipVisible());
+        if (!level.equals("CHAPTER_INDEX") && overlapping != 0) {
+            failJourney("overlapping node frames at " + level + " in " + name + ": " + overlapping); return false;
+        }
+        if (lod[1] != 0) { failJourney("chapter labels collide in " + name); return false; }
+        if (lod[4] != 0) { failJourney("sub-branch captions collide with markers or captions in " + name); return false; }
+        if (name.endsWith("overview") && !level.equals("CHAPTER_INDEX")) { failJourney("overview did not use the chapter index"); return false; }
+        if (name.contains("medium-zoom") && !level.equals("SUB_BRANCH")) { failJourney("medium zoom did not show sub-branches"); return false; }
+        if (name.equals("structure-preview-zoomed-in") && !level.equals("QUEST")) { failJourney("close zoom did not show quest nodes"); return false; }
+        if (name.equals("structure-preview-index-card-click") && !level.equals("SUB_BRANCH")) { failJourney("choosing a chapter card did not zoom into its sub-branches"); return false; }
+        boolean selectedInView = q.validationSelectedInViewport();
+        boolean selectedObscured = q.validationSelectedObscured();
+        MoreMinecrafts.LOGGER.info("PREVIEW_SELECTED name={} selected_in_view={} tooltip_visible={} selected_obscured={} other_nodes_under_tooltip={}",
+                name, selectedInView, q.validationTooltipVisible(), selectedObscured, q.validationTooltipCoveredNodes());
+        if (selectedObscured && selectedInView) { failJourney("selected node obscured by its neighbour's tooltip at " + name); return false; }
+        String overflowNotes = q.validationLabelOverflowNotes();
+        if (!overflowNotes.isEmpty()) MoreMinecrafts.LOGGER.info("PREVIEW_LABEL_OVERFLOW name={} {}", name, overflowNotes);
+        if (name.equals("structure-preview-regression-tooltip-open") && !q.validationTooltipVisible()) { failJourney("regression: keyboard/hover tooltip did not open"); return false; }
+        if (name.equals("structure-preview-regression-stale-tooltip") && q.validationTooltipVisible()) { failJourney("regression: tooltip stayed open after an empty click"); return false; }
+        if (name.equals("structure-preview-regression-keyboard-resized") && !q.validationTooltipVisible()) { failJourney("regression: tooltip not shown for keyboard focus after navigation"); return false; }
+        if (name.equals("structure-preview-regression-keyboard-tooltip") && !q.validationTooltipVisible()) { failJourney("regression: keyboard focus did not open the tooltip"); return false; }
         MoreMinecrafts.LOGGER.info("PREVIEW_VIEW name={} gui_scale={} lang={} zoom={} nodes_total={} nodes_visible={} nodes_clipped={} overlapping_pairs={} tooltip_covered_nodes={} tooltip_in_viewport={} geometry(x,y,w,h;clears)={} render[{}]",
                 name, client.getWindow().getGuiScale(), client.getLanguageManager().getSelected(),
                 String.format("%.2f", q.validationZoomLevel()), n[0], n[1], n[2], n[3], q.validationTooltipCoveredNodes(),
@@ -863,6 +1123,8 @@ public final class VisualValidationHarness {
                 }
                 uiCaptureComplete = true;
                 MoreMinecrafts.LOGGER.info("CLIENT_UI_SCREENSHOT_WRITTEN name={}", name);
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_POINTER name={} gui_x={} gui_y={}", name,
+                        (int) client.mouseHandler.getScaledXPos(client.getWindow()), (int) client.mouseHandler.getScaledYPos(client.getWindow()));
             });
         } catch (Exception exception) {
             uiJourneyFailed = true;

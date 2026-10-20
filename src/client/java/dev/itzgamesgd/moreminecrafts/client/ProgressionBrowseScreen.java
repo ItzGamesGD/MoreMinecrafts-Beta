@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasInput;
@@ -93,7 +94,7 @@ public final class ProgressionBrowseScreen extends Screen {
     public boolean validationNodeUnderTooltip(String id) { return canvas != null && canvas.nodeUnderTooltip(id); }
     /** Simulates a user clicking empty canvas (dismisses the selection tooltip), through the real click path. */
     public boolean validationClickEmpty() {
-        var view = responsive.viewport();
+        var view = canvasView();
         double x = view.x() + 3, y = view.y() + 3;
         if (canvas.hitTest(x, y) != null) return false;
         boolean handled = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
@@ -101,6 +102,37 @@ public final class ProgressionBrowseScreen extends Screen {
         return handled;
     }
     public boolean validationIsPreview() { return preview != null; }
+    public String validationLevel() { return canvas == null ? "none" : canvas.level().name(); }
+    public double validationZoomValue() { return canvas == null ? 0 : canvas.zoom(); }
+    public int[] validationLargeMetrics() { return canvas == null ? new int[10] : canvas.largeGraphMetrics(); }
+    public int validationOverlappingFrames() { return canvas == null ? 0 : canvas.overlappingFrames(); }
+    /** Sends a key through the real keyPressed path; {@code shift} sets the shift modifier. */
+    public boolean validationKey(int key, boolean shift) { return keyPressed(new KeyEvent(key, 0, shift ? 1 : 0)); }
+    /** The area nodes live in: the responsive viewport, minus the label gutter a large graph reserves. */
+    private ProgressionCanvasGeometry.Rect canvasView() {
+        return canvas != null && canvas.viewport() != null ? canvas.viewport() : responsive.viewport();
+    }
+    public String validationTooltipCoveredNodeId() { return canvas == null ? null : canvas.tooltipCoveredNodeId(); }
+    public String validationLabelOverflowNotes() { return canvas == null ? "" : canvas.labelOverflowNotes(); }
+    public boolean validationSelectedObscured() { return canvas != null && canvas.selectedNodeObscured(); }
+    public void validationSelectNoFocus(String id) { if (canvas != null) canvas.validationSelectNoFocus(id); }
+    public String validationNodeNearestCentre() { return canvas == null ? null : canvas.validationNodeNearestCentre(); }
+    public String validationNearestNode(String id) { return canvas == null ? null : canvas.validationNearestNode(id); }
+    public String validationObstructingQuestId() { return canvas == null ? null : canvas.validationObstructingQuestId(); }
+    public double validationViewportHeight() { return canvasView().height(); }
+    public void validationOwnPointer(boolean owns) { if (canvas != null) canvas.validationOwnPointer(owns); }
+    public int[] validationEmptyPoint() { return canvas == null ? null : canvas.validationEmptyPoint(); }
+    public double validationCanvasHeight() { return canvas == null ? 0 : canvas.canvasHeight(); }
+    public int validationViewportX() { return canvasView().x(); }
+    public int validationViewportY() { return canvasView().y(); }
+    public boolean validationTooltipVisible() { return canvas != null && canvas.tooltipVisible(); }
+    public int[] validationChapterCardCentre(String chapter) { return canvas == null ? null : canvas.validationChapterCardCentre(chapter); }
+    /** Simulates a mouse click at screen pixels through the real screen path (cards, nodes, empty canvas). */
+    public boolean validationClickAt(double x, double y) {
+        boolean handled = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
+        mouseReleased(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)));
+        return handled;
+    }
     public int validationPreviewSubBranches() { return preview == null ? 0 : preview.subBranchCount(); }
     public int[] validationNodeStats() { return canvas == null ? new int[4] : canvas.nodeStats(); }
     public int validationChapterCount() { return canvas == null ? 0 : canvas.chapterCount(); }
@@ -162,7 +194,7 @@ public final class ProgressionBrowseScreen extends Screen {
     public boolean validationSelectedCentered() {
         var node = canvas.nodes().stream().filter(value -> value.id().equals(canvas.selectedId())).findFirst().orElse(null);
         if (node == null) return false;
-        var view = responsive.viewport();
+        var view = canvasView();
         return Math.abs(ProgressionCanvasGeometry.screenToWorldX(canvas.camera(), view.x(), view.x() + view.width() / 2.0) - node.x()) < 0.01
                 && Math.abs(ProgressionCanvasGeometry.screenToWorldY(canvas.camera(), view.y(), view.y() + view.height() / 2.0) - node.y()) < 0.01;
     }
@@ -177,10 +209,10 @@ public final class ProgressionBrowseScreen extends Screen {
     public boolean validationClickNode(String id) {
         var node = canvas.nodes().stream().filter(value -> value.id().equals(id)).findFirst().orElse(null);
         if (node == null) return false;
-        if (!responsive.viewport().contains(ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), responsive.viewport().x(), node.x()),
-                ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), responsive.viewport().y(), node.y()))) canvas.select(id, true);
-        double x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), responsive.viewport().x(), node.x());
-        double y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), responsive.viewport().y(), node.y());
+        if (!canvasView().contains(ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), canvasView().x(), node.x()),
+                ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), canvasView().y(), node.y()))) canvas.select(id, true);
+        double x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), canvasView().x(), node.x());
+        double y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), canvasView().y(), node.y());
         String hitBefore = canvas.hitTest(x, y);
         boolean accepted = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
         mouseReleased(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)));
@@ -190,7 +222,7 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     public boolean validationExerciseCanvasControls() {
-        var view = responsive.viewport();
+        var view = canvasView();
         double startX = 0, startY = 0;
         boolean foundBlank = false;
         for (int y = view.y() + 4; y < view.bottom() && !foundBlank; y += 8)
@@ -387,6 +419,10 @@ public final class ProgressionBrowseScreen extends Screen {
         if (mode == Mode.QUEST && canvas.tooltipContains(event.x(), event.y())) return true;
         if (!responsive.viewport().contains(event.x(), event.y())) return false;
         if (event.button() != 0) return false;
+        if (mode == Mode.QUEST) {
+            String chapter = canvas.chapterCardAt(event.x(), event.y());
+            if (chapter != null) { canvas.focusChapter(chapter); return true; }
+        }
         if (mode == Mode.QUEST && canvas.hitTest(event.x(), event.y()) == null) canvas.setSelectionTooltip(false);
         gesture.begin(event.button(), event.x(), event.y(), canvas.hitTest(event.x(), event.y()));
         doubleClickPress = doubleClick;
@@ -434,8 +470,11 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public boolean keyPressed(KeyEvent event) {
         if (event.isEscape() && branchMenuOpen) { branchMenuOpen = false; return true; }
-        if (mode == Mode.QUEST && preview == null && (event.isUp() || event.isDown())) {
-            canvas.scrollTooltip(event.isDown() ? 3 : -3);
+        // Documented alternative for tooltip scrolling: Shift+Up/Down or PageUp/PageDown. Plain arrows move focus.
+        if (mode == Mode.QUEST && (event.hasShiftDown() && (event.isUp() || event.isDown())
+                || event.input() == InputConstants.KEY_PAGEUP || event.input() == InputConstants.KEY_PAGEDOWN)) {
+            boolean down = event.isDown() || event.input() == InputConstants.KEY_PAGEDOWN;
+            canvas.scrollTooltip(down ? 3 : -3);
             return true;
         }
         if (event.isLeft()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.LEFT);

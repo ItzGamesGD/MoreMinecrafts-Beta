@@ -13,6 +13,7 @@ on:
       - codex/xp-quest-q1b-correction
       - audit/stage23-pr92-pr93-reconciliation-20261019
       - design/xp-quest-selector-redesign-20261019
+      - design/xp-quest-structure-200-20261019
     paths:
       - ".github/workflows/client-visual-validation.yml"
       - "src/**"

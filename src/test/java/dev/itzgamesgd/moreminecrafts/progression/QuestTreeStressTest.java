@@ -42,7 +42,7 @@ class QuestTreeStressTest {
         }
         List<QuestTreeStructure.Chapter> chapters = new ArrayList<>();
         for (String chapterId : mapping.getAsJsonArray("chapter_order").asList().stream().map(JsonElement::getAsString).toList()) {
-            chapters.add(new QuestTreeStructure.Chapter(chapterId, "proposal.chapter." + chapterId,
+            chapters.add(QuestTreeStructure.Chapter.of(chapterId, "proposal.chapter." + chapterId,
                     byChapter.getOrDefault(chapterId, List.of())));
         }
         return new QuestTreeStructure(chapters, edgesFromLedger());
@@ -98,7 +98,7 @@ class QuestTreeStressTest {
         for (int c = 0; c < sizes.length; c++) {
             List<String> ids = new ArrayList<>();
             for (int i = 0; i < sizes[c]; i++) ids.add("syn" + c + "." + i);
-            chapters.add(new QuestTreeStructure.Chapter("syn" + c, "syn.title." + c, ids));
+            chapters.add(QuestTreeStructure.Chapter.of("syn" + c, "syn.title." + c, ids));
             if (crossLinks && c > 0) {
                 // Forward links only: a chapter's first node unlocks the previous chapter's last node.
                 edges.add(new QuestTreeStructure.Edge("syn" + (c - 1) + "." + (sizes[c - 1] - 1), "syn" + c + ".0"));
@@ -155,8 +155,8 @@ class QuestTreeStressTest {
                 List.of(new QuestTreeStructure.Edge("syn0.0", "missing")));
         assertFalse(unknown.validate().isEmpty(), "unknown endpoint must be reported");
         QuestTreeStructure duplicate = new QuestTreeStructure(List.of(
-                new QuestTreeStructure.Chapter("a", "k", List.of("x")),
-                new QuestTreeStructure.Chapter("b", "k", List.of("x"))), List.of());
+                QuestTreeStructure.Chapter.of("a", "k", List.of("x")),
+                QuestTreeStructure.Chapter.of("b", "k", List.of("x"))), List.of());
         assertFalse(duplicate.validate().isEmpty(), "duplicate id must be reported");
     }
 
