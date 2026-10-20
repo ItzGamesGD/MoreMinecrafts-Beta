@@ -41,3 +41,17 @@ Source: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECISIONS_2026
 | OC09 / OC10 | PARTLY RESOLVED by D05a–c. Non-owner permission matrix and adoption of original buildings remain open |
 | OC11 | Journal, snapshot, compare-and-set rollback and quarantine are WITHDRAWN. Replaced by D04 (prevalidate everything, apply atomically, consume nothing on failure) and D59–D66 (conservative, non-destructive placement). Construction durability across a crash is an ordinary implementation concern bounded by that rule; do not add a history subsystem |
 | OC13 / OC01 / OC03 / OC07 / OC12 / OC14 | Unchanged; SOURCE MISSING labels preserved |
+
+
+## D79–D80 owner decisions — later resolution overlay (2026-10-20)
+
+Owner source: [D79–D80](TERRITORY_OWNER_DECISIONS_2026-10-20.md). Earlier OC table and D2-A notes above retain their original *historical* status; do **not** use 'quantities unresolved' or 'registration→T1 unresolved' to block a **design decision** already made. D67–D78 stay WITHDRAWN.
+
+| Finding | Current status / decision | Still open |
+|---|---|---|
+| OC03 registration recipe | **COUNT / FAMILY RESOLVED — D79:** 64 logs (원목), 128 cobblestone, 32 sticks, 64 planks, 32 coal, 16 iron ingots. These six totals apply to **direct physical registration**, not paid tiers above T1. | Exact Fabric registry/tag eligibility, log/plank variants, charcoal semantics, optional components, excess handling, in-flight migration and payment durability. Do not invent extra required materials. |
+| OC04 completed registration versus development tier | **GAMEPLAY MAPPING RESOLVED — D80:** AVAILABLE/CLAIMING remains T0; successful completion after meeting D79 plus required D03a challenge changes registration to LIBERATED and territory tier to **T1 at once**. A second T0→T1 upgrade/payment is forbidden. D57 returns relinquished villages to T0; re-registration pays the D79 recipe again unless a later approval changes it. | Exact challenge implementation, persistence atomicity, old-save migration and valid world-edit/structure placement gating. Separate T1→T2/T2→T3 upgrades and costs still open. |
+| OC07 upgrade submission | **INTERFACE CLARIFIED by D79/D22:** both registration and tier upgrades use the same village-center Text Display + Interaction with physical dropped-item submission; GUI may supplement but never replace physical intake. | Attribution, geometry, item token safeguards and exact upgrade requirements. |
+| OC02/OC05/OC08/OC09/OC10/OC11 | **No newly implied approvals** | D02 one-per-player remains authority over Paper per-biome cap; multiplayer/receipt/protection/mutation tests still needed. D04 non-destructive preflight, not withdrawn edit-history machinery. |
+
+Treat OC03/OC04 as **partly technically open but no longer missing their owner-level quantity or conversion decision**. Neither is permission to activate an unverified material collector in Survival.
