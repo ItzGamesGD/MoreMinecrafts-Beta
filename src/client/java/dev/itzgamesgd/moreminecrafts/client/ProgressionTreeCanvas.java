@@ -265,6 +265,39 @@ public final class ProgressionTreeCanvas {
         }
         return null;
     }
+    /** Validation: the selected node's frame lies under the drawn tooltip. Other nodes under the tooltip are not counted here. */
+    public boolean selectedNodeObscured() {
+        if (tooltipWidth <= 0 || viewport == null || selectedId == null || !byId.containsKey(selectedId)) return false;
+        var f = nodeFrame(byId.get(selectedId));
+        return tooltipX < f.right() && tooltipX + tooltipWidth > f.x() && tooltipY < f.bottom() && tooltipY + tooltipHeight > f.y();
+    }
+    /** Validation: select a node without panning the camera, so the edge placement that follows is exact. */
+    public void validationSelectNoFocus(String id) { select(id, false); }
+    /** Validation: the node whose centre is nearest the middle of the viewport, or null. */
+    public String validationNodeNearestCentre() {
+        if (viewport == null) return null;
+        double cx = viewport.x() + viewport.width() / 2.0, cy = viewport.y() + viewport.height() / 2.0;
+        String best = null; double bestDistance = Double.MAX_VALUE;
+        for (var node : nodes) {
+            int sx = screenX(node.x()), sy = screenY(node.y());
+            if (!viewport.contains(sx, sy)) continue;
+            double d = Math.hypot(sx - cx, sy - cy);
+            if (d < bestDistance) { bestDistance = d; best = node.id(); }
+        }
+        return best;
+    }
+    /** Validation: the other node nearest to {@code id} in world units, or null. */
+    public String validationNearestNode(String id) {
+        var from = byId.get(id);
+        if (from == null) return null;
+        String best = null; double bestDistance = Double.MAX_VALUE;
+        for (var node : nodes) {
+            if (node.id().equals(id)) continue;
+            double d = Math.hypot(node.x() - from.x(), node.y() - from.y());
+            if (d < bestDistance) { bestDistance = d; best = node.id(); }
+        }
+        return best;
+    }
     /** Validation: a quest whose tooltip, placed by the same geometry the render uses, hides another visible node's centre. */
     public String validationObstructingQuestId() {
         if (!largeGraph() || lastFont == null || lastQuestRows == null || viewport == null) return null;

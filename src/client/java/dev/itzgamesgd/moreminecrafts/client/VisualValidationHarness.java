@@ -807,6 +807,126 @@ public final class VisualValidationHarness {
             MoreMinecrafts.LOGGER.info("PREVIEW_KEYBOARD_RESIZED start={} moved={}/3 end={}", start, moved, q.validationSelectedId());
             return moved >= 2 ? null : "keyboard navigation stopped working with the resized tooltip";
         }));
+        steps.add(new PreviewStep("structure-preview-selected-exploration-left", q -> {
+            // The selected node is placed at the left edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in exploration";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("left");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-exploration-right", q -> {
+            // The selected node is placed at the right edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in exploration";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("right");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-exploration-top", q -> {
+            // The selected node is placed at the top edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in exploration";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("top");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-exploration-bottom", q -> {
+            // The selected node is placed at the bottom edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in exploration";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("bottom");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-ecology-left", q -> {
+            // The selected node is placed at the left edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "ecology");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in ecology";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("left");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-ecology-right", q -> {
+            // The selected node is placed at the right edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "ecology");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in ecology";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("right");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-ecology-top", q -> {
+            // The selected node is placed at the top edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "ecology");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in ecology";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("top");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-selected-ecology-bottom", q -> {
+            // The selected node is placed at the bottom edge and a neighbouring node's tooltip is opened, so the
+            // selected node must stay visible. Other nodes under the tooltip are logged separately.
+            q.validationClearHover();
+            double[] c = laneCentre(q, "ecology");
+            q.validationViewAt(c[0], c[1], 0.75);
+            String selected = q.validationNodeNearestCentre();
+            if (selected == null) return "no node near the view centre in ecology";
+            q.validationSelectNoFocus(selected);
+            q.validationPlaceNodeAtEdge("bottom");
+            String neighbour = q.validationNearestNode(selected);
+            if (neighbour == null) return "no neighbouring node to open a tooltip for";
+            q.validationHoverNode(neighbour);
+            return null;
+        }));
         steps.add(new PreviewStep("structure-preview-zoom-roundtrip", q -> {
             double[] c = laneCentre(q, "farming");
             q.validationViewAt(c[0], c[1], 0.75);
@@ -856,6 +976,11 @@ public final class VisualValidationHarness {
         if (name.contains("medium-zoom") && !level.equals("SUB_BRANCH")) { failJourney("medium zoom did not show sub-branches"); return false; }
         if (name.equals("structure-preview-zoomed-in") && !level.equals("QUEST")) { failJourney("close zoom did not show quest nodes"); return false; }
         if (name.equals("structure-preview-index-card-click") && !level.equals("SUB_BRANCH")) { failJourney("choosing a chapter card did not zoom into its sub-branches"); return false; }
+        boolean selectedInView = q.validationSelectedInViewport();
+        boolean selectedObscured = q.validationSelectedObscured();
+        MoreMinecrafts.LOGGER.info("PREVIEW_SELECTED name={} selected_in_view={} tooltip_visible={} selected_obscured={} other_nodes_under_tooltip={}",
+                name, selectedInView, q.validationTooltipVisible(), selectedObscured, q.validationTooltipCoveredNodes());
+        if (selectedObscured && selectedInView) { failJourney("selected node obscured by its neighbour's tooltip at " + name); return false; }
         String overflowNotes = q.validationLabelOverflowNotes();
         if (!overflowNotes.isEmpty()) MoreMinecrafts.LOGGER.info("PREVIEW_LABEL_OVERFLOW name={} {}", name, overflowNotes);
         if (name.equals("structure-preview-regression-tooltip-open") && !q.validationTooltipVisible()) { failJourney("regression: keyboard/hover tooltip did not open"); return false; }
@@ -998,6 +1123,8 @@ public final class VisualValidationHarness {
                 }
                 uiCaptureComplete = true;
                 MoreMinecrafts.LOGGER.info("CLIENT_UI_SCREENSHOT_WRITTEN name={}", name);
+                MoreMinecrafts.LOGGER.info("CLIENT_UI_POINTER name={} gui_x={} gui_y={}", name,
+                        (int) client.mouseHandler.getScaledXPos(client.getWindow()), (int) client.mouseHandler.getScaledYPos(client.getWindow()));
             });
         } catch (Exception exception) {
             uiJourneyFailed = true;
