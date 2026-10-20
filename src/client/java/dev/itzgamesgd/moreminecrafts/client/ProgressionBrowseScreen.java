@@ -94,7 +94,7 @@ public final class ProgressionBrowseScreen extends Screen {
     public boolean validationNodeUnderTooltip(String id) { return canvas != null && canvas.nodeUnderTooltip(id); }
     /** Simulates a user clicking empty canvas (dismisses the selection tooltip), through the real click path. */
     public boolean validationClickEmpty() {
-        var view = responsive.viewport();
+        var view = canvasView();
         double x = view.x() + 3, y = view.y() + 3;
         if (canvas.hitTest(x, y) != null) return false;
         boolean handled = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
@@ -108,12 +108,17 @@ public final class ProgressionBrowseScreen extends Screen {
     public int validationOverlappingFrames() { return canvas == null ? 0 : canvas.overlappingFrames(); }
     /** Sends a key through the real keyPressed path; {@code shift} sets the shift modifier. */
     public boolean validationKey(int key, boolean shift) { return keyPressed(new KeyEvent(key, 0, shift ? 1 : 0)); }
-    public double validationViewportHeight() { return responsive.viewport().height(); }
+    /** The area nodes live in: the responsive viewport, minus the label gutter a large graph reserves. */
+    private ProgressionCanvasGeometry.Rect canvasView() {
+        return canvas != null && canvas.viewport() != null ? canvas.viewport() : responsive.viewport();
+    }
+    public String validationTooltipCoveredNodeId() { return canvas == null ? null : canvas.tooltipCoveredNodeId(); }
+    public double validationViewportHeight() { return canvasView().height(); }
     public void validationOwnPointer(boolean owns) { if (canvas != null) canvas.validationOwnPointer(owns); }
     public int[] validationEmptyPoint() { return canvas == null ? null : canvas.validationEmptyPoint(); }
     public double validationCanvasHeight() { return canvas == null ? 0 : canvas.canvasHeight(); }
-    public int validationViewportX() { return responsive.viewport().x(); }
-    public int validationViewportY() { return responsive.viewport().y(); }
+    public int validationViewportX() { return canvasView().x(); }
+    public int validationViewportY() { return canvasView().y(); }
     public boolean validationTooltipVisible() { return canvas != null && canvas.tooltipVisible(); }
     public int[] validationChapterCardCentre(String chapter) { return canvas == null ? null : canvas.validationChapterCardCentre(chapter); }
     /** Simulates a mouse click at screen pixels through the real screen path (cards, nodes, empty canvas). */
@@ -183,7 +188,7 @@ public final class ProgressionBrowseScreen extends Screen {
     public boolean validationSelectedCentered() {
         var node = canvas.nodes().stream().filter(value -> value.id().equals(canvas.selectedId())).findFirst().orElse(null);
         if (node == null) return false;
-        var view = responsive.viewport();
+        var view = canvasView();
         return Math.abs(ProgressionCanvasGeometry.screenToWorldX(canvas.camera(), view.x(), view.x() + view.width() / 2.0) - node.x()) < 0.01
                 && Math.abs(ProgressionCanvasGeometry.screenToWorldY(canvas.camera(), view.y(), view.y() + view.height() / 2.0) - node.y()) < 0.01;
     }
@@ -198,10 +203,10 @@ public final class ProgressionBrowseScreen extends Screen {
     public boolean validationClickNode(String id) {
         var node = canvas.nodes().stream().filter(value -> value.id().equals(id)).findFirst().orElse(null);
         if (node == null) return false;
-        if (!responsive.viewport().contains(ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), responsive.viewport().x(), node.x()),
-                ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), responsive.viewport().y(), node.y()))) canvas.select(id, true);
-        double x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), responsive.viewport().x(), node.x());
-        double y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), responsive.viewport().y(), node.y());
+        if (!canvasView().contains(ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), canvasView().x(), node.x()),
+                ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), canvasView().y(), node.y()))) canvas.select(id, true);
+        double x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), canvasView().x(), node.x());
+        double y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), canvasView().y(), node.y());
         String hitBefore = canvas.hitTest(x, y);
         boolean accepted = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
         mouseReleased(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)));
@@ -211,7 +216,7 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     public boolean validationExerciseCanvasControls() {
-        var view = responsive.viewport();
+        var view = canvasView();
         double startX = 0, startY = 0;
         boolean foundBlank = false;
         for (int y = view.y() + 4; y < view.bottom() && !foundBlank; y += 8)

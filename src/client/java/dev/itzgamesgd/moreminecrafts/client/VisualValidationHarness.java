@@ -466,6 +466,8 @@ public final class VisualValidationHarness {
                 quests.validationKey(InputConstants.KEY_DOWN, true);
                 if (quests.validationTooltipScroll() <= scrollBefore) { failJourney("Shift+Down did not scroll the tooltip in production"); return; }
                 MoreMinecrafts.LOGGER.info("PRODUCTION_KEYBOARD plain_arrow_scrolls=false shift_arrow_scrolls=true");
+                // The frame keeps the scroll offset it had in #129 (12 lines); the Shift+Down probe above must not move it.
+                quests.validationScrollQuestTooltip(scrollBefore - quests.validationTooltipScroll());
                 queueUiScreenshot("xp-quest-bestiary-scrolled.png");
                 uiJourneyStage = 62;
             }
@@ -758,6 +760,41 @@ public final class VisualValidationHarness {
             q.validationKey(InputConstants.KEY_RIGHT, false);
             return null;
         }));
+        steps.add(new PreviewStep("structure-preview-regression-obstruction-prepare", viewLane("exploration", 0.75, 17)));
+        steps.add(new PreviewStep("structure-preview-regression-obstructed-click", q -> {
+            // A node that the open tooltip covers must still be selectable: the tooltip dismisses on an empty click
+            // and the node then takes the click instead of a stale rectangle swallowing it.
+            String covered = q.validationTooltipCoveredNodeId();
+            if (covered == null) {
+                MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node=none (the tooltip hides no node in this view)");
+                return null;
+            }
+            boolean blocked = q.validationNodeUnderTooltip(covered);
+            int[] empty = q.validationEmptyPoint();
+            if (empty == null) return "no empty canvas point available";
+            q.validationClearHover();
+            q.validationClickAt(empty[0], empty[1]);
+            boolean clicked = q.validationClickNode(covered);
+            MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node={} blocked_by_tooltip={} selected_after_click={}",
+                    covered, blocked, covered.equals(q.validationSelectedId()));
+            return clicked && covered.equals(q.validationSelectedId()) ? null : "a node hidden by an open tooltip could not be selected";
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-keyboard-resized", q -> {
+            q.validationClearHover();
+            double[] c = laneCentre(q, "exploration");
+            q.validationViewAt(c[0], c[1], 0.75);
+            if (!q.validationClickNode(q.validationQuestIdAt(8))) return "could not select the starting node";
+            String start = q.validationSelectedId();
+            int moved = 0;
+            for (int key : new int[] {InputConstants.KEY_RIGHT, InputConstants.KEY_DOWN, InputConstants.KEY_LEFT}) {
+                String before = q.validationSelectedId();
+                q.keyPressed(new KeyEvent(key, 0, 0));
+                if (!before.equals(q.validationSelectedId())) moved++;
+                if (!q.validationSelectedInViewport()) return "selected node left the viewport during keyboard navigation";
+            }
+            MoreMinecrafts.LOGGER.info("PREVIEW_KEYBOARD_RESIZED start={} moved={}/3 end={}", start, moved, q.validationSelectedId());
+            return moved >= 2 ? null : "keyboard navigation stopped working with the resized tooltip";
+        }));
         steps.add(new PreviewStep("structure-preview-zoom-roundtrip", q -> {
             double[] c = laneCentre(q, "farming");
             q.validationViewAt(c[0], c[1], 0.75);
@@ -809,6 +846,7 @@ public final class VisualValidationHarness {
         if (name.equals("structure-preview-index-card-click") && !level.equals("SUB_BRANCH")) { failJourney("choosing a chapter card did not zoom into its sub-branches"); return false; }
         if (name.equals("structure-preview-regression-tooltip-open") && !q.validationTooltipVisible()) { failJourney("regression: keyboard/hover tooltip did not open"); return false; }
         if (name.equals("structure-preview-regression-stale-tooltip") && q.validationTooltipVisible()) { failJourney("regression: tooltip stayed open after an empty click"); return false; }
+        if (name.equals("structure-preview-regression-keyboard-resized") && !q.validationTooltipVisible()) { failJourney("regression: tooltip not shown for keyboard focus after navigation"); return false; }
         if (name.equals("structure-preview-regression-keyboard-tooltip") && !q.validationTooltipVisible()) { failJourney("regression: keyboard focus did not open the tooltip"); return false; }
         MoreMinecrafts.LOGGER.info("PREVIEW_VIEW name={} gui_scale={} lang={} zoom={} nodes_total={} nodes_visible={} nodes_clipped={} overlapping_pairs={} tooltip_covered_nodes={} tooltip_in_viewport={} geometry(x,y,w,h;clears)={} render[{}]",
                 name, client.getWindow().getGuiScale(), client.getLanguageManager().getSelected(),
