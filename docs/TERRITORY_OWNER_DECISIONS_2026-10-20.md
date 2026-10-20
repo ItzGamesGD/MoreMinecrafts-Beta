@@ -1,3 +1,5 @@
+> **LATEST OWNER SCOPE CHANGE (2026-10-21): TERRITORY SHELVED.** D01–D84 are preserved as historical owner-approved design but **not active delivery requirements**. See [shelving decision and released independent-content candidates](TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21.md). No territory implementation without explicit reactivation.
+
 # Territory owner decisions — 2026-10-20
 
 Status: OWNER-APPROVED DESIGN RECORD. Documentation only; not implemented or live-verified.
