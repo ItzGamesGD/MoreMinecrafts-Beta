@@ -56,7 +56,7 @@ Governing record: [TERRITORY_OWNER_DECISIONS_2026-10-20.md](TERRITORY_OWNER_DECI
 
 | Finding | Updated disposition |
 |---|---|
-| F02 | PARTLY RESOLVED by D01–D03, D54–D58. Liberation challenge, registration recipe and tier conversion remain open |
+| F02 | **HISTORICAL BEFORE D79/D80:** partly resolved by D01–D03, D54–D58; registration item totals and T1 conversion are **now approved** (see D79–D80 follow-up below). Liberation challenge/variants/durable intake remain open |
 | F03 | Boundary and owner edits resolved by D05; rollback/provenance machinery WITHDRAWN. D04 plus D59–D66 govern. Non-owner permission details remain open |
 | F04 | Cumulative targets restated as D06; tier allocation still open |
 | F05 | Guard lifecycle/healing SUPERSEDED by D29–D32, D41–D43. Guard/mercenary/caravan guard remain distinct roles |
