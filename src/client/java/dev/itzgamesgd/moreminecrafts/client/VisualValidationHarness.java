@@ -635,6 +635,7 @@ public final class VisualValidationHarness {
     private static String previewPendingName;
     private static int previewRowsBefore;
 
+    private static String obstructedTarget;
     private record PreviewStep(String name, java.util.function.Function<ProgressionBrowseScreen, String> apply) { }
 
     private static double[] laneCentre(ProgressionBrowseScreen q, String chapter) {
@@ -761,23 +762,28 @@ public final class VisualValidationHarness {
             return null;
         }));
         steps.add(new PreviewStep("structure-preview-regression-obstruction-prepare", viewLane("exploration", 0.75, 17)));
-        steps.add(new PreviewStep("structure-preview-regression-obstructed-click", q -> {
-            // A node that the open tooltip covers must still be selectable: the tooltip dismisses on an empty click
-            // and the node then takes the click instead of a stale rectangle swallowing it.
-            String covered = q.validationTooltipCoveredNodeId();
-            if (covered == null) {
+        steps.add(new PreviewStep("structure-preview-regression-obstructed-dismiss", q -> {
+            // A node that the open tooltip covers must still be selectable: an empty click dismisses the tooltip,
+            // and after the next rendered frame the node takes the click instead of a stale rectangle swallowing it.
+            obstructedTarget = q.validationTooltipCoveredNodeId();
+            if (obstructedTarget == null) {
                 MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node=none (the tooltip hides no node in this view)");
                 return null;
             }
-            boolean blocked = q.validationNodeUnderTooltip(covered);
+            boolean blocked = q.validationNodeUnderTooltip(obstructedTarget);
             int[] empty = q.validationEmptyPoint();
             if (empty == null) return "no empty canvas point available";
             q.validationClearHover();
             q.validationClickAt(empty[0], empty[1]);
-            boolean clicked = q.validationClickNode(covered);
-            MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node={} blocked_by_tooltip={} selected_after_click={}",
-                    covered, blocked, covered.equals(q.validationSelectedId()));
-            return clicked && covered.equals(q.validationSelectedId()) ? null : "a node hidden by an open tooltip could not be selected";
+            MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION covered_node={} blocked_by_tooltip={}", obstructedTarget, blocked);
+            return null;
+        }));
+        steps.add(new PreviewStep("structure-preview-regression-obstructed-click", q -> {
+            if (obstructedTarget == null) return null;
+            boolean clicked = q.validationClickNode(obstructedTarget);
+            boolean selected = obstructedTarget.equals(q.validationSelectedId());
+            MoreMinecrafts.LOGGER.info("PREVIEW_OBSTRUCTION selected_after_click={}", selected);
+            return clicked && selected ? null : "a node hidden by an open tooltip could not be selected";
         }));
         steps.add(new PreviewStep("structure-preview-regression-keyboard-resized", q -> {
             q.validationClearHover();
