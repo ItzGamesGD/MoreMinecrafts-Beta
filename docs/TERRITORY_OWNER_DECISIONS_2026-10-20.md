@@ -7,7 +7,7 @@ Source of authority: direct user decisions in ChatGPT conversation. In conflicts
 ## Explicit withdrawal (important)
 D67–D78 are **WITHDRAWN**, not pending and not approved. Do not implement or retain requirements for per-player block edit history, chunk bitsets, persistent provenance, territory-release history inheritance, 15-minute backup, 16-backup retention, restore verification, administrator reapproval, or per-change journals. These were speculative overengineering. D66 still allows limited removal of clearly safe natural obstacles; if provenance is uncertain, preserve the block and reroute or fail. Use existing building/territory protection and conservative non-destructive placement; no new history subsystem.
 
-## Approved decisions D01–D66
+## Approved decisions D01–D66 (preserved prior approval)
 D01 One owner per territory; no co-owner/manager.
 D02 One territory maximum per player.
 D03a Manual registration requires liberation/challenge; exact challenge pending.
@@ -84,9 +84,28 @@ D64 New-road default width 3 blocks.
 D65 Automatically build ramps/stairs for manageable elevation differences; exclude unsafe/too-steep sites.
 D66 Clear only a conservative allowlist of safe natural obstacles for new roads; protect existing structures and owner edits. No uncertain-provenance block removal.
 
+## Later owner-approved decisions D79–D80 — 2026-10-20
+
+**D79 — Exact village territory registration payment (APPROVED).** Players directly register by physically throwing the following *vanilla* materials into the village-center **Text Display + Interaction** deposit location. Quantities refer to required total accepted units for one registration, not per-tier upgrade fees:
+
+| Material | Exact required count |
+|---|---:|
+| 원목 (logs) | **64** |
+| 조약돌 (cobblestone) | **128** |
+| 막대기 (sticks) | **32** |
+| 판자 (planks) | **64** |
+| 석탄 (coal) | **32** |
+| 철 주괴 (iron ingots) | **16** |
+
+The six exact material families and counts are frozen by the owner's decision. Exact registry/tag membership (for example log species, stripped logs, plank species and charcoal acceptance), component matching, excess-stack return and recipe migration remain technical/policy details **NOT** approved by this numeric decision. **Do not change 32 coal to charcoal or broaden the recipe silently.** This is a registration payment, **not an additional T0→T1 upgrade payment**. Costs for later T1→T2 and T2→T3 upgrades remain OPEN. Registration and subsequent upgrades both retain the *physical thrown-item deposit* at the village-center Text Display + Interaction; no GUI-only submission.
+
+**D80 — Successful registration immediately makes the village a T1 territory (APPROVED).** An ordinary unregistered village is **T0**. When all required registration material units have been successfully accepted **and** the separately approved registration eligibility/liberation challenge (D03a; exact challenge still OPEN) is satisfied, the successful registration completion event transitions `CLAIMING → LIBERATED` and grants **territory tier T1 immediately as one completion**. The tier is a distinct field from registration status, but their completion transition is explicitly coupled by D80. No second registration, payment or later T0→T1 upgrade step exists. T1→T2→T3 remain independent, material-paid upgrades governed by D04. A partially funded CLAIMING village does **not** receive T1. D57 voluntarily relinquished territories return to T0 and must re-register before attaining T1 again. D80 does not waive D04 preflight or permit unsafe world edits/instant unvalidated facility placement. These are gameplay outcomes; atomic persistence and crash recovery require later implementation proof, not a revival of withdrawn construction-history machinery.
+
+**Withdrawal still applies:** D67–D78 remain **WITHDRAWN**. D79–D80 do not reinstate player edit history, rollback journals, backups, chunk bitsets or block provenance systems.
+
 ## Reconciliation with earlier territory documents (2026-10-20 review)
 
-Precedence: for the scope of D01–D66 this document governs over the PR #131 overlays, the D2-A recovery/spec and the OC/F/A ledgers wherever they differ. Earlier text is preserved as history, not deleted. Anything in those documents that is not contradicted here keeps its labeled status (APPROVED / PROPOSED / DEFERRED / SOURCE MISSING).
+Precedence: for the scope of D01–D66 and the later D79–D80 this document governs over the PR #131 overlays, the D2-A recovery/spec and the OC/F/A ledgers wherever they differ. Earlier text is preserved as history, not deleted. Anything in those documents that is not contradicted here keeps its labeled status (APPROVED / PROPOSED / DEFERRED / SOURCE MISSING).
 
 | Earlier text | Disposition under D01–D66 |
 |---|---|
@@ -100,6 +119,9 @@ Precedence: for the scope of D01–D66 this document governs over the PR #131 ov
 | Desert artifact candidate list and draft effects (desert doc) | D14-1..D14-7 give the owner-approved effect directions. Candidate names and numbers in the desert doc remain unapproved drafts; the mapping from old candidate names to D14 names is NOT confirmed. Do not assume it |
 | Ancient Coin as draft "-3% villager trade cost" | D14-5 (bonus-reward chance) and D15 (stacking with research discounts) govern the direction. Whether the old discount survives is OPEN |
 | Commission numbers (D20 vs BOUNTY_COMMISSION_APPROVED) | Status mismatch preserved, not resolved: the bounty document labels its board "user-approved", D20 says the audited numbers are not necessarily separately ratified. Verify with the owner before implementation |
+| Historical registration quantity missing (OC03/spec §3 and §8, A37, F02) | **RESOLVED for item family and counts by D79**; keep original Paper evidence marked SOURCE MISSING, exact accepted item tags and payment persistence OPEN |
+| Liberated registration did not grant T1 (OC04/spec §3 and §8, A38, F02/phase P1d) | **SUPERSEDED by D80**: successful registered LIBERATED is immediately T1; T0 before completion, no second payment/upgrade. Liberation challenge D03a remains OPEN |
+| Earlier registration-only physical deposit wording (D22/spec) | **CLARIFIED by D79**: registration and later upgrades both use the village-center Text Display + Interaction and dropped-item submission |
 
 ### Registration receipts (OC08) versus the withdrawn scope
 
@@ -107,10 +129,10 @@ The OC08 intent/receipt ledger protects registration-material payment (no duplic
 
 ### Classification rule
 
-Only the numbered D-items above are OWNER-APPROVED. Everything labeled PROPOSED in the D2-A spec, OC ledger, phase plan and matrix is an implementation proposal with no approval, and any such proposal that needs a journal, history, bitset or backup mechanism is invalid.
+Only D01–D66 and D79–D80 are OWNER-APPROVED; D67–D78 remain WITHDRAWN. Everything labeled PROPOSED in the D2-A spec, OC ledger, phase plan and matrix is an implementation proposal with no approval, and any such proposal that needs a journal, history, bitset or backup mechanism is invalid.
 
 ## Open owner decisions (not approved by this document)
-Exact liberation challenge; registration materials and limits from missing Paper source; T1–T3 building and resident distribution; trade SKUs and prices; recycling allowlist/refunds; map allowlist; T3 exclusives; fixed special commissions; caravan stock and odds; artifact probabilities and cooldowns; guard spawn fallback; road routing specifics; unresolved 24-rune prices and Sands of Time source. Do not invent approvals.
+Exact liberation challenge; acceptance tags/variants and crash-safe payment engineering for the D79 quantities (which are approved); later T1→T2/T2→T3 costs; T1–T3 building and resident distribution; trade SKUs and prices; recycling allowlist/refunds; map allowlist; T3 exclusives; fixed special commissions; caravan stock and odds; artifact probabilities and cooldowns; guard spawn fallback; road routing specifics; unresolved 24-rune prices and Sands of Time source. Do not invent approvals.
 
 ## Implementation and QA boundaries
 No gameplay code authorized by this documentation PR. Keep Draft, do not merge, do not change main or other active branches. For later implementation, rely on established protection and non-destructive preflight validation. Do not silently reintroduce withdrawn D67–D78 as technical prerequisites. Treat proposed numeric defaults as pending unless specifically approved above.
