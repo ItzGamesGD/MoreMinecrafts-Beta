@@ -108,3 +108,11 @@ Next design review: boss tab.
 - Preserve all other boss target/tier/reward decisions as provisional. No runtime catalog, code, registration, migration, or balance changes are made by this documentation-only update.
 - **Current owner-approved deletions: six IDs**: combat four (`xpq.cmb.dagger_100`, `xpq.cmb.greatsword_100`, `xpq.cmb.mm_arms`, `xpq.cmb.netherite_blades`), dimension one (`xpq.dim.shulker_boxes`), boss one (`xpq.boss.warden_3`). The deleted entries had 6,500 raw XP combined in the pinned pre-change catalog, but no reward reallocation is authorized. Overall catalog reconciliation is deferred.
 - Boss-tab first-pass content review complete. Next: mining tab.
+
+## I. Mining tab — first owner decision (2026-10-21)
+
+- **DELETE** `xpq.min.pickaxe_5000` / 곡괭이 내구도 5,000 사용, not defer or retarget. This is arbitrary tool-wear repetition without sufficiently distinct mining gameplay. Do not auto-replace to preserve 200 quests.
+- **KEEP** the current naturally generated ore count ladder `xpq.min.ore_1000`, `xpq.min.ore_5000`, `xpq.min.ore_20000`; the broad stone-block count `xpq.min.stone_10000`; and naturally generated log count `xpq.min.logs_1000`. Existing targets and tiers stay unchanged; XP rewards provisional pending economy pass.
+- All five retained quests must keep their stated counting semantics, particularly player-placed-vs-natural provenance for ore/log counters where the catalog already distinguishes it. Preserve progression sharing when the same eligible mined block contributes to multiple threshold quests.
+- **Approved deletion count is now seven**: four combat, one dimension, one boss and one mining (`xpq.min.pickaxe_5000`). Deleted-slot XP for the mining quest was 700 provisional raw XP; total provisional XP for seven deleted entries is 7,200. The aggregate XP ledger and save migration remain separate implementation decisions.
+- Remaining mining discovery, ore-type, collection and enchantment quests have not been owner-reviewed yet. This is a design document edit only; no production catalog, code, tests, or runtime status changed.
