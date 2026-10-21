@@ -87,3 +87,15 @@ Owner explicitly approved **DELETE, not defer**, for:
 Combined with earlier owner-approved deletions of `xpq.cmb.dagger_100` and `xpq.cmb.greatsword_100`, the design-review removal set is exactly **four quest IDs**. Preserve this exact list; do not remove other weapon quests by inference. No automatic replacement or redistribution of the deleted quests' 2,350 provisional raw XP is authorized. Review 200-entry roster count and aggregate XP budget explicitly during implementation planning. Existing production/catalog data and quest save migrations remain unchanged until separately implemented.
 
 First-pass remaining combat decisions: keep the MoreMinecrafts 5/10/25-type bestiary milestones, vanilla 20-species milestone, trident kills, long-range shots, mace smashes; future elemental weapon, elemental skill, gauntlet and tactical ammo quests remain FUTURE pending their feature design. Any unresolved tracker/live acceptance is still a gate. Combat content first-pass review complete; XP economy remains separately deferred.
+
+## G. Dimension-tab first-pass owner decisions (2026-10-21)
+
+The owner approved the following **content decisions**, not production edits:
+
+- **DELETE** `xpq.dim.shulker_boxes` (four differently dyed shulker boxes); do not transfer it to crafting or invent a replacement merely to maintain roster count. Provisional deleted award: 1,000 raw XP.
+- **REPLACE** `xpq.dim.nether_travel_50k` (Nether 50,000-block travel) with player-facing **네더의 비밀**, an actual Nether exploration objective: visit soul sand valley, basalt deltas, crimson forest, warped forest, **and discover a naturally generated Nether fossil**. Keep ENDGAME and provisional 2,500 raw XP for now. Travel distance itself no longer contributes. Implementation must specify dependable server-side biome visits and fossil detection, define the exact natural-world discovery predicate (not merely proximity or arbitrary placed bone blocks), negative tests, and safe save migration before changing the existing ID. Do not retroactively award the new objective from existing travel distance.
+- **KEEP** the other eight existing dimension-tab quests/objectives: `xpq.dim.fortress_loot`, `xpq.dim.blaze_rods_32`, `xpq.dim.trial_vaults_5`, `xpq.dim.ancient_city_loot`, `xpq.dim.bastion_all`, `xpq.dim.ominous_vaults_5`, `xpq.dim.end_cities_3`, `xpq.dim.end_city_loot_10`. Existing tier and raw XP values remain provisional.
+- New total owner-approved deletions so far: four combat IDs (`dagger_100`, `greatsword_100`, `mm_arms`, `netherite_blades`) plus one dimension ID (`shulker_boxes`) = **five deleted slots** (3,350 provisional raw XP); no automatic replacement or reallocation approved. The replacement for `nether_travel_50k` retains its slot.
+- All implementation, registration/activation, testing and economy reconciliation await separate execution approval. The pinned 200-row CSV remains a faithful pre-change inventory.
+
+Next design review: boss tab.
