@@ -126,18 +126,19 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
             ctx.assertTrue(matching.size() == 1, "normal death drops " + definition.registryId() + " exactly once");
             assertStackMetadata(ctx, matching.getFirst().getItem(), slot, "death drop");
         }
+        // Remove the already-accounted first-death drops so later death processing is isolated.
+        drops.forEach(ItemEntity::discard);
 
         ServerPlayer respawned = ctx.getLevel().getServer().getPlayerList().respawn(
                 player, false, Entity.RemovalReason.KILLED);
         ctx.assertTrue(new AccessoryEquipmentContainer(respawned).isEmpty(), "normal respawn has empty accessory slots");
         respawned.setPos(player.getX(), player.getY(), player.getZ());
         respawned.die(ctx.getLevel().damageSources().generic());
-        int repeatedDeathDrops = accessoryDrops(ctx, respawned).size();
+        List<ItemEntity> repeatedDeathDrops = accessoryDrops(ctx, respawned);
         ctx.assertTrue(new AccessoryEquipmentContainer(respawned).isEmpty(),
                 "repeated death leaves the respawned accessory source empty");
-        ctx.assertTrue(repeatedDeathDrops == firstDeathDrops,
-                "repeated death preserves the first drop total; first=" + firstDeathDrops
-                        + ", after=" + repeatedDeathDrops);
+        ctx.assertTrue(repeatedDeathDrops.isEmpty(),
+                "repeated death creates no new accessory drops after " + firstDeathDrops + " first-death drops");
         ctx.succeed();
     }
 
