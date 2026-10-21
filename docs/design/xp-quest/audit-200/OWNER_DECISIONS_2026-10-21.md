@@ -203,3 +203,27 @@ Neither actual crafting recipes nor runtime quest tracking were created by this 
    `I` iron ingot; `F` furnace; `C` chest; `.` empty.
 
 The above layouts are actionable recipe intent but this remains a documentation-only design PR: **no JSON recipe files, registration/status activation, or tests were executed here**. At implementation, check shaped recipe JSON format for current Minecraft version, recipe unlock/gates, ingredient consumption, server-side outputs, single-container ownership/persistence and test fresh-world crafting. Preserve tiered Backpack shared player-bound storage and Portable Furnace previously approved 3× smelting/fuel + persistence behavior. Small and Large Backpack ingredient counts/layouts remain to be separately finalized; earlier role direction (Small: bundle/leather/string; Large: Backpack/Shulker Shell/diamond-like) remains intact.
+
+## P. Owner approval: Small and Large Backpack shaped recipes (2026-10-21)
+
+Owner approved both proposed 3×3 shaped recipes, completing the four utility-item recipe decisions from sections O and P.
+
+**Small Backpack (9 shared player-bound slots):**
+```text
+L S L
+L B L
+L S L
+```
+`L` vanilla leather ×6; `S` vanilla string ×2; `B` vanilla bundle ×1. Output: one `moreminecrafts:small_backpack`. This is a genuine survival crafting recipe, not a knowledge-only grant.
+
+**Large Backpack (54 shared player-bound slots):**
+```text
+D H D
+D P D
+D H D
+```
+`D` vanilla diamond ×6; `H` vanilla shulker shell ×2; `P` existing `moreminecrafts:backpack` ×1. Output: one `moreminecrafts:large_backpack`.
+
+The intermediate **Backpack (27 slots)** remains as approved in section O (Small Backpack ×1, Chest ×1, Iron Ingot ×4); **Portable Furnace** remains Chest ×1, Furnace ×1, Iron Ingot ×4. All four recipe ingredient sets and layouts are now owner-approved. Implementation remains separate: validate registry IDs, data recipe codec and unlock conditions against the actual integration branch, craftability, equipment/shared-storage and furnace persistence tests, and quest attribution. Do not claim recipe JSON was added, PR merged or FUTURE quest flags activated by this documentation change.
+
+Resume crafting XP Quest review after recipe implementation preparation; replace old dagger/greatsword crafting quests rather than delete slots, per section N.
