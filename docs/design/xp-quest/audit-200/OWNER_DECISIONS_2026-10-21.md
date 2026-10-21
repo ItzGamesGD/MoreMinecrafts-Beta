@@ -59,3 +59,14 @@ Distance alone must never complete these objectives. Confirm natural-world predi
 ## Source of truth distinction
 
 This file records **owner-approved design intent from conversation**, not an implementation claim. The existing `quest_inventory.csv` retains pinned Q1-C data for audit reproducibility; do **not** rewrite its snapshot rows to show future approved designs as though they were implemented.
+
+
+## D. Combat follow-up — weapon quest removals and block target (2026-10-21)
+
+Owner explicitly **rejects and orders removal** of the two repetitive, weapon-specific 100-kill quest slots:
+- `xpq.cmb.dagger_100` / 그림자 칼날 — **DELETE** (not defer).
+- `xpq.cmb.greatsword_100` / 거인의 일격 — **DELETE** (not defer).
+
+Rationale: Dagger/greatsword progression roles and distinctive gameplay are not approved; forcing 100 kills with inventory-registered weapons is not meaningful content. Do not replace these entries with invented content merely to preserve the 200-entry count. Before implementation, reconcile roster cardinality and the approved XP ledger via an explicit decision; do not silently redistribute the 1,000 XP combined awards. `xpq.cmb.mm_arms` (one kill with each weapon) is a separate quest and **has not been explicitly removed** in this decision; flag it for later re-review.
+
+Also confirmed by owner: `xpq.cmb.shield_500` / 철벽 goal **500 -> 100 successful shield blocks**, pending implementation and reward review. Ordinary hostile-kill ladder 100/500/2,000/5,000 remains approved as-is, including farmable cumulative progression. This is documentation-only owner intent, not a catalog edit or a registered-quest migration.
