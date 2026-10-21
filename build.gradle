@@ -36,7 +36,7 @@ fabricApi {
         createSourceSet = true
         modId = "moreminecrafts-gametest"
         enableGameTests = true
-        enableClientGameTests = false
+        enableClientGameTests = true
         eula = true
     }
 }
