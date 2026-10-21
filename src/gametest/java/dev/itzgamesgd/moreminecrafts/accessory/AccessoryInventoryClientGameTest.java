@@ -32,8 +32,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
 
     @Override
     public void runTest(ClientGameTestContext context) {
-        try (TestDedicatedServerContext server = context.worldBuilder().createServer();
-             TestServerConnection ignored = server.connect()) {
+        TestDedicatedServerContext server = context.worldBuilder().createServer();
+        TestServerConnection ignored = server.connect();
             context.waitFor(client -> client.player != null && client.level != null
                     && client.getConnection() != null && client.getConnection().getConnection().isConnected());
 
@@ -76,9 +76,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             runShiftClickTransfer(context, server);
             runInvalidPlacement(context, server);
 
-            context.runOnClient(client -> client.gui.setScreen(null));
-            context.waitForScreen(null);
-        }
+        context.runOnClient(client -> client.gui.setScreen(null));
+        context.waitForScreen(null);
     }
 
     private static void prepareServerFixture(TestDedicatedServerContext server) {
