@@ -76,3 +76,14 @@ Also confirmed by owner: `xpq.cmb.shield_500` / 철벽 goal **500 -> 100 success
 - `xpq.cmb.ravagers_5` / 파괴수 사냥: **reduce required ravager kills from 5 to 3**; retain LATE and provisional 1,000 raw XP pending economy review. Identifier contains old count, so review compatibility and migrations before renaming.
 - **Keep existing proposed objectives**: `xpq.cmb.bandits_20` (all three bandit variants represented, 20 total), `xpq.cmb.breeze_10`, `xpq.cmb.guardians_30`, `xpq.cmb.lesser_wither_10`, `xpq.cmb.brutes_3`, `xpq.cmb.wither_skulls_3`, and `xpq.cmb.raids_3`.
 - These are content approvals only; missing trackers and live acceptance remain outstanding. No code, runtime catalog, status/registration, or XP ledger change was made in this documentation branch.
+
+
+## F. Combat closure — additional weapon-specific removals (2026-10-21)
+
+Owner explicitly approved **DELETE, not defer**, for:
+- `xpq.cmb.mm_arms` / 새로운 무기 — dagger and greatsword, one kill each.
+- `xpq.cmb.netherite_blades` / 네더라이트 칼날 — netherite dagger and netherite greatsword, one kill each.
+
+Combined with earlier owner-approved deletions of `xpq.cmb.dagger_100` and `xpq.cmb.greatsword_100`, the design-review removal set is exactly **four quest IDs**. Preserve this exact list; do not remove other weapon quests by inference. No automatic replacement or redistribution of the deleted quests' 2,350 provisional raw XP is authorized. Review 200-entry roster count and aggregate XP budget explicitly during implementation planning. Existing production/catalog data and quest save migrations remain unchanged until separately implemented.
+
+First-pass remaining combat decisions: keep the MoreMinecrafts 5/10/25-type bestiary milestones, vanilla 20-species milestone, trident kills, long-range shots, mace smashes; future elemental weapon, elemental skill, gauntlet and tactical ammo quests remain FUTURE pending their feature design. Any unresolved tracker/live acceptance is still a gate. Combat content first-pass review complete; XP economy remains separately deferred.
