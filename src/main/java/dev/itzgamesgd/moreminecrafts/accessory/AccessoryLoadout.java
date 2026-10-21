@@ -1,44 +1,70 @@
 package dev.itzgamesgd.moreminecrafts.accessory;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Optional;
+import com.mojang.serialization.Codec;
+import java.util.ArrayList;
+import java.util.List;
+import net.minecraft.world.item.ItemStack;
 
-/** In-memory five-slot category map with category and active-slot validation. */
+/** The single five-stack equipment state persisted and synchronized for each player. */
 public final class AccessoryLoadout {
-    private final EnumMap<AccessoryCategory, AccessoryDefinition> equipped;
+    public static final int SIZE = AccessoryCategory.values().length;
+    public static final Codec<AccessoryLoadout> CODEC = ItemStack.OPTIONAL_CODEC.listOf(SIZE, SIZE)
+            .xmap(AccessoryLoadout::new, AccessoryLoadout::stacks);
 
-    private AccessoryLoadout(Map<AccessoryCategory, AccessoryDefinition> equipped) {
-        this.equipped = new EnumMap<>(AccessoryCategory.class);
-        this.equipped.putAll(equipped);
+    private final List<ItemStack> stacks;
+
+    public AccessoryLoadout(List<ItemStack> stacks) {
+        if (stacks.size() != SIZE) throw new IllegalArgumentException("Accessory loadout must have exactly five slots");
+        ArrayList<ItemStack> copy = new ArrayList<>(SIZE);
+        for (int slot = 0; slot < SIZE; slot++) {
+            ItemStack stack = stacks.get(slot);
+            ItemStack stored = stack == null ? ItemStack.EMPTY : stack.copy();
+            if (!stored.isEmpty() && !AccessorySlotRules.accepts(slot, stored)) {
+                throw new IllegalArgumentException("Invalid accessory stack in category slot " + slot);
+            }
+            copy.add(stored);
+        }
+        this.stacks = List.copyOf(copy);
     }
 
     public static AccessoryLoadout empty() {
-        return new AccessoryLoadout(Map.of());
+        return new AccessoryLoadout(java.util.Collections.nCopies(SIZE, ItemStack.EMPTY));
     }
 
-    /** Equips into the sole slot for this category; occupied slots are left unchanged. */
-    public boolean equip(AccessoryDefinition accessory) {
-        AccessoryCategory category = accessory.category();
-        if (equipped.containsKey(category)) return false;
-        equipped.put(category, accessory);
-        return true;
+    public ItemStack get(int slot) {
+        checkSlot(slot);
+        return stacks.get(slot).copy();
     }
 
-    public Optional<AccessoryDefinition> get(AccessoryCategory category) {
-        return Optional.ofNullable(equipped.get(category));
+    /** Returns an immutable deep snapshot suitable for death drops and transactions. */
+    public List<ItemStack> stacks() {
+        return stacks.stream().map(ItemStack::copy).toList();
     }
 
-    public boolean canManuallyActivate(AccessoryDefinition accessory) {
-        return accessory.category().allowsManualActivation()
-                && equipped.get(accessory.category()) == accessory;
+    public AccessoryLoadout with(int slot, ItemStack stack) {
+        checkSlot(slot);
+        if (stack == null || (!stack.isEmpty() && !AccessorySlotRules.accepts(slot, stack))) {
+            throw new IllegalArgumentException("Invalid stack for accessory slot " + slot);
+        }
+        ArrayList<ItemStack> changed = new ArrayList<>(stacks());
+        changed.set(slot, stack.isEmpty() ? ItemStack.EMPTY : stack.copy());
+        return new AccessoryLoadout(changed);
     }
 
-    public int slotCount() {
-        return AccessoryCategory.values().length;
+    public boolean canManuallyActivate(int slot) {
+        checkSlot(slot);
+        return slot == AccessoryCategory.COMBAT.ordinal() && !stacks.get(slot).isEmpty();
     }
 
-    public Map<AccessoryCategory, AccessoryDefinition> equipped() {
-        return Map.copyOf(equipped);
+    public boolean isEmpty() {
+        return stacks.stream().allMatch(ItemStack::isEmpty);
+    }
+
+    public int occupiedSlots() {
+        return (int) stacks.stream().filter(stack -> !stack.isEmpty()).count();
+    }
+
+    public static void checkSlot(int slot) {
+        if (slot < 0 || slot >= SIZE) throw new IndexOutOfBoundsException("Accessory slot " + slot);
     }
 }

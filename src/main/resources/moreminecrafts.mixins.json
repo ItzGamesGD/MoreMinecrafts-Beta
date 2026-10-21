@@ -26,6 +26,7 @@
     "CrossbowItemMixin",
     "GreatswordPlayerInteractionMixin",
     "InventoryMenuMixin",
+    "AccessoryDeathMixin",
     "SleepingBagRespawnMixin",
     "BackpackDetachMixin",
     "ShieldItemMixin",
@@ -65,6 +66,8 @@
     "defaultRequire": 1
   },
   "client": [
+    "AbstractContainerScreenAccessor",
+    "AccessoryInventoryScreenMixin",
     "FishingRodItemClientMixin",
     "FishingRodInputClientMixin",
     "T1AnvilScreenFactoryMixin",
