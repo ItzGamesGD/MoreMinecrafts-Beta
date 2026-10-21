@@ -57,9 +57,17 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
                 double scale = client.getWindow().getGuiScale();
                 return new double[]{center[0] * scale, center[1] * scale};
             });
+            System.out.println("ACCESSORY_RECIPE_TOGGLE " + context.computeOnClient(client -> {
+                Object button = findRecipeToggle((InventoryScreen) client.gui.screen());
+                return button.getClass().getName() + " center=" + java.util.Arrays.toString(widgetCenter(button))
+                        + " gui=" + client.getWindow().getGuiScaledWidth() + "x" + client.getWindow().getGuiScaledHeight()
+                        + " window=" + client.getWindow().getWidth() + "x" + client.getWindow().getHeight()
+                        + " scale=" + client.getWindow().getGuiScale();
+            }));
             context.getInput().setCursorPos(recipeTogglePos[0], recipeTogglePos[1]);
             context.getInput().pressMouse(0);
             context.waitTicks(2);
+            context.takeScreenshot("accessory-inventory-recipe-book-open-attempt");
             if (!recipeBookVisible(screen)) {
                 throw new AssertionError("Recipe book did not open after Client GameTest cursor click");
             }
