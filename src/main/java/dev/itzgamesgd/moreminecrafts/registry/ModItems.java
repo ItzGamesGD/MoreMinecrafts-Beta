@@ -3,6 +3,8 @@ package dev.itzgamesgd.moreminecrafts.registry;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.item.FoundationProbeItem;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryDefinition;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryItem;
 import dev.itzgamesgd.moreminecrafts.fishing.*;
 import java.util.EnumMap;
 import java.util.Map;
@@ -112,7 +114,13 @@ public final class ModItems {
 
     public static final Map<FishSpecies, Item> FISH = new EnumMap<>(FishSpecies.class);
     public static final Item[][] FISHING_EQUIPMENT = new Item[FishingEquipmentFamily.values().length][FishingEquipmentTier.MAX];
+    public static final Map<AccessoryDefinition, AccessoryItem> ACCESSORIES = new EnumMap<>(AccessoryDefinition.class);
     static {
+        for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
+            ResourceKey<Item> accessoryKey = key(definition.registryId());
+            ACCESSORIES.put(definition, Registry.register(BuiltInRegistries.ITEM, accessoryKey,
+                    new AccessoryItem(definition, new Item.Properties().stacksTo(1).setId(accessoryKey))));
+        }
         for (WeaponBalance.Values value : WeaponBalance.VALUES) {
             String tier = value.tier().name().toLowerCase();
             DAGGERS.put(value.tier(), register(tier + "_dagger", key -> new BasicWeaponItem(BasicWeaponItem.Kind.DAGGER,
@@ -190,6 +198,15 @@ public final class ModItems {
     }
 
     public static void initialize() {
+        for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
+            Item item = ACCESSORIES.get(definition);
+            if (!(item instanceof AccessoryItem accessory)
+                    || accessory.definition() != definition
+                    || !ModIds.id(definition.registryId()).equals(BuiltInRegistries.ITEM.getKey(item))) {
+                throw new IllegalStateException("Accessory registration mismatch for " + definition.registryId());
+            }
+        }
+
         var registeredId = BuiltInRegistries.ITEM.getKey(FOUNDATION_PROBE);
 
         if (!ModIds.id("foundation_probe").equals(registeredId)) {
