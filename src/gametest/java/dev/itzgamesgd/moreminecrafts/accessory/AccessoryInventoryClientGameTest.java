@@ -120,6 +120,11 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         context.runOnClient(client -> {
             client.gui.setScreen(null);
             client.options.guiScale().set(scale);
+            client.resizeDisplay();
+            if (client.getWindow().getGuiScale() != scale) {
+                throw new AssertionError("Requested GUI scale " + scale + " but effective scale is "
+                        + client.getWindow().getGuiScale());
+            }
         });
         context.waitTick();
         openInventory(context);
@@ -315,8 +320,18 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
     }
 
     private static Object findRecipeToggle(InventoryScreen screen) {
-        Object found = findObject(screen, value -> value.getClass().getSimpleName().contains("ToggleButton"),
-                Collections.newSetFromMap(new IdentityHashMap<>()), 0);
+        int left = intField(screen, "leftPos");
+        int top = intField(screen, "topPos");
+        Object found = findObject(screen, value -> {
+            if (!value.getClass().getSimpleName().endsWith("Button")) return false;
+            try {
+                int x = ((Number) value.getClass().getMethod("getX").invoke(value)).intValue();
+                int y = ((Number) value.getClass().getMethod("getY").invoke(value)).intValue();
+                return x >= left + 80 && x <= left + 140 && y >= top + 40 && y <= top + 100;
+            } catch (ReflectiveOperationException ignored) {
+                return false;
+            }
+        }, Collections.newSetFromMap(new IdentityHashMap<>()), 0);
         if (found == null) throw new AssertionError("Inventory recipe-book toggle widget was not found");
         return found;
     }
@@ -380,8 +395,11 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         try {
             Method getX = widget.getClass().getMethod("getX");
             Method getY = widget.getClass().getMethod("getY");
-            return new double[]{((Number) getX.invoke(widget)).doubleValue() + 4.0,
-                    ((Number) getY.invoke(widget)).doubleValue() + 4.0};
+            double x = ((Number) getX.invoke(widget)).doubleValue();
+            double y = ((Number) getY.invoke(widget)).doubleValue();
+            double width = ((Number) widget.getClass().getMethod("getWidth").invoke(widget)).doubleValue();
+            double height = ((Number) widget.getClass().getMethod("getHeight").invoke(widget)).doubleValue();
+            return new double[]{x + width / 2.0, y + height / 2.0};
         } catch (ReflectiveOperationException error) {
             throw new AssertionError("Could not read recipe-book toggle position", error);
         }
