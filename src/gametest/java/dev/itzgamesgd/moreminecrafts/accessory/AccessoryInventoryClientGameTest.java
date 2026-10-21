@@ -120,13 +120,14 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         context.runOnClient(client -> {
             client.gui.setScreen(null);
             client.options.guiScale().set(scale);
-            client.resizeDisplay();
+        });
+        context.waitTick();
+        context.runOnClient(client -> {
             if (client.getWindow().getGuiScale() != scale) {
                 throw new AssertionError("Requested GUI scale " + scale + " but effective scale is "
                         + client.getWindow().getGuiScale());
             }
         });
-        context.waitTick();
         openInventory(context);
     }
 
