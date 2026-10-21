@@ -141,6 +141,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
         boolean previous = rules.get(GameRules.KEEP_INVENTORY);
         rules.set(GameRules.KEEP_INVENTORY, true, ctx.getLevel().getServer());
         try {
+            ctx.assertTrue(rules.get(GameRules.KEEP_INVENTORY), "keepInventory test rule is enabled");
             ServerPlayer player = ctx.makeMockServerPlayerInLevel();
             equipFixture(player);
             player.die(ctx.getLevel().damageSources().generic());
@@ -222,12 +223,12 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
                 scenario + " retains custom name for slot " + slot);
         ctx.assertTrue(Integer.valueOf(slot + 1).equals(stack.get(ModDataComponents.ENHANCEMENT_LEVEL)),
                 scenario + " retains enhancement metadata for slot " + slot);
-        ctx.assertTrue(Integer.valueOf(slot).equals(stack.get(DataComponents.CUSTOM_DATA).copyTag().getInt("qa_slot")),
+        ctx.assertTrue(java.util.Optional.of(slot).equals(stack.get(DataComponents.CUSTOM_DATA).copyTag().getInt("qa_slot")),
                 scenario + " retains custom component data for slot " + slot);
     }
 
     private static List<ItemEntity> accessoryDrops(GameTestHelper ctx, ServerPlayer player) {
-        AABB bounds = new AABB(player.blockPosition()).inflate(8.0D);
+        AABB bounds = new AABB(player.blockPosition()).inflate(2.0D);
         return ctx.getLevel().getEntitiesOfClass(ItemEntity.class, bounds,
                 item -> SLOT_ITEMS.length > 0 && java.util.Arrays.stream(SLOT_ITEMS)
                         .anyMatch(definition -> item.getItem().getItem() == ModItems.ACCESSORIES.get(definition)));

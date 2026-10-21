@@ -37,7 +37,8 @@ public final class AccessoryEquipmentGameTests implements CustomTestMethodInvoke
         ctx.assertTrue(stored.get(ModDataComponents.ENHANCEMENT_LEVEL) == 10, "enhancement component is preserved");
         ctx.assertTrue(stored.get(DataComponents.CUSTOM_NAME).equals(Component.literal("named accessory")),
                 "custom name is preserved");
-        ctx.assertTrue(stored.get(DataComponents.CUSTOM_DATA).copyTag().getString("verification").equals("kept"),
+        ctx.assertTrue(java.util.Optional.of("kept").equals(
+                        stored.get(DataComponents.CUSTOM_DATA).copyTag().getString("verification")),
                 "custom item data is preserved");
 
         container.setItem(AccessoryCategory.DEFENSE_SURVIVAL.ordinal(), combat);
