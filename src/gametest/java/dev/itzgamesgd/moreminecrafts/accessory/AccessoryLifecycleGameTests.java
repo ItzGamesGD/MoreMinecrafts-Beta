@@ -40,12 +40,12 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
 
     @GameTest
     public void accessoryAttachmentSurvivesPlayerEntitySaveAndReload(GameTestHelper ctx) {
-        ServerPlayer original = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer original = mockPlayer(ctx);
         equipFixture(original);
         TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, original.registryAccess());
         original.saveWithoutId(output);
 
-        ServerPlayer restored = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer restored = mockPlayer(ctx);
         restored.load(TagValueInput.create(ProblemReporter.DISCARDING, restored.registryAccess(), output.buildResult()));
         assertFixture(ctx, restored, "player entity save/load");
         ctx.succeed();
@@ -53,7 +53,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
 
     @GameTest
     public void categorySlotsPreventDuplicatesAndOnlyCombatCanBeActive(GameTestHelper ctx) {
-        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer player = mockPlayer(ctx);
         equipFixture(player);
         AccessoryEquipmentContainer container = new AccessoryEquipmentContainer(player);
         ctx.assertTrue(container.getItem(AccessoryCategory.COMBAT.ordinal()).getItem()
@@ -81,7 +81,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
 
     @GameTest
     public void accessoriesSurviveNetherAndEndTransfers(GameTestHelper ctx) {
-        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer player = mockPlayer(ctx);
         equipFixture(player);
         var server = ctx.getLevel().getServer();
         var nether = server.getLevel(net.minecraft.world.level.Level.NETHER);
@@ -110,7 +110,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
 
     @GameTest
     public void accessoryDeathDropsOnceAndRespawnStartsEmpty(GameTestHelper ctx) {
-        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer player = mockPlayer(ctx);
         player.setGameMode(GameType.SURVIVAL);
         equipFixture(player);
         player.die(ctx.getLevel().damageSources().generic());
@@ -129,8 +129,9 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
         ServerPlayer respawned = ctx.getLevel().getServer().getPlayerList().respawn(
                 player, false, Entity.RemovalReason.KILLED);
         ctx.assertTrue(new AccessoryEquipmentContainer(respawned).isEmpty(), "normal respawn has empty accessory slots");
+        respawned.moveTo(player.getX(), player.getY(), player.getZ());
         respawned.die(ctx.getLevel().damageSources().generic());
-        ctx.assertTrue(accessoryDrops(ctx, player).size() == SLOT_ITEMS.length,
+        ctx.assertTrue(accessoryDrops(ctx, respawned).size() == SLOT_ITEMS.length,
                 "repeated death processing does not create duplicate accessory drops");
         ctx.succeed();
     }
@@ -142,7 +143,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
         rules.set(GameRules.KEEP_INVENTORY, true, ctx.getLevel().getServer());
         try {
             ctx.assertTrue(rules.get(GameRules.KEEP_INVENTORY), "keepInventory test rule is enabled");
-            ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+            ServerPlayer player = mockPlayer(ctx);
             ctx.assertTrue(player.level().getGameRules().get(GameRules.KEEP_INVENTORY),
                     "keepInventory is enabled for the tested player's level");
             equipFixture(player);
@@ -209,6 +210,13 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
                     .update(tag -> tag.putInt("qa_slot", accessorySlot)));
             container.setItem(slot, stack);
         }
+    }
+
+    private static ServerPlayer mockPlayer(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        net.minecraft.core.BlockPos position = ctx.absolutePos(new net.minecraft.core.BlockPos(2, 2, 2));
+        player.moveTo(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D);
+        return player;
     }
 
     private static void assertFixture(GameTestHelper ctx, ServerPlayer player, String scenario) {
