@@ -315,7 +315,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             int top = intField(screen, "topPos");
             double scale = client.getWindow().getGuiScale();
             System.out.println("ACCESSORY_CLICK slot=" + menuSlot + " scale=" + scale
-                    + " shiftKey=" + client.options.keyShift.isDown() + " hasShift=" + Minecraft.hasShiftDown());
+                    + " shiftKey=" + client.options.keyShift.isDown() + " hasShift=" + client.hasShiftDown());
             return new double[]{(left + slot.x + 8.0) * scale, (top + slot.y + 8.0) * scale};
         });
         context.getInput().setCursorPos(position[0], position[1]);
