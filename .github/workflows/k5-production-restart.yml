@@ -58,3 +58,57 @@ jobs:
             build/run/gameTest/k5-restart-fixture.txt
           if-no-files-found: warn
           retention-days: 14
+
+  accessory-player-restart:
+    name: Three-process accessory player persistence
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile accessory lifecycle GameTests
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Process A equips all categories and saves player data
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:accessory_lifecycle_game_tests_accessories_survive_repeated_server_restarts
+            -Dmoreminecrafts.accessory.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee accessory-restart-write.log
+          grep -F 'ACCESSORY_RESTART_WRITE' accessory-restart-write.log
+      - name: Process B reloads the player and saves another cycle
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:accessory_lifecycle_game_tests_accessories_survive_repeated_server_restarts
+            -Dmoreminecrafts.accessory.restart.phase=reload1
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee accessory-restart-read-1.log
+          grep -F 'ACCESSORY_RESTART_RELOAD1' accessory-restart-read-1.log
+      - name: Process C verifies the second save and reload
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:accessory_lifecycle_game_tests_accessories_survive_repeated_server_restarts
+            -Dmoreminecrafts.accessory.restart.phase=reload2
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee accessory-restart-read-2.log
+          grep -F 'ACCESSORY_RESTART_RELOAD2' accessory-restart-read-2.log
+      - name: Upload accessory restart evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-player-restart-evidence
+          path: |
+            accessory-restart-write.log
+            accessory-restart-read-1.log
+            accessory-restart-read-2.log
+          if-no-files-found: warn
+          retention-days: 14
