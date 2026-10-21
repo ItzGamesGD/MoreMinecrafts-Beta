@@ -4,7 +4,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,18 +13,17 @@ abstract class AccessoryInventoryScreenMixin {
     private static final int BASE_WIDTH = 176;
     private static final int EXTENDED_WIDTH = 284;
 
-    @Shadow protected int imageWidth;
-    @Shadow protected int leftPos;
-    @Shadow protected int topPos;
-
     @Inject(method = "init", at = @At("HEAD"))
     private void moreminecrafts$extendInventoryForAccessoryColumn(CallbackInfo ci) {
-        imageWidth = EXTENDED_WIDTH;
+        ((AbstractContainerScreenAccessor) this).moreminecrafts$setImageWidth(EXTENDED_WIDTH);
     }
 
     @Inject(method = "extractBackground", at = @At("TAIL"))
     private void moreminecrafts$drawAccessoryColumn(GuiGraphicsExtractor graphics, int mouseX, int mouseY,
                                                      float delta, CallbackInfo ci) {
+        AbstractContainerScreenAccessor accessor = (AbstractContainerScreenAccessor) this;
+        int leftPos = accessor.moreminecrafts$getLeftPos();
+        int topPos = accessor.moreminecrafts$getTopPos();
         int x = leftPos + BASE_WIDTH;
         int right = leftPos + EXTENDED_WIDTH;
         int bottom = topPos + 166;
