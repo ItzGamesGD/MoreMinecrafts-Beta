@@ -129,7 +129,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
         ServerPlayer respawned = ctx.getLevel().getServer().getPlayerList().respawn(
                 player, false, Entity.RemovalReason.KILLED);
         ctx.assertTrue(new AccessoryEquipmentContainer(respawned).isEmpty(), "normal respawn has empty accessory slots");
-        respawned.moveTo(player.getX(), player.getY(), player.getZ());
+        respawned.setPos(player.getX(), player.getY(), player.getZ());
         respawned.die(ctx.getLevel().damageSources().generic());
         ctx.assertTrue(accessoryDrops(ctx, respawned).size() == SLOT_ITEMS.length,
                 "repeated death processing does not create duplicate accessory drops");
@@ -215,7 +215,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
     private static ServerPlayer mockPlayer(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         net.minecraft.core.BlockPos position = ctx.absolutePos(new net.minecraft.core.BlockPos(2, 2, 2));
-        player.moveTo(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D);
+        player.setPos(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D);
         return player;
     }
 
