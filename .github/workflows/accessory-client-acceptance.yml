@@ -38,7 +38,7 @@ jobs:
       - name: Install the proven software rendering stack
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb openbox x11-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+          sudo apt-get install -y xvfb openbox x11-utils mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
 
       - name: Compile client and GameTest sources
         run: ./gradlew compileClientJava compileGametestJava --no-daemon
