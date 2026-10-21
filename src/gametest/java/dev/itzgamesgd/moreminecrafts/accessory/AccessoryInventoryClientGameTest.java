@@ -52,7 +52,11 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
 
             InventoryScreen screen = currentInventory(context);
             Object recipeToggle = findRecipeToggle(screen);
-            double[] recipeTogglePos = widgetCenter(recipeToggle);
+            double[] recipeTogglePos = context.computeOnClient(client -> {
+                double[] center = widgetCenter(recipeToggle);
+                double scale = client.getWindow().getGuiScale();
+                return new double[]{center[0] * scale, center[1] * scale};
+            });
             context.getInput().setCursorPos(recipeTogglePos[0], recipeTogglePos[1]);
             context.getInput().pressMouse(0);
             context.waitTicks(2);
@@ -63,7 +67,11 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
 
             screen = currentInventory(context);
             recipeToggle = findRecipeToggle(screen);
-            recipeTogglePos = widgetCenter(recipeToggle);
+            recipeTogglePos = context.computeOnClient(client -> {
+                double[] center = widgetCenter(recipeToggle);
+                double scale = client.getWindow().getGuiScale();
+                return new double[]{center[0] * scale, center[1] * scale};
+            });
             context.getInput().setCursorPos(recipeTogglePos[0], recipeTogglePos[1]);
             context.getInput().pressMouse(0);
             context.waitTicks(2);
@@ -288,7 +296,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             Slot slot = client.player.containerMenu.getSlot(menuSlot);
             int left = intField(screen, "leftPos");
             int top = intField(screen, "topPos");
-            return new double[]{left + slot.x + 8.0, top + slot.y + 8.0};
+            double scale = client.getWindow().getGuiScale();
+            return new double[]{(left + slot.x + 8.0) * scale, (top + slot.y + 8.0) * scale};
         });
         context.getInput().setCursorPos(position[0], position[1]);
         context.getInput().pressMouse(0);
