@@ -129,7 +129,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
         ServerPlayer respawned = ctx.getLevel().getServer().getPlayerList().respawn(
                 player, false, Entity.RemovalReason.KILLED);
         ctx.assertTrue(new AccessoryEquipmentContainer(respawned).isEmpty(), "normal respawn has empty accessory slots");
-        player.die(ctx.getLevel().damageSources().generic());
+        respawned.die(ctx.getLevel().damageSources().generic());
         ctx.assertTrue(accessoryDrops(ctx, player).size() == SLOT_ITEMS.length,
                 "repeated death processing does not create duplicate accessory drops");
         ctx.succeed();
@@ -143,9 +143,14 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
         try {
             ctx.assertTrue(rules.get(GameRules.KEEP_INVENTORY), "keepInventory test rule is enabled");
             ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+            ctx.assertTrue(player.level().getGameRules().get(GameRules.KEEP_INVENTORY),
+                    "keepInventory is enabled for the tested player's level");
             equipFixture(player);
             player.die(ctx.getLevel().damageSources().generic());
-            ctx.assertTrue(accessoryDrops(ctx, player).isEmpty(), "keepInventory produces no accessory drops");
+            List<ItemEntity> drops = accessoryDrops(ctx, player);
+            ctx.assertTrue(drops.isEmpty(), "keepInventory produces no accessory drops; found "
+                    + drops.stream().map(drop -> drop.getItem().getHoverName().getString() + "@" + drop.blockPosition())
+                    .toList());
             assertFixture(ctx, player, "keepInventory death");
 
             ServerPlayer respawned = ctx.getLevel().getServer().getPlayerList().respawn(
@@ -231,7 +236,9 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
         AABB bounds = new AABB(player.blockPosition()).inflate(2.0D);
         return ctx.getLevel().getEntitiesOfClass(ItemEntity.class, bounds,
                 item -> SLOT_ITEMS.length > 0 && java.util.Arrays.stream(SLOT_ITEMS)
-                        .anyMatch(definition -> item.getItem().getItem() == ModItems.ACCESSORIES.get(definition)));
+                        .anyMatch(definition -> item.getItem().getItem() == ModItems.ACCESSORIES.get(definition))
+                        && item.getItem().has(DataComponents.CUSTOM_NAME)
+                        && item.getItem().get(DataComponents.CUSTOM_NAME).getString().startsWith("qa-slot-"));
     }
 
     private static void saveRestartFixture(GameTestHelper ctx, ServerPlayer player, String phase) {
