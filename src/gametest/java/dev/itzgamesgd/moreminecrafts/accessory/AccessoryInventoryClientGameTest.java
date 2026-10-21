@@ -153,9 +153,9 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             if (clientLoadout.occupiedSlots() != AccessoryLoadout.SIZE) {
                 throw new AssertionError("Client attachment did not synchronize all five equipped accessories");
             }
-            ItemStack synchronized = clientLoadout.get(AccessoryCategory.COMBAT.ordinal());
-            if (!Component.literal("client-qa-combat").equals(synchronized.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME))
-                    || !Integer.valueOf(7).equals(synchronized.get(ModDataComponents.ENHANCEMENT_LEVEL))) {
+            ItemStack synchronizedStack = clientLoadout.get(AccessoryCategory.COMBAT.ordinal());
+            if (!Component.literal("client-qa-combat").equals(synchronizedStack.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME))
+                    || !Integer.valueOf(7).equals(synchronizedStack.get(ModDataComponents.ENHANCEMENT_LEVEL))) {
                 throw new AssertionError("Synced stack components differ from the authoritative server stack");
             }
         });
