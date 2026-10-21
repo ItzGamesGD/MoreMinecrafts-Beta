@@ -18,6 +18,8 @@
       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.AccessoryLifecycleGameTests",
       "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests"
     ]
   },
