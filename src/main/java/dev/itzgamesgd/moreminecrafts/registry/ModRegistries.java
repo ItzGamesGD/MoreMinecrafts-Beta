@@ -11,6 +11,7 @@ import dev.itzgamesgd.moreminecrafts.special.elemental.EarthSeismicRuntime;
 import dev.itzgamesgd.moreminecrafts.special.ElementalHitProgress;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentRuntime;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentRuntime;
 import dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog;
 import dev.itzgamesgd.moreminecrafts.progression.T2CoreAcquisition;
 
@@ -39,6 +40,7 @@ public final class ModRegistries {
         EarthSeismicRuntime.initialize();
         ElementalHitProgress.initialize();
         EquipmentAttachments.initialize();
+        AccessoryEquipmentRuntime.initialize();
         EquipmentRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
     }

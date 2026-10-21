@@ -2,27 +2,36 @@ package dev.itzgamesgd.moreminecrafts.accessory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.Map;
+import java.util.List;
+import net.minecraft.SharedConstants;
+import net.minecraft.server.Bootstrap;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class AccessoryCatalogTest {
+    @BeforeAll
+    static void bootstrapMinecraft() {
+        SharedConstants.tryDetectVersion();
+        Bootstrap.bootStrap();
+    }
+
     @Test
-    void finalizedRosterHasTwelveUniqueRegistryIdsAndOneSlotPerCategory() {
+    void finalizedRosterHasTwelveUniqueIdsAndExactlyFiveCategories() {
         assertEquals(12, AccessoryDefinition.ALL.size());
         assertEquals(12, AccessoryDefinition.ALL.stream().map(AccessoryDefinition::registryId).distinct().count());
+        assertEquals(5, AccessoryCategory.values().length);
 
-        Map<AccessoryCategory, Integer> counts = new EnumMap<>(AccessoryCategory.class);
+        var counts = new EnumMap<AccessoryCategory, Integer>(AccessoryCategory.class);
         for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
             assertTrue(definition.registryId().matches("[a-z0-9_]+"));
             assertTrue(definition.translationKey().startsWith("item.moreminecrafts."));
             counts.merge(definition.category(), 1, Integer::sum);
         }
-        for (AccessoryCategory category : AccessoryCategory.values())
-            assertTrue(counts.getOrDefault(category, 0) >= 1, "No accessory assigned to " + category);
-        assertEquals(5, AccessoryCategory.values().length);
         assertEquals(6, counts.get(AccessoryCategory.COMBAT));
         assertEquals(2, counts.get(AccessoryCategory.DEFENSE_SURVIVAL));
         assertEquals(1, counts.get(AccessoryCategory.SUPPORT_RECOVERY));
@@ -31,22 +40,17 @@ class AccessoryCatalogTest {
     }
 
     @Test
-    void onlyCombatCategoryAllowsManualActivation() {
-        for (AccessoryCategory category : AccessoryCategory.values())
-            assertEquals(category == AccessoryCategory.COMBAT, category.allowsManualActivation());
-        assertTrue(AccessoryCategory.COMBAT.allowsManualActivation());
-        assertFalse(AccessoryCategory.SUPPORT_RECOVERY.allowsManualActivation());
-    }
+    void loadoutHasFixedFiveSlotsAndRejectsMalformedShape() {
+        AccessoryLoadout empty = AccessoryLoadout.empty();
+        assertEquals(5, AccessoryLoadout.SIZE);
+        assertEquals(5, empty.stacks().size());
+        assertEquals(0, empty.occupiedSlots());
+        assertFalse(empty.canManuallyActivate(AccessoryCategory.COMBAT.ordinal()));
+        assertThrows(IndexOutOfBoundsException.class, () -> empty.get(-1));
+        assertThrows(IllegalArgumentException.class, () -> new AccessoryLoadout(List.of()));
 
-    @Test
-    void loadoutHasFiveCategorySlotsRejectsDuplicateCategoryAndLimitsActivationToCombat() {
-        AccessoryLoadout loadout = AccessoryLoadout.empty();
-        assertEquals(5, loadout.slotCount());
-        assertTrue(loadout.equip(AccessoryDefinition.STAR_COVENANT));
-        assertFalse(loadout.equip(AccessoryDefinition.PHANTOM_MIRROR));
-        assertTrue(loadout.equip(AccessoryDefinition.EMBER_RING));
-        assertTrue(loadout.canManuallyActivate(AccessoryDefinition.STAR_COVENANT));
-        assertFalse(loadout.canManuallyActivate(AccessoryDefinition.EMBER_RING));
-        assertEquals(2, loadout.equipped().size());
+        List<net.minecraft.world.item.ItemStack> malformed = new ArrayList<>(empty.stacks());
+        malformed.add(net.minecraft.world.item.ItemStack.EMPTY);
+        assertThrows(IllegalArgumentException.class, () -> new AccessoryLoadout(malformed));
     }
 }
