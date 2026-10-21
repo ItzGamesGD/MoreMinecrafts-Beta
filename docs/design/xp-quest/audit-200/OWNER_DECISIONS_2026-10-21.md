@@ -179,3 +179,27 @@ Owner requests **implementation preparation** for `xpq.cft.backpack_large` and `
 5. Then connect `xpq.cft.backpack_large` to **legitimate acquisition/crafting** of a Large Backpack and `xpq.cft.portable_furnace` to **64 actually processed outputs in that item** with server-authoritative attribution and no double-counting. Assess FUTURE -> NOW only after feature and quest evidence pass their respective gates.
 
 Neither actual crafting recipes nor runtime quest tracking were created by this documentation update. PR #140 remains Draft.
+
+## O. Owner-approved crafting recipe revision (2026-10-21)
+
+**Owner recipe decisions (supersede the unapproved Ender Pearl direction for normal Backpack):**
+
+1. **Backpack (27 slots)** upgrades the **Small Backpack (9 slots)** using a **vanilla Chest instead of an Ender Pearl**; retain the earlier structural metal component direction. Owner explicitly rejected Ender Pearl as thematically inappropriate. For a concrete shaped recipe proposal, use 1 Small Backpack, 1 Chest, and 4 Iron Ingots:
+
+   ```text
+   I C I
+   . S .
+   I . I
+   ```
+   `I` iron ingot; `C` chest; `S` small backpack; `.` empty. **The exact four-iron quantity and layout are assistant choices, not individually prescribed by owner**, though owner authorized recipe layout decisions. Do not treat this as approval of other two backpack recipes.
+
+2. **Portable Furnace** recipe is **owner-locked** to exactly **1 vanilla Chest + 1 vanilla Furnace + 4 Iron Ingots**, no additional ingredients. Owner delegated pattern layout. Adopt this shaped 3×3 recipe:
+
+   ```text
+   I . I
+   . F .
+   I C I
+   ```
+   `I` iron ingot; `F` furnace; `C` chest; `.` empty.
+
+The above layouts are actionable recipe intent but this remains a documentation-only design PR: **no JSON recipe files, registration/status activation, or tests were executed here**. At implementation, check shaped recipe JSON format for current Minecraft version, recipe unlock/gates, ingredient consumption, server-side outputs, single-container ownership/persistence and test fresh-world crafting. Preserve tiered Backpack shared player-bound storage and Portable Furnace previously approved 3× smelting/fuel + persistence behavior. Small and Large Backpack ingredient counts/layouts remain to be separately finalized; earlier role direction (Small: bundle/leather/string; Large: Backpack/Shulker Shell/diamond-like) remains intact.
