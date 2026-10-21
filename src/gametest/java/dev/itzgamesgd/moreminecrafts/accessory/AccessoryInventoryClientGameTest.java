@@ -259,7 +259,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
 
         context.getInput().holdShift();
         context.waitTick();
-        clickMenuSlot(context, 11);
+        clickMenuSlotHeld(context, 11);
         context.getInput().releaseShift();
         context.waitTicks(4);
         context.runOnClient(client -> {
@@ -275,7 +275,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
 
         context.getInput().holdShift();
         context.waitTick();
-        clickMenuSlot(context, ACCESSORY_FIRST_MENU_SLOT + DEFENSE_SLOT);
+        clickMenuSlotHeld(context, ACCESSORY_FIRST_MENU_SLOT + DEFENSE_SLOT);
         context.getInput().releaseShift();
         context.waitTicks(2);
         context.runOnClient(client -> {
@@ -309,17 +309,28 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         context.takeScreenshot("accessory-inventory-invalid-category-placement");
     }
 
-    private static void clickMenuSlot(ClientGameTestContext context, int menuSlot) {
+    private static void clickMenuSlotHeld(ClientGameTestContext context, int menuSlot) {
+        double[] position = menuSlotCursorPosition(context, menuSlot);
+        context.getInput().setCursorPos(position[0], position[1]);
+        context.getInput().holdMouse(SDL_MOUSE_BUTTON_LEFT);
+        context.waitTick();
+        context.getInput().releaseMouse(SDL_MOUSE_BUTTON_LEFT);
+        context.waitTick();
+    }
+
+    private static double[] menuSlotCursorPosition(ClientGameTestContext context, int menuSlot) {
         InventoryScreen screen = currentInventory(context);
-        double[] position = context.computeOnClient(client -> {
+        return context.computeOnClient(client -> {
             Slot slot = client.player.containerMenu.getSlot(menuSlot);
             int left = intField(screen, "leftPos");
             int top = intField(screen, "topPos");
             double scale = client.getWindow().getGuiScale();
-            System.out.println("ACCESSORY_CLICK slot=" + menuSlot + " scale=" + scale
-                    + " shiftKey=" + client.options.keyShift.isDown() + " hasShift=" + client.hasShiftDown());
             return new double[]{(left + slot.x + 8.0) * scale, (top + slot.y + 8.0) * scale};
         });
+    }
+
+    private static void clickMenuSlot(ClientGameTestContext context, int menuSlot) {
+        double[] position = menuSlotCursorPosition(context, menuSlot);
         context.getInput().setCursorPos(position[0], position[1]);
         context.getInput().pressMouse(SDL_MOUSE_BUTTON_LEFT);
     }
