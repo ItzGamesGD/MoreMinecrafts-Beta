@@ -258,6 +258,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         openInventory(context);
 
         context.getInput().holdShift();
+        context.waitTick();
         clickMenuSlot(context, 11);
         context.getInput().releaseShift();
         context.waitTicks(4);
@@ -273,6 +274,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         assertServerConservation(server, AccessoryDefinition.RING_OF_LIFE, 1);
 
         context.getInput().holdShift();
+        context.waitTick();
         clickMenuSlot(context, ACCESSORY_FIRST_MENU_SLOT + DEFENSE_SLOT);
         context.getInput().releaseShift();
         context.waitTicks(2);
