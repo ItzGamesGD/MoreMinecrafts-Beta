@@ -260,8 +260,16 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         context.getInput().holdShift();
         clickMenuSlot(context, 11);
         context.getInput().releaseShift();
-        context.waitFor(client -> !client.player.getAttachedOrElse(
-                EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty());
+        context.waitTicks(4);
+        context.runOnClient(client -> {
+            ItemStack equipped = client.player.getAttachedOrElse(
+                    EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT);
+            System.out.println("ACCESSORY_SHIFT_CLICK state equipped=" + equipped.getItem()
+                    + " inventorySlot11=" + client.player.inventoryMenu.getSlot(11).getItem()
+                    + " cursor=" + client.player.containerMenu.getCarried()
+                    + " shift=" + client.options.keyShift.isDown());
+            if (equipped.isEmpty()) throw new AssertionError("Shift-click did not equip the defense accessory");
+        });
         assertServerConservation(server, AccessoryDefinition.RING_OF_LIFE, 1);
 
         context.getInput().holdShift();
