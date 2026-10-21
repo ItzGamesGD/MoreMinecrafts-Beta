@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 @SuppressWarnings("UnstableApiUsage")
 public final class AccessoryInventoryClientGameTest implements FabricClientGameTest {
     private static final int ACCESSORY_FIRST_MENU_SLOT = 47;
+    private static final int SDL_MOUSE_BUTTON_LEFT = 1;
     private static final int SUPPORT_SLOT = AccessoryCategory.SUPPORT_RECOVERY.ordinal();
     private static final int DEFENSE_SLOT = AccessoryCategory.DEFENSE_SURVIVAL.ordinal();
 
@@ -65,7 +66,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
                         + " scale=" + client.getWindow().getGuiScale();
             }));
             context.getInput().setCursorPos(recipeTogglePos[0], recipeTogglePos[1]);
-            context.getInput().pressMouse(0);
+            context.getInput().pressMouse(SDL_MOUSE_BUTTON_LEFT);
             context.waitTicks(2);
             context.takeScreenshot("accessory-inventory-recipe-book-open-attempt");
             if (!recipeBookVisible(screen)) {
@@ -81,7 +82,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
                 return new double[]{center[0] * scale, center[1] * scale};
             });
             context.getInput().setCursorPos(recipeTogglePos[0], recipeTogglePos[1]);
-            context.getInput().pressMouse(0);
+            context.getInput().pressMouse(SDL_MOUSE_BUTTON_LEFT);
             context.waitTicks(2);
             if (recipeBookVisible(screen)) throw new AssertionError("Recipe book did not close after Client GameTest cursor click");
             setScaleAndOpenInventory(context, 4);
@@ -308,7 +309,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             return new double[]{(left + slot.x + 8.0) * scale, (top + slot.y + 8.0) * scale};
         });
         context.getInput().setCursorPos(position[0], position[1]);
-        context.getInput().pressMouse(0);
+        context.getInput().pressMouse(SDL_MOUSE_BUTTON_LEFT);
     }
 
     private static void assertServerConservation(TestDedicatedServerContext server, AccessoryDefinition definition, int expected) {
