@@ -51,8 +51,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             }
 
             InventoryScreen screen = currentInventory(context);
-            Object recipeToggle = findRecipeToggle(screen);
             double[] recipeTogglePos = context.computeOnClient(client -> {
+                Object recipeToggle = findRecipeToggle((InventoryScreen) client.gui.screen());
                 double[] center = widgetCenter(recipeToggle);
                 double scale = client.getWindow().getGuiScale();
                 return new double[]{center[0] * scale, center[1] * scale};
@@ -66,8 +66,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             context.takeScreenshot("accessory-inventory-recipe-book-open-all-five");
 
             screen = currentInventory(context);
-            recipeToggle = findRecipeToggle(screen);
             recipeTogglePos = context.computeOnClient(client -> {
+                Object recipeToggle = findRecipeToggle((InventoryScreen) client.gui.screen());
                 double[] center = widgetCenter(recipeToggle);
                 double scale = client.getWindow().getGuiScale();
                 return new double[]{center[0] * scale, center[1] * scale};
