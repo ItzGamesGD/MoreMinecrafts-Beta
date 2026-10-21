@@ -99,3 +99,12 @@ The owner approved the following **content decisions**, not production edits:
 - All implementation, registration/activation, testing and economy reconciliation await separate execution approval. The pinned 200-row CSV remains a faithful pre-change inventory.
 
 Next design review: boss tab.
+
+## H. Boss-tab owner decisions (2026-10-21)
+
+- **DELETE** `xpq.boss.warden_3` (three Warden kills), not merely defer: repeated Warden farming is misaligned with its intended avoidance-focused encounter. Do not substitute an invented quest simply to preserve the previous catalog count. The single-Warden quest is retained.
+- **KEEP** all other eight boss quest concepts and their current targets: `xpq.boss.elder_guardian`, `xpq.boss.monument_clear`, `xpq.boss.warden`, `xpq.boss.wither`, `xpq.boss.twin_bosses`, `xpq.boss.dragon_rematch`, `xpq.boss.omen_raid`, `xpq.boss.monuments_3`.
+- The two monument-clear quests must credit **verified meaningful combat participants**, not players merely present in the monument; preserve distinct genuine monument identities for the 3-clear objective. Both monument quests stay `VERIFY`/unregistered until their natural-world and multiplayer attribution acceptance is completed.
+- Preserve all other boss target/tier/reward decisions as provisional. No runtime catalog, code, registration, migration, or balance changes are made by this documentation-only update.
+- **Current owner-approved deletions: six IDs**: combat four (`xpq.cmb.dagger_100`, `xpq.cmb.greatsword_100`, `xpq.cmb.mm_arms`, `xpq.cmb.netherite_blades`), dimension one (`xpq.dim.shulker_boxes`), boss one (`xpq.boss.warden_3`). The deleted entries had 6,500 raw XP combined in the pinned pre-change catalog, but no reward reallocation is authorized. Overall catalog reconciliation is deferred.
+- Boss-tab first-pass content review complete. Next: mining tab.
