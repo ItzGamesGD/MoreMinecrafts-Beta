@@ -1,0 +1,69 @@
+name: Accessory Client GameTest Acceptance
+
+on:
+  push:
+    branches:
+      - codex/accessory-client-acceptance-20261021
+  pull_request:
+    branches:
+      - codex/accessory-lifecycle-qa-20261021
+    paths:
+      - ".github/workflows/accessory-client-acceptance.yml"
+      - "build.gradle"
+      - "gradle.properties"
+      - "src/client/**"
+      - "src/gametest/**"
+      - "src/main/**"
+
+permissions:
+  contents: read
+
+jobs:
+  accessory-client-gametest:
+    name: Real client render, dedicated server, and TestInput scenarios
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install the proven software rendering stack
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+
+      - name: Compile client and GameTest sources
+        run: ./gradlew compileClientJava compileGametestJava --no-daemon
+
+      - name: Run real Minecraft Client GameTest with llvmpipe
+        shell: bash
+        run: |
+          set -euo pipefail
+          vulkan_icd=""
+          if [[ -d /usr/share/vulkan/icd.d ]]; then
+            vulkan_icd="$(find /usr/share/vulkan/icd.d -maxdepth 1 -name 'lvp_icd*.json' -print -quit)"
+          fi
+          if [[ -n "$vulkan_icd" ]]; then export VK_ICD_FILENAMES="$vulkan_icd"; fi
+          export LIBGL_ALWAYS_SOFTWARE=1
+          export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" \
+            ./gradlew runClientGameTest --no-daemon --stacktrace
+
+      - name: Upload native Client GameTest screenshots and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-client-gametest-${{ github.run_id }}
+          path: |
+            build/run/clientGameTest/screenshots/
+            build/run/clientGameTest/
+          if-no-files-found: warn
+          retention-days: 14
