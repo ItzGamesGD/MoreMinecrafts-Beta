@@ -38,7 +38,7 @@ jobs:
       - name: Install the proven software rendering stack
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb openbox libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+          sudo apt-get install -y xvfb openbox x11-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
 
       - name: Compile client and GameTest sources
         run: ./gradlew compileClientJava compileGametestJava --no-daemon
@@ -55,7 +55,13 @@ jobs:
           export LIBGL_ALWAYS_SOFTWARE=1
           export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
           xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" \
-            ./gradlew runClientGameTest --no-daemon --stacktrace
+            bash -euo pipefail -c '
+              openbox --sm-disable > build/accessory-openbox.log 2>&1 &
+              window_manager_pid=$!
+              trap "kill $window_manager_pid 2>/dev/null || true" EXIT
+              glxinfo -B
+              ./gradlew runClientGameTest --no-daemon --stacktrace
+            '
 
       - name: Upload native Client GameTest screenshots and reports
         if: always()
