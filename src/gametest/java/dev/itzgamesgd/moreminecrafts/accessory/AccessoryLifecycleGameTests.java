@@ -222,7 +222,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
                 scenario + " retains custom name for slot " + slot);
         ctx.assertTrue(Integer.valueOf(slot + 1).equals(stack.get(ModDataComponents.ENHANCEMENT_LEVEL)),
                 scenario + " retains enhancement metadata for slot " + slot);
-        ctx.assertTrue(stack.get(DataComponents.CUSTOM_DATA).copyTag().getInt("qa_slot") == slot,
+        ctx.assertTrue(Integer.valueOf(slot).equals(stack.get(DataComponents.CUSTOM_DATA).copyTag().getInt("qa_slot")),
                 scenario + " retains custom component data for slot " + slot);
     }
 
