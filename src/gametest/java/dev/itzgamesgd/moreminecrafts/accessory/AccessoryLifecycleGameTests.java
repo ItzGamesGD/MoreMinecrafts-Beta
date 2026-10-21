@@ -117,6 +117,7 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
 
         List<ItemEntity> drops = accessoryDrops(ctx, player);
         ctx.assertTrue(drops.size() == SLOT_ITEMS.length, "normal death creates exactly five accessory drops");
+        int firstDeathDrops = drops.size();
         for (int slot = 0; slot < SLOT_ITEMS.length; slot++) {
             AccessoryDefinition definition = SLOT_ITEMS[slot];
             List<ItemEntity> matching = drops.stream()
@@ -131,8 +132,12 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
         ctx.assertTrue(new AccessoryEquipmentContainer(respawned).isEmpty(), "normal respawn has empty accessory slots");
         respawned.setPos(player.getX(), player.getY(), player.getZ());
         respawned.die(ctx.getLevel().damageSources().generic());
-        ctx.assertTrue(accessoryDrops(ctx, respawned).size() == SLOT_ITEMS.length,
-                "repeated death processing does not create duplicate accessory drops");
+        int repeatedDeathDrops = accessoryDrops(ctx, respawned).size();
+        ctx.assertTrue(new AccessoryEquipmentContainer(respawned).isEmpty(),
+                "repeated death leaves the respawned accessory source empty");
+        ctx.assertTrue(repeatedDeathDrops == firstDeathDrops,
+                "repeated death preserves the first drop total; first=" + firstDeathDrops
+                        + ", after=" + repeatedDeathDrops);
         ctx.succeed();
     }
 
