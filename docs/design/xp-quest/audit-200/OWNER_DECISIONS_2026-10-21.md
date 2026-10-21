@@ -146,3 +146,36 @@ Retain `xpq.frm.harvest_1000` as a separate generic lifetime crop-harvest milest
 - No fishing quest was approved, deleted, redesigned, promoted, downgraded or reward-adjusted by this decision. Preserve the 16 original catalog entries as a **frozen pre-review snapshot** and retain their respective existing NOW/VERIFY/FUTURE and registered flags without claiming they are technically ready or live accepted. The prior three registered fishing quests are not validation of minigame/UI readiness.
 - Block meaningful fishing quest content review until: (1) minigame flow/feel is redesigned or validated in actual gameplay, (2) fishing UI crash and critical interactions are repaired and regression-tested, (3) fishing modules, grades, species, catch events and rewards are verified against actual mechanics, and (4) server-authoritative tracking and live acceptance are possible. These are review prerequisites, not an authorization to change production code in this docs PR.
 - Next XP Quest tab to review: crafting. Do not silently skip/reclassify fishing quests as owner-approved, and do not change the pinned 200-entry inventory or its ledger.
+
+## N. Owner correction: preservation of 200 slots through replacement (2026-10-21)
+
+**This section supersedes all earlier references in this document to permanently deleting seven XP Quest rows without replacement.** The owner identified that deleting quests invalidates the expected 200-entry structure and agreed XP economy. **New binding policy: redesign/replace problematic objectives in their existing quest slots; preserve the intended 200-entry roster and per-slot provisional XP and tier unless a separately approved adjustment is recorded.** The seven previously approved "DELETE" decisions are now **REMOVE OLD OBJECTIVE; REPLACEMENT REQUIRED**, not permission to shrink the catalog:
+
+1. `xpq.cmb.dagger_100` (MID 500 XP)
+2. `xpq.cmb.greatsword_100` (MID 500 XP)
+3. `xpq.cmb.mm_arms` (EARLY 250 XP)
+4. `xpq.cmb.netherite_blades` (LATE 1,100 XP)
+5. `xpq.dim.shulker_boxes` (LATE 1,000 XP)
+6. `xpq.boss.warden_3` (ENDGAME 3,150 XP)
+7. `xpq.min.pickaxe_5000` (MID_LATE 700 XP)
+
+**Crafting tab: replace, do not delete**, `xpq.cft.all_daggers` (MID 500 XP) and `xpq.cft.all_greatswords` (LATE 1,100 XP). The old forced crafting-all-dagger/greatsword-tier goals are rejected, but their two quest slots and provisional 1,600 raw XP should be retained. Exact replacement goals across all nine slots require follow-up design and owner approval. Do not substitute arbitrary busywork, silently invent finalized objectives, or claim the original 200-entry implementation is changed. The old pinned total remains **209,100 raw XP** as the provisional budget target, not as proof that gameplay pacing is correct; an economy pass is still planned.
+
+### Equipment readiness: large backpack and portable furnace
+
+Owner requests **implementation preparation** for `xpq.cft.backpack_large` and `xpq.cft.portable_furnace`, not immediate automatic activation or unreviewed recipe commitments. Their Q1-C catalog status remains FUTURE/unregistered pending craftability, event hooks and live tests.
+
+**Evidence checked** on pinned Q1-C `17e980912d636b0572a3f25b24995ffde31c754c`:
+- `BackpackItem.java`, `BackpackStorage.java`, `PortableFurnaceItem.java`, `PortableFurnaceMenu.java` already exist; `large_backpack.json` and `portable_furnace.json` item-model assets exist.
+- Recursive Git tree inspection of `src/main/resources/data/moreminecrafts/recipe/` found **no matching backpack/small_backpack/large_backpack/portable_furnace crafting recipe JSON** at the pinned Q1-C ref. This confirms missing recipe data in that snapshot, not absence of runtime classes or an exhaustive review of other branches.
+- `docs/UTILITY_EQUIPMENT_FINALIZATION.md` authorizes player-bound backpack shared inventory tiers (9/27/54), stable storage/death retention, chest armor attachment and a recipe **progression direction**: Small Backpack needs a bundle plus leather/string-type materials; Backpack upgrades Small Backpack with an Ender Pearl and stronger metal structure; Large Backpack upgrades Backpack with a Shulker Shell and diamond-like structure. **Specific ingredient counts and arrangements are not yet approved.**
+- Portable furnace is an item-operated UI machine (not a block), 3x normal smelting speed and 3x fuel consumption; 64-stack items are capped at 16 per slot; Stage 23-B approved persistence of contents, fuel and cooking progress across menu close/reopen, with no furnace research bonuses. **Exact recipe materials still undecided**. The older Stage 23-A furnace infrastructure document has outdated session-persistence statements superseded by Stage 23-B authority.
+
+**Implementation-readiness checklist**, not completed work:
+1. Audit `ModItems`, recipe unlock policies, component persistence and menu owner/source stack handling on the **actual current integration target**, since a pinned Q1-C branch may not include recent stacked PR changes.
+2. Propose concrete balanced shaped/shapeless recipes for all three Backpack tiers and the Portable Furnace in a separate recipe decision; preserve the approved ingredient *roles*; do not treat the ingredient proposals as approved until owner accepts them.
+3. After approval, add data recipes to `src/main/resources/data/moreminecrafts/recipe/`, ensure proper result IDs, valid Minecraft version codec, progression unlock/gating, and recipe-book behavior.
+4. Validate fresh survival craftability, no unintended ingredient duplication, shared-storage persistence, higher-slot retention after downgrade, death/respawn, player binding, attached chestplate behavior, no nesting/duplication; verify portable furnace input/fuel/output persistence, recipe validity, 3x speed and fuel, 16-slot stack cap, menu close/drop, restart and multiplayer.
+5. Then connect `xpq.cft.backpack_large` to **legitimate acquisition/crafting** of a Large Backpack and `xpq.cft.portable_furnace` to **64 actually processed outputs in that item** with server-authoritative attribution and no double-counting. Assess FUTURE -> NOW only after feature and quest evidence pass their respective gates.
+
+Neither actual crafting recipes nor runtime quest tracking were created by this documentation update. PR #140 remains Draft.
