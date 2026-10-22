@@ -31,7 +31,7 @@ Documentation history is split across branches: the Oct 7 continuation came from
 
 ## Bounty and contracts — approved 2026-10-22
 
-Current approved design through Q62: [Bounty & Contract System](BOUNTY_CONTRACT_APPROVED_2026-10-22.md). It records physical contract acquisition, item-bound transferable progress, manual redemption, tiered target generation, expanded target pools, approved rarity distributions, reward quantities, price ranges, seller/source rules, combat contribution, duplicate progress, delivery semantics, UI information, and completion integrity requirements. Registry-level identities and specified engineering edge cases remain open. This is design authority; gameplay implementation remains pending and is not claimed.
+Current approved design through Q62 and the later BC-03 owner overlay: [Bounty & Contract System](BOUNTY_CONTRACT_APPROVED_2026-10-22.md). It records physical contract acquisition, item-bound transferable progress, manual redemption, tiered target generation, expanded target pools, approved rarity distributions, reward quantities, price ranges, seller/source rules, combat contribution, duplicate progress, delivery semantics, UI information, and completion integrity requirements. The overlay resolves hostile-only combat, two provisional delivery exceptions, structure entry and tier distributions, and special conversion/direct-drop status. Exact unresolved pool identities and specified engineering edge cases remain open. This is design authority; implementation and validation status belong to the BC-03 branch and PR.
 
 ## Current authority
 

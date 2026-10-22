@@ -2,6 +2,17 @@
 
 Status: **APPROVED DESIGN; IMPLEMENTATION PENDING**. This authority records approved decisions Q1-Q62. Design approval does not claim gameplay implementation or verification. Registry identities remain subject to repository reconciliation; no unsupported MM mob or item IDs are asserted.
 
+## BC-03 owner-approved implementation overlay (2026-10-22)
+
+These decisions supersede the remaining OPEN statements below where they address the same question. This section records owner decisions; it does not assert runtime validation.
+
+- Ordinary combat targets are **hostile mobs only**. Passive, neutral, tameable, and friendly mobs are excluded. Boss or special targets need explicit eligibility and currently available content. The 40 registered MM mobs are a classification roster, not an automatic combat pool.
+- High-value delivery quantity exceptions are authorized as **PROVISIONAL BALANCE**: `minecraft:diamond` 2–4 and `moreminecrafts:adamantium_ingot` 1. No other high-value exception is approved. These may override general delivery minima.
+- Bonus rewards use primarily vanilla resources and materials and selected verified MM materials. Ordinary equipment, relics, accessories, and exclusive dungeon or boss rewards are excluded. Exact item identities, rarity assignment, and item-specific counts must be explicit and auditable; BC-02 hypothetical emerald equivalents are not real prices. Any unresolved exact pool entries are deferred, not invented.
+- Exploration credits entry into an actual registered structure boundary **after acceptance**, including revisiting a previously visited structure. Map ownership, proximity, and unrelated structures do not count. Detection is server-authoritative; disable an objective if reliable boundary detection is unavailable.
+- Eligible structure loot sources have separate contract appearance rates of Easy 5%, Medium 10%, Hard 18%. Conditional tier distributions are Easy 75/22/3%, Medium 45/40/15%, Hard 20/45/35% for Beginner/Intermediate/Advanced. These rates apply only to explicitly eligible containers.
+- Advanced acquisition converts to a distinct special contract 5% of the time. Direct special-contract drops from structures or events are **DEFERRED**; no direct-drop rate is approved. Objectives for unavailable MM structures, meteors, and disabled events are excluded.
+
 ## Acquisition and item lifecycle
 - Contracts are physical items. Wandering traders are the main vendor; selected ordinary villagers also sell tiered contracts. Structure chests, trial rewards and world events may award contract items.
 - Vendor listing identifies contract tier; an individually rolled objective set and reward set are fixed **when the purchased item is acquired**. Loot-generated contracts likewise resolve on acquisition. The seller does not reveal the particular rolled objectives beforehand.
