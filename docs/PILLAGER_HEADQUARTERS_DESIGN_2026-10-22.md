@@ -335,7 +335,7 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 - **Dimensions / biomes:** Overworld only as the obvious initial design target. Favor plains and qualifying temperate forests with flat supporting soil **under the natural tree canopy**; exact biome tags and exclusions OPEN. Forest is eligible without a pre-existing huge clearing, provided trees can be handled safely. Do not add desert, mountains or swamps merely to improve spawn acceptance.
 - **Placement model:** sparse attempted regional candidate sites + **strict whole-footprint preflight**, instead of forcing one spawn every N chunks even when terrain is bad. Structure rarity should be measured as **successful accepted fortresses**, not attempts alone.
 - **Initial spacing experiment:** test approximately **1,200–2,000 blocks between accepted landmark centers** as a *provisional spacing trial only*, **not a committed generation range or guarantee**. Whether the structure API can offer this spacing with site rejection and without biased clustering needs measurement. Test tighter/looser alternatives if success rate is too low/high. Never write as a hard minimum until generator behavior is verified.
-- **Flatness:** sample underneath trunks/leaves, not canopy; bound max terrain elevation spread **trial candidate 2 blocks**, then test 1–3 as necessary. All four tower platforms, wall lengths, gate, roads and major buildings must fit without unsupported floors or collision with steep hills/water/other structures. This **2-block tolerance is not approved**.
+- **Flatness (SUPERSEDED BY LATER OWNER APPROVAL):** earlier trial candidate of 2 blocks is retired. Use the approved **approximately 4–5-block maximum natural-ground variation**, with vertical same-material foundation fill to lower supporting ground; exact cutoff, floor clearance and safe support still require verification.
 - **Tree clearing:** distinguish candidate native trees from player-built / player-grown material **only if technically reliable**; otherwise reject or preserve the site. Do not erase protected structures or owner builds. No giant landscaping pass or broad-area bulldozing.
 - **Regional separation:** proposal to refuse a location if it directly overlaps a village, existing structure or other headquarters; exact protection buffer and unique-location registry remain OPEN. Do not make nearest HQ distribution promises until the real generator is instrumented.
 - **Y / underground support:** candidate's **entire** 112×112 foundation, including four corners, must be safe to place; preflight against surface water, deep ravines, significant caves, unloaded block claims and chunk borders, without declaring all naturally occurring caves forbidden.
@@ -352,7 +352,7 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 
 **APPROVED now:** Commander 40 HP, regional-landmark rarity B, Vindicator/vanilla AI and existing fixed-garrison/no-respawn rules.
 
-**Still OPEN:** a single exact attack multiplier within the approved +20–30% band; difficulty tuning and elite stats; exact rarity spacing/frequency **deferred until measured tests**; allowed biome tags; flatness limit; tree removal safeguards; loot conditional category weights/item IDs, specific combat accessory/rune allowlist and economy compatibility. **65%/35%/10% source odds are approved.**
+**Still OPEN:** a single exact attack multiplier within the approved +20–30% band; difficulty tuning and elite stats; exact rarity spacing/frequency **deferred until measured tests**; allowed biome tags; technical 4-vs-5 cutoff and safe downward foundations/high-side clearance; safe tree provenance/removal; loot conditional category weights/item IDs and combat accessory/rune allowlist **deferred until equipment expands**. **65%/35%/10% source odds are approved.**
 
 **Design next pass:** decide commander attack tuning, actual eligible loot whitelist and premium odds; then verify generator sampling before any quantitative spawn-spacing sign-off. Exterior wall block modeling stays deferred to Claude. This section is **design only / NOT CODE VERIFIED / NOT WORLDGEN VERIFIED**.
 
@@ -418,6 +418,32 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 **Resume trigger:** After a later equipment-content milestone expands the weapon/armor/accessory ecosystem, **audit the then-current approved and implemented item registry**, then select a thematic subset for the manor, armory and commander's 10% special pool. Recheck caravan rune availability, endgame balance, loot duplication and actual item power before approving category weights.
 
 **Next active headquarters work:** other still-open design topics (room proportions, build footprint, worldgen collision rules, visual/architectural Claude handoff, performance and generation acceptance) can continue **without reopening the deferred reward whitelist**. Preserve Draft state; no code or loot table has been implemented by this note.
+
+---
+
+## Owner-approved placement and fixed-layout policy — 2026-10-22 (latest authority)
+
+**APPROVED, superseding earlier 1–2-block flatness recommendations and optional facility-position shuffling:**
+
+1. **Natural-ground elevation spread up to approximately 4–5 blocks** across the 112×112 compound candidate is acceptable in principle. Evaluate **the underlying natural supporting ground excluding tree logs, leaves and other vegetation**; do not reject a forest merely because its canopy is high. This is a **maximum terrain relief tolerance**, not an instruction to create stepped walls or to aggressively flatten all land.
+2. **Level building planes, vertical foundation fill:** keep the planned square walls, towers, gate, roads and building platforms at their respective designed level(s); wherever the planned structure's footing lies above lower natural ground, **extend the existing base material vertically downward until it meets solid supporting ground**. Example approved by owner: if a cobblestone foundation block is 4 blocks above the natural ground support, fill the intermediate vertical cells **with cobblestone**, instead of redesigning the wall as a staircase to follow the slope.
+3. **Forest preparation:** if the generator can correctly assess terrain slope **as if trees were absent**, accept otherwise suitable forest ground, **remove obstructing trees inside the approved footprint and overwrite their space with the planned structure**. This is the approved outcome for qualifying forest sites, subject to safe technical identification and not blindly deleting unrelated player builds.
+4. **Fixed interior composition:** the headquarters has **one standard facility-location/road masterplan**, rather than randomly moving or exchanging buildings between generated instances. Decoration-level cosmetic variation may remain optional, but not relocation of core buildings, roads, gate, tower corners, jail, stable or armory–training-yard relationship.
+
+### Interpretation, important bounds and implementation audit
+
+- **Height tolerance definition proposal:** sample natural-ground support heights for the full site, calculate `highest_y - lowest_y`, accept at **≤5** blocks in the initial proof, with owner's **4–5-block** intent recorded; reject above this limit. Precise heightmap sampling, unusual edge cases, and whether 4 or 5 is the production cutoff remain subject to implementation QA—not a license to increase beyond five.
+- **Fill does not mean excavation:** downward solid foundation fill repairs **gaps below the intended structure support**, but high natural terrain within a building or road footprint may still protrude through floors. The generator must detect and safely resolve **high-side interference**, or reject the candidate instead of silently burying walls or rooms. Detailed high-side clearance treatment is OPEN.
+- **Foundation material:** descend **the specific placed bottommost structural material in each relevant footing column** (e.g. cobblestone → cobblestone); do not swap to dirt arbitrarily. The full resulting 112×112 outside bounding box and all internal facility footprints remain supported and visually credible. The exact set of foundation-bearing columns and stopping criteria requires a build blueprint.
+- **Caves/voids/water:** don't fill arbitrarily far down a cavern or seal an entire cave system. Candidate preflight must check underground support, aquifers, ravines and rivers; apply a bounded foundation depth/solid-ground reach rule or reject. Approved height spread alone is insufficient for safe generation.
+- **Tree distinction:** vegetation-excluded height sampling and safe removal of actual natural trees are **two separate tests**. Detecting original natural versus player-grown or placed logs/leaves from current world block states alone may be unreliable; classify ambiguous cases as **BLOCKED / reject or preserve** rather than asserting magic provenance. On new-chunk generation, integrate with terrain generation stages and collision gates when possible, with worldgen QA required.
+- **No arbitrary player-build overwrite:** the owner authorized removing obstructing trees and placing over natural ground for an ungenerated site, not destructive replacement of player-made structures or existing village features.
+- **Fixed masterplan still rotates as one unit** where supported; rotation is not procedural reshuffling of building locations within the square. Exact set of approved orientations OPEN.
+- **No worldgen acceptance yet:** test representative 0, 1, 4 and 5-block ground variance, rejected >5 slopes, terrain high spots, tree canopy, non-natural construction, caves/ravines/water and chunk borders. Verify wall straightness, foundation column materials, clear interior floors and deterministic structure copies.
+
+### Next Claude handoff gate
+
+Deliver **one fixed 112×112 architectural layout** with stable relative coordinates, integrated 4 corner towers/one gate, straight relief-detailed stone/dark-oak wall, gate→plaza→two-story manor road, 19–22 internal facilities including jail and ravager pen, armory adjacent to fenced yard, and a clear **per-column foundation material/footprint** so downward ground fill can be implemented without inventing block states. Claude can freely style the geometry within these functional constraints, but not rearrange buildings between generated worlds. Structural worldgen and terrain QA remain distinct from the visual/build-design task.
 
 ---
 
@@ -505,7 +531,7 @@ Diagram indicates **functional adjacency**, not exact dimensions or coordinates.
 
 ### Proposed layout implementation freedom
 
-Even though the perimeter square is fixed, **internal buildings may use a small curated set of predefined village-style layouts**, all placed on prevalidated footprints, to introduce visual variety. Reordering houses or mirroring rooms is optional and must never break the two essential spatial relationships: **single gate→recognizable main street/plaza**, and **armory next to fenced training yard**. All house/road variants must preserve access to headquarters and all four towers.
+**SUPERSEDED by fixed-layout approval:** use **one fixed road and facility masterplan** for all generated instances; do **not** reassign or mirror individual building positions as procedural layout variants. Whole-structure rotation and cosmetic detail variation may remain open, while **single gate→recognizable main street/plaza→HQ** and **armory next to fenced training yard** must always remain connected.
 
 ## 4. Player-facing gameplay — proposed, not final
 
