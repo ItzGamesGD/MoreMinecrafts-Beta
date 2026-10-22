@@ -17,6 +17,8 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerCon
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestServerConnection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.Slot;
@@ -275,15 +277,32 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
                     + " inventorySlot11=" + client.player.inventoryMenu.getSlot(11).getItem()
                     + " cursor=" + client.player.containerMenu.getCarried()
                     + " shift=" + client.options.keyShift.isDown());
-            if (equipped.isEmpty()) throw new AssertionError("Shift-click did not equip the defense accessory");
+            if (!equipped.isEmpty() || client.player.containerMenu.getCarried().getItem()
+                    != ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)) {
+                throw new AssertionError("Expected TestInput's zero-modifier mouse event to perform PICKUP");
+            }
         });
         assertServerConservation(server, AccessoryDefinition.RING_OF_LIFE, 1);
 
-        context.getInput().holdShift();
-        context.waitTick();
-        clickMenuSlotHeld(context, ACCESSORY_FIRST_MENU_SLOT + DEFENSE_SLOT);
-        context.getInput().releaseShift();
-        context.waitTicks(2);
+        // Fabric 0.161.0+26.3 sends MouseButtonInfo(..., 0) even while holdShift is active.
+        // Return the picked-up stack, then exercise InventoryScreen with a Shift-modified
+        // mouse event. This still traverses the real client screen and server menu mechanics.
+        clickMenuSlot(context, 11);
+        context.waitFor(client -> client.player.containerMenu.getCarried().isEmpty());
+        clickMenuSlotWithShiftModifier(context, 11);
+        context.waitFor(client -> !client.player.getAttachedOrElse(
+                EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty());
+        context.runOnClient(client -> {
+            if (!client.player.containerMenu.getCarried().isEmpty()
+                    || !client.player.inventoryMenu.getSlot(11).getItem().isEmpty()) {
+                throw new AssertionError("Shift-modified screen click did not converge after equip");
+            }
+        });
+        assertServerConservation(server, AccessoryDefinition.RING_OF_LIFE, 1);
+
+        clickMenuSlotWithShiftModifier(context, ACCESSORY_FIRST_MENU_SLOT + DEFENSE_SLOT);
+        context.waitFor(client -> client.player.getAttachedOrElse(
+                EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty());
         context.runOnClient(client -> {
             if (!client.player.getAttachedOrElse(
                     EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty()) {
@@ -347,6 +366,18 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         double[] position = menuSlotCursorPosition(context, menuSlot);
         context.getInput().setCursorPos(position[0], position[1]);
         context.getInput().pressMouse(SDL_MOUSE_BUTTON_LEFT);
+    }
+
+    private static void clickMenuSlotWithShiftModifier(ClientGameTestContext context, int menuSlot) {
+        double[] position = menuSlotCursorPosition(context, menuSlot);
+        context.runOnClient(client -> {
+            double scale = client.getWindow().getGuiScale();
+            MouseButtonEvent event = new MouseButtonEvent(position[0] / scale, position[1] / scale,
+                    new MouseButtonInfo(0, 1)); // SDL KMOD_LSHIFT
+            InventoryScreen screen = (InventoryScreen) client.gui.screen();
+            screen.mouseClicked(event, false);
+            screen.mouseReleased(event);
+        });
     }
 
     private static void assertServerConservation(TestDedicatedServerContext server, AccessoryDefinition definition, int expected) {
