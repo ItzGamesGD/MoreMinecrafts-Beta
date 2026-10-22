@@ -382,7 +382,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         context.runOnClient(client -> {
             double scale = client.getWindow().getGuiScale();
             MouseButtonEvent event = new MouseButtonEvent(position[0] / scale, position[1] / scale,
-                    new MouseButtonInfo(0, 1)); // SDL KMOD_LSHIFT
+                    new MouseButtonInfo(SDL_MOUSE_BUTTON_LEFT, 1)); // SDL left button and KMOD_LSHIFT
             InventoryScreen screen = (InventoryScreen) client.gui.screen();
             boolean handled = screen.mouseClicked(event, false);
             screen.mouseReleased(event);
