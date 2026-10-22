@@ -68,8 +68,9 @@ class QuestPreviewIsolationTest {
                 assertFalse(text.contains(forbidden), name + " must not reference " + forbidden);
             }
         }
-        // The browse screen has no claim call at all, so a preview click cannot grant XP.
-        assertFalse(Files.readString(CLIENT.resolve("ProgressionBrowseScreen.java")).toLowerCase().contains("claim("));
+        // Synthetic rows must not enter the production claim path.
+        assertTrue(Files.readString(CLIENT.resolve("ProgressionBrowseScreen.java")).contains(
+                "mode == Mode.QUEST && preview == null) ProgressionClientApi.claim(nodeId)"));
     }
 
     @Test

@@ -44,6 +44,7 @@ public final class ProgressionBrowseScreen extends Screen {
     private boolean doubleClickPress;
     /** TEST-ONLY structure preview; null in normal play. Set only through {@link #forStructurePreview}. */
     private QuestStructurePreview preview;
+    private dev.itzgamesgd.moreminecrafts.progression.QuestTreeStructure validationStructure;
     private long renderNanosTotal;
     private long renderNanosMax;
     private int renderFrames;
@@ -54,6 +55,7 @@ public final class ProgressionBrowseScreen extends Screen {
         super(Component.translatable(mode == Mode.KNOWLEDGE ? "moreminecrafts.ui.knowledge.title"
                 : mode == Mode.QUEST ? "moreminecrafts.ui.quest.title" : "moreminecrafts.ui.research.title"));
         this.mode = mode;
+        if (mode == Mode.QUEST) ProgressionClientApi.resetClaimRequests();
         this.discipline = List.of("resources", "production", "living", "combat", "ecology", "world", "alchemy")
                 .contains(discipline) ? discipline : "resources";
     }
@@ -62,6 +64,15 @@ public final class ProgressionBrowseScreen extends Screen {
     static ProgressionBrowseScreen forStructurePreview(QuestStructurePreview data) {
         ProgressionBrowseScreen screen = new ProgressionBrowseScreen(Mode.QUEST);
         screen.preview = data;
+        return screen;
+    }
+
+    /** Retains the donor's focused three-node tooltip regression fixture, using real server rows. */
+    static ProgressionBrowseScreen forEcologyValidation() {
+        if (!"1".equals(System.getenv("MOREMINECRAFTS_VISUAL_VALIDATION")))
+            throw new IllegalStateException("Ecology regression fixture requires the opt-in harness");
+        var screen = new ProgressionBrowseScreen(Mode.QUEST);
+        screen.validationStructure = dev.itzgamesgd.moreminecrafts.progression.QuestTreeStructure.current();
         return screen;
     }
 
@@ -276,7 +287,8 @@ public final class ProgressionBrowseScreen extends Screen {
         if (preview != null) {
             quests = List.copyOf(preview.rows().values());
         } else {
-            List<String> questIds = dev.itzgamesgd.moreminecrafts.progression.QuestTreeStructure.current().allNodeIds();
+            List<String> questIds = (validationStructure != null ? validationStructure
+                    : dev.itzgamesgd.moreminecrafts.progression.QuestPresentationData.registeredTree()).allNodeIds();
             quests = ProgressionClientApi.quests(null).stream().filter(row -> questIds.contains(row.id())).toList();
         }
         knowledgeById = knowledge.stream().collect(java.util.stream.Collectors.toMap(
@@ -287,7 +299,8 @@ public final class ProgressionBrowseScreen extends Screen {
                 ProgressionScreenData.QuestRow::id, row -> row));
         dataRevision = ProgressionClientApi.revision();
         if (canvas == null || resetCamera) {
-            canvas = preview != null ? new ProgressionTreeCanvas(preview) : new ProgressionTreeCanvas(catalogScreen(), discipline);
+            canvas = preview != null ? new ProgressionTreeCanvas(preview) : validationStructure != null
+                    ? new ProgressionTreeCanvas(validationStructure) : new ProgressionTreeCanvas(catalogScreen(), discipline);
             canvas.initializeCamera(responsive.viewport(), mode == Mode.KNOWLEDGE);
         } else canvas.setViewport(responsive.viewport());
         syncSelectedIndex();
@@ -424,6 +437,7 @@ public final class ProgressionBrowseScreen extends Screen {
             if (chapter != null) { canvas.focusChapter(chapter); return true; }
         }
         if (mode == Mode.QUEST && canvas.hitTest(event.x(), event.y()) == null) canvas.setSelectionTooltip(false);
+        setFocused(null);
         gesture.begin(event.button(), event.x(), event.y(), canvas.hitTest(event.x(), event.y()));
         doubleClickPress = doubleClick;
         return true;
@@ -444,6 +458,7 @@ public final class ProgressionBrowseScreen extends Screen {
             canvas.select(nodeId, false);
             if (mode == Mode.QUEST) canvas.setSelectionTooltip(true);
             syncSelectedIndex();
+            if (mode == Mode.QUEST && preview == null) ProgressionClientApi.claim(nodeId);
             if (mode == Mode.RESEARCH) {
                 ProgressionScreenData.ResearchRow row = researchById.get(nodeId);
                 if (row != null && ProgressionPurchasePolicy.canRequest(true, row.prerequisitesDefined(), row.level(),
@@ -470,6 +485,10 @@ public final class ProgressionBrowseScreen extends Screen {
 
     @Override public boolean keyPressed(KeyEvent event) {
         if (event.isEscape() && branchMenuOpen) { branchMenuOpen = false; return true; }
+        if (mode == Mode.QUEST && preview == null && getFocused() == null && event.isConfirmation()) {
+            ProgressionClientApi.claim(canvas.selectedId());
+            return true;
+        }
         // Documented alternative for tooltip scrolling: Shift+Up/Down or PageUp/PageDown. Plain arrows move focus.
         if (mode == Mode.QUEST && (event.hasShiftDown() && (event.isUp() || event.isDown())
                 || event.input() == InputConstants.KEY_PAGEUP || event.input() == InputConstants.KEY_PAGEDOWN)) {
@@ -482,6 +501,7 @@ public final class ProgressionBrowseScreen extends Screen {
         else if (event.isUp()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.UP);
         else if (event.isDown()) canvas.moveFocus(ProgressionCanvasGeometry.Direction.DOWN);
         else return super.keyPressed(event);
+        setFocused(null);
         if (mode == Mode.QUEST) canvas.setSelectionTooltip(true); // keyboard focus opens the selected quest's tooltip
         syncSelectedIndex();
         if (branchButton != null) branchButton.setMessage(Component.translatable(currentBranchKey()));

@@ -88,19 +88,25 @@ public final class ProgressionTreeCanvas {
     private final java.util.Set<String> reportedMissingNames = new HashSet<>();
 
     public ProgressionTreeCanvas(String screen, String discipline) {
-        this(screen, discipline, null);
+        this(screen, discipline, null, null);
     }
 
     /** Test-only: renders the proposed structure supplied by the visual-validation harness. */
     ProgressionTreeCanvas(QuestStructurePreview preview) {
-        this("quests", "resources", preview);
+        this("quests", "resources", preview, null);
     }
 
-    private ProgressionTreeCanvas(String screen, String discipline, QuestStructurePreview preview) {
+    ProgressionTreeCanvas(QuestTreeStructure validationStructure) {
+        this("quests", "resources", null, validationStructure);
+    }
+
+    private ProgressionTreeCanvas(String screen, String discipline, QuestStructurePreview preview,
+                                  QuestTreeStructure validationStructure) {
         this.preview = preview;
         this.screen = screen;
         if ("quests".equals(screen)) {
-            this.questStructure = preview != null ? preview.structure() : QuestTreeStructure.current();
+            this.questStructure = preview != null ? preview.structure() : validationStructure != null ? validationStructure
+                    : dev.itzgamesgd.moreminecrafts.progression.QuestPresentationData.registeredTree();
             List<String> problems = questStructure.validate();
             if (!problems.isEmpty()) throw new IllegalStateException("Invalid quest tree structure: " + problems);
             this.questLayout = QuestTreeLayout.layout(questStructure);
@@ -110,7 +116,7 @@ public final class ProgressionTreeCanvas {
                 questNodes.add(new ProgressionNodeLayoutCatalog.Node(placed.id(), "quests", "quest", chapter.id(), chapter.id(),
                         placed.laneIndex(), placed.index(), placed.x(), placed.y(),
                         preview != null ? preview.iconForQuest(placed.id(), placed.chapterId())
-                                : QUEST_ICONS.getOrDefault(placed.id(), ProgressionNodeLayoutCatalog.FALLBACK_ICON),
+                                : dev.itzgamesgd.moreminecrafts.progression.QuestPresentationData.icon(placed.id()),
                         ProgressionNodeLayoutCatalog.FALLBACK_ICON, chapter.titleKey()));
             }
             this.nodes = List.copyOf(questNodes);
@@ -616,7 +622,7 @@ public final class ProgressionTreeCanvas {
             if (level == QuestLevelOfDetail.Level.SUB_BRANCH) {
                 String status = preview == null ? "NOW" : preview.statusOf(node.id());
                 boolean complete = quest != null && quest.complete();
-                int fill = complete ? 0xFFD8B04C : "FUTURE".equals(status) ? 0xFF4A463E : 0xFF9C968A;
+                int fill = quest != null && quest.claimed() ? 0xFF55CC88 : complete ? 0xFFD8B04C : "FUTURE".equals(status) ? 0xFF4A463E : 0xFF9C968A;
                 int half = MARKER_SIZE / 2;
                 graphics.fill(sx - half, sy - half, sx + half, sy + half, fill);
                 if ("VERIFY".equals(status)) graphics.outline(sx - half - 1, sy - half - 1, MARKER_SIZE + 2, MARKER_SIZE + 2, 0xFFC8A040);
@@ -965,6 +971,11 @@ public final class ProgressionTreeCanvas {
         graphics.pose().scale(iconSize / 16.0F, iconSize / 16.0F);
         graphics.item(icon, -8, -8);
         graphics.pose().popMatrix();
+        if (quest != null && quest.complete()) {
+            int color = quest.claimed() ? 0xFF55CC88 : 0xFFFFCC44;
+            graphics.outline(left, top, size, size, color);
+            graphics.fill(left + size - 6, top, left + size, top + 6, color);
+        }
     }
 
     private ItemStack icon(ProgressionNodeLayoutCatalog.Node node) {
@@ -1102,6 +1113,13 @@ public final class ProgressionTreeCanvas {
                 questTitle(quest), quest.progress(), quest.target()).withStyle(ChatFormatting.WHITE), false));
         rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest.reward", quest.rewardRawXp())
                 .withStyle(ChatFormatting.GOLD), false));
+        if (preview == null) {
+            String state = quest.claimed() ? "claimed" : ProgressionClientApi.claimPending(quest.id()) ? "pending"
+                    : quest.complete() ? "claim" : "incomplete";
+            rows.add(new TooltipRow(Component.translatable("moreminecrafts.ui.quest." + state)
+                    .withStyle(quest.claimed() ? ChatFormatting.GREEN : ChatFormatting.YELLOW), false));
+            rows.add(new TooltipRow(Component.translatable(quest.objectiveKey()).withStyle(ChatFormatting.GRAY), true));
+        }
         if (preview != null) {
             String sub = preview.subOf(quest.id());
             rows.add(new TooltipRow(Component.literal(preview.detail(quest.id())).withStyle(ChatFormatting.AQUA), false));

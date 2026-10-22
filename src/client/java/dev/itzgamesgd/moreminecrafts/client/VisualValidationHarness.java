@@ -69,6 +69,14 @@ public final class VisualValidationHarness {
     }
 
     private static void onClientTick(Minecraft client) {
+        if ("1".equals(System.getenv("MOREMINECRAFTS_BATCH_A_PHYSICAL"))
+                || "1".equals(System.getenv("MOREMINECRAFTS_BATCH_A_RUNTIME"))) {
+            BatchAClientProbe.observe(client);
+            if (client.player != null && client.level != null) {
+                if ("1".equals(System.getenv("MOREMINECRAFTS_BATCH_A_RUNTIME"))) BatchAClientRuntimeTest.tick(client);
+                return;
+            }
+        }
         if (captureFinished) {
             runUiJourney(client);
             return;
@@ -398,6 +406,13 @@ public final class VisualValidationHarness {
                         || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5) {
                     failJourney("XP Quest selector did not open the three-node tree with all 37 bestiary targets"); return;
                 }
+                if (quests.validationCanvas().nodes().size() != 75) {
+                    failJourney("production tree must expose exactly the 75 recovered registrations"); return;
+                }
+                MoreMinecrafts.LOGGER.info("BATCH_A_FULL_TREE_VERIFIED registered_nodes=75 preview=false");
+                // The following donor regressions deliberately exercise the original dense ecology fixture.
+                quests = ProgressionBrowseScreen.forEcologyValidation();
+                client.gui.setScreen(quests);
                 for (String id : QUEST_IDS) {
                     String text = quests.validationQuestTooltipText(id);
                     if (!quests.validationQuestNamesResolved(id) || text.contains("moreminecrafts:") || text.contains("minecraft:")
