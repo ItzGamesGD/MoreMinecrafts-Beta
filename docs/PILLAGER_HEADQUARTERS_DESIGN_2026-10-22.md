@@ -12,7 +12,20 @@
 
 **PROPOSED sizing baselines retained for further review, NOT new owner approvals:** wall height ≈8 blocks; tower footprint ≈11 × 11 blocks; central gate width ≈7 blocks; two or three ≈13 × 11 barracks; command hall ≈23 × 19; armory ≈17 × 13; fenced training yard ≈25 × 21; supply warehouse ≈15 × 13; prison ≈13 × 11; ravager stable ≈17 × 13. These estimates must be checked against the usable interior left by 112 × 112 external walls, road widths, corner tower overlap and gatehouse. Do not interpret rough area examples as final block placements.
 
-**Still APPROVED:** flat plains and forests with flat ground under the trees (option A); do not make stepped terrain-adaptive wall segments. Remaining terrain thresholds, wood/stone palette, exact building count, combat roster and rewards are OPEN.
+**Still APPROVED:** flat plains and forests with flat ground under the trees (option A); do not make stepped terrain-adaptive wall segments. Architectural direction is the **A+C hybrid** with relieved 3D walls and wall-integrated corner towers. Exact block palette, wall/tower/gate dimensions, terrain thresholds, building count, combat roster and rewards remain OPEN.
+
+---
+
+## Owner-approved architectural identity — 2026-10-22
+
+**APPROVED concept, not a block-by-block blueprint:**
+- Architectural direction is a **blend of option A (grounded realistic castle wall) and option C (heavy military fortress)**: substantial stone-built defenses with rough, utilitarian **vanilla pillager outpost** detailing in dark oak and banners. It must feel intimidating yet Minecraft-native, not an ornate fantasy palace.
+- **Walls require clear three-dimensional relief, not flat vertical planes.** Vary depth using a substantial foundation/buttress rhythm, recessed wall panels or arrow slits, and pronounced top battlements / walkways. Exact extrusion depths, brick variants, dimensions and repeating cadence are **OPEN** for visual design.
+- The four corner watchtowers are **structurally continuous with the walls**: two perpendicular wall segments flow into each tower, and wall-top patrol access should visually/physically connect to the tower where feasible. Do not render four unrelated towers standing beside the wall.
+- Preserve the **112×112 inclusive outer square**, the four integrated corner towers, the **single main gate**, and the flat-ground-only plains/forest placement rule; avoid adaptive stair-stepped perimeter walls.
+- **Defer actual architectural modeling** (stairs/slabs/fences, window rhythm, tower silhouette, wall section and gate detailing, palettes and exact dimensions) to a later **Claude-led visual/architectural design pass**. Previous wall height ~8, tower ~11×11 and height ~16, thickness ~3, and gate width ~7–8 are merely exploratory estimates, **NOT approvals**. No requirement to create a wall prototype now.
+
+**Next workstream:** shift to **interior militarized-village layout and gameplay concept**, while leaving detailed external architectural styling on hold. Unapproved building counts, enemy roster, loot and precise internal coordinates remain proposals.
 
 ---
 
@@ -119,6 +132,6 @@ Even though the perimeter square is fixed, **internal buildings may use a small 
 
 ## 6. Immediate next design milestone
 
-**Detailed headquarters layout pass** (still design-only): retain approved 112×112 outer square; approve wall height/thickness, corner tower modules, entrance gatehouse, internal path topology, number/size of barracks and mandatory buildings, tile palette, battle density, safe terrain thresholds and forest tree policy. Produce a readable plan and area schedule before asking the structure generator to place anything.
+**Interior headquarters concept pass** (still design-only): retain approved 112×112 outer square, integrated corner towers and single entrance; refine internal main street/plaza, facility adjacency, residential/outbuilding density, combat roles and exploration loop. **Defer** wall height/thickness, corner tower geometry, gatehouse block modeling, architectural palette and other detailed exterior visuals to a later Claude-led design task. Terrain thresholds and forest tree-clearing policy still need explicit preflight decisions before generation. Do not start implementation merely from this design record.
 
 **Scope guard:** This document does not resolve unrelated desert pyramid, End city remodeling, spider cave or colosseum design and does not authorize implementing new structures on an existing active generation branch.
