@@ -111,6 +111,61 @@ public final class AccessoryEnhancementGameTests implements CustomTestMethodInvo
         ctx.succeed();
     }
 
+    @GameTest public void postMilestoneCostAndRejectedDuplicateInputsAreAtomic(GameTestHelper ctx) {
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        player.giveExperiencePoints(1_000);
+        var menu=new AnvilMenu(24,player.getInventory());
+        var modes=(T1AnvilModes)menu;
+        ItemStack accessory=new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.PHANTOM_MIRROR));
+        accessory.set(ModDataComponents.ENHANCEMENT_LEVEL,5);
+        menu.getSlot(0).set(accessory);
+        menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE));
+        int xpBefore=RawXp.available(player);
+        ctx.assertTrue(modes.moreminecrafts$button(player,3),"+5 to +6 succeeds without a milestone catalyst");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(accessory)==6,"post-milestone step advances exactly once");
+        ctx.assertTrue(menu.getSlot(1).getItem().isEmpty(),"+6 consumes one Enhancement Stone");
+        ctx.assertTrue(RawXp.available(player)==xpBefore-70,"+6 consumes exactly 70 raw XP");
+
+        // A duplicated request without a second stone cannot repeat the successful transition.
+        accessory.set(ModDataComponents.ENHANCEMENT_LEVEL,0);
+        menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE));
+        int duplicateXpBefore=RawXp.available(player);
+        ctx.assertTrue(modes.moreminecrafts$button(player,3),"first +1 request succeeds");
+        int afterFirst=RawXp.available(player);
+        ctx.assertTrue(!modes.moreminecrafts$button(player,3),"repeated request without resources is rejected");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(accessory)==1
+                &&menu.getSlot(1).getItem().isEmpty()
+                &&afterFirst==duplicateXpBefore-40
+                &&RawXp.available(player)==afterFirst,"repeated request neither reapplies nor consumes extra XP/material");
+
+        accessory.set(ModDataComponents.ENHANCEMENT_LEVEL,6);
+        menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE));
+        player.giveExperiencePoints(-RawXp.available(player));
+        int noXp=RawXp.available(player);
+        ctx.assertTrue(!modes.moreminecrafts$button(player,3),"insufficient raw XP rejects +7");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(accessory)==6
+                &&menu.getSlot(1).getItem().getCount()==1
+                &&RawXp.available(player)==noXp,"insufficient XP leaves enhancement, stone, and XP unchanged");
+
+        accessory.set(ModDataComponents.ENHANCEMENT_LEVEL,4);
+        menu.getSlot(1).set(new ItemStack(Items.DIAMOND));
+        menu.getSlot(((T1AnvilModes)menu).moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST));
+        ctx.assertTrue(!modes.moreminecrafts$button(player,3),"wrong enhancement material is rejected");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(accessory)==4
+                &&menu.getSlot(1).getItem().is(Items.DIAMOND)
+                &&menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).getItem().is(ModItems.RELIC_CATALYST)
+                &&RawXp.available(player)==noXp,"wrong material consumes no input, catalyst, or XP");
+
+        menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,2));
+        menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(Items.DIAMOND));
+        ctx.assertTrue(!modes.moreminecrafts$button(player,3),"wrong catalyst is rejected at +5");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(accessory)==4
+                &&menu.getSlot(1).getItem().getCount()==2
+                &&menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).getItem().is(Items.DIAMOND)
+                &&RawXp.available(player)==noXp,"wrong catalyst consumes no input or XP");
+        ctx.succeed();
+    }
+
     @GameTest public void catalystQuickMoveAndMenuCloseConserveTheInput(GameTestHelper ctx) {
         var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
         var menu=new AnvilMenu(22,player.getInventory());
