@@ -83,6 +83,9 @@ public final class AccessoryEnhancementGameTests implements CustomTestMethodInvo
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"+10 milestone succeeds with its complete inputs");
         ctx.assertTrue(AccessoryEnhancementOperation.level(ring)==10,"accessory reaches the approved +10 maximum");
         ctx.assertTrue(levelBefore-RawXp.available(player)==70,"+10 milestone consumes 70 raw XP");
+        ctx.assertTrue(menu.getSlot(1).getItem().isEmpty()
+                &&menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).getItem().isEmpty(),
+                "+10 milestone consumes both stones and its catalyst");
 
         ring.set(ModDataComponents.ENHANCEMENT_LEVEL,10);
         menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,64));
@@ -147,14 +150,25 @@ public final class AccessoryEnhancementGameTests implements CustomTestMethodInvo
                 &&menu.getSlot(1).getItem().getCount()==1
                 &&RawXp.available(player)==noXp,"insufficient XP leaves enhancement, stone, and XP unchanged");
 
+        player.giveExperiencePoints(40);
+        int enoughForMilestone=RawXp.available(player);
+        accessory.set(ModDataComponents.ENHANCEMENT_LEVEL,4);
+        menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE));
+        menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST));
+        ctx.assertTrue(!modes.moreminecrafts$button(player,3),"one stone is insufficient for the +5 milestone");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(accessory)==4
+                &&menu.getSlot(1).getItem().getCount()==1
+                &&menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).getItem().is(ModItems.RELIC_CATALYST)
+                &&RawXp.available(player)==enoughForMilestone,"insufficient stones leave accessory, catalyst, and XP unchanged");
+
         accessory.set(ModDataComponents.ENHANCEMENT_LEVEL,4);
         menu.getSlot(1).set(new ItemStack(Items.DIAMOND));
-        menu.getSlot(((T1AnvilModes)menu).moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST));
+        menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST));
         ctx.assertTrue(!modes.moreminecrafts$button(player,3),"wrong enhancement material is rejected");
         ctx.assertTrue(AccessoryEnhancementOperation.level(accessory)==4
                 &&menu.getSlot(1).getItem().is(Items.DIAMOND)
                 &&menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).getItem().is(ModItems.RELIC_CATALYST)
-                &&RawXp.available(player)==noXp,"wrong material consumes no input, catalyst, or XP");
+                &&RawXp.available(player)==enoughForMilestone,"wrong material consumes no input, catalyst, or XP");
 
         menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,2));
         menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(Items.DIAMOND));
@@ -162,7 +176,7 @@ public final class AccessoryEnhancementGameTests implements CustomTestMethodInvo
         ctx.assertTrue(AccessoryEnhancementOperation.level(accessory)==4
                 &&menu.getSlot(1).getItem().getCount()==2
                 &&menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).getItem().is(Items.DIAMOND)
-                &&RawXp.available(player)==noXp,"wrong catalyst consumes no input or XP");
+                &&RawXp.available(player)==enoughForMilestone,"wrong catalyst consumes no input or XP");
         ctx.succeed();
     }
 
