@@ -359,6 +359,7 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
         });
         context.getInput().setCursorPos(point[0], point[1]);
         context.getInput().pressMouse(LEFT_MOUSE_BUTTON);
+        context.waitTick();
         context.runOnClient(client -> {
             System.out.println("ACCESSORY_RAPID_CLICK slot=" + menuSlot + " shift=" + client.hasShiftDown()
                     + " source=" + client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem()
