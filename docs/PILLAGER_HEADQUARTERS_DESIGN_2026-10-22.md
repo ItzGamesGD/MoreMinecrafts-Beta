@@ -280,16 +280,16 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 
 ### Still only proposals, not owner confirmations
 
-- Facility and defender exact counts (20 and 40), commander/manor dimension 17×15 unless separately approved, commander HP/attack, elite equipment and drops; staged zone allocation.
+- Facility and defender exact counts (20 and 40), commander/manor dimension 17×15 unless separately approved, commander **attack** (40 HP now approved), elite equipment and drops; staged zone allocation.
 - 65% manor premium draw, 35% armory premium draw, up to 2 container premium successes and separate 10% commander special. All numerical reward ranges in the tables remain candidates.
 - Which of the existing 12 accessories and 24 real-enchantment rune SKUs are legal in this dungeon; merchant exclusivity and game-stage availability remain under review.
 - Exact structure separation, regional rarity, site selection constraints, forest-clearing tolerance, minimum distance from villages/outposts and dimension scope.
 
 ### Next decision pass — proposals for owner review
 
-**D1 — Commander tuning:** propose **40 HP** and a **modest +20–30% effective melee damage vs. ordinary Vindicator** as a first balancing test, with no custom AI, summons, invisible bonuses or locked combat arena. Alternative directions are 30 HP lighter officer or 50 HP tankier officer. Exact attack modifier and Minecraft-version damage baseline must be tested, not asserted.
+**D1 — Commander tuning:** **40 HP is APPROVED**, with a proposed **+20–30% melee damage relative to an unmodified same-difficulty Vindicator** for testing. 30/50 HP alternatives are superseded. Exact attack attribute and version-specific damage must be audited.
 
-**D2 — Spawn rarity:** HQ is a rarer, significant discovery than a routine pillager outpost. Rather than hardcode unsupported global probabilities, choose a design target: (a) moderately uncommon and accessible during exploration, (b) **rare regional landmark** (recommendation), or (c) extremely rare endgame discovery. Later generator work must convert the chosen target into spacing/separation, biome filters, terrain flatness acceptance and measured seeds per world.
+**D2 — Spawn rarity:** **B: rare regional landmark is APPROVED**. Exact spacing/separation, biome filters, terrain flatness acceptance and measured encounter frequency are still OPEN pending seed tests; the 1,200–2,000 block spacing experiment described above is not approved.
 
 **D3 — Reward numeric signoff:** owner should expressly approve/modify the 65% / 35% / 10% candidates, premium caps and zero-premium possibility; avoid promoting them to locked rules by silence.
 
@@ -298,6 +298,63 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 **D5 — Placement QA policy:** define fit criteria for a complete 112×112 square including all wall sections, towers and gate; evaluate flat soil under forest trees, reject significant height steps, slopes, liquids, village overlaps and preexisting player builds. No generation code is implemented as part of this checkpoint.
 
 **Next action after owner choices:** update exact design authority, then form a Claude handoff covering architectural build shapes and separate generator implementation checklist. Keep PR Draft and do not merge other PR branches.
+
+---
+
+## Owner approval — commander 40 HP and rare regional landmark (2026-10-22, latest authority)
+
+### Newly confirmed
+
+1. **Commander maximum health = 40 HP (20 hearts)**. The unique headquarters officer remains a **Vindicator-based enhanced mob** operating with **vanilla Vindicator combat/targeting AI**. This is an actual numerical owner decision, superseding older proposed 30/40/50 HP alternatives. The 40 HP is the officer's base maximum-health design setting, **not extra HP on top of vanilla health**, not a boss bar requirement, and not a signal to add a custom skill or army-wide buff.
+2. **Generation rarity = B: rare regional landmark.** A headquarters should feel like an unusual, memorable military fortress encountered during meaningful exploration, rather than a common outpost or an extremely inaccessible once-per-world structure. This is a **qualitative discovery target**, not an approved structure spacing, chance per chunk, frequency, or guaranteed distance to a player.
+3. Carry forward all approved characteristics unchanged: the 112×112 **outer** square and its four wall-integrated corner towers/single perimeter gate, 19–22 interior facilities, two-story compact manor HQ, vanilla mob AI, 35–45 original garrison, non-respawning defeated garrison, loot better than Woodland Mansion and mixed pre-existing MM reward sources.
+
+### Commander combat — detail proposals, subordinate to approved 40 HP
+
+| Parameter | Authority / recommendation | Design and acceptance consequence |
+|---|---|---|
+| Max HP | **APPROVED exactly 40 HP** | 20 hearts. Spawn at full base health, then let normal vanilla damage/healing rules apply. |
+| Mob type / targeting | **APPROVED enhanced Vindicator; vanilla AI only** | Preserve regular melee navigation/attacks. No new commander aura, rally, alerts, summon phases, shield AI or scripted locking. |
+| Attack damage | **PROPOSED: 1.20–1.30× unmodified vanilla Vindicator base melee attack damage on the same difficulty** | Exact `generic.attack_damage` modifier/base value depends on version/difficulty and must be checked against Minecraft 26.3 mappings. Do not double-apply existing difficulty scaling or confuse held-axe damage with generic attributes. |
+| Movement | **PROPOSED: vanilla Vindicator movement speed** | Make lethality come from guarded room geometry and melee damage rather than artificial speed boosts. |
+| Equipment | **PROPOSED: distinct axe and pillager-themed look/name, if supported** | Does not change core attack implementation. No required new weapon texture or unregistered drop. |
+| Support | **PROPOSED: 2–3 other stationed guards spread across ground floor / stairs** | Existing nominal 40-person ledger assigns **four total manor defenders including commander**; no additional reinforcements and no force-spawn when commander aggroes. |
+| Difficulty | **OPEN** | Verify Easy/Normal/Hard effective outgoing damage using actual version. Do not treat HP 40 as requiring an automatic custom difficulty multiplier. |
+| Reward | **Already APPROVED qualitatively:** ordinary rare drop + separate low-probability special | Earlier proposed **10%** special chance remains only proposed, as do loot item weights and exact money/gear amounts. |
+
+**Suggested 17×15 manor spatial encounter:** 1–2 ordinary defenders around first-floor lobby/stairs, 1 elite guard upstairs near the officer, commander in office. Counts must sum to **four total**, not four guards plus commander; the precise room/level placement and 17×15 footprint itself are still design proposals, subject to Claude architecture and actual pathfinding tests. Allow player to access all loot without mandatory commander kill.
+
+**Testing gates:** server-spawned commander is truly 40 HP, correct loaded/unloaded health persists, vanilla targeting is unchanged, damage matches chosen baseline on multiple difficulties, manor melee navigation remains possible, exactly one original officer appears per HQ, officer never respawns after actual death, manor loot is independent.
+
+### Rare regional landmark — world-generation design
+
+**APPROVED intent:** rarer than a routine pillager outpost as a **design goal**, but not so rare that a normal exploration-focused world effectively never finds one. Its 112×112 bounding square and demanding naturally flat site must be honored; it is okay to reject unsuitable generation sites rather than terraform or staircase the walls.
+
+**PROPOSED implementation policy to evaluate (none of these specific numbers are owner approved):**
+
+- **Dimensions / biomes:** Overworld only as the obvious initial design target. Favor plains and qualifying temperate forests with flat supporting soil **under the natural tree canopy**; exact biome tags and exclusions OPEN. Forest is eligible without a pre-existing huge clearing, provided trees can be handled safely. Do not add desert, mountains or swamps merely to improve spawn acceptance.
+- **Placement model:** sparse attempted regional candidate sites + **strict whole-footprint preflight**, instead of forcing one spawn every N chunks even when terrain is bad. Structure rarity should be measured as **successful accepted fortresses**, not attempts alone.
+- **Initial spacing experiment:** test approximately **1,200–2,000 blocks between accepted landmark centers** as a *provisional spacing trial only*, **not a committed generation range or guarantee**. Whether the structure API can offer this spacing with site rejection and without biased clustering needs measurement. Test tighter/looser alternatives if success rate is too low/high. Never write as a hard minimum until generator behavior is verified.
+- **Flatness:** sample underneath trunks/leaves, not canopy; bound max terrain elevation spread **trial candidate 2 blocks**, then test 1–3 as necessary. All four tower platforms, wall lengths, gate, roads and major buildings must fit without unsupported floors or collision with steep hills/water/other structures. This **2-block tolerance is not approved**.
+- **Tree clearing:** distinguish candidate native trees from player-built / player-grown material **only if technically reliable**; otherwise reject or preserve the site. Do not erase protected structures or owner builds. No giant landscaping pass or broad-area bulldozing.
+- **Regional separation:** proposal to refuse a location if it directly overlaps a village, existing structure or other headquarters; exact protection buffer and unique-location registry remain OPEN. Do not make nearest HQ distribution promises until the real generator is instrumented.
+- **Y / underground support:** candidate's **entire** 112×112 foundation, including four corners, must be safe to place; preflight against surface water, deep ravines, significant caves, unloaded block claims and chunk borders, without declaring all naturally occurring caves forbidden.
+- **Rotation:** the whole square and internal gate→square→manor road may rotate as one unit to fit the chosen valid site; do not change the exact square perimeter or create secondary entrances.
+
+**Generation measurement gates before choosing concrete spacing/weights:**
+1. Record attempted versus *accepted* sites across a deterministic many-seed suite (plains and forest sampled separately), actual nearest-neighbor spacing, acceptance failure categories and chunk-generation cost. Include full 112×112 site validation, not just structure-center height.
+2. Compare observed discovery frequency qualitatively and quantitatively to nearby existing pillager outposts on the **same seeds**, allowing for biome/topography differences. Rarity target is a comparison, **not** a borrowed undocumented Minecraft outpost frequency constant.
+3. Confirm sites in flat forests occur when canopy is present (not only naturally cleared grass), without unintended natural/player-built tree removal; classify ambiguous tree provenance as a blocker rather than falsely claiming it is solved.
+4. Ensure deterministic accepted/not-accepted outcome across repeated world generation, chunk border ordering and save/reload; no partially spawned walls, duplicate HQ, carved village, or broken roads.
+5. Performance-check size, prospective enemy 35–45 load and long-lived garrison persistence together; very large defensive layout should not cause unbounded entity/structure work.
+
+### Status and next choices
+
+**APPROVED now:** Commander 40 HP, regional-landmark rarity B, Vindicator/vanilla AI and existing fixed-garrison/no-respawn rules.
+
+**Still OPEN:** exact attack-damage modifier (initial candidate +20–30%); difficulty tuning and elite stats; exact rarity spacing/frequency (1,200–2,000 block trial is only a proposal); allowed biome tags; flatness limit; tree removal safeguards; 65%/35%/10% loot candidates; existing accessory/rune allowlist and economy compatibility.
+
+**Design next pass:** decide commander attack tuning, actual eligible loot whitelist and premium odds; then verify generator sampling before any quantitative spawn-spacing sign-off. Exterior wall block modeling stays deferred to Claude. This section is **design only / NOT CODE VERIFIED / NOT WORLDGEN VERIFIED**.
 
 ---
 
@@ -404,6 +461,6 @@ Even though the perimeter square is fixed, **internal buildings may use a small 
 
 ## 6. Immediate next design milestone
 
-**Interior and combat concepts now recorded** with owner-approved 19–22 facilities, 2-story manor, primary road + alleys, prison and ravager stable; 35–45 first-clear defenders, vanilla AI, enhanced Vindicator commander and no defeated-garrison respawn. Next refine room programs, exact facility sizes/coordinates, road packing, commander stats and loot after reviewing the proposed 20-facility and 40-unit ledgers. **Defer** wall height/thickness, corner tower geometry, gatehouse block modeling, architectural palette and other detailed exterior visuals to a later Claude-led design task. Terrain thresholds and forest tree-clearing policy still need explicit preflight decisions before generation. Do not start implementation merely from this design record.
+**Interior and combat concepts now recorded** with owner-approved 19–22 facilities, 2-story manor, primary road + alleys, prison and ravager stable; 35–45 first-clear defenders, vanilla AI, enhanced Vindicator commander and no defeated-garrison respawn. Next refine room programs, exact facility sizes/coordinates, road packing, commander attack tuning (40 HP approved), rarity implementation metrics and loot after reviewing the proposed 20-facility and 40-unit ledgers. **Defer** wall height/thickness, corner tower geometry, gatehouse block modeling, architectural palette and other detailed exterior visuals to a later Claude-led design task. Terrain thresholds and forest tree-clearing policy still need explicit preflight decisions before generation. Do not start implementation merely from this design record.
 
 **Scope guard:** This document does not resolve unrelated desert pyramid, End city remodeling, spider cave or colosseum design and does not authorize implementing new structures on an existing active generation branch.
