@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - codex/accessory-lifecycle-qa-20261021
+      - codex/accessory-client-acceptance-20261021
     paths:
       - ".github/workflows/accessory-client-acceptance.yml"
       - "build.gradle"
