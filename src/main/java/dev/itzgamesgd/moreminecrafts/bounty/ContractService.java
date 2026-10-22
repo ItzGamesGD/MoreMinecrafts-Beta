@@ -97,4 +97,15 @@ public final class ContractService {
             if (!next.equals(data)) stack.set(ModDataComponents.CONTRACT, next);
         }
     }
+
+    public static void enterStructure(ServerPlayer player, String target, String instance) {
+        Inventory inventory = player.getInventory();
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            ItemStack stack = inventory.getItem(slot);
+            ContractData data = ContractStacks.read(stack);
+            if (data == null || data.status() != ContractData.Status.ACCEPTED) continue;
+            ContractData next = data.enterStructure(target, instance);
+            if (!next.equals(data)) stack.set(ModDataComponents.CONTRACT, next);
+        }
+    }
 }

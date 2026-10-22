@@ -18,20 +18,33 @@ public record ContractData(String id, Tier tier, Status status, List<Objective> 
     private static final Codec<Status> STATUS_CODEC = Codec.STRING.xmap(Status::valueOf, Status::name);
     private static final Codec<Category> CATEGORY_CODEC = Codec.STRING.xmap(Category::valueOf, Category::name);
 
-    public record Objective(Category category, String target, int required, int progress) {
+    public record Objective(Category category, String target, int required, int progress, List<String> visited) {
         public static final Codec<Objective> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 CATEGORY_CODEC.fieldOf("category").forGetter(Objective::category),
                 Codec.STRING.fieldOf("target").forGetter(Objective::target),
                 Codec.intRange(1, 100000).fieldOf("required").forGetter(Objective::required),
-                Codec.intRange(0, 100000).fieldOf("progress").forGetter(Objective::progress)
+                Codec.intRange(0, 100000).fieldOf("progress").forGetter(Objective::progress),
+                Codec.STRING.listOf().optionalFieldOf("visited", List.of()).forGetter(Objective::visited)
         ).apply(instance, Objective::new));
 
-        public Objective {
-            if (category == null || target == null || target.isBlank() || required < 1 || progress < 0 || progress > required)
-                throw new IllegalArgumentException("Invalid contract objective");
+        public Objective(Category category, String target, int required, int progress) {
+            this(category, target, required, progress, List.of());
         }
 
-        Objective advance() { return new Objective(category, target, required, Math.min(required, progress + 1)); }
+        public Objective {
+            if (category == null || target == null || target.isBlank() || required < 1 || progress < 0 || progress > required || visited == null)
+                throw new IllegalArgumentException("Invalid contract objective");
+            visited = List.copyOf(visited);
+        }
+
+        Objective advance() { return new Objective(category, target, required, Math.min(required, progress + 1), visited); }
+
+        Objective enter(String instance) {
+            if (progress >= required || visited.contains(instance)) return this;
+            List<String> next = new ArrayList<>(visited);
+            next.add(instance);
+            return new Objective(category, target, required, progress + 1, next);
+        }
     }
 
     public record Reward(int emeralds, String item, int count) {
@@ -65,10 +78,19 @@ public record ContractData(String id, Tier tier, Status status, List<Objective> 
     }
 
     public ContractData advance(Category category, String target) {
-        if (status != Status.ACCEPTED || category == Category.DELIVERY) return this;
+        if (status != Status.ACCEPTED || (category != Category.COMBAT && category != Category.SPECIAL)) return this;
         List<Objective> next = new ArrayList<>(objectives.size());
         for (Objective objective : objectives)
             next.add(objective.category() == category && objective.target().equals(target) ? objective.advance() : objective);
+        return new ContractData(id, tier, status, next, reward);
+    }
+
+    public ContractData enterStructure(String target, String instance) {
+        if (status != Status.ACCEPTED || target == null || instance == null) return this;
+        List<Objective> next = new ArrayList<>(objectives.size());
+        for (Objective objective : objectives)
+            next.add(objective.category() == Category.EXPLORATION && objective.target().equals(target)
+                    ? objective.enter(instance) : objective);
         return new ContractData(id, tier, status, next, reward);
     }
 

@@ -40,4 +40,25 @@ class ContractDataTest {
         assertEquals(Map.of("minecraft:wheat", 32), new ContractData(ready.id(), ready.tier(), ready.status(),
                 List.of(ready.objectives().get(2), ready.objectives().get(2)), ready.reward()).deliveryNeeds());
     }
+
+    @Test void explorationCountsDistinctStructureEntriesAfterAcceptance() {
+        ContractData offered = new ContractData(sample().id(), ContractData.Tier.INTERMEDIATE,
+                ContractData.Status.OFFERED, List.of(new ContractData.Objective(
+                        ContractData.Category.EXPLORATION, "minecraft:mineshaft", 2, 0)), sample().reward());
+        assertEquals(offered, offered.enterStructure("minecraft:mineshaft", "overworld:12:34"));
+        ContractData accepted = offered.accept().enterStructure("minecraft:mineshaft", "overworld:12:34");
+        assertEquals(1, accepted.objectives().getFirst().progress());
+        assertEquals(accepted, accepted.enterStructure("minecraft:mineshaft", "overworld:12:34"));
+        assertEquals(accepted, accepted.enterStructure("minecraft:stronghold", "overworld:15:40"));
+        assertEquals(2, accepted.enterStructure("minecraft:mineshaft", "overworld:19:42").objectives().getFirst().progress());
+    }
+
+    @Test void oneKillCanAdvanceTwoAcceptedContracts() {
+        ContractData first = sample().accept();
+        ContractData second = new ContractData("e196d849-6127-4b67-9baa-4b5110ae8f51", first.tier(), first.status(),
+                first.objectives(), first.reward());
+        assertEquals(1, first.advance(ContractData.Category.COMBAT, "minecraft:zombie").objectives().getFirst().progress());
+        assertEquals(1, second.advance(ContractData.Category.COMBAT, "minecraft:zombie").objectives().getFirst().progress());
+        assertEquals(0, first.advance(ContractData.Category.COMBAT, "minecraft:skeleton").objectives().getFirst().progress());
+    }
 }

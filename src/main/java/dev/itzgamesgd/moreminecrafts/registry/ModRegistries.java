@@ -13,6 +13,7 @@ import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentRuntime;
 import dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog;
 import dev.itzgamesgd.moreminecrafts.progression.T2CoreAcquisition;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractObjectives;
 
 public final class ModRegistries {
     private ModRegistries() {
@@ -40,6 +41,7 @@ public final class ModRegistries {
         ElementalHitProgress.initialize();
         EquipmentAttachments.initialize();
         EquipmentRuntime.initialize();
+        ContractObjectives.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
     }
 }
