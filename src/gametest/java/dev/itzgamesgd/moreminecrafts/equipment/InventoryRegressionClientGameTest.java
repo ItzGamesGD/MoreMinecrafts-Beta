@@ -14,7 +14,6 @@ import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerConnection;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -291,7 +290,9 @@ public final class InventoryRegressionClientGameTest implements FabricClientGame
                 int x = ((Number) root.getClass().getMethod("getX").invoke(root)).intValue();
                 int y = ((Number) root.getClass().getMethod("getY").invoke(root)).intValue();
                 int left = screenIntField(screen, "leftPos");
-                if (x >= left + 80 && x <= left + 140 && y >= 40 && y <= 110) return root;
+                int top = screenIntField(screen, "topPos");
+                if (x >= left + 80 && x <= left + 140
+                        && y >= top + 40 && y <= top + 100) return root;
             } catch (RuntimeException | ReflectiveOperationException ignored) {
                 // Not the inventory recipe button.
             }
