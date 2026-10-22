@@ -8,9 +8,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.core.component.DataComponentType;
 import dev.itzgamesgd.moreminecrafts.fishing.RodEquipment;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractData;
 import net.minecraft.world.item.ItemStack;
 
 public final class ModDataComponents {
+    public static final DataComponentType<ContractData> CONTRACT = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("contract"),
+            DataComponentType.<ContractData>builder().persistent(ContractData.CODEC)
+                    .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(ContractData.CODEC)).build());
     public static final DataComponentType<Integer> ENHANCEMENT_LEVEL = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
             ModIds.id("enhancement_level"),
