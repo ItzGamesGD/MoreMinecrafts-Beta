@@ -14,7 +14,7 @@ import java.util.Set;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
-import net.fabricmc.fabric.api.client.gametest.v1.context.TestServerConnection;
+import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerConnection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -34,8 +34,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
 
     @Override
     public void runTest(ClientGameTestContext context) {
-        TestDedicatedServerContext server = context.worldBuilder().createServer();
-        TestServerConnection ignored = server.connect();
+        try (TestDedicatedServerContext server = context.worldBuilder().createServer();
+             TestDedicatedServerConnection connection = server.connect()) {
             context.waitFor(client -> client.player != null && client.level != null
                     && client.getConnection() != null && client.getConnection().getConnection().isConnected());
 
@@ -94,10 +94,12 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
 
             runCursorEquipUnequip(context, server);
             runInvalidPlacement(context, server);
-            runShiftClickTransfer(context, server);
+            runShiftClickTransfer(context, server, connection);
+            runShiftClickUnequip(context, server, connection);
 
         context.runOnClient(client -> client.gui.setScreen(null));
         context.waitForScreen(null);
+        }
     }
 
     private static void prepareServerFixture(TestDedicatedServerContext server) {
@@ -249,7 +251,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         assertServerConservation(server, AccessoryDefinition.SEED_OF_LIFE, 1);
     }
 
-    private static void runShiftClickTransfer(ClientGameTestContext context, TestDedicatedServerContext server) {
+    private static void runShiftClickTransfer(ClientGameTestContext context, TestDedicatedServerContext server,
+                                               TestDedicatedServerConnection connection) {
         server.runOnServer(minecraftServer -> {
             ServerPlayer player = minecraftServer.getPlayerList().getPlayers().getFirst();
             player.setAttached(EquipmentAttachments.ACCESSORIES,
@@ -257,8 +260,13 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
                             .with(DEFENSE_SLOT, ItemStack.EMPTY));
             player.inventoryMenu.broadcastChanges();
         });
-        context.waitTicks(2);
+        connection.waitForClientboundPackets();
         openInventory(context);
+        context.waitFor(client -> client.player.containerMenu.getCarried().isEmpty()
+                && client.player.inventoryMenu.getSlot(11).getItem().getItem()
+                == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)
+                && client.player.getAttachedOrElse(EquipmentAttachments.ACCESSORIES,
+                        AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty());
 
         context.getInput().holdShift();
         context.waitTick();
@@ -291,11 +299,14 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         context.waitFor(client -> client.player.containerMenu.getCarried().isEmpty()
                 && client.player.inventoryMenu.getSlot(11).getItem().getItem()
                 == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE));
-        context.waitTicks(2);
+        connection.waitForServerboundPackets();
+        connection.waitForClientboundPackets();
         context.getInput().holdShift();
         context.waitTick();
         clickMenuSlotWithShiftModifier(context, 11);
         context.getInput().releaseShift();
+        connection.waitForServerboundPackets();
+        connection.waitForClientboundPackets();
         context.waitFor(client -> !client.player.getAttachedOrElse(
                 EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty());
         context.runOnClient(client -> {
@@ -306,10 +317,42 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         });
         assertServerConservation(server, AccessoryDefinition.RING_OF_LIFE, 1);
 
+        System.out.println("ACCESSORY_SHIFT_EQUIP_PASS");
+    }
+
+    private static void runShiftClickUnequip(ClientGameTestContext context, TestDedicatedServerContext server,
+                                            TestDedicatedServerConnection connection) {
+        // Unequip starts from a fresh authoritative fixture, independent of the equip result's inventory layout.
+        server.runOnServer(minecraftServer -> {
+            ServerPlayer player = minecraftServer.getPlayerList().getPlayers().getFirst();
+            if (!player.containerMenu.getCarried().isEmpty()) {
+                throw new AssertionError("Unequip fixture must start with an empty server cursor");
+            }
+            for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
+                if (player.getInventory().getItem(slot).getItem()
+                        == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)) {
+                    player.getInventory().setItem(slot, ItemStack.EMPTY);
+                }
+            }
+            player.setAttached(EquipmentAttachments.ACCESSORIES,
+                    player.getAttachedOrElse(EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty())
+                            .with(DEFENSE_SLOT, accessory(AccessoryDefinition.RING_OF_LIFE)));
+            player.inventoryMenu.broadcastChanges();
+        });
+        connection.waitForClientboundPackets();
+        openInventory(context);
+        context.waitFor(client -> client.player.containerMenu.getCarried().isEmpty()
+                && count(client.player.getInventory(), ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)) == 0
+                && client.player.inventoryMenu.getSlot(ACCESSORY_FIRST_MENU_SLOT + DEFENSE_SLOT).getItem().getItem()
+                == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE));
+        assertServerConservation(server, AccessoryDefinition.RING_OF_LIFE, 1);
+
         context.getInput().holdShift();
         context.waitTick();
         clickMenuSlotWithShiftModifier(context, ACCESSORY_FIRST_MENU_SLOT + DEFENSE_SLOT);
         context.getInput().releaseShift();
+        connection.waitForServerboundPackets();
+        connection.waitForClientboundPackets();
         context.waitFor(client -> client.player.getAttachedOrElse(
                 EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty());
         context.runOnClient(client -> {
@@ -322,6 +365,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             }
         });
         assertServerConservation(server, AccessoryDefinition.RING_OF_LIFE, 1);
+        System.out.println("ACCESSORY_SHIFT_UNEQUIP_PASS");
     }
 
     private static void runInvalidPlacement(ClientGameTestContext context, TestDedicatedServerContext server) {
