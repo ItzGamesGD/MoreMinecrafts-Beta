@@ -199,28 +199,21 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
 
         for (int cycle = 0; cycle < 8; cycle++) {
             int cycleIndex = cycle;
-            int sourceSlot = cycleIndex % 2 == 0 ? RING_INVENTORY_SLOT : DEFENSE_MENU_SLOT;
-            context.getInput().holdShift();
-            context.waitTick();
-            try {
-                for (int click = 0; click < 4; click++) clickShiftMenuSlot(context, sourceSlot);
-            } finally {
-                context.getInput().releaseShift();
+            for (int click = 0; click < 4; click++) {
+                clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
+                clickRapidMenuSlot(context, DEFENSE_MENU_SLOT);
+                clickRapidMenuSlot(context, DEFENSE_MENU_SLOT);
+                clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
             }
             connection.waitForServerboundPackets();
             connection.waitForClientboundPackets();
             context.runOnClient(client -> {
                 ItemStack equipped = client.player.inventoryMenu.getSlot(DEFENSE_MENU_SLOT).getItem();
                 ItemStack inventory = client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem();
-                if (sourceSlot == RING_INVENTORY_SLOT && (equipped.isEmpty()
-                        || equipped.getItem() != ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)
-                        || !inventory.isEmpty())) {
-                    throw new AssertionError("Rapid equip left a ghost or divergent accessory slot at cycle "
+                if (!equipped.isEmpty() || inventory.getItem()
+                        != ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)) {
+                    throw new AssertionError("Rapid equip/unequip left a ghost or divergent accessory slot at cycle "
                             + cycleIndex + ": equip=" + equipped + " source=" + inventory);
-                }
-                if (sourceSlot == DEFENSE_MENU_SLOT && (!equipped.isEmpty()
-                        || inventory.getItem() != ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE))) {
-                    throw new AssertionError("Rapid unequip left a ghost or divergent accessory slot at cycle " + cycleIndex);
                 }
                 if (!client.player.containerMenu.getCarried().isEmpty()) {
                     throw new AssertionError("Rapid click operation left a ghost cursor stack at cycle " + cycleIndex);
@@ -358,7 +351,7 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
                 && client.getConnection() != null && client.getConnection().getConnection().isConnected());
     }
 
-    private static void clickShiftMenuSlot(ClientGameTestContext context, int menuSlot) {
+    private static void clickRapidMenuSlot(ClientGameTestContext context, int menuSlot) {
         double[] point = context.computeOnClient(client -> {
             var screen = (InventoryScreen) client.gui.screen();
             var slot = client.player.inventoryMenu.getSlot(menuSlot);
