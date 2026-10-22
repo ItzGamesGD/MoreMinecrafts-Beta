@@ -47,12 +47,12 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
                 installFullFixture(server);
                 connection.waitForClientboundPackets();
                 assertFullFixture(context, server);
+                verifyRapidClicksAndConvergence(context, server, connection);
 
                 connection = verifyReconnect(context, server, connection);
                 connection = verifyDimensions(context, server, connection);
                 connection = verifyNormalDeathAndRespawn(context, server, connection);
                 connection = verifyKeepInventoryRespawn(context, server, connection);
-                verifyRapidClicksAndConvergence(context, server, connection);
 
                 context.runOnClient(client -> client.gui.setScreen(null));
                 context.waitForScreen(null);
