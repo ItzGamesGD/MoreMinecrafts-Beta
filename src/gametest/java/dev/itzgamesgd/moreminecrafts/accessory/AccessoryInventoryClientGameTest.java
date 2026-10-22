@@ -261,7 +261,12 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
 
         context.getInput().holdShift();
         context.waitTick();
+        context.runOnClient(client -> System.out.println("ACCESSORY_SHIFT_BEFORE_CLICK screen="
+                + Screen.hasShiftDown() + " key=" + client.options.keyShift.isDown()));
         clickMenuSlotHeld(context, 11);
+        context.runOnClient(client -> System.out.println("ACCESSORY_SHIFT_AFTER_CLICK screen="
+                + Screen.hasShiftDown() + " key=" + client.options.keyShift.isDown()
+                + " cursor=" + client.player.containerMenu.getCarried()));
         context.getInput().releaseShift();
         context.waitTicks(4);
         context.runOnClient(client -> {

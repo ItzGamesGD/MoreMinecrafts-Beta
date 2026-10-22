@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - codex/accessory-client-acceptance-20261021
+      - codex/accessory-client-repair-20261022
   pull_request:
     branches:
       - codex/accessory-lifecycle-qa-20261021
