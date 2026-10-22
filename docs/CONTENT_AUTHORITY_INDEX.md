@@ -46,6 +46,8 @@ Authoritative ordinary Enhancement rules:
 - no ordinary T3/T4 Enhancement
 - historical +30 / +40 rules are superseded
 
+Accessory Enhancement is a separate approved contract and does not inherit the ordinary T1/T2 +20 cap or equipment growth tables. Use [Accessory Enhancement Decisions (2026-10-17)](ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md) for the twelve independent +0…+10 tables, raw-XP and material costs, catalyst milestones, anvil integration, and accessory-only rules. Use [Accessory / Relic System Decisions (2026-10-16)](ACCESSORY_RELIC_SYSTEM_DECISIONS_2026-10-16.md) for the approved roster and behavioral direction, except where the later 2026-10-17 enhancement record supersedes proposed values or unresolved labels. The one-catalyst-per-milestone quantity is explicitly provisional; catalyst acquisition and final anvil visual layout remain deferred. Ordinary T1/T2 Enhancement rules below and in the Stage 2 reconciliation remain unchanged.
+
 Current T2 input/gameplay rules include the seven-item final roster, right-click active skills, cumulative Lightning charge semantics, and the removal of Wind Step and the old F / Shift+F T2 path.
 
 The dedicated T2 gameplay finalization accepted the existing Fire and Wind hit-threshold passive structures, including their broad AoE passives. This specific overlap is not pending redesign; their other mechanics and visual identities remain distinct under the Stage 2 contract.
