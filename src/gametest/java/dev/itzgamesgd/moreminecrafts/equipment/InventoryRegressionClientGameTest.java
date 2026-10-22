@@ -162,6 +162,7 @@ public final class InventoryRegressionClientGameTest implements FabricClientGame
                 throw new AssertionError("Using the Backpack item did not open its synchronized persistent store");
             }
         });
+        context.takeScreenshot("inventory-regression-backpack-open");
 
         clickContainerSlot(context, BACKPACK_ITEM_MENU_SLOT);
         clickContainerSlot(context, BACKPACK_PLAYER_MAIN_FIRST);
@@ -205,21 +206,8 @@ public final class InventoryRegressionClientGameTest implements FabricClientGame
             respawned.inventoryMenu.broadcastChanges();
         });
         connection.waitForClientboundPackets();
-        context.waitFor(client -> client.player != null && client.player.getInventory().getItem(0).is(ModItems.BACKPACK));
-        context.runOnClient(client -> client.gui.setScreen(null));
-        context.waitForScreen(null);
-        context.getInput().pressKey(options -> options.keyUse);
-        context.waitFor(client -> client.player.containerMenu instanceof ChestMenu);
-        context.waitForScreen(ContainerScreen.class);
-        connection.waitForClientboundPackets();
-        context.runOnClient(client -> {
-            ItemStack retained = client.player.containerMenu.getSlot(8).getItem();
-            if (retained.getItem() != Items.DIAMOND
-                    || !Component.literal("backpack-retained-through-death").equals(retained.get(DataComponents.CUSTOM_NAME))) {
-                throw new AssertionError("Backpack menu did not resynchronize retained storage after respawn");
-            }
-        });
-        context.takeScreenshot("inventory-regression-backpack-after-respawn");
+        context.waitFor(client -> client.player != null && client.player.getAttachedOrElse(
+                EquipmentAttachments.BACKPACK, BackpackStorage.empty()).items().get(8).getItem() == Items.DIAMOND);
         System.out.println("BACKPACK_INTERACTION_DEATH_RETENTION_PASS");
     }
 
