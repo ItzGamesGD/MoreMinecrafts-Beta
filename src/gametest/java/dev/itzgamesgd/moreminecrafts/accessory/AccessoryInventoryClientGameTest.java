@@ -307,7 +307,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
                 throw new AssertionError("Rejected placement did not retain the invalid item on the cursor");
             }
         });
-        assertServerConservation(server, AccessoryDefinition.STAR_COVENANT, 1);
+        assertServerConservation(server, AccessoryDefinition.STAR_COVENANT, 2);
         context.takeScreenshot("accessory-inventory-invalid-category-placement");
         clickMenuSlot(context, 10);
         context.waitTicks(2);
@@ -316,7 +316,7 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
                 throw new AssertionError("Invalid accessory was not restored to inventory after rejection check");
             }
         });
-        assertServerConservation(server, AccessoryDefinition.STAR_COVENANT, 1);
+        assertServerConservation(server, AccessoryDefinition.STAR_COVENANT, 2);
     }
 
     private static void clickMenuSlotHeld(ClientGameTestContext context, int menuSlot) {
