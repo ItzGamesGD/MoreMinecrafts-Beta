@@ -1,0 +1,3770 @@
+{
+  "main": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+  "cumulative_baseline": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+  "selector": "a9b89755f7c4e924243fa4229a90177433712be4",
+  "ui": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+  "audit": "84550ad4ef0a09248934641e26dab61c4f2cd13b",
+  "source_paths": [
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": ".github/workflows/client-visual-validation.yml",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f534cd7c02c1e1b5e6257c2053118f36dfc2a0a7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": ".github/workflows/k5-fixture-isolation.yml",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "248ed163f4df2b742a23e9519528b208a9ff8807"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": ".github/workflows/k5-mapped-sources-probe.yml",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9b382dcdc1ff26c47fed9138c05a748e227b1cc9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": ".github/workflows/k5-production-restart.yml",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "fe33b418e57e7e32ea041690a903e4f71ad8194a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": ".github/workflows/k5-stage23a-batch3-crafting-probe.yml",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1976e8416b067c2f31691bdf4ad7c6a0847477e8"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "build.gradle",
+      "classification": "build",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d5d4d34fa75f7a5baf33a3239943ff54295ed458"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/40_MOB_SPAWN_ECOLOGY_AUDIT_2026-10-08.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7ab4ad8b566cab2a5244bed59c50f6fd9fb908c4"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/ACCESSORY_RELIC_SYSTEM_DECISIONS_2026-10-16.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "dbce54a43f3930a67d9f272c9bee219a192009e5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/CONTENT_AUTHORITY_INDEX.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "afe727e77289068612dc77358422e6eb87977a26"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/CUSTOM_MOB_RESOURCE_BACKLOG.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "cd82163f9a9d634a985a0c3e315457d4ec33710f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/CUSTOM_MOB_TEXTURE_PRODUCTION_MANIFEST.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2ea1535b6f64e2bfdedbb23b03dfff536dc5132c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_COMBAT_ECOLOGY_CONVENIENCE_APPROVAL_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d7041d752cf233b36f259d7d66b0719d0ad2cc8d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a8e522002225807ab56945e493d3532bbd270c8d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "563cfa13bcadca3f97caeb3b662dd64e3d96b6c0"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0cfd187608a124f81946b43e8e22bed9d95c0b55"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE23A_BATCH1_MANIFEST_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2707450b85bafd8a4ba0a9cdeac5cd0952368f4a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bb0ec3fa226fc0f4746bc65a665227ab15727160"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE23A_BATCH3_MANIFEST_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "284c321f88bb9f3e614c30a68e66cc85ab568fa5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE23A_EXPANDED_BATCH2_MANIFEST_2026-10-17.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "94e7776d80866d64d80c50ad65be35ff906e96b3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE23A_EXPANDED_BATCH_MANIFEST_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a971cfff43f3e34b188e6548368e724bcd63be52"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d975bc8c01b3eb971e7343d158f612b1525d0e4f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/RESEARCH_STAGE23A_REMAINING_CAMPAIGN_MANIFEST_2026-10-17.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5d20c53af1eb158462936b3e01f46ecb8709915f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/STAGE22_RESEARCH_DESIGN_GAP_AUDIT_DRAFT.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "57fe5796c48dec0f0f4cfdcd81b5f971fc67c7f5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/STAGE22_RESEARCH_IMPLEMENTATION_HANDOFF_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a08a788226cb1709a1228f9f8f5e8758b2db646f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/STAGE23A_FURNACE_INFRASTRUCTURE_2026-10-15.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0f1cd81b5d5613fc39ba53fcad233eb01249674e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/STAGE23_PR92_PR93_RECONCILIATION_2026-10-19.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bac770547608f75eb65f982180a51e54aad71000"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/STAGE_2_GAMEPLAY_RECONCILIATION.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e7bdb653b51b809c228cde528303cfdec6eb6b5d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c3b4c3ba922c6c0485feda2c0cf4485d49580875"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/UTILITY_EQUIPMENT_FINALIZATION.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "aca7c5c199c4e047344222f91fb547178cce96da"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/VANILLA_MODEL_CUSTOM_MOB_ROSTER.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3b37ea8cc499061986567f56f6c5680ebdedb896"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/VANILLA_MODEL_CUSTOM_MOB_ROSTER_IMPLEMENTATION.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ff8329c750a99237345e1685230c2bcb6ae5b430"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/A_XP_QUEST_CATALOG.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7a490801087a28f91d1ce2116de210a819e656f2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/B_XP_ECONOMY_SCENARIOS.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8880f0ab5f8493a3a1d3d61a76c686b415fa413d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/C_EQUIPMENT_EXPANSION_PROPOSAL.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1f38235700503839ff0fc09d5f5dd267131e5456"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/D_UI_XP_COST_UNIT_DESIGN.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d0bf45e34fb4ba5fc1b60dc1901febb97b62f415"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/Q1B_INDEPENDENT_AUDIT.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0f4f697c7910be55d7ee45a45ad3232d30ac8b15"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/Q1C_PROGRESS.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ae7bdd25cb4d467fde5a68e7ea9238f035d89c27"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/Q1_PARALLEL_INTERFACE_CONTRACT.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "58a5f7b94fd506e49fa7ed312ea75a5e18668791"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/README.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ff0916536d48d7ce013605f2723a909161e64730"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/XP_QUEST_IMPLEMENTATION_HANDOFF.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9553550170c9388c1e0fad4992467723c835705d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/audit/AUTHORITY_CONFLICTS.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "409f787df55c24b37ce8a947cce1ac674862cdc7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/audit/CLASSIFICATION_RECONCILIATION.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3eec7d6ba9ff26606e725ba4e57436491bacbd54"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/audit/DEFECT_REGISTER.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "37897d369bc2951cc266a1c11b96d18b4de71981"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/audit/FINAL_AUDIT_REPORT.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9c3c8d52649dc9d527dd4cdb00871e6e4ae6f7cc"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/audit/IMPLEMENTATION_TEST_GATE.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d6dd06c8b4f9a27161d4f076fdaadad134ac0b1d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/audit/QUEST_200_AUDIT_MATRIX.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "23eee3694d9971f9a8902d4423dc5984ad446437"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "docs/design/xp-quest/audit/XP_ECONOMY_ADVERSARIAL_REVIEW.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "13f7c530580ca00d409baa943af7d058481f3f02"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "docs/superpowers/specs/2026-10-11-research-knowledge-node-tree-manifest.json",
+      "classification": "authority-or-historical-record",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "fcf19868b6bf1374c0a295e6a72614aef7b33a83"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "gradle/validate-flame-sword-production.gradle",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9dcf7db542376d38d4138a8d64afdaaae407bc12"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "scripts/visual_validation/capture_client.sh",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4a110b4d57a9f93696f1b1427626e70adcb29869"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/CustomMobRenderers.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f357f1d733b3991a54a513117826eee31b1c7d6c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/EnchantingProgressionScreen.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "12a0017860645ecbe843044d181866963ea0c687"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d73b57c4f6494e91ba548775383795f4999dee4d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/ProgressionBrowseScreen.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "feee258f46883e97fcb19eeb396d1fd6121498a1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/ProgressionSelectionScreen.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ae24d66f10cafca7d3b49d4679bc0549b35414f0"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/ProgressionTreeCanvas.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "35110e4364a3201ab4e6b406a292b87db82a7294"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/T1AnvilScreen.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "37223f1d26651a2b11bb23a2658fb5dde1668293"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/VisualValidationHarness.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b9b2e588116f796a3f3a993f0a55905dab1d1c5d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/enhancement/EnhancementTransactionGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "43aee80898aa2eadac6409db4af9f2e2013c0e15"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/fishing/FisheriesStudyGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5275a4f7a472237129daacf67116a662c8d33853"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/furnace/FurnaceResearchInfrastructureGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3fd063459af68cbae3d131645265d7edf2bad5f3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/furnace/PortableFurnaceResearchGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "6d2e8e2ac211dcd78921d53c14de5a4036206ea6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/furnace/PortableFurnaceRestartFixture.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "57f57c175e8ad907e27c003ffbbf876b95e2419c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/k5probe/K5NaturalTreeProbe.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9ab833919aa2acac5321f654f28c2863e79becd8"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/k5probe/K5NaturalTreeProbeGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c08aebcd5819c9a922d4798e5945626b675cb5a7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/mob/CustomMobGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7fea5747d3a2750c5231ab5308187d87d8f4c517"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ExactXpTransactionGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8d373cddd1d75e1e69a2c358b62ed62406dc0ed1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/KnowledgeAcquisitionGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1016d968e2979c8fb44e8b5640795fa4ac32ae6b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/KnowledgeRemainingCollectorsGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9066efffefffb7793c3a5abf5e291a5c27809700"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ProgressionPurchaseGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3c173c62133565c864d7c85434c5e5b1ecbf8395"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestC3ThresholdGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f0b06b96e22071566fecc1b62d2bd5d6f8d02461"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "307eb8c92f91db254062b95f89959fe7d19d1488"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatRestartGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4fc8db9783fce2986b302eb807f72836a284afed"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestDragonRematchGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2280fa9a0d520a206a57de4aaad897fe4b7f4654"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestLootRestartGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1a47bcda7bd96a032bc68f878081dfc493d82d94"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e634d754d3abfe71fcccf1222a97c1886a3db7a5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentRestartGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9d732daacc724f56f7c08492e1b09bb31c072622"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestOreFixture.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b71fbf5bb50134abef25b7ba79db78edfc8078d2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestOreRestartGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0e2ad674f856af0288dbbde62b21fdfb10868927"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestPersistentPlayers.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "74a7809e3052b7712c799cf2e55b42985a84ef6a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestRaidGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c84bd44e3a861189b04bed09365e90173f1523f9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestStructureEntryGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b54ade5f62b2a6f30d0e79bdb79891e4ea809011"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestStructureFixture.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "32aa36f1bc3032c70b7a5b6e5e5a0347dcaeb66e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestStructureLootGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "77f6e6efb2800e0c22c214a0acd193066b68484c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestStructureRestartGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bea15ab1cfd0452e14b367589b5ac9487c5ca77b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestVaultFixture.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1d078f4b83d1dcae3fce43dae49e4e0b42605a16"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestVaultRestartGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "71d8a5740c45ef2704d514b68dc2fd9979c3c650"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestVaultRewardGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1a7d3d9c706c9c7402d9609ad012f539aac82ba3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23ABatch2GameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "07979a08204eb50be3615f45bd15f4f8f3cf6538"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AExpandedGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1c7152f6251a35bbcfbf9eb411fd093734f0c541"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AMovementExhaustionGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3b917c6332cf8d20e39e397f6e5b4aa164c3dc05"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AReconciliationGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "643f7ef11b8bcddcd6e8447550ccf924ac07113b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AXpCollectionGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f8315df4b0a5fa27ac501ef277b95801b734fdcb"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "77d745fd404bfd3674216c38b4e0ae16f41340ef"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRemainingGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2e44c9bbde7813274e95eadfc22cf1fc0e5bb271"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/SoilStudyGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "eff176f01a439f78074d642d2ec6fc69c0a479cc"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/T1ProgressionGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9abb056c4219005eb43f6a59939ee4f12dc0ae41"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/VillagerTradingGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0836a097ec9871655631ca1d45df42a95dfbb11a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestEventTrackingGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f258decc852f7161d36a59f2c5e7a779bf69db09"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestTrackingGameTests.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d1db0f63dcf9c26d9646869263af09819ffc44b9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/gametest/resources/data/moreminecrafts/loot_table/chests/simple_dungeon.json",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "026a36190de01ed6c013721d99f35b1649624ceb"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/gametest/resources/fabric.mod.json",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "27edc2c686205188efd92ed7c8d0266c7a23e40d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "312facf9d92fa7b0411bb011095dcc9fe642bba1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/enhancement/EnhancementOperation.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "6beb5f005739741656963a1783f6aa581a668827"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/enhancement/EnhancementRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "beb0b1391b36bb70e82141381f0746a9c83e8e1a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/equipment/GreatswordItem.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ba91b2b06c6895164111bd69ea7f6820953b2b49"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/equipment/GreatswordSweepVfx.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f341d0590a2c643f9134c4d108167bfe8509ffcd"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/equipment/MobCaptureRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c068b46e75f2919a110cb4c6bd6b2212ed3ace48"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/equipment/PortableFurnaceContents.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e7ce3100b7d4fd0773ab407c3361989011faea2d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/equipment/PortableFurnaceItem.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4d959196a3367b078b7a59126e5eae77d700aee9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/equipment/PortableFurnaceMenu.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4dd46ebc2b017509ba9a7d5bc740318545d3da9a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/fishing/FishermanFishSale.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bc5510801b8e00081049bf03293dcd9ae762ac8c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/fishing/FishingChallenges.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "aeab9a6f1ec4490ead81c706c13ef393a14ab2c4"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/fishing/FishingLogic.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "28252183729acdf7cf96c01fa1cfa180d295c5b0"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/fishing/FishingTiming.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "810ffccd11979c8299c0fc6b081af261117b73d7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/furnace/FurnaceResearchAttribution.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d4db0c1919e4ffdd56a51e4cb0d9da9faa4b24a1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/furnace/FurnaceResearchRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a25dc46ea09c04c4c382d8e0f9c5eb414770ab2d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/furnace/FurnaceResearchRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4dd68decb1c82bd44ae37e0bea76a8cf7339abfe"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/furnace/FurnaceResearchState.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "09b5a5fe84360f027ff9db3cb6d22fbbdb8d14ea"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/furnace/FurnaceResearchStateAccess.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "85e2421c71ec63e6b0f3d039611e8b018871f1d1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/AnvilMenuMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "24f8142090d0244dfaaf0320e0f5a4b59ccb5ef7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/BlockMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f53b12d96af8a83ac9244aaf687dbbe641bdd24e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/FurnaceBlockInteractionMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d94503263fb45649ed9695bc1ed9eee27931359b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/FurnaceMenuInteractionMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "622a692fe2545fbb3148effcb176179a4b245838"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ItemStackMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "83297d96ed523744d8b0236b2d5deed9dcdfd1cc"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/K5WorldGenRegionBlockMutationMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "df54f3231c9cade1c4b510d40a11b712e91bee69"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/KnowledgeCraftingMenuMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "090305b429902727c92e20372aee1e42205a92d7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/KnowledgeFurnaceMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "63bf42ba8b40fcee4e15c7d1fa76b51f55a322be"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/KnowledgeItemUseMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c4f1f45bdf8ee4d84462d31e6ed9f4f083f495a2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/KnowledgeRecipeCraftCountMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "50c865ed07714868b2c4942dfdba7403d41d1360"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/LivingEntityMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c2d90e0a4f5fd00faa23d7d4241acec388f3e24e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestBlockLootGenerationMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c93f05fbe7b7eb9d1a06b0e9d253b31771e07aa9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestBlockPlacementMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3459b2cbe034aa0fb68e58741daae838ec98483a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestDragonFightMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d33fe49e630142c2b72f26e9116c709b8b83c36d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestEntityLootGenerationMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "224e9a19b6dee87aa55fca0a9358771b50818822"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestMovementStatMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2956cb1acf38b7d8814cec27cce5db44d7336f04"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestOreFeatureMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "05b5c7356a9e960216512d0d202742152997ae31"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestOreLevelSetBlockMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a8f44a15c63fff871a6926c26dab6b42cce8f89a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestRaidVictoryMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5f5aa4bdd88f7d707a9c452e41d09b877defeeeb"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestScatteredOreFeatureMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "22b2d520db72dc324bfa7954dd25369e086e3675"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestTameAnimalTriggerMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2d8ba985b57ed6974657c04ef89a8eec2ad4f610"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/QuestVaultRewardMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3f26e468631751b1f6ff2abddec06d60d5f335d6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchAxeAttackMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "de71e91cd7ff3243c8fe556a61ea1cbb69112109"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchBeehiveMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b38e595f5822660cdb606950d016fcf46862bca9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchConsecutiveSweepMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "989af2323f8c7251b5b1285160ca7bb47863b8f7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchCreeperMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2a2a4610c26719f1ab9aad53e0923eba09f121bf"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchCropGrowthMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e5a8b8674d749edbcabdd675c87adec99bf0d279"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchEffectDurationAccessor.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "df54d5457d20e3cbbba8b477b90857da45289b73"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchEndermanMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bc9b26053cb2f6cb7b3aed9151c08014339ff2a4"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchExperienceOrbMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b3ee10079ec4bf47491266f5d21586d93a7a212b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchFlightMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "82ab253ed6557c570d884d53b6f29c6fda25a9f3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchFurnaceResultSlotMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "97b5974a5326244f76aa7b580b736b2c96b6a7c0"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchHorseRidingMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c7f4d3ff4be2cf8fb9ad6bcef9957365e8540c1d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchLingeringPotionMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ab5c9019ab205a342fdb52c9416f39f77553acd4"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchLivestockMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d06c437140d61af462b5f1a8e6a69eda9b4d18d2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchMobXpMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e9054bfb6ca530343de9284b0c4dbd573deeac19"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchMovementExhaustionMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9503ed981745835b58de0b49e1fe132014d8447f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchPotionDurationMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7a372af87ccc63f64d2630d6de613e8f69df1707"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchSpiderLeapMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "45d984180806b10acdc1f438e748759420bf6bd7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchSplashPotionMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e9cf6cf299decc06d033275ed79f132c04484eb6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchStatusEffectMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4d5b1db00ed8925dffeb4e4460fb718388808cdf"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchThrownProjectileMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d440790a75652cbc810d124b41265c16f90e3357"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchVillagerDiscountMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d2a68bafcc8461b4a6c5788a800a552c56ac3ae2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ResearchXpAcquisitionMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bd92f6ec0fa8fba2245a3ec63837c03c6b69cf06"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ServerPlayerGameModeMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9341f1868c9682b22b7bb92b87b155c27affbd7b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/SoilStudyFarmlandMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "39b818ef6ffb379fdbe3cd87ecdac04140878392"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/SoilStudyFarmlandMutationMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "6a92aa79662938e077e20111ed9342e76e5bb0e8"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/SoilStudyStemGrowthMixin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7d24864ffb98e88ae7fb5d8d053e1e639fe46edd"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/WolfMixinAccessors.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0131c776f19555c553dc745acfe4687928770280"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mob/CustomMobCatalog.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ed71e62c4278d0c16807502159cef3679ffcaf5e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mob/FeralWolf.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "385b1fdaf12a14bbfd8ebff76e2b28d4a7ee2035"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mob/GiantBeeEntity.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f2535702da77b1e47b289520ef2fb2ccd4c9cd83"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mob/SmallCaveSpider.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "833f328187d64a69a4696dd3d8e0996bb8702e83"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mob/SwampCaveSpider.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1fa63bb95bdc5ff157b2fd039f17ed17e9729831"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/mob/WildPiglin.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a4685da86532e764ac1b4b7d06469ea10f1c431e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/network/FishingChallengePayload.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5f21a795e267e740a6ccec3d1130aa73c8e87530"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/FarmlandCultivatorData.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bdd900a4f0b5783db205f0980faada0d6fb59a11"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/FarmlandCultivators.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bc224dce08228d611feb3df949edd0a6b4769cd1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/KnowledgeEventCollectors.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ad5ecfd0bee68be3073827db0ea2daef7ec53da6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/KnowledgeRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1e7ef2afb20d3149508d3a048b246c373d27065e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/MonumentRewardData.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "fa8dd54d19be0ba99b1756bbf30233832e666d5c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/PrecisionCraftingRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c1802615f1954063ce238d814ad87aedf5724333"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/PrecisionCraftingRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c3d183184556055c47b12e965e874727d1e2e136"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ProgressionNodeLayoutCatalog.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "6045c7c8c1aa64904b569e9fcb2adf649f470082"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ProgressionScreenData.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d6caa4b5068bdd3f8325ba278b0df87551e8b652"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatKills.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3e54035b9a3a5045d63cf10e878349e95875efe1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestDragonRematch.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5206e1603aa18719463f508773ab5ec2fbf09ec7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestDragonRematchData.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "af5aab618903bd0518d1ab1cbf99ac3fecd8a59d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentParticipation.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "505beab720726b94a4207273545117eaddc2376a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestOreProvenance.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c6eb90af3ebedfbe8554ccf21f10b01243e5a256"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestProgressService.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "905956c7a9163f1f2351e44563bbfab9b81f774f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestRaidVictory.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4cf1dc1144fe6e49ad1eb81ad4cb2916ae6bc367"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "cc06e45122473541749efa26b6b48f66a58af226"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestStructureEntry.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "cb082a3ba9de467ff741cc571de5f5cfbc644c45"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestStructureLoot.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "33382304e4cff03173d5b6559c0d088c0e9209a3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestVaultRewards.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "20234bedf70b903f746405991f7981e30192a038"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/RawXp.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "285444996751fc8793999a868fbc3f8e3359020f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/Research23AEffectRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b2ab5465d9bae75184278befa360bf7d716f2f29"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchAxeCombatRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1125d9467bebe77dc9862f03a1779b47c0d029f7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchAxeCombatRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "097054d1fa3897bfb837614c8bfd549ff5562306"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchBatch2Rules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0839c1d34b37bec67518c6c34098590fca25e406"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchBatch2Runtime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8f4e112075d4104c46ac86c30a75f34ca62c5a8f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchBeehiveHarvestGuard.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "317f604eeb721662fffea32f1500939cf5103c93"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchCatalog.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c782131a31f8b75a26b6829e3f84e17861667967"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchConsecutiveSweep.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "08a88654ee079e01eabac5e19ac14bee63e1835f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8228980078c3257043b795fa67e702a5b5959819"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4cc30f813244e43566bc2d36943822937dbafa61"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchCraftingRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e10ada253f4b292c72116f3b1e98f6236aa2e3f8"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchDebugCommands.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "16b22bac9bc46ad601ac2c77c8ab7e0950b74d9c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchEcologyDamage.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "35af9fbb49454fa547080cf8380a2834cebe57de"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchLivestockRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b307a3b9129c3b94f27d36d61ad9dea91c8e25ff"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchLivestockRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "534551c6116e4384dcf98e5d869b002623b4f18c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchMiningContext.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "00ee9ae0ef846698fe9b41dcb35ec615c9ca343e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchMovementRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ee99de37c82dc06efc9e51491655dae3b284c71f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchMovementRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "530fa7f0549992f2f12ce6d6f3c9d6c06f1ff730"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchPassiveMath.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1e073544b3ceb6e2fc19f9a9a3f0dffbae807780"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchProgressLookup.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "faaf67efff0f47f294a8ffe5eccafcdff8987b3d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchPurchaseService.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "957f4d84cc57a5fe7ab09860369e3b65a0d3b53d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRemainingRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3fa4bdf94cd54a3eb474ddba680c3decb2be700f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRewards.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "fe476b1baaa6b00b48a94369656363d5f6d38644"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRidingRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e41d5afab13d899508629b83be3958c0accf48e9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRootMigration.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3fcf5c49debd405f5a58aed950e9f2f06cced135"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchVillagerDiscount.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "156fc057cc3c987ce1d6950c05f576d6ec4dbee8"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchXpAcquisition.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "58d0a49760f8a601d1c5a7b8db06a8252588f8d6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchXpAcquisitionRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1ea439f3ed05b38d6454839ffec08d313ec08ccd"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ResearchXpOrbContext.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1dda35a6539d14fe4065369457d754eca1cb010c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/SoilStudyRules.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7c4bf9531d73b9b0514075f10759b60ead3511b0"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/SoilStudyRuntime.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2a5716cc9004c1535b1638758f75d3b3259bda93"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/T2CoreAcquisition.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b0cb0c8368fa2cf5367dfc884280400123bd342f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/ViewportScale.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "6aeb1490828c5991ead04b26b953a701865b7f8f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "D",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/XpLevels.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": null
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/XpMath.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8fbf8904d9b7ac74b067e74c553bf079624768f3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestCatalogData.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "6de75ed86a0fd4f0b0443cc7daa3d8ea20f4db99"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestEvaluator.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ba046b386676518d0566915365ea6ab605aae3b7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestHooks.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a5770481956016fa084b49f4a1bc11272b185c28"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestResearchValue.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "944b18c155f3c730b2b2b23c63ccee66f30f58b4"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestTracking.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a7c9a1dacd2eaa55dea96996380bdefc81648d02"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModDataComponents.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8afe48fba16a58aadee21c1c654c5bc68f5e6124"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "747fa7c18ad6ecec9ecfeb1454f2f5cc54f5b4e5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/resources/assets/moreminecrafts/lang/en_us.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "adcf1ff16fb67ceb7e802a9e9c4f531422407622"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/resources/assets/moreminecrafts/lang/ko_kr.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2a71232eb9adc71603834e2d9ebeac1a18b4ebc7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/resources/assets/moreminecrafts/models/item/flame_sword.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5feee842c535802aa1eb568b14eeae57e724d8db"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/resources/assets/moreminecrafts/progression/node_layout.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c1ab0bff8e1955ec2f62ca98fb7b69d362de0ad4"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/armored_skeleton.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "14a26d932135c0a857954cafe01a98b19b4ab171"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/ashen_skeleton.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "617a1deaae1cf88210bec02105f5e33695d03c65"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/bandit.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8d2df97699c6e2f4f092d48bc7c18247a5ed67dd"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/bandit_archer.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d55cabf0fab5d1161bf2e1bc0bf65d9e1e6f840f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/bandit_warrior.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "6d69fee1dc130059e1e21976e10a88e7a821a4a2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/cave_bat.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "30d6c2bed08e2b4bfee2eb2d88b7febd644b1a44"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/cave_bug.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e7de535f8c3aa6b061006adcb059f06aed29b963"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/cave_creeper.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "aeff83706da9606485d26fa5f445215201fe2304"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/cave_creeper_armor.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7672f56855fe870cea285412c12fe156373f61a0"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/cave_skeleton.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5761598f2619fb4719ff7e9710a4c1759c42ad95"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/cave_zombie.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4eee75f23177d71d0d0203e509300ce2119cdbca"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/cave_zombie_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "638f4da08570ddf1095693055a039c7bd4b1a01b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/deep_sea_drowned.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ba9679458fff0870c3940ed54a938be43e8c7652"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/deep_sea_drowned_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0302c9d9a2871801635ae9476ec96cbdf02ccae9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/deep_sea_drowned_outer_layer.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8cda54143d659e9d0d021371a62413825a09819e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/deep_sea_drowned_outer_layer_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8f662423fa0aa976da122a742f7b76f9e8febdcd"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/desert_bug.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ca8a3b93bbbb815689aadf51de8fac8966673622"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/desert_spider.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "73c0953522533461fe08e6040ec79401409e1e76"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/desert_spider_eyes.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0ff6ebcc6c492f2bc9ccece5e97dfe9ddd40ef38"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/drowned_sailor.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f813c544874f49ac023d21e2f2add4e894c43c8f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/drowned_sailor_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1a7801fb6adaabb3b4d80de0075e1625c9e71b3a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/drowned_sailor_outer_layer.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "828f2f191284061ea2bc8e97bd4f53e7e20d2899"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/drowned_sailor_outer_layer_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "174b5ede47ddbe658e3e69807e14ab8691031c51"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/end_bug.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "55061aadb99a514794b54f2f82d88549ebc54a65"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/feral_wolf.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "969c852287c053212eda8bb27ce3ca3629d2a619"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/feral_wolf_angry.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f51445aaf5b03c1ef47e9a1d703b1a8409504ac6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/feral_wolf_angry_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7ee21a58dbc99a30dc2101a0994e727aa13ee77d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/feral_wolf_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0f9cb901d01255bd660f5586bc6bbe99f37cb25c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/feral_wolf_tame.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f46ea2aa9cd844d1fd1af2fcfdc1ef47257bdbb3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/feral_wolf_tame_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "57be4566f0740b35e0153ec02ed92ee40781d6e4"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/forest_spider.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d33d7175c64f2f4ed1e55d4796df1c87b5493e97"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/forest_spider_eyes.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5e2e662440ab2361e9e17be7d3978e3d97deda0a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/frozen_zombie.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "71b06c1c965106dfd9e8e5ebf04534d6d53e20b3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/frozen_zombie_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c8ada4211540f5ef3d1a5edc7bb6a1802aebf136"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/fungal_zombie.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "dba83b8f694a7cc3f1e9628c18f1a6d9d02be766"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/fungal_zombie_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "431b94517b0afc0e6be90b4fb5db643e38b5220d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/giant_bee.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e753718718923223e0a81fae200cc387af936ca3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/giant_bee_angry.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c53ef680e5c33eb005b9a8a3c193c2c6c2e9f24b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/giant_bee_angry_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2bea1039da8717ef0d1cc891466c16b853376f2f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/giant_bee_angry_nectar.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a30f83a94329bc19747192aa599ebcedc866f920"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/giant_bee_angry_nectar_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "fbc713aae5c67fdbcbd33d9dce5edf96f7b3f143"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/giant_bee_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e9ebe6507e2a4a0679296d23b8580be840260d64"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/giant_bee_nectar.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b0979c3d5391e6a5ef5335da7a3d0d330ba6d121"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/giant_bee_nectar_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3bc3c774f8ef2253f70357c1cccfd36cc2197de5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/ice_spider.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3630a82fdb03c8a29538b6b8b62deaa31ffd27f0"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/ice_spider_eyes.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c230f9a836544f85ce96cbac1e2860dcac10f00c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/large_spider.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d9aa422b20faf7e267b9f532a8219d230ecb2b5c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/large_spider_eyes.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e760677c68f03254d6dda205a55f8081ac395d68"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/large_zombie.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0c4fa4257c755b43d1bc4447e7f3d5039840f3d2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/large_zombie_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4fdc8606bb11c3d876f2f58146285d90de155120"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/lesser_magma_cube.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bf58f4d8d021f68320b0b45b6854b0f52f764d44"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/lesser_phantom.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "15d715aa4fc7fff1378f076c1d62b75d90aeb59e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/lesser_phantom_eyes.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "29e245f2144bdf803f10483dfa38b417bab526a5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/lesser_wither_skeleton.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "231bcf743a55add6fe5192cadab9b0e4eda468c7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/miner_skeleton.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "62de8b2688d6bf843c8ab68433dd1d52d788bd30"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/miner_zombie.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4654faf7319e11bbbbae7e61e8490d71300384fe"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/miner_zombie_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f3ff74ea061d17c463264118731b9d9ead388f96"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/mossy_zombie.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "263ac3e025b965fa1a548e88df930a72afdcc6f5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/mossy_zombie_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ef8400497488892a795aee965d799a9bafc35644"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/mountain_skeleton.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a5656c45cf5a163157c55feb6314d4cfa4471f17"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/mountain_skeleton_overlay.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "ba682e295a5ec1bc9005603c0a6d54686f371ab6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/mud_slime.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "46309222fccd4bbc07ef6a9d5e96b0c55818e7c8"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/river_drowned.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a6ff32cbb9b3ae4a1897456e73a5dad39d6a9582"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/river_drowned_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4259d216a25301390438855858e6fdcdaa43399c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/river_drowned_outer_layer.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "31137f3b01f23ac2036e587919e413006abfa6b8"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/river_drowned_outer_layer_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4364ca2a7a244c7be2ad42d892cf149970ffb26a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/rotten_skeleton.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f100fff976065b7ffb144471eafb5ed2bf3ce92e"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/sand_slime.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0703b258acc2c4309cc318d4ab8217e454790877"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/small_spider.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9b89b382c48492d9266b88dd6ff8c6ed1dc43060"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/small_spider_eyes.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1c40df0a975c2b16474ec3108d475a5b87c8e7d9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/swamp_spider.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "30f8b3f178ae32882f877985b8318b70c17aead5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/swamp_spider_eyes.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "273d5aa80ce2e36568b6e6df5c63d421d5460eca"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/swamp_zombie.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "edc6e6cba639b98fad26ffaf7adcaa876e6ffb35"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/swamp_zombie_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5312a71a4fe9e12cad99d30be603b16dc0c4c71f"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/wandering_raider.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "39a85337259a04684803d5388f81d259821a4018"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/wild_piglin.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9c62479f449bf433afbb196f9787458c45193e59"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/wild_piglin_baby.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a7c6171ae0f3fabb81bbe11f8b17b60bc57938f5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/entity/mobs/wild_slime.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9f47601d32fef109fc2605898af8d7a1bc277769"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/resources/data/moreminecrafts/research/research_v3.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "802a60d20cf4e5fd65af5ceae5042572f2261024"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/block/quest_tracked_ores.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "883debc0ac36ce231d09de746ebb331eb58ac135"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/block/research_ores.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "883debc0ac36ce231d09de746ebb331eb58ac135"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/entity_type/research/ecology/aquatic_hostiles.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "32d30744dbd8228a898d629d11b5af08db57a0c7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/entity_type/research/ecology/bosses.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "81fcd54c4e7476fd2a6f19bc8db312f17d191ccf"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/entity_type/research/ecology/hoglins.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9f8214527789d050bbece7de75a107295e5a8ade"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/daggers.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9fc135d18a618669c9450f467b6f0b18bfdda1ef"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/greatswords.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9548aa0a9e0d55d225220ac3c1106cd49c726724"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research/mineral_smelting_inputs.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "7fff361a37a7b063d831e180d270b70cd756a7b1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research/mineral_smelting_outputs.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "75ec0ee2a5fa4d05f85cba15768be5fadb0dd076"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research/precision_crafting/compressed_tokens.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5d341ba2424e4c885fa3d361e071d5e6e3d4a9d7"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research/precision_crafting/ordinary.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1d79c2222a2b24061880805338e5afdfbc96a345"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research/precision_crafting/precious.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b3258d3bb505706cacfba17da7cebc478387c10b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research/precision_crafting/processed.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2a6d95828924132cdd0665ec5d18f3b10a7476de"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research/precision_crafting/rare.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5c84264530f8be15dc1473fbecd25d45e7815a1b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research/precision_crafting/unique.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "d29efd4280e29b13ecfae2b2a746f018a9683d83"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/tags/item/research_seeds.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b4c967532b99b09563ab68fdbd13f9553930f2e6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/main/resources/data/moreminecrafts/xp_quest/catalog.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "95ddc0bf15d381e6694dd49ec774f4d04650e48c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/main/resources/moreminecrafts.mixins.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "41e064c2db7053c0849e1c93047b02f4d65d11e1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/enhancement/EnhancementOperationTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c4530880f9e8ce4d20d0fdc870260cf9e2185f29"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/enhancement/EnhancementRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "e8e71f55e58e5a23e1744b8358bcc40ac2070d22"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/equipment/FlameSwordModelTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5789e6e24d1a0c477a99cbbe3c5f043edafa69a2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/equipment/GreatswordSweepVfxTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "57158779a70c21d25b8d2022f0da26e5d6a57c31"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/fishing/FishingTimingTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "07259922b0fbe6c2c52fd16fa3e2e861cc8dfdfe"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/furnace/FurnaceResearchRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "bc1138304b440cfef0df2106a3ae37a05799c717"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/furnace/FurnaceResearchStateTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "c91cbd7eea753bc5d98975bf42373a039ceb9a15"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/mob/CustomMobRosterDefinitionTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "08ed154d5c43d74b4a56939235c3cce71fb382d0"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/MonumentRewardDataTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4323d96519558d272e8baa355e80c552f9d665e5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/PrecisionCraftingRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "5e9e3571ae92685cf856cf5b08ee7cb8bee280cc"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ProgressionCoreTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "db12ecae4d0b4c283309c8e972f1b5ec01df53dc"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ProgressionNodeLayoutCatalogTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f9a8da2c4124b61211b31f1bdc3ba5903ef27da1"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ProgressionScreenDataTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "8b2638ad218037c13752d5fc67e999021eb0cd64"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestDragonRematchDataTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "76e13b99f005015186f0b8a9c223116276ff817b"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestOreProvenanceTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "a9b570eb0711ab823b32ab293f2d58eec31d6392"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/Research23AEffectRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "93bae4a8755e75cb5f0690d367812a19f5408da2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchAxeCombatRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "0733fd6362af649f890b6224074bb108452ce0c6"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchBatch2RulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "372f5670e91440bab9f2c7f45deb6e1027b1cb45"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchBeehiveHarvestGuardTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "6ccb1c44c77136050c2cb74be3915f4d9e5f1fad"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "358ef02452f81e800623328d36fa62b32093f7f4"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchEcologyDamageTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "480bd36c64e8157f5037a253a8f548e5f0ad7c5a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchLivestockRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "fbae4aa32d51719d7680a1e04a411a0b7701548a"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchMovementRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "2cf9ae633be4ee2684c27372fc75bdaa00e2aca9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchPassiveMathTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "db71255f19d32a1ab17bd94a081dbe7bfe41d124"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchPurchasePrerequisiteTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "9ef26adfc86b15b201d591165749ff9e381787fe"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRemainingRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "f6130983556935e54ad087a8dbd189098305f2d3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRootEffectsTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "184de1ed18589366adb74e431b6c8ca3fa24d137"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRootMigrationTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "37f316c914cd993628f5426a39fcea7d7fbcbd3d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchV3CatalogTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "049141e3aae35df49b092e895710c9119513a7e9"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "M",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchV3LedgerTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "4542e0a58d177c5cfee8c85394a0b7ce122a3ba5"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchVillagerDiscountTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "245aa41685af296c776b86110f70bab39078faf2"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ResearchXpAcquisitionRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "db7a1fddc5a4eba9982b6c64d9a291364087645c"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/SoilStudyRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "be7fdc267c77b02e0e98c4e75f625444f8caf7b3"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/ViewportScaleTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "10ee016e246af4d35b4f737cd70d10d32c54371d"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/XpMathTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "1a0e598438381f94614f717526681b5761aafd56"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestCatalogDataTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "b99e9fcb3ba219ab99de9af10765f63556f91f32"
+    },
+    {
+      "stage": "cumulative-core",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/XpQuestRulesTest.java",
+      "classification": "validation",
+      "source_commit": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "source_blob": "3b7c6e591cc5d40ac36c2784eb30bb701859c06b"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "M",
+      "path": ".github/workflows/client-visual-validation.yml",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "be8c39ec020af9f4aa647b94444faae967b772b3"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/CHAPTER_DESIGN.md",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "028971a7805595f6b372836bc7f757a634a347ca"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/edge_ledger.json",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "69d77c4de9977ece4657c370e47547ebb5294d53"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/localization_coverage.json",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "f9f0b06015fd305111da45468535b3e3f03bcc42"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/previews/01-overview-all-chapters.png",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "bc2368a2f267955c5a1aa93606592a021d25dfac"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/previews/02-dense-exploration.png",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "cee46aef22a77a860b96855829deb178a1abdc1f"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/previews/03-sparse-ecology.png",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "aed45ec6e68bcdf5eb64c2065d958c260b6eb34a"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/previews/04-cross-chapter-links.png",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "d321805d2f66ff93e4a22c5f495ba8a1496223f6"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/previews/05-zoomed-node.png",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "800fa03c6b1e37f737aed5c61e98ee819ebfcab2"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/quest_icons.json",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "c7acb337a000cdc56d64f56c3bb30f187741205c"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "docs/design/xp-quest/structure/quest_structure_mapping.json",
+      "classification": "authority-or-historical-record",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "bc53b3013fe8f7bdbe6809ff6459a9894f55dc7b"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "M",
+      "path": "scripts/visual_validation/capture_client.sh",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "e14c7278ae002528502d7e57c42517a04c2fab01"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "scripts/xp_quest/generate_quest_icons.py",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "4c92d331c1e842c23aa077ba7896cc94cc06651e"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "scripts/xp_quest/generate_structure_proposal.py",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "f22109e673f89072d9612dd41155893795adede7"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "scripts/xp_quest/render_structure_previews.py",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "dd5ae27194f6befb2c5662986bea9a51926abc7d"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/ProgressionBrowseScreen.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "483b6bab45e2303419463ac336e3f07b4cb1f877"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/ProgressionSelectionScreen.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "761f87efc2685c37fda0dba10213dd660b44984b"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/ProgressionTreeCanvas.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "fb0f5ec64b0564178ff9cd8cf34cd63b3a1527d1"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/QuestStructurePreview.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "2c903ad44dd21fb906596e0282169b155b8d8d7f"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "M",
+      "path": "src/client/java/dev/itzgamesgd/moreminecrafts/client/VisualValidationHarness.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "4d369fd7b7a9092a3f07b4f7d145e94328667095"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestLevelOfDetail.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "4f7c55468972b0e385b3eeccb4cb2a8eac525120"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestTooltipPlacement.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "35d969a8c76d68dbca22d023b9eb4a68552e9692"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestTreeLayout.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "41708be19fba87f28ebd8a18268d4929b4e2deb8"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/main/java/dev/itzgamesgd/moreminecrafts/progression/QuestTreeStructure.java",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "d61d4456fee432e4c8850da57408a10d39bcb4ff"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "M",
+      "path": "src/main/resources/assets/moreminecrafts/lang/en_us.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "4c8823df29846c7487cef090b2bb84067a2764fa"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "M",
+      "path": "src/main/resources/assets/moreminecrafts/lang/ko_kr.json",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "730be5a224d466cf7b42ce47955ee9e359a5aee5"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/main/resources/assets/moreminecrafts/textures/gui/selector/xp_quest_card.png",
+      "classification": "runtime-or-resource",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "49a0ec54689278fd6b200dd690cda3b537f2ae29"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestDefectRegressionGuardTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "668b5419916d7a36ae79f2d94f87f7cea703b9f9"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestLargeLayoutTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "eb73fb2ff4308eec679b95bf4f771c8cd86f6209"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestLevelOfDetailTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "d921923ca59af5bb8161d452cbfec95f7a86525c"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestLocalizationTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "bafec68d591ec51f166b76b68d0a6c70b237c86b"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestPreviewIsolationTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "52166f9e88683068bd245293a19f1746b666efc4"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestStructureProposalTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "b8bc6d1a9da3021e6edb3e6ed8518903c9f6ecc3"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestTooltipPlacementTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "99d5063d4acc68f2b78da1f36f404bf64b27171c"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestTreeLayoutTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "d6ade317b29482b10196ac4e4f490ad1182bc1a1"
+    },
+    {
+      "stage": "recovered-ui",
+      "status": "A",
+      "path": "src/test/java/dev/itzgamesgd/moreminecrafts/progression/QuestTreeStressTest.java",
+      "classification": "validation",
+      "source_commit": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "source_blob": "aaaa00a2d036d3dc5f16a6d542025645359ede59"
+    }
+  ],
+  "verified_audit_refs": [
+    {
+      "pr": 72,
+      "head": "0cc0a9eaf58290bbde2a4b45f68df101f8f7c6d2",
+      "declared_base": "20121ca7cceae03602038de31076bd9ace115208",
+      "merge_base": "20121ca7cceae03602038de31076bd9ace115208",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 83,
+      "head": "e7dc53f9f48dfece8a5723debd5526dc061107d1",
+      "declared_base": "20121ca7cceae03602038de31076bd9ace115208",
+      "merge_base": "20121ca7cceae03602038de31076bd9ace115208",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 88,
+      "head": "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 89,
+      "head": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
+      "declared_base": "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
+      "merge_base": "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 90,
+      "head": "1edbdb6bc6bbd82c22f5e0865c6dd0d8c70a2469",
+      "declared_base": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
+      "merge_base": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 91,
+      "head": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+      "declared_base": "1edbdb6bc6bbd82c22f5e0865c6dd0d8c70a2469",
+      "merge_base": "1edbdb6bc6bbd82c22f5e0865c6dd0d8c70a2469",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 92,
+      "head": "f632f4f521c782c9614a3bbb71f1ab5579a3358d",
+      "declared_base": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
+      "merge_base": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 93,
+      "head": "803d2e5df5fe2f990ff2f2e5ef3e01c6dcf37955",
+      "declared_base": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+      "merge_base": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 94,
+      "head": "5e48deacbeed95783902f2b71e04e2ae25005606",
+      "declared_base": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+      "merge_base": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 95,
+      "head": "c3683de7338a40143ee45dbcc76918c9cb363390",
+      "declared_base": "5e48deacbeed95783902f2b71e04e2ae25005606",
+      "merge_base": "5e48deacbeed95783902f2b71e04e2ae25005606",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 96,
+      "head": "f28658e5e03ae2e78a44af8e921d06b6f2cdbb47",
+      "declared_base": "c3683de7338a40143ee45dbcc76918c9cb363390",
+      "merge_base": "c3683de7338a40143ee45dbcc76918c9cb363390",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 97,
+      "head": "df960d6511fbf9bbe0a649d8f68de6c12362d458",
+      "declared_base": "5e48deacbeed95783902f2b71e04e2ae25005606",
+      "merge_base": "5e48deacbeed95783902f2b71e04e2ae25005606",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 98,
+      "head": "7231c7aad598e9cada152537dfece7cfad2756dc",
+      "declared_base": "f28658e5e03ae2e78a44af8e921d06b6f2cdbb47",
+      "merge_base": "f28658e5e03ae2e78a44af8e921d06b6f2cdbb47",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 99,
+      "head": "eb80a148065c29394f7a46650c05ab72dda9140d",
+      "declared_base": "5e48deacbeed95783902f2b71e04e2ae25005606",
+      "merge_base": "5e48deacbeed95783902f2b71e04e2ae25005606",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 100,
+      "head": "7231c7aad598e9cada152537dfece7cfad2756dc",
+      "declared_base": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+      "merge_base": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 102,
+      "head": "601cc28b9d078b01f1d01451fd07f278839eb4b0",
+      "declared_base": "7231c7aad598e9cada152537dfece7cfad2756dc",
+      "merge_base": "7231c7aad598e9cada152537dfece7cfad2756dc",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 103,
+      "head": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+      "declared_base": "7231c7aad598e9cada152537dfece7cfad2756dc",
+      "merge_base": "7231c7aad598e9cada152537dfece7cfad2756dc",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 105,
+      "head": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+      "declared_base": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+      "merge_base": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 106,
+      "head": "9b66f49657c084c29873990c0ff8b92d6a0ab620",
+      "declared_base": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+      "merge_base": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 107,
+      "head": "dad054c7cb5e5d672a0ef96bfdeffc482e1c48f6",
+      "declared_base": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+      "merge_base": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 108,
+      "head": "2c8e984314bb079378cffc95c4f48982a962173b",
+      "declared_base": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+      "merge_base": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 109,
+      "head": "9376777264136b37e10071adf8ed59c08da9b6ee",
+      "declared_base": "2c8e984314bb079378cffc95c4f48982a962173b",
+      "merge_base": "2c8e984314bb079378cffc95c4f48982a962173b",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 110,
+      "head": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+      "declared_base": "9376777264136b37e10071adf8ed59c08da9b6ee",
+      "merge_base": "9376777264136b37e10071adf8ed59c08da9b6ee",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 112,
+      "head": "63107098fcde6742704a07394439e5cdf9c6ad49",
+      "declared_base": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+      "merge_base": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 113,
+      "head": "32cbca0a3fe57db86262bca7a865573071763640",
+      "declared_base": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+      "merge_base": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 114,
+      "head": "78d1495402de6f3d7328fcd3117a4996137a05e2",
+      "declared_base": "7e21fc0c66c51c731aba58fd9b08b79bf5175cec",
+      "merge_base": "7e21fc0c66c51c731aba58fd9b08b79bf5175cec",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 115,
+      "head": "f30d263c93b89b1bab844893bdb82084bfe209bd",
+      "declared_base": "7e21fc0c66c51c731aba58fd9b08b79bf5175cec",
+      "merge_base": "7e21fc0c66c51c731aba58fd9b08b79bf5175cec",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 116,
+      "head": "8f33e72c8a71d29e132050457535ac8a0092a7b0",
+      "declared_base": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+      "merge_base": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 117,
+      "head": "991b20c8a052ecf5d73c5130d2d9e0eb4338c041",
+      "declared_base": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+      "merge_base": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 118,
+      "head": "c40ee6b1656800f016644893f5bac7a9c90827b2",
+      "declared_base": "63107098fcde6742704a07394439e5cdf9c6ad49",
+      "merge_base": "63107098fcde6742704a07394439e5cdf9c6ad49",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 119,
+      "head": "c7fe7fabc5a3bc486e2be0aed8f793628f42ec72",
+      "declared_base": "c40ee6b1656800f016644893f5bac7a9c90827b2",
+      "merge_base": "c40ee6b1656800f016644893f5bac7a9c90827b2",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 120,
+      "head": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
+      "declared_base": "c7fe7fabc5a3bc486e2be0aed8f793628f42ec72",
+      "merge_base": "c7fe7fabc5a3bc486e2be0aed8f793628f42ec72",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 121,
+      "head": "17e980912d636b0572a3f25b24995ffde31c754c",
+      "declared_base": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
+      "merge_base": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 122,
+      "head": "ad778059718b0a1b911264b72818bbaca8026fcd",
+      "declared_base": "32cbca0a3fe57db86262bca7a865573071763640",
+      "merge_base": "32cbca0a3fe57db86262bca7a865573071763640",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 123,
+      "head": "4fbb036e0158098f4b9d6733c68ddd73b87db826",
+      "declared_base": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
+      "merge_base": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 124,
+      "head": "5ea5f54614943c8fd00f047b7f8379f385d6e5e8",
+      "declared_base": "17e980912d636b0572a3f25b24995ffde31c754c",
+      "merge_base": "17e980912d636b0572a3f25b24995ffde31c754c",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 125,
+      "head": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "declared_base": "5ea5f54614943c8fd00f047b7f8379f385d6e5e8",
+      "merge_base": "5ea5f54614943c8fd00f047b7f8379f385d6e5e8",
+      "ancestor_of_core": true
+    },
+    {
+      "pr": 126,
+      "head": "a9b89755f7c4e924243fa4229a90177433712be4",
+      "declared_base": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "merge_base": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 127,
+      "head": "334997d2f81d6b324b0cccd3f40b538c921edadc",
+      "declared_base": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "merge_base": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 128,
+      "head": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
+      "declared_base": "334997d2f81d6b324b0cccd3f40b538c921edadc",
+      "merge_base": "334997d2f81d6b324b0cccd3f40b538c921edadc",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 129,
+      "head": "2176935929c990a210fae64582d524d30993bc8a",
+      "declared_base": "a9b89755f7c4e924243fa4229a90177433712be4",
+      "merge_base": "a9b89755f7c4e924243fa4229a90177433712be4",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 130,
+      "head": "9c9f22577370cd0160dd2b43b0e92caa7832f420",
+      "declared_base": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
+      "merge_base": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 131,
+      "head": "befa4c8a44c8e3556be2dca9af502d36b0cf11ad",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 132,
+      "head": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
+      "declared_base": "befa4c8a44c8e3556be2dca9af502d36b0cf11ad",
+      "merge_base": "befa4c8a44c8e3556be2dca9af502d36b0cf11ad",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 133,
+      "head": "09b33f39f6c0d75f6d1ef837edcdc6d8d8753776",
+      "declared_base": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
+      "merge_base": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 134,
+      "head": "e0428763cfd1f720a4da20e1bcc4d561fd153261",
+      "declared_base": "09b33f39f6c0d75f6d1ef837edcdc6d8d8753776",
+      "merge_base": "09b33f39f6c0d75f6d1ef837edcdc6d8d8753776",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 135,
+      "head": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+      "declared_base": "2176935929c990a210fae64582d524d30993bc8a",
+      "merge_base": "2176935929c990a210fae64582d524d30993bc8a",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 136,
+      "head": "d641075f2078697e432f123d61178a73d26fbdf8",
+      "declared_base": "e0428763cfd1f720a4da20e1bcc4d561fd153261",
+      "merge_base": "e0428763cfd1f720a4da20e1bcc4d561fd153261",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 137,
+      "head": "f2cc4f06db44f4125b3987c4b92d2ba8711df06b",
+      "declared_base": "d641075f2078697e432f123d61178a73d26fbdf8",
+      "merge_base": "d641075f2078697e432f123d61178a73d26fbdf8",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 138,
+      "head": "284ce62ff54247cc0a4e96693c34c190b49c4bbf",
+      "declared_base": "f2cc4f06db44f4125b3987c4b92d2ba8711df06b",
+      "merge_base": "f2cc4f06db44f4125b3987c4b92d2ba8711df06b",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 139,
+      "head": "526416b16a590abf558534a8426625508c23ad99",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 140,
+      "head": "3e66cfbdfa6a12576ecf0162108250691318c8db",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 141,
+      "head": "aa376713aedcd7fecd769af39e18f8532b9e147d",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 142,
+      "head": "9b79f9be03d3227f1e295dda36ddc2dbc09ccabb",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 143,
+      "head": "f2e6e87fe95ee4454f4b365c569ecfefae619e9e",
+      "declared_base": "9b79f9be03d3227f1e295dda36ddc2dbc09ccabb",
+      "merge_base": "9b79f9be03d3227f1e295dda36ddc2dbc09ccabb",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 144,
+      "head": "2083cf37d163398c953995223be35f1d3ba50f02",
+      "declared_base": "f2e6e87fe95ee4454f4b365c569ecfefae619e9e",
+      "merge_base": "f2e6e87fe95ee4454f4b365c569ecfefae619e9e",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 145,
+      "head": "d7e8effd4052313e9965ff417001e5c2ad489c06",
+      "declared_base": "2083cf37d163398c953995223be35f1d3ba50f02",
+      "merge_base": "2083cf37d163398c953995223be35f1d3ba50f02",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 146,
+      "head": "b7f72fdae46428110079641c681eabdde175e79c",
+      "declared_base": "d7e8effd4052313e9965ff417001e5c2ad489c06",
+      "merge_base": "d7e8effd4052313e9965ff417001e5c2ad489c06",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 147,
+      "head": "849c7393e92eb18822b19426aab51ae875c00f32",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 148,
+      "head": "b7cedf199a5f1eda341ce3bd27eabb22eeb309e1",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 149,
+      "head": "6d37a73f11befea3288e028590c540dc31deda61",
+      "declared_base": "b7f72fdae46428110079641c681eabdde175e79c",
+      "merge_base": "b7f72fdae46428110079641c681eabdde175e79c",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 150,
+      "head": "1269cdbacc7c6b75d8aa3cce1352de9432a61914",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 151,
+      "head": "30b5c076554111bf660fe3dca67cde4be735776a",
+      "declared_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 152,
+      "head": "f0dfef9e88b3a284aee9ba751dd71e9847c92271",
+      "declared_base": "6d37a73f11befea3288e028590c540dc31deda61",
+      "merge_base": "6d37a73f11befea3288e028590c540dc31deda61",
+      "ancestor_of_core": false
+    },
+    {
+      "pr": 153,
+      "head": "f9a31c7117198550c0d5b984b4019af6f164cd94",
+      "declared_base": "6d37a73f11befea3288e028590c540dc31deda61",
+      "merge_base": "6d37a73f11befea3288e028590c540dc31deda61",
+      "ancestor_of_core": false
+    }
+  ]
+}
