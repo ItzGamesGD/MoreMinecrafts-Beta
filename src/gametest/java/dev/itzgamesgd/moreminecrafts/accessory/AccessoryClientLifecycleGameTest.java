@@ -191,6 +191,7 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
             player.inventoryMenu.broadcastChanges();
         });
         connection.waitForClientboundPackets();
+        assertServerAccessoryCount(server, AccessoryDefinition.RING_OF_LIFE, 1);
         context.setScreen(() -> new InventoryScreen(Minecraft.getInstance().player));
         context.waitForScreen(InventoryScreen.class);
         context.waitTicks(2);
@@ -201,14 +202,37 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
 
         for (int cycle = 0; cycle < 8; cycle++) {
             int cycleIndex = cycle;
-            for (int click = 0; click < 4; click++) {
-                clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
-                clickRapidMenuSlot(context, DEFENSE_MENU_SLOT);
-                clickRapidMenuSlot(context, DEFENSE_MENU_SLOT);
-                clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
-            }
+            clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
             connection.waitForServerboundPackets();
             connection.waitForClientboundPackets();
+            context.waitFor(client -> client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem().isEmpty()
+                    && client.player.containerMenu.getCarried().getItem()
+                    == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE));
+
+            clickRapidMenuSlot(context, DEFENSE_MENU_SLOT);
+            connection.waitForServerboundPackets();
+            connection.waitForClientboundPackets();
+            context.waitFor(client -> client.player.getAttachedOrElse(
+                    EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty())
+                    .get(AccessoryCategory.DEFENSE_SURVIVAL.ordinal()).getItem()
+                    == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)
+                    && client.player.containerMenu.getCarried().isEmpty());
+
+            clickRapidMenuSlot(context, DEFENSE_MENU_SLOT);
+            connection.waitForServerboundPackets();
+            connection.waitForClientboundPackets();
+            context.waitFor(client -> client.player.getAttachedOrElse(
+                    EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty())
+                    .get(AccessoryCategory.DEFENSE_SURVIVAL.ordinal()).isEmpty()
+                    && client.player.containerMenu.getCarried().getItem()
+                    == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE));
+
+            clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
+            connection.waitForServerboundPackets();
+            connection.waitForClientboundPackets();
+            context.waitFor(client -> client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem().getItem()
+                    == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)
+                    && client.player.containerMenu.getCarried().isEmpty());
             context.runOnClient(client -> {
                 ItemStack equipped = client.player.inventoryMenu.getSlot(DEFENSE_MENU_SLOT).getItem();
                 ItemStack inventory = client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem();
@@ -224,7 +248,7 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
             assertClientServerConverged(context, server);
         }
         assertServerAccessoryCount(server, AccessoryDefinition.RING_OF_LIFE, 1);
-        System.out.println("ACCESSORY_RAPID_CLICKS_CONVERGENCE_PASS cycles=8 bursts=4 clicks_per_burst=16");
+        System.out.println("ACCESSORY_RAPID_CLICKS_CONVERGENCE_PASS cycles=8 equip_unequip_clicks=32");
     }
 
     private static void installFullFixture(TestDedicatedServerContext server) {
