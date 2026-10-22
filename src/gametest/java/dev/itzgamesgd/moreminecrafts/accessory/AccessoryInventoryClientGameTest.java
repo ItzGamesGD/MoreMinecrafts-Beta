@@ -288,8 +288,14 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         // Return the picked-up stack, then exercise InventoryScreen with a Shift-modified
         // mouse event. This still traverses the real client screen and server menu mechanics.
         clickMenuSlot(context, 11);
-        context.waitFor(client -> client.player.containerMenu.getCarried().isEmpty());
+        context.waitFor(client -> client.player.containerMenu.getCarried().isEmpty()
+                && client.player.inventoryMenu.getSlot(11).getItem().getItem()
+                == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE));
+        context.waitTicks(2);
+        context.getInput().holdShift();
+        context.waitTick();
         clickMenuSlotWithShiftModifier(context, 11);
+        context.getInput().releaseShift();
         context.waitFor(client -> !client.player.getAttachedOrElse(
                 EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty());
         context.runOnClient(client -> {
@@ -300,7 +306,10 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         });
         assertServerConservation(server, AccessoryDefinition.RING_OF_LIFE, 1);
 
+        context.getInput().holdShift();
+        context.waitTick();
         clickMenuSlotWithShiftModifier(context, ACCESSORY_FIRST_MENU_SLOT + DEFENSE_SLOT);
+        context.getInput().releaseShift();
         context.waitFor(client -> client.player.getAttachedOrElse(
                 EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(DEFENSE_SLOT).isEmpty());
         context.runOnClient(client -> {
@@ -375,8 +384,11 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             MouseButtonEvent event = new MouseButtonEvent(position[0] / scale, position[1] / scale,
                     new MouseButtonInfo(0, 1)); // SDL KMOD_LSHIFT
             InventoryScreen screen = (InventoryScreen) client.gui.screen();
-            screen.mouseClicked(event, false);
+            boolean handled = screen.mouseClicked(event, false);
             screen.mouseReleased(event);
+            System.out.println("ACCESSORY_MODIFIED_SCREEN_CLICK handled=" + handled
+                    + " shift=" + client.hasShiftDown() + " menuSlot=" + menuSlot
+                    + " cursor=" + client.player.containerMenu.getCarried());
         });
     }
 
