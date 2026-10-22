@@ -196,6 +196,7 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
         connection.waitForClientboundPackets();
         context.setScreen(() -> new InventoryScreen(Minecraft.getInstance().player));
         context.waitForScreen(InventoryScreen.class);
+        context.waitTicks(2);
         context.waitFor(client -> client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem().getItem()
                 == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE));
 
@@ -211,7 +212,8 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
                 if (sourceSlot == RING_INVENTORY_SLOT && (equipped.isEmpty()
                         || equipped.getItem() != ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)
                         || !inventory.isEmpty())) {
-                    throw new AssertionError("Rapid equip left a ghost or divergent accessory slot at cycle " + cycleIndex);
+                    throw new AssertionError("Rapid equip left a ghost or divergent accessory slot at cycle "
+                            + cycleIndex + ": equip=" + equipped + " source=" + inventory);
                 }
                 if (sourceSlot == DEFENSE_MENU_SLOT && (!equipped.isEmpty()
                         || inventory.getItem() != ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE))) {
@@ -362,8 +364,12 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
             MouseButtonEvent event = new MouseButtonEvent(left + slot.x + 8.0,
                     top + slot.y + 8.0,
                     new MouseButtonInfo(LEFT_MOUSE_BUTTON, SHIFT_MODIFIER));
-            screen.mouseClicked(event, false);
+            boolean handled = screen.mouseClicked(event, false);
             screen.mouseReleased(event);
+            System.out.println("ACCESSORY_RAPID_CLICK slot=" + menuSlot + " handled=" + handled
+                    + " source=" + client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem()
+                    + " equipped=" + client.player.inventoryMenu.getSlot(DEFENSE_MENU_SLOT).getItem()
+                    + " cursor=" + client.player.containerMenu.getCarried());
         });
     }
 
