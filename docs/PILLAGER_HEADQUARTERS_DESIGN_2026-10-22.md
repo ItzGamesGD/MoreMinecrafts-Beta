@@ -257,7 +257,7 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 ### Outstanding approval and balancing checklist
 
 - Compare **expected total-value distribution**, not only flashy best-case loot, to Woodland Mansion and other MM dungeons. Target is clearly better than mansion; precise resource quantities and stage availability need owner decision/balance testing.
-- Approve/adjust proposed **65% manor + 35% armory** premiums, capped at 2, and **10% commander special**; clarify zero-premium outcome acceptability.
+- **65% manor + 35% armory** premium attempts are APPROVED, independently with at most two container premiums and no minimum guarantee; **10% commander special** is APPROVED. What remains OPEN is exact category distribution, item eligibility and value balancing.
 - Choose eligible accessory whitelist and binding to accepted accessory slot roster; respect strong active-combat power and avoid automatic level +10 rewards.
 - Decide whether the rare merchant's approved over-cap rune SKU set can partially appear in HQ, and if so which levels/weights; if none, reweight to accessories and equipment.
 - Confirm armor/equipment rarity, emerald/diamond quantities, enchanted weapon strength and any enhancement stone or catalyst drops without undermining existing research/economy progression.
@@ -291,9 +291,9 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 
 **D2 — Spawn rarity:** **B: rare regional landmark is APPROVED**. Exact spacing/separation, biome filters, terrain flatness acceptance and measured encounter frequency are still OPEN pending seed tests; the 1,200–2,000 block spacing experiment described above is not approved.
 
-**D3 — Reward numeric signoff:** owner should expressly approve/modify the 65% / 35% / 10% candidates, premium caps and zero-premium possibility; avoid promoting them to locked rules by silence.
+**D3 — Reward numeric signoff:** **65% manor**, **35% armory** and **10% commander special** are now APPROVED, with distinct once-only sources. Exact conditional item-type mix and specific IDs remain OPEN. Zero container-premium successes remain possible.
 
-**D4 — Actual item allowlists:** cross-check the existing MM registry and distributed accessory/rune decisions, then approve specific accessible combat accessories and high-level rune SKUs. Preserve the difference between runes that apply real enchantments and option books. Ineligible/non-registered candidates are excluded, never silently replaced with invented items.
+**D4 — Actual item allowlists:** combat-focused accessories, real-enchantment runes and equipment are now APPROVED as eligible *categories*; cross-check the existing MM registry and distributed decisions, then approve specific accessible combat accessories and rune levels. Preserve the difference between runes that apply real enchantments and option books. Ineligible/non-registered candidates are excluded, never silently replaced with invented items.
 
 **D5 — Placement QA policy:** define fit criteria for a complete 112×112 square including all wall sections, towers and gate; evaluate flat soil under forest trees, reject significant height steps, slopes, liquids, village overlaps and preexisting player builds. No generation code is implemented as part of this checkpoint.
 
@@ -352,7 +352,7 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 
 **APPROVED now:** Commander 40 HP, regional-landmark rarity B, Vindicator/vanilla AI and existing fixed-garrison/no-respawn rules.
 
-**Still OPEN:** exact attack-damage modifier (initial candidate +20–30%); difficulty tuning and elite stats; exact rarity spacing/frequency (1,200–2,000 block trial is only a proposal); allowed biome tags; flatness limit; tree removal safeguards; 65%/35%/10% loot candidates; existing accessory/rune allowlist and economy compatibility.
+**Still OPEN:** a single exact attack multiplier within the approved +20–30% band; difficulty tuning and elite stats; exact rarity spacing/frequency **deferred until measured tests**; allowed biome tags; flatness limit; tree removal safeguards; loot conditional category weights/item IDs, specific combat accessory/rune allowlist and economy compatibility. **65%/35%/10% source odds are approved.**
 
 **Design next pass:** decide commander attack tuning, actual eligible loot whitelist and premium odds; then verify generator sampling before any quantitative spawn-spacing sign-off. Exterior wall block modeling stays deferred to Claude. This section is **design only / NOT CODE VERIFIED / NOT WORLDGEN VERIFIED**.
 
@@ -365,10 +365,43 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 - The one-time enhanced Vindicator commander retains **40 HP** and **vanilla Vindicator melee targeting / attack behavior**.
 - **Commander attack-damage tuning: +20–30% versus an ordinary unmodified Vindicator under the same difficulty.** The owner approved the **percentage band**, not an exact single multiplier. Before gameplay implementation, pick and validate one target inside **1.20–1.30×**, document the vanilla-version baseline and difficulty scaling, and avoid counting held equipment damage twice. Do not treat “+20–30%” as +20–30 *raw damage points*, nor as an independently approved exact +25%.
 - **Commander special-reward chance: exactly 10% per unique initial commander death-loot transaction.** This is a separate chance **in addition to ordinary rare drops**; **90%** of commanders do not produce a special reward. It does not guarantee an accessory or rune, and the specific eligible item pool / conditional weights are still **proposed**. The drop rolls at most once; commander never naturally respawns.
-- The **65% manor chest premium** and **35% armory premium** odds, the maximum two container premium rewards, exact eligible accessory/rune/equipment lists, and the **1,200–2,000-block trial generation spacing** remain **PROPOSALS / OPEN**. No owner approval was given for these other numbers.
+- The **65% manor** and **35% armory** once-only premium attempts are now APPROVED, as are combat-themed existing accessory/rune/equipment *categories*. Exact item/category selection weights and IDs remain OPEN. The earlier **1,200–2,000-block** example is **not an approved target; generation spacing is deferred until testing**. No owner approval was given for these other numbers.
 - **B — rare regional landmark** remains confirmed as a *qualitative* world-generation rarity goal; no exact per-region frequency, seed distribution or minimum inter-structure distance is approved.
 
 **Next discussion requested:** explain the remaining loot-chest 65%/35% concept (probabilities and maximum draws), what “eligible accessories/runes” actually means and why it interacts with caravan access, and how qualitative rarity differs from world-generation spacing in plain Korean gameplay examples. Do not silently finalize those choices.
+
+---
+
+## Owner approval — chest premium odds, combat rewards and spacing deferral (2026-10-22, latest authority)
+
+**APPROVED (supersedes older PROPOSED/OPEN labels for these specific choices):**
+1. **Manor treasure-room premium success = 65%** per originally generated headquarters. The premium draw is independent of ordinary contents. Failure means no extra premium from this source, **not an empty chest**.
+2. **Armory premium success = 35%** per originally generated headquarters, independent of the manor draw. Failure likewise does not remove ordinary military supplies.
+3. **Premium item eligibility direction = combat-relevant existing MoreMinecrafts accessories, real-enchantment runes and equipment** (no fabricated new currency or generic rune tokens). Select **specific** accessory and rune SKU allowlists later; this choice does **not** approve every member of the 12-accessory / 24-rune catalogs and does not declare a caravan SKU exclusive or nonexclusive.
+4. **Exact world-generation spacing/frequency intentionally DEFERRED until measured worldgen tests.** Qualitative **rare regional landmark B** remains approved, but 1,200–2,000 blocks is a previous **experimental idea only**, not an adopted target, guaranteed separation, or hardcoded configuration number.
+5. Already approved: **commander extra special drop chance 10%** independent of normal rare loot, **40 HP**, **+20–30% relative damage band**, vanilla Vindicator AI, 35–45 non-replenishing initial defenders.
+
+**Scope of newly approved probabilities:** one premium-category attempt for the manor reward source and one for the armory source; **their successes can be 0, 1 or 2** in a single headquarters. No automatic "at least one premium" guarantee was selected. Because each of these two approved sources attempts at most once, the resulting **maximum two premium container successes** follows from the adopted rule. Exact placement into specific physical chests (or display inventories) and roll persistence remain implementation details.
+
+**Probability implications** (assuming the two success rolls are independent, consistent with the prior proposal):
+- Both manor + armory succeed: `0.65 × 0.35 = 22.75%`.
+- Exactly one succeeds: `0.65 × 0.65 + 0.35 × 0.35 = 54.5%`.
+- Neither succeeds: `0.35 × 0.65 = 22.75%`.
+- At least one container premium succeeds: **77.25%**.
+- The commander additionally gets an independently approved **10%** special attempt on its one death; its success is not counted in the **two-container-premium maximum**, and is not an extra chest.
+
+**Still NOT approved:** the current illustrative **55/30/15%** manor category split, **75/15/10%** armory category split, **50/40/10%** commander special item-type split, concrete item IDs, individual rarity weights, base loot counts and any enchantment-rune level allowlist. **No new loot category or specific accessory has been authorized by the broad combat-theme decision.** Verify current registered items and their game-stage/economic availability before allocating. The approved **10%** commander chance does not by itself lock its reward-category weights.
+
+### Next design pass to prepare, without preapproving values
+
+- **Q1 Combat accessory allowlist:** among the existing 12 adopted accessories, identify which are actually battle-focused and suitable for pillager military loot. Weigh lower-power options against strong active combat accessories; preserve slot and enhancement systems. Separate mere candidate suggestions from signed-off items.
+- **Q2 Rune allowlist:** choose a *small subset* of the real-enchantment runes suitable for pillager combat (e.g. melee / projectile combat / defense), reconcile rune levels and special-merchant economics, and verify the exact 24-SKU source catalog. Do not silently permit every Efficiency/Mining rune just because the word “rune” was approved.
+- **Q3 Loot-category distribution:** decide conditional weights of eligible combat accessory vs enhanced equipment vs eligible rune **when** a 65%/35% success occurs; whether the manor and armory use distinct mixes is open.
+- **Q4 Commander special reward pool:** preserve the 10% trigger but choose which eligible item types/rarity can result on success, and clarify any overlap with chest pools. Normal commander rare drops remain separate.
+- **Q5 Site-frequency measurement:** test actual successful headquarters occurrence on plains/flat forests across deterministic world seeds and compare with pillager-outpost sightings; then return measured spacing and acceptance rate for owner review. **Do not assume or code 1,200–2,000 blocks now.**
+- **Q6 One-time inventory persistence:** ensure both premium attempts and loot containers are deterministic/saved, non-refilling, non-duplicating across chunk reload, restart, chest break and multiplayer. This is a future verification requirement, not implemented gameplay.
+
+**Status:** DESIGN DOCUMENTED, NOT IMPLEMENTED, NOT BALANCE-TESTED, NOT WORLDGEN VERIFIED. Existing Draft PR #147 only; keep structural block artistry deferred to Claude and all other approved fort/garrison rules unchanged.
 
 ---
 
