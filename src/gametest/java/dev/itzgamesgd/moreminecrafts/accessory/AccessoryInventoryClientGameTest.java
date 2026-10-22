@@ -44,6 +44,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             context.waitTicks(2);
 
             openInventory(context);
+            // Let transient server/chat toasts clear so screenshots show the complete accessory panel.
+            context.waitTicks(200);
             assertAllFiveSlotsVisibleAndOccupied(context);
             for (int scale : List.of(2, 3, 4)) {
                 setScaleAndOpenInventory(context, scale);
@@ -90,8 +92,8 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
             context.takeScreenshot("accessory-inventory-all-five-gui-scale-4");
 
             runCursorEquipUnequip(context, server);
-            runShiftClickTransfer(context, server);
             runInvalidPlacement(context, server);
+            runShiftClickTransfer(context, server);
 
         context.runOnClient(client -> client.gui.setScreen(null));
         context.waitForScreen(null);
@@ -307,6 +309,14 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
         });
         assertServerConservation(server, AccessoryDefinition.STAR_COVENANT, 1);
         context.takeScreenshot("accessory-inventory-invalid-category-placement");
+        clickMenuSlot(context, 10);
+        context.waitTicks(2);
+        context.runOnClient(client -> {
+            if (!client.player.containerMenu.getCarried().isEmpty()) {
+                throw new AssertionError("Invalid accessory was not restored to inventory after rejection check");
+            }
+        });
+        assertServerConservation(server, AccessoryDefinition.STAR_COVENANT, 1);
     }
 
     private static void clickMenuSlotHeld(ClientGameTestContext context, int menuSlot) {
