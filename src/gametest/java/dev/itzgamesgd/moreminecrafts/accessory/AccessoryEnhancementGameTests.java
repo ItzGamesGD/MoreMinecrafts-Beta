@@ -131,6 +131,17 @@ public final class AccessoryEnhancementGameTests {
         for(int slot=0;slot<player.getInventory().getContainerSize();slot++)
             catalystCount+=player.getInventory().getItem(slot).getCount();
         ctx.assertTrue(catalystCount==1,"closing the anvil returns the catalyst without duplication or loss");
+
+        for(int slot=0;slot<player.getInventory().getContainerSize();slot++)
+            player.getInventory().setItem(slot,new ItemStack(Items.COBBLESTONE,64));
+        var fullMenu=new AnvilMenu(23,player.getInventory());
+        var fullModes=(T1AnvilModes)fullMenu;
+        fullMenu.getSlot(fullModes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST));
+        fullMenu.removed(player);
+        var dropped=ctx.getLevel().getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,
+                new net.minecraft.world.phys.AABB(player.blockPosition()).inflate(2),
+                item->item.getItem().is(ModItems.RELIC_CATALYST));
+        ctx.assertTrue(dropped.size()==1,"a full inventory receives the catalyst as one world drop");
         ctx.succeed();
     }
 

@@ -76,7 +76,8 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
         ItemStack stack=moreminecrafts$catalystContainer.removeItemNoUpdate(0);
         if(!stack.isEmpty()){
             player.getInventory().add(stack);
-            if(!stack.isEmpty())player.drop(stack,false);
+            if(!stack.isEmpty())player.level().addFreshEntity(new net.minecraft.world.entity.item.ItemEntity(
+                    player.level(),player.getX(),player.getY(),player.getZ(),stack));
         }
     }
     @Inject(method="createResult",at=@At("HEAD"),cancellable=true)
