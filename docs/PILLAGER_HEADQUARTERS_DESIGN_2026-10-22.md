@@ -266,6 +266,41 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 
 ---
 
+## Design checkpoint and next decision queue — 2026-10-22
+
+**Saved checkpoint:** The reward direction and proposed loot allocations in the immediately preceding reward section are safely recorded. The owner has asked to preserve that record and prepare the next decisions, **not to approve unselected probability proposals**.
+
+### Locked decisions to retain through future handoff
+
+- Footprint 112×112 exterior square, four continuous wall-integrated corner towers, one perimeter gate; flat plains or flat natural forest floor only.
+- A+C imposing dimensional fortress styling, with exterior block architecture **deferred to Claude**.
+- Interior 19–22 facilities, recognizable militarized village, gate→square→two-story small manor primary road with small alleys; both prison and ravager stable; armory immediately adjacent to fenced training yard.
+- Initial garrison 35–45, vanilla AI only, one enhanced-Vindicator commander, no natural replenishment of defeated structure garrison.
+- Rewards meaningfully better than Woodland Mansion; source rare items from existing MM accessories/equipment and only compatible real-enchantment runes; ordinary rare commander drops **plus low-probability extra special reward**. Independent accessible upper manor reward chest and commander drop.
+
+### Still only proposals, not owner confirmations
+
+- Facility and defender exact counts (20 and 40), commander/manor dimension 17×15 unless separately approved, commander HP/attack, elite equipment and drops; staged zone allocation.
+- 65% manor premium draw, 35% armory premium draw, up to 2 container premium successes and separate 10% commander special. All numerical reward ranges in the tables remain candidates.
+- Which of the existing 12 accessories and 24 real-enchantment rune SKUs are legal in this dungeon; merchant exclusivity and game-stage availability remain under review.
+- Exact structure separation, regional rarity, site selection constraints, forest-clearing tolerance, minimum distance from villages/outposts and dimension scope.
+
+### Next decision pass — proposals for owner review
+
+**D1 — Commander tuning:** propose **40 HP** and a **modest +20–30% effective melee damage vs. ordinary Vindicator** as a first balancing test, with no custom AI, summons, invisible bonuses or locked combat arena. Alternative directions are 30 HP lighter officer or 50 HP tankier officer. Exact attack modifier and Minecraft-version damage baseline must be tested, not asserted.
+
+**D2 — Spawn rarity:** HQ is a rarer, significant discovery than a routine pillager outpost. Rather than hardcode unsupported global probabilities, choose a design target: (a) moderately uncommon and accessible during exploration, (b) **rare regional landmark** (recommendation), or (c) extremely rare endgame discovery. Later generator work must convert the chosen target into spacing/separation, biome filters, terrain flatness acceptance and measured seeds per world.
+
+**D3 — Reward numeric signoff:** owner should expressly approve/modify the 65% / 35% / 10% candidates, premium caps and zero-premium possibility; avoid promoting them to locked rules by silence.
+
+**D4 — Actual item allowlists:** cross-check the existing MM registry and distributed accessory/rune decisions, then approve specific accessible combat accessories and high-level rune SKUs. Preserve the difference between runes that apply real enchantments and option books. Ineligible/non-registered candidates are excluded, never silently replaced with invented items.
+
+**D5 — Placement QA policy:** define fit criteria for a complete 112×112 square including all wall sections, towers and gate; evaluate flat soil under forest trees, reject significant height steps, slopes, liquids, village overlaps and preexisting player builds. No generation code is implemented as part of this checkpoint.
+
+**Next action after owner choices:** update exact design authority, then form a Claude handoff covering architectural build shapes and separate generator implementation checklist. Keep PR Draft and do not merge other PR branches.
+
+---
+
 ## 1. Design identity
 
 **APPROVED:** Build a large, intimidating **pillager military headquarters** (약탈자 본거지) that feels like a **vanilla villager village transformed into an ominous pillager settlement**, rather than an arbitrary maze. Internal facilities have readable adjacency and village-like roads and clusters. Primary experience is physical infiltration, fighting through a believable enemy garrison, and exploring a military village; do not add mandatory complex puzzles, key insertion or switch-gated progression.
