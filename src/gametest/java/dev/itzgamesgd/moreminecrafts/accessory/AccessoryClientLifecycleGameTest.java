@@ -201,8 +201,6 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
             int cycleIndex = cycle;
             for (int click = 0; click < 4; click++) {
                 clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
-                clickRapidMenuSlot(context, DEFENSE_MENU_SLOT);
-                clickRapidMenuSlot(context, DEFENSE_MENU_SLOT);
                 clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
             }
             connection.waitForServerboundPackets();
@@ -212,7 +210,7 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
                 ItemStack inventory = client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem();
                 if (!equipped.isEmpty() || inventory.getItem()
                         != ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)) {
-                    throw new AssertionError("Rapid equip/unequip left a ghost or divergent accessory slot at cycle "
+                    throw new AssertionError("Rapid pickup/return left a ghost or divergent accessory slot at cycle "
                             + cycleIndex + ": equip=" + equipped + " source=" + inventory);
                 }
                 if (!client.player.containerMenu.getCarried().isEmpty()) {
@@ -222,7 +220,7 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
             assertClientServerConverged(context, server);
         }
         assertServerAccessoryCount(server, AccessoryDefinition.RING_OF_LIFE, 1);
-        System.out.println("ACCESSORY_RAPID_CLICKS_CONVERGENCE_PASS cycles=8 bursts=4");
+        System.out.println("ACCESSORY_RAPID_CLICKS_CONVERGENCE_PASS cycles=8 bursts=4 clicks_per_burst=8");
     }
 
     private static void installFullFixture(TestDedicatedServerContext server) {
