@@ -55,7 +55,7 @@ All IDs in the vanilla list are **approved candidate categories**, not approved 
 | mining | `minecraft:gold_ingot` | mine/trade; varies | 64 | rare 2-24 tier band; lower cap PROPOSED |
 | mining | `minecraft:redstone` | mine/trade; varies | 64 | ordinary 16-128 tier band; item cap OPEN |
 | mining | `minecraft:lapis_lazuli` | mine/trade; varies | 64 | ordinary 16-128 tier band; item cap OPEN |
-| mining | `minecraft:nether_quartz` | mine/trade; varies | 64 | ordinary 16-128 tier band; item cap OPEN |
+| mining | `minecraft:quartz` | mine/trade; varies | 64 | ordinary 16-128 tier band; item cap OPEN |
 | mining | `minecraft:diamond` | mine/loot/trade or rare catch; renewability and effort UNKNOWN | 64 | rare 2-24 tier band; lower cap PROPOSED |
 | mining | `minecraft:emerald` | mine/loot/trade or rare catch; renewability and effort UNKNOWN | 64 | rare 2-24 tier band; lower cap PROPOSED |
 | mining | `minecraft:amethyst_shard` | mine/trade; varies | 64 | ordinary 16-128 tier band; item cap OPEN |

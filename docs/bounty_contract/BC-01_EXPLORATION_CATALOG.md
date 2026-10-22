@@ -13,7 +13,7 @@ Static evidence: `src/main/resources/data/moreminecrafts/worldgen/` contains ore
 | `minecraft:woodland_mansion` | Overworld | vanilla generated; survival accessible with progression | structure piece/start lookup feasible; entrance semantics OPEN | candidate only |
 | `minecraft:trial_chambers` | Overworld | vanilla generated; survival accessible with progression | structure piece/start lookup feasible; entrance semantics OPEN | candidate only |
 | `minecraft:ancient_city` | Overworld | vanilla generated; survival accessible with progression | structure piece/start lookup feasible; entrance semantics OPEN | candidate only |
-| `minecraft:nether_fortress` | Nether | vanilla generated; survival accessible with progression | structure piece/start lookup feasible; entrance semantics OPEN | candidate only |
+| `minecraft:fortress` | Nether | vanilla generated; survival accessible with progression | structure piece/start lookup feasible; entrance semantics OPEN | candidate only |
 | `minecraft:bastion_remnant` | Nether | vanilla generated; survival accessible with progression | structure piece/start lookup feasible; entrance semantics OPEN | candidate only |
 | `minecraft:end_city` | End | vanilla generated; survival accessible with progression | structure piece/start lookup feasible; entrance semantics OPEN | candidate only |
 
