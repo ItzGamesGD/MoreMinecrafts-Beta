@@ -28,6 +28,11 @@ The current design baseline is [the Oct 7 continuation record](CONTENT_FINALIZAT
 
 Documentation history is split across branches: the Oct 7 continuation came from `origin/main`; the source/implementation worktree is based on Stage 20 / PR #69. The continuation was copied into this worktree so its role is explicit. Do not use the older index text below to override those Oct 7 decisions.
 
+
+## Bounty and contracts — approved 2026-10-22
+
+Current approved design: [Bounty & Contract System](BOUNTY_CONTRACT_APPROVED_2026-10-22.md). This records physical contract acquisition, item-bound transferable progress, manual redemption, tiered target generation, expanded target pools and four reward rarities. The document explicitly distinguishes approved rules from illustrative economics and outstanding decisions. This is design authority only; implementation is not asserted or authorized.
+
 ## Current authority
 
 ### Cumulative recovery foundation
