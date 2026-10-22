@@ -32,6 +32,7 @@ public final class AccessoryEnhancementGameTests {
         menu.getSlot(0).set(charm);
         menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,2));
         int xpBefore=RawXp.available(player);
+        player.getRandom().setSeed(noWearSeed(player));
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"accessory +0 to +1 succeeds through the anvil action");
         ctx.assertTrue(AccessoryEnhancementOperation.level(menu.getSlot(0).getItem())==1,"enhancement component advances once");
         ctx.assertTrue(menu.getSlot(1).getItem().getCount()==1,"ordinary accessory step consumes one Enhancement Stone");
@@ -65,6 +66,7 @@ public final class AccessoryEnhancementGameTests {
         menu.getSlot(0).set(ring);menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,2));
         menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST));
         int xpBefore=RawXp.available(player);
+        player.getRandom().setSeed(noWearSeed(player));
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"+5 milestone succeeds with two stones and one catalyst");
         ctx.assertTrue(AccessoryEnhancementOperation.level(menu.getSlot(0).getItem())==5,"milestone advances exactly to +5");
         ctx.assertTrue(menu.getSlot(1).getItem().isEmpty(),"milestone consumes both stones");
@@ -75,6 +77,7 @@ public final class AccessoryEnhancementGameTests {
         menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,2));
         menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST));
         int levelBefore=RawXp.available(player);
+        player.getRandom().setSeed(noWearSeed(player));
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"+10 milestone succeeds with its complete inputs");
         ctx.assertTrue(AccessoryEnhancementOperation.level(ring)==10,"accessory reaches the approved +10 maximum");
         ctx.assertTrue(levelBefore-RawXp.available(player)==70,"+10 milestone consumes 70 raw XP");
@@ -99,6 +102,7 @@ public final class AccessoryEnhancementGameTests {
 
         menu.getSlot(0).set(new ItemStack(Items.DIAMOND_SWORD));
         menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE));
+        player.getRandom().setSeed(noWearSeed(player));
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"ordinary T1/T2 enhancement still uses its existing path");
         ctx.assertTrue(dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation.level(menu.getSlot(0).getItem())==1,
                 "ordinary item remains on the ordinary enhancement cap/policy");
@@ -128,5 +132,14 @@ public final class AccessoryEnhancementGameTests {
             catalystCount+=player.getInventory().getItem(slot).getCount();
         ctx.assertTrue(catalystCount==1,"closing the anvil returns the catalyst without duplication or loss");
         ctx.succeed();
+    }
+
+    private static long noWearSeed(net.minecraft.world.entity.player.Player player) {
+        var random=player.getRandom();
+        for(long seed=0;seed<1_000_000;seed++){
+            random.setSeed(seed);
+            if(random.nextDouble()>=.12)return seed;
+        }
+        throw new AssertionError("Could not find deterministic no-wear anvil seed");
     }
 }
