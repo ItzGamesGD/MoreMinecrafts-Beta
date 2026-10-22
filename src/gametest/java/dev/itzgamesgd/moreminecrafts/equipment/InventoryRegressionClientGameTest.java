@@ -206,6 +206,8 @@ public final class InventoryRegressionClientGameTest implements FabricClientGame
         });
         connection.waitForClientboundPackets();
         context.waitFor(client -> client.player != null && client.player.getInventory().getItem(0).is(ModItems.BACKPACK));
+        context.runOnClient(client -> client.gui.setScreen(null));
+        context.waitForScreen(null);
         context.getInput().pressKey(options -> options.keyUse);
         context.waitFor(client -> client.player.containerMenu instanceof ChestMenu);
         context.waitForScreen(ContainerScreen.class);
