@@ -206,9 +206,16 @@ public final class InventoryRegressionClientGameTest implements FabricClientGame
             respawned.inventoryMenu.broadcastChanges();
         });
         connection.waitForClientboundPackets();
-        context.waitFor(client -> client.player != null && client.player.getAttachedOrElse(
-                EquipmentAttachments.BACKPACK, BackpackStorage.empty()).items().get(8).getItem() == Items.DIAMOND);
-        System.out.println("BACKPACK_INTERACTION_DEATH_RETENTION_PASS");
+        // BackpackStorage is persistent and copyOnDeath but intentionally lacks syncWith.
+        // Verify death retention on the authoritative server above; a client attachment
+        // assertion here would incorrectly require an unsupported synchronization contract.
+        context.waitFor(client -> client.player != null && client.player.isAlive());
+        context.runOnClient(client -> {
+            if (!client.player.containerMenu.getCarried().isEmpty()) {
+                throw new AssertionError("Backpack regression left a ghost client cursor stack after respawn");
+            }
+        });
+        System.out.println("BACKPACK_INTERACTION_SERVER_DEATH_RETENTION_PASS_CLIENT_ATTACHMENT_NOT_SYNCED");
     }
 
     private static ItemStack named(net.minecraft.world.item.Item item, String name) {
