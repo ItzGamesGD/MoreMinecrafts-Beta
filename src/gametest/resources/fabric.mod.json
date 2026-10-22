@@ -22,7 +22,11 @@
       "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIntegrationGameTests",
-      "dev.itzgamesgd.moreminecrafts.bounty.ContractGeneratorGameTests"
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractGeneratorGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractTradeGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractTransactionGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractCrashGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractRuntimeGameTests"
     ]
   },
   "mixins": [

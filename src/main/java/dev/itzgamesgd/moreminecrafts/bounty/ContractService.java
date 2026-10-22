@@ -37,7 +37,7 @@ public final class ContractService {
             case ABANDON -> {
                 // Abandonment destroys only this item. Redeemed IDs are refused so a duplicate copy cannot be
                 // destroyed as if it were still open; no reward is granted and no completion is recorded.
-                if (ledger(player).contains(id)) yield false;
+                if (ledger(player).blocked(id)) yield false;
                 stack.shrink(1);
                 yield true;
             }
@@ -46,44 +46,19 @@ public final class ContractService {
     }
 
     private static ContractLedger ledger(ServerPlayer player) {
-        return ((ServerLevel) player.level()).getServer().overworld().getDataStorage().computeIfAbsent(ContractLedger.TYPE);
+        return ContractLedger.of((ServerLevel) player.level());
     }
 
     private static boolean complete(ServerPlayer player, ItemStack stack, ContractData data) {
         if (data.status() != ContractData.Status.ACCEPTED) return false;
         Inventory inventory = player.getInventory();
-        Map<String, Integer> available = quantities(inventory);
-        if (!data.ready(available)) return false;
+        if (!data.ready(quantities(inventory))) return false;
         Item bonus = BuiltInRegistries.ITEM.getValue(Identifier.parse(data.reward().item()));
         if (bonus == Items.AIR) return false;
-        ServerLevel world = ((ServerLevel) player.level()).getServer().overworld();
-        ContractLedger ledger = world.getDataStorage().computeIfAbsent(ContractLedger.TYPE);
-        if (ledger.contains(data.id())) return false;
-
-        // Server-thread serialization prevents a second request from passing this claim.
-        // World and player saves are separate; a process crash between these operations is PARTIAL durability.
-        if (!ledger.claim(data.id())) return false;
-        for (var need : data.deliveryNeeds().entrySet()) {
-            int remaining = need.getValue();
-            for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
-                ItemStack material = inventory.getItem(slot);
-                if (material.isEmpty() || !BuiltInRegistries.ITEM.getKey(material.getItem()).toString().equals(need.getKey())) continue;
-                int taken = Math.min(remaining, material.getCount());
-                material.shrink(taken);
-                remaining -= taken;
-            }
-        }
-        stack.shrink(1);
-        deliver(player, new ItemStack(Items.EMERALD, data.reward().emeralds()));
-        deliver(player, new ItemStack(bonus, data.reward().count()));
-        inventory.setChanged();
-        return true;
-    }
-
-    private static void deliver(ServerPlayer player, ItemStack reward) {
-        if (reward.isEmpty()) return;
-        player.getInventory().add(reward);
-        if (!reward.isEmpty()) player.drop(reward, false, net.minecraft.util.Prediction.SERVER_ONLY);
+        // Pending and committed IDs both refuse: a copy cannot redeem while the original owner's transaction is unresolved.
+        if (ledger(player).blocked(data.id())) return false;
+        // The server thread serializes requests; durability across a crash is ContractTransactions' job.
+        return ContractTransactions.redeem(player, stack, data, bonus);
     }
 
     public static Map<String, Integer> quantities(Inventory inventory) {

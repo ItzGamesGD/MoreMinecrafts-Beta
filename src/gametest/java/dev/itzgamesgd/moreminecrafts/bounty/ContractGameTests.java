@@ -148,15 +148,31 @@ public final class ContractGameTests implements CustomTestMethodInvoker {
 
     @GameTest
     public void fullInventoryOverflowPaysRewardExactlyOnce(GameTestHelper ctx) {
+        ContractTransactions.setEntityFlush(level -> { }); // durability is covered by the real-process matrix
+        try {
+            fullInventoryOverflow(ctx);
+        } finally {
+            ContractTransactions.setEntityFlush(null);
+        }
+    }
+
+    private void fullInventoryOverflow(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         String id = UUID.randomUUID().toString();
         player.getInventory().setItem(0, ContractStacks.create(contract(id, ContractData.Category.DELIVERY, "minecraft:wheat", 8)));
-        player.getInventory().setItem(1, new ItemStack(Items.WHEAT, 8));
+        // 64 wheat stays in its slot after 8 are consumed, so only the contract's own slot frees up and one reward must overflow.
+        player.getInventory().setItem(1, new ItemStack(Items.WHEAT, 64));
         for (int slot = 2; slot < 36; slot++) player.getInventory().setItem(slot, new ItemStack(Items.DIRT, 64));
         ctx.assertTrue(act(player, id, ContractService.Action.ACCEPT), "accept succeeds");
         ctx.assertTrue(act(player, id, ContractService.Action.COMPLETE), "complete succeeds with full inventory");
         ctx.assertTrue(!act(player, id, ContractService.Action.COMPLETE), "second completion refused");
         int emeraldsOnHand = player.getInventory().countItem(Items.EMERALD);
+        ctx.assertTrue(player.getInventory().countItem(Items.IRON_INGOT) == 0, "the bonus reward did not fit and is not in the inventory");
+        String tx = ContractLedger.of(ctx.getLevel()).get(id).tx();
+        int tagged = 0;
+        for (var entity : ctx.getLevel().getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, player.getBoundingBox().inflate(64.0)))
+            if (entity.getItem().is(Items.IRON_INGOT) && tx.equals(entity.getAttached(ContractAttachments.DROP_TX))) tagged += entity.getItem().getCount();
+        ctx.assertTrue(tagged == 1, "exactly one tagged overflow drop of the bonus item: " + tagged);
         int emeraldsDropped = 0;
         for (var entity : ctx.getLevel().getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,
                 new net.minecraft.world.phys.AABB(-1.0E7, -1024, -1.0E7, 1.0E7, 1024, 1.0E7))) {

@@ -18,6 +18,9 @@ public final class ContractObjectives {
     private ContractObjectives() {}
 
     public static void initialize() {
+        ContractAttachments.initialize();
+        net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
+                ContractTransactions.recover(handler.getPlayer()));
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
             if (!entity.level().isClientSide()) HEALTH_BEFORE.put(entity, entity.getHealth());
             return true;
@@ -45,11 +48,13 @@ public final class ContractObjectives {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 ContractMaterializer.materialize(player);
                 detectStructure(player);
+                if (tick % 20 == 0 && ContractTransactions.needsRecovery(player)) ContractTransactions.recover(player);
             }
         });
     }
 
-    private static void detectStructure(ServerPlayer player) {
+    /** Public as a test seam; the server tick calls it for every online player. */
+    public static void detectStructure(ServerPlayer player) {
         boolean exploring = false;
         for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
             ContractData data = ContractStacks.read(player.getInventory().getItem(slot));

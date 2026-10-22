@@ -1,108 +1,143 @@
-# BC-03 implementation and BC-04 audit handoff
+# BC-03 implementation record and BC-04 audit handoff
 
-This document describes the code on the BC-03 implementation branch. It does not declare gameplay acceptance. Approved gameplay rules are in `../BOUNTY_CONTRACT_APPROVED_2026-10-22.md`.
+This document describes the code on the BC-03 implementation branch. It does not declare gameplay acceptance. Approved gameplay rules are in `../BOUNTY_CONTRACT_APPROVED_2026-10-22.md`; this file is the current implementation status and replaces earlier checkpoint wording. Classifications used below: CODE VERIFIED, SERVER VERIFIED, CLIENT VERIFIED, LIVE PENDING, PARTIAL, BLOCKED.
 
-## Implemented code
+## Status
 
-- BC-03A: registered ordinary and special unstackable items; item-bound contract component with UUID, tier, fixed objective/reward data, status and progress; server action service for acceptance, abandonment and manual redemption; persisted redeemed-ID ledger; item reward overflow drop. A GameTest exercises transfer and duplicate-ID redemption. Death-drop preservation still needs a direct runtime check.
-- BC-03B: server damage hooks record actual health loss attributable to players in the final 600 ticks; final blows qualify independently; one credited death advances every matching entry in every carried accepted contract. Server structure-piece lookup records distinct structure starts per objective after acceptance. Delivery availability is read from current inventory and duplicate delivery requirements aggregate.
-- BC-03C policy code: approved price/payout bands, rarity thresholds, bonus quantity bands, structure appearance and conditional tier thresholds, 5% advanced conversion, approved professions/unlocks and seller stock. `ContractBalance.DELIVERY_EXCEPTIONS` holds the two **PROVISIONAL BALANCE** delivery quantities: `minecraft:diamond` 2–4 and `moreminecrafts:adamantium_ingot` 1.
+| Area | Status |
+| --- | --- |
+| BC-03A item-bound contracts, redeemed-ID protection, durable redemption | SERVER VERIFIED, including real process interruption at nine transaction boundaries (11 interrupted scenarios). Exactly-once is established for process termination, not for OS or power failure (see limitations). |
+| BC-03B combat contribution, structure entry | SERVER VERIFIED against a real vanilla `StructureStart`; combat attribution is CODE VERIFIED. No live combat session was run. |
+| BC-03C objective pools, loot, trades, special conversion | SERVER VERIFIED. Seller stock is exact. Restock of contract stock follows vanilla and is an open owner decision. |
+| BC-03D contract screen and actions | Server side SERVER VERIFIED. Client rendering and input: compiled only. **LIVE PENDING**. |
 
-## Pending before BC-03 is complete
+## Defects found and fixed during stabilization
 
-- Acquisition generation, concrete objective pools, reward item pools, villager and wandering trader offers, and eligible loot integration are not wired. The registered contract items are currently not obtainable through normal gameplay. Exact reward identities/caps, eligible loot tables, and the converted special contract's emerald payout await owner decisions under `AGENTS.md` authority rules.
-- BC-03D's single-screen UI, abandonment confirmation, and server action packets are not implemented. The server service is not yet reachable through normal gameplay.
-- Combat hostile-target filtering currently depends on future generation pool selection. Reconcile every generated MM target against the 40 registered entities. Exclude `feral_wolf`, `cave_bat`, `giant_bee`, neutral piglins and all passive/friendly targets from ordinary combat.
-- Special objective progress and availability need integration with only currently registered content. MM structures, meteors, and disabled events must remain excluded; direct special drops remain deferred.
-- GameTests cover item transfer and duplicate redemption, but death drops, real restart, multiplayer network transfer, concurrent requests, and inventory overflow still need targeted runtime checks. The unit codec round trip is not a real server restart test.
-- World ledger and player inventory save independently. A process crash between ledger claim, material consumption and reward grant can lose or duplicate effects. Exactly-once durability is **PARTIAL**, not proven. A transaction/recovery design and interruption tests remain necessary.
+- **Redemption was not crash-safe**: the ledger claim and the inventory change were never flushed, so a crash could pay twice (player file new, ledger old) or make a contract permanently unredeemable (ledger new, player file old). Replaced by the durable transaction below.
+- **Creative players lost overflow rewards**: `Inventory.add` zeroes the stack for a creative player when nothing fits, so a creative player completing a contract with a full inventory lost the reward instead of having it dropped. The inserted amount is now measured from the inventory. This predated the transaction work.
+- **Earlier overflow evidence was vacuous**: an earlier in-process test and the first crash-matrix overflow rows were reported as covering a full inventory, but both consumed items that freed enough slots, or hit the creative quirk above, so no overflow was exercised. They now keep the delivery stack occupied and assert that the bonus item is absent from the inventory and dropped exactly once.
+- **Overflow durability flush did not cover entities**: the first version flushed with `ServerChunkCache.save`, which writes chunk blocks but not the entity sections that hold dropped items, so a drop could be lost after the receipt said it was delivered. The strict overflow scenarios exposed it; the flush is now `ServerLevel.save`.
+- **Overflow recovery could miss a surviving drop**: at join the chunk's entities may not be loaded yet, so the duplicate check could be blind. Recovery now waits until the player's position is entity-ticking and retries once a second.
+- `ContractGameTests` had been missing from the GameTest entrypoints, so its tests never ran until the previous stabilization step.
 
-## Validation evidence at this checkpoint
+## What the code does
+
+- **Items and state**: `bounty_contract` and `special_contract` are unstackable items. A `moreminecrafts:contract` component carries a UUID, tier, status, fixed objectives with counters, and a fixed reward. Progress lives on the item, so it follows transfers, death drops, and restarts.
+- **Acquisition**: trade and loot results are tier-only placeholders (`moreminecrafts:pending_contract`). `ContractMaterializer` rolls the objectives and reward when the placeholder first reaches a player's inventory, so a seller or container never shows rolled contents. A 5% Advanced-to-Special conversion applies at that moment.
+- **Generation** (`ContractGenerator`, `ContractCatalog`): 24 vanilla hostile targets (22 ordinary, 2 strong) and 37 MM hostile targets (28 ordinary, the 9 approved strong), with hostility verified from entity behavior; 74 ordinary and 11 rare BC-01 delivery IDs in the approved count bands; diamond delivery 2–4 and adamantium delivery 1, at most one high-value delivery per contract; seven accessible Overworld structures for exploration. Combat ordinary/strong weights are 90/10, 70/30, 50/50 by tier, and one contract never mixes combat dimensions.
+- **Rewards**: approved rarity lists with item caps (`minecraft:diamond` ≤2, `moreminecrafts:titanium_ingot` ≤4, `moreminecrafts:adamantium_ingot` ≤1).
+- **Loot** (`ContractLootIntegration`): one added pool in each of `abandoned_mineshaft`, `desert_pyramid`, `jungle_temple`, `trial_chambers/reward`, `ancient_city`, `bastion_treasure`, at 5/10/18% with tier weights 75/22/3, 45/40/15, 20/45/35. Existing vanilla pools are untouched. Four of these tables are also replaced by the built-in `trade_rebalance` datapack, and the modifier applies to whichever table is loaded.
+- **UI** (`ContractScreen`): right-click opens one vertical screen with tier and status, objectives with counters, live delivery holdings, the fixed reward, accept, complete, and abandon. Abandon needs a confirmation and is available while Offered or Accepted. Every action is a `ContractActionPayload` naming the contract ID and the exact inventory slot; the server refuses it unless that slot still holds that contract, so a stale client cannot affect another copy of the same ID.
+
+## Seller stock
+
+One stock unit is one contract offer with `maxUses = 1`, added after vanilla produces its offers, by `ContractTradeStockMixin` on `AbstractVillager.getOffers`. It is idempotent: a sold-out offer still counts, so nothing is regenerated, and it also tops up villagers saved before this feature.
+
+| Seller | Stock |
+| --- | --- |
+| Farmer, Fisherman, Fletcher, Weaponsmith, Toolsmith, Cartographer, Cleric at Apprentice (level 2) | Beginner 2 |
+| ... at Journeyman (level 3) | plus Intermediate 1 |
+| ... at Expert (level 4) and Master | plus Advanced 1 |
+| Other professions, Novice villagers | none |
+| Wandering trader (rolled once per trader) | Beginner 1–2, Intermediate 0–1, Advanced 0–1, uniform inside each range |
+
+Offers are priced at the midpoint of the approved band (3 / 8 / 16 emeralds, PROVISIONAL), with xp 0 and a zero price multiplier so they neither level villagers nor drift. `ContractTradeGameTests` covers every eligible profession at levels 1–5 against these numbers, ineligible professions, real `Villager` and `WanderingTrader` entities through the mixin (400 wandering traders, confirming both ends of every range occur), exhaustion, idempotence, and vanilla restock.
+
+**Restock**: vanilla `Villager.restock()` resets `uses` on every offer, so contract stock refills with vanilla restocking. The approved quantities do not say whether sold stock should refill. Changing it would be a new rule, so it is not implemented. This is an open owner decision.
+
+## Durable completion transaction
+
+Vanilla offers no transaction across the world ledger file, the player file, and chunk entity storage. Each file is replaced atomically on its own, but a crash can leave any older/newer combination on disk. Before this work the order was: claim the ID in memory, consume items, grant rewards, with nothing flushed. A crash could therefore leave the player file new and the ledger old (a surviving copy could redeem again), or the ledger new and the player file old (the contract permanently unredeemable), and an overflow drop could be repeated by a retry.
+
+`ContractTransactions.redeem` now orders the steps around one commit point:
+
+1. **Validate**: the contract is accepted, the live inventory satisfies it, the reward item exists, and the ID is absent from the ledger in any state.
+2. **Prepare**: a `PENDING` ledger entry `{id, tx, player}` is written and flushed to disk before any inventory change.
+3. **Apply**: delivery items and the contract are consumed, rewards are inserted, and a receipt `{tx, contract, overflow, delivered}` is added to the player's attachment. Inventory and receipt belong to one file, so they are atomic with each other.
+4. **Commit**: the player file is saved synchronously. This is the commit point.
+5. **Overflow**: only after the commit, rewards that did not fit are dropped, tagged with the transaction ID, and chunk and entity storage are flushed with `ServerLevel.save`; then the receipt is marked delivered and the player is saved again.
+6. **Finalize**: the ledger entry becomes `COMMITTED`, the ledger is flushed, and the receipt is cleared.
+
+`ContractTransactions.recover` runs on player join and then once a second while the player has an unresolved transaction. It uses only the player's own durable receipt:
+
+| Durable state found | Meaning | Action |
+| --- | --- | --- |
+| `PENDING`, no receipt | the player file predates the transaction | abort: remove the entry, contract and materials intact, redeemable once |
+| `PENDING`, receipt | the commit point was reached | roll forward: deliver any undelivered overflow, mark `COMMITTED`, clear the receipt |
+| `COMMITTED`, stale receipt | cleanup was lost | clear the receipt |
+| receipt, no entry | should not arise from the write order | heal the ledger as `COMMITTED` |
+
+Overflow recovery waits until the player's position is entity-ticking, then skips the drop if an item entity tagged with the transaction already exists nearby. Recovery is idempotent, never needs a clock, and never grants anything that the player's own saved receipt does not describe.
+
+Ownership: the redeeming player owns the transaction. While an entry is `PENDING` every copy of the contract is refused, whoever holds it, and abandonment is refused too. A concurrent request cannot interleave because the server thread serializes them; concurrent submission from eight threads yields exactly one success.
+
+Retention: `COMMITTED` entries are kept for the life of the world, because any surviving copy of the item must stay refused (about 100 bytes per redeemed contract). `PENDING` entries and receipts exist only between prepare and finalize, or after a crash until the owner joins. The ledger reads the earlier bare-ID format as committed entries.
+
+### Limitations (classified PARTIAL)
+
+- **OS or power failure**: the guarantee covers termination of the server process while the operating system survives. It does not add `fsync`, and it relies on vanilla's file replacement.
+- **Overflow entities** live in chunk storage, a third non-atomic domain. A crash between the post-drop flush and the durable "delivered" mark is resolved by the tagged-entity check. A duplicate is still possible if that entity is picked up or destroyed within that window, which is milliseconds wide. Eliminating it would need overflow held in the player file (a mailbox) instead of dropped, which changes Q53 and needs an owner decision.
+- **Liveness**: a `PENDING` entry blocks its contract ID until its owner joins again. There is no offline resolution, so an owner who never returns leaves that one ID blocked. No reward is lost or duplicated meanwhile.
+
+## Crash and restart evidence
+
+`scripts/contract_crash/run_matrix.sh` drives `ContractCrashGameTests` in two real JVM processes sharing one world directory. The first process stops with `Runtime.halt` at one injected boundary: no shutdown hooks and no saves, which is how a SIGKILL looks to the files. The second process is a fresh JVM that reloads the world and the player from disk, joins, and checks the result. This is real process termination at deterministic boundaries; it is not a randomly timed external kill, and no synthetic exception is used as crash evidence.
+
+Each scenario ends with exactly 5 emeralds and exactly 1 bonus item, the contract and delivery items consumed once, no receipt left, a refused duplicate copy, and unchanged counts after recovery runs two more times. In the overflow rows the delivery stack keeps its slot, so the bonus item must be absent from the inventory and dropped exactly once; a lost drop or a second drop fails the row. Every halting row also logs each boundary reached before the halt (`CONTRACT_CRASH_BOUNDARY`), which confirms the process took the intended path.
+
+| Interruption point | Overflow | Ledger on disk at restart | Recovery |
+| --- | --- | --- | --- |
+| before prepare | no | absent | nothing to undo; retry pays once |
+| after prepare | no | pending | rolled back; retry pays once |
+| after consume | no | pending | rolled back; retry pays once |
+| after reward | no | pending | rolled back; retry pays once |
+| after player save | no | pending | rolled forward |
+| after player save | yes | pending | rolled forward, overflow dropped once |
+| after overflow spawn | yes | pending | rolled forward; the unflushed drop died with the process, so it is dropped once |
+| after overflow flush | yes | pending | rolled forward; the flushed drop survived, its tag is found, and it is not dropped again |
+| after overflow dropped | yes | pending | rolled forward |
+| after ledger commit | no / yes | committed | stale receipt cleared |
+| completed normally | yes | committed | reloaded unchanged |
+| `PERSIST` | no | n/a | accepted contract with progress and a fixed rolled placeholder survive a restart, then transfer and complete |
+
+In-process `ContractTransactionGameTests` cover duplicate completion, two players on one ID, a transfer during a pending completion, recovery invoked repeatedly, recovery with a full inventory, ledger formats, and receipt serialization. `ContractRuntimeGameTests` cover death drops (identity and progress preserved, finishable by another player), concurrent submission, rejected malformed requests, structure entry on a real vanilla `StructureStart` (entry after acceptance counts, revisit does not double count, proximity does not), and the full loop from trade purchase through acceptance, progress, and completion with generated contracts of all three tiers.
+
+## Validation
 
 | Check | Result |
 | --- | --- |
-| `/workspace/cloud-setup/gradle.sh test` after BC-03B | CODE VERIFIED; passed |
-| `/workspace/cloud-setup/gradle.sh runGameTest` | SERVER VERIFIED for executed cases; 96/96 required tests passed |
-| `/workspace/cloud-setup/gradle.sh build` after clearing generated `build/run/gameTest/world` | CODE/SERVER VERIFIED for executed cases; build and 96/96 GameTests passed |
-| `build` with a reused generated GameTest world | Failed three existing K5 natural-tree tick-0 fixture checks; no contract GameTest failed. A fresh generated world passed. |
-| Client UI and real gameplay | LIVE PENDING / NOT RUN; no BC-03D UI yet |
-| Real persistence/restart, death drops, overflow, concurrent requests | PARTIAL / NOT RUN as listed above |
+| Unit tests | CODE VERIFIED, 256 pass |
+| Fresh-world GameTests | SERVER VERIFIED, 145 pass |
+| Real process interruption and restart matrix | SERVER VERIFIED, all scenarios in the table pass |
+| `./gradlew build` and dedicated-server smoke | pass; the smoke run shows the mixins apply with no registry, datapack, or mixin errors |
+| Contract UI in a real client | **LIVE PENDING** (below) |
+| OS or power failure durability | not tested |
 
-The PR #150 head inherited a failing full-history secret audit and a passing Fabric CI. BC-03 does not suppress the audit or expose matched values. Check final-head CI separately; inherited historical findings must be distinguished from any new findings.
+**Real client**: the client starts in this container but cannot create a render backend. OpenGL fails with "Couldn't find matching GLX visual" and Vulkan with "Installed Vulkan doesn't implement the VK_KHR_surface extension". The packages that would fix this (Mesa Vulkan drivers, `libglx-mesa0`, `xdotool`, `x11-utils`, `scrot`) cannot be installed because package indexes are not reachable. Without a window there is no real mouse input and no native screenshot, so no UI claim is made beyond compilation and the server-side action tests. CI's `client-visual-validation` job exercises selector screens through in-client callbacks, which this record does not count as contract UI evidence. The documented steps to finish it are: join a world with a contract, right-click it, accept, advance an objective, complete, abandon with confirmation, and reopen after transferring it to another player, capturing native screenshots.
 
-## Continuation status (2026-10-22, BC-03C/D)
+**K5 natural-tree failures**: three K5 tick-0 fixture checks fail when `runGameTest` reuses a previously generated world. Fresh-world runs, used for all evidence here, do not show them. K5 production code is unchanged. Separately, a K5 chunk-persistence test ("didn't succeed within 180 ticks") timed out in 2 of about 9 fresh-world runs while this PR's in-process overflow tests performed a full level save in the same batch, and it never failed in the earlier runs without them. Those three tests now skip the save through `ContractTransactions.setEntityFlush` (a test seam; production and the real-process matrix keep the real flush), and 7 consecutive fresh-world runs then passed. That is consistent with the interference explanation but is not proof, so the K5 test's timing sensitivity remains a separate, unfixed item. No K5 production or test code was changed.
 
-### Implemented in this continuation
-- **Owner reward pool and caps:** `ContractRewards` implements the approved Common/High-grade/Rare/Legendary item lists, Q31/Q35 quantity bands, and item caps (`minecraft:diamond` ≤2, `moreminecrafts:titanium_ingot` ≤4, `moreminecrafts:adamantium_ingot` ≤1, all PROVISIONAL BALANCE). Both MM IDs are registered in `ModItems`.
-- **Special contract economy:** a converted special keeps the Advanced price band (12–20) and payout band (25–50); special rarity distribution 20/45/30/5 is unchanged.
-- **Single-screen contract UI (BC-03D):** right-click opens `ContractScreen` (tier/status, objectives with progress, live delivery holdings, fixed reward preview, accept/complete/abandon, abandonment confirmation). The screen re-reads the contract from the live inventory each frame. Client button state is a convenience only; `ContractActionPayload` is re-validated by `ContractService.act` on the server, and rejected actions send `moreminecrafts.contract.action_failed`.
-- Authority synchronized: the owner decisions above are recorded in `../BOUNTY_CONTRACT_APPROVED_2026-10-22.md`.
+**Secret scan**: `full-history-secret-scan` fails on two `generic-api-key` findings in other remote branches (a territory design document and a model-delegation experiment). Neither commit is in this PR, and scanning this PR's own range (`origin/main..HEAD`) reports zero findings. The check was not suppressed and no history was rewritten.
 
-### Test-wiring defect found and fixed
-`ContractGameTests` was not listed in `src/gametest/resources/fabric.mod.json` `fabric-gametest` entrypoints. Its transfer and duplicate-redemption tests therefore did not run in earlier `runGameTest` results, despite the PR #151 body's earlier wording. The class is now registered; four contract GameTests execute and pass. A deliberate probe failure confirmed execution before it was removed.
+## Provisional balance values
 
-### Superseded: previously blocked items (implemented in the final continuation below)
-- **Objective generation pools.** Generating objectives needs an approved ordinary/strong/special classification for mobs (the BC-01 mob classifications are PROPOSED only) and approved tier-weight selection rules. Neither was in the owner decisions. Hostile-only filtering (neutral/tameable/passive exclusion) is recorded in the overlay, but its concrete mob list is not.
-- **Acquisition wiring.** Structure loot integration (Easy/Medium/Hard sources and 5/10/18% rates), wandering-trader stock, and villager offers all produce contracts, so they depend on objective generation. Verified vanilla loot-table IDs are also not yet checked against the mapped jar.
-- Direct special drops remain DEFERRED by design.
+Combat ordinary/strong weights 90/10, 70/30, 50/50; vanilla strong threshold `MAX_HEALTH` ≥ 40; diamond delivery 2–4, adamantium delivery 1, one high-value delivery per contract; reward caps diamond ≤2, titanium ≤4, adamantium ≤1; offer prices 3 / 8 / 16 emeralds; uniform draw inside the wandering-trader ranges; uniform category choice among combat, delivery, and exploration; Overworld-only exploration pool; contract dimension choice for combat.
 
-### Validation at this continuation
-| Check | Result |
-| --- | --- |
-| `./gradlew test` (JDK 25) | CODE VERIFIED: 252/252 unit tests pass, including `ContractRewardsTest` (4) and the special-band test |
-| `./gradlew runGameTest`, fresh generated world | SERVER VERIFIED: 100/100 required tests pass, including the 4 contract GameTests |
-| Reused generated world | Earlier K5 natural-tree tick-0 failures reproduced; not changed. Fresh-world runs are the valid evidence |
-| Contract UI rendering and clicks | CLIENT: compile only (`compileClientJava`). LIVE PENDING |
-| Persistence across real restart, death drops, overflow, concurrency, crash interruption | NOT RUN in this continuation; still PARTIAL per the record above |
+## Remaining PARTIAL and BLOCKED
 
-## Final continuation status (2026-10-22, BC-03C/D completion)
+- **LIVE PENDING**: the real client UI, as above.
+- **PARTIAL**: the overflow-entity edge and OS-failure durability described under the limitations.
+- **Not implemented**: offline resolution of a `PENDING` entry, and any reward mailbox.
 
-### Implemented
-- **Combat pools** (`ContractCatalog`): 25 vanilla hostile ordinary mobs and 3 strong vanilla mobs, 28 MM ordinary mobs including `moreminecrafts:wild_piglin`, and the 9 approved MM strong mobs. Exclusions: vanilla neutral, tameable, boss, raid-only, summoned, and conversion-only mobs; MM `feral_wolf`, `cave_bat`, `giant_bee`. Hostility is verified by `ContractCatalogGameTests` (`Enemy`, not `NeutralMob` or `TamableAnimal`). Vanilla strong means non-boss `MAX_HEALTH` of at least 40: `elder_guardian`, `hoglin`.
-- **Combat weighting** (`ContractGenerator.combat`): Beginner 90/10, Intermediate 70/30, Advanced 50/50 ordinary/strong, PROVISIONAL BALANCE. One dimension per contract: Beginner Overworld; Intermediate Overworld or Nether; Advanced any of the three (uniform). Empty pools fall back to the other strength.
-- **Delivery**: BC-01 vanilla IDs in ordinary (16–32 / 32–64 / 64–128) and rare (2–4 / 4–12 / 8–24) bands. Diamond fixed 2–4 and adamantium ingot fixed 1, at most one high-value delivery per contract. `minecraft:chain` is **not registered** in 26.3 and was removed. The BC-01 catalog wrongly listed it.
-- **Exploration**: seven accessible Overworld structures (`village_plains`, `desert_pyramid`, `jungle_pyramid`, `mineshaft`, `stronghold`, `mansion`, `trial_chambers`), count 1 / 1–2 / 2–3. Note the vanilla IDs `jungle_pyramid` and `mansion`, not `jungle_temple` or `woodland_mansion`.
-- **Acquisition**: trade and loot results are pending placeholders carrying only a tier (`moreminecrafts:pending_contract`). `ContractMaterializer` rolls the objectives and reward on first server-side inventory pickup, and 5% Advanced-to-Special conversion applies there. Each tier's objective slot count follows the approved rules; category selection is uniform (PROVISIONAL).
-- **Loot** (`ContractLootIntegration`): one added pool per approved table. Verified 26.3 IDs: `minecraft:chests/abandoned_mineshaft`, `minecraft:chests/desert_pyramid` (Easy); `minecraft:chests/jungle_temple`, `minecraft:chests/trial_chambers/reward` (Medium); `minecraft:chests/ancient_city`, `minecraft:chests/bastion_treasure` (Hard). Appearance 5 / 10 / 18%, tier weights 75/22/3, 45/40/15, 20/45/35. Existing pools are untouched. The `trade_rebalance` built-in datapack also replaces four of these tables, and the modifier applies to whichever table is loaded.
-- **Villagers**: data-driven trades for Farmer, Fisherman, Fletcher, Weaponsmith, Toolsmith, Cartographer, and Cleric. Beginner at level 2 (2 entries), Intermediate at level 3 (1), Advanced at level 4 (1). Entries are appended to the vanilla `minecraft:<profession>/level_N` tags, and vanilla trades are kept.
-- **Wandering trader**: Beginner appended to `common`, Intermediate and Advanced to `uncommon`.
-- **UI**: offered and accepted abandonment, slot-scoped actions, and confirmation (see the validation table).
+## Owner decisions still required
 
-### Provisional balance values (all PROVISIONAL BALANCE)
-- Combat ordinary/strong weights 90/10, 70/30, 50/50.
-- Vanilla strong threshold `MAX_HEALTH` ≥ 40.
-- High-value delivery exceptions: diamond 2–4, adamantium 1; one high-value delivery per contract.
-- Reward item caps: diamond ≤2, titanium ingot ≤4, adamantium ingot ≤1.
-- Trade prices fixed at band midpoints: Beginner 3, Intermediate 8, Advanced 16 emeralds.
-- Structure appearance 5/10/18%, tier weights as above.
-
-### Partial or not done
-- **Stock:** trade and wandering-trader stock is approximated through vanilla random selection from tags. Exact per-trader stock needs a code hook. PARTIAL.
-- **Real client UI:** LIVE PENDING (see below).
-- **Crash-safe exactly-once:** NOT proven. See below.
-
-### Validation (final continuation, 2026-10-22)
-| Check | Result |
-| --- | --- |
-| `./gradlew test` (JDK 25) | CODE VERIFIED: unit tests pass |
-| `./gradlew runGameTest` in a fresh world | SERVER VERIFIED: 125/125 required GameTests pass, including catalog registration, hostility, strength rule, loot appearance (20,000 seeded rolls per table) and tier shares, untouched control chest, profession stock, wandering-trader tags, offered abandonment, stale-slot rejection, redeemed-copy refusal, pending materialization, serialization round trip, competing deliveries, and full-inventory overflow with a single payout |
-| `./gradlew build` in a fresh world | Build successful |
-| Real client UI | LIVE PENDING. Not run. The repository's own visual-validation harness reports that the Minecraft window is not discoverable for physical input on this runner class, so no real mouse-driven evidence was captured. The GameTests above are server-side only. |
-| Crash interruption during redemption, real process restart, death drops in a live session | NOT RUN. No crash-injection harness exists. See below. |
-
-### Completion integrity analysis (not crash-safe)
-- The redeemed-ID ledger is a world `SavedData`. Player inventories are saved in separate per-player files. Vanilla provides no transaction across those files.
-- Crash windows: if a crash occurs after the ledger claim but before the player file saves, the contract may reappear unredeemed or be lost, depending on save ordering. If a copy of a redeemed ID exists in another player's saved file, a copy can redeem again after reload. Duplication is therefore not prevented across a crash, and reward delivery is not exactly-once.
-- Focused mitigations implemented: slot-scoped actions, ledger refusal of abandonment for redeemed IDs, and a serialization round-trip test.
-- Proposed mechanism (NOT implemented): a world-level write-ahead journal recording `{id, player, phase}` before any inventory mutation, with a reconciliation pass at player load. It requires a crash-injection test (process kill during redemption) to establish any PASS. Until then, exactly-once is PARTIAL.
+1. Should sold contract stock refill with vanilla restocking? Today it does.
+2. Should overflow rewards be held in a player mailbox instead of dropped? That would remove the last non-atomic domain from redemption but changes Q53.
+3. Distribution inside the wandering-trader ranges, category weights, the exploration structure matrix, and whether price should vary with objectives inside the band (all currently provisional).
 
 ## BC-04 independent audit handoff
 
-- Compare the final BC-03 HEAD with Q1–Q62 and the later owner overlay in the authority document.
-- Verify exact runtime entity/item/structure IDs, hostile classification, tier access, quantity caps, reward identities, and no unavailable objective.
-- Sample trade stock, loot appearance, tier conditional distributions, special conversion and bonus rarity/quantity distributions.
-- Exercise acquire → inspect → accept → progress → complete → reward, acquire → accept → abandon, and transfer → progress → complete in real clients.
-- Verify damage source/actual-health attribution, environmental death, healing, excess damage, multiple contributors, duplicate objectives and multi-contract sharing.
-- Test structure entry, revisits after acceptance, nonmatching structures and distinct structure instances.
-- Test delivery inventory competition, failed redemption, duplicate IDs, simultaneous requests, overflow, death drops, full restart and deliberate interruption during redemption.
-- Record server/client/live evidence separately and inspect final-head CI, including the unsuppressed secret audit. Do not treat a build as final gameplay acceptance.
+- Compare the final head with Q1–Q62, the owner overlays, and this file; verify the provisional values above and the BC-01 corrections (`minecraft:chain` is unregistered, and the structure IDs are `jungle_pyramid` and `mansion`).
+- Re-run `scripts/contract_crash/run_matrix.sh` on a fresh world, and consider an externally timed `kill -9` during redemption as an independent check on the injected boundaries.
+- Finish the UI check with a real window, real mouse input, and native screenshots on a machine with working OpenGL or Vulkan.
+- Inspect final-head CI, including the secret scan, and confirm the two findings are still outside this PR's range.
