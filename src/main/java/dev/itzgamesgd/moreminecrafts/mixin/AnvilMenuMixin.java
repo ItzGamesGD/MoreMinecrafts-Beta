@@ -32,6 +32,27 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
     }
     @Override public int moreminecrafts$mode(){return moreminecrafts$mode.get();}
     @Override public int moreminecrafts$catalystSlotIndex(){return slots.indexOf(moreminecrafts$catalystSlot);}
+    @Override public ItemStack moreminecrafts$quickMoveCatalyst(Player player,int slotIndex){
+        int catalystIndex=moreminecrafts$catalystSlotIndex();
+        if(slotIndex==catalystIndex){
+            Slot source=getSlot(catalystIndex);ItemStack stack=source.getItem();
+            if(stack.isEmpty())return ItemStack.EMPTY;
+            ItemStack moved=stack.copy();
+            if(!moveItemStackTo(stack,3,catalystIndex,true))return ItemStack.EMPTY;
+            if(stack.isEmpty())source.set(ItemStack.EMPTY);else source.setChanged();
+            return moved;
+        }
+        if(moreminecrafts$mode()==0&&slotIndex>=3&&slotIndex<catalystIndex
+                &&getSlot(slotIndex).getItem().is(ModItems.RELIC_CATALYST)){
+            Slot source=getSlot(slotIndex);ItemStack stack=source.getItem();ItemStack moved=stack.copy();
+            if(!getSlot(catalystIndex).hasItem()&&moveItemStackTo(stack,catalystIndex,catalystIndex+1,false)){
+                if(stack.isEmpty())source.set(ItemStack.EMPTY);else source.setChanged();
+                return moved;
+            }
+            return ItemStack.EMPTY;
+        }
+        return null;
+    }
     @Override public boolean moreminecrafts$button(Player player,int action){
         if(player.level().isClientSide()||!stillValid(player))return false;
         if(action>=0&&action<=2){moreminecrafts$mode.set(action);((AnvilMenu)(Object)this).createResult();return true;}
@@ -49,26 +70,6 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
         }
         if(action==3&&moreminecrafts$mode()==2&&getSlot(2).hasItem()&&getSlot(2).mayPickup(player)){quickMoveStack(player,2);return true;}
         return false;
-    }
-    @Inject(method="quickMoveStack",at=@At("HEAD"),cancellable=true)
-    private void moreminecrafts$quickMoveCatalyst(Player player,int slotIndex,CallbackInfoReturnable<ItemStack> cir){
-        int catalystIndex=moreminecrafts$catalystSlotIndex();
-        if(slotIndex==catalystIndex){
-            Slot source=getSlot(catalystIndex);ItemStack stack=source.getItem();
-            if(stack.isEmpty()){cir.setReturnValue(ItemStack.EMPTY);return;}
-            ItemStack moved=stack.copy();
-            if(!moveItemStackTo(stack,3,catalystIndex,true)){cir.setReturnValue(ItemStack.EMPTY);return;}
-            if(stack.isEmpty())source.set(ItemStack.EMPTY);else source.setChanged();
-            cir.setReturnValue(moved);return;
-        }
-        if(moreminecrafts$mode()==0&&slotIndex>=3&&slotIndex<catalystIndex
-                &&getSlot(slotIndex).getItem().is(ModItems.RELIC_CATALYST)){
-            Slot source=getSlot(slotIndex);ItemStack stack=source.getItem();ItemStack moved=stack.copy();
-            if(!getSlot(catalystIndex).hasItem()&&moveItemStackTo(stack,catalystIndex,catalystIndex+1,false)){
-                if(stack.isEmpty())source.set(ItemStack.EMPTY);else source.setChanged();
-                cir.setReturnValue(moved);
-            }else cir.setReturnValue(ItemStack.EMPTY);
-        }
     }
     @Inject(method="removed",at=@At("TAIL"))
     private void moreminecrafts$returnCatalyst(Player player,CallbackInfo ci){
