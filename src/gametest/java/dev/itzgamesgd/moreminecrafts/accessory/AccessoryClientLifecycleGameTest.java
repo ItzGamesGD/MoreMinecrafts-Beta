@@ -29,7 +29,7 @@ import net.minecraft.world.phys.AABB;
 public final class AccessoryClientLifecycleGameTest implements FabricClientGameTest {
     private static final int LEFT_MOUSE_BUTTON = 1;
     private static final int DEFENSE_MENU_SLOT = 48;
-    private static final int RING_INVENTORY_SLOT = 9;
+    private static final int RING_INVENTORY_SLOT = 11;
     private static final AccessoryDefinition[] SLOT_ITEMS = {
             AccessoryDefinition.SOUL_CHAIN,
             AccessoryDefinition.EMBER_RING,
