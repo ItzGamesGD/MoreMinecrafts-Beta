@@ -1,6 +1,6 @@
 # Bounty & Contract System — Approved Design (2026-10-22)
 
-Status: **APPROVED DESIGN, NOT IMPLEMENTATION**. This document captures owner decisions Q1-Q26 and subsequent roster/algorithm approval. Any illustrative numbers or unverified MM mob names are not promoted to authority.
+Status: **APPROVED DESIGN; IMPLEMENTATION PENDING**. This authority records approved decisions Q1-Q62. Design approval does not claim gameplay implementation or verification. Registry identities remain subject to repository reconciliation; no unsupported MM mob or item IDs are asserted.
 
 ## Acquisition and item lifecycle
 - Contracts are physical items. Wandering traders are the main vendor; selected ordinary villagers also sell tiered contracts. Structure chests, trial rewards and world events may award contract items.
@@ -8,7 +8,7 @@ Status: **APPROVED DESIGN, NOT IMPLEMENTATION**. This document captures owner de
 - Right-click a contract to open a **single-screen UI**, including after acceptance. Show objectives, counters, required inventory items, fully determined rewards, status and appropriate accept/complete/abandon controls.
 - Accepting does **not** consume the item. Unlimited accepted contracts can coexist. The contract item carries identity and progress; transfer to another player preserves its progress.
 - Completion is **manual**, via the UI button after authoritative validation of recorded counters and inventory quantities. On successful completion, consume required delivery items and the contract, and grant the precommitted reward **exactly once**. Abandonment destroys the contract.
-- Direct kills and sufficiently credited assists count; exact assist threshold remains OPEN. Explore targets count on visits **after acceptance**, including revisits to previously discovered places. A qualifying action advances every applicable active contract, including duplicates.
+- Direct kills count, as do qualifying assists under Q48/Q51/Q58/Q59: the player dealt at least 20% of the mob’s maximum health as qualifying damage during the 30 seconds before death. Attribution is server-authoritative. Healing, damage caps/sources, and despawning edge cases remain engineering verification items. Explore targets count on visits **after acceptance**, including revisits to previously discovered places. A qualifying action advances every applicable active contract, including duplicates.
 - Implementation must prevent double redemption, item duplication exploits and cross-player completion races. How item-bound progress updates and event attribution are persisted is an engineering decision constrained by these rules.
 
 ## Tiers and categories
@@ -26,15 +26,15 @@ Status: **APPROVED DESIGN, NOT IMPLEMENTATION**. This document captures owner de
 - Delivery requires current inventory quantity at completion, then deducts it. Kill and exploration counters are recorded after acceptance.
 
 ## Expanded target pools (approved candidate categories, actual registry reconciliation required)
-- **Combat:** include eligible vanilla mobs and **all 40 MM-added mobs** in the classification pass. Ordinary and strong mobs enter tier-weighted random combinations; exceptional, boss, event-only or uniquely summoned mobs are excluded from ordinary random combat and reserved for special objectives as appropriate. Classify by combat difficulty, spawning availability and access dimension. Avoid duplicate entries for the same mob in a single contract; avoid impossible cross-dimension bundles. Do not invent a list of the 40 MM mobs: reconcile against actual registry before implementation.
+- **Combat:** include eligible vanilla mobs and **all 40 MM-added mobs** in the classification pass. Ordinary and strong mobs enter tier-weighted random combinations; exceptional, boss, event-only or uniquely summoned mobs are excluded from ordinary random combat and reserved for special objectives as appropriate. Classify by combat difficulty, spawning availability and access dimension. Duplicate objective entries are allowed, including repeated mob or item targets. A qualifying event advances every matching entry simultaneously; each keeps its own requirement and counter. One qualifying event may also advance multiple accepted contracts. Avoid impossible cross-dimension bundles. Do not invent a list of the 40 MM mobs: reconcile against actual registry before implementation.
 - **Delivery:** farming: wheat, potatoes, carrots, beetroot, sugar cane, pumpkins, melon slices, cocoa beans, sweet berries, glow berries, cactus, hay bales; forestry: logs by type, bamboo, saplings, leaves, sticks; mining: cobblestone, dirt, coal, iron/copper/gold, redstone, lapis, quartz, diamond, emerald, amethyst shards, flint, deepslate, obsidian; mob drops: bones, string, gunpowder, ender pearls, blaze rods, rotten flesh, spider eyes, slimeballs, magma cream, leather, feathers; aquatic: fish, ink sacs, prismarine shards, seagrass, kelp, nautilus shells; crafted: glass, bricks, paper, books, copper blocks, torches, chains, iron bars, flower pots. MM fish/materials are candidate extensions pending verified item registries. Respect economic value; rare expensive items must not automatically inherit the maximum count.
 - **Exploration:** eligible Overworld/Nether/End biomes and vanilla structures (villages, temples, mineshafts, strongholds, monuments, mansions, trial chambers, ancient/end cities, fortresses, bastions), plus verified new MM structures. Require verifiable entry rather than mere map ownership.
 - **Special:** elite pillager/event pursuit, meteor investigation, trial encounters and new-structure challenges; never generate a contract for an unimplemented or unverifiable event/structure.
 
 ## Rewards and trade
-- Mixed reward: emeralds plus materials/consumables plus tier-weighted rarity roll. Four extra-reward rarities **common, uncommon/high-grade, rare, legendary** (Korean: 일반/고급/희귀/전설). Objective and reward are both finalized at item acquisition and displayed before acceptance.
-- Previously discussed **illustrative, NOT approved** economic bands: beginner contract cost 2-4 emeralds / emerald reward 5-10; intermediate 6-10 / 12-24; advanced 12-20 / 25-50. These are placeholders pending balancing, not fixed economy rules.
-- Exact rarity probabilities, item pools, item quantities, trader stock, villager professions, special-contract chance, contribution threshold, structure loot rates and final UI art are **OPEN**.
+- Mixed reward: emeralds plus materials/consumables plus tier-weighted rarity roll. Four extra-reward rarities **common, uncommon/high-grade, rare, legendary** (Korean: 일반/고급/희귀/전설). Objective and reward are finalized at acquisition and shown before acceptance. After purchase, the full objective list, quantities, and fixed rewards are visible; the wandering trader does not reveal rolled contents before purchase.
+- **Approved purchase-price / emerald-reward ranges:** beginner 2–4 / 5–10; intermediate 6–10 / 12–24; advanced 12–20 / 25–50. These are approved limits. Apply effort and delivery-cost adjustment within each tier’s range; reject or rebalance delivery combinations that cannot be economically reasonable within the tier payout limit.
+- Q27–Q62 decisions below approve rarity probabilities, additional-item quantities, trader stock, eligible villager professions and unlock levels, purchase/reward ranges, special-contract conversion chance, structure-container probabilities, combat contribution threshold, duplicate handling, UI information, and delivery semantics. Still-open details are called out explicitly below: exact registry identities and item IDs, item-specific value caps, direct special-reward probabilities, structure tier matrices, remaining economic selections, and engineering edge cases.
 - Balance explicitly against delivery opportunity cost, expected playtime and unlimited simultaneous contract stacking. Do not silently change the approved multi-contract shared-credit rule to mitigate farming.
 
 ## Acceptance and next design work
@@ -43,3 +43,93 @@ Status: **APPROVED DESIGN, NOT IMPLEMENTATION**. This document captures owner de
 3. Decide four-tier reward probability matrix and concrete reward pools, prices, stock and source loot weights.
 4. Resolve kill-assist credit threshold, objective combination effort cap, multiplayer item-progress synchronization and completion atomicity.
 5. Design single-screen UI layout and validation tests. No gameplay implementation authorized by this document alone.
+
+
+## Approved decisions Q27–Q62
+
+### Q27–Q35: rewards, pricing, and stock
+
+- **Q27 — Additional-reward rarity probabilities.** These probabilities apply to the additional item reward rarity roll:
+
+  | Tier | Common | High-grade | Rare | Legendary |
+  | --- | ---: | ---: | ---: | ---: |
+  | Beginner | 80% | 17% | 2.8% | 0.2% |
+  | Intermediate | 60% | 30% | 9% | 1% |
+  | Advanced | 40% | 40% | 17% | 3% |
+
+  Each tier row totals 100%.
+
+- **Q28 — Reward composition.** Additional rewards primarily consist of resources and materials. Equipment is excluded from the normal additional-reward pool. Preserve individual caps for exceptionally valuable items. Exclusive dungeon, boss, relic, and accessory rewards are not silently included.
+- **Q29 — Pricing model.** Contract prices and emerald payouts are set within approved tier-specific ranges, considering objective difficulty, expected effort, and delivery-material cost.
+- **Q30 — Special contract rewards.** Special contracts use an increased rarity distribution; they do not require an exclusive reward-item pool.
+- **Q31/Q35 — Additional-item quantities.** Baseline quantities are Common 16–48, High-grade 8–24, Rare 2–8, Legendary 1–2. Item-specific value caps override these ranges when needed. Exact item selections and numeric caps remain open.
+- **Q32 — Special-contract rarity.** Common 20%, High-grade 45%, Rare 30%, Legendary 5% (100% total).
+- **Q33 — Wandering-trader stock per trader.** Beginner 1–2, Intermediate 0–1, Advanced 0–1.
+- **Q34 — Purchase prices and emerald rewards.** The approved ranges are:
+
+  | Tier | Purchase price | Emerald reward |
+  | --- | ---: | ---: |
+  | Beginner | 2–4 | 5–10 |
+  | Intermediate | 6–10 | 12–24 |
+  | Advanced | 12–20 | 25–50 |
+
+  Adjust for effort and delivery cost only within these ranges. Reject or rebalance an economically unreasonable delivery objective combination rather than exceeding its tier’s payout range.
+
+### Q36–Q45: sellers and sources
+
+- **Q36/Q39 — Eligible villager professions:** Farmer, Fisherman, Fletcher, Weaponsmith, Toolsmith, Cartographer, and Cleric. Profession-relevant objectives receive appropriate selection weights.
+- **Q40 — Villager trade unlocks:** Beginner at Apprentice; Intermediate at Journeyman; Advanced at Expert or higher.
+- **Q41 — Eligible structure-container contract probabilities:** Easy 5%, Medium 10%, Hard 18%. These apply only to explicitly eligible loot containers, not every chest in the world.
+- **Q42 — Special-contract acquisition:** 5% conversion chance when acquiring an Advanced contract, plus additional direct rewards from eligible high-difficulty structures and world events. Direct-reward probabilities remain OPEN unless separately approved.
+- **Q43 — Ordinary villager stock:** Beginner 2, Intermediate 1, Advanced 1. Stock applies to unlocked eligible trade offers; it does not require every villager to offer every tier irrespective of unlock level.
+- **Q44 — Structure difficulty weighting:** Tier distributions are weighted by structure difficulty: easy structures favor Beginner and difficult structures favor Advanced. Exact tier probability matrices remain OPEN.
+- **Q45 — Special objective availability:** Generate only objectives for content implemented, enabled, and actually generatable or completable in the current world. Lack of prior player discovery does not by itself disqualify an otherwise valid structure.
+
+### Q46–Q59: duplicates, combat credit, and item lifecycle
+
+- **Q46 — Duplicate objectives:** Duplicate objective entries are allowed, including the same mob or item target multiple times in one contract. This supersedes the earlier duplicate-target prohibition.
+- **Q47 — Duplicate progress:** One qualifying event advances all matching objective entries simultaneously, including duplicates in one contract. Each entry retains its own requirement and counter. Preserve shared advancement across multiple accepted contracts.
+- **Q48/Q51/Q58/Q59 — Combat contribution:** A kill counts when the player lands the final blow, or when the player dealt at least 20% of the mob’s maximum health as qualifying damage during the final 30 seconds before death. Do not use damage dealt by other players in that player’s percentage. Attribution is server-authoritative. Healing, damage caps, qualifying damage sources, and mob despawning edge cases remain engineering verification items.
+- **Q49 — Transfer:** Progress is stored on the contract item and persists when transferred between players.
+- **Q52 — Death:** Contracts behave as ordinary inventory items on death. Dropped items retain identity and progress.
+- **Q53 — Full inventory:** On completion, insert as much reward as possible into the inventory, then drop the remainder at the player’s location. Overflow must not trigger duplicate payout.
+- **Q57 — Abandonment:** Require a confirmation dialog before destroying the contract item.
+- **Q60/Q61 — Delivery:** Materials already owned before acceptance are eligible. Show current inventory quantities as live delivery availability. Consume required materials only on successful manual completion and revalidate inventory on the server at completion. A previously observed quantity is not permanently banked progress.
+
+### Q50/Q62: completion integrity
+
+Completion processing is server-authoritative and atomic at the design level. Persist completed contract IDs to prevent repeated redemption; validate objective counters and required inventory; consume delivery materials and the contract item; and grant precommitted rewards exactly once. Handle simultaneous requests and server interruption safely. **Crash-safe atomicity is a requirement, not an implementation claim or a tested result.**
+
+### Q54–Q56: contract information and controls
+
+- **Q54/Q55 — UI:** Use one vertically arranged screen in this order: (1) contract tier and status; (2) objective list and progress; (3) precommitted rewards; (4) context-appropriate accept, complete, and abandon controls.
+- **Q56 — Pre-acceptance information:** Once acquired, show the complete objective list, required quantities, and fixed rewards before acceptance. This does not require a wandering trader to disclose rolled contents before purchase.
+
+## Design integrity review
+
+Statuses distinguish settled rules from engineering proof still required. **DESIGN CONSISTENT** means the approved rules give a coherent outcome; it does not claim implementation. **OPEN ENGINEERING VALIDATION** means implementation behavior needs verification. No case below is a conflict requiring an owner decision.
+
+| Case | Status | Design result / remaining check |
+| --- | --- | --- |
+| Two duplicate combat objectives inside one contract | DESIGN CONSISTENT | One qualifying kill advances both matching entries; each counter and requirement remains independent. |
+| Multiple contracts share one qualifying kill | DESIGN CONSISTENT | One qualifying event advances every applicable accepted contract. |
+| Two delivery contracts require the same inventory materials | DESIGN CONSISTENT | Each checks current inventory at completion; materials are available to both until one completion consumes them. |
+| First delivery completion temporarily unsatisfies the second | DESIGN CONSISTENT | The second contract remains incomplete until its materials are again present; live availability updates and server revalidation govern. |
+| Contract transfer while progress updates | OPEN ENGINEERING VALIDATION | Item-bound identity/progress must survive transfer without a lost or duplicated update; synchronize the update server-authoritatively. |
+| Death and item drops preserve contract identity | DESIGN CONSISTENT | Dropped contract item retains its identity and progress, like an ordinary inventory item. |
+| Duplicate contract IDs attempt redemption | OPEN ENGINEERING VALIDATION | Persisted completed IDs and server-authoritative validation must prevent repeated rewards across copied items. |
+| Two simultaneous completion requests for one contract | OPEN ENGINEERING VALIDATION | Atomic completion and completed-ID persistence must serialize/reject the duplicate request. |
+| Reward overflow with full inventory | DESIGN CONSISTENT | Fill available inventory space, drop the remainder at the player, and prevent a second payout. |
+| Server interruption during completion | OPEN ENGINEERING VALIDATION | Recovery must preserve exactly-once completion; crash-safe atomic behavior has not been proven. |
+| Special objective references disabled or unimplemented content | DESIGN CONSISTENT | Such objectives are not generated; valid undiscovered structures remain eligible. |
+| High-value delivery items exceed reasonable tier payout limits | DESIGN CONSISTENT | Apply item-specific value caps and reject or rebalance the objective combination within approved price/reward ranges. Exact caps and balancing remain OPEN. |
+
+## Remaining OPEN decisions and IMPLEMENTATION PENDING
+
+- Exact eligible MM mob and item registry identities, final objective pool entries, and implementation/content availability reconciliation.
+- Exact item-specific high-value caps and the concrete eligible additional reward-item pool.
+- Direct special-reward probabilities; exact structure difficulty-to-tier probability matrices.
+- Any remaining objective selection weights and numerical difficulty/effort rules not set above.
+- Qualifying damage edge cases for healing, damage caps, damage sources, and despawn.
+- Server-authoritative persistence and transfer synchronization, completed-ID storage, simultaneous completion handling, and crash-safe atomic completion.
+- All gameplay implementation and implementation validation. This authority document records design only.
