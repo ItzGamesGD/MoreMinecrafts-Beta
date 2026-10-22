@@ -1,0 +1,5 @@
+# Verified synthetic test fixture, exact historical finding only.
+aa376713aedcd7fecd769af39e18f8532b9e147d:scripts/free_model_delegation/test_delegation.py:generic-api-key:32
+
+# Verified natural-language prose false positive, exact historical finding only.
+a1e0aeb0ab8ba90419b714a42502cbe8db9d770c:docs/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
