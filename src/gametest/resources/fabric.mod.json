@@ -21,6 +21,9 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryLifecycleGameTests",
       "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests"
+    ],
+    "fabric-client-gametest": [
+      "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest"
     ]
   },
   "mixins": [
