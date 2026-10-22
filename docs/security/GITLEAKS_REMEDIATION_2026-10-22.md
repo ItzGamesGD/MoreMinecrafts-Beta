@@ -15,7 +15,7 @@ The local reproduction fetched 104 remote branch refs, zero tags, and 155 pull r
 | Finding | Rule | Historical source | Classification | Exposure and residual risk |
 | --- | --- | --- | --- | --- |
 | A | `generic-api-key` | `scripts/free_model_delegation/test_delegation.py`, `aa376713aedcd7fecd769af39e18f8532b9e147d`, line 32 | **Synthetic test fixture.** The 28-character value has mixed case, digits, and punctuation; its structure has a provider-shaped test prefix with explicit test/secret markers followed by an eight-character uppercase suffix. This classification is based on the value structure and usage, not the variable name. | The historical fixture resembles a credential more than necessary, but the test supplies it only through `FakeTransport`; the error-redaction case patches the HTTP transport, and the no-key live-path test rejects every attempted call. No real external authentication request is made by these tests. The fixture remains in reachable public history; no evidence indicates a usable credential, so rotation is not indicated. |
-| B | `generic-api-key` | `docs/TERRITORY_REGISTRATION_FABRIC_SPEC.md`, `a1e0aeb0ab8ba90419b714a42502cbe8db9d770c`, line 15 | **Non-secret natural-language text.** The 19-character match is mixed case and includes a slash. It is a prose compound in the opening technical paragraph, not a URL, code literal, hash, credential, or identifier. | The document describes a shelved territory design. The match is explanatory prose and is not used by code or infrastructure. No credential exposure or rotation is indicated. The prose remains in reachable branch and PR history. |
+| B | `generic-api-key` | `docs/TERRITORY_REGISTRATION_FABRIC_SPEC.md`, `a1e0aeb0ab8ba90419b714a42502cbe8db9d770c`, line 15 | **Non-secret natural-language text.** The 19-character match is mixed case and includes a slash. It is a prose compound in the opening technical paragraph, not a URL, code literal, hash, credential, or token. | The document describes a shelved territory design. The match is explanatory prose and is not used by code or infrastructure. No credential exposure or rotation is indicated. The prose remains in reachable branch and PR history. |
 
 ### Evidence and root cause
 
@@ -34,7 +34,7 @@ The controlled negative check uses an unrelated synthetic API-key fixture with t
 ## Validation record
 
 - Baseline full-history scan before the change: **FAIL**, Gitleaks 8.30.1, 1,356 reachable commits, two findings.
-- Full-history scan after the exact-fingerprint ignore file: **PASS**, exit 0 with zero findings over the same 1,356 commits and fetched ref set.
+- Full-history scan after the exact-fingerprint ignore file: **PASS**, exit 0 with zero findings over the fetched ref set, including the remediation commit.
 - Controlled unrelated synthetic finding: **PASS**, one `generic-api-key` finding remained detectable.
 - Relevant historical Python test suite: **PASS**, all 23 tests.
 - Remote GitHub Actions result: **pending**; local validation alone is not a remote CI pass.
