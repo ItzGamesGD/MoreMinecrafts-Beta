@@ -71,8 +71,7 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
         if(action==3&&moreminecrafts$mode()==2&&getSlot(2).hasItem()&&getSlot(2).mayPickup(player)){quickMoveStack(player,2);return true;}
         return false;
     }
-    @Inject(method="removed",at=@At("TAIL"))
-    private void moreminecrafts$returnCatalyst(Player player,CallbackInfo ci){
+    @Override public void moreminecrafts$returnCatalyst(Player player){
         if(player.level().isClientSide())return;
         ItemStack stack=moreminecrafts$catalystContainer.removeItemNoUpdate(0);
         if(!stack.isEmpty()){
