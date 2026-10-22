@@ -12,8 +12,6 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerCon
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -30,7 +28,6 @@ import net.minecraft.world.phys.AABB;
 @SuppressWarnings("UnstableApiUsage")
 public final class AccessoryClientLifecycleGameTest implements FabricClientGameTest {
     private static final int LEFT_MOUSE_BUTTON = 1;
-    private static final int SHIFT_MODIFIER = 1;
     private static final int DEFENSE_MENU_SLOT = 48;
     private static final int RING_INVENTORY_SLOT = 9;
     private static final AccessoryDefinition[] SLOT_ITEMS = {
@@ -362,18 +359,17 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
     }
 
     private static void clickShiftMenuSlot(ClientGameTestContext context, int menuSlot) {
-        context.runOnClient(client -> {
+        double[] point = context.computeOnClient(client -> {
             var screen = (InventoryScreen) client.gui.screen();
             var slot = client.player.inventoryMenu.getSlot(menuSlot);
-            int left = screenIntField(screen, "leftPos");
-            int top = screenIntField(screen, "topPos");
-            MouseButtonEvent event = new MouseButtonEvent(left + slot.x + 8.0,
-                    top + slot.y + 8.0,
-                    new MouseButtonInfo(LEFT_MOUSE_BUTTON, SHIFT_MODIFIER));
-            boolean handled = screen.mouseClicked(event, false);
-            screen.mouseReleased(event);
-            System.out.println("ACCESSORY_RAPID_CLICK slot=" + menuSlot + " handled=" + handled
-                    + " shift=" + client.hasShiftDown()
+            double scale = client.getWindow().getGuiScale();
+            return new double[]{(screenIntField(screen, "leftPos") + slot.x + 8.0) * scale,
+                    (screenIntField(screen, "topPos") + slot.y + 8.0) * scale};
+        });
+        context.getInput().setCursorPos(point[0], point[1]);
+        context.getInput().pressMouse(LEFT_MOUSE_BUTTON);
+        context.runOnClient(client -> {
+            System.out.println("ACCESSORY_RAPID_CLICK slot=" + menuSlot + " shift=" + client.hasShiftDown()
                     + " source=" + client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem()
                     + " equipped=" + client.player.inventoryMenu.getSlot(DEFENSE_MENU_SLOT).getItem()
                     + " cursor=" + client.player.containerMenu.getCarried());
