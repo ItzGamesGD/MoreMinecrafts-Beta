@@ -52,7 +52,7 @@ public final class ModNetworking {
                 context.server().execute(() -> {
                     var action = ContractActionPayload.parse(payload.action());
                     if (action == null || !dev.itzgamesgd.moreminecrafts.bounty.ContractService.act(
-                            context.player(), payload.contractId(), action))
+                            context.player(), payload.slot(), payload.contractId(), action))
                         context.player().sendSystemMessage(net.minecraft.network.chat.Component.translatable(
                                 "moreminecrafts.contract.action_failed"));
                 }));

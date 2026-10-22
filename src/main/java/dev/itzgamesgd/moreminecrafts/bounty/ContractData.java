@@ -14,7 +14,7 @@ public record ContractData(String id, Tier tier, Status status, List<Objective> 
     public enum Status { OFFERED, ACCEPTED }
     public enum Category { COMBAT, DELIVERY, EXPLORATION, SPECIAL }
 
-    private static final Codec<Tier> TIER_CODEC = Codec.STRING.xmap(Tier::valueOf, Tier::name);
+    public static final Codec<Tier> TIER_CODEC = Codec.STRING.xmap(Tier::valueOf, Tier::name);
     private static final Codec<Status> STATUS_CODEC = Codec.STRING.xmap(Status::valueOf, Status::name);
     private static final Codec<Category> CATEGORY_CODEC = Codec.STRING.xmap(Category::valueOf, Category::name);
 

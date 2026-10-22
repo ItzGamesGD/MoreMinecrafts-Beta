@@ -17,28 +17,36 @@ public final class ContractService {
     public enum Action { ACCEPT, COMPLETE, ABANDON }
     private ContractService() {}
 
-    public static boolean act(ServerPlayer player, String id, Action action) {
+    /**
+     * Acts on exactly the item in {@code slot}, and only if that slot still holds the contract with {@code id}. A stale
+     * client therefore cannot touch a different copy of the same ID that moved to another slot.
+     */
+    public static boolean act(ServerPlayer player, int slot, String id, Action action) {
         if (id == null || id.length() > 40 || action == null) return false;
         Inventory inventory = player.getInventory();
-        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
-            ItemStack stack = inventory.getItem(slot);
-            ContractData data = ContractStacks.read(stack);
-            if (data == null || !data.id().equals(id)) continue;
-            return switch (action) {
-                case ACCEPT -> {
-                    if (data.status() != ContractData.Status.OFFERED) yield false;
-                    stack.set(ModDataComponents.CONTRACT, data.accept());
-                    yield true;
-                }
-                case ABANDON -> {
-                    if (data.status() != ContractData.Status.ACCEPTED) yield false;
-                    stack.shrink(1);
-                    yield true;
-                }
-                case COMPLETE -> complete(player, stack, data);
-            };
-        }
-        return false;
+        if (slot < 0 || slot >= inventory.getContainerSize()) return false;
+        ItemStack stack = inventory.getItem(slot);
+        ContractData data = ContractStacks.read(stack);
+        if (data == null || !data.id().equals(id)) return false;
+        return switch (action) {
+            case ACCEPT -> {
+                if (data.status() != ContractData.Status.OFFERED) yield false;
+                stack.set(ModDataComponents.CONTRACT, data.accept());
+                yield true;
+            }
+            case ABANDON -> {
+                // Abandonment destroys only this item. Redeemed IDs are refused so a duplicate copy cannot be
+                // destroyed as if it were still open; no reward is granted and no completion is recorded.
+                if (ledger(player).contains(id)) yield false;
+                stack.shrink(1);
+                yield true;
+            }
+            case COMPLETE -> complete(player, stack, data);
+        };
+    }
+
+    private static ContractLedger ledger(ServerPlayer player) {
+        return ((ServerLevel) player.level()).getServer().overworld().getDataStorage().computeIfAbsent(ContractLedger.TYPE);
     }
 
     private static boolean complete(ServerPlayer player, ItemStack stack, ContractData data) {

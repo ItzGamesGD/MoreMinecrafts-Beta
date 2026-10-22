@@ -1,0 +1,15 @@
+{
+  "gives": {
+    "id": "moreminecrafts:bounty_contract",
+    "count": 1,
+    "components": {
+      "moreminecrafts:pending_contract": "ADVANCED"
+    }
+  },
+  "max_uses": 1,
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 16
+  },
+  "xp": 10
+}

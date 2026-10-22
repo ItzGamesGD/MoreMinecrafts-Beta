@@ -14,6 +14,20 @@ public final class ContractEconomy {
                 : roll100 < beginner + intermediate ? ContractData.Tier.INTERMEDIATE : ContractData.Tier.ADVANCED;
     }
 
+    /** Approved contract appearance chance for an eligible container, in percent. */
+    public static int appearancePercent(Difficulty difficulty) {
+        return switch (difficulty) { case EASY -> 5; case MEDIUM -> 10; case HARD -> 18; };
+    }
+
+    /** Approved Beginner / Intermediate / Advanced weights given that a contract appears (sum 100). */
+    public static int[] tierWeights(Difficulty difficulty) {
+        return switch (difficulty) {
+            case EASY -> new int[]{75, 22, 3};
+            case MEDIUM -> new int[]{45, 40, 15};
+            case HARD -> new int[]{20, 45, 35};
+        };
+    }
+
     public static boolean appears(Difficulty difficulty, int roll100) {
         if (roll100 < 0 || roll100 >= 100) throw new IllegalArgumentException("roll100");
         int chance = switch (difficulty) { case EASY -> 5; case MEDIUM -> 10; case HARD -> 18; };

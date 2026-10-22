@@ -42,6 +42,7 @@ public final class ModRegistries {
         EquipmentAttachments.initialize();
         EquipmentRuntime.initialize();
         ContractObjectives.initialize();
+        dev.itzgamesgd.moreminecrafts.bounty.ContractLootIntegration.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
     }
 }

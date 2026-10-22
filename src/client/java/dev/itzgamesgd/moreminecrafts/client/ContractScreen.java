@@ -145,25 +145,33 @@ public final class ContractScreen extends Screen {
         accept.visible = offered && !confirmingAbandon;
         complete.visible = accepted && !confirmingAbandon;
         complete.active = ready;
-        abandon.visible = accepted && !confirmingAbandon;
+        abandon.visible = !confirmingAbandon;
         confirmAbandon.visible = confirmingAbandon;
         cancelAbandon.visible = confirmingAbandon;
 
         super.extractRenderState(graphics, mouseX, mouseY, delta);
     }
 
+    /** Sends the action for the exact slot this screen shows; the server refuses it if that slot changed. */
     private void send(String action) {
-        ClientPlayNetworking.send(new ContractActionPayload(contractId, action));
+        int slot = slotOf();
+        if (slot >= 0) ClientPlayNetworking.send(new ContractActionPayload(contractId, action, slot));
     }
 
     private ContractData current() {
         if (minecraft.player == null) return null;
+        int slot = slotOf();
+        return slot < 0 ? null : ContractStacks.read(minecraft.player.getInventory().getItem(slot));
+    }
+
+    private int slotOf() {
+        if (minecraft.player == null) return -1;
         Inventory inventory = minecraft.player.getInventory();
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
             ContractData data = ContractStacks.read(inventory.getItem(slot));
-            if (data != null && data.id().equals(contractId)) return data;
+            if (data != null && data.id().equals(contractId)) return slot;
         }
-        return null;
+        return -1;
     }
 
     private int left() { return (width - PANEL_WIDTH) / 2; }

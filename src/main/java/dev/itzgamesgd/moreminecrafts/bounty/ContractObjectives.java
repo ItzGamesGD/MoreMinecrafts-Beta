@@ -42,7 +42,10 @@ public final class ContractObjectives {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             int tick = server.getTickCount();
             if (tick % 20 == 0) DAMAGE.expire(tick);
-            for (ServerPlayer player : server.getPlayerList().getPlayers()) detectStructure(player);
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                ContractMaterializer.materialize(player);
+                detectStructure(player);
+            }
         });
     }
 

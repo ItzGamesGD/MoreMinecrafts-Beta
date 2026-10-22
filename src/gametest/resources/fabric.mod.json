@@ -19,7 +19,10 @@
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests",
-      "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests"
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractIntegrationGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractGeneratorGameTests"
     ]
   },
   "mixins": [

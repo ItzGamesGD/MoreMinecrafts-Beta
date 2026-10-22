@@ -30,6 +30,41 @@ These decisions were approved by the owner in the BC-03 continuation request and
 - **Eligible vanilla loot sources (explicit, verified IDs required before wiring).** Easy: mineshaft, desert pyramid. Medium: jungle temple, trial chamber reward. Hard: ancient city, bastion treasure. Contract appearance remains Easy 5%, Medium 10%, Hard 18%, with the conditional Beginner/Intermediate/Advanced distributions already recorded in Q41 and the Oct 22 overlay. Integration must add to these sources without replacing or reducing their existing vanilla loot.
 - **Special contract economy (explicit).** Special contracts produced by the 5% advanced-to-special conversion keep the Advanced purchase price 12–20 emeralds, Advanced emerald payout 25–50 emeralds, and special bonus rarity distribution 20/45/30/5 (Common/High-grade/Rare/Legendary). No direct special drops are introduced from structures or events.
 
+### Owner decisions — BC-03 final continuation (2026-10-22, APPROVED)
+
+These decisions refine the sections above. They do not change the approved Q1–Q62 rules except where stated.
+
+**Decision A — Combat objective pools.**
+- Ordinary combat targets are **hostile** mobs only. Passive, neutral, tameable, friendly, boss, and event-only entities are excluded from ordinary pools.
+- Hostility is verified from entity behavior (`Enemy` interface, and not `NeutralMob` or `TamableAnimal`), not from name or spawn configuration.
+- Approved initial **strong MM roster**: `moreminecrafts:large_zombie`, `moreminecrafts:armored_skeleton`, `moreminecrafts:lesser_wither_skeleton`, `moreminecrafts:large_spider`, `moreminecrafts:swamp_spider`, `moreminecrafts:lesser_magma_cube`, `moreminecrafts:deep_sea_drowned`, `moreminecrafts:bandit_warrior`, `moreminecrafts:cave_creeper`.
+- Other verified hostile MM mobs enter the ordinary pool. Explicitly excluded: `moreminecrafts:feral_wolf`, `moreminecrafts:cave_bat`, `moreminecrafts:giant_bee`. `moreminecrafts:wild_piglin` is included only if verified hostile at runtime.
+- Vanilla strong/ordinary split (implementation rule, PROVISIONAL): a non-boss hostile vanilla mob is **strong** when its `MAX_HEALTH` attribute is at least 40; otherwise ordinary. Vanilla mobs that spawn only through raids, conversion, or summoning are excluded from ordinary pools. The full registry-ID classification is in `src/main/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalog.java`.
+
+**Decision B — Combat target weighting (PROVISIONAL BALANCE).** After a combat objective is selected, its ordinary/strong target is a conditional draw:
+
+| Tier | Ordinary | Strong |
+| --- | ---: | ---: |
+| Beginner | 90% | 10% |
+| Intermediate | 70% | 30% |
+| Advanced | 50% | 50% |
+
+Quantity bands are unchanged. Targets are filtered by dimension and accessibility. Mixed-dimension combat bundles are not generated: all combat objectives in one contract share one dimension (Beginner: Overworld; Intermediate: Overworld or Nether; Advanced: Overworld, Nether, or End; uniform among allowed dimensions — PROVISIONAL IMPLEMENTATION CHOICE). An empty filtered pool yields a valid alternative, never an invalid objective.
+
+**Decision C — Abandonment.**
+- Abandonment is allowed in both OFFERED and ACCEPTED states, after explicit UI confirmation.
+- Successful abandonment destroys exactly the selected contract item (validated by contract ID and inventory slot). It awards no reward and records no completion.
+- Abandonment of an already-redeemed contract is refused.
+
+**Implementation choices recorded for owner review (not new design):**
+- Objective category selection among eligible categories (Combat, Delivery, Exploration) is uniform (PROVISIONAL IMPLEMENTATION CHOICE; no category weights were approved).
+- Exploration objectives use the accessible Overworld subset of the BC-01 structure catalog for every tier (PROVISIONAL; the tier matrix remains OPEN).
+- Delivery objectives draw from the BC-01 vanilla delivery catalog with approved count bands. Diamond delivery is fixed at 2–4 and adamantium ingot delivery at 1, per the Oct 22 exceptions. At most one high-value delivery (diamond or adamantium) per contract (PROVISIONAL economic feasibility rule).
+- Purchase prices in villager and wandering-trader offers are fixed per offer entry at the approved band midpoint (PROVISIONAL). Emerald payouts are rolled within the approved band on acquisition.
+- Contracts from trades and loot are created as pending items carrying only their tier; objectives and rewards are rolled on the first server-side inventory pickup.
+- Structure contract appearance (5% / 10% / 18%) and tier distributions apply as approved to the six loot tables. The Trial chamber source is `minecraft:chests/trial_chambers/reward` only; the ominous and unique variants are not included.
+- Villager and wandering-trader stock is approximated through vanilla random selection of tag entries. Exact per-trader stock needs a code hook and is PARTIAL.
+
 ## Acquisition and item lifecycle
 - Contracts are physical items. Wandering traders are the main vendor; selected ordinary villagers also sell tiered contracts. Structure chests, trial rewards and world events may award contract items.
 - Vendor listing identifies contract tier; an individually rolled objective set and reward set are fixed **when the purchased item is acquired**. Loot-generated contracts likewise resolve on acquisition. The seller does not reveal the particular rolled objectives beforehand.

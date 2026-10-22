@@ -16,6 +16,11 @@ public final class ModDataComponents {
             BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("contract"),
             DataComponentType.<ContractData>builder().persistent(ContractData.CODEC)
                     .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(ContractData.CODEC)).build());
+    /** Tier-only placeholder for trade and loot contracts; objectives are rolled on first inventory pickup. */
+    public static final DataComponentType<ContractData.Tier> PENDING_CONTRACT = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("pending_contract"),
+            DataComponentType.<ContractData.Tier>builder().persistent(ContractData.TIER_CODEC)
+                    .networkSynchronized(ByteBufCodecs.fromCodec(ContractData.TIER_CODEC)).build());
     public static final DataComponentType<Integer> ENHANCEMENT_LEVEL = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
             ModIds.id("enhancement_level"),

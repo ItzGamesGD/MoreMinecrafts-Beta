@@ -41,7 +41,7 @@ The PR #150 head inherited a failing full-history secret audit and a passing Fab
 ### Test-wiring defect found and fixed
 `ContractGameTests` was not listed in `src/gametest/resources/fabric.mod.json` `fabric-gametest` entrypoints. Its transfer and duplicate-redemption tests therefore did not run in earlier `runGameTest` results, despite the PR #151 body's earlier wording. The class is now registered; four contract GameTests execute and pass. A deliberate probe failure confirmed execution before it was removed.
 
-### Still NOT implemented (blocked on owner design decisions)
+### Superseded: previously blocked items (implemented in the final continuation below)
 - **Objective generation pools.** Generating objectives needs an approved ordinary/strong/special classification for mobs (the BC-01 mob classifications are PROPOSED only) and approved tier-weight selection rules. Neither was in the owner decisions. Hostile-only filtering (neutral/tameable/passive exclusion) is recorded in the overlay, but its concrete mob list is not.
 - **Acquisition wiring.** Structure loot integration (Easy/Medium/Hard sources and 5/10/18% rates), wandering-trader stock, and villager offers all produce contracts, so they depend on objective generation. Verified vanilla loot-table IDs are also not yet checked against the mapped jar.
 - Direct special drops remain DEFERRED by design.
@@ -54,6 +54,47 @@ The PR #150 head inherited a failing full-history secret audit and a passing Fab
 | Reused generated world | Earlier K5 natural-tree tick-0 failures reproduced; not changed. Fresh-world runs are the valid evidence |
 | Contract UI rendering and clicks | CLIENT: compile only (`compileClientJava`). LIVE PENDING |
 | Persistence across real restart, death drops, overflow, concurrency, crash interruption | NOT RUN in this continuation; still PARTIAL per the record above |
+
+## Final continuation status (2026-10-22, BC-03C/D completion)
+
+### Implemented
+- **Combat pools** (`ContractCatalog`): 25 vanilla hostile ordinary mobs and 3 strong vanilla mobs, 28 MM ordinary mobs including `moreminecrafts:wild_piglin`, and the 9 approved MM strong mobs. Exclusions: vanilla neutral, tameable, boss, raid-only, summoned, and conversion-only mobs; MM `feral_wolf`, `cave_bat`, `giant_bee`. Hostility is verified by `ContractCatalogGameTests` (`Enemy`, not `NeutralMob` or `TamableAnimal`). Vanilla strong means non-boss `MAX_HEALTH` of at least 40: `elder_guardian`, `hoglin`.
+- **Combat weighting** (`ContractGenerator.combat`): Beginner 90/10, Intermediate 70/30, Advanced 50/50 ordinary/strong, PROVISIONAL BALANCE. One dimension per contract: Beginner Overworld; Intermediate Overworld or Nether; Advanced any of the three (uniform). Empty pools fall back to the other strength.
+- **Delivery**: BC-01 vanilla IDs in ordinary (16–32 / 32–64 / 64–128) and rare (2–4 / 4–12 / 8–24) bands. Diamond fixed 2–4 and adamantium ingot fixed 1, at most one high-value delivery per contract. `minecraft:chain` is **not registered** in 26.3 and was removed. The BC-01 catalog wrongly listed it.
+- **Exploration**: seven accessible Overworld structures (`village_plains`, `desert_pyramid`, `jungle_pyramid`, `mineshaft`, `stronghold`, `mansion`, `trial_chambers`), count 1 / 1–2 / 2–3. Note the vanilla IDs `jungle_pyramid` and `mansion`, not `jungle_temple` or `woodland_mansion`.
+- **Acquisition**: trade and loot results are pending placeholders carrying only a tier (`moreminecrafts:pending_contract`). `ContractMaterializer` rolls the objectives and reward on first server-side inventory pickup, and 5% Advanced-to-Special conversion applies there. Each tier's objective slot count follows the approved rules; category selection is uniform (PROVISIONAL).
+- **Loot** (`ContractLootIntegration`): one added pool per approved table. Verified 26.3 IDs: `minecraft:chests/abandoned_mineshaft`, `minecraft:chests/desert_pyramid` (Easy); `minecraft:chests/jungle_temple`, `minecraft:chests/trial_chambers/reward` (Medium); `minecraft:chests/ancient_city`, `minecraft:chests/bastion_treasure` (Hard). Appearance 5 / 10 / 18%, tier weights 75/22/3, 45/40/15, 20/45/35. Existing pools are untouched. The `trade_rebalance` built-in datapack also replaces four of these tables, and the modifier applies to whichever table is loaded.
+- **Villagers**: data-driven trades for Farmer, Fisherman, Fletcher, Weaponsmith, Toolsmith, Cartographer, and Cleric. Beginner at level 2 (2 entries), Intermediate at level 3 (1), Advanced at level 4 (1). Entries are appended to the vanilla `minecraft:<profession>/level_N` tags, and vanilla trades are kept.
+- **Wandering trader**: Beginner appended to `common`, Intermediate and Advanced to `uncommon`.
+- **UI**: offered and accepted abandonment, slot-scoped actions, and confirmation (see the validation table).
+
+### Provisional balance values (all PROVISIONAL BALANCE)
+- Combat ordinary/strong weights 90/10, 70/30, 50/50.
+- Vanilla strong threshold `MAX_HEALTH` ≥ 40.
+- High-value delivery exceptions: diamond 2–4, adamantium 1; one high-value delivery per contract.
+- Reward item caps: diamond ≤2, titanium ingot ≤4, adamantium ingot ≤1.
+- Trade prices fixed at band midpoints: Beginner 3, Intermediate 8, Advanced 16 emeralds.
+- Structure appearance 5/10/18%, tier weights as above.
+
+### Partial or not done
+- **Stock:** trade and wandering-trader stock is approximated through vanilla random selection from tags. Exact per-trader stock needs a code hook. PARTIAL.
+- **Real client UI:** LIVE PENDING (see below).
+- **Crash-safe exactly-once:** NOT proven. See below.
+
+### Validation (final continuation, 2026-10-22)
+| Check | Result |
+| --- | --- |
+| `./gradlew test` (JDK 25) | CODE VERIFIED: unit tests pass |
+| `./gradlew runGameTest` in a fresh world | SERVER VERIFIED: 125/125 required GameTests pass, including catalog registration, hostility, strength rule, loot appearance (20,000 seeded rolls per table) and tier shares, untouched control chest, profession stock, wandering-trader tags, offered abandonment, stale-slot rejection, redeemed-copy refusal, pending materialization, serialization round trip, competing deliveries, and full-inventory overflow with a single payout |
+| `./gradlew build` in a fresh world | Build successful |
+| Real client UI | LIVE PENDING. Not run. The repository's own visual-validation harness reports that the Minecraft window is not discoverable for physical input on this runner class, so no real mouse-driven evidence was captured. The GameTests above are server-side only. |
+| Crash interruption during redemption, real process restart, death drops in a live session | NOT RUN. No crash-injection harness exists. See below. |
+
+### Completion integrity analysis (not crash-safe)
+- The redeemed-ID ledger is a world `SavedData`. Player inventories are saved in separate per-player files. Vanilla provides no transaction across those files.
+- Crash windows: if a crash occurs after the ledger claim but before the player file saves, the contract may reappear unredeemed or be lost, depending on save ordering. If a copy of a redeemed ID exists in another player's saved file, a copy can redeem again after reload. Duplication is therefore not prevented across a crash, and reward delivery is not exactly-once.
+- Focused mitigations implemented: slot-scoped actions, ledger refusal of abandonment for redeemed IDs, and a serialization round-trip test.
+- Proposed mechanism (NOT implemented): a world-level write-ahead journal recording `{id, player, phase}` before any inventory mutation, with a reconciliation pass at player load. It requires a crash-injection test (process kill during redemption) to establish any PASS. Until then, exactly-once is PARTIAL.
 
 ## BC-04 independent audit handoff
 

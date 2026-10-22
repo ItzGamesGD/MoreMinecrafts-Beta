@@ -8,11 +8,12 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /** Client request for one contract action. The server re-validates every field before acting. */
-public record ContractActionPayload(String contractId, String action) implements CustomPacketPayload {
+public record ContractActionPayload(String contractId, String action, int slot) implements CustomPacketPayload {
     public static final Type<ContractActionPayload> TYPE = new Type<>(ModIds.id("contract_action"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ContractActionPayload> CODEC =
             StreamCodec.composite(ByteBufCodecs.STRING_UTF8, ContractActionPayload::contractId,
-                    ByteBufCodecs.STRING_UTF8, ContractActionPayload::action, ContractActionPayload::new);
+                    ByteBufCodecs.STRING_UTF8, ContractActionPayload::action,
+                    ByteBufCodecs.VAR_INT, ContractActionPayload::slot, ContractActionPayload::new);
 
     /** Returns null for any name that is not a known action. */
     public static ContractService.Action parse(String name) {
