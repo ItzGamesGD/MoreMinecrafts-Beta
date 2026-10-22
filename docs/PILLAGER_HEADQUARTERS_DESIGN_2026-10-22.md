@@ -358,6 +358,20 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 
 ---
 
+## Owner approval — damage band and commander special chance (2026-10-22, latest authority)
+
+**APPROVED (supersedes any earlier proposals/open labels for these values):**
+
+- The one-time enhanced Vindicator commander retains **40 HP** and **vanilla Vindicator melee targeting / attack behavior**.
+- **Commander attack-damage tuning: +20–30% versus an ordinary unmodified Vindicator under the same difficulty.** The owner approved the **percentage band**, not an exact single multiplier. Before gameplay implementation, pick and validate one target inside **1.20–1.30×**, document the vanilla-version baseline and difficulty scaling, and avoid counting held equipment damage twice. Do not treat “+20–30%” as +20–30 *raw damage points*, nor as an independently approved exact +25%.
+- **Commander special-reward chance: exactly 10% per unique initial commander death-loot transaction.** This is a separate chance **in addition to ordinary rare drops**; **90%** of commanders do not produce a special reward. It does not guarantee an accessory or rune, and the specific eligible item pool / conditional weights are still **proposed**. The drop rolls at most once; commander never naturally respawns.
+- The **65% manor chest premium** and **35% armory premium** odds, the maximum two container premium rewards, exact eligible accessory/rune/equipment lists, and the **1,200–2,000-block trial generation spacing** remain **PROPOSALS / OPEN**. No owner approval was given for these other numbers.
+- **B — rare regional landmark** remains confirmed as a *qualitative* world-generation rarity goal; no exact per-region frequency, seed distribution or minimum inter-structure distance is approved.
+
+**Next discussion requested:** explain the remaining loot-chest 65%/35% concept (probabilities and maximum draws), what “eligible accessories/runes” actually means and why it interacts with caravan access, and how qualitative rarity differs from world-generation spacing in plain Korean gameplay examples. Do not silently finalize those choices.
+
+---
+
 ## 1. Design identity
 
 **APPROVED:** Build a large, intimidating **pillager military headquarters** (약탈자 본거지) that feels like a **vanilla villager village transformed into an ominous pillager settlement**, rather than an arbitrary maze. Internal facilities have readable adjacency and village-like roads and clusters. Primary experience is physical infiltration, fighting through a believable enemy garrison, and exploring a military village; do not add mandatory complex puzzles, key insertion or switch-gated progression.
