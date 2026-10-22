@@ -111,7 +111,76 @@ The **natural danger gradient** may rise from gate to command hall, but is not a
 - Maintain meaningful gaps/courtyards, readable housing clusters, and a convincing military-village atmosphere; avoid completely uniform village-grid rows.
 - This is **documentation only**, with no generated build, Minecraft client screenshots, implementation, balance test or terrain-compatibility acceptance.
 
-**Next design topic:** flesh out each building's room/functional program and then the enemy population/encounter distributions; hand off the exterior 3D stone/dark-oak detailing to Claude as separately requested.
+**Next design topic:** flesh out each building's room program and reward identity, decide exact combat stats and loot separately, then integrate a tested finite-garrison implementation plan; hand off exterior 3D stone/dark-oak detailing to Claude as separately requested.
+
+---
+
+## Owner-approved garrison/combat policy — 2026-10-22 (latest authority)
+
+**APPROVED, overriding earlier 26–34 / local-alert / partial-respawn proposals:**
+- **35–45 initial stationed hostile entities** for the entire 112×112 headquarters (large-garrison choice). This is the **total intended first-clear garrison**, not simultaneous active attackers and not a per-zone count to add on top.
+- **Vanilla mob combat/targeting AI only.** Do **not** add a headquarters-wide alert, adjacent-zone reinforcement chain, aggro propagation, scripted return-to-post AI, patrol pathfinding system, mob command/shout abilities, or a new behavior tree. The ordinary Minecraft AI for pillagers, vindicators and ravagers handles detection, target choice and chasing. Standing/spawn positions provide spatial identity.
+- **Commander = enhanced Vindicator-based officer** in the two-story 17×15-block-proposed headquarters. Enhancement may be through basic attributes, equipment and visual identity (specific values OPEN), **not** custom summons, multi-phase boss skills, commander buff aura or military orders. Vindicator melee behavior remains vanilla.
+- **One-time garrison:** soldiers defeated as part of the structure's initial garrison do **not** naturally respawn as that structure's soldiers. The structure must not have replenishment spawners or scheduled restocks. The initial survivors must be persistent until genuinely eliminated (see persistence contract below).
+- Other owner approvals remain: square 112×112 including walls, exactly four integrated corner towers, one main gate, flat plains or sufficiently flat forest ground; 19–22 internal facilities; two-story illager-style small manor; main street gate→square→manor plus alleys; prison and ravager stable, armory directly adjoining fenced yard; A+C hybrid 3D fort wall styling delegated to Claude.
+
+### Proposed nominal garrison — exactly 40 entities (counts not individually approved)
+
+Choose the **40-defender example** inside the approved 35–45 range as the balance baseline. Every table here counts the **same** 40 entities, not additional independent groups. “Elite” is a better-equipped/stat-tuned **Vindicator** using vanilla melee AI, not a new mob with a special behavior script.
+
+| Type | Nominal count | Role |
+|---|---:|---|
+| Standard pillagers | 23 | Crossbow guards at wall, lanes, storehouses and square |
+| Standard vindicators | 10 | Melee guards at alleys, prison, internal rooms |
+| Elite vindicators | 5 | Better-equipped close defenders in training and headquarters |
+| Commander, enhanced vindicator | 1 | Unique named officer in upper manor; **included in 40**, never extra |
+| Ravager | 1 | Stable compound threat with vanilla AI |
+| **TOTAL** | **40** | Counts satisfy approved 35–45 |
+
+**Variant target:** 35–45 total may be achieved by varying **ordinary pillager/vindicator headcounts by up to ±5 combined** around the 40-defender baseline while preserving 5 elite vindicators, 1 commander and 1 ravager in this **proposed** variant. Do not independently randomize each zone without checking the whole-structure cap; the exact probability distribution and ravager number are still OPEN.
+
+### Proposed zone ledger — same 40 units, no double counting
+
+| Zone | Pillager | Vindicator | Elite vindicator | Commander | Ravager | Subtotal |
+|---|---:|---:|---:|---:|---:|---:|
+| Single gate, wall walkways, four towers | 8 | 2 | 0 | 0 | 0 | **10** |
+| Barracks, seven small homes, central square | 6 | 3 | 1 | 0 | 0 | **10** |
+| Two warehouses, prison, support outbuildings | 4 | 2 | 0 | 0 | 0 | **6** |
+| Armory + adjacent fenced training yard | 3 | 1 | 3 | 0 | 0 | **7** |
+| Ravager stable and its immediate access yard | 1 | 1 | 0 | 0 | 1 | **3** |
+| Two-story manor (17×15 preferred design baseline) | 1 | 1 | 1 | 1 | 0 | **4** |
+| **TOTAL** | **23** | **10** | **5** | **1** | **1** | **40** |
+
+**Placement intent, not an activation script:** Wall defenders occupy distinguishable gate/tower posts; living quarters provide dispersed first contact; training yard has the biggest concentration of elite melee defenders; stable contains only a modest local escort around its ravager; the small manor contains **four** stationed enemies across two floors (including its single commander) to avoid overcrowding a 17×15 footprint. Concrete coordinate positions, floor allocations and navigation clearances remain OPEN.
+
+**High 35–45 total must not imply a 35–45-entity simultaneous rush.** Distribute the nominal 40 across structures, yards and walls with sensible line-of-sight breaks and natural vanilla hearing/targeting behavior; no artificial global aggro mechanism. Do not promise a hard simultaneous-engagement cap without a separately approved system. Nearby mobs may still join combat under vanilla AI naturally.
+
+### Commander encounter (concept approved, stats proposed)
+
+- **Identity:** one enhanced Vindicator-based officer, visually distinct by name/banner/armor or equipment **where compatible with vanilla Vindicator attack mechanics**; placement proposed on the manor's second-floor command area.
+- **Vanilla melee AI preserved:** walks and attacks as a vindicator; any health/attack/knockback/resistance changes are basic attribute tuning, not new behaviors. Avoid a shield/crossbow specification that would silently require replacing Vindicator AI.
+- **Initial tuning candidates, NOT approved:** more health than standard vindicators, a modest attack bonus, appropriately readable gear and an optional unique drop. Exact health, damage, movement speed, difficulty scaling, persistent nametag, equipment models and drop chances remain OPEN.
+- **No forced boss lock:** killing the officer isn't needed to unlock the rest of the fortress; no protected loot gate, permanent alarm, magical ability or special combat phase.
+- **Non-respawn:** at most one initial commander per generated HQ; death doesn't generate a replacement on a later visit.
+
+### One-time spawn and save/reload contract (implementation requirements for later)
+
+**Approved behavioral outcome:** first-clear population is finite; dead garrison members never come back merely because a chunk unloaded, a world reloaded, a server restarted or a player revisited.
+
+**Proposed technical contract to achieve it, implementation NOT done:**
+1. Use **per-structure identity** and persistent recorded initialization/spawn-slot state, not per-chunk load event blindly creating mobs. Candidate slot states: `UNINITIALIZED`, `SPAWNED` and `ELIMINATED` (or a simpler equivalent that produces the same outcome).
+2. Spawn all allocated members **once**, when their regions become safely available/loaded, and avoid duplicate creation from overlapping chunk-load events; never use a normal repeating spawner for the fixed garrison.
+3. Ensure **surviving structure garrison mobs are protected from ordinary distance-based despawn** so an uncaptured, undefeated stronghold doesn't empty merely because the player travels away. Do not confuse this with respawning: persistence keeps survivors, it does not recreate dead entities.
+4. Resolve crashes/restarts idempotently: both a saved living entity and its recorded slot ownership must not spawn duplicate instances; a killed entity's slot remains terminal. Persist identifiers/slots across save/load, and test server restart before and after kills.
+5. Respect **vanilla ambient/nighttime spawns, raids, commands and separately spawned entities** as different populations. “No garrison respawn” cannot guarantee there will never be any future hostile mob inside an otherwise normally spawnable fortress. Avoid claiming total spawn suppression, global gamerule changes or world-wide pillager spawn removal.
+6. Additional garrison presence must not accidentally become infinite via vanilla raiding/patrol spawns or structure event re-triggers. Natural patrols/raids, if they occur under vanilla rules, are not replacements for dead garrison slots.
+7. If a commander or ravager is intentionally named/persistent, account for death, unloading, teleport, peaceful difficulty, world upgrade and unintended despawns separately in acceptance tests; **peaceful difficulty handling remains OPEN** rather than secretly inventing a new respawn rule.
+
+**Validation gates for future implementation:** exact total in [35,45] across multiple generated instances; table count/taxonomy; no custom alarm/reinforcement/summon/commander AI; controlled test of pull distance and LOS using vanilla AI; chunk unload and restart (survivors remain, dead don't return); chunk-border duplicate-spawn checks; fresh versus revisited fortress; no recurring spawners; fixed commander uniqueness; no accidental interaction with existing patrol variant system PR #122. No such tests have been run yet.
+
+### Open combat decisions
+
+Actual zone positions and safe mob separation; exact roster randomization within 35–45; spawn difficulty scaling; captain attribute/equipment/drop values; elite equipment and any attribute tweaks; reward contents and chances; possible peaceful-world behavior; exact persisted slot storage and first-generation initialization API. **Do not claim any are owner-approved by these four combat choices.**
 
 ---
 
@@ -214,10 +283,10 @@ Even though the perimeter square is fixed, **internal buildings may use a small 
 
 | APPROVED now | Designer PROPOSED, review later | OPEN for detailed design |
 |---|---|---|
-| **112×112 external square**, four integrated corner towers, one perimeter gate, A+C dimensional wall concept (exact modeling delegated to Claude), plains/flat-under-tree forests. **Interior 19–22 facilities, 2-story illager manor HQ, gate→square→HQ main road plus village alleys, both prison and ravager stable** | **20** proposed counted facilities (1 manor, 3 barracks, 1 armory, 1 fenced yard, 2 warehouses, 1 prison, 1 stable, 7 small houses, 3 outbuildings), proposed adjacent sectors and optional encounter gradient | Exact wall dimensions/interior usable fit and coordinates; terrain/tree parameters; building footprints and architectural modeling; detailed roads and spawn/pathing constraints; mob roster/captain and loot rules; generated-world QA |
+| **112×112 external square**, four integrated corner towers, one perimeter gate, A+C dimensional wall concept (exact modeling delegated to Claude), plains/flat-under-tree forests. **Interior 19–22 facilities, 2-story illager manor HQ, gate→square→HQ main road plus alleys, prison and ravager stable. Combat: 35–45 initial garrison, vanilla AI only, enhanced Vindicator commander, no natural garrison replenishment after deaths.** | **20** proposed facilities; **40**-unit nominal roster with 23 pillagers, 10 standard vindicators, 5 elite vindicators, 1 commander and 1 ravager; proposed zone allocations, persistence implementation outline and optional encounter gradient | Wall/terrain/building coordinates; exact spawn mechanics and saving; difficulty scaling; commander/elite tuning, rewards, other natural spawns, peaceful behavior and generated-world QA |
 
 ## 6. Immediate next design milestone
 
-**Interior concept pass now recorded** with owner-approved 19–22 facilities, 2-story manor, primary road + alleys, and both prison and ravager stable. Next refine room programs, exact facility sizes/coordinates, road packing and encounter populations only after reviewing the proposed 20-facility ledger. **Defer** wall height/thickness, corner tower geometry, gatehouse block modeling, architectural palette and other detailed exterior visuals to a later Claude-led design task. Terrain thresholds and forest tree-clearing policy still need explicit preflight decisions before generation. Do not start implementation merely from this design record.
+**Interior and combat concepts now recorded** with owner-approved 19–22 facilities, 2-story manor, primary road + alleys, prison and ravager stable; 35–45 first-clear defenders, vanilla AI, enhanced Vindicator commander and no defeated-garrison respawn. Next refine room programs, exact facility sizes/coordinates, road packing, commander stats and loot after reviewing the proposed 20-facility and 40-unit ledgers. **Defer** wall height/thickness, corner tower geometry, gatehouse block modeling, architectural palette and other detailed exterior visuals to a later Claude-led design task. Terrain thresholds and forest tree-clearing policy still need explicit preflight decisions before generation. Do not start implementation merely from this design record.
 
 **Scope guard:** This document does not resolve unrelated desert pyramid, End city remodeling, spider cave or colosseum design and does not authorize implementing new structures on an existing active generation branch.
