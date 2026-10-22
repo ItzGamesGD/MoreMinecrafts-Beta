@@ -405,6 +405,22 @@ Probability interpretation: success rates **65% / 35% are for the proposed conta
 
 ---
 
+## Owner decision — defer specific equipment/reward integration until broader equipment roster (2026-10-22, latest authority)
+
+**APPROVED DEFER / DESIGN HOLD:** Do **not** currently finalize or integrate a specific headquarters-exclusive or headquarters-eligible accessory, rune, weapon, armor, or enhanced-equipment whitelist. The owner wants that **content-pool integration revisited after MoreMinecrafts equipment itself becomes more diverse**. The proposed earlier examples (e.g., combat accessories or Sharpness/Power/Protection runes) remain **illustrative, not a chosen loot catalog**; do not accidentally treat them as approved rewards.
+
+**Preserve already APPROVED rules:**
+- Manor premium attempt **65%**, armory premium attempt **35%**, independent, at most once each; commander separate special attempt **10%** plus its normal loot.
+- Premium reward **direction** remains combat-relevant **existing MoreMinecrafts accessories, real-enchantment runes, and equipment**, but the specific items, conditional selection weights, availability/progression levels and exact enhancement tiers are **DEFERRED** pending the expanded equipment roster and cross-system economy review.
+- Ordinary loot identity (supplies in stores/houses, military equipment at barracks/armory, valuable plunder in manor) is intact as a **design direction**, while exact ordinary item counts remain proposals.
+- No new custom item/currency, item registry ID, or new loot implementation is authorized by this deferral.
+
+**Resume trigger:** After a later equipment-content milestone expands the weapon/armor/accessory ecosystem, **audit the then-current approved and implemented item registry**, then select a thematic subset for the manor, armory and commander's 10% special pool. Recheck caravan rune availability, endgame balance, loot duplication and actual item power before approving category weights.
+
+**Next active headquarters work:** other still-open design topics (room proportions, build footprint, worldgen collision rules, visual/architectural Claude handoff, performance and generation acceptance) can continue **without reopening the deferred reward whitelist**. Preserve Draft state; no code or loot table has been implemented by this note.
+
+---
+
 ## 1. Design identity
 
 **APPROVED:** Build a large, intimidating **pillager military headquarters** (약탈자 본거지) that feels like a **vanilla villager village transformed into an ominous pillager settlement**, rather than an arbitrary maze. Internal facilities have readable adjacency and village-like roads and clusters. Primary experience is physical infiltration, fighting through a believable enemy garrison, and exploring a military village; do not add mandatory complex puzzles, key insertion or switch-gated progression.
