@@ -111,7 +111,7 @@ The **natural danger gradient** may rise from gate to command hall, but is not a
 - Maintain meaningful gaps/courtyards, readable housing clusters, and a convincing military-village atmosphere; avoid completely uniform village-grid rows.
 - This is **documentation only**, with no generated build, Minecraft client screenshots, implementation, balance test or terrain-compatibility acceptance.
 
-**Next design topic:** flesh out each building's room program and reward identity, decide exact combat stats and loot separately, then integrate a tested finite-garrison implementation plan; hand off exterior 3D stone/dark-oak detailing to Claude as separately requested.
+**Next design topic:** verify the reward probabilities and existing-item eligibility from the new reward addendum, audit rune merchant exclusivity and actual registered items, then integrate a tested finite-garrison / one-time-container implementation plan; hand off exterior 3D stone/dark-oak detailing to Claude as separately requested.
 
 ---
 
@@ -181,6 +181,88 @@ Choose the **40-defender example** inside the approved 35–45 range as the bala
 ### Open combat decisions
 
 Actual zone positions and safe mob separation; exact roster randomization within 35–45; spawn difficulty scaling; captain attribute/equipment/drop values; elite equipment and any attribute tweaks; reward contents and chances; possible peaceful-world behavior; exact persisted slot storage and first-generation initialization API. **Do not claim any are owner-approved by these four combat choices.**
+
+---
+
+## Owner-approved reward direction and proposed quantitative loot plan — 2026-10-22 (latest authority)
+
+### Owner-approved outcomes
+
+- **Reward tier:** a successful pillager-headquarters raid should reward players **meaningfully better than an ordinary vanilla Woodland Mansion**, appropriate for its 35–45 initial defenders and one-time garrison. This is a gameplay target, **not** an already demonstrated empirical comparison of generated loot values.
+- **Rare reward sources:** use **existing MoreMinecrafts accessories, actual-enchantment runes and equipment** alongside fitting vanilla supplies, rather than creating a new headquarters-only currency, upgrade system or invented accessory. Respect the existing roster, item IDs, progression and drop eligibility when implemented.
+- **Commander drops:** **ordinary rare loot plus a separate low-probability special-reward roll**. A special reward is **not guaranteed** on each commander kill. The commander's upper-floor manor loot chest(s) remain **independent of the kill**; no commander-key door or forced completion gate.
+- The previously approved **35–45 finite garrison with no garrison respawn** remains independent of chest refill logic; one-time loot initialization and stable saved claims must be specified below before implementation.
+
+**Authority separation:** numbers/weights/counts and per-category exact items below are **PROPOSED initial balancing targets**, not implicitly approved. In particular, there is no approval to mint a new rune item ID, to distribute merchant-only stock without evaluating that economy, to guarantee a unique accessory or to convert a rune into a stat token.
+
+### Compatibility constraints based on existing design records
+
+- Reference **`docs/ACCESSORY_RELIC_SYSTEM_DECISIONS_2026-10-16.md`** in stacked docs PR #131 (original accessory approval PR #101, with follow-up enhancement PR #113): 12 adopted accessories, 5 equip slots, acquisition direction exploration/dungeons/bosses; the **specific structure loot pools have not been finalized**. Their existing names/effects must not be overwritten. Proposed HQ eligibility should prioritize appropriately themed **combat-accessory** options, subject to their currently approved slot/activation mechanics.
+- Reference **`docs/RARE_CARAVAN_ENCHANTMENT_RUNE_DECISIONS_2026-10-18.md`** in stacked docs PR #131: 24 approved **above-table-cap real-enchantment rune** level SKUs; no generic rune currency. Runes are *real enchanted equipment* application items and are separate from the ordinary enchanted-book option system. Whether/which caravan rune SKUs may also appear in dungeon chests, and their relative economic exclusivity, need a dedicated cross-content decision. This proposal makes **no blanket promise that every rune is available as drops**.
+- Existing mod equipment/upgrade resources must be referenced by their *current actual registry entries* after integration audit; **do not invent item IDs or assume the distributed draft documents are merged to main**.
+
+### Proposed facilities and loot envelopes
+
+These are **container-group envelopes** for a whole facility type (or group of seven houses), **not quantities per individual barrel, and not guaranteed cumulative valuables**. Containers that are purely visual must not roll separate high-end loot.
+
+| Site (approved facility program) | Proposed searchable inventory budget | Typical vanilla/mod loot theme | Rare-pool access |
+|---|---|---|---|
+| 7 residential houses, collectively | 5–8 minor searchable containers total | Bread/potatoes, low emerald count, coal, tools, occasional arrows; small varied civilian loot | **None** for restricted HQ rare pool |
+| 3 barracks, collectively | 3–5 containers total | Arrows 8–24 per awarded stack, occasional crossbow, iron gear, food and ordinary equipment materials | Common equipment only, no top-tier rune guarantee |
+| 2 supply warehouses, collectively | 4–6 containers total | Iron ingots 4–16, gold ingots 2–8, emeralds 2–12, food/consumables, mod crafting materials only if IDs verified | One **candidate** ordinary enhanced-gear roll across both stores; not guaranteed |
+| Armory | 2–3 accessible loot inventories plus optional static/display gear | Crossbows, axes, armor pieces, arrows 16–48 per stack, iron and repair materials, modest chance enchanted/augmented equipment | Primary optional **rare equipment** pool; share global cap for premium drops |
+| Fenced training yard | 0–1 chest/crate | Training arrows, low-grade weapon supplies, target props | No independent premium roll |
+| Prison | 1–2 containers | Confiscated minor belongings, maps, emeralds, occasional gear | Rare gear only via shared premium allocation, not automatically |
+| Ravager stables | 1–2 containers | Leather, saddles if appropriate, feed, animal care gear | No independent accessory/rune roll |
+| 3 outbuildings, collectively | 2–3 containers | Cooking supplies, ingots/tools, carts and spare building materials | No independent premium roll |
+| Two-story manor / command building | 2–3 primary inventories (office plus small upper-level valuables chest) | Map/plunder display, emeralds 6–18, diamonds 1–3 *as optional rolls*, rare weapons and existing MM assets | **Primary** shared premium allocation and HQ special-chest candidate, physically reachable without officer defeat |
+| Commander | **One death-loot transaction** | Existing uncommon/rare military drops; separate low-probability high-end reward | See two-layer drop policy below |
+
+**Do not multiply each proposed numeric range by every chest.** For example, armory's arrow 16–48 is a stack roll candidate rather than a guarantee for each of three chests. Overall economy quantities are provisional and should be compared to actual Woodland Mansion chest expectations, mod progression stage and adjacent structures.
+
+### Proposed premium distribution (one HQ instance, bounded)
+
+To reward a large one-time encounter **without farming every small cottage for guaranteed accessories**, allocate scarce items through **at most two premium successes from structure containers**, each sampled from *a preselected eligible pool* at structure creation, not individually minted by every chest. This cap is a design proposal (not yet approved).
+
+1. **Manor premium chest:** 1 premium-category draw candidate, recommended success chance **65%**. On success choose one eligible category among **existing MM enhanced equipment (55% of successes), existing accessory (30%), eligible real-enchantment rune (15%)**. No guaranteed rune or accessory. Ordinary chest supplies remain regardless of result.
+2. **Armory premium group:** 1 separate premium-category draw candidate, recommended success chance **35%**. On success choose **existing MM enhanced equipment (75%), existing accessory (15%), eligible real-enchantment rune (10%)**. Draw may live in the armory's main chest or a safely accessible display inventory (subject to gameplay support), not a new third premium location.
+3. **All other supply buildings:** no additional independent *premium* accessory/rune roll in v1. They can still offer ordinary good equipment, supplies and minor enhancement materials that are defined in the existing mod.
+4. **Global container maximum: 2 premium-category items per one headquarters**, consisting of 0–1 manor and 0–1 armory successes. Results are randomized once and thereafter fixed for that generated site. Premium classification is by rule, not by physical chest count. A multi-roll container must not bypass this cap.
+5. Rune eligibility is **OPEN**, pending cross-approval with rare caravan economy; if there are no approved HQ-eligible runes, exclude the rune branch and **renormalize weights over remaining eligible categories**. Likewise never replace it with a made-up rune SKU or missing item. Only registered, approved item IDs are roll candidates.
+
+Probability interpretation: success rates **65% / 35% are for the proposed container premium draw attempts**, and the listed category weights are **conditional on success**, **not** absolute per-world loot rates. Both successes are independent between manor and armory; items within each success are mutually exclusive category choices. **No guaranteed premium from either chest**; good ordinary materials and equipment serve as guaranteed useful fallback.
+
+### Proposed commander two-layer drop (non-repeatable)
+
+| Roll layer | Initial proposal | Notes |
+|---|---|---|
+| Ordinary drop | One military rare-loot bundle candidate (e.g., emeralds **3–8**, crossbow/axe or eligible existing enhanced-gear component) with vanilla combat loot interaction audited | Owner approved general rare rewards in principle; exact bundle and deterministic/probabilistic nature OPEN |
+| **Separate special** | **10%** chance of **one** item, chosen from **eligible existing MM accessory (50% conditional), existing upgraded/enhanced equipment (40%), HQ-authorized real-enchantment rune (10%)** | This **10% is proposed**, satisfies owner's "low probability" qualitative choice but is **not** an approved exact percent; no custom dedicated boss artifact implicitly created. |
+| Failed special roll | **90%** → no special item; ordinary rare drop behavior still applies | On failed roll there is **no consolation guaranteed accessory** |
+| Repeat attempts | A given one-off commander can produce its special roll **at most once** | Prevent additional rewards through unload/reload, duplicate spawn and other exploit paths |
+
+**Distinct pools:** the commander special is *in addition to* the container premium maximum of 2, so the total proposed high-end opportunities are **three maximum** across one HQ (manor, armory, commander). The commander should not share the same one-and-only success token as the manor; killing it is optional. A commander who dies with a non-player source may require a separately specified drops policy, but **never reroll on a subsequent load**.
+
+### Loot generation / persistence contract (design outcome, not implemented)
+
+1. Tie every searchable loot container and commander reward to a **stable structure identity + stable logical slot ID**; map physical chest blocks/inventories to those slots. Avoid using chunk-load frequency or repeated screen opening to grant extra rolls.
+2. **Roll premium allocation once per generated structure** (or persist an equivalent deterministic seed and allocation). Keep unopened container items/loot tables stable across world saves, server restarts, and simultaneous multiplayer interaction.
+3. **Vanilla-compatible unopened loot chest:** loot-table-on-first-open behavior can be used if it has an invariant saved seed and is consumed once under server authority; first player doesn't create a new independently rerollable pool just by reopening. Decorative chests and multi-block double chests must not provide duplicated logical premium slots.
+4. **Once looted, permanently depleted by normal inventory behavior.** Never auto-refill structure containers on unload/reload, time intervals or boss defeat. No per-player duplicate instances of the same structure chest unless a future explicit design says so.
+5. Commander special drop is one transaction associated with its initial unique commander; persist death/claim outcome and do not award again after a server restart. Implement appropriately for killed-before-save, loaded-mob duplicate and lag/reentrant kill callbacks.
+6. Do not suppress unrelated vanilla ambient mobs or duplicate legitimate player-to-player transfers. Looting enchantment interactions, container destruction and peaceful-world behavior need explicit later verification.
+7. **Unknown mod registry items are ineligible**: don't silently substitute ordinary enchanted books for runes, invent placeholder accessories or rely on draft item IDs absent from the chosen integration head.
+8. Validate anti-duplication, inventory split/merge, independent manor/commander rewards, structure-level 2-premium-cap, and replay-safe generation across chunk borders. This specification is **NOT CODE VERIFIED**, **NOT LIVE VERIFIED**, **NOT MERGED**.
+
+### Outstanding approval and balancing checklist
+
+- Compare **expected total-value distribution**, not only flashy best-case loot, to Woodland Mansion and other MM dungeons. Target is clearly better than mansion; precise resource quantities and stage availability need owner decision/balance testing.
+- Approve/adjust proposed **65% manor + 35% armory** premiums, capped at 2, and **10% commander special**; clarify zero-premium outcome acceptability.
+- Choose eligible accessory whitelist and binding to accepted accessory slot roster; respect strong active-combat power and avoid automatic level +10 rewards.
+- Decide whether the rare merchant's approved over-cap rune SKU set can partially appear in HQ, and if so which levels/weights; if none, reweight to accessories and equipment.
+- Confirm armor/equipment rarity, emerald/diamond quantities, enchanted weapon strength and any enhancement stone or catalyst drops without undermining existing research/economy progression.
+- Confirm chest locations, counts, accessibility and precise single-use semantics under multiplayer, save/load and worldgen.
+- No new custom item, loot implementation, boss mechanics, code, tests or artwork is authorized by documenting these candidate values.
 
 ---
 
@@ -283,7 +365,7 @@ Even though the perimeter square is fixed, **internal buildings may use a small 
 
 | APPROVED now | Designer PROPOSED, review later | OPEN for detailed design |
 |---|---|---|
-| **112×112 external square**, four integrated corner towers, one perimeter gate, A+C dimensional wall concept (exact modeling delegated to Claude), plains/flat-under-tree forests. **Interior 19–22 facilities, 2-story illager manor HQ, gate→square→HQ main road plus alleys, prison and ravager stable. Combat: 35–45 initial garrison, vanilla AI only, enhanced Vindicator commander, no natural garrison replenishment after deaths.** | **20** proposed facilities; **40**-unit nominal roster with 23 pillagers, 10 standard vindicators, 5 elite vindicators, 1 commander and 1 ravager; proposed zone allocations, persistence implementation outline and optional encounter gradient | Wall/terrain/building coordinates; exact spawn mechanics and saving; difficulty scaling; commander/elite tuning, rewards, other natural spawns, peaceful behavior and generated-world QA |
+| **112×112 external square**, four integrated corner towers, one perimeter gate, A+C dimensional wall concept (exact modeling delegated to Claude), plains/flat-under-tree forests. **Interior 19–22 facilities, 2-story illager manor HQ, gate→square→HQ main road plus alleys, prison and ravager stable. Combat: 35–45 initial garrison, vanilla AI only, enhanced Vindicator commander, no natural garrison replenishment after deaths.** | **20** proposed facilities; **40**-unit nominal roster with 23 pillagers, 10 standard vindicators, 5 elite vindicators, 1 commander and 1 ravager; proposed zone allocations, persistence implementation outline and optional encounter gradient | Wall/terrain/building coordinates; exact spawn mechanics and saving; difficulty scaling; commander/elite tuning, **exact loot counts, item whitelist, premium odds and rune-caravan exclusivity**, other natural spawns, peaceful behavior and generated-world QA |
 
 ## 6. Immediate next design milestone
 
