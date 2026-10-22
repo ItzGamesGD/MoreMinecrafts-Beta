@@ -29,6 +29,92 @@
 
 ---
 
+## Owner-approved interior concept — 2026-10-22 (latest authority)
+
+**APPROVED:**
+1. Interior facility density **approximately 19–22 distinct buildings/facilities**, yielding a balanced, inhabited military village, not a sparse empty courtyard or a tightly packed metropolis.
+2. The **headquarters / command hall is a two-story illager manor-style building**, visually the most important internal structure, not a three-story military command tower.
+3. Road topology is **single main gate → central square → two-story headquarters along an immediately legible primary street**, with several smaller connecting village-like alleys. The street is the orientation spine; do not impose a rigid square city grid or random maze.
+4. **Both a prison and a ravager stable/pen are included** as distinct interior facilities.
+5. Previously approved: armory and fenced training yard share a direct boundary; surrounding square wall is 112×112 external, four integrated corner towers, single main gate, flat plains/flat-under-tree forests. Detailed A+C hybrid exterior styling remains deferred to Claude.
+
+**Authority distinction:** the following **20-facility ledger, number of homes/barracks, zones, encounter flow, road widths and placement logic are DESIGNER PROPOSALS** consistent with the above approvals; they are not separately approved as exact recipes or block placements. One fenced training yard counts as **one facility**, even though it is an outdoor space; perimeter wall, corner towers, gatehouse, connecting streets and central public square are **shared infrastructure**, not counted among the 20 interior facilities.
+
+### Proposed 20-facility program (checkable sum)
+
+| Facility type | Proposed count | Use and important adjacency |
+|---|---:|---|
+| Two-story illager manor headquarters | **1** | Far visual anchor of the main street beyond the plaza; ground-floor planning/guard rooms, upper-floor commander chambers. Not a confirmed scripted boss arena. |
+| Barracks | **3** | Medium communal sleeping houses grouped on secondary streets near training and plaza, with differing silhouettes. |
+| Armory | **1** | Equipment racks, crossbows, axes, repairs; **directly borders the fenced training yard**; a door/path connects without intervening buildings. |
+| Fenced training yard | **1** | Outdoor targets, drill and sparring zone; internal fence gate(s) are allowed and **are not fortress perimeter secondary gates**. |
+| Supply warehouses | **2** | One near gate/logistics lane, the other near barracks/HQ for supplies; no required conveyor or quest delivery mechanic. |
+| Prison | **1** | Defensible side street, barred cells, little overlap with residential courtyard; captives are not a confirmed spawn rule. |
+| Ravager stable/pen | **1** | At wider street and a courtyard adjacent to gate-side logistics, enough room for animal pathing; live ravager count is OPEN. |
+| Small illager residential houses | **7** | Groups of 2–3 interspersed with barracks and workshops; varied façades and yards avoid monotonous identical rows. |
+| Support outbuildings | **3** | Suggested communal kitchen, smith/repair workshop, and covered cart/tools shed; exact functions may be adjusted. |
+| **TOTAL** | **20** | Inside approved **19–22** target; 20 excludes shared walls/streets/plaza/corner towers/gatehouse. |
+
+### Proposed internal zoning / relationships
+
+The schematic below expresses **adjacency and navigational order**, not a final physical layout. The main gate is drawn at south **only as an illustrative rotation**: the entire site can be rotated, with no additional exit.
+
+```text
+ NORTH WALL ============================================ NORTH WALL
+ | NW WALL-INTEGRATED TOWER       NE WALL-INTEGRATED TOWER  |
+ |      residential cluster       barracks + secondary store|
+ |          [H H H]                 [B B]      [W2]         |
+ |                     [HQ: 2 floors]                     |
+ |                           ||                            |
+ | [prison]----small lane--[CENTRAL SQUARE]--[houses H H]  |
+ |   [P]                     ||                   [H H]     |
+ | [house H]     [ARMORY][FENCED TRAINING YARD] [barrack B] |
+ |                    shared boundary                     |
+ | [kitchen]  [repair shop]    ||    [ravager stable]       |
+ |     [shed]           [warehouse W1]         [R]        |
+ |                           ||                            |
+ | SW WALL-INTEGRATED TOWER  MAIN GATE  SE WALL-INTEGRATED  |
+ SOUTH WALL ===================       ================= WALL
+```
+
+**Diagram is intentionally non-metric**; every facility in the ledger must be packed and validated independently. Some roads and house locations must shift when real footprints, tower reservations and wall thickness are decided. In particular, the armory–yard boundary and fully traversable gate→square→HQ route are hard conceptual constraints; diagram symbols are not build instructions.
+
+### Proposed road and service hierarchy
+
+- **Primary road** leads from the only gate to the central square and then the manor's entrance; align major vistas but allow setbacks, courtyards and architectural offsets so it is not a giant empty parade road.
+- **Secondary lanes** reach barracks and the two residential clusters, feed warehouses, and connect prison, training, stable and outbuildings. Loops and short connectors are preferable to inaccessible cul-de-sacs, but exact road graph is OPEN.
+- **Armory + fenced yard** forms a single contiguous training compound; the yard's own fence gate is an **internal facility door**, not a second perimeter entrance.
+- **Stable** sits near a broader gate-side route, away from narrow housing alleys; exterior perimeter still has just one gate.
+- **Prison** is reachable from a side lane, not directly in the middle of the residential cluster.
+- **Two-story manor** retains clear silhouette from the gate or the central square, with lower, smaller houses around it.
+
+### Proposed military-village experience (non-linear)
+
+| Area | Discoverable activity | Potential opposition / tension | Completion or reward contract |
+|---|---|---|---|
+| Outer wall, single gate, four integrated towers | Observe patrols and defenses, pick an approach | Ranged guards / line-of-sight pressure (roster OPEN) | No forced stealth, gate-switch puzzle or indestructible wall |
+| Logistics and stable quarter | Search stores, stables and cart shed | Pillager patrols; ravager **only if later approved** | Optional exploration, no mandatory stable event |
+| Houses and barracks | Explore a recognizable ominous village, find everyday details | Mixed short alley and building fights | Ordinary loot candidate, no locked gate requirement |
+| Armory and directly adjacent training yard | Discover equipment/targets, use cover and fence geometry | Potential veteran/training enemies, exact rules OPEN | Higher risk/reward candidate, no obligatory wave trigger |
+| Prison and side quarter | Explore cells and guard room | Local guard presence | Captive rescue mechanic **not approved**, no forced prisoner objective |
+| Central square and two-story HQ | Visible landmark, explore planning rooms and command chambers | Higher-ranked defenders and captain as **PROPOSED** only | No approved boss/reward rarity; open access, not a prescribed last step |
+
+The **natural danger gradient** may rise from gate to command hall, but is not a forced progression sequence. Minecraft-native wall scaling/mining and roaming routes remain legitimate; do not create required keys, irreversible fights, special switches or magic barrier logic.
+
+### Concept-level validation before block plans / implementation
+
+- Facility ledger totals 20 and all independently countable objects respect 19–22 density; walls/towers/gate/plaza/roads are not counted as additional buildings.
+- Reserve full extents for walls/corner towers/gate, primary road and central square **before** placing the 20 facilities. Actual building footprints, road widths, fire clearance and pedestrian pathing remain OPEN; no claim that a complete 20-building packing proof was run.
+- Keep armory and fenced training yard adjacent, while barracks and equipment workshop have straightforward access.
+- Preserve a continuous gate→square→manor route; at least one accessible lane leads to each major facility and the stable is not trapped behind narrow alleys.
+- Include a prison and ravager stable without claiming their entity spawn counts or special behavior.
+- Maintain meaningful gaps/courtyards, readable housing clusters, and a convincing military-village atmosphere; avoid completely uniform village-grid rows.
+- This is **documentation only**, with no generated build, Minecraft client screenshots, implementation, balance test or terrain-compatibility acceptance.
+
+**Next design topic:** flesh out each building's room/functional program and then the enemy population/encounter distributions; hand off the exterior 3D stone/dark-oak detailing to Claude as separately requested.
+
+---
+
 ## 1. Design identity
 
 **APPROVED:** Build a large, intimidating **pillager military headquarters** (약탈자 본거지) that feels like a **vanilla villager village transformed into an ominous pillager settlement**, rather than an arbitrary maze. Internal facilities have readable adjacency and village-like roads and clusters. Primary experience is physical infiltration, fighting through a believable enemy garrison, and exploring a military village; do not add mandatory complex puzzles, key insertion or switch-gated progression.
@@ -128,10 +214,10 @@ Even though the perimeter square is fixed, **internal buildings may use a small 
 
 | APPROVED now | Designer PROPOSED, review later | OPEN for detailed design |
 |---|---|---|
-| Pillager HQ is a large military-village-like stronghold; square continuous outer wall; exactly four corner watchtowers; only one main entrance; flat terrain type A, plains and sufficiently flat forests ignoring trees; reject stepped terrain adaptive walls | Command hall, village plaza, 2+ barracks, armory beside fenced training yard, jail, storehouses, beast pens, path network; gate placed south in the sketch; defensive staging and environmental storytelling | Wall height/thickness and internal usable dimensions (outer square fixed at 112×112); exact flatness and tree clearing tolerances; mandatory facility roster/count; roof/material palette; interior road graph and variant generation; mob composition and captain; loot tables, rarity and balancing; whether ravager/villager captives spawn; exact allowed forest biomes; generation frequency; preflight algorithm and worldgen QA |
+| **112×112 external square**, four integrated corner towers, one perimeter gate, A+C dimensional wall concept (exact modeling delegated to Claude), plains/flat-under-tree forests. **Interior 19–22 facilities, 2-story illager manor HQ, gate→square→HQ main road plus village alleys, both prison and ravager stable** | **20** proposed counted facilities (1 manor, 3 barracks, 1 armory, 1 fenced yard, 2 warehouses, 1 prison, 1 stable, 7 small houses, 3 outbuildings), proposed adjacent sectors and optional encounter gradient | Exact wall dimensions/interior usable fit and coordinates; terrain/tree parameters; building footprints and architectural modeling; detailed roads and spawn/pathing constraints; mob roster/captain and loot rules; generated-world QA |
 
 ## 6. Immediate next design milestone
 
-**Interior headquarters concept pass** (still design-only): retain approved 112×112 outer square, integrated corner towers and single entrance; refine internal main street/plaza, facility adjacency, residential/outbuilding density, combat roles and exploration loop. **Defer** wall height/thickness, corner tower geometry, gatehouse block modeling, architectural palette and other detailed exterior visuals to a later Claude-led design task. Terrain thresholds and forest tree-clearing policy still need explicit preflight decisions before generation. Do not start implementation merely from this design record.
+**Interior concept pass now recorded** with owner-approved 19–22 facilities, 2-story manor, primary road + alleys, and both prison and ravager stable. Next refine room programs, exact facility sizes/coordinates, road packing and encounter populations only after reviewing the proposed 20-facility ledger. **Defer** wall height/thickness, corner tower geometry, gatehouse block modeling, architectural palette and other detailed exterior visuals to a later Claude-led design task. Terrain thresholds and forest tree-clearing policy still need explicit preflight decisions before generation. Do not start implementation merely from this design record.
 
 **Scope guard:** This document does not resolve unrelated desert pyramid, End city remodeling, spider cave or colosseum design and does not authorize implementing new structures on an existing active generation branch.
