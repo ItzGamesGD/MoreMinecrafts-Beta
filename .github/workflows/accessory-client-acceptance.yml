@@ -3,6 +3,7 @@ name: Accessory Client GameTest Acceptance
 on:
   push:
     branches:
+      - codex/accessory-enhancement-20261022
       - codex/accessory-client-acceptance-20261021
       - codex/accessory-client-repair-20261022
       - codex/accessory-client-lifecycle-final-20261022
