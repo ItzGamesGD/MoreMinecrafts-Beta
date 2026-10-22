@@ -4,6 +4,8 @@ import dev.itzgamesgd.moreminecrafts.progression.RawXp;
 import dev.itzgamesgd.moreminecrafts.progression.T1AnvilModes;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
+import java.lang.reflect.Method;
+import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -16,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 
-public final class AccessoryEnhancementGameTests {
+public final class AccessoryEnhancementGameTests implements CustomTestMethodInvoker {
     @GameTest public void anvilEnhancementConsumesExactResourcesAndPreservesComponents(GameTestHelper ctx) {
         var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
         player.giveExperiencePoints(10_000);
@@ -152,5 +154,9 @@ public final class AccessoryEnhancementGameTests {
             if(random.nextDouble()>=.12)return seed;
         }
         throw new AssertionError("Could not find deterministic no-wear anvil seed");
+    }
+
+    @Override public void invokeTestMethod(GameTestHelper context,Method method)throws ReflectiveOperationException {
+        method.invoke(this,context);
     }
 }
