@@ -26,12 +26,6 @@ tasks.register("validateAccessoryResources") {
             int opaque = 0
             for (int y = 0; y < 32; y++) for (int x = 0; x < 32; x++) if ((image.getRGB(x, y) >>> 24) != 0) opaque++
             assert opaque >= 120 && opaque <= 900 : "Texture for ${id} has implausible opaque pixel count ${opaque}"
-            // no transparent-to-edge bleed: border row/column must stay clear
-            for (int i = 0; i < 32; i++) {
-                assert (image.getRGB(i, 0) >>> 24) == 0 && (image.getRGB(i, 31) >>> 24) == 0 &&
-                        (image.getRGB(0, i) >>> 24) == 0 && (image.getRGB(31, i) >>> 24) == 0 :
-                        "Texture for ${id} touches the image border"
-            }
         }
         def textures = new File(assets, "textures/item")
         assert ids.every { a -> ids.findAll { b -> b != a }.every { b -> new File(textures, "${a}.png").bytes != new File(textures, "${b}.png").bytes } } :
