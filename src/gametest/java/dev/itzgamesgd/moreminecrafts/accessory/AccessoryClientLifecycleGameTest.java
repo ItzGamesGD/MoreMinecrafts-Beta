@@ -48,6 +48,9 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
                 connection.waitForClientboundPackets();
                 assertFullFixture(context, server);
                 verifyRapidClicksAndConvergence(context, server, connection);
+                installFullFixture(server);
+                connection.waitForClientboundPackets();
+                assertFullFixture(context, server);
 
                 connection = verifyReconnect(context, server, connection);
                 connection = verifyDimensions(context, server, connection);
@@ -205,19 +208,6 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
             clickRapidMenuSlot(context, RING_INVENTORY_SLOT);
             connection.waitForServerboundPackets();
             connection.waitForClientboundPackets();
-            context.runOnClient(client -> System.out.println("ACCESSORY_RAPID_FIRST_CLIENT menu="
-                    + matchingMenuSlots(client.player.inventoryMenu)
-                    + " carried=" + client.player.containerMenu.getCarried()
-                    + " attachment=" + client.player.getAttachedOrElse(
-                    EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty()).get(
-                    AccessoryCategory.DEFENSE_SURVIVAL.ordinal())));
-            server.computeOnServer(minecraftServer -> {
-                ServerPlayer player = minecraftServer.getPlayerList().getPlayers().getFirst();
-                System.out.println("ACCESSORY_RAPID_FIRST_SERVER menu=" + matchingMenuSlots(player.inventoryMenu)
-                        + " carried=" + player.containerMenu.getCarried()
-                        + " inventory=" + matchingInventorySlots(player));
-                return null;
-            });
             context.waitFor(client -> client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem().isEmpty()
                     && client.player.containerMenu.getCarried().getItem()
                     == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE));
@@ -403,34 +393,6 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
         context.waitTick();
         context.getInput().releaseMouse(LEFT_MOUSE_BUTTON);
         context.waitTick();
-        context.runOnClient(client -> {
-            System.out.println("ACCESSORY_RAPID_CLICK slot=" + menuSlot + " shift=" + client.hasShiftDown()
-                    + " source=" + client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem()
-                    + " equipped=" + client.player.inventoryMenu.getSlot(DEFENSE_MENU_SLOT).getItem()
-                    + " cursor=" + client.player.containerMenu.getCarried());
-        });
-    }
-
-    private static List<String> matchingMenuSlots(net.minecraft.world.inventory.AbstractContainerMenu menu) {
-        List<String> slots = new ArrayList<>();
-        for (int slot = 0; slot < menu.slots.size(); slot++) {
-            ItemStack stack = menu.getSlot(slot).getItem();
-            if (stack.getItem() == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)) {
-                slots.add(slot + "=" + stack);
-            }
-        }
-        return slots;
-    }
-
-    private static List<String> matchingInventorySlots(ServerPlayer player) {
-        List<String> slots = new ArrayList<>();
-        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
-            ItemStack stack = player.getInventory().getItem(slot);
-            if (stack.getItem() == ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)) {
-                slots.add(slot + "=" + stack);
-            }
-        }
-        return slots;
     }
 
     private static int screenIntField(InventoryScreen screen, String name) {
