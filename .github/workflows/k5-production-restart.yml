@@ -47,6 +47,150 @@ jobs:
           set -o pipefail
           ./gradlew runGameTest --no-daemon 2>&1 | tee k5-restart-read.log
           grep -F 'K5_RESTART_READ' k5-restart-read.log
+      - name: Process A saves XP Quest ore provenance
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_ore_restart_game_tests_ore_provenance_survives_real_save_unload_and_reload
+            -Dmoreminecrafts.questore.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-ore-restart-write.log
+          grep -F 'QUEST_ORE_RESTART_WRITE' quest-ore-restart-write.log
+      - name: Process B reloads XP Quest ore provenance from disk
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_ore_restart_game_tests_ore_provenance_survives_real_save_unload_and_reload
+            -Dmoreminecrafts.questore.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-ore-restart-read.log
+          grep -F 'QUEST_ORE_RESTART_READ' quest-ore-restart-read.log
+      - name: Process A saves Q1-C structure loot evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_loot_restart_game_tests_structure_loot_persists_across_clean_jvms
+            -Dmoreminecrafts.questloot.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-loot-restart-write.log
+          grep -F 'QUEST_LOOT_RESTART_WRITE' quest-loot-restart-write.log
+      - name: Process B reloads Q1-C structure loot and player evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_loot_restart_game_tests_structure_loot_persists_across_clean_jvms
+            -Dmoreminecrafts.questloot.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-loot-restart-read.log
+          grep -F 'QUEST_LOOT_RESTART_READ' quest-loot-restart-read.log
+      - name: Process A saves Q1-C vault evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_vault_restart_game_tests_vault_evidence_survives_reload_unload_and_restart
+            -Dmoreminecrafts.questvault.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-vault-restart-write.log
+          grep -F 'QUEST_VAULT_RESTART_WRITE' quest-vault-restart-write.log
+      - name: Process B reloads Q1-C vault chunk and player evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_vault_restart_game_tests_vault_evidence_survives_reload_unload_and_restart
+            -Dmoreminecrafts.questvault.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-vault-restart-read.log
+          grep -F 'QUEST_VAULT_RESTART_READ' quest-vault-restart-read.log
+      - name: Process A saves Q1-C structure entry evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_structure_restart_game_tests_structure_entry_persists_across_clean_jvms
+            -Dmoreminecrafts.questcity.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-city-restart-write.log
+          grep -F 'QUEST_CITY_RESTART_WRITE' quest-city-restart-write.log
+      - name: Process B reloads Q1-C structure entry evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_structure_restart_game_tests_structure_entry_persists_across_clean_jvms
+            -Dmoreminecrafts.questcity.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-city-restart-read.log
+          grep -F 'QUEST_CITY_RESTART_READ' quest-city-restart-read.log
+      - name: Process A saves Q1-C combat kill evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_combat_restart_game_tests_kill_evidence_survives_rejoin_and_clean_restart
+            -Dmoreminecrafts.questcombat.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-combat-restart-write.log
+          grep -F 'QUEST_COMBAT_RESTART_WRITE' quest-combat-restart-write.log
+      - name: Process B reloads Q1-C combat statistics and counters
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_combat_restart_game_tests_kill_evidence_survives_rejoin_and_clean_restart
+            -Dmoreminecrafts.questcombat.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-combat-restart-read.log
+          grep -F 'QUEST_COMBAT_RESTART_READ' quest-combat-restart-read.log
+      - name: Process A saves Q1-C dragon rematch credit
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_dragon_rematch_game_tests_rematch_credit*
+            -Dmoreminecrafts.questdragon.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-dragon-restart-write.log
+          grep -F 'QUEST_DRAGON_RESTART_WRITE' quest-dragon-restart-write.log
+      - name: Process B reloads Q1-C dragon rematch credit
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_dragon_rematch_game_tests_rematch_credit*
+            -Dmoreminecrafts.questdragon.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-dragon-restart-read.log
+          grep -F 'QUEST_DRAGON_RESTART_READ' quest-dragon-restart-read.log
+      - name: Process A saves Q1-C raid victory credit
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_raid_game_tests_raid_credit*
+            -Dmoreminecrafts.questraid.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-raid-restart-write.log
+          grep -F 'QUEST_RAID_RESTART_WRITE' quest-raid-restart-write.log
+      - name: Process B reloads Q1-C raid victory credit
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_raid_game_tests_raid_credit*
+            -Dmoreminecrafts.questraid.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-raid-restart-read.log
+          grep -F 'QUEST_RAID_RESTART_READ' quest-raid-restart-read.log
+      - name: Process A saves Q1-C monument participant evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_monument_restart_game_tests_*
+            -Dmoreminecrafts.questmonument.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-monument-restart-write.log
+          grep -F 'QUEST_MONUMENT_RESTART_WRITE' quest-monument-restart-write.log
+      - name: Process B completes the monument from restored participant evidence
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:quest_monument_restart_game_tests_*
+            -Dmoreminecrafts.questmonument.restart.phase=read
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee quest-monument-restart-read.log
+          grep -F 'QUEST_MONUMENT_RESTART_READ' quest-monument-restart-read.log
       - name: Upload focused logs and manifest
         if: always()
         uses: actions/upload-artifact@v4
@@ -56,5 +200,22 @@ jobs:
             k5-restart-write.log
             k5-restart-read.log
             build/run/gameTest/k5-restart-fixture.txt
+            quest-ore-restart-write.log
+            quest-ore-restart-read.log
+            build/run/gameTest/quest-ore-restart-fixture.txt
+            quest-loot-restart-write.log
+            quest-loot-restart-read.log
+            quest-vault-restart-write.log
+            quest-vault-restart-read.log
+            quest-city-restart-write.log
+            quest-city-restart-read.log
+            quest-combat-restart-write.log
+            quest-combat-restart-read.log
+            quest-dragon-restart-write.log
+            quest-dragon-restart-read.log
+            quest-raid-restart-write.log
+            quest-raid-restart-read.log
+            quest-monument-restart-write.log
+            quest-monument-restart-read.log
           if-no-files-found: warn
           retention-days: 14

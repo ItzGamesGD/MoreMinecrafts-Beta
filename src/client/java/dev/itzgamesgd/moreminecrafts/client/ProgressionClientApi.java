@@ -24,6 +24,7 @@ public final class ProgressionClientApi {
     private static Map<String,Integer> values = Map.of();
     private static String lastAction = "";
     private static int lastActionResult = -1;
+    private static final dev.itzgamesgd.moreminecrafts.progression.QuestClaimGate CLAIM_GATE = new dev.itzgamesgd.moreminecrafts.progression.QuestClaimGate();
     private static final ProgressionPurchaseGate PURCHASE_GATE = new ProgressionPurchaseGate();
     private ProgressionClientApi() {}
 
@@ -32,6 +33,7 @@ public final class ProgressionClientApi {
                 revision, values, nextRevision, next);
         revision = updated.revision();
         values = updated.values();
+        CLAIM_GATE.synchronizedState(values);
         PURCHASE_GATE.synchronizedAt(revision);
     }
     static synchronized boolean apply(int nextRevision, Map<String,Integer> changes) {
@@ -39,18 +41,30 @@ public final class ProgressionClientApi {
                 revision, values, nextRevision, changes);
         if (updated.status() == dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRules.Status.NEED_SNAPSHOT)
             return false;
+        if (updated.status() == dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRules.Status.APPLIED) {
+            for (String id : dev.itzgamesgd.moreminecrafts.progression.QuestClaimGate.newCompletions(values, changes)) {
+                var quest = dev.itzgamesgd.moreminecrafts.progression.QuestCatalog.byId(id);
+                if (quest != null) net.minecraft.client.gui.components.toasts.SystemToast.add(
+                        Minecraft.getInstance().gui.toastManager(),
+                        new net.minecraft.client.gui.components.toasts.SystemToast.SystemToastId(),
+                        net.minecraft.network.chat.Component.translatable("moreminecrafts.ui.quest.completed"),
+                        net.minecraft.network.chat.Component.translatable(quest.titleKey()));
+            }
+        }
         values = updated.values();
+        CLAIM_GATE.synchronizedState(values);
         revision = updated.revision();
         PURCHASE_GATE.synchronizedAt(revision);
         return true;
     }
     static synchronized void actionResult(String id, int result, int resultRevision) {
+        if (id.startsWith("quest:")) CLAIM_GATE.result(id.substring("quest:".length()));
         lastAction = id;
         lastActionResult = result;
         PURCHASE_GATE.actionResult(id, resultRevision);
     }
     static synchronized void reset() {
-        revision = -1; values = Map.of(); lastAction = ""; lastActionResult = -1; PURCHASE_GATE.reset();
+        revision = -1; values = Map.of(); lastAction = ""; lastActionResult = -1; PURCHASE_GATE.reset(); CLAIM_GATE.reset();
     }
     public static synchronized int revision() { return revision; }
     public static synchronized String lastAction() { return lastAction; }
@@ -109,8 +123,14 @@ public final class ProgressionClientApi {
         ClientPlayNetworking.send(new ResearchPurchaseRequestPayload(row.id(), row.level() + 1));
         return true;
     }
-    public static void claim(String id) {
-        if (ClientPlayNetworking.canSend(QuestClaimRequestPayload.TYPE))
-            ClientPlayNetworking.send(new QuestClaimRequestPayload(id));
+    public static synchronized boolean claimPending(String id) { return CLAIM_GATE.pending(id, net.minecraft.util.Util.getMillis()); }
+    public static synchronized void resetClaimRequests() { CLAIM_GATE.reset(); }
+    public static synchronized boolean claim(String id) {
+        var row = quests(null).stream().filter(q -> q.id().equals(id)).findFirst().orElse(null);
+        if (row == null || !ClientPlayNetworking.canSend(QuestClaimRequestPayload.TYPE)
+                || !CLAIM_GATE.begin(id, row.complete(), row.claimed(), net.minecraft.util.Util.getMillis())) return false;
+        try { ClientPlayNetworking.send(new QuestClaimRequestPayload(id)); }
+        catch (RuntimeException failure) { CLAIM_GATE.result(id); throw failure; }
+        return true;
     }
 }
