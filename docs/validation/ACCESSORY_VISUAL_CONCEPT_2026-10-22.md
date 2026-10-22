@@ -1,6 +1,6 @@
-# Accessory visual assets — concept plan (PROPOSED, awaiting owner approval)
+# Accessory visual assets — approved identities
 
-**Status:** PROPOSAL ONLY. Nothing here is design authority and no production texture has been created. `docs/CONTENT_AUTHORITY_INDEX.md` routes to no approved accessory artwork, so per task rules the identities below need owner approval before textures are produced.
+**Status:** APPROVED by the owner on 2026-10-22: all 12 identities in §3 and native 32×32 size. Category indicators stay as text (no new textures; none were requested). Production textures follow these identities; final pixel-level appearance remains subject to owner review of the rendered result (VISUAL PENDING).
 
 Base: Draft PR #149 HEAD `6d37a73f11befea3288e028590c540dc31deda61`.
 
@@ -46,8 +46,8 @@ Create per ID: `items/<id>.json`, `models/item/<id>.json`, `textures/item/<id>.p
 
 No image-generation model is available here. Textures would be hand-specified pixel grids rendered programmatically; this can produce clean 32×32 art but is not equivalent to an artist's work, and is final only if you approve it after viewing it. No placeholder art has been, or will be, presented as final.
 
-## 6. Decisions requested
+## 6. Decisions (resolved 2026-10-22)
 
-1. Approve, amend or reject each identity in §3.
-2. Confirm 32×32 native size.
-3. Confirm category indicators stay as text (no new textures), or request icons and specify design.
+1. §3 identities: approved.
+2. 32×32 native size: confirmed.
+3. Category indicators: no icons requested; they remain text labels.
