@@ -203,7 +203,13 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
         for (int cycle = 0; cycle < 8; cycle++) {
             int cycleIndex = cycle;
             int sourceSlot = cycleIndex % 2 == 0 ? RING_INVENTORY_SLOT : DEFENSE_MENU_SLOT;
-            for (int click = 0; click < 4; click++) clickShiftMenuSlot(context, sourceSlot);
+            context.getInput().holdShift();
+            context.waitTick();
+            try {
+                for (int click = 0; click < 4; click++) clickShiftMenuSlot(context, sourceSlot);
+            } finally {
+                context.getInput().releaseShift();
+            }
             connection.waitForServerboundPackets();
             connection.waitForClientboundPackets();
             context.runOnClient(client -> {
@@ -367,6 +373,7 @@ public final class AccessoryClientLifecycleGameTest implements FabricClientGameT
             boolean handled = screen.mouseClicked(event, false);
             screen.mouseReleased(event);
             System.out.println("ACCESSORY_RAPID_CLICK slot=" + menuSlot + " handled=" + handled
+                    + " shift=" + client.hasShiftDown()
                     + " source=" + client.player.inventoryMenu.getSlot(RING_INVENTORY_SLOT).getItem()
                     + " equipped=" + client.player.inventoryMenu.getSlot(DEFENSE_MENU_SLOT).getItem()
                     + " cursor=" + client.player.containerMenu.getCarried());
