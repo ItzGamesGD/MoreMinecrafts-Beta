@@ -37,12 +37,12 @@ Status: **APPROVED DESIGN; IMPLEMENTATION PENDING**. This authority records appr
 - Q27–Q62 decisions below approve rarity probabilities, additional-item quantities, trader stock, eligible villager professions and unlock levels, purchase/reward ranges, special-contract conversion chance, structure-container probabilities, combat contribution threshold, duplicate handling, UI information, and delivery semantics. Still-open details are called out explicitly below: exact registry identities and item IDs, item-specific value caps, direct special-reward probabilities, structure tier matrices, remaining economic selections, and engineering edge cases.
 - Balance explicitly against delivery opportunity cost, expected playtime and unlimited simultaneous contract stacking. Do not silently change the approved multi-contract shared-credit rule to mitigate farming.
 
-## Acceptance and next design work
-1. Verify the exact 40 MM mob registry entries and classify each ordinary/strong/special, access and spawn conditions.
-2. Establish final eligible item IDs and delivery-specific cost caps, including MM fishing/material additions.
-3. Decide four-tier reward probability matrix and concrete reward pools, prices, stock and source loot weights.
-4. Resolve kill-assist credit threshold, objective combination effort cap, multiplayer item-progress synchronization and completion atomicity.
-5. Design single-screen UI layout and validation tests. No gameplay implementation authorized by this document alone.
+## Remaining design and engineering work
+1. Reconcile the exact 40 MM mob registry entries and classify each ordinary/strong/special, access, and spawn conditions without inventing identities.
+2. Establish final eligible item IDs and item-specific value caps, including any MM fishing/material additions.
+3. Decide direct special-reward probabilities, exact structure difficulty-to-tier matrices, and any remaining numeric objective weights or effort rules.
+4. Verify combat edge cases (healing, damage caps/sources, despawning), item progress synchronization across transfers, duplicate-ID prevention, simultaneous redemption, and crash-safe completion.
+5. Implement and validate the approved single-screen UI and all gameplay rules in a separately authorized implementation task. No gameplay implementation is authorized or claimed by this design document.
 
 
 ## Approved decisions Q27–Q62
