@@ -41,13 +41,15 @@ public final class ContractEconomy {
         return Rarity.LEGENDARY;
     }
 
-    /** purchase minimum/maximum, emerald payout minimum/maximum. */
+    /**
+     * purchase minimum/maximum, emerald payout minimum/maximum. A special contract produced by the
+     * advanced-to-special conversion keeps the Advanced price and payout bands (owner decision, Oct 22).
+     */
     public static int[] band(ContractData.Tier tier) {
         return switch (tier) {
             case BEGINNER -> new int[]{2, 4, 5, 10};
             case INTERMEDIATE -> new int[]{6, 10, 12, 24};
-            case ADVANCED -> new int[]{12, 20, 25, 50};
-            case SPECIAL -> throw new IllegalArgumentException("Special derives its price from acquired advanced offer");
+            case ADVANCED, SPECIAL -> new int[]{12, 20, 25, 50};
         };
     }
 

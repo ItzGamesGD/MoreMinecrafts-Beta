@@ -30,6 +30,31 @@ This document describes the code on the BC-03 implementation branch. It does not
 
 The PR #150 head inherited a failing full-history secret audit and a passing Fabric CI. BC-03 does not suppress the audit or expose matched values. Check final-head CI separately; inherited historical findings must be distinguished from any new findings.
 
+## Continuation status (2026-10-22, BC-03C/D)
+
+### Implemented in this continuation
+- **Owner reward pool and caps:** `ContractRewards` implements the approved Common/High-grade/Rare/Legendary item lists, Q31/Q35 quantity bands, and item caps (`minecraft:diamond` ≤2, `moreminecrafts:titanium_ingot` ≤4, `moreminecrafts:adamantium_ingot` ≤1, all PROVISIONAL BALANCE). Both MM IDs are registered in `ModItems`.
+- **Special contract economy:** a converted special keeps the Advanced price band (12–20) and payout band (25–50); special rarity distribution 20/45/30/5 is unchanged.
+- **Single-screen contract UI (BC-03D):** right-click opens `ContractScreen` (tier/status, objectives with progress, live delivery holdings, fixed reward preview, accept/complete/abandon, abandonment confirmation). The screen re-reads the contract from the live inventory each frame. Client button state is a convenience only; `ContractActionPayload` is re-validated by `ContractService.act` on the server, and rejected actions send `moreminecrafts.contract.action_failed`.
+- Authority synchronized: the owner decisions above are recorded in `../BOUNTY_CONTRACT_APPROVED_2026-10-22.md`.
+
+### Test-wiring defect found and fixed
+`ContractGameTests` was not listed in `src/gametest/resources/fabric.mod.json` `fabric-gametest` entrypoints. Its transfer and duplicate-redemption tests therefore did not run in earlier `runGameTest` results, despite the PR #151 body's earlier wording. The class is now registered; four contract GameTests execute and pass. A deliberate probe failure confirmed execution before it was removed.
+
+### Still NOT implemented (blocked on owner design decisions)
+- **Objective generation pools.** Generating objectives needs an approved ordinary/strong/special classification for mobs (the BC-01 mob classifications are PROPOSED only) and approved tier-weight selection rules. Neither was in the owner decisions. Hostile-only filtering (neutral/tameable/passive exclusion) is recorded in the overlay, but its concrete mob list is not.
+- **Acquisition wiring.** Structure loot integration (Easy/Medium/Hard sources and 5/10/18% rates), wandering-trader stock, and villager offers all produce contracts, so they depend on objective generation. Verified vanilla loot-table IDs are also not yet checked against the mapped jar.
+- Direct special drops remain DEFERRED by design.
+
+### Validation at this continuation
+| Check | Result |
+| --- | --- |
+| `./gradlew test` (JDK 25) | CODE VERIFIED: 252/252 unit tests pass, including `ContractRewardsTest` (4) and the special-band test |
+| `./gradlew runGameTest`, fresh generated world | SERVER VERIFIED: 100/100 required tests pass, including the 4 contract GameTests |
+| Reused generated world | Earlier K5 natural-tree tick-0 failures reproduced; not changed. Fresh-world runs are the valid evidence |
+| Contract UI rendering and clicks | CLIENT: compile only (`compileClientJava`). LIVE PENDING |
+| Persistence across real restart, death drops, overflow, concurrency, crash interruption | NOT RUN in this continuation; still PARTIAL per the record above |
+
 ## BC-04 independent audit handoff
 
 - Compare the final BC-03 HEAD with Q1–Q62 and the later owner overlay in the authority document.

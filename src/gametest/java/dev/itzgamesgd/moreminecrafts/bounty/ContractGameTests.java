@@ -52,6 +52,28 @@ public final class ContractGameTests implements CustomTestMethodInvoker {
         ctx.succeed();
     }
 
+    @GameTest
+    public void serverRefusesDuplicateAcceptAndAbandonDestroysOnce(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        String id = UUID.randomUUID().toString();
+        player.getInventory().setItem(0, ContractStacks.create(contract(id, ContractData.Category.COMBAT, "minecraft:zombie", 2)));
+        ctx.assertTrue(ContractService.act(player, id, ContractService.Action.ACCEPT), "accept succeeds");
+        ctx.assertTrue(!ContractService.act(player, id, ContractService.Action.ACCEPT), "second accept refused");
+        ctx.assertTrue(ContractService.act(player, id, ContractService.Action.ABANDON), "abandon succeeds");
+        ctx.assertTrue(ContractStacks.read(player.getInventory().getItem(0)) == null, "abandon destroys the contract");
+        ctx.assertTrue(!ContractService.act(player, id, ContractService.Action.ABANDON), "destroyed contract cannot be abandoned again");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void unknownActionNamesResolveToNothing(GameTestHelper ctx) {
+        ctx.assertTrue(dev.itzgamesgd.moreminecrafts.network.ContractActionPayload.parse("ACCEPT")
+                == ContractService.Action.ACCEPT, "known name resolves");
+        ctx.assertTrue(dev.itzgamesgd.moreminecrafts.network.ContractActionPayload.parse("accept") == null, "case mismatch refused");
+        ctx.assertTrue(dev.itzgamesgd.moreminecrafts.network.ContractActionPayload.parse("DROP_TABLE") == null, "unknown refused");
+        ctx.succeed();
+    }
+
     @Override public void invokeTestMethod(GameTestHelper context, Method method) throws ReflectiveOperationException {
         method.invoke(this, context);
     }

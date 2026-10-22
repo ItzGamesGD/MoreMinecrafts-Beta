@@ -13,6 +13,23 @@ These decisions supersede the remaining OPEN statements below where they address
 - Eligible structure loot sources have separate contract appearance rates of Easy 5%, Medium 10%, Hard 18%. Conditional tier distributions are Easy 75/22/3%, Medium 45/40/15%, Hard 20/45/35% for Beginner/Intermediate/Advanced. These rates apply only to explicitly eligible containers.
 - Advanced acquisition converts to a distinct special contract 5% of the time. Direct special-contract drops from structures or events are **DEFERRED**; no direct-drop rate is approved. Objectives for unavailable MM structures, meteors, and disabled events are excluded.
 
+### Owner decisions — BC-03C reward pool, loot sources, and special economy (2026-10-22, APPROVED)
+
+These decisions were approved by the owner in the BC-03 continuation request and are recorded here as current authority. They refine Q27–Q35 and Q41–Q42 and do not change them otherwise.
+
+- **Additional reward pool (explicit).** Each additional reward is one item drawn uniformly from its rarity's list, then sized by the Q31/Q35 quantity band for that rarity, clamped by the item cap below:
+
+  | Rarity | Items |
+  | --- | --- |
+  | Common | `minecraft:coal`, `minecraft:copper_ingot` |
+  | High-grade | `minecraft:iron_ingot`, `minecraft:gold_ingot` |
+  | Rare | `minecraft:diamond`, `moreminecrafts:titanium_ingot` |
+  | Legendary | `moreminecrafts:adamantium_ingot` |
+
+  Item-specific reward caps (PROVISIONAL BALANCE): `minecraft:diamond` maximum 2; `moreminecrafts:titanium_ingot` maximum 4; `moreminecrafts:adamantium_ingot` maximum 1. Caps apply to reward quantity only and do not change the delivery exceptions above. Both MM item IDs are registered in `ModItems`; no other MM item is in the reward pool.
+- **Eligible vanilla loot sources (explicit, verified IDs required before wiring).** Easy: mineshaft, desert pyramid. Medium: jungle temple, trial chamber reward. Hard: ancient city, bastion treasure. Contract appearance remains Easy 5%, Medium 10%, Hard 18%, with the conditional Beginner/Intermediate/Advanced distributions already recorded in Q41 and the Oct 22 overlay. Integration must add to these sources without replacing or reducing their existing vanilla loot.
+- **Special contract economy (explicit).** Special contracts produced by the 5% advanced-to-special conversion keep the Advanced purchase price 12–20 emeralds, Advanced emerald payout 25–50 emeralds, and special bonus rarity distribution 20/45/30/5 (Common/High-grade/Rare/Legendary). No direct special drops are introduced from structures or events.
+
 ## Acquisition and item lifecycle
 - Contracts are physical items. Wandering traders are the main vendor; selected ordinary villagers also sell tiered contracts. Structure chests, trial rewards and world events may award contract items.
 - Vendor listing identifies contract tier; an individually rolled objective set and reward set are fixed **when the purchased item is acquired**. Loot-generated contracts likewise resolve on acquisition. The seller does not reveal the particular rolled objectives beforehand.
