@@ -4,6 +4,18 @@
 >
 > **Authority key:** **APPROVED** = directly selected by owner in current conversation. **PROPOSED** = designer elaboration for review. **OPEN** = requires specific future owner decision or generated-world verification. Do not accidentally promote PROPOSED building counts, dimensions or balance to approved requirements.
 
+## Owner confirmation addendum — 2026-10-22 (later authority)
+
+**APPROVED — footprint:** The pillager headquarters uses a **112 × 112 block outer square** (12,544 horizontal blocks² including the walls and towers). This is the overall outside footprint, **not** an additional 112 × 112 buildable interior. The perimeter remains a geometrically precise square with four corner watchtowers and a single main gate. Do not infer that 112 is the inner courtyard dimension.
+
+**APPROVED — settlement density direction:** The inside should be a **plausibly populated ominous military village**, not an empty parade ground with only eight large standalone buildings. Distribute **additional small pillager houses and supporting outbuildings** between the key military facilities to fill the compound organically. The **exact number, footprints and placements** of these small buildings remain PROPOSED until the block-coordinate plan is reviewed.
+
+**PROPOSED sizing baselines retained for further review, NOT new owner approvals:** wall height ≈8 blocks; tower footprint ≈11 × 11 blocks; central gate width ≈7 blocks; two or three ≈13 × 11 barracks; command hall ≈23 × 19; armory ≈17 × 13; fenced training yard ≈25 × 21; supply warehouse ≈15 × 13; prison ≈13 × 11; ravager stable ≈17 × 13. These estimates must be checked against the usable interior left by 112 × 112 external walls, road widths, corner tower overlap and gatehouse. Do not interpret rough area examples as final block placements.
+
+**Still APPROVED:** flat plains and forests with flat ground under the trees (option A); do not make stepped terrain-adaptive wall segments. Remaining terrain thresholds, wood/stone palette, exact building count, combat roster and rewards are OPEN.
+
+---
+
 ## 1. Design identity
 
 **APPROVED:** Build a large, intimidating **pillager military headquarters** (약탈자 본거지) that feels like a **vanilla villager village transformed into an ominous pillager settlement**, rather than an arbitrary maze. Internal facilities have readable adjacency and village-like roads and clusters. Primary experience is physical infiltration, fighting through a believable enemy garrison, and exploring a military village; do not add mandatory complex puzzles, key insertion or switch-gated progression.
@@ -16,7 +28,7 @@
 - **Flat terrain candidate A** governs placement: preferentially plains; **forests are also eligible if the underlying ground, ignoring trees, is sufficiently flat**. Forest eligibility is *not* a requirement for an already naturally treeless clearing.
 - Reject problematic hilly/sloped sites rather than solving them with elaborate wall elevation matching. Do not bulldoze player builds or unrelated structures.
 
-**Open dimension details:** side length, wall height/thickness, exact gate side, tower floor height and other geometry remain to be finalized. The layout below is a **concept plan**, not an approved block-level blueprint.
+**Dimension authority:** outer side length is now **112 blocks (APPROVED)**. Wall height/thickness, exact gate side, tower floor height and other geometry remain to be finalized. The layout below is a **concept plan**, not an approved block-level blueprint.
 
 ## 2. Proposed masterplan — square military village
 
@@ -103,10 +115,10 @@ Even though the perimeter square is fixed, **internal buildings may use a small 
 
 | APPROVED now | Designer PROPOSED, review later | OPEN for detailed design |
 |---|---|---|
-| Pillager HQ is a large military-village-like stronghold; square continuous outer wall; exactly four corner watchtowers; only one main entrance; flat terrain type A, plains and sufficiently flat forests ignoring trees; reject stepped terrain adaptive walls | Command hall, village plaza, 2+ barracks, armory beside fenced training yard, jail, storehouses, beast pens, path network; gate placed south in the sketch; defensive staging and environmental storytelling | Exact overall dimensions and wall height; exact flatness and tree clearing tolerances; mandatory facility roster/count; roof/material palette; interior road graph and variant generation; mob composition and captain; loot tables, rarity and balancing; whether ravager/villager captives spawn; exact allowed forest biomes; generation frequency; preflight algorithm and worldgen QA |
+| Pillager HQ is a large military-village-like stronghold; square continuous outer wall; exactly four corner watchtowers; only one main entrance; flat terrain type A, plains and sufficiently flat forests ignoring trees; reject stepped terrain adaptive walls | Command hall, village plaza, 2+ barracks, armory beside fenced training yard, jail, storehouses, beast pens, path network; gate placed south in the sketch; defensive staging and environmental storytelling | Wall height/thickness and internal usable dimensions (outer square fixed at 112×112); exact flatness and tree clearing tolerances; mandatory facility roster/count; roof/material palette; interior road graph and variant generation; mob composition and captain; loot tables, rarity and balancing; whether ravager/villager captives spawn; exact allowed forest biomes; generation frequency; preflight algorithm and worldgen QA |
 
 ## 6. Immediate next design milestone
 
-**Detailed headquarters layout pass** (still design-only): approve overall wall dimensions, corner tower modules, entrance gatehouse, internal path topology, number/size of barracks and mandatory buildings, tile palette, battle density, safe terrain thresholds and forest tree policy. Produce a readable plan and area schedule before asking the structure generator to place anything.
+**Detailed headquarters layout pass** (still design-only): retain approved 112×112 outer square; approve wall height/thickness, corner tower modules, entrance gatehouse, internal path topology, number/size of barracks and mandatory buildings, tile palette, battle density, safe terrain thresholds and forest tree policy. Produce a readable plan and area schedule before asking the structure generator to place anything.
 
 **Scope guard:** This document does not resolve unrelated desert pyramid, End city remodeling, spider cave or colosseum design and does not authorize implementing new structures on an existing active generation branch.
