@@ -37,6 +37,8 @@ The controlled negative check uses an unrelated synthetic API-key fixture with t
 - Full-history scan after the exact-fingerprint ignore file: **PASS**, exit 0 with zero findings over the fetched ref set, including the remediation commit.
 - Controlled unrelated synthetic finding: **PASS**, one `generic-api-key` finding remained detectable.
 - Relevant historical Python test suite: **PASS**, all 23 tests.
-- Remote GitHub Actions result: **pending**; local validation alone is not a remote CI pass.
+- Remote full-history security audit: **PASS** on code/config HEAD `feb6cc5b24fea5f0ff0c3830d83742c11517a2d5` ([run 39871900945](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/39871900945)).
+- Remote Fabric CI: **PASS** on the same code/config HEAD, including build, server smoke, and client smoke ([run 39871900993](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/39871900993)).
+- This report-only update triggers fresh workflows; their current results are tracked in the Draft PR checks. The scan configuration and source scope did not change.
 
 No history was rewritten. No other branch, workflow, gameplay system, or PR #156 branch was changed. The residual risk is limited to the two documented fingerprints; all other findings remain subject to the unchanged scanner rules.
