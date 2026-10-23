@@ -115,7 +115,7 @@ public final class AccessoryAnvilClientGameTest implements FabricClientGameTest 
             menu.getSlot(0).set(target.get());
             menu.getSlot(1).set(stones);
             var modes = (T1AnvilModes) menu;
-            menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST, 4));
+            menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST, 1));
             menu.broadcastChanges();
             if (!menu.stillValid(player)) throw new AssertionError("Anvil menu is not valid for the player");
         });
