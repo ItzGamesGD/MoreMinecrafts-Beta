@@ -166,6 +166,9 @@ public final class AccessoryVisualClientGameTest implements FabricClientGameTest
 
     /** Logs window-pixel slot rectangles, then takes the screenshot. */
     private static void capture(ClientGameTestContext context, String name) {
+        // Park the pointer outside every widget so no hover tooltip covers the panels being photographed.
+        context.getInput().setCursorPos(2, 2);
+        context.waitTick();
         context.runOnClient(client -> {
             if (!(client.gui.screen() instanceof AbstractContainerScreen<?> screen)) {
                 throw new AssertionError("Expected a container screen while capturing " + name);
