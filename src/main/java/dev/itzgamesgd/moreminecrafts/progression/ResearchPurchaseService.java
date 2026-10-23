@@ -33,9 +33,7 @@ public final class ResearchPurchaseService {
         int current = storedLevel;
         Set<Integer> knowledge = new HashSet<>();
         for (int i = 1; i <= 70; i++) if (state.hasKnowledge(i)) knowledge.add(i);
-        Set<String> purchased = new HashSet<>();
-        for (ResearchDefinition research : ResearchCatalog.v4Additions())
-            if (state.researchLevel(research.id()) > 0) purchased.add(research.id());
+        Set<String> purchased = purchasedResearch(state);
         Map<String, Integer> inventoryTotals = materialTotals(player);
         int xp = RawXp.available(player);
         ResearchPurchaseRules.Result validation = ResearchPurchaseRules.validate(
@@ -73,6 +71,13 @@ public final class ResearchPurchaseService {
             KnowledgeRuntime.updateState(player, oldState);
             return Result.INVALID_STATE;
         }
+    }
+
+    static Set<String> purchasedResearch(ResearchProgressState state) {
+        Set<String> purchased = new HashSet<>();
+        for (ResearchDefinition research : ResearchCatalog.allCatalogEntries())
+            if (state.researchLevel(research.id()) > 0) purchased.add(research.id());
+        return purchased;
     }
 
     private static Result map(ResearchPurchaseRules.Result result) {
