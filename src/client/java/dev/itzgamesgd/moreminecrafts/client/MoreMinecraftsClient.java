@@ -64,6 +64,9 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        dev.itzgamesgd.moreminecrafts.bounty.ContractUiBridge.setOpener(contractId ->
+                net.minecraft.client.Minecraft.getInstance().execute(() ->
+                        net.minecraft.client.Minecraft.getInstance().gui.setScreen(new ContractScreen(contractId))));
         VisualValidationHarness.register();
         registerCustomMobRenderers();
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);

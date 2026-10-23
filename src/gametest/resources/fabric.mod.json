@@ -21,7 +21,15 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryLifecycleGameTests",
-      "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests"
+      "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractIntegrationGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractGeneratorGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractTradeGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractTransactionGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractCrashGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractRuntimeGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",

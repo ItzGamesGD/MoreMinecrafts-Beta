@@ -14,6 +14,7 @@ import dev.itzgamesgd.moreminecrafts.equipment.EquipmentRuntime;
 import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentRuntime;
 import dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog;
 import dev.itzgamesgd.moreminecrafts.progression.T2CoreAcquisition;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractObjectives;
 
 public final class ModRegistries {
     private ModRegistries() {
@@ -42,6 +43,8 @@ public final class ModRegistries {
         EquipmentAttachments.initialize();
         AccessoryEquipmentRuntime.initialize();
         EquipmentRuntime.initialize();
+        ContractObjectives.initialize();
+        dev.itzgamesgd.moreminecrafts.bounty.ContractLootIntegration.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
     }
 }

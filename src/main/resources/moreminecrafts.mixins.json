@@ -5,6 +5,8 @@
   "mixins": [
     "AnvilMenuMixin",
     "AnvilCatalystQuickMoveMixin",
+    "ContractTradeStockMixin",
+    "PlayerListAccessor",
     "ItemStackMixin",
     "BlockMixin",
     "ServerPlayerGameModeMixin",
