@@ -166,7 +166,7 @@ public final class AccessoryInventoryLayoutClientGameTest implements FabricClien
                 System.out.println("ACCESSORY_UI_GEOMETRY " + line);
             });
             context.takeScreenshot("ui-crafting-table-vanilla-recipe-open");
-            context.runOnClient(client -> client.gui.setScreen(null));
+            context.runOnClient(client -> client.player.closeContainer());
             context.waitForScreen(null);
             context.waitFor(client -> client.player.containerMenu == client.player.inventoryMenu);
             openInventory(context);
