@@ -19,11 +19,15 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerConnection;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.CraftingScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -133,6 +137,38 @@ public final class AccessoryInventoryLayoutClientGameTest implements FabricClien
                 }
             });
             assertNoDroppedItems(server);
+
+            // The recipe-book shift must not leak into other screens: a crafting table sharing the (open) CRAFTING
+            // book keeps vanilla positions exactly.
+            context.runOnClient(client -> client.gui.setScreen(null));
+            context.waitForScreen(null);
+            server.runOnServer(minecraftServer -> minecraftServer.getPlayerList().getPlayers().getFirst().openMenu(
+                    new SimpleMenuProvider((id, inventory, player) -> new CraftingMenu(id, inventory, ContainerLevelAccess.NULL),
+                            Component.literal("Crafting"))));
+            context.waitForScreen(CraftingScreen.class);
+            context.waitTicks(4);
+            context.runOnClient(client -> {
+                var screen = client.gui.screen();
+                Object book = findObject(screen, value -> value.getClass().getSimpleName().contains("RecipeBookComponent"),
+                        Collections.newSetFromMap(new IdentityHashMap<>()), 0);
+                if (!(boolean) invoke(book, "isVisible")) throw new AssertionError("Crafting table recipe book is not open");
+                int width = intField(screen, "width");
+                int expectedBookX = (width - RECIPE_BOOK_WIDTH) / 2 - 86;
+                int expectedLeft = 177 + (width - 176 - 200) / 2;
+                int bookX = (int) invoke(book, "getXOrigin");
+                int left = intField(screen, "leftPos");
+                if (bookX != expectedBookX || left != expectedLeft) {
+                    throw new AssertionError("Crafting table layout changed: book x " + bookX + " (vanilla " + expectedBookX
+                            + "), leftPos " + left + " (vanilla " + expectedLeft + ")");
+                }
+                String line = "crafting table (non-inventory) | gui " + width + " | leftPos " + left + " | book x " + bookX + " | identical to vanilla";
+                report(line);
+                System.out.println("ACCESSORY_UI_GEOMETRY " + line);
+            });
+            context.takeScreenshot("ui-crafting-table-vanilla-recipe-open");
+            context.runOnClient(client -> client.gui.setScreen(null));
+            context.waitForScreen(null);
+            openInventory(context);
             toggleRecipeBook(context, false);
 
             // Tooltips: category once on an item; category name on an empty slot (visual).
