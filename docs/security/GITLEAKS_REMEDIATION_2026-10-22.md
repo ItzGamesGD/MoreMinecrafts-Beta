@@ -4,7 +4,7 @@
 
 This report covers the two findings blocking Draft PR #156. The PR was checked through GitHub: it remains open and Draft, and its head is `725159edfacac8d2cbdeef4c6cbd9030839ea2e7`, matching the supplied SHA.
 
-The repository has no separate `SECURITY.md`, `.gitleaks.toml`, or `.gitleaksignore` at the audited head. The security scan policy is defined in `.github/workflows/pre-public-security-scan.yml`.
+The repository had no separate `SECURITY.md`, `.gitleaks.toml`, or `.gitleaksignore` at the originally audited head (the ignore file has since landed on `main` via PR #155). The security scan policy is defined in `.github/workflows/pre-public-security-scan.yml`.
 
 The workflow checks out full history, fetches all remote branches, tags, and pull request head refs, then runs Gitleaks 8.30.1 with `--all --full-history`. The pinned Linux archive checksum is `551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb`. No custom Gitleaks configuration was active before this change.
 
@@ -27,7 +27,7 @@ Finding A's commit is reachable from PR head 141 and the `experiment/cloud-free-
 
 ## Remediation and coverage
 
-`.gitleaksignore` adds one native Gitleaks fingerprint per verified false positive. Each fingerprint pins the exact commit, path, rule, and line. No rule, directory, branch, or global exclusions were added. The workflow, scanner version, exit behavior, and reference coverage are unchanged. A changed line or unrelated `generic-api-key` finding does not match either exception.
+`.gitleaksignore` carries one native Gitleaks fingerprint per verified false positive. The file was merged to `main` through PR #155; this report-only PR no longer changes it. Each fingerprint pins the exact commit, path, rule, and line. No rule, directory, branch, or global exclusions were added. The workflow, scanner version, exit behavior, and reference coverage are unchanged. A changed line or unrelated `generic-api-key` finding does not match either exception.
 
 The controlled negative check uses an unrelated synthetic API-key fixture with the same pinned Gitleaks version and this ignore file. It must still produce a `generic-api-key` finding; its literal is not stored in this report or repository.
 
