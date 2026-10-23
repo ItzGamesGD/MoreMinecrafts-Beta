@@ -62,18 +62,20 @@ public final class ContractGeneratorGameTests implements CustomTestMethodInvoker
     }
 
     @GameTest
-    public void beginnerOrdinaryShareMatchesProvisionalWeight(GameTestHelper ctx) {
+    public void combatClassWeightsMatchApprovedValues(GameTestHelper ctx) {
         RandomSource random = RandomSource.create(4);
-        int ordinary = 0;
-        int total = 0;
-        for (int i = 0; i < 20000; i++) {
-            ContractData.Objective objective = ContractGenerator.combat(ContractData.Tier.BEGINNER,
-                    ContractCatalog.Dimension.OVERWORLD, random);
-            total++;
-            if (!isStrong(objective.target())) ordinary++;
+        Object[][] cases = {
+                {ContractData.Tier.BEGINNER, ContractCatalog.Dimension.OVERWORLD, 0.0},
+                {ContractData.Tier.INTERMEDIATE, ContractCatalog.Dimension.OVERWORLD, 0.25},
+                {ContractData.Tier.ADVANCED, ContractCatalog.Dimension.OVERWORLD, 0.50}};
+        for (Object[] c : cases) {
+            int strong = 0;
+            for (int i = 0; i < 20000; i++)
+                if (isStrong(ContractGenerator.combat((ContractData.Tier) c[0], (ContractCatalog.Dimension) c[1], random)
+                        .orElseThrow().target())) strong++;
+            double share = strong / 20000.0;
+            ctx.assertTrue(Math.abs(share - (double) c[2]) <= 0.02, c[0] + " strong share " + share);
         }
-        double share = ordinary / (double) total;
-        ctx.assertTrue(Math.abs(share - 0.90) <= 0.02, "beginner ordinary share " + share);
         ctx.succeed();
     }
 

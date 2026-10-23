@@ -67,6 +67,36 @@ public final class ContractCatalogGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
+    public void specialOnlyAndPendingMobsAreRegisteredButNeverPooled(GameTestHelper ctx) {
+        List<String> withheld = new ArrayList<>(ContractCatalog.SPECIAL_ONLY_MOBS);
+        withheld.addAll(ContractCatalog.MM_PENDING_VERIFICATION);
+        for (String id : withheld) {
+            ctx.assertTrue(BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(id)), "registered: " + id);
+            ctx.assertTrue(allCombatMobs().stream().noneMatch(mob -> mob.id().equals(id)), "not pooled: " + id);
+        }
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void allFortyMmEntitiesAreAccountedForExactlyOnce(GameTestHelper ctx) {
+        List<String> accounted = new ArrayList<>();
+        ContractCatalog.MM_ORDINARY_MOBS.forEach(m -> accounted.add(m.id()));
+        ContractCatalog.MM_STRONG_MOBS.forEach(m -> accounted.add(m.id()));
+        accounted.addAll(ContractCatalog.MM_EXCLUDED);
+        accounted.addAll(ContractCatalog.MM_PENDING_VERIFICATION);
+        List<String> registered = new ArrayList<>();
+        BuiltInRegistries.ENTITY_TYPE.keySet().forEach(id -> {
+            if (id.getNamespace().equals("moreminecrafts")) registered.add(id.toString());
+        });
+        ctx.assertTrue(registered.size() == 40, "40 registered MM entities, found " + registered.size());
+        ctx.assertTrue(accounted.size() == 40, "40 accounted, found " + accounted.size());
+        ctx.assertTrue(accounted.stream().distinct().count() == 40, "no duplicates");
+        ctx.assertTrue(new java.util.HashSet<>(accounted).equals(new java.util.HashSet<>(registered)),
+                "accounted set equals registry set");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void deliveryItemsAreRegistered(GameTestHelper ctx) {
         List<String> ids = new ArrayList<>(ContractCatalog.DELIVERY_ORDINARY);
         ids.addAll(ContractCatalog.DELIVERY_RARE);

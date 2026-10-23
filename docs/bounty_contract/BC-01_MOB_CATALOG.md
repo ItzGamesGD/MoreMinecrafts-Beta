@@ -50,3 +50,18 @@ Baseline: PR #148 `b7cedf199a5f1eda341ce3bd27eabb22eeb309e1`. Candidate classifi
 ## Limits and owner decisions
 
 No registered mob is verified as event-only or summon-only in this 40-entry catalog. Structure gates use generated vanilla pieces; actual spawn yield is UNKNOWN and needs a survival server check. `giant_bee` is a neutral animal; decide whether combat contracts may target it. Decide handling of tameable `feral_wolf`, peaceful mode, split slimes, and biome-specific accessibility. Mob effort weights and tier placement remain owner decisions. All 40 are candidate classifications only.
+
+## Owner-approved classification overlay (2026-10-23)
+
+The PROPOSED labels above are superseded by the approved combat roster in `docs/BOUNTY_CONTRACT_APPROVED_2026-10-22.md` (BC-03 combat roster). All 40 `moreminecrafts` entities are accounted for exactly once:
+
+| Classification | Count | IDs |
+| --- | ---: | --- |
+| Strong (approved) | 9 | `large_zombie`, `armored_skeleton`, `lesser_wither_skeleton`, `large_spider`, `swamp_spider`, `lesser_magma_cube`, `deep_sea_drowned`, `bandit_warrior`, `cave_creeper` |
+| Excluded (not hostile combat targets) | 3 | `feral_wolf`, `cave_bat`, `giant_bee` |
+| Withheld pending live aggression verification | 1 | `wild_piglin` |
+| Ordinary, Beginner or higher | 25 | every other ordinary entry except those below |
+| Ordinary, Intermediate or higher | 1 | `lesser_phantom` |
+| Ordinary, Advanced only (End) | 1 | `end_bug` |
+
+Vanilla special-only (not generated): `minecraft:elder_guardian`, `minecraft:warden`, `minecraft:ghast`. Vanilla Intermediate or higher: `guardian`, `breeze`, `silverfish`, `phantom`, `vindicator`. Vanilla Advanced only: `shulker`. Strong vanilla targets currently available: `hoglin` only. No strong target exists in the End, so an Advanced End contract whose combat slot draws strong is regenerated.
