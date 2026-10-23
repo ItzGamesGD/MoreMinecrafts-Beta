@@ -26,8 +26,10 @@ def font(size):
 
 
 def magenta(px):
+    # The missing-texture checkerboard is #F800F8 / black, but lighting and GUI shading darken it to
+    # purple (observed ~(170,0,200) and ~(90,0,110)), so the threshold must cover shaded magenta.
     r, g, b = px[:3]
-    return r >= 200 and b >= 200 and g <= 60
+    return r >= 100 and b >= 100 and g <= 40 and abs(r - b) <= 70
 
 
 def magenta_count(img):
