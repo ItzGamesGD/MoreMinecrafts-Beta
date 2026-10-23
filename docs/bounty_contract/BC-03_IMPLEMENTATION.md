@@ -9,6 +9,7 @@ This document describes the code on the BC-03 implementation branch. It does not
 | BC-03A item-bound contracts, redeemed-ID protection, durable redemption | SERVER VERIFIED, including real process interruption at nine transaction boundaries (11 interrupted scenarios). Exactly-once is established for process termination, not for OS or power failure (see limitations). |
 | BC-03B combat contribution, structure entry | SERVER VERIFIED against a real vanilla `StructureStart`; combat attribution is CODE VERIFIED. No live combat session was run. |
 | BC-03C objective pools, loot, trades, special conversion | SERVER VERIFIED. Seller stock is exact. Restock of contract stock follows vanilla and is an open owner decision. |
+| **BC-03 combat-objective phase** | **IMPLEMENTATION-COMPLETE, LIVE-VALIDATION-PENDING** (see closure record below). Does not close BC-03 as a whole. |
 | BC-03D contract screen and actions | Server side SERVER VERIFIED. Client rendering and input: compiled only. **LIVE PENDING**. |
 
 ## Defects found and fixed during stabilization
@@ -146,3 +147,19 @@ Combat ordinary/strong weights 100/0, 75/25, 50/50 (owner-approved 2026-10-23); 
 
 - `ContractData.Objective` used to read codec statics of the enclosing `ContractData`, while `ContractData.CODEC` read `Objective.CODEC`, so whichever class initialized first could see a null codec. Each enum (`Tier`, `Status`, `Category`) now owns its codec and `Objective` no longer depends on the enclosing class. Serialized form is unchanged (constant name string; empty `visited` still omitted). `ContractDataInitOrderTest` runs four initialization orders in separate JVMs and round-trips a golden saved contract.
 - `ContractGenerationStatisticsTest` samples the real catalog (200,000 draws per tier and dimension, 100,000 objective sets per tier) and writes `build/reports/bc03-generation-statistics.txt`. Observed strong shares match intent within 0.1 percentage point; no objective set was rejected. Beginner/Intermediate End have empty pools and are never selected by dimension choice.
+
+## Combat-objective phase closure record (2026-10-23, reference HEAD `a510418`)
+
+**State:** implementation-complete, live-validation-pending. No approved gameplay rule changed; reward pools and payout rules (`ContractRewards`, `ContractEconomy`) are byte-identical to the stabilization head `30b5c07`.
+
+**Completed in this phase:** owner-approved class weights (100/0, 75/25, 50/50); tier gates for `guardian`, `breeze`, `silverfish`, `phantom`, `lesser_phantom`, `vindicator` (Intermediate+), `shulker` and all End targets (Advanced); nine approved strong MM mobs preserved; `wild_piglin` withheld; `elder_guardian`, `warden`, `ghast` special-only; generic empty-strong-pool fallback to ordinary; both-pools-empty rejection with safe failure; all 40 MM entities accounted for once; `ContractData`/`Objective` static-initialization cycle removed with the serialized format unchanged.
+
+**Test evidence:** 275 unit tests, 147 GameTests (fresh world), `clean test build compileGametestJava runGameTest`; Fabric CI `39897453916` (attempt 2; attempt 1 hit the known K5 chunk-persistence timeout), secret scan `39897453938`, K5 Production Restart `39897453932`, K5 Mapped Sources Probe `39897453952`, Client Visual Validation `39897453955`. Four initialization orders pass in separate JVMs; the test fails against the old code. Statistical check: observed strong shares 0.00/24.99/24.96/49.99/50.07/0.00% against intent 0/25/25/50/50/0% (Beginner, Intermediate Overworld and Nether, Advanced Overworld, Nether, End), 0 rejected objective sets in 100,000 per tier.
+
+**Known limitations:** Advanced End combat is ordinary-only (no strong End mob), so an Advanced contract's overall strong share is about 33%. `ContractMaterializer` runs every server tick, so if generation ever failed persistently its warning would log every tick; unreachable with the current catalog and not rate-limited. The K5 chunk-persistence GameTest is intermittently flaky (outside this system). Crash safety covers process termination, not OS or power failure.
+
+**Deferred decisions:** classification of `piglin_brute` and `zombie_villager`; special objectives that can target `elder_guardian`, `warden`, `ghast`; `wild_piglin` pooling; seller restock; mailbox instead of dropping overflow; remaining provisional distributions; acquisition and objective-generation work beyond combat (exploration and delivery pools are unchanged by this phase).
+
+**Live-validation requirements:** real client UI rendering and input; `wild_piglin` aggression; combat attribution in a live session; survival spawn yield of the pooled MM mobs; materializer failure path (code review only).
+
+**Dependencies and merge order:** #148 and #150 are linear ancestors of #151 and carry no unique commits; do not merge them separately. #151 merges cleanly into current `main` (`cde842d`). It overlaps #156 (`fabric.mod.json`, both language files), so land one and merge main into the other with registrations unioned. #157 is independent. #131 is not superseded: it holds older "Commissions" design and unique consolidation docs.
