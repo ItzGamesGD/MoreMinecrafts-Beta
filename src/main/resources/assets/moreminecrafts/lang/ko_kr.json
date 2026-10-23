@@ -128,7 +128,6 @@
   "menu.moreminecrafts.option_effect.blast_protection": "폭발 피해 및 밀치기 감소 +2.5%p/레벨",
   "menu.moreminecrafts.enhancement_cost_line": "경험치: %s   강화석: %s",
   "menu.moreminecrafts.enhancement_requirement": "+%s → +%s   경험치: %s   강화석: %s",
-  "menu.moreminecrafts.accessory_enhancement_cost_line": "순수 경험치: %s   강화석: %s   유물 촉매: %s",
   "menu.moreminecrafts.accessory_enhancement_cost_line_compact": "순수 경험치: %s   강화석: %s",
   "menu.moreminecrafts.accessory_enhancement_catalyst_line": "유물 촉매: %s",
   "menu.moreminecrafts.accessory_enhancement_requirement": "+%s → +%s   순수 경험치: %s   강화석: %s   유물 촉매: %s",

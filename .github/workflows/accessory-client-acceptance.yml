@@ -121,9 +121,8 @@ jobs:
           mkdir -p build/accessory-integration-evidence build/run/clientGameTest/screenshots
           build/evidence-venv/bin/python -I -W ignore .github/scripts/accessory_integration_contact_sheet.py \
             build/run/clientGameTest/screenshots build/accessory-integration-evidence
-          build/evidence-venv/bin/python -I -W ignore .github/scripts/accessory_anvil_layout_comparison.py \
-            build/run/clientGameTest/screenshots build/accessory-integration-evidence
-          grep -E "ANVIL_(LAYOUT|CATALYST_CLICK)" build/accessory-client-gametest.log > build/accessory-integration-evidence/anvil-layout-assertions.txt || true
+          grep -E "ANVIL_" build/accessory-client-gametest.log > build/accessory-integration-evidence/anvil-functional-assertions.txt || true
+          grep -E "ENCHANT_UI" build/accessory-client-gametest.log > build/accessory-integration-evidence/enchanting-gui-scale-diagnostic.txt || true
 
       - name: Upload integration contact sheet
         if: always()

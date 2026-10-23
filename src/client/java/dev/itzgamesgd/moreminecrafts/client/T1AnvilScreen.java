@@ -1,7 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
 import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementOperation;
-import dev.itzgamesgd.moreminecrafts.accessory.AnvilCatalystLayout;
+import dev.itzgamesgd.moreminecrafts.accessory.AnvilCatalystUiLayout;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.progression.T1AnvilModes;
 import dev.itzgamesgd.moreminecrafts.progression.T1Balance;
@@ -66,10 +66,9 @@ public final class T1AnvilScreen extends AnvilScreen {
         for (var child : children()) if (child instanceof EditBox box) box.visible = mode() == 1;
         action.visible = mode() != 1;
         if (mode() == 0) {
-            boolean inline = AnvilCatalystLayout.active() == AnvilCatalystLayout.INLINE_RIGHT;
-            action.setX(leftPos + (inline ? 122 : 101));
-            action.setY(topPos + 42);
-            action.setSize(inline ? 49 : 70, 20);
+            action.setX(leftPos + AnvilCatalystUiLayout.ACTION_X);
+            action.setY(topPos + AnvilCatalystUiLayout.ACTION_Y);
+            action.setSize(AnvilCatalystUiLayout.ACTION_WIDTH, AnvilCatalystUiLayout.ACTION_HEIGHT);
             action.setMessage(Component.translatable("menu.moreminecrafts.enhancement"));
             var equipment = menu.getSlot(0).getItem();
             var material = menu.getSlot(1).getItem();
@@ -126,15 +125,14 @@ public final class T1AnvilScreen extends AnvilScreen {
             g.fill(leftPos + 99, topPos + 34, leftPos + 175, topPos + 71, 0xFFC6C6C6);
             // The vanilla rename field is inactive in Enhancement mode; use its space for the two cost lines.
             g.fill(leftPos + 55, topPos + 19, leftPos + 173, topPos + 35, 0xFFC6C6C6);
-            drawComparisonCatalystCell(g);
+            drawCatalystCell(g);
         }
     }
 
-    /** CURRENT draws no cell (as shipped); the comparison layouts sit inside the panel and need one. */
-    private void drawComparisonCatalystCell(GuiGraphicsExtractor g) {
-        if (AnvilCatalystLayout.active() == AnvilCatalystLayout.CURRENT) return;
-        int x = leftPos + AnvilCatalystLayout.active().x - 1;
-        int y = topPos + AnvilCatalystLayout.active().y - 1;
+    /** Vanilla-style cell behind the catalyst slot, which the vanilla anvil texture does not provide. */
+    private void drawCatalystCell(GuiGraphicsExtractor g) {
+        int x = leftPos + AnvilCatalystUiLayout.SLOT_X - 1;
+        int y = topPos + AnvilCatalystUiLayout.SLOT_Y - 1;
         g.fill(x, y, x + 18, y + 18, 0xFF8B8B8B);
         g.fill(x, y, x + 17, y + 1, 0xFF373737);
         g.fill(x, y, x + 1, y + 17, 0xFF373737);
@@ -174,17 +172,14 @@ public final class T1AnvilScreen extends AnvilScreen {
                 g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, 0xFF303030, false);
             } else {
                 g.text(font, Component.literal("+" + current + " → +" + target), 62, 6, 0xFF303030, false);
-                if (accessory && AnvilCatalystLayout.active() != AnvilCatalystLayout.CURRENT) {
-                    // The single-line cost string is wider than the panel; the comparison layouts wrap the catalyst.
+                if (accessory) {
+                    // The three costs do not fit one line in the panel, so the catalyst count wraps to its own line.
                     g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_cost_line_compact",
                             NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, 0xFF303030, false);
                     if (catalyst > 0) {
                         g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_catalyst_line", catalyst),
                                 62, 28, 0xFF303030, false);
                     }
-                } else if (accessory) {
-                    g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_cost_line",
-                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone, catalyst), 62, 18, 0xFF303030, false);
                 } else {
                     g.text(font, Component.translatable("menu.moreminecrafts.enhancement_cost_line",
                             NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, 0xFF303030, false);

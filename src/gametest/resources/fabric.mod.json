@@ -29,6 +29,7 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryVisualClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryLayoutClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAnvilClientGameTest",
+      "dev.itzgamesgd.moreminecrafts.progression.EnchantingGuiScaleDiagnosticClientGameTest",
       "dev.itzgamesgd.moreminecrafts.equipment.InventoryRegressionClientGameTest"
     ]
   },
