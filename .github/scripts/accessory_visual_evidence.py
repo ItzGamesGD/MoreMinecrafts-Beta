@@ -119,17 +119,19 @@ for scale, crops in crops_by_scale.items():
         failures.append(f"scale {scale}: icons not rendered in real inventory slots: {missing}")
         continue
     cell = 16 * scale
-    cols = 6
+    cols = 4
     pad = 14
     lab = 40
-    sw = cols * (cell + pad) + pad
-    sh = 54 + 2 * (cell + lab + pad) + pad
+    colw = max(cell, 118)
+    sw = max(cols * (colw + pad) + pad, 520)
+    rows_n = (len(ids) + cols - 1) // cols
+    sh = 54 + rows_n * (cell + lab + pad) + pad
     sh_img = Image.new("RGB", (sw, sh), (58, 58, 66))
     dd = ImageDraw.Draw(sh_img)
-    dd.text((pad, 14), f"Real-client inventory slots, GUI scale {scale} ({cell}px per slot icon, no resampling)",
+    dd.text((pad, 14), f"Real-client slots, GUI scale {scale} ({cell}px icons, no resampling)",
             font=font(20), fill=(240, 240, 240))
     for n, i in enumerate(ids):
-        x = pad + (n % cols) * (cell + pad)
+        x = pad + (n % cols) * (colw + pad)
         y = 54 + (n // cols) * (cell + lab + pad)
         sh_img.paste(crops[i], (x, y))
         dd.text((x, y + cell + 4), i, font=font(11), fill=(230, 230, 230))
