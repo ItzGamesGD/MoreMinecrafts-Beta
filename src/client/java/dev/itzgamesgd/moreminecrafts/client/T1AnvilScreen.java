@@ -1,9 +1,11 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.progression.T1AnvilModes;
 import dev.itzgamesgd.moreminecrafts.progression.T1Balance;
 import dev.itzgamesgd.moreminecrafts.progression.XpLevels;
+import dev.itzgamesgd.moreminecrafts.progression.RawXp;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -69,20 +71,40 @@ public final class T1AnvilScreen extends AnvilScreen {
             action.setMessage(Component.translatable("menu.moreminecrafts.enhancement"));
             var equipment = menu.getSlot(0).getItem();
             var material = menu.getSlot(1).getItem();
-            var requirement = EnhancementOperation.requirement(equipment);
-            boolean enoughMaterial = requirement.isPresent()
-                    && EnhancementOperation.isEnhancementMaterial(material)
-                    && material.getCount() >= requirement.get().materialCost();
-            action.active = requirement.isPresent() && enoughMaterial
-                    && XpLevels.canPay(minecraft.player, requirement.get().experienceLevelCost());
-            if (requirement.isPresent()) {
-                var state = requirement.get();
-                action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_requirement",
-                        state.targetLevel() - 1, state.targetLevel(), state.experienceLevelCost(), state.materialCost())));
-            } else if (!equipment.isEmpty() && EnhancementOperation.level(equipment) >= 20) {
-                action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_maximum")));
+            if (AccessoryEnhancementOperation.isAccessory(equipment)) {
+                var requirement = AccessoryEnhancementOperation.nextRequirement(equipment);
+                var catalyst = menu.getSlot(((T1AnvilModes) menu).moreminecrafts$catalystSlotIndex()).getItem();
+                action.active = requirement.isPresent()
+                        && material.is(dev.itzgamesgd.moreminecrafts.registry.ModItems.ENHANCEMENT_STONE)
+                        && material.getCount() >= requirement.get().stoneCost()
+                        && (requirement.get().catalystCost() == 0
+                            || catalyst.is(dev.itzgamesgd.moreminecrafts.registry.ModItems.RELIC_CATALYST)
+                                && catalyst.getCount() >= requirement.get().catalystCost())
+                        && RawXp.available(minecraft.player) >= requirement.get().rawExperienceCost();
+                if (requirement.isPresent()) {
+                    var state = requirement.get();
+                    action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.accessory_enhancement_requirement",
+                            state.targetLevel() - 1, state.targetLevel(), state.rawExperienceCost(),
+                            state.stoneCost(), state.catalystCost())));
+                } else {
+                    action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_maximum")));
+                }
             } else {
-                action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_unavailable")));
+                var requirement = EnhancementOperation.requirement(equipment);
+                boolean enoughMaterial = requirement.isPresent()
+                        && EnhancementOperation.isEnhancementMaterial(material)
+                        && material.getCount() >= requirement.get().materialCost();
+                action.active = requirement.isPresent() && enoughMaterial
+                        && XpLevels.canPay(minecraft.player, requirement.get().experienceLevelCost());
+                if (requirement.isPresent()) {
+                    var state = requirement.get();
+                    action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_requirement",
+                            state.targetLevel() - 1, state.targetLevel(), state.experienceLevelCost(), state.materialCost())));
+                } else if (!equipment.isEmpty() && EnhancementOperation.level(equipment) >= 20) {
+                    action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_maximum")));
+                } else {
+                    action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_unavailable")));
+                }
             }
         } else {
             action.setX(leftPos + 5);
@@ -108,6 +130,7 @@ public final class T1AnvilScreen extends AnvilScreen {
     @Override
     protected void extractSlot(GuiGraphicsExtractor g, Slot slot, int mouseX, int mouseY) {
         if (mode() == 0 && slot == menu.getSlot(2)) return;
+        if (mode() != 0 && slot == menu.getSlot(((T1AnvilModes) menu).moreminecrafts$catalystSlotIndex())) return;
         super.extractSlot(g, slot, mouseX, mouseY);
     }
 
@@ -119,17 +142,30 @@ public final class T1AnvilScreen extends AnvilScreen {
         }
         g.text(font, Component.translatable("container.inventory"), 8, 72, 0xFF404040, false);
         if (mode() == 0) {
-            int current = EnhancementOperation.level(menu.getSlot(0).getItem());
-            var requirement = EnhancementOperation.requirement(menu.getSlot(0).getItem());
-            int target = requirement.map(EnhancementOperation.Result::targetLevel).orElse(current);
-            int xp = requirement.map(EnhancementOperation.Result::experienceLevelCost).orElse(0);
-            int stone = requirement.map(EnhancementOperation.Result::materialCost).orElse(0);
-            if (!menu.getSlot(0).getItem().isEmpty() && current >= 20) {
+            var equipment = menu.getSlot(0).getItem();
+            boolean accessory = AccessoryEnhancementOperation.isAccessory(equipment);
+            int current = accessory ? AccessoryEnhancementOperation.level(equipment) : EnhancementOperation.level(equipment);
+            var accessoryRequirement = accessory ? AccessoryEnhancementOperation.nextRequirement(equipment) : java.util.Optional.<dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan>empty();
+            var equipmentRequirement = accessory ? java.util.Optional.<EnhancementOperation.Result>empty() : EnhancementOperation.requirement(equipment);
+            int target = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::targetLevel).orElse(current)
+                    : equipmentRequirement.map(EnhancementOperation.Result::targetLevel).orElse(current);
+            int xp = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::rawExperienceCost).orElse(0)
+                    : equipmentRequirement.map(EnhancementOperation.Result::experienceLevelCost).orElse(0);
+            int stone = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::stoneCost).orElse(0)
+                    : equipmentRequirement.map(EnhancementOperation.Result::materialCost).orElse(0);
+            int catalyst = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::catalystCost).orElse(0) : 0;
+            int maximum = accessory ? 10 : 20;
+            if (!equipment.isEmpty() && current >= maximum) {
                 g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, 0xFF303030, false);
             } else {
                 g.text(font, Component.literal("+" + current + " → +" + target), 62, 6, 0xFF303030, false);
-                g.text(font, Component.translatable("menu.moreminecrafts.enhancement_cost_line",
-                        NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, 0xFF303030, false);
+                if (accessory) {
+                    g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_cost_line",
+                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone, catalyst), 62, 18, 0xFF303030, false);
+                } else {
+                    g.text(font, Component.translatable("menu.moreminecrafts.enhancement_cost_line",
+                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, 0xFF303030, false);
+                }
             }
         } else {
             g.text(font, Component.translatable("menu.moreminecrafts.xp_amount",
