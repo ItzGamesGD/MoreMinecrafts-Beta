@@ -113,6 +113,24 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+      - name: Build the labeled all-screenshots integration contact sheet
+        if: always()
+        run: |
+          python3 -m venv build/evidence-venv
+          build/evidence-venv/bin/pip install --quiet pillow
+          mkdir -p build/accessory-integration-evidence build/run/clientGameTest/screenshots
+          build/evidence-venv/bin/python -I -W ignore .github/scripts/accessory_integration_contact_sheet.py \
+            build/run/clientGameTest/screenshots build/accessory-integration-evidence
+
+      - name: Upload integration contact sheet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-integration-contact-sheet-${{ github.run_id }}
+          path: build/accessory-integration-evidence/
+          if-no-files-found: warn
+          retention-days: 14
+
       - name: Upload native Client GameTest screenshots and reports
         if: always()
         uses: actions/upload-artifact@v4

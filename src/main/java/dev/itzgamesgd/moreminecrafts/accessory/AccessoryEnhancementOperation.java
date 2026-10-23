@@ -29,6 +29,15 @@ public final class AccessoryEnhancementOperation {
 
     /** Applies exactly one level; a rejected/failed attempt leaves XP and all three stacks unchanged. */
     public static boolean apply(Player player, ItemStack accessory, ItemStack stones, ItemStack catalysts) {
+        return apply(player, accessory, stones, catalysts, () -> {});
+    }
+
+    /**
+     * Test seam: {@code afterDebits} runs once all costs are debited and before the level is written, so a
+     * test can throw there and prove the rollback. Production callers use the four-argument overload.
+     */
+    public static boolean apply(Player player, ItemStack accessory, ItemStack stones, ItemStack catalysts,
+                                Runnable afterDebits) {
         if (player.level().isClientSide() || !isAccessory(accessory)
                 || !stones.is(ModItems.ENHANCEMENT_STONE)
                 || !catalysts.isEmpty() && !catalysts.is(ModItems.RELIC_CATALYST)) {
@@ -55,6 +64,7 @@ public final class AccessoryEnhancementOperation {
                 catalysts.shrink(plan.catalystCost());
                 catalystDebited = true;
             }
+            afterDebits.run();
             accessory.set(ModDataComponents.ENHANCEMENT_LEVEL, plan.targetLevel());
             return true;
         } catch (RuntimeException failure) {

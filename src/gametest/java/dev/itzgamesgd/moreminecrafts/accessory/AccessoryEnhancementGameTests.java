@@ -216,6 +216,25 @@ public final class AccessoryEnhancementGameTests implements CustomTestMethodInvo
         ctx.succeed();
     }
 
+    @GameTest public void injectedFaultAfterDebitsRollsBackXpStonesCatalystAndLevel(GameTestHelper ctx) {
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        player.giveExperiencePoints(100_000);
+        // +4 -> +5 is a milestone step that costs stones, catalyst and raw XP.
+        ItemStack charm=new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.SNOW_CHARM));
+        charm.set(ModDataComponents.ENHANCEMENT_LEVEL,4);
+        ItemStack stones=new ItemStack(ModItems.ENHANCEMENT_STONE,64);
+        ItemStack catalysts=new ItemStack(ModItems.RELIC_CATALYST,8);
+        int xpBefore=RawXp.available(player);
+        boolean applied=AccessoryEnhancementOperation.apply(player,charm,stones,catalysts,
+                ()->{throw new IllegalStateException("injected fault");});
+        ctx.assertTrue(!applied,"an injected fault reports failure");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(charm)==4,"level is restored");
+        ctx.assertTrue(stones.getCount()==64,"stones are restored");
+        ctx.assertTrue(catalysts.getCount()==8,"catalysts are restored");
+        ctx.assertTrue(RawXp.available(player)==xpBefore,"raw XP is restored");
+        ctx.succeed();
+    }
+
     private static long noWearSeed(net.minecraft.world.entity.player.Player player) {
         var random=player.getRandom();
         for(long seed=0;seed<1_000_000;seed++){
