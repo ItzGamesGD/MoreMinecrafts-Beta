@@ -71,10 +71,12 @@ jobs:
       - name: Build accessory visual evidence and scan for missing textures
         if: always()
         run: |
-          pip install --quiet pillow
+          python3 -m venv build/evidence-venv
+          build/evidence-venv/bin/pip install --quiet pillow
           mkdir -p build/accessory-visual-evidence build/run/clientGameTest/screenshots
           touch build/accessory-client-gametest.log
-          python3 -I -W ignore .github/scripts/accessory_visual_evidence.py . build/run/clientGameTest/screenshots \
+          grep -E "VISUAL_(SLOT|LAYOUT_OK)" build/accessory-client-gametest.log > build/accessory-visual-evidence/client-visual-log.txt || true
+          build/evidence-venv/bin/python -I -W ignore .github/scripts/accessory_visual_evidence.py . build/run/clientGameTest/screenshots \
             build/accessory-client-gametest.log build/accessory-visual-evidence
 
       - name: Upload accessory contact sheet and native-size evidence
