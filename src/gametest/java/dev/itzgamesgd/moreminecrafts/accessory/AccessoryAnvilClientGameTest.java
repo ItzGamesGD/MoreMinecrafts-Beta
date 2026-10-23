@@ -199,13 +199,17 @@ public final class AccessoryAnvilClientGameTest implements FabricClientGameTest 
             }
             return;
         }
+        // Wait past the 250ms double-click window so the second click places instead of collecting.
+        context.waitTicks(10);
         context.getInput().pressMouse(SDL_MOUSE_BUTTON_LEFT);
-        context.waitTicks(3);
+        context.waitTicks(5);
         context.runOnClient(client -> {
             var menu = client.player.containerMenu;
             if (!menu.getCarried().isEmpty() || menu.getSlot(((T1AnvilModes) menu).moreminecrafts$catalystSlotIndex())
                     .getItem().getItem() != ModItems.RELIC_CATALYST) {
-                throw new AssertionError("Catalyst did not return to its slot for " + layout + " at scale " + scale);
+                throw new AssertionError("Catalyst did not return to its slot for " + layout + " at scale " + scale
+                        + " carried=" + menu.getCarried() + " slot="
+                        + menu.getSlot(((T1AnvilModes) menu).moreminecrafts$catalystSlotIndex()).getItem());
             }
         });
         System.out.println("ANVIL_CATALYST_CLICK_OK variant=" + layout + " scale=" + scale);
