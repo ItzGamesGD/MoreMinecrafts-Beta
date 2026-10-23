@@ -46,7 +46,9 @@ public final class AccessoryAnvilClientGameTest implements FabricClientGameTest 
             player.closeContainer();
             player.giveExperiencePoints(100_000);
             var world = player.level();
-            BlockPos pos = player.blockPosition().above(2);
+            // Solid support so the anvil does not fall and invalidate the menu.
+            BlockPos pos = player.blockPosition().east(2);
+            world.setBlock(pos.below(), Blocks.STONE.defaultBlockState(), 3);
             world.setBlock(pos, Blocks.ANVIL.defaultBlockState(), 3);
             player.openMenu(Blocks.ANVIL.defaultBlockState().getMenuProvider(world, pos));
             AnvilMenu menu = (AnvilMenu) player.containerMenu;
@@ -57,6 +59,7 @@ public final class AccessoryAnvilClientGameTest implements FabricClientGameTest 
             var modes = (dev.itzgamesgd.moreminecrafts.progression.T1AnvilModes) menu;
             menu.getSlot(modes.moreminecrafts$catalystSlotIndex()).set(new ItemStack(ModItems.RELIC_CATALYST, 4));
             menu.broadcastChanges();
+            if (!menu.stillValid(player)) throw new AssertionError("Anvil menu is not valid for the player");
         });
         connection.waitForClientboundPackets();
         context.waitForScreen(T1AnvilScreen.class);
