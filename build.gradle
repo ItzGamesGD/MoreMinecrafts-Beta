@@ -5,6 +5,7 @@ plugins {
 
 apply from: "gradle/validate-flame-sword-production.gradle"
 apply from: "gradle/validate-fishing-resources.gradle"
+apply from: "gradle/validate-accessory-resources.gradle"
 
 version = project.mod_version
 group = project.maven_group
