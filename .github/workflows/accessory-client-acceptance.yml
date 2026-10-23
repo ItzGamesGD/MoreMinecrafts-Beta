@@ -65,8 +65,26 @@ jobs:
               window_manager_pid=$!
               trap "kill $window_manager_pid 2>/dev/null || true" EXIT
               glxinfo -B
-              ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --stacktrace
+              ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --stacktrace 2>&1 | tee build/accessory-client-gametest.log
             '
+
+      - name: Build accessory visual evidence and scan for missing textures
+        if: always()
+        run: |
+          pip install --quiet pillow
+          mkdir -p build/accessory-visual-evidence build/run/clientGameTest/screenshots
+          touch build/accessory-client-gametest.log
+          python3 -I -W ignore .github/scripts/accessory_visual_evidence.py . build/run/clientGameTest/screenshots \
+            build/accessory-client-gametest.log build/accessory-visual-evidence
+
+      - name: Upload accessory contact sheet and native-size evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-visual-evidence-${{ github.run_id }}
+          path: build/accessory-visual-evidence/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload native Client GameTest screenshots and reports
         if: always()

@@ -25,6 +25,7 @@
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryClientLifecycleGameTest",
+      "dev.itzgamesgd.moreminecrafts.accessory.AccessoryVisualClientGameTest",
       "dev.itzgamesgd.moreminecrafts.equipment.InventoryRegressionClientGameTest"
     ]
   },
