@@ -11,6 +11,10 @@ It does not replace the detailed design documents. When an older document confli
 
 The 12 registered accessories' visual identities (shape, material, palette, signature feature) and the native 32×32 item-texture size are approved in [ACCESSORY_VISUAL_CONCEPT_2026-10-22.md](validation/ACCESSORY_VISUAL_CONCEPT_2026-10-22.md). Accessory category indicators remain text labels. This does not change accessory gameplay.
 
+## Accessory anvil catalyst slot layout — approved 2026-10-23 (conditional on real-client acceptance)
+
+Relic Catalyst slot inline in the anvil's Enhance-mode input row, inside the 176px panel and clickable: [ACCESSORY_ANVIL_CATALYST_LAYOUT_APPROVED_2026-10-23.md](ACCESSORY_ANVIL_CATALYST_LAYOUT_APPROVED_2026-10-23.md). Catalyst artwork, recipe and acquisition remain deferred; GUI scale 1 and cosmetic follow-ups are tracked in [validation/ACCESSORY_INTEGRATION_FOLLOWUPS_2026-10-23.md](validation/ACCESSORY_INTEGRATION_FOLLOWUPS_2026-10-23.md).
+
 ## Accessory inventory UI — approved 2026-10-23
 
 Five accessory slots integrated left of the vanilla armor slots, no side panel or permanent labels, tooltips only, and an independently positioned survival recipe book: [ACCESSORY_INVENTORY_UI_APPROVED_2026-10-23.md](ACCESSORY_INVENTORY_UI_APPROVED_2026-10-23.md). Gameplay, IDs, art and persistence are unchanged.

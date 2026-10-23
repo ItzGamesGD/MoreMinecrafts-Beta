@@ -27,9 +27,10 @@ def font(size):
 
 def magenta(px):
     # The missing-texture checkerboard is #F800F8 / black, but lighting and GUI shading darken it to
-    # purple (observed ~(170,0,200) and ~(90,0,110)), so the threshold must cover shaded magenta.
+    # purple (observed ~(170,0,200) and ~(90,0,110)), so shaded magenta must match. Red and blue stay close
+    # (|r-b| <= 40); the vanilla enchantment glint on enchanted-book icons is pinker (~(178,32,109)) and must not.
     r, g, b = px[:3]
-    return r >= 100 and b >= 100 and g <= 40 and abs(r - b) <= 70
+    return r >= 100 and b >= 100 and g <= 40 and abs(r - b) <= 40
 
 
 def magenta_count(img):
