@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentContainer;
 import dev.itzgamesgd.moreminecrafts.accessory.AccessoryItem;
 import dev.itzgamesgd.moreminecrafts.accessory.AccessorySlotRules;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryUiLayout;
 import dev.itzgamesgd.moreminecrafts.equipment.LanternSlotContainer;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,7 +33,7 @@ abstract class InventoryMenuMixin extends AbstractContainerMenu {
         var accessories = new AccessoryEquipmentContainer(player);
         for (int slot = 0; slot < 5; slot++) {
             int accessorySlot = slot;
-            addSlot(new Slot(accessories, slot, 178, 26 + slot * 27) {
+            addSlot(new Slot(accessories, slot, AccessoryUiLayout.SLOT_X, AccessoryUiLayout.slotY(slot)) {
                 @Override public boolean mayPlace(ItemStack stack) {
                     return AccessorySlotRules.accepts(accessorySlot, stack);
                 }

@@ -11,6 +11,10 @@ It does not replace the detailed design documents. When an older document confli
 
 The 12 registered accessories' visual identities (shape, material, palette, signature feature) and the native 32×32 item-texture size are approved in [ACCESSORY_VISUAL_CONCEPT_2026-10-22.md](validation/ACCESSORY_VISUAL_CONCEPT_2026-10-22.md). Accessory category indicators remain text labels. This does not change accessory gameplay.
 
+## Accessory inventory UI — approved 2026-10-23
+
+Five accessory slots integrated left of the vanilla armor slots, no side panel or permanent labels, tooltips only, and an independently positioned survival recipe book: [ACCESSORY_INVENTORY_UI_APPROVED_2026-10-23.md](ACCESSORY_INVENTORY_UI_APPROVED_2026-10-23.md). Gameplay, IDs, art and persistence are unchanged.
+
 ## Latest user-approved UI authority — 2026-10-11 follow-up
 
 - [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 navigation follow-up and 2026-10-12 interaction correction: retain the four-card selector, route Research and Knowledge through the shared seven-sector picker, and use each existing branch list for top-left direct tree navigation. The 2026-10-12 correction supersedes only node-screen footer controls, the separate detail panel, and confirmation purchase flow; it requires exact vanilla-frame hit bounds, one-click server-authoritative Research purchase, Knowledge non-purchase, and localized item-rich tooltips. Preserve vanilla advancement visuals, source discipline/branch IDs, progression data, prerequisites, costs, and gameplay rules.
