@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementOperation;
+import dev.itzgamesgd.moreminecrafts.accessory.AnvilCatalystLayout;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.progression.*;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
@@ -26,7 +27,7 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
     @Inject(method="<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",at=@At("RETURN"))
     private void moreminecrafts$syncMode(int id,Inventory inventory,ContainerLevelAccess access,CallbackInfo ci){
         addDataSlot(moreminecrafts$mode);
-        moreminecrafts$catalystSlot=addSlot(new Slot(moreminecrafts$catalystContainer,0,180,47){
+        moreminecrafts$catalystSlot=addSlot(new Slot(moreminecrafts$catalystContainer,0,AnvilCatalystLayout.active().x,AnvilCatalystLayout.active().y){
             @Override public boolean mayPlace(ItemStack stack){return moreminecrafts$mode()==0&&stack.is(ModItems.RELIC_CATALYST);}
         });
     }

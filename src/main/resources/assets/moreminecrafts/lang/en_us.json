@@ -210,6 +210,8 @@
   "menu.moreminecrafts.enhancement_cost_line": "XP: %s   Stone: %s",
   "menu.moreminecrafts.enhancement_requirement": "+%s → +%s   XP: %s   Stone: %s",
   "menu.moreminecrafts.accessory_enhancement_cost_line": "Raw XP: %s   Stone: %s   Catalyst: %s",
+  "menu.moreminecrafts.accessory_enhancement_cost_line_compact": "Raw XP: %s   Stone: %s",
+  "menu.moreminecrafts.accessory_enhancement_catalyst_line": "Catalyst: %s",
   "menu.moreminecrafts.accessory_enhancement_requirement": "+%s → +%s   Raw XP: %s   Stone: %s   Catalyst: %s",
   "menu.moreminecrafts.enhancement_unavailable": "Insert valid equipment to enhance.",
   "menu.moreminecrafts.combine_action_tooltip": "Complete one Book Combination at the shown XP cost.",

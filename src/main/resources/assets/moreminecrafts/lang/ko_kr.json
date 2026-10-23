@@ -129,6 +129,8 @@
   "menu.moreminecrafts.enhancement_cost_line": "경험치: %s   강화석: %s",
   "menu.moreminecrafts.enhancement_requirement": "+%s → +%s   경험치: %s   강화석: %s",
   "menu.moreminecrafts.accessory_enhancement_cost_line": "순수 경험치: %s   강화석: %s   유물 촉매: %s",
+  "menu.moreminecrafts.accessory_enhancement_cost_line_compact": "순수 경험치: %s   강화석: %s",
+  "menu.moreminecrafts.accessory_enhancement_catalyst_line": "유물 촉매: %s",
   "menu.moreminecrafts.accessory_enhancement_requirement": "+%s → +%s   순수 경험치: %s   강화석: %s   유물 촉매: %s",
   "menu.moreminecrafts.enhancement_unavailable": "강화할 수 있는 장비를 넣으세요.",
   "menu.moreminecrafts.combine_action_tooltip": "표시된 경험치 비용으로 책을 한 번 합성합니다.",
