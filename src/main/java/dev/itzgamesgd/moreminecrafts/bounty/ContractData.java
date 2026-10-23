@@ -10,17 +10,26 @@ import java.util.UUID;
 
 /** Immutable, item-bound contract snapshot. Delivery progress is always read from inventory. */
 public record ContractData(String id, Tier tier, Status status, List<Objective> objectives, Reward reward) {
-    public enum Tier { BEGINNER, INTERMEDIATE, ADVANCED, SPECIAL }
-    public enum Status { OFFERED, ACCEPTED }
-    public enum Category { COMBAT, DELIVERY, EXPLORATION, SPECIAL }
+    // Each enum owns its codec so a nested record never has to read a static of the enclosing ContractData while that
+    // class is still initializing. Serialized form is unchanged: the constant name as a string.
+    public enum Tier {
+        BEGINNER, INTERMEDIATE, ADVANCED, SPECIAL;
+        static final Codec<Tier> CODEC = Codec.STRING.xmap(Tier::valueOf, Tier::name);
+    }
+    public enum Status {
+        OFFERED, ACCEPTED;
+        static final Codec<Status> CODEC = Codec.STRING.xmap(Status::valueOf, Status::name);
+    }
+    public enum Category {
+        COMBAT, DELIVERY, EXPLORATION, SPECIAL;
+        static final Codec<Category> CODEC = Codec.STRING.xmap(Category::valueOf, Category::name);
+    }
 
-    public static final Codec<Tier> TIER_CODEC = Codec.STRING.xmap(Tier::valueOf, Tier::name);
-    private static final Codec<Status> STATUS_CODEC = Codec.STRING.xmap(Status::valueOf, Status::name);
-    private static final Codec<Category> CATEGORY_CODEC = Codec.STRING.xmap(Category::valueOf, Category::name);
+    public static final Codec<Tier> TIER_CODEC = Tier.CODEC;
 
     public record Objective(Category category, String target, int required, int progress, List<String> visited) {
         public static final Codec<Objective> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                CATEGORY_CODEC.fieldOf("category").forGetter(Objective::category),
+                Category.CODEC.fieldOf("category").forGetter(Objective::category),
                 Codec.STRING.fieldOf("target").forGetter(Objective::target),
                 Codec.intRange(1, 100000).fieldOf("required").forGetter(Objective::required),
                 Codec.intRange(0, 100000).fieldOf("progress").forGetter(Objective::progress),
@@ -61,7 +70,7 @@ public record ContractData(String id, Tier tier, Status status, List<Objective> 
     public static final Codec<ContractData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("id").forGetter(ContractData::id),
             TIER_CODEC.fieldOf("tier").forGetter(ContractData::tier),
-            STATUS_CODEC.fieldOf("status").forGetter(ContractData::status),
+            Status.CODEC.fieldOf("status").forGetter(ContractData::status),
             Objective.CODEC.listOf().fieldOf("objectives").forGetter(ContractData::objectives),
             Reward.CODEC.fieldOf("reward").forGetter(ContractData::reward)
     ).apply(instance, ContractData::new));

@@ -29,7 +29,8 @@ public final class ContractGenerator {
 
     /**
      * Generates objectives and reward for a tier. SPECIAL uses the Advanced objective structure. A combat draw with no
-     * valid candidate rejects the whole objective set, which is regenerated; no target is substituted.
+     * candidate of either class rejects the whole objective set, which is regenerated. If every attempt is rejected an
+     * IllegalStateException is thrown; callers must treat that as "no contract could be generated".
      */
     public static ContractData generate(String id, ContractData.Tier tier, RandomSource random) {
         ContractData.Tier shape = tier == ContractData.Tier.SPECIAL ? ContractData.Tier.ADVANCED : tier;
@@ -83,25 +84,46 @@ public final class ContractGenerator {
         return allowed.get(random.nextInt(allowed.size()));
     }
 
-    /** Empty when the drawn strength has no valid candidate for this tier and dimension; never substitutes. */
+    /**
+     * Draws the target class from the tier weights. If the drawn class is strong and no strong candidate is eligible,
+     * the target comes from the eligible ordinary pool instead (owner-approved exception, applies to any tier and
+     * dimension and lapses on its own as soon as a strong candidate becomes eligible). Empty only when no candidate of
+     * either class is eligible.
+     */
     public static Optional<ContractData.Objective> combat(ContractData.Tier shape, ContractCatalog.Dimension dimension, RandomSource random) {
+        return combat(shape, dimension, random, ALL_MOBS);
+    }
+
+    static Optional<ContractData.Objective> combat(ContractData.Tier shape, ContractCatalog.Dimension dimension,
+                                                   RandomSource random, List<ContractCatalog.Mob> catalog) {
         ContractCatalog.Strength wanted = random.nextInt(100) < ContractCatalog.strongPercent(shape)
                 ? ContractCatalog.Strength.STRONG : ContractCatalog.Strength.ORDINARY;
-        List<String> pool = mobPool(shape, dimension, wanted);
+        List<String> pool = mobPool(shape, dimension, wanted, catalog);
+        if (pool.isEmpty() && wanted == ContractCatalog.Strength.STRONG) {
+            wanted = ContractCatalog.Strength.ORDINARY;
+            pool = mobPool(shape, dimension, wanted, catalog);
+        }
         if (pool.isEmpty()) return Optional.empty();
         String target = pool.get(random.nextInt(pool.size()));
         int[] band = wanted == ContractCatalog.Strength.ORDINARY ? ordinaryKillBand(shape) : strongKillBand(shape);
         return Optional.of(new ContractData.Objective(ContractData.Category.COMBAT, target, band(band, random), 0));
     }
 
+    private static final List<ContractCatalog.Mob> ALL_MOBS = java.util.stream.Stream.of(
+            ContractCatalog.VANILLA_MOBS, ContractCatalog.MM_ORDINARY_MOBS, ContractCatalog.MM_STRONG_MOBS)
+            .flatMap(List::stream).toList();
+
     /** Valid targets for a tier, dimension and strength: hostile, available, and at or above their minimum tier. */
     static List<String> mobPool(ContractData.Tier shape, ContractCatalog.Dimension dimension, ContractCatalog.Strength strength) {
+        return mobPool(shape, dimension, strength, ALL_MOBS);
+    }
+
+    static List<String> mobPool(ContractData.Tier shape, ContractCatalog.Dimension dimension,
+                                ContractCatalog.Strength strength, List<ContractCatalog.Mob> catalog) {
         List<String> ids = new ArrayList<>();
-        for (List<ContractCatalog.Mob> source : List.of(ContractCatalog.VANILLA_MOBS, ContractCatalog.MM_ORDINARY_MOBS,
-                ContractCatalog.MM_STRONG_MOBS))
-            for (ContractCatalog.Mob mob : source)
-                if (mob.dimension() == dimension && mob.strength() == strength
-                        && mob.minTier().ordinal() <= shape.ordinal()) ids.add(mob.id());
+        for (ContractCatalog.Mob mob : catalog)
+            if (mob.dimension() == dimension && mob.strength() == strength
+                    && mob.minTier().ordinal() <= shape.ordinal()) ids.add(mob.id());
         return ids;
     }
 

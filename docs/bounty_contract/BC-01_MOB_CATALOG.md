@@ -64,4 +64,4 @@ The PROPOSED labels above are superseded by the approved combat roster in `docs/
 | Ordinary, Intermediate or higher | 1 | `lesser_phantom` |
 | Ordinary, Advanced only (End) | 1 | `end_bug` |
 
-Vanilla special-only (not generated): `minecraft:elder_guardian`, `minecraft:warden`, `minecraft:ghast`. Vanilla Intermediate or higher: `guardian`, `breeze`, `silverfish`, `phantom`, `vindicator`. Vanilla Advanced only: `shulker`. Strong vanilla targets currently available: `hoglin` only. No strong target exists in the End, so an Advanced End contract whose combat slot draws strong is regenerated.
+Vanilla special-only (not generated): `minecraft:elder_guardian`, `minecraft:warden`, `minecraft:ghast`. Vanilla Intermediate or higher: `guardian`, `breeze`, `silverfish`, `phantom`, `vindicator`. Vanilla Advanced only: `shulker`. Strong vanilla targets currently available: `hoglin` only. No strong target exists in the End, so an Advanced End combat slot that draws strong takes an eligible ordinary End target (owner exception 2026-10-23, generic empty-strong-pool rule; weights restore automatically when a strong End mob is approved).

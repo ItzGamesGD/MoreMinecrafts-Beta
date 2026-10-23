@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.bounty;
 
+import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,7 +19,12 @@ public final class ContractMaterializer {
             ItemStack stack = inventory.getItem(slot);
             ContractData.Tier pending = stack.get(ModDataComponents.PENDING_CONTRACT);
             if (pending == null) continue;
-            inventory.setItem(slot, ContractStacks.create(ContractGenerator.acquire(pending, player.getRandom())));
+            try {
+                inventory.setItem(slot, ContractStacks.create(ContractGenerator.acquire(pending, player.getRandom())));
+            } catch (IllegalStateException failure) {
+                // No valid objective set: keep the pending item untouched so a later pickup can retry.
+                MoreMinecrafts.LOGGER.warn("Contract generation failed for tier {}: {}", pending, failure.getMessage());
+            }
         }
     }
 }
