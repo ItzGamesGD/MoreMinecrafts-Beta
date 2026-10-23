@@ -173,7 +173,10 @@ public final class AccessoryInventoryClientGameTest implements FabricClientGameT
                 Slot slot = menu.getSlot(ACCESSORY_FIRST_MENU_SLOT + index);
                 if (slot.getItem().isEmpty()) throw new AssertionError("Accessory UI slot " + index + " is empty");
                 if (slot.getItem().getCount() != 1) throw new AssertionError("Accessory UI slot " + index + " has a non-unit stack");
-                if (slot.x < 0 || slot.y < 0) throw new AssertionError("Accessory slot " + index + " has negative screen coordinates");
+                if (slot.x != AccessoryUiLayout.SLOT_X || slot.y != AccessoryUiLayout.slotY(index)) {
+                    throw new AssertionError("Accessory slot " + index + " is not in the column left of the armor slots: "
+                            + slot.x + "," + slot.y);
+                }
             }
             AccessoryLoadout clientLoadout = client.player.getAttachedOrElse(
                     EquipmentAttachments.ACCESSORIES, AccessoryLoadout.empty());

@@ -12,7 +12,7 @@
   "item.moreminecrafts.seed_of_life": "생명의 씨앗",
   "item.moreminecrafts.heart_of_gravity": "중력의 심장",
   "item.moreminecrafts.soul_chain": "영혼의 사슬",
-  "menu.moreminecrafts.accessories": "장신구",
+  "tooltip.moreminecrafts.accessory_category": "분류: %s",
   "accessory.category.combat": "전투",
   "accessory.category.defense": "방어",
   "accessory.category.survival": "생존",

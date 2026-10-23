@@ -68,6 +68,8 @@
   "client": [
     "AbstractContainerScreenAccessor",
     "AccessoryInventoryScreenMixin",
+    "AbstractRecipeBookScreenMixin",
+    "RecipeBookComponentMixin",
     "FishingRodItemClientMixin",
     "FishingRodInputClientMixin",
     "T1AnvilScreenFactoryMixin",
