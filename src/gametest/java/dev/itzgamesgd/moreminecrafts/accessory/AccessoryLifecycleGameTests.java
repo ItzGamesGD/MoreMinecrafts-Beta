@@ -109,6 +109,29 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
     }
 
     @GameTest
+    public void twoPlayersKeepIndependentLoadoutsAndCategoryRules(GameTestHelper ctx) {
+        ServerPlayer first = mockPlayer(ctx);
+        ServerPlayer second = mockPlayer(ctx);
+        equipFixture(first);
+        AccessoryEquipmentContainer firstContainer = new AccessoryEquipmentContainer(first);
+        AccessoryEquipmentContainer secondContainer = new AccessoryEquipmentContainer(second);
+        for (int slot = 0; slot < AccessoryLoadout.SIZE; slot++) {
+            ctx.assertTrue(secondContainer.getItem(slot).isEmpty(), "second player slot " + slot + " is untouched by the first player");
+        }
+        ItemStack pearl = new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.DEEP_SEA_PEARL));
+        int explorationSlot = AccessoryCategory.EXPLORATION_MOBILITY.ordinal();
+        ctx.assertTrue(secondContainer.canPlaceItem(explorationSlot, pearl), "the second player may use a category the first already filled");
+        secondContainer.setItem(explorationSlot, pearl);
+        ctx.assertTrue(firstContainer.getItem(explorationSlot).getItem() != pearl.getItem(),
+                "equipping for the second player does not change the first player's slot");
+        ctx.assertTrue(!secondContainer.canPlaceItem(explorationSlot,
+                new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.WHISPER_OF_THE_SEA))),
+                "category slot rejects a wrong-category item for the second player");
+        assertFixture(ctx, first, "first player after second player's changes");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void accessoryDeathDropsOnceAndRespawnStartsEmpty(GameTestHelper ctx) {
         ServerPlayer player = mockPlayer(ctx);
         player.setGameMode(GameType.SURVIVAL);
