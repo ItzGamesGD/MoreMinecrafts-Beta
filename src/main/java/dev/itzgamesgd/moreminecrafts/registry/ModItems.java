@@ -22,10 +22,15 @@ import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.MaceItem;
 import dev.itzgamesgd.moreminecrafts.equipment.*;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Unit;
 
 public final class ModItems {
+    public static final Item BOUNTY_CONTRACT = register("bounty_contract", key ->
+            new ContractItem(false, new Item.Properties().stacksTo(1).setId(key)));
+    public static final Item SPECIAL_CONTRACT = register("special_contract", key ->
+            new ContractItem(true, new Item.Properties().stacksTo(1).setId(key)));
     public static final Item RAW_TITANIUM = material("raw_titanium");
     public static final Item TITANIUM_INGOT = material("titanium_ingot");
     public static final Item RAW_TUNGSTEN = material("raw_tungsten");
