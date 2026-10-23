@@ -65,8 +65,30 @@ jobs:
               window_manager_pid=$!
               trap "kill $window_manager_pid 2>/dev/null || true" EXIT
               glxinfo -B
-              ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --stacktrace
+              ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --stacktrace 2>&1 | tee build/accessory-client-gametest.log
             '
+
+      - name: Build the recipe-book open/closed contact sheet
+        if: always()
+        run: |
+          python3 -m venv build/evidence-venv
+          build/evidence-venv/bin/pip install --quiet pillow
+          mkdir -p build/accessory-ui-evidence build/run/clientGameTest/screenshots
+          touch build/accessory-client-gametest.log
+          cp build/accessory-client-gametest.log build/accessory-ui-evidence/client-test-log.txt
+          cp build/run/clientGameTest/accessory-ui-geometry.txt build/accessory-ui-evidence/layout-verification-report.txt || true
+          grep -E "ACCESSORY_UI_GEOMETRY|ACCESSORY_TOOLTIP_LINES" build/accessory-client-gametest.log > build/accessory-ui-evidence/layout-assertions-console.txt || true
+          build/evidence-venv/bin/python -I -W ignore .github/scripts/accessory_ui_contact_sheet.py \
+            build/run/clientGameTest/screenshots build/accessory-ui-evidence
+
+      - name: Upload contact sheet, layout report and client log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-ui-evidence-${{ github.run_id }}
+          path: build/accessory-ui-evidence/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload native Client GameTest screenshots and reports
         if: always()
