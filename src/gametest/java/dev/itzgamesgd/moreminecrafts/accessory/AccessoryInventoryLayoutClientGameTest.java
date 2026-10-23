@@ -168,6 +168,7 @@ public final class AccessoryInventoryLayoutClientGameTest implements FabricClien
             context.takeScreenshot("ui-crafting-table-vanilla-recipe-open");
             context.runOnClient(client -> client.gui.setScreen(null));
             context.waitForScreen(null);
+            context.waitFor(client -> client.player.containerMenu == client.player.inventoryMenu);
             openInventory(context);
             toggleRecipeBook(context, false);
 
@@ -357,7 +358,7 @@ public final class AccessoryInventoryLayoutClientGameTest implements FabricClien
     private static double[] slotCursor(ClientGameTestContext context, int menuSlot) {
         return context.computeOnClient(client -> {
             InventoryScreen screen = (InventoryScreen) client.gui.screen();
-            Slot slot = client.player.containerMenu.getSlot(menuSlot);
+            Slot slot = client.player.inventoryMenu.getSlot(menuSlot);
             double scale = client.getWindow().getGuiScale();
             return new double[]{(intField(screen, "leftPos") + slot.x + 8.0) * scale, (intField(screen, "topPos") + slot.y + 8.0) * scale};
         });
