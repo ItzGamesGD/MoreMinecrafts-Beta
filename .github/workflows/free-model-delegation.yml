@@ -1,0 +1,58 @@
+name: Free model delegation (experiment)
+
+# Phase 0 experiment. Manual trigger only: no push, pull_request or schedule triggers,
+# so forks and other branches cannot start it and it never runs on its own.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "live = one OpenRouter free-model request (needs OPENROUTER_API_KEY); mock = offline"
+        type: choice
+        options:
+          - mock
+          - live
+        default: mock
+
+permissions:
+  contents: read
+
+concurrency:
+  group: free-model-delegation
+  cancel-in-progress: false
+
+jobs:
+  delegate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Mocked unit tests
+        shell: bash
+        run: python3 -m unittest discover -s scripts/free_model_delegation -p "test_*.py" -v
+
+      - name: Delegate one read-only analysis request
+        shell: bash
+        env:
+          MODE: ${{ inputs.mode }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OUT_DIR: ${{ runner.temp }}/free-model-result
+        run: python3 scripts/free_model_delegation/run_delegation.py --mode "$MODE" --out "$OUT_DIR"
+
+      - name: Upload result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: free-model-delegation-result
+          path: ${{ runner.temp }}/free-model-result/
+          retention-days: 7
+          if-no-files-found: warn
