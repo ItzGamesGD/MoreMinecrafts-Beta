@@ -7,6 +7,18 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## Accessory visual identities — approved 2026-10-22
+
+The 12 registered accessories' visual identities (shape, material, palette, signature feature) and the native 32×32 item-texture size are approved in [ACCESSORY_VISUAL_CONCEPT_2026-10-22.md](validation/ACCESSORY_VISUAL_CONCEPT_2026-10-22.md). Accessory category indicators remain text labels. This does not change accessory gameplay.
+
+## Accessory anvil catalyst slot layout — approved 2026-10-23 (conditional on real-client acceptance)
+
+Relic Catalyst slot inline in the anvil's Enhance-mode input row, inside the 176px panel and clickable: [ACCESSORY_ANVIL_CATALYST_LAYOUT_APPROVED_2026-10-23.md](ACCESSORY_ANVIL_CATALYST_LAYOUT_APPROVED_2026-10-23.md). Catalyst artwork, recipe and acquisition remain deferred; GUI scale 1 and cosmetic follow-ups are tracked in [validation/ACCESSORY_INTEGRATION_FOLLOWUPS_2026-10-23.md](validation/ACCESSORY_INTEGRATION_FOLLOWUPS_2026-10-23.md).
+
+## Accessory inventory UI — approved 2026-10-23
+
+Five accessory slots integrated left of the vanilla armor slots, no side panel or permanent labels, tooltips only, and an independently positioned survival recipe book: [ACCESSORY_INVENTORY_UI_APPROVED_2026-10-23.md](ACCESSORY_INVENTORY_UI_APPROVED_2026-10-23.md). Gameplay, IDs, art and persistence are unchanged.
+
 ## Latest user-approved UI authority — 2026-10-11 follow-up
 
 - [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 navigation follow-up and 2026-10-12 interaction correction: retain the four-card selector, route Research and Knowledge through the shared seven-sector picker, and use each existing branch list for top-left direct tree navigation. The 2026-10-12 correction supersedes only node-screen footer controls, the separate detail panel, and confirmation purchase flow; it requires exact vanilla-frame hit bounds, one-click server-authoritative Research purchase, Knowledge non-purchase, and localized item-rich tooltips. Preserve vanilla advancement visuals, source discipline/branch IDs, progression data, prerequisites, costs, and gameplay rules.
@@ -45,6 +57,8 @@ Authoritative ordinary Enhancement rules:
 - deterministic milestones at +5 / +10 / +15 / +20
 - no ordinary T3/T4 Enhancement
 - historical +30 / +40 rules are superseded
+
+Accessory Enhancement is a separate approved contract and does not inherit the ordinary T1/T2 +20 cap or equipment growth tables. Use [Accessory Enhancement Decisions (2026-10-17)](ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md) for the twelve independent +0…+10 tables, raw-XP and material costs, catalyst milestones, anvil integration, and accessory-only rules. Use [Accessory / Relic System Decisions (2026-10-16)](ACCESSORY_RELIC_SYSTEM_DECISIONS_2026-10-16.md) for the approved roster and behavioral direction, except where the later 2026-10-17 enhancement record supersedes proposed values or unresolved labels. The one-catalyst-per-milestone quantity is explicitly provisional; catalyst acquisition and final anvil visual layout remain deferred. Ordinary T1/T2 Enhancement rules below and in the Stage 2 reconciliation remain unchanged.
 
 Current T2 input/gameplay rules include the seven-item final roster, right-click active skills, cumulative Lightning charge semantics, and the removal of Wind Step and the old F / Shift+F T2 path.
 

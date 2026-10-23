@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "AnvilMenuMixin",
+    "AnvilCatalystQuickMoveMixin",
     "ItemStackMixin",
     "BlockMixin",
     "ServerPlayerGameModeMixin",
@@ -68,6 +69,8 @@
   "client": [
     "AbstractContainerScreenAccessor",
     "AccessoryInventoryScreenMixin",
+    "AbstractRecipeBookScreenMixin",
+    "RecipeBookComponentMixin",
     "FishingRodItemClientMixin",
     "FishingRodInputClientMixin",
     "T1AnvilScreenFactoryMixin",

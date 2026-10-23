@@ -64,6 +64,8 @@ public final class ModItems {
             ENHANCEMENT_STONE_KEY,
             new Item(new Item.Properties().setId(ENHANCEMENT_STONE_KEY))
     );
+    public static final Item RELIC_CATALYST = register("relic_catalyst",
+            key -> new Item(new Item.Properties().stacksTo(1).setId(key)));
     public static final Item FLAME_SWORD = Registry.register(
             BuiltInRegistries.ITEM,
             FLAME_SWORD_KEY,
@@ -222,6 +224,10 @@ public final class ModItems {
         }
 
         MoreMinecrafts.LOGGER.info("Item registration OK: {}", enhancementStoneId);
+
+        if (!ModIds.id("relic_catalyst").equals(BuiltInRegistries.ITEM.getKey(RELIC_CATALYST))) {
+            throw new IllegalStateException("MoreMinecrafts relic catalyst was not registered correctly.");
+        }
 
         var flameSwordId = BuiltInRegistries.ITEM.getKey(FLAME_SWORD);
         if (!ModIds.id("flame_sword").equals(flameSwordId)) {
