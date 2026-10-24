@@ -41,6 +41,21 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     kill "$window_manager_pid" 2>/dev/null || true
     wait "$window_manager_pid" 2>/dev/null || true
   }
+  # Which X server and windows the live client JVM actually uses (any map state), for runners where the
+  # client window is missing from this Xvfb.
+  describe_client_x11() {
+    local jvm_pid jvm_args
+    echo "Client JVM X11 state (DISPLAY=$DISPLAY):"
+    for jvm_pid in $(pgrep -x java 2>/dev/null || true); do
+      jvm_args="$(tr "\0" " " < "/proc/$jvm_pid/cmdline" 2>/dev/null || true)"
+      case "$jvm_args" in *KnotClient*|*devlaunchinjector*) ;; *) continue ;; esac
+      echo "client_jvm pid=$jvm_pid env: $(tr "\0" "\n" < "/proc/$jvm_pid/environ" 2>/dev/null | grep -E "^(DISPLAY|XAUTHORITY|WAYLAND_DISPLAY|XDG_SESSION_TYPE|XDG_RUNTIME_DIR|SDL_[A-Z_]*)=" | tr "\n" " ")"
+      echo "client_jvm pid=$jvm_pid windows_any_state: $(xdotool search --pid "$jvm_pid" 2>/dev/null | tr "\n" " ")"
+    done
+    echo "X11 sockets: $(ls /tmp/.X11-unix 2>&1 | tr "\n" " ") locks: $(ls /tmp/.X*-lock 2>&1 | tr "\n" " ")"
+    ps -eo pid,ppid,args | grep -E "[X]vfb|[o]penbox" || true
+  }
+
   collect_x11_diagnostics() {
     for screenshot in run/screenshots/*.png; do
       if [ -s "$screenshot" ]; then cp "$screenshot" "$results_dir/$(basename "$screenshot")"; fi
@@ -65,6 +80,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
         printf "id=%s name=%q wm_class=%q pid=%q process=%q geometry=%q\n" \
           "$candidate" "$candidate_name" "$candidate_class" "$candidate_pid" "$candidate_process" "$candidate_geometry"
       done
+      describe_client_x11
       echo "Recent Minecraft client log:"
       tail -n 160 "$client_log" 2>&1 || true
     } > "$results_dir/x11-input-diagnostics.txt" 2>&1
@@ -166,6 +182,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   cp "$screenshot" "$results_dir/visual-world.png"
   printf "Minecraft native Screenshot.grab via mainRenderTarget\nsource=%s\n" "$screenshot" > "$results_dir/capture-source.txt"
   echo "Copied native Minecraft screenshot from $screenshot" | tee -a "$client_log"
+  describe_client_x11 | tee -a "$results_dir/x11-client-state.txt"
 
   click_selector_target() {
     local target="$1" ready_line x y resolution render_width render_height event_count_before event_count_after
