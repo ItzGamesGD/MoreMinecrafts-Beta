@@ -207,9 +207,17 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
           || ! "$render_width" =~ ^[1-9][0-9]*$ || ! "$render_height" =~ ^[1-9][0-9]*$ ]]; then
       fail_selector_input "invalid render coordinates: $ready_line"
     fi
-    if ! discover_minecraft_window; then
-      fail_selector_input "could not uniquely identify Minecraft X11 window"
-    fi
+    # Allow a window manager remap to settle; the window must still be unique, viewable and owned by the client.
+    for attempt in $(seq 1 15); do
+      if discover_minecraft_window 2>/dev/null; then break; fi
+      if (( attempt == 15 )); then
+        for candidate in $(xdotool search --class com.mojang.minecraft 2>/dev/null || true); do
+          echo "Minecraft-class window $candidate: $(xwininfo -id "$candidate" 2>/dev/null | grep -E "Map State|geometry" | tr -s " " | tr "\n" " ")"
+        done
+        fail_selector_input "could not uniquely identify Minecraft X11 window"
+      fi
+      sleep 1
+    done
     echo "Minecraft X11 window id=$X11_GAME_WINDOW_ID wm_class=$X11_GAME_WINDOW_CLASS pid=$X11_GAME_WINDOW_PID geometry=${X11_GAME_WINDOW_X},${X11_GAME_WINDOW_Y} ${X11_GAME_WINDOW_WIDTH}x${X11_GAME_WINDOW_HEIGHT}"
     if ! activate_minecraft_window; then
       fail_selector_input "focus/active mismatch target_id=$X11_GAME_WINDOW_ID active=$X11_GAME_ACTIVE_WINDOW focused=$X11_GAME_FOCUSED_WINDOW activate_status=$X11_WINDOWACTIVATE_STATUS focus_status=$X11_WINDOWFOCUS_STATUS"
