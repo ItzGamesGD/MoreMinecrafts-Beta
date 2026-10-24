@@ -5,7 +5,6 @@ import dev.itzgamesgd.moreminecrafts.accessory.AnvilCatalystUiLayout;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.progression.T1AnvilModes;
 import dev.itzgamesgd.moreminecrafts.progression.T1Balance;
-import dev.itzgamesgd.moreminecrafts.progression.XpLevels;
 import dev.itzgamesgd.moreminecrafts.progression.RawXp;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -100,7 +99,7 @@ public final class T1AnvilScreen extends AnvilScreen {
                 if (requirement.isPresent()) {
                     var state = requirement.get();
                     action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_requirement",
-                            state.targetLevel() - 1, state.targetLevel(), state.experienceLevelCost(), state.materialCost())));
+                            state.targetLevel() - 1, state.targetLevel(), state.rawXpCost(), state.materialCost())));
                 } else if (!equipment.isEmpty() && EnhancementOperation.level(equipment) >= 20) {
                     action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_maximum")));
                 } else {
