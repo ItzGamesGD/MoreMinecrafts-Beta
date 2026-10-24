@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.accessory;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
+import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Relative;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.TagValueInput;
@@ -29,6 +31,7 @@ import io.netty.channel.embedded.EmbeddedChannel;
 
 /** Lifecycle-focused accessory checks; menu callback tests live in AccessoryEquipmentGameTests. */
 public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoker {
+    private static final net.minecraft.resources.Identifier STAR_BONUS_ID = ModIds.id("star_covenant_melee_bonus");
     private static final UUID RESTART_PLAYER_ID = UUID.fromString("3c1f6bfa-0c58-4999-8fa8-e4216f452dc9");
     private static final AccessoryDefinition[] SLOT_ITEMS = {
             AccessoryDefinition.SOUL_CHAIN,
@@ -37,6 +40,96 @@ public final class AccessoryLifecycleGameTests implements CustomTestMethodInvoke
             AccessoryDefinition.SNOW_CHARM,
             AccessoryDefinition.WHISPER_OF_THE_SEA
     };
+
+    @GameTest
+    public void starCovenantActivatesOnlyInCombatSlotAtApprovedHealthThreshold(GameTestHelper ctx) {
+        ServerPlayer player = mockPlayer(ctx);
+        AccessoryEquipmentContainer equipment = new AccessoryEquipmentContainer(player);
+        ItemStack star = new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.STAR_COVENANT));
+        equipment.setItem(AccessoryCategory.DEFENSE_SURVIVAL.ordinal(), star);
+        player.getInventory().add(star.copy());
+        player.setHealth(9.0F);
+        StarCovenantAbility.refresh(player);
+        ctx.assertTrue(starBonus(player) == null, "wrong slot and inventory-only accessory grant no bonus");
+
+        equipment.setItem(AccessoryCategory.COMBAT.ordinal(), star);
+        player.setHealth(11.0F);
+        StarCovenantAbility.refresh(player);
+        ctx.assertTrue(starBonus(player) == null, "+0 requires health at or below 50 percent");
+        player.setHealth(10.0F);
+        StarCovenantAbility.refresh(player);
+        ctx.assertTrue(starBonus(player) != null && starBonus(player).amount() == 0.08D,
+                "+0 grants exactly eight percent melee damage at 50 percent health");
+        player.setHealth(11.0F);
+        StarCovenantAbility.refresh(player);
+        ctx.assertTrue(starBonus(player) == null, "healing above the threshold deactivates the bonus");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void starCovenantEnhancementRemovalAndRefreshNeverStack(GameTestHelper ctx) {
+        ServerPlayer player = mockPlayer(ctx);
+        AccessoryEquipmentContainer equipment = new AccessoryEquipmentContainer(player);
+        ItemStack star = new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.STAR_COVENANT));
+        star.set(ModDataComponents.ENHANCEMENT_LEVEL, 3);
+        equipment.setItem(AccessoryCategory.COMBAT.ordinal(), star);
+        player.setHealth(11.0F);
+        StarCovenantAbility.refresh(player);
+        ctx.assertTrue(starBonus(player) != null && starBonus(player).amount() == 0.10D,
+                "+3 grants ten percent damage at the approved 55 percent threshold");
+        star.set(ModDataComponents.ENHANCEMENT_LEVEL, 10);
+        equipment.setItem(AccessoryCategory.COMBAT.ordinal(), star);
+        player.setHealth(20.0F);
+        StarCovenantAbility.refresh(player);
+        player.setHealth(12.0F);
+        double baseline = player.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        StarCovenantAbility.refresh(player);
+        ctx.assertTrue(starBonus(player) != null && starBonus(player).amount() == 0.16D,
+                "+10 grants sixteen percent melee damage at 60 percent health");
+        double boosted = player.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        ctx.assertTrue(Math.abs(boosted - baseline * 1.16D) < 0.00001D,
+                "bonus multiplies the melee attack attribute once");
+        StarCovenantAbility.refresh(player);
+        ctx.assertTrue(Math.abs(player.getAttributeValue(Attributes.ATTACK_DAMAGE) - boosted) < 0.00001D,
+                "repeated refresh cannot duplicate the bonus");
+        equipment.setItem(AccessoryCategory.COMBAT.ordinal(), ItemStack.EMPTY);
+        StarCovenantAbility.refresh(player);
+        ctx.assertTrue(starBonus(player) == null && Math.abs(player.getAttributeValue(Attributes.ATTACK_DAMAGE) - baseline) < 0.00001D,
+                "unequip removes the bonus");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void starCovenantClearsOnDeathAndRecomputesAfterPlayerReload(GameTestHelper ctx) {
+        ServerPlayer original = mockPlayer(ctx);
+        AccessoryEquipmentContainer equipment = new AccessoryEquipmentContainer(original);
+        equipment.setItem(AccessoryCategory.COMBAT.ordinal(),
+                new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.STAR_COVENANT)));
+        original.setHealth(8.0F);
+        StarCovenantAbility.refresh(original);
+        TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, original.registryAccess());
+        original.saveWithoutId(output);
+
+        ServerPlayer restored = mockPlayer(ctx);
+        restored.load(TagValueInput.create(ProblemReporter.DISCARDING, restored.registryAccess(), output.buildResult()));
+        restored.setHealth(8.0F);
+        StarCovenantAbility.refresh(restored);
+        StarCovenantAbility.refresh(restored);
+        ctx.assertTrue(starBonus(restored) != null && starBonus(restored).amount() == 0.08D,
+                "reload restores one bonus from saved equipment, without persisted effect state");
+        restored.die(ctx.getLevel().damageSources().generic());
+        StarCovenantAbility.refresh(restored);
+        ctx.assertTrue(starBonus(restored) == null, "dead player has no active bonus");
+        ServerPlayer respawned = ctx.getLevel().getServer().getPlayerList().respawn(
+                restored, false, Entity.RemovalReason.KILLED);
+        StarCovenantAbility.refresh(respawned);
+        ctx.assertTrue(starBonus(respawned) == null, "empty normal respawn has no bonus");
+        ctx.succeed();
+    }
+
+    private static net.minecraft.world.entity.ai.attributes.AttributeModifier starBonus(ServerPlayer player) {
+        return player.getAttribute(Attributes.ATTACK_DAMAGE).getModifier(STAR_BONUS_ID);
+    }
 
     @GameTest
     public void accessoryAttachmentSurvivesPlayerEntitySaveAndReload(GameTestHelper ctx) {
