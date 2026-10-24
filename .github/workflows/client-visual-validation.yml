@@ -9,11 +9,18 @@ on:
   pull_request:
     branches:
       - main
+      - integration/stage23-final-reconciliation-20261016
+      - codex/xp-quest-q1b-correction
+      - audit/stage23-pr92-pr93-reconciliation-20261019
+      - design/xp-quest-selector-redesign-20261019
+      - design/xp-quest-structure-200-20261019
     paths:
       - ".github/workflows/client-visual-validation.yml"
+      - "src/**"
       - "src/client/**"
       - "src/main/resources/**"
       - "scripts/visual_validation/**"
+      - "docs/design/xp-quest/structure/**"
       - "build.gradle"
       - "gradle.properties"
 
@@ -125,12 +132,17 @@ jobs:
           )
           python3 scripts/visual_validation/rcon.py "${rcon_commands[@]}"
           sleep 3
-          for gui_scale in 2 3 4; do
+          # Test-only 200-node structure preview reads the proposal files; nothing else enables it.
+          export MOREMINECRAFTS_STRUCTURE_PREVIEW_DIR="$GITHUB_WORKSPACE/docs/design/xp-quest/structure"
+          for run_spec in 2:ko_kr 3:ko_kr 2:en_us 3:en_us; do
+            gui_scale="${run_spec%%:*}"
+            language="${run_spec##*:}"
             mkdir -p run
-            printf 'guiScale:%s\ntutorialStep:none\nlang:ko_kr\n' "$gui_scale" > run/options.txt
-            results_dir="visual-validation-results/gui-scale-${gui_scale}"
+            rm -rf run/screenshots
+            printf 'guiScale:%s\ntutorialStep:none\nlang:%s\n' "$gui_scale" "$language" > run/options.txt
+            results_dir="visual-validation-results/gui-scale-${gui_scale}-${language}"
             bash scripts/visual_validation/capture_client.sh \
-              "$results_dir" 127.0.0.1:25565 "SelectorScale${gui_scale}"
+              "$results_dir" 127.0.0.1:25565 "SelectorScale${gui_scale}${language%%_*}"
             for screenshot in "$results_dir"/*.png; do
               stem="$(basename "$screenshot" .png)"
               if [ "$stem" = "visual-world" ]; then

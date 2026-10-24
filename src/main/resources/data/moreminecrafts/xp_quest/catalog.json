@@ -1,0 +1,2843 @@
+{
+ "schemaVersion": 1,
+ "approvedActiveTotal": 180000,
+ "approvedFutureTotal": 29100,
+ "approvedTotal": 209100,
+ "quests": [
+  {
+   "id": "xpq.exp.first_structure_loot",
+   "tab": "exploration",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 1,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_loot_any"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.mineshaft_loot",
+   "tab": "exploration",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 1,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_loot_mineshaft"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.dungeon_loot",
+   "tab": "exploration",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 1,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_loot_dungeon"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.walk_10k",
+   "tab": "exploration",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 10000,
+   "tracker": {
+    "kind": "stat_custom",
+    "entries": [
+     "minecraft:walk_one_cm",
+     "minecraft:sprint_one_cm",
+     "minecraft:crouch_one_cm"
+    ],
+    "divisor": 100
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.temples",
+   "tab": "exploration",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 2,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_loot_tables",
+    "entries": [
+     "minecraft:chests/desert_pyramid",
+     "minecraft:chests/jungle_temple"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.ocean_relics",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 3,
+   "tracker": {
+    "kind": "distinct_groups",
+    "key": "set.structure_loot_tables",
+    "entries": [
+     "minecraft:chests/shipwreck_supply|minecraft:chests/shipwreck_map|minecraft:chests/shipwreck_treasure",
+     "minecraft:chests/underwater_ruin_big|minecraft:chests/underwater_ruin_small",
+     "minecraft:chests/buried_treasure"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.explorer_maps",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 3,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.biomes_25",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 25,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "biomes_visited",
+    "entries": []
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.rare_biomes",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 600,
+   "target": 5,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "biomes_visited",
+    "entries": [
+     "minecraft:mushroom_fields",
+     "minecraft:ice_spikes",
+     "minecraft:eroded_badlands",
+     "minecraft:bamboo_jungle",
+     "minecraft:cherry_grove"
+    ]
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.villages_5",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 550,
+   "target": 5,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_types_entered",
+    "entries": [
+     "minecraft:village_plains",
+     "minecraft:village_desert",
+     "minecraft:village_savanna",
+     "minecraft:village_snowy",
+     "minecraft:village_taiga"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.height_extremes",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 400,
+   "target": 2,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.archaeology_30",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 30,
+   "tracker": {
+    "kind": "counter",
+    "key": "archaeology_items_brushed",
+    "seedCondition": "archaeology_items_brushed"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.sleeping_bag_biomes",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "VERIFY",
+   "rewardRawXp": 500,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.parachute_landing",
+   "tab": "exploration",
+   "tier": "MID",
+   "status": "VERIFY",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.walk_50k",
+   "tab": "exploration",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1150,
+   "target": 50000,
+   "tracker": {
+    "kind": "stat_custom",
+    "entries": [
+     "minecraft:walk_one_cm",
+     "minecraft:sprint_one_cm",
+     "minecraft:crouch_one_cm"
+    ],
+    "divisor": 100
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.biomes_40",
+   "tab": "exploration",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1150,
+   "target": 40,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "biomes_visited",
+    "entries": []
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.structures_15",
+   "tab": "exploration",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1150,
+   "target": 15,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_types_entered"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.grand_expedition",
+   "tab": "exploration",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1450,
+   "target": 5,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_types_entered",
+    "entries": [
+     "minecraft:stronghold",
+     "minecraft:ancient_city",
+     "minecraft:monument",
+     "minecraft:mansion",
+     "minecraft:trial_chambers"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.exp.sherds_15",
+   "tab": "exploration",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1150,
+   "target": 15,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.sail_20k",
+   "tab": "exploration",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1150,
+   "target": 20000,
+   "tracker": {
+    "kind": "stat_custom",
+    "entries": [
+     "minecraft:boat_one_cm"
+    ],
+    "divisor": 100
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.ride_10k",
+   "tab": "exploration",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1000,
+   "target": 10000,
+   "tracker": {
+    "kind": "stat_custom",
+    "entries": [
+     "minecraft:horse_one_cm"
+    ],
+    "divisor": 100
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.elytra_25k",
+   "tab": "exploration",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 25000,
+   "tracker": {
+    "kind": "stat_custom",
+    "entries": [
+     "minecraft:aviate_one_cm"
+    ],
+    "divisor": 100
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.travel_250k",
+   "tab": "exploration",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 250000,
+   "tracker": {
+    "kind": "stat_custom",
+    "entries": [
+     "minecraft:walk_one_cm",
+     "minecraft:sprint_one_cm",
+     "minecraft:crouch_one_cm",
+     "minecraft:swim_one_cm",
+     "minecraft:walk_on_water_one_cm",
+     "minecraft:walk_under_water_one_cm",
+     "minecraft:fly_one_cm",
+     "minecraft:aviate_one_cm",
+     "minecraft:boat_one_cm",
+     "minecraft:horse_one_cm",
+     "minecraft:pig_one_cm",
+     "minecraft:strider_one_cm",
+     "minecraft:minecart_one_cm",
+     "minecraft:happy_ghast_one_cm",
+     "minecraft:nautilus_one_cm",
+     "minecraft:climb_one_cm",
+     "minecraft:fall_one_cm"
+    ],
+    "divisor": 100
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.exp.biomes_all_overworld",
+   "tab": "exploration",
+   "tier": "ENDGAME",
+   "status": "VERIFY",
+   "rewardRawXp": 3150,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.dim.fortress_loot",
+   "tab": "dimension",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 1,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_loot_fortress"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.dim.blaze_rods_32",
+   "tab": "dimension",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 400,
+   "target": 32,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.dim.trial_vaults_5",
+   "tab": "dimension",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 5,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.normal_vault_rewards"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.dim.ancient_city_loot",
+   "tab": "dimension",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 900,
+   "target": 3,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_loot_ancient_city"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.dim.bastion_all",
+   "tab": "dimension",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1350,
+   "target": 4,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_loot_tables",
+    "entries": [
+     "minecraft:chests/bastion_bridge",
+     "minecraft:chests/bastion_hoglin_stable",
+     "minecraft:chests/bastion_other",
+     "minecraft:chests/bastion_treasure"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.dim.ominous_vaults_5",
+   "tab": "dimension",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1350,
+   "target": 5,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.ominous_vault_rewards"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.dim.end_cities_3",
+   "tab": "dimension",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 3,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.end_city_starts"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.dim.shulker_boxes",
+   "tab": "dimension",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1000,
+   "target": 4,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.dim.end_city_loot_10",
+   "tab": "dimension",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 10,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.structure_loot_end_city"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.dim.nether_travel_50k",
+   "tab": "dimension",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 2500,
+   "target": 50000,
+   "tracker": {
+    "kind": "counter",
+    "key": "nether_travel_cm",
+    "entries": [],
+    "divisor": 100,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.hostile_100",
+   "tab": "combat",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 100,
+   "tracker": {
+    "kind": "stat_killed_monsters",
+    "key": ""
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.mm_arms",
+   "tab": "combat",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 2,
+   "tracker": {
+    "kind": "counter_each",
+    "entries": [
+     "kills_dagger",
+     "kills_greatsword"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.bestiary_5",
+   "tab": "combat",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 5,
+   "tracker": {
+    "kind": "stat_killed_monsters_distinct",
+    "key": "moreminecrafts"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.shield_500",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 500,
+   "tracker": {
+    "kind": "counter",
+    "key": "shield_blocks",
+    "seedCondition": "shield_blocks"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.hostile_500",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 500,
+   "tracker": {
+    "kind": "stat_killed_monsters",
+    "key": ""
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.vanilla_species_20",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 20,
+   "tracker": {
+    "kind": "stat_killed_monsters_distinct",
+    "key": "minecraft"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.dagger_100",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 100,
+   "tracker": {
+    "kind": "counter",
+    "key": "kills_dagger"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.greatsword_100",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 100,
+   "tracker": {
+    "kind": "counter",
+    "key": "kills_greatsword"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.bestiary_10",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 10,
+   "tracker": {
+    "kind": "stat_killed_monsters_distinct",
+    "key": "moreminecrafts"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.bandits_20",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 20,
+   "tracker": {
+    "kind": "counter_gated",
+    "entries": [
+     "kills_bandit",
+     "kills_bandit_archer",
+     "kills_bandit_warrior"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.cave_dwellers",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 6,
+   "tracker": {
+    "kind": "stat_killed_each",
+    "entries": [
+     "moreminecrafts:cave_zombie",
+     "moreminecrafts:cave_skeleton",
+     "moreminecrafts:cave_creeper",
+     "moreminecrafts:small_spider",
+     "moreminecrafts:swamp_spider",
+     "moreminecrafts:cave_bat"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.trident_50",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 50,
+   "tracker": {
+    "kind": "counter",
+    "key": "trident_hostile_kills",
+    "seedCondition": "trident_hostile_kills"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.breeze_10",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 10,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "minecraft:breeze"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.guardians_30",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 30,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "minecraft:guardian"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.long_shot_25",
+   "tab": "combat",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 850,
+   "target": 25,
+   "tracker": {
+    "kind": "counter",
+    "key": "kills_long_shot"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.mace_smash_10",
+   "tab": "combat",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 10,
+   "tracker": {
+    "kind": "counter",
+    "key": "kills_mace_smash"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.lesser_wither_10",
+   "tab": "combat",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 700,
+   "target": 10,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "moreminecrafts:lesser_wither_skeleton"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.hostile_2000",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 2000,
+   "tracker": {
+    "kind": "stat_killed_monsters",
+    "key": ""
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.bestiary_25",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1350,
+   "target": 25,
+   "tracker": {
+    "kind": "stat_killed_monsters_distinct",
+    "key": "moreminecrafts"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.habitats_5",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 5,
+   "tracker": {
+    "kind": "stat_killed_groups_each",
+    "entries": [
+     "desert|moreminecrafts:desert_spider|moreminecrafts:sand_slime",
+     "swamp|moreminecrafts:swamp_zombie|moreminecrafts:swamp_spider|moreminecrafts:mud_slime",
+     "snowy|moreminecrafts:frozen_zombie|moreminecrafts:ice_spider",
+     "fungal|moreminecrafts:fungal_zombie",
+     "wild_slime|moreminecrafts:wild_slime"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.netherite_blades",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 2,
+   "tracker": {
+    "kind": "counter_each",
+    "entries": [
+     "kills_netherite_dagger",
+     "kills_netherite_greatsword"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.ravagers_5",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1000,
+   "target": 5,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "minecraft:ravager"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.brutes_3",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1000,
+   "target": 3,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "minecraft:piglin_brute"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.wither_skulls_3",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 3,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cmb.raids_3",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1350,
+   "target": 3,
+   "tracker": {
+    "kind": "counter",
+    "key": "raid_victories"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cmb.hostile_5000",
+   "tab": "combat",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 1900,
+   "target": 5000,
+   "tracker": {
+    "kind": "stat_killed_monsters",
+    "key": ""
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.boss.elder_guardian",
+   "tab": "boss",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 1,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "minecraft:elder_guardian"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.boss.monument_clear",
+   "tab": "boss",
+   "tier": "LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 1450,
+   "target": 1,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.monuments_cleared"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.boss.warden",
+   "tab": "boss",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1700,
+   "target": 1,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "minecraft:warden"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.boss.wither",
+   "tab": "boss",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1450,
+   "target": 1,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "minecraft:wither"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.boss.twin_bosses",
+   "tab": "boss",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 2,
+   "tracker": {
+    "kind": "stat_killed_each",
+    "entries": [
+     "minecraft:ender_dragon",
+     "minecraft:wither"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.boss.dragon_rematch",
+   "tab": "boss",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 1,
+   "tracker": {
+    "kind": "counter",
+    "key": "dragon_rematch_kills"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.boss.omen_raid",
+   "tab": "boss",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 1,
+   "tracker": {
+    "kind": "counter",
+    "key": "omen_raid_wins"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.boss.monuments_3",
+   "tab": "boss",
+   "tier": "ENDGAME",
+   "status": "VERIFY",
+   "rewardRawXp": 3450,
+   "target": 3,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.monuments_cleared"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.boss.warden_3",
+   "tab": "boss",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 3,
+   "tracker": {
+    "kind": "stat_killed",
+    "entries": [
+     "minecraft:warden"
+    ]
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.first_custom_ore",
+   "tab": "mining",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 1,
+   "tracker": {
+    "kind": "distinct_groups",
+    "key": "set.natural_ore_mined",
+    "entries": [
+     "moreminecrafts:titanium_ore|moreminecrafts:tungsten_ore|moreminecrafts:mythril_ore|moreminecrafts:etherium_ore|moreminecrafts:deepslate_titanium_ore|moreminecrafts:deepslate_tungsten_ore|moreminecrafts:deepslate_mythril_ore|moreminecrafts:deepslate_etherium_ore"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.custom_ore_survey",
+   "tab": "mining",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 4,
+   "tracker": {
+    "kind": "distinct_groups",
+    "key": "set.natural_ore_mined",
+    "entries": [
+     "moreminecrafts:titanium_ore|moreminecrafts:deepslate_titanium_ore",
+     "moreminecrafts:tungsten_ore|moreminecrafts:deepslate_tungsten_ore",
+     "moreminecrafts:mythril_ore|moreminecrafts:deepslate_mythril_ore",
+     "moreminecrafts:etherium_ore|moreminecrafts:deepslate_etherium_ore"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.obsidian_64",
+   "tab": "mining",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 300,
+   "target": 64,
+   "tracker": {
+    "kind": "stat_mined",
+    "entries": [
+     "minecraft:obsidian"
+    ]
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.min.ore_1000",
+   "tab": "mining",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1000,
+   "tracker": {
+    "kind": "counter",
+    "key": "natural_ore_mined",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.deepslate_custom",
+   "tab": "mining",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 4,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.natural_ore_mined",
+    "entries": [
+     "moreminecrafts:deepslate_titanium_ore",
+     "moreminecrafts:deepslate_tungsten_ore",
+     "moreminecrafts:deepslate_mythril_ore",
+     "moreminecrafts:deepslate_etherium_ore"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.stone_10000",
+   "tab": "mining",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 10000,
+   "tracker": {
+    "kind": "stat_mined",
+    "entries": [
+     "minecraft:stone",
+     "minecraft:cobblestone",
+     "minecraft:deepslate",
+     "minecraft:cobbled_deepslate",
+     "minecraft:granite",
+     "minecraft:diorite",
+     "minecraft:andesite",
+     "minecraft:tuff"
+    ]
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.min.logs_1000",
+   "tab": "mining",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1000,
+   "tracker": {
+    "kind": "counter",
+    "key": "natural_vanilla_logs_mined",
+    "seedCondition": "natural_vanilla_logs_mined"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.amethyst_spyglass",
+   "tab": "mining",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 400,
+   "target": 2,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.min.adamantium_debris",
+   "tab": "mining",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.min.all_wood",
+   "tab": "mining",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 12,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.min.pickaxe_5000",
+   "tab": "mining",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 700,
+   "target": 5000,
+   "tracker": {
+    "kind": "counter",
+    "key": "pickaxe_durability_used",
+    "seedCondition": "pickaxe_durability_used"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.vein_500",
+   "tab": "mining",
+   "tier": "MID_LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 750,
+   "target": 500,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.min.lumberjack_200",
+   "tab": "mining",
+   "tier": "MID_LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 750,
+   "target": 200,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.min.ore_5000",
+   "tab": "mining",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 5000,
+   "tracker": {
+    "kind": "counter",
+    "key": "natural_ore_mined",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.diamond_ore_64",
+   "tab": "mining",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 64,
+   "tracker": {
+    "kind": "counter_sum",
+    "key": "",
+    "entries": [
+     "natural_mined.minecraft:diamond_ore",
+     "natural_mined.minecraft:deepslate_diamond_ore"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.adamantium_10",
+   "tab": "mining",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1250,
+   "target": 10,
+   "tracker": {
+    "kind": "counter",
+    "key": "natural_mined.moreminecrafts:adamantium_debris",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.debris_16",
+   "tab": "mining",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 16,
+   "tracker": {
+    "kind": "counter",
+    "key": "natural_mined.minecraft:ancient_debris",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.min.ore_20000",
+   "tab": "mining",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 20000,
+   "tracker": {
+    "kind": "counter",
+    "key": "natural_ore_mined",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.frm.harvest_all_crops",
+   "tab": "farming",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 9,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.composite_foods",
+   "tab": "farming",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 200,
+   "target": 5,
+   "tracker": {
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "minecraft:cake",
+     "minecraft:pumpkin_pie",
+     "minecraft:cookie",
+     "minecraft:bread",
+     "minecraft:rabbit_stew"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.tame_5",
+   "tab": "farming",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 5,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.tamed",
+    "entries": [
+     "minecraft:wolf",
+     "minecraft:cat",
+     "minecraft:parrot",
+     "minecraft:horse",
+     "minecraft:llama"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.frm.harvest_1000",
+   "tab": "farming",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1000,
+   "tracker": {
+    "kind": "counter",
+    "key": "crops_harvested",
+    "seedCondition": "crops_harvested"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.till_1000",
+   "tab": "farming",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 400,
+   "target": 1000,
+   "tracker": {
+    "kind": "counter",
+    "key": "farmland_tilled",
+    "seedCondition": "farmland_tilled"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.frm.breed_200",
+   "tab": "farming",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 200,
+   "tracker": {
+    "kind": "stat_custom",
+    "entries": [
+     "minecraft:animals_bred"
+    ],
+    "divisor": 1
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.honey_32",
+   "tab": "farming",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 32,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.master_trade",
+   "tab": "farming",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.mending_book",
+   "tab": "farming",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.ancient_harvest",
+   "tab": "farming",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 2,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.professions_10",
+   "tab": "farming",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 850,
+   "target": 10,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.villager_discount_20",
+   "tab": "farming",
+   "tier": "MID_LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 750,
+   "target": 20,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.harvest_5000",
+   "tab": "farming",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 5000,
+   "tracker": {
+    "kind": "counter",
+    "key": "crops_harvested",
+    "seedCondition": "crops_harvested"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.trades_200",
+   "tab": "farming",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 200,
+   "tracker": {
+    "kind": "stat_custom",
+    "entries": [
+     "minecraft:traded_with_villager"
+    ],
+    "divisor": 1
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.barter_200",
+   "tab": "farming",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 200,
+   "tracker": {
+    "kind": "counter",
+    "key": "piglin_barters",
+    "seedCondition": "piglin_barters"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.frm.soil_study_harvest",
+   "tab": "farming",
+   "tier": "LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 1100,
+   "target": 500,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.first_sale",
+   "tab": "fishing",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 1,
+   "tracker": {
+    "kind": "counter",
+    "key": "fish_sold",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.fsh.freshwater_4",
+   "tab": "fishing",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 4,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "fish_species_caught",
+    "entries": [
+     "crucian_carp",
+     "common_carp",
+     "amur_catfish",
+     "largemouth_bass"
+    ]
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.first_module",
+   "tab": "fishing",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.grade_four",
+   "tab": "fishing",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.sale_64",
+   "tab": "fishing",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 64,
+   "tracker": {
+    "kind": "counter",
+    "key": "fish_sold",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.fsh.tier3_rig",
+   "tab": "fishing",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.water_biomes_8",
+   "tab": "fishing",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 8,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "water_biomes_fished",
+    "entries": []
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.multi_catch",
+   "tab": "fishing",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.grade_five",
+   "tab": "fishing",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.ocean_trio",
+   "tab": "fishing",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 850,
+   "target": 3,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "fish_species_caught",
+    "entries": [
+     "yellowfin_tuna",
+     "swordfish",
+     "blue_marlin"
+    ]
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.catch_500",
+   "tab": "fishing",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 500,
+   "tracker": {
+    "kind": "counter",
+    "key": "fishing_successes",
+    "seedCondition": "fishing_successes"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.full_catalogue",
+   "tab": "fishing",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1350,
+   "target": 12,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "fish_species_caught",
+    "entries": [
+     "crucian_carp",
+     "common_carp",
+     "amur_catfish",
+     "rainbow_trout",
+     "largemouth_bass",
+     "northern_pike",
+     "atlantic_salmon",
+     "yellowfin_tuna",
+     "arapaima",
+     "swordfish",
+     "blue_marlin",
+     "beluga_sturgeon"
+    ]
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.emerald_500",
+   "tab": "fishing",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 500,
+   "tracker": {
+    "kind": "counter",
+    "key": "fish_sale_emeralds",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.fsh.giant_catch",
+   "tab": "fishing",
+   "tier": "LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 1100,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.grade_five_5",
+   "tab": "fishing",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.sleeping_bag",
+   "tab": "crafting",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 150,
+   "target": 1,
+   "tracker": {
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:exploration_sleeping_bag"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.enchanting_30",
+   "tab": "crafting",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 30,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.smelt_1000",
+   "tab": "crafting",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1000,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.all_daggers",
+   "tab": "crafting",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 7,
+   "tracker": {
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:wood_dagger",
+     "moreminecrafts:stone_dagger",
+     "moreminecrafts:copper_dagger",
+     "moreminecrafts:iron_dagger",
+     "moreminecrafts:gold_dagger",
+     "moreminecrafts:diamond_dagger",
+     "moreminecrafts:netherite_dagger"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.anvil_50",
+   "tab": "crafting",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 50,
+   "tracker": {
+    "kind": "counter",
+    "key": "anvil_repairs",
+    "seedCondition": "anvil_repairs"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cft.redstone_100",
+   "tab": "crafting",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 100,
+   "tracker": {
+    "kind": "counter",
+    "key": "redstone_components_placed",
+    "seedCondition": "redstone_components_placed"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.cft.parachute",
+   "tab": "crafting",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 400,
+   "target": 1,
+   "tracker": {
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:parachute"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.conduit",
+   "tab": "crafting",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 850,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.recipes_200",
+   "tab": "crafting",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 200,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.mm_metallurgy",
+   "tab": "crafting",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1350,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.all_greatswords",
+   "tab": "crafting",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 7,
+   "tracker": {
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:wood_greatsword",
+     "moreminecrafts:stone_greatsword",
+     "moreminecrafts:copper_greatsword",
+     "moreminecrafts:iron_greatsword",
+     "moreminecrafts:gold_greatsword",
+     "moreminecrafts:diamond_greatsword",
+     "moreminecrafts:netherite_greatsword"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.netherite_tools",
+   "tab": "crafting",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.mm_blocks",
+   "tab": "crafting",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 5,
+   "tracker": {
+    "kind": "stat_crafted_distinct",
+    "key": "",
+    "entries": [
+     "moreminecrafts:titanium_block",
+     "moreminecrafts:tungsten_block",
+     "moreminecrafts:mythril_block",
+     "moreminecrafts:etherium_block",
+     "moreminecrafts:adamantium_block"
+    ],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.bld.place_1000",
+   "tab": "building",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 1000,
+   "tracker": {
+    "kind": "placement",
+    "key": "",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.bld.variety_50",
+   "tab": "building",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 50,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.blocks_placed",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.bld.place_10000",
+   "tab": "building",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 10000,
+   "tracker": {
+    "kind": "placement",
+    "key": "",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.bld.storage_50",
+   "tab": "building",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 400,
+   "target": 50,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.bld.copper_ages",
+   "tab": "building",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 4,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.bld.variety_150",
+   "tab": "building",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 150,
+   "tracker": {
+    "kind": "distinct_set",
+    "key": "set.blocks_placed",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.bld.place_50000",
+   "tab": "building",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 50000,
+   "tracker": {
+    "kind": "placement",
+    "key": "",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.bld.place_200000",
+   "tab": "building",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 200000,
+   "tracker": {
+    "kind": "placement",
+    "key": "",
+    "entries": [],
+    "divisor": 1,
+    "seedCondition": null
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.alc.shock_potion",
+   "tab": "alchemy",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.alc.types_12",
+   "tab": "alchemy",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 12,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "potion_types_brewed",
+    "entries": []
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.alc.splash_lingering",
+   "tab": "alchemy",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 6,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.alc.ingredients_all",
+   "tab": "alchemy",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 450,
+   "target": 10,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "brewing_ingredients_acquired",
+    "entries": [
+     "minecraft:nether_wart",
+     "minecraft:blaze_powder",
+     "minecraft:redstone",
+     "minecraft:glowstone_dust",
+     "minecraft:ghast_tear",
+     "minecraft:magma_cream",
+     "minecraft:spider_eye",
+     "minecraft:pufferfish",
+     "minecraft:golden_carrot",
+     "minecraft:rabbit_foot"
+    ]
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.alc.effects_16",
+   "tab": "alchemy",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 16,
+   "tracker": {
+    "kind": "knowledge_seen",
+    "key": "effect_types_experienced",
+    "entries": []
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.alc.enhanced_3",
+   "tab": "alchemy",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 3,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.alc.shock_10",
+   "tab": "alchemy",
+   "tier": "MID_LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 700,
+   "target": 10,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.alc.potions_250",
+   "tab": "alchemy",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 250,
+   "tracker": {
+    "kind": "counter",
+    "key": "potions_brewed",
+    "seedCondition": "potions_brewed"
+   },
+   "registered": true
+  },
+  {
+   "id": "xpq.eqp.enhance_5",
+   "tab": "equipment",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.custom_enchant",
+   "tab": "equipment",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.enhance_10",
+   "tab": "equipment",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 10,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.enhance_trio",
+   "tab": "equipment",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 850,
+   "target": 3,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.enhance_15",
+   "tab": "equipment",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 15,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.custom_enchant_5",
+   "tab": "equipment",
+   "tier": "LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 1100,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.enhance_20",
+   "tab": "equipment",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1250,
+   "target": 20,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.first_t2_core",
+   "tab": "equipment",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1250,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.t2_cores_3",
+   "tab": "equipment",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1250,
+   "target": 3,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.enhance_20_armor",
+   "tab": "equipment",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3750,
+   "target": 4,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.custom_enchant_all",
+   "tab": "equipment",
+   "tier": "ENDGAME",
+   "status": "VERIFY",
+   "rewardRawXp": 3150,
+   "target": 11,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.all_t2_cores",
+   "tab": "equipment",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3750,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.knowledge_10",
+   "tab": "growth",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 10,
+   "tracker": {
+    "kind": "knowledge_count"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.first_research",
+   "tab": "growth",
+   "tier": "EARLY",
+   "status": "NOW",
+   "rewardRawXp": 250,
+   "target": 1,
+   "tracker": {
+    "kind": "research_nodes",
+    "key": "non_root"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.seven_roots",
+   "tab": "growth",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 7,
+   "tracker": {
+    "kind": "research_roots"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.knowledge_20",
+   "tab": "growth",
+   "tier": "EARLY_MID",
+   "status": "NOW",
+   "rewardRawXp": 350,
+   "target": 20,
+   "tracker": {
+    "kind": "knowledge_count"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.research_10",
+   "tab": "growth",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 10,
+   "tracker": {
+    "kind": "research_nodes",
+    "key": "all"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.knowledge_35",
+   "tab": "growth",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 35,
+   "tracker": {
+    "kind": "knowledge_count"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.first_t2",
+   "tab": "growth",
+   "tier": "MID",
+   "status": "NOW",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "research_tier",
+    "key": "T2"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.discipline_breadth",
+   "tab": "growth",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 850,
+   "target": 7,
+   "tracker": {
+    "kind": "research_breadth"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.spent_10k",
+   "tab": "growth",
+   "tier": "MID_LATE",
+   "status": "NOW",
+   "rewardRawXp": 750,
+   "target": 10000,
+   "tracker": {
+    "kind": "research_value"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.knowledge_50",
+   "tab": "growth",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 50,
+   "tracker": {
+    "kind": "knowledge_count"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.research_25",
+   "tab": "growth",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1100,
+   "target": 25,
+   "tracker": {
+    "kind": "research_nodes",
+    "key": "all"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.first_t3",
+   "tab": "growth",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1250,
+   "target": 1,
+   "tracker": {
+    "kind": "research_tier",
+    "key": "T3"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.spent_50k",
+   "tab": "growth",
+   "tier": "LATE",
+   "status": "NOW",
+   "rewardRawXp": 1250,
+   "target": 50000,
+   "tracker": {
+    "kind": "research_value"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.knowledge_complete",
+   "tab": "growth",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3750,
+   "target": 69,
+   "tracker": {
+    "kind": "knowledge_count",
+    "key": "resolved"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.research_50",
+   "tab": "growth",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3450,
+   "target": 50,
+   "tracker": {
+    "kind": "research_nodes",
+    "key": "all"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.t3_5",
+   "tab": "growth",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3150,
+   "target": 5,
+   "tracker": {
+    "kind": "research_tier",
+    "key": "T3"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.discipline_complete",
+   "tab": "growth",
+   "tier": "ENDGAME",
+   "status": "NOW",
+   "rewardRawXp": 3750,
+   "target": 1,
+   "tracker": {
+    "kind": "research_discipline_complete"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.climbing_100",
+   "tab": "growth",
+   "tier": "MID",
+   "status": "VERIFY",
+   "rewardRawXp": 450,
+   "target": 100,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.wall_jump_50",
+   "tab": "growth",
+   "tier": "MID_LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 700,
+   "target": 50,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.fall_roll_20",
+   "tab": "growth",
+   "tier": "MID_LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 700,
+   "target": 20,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.grw.throwable_pickaxe",
+   "tab": "growth",
+   "tier": "MID_LATE",
+   "status": "VERIFY",
+   "rewardRawXp": 700,
+   "target": 100,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.first_t2_weapon",
+   "tab": "equipment",
+   "tier": "LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 1350,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.t2_arsenal",
+   "tab": "equipment",
+   "tier": "ENDGAME",
+   "status": "FUTURE",
+   "rewardRawXp": 4050,
+   "target": 7,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.t2_plus20",
+   "tab": "equipment",
+   "tier": "ENDGAME",
+   "status": "FUTURE",
+   "rewardRawXp": 3750,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cmb.elemental_100",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 1100,
+   "target": 100,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cmb.elemental_skills",
+   "tab": "combat",
+   "tier": "LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 1250,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.accessory_first",
+   "tab": "equipment",
+   "tier": "MID",
+   "status": "FUTURE",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.accessory_full",
+   "tab": "equipment",
+   "tier": "LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 1250,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.accessory_all",
+   "tab": "equipment",
+   "tier": "ENDGAME",
+   "status": "FUTURE",
+   "rewardRawXp": 3750,
+   "target": 12,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.first_capture",
+   "tab": "farming",
+   "tier": "MID",
+   "status": "FUTURE",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.capture_10",
+   "tab": "farming",
+   "tier": "LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 1100,
+   "target": 10,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.frm.auto_farm",
+   "tab": "farming",
+   "tier": "MID",
+   "status": "FUTURE",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.fsh.fish_trap",
+   "tab": "fishing",
+   "tier": "MID",
+   "status": "FUTURE",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.min.drill_1000",
+   "tab": "mining",
+   "tier": "LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 1100,
+   "target": 1000,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.backpack_large",
+   "tab": "crafting",
+   "tier": "MID",
+   "status": "FUTURE",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cft.portable_furnace",
+   "tab": "crafting",
+   "tier": "MID",
+   "status": "FUTURE",
+   "rewardRawXp": 500,
+   "target": 64,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.alc.injector",
+   "tab": "alchemy",
+   "tier": "MID_LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 750,
+   "target": 10,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cmb.gauntlet_50",
+   "tab": "combat",
+   "tier": "MID_LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 750,
+   "target": 50,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.cmb.tactical_ammo",
+   "tab": "combat",
+   "tier": "MID",
+   "status": "FUTURE",
+   "rewardRawXp": 500,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.t3_special",
+   "tab": "equipment",
+   "tier": "LATE",
+   "status": "FUTURE",
+   "rewardRawXp": 1350,
+   "target": 1,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  },
+  {
+   "id": "xpq.eqp.t3_set",
+   "tab": "equipment",
+   "tier": "ENDGAME",
+   "status": "FUTURE",
+   "rewardRawXp": 4050,
+   "target": 5,
+   "tracker": {
+    "kind": "pending"
+   },
+   "registered": false
+  }
+ ]
+}

@@ -1,0 +1,15 @@
+# Gitleaks allowlist: exact historical findings only, matched by fingerprint (commit:file:rule:line).
+# No rule, file, directory, or pattern is ignored. A change to either line, or any new finding, is still reported.
+#
+# Both commits exist only on other branches (PR #141 and PRs #132-#138); neither is in main.
+# The history scan covers every PR head, so editing a file cannot clear a finding that lives in a commit.
+# Reviewed 2026-10-22 without sending any value to an external service. Matched values are deliberately not recorded here.
+
+# Synthetic test fixture. The variable is named FAKE_KEY in a mocked unit-test module ("No network and no key needed").
+# It imitates only the key prefix, so tests can prove the value is never echoed. At 28 characters with mixed case it does not
+# fit a real key of that provider (73 characters, lowercase hex). It occurs in exactly one commit and one file.
+aa376713aedcd7fecd769af39e18f8532b9e147d:scripts/free_model_delegation/test_delegation.py:generic-api-key:32
+
+# False positive in design-document prose. The rule matched the word "accessible", a prose gap, and a 19-character phrase made of
+# three English-like words joined by a slash (entropy 3.5), on a line of links to public Fabric sources. It is not a credential.
+a1e0aeb0ab8ba90419b714a42502cbe8db9d770c:docs/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15

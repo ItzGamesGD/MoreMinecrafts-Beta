@@ -104,6 +104,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   fi
 
   python3 scripts/visual_validation/rcon.py \
+    "execute as $username run mmresearch test purchase" \
     "execute as $username run mmresearch test crafting" \
     "xp add $username 1200 points" \
     "give $username minecraft:chest 8" \
@@ -258,7 +259,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     exit 1
   fi
   gui_scale="$(sed -n 's/^guiScale://p' run/options.txt | tail -n 1)"
-  required_frames=(progression-selection knowledge-sector-selection knowledge-branch-menu knowledge-screen research-sector-selection research-screen research-branch-menu knowledge-node-tooltip research-node-tooltip research-zoomed research-purchasable-entry research-purchase-state research-unavailable-tooltip auto-farm-screen)
+  required_frames=(progression-selection selector-xp-hover selector-xp-focus selector-xp-quest-opened-by-keyboard selector-normal-final xp-quest-tree-compact xp-quest-tree-zoomed-out xp-quest-tooltip-cave xp-quest-bestiary-tooltip xp-quest-bestiary-scrolled xp-quest-habitats-tooltip xp-quest-keyboard-focus-tooltip xp-quest-tooltip-edge-left xp-quest-tooltip-edge-right xp-quest-tooltip-edge-top xp-quest-tooltip-edge-bottom xp-quest-selected-tooltip structure-preview-initial structure-preview-overview structure-preview-index-card-click structure-preview-medium-zoom-exploration structure-preview-mid-zoom structure-preview-dense-exploration structure-preview-dense-mining structure-preview-sparse-ecology structure-preview-zoomed-in structure-preview-pan-farming structure-preview-pan-bosses structure-preview-tooltip-long-label structure-preview-tooltip-groups structure-preview-tooltip-scroll-list structure-preview-tooltip-scrolled structure-preview-keyboard-navigation structure-preview-mouse-prepare-far-node structure-preview-mouse-click-far-node structure-preview-regression-tooltip-open structure-preview-regression-stale-tooltip structure-preview-regression-stale-click structure-preview-regression-keyboard-tooltip structure-preview-regression-obstruction-prepare structure-preview-regression-obstructed-dismiss structure-preview-regression-obstructed-click structure-preview-regression-keyboard-resized structure-preview-zoom-roundtrip structure-preview-selected-exploration-left structure-preview-selected-exploration-right structure-preview-selected-exploration-top structure-preview-selected-exploration-bottom structure-preview-selected-ecology-left structure-preview-selected-ecology-right structure-preview-selected-ecology-top structure-preview-selected-ecology-bottom structure-preview-tooltip-edge-left structure-preview-tooltip-edge-right structure-preview-tooltip-edge-top structure-preview-tooltip-edge-bottom knowledge-sector-selection knowledge-branch-menu knowledge-screen research-sector-selection research-screen research-branch-menu knowledge-node-tooltip research-node-tooltip research-zoomed research-purchasable-entry research-purchase-state research-unavailable-tooltip auto-farm-screen)
   for frame in "${required_frames[@]}"; do
     screenshot="run/screenshots/${frame}.png"
     if [ ! -s "$screenshot" ]; then echo "Missing native Minecraft frame: $screenshot"; exit 1; fi

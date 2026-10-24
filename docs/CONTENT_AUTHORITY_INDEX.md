@@ -1,5 +1,5 @@
 
-> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents.
+> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents. **The XP 퀘스트 card's disabled/later status is itself superseded by the XP Quest amendment — 2026-10-17 (see the XP Quest section below).**
 
 # Current content authority and deferred design debt
 
@@ -23,6 +23,53 @@ Five accessory slots integrated left of the vanilla armor slots, no side panel o
 
 - [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 navigation follow-up and 2026-10-12 interaction correction: retain the four-card selector, route Research and Knowledge through the shared seven-sector picker, and use each existing branch list for top-left direct tree navigation. The 2026-10-12 correction supersedes only node-screen footer controls, the separate detail panel, and confirmation purchase flow; it requires exact vanilla-frame hit bounds, one-click server-authoritative Research purchase, Knowledge non-purchase, and localized item-rich tooltips. Preserve vanilla advancement visuals, source discipline/branch IDs, progression data, prerequisites, costs, and gameplay rules.
 - [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): amended with the approved selector, chest sort, hopper filter, Mob Tracker range controls, boat inventory interpretation, and separate potion systems. Historical conflicts remain labeled as superseded/deferred rather than silently erased.
+
+## XP Quest and Enhancement XP-cost authority (2026-10-17)
+
+Approved XP Quest decisions are recorded in the **XP Quest amendment — 2026-10-17** section at the end of [UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md):
+- vanilla Advancements-screen reuse with click-to-claim;
+- three node states and a completion toast;
+- server-authoritative claim-once rewards;
+- unclaimed quests as an XP store;
+- exact raw-XP grants and deductions;
+- reward scope: 180,000 raw XP exactly across the 180 active quests, plus 29,100 for 20 future quests (209,100 target), with no reduction of existing rewards when content is added;
+- VERIFY quests stay unregistered until they pass verification;
+- each of the 160 NOW quests registers only after its own automated test passes;
+- the claim rolls back if the XP grant fails;
+- the six owner-locked tracking policies apply. The ore policy counts only verified-natural ores; unknown origin does not count.
+
+Individual quest content and values remain subject to approval. The Enhancement raw-XP cost table and transaction rule are recorded in the Enhancement section of [STAGE_2_GAMEPLAY_RECONCILIATION.md](STAGE_2_GAMEPLAY_RECONCILIATION.md). These are design authority only; implementation has not started.
+
+## Stage 22 research completion authority (2026-10-15)
+
+The user approved delegation of the remaining seven-discipline research-tree, new paid roots, motorized boat, cross-dimensional transport and automation edge-case design. The current controlling completion addendum is [RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md](RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md). It supersedes older incompatible research-root/topology, counter-shield recipe and potion-combination restrictions while retaining the approved V3/V4 price ledgers and already locked research effects. Tactical Shooting ammunition/effects/recipes remain DEFERRED to another conversation. This is design authority, not implementation or merge approval.
+
+
+### XP Quest UI architecture (2026-10-24)
+
+The owner-approved [2026-10-24 amendment](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md) supersedes only the 2026-10-17 vanilla-screen architecture: XP Quest retains `ProgressionBrowseScreen` and `ProgressionTreeCanvas`. All other October 17 Quest gameplay and transaction rules remain authoritative. The four-card selector, vanilla Advancements access, and seven-discipline Knowledge/Research behavior remain unchanged. The 200-slot presentation does not expand the current 75 registrations. See [the client validation matrix](validation/WAVE4B_CUSTOM_XP_QUEST_CLIENT_MATRIX_2026-10-24.md).
+
+## Stage 23-A Batch 1 execution record (2026-10-15)
+
+The scoped implementation manifest is [RESEARCH_STAGE23A_BATCH1_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_BATCH1_MANIFEST_2026-10-15.md). It selects eight existing M1 research events and records their approved behavior, hooks, dependencies, and focused verification. It does not replace the research effect authority above. The 87-node audit is maintained in [RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md](RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md); its verified pre-batch baseline was 74 DATA_ONLY, 11 PARTIAL, and 2 BLOCKED. With eight Batch 1 handlers and focused tests added but integration evidence pending, the current counts are 66 DATA_ONLY, 19 PARTIAL, and 2 BLOCKED.
+
+## Stage 23-A Batch 2 execution record (2026-10-15)
+
+The Batch 2 manifest is [RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md). It continues from PR #90, selects three DATA_ONLY M1 V3 effects (`v3.research.17`, `.28`, `.64`), and adds focused movement validation for the existing `wall_jump` and `fall_roll` handlers. Its 87-row recount is 63 DATA_ONLY, 22 PARTIAL, and 2 BLOCKED. Fisheries Study was excluded at that point because integer residual allocation had not been specified; the user approved largest-remainder allocation with lower-grade-index tie-breaking in the later Stage 23-A integration authority amendment below.
+
+## Stage 23-A integration of unique Batch 1 effects (2026-10-15)
+
+The scoped integration manifest is [RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md). It starts from PR #91 and imports only unique PR #92 behavior for `v3.research.19`, `.55`, and `.67`, retaining PR #90 ownership of `.02`, `.03`, `.18`, and `.23` and PR #91 ownership of `.17`, `.28`, `.64`, `wall_jump`, and `fall_roll`. The current Fisheries Study rounding authority is recorded at the end of `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`. The regenerated canonical 87-row audit currently counts 60 DATA_ONLY, 25 PARTIAL, and 2 BLOCKED; it separates automated evidence from live gameplay verification. Java 25 Fabric CI #754, mapped-source probe #179, and K5 restart #87 passed on code commit `227749d`; live gameplay checks remain pending.
+
+## Stage 23-A Expanded Batch 2 execution record (2026-10-17)
+
+[Expanded Batch 2 manifest](RESEARCH_STAGE23A_EXPANDED_BATCH2_MANIFEST_2026-10-17.md) records all 53 remaining DATA_ONLY candidate evaluations at PR #105, five added runtime effects (`.38/.39/.40/.51/.62`), and persistent portable `.06/.07/.11` integration. The canonical audit recount is 48 DATA_ONLY, 37 PARTIAL, 2 BLOCKED, zero COMPLETE/MISSING. This is an implementation record; it introduces no design authority or live acceptance.
+
+## Stage 23-A remaining implementation campaign record (2026-10-17)
+
+The [remaining candidate survey and campaign manifest](RESEARCH_STAGE23A_REMAINING_CAMPAIGN_MANIFEST_2026-10-17.md) starts from PR #108 and evaluates all 48 then-DATA_ONLY nodes. Group 1 adds `.33` consecutive sword sweeps and `.61` splash/lingering potion behavior. Group 2 adds ordinary-Horse `.50` Riding support and repairs the existing `mob_capture` purchase gate. The canonical 87-node audit now records 45 DATA_ONLY, 40 PARTIAL and 2 BLOCKED; no node is COMPLETE without live acceptance. This is an implementation record and does not amend effect design authority.
+
+The Claude economy/soil implementation adds `.53` Villager Trading and `.16` Soil Study (group 4 of the same manifest); the canonical audit now records 43 DATA_ONLY, 42 PARTIAL and 2 BLOCKED. Still an implementation record only; the approved values come from the separate user-decision document and live acceptance is pending.
 
 ## Current research/knowledge authority (latest human-approved V4)
 
@@ -96,6 +143,8 @@ The progression-loop checkpoint is authoritative for the vanilla-first early gam
 Current Utility Equipment authority: [Utility Equipment Finalization](UTILITY_EQUIPMENT_FINALIZATION.md).
 
 Use that document for the active Utility roster, deleted/deferred concepts, helmet socket, Miner Lantern, Potion Injector, Exploration Sleeping Bag, Portable Furnace, Mining Drill, and Backpack contracts.
+
+The **Stage 23-B Portable Furnace persistence amendment (2026-10-16)** in that document supersedes the earlier close-and-drop rule: the three inventory slots and burn/cook progress follow the single-stack Portable Furnace item across close/reopen and item transfer. This does not authorize portable furnace research bonuses.
 
 ### Fishing
 

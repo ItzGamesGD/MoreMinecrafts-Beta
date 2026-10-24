@@ -18,7 +18,10 @@ repositories {
     mavenCentral()
     maven {
         url = "https://maven.gegy.dev/releases/"
-        content { includeGroup("dev.lambdaurora.lambdynamiclights") }
+        content {
+            includeGroup("dev.lambdaurora.lambdynamiclights")
+            includeGroup("dev.yumi.commons")
+        }
     }
 }
 

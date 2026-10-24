@@ -96,7 +96,7 @@ public final class T1AnvilScreen extends AnvilScreen {
                         && EnhancementOperation.isEnhancementMaterial(material)
                         && material.getCount() >= requirement.get().materialCost();
                 action.active = requirement.isPresent() && enoughMaterial
-                        && XpLevels.canPay(minecraft.player, requirement.get().experienceLevelCost());
+                        && RawXp.canPay(minecraft.player, requirement.get().rawXpCost());
                 if (requirement.isPresent()) {
                     var state = requirement.get();
                     action.setTooltip(Tooltip.create(Component.translatable("menu.moreminecrafts.enhancement_requirement",
@@ -163,7 +163,7 @@ public final class T1AnvilScreen extends AnvilScreen {
             int target = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::targetLevel).orElse(current)
                     : equipmentRequirement.map(EnhancementOperation.Result::targetLevel).orElse(current);
             int xp = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::rawExperienceCost).orElse(0)
-                    : equipmentRequirement.map(EnhancementOperation.Result::experienceLevelCost).orElse(0);
+                    : equipmentRequirement.map(EnhancementOperation.Result::rawXpCost).orElse(0);
             int stone = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::stoneCost).orElse(0)
                     : equipmentRequirement.map(EnhancementOperation.Result::materialCost).orElse(0);
             int catalyst = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::catalystCost).orElse(0) : 0;

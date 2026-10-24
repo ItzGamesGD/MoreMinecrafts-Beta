@@ -17,7 +17,11 @@ public final class ProgressionScreenData {
                               ResearchPurchaseRules.Result availability) {}
     public record QuestRow(String id, String category, String titleKey, String descriptionKey,
                            String objectiveKey, int progress, int target, int rewardRawXp,
-                           boolean complete, boolean claimed) {}
+                           boolean complete, boolean claimed, List<QuestGroup> groups) {}
+    public record QuestTarget(String entityId, String titleKey, boolean complete) {}
+    public record QuestGroup(String id, List<QuestTarget> targets, boolean complete) {
+        public QuestGroup { targets = List.copyOf(targets); }
+    }
 
     private ProgressionScreenData() {}
     public static List<KnowledgeRow> knowledge(ResearchProgressState state, String discipline) {
@@ -57,7 +61,41 @@ public final class ProgressionScreenData {
                 .map(quest -> new QuestRow(quest.id(), quest.category(), quest.titleKey(),
                         quest.descriptionKey(), quest.objectiveKey(), state.questProgress(quest.id()),
                         quest.objectiveTarget(), quest.rewardRawXp(), state.questComplete(quest.id()),
-                        state.questClaimed(quest.id())))
+                        state.questClaimed(quest.id()), questGroups(state, quest.id())))
                 .toList();
+    }
+
+    private static List<QuestGroup> questGroups(ResearchProgressState state, String questId) {
+        XpQuestCatalogData.Spec spec = XpQuestCatalogData.catalog().quests().stream()
+                .filter(entry -> entry.id().equals(questId)).findFirst().orElse(null);
+        if (spec == null) return List.of();
+        List<String> encodedGroups = switch (spec.tracker().kind()) {
+            case "stat_killed_each" -> List.of("species|" + String.join("|", spec.tracker().entries()));
+            case "stat_killed_monsters_distinct" -> net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.stream()
+                    .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
+                    .filter(type -> spec.tracker().key().isBlank() || net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE
+                            .getKey(type).getNamespace().equals(spec.tracker().key()))
+                    .map(type -> net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(type).toString())
+                    .sorted().collect(java.util.stream.Collectors.collectingAndThen(
+                            java.util.stream.Collectors.toList(), values -> List.of("species|" + String.join("|", values))));
+            case "stat_killed_groups_each" -> spec.tracker().entries();
+            default -> List.of();
+        };
+        List<QuestGroup> groups = new java.util.ArrayList<>();
+        for (String encoded : encodedGroups) {
+            String[] parts = encoded.split("\\|");
+            List<QuestTarget> targets = new java.util.ArrayList<>();
+            for (int index = 1; index < parts.length; index++) {
+                String entityId = parts[index];
+                String titleKey = "entity." + entityId.replace(':', '.');
+                targets.add(new QuestTarget(entityId, titleKey,
+                        state.get("quest.target." + questId + "." + entityId) > 0));
+            }
+            boolean any = targets.stream().anyMatch(QuestTarget::complete);
+            boolean all = !targets.isEmpty() && targets.stream().allMatch(QuestTarget::complete);
+            groups.add(new QuestGroup(parts[0], targets, "stat_killed_each".equals(spec.tracker().kind())
+                    || "stat_killed_monsters_distinct".equals(spec.tracker().kind()) ? all : any));
+        }
+        return List.copyOf(groups);
     }
 }

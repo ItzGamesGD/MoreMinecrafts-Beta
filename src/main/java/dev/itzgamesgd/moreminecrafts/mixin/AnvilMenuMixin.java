@@ -114,6 +114,23 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
                 && java.util.Objects.equals(result.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME),original.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME))){
             getSlot(2).set(ItemStack.EMPTY);cost.set(0);
         }
+        if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer && getSlot(2).hasItem()) {
+            int level = ResearchRewards.level(serverPlayer,
+                    "v3.research.10", "equipment_maintenance");
+            if (level > 0) {
+                ItemStack repaired = getSlot(2).getItem();
+                if (repairItemCountCost > 0 && original.isDamaged()
+                        && repaired.is(original.getItem())
+                        && repaired.getDamageValue() < original.getDamageValue()) {
+                    int extra = ResearchContentRules.additionalRepairDurability(
+                            original.getMaxDamage(), repairItemCountCost, level);
+                    repaired.setDamageValue(Math.max(0, repaired.getDamageValue() - extra));
+                }
+                int oldCost = cost.get();
+                int newCost = ResearchContentRules.discountAnvilLevels(oldCost, level);
+                if (newCost != oldCost) cost.set(newCost);
+            }
+        }
         broadcastChanges();
     }
     @Inject(method="mayPickup",at=@At("HEAD"),cancellable=true)

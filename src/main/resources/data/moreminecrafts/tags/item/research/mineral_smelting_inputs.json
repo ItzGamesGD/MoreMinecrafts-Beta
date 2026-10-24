@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:iron_ores", "#minecraft:copper_ores", "#minecraft:gold_ores",
+    "#minecraft:coal_ores", "#minecraft:diamond_ores", "#minecraft:emerald_ores",
+    "#minecraft:lapis_ores", "#minecraft:redstone_ores",
+    "minecraft:raw_iron", "minecraft:raw_copper", "minecraft:raw_gold",
+    "minecraft:ancient_debris", "minecraft:nether_gold_ore", "minecraft:nether_quartz_ore",
+    "moreminecrafts:raw_titanium", "moreminecrafts:raw_tungsten",
+    "moreminecrafts:adamantium_debris", "moreminecrafts:titanium_ore",
+    "moreminecrafts:deepslate_titanium_ore", "moreminecrafts:tungsten_ore",
+    "moreminecrafts:deepslate_tungsten_ore"
+  ]
+}
