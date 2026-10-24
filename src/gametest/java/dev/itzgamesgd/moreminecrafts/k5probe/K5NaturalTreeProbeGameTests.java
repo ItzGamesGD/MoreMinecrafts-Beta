@@ -3,6 +3,10 @@ package dev.itzgamesgd.moreminecrafts.k5probe;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance.ChunkData;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
+import dev.itzgamesgd.moreminecrafts.progression.ResearchProgressLookup;
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState;
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchStateAccess;
+import dev.itzgamesgd.moreminecrafts.progression.ResearchXpAcquisition;
 import dev.itzgamesgd.moreminecrafts.k5probe.K5CooperatingMixinProbe;
 import java.lang.reflect.Method;
 import java.io.ByteArrayOutputStream;
@@ -303,7 +307,29 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
 
-    @GameTest(maxTicks = 180)
+    /**
+     * Harness regression: the unload the persistence test waits for must stay observable even when an
+     * unrelated chunk that also has K5 markers unloads in the same window (the observation used to be a single
+     * last-writer-wins slot, so a second unload hid the first and the wait ran into its tick limit).
+     */
+    @GameTest
+    public void k5UnloadObservationSurvivesUnrelatedMarkedChunkUnloads(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        LevelChunk awaited = level.getChunkAt(ctx.absolutePos(new BlockPos(1, 2, 1)));
+        LevelChunk unrelated = level.getChunkAt(ctx.absolutePos(new BlockPos(1 + 48, 2, 1)));
+        ctx.assertTrue(awaited != unrelated, "two different chunk instances");
+        K5NaturalTreeProbe.recordMarkedChunkUnload(level, awaited);
+        K5NaturalTreeProbe.recordMarkedChunkUnload(level, unrelated);
+        ctx.assertTrue(K5NaturalTreeProbe.observedMarkedChunkUnload(level, awaited.getPos(), awaited),
+                "the awaited unload is still observable after an unrelated marked chunk unloaded");
+        ctx.assertTrue(K5NaturalTreeProbe.observedMarkedChunkUnload(level, unrelated.getPos(), unrelated),
+                "the unrelated unload is observable too");
+        ctx.assertTrue(!K5NaturalTreeProbe.observedMarkedChunkUnload(level, awaited.getPos(), unrelated),
+                "an observation never matches a different chunk instance");
+        ctx.succeed();
+    }
+
+    @GameTest(maxTicks = 1250)
     public void k5NaturalChunkProvenanceSurvivesRealSaveUnloadReloadAndInvalidation(GameTestHelper ctx) {
         String restartPhase = System.getProperty("moreminecrafts.k5.restart.phase");
         if ("write".equals(restartPhase)) {
@@ -323,6 +349,11 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 java.util.UUID.fromString("45d315ee-09d7-40d9-81c9-6c04438da132");
         private static final java.nio.file.Path MANIFEST = java.nio.file.Path.of("k5-restart-fixture.txt");
         private static final ChunkPos CHUNK = new ChunkPos(64, 64);
+        private static final BlockPos FURNACE_POS = new BlockPos((CHUNK.x() << 4) + 14, 100,
+                (CHUNK.z() << 4) + 14);
+        private static final FurnaceResearchState FURNACE_STATE = new FurnaceResearchState(
+                java.util.Optional.of(java.util.UUID.fromString("829092e5-bc66-4b78-bafb-0e328995f9ef")),
+                0.1875D, 0.8125D);
         private final GameTestHelper ctx;
         private final ServerLevel level;
 
@@ -354,6 +385,10 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(level.getSeed() == 0L, "restart fixture uses the pinned seed 0");
                 level.getChunkSource().addTicketWithRadius(TicketType.FORCED, CHUNK, 0);
                 LevelChunk chunk = level.getChunk(CHUNK.x(), CHUNK.z());
+                level.setBlock(FURNACE_POS, Blocks.FURNACE.defaultBlockState(), 3);
+                var furnace = (net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity)
+                        level.getBlockEntity(FURNACE_POS);
+                ((FurnaceResearchStateAccess) furnace).moreminecrafts$setResearchState(FURNACE_STATE);
                 ChunkPersistenceRun fixture = new ChunkPersistenceRun(ctx);
                 fixture.generateDeterministicNaturalTree(chunk);
                 var marked = fixture.originalMarkers.stream().sorted().map(BlockPos::of).toList();
@@ -379,7 +414,11 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                                 + surviving.asLong());
                 player.setAttached(KnowledgeRuntime.STATE,
                         KnowledgeRuntime.state(player).with("condition.tool_types_crafted", 3)
-                                .with("knowledge.14", 1));
+                                .with("knowledge.14", 1)
+                                .with("research.v3.research.64", 3)
+                        .with("research.v3.research.06", 2)
+                                .with("research.xp_fraction.v3.research.64", 63));
+                dev.itzgamesgd.moreminecrafts.furnace.PortableFurnaceRestartFixture.write(ctx, player);
                 player.setGameMode(GameType.CREATIVE);
                 player.awardStat(net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE), 12);
                 CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
@@ -396,13 +435,16 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                         ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 3
                                         && KnowledgeRuntime.knows(player, 14),
                                 "periodic refresh preserves existing K14 progress and unlock after Creative crafting");
+                        ctx.assertTrue(KnowledgeRuntime.state(player)
+                                        .get("research.xp_fraction.v3.research.64") == 63,
+                                "the per-player XP Acquisition fractional remainder is present before disk save");
                         level.getServer().getPlayerList().saveAll();
                         level.getChunkSource().save(true);
                         System.out.println("K5_RESTART_WRITE worldSeed=0 chunk=[64,64] player=" + PLAYER_ID
                                 + " k5Progress=38 k14Progress=3 k14Unlocked=true creativeCraftStats="
                                 + player.getStats().getValue(
                                         net.minecraft.stats.Stats.ITEM_CRAFTED.get(Items.WOODEN_PICKAXE))
-                                + " surviving=" + surviving);
+                                + " xpAcquisitionFraction=63 surviving=" + surviving);
                         ctx.succeed();
                     } catch (RuntimeException exception) {
                         throw exception;
@@ -424,6 +466,9 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 BlockPos surviving = BlockPos.of(Long.parseLong(parts[3]));
                 LevelChunk chunk = level.getChunk(CHUNK.x(), CHUNK.z());
                 ctx.assertTrue(chunk.getPos().equals(CHUNK), "Minecraft loaded the correct persisted chunk");
+                ctx.assertTrue(((FurnaceResearchStateAccess) level.getBlockEntity(FURNACE_POS))
+                                .moreminecrafts$getResearchState().equals(FURNACE_STATE),
+                        "fresh process restored furnace attribution and fractional state from chunk save");
                 ctx.assertTrue(K5NaturalTreeProvenance.hasMarker(level, surviving)
                                 && level.getBlockState(surviving).is(net.minecraft.tags.BlockTags.LOGS),
                         "fresh process restored a marker at its real surviving log position");
@@ -433,6 +478,10 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                         "consumed natural markers did not reappear after process restart");
                 ctx.assertTrue(level.getBlockState(replaced).is(Blocks.OAK_LOG),
                         "replacement log exists after reload without inherited provenance");
+                ctx.assertTrue(ResearchProgressLookup.researchLevel(level.getServer(), PLAYER_ID,
+                                "v3.research.06") == 2,
+                        "server-thread offline lookup reads the purchased research level directly from player data");
+                dev.itzgamesgd.moreminecrafts.furnace.PortableFurnaceRestartFixture.readOffline(ctx, PLAYER_ID);
                 var player = player(true);
                 ctx.assertTrue(KnowledgeRuntime.state(player).get("condition.natural_vanilla_logs_mined") == 38,
                         "Minecraft player data restored K5 progress into a fresh player instance");
@@ -443,8 +492,16 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("tool_types_crafted") == 3
                                 && KnowledgeRuntime.knows(player, 14),
                         "fresh-process JOIN refresh preserves K14 progress and unlock without importing stats");
+                ctx.assertTrue(KnowledgeRuntime.state(player)
+                                .get("research.xp_fraction.v3.research.64") == 63,
+                        "fresh process reloads the per-player XP Acquisition fractional remainder");
+                ctx.assertTrue(ResearchXpAcquisition.adjustedAmount(player, 5) == 6
+                                && KnowledgeRuntime.state(player)
+                                        .get("research.xp_fraction.v3.research.64") == 8,
+                        "the reloaded remainder contributes to the next receiver's XP Acquisition award");
                 System.out.println("K5_RESTART_READ chunk=[64,64] player=" + PLAYER_ID
-                        + " k5Progress=38 k14Progress=3 k14Unlocked=true surviving=" + surviving);
+                        + " k5Progress=38 k14Progress=3 k14Unlocked=true xpAcquisitionFraction=63"
+                        + " nextXpAward=6 nextFraction=8 surviving=" + surviving);
                 ctx.succeed();
             } catch (java.io.IOException exception) {
                 throw new IllegalStateException("could not read restart fixture manifest", exception);
@@ -498,6 +555,10 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         private LevelChunk secondInstance;
         private Set<Long> originalMarkers = Set.of();
         private BlockPos replacedPos;
+        private final BlockPos furnacePos = new BlockPos((chunkX << 4) + 15, 20, (chunkZ << 4) + 15);
+        private final FurnaceResearchState furnaceState = new FurnaceResearchState(
+                java.util.Optional.of(java.util.UUID.fromString("f66dbb41-2601-4c71-a5df-001c07f4b213")),
+                0.375D, 0.625D);
         private int phaseTicks;
         private int phase;
 
@@ -539,11 +600,15 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(false, "fixture generated multiple real eligible trunk logs for lifecycle checks");
                 return;
             }
+            level.setBlock(furnacePos, Blocks.FURNACE.defaultBlockState(), 3);
+            var furnace = (net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity)
+                    level.getBlockEntity(furnacePos);
+            ((FurnaceResearchStateAccess) furnace).moreminecrafts$setResearchState(furnaceState);
             long savesBefore = K5NaturalTreeProbe.savedChunksWithMarkers();
             level.getChunkSource().save(true);
             ctx.assertTrue(K5NaturalTreeProbe.savedChunksWithMarkers() > savesBefore,
                     "ServerChunkCache.save(true) reached ChunkMap.save for a marked chunk");
-            K5NaturalTreeProbe.clearLastMarkedChunkUnload();
+            K5NaturalTreeProbe.clearMarkedChunkUnloads(level, targetPos);
             level.getChunkSource().removeTicketWithRadius(TicketType.FORCED, targetPos, 0);
             phaseTicks = 0;
             ctx.runAfterDelay(1, this::pollFirstUnload);
@@ -633,6 +698,9 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ChunkData restored = K5NaturalTreeProbe.data(secondInstance);
                 ctx.assertTrue(restored != null && restored.positions().equals(originalMarkers),
                         "disk save and Minecraft load restored the exact marker set");
+                var restoredFurnace = (FurnaceResearchStateAccess) level.getBlockEntity(furnacePos);
+                ctx.assertTrue(restoredFurnace.moreminecrafts$getResearchState().equals(furnaceState),
+                        "real chunk unload and reload restored furnace attribution and both fractional remainders");
                 for (long packed : originalMarkers) {
                     BlockPos pos = BlockPos.of(packed);
                     ctx.assertTrue(level.getBlockState(pos).is(net.minecraft.tags.BlockTags.LOGS),
@@ -658,7 +726,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 level.getChunkSource().save(true);
                 ctx.assertTrue(K5NaturalTreeProbe.savedChunksWithMarkers() > savesBefore,
                         "mutated marker set was written through the real ChunkMap save path");
-                K5NaturalTreeProbe.clearLastMarkedChunkUnload();
+                K5NaturalTreeProbe.clearMarkedChunkUnloads(level, targetPos);
                 level.getChunkSource().removeTicketWithRadius(TicketType.FORCED, targetPos, 0);
                 phaseTicks = 0;
                 ctx.runAfterDelay(1, this::pollSecondUnload);
@@ -674,6 +742,9 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                         "replacement log remains after persistence reload");
                 ctx.assertTrue(!restored.positions().contains(replacedPos.asLong()),
                         "replacement log cannot recover the consumed marker after reload");
+                ctx.assertTrue(((FurnaceResearchStateAccess) level.getBlockEntity(furnacePos))
+                                .moreminecrafts$getResearchState().equals(furnaceState),
+                        "a second chunk unload and reload retains furnace persistent state");
                 level.getChunkSource().removeTicketWithRadius(TicketType.FORCED, targetPos, 0);
                 ctx.succeed();
             }
@@ -955,11 +1026,13 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         var noise = registries.lookupOrThrow(Registries.NOISE_SETTINGS)
                 .get(Identifier.fromNamespaceAndPath("minecraft", "overworld")).orElseThrow();
         var generator = new NoiseBasedChunkGenerator(new FixedBiomeSource(biome), noise);
-        int baseX = 128 << 4;
-        int baseZ = 128 << 4;
+        // Do not share chunk [128,128] with the positive fallen-tree provenance GameTest.
+        // Its real natural markers can persist into this negative fixture between tests.
+        int baseX = 160 << 4;
+        int baseZ = 160 << 4;
         ChunkAccess chunk = level.getChunkAt(new BlockPos(baseX + 8, 4, baseZ + 8));
-        ctx.assertTrue(chunk.getPos().equals(new ChunkPos(128, 128)),
-                "isolated test chunk is fixed at [128,128]");
+        ctx.assertTrue(chunk.getPos().equals(new ChunkPos(160, 160)),
+                "isolated negative-provenance fixture uses distinct chunk [160,160]");
         chunk.fillBiomesFromNoise((quartX, quartY, quartZ) -> biome);
         for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
             level.setBlock(new BlockPos(baseX + x, 1, baseZ + z), Blocks.DIRT.defaultBlockState(), 3);
