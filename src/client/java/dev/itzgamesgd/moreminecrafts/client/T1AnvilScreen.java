@@ -123,7 +123,8 @@ public final class T1AnvilScreen extends AnvilScreen {
             // The result slot and arrow belong to the old material→output interaction. Keep only the two inputs.
             g.fill(leftPos + 99, topPos + 34, leftPos + 175, topPos + 71, 0xFFC6C6C6);
             // The vanilla rename field is inactive in Enhancement mode; use its space for the two cost lines.
-            g.fill(leftPos + 55, topPos + 19, leftPos + 173, topPos + 35, 0xFFC6C6C6);
+            // Cover through row 35 too: the 16-px field sprite (rows 20-35) otherwise leaves its bottom highlight.
+            g.fill(leftPos + 55, topPos + 19, leftPos + 173, topPos + 36, 0xFFC6C6C6);
             drawCatalystCell(g);
         }
     }
@@ -167,9 +168,11 @@ public final class T1AnvilScreen extends AnvilScreen {
                     : equipmentRequirement.map(EnhancementOperation.Result::materialCost).orElse(0);
             int catalyst = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::catalystCost).orElse(0) : 0;
             int maximum = accessory ? 10 : 20;
+            boolean hasRequirement = accessory ? accessoryRequirement.isPresent() : equipmentRequirement.isPresent();
             if (!equipment.isEmpty() && current >= maximum) {
                 g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, 0xFF303030, false);
-            } else {
+            } else if (hasRequirement) {
+                // Empty or non-enhanceable input shows no step; the Enhance button tooltip explains what to insert.
                 g.text(font, Component.literal("+" + current + " → +" + target), 62, 6, 0xFF303030, false);
                 if (accessory) {
                     // The three costs do not fit one line in the panel, so the catalyst count wraps to its own line.
