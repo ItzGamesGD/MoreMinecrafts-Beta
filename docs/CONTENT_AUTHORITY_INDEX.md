@@ -1,5 +1,5 @@
 
-> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents.
+> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; the original XP 퀘스트 disabled/later status was superseded by the 2026-10-17 Quest amendment. The 2026-10-24 custom Quest screen amendment is current for Quest architecture. Current authority is recorded below and in the amended UI document.
 
 # Current content authority and deferred design debt
 
@@ -11,6 +11,12 @@ It does not replace the detailed design documents. When an older document confli
 
 - [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 navigation follow-up and 2026-10-12 interaction correction: retain the four-card selector, route Research and Knowledge through the shared seven-sector picker, and use each existing branch list for top-left direct tree navigation. The 2026-10-12 correction supersedes only node-screen footer controls, the separate detail panel, and confirmation purchase flow; it requires exact vanilla-frame hit bounds, one-click server-authoritative Research purchase, Knowledge non-purchase, and localized item-rich tooltips. Preserve vanilla advancement visuals, source discipline/branch IDs, progression data, prerequisites, costs, and gameplay rules.
 - [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): amended with the approved selector, chest sort, hopper filter, Mob Tracker range controls, boat inventory interpretation, and separate potion systems. Historical conflicts remain labeled as superseded/deferred rather than silently erased.
+
+## XP Quest authority — 2026-10-24 owner UI decision
+
+The [approved advancement/Knowledge/Research UI document](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md) now includes the 2026-10-17 XP Quest gameplay and transaction amendment and the later **2026-10-24 XP Quest UI architecture amendment**. For Quest screen architecture, the custom `ProgressionBrowseScreen` and `ProgressionTreeCanvas` are approved; synthesized `ClientAdvancements` and direct vanilla `AdvancementsScreen` reuse are no longer required. The 2026-10-17 vanilla-screen instruction is historical. Its other Quest claim, XP, persistence, tracking, reward and registration rules still apply. The four-card selector, vanilla Advancements access, and Knowledge/Research rules are unchanged.
+
+The 200-slot Quest presentation does not authorize registration beyond the current 75. Client interaction and owner visual acceptance remain separate validation gates. See [Wave 4B client validation matrix](validation/WAVE4B_CUSTOM_XP_QUEST_CLIENT_MATRIX_2026-10-24.md).
 
 ## Current research/knowledge authority (latest human-approved V4)
 
