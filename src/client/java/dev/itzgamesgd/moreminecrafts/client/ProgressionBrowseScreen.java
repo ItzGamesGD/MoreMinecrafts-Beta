@@ -22,7 +22,9 @@ import net.minecraft.resources.Identifier;
 /** Separate Knowledge/Research screen backed by a deterministic node tree. */
 public final class ProgressionBrowseScreen extends Screen {
     public enum Mode { KNOWLEDGE, RESEARCH, QUEST }
-    private static final Identifier VANILLA_WINDOW = Identifier.withDefaultNamespace("textures/gui/advancements/window.png");
+    /** Minecraft 26.3 reports SDL button numbers: the primary (left) button is 1, not GLFW's 0. */
+    private static final MouseButtonInfo LEFT_BUTTON = new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0);
+    private static final Identifier VANILLA_WINDOW =Identifier.withDefaultNamespace("textures/gui/advancements/window.png");
     private final Mode mode;
     private final String discipline;
     private final ProgressionCanvasInput.Gesture gesture = new ProgressionCanvasInput.Gesture();
@@ -108,8 +110,8 @@ public final class ProgressionBrowseScreen extends Screen {
         var view = canvasView();
         double x = view.x() + 3, y = view.y() + 3;
         if (canvas.hitTest(x, y) != null) return false;
-        boolean handled = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
-        mouseReleased(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)));
+        boolean handled = mouseClicked(new MouseButtonEvent(x, y, LEFT_BUTTON), false);
+        mouseReleased(new MouseButtonEvent(x, y, LEFT_BUTTON));
         return handled;
     }
     public boolean validationIsPreview() { return preview != null; }
@@ -140,8 +142,8 @@ public final class ProgressionBrowseScreen extends Screen {
     public int[] validationChapterCardCentre(String chapter) { return canvas == null ? null : canvas.validationChapterCardCentre(chapter); }
     /** Simulates a mouse click at screen pixels through the real screen path (cards, nodes, empty canvas). */
     public boolean validationClickAt(double x, double y) {
-        boolean handled = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
-        mouseReleased(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)));
+        boolean handled = mouseClicked(new MouseButtonEvent(x, y, LEFT_BUTTON), false);
+        mouseReleased(new MouseButtonEvent(x, y, LEFT_BUTTON));
         return handled;
     }
     public int validationPreviewSubBranches() { return preview == null ? 0 : preview.subBranchCount(); }
@@ -195,7 +197,7 @@ public final class ProgressionBrowseScreen extends Screen {
         if (index < 0 || !branchMenuOpen) return false;
         int rowY = branchButtonY + 21 + index * 18 + 9;
         int menuX = branchButtonX + Math.max(branchButtonWidth, 112) / 2;
-        boolean handled = mouseClicked(new MouseButtonEvent(menuX, rowY, new MouseButtonInfo(0, 0)), false);
+        boolean handled = mouseClicked(new MouseButtonEvent(menuX, rowY, LEFT_BUTTON), false);
         return handled && branch.equals(currentBranch()) && canvas.selectedId().equals(canvas.branchFirst(branch));
     }
     public boolean validationOpenBranchMenu() { branchMenuOpen = true; return branchMenuOpen; }
@@ -216,6 +218,22 @@ public final class ProgressionBrowseScreen extends Screen {
     }
     public void validationClearHover() { if (canvas != null) canvas.validationHover(null); }
 
+    /**
+     * Selects and centres a node, then returns the GUI-space point a real pointer must press to hit it, or null when
+     * the node is absent or that point would not hit it. Used only to announce targets to the OS-input harness.
+     */
+    public double[] validationCentredNodePoint(String id) {
+        if (canvas == null || canvas.nodes().stream().noneMatch(node -> node.id().equals(id))) return null;
+        if (mode != Mode.QUEST) validationSelectBranchForNode(id);
+        canvas.select(id, true);
+        syncSelectedIndex();
+        if (mode == Mode.QUEST) canvas.setSelectionTooltip(false);
+        var node = canvas.nodes().stream().filter(value -> value.id().equals(id)).findFirst().orElseThrow();
+        double x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), canvasView().x(), node.x());
+        double y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), canvasView().y(), node.y());
+        return id.equals(canvas.hitTest(x, y)) ? new double[]{x, y} : null;
+    }
+
     /** Exercises Screen callbacks only; physical X11 input is reported separately by the capture harness. */
     public boolean validationClickNode(String id) {
         var node = canvas.nodes().stream().filter(value -> value.id().equals(id)).findFirst().orElse(null);
@@ -225,8 +243,8 @@ public final class ProgressionBrowseScreen extends Screen {
         double x = ProgressionCanvasGeometry.worldToScreenX(canvas.camera(), canvasView().x(), node.x());
         double y = ProgressionCanvasGeometry.worldToScreenY(canvas.camera(), canvasView().y(), node.y());
         String hitBefore = canvas.hitTest(x, y);
-        boolean accepted = mouseClicked(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)), false);
-        mouseReleased(new MouseButtonEvent(x, y, new MouseButtonInfo(0, 0)));
+        boolean accepted = mouseClicked(new MouseButtonEvent(x, y, LEFT_BUTTON), false);
+        mouseReleased(new MouseButtonEvent(x, y, LEFT_BUTTON));
         MoreMinecrafts.LOGGER.info("VISUAL_NODE_CLICK id={} x={} y={} hit={} accepted={} selected={} pending={}",
                 id, x, y, hitBefore, accepted, canvas.selectedId(), ProgressionClientApi.purchasePending(id));
         return accepted;
@@ -241,9 +259,9 @@ public final class ProgressionBrowseScreen extends Screen {
                 if (canvas.hitTest(x, y) == null) { startX = x; startY = y; foundBlank = true; break; }
         if (!foundBlank) return false;
         var beforePan = canvas.camera();
-        mouseClicked(new MouseButtonEvent(startX, startY, new MouseButtonInfo(0, 0)), false);
-        mouseDragged(new MouseButtonEvent(startX + 12, startY + 8, new MouseButtonInfo(0, 0)), 12, 8);
-        mouseReleased(new MouseButtonEvent(startX + 12, startY + 8, new MouseButtonInfo(0, 0)));
+        mouseClicked(new MouseButtonEvent(startX, startY, LEFT_BUTTON), false);
+        mouseDragged(new MouseButtonEvent(startX + 12, startY + 8, LEFT_BUTTON), 12, 8);
+        mouseReleased(new MouseButtonEvent(startX + 12, startY + 8, LEFT_BUTTON));
         if (beforePan.equals(canvas.camera())) return false;
         double zoomBefore = canvas.camera().zoom();
         mouseScrolled(view.x() + view.width() / 2.0, view.y() + view.height() / 2.0, 0, 1);
@@ -413,8 +431,9 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     @Override public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        PhysicalInputLog.press(mode.name().toLowerCase(java.util.Locale.ROOT), event);
         if (branchMenuOpen) {
-            if (event.button() != 0) { branchMenuOpen = false; return true; }
+            if (event.button() != InputConstants.MOUSE_BUTTON_LEFT) { branchMenuOpen = false; return true; }
             int rowHeight = 18;
             int menuY = branchButtonY + 21;
             int menuWidth = Math.max(branchButtonWidth, 112);
@@ -431,14 +450,14 @@ public final class ProgressionBrowseScreen extends Screen {
         if (super.mouseClicked(event, doubleClick)) return true;
         if (mode == Mode.QUEST && canvas.tooltipContains(event.x(), event.y())) return true;
         if (!responsive.viewport().contains(event.x(), event.y())) return false;
-        if (event.button() != 0) return false;
+        if (event.button() != InputConstants.MOUSE_BUTTON_LEFT) return false;
         if (mode == Mode.QUEST) {
             String chapter = canvas.chapterCardAt(event.x(), event.y());
             if (chapter != null) { canvas.focusChapter(chapter); return true; }
         }
         if (mode == Mode.QUEST && canvas.hitTest(event.x(), event.y()) == null) canvas.setSelectionTooltip(false);
         setFocused(null);
-        gesture.begin(event.button(), event.x(), event.y(), canvas.hitTest(event.x(), event.y()));
+        gesture.begin(event.button() == InputConstants.MOUSE_BUTTON_LEFT, event.x(), event.y(), canvas.hitTest(event.x(), event.y()));
         doubleClickPress = doubleClick;
         return true;
     }
@@ -452,7 +471,7 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     @Override public boolean mouseReleased(MouseButtonEvent event) {
-        String nodeId = gesture.release(event.button(), event.x(), event.y(), canvas.hitTest(event.x(), event.y()), doubleClickPress);
+        String nodeId = gesture.release(event.button() == InputConstants.MOUSE_BUTTON_LEFT, event.x(), event.y(), canvas.hitTest(event.x(), event.y()), doubleClickPress);
         doubleClickPress = false;
         if (nodeId != null) {
             canvas.select(nodeId, false);
