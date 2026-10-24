@@ -1,0 +1,38 @@
+name: Tooling readiness
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/tooling/**'
+      - 'src/gametest/java/**'
+      - 'src/gametest/resources/fabric.mod.json'
+      - '.github/workflows/tooling-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fixture tests
+        run: python3 -m unittest discover -s scripts/tooling -p 'test_*.py' -v
+      - name: GameTest registration coverage
+        run: |
+          python3 scripts/tooling/gametest_coverage.py \
+            --json-report /tmp/gametest-coverage.json \
+            --markdown-report /tmp/gametest-coverage.md
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gametest-coverage
+          path: |
+            /tmp/gametest-coverage.json
+            /tmp/gametest-coverage.md
+          if-no-files-found: ignore
