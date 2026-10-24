@@ -55,6 +55,7 @@ public final class AccessoryAnvilClientGameTest implements FabricClientGameTest 
                     maximumLevelIsRejected(context, server, connection, scale);
                     ordinaryEquipmentStillEnhances(context, server, connection, scale);
                     vanillaAnvilTabStillRepairs(context, server, connection, scale);
+                    emptyAnvilShowsNoEnhancementStep(context, server, connection, scale);
                 }
             } finally {
                 context.runOnClient(client -> {
@@ -178,6 +179,16 @@ public final class AccessoryAnvilClientGameTest implements FabricClientGameTest 
     }
 
     // ---- fixtures and helpers -------------------------------------------------------------------------------
+
+    private static void emptyAnvilShowsNoEnhancementStep(ClientGameTestContext context, TestDedicatedServerContext server,
+                                                         TestDedicatedServerConnection connection, int scale) {
+        // Evidence for the empty panel: no "+0 -> +0" step or zero cost line, and no rename-field underline.
+        openMenu(context, server, connection, () -> ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+        check(!enhanceButtonActive(context), scale, "Enhance is inactive for an empty anvil");
+        capture(context, "anvil-scale-" + scale + "-empty");
+        System.out.println("ANVIL_EMPTY_OK scale=" + scale);
+        close(context);
+    }
 
     private static void openAccessory(ClientGameTestContext context, TestDedicatedServerContext server,
                                       TestDedicatedServerConnection connection, int level, int stones, int catalysts) {

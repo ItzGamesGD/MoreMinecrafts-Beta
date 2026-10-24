@@ -368,7 +368,7 @@ public final class ProgressionBrowseScreen extends Screen {
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         graphics.fill(0, 0, width, height, 0xFF272727);
         graphics.centeredText(font, preview != null ? Component.literal(preview.banner()) : mode == Mode.QUEST ? title : Component.translatable("moreminecrafts.discipline." + discipline),
-                width / 2, responsive.tabs().y() + 6, mode == Mode.QUEST ? 0xFFE0D9C7 : 0xFF292722);
+                width / 2, responsive.tabs().y() + 6, 0xFFE0D9C7);
         var viewport = responsive.viewport();
         drawFrameTexture(graphics, viewport.x() - 5, viewport.y() - 5, viewport.width() + 10, viewport.height() + 10);
         long renderStart = preview != null ? System.nanoTime() : 0L;
