@@ -124,6 +124,11 @@ public final class ContractCatalog {
             "minecraft:village_plains", "minecraft:desert_pyramid", "minecraft:jungle_pyramid", "minecraft:mineshaft",
             "minecraft:stronghold", "minecraft:mansion", "minecraft:trial_chambers");
 
+    /** Translation key naming an exploration target on the contract screen; vanilla has no structure-name keys. */
+    public static String structureNameKey(String structureId) {
+        return "moreminecrafts.contract.structure." + structureId.replace(':', '.');
+    }
+
     /** Ordinary delivery pool: BC-01 vanilla IDs with the approved ordinary count bands. */
     public static final List<String> DELIVERY_ORDINARY = List.of(
             "minecraft:wheat", "minecraft:potato", "minecraft:carrot", "minecraft:beetroot", "minecraft:sugar_cane",
