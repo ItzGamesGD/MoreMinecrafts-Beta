@@ -10,6 +10,8 @@ import json
 import os
 import re
 import sys
+import threading
+import time
 import urllib.error
 import urllib.request
 import zipfile
@@ -19,8 +21,17 @@ REPO = os.environ.get("GITHUB_REPOSITORY", "")
 TOKEN = os.environ.get("GH_TOKEN", "")
 MAX_ARCHIVE = 75 * 1024 * 1024
 MAX_ENTRY = 45 * 1024 * 1024
-# Archives download in parallel; one serial pass over every artifact and run log exceeded the job timeout.
-WORKERS = 8
+# The inventory has thousands of entries. Pace GitHub REST requests to avoid
+# secondary rate limiting while keeping signed archive downloads concurrent.
+WORKERS = 4
+API_REQUEST_INTERVAL = 0.25
+API_RETRY_LIMIT = 4
+# A full scan needs about one REST request per artifact and per run log, which is
+# close to the hourly GITHUB_TOKEN quota. When the quota is spent, wait for its
+# reset instead of failing; the job timeout bounds the total wait.
+PRIMARY_RESET_WAIT_LIMIT = 65 * 60
+_api_slot_lock = threading.Lock()
+_next_api_slot = 0.0
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
     "Accept": "application/vnd.github+json",
@@ -48,11 +59,79 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 OPENER = urllib.request.build_opener(NoRedirect)
+DOWNLOAD_OPENER = urllib.request.build_opener()
+
+
+def _rate_limit_delay(error, attempt):
+    if attempt >= API_RETRY_LIMIT or error.code not in (403, 429, 500, 502, 503, 504):
+        return None
+    retry_after = error.headers.get("Retry-After")
+    if retry_after:
+        try:
+            return min(max(float(retry_after), 1.0), 120.0)
+        except ValueError:
+            pass
+    if error.headers.get("X-RateLimit-Remaining") == "0":
+        try:
+            reset_in = float(error.headers.get("X-RateLimit-Reset", "")) - time.time()
+        except ValueError:
+            reset_in = None
+        if reset_in is not None:
+            delay = min(max(reset_in + 5.0, 1.0), PRIMARY_RESET_WAIT_LIMIT)
+            _defer_api_requests(delay)
+            print(f"Primary rate limit exhausted (HTTP {error.code}, resource="
+                  f"{error.headers.get('X-RateLimit-Resource', 'unknown')}); waiting {delay:.0f}s for reset",
+                  flush=True)
+            return delay
+    if error.code == 403:
+        body = error.read(4096).decode("utf-8", errors="replace").lower()
+        if error.headers.get("X-RateLimit-Remaining") != "0" and not any(
+            marker in body for marker in ("rate limit", "secondary rate", "abuse detection")
+        ):
+            return None
+    return min(5.0 * (2 ** attempt), 60.0)
+
+
+def _defer_api_requests(delay):
+    """Holds every paced API request until the rate-limit reset has passed."""
+    global _next_api_slot
+    with _api_slot_lock:
+        _next_api_slot = max(_next_api_slot, time.monotonic() + delay)
+
+
+def _pace_api_request():
+    global _next_api_slot
+    with _api_slot_lock:
+        now = time.monotonic()
+        slot = max(now, _next_api_slot)
+        _next_api_slot = slot + API_REQUEST_INTERVAL
+    delay = slot - now
+    if delay > 0:
+        time.sleep(delay)
+
+
+def open_with_retry(opener, request, timeout, pace_api=False):
+    for attempt in range(API_RETRY_LIMIT + 1):
+        if pace_api:
+            _pace_api_request()
+        try:
+            return opener.open(request, timeout=timeout)
+        except urllib.error.HTTPError as error:
+            delay = _rate_limit_delay(error, attempt)
+            if delay is None:
+                raise
+            error.close()
+            time.sleep(delay)
+        except (urllib.error.URLError, TimeoutError):
+            if attempt >= API_RETRY_LIMIT:
+                raise
+            time.sleep(min(5.0 * (2 ** attempt), 60.0))
+    raise RuntimeError("HTTP retry limit exceeded")
 
 
 def api_json(path):
     request = urllib.request.Request(f"{API}/repos/{REPO}{path}", headers=HEADERS)
-    with urllib.request.urlopen(request, timeout=35) as response:
+    with open_with_retry(OPENER, request, timeout=35, pace_api=True) as response:
         return json.load(response)
 
 
@@ -70,7 +149,7 @@ def records(path, key):
 def archive_bytes(path):
     request = urllib.request.Request(f"{API}/repos/{REPO}{path}", headers=HEADERS)
     try:
-        with OPENER.open(request, timeout=35) as response:
+        with open_with_retry(OPENER, request, timeout=35, pace_api=True) as response:
             data = response.read(MAX_ARCHIVE + 1)
     except urllib.error.HTTPError as error:
         if error.code not in (301, 302, 303, 307, 308):
@@ -79,7 +158,7 @@ def archive_bytes(path):
         if not url.startswith("https://"):
             raise ValueError("unexpected signed artifact download URL")
         # The bearer token is NOT sent to the GitHub download redirect host.
-        with urllib.request.urlopen(urllib.request.Request(
+        with open_with_retry(DOWNLOAD_OPENER, urllib.request.Request(
             url, headers={"User-Agent": HEADERS["User-Agent"]}), timeout=90) as response:
             data = response.read(MAX_ARCHIVE + 1)
     if len(data) > MAX_ARCHIVE:
@@ -126,6 +205,7 @@ def scan(path, label):
 def main():
     if not REPO or not TOKEN:
         raise RuntimeError("missing repository or read-only token")
+    print(f"Audit token source: {os.environ.get('AUDIT_TOKEN_SOURCE', 'GITHUB_TOKEN')}", flush=True)
     artifacts = [a for a in records("/actions/artifacts", "artifacts") if not a.get("expired")]
     all_runs = records("/actions/runs", "workflow_runs")
     # Running workflows cannot publish their own logs yet; audit completed runs.
