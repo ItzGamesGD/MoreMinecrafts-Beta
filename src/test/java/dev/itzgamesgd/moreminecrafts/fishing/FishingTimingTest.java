@@ -23,6 +23,14 @@ class FishingTimingTest {
         for(int i=0;i<100;i++) assertFalse(FishingTiming.captures(FishingTiming.Zone.RED, RandomSource.create(i)));
     }
 
+    @Test void fishingTechniqueExpandsOnlyTheCertainSuccessZone() {
+        assertEquals(FishingTiming.Zone.YELLOW, FishingTiming.zone(.415, 0));
+        assertEquals(FishingTiming.Zone.LIGHT_GREEN, FishingTiming.zone(.415, 1));
+        assertEquals(FishingTiming.Zone.LIGHT_GREEN, FishingTiming.zone(.39, 3));
+        assertEquals(FishingTiming.Zone.YELLOW, FishingTiming.zone(.38, 3));
+        assertEquals(FishingTiming.Zone.ORANGE, FishingTiming.zone(.2, 3));
+    }
+
     @Test void timeoutBoundaryIsExplicit() {
         assertFalse(FishingTiming.timedOut(FishingTiming.TIMEOUT_TICKS - 1));
         assertTrue(FishingTiming.timedOut(FishingTiming.TIMEOUT_TICKS));

@@ -33,9 +33,7 @@ public final class ResearchPurchaseService {
         int current = storedLevel;
         Set<Integer> knowledge = new HashSet<>();
         for (int i = 1; i <= 70; i++) if (state.hasKnowledge(i)) knowledge.add(i);
-        Set<String> purchased = new HashSet<>();
-        for (ResearchDefinition research : ResearchCatalog.v4Additions())
-            if (state.researchLevel(research.id()) > 0) purchased.add(research.id());
+        Set<String> purchased = purchasedResearch(state);
         Map<String, Integer> inventoryTotals = materialTotals(player);
         int xp = RawXp.available(player);
         ResearchPurchaseRules.Result validation = ResearchPurchaseRules.validate(
@@ -60,7 +58,9 @@ public final class ResearchPurchaseService {
                 ItemStack removed = inventory.removeItem(debit.slot(), debit.count());
                 if (removed.getCount() != debit.count()) throw new IllegalStateException("Inventory changed during purchase");
             }
-            player.giveExperiencePoints(-cost.rawXp());
+            // Exact raw-XP deduction (validation above already confirmed the balance). Charged in every
+            // game mode, as before; the catch block restores level, progress and totalExperience.
+            RawXp.setTotal(player, (long) RawXp.available(player) - cost.rawXp());
             KnowledgeRuntime.updateState(player, state.with("research." + id, requestedLevel));
             return Result.PURCHASED;
         } catch (RuntimeException failure) {
@@ -73,6 +73,13 @@ public final class ResearchPurchaseService {
             KnowledgeRuntime.updateState(player, oldState);
             return Result.INVALID_STATE;
         }
+    }
+
+    static Set<String> purchasedResearch(ResearchProgressState state) {
+        Set<String> purchased = new HashSet<>();
+        for (ResearchDefinition research : ResearchCatalog.allCatalogEntries())
+            if (state.researchLevel(research.id()) > 0) purchased.add(research.id());
+        return purchased;
     }
 
     private static Result map(ResearchPurchaseRules.Result result) {

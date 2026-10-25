@@ -20,6 +20,7 @@ public final class ModNetworking {
         PayloadTypeRegistry.serverboundPlay().register(ProgressionSyncRequestPayload.TYPE, ProgressionSyncRequestPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(ResearchPurchaseRequestPayload.TYPE, ResearchPurchaseRequestPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(QuestClaimRequestPayload.TYPE, QuestClaimRequestPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(ContractActionPayload.TYPE, ContractActionPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(FishingChallengePayload.TYPE, FishingChallengePayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ProgressionSnapshotPayload.TYPE, ProgressionSnapshotPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ProgressionDeltaPayload.TYPE, ProgressionDeltaPayload.CODEC);
@@ -46,6 +47,14 @@ public final class ModNetworking {
                             context.player(), payload.questId());
                     dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRuntime.actionResult(
                             context.player(), "quest:" + payload.questId(), result.ordinal());
+                }));
+        ServerPlayNetworking.registerGlobalReceiver(ContractActionPayload.TYPE, (payload, context) ->
+                context.server().execute(() -> {
+                    var action = ContractActionPayload.parse(payload.action());
+                    if (action == null || !dev.itzgamesgd.moreminecrafts.bounty.ContractService.act(
+                            context.player(), payload.slot(), payload.contractId(), action))
+                        context.player().sendSystemMessage(net.minecraft.network.chat.Component.translatable(
+                                "moreminecrafts.contract.action_failed"));
                 }));
         ServerPlayNetworking.registerGlobalReceiver(OpenFishingEquipmentPayload.TYPE, (payload, context) -> {
             var player = context.player();

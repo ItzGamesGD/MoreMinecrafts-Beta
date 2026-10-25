@@ -3,14 +3,26 @@ package dev.itzgamesgd.moreminecrafts.registry;
 import com.mojang.serialization.Codec;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchState;
+import dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.core.component.DataComponentType;
 import dev.itzgamesgd.moreminecrafts.fishing.RodEquipment;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractData;
 import net.minecraft.world.item.ItemStack;
 
 public final class ModDataComponents {
+    public static final DataComponentType<ContractData> CONTRACT = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("contract"),
+            DataComponentType.<ContractData>builder().persistent(ContractData.CODEC)
+                    .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(ContractData.CODEC)).build());
+    /** Tier-only placeholder for trade and loot contracts; objectives are rolled on first inventory pickup. */
+    public static final DataComponentType<ContractData.Tier> PENDING_CONTRACT = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("pending_contract"),
+            DataComponentType.<ContractData.Tier>builder().persistent(ContractData.TIER_CODEC)
+                    .networkSynchronized(ByteBufCodecs.fromCodec(ContractData.TIER_CODEC)).build());
     public static final DataComponentType<Integer> ENHANCEMENT_LEVEL = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
             ModIds.id("enhancement_level"),
@@ -41,6 +53,14 @@ public final class ModDataComponents {
             BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("rod_equipment"),
             DataComponentType.<RodEquipment>builder().persistent(RodEquipment.CODEC)
                     .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(RodEquipment.CODEC)).build());
+    public static final DataComponentType<FurnaceResearchState> PORTABLE_FURNACE_RESEARCH_STATE = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("portable_furnace_research_state"),
+            DataComponentType.<FurnaceResearchState>builder().persistent(FurnaceResearchState.CODEC)
+                    .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(FurnaceResearchState.CODEC)).build());
+    public static final DataComponentType<PortableFurnaceContents> PORTABLE_FURNACE_CONTENTS = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id("portable_furnace_contents"),
+            DataComponentType.<PortableFurnaceContents>builder().persistent(PortableFurnaceContents.CODEC)
+                    .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(PortableFurnaceContents.CODEC)).build());
 
     private static DataComponentType<Integer> integerComponent(String id, int min, int max) {
         return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ModIds.id(id),

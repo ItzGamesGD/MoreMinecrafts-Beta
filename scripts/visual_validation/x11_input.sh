@@ -24,10 +24,13 @@ discover_minecraft_window() {
     return 1
   fi
 
-  windows="$(xdotool search --onlyvisible --name '.*' 2>/dev/null || true)"
+  # The visible-name search alone was observed to omit the framed, active Minecraft window on GitHub runners,
+  # so also take SDL's WM_CLASS matches in any state and require the map state explicitly below.
+  windows="$( { xdotool search --onlyvisible --name '.*' 2>/dev/null || true; xdotool search --class 'com.mojang.minecraft' 2>/dev/null || true; } | sort -un)"
   for window_id in $windows; do
     [[ "$window_id" =~ ^[0-9]+$ ]] || continue
     [[ "$window_id" != "$root_id" ]] || continue
+    xwininfo -id "$window_id" 2>/dev/null | grep -q 'Map State: IsViewable' || continue
 
     class="$(x11_window_property "$window_id" WM_CLASS)"
     pid="$(x11_window_property "$window_id" _NET_WM_PID)"
