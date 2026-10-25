@@ -182,6 +182,7 @@ def scan(path, label):
 def main():
     if not REPO or not TOKEN:
         raise RuntimeError("missing repository or read-only token")
+    print(f"Audit token source: {os.environ.get('AUDIT_TOKEN_SOURCE', 'GITHUB_TOKEN')}", flush=True)
     artifacts = [a for a in records("/actions/artifacts", "artifacts") if not a.get("expired")]
     all_runs = records("/actions/runs", "workflow_runs")
     # Running workflows cannot publish their own logs yet; audit completed runs.
