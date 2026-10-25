@@ -26,7 +26,7 @@ public final class Research23AXpCollectionGameTests implements CustomTestMethodI
 
         int nearerBefore = RawXp.available(nearer);
         int fartherBefore = RawXp.available(farther);
-        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0, 2.0, 7.0, 100);
+        ExperienceOrb orb = orbAt(ctx, 5.0, 2.0, 7.0, 100);
         ctx.getLevel().addFreshEntity(orb);
         orb.tick();
 
@@ -48,7 +48,9 @@ public final class Research23AXpCollectionGameTests implements CustomTestMethodI
                 .with("research.v3.research.64", 3));
         int before = RawXp.available(researcher);
         for (int i = 0; i < 100; i++) {
-            ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0, 2.0, 7.0, 1);
+            // Vanilla playerTouch accepts one orb per two ticks (takeXpDelay); model that cadence elapsing.
+            researcher.takeXpDelay = 0;
+            ExperienceOrb orb = orbAt(ctx, 5.0, 2.0, 7.0, 1);
             ctx.getLevel().addFreshEntity(orb);
             orb.tick();
             ctx.assertTrue(orb.isRemoved(), "each one-XP orb follows one vanilla pickup path");
@@ -64,7 +66,7 @@ public final class Research23AXpCollectionGameTests implements CustomTestMethodI
     public void unpurchasedPlayerLeavesRemoteOrbForVanillaPickup(GameTestHelper ctx) {
         ServerPlayer player = player(ctx, 5.0, 2.0, 5.0);
         int before = RawXp.available(player);
-        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0, 2.0, 7.0, 9);
+        ExperienceOrb orb = orbAt(ctx, 5.0, 2.0, 7.0, 9);
         ctx.getLevel().addFreshEntity(orb);
         orb.tick();
         ctx.assertTrue(!orb.isRemoved(), "unowned research does not remotely collect an orb");
@@ -78,7 +80,7 @@ public final class Research23AXpCollectionGameTests implements CustomTestMethodI
         KnowledgeRuntime.updateState(player, ResearchProgressState.empty()
                 .with("research.v3.research.67", 2));
         int before = RawXp.available(player);
-        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0, 2.0, 11.01, 5);
+        ExperienceOrb orb = orbAt(ctx, 5.0, 2.0, 11.01, 5);
         ctx.getLevel().addFreshEntity(orb);
         orb.tick();
         ctx.assertTrue(!orb.isRemoved() && RawXp.available(player) == before,
@@ -100,7 +102,7 @@ public final class Research23AXpCollectionGameTests implements CustomTestMethodI
                 T1Operations.enchantment(player, "minecraft:mending").orElseThrow(), 1));
         player.getInventory().setItem(0, mendingTool);
 
-        ExperienceOrb orb = new ExperienceOrb(ctx.getLevel(), 5.0, 2.0, 7.0, 100);
+        ExperienceOrb orb = orbAt(ctx, 5.0, 2.0, 7.0, 100);
         ctx.getLevel().addFreshEntity(orb);
         orb.tick();
 
@@ -112,11 +114,17 @@ public final class Research23AXpCollectionGameTests implements CustomTestMethodI
         ctx.succeed();
     }
 
+    /** Coordinates are structure-relative, so the scene sits in the test's own loaded, ticking area. */
     private static ServerPlayer player(GameTestHelper ctx, double x, double y, double z) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
-        player.setPos(x, y, z);
+        player.setPos(ctx.absoluteVec(new net.minecraft.world.phys.Vec3(x, y, z)));
         return player;
+    }
+
+    private static ExperienceOrb orbAt(GameTestHelper ctx, double x, double y, double z, int value) {
+        var position = ctx.absoluteVec(new net.minecraft.world.phys.Vec3(x, y, z));
+        return new ExperienceOrb(ctx.getLevel(), position.x, position.y, position.z, value);
     }
 
     @Override

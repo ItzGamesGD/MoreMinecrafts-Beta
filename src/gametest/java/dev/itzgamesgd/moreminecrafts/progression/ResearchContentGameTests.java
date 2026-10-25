@@ -29,23 +29,33 @@ import net.minecraft.world.level.block.Blocks;
 public final class ResearchContentGameTests implements CustomTestMethodInvoker {
     @GameTest
     public void dropResearchIsPurchaseGatedAndUsesTheProcessedDrop(GameTestHelper ctx) {
-        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        player.setGameMode(GameType.SURVIVAL);
+        // makeMockServerPlayerInLevel() is always creative, and research drop bonuses never apply in creative.
+        ServerPlayer player = (ServerPlayer) ctx.makeMockServerPlayer(GameType.SURVIVAL);
+        ctx.assertTrue(!player.isCreative(), "the drop fixture uses a genuine survival player");
         var ore = List.of(new ItemStack(Items.DIAMOND));
         var unowned = ResearchContentRuntime.applyBlockDropResearch(
                 player, Blocks.DIAMOND_ORE.defaultBlockState(), ore, () -> 0.0D);
         ctx.assertTrue(unowned.size() == 1 && unowned.getFirst().getCount() == 1,
                 "an unowned player receives only the post-enchantment base ore result");
 
-        KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player)
-                .with("v3.research.01", 5)
-                .with("v3.research.02", 1)
-                .with("v3.research.15", 3));
+        // This survival mock has no network connection, so seed the stored state without a client sync.
+        player.setAttached(KnowledgeRuntime.STATE, KnowledgeRuntime.state(player)
+                .with("research.v3.research.01", 5)
+                .with("research.v3.research.02", 1)
+                .with("research.v3.research.15", 3));
+        // Approved Ore Mining L5: 30% proc, then an amount chosen uniformly from 1 through 3 (proc roll, amount roll).
         var oreDrops = ResearchContentRuntime.applyBlockDropResearch(player,
-                Blocks.DIAMOND_ORE.defaultBlockState(), List.of(new ItemStack(Items.DIAMOND)), () -> 0.0D);
+                Blocks.DIAMOND_ORE.defaultBlockState(), List.of(new ItemStack(Items.DIAMOND)), rolls(0.0D, 0.999D));
         ctx.assertTrue(oreDrops.size() == 2 && oreDrops.get(1).is(Items.DIAMOND)
                         && oreDrops.get(1).getCount() == 3,
                 "Ore Mining copies the final Fortune/Silk Touch/Auto Smelt product with the approved max count");
+        var minimumOreDrops = ResearchContentRuntime.applyBlockDropResearch(player,
+                Blocks.DIAMOND_ORE.defaultBlockState(), List.of(new ItemStack(Items.DIAMOND)), rolls(0.0D, 0.0D));
+        ctx.assertTrue(minimumOreDrops.size() == 2 && minimumOreDrops.get(1).getCount() == 1,
+                "the lowest amount roll grants one extra item (uniform 1 through the level maximum)");
+        var missedOreDrops = ResearchContentRuntime.applyBlockDropResearch(player,
+                Blocks.DIAMOND_ORE.defaultBlockState(), List.of(new ItemStack(Items.DIAMOND)), rolls(0.30D));
+        ctx.assertTrue(missedOreDrops.size() == 1, "a proc roll at the 30% boundary grants no extra item");
 
         var logDrops = ResearchContentRuntime.applyBlockDropResearch(player,
                 Blocks.OAK_LOG.defaultBlockState(), List.of(new ItemStack(Items.OAK_LOG)), () -> 0.0D);
@@ -66,7 +76,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(player,
-                KnowledgeRuntime.state(player).with("v3.research.09", 2));
+                KnowledgeRuntime.state(player).with("research.v3.research.09", 2));
         CraftingMenu menu = new CraftingMenu(1, player.getInventory(),
                 net.minecraft.world.inventory.ContainerLevelAccess.create(ctx.getLevel(),
                         ctx.absolutePos(new BlockPos(1, 1, 1))));
@@ -87,7 +97,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(player,
-                KnowledgeRuntime.state(player).with("v3.research.03", 5));
+                KnowledgeRuntime.state(player).with("research.v3.research.03", 5));
         ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
         player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, pickaxe);
         BlockPos pos = ctx.absolutePos(new BlockPos(2, 2, 2));
@@ -119,7 +129,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
         researcher.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(researcher,
-                KnowledgeRuntime.state(researcher).with("v3.research.10", 1));
+                KnowledgeRuntime.state(researcher).with("research.v3.research.10", 1));
         AnvilMenu researchMenu = new AnvilMenu(1, researcher.getInventory());
         ((T1AnvilModes) researchMenu).moreminecrafts$button(researcher, 1);
         ItemStack researchSword = new ItemStack(Items.DIAMOND_SWORD);
@@ -139,7 +149,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(player,
-                KnowledgeRuntime.state(player).with("v3.research.18", 3));
+                KnowledgeRuntime.state(player).with("research.v3.research.18", 3));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.SHEARS));
         long seed = 0;
         do {
@@ -177,10 +187,11 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
     public void livestockAddsOnlyThePurchasedNumberAfterVanillaBreeding(GameTestHelper ctx) {
         ServerPlayer breeder = ctx.makeMockServerPlayerInLevel();
         breeder.setGameMode(GameType.SURVIVAL);
-        KnowledgeRuntime.updateState(breeder, KnowledgeRuntime.state(breeder).with("v3.research.17", 2));
+        KnowledgeRuntime.updateState(breeder, KnowledgeRuntime.state(breeder).with("research.v3.research.17", 2));
         BlockPos center = ctx.absolutePos(new BlockPos(3, 2, 3));
-        var parent = ctx.spawn(EntityTypes.COW, center);
-        var partner = ctx.spawn(EntityTypes.COW, center.east());
+        // GameTestHelper.spawn takes structure-relative positions; the AABB below is absolute.
+        var parent = ctx.spawn(EntityTypes.COW, new BlockPos(3, 2, 3));
+        var partner = ctx.spawn(EntityTypes.COW, new BlockPos(4, 2, 3));
         parent.setInLove(breeder);
         partner.setInLove(breeder);
         ctx.getLevel().addFreshEntity(parent);
@@ -203,7 +214,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ServerPlayer attacker = ctx.makeMockServerPlayerInLevel();
         attacker.setGameMode(GameType.SURVIVAL);
         attacker.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.IRON_AXE));
-        KnowledgeRuntime.updateState(attacker, KnowledgeRuntime.state(attacker).with("v3.research.28", 3));
+        KnowledgeRuntime.updateState(attacker, KnowledgeRuntime.state(attacker).with("research.v3.research.28", 3));
         var researchedTarget = ctx.spawn(EntityTypes.ZOMBIE, new BlockPos(2, 2, 2));
         attacker.attack(researchedTarget);
 
@@ -224,7 +235,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         researcher.setGameMode(GameType.SURVIVAL);
         other.setGameMode(GameType.SURVIVAL);
         KnowledgeRuntime.updateState(researcher,
-                KnowledgeRuntime.state(researcher).with("v3.research.64", 3));
+                KnowledgeRuntime.state(researcher).with("research.v3.research.64", 3));
         ExperienceOrb researchedOrb = new ExperienceOrb(ctx.getLevel(), 2.0D, 2.0D, 2.0D, 100);
         researchedOrb.playerTouch(researcher);
         ExperienceOrb ordinaryOrb = new ExperienceOrb(ctx.getLevel(), 4.0D, 2.0D, 2.0D, 100);
@@ -242,7 +253,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         jumper.setGameMode(GameType.SURVIVAL);
         jumper.setOnGround(false);
         KnowledgeRuntime.updateState(jumper,
-                KnowledgeRuntime.state(jumper).with("wall_jump", 1).with("fall_roll", 1));
+                KnowledgeRuntime.state(jumper).with("research.wall_jump", 1).with("research.fall_roll", 1));
         ResearchMovementRuntime.observeWallContact(jumper, true);
         ctx.assertTrue(ResearchMovementRuntime.onJump(jumper),
                 "a purchased wall jump consumes a recent wall-contact window");
@@ -261,7 +272,7 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
 
         ServerPlayer faller = ctx.makeMockServerPlayerInLevel();
         faller.setGameMode(GameType.SURVIVAL);
-        KnowledgeRuntime.updateState(faller, KnowledgeRuntime.state(faller).with("fall_roll", 1));
+        KnowledgeRuntime.updateState(faller, KnowledgeRuntime.state(faller).with("research.fall_roll", 1));
         faller.setDeltaMovement(0.0D, -0.5D, 0.0D);
         faller.fallDistance = 5.0F;
         ResearchMovementRuntime.observeFallRollInput(faller, false);
@@ -273,6 +284,12 @@ public final class ResearchContentGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(!ResearchMovementRuntime.consumeFallRoll(faller),
                 "the same roll window cannot mitigate a second damage event");
         ctx.succeed();
+    }
+
+    /** Deterministic random source: returns the given rolls in order, then repeats the last one. */
+    private static java.util.function.DoubleSupplier rolls(double... values) {
+        int[] next = {0};
+        return () -> values[Math.min(next[0]++, values.length - 1)];
     }
 
     @Override
