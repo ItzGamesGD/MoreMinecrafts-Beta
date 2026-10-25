@@ -11,7 +11,8 @@
   "entrypoints": {
     "main": [
       "dev.itzgamesgd.moreminecrafts.MoreMinecrafts",
-      "dev.itzgamesgd.moreminecrafts.accessory.StarCovenantAbility"
+      "dev.itzgamesgd.moreminecrafts.accessory.StarCovenantAbility",
+      "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilities"
     ],
     "client": [
       "dev.itzgamesgd.moreminecrafts.client.MoreMinecraftsClient"

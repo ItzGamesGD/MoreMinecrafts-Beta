@@ -1,0 +1,57 @@
+name: Accessory cooldown restart persistence
+
+on:
+  pull_request:
+    paths:
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/ability/**'
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/accessory/**'
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java'
+      - '.github/workflows/accessory-cooldown-restart.yml'
+  workflow_dispatch:
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Save cooldown in first process
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:accessory_ability_game_tests_accessory_cooldown_survives_process_restart
+            -Dmoreminecrafts.accessory.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee cooldown-write.log
+          grep -F WAVE7B_COOLDOWN_RESTART_WRITE cooldown-write.log
+      - name: Verify unchanged offline and save again
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:accessory_ability_game_tests_accessory_cooldown_survives_process_restart
+            -Dmoreminecrafts.accessory.restart.phase=reload1
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee cooldown-reload1.log
+          grep -F WAVE7B_COOLDOWN_RESTART_RELOAD1 cooldown-reload1.log
+      - name: Verify second restart
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:accessory_ability_game_tests_accessory_cooldown_survives_process_restart
+            -Dmoreminecrafts.accessory.restart.phase=reload2
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee cooldown-reload2.log
+          grep -F WAVE7B_COOLDOWN_RESTART_RELOAD2 cooldown-reload2.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessory-cooldown-restart-evidence
+          path: cooldown-*.log

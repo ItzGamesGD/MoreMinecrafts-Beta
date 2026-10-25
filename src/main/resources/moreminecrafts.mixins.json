@@ -31,6 +31,7 @@
     "InventoryMenuMixin",
     "AccessoryDeathMixin",
     "SnowCharmPowderSnowMixin",
+    "AccessoryFireDamageMixin",
     "SleepingBagRespawnMixin",
     "BackpackDetachMixin",
     "ShieldItemMixin",
