@@ -133,7 +133,8 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     name: actions-exposure-audit
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    # Full retained artifacts and logs are paced to avoid GitHub REST secondary limits.
+    timeout-minutes: 120
     permissions:
       contents: read
       actions: read
