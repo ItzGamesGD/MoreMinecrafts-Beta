@@ -7,6 +7,10 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## Accessory cooldown lifecycle — approved 2026-10-25
+
+Accessory cooldown lifecycle is governed by the [owner-approved 2026-10-25 decision](ACCESSORY_COOLDOWN_DECISION_2026-10-25.md). It specifies remaining online server ticks per player and ability type, including persistence through death, reconnect and restart; it does not finalize other ability mechanics.
+
 ## Accessory visual identities — approved 2026-10-22
 
 The 12 registered accessories' visual identities (shape, material, palette, signature feature) and the native 32×32 item-texture size are approved in [ACCESSORY_VISUAL_CONCEPT_2026-10-22.md](validation/ACCESSORY_VISUAL_CONCEPT_2026-10-22.md). Accessory category indicators remain text labels. This does not change accessory gameplay.
