@@ -28,6 +28,7 @@
     "GreatswordPlayerInteractionMixin",
     "InventoryMenuMixin",
     "AccessoryDeathMixin",
+    "AccessoryFireDamageMixin",
     "SleepingBagRespawnMixin",
     "BackpackDetachMixin",
     "ShieldItemMixin",

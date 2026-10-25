@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerPlayer;
 
 /** InventoryMenu adapter over the player's persistent, server-authoritative equipment attachment. */
 public final class AccessoryEquipmentContainer extends SimpleContainer {
@@ -41,7 +42,10 @@ public final class AccessoryEquipmentContainer extends SimpleContainer {
         AccessoryLoadout.checkSlot(slot);
         ItemStack safeStack = stack == null ? ItemStack.EMPTY : stack;
         if (!safeStack.isEmpty() && !AccessorySlotRules.accepts(slot, safeStack)) return;
+        ItemStack previous = getItem(slot);
         player.setAttached(EquipmentAttachments.ACCESSORIES, loadout().with(slot, safeStack));
+        if (player instanceof ServerPlayer serverPlayer && !previous.isEmpty())
+            AccessoryAbilities.clearTransientState(serverPlayer, previous);
     }
 
     @Override public boolean canPlaceItem(int slot, ItemStack stack) {
