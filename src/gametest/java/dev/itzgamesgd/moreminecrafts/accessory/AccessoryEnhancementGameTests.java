@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.accessory;
 
 import dev.itzgamesgd.moreminecrafts.progression.RawXp;
 import dev.itzgamesgd.moreminecrafts.progression.T1AnvilModes;
+import dev.itzgamesgd.moreminecrafts.progression.XpMath;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import java.lang.reflect.Method;
@@ -232,6 +233,72 @@ public final class AccessoryEnhancementGameTests implements CustomTestMethodInvo
         ctx.assertTrue(stones.getCount()==64,"stones are restored");
         ctx.assertTrue(catalysts.getCount()==8,"catalysts are restored");
         ctx.assertTrue(RawXp.available(player)==xpBefore,"raw XP is restored");
+        ctx.succeed();
+    }
+
+    /**
+     * The approved exact raw-XP transaction: level, bar and totalExperience are all set from the exact new total (even
+     * when totalExperience was stale), the score is untouched by a deduction, and a failure restores every field.
+     */
+    @GameTest public void accessoryPaymentIsAnExactRawXpTransaction(GameTestHelper ctx) {
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+
+        // Success across a level boundary (level 16 + 10 points, cost 40) with a stale totalExperience.
+        RawXp.setTotal(player,XpMath.totalForLevel(16)+10);
+        player.totalExperience=3;
+        player.setScore(500);
+        ItemStack charm=new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.SNOW_CHARM));
+        ItemStack stones=new ItemStack(ModItems.ENHANCEMENT_STONE,1);
+        long expected=RawXp.available(player)-40L;
+        ctx.assertTrue(AccessoryEnhancementOperation.apply(player,charm,stones,ItemStack.EMPTY),"+0 to +1 succeeds");
+        var split=XpMath.split(expected);
+        ctx.assertTrue(RawXp.available(player)==expected,"exactly 40 raw XP is paid");
+        ctx.assertTrue(player.experienceLevel==split.level()&&split.level()==15,"the payment crosses down to level 15 exactly");
+        ctx.assertTrue(Math.round(player.experienceProgress*player.getXpNeededForNextLevel())==split.points(),
+                "the bar holds the exact remaining points");
+        ctx.assertTrue(player.totalExperience==expected,"totalExperience is set to the exact new total, not decremented from a stale value");
+        ctx.assertTrue(player.getScore()==500,"a deduction leaves the score alone");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(charm)==1&&stones.isEmpty(),"level and stone advance together");
+
+        // Insufficient XP: one point short of the 40 raw XP step changes nothing at all.
+        RawXp.setTotal(player,39);
+        player.totalExperience=11;
+        player.setScore(77);
+        int level=player.experienceLevel;
+        float progress=player.experienceProgress;
+        ItemStack poor=new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.EMBER_RING));
+        ItemStack poorStones=new ItemStack(ModItems.ENHANCEMENT_STONE,3);
+        ctx.assertTrue(!AccessoryEnhancementOperation.apply(player,poor,poorStones,ItemStack.EMPTY),"39 raw XP cannot pay 40");
+        ctx.assertTrue(player.experienceLevel==level&&player.experienceProgress==progress&&player.totalExperience==11
+                &&player.getScore()==77&&AccessoryEnhancementOperation.level(poor)==0&&poorStones.getCount()==3,
+                "a rejected payment leaves every XP field, the score, the level and the stones unchanged");
+
+        // A failure after the debits restores level, bar, totalExperience and score exactly.
+        RawXp.setTotal(player,XpMath.totalForLevel(30)+5);
+        player.totalExperience=7;
+        player.setScore(123);
+        level=player.experienceLevel;
+        progress=player.experienceProgress;
+        ItemStack ring=new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE));
+        ring.set(ModDataComponents.ENHANCEMENT_LEVEL,4);
+        ItemStack milestoneStones=new ItemStack(ModItems.ENHANCEMENT_STONE,2);
+        ItemStack catalyst=new ItemStack(ModItems.RELIC_CATALYST,1);
+        ctx.assertTrue(!AccessoryEnhancementOperation.apply(player,ring,milestoneStones,catalyst,
+                ()->{throw new IllegalStateException("injected fault");}),"an injected fault reports failure");
+        ctx.assertTrue(player.experienceLevel==level&&player.experienceProgress==progress,"level and bar are restored exactly");
+        ctx.assertTrue(player.totalExperience==7&&player.getScore()==123,"totalExperience and score are restored exactly");
+        ctx.assertTrue(AccessoryEnhancementOperation.level(ring)==4&&milestoneStones.getCount()==2&&catalyst.getCount()==1,
+                "level, stones and catalyst are restored");
+
+        // A large balance stays exact for the 70 raw XP band.
+        RawXp.setTotal(player,XpMath.totalForLevel(500)+77);
+        player.totalExperience=0;
+        ItemStack mirror=new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.PHANTOM_MIRROR));
+        mirror.set(ModDataComponents.ENHANCEMENT_LEVEL,5);
+        long large=RawXp.available(player);
+        ctx.assertTrue(AccessoryEnhancementOperation.apply(player,mirror,new ItemStack(ModItems.ENHANCEMENT_STONE,1),ItemStack.EMPTY),
+                "+5 to +6 succeeds");
+        ctx.assertTrue(RawXp.available(player)==large-70&&player.totalExperience==large-70,"a large balance pays exactly 70 raw XP");
         ctx.succeed();
     }
 

@@ -48,6 +48,7 @@ public final class AccessoryEnhancementOperation {
         if (planned.isEmpty()) return false;
 
         AccessoryEnhancementRules.Plan plan = planned.get();
+        RawXp.Snapshot xpBefore = RawXp.Snapshot.of(player);
         int oldStoneCount = stones.getCount();
         int oldCatalystCount = catalysts.getCount();
         Integer oldLevel = accessory.get(ModDataComponents.ENHANCEMENT_LEVEL);
@@ -55,8 +56,9 @@ public final class AccessoryEnhancementOperation {
         boolean stonesDebited = false;
         boolean catalystDebited = false;
         try {
-            // Unlike ordinary equipment's level charge, accessories pay exact raw XP.
-            player.giveExperiencePoints(-plan.rawExperienceCost());
+            // Exact raw-XP deduction (level, then points, then totalExperience), as approved for every
+            // MoreMinecrafts XP payment. Charged in every game mode, as this path always has been.
+            RawXp.setTotal(player, (long) RawXp.available(player) - plan.rawExperienceCost());
             xpDebited = true;
             stones.shrink(plan.stoneCost());
             stonesDebited = true;
@@ -69,11 +71,11 @@ public final class AccessoryEnhancementOperation {
             return true;
         } catch (RuntimeException failure) {
             rollback(player, accessory, stones, catalysts, oldLevel, oldStoneCount, oldCatalystCount,
-                    plan.rawExperienceCost(), xpDebited, stonesDebited, catalystDebited);
+                    xpBefore, xpDebited, stonesDebited, catalystDebited);
             return false;
         } catch (Error failure) {
             rollback(player, accessory, stones, catalysts, oldLevel, oldStoneCount, oldCatalystCount,
-                    plan.rawExperienceCost(), xpDebited, stonesDebited, catalystDebited);
+                    xpBefore, xpDebited, stonesDebited, catalystDebited);
             throw failure;
         }
     }
@@ -84,12 +86,12 @@ public final class AccessoryEnhancementOperation {
 
     private static void rollback(Player player, ItemStack accessory, ItemStack stones, ItemStack catalysts,
                                  Integer oldLevel, int oldStoneCount, int oldCatalystCount,
-                                 int rawExperienceCost, boolean xpDebited, boolean stonesDebited,
+                                 RawXp.Snapshot xpBefore, boolean xpDebited, boolean stonesDebited,
                                  boolean catalystDebited) {
         if (oldLevel == null) accessory.remove(ModDataComponents.ENHANCEMENT_LEVEL);
         else accessory.set(ModDataComponents.ENHANCEMENT_LEVEL, oldLevel);
         if (catalystDebited) catalysts.setCount(oldCatalystCount);
         if (stonesDebited) stones.setCount(oldStoneCount);
-        if (xpDebited) player.giveExperiencePoints(rawExperienceCost);
+        if (xpDebited) xpBefore.restore(player);
     }
 }
