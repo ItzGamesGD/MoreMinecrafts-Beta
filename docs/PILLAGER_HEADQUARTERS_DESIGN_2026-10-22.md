@@ -4,6 +4,57 @@
 >
 > **Authority key:** **APPROVED** = directly selected by owner in current conversation. **PROPOSED** = designer elaboration for review. **OPEN** = requires specific future owner decision or generated-world verification. Do not accidentally promote PROPOSED building counts, dimensions or balance to approved requirements.
 
+## CURRENT CANONICAL DECISION INDEX — consolidated 2026-10-25
+
+> **Read this first.** This index reconciles later owner approvals with the original full-length design and earlier exploratory proposals **without deleting any of the underlying detail**. Where older sections say PROPOSED/OPEN for an item explicitly approved here, this index **supersedes that stale label**. The rest of this document is retained as the complete architectural, room, roster, loot, generation, persistence and QA decision history. No implementation or live-world validation is implied.
+>
+> Portfolio index: [STRUCTURE_CANDIDATE_AUTHORITY_2026-10-25.md](STRUCTURE_CANDIDATE_AUTHORITY_2026-10-25.md). Next structure: [PYRAMID_DESIGN_PREP_2026-10-25.md](PYRAMID_DESIGN_PREP_2026-10-25.md).
+
+### A. APPROVED — exact design constraints
+
+**Site, perimeter, architecture**
+- **112×112 outer footprint INCLUDING perimeter walls/towers**; one square continuous straight perimeter, **four corner towers integrated with both meeting wall segments**, **one external main gate** and no secondary external gates.
+- Strong, dimensional **A+C hybrid**: believable heavy stone fortress with dark oak and vanilla pillager-outpost motifs, 3D buttress/recess/battlement depth; not flat walls, not a highly ornate fantasy palace. **Claude to determine actual wall/tower/gate geometry, palette, roof shapes, stairs, slabs, block states and heights**; prior illustrative wall ~8 high, tower ~11×11, gate ~7–8 wide are **not approvals**.
+- Flat plains and forest with suitable **natural soil beneath trees**. Natural-ground height variation **approximately 4–5 blocks acceptable**; use stable level architectural planes and extend the *same structural footing material* downward to natural solid support (e.g. cobblestone under cobblestone). **Do not staircase the wall to terrain**. Technical exact 4-vs-5 cutoff, high-side protrusion, caves, water and safe depth remain engineering gates.
+- On eligible forest sites, evaluate slope without vegetation and remove obstructing trees/overwrite within the structure footprint when technically safe. Prefer new-worldgen generation-stage treatment over speculative player-placed tree provenance detection; do not damage existing player structures.
+- **Fixed facility and road masterplan** across generated sites (whole-building rotation/cosmetic variation is not random rearrangement). Worldgen frequency **B: rare regional landmark**, but **numeric spacing/frequency is deferred until multi-seed measurement**. Earlier 1,200–2,000-block number is **not an approved target**.
+
+**Inside the fortress**
+- **19–22 interior facilities** excluding the square wall, corner towers, gatehouse, roads and plaza. Village-like lived-in military settlement with small houses/support structures, not an empty courtyard.
+- **Two-story small illager manor** as headquarters; owner accepted **17×15 as a working design benchmark**, subject to physical fit, not a completed block-coordinate blueprint. Main gate → main avenue → central plaza → manor, with several organic side lanes (not a rigid grid or a forced maze).
+- **Both prison and ravager stable**; **armory directly adjoining a fenced outdoor training yard**. No mandatory puzzle/key/switch or commander-kill gate to reach the loot; ordinary block interaction and mining remain possible.
+- **Detailed 20-facility working ledger, PROPOSED not approved as exact counts:** manor 1, barracks 3, armory 1, fenced training yard 1, warehouses 2, prison 1, ravager stable 1, small houses 7, outbuildings 3 (kitchen, smith/workshop, cart/tool shed) = **20**. Full room programs, circulation, alternative layout and facility adjacency rationale remain below; do not drop them from Claude handoff.
+
+**Combat**
+- **35–45 initial structure defenders in total**, not simultaneously attacking; **vanilla combat/targeting AI only** for pillagers/vindicators/ravager. No headquarters-wide alarm, reinforcements, scripted patrol, custom AI, boss summons, phases or officer buffs.
+- **One enhanced-Vindicator commander**, **40 HP exactly**, ordinary Vindicator melee AI, **+20–30% melee damage relative to the unmodified same-difficulty Vindicator**. Exact single modifier within this approved range remains implementation/test selection. No custom boss phase. Unique initial commander and no natural reappearance after death.
+- Defeated structure garrison **never naturally respawns**; survivors persist through unload/reload/restart. Do not suppress unrelated vanilla spawns or raids.
+- **Detailed 40-defender working roster, PROPOSED exact mix:** 23 pillagers, 10 standard vindicators, 5 elite vanilla-AI vindicators, 1 enhanced Vindicator commander, 1 ravager = 40. Proposed zone allocations: walls/gate/towers 10; houses/barracks/plaza 10; warehouse/prison/outbuildings 6; armory/training 7; stable 3; manor 4. The six zone totals sum to **40**, not extra waves. See full tables below for type-by-zone counts and no-double-counting guard.
+
+**Loot**
+- Aim for **meaningfully better overall reward than a vanilla Woodland Mansion**, subject to eventual balance validation. Ordinary supplies/gear/plunder in houses, barracks, warehouses, armory, prison, stable, outbuildings and manor.
+- **Manor premium attempt 65%** once per structure, **armory premium attempt 35%** once per structure, independent; **0–2 premium container successes** with no guaranteed minimum. Both succeed 22.75%; exactly one 54.5%; neither 22.75%; at least one 77.25%.
+- **Commander ordinary rare drops + independent special drop at 10%** on its unique death-loot transaction; 90% fail the extra roll. Commander drop is independent of the manor/armory premium attempts and killing commander is **not required** to loot upper manor.
+- Premium theme: **combat-relevant existing MoreMinecrafts accessories, real-enchantment runes and equipment**; **specific item lists, per-category conditional weights, item IDs, enhancement tiers and caravan-rune overlaps are explicitly DEFERRED until MM equipment roster becomes more diverse**. Old example category splits (manor 55/30/15, armory 75/15/10, commander 50/40/10) are **not approved**. No new rune currency, placeholder items or fabricated exclusive loot.
+- Chest premium allocations/loot must be fixed per structure and **not refill on chunk reload, restart, multiplayer re-entry or repeated opening**. Commander special may trigger only once. Exact loot-table implementation, container coordinates and anti-duplication QA remain OPEN.
+
+### B. PROPOSED / OPEN — do not promote without review
+
+- Wall/tower dimensions, exact manor/house/yard footprints, block geometry, roofs, room contents, floor plans, precise road width, gate orientation, interior fixed-layout coordinates and facility exact counts within the approved 19–22 envelope.
+- Proposed individual mob counts and zone allocations, elite stats/gear, precise damage multiplier inside +20–30% approved band, difficulty behavior, garrison persistence mechanism and spawn positions.
+- Ordinary chest resource counts, premium category splits and exact item eligibility **on design hold** until more equipment exists.
+- Terrain high-side interference, cave/void/water support, safe downward fill limits, trees crossing chunk boundaries, chosen biome tags, actual spawn spacing/frequency, deterministic seed acceptance and performance.
+- Structure file/NBT/block-state export, Claude building artifacts, SG integration, multiplayer save/load, live worldgen and visual QA **not yet delivered**.
+
+### C. Implementation handoff gates (future, not started)
+
+1. **Claude architectural artifact:** one fixed 112×112 plan with local coordinate origin, explicit perimeter/wall/tower continuity, single gate, manor/plaza/road layout, facility count ledger, room geometry, collision-free footprints, every block state/rotation and per-column footing material. No unapproved redesign.
+2. **Structure Generator worldgen:** place only on accepted flat plains/forest ground with vegetation-excluded height assessment and ~4–5 block tolerance; same-material vertical foundation fill; validate high-side clearance, chunk borders, structures, water, caves, deterministic rotation and actual discovery frequency before fixing spacing.
+3. **Gameplay implementation:** finite vanilla-AI garrison, unique 40 HP officer with approved damage band, stable death persistence, one-time independent 65%/35% chest premiums and 10% commander special, with content pool integration held until expanded equipment roster.
+4. **Verification:** deterministic multi-seed worlds, screenshots and block-diff audit, wall/tower/room navigation, no misplaced trees or floor protrusions, no duplicate structures/mobs/loot on restart and chunk reload, and gameplay/balance checks against mansion loot. **Current state remains DESIGN ONLY.**
+
+---
+
 ## Owner confirmation addendum — 2026-10-22 (later authority)
 
 **APPROVED — footprint:** The pillager headquarters uses a **112 × 112 block outer square** (12,544 horizontal blocks² including the walls and towers). This is the overall outside footprint, **not** an additional 112 × 112 buildable interior. The perimeter remains a geometrically precise square with four corner watchtowers and a single main gate. Do not infer that 112 is the inner courtyard dimension.
