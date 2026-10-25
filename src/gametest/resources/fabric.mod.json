@@ -62,7 +62,8 @@
       "dev.itzgamesgd.moreminecrafts.progression.QuestMonumentGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestMonumentRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestC3ThresholdGameTests",
-      "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityIntegrationGameTests"
+      "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityIntegrationGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractIsolationGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",
