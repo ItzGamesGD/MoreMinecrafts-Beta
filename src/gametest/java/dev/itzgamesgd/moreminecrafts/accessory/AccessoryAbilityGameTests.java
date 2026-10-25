@@ -321,6 +321,68 @@ public final class AccessoryAbilityGameTests implements CustomTestMethodInvoker 
         ctx.succeed();
     }
 
+    @GameTest(maxTicks = 40)
+    public void armedRingActivatesOnceWhenCooldownExpiresAtLowHealth(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        int slot = AccessoryCategory.DEFENSE_SURVIVAL.ordinal();
+        AccessoryEquipmentContainer equipment = new AccessoryEquipmentContainer(player);
+        equipment.setItem(slot, new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)));
+        ctx.assertTrue(!player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT), "newly equipped ring is armed");
+
+        player.setHealth(10.0F);
+        ctx.assertTrue(AccessoryCooldownRuntime.start(player, AccessoryDefinition.RING_OF_LIFE, 3),
+                "armed ring has an active cooldown before health becomes low");
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 2,
+                "first online tick leaves the cooldown active");
+
+        player.setHealth(4.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 1
+                        && !player.hasEffect(MobEffects.REGENERATION),
+                "becoming low during cooldown does not activate early");
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(player.hasEffect(MobEffects.REGENERATION)
+                        && player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT)
+                        && AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 2400,
+                "the first eligible tick at cooldown expiry activates once and disarms the ring");
+
+        player.removeEffect(MobEffects.REGENERATION);
+        equipment.setItem(slot, ItemStack.EMPTY);
+        AccessoryAbilities.tick(player);
+        equipment.setItem(slot, new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)));
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT)
+                        && !player.hasEffect(MobEffects.REGENERATION)
+                        && AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 2398,
+                "unequip and re-equip neither re-arm nor reset the cooldown");
+
+        for (int i = 0; i < 2398; i++) AccessoryAbilities.tick(player);
+        ctx.assertTrue(AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 0
+                        && player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT)
+                        && !player.hasEffect(MobEffects.REGENERATION),
+                "continued low health through cooldown expiry does not reactivate a disarmed ring");
+
+        player.setHealth(5.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT)
+                        && !player.hasEffect(MobEffects.REGENERATION),
+                "recovery to exactly 25 percent does not re-arm");
+        player.setHealth(6.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(!player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT)
+                        && !player.hasEffect(MobEffects.REGENERATION),
+                "recovery strictly above 25 percent re-arms without activating");
+
+        player.setHealth(4.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(player.hasEffect(MobEffects.REGENERATION)
+                        && player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT)
+                        && AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 2400,
+                "a later low-health episode activates after re-arm");
+        ctx.succeed();
+    }
+
     private static ServerPlayer crouchingInPool(GameTestHelper ctx) {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         BlockPos water = ctx.absolutePos(new BlockPos(2, 2, 2));
