@@ -220,3 +220,15 @@ D N D
 Output: existing Earth Mace x1. Costs: diamond blocks x2, netherite ingot x1, guardian core x1, Heavy Core x1. The recipe deliberately connects pyramid boss, Trial Chambers, and late-game mining. **Balance warning:** Heavy Core is exceptionally rare and the two-boss/structure progression burden may be too steep for T2; compare alternatives using breeze rod or other accessible components before approval. Check exact runtime item IDs and recipe absence/presence before implementing.
 
 **OPEN:** whether Heavy Core is appropriate, final layout, counts, boss classification, guardian core acquisition, duplicate existing recipe handling, implementation approval.
+
+## OWNER APPROVED — Earth Mace shaped crafting recipe, 2026-10-26
+
+The owner explicitly selected the original high-cost recipe using a vanilla Heavy Core (NOT the proposed Breeze Rod alternative), with **Heavy Core and Netherite Ingot swapping positions**. The exact approved 3x3 layout is:
+
+```
+Diamond Block | Heavy Core         | Diamond Block
+Empty         | Tomb Guardian Core | Empty
+Empty         | Netherite Ingot   | Empty
+```
+
+Output: **Earth Mace x1**. Total ingredients: Diamond Block x2, Heavy Core x1, Tomb Guardian Core x1, Netherite Ingot x1. This supersedes the earlier provisional D-N-D / .-C-. / .-H-. proposal and the Breeze Rod alternative. The shaped positions are significant; do not use a shapeless recipe. Preserve the existing Earth Mace combat functionality. This approves recipe DESIGN only; no gameplay code changes until separately authorized. Verify actual recipe registration/item IDs before implementation and flag any conflicting existing recipes rather than silently overwriting.
