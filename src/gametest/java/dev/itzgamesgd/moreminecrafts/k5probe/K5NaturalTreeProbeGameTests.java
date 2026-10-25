@@ -412,12 +412,12 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 ctx.assertTrue(level.getSeed() == 0L, "restart fixture uses the pinned seed 0");
                 level.getChunkSource().addTicketWithRadius(TicketType.FORCED, CHUNK, 0);
                 LevelChunk chunk = level.getChunk(CHUNK.x(), CHUNK.z());
+                ChunkPersistenceRun fixture = new ChunkPersistenceRun(ctx);
+                fixture.generateDeterministicNaturalTree(chunk);
                 level.setBlock(FURNACE_POS, Blocks.FURNACE.defaultBlockState(), 3);
                 var furnace = (net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity)
                         level.getBlockEntity(FURNACE_POS);
                 ((FurnaceResearchStateAccess) furnace).moreminecrafts$setResearchState(FURNACE_STATE);
-                ChunkPersistenceRun fixture = new ChunkPersistenceRun(ctx);
-                fixture.generateDeterministicNaturalTree(chunk);
                 var marked = fixture.originalMarkers.stream().sorted().map(BlockPos::of).toList();
                 ctx.assertTrue(marked.size() >= 4, "restart fixture generated four real natural trunk logs");
                 BlockPos removed = marked.get(0);
@@ -571,7 +571,9 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
     }
 
     private static final class ChunkPersistenceRun {
-        private static final int MAX_WAIT_TICKS = 240;
+        // This end-to-end fixture unloads a forced remote chunk while the entire K5 suite is running.
+        // Under batch load, the server may need more than 240 ticks to process the real unload callback.
+        private static final int MAX_WAIT_TICKS = 600;
         private final GameTestHelper ctx;
         private final ServerLevel level;
         private final ChunkPos targetPos = new ChunkPos(64, 64);
@@ -642,6 +644,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         }
 
         private void generateDeterministicNaturalTree(LevelChunk chunk) {
+            restoreFreshDecorationVolume(level, chunk.getPos());
             var biomeRegistry = level.registryAccess().lookupOrThrow(Registries.BIOME);
             var forest = biomeRegistry.get(Identifier.fromNamespaceAndPath("minecraft", "forest")).orElseThrow();
             var noiseRegistry = level.registryAccess().lookupOrThrow(Registries.NOISE_SETTINGS);
@@ -676,6 +679,9 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
                 actualLogs.add(packed);
             }
             originalMarkers = Set.copyOf(actualLogs);
+            ctx.assertTrue(originalMarkers.size() == 28,
+                    "the seed-0 persistence fixture restores its deterministic 28 natural trunk markers; actual="
+                            + originalMarkers.size());
             System.out.println("K5_PERSISTENCE_FIXTURE seed=0 biome=minecraft:forest chunk=[64,64]"
                     + " dimension=" + level.dimension().identifier() + " markerCount=" + originalMarkers.size()
                     + " markers=" + new TreeSet<>(originalMarkers));
