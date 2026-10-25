@@ -122,13 +122,15 @@ public final class ContractPricingGameTests implements CustomTestMethodInvoker {
         Method discountedCost = discount.getMethod("discountedCost", int.class, int.class);
         Class<?> stateType = Class.forName("dev.itzgamesgd.moreminecrafts.progression.ResearchProgressState");
         Class<?> runtime = Class.forName("dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime");
+        Method updateState = runtime.getDeclaredMethod("updateState", ServerPlayer.class, stateType);
+        updateState.setAccessible(true); // package-private in KnowledgeRuntime
         Villager villager = expertCleric(ctx);
         for (int level = 1; level <= 3; level++) {
             for (int amplifier : new int[]{-1, 0, 4, 255}) {
                 ServerPlayer player = player(ctx);
                 Object state = stateType.getMethod("with", String.class, int.class)
                         .invoke(stateType.getMethod("empty").invoke(null), "research." + researchId, level);
-                runtime.getMethod("updateState", ServerPlayer.class, stateType).invoke(null, player, state);
+                updateState.invoke(null, player, state);
                 if (amplifier >= 0) player.addEffect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 1200, amplifier));
                 updatePrices(villager, player);
                 for (ContractData.Tier tier : TIERS) {
