@@ -5,6 +5,7 @@ import dev.itzgamesgd.moreminecrafts.fishing.FishingEquipmentItem;
 import dev.itzgamesgd.moreminecrafts.fishing.FishingRodMenu;
 import dev.itzgamesgd.moreminecrafts.fishing.ModuleDurability;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -137,7 +138,8 @@ public final class FishingRodScreen extends AbstractContainerScreen<FishingRodMe
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if (event.button() == 0 && event.x() >= leftPos + 306 && event.x() < leftPos + 324
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT
+                && event.x() >= leftPos + 306 && event.x() < leftPos + 324
                 && event.y() >= topPos + 4 && event.y() < topPos + 22) {
             onClose();
             return true;

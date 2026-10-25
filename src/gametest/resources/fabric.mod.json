@@ -74,7 +74,8 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryLayoutClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAnvilClientGameTest",
       "dev.itzgamesgd.moreminecrafts.progression.EnchantingGuiScaleDiagnosticClientGameTest",
-      "dev.itzgamesgd.moreminecrafts.equipment.InventoryRegressionClientGameTest"
+      "dev.itzgamesgd.moreminecrafts.equipment.InventoryRegressionClientGameTest",
+      "dev.itzgamesgd.moreminecrafts.fishing.FishingRodCloseClientGameTest"
     ]
   },
   "mixins": [
