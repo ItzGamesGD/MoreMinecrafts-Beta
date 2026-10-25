@@ -141,3 +141,19 @@ This is a **program inventory** rather than a quota: the 8 main-spine named elem
 **Open owner choices:** exact guaranteed reward identity/amount; whether a guardian-specific unique item exists; premium categories and probability; boss entity drops vs chest-only; one-time/repeatability; death/escape/unload/reset rules; whether arena blocks entry/exit. These must be explicitly approved before implementation.
 
 **Technical acceptance gates:** client screenshot confirms armor cuboids and helmet-recessed two emissive red eyes; no mutation of vanilla Warden; actual Fabric version model-layer and animations compile; server-authoritative chest lock and boss single-spawn; phase transition exactly once at 40% HP; persistence after unload/restart; multiplayer chest contention; death/unload recovery; no unintentional structure damage; combat and reward exploit QA.
+
+## Owner decision — Tomb Guardian unique reward category, 2026-10-26
+
+**APPROVED (Option B):** The Tomb Guardian has exactly **one unique crafting-material item type** as its boss-exclusive signature reward. Do not replace it with a boss-exclusive artifact/accessory. Item name, quantity, exact acquisition, recipe uses and rates remain unapproved.
+
+### Reward proposal V2 — NOT OWNER-APPROVED
+
+- Working name: 왕릉 수호자의 핵 / Tomb Guardian Core.
+- Suggested acquisition: one guaranteed core per newly completed pyramid, awarded through the primary royal chest unlocked on boss defeat. Persist reward claim and guard multiplayer duplication.
+- Suggested royal chest resources for balance testing: 8–16 gold ingots, 4–10 emeralds, 1–3 diamonds; compare against rare trader economy before approval.
+- Suggested optional premium roll: a low-probability extra from existing, verified registered/implemented runes or artifact/accessory materials. Do not promise unimplemented items.
+- Side crypts retain independently accessible loot; secret branches offer extra risk/reward without becoming required.
+- Possible material uses: a bounded existing gear/accessory upgrade ingredient or themed utility recipe, avoiding dead-end materials and best-in-slot progression bypass.
+- **OPEN owner choices:** final name/texture, quantity and acquisition, exact resource table, rare roll probability/categories, concrete crafting use, structure repeatability/respawn/reloot.
+
+**Existing approved rules preserved:** sealed primary chest triggers the short warning and guardian emergence; unlock only after boss defeat; no cumulative noise meter; at <=40% HP guardian has simple enrage with slightly faster movement and attacks and brighter red eyes.
