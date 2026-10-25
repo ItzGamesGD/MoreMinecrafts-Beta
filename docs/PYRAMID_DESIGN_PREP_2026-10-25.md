@@ -120,3 +120,24 @@ This is a **program inventory** rather than a quota: the 8 main-spine named elem
 **APPROVED:** The **primary royal treasure chest is sealed until the unique Tomb Guardian boss is defeated**. First interaction with the sealed chest starts the encounter; the player cannot remove its loot before defeating the guardian. Use the previously agreed short warning (~3–5 seconds as an initial target, not frame-locked), rumble/dust, then apparent emergence from the floor without destructive terrain edits. Defeat removes the seal and allows the chest to open. Other optional tomb chests remain independent and must not inherit this boss gate. The old cumulative noise meter remains superseded.
 
 **Encounter state machine proposal (technical HOW, not owner-locked):** DORMANT -> AWAKENING -> ACTIVE -> DEFEATED / UNLOCKED. Guard first-interaction concurrency; server authority for loot lock and boss spawn; persist structure identity and state across unload/restart; make activation idempotent; avoid duplicate bosses and repeated reward generation. **OPEN:** death/despawn/reset policy, escape behavior, multiplayer rules, encounter recovery after crash, exact animation duration, boss stats, abilities, and loot contents. Do not code before implementation authorization.
+
+## Owner decision — Tomb Guardian enrage, 2026-10-26
+
+**APPROVED: Simple enrage (Option A).** When the guardian drops to **40% HP or lower**, it enters a single enrage phase: its two red eyes glow more intensely, attack cadence becomes modestly faster, and movement speed increases slightly. No additional complex move, larger shockwave, or mandatory new animation is implied. This is an encounter-design approval, not authorization to implement code. Keep the guardian a heavy, armored, sight-based melee boss with a clearly telegraphed ground slam, chest-triggered awakening, and royal chest unlocked only after defeat.
+
+### Balance V1 — proposals, NOT owner-approved numeric values
+
+- Suggested HP: 180 (90 hearts); enrage at <=72 HP for this HP choice.
+- Suggested baseline: melee damage 10 HP, melee interval ~2.0 s, movement speed slower than zombie, knockback resistance ~80%, sight detection ~24 blocks.
+- Suggested slam: 12 HP with 1.2 s readable wind-up, safe dodge/retreat zone; no actual block destruction. Radius/cooldown still OPEN.
+- Suggested enrage: movement x1.15 and melee cadence ~1.7 s; leave damage, slam radius, slam telegraph and knockback resistance unchanged. Actual implementation should derive phase threshold from max HP rather than hard-code 72 HP.
+- Suggested arena: 17×15 clear floor for royal chamber is provisional, not validated against ~4–5 block tall armored model, hitbox, columns, player dodging, doorway choke and projectile safety. Evaluate whether room needs expansion.
+- Avoid compulsory damage from unblockable instant attacks; preserve vanilla armor/shield interactions unless owner approves exceptions. Test solo baseline at plausible mid/late-game gear, multiplayer, high armor, melee/ranged kiting, accessibility and server lag.
+
+### Rewards V1 — proposals, NOT owner-approved loot table or rates
+
+**Guaranteed completion concept:** defeating the guardian changes the unique structure state to DEFEATED and opens the primary royal chest; the chest should contain meaningful but bounded guaranteed treasure (e.g. gold/emerald/diamond resources and thematic rare material). This is the reward for boss defeat, not a second infinitely farmable boss drop. **Optional premium roll:** a separately weighted bonus slot can draw from existing implemented artifacts/accessories/runes only after checking catalog and progression; avoid guaranteeing an unimplemented or top-tier item. Keep ordinary side crypt chests independently lootable before boss fight, and secret chambers worthwhile without being mandatory.
+
+**Open owner choices:** exact guaranteed reward identity/amount; whether a guardian-specific unique item exists; premium categories and probability; boss entity drops vs chest-only; one-time/repeatability; death/escape/unload/reset rules; whether arena blocks entry/exit. These must be explicitly approved before implementation.
+
+**Technical acceptance gates:** client screenshot confirms armor cuboids and helmet-recessed two emissive red eyes; no mutation of vanilla Warden; actual Fabric version model-layer and animations compile; server-authoritative chest lock and boss single-spawn; phase transition exactly once at 40% HP; persistence after unload/restart; multiplayer chest contention; death/unload recovery; no unintentional structure damage; combat and reward exploit QA.
