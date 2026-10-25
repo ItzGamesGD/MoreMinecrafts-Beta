@@ -190,6 +190,8 @@ public final class ContractScreen extends Screen {
         return switch (objective.category()) {
             case DELIVERY -> new ItemStack(BuiltInRegistries.ITEM.getValue(id)).getHoverName();
             case COMBAT -> BuiltInRegistries.ENTITY_TYPE.getValue(id).getDescription();
+            case EXPLORATION -> Component.translatableWithFallback(
+                    dev.itzgamesgd.moreminecrafts.bounty.ContractCatalog.structureNameKey(objective.target()), objective.target());
             default -> Component.literal(objective.target());
         };
     }

@@ -67,7 +67,7 @@ public final class ContractGenerator {
                 highValueUsed |= ContractCatalog.HIGH_VALUE_DELIVERY.contains(delivery.target());
                 objectives.add(delivery);
             } else {
-                objectives.add(exploration(random));
+                objectives.add(exploration(shape, random));
             }
         }
         return objectives;
@@ -148,10 +148,12 @@ public final class ContractGenerator {
         return new ContractData.Objective(ContractData.Category.DELIVERY, target, band(band, random), 0);
     }
 
-    static ContractData.Objective exploration(RandomSource random) {
+    /** Requires {@link #explorationBand} distinct structure instances; repeat entries into one instance count once. */
+    static ContractData.Objective exploration(ContractData.Tier shape, RandomSource random) {
         String structure = ContractCatalog.EXPLORATION_STRUCTURES.get(
                 random.nextInt(ContractCatalog.EXPLORATION_STRUCTURES.size()));
-        return new ContractData.Objective(ContractData.Category.EXPLORATION, structure, 1, 0);
+        return new ContractData.Objective(ContractData.Category.EXPLORATION, structure,
+                band(explorationBand(shape), random), 0);
     }
 
     static int band(int[] range, RandomSource random) {
@@ -172,6 +174,15 @@ public final class ContractGenerator {
             case BEGINNER -> new int[]{2, 4};
             case INTERMEDIATE -> new int[]{5, 10};
             default -> new int[]{10, 20};
+        };
+    }
+
+    /** Approved exploration location counts per objective (owner decision D2, 2026-10-25). */
+    static int[] explorationBand(ContractData.Tier shape) {
+        return switch (shape) {
+            case BEGINNER -> new int[]{1, 1};
+            case INTERMEDIATE -> new int[]{1, 2};
+            default -> new int[]{2, 3};
         };
     }
 
