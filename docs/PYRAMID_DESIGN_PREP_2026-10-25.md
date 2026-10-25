@@ -205,3 +205,18 @@ This is a **program inventory** rather than a quota: the 8 main-spine named elem
 **Illustrative recipe architecture, NOT approved quantities:** Tomb Guardian Core x1 + appropriate existing T2 elemental core/earth-linked ingredient x1 + a durable vanilla base material (e.g. heavy core or other verified item) + secondary mined resource(s) -> Earth Mace. Verify that every ingredient exists, is obtainable in intended game version, and does not force an unintended second boss or impossible progression. Prefer preserving existing T2 core relevance, avoiding duplicate mandatory boss gates, and allowing a fair balance of combat, exploration and gathering.
 
 **Open:** boss-tier promotion vs repeat kills, existing Earth Mace recipe compatibility, precise recipe grid, catalyst alternative use, core drop/claim behavior, exact tier and resource amounts, implementation approval.
+
+## Owner authorization — freely propose initial Earth Mace recipe, 2026-10-26
+
+**APPROVED DESIGN FREEDOM:** Design the Earth Mace recipe from scratch, with the Tomb Guardian signature core and additional ingredients; do not presume an existing locked recipe. This is permission to propose recipe design, NOT to implement gameplay code or to lock every ingredient without owner review.
+
+**First concrete recipe PROPOSAL (not yet approved):**
+D = diamond block, N = netherite ingot, C = Tomb Guardian Core, H = vanilla Heavy Core, . = empty.
+```
+D N D
+. C .
+. H .
+```
+Output: existing Earth Mace x1. Costs: diamond blocks x2, netherite ingot x1, guardian core x1, Heavy Core x1. The recipe deliberately connects pyramid boss, Trial Chambers, and late-game mining. **Balance warning:** Heavy Core is exceptionally rare and the two-boss/structure progression burden may be too steep for T2; compare alternatives using breeze rod or other accessible components before approval. Check exact runtime item IDs and recipe absence/presence before implementing.
+
+**OPEN:** whether Heavy Core is appropriate, final layout, counts, boss classification, guardian core acquisition, duplicate existing recipe handling, implementation approval.
