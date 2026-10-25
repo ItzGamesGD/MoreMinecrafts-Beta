@@ -165,13 +165,8 @@ public final class ProgressionSelectionScreen extends Screen {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if ("1".equals(System.getenv("MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL"))) {
-            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
-                    "SELECTOR_MOUSE_EVENT x={} y={} button={} scale={} window={}x{}",
-                    event.x(), event.y(), event.button(), minecraft.getWindow().getGuiScale(),
-                    minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
-        }
-        if (event.button() != 0) return super.mouseClicked(event, doubleClick);
+        PhysicalInputLog.press("selector", event);
+        if (event.button() != InputConstants.MOUSE_BUTTON_LEFT) return super.mouseClicked(event, doubleClick);
         int index = targetAt(event.x(), event.y());
         if (index >= 0) {
             activate(TARGETS[index]);
@@ -295,7 +290,7 @@ public final class ProgressionSelectionScreen extends Screen {
         if (target == null) return false;
         double centerX = imageLeft + (target.x() + target.width() / 2.0) * imageScale;
         double centerY = imageTop + (target.y() + target.height() / 2.0) * imageScale;
-        return mouseClicked(new MouseButtonEvent(centerX, centerY, new MouseButtonInfo(0, 0)), false);
+        return mouseClicked(new MouseButtonEvent(centerX, centerY, new MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
     }
 
     /** Root-window pixel coordinates used by the xdotool physical-input validation. */

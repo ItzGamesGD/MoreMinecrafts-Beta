@@ -23,16 +23,16 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   fi
   export MOREMINECRAFTS_VISUAL_VALIDATION=1
   export MOREMINECRAFTS_VISUAL_SERVER_ADDRESS="$server_address"
-  # Minecraft 26.3 SDL client is not discoverable as a visible X11 top-level
-  # window on this runner. Keep physical selector testing opt-in; the in-client
-  # Screen callback journey validates selector and progression navigation here.
+  # The 26.3 SDL client creates an x11 top-level window. Physical OS-input testing is opt-in
+  # (MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL=1) and runs as its own session; otherwise the in-client
+  # Screen callback journey captures the progression screens.
 
   openbox --sm-disable > "$results_dir/openbox.log" 2>&1 &
   window_manager_pid=$!
   sleep 2
   echo "Xvfb display=$DISPLAY window_manager_pid=$window_manager_pid" | tee -a "$client_log"
 
-  setsid timeout 240s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username $username" > "$client_log" 2>&1 &
+  setsid timeout "${MOREMINECRAFTS_CLIENT_TIMEOUT:-240}s" ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username $username" > "$client_log" 2>&1 &
   client_pid=$!
 
   stop_client() {
@@ -41,6 +41,21 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     kill "$window_manager_pid" 2>/dev/null || true
     wait "$window_manager_pid" 2>/dev/null || true
   }
+  # Which X server and windows the live client JVM actually uses (any map state), for runners where the
+  # client window is missing from this Xvfb.
+  describe_client_x11() {
+    local jvm_pid jvm_args
+    echo "Client JVM X11 state (DISPLAY=$DISPLAY):"
+    for jvm_pid in $(pgrep -x java 2>/dev/null || true); do
+      jvm_args="$(tr "\0" " " < "/proc/$jvm_pid/cmdline" 2>/dev/null || true)"
+      case "$jvm_args" in *KnotClient*|*devlaunchinjector*) ;; *) continue ;; esac
+      echo "client_jvm pid=$jvm_pid env: $(tr "\0" "\n" < "/proc/$jvm_pid/environ" 2>/dev/null | grep -E "^(DISPLAY|XAUTHORITY|WAYLAND_DISPLAY|XDG_SESSION_TYPE|XDG_RUNTIME_DIR|SDL_[A-Z_]*)=" | tr "\n" " ")"
+      echo "client_jvm pid=$jvm_pid windows_any_state: $(xdotool search --pid "$jvm_pid" 2>/dev/null | tr "\n" " ")"
+    done
+    echo "X11 sockets: $(ls /tmp/.X11-unix 2>&1 | tr "\n" " ") locks: $(ls /tmp/.X*-lock 2>&1 | tr "\n" " ")"
+    ps -eo pid,ppid,args | grep -E "[X]vfb|[o]penbox" || true
+  }
+
   collect_x11_diagnostics() {
     for screenshot in run/screenshots/*.png; do
       if [ -s "$screenshot" ]; then cp "$screenshot" "$results_dir/$(basename "$screenshot")"; fi
@@ -65,6 +80,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
         printf "id=%s name=%q wm_class=%q pid=%q process=%q geometry=%q\n" \
           "$candidate" "$candidate_name" "$candidate_class" "$candidate_pid" "$candidate_process" "$candidate_geometry"
       done
+      describe_client_x11
       echo "Recent Minecraft client log:"
       tail -n 160 "$client_log" 2>&1 || true
     } > "$results_dir/x11-input-diagnostics.txt" 2>&1
@@ -166,11 +182,12 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   cp "$screenshot" "$results_dir/visual-world.png"
   printf "Minecraft native Screenshot.grab via mainRenderTarget\nsource=%s\n" "$screenshot" > "$results_dir/capture-source.txt"
   echo "Copied native Minecraft screenshot from $screenshot" | tee -a "$client_log"
+  describe_client_x11 | tee -a "$results_dir/x11-client-state.txt"
 
   click_selector_target() {
     local target="$1" ready_line x y resolution render_width render_height event_count_before event_count_after
     local pointer_geometry pointer_x pointer_y pointer_window attempt
-    for attempt in $(seq 1 45); do
+    for attempt in $(seq 1 150); do
       ready_line="$(grep -F "SELECTOR_PHYSICAL_READY target=$target " "$client_log" | tail -n 1 || true)"
       if [ -n "$ready_line" ]; then break; fi
       if grep -Fq "SELECTOR_PHYSICAL_TEST_FAILED" "$client_log"; then
@@ -190,9 +207,17 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
           || ! "$render_width" =~ ^[1-9][0-9]*$ || ! "$render_height" =~ ^[1-9][0-9]*$ ]]; then
       fail_selector_input "invalid render coordinates: $ready_line"
     fi
-    if ! discover_minecraft_window; then
-      fail_selector_input "could not uniquely identify Minecraft X11 window"
-    fi
+    # Allow a window manager remap to settle; the window must still be unique, viewable and owned by the client.
+    for attempt in $(seq 1 15); do
+      if discover_minecraft_window 2>/dev/null; then break; fi
+      if (( attempt == 15 )); then
+        for candidate in $(xdotool search --class com.mojang.minecraft 2>/dev/null || true); do
+          echo "Minecraft-class window $candidate: $(xwininfo -id "$candidate" 2>/dev/null | grep -E "Map State|geometry" | tr -s " " | tr "\n" " ")"
+        done
+        fail_selector_input "could not uniquely identify Minecraft X11 window"
+      fi
+      sleep 1
+    done
     echo "Minecraft X11 window id=$X11_GAME_WINDOW_ID wm_class=$X11_GAME_WINDOW_CLASS pid=$X11_GAME_WINDOW_PID geometry=${X11_GAME_WINDOW_X},${X11_GAME_WINDOW_Y} ${X11_GAME_WINDOW_WIDTH}x${X11_GAME_WINDOW_HEIGHT}"
     if ! activate_minecraft_window; then
       fail_selector_input "focus/active mismatch target_id=$X11_GAME_WINDOW_ID active=$X11_GAME_ACTIVE_WINDOW focused=$X11_GAME_FOCUSED_WINDOW activate_status=$X11_WINDOWACTIVATE_STATUS focus_status=$X11_WINDOWFOCUS_STATUS"
@@ -202,22 +227,35 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
     fi
     event_count_before="$(grep -Fc "SELECTOR_MOUSE_EVENT" "$client_log" || true)"
     echo "Physical input target=$target window_id=$X11_GAME_WINDOW_ID local=($X11_CLICK_LOCAL_X,$X11_CLICK_LOCAL_Y) root=($X11_CLICK_ROOT_X,$X11_CLICK_ROOT_Y) active=$X11_GAME_ACTIVE_WINDOW focus=$X11_GAME_FOCUSED_WINDOW"
-    xdotool mousemove --sync "$X11_CLICK_ROOT_X" "$X11_CLICK_ROOT_Y"
-    xdotool click --clearmodifiers 1
+    # Window-relative move: xdotool translates through the window manager frame. Root coordinates derived from
+    # getwindowgeometry were observed 20 px low under Openbox, which misses small tree nodes.
+    xdotool mousemove --window "$X11_GAME_WINDOW_ID" --sync "$X11_CLICK_LOCAL_X" "$X11_CLICK_LOCAL_Y"
+    sleep 0.3
+    # One explicit XTest press and release. "xdotool click" was observed to reach SDL as two presses.
+    xdotool mousedown 1
+    sleep 0.08
+    xdotool mouseup 1
     pointer_geometry="$(xdotool getmouselocation --shell 2>/dev/null || true)"
     pointer_x="$(x11_geometry_value "$pointer_geometry" X)"
     pointer_y="$(x11_geometry_value "$pointer_geometry" Y)"
     pointer_window="$(x11_geometry_value "$pointer_geometry" WINDOW)"
     echo "Physical pointer after click=($pointer_x,$pointer_y) window=$pointer_window focus=$(xdotool getwindowfocus 2>/dev/null || true)"
-    for attempt in $(seq 1 20); do
-      event_count_after="$(grep -Fc "SELECTOR_MOUSE_EVENT" "$client_log" || true)"
-      if (( event_count_after > event_count_before )) \
-          && grep -Fq "SELECTOR_PHYSICAL_VERIFIED target=$target input=xdotool" "$client_log"; then
-        echo "Physical mouse event and screen transition verified: $target window_id=$X11_GAME_WINDOW_ID" | tee -a "$client_log"
-        printf "%s window=%s wm_class=%s pid=%s local=%s,%s root=%s,%s focus=%s active=%s mouse_event_count=%s\n" \
+    for attempt in $(seq 1 30); do
+      if grep -Fq "SELECTOR_PHYSICAL_VERIFIED target=$target input=xdotool" "$client_log"; then
+        sleep 1
+        event_count_after="$(grep -Fc "SELECTOR_MOUSE_EVENT" "$client_log" || true)"
+        newest_event="$(grep -F "SELECTOR_MOUSE_EVENT" "$client_log" | tail -n 1)"
+        if (( event_count_after != event_count_before + 1 )); then
+          fail_selector_input "expected exactly one Minecraft mouse press for one XTest press target=$target before=$event_count_before after=$event_count_after"
+        fi
+        if [[ "$newest_event" != *" button=1 "* ]]; then
+          fail_selector_input "Minecraft did not report the SDL left button for target=$target event=$newest_event"
+        fi
+        echo "Physical mouse event and state transition verified: $target window_id=$X11_GAME_WINDOW_ID" | tee -a "$client_log"
+        printf "%s window=%s wm_class=%s pid=%s local=%s,%s root=%s,%s focus=%s active=%s mouse_events=+1 event=%s\n" \
           "$target" "$X11_GAME_WINDOW_ID" "$X11_GAME_WINDOW_CLASS" "$X11_GAME_WINDOW_PID" \
           "$X11_CLICK_LOCAL_X" "$X11_CLICK_LOCAL_Y" "$X11_CLICK_ROOT_X" "$X11_CLICK_ROOT_Y" \
-          "$X11_GAME_FOCUSED_WINDOW" "$X11_GAME_ACTIVE_WINDOW" "$event_count_after" >> "$results_dir/selector-physical-inputs.txt"
+          "$X11_GAME_FOCUSED_WINDOW" "$X11_GAME_ACTIVE_WINDOW" "${newest_event##*SELECTOR_MOUSE_EVENT }" >> "$results_dir/selector-physical-inputs.txt"
         return 0
       fi
       if grep -Fq "SELECTOR_PHYSICAL_TEST_FAILED" "$client_log" || grep -Fq "CLIENT_UI_INTERACTION_FAILED" "$client_log"; then
@@ -225,17 +263,86 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
       fi
       sleep 1
     done
-    fail_selector_input "timed out waiting for Minecraft mouseClicked and screen transition target=$target event_count_before=$event_count_before event_count_after=$event_count_after"
+    event_count_after="$(grep -Fc "SELECTOR_MOUSE_EVENT" "$client_log" || true)"
+    fail_selector_input "timed out waiting for Minecraft mouseClicked and state transition target=$target event_count_before=$event_count_before event_count_after=$event_count_after"
+  }
+
+  rcon_value() {
+    python3 scripts/visual_validation/rcon.py "$1" | sed -n "$2" | head -n 1
+  }
+  server_xp_total() {
+    rcon_value "data get entity $username XpTotal" "s/.*has the following entity data: \([0-9][0-9]*\).*/\1/p"
+  }
+  server_item_count() {
+    local reply
+    reply="$(python3 scripts/visual_validation/rcon.py "clear $username $1 0")"
+    case "$reply" in
+      Found\ *) printf "%s\n" "$reply" | sed -n "s/^Found \([0-9][0-9]*\) matching.*/\1/p" ;;
+      No\ items*) echo 0 ;;
+      *) echo "Unexpected RCON reply for $1: $reply" >&2; echo -1 ;;
+    esac
+  }
+  require_equal() {
+    if [[ "$2" != "$3" ]]; then fail_selector_input "server state mismatch: $1 expected=$3 actual=$2"; fi
+    echo "SERVER_STATE_OK $1=$2" | tee -a "$results_dir/selector-physical-inputs.txt"
+  }
+
+  # Presses the last target again with one XTest press and requires exactly one delivered Minecraft press.
+  press_again() {
+    local before after
+    before="$(grep -Fc "SELECTOR_MOUSE_EVENT" "$client_log" || true)"
+    xdotool mousemove --window "$X11_GAME_WINDOW_ID" --sync "$X11_CLICK_LOCAL_X" "$X11_CLICK_LOCAL_Y"
+    sleep 0.3
+    xdotool mousedown 1
+    sleep 0.08
+    xdotool mouseup 1
+    sleep 3
+    after="$(grep -Fc "SELECTOR_MOUSE_EVENT" "$client_log" || true)"
+    if (( after != before + 1 )); then fail_selector_input "repeat press on $1 was not delivered exactly once before=$before after=$after"; fi
+    echo "REPEAT_PRESS_DELIVERED_ONCE $1" | tee -a "$results_dir/selector-physical-inputs.txt"
   }
 
   if [[ "${MOREMINECRAFTS_VISUAL_SELECTOR_PHYSICAL:-0}" == "1" ]]; then
-    # The first click is isolated: later selector actions run only after Minecraft logs
-    # mouseClicked and confirms the knowledge screen transition.
+    # OS-input session: every action below is an XTest press on the real Minecraft X11 window. The client only
+    # announces targets and verifies; this shell additionally verifies server-side state through RCON.
     click_selector_target knowledge
     echo "First physical selector click passed; continuing staged interactions."
-    for target in research advancements xp_quest close; do
+    for target in knowledge_sector research advancements xp_quest close; do
       click_selector_target "$target"
     done
+    xp_before="$(server_xp_total)"
+    chests_before="$(server_item_count minecraft:chest)"
+    iron_before="$(server_item_count minecraft:iron_block)"
+    paper_before="$(server_item_count minecraft:paper)"
+    click_selector_target research_node
+    require_equal research_xp_spent "$(( xp_before - $(server_xp_total) ))" 1100
+    require_equal research_chests_spent "$(( chests_before - $(server_item_count minecraft:chest) ))" 8
+    require_equal research_iron_blocks_spent "$(( iron_before - $(server_item_count minecraft:iron_block) ))" 4
+    require_equal research_paper_spent "$(( paper_before - $(server_item_count minecraft:paper) ))" 64
+    xp_before="$(server_xp_total)"
+    press_again research_node
+    require_equal research_repeat_press_xp_change "$(( $(server_xp_total) - xp_before ))" 0
+    # Complete the registered Elder Guardian quest through a vanilla kill credited to this player, far enough away
+    # that its experience orbs cannot reach the player and disturb the claim ledger.
+    python3 scripts/visual_validation/rcon.py \
+      "summon minecraft:elder_guardian 8.5 64 -8.5 {NoAI:1b,Tags:[\"physical_quest\"]}" \
+      "damage @e[type=minecraft:elder_guardian,tag=physical_quest,limit=1] 1000 minecraft:player_attack by $username"
+    xp_before="$(server_xp_total)"
+    click_selector_target quest_node
+    require_equal quest_claim_xp "$(( $(server_xp_total) - xp_before ))" 750
+    xp_before="$(server_xp_total)"
+    press_again quest_node
+    require_equal quest_repeat_press_xp_change "$(( $(server_xp_total) - xp_before ))" 0
+    for attempt in $(seq 1 60); do
+      if grep -Fq "SELECTOR_PHYSICAL_TEST_COMPLETE" "$client_log"; then break; fi
+      sleep 1
+    done
+    grep -Fq "SELECTOR_PHYSICAL_TEST_COMPLETE" "$client_log" || fail_selector_input "client did not report completion"
+    echo "SELECTOR_PHYSICAL_SESSION_PASSED" | tee -a "$client_log" "$results_dir/selector-physical-inputs.txt"
+    collect_x11_diagnostics
+    stop_client
+    trap - EXIT
+    exit 0
   else
     echo "Physical selector click path is opt-in; the in-client Screen callback journey is active."
   fi

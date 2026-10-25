@@ -29,8 +29,10 @@ def magenta(px):
     # The missing-texture checkerboard is #F800F8 / black, but lighting and GUI shading darken it to
     # purple (observed ~(170,0,200) and ~(90,0,110)), so shaded magenta must match. Red and blue stay close
     # (|r-b| <= 40); the vanilla enchantment glint on enchanted-book icons is pinker (~(178,32,109)) and must not.
+    # The glint is animated and some phases are bluer (~(198,37,159)), but it always keeps some green (29-38
+    # observed) while the shaded checkerboard keeps none (0 in every observed pixel), so green stays <= 15.
     r, g, b = px[:3]
-    return r >= 100 and b >= 100 and g <= 40 and abs(r - b) <= 40
+    return r >= 100 and b >= 100 and g <= 15 and abs(r - b) <= 40
 
 
 def magenta_count(img):

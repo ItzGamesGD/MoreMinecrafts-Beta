@@ -154,6 +154,13 @@ public final class VisualValidationHarness {
      */
     private static void runUiJourney(Minecraft client) {
         if (uiJourneyFailed || client.player == null || client.level == null) return;
+        if (PHYSICAL_SELECTOR_TEST) {
+            // The OS-input session replaces the synthetic Screen callback journey; it never falls through into it.
+            if (physicalSelectorDone || uiJourneyFailed) return;
+            if (physicalSelectorStage == 0) openSelectorForPhysicalTest(client, 1, "knowledge");
+            else advancePhysicalSelectorTest(client);
+            return;
+        }
         if (!uiJourneyStarted) {
             int missingIcons = ProgressionTreeCanvas.validateIconMappings();
             if (missingIcons != 0) {
@@ -166,10 +173,6 @@ public final class VisualValidationHarness {
             queueUiScreenshot("progression-selection.png");
             uiJourneyStage = 200;
             return;
-        }
-        if (PHYSICAL_SELECTOR_TEST && physicalSelectorStage > 0 && !physicalSelectorDone) {
-            advancePhysicalSelectorTest(client);
-            if (!physicalSelectorDone) return;
         }
         if (uiCaptureName != null) return;
         switch (uiJourneyStage) {
@@ -1023,6 +1026,17 @@ public final class VisualValidationHarness {
         MoreMinecrafts.LOGGER.error("CLIENT_UI_INTERACTION_FAILED {}", reason);
     }
 
+    private static final String PHYSICAL_RESEARCH_ID = "nearby_chest_ingredients";
+    private static final String PHYSICAL_RESEARCH_DISCIPLINE = "production";
+    private static final String PHYSICAL_QUEST_ID = "xpq.boss.elder_guardian";
+    private static int physicalWaitTicks;
+    private static int physicalXpBefore;
+
+    /**
+     * OS-input session. Every transition below must be caused by an xdotool press that the shell delivers to the real
+     * Minecraft X11 window after a READY announcement; this client only announces targets and verifies the resulting
+     * client and server-synchronized state. No synthetic Screen callback is used in this mode.
+     */
     private static void advancePhysicalSelectorTest(Minecraft client) {
         Screen screen = client.gui.screen();
         switch (physicalSelectorStage) {
@@ -1030,6 +1044,16 @@ public final class VisualValidationHarness {
                 if (screen instanceof ProgressionDisciplineSelectionScreen hub
                         && hub.mode() == ProgressionBrowseScreen.Mode.KNOWLEDGE) {
                     verifyPhysicalSelectorTarget("knowledge");
+                    double[] point = hub.validationSectorPoint("resources");
+                    if (point == null) { failPhysical("knowledge_sector", "resources sector is missing"); return; }
+                    physicalSelectorStage = 11;
+                    announcePhysicalTarget(client, "knowledge_sector", point);
+                }
+            }
+            case 11 -> {
+                if (screen instanceof ProgressionBrowseScreen browse && browse.mode() == ProgressionBrowseScreen.Mode.KNOWLEDGE
+                        && "resources".equals(browse.validationDiscipline())) {
+                    physicalVerified("knowledge_sector", "discipline=resources");
                     openSelectorForPhysicalTest(client, 2, "research");
                 }
             }
@@ -1056,14 +1080,80 @@ public final class VisualValidationHarness {
             case 5 -> {
                 if (screen == null && "close".equals(ProgressionSelectionScreen.lastClickedTarget())) {
                     verifyPhysicalSelectorTarget("close");
+                    client.gui.setScreen(new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.RESEARCH,
+                            PHYSICAL_RESEARCH_DISCIPLINE));
+                    physicalSelectorStage = 6;
+                }
+            }
+            case 6 -> {
+                // One tick after opening, the canvas has its viewport; announce the purchasable node.
+                if (!(screen instanceof ProgressionBrowseScreen browse)) { failPhysical("research_node", "research screen closed"); return; }
+                var row = researchRow();
+                if (row == null || row.level() != 0
+                        || row.availability() != dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseRules.Result.PURCHASED) {
+                    failPhysical("research_node", "fixture is not purchasable: " + (row == null ? "missing" : row.availability()));
+                    return;
+                }
+                double[] point = browse.validationCentredNodePoint(PHYSICAL_RESEARCH_ID);
+                if (point == null) { failPhysical("research_node", "node is not hittable after centring"); return; }
+                physicalXpBefore = ProgressionClientApi.availableXp();
+                physicalWaitTicks = 0;
+                physicalSelectorStage = 7;
+                announcePhysicalTarget(client, "research_node", point);
+            }
+            case 7 -> {
+                var row = researchRow();
+                if (row != null && row.level() >= 1) {
+                    physicalVerified("research_node", "level=" + row.level() + " xp_before=" + physicalXpBefore
+                            + " xp_after=" + ProgressionClientApi.availableXp());
+                    physicalWaitTicks = 0;
+                    physicalSelectorStage = 8;
+                } else if (++physicalWaitTicks > 20 * 120) {
+                    failPhysical("research_node", "no server-confirmed purchase within 120 seconds");
+                }
+            }
+            case 8 -> {
+                // The shell credits a vanilla Elder Guardian kill to this player; wait for the server to complete it.
+                var quest = questRow();
+                if (quest != null && quest.complete() && !quest.claimed()) {
+                    client.gui.setScreen(new ProgressionBrowseScreen(ProgressionBrowseScreen.Mode.QUEST));
+                    physicalSelectorStage = 9;
+                } else if (++physicalWaitTicks > 20 * 120) {
+                    failPhysical("quest_node", "quest " + PHYSICAL_QUEST_ID + " never became complete and unclaimed");
+                }
+            }
+            case 9 -> {
+                if (!(screen instanceof ProgressionBrowseScreen browse)) { failPhysical("quest_node", "quest screen closed"); return; }
+                double[] point = browse.validationCentredNodePoint(PHYSICAL_QUEST_ID);
+                if (point == null) { failPhysical("quest_node", "node is not hittable after centring"); return; }
+                physicalXpBefore = ProgressionClientApi.availableXp();
+                physicalWaitTicks = 0;
+                physicalSelectorStage = 10;
+                announcePhysicalTarget(client, "quest_node", point);
+            }
+            case 10 -> {
+                var quest = questRow();
+                if (quest != null && quest.claimed()) {
+                    physicalVerified("quest_node", "claimed=true xp_before=" + physicalXpBefore
+                            + " xp_after=" + ProgressionClientApi.availableXp() + " reward=" + quest.rewardRawXp());
                     physicalSelectorDone = true;
-                    client.gui.setScreen(new ProgressionSelectionScreen());
-                    uiCaptureComplete = true;
                     MoreMinecrafts.LOGGER.info("SELECTOR_PHYSICAL_TEST_COMPLETE gui_scale={}", client.getWindow().getGuiScale());
+                } else if (++physicalWaitTicks > 20 * 120) {
+                    failPhysical("quest_node", "no server-confirmed claim within 120 seconds");
                 }
             }
             default -> { }
         }
+    }
+
+    private static dev.itzgamesgd.moreminecrafts.progression.ProgressionScreenData.ResearchRow researchRow() {
+        return ProgressionClientApi.research(PHYSICAL_RESEARCH_DISCIPLINE).stream()
+                .filter(row -> row.id().equals(PHYSICAL_RESEARCH_ID)).findFirst().orElse(null);
+    }
+
+    private static dev.itzgamesgd.moreminecrafts.progression.ProgressionScreenData.QuestRow questRow() {
+        return ProgressionClientApi.quests(null).stream()
+                .filter(row -> row.id().equals(PHYSICAL_QUEST_ID)).findFirst().orElse(null);
     }
 
     private static void openSelectorForPhysicalTest(Minecraft client, int nextStage, String target) {
@@ -1074,8 +1164,7 @@ public final class VisualValidationHarness {
 
     private static void announcePhysicalSelectorTarget(Minecraft client, String target) {
         if (!(client.gui.screen() instanceof ProgressionSelectionScreen selector)) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("SELECTOR_PHYSICAL_TEST_FAILED expected_selector target={}", target);
+            failPhysical(target, "selector is not open");
             return;
         }
         MoreMinecrafts.LOGGER.info("SELECTOR_PHYSICAL_READY target={} x={} y={} gui_scale={} resolution={}x{}",
@@ -1083,14 +1172,29 @@ public final class VisualValidationHarness {
                 client.getWindow().getGuiScale(), client.getWindow().getWidth(), client.getWindow().getHeight());
     }
 
+    /** Announces a GUI-space point as window pixels, in the same format the shell already parses for selector cards. */
+    private static void announcePhysicalTarget(Minecraft client, String target, double[] guiPoint) {
+        int scale = (int) client.getWindow().getGuiScale();
+        MoreMinecrafts.LOGGER.info("SELECTOR_PHYSICAL_READY target={} x={} y={} gui_scale={} resolution={}x{}",
+                target, Math.round(guiPoint[0] * scale), Math.round(guiPoint[1] * scale),
+                scale, client.getWindow().getWidth(), client.getWindow().getHeight());
+    }
+
+    private static void physicalVerified(String target, String evidence) {
+        MoreMinecrafts.LOGGER.info("SELECTOR_PHYSICAL_VERIFIED target={} input=xdotool {}", target, evidence);
+    }
+
+    private static void failPhysical(String target, String reason) {
+        uiJourneyFailed = true;
+        MoreMinecrafts.LOGGER.error("SELECTOR_PHYSICAL_TEST_FAILED target={} reason={}", target, reason);
+    }
+
     private static void verifyPhysicalSelectorTarget(String target) {
         if (!target.equals(ProgressionSelectionScreen.lastClickedTarget())) {
-            uiJourneyFailed = true;
-            MoreMinecrafts.LOGGER.error("SELECTOR_PHYSICAL_TEST_FAILED target={} actual={}", target,
-                    ProgressionSelectionScreen.lastClickedTarget());
+            failPhysical(target, "selector activated " + ProgressionSelectionScreen.lastClickedTarget());
             return;
         }
-        MoreMinecrafts.LOGGER.info("SELECTOR_PHYSICAL_VERIFIED target={} input=xdotool", target);
+        physicalVerified(target, "");
     }
 
     private static void clickSelectionChoice(Minecraft client, int choice) {
