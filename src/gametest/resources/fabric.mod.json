@@ -23,6 +23,7 @@
       "dev.itzgamesgd.moreminecrafts.accessory.SnowCharmAbilityGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryLifecycleGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityIntegrationGameTests",
       "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
