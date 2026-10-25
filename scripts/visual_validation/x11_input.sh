@@ -96,3 +96,22 @@ x11_transform_coordinates() {
   X11_CLICK_ROOT_X=$((X11_GAME_WINDOW_X + X11_CLICK_LOCAL_X))
   X11_CLICK_ROOT_Y=$((X11_GAME_WINDOW_Y + X11_CLICK_LOCAL_Y))
 }
+
+# Realistic left click: an explicit XTest press, a short hold, then release. "xdotool click" delivers press and release
+# back to back and was observed to reach SDL as two presses, which makes the vanilla inventory screen send two
+# container-click packets (place, then pick the item up again). Use this helper for every real-input click.
+x11_click_held() {
+  local hold="${1:-0.1}"
+  xdotool mousedown 1
+  sleep "$hold"
+  xdotool mouseup 1
+}
+
+# Held click with Shift down (quick-move).
+x11_shift_click_held() {
+  xdotool keydown shift
+  sleep 0.15
+  x11_click_held "${1:-0.1}"
+  sleep 0.15
+  xdotool keyup shift
+}
