@@ -50,3 +50,26 @@
 **PROPOSED only:** great hall nominal length 36, width 19, clear height 18 blocks; south entry axis, balcony location and stair alignments, decorative pillars, exact altar dimensions. Verify the shrinking pyramid envelope and structural clearances at each elevation before treating any numbers or coordinates as final. In a 1-inward-per-1-up 81-wide pyramid, width near elevation +20 is ~41 blocks before wall thickness; this does not by itself prove a 36-long hall can retain 18 blocks clear height along its full length.
 
 **NEXT OWNER DESIGN DECISIONS:** approve final hall geometry and clearances; balcony elevation/extent and ascent route; ceremonial altar size; transition to underground plan. No implementation authorized by this concept decision.
+
+## Owner decision — underground navigation, 2026-10-26
+
+**APPROVED:** Underground navigation pattern **A: one clear central main route with optional side branches**. A player can reach the royal burial chamber without clearing all optional crypts, storage rooms, treasure rooms, or secrets. Optional branches should reward observation and exploration rather than require confusing mandatory maze traversal. This supersedes any competing interlocking-maze or increasingly labyrinthine mandatory-route concepts. No fixed room count or floor count was approved by this decision.
+
+### Underground layout proposal V1 — NOT YET OWNER-APPROVED
+
+**Coordinate convention:** Pyramid ground-center X=0, Z=0; positive Z = south (entrance), negative Z = north. Ground datum Y=0, underground values negative. Exterior base footprint X,Z=-40..+40. All room footprints below are conceptual clear-space targets (not NBT coordinates); walls, stairs, foundations, transitions, door openings, ceiling slabs, collision clearance and worldgen safety still need validation. Never treat a schematic floor projection as rooms sharing the same elevation.
+
+**Three architectural levels, four functional zones** (proposal, not mandatory 3 floors): L1 general burial zone, L2 grave goods + optional hidden crypt zone, L3 royal burial zone. Proposed **floor datums** L1=-5, L2=-11, L3=-17; suggested usable room clear heights ~4,4,3 blocks respectively, and a 1–2-block structural ceiling/floor separation where possible. The deepest placed blocks including floor foundations must not cross Y=-20. Exact datums require geometry and stair-run audit: each ~6-block descent at 1 rise/run needs ~6 horizontal blocks plus landings, and the above-ground grand stair must connect safely to L1.
+
+**Proposed room program and internal clear dimensions (X width × Z length, blocks):**
+- Main spine: U00 monumental descent / threshold, U01 L1 reception vestibule 11×9, U02 L1 burial gallery 9×21, U03 L1→L2 stair and landing, U04 L2 central passage 7×21, U05 L2→L3 stair and landing, U06 L3 royal antechamber 11×9, U07 L3 royal burial chamber 17×15. Main path remains continuous and visibly marked; no keys or optional chambers required.
+- Zone A, general tombs (L1): A1 west small crypt 7×7, A2 west ossuary 7×9, A3 east family crypt 9×9, A4 east ritual supplies 7×7. All optional off U02; at least one legible route back.
+- Zone B, grave goods (L2): B1 west pottery room 7×7, B2 west armory/storage 9×7, B3 east offerings 7×9, B4 east guarded treasure room 9×9. All optional off U04.
+- Zone C, hidden annex (primarily L2): C1 concealed west passage, C2 sealed-looking but discoverable secret crypt 7×7, C3 concealed east passage, C4 secret treasure chamber 7×9. No mandatory access; exact discovery method, rewards and traps OPEN.
+- Zone D, royal complex (L3): U06 antechamber, U07 primary tomb, D1 west burial annex 7×7, D2 east treasury annex 9×7, both optional; no boss or mandatory puzzle presumed.
+
+This is a **program inventory** rather than a quota: the 8 main-spine named elements include stair/threshold passages; A(4)+B(4)+C(4)+D(2) = 14 branch elements, for 22 named spaces/elements total, not 22 closed rooms. Room counts, dimensions and zone allocations are proposed and can be reduced or rearranged after collision and experience review.
+
+**Indicative horizontal allocation:** Main route generally near X=-5..+5; L1 side rooms at X≈-25..-10 and +10..+25; L2 branch rooms similar; royal chamber centered around X=0. South→north traversal for narrative clarity; descent transitions can fold sideways as necessary. Do not assume the conceptual sketch's side branches all occupy one Y plane. Maintain ≥2-block comfortable public passage where possible, and explicit turning/return landmarks. Outer pyramid foundation and cave collision may restrict underground room footprints; the approved 81×81 exterior does not guarantee underground empty volume.
+
+**Design priorities:** Ground-level halls remain grand, elegant and sparse; underground density carries the exploration burden. Treasure frequency, enemy rosters, traps, secret mechanics, decoration palette and exact room graph remain OPEN. No gameplay/worldgen code authorized. Verify dimension envelope, excavation volume, 3D stair feasibility, cave/water interference, chunk crossing and save/reload determinism before a build-ready blueprint.
