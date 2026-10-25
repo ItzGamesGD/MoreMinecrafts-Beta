@@ -30,6 +30,7 @@
     "GreatswordPlayerInteractionMixin",
     "InventoryMenuMixin",
     "AccessoryDeathMixin",
+    "SnowCharmPowderSnowMixin",
     "SleepingBagRespawnMixin",
     "BackpackDetachMixin",
     "ShieldItemMixin",
