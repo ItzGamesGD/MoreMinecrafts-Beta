@@ -58,6 +58,32 @@ import net.minecraft.nbt.NbtOps;
 
 /** Runtime checks for production K5 provenance, direct mining, and diagnostic lifecycle evidence. */
 public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoker {
+    /** Lowest Y the controlled forest fixtures leave untouched: the floor they place is y 1..3. */
+    private static final int FIXTURE_DECORATION_MIN_Y = 4;
+
+    /**
+     * Returns a controlled decoration fixture to the state a fresh GameTest world has there: air above the floor and
+     * no K5 provenance attachment, in the chunk and the eight neighbours its decoration writes into. The fixture chunks
+     * are fixed for seed-0 determinism, so a reused GameTest world otherwise still holds the previous run's trees and
+     * markers. A fresh world is unchanged by this.
+     */
+    static void restoreFreshDecorationVolume(ServerLevel level, ChunkPos center) {
+        for (int cx = center.x() - 1; cx <= center.x() + 1; cx++) {
+            for (int cz = center.z() - 1; cz <= center.z() + 1; cz++) {
+                LevelChunk chunk = level.getChunk(cx, cz);
+                for (int x = chunk.getPos().getMinBlockX(); x <= chunk.getPos().getMaxBlockX(); x++)
+                    for (int z = chunk.getPos().getMinBlockZ(); z <= chunk.getPos().getMaxBlockZ(); z++)
+                        for (int y = FIXTURE_DECORATION_MIN_Y; y < level.getMaxY(); y++) {
+                            BlockPos pos = new BlockPos(x, y, z);
+                            if (!chunk.getBlockState(pos).isAir())
+                                level.setBlock(pos, Blocks.AIR.defaultBlockState(),
+                                        net.minecraft.world.level.block.Block.UPDATE_CLIENTS);
+                        }
+                chunk.removeAttached(K5NaturalTreeProbe.NATURAL_TREE_LOGS);
+            }
+        }
+    }
+
     @GameTest
     public void k5FeatureIdentityUsesRegistryAllowlistAndFailsClosed(GameTestHelper ctx) {
         Identifier vanillaForestPlacement = Identifier.fromNamespaceAndPath("minecraft", "trees_birch_and_oak_leaf_litter");
@@ -130,6 +156,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         NoiseBasedChunkGenerator fixtureGenerator =
                 new NoiseBasedChunkGenerator(new FixedBiomeSource(forest), overworldNoise);
         BlockPos fixedChunkProbe = new BlockPos(8, 4, 8);
+        restoreFreshDecorationVolume(level, new ChunkPos(0, 0));
         ChunkAccess chunk = level.getChunkAt(fixedChunkProbe);
         ctx.assertTrue(chunk.getPos().equals(new ChunkPos(0, 0)),
                 "fixture chunk coordinates are fixed at (0,0)");
@@ -1273,6 +1300,7 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         int baseX = fixtureChunkPos.getMinBlockX();
         int baseZ = fixtureChunkPos.getMinBlockZ();
         BlockPos chunkCenter = new BlockPos(baseX + 8, 4, baseZ + 8);
+        restoreFreshDecorationVolume(level, fixtureChunkPos);
         ChunkAccess chunk = level.getChunkAt(chunkCenter);
         ctx.assertTrue(chunk.getPos().equals(fixtureChunkPos), "fixture uses the pinned chunk [128,128]");
         chunk.fillBiomesFromNoise((quartX, quartY, quartZ) -> forest);
@@ -1454,6 +1482,37 @@ public final class K5NaturalTreeProbeGameTests implements CustomTestMethodInvoke
         ArrayList<Long> sorted = new ArrayList<>(values);
         Collections.sort(sorted);
         return sorted.get(sorted.size() / 2);
+    }
+
+    /** Leftovers of an earlier run in a reused world are removed; the floor below the fixture is kept. */
+    @GameTest
+    public void k5FixtureResetRemovesLeftoverDecorationAndMarkers(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        ChunkPos center = new ChunkPos(-300, -300);
+        LevelChunk middle = level.getChunk(center.x(), center.z());
+        LevelChunk neighbour = level.getChunk(center.x() + 1, center.z() - 1);
+        BlockPos log = new BlockPos(center.getMinBlockX() + 5, 5, center.getMinBlockZ() + 5);
+        BlockPos leaves = new BlockPos(neighbour.getPos().getMinBlockX() + 3, 10, neighbour.getPos().getMinBlockZ() + 3);
+        BlockPos floor = new BlockPos(center.getMinBlockX() + 5, 3, center.getMinBlockZ() + 5);
+        BlockPos outside = new BlockPos(center.getMinBlockX() + 40, 6, center.getMinBlockZ() + 5);
+        level.setBlock(log, Blocks.OAK_LOG.defaultBlockState(), 3);
+        level.setBlock(leaves, Blocks.OAK_LEAVES.defaultBlockState(), 3);
+        level.setBlock(floor, Blocks.GRASS_BLOCK.defaultBlockState(), 3);
+        level.setBlock(outside, Blocks.OAK_LOG.defaultBlockState(), 3);
+        middle.setAttached(K5NaturalTreeProbe.NATURAL_TREE_LOGS, new ChunkData(1, Set.of(log.asLong())));
+        neighbour.setAttached(K5NaturalTreeProbe.NATURAL_TREE_LOGS, new ChunkData(1, Set.of(leaves.asLong())));
+
+        restoreFreshDecorationVolume(level, center);
+
+        ctx.assertTrue(level.getBlockState(log).isAir() && level.getBlockState(leaves).isAir(),
+                "decoration blocks above the floor in the chunk and its neighbours are cleared");
+        ctx.assertTrue(K5NaturalTreeProbe.data(middle) == null && K5NaturalTreeProbe.data(neighbour) == null,
+                "provenance markers left in the fixture chunk and a neighbour are removed");
+        ctx.assertTrue(level.getBlockState(floor).is(Blocks.GRASS_BLOCK),
+                "the floor below the fixture's decoration volume is kept");
+        ctx.assertTrue(level.getBlockState(outside).is(Blocks.OAK_LOG),
+                "blocks outside the 3x3 chunk neighbourhood are untouched");
+        ctx.succeed();
     }
 
     @Override
