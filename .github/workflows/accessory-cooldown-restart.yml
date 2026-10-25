@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/main/java/dev/itzgamesgd/moreminecrafts/ability/**'
       - 'src/main/java/dev/itzgamesgd/moreminecrafts/accessory/**'
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/equipment/EquipmentAttachments.java'
       - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java'
       - '.github/workflows/accessory-cooldown-restart.yml'
   workflow_dispatch:

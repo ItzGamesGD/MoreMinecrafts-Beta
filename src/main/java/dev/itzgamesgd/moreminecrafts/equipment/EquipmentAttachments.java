@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.equipment;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.accessory.AccessoryLoadout;
+import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
@@ -23,6 +24,9 @@ public final class EquipmentAttachments {
                     .copyOnDeath()
                     .syncWith(ByteBufCodecs.fromCodecWithRegistries(AccessoryLoadout.CODEC),
                             AttachmentSyncPredicate.all()));
+    /** Ring of Life fired and the player has not yet recovered above the threshold; absent means armed. */
+    public static final AttachmentType<Boolean> RING_OF_LIFE_SPENT = AttachmentRegistry.create(
+            ModIds.id("accessory_ring_of_life_spent"), builder -> builder.persistent(Codec.BOOL).copyOnDeath());
 
     private EquipmentAttachments() {}
     public static void initialize() {}
