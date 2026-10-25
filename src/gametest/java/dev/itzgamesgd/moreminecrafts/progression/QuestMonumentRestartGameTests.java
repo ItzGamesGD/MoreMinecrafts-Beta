@@ -56,7 +56,8 @@ public final class QuestMonumentRestartGameTests implements CustomTestMethodInvo
         var monument = QuestStructureFixture.register(level, "minecraft:monument", CHUNK);
         long key = monument.start().getChunkPos().pack();
         BlockPos inside = monument.inside();
-        ctx.runAfterDelay(25, () -> {
+        QuestStructureFixture.loadEntityTickingNeighbourhood(level, monument);
+        ctx.runAfterDelay(25, () -> QuestStructureFixture.whenEntitiesTicking(ctx, () -> {
             if (phase.equals("write")) {
                 ServerPlayer hitter = survivor(ctx, ELDER_HITTER, "xpq-monument-hitter", false);
                 ServerPlayer victim = survivor(ctx, BEAM_VICTIM, "xpq-monument-victim", false);
@@ -99,7 +100,7 @@ public final class QuestMonumentRestartGameTests implements CustomTestMethodInvo
             ctx.assertTrue(cleared(hitter) == 1 && cleared(returning) == 1, "replaying the monument adds nothing");
             System.out.println("QUEST_MONUMENT_RESTART_READ monument=" + key);
             ctx.succeed();
-        });
+        }, monument));
     }
 
 
