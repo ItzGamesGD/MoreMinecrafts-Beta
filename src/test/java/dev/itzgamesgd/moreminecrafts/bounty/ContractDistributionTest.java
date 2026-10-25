@@ -136,8 +136,7 @@ class ContractDistributionTest {
                                 : objective.target().equals("moreminecrafts:adamantium_ingot") ? new int[]{1, 1}
                                 : ContractCatalog.DELIVERY_RARE.contains(objective.target())
                                 ? ContractGenerator.rareDeliveryBand(shape) : ContractGenerator.ordinaryDeliveryBand(shape);
-                        // Current implementation: one structure entry per exploration objective (see PR record).
-                        case EXPLORATION -> new int[]{1, 1};
+                        case EXPLORATION -> ContractGenerator.explorationBand(shape);
                         case SPECIAL -> throw new AssertionError("special objectives are not generated");
                     };
                     assertTrue(objective.required() >= band[0] && objective.required() <= band[1],

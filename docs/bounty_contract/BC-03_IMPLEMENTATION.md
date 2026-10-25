@@ -8,7 +8,7 @@ This document describes the code on the BC-03 implementation branch. It does not
 | --- | --- |
 | BC-03A item-bound contracts, redeemed-ID protection, durable redemption | SERVER VERIFIED, including real process interruption at nine transaction boundaries (11 interrupted scenarios). Exactly-once is established for process termination, not for OS or power failure (see limitations). |
 | BC-03B combat contribution, structure entry | SERVER VERIFIED against a real vanilla `StructureStart`; combat attribution is CODE VERIFIED. No live combat session was run. |
-| BC-03C objective pools, loot, trades, special conversion | SERVER VERIFIED. Seller stock is exact. Restock of contract stock follows vanilla and is an open owner decision. |
+| BC-03C objective pools, loot, trades, special conversion | SERVER VERIFIED. Seller stock is exact. Restock of contract stock follows vanilla (owner decision D1, 2026-10-25). |
 | **BC-03 combat-objective phase** | **IMPLEMENTATION-COMPLETE, LIVE-VALIDATION-PENDING** (see closure record below). Does not close BC-03 as a whole. |
 | BC-03D contract screen and actions | Server side SERVER VERIFIED. Client rendering and input: compiled only. **LIVE PENDING**. |
 
@@ -44,7 +44,9 @@ One stock unit is one contract offer with `maxUses = 1`, added after vanilla pro
 
 Offers are priced at the midpoint of the approved band (3 / 8 / 16 emeralds, PROVISIONAL), with xp 0 and a zero price multiplier so they neither level villagers nor drift. `ContractTradeGameTests` covers every eligible profession at levels 1–5 against these numbers, ineligible professions, real `Villager` and `WanderingTrader` entities through the mixin (400 wandering traders, confirming both ends of every range occur), exhaustion, idempotence, and vanilla restock.
 
-**Restock**: vanilla `Villager.restock()` resets `uses` on every offer, so contract stock refills with vanilla restocking. The approved quantities do not say whether sold stock should refill. Changing it would be a new rule, so it is not implemented. This is an open owner decision.
+**Restock**: vanilla `Villager.restock()` resets `uses` on every offer, so contract stock refills with vanilla restocking. The owner kept this behavior (D1, 2026-10-25). Wandering traders never restock.
+
+**Discounts**: the 3 / 8 / 16 prices are base prices. Hero of the Village applies to contract offers, and so does the Villager Trading research discount where it is integrated (D3, 2026-10-25). Vanilla clamps every price to at least one emerald. `ContractPricingGameTests` covers both discounts and their stacking.
 
 ## Durable completion transaction
 
@@ -132,9 +134,10 @@ Combat ordinary/strong weights 100/0, 75/25, 50/50 (owner-approved 2026-10-23); 
 
 ## Owner decisions still required
 
-1. Should sold contract stock refill with vanilla restocking? Today it does.
+1. ~~Should sold contract stock refill with vanilla restocking?~~ Resolved 2026-10-25 (D1): yes, vanilla restocking.
 2. Should overflow rewards be held in a player mailbox instead of dropped? That would remove the last non-atomic domain from redemption but changes Q53.
 3. Distribution inside the wandering-trader ranges, category weights, the exploration structure matrix, and whether price should vary with objectives inside the band (all currently provisional).
+4. Profession-relevant objective weights (Q36/Q39): deferred design work (D4, 2026-10-25); selection stays uniform.
 
 ## BC-04 independent audit handoff
 
@@ -163,3 +166,11 @@ Combat ordinary/strong weights 100/0, 75/25, 50/50 (owner-approved 2026-10-23); 
 **Live-validation requirements:** real client UI rendering and input; `wild_piglin` aggression; combat attribution in a live session; survival spawn yield of the pooled MM mobs; materializer failure path (code review only).
 
 **Dependencies and merge order:** #148 and #150 are linear ancestors of #151 and carry no unique commits; do not merge them separately. #151 merges cleanly into current `main` (`cde842d`). It overlaps #156 (`fabric.mod.json`, both language files), so land one and merge main into the other with registrations unioned. #157 is independent. #131 is not superseded: it holds older "Commissions" design and unique consolidation docs.
+
+## Approved gameplay reconciliation (2026-10-25)
+
+Owner decisions D1–D4 are recorded in `../BOUNTY_CONTRACT_APPROVED_2026-10-22.md`. Only D2 needed a code change.
+
+- **D2**: `ContractGenerator.exploration` now draws the required location count from `explorationBand` (1 / 1–2 / 2–3; Special uses the Advanced band). Distinctness already existed: an objective stores the instances it has counted in `visited`, and each instance is identified by `<dimension>:<structure start chunk>`, so one structure counts once whichever of its chunks the player is in. The data model and codec are unchanged, so existing items, including legacy single-location contracts without a `visited` list, decode and complete as before.
+- **D1, D3, D4**: already compliant; covered by regression tests and the authority update only.
+- Tests: `ContractExplorationTest` (unit), `ContractExplorationGameTests` (real vanilla mineshaft instances across chunk boundaries, transfer, reconnect, legacy items), and `ContractPricingGameTests` (Hero of the Village at every level, research stacking when present, vanilla restock, wandering traders never restocking).

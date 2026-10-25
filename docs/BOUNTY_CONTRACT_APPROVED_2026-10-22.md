@@ -70,14 +70,23 @@ These decisions supersede the Decision B weight table and refine Decision A. Qua
 
 **Implementation choices recorded for owner review (not new design):**
 - Objective category selection among eligible categories (Combat, Delivery, Exploration) is uniform (PROVISIONAL IMPLEMENTATION CHOICE; no category weights were approved).
-- Exploration objectives use the accessible Overworld subset of the BC-01 structure catalog for every tier (PROVISIONAL; the tier matrix remains OPEN).
+- Exploration objectives use the accessible Overworld subset of the BC-01 structure catalog for every tier (PROVISIONAL; the tier matrix remains OPEN). Location counts per objective follow D2 (2026-10-25).
 - Delivery objectives draw from the BC-01 vanilla delivery catalog with approved count bands. Diamond delivery is fixed at 2–4 and adamantium ingot delivery at 1, per the Oct 22 exceptions. At most one high-value delivery (diamond or adamantium) per contract (PROVISIONAL economic feasibility rule).
 - Purchase prices in villager and wandering-trader offers are fixed per offer entry at the approved band midpoint (PROVISIONAL). Emerald payouts are rolled within the approved band on acquisition.
 - Contracts from trades and loot are created as pending items carrying only their tier; objectives and rewards are rolled on the first server-side inventory pickup.
 - Structure contract appearance (5% / 10% / 18%) and tier distributions apply as approved to the six loot tables. The Trial chamber source is `minecraft:chests/trial_chambers/reward` only; the ominous and unique variants are not included.
 - **Seller stock is enforced exactly (supersedes the earlier "approximated" note).** One stock unit is one contract offer with `maxUses = 1`, so a seller shows exactly its approved number of contract offers. Villagers (Farmer, Fisherman, Fletcher, Weaponsmith, Toolsmith, Cartographer, Cleric) show Beginner 2 from Apprentice, plus Intermediate 1 from Journeyman, plus Advanced 1 from Expert, and keep them at Master. A wandering trader draws Beginner 1–2, Intermediate 0–1, and Advanced 0–1 once per trader, uniformly inside each approved range (PROVISIONAL IMPLEMENTATION CHOICE: the owner approved ranges, not a distribution). Vanilla offers are untouched. Contract offers have xp 0 and a zero price multiplier, so they neither level a villager nor drift in price.
-- **OPEN OWNER DECISION: restock.** Vanilla `Villager.restock()` resets the uses of every offer, so contract stock currently replenishes with vanilla restocking (up to twice a day). The approved stock quantities do not say whether sold contract stock should refill. Preventing a refill would be a new gameplay rule, so it is not implemented. Wandering traders never restock.
+- **Restock — RESOLVED 2026-10-25 (D1, vanilla).** ~~OPEN OWNER DECISION~~: vanilla `Villager.restock()` resets the uses of every offer, so contract stock replenishes with vanilla restocking (up to twice a day). The owner kept this behavior; see the 2026-10-25 decisions below. Wandering traders never restock.
 - **Completion is a durable transaction (implementation constraint, not a design change).** Redemption writes a pending ledger entry, applies the change to the player's data with a receipt, saves the player file as the commit point, and then finalizes the ledger; recovery on player join resolves any unfinished transaction from the player's own receipt. Q53 overflow behavior is unchanged: the remainder is dropped at the player's location.
+
+### Owner decisions — BC-03 approved gameplay reconciliation (2026-10-25, FINAL)
+
+These four decisions are final. They resolve the open restock question and the exploration-count mismatch recorded above, and they refine Q34 and Q36/Q39. No other rule changes.
+
+- **D1 — Villager restock: vanilla (Option A).** Contract offers follow vanilla villager restocking, including its normal schedule and per-offer use limits, so sold contract stock refills whenever vanilla restocks the villager. Every purchase still yields a pending contract whose objectives and reward are rolled on acquisition. Wandering traders keep their vanilla behavior: they never restock. No custom restock timer, lifetime stock limit, or level-up-only restock exists.
+- **D2 — Exploration location counts.** Each exploration objective requires the approved number of **distinct** qualifying structure instances: Beginner exactly 1, Intermediate 1–2, Advanced 2–3; a Special contract uses the Advanced shape. One instance is one vanilla structure start in one dimension, so entering it again, or entering another chunk of the same structure, never adds progress. Objective selection, the structure pool, and reward and payout rules are unchanged. Contracts generated before this decision keep their recorded requirement of one location.
+- **D3 — Contract price discounts.** The Q34 purchase ranges are **base prices before discounts**. Vanilla Hero of the Village and the approved Villager Trading research discount (`v3.research.53`, 5/10/15%) apply to contract offers like any other offer. There is no contract-only price floor; vanilla's own minimum of one emerald still applies, so stacked discounts can never produce a zero or negative price. Contract offers keep a zero price multiplier, so demand and reputation do not move their price.
+- **D4 — Profession-relevant objective weighting: DEFERRED.** Objective category and target selection stay uniform for every seller. The Q36/Q39 statement that profession-relevant objectives receive appropriate weights remains deferred design work; no profession weights are approved, so none are implemented.
 
 ## Acquisition and item lifecycle
 - Contracts are physical items. Wandering traders are the main vendor; selected ordinary villagers also sell tiered contracts. Structure chests, trial rewards and world events may award contract items.
@@ -150,11 +159,11 @@ These decisions supersede the Decision B weight table and refine Decision A. Qua
   | Intermediate | 6–10 | 12–24 |
   | Advanced | 12–20 | 25–50 |
 
-  Adjust for effort and delivery cost only within these ranges. Reject or rebalance an economically unreasonable delivery objective combination rather than exceeding its tier’s payout range.
+  Purchase prices are base prices before vanilla and research discounts (D3, 2026-10-25). Adjust for effort and delivery cost only within these ranges. Reject or rebalance an economically unreasonable delivery objective combination rather than exceeding its tier’s payout range.
 
 ### Q36–Q45: sellers and sources
 
-- **Q36/Q39 — Eligible villager professions:** Farmer, Fisherman, Fletcher, Weaponsmith, Toolsmith, Cartographer, and Cleric. Profession-relevant objectives receive appropriate selection weights.
+- **Q36/Q39 — Eligible villager professions:** Farmer, Fisherman, Fletcher, Weaponsmith, Toolsmith, Cartographer, and Cleric. Profession-relevant objectives receive appropriate selection weights. **DEFERRED (D4, 2026-10-25):** no profession weights are approved; selection stays uniform.
 - **Q40 — Villager trade unlocks:** Beginner at Apprentice; Intermediate at Journeyman; Advanced at Expert or higher.
 - **Q41 — Eligible structure-container contract probabilities:** Easy 5%, Medium 10%, Hard 18%. These apply only to explicitly eligible loot containers, not every chest in the world.
 - **Q42 — Special-contract acquisition:** 5% conversion chance when acquiring an Advanced contract, plus additional direct rewards from eligible high-difficulty structures and world events. Direct-reward probabilities remain OPEN unless separately approved.
