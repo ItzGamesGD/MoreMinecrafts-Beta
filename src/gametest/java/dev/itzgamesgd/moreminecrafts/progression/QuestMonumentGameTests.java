@@ -116,53 +116,10 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
 
     private static long key(QuestStructureFixture.Registered monument) { return monument.start().getChunkPos().pack(); }
 
-    /**
-     * Runs {@code body} once every chunk of the given monuments has loaded and ticking entities. Before that, an entity
-     * added to such a chunk is hidden: entity queries miss it and its load event fires later, so a reward item would be
-     * created but not yet observable. How many ticks that takes depends on what else the server is loading, so a fixed
-     * delay is not enough.
-     */
+    /** Runs {@code body} at least 25 ticks after registration, once the monuments' chunks tick entities. */
     private static void later(GameTestHelper ctx, Runnable body, QuestStructureFixture.Registered... monuments) {
-        loadEntityTickingNeighbourhood(ctx.getLevel(), monuments);
-        ctx.runAfterDelay(25, () -> whenEntitiesTicking(ctx, body, monuments, 0));
-    }
-
-    /**
-     * A chunk only ticks entities once every chunk within two of it is fully loaded. The fixture loads the monument's
-     * own chunks synchronously but leaves the surrounding fresh terrain to ticket-driven generation, which can lag far
-     * behind; load that neighbourhood now.
-     */
-    private static void loadEntityTickingNeighbourhood(ServerLevel level, QuestStructureFixture.Registered... monuments) {
-        for (QuestStructureFixture.Registered monument : monuments) {
-            var box = monument.start().getBoundingBox();
-            for (int x = (box.minX() >> 4) - 2; x <= (box.maxX() >> 4) + 2; x++)
-                for (int z = (box.minZ() >> 4) - 2; z <= (box.maxZ() >> 4) + 2; z++)
-                    level.getChunk(x, z);
-        }
-    }
-
-    private static void whenEntitiesTicking(GameTestHelper ctx, Runnable body,
-            QuestStructureFixture.Registered[] monuments, int waited) {
-        ServerLevel level = ctx.getLevel();
-        ChunkPos notReady = firstChunkWithoutTickingEntities(level, monuments);
-        if (notReady == null) {
-            body.run();
-            return;
-        }
-        ctx.assertTrue(waited < 60, "fixture monument chunk " + notReady + " did not reach ticking entities within 60 ticks");
-        ctx.runAfterDelay(1, () -> whenEntitiesTicking(ctx, body, monuments, waited + 1));
-    }
-
-    static ChunkPos firstChunkWithoutTickingEntities(ServerLevel level, QuestStructureFixture.Registered... monuments) {
-        for (QuestStructureFixture.Registered monument : monuments) {
-            var box = monument.start().getBoundingBox();
-            for (int x = box.minX() >> 4; x <= box.maxX() >> 4; x++)
-                for (int z = box.minZ() >> 4; z <= box.maxZ() >> 4; z++) {
-                    ChunkPos chunk = new ChunkPos(x, z);
-                    if (!level.areEntitiesActuallyLoadedAndTicking(chunk)) return chunk;
-                }
-        }
-        return null;
+        QuestStructureFixture.loadEntityTickingNeighbourhood(ctx.getLevel(), monuments);
+        ctx.runAfterDelay(25, () -> QuestStructureFixture.whenEntitiesTicking(ctx, body, monuments));
     }
 
     @GameTest(maxTicks = 120)
@@ -383,15 +340,15 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
     public void rewardIsObservableAsSoonAsTheMonumentChunksTickEntities(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 10));
-        loadEntityTickingNeighbourhood(level, monument);
-        whenEntitiesTicking(ctx, () -> {
+        QuestStructureFixture.loadEntityTickingNeighbourhood(level, monument);
+        QuestStructureFixture.whenEntitiesTicking(ctx, () -> {
             ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
             hit(level, finisher, elder(level, monument.inside()), 100_000F);
             ctx.assertTrue(data(level).isClaimed(key(monument)) && cleared(finisher) == 1, "the monument completes");
             ctx.assertTrue(hearts(monument) == 1, "the Heart of Currents is tracked as soon as it is created: hearts="
                     + hearts(monument));
             ctx.succeed();
-        }, new QuestStructureFixture.Registered[] {monument}, 0);
+        }, monument);
     }
 
     /** QM-01 regression: saved claims, pending completions and evidence from an earlier run move the fixture slots. */

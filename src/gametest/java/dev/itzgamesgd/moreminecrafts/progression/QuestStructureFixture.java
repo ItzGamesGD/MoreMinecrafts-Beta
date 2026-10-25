@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
+import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -63,5 +64,56 @@ final class QuestStructureFixture {
             }
         }
         return new Registered(start, pieces.stream().map(StructurePiece::getBoundingBox).toList());
+    }
+
+    /** Extra ticks {@link #whenEntitiesTicking} waits for a fixture's chunks before failing. */
+    static final int ENTITY_TICKING_WAIT_TICKS = 60;
+
+    /**
+     * A chunk only ticks entities once every chunk within two of it is fully loaded. {@link #register} loads the
+     * structure's own chunks synchronously but leaves the surrounding fresh terrain to ticket-driven generation, which
+     * can lag far behind; this loads that neighbourhood.
+     */
+    static void loadEntityTickingNeighbourhood(ServerLevel level, Registered... structures) {
+        for (Registered structure : structures) {
+            BoundingBox box = structure.start().getBoundingBox();
+            for (int x = (box.minX() >> 4) - 2; x <= (box.maxX() >> 4) + 2; x++)
+                for (int z = (box.minZ() >> 4) - 2; z <= (box.maxZ() >> 4) + 2; z++)
+                    level.getChunk(x, z);
+        }
+    }
+
+    /**
+     * Runs {@code body} once every chunk of the given structures has loaded and ticking entities. Before that, an
+     * entity added to such a chunk is hidden: entity queries miss it and its load event fires later. How many ticks
+     * that takes depends on what else the server is loading, so a fixed delay is not enough.
+     */
+    static void whenEntitiesTicking(GameTestHelper ctx, Runnable body, Registered... structures) {
+        whenEntitiesTicking(ctx, body, structures, 0);
+    }
+
+    private static void whenEntitiesTicking(GameTestHelper ctx, Runnable body, Registered[] structures, int waited) {
+        ServerLevel level = ctx.getLevel();
+        ChunkPos notReady = firstChunkWithoutTickingEntities(level, structures);
+        if (notReady == null) {
+            body.run();
+            return;
+        }
+        ctx.assertTrue(waited < ENTITY_TICKING_WAIT_TICKS, "fixture chunk " + notReady + " did not reach ticking entities within "
+                + ENTITY_TICKING_WAIT_TICKS + " ticks: entitiesLoaded=" + level.areEntitiesLoaded(notReady.pack())
+                + " entityTickingRange=" + level.isPositionEntityTicking(notReady.getMiddleBlockPosition(70)));
+        ctx.runAfterDelay(1, () -> whenEntitiesTicking(ctx, body, structures, waited + 1));
+    }
+
+    static ChunkPos firstChunkWithoutTickingEntities(ServerLevel level, Registered... structures) {
+        for (Registered structure : structures) {
+            BoundingBox box = structure.start().getBoundingBox();
+            for (int x = box.minX() >> 4; x <= box.maxX() >> 4; x++)
+                for (int z = box.minZ() >> 4; z <= box.maxZ() >> 4; z++) {
+                    ChunkPos chunk = new ChunkPos(x, z);
+                    if (!level.areEntitiesActuallyLoadedAndTicking(chunk)) return chunk;
+                }
+        }
+        return null;
     }
 }
