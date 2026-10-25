@@ -27,7 +27,9 @@
       "dev.itzgamesgd.moreminecrafts.bounty.ContractTransactionGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractCrashGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractRuntimeGameTests",
-      "dev.itzgamesgd.moreminecrafts.bounty.ContractIsolationGameTests"
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractIsolationGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractExplorationGameTests",
+      "dev.itzgamesgd.moreminecrafts.bounty.ContractPricingGameTests"
     ]
   },
   "mixins": [
