@@ -9,7 +9,7 @@ It does not replace the detailed design documents. When an older document confli
 
 ## Accessory cooldown lifecycle — approved 2026-10-25
 
-Accessory cooldown lifecycle is governed by the [owner-approved 2026-10-25 decision](ACCESSORY_COOLDOWN_DECISION_2026-10-25.md). It specifies remaining online server ticks per player and ability type, including persistence through death, reconnect and restart; it does not finalize other ability mechanics.
+Accessory cooldown lifecycle is governed by the [owner-approved 2026-10-25 decision](ACCESSORY_COOLDOWN_DECISION_2026-10-25.md). It specifies remaining online server ticks per player and ability type, including persistence through death, reconnect and restart. The same record holds the approved Deep Sea Pearl motionless definition (no horizontal movement input), the Ring of Life re-arm rule (recover above 25% before reactivating) and the Ember Ring first-hit exclusion; it does not finalize other ability mechanics.
 
 ## Accessory visual identities — approved 2026-10-22
 

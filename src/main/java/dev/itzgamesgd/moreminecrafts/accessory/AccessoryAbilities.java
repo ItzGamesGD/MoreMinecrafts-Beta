@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.accessory;
 
+import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import java.util.HashMap;
@@ -15,13 +16,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 
-/** Automatic accessory abilities. Cooldowns live on the player; short-lived trigger state does not. */
+/** Automatic accessory abilities. Cooldowns and the Ring of Life re-arm latch live on the player; short-lived trigger state does not. */
 public final class AccessoryAbilities implements ModInitializer {
     private static final Map<UUID, EmberProtection> EMBER = new HashMap<>();
-    private static final Map<UUID, Stillness> PEARL = new HashMap<>();
+    private static final Map<UUID, Integer> PEARL = new HashMap<>();
 
     @Override
     public void onInitialize() {
@@ -61,33 +62,45 @@ public final class AccessoryAbilities implements ModInitializer {
                 || protection.remainingTicks() <= 1)) EMBER.remove(id);
         else if (protection != null) EMBER.put(id, new EmberProtection(protection.remainingTicks() - 1, protection.reduction()));
 
+        // Edge-triggered: one activation per low-health episode; recovery above the threshold re-arms it.
+        boolean low = player.getHealth() <= player.getMaxHealth() * 0.25F;
+        if (!low && player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT))
+            player.removeAttached(EquipmentAttachments.RING_OF_LIFE_SPENT);
         ItemStack life = equipped(player, AccessoryDefinition.RING_OF_LIFE);
-        if (player.isAlive() && !life.isEmpty() && player.getHealth() <= player.getMaxHealth() * 0.25F
+        if (player.isAlive() && !life.isEmpty() && low && !player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT)
                 && AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 0) {
             int duration = (int) Math.round(stat(AccessoryDefinition.RING_OF_LIFE,
                     "regeneration_i_duration_seconds", life) * 20);
             int cooldown = (int) Math.round(stat(AccessoryDefinition.RING_OF_LIFE,
                     "cooldown_seconds", life) * 20);
-            if (duration > 0 && cooldown > 0 && AccessoryCooldownRuntime.start(player, AccessoryDefinition.RING_OF_LIFE, cooldown))
+            if (duration > 0 && cooldown > 0 && AccessoryCooldownRuntime.start(player, AccessoryDefinition.RING_OF_LIFE, cooldown)) {
                 player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, duration, 0));
+                player.setAttached(EquipmentAttachments.RING_OF_LIFE_SPENT, true);
+            }
         }
 
         ItemStack pearl = equipped(player, AccessoryDefinition.DEEP_SEA_PEARL);
         boolean underwater = player.level().getFluidState(BlockPos.containing(player.getEyePosition())).is(FluidTags.WATER);
-        if (!player.isAlive() || pearl.isEmpty() || !underwater || !player.isShiftKeyDown()) {
+        if (!player.isAlive() || pearl.isEmpty() || !underwater || !player.isShiftKeyDown()
+                || hasHorizontalInput(player.getLastClientInput())) {
             PEARL.remove(id);
             return;
         }
-        Vec3 position = player.position();
-        Stillness previous = PEARL.get(id);
-        int ticks = previous != null && previous.position().equals(position) ? previous.ticks() + 1 : 1;
-        PEARL.put(id, new Stillness(position, ticks));
+        // Motionless means no horizontal movement input; currents and sinking do not reset the count.
+        Integer previous = PEARL.get(id);
+        int ticks = previous == null ? 1 : previous + 1;
+        PEARL.put(id, ticks);
         if (ticks >= 40 && AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.DEEP_SEA_PEARL) == 0) {
             int duration = (int) Math.round(stat(AccessoryDefinition.DEEP_SEA_PEARL, "water_breathing_seconds", pearl) * 20);
             int cooldown = (int) Math.round(stat(AccessoryDefinition.DEEP_SEA_PEARL, "cooldown_seconds", pearl) * 20);
             if (duration > 0 && cooldown > 0 && AccessoryCooldownRuntime.start(player, AccessoryDefinition.DEEP_SEA_PEARL, cooldown))
                 player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, duration, 0));
         }
+    }
+
+    /** Directional keys from the vanilla player-input packet, the same server-side source as crouch. */
+    static boolean hasHorizontalInput(Input input) {
+        return input.forward() || input.backward() || input.left() || input.right();
     }
 
     /** Called only after vanilla accepts a fire-damage event; the triggering hit is unchanged. */
@@ -109,5 +122,4 @@ public final class AccessoryAbilities implements ModInitializer {
     }
 
     private record EmberProtection(int remainingTicks, double reduction) {}
-    private record Stillness(Vec3 position, int ticks) {}
 }

@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import dev.itzgamesgd.moreminecrafts.ability.AbilityAttachments;
 import dev.itzgamesgd.moreminecrafts.ability.AbilityCooldowns;
+import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import java.lang.reflect.Method;
 import java.util.UUID;
 import com.mojang.authlib.GameProfile;
@@ -20,6 +21,7 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.Relative;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
@@ -49,11 +51,20 @@ public final class AccessoryAbilityGameTests implements CustomTestMethodInvoker 
             ctx.assertTrue(actual >= expected - 1 && actual <= expected,
                     "offline time did not decrement cooldown across process restart, expected=" + expected
                             + " actual=" + actual);
+            ctx.assertTrue(player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT),
+                    "Ring of Life re-arm latch survives process restart while still below threshold");
         }
         Connection connection = new Connection(PacketFlow.SERVERBOUND);
         new EmbeddedChannel(connection);
         server.getPlayerList().placeNewPlayer(connection, player, cookie);
-        if ("write".equals(phase)) AccessoryCooldownRuntime.start(player, AccessoryDefinition.EMBER_RING, 600);
+        if ("write".equals(phase)) {
+            AccessoryCooldownRuntime.start(player, AccessoryDefinition.EMBER_RING, 600);
+            // Stay below the Ring of Life threshold until shutdown: no natural regeneration.
+            player.getFoodData().setFoodLevel(17);
+            player.getFoodData().setSaturation(0.0F);
+            player.setHealth(1.0F);
+            player.setAttached(EquipmentAttachments.RING_OF_LIFE_SPENT, true);
+        }
         if ("reload1".equals(phase)) {
             player.setAttached(AbilityAttachments.COOLDOWNS, AbilityCooldowns.EMPTY);
             AccessoryCooldownRuntime.start(player, AccessoryDefinition.EMBER_RING, 500);
@@ -107,6 +118,9 @@ public final class AccessoryAbilityGameTests implements CustomTestMethodInvoker 
                 "swapping identical ability does not reset cooldown");
         player.setAttached(AbilityAttachments.COOLDOWNS, AbilityCooldowns.EMPTY);
         player.removeEffect(MobEffects.REGENERATION);
+        player.setHealth(20.0F);
+        AccessoryAbilities.tick(player);
+        player.setHealth(4.0F);
         AccessoryAbilities.tick(player);
         ctx.assertTrue(player.getEffect(MobEffects.REGENERATION).getDuration() == 140, "+10 gives seven seconds");
         ctx.assertTrue(AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 2000,
@@ -236,6 +250,138 @@ public final class AccessoryAbilityGameTests implements CustomTestMethodInvoker 
         ctx.assertTrue(AccessoryCooldownRuntime.remaining(respawned, AccessoryDefinition.EMBER_RING) == 600,
                 "death and respawn copy cooldown attachment");
         ctx.succeed();
+    }
+
+    @GameTest(maxTicks = 40)
+    public void ringOfLifeRequiresRecoveryAboveThresholdBeforeReactivation(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+        int slot = AccessoryCategory.DEFENSE_SURVIVAL.ordinal();
+        new AccessoryEquipmentContainer(player).setItem(slot,
+                new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)));
+        new AccessoryEquipmentContainer(other).setItem(slot,
+                new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)));
+        player.setHealth(4.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(player.hasEffect(MobEffects.REGENERATION), "entering low health activates");
+        ctx.assertTrue(player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT), "activation disarms the ring");
+        player.removeEffect(MobEffects.REGENERATION);
+
+        for (int i = 0; i < 2400; i++) AccessoryAbilities.tick(player);
+        ctx.assertTrue(AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 0,
+                "cooldown expired through online ticks");
+        ctx.assertTrue(!player.hasEffect(MobEffects.REGENERATION),
+                "remaining continuously below threshold does not reactivate after cooldown expiry");
+
+        player.setHealth(5.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT) && !player.hasEffect(MobEffects.REGENERATION),
+                "exactly 25 percent is still the low-health condition and does not re-arm");
+
+        new AccessoryEquipmentContainer(player).setItem(slot, ItemStack.EMPTY);
+        AccessoryAbilities.tick(player);
+        new AccessoryEquipmentContainer(player).setItem(slot,
+                new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.RING_OF_LIFE)));
+        player.setHealth(4.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(!player.hasEffect(MobEffects.REGENERATION), "re-equipping while below threshold does not re-arm");
+
+        TagValueOutput saved = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, player.registryAccess());
+        player.saveWithoutId(saved);
+        ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+        loaded.load(TagValueInput.create(ProblemReporter.DISCARDING, loaded.registryAccess(), saved.buildResult()));
+        ctx.assertTrue(loaded.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT), "latch survives save/load");
+        loaded.setHealth(4.0F);
+        AccessoryAbilities.tick(loaded);
+        ctx.assertTrue(!loaded.hasEffect(MobEffects.REGENERATION), "reload while below threshold does not re-arm");
+
+        other.setHealth(4.0F);
+        AccessoryAbilities.tick(other);
+        ctx.assertTrue(other.hasEffect(MobEffects.REGENERATION) && !player.hasEffect(MobEffects.REGENERATION),
+                "each player's latch is independent");
+
+        player.setHealth(6.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(!player.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT) && !player.hasEffect(MobEffects.REGENERATION),
+                "recovering above threshold re-arms without activating");
+        player.setHealth(4.0F);
+        AccessoryAbilities.tick(player);
+        ctx.assertTrue(player.hasEffect(MobEffects.REGENERATION)
+                        && AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.RING_OF_LIFE) == 2400,
+                "a later drop below threshold activates again once cooldown has expired");
+
+        player.die(ctx.getLevel().damageSources().generic());
+        ServerPlayer respawned = ctx.getLevel().getServer().getPlayerList().respawn(
+                player, false, Entity.RemovalReason.KILLED);
+        AccessoryAbilities.tick(respawned);
+        ctx.assertTrue(!respawned.hasAttached(EquipmentAttachments.RING_OF_LIFE_SPENT),
+                "respawning at full health re-arms the ring");
+        ctx.assertTrue(AccessoryCooldownRuntime.remaining(respawned, AccessoryDefinition.RING_OF_LIFE) >= 2398,
+                "death does not reset the cooldown");
+        ctx.succeed();
+    }
+
+    private static ServerPlayer crouchingInPool(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        BlockPos water = ctx.absolutePos(new BlockPos(2, 2, 2));
+        for (int dx = -1; dx <= 1; dx++) for (int dz = -1; dz <= 1; dz++) {
+            BlockPos column = water.offset(dx, 0, dz);
+            ctx.getLevel().setBlock(column.below(), Blocks.STONE.defaultBlockState(), 3);
+            for (int y = 0; y < 4; y++)
+                ctx.getLevel().setBlock(column.above(y), Blocks.WATER.defaultBlockState(), 3);
+            ctx.getLevel().setBlock(column.above(4), Blocks.STONE.defaultBlockState(), 3);
+        }
+        player.setPos(water.getX() + 0.5D, water.getY(), water.getZ() + 0.5D);
+        player.setShiftKeyDown(true);
+        new AccessoryEquipmentContainer(player).setItem(AccessoryCategory.EXPLORATION_MOBILITY.ordinal(),
+                new ItemStack(ModItems.ACCESSORIES.get(AccessoryDefinition.DEEP_SEA_PEARL)));
+        return player;
+    }
+
+    @GameTest(maxTicks = 100)
+    public void deepSeaPearlIgnoresExternalDriftWithoutHorizontalInput(GameTestHelper ctx) {
+        ServerPlayer player = crouchingInPool(ctx);
+        double x = player.getX();
+        double z = player.getZ();
+        ctx.onEachTick(() -> {
+            // External displacement every tick, as from a current; no movement keys are held.
+            double offset = (ctx.getTick() % 2 == 0) ? 0.2D : -0.2D;
+            player.setPos(x + offset, player.getY(), z + offset);
+        });
+        ctx.runAfterDelay(50, () -> {
+            ctx.assertTrue(player.getLastClientInput().equals(Input.EMPTY), "no horizontal input was provided");
+            ctx.assertTrue(player.hasEffect(MobEffects.WATER_BREATHING),
+                    "drifting without horizontal input still counts as motionless");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 140)
+    public void deepSeaPearlHorizontalInputBlocksAndResetsStillness(GameTestHelper ctx) {
+        ServerPlayer player = crouchingInPool(ctx);
+        Input forward = new Input(true, false, false, false, false, true, false);
+        Input strafe = new Input(false, false, true, false, false, true, false);
+        player.setLastClientInput(forward);
+        ctx.runAfterDelay(45, () -> {
+            ctx.assertTrue(!player.hasEffect(MobEffects.WATER_BREATHING),
+                    "holding a horizontal movement key prevents activation even without displacement");
+            player.setLastClientInput(Input.EMPTY);
+            ctx.runAfterDelay(30, () -> {
+                player.setLastClientInput(strafe);
+                ctx.runAfterDelay(1, () -> {
+                    player.setLastClientInput(Input.EMPTY);
+                    ctx.runAfterDelay(30, () -> {
+                        ctx.assertTrue(!player.hasEffect(MobEffects.WATER_BREATHING),
+                                "a single tick of horizontal input resets the two-second count");
+                        ctx.runAfterDelay(15, () -> {
+                            ctx.assertTrue(player.hasEffect(MobEffects.WATER_BREATHING),
+                                    "forty consecutive ticks without horizontal input activate");
+                            ctx.succeed();
+                        });
+                    });
+                });
+            });
+        });
     }
 
     @Override
