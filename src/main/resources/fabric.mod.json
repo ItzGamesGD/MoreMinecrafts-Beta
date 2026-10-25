@@ -10,7 +10,8 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.itzgamesgd.moreminecrafts.MoreMinecrafts"
+      "dev.itzgamesgd.moreminecrafts.MoreMinecrafts",
+      "dev.itzgamesgd.moreminecrafts.accessory.StarCovenantAbility"
     ],
     "client": [
       "dev.itzgamesgd.moreminecrafts.client.MoreMinecraftsClient"
