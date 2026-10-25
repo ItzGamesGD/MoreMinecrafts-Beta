@@ -24,8 +24,12 @@ MAX_ENTRY = 45 * 1024 * 1024
 # The inventory has thousands of entries. Pace GitHub REST requests to avoid
 # secondary rate limiting while keeping signed archive downloads concurrent.
 WORKERS = 4
-API_REQUEST_INTERVAL = 0.75
+API_REQUEST_INTERVAL = 0.25
 API_RETRY_LIMIT = 4
+# A full scan needs about one REST request per artifact and per run log, which is
+# close to the hourly GITHUB_TOKEN quota. When the quota is spent, wait for its
+# reset instead of failing; the job timeout bounds the total wait.
+PRIMARY_RESET_WAIT_LIMIT = 65 * 60
 _api_slot_lock = threading.Lock()
 _next_api_slot = 0.0
 HEADERS = {
@@ -67,6 +71,18 @@ def _rate_limit_delay(error, attempt):
             return min(max(float(retry_after), 1.0), 120.0)
         except ValueError:
             pass
+    if error.headers.get("X-RateLimit-Remaining") == "0":
+        try:
+            reset_in = float(error.headers.get("X-RateLimit-Reset", "")) - time.time()
+        except ValueError:
+            reset_in = None
+        if reset_in is not None:
+            delay = min(max(reset_in + 5.0, 1.0), PRIMARY_RESET_WAIT_LIMIT)
+            _defer_api_requests(delay)
+            print(f"Primary rate limit exhausted (HTTP {error.code}, resource="
+                  f"{error.headers.get('X-RateLimit-Resource', 'unknown')}); waiting {delay:.0f}s for reset",
+                  flush=True)
+            return delay
     if error.code == 403:
         body = error.read(4096).decode("utf-8", errors="replace").lower()
         if error.headers.get("X-RateLimit-Remaining") != "0" and not any(
@@ -74,6 +90,13 @@ def _rate_limit_delay(error, attempt):
         ):
             return None
     return min(5.0 * (2 ** attempt), 60.0)
+
+
+def _defer_api_requests(delay):
+    """Holds every paced API request until the rate-limit reset has passed."""
+    global _next_api_slot
+    with _api_slot_lock:
+        _next_api_slot = max(_next_api_slot, time.monotonic() + delay)
 
 
 def _pace_api_request():
