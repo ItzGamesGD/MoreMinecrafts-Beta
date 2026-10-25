@@ -106,3 +106,82 @@ This is a **program inventory** rather than a quota: the 8 main-spine named elem
 **Balance / technical gates:** Validate difficulty-scaled vanilla AI, mob placement collision, no persistent unintended natural respawn, generated chest inventories and deterministic loot seeding, trap activation/reset across chunk unload/restart, player recovery from drops, accessibility without secret detection, structural protection from TNT/falling blocks, and absence of interference with nearby caves and player builds. Distinguish structure-generated guardians from vanilla ambient spawns; no persistence policy approved yet.
 
 **Owner decisions still required:** (1) vanilla-only vs new unique guardian, (2) combat counts and whether one-time defenders, (3) selected trap families and severity, (4) premium reward categories / actual item allowlist, (5) royal tomb finale style (elite encounter, ordinary guards, or environmental climax). No code, NBT, or loot table modifications authorized by this documentation update.
+
+## Owner decision — royal tomb boss trigger, 2026-10-26
+
+**APPROVED, superseding previous noise-stack proposal:** The royal tomb's unique boss is triggered by interacting with the **primary royal treasure chest**, not by building up a long-lived 100-point noise meter while walking/exploring. The prior walking/jumping/mining/combat noise accumulation mechanic is **REJECTED for this boss**. The intended pacing is prompt: after chest interaction, a short warning and a near-immediate appearance from beneath the floor. The boss is a massive, brutal armored golem-like guardian with a dark helmet and **two red glowing eyes**. Use a low-budget Fabric model approach that references/reuses Warden model anatomy/animation where technically viable, adding 3D armor-like cuboids; this is a separate custom entity, **not** a reskin applied to vanilla Wardens. It uses conventional sight-based monster combat, **not** Warden blindness, sonic boom or vibration-tracking AI. The chest trigger does not make ordinary optional tomb chests mandatory.
+
+**PROPOSED interaction sequence, not yet approved in exact timings or chest access policy:** First player interaction with the royal primary chest -> prevent ordinary loot extraction during awakening -> 3–5 seconds of stone rumble/dust/cracks -> spawn/animate guardian at a prevalidated fixed point with no real terrain destruction -> normal boss combat -> unlock primary reward chest on defeat. Treat the chest lock/unlock policy, whether the player can flee, encounter reset after death/unload, one-time per structure persistence, anti-duplication, and any multiplayer contention as OPEN technical/gameplay decisions pending owner approval. The user agreed to a short warning/appearance concept but did not separately approve every suggested chest restriction.
+
+**Implementation prerequisites:** prototype armored Warden-derived visual without altering vanilla Warden renderer; verify actual model-part hierarchy, eyes emissive render layer, hitbox and model proportions, animation and spawn clearance in current Fabric/Minecraft version. No code authorized by this document.
+
+## Owner approval — royal chest unlock gate, 2026-10-26
+
+**APPROVED:** The **primary royal treasure chest is sealed until the unique Tomb Guardian boss is defeated**. First interaction with the sealed chest starts the encounter; the player cannot remove its loot before defeating the guardian. Use the previously agreed short warning (~3–5 seconds as an initial target, not frame-locked), rumble/dust, then apparent emergence from the floor without destructive terrain edits. Defeat removes the seal and allows the chest to open. Other optional tomb chests remain independent and must not inherit this boss gate. The old cumulative noise meter remains superseded.
+
+**Encounter state machine proposal (technical HOW, not owner-locked):** DORMANT -> AWAKENING -> ACTIVE -> DEFEATED / UNLOCKED. Guard first-interaction concurrency; server authority for loot lock and boss spawn; persist structure identity and state across unload/restart; make activation idempotent; avoid duplicate bosses and repeated reward generation. **OPEN:** death/despawn/reset policy, escape behavior, multiplayer rules, encounter recovery after crash, exact animation duration, boss stats, abilities, and loot contents. Do not code before implementation authorization.
+
+## Owner decision — Tomb Guardian enrage, 2026-10-26
+
+**APPROVED: Simple enrage (Option A).** When the guardian drops to **40% HP or lower**, it enters a single enrage phase: its two red eyes glow more intensely, attack cadence becomes modestly faster, and movement speed increases slightly. No additional complex move, larger shockwave, or mandatory new animation is implied. This is an encounter-design approval, not authorization to implement code. Keep the guardian a heavy, armored, sight-based melee boss with a clearly telegraphed ground slam, chest-triggered awakening, and royal chest unlocked only after defeat.
+
+### Balance V1 — proposals, NOT owner-approved numeric values
+
+- Suggested HP: 180 (90 hearts); enrage at <=72 HP for this HP choice.
+- Suggested baseline: melee damage 10 HP, melee interval ~2.0 s, movement speed slower than zombie, knockback resistance ~80%, sight detection ~24 blocks.
+- Suggested slam: 12 HP with 1.2 s readable wind-up, safe dodge/retreat zone; no actual block destruction. Radius/cooldown still OPEN.
+- Suggested enrage: movement x1.15 and melee cadence ~1.7 s; leave damage, slam radius, slam telegraph and knockback resistance unchanged. Actual implementation should derive phase threshold from max HP rather than hard-code 72 HP.
+- Suggested arena: 17×15 clear floor for royal chamber is provisional, not validated against ~4–5 block tall armored model, hitbox, columns, player dodging, doorway choke and projectile safety. Evaluate whether room needs expansion.
+- Avoid compulsory damage from unblockable instant attacks; preserve vanilla armor/shield interactions unless owner approves exceptions. Test solo baseline at plausible mid/late-game gear, multiplayer, high armor, melee/ranged kiting, accessibility and server lag.
+
+### Rewards V1 — proposals, NOT owner-approved loot table or rates
+
+**Guaranteed completion concept:** defeating the guardian changes the unique structure state to DEFEATED and opens the primary royal chest; the chest should contain meaningful but bounded guaranteed treasure (e.g. gold/emerald/diamond resources and thematic rare material). This is the reward for boss defeat, not a second infinitely farmable boss drop. **Optional premium roll:** a separately weighted bonus slot can draw from existing implemented artifacts/accessories/runes only after checking catalog and progression; avoid guaranteeing an unimplemented or top-tier item. Keep ordinary side crypt chests independently lootable before boss fight, and secret chambers worthwhile without being mandatory.
+
+**Open owner choices:** exact guaranteed reward identity/amount; whether a guardian-specific unique item exists; premium categories and probability; boss entity drops vs chest-only; one-time/repeatability; death/escape/unload/reset rules; whether arena blocks entry/exit. These must be explicitly approved before implementation.
+
+**Technical acceptance gates:** client screenshot confirms armor cuboids and helmet-recessed two emissive red eyes; no mutation of vanilla Warden; actual Fabric version model-layer and animations compile; server-authoritative chest lock and boss single-spawn; phase transition exactly once at 40% HP; persistence after unload/restart; multiplayer chest contention; death/unload recovery; no unintentional structure damage; combat and reward exploit QA.
+
+## Owner decision — Tomb Guardian unique reward category, 2026-10-26
+
+**APPROVED (Option B):** The Tomb Guardian has exactly **one unique crafting-material item type** as its boss-exclusive signature reward. Do not replace it with a boss-exclusive artifact/accessory. Item name, quantity, exact acquisition, recipe uses and rates remain unapproved.
+
+### Reward proposal V2 — NOT OWNER-APPROVED
+
+- Working name: 왕릉 수호자의 핵 / Tomb Guardian Core.
+- Suggested acquisition: one guaranteed core per newly completed pyramid, awarded through the primary royal chest unlocked on boss defeat. Persist reward claim and guard multiplayer duplication.
+- Suggested royal chest resources for balance testing: 8–16 gold ingots, 4–10 emeralds, 1–3 diamonds; compare against rare trader economy before approval.
+- Suggested optional premium roll: a low-probability extra from existing, verified registered/implemented runes or artifact/accessory materials. Do not promise unimplemented items.
+- Side crypts retain independently accessible loot; secret branches offer extra risk/reward without becoming required.
+- Possible material uses: a bounded existing gear/accessory upgrade ingredient or themed utility recipe, avoiding dead-end materials and best-in-slot progression bypass.
+- **OPEN owner choices:** final name/texture, quantity and acquisition, exact resource table, rare roll probability/categories, concrete crafting use, structure repeatability/respawn/reloot.
+
+**Existing approved rules preserved:** sealed primary chest triggers the short warning and guardian emergence; unlock only after boss defeat; no cumulative noise meter; at <=40% HP guardian has simple enrage with slightly faster movement and attacks and brighter red eyes.
+
+## Progression-fit review — boss material use, 2026-10-26
+
+**Owner design direction:** Evaluate links to existing equipment, existing progression materials, or newly designed materials/artifacts; prefer an existing well-fitting growth loop, and invent a new system/item only if no suitable existing fit exists. The owner has **not** yet approved a specific recipe, output amount, exclusive drop policy, or new artifact.
+
+**Verified existing fit:** The approved accessory enhancement design in ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md already requires a Relic Catalyst at +5 and +10 (one at each milestone is provisional), and explicitly leaves its acquisition sources UNDESIGNED. ACCESSORY_ANVIL_CATALYST_LAYOUT_APPROVED_2026-10-23.md documents the existing anvil catalyst input and a focused +4-to-+5 test. Ordinary T1/T2 equipment enhancement uses Enhancement Stones and does not use Relic Catalyst. Thus catalyst acquisition is a genuine open progression link; avoid adding a parallel mandatory enhancement currency.
+
+**RECOMMENDED PROPOSAL, not owner-approved:** One Tomb Guardian Core from the first completion of each pyramid may be crafted into **two Relic Catalysts** (conversion rate illustrative). This uses the already approved one unique boss crafting-material type without inventing a new exclusive artifact. The core may use a straightforward crafting recipe with existing materials; exact recipe, acquisition placement, rate and item name remain OPEN. Relic Catalyst must also have **independent alternative acquisition sources** (other dungeons/trials/rare rewards) so the pyramid does not become a mandatory gate for all accessory +5/+10 enhancement. Do not convert the boss core directly into a universally required +5/+10 catalyst exclusive to this structure. Verify actual item registry, crafting and accessory enhancement runtime before implementation.
+
+**Alternative designs for owner choice:** (A) core -> catalysts, with alternative catalyst sources elsewhere (preferred); (B) core as optional substitute for a milestone catalyst, not exclusive gate; (C) core as a new artifact/utility item ingredient only if its gameplay role is distinct and justified. The prior decision to have one boss-exclusive crafting material still stands; any new artifact would be crafted from that material unless owner explicitly supersedes it.
+
+**Still open:** final material name and appearance, core quantity, output quantity, recipe, alternative acquisition sources, treasure chest resource table, rare bonus pool and all implementation authorization.
+
+## Owner direction — themed elite trophies as catalyst ingredients, 2026-10-26
+
+**APPROVED DIRECTION (not final recipes):** Give elite and themed mobs individual thematic trophy drops, analogous to ordinary mob loot, and combine these drops with other existing items to craft the already-defined Relic Catalyst used for accessory milestone enhancement. This is a cross-content monster-loot/crafting loop, not an exclusive pyramid-only catalyst source. The Tomb Guardian retains its one signature crafting-material type; that item should participate in the shared catalyst ecosystem. Do not introduce a new catalyst currency per monster or require all trophy types in one recipe.
+
+**Design proposal for owner review:** Different trophy recipes may share a catalyst output while demanding different ingredient quantities according to encounter difficulty; elite/boss encounters should feel more rewarding through better drop reliability, quantity, or conversion yield, not merely by inventing stronger mandatory catalyst tiers. Ordinary thematic enemies can have low/moderate chances and modest conversion efficiency; unique bosses can guarantee their signature trophy and yield more catalysts. Avoid common-mob farming becoming faster than dungeon progression. Exact roster, loot probabilities, crafting recipes, yields, eligibility of existing elite mobs, and chest-vs-entity drops remain OPEN.
+
+**Clarification needed:** Owner's final phrase about elite-monster trophy rewards was truncated; do not presume the exact reward premium mechanism until confirmed. Prior numerical suggestion 'one core -> two catalysts' remains unapproved and may be superseded by this broader design.
+
+## Owner clarification — elite signature equipment rewards, 2026-10-26
+
+**APPROVED DESIGN INTENT / supersedes prior ambiguity:** Elite enemies should offer **directly useful, thematically expressive rewards**, such as a unique piece of equipment, artifact, immediately usable core, or signature crafting ingredient for equipment that inherits the elite enemy's fighting style. The intended distinction is qualitative (distinctive gameplay reward), not merely more ordinary drops or better catalyst conversion efficiency. The same thematic trophy may optionally also feed the common Relic Catalyst crafting ecosystem, allowing a choice between broad progression and a unique reward. Do not infer that all elite drops must be direct usable items: a dedicated ingredient for a meaningful thematic piece of gear qualifies.
+
+**Tomb Guardian fit assessment:** Its heavy downward smash and ground shockwave have a particularly close thematic match with the **existing Earth Mace**. STAGE_2_GAMEPLAY_RECONCILIATION.md records Earth Mace's vanilla-valid smash-triggered radial ground wave and its separate right-click directional shockwave; automated T2 acceptance was reported but live gameplay acceptance and final balancing remain pending. Prefer exploring a **non-mandatory Earth Mace variant / signature upgrade** using the guardian's unique core, without changing ordinary T1/T2 +20 Enhancement or inserting a mandatory boss gate. The special variant, effect, recipe, item registration, stats and crafting implementation are **PROPOSALS ONLY**, pending owner approval. Alternatives: a separate heavy mace (risk: overlap with Earth Mace), or a smash-themed artifact (risk: interaction with existing accessories).
+
+**Potential player choice:** guardian core -> generic Relic Catalyst recipe OR guardian core -> thematic Earth Mace upgrade/variant, with neither conversion rate nor equipment design approved yet. Preserve exactly one boss-exclusive material item type unless owner explicitly changes that rule. Do not modify gameplay code until authorized.
