@@ -73,3 +73,36 @@ This is a **program inventory** rather than a quota: the 8 main-spine named elem
 **Indicative horizontal allocation:** Main route generally near X=-5..+5; L1 side rooms at X≈-25..-10 and +10..+25; L2 branch rooms similar; royal chamber centered around X=0. South→north traversal for narrative clarity; descent transitions can fold sideways as necessary. Do not assume the conceptual sketch's side branches all occupy one Y plane. Maintain ≥2-block comfortable public passage where possible, and explicit turning/return landmarks. Outer pyramid foundation and cave collision may restrict underground room footprints; the approved 81×81 exterior does not guarantee underground empty volume.
 
 **Design priorities:** Ground-level halls remain grand, elegant and sparse; underground density carries the exploration burden. Treasure frequency, enemy rosters, traps, secret mechanics, decoration palette and exact room graph remain OPEN. No gameplay/worldgen code authorized. Verify dimension envelope, excavation volume, 3D stair feasibility, cave/water interference, chunk crossing and save/reload determinism before a build-ready blueprint.
+
+## Owner decision — underground encounter density, 2026-10-26
+
+**APPROVED: B — balanced exploration and combat.** Preserve the grandeur and relative calm of the above-ground pyramid. Ordinary underground burial rooms prioritize atmosphere and discovery, with occasional small encounters. Valuable grave-goods chambers and the royal burial complex carry the more demanding encounters. Secret branches are optional, and the risk/reward gradient should be apparent to observant players. Do **not** put enemies in every room or make all optional fights mandatory. This approval sets encounter **philosophy**, not an approved enemy count, custom mob, loot item, probability, or trap implementation.
+
+### Encounter, trap, and reward design V1 — PROPOSED / OPEN for owner review
+
+**Baseline recommendation:** vanilla mobs first (Husks as desert-undead identity; Skeletons as ranged guardians; rare Spiders as ambient crypt threat), with no invented custom mummy or boss. Cave Spiders only if a deliberately readable nest and poison difficulty are explicitly approved. Do not automatically import the Pillager HQ commander or its 65%/35%/10% reward rules. Keep above-ground hall largely calm: optional 0–2 incidental defenders; avoid disrupting architectural sightlines. Suggested underground distribution for a complete generated structure, **not approved**:
+- L1 general tombs / A: 3–5 Husks and 1–2 Skeletons total, dispersed across only some rooms; 1–2 intentionally empty atmospheric chambers.
+- L2 goods / B: 4–6 Husks and 2–3 Skeletons; guarded treasure storage is a clearly signposted encounter.
+- L2 hidden annex / C: 2–4 Husks, optionally 1 Spider; the secret route can also be a purely exploratory discovery, no guaranteed combat.
+- L3 royal complex / D: 4–6 Husks and 2–3 Skeletons in antechamber/royal vicinity; avoid cramped mob stacking or inaccessible ranged attackers.
+- This gives **16–25 underground mobs** depending on selections, but the arithmetic and biome/difficulty scaling must be rechecked after room geometry is fixed. No exact mob count, spawn persistence, elite attributes, boss, equipment, or difficulty scaling approved.
+
+**Trap candidates — all PROPOSED:** (T1) visible arrow-dispenser lane with floor trigger and side bypass, especially B4; (T2) short, reversible falling-sand/gravel obstruction with guaranteed escape and no player suffocation trap; (T3) obvious cracked-floor drop to a shallow lower corridor with safe recovery, not lethal void/lava; (T4) decoy chest with a short-lived, escapable pressure-plate response. Each should be understandable, telegraphed, bounded, and reset-safe. No unavoidable instant kills, mandatory redstone puzzles, TNT chain destruction, persistent softlocks, or traps that irreversibly destroy the structure. Before implementation choose which traps are approved and whether vanilla redstone or script-controlled mechanisms are permissible; verify chunk loading and restart behavior.
+
+**Reward ladder — PROPOSED, no approved item tables or rates:**
+- Entry and A general tombs: minor archaeology-themed supplies, modest gold/iron, pottery, food or mundane materials; some rooms intentionally empty.
+- B grave-goods branches: moderate gold, gems, enchantment-related equipment or appropriate existing mod loot; B4 clearly guarded premium candidate.
+- C hidden annex: rarer thematic curios, treasure, or a meaningful accessory/rune **only if currently implemented and approved**; discoveries should feel worthwhile but never be required for main-route completion.
+- D royal burial chamber: guaranteed meaningful baseline chest/reward concept plus optional higher-tier roll, with no guaranteed top-tier accessory or duplicated one-time special drop. Exact chest numbers, rarity, drop chance, item allowlist and any generated structure-specific treasure table remain OPEN.
+- Avoid restock/exploitable repeat rewards; specify one-time vs repeatable generation and persistence explicitly before coding.
+
+**Room-by-room V1 placement suggestions:**
+- U01/U02 entrance/gallery: visual storytelling, no forced ambush; A1 empty crypt; A2 one small Husk encounter; A3 mixed tomb with one guardian; A4 supplies, optional low-value chest.
+- U04 L2 central passage: legible route and quiet breathing room; B1 pottery storage, minimal risk; B2 one guarded store; B3 optional material reward; B4 conspicuous high-value guarded chamber with a single readable trap candidate.
+- C1/C3 secret approaches: environmental hints, no compulsory combat; C2 sealed-looking tomb with moderate risk; C4 secret treasure chamber, optional reward.
+- U06 royal antechamber: main encounter; U07 royal burial chamber: culminating treasure and smaller follow-up threat or vice versa (choose after room geometry); D1/D2 optional royal side crypt/treasury.
+- Preserve the approved central spine: no key hunt, secret switch, side-room kill count, or mandatory hidden chest to open U07.
+
+**Balance / technical gates:** Validate difficulty-scaled vanilla AI, mob placement collision, no persistent unintended natural respawn, generated chest inventories and deterministic loot seeding, trap activation/reset across chunk unload/restart, player recovery from drops, accessibility without secret detection, structural protection from TNT/falling blocks, and absence of interference with nearby caves and player builds. Distinguish structure-generated guardians from vanilla ambient spawns; no persistence policy approved yet.
+
+**Owner decisions still required:** (1) vanilla-only vs new unique guardian, (2) combat counts and whether one-time defenders, (3) selected trap families and severity, (4) premium reward categories / actual item allowlist, (5) royal tomb finale style (elite encounter, ordinary guards, or environmental climax). No code, NBT, or loot table modifications authorized by this documentation update.
