@@ -4,6 +4,7 @@
 Only finding categories and locations are printed; never matched secret values.
 """
 import collections
+import concurrent.futures
 import io
 import json
 import os
@@ -18,6 +19,8 @@ REPO = os.environ.get("GITHUB_REPOSITORY", "")
 TOKEN = os.environ.get("GH_TOKEN", "")
 MAX_ARCHIVE = 75 * 1024 * 1024
 MAX_ENTRY = 45 * 1024 * 1024
+# Archives download in parallel; one serial pass over every artifact and run log exceeded the job timeout.
+WORKERS = 8
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
     "Accept": "application/vnd.github+json",
@@ -108,6 +111,18 @@ def inspect_zip(data, label, findings, skips, depth=0):
                         findings.append((kind, path))
 
 
+def scan(path, label):
+    """Downloads and inspects one archive; returns its findings, skips and the reason it was unavailable, if any."""
+    findings, skips = [], []
+    try:
+        inspect_zip(archive_bytes(path), label, findings, skips)
+        return findings, skips, None
+    except urllib.error.HTTPError as error:
+        return findings, skips, f"HTTP {error.code}"
+    except (urllib.error.URLError, TimeoutError, ValueError, zipfile.BadZipFile) as error:
+        return findings, skips, type(error).__name__
+
+
 def main():
     if not REPO or not TOKEN:
         raise RuntimeError("missing repository or read-only token")
@@ -118,28 +133,32 @@ def main():
     print(f"Pending/in-progress run logs excluded: {len(all_runs) - len(runs)}", flush=True)
     print(f"Inventory: {len(artifacts)} active artifacts, {len(runs)} workflow runs", flush=True)
     print(f"Artifact bytes: {sum(a.get('size_in_bytes') or 0 for a in artifacts)}", flush=True)
+    jobs = [("artifact", a["id"], f"/actions/artifacts/{a['id']}/zip") for a in artifacts]
+    jobs += [("run", r["id"], f"/actions/runs/{r['id']}/logs") for r in runs]
+    totals = {"artifact": len(artifacts), "run": len(runs)}
+    every = {"artifact": 50, "run": 100}
     findings, skips, unavailable = [], [], []
-    finished = collections.Counter()
-    for index, artifact in enumerate(artifacts, 1):
-        try:
-            data = archive_bytes(f"/actions/artifacts/{artifact['id']}/zip")
-            inspect_zip(data, f"artifact:{artifact['id']}", findings, skips)
-            finished["artifacts"] += 1
-        except (urllib.error.URLError, TimeoutError, ValueError, zipfile.BadZipFile) as error:
-            unavailable.append(("artifact", artifact["id"], type(error).__name__))
-        if index % 50 == 0:
-            print(f"Artifact progress: {index}/{len(artifacts)}", flush=True)
-    for index, run in enumerate(runs, 1):
-        try:
-            data = archive_bytes(f"/actions/runs/{run['id']}/logs")
-            inspect_zip(data, f"run:{run['id']}", findings, skips)
-            finished["runs"] += 1
-        except urllib.error.HTTPError as error:
-            unavailable.append(("run", run["id"], f"HTTP {error.code}"))
-        except (urllib.error.URLError, TimeoutError, ValueError, zipfile.BadZipFile) as error:
-            unavailable.append(("run", run["id"], type(error).__name__))
-        if index % 100 == 0:
-            print(f"Run-log progress: {index}/{len(runs)}", flush=True)
+    finished, done = collections.Counter(), collections.Counter()
+    pool = concurrent.futures.ThreadPoolExecutor(WORKERS)
+    try:
+        futures = {pool.submit(scan, path, f"{kind}:{ident}"): (kind, ident) for kind, ident, path in jobs}
+        for future in concurrent.futures.as_completed(futures):
+            kind, ident = futures[future]
+            found, skipped, error = future.result()
+            findings += found
+            skips += skipped
+            if error:
+                unavailable.append((kind, ident, error))
+            else:
+                finished[kind + "s"] += 1
+            done[kind] += 1
+            if done[kind] % every[kind] == 0:
+                print(f"{'Artifact' if kind == 'artifact' else 'Run-log'} progress: {done[kind]}/{totals[kind]}", flush=True)
+    finally:
+        pool.shutdown(wait=False, cancel_futures=True)
+    findings.sort()
+    skips.sort()
+    unavailable.sort(key=str)
     print("EXPOSURE AUDIT FINAL SUMMARY", flush=True)
     print(f"Scanned artifacts={finished['artifacts']}/{len(artifacts)}, run logs={finished['runs']}/{len(runs)}")
     print(f"Credential patterns={len(findings)}, unavailable={len(unavailable)}, skipped entries={len(skips)}")
