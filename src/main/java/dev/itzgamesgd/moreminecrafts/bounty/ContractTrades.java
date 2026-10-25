@@ -16,7 +16,7 @@ import net.minecraft.world.item.trading.MerchantOffers;
  * offer still counts, so repeated calls never create extra stock. Vanilla offers are never touched.
  *
  * <p>Vanilla restocking resets {@code uses} on every offer, contract offers included; this class does not change that.
- * Whether contract stock should restock is an open owner decision.
+ * Contract stock follows vanilla restocking by owner decision D1 (2026-10-25).
  */
 public final class ContractTrades {
     private static final List<ContractData.Tier> SELLABLE = List.of(
