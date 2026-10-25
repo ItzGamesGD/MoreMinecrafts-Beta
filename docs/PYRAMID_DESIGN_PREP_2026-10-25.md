@@ -157,3 +157,15 @@ This is a **program inventory** rather than a quota: the 8 main-spine named elem
 - **OPEN owner choices:** final name/texture, quantity and acquisition, exact resource table, rare roll probability/categories, concrete crafting use, structure repeatability/respawn/reloot.
 
 **Existing approved rules preserved:** sealed primary chest triggers the short warning and guardian emergence; unlock only after boss defeat; no cumulative noise meter; at <=40% HP guardian has simple enrage with slightly faster movement and attacks and brighter red eyes.
+
+## Progression-fit review — boss material use, 2026-10-26
+
+**Owner design direction:** Evaluate links to existing equipment, existing progression materials, or newly designed materials/artifacts; prefer an existing well-fitting growth loop, and invent a new system/item only if no suitable existing fit exists. The owner has **not** yet approved a specific recipe, output amount, exclusive drop policy, or new artifact.
+
+**Verified existing fit:** The approved accessory enhancement design in ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md already requires a Relic Catalyst at +5 and +10 (one at each milestone is provisional), and explicitly leaves its acquisition sources UNDESIGNED. ACCESSORY_ANVIL_CATALYST_LAYOUT_APPROVED_2026-10-23.md documents the existing anvil catalyst input and a focused +4-to-+5 test. Ordinary T1/T2 equipment enhancement uses Enhancement Stones and does not use Relic Catalyst. Thus catalyst acquisition is a genuine open progression link; avoid adding a parallel mandatory enhancement currency.
+
+**RECOMMENDED PROPOSAL, not owner-approved:** One Tomb Guardian Core from the first completion of each pyramid may be crafted into **two Relic Catalysts** (conversion rate illustrative). This uses the already approved one unique boss crafting-material type without inventing a new exclusive artifact. The core may use a straightforward crafting recipe with existing materials; exact recipe, acquisition placement, rate and item name remain OPEN. Relic Catalyst must also have **independent alternative acquisition sources** (other dungeons/trials/rare rewards) so the pyramid does not become a mandatory gate for all accessory +5/+10 enhancement. Do not convert the boss core directly into a universally required +5/+10 catalyst exclusive to this structure. Verify actual item registry, crafting and accessory enhancement runtime before implementation.
+
+**Alternative designs for owner choice:** (A) core -> catalysts, with alternative catalyst sources elsewhere (preferred); (B) core as optional substitute for a milestone catalyst, not exclusive gate; (C) core as a new artifact/utility item ingredient only if its gameplay role is distinct and justified. The prior decision to have one boss-exclusive crafting material still stands; any new artifact would be crafted from that material unless owner explicitly supersedes it.
+
+**Still open:** final material name and appearance, core quantity, output quantity, recipe, alternative acquisition sources, treasure chest resource table, rare bonus pool and all implementation authorization.
