@@ -41,7 +41,41 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
         return QuestRules.distinctCount(KnowledgeRuntime.state(player), CLEARED);
     }
 
-    private static ChunkPos chunk(int slot) { return new ChunkPos(520 + slot * 8, 520); }
+    /**
+     * Fixture slots used by this class; each slot is a separate monument start chunk. Slot 9 stays unused because the
+     * deferred-completion test's 140-block monument from slot 8 reaches into it and unloads that chunk.
+     */
+    private static final int SLOTS = 11;
+    private static final int SLOT_SPACING = 8;
+    private static net.minecraft.server.MinecraftServer baseServer;
+    private static int baseX;
+
+    /**
+     * Monument start chunk for {@code slot}. Monument state is world-persistent, so a reused test world still holds
+     * the previous run's claims and evidence at the old chunks; the fixture moves past any slot range that does.
+     */
+    private static ChunkPos chunk(ServerLevel level, int slot) {
+        if (baseServer != level.getServer()) {
+            baseServer = level.getServer();
+            baseX = firstUnusedBaseX(data(level), 520);
+        }
+        return new ChunkPos(baseX + slot * SLOT_SPACING, 520);
+    }
+
+    static int firstUnusedBaseX(MonumentRewardData data, int startX) {
+        int base = startX;
+        while (!slotsUnused(data, base)) base += SLOTS * SLOT_SPACING;
+        return base;
+    }
+
+    private static boolean slotsUnused(MonumentRewardData data, int base) {
+        for (int slot = 0; slot < SLOTS; slot++) {
+            long key = new ChunkPos(base + slot * SLOT_SPACING, 520).pack();
+            if (data.isClaimed(key) || data.pending(key) != null
+                    || !data.qualifiedParticipants(key, 0L, Long.MAX_VALUE).isEmpty()) return false;
+        }
+        return true;
+    }
 
     private static ElderGuardian elder(ServerLevel level, BlockPos at) {
         ElderGuardian elder = EntityTypes.ELDER_GUARDIAN.create(level, EntitySpawnReason.COMMAND);
@@ -82,12 +116,59 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
 
     private static long key(QuestStructureFixture.Registered monument) { return monument.start().getChunkPos().pack(); }
 
-    private static void later(GameTestHelper ctx, Runnable body) { ctx.runAfterDelay(25, body); }
+    /**
+     * Runs {@code body} once every chunk of the given monuments has loaded and ticking entities. Before that, an entity
+     * added to such a chunk is hidden: entity queries miss it and its load event fires later, so a reward item would be
+     * created but not yet observable. How many ticks that takes depends on what else the server is loading, so a fixed
+     * delay is not enough.
+     */
+    private static void later(GameTestHelper ctx, Runnable body, QuestStructureFixture.Registered... monuments) {
+        loadEntityTickingNeighbourhood(ctx.getLevel(), monuments);
+        ctx.runAfterDelay(25, () -> whenEntitiesTicking(ctx, body, monuments, 0));
+    }
+
+    /**
+     * A chunk only ticks entities once every chunk within two of it is fully loaded. The fixture loads the monument's
+     * own chunks synchronously but leaves the surrounding fresh terrain to ticket-driven generation, which can lag far
+     * behind; load that neighbourhood now.
+     */
+    private static void loadEntityTickingNeighbourhood(ServerLevel level, QuestStructureFixture.Registered... monuments) {
+        for (QuestStructureFixture.Registered monument : monuments) {
+            var box = monument.start().getBoundingBox();
+            for (int x = (box.minX() >> 4) - 2; x <= (box.maxX() >> 4) + 2; x++)
+                for (int z = (box.minZ() >> 4) - 2; z <= (box.maxZ() >> 4) + 2; z++)
+                    level.getChunk(x, z);
+        }
+    }
+
+    private static void whenEntitiesTicking(GameTestHelper ctx, Runnable body,
+            QuestStructureFixture.Registered[] monuments, int waited) {
+        ServerLevel level = ctx.getLevel();
+        ChunkPos notReady = firstChunkWithoutTickingEntities(level, monuments);
+        if (notReady == null) {
+            body.run();
+            return;
+        }
+        ctx.assertTrue(waited < 60, "fixture monument chunk " + notReady + " did not reach ticking entities within 60 ticks");
+        ctx.runAfterDelay(1, () -> whenEntitiesTicking(ctx, body, monuments, waited + 1));
+    }
+
+    static ChunkPos firstChunkWithoutTickingEntities(ServerLevel level, QuestStructureFixture.Registered... monuments) {
+        for (QuestStructureFixture.Registered monument : monuments) {
+            var box = monument.start().getBoundingBox();
+            for (int x = box.minX() >> 4; x <= box.maxX() >> 4; x++)
+                for (int z = box.minZ() >> 4; z <= box.maxZ() >> 4; z++) {
+                    ChunkPos chunk = new ChunkPos(x, z);
+                    if (!level.areEntitiesActuallyLoadedAndTicking(chunk)) return chunk;
+                }
+        }
+        return null;
+    }
 
     @GameTest(maxTicks = 120)
     public void everyRealCombatParticipantIsCreditedAndNobodyElse(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(0));
+        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 0));
         later(ctx, () -> {
             ServerPlayer melee = ctx.makeMockServerPlayerInLevel();
             ServerPlayer archer = ctx.makeMockServerPlayerInLevel();
@@ -120,14 +201,14 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
             ctx.assertTrue(cleared(bystander) == 0 && cleared(faraway) == 0 && cleared(outsideCombat) == 0,
                     "presence alone, distance and combat outside the bounds are rejected");
             ctx.succeed();
-        });
+        }, monument);
     }
 
     @GameTest(maxTicks = 120)
     public void mobProjectilesAndWrongMonumentEvidenceAreRejected(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        var first = QuestStructureFixture.register(level, "minecraft:monument", chunk(1));
-        var second = QuestStructureFixture.register(level, "minecraft:monument", chunk(2));
+        var first = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 1));
+        var second = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 2));
         later(ctx, () -> {
             ServerPlayer player = ctx.makeMockServerPlayerInLevel();
             ServerPlayer other = ctx.makeMockServerPlayerInLevel();
@@ -155,7 +236,7 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
             ctx.assertTrue(cleared(player) == 0 && cleared(other) == 1,
                     "the first monument's participant is not credited for the second monument");
             ctx.succeed();
-        });
+        }, first, second);
     }
 
     @GameTest
@@ -179,7 +260,7 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
     @GameTest(maxTicks = 120)
     public void evidenceAroundTheWindowDecidesRealCompletion(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(3));
+        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 3));
         later(ctx, () -> {
             ServerPlayer recent = ctx.makeMockServerPlayerInLevel();
             ServerPlayer stale = ctx.makeMockServerPlayerInLevel();
@@ -194,13 +275,13 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
             ctx.assertTrue(cleared(recent) == 1 && cleared(stale) == 0 && cleared(elderHistory) == 1 && cleared(finisher) == 1,
                     "window edge, expired combat, ancient elder damage and the finisher are decided exactly");
             ctx.succeed();
-        });
+        }, monument);
     }
 
     @GameTest(maxTicks = 160)
     public void offlineParticipantsAreCreditedOnceAtLogin(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(4));
+        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 4));
         later(ctx, () -> {
             java.util.UUID id = java.util.UUID.fromString("5d6e7f80-9a1b-4c2d-8e3f-405162738401");
             ServerPlayer leaver = QuestPersistentPlayers.join(ctx, id, "xpq-monument-leaver", false);
@@ -220,15 +301,15 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
             ServerPlayer again = QuestPersistentPlayers.join(ctx, id, "xpq-monument-leaver", true);
             ctx.assertTrue(cleared(again) == 1, "repeated logins add nothing");
             ctx.succeed();
-        });
+        }, monument);
     }
 
     @GameTest(maxTicks = 160)
     public void sameMonumentReplayAndThreeDistinctMonumentsAreCountedCorrectly(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        var a = QuestStructureFixture.register(level, "minecraft:monument", chunk(5));
-        var b = QuestStructureFixture.register(level, "minecraft:monument", chunk(6));
-        var c = QuestStructureFixture.register(level, "minecraft:monument", chunk(7));
+        var a = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 5));
+        var b = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 6));
+        var c = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 7));
         later(ctx, () -> {
             ServerPlayer player = ctx.makeMockServerPlayerInLevel();
             ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
@@ -249,13 +330,13 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
             ctx.assertTrue(QuestCatalog.byId("xpq.boss.monument_clear") == null && QuestCatalog.byId("xpq.boss.monuments_3") == null,
                     "the VERIFY monument quests remain unregistered");
             ctx.succeed();
-        });
+        }, a, b, c);
     }
 
     @GameTest(maxTicks = 900)
     public void deferredCompletionAfterARealChunkUnloadKeepsParticipantsUntilTheChunksReload(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
-        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(8));
+        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 8));
         var piece = monument.firstPiece();
         var box = new net.minecraft.world.level.levelgen.structure.BoundingBox(
                 piece.minX(), piece.minY(), piece.minZ(), piece.minX() + 140, piece.maxY(), piece.maxZ());
@@ -295,6 +376,38 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
                 ctx.succeed();
             });
         });
+    }
+
+    /** QM-01 regression: no fixed delay; the reward is checked the moment the fixture chunks tick entities. */
+    @GameTest(maxTicks = 120)
+    public void rewardIsObservableAsSoonAsTheMonumentChunksTickEntities(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        var monument = QuestStructureFixture.register(level, "minecraft:monument", chunk(level, 10));
+        loadEntityTickingNeighbourhood(level, monument);
+        whenEntitiesTicking(ctx, () -> {
+            ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
+            hit(level, finisher, elder(level, monument.inside()), 100_000F);
+            ctx.assertTrue(data(level).isClaimed(key(monument)) && cleared(finisher) == 1, "the monument completes");
+            ctx.assertTrue(hearts(monument) == 1, "the Heart of Currents is tracked as soon as it is created: hearts="
+                    + hearts(monument));
+            ctx.succeed();
+        }, new QuestStructureFixture.Registered[] {monument}, 0);
+    }
+
+    /** QM-01 regression: saved claims, pending completions and evidence from an earlier run move the fixture slots. */
+    @GameTest
+    public void reusedWorldMonumentStateMovesTheFixtureToUnusedSlots(GameTestHelper ctx) {
+        MonumentRewardData data = new MonumentRewardData();
+        int stride = SLOTS * SLOT_SPACING;
+        ctx.assertTrue(firstUnusedBaseX(data, 520) == 520, "a fresh world keeps the original fixture chunks");
+        data.claim(new ChunkPos(520 + 3 * SLOT_SPACING, 520).pack());
+        ctx.assertTrue(firstUnusedBaseX(data, 520) == 520 + stride, "a claim left by a previous run moves the slots");
+        data.defer(new ChunkPos(520 + stride, 520).pack(), new net.minecraft.world.level.levelgen.structure.BoundingBox(0, 0, 0, 1, 1, 1),
+                net.minecraft.world.phys.Vec3.ZERO);
+        data.recordParticipation(new ChunkPos(520 + 2 * stride + SLOT_SPACING, 520).pack(), new java.util.UUID(0, 9), 7L, false);
+        ctx.assertTrue(firstUnusedBaseX(data, 520) == 520 + 3 * stride,
+                "pending completions and stored evidence also mark a slot range as used");
+        ctx.succeed();
     }
 
     @Override public void invokeTestMethod(GameTestHelper context, Method method) throws ReflectiveOperationException {
