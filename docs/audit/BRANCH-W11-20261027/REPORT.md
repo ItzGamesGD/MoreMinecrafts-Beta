@@ -1,14 +1,16 @@
 # BRANCH-W11-20261027 — Repository-Wide Branch Audit & Wave 11 Checkpoint
 
 ## Basis
-- Remote branches: **142**; PRs: **189**, open: **28**.
+
+- Audited remote branches (excluding newly created Wave 11): **144**; total remote branches at refresh: **145**; PRs: **191**, open: **30**.
 - Wave 10 and PR #182 head: `13c190d1abf0a9dc6936b8dbc5eac50be4e63319` (equal).
-- Branches fetched from `origin` on 2026-10-26 UTC. Full machine-readable commit, path, patch-id, blob and PR evidence: `branch_inventory.json`.
+- Branches refreshed from `origin` on 2026-10-26 UTC after PR #191 and Wave 11 were created. Full machine-readable commit, path, patch-id, blob and PR evidence: `branch_inventory.json`.
 - `docs/CONTENT_AUTHORITY_INDEX.md` routes active authority. Historical branch content was not promoted merely because it exists.
 
 ## Classification and cleanup
-- Classes: {'A': 43, 'B': 1, 'D': 52, 'F': 3, 'G': 43}.
-- Cleanup: {'ARCHIVED_IN_CHECKPOINT': 1, 'RETAIN_ACTIVE': 13, 'RETAIN_PROTECTED': 30, 'RETAIN_UNIQUE': 52, 'REVIEW_REQUIRED': 3, 'SAFE_TO_DELETE_CANDIDATE': 43}. No branches deleted.
+
+- Classes: {'A': 43, 'B': 1, 'D': 52, 'F': 3, 'G': 45}.
+- Cleanup: {'ARCHIVED_IN_CHECKPOINT': 1, 'RETAIN_ACTIVE': 14, 'RETAIN_PROTECTED': 31, 'RETAIN_UNIQUE': 52, 'REVIEW_REQUIRED': 3, 'SAFE_TO_DELETE_CANDIDATE': 43}. No branches deleted.
 - D means unique or divergent material remains without sufficient semantic and design verification. F branches remain on their original refs.
 
 ## Branch-by-branch classification
@@ -19,6 +21,8 @@
 | `audit/phase3-stage23-xpquest-readiness-20261023` | `01a36b0caf` | #163 open | `cde842dd2c` | +1/−186 | 0/1 | 0/4 | G | RETAIN_PROTECTED | open/baseline |
 | `audit/prc-p4-research-preservation-20261026` | `13c190d1ab` | #190 closed | `13c190d1ab` | +0/−0 | 0/0 | 0/0 | A | SAFE_TO_DELETE_CANDIDATE | ancestor |
 | `audit/prc-p5-pre-research-preservation-20261026` | `e00d65cbd8` | — | `e00d65cbd8` | +0/−2 | 0/0 | 0/0 | A | SAFE_TO_DELETE_CANDIDATE | ancestor |
+| `audit/prc-p6-pre-preservation-20261027` | `13c190d1ab` | — | `13c190d1ab` | +0/−0 | 0/0 | 0/0 | G | RETAIN_ACTIVE | ancestor |
+| `audit/prc-p6-remaining-preservation-20261027` | `73dcc8f4d1` | #191 open | `13c190d1ab` | +3/−0 | 0/3 | 0/90 | G | RETAIN_PROTECTED | open/baseline |
 | `audit/repository-cleanup-phase2-20261023` | `c9e29c5680` | #158 open | `cde842dd2c` | +6/−186 | 0/6 | 0/6 | G | RETAIN_PROTECTED | open/baseline |
 | `audit/repository-cleanup-phase2b-20261023` | `5a0ede4051` | #159 open | `cde842dd2c` | +6/−186 | 0/6 | 0/6 | G | RETAIN_PROTECTED | open/baseline |
 | `audit/repository-pr-reconciliation-20261022` | `84550ad4ef` | #154 open | `5f92307555` | +1/−188 | 0/1 | 0/5 | G | RETAIN_PROTECTED | open/baseline |
@@ -162,6 +166,7 @@
 - Every branch’s full unique commit list, changed path list, differing blob paths and stable patch IDs are in `branch_inventory.json`.
 - Parent edges below are inferred only when a named branch HEAD is an ancestor of the child HEAD; branches may also share an unnamed merge-base. No cycle exists among ancestry edges.
 - `security/gitleaks-historical-findings-20261022` → `audit/phase3-stage23-xpquest-readiness-20261023`
+- `audit/prc-p4-research-preservation-20261026, audit/prc-p6-pre-preservation-20261027, checkpoint/wave10-unified-20261026, integration/wave10-unified-20261025` → `audit/prc-p6-remaining-preservation-20261027`
 - `security/gitleaks-historical-findings-20261022` → `audit/repository-cleanup-phase2-20261023`
 - `security/gitleaks-historical-findings-20261022` → `audit/repository-cleanup-phase2b-20261023`
 - `stage-21/knowledge-checkpoint` → `audit/repository-pr-reconciliation-20261022`
@@ -252,7 +257,7 @@
 
 - Exact ancestry proves class A. `fix/exposure-audit-parallel-20261025` has no patch-unique commit; PR #182 documents its inclusion through the exposure audit chain.
 - D and F branches retain their original refs. Many older research/XP Quest/economy branches diverge from Wave 10 on source files and require per-feature review against current authority; they are not deletion candidates.
-- Open PR heads, main, release candidates and checkpoints are G. PR #181, #182 and #189 remain open.
+- Open PR heads, main, release candidates and checkpoints are G. PR #181, #182 and #189 remain open. New PR #191 and its pre-preservation parent were retained after the refresh.
 - Unique source tests were not copied into runtime because API compatibility and behavior still require review.
 
 | Area reviewed | Authority or evidence | Wave 11 disposition |
@@ -269,10 +274,11 @@ There is no evidence sufficient to assign any whole divergent branch class C or 
 
 - `preservation_manifest.json` records **82** verbatim document blob variants across **62** paths and **7** test blob variants across **6** paths, each with original branch, HEAD, path, blob SHA, reason, implementation relationship, historical status and SHA-256. Raw files live under `preserved/`. Historical preservation grants no gameplay or design approval.
 - Unique source tests remain reachable on their original branches and are archived as raw evidence. Their API compatibility has not been validated; none was claimed as a passing Wave 11 runtime test.
+- PR #191 contains additional independent document preservation and remains open; its 90 changed paths are inventoried and held on its source ref.
 
 ## Integration and verification
 
-- Integration: document/test preservation, audit record, and three exact `.gitleaksignore` fingerprints for an already reviewed historical false positive recreated by archival. No gameplay source branch was replayed.
+- Integration: document/test preservation, audit record, and exact `.gitleaksignore` fingerprints for an already reviewed historical prose false positive recreated by archival and PR #191. No gameplay source branch was replayed.
 - Final verification results and Wave 11 SHA are recorded in the PR #182 appendage after execution.
 
 ## Follow-up
