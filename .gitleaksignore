@@ -13,3 +13,7 @@ aa376713aedcd7fecd769af39e18f8532b9e147d:scripts/free_model_delegation/test_dele
 # False positive in design-document prose. The rule matched the word "accessible", a prose gap, and a 19-character phrase made of
 # three English-like words joined by a slash (entropy 3.5), on a line of links to public Fabric sources. It is not a credential.
 a1e0aeb0ab8ba90419b714a42502cbe8db9d770c:docs/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+
+# Same false positive, copied byte-for-byte by the Phase 3 P0 document recovery (PR #189). The flagged line is identical
+# (same SHA-256) to the reviewed line above; only the commit, path and line number differ. It is not a credential.
+024fc75a6298ab2f34ef80a2cc7e40e4d73af666:docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:17

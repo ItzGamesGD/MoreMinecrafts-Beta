@@ -22,6 +22,8 @@
 | Etherium | Overworld | Y -32 - 64 | Y 16 |
 | Adamantium | Nether | Ancient Debris 유사 초안 | Ancient Debris 유사 |
 
+> **OWNER-APPROVED AMENDMENT — Adamantium worldgen (F-3, 2026-10-26).** This supersedes the "Ancient Debris 유사 초안" (Ancient-Debris-like draft) row above and the matching Adamantium sentence in §3, for Adamantium only. Nether only, **Y 8–22**, biased toward **Y 15**, veins of **1–2** ore blocks. Adamantium must yield **fewer generated ore blocks than Ancient Debris** in matched samples of comparable newly generated chunks. Validation must disclose its dimension, biome and height method; vein size alone does not prove rarity. The current data (Y 8–24, size 3) is not authoritative. Design only; implementation pending. Details: [Phase 2 authority reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md#f-3--adamantium-world-generation).
+
 Titanium과 Tungsten은 높이와 분포 위치는 MoreMinecrafts 고유 값을 사용하고, 광맥/placement 관련 출발 규칙은 바닐라 Iron 계열을 기준으로 동기화한다.
 
 ## 2.1 돌 / 심층암 자동 전환
