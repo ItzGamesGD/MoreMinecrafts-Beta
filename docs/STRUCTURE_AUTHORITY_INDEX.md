@@ -6,6 +6,8 @@ Several structure records currently live only on the Wave 9 release branch (Draf
 
 Pinned release-branch commit: `268ec65bb8827c3f627d076188c7924225b8afa0` (`release/wave9-rc-20261025`, PR #181 HEAD at 2026-10-26).
 
+On the Wave 10 integration branch (PR #182) the three pinned records are also present as byte-identical copies of those blobs: [PYRAMID_DESIGN_PREP_2026-10-25.md](PYRAMID_DESIGN_PREP_2026-10-25.md) (`52cc8157`), [PILLAGER_HEADQUARTERS_DESIGN_2026-10-22.md](PILLAGER_HEADQUARTERS_DESIGN_2026-10-22.md) (`904d16c4`) and [STRUCTURE_CANDIDATE_AUTHORITY_2026-10-25.md](STRUCTURE_CANDIDATE_AUTHORITY_2026-10-25.md) (`dafe1d5d`). A later edit on either branch makes the blobs differ; the newest owner-approved version then wins, and the pins above stay as provenance.
+
 ## Structure portfolio and cross-cutting rules
 
 | Record | Location | Blob | Status |

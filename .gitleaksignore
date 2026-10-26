@@ -17,3 +17,7 @@ a1e0aeb0ab8ba90419b714a42502cbe8db9d770c:docs/TERRITORY_REGISTRATION_FABRIC_SPEC
 # Same false positive, copied byte-for-byte by the Phase 3 P0 document recovery (PR #189). The flagged line is identical
 # (same SHA-256) to the reviewed line above; only the commit, path and line number differ. It is not a credential.
 024fc75a6298ab2f34ef80a2cc7e40e4d73af666:docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:17
+
+# Same false positive again: cherry-picking the PR #189 recovery (024fc75a) onto the Wave 10 integration branch (PR #182)
+# recreated the file in commit 0eba0d11. The flagged line is unchanged (same SHA-256 as the reviewed line); only the commit differs.
+0eba0d117185109aae22f4ea47aa0d1c5eb6add4:docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:17

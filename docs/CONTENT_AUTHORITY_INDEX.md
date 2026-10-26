@@ -171,7 +171,7 @@ Tier I–V modules, independent Length/Weight rolls, late-only Minnow notice, re
 
 ### T2 acquisition
 
-The five T2 elemental core identities and acquisition sources are locked by the Oct 7 continuation record. Current code adds rare loot to the vanilla normal/ominous Trial reward pools, Bastion treasure, and Ancient City tables, plus a saved one-time Ocean Monument completion claim. Chance values and the Trial table mapping are provisional; no recipes or equipment links are authorized until content demand is known.
+The five T2 elemental core identities and acquisition sources are locked by the Oct 7 continuation record. Current code adds rare loot to the vanilla normal/ominous Trial reward pools, Bastion treasure, and Ancient City tables, plus a saved one-time Ocean Monument completion claim. Chance values and the Trial table mapping are provisional; no recipes or equipment links are authorized until content demand is known. **Exception (F-2, 2026-10-26):** one shaped Earth Mace recipe using Ancient Heart is owner-approved; see the [Phase 2 reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md#f-2--ancient-heart-replaces-tomb-guardian-core). It is not implemented, and no other T2 recipe is authorized.
 
 ### Activity rewards
 
