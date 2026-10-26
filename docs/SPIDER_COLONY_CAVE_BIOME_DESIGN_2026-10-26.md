@@ -21,6 +21,7 @@ Status: OWNER APPROVED concept, DESIGN ONLY. Implementation deferred.
 - Encounter intensity: **OWNER APPROVED B / balanced** — safer outer areas, moderately hazardous nest-dense areas, optional routes around fighting; no forced waves, unlimited reinforcements or inescapable cobweb corridors. A special mandatory boss or dangerous heart is NOT approved.
 - Rewards: **OWNER APPROVED B as future design direction, but CURRENT EFFECTIVE POLICY IS A**. Vanilla resources and mob drops only; do not add Spider Cocoon or any new material until a concrete downstream crafting/use case is approved. No new recipes or special nest treasure approved.
 - Generation height/frequency: **OWNER APPROVED option C** — broad underground vertical range (shallow and deep caves), low overall occurrence, but extensive naturally connected area when encountered. Exact Y bounds, noise parameters and generation rate OPEN.
+- Biome borders: **OWNER APPROVED option B / gradual transition** — cobwebs and nest decorations taper in from ordinary caves and increase smoothly inward, without sharp artificial boundaries. Avoid overwriting neighboring cave-biome terrain features; exact blending implementation OPEN.
 - Decorative blocks and cave/structure collision rules.
 
 ## Guardrails
