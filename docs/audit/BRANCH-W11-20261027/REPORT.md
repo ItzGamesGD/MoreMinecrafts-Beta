@@ -272,7 +272,7 @@ There is no evidence sufficient to assign any whole divergent branch class C or 
 
 ## Integration and verification
 
-- Integration: document preservation and audit record only; no gameplay source branch was replayed.
+- Integration: document/test preservation, audit record, and three exact `.gitleaksignore` fingerprints for an already reviewed historical false positive recreated by archival. No gameplay source branch was replayed.
 - Final verification results and Wave 11 SHA are recorded in the PR #182 appendage after execution.
 
 ## Follow-up
