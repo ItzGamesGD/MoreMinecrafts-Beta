@@ -62,3 +62,5 @@ Design only. No game code, worldgen, assets, or tests authorized. Do not merge o
 - Egg-sac harvesting: **OWNER APPROVED Q27 option B** — Silk Touch harvests intact decorative egg-sac blocks; normal breaking yields no egg-sac item and reactive sacs can release 1–2 juvenile spiders. Silk Touch extraction is safe (no hatching), and player-placed sacs remain decorative, never providing repeatable spider farming. Exact block state/loot implementation is HOW.
 
 - Egg-sac visual variants: **OWNER APPROVED Q28 option A** — exactly one egg-sac block model/texture, with natural placement variation only. No separate small/medium/large models or attachment-specific visual variants. Preserve previously approved Silk Touch harvest and natural-only reactive behavior.
+
+- Egg-sac spawn surfaces: **OWNER APPROVED Q29 option A** — ordinary egg sacs primarily generate on cave floors and in floor-level rocky crevices, with very rare or no wall/ceiling placement. Keep single egg-sac visual model, colony-wide even distribution, Silk Touch harvesting and natural-only reactive behavior. Exact substrate validation and placement rates are HOW.
