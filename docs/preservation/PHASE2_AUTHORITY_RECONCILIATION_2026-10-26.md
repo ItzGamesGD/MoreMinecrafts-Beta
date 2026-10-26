@@ -5,7 +5,7 @@ Source decisions: [PHASE2_OWNER_DECISIONS_2026-10-26.md](PHASE2_OWNER_DECISIONS_
 
 This overlay applies those six decisions to the design documents they affect. Where a named document says something different on the **same point**, this overlay wins for that point only. Every other approved rule in those documents stays exactly as written. No gameplay code, worldgen data, loot table, recipe, research effect, XP Quest registration or test result is changed or claimed.
 
-**Why this is an overlay instead of in-place edits.** Several affected documents (the pyramid design, the XP Quest handoff and the bounty authority) exist only on the Wave 9 release branch, PR #181. PR #181 is release-frozen and must not be modified here. Copying or editing those files in PR #189 would create competing versions of documents that are still changing on PR #181 (the pyramid document changed three times on 2026-10-26). They are therefore referenced by path plus a pinned blob at PR #181 HEAD `268ec65bb8827c3f627d076188c7924225b8afa0`. When PR #189 is rebased onto a `main` that contains PR #181, short in-place pointers to this overlay may be added to those files. Until then, this overlay and [CONTENT_AUTHORITY_INDEX.md](../CONTENT_AUTHORITY_INDEX.md) carry the decisions.
+**Why this is an overlay.** The affected documents began on the Wave 9 release branch, PR #181. The pyramid design has since been carried byte-identically into PR #182; the source version cited below remains the pinned PR #181 blob at `268ec65bb8827c3f627d076188c7924225b8afa0`. PR #181 is release-frozen. Preserve the original documents and their provenance; add short in-place pointers after integration if needed. This overlay and [CONTENT_AUTHORITY_INDEX.md](../CONTENT_AUTHORITY_INDEX.md) carry the approved decisions now. Do not rebase or squash commits with SHA-dependent Gitleaks fingerprints merely to synchronize documentation.
 
 ## F-1 — Wither-skull pickup provenance
 
@@ -104,7 +104,7 @@ Rare caravan merchants **may directly sell Beginner, Intermediate and Advanced o
 
 ### Q3 — Feather Boots and Hot Step deferred
 
-**Feather Boots** and **Hot Step (뜨거운 걸음)** are both **CANDIDATE / DEFERRED / NOT AUTHORIZED FOR IMPLEMENTATION**. Preserve their historical design records, including conflicting dash/double-jump and enchantment interactions, as reference only. Neither historical effect is approved for implementation. Reconcile with existing enchantments and design unique effects only in a future owner-approved redesign. Do not silently add them to the active roster.
+The **existing implemented T1 Feather Boots enchantment is approved to remain**. Its current skill-tree placement and retained gameplay semantics are governed by [T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md](../T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md) and [ENCHANTMENT_BRANCH_SKELETON.md](../ENCHANTMENT_BRANCH_SKELETON.md). Do not remove or disable it. Only the proposed **2026-10-10 Feather Boots redesign** (double jump and full fall-damage immunity in place of the existing dash) remains **CANDIDATE / DEFERRED / NOT AUTHORIZED FOR IMPLEMENTATION**. **Hot Step (뜨거운 걸음)** also remains CANDIDATE / DEFERRED / NOT AUTHORIZED FOR IMPLEMENTATION. Preserve the historical idea record without promoting its proposed effects.
 
 ### Q4 — Tomb Guardian rewards
 
@@ -112,7 +112,7 @@ The Tomb Guardian's **core signature drop is Ancient Heart**, which also retains
 
 ### Follow-up integration notes
 
-After PR #181 reaches main, place short links to this reconciliation in the live pyramid, 2026-10-22 bounty and related handoff documents without rewriting the original historical copies. Validate that no conflict with the latest release text is introduced. Keep this PR Draft until reviewed and do not mutate PR #181.
+After PR #181 reaches main, place short links to this reconciliation in the live pyramid, 2026-10-22 bounty and related handoff documents without rewriting recovered historical copies. Validate that no conflict with the latest release text is introduced. Keep PR #182 Draft until its integration gates pass; do not mutate PR #181 for routine design changes.
 
 ## Remaining conflicts that need owner decisions
 
