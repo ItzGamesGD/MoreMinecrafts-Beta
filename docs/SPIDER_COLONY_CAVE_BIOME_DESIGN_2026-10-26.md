@@ -44,3 +44,5 @@ Design only. No game code, worldgen, assets, or tests authorized. Do not merge o
 - Mother Spider base stats: **OWNER APPROVED option B** — 60 max HP (30 hearts), 6 raw melee damage (3 hearts before armor), normal-difficulty reference. No poison attack in current design. Strong elite-like encounter with periodic juvenile summoning, not a mandatory formal boss. Initial balance values, tunable after live combat QA.
 
 - Mother Spider mobility: **OWNER APPROVED option B** — movement speed comparable to vanilla regular spider, retains wall climbing; no dash, teleport, or enhanced chase mobility. Exact movement attribute and navigation tuning are HOW, subject to live QA.
+
+- Mother Spider defeat reward: **OWNER APPROVED option D** — enhanced vanilla-item drops (including string/spider eyes, with any rare vanilla drop subject to later approval) **plus additional XP**. No new unique materials or recipes. Exact quantities, rare item pool/probabilities and XP amount remain OPEN for further owner decisions; avoid excessive reward power for one-time nests.
