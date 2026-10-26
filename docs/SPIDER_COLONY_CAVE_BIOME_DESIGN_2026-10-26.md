@@ -28,3 +28,5 @@ Status: OWNER APPROVED concept, DESIGN ONLY. Implementation deferred.
 Design only. No game code, worldgen, assets, or tests authorized. Do not merge or alter Wave 9 release-frozen PR #181. Keep ST-05 underground colosseum separate.
 
 - Mother Spider spawning: **OWNER APPROVED option B** — only in rare large natural nest clusters within the spider-colony cave, not general biome-wide random spawning. Nest clusters use existing cave geometry, dense webs and egg sacs, not artificial boss rooms. Exact spawning and respawn rules OPEN.
+
+- Mother Spider respawn: **OWNER APPROVED option A / one-time per large nest**. After its Mother Spider is killed, that nest never spawns another Mother Spider, including after reload/server restart; ordinary spiders and cave spiders retain normal spawning. Webs/egg sacs remain. Implementation must persist per-nest defeat state, but storage mechanism is HOW and not decided. Handling despawn/unloaded-before-kill and duplicate spawning requires subsequent design/QA.
