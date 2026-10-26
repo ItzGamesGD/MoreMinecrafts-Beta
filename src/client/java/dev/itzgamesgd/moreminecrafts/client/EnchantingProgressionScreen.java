@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
 import dev.itzgamesgd.moreminecrafts.progression.*;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -45,6 +46,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     private Button nextOptions;
     private Button apply;
     private Button reset;
+    private ViewportScale viewportScale = new ViewportScale(1.0D, 0.0D, 0.0D);
 
     public EnchantingProgressionScreen(EnchantingProgressionMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, GUI_WIDTH, GUI_HEIGHT);
@@ -59,6 +61,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     @Override
     protected void init() {
         super.init();
+        viewportScale = ViewportScale.fit(width, height, GUI_WIDTH, GUI_HEIGHT, 8.0D);
         enchantTab = addRenderableWidget(Button.builder(Component.translatable("menu.moreminecrafts.enchantment"), b -> {
             treePage = 0;
             request(0);
@@ -118,6 +121,49 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
         apply = addRenderableWidget(Button.builder(Component.empty(), b -> request(2))
                 .bounds(leftPos + 102, topPos + 246, 220, 18).build());
         refresh();
+    }
+
+    @Override
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        graphics.pose().pushMatrix();
+        graphics.pose().translate((float) (viewportScale.left() - leftPos * viewportScale.scale()),
+                (float) (viewportScale.top() - topPos * viewportScale.scale()));
+        graphics.pose().scale((float) viewportScale.scale(), (float) viewportScale.scale());
+        super.extractRenderState(graphics,
+                (int) Math.round(viewportScale.contentX(mouseX, leftPos)),
+                (int) Math.round(viewportScale.contentY(mouseY, topPos)), delta);
+        graphics.pose().popMatrix();
+    }
+
+    @Override
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        return super.mouseClicked(map(event), doubleClick);
+    }
+
+    @Override
+    public boolean mouseReleased(MouseButtonEvent event) {
+        return super.mouseReleased(map(event));
+    }
+
+    @Override
+    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
+        return super.mouseDragged(map(event), dragX / viewportScale.scale(), dragY / viewportScale.scale());
+    }
+
+    @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+        super.mouseMoved(viewportScale.contentX(mouseX, leftPos), viewportScale.contentY(mouseY, topPos));
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        return super.mouseScrolled(viewportScale.contentX(mouseX, leftPos),
+                viewportScale.contentY(mouseY, topPos), scrollX, scrollY);
+    }
+
+    private MouseButtonEvent map(MouseButtonEvent event) {
+        return new MouseButtonEvent(viewportScale.contentX(event.x(), leftPos),
+                viewportScale.contentY(event.y(), topPos), event.buttonInfo());
     }
 
     @Override

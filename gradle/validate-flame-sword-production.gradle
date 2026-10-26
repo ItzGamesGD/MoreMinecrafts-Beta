@@ -83,14 +83,19 @@ tasks.register("validateFlameSwordProductionAsset") {
         ["north", "south"].each { faceName ->
             def face = plane.faces[faceName]
             assert face.texture == "#layer0"
-            def expectedUv = faceName == "north" ? [0, 0, 16, 16] : [16, 0, 0, 16]
-            assert face.uv == expectedUv : "Opposite Flame Sword faces must preserve artwork orientation"
+            assert face.uv == [0, 0, 16, 16] : "Opposite Flame Sword faces must preserve artwork orientation"
             assert !face.containsKey("cullface")
         }
-        [west: [15.64, 0.55, 15.66, 0.57], east: [15.64, 0.55, 15.66, 0.57],
-         up: [15.64, 0.55, 15.66, 0.57], down: [15.64, 0.55, 15.66, 0.57]].each { faceName, uv ->
+        [west: [0, 0, 2, 16], east: [0, 0, 2, 16],
+         up: [0, 0, 16, 2], down: [0, 0, 16, 2]].each { faceName, uv ->
             assert plane.faces[faceName].texture == "#layer0"
             assert plane.faces[faceName].uv == uv
+        }
+        plane.faces.each { faceName, face ->
+            assert face.uv.size() == 4 && face.uv[0] >= 0 && face.uv[1] >= 0
+            assert face.uv[2] <= 16 && face.uv[3] <= 16
+            assert face.uv[0] < face.uv[2] && face.uv[1] < face.uv[3] :
+                    "Flame Sword ${faceName} UVs must have a positive bounded area"
         }
         assert plane.faces.size() == 6 : "Flame Sword model must remain one bounded six-face solid"
 

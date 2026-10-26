@@ -1,0 +1,57 @@
+name: K5 Fixture Isolation Regression
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/k5-fixture-isolation.yml'
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/k5probe/K5NaturalTreeProbeGameTests.java'
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/progression/K5NaturalTreeProvenance.java'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repeated-k5-class:
+    name: Repeated standalone K5 GameTests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Run K5 GameTest class in twelve fresh worlds
+        shell: bash
+        env:
+          JAVA_TOOL_OPTIONS: -Dfabric-api.gametest.filter=moreminecrafts-gametest:k5natural_tree_probe_game_tests_*
+        run: |
+          set -euo pipefail
+          mkdir -p k5-isolation-logs
+          for attempt in $(seq 1 12); do
+            # The previous failure reproduced only for the standalone class, not the full suite.
+            # Remove only the disposable GameTest world, never repository sources or persistent user worlds.
+            rm -rf build/run/gameTest
+            echo "K5_ISOLATION_ATTEMPT_START=${attempt}"
+            if ! ./gradlew runGameTest --no-daemon --max-workers=1 >"k5-isolation-logs/attempt-${attempt}.log" 2>&1; then
+              echo "K5_ISOLATION_FAILED=${attempt}"
+              tail -n 120 "k5-isolation-logs/attempt-${attempt}.log"
+              exit 1
+            fi
+            grep -Eq 'Will run tests matching .*\([1-9][0-9]* tests\)' "k5-isolation-logs/attempt-${attempt}.log"
+            grep -q 'GAME TESTS COMPLETE' "k5-isolation-logs/attempt-${attempt}.log"
+            echo "K5_ISOLATION_ATTEMPT_PASS=${attempt}"
+          done
+          echo 'K5_ISOLATION_12_OF_12_PASS'
+      - name: Upload GameTest isolation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k5-isolation-evidence
+          path: k5-isolation-logs/*.log
+          if-no-files-found: warn
+          retention-days: 7

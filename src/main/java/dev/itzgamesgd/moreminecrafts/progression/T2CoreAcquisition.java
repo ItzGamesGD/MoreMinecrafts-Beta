@@ -29,7 +29,7 @@ public final class T2CoreAcquisition {
     private static final ResourceKey<LootTable> ANCIENT_CITY = lootTable("minecraft:chests/ancient_city");
     private static final ResourceKey<LootTable> TRIAL_REWARD = lootTable("minecraft:chests/trial_chambers/reward");
     private static final ResourceKey<LootTable> OMINOUS_TRIAL_REWARD = lootTable("minecraft:chests/trial_chambers/reward_ominous");
-    private static final Identifier OCEAN_MONUMENT = Identifier.withDefaultNamespace("ocean_monument");
+    private static final Identifier OCEAN_MONUMENT = Identifier.withDefaultNamespace("monument");
 
     private T2CoreAcquisition() {}
 
@@ -41,8 +41,10 @@ public final class T2CoreAcquisition {
             else if (key.equals(OMINOUS_TRIAL_REWARD)) addRareCore(table, ModItems.HEART_OF_THUNDER, 0.03F);
         });
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
-            if (entity instanceof ElderGuardian guardian && guardian.level() instanceof ServerLevel level)
+            if (entity instanceof ElderGuardian guardian && guardian.level() instanceof ServerLevel level) {
+                QuestMonumentParticipation.finalBlow(guardian, damageSource);
                 rewardCompletedMonument(level, guardian);
+            }
         });
         ServerTickEvents.END_SERVER_TICK.register(T2CoreAcquisition::retryPendingMonuments);
     }
@@ -98,6 +100,7 @@ public final class T2CoreAcquisition {
         if (rewards.finishIfReady(monumentKey, true, livingGuardianRemains)
                 != MonumentRewardData.CompletionResult.CLAIMED) return;
 
+        QuestMonumentParticipation.completed(level, rewards, monumentKey);
         ItemStack reward = new ItemStack(ModItems.HEART_OF_CURRENTS);
         level.addFreshEntity(new ItemEntity(level, pending.rewardX(), pending.rewardY(), pending.rewardZ(), reward));
     }

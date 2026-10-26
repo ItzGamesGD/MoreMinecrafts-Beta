@@ -7,11 +7,80 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
 
 class CustomMobRosterDefinitionTest {
+    @Test
+    void allCustomMobRendererStatesHaveDedicatedValidVanillaSizedPngs() throws Exception {
+        String catalog = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/CustomMobCatalog.java"));
+        Matcher matcher = Pattern.compile("type\\(\"([a-z0-9_]+)\"").matcher(catalog);
+        Set<String> mobs = new HashSet<>();
+        while (matcher.find()) mobs.add(matcher.group(1));
+
+        Set<String> expected = new HashSet<>();
+        for (String mob : mobs) {
+            expected.add(mob + ".png");
+            if (mob.endsWith("_zombie")) expected.add(mob + "_baby.png");
+            if (Set.of("drowned_sailor", "deep_sea_drowned", "river_drowned").contains(mob)) {
+                expected.add(mob + "_baby.png");
+                expected.add(mob + "_outer_layer.png");
+                expected.add(mob + "_outer_layer_baby.png");
+            }
+            if (mob.endsWith("_spider")) expected.add(mob + "_eyes.png");
+            if (mob.equals("mountain_skeleton")) expected.add(mob + "_overlay.png");
+            if (mob.equals("wild_piglin")) expected.add(mob + "_baby.png");
+            if (mob.equals("lesser_phantom")) expected.add(mob + "_eyes.png");
+            if (mob.equals("cave_creeper")) expected.add(mob + "_armor.png");
+            if (mob.equals("giant_bee")) {
+                expected.addAll(Set.of("giant_bee_angry.png", "giant_bee_nectar.png",
+                        "giant_bee_angry_nectar.png", "giant_bee_baby.png", "giant_bee_angry_baby.png",
+                        "giant_bee_nectar_baby.png", "giant_bee_angry_nectar_baby.png"));
+            }
+            if (mob.equals("feral_wolf")) {
+                expected.addAll(Set.of("feral_wolf_angry.png", "feral_wolf_tame.png", "feral_wolf_baby.png",
+                        "feral_wolf_angry_baby.png", "feral_wolf_tame_baby.png"));
+            }
+        }
+        assertEquals(40, mobs.size());
+        assertEquals(78, expected.size(), "All base and renderer-state texture routes must be accounted for");
+
+        Path textureRoot = Path.of("src/main/resources/assets/moreminecrafts/textures/entity/mobs");
+        Set<String> actual;
+        try (var paths = Files.list(textureRoot)) {
+            actual = paths.filter(Files::isRegularFile).map(path -> path.getFileName().toString())
+                    .filter(name -> name.endsWith(".png")).collect(Collectors.toSet());
+        }
+        assertEquals(expected, actual, "No routed mob-state PNG may be missing or left unused");
+
+        Set<String> size64x32 = new HashSet<>();
+        for (String id : mobs) {
+            if (id.contains("skeleton") || id.endsWith("_spider") || id.endsWith("_bug")
+                    || Set.of("wild_slime", "mud_slime", "sand_slime", "cave_creeper", "feral_wolf").contains(id)) {
+                size64x32.add(id + ".png");
+            }
+        }
+        for (String id : Set.of("small_spider", "large_spider", "forest_spider", "desert_spider", "swamp_spider", "ice_spider")) {
+            size64x32.add(id + "_eyes.png");
+        }
+        size64x32.addAll(Set.of("mountain_skeleton_overlay.png", "cave_creeper_armor.png",
+                "feral_wolf_angry.png", "feral_wolf_tame.png"));
+        Set<String> size32x32 = Set.of("cave_bat.png", "giant_bee_baby.png", "giant_bee_angry_baby.png",
+                "giant_bee_nectar_baby.png", "giant_bee_angry_nectar_baby.png", "feral_wolf_baby.png",
+                "feral_wolf_angry_baby.png", "feral_wolf_tame_baby.png");
+        for (String name : expected) {
+            var image = ImageIO.read(textureRoot.resolve(name).toFile());
+            assertTrue(image != null, "PNG decoder rejected " + name);
+            int width = size32x32.contains(name) ? 32 : 64;
+            int height = size64x32.contains(name) ? 32 : width;
+            assertEquals(width, image.getWidth(), "Unexpected vanilla UV width for " + name);
+            assertEquals(height, image.getHeight(), "Unexpected vanilla UV height for " + name);
+        }
+    }
+
     @Test
     void allFortyTypesHaveUniqueLocalizedNamesAndTextureBacklogEntries() throws Exception {
         String catalog = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/CustomMobCatalog.java"));
@@ -54,6 +123,10 @@ class CustomMobRosterDefinitionTest {
                 "Natural spawn predicates must preserve family rules except where an approved explicit habitat replaces vanilla's unrelated spawn gate");
         assertTrue(catalog.contains("spec.type.getCategory()"),
                 "Biome spawn registration must use each EntityType's family population category");
+        assertTrue(catalog.contains("BiomeModifications.addSpawn(BiomeSelectors.tag(spec.biomeTag), spec.type.getCategory()")
+                        && catalog.contains("case GROUND -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();")
+                        && !catalog.contains("Blocks.MAGMA_BLOCK"),
+                "Variants must use the shared vanilla category list/cap without an extra magma-floor restriction");
         for (String tag : Set.of("undead", "zombies", "skeletons", "raiders", "illager", "arthropod",
                 "sensitive_to_smite", "sensitive_to_bane_of_arthropods", "beehive_inhabitors",
                 "burn_in_daylight", "inverted_healing_and_harm", "wither_friends", "immune_to_oozing",
@@ -82,6 +155,20 @@ class CustomMobRosterDefinitionTest {
                         && feralWolf.contains("HEALTH_MULTIPLIER = 1.15")
                         && feralWolf.contains("setTarget(null)"),
                 "Feral Wolf player hunting must stop on tame and vanilla tame-health rewrites must retain the approved health profile");
+        assertTrue(feralWolf.contains("getBreedOffspring(ServerLevel level, AgeableMob otherParent)")
+                        && feralWolf.contains("CustomMobCatalog.FERAL_WOLF.create(level, EntitySpawnReason.BREEDING)")
+                        && feralWolf.contains("CustomMobStats.apply(child)"),
+                "Feral Wolf breeding must preserve its custom type and approved stat profile");
+        String wildPiglin = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/WildPiglin.java"));
+        assertTrue(catalog.contains("WILD_PIGLIN = type(\"wild_piglin\", WildPiglin::new")
+                        && wildPiglin.contains("setTimeInOverworld(0)")
+                        && wildPiglin.contains("super.tick()"),
+                "Wild Piglin must retain Piglin behavior while preventing overworld conversion");
+        String giantBee = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/GiantBeeEntity.java"));
+        assertTrue(catalog.contains("GIANT_BEE = type(\"giant_bee\", GiantBeeEntity::new")
+                        && giantBee.contains("CustomMobCatalog.GIANT_BEE.create(level, EntitySpawnReason.BREEDING)")
+                        && giantBee.contains("CustomMobStats.apply(child)"),
+                "Giant Bee breeding must preserve its custom type and approved stat profile");
         assertTrue(catalog.contains("new SmallCaveSpider") && catalog.contains("new SwampCaveSpider"),
                 "Small and Swamp Spider must use their explicit Cave Spider-family behavior classes");
         String smallSpider = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/SmallCaveSpider.java"));
@@ -183,10 +270,56 @@ class CustomMobRosterDefinitionTest {
         int rendererCount = 0;
         while (rendererMatcher.find()) rendererCount++;
         assertEquals(40, rendererCount, "All forty custom EntityTypes must retain client renderer registrations");
-        assertTrue(client.contains("CustomMobCatalog.SMALL_SPIDER, CaveSpiderRenderer::new")
-                        && client.contains("CustomMobCatalog.LESSER_WITHER_SKELETON, WitherSkeletonRenderer::new")
-                        && client.contains("CustomMobCatalog.MOUNTAIN_SKELETON, StrayRenderer::new"),
-                "Representative renderer families must remain aligned with their approved vanilla bases");
+        Matcher routes = Pattern.compile("CustomMobCatalog\\.([A-Z_]+),\\s*context -> CustomMobRenderers\\.(\\w+)\\(context, \"([a-z_]+)\"\\)").matcher(client);
+        Set<String> routedIds = new HashSet<>();
+        java.util.Map<String, String> families = new java.util.HashMap<>();
+        while (routes.find()) {
+            String id = routes.group(3);
+            assertEquals(routes.group(1).toLowerCase(java.util.Locale.ROOT), id,
+                    "A renderer must use its own entity's dedicated texture identifier");
+            assertTrue(routedIds.add(id), "Duplicate texture route: " + id);
+            families.put(id, routes.group(2));
+        }
+        assertEquals(ids, routedIds, "Every approved entity must route to its own texture");
+        assertEquals("zombie", families.get("swamp_zombie"));
+        assertEquals("caveSpider", families.get("small_spider"));
+        assertEquals("caveSpider", families.get("swamp_spider"));
+        assertEquals("witherSkeleton", families.get("lesser_wither_skeleton"));
+        assertEquals("stray", families.get("mountain_skeleton"));
+        assertEquals("pillager", families.get("bandit_archer"));
+        assertTrue(Files.isRegularFile(Path.of("src/main/resources/assets/moreminecrafts/textures/entity/mobs/swamp_zombie.png")),
+                "Swamp Zombie must provide its dedicated texture resource");
+        String renderers = Files.readString(Path.of("src/client/java/dev/itzgamesgd/moreminecrafts/client/CustomMobRenderers.java"));
+        for (String family : Set.of("Zombie", "Skeleton", "WitherSkeleton", "Stray", "CaveSpider",
+                "Silverfish", "Endermite", "Slime", "MagmaCube", "Drowned", "Piglin", "Pillager",
+                "Vindicator", "Wolf", "Bat", "Bee", "Phantom", "Creeper")) {
+            assertTrue(renderers.contains("new " + family + "Renderer(context"),
+                    "Texture adapters must retain the original vanilla renderer: " + family);
+        }
+        assertTrue(renderers.contains("new SpiderRenderer<Spider>(context)"));
+        assertTrue(renderers.contains("ModelLayers.PIGLIN_ARMOR, ModelLayers.PIGLIN_BABY_ARMOR"));
+        assertTrue(renderers.contains("layer instanceof DrownedOuterLayer")
+                        && renderers.contains("ModelLayers.DROWNED_BABY_OUTER_LAYER")
+                        && renderers.contains("state.isBaby ? babyOuter : outer")
+                        && renderers.contains("ModelLayers.STRAY_OUTER_LAYER")
+                        && renderers.contains("layer instanceof SlimeOuterLayer")
+                        && renderers.contains("RenderTypes.entityTranslucent(base)")
+                        && renderers.contains("RenderTypes.outline(base)")
+                        && renderers.contains("layer instanceof SpiderEyesLayer")
+                        && renderers.contains("layer instanceof PhantomEyesLayer")
+                        && renderers.contains("layer instanceof CreeperPowerLayer")
+                        && renderers.contains("new CreeperPowerLayer(this, context.getModelSet())")
+                        && renderers.contains("Identifier armor = texture(id + \"_armor\")")
+                        && renderers.contains("protected Identifier getTextureLocation() { return armor; }")
+                        && renderers.contains("RenderTypes.eyes(texture(id + \"_eyes\"))"),
+                "Dedicated textures must preserve the original outer, clothes, translucent and emissive layers");
+        assertTrue(renderers.contains("state.isAngry ? 1 : 0")
+                        && renderers.contains("state.hasNectar ? 2 : 0")
+                        && renderers.contains("state.isBaby ? 4 : 0")
+                        && renderers.contains("super.extractRenderState(wolf, state, partialTick)")
+                        && renderers.contains("wolf.isTame() ? 1 : wolf.isAngry() ? 2 : 0")
+                        && renderers.contains("state.isBaby ? 3 : 0"),
+                "Bee and Wolf must retain all vanilla state and age texture branches, including tame priority");
         assertTrue(Files.readString(Path.of("docs/VANILLA_MODEL_CUSTOM_MOB_ROSTER.md"))
                 .contains("VANILLA_MODEL_CUSTOM_MOB_ROSTER_IMPLEMENTATION.md"));
     }

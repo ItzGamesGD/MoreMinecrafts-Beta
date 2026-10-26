@@ -71,4 +71,47 @@ class MonumentRewardDataTest {
         assertEquals(MonumentRewardData.CompletionResult.CLAIMED,
                 data.finishIfReady(0x456789ABL, true, false));
     }
+
+    @Test
+    void participantEvidenceAndOfflineCreditsPersistAndStayBounded() {
+        java.util.UUID elder = new java.util.UUID(0, 1);
+        java.util.UUID combat = new java.util.UUID(0, 2);
+        MonumentRewardData data = new MonumentRewardData();
+        data.recordParticipation(9L, elder, 10L, true);
+        data.recordParticipation(9L, combat, 100L, false);
+        data.addPendingCredit(combat, 9L);
+        var encoded = MonumentRewardData.TYPE.codec().encodeStart(JsonOps.INSTANCE, data).getOrThrow();
+        MonumentRewardData restored = MonumentRewardData.TYPE.codec().parse(JsonOps.INSTANCE, encoded).getOrThrow();
+        assertTrue(restored.participant(9L, elder).elderDamage());
+        assertEquals(100L, restored.participant(9L, combat).lastCombatTick());
+        assertEquals(java.util.List.of(elder, combat), restored.qualifiedParticipants(9L, 100L + 12_000L, 12_000L));
+        assertEquals(java.util.List.of(elder), restored.qualifiedParticipants(9L, 100L + 12_001L, 12_000L));
+        assertTrue(restored.hasPendingCredit(combat, 9L));
+        assertEquals(java.util.List.of(9L), restored.takePendingCredits(combat));
+        assertTrue(restored.takePendingCredits(combat).isEmpty(), "a pending credit is taken once");
+
+        for (int i = 0; i < 200; i++) data.recordParticipation(10L, new java.util.UUID(1, i), i, false);
+        assertTrue(java.util.stream.IntStream.range(0, 200).mapToObj(i -> data.participant(10L, new java.util.UUID(1, i)))
+                .filter(java.util.Objects::nonNull).count() <= MonumentRewardData.MAX_PARTICIPANTS_PER_MONUMENT);
+    }
+
+    @Test
+    void completedMonumentsAcceptNoNewEvidenceAndClearTheirParticipants() {
+        java.util.UUID player = new java.util.UUID(0, 5);
+        MonumentRewardData data = new MonumentRewardData();
+        data.recordParticipation(11L, player, 1L, true);
+        assertTrue(data.claim(11L));
+        data.clearParticipants(11L);
+        data.recordParticipation(11L, player, 2L, true);
+        assertNull(data.participant(11L, player), "no evidence is recorded for an already completed monument");
+    }
+
+    @Test
+    void savesWithoutParticipantFieldsStillLoad() {
+        var oldState = new com.google.gson.JsonObject();
+        oldState.add("claimed", new com.google.gson.Gson().toJsonTree(java.util.List.of(5L)));
+        MonumentRewardData restored = MonumentRewardData.TYPE.codec().parse(JsonOps.INSTANCE, oldState).getOrThrow();
+        assertTrue(restored.isClaimed(5L));
+        assertTrue(restored.qualifiedParticipants(5L, 0L, 12_000L).isEmpty());
+    }
 }
