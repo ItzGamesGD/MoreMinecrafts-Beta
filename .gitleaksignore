@@ -33,3 +33,7 @@ a1e0aeb0ab8ba90419b714a42502cbe8db9d770c:docs/TERRITORY_REGISTRATION_FABRIC_SPEC
 # These are exact historical fingerprints; the protected PR #191 branch itself is unchanged.
 e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
 e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+
+# Cherry-picking PR #191's approved documentation into Wave 11 recreated those two reviewed false positives.
+7ff1d14156730373d28973665d269bcb5f9ae39d:docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+7ff1d14156730373d28973665d269bcb5f9ae39d:docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15

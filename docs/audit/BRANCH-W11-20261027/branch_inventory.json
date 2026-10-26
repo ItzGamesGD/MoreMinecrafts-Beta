@@ -12,7 +12,7 @@
       }
     ],
     "merge_base": "1269cdbacc7c6b75d8aa3cce1352de9432a61914",
-    "behind": 181,
+    "behind": 184,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -46,13 +46,13 @@
     "prs": [
       {
         "number": 163,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-23T12:46:47Z"
+        "updated_at": "2026-10-26T22:35:40Z"
       }
     ],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 1,
     "unique_commits": [
       "01a36b0cafaa5f3ca89cb7f2833b11d8ddf401c1"
@@ -85,19 +85,19 @@
     "related_prs": [
       {
         "number": 163,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-23T12:46:47Z"
+        "updated_at": "2026-10-26T22:35:40Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "security/gitleaks-historical-findings-20261022"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "audit/prc-p4-research-preservation-20261026",
@@ -112,7 +112,7 @@
       }
     ],
     "merge_base": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
-    "behind": 0,
+    "behind": 3,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -145,7 +145,7 @@
     "date": "2026-10-26T11:51:52+09:00",
     "prs": [],
     "merge_base": "e00d65cbd87e484859a3d49445cdc5ff5cf47bb6",
-    "behind": 2,
+    "behind": 5,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -171,7 +171,7 @@
     "date": "2026-10-26T20:17:06+09:00",
     "prs": [],
     "merge_base": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
-    "behind": 0,
+    "behind": 3,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -182,9 +182,9 @@
     "patch_equivalent_count": 0,
     "blob_equivalent_count": 0,
     "related_prs": [],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_ACTIVE",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "A — EXACTLY_CONTAINED",
+    "cleanup": "SAFE_TO_DELETE_CANDIDATE",
+    "evidence": "Branch HEAD is an ancestor of Wave 10 (ahead=0); all commits and blobs reachable.",
     "inferred_parent_branches": [
       "audit/prc-p5-pre-research-preservation-20261026"
     ],
@@ -198,243 +198,36 @@
     "prs": [
       {
         "number": 191,
-        "state": "open",
-        "merged": false,
-        "updated_at": "2026-10-26T22:20:46Z"
+        "state": "closed",
+        "merged": true,
+        "updated_at": "2026-10-26T22:30:23Z"
       }
     ],
-    "merge_base": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
+    "merge_base": "73dcc8f4d139c1688352068b397dab040208253b",
     "behind": 0,
-    "ahead": 3,
-    "unique_commits": [
-      "73dcc8f4d139c1688352068b397dab040208253b",
-      "e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7",
-      "17a7cddb38d4faeabefa6dfcc6a874e2d2c4eb22"
-    ],
-    "patch_unique_commits": [
-      "73dcc8f4d139c1688352068b397dab040208253b",
-      "e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7",
-      "17a7cddb38d4faeabefa6dfcc6a874e2d2c4eb22"
-    ],
-    "changed_paths": [
-      "docs/preservation/prc-p6/PR102/STAGE23_REMAINING_BRANCH_RECONCILIATION_AUDIT_2026-10-16.md",
-      "docs/preservation/prc-p6/PR102/STAGE23_REMAINING_BRANCH_RECONCILIATION_AUDIT_2026-10-16.md.provenance.md",
-      "docs/preservation/prc-p6/PR106/superpowers/specs/2026-10-16-stage23b-cloud-live-client-qa-design.md",
-      "docs/preservation/prc-p6/PR106/superpowers/specs/2026-10-16-stage23b-cloud-live-client-qa-design.md.provenance.md",
-      "docs/preservation/prc-p6/PR139/design/xp-quest/Q1C_PRODUCTION_READINESS_AUDIT_2026-10-20.md",
-      "docs/preservation/prc-p6/PR139/design/xp-quest/Q1C_PRODUCTION_READINESS_AUDIT_2026-10-20.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/FEATURE_COVERAGE_MATRIX.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/FEATURE_COVERAGE_MATRIX.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/INTEGRATION_PLAN.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/INTEGRATION_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/OWNER_DECISIONS.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/OWNER_DECISIONS.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/PR_DEPENDENCY_GRAPH.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/PR_DEPENDENCY_GRAPH.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/PR_INVENTORY.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/PR_INVENTORY.md.provenance.md",
-      "docs/preservation/prc-p6/PR157/security/GITLEAKS_REMEDIATION_2026-10-22.md",
-      "docs/preservation/prc-p6/PR157/security/GITLEAKS_REMEDIATION_2026-10-22.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/ACTIVE_WORK_PROTECTION.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/ACTIVE_WORK_PROTECTION.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/BRANCH_CLEANUP_CANDIDATES.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/BRANCH_CLEANUP_CANDIDATES.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/CLEANUP_EXECUTION_PLAN.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/CLEANUP_EXECUTION_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/INTEGRATION_COVERAGE.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/INTEGRATION_COVERAGE.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/PR_CLEANUP_CANDIDATES.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/PR_CLEANUP_CANDIDATES.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/REPOSITORY_INVENTORY.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/REPOSITORY_INVENTORY.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/ACTIVITY_EVIDENCE_MATRIX.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/ACTIVITY_EVIDENCE_MATRIX.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/CONDITIONAL_CLEANUP_PLAN.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/CONDITIONAL_CLEANUP_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/OWNER_DECISION_BATCHES.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/OWNER_DECISION_BATCHES.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/PROTECTED_WORK_REGISTER.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/PROTECTED_WORK_REGISTER.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/REDUNDANCY_VERIFICATION.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/REDUNDANCY_VERIFICATION.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/SUMMARY.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/SUMMARY.md.provenance.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_INTEGRATION_PLAN.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_INTEGRATION_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_PRESERVATION_AUDIT.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_PRESERVATION_AUDIT.md.provenance.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_PR_DEPENDENCY_GRAPH.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_PR_DEPENDENCY_GRAPH.md.provenance.md",
-      "docs/preservation/prc-p6/PR163/integration/phase3_pr_inventory.json",
-      "docs/preservation/prc-p6/PR163/integration/phase3_pr_inventory.json.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/CONTENT_AUTHORITY_INDEX.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/CONTENT_AUTHORITY_INDEX.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/DESIGN_AUTHORITY_MATRIX.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/DESIGN_AUTHORITY_MATRIX.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/DESIGN_CONFLICT_REGISTER.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/DESIGN_CONFLICT_REGISTER.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/IMPLEMENTATION_PHASE_PLAN.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/IMPLEMENTATION_PHASE_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/TERRITORY_ECONOMY_APPROVED_2026-10-19.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/TERRITORY_ECONOMY_APPROVED_2026-10-19.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/design/xp-quest/A_XP_QUEST_CATALOG.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/design/xp-quest/A_XP_QUEST_CATALOG.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/design/xp-quest/XP_QUEST_IMPLEMENTATION_HANDOFF.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/design/xp-quest/XP_QUEST_IMPLEMENTATION_HANDOFF.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR132/IMPLEMENTATION_PHASE_PLAN.md",
-      "docs/preservation/prc-p6/territory-versions/PR132/IMPLEMENTATION_PHASE_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
-      "docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR133/TERRITORY_OWNER_DECISIONS_2026-10-20.md",
-      "docs/preservation/prc-p6/territory-versions/PR133/TERRITORY_OWNER_DECISIONS_2026-10-20.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/CONTENT_AUTHORITY_INDEX.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/CONTENT_AUTHORITY_INDEX.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/DESIGN_AUTHORITY_MATRIX.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/DESIGN_AUTHORITY_MATRIX.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/DESIGN_CONFLICT_REGISTER.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/DESIGN_CONFLICT_REGISTER.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/IMPLEMENTATION_PHASE_PLAN.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/IMPLEMENTATION_PHASE_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_ECONOMY_APPROVED_2026-10-19.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_ECONOMY_APPROVED_2026-10-19.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_OWNERSHIP_CONFLICTS.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_OWNERSHIP_CONFLICTS.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_OWNER_DECISIONS_2026-10-20.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_OWNER_DECISIONS_2026-10-20.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR136/CONTENT_AUTHORITY_INDEX.md",
-      "docs/preservation/prc-p6/territory-versions/PR136/CONTENT_AUTHORITY_INDEX.md.provenance.md"
-    ],
-    "different_blob_paths": [
-      "docs/preservation/prc-p6/PR102/STAGE23_REMAINING_BRANCH_RECONCILIATION_AUDIT_2026-10-16.md",
-      "docs/preservation/prc-p6/PR102/STAGE23_REMAINING_BRANCH_RECONCILIATION_AUDIT_2026-10-16.md.provenance.md",
-      "docs/preservation/prc-p6/PR106/superpowers/specs/2026-10-16-stage23b-cloud-live-client-qa-design.md",
-      "docs/preservation/prc-p6/PR106/superpowers/specs/2026-10-16-stage23b-cloud-live-client-qa-design.md.provenance.md",
-      "docs/preservation/prc-p6/PR139/design/xp-quest/Q1C_PRODUCTION_READINESS_AUDIT_2026-10-20.md",
-      "docs/preservation/prc-p6/PR139/design/xp-quest/Q1C_PRODUCTION_READINESS_AUDIT_2026-10-20.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/FEATURE_COVERAGE_MATRIX.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/FEATURE_COVERAGE_MATRIX.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/INTEGRATION_PLAN.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/INTEGRATION_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/OWNER_DECISIONS.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/OWNER_DECISIONS.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/PR_DEPENDENCY_GRAPH.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/PR_DEPENDENCY_GRAPH.md.provenance.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/PR_INVENTORY.md",
-      "docs/preservation/prc-p6/PR154/integration/2026-10-22-pr-reconciliation/PR_INVENTORY.md.provenance.md",
-      "docs/preservation/prc-p6/PR157/security/GITLEAKS_REMEDIATION_2026-10-22.md",
-      "docs/preservation/prc-p6/PR157/security/GITLEAKS_REMEDIATION_2026-10-22.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/ACTIVE_WORK_PROTECTION.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/ACTIVE_WORK_PROTECTION.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/BRANCH_CLEANUP_CANDIDATES.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/BRANCH_CLEANUP_CANDIDATES.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/CLEANUP_EXECUTION_PLAN.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/CLEANUP_EXECUTION_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/INTEGRATION_COVERAGE.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/INTEGRATION_COVERAGE.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/PR_CLEANUP_CANDIDATES.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/PR_CLEANUP_CANDIDATES.md.provenance.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/REPOSITORY_INVENTORY.md",
-      "docs/preservation/prc-p6/PR158/audit/2026-10-23-repository-cleanup-phase2/REPOSITORY_INVENTORY.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/ACTIVITY_EVIDENCE_MATRIX.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/ACTIVITY_EVIDENCE_MATRIX.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/CONDITIONAL_CLEANUP_PLAN.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/CONDITIONAL_CLEANUP_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/OWNER_DECISION_BATCHES.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/OWNER_DECISION_BATCHES.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/PROTECTED_WORK_REGISTER.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/PROTECTED_WORK_REGISTER.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/REDUNDANCY_VERIFICATION.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/REDUNDANCY_VERIFICATION.md.provenance.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/SUMMARY.md",
-      "docs/preservation/prc-p6/PR159/audit/2026-10-23-repository-cleanup-phase2b/SUMMARY.md.provenance.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_INTEGRATION_PLAN.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_INTEGRATION_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_PRESERVATION_AUDIT.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_PRESERVATION_AUDIT.md.provenance.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_PR_DEPENDENCY_GRAPH.md",
-      "docs/preservation/prc-p6/PR163/integration/PHASE3_PR_DEPENDENCY_GRAPH.md.provenance.md",
-      "docs/preservation/prc-p6/PR163/integration/phase3_pr_inventory.json",
-      "docs/preservation/prc-p6/PR163/integration/phase3_pr_inventory.json.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/CONTENT_AUTHORITY_INDEX.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/CONTENT_AUTHORITY_INDEX.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/DESIGN_AUTHORITY_MATRIX.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/DESIGN_AUTHORITY_MATRIX.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/DESIGN_CONFLICT_REGISTER.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/DESIGN_CONFLICT_REGISTER.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/IMPLEMENTATION_PHASE_PLAN.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/IMPLEMENTATION_PHASE_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/TERRITORY_ECONOMY_APPROVED_2026-10-19.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/TERRITORY_ECONOMY_APPROVED_2026-10-19.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/design/xp-quest/A_XP_QUEST_CATALOG.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/design/xp-quest/A_XP_QUEST_CATALOG.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/design/xp-quest/XP_QUEST_IMPLEMENTATION_HANDOFF.md",
-      "docs/preservation/prc-p6/territory-versions/PR131/design/xp-quest/XP_QUEST_IMPLEMENTATION_HANDOFF.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR132/IMPLEMENTATION_PHASE_PLAN.md",
-      "docs/preservation/prc-p6/territory-versions/PR132/IMPLEMENTATION_PHASE_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
-      "docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR133/TERRITORY_OWNER_DECISIONS_2026-10-20.md",
-      "docs/preservation/prc-p6/territory-versions/PR133/TERRITORY_OWNER_DECISIONS_2026-10-20.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/CONTENT_AUTHORITY_INDEX.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/CONTENT_AUTHORITY_INDEX.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/DESIGN_AUTHORITY_MATRIX.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/DESIGN_AUTHORITY_MATRIX.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/DESIGN_CONFLICT_REGISTER.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/DESIGN_CONFLICT_REGISTER.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/IMPLEMENTATION_PHASE_PLAN.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/IMPLEMENTATION_PHASE_PLAN.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_ECONOMY_APPROVED_2026-10-19.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_ECONOMY_APPROVED_2026-10-19.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_OWNERSHIP_CONFLICTS.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_OWNERSHIP_CONFLICTS.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_OWNER_DECISIONS_2026-10-20.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_OWNER_DECISIONS_2026-10-20.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
-      "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md.provenance.md",
-      "docs/preservation/prc-p6/territory-versions/PR136/CONTENT_AUTHORITY_INDEX.md",
-      "docs/preservation/prc-p6/territory-versions/PR136/CONTENT_AUTHORITY_INDEX.md.provenance.md"
-    ],
-    "class": "D",
-    "patch_ids": [
-      {
-        "commit": "73dcc8f4d139c1688352068b397dab040208253b",
-        "patch_id": null,
-        "equivalent_to_wave10": false
-      },
-      {
-        "commit": "e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7",
-        "patch_id": null,
-        "equivalent_to_wave10": false
-      },
-      {
-        "commit": "17a7cddb38d4faeabefa6dfcc6a874e2d2c4eb22",
-        "patch_id": null,
-        "equivalent_to_wave10": false
-      }
-    ],
+    "ahead": 0,
+    "unique_commits": [],
+    "patch_unique_commits": [],
+    "changed_paths": [],
+    "different_blob_paths": [],
+    "class": "A",
+    "patch_ids": [],
     "patch_equivalent_count": 0,
     "blob_equivalent_count": 0,
     "related_prs": [
       {
         "number": 191,
-        "state": "open",
-        "merged": false,
-        "updated_at": "2026-10-26T22:20:46Z"
+        "state": "closed",
+        "merged": true,
+        "updated_at": "2026-10-26T22:30:23Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "A — EXACTLY_CONTAINED",
+    "cleanup": "SAFE_TO_DELETE_CANDIDATE",
+    "evidence": "Branch HEAD is an ancestor of Wave 10 (ahead=0); all commits and blobs reachable.",
     "inferred_parent_branches": [
       "audit/prc-p4-research-preservation-20261026",
       "audit/prc-p6-pre-preservation-20261027",
-      "checkpoint/wave10-unified-20261026",
       "integration/wave10-unified-20261025"
     ],
     "design_alignment": "No active-design change integrated",
@@ -447,13 +240,13 @@
     "prs": [
       {
         "number": 158,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-23T00:18:15Z"
+        "updated_at": "2026-10-26T22:35:03Z"
       }
     ],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 6,
     "unique_commits": [
       "c9e29c56804198a07d7fdb0f7c9007f801cc6936",
@@ -525,19 +318,19 @@
     "related_prs": [
       {
         "number": 158,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-23T00:18:15Z"
+        "updated_at": "2026-10-26T22:35:03Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "security/gitleaks-historical-findings-20261022"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "audit/repository-cleanup-phase2b-20261023",
@@ -546,13 +339,13 @@
     "prs": [
       {
         "number": 159,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-26T03:44:39Z"
+        "updated_at": "2026-10-26T22:35:22Z"
       }
     ],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 6,
     "unique_commits": [
       "5a0ede40519bd15715900482d8816c025e74c99c",
@@ -624,19 +417,19 @@
     "related_prs": [
       {
         "number": 159,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-26T03:44:39Z"
+        "updated_at": "2026-10-26T22:35:22Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "security/gitleaks-historical-findings-20261022"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "audit/repository-pr-reconciliation-20261022",
@@ -645,13 +438,13 @@
     "prs": [
       {
         "number": 154,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-22T12:13:05Z"
+        "updated_at": "2026-10-26T22:34:22Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 1,
     "unique_commits": [
       "84550ad4ef0a09248934641e26dab61c4f2cd13b"
@@ -686,19 +479,19 @@
     "related_prs": [
       {
         "number": 154,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-22T12:13:05Z"
+        "updated_at": "2026-10-26T22:34:22Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "stage-21/knowledge-checkpoint"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "audit/stage23-pr92-pr93-reconciliation-20261019",
@@ -713,7 +506,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 145,
     "unique_commits": [
       "079d36ac3bd2d8950118e30647d5f2efad19f947",
@@ -2145,10 +1938,10 @@
   },
   {
     "name": "checkpoint/wave10-unified-20261026",
-    "sha": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
-    "date": "2026-10-26T20:17:06+09:00",
+    "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+    "date": "2026-10-27T07:20:27+09:00",
     "prs": [],
-    "merge_base": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
+    "merge_base": "73dcc8f4d139c1688352068b397dab040208253b",
     "behind": 0,
     "ahead": 0,
     "unique_commits": [],
@@ -2164,7 +1957,9 @@
     "cleanup": "RETAIN_PROTECTED",
     "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
     "inferred_parent_branches": [
-      "audit/prc-p5-pre-research-preservation-20261026"
+      "audit/prc-p4-research-preservation-20261026",
+      "audit/prc-p6-pre-preservation-20261027",
+      "integration/wave10-unified-20261025"
     ],
     "design_alignment": "No active-design change integrated",
     "test_document_preservation": "Reachable or independently retained"
@@ -2182,7 +1977,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 147,
     "unique_commits": [
       "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
@@ -3662,7 +3457,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 87,
     "unique_commits": [
       "9ec91dc53512796748a6cfc0980cda0b65e764e6",
@@ -4615,7 +4410,7 @@
       }
     ],
     "merge_base": "0fb34bc512d97422383ce0c2b01a399deb54e00d",
-    "behind": 83,
+    "behind": 86,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -4661,7 +4456,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 96,
     "unique_commits": [
       "63107098fcde6742704a07394439e5cdf9c6ad49",
@@ -5702,7 +5497,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 101,
     "unique_commits": [
       "63107098fcde6742704a07394439e5cdf9c6ad49",
@@ -6788,7 +6583,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 96,
     "unique_commits": [
       "78d1495402de6f3d7328fcd3117a4996137a05e2",
@@ -7840,7 +7635,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 97,
     "unique_commits": [
       "f30d263c93b89b1bab844893bdb82084bfe209bd",
@@ -8895,7 +8690,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 103,
     "unique_commits": [
       "c7fe7fabc5a3bc486e2be0aed8f793628f42ec72",
@@ -10015,7 +9810,7 @@
       }
     ],
     "merge_base": "d7e8effd4052313e9965ff417001e5c2ad489c06",
-    "behind": 150,
+    "behind": 153,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10055,7 +9850,7 @@
       }
     ],
     "merge_base": "6d37a73f11befea3288e028590c540dc31deda61",
-    "behind": 121,
+    "behind": 124,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10095,7 +9890,7 @@
       }
     ],
     "merge_base": "b7f72fdae46428110079641c681eabdde175e79c",
-    "behind": 141,
+    "behind": 144,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10135,7 +9930,7 @@
       }
     ],
     "merge_base": "f9a31c7117198550c0d5b984b4019af6f164cd94",
-    "behind": 110,
+    "behind": 113,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10175,7 +9970,7 @@
       }
     ],
     "merge_base": "9b79f9be03d3227f1e295dda36ddc2dbc09ccabb",
-    "behind": 187,
+    "behind": 190,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10215,7 +10010,7 @@
       }
     ],
     "merge_base": "ed4cc92aa55f5f4ced95dccfca1cbf062d485ec5",
-    "behind": 116,
+    "behind": 119,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10255,7 +10050,7 @@
       }
     ],
     "merge_base": "2083cf37d163398c953995223be35f1d3ba50f02",
-    "behind": 176,
+    "behind": 179,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10295,7 +10090,7 @@
       }
     ],
     "merge_base": "f2e6e87fe95ee4454f4b365c569ecfefae619e9e",
-    "behind": 185,
+    "behind": 188,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10335,7 +10130,7 @@
       }
     ],
     "merge_base": "9f6fba5fcccb385c0e40d4e0000ade0322e2bdb4",
-    "behind": 114,
+    "behind": 117,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10375,7 +10170,7 @@
       }
     ],
     "merge_base": "20121ca7cceae03602038de31076bd9ace115208",
-    "behind": 560,
+    "behind": 563,
     "ahead": 5,
     "unique_commits": [
       "e7dc53f9f48dfece8a5723debd5526dc061107d1",
@@ -10505,7 +10300,7 @@
       }
     ],
     "merge_base": "5ad001b091ea24705834a1caab94335a6abcc445",
-    "behind": 170,
+    "behind": 173,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -10551,7 +10346,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 154,
     "unique_commits": [
       "9c9f22577370cd0160dd2b43b0e92caa7832f420",
@@ -12076,13 +11871,13 @@
     "prs": [
       {
         "number": 139,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-20T16:09:14Z"
+        "updated_at": "2026-10-26T22:34:04Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 4,
     "unique_commits": [
       "526416b16a590abf558534a8426625508c23ad99",
@@ -12130,19 +11925,19 @@
     "related_prs": [
       {
         "number": 139,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-20T16:09:14Z"
+        "updated_at": "2026-10-26T22:34:04Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "stage-21/knowledge-checkpoint"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "codex/q1c-recovery-20261019-079d36a",
@@ -12157,7 +11952,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 146,
     "unique_commits": [
       "334997d2f81d6b324b0cccd3f40b538c921edadc",
@@ -13608,7 +13403,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 88,
     "unique_commits": [
       "8f33e72c8a71d29e132050457535ac8a0092a7b0",
@@ -14565,7 +14360,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 22,
     "unique_commits": [
       "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
@@ -14823,7 +14618,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 48,
     "unique_commits": [
       "eb80a148065c29394f7a46650c05ab72dda9140d",
@@ -15326,7 +15121,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 82,
     "unique_commits": [
       "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
@@ -16201,7 +15996,7 @@
     "date": "2026-10-16T23:57:02+09:00",
     "prs": [],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 83,
     "unique_commits": [
       "c035946fb883a471cec422a6cca0710302b1adb6",
@@ -17084,7 +16879,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 36,
     "unique_commits": [
       "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
@@ -17485,7 +17280,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 60,
     "unique_commits": [
       "c3683de7338a40143ee45dbcc76918c9cb363390",
@@ -18073,7 +17868,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 83,
     "unique_commits": [
       "2c8e984314bb079378cffc95c4f48982a962173b",
@@ -18974,7 +18769,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 67,
     "unique_commits": [
       "7231c7aad598e9cada152537dfece7cfad2756dc",
@@ -19642,7 +19437,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 42,
     "unique_commits": [
       "df960d6511fbf9bbe0a649d8f68de6c12362d458",
@@ -20091,7 +19886,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 66,
     "unique_commits": [
       "f28658e5e03ae2e78a44af8e921d06b6f2cdbb47",
@@ -20743,7 +20538,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 41,
     "unique_commits": [
       "5e48deacbeed95783902f2b71e04e2ae25005606",
@@ -21186,7 +20981,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 51,
     "unique_commits": [
       "803d2e5df5fe2f990ff2f2e5ef3e01c6dcf37955",
@@ -21711,7 +21506,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 86,
     "unique_commits": [
       "9376777264136b37e10071adf8ed59c08da9b6ee",
@@ -22642,7 +22437,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 30,
     "unique_commits": [
       "1edbdb6bc6bbd82c22f5e0865c6dd0d8c70a2469",
@@ -22983,7 +22778,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 33,
     "unique_commits": [
       "f632f4f521c782c9614a3bbb71f1ab5579a3358d",
@@ -23334,13 +23129,13 @@
     "prs": [
       {
         "number": 106,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-16T05:29:22Z"
+        "updated_at": "2026-10-26T22:35:58Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 84,
     "unique_commits": [
       "9b66f49657c084c29873990c0ff8b92d6a0ab620",
@@ -24210,19 +24005,19 @@
     "related_prs": [
       {
         "number": 106,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-16T05:29:22Z"
+        "updated_at": "2026-10-26T22:35:58Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "codex/stage23-livefix-b-20261016"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "codex/stage23b-cloud-live-client-qa",
@@ -24237,7 +24032,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 137,
     "unique_commits": [
       "dad054c7cb5e5d672a0ef96bfdeffc482e1c48f6",
@@ -25513,7 +25308,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 26,
     "unique_commits": [
       "3e66cfbdfa6a12576ecf0162108250691318c8db",
@@ -25747,7 +25542,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 108,
     "unique_commits": [
       "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
@@ -26899,7 +26694,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 139,
     "unique_commits": [
       "17e980912d636b0572a3f25b24995ffde31c754c",
@@ -28297,7 +28092,7 @@
     "date": "2026-10-20T14:44:07Z",
     "prs": [],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 2,
     "unique_commits": [
       "a124ccfc2e7e3bc826c04705fa98f69a102a2636",
@@ -28351,7 +28146,7 @@
       }
     ],
     "merge_base": "b7cedf199a5f1eda341ce3bd27eabb22eeb309e1",
-    "behind": 183,
+    "behind": 186,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -28391,7 +28186,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 15,
     "unique_commits": [
       "55df673a83cbb85136438a9662f862a09f8f44f4",
@@ -28538,7 +28333,7 @@
     "date": "2026-10-26T09:51:07+09:00",
     "prs": [],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 1,
     "unique_commits": [
       "a86c6d5beb336eb14c0459200434b0f6304398c5"
@@ -28578,7 +28373,7 @@
     "date": "2026-10-26T15:50:07+09:00",
     "prs": [],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 39,
     "unique_commits": [
       "f75638670f4c5b3724deb2ab7e84496c86676bfb",
@@ -28884,7 +28679,7 @@
     "date": "2026-10-17T16:06:00+09:00",
     "prs": [],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 88,
     "unique_commits": [
       "67d6c1fdd1203b4e1416e1977b785f0ad7096665",
@@ -29818,13 +29613,13 @@
     "prs": [
       {
         "number": 136,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-20T10:43:00Z"
+        "updated_at": "2026-10-26T22:31:54Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 39,
     "unique_commits": [
       "d641075f2078697e432f123d61178a73d26fbdf8",
@@ -30167,19 +29962,19 @@
     "related_prs": [
       {
         "number": 136,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-20T10:43:00Z"
+        "updated_at": "2026-10-26T22:31:54Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "design/territory-owner-decisions-reconcile-20261020"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "design/territory-d81-d84-facility-prep-20261021",
@@ -30188,13 +29983,13 @@
     "prs": [
       {
         "number": 137,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-20T15:43:52Z"
+        "updated_at": "2026-10-26T22:31:30Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 41,
     "unique_commits": [
       "f2cc4f06db44f4125b3987c4b92d2ba8711df06b",
@@ -30553,19 +30348,19 @@
     "related_prs": [
       {
         "number": 137,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-20T15:43:52Z"
+        "updated_at": "2026-10-26T22:31:30Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "design/territory-d79-d80-reconcile-20261020"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "design/territory-economy-bounty-approved-20261019",
@@ -30574,13 +30369,13 @@
     "prs": [
       {
         "number": 131,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-19T06:55:51Z"
+        "updated_at": "2026-10-26T22:33:20Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 25,
     "unique_commits": [
       "befa4c8a44c8e3556be2dca9af502d36b0cf11ad",
@@ -30817,19 +30612,19 @@
     "related_prs": [
       {
         "number": 131,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-19T06:55:51Z"
+        "updated_at": "2026-10-26T22:33:20Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "stage-21/knowledge-checkpoint"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "design/territory-owner-decisions-d01-d78-20261020",
@@ -30838,13 +30633,13 @@
     "prs": [
       {
         "number": 133,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-19T21:45:36Z"
+        "updated_at": "2026-10-26T22:32:29Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 27,
     "unique_commits": [
       "09b33f39f6c0d75f6d1ef837edcdc6d8d8753776",
@@ -31103,19 +30898,19 @@
     "related_prs": [
       {
         "number": 133,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-19T21:45:36Z"
+        "updated_at": "2026-10-26T22:32:29Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "design/territory-registration-recovery-d2a-20261019"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "design/territory-owner-decisions-reconcile-20261020",
@@ -31124,13 +30919,13 @@
     "prs": [
       {
         "number": 134,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-19T21:51:48Z"
+        "updated_at": "2026-10-26T22:32:11Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 28,
     "unique_commits": [
       "e0428763cfd1f720a4da20e1bcc4d561fd153261",
@@ -31396,19 +31191,19 @@
     "related_prs": [
       {
         "number": 134,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-19T21:51:48Z"
+        "updated_at": "2026-10-26T22:32:11Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "design/territory-registration-recovery-d2a-20261019"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "design/territory-registration-recovery-d2a-20261019",
@@ -31417,13 +31212,13 @@
     "prs": [
       {
         "number": 132,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-19T08:47:38Z"
+        "updated_at": "2026-10-26T22:32:56Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 26,
     "unique_commits": [
       "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
@@ -31673,19 +31468,19 @@
     "related_prs": [
       {
         "number": 132,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-19T08:47:38Z"
+        "updated_at": "2026-10-26T22:32:56Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "design/territory-economy-bounty-approved-20261019"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "design/territory-shelved-independent-content-20261021",
@@ -31700,7 +31495,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 44,
     "unique_commits": [
       "284ce62ff54247cc0a4e96693c34c190b49c4bbf",
@@ -32109,7 +31904,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 156,
     "unique_commits": [
       "a9b89755f7c4e924243fa4229a90177433712be4",
@@ -33637,7 +33432,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 160,
     "unique_commits": [
       "2176935929c990a210fae64582d524d30993bc8a",
@@ -35211,7 +35006,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 172,
     "unique_commits": [
       "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
@@ -36872,7 +36667,7 @@
       }
     ],
     "merge_base": "1b600b77551dc89ed9c835df3283ed90029fae3f",
-    "behind": 808,
+    "behind": 811,
     "ahead": 15,
     "unique_commits": [
       "8bf157f7988569c715bde4dfd298e9af20305415",
@@ -37028,7 +36823,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 88,
     "unique_commits": [
       "32cbca0a3fe57db86262bca7a865573071763640",
@@ -37983,7 +37778,7 @@
     "date": "2026-10-02T12:07:01+09:00",
     "prs": [],
     "merge_base": "327b7ef1bf46709e383ece8df226ffb54933886c",
-    "behind": 691,
+    "behind": 694,
     "ahead": 1,
     "unique_commits": [
       "cc1a96b062696bb5420ec0631883f0d1f59aa89e"
@@ -38030,7 +37825,7 @@
       }
     ],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 5,
     "unique_commits": [
       "6f9c3ac2ad3f68b48e8428a3840ce6da7ec551a9",
@@ -38136,7 +37931,7 @@
       }
     ],
     "merge_base": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
-    "behind": 36,
+    "behind": 39,
     "ahead": 10,
     "unique_commits": [
       "bacb9546c98139a614f726355dac8ad317bf73cc",
@@ -38255,7 +38050,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 68,
     "unique_commits": [
       "e532fa3034deb4eff53eacd0f90af02dc8369d8b",
@@ -38925,7 +38720,7 @@
     "date": "2026-10-10T15:33:38+09:00",
     "prs": [],
     "merge_base": "e1d3cb35382ff640fe5149378a3edc365f2dab9c",
-    "behind": 527,
+    "behind": 530,
     "ahead": 1,
     "unique_commits": [
       "6fe1a308c9c72d63b48be6c7a8590e44e46a55bd"
@@ -38972,7 +38767,7 @@
       }
     ],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 3,
     "unique_commits": [
       "2e847d4956fc4e67c9019f0dc174b5499446bd3d",
@@ -39042,7 +38837,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 93,
     "unique_commits": [
       "ad778059718b0a1b911264b72818bbaca8026fcd",
@@ -40045,7 +39840,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 1,
     "unique_commits": [
       "aa376713aedcd7fecd769af39e18f8532b9e147d"
@@ -40100,7 +39895,7 @@
     "date": "2026-10-21T09:42:02+09:00",
     "prs": [],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 4,
     "unique_commits": [
       "f864df45ef0dad33a898a7f6aaf066b6b345bb5a",
@@ -40174,7 +39969,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 77,
     "unique_commits": [
       "991b20c8a052ecf5d73c5130d2d9e0eb4338c041",
@@ -41041,7 +40836,7 @@
       }
     ],
     "merge_base": "35c97ff413e0158bc9cfb2891ec2d54f3ed0983a",
-    "behind": 167,
+    "behind": 170,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -41081,7 +40876,7 @@
       }
     ],
     "merge_base": "b6a03f4e5a8addfea9ae8410b8e0249083b5a562",
-    "behind": 85,
+    "behind": 88,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -41121,7 +40916,7 @@
       }
     ],
     "merge_base": "91faed1092b6811db085fd0c55dbd3b66a71a21d",
-    "behind": 84,
+    "behind": 87,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -41161,7 +40956,7 @@
       }
     ],
     "merge_base": "e72be040703d39be6fa7482400e7c15eeaa912c3",
-    "behind": 85,
+    "behind": 88,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -41201,7 +40996,7 @@
       }
     ],
     "merge_base": "f3604c459369e26188df3329d870e7ae3d956e45",
-    "behind": 166,
+    "behind": 169,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -41241,7 +41036,7 @@
       }
     ],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 1,
     "unique_commits": [
       "6d456e6fca5150e2a84c1ffa25f44d86f0c255a5"
@@ -41293,7 +41088,7 @@
       }
     ],
     "merge_base": "baa06dc4aee9686936e723de598ccaf46d5be449",
-    "behind": 40,
+    "behind": 43,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -41333,7 +41128,7 @@
       }
     ],
     "merge_base": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
-    "behind": 34,
+    "behind": 37,
     "ahead": 25,
     "unique_commits": [
       "eb88cf81474ee46d5e8a3cf8e08fdc247a45d10f",
@@ -41515,7 +41310,7 @@
     "date": "2026-10-23T08:56:29Z",
     "prs": [],
     "merge_base": "63efc3ca0a71d369d9e7aa25b9e5231e6a7b29ac",
-    "behind": 67,
+    "behind": 70,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -41548,7 +41343,7 @@
       }
     ],
     "merge_base": "0e9ccc5af9313d3648d4bce98a8ee33b1f2dba82",
-    "behind": 86,
+    "behind": 89,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -41588,7 +41383,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 149,
     "unique_commits": [
       "05a378211a6e4576609416096d3515a6b1dee36f",
@@ -43114,7 +42909,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 112,
     "unique_commits": [
       "4fbb036e0158098f4b9d6733c68ddd73b87db826",
@@ -44290,7 +44085,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 143,
     "unique_commits": [
       "5ea5f54614943c8fd00f047b7f8379f385d6e5e8",
@@ -45719,7 +45514,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 76,
     "unique_commits": [
       "b0de6b754859e090427ff310887ca04188310a8a",
@@ -46549,7 +46344,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 67,
     "unique_commits": [
       "7231c7aad598e9cada152537dfece7cfad2756dc",
@@ -47217,7 +47012,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 75,
     "unique_commits": [
       "b0de6b754859e090427ff310887ca04188310a8a",
@@ -48042,13 +47837,13 @@
     "prs": [
       {
         "number": 102,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-16T01:00:51Z"
+        "updated_at": "2026-10-26T22:33:46Z"
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 69,
     "unique_commits": [
       "601cc28b9d078b01f1d01451fd07f278839eb4b0",
@@ -48705,20 +48500,20 @@
     "related_prs": [
       {
         "number": 102,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-16T01:00:51Z"
+        "updated_at": "2026-10-26T22:33:46Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "codex/stage23a-expanded-research-20261015",
       "integration/stage23-linear-chain-20261016"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "integration/wave10-unified-20261025",
@@ -48733,7 +48528,7 @@
       }
     ],
     "merge_base": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
-    "behind": 0,
+    "behind": 3,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -48773,7 +48568,7 @@
       }
     ],
     "merge_base": "a33d03ba1c2153cc2e8ae935267632a29645be13",
-    "behind": 65,
+    "behind": 68,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -48814,7 +48609,7 @@
       }
     ],
     "merge_base": "cb6412e204c71248662968beab6b40d0189f6706",
-    "behind": 52,
+    "behind": 55,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -48854,7 +48649,7 @@
       }
     ],
     "merge_base": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
-    "behind": 39,
+    "behind": 42,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -48887,7 +48682,7 @@
     "date": "2026-10-23T08:57:11+09:00",
     "prs": [],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -48913,7 +48708,7 @@
     "date": "2026-10-09T14:57:52+09:00",
     "prs": [],
     "merge_base": "20121ca7cceae03602038de31076bd9ace115208",
-    "behind": 560,
+    "behind": 563,
     "ahead": 1,
     "unique_commits": [
       "b1830ce606627ed692ced4425f06ac94f761eeca"
@@ -48969,7 +48764,7 @@
     "date": "2026-10-09T14:44:38+09:00",
     "prs": [],
     "merge_base": "6cd671bb79f4ff1a6c25c551805be6adf333d42e",
-    "behind": 807,
+    "behind": 810,
     "ahead": 2,
     "unique_commits": [
       "fe9d441f57414f129b00129fc058404168cf5339",
@@ -49032,7 +48827,7 @@
     "date": "2026-10-06T09:27:19+09:00",
     "prs": [],
     "merge_base": "25eede9fcec899f9f827b866853d2c7e37336da7",
-    "behind": 583,
+    "behind": 586,
     "ahead": 1,
     "unique_commits": [
       "cf4360b228589e538f831aae34e378330fabf670"
@@ -49079,7 +48874,7 @@
       }
     ],
     "merge_base": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
-    "behind": 34,
+    "behind": 37,
     "ahead": 44,
     "unique_commits": [
       "268ec65bb8827c3f627d076188c7924225b8afa0",
@@ -49375,7 +49170,7 @@
       }
     ],
     "merge_base": "20121ca7cceae03602038de31076bd9ace115208",
-    "behind": 560,
+    "behind": 563,
     "ahead": 4,
     "unique_commits": [
       "0cc0a9eaf58290bbde2a4b45f68df101f8f7c6d2",
@@ -49546,7 +49341,7 @@
       }
     ],
     "merge_base": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
-    "behind": 34,
+    "behind": 37,
     "ahead": 35,
     "unique_commits": [
       "6a9a49083d7a7c5294af50d856f70cd5e30db95c",
@@ -49787,7 +49582,7 @@
       }
     ],
     "merge_base": "b2f2f8f9bfb1c9d72b7e87a06a6c91ef66150113",
-    "behind": 187,
+    "behind": 190,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -49821,13 +49616,13 @@
     "prs": [
       {
         "number": 157,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-23T02:01:06Z"
+        "updated_at": "2026-10-26T22:34:39Z"
       }
     ],
     "merge_base": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
-    "behind": 186,
+    "behind": 189,
     "ahead": 4,
     "unique_commits": [
       "219d74f89ae253c98b4c2f2156f884d13dba09f6",
@@ -49868,19 +49663,19 @@
     "related_prs": [
       {
         "number": 157,
-        "state": "open",
+        "state": "closed",
         "merged": false,
-        "updated_at": "2026-10-23T02:01:06Z"
+        "updated_at": "2026-10-26T22:34:39Z"
       }
     ],
-    "classification": "G — PROTECTED",
-    "cleanup": "RETAIN_PROTECTED",
-    "evidence": "Open PR, protected baseline, release candidate, or historical checkpoint; retain independent ref.",
+    "classification": "D — UNIQUE_UNVERIFIED",
+    "cleanup": "RETAIN_UNIQUE",
+    "evidence": "Patch-unique history and/or divergent blobs remain; no branch-wide semantic equivalence or authority approval established.",
     "inferred_parent_branches": [
       "security/gitleaks-historical-findings-20261022"
     ],
-    "design_alignment": "No active-design change integrated",
-    "test_document_preservation": "Reachable or independently retained"
+    "design_alignment": "Current CONTENT_AUTHORITY_INDEX.md does not by itself authorize branch-wide replay",
+    "test_document_preservation": "Unique missing document blobs archived verbatim in preservation_manifest.json; divergent tests retained on source branch pending API compatibility review"
   },
   {
     "name": "stage-1/fabric-foundation",
@@ -49895,7 +49690,7 @@
       }
     ],
     "merge_base": "ab5e2a57905d994a6cd6a66e97e8327addf3a74e",
-    "behind": 913,
+    "behind": 916,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -49926,7 +49721,7 @@
     "date": "2026-09-25T09:31:08+09:00",
     "prs": [],
     "merge_base": "a2acc715ad2ee9e7af06d84dab7d25e7b84e31c8",
-    "behind": 790,
+    "behind": 793,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -49952,7 +49747,7 @@
     "date": "2026-09-26T09:53:02+09:00",
     "prs": [],
     "merge_base": "3cb27187e3be0141bcd175e4e355f9fa9cdc6300",
-    "behind": 776,
+    "behind": 779,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -49978,7 +49773,7 @@
     "date": "2026-09-27T18:34:52+09:00",
     "prs": [],
     "merge_base": "50b142206c4be0ebf3e5962890a23e9e78a69a67",
-    "behind": 810,
+    "behind": 813,
     "ahead": 7,
     "unique_commits": [
       "426ea7bfe8446e2da9424116018f4da7c4804b09",
@@ -50262,7 +50057,7 @@
     "date": "2026-09-27T23:37:16+09:00",
     "prs": [],
     "merge_base": "50b142206c4be0ebf3e5962890a23e9e78a69a67",
-    "behind": 810,
+    "behind": 813,
     "ahead": 20,
     "unique_commits": [
       "b49e6dd6b7e0220ef84c5d5a8ea50207921cb3b4",
@@ -50627,7 +50422,7 @@
     "date": "2026-09-27T23:37:16+09:00",
     "prs": [],
     "merge_base": "50b142206c4be0ebf3e5962890a23e9e78a69a67",
-    "behind": 810,
+    "behind": 813,
     "ahead": 20,
     "unique_commits": [
       "b49e6dd6b7e0220ef84c5d5a8ea50207921cb3b4",
@@ -50992,7 +50787,7 @@
     "date": "2026-09-28T13:36:03+09:00",
     "prs": [],
     "merge_base": "c39313e7d19ef688ac4b528d18cd4cb458ef6e65",
-    "behind": 751,
+    "behind": 754,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51018,7 +50813,7 @@
     "date": "2026-09-30T20:26:21+09:00",
     "prs": [],
     "merge_base": "70e470deb272c944e65d47ba18802c89e26d761e",
-    "behind": 722,
+    "behind": 725,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51044,7 +50839,7 @@
     "date": "2026-10-01T12:47:47+09:00",
     "prs": [],
     "merge_base": "d8493c62bb71fd148845830d6d2259e0eac573fb",
-    "behind": 702,
+    "behind": 705,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51070,7 +50865,7 @@
     "date": "2026-10-02T20:49:36+09:00",
     "prs": [],
     "merge_base": "93d264a8f78d5f4aaa52ae5be80526cbb921f29f",
-    "behind": 617,
+    "behind": 620,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51096,7 +50891,7 @@
     "date": "2026-10-01T21:04:07+09:00",
     "prs": [],
     "merge_base": "e4e99c36c138d2c83d3e4c9d450a61092c5be587",
-    "behind": 694,
+    "behind": 697,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51122,7 +50917,7 @@
     "date": "2026-10-04T00:42:12+09:00",
     "prs": [],
     "merge_base": "984418d302cf865b5654fac0a0dcb28449fb6118",
-    "behind": 607,
+    "behind": 610,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51155,7 +50950,7 @@
       }
     ],
     "merge_base": "6ae717c92d47ad036be0f9c6926254fbbd435cc7",
-    "behind": 909,
+    "behind": 912,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51188,7 +50983,7 @@
     "date": "2026-10-07T20:54:18+09:00",
     "prs": [],
     "merge_base": "20121ca7cceae03602038de31076bd9ace115208",
-    "behind": 560,
+    "behind": 563,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51214,7 +51009,7 @@
     "date": "2026-10-14T23:53:32+09:00",
     "prs": [],
     "merge_base": "c0ce63cb73cea42446bedbaece3bb49a9ce71bf8",
-    "behind": 189,
+    "behind": 192,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51247,7 +51042,7 @@
       }
     ],
     "merge_base": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
-    "behind": 188,
+    "behind": 191,
     "ahead": 7,
     "unique_commits": [
       "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
@@ -51351,7 +51146,7 @@
       }
     ],
     "merge_base": "1f05e53fbadea0d1ca8c49c00a64b62edd622174",
-    "behind": 903,
+    "behind": 906,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51391,7 +51186,7 @@
       }
     ],
     "merge_base": "8a3159c5a33c18f89baa654ae7c3d550fae6a628",
-    "behind": 871,
+    "behind": 874,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51431,7 +51226,7 @@
       }
     ],
     "merge_base": "e66bf7ecb39a14be5313818e917596b7abfa1ac4",
-    "behind": 859,
+    "behind": 862,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51471,7 +51266,7 @@
       }
     ],
     "merge_base": "c8705f4c3969920967f027bbfcddd72fda1338cb",
-    "behind": 844,
+    "behind": 847,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51511,7 +51306,7 @@
       }
     ],
     "merge_base": "a62a65e10c569ac655fe43545058a40eea2ed8a6",
-    "behind": 837,
+    "behind": 840,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51551,7 +51346,7 @@
       }
     ],
     "merge_base": "5541ad505aeb5e4839d0027ed944e3f7c60810c4",
-    "behind": 830,
+    "behind": 833,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51591,7 +51386,7 @@
       }
     ],
     "merge_base": "ec1b6ce9182795bdd26123a184d58ae5b8c21dd5",
-    "behind": 820,
+    "behind": 823,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51624,7 +51419,7 @@
     "date": "2026-10-23T08:56:29Z",
     "prs": [],
     "merge_base": "63efc3ca0a71d369d9e7aa25b9e5231e6a7b29ac",
-    "behind": 67,
+    "behind": 70,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51657,7 +51452,7 @@
       }
     ],
     "merge_base": "cc058692ca38f76c18b598658733beb8f8a4fb10",
-    "behind": 169,
+    "behind": 172,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -51697,7 +51492,7 @@
       }
     ],
     "merge_base": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
-    "behind": 34,
+    "behind": 37,
     "ahead": 22,
     "unique_commits": [
       "16ffa634980103d54171b3605883084a6647099e",
@@ -51871,7 +51666,7 @@
       }
     ],
     "merge_base": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
-    "behind": 36,
+    "behind": 39,
     "ahead": 13,
     "unique_commits": [
       "efc77967c9c246d28afaa5e7ca5756e4a2dd4c33",
@@ -52004,7 +51799,7 @@
       }
     ],
     "merge_base": "741a1be90074c3f0086c048d77e9dbabf4947cf1",
-    "behind": 185,
+    "behind": 188,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -52044,7 +51839,7 @@
       }
     ],
     "merge_base": "0f466b96df9832c2c5a0bf83fd885ca1c278095d",
-    "behind": 60,
+    "behind": 63,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -52084,7 +51879,7 @@
       }
     ],
     "merge_base": "e5982f3c2f6981d25fea0210a1c3b49df7069ae1",
-    "behind": 64,
+    "behind": 67,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -52125,7 +51920,7 @@
       }
     ],
     "merge_base": "06be9f53ffa8069465e9e197417cdcd4fb32a1c7",
-    "behind": 64,
+    "behind": 67,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
@@ -52166,7 +51961,7 @@
       }
     ],
     "merge_base": "8f53b48816c0c3264ed748e7fffc340c5c229839",
-    "behind": 63,
+    "behind": 66,
     "ahead": 0,
     "unique_commits": [],
     "patch_unique_commits": [],
