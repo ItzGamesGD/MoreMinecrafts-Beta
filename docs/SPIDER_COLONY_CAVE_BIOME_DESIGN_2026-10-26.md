@@ -14,7 +14,7 @@ Status: OWNER APPROVED concept, DESIGN ONLY. Implementation deferred.
 - No standalone building, rigid corridors or mandatory maze.
 
 ## Next decisions (OPEN)
-- Q2 visual direction: natural white-grey web ecology, darker oppressive colony, or organic/fungal nest mix.
+- Q2 visual direction: **OWNER APPROVED A+C hybrid** — natural cave rock and white-grey webs across ordinary areas, with egg sacs, organic nest masses and denser web clusters in concentrated colony areas. Do not make the whole biome uniformly grotesque or replace natural cave terrain.
 - Web density and navigation safety; natural transition at edges.
 - Fauna: vanilla spiders/cave spiders and any distinct variants; audit existing 40-mob roster first.
 - Encounter intensity and whether any dangerous heart of the colony exists.
