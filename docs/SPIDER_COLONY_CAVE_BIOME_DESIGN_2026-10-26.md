@@ -20,7 +20,8 @@ Status: OWNER APPROVED concept, DESIGN ONLY. Implementation deferred.
 - Fauna: **OWNER APPROVED exactly three mob types** for this cave: vanilla Spider (common), vanilla Cave Spider (more dangerous in dense nests), and one new **Mother Spider / 어미거미** (rare high-tier colony inhabitant). The prior white web spider and brown nest spider variants are rejected for this cave. Mother Spider **combat identity OWNER APPROVED option B**: stronger melee combat plus a strictly limited number of baby-spider summons during combat, **never infinite summons**. Exact summon cap, cooldown, baby-spider entity implementation, size, HP, spawn conditions, loot, and boss-vs-elite classification remain OPEN. Check the existing 40-mob roster before entity ID assignment.
 - Encounter intensity: **OWNER APPROVED B / balanced** — safer outer areas, moderately hazardous nest-dense areas, optional routes around fighting; no forced waves, unlimited reinforcements or inescapable cobweb corridors. A special mandatory boss or dangerous heart is NOT approved.
 - Rewards: **OWNER APPROVED B as future design direction, but CURRENT EFFECTIVE POLICY IS A**. Vanilla resources and mob drops only; do not add Spider Cocoon or any new material until a concrete downstream crafting/use case is approved. No new recipes or special nest treasure approved.
-- Decorative blocks, generation depth, biome frequency, and cave/structure collision rules.
+- Generation height/frequency: **OWNER APPROVED option C** — broad underground vertical range (shallow and deep caves), low overall occurrence, but extensive naturally connected area when encountered. Exact Y bounds, noise parameters and generation rate OPEN.
+- Decorative blocks and cave/structure collision rules.
 
 ## Guardrails
 Design only. No game code, worldgen, assets, or tests authorized. Do not merge or alter Wave 9 release-frozen PR #181. Keep ST-05 underground colosseum separate.
