@@ -64,3 +64,5 @@ Design only. No game code, worldgen, assets, or tests authorized. Do not merge o
 - Egg-sac visual variants: **OWNER APPROVED Q28 option A** — exactly one egg-sac block model/texture, with natural placement variation only. No separate small/medium/large models or attachment-specific visual variants. Preserve previously approved Silk Touch harvest and natural-only reactive behavior.
 
 - Egg-sac spawn surfaces: **OWNER APPROVED Q29 option A** — ordinary egg sacs primarily generate on cave floors and in floor-level rocky crevices, with very rare or no wall/ceiling placement. Keep single egg-sac visual model, colony-wide even distribution, Silk Touch harvesting and natural-only reactive behavior. Exact substrate validation and placement rates are HOW.
+
+- Reactive egg-sac rate: **OWNER APPROVED Q30 custom value 35%** of naturally generated egg sacs reactive; remaining 65% decorative. Only ordinary breaking of naturally generated reactive sacs releases 1–2 miniature spiders. Silk Touch harvesting does not hatch them; player-placed sacs are decorative and non-reactive. No proximity activation or renewable spider farming.
