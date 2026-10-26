@@ -89,9 +89,34 @@ Resulting status: **CANDIDATE / DEFERRED / NOT AUTHORIZED FOR IMPLEMENTATION**, 
 | Rare caravan and runes | [RARE_CARAVAN_ENCHANTMENT_RUNE_DECISIONS_2026-10-18.md](recovered/territory-chain/RARE_CARAVAN_ENCHANTMENT_RUNE_DECISIONS_2026-10-18.md) + register F20/F21 + F-5 | User-confirmed, not implemented; open items listed in the source |
 | Structures (pyramid, pillager HQ, candidates, Ancient City) | [STRUCTURE_AUTHORITY_INDEX.md](../STRUCTURE_AUTHORITY_INDEX.md) | See index |
 
+
+## Owner follow-up decisions — Q1–Q4 (2026-10-26)
+
+These decisions supersede the corresponding **open questions** in the historical "Remaining conflicts" section below. That section is retained as an audit trail, not as a current list of unresolved owner choices. These decisions are **approved design authority**, not evidence of implementation.
+
+### Q1 — 2026-10-22 contracts supersede 2026-10-19 commission board
+
+The approved **2026-10-22 contract-item system is the sole current bounty/contract authority**. The 2026-10-19 commission-board design is **historical reference only**. Do not implement or restore its rotating board, UI entry, independent active-contract limits, or separate payout rules. Preserve the original recovered document unmodified for provenance. This does not revoke approved mechanics of the 2026-10-22 system.
+
+### Q2 — Rare caravan may sell ordinary contracts
+
+Rare caravan merchants **may directly sell Beginner, Intermediate and Advanced ordinary contract items**, in addition to previously approved acquisition sources. They **may not directly sell Special contracts**. A contract sold as ordinary remains an ordinary sale item; do not silently convert a merchant's stock into a direct Special offering. Preserve the approved 5% Advanced-to-Special conversion for its applicable existing generation/acquisition flow; clarify merchant-purchase conversion behavior before implementation rather than treating the permission to sell ordinary stock as permission to sell Special contracts. Caravan prices, stock weights, quantity limits and exact implementation remain **OPEN FOR BALANCE DESIGN**.
+
+### Q3 — Feather Boots and Hot Step deferred
+
+**Feather Boots** and **Hot Step (뜨거운 걸음)** are both **CANDIDATE / DEFERRED / NOT AUTHORIZED FOR IMPLEMENTATION**. Preserve their historical design records, including conflicting dash/double-jump and enchantment interactions, as reference only. Neither historical effect is approved for implementation. Reconcile with existing enchantments and design unique effects only in a future owner-approved redesign. Do not silently add them to the active roster.
+
+### Q4 — Tomb Guardian rewards
+
+The Tomb Guardian's **core signature drop is Ancient Heart**, which also retains its existing Ancient City acquisition source. **Do not add a guardian-exclusive new crafting material or resurrect Tomb Guardian Core**. As a boss, the guardian should also provide **a varied additional reward pool of rare minerals and existing higher-tier crafting materials**. Specific items, drop quantities, rates and guaranteed-versus-random allocation beyond the approved core reward are **NOT YET APPROVED** and require balance review against the latest pyramid design and progression tiers. No exclusive new equipment/artifact is authorized by this decision.
+
+### Follow-up integration notes
+
+After PR #181 reaches main, place short links to this reconciliation in the live pyramid, 2026-10-22 bounty and related handoff documents without rewriting the original historical copies. Validate that no conflict with the latest release text is introduced. Keep this PR Draft until reviewed and do not mutate PR #181.
+
 ## Remaining conflicts that need owner decisions
 
-These are **not** resolved here, and implementation in the affected slice should wait for a decision.
+**Historical audit snapshot:** questions 1–4 below were resolved by the Q1–Q4 owner follow-up above; question 5 remains a release-verification concern. Do not treat the resolved questions as open.
 
 1. **Commission board (2026-10-19) versus bounty contracts (2026-10-22).** The recovered commission design (a Commissions entry in the progression UI, a world-wide six-offer board of 2 kill / 2 delivery / 2 exploration rotating every three days, active limits 3 + 1, emerald-block payout bands) and the later `BOUNTY_CONTRACT_APPROVED_2026-10-22.md` (villager-sold and loot-found contract items, Beginner/Intermediate/Advanced tiers, emerald payouts) describe overlapping systems. The 2026-10-22 document does not say it supersedes the 2026-10-19 design. Decide whether the commission board is superseded, retained as a separate system, or merged.
 2. **Ordinary contracts in the caravan.** F-5 forbids direct sale of *special* contracts only. The 2026-10-18 caravan merchandise group "bounty contracts" and register row F08 ("rare dungeon maps/contracts … stay caravan") leave open whether the caravan may sell **ordinary** contracts. The 2026-10-22 bounty authority lists villagers and structure containers as the sources.
