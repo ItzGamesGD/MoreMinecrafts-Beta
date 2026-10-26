@@ -983,3 +983,8 @@ Faster Smelting (`.11`): purchased levels 0–3 process at 100%, 110%, 120%, and
 
 Furnace compatibility and current implementation boundary: only vanilla `AbstractFurnaceBlockEntity` processing and the session-local portable furnace menu exist in the inspected baseline; no multiplier-furnace block-entity family exists there. Treat multiplier furnaces and future compatible modded families as future compatibility obligations until present and audited. Do not infer universal support from a vanilla hook.
 ============================================================
+
+
+## Villager Trading discount rounding — owner approved 2026-10-26
+
+For `v3.research.53` (Villager Trading), the approved first-trade discount at purchased levels 1/2/3 is 5%/10%/15%, applied per player with a minimum final cost of 1. Round the **discount amount upward** to a whole item: `discount = ceil(current_cost × rate / 100)`, then `final_cost = max(1, current_cost - discount)`. For example, cost 21 at level 1 gives `ceil(1.05) = 2` off and final cost 19. This is the approved ceil-discount policy (OD-6); it supersedes the older “rounded to nearest” implementation-audit wording. The historical territory-chain record remains provenance, not the sole current authority. This amendment changes no implementation or other Villager Trading rule.
