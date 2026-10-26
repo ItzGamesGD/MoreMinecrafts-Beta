@@ -17,7 +17,7 @@ Status: OWNER APPROVED concept, DESIGN ONLY. Implementation deferred.
 - Q2 visual direction: **OWNER APPROVED A+C hybrid** — natural cave rock and white-grey webs across ordinary areas, with egg sacs, organic nest masses and denser web clusters in concentrated colony areas. Do not make the whole biome uniformly grotesque or replace natural cave terrain.
 - Web density and navigation safety; natural transition at edges.
 - Fauna: vanilla spiders/cave spiders and any distinct variants; audit existing 40-mob roster first.
-- Encounter intensity and whether any dangerous heart of the colony exists.
+- Encounter intensity: **OWNER APPROVED B / balanced** — safer outer areas, moderately hazardous nest-dense areas, optional routes around fighting; no forced waves, unlimited reinforcements or inescapable cobweb corridors. A special mandatory boss or dangerous heart is NOT approved.
 - Rewards, decorative blocks, generation depth, biome frequency, and cave/structure collision rules.
 
 ## Guardrails
