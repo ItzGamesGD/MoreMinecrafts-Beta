@@ -36,7 +36,7 @@ Of the 168 branch-only items, 121 trace to superseded, rejected or tooling-only 
 
 ### G-3 — New design record existing only on an unmerged branch — PRESERVED
 
-- `docs/sky-islands-design-context-20261027` @ `8ceff945` (created 2026-10-27 00:26 UTC, no PR) holds the only copy of `docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md`. It was copied byte-identically (blob `a91e385d`) in `0d035c84`. The document's own header marks it as design in progress and not an implementation instruction, so it is **not** routed as authority.
+- `docs/sky-islands-design-context-20261027` @ `8ceff945` (created 2026-10-27 00:26 UTC, no PR) holds the only copy of `docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md`. It was copied byte-identically (blob `a91e385d`) in `0d035c84`. The document's own header marks it as design in progress and not an implementation instruction, so it is **not** routed as authority. **Update 2026-10-27:** that branch moved after this copy was taken (commit `631d9504`, the owner replaced section 5), so this copy is now a stale snapshot. The current blob is preserved in `docs/preservation/snapshots/`.
 
 ### G-4 — Lower-equipment regression coverage from closed PR #65 — RESTORED
 

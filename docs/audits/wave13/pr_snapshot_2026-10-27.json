@@ -1726,5 +1726,23 @@
   "head_sha": "3c8186b7af3e9fc771feaf427214ed448366dd81",
   "base": "main",
   "title": "[Wave 12] Functional preservation audit and unified checkpoint"
+ },
+ {
+  "number": 194,
+  "state": "open",
+  "draft": true,
+  "head": "test/wave13-f3-f1-evidence-20261027",
+  "head_sha": "4e6901c08e67485190ed0697d328ee21e408cccf",
+  "base": "checkpoint/wave12-unified-20261027",
+  "title": "[Wave 13] Evidence tooling: Adamantium F-3 sampling probe and skull crash-protocol model"
+ },
+ {
+  "number": 195,
+  "state": "open",
+  "draft": true,
+  "head": "docs/wave13-prep-audit-20261027",
+  "head_sha": "fda71a08533399b69d67aa436b88ecbd6e8ff2b3",
+  "base": "checkpoint/wave12-unified-20261027",
+  "title": "[Wave 13] Audit docs: verified Wave 12 CI, Adamantium F-3, wither-skull F-1, cleanup manifest"
  }
 ]

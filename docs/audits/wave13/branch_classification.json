@@ -34,6 +34,11 @@
   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
   "provenance": "INTEGRATED (ancestor of Wave 11)"
  },
+ "checkpoint/wave12-unified-20261027": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Validated Wave 12 checkpoint, head of open PR #193 and base of PRs #194 and #195. Never rewritten.",
+  "provenance": "CHECKPOINT (Wave 12)"
+ },
  "claude/q1c-skull-provenance-20261019": {
   "class_wave12": "RETAIN — UNRESOLVED AUTHORITY",
   "evidence": "PR #128 (open draft). Wither-skull provenance (4 mixins, QuestWitherSkullProvenance, 13 tests) and registration of xpq.cmb.wither_skulls_3. Owner F-1: rule approved but #128/#130 NOT release-ready; crash-consistency defect must be fixed before registration.",
@@ -364,6 +369,11 @@
   "evidence": "No PR. Piglin trade/mob tracker UI record preserved (preserved/ba6dbd84….md); summarized in UI_SYSTEM_FULL_AUDIT.",
   "provenance": "PRESERVED AS DOCUMENTATION"
  },
+ "docs/wave13-prep-audit-20261027": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "Head of open Draft PR #195: verified CI record, F-3 and F-1 analyses, cleanup manifest, Sky Islands snapshot.",
+  "provenance": "WAVE 13 WORKING BRANCH"
+ },
  "docs/wave4b-custom-quest-ui-authority-20261024": {
   "class_wave12": "DELETE ELIGIBLE",
   "evidence": "PR #164. Custom Quest UI authority present as 'XP Quest UI architecture (2026-10-24)' in the index and the UI amendment.",
@@ -478,6 +488,11 @@
   "class_wave12": "RETAIN — CHECKPOINT",
   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
   "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "integration/wave12-functional-preservation-20261027": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Same commit as checkpoint/wave12-unified-20261027. Technically contains nothing unique, but it is the ref that CI run 40431019466 and the earlier arena evidence ran on; kept as evidence anchor. The owner may delete it later without loss.",
+  "provenance": "CHECKPOINT (Wave 12 working branch)"
  },
  "integration/wave5r-combined-20261024": {
   "class_wave12": "DELETE ELIGIBLE",
@@ -668,6 +683,11 @@
   "class_wave12": "DELETE ELIGIBLE",
   "evidence": "PR #185 (merged into #181). Regression test present (5622585).",
   "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "test/wave13-f3-f1-evidence-20261027": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "Head of open Draft PR #194: unit tests, ore-sampling probe, candidate set and skull protocol model. Test/tooling only.",
+  "provenance": "WAVE 13 WORKING BRANCH"
  },
  "tooling/integration-gametest-coverage-20261024": {
   "class_wave12": "DELETE ELIGIBLE",
