@@ -5,6 +5,9 @@
   "name": "MoreMinecrafts Game Tests",
   "environment": "*",
   "entrypoints": {
+    "main": [
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe"
+    ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.T1ProgressionGameTests",
