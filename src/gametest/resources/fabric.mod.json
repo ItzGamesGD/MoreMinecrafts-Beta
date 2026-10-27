@@ -39,6 +39,7 @@
       "dev.itzgamesgd.moreminecrafts.bounty.ContractRuntimeGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.ExactXpTransactionGameTests",
       "dev.itzgamesgd.moreminecrafts.enhancement.EnhancementTransactionGameTests",
+      "dev.itzgamesgd.moreminecrafts.enhancement.T2EquipmentCompatibilityGameTests",
       "dev.itzgamesgd.moreminecrafts.fishing.FisheriesStudyGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.Research23AReconciliationGameTests",
       "dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchInfrastructureGameTests",
