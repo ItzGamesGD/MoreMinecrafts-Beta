@@ -1,0 +1,5 @@
+CAUGHT  no PENDING flush before the first side effect: ['INV1', 'INV4', 'INV5']
+CAUGHT  owner file commit not flushed: ['INV4']
+CAUGHT  rollback does not restore the skull: ['INV4']
+CAUGHT  roll-forward leaves the stale ground copy: ['INV5']
+CAUGHT  ledger cleared before the restore is flushed: ['INV4']
