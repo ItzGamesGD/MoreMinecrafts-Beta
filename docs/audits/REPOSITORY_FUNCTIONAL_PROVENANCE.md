@@ -10,10 +10,10 @@ Status: audit record. It assigns no design authority; current authority is route
 - Wave 11 contains `integration/wave10-unified-20261025` (`13c190d1`, PR #182 head) as an ancestor. `checkpoint/wave10-unified-20261026` (`73dcc8f4`) is **not** an ancestor: its three post-PR #191 commits were cherry-picked into Wave 11 (patch-id equivalent: `17a7cdd`→`d44a83c`, `e28ce2f`→`7ff1d14`, `73dcc8f`→`45fd25f`).
 - `release/wave9-rc-20261025` (`268ec65b`, PR #181) is not an ancestor; every file it changed is byte-identical in Wave 11 or differs only in lines Wave 11 later revised (0 branch-only lines).
 - Remote branches audited: **139**. Pull requests audited: **191** (numbers 1–192; #50 is not a pull request). States: merged 66, closed 110, open 15.
-- Every PR head SHA is reachable from Wave 11 (106) or from at least one remote branch (85); no PR head is orphaned. GitHub keeps `refs/pull/N/head` after branch deletion, so PR-backed history survives branch cleanup.
+- PR head reachability: 106 heads are ancestors of Wave 11; 70 are reachable only from another remote branch; **15 are reachable only through `refs/pull/N/head`** because their branches were deleted. Those 15 were audited separately (section below). GitHub keeps `refs/pull/N/head` after branch deletion, so PR-backed history survives branch cleanup.
 - Exact SHAs for every branch and PR: [`wave12-20261027/BASELINE_MANIFEST.json`](wave12-20261027/BASELINE_MANIFEST.json).
 
-**Concurrent change check.** The 2026-10-26 Wave 11 report counted 145 remote branches; 139 exist now. The six removed refs were all ancestors of Wave 11 or PR-backed (see the Wave 11 report); no audited branch head moved during this audit (re-verified before publishing, see BRANCH_CLEANUP_ELIGIBILITY.md).
+**Concurrent change check.** The 2026-10-26 Wave 11 inventory listed 144 branches besides Wave 11. Seven of them no longer exist: `audit/prc-p4-research-preservation-20261026` (an ancestor of Wave 11) and six branches whose heads survive as PR refs (#139, #154, #157, #158, #159, #163; audited below). One branch is new since then (`docs/sky-islands-design-context-20261027`). No audited branch head moved during this audit; this was re-verified by re-fetching before publishing.
 
 ## Method
 
@@ -21,7 +21,7 @@ Status: audit record. It assigns no design authority; current authority is route
 2. **Patch equivalence**: `git cherry W11 B` (patch-id) — identifies rebased/cherry-picked commits.
 3. **Per-file state** for every path changed in `merge-base..B`: IDENTICAL blob, PRESERVED_ELSEWHERE (same blob at another Wave 11 path), DIVERGENT, MISSING, DELETED_ON_BRANCH.
 4. **Branch-only lines**: for DIVERGENT/MISSING files, the added lines of `merge-base..B` that appear nowhere in the Wave 11 file. Used only to direct inspection; refactors produce false positives.
-5. **Semantic inventory** of every ref (Java classes, `@Test`/`@GameTest` methods, mixin registrations, entrypoints, lang keys, data/asset resources, research IDs referenced by runtime code, XP Quest catalog registrations, workflows) and set difference against Wave 11. 27 classes, 94 tests, 7 mixins, 14 data resources, 8 assets, 10 quest registrations, 4 entrypoints and 4 workflows exist on some branch but not in Wave 11; each was traced to a decision below. Zero lang keys and zero research IDs were missing.
+5. **Semantic inventory** of every ref (Java classes, `@Test`/`@GameTest` methods, mixin registrations, entrypoints, lang keys, data/asset resources, research IDs referenced by runtime code, XP Quest catalog registrations, workflows) and set difference against Wave 11. 27 classes, 94 tests, 7 mixins, 14 data resources, 8 assets, 10 quest registrations, 4 entrypoints and 4 workflows exist on some branch but not in Wave 11; each was traced to a decision below. Zero lang keys and zero research IDs were missing. The same inventory and per-file analysis were run on the 15 PR heads reachable only through `refs/pull/N/head`.
 6. **Source and authority inspection** of every remaining candidate (git history, PR body, authority index routes).
 
 Tools and raw outputs are reproducible from the commands above; the classification table is generated from them plus the manual evidence column.
@@ -197,6 +197,28 @@ Columns: ahead/behind Wave 11; patch-unique / patch-equivalent commits (`git che
 | `wave7/c-accessory-raw-xp` | `06be9f53ff` | #167 | +0/−71 | 0/0 | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
 | `wave7/d-ui-cleanup` | `8f53b48816` | #169 | +0/−70 | 0/0 | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
 
+## PR heads reachable only through refs/pull (branch deleted)
+
+Semantic inventory and per-file analysis were run on each `refs/pull/N/head`.
+
+| PR | Head | Classification | Evidence |
+|---:|---|---|---|
+| #34 | `3e19227704` | SUPERSEDED | Resource material textures pass (merged into `main`); deepslate-variant note superseded by #35; old-lineage F/Shift+F, Wind Step, +30/+40, Tier IV–V content superseded (Stage 2/3 reconciliations). |
+| #39 | `2a327923ed` | SUPERSEDED | Closed audit repair on stage-14; worldgen/CI guardrails reached the recovered line (#56/#64); same old-lineage code as above. |
+| #65 | `9ba8f422ae` | RECOVERED IN WAVE 12 (tests) | Closed lower-equipment live repair. Fixes present in Wave 11 in evolved form (FilteredChestMenu, drill `ownsSource`, `GreatswordPlayerInteractionMixin`, vanilla fuel providers); its regression GameTests were missing — 15 ported unchanged + 1 adapted in `LowerEquipmentRegressionGameTests` (7ef97c4c), all pass. Close-and-drop and left-of-helmet socket tests superseded (2026-10-16 persistence, 2026-10-23 layout). Old Earth Mace fracture/shatter math superseded by T2 seismic finalization. |
+| #70 | `7c164fe368` | SUPERSEDED | Oct 7 decisions doc; merged into `main` as 03fefe14 and rewritten by the owner in 1b600b77 (current text in Wave 11). |
+| #73 | `3a0cd8cc27` | SUPERSEDED | Client visual validation prototype; evolved into `client-visual-validation.yml` in Wave 11. |
+| #74 | `a5a217e101` | PRESERVED AS DOCUMENTATION | Oct 10 artifact/research decisions; the decision record is preserved (lineage-rebased copy) at docs/preservation/recovered/content-first-axis-review/DESIGN_IDEA_DECISIONS_2026-10-10.md; Q3 governs Feather Boots. |
+| #78 | `d90eb70b10` | PRESERVED VIA PR REF | Stage 1 research/knowledge runtime audit (audit/stage1/*); historical, superseded by the 87-node audit; content kept by refs/pull/78/head. |
+| #81 | `be0b6c7874` | SUPERSEDED | K5 redesign doc; superseded by K5 production integration (#84 → #86 → #87). |
+| #85 | `bc092d8c30` | INTENTIONALLY ABANDONED / REJECTED | Titled "WRONG REPOSITORY — DO NOT MERGE"; whole-city variants are concepts with unconfirmed details and excluded from the arena prototype (STRUCTURE_AUTHORITY_INDEX). |
+| #139 | `526416b16a` | PRESERVED AS DOCUMENTATION | Q1-C readiness audit; preserved in docs/preservation/prc-p6/PR139. |
+| #154 | `84550ad4ef` | PRESERVED AS DOCUMENTATION | Repository PR reconciliation plan; preserved in docs/preservation/prc-p6/PR154. |
+| #157 | `cce99b6cc7` | SUPERSEDED | Gitleaks remediation variant; superseded by merged #155. |
+| #158 | `c9e29c5680` | PRESERVED AS DOCUMENTATION | Cleanup safety audit; preserved in docs/preservation/prc-p6/PR158. |
+| #159 | `5a0ede4051` | PRESERVED AS DOCUMENTATION | Cleanup phase 2B audit; preserved in docs/preservation/prc-p6/PR159. |
+| #163 | `01a36b0caf` | PRESERVED AS DOCUMENTATION | Phase 3 readiness audit; preserved in docs/preservation/prc-p6/PR163. |
+
 ## Pull requests
 
 | PR | State | Head → base | Head SHA | Head reachable from |
@@ -234,12 +256,12 @@ Columns: ahead/behind Wave 11; patch-unique / patch-equivalent commits (`git che
 | #31 | merged | `codex/continue-moreminecrafts-t2-elemental-work` → `stage-11/checkpoint` | `ced23001bf` | Wave 11 ancestry |
 | #32 | merged | `codex/continue-development-of-moreminecrafts-fabric` → `stage-11/checkpoint` | `dad4e559e6` | Wave 11 ancestry |
 | #33 | merged | `codex/implement-checkpoint-12-for-t2-equipment` → `stage-11/checkpoint` | `90b7c3a0bd` | Wave 11 ancestry |
-| #34 | merged | `resource/material-textures-pass-1` → `main` | `3e19227704` | remote branch(1) |
+| #34 | merged | `resource/material-textures-pass-1` → `main` | `3e19227704` | refs/pull only |
 | #35 | merged | `worldgen/deepslate-ore-variants` → `main` | `922ac0252b` | Wave 11 ancestry |
-| #36 | merged | `codex/implement-first-code-reconciliation-pass` → `stage-12/checkpoint` | `426ea7bfe8` | remote branch(7) |
-| #37 | merged | `resource-c1/flame-sword-render-foundation` → `stage-13/checkpoint` | `b49e6dd6b7` | remote branch(5) |
-| #38 | merged | `resource-c1b/flame-sword-production-texture` → `stage-13/checkpoint` | `d73f19701e` | remote branch(4) |
-| #39 | closed | `audit/local-worldgen-ci-repair` → `stage-14/checkpoint` | `2a327923ed` | remote branch(1) |
+| #36 | merged | `codex/implement-first-code-reconciliation-pass` → `stage-12/checkpoint` | `426ea7bfe8` | remote branch |
+| #37 | merged | `resource-c1/flame-sword-render-foundation` → `stage-13/checkpoint` | `b49e6dd6b7` | remote branch |
+| #38 | merged | `resource-c1b/flame-sword-production-texture` → `stage-13/checkpoint` | `d73f19701e` | remote branch |
+| #39 | closed | `audit/local-worldgen-ci-repair` → `stage-14/checkpoint` | `2a327923ed` | refs/pull only |
 | #40 | closed | `recovery/post-stage8-cumulative` → `main` | `0264b94cbb` | Wave 11 ancestry |
 | #41 | closed | `recovery/stage-2-gameplay-reconciliation` → `recovery/post-stage8-cumulative` | `fde245ab36` | Wave 11 ancestry |
 | #42 | closed | `recovery/stage-3-fishing-resource-reconciliation` → `recovery/stage-2-gameplay-reconciliation` | `8de9efdd74` | Wave 11 ancestry |
@@ -264,106 +286,106 @@ Columns: ahead/behind Wave 11; patch-unique / patch-equivalent commits (`git che
 | #62 | merged | `codex/implement-lower-equipment-gameplay-systems` → `codex/provisional-equipment-resources` | `bc11edf3b9` | Wave 11 ancestry |
 | #63 | merged | `work/pr62-acceptance-repair` → `codex/implement-lower-equipment-gameplay-systems` | `9f1c6aa920` | Wave 11 ancestry |
 | #64 | merged | `codex/provisional-equipment-resources` → `stage-18/checkpoint` | `60ce2c3b4b` | Wave 11 ancestry |
-| #65 | closed | `codex/post-stage18-lower-equipment-live-repair` → `stage-18/checkpoint` | `9ba8f422ae` | remote branch(1) |
+| #65 | closed | `codex/post-stage18-lower-equipment-live-repair` → `stage-18/checkpoint` | `9ba8f422ae` | refs/pull only |
 | #66 | merged | `implementation/t2-elemental-gameplay-finalization` → `stage-19/checkpoint` | `7e5dbd730e` | Wave 11 ancestry |
 | #67 | merged (draft) | `design/t1-enchantment-skill-tree` → `stage-19/checkpoint` | `233e2e243e` | Wave 11 ancestry |
 | #68 | merged | `implementation/t1-enchantment-progression` → `stage-19/checkpoint` | `cbc3fa1ab0` | Wave 11 ancestry |
 | #69 | merged | `recovery/vanilla-model-custom-mobs-7730b10` → `stage-20/checkpoint` | `00542ce999` | Wave 11 ancestry |
-| #70 | merged | `design/end-boss-continuation-2026-10-07` → `main` | `7c164fe368` | remote branch(1) |
+| #70 | merged | `design/end-boss-continuation-2026-10-07` → `main` | `7c164fe368` | refs/pull only |
 | #71 | merged | `docs/2026-10-07-content-first-axis-review` → `main` | `1b600b7755` | Wave 11 ancestry |
-| #72 | closed | `resources/40-custom-mob-production-textures` → `stage-20/checkpoint` | `0cc0a9eaf5` | remote branch(2) |
-| #73 | closed (draft) | `codex/prototype-client-visual-validation-20261009` → `main` | `3a0cd8cc27` | remote branch(1) |
-| #74 | closed (draft) | `docs/2026-10-10-artifact-research-decisions` → `stage-20/checkpoint` | `a5a217e101` | remote branch(1) |
+| #72 | closed | `resources/40-custom-mob-production-textures` → `stage-20/checkpoint` | `0cc0a9eaf5` | remote branch |
+| #73 | closed (draft) | `codex/prototype-client-visual-validation-20261009` → `main` | `3a0cd8cc27` | refs/pull only |
+| #74 | closed (draft) | `docs/2026-10-10-artifact-research-decisions` → `stage-20/checkpoint` | `a5a217e101` | refs/pull only |
 | #75 | closed (draft) | `feat/research-v4-a-c-20261010` → `stage-20/checkpoint` | `d1f113720c` | Wave 11 ancestry |
 | #76 | closed (draft) | `feat/research-knowledge-ui-integration` → `feat/research-v4-a-c-20261010` | `5dad54adc6` | Wave 11 ancestry |
 | #77 | merged | `security/pre-public-hardening-20261012` → `main` | `9fadf2d703` | Wave 11 ancestry |
-| #78 | closed | `codex/stage1-runtime-audit-20261012` → `feat/research-knowledge-ui-integration` | `d90eb70b10` | remote branch(1) |
+| #78 | closed | `codex/stage1-runtime-audit-20261012` → `feat/research-knowledge-ui-integration` | `d90eb70b10` | refs/pull only |
 | #79 | closed (draft) | `codex/stage2a-knowledge-collectors-20261012` → `feat/research-knowledge-ui-integration` | `204f706cb2` | Wave 11 ancestry |
 | #80 | closed (draft) | `codex/stage2b-knowledge-conditions-20261012` → `codex/stage2a-knowledge-collectors-20261012` | `1a17f8e777` | Wave 11 ancestry |
-| #81 | closed (draft) | `codex/k5-natural-tree-provenance-design-20261013` → `codex/stage2b-knowledge-conditions-20261012` | `be0b6c7874` | remote branch(1) |
+| #81 | closed (draft) | `codex/k5-natural-tree-provenance-design-20261013` → `codex/stage2b-knowledge-conditions-20261012` | `be0b6c7874` | refs/pull only |
 | #82 | closed (draft) | `codex/k5-natural-tree-mining-probe-20261013` → `codex/stage2b-knowledge-conditions-20261012` | `080a3f05b7` | Wave 11 ancestry |
-| #83 | open (draft) | `codex/ancient-city-arena-prototype-20261013` → `stage-20/checkpoint` | `e7dc53f9f4` | remote branch(2) |
+| #83 | open (draft) | `codex/ancient-city-arena-prototype-20261013` → `stage-20/checkpoint` | `e7dc53f9f4` | remote branch |
 | #84 | closed (draft) | `codex/k5-production-integration-20261013` → `codex/k5-natural-tree-mining-probe-20261013` | `bd816aef9c` | Wave 11 ancestry |
-| #85 | closed (draft) | `codex/ancient-city-whole-variant-probe-20261014` → `stage-20/checkpoint` | `bc092d8c30` | remote branch(1) |
+| #85 | closed (draft) | `codex/ancient-city-whole-variant-probe-20261014` → `stage-20/checkpoint` | `bc092d8c30` | refs/pull only |
 | #86 | closed (draft) | `codex/knowledge-consolidation-review-20261014` → `codex/k5-production-integration-20261013` | `ca8478f8ba` | Wave 11 ancestry |
 | #87 | merged | `codex/knowledge-stack-integration-20261014` → `main` | `c0ce63cb73` | Wave 11 ancestry |
-| #88 | closed | `stage-22/research-restructure` → `main` | `d65f590593` | remote branch(91) |
-| #89 | closed (draft) | `codex/stage22-research-implementation-20261015` → `stage-22/research-restructure` | `53c2374e84` | remote branch(89) |
-| #90 | closed (draft) | `codex/stage23a-research-content-20261015` → `codex/stage22-research-implementation-20261015` | `1edbdb6bc6` | remote branch(85) |
-| #91 | closed (draft) | `codex/stage23a-batch2-20261015` → `codex/stage23a-research-content-20261015` | `68a7fafb4e` | remote branch(83) |
-| #92 | closed (draft) | `codex/stage23a-research-implementation-20261015` → `codex/stage22-research-implementation-20261015` | `f632f4f521` | remote branch(2) |
-| #93 | closed (draft) | `codex/stage23a-reconcile-20261015` → `codex/stage23a-batch2-20261015` | `803d2e5df5` | remote branch(2) |
-| #94 | closed (draft) | `codex/stage23a-integrated-research-20261015` → `codex/stage23a-batch2-20261015` | `5e48deacbe` | remote branch(79) |
-| #95 | closed (draft) | `codex/stage23a-batch3-20261015` → `codex/stage23a-integrated-research-20261015` | `c3683de733` | remote branch(73) |
-| #96 | closed (draft) | `codex/stage23a-furnace-infrastructure-20261015` → `codex/stage23a-batch3-20261015` | `f28658e5e0` | remote branch(71) |
-| #97 | closed (draft) | `codex/stage23a-fisheries-hotfix-20261015` → `codex/stage23a-integrated-research-20261015` | `df960d6511` | remote branch(2) |
-| #98 | closed (draft) | `codex/stage23a-expanded-research-20261015` → `codex/stage23a-furnace-infrastructure-20261015` | `7231c7aad5` | remote branch(69) |
-| #99 | closed (draft) | `codex/stage23-livefix-a-20261016` → `codex/stage23a-integrated-research-20261015` | `eb80a14806` | remote branch(2) |
-| #100 | closed (draft) | `integration/stage23-linear-chain-20261016` → `codex/stage23a-batch2-20261015` | `7231c7aad5` | remote branch(69) |
-| #101 | closed (draft) | `docs/stage23-accessories-approved-20261016` → `integration/stage23-linear-chain-20261016` | `e532fa3034` | remote branch(2) |
-| #102 | closed (draft) | `integration/stage23-reconciliation-audit-20261016` → `integration/stage23-linear-chain-20261016` | `601cc28b9d` | remote branch(2) |
-| #103 | closed (draft) | `integration/stage23-final-reconciliation-20261016` → `integration/stage23-linear-chain-20261016` | `bdffa599e1` | remote branch(59) |
-| #104 | merged | `integration/stage23-mobs-accessories-20261016` → `integration/stage23-final-reconciliation-20261016` | `b0de6b7548` | remote branch(61) |
-| #105 | closed (draft) | `codex/stage23-livefix-b-20261016` → `integration/stage23-final-reconciliation-20261016` | `5682be1071` | remote branch(55) |
-| #106 | closed (draft) | `codex/stage23b-cloud-client-qa-design` → `codex/stage23-livefix-b-20261016` | `9b66f49657` | remote branch(2) |
-| #107 | open (draft) | `codex/stage23b-cloud-live-client-qa` → `codex/stage23-livefix-b-20261016` | `dad054c7cb` | remote branch(2) |
-| #108 | closed (draft) | `codex/stage23a-expanded-batch2-20261017` → `codex/stage23-livefix-b-20261016` | `2c8e984314` | remote branch(48) |
-| #109 | closed (draft) | `codex/stage23a-remaining-research-20261017` → `codex/stage23a-expanded-batch2-20261017` | `9376777264` | remote branch(46) |
-| #110 | closed (draft) | `claude/stage23a-economy-soil-20261017` → `codex/stage23a-remaining-research-20261017` | `9ec91dc535` | remote branch(43) |
-| #111 | closed | `claude/xp-quest-authority-20261017` → `main` | `63107098fc` | remote branch(31) |
-| #112 | closed (draft) | `claude/xp-quest-authority-20261017` → `claude/stage23a-economy-soil-20261017` | `63107098fc` | remote branch(31) |
-| #113 | closed (draft) | `docs/accessory-enhancement-approved-20261017` → `claude/stage23a-economy-soil-20261017` | `32cbca0a3f` | remote branch(4) |
-| #114 | closed (draft) | `claude/xp-quest-q1a-core` → `claude/xp-quest-authority-20261017` | `78d1495402` | remote branch(30) |
-| #115 | closed (draft) | `claude/xp-quest-q1a2-exact-xp` → `claude/xp-quest-authority-20261017` | `f30d263c93` | remote branch(30) |
-| #116 | closed (draft) | `codex/review-claude-pr110-20261017` → `claude/stage23a-economy-soil-20261017` | `8f33e72c8a` | remote branch(2) |
-| #117 | open (draft) | `experiment/underground-kingdom-worldgen-probe` → `integration/stage23-final-reconciliation-20261016` | `991b20c8a0` | remote branch(2) |
-| #118 | open (draft) | `claude/xp-quest-q1-integration` → `claude/xp-quest-authority-20261017` | `c40ee6b165` | remote branch(28) |
-| #119 | open (draft) | `claude/xp-quest-q1b-tracking` → `claude/xp-quest-q1-integration` | `c7fe7fabc5` | remote branch(26) |
-| #120 | closed (draft) | `codex/xp-quest-q1b-correction` → `claude/xp-quest-q1b-tracking` | `fd4aa83113` | remote branch(24) |
-| #121 | closed (draft) | `codex/xp-quest-q1c` → `codex/xp-quest-q1b-correction` | `17e980912d` | remote branch(20) |
-| #122 | closed (draft) | `docs/world-events-patrol-design-20261018` → `docs/accessory-enhancement-approved-20261017` | `ad77805971` | remote branch(2) |
-| #123 | closed (draft) | `integration/q1b-villager-discount-pr116-20261019` → `codex/xp-quest-q1b-correction` | `4fbb036e01` | remote branch(2) |
-| #124 | closed (draft) | `integration/q1c-pr116-discount-20261019` → `codex/xp-quest-q1c` | `5ea5f54614` | remote branch(18) |
-| #125 | closed (draft) | `audit/stage23-pr92-pr93-reconciliation-20261019` → `integration/q1c-pr116-discount-20261019` | `079d36ac3b` | remote branch(16) |
-| #126 | open (draft) | `design/xp-quest-selector-redesign-20261019` → `audit/stage23-pr92-pr93-reconciliation-20261019` | `a9b89755f7` | remote branch(6) |
-| #127 | open (draft) | `codex/q1c-recovery-20261019-079d36a` → `audit/stage23-pr92-pr93-reconciliation-20261019` | `334997d2f8` | remote branch(6) |
-| #128 | open (draft) | `claude/q1c-skull-provenance-20261019` → `codex/q1c-recovery-20261019-079d36a` | `6ba15ac2cb` | remote branch(4) |
-| #129 | open (draft) | `design/xp-quest-structure-200-20261019` → `design/xp-quest-selector-redesign-20261019` | `2176935929` | remote branch(4) |
-| #130 | open (draft) | `codex/q1c-pr128-p1-p2-repair-20261019` → `claude/q1c-skull-provenance-20261019` | `9c9f225773` | remote branch(2) |
-| #131 | closed (draft) | `design/territory-economy-bounty-approved-20261019` → `main` | `befa4c8a44` | remote branch(14) |
-| #132 | closed (draft) | `design/territory-registration-recovery-d2a-20261019` → `design/territory-economy-bounty-approved-20261019` | `a1e0aeb0ab` | remote branch(12) |
-| #133 | closed (draft) | `design/territory-owner-decisions-d01-d78-20261020` → `design/territory-registration-recovery-d2a-20261019` | `09b33f39f6` | remote branch(10) |
-| #134 | closed (draft) | `design/territory-owner-decisions-reconcile-20261020` → `design/territory-owner-decisions-d01-d78-20261020` | `e0428763cf` | remote branch(8) |
-| #135 | closed (draft) | `design/xp-quest-usability-d1-d5-20261019` → `design/xp-quest-structure-200-20261019` | `9a246f1e0c` | remote branch(2) |
-| #136 | closed (draft) | `design/territory-d79-d80-reconcile-20261020` → `design/territory-owner-decisions-reconcile-20261020` | `d641075f20` | remote branch(6) |
-| #137 | closed (draft) | `design/territory-d81-d84-facility-prep-20261021` → `design/territory-d79-d80-reconcile-20261020` | `f2cc4f06db` | remote branch(4) |
-| #138 | closed (draft) | `design/territory-shelved-independent-content-20261021` → `design/territory-d81-d84-facility-prep-20261021` | `284ce62ff5` | remote branch(2) |
-| #139 | closed (draft) | `codex/q1c-production-readiness-audit-20261020` → `main` | `526416b16a` | remote branch(1) |
-| #140 | closed (draft) | `codex/xp-quest-200-content-audit-20261020` → `main` | `3e66cfbdfa` | remote branch(2) |
-| #141 | open (draft) | `experiment/cloud-free-model-delegation-phase0` → `main` | `aa376713ae` | remote branch(2) |
+| #88 | closed | `stage-22/research-restructure` → `main` | `d65f590593` | remote branch |
+| #89 | closed (draft) | `codex/stage22-research-implementation-20261015` → `stage-22/research-restructure` | `53c2374e84` | remote branch |
+| #90 | closed (draft) | `codex/stage23a-research-content-20261015` → `codex/stage22-research-implementation-20261015` | `1edbdb6bc6` | remote branch |
+| #91 | closed (draft) | `codex/stage23a-batch2-20261015` → `codex/stage23a-research-content-20261015` | `68a7fafb4e` | remote branch |
+| #92 | closed (draft) | `codex/stage23a-research-implementation-20261015` → `codex/stage22-research-implementation-20261015` | `f632f4f521` | remote branch |
+| #93 | closed (draft) | `codex/stage23a-reconcile-20261015` → `codex/stage23a-batch2-20261015` | `803d2e5df5` | remote branch |
+| #94 | closed (draft) | `codex/stage23a-integrated-research-20261015` → `codex/stage23a-batch2-20261015` | `5e48deacbe` | remote branch |
+| #95 | closed (draft) | `codex/stage23a-batch3-20261015` → `codex/stage23a-integrated-research-20261015` | `c3683de733` | remote branch |
+| #96 | closed (draft) | `codex/stage23a-furnace-infrastructure-20261015` → `codex/stage23a-batch3-20261015` | `f28658e5e0` | remote branch |
+| #97 | closed (draft) | `codex/stage23a-fisheries-hotfix-20261015` → `codex/stage23a-integrated-research-20261015` | `df960d6511` | remote branch |
+| #98 | closed (draft) | `codex/stage23a-expanded-research-20261015` → `codex/stage23a-furnace-infrastructure-20261015` | `7231c7aad5` | remote branch |
+| #99 | closed (draft) | `codex/stage23-livefix-a-20261016` → `codex/stage23a-integrated-research-20261015` | `eb80a14806` | remote branch |
+| #100 | closed (draft) | `integration/stage23-linear-chain-20261016` → `codex/stage23a-batch2-20261015` | `7231c7aad5` | remote branch |
+| #101 | closed (draft) | `docs/stage23-accessories-approved-20261016` → `integration/stage23-linear-chain-20261016` | `e532fa3034` | remote branch |
+| #102 | closed (draft) | `integration/stage23-reconciliation-audit-20261016` → `integration/stage23-linear-chain-20261016` | `601cc28b9d` | remote branch |
+| #103 | closed (draft) | `integration/stage23-final-reconciliation-20261016` → `integration/stage23-linear-chain-20261016` | `bdffa599e1` | remote branch |
+| #104 | merged | `integration/stage23-mobs-accessories-20261016` → `integration/stage23-final-reconciliation-20261016` | `b0de6b7548` | remote branch |
+| #105 | closed (draft) | `codex/stage23-livefix-b-20261016` → `integration/stage23-final-reconciliation-20261016` | `5682be1071` | remote branch |
+| #106 | closed (draft) | `codex/stage23b-cloud-client-qa-design` → `codex/stage23-livefix-b-20261016` | `9b66f49657` | remote branch |
+| #107 | open (draft) | `codex/stage23b-cloud-live-client-qa` → `codex/stage23-livefix-b-20261016` | `dad054c7cb` | remote branch |
+| #108 | closed (draft) | `codex/stage23a-expanded-batch2-20261017` → `codex/stage23-livefix-b-20261016` | `2c8e984314` | remote branch |
+| #109 | closed (draft) | `codex/stage23a-remaining-research-20261017` → `codex/stage23a-expanded-batch2-20261017` | `9376777264` | remote branch |
+| #110 | closed (draft) | `claude/stage23a-economy-soil-20261017` → `codex/stage23a-remaining-research-20261017` | `9ec91dc535` | remote branch |
+| #111 | closed | `claude/xp-quest-authority-20261017` → `main` | `63107098fc` | remote branch |
+| #112 | closed (draft) | `claude/xp-quest-authority-20261017` → `claude/stage23a-economy-soil-20261017` | `63107098fc` | remote branch |
+| #113 | closed (draft) | `docs/accessory-enhancement-approved-20261017` → `claude/stage23a-economy-soil-20261017` | `32cbca0a3f` | remote branch |
+| #114 | closed (draft) | `claude/xp-quest-q1a-core` → `claude/xp-quest-authority-20261017` | `78d1495402` | remote branch |
+| #115 | closed (draft) | `claude/xp-quest-q1a2-exact-xp` → `claude/xp-quest-authority-20261017` | `f30d263c93` | remote branch |
+| #116 | closed (draft) | `codex/review-claude-pr110-20261017` → `claude/stage23a-economy-soil-20261017` | `8f33e72c8a` | remote branch |
+| #117 | open (draft) | `experiment/underground-kingdom-worldgen-probe` → `integration/stage23-final-reconciliation-20261016` | `991b20c8a0` | remote branch |
+| #118 | open (draft) | `claude/xp-quest-q1-integration` → `claude/xp-quest-authority-20261017` | `c40ee6b165` | remote branch |
+| #119 | open (draft) | `claude/xp-quest-q1b-tracking` → `claude/xp-quest-q1-integration` | `c7fe7fabc5` | remote branch |
+| #120 | closed (draft) | `codex/xp-quest-q1b-correction` → `claude/xp-quest-q1b-tracking` | `fd4aa83113` | remote branch |
+| #121 | closed (draft) | `codex/xp-quest-q1c` → `codex/xp-quest-q1b-correction` | `17e980912d` | remote branch |
+| #122 | closed (draft) | `docs/world-events-patrol-design-20261018` → `docs/accessory-enhancement-approved-20261017` | `ad77805971` | remote branch |
+| #123 | closed (draft) | `integration/q1b-villager-discount-pr116-20261019` → `codex/xp-quest-q1b-correction` | `4fbb036e01` | remote branch |
+| #124 | closed (draft) | `integration/q1c-pr116-discount-20261019` → `codex/xp-quest-q1c` | `5ea5f54614` | remote branch |
+| #125 | closed (draft) | `audit/stage23-pr92-pr93-reconciliation-20261019` → `integration/q1c-pr116-discount-20261019` | `079d36ac3b` | remote branch |
+| #126 | open (draft) | `design/xp-quest-selector-redesign-20261019` → `audit/stage23-pr92-pr93-reconciliation-20261019` | `a9b89755f7` | remote branch |
+| #127 | open (draft) | `codex/q1c-recovery-20261019-079d36a` → `audit/stage23-pr92-pr93-reconciliation-20261019` | `334997d2f8` | remote branch |
+| #128 | open (draft) | `claude/q1c-skull-provenance-20261019` → `codex/q1c-recovery-20261019-079d36a` | `6ba15ac2cb` | remote branch |
+| #129 | open (draft) | `design/xp-quest-structure-200-20261019` → `design/xp-quest-selector-redesign-20261019` | `2176935929` | remote branch |
+| #130 | open (draft) | `codex/q1c-pr128-p1-p2-repair-20261019` → `claude/q1c-skull-provenance-20261019` | `9c9f225773` | remote branch |
+| #131 | closed (draft) | `design/territory-economy-bounty-approved-20261019` → `main` | `befa4c8a44` | remote branch |
+| #132 | closed (draft) | `design/territory-registration-recovery-d2a-20261019` → `design/territory-economy-bounty-approved-20261019` | `a1e0aeb0ab` | remote branch |
+| #133 | closed (draft) | `design/territory-owner-decisions-d01-d78-20261020` → `design/territory-registration-recovery-d2a-20261019` | `09b33f39f6` | remote branch |
+| #134 | closed (draft) | `design/territory-owner-decisions-reconcile-20261020` → `design/territory-owner-decisions-d01-d78-20261020` | `e0428763cf` | remote branch |
+| #135 | closed (draft) | `design/xp-quest-usability-d1-d5-20261019` → `design/xp-quest-structure-200-20261019` | `9a246f1e0c` | remote branch |
+| #136 | closed (draft) | `design/territory-d79-d80-reconcile-20261020` → `design/territory-owner-decisions-reconcile-20261020` | `d641075f20` | remote branch |
+| #137 | closed (draft) | `design/territory-d81-d84-facility-prep-20261021` → `design/territory-d79-d80-reconcile-20261020` | `f2cc4f06db` | remote branch |
+| #138 | closed (draft) | `design/territory-shelved-independent-content-20261021` → `design/territory-d81-d84-facility-prep-20261021` | `284ce62ff5` | remote branch |
+| #139 | closed (draft) | `codex/q1c-production-readiness-audit-20261020` → `main` | `526416b16a` | refs/pull only |
+| #140 | closed (draft) | `codex/xp-quest-200-content-audit-20261020` → `main` | `3e66cfbdfa` | remote branch |
+| #141 | open (draft) | `experiment/cloud-free-model-delegation-phase0` → `main` | `aa376713ae` | remote branch |
 | #142 | closed (draft) | `codex/accessory-infrastructure-20261021` → `main` | `9b79f9be03` | Wave 11 ancestry |
 | #143 | closed (draft) | `codex/accessory-persistence-inventory-20261021` → `codex/accessory-infrastructure-20261021` | `f2e6e87fe9` | Wave 11 ancestry |
 | #144 | closed (draft) | `codex/accessory-lifecycle-qa-20261021` → `codex/accessory-persistence-inventory-20261021` | `2083cf37d1` | Wave 11 ancestry |
 | #145 | closed (draft) | `codex/accessory-client-acceptance-20261021` → `codex/accessory-lifecycle-qa-20261021` | `d7e8effd40` | Wave 11 ancestry |
 | #146 | closed (draft) | `codex/accessory-client-repair-20261022` → `codex/accessory-client-acceptance-20261021` | `b7f72fdae4` | Wave 11 ancestry |
-| #147 | closed (draft) | `design/pillager-headquarters-concept-20261022` → `main` | `55df673a83` | remote branch(2) |
+| #147 | closed (draft) | `design/pillager-headquarters-concept-20261022` → `main` | `55df673a83` | remote branch |
 | #148 | closed (draft) | `design/bounty-contract-approved-20261022` → `main` | `b7cedf199a` | Wave 11 ancestry |
 | #149 | closed (draft) | `codex/accessory-client-lifecycle-final-20261022` → `codex/accessory-client-repair-20261022` | `6d37a73f11` | Wave 11 ancestry |
 | #150 | closed (draft) | `audit/bc01-bc02-20261022` → `main` | `1269cdbacc` | Wave 11 ancestry |
 | #151 | closed (draft) | `codex/bc03-bounty-contract-20261022` → `main` | `5ad001b091` | Wave 11 ancestry |
 | #152 | closed (draft) | `codex/accessory-visual-assets-20261022` → `codex/accessory-client-lifecycle-final-20261022` | `9f6fba5fcc` | Wave 11 ancestry |
 | #153 | closed (draft) | `codex/accessory-enhancement-20261022` → `codex/accessory-client-lifecycle-final-20261022` | `f9a31c7117` | Wave 11 ancestry |
-| #154 | closed (draft) | `audit/repository-pr-reconciliation-20261022` → `main` | `84550ad4ef` | remote branch(1) |
+| #154 | closed (draft) | `audit/repository-pr-reconciliation-20261022` → `main` | `84550ad4ef` | refs/pull only |
 | #155 | merged | `security/gitleaks-historical-findings-20261022` → `main` | `b2f2f8f9bf` | Wave 11 ancestry |
-| #156 | closed (draft) | `integration/batch-a-recovery-20261022` → `main` | `05a378211a` | remote branch(2) |
-| #157 | closed (draft) | `security/gitleaks-remediation-20261022-codex-725159` → `main` | `cce99b6cc7` | remote branch(1) |
-| #158 | closed (draft) | `audit/repository-cleanup-phase2-20261023` → `main` | `c9e29c5680` | remote branch(1) |
-| #159 | closed (draft) | `audit/repository-cleanup-phase2b-20261023` → `main` | `5a0ede4051` | remote branch(1) |
+| #156 | closed (draft) | `integration/batch-a-recovery-20261022` → `main` | `05a378211a` | remote branch |
+| #157 | closed (draft) | `security/gitleaks-remediation-20261022-codex-725159` → `main` | `cce99b6cc7` | refs/pull only |
+| #158 | closed (draft) | `audit/repository-cleanup-phase2-20261023` → `main` | `c9e29c5680` | refs/pull only |
+| #159 | closed (draft) | `audit/repository-cleanup-phase2b-20261023` → `main` | `5a0ede4051` | refs/pull only |
 | #160 | closed (draft) | `codex/accessory-inventory-ui-redesign-20261023` → `codex/accessory-client-lifecycle-final-20261022` | `ed4cc92aa5` | Wave 11 ancestry |
 | #161 | closed (draft) | `integration/accessory-system-20261023` → `codex/accessory-client-lifecycle-final-20261022` | `0e9ccc5af9` | Wave 11 ancestry |
 | #162 | merged (draft) | `codex/bc03-bounty-contract-20261022` → `integration/accessory-bounty-20261023` | `5ad001b091` | Wave 11 ancestry |
-| #163 | closed (draft) | `audit/phase3-stage23-xpquest-readiness-20261023` → `main` | `01a36b0caf` | remote branch(1) |
-| #164 | closed (draft) | `docs/wave4b-custom-quest-ui-authority-20261024` → `main` | `2e847d4956` | remote branch(2) |
+| #163 | closed (draft) | `audit/phase3-stage23-xpquest-readiness-20261023` → `main` | `01a36b0caf` | refs/pull only |
+| #164 | closed (draft) | `docs/wave4b-custom-quest-ui-authority-20261024` → `main` | `2e847d4956` | remote branch |
 | #165 | closed (draft) | `integration/wave5r-combined-20261024` → `main` | `a33d03ba1c` | Wave 11 ancestry |
 | #166 | closed (draft) | `wave7/b-gametest-recovery` → `integration/wave5r-combined-20261024` | `e5982f3c2f` | Wave 11 ancestry |
 | #167 | closed (draft) | `wave7/c-accessory-raw-xp` → `integration/wave5r-combined-20261024` | `06be9f53ff` | Wave 11 ancestry |
@@ -380,15 +402,15 @@ Columns: ahead/behind Wave 11; patch-unique / patch-equivalent commits (`git che
 | #178 | closed (draft) | `feature/bc03-approved-reconciliation-20261025` → `test/bc03-validation-hardening-20261025` | `35c97ff413` | Wave 11 ancestry |
 | #179 | merged (draft) | `fix/qm01-quest-monument-test-isolation` → `integration/wave9-accessory-abilities-20261025` | `baa06dc4ae` | Wave 11 ancestry |
 | #180 | closed (draft) | `fix/bc04-contract-structure-names-20261025` → `feature/bc03-approved-reconciliation-20261025` | `f3604c4593` | Wave 11 ancestry |
-| #181 | open (draft) | `release/wave9-rc-20261025` → `main` | `268ec65bb8` | remote branch(2) |
+| #181 | open (draft) | `release/wave9-rc-20261025` → `main` | `268ec65bb8` | remote branch |
 | #182 | open (draft) | `integration/wave10-unified-20261025` → `main` | `13c190d1ab` | Wave 11 ancestry |
-| #183 | merged | `docs/ring-life-authority-option-a-20261025` → `release/wave9-rc-20261025` | `bacb9546c9` | remote branch(12) |
-| #184 | closed (draft) | `fix/exposure-audit-parallel-20261025` → `main` | `6d456e6fca` | remote branch(10) |
-| #185 | merged | `test/ring-life-option-a-regression-20261025` → `release/wave9-rc-20261025` | `efc77967c9` | remote branch(10) |
-| #186 | merged (draft) | `security/exposure-audit-pacing-20261025` → `release/wave9-rc-20261025` | `97797b5deb` | remote branch(4) |
-| #187 | merged | `test/k5-reused-world-determinism-20261025` → `release/wave9-rc-20261025` | `9f565a664a` | remote branch(8) |
-| #188 | closed (draft) | `fix/wave9-live-input-harness-20261026` → `release/wave9-rc-20261025` | `eb88cf8147` | remote branch(2) |
-| #189 | open (draft) | `docs/phase2-preservation-decisions-20261026` → `main` | `6f9c3ac2ad` | remote branch(2) |
+| #183 | merged | `docs/ring-life-authority-option-a-20261025` → `release/wave9-rc-20261025` | `bacb9546c9` | remote branch |
+| #184 | closed (draft) | `fix/exposure-audit-parallel-20261025` → `main` | `6d456e6fca` | remote branch |
+| #185 | merged | `test/ring-life-option-a-regression-20261025` → `release/wave9-rc-20261025` | `efc77967c9` | remote branch |
+| #186 | merged (draft) | `security/exposure-audit-pacing-20261025` → `release/wave9-rc-20261025` | `97797b5deb` | remote branch |
+| #187 | merged | `test/k5-reused-world-determinism-20261025` → `release/wave9-rc-20261025` | `9f565a664a` | remote branch |
+| #188 | closed (draft) | `fix/wave9-live-input-harness-20261026` → `release/wave9-rc-20261025` | `eb88cf8147` | remote branch |
+| #189 | open (draft) | `docs/phase2-preservation-decisions-20261026` → `main` | `6f9c3ac2ad` | remote branch |
 | #190 | merged (draft) | `audit/prc-p4-research-preservation-20261026` → `checkpoint/wave10-unified-20261026` | `13c190d1ab` | Wave 11 ancestry |
-| #191 | merged (draft) | `audit/prc-p6-remaining-preservation-20261027` → `checkpoint/wave10-unified-20261026` | `73dcc8f4d1` | remote branch(3) |
+| #191 | merged (draft) | `audit/prc-p6-remaining-preservation-20261027` → `checkpoint/wave10-unified-20261026` | `73dcc8f4d1` | remote branch |
 | #192 | open (draft) | `checkpoint/wave11-unified-20261027` → `main` | `c47c69f3e3` | Wave 11 ancestry |

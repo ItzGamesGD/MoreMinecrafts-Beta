@@ -10,7 +10,7 @@ Baseline `checkpoint/wave11-unified-20261027` @ `c47c69f3`; integration branch `
 2. Per-file branch-only line analysis on all 83 branches that have commits outside Wave 11.
 3. Every candidate traced to source history, the PR body, and the authority routes. Divergent history was not treated as missing functionality, and an empty diff was not treated as proof of equivalence: each research ID, quest registration and mixin was checked for a live runtime caller in Wave 11.
 
-Of the 168 branch-only items, 121 trace to superseded, rejected or tooling-only work (evidence in [REPOSITORY_FUNCTIONAL_PROVENANCE.md](REPOSITORY_FUNCTIONAL_PROVENANCE.md)), 13 belong to the Ancient City Arena (G-1, recovered) and 34 to the wither-skull provenance work (U-1, blocked). Line-level and authority analysis found two further gaps with no code footprint (G-2, G-3).
+Of the 168 branch-only items, 121 trace to superseded, rejected or tooling-only work (evidence in [REPOSITORY_FUNCTIONAL_PROVENANCE.md](REPOSITORY_FUNCTIONAL_PROVENANCE.md)), 13 belong to the Ancient City Arena (G-1, recovered) and 34 to the wither-skull provenance work (U-1, blocked). Line-level and authority analysis found two further gaps with no code footprint (G-2, G-3). Auditing the 15 PR heads that survive only as `refs/pull/N/head` found one more: missing regression coverage (G-4).
 
 ## Resolved gaps
 
@@ -37,6 +37,16 @@ Of the 168 branch-only items, 121 trace to superseded, rejected or tooling-only 
 ### G-3 — New design record existing only on an unmerged branch — PRESERVED
 
 - `docs/sky-islands-design-context-20261027` @ `8ceff945` (created 2026-10-27 00:26 UTC, no PR) holds the only copy of `docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md`. It was copied byte-identically (blob `a91e385d`) in `0d035c84`. The document's own header marks it as design in progress and not an implementation instruction, so it is **not** routed as authority.
+
+### G-4 — Lower-equipment regression coverage from closed PR #65 — RESTORED
+
+- **Source**: PR #65 (`9ba8f422`, closed, branch deleted; reachable only via `refs/pull/65/head`). It fixed Mining Drill ghost-slot item loss, fuel-merge persistence and detached-session fuel duplication; Portable Furnace excess transfer and 26.3 fuel-provider resolution; Greatsword entity right-click sweep ordering; and Potion Injector filtering.
+- **Finding**: the fixes are present in Wave 11 in evolved form, carried by Stage 20 / PR #69 `02fd7545`: `FilteredChestMenu`, the drill's `ownsSource` guard, `GreatswordPlayerInteractionMixin` → `GreatswordItem.useSweep`, and `PortableFurnaceMenu.vanillaFuelTicks`. However, 16 of #65's 17 regression GameTests were not carried over, so most of these defects had no regression protection.
+- **Resolution** (`7ef97c4c`): the 15 still-applicable tests are ported unchanged into `LowerEquipmentRegressionGameTests`, plus one adapted lantern-socket equip/clear test without the superseded position assertion. Not ported, because current authority supersedes them: furnace close-and-drop (2026-10-16 persistence amendment) and the socket "left of helmet" position (2026-10-23 accessory inventory layout). All 16 pass against Wave 11's evolved code. This independently confirms that #65's fixed behaviors survived the refactors.
+
+### PR heads whose branches were deleted
+
+15 PR heads are reachable only through `refs/pull/N/head`: #34, #39, #65, #70, #73, #74, #78, #81, #85, #139, #154, #157, #158, #159, #163. They were audited with the same semantic inventory. Apart from G-4, their unique content is old-lineage code that the Stage 2/3 reconciliations supersede, documents preserved in `docs/preservation`, or a probe marked "WRONG REPOSITORY — DO NOT MERGE" (#85). Details are in the provenance record.
 
 ## Unresolved — owner decision required
 

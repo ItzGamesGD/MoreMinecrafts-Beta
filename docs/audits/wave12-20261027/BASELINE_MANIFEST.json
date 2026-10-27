@@ -1134,7 +1134,7 @@
    "base_ref": "main",
    "base_sha": "cf2516cb3f8fae6a8544cae0bc653541ae610427",
    "merged_at": "2026-09-21T23:58:46Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 2,
@@ -1146,7 +1146,7 @@
    "base_ref": "stage-2/enhancement-stone",
    "base_sha": "c6f920a9d3ceb503a296b311f0d51936ac399623",
    "merged_at": "2026-09-22T01:34:26Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 3,
@@ -1158,7 +1158,7 @@
    "base_ref": "main",
    "base_sha": "c6f920a9d3ceb503a296b311f0d51936ac399623",
    "merged_at": "2026-09-22T01:52:06Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 4,
@@ -1170,7 +1170,7 @@
    "base_ref": "stage-3/enhancement-vertical-slice",
    "base_sha": "be3e5ea6f6f249a8c6dc6eacf9b113a41bac1357",
    "merged_at": "2026-09-22T03:18:46Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 5,
@@ -1182,7 +1182,7 @@
    "base_ref": "main",
    "base_sha": "1ea26779658babc488404f71c434fae309a28b7e",
    "merged_at": "2026-09-22T03:32:44Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 6,
@@ -1194,7 +1194,7 @@
    "base_ref": "stage-4/equipment-foundation",
    "base_sha": "2e40ef63b831b0019e1e23871d04f6bd03cb78db",
    "merged_at": "2026-09-22T06:27:40Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 7,
@@ -1206,7 +1206,7 @@
    "base_ref": "stage-4/equipment-foundation",
    "base_sha": "c85848958cd986a5f794b3a17836b89400e8b7be",
    "merged_at": "2026-09-22T11:43:35Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 8,
@@ -1218,7 +1218,7 @@
    "base_ref": "stage-4/equipment-foundation",
    "base_sha": "96c6bfec1b74addb32ce4fc1639121010fa67f4a",
    "merged_at": "2026-09-22T15:07:56Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 9,
@@ -1230,7 +1230,7 @@
    "base_ref": "stage-4/equipment-foundation",
    "base_sha": "e6b708fe52c569c969dc78a8ad531049e42b3454",
    "merged_at": "2026-09-22T15:33:20Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 10,
@@ -1242,7 +1242,7 @@
    "base_ref": "stage-4/equipment-foundation",
    "base_sha": "fad47e153985e8d4905c9becffc868783147ca46",
    "merged_at": "2026-09-22T17:19:59Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 11,
@@ -1254,7 +1254,7 @@
    "base_ref": "main",
    "base_sha": "2e40ef63b831b0019e1e23871d04f6bd03cb78db",
    "merged_at": "2026-09-22T17:35:34Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 12,
@@ -1266,7 +1266,7 @@
    "base_ref": "stage-5/special-equipment",
    "base_sha": "23149321bda8a51cbb9e0767c5b26bb68a4a75eb",
    "merged_at": "2026-09-22T18:18:48Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 13,
@@ -1278,7 +1278,7 @@
    "base_ref": "stage-5/special-equipment",
    "base_sha": "edf663da9484dd01ae0158b61fe878e421aa75c0",
    "merged_at": "2026-09-22T23:42:52Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 14,
@@ -1290,7 +1290,7 @@
    "base_ref": "main",
    "base_sha": "23149321bda8a51cbb9e0767c5b26bb68a4a75eb",
    "merged_at": "2026-09-23T00:04:35Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 15,
@@ -1302,7 +1302,7 @@
    "base_ref": "stage-6/materials-crafting-progression",
    "base_sha": "2aa30b381ed3a1addf1947589f92c45ac31c9465",
    "merged_at": "2026-09-23T02:26:06Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 16,
@@ -1314,7 +1314,7 @@
    "base_ref": "main",
    "base_sha": "2aa30b381ed3a1addf1947589f92c45ac31c9465",
    "merged_at": "2026-09-23T02:41:37Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 17,
@@ -1326,7 +1326,7 @@
    "base_ref": "stage-7/life-content",
    "base_sha": "be5c114dc3b20a05dadb72e44b82b8ed0e8ea95f",
    "merged_at": "2026-09-23T04:22:49Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 18,
@@ -1338,7 +1338,7 @@
    "base_ref": "main",
    "base_sha": "be5c114dc3b20a05dadb72e44b82b8ed0e8ea95f",
    "merged_at": "2026-09-23T04:30:09Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 19,
@@ -1350,7 +1350,7 @@
    "base_ref": "stage-8/entity-mob",
    "base_sha": "638b4db0225286b72bc5691f58d29ffce222c6ad",
    "merged_at": "2026-09-23T06:01:02Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 20,
@@ -1362,7 +1362,7 @@
    "base_ref": "stage-8/entity-mob",
    "base_sha": "2ac6a952123231868fe1ddba98c36351c8e946fe",
    "merged_at": "2026-09-23T06:35:59Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 21,
@@ -1374,7 +1374,7 @@
    "base_ref": "main",
    "base_sha": "638b4db0225286b72bc5691f58d29ffce222c6ad",
    "merged_at": "2026-09-23T06:51:57Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 22,
@@ -1386,7 +1386,7 @@
    "base_ref": "stage-9/skeleton-king",
    "base_sha": "fadb59ea73f324dece5498cf31c53a780b7c1364",
    "merged_at": "2026-09-23T07:37:47Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 23,
@@ -1398,7 +1398,7 @@
    "base_ref": "main",
    "base_sha": "39b73ebdd3d482ab7560e2b845165872ec184036",
    "merged_at": "2026-09-23T13:25:13Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 24,
@@ -1410,7 +1410,7 @@
    "base_ref": "stage-10/draft-content",
    "base_sha": "771391a73fbc0ff1743ad0e978ed1626265943b1",
    "merged_at": "2026-09-23T23:18:59Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 25,
@@ -1422,7 +1422,7 @@
    "base_ref": "stage-10/draft-content",
    "base_sha": "4588667d5bb5cabb58ac99e0fec038017fc15e69",
    "merged_at": "2026-09-24T04:14:27Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 26,
@@ -1434,7 +1434,7 @@
    "base_ref": "stage-10/draft-content",
    "base_sha": "1a0400d82d12ebf629c4ab873a217e87d0e9783b",
    "merged_at": "2026-09-24T04:44:45Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 27,
@@ -1446,7 +1446,7 @@
    "base_ref": "stage-10/draft-content",
    "base_sha": "6c8a9c44f4e22d1b224b1b97f75cc224dc862173",
    "merged_at": "2026-09-24T06:59:12Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 28,
@@ -1458,7 +1458,7 @@
    "base_ref": "stage-10/draft-content",
    "base_sha": "f3e0240f9ea06d85cebd0606a6aafc839d9da574",
    "merged_at": "2026-09-24T14:14:58Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 29,
@@ -1470,7 +1470,7 @@
    "base_ref": "stage-10/draft-content",
    "base_sha": "f3e0240f9ea06d85cebd0606a6aafc839d9da574",
    "merged_at": "2026-09-24T14:15:20Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 30,
@@ -1482,7 +1482,7 @@
    "base_ref": "stage-10/draft-content",
    "base_sha": "10fc125ec05f01500121b6649d866f528adc08c1",
    "merged_at": "2026-09-25T00:31:08Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 31,
@@ -1494,7 +1494,7 @@
    "base_ref": "stage-11/checkpoint",
    "base_sha": "18184f63b050b1913d3cd81f568ea8abc0a6aca2",
    "merged_at": "2026-09-25T07:09:11Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 32,
@@ -1506,7 +1506,7 @@
    "base_ref": "stage-11/checkpoint",
    "base_sha": "f19f53dad3aee6210763d739c28c52a867435a3d",
    "merged_at": "2026-09-25T12:23:57Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 33,
@@ -1518,7 +1518,7 @@
    "base_ref": "stage-11/checkpoint",
    "base_sha": "1b95a0cbb2435fbf7ae5dfa1b562674e7a6cf833",
    "merged_at": "2026-09-26T00:53:02Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 34,
@@ -1530,7 +1530,7 @@
    "base_ref": "main",
    "base_sha": "771391a73fbc0ff1743ad0e978ed1626265943b1",
    "merged_at": "2026-09-26T09:11:08Z",
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 35,
@@ -1542,7 +1542,7 @@
    "base_ref": "main",
    "base_sha": "75887617cc9ce49ef71884aef7d61dfae7907252",
    "merged_at": "2026-09-26T09:21:11Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 36,
@@ -1554,7 +1554,7 @@
    "base_ref": "stage-12/checkpoint",
    "base_sha": "50b142206c4be0ebf3e5962890a23e9e78a69a67",
    "merged_at": "2026-09-27T09:34:52Z",
-   "head_reachability": "ON_BRANCH(7)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 37,
@@ -1566,7 +1566,7 @@
    "base_ref": "stage-13/checkpoint",
    "base_sha": "a8b6299f16a491aa3dc885360325427a29190763",
    "merged_at": "2026-09-27T14:28:29Z",
-   "head_reachability": "ON_BRANCH(5)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 38,
@@ -1578,7 +1578,7 @@
    "base_ref": "stage-13/checkpoint",
    "base_sha": "925f136798e6b680748b69feb02fae65f88bece2",
    "merged_at": "2026-09-27T14:37:16Z",
-   "head_reachability": "ON_BRANCH(4)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 39,
@@ -1590,7 +1590,7 @@
    "base_ref": "stage-14/checkpoint",
    "base_sha": "94a264c2c6758aeed32be4af6c5ef18795bbca7d",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 40,
@@ -1602,7 +1602,7 @@
    "base_ref": "main",
    "base_sha": "50b142206c4be0ebf3e5962890a23e9e78a69a67",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 41,
@@ -1614,7 +1614,7 @@
    "base_ref": "recovery/post-stage8-cumulative",
    "base_sha": "0264b94cbbe0a492276d61ab73c634bfebead183",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 42,
@@ -1626,7 +1626,7 @@
    "base_ref": "recovery/stage-2-gameplay-reconciliation",
    "base_sha": "fde245ab364666cbff31b49ab85b89409b1d8c7b",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 43,
@@ -1638,7 +1638,7 @@
    "base_ref": "recovery/stage-3-fishing-resource-reconciliation",
    "base_sha": "8de9efdd743cb86a59a7d4401395e5cb7bd2cabb",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 44,
@@ -1650,7 +1650,7 @@
    "base_ref": "stage-15/checkpoint",
    "base_sha": "c39313e7d19ef688ac4b528d18cd4cb458ef6e65",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 45,
@@ -1662,7 +1662,7 @@
    "base_ref": "fix/batch-1-t2-runtime-correctness",
    "base_sha": "4132c0e50fefb9ce8a15aefb091f5e5d8839b46d",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 46,
@@ -1674,7 +1674,7 @@
    "base_ref": "fix/batch-2-water-dive-lifecycle",
    "base_sha": "5979ccd89cb8273181a84137bbd9e061aba79534",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 47,
@@ -1686,7 +1686,7 @@
    "base_ref": "fix/batch-3-fishing-component-mutation",
    "base_sha": "d372a82294f6f7d9a81aed5a51f821a69b31d9e9",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 48,
@@ -1698,7 +1698,7 @@
    "base_ref": "fix/batch-4-validation-regression-protection",
    "base_sha": "983744e34971d1c26cf9cad92b3de67331c602c4",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 49,
@@ -1710,7 +1710,7 @@
    "base_ref": "fix/batch-5-final-defect-and-validation",
    "base_sha": "f167094fa867f0e34ef70dc9bba5169ea4e8ee23",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 51,
@@ -1722,7 +1722,7 @@
    "base_ref": "stage-16/checkpoint",
    "base_sha": "70e470deb272c944e65d47ba18802c89e26d761e",
    "merged_at": "2026-09-30T11:54:35Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 52,
@@ -1734,7 +1734,7 @@
    "base_ref": "codex/implement-enchantment-vertical-for-stage-17",
    "base_sha": "0ec56186faa44f7a4c77358ae928629640fb2fcc",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 53,
@@ -1746,7 +1746,7 @@
    "base_ref": "codex/fix-enchantment-vertical-defects-and-validate",
    "base_sha": "5281df5eaf8f217493f829bbedfe06f61aada988",
    "merged_at": "2026-09-30T11:39:25Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 54,
@@ -1758,7 +1758,7 @@
    "base_ref": "stage-16/checkpoint",
    "base_sha": "d14e06b25d4135224c4eaaa88fc5b5dedabf0588",
    "merged_at": "2026-09-30T11:18:53Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 55,
@@ -1770,7 +1770,7 @@
    "base_ref": "stage-16/checkpoint",
    "base_sha": "456cc5dae201833ea927a598cdf8401bfe181997",
    "merged_at": "2026-09-30T11:26:21Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 56,
@@ -1782,7 +1782,7 @@
    "base_ref": "stage-16/checkpoint",
    "base_sha": "70e470deb272c944e65d47ba18802c89e26d761e",
    "merged_at": "2026-09-30T11:54:33Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 57,
@@ -1794,7 +1794,7 @@
    "base_ref": "stage-17/checkpoint",
    "base_sha": "003e42d0936494a596f6d79709b58373450fdbf9",
    "merged_at": "2026-10-01T03:47:47Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 58,
@@ -1806,7 +1806,7 @@
    "base_ref": "stage-17/checkpoint",
    "base_sha": "d8493c62bb71fd148845830d6d2259e0eac573fb",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 59,
@@ -1818,7 +1818,7 @@
    "base_ref": "codex/post-live-flame-sword-mineral-repair",
    "base_sha": "96868acbb89778f0fd5c25b2d14349012e0f373e",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 60,
@@ -1830,7 +1830,7 @@
    "base_ref": "stage-17/checkpoint",
    "base_sha": "d8493c62bb71fd148845830d6d2259e0eac573fb",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 61,
@@ -1842,7 +1842,7 @@
    "base_ref": "stage-18/checkpoint",
    "base_sha": "e4e99c36c138d2c83d3e4c9d450a61092c5be587",
    "merged_at": "2026-10-01T13:13:36Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 62,
@@ -1854,7 +1854,7 @@
    "base_ref": "codex/provisional-equipment-resources",
    "base_sha": "74bc46178fa8d363572b85c5b3220a842d647b51",
    "merged_at": "2026-10-02T11:09:45Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 63,
@@ -1866,7 +1866,7 @@
    "base_ref": "codex/implement-lower-equipment-gameplay-systems",
    "base_sha": "370bbcae9b3613c9ba31d4b7e9f9b0fe98fb244b",
    "merged_at": "2026-10-02T11:08:36Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 64,
@@ -1878,7 +1878,7 @@
    "base_ref": "stage-18/checkpoint",
    "base_sha": "327b7ef1bf46709e383ece8df226ffb54933886c",
    "merged_at": "2026-10-02T11:49:36Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 65,
@@ -1890,7 +1890,7 @@
    "base_ref": "stage-18/checkpoint",
    "base_sha": "93d264a8f78d5f4aaa52ae5be80526cbb921f29f",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 66,
@@ -1902,7 +1902,7 @@
    "base_ref": "stage-19/checkpoint",
    "base_sha": "93d264a8f78d5f4aaa52ae5be80526cbb921f29f",
    "merged_at": "2026-10-03T15:40:22Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 67,
@@ -1914,7 +1914,7 @@
    "base_ref": "stage-19/checkpoint",
    "base_sha": "984418d302cf865b5654fac0a0dcb28449fb6118",
    "merged_at": "2026-10-05T14:08:25Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 68,
@@ -1926,7 +1926,7 @@
    "base_ref": "stage-19/checkpoint",
    "base_sha": "984418d302cf865b5654fac0a0dcb28449fb6118",
    "merged_at": "2026-10-05T14:08:23Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 69,
@@ -1938,7 +1938,7 @@
    "base_ref": "stage-20/checkpoint",
    "base_sha": "25eede9fcec899f9f827b866853d2c7e37336da7",
    "merged_at": "2026-10-07T11:54:18Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 70,
@@ -1950,7 +1950,7 @@
    "base_ref": "main",
    "base_sha": "50b142206c4be0ebf3e5962890a23e9e78a69a67",
    "merged_at": "2026-10-07T02:58:10Z",
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 71,
@@ -1962,7 +1962,7 @@
    "base_ref": "main",
    "base_sha": "03fefe149d60767200d9e413f60f81ae326518e7",
    "merged_at": "2026-10-07T03:46:23Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 72,
@@ -1974,7 +1974,7 @@
    "base_ref": "stage-20/checkpoint",
    "base_sha": "20121ca7cceae03602038de31076bd9ace115208",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 73,
@@ -1986,7 +1986,7 @@
    "base_ref": "main",
    "base_sha": "6cd671bb79f4ff1a6c25c551805be6adf333d42e",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 74,
@@ -1998,7 +1998,7 @@
    "base_ref": "stage-20/checkpoint",
    "base_sha": "20121ca7cceae03602038de31076bd9ace115208",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 75,
@@ -2010,7 +2010,7 @@
    "base_ref": "stage-20/checkpoint",
    "base_sha": "20121ca7cceae03602038de31076bd9ace115208",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 76,
@@ -2022,7 +2022,7 @@
    "base_ref": "feat/research-v4-a-c-20261010",
    "base_sha": "d1f113720cf7d71720450d4709b3834b137d43f4",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 77,
@@ -2034,7 +2034,7 @@
    "base_ref": "main",
    "base_sha": "9a1025e2412a94244848db124bc5105d087ac64d",
    "merged_at": "2026-10-12T03:31:13Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 78,
@@ -2046,7 +2046,7 @@
    "base_ref": "feat/research-knowledge-ui-integration",
    "base_sha": "5dad54adc65d80d755156a5248120d2618d4f9ac",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 79,
@@ -2058,7 +2058,7 @@
    "base_ref": "feat/research-knowledge-ui-integration",
    "base_sha": "5dad54adc65d80d755156a5248120d2618d4f9ac",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 80,
@@ -2070,7 +2070,7 @@
    "base_ref": "codex/stage2a-knowledge-collectors-20261012",
    "base_sha": "204f706cb2ffd1bf60fa950f201a33446b55850f",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 81,
@@ -2082,7 +2082,7 @@
    "base_ref": "codex/stage2b-knowledge-conditions-20261012",
    "base_sha": "e89e82bbbfc67dbd9f410a4bdf23a5b26944ed95",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 82,
@@ -2094,7 +2094,7 @@
    "base_ref": "codex/stage2b-knowledge-conditions-20261012",
    "base_sha": "1a17f8e77792ab1b106d92ac03fe10c86227d599",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 83,
@@ -2106,7 +2106,7 @@
    "base_ref": "stage-20/checkpoint",
    "base_sha": "20121ca7cceae03602038de31076bd9ace115208",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 84,
@@ -2118,7 +2118,7 @@
    "base_ref": "codex/k5-natural-tree-mining-probe-20261013",
    "base_sha": "080a3f05b7f8a3b18e235ebb61040e7283fae3e2",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 85,
@@ -2130,7 +2130,7 @@
    "base_ref": "stage-20/checkpoint",
    "base_sha": "20121ca7cceae03602038de31076bd9ace115208",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 86,
@@ -2142,7 +2142,7 @@
    "base_ref": "codex/k5-production-integration-20261013",
    "base_sha": "bd816aef9c5c1d1c4d7416950fdc091546524fb3",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 87,
@@ -2154,7 +2154,7 @@
    "base_ref": "main",
    "base_sha": "55d7d686e241c87cab06372e58e09a141787f503",
    "merged_at": "2026-10-14T15:13:58Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 88,
@@ -2166,7 +2166,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(91)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 89,
@@ -2178,7 +2178,7 @@
    "base_ref": "stage-22/research-restructure",
    "base_sha": "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(89)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 90,
@@ -2190,7 +2190,7 @@
    "base_ref": "codex/stage22-research-implementation-20261015",
    "base_sha": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(85)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 91,
@@ -2202,7 +2202,7 @@
    "base_ref": "codex/stage23a-research-content-20261015",
    "base_sha": "1edbdb6bc6bbd82c22f5e0865c6dd0d8c70a2469",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(83)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 92,
@@ -2214,7 +2214,7 @@
    "base_ref": "codex/stage22-research-implementation-20261015",
    "base_sha": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 93,
@@ -2226,7 +2226,7 @@
    "base_ref": "codex/stage23a-batch2-20261015",
    "base_sha": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 94,
@@ -2238,7 +2238,7 @@
    "base_ref": "codex/stage23a-batch2-20261015",
    "base_sha": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(79)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 95,
@@ -2250,7 +2250,7 @@
    "base_ref": "codex/stage23a-integrated-research-20261015",
    "base_sha": "5e48deacbeed95783902f2b71e04e2ae25005606",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(73)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 96,
@@ -2262,7 +2262,7 @@
    "base_ref": "codex/stage23a-batch3-20261015",
    "base_sha": "c3683de7338a40143ee45dbcc76918c9cb363390",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(71)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 97,
@@ -2274,7 +2274,7 @@
    "base_ref": "codex/stage23a-integrated-research-20261015",
    "base_sha": "5e48deacbeed95783902f2b71e04e2ae25005606",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 98,
@@ -2286,7 +2286,7 @@
    "base_ref": "codex/stage23a-furnace-infrastructure-20261015",
    "base_sha": "f28658e5e03ae2e78a44af8e921d06b6f2cdbb47",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(69)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 99,
@@ -2298,7 +2298,7 @@
    "base_ref": "codex/stage23a-integrated-research-20261015",
    "base_sha": "5e48deacbeed95783902f2b71e04e2ae25005606",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 100,
@@ -2310,7 +2310,7 @@
    "base_ref": "codex/stage23a-batch2-20261015",
    "base_sha": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(69)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 101,
@@ -2322,7 +2322,7 @@
    "base_ref": "integration/stage23-linear-chain-20261016",
    "base_sha": "7231c7aad598e9cada152537dfece7cfad2756dc",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 102,
@@ -2334,7 +2334,7 @@
    "base_ref": "integration/stage23-linear-chain-20261016",
    "base_sha": "7231c7aad598e9cada152537dfece7cfad2756dc",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 103,
@@ -2346,7 +2346,7 @@
    "base_ref": "integration/stage23-linear-chain-20261016",
    "base_sha": "7231c7aad598e9cada152537dfece7cfad2756dc",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(59)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 104,
@@ -2358,7 +2358,7 @@
    "base_ref": "integration/stage23-final-reconciliation-20261016",
    "base_sha": "c9057b340a57415f8384745e0f187f7a78893312",
    "merged_at": "2026-10-16T03:48:45Z",
-   "head_reachability": "ON_BRANCH(61)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 105,
@@ -2370,7 +2370,7 @@
    "base_ref": "integration/stage23-final-reconciliation-20261016",
    "base_sha": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(55)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 106,
@@ -2382,7 +2382,7 @@
    "base_ref": "codex/stage23-livefix-b-20261016",
    "base_sha": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 107,
@@ -2394,7 +2394,7 @@
    "base_ref": "codex/stage23-livefix-b-20261016",
    "base_sha": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 108,
@@ -2406,7 +2406,7 @@
    "base_ref": "codex/stage23-livefix-b-20261016",
    "base_sha": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(48)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 109,
@@ -2418,7 +2418,7 @@
    "base_ref": "codex/stage23a-expanded-batch2-20261017",
    "base_sha": "2c8e984314bb079378cffc95c4f48982a962173b",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(46)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 110,
@@ -2430,7 +2430,7 @@
    "base_ref": "codex/stage23a-remaining-research-20261017",
    "base_sha": "9376777264136b37e10071adf8ed59c08da9b6ee",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(43)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 111,
@@ -2442,7 +2442,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(31)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 112,
@@ -2454,7 +2454,7 @@
    "base_ref": "claude/stage23a-economy-soil-20261017",
    "base_sha": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(31)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 113,
@@ -2466,7 +2466,7 @@
    "base_ref": "claude/stage23a-economy-soil-20261017",
    "base_sha": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(4)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 114,
@@ -2478,7 +2478,7 @@
    "base_ref": "claude/xp-quest-authority-20261017",
    "base_sha": "7e21fc0c66c51c731aba58fd9b08b79bf5175cec",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(30)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 115,
@@ -2490,7 +2490,7 @@
    "base_ref": "claude/xp-quest-authority-20261017",
    "base_sha": "7e21fc0c66c51c731aba58fd9b08b79bf5175cec",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(30)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 116,
@@ -2502,7 +2502,7 @@
    "base_ref": "claude/stage23a-economy-soil-20261017",
    "base_sha": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 117,
@@ -2514,7 +2514,7 @@
    "base_ref": "integration/stage23-final-reconciliation-20261016",
    "base_sha": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 118,
@@ -2526,7 +2526,7 @@
    "base_ref": "claude/xp-quest-authority-20261017",
    "base_sha": "63107098fcde6742704a07394439e5cdf9c6ad49",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(28)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 119,
@@ -2538,7 +2538,7 @@
    "base_ref": "claude/xp-quest-q1-integration",
    "base_sha": "c40ee6b1656800f016644893f5bac7a9c90827b2",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(26)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 120,
@@ -2550,7 +2550,7 @@
    "base_ref": "claude/xp-quest-q1b-tracking",
    "base_sha": "c7fe7fabc5a3bc486e2be0aed8f793628f42ec72",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(24)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 121,
@@ -2562,7 +2562,7 @@
    "base_ref": "codex/xp-quest-q1b-correction",
    "base_sha": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(20)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 122,
@@ -2574,7 +2574,7 @@
    "base_ref": "docs/accessory-enhancement-approved-20261017",
    "base_sha": "32cbca0a3fe57db86262bca7a865573071763640",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 123,
@@ -2586,7 +2586,7 @@
    "base_ref": "codex/xp-quest-q1b-correction",
    "base_sha": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 124,
@@ -2598,7 +2598,7 @@
    "base_ref": "codex/xp-quest-q1c",
    "base_sha": "17e980912d636b0572a3f25b24995ffde31c754c",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(18)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 125,
@@ -2610,7 +2610,7 @@
    "base_ref": "integration/q1c-pr116-discount-20261019",
    "base_sha": "5ea5f54614943c8fd00f047b7f8379f385d6e5e8",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(16)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 126,
@@ -2622,7 +2622,7 @@
    "base_ref": "audit/stage23-pr92-pr93-reconciliation-20261019",
    "base_sha": "079d36ac3bd2d8950118e30647d5f2efad19f947",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(6)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 127,
@@ -2634,7 +2634,7 @@
    "base_ref": "audit/stage23-pr92-pr93-reconciliation-20261019",
    "base_sha": "079d36ac3bd2d8950118e30647d5f2efad19f947",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(6)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 128,
@@ -2646,7 +2646,7 @@
    "base_ref": "codex/q1c-recovery-20261019-079d36a",
    "base_sha": "334997d2f81d6b324b0cccd3f40b538c921edadc",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(4)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 129,
@@ -2658,7 +2658,7 @@
    "base_ref": "design/xp-quest-selector-redesign-20261019",
    "base_sha": "a9b89755f7c4e924243fa4229a90177433712be4",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(4)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 130,
@@ -2670,7 +2670,7 @@
    "base_ref": "claude/q1c-skull-provenance-20261019",
    "base_sha": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 131,
@@ -2682,7 +2682,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(14)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 132,
@@ -2694,7 +2694,7 @@
    "base_ref": "design/territory-economy-bounty-approved-20261019",
    "base_sha": "befa4c8a44c8e3556be2dca9af502d36b0cf11ad",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(12)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 133,
@@ -2706,7 +2706,7 @@
    "base_ref": "design/territory-registration-recovery-d2a-20261019",
    "base_sha": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(10)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 134,
@@ -2718,7 +2718,7 @@
    "base_ref": "design/territory-owner-decisions-d01-d78-20261020",
    "base_sha": "09b33f39f6c0d75f6d1ef837edcdc6d8d8753776",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(8)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 135,
@@ -2730,7 +2730,7 @@
    "base_ref": "design/xp-quest-structure-200-20261019",
    "base_sha": "2176935929c990a210fae64582d524d30993bc8a",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 136,
@@ -2742,7 +2742,7 @@
    "base_ref": "design/territory-owner-decisions-reconcile-20261020",
    "base_sha": "e0428763cfd1f720a4da20e1bcc4d561fd153261",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(6)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 137,
@@ -2754,7 +2754,7 @@
    "base_ref": "design/territory-d79-d80-reconcile-20261020",
    "base_sha": "d641075f2078697e432f123d61178a73d26fbdf8",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(4)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 138,
@@ -2766,7 +2766,7 @@
    "base_ref": "design/territory-d81-d84-facility-prep-20261021",
    "base_sha": "f2cc4f06db44f4125b3987c4b92d2ba8711df06b",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 139,
@@ -2778,7 +2778,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 140,
@@ -2790,7 +2790,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 141,
@@ -2802,7 +2802,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 142,
@@ -2814,7 +2814,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 143,
@@ -2826,7 +2826,7 @@
    "base_ref": "codex/accessory-infrastructure-20261021",
    "base_sha": "9b79f9be03d3227f1e295dda36ddc2dbc09ccabb",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 144,
@@ -2838,7 +2838,7 @@
    "base_ref": "codex/accessory-persistence-inventory-20261021",
    "base_sha": "f2e6e87fe95ee4454f4b365c569ecfefae619e9e",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 145,
@@ -2850,7 +2850,7 @@
    "base_ref": "codex/accessory-lifecycle-qa-20261021",
    "base_sha": "2083cf37d163398c953995223be35f1d3ba50f02",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 146,
@@ -2862,7 +2862,7 @@
    "base_ref": "codex/accessory-client-acceptance-20261021",
    "base_sha": "d7e8effd4052313e9965ff417001e5c2ad489c06",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 147,
@@ -2874,7 +2874,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 148,
@@ -2886,7 +2886,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 149,
@@ -2898,7 +2898,7 @@
    "base_ref": "codex/accessory-client-repair-20261022",
    "base_sha": "b7f72fdae46428110079641c681eabdde175e79c",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 150,
@@ -2910,7 +2910,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 151,
@@ -2922,7 +2922,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 152,
@@ -2934,7 +2934,7 @@
    "base_ref": "codex/accessory-client-lifecycle-final-20261022",
    "base_sha": "6d37a73f11befea3288e028590c540dc31deda61",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 153,
@@ -2946,7 +2946,7 @@
    "base_ref": "codex/accessory-client-lifecycle-final-20261022",
    "base_sha": "6d37a73f11befea3288e028590c540dc31deda61",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 154,
@@ -2958,7 +2958,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 155,
@@ -2970,7 +2970,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": "2026-10-22T23:57:12Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 156,
@@ -2982,7 +2982,7 @@
    "base_ref": "main",
    "base_sha": "5f92307555ce5c486a2e0e8091f956bcbb6c6646",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 157,
@@ -2994,7 +2994,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 158,
@@ -3006,7 +3006,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 159,
@@ -3018,7 +3018,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 160,
@@ -3030,7 +3030,7 @@
    "base_ref": "codex/accessory-client-lifecycle-final-20261022",
    "base_sha": "6d37a73f11befea3288e028590c540dc31deda61",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 161,
@@ -3042,7 +3042,7 @@
    "base_ref": "codex/accessory-client-lifecycle-final-20261022",
    "base_sha": "6d37a73f11befea3288e028590c540dc31deda61",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 162,
@@ -3054,7 +3054,7 @@
    "base_ref": "integration/accessory-bounty-20261023",
    "base_sha": "0e9ccc5af9313d3648d4bce98a8ee33b1f2dba82",
    "merged_at": "2026-10-23T08:56:33Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 163,
@@ -3066,7 +3066,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(1)"
+   "head_reachability": "reachable only via refs/pull/N/head"
   },
   {
    "number": 164,
@@ -3078,7 +3078,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 165,
@@ -3090,7 +3090,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 166,
@@ -3102,7 +3102,7 @@
    "base_ref": "integration/wave5r-combined-20261024",
    "base_sha": "a33d03ba1c2153cc2e8ae935267632a29645be13",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 167,
@@ -3114,7 +3114,7 @@
    "base_ref": "integration/wave5r-combined-20261024",
    "base_sha": "a33d03ba1c2153cc2e8ae935267632a29645be13",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 168,
@@ -3126,7 +3126,7 @@
    "base_ref": "integration/wave5r-combined-20261024",
    "base_sha": "a33d03ba1c2153cc2e8ae935267632a29645be13",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 169,
@@ -3138,7 +3138,7 @@
    "base_ref": "integration/wave5r-combined-20261024",
    "base_sha": "a33d03ba1c2153cc2e8ae935267632a29645be13",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 170,
@@ -3150,7 +3150,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 171,
@@ -3162,7 +3162,7 @@
    "base_ref": "integration/accessory-system-20261023",
    "base_sha": "0e9ccc5af9313d3648d4bce98a8ee33b1f2dba82",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 172,
@@ -3174,7 +3174,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 173,
@@ -3186,7 +3186,7 @@
    "base_ref": "integration/accessory-system-20261023",
    "base_sha": "0e9ccc5af9313d3648d4bce98a8ee33b1f2dba82",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 174,
@@ -3198,7 +3198,7 @@
    "base_ref": "integration/accessory-system-20261023",
    "base_sha": "0e9ccc5af9313d3648d4bce98a8ee33b1f2dba82",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 175,
@@ -3210,7 +3210,7 @@
    "base_ref": "feature/wave7b-accessory-abilities-20261025",
    "base_sha": "91faed1092b6811db085fd0c55dbd3b66a71a21d",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 176,
@@ -3222,7 +3222,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 177,
@@ -3234,7 +3234,7 @@
    "base_ref": "codex/bc03-bounty-contract-20261022",
    "base_sha": "5ad001b091ea24705834a1caab94335a6abcc445",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 178,
@@ -3246,7 +3246,7 @@
    "base_ref": "test/bc03-validation-hardening-20261025",
    "base_sha": "cc058692ca38f76c18b598658733beb8f8a4fb10",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 179,
@@ -3258,7 +3258,7 @@
    "base_ref": "integration/wave9-accessory-abilities-20261025",
    "base_sha": "34ed48724ca4c670a9277fb447d616e03cd224f4",
    "merged_at": "2026-10-25T11:55:38Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 180,
@@ -3270,7 +3270,7 @@
    "base_ref": "feature/bc03-approved-reconciliation-20261025",
    "base_sha": "35c97ff413e0158bc9cfb2891ec2d54f3ed0983a",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 181,
@@ -3282,7 +3282,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 182,
@@ -3294,7 +3294,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 183,
@@ -3306,7 +3306,7 @@
    "base_ref": "release/wave9-rc-20261025",
    "base_sha": "c289b5662ee4c4bd0d5dcd66e9734bc6e662758e",
    "merged_at": "2026-10-25T15:01:13Z",
-   "head_reachability": "ON_BRANCH(12)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 184,
@@ -3318,7 +3318,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(10)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 185,
@@ -3330,7 +3330,7 @@
    "base_ref": "release/wave9-rc-20261025",
    "base_sha": "d74a553be4936e3195df9a106fc8f742d9b255b0",
    "merged_at": "2026-10-25T15:27:00Z",
-   "head_reachability": "ON_BRANCH(10)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 186,
@@ -3342,7 +3342,7 @@
    "base_ref": "release/wave9-rc-20261025",
    "base_sha": "2d0a5f639141f9a7c8763dfc2988331cb0b8c860",
    "merged_at": "2026-10-25T18:15:18Z",
-   "head_reachability": "ON_BRANCH(4)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 187,
@@ -3354,7 +3354,7 @@
    "base_ref": "release/wave9-rc-20261025",
    "base_sha": "501c6d74d5d666de174d32d857eb47cacfbc5731",
    "merged_at": "2026-10-25T16:00:12Z",
-   "head_reachability": "ON_BRANCH(8)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 188,
@@ -3366,7 +3366,7 @@
    "base_ref": "release/wave9-rc-20261025",
    "base_sha": "c4538823fde4910428fdd445dcd4c0b70930fe23",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 189,
@@ -3378,7 +3378,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "ON_BRANCH(2)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 190,
@@ -3390,7 +3390,7 @@
    "base_ref": "checkpoint/wave10-unified-20261026",
    "base_sha": "e00d65cbd87e484859a3d49445cdc5ff5cf47bb6",
    "merged_at": "2026-10-26T12:59:03Z",
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   },
   {
    "number": 191,
@@ -3402,7 +3402,7 @@
    "base_ref": "checkpoint/wave10-unified-20261026",
    "base_sha": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
    "merged_at": "2026-10-26T22:30:23Z",
-   "head_reachability": "ON_BRANCH(3)"
+   "head_reachability": "reachable from another remote branch"
   },
   {
    "number": 192,
@@ -3414,7 +3414,7 @@
    "base_ref": "main",
    "base_sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
    "merged_at": null,
-   "head_reachability": "IN_W11"
+   "head_reachability": "ancestor of Wave 11"
   }
  ]
 }
