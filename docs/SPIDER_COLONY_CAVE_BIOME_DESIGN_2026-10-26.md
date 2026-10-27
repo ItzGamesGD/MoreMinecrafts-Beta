@@ -187,3 +187,26 @@ These decisions are **OWNER APPROVED DESIGN ONLY**; they authorize no gameplay i
 - **Conflict policy:** Q95's unmarked entrance and Q96's conditional minimum connections are the latest specific owner choices. Earlier Q63/Q64/Q65 remain in effect where not expressly superseded.
 
 **Status: DESIGN ONLY.** No implementation or merge authorization.
+
+
+## Q97-Q104 owner decisions — natural-cave-first generation and biome boundaries (2026-10-27)
+
+**Latest authority where these decisions conflict with earlier proposals. DESIGN ONLY.**
+
+- **Q97 A — Reject unsuitable natural cave candidates:** If existing cave spaces cannot accommodate approved nests, cancel that colony candidate rather than carving out/expanding chambers. This **supersedes Q65's allowance for partial cave enlargement**, and supersedes the Q80-Q96 appendix's provisional suggestion of locally expanding unsuitable pockets. Maintain previously approved large-nest dimensions (approximately 20-36-block diameter, 12-24-block height) and safe Mother Spider navigation; do not shrink them to force placement. **Q96's narrow exception for minimal natural-looking connections between otherwise suitable selected nests remains approved**; it does not authorize enlarging unsuitable nest chambers.
+- **Q98 B — Connected natural chambers:** Prioritize groups of sufficiently spacious existing natural cave chambers/pockets connected by natural passages, rather than a purpose-built giant cavern or cramped maze. Preserve rare, optional generation.
+- **Q99 A — Flexible 1-3 nests:** Place one nest per qualifying separated chamber up to the already approved maximum of three. One suitable chamber yields one nest, two yield two, three or more yield at most three, and zero yields no colony. Apply established minimum spacing and fit checks.
+- **Q100 B — Structure protection:** Exclude pre-existing vanilla and MoreMinecrafts structures and suitable protection buffers from colony nest/decor placement; if enough eligible natural space remains, permit colony generation elsewhere in the candidate region. Exact buffer and structure-overlap detection are HOW/QA. Do not destroy existing structures.
+- **Q101 B — Preserve other cave biome features:** Ordinary, lush and dripstone caves may all host a colony, but preserve existing vegetation, dripstone and terrain. Place colony elements only where valid without destroying these features; reject unsuitable candidates. Actual worldgen ordering and feature preservation must be verified.
+- **Q102 B — Dedicated biome limited to colony interior:** Design intent is to mark only the occupied underground colony area as a spider-colony biome for its approved natural hostile spawn rules, while preserving the pre-existing cave's terrain and features. **Technical feasibility and compatibility with biome-generation order are unverified**; do not assume arbitrary post-generation biome edits are straightforward.
+- **Q103 B — Cave-following biome shape:** Aim for the designated biome footprint to follow selected natural chambers and connecting passages, not a broad box, disk or unrelated noise blob. Allow implementation-level biome resolution tolerances subject to QA; do not silently broaden the designated region.
+- **Q104 A — Spawn-location biome rules:** Apply the colony-specific natural spawn roster/density only when the actual spawn position is within the colony biome. Outside, retain the original biome's spawning rules. Do not prevent mobs from crossing boundaries or remove outside mobs entering the colony. Preserve the approved spider:cave-spider 80:20 weighting, ~1.5x density target and vanilla mob caps.
+
+### Implementation feasibility and conflict resolution
+
+1. **Q97 overrides earlier Q65 and the Q96 appendix's expansion language.** Suitable existing chambers only; no artificial widening to make a nest fit. Q96 permits only minimal connections for already suitable separated nests.
+2. **Q95 vs Q64:** No deliberately marked entrance or mandated transition corridor; incidental gradual decoration at the broader biome border is still possible.
+3. **Q101-Q103 may be technically difficult to combine:** A dedicated cave-following biome and preservation of lush/dripstone feature generation must be validated against actual Fabric/Minecraft worldgen behavior. If incompatible, escalate the WHAT trade-off to the owner instead of silently changing approved design.
+4. Structure collision avoidance, cave-space identification, chunk-order independence, biome footprint accuracy, and mob-spawn boundary behavior require implementation/QA plans and measurements, not assumed success.
+
+**Status: DESIGN ONLY.** No gameplay code, worldgen implementation, assets, tests, PR #181 changes, merges, or main updates authorized.
