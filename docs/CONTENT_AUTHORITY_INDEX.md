@@ -7,6 +7,13 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## Latest T2 material, recipe, and acquisition authority — 2026-10-27 (OWNER APPROVED, DESIGN ONLY)
+
+> **CURRENT OVERRIDE for T2 crafting and elemental core acquisition.** Read [Sky Islands / T2 Context — §18 Q1–Q21 reconciliation](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md#18-2026-10-27-t2-q1q21-최종-설계-통합-체크포인트--current-owner-authority) first. This section is **design authority**, not implementation, CI, or live-test acceptance.
+
+- §18 takes precedence over earlier T2 recipe proposals in the same document and over the Oct 7 continuation/implementation acquisition assumptions below. Retain older records as **SUPERSEDED/HISTORICAL**, not active instructions.
+- Approved six T2 equipment recipes: Fire Sword, Water Sword, Wind Sword, Wind Bow, Earth Mace, Lightning Sword; all use **Etherium Ingot ×1** with approved weapon-specific ingredients and explicit 3×3 shaped layouts. Dark Energy Staff remains deferred/placeholder.
+
 ## 2026-10-27 sky-islands and T2 design updates (design only)
 
 The newest owner-approved Sky Islands ecology, floating ruins, Sky Temple (distinct from the **cancelled ST-02 Sun Temple**), aerial trial tower, flying mobs, Sky Feather and T2 weapon material amendments are recorded in [SKY_ISLANDS_T2_CONTEXT_2026-10-27.md](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md). Later numbered sections in that document supersede earlier provisional descriptions on the same point. In particular, the 2026-10-27 Earth Mace amendment changes the **bottom Netherite Ingot to Etherium Ingot** while retaining the Ancient Heart centre required by the 2026-10-26 [F-2 reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md). The later lightning-sword recipe correction in section 17 supersedes section 16. No code, recipe, worldgen or live implementation is implied. The [structure portfolio](STRUCTURE_CANDIDATE_AUTHORITY_2026-10-25.md) preserves ST-02 as a cancelled historical ID.

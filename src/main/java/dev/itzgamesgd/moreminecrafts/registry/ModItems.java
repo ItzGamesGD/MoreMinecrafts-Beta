@@ -38,7 +38,11 @@ public final class ModItems {
     public static final Item RAW_TUNGSTEN = material("raw_tungsten");
     public static final Item TUNGSTEN_INGOT = material("tungsten_ingot");
     public static final Item MYTHRIL = material("mythril");
+    /** Raw drop of the etherium ore; smelted into {@link #ETHERIUM_SHARD}. Not a finished ingot. */
     public static final Item ETHERIUM = material("etherium");
+    public static final Item ETHERIUM_SHARD = material("etherium_shard");
+    public static final Item ETHERIUM_INGOT = material("etherium_ingot");
+    public static final Item GALE_SHARD = material("gale_shard");
     public static final Item ADAMANTIUM_INGOT = fireResistantMaterial("adamantium_ingot");
     public static final Item EYE_OF_TYPHOON = core("eye_of_typhoon");
     public static final Item HEART_OF_THUNDER = core("heart_of_thunder");
@@ -265,6 +269,9 @@ public final class ModItems {
             entries.accept(TUNGSTEN_INGOT);
             entries.accept(MYTHRIL);
             entries.accept(ETHERIUM);
+            entries.accept(ETHERIUM_SHARD);
+            entries.accept(ETHERIUM_INGOT);
+            entries.accept(GALE_SHARD);
             entries.accept(ADAMANTIUM_INGOT);
             entries.accept(MINER_LANTERN);
             entries.accept(PARACHUTE);
