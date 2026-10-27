@@ -128,6 +128,8 @@ public final class T2EquipmentCompatibilityGameTests {
         ctx.getLevel().setBlock(pos, Blocks.ANVIL.defaultBlockState(), 3);
         player.setPos(pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5);
         for (Item item : SIX) {
+            // Each anvil use can damage the block at random; restore a fresh anvil so the loop is deterministic.
+            ctx.getLevel().setBlock(pos, Blocks.ANVIL.defaultBlockState(), 3);
             RawXp.setTotal(player, 40);
             var menu = new AnvilMenu(1, player.getInventory(), ContainerLevelAccess.create(ctx.getLevel(), pos));
             ItemStack stack = new ItemStack(item);

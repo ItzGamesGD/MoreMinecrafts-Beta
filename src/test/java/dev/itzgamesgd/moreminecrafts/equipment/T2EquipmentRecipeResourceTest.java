@@ -44,6 +44,12 @@ class T2EquipmentRecipeResourceTest {
             new Expected("flowing_water_sword", List.of("SPP", "PCH", "PPE"), Map.of("minecraft:diamond_sword", 1,
                     "minecraft:prismarine_shard", 5, "minecraft:heart_of_the_sea", 1, "moreminecrafts:heart_of_currents", 1,
                     "moreminecrafts:etherium_ingot", 1), "heart_of_currents"),
+            new Expected("wind_sword", List.of("FTF", "BSB", "BEB"), Map.of("moreminecrafts:sky_feather", 2,
+                    "moreminecrafts:eye_of_typhoon", 1, "minecraft:breeze_rod", 4, "minecraft:iron_sword", 1,
+                    "moreminecrafts:etherium_ingot", 1), "eye_of_typhoon"),
+            new Expected("wind_archers_bow", List.of("FGF", "BWB", "BEB"), Map.of("moreminecrafts:sky_feather", 2,
+                    "moreminecrafts:gale_shard", 1, "minecraft:breeze_rod", 4, "minecraft:bow", 1,
+                    "moreminecrafts:etherium_ingot", 1), "gale_shard"),
             new Expected("earth_mace", List.of("DHD", " A ", " E "), Map.of("minecraft:diamond_block", 2,
                     "minecraft:heavy_core", 1, "moreminecrafts:ancient_heart", 1, "moreminecrafts:etherium_ingot", 1),
                     "ancient_heart"),
@@ -77,12 +83,13 @@ class T2EquipmentRecipeResourceTest {
         }
     }
 
-    @Test void windSwordAndWindBowAreBlockedUntilSkyFeatherExists() throws Exception {
-        // BLOCKED_DEPENDENCY: both recipes need Sky Feather x2 and no such item is registered; a recipe naming a
-        // missing item would break datapack loading, so neither recipe nor unlock is shipped yet.
-        for (String name : List.of("wind_sword", "wind_archers_bow")) {
-            assertNull(T2EquipmentRecipeResourceTest.class.getClassLoader()
-                    .getResource("data/moreminecrafts/recipe/" + name + ".json"), name);
+    @Test void skyFeatherHasNoTemporaryAcquisitionRoute() throws Exception {
+        // BLOCKED_DEPENDENCY: the Sky Island vault (15%) and flying mobs do not exist; no stand-in drop may be added.
+        try (var files = java.nio.file.Files.walk(java.nio.file.Path.of("src/main/resources/data"))) {
+            for (java.nio.file.Path file : files.filter(f -> f.toString().contains("loot_table") && f.toString().endsWith(".json")).toList())
+                assertFalse(java.nio.file.Files.readString(file).contains("sky_feather"), file.toString());
         }
+        assertFalse(java.nio.file.Files.readString(java.nio.file.Path.of(
+                "src/main/java/dev/itzgamesgd/moreminecrafts/progression/T2CoreAcquisition.java")).contains("SKY_FEATHER"));
     }
 }

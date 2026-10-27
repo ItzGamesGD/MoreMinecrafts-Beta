@@ -1151,5 +1151,6 @@
   "moreminecrafts.xpq.dim.nether_travel_50k.objective": "네더 차원에서 지급된 이동 통계(cm) 합계 50,000블록",
   "item.moreminecrafts.etherium_shard": "Etherium Shard",
   "item.moreminecrafts.etherium_ingot": "Etherium Ingot",
-  "item.moreminecrafts.gale_shard": "Gale Shard"
+  "item.moreminecrafts.gale_shard": "Gale Shard",
+  "item.moreminecrafts.sky_feather": "Sky Feather"
 }

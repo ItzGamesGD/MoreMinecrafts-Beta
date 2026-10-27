@@ -43,6 +43,8 @@ public final class ModItems {
     public static final Item ETHERIUM_SHARD = material("etherium_shard");
     public static final Item ETHERIUM_INGOT = material("etherium_ingot");
     public static final Item GALE_SHARD = material("gale_shard");
+    /** Approved T2 sky material (wind sword, wind bow). Acquisition routes are not implemented yet (BLOCKED_DEPENDENCY). */
+    public static final Item SKY_FEATHER = material("sky_feather");
     public static final Item ADAMANTIUM_INGOT = fireResistantMaterial("adamantium_ingot");
     public static final Item EYE_OF_TYPHOON = core("eye_of_typhoon");
     public static final Item HEART_OF_THUNDER = core("heart_of_thunder");
@@ -274,6 +276,7 @@ public final class ModItems {
             entries.accept(ETHERIUM_SHARD);
             entries.accept(ETHERIUM_INGOT);
             entries.accept(GALE_SHARD);
+            entries.accept(SKY_FEATHER);
             entries.accept(ADAMANTIUM_INGOT);
             entries.accept(MINER_LANTERN);
             entries.accept(PARACHUTE);

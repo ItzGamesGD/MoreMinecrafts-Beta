@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gale_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "moreminecrafts:gale_shard"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "moreminecrafts:wind_archers_bow"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gale_shard"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "moreminecrafts:wind_archers_bow"
+    ]
+  }
+}

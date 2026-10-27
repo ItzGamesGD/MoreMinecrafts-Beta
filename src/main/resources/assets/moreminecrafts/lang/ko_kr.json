@@ -1070,5 +1070,6 @@
   "moreminecrafts.xpq.dim.nether_travel_50k.objective": "네더 차원에서 지급된 이동 통계(cm) 합계 50,000블록",
   "item.moreminecrafts.etherium_shard": "이더리움 파편",
   "item.moreminecrafts.etherium_ingot": "이더리움 주괴",
-  "item.moreminecrafts.gale_shard": "돌풍 파편"
+  "item.moreminecrafts.gale_shard": "돌풍 파편",
+  "item.moreminecrafts.sky_feather": "천공의 깃털"
 }

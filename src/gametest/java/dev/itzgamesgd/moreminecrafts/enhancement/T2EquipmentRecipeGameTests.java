@@ -43,6 +43,11 @@ public final class T2EquipmentRecipeGameTests {
             new Case("flowing_water_sword", ModItems.FLOWING_WATER_SWORD, new String[] {"SPP", "PCH", "PPE"},
                     Map.of('S', Items.DIAMOND_SWORD, 'P', Items.PRISMARINE_SHARD, 'C', ModItems.HEART_OF_CURRENTS,
                             'H', Items.HEART_OF_THE_SEA, 'E', ModItems.ETHERIUM_INGOT), ModItems.HEART_OF_CURRENTS),
+            new Case("wind_sword", ModItems.WIND_SWORD, new String[] {"FTF", "BSB", "BEB"}, Map.of('F', ModItems.SKY_FEATHER,
+                    'T', ModItems.EYE_OF_TYPHOON, 'B', Items.BREEZE_ROD, 'S', Items.IRON_SWORD, 'E', ModItems.ETHERIUM_INGOT),
+                    ModItems.EYE_OF_TYPHOON),
+            new Case("wind_archers_bow", ModItems.WIND_ARCHERS_BOW, new String[] {"FGF", "BWB", "BEB"}, Map.of('F', ModItems.SKY_FEATHER,
+                    'G', ModItems.GALE_SHARD, 'B', Items.BREEZE_ROD, 'W', Items.BOW, 'E', ModItems.ETHERIUM_INGOT), ModItems.GALE_SHARD),
             new Case("earth_mace", ModItems.EARTH_MACE, new String[] {"DHD", " A ", " E "}, Map.of('D', Items.DIAMOND_BLOCK,
                     'H', Items.HEAVY_CORE, 'A', ModItems.ANCIENT_HEART, 'E', ModItems.ETHERIUM_INGOT), ModItems.ANCIENT_HEART),
             new Case("lightning_sword", ModItems.LIGHTNING_SWORD, new String[] {" S ", "GTN", " E "}, Map.of('S', Items.DIAMOND_SWORD,
@@ -154,7 +159,8 @@ public final class T2EquipmentRecipeGameTests {
         for (Case c : CASES) {
             List<ItemStack> cells = grid(c, c.rows());
             for (ItemStack cell : cells) {
-                if (cell.isEmpty() || !(cell.getItem() == Items.GOLDEN_SWORD || cell.getItem() == Items.DIAMOND_SWORD)) continue;
+                if (cell.isEmpty() || !(cell.getItem() == Items.GOLDEN_SWORD || cell.getItem() == Items.DIAMOND_SWORD
+                        || cell.getItem() == Items.IRON_SWORD || cell.getItem() == Items.BOW)) continue;
                 cell.set(DataComponents.DAMAGE, 40);
                 EnchantmentHelper.updateEnchantments(cell, enchantments -> enchantments.set(holder, 5));
                 cell.set(ModDataComponents.ENHANCEMENT_LEVEL, 12);
@@ -202,12 +208,30 @@ public final class T2EquipmentRecipeGameTests {
     }
 
     @GameTest
-    public void windSwordAndWindBowRecipesAreAbsentUntilSkyFeatherExists(GameTestHelper ctx) {
-        for (String name : List.of("wind_sword", "wind_archers_bow")) {
-            ctx.assertTrue(ctx.getLevel().recipeAccess().byKey(recipeKey(name)).isEmpty(), name + " recipe is BLOCKED_DEPENDENCY (no Sky Feather item)");
+    public void skyFeatherIsRegisteredAndSixRecipesLoad(GameTestHelper ctx) {
+        ctx.assertTrue(BuiltInRegistries.ITEM.getValue(Identifier.parse("moreminecrafts:sky_feather")) == ModItems.SKY_FEATHER
+                && ModItems.SKY_FEATHER != Items.AIR, "Sky Feather is registered as moreminecrafts:sky_feather");
+        ctx.assertTrue(CASES.size() == 6, "all six T2 equipment recipes are covered");
+        for (Case c : CASES) {
+            ctx.assertTrue(ctx.getLevel().recipeAccess().byKey(recipeKey(c.name())).isPresent(), c.name() + " recipe is loaded");
         }
-        ctx.assertTrue(BuiltInRegistries.ITEM.getOptional(Identifier.parse("moreminecrafts:sky_feather")).isEmpty(),
-                "Sky Feather is not registered; flip this test when it is");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void windPairHasIndependentUnlockConditions(GameTestHelper ctx) {
+        ServerPlayer player = EnhancementTransactionGameTests.survival(ctx);
+        ServerRecipeBook book = player.getRecipeBook();
+        player.getInventory().add(new ItemStack(ModItems.GALE_SHARD));
+        CriteriaTriggers.INVENTORY_CHANGED.trigger(player, player.getInventory(), new ItemStack(ModItems.GALE_SHARD));
+        ctx.assertTrue(book.contains(recipeKey("wind_archers_bow")) && !book.contains(recipeKey("wind_sword")),
+                "Gale Shard unlocks only the wind bow");
+        player.getInventory().add(new ItemStack(ModItems.SKY_FEATHER, 2));
+        CriteriaTriggers.INVENTORY_CHANGED.trigger(player, player.getInventory(), new ItemStack(ModItems.SKY_FEATHER, 2));
+        ctx.assertTrue(!book.contains(recipeKey("wind_sword")), "Sky Feather alone unlocks nothing");
+        player.getInventory().add(new ItemStack(ModItems.EYE_OF_TYPHOON));
+        CriteriaTriggers.INVENTORY_CHANGED.trigger(player, player.getInventory(), new ItemStack(ModItems.EYE_OF_TYPHOON));
+        ctx.assertTrue(book.contains(recipeKey("wind_sword")), "Eye of the Typhoon unlocks the wind sword");
         ctx.succeed();
     }
 
