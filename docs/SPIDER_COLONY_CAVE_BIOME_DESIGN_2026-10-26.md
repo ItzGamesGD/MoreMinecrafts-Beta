@@ -141,3 +141,17 @@ Status: **DESIGN ONLY**. Do not change game code, assets, tests, release-frozen 
 - **Q70 B — Spider spawner distribution:** Place the previously approved 1-2 **vanilla regular-spider** spawners per large nest at separated suitable locations such as near natural rock protrusions or walls, rather than clustering them centrally. Do not add cave-spider spawners; avoid blocking Mother Spider encounter area and key routes. Exact spacing, valid placement and spawn-volume checks are implementation/QA.
 
 These decisions are **DESIGN ONLY**. No game code, worldgen, assets, tests, merges, or changes to release-frozen PR #181 authorized.
+
+
+## Q71-Q79 owner decisions (2026-10-27)
+- **Q71 B — Mother Spider first appearance:** On player approach into a large nest, choose a suitable spacious position near its interior/center with valid navigation, not an arbitrary fixed coordinate. Preserve one-time per-nest activation, persistent individual and no duplication.
+- **Q72 B — Natural pursuit:** Mother Spider may pursue players through connected natural caves under ordinary mob AI aggro, distance and pathfinding limits; no hard nest boundary or colony-wide forced pursuit.
+- **Q73 B — Return home after disengagement:** Once combat/aggro ends, the same Mother Spider attempts to return to its original nest. No HP reset, respawn, or despawn; retain saved individual state across unload/restart.
+- **Q74 A — Normal combat AI takes priority during return:** Detect and fight new targets or retaliate against attacks while returning, then resume return after combat ends. No invulnerability or scripted teleport.
+- **Q75 A — No bespoke passive regeneration:** No automatic Mother Spider HP recovery from elapsed time, disengagement or returning to nest; damage persists. Ordinary external healing effects are not categorically prohibited.
+- **Q76 A — Natural pathfinding for return:** Use normal movement/wall-climbing to find a route. If obstructed, remain in a reachable place and retry later; never teleport home or destroy blocks to clear a path. Exact retry mechanics are HOW.
+- **Q77 C — Large body size:** Target Mother Spider visual size approximately **2.3 times** a vanilla spider. Actual entity collision box, corridor clearance, wall climbing, pathfinding and combat reach require implementation validation; do not silently reduce the owner-approved visual scale.
+- **Q78 B — Distinctive shape and markings:** Enlarged abdomen with white/off-white spiderweb-like markings across back and abdomen; recognizable vanilla-inspired spider silhouette, without extra armored spikes or exaggerated fantasy-boss protrusions.
+- **Q79 B — Base coloration:** Very dark violet/purple mixed with black; contrast against approved white/off-white web markings. Keep muted, cave-natural coloration, not neon purple. Visually relates to previously approved purple Colony Crystal but does not imply new abilities.
+
+All Q71-Q79 choices are **OWNER APPROVED DESIGN ONLY**. Do not implement code, assets, worldgen or tests, do not merge, and do not alter PR #181. Existing Mother Spider stats (60 HP, 6 melee damage), summon limits, one-time death, guaranteed crystal drop and persistence remain unchanged.
