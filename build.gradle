@@ -45,6 +45,20 @@ fabricApi {
     }
 }
 
+loom {
+    runs {
+        // Matched-sample ore abundance probe (docs/audits/wave13/ADAMANTIUM_F3_ANALYSIS.md).
+        // Dedicated server + the gametest mod (which hosts the inert-by-default OreSamplingProbe).
+        // Driven by tools/ore-sampling/run_sampling.sh; not part of check/build/CI.
+        oreSampling {
+            server()
+            name = "Ore Sampling Probe"
+            source sourceSets.gametest
+            runDir = "build/ore-sampling/run"
+            ideConfigGenerated false
+        }
+    }
+}
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
@@ -56,6 +70,9 @@ dependencies {
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
+    // AdamantiumF3WorldgenTest reads these files at run time; declare them so an incremental run cannot skip the test.
+    inputs.dir("tools/ore-sampling/alternatives")
+    inputs.file("src/main/java/dev/itzgamesgd/moreminecrafts/worldgen/ModOreGeneration.java")
 
     testLogging {
         events "failed"
