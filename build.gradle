@@ -70,6 +70,9 @@ dependencies {
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
+    // AdamantiumF3WorldgenTest reads these files at run time; declare them so an incremental run cannot skip the test.
+    inputs.dir("tools/ore-sampling/alternatives")
+    inputs.file("src/main/java/dev/itzgamesgd/moreminecrafts/worldgen/ModOreGeneration.java")
 
     testLogging {
         events "failed"
