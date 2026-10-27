@@ -18,6 +18,7 @@
       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
+      "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.SnowCharmAbilityGameTests",
