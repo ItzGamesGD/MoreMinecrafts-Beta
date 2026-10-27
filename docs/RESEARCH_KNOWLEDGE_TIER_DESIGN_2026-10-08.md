@@ -988,3 +988,20 @@ Furnace compatibility and current implementation boundary: only vanilla `Abstrac
 ## Villager Trading discount rounding — owner approved 2026-10-26
 
 For `v3.research.53` (Villager Trading), the approved first-trade discount at purchased levels 1/2/3 is 5%/10%/15%, applied per player with a minimum final cost of 1. Round the **discount amount upward** to a whole item: `discount = ceil(current_cost × rate / 100)`, then `final_cost = max(1, current_cost - discount)`. For example, cost 21 at level 1 gives `ceil(1.05) = 2` off and final cost 19. This is the approved ceil-discount policy (OD-6); it supersedes the older “rounded to nearest” implementation-audit wording. The historical territory-chain record remains provenance, not the sole current authority. This amendment changes no implementation or other Villager Trading rule.
+
+============================================================
+RESEARCH 67 — INSTANT XP ORB COLLECTION CLARIFICATION — 2026-10-15 (restored 2026-10-27)
+
+Restoration note: this owner-approved amendment existed only on the PR #92 and PR #93 branches and was not carried into the cumulative line. It is restored verbatim below so the approved `v3.research.67` semantics are recorded in current authority. No wording, value or rule is changed; the implemented checkpoint behavior (`ResearchExperienceOrbMixin`, `Research23AXpCollectionGameTests`) already follows it.
+
+- Approval source: commit `35acb625` ("docs: approve Stage 23-A XP collection semantics", 2026-10-15) on `codex/stage23a-research-implementation-20261015` (PR #92), file blob `eb0afc6b2742d27a30dc992171656108bca56a36`.
+- Reconciled wording source: commit `e2acd57f` ("reconcile Stage 23-A parallel research branches", 2026-10-15) on `codex/stage23a-reconcile-20261015` (PR #93), file blob `aa9fcadea5f22ec37982d7c7310fd1f66363bbbd`.
+
+PR #92 text:
+
+[USER-APPROVED DIRECT DESIGN] `v3.research.67` XP Control collects XP orbs immediately within the paid research level's radius: level 1 is 4 blocks; level 2 is 6 blocks. This is remote instant collection, not increased orb attraction. Apply only on the server to the player who owns the corresponding purchased level. Preserve the orb's actual XP value and the vanilla XP pickup pathway, including supported XP pickup effects/events. Ensure each orb awards XP at most once and cannot be claimed by competing players. Outside the approved radius, preserve vanilla pickup behavior. Do not add persistent gameplay state. Do not delete an orb and award estimated XP; if Minecraft API constraints prevent conservation-safe use of the vanilla pickup pathway, stop and document the compatibility limitation before implementing an alternate mechanism.
+
+PR #93 reconciled text (adds the single-award and `v3.research.64` composition rule):
+
+[USER-APPROVED] `v3.research.67` XP Control immediately collects XP orbs within 4 blocks at paid level 1 and 6 blocks at paid level 2. Collection is server-authoritative and must award an orb at most once even when multiple eligible players are nearby. Use the vanilla `ExperienceOrb.playerTouch` pathway so the orb's actual value and supported XP pickup effects are preserved. Outside the paid radius, vanilla pickup behavior remains unchanged. This effect adds no persistent state and composes with `v3.research.64` XP Acquisition: the collecting player's `.64` bonus is applied once to the exact XP award from the single vanilla pickup. The existing `.64` fractional bonus remains saved with that player's progression state.
+============================================================
