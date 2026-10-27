@@ -35,11 +35,11 @@ Validation on exact `d4ca6a49` HEAD: the SHA-256-verified Gitleaks 8.30.1 binary
 gitleaks git --no-banner --no-color --redact=100 --log-opts='--all --full-history' --report-format json --report-path /tmp/p7c-exact-head.json .
 ```
 
-Result: exit 0, 0 findings. Before the change, the same scan on #182 found exactly 7. The effective history scan included all locally fetched branches, tags and PR heads. Repository security config was inspected for narrow scope. Runtime/Gradle tests: NOT RUN, because the patch changes only `.gitleaksignore`. GitHub Fabric CI run `40516088040` was QUEUED when this report was written; update its final result before claiming CI acceptance. The full-history workflow is configured for PRs targeting `main`; Draft PR #200 targets #182's integration branch, so that workflow is not automatically run on #200. A local scan is not a #182 exact-HEAD CI pass.
+Result: exit 0, 0 findings. Before the change, the same scan on #182 found exactly 7. The effective history scan included all locally fetched branches, tags and PR heads. Repository security config was inspected for narrow scope. Runtime/Gradle tests: NOT RUN, because the patch changes only `.gitleaksignore`. GitHub Fabric CI run `40516088040` completed with conclusion SUCCESS on exact head `d4ca6a4956388805b49c38a646cd5cb22f857eb6` (build and server-smoke success; the run-level conclusion is authoritative for the completed workflow). The full-history workflow is configured for PRs targeting `main`; Draft PR #200 targets #182's integration branch, so that workflow is not automatically run on #200. A local scan is not a #182 exact-HEAD CI pass.
 
 ## Remaining action and independent verdicts
 
 - **PR83_CLOSURE: CLOSED_UNMERGED**, remote state verified; source branch intact.
 - **PR192_CLOSURE: CLOSED_UNMERGED**, remote state verified; Wave 11 checkpoint intact.
-- **SECURITY_REMEDIATION: DRAFT_PR_OPEN**, local full-history scan PASS on `d4ca6a49`; CI result pending at report creation.
+- **SECURITY_REMEDIATION: DRAFT_PR_OPEN**, local full-history scan PASS on `d4ca6a49`; Fabric CI run `40516088040` SUCCESS on the exact remediation HEAD.
 - **PR182_SECURITY_GATE: PENDING**. #182 itself remains unchanged and retains its failing prior run. After review, the #200 change must be integrated into #182 by authorized action, then the full-history workflow must pass on #182's resulting exact HEAD. No integration approval is inferred here.
