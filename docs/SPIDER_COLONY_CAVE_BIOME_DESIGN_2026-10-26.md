@@ -86,3 +86,5 @@ Design only. No game code, worldgen, assets, or tests authorized. Do not merge o
 - Natural lighting: **OWNER APPROVED Q40 option A** — preserve natural cave darkness throughout the spider-colony biome. No new emissive decorations, glowing egg sacs, or special large-nest lights. Player-placed light sources and existing natural cave light sources (e.g., lava) continue to function normally. No forced darkness mechanic.
 
 - Cave floor composition: **OWNER APPROVED Q41 option A** — retain vanilla cave floor substrates (stone, deepslate, gravel, etc.) without replacing them with new spider-themed floor blocks or introducing floor-specific slow effects. Previously approved egg sacs and cobwebs may still decorate suitable surfaces, and large nests remain integrated into natural cave geometry. No dedicated nest floor block.
+
+- Ore generation: **OWNER APPROVED Q42 option A** — retain vanilla ore-generation rules, ore distributions and height dependencies in spider-colony caves. No colony-specific ore multiplier, additional iron/copper deposits, or special ore clusters near large nests. The colony is distinguished by ecology and exploration, not mining yield.
