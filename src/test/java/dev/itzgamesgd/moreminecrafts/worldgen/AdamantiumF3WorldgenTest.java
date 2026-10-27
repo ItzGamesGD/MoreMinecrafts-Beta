@@ -151,13 +151,16 @@ class AdamantiumF3WorldgenTest {
             JsonObject target = feature.getAsJsonArray("targets").get(0).getAsJsonObject();
             assertEquals("minecraft:base_stone_nether", target.getAsJsonObject("target").get("tag").getAsString(), name);
             assertEquals("moreminecrafts:adamantium_debris", target.get("state").getAsString(), name);
-            // Height: trapezoid, no plateau (peak mid-range), origin range starting at Y8 and not above Y22.
+            // Height: trapezoid, no plateau (peak mid-range). The origin range may be inset by one block, because scattered_ore
+            // spills one block vertically; it must never extend beyond Y 8..22, and it must stay centred on Y 15 or just below.
             JsonObject height = heightRange(placed);
             assertEquals("minecraft:trapezoid", height.get("type").getAsString(), name);
             assertFalse(height.has("plateau"), name);
-            assertEquals(8, absolute(height.getAsJsonObject("min_inclusive")), name);
+            int min = absolute(height.getAsJsonObject("min_inclusive"));
             int max = absolute(height.getAsJsonObject("max_inclusive"));
+            assertTrue(min == 8 || min == 9, name + ": origin floor " + min);
             assertTrue(max == 21 || max == 22, name + ": origin ceiling " + max);
+            assertTrue((min + max) / 2.0 >= 14.5 && (min + max) / 2.0 <= 15.0, name + ": peak " + (min + max) / 2.0);
             assertTrue(placed.toString().contains("minecraft:in_square") && placed.toString().contains("minecraft:biome"), name);
         }
     }
