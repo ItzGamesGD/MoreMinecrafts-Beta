@@ -7,6 +7,19 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## Latest T2 material, recipe, and acquisition authority — 2026-10-27 (OWNER APPROVED, DESIGN ONLY)
+
+> **CURRENT OVERRIDE for T2 crafting and elemental core acquisition.** Read [Sky Islands / T2 Context — §18 Q1–Q21 reconciliation](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md#18-2026-10-27-t2-q1q21-최종-설계-통합-체크포인트--current-owner-authority) first. This section is **design authority**, not implementation, CI, or live-test acceptance.
+
+- §18 takes precedence over earlier T2 recipe proposals in the same document and over the Oct 7 continuation/implementation acquisition assumptions below. Retain older records as **SUPERSEDED/HISTORICAL**, not active instructions.
+- Approved six T2 equipment recipes: Fire Sword, Water Sword, Wind Sword, Wind Bow, Earth Mace, Lightning Sword; all use **Etherium Ingot ×1** with approved weapon-specific ingredients and explicit 3×3 shaped layouts. Dark Energy Staff remains deferred/placeholder.
+- Etherium now has separate mined raw material → smelted fragment → six-ingredient ingot. Gust Fragment is craftable or obtainable in a Sky Island vault. Sky Island vault independent rolls: **Gust Fragment 5% ×1**, **Sky Feather 15% ×1**.
+- Core sources: **Fire Boss → Burning Heart 50% ×1** (replaces Bastion treasure 4%); **Sea Boss → Heart of Currents 50% ×1** (replaces Monument Elder Guardian completion); **normal Trial Vault → Eye of Typhoon 5% ×1**; **ominous Trial Vault → Thunder Heart 5% ×1**; **Ancient City chest → Ancient Heart 3% ×1 retained + Mausoleum Guardian → Ancient Heart 50% ×1**. Prior Trial Vault 2%/3% and obsolete acquisition sources are superseded.
+- Ore authority: Etherium ore about **1/4 of diamond ore generation**, **1 ore per vein**; Fortune guarantees base 1, and reduces only additional drops by 80%, integerized; technical interpretation needs code review without altering owner values.
+- Q17–Q21: shaped recipes allow horizontal mirroring; unlocking follows vanilla advancement/recipe-book on first receipt of the relevant elemental core (Wind Bow: Gust Fragment), with direct crafting always available. Ingredients' remaining durability is unrestricted; input enchantments/enhancements/durability are **not inherited**. T2 elemental equipment has **infinite durability** and requires no repair loop. Proposed Q22 repair-policy question is **VOID**.
+- Existing T1/T2 enhancement **+20** with +5/+10/+15/+20 milestones remains active; infinite durability is not an instruction to disable enhancement. Code compatibility and actual gameplay acquisition remain unverified.
+- Do not infer this docs-only overlay updates gameplay code or merge status. Do not revive superseded loot paths or invent new implementation/gameplay rules.
+
 ## Latest user-approved UI authority — 2026-10-11 follow-up
 
 - [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 navigation follow-up and 2026-10-12 interaction correction: retain the four-card selector, route Research and Knowledge through the shared seven-sector picker, and use each existing branch list for top-left direct tree navigation. The 2026-10-12 correction supersedes only node-screen footer controls, the separate detail panel, and confirmation purchase flow; it requires exact vanilla-frame hit bounds, one-click server-authoritative Research purchase, Knowledge non-purchase, and localized item-rich tooltips. Preserve vanilla advancement visuals, source discipline/branch IDs, progression data, prerequisites, costs, and gameplay rules.
