@@ -11,8 +11,10 @@ import dev.itzgamesgd.moreminecrafts.special.elemental.EarthSeismicRuntime;
 import dev.itzgamesgd.moreminecrafts.special.ElementalHitProgress;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentRuntime;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentRuntime;
 import dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog;
 import dev.itzgamesgd.moreminecrafts.progression.T2CoreAcquisition;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractObjectives;
 
 public final class ModRegistries {
     private ModRegistries() {
@@ -28,6 +30,7 @@ public final class ModRegistries {
         AbilityAttachments.initialize();
         ModDataComponents.initialize();
         dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.initialize();
+        dev.itzgamesgd.moreminecrafts.progression.XpQuestTracking.initialize();
         dev.itzgamesgd.moreminecrafts.progression.ResearchMovementRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.progression.ResearchDebugCommands.initialize();
         ModItems.initialize();
@@ -39,7 +42,10 @@ public final class ModRegistries {
         EarthSeismicRuntime.initialize();
         ElementalHitProgress.initialize();
         EquipmentAttachments.initialize();
+        AccessoryEquipmentRuntime.initialize();
         EquipmentRuntime.initialize();
+        ContractObjectives.initialize();
+        dev.itzgamesgd.moreminecrafts.bounty.ContractLootIntegration.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
     }
 }

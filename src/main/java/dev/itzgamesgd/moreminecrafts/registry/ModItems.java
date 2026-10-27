@@ -3,6 +3,8 @@ package dev.itzgamesgd.moreminecrafts.registry;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.item.FoundationProbeItem;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryDefinition;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryItem;
 import dev.itzgamesgd.moreminecrafts.fishing.*;
 import java.util.EnumMap;
 import java.util.Map;
@@ -22,10 +24,15 @@ import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.MaceItem;
 import dev.itzgamesgd.moreminecrafts.equipment.*;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Unit;
 
 public final class ModItems {
+    public static final Item BOUNTY_CONTRACT = register("bounty_contract", key ->
+            new ContractItem(false, new Item.Properties().stacksTo(1).setId(key)));
+    public static final Item SPECIAL_CONTRACT = register("special_contract", key ->
+            new ContractItem(true, new Item.Properties().stacksTo(1).setId(key)));
     public static final Item RAW_TITANIUM = material("raw_titanium");
     public static final Item TITANIUM_INGOT = material("titanium_ingot");
     public static final Item RAW_TUNGSTEN = material("raw_tungsten");
@@ -62,6 +69,8 @@ public final class ModItems {
             ENHANCEMENT_STONE_KEY,
             new Item(new Item.Properties().setId(ENHANCEMENT_STONE_KEY))
     );
+    public static final Item RELIC_CATALYST = register("relic_catalyst",
+            key -> new Item(new Item.Properties().stacksTo(1).setId(key)));
     public static final Item FLAME_SWORD = Registry.register(
             BuiltInRegistries.ITEM,
             FLAME_SWORD_KEY,
@@ -112,7 +121,13 @@ public final class ModItems {
 
     public static final Map<FishSpecies, Item> FISH = new EnumMap<>(FishSpecies.class);
     public static final Item[][] FISHING_EQUIPMENT = new Item[FishingEquipmentFamily.values().length][FishingEquipmentTier.MAX];
+    public static final Map<AccessoryDefinition, AccessoryItem> ACCESSORIES = new EnumMap<>(AccessoryDefinition.class);
     static {
+        for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
+            ResourceKey<Item> accessoryKey = key(definition.registryId());
+            ACCESSORIES.put(definition, Registry.register(BuiltInRegistries.ITEM, accessoryKey,
+                    new AccessoryItem(definition, new Item.Properties().stacksTo(1).setId(accessoryKey))));
+        }
         for (WeaponBalance.Values value : WeaponBalance.VALUES) {
             String tier = value.tier().name().toLowerCase();
             DAGGERS.put(value.tier(), register(tier + "_dagger", key -> new BasicWeaponItem(BasicWeaponItem.Kind.DAGGER,
@@ -190,6 +205,15 @@ public final class ModItems {
     }
 
     public static void initialize() {
+        for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
+            Item item = ACCESSORIES.get(definition);
+            if (!(item instanceof AccessoryItem accessory)
+                    || accessory.definition() != definition
+                    || !ModIds.id(definition.registryId()).equals(BuiltInRegistries.ITEM.getKey(item))) {
+                throw new IllegalStateException("Accessory registration mismatch for " + definition.registryId());
+            }
+        }
+
         var registeredId = BuiltInRegistries.ITEM.getKey(FOUNDATION_PROBE);
 
         if (!ModIds.id("foundation_probe").equals(registeredId)) {
@@ -205,6 +229,10 @@ public final class ModItems {
         }
 
         MoreMinecrafts.LOGGER.info("Item registration OK: {}", enhancementStoneId);
+
+        if (!ModIds.id("relic_catalyst").equals(BuiltInRegistries.ITEM.getKey(RELIC_CATALYST))) {
+            throw new IllegalStateException("MoreMinecrafts relic catalyst was not registered correctly.");
+        }
 
         var flameSwordId = BuiltInRegistries.ITEM.getKey(FLAME_SWORD);
         if (!ModIds.id("flame_sword").equals(flameSwordId)) {

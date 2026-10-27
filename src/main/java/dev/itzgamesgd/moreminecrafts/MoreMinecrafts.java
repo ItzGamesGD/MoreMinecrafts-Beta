@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts;
 import dev.itzgamesgd.moreminecrafts.registry.ModRegistries;
 import dev.itzgamesgd.moreminecrafts.network.ModNetworking;
 import dev.itzgamesgd.moreminecrafts.zombie.BombZombieEffects;
+import dev.itzgamesgd.moreminecrafts.progression.ResearchAxeCombatRuntime;
 import dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingCommand;
 import dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingLifecycle;
 import dev.itzgamesgd.moreminecrafts.test.LiveTestCommand;
@@ -19,6 +20,7 @@ public final class MoreMinecrafts implements ModInitializer {
         ModRegistries.initialize();
         ModNetworking.initialize();
         BombZombieEffects.initialize();
+        ResearchAxeCombatRuntime.initialize();
         SkeletonKingCommand.initialize();
         SkeletonKingLifecycle.initialize();
         LiveTestCommand.initialize();

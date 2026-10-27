@@ -372,7 +372,7 @@ Exact mob tags, paid-effect trigger exceptions and implementation compatibility 
 [DIRECT + ACCEPTED-DELEGATED] Riding T1 L1–5: every level increases movement speed, jump strength and max health each by 5% of that ATTRIBUTE'S OWN VANILLA NATURAL DISTRIBUTION WIDTH (max-min), not flat +4 or generic multiplicative +5% on disparate units; retain each individual animal's native base.
 [DIRECT] Flight T1 L1–3: firework propulsion duration +8/+16/+24%; also cooperate with precision flight firework-use interval.
 [ACCEPTED-DELEGATED] Archaeology T1 L1–3: brush time -10/-20/-30%; archaeology-related structure chest rare reward weight +3/+6/+9%; extra thematic loot roll probability 10/20/30%. Limit scope to archaeology-relevant loot sources.
-[ACCEPTED-DELEGATED] Villager Trading T1 L1–3: show current/maximum trade STOCK in existing trade UI from L1; cost -2/-4/-6% (min 1).
+[ACCEPTED-DELEGATED; AMENDED 2026-10-17 AND 2026-10-26] Villager Trading T1 L1–3: show current/maximum trade STOCK in existing trade UI from L1; first-trade cost -5/-10/-15% (min 1), player-specific. Round the discount amount upward as specified in the 2026-10-26 amendment below. The earlier -2/-4/-6% values are superseded.
 [ACCEPTED-DELEGATED] Piglin Bartering T1 L1–3: rare-barter reward weight +5/+10/+15%, not duplicate piglin anger prevention.
 [ACCEPTED-DELEGATED] Survival & Expedition T1 L1–3: sprint/swim hunger consumption -8/-16/-24%.
 [VERIFIED ORIGINAL SOURCE] Precision Flight T2 moves the REAL existing Paper 'precision_flight' ENCHANT feature to research, no duplicate enchant. Source: ItzGamesGD/rpg-plugin-for-minecraft-26.1.2-paper: src/main/resources/enchants.yml, EquipmentEnchantContentService.java. Paper original 3 levels, hotbar-slot target speeds 1..9 = [0.45,0.60,0.75,0.88,1.00,1.30,1.60,1.90,2.20] velocity values; acceleration 0.20; fireworks & elytra damage intervals 200 ticks; damage-debt recovery intervals by level = [120,100,80] ticks. Activates on Elytra firework boost; deactivates at gliding stop, sneak, invalid gear, missing fuel. The native data are CODE REFERENCE, not proof of Fabric port/live performance. Move this mechanic from enchant to paid research.
@@ -940,3 +940,51 @@ TOTAL NEW: 17 nodes / 17 purchases / 16,910 RAW XP. V3 historical baseline 70 no
 ELIGIBILITY NOTE: For Combat/Ecology root categories, the indicated first knowledge (#31/#41) is an accessible candidate entry trigger, not a new linear prerequisite on every child branch; other same-discipline discoveries also qualify. Older completed combat/ecology research should grandfather an eligible root where necessary rather than becoming unusable. Individual 70-knowledge prereqs remain preserved. Do not lock unrelated disciplines behind those two roots.
 STATUS: Documentation-level authority and delegated price DESIGN only. No claim that the 70-knowledge runtime, research purchases, 13 crafting recipes, new item actions, world data serialization, Fabric 26.3 build or live tests are already implemented/verified.
 ============================================================
+
+============================================================
+STAGE 23-B RESEARCH EFFECT CLARIFICATIONS — USER APPROVED 2026-10-15
+
+This amendment records the approved implementation boundaries for the following V4 research effects. It supersedes only conflicting earlier wording on these decisions; existing research IDs, prices, prerequisites, and unrelated authority remain unchanged.
+
+- `shield_counter` is separate from the T3 Counter-Shield item. After a successful timed shield defense, the approved 1.5-second first-melee-attack opportunity is transient server-side state and expires when the player logs out. The approved +20% damage and 5-second reactivation cooldown remain as recorded in the combat/ecology approval.
+- `falling_axe_smash` enforces its approved 3-second cooldown using server ticks. Cooldown state must persist across logout and server restart so neither can bypass the cooldown.
+- `mob_aggro_redirection` retains the approved 30% chance, 12-block eligibility radius, and 200-tick retry restriction. The retry restriction is keyed per acquiring hostile mob, not per player or target.
+- `bow_charge_mobility` reduces the existing bow-draw movement penalty by 50% for bows only; crossbows are excluded. Client and server movement behavior must remain consistent.
+- `ballistic_control` provides visual prediction only. It must never modify projectile velocity, gravity, collision detection, or any other actual projectile physics.
+- `hopper_filter` is deferred to a separate high-complexity inventory/UI implementation batch. Its approved server-authoritative allow-list and item-conservation requirements remain in force.
+
+The T3 Counter-Shield is a craftable item, separate from the `shield_counter` research effect. Its recipe is already approved by `RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md`: six iron ingots and one obsidian in the vanilla shield pattern. Preserve that decision; do not treat it as a `shield_counter` research purchase or reopen its recipe.
+============================================================
+
+STAGE 23-A FISHERIES STUDY ROUNDING CLARIFICATION — USER APPROVED 2026-10-15
+
+For `v3.research.19` (Fisheries Study), keep the approved baseline and level-5 grade distributions and linearly interpolate the integer grade percentages at purchased levels 1–4. Allocate integer percentage residuals with the largest remainder method: floor each interpolated grade percentage, then award remaining points in descending fractional-remainder order. Resolve equal remainders in favor of the lower grade index. Each final grade table must sum to exactly 100%. This only defines integer rounding; it does not change species, fish length, fish weight, fishing payloads, server-authoritative grade selection, or the separate `v3.research.23` fishing-timing effect.
+============================================================
+
+============================================================
+STAGE 23-A BATCH 3 — FURNACE ATTRIBUTION AND PRECISION CRAFTING — 2026-10-15
+
+[USER-APPROVED] This amendment records the implementation rules explicitly approved for `v3.research.06` Fuel Saving, `.07` Precision Smelting, `.08` Precision Crafting, and `.11` Faster Smelting. It does not change the research graph, costs, prerequisites, maximum levels, or player progression save schema.
+
+Furnace-user attribution for `.06`, `.07`, and `.11`:
+
+- These effects use the furnace's active attributed player, not its placer. Opening a furnace GUI sets the attributed UUID only when no later qualifying interaction has replaced it. Actual inventory or fuel interaction takes precedence over opening. For multiple players, the most recent actual interaction wins. Closing the GUI does not clear attribution; hopper-only processing retains it. No attributed user means no player-research effect.
+- Persist the attributed UUID and approved per-furnace accounting state in the furnace block entity. Breaking and replacing a furnace clears its attribution and accounting state. Resolve purchased levels server-side through the authoritative progression system; never use proximity, placer identity, output collector, client level, or another player's level.
+- Offline attributed-player progression must be read from an existing safe authoritative server API. The restart GameTest's synthetic-player restoration is not approved as a production lookup. If no safe production lookup is available, stop the affected furnace implementation and report the blocker; do not create a separate progression database or substitute another player.
+- Existing portable furnace processing runs in a session-local menu and has no block entity or persistent opener-item state. Do not claim it satisfies the approved block-entity persistence contract or change its storage model without separate approval.
+
+Fuel Saving (`.06`): purchased levels 0–3 reduce fuel consumption by 0%, 8.5%, 17%, and 25.5%. Apply to vanilla furnace, blast furnace, smoker, portable furnace, existing multiplier furnaces, and compatible future modded furnace families. Preserve fractional savings with deterministic fixed-point or equivalent precise per-furnace accounting so long-run consumption converges to the approved percentage. Preserve fuel items and containers, avoid double application, compose with multiplier-furnace efficiency, and do not retroactively rewrite already-consumed fuel when the attributed level changes.
+
+Precision Smelting (`.07`): purchased levels 0–5 give 0%, 7.5%, 15%, 22.5%, 30%, and 37.5% chance of exactly one additional finished product per successfully completed eligible mineral-smelting base unit. Determine eligibility from recipe context and existing mineral tags, conservatively excluding food, ordinary stone/glass production, and ambiguous recycling unless explicitly declared eligible. Data tags or registry declarations are the supported extension points for additional materials. Roll once at product creation, never on output pickup; do not recursively process bonus items. Keep Auto Smelt's bonus independent. Preserve a lossless output transaction when the possible bonus will not fit; do not void or overflow output and do not introduce a new machine-wide buffer without approval.
+
+Precision Crafting (`.08`): one opportunity per completed crafting transaction, at most one eligible consumed slot per transaction. Inspect actual consumed ingredients, choose the rarest eligible class, and break equal-rarity ties by the lowest slot index. Roll only that slot's class chance and, on success, preserve one unit. The approved L1/L3/L5 chances are ordinary 10/20/30%, processed iron/copper/redstone 7/14/21%, precious gold/diamond/emerald 4/8/12%, rare netherite/special parts 2/4/6%, and unique/nonreplaceable 0/0/0%; interpolate L2/L4 between adjacent specified levels. Preserve vanilla recipe remainders/container semantics, normal and shift-click crafting, and server-authoritative transaction behavior. Never apply to preview/ghost output, failed extraction, repeated extraction, or compressed research tokens. Classify modded materials through tags or explicit registration and conservatively exclude ambiguous ingredients.
+
+Faster Smelting (`.11`): purchased levels 0–3 process at 100%, 110%, 120%, and 130% of baseline. Apply to the same furnace families as `.06`; stack with `.06` and existing 3×/5×/7× furnace speed multipliers without applying any multiplier twice. Use deterministic fractional cooking progress, persist it across world saves/chunk unload/restart, preserve vanilla timing at level 0, and retain progress across attributed-level changes without resetting the recipe.
+
+Furnace compatibility and current implementation boundary: only vanilla `AbstractFurnaceBlockEntity` processing and the session-local portable furnace menu exist in the inspected baseline; no multiplier-furnace block-entity family exists there. Treat multiplier furnaces and future compatible modded families as future compatibility obligations until present and audited. Do not infer universal support from a vanilla hook.
+============================================================
+
+
+## Villager Trading discount rounding — owner approved 2026-10-26
+
+For `v3.research.53` (Villager Trading), the approved first-trade discount at purchased levels 1/2/3 is 5%/10%/15%, applied per player with a minimum final cost of 1. Round the **discount amount upward** to a whole item: `discount = ceil(current_cost × rate / 100)`, then `final_cost = max(1, current_cost - discount)`. For example, cost 21 at level 1 gives `ceil(1.05) = 2` off and final cost 19. This is the approved ceil-discount policy (OD-6); it supersedes the older “rounded to nearest” implementation-audit wording. The historical territory-chain record remains provenance, not the sole current authority. This amendment changes no implementation or other Villager Trading rule.
