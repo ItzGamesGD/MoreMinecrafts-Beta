@@ -136,4 +136,31 @@ class EtheriumGaleMaterialResourceTest {
             }
         }
     }
+
+    @Test void singleOreScatteredVeinsMatchMeasuredQuarterOfGeneratedDiamond() throws Exception {
+        JsonObject feature = json("data/moreminecrafts/worldgen/feature/ore_etherium.json");
+        assertEquals("minecraft:scattered_ore", feature.get("type").getAsString());
+        assertEquals(1, feature.get("size").getAsInt());
+        int count = json("data/moreminecrafts/worldgen/placed_feature/ore_etherium.json")
+                .getAsJsonArray("placement").get(0).getAsJsonObject().get("count").getAsInt();
+        assertEquals(MaterialProgression.ETHERIUM_ATTEMPTS_PER_CHUNK, count);
+
+        // Evidence: real Overworld generation, same chunks for both ores, produced with this exact placement count.
+        java.nio.file.Path dir = java.nio.file.Path.of("tools/etherium-sampling/results");
+        long diamond = 0, etherium = 0;
+        int cells = 0;
+        try (var files = java.nio.file.Files.list(dir)) {
+            for (java.nio.file.Path file : files.filter(f -> f.getFileName().toString().startsWith("c" + count + "__")).toList()) {
+                JsonObject cell = JsonParser.parseString(java.nio.file.Files.readString(file)).getAsJsonObject();
+                double ratio = cell.get("etherium_to_diamond_ratio").getAsDouble();
+                assertTrue(ratio > 0.20 && ratio < 0.30, file + " ratio " + ratio);
+                diamond += cell.get("diamond_blocks").getAsLong();
+                etherium += cell.get("etherium_blocks").getAsLong();
+                cells++;
+            }
+        }
+        assertTrue(cells >= 4, "need at least 4 seeds of evidence for count " + count + ", found " + cells);
+        double pooled = (double) etherium / diamond;
+        assertTrue(pooled > 0.225 && pooled < 0.275, "pooled etherium/diamond ratio " + pooled);
+    }
 }

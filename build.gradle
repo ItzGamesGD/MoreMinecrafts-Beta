@@ -68,6 +68,8 @@ dependencies {
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
+    // EtheriumGaleMaterialResourceTest reads the committed sampling evidence at run time.
+    inputs.dir("tools/etherium-sampling/results")
 
     testLogging {
         events "failed"
