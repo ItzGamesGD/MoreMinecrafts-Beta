@@ -2,7 +2,10 @@ name: Ancient City Arena Validation
 
 on:
   push:
-    branches: [codex/ancient-city-arena-prototype-20261013]
+    branches:
+      - codex/ancient-city-arena-prototype-20261013
+      - integration/wave12-functional-preservation-20261027
+      - checkpoint/wave12-unified-20261027
     paths:
       - 'src/**'
       - 'scripts/arena_validation/**'
