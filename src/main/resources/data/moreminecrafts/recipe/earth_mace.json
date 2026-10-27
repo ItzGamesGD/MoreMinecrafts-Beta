@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": "minecraft:diamond_block",
+    "H": "minecraft:heavy_core",
+    "A": "moreminecrafts:ancient_heart",
+    "E": "moreminecrafts:etherium_ingot"
+  },
+  "pattern": [
+    "DHD",
+    " A ",
+    " E "
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreminecrafts:earth_mace"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "S": "minecraft:diamond_sword",
+    "P": "minecraft:prismarine_shard",
+    "C": "moreminecrafts:heart_of_currents",
+    "H": "minecraft:heart_of_the_sea",
+    "E": "moreminecrafts:etherium_ingot"
+  },
+  "pattern": [
+    "SPP",
+    "PCH",
+    "PPE"
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreminecrafts:flowing_water_sword"
+  }
+}
