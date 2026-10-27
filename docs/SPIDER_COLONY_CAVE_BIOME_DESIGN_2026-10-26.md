@@ -155,3 +155,35 @@ These decisions are **DESIGN ONLY**. No game code, worldgen, assets, tests, merg
 - **Q79 B — Base coloration:** Very dark violet/purple mixed with black; contrast against approved white/off-white web markings. Keep muted, cave-natural coloration, not neon purple. Visually relates to previously approved purple Colony Crystal but does not imply new abilities.
 
 All Q71-Q79 choices are **OWNER APPROVED DESIGN ONLY**. Do not implement code, assets, worldgen or tests, do not merge, and do not alter PR #181. Existing Mother Spider stats (60 HP, 6 melee damage), summon limits, one-time death, guaranteed crystal drop and persistence remain unchanged.
+
+
+## Q80-Q96 owner decisions and natural-cave-first refinement (2026-10-27)
+
+These decisions are **OWNER APPROVED DESIGN ONLY**; they authorize no gameplay implementation, asset work, tests, merges, or edits to PR #181.
+
+- **Q80 A — Eyes:** Keep vanilla spider red eyes on the Mother Spider.
+- **Q81 A — Attack animation:** Reuse vanilla spider attack animations for now. **Q81 B**, a simple front-leg raising/slamming animation using ModelPart rotations without external tools/libraries, is a *deferred enhancement idea only*, not authorized.
+- **Q82 B — Mother Spider audio:** Use existing vanilla spider sounds with lowered pitch; no custom sound files.
+- **Q83 B — Summon visuals:** Small white vanilla particles at juvenile summon points; no new models or temporary web blocks.
+- **Q84 B — Summon placement:** Disperse juvenile summons around the Mother Spider at navigable positions, avoiding inside-block placement. Exact safe-position search is HOW.
+- **Q85 B — Cobweb drop:** Mother Spider drops 4-8 cobweb blocks as its base reward, in addition to its guaranteed one Colony Crystal and other approved drops.
+- **Q86 B — XP:** Mother Spider yields 40 XP on an XP-eligible kill.
+- **Q87 B — Reused vanilla loot:** Add ordinary string, spider eyes and fermented spider eyes to the Mother Spider's drops, reusing existing vanilla items rather than inventing new ones. Mod-specific reward candidates must be verified against actual registered items before any future approval.
+- **Q88 B — Fermented spider eyes:** Base drop 1-2.
+- **Q89 B — String and spider eyes:** Base final drop 4-8 string and 1-3 spider eyes, *not* added on top of a second vanilla-spider loot roll.
+- **Q90 C — Looting:** Apply Looting to all Mother Spider item drops *except* the Colony Crystal, which remains exactly one regardless of Looting. This includes cobwebs and fermented spider eyes. Exact Looting scaling is HOW/balance validation; do not invent final bonus numbers.
+- **Q91 A — Drop delivery:** All items drop naturally at the Mother Spider's death location; no direct inventory grant or spawned reward chest.
+- **Q92 A — Ordinary item vulnerability:** The dropped Colony Crystal has ordinary vanilla dropped-item destruction behavior, including fire/lava/explosion loss; no special invulnerability or safe-position relocation.
+- **Q93 B — Existing faint crystal illumination reaffirmed:** This repeats Q62's approved faintly luminous Colony Crystal ore; it is *not* a new independent lighting system. Keep most cave areas naturally dark and validate spider spawn viability.
+- **Q94 A — Ambient audio:** Retain vanilla cave ambience and actual spider sounds; no additional colony-specific ambient playback system.
+- **Q95 A — Unmarked natural entrance:** Approach through ordinary-looking natural cave passages, with no bespoke entrance structure or mandated increasing-web transition corridor. This specifically overrides any interpretation of Q64's gradual border decoration as a *required entrance warning sequence*; Q64 may still govern natural overall biome decoration taper.
+- **Q96 B — Minimum nest connectivity:** Prefer existing cave passages, but if approved large nests are otherwise disconnected, minimally supplement with irregular natural-looking passable connections. This is a narrow exception to Q63 A's earlier 'no forced connecting corridors': **Q96 supersedes Q63 only when necessary to ensure traversable links between selected nests**. No artificial straight tunnels, fixed dungeon corridors or excessive carving.
+
+### Owner refinement — natural-cave-first world generation
+
+- **Approved WHAT:** Prioritize locating appropriately sized existing natural cave pockets/voids and populating them with spider-colony nests, cobwebs, egg sacs, hanging cocoons, crystal ore and other already approved ecology. Reuse natural geometry rather than constructing a new bespoke giant cave system. Only locally expand unsuitable sections where necessary, and only minimally connect isolated approved nests. Keep the colony rare, optional, irregular and naturally integrated with existing cave systems.
+- **Scope reconciliation:** The owner's reference to finding 'appropriately small spaces' means *manageable existing cave pockets* and does **not** silently shrink the previously approved 20-36-block nest diameter, 12-24-block height, 1-3 nests, or 128-256-block overall horizontal colony target. If existing caves cannot accommodate those dimensions, reject unsuitable candidates or apply the previously approved limited expansion; do not generate cramped/impassable encounters.
+- **HOW/QA not yet approved:** Cave-space detection algorithm, pocket selection thresholds, terrain modification budget, chunk-border behavior, deterministic candidate rejection, graph connectivity checks, and worldgen performance benchmarks. Validate against fluids, preexisting structures, navigability and Mother Spider's ~2.3x visual size.
+- **Conflict policy:** Q95's unmarked entrance and Q96's conditional minimum connections are the latest specific owner choices. Earlier Q63/Q64/Q65 remain in effect where not expressly superseded.
+
+**Status: DESIGN ONLY.** No implementation or merge authorization.
