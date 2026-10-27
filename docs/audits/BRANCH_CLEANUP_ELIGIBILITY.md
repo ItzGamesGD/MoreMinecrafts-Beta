@@ -1,0 +1,190 @@
+# Branch cleanup eligibility — Wave 12 (2026-10-27)
+
+**No branch was deleted and no PR was closed.** This is an eligibility report only; deletion requires an explicit owner action.
+
+Final checkpoint: `checkpoint/wave12-unified-20261027` → `HEAD (exact SHA recorded in FINAL_CHECKPOINT_ACCEPTANCE.md)`. It contains Wave 11 (`c47c69f3e3`) as an ancestor, so every branch that is an ancestor of Wave 11 is also contained in the final checkpoint.
+
+## Rules applied
+
+A branch is **DELETE ELIGIBLE** only when all hold: (1) every valid unique contribution is integrated, superseded with evidence, or preserved byte-identically; (2) it is neither head nor base of an open PR; (3) deletion loses no required implementation or evidence — PR-backed commits stay reachable through GitHub `refs/pull/N/head`, and branches without a PR are eligible only if all their content is in the final checkpoint; (4) its remote HEAD equals the SHA in `wave12-20261027/BASELINE_MANIFEST.json`, re-checked immediately before publishing; (5) the final checkpoint contains the required functionality.
+Checkpoint-type refs (`main`, `stage-*`, `checkpoint/*`, `release/*`, `stage-ci/*`, Wave 10 integration) are always **RETAIN — CHECKPOINT**.
+
+## Summary
+
+| Disposition | Count |
+|---|---:|
+| DELETE ELIGIBLE | 87 |
+| RETAIN — CHECKPOINT | 29 |
+| RETAIN — ACTIVE DEPENDENCY | 14 |
+| RETAIN — UNRESOLVED AUTHORITY | 5 |
+| RETAIN — UNPRESERVED FUNCTIONALITY | 4 |
+| **Total** | **139** |
+
+## DELETE ELIGIBLE (87)
+
+| Branch | HEAD | Source PR(s) | Open-PR dependency | Provenance | Evidence |
+|---|---|---|---|---|---|
+| `audit/bc01-bc02-20261022` | `1269cdbacc` | #150 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `audit/prc-p5-pre-research-preservation-20261026` | `e00d65cbd8` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `audit/prc-p6-pre-preservation-20261027` | `13c190d1ab` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `audit/prc-p6-remaining-preservation-20261027` | `73dcc8f4d1` | #191 | — | INTEGRATED — EQUIVALENT COMMITS | PR #191 (merged into Wave 10). All 3 commits patch-equivalent to Wave 11 d44a83c/7ff1d14/45fd25f; 90 files blob-identical. |
+| `claude/stage23a-economy-soil-20261017` | `9ec91dc535` | #110 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #110. .53 Villager Trading + .16 Soil Study. Wave 11 has both (ResearchVillagerDiscount with owner-approved ceil rounding 2026-10-26; SoilStudyRuntime + 14 Soil tests). Branch's round-to-nearest test superseded. |
+| `claude/wave-7b-decisions-reconciliation-xjdmva` | `0fb34bc512` | #175 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `claude/xp-quest-q1a-core` | `78d1495402` | #114 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #114. Catalog ledger/tracking reached Wave 11 via #118→#121→#156. XpLevels replaced by exact RawXp (authority: exact raw XP). XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance. |
+| `claude/xp-quest-q1a2-exact-xp` | `f30d263c93` | #115 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #115. Exact raw-XP transactions + claim rollback present (RawXp, ExactXpTransactionGameTests, EnhancementTransactionGameTests). |
+| `codex/accessory-client-acceptance-20261021` | `d7e8effd40` | #145 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/accessory-client-lifecycle-final-20261022` | `6d37a73f11` | #149 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/accessory-client-repair-20261022` | `b7f72fdae4` | #146 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/accessory-enhancement-20261022` | `f9a31c7117` | #153 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/accessory-infrastructure-20261021` | `9b79f9be03` | #142 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/accessory-inventory-ui-redesign-20261023` | `ed4cc92aa5` | #160 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/accessory-lifecycle-qa-20261021` | `2083cf37d1` | #144 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/accessory-persistence-inventory-20261021` | `f2e6e87fe9` | #143 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/accessory-visual-assets-20261022` | `9f6fba5fcc` | #152 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/bc03-bounty-contract-20261022` | `5ad001b091` | #151, #162 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `codex/review-claude-pr110-20261017` | `8f33e72c8a` | #116 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #116. Villager pricing repair carried by #123/#124 into #125; Wave 11 test villagerDiscountRoundsReductionUp… matches 2026-10-26 ceil authority. |
+| `codex/stage22-research-implementation-20261015` | `53c2374e84` | #89 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #89. Roots/passives/C-Lite present (ResearchRewards root effects, ResearchCatalog). Stage 22/23-A research chain. Its retained runtime reached Wave 11 through #125 → Batch A #156 → Wave 5R composition a13d9777; every research effect it implemented has a live handler in the checkpoint (ResearchRewards + mixins, verified per ID) and renamed regression tests (Research23AEffectRulesTest, Research23AXpCollectionGameTests, Research23AMovementExhaustionGameTests, ResearchContentGameTests). Branch-only lines are older test fixtures/keys repaired by #166. |
+| `codex/stage23-livefix-a-20261016` | `eb80a14806` | #99 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #99. Model/viewport repair retained via #125 (Batch A manifest). |
+| `codex/stage23a-batch2-20261015` | `68a7fafb4e` | #91 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #91. .17/.28/.64 + wall_jump/fall_roll present (ResearchLivestockRuntime, ResearchAxeCombatRuntime, ResearchXpAcquisition, ResearchMovementRuntime). |
+| `codex/stage23a-batch3-20261015` | `c3683de733` | #95 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #95. Precision crafting .08 present (PrecisionCraftingRulesTest, k5-stage23a-batch3-crafting-probe workflow). |
+| `codex/stage23a-expanded-batch2-20261017` | `2c8e984314` | #108 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #108. .38/.39/.40/.51/.62 present (ResearchCreeperMixin, ResearchSpiderLeapMixin, ResearchEndermanMixin, ResearchBatch2Runtime, ResearchStatusEffectMixin). |
+| `codex/stage23a-expanded-research-20261015` | `7231c7aad5` | #98 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #98. .06/.07/.11/.44/.45/.47 on furnace infrastructure present (FurnaceResearchRules, Research23AExpandedGameTests). |
+| `codex/stage23a-fisheries-hotfix-20261015` | `df960d6511` | #97 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #97. Exact-fifths/largest-remainder Fisheries arithmetic present (Research23AEffectRulesTest.fisheriesUsesApprovedLargestRemainderTables…). |
+| `codex/stage23a-furnace-infrastructure-20261015` | `f28658e5e0` | #96 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #96. Furnace attribution present; branch's 'latest open wins' rule superseded by authority 'actual interaction outranks opening' (RESEARCH_KNOWLEDGE_TIER Batch 3 amendment) as implemented in Wave 11. |
+| `codex/stage23a-integrated-research-20261015` | `5e48deacbe` | #94 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #94. Selective #92 import (.19/.55/.67) present. |
+| `codex/stage23a-reconcile-20261015` | `803d2e5df5` | #93 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #93. ResearchParallelBranchRules/ResearchMovementExhaustion folded into Research23AEffectRules + ResearchMovementExhaustionMixin; manifest preserved (docs/preservation/PR93_…). Its RESEARCH 67 authority text restored in Wave 12 (0d035c84). |
+| `codex/stage23a-remaining-research-20261017` | `9376777264` | #109 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #109. .33 sweeps, .61 potions, .50 Riding, mob_capture gate present (ResearchConsecutiveSweep, ResearchSplash/LingeringPotionMixin, ResearchRidingRuntime, MobCaptureRuntime). |
+| `codex/stage23a-research-content-20261015` | `1edbdb6bc6` | #90 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #90. Batch 1 effects .02/.03/.18/.23 present (ResearchContentRuntime, ItemStackMixin, ResearchBeehiveMixin, FishingChallenges). |
+| `codex/stage23a-research-implementation-20261015` | `f632f4f521` | #92 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #92. Six effects present through evolved paths (ResearchBeehiveHarvestMixin → ResearchBeehiveMixin+ResearchBeehiveHarvestGuard). Manifest preserved (docs/preservation/PR92_…). RESEARCH 67 authority text restored in Wave 12. |
+| `codex/stage23b-cloud-client-qa-design` | `9b66f49657` | #106 | — | PRESERVED AS DOCUMENTATION | PR #106. QA design preserved in docs/preservation/prc-p6/PR106 (Wave 11 45fd25f). |
+| `codex/xp-quest-200-content-audit-20261020` | `3e66cfbdfa` | #140 | — | PRESERVED AS DOCUMENTATION | PR #140. All 8 review records imported byte-for-byte by Batch A (docs/design/xp-quest/audit-200). |
+| `codex/xp-quest-q1b-correction` | `fd4aa83113` | #120 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #120. XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance. |
+| `codex/xp-quest-q1c` | `17e980912d` | #121 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #121. Structure/combat/raid/monument tracking and 75 registrations present. |
+| `codex/xp-quest-ui-integration-20261020` | `a124ccfc2e` | — | — | PRESERVED AS DOCUMENTATION | No PR. Only a checkpoint doc, preserved blob-identical in docs/audit/BRANCH-W11-20261027/preserved/92c8a0f9….md. |
+| `design/bounty-contract-approved-20261022` | `b7cedf199a` | #148 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `design/pillager-headquarters-concept-20261022` | `55df673a83` | #147 | — | PRESERVED AS DOCUMENTATION | PR #147. PILLAGER_HEADQUARTERS_DESIGN blob 904d16c4 identical in Wave 11; pyramid prep superseded by #181 version. |
+| `design/stage23a-remaining-approval-20261017` | `67d6c1fdd1` | — | — | PRESERVED AS DOCUMENTATION | No PR. RESEARCH_STAGE23A_REMAINING_USER_DECISIONS preserved at docs/preservation/recovered/stage23a-remaining-approval/ and routed by the index. |
+| `design/territory-d79-d80-reconcile-20261020` | `d641075f20` | #136 | — | INTENTIONALLY ABANDONED / REJECTED | PR #136. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code. |
+| `design/territory-d81-d84-facility-prep-20261021` | `f2cc4f06db` | #137 | — | INTENTIONALLY ABANDONED / REJECTED | PR #137. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code. |
+| `design/territory-economy-bounty-approved-20261019` | `befa4c8a44` | #131 | — | INTENTIONALLY ABANDONED / REJECTED | PR #131. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code. Commission board is historical-only (Q1). |
+| `design/territory-owner-decisions-d01-d78-20261020` | `09b33f39f6` | #133 | — | INTENTIONALLY ABANDONED / REJECTED | PR #133. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code. |
+| `design/territory-owner-decisions-reconcile-20261020` | `e0428763cf` | #134 | — | INTENTIONALLY ABANDONED / REJECTED | PR #134. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code. |
+| `design/territory-registration-recovery-d2a-20261019` | `a1e0aeb0ab` | #132 | — | INTENTIONALLY ABANDONED / REJECTED | PR #132. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code. |
+| `design/territory-shelved-independent-content-20261021` | `284ce62ff5` | #138 | — | PRESERVED AS DOCUMENTATION | PR #138. Shelving decision preserved and routed as current authority (docs/preservation/recovered/territory-chain/TERRITORY_SHELVED_…). |
+| `design/xp-quest-usability-d1-d5-20261019` | `9a246f1e0c` | #135 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #135. XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11. |
+| `docs/2026-10-07-content-first-axis-review` | `8bf157f798` | #71 | — | PRESERVED AS DOCUMENTATION | PR #71 (merged into main). Old pre-recovery lineage; its two unique docs preserved in docs/preservation/recovered/content-first-axis-review. Villager −2/−4/−6% line superseded by 5/10/15%. Old-lineage code (F/Shift+F, Wind Step, +30/+40 enhancement, Tier IV–V fishing) superseded by current authority. |
+| `docs/accessory-enhancement-approved-20261017` | `32cbca0a3f` | #113 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #113. ACCESSORY_ENHANCEMENT_DECISIONS present; implementation present (AccessoryEnhancement*). |
+| `docs/alchemy-plot-notes` | `cc1a96b062` | — | — | PRESERVED AS DOCUMENTATION | No PR. Single idea note preserved blob-identical (preserved/020ce8e8….md). |
+| `docs/ring-life-authority-option-a-20261025` | `bacb9546c9` | #183 | — | INTEGRATED — EQUIVALENT COMMITS | PR #183 (merged into #181). Ring of Life Option A present in ACCESSORY_COOLDOWN_DECISION + regression test; all files identical/zero unique lines. |
+| `docs/stage23-accessories-approved-20261016` | `e532fa3034` | #101 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #101. 12-accessory design present (ACCESSORY_RELIC_SYSTEM_DECISIONS_2026-10-16). |
+| `docs/ui-piglin-mob-tracker-20261010` | `6fe1a308c9` | — | — | PRESERVED AS DOCUMENTATION | No PR. Piglin trade/mob tracker UI record preserved (preserved/ba6dbd84….md); summarized in UI_SYSTEM_FULL_AUDIT. |
+| `docs/wave4b-custom-quest-ui-authority-20261024` | `2e847d4956` | #164 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #164. Custom Quest UI authority present as 'XP Quest UI architecture (2026-10-24)' in the index and the UI amendment. |
+| `docs/world-events-patrol-design-20261018` | `ad77805971` | #122 | — | PRESERVED AS DOCUMENTATION | PR #122. Patrol design preserved (docs/preservation/recovered/territory-chain/WORLD_EVENT_PILLAGER_PATROL_DESIGN_2026-10-18.md). Design only; no implementation exists on any branch. |
+| `feature/bc03-approved-reconciliation-20261025` | `35c97ff413` | #178 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `feature/wave7a-star-covenant-20261024` | `b6a03f4e5a` | #171 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `feature/wave7b-accessory-abilities-20261025` | `91faed1092` | #174 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `feature/wave7b-snow-charm-20261025` | `e72be04070` | #173 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `fix/bc04-contract-structure-names-20261025` | `f3604c4593` | #180 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `fix/exposure-audit-parallel-20261025` | `6d456e6fca` | #184 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #184 (closed). Parallel downloads superseded by #186 paced audit (merged). |
+| `fix/qm01-quest-monument-test-isolation` | `baa06dc4ae` | #179 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `fix/wave9-live-input-harness-20261026` | `eb88cf8147` | #188 | — | INTEGRATED — EQUIVALENT COMMITS | PR #188. Patch-equivalent 295634f in Wave 11; remaining diff is the superseded parallel-audit variant. |
+| `integration/accessory-bounty-20261023` | `63efc3ca0a` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `integration/accessory-system-20261023` | `0e9ccc5af9` | #161 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `integration/batch-a-recovery-20261022` | `05a378211a` | #156 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #156. Composed into Wave 11 by a13d9777; branch-only lines are pre-#166 test keys and pre-Wave-7 input code. |
+| `integration/q1b-villager-discount-pr116-20261019` | `4fbb036e01` | #123 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #123. Pricing repair retained via #124/#125. |
+| `integration/q1c-pr116-discount-20261019` | `5ea5f54614` | #124 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #124. Pricing repair retained via #125. |
+| `integration/stage23-linear-chain-20261016` | `7231c7aad5` | #100 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #100. Linear chain retained via #103/#125. |
+| `integration/stage23-mobs-accessories-20261016` | `b0de6b7548` | #104 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #104 (merged into #103). 40-mob resources present (CustomMobRenderers, textures). |
+| `integration/stage23-reconciliation-audit-20261016` | `601cc28b9d` | #102 | — | PRESERVED AS DOCUMENTATION | PR #102. Audit preserved in docs/preservation/prc-p6/PR102. |
+| `integration/wave5r-combined-20261024` | `a33d03ba1c` | #165 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `integration/wave8-wave7-repairs-20261025` | `cb6412e204` | #172 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `integration/wave9-accessory-abilities-20261025` | `decb3efa19` | #176 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `recovery/vanilla-model-custom-mob-roster-base` | `cf4360b228` | — | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | No PR. One commit cf4360b2 (roster approval doc) whose content reached Wave 11 through #69; only the 'Baseline:' line differs. Pre-#69 test name superseded by portableFurnaceRetainsItsApprovedProcessingContract. Loss on deletion: one superseded doc revision. |
+| `resources/40-custom-mob-production-textures` | `0cc0a9eaf5` | #72 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #72 (closed). Textures integrated via #104; remaining diffs are formatting-only. |
+| `security/exposure-audit-pacing-20261025` | `97797b5deb` | #186 | — | INTEGRATED — EQUIVALENT COMMITS | PR #186 (merged into #181). Content identical in Wave 11. |
+| `security/gitleaks-historical-findings-20261022` | `b2f2f8f9bf` | #155 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `test/bc03-validation-hardening-20261025` | `cc058692ca` | #177 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `test/k5-reused-world-determinism-20261025` | `9f565a664a` | #187 | — | INTEGRATED — EQUIVALENT COMMITS | PR #187 (merged into #181). Equivalent commits in Wave 11 (f4a49bd, ff249bf). |
+| `test/ring-life-option-a-regression-20261025` | `efc77967c9` | #185 | — | INTEGRATED — EQUIVALENT COMMITS | PR #185 (merged into #181). Regression test present (5622585). |
+| `tooling/integration-gametest-coverage-20261024` | `741a1be900` | #170 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `wave7/a-e-real-mouse-input` | `0f466b96df` | #168 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `wave7/b-gametest-recovery` | `e5982f3c2f` | #166 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `wave7/c-accessory-raw-xp` | `06be9f53ff` | #167 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `wave7/d-ui-cleanup` | `8f53b48816` | #169 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+
+## RETAIN — ACTIVE DEPENDENCY (14)
+
+| Branch | HEAD | Source PR(s) | Open-PR dependency | Provenance | Evidence |
+|---|---|---|---|---|---|
+| `audit/stage23-pr92-pr93-reconciliation-20261019` | `079d36ac3b` | #125 | base of open #126, #127 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #125 (closed) — base of open PRs #126/#127. Cumulative donor for Batch A; Stage 22/23-A research chain. Its retained runtime reached Wave 11 through #125 → Batch A #156 → Wave 5R composition a13d9777; every research effect it implemented has a live handler in the checkpoint (ResearchRewards + mixins, verified per ID) and renamed regression tests (Research23AEffectRulesTest, Research23AXpCollectionGameTests, Research23AMovementExhaustionGameTests, ResearchContentGameTests). Branch-only lines are older test fixtures/keys repaired by #166. |
+| `claude/xp-quest-authority-20261017` | `63107098fc` | #111, #112 | base of open #118 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #111/#112 (closed) — base of open PR #118. XP Quest authority docs present in Wave 11 (UI_ADVANCEMENT_INTEGRATION amendment, docs/design/xp-quest/*). |
+| `claude/xp-quest-q1-integration` | `c40ee6b165` | #118 | head of open #118; base of open #119 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #118 (open draft) — base of open #119. XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance. |
+| `claude/xp-quest-q1b-tracking` | `c7fe7fabc5` | #119 | head of open #119 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #119 (open draft). XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance. |
+| `codex/ancient-city-arena-prototype-20261013` | `e7dc53f9f4` | #83 | head of open #83 | RECOVERED IN WAVE 12 | PR #83 (open draft). Owner-approved first Ancient City Arena prototype (ANCIENT_CITY_STRUCTURE_EXPANSION §2-A/§4). Ported in Wave 12 commits 6bb483e1…209c251e; 2 GameTests + real worldgen re-verified. |
+| `codex/q1c-recovery-20261019-079d36a` | `334997d2f8` | #127 | head of open #127; base of open #128 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #127 (open draft) — base of #128. Skull decision recorded in Phase 2 F-1; build blocker report historical. |
+| `codex/stage23-livefix-b-20261016` | `5682be1071` | #105 | base of open #107 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #105 — base of open PR #107. Portable furnace persistence present (PortableFurnaceContents, PortableFurnaceRestartFixture; authority amendment 2026-10-16). |
+| `codex/stage23b-cloud-live-client-qa` | `dad054c7cb` | #107 | head of open #107 | VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY | PR #107 (open draft). Test-only clientQa source set + workflow; approved as validation tooling, not gameplay. Not integrated (would add a new source set/CI lane; real-client coverage in Wave 11 comes from client-visual-validation + Wave 7 A/E SDL input + accessory client gametests). |
+| `design/xp-quest-selector-redesign-20261019` | `a9b89755f7` | #126 | head of open #126; base of open #129 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #126 (open draft) — base of open #129. XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11. |
+| `design/xp-quest-structure-200-20261019` | `2176935929` | #129 | head of open #129 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #129 (open draft). XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11. |
+| `docs/phase2-preservation-decisions-20261026` | `6f9c3ac2ad` | #189 | head of open #189 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #189 (open draft). All 5 commits patch-equivalent in Wave 11; Wave 11 then applied owner Q1–Q4 (which changed Q3 Feather Boots wording) — branch-only lines are the superseded pre-Q3 text. |
+| `experiment/cloud-free-model-delegation-phase0` | `aa376713ae` | #141 | head of open #141 | INTENTIONALLY ABANDONED / REJECTED | PR #141 (open draft). Delegation experiment (OpenRouter scripts/workflow); explicitly excluded from production (PR #154 plan). |
+| `experiment/underground-kingdom-worldgen-probe` | `991b20c8a0` | #117 | head of open #117 | VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY | PR #117 (open draft). Feasibility probe; STRUCTURE_AUTHORITY_INDEX: 'experiment evidence only'. |
+| `integration/stage23-final-reconciliation-20261016` | `bdffa599e1` | #103 | base of open #117 | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #103 — base of open PR #117. Sibling fixes retained via #125. |
+
+## RETAIN — CHECKPOINT (29)
+
+| Branch | HEAD | Source PR(s) | Open-PR dependency | Provenance | Evidence |
+|---|---|---|---|---|---|
+| `checkpoint/wave10-unified-20261026` | `73dcc8f4d1` | — | — | INTEGRATED — EQUIVALENT COMMITS | Wave 10 checkpoint. Its 3 post-#191 commits are patch-equivalent in Wave 11; trusted checkpoint ref. |
+| `checkpoint/wave11-unified-20261027` | `c47c69f3e3` | #192 | head of open #192 | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `integration/wave10-unified-20261025` | `13c190d1ab` | #182 | head of open #182 | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `main` | `cde842dd2c` | — | base of open #141, #181, #182, #189, #192 | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `release/wave9-rc-20261025` | `268ec65bb8` | #181 | head of open #181 | INTEGRATED — EQUIVALENT COMMITS | PR #181 (open draft). All files identical in Wave 11 (pyramid docs, #183/#185/#186/#187); release candidate ref pinned by STRUCTURE_AUTHORITY_INDEX. |
+| `stage-1/fabric-foundation` | `ab5e2a5790` | #1 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-10/draft-content` | `a2acc715ad` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-11/checkpoint` | `3cb27187e3` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-12/checkpoint` | `a8b6299f16` | — | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | Pre-recovery checkpoint (#36). Fishing core superseded by Stage 3 reconciliation; all 36 approved PNGs blob-identical in Wave 11. |
+| `stage-13/checkpoint` | `94a264c2c6` | — | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | Pre-recovery checkpoint (#37/#38). Flame Sword C1-A/B: approved PNG identical; two-face model superseded by Stage 18 six-face contract. |
+| `stage-14/checkpoint` | `94a264c2c6` | — | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | Pre-recovery checkpoint (#39 base). Same content as stage-13. |
+| `stage-15/checkpoint` | `c39313e7d1` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-16/checkpoint` | `70e470deb2` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-17/checkpoint` | `d8493c62bb` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-18/checkpoint` | `93d264a8f7` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-18/integration` | `e4e99c36c1` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-19/checkpoint` | `984418d302` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-2/enhancement-stone` | `6ae717c92d` | #3 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-20/checkpoint` | `20121ca7cc` | — | base of open #83 | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-21/knowledge-checkpoint` | `c0ce63cb73` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-22/research-restructure` | `d65f590593` | #88 | — | SUPERSEDED / REIMPLEMENTED IN CHECKPOINT | PR #88 (closed). V3-inclusive prerequisite validation (purchasedResearch over allCatalogEntries) present in Wave 11 ResearchPurchaseService; docs present. |
+| `stage-3/enhancement-vertical-slice` | `1f05e53fba` | #5 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-4/equipment-foundation` | `8a3159c5a3` | #11 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-5/special-equipment` | `e66bf7ecb3` | #14 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-6/materials-crafting-progression` | `c8705f4c39` | #16 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-7/life-content` | `a62a65e10c` | #18 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-8/entity-mob` | `5541ad505a` | #21 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-9/skeleton-king` | `ec1b6ce918` | #23 | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+| `stage-ci/accessory-bounty-20261023` | `63efc3ca0a` | — | — | INTEGRATED (ancestor of Wave 11) | Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor). |
+
+## RETAIN — UNPRESERVED FUNCTIONALITY (4)
+
+| Branch | HEAD | Source PR(s) | Open-PR dependency | Provenance | Evidence |
+|---|---|---|---|---|---|
+| `codex/stage23-pr105-bundle-export-20261016` | `c035946fb8` | — | — | VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY | No PR. One-off CI workflow (c035946f) that exported a PR #105 git bundle; no product code or authority. The workflow file exists only on this branch (no PR ref keeps it), so deletion would discard it; owner discard needed. |
+| `experiment/ponytail-skill-2-20261021` | `f864df45ef` | — | — | INTENTIONALLY ABANDONED / REJECTED | No PR. Experimental agent-skill files only; excluded from production (PR #154 plan). Files exist only on this branch (no PR ref). |
+| `prototype/stage20-vanilla-sweep-texture` | `b1830ce606` | — | — | INTENTIONALLY ABANDONED / REJECTED | No PR. Global vanilla sweep-texture override prototype; T2 VFX deferred and override excluded by PR #154 plan. Its sprites exist only on this branch (no PR ref). |
+| `prototype/vanilla-sweep-texture` | `fe9d441f57` | — | — | INTENTIONALLY ABANDONED / REJECTED | No PR. Same sweep prototype on older lineage; sprites exist only on this branch. |
+
+## RETAIN — UNRESOLVED AUTHORITY (5)
+
+| Branch | HEAD | Source PR(s) | Open-PR dependency | Provenance | Evidence |
+|---|---|---|---|---|---|
+| `claude/q1c-skull-provenance-20261019` | `6ba15ac2cb` | #128 | head of open #128; base of open #130 | UNRESOLVED — BLOCKED (owner decision / design) | PR #128 (open draft). Wither-skull provenance (4 mixins, QuestWitherSkullProvenance, 13 tests) and registration of xpq.cmb.wither_skulls_3. Owner F-1: rule approved but #128/#130 NOT release-ready; crash-consistency defect must be fixed before registration. |
+| `codex/q1c-pr128-p1-p2-repair-20261019` | `9c9f225773` | #130 | head of open #130 | UNRESOLVED — BLOCKED (owner decision / design) | PR #130 (open draft). P2 pickup accounting fixed; P1 forced-halt receipt protocol still RED by its own acceptance test (A=1,B=1) and needs a durability-protocol design. Not integrated. |
+| `design/pyramid-mob-roster-20261026` | `a86c6d5beb` | — | — | PRESERVED AS DOCUMENTATION | No PR. STRUCTURE_AUTHORITY_INDEX routes ST-01 roster to this branch as an active design branch (not reviewed into authority). Copy preserved in docs/audit/BRANCH-W11-20261027/preserved/ad8d2e31….md. |
+| `design/spider-colony-biome-20261026` | `f75638670f` | — | — | PRESERVED AS DOCUMENTATION | No PR. STRUCTURE_AUTHORITY_INDEX routes ST-04 and ST-02 cancellation to this branch (active design). Copy preserved (fb5611f5….md). |
+| `docs/sky-islands-design-context-20261027` | `8ceff945ab` | — | — | RECOVERED IN WAVE 12 | No PR; created 2026-10-27 00:26 UTC. Design-in-progress record copied byte-identical into Wave 12 (0d035c84). Not routed as authority; owner continues design on this branch. |
+
+## RETAIN — AUDIT INCOMPLETE (0)
+
+None.
+
