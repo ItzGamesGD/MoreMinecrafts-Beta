@@ -85,6 +85,26 @@ class AdamantiumF3WorldgenTest {
     }
 
     @Test
+    void shippedOriginRangeIsSupportedOnlyFromNineToTwentyOneAndPeaksAtFifteen() throws IOException {
+        JsonObject range = heightRange(shipped("placed_feature"));
+        TrapezoidHeight height = TrapezoidHeight.of(VerticalAnchor.absolute(absolute(range.getAsJsonObject("min_inclusive"))),
+                VerticalAnchor.absolute(absolute(range.getAsJsonObject("max_inclusive"))));
+        RandomSource random = RandomSource.create(20261027L);
+        int[] counts = new int[40];
+        for (int i = 0; i < 262_144; i++) counts[height.sample(random, null)]++;
+        int min = -1, max = -1, mode = 0;
+        for (int y = 0; y < counts.length; y++) {
+            if (counts[y] == 0) continue;
+            if (min < 0) min = y;
+            max = y;
+            if (counts[y] > counts[mode]) mode = y;
+        }
+        assertEquals(9, min);
+        assertEquals(21, max);
+        assertEquals(15, mode);
+    }
+
+    @Test
     void uniformFromEightToTwentyFourIsFlatAndSoDoesNotMeetTheBiasRule() {
         // Documents why the shipped height provider cannot satisfy "biased toward Y 15".
         RandomSource random = RandomSource.create(20261027L);
@@ -100,20 +120,42 @@ class AdamantiumF3WorldgenTest {
     // --- data that ships today -----------------------------------------------------------------------------------
 
     /**
-     * Characterization, not approval. The shipped data predates F-3 and does not satisfy it (F-3 itself says so). This test
-     * fails when somebody changes it, so the change is deliberate: update docs/audits/wave13/ADAMANTIUM_F3_ANALYSIS.md and
-     * re-run tools/ore-sampling at the same time.
+     * The shipped data is exactly candidate E (docs/audits/wave13/ADAMANTIUM_F3_ANALYSIS.md), selected by the provisional
+     * owner decisions D-F3-1 (Y 8-22 bounds every generated block) and D-F3-2 (one attempt per chunk, as for both vanilla
+     * Ancient Debris features, which carry no count modifier).
      */
     @Test
-    void shippedAdamantiumDataIsStillThePreF3Configuration() throws IOException {
-        JsonObject feature = shipped("feature");
-        JsonObject placed = shipped("placed_feature");
-        assertEquals("minecraft:ore", feature.get("type").getAsString());
-        assertEquals(3, feature.get("size").getAsInt());
-        JsonObject height = heightRange(placed);
-        assertEquals("minecraft:uniform", height.get("type").getAsString());
-        assertEquals(8, absolute(height.getAsJsonObject("min_inclusive")));
-        assertEquals(24, absolute(height.getAsJsonObject("max_inclusive")));
+    void shippedAdamantiumDataIsCandidateE() throws IOException {
+        JsonObject candidate = JsonParser.parseString(Files.readString(ALTERNATIVES.resolve("E_count1_origin9-21.json"))).getAsJsonObject();
+        assertEquals(candidate.getAsJsonObject("feature"), shipped("feature"));
+        assertEquals(candidate.getAsJsonObject("placed_feature"), shipped("placed_feature"));
+    }
+
+    /**
+     * D-F3-1, strict form. scattered_ore moves a block at most one block vertically from the vein origin (measured: Y 7 and
+     * Y 23 appear from an 8-22 origin range and never from 9-21), so an origin range of 9..21 confines every block to 8..22.
+     * The sampling run (tools/ore-sampling/check_f3.py --strict-block-y) is the empirical proof; this pins the data that proof used.
+     */
+    @Test
+    void shippedOriginRangeConfinesEveryBlockToY8Through22() throws IOException {
+        JsonObject height = heightRange(shipped("placed_feature"));
+        assertEquals("minecraft:trapezoid", height.get("type").getAsString());
+        assertFalse(height.has("plateau"));
+        assertTrue(absolute(height.getAsJsonObject("min_inclusive")) - 1 >= 8);
+        assertTrue(absolute(height.getAsJsonObject("max_inclusive")) + 1 <= 22);
+        assertEquals("minecraft:scattered_ore", shipped("feature").get("type").getAsString());
+        assertEquals(2, shipped("feature").get("size").getAsInt());
+    }
+
+    /** D-F3-2: no count modifier other than a constant 1, i.e. the single attempt per chunk of vanilla Ancient Debris. */
+    @Test
+    void shippedPlacementIsOneAttemptPerChunk() throws IOException {
+        for (JsonElement e : shipped("placed_feature").getAsJsonArray("placement")) {
+            JsonObject modifier = e.getAsJsonObject();
+            String type = modifier.get("type").getAsString();
+            assertFalse(type.equals("minecraft:rarity_filter") || type.equals("minecraft:count_on_every_layer") || type.equals("minecraft:noise_threshold_count"), type);
+            if (type.equals("minecraft:count")) assertEquals(1, modifier.get("count").getAsInt());
+        }
     }
 
     @Test

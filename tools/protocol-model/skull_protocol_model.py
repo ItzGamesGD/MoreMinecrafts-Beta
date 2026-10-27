@@ -18,7 +18,13 @@ Invariants checked on the recovered world:
   INV1 no double credit      : credit(A) + credit(B) <= 1
   INV2 no uncredited receipt : A durably holds the skull  =>  credit(A) == 1
   INV3 no credit without item: credit(A) == 1  =>  A durably holds the skull
-Reported, not asserted: physical skull count (loss / duplication) - vanilla cannot make that atomic.
+  INV4 no physical loss      : (P4 only, asserted) skulls reachable after recovery >= 1   [A + B + entity]
+  INV5 no physical duplicate : (P4 only, asserted) skulls reachable after recovery <= 1
+For P0-P3, physical skull count (loss / duplication) is reported, not asserted - those protocols cannot make it atomic.
+P4 adds a ledger that carries enough to RESTORE a removed skull and a rule that DISCARDS a ground entity whose token is
+already committed. It is also checked against a SECOND crash at every step of its own recovery.
+Scope of "physical": from the moment the pickup starts until its transaction is committed and the receipt cleared. After
+that the skull is an ordinary item and vanilla's own storage semantics apply (dropping, chests, void, ...).
 
 usage: skull_protocol_model.py [--check] [--json]
 """
@@ -68,6 +74,38 @@ def P3_prepare_receipt_commit():
             ("write", "A", lambda w: setA(w, r=())),
             ("flush", "A", None)]
 
+
+def P4_prepare_restorable():
+    # P3's order, but the ledger entry also records the item and its location (RESTORABLE) and recovery restores or discards
+    # the ground entity. No forced chunk save is needed on the pickup path.
+    return [("write", "L", lambda w: replace(w, L=(T, "PENDING", "A"))),
+            ("flush", "L", None),
+            ("write", "C", lambda w: replace(w, C=False)),
+            ("write", "A", lambda w: setA(w, s=w.A[0] + 1, c=w.A[1] + 1, r=("tx",))),
+            ("flush", "A", None),
+            ("write", "L", lambda w: replace(w, L=(T, "CONSUMED", "A"))),
+            ("flush", "L", None),
+            ("write", "A", lambda w: setA(w, r=())),
+            ("flush", "A", None)]
+
+def recovery_steps_p4(w):
+    """Recovery as a step list derived only from durable state, so a crash inside it can be enumerated too."""
+    steps = []
+    if w.L and w.L[1] == "PENDING":
+        if w.A[2]:                                    # owner's file carries the receipt: skull+credit are durable -> roll forward
+            steps += [("write", "L", lambda x: replace(x, L=(T, "CONSUMED", "A"))), ("flush", "L", None)]
+            if w.C:                                   # the chunk predates the removal: the ground copy is now a duplicate
+                steps += [("write", "C", lambda x: replace(x, C=False)), ("flush", "C", None)]
+        else:                                         # owner's file predates the transaction -> roll back: skull must exist on the ground
+            steps += [("write", "C", lambda x: replace(x, C=True)), ("flush", "C", None),
+                      ("write", "L", lambda x: replace(x, L=())), ("flush", "L", None)]
+    elif w.L and w.L[1] == "CONSUMED":
+        if w.C:                                       # committed token still on the ground (stale chunk) -> discard the duplicate
+            steps += [("write", "C", lambda x: replace(x, C=False)), ("flush", "C", None)]
+    if w.A[2]:
+        steps += [("write", "A", lambda x: setA(x, r=())), ("flush", "A", None)]
+    return steps
+
 # --- recovery after restart ------------------------------------------------------------------------------------------
 def recover_none(w): return w
 
@@ -108,14 +146,16 @@ PROTOCOLS = {
     "P2": ("journal appended BEFORE Inventory.add", P2_journal_before_insert, recover_projection),
     "P3": ("PENDING flush -> inventory+receipt in one player file -> player save -> ledger commit",
            P3_prepare_receipt_commit, recover_receipt),
+    "P4": ("P3 + restorable ledger entry + restore-or-discard recovery (itself crash-checked)",
+           P4_prepare_restorable, None),
 }
 
 def versions(history, last_flush):
     return range(last_flush, len(history))
 
-def enumerate_crashes(steps):
+def enumerate_crashes(steps, base=None):
     """Yield (crash_after_step_index, persisted World) for every crash point and every independent persistence choice."""
-    base = World()
+    base = base or World()
     for k in range(len(steps) + 1):                  # crash after k steps (k = len(steps): crash after completion)
         hist = {d: [getattr(base, d)] for d in "CALB" if d in "CAL"}
         mem = base
@@ -130,15 +170,28 @@ def enumerate_crashes(steps):
         for c, a, l in itertools.product(*choices):
             yield k, replace(base, C=hist["C"][c], A=hist["A"][a], L=hist["L"][l])
 
+def crash_outcomes(name, steps, recover):
+    """Yield (crash_step, persisted_world, recovered_world). P4 recovery is step-based and is itself crashed at every step."""
+    for k, persisted in enumerate_crashes(steps):
+        if recover is not None:
+            yield k, persisted, recover(persisted)
+            continue
+        for j, mid in enumerate_crashes(recovery_steps_p4(persisted), base=persisted):
+            # second restart: recovery runs again from whatever was durable, then runs to completion
+            w = mid
+            for kind, dom, fn in recovery_steps_p4(mid):
+                if kind == "write": w = fn(w)
+            yield k, persisted, replace(w, A=(w.A[0], w.A[1], ()))
+
 def evaluate(name):
     desc, steps_fn, recover = PROTOCOLS[name]
     steps = steps_fn()
     states = 0
-    viol = {"INV1": [], "INV2": [], "INV3": []}
+    viol = {"INV1": [], "INV2": [], "INV3": [], "INV4": [], "INV5": []}
     physical = {"lost": 0, "duplicated": 0, "exact": 0}
-    for k, persisted in enumerate_crashes(steps):
+    for k, persisted, w in crash_outcomes(name, steps, recover):
         states += 1
-        w = recover(persisted)
+        recovered_skulls = w.A[0] + (1 if w.C else 0)
         w = second_pickup_B(name, w)
         credit = w.A[1] + w.B[1]
         ctx = (k, persisted.C, persisted.A, persisted.L)
@@ -147,7 +200,38 @@ def evaluate(name):
         if w.A[1] == 1 and w.A[0] < 1: viol["INV3"].append(ctx)
         skulls = w.A[0] + w.B[0] + (1 if w.C else 0)
         physical["lost" if skulls < 1 else "duplicated" if skulls > 1 else "exact"] += 1
+        if name == "P4":
+            # B's pickup is evaluated after recovery; physical conservation is judged BEFORE B acts (B only moves the entity).
+            before = recovered_skulls
+            if before < 1: viol["INV4"].append(ctx)
+            if before > 1: viol["INV5"].append(ctx)
     return desc, states, viol, physical
+
+
+def mutants():
+    """Break P4 in five ways; every break must be caught by an invariant, otherwise the model proves nothing."""
+    global recovery_steps_p4
+    base_steps, base_rec = P4_prepare_restorable, recovery_steps_p4
+    def drop(pred): return lambda: [x for i, x in enumerate(base_steps()) if not pred(i, x)]
+    def rec_filter(f): return lambda w: f(w, base_rec(w))
+    cases = {
+        "no PENDING flush before the first side effect": (drop(lambda i, x: i == 1), base_rec),
+        "owner file commit not flushed": (drop(lambda i, x: x[:2] == ("flush", "A")), base_rec),
+        "rollback does not restore the skull": (base_steps, rec_filter(lambda w, st: [x for x in st if not (x[:2] == ("write", "C") and w.L and w.L[1] == "PENDING" and not w.A[2])])),
+        "roll-forward leaves the stale ground copy": (base_steps, rec_filter(lambda w, st: [x for x in st if not (x[:2] in (("write", "C"), ("flush", "C")) and w.L and w.L[1] == "PENDING" and w.A[2])])),
+        "ledger cleared before the restore is flushed": (base_steps, lambda w: ([("write", "L", lambda x: replace(x, L=())), ("flush", "L", None), ("write", "C", lambda x: replace(x, C=True))] if w.L and w.L[1] == "PENDING" and not w.A[2] else base_rec(w))),
+    }
+    caught = {}
+    try:
+        for name, (steps_fn, rec_fn) in cases.items():
+            PROTOCOLS["P4"] = (PROTOCOLS["P4"][0], steps_fn, None)
+            recovery_steps_p4 = rec_fn
+            _, _, viol, _ = evaluate("P4")
+            caught[name] = sorted(k for k, v in viol.items() if v)
+    finally:
+        PROTOCOLS["P4"] = (PROTOCOLS["P4"][0], base_steps, None)
+        recovery_steps_p4 = base_rec
+    return caught
 
 def main():
     results = {}
@@ -159,6 +243,11 @@ def main():
                                       player_A=dict(skulls=v[0][2][0], credit=v[0][2][1], receipts=list(v[0][2][2])),
                                       ledger=list(v[0][3]) or None)) for k, v in viol.items()},
                              physical_outcomes=physical)
+    if "--mutants" in sys.argv:
+        caught = mutants(); ok = True
+        for name, inv in caught.items():
+            print(f"{'CAUGHT' if inv else 'MISSED'}  {name}: {inv}"); ok &= bool(inv)
+        return 0 if ok else 1
     if "--json" in sys.argv:
         print(json.dumps(results, indent=2)); return 0
     for name, r in results.items():
@@ -170,7 +259,7 @@ def main():
         # Findings this model is expected to keep reproducing (verified by running it, not assumed in advance):
         #   P0 double-credits (the observed A=1,B=1); P1 and P2 each break BOTH single-file-consistency invariants;
         #   only P3 (ledger PENDING flush + receipt in the player file) is clean across every crash state.
-        expect = {"P0": {"INV1"}, "P1": {"INV2", "INV3"}, "P2": {"INV2", "INV3"}, "P3": set()}
+        expect = {"P0": {"INV1"}, "P1": {"INV2", "INV3"}, "P2": {"INV2", "INV3"}, "P3": set(), "P4": set()}
         ok = True
         for name, r in results.items():
             failing = {k for k, v in r["violations"].items() if v}

@@ -184,7 +184,8 @@ tasks.register("validateStage6Data") {
             def feature = json.parse(featureFile)
             def placed = json.parse(placedFile)
 
-            assert feature.type == "minecraft:ore"
+            // F-3: Adamantium veins are 1-2 blocks, which plain minecraft:ore cannot generate (see docs/audits/wave13/ADAMANTIUM_F3_ANALYSIS.md)
+            assert feature.type == (family == "adamantium" ? "minecraft:scattered_ore" : "minecraft:ore")
             assert !feature.containsKey("config") : "Minecraft 26.3 feature config must be inline in ${featureFile}"
             assert feature.targets instanceof List
             assert feature.size instanceof Number
