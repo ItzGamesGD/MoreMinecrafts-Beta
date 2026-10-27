@@ -132,3 +132,12 @@ These are design decisions only. No gameplay implementation or merge authorizati
 6. Do not equate initial candidate generation density with measured realized colony density. Validate minimum spacing, natural-cave fit, chunk order independence, biome boundaries, ore quantities, lighting and worldgen performance.
 
 Status: **DESIGN ONLY**. Do not change game code, assets, tests, release-frozen PR #181, or main. Implementation requires separate authorization.
+
+
+## Q67-Q70 owner decisions (2026-10-27)
+- **Q67 B — Large nest vertical scale:** Target approximately 12-24 blocks of internal height, naturally irregular rather than a fixed-height chamber. Horizontal extent remains Q66's approximately 20-36 blocks. Preserve cave continuity and validate navigability and Mother Spider combat space.
+- **Q68 B — Natural interior terrain:** Retain rocky protrusions, small ledges, sloped floors and uneven ceilings. Avoid forced artificial multi-level mazes, impassable paths and mob-navigation traps. Partial expansion under Q65 remains permitted.
+- **Q69 B — Cobweb placement:** Concentrate webs on walls and ceilings, with some web obstacles in rocky gaps and selected passages. Preserve navigable primary routes and allow removal or bypass. Maintain Q54 medium overall density and Q64 gradual outer transitions.
+- **Q70 B — Spider spawner distribution:** Place the previously approved 1-2 **vanilla regular-spider** spawners per large nest at separated suitable locations such as near natural rock protrusions or walls, rather than clustering them centrally. Do not add cave-spider spawners; avoid blocking Mother Spider encounter area and key routes. Exact spacing, valid placement and spawn-volume checks are implementation/QA.
+
+These decisions are **DESIGN ONLY**. No game code, worldgen, assets, tests, merges, or changes to release-frozen PR #181 authorized.
