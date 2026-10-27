@@ -1148,5 +1148,8 @@
   "moreminecrafts.xpq.fsh.emerald_500.objective": "어류 판매로 에메랄드 누적 500개 획득",
   "moreminecrafts.xpq.dim.nether_travel_50k.title": "네더 회랑",
   "moreminecrafts.xpq.dim.nether_travel_50k.description": "네더 차원에서 지급된 이동 통계(cm) 합계 50,000블록",
-  "moreminecrafts.xpq.dim.nether_travel_50k.objective": "네더 차원에서 지급된 이동 통계(cm) 합계 50,000블록"
+  "moreminecrafts.xpq.dim.nether_travel_50k.objective": "네더 차원에서 지급된 이동 통계(cm) 합계 50,000블록",
+  "item.moreminecrafts.etherium_shard": "Etherium Shard",
+  "item.moreminecrafts.etherium_ingot": "Etherium Ingot",
+  "item.moreminecrafts.gale_shard": "Gale Shard"
 }
