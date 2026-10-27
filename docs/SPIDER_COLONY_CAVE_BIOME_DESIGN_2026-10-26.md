@@ -98,3 +98,37 @@ Design only. No game code, worldgen, assets, or tests authorized. Do not merge o
 - Height-based generation weighting: **OWNER APPROVED Q46 option B** — within the approved Y=-48..48 eligibility range, spider-colony cave generation likelihood peaks near Y=0 and gradually tapers at both higher and lower elevations. Maintain low overall rarity and large connected cave regions. Exact weighting curve and noise implementation are HOW, subject to validation; no guarantee of uniform distribution.
 
 - Horizontal colony scale: **OWNER APPROVED Q47 option B** — target an irregular, connected natural cave colony spanning approximately 128–256 blocks horizontally, not a fixed square or rectangular structure. Preserve 1–3 sufficiently separated large nests, gradual boundaries, Y=-48..48 eligibility and Y≈0 peak weighting. Exact region shape/measurement, connectivity and generation performance are HOW/QA.
+
+
+## Q48-Q66 owner decisions (2026-10-27) — latest authority where conflicting
+These are design decisions only. No gameplay implementation or merge authorization. Earlier statements remain historical; explicit conflicts below require reconciliation rather than silently erasing prior approvals.
+
+- **Q48 C, very rare:** Colony caves are optional secondary exploration content, not mandatory progression. Initial HOW proposal: evaluate one candidate per 32x32-chunk (512x512-block) region with 12.5% candidate probability, minimum colony-center spacing 768 blocks; require connected natural caves, viable nests and collision checks. Candidate density is approximately one per 2048 chunks (2,097,152 square blocks) before rejection and spacing, **not actual realized frequency**. Use deterministic region priority/neighbor exclusion independent of chunk generation order; benchmark and tune before implementation. Preserve Y=-48..48 with peak weighting near Y=0. This numerical algorithm is an initial design proposal, not independently owner-approved final parameters.
+- **Q49 B:** Harvestable Colony Crystal deposits cluster near large nests, with sparse deposits at outer colony areas.
+- **Q50 A:** Naturally generated harvestable crystal deposits do not regenerate.
+- **Q51 B:** Natural spider spawning across colony plus ordinary spider spawners at large nests.
+- **Q52 A:** Ordinary natural hostile spawn roster restricted to vanilla spider and cave spider; outside entrants unaffected. This is consistent with earlier Q38. Mother Spider remains a separate approved rare nest encounter, not removed.
+- **Q53 A:** 1-2 vanilla regular-spider spawners per large nest; no cave-spider spawners. Cave spiders spawn naturally.
+- **Q54 B:** Medium cobweb density, increasing toward nests; preserve traversable natural routes.
+- **Q55 B:** Enhance natural habitat with web masses, hanging cocoons, bones and prey remains without replacing the cave with a built dungeon.
+- **Q56 C:** Some breakable cocoons release spiders, others give small loot; no proximity activation or renewable farming.
+- **Q57 A:** Dangerous and loot-bearing cocoons are visually indistinguishable.
+- **Q58 A:** Dangerous cocoons release 1-2 **regular vanilla spiders only**, not cave spiders.
+- **Q59 A:** No colony-specific treasure chests; primary rewards are crystals and cocoon drops.
+- **Q60 B:** Harvestable crystal ore requires iron-tier-or-better mining capability. Wooden, stone and gold pickaxes cannot yield crystal items.
+- **Q61 A:** Crystal ore follows vanilla-style Fortune-enhanced drops and Silk Touch block harvesting; exact base count/loot table to be tested, not fabricated.
+- **Q62 B:** Crystal ore emits faint light, subject to maintaining viable natural spider spawning in nest regions.
+- **Q63 A:** Preserve natural cave connectivity; no artificial entrances or forced connecting corridors.
+- **Q64 A:** Gradual transition of cobwebs, cocoons and debris at colony boundaries.
+- **Q65 B:** Large nests partially expand existing natural caves where necessary, with irregular shapes and preserved major passages.
+- **Q66 B:** Each large nest targets approximately 20-36 blocks horizontal diameter, not a perfect circle.
+
+### Explicit reconciliation required before implementation
+1. Earlier Q21-Q23 designate **one guaranteed Colony Crystal on each one-time Mother Spider death**, previously exclusive to Mother Spider. Q49-Q61 now also approve mineable Colony Crystal deposits. **Preserve the guaranteed Mother Spider drop**, remove only the earlier *exclusivity* assumption; do not infer total crystal yield is still 1-3 per colony. Exact crystal ore deposit quantity and economy impact remain open.
+2. Earlier Q40 forbids new emissive decorations; Q62 explicitly supersedes that prohibition **for faintly luminous crystal ore only**. No blanket permission for glowing webs or egg sacs. Validate light levels against hostile-spawn mechanics.
+3. Earlier Q26-Q36 approve ordinary floor egg sacs, 35% reactive, yielding 1-2 **miniature spiders** when broken, with Silk Touch and juvenile loot rules. Q55-Q58 introduce **hanging cocoons** and specify 1-2 **regular vanilla spiders**. Treat hanging cocoons as a **distinct feature** from ordinary floor egg sacs unless owner later chooses to unify them; retain the earlier egg-sac decisions. Cocoon loot rates, hazard probability and exact visuals remain open.
+4. Earlier Q2 and Q28 describe egg sacs; hanging cocoons are a separate decoration type approved by Q55. No new monster species authorized.
+5. Existing Mother Spider combat, one-time spawning/persistence, 60 HP, summoning and guaranteed reward remain intact; Q52 only governs ordinary natural hostile spawns.
+6. Do not equate initial candidate generation density with measured realized colony density. Validate minimum spacing, natural-cave fit, chunk order independence, biome boundaries, ore quantities, lighting and worldgen performance.
+
+Status: **DESIGN ONLY**. Do not change game code, assets, tests, release-frozen PR #181, or main. Implementation requires separate authorization.
