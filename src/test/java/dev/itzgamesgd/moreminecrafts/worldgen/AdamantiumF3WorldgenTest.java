@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.heightproviders.TrapezoidHeight;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,6 +31,12 @@ import org.junit.jupiter.api.Test;
  */
 class AdamantiumF3WorldgenTest {
     private static final Path ALTERNATIVES = Path.of("tools", "ore-sampling", "alternatives");
+
+    @BeforeAll
+    static void bootstrapMinecraft() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+    }
 
     private static JsonObject shipped(String kind) throws IOException {
         String path = "/data/moreminecrafts/worldgen/" + kind + "/ore_adamantium.json";
