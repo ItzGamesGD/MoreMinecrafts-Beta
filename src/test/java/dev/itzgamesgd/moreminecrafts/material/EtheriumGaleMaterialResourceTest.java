@@ -88,8 +88,8 @@ class EtheriumGaleMaterialResourceTest {
     private static JsonObject lootPoolForFortune(JsonObject loot, int level) {
         for (var element : loot.getAsJsonArray("pools")) {
             JsonObject pool = element.getAsJsonObject();
-            if (!pool.has("conditions")) continue;
-            JsonObject fortune = pool.getAsJsonArray("conditions").get(1).getAsJsonObject();
+            if (!pool.has("condition")) continue;
+            JsonObject fortune = pool.getAsJsonObject("condition").getAsJsonArray("terms").get(1).getAsJsonObject();
             JsonObject levels = fortune.getAsJsonObject("predicate").getAsJsonObject("predicates")
                     .getAsJsonArray("minecraft:enchantments").get(0).getAsJsonObject().getAsJsonObject("levels");
             if (levels.get("min").getAsInt() == level) return pool;
@@ -102,14 +102,19 @@ class EtheriumGaleMaterialResourceTest {
             JsonObject loot = json("data/moreminecrafts/loot_table/blocks/" + ore + ".json");
             // Base pool: unconditional, one roll, a plain count-1 etherium item with no Fortune function or chance.
             JsonObject base = loot.getAsJsonArray("pools").get(0).getAsJsonObject();
+            assertFalse(base.has("condition"));
             assertFalse(base.has("conditions"));
             assertEquals(1, base.get("rolls").getAsInt());
+            // 26.3 loot JSON: unknown keys such as the legacy "conditions"/"functions" are silently ignored, so forbid them.
+            for (String legacy : List.of("conditions", "functions")) assertFalse(loot.toString().contains("\"" + legacy + "\""), legacy);
+            assertTrue(loot.toString().contains("minecraft:tool/can_silk_touch"));
             JsonObject drop = base.getAsJsonArray("entries").get(0).getAsJsonObject().getAsJsonArray("children")
                     .get(1).getAsJsonObject();
             assertEquals("moreminecrafts:etherium", drop.get("name").getAsString());
             assertFalse(drop.has("weight"));
-            assertFalse(drop.getAsJsonArray("functions").toString().contains("apply_bonus"));
-            assertFalse(drop.getAsJsonArray("functions").toString().contains("set_count"));
+            assertFalse(drop.has("condition"));
+            assertFalse(drop.getAsJsonArray("modifier").toString().contains("apply_bonus"));
+            assertFalse(drop.getAsJsonArray("modifier").toString().contains("set_count"));
 
             for (int level = 1; level <= 3; level++) {
                 JsonObject pool = lootPoolForFortune(loot, level);
@@ -124,7 +129,7 @@ class EtheriumGaleMaterialResourceTest {
                 for (var element : pool.getAsJsonArray("entries")) {
                     JsonObject entry = element.getAsJsonObject();
                     int count = entry.get("type").getAsString().equals("minecraft:empty") ? 0
-                            : entry.getAsJsonArray("functions").get(0).getAsJsonObject().get("count").getAsInt();
+                            : entry.getAsJsonArray("modifier").get(0).getAsJsonObject().get("count").getAsInt();
                     assertFalse(seen[count], "duplicate outcome " + count);
                     seen[count] = true;
                     assertEquals(expected[count], entry.get("weight").getAsInt() / total, 1e-12,
