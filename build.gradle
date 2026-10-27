@@ -45,6 +45,18 @@ fabricApi {
     }
 }
 
+loom {
+    runs {
+        // Overworld Etherium-vs-Diamond matched-sample probe (tools/etherium-sampling/run_sampling.sh); not part of check/build/CI.
+        etheriumSampling {
+            server()
+            name = "Etherium Sampling Probe"
+            source sourceSets.gametest
+            runDir = "build/etherium-sampling/run"
+            ideConfigGenerated false
+        }
+    }
+}
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
@@ -167,7 +179,8 @@ tasks.register("validateStage6Data") {
             def feature = json.parse(featureFile)
             def placed = json.parse(placedFile)
 
-            assert feature.type == "minecraft:ore"
+            // T2 section 18.1: plain minecraft:ore generates nothing at size 1 (measured), so etherium single-ore veins use scattered_ore
+            assert feature.type == (family == "etherium" ? "minecraft:scattered_ore" : "minecraft:ore")
             assert !feature.containsKey("config") : "Minecraft 26.3 feature config must be inline in ${featureFile}"
             assert feature.targets instanceof List
             assert feature.size instanceof Number
