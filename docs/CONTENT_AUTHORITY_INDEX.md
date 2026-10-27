@@ -7,6 +7,10 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## 2026-10-27 sky-islands and T2 design updates (design only)
+
+The newest owner-approved Sky Islands ecology, floating ruins, Sky Temple (distinct from the **cancelled ST-02 Sun Temple**), aerial trial tower, flying mobs, Sky Feather and T2 weapon material amendments are recorded in [SKY_ISLANDS_T2_CONTEXT_2026-10-27.md](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md). Later numbered sections in that document supersede earlier provisional descriptions on the same point. In particular, the 2026-10-27 Earth Mace amendment changes the **bottom Netherite Ingot to Etherium Ingot** while retaining the Ancient Heart centre required by the 2026-10-26 [F-2 reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md). The later lightning-sword recipe correction in section 17 supersedes section 16. No code, recipe, worldgen or live implementation is implied. The [structure portfolio](STRUCTURE_CANDIDATE_AUTHORITY_2026-10-25.md) preserves ST-02 as a cancelled historical ID.
+
 ## Accessory cooldown lifecycle — approved 2026-10-25
 
 Accessory cooldown lifecycle is governed by the [owner-approved 2026-10-25 decision](ACCESSORY_COOLDOWN_DECISION_2026-10-25.md). It specifies remaining online server ticks per player and ability type, including persistence through death, reconnect and restart. The same record holds the approved Deep Sea Pearl motionless definition (no horizontal movement input), the Ring of Life re-arm rule (a ring that is still armed may activate once when its cooldown expires while health remains low; after activation it re-arms only above 25%) and the Ember Ring first-hit exclusion; it does not finalize other ability mechanics.
