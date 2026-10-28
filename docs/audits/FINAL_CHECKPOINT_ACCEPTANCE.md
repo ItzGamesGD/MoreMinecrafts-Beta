@@ -19,13 +19,36 @@ Commits on top of Wave 11:
 | `0d035c84` | XP Control (`v3.research.67`) approved amendment restored; Sky Islands design record preserved |
 | `35a0ea6b` | Audit deliverables and evidence |
 | `7ef97c4c` | 16 lower-equipment regression GameTests restored from closed PR #65 |
-| final docs commit | This acceptance record with CI results |
+| `3c8186b7` | Audit of PR-ref-only heads and the #65 recovery record (this is the validated head) |
 
 ## Automated validation on the code tree
 
-CI on PR #193: **PENDING**. The results for the final head are recorded here once every check completes.
+> **Superseding record (2026-10-27, Wave 13 preparation).** The copy of this file on `checkpoint/wave12-unified-20261027` is frozen at `3c8186b7` and still says CI was pending. That checkpoint is deliberately not rewritten. The verified result is recorded here, on `docs/wave13-prep-audit-20261027`.
 
-Local runs are listed in [CROSS_SYSTEM_VALIDATION.md](CROSS_SYSTEM_VALIDATION.md): JUnit 463/463, server GameTests 425/425, real-client GameTests PASS, arena real worldgen + native capture PASS, static wiring checks PASS, independent XP Quest catalog recount PASS.
+CI on PR #193, independently re-queried from GitHub on 2026-10-27 against the exact head `3c8186b7af3e9fc771feaf427214ed448366dd81` (the remote `checkpoint/wave12-unified-20261027` and `integration/wave12-functional-preservation-20261027` both point at it; `main` is unchanged at `cde842dd`).
+
+| # | Workflow (PR event) | Run | Attempt | Conclusion |
+|---:|---|---|---:|---|
+| 1 | Fabric CI (`build`, `server-smoke`, `client-smoke`) | [40431027337](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027337) | **2** | success |
+| 2 | Accessory Client GameTest Acceptance | [40431027392](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027392) | 1 | success |
+| 3 | Minecraft Client Visual Validation | [40431027406](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027406) | 1 | success |
+| 4 | K5 Production Restart (two-process and three-process persistence) | [40431027320](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027320) | 1 | success |
+| 5 | K5 Fixture Isolation Regression | [40431027291](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027291) | 1 | success |
+| 6 | K5 Mapped Sources Probe | [40431027380](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027380) | 1 | success |
+| 7 | K5 Stage 23-A Batch 3 Crafting Probe | [40431027267](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027267) | 1 | success |
+| 8 | Accessory cooldown restart persistence | [40431027292](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027292) | 1 | success |
+| 9 | Pre-public full-history secret audit | [40431027391](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027391) | 1 | success (`full-history-secret-scan`); `actions-exposure-audit` and `actions-artifact-inventory` skipped by design, they run only on `workflow_dispatch` |
+| 10 | Tooling readiness | [40431027309](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431027309) | 1 | success |
+
+Push-triggered Ancient City Arena Validation (real terrain generation and native client capture): [40431021779](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431021779) on `checkpoint/wave12-unified-20261027` and [40431019466](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/40431019466) on the integration branch, both success on `3c8186b7`.
+
+All 17 check runs on the head are `success` or the 2 documented skips; none is failed, cancelled or pending.
+
+**Disclosure — Fabric CI needed one re-run.** On attempt 1 the `client-smoke` job was **cancelled** by its own `timeout-minutes: 8`, because the runner spent about 7 minutes in the `apt-get install` step before the client even started (job `121950319338`). The same cancellation occurred on the earlier head `35a0ea6b` (run `40430312736`, job `121947893698`), which was then superseded. Attempt 2 of run `40431027337` re-ran only the cancelled job, and `client-smoke` passed (job `121953700111`, 01:27:00–01:30:47Z). `build` and `server-smoke` passed on attempt 1 and were not re-run. The cancellation is an infrastructure timeout, not a test failure: the log shows no test output, and no product code or workflow step in the diff touches that path. It is also a latent fragility: any slow apt mirror can cancel `client-smoke` again, and the 8-minute budget is shared with that install step. Changing it is outside this record.
+
+The earlier-head runs on `35a0ea6b` are historical and not part of this acceptance.
+
+Local runs are listed in [CROSS_SYSTEM_VALIDATION.md](CROSS_SYSTEM_VALIDATION.md): JUnit 463/463 and server GameTests 441/441 on `7ef97c4c` (425/425 on the earlier `209c251e`), real-client GameTests PASS, arena real worldgen + native capture PASS, static wiring checks PASS, independent XP Quest catalog recount PASS.
 
 ## Acceptance check of the final tree against task acceptance and current authority
 
