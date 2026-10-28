@@ -51,6 +51,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
         VisualValidationHarness.register();
         ArenaVisualValidationHarness.register();
         registerCustomMobRenderers();
+        dev.itzgamesgd.moreminecrafts.client.boss.TombGuardianClient.register();
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
         MenuScreens.register(ModMenuTypes.AUTO_FARM, AutoFarmScreen::new);
         MenuScreens.register(ModMenuTypes.ENCHANTING_PROGRESSION, EnchantingProgressionScreen::new);

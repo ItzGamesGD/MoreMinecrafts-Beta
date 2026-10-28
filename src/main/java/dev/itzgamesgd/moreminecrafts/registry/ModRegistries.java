@@ -22,6 +22,7 @@ public final class ModRegistries {
 
     public static void initialize() {
         CustomMobCatalog.initialize();
+        dev.itzgamesgd.moreminecrafts.boss.TombGuardianEntities.initialize();
         ModAlchemy.initialize();
         EnchantmentRuntime.initialize();
         ModBlocks.initialize();
