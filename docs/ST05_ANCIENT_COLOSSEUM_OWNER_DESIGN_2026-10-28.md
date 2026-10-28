@@ -100,6 +100,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q40 — B:** Scale each round's regular-mob **threat budget by +60% of its solo baseline per additional participant**, matching the Q21 monster-count scaling: multiplier = 1 + 0.60 × (participants − 1), using Q23's participant count locked at each round start. From Q39 solo budgets 20/32/48, two players yield 32/51.2/76.8, three yield 44/70.4/105.6, and four yield 56/89.6/134.4 for rounds 1–2 / 3–4 / 5–6 respectively. Integer rounding and how to reconcile exact headcounts with budget remain OPEN. Q24's 12-alive cap remains unchanged; R7 boss HP uses the separately approved Q22 scaling.
 
+- **Q41 — B:** Round scaled regular-mob threat budgets to the **nearest integer** after applying Q40's +60%-per-additional-participant multiplier. For 1/2/3/4 players, rounded budgets are respectively: R1–2 **20/32/44/56**; R3–4 **32/51/70/90**; R5–6 **48/77/106/134**. Tie handling for exact .5 values remains an implementation detail; mob threat score calibration and exact composition remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
