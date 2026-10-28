@@ -23,6 +23,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.MaceItem;
+import net.minecraft.world.item.component.Weapon;
 import dev.itzgamesgd.moreminecrafts.equipment.*;
 import dev.itzgamesgd.moreminecrafts.bounty.ContractItem;
 import net.minecraft.core.component.DataComponents;
@@ -97,9 +98,11 @@ public final class ModItems {
     public static final Item FLOWING_WATER_SWORD = Registry.register(BuiltInRegistries.ITEM, FLOWING_WATER_SWORD_KEY,
             new ElementalSwordItem(ElementalSwordItem.Element.WATER, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.0F).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(FLOWING_WATER_SWORD_KEY)));
     public static final Item WIND_ARCHERS_BOW = Registry.register(BuiltInRegistries.ITEM, WIND_ARCHERS_BOW_KEY,
-            new BowItem(new Item.Properties().enchantable(1).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(WIND_ARCHERS_BOW_KEY)));
+            new BowItem(new Item.Properties().stacksTo(1).enchantable(1).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(WIND_ARCHERS_BOW_KEY)));
     public static final Item EARTH_MACE = Registry.register(BuiltInRegistries.ITEM, EARTH_MACE_KEY,
-            new EarthMaceItem(new Item.Properties().attributes(MaceItem.createAttributes()).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(EARTH_MACE_KEY)));
+            new EarthMaceItem(new Item.Properties().stacksTo(1).attributes(MaceItem.createAttributes())
+                    .component(DataComponents.WEAPON, new Weapon(1))
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(EARTH_MACE_KEY)));
     public static final Item LIGHTNING_SWORD = Registry.register(BuiltInRegistries.ITEM, LIGHTNING_SWORD_KEY,
             new ElementalSwordItem(ElementalSwordItem.Element.LIGHTNING, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.2F).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(LIGHTNING_SWORD_KEY)));
     public static final Item DARK_ENERGY_STAFF = Registry.register(BuiltInRegistries.ITEM, DARK_ENERGY_STAFF_KEY,

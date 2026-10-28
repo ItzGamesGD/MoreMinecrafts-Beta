@@ -23,7 +23,7 @@ public final class WindSwordItem extends Item {
         if (attacker instanceof ServerPlayer player) {
             T2ElementalVfx.windHit(player.level(), primary.position().add(0.0D, 0.8D, 0.0D),
                     player.getLookAngle());
-            if (ElementalHitProgress.record(player.getUUID(), ElementalHitProgress.Weapon.WIND)) {
+            if (ElementalHitProgress.record(player, ElementalHitProgress.Weapon.WIND)) {
                 sweep(player, primary);
             }
         }

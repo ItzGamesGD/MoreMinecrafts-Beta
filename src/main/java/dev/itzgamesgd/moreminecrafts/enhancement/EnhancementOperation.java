@@ -24,7 +24,7 @@ public final class EnhancementOperation {
     }
 
     public static Optional<Result> preview(ItemStack equipment, ItemStack material) {
-        if (!isEnhancementMaterial(material)) {
+        if (equipment.isEmpty() || equipment.getCount() != 1 || !isEnhancementMaterial(material)) {
             return Optional.empty();
         }
 
@@ -39,7 +39,7 @@ public final class EnhancementOperation {
     /** Requirement shown by the UI even when the inserted stone stack is too small. */
     public static Optional<Result> requirement(ItemStack equipment) {
         Optional<EnhancementDefinition> definition = EnhancementCatalog.definition(equipment.getItem());
-        if (equipment.isEmpty() || definition.isEmpty()) {
+        if (equipment.isEmpty() || equipment.getCount() != 1 || definition.isEmpty()) {
             return Optional.empty();
         }
         return plan(definition.get(), level(equipment), Integer.MAX_VALUE).map(plan -> result(equipment, plan));
