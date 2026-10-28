@@ -119,6 +119,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 - **Q49 — C:** Within the Q48 cumulative candidate pools, **shift random selection weights by round progression**: early rounds favor lower-threat mobs, middle rounds favor medium-threat mobs, and late rounds favor higher-threat mobs. Keep weaker mobs eligible in later rounds; exact probability tables are deferred to implementation/balance validation.
 - **Owner process direction after Q49:** Stop drilling into low-level threat-score arithmetic and probability parameters. Resume high-level unresolved ST-05 design decisions, prioritizing completion rewards, replay/reward repeatability, boss-specific mechanics, architecture, world generation, and combat UI/presentation. Technical parameters remain deferred; do not treat this as implementation authorization.
 
+- **Q50 — B+C combined:** The Ancient Colosseum completion rewards combine **rare enhancement/crafting materials** that connect to existing MoreMinecrafts equipment progression with **colosseum-exclusive equipment** associated with the Immortal Gladiator. Prioritize useful rare materials as the main reward pillar, with exclusive gear as a distinctive special reward. Exact items, quantities, drop probabilities, repeatability and reward ownership remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
