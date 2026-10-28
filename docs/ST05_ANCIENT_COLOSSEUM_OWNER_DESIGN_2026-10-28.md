@@ -83,6 +83,9 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q32 — B:** Monster spawn points must lie inside the colosseum combat floor within the fixed 12–24-block radial annulus, on solid supporting ground with enough clearance for each mob's collision box; reject wall/obstacle intersections and immediately hazardous or inaccessible terrain such as lava. Preserve the Q31 ~1-second particle warning. Fallback behavior when insufficient valid spawn points exist remains OPEN.
 
+- **Owner clarification to Q32:** The colosseum is **built inside a natural cave**, but its **arena fighting floor is intentionally constructed and generally flat**, not an uneven natural cave floor. Q32's valid-spawn checks are basic solid-floor and collision/clearance safeguards, not a mandate for elaborate terrain/hazard handling or conservative placement constraints.
+- **Q33 — B:** If some positions in the fixed 12–24-block annulus fail basic validation, spawn the mobs that can be placed safely, retain the unspawned allocated mobs in the round's pending queue, and retry later without losing their allocation. Behavior if **no valid spawn positions remain persistently** is still OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
