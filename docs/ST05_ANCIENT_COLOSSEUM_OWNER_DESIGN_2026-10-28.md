@@ -61,6 +61,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q22 — B:** Final boss maximum HP scales **+35% per additional participant**: multiplier `1 + 0.35 × (participants - 1)` (1p 100%, 2p 135%, 3p 170%, 4p 205%). Phase-two awakening still triggers at 40% of the boss's scaled maximum HP. Base boss HP and participant-count locking rules remain OPEN.
 
+- **Q23 — B:** Recalculate active participant count **at the start of each round** and lock that round's difficulty for its duration. Apply Q21 (+60% enemies per additional participant) for non-boss rounds and Q22 (+35% maximum boss HP per additional participant) at the start of round 7. Joins, departures and Q19 re-entry affect the next round only. Exact eligibility for counting participants remains OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
