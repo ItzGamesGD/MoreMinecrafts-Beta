@@ -114,6 +114,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q47 — B:** Assign each eligible regular/elite mob type an **integer threat score on a 1–10 scale**, based on Q37's holistic combat capability assessment. Suggested classification bands: weak **1–3**, ordinary **4–6**, strong/elite **7–10**; these are scoring guides rather than preassigned scores for specific mobs. Preserve Q39 budgets 20/32/48, Q40–Q41 multiplayer scaling/rounding and Q43–Q46 composition constraints. Actual mob-by-mob scores and roster remain OPEN.
 
+- **Q48 — B:** Use **cumulative threat-score eligibility** for round-specific monster candidate pools: rounds 1–2 may select scores **1–4**, rounds 3–4 scores **1–7**, and rounds 5–6 scores **1–10**. Higher rounds retain access to lower-threat mobs, enabling mixed strong/weak compositions while respecting each round's identity and Q35–Q47 budget rules. Round 7 remains the separate Immortal Gladiator boss encounter. Actual candidate mob identities and selection weights remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
