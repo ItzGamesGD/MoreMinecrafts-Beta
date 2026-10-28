@@ -81,6 +81,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q31 — B:** For ordinary and elite mob spawns in the fixed-center 12–24-block arena annulus, display a lightweight **particle warning for approximately 1 second at each selected valid spawn point** before the mob materializes. Apply to initial and Q25 batch replenishment spawns. Specific particle types, sound and boss entrance staging remain OPEN.
 
+- **Q32 — B:** Monster spawn points must lie inside the colosseum combat floor within the fixed 12–24-block radial annulus, on solid supporting ground with enough clearance for each mob's collision box; reject wall/obstacle intersections and immediately hazardous or inaccessible terrain such as lava. Preserve the Q31 ~1-second particle warning. Fallback behavior when insufficient valid spawn points exist remains OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
