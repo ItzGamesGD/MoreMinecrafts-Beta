@@ -264,3 +264,16 @@ Enrage at <=40% HP brightens red eyes and accelerates movement/attack cadence, b
 **PREPARATION GATE:** Audit exact active branch, code item/entity/recipe registries, existing Earth Mace recipe status, worldgen arena footprint and spawn/loot persistence, Warden-derived model feasibility and client rendering, magic-circle readability across graphics settings, multiplayer/respawn/escape/restart edge cases, no terrain destruction, and CI/live test plan. Deliver a staged implementation plan with blockers and proposed test criteria. Do not merge, mark Ready, or change gameplay code without a separate owner implementation instruction.
 
 **NUMBERS REMAIN PROVISIONAL despite encounter design lock:** 200 HP, 10 HP melee, 12 HP shockwave, 8 HP statue, 40% enrage threshold (threshold previously approved), ~1.2s statue warning, radius ~1.5, cooldowns, drop quantity one, boss classification naming, and any detailed hitbox/timing or shield policy. Report balance values for final review or testing; do not silently treat them as locked numeric authority.
+
+## Owner decision — Tomb Guardian encounter and re-challenge rules (Option B), 2026-10-28
+
+**OWNER APPROVED (Task B — Royal Tomb Guardian implementation instruction).** This resolves the earlier OPEN death/despawn/reset, one-time persistence and anti-duplication items. Under F-2 the kill drop named "Tomb Guardian Core" above is **Ancient Heart, 50% ×1** (SKY_ISLANDS_T2_CONTEXT §18.4); the Ancient City 3% route is unchanged.
+
+1. The royal chest stays sealed until the guardian is killed.
+2. If the guardian disappears without dying, or the encounter is ended, the tomb can be challenged again.
+3. After a normal kill the guardian can never be summoned again at that tomb.
+4. No duplicate guardian and no duplicate reward for the same tomb.
+5. The defeated record is preserved across chunk unload, relog and server restart.
+6. An interrupted, undefeated encounter can start a new encounter on the next royal chest interaction.
+
+A chunk unload is never treated as death, and a guardian that may still be stored in an unloaded chunk must not be duplicated. The additional rare-mineral reward pool (Q4) remains unapproved, and the combat numbers above remain provisional.

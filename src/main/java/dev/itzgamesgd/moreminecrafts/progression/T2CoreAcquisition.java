@@ -23,8 +23,9 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 
 /**
  * T2 §18.4 core acquisition through vanilla loot tables: Ancient City 3% (kept), normal vault 5% Eye of the Typhoon,
- * ominous vault 5% Heart of Thunder. Burning Heart (new fire boss), Heart of Currents (new ocean boss) and the extra
- * Ancient Heart (tomb guardian) are BLOCKED_DEPENDENCY: those bosses do not exist. The superseded Bastion and Ocean
+ * ominous vault 5% Heart of Thunder. The extra Ancient Heart 50% x1 is the Tomb Guardian's entity loot table
+ * (moreminecrafts:entities/tomb_guardian). Burning Heart (new fire boss) and Heart of Currents (new ocean boss) are
+ * BLOCKED_DEPENDENCY: those bosses do not exist. The superseded Bastion and Ocean
  * Monument core rewards are removed; Monument completion still feeds the XP Quest participation record.
  */
 public final class T2CoreAcquisition {

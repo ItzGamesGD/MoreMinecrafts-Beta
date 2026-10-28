@@ -22,6 +22,7 @@
       "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAnimalFeedGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.boss.TombGuardianGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
