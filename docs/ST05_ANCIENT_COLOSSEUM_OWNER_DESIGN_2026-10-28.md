@@ -92,6 +92,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q36 — C:** Use a **threat-budget system** for randomized round-specific mob combinations (Q35): each eligible mob type has a threat score, and each round's total selected composition must fit its threat budget. Stronger mobs consume more budget, permitting fewer total mobs at a given budget. Exact scores, per-round budgets, reconciliation with Q21 participant-count scaling and Q24/Q25 concurrent/batch limits remain OPEN.
 
+- **Q37 — B:** Assign each eligible mob type a threat score using a **holistic combat-capability assessment**: health, damage output, attack patterns (including ranged/AOE), mobility, and special abilities. Use these scores in the Q36 per-round threat budgets; exact numeric weights, mob ratings and testing-based adjustments remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
