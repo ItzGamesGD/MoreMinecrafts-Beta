@@ -106,6 +106,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q43 — B:** For each round 1–6 randomized mob composition, target a **total threat score of at least 85% and no more than 100% of that round's rounded threat budget** (Q39–Q41), while retaining Q42 budget priority. With integer mob scores, minimum score is ceil(0.85 × budget): solo R1–2 **17–20**, R3–4 **28–32**, R5–6 **41–48**. Handling an impossible 85%-fill combination remains OPEN.
 
+- **Q44 — D:** If no eligible monster composition can satisfy Q43's **85–100% budget-fill range**, permit an exceptional composition that **exceeds the rounded Q39–Q41 threat budget by at most 5%** (maximum 105% of budget), while preserving the round's candidate pool and identity. This is an explicitly owner-approved exception to Q42's normally strict budget cap, not a general relaxation. Exact integer-score handling and fallback when no valid composition exists even within 105% remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
