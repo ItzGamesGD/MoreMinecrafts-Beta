@@ -62,3 +62,28 @@ jobs:
             build/sky-islands-probe/logs/*.log
           if-no-files-found: warn
           retention-days: 14
+
+  coverage:
+    needs: worldgen-probe
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: sky-islands-probe-*
+          merge-multiple: true
+          path: probe
+      - name: Every building variant generated and passed its physical checks in at least one seed
+        run: |
+          python3 -I - <<'PY'
+          import glob, json, sys
+          seen, bad = set(), []
+          for f in sorted(glob.glob("probe/results/*.json")):
+              d = json.load(open(f))
+              for name, row in d["physical"].items():
+                  seen.add(name)
+                  if not row["pass"]:
+                      bad.append((f, name))
+          want = {"ruins_a", "ruins_b", "ruins_c", "ruins_d", "tower_5", "tower_6", "tower_7", "temple"}
+          print("seen", sorted(seen), "missing", sorted(want - seen), "failed", bad)
+          sys.exit(0 if seen == want and not bad else 1)
+          PY

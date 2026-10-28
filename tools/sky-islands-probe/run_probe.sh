@@ -32,7 +32,9 @@ import json, sys
 d = json.load(open(sys.argv[1]))
 if "error" in d:
     sys.exit("probe error: " + d["error"])
+rows = d["physical"]
+ok = bool(rows) and all(r["pass"] for r in rows.values())
 print("seed", d["seed"], "starts", d["structure_starts"], "variants", d["building_variants_seen"], "missing", d["missing_variants"],
-      "pass", d["all_physical_checks_pass"])
-sys.exit(0 if d["all_physical_checks_pass"] else 1)
+      "physical_pass", ok)
+sys.exit(0 if ok else 1)
 PY

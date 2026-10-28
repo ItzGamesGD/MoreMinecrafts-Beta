@@ -119,14 +119,16 @@ class SkyIslandsResourceTest {
     }
 
     @Test void vanillaTrialContentIsNotOverridden() {
+        // Checked against the mod's own source tree: the class path also holds the vanilla jar, which legitimately has these files.
         for (String path : List.of(
-                "data/minecraft/loot_table/chests/trial_chambers/reward.json",
-                "data/minecraft/loot_table/chests/trial_chambers/reward_ominous.json",
-                "data/minecraft/loot_table/chests/trial_chambers/reward_rare.json",
-                "data/minecraft/worldgen/structure/trial_chambers.json",
-                "data/minecraft/worldgen/structure_set/trial_chambers.json",
-                "data/minecraft/trial_spawner/trial_chamber/melee/zombie/normal.json"))
-            assertFalse(exists(path), "vanilla trial data must not be replaced: " + path);
+                "loot_table/chests/trial_chambers/reward.json",
+                "loot_table/chests/trial_chambers/reward_ominous.json",
+                "loot_table/chests/trial_chambers/reward_rare.json",
+                "worldgen/structure/trial_chambers.json",
+                "worldgen/structure_set/trial_chambers.json",
+                "trial_spawner/trial_chamber/melee/zombie/normal.json"))
+            assertFalse(java.nio.file.Files.exists(java.nio.file.Path.of("src/main/resources/data/minecraft/" + path)),
+                    "vanilla trial data must not be replaced: " + path);
     }
 
     @Test void skyTrialSpawnersOnlyAddTheApprovedShulker() throws Exception {
