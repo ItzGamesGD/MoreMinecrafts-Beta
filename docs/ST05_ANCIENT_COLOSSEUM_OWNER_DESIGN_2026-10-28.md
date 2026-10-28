@@ -55,6 +55,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q19 — B:** In multiplayer, a dead participant may rejoin only after surviving teammates clear the current round, before the next round begins. No rejoining the ongoing round. Total-party defeat still immediately fails and resets the trial under Q18. Precise admission mechanics and timing within the 10-second/35-second transition remain OPEN.
 
+- **Q20 — B:** Multiplayer difficulty scales primarily through additional enemy counts in regular rounds; elite encounters should avoid excessive arena crowding. The final Immortal Gladiator boss gains some HP with additional participants. Exact scaling coefficients, caps and participant counting rules remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
