@@ -42,6 +42,8 @@
       "dev.itzgamesgd.moreminecrafts.enhancement.EnhancementTransactionGameTests",
       "dev.itzgamesgd.moreminecrafts.enhancement.T2EquipmentCompatibilityGameTests",
       "dev.itzgamesgd.moreminecrafts.enhancement.T2EquipmentRecipeGameTests",
+      "dev.itzgamesgd.moreminecrafts.special.ElementalHitProgressGameTests",
+      "dev.itzgamesgd.moreminecrafts.special.elemental.EarthMaceSmashRegressionGameTests",
       "dev.itzgamesgd.moreminecrafts.fishing.FisheriesStudyGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.Research23AReconciliationGameTests",
       "dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchInfrastructureGameTests",

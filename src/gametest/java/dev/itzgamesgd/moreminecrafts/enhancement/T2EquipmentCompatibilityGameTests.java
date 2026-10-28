@@ -121,6 +121,30 @@ public final class T2EquipmentCompatibilityGameTests {
     }
 
     @GameTest
+    public void windBowAndEarthMaceRejectStackedEnhancementWithoutChangingInputs(GameTestHelper ctx) {
+        ServerPlayer player = EnhancementTransactionGameTests.survival(ctx);
+        RawXp.setTotal(player, 40);
+        for (Item item : List.of(ModItems.WIND_ARCHERS_BOW, ModItems.EARTH_MACE)) {
+            ctx.assertTrue(new ItemStack(item).getMaxStackSize() == 1, name(item) + " only allows one item in a new stack");
+            ItemStack stacked = new ItemStack(item);
+            stacked.setCount(2); // Legacy saves and direct menu payloads can contain an over-limit stack.
+            enchant(ctx, stacked);
+            stacked.set(ModDataComponents.ENHANCEMENT_LEVEL, 3);
+            ItemStack before = stacked.copy();
+            ItemStack stones = new ItemStack(ModItems.ENHANCEMENT_STONE, 4);
+            ctx.assertTrue(stacked.getCount() == 2, name(item) + " fixture keeps both legacy items");
+            ctx.assertTrue(EnhancementOperation.preview(stacked, stones).isEmpty(),
+                    name(item) + " stacked input has no enhancement preview");
+            ctx.assertTrue(EnhancementOperation.requirement(stacked).isEmpty(), name(item) + " does not advertise a single-item requirement for a stacked input");
+            ctx.assertTrue(!EnhancementOperation.apply(player, stacked, stones), name(item) + " stacked input is rejected by the authoritative transaction");
+            ctx.assertTrue(ItemStack.matches(before, stacked), name(item) + " keeps both original items and all component data");
+            ctx.assertTrue(stones.getCount() == 4 && RawXp.available(player) == 40,
+                    name(item) + " rejection spends no material or XP");
+        }
+        ctx.succeed();
+    }
+
+    @GameTest
     public void anvilEnhancementKeepsEnchantmentsAndSurvivesSaveLoad(GameTestHelper ctx) {
         ServerPlayer player = EnhancementTransactionGameTests.survival(ctx);
         var ops = RegistryOps.create(NbtOps.INSTANCE, ctx.getLevel().registryAccess());
