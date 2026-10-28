@@ -71,6 +71,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q27 — A:** The circular colosseum has **four outer enemy entrances**, oriented north, east, south and west. They serve the initial and Q25 batch-replenishment enemy spawns. Which gates activate per wave and exact spawn allocation remain OPEN.
 
+- **Q28 — B:** For each initial or replenishment spawn batch, randomly select **2–3 of the four cardinal outer entrances** as active spawn directions. Maintain Q24's 12-alive cap and Q25's replenishment trigger at 6 or fewer alive. Exact distribution across selected entrances, warning cues and spawn safety remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
