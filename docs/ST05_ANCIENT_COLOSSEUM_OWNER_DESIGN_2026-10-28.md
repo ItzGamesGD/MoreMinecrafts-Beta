@@ -116,6 +116,9 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q48 — B:** Use **cumulative threat-score eligibility** for round-specific monster candidate pools: rounds 1–2 may select scores **1–4**, rounds 3–4 scores **1–7**, and rounds 5–6 scores **1–10**. Higher rounds retain access to lower-threat mobs, enabling mixed strong/weak compositions while respecting each round's identity and Q35–Q47 budget rules. Round 7 remains the separate Immortal Gladiator boss encounter. Actual candidate mob identities and selection weights remain OPEN.
 
+- **Q49 — C:** Within the Q48 cumulative candidate pools, **shift random selection weights by round progression**: early rounds favor lower-threat mobs, middle rounds favor medium-threat mobs, and late rounds favor higher-threat mobs. Keep weaker mobs eligible in later rounds; exact probability tables are deferred to implementation/balance validation.
+- **Owner process direction after Q49:** Stop drilling into low-level threat-score arithmetic and probability parameters. Resume high-level unresolved ST-05 design decisions, prioritizing completion rewards, replay/reward repeatability, boss-specific mechanics, architecture, world generation, and combat UI/presentation. Technical parameters remain deferred; do not treat this as implementation authorization.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
