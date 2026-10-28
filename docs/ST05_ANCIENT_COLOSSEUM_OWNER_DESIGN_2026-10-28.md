@@ -90,6 +90,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q35 — B:** For rounds 1–6, randomly draw monster combinations from **round-specific eligible candidate pools**, maintaining each round's already-approved combat role and difficulty progression. Candidate pools may include vanilla and existing MoreMinecrafts mobs (Q5). Round 7 remains the Immortal Gladiator boss encounter. Exact roster, weights and composition constraints remain OPEN.
 
+- **Q36 — C:** Use a **threat-budget system** for randomized round-specific mob combinations (Q35): each eligible mob type has a threat score, and each round's total selected composition must fit its threat budget. Stronger mobs consume more budget, permitting fewer total mobs at a given budget. Exact scores, per-round budgets, reconciliation with Q21 participant-count scaling and Q24/Q25 concurrent/batch limits remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
