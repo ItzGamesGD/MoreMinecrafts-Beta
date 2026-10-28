@@ -4,7 +4,9 @@ import static dev.itzgamesgd.moreminecrafts.boss.TombGuardianTuning.*;
 
 import dev.itzgamesgd.moreminecrafts.boss.TombGuardianCombat.Attack;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -150,6 +152,12 @@ public class TombGuardian extends Monster {
     public boolean isEnraged() { return entityData.get(DATA_ENRAGED); }
 
     public Attack currentAttack() { return attack; }
+
+    /** Ticks until the eruption may start again; zero when ready. */
+    long statueCooldownRemaining() { return Math.max(0L, statueReadyTick - tickCount); }
+
+    /** Ticks until any new attack may start; zero when ready. */
+    long attackRecoveryRemaining() { return Math.max(0L, nextAttackTick - tickCount); }
 
     @Nullable public Vec3 statuePoint() { return statuePoint; }
 
@@ -423,23 +431,45 @@ public class TombGuardian extends Monster {
             return;
         }
         level.broadcastEntityEvent(this, EVENT_ATTACK_END);
-        resolveStatue(level);
-        TombStatueEffects.spawnStatue(level, statuePoint, STATUE_VISIBLE_TICKS);
+        // A cancelled eruption (nowhere safe to shove an occupant) is a failed attack: no statue, no damage, and
+        // the normal cooldown and recovery below still apply, so it cannot be repeated at once.
+        if (resolveStatue(level)) TombStatueEffects.spawnStatue(level, statuePoint, STATUE_VISIBLE_TICKS);
         statueReadyTick = tickCount + STATUE_COOLDOWN_TICKS;
         finishAttack();
     }
 
-    /** Bounded single damage window at the eruption moment: each entity inside the column is hit once. */
-    void resolveStatue(ServerLevel level) {
+    /**
+     * Eruption moment. Everything standing where the statue will be solid is first shoved to a safe place; if any
+     * occupant has none the whole eruption is cancelled before anything changes. Otherwise each entity inside the
+     * damage column (measured before the shove) is hit once.
+     *
+     * @return whether the eruption happened and the statue should rise
+     */
+    boolean resolveStatue(ServerLevel level) {
         Vec3 point = statuePoint;
-        if (point == null) return;
+        if (point == null) return false;
+        AABB body = TombStatueShape.fullBox(point);
+        List<LivingEntity> occupants = level.getEntitiesOfClass(LivingEntity.class, body, entity -> !entity.isSpectator());
+        List<Vec3> shifts = new ArrayList<>(occupants.size());
+        for (LivingEntity occupant : occupants) {
+            Vec3 shift = TombStatuePlacement.findSafeShift(level, occupant, body);
+            if (shift == null) return false;
+            shifts.add(shift);
+        }
         AABB column = new AABB(point.x - STATUE_RADIUS, point.y - 1.0D, point.z - STATUE_RADIUS,
                 point.x + STATUE_RADIUS, point.y + STATUE_HEIGHT, point.z + STATUE_RADIUS);
+        List<LivingEntity> victims = new ArrayList<>();
         for (LivingEntity victim : level.getEntitiesOfClass(LivingEntity.class, column, this::isAreaVictim)) {
             if (TombGuardianCombat.statueHits(victim.getX() - point.x, victim.getZ() - point.z, victim.getY() - point.y))
-                victim.hurtServer(level, damageSources().mobAttack(this), STATUE_DAMAGE);
+                victims.add(victim);
         }
+        for (int i = 0; i < occupants.size(); i++) {
+            LivingEntity occupant = occupants.get(i);
+            occupant.teleportTo(occupant.getX() + shifts.get(i).x, occupant.getY(), occupant.getZ() + shifts.get(i).z);
+        }
+        for (LivingEntity victim : victims) victim.hurtServer(level, damageSources().mobAttack(this), STATUE_DAMAGE);
         level.playSound(null, point.x, point.y, point.z, SoundEvents.ZOMBIE_BREAK_WOODEN_DOOR, SoundSource.HOSTILE, 1.5F, 0.5F);
+        return true;
     }
 
     private boolean isAreaVictim(LivingEntity entity) {

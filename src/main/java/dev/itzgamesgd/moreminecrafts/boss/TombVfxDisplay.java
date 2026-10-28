@@ -18,11 +18,11 @@ import org.joml.Vector3f;
 
 /**
  * Temporary, never-saved item display used for the Stone Eruption telegraph (magic circle) and the risen
- * inscribed statue. Purely visual: it has no collision, edits no blocks and removes itself after its lifetime,
+ * inscribed statue. Purely visual (the solid body is {@link TombStatueCollider}): it edits no blocks and removes itself after its lifetime,
  * so a chunk save or restart can never leave a stale telegraph in the world.
  */
 public final class TombVfxDisplay extends Display.ItemDisplay {
-    private static final int RISE_TICKS = 5;
+    private static final int RISE_TICKS = TombStatueShape.RISE_TICKS;
     private static final float STATUE_SCALE = (float) (TombGuardianTuning.STATUE_HEIGHT / 2.0D);
     private static final float CIRCLE_SCALE = (float) (TombGuardianTuning.STATUE_RADIUS * 2.0D);
 
@@ -103,7 +103,7 @@ public final class TombVfxDisplay extends Display.ItemDisplay {
     private static Transformation statueTransform(boolean buried) {
         // The statue model spans 32 units (two blocks) upward; scaled so its base sits on the floor when risen.
         float base = STATUE_SCALE * 0.5F;
-        float y = buried ? base - (float) TombGuardianTuning.STATUE_HEIGHT - 0.2F : base;
+        float y = buried ? base - (float) TombGuardianTuning.STATUE_HEIGHT - (float) TombStatueShape.BURY_DEPTH : base;
         return new Transformation(new Vector3f(0.0F, y, 0.0F), null,
                 new Vector3f(STATUE_SCALE, STATUE_SCALE, STATUE_SCALE), null);
     }

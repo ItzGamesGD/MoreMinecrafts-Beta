@@ -37,6 +37,7 @@ final class TombStatueEffects {
 
     static void spawnStatue(ServerLevel level, Vec3 point, int visibleTicks) {
         TombVfxDisplay.statue(level, point, visibleTicks);
+        TombStatueCollider.spawn(level, point, visibleTicks);
         BlockState floor = level.getBlockState(BlockPos.containing(point).below());
         if (floor.isAir()) floor = Blocks.SANDSTONE.defaultBlockState();
         level.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, floor), true, true, point.x, point.y + 0.2D,

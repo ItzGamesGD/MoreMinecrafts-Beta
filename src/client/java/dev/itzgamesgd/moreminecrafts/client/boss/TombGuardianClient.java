@@ -13,5 +13,6 @@ public final class TombGuardianClient {
         EntityRendererRegistry.register(TombGuardianEntities.TOMB_GUARDIAN, TombGuardianRenderer::new);
         // The magic circle and inscribed statue are plain item displays drawn by the vanilla display renderer.
         EntityRendererRegistry.register(TombGuardianEntities.TOMB_VFX, context -> new DisplayRenderer.ItemDisplayRenderer(context) {});
+        EntityRendererRegistry.register(TombGuardianEntities.TOMB_STATUE_COLLIDER, net.minecraft.client.renderer.entity.NoopRenderer::new);
     }
 }
