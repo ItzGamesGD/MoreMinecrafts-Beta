@@ -86,6 +86,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 - **Owner clarification to Q32:** The colosseum is **built inside a natural cave**, but its **arena fighting floor is intentionally constructed and generally flat**, not an uneven natural cave floor. Q32's valid-spawn checks are basic solid-floor and collision/clearance safeguards, not a mandate for elaborate terrain/hazard handling or conservative placement constraints.
 - **Q33 — B:** If some positions in the fixed 12–24-block annulus fail basic validation, spawn the mobs that can be placed safely, retain the unspawned allocated mobs in the round's pending queue, and retry later without losing their allocation. Behavior if **no valid spawn positions remain persistently** is still OPEN.
 
+- **Q34 — A:** Unspawned mobs retained in the Q33 pending queue are retried **on the next regular batch-spawn cycle when alive encounter mobs are at or below 6**, using the existing Q25 replenishment system. No separate fixed-interval retry loop. Preserve total allocated mobs without duplication or loss; persistent all-position failure handling remains OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
