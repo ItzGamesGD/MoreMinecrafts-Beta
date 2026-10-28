@@ -53,6 +53,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q18 — B:** The trial fails on total party defeat, not on the first participant death. In single-player, death fails the run. In multiplayer, surviving participants may continue; all participants dead means failure and reset. Whether dead players may rejoin after respawn remains OPEN (Q19). Interaction with Q16's empty-arena pause requires explicit resolution.
 
+- **Q19 — B:** In multiplayer, a dead participant may rejoin only after surviving teammates clear the current round, before the next round begins. No rejoining the ongoing round. Total-party defeat still immediately fails and resets the trial under Q18. Precise admission mechanics and timing within the 10-second/35-second transition remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
