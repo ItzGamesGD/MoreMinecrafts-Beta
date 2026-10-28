@@ -88,6 +88,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q34 — A:** Unspawned mobs retained in the Q33 pending queue are retried **on the next regular batch-spawn cycle when alive encounter mobs are at or below 6**, using the existing Q25 replenishment system. No separate fixed-interval retry loop. Preserve total allocated mobs without duplication or loss; persistent all-position failure handling remains OPEN.
 
+- **Q35 — B:** For rounds 1–6, randomly draw monster combinations from **round-specific eligible candidate pools**, maintaining each round's already-approved combat role and difficulty progression. Candidate pools may include vanilla and existing MoreMinecrafts mobs (Q5). Round 7 remains the Immortal Gladiator boss encounter. Exact roster, weights and composition constraints remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
