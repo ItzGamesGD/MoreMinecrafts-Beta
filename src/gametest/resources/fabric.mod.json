@@ -6,7 +6,8 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
@@ -73,7 +74,8 @@
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIsolationGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractExplorationGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractPricingGameTests",
-      "dev.itzgamesgd.moreminecrafts.worldgen.AncientCityArenaGameTests"
+      "dev.itzgamesgd.moreminecrafts.worldgen.AncientCityArenaGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.SkullProtocolAssumptionGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",

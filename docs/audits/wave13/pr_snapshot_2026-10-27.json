@@ -1,0 +1,1748 @@
+[
+ {
+  "number": 1,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-1/fabric-foundation",
+  "head_sha": "ab5e2a57905d994a6cd6a66e97e8327addf3a74e",
+  "base": "main",
+  "title": "Stage 1: Fabric foundation for Minecraft 26.3"
+ },
+ {
+  "number": 2,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-enhancement_stone-as-custom-item",
+  "head_sha": "f9389ed2c10a31863d0dce169b5eaad187eb4877",
+  "base": "stage-2/enhancement-stone",
+  "title": "Stage 2: add the native enhancement stone item"
+ },
+ {
+  "number": 3,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-2/enhancement-stone",
+  "head_sha": "6ae717c92d47ad036be0f9c6926254fbbd435cc7",
+  "base": "main",
+  "title": "Stage 2/enhancement stone"
+ },
+ {
+  "number": 4,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-3-enhancement-vertical-slice",
+  "head_sha": "04afc218b7274ba46f9bf0651b0865190531b334",
+  "base": "stage-3/enhancement-vertical-slice",
+  "title": "Stage 3: implement Iron Sword enhancement vertical slice"
+ },
+ {
+  "number": 5,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-3/enhancement-vertical-slice",
+  "head_sha": "1f05e53fbadea0d1ca8c49c00a64b62edd622174",
+  "base": "main",
+  "title": "Stage 3: enhancement vertical slice"
+ },
+ {
+  "number": 6,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/generalize-enhancement-foundation-for-stage-4a",
+  "head_sha": "a14b476d0034942a9e64bff6ee470ad101a298b0",
+  "base": "stage-4/equipment-foundation",
+  "title": "Stage 4A: Generalize the enhancement equipment foundation"
+ },
+ {
+  "number": 7,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-4b-1-melee-and-tool-effects",
+  "head_sha": "275e2261016972f2aec963b51cce394c9b124fed",
+  "base": "stage-4/equipment-foundation",
+  "title": "Implement Stage 4B-1 melee and tool enhancement effects"
+ },
+ {
+  "number": 8,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-4b-2-ranged-effects",
+  "head_sha": "e8ea4221a8032ec24b6ac1b6770ecc046def5438",
+  "base": "stage-4/equipment-foundation",
+  "title": "Implement Stage 4B-2 ranged enhancement effects"
+ },
+ {
+  "number": 9,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-4b-3-armor-enhancement-effects",
+  "head_sha": "af696580d8959c092ff929dbe874aaa88a5c4926",
+  "base": "stage-4/equipment-foundation",
+  "title": "Implement Stage 4B-3 armor enhancement runtime effects"
+ },
+ {
+  "number": 10,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-4c-ability-cooldown-foundation",
+  "head_sha": "94944909a172c2e416a0980a1d45b323cfee079e",
+  "base": "stage-4/equipment-foundation",
+  "title": "Implement Stage 4C ability and persistent cooldown foundation"
+ },
+ {
+  "number": 11,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-4/equipment-foundation",
+  "head_sha": "8a3159c5a33c18f89baa654ae7c3d550fae6a628",
+  "base": "main",
+  "title": "Stage 4: Equipment foundation"
+ },
+ {
+  "number": 12,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-flame-sword-for-stage-5a",
+  "head_sha": "866a71f0c5adb4317d4c3dd8a7464c772084855c",
+  "base": "stage-5/special-equipment",
+  "title": "Stage 5A: add Flame Sword special-equipment vertical slice"
+ },
+ {
+  "number": 13,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-5b-special-equipment-system",
+  "head_sha": "96944bd836fb419b453e2b87a6a4899f503e1f5d",
+  "base": "stage-5/special-equipment",
+  "title": "Implement Stage 5B special equipment system (F/Shift+F, Wind Sword)"
+ },
+ {
+  "number": 14,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-5/special-equipment",
+  "head_sha": "e66bf7ecb39a14be5313818e917596b7abfa1ac4",
+  "base": "main",
+  "title": "Stage 5: Special equipment system"
+ },
+ {
+  "number": 15,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-6-materials-and-crafting",
+  "head_sha": "19b23d77d693babf28fe75eb47721362305524f0",
+  "base": "stage-6/materials-crafting-progression",
+  "title": "Implement Stage 6 materials, crafting, and progression"
+ },
+ {
+  "number": 16,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-6/materials-crafting-progression",
+  "head_sha": "c8705f4c3969920967f027bbfcddd72fda1338cb",
+  "base": "main",
+  "title": "Stage 6: Materials, crafting, and progression"
+ },
+ {
+  "number": 17,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-7-fishing-life-content-t94ezj",
+  "head_sha": "8b5a14921d5b7732905e2670162564d3dce8ee8a",
+  "base": "stage-7/life-content",
+  "title": "Stage 7: Fishing life content vertical slice"
+ },
+ {
+  "number": 18,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-7/life-content",
+  "head_sha": "a62a65e10c569ac655fe43545058a40eea2ed8a6",
+  "base": "main",
+  "title": "Stage 7: Fishing life content"
+ },
+ {
+  "number": 19,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-8a-zombie-variants",
+  "head_sha": "9c1a291c44a00c05de45633fc9e77df94795813e",
+  "base": "stage-8/entity-mob",
+  "title": "Implement Stage 8A Bomb and Leap Zombie variants"
+ },
+ {
+  "number": 20,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-mining-giant-for-stage-8",
+  "head_sha": "8d83cfc568f62273b2292dc67f90a0e1e0a89820",
+  "base": "stage-8/entity-mob",
+  "title": "Implement Stage 8B Mining Giant"
+ },
+ {
+  "number": 21,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-8/entity-mob",
+  "head_sha": "5541ad505aeb5e4839d0027ed944e3f7c60810c4",
+  "base": "main",
+  "title": "Integrate Stage 8 zombie variants into main"
+ },
+ {
+  "number": 22,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-stage-9a-skeleton-king-boss",
+  "head_sha": "adc7f780ede7c2bf2e22bf5ab2b4dd1e9e4d84fe",
+  "base": "stage-9/skeleton-king",
+  "title": "Implement Stage 9A Skeleton King vertical slice"
+ },
+ {
+  "number": 23,
+  "state": "merged",
+  "draft": false,
+  "head": "stage-9/skeleton-king",
+  "head_sha": "ec1b6ce9182795bdd26123a184d58ae5b8c21dd5",
+  "base": "main",
+  "title": "Stage 9/skeleton king"
+ },
+ {
+  "number": 24,
+  "state": "merged",
+  "draft": false,
+  "head": "work/stage-10-draft-audit",
+  "head_sha": "e675e72589cb5645d8ce957e906358195238b9a4",
+  "base": "stage-10/draft-content",
+  "title": "Stage 10: draft content audit and checklist reconciliation"
+ },
+ {
+  "number": 25,
+  "state": "merged",
+  "draft": false,
+  "head": "work/stage-10-full-content-recovery",
+  "head_sha": "58dbcc39b3c73c5435458734ba4700a2d3d1cbfe",
+  "base": "stage-10/draft-content",
+  "title": "Stage 10: full Paper-to-Mod content recovery ledger"
+ },
+ {
+  "number": 26,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/add-stage-10-live-test-command",
+  "head_sha": "e381dffd04f373988d2fe2f4944b0469a43be643",
+  "base": "stage-10/draft-content",
+  "title": "Stage 10: add cumulative Stage 1-9 live test command"
+ },
+ {
+  "number": 27,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/repair-stage-6-mineral-worldgen-for-minecraft-26.3",
+  "head_sha": "795cb44ae71eda462bbcf9ab12dc19cdba18be97",
+  "base": "stage-10/draft-content",
+  "title": "Fix: Repair Minecraft 26.3 worldgen registry compatibility"
+ },
+ {
+  "number": 28,
+  "state": "merged",
+  "draft": false,
+  "head": "fix/mc26.3-feature-registry-migration",
+  "head_sha": "7a672e3cab97d98d0c761e0c3f5d8df377e3fc1e",
+  "base": "stage-10/draft-content",
+  "title": "Fix: Migrate Stage 6 ore features to Minecraft 26.3 registry format"
+ },
+ {
+  "number": 29,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-shock-potion-for-stage-10",
+  "head_sha": "0ede6657df48043801b7e7322b2aaa7befa13273",
+  "base": "stage-10/draft-content",
+  "title": "Stage 10A: Implement Shock Potion vertical slice (brewing, effect, tests)"
+ },
+ {
+  "number": 30,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/continue-development-of-moreminecrafts-project",
+  "head_sha": "f58356ae59e88d589d0b952f82fac4d925ef369f",
+  "base": "stage-10/draft-content",
+  "title": "Stage 10B: Establish Enhancement 2.0 foundation"
+ },
+ {
+  "number": 31,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/continue-moreminecrafts-t2-elemental-work",
+  "head_sha": "ced23001bf1e4aad65b013a4610371976891e8a0",
+  "base": "stage-11/checkpoint",
+  "title": "Stage 11: Reconcile T2 elemental equipment designs"
+ },
+ {
+  "number": 32,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/continue-development-of-moreminecrafts-fabric",
+  "head_sha": "dad4e559e623e4f3432ccf5fa784280f1843608e",
+  "base": "stage-11/checkpoint",
+  "title": "Stage 11: stabilize runtime/data validation and T2 live-test systems"
+ },
+ {
+  "number": 33,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-checkpoint-12-for-t2-equipment",
+  "head_sha": "90b7c3a0bdc8a1ca0f8be942df64795871e8cb76",
+  "base": "stage-11/checkpoint",
+  "title": "Checkpoint 12: complete T2 equipment gameplay contracts"
+ },
+ {
+  "number": 34,
+  "state": "merged",
+  "draft": false,
+  "head": "resource/material-textures-pass-1",
+  "head_sha": "3e1922770493304d88bcf5962791fe7ac27e6d73",
+  "base": "main",
+  "title": "Resources: add first 32×32 material texture pass"
+ },
+ {
+  "number": 35,
+  "state": "merged",
+  "draft": false,
+  "head": "worldgen/deepslate-ore-variants",
+  "head_sha": "922ac0252be20380f6d5a009a1938eba10905a23",
+  "base": "main",
+  "title": "Worldgen: add automatic deepslate ore variants"
+ },
+ {
+  "number": 36,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-first-code-reconciliation-pass",
+  "head_sha": "426ea7bfe8446e2da9424116018f4da7c4804b09",
+  "base": "stage-12/checkpoint",
+  "title": "Reconcile Fishing core and integrate approved Resource D"
+ },
+ {
+  "number": 37,
+  "state": "merged",
+  "draft": false,
+  "head": "resource-c1/flame-sword-render-foundation",
+  "head_sha": "b49e6dd6b7e0220ef84c5d5a8ea50207921cb3b4",
+  "base": "stage-13/checkpoint",
+  "title": "Resource C1-A: establish Flame Sword rendering foundation"
+ },
+ {
+  "number": 38,
+  "state": "merged",
+  "draft": false,
+  "head": "resource-c1b/flame-sword-production-texture",
+  "head_sha": "d73f19701eeb26db2cbed1263dce60a32d35955a",
+  "base": "stage-13/checkpoint",
+  "title": "Resource C1-B: integrate approved Flame Sword production texture"
+ },
+ {
+  "number": 39,
+  "state": "closed",
+  "draft": false,
+  "head": "audit/local-worldgen-ci-repair",
+  "head_sha": "2a327923ed88a46235d49e35806683fa4a9e6832",
+  "base": "stage-14/checkpoint",
+  "title": "Audit repair: restore 26.3 worldgen and server CI guardrails"
+ },
+ {
+  "number": 40,
+  "state": "closed",
+  "draft": false,
+  "head": "recovery/post-stage8-cumulative",
+  "head_sha": "0264b94cbbe0a492276d61ab73c634bfebead183",
+  "base": "main",
+  "title": "Recovery: restore cumulative post-Stage-11 foundation"
+ },
+ {
+  "number": 41,
+  "state": "closed",
+  "draft": false,
+  "head": "recovery/stage-2-gameplay-reconciliation",
+  "head_sha": "fde245ab364666cbff31b49ab85b89409b1d8c7b",
+  "base": "recovery/post-stage8-cumulative",
+  "title": "Stage 2: reconcile gameplay and progression contracts"
+ },
+ {
+  "number": 42,
+  "state": "closed",
+  "draft": false,
+  "head": "recovery/stage-3-fishing-resource-reconciliation",
+  "head_sha": "8de9efdd743cb86a59a7d4401395e5cb7bd2cabb",
+  "base": "recovery/stage-2-gameplay-reconciliation",
+  "title": "Stage 3: reconcile Fishing runtime, resources, and equipment UX"
+ },
+ {
+  "number": 43,
+  "state": "closed",
+  "draft": false,
+  "head": "recovery/stage-4-final-integration",
+  "head_sha": "c39313e7d19ef688ac4b528d18cd4cb458ef6e65",
+  "base": "recovery/stage-3-fishing-resource-reconciliation",
+  "title": "Stage 4: final cumulative integration audit"
+ },
+ {
+  "number": 44,
+  "state": "closed",
+  "draft": false,
+  "head": "fix/batch-1-t2-runtime-correctness",
+  "head_sha": "4132c0e50fefb9ce8a15aefb091f5e5d8839b46d",
+  "base": "stage-15/checkpoint",
+  "title": "Fix Batch 1: T2 Lightning damage and counter lifecycle"
+ },
+ {
+  "number": 45,
+  "state": "closed",
+  "draft": false,
+  "head": "fix/batch-2-water-dive-lifecycle",
+  "head_sha": "5979ccd89cb8273181a84137bbd9e061aba79534",
+  "base": "fix/batch-1-t2-runtime-correctness",
+  "title": "Fix Batch 2: Water Dive lifecycle cleanup"
+ },
+ {
+  "number": 46,
+  "state": "closed",
+  "draft": false,
+  "head": "fix/batch-3-fishing-component-mutation",
+  "head_sha": "d372a82294f6f7d9a81aed5a51f821a69b31d9e9",
+  "base": "fix/batch-2-water-dive-lifecycle",
+  "title": "Fix Batch 3: Fishing component mutation safety"
+ },
+ {
+  "number": 47,
+  "state": "closed",
+  "draft": false,
+  "head": "fix/batch-4-validation-regression-protection",
+  "head_sha": "983744e34971d1c26cf9cad92b3de67331c602c4",
+  "base": "fix/batch-3-fishing-component-mutation",
+  "title": "Fix Batch 4: Validation regression protection"
+ },
+ {
+  "number": 48,
+  "state": "closed",
+  "draft": false,
+  "head": "fix/batch-5-final-defect-and-validation",
+  "head_sha": "f167094fa867f0e34ef70dc9bba5169ea4e8ee23",
+  "base": "fix/batch-4-validation-regression-protection",
+  "title": "Fix Batch 5: Fishing test tier cleanup and final repair validation"
+ },
+ {
+  "number": 49,
+  "state": "closed",
+  "draft": false,
+  "head": "fix/def-003-dimension-transfer",
+  "head_sha": "a153db725386ac831f465779092500353ef1b749",
+  "base": "fix/batch-5-final-defect-and-validation",
+  "title": "Fix DEF-003: bind Water Dive to origin dimension"
+ },
+ {
+  "number": 51,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-enchantment-vertical-for-stage-17",
+  "head_sha": "0ec56186faa44f7a4c77358ae928629640fb2fcc",
+  "base": "stage-16/checkpoint",
+  "title": "Implement Stage 17 enchantment vertical"
+ },
+ {
+  "number": 52,
+  "state": "closed",
+  "draft": false,
+  "head": "codex/fix-enchantment-vertical-defects-and-validate",
+  "head_sha": "9b1a02f77eacc3b986c6c34f4bfe30291b011945",
+  "base": "codex/implement-enchantment-vertical-for-stage-17",
+  "title": "Repair Stage 17 enchantment vertical defects"
+ },
+ {
+  "number": 53,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/perform-final-runtime-repair-for-stage-17",
+  "head_sha": "40d51e7ef516b55aa0b417dae7b257b30b9afc67",
+  "base": "codex/fix-enchantment-vertical-defects-and-validate",
+  "title": "Complete Stage 17 enchantment runtime repairs"
+ },
+ {
+  "number": 54,
+  "state": "merged",
+  "draft": false,
+  "head": "governance/ci-acceptance-lifecycle",
+  "head_sha": "aaed797e25c1c5085b247f4e4f48177c68016d87",
+  "base": "stage-16/checkpoint",
+  "title": "Require CI and final acceptance lifecycle"
+ },
+ {
+  "number": 55,
+  "state": "merged",
+  "draft": false,
+  "head": "governance/design-authority-sync",
+  "head_sha": "acbe041c4b6ec201a653f285aaf32b120dfcf905",
+  "base": "stage-16/checkpoint",
+  "title": "Synchronize finalized design with current authority"
+ },
+ {
+  "number": 56,
+  "state": "merged",
+  "draft": false,
+  "head": "reconcile/stage-17-checkpoint",
+  "head_sha": "4c5df63908b1354dfb8609872e4509ef772cc0ca",
+  "base": "stage-16/checkpoint",
+  "title": "Reconcile Stage 17 onto latest Stage 16 checkpoint"
+ },
+ {
+  "number": 57,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/repair-titanium-tungsten-block-texture-scale",
+  "head_sha": "bc24d1f1af04aad4e614c52cd36f3d942e9053d2",
+  "base": "stage-17/checkpoint",
+  "title": "Repair Titanium and Tungsten block texture scale"
+ },
+ {
+  "number": 58,
+  "state": "closed",
+  "draft": false,
+  "head": "codex/post-live-flame-sword-mineral-repair",
+  "head_sha": "96868acbb89778f0fd5c25b2d14349012e0f373e",
+  "base": "stage-17/checkpoint",
+  "title": "Repair Flame Sword hand rendering"
+ },
+ {
+  "number": 59,
+  "state": "closed",
+  "draft": false,
+  "head": "codex/finalize-cumulative-live-test-defect-repairs",
+  "head_sha": "b2dec4e85e1d872a4a11caa73c41ef8872cadf28",
+  "base": "codex/post-live-flame-sword-mineral-repair",
+  "title": "Repair cumulative live-test defects across progression and rendering"
+ },
+ {
+  "number": 60,
+  "state": "closed",
+  "draft": false,
+  "head": "codex/repair-fishing-equipment-panel-layout",
+  "head_sha": "83b5ba769634e3a47d66e1d29d733c80f716158a",
+  "base": "stage-17/checkpoint",
+  "title": "Repair Fishing equipment panel aspect ratio"
+ },
+ {
+  "number": 61,
+  "state": "merged",
+  "draft": false,
+  "head": "docs/stage-18-flame-sword-authority-sync",
+  "head_sha": "42de45c05269c15aa3b949fdbecc337e39d69fda",
+  "base": "stage-18/checkpoint",
+  "title": "Synchronize Flame Sword authority with Stage 18"
+ },
+ {
+  "number": 62,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/implement-lower-equipment-gameplay-systems",
+  "head_sha": "bc11edf3b9167569261323aadce6e08688d5b6b5",
+  "base": "codex/provisional-equipment-resources",
+  "title": "Introduce lower-equipment system: backpacks, lanterns, portable furnace, drill, weapons, fish trap, and client/network hooks"
+ },
+ {
+  "number": 63,
+  "state": "merged",
+  "draft": false,
+  "head": "work/pr62-acceptance-repair",
+  "head_sha": "9f1c6aa920bd718f4beef07078f81ec67aef9a32",
+  "base": "codex/implement-lower-equipment-gameplay-systems",
+  "title": "[Validation only] PR #62 lower equipment acceptance repair"
+ },
+ {
+  "number": 64,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/provisional-equipment-resources",
+  "head_sha": "60ce2c3b4b595e39d0f670e59a8323cd35c154c5",
+  "base": "stage-18/checkpoint",
+  "title": "Finalize Stage 18 checkpoint for live validation"
+ },
+ {
+  "number": 65,
+  "state": "closed",
+  "draft": false,
+  "head": "codex/post-stage18-lower-equipment-live-repair",
+  "head_sha": "9ba8f422aefb52f43a7440b69f952bd17f66a70a",
+  "base": "stage-18/checkpoint",
+  "title": "Repair post-Stage-18 lower equipment live-test defects"
+ },
+ {
+  "number": 66,
+  "state": "merged",
+  "draft": false,
+  "head": "implementation/t2-elemental-gameplay-finalization",
+  "head_sha": "7e5dbd730e56d4f4c564e4833ae57bd98955b267",
+  "base": "stage-19/checkpoint",
+  "title": "Implement T2 elemental gameplay and reusable VFX"
+ },
+ {
+  "number": 67,
+  "state": "merged",
+  "draft": true,
+  "head": "design/t1-enchantment-skill-tree",
+  "head_sha": "233e2e243ef6575af998016bcf8d1b5bdf8f2b28",
+  "base": "stage-19/checkpoint",
+  "title": "T1 progression, enchantment, and villager/book design authority"
+ },
+ {
+  "number": 68,
+  "state": "merged",
+  "draft": false,
+  "head": "implementation/t1-enchantment-progression",
+  "head_sha": "cbc3fa1ab028a967cb21b1de9801c35324eed91d",
+  "base": "stage-19/checkpoint",
+  "title": "T1 enchantment progression: post-audit repairs"
+ },
+ {
+  "number": 69,
+  "state": "merged",
+  "draft": false,
+  "head": "recovery/vanilla-model-custom-mobs-7730b10",
+  "head_sha": "00542ce999c451b2d94c173fd86857ebbeff4835",
+  "base": "stage-20/checkpoint",
+  "title": "Stage 20 content finalization: T2, fishing, mobs, and equipment"
+ },
+ {
+  "number": 70,
+  "state": "merged",
+  "draft": false,
+  "head": "design/end-boss-continuation-2026-10-07",
+  "head_sha": "7c164fe36856f7d45b3f5bd95af65d0ba5f134f3",
+  "base": "main",
+  "title": "docs: record October 7 MoreMinecrafts design decisions"
+ },
+ {
+  "number": 71,
+  "state": "merged",
+  "draft": false,
+  "head": "docs/2026-10-07-content-first-axis-review",
+  "head_sha": "1b600b77551dc89ed9c835df3283ed90029fae3f",
+  "base": "main",
+  "title": "docs: record content-first design scope and T2 sources"
+ },
+ {
+  "number": 72,
+  "state": "closed",
+  "draft": false,
+  "head": "resources/40-custom-mob-production-textures",
+  "head_sha": "0cc0a9eaf58290bbde2a4b45f68df101f8f7c6d2",
+  "base": "stage-20/checkpoint",
+  "title": "Add production textures for all 40 custom mobs"
+ },
+ {
+  "number": 73,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/prototype-client-visual-validation-20261009",
+  "head_sha": "3a0cd8cc279c6419cf48e684a3d6df95765a4618",
+  "base": "main",
+  "title": "Prototype Minecraft client visual validation in GitHub Actions"
+ },
+ {
+  "number": 74,
+  "state": "closed",
+  "draft": true,
+  "head": "docs/2026-10-10-artifact-research-decisions",
+  "head_sha": "a5a217e10199e5edee67945a83505048efdd92c3",
+  "base": "stage-20/checkpoint",
+  "title": "docs: Oct 10 research and artifact design decisions (documentation only)"
+ },
+ {
+  "number": 75,
+  "state": "closed",
+  "draft": true,
+  "head": "feat/research-v4-a-c-20261010",
+  "head_sha": "d1f113720cf7d71720450d4709b3834b137d43f4",
+  "base": "stage-20/checkpoint",
+  "title": "WIP: V4 research progression authority, prices and scoped gameplay implementation"
+ },
+ {
+  "number": 76,
+  "state": "closed",
+  "draft": true,
+  "head": "feat/research-knowledge-ui-integration",
+  "head_sha": "5dad54adc65d80d755156a5248120d2618d4f9ac",
+  "base": "feat/research-v4-a-c-20261010",
+  "title": "feat: align research and knowledge with vanilla advancements"
+ },
+ {
+  "number": 77,
+  "state": "merged",
+  "draft": false,
+  "head": "security/pre-public-hardening-20261012",
+  "head_sha": "9fadf2d703365c89ea278b6e27b7251628fc6312",
+  "base": "main",
+  "title": "security: pre-public Actions hardening and full-history audit"
+ },
+ {
+  "number": 78,
+  "state": "closed",
+  "draft": false,
+  "head": "codex/stage1-runtime-audit-20261012",
+  "head_sha": "d90eb70b10332c05ea12224b09b6d3f32b889db1",
+  "base": "feat/research-knowledge-ui-integration",
+  "title": "docs: add Stage 1 research and knowledge runtime audit"
+ },
+ {
+  "number": 79,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage2a-knowledge-collectors-20261012",
+  "head_sha": "204f706cb2ffd1bf60fa950f201a33446b55850f",
+  "base": "feat/research-knowledge-ui-integration",
+  "title": "feat: add Stage 2-A knowledge event collectors"
+ },
+ {
+  "number": 80,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage2b-knowledge-conditions-20261012",
+  "head_sha": "1a17f8e77792ab1b106d92ac03fe10c86227d599",
+  "base": "codex/stage2a-knowledge-collectors-20261012",
+  "title": "feat: correct Stage 2-B knowledge acquisition conditions"
+ },
+ {
+  "number": 81,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/k5-natural-tree-provenance-design-20261013",
+  "head_sha": "be0b6c7874a5c78e4e87fee4431c2a1c78ae3c86",
+  "base": "codex/stage2b-knowledge-conditions-20261012",
+  "title": "docs: redesign K5 for 200 directly mined natural-tree logs"
+ },
+ {
+  "number": 82,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/k5-natural-tree-mining-probe-20261013",
+  "head_sha": "080a3f05b7f8a3b18e235ebb61040e7283fae3e2",
+  "base": "codex/stage2b-knowledge-conditions-20261012",
+  "title": "test: prepare K5 natural-tree mining runtime probe"
+ },
+ {
+  "number": 83,
+  "state": "open",
+  "draft": true,
+  "head": "codex/ancient-city-arena-prototype-20261013",
+  "head_sha": "e7dc53f9f48dfece8a5723debd5526dc061107d1",
+  "base": "stage-20/checkpoint",
+  "title": "Prototype: additive Ancient City Arena with verified Minecraft screenshots"
+ },
+ {
+  "number": 84,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/k5-production-integration-20261013",
+  "head_sha": "bd816aef9c5c1d1c4d7416950fdc091546524fb3",
+  "base": "codex/k5-natural-tree-mining-probe-20261013",
+  "title": "Draft: production K5 natural-tree direct mining"
+ },
+ {
+  "number": 85,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/ancient-city-whole-variant-probe-20261014",
+  "head_sha": "bc092d8c3067611458c72509e271c0f51d49e173",
+  "base": "stage-20/checkpoint",
+  "title": "[WRONG REPOSITORY — DO NOT MERGE] Probe: Ancient City whole-city variant architecture"
+ },
+ {
+  "number": 86,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/knowledge-consolidation-review-20261014",
+  "head_sha": "ca8478f8bad73b1e7e46038b42885a4d4370baab",
+  "base": "codex/k5-production-integration-20261013",
+  "title": "Knowledge stack consolidation and lifecycle review"
+ },
+ {
+  "number": 87,
+  "state": "merged",
+  "draft": false,
+  "head": "codex/knowledge-stack-integration-20261014",
+  "head_sha": "c0ce63cb73cea42446bedbaece3bb49a9ce71bf8",
+  "base": "main",
+  "title": "Knowledge stack integration against main"
+ },
+ {
+  "number": 88,
+  "state": "closed",
+  "draft": false,
+  "head": "stage-22/research-restructure",
+  "head_sha": "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
+  "base": "main",
+  "title": "Stage 22: repair Research prerequisite purchase validation"
+ },
+ {
+  "number": 89,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage22-research-implementation-20261015",
+  "head_sha": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
+  "base": "stage-22/research-restructure",
+  "title": "Draft: Stage 22 research roots, passives, and C-Lite"
+ },
+ {
+  "number": 90,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-research-content-20261015",
+  "head_sha": "1edbdb6bc6bbd82c22f5e0865c6dd0d8c70a2469",
+  "base": "codex/stage22-research-implementation-20261015",
+  "title": "Stage 23-A: implement research content batch 1"
+ },
+ {
+  "number": 91,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-batch2-20261015",
+  "head_sha": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+  "base": "codex/stage23a-research-content-20261015",
+  "title": "Stage 23-A: implement research content batch 2"
+ },
+ {
+  "number": 92,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-research-implementation-20261015",
+  "head_sha": "f632f4f521c782c9614a3bbb71f1ab5579a3358d",
+  "base": "codex/stage22-research-implementation-20261015",
+  "title": "Stage 23-A Batch 1 research effects"
+ },
+ {
+  "number": 93,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-reconcile-20261015",
+  "head_sha": "803d2e5df5fe2f990ff2f2e5ef3e01c6dcf37955",
+  "base": "codex/stage23a-batch2-20261015",
+  "title": "Draft: Stage 23-A parallel branch reconciliation"
+ },
+ {
+  "number": 94,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-integrated-research-20261015",
+  "head_sha": "5e48deacbeed95783902f2b71e04e2ae25005606",
+  "base": "codex/stage23a-batch2-20261015",
+  "title": "Stage 23-A: selectively integrate unique research effects"
+ },
+ {
+  "number": 95,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-batch3-20261015",
+  "head_sha": "c3683de7338a40143ee45dbcc76918c9cb363390",
+  "base": "codex/stage23a-integrated-research-20261015",
+  "title": "Draft: Stage 23-A Batch 3 precision crafting; furnace nodes deferred"
+ },
+ {
+  "number": 96,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-furnace-infrastructure-20261015",
+  "head_sha": "f28658e5e03ae2e78a44af8e921d06b6f2cdbb47",
+  "base": "codex/stage23a-batch3-20261015",
+  "title": "Draft: Stage 23-A furnace research infrastructure"
+ },
+ {
+  "number": 97,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-fisheries-hotfix-20261015",
+  "head_sha": "df960d6511fbf9bbe0a649d8f68de6c12362d458",
+  "base": "codex/stage23a-integrated-research-20261015",
+  "title": "Draft: Stage 23-A Fisheries Study exact-allocation hotfix"
+ },
+ {
+  "number": 98,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-expanded-research-20261015",
+  "head_sha": "7231c7aad598e9cada152537dfece7cfad2756dc",
+  "base": "codex/stage23a-furnace-infrastructure-20261015",
+  "title": "Draft: Stage 23-A expanded research effects on furnace infrastructure"
+ },
+ {
+  "number": 99,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23-livefix-a-20261016",
+  "head_sha": "eb80a148065c29394f7a46650c05ab72dda9140d",
+  "base": "codex/stage23a-integrated-research-20261015",
+  "title": "Draft: Stage Live-Fix A repairs"
+ },
+ {
+  "number": 100,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/stage23-linear-chain-20261016",
+  "head_sha": "7231c7aad598e9cada152537dfece7cfad2756dc",
+  "base": "codex/stage23a-batch2-20261015",
+  "title": "Draft: Stage 23 linear-chain integration (#94 → #95 → #96 → #98)"
+ },
+ {
+  "number": 101,
+  "state": "closed",
+  "draft": true,
+  "head": "docs/stage23-accessories-approved-20261016",
+  "head_sha": "e532fa3034deb4eff53eacd0f90af02dc8369d8b",
+  "base": "integration/stage23-linear-chain-20261016",
+  "title": "Draft: record approved 12-accessory and relic design"
+ },
+ {
+  "number": 102,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/stage23-reconciliation-audit-20261016",
+  "head_sha": "601cc28b9d078b01f1d01451fd07f278839eb4b0",
+  "base": "integration/stage23-linear-chain-20261016",
+  "title": "Draft: Stage 23 remaining branch reconciliation audit (#92/#93/#97/#99)"
+ },
+ {
+  "number": 103,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/stage23-final-reconciliation-20261016",
+  "head_sha": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+  "base": "integration/stage23-linear-chain-20261016",
+  "title": "Draft: integrate Stage 23 sibling fixes (#93/#97/#99) and regression tests"
+ },
+ {
+  "number": 104,
+  "state": "merged",
+  "draft": false,
+  "head": "integration/stage23-mobs-accessories-20261016",
+  "head_sha": "b0de6b754859e090427ff310887ca04188310a8a",
+  "base": "integration/stage23-final-reconciliation-20261016",
+  "title": "Draft: consolidate 40 custom mob resources (#72) and accessory design (#101) onto Stage 23"
+ },
+ {
+  "number": 105,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23-livefix-b-20261016",
+  "head_sha": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+  "base": "integration/stage23-final-reconciliation-20261016",
+  "title": "Draft: Stage 23 Live-Fix B portable furnace persistence"
+ },
+ {
+  "number": 106,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23b-cloud-client-qa-design",
+  "head_sha": "9b66f49657c084c29873990c0ff8b92d6a0ab620",
+  "base": "codex/stage23-livefix-b-20261016",
+  "title": "Draft: Stage 23-B Cloud Live Client QA design"
+ },
+ {
+  "number": 107,
+  "state": "open",
+  "draft": true,
+  "head": "codex/stage23b-cloud-live-client-qa",
+  "head_sha": "dad054c7cb5e5d672a0ef96bfdeffc482e1c48f6",
+  "base": "codex/stage23-livefix-b-20261016",
+  "title": "Draft: Stage 23-B Cloud Live Client QA harness"
+ },
+ {
+  "number": 108,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-expanded-batch2-20261017",
+  "head_sha": "2c8e984314bb079378cffc95c4f48982a962173b",
+  "base": "codex/stage23-livefix-b-20261016",
+  "title": "Draft: Stage 23-A expanded batch 2 and portable furnace research"
+ },
+ {
+  "number": 109,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/stage23a-remaining-research-20261017",
+  "head_sha": "9376777264136b37e10071adf8ed59c08da9b6ee",
+  "base": "codex/stage23a-expanded-batch2-20261017",
+  "title": "Draft: Stage 23-A remaining research campaign"
+ },
+ {
+  "number": 110,
+  "state": "closed",
+  "draft": true,
+  "head": "claude/stage23a-economy-soil-20261017",
+  "head_sha": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+  "base": "codex/stage23a-remaining-research-20261017",
+  "title": "Draft: Villager Trading discount and Soil Study (V3 .53 / .16)"
+ },
+ {
+  "number": 111,
+  "state": "closed",
+  "draft": false,
+  "head": "claude/xp-quest-authority-20261017",
+  "head_sha": "63107098fcde6742704a07394439e5cdf9c6ad49",
+  "base": "main",
+  "title": "fix: include V3 purchases in research prerequisite validation"
+ },
+ {
+  "number": 112,
+  "state": "closed",
+  "draft": true,
+  "head": "claude/xp-quest-authority-20261017",
+  "head_sha": "63107098fcde6742704a07394439e5cdf9c6ad49",
+  "base": "claude/stage23a-economy-soil-20261017",
+  "title": "Draft: XP Quest authority decisions and design documents A–D"
+ },
+ {
+  "number": 113,
+  "state": "closed",
+  "draft": true,
+  "head": "docs/accessory-enhancement-approved-20261017",
+  "head_sha": "32cbca0a3fe57db86262bca7a865573071763640",
+  "base": "claude/stage23a-economy-soil-20261017",
+  "title": "docs: finalize accessory +10 enhancement and anvil catalyst design"
+ },
+ {
+  "number": 114,
+  "state": "closed",
+  "draft": true,
+  "head": "claude/xp-quest-q1a-core",
+  "head_sha": "78d1495402de6f3d7328fcd3117a4996137a05e2",
+  "base": "claude/xp-quest-authority-20261017",
+  "title": "Draft: Q1-A XP Quest catalog ledger, persistent tracking and retroactive reconciliation"
+ },
+ {
+  "number": 115,
+  "state": "closed",
+  "draft": true,
+  "head": "claude/xp-quest-q1a2-exact-xp",
+  "head_sha": "f30d263c93b89b1bab844893bdb82084bfe209bd",
+  "base": "claude/xp-quest-authority-20261017",
+  "title": "Draft: Q1-A2 exact raw-XP transactions, claim rollback, Enhancement raw-XP costs"
+ },
+ {
+  "number": 116,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/review-claude-pr110-20261017",
+  "head_sha": "8f33e72c8a71d29e132050457535ac8a0092a7b0",
+  "base": "claude/stage23a-economy-soil-20261017",
+  "title": "Independent review and repair for Claude PR #110"
+ },
+ {
+  "number": 117,
+  "state": "open",
+  "draft": true,
+  "head": "experiment/underground-kingdom-worldgen-probe",
+  "head_sha": "991b20c8a052ecf5d73c5130d2d9e0eb4338c041",
+  "base": "integration/stage23-final-reconciliation-20261016",
+  "title": "Draft: experiment — underground kingdom worldgen feasibility probe (MC 26.3)"
+ },
+ {
+  "number": 118,
+  "state": "open",
+  "draft": true,
+  "head": "claude/xp-quest-q1-integration",
+  "head_sha": "c40ee6b1656800f016644893f5bac7a9c90827b2",
+  "base": "claude/xp-quest-authority-20261017",
+  "title": "Draft: Q1 integration validation — XP Quest core + exact XP"
+ },
+ {
+  "number": 119,
+  "state": "open",
+  "draft": true,
+  "head": "claude/xp-quest-q1b-tracking",
+  "head_sha": "c7fe7fabc5a3bc486e2be0aed8f793628f42ec72",
+  "base": "claude/xp-quest-q1-integration",
+  "title": "XP Quest Q1-B: live event tracking, ore provenance, 39 registered quests"
+ },
+ {
+  "number": 120,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/xp-quest-q1b-correction",
+  "head_sha": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
+  "base": "claude/xp-quest-q1b-tracking",
+  "title": "Q1-B: require positive natural ore provenance"
+ },
+ {
+  "number": 121,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/xp-quest-q1c",
+  "head_sha": "17e980912d636b0572a3f25b24995ffde31c754c",
+  "base": "codex/xp-quest-q1b-correction",
+  "title": "Q1-C WIP: player-attributed structure loot evidence"
+ },
+ {
+  "number": 122,
+  "state": "closed",
+  "draft": true,
+  "head": "docs/world-events-patrol-design-20261018",
+  "head_sha": "ad778059718b0a1b911264b72818bbaca8026fcd",
+  "base": "docs/accessory-enhancement-approved-20261017",
+  "title": "docs: finalize 5 pillager patrol variants and custom captain"
+ },
+ {
+  "number": 123,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/q1b-villager-discount-pr116-20261019",
+  "head_sha": "4fbb036e0158098f4b9d6733c68ddd73b87db826",
+  "base": "codex/xp-quest-q1b-correction",
+  "title": "reconcile: apply approved PR #116 villager pricing and regression tests onto Q1-B"
+ },
+ {
+  "number": 124,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/q1c-pr116-discount-20261019",
+  "head_sha": "5ea5f54614943c8fd00f047b7f8379f385d6e5e8",
+  "base": "codex/xp-quest-q1c",
+  "title": "reconcile(Q1-C): integrate approved #116 villager discount fixes into #121 lineage"
+ },
+ {
+  "number": 125,
+  "state": "closed",
+  "draft": true,
+  "head": "audit/stage23-pr92-pr93-reconciliation-20261019",
+  "head_sha": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+  "base": "integration/q1c-pr116-discount-20261019",
+  "title": "audit(Stage23): reconcile PR #92/#93 successors and restore missing fisheries codec test"
+ },
+ {
+  "number": 126,
+  "state": "open",
+  "draft": true,
+  "head": "design/xp-quest-selector-redesign-20261019",
+  "head_sha": "a9b89755f7c4e924243fa4229a90177433712be4",
+  "base": "audit/stage23-pr92-pr93-reconciliation-20261019",
+  "title": "ui(selector): XP Quest card redesign + four-card keyboard navigation"
+ },
+ {
+  "number": 127,
+  "state": "open",
+  "draft": true,
+  "head": "codex/q1c-recovery-20261019-079d36a",
+  "head_sha": "334997d2f81d6b324b0cccd3f40b538c921edadc",
+  "base": "audit/stage23-pr92-pr93-reconciliation-20261019",
+  "title": "draft(q1c): recover skull provenance decision and record build blocker"
+ },
+ {
+  "number": 128,
+  "state": "open",
+  "draft": true,
+  "head": "claude/q1c-skull-provenance-20261019",
+  "head_sha": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
+  "base": "codex/q1c-recovery-20261019-079d36a",
+  "title": "feat(q1c): Wither Skeleton skull provenance + register xpq.cmb.wither_skulls_3"
+ },
+ {
+  "number": 129,
+  "state": "open",
+  "draft": true,
+  "head": "design/xp-quest-structure-200-20261019",
+  "head_sha": "2176935929c990a210fae64582d524d30993bc8a",
+  "base": "design/xp-quest-selector-redesign-20261019",
+  "title": "design(xp-quest): 200-quest structure proposal (presentation-only, draft)"
+ },
+ {
+  "number": 130,
+  "state": "open",
+  "draft": true,
+  "head": "codex/q1c-pr128-p1-p2-repair-20261019",
+  "head_sha": "9c9f22577370cd0160dd2b43b0e92caa7832f420",
+  "base": "claude/q1c-skull-provenance-20261019",
+  "title": "WIP Q1-C #128: fix P2 pickup accounting; preserve P1 forced-halt blocker"
+ },
+ {
+  "number": 131,
+  "state": "closed",
+  "draft": true,
+  "head": "design/territory-economy-bounty-approved-20261019",
+  "head_sha": "befa4c8a44c8e3556be2dca9af502d36b0cf11ad",
+  "base": "main",
+  "title": "docs: consolidate approved territory, economy, bounty and scattered design records"
+ },
+ {
+  "number": 132,
+  "state": "closed",
+  "draft": true,
+  "head": "design/territory-registration-recovery-d2a-20261019",
+  "head_sha": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
+  "base": "design/territory-economy-bounty-approved-20261019",
+  "title": "docs(D2-A): recover Paper territory registration and Fabric ownership design"
+ },
+ {
+  "number": 133,
+  "state": "closed",
+  "draft": true,
+  "head": "design/territory-owner-decisions-d01-d78-20261020",
+  "head_sha": "09b33f39f6c0d75f6d1ef837edcdc6d8d8753776",
+  "base": "design/territory-registration-recovery-d2a-20261019",
+  "title": "docs: approve territory D01–D66; withdraw D67–D78 overengineering"
+ },
+ {
+  "number": 134,
+  "state": "closed",
+  "draft": true,
+  "head": "design/territory-owner-decisions-reconcile-20261020",
+  "head_sha": "e0428763cfd1f720a4da20e1bcc4d561fd153261",
+  "base": "design/territory-owner-decisions-d01-d78-20261020",
+  "title": "docs: reconcile territory docs with owner D01–D66 (D67–D78 withdrawn)"
+ },
+ {
+  "number": 135,
+  "state": "closed",
+  "draft": true,
+  "head": "design/xp-quest-usability-d1-d5-20261019",
+  "head_sha": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+  "base": "design/xp-quest-structure-200-20261019",
+  "title": "feat(xp-quest): semantic zoom, sticky chapter labels, sub-branch rows, per-quest icons, tooltip/keyboard fixes (D1-D5)"
+ },
+ {
+  "number": 136,
+  "state": "closed",
+  "draft": true,
+  "head": "design/territory-d79-d80-reconcile-20261020",
+  "head_sha": "d641075f2078697e432f123d61178a73d26fbdf8",
+  "base": "design/territory-owner-decisions-reconcile-20261020",
+  "title": "docs(territory): approve D79 registration recipe and D80 immediate T1"
+ },
+ {
+  "number": 137,
+  "state": "closed",
+  "draft": true,
+  "head": "design/territory-d81-d84-facility-prep-20261021",
+  "head_sha": "f2cc4f06db44f4125b3987c4b92d2ba8711df06b",
+  "base": "design/territory-d79-d80-reconcile-20261020",
+  "title": "docs(territory): approve D81–D84 and prepare facility design"
+ },
+ {
+  "number": 138,
+  "state": "closed",
+  "draft": true,
+  "head": "design/territory-shelved-independent-content-20261021",
+  "head_sha": "284ce62ff54247cc0a4e96693c34c190b49c4bbf",
+  "base": "design/territory-d81-d84-facility-prep-20261021",
+  "title": "docs(scope): shelve territory system and release independent content ideas"
+ },
+ {
+  "number": 139,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/q1c-production-readiness-audit-20261020",
+  "head_sha": "526416b16a590abf558534a8426625508c23ad99",
+  "base": "main",
+  "title": "Audit Q1-C XP Quest production integration readiness"
+ },
+ {
+  "number": 140,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/xp-quest-200-content-audit-20261020",
+  "head_sha": "3e66cfbdfa6a12576ecf0162108250691318c8db",
+  "base": "main",
+  "title": "Draft: XP Quest 200-entry content-design audit"
+ },
+ {
+  "number": 141,
+  "state": "open",
+  "draft": true,
+  "head": "experiment/cloud-free-model-delegation-phase0",
+  "head_sha": "aa376713aedcd7fecd769af39e18f8532b9e147d",
+  "base": "main",
+  "title": "Phase 0: free-model delegation experiment (manual workflow, mocked tests)"
+ },
+ {
+  "number": 142,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-infrastructure-20261021",
+  "head_sha": "9b79f9be03d3227f1e295dda36ddc2dbc09ccabb",
+  "base": "main",
+  "title": "Draft: add accessory registry and category infrastructure"
+ },
+ {
+  "number": 143,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-persistence-inventory-20261021",
+  "head_sha": "f2e6e87fe95ee4454f4b365c569ecfefae619e9e",
+  "base": "codex/accessory-infrastructure-20261021",
+  "title": "Draft: add persistent accessory equipment and inventory integration"
+ },
+ {
+  "number": 144,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-lifecycle-qa-20261021",
+  "head_sha": "2083cf37d163398c953995223be35f1d3ba50f02",
+  "base": "codex/accessory-persistence-inventory-20261021",
+  "title": "Draft: verify accessory lifecycle and restart persistence"
+ },
+ {
+  "number": 145,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-client-acceptance-20261021",
+  "head_sha": "d7e8effd4052313e9965ff417001e5c2ad489c06",
+  "base": "codex/accessory-lifecycle-qa-20261021",
+  "title": "Draft: accessory client validation — shift-click blocked"
+ },
+ {
+  "number": 146,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-client-repair-20261022",
+  "head_sha": "b7f72fdae46428110079641c681eabdde175e79c",
+  "base": "codex/accessory-client-acceptance-20261021",
+  "title": "Draft: repair accessory client Shift-click validation fixture"
+ },
+ {
+  "number": 147,
+  "state": "closed",
+  "draft": true,
+  "head": "design/pillager-headquarters-concept-20261022",
+  "head_sha": "55df673a83cbb85136438a9662f862a09f8f44f4",
+  "base": "main",
+  "title": "docs(structures): square-wall pillager HQ and flat plains/forest placement"
+ },
+ {
+  "number": 148,
+  "state": "closed",
+  "draft": true,
+  "head": "design/bounty-contract-approved-20261022",
+  "head_sha": "b7cedf199a5f1eda341ce3bd27eabb22eeb309e1",
+  "base": "main",
+  "title": "docs: approved bounty and contract design (Q1-Q26)"
+ },
+ {
+  "number": 149,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-client-lifecycle-final-20261022",
+  "head_sha": "6d37a73f11befea3288e028590c540dc31deda61",
+  "base": "codex/accessory-client-repair-20261022",
+  "title": "Draft: verify accessory client lifecycle and inventory regressions"
+ },
+ {
+  "number": 150,
+  "state": "closed",
+  "draft": true,
+  "head": "audit/bc01-bc02-20261022",
+  "head_sha": "1269cdbacc7c6b75d8aa3cce1352de9432a61914",
+  "base": "main",
+  "title": "BC-01 and BC-02 bounty registry audit and economy simulation"
+ },
+ {
+  "number": 151,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/bc03-bounty-contract-20261022",
+  "head_sha": "5ad001b091ea24705834a1caab94335a6abcc445",
+  "base": "main",
+  "title": "BC-03 bounty contracts implementation (in progress)"
+ },
+ {
+  "number": 152,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-visual-assets-20261022",
+  "head_sha": "9f6fba5fcccb385c0e40d4e0000ade0322e2bdb4",
+  "base": "codex/accessory-client-lifecycle-final-20261022",
+  "title": "Accessory visual assets: concept plan for owner approval (no textures yet)"
+ },
+ {
+  "number": 153,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-enhancement-20261022",
+  "head_sha": "f9a31c7117198550c0d5b984b4019af6f164cd94",
+  "base": "codex/accessory-client-lifecycle-final-20261022",
+  "title": "Draft: implement approved accessory enhancement"
+ },
+ {
+  "number": 154,
+  "state": "closed",
+  "draft": true,
+  "head": "audit/repository-pr-reconciliation-20261022",
+  "head_sha": "84550ad4ef0a09248934641e26dab61c4f2cd13b",
+  "base": "main",
+  "title": "Draft: repository-wide PR reconciliation and staged integration plan"
+ },
+ {
+  "number": 155,
+  "state": "merged",
+  "draft": false,
+  "head": "security/gitleaks-historical-findings-20261022",
+  "head_sha": "b2f2f8f9bfb1c9d72b7e87a06a6c91ef66150113",
+  "base": "main",
+  "title": "security: allowlist two verified historical Gitleaks false positives"
+ },
+ {
+  "number": 156,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/batch-a-recovery-20261022",
+  "head_sha": "05a378211a6e4576609416096d3515a6b1dee36f",
+  "base": "main",
+  "title": "Batch A: recover existing progression systems and claim-once quest UI"
+ },
+ {
+  "number": 157,
+  "state": "closed",
+  "draft": true,
+  "head": "security/gitleaks-remediation-20261022-codex-725159",
+  "head_sha": "cce99b6cc7bb84c03fd8c4d7fe2a58c309ec4b43",
+  "base": "main",
+  "title": "Security: suppress two verified historical Gitleaks false positives"
+ },
+ {
+  "number": 158,
+  "state": "closed",
+  "draft": true,
+  "head": "audit/repository-cleanup-phase2-20261023",
+  "head_sha": "c9e29c56804198a07d7fdb0f7c9007f801cc6936",
+  "base": "main",
+  "title": "Draft: phase 2 repository cleanup safety audit"
+ },
+ {
+  "number": 159,
+  "state": "closed",
+  "draft": true,
+  "head": "audit/repository-cleanup-phase2b-20261023",
+  "head_sha": "5a0ede40519bd15715900482d8816c025e74c99c",
+  "base": "main",
+  "title": "Draft: Phase 2B activity evidence and redundancy verification"
+ },
+ {
+  "number": 160,
+  "state": "closed",
+  "draft": true,
+  "head": "codex/accessory-inventory-ui-redesign-20261023",
+  "head_sha": "ed4cc92aa55f5f4ced95dccfca1cbf062d485ec5",
+  "base": "codex/accessory-client-lifecycle-final-20261022",
+  "title": "Accessory inventory UI: five slots left of the armor column, recipe book kept clear"
+ },
+ {
+  "number": 161,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/accessory-system-20261023",
+  "head_sha": "0e9ccc5af9313d3648d4bce98a8ee33b1f2dba82",
+  "base": "codex/accessory-client-lifecycle-final-20261022",
+  "title": "Draft: accessory system integration (#149 + #152 + #153 + #160) and real-client acceptance"
+ },
+ {
+  "number": 162,
+  "state": "merged",
+  "draft": true,
+  "head": "codex/bc03-bounty-contract-20261022",
+  "head_sha": "5ad001b091ea24705834a1caab94335a6abcc445",
+  "base": "integration/accessory-bounty-20261023",
+  "title": "Temporary integration: merge BC-03 bounty into accessory baseline"
+ },
+ {
+  "number": 163,
+  "state": "closed",
+  "draft": true,
+  "head": "audit/phase3-stage23-xpquest-readiness-20261023",
+  "head_sha": "01a36b0cafaa5f3ca89cb7f2833b11d8ddf401c1",
+  "base": "main",
+  "title": "Draft: Phase 3 Stage 23 and XP Quest integration readiness audit"
+ },
+ {
+  "number": 164,
+  "state": "closed",
+  "draft": true,
+  "head": "docs/wave4b-custom-quest-ui-authority-20261024",
+  "head_sha": "2e847d4956fc4e67c9019f0dc174b5499446bd3d",
+  "base": "main",
+  "title": "Draft: approve custom XP Quest UI and define client validation gates"
+ },
+ {
+  "number": 165,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/wave5r-combined-20261024",
+  "head_sha": "a33d03ba1c2153cc2e8ae935267632a29645be13",
+  "base": "main",
+  "title": "Draft: combine Research Quest with accessory and bounty integration"
+ },
+ {
+  "number": 166,
+  "state": "closed",
+  "draft": true,
+  "head": "wave7/b-gametest-recovery",
+  "head_sha": "e5982f3c2f6981d25fea0210a1c3b49df7069ae1",
+  "base": "integration/wave5r-combined-20261024",
+  "title": "Wave 7 B: register and repair the 15 orphaned research GameTests"
+ },
+ {
+  "number": 167,
+  "state": "closed",
+  "draft": true,
+  "head": "wave7/c-accessory-raw-xp",
+  "head_sha": "06be9f53ffa8069465e9e197417cdcd4fb32a1c7",
+  "base": "integration/wave5r-combined-20261024",
+  "title": "Wave 7 C: pay accessory enhancement with an exact raw-XP transaction"
+ },
+ {
+  "number": 168,
+  "state": "closed",
+  "draft": true,
+  "head": "wave7/a-e-real-mouse-input",
+  "head_sha": "0f466b96df9832c2c5a0bf83fd885ca1c278095d",
+  "base": "integration/wave5r-combined-20261024",
+  "title": "Wave 7 A+E: accept real SDL left clicks and prove it with OS-level input"
+ },
+ {
+  "number": 169,
+  "state": "closed",
+  "draft": true,
+  "head": "wave7/d-ui-cleanup",
+  "head_sha": "8f53b48816c0c3264ed748e7fffc340c5c229839",
+  "base": "integration/wave5r-combined-20261024",
+  "title": "Wave 7 D: browse header contrast and enhancement anvil polish"
+ },
+ {
+  "number": 170,
+  "state": "closed",
+  "draft": true,
+  "head": "tooling/integration-gametest-coverage-20261024",
+  "head_sha": "741a1be90074c3f0086c048d77e9dbabf4947cf1",
+  "base": "main",
+  "title": "Draft: add integration manifest and GameTest coverage tooling"
+ },
+ {
+  "number": 171,
+  "state": "closed",
+  "draft": true,
+  "head": "feature/wave7a-star-covenant-20261024",
+  "head_sha": "b6a03f4e5a8addfea9ae8410b8e0249083b5a562",
+  "base": "integration/accessory-system-20261023",
+  "title": "Draft: Wave 7A Star Covenant accessory ability"
+ },
+ {
+  "number": 172,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/wave8-wave7-repairs-20261025",
+  "head_sha": "cb6412e204c71248662968beab6b40d0189f6706",
+  "base": "main",
+  "title": "Draft: Wave 8 integration of Wave 7 repairs onto Wave 5R (#165 + #166 #167 #168 #169)"
+ },
+ {
+  "number": 173,
+  "state": "closed",
+  "draft": true,
+  "head": "feature/wave7b-snow-charm-20261025",
+  "head_sha": "e72be040703d39be6fa7482400e7c15eeaa912c3",
+  "base": "integration/accessory-system-20261023",
+  "title": "Draft: Wave 7B Snow Charm powder-snow sinking reduction"
+ },
+ {
+  "number": 174,
+  "state": "closed",
+  "draft": true,
+  "head": "feature/wave7b-accessory-abilities-20261025",
+  "head_sha": "91faed1092b6811db085fd0c55dbd3b66a71a21d",
+  "base": "integration/accessory-system-20261023",
+  "title": "Wave 7B: persistent accessory cooldowns and three abilities"
+ },
+ {
+  "number": 175,
+  "state": "closed",
+  "draft": true,
+  "head": "claude/wave-7b-decisions-reconciliation-xjdmva",
+  "head_sha": "0fb34bc512d97422383ce0c2b01a399deb54e00d",
+  "base": "feature/wave7b-accessory-abilities-20261025",
+  "title": "Wave 7B: align Deep Sea Pearl and Ring of Life with approved decisions (on #174)"
+ },
+ {
+  "number": 176,
+  "state": "closed",
+  "draft": true,
+  "head": "integration/wave9-accessory-abilities-20261025",
+  "head_sha": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
+  "base": "main",
+  "title": "Wave 9: accessory ability integration candidate (#172 + #171 + #173 + #174 + #175)"
+ },
+ {
+  "number": 177,
+  "state": "closed",
+  "draft": true,
+  "head": "test/bc03-validation-hardening-20261025",
+  "head_sha": "cc058692ca38f76c18b598658733beb8f8a4fb10",
+  "base": "codex/bc03-bounty-contract-20261022",
+  "title": "Draft: BC-03 validation hardening — isolation, reconnect, distribution tests (on #151)"
+ },
+ {
+  "number": 178,
+  "state": "closed",
+  "draft": true,
+  "head": "feature/bc03-approved-reconciliation-20261025",
+  "head_sha": "35c97ff413e0158bc9cfb2891ec2d54f3ed0983a",
+  "base": "test/bc03-validation-hardening-20261025",
+  "title": "Draft: BC-03 approved gameplay reconciliation D1–D4 (on #177)"
+ },
+ {
+  "number": 179,
+  "state": "merged",
+  "draft": true,
+  "head": "fix/qm01-quest-monument-test-isolation",
+  "head_sha": "baa06dc4aee9686936e723de598ccaf46d5be449",
+  "base": "integration/wave9-accessory-abilities-20261025",
+  "title": "QM-01: make Quest Monument GameTests independent of batch timing and world reuse"
+ },
+ {
+  "number": 180,
+  "state": "closed",
+  "draft": true,
+  "head": "fix/bc04-contract-structure-names-20261025",
+  "head_sha": "f3604c459369e26188df3329d870e7ae3d956e45",
+  "base": "feature/bc03-approved-reconciliation-20261025",
+  "title": "Draft: BC-04 fix — name exploration targets on the contract screen (on #178)"
+ },
+ {
+  "number": 181,
+  "state": "open",
+  "draft": true,
+  "head": "release/wave9-rc-20261025",
+  "head_sha": "268ec65bb8827c3f627d076188c7924225b8afa0",
+  "base": "main",
+  "title": "Wave 9 release candidate: #176 + K5/Quest Monument test isolation + BC-03 #177/#178"
+ },
+ {
+  "number": 182,
+  "state": "open",
+  "draft": true,
+  "head": "integration/wave10-unified-20261025",
+  "head_sha": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
+  "base": "main",
+  "title": "[Wave 10] Unified gameplay integration candidate"
+ },
+ {
+  "number": 183,
+  "state": "merged",
+  "draft": false,
+  "head": "docs/ring-life-authority-option-a-20261025",
+  "head_sha": "bacb9546c98139a614f726355dac8ad317bf73cc",
+  "base": "release/wave9-rc-20261025",
+  "title": "Draft: Finalize Ring of Life cooldown edge case (Option A)"
+ },
+ {
+  "number": 184,
+  "state": "closed",
+  "draft": true,
+  "head": "fix/exposure-audit-parallel-20261025",
+  "head_sha": "6d456e6fca5150e2a84c1ffa25f44d86f0c255a5",
+  "base": "main",
+  "title": "security(audit): download exposure-audit archives in parallel"
+ },
+ {
+  "number": 185,
+  "state": "merged",
+  "draft": false,
+  "head": "test/ring-life-option-a-regression-20261025",
+  "head_sha": "efc77967c9c246d28afaa5e7ca5756e4a2dd4c33",
+  "base": "release/wave9-rc-20261025",
+  "title": "Add Ring of Life cooldown expiry regression test"
+ },
+ {
+  "number": 186,
+  "state": "merged",
+  "draft": true,
+  "head": "security/exposure-audit-pacing-20261025",
+  "head_sha": "97797b5deb1d7138862e18b4006d7618144d9dd5",
+  "base": "release/wave9-rc-20261025",
+  "title": "Pace full Actions exposure audit safely"
+ },
+ {
+  "number": 187,
+  "state": "merged",
+  "draft": false,
+  "head": "test/k5-reused-world-determinism-20261025",
+  "head_sha": "9f565a664a5c76895f0888b45174281548a654f7",
+  "base": "release/wave9-rc-20261025",
+  "title": "Stabilize K5 reused-world persistence validation"
+ },
+ {
+  "number": 188,
+  "state": "closed",
+  "draft": true,
+  "head": "fix/wave9-live-input-harness-20261026",
+  "head_sha": "eb88cf81474ee46d5e8a3cf8e08fdc247a45d10f",
+  "base": "release/wave9-rc-20261025",
+  "title": "test(live): held-click real-input helpers and dedicated-server accessory equip check"
+ },
+ {
+  "number": 189,
+  "state": "open",
+  "draft": true,
+  "head": "docs/phase2-preservation-decisions-20261026",
+  "head_sha": "6f9c3ac2ad3f68b48e8428a3840ce6da7ec551a9",
+  "base": "main",
+  "title": "docs: preserve Phase 2 owner decisions and reconcile authority"
+ },
+ {
+  "number": 190,
+  "state": "merged",
+  "draft": true,
+  "head": "audit/prc-p4-research-preservation-20261026",
+  "head_sha": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
+  "base": "checkpoint/wave10-unified-20261026",
+  "title": "Preserve PR #92 and #93 research manifests"
+ },
+ {
+  "number": 191,
+  "state": "merged",
+  "draft": true,
+  "head": "audit/prc-p6-remaining-preservation-20261027",
+  "head_sha": "73dcc8f4d139c1688352068b397dab040208253b",
+  "base": "checkpoint/wave10-unified-20261026",
+  "title": "Preserve remaining audit PR records with provenance"
+ },
+ {
+  "number": 192,
+  "state": "open",
+  "draft": true,
+  "head": "checkpoint/wave11-unified-20261027",
+  "head_sha": "c47c69f3e3553819432905197599443288669bb5",
+  "base": "main",
+  "title": "[Wave 11] Branch audit and preserved checkpoint (CI validation)"
+ },
+ {
+  "number": 193,
+  "state": "open",
+  "draft": true,
+  "head": "checkpoint/wave12-unified-20261027",
+  "head_sha": "3c8186b7af3e9fc771feaf427214ed448366dd81",
+  "base": "main",
+  "title": "[Wave 12] Functional preservation audit and unified checkpoint"
+ },
+ {
+  "number": 194,
+  "state": "open",
+  "draft": true,
+  "head": "test/wave13-f3-f1-evidence-20261027",
+  "head_sha": "4e6901c08e67485190ed0697d328ee21e408cccf",
+  "base": "checkpoint/wave12-unified-20261027",
+  "title": "[Wave 13] Evidence tooling: Adamantium F-3 sampling probe and skull crash-protocol model"
+ },
+ {
+  "number": 195,
+  "state": "open",
+  "draft": true,
+  "head": "docs/wave13-prep-audit-20261027",
+  "head_sha": "fda71a08533399b69d67aa436b88ecbd6e8ff2b3",
+  "base": "checkpoint/wave12-unified-20261027",
+  "title": "[Wave 13] Audit docs: verified Wave 12 CI, Adamantium F-3, wither-skull F-1, cleanup manifest"
+ }
+]
