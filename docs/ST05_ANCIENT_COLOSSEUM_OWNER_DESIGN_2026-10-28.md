@@ -67,6 +67,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q25 — C:** Batch replenishment in regular/elite rounds: once alive encounter mob count falls to **6 or fewer**, summon remaining assigned mobs up to the **12-alive** Q24 cap, repeating until the round's total allocation is exhausted. No additional mobs after the allocation is depleted. Exact spawn placement/telegraph remain OPEN.
 
+- **Q26 — owner custom:** The structure is a circular Roman-colosseum-like arena. The **first wave starts when a player reaches the center** of the arena. Enemies emerge from the **outer circular perimeter** and move into the central combat space; Q25 batch reinforcements use the perimeter as well. Later rounds retain Q14/Q15 automatic progression (10-second standard / 35-second resupply waits). Number and arrangement of outer gates/spawn points remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
