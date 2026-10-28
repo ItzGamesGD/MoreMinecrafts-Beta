@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "minecraft:diamond",
+    "T": "moreminecrafts:titanium_ingot",
+    "S": "moreminecrafts:etherium_shard",
+    "M": "moreminecrafts:mythril",
+    "G": "minecraft:gold_ingot",
+    "N": "minecraft:netherite_ingot"
+  },
+  "pattern": [
+    " D ",
+    "TSM",
+    "GN "
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreminecrafts:etherium_ingot"
+  }
+}

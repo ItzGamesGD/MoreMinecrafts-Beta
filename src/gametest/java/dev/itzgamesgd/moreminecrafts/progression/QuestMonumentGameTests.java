@@ -151,7 +151,7 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
             Guardian wandering = guardian(level, inside.offset(200, 0, 3));
             hit(level, outsideCombat, wandering, 1F);
             hit(level, melee, boss, 100_000F);
-            ctx.assertTrue(hearts(monument) == 1, "the existing Heart of Currents reward is still produced exactly once");
+            ctx.assertTrue(hearts(monument) == 0, "the superseded Monument Heart of Currents reward is no longer produced");
             ctx.assertTrue(cleared(melee) == 1 && cleared(archer) == 1 && cleared(hurt) == 1,
                     "melee, projectile and guardian-damaged participants are all credited: "
                     + cleared(melee) + "/" + cleared(archer) + "/" + cleared(hurt));
@@ -275,7 +275,7 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
             hit(level, player, elder(level, a.inside()), 100_000F); // same monument cleared again
             QuestMonumentParticipation.completed(level, data(level), key(a)); // duplicate completion event
             QuestMonumentParticipation.credit(player, key(a));
-            ctx.assertTrue(cleared(player) == 1 && hearts(a) == 1,
+            ctx.assertTrue(cleared(player) == 1 && hearts(a) == 0,
                     "replaying the same monument adds no credit and no second Heart of Currents: cleared=" + cleared(player)
                     + " hearts=" + hearts(a));
             hit(level, player, elder(level, b.inside()), 100_000F);
@@ -345,7 +345,7 @@ public final class QuestMonumentGameTests implements CustomTestMethodInvoker {
             ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
             hit(level, finisher, elder(level, monument.inside()), 100_000F);
             ctx.assertTrue(data(level).isClaimed(key(monument)) && cleared(finisher) == 1, "the monument completes");
-            ctx.assertTrue(hearts(monument) == 1, "the Heart of Currents is tracked as soon as it is created: hearts="
+            ctx.assertTrue(hearts(monument) == 0, "no Heart of Currents is created by Monument completion: hearts="
                     + hearts(monument));
             ctx.succeed();
         }, monument);

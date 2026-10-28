@@ -20,7 +20,7 @@ class MaterialProgressionTest {
         assertEquals(80, MaterialProgression.TITANIUM.maximumY());
         assertEquals(-48, MaterialProgression.MYTHRIL.peakY());
         assertEquals(6, MaterialProgression.MYTHRIL.veinSize());
-        assertEquals(6, MaterialProgression.ETHERIUM.veinSize());
+        assertEquals(1, MaterialProgression.ETHERIUM.veinSize());
         assertTrue(MaterialProgression.MYTHRIL.attemptsPerChunk() < MaterialProgression.TITANIUM.attemptsPerChunk());
     }
 }

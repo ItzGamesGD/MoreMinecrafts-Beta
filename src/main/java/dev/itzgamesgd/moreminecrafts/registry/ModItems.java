@@ -38,7 +38,13 @@ public final class ModItems {
     public static final Item RAW_TUNGSTEN = material("raw_tungsten");
     public static final Item TUNGSTEN_INGOT = material("tungsten_ingot");
     public static final Item MYTHRIL = material("mythril");
+    /** Raw drop of the etherium ore; smelted into {@link #ETHERIUM_SHARD}. Not a finished ingot. */
     public static final Item ETHERIUM = material("etherium");
+    public static final Item ETHERIUM_SHARD = material("etherium_shard");
+    public static final Item ETHERIUM_INGOT = material("etherium_ingot");
+    public static final Item GALE_SHARD = material("gale_shard");
+    /** Approved T2 sky material (wind sword, wind bow). Acquisition routes are not implemented yet (BLOCKED_DEPENDENCY). */
+    public static final Item SKY_FEATHER = material("sky_feather");
     public static final Item ADAMANTIUM_INGOT = fireResistantMaterial("adamantium_ingot");
     public static final Item EYE_OF_TYPHOON = core("eye_of_typhoon");
     public static final Item HEART_OF_THUNDER = core("heart_of_thunder");
@@ -77,6 +83,7 @@ public final class ModItems {
             new FlameSwordItem(new Item.Properties()
                     .sword(ToolMaterial.NETHERITE, 4.0F, -2.6F)
                     .fireResistant()
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
                     .setId(FLAME_SWORD_KEY))
     );
     public static final Item WIND_SWORD = Registry.register(
@@ -84,16 +91,17 @@ public final class ModItems {
             WIND_SWORD_KEY,
             new WindSwordItem(new Item.Properties()
                     .sword(ToolMaterial.DIAMOND, 4.0F, -2.2F)
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
                     .setId(WIND_SWORD_KEY))
     );
     public static final Item FLOWING_WATER_SWORD = Registry.register(BuiltInRegistries.ITEM, FLOWING_WATER_SWORD_KEY,
-            new ElementalSwordItem(ElementalSwordItem.Element.WATER, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.0F).setId(FLOWING_WATER_SWORD_KEY)));
+            new ElementalSwordItem(ElementalSwordItem.Element.WATER, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.0F).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(FLOWING_WATER_SWORD_KEY)));
     public static final Item WIND_ARCHERS_BOW = Registry.register(BuiltInRegistries.ITEM, WIND_ARCHERS_BOW_KEY,
-            new BowItem(new Item.Properties().durability(465).enchantable(1).setId(WIND_ARCHERS_BOW_KEY)));
+            new BowItem(new Item.Properties().enchantable(1).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(WIND_ARCHERS_BOW_KEY)));
     public static final Item EARTH_MACE = Registry.register(BuiltInRegistries.ITEM, EARTH_MACE_KEY,
-            new EarthMaceItem(new Item.Properties().durability(600).attributes(MaceItem.createAttributes()).setId(EARTH_MACE_KEY)));
+            new EarthMaceItem(new Item.Properties().attributes(MaceItem.createAttributes()).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(EARTH_MACE_KEY)));
     public static final Item LIGHTNING_SWORD = Registry.register(BuiltInRegistries.ITEM, LIGHTNING_SWORD_KEY,
-            new ElementalSwordItem(ElementalSwordItem.Element.LIGHTNING, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.2F).setId(LIGHTNING_SWORD_KEY)));
+            new ElementalSwordItem(ElementalSwordItem.Element.LIGHTNING, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.2F).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(LIGHTNING_SWORD_KEY)));
     public static final Item DARK_ENERGY_STAFF = Registry.register(BuiltInRegistries.ITEM, DARK_ENERGY_STAFF_KEY,
             new DarkEnergyStaffItem(new Item.Properties().durability(420).setId(DARK_ENERGY_STAFF_KEY)));
 
@@ -265,6 +273,10 @@ public final class ModItems {
             entries.accept(TUNGSTEN_INGOT);
             entries.accept(MYTHRIL);
             entries.accept(ETHERIUM);
+            entries.accept(ETHERIUM_SHARD);
+            entries.accept(ETHERIUM_INGOT);
+            entries.accept(GALE_SHARD);
+            entries.accept(SKY_FEATHER);
             entries.accept(ADAMANTIUM_INGOT);
             entries.accept(MINER_LANTERN);
             entries.accept(PARACHUTE);
