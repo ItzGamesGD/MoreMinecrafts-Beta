@@ -94,6 +94,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q37 — B:** Assign each eligible mob type a threat score using a **holistic combat-capability assessment**: health, damage output, attack patterns (including ranged/AOE), mobility, and special abilities. Use these scores in the Q36 per-round threat budgets; exact numeric weights, mob ratings and testing-based adjustments remain OPEN.
 
+- **Q38 — C:** Threat budgets for rounds 1–6 follow a **three-tier stepped escalation**: rounds 1–2 at similar baseline budgets, rounds 3–4 at a higher budget tier, and rounds 5–6 at a substantially higher final pre-boss tier. Preserve existing per-round identities (R3 special, R4 enhanced regular, R5 elite, R6 enhanced elite) and supply breaks after R3/R5; R7 is the separately designed boss fight. Exact numeric budgets and within-tier differences remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
