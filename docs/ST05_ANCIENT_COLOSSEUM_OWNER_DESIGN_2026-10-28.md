@@ -79,6 +79,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q30 — A:** The **fixed colosseum arena center** is the origin of the revised Q29 12–24-block radial mob spawn annulus, independent of any player's position, including in multiplayer. The center-entry trigger for starting round 1 remains unchanged. Valid spawn positions must stay inside the combat arena; vertical constraints and placement safety remain OPEN.
 
+- **Q31 — B:** For ordinary and elite mob spawns in the fixed-center 12–24-block arena annulus, display a lightweight **particle warning for approximately 1 second at each selected valid spawn point** before the mob materializes. Apply to initial and Q25 batch replenishment spawns. Specific particle types, sound and boss entrance staging remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
