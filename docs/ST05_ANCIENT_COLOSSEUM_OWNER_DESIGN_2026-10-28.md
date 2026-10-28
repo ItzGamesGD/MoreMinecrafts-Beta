@@ -63,6 +63,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q23 — B:** Recalculate active participant count **at the start of each round** and lock that round's difficulty for its duration. Apply Q21 (+60% enemies per additional participant) for non-boss rounds and Q22 (+35% maximum boss HP per additional participant) at the start of round 7. Joins, departures and Q19 re-entry affect the next round only. Exact eligibility for counting participants remains OPEN.
 
+- **Q24 — B:** In regular and elite rounds, cap simultaneously alive encounter mobs at **12**. If a round's scaled total exceeds 12, spawn the remainder as existing encounter mobs are defeated. The round-7 Immortal Gladiator boss is treated separately. Exact replenishment timing and batch size remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
