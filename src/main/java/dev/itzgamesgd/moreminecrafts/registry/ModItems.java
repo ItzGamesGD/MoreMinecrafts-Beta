@@ -3,6 +3,8 @@ package dev.itzgamesgd.moreminecrafts.registry;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.item.FoundationProbeItem;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryDefinition;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryItem;
 import dev.itzgamesgd.moreminecrafts.fishing.*;
 import java.util.EnumMap;
 import java.util.Map;
@@ -22,16 +24,27 @@ import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.MaceItem;
 import dev.itzgamesgd.moreminecrafts.equipment.*;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Unit;
 
 public final class ModItems {
+    public static final Item BOUNTY_CONTRACT = register("bounty_contract", key ->
+            new ContractItem(false, new Item.Properties().stacksTo(1).setId(key)));
+    public static final Item SPECIAL_CONTRACT = register("special_contract", key ->
+            new ContractItem(true, new Item.Properties().stacksTo(1).setId(key)));
     public static final Item RAW_TITANIUM = material("raw_titanium");
     public static final Item TITANIUM_INGOT = material("titanium_ingot");
     public static final Item RAW_TUNGSTEN = material("raw_tungsten");
     public static final Item TUNGSTEN_INGOT = material("tungsten_ingot");
     public static final Item MYTHRIL = material("mythril");
+    /** Raw drop of the etherium ore; smelted into {@link #ETHERIUM_SHARD}. Not a finished ingot. */
     public static final Item ETHERIUM = material("etherium");
+    public static final Item ETHERIUM_SHARD = material("etherium_shard");
+    public static final Item ETHERIUM_INGOT = material("etherium_ingot");
+    public static final Item GALE_SHARD = material("gale_shard");
+    /** Approved T2 sky material (wind sword, wind bow). Acquisition routes are not implemented yet (BLOCKED_DEPENDENCY). */
+    public static final Item SKY_FEATHER = material("sky_feather");
     public static final Item ADAMANTIUM_INGOT = fireResistantMaterial("adamantium_ingot");
     public static final Item EYE_OF_TYPHOON = core("eye_of_typhoon");
     public static final Item HEART_OF_THUNDER = core("heart_of_thunder");
@@ -62,12 +75,15 @@ public final class ModItems {
             ENHANCEMENT_STONE_KEY,
             new Item(new Item.Properties().setId(ENHANCEMENT_STONE_KEY))
     );
+    public static final Item RELIC_CATALYST = register("relic_catalyst",
+            key -> new Item(new Item.Properties().stacksTo(1).setId(key)));
     public static final Item FLAME_SWORD = Registry.register(
             BuiltInRegistries.ITEM,
             FLAME_SWORD_KEY,
             new FlameSwordItem(new Item.Properties()
                     .sword(ToolMaterial.NETHERITE, 4.0F, -2.6F)
                     .fireResistant()
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
                     .setId(FLAME_SWORD_KEY))
     );
     public static final Item WIND_SWORD = Registry.register(
@@ -75,16 +91,17 @@ public final class ModItems {
             WIND_SWORD_KEY,
             new WindSwordItem(new Item.Properties()
                     .sword(ToolMaterial.DIAMOND, 4.0F, -2.2F)
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
                     .setId(WIND_SWORD_KEY))
     );
     public static final Item FLOWING_WATER_SWORD = Registry.register(BuiltInRegistries.ITEM, FLOWING_WATER_SWORD_KEY,
-            new ElementalSwordItem(ElementalSwordItem.Element.WATER, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.0F).setId(FLOWING_WATER_SWORD_KEY)));
+            new ElementalSwordItem(ElementalSwordItem.Element.WATER, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.0F).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(FLOWING_WATER_SWORD_KEY)));
     public static final Item WIND_ARCHERS_BOW = Registry.register(BuiltInRegistries.ITEM, WIND_ARCHERS_BOW_KEY,
-            new BowItem(new Item.Properties().durability(465).enchantable(1).setId(WIND_ARCHERS_BOW_KEY)));
+            new BowItem(new Item.Properties().enchantable(1).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(WIND_ARCHERS_BOW_KEY)));
     public static final Item EARTH_MACE = Registry.register(BuiltInRegistries.ITEM, EARTH_MACE_KEY,
-            new EarthMaceItem(new Item.Properties().durability(600).attributes(MaceItem.createAttributes()).setId(EARTH_MACE_KEY)));
+            new EarthMaceItem(new Item.Properties().attributes(MaceItem.createAttributes()).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(EARTH_MACE_KEY)));
     public static final Item LIGHTNING_SWORD = Registry.register(BuiltInRegistries.ITEM, LIGHTNING_SWORD_KEY,
-            new ElementalSwordItem(ElementalSwordItem.Element.LIGHTNING, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.2F).setId(LIGHTNING_SWORD_KEY)));
+            new ElementalSwordItem(ElementalSwordItem.Element.LIGHTNING, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.2F).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(LIGHTNING_SWORD_KEY)));
     public static final Item DARK_ENERGY_STAFF = Registry.register(BuiltInRegistries.ITEM, DARK_ENERGY_STAFF_KEY,
             new DarkEnergyStaffItem(new Item.Properties().durability(420).setId(DARK_ENERGY_STAFF_KEY)));
 
@@ -112,7 +129,13 @@ public final class ModItems {
 
     public static final Map<FishSpecies, Item> FISH = new EnumMap<>(FishSpecies.class);
     public static final Item[][] FISHING_EQUIPMENT = new Item[FishingEquipmentFamily.values().length][FishingEquipmentTier.MAX];
+    public static final Map<AccessoryDefinition, AccessoryItem> ACCESSORIES = new EnumMap<>(AccessoryDefinition.class);
     static {
+        for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
+            ResourceKey<Item> accessoryKey = key(definition.registryId());
+            ACCESSORIES.put(definition, Registry.register(BuiltInRegistries.ITEM, accessoryKey,
+                    new AccessoryItem(definition, new Item.Properties().stacksTo(1).setId(accessoryKey))));
+        }
         for (WeaponBalance.Values value : WeaponBalance.VALUES) {
             String tier = value.tier().name().toLowerCase();
             DAGGERS.put(value.tier(), register(tier + "_dagger", key -> new BasicWeaponItem(BasicWeaponItem.Kind.DAGGER,
@@ -190,6 +213,15 @@ public final class ModItems {
     }
 
     public static void initialize() {
+        for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
+            Item item = ACCESSORIES.get(definition);
+            if (!(item instanceof AccessoryItem accessory)
+                    || accessory.definition() != definition
+                    || !ModIds.id(definition.registryId()).equals(BuiltInRegistries.ITEM.getKey(item))) {
+                throw new IllegalStateException("Accessory registration mismatch for " + definition.registryId());
+            }
+        }
+
         var registeredId = BuiltInRegistries.ITEM.getKey(FOUNDATION_PROBE);
 
         if (!ModIds.id("foundation_probe").equals(registeredId)) {
@@ -205,6 +237,10 @@ public final class ModItems {
         }
 
         MoreMinecrafts.LOGGER.info("Item registration OK: {}", enhancementStoneId);
+
+        if (!ModIds.id("relic_catalyst").equals(BuiltInRegistries.ITEM.getKey(RELIC_CATALYST))) {
+            throw new IllegalStateException("MoreMinecrafts relic catalyst was not registered correctly.");
+        }
 
         var flameSwordId = BuiltInRegistries.ITEM.getKey(FLAME_SWORD);
         if (!ModIds.id("flame_sword").equals(flameSwordId)) {
@@ -237,6 +273,10 @@ public final class ModItems {
             entries.accept(TUNGSTEN_INGOT);
             entries.accept(MYTHRIL);
             entries.accept(ETHERIUM);
+            entries.accept(ETHERIUM_SHARD);
+            entries.accept(ETHERIUM_INGOT);
+            entries.accept(GALE_SHARD);
+            entries.accept(SKY_FEATHER);
             entries.accept(ADAMANTIUM_INGOT);
             entries.accept(MINER_LANTERN);
             entries.accept(PARACHUTE);

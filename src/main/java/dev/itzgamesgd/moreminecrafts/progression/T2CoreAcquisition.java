@@ -10,11 +10,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.ElderGuardian;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -23,26 +21,31 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.ints.ConstantValue;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 
-/** Adds the five locked T2 core identities to vanilla acquisition routes. */
+/**
+ * T2 §18.4 core acquisition through vanilla loot tables: Ancient City 3% (kept), normal vault 5% Eye of the Typhoon,
+ * ominous vault 5% Heart of Thunder. Burning Heart (new fire boss), Heart of Currents (new ocean boss) and the extra
+ * Ancient Heart (tomb guardian) are BLOCKED_DEPENDENCY: those bosses do not exist. The superseded Bastion and Ocean
+ * Monument core rewards are removed; Monument completion still feeds the XP Quest participation record.
+ */
 public final class T2CoreAcquisition {
-    private static final ResourceKey<LootTable> BASTION_TREASURE = lootTable("minecraft:chests/bastion_treasure");
     private static final ResourceKey<LootTable> ANCIENT_CITY = lootTable("minecraft:chests/ancient_city");
     private static final ResourceKey<LootTable> TRIAL_REWARD = lootTable("minecraft:chests/trial_chambers/reward");
     private static final ResourceKey<LootTable> OMINOUS_TRIAL_REWARD = lootTable("minecraft:chests/trial_chambers/reward_ominous");
-    private static final Identifier OCEAN_MONUMENT = Identifier.withDefaultNamespace("ocean_monument");
+    private static final Identifier OCEAN_MONUMENT = Identifier.withDefaultNamespace("monument");
 
     private T2CoreAcquisition() {}
 
     public static void initialize() {
         LootTableEvents.MODIFY.register((key, table, source, registries) -> {
-            if (key.equals(BASTION_TREASURE)) addRareCore(table, ModItems.BURNING_HEART, 0.04F);
-            else if (key.equals(ANCIENT_CITY)) addRareCore(table, ModItems.ANCIENT_HEART, 0.03F);
-            else if (key.equals(TRIAL_REWARD)) addRareCore(table, ModItems.EYE_OF_TYPHOON, 0.02F);
-            else if (key.equals(OMINOUS_TRIAL_REWARD)) addRareCore(table, ModItems.HEART_OF_THUNDER, 0.03F);
+            if (key.equals(ANCIENT_CITY)) addRareCore(table, ModItems.ANCIENT_HEART, 0.03F);
+            else if (key.equals(TRIAL_REWARD)) addRareCore(table, ModItems.EYE_OF_TYPHOON, 0.05F);
+            else if (key.equals(OMINOUS_TRIAL_REWARD)) addRareCore(table, ModItems.HEART_OF_THUNDER, 0.05F);
         });
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
-            if (entity instanceof ElderGuardian guardian && guardian.level() instanceof ServerLevel level)
+            if (entity instanceof ElderGuardian guardian && guardian.level() instanceof ServerLevel level) {
+                QuestMonumentParticipation.finalBlow(guardian, damageSource);
                 rewardCompletedMonument(level, guardian);
+            }
         });
         ServerTickEvents.END_SERVER_TICK.register(T2CoreAcquisition::retryPendingMonuments);
     }
@@ -98,8 +101,7 @@ public final class T2CoreAcquisition {
         if (rewards.finishIfReady(monumentKey, true, livingGuardianRemains)
                 != MonumentRewardData.CompletionResult.CLAIMED) return;
 
-        ItemStack reward = new ItemStack(ModItems.HEART_OF_CURRENTS);
-        level.addFreshEntity(new ItemEntity(level, pending.rewardX(), pending.rewardY(), pending.rewardZ(), reward));
+        QuestMonumentParticipation.completed(level, rewards, monumentKey);
     }
 
     private static ResourceKey<LootTable> lootTable(String id) {

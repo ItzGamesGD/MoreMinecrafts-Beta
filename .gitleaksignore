@@ -13,3 +13,27 @@ aa376713aedcd7fecd769af39e18f8532b9e147d:scripts/free_model_delegation/test_dele
 # False positive in design-document prose. The rule matched the word "accessible", a prose gap, and a 19-character phrase made of
 # three English-like words joined by a slash (entropy 3.5), on a line of links to public Fabric sources. It is not a credential.
 a1e0aeb0ab8ba90419b714a42502cbe8db9d770c:docs/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+
+# Same false positive, copied byte-for-byte by the Phase 3 P0 document recovery (PR #189). The flagged line is identical
+# (same SHA-256) to the reviewed line above; only the commit, path and line number differ. It is not a credential.
+024fc75a6298ab2f34ef80a2cc7e40e4d73af666:docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:17
+
+# Same false positive again: cherry-picking the PR #189 recovery (024fc75a) onto the Wave 10 integration branch (PR #182)
+# recreated the file in commit 0eba0d11. The flagged line is unchanged (same SHA-256 as the reviewed line); only the commit differs.
+0eba0d117185109aae22f4ea47aa0d1c5eb6add4:docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:17
+
+# Wave 11 archived three byte-preserved variants of the same reviewed historical document. Their flagged line is
+# byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the
+# previously reviewed false positive above. Only these exact commit/path/rule/line fingerprints are excluded.
+31c5a52f9aca386c64467c81c8f83a2cc1c6579a:docs/audit/BRANCH-W11-20261027/preserved/04206d024522669763567035f2d00e9590501ed3.md:generic-api-key:15
+31c5a52f9aca386c64467c81c8f83a2cc1c6579a:docs/audit/BRANCH-W11-20261027/preserved/05a8cab78753a5dae3080d2c54bfc09ea8d5b63b.md:generic-api-key:15
+31c5a52f9aca386c64467c81c8f83a2cc1c6579a:docs/audit/BRANCH-W11-20261027/preserved/f2898e2baacd03f4ae045c7f77dd91af190c600d.md:generic-api-key:17
+
+# PR #191 introduced two additional preserved copies of that same reviewed prose line (identical SHA-256 above).
+# These are exact historical fingerprints; the protected PR #191 branch itself is unchanged.
+e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+
+# Cherry-picking PR #191's approved documentation into Wave 11 recreated those two reviewed false positives.
+7ff1d14156730373d28973665d269bcb5f9ae39d:docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+7ff1d14156730373d28973665d269bcb5f9ae39d:docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15

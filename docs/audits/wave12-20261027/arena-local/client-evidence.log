@@ -1,0 +1,4 @@
+arena-validation-results/client-arena-camera-0.png.log:[00:55:44] [Render thread/INFO] (moreminecrafts) ARENA_CLIENT_JOINED
+arena-validation-results/client-arena-camera-0.png.log:[00:56:17] [IO-Worker-1/INFO] (moreminecrafts) ARENA_CAPTURE_WRITTEN path=/home/user/MoreMinecrafts-Beta/run/screenshots/arena-camera-0.png bytes=1702266
+arena-validation-results/client-arena-camera-1.png.log:[00:56:40] [Render thread/INFO] (moreminecrafts) ARENA_CLIENT_JOINED
+arena-validation-results/client-arena-camera-1.png.log:[00:57:10] [IO-Worker-1/INFO] (moreminecrafts) ARENA_CAPTURE_WRITTEN path=/home/user/MoreMinecrafts-Beta/run/screenshots/arena-camera-1.png bytes=1973222

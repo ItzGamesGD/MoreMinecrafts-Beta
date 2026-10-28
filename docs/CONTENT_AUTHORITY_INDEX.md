@@ -1,5 +1,5 @@
 
-> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents.
+> **HISTORICAL UI DECISION — SUPERSEDED (2026-10-10):** The earlier three-active-choice selector and unapproved landing-window note remain in the linked record for history only. The current approved decision is four visible cards: 발전 과제, 지식, 연구 are active; XP 퀘스트 is disabled and marked for later. Current authority is recorded below and in the amended UI documents. **The XP 퀘스트 card's disabled/later status is itself superseded by the XP Quest amendment — 2026-10-17 (see the XP Quest section below).**
 
 # Current content authority and deferred design debt
 
@@ -7,10 +7,84 @@ This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
 
+## Latest T2 material, recipe, and acquisition authority — 2026-10-27 (OWNER APPROVED, DESIGN ONLY)
+
+> **CURRENT OVERRIDE for T2 crafting and elemental core acquisition.** Read [Sky Islands / T2 Context — §18 Q1–Q21 reconciliation](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md#18-2026-10-27-t2-q1q21-최종-설계-통합-체크포인트--current-owner-authority) first. This section is **design authority**, not implementation, CI, or live-test acceptance.
+
+- §18 takes precedence over earlier T2 recipe proposals in the same document and over the Oct 7 continuation/implementation acquisition assumptions below. Retain older records as **SUPERSEDED/HISTORICAL**, not active instructions.
+- Approved six T2 equipment recipes: Fire Sword, Water Sword, Wind Sword, Wind Bow, Earth Mace, Lightning Sword; all use **Etherium Ingot ×1** with approved weapon-specific ingredients and explicit 3×3 shaped layouts. Dark Energy Staff remains deferred/placeholder.
+
+## 2026-10-27 sky-islands and T2 design updates (design only)
+
+The newest owner-approved Sky Islands ecology, floating ruins, Sky Temple (distinct from the **cancelled ST-02 Sun Temple**), aerial trial tower, flying mobs, Sky Feather and T2 weapon material amendments are recorded in [SKY_ISLANDS_T2_CONTEXT_2026-10-27.md](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md). Later numbered sections in that document supersede earlier provisional descriptions on the same point. In particular, the 2026-10-27 Earth Mace amendment changes the **bottom Netherite Ingot to Etherium Ingot** while retaining the Ancient Heart centre required by the 2026-10-26 [F-2 reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md). The later lightning-sword recipe correction in section 17 supersedes section 16. No code, recipe, worldgen or live implementation is implied. The [structure portfolio](STRUCTURE_CANDIDATE_AUTHORITY_2026-10-25.md) preserves ST-02 as a cancelled historical ID.
+
+## Accessory cooldown lifecycle — approved 2026-10-25
+
+Accessory cooldown lifecycle is governed by the [owner-approved 2026-10-25 decision](ACCESSORY_COOLDOWN_DECISION_2026-10-25.md). It specifies remaining online server ticks per player and ability type, including persistence through death, reconnect and restart. The same record holds the approved Deep Sea Pearl motionless definition (no horizontal movement input), the Ring of Life re-arm rule (a ring that is still armed may activate once when its cooldown expires while health remains low; after activation it re-arms only above 25%) and the Ember Ring first-hit exclusion; it does not finalize other ability mechanics.
+
+## Accessory visual identities — approved 2026-10-22
+
+The 12 registered accessories' visual identities (shape, material, palette, signature feature) and the native 32×32 item-texture size are approved in [ACCESSORY_VISUAL_CONCEPT_2026-10-22.md](validation/ACCESSORY_VISUAL_CONCEPT_2026-10-22.md). Accessory category indicators remain text labels. This does not change accessory gameplay.
+
+## Accessory anvil catalyst slot layout — approved 2026-10-23 (conditional on real-client acceptance)
+
+Relic Catalyst slot inline in the anvil's Enhance-mode input row, inside the 176px panel and clickable: [ACCESSORY_ANVIL_CATALYST_LAYOUT_APPROVED_2026-10-23.md](ACCESSORY_ANVIL_CATALYST_LAYOUT_APPROVED_2026-10-23.md). Catalyst artwork, recipe and acquisition remain deferred; GUI scale 1 and cosmetic follow-ups are tracked in [validation/ACCESSORY_INTEGRATION_FOLLOWUPS_2026-10-23.md](validation/ACCESSORY_INTEGRATION_FOLLOWUPS_2026-10-23.md).
+
+## Accessory inventory UI — approved 2026-10-23
+
+Five accessory slots integrated left of the vanilla armor slots, no side panel or permanent labels, tooltips only, and an independently positioned survival recipe book: [ACCESSORY_INVENTORY_UI_APPROVED_2026-10-23.md](ACCESSORY_INVENTORY_UI_APPROVED_2026-10-23.md). Gameplay, IDs, art and persistence are unchanged.
+
 ## Latest user-approved UI authority — 2026-10-11 follow-up
 
 - [Approved advancement/knowledge/research integration UI](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md), as amended by the 2026-10-11 navigation follow-up and 2026-10-12 interaction correction: retain the four-card selector, route Research and Knowledge through the shared seven-sector picker, and use each existing branch list for top-left direct tree navigation. The 2026-10-12 correction supersedes only node-screen footer controls, the separate detail panel, and confirmation purchase flow; it requires exact vanilla-frame hit bounds, one-click server-authoritative Research purchase, Knowledge non-purchase, and localized item-rich tooltips. Preserve vanilla advancement visuals, source discipline/branch IDs, progression data, prerequisites, costs, and gameplay rules.
 - [Complete UI/system inventory audit](UI_SYSTEM_FULL_AUDIT_2026-10-10.md): amended with the approved selector, chest sort, hopper filter, Mob Tracker range controls, boat inventory interpretation, and separate potion systems. Historical conflicts remain labeled as superseded/deferred rather than silently erased.
+
+## XP Quest and Enhancement XP-cost authority (2026-10-17)
+
+Approved XP Quest decisions are recorded in the **XP Quest amendment — 2026-10-17** section at the end of [UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md):
+- vanilla Advancements-screen reuse with click-to-claim;
+- three node states and a completion toast;
+- server-authoritative claim-once rewards;
+- unclaimed quests as an XP store;
+- exact raw-XP grants and deductions;
+- reward scope: 180,000 raw XP exactly across the 180 active quests, plus 29,100 for 20 future quests (209,100 target), with no reduction of existing rewards when content is added;
+- VERIFY quests stay unregistered until they pass verification;
+- each of the 160 NOW quests registers only after its own automated test passes;
+- the claim rolls back if the XP grant fails;
+- the six owner-locked tracking policies apply. The ore policy counts only verified-natural ores; unknown origin does not count.
+
+Individual quest content and values remain subject to approval. The Enhancement raw-XP cost table and transaction rule are recorded in the Enhancement section of [STAGE_2_GAMEPLAY_RECONCILIATION.md](STAGE_2_GAMEPLAY_RECONCILIATION.md). These are design authority only; implementation has not started.
+
+## Stage 22 research completion authority (2026-10-15)
+
+The user approved delegation of the remaining seven-discipline research-tree, new paid roots, motorized boat, cross-dimensional transport and automation edge-case design. The current controlling completion addendum is [RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md](RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md). It supersedes older incompatible research-root/topology, counter-shield recipe and potion-combination restrictions while retaining the approved V3/V4 price ledgers and already locked research effects. Tactical Shooting ammunition/effects/recipes remain DEFERRED to another conversation. This is design authority, not implementation or merge approval.
+
+
+### XP Quest UI architecture (2026-10-24)
+
+The owner-approved [2026-10-24 amendment](UI_ADVANCEMENT_INTEGRATION_APPROVED_2026-10-10.md) supersedes only the 2026-10-17 vanilla-screen architecture: XP Quest retains `ProgressionBrowseScreen` and `ProgressionTreeCanvas`. All other October 17 Quest gameplay and transaction rules remain authoritative. The four-card selector, vanilla Advancements access, and seven-discipline Knowledge/Research behavior remain unchanged. The 200-slot presentation does not expand the current 75 registrations. See [the client validation matrix](validation/WAVE4B_CUSTOM_XP_QUEST_CLIENT_MATRIX_2026-10-24.md).
+
+## Stage 23-A Batch 1 execution record (2026-10-15)
+
+The scoped implementation manifest is [RESEARCH_STAGE23A_BATCH1_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_BATCH1_MANIFEST_2026-10-15.md). It selects eight existing M1 research events and records their approved behavior, hooks, dependencies, and focused verification. It does not replace the research effect authority above. The 87-node audit is maintained in [RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md](RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md); its verified pre-batch baseline was 74 DATA_ONLY, 11 PARTIAL, and 2 BLOCKED. With eight Batch 1 handlers and focused tests added but integration evidence pending, the current counts are 66 DATA_ONLY, 19 PARTIAL, and 2 BLOCKED.
+
+## Stage 23-A Batch 2 execution record (2026-10-15)
+
+The Batch 2 manifest is [RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_BATCH2_MANIFEST_2026-10-15.md). It continues from PR #90, selects three DATA_ONLY M1 V3 effects (`v3.research.17`, `.28`, `.64`), and adds focused movement validation for the existing `wall_jump` and `fall_roll` handlers. Its 87-row recount is 63 DATA_ONLY, 22 PARTIAL, and 2 BLOCKED. Fisheries Study was excluded at that point because integer residual allocation had not been specified; the user approved largest-remainder allocation with lower-grade-index tie-breaking in the later Stage 23-A integration authority amendment below.
+
+## Stage 23-A integration of unique Batch 1 effects (2026-10-15)
+
+The scoped integration manifest is [RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md](RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-10-15.md). It starts from PR #91 and imports only unique PR #92 behavior for `v3.research.19`, `.55`, and `.67`, retaining PR #90 ownership of `.02`, `.03`, `.18`, and `.23` and PR #91 ownership of `.17`, `.28`, `.64`, `wall_jump`, and `fall_roll`. The current Fisheries Study rounding authority is recorded at the end of `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`. The regenerated canonical 87-row audit currently counts 60 DATA_ONLY, 25 PARTIAL, and 2 BLOCKED; it separates automated evidence from live gameplay verification. Java 25 Fabric CI #754, mapped-source probe #179, and K5 restart #87 passed on code commit `227749d`; live gameplay checks remain pending.
+
+## Stage 23-A Expanded Batch 2 execution record (2026-10-17)
+
+[Expanded Batch 2 manifest](RESEARCH_STAGE23A_EXPANDED_BATCH2_MANIFEST_2026-10-17.md) records all 53 remaining DATA_ONLY candidate evaluations at PR #105, five added runtime effects (`.38/.39/.40/.51/.62`), and persistent portable `.06/.07/.11` integration. The canonical audit recount is 48 DATA_ONLY, 37 PARTIAL, 2 BLOCKED, zero COMPLETE/MISSING. This is an implementation record; it introduces no design authority or live acceptance.
+
+## Stage 23-A remaining implementation campaign record (2026-10-17)
+
+The [remaining candidate survey and campaign manifest](RESEARCH_STAGE23A_REMAINING_CAMPAIGN_MANIFEST_2026-10-17.md) starts from PR #108 and evaluates all 48 then-DATA_ONLY nodes. Group 1 adds `.33` consecutive sword sweeps and `.61` splash/lingering potion behavior. Group 2 adds ordinary-Horse `.50` Riding support and repairs the existing `mob_capture` purchase gate. The canonical 87-node audit now records 45 DATA_ONLY, 40 PARTIAL and 2 BLOCKED; no node is COMPLETE without live acceptance. This is an implementation record and does not amend effect design authority.
+
+The Claude economy/soil implementation adds `.53` Villager Trading and `.16` Soil Study (group 4 of the same manifest); the canonical audit now records 43 DATA_ONLY, 42 PARTIAL and 2 BLOCKED. Still an implementation record only; the approved values come from the separate user-decision document and live acceptance is pending.
 
 ## Current research/knowledge authority (latest human-approved V4)
 
@@ -27,6 +101,11 @@ For Stage 2-A/B acquisition semantics and verification status, use [Stage 2-A Kn
 The current design baseline is [the Oct 7 continuation record](CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md). The implementation choices and provisional values made under the user's scoped follow-up are recorded in [the Oct 7 design and implementation follow-up](CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md). Those two documents supersede older `[OPEN]` statements in this index and the current design checklist for T2 core acquisition, Multi Catch, Fisherman fish sales, and the first one-time activity rewards. Numeric loot chances, the Emerald conversion divisor/cap, and all interactive behavior remain balance/live-validation pending.
 
 Documentation history is split across branches: the Oct 7 continuation came from `origin/main`; the source/implementation worktree is based on Stage 20 / PR #69. The continuation was copied into this worktree so its role is explicit. Do not use the older index text below to override those Oct 7 decisions.
+
+
+## Bounty and contracts — approved 2026-10-22
+
+Current approved design through Q62 and the later BC-03 owner overlay: [Bounty & Contract System](BOUNTY_CONTRACT_APPROVED_2026-10-22.md). It records physical contract acquisition, item-bound transferable progress, manual redemption, tiered target generation, expanded target pools, approved rarity distributions, reward quantities, price ranges, seller/source rules, combat contribution, duplicate progress, delivery semantics, UI information, and completion integrity requirements. The overlay resolves hostile-only combat, two provisional delivery exceptions, structure entry and tier distributions, and special conversion/direct-drop status. Exact unresolved pool identities and specified engineering edge cases remain open. The final 2026-10-25 owner decisions in that document keep vanilla villager restocking, require 1 / 1–2 / 2–3 distinct structure instances per exploration objective, treat purchase ranges as base prices before Hero of the Village and research discounts, and defer profession-relevant objective weighting. This is design authority; implementation and validation status belong to the BC-03 branch and PR.
 
 ## Current authority
 
@@ -45,6 +124,8 @@ Authoritative ordinary Enhancement rules:
 - deterministic milestones at +5 / +10 / +15 / +20
 - no ordinary T3/T4 Enhancement
 - historical +30 / +40 rules are superseded
+
+Accessory Enhancement is a separate approved contract and does not inherit the ordinary T1/T2 +20 cap or equipment growth tables. Use [Accessory Enhancement Decisions (2026-10-17)](ACCESSORY_ENHANCEMENT_DECISIONS_2026-10-17.md) for the twelve independent +0…+10 tables, raw-XP and material costs, catalyst milestones, anvil integration, and accessory-only rules. Use [Accessory / Relic System Decisions (2026-10-16)](ACCESSORY_RELIC_SYSTEM_DECISIONS_2026-10-16.md) for the approved roster and behavioral direction, except where the later 2026-10-17 enhancement record supersedes proposed values or unresolved labels. The one-catalyst-per-milestone quantity is explicitly provisional; catalyst acquisition and final anvil visual layout remain deferred. Ordinary T1/T2 Enhancement rules below and in the Stage 2 reconciliation remain unchanged.
 
 Current T2 input/gameplay rules include the seven-item final roster, right-click active skills, cumulative Lightning charge semantics, and the removal of Wind Step and the old F / Shift+F T2 path.
 
@@ -78,6 +159,8 @@ Current Utility Equipment authority: [Utility Equipment Finalization](UTILITY_EQ
 
 Use that document for the active Utility roster, deleted/deferred concepts, helmet socket, Miner Lantern, Potion Injector, Exploration Sleeping Bag, Portable Furnace, Mining Drill, and Backpack contracts.
 
+The **Stage 23-B Portable Furnace persistence amendment (2026-10-16)** in that document supersedes the earlier close-and-drop rule: the three inventory slots and burn/cook progress follow the single-stack Portable Furnace item across close/reopen and item transfer. This does not authorize portable furnace research bonuses.
+
 ### Fishing
 
 Current Fishing implementation and runtime/resource contract: [Stage 3 Fishing runtime/resource/UX reconciliation](STAGE_3_FISHING_RESOURCE_RECONCILIATION.md).
@@ -99,7 +182,7 @@ Tier I–V modules, independent Length/Weight rolls, late-only Minnow notice, re
 
 ### T2 acquisition
 
-The five T2 elemental core identities and acquisition sources are locked by the Oct 7 continuation record. Current code adds rare loot to the vanilla normal/ominous Trial reward pools, Bastion treasure, and Ancient City tables, plus a saved one-time Ocean Monument completion claim. Chance values and the Trial table mapping are provisional; no recipes or equipment links are authorized until content demand is known.
+The five T2 elemental core identities and acquisition sources are locked by the Oct 7 continuation record. Current code adds rare loot to the vanilla normal/ominous Trial reward pools, Bastion treasure, and Ancient City tables, plus a saved one-time Ocean Monument completion claim. Chance values and the Trial table mapping are provisional; no recipes or equipment links are authorized until content demand is known. **Exception (F-2, 2026-10-26):** one shaped Earth Mace recipe using Ancient Heart is owner-approved; see the [Phase 2 reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md#f-2--ancient-heart-replaces-tomb-guardian-core). It is not implemented, and no other T2 recipe is authorized.
 
 ### Activity rewards
 
@@ -128,6 +211,20 @@ The post-audit authority addenda in these two current documents and the Early / 
 The T1 finalization supersedes the skeleton wherever the older skeleton describes vanilla/random-book acquisition, progression placement, or compatibility rules that conflict with the XP-funded skill-tree model. The villager/book checkpoint supersedes the old direct book/anvil acquisition assumption and records the confirmed Book Option architecture plus profession-by-profession trade status. The skeleton remains authoritative for retained custom-enchantment gameplay semantics and unresolved integration behavior.
 
 Historical Paper enchantment behavior and older enchantment proposals are reference material only where they conflict with these current authorities.
+
+## Phase 2 preservation routes — 2026-10-26
+
+Owner decisions F-1, F-2, F-3, F-5, F-6 and the mercenary status are recorded in [PHASE2_OWNER_DECISIONS_2026-10-26.md](preservation/PHASE2_OWNER_DECISIONS_2026-10-26.md). They are applied to the affected documents by the [Phase 2 authority reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md), which wins over those documents on the specific points it names and leaves every other approved rule unchanged. In short: the Tomb Guardian's drop is **Ancient Heart**, which replaces Tomb Guardian Core in the approved shaped Earth Mace recipe, and the Ancient City remains an Ancient Heart source; Adamantium generates at Y 8–22, biased toward Y 15, in veins of 1–2, and must produce fewer ore blocks than Ancient Debris; the rare caravan never sells special contracts directly, and the 5% Advanced-to-Special conversion is kept; the Ancient City arena and ST-05 are separate structures; mercenaries are a territory-independent CANDIDATE / DEFERRED concept; the wither-skull quest counts only the first pickup of a genuinely dropped skull and stays unregistered. Recovered records and their source commits: [provenance manifest](preservation/PROVENANCE_MANIFEST_2026-10-26.md). These are design records only; nothing in them is implemented or validated by this route.
+
+- **Stage 23-A remaining research:** [RESEARCH_STAGE23A_REMAINING_USER_DECISIONS_2026-10-17.md](preservation/recovered/stage23a-remaining-approval/RESEARCH_STAGE23A_REMAINING_USER_DECISIONS_2026-10-17.md) is APPROVED design authority for the topics it names. Its unpriced and unspecified items remain open. For `v3.research.53` Villager Trading, the current approved L1/L2/L3 first-trade discounts are 5%/10%/15%, player-specific, with minimum price 1; calculate the percentage discount by **rounding the discount amount upward**, as stated in the [current research authority](RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md#villager-trading-discount-rounding--owner-approved-2026-10-26). The historical territory record is provenance, not the sole current authority.
+- **Structures** (pyramid, pillager headquarters, structure candidates, Ancient City arena versus ST-05): [STRUCTURE_AUTHORITY_INDEX.md](STRUCTURE_AUTHORITY_INDEX.md).
+- **Territory:** SHELVED per [TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21.md](preservation/recovered/territory-chain/TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21.md). The other files in that recovered folder are historical reference only and must not be implemented.
+- **Independent designs from the territory chain:** world event [pillager patrols](preservation/recovered/territory-chain/WORLD_EVENT_PILLAGER_PATROL_DESIGN_2026-10-18.md) (design finalized); [Adamantium equipment](preservation/recovered/territory-chain/ADAMANTIUM_EQUIPMENT_DESIGN_2026-10-18.md) (approved v1, worldgen amended by F-3); [rare caravan and runes](preservation/recovered/territory-chain/RARE_CARAVAN_ENCHANTMENT_RUNE_DECISIONS_2026-10-18.md) (user-confirmed; read with the [conflict register](preservation/recovered/territory-chain/DESIGN_CONFLICT_REGISTER.md) F20/F21 and F-5). Mercenary and desert-artifact material in [DESERT_ARTIFACTS_AND_MERCENARIES_2026-10-19.md](preservation/recovered/territory-chain/DESERT_ARTIFACTS_AND_MERCENARIES_2026-10-19.md) is candidate or historical only.
+- **Owner follow-up decisions Q1–Q4 (2026-10-26)** are recorded in the [reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md#owner-follow-up-decisions--q1q4-2026-10-26) and are approved design authority, not evidence of implementation:
+  - **Q1:** the 2026-10-22 contract-item system (`BOUNTY_CONTRACT_APPROVED_2026-10-22.md`) is the sole current bounty/contract authority. The 2026-10-19 [commission board](preservation/recovered/territory-chain/BOUNTY_COMMISSION_APPROVED_2026-10-19.md) is a historical record only and must not be implemented or restored.
+  - **Q2:** rare caravan merchants may directly sell ordinary Beginner, Intermediate and Advanced contracts. They may never directly sell Special contracts. Caravan prices, stock weights and quantity limits are open for balance design.
+  - **Q3 / OD-1:** Preserve the existing implemented T1 Feather Boots enchantment under [T1 finalization](T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md) and the retained [enchantment skeleton](ENCHANTMENT_BRANCH_SKELETON.md). Only its proposed 2026-10-10 double-jump/fall-immunity redesign and Hot Step (뜨거운 걸음) remain CANDIDATE / DEFERRED / NOT AUTHORIZED FOR IMPLEMENTATION. The [design idea decisions](preservation/recovered/content-first-axis-review/DESIGN_IDEA_DECISIONS_2026-10-10.md) remain historical; do not remove or disable the current enchantment.
+  - **Q4:** the Tomb Guardian's core signature drop is Ancient Heart. Do not add a guardian-exclusive material or reintroduce Tomb Guardian Core. Its additional rare-mineral and higher-tier-material reward pool is approved in direction only; items, quantities and rates are not yet approved.
 
 ## Explicitly deferred design debt
 

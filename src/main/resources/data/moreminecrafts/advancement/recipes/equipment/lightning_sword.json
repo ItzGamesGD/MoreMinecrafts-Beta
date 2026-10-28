@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_heart_of_thunder": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "moreminecrafts:heart_of_thunder"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "moreminecrafts:lightning_sword"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_heart_of_thunder"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "moreminecrafts:lightning_sword"
+    ]
+  }
+}
