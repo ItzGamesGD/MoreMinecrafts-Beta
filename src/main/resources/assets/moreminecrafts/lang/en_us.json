@@ -311,6 +311,8 @@
   "entity.moreminecrafts.giant_bee": "Giant Bee",
   "entity.moreminecrafts.lesser_phantom": "Lesser Phantom",
   "entity.moreminecrafts.cave_creeper": "Cave Creeper",
+  "entity.moreminecrafts.tomb_guardian": "Tomb Guardian",
+  "entity.moreminecrafts.tomb_vfx": "Tomb Guardian Stone Eruption",
   "item.moreminecrafts.eye_of_typhoon": "Eye of the Typhoon",
   "item.moreminecrafts.heart_of_thunder": "Heart of Thunder",
   "item.moreminecrafts.burning_heart": "Burning Heart",
