@@ -37,6 +37,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q10 — B:** Exactly two limited resupply opportunities, **after rounds 3 and 5** (before rounds 4 and 6). No resupply after round 6. Exact items, amounts and delivery mechanism OPEN.
 
+- **Q11 — B:** Balanced resupply at the Q10 checkpoints: food, arrows, and a small quantity of healing items. Preserve resource-management pressure; exact item types, grades and quantities OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply quantities and delivery mechanism; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
