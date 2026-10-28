@@ -65,6 +65,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q24 — B:** In regular and elite rounds, cap simultaneously alive encounter mobs at **12**. If a round's scaled total exceeds 12, spawn the remainder as existing encounter mobs are defeated. The round-7 Immortal Gladiator boss is treated separately. Exact replenishment timing and batch size remain OPEN.
 
+- **Q25 — C:** Batch replenishment in regular/elite rounds: once alive encounter mob count falls to **6 or fewer**, summon remaining assigned mobs up to the **12-alive** Q24 cap, repeating until the round's total allocation is exhausted. No additional mobs after the allocation is depleted. Exact spawn placement/telegraph remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
