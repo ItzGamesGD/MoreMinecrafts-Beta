@@ -59,6 +59,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q21 — C:** For non-boss encounter enemy counts, scale relative to the one-player baseline by **+60% per additional participant**: multiplier `1 + 0.60 × (participants - 1)` (1p 100%, 2p 160%, 3p 220%, 4p 280%). Integer rounding, simultaneous mob cap, staggered spawning and participant count lock remain OPEN. Boss HP scaling is a separate decision.
 
+- **Q22 — B:** Final boss maximum HP scales **+35% per additional participant**: multiplier `1 + 0.35 × (participants - 1)` (1p 100%, 2p 135%, 3p 170%, 4p 205%). Phase-two awakening still triggers at 40% of the boss's scaled maximum HP. Base boss HP and participant-count locking rules remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
