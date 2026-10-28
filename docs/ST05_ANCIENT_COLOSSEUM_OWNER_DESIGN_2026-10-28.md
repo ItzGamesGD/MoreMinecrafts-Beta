@@ -102,6 +102,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q41 — B:** Round scaled regular-mob threat budgets to the **nearest integer** after applying Q40's +60%-per-additional-participant multiplier. For 1/2/3/4 players, rounded budgets are respectively: R1–2 **20/32/44/56**; R3–4 **32/51/70/90**; R5–6 **48/77/106/134**. Tie handling for exact .5 values remains an implementation detail; mob threat score calibration and exact composition remain OPEN.
 
+- **Q42 — B:** When randomized monster composition cannot satisfy both exact mob-count scaling and the rounded threat budget, **prioritize staying within the threat budget** (Q36/Q39–Q41). Treat Q21's +60% per additional player as a **target mob-count growth rate**, not a hard exact-count guarantee; actual total mob count may vary with the selected mob threat scores. Preserve Q24's maximum 12 simultaneously alive and Q25's batch replenishment. Exact selection/fill behavior and minimum viable composition remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
