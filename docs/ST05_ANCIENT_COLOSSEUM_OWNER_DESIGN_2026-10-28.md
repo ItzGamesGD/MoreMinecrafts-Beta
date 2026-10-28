@@ -123,6 +123,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q51 — owner custom (vanilla Trial Spawner model):** Colosseum replay/reward reset follows the **vanilla Trial Spawner's cooldown/re-activation principle** rather than Q51 A–D. After a successful completion, impose a **30-minute / 36,000 game-tick cooldown**, after which the arena can reactivate for a new trial. Repeated successful runs can yield rewards; **no special first-clear-only reward rule** is introduced. For multiplayer, preserve the Trial Spawner principle of tracking player-specific reward eligibility to avoid duplicate payouts. This adapts the replay/reward lifecycle only: ST-05 retains its own seven rounds and Immortal Gladiator boss. Exact server-persistence, player eligibility and cooldown edge cases remain implementation/open design details.
 
+- **Q52 — C:** Colosseum-exclusive equipment reward identities are a **Gladiator's Sword and Gladiator's Shield** pair, reflecting the Immortal Gladiator's phase-one sword-and-shield duelist style. Both are eligible exclusive completion rewards under Q50. This does **not** require granting both simultaneously or as a guaranteed set; acquisition method, unique abilities, stats and drop rates remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
