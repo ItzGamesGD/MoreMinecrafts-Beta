@@ -110,6 +110,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q45 — A:** Calculate the exceptional Q44 threat-score ceiling as **floor(rounded round budget × 1.05)**, ensuring the approved 5% maximum overshoot is never exceeded by integer mob threat scores. Solo budgets 20/32/48 therefore have exceptional ceilings **21/33/50**. Q43's 85–100% fill remains the primary normal target; Q44–Q45 only apply when a normal eligible composition is unavailable.
 
+- **Q46 — A:** If no round-eligible composition can meet the normal Q43 85–100% threat-fill band or the Q44–Q45 exceptional ≤105% allowance, select the **highest-total-threat valid composition that does not exceed the base rounded round budget**, even if below the 85% minimum. Preserve the round-specific candidate pool; do not borrow monsters from adjacent rounds or inflate the cap further. An entirely empty/unusable candidate pool is a separate data-validation failure, not an approved gameplay fallback.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
