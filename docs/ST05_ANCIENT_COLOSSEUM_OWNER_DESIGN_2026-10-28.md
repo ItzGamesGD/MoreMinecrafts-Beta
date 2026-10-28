@@ -39,7 +39,9 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q11 — B:** Balanced resupply at the Q10 checkpoints: food, arrows, and a small quantity of healing items. Preserve resource-management pressure; exact item types, grades and quantities OPEN.
 
+- **Q12 — B, golden-apple substitution:** Each resupply after round 3 and round 5 grants **8 cooked beef, 16 arrows, and 1 ordinary golden apple** (not an enchanted golden apple). Instant-health potions are not included. Total over both resupplies: 16 cooked beef, 32 arrows, 2 golden apples. Distribution mechanism OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
-- Precise round mob selection and special rules; supply quantities and delivery mechanism; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
+- Precise round mob selection and special rules; supply delivery mechanism; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
 - No code, build, merge or checkpoint promotion is authorized by this document.
