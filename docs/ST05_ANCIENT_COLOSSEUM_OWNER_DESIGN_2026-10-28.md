@@ -112,6 +112,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q46 — A:** If no round-eligible composition can meet the normal Q43 85–100% threat-fill band or the Q44–Q45 exceptional ≤105% allowance, select the **highest-total-threat valid composition that does not exceed the base rounded round budget**, even if below the 85% minimum. Preserve the round-specific candidate pool; do not borrow monsters from adjacent rounds or inflate the cap further. An entirely empty/unusable candidate pool is a separate data-validation failure, not an approved gameplay fallback.
 
+- **Q47 — B:** Assign each eligible regular/elite mob type an **integer threat score on a 1–10 scale**, based on Q37's holistic combat capability assessment. Suggested classification bands: weak **1–3**, ordinary **4–6**, strong/elite **7–10**; these are scoring guides rather than preassigned scores for specific mobs. Preserve Q39 budgets 20/32/48, Q40–Q41 multiplayer scaling/rounding and Q43–Q46 composition constraints. Actual mob-by-mob scores and roster remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
