@@ -35,7 +35,9 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 ## Subsequent owner decision
 - **Q9 — B:** Immortal Gladiator phase transition triggers at **40% HP**. Phase 1 runs from full health down to 40%; at 40% the boss pauses, breaks the shield, roars and transitions to faster shieldless sword attacks. Exact animation durations and combat values remain OPEN.
 
+- **Q10 — B:** Exactly two limited resupply opportunities, **after rounds 3 and 5** (before rounds 4 and 6). No resupply after round 6. Exact items, amounts and delivery mechanism OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
-- Precise round mob selection and special rules; supply rounds and quantities; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
+- Precise round mob selection and special rules; supply quantities and delivery mechanism; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
 - No code, build, merge or checkpoint promotion is authorized by this document.
