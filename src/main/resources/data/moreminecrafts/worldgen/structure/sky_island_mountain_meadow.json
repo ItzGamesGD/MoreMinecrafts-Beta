@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#moreminecrafts:has_structure/sky_island_mountain_meadow",
+  "dimension_padding": 4,
+  "max_distance_from_center": 80,
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "size": 4,
+  "spawn_overrides": {},
+  "start_height": {
+    "type": "minecraft:uniform",
+    "min_inclusive": {
+      "absolute": 18
+    },
+    "max_inclusive": {
+      "absolute": 70
+    }
+  },
+  "start_pool": "moreminecrafts:sky_islands/meadow/start",
+  "step": "surface_structures",
+  "terrain_adaptation": "none",
+  "use_expansion_hack": false
+}

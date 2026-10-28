@@ -7,7 +7,8 @@
   "entrypoints": {
     "main": [
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
@@ -30,6 +31,7 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryLifecycleGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityGameTests",
       "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests",
+      "dev.itzgamesgd.moreminecrafts.worldgen.SkyIslandsGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIntegrationGameTests",

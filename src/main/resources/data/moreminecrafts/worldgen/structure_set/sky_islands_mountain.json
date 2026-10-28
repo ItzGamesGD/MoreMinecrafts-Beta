@@ -1,0 +1,23 @@
+{
+  "structures": [
+    {
+      "structure": "moreminecrafts:sky_island_mountain_snowy",
+      "weight": 1
+    },
+    {
+      "structure": "moreminecrafts:sky_island_mountain_rocky",
+      "weight": 1
+    },
+    {
+      "structure": "moreminecrafts:sky_island_mountain_meadow",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 1479301,
+    "spacing": 14,
+    "separation": 5,
+    "frequency": 0.5
+  }
+}

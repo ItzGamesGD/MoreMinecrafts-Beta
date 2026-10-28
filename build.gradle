@@ -55,6 +55,14 @@ loom {
             runDir = "build/etherium-sampling/run"
             ideConfigGenerated false
         }
+        // Sky Islands natural-generation probe (tools/sky-islands-probe/run_probe.sh); inert unless -Dmm.sky.out is set; not part of check/build/CI.
+        skyIslandsProbe {
+            server()
+            name = "Sky Islands Worldgen Probe"
+            source sourceSets.gametest
+            runDir = "build/sky-islands-probe/run"
+            ideConfigGenerated false
+        }
         // Nether Adamantium-vs-Ancient-Debris matched-sample probe (docs/audits/wave13/ADAMANTIUM_F3_ANALYSIS.md).
         // Driven by tools/ore-sampling/run_sampling.sh; inert unless -Dmm.nether.ore.out is set; not part of check/build/CI.
         oreSampling {
