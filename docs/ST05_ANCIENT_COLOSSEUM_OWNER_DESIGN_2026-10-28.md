@@ -47,6 +47,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q15 — custom:** Inter-round delay is **10 seconds** after ordinary rounds and **35 seconds** after resupply rounds 3 and 5. Both delays end with automatic progression. These are owner-approved values, replacing Q14's previously unspecified durations.
 
+- **Q16 — B:** If all participants leave the arena combat zone, pause the trial; resume if they return within a grace period, otherwise reset the run. If at least one participant remains, the trial continues. Exact grace duration OPEN. Death, reconnect, server restart and multiplayer edge cases OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
