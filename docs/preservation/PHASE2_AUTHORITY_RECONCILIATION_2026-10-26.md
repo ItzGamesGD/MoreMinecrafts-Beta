@@ -47,9 +47,21 @@ Resulting rule:
 
 - Nether only. Height **Y 8–22**, biased toward **Y 15**. Vein size **1–2** ore blocks.
 - Rarity acceptance: Adamantium must produce **fewer generated ore blocks than Ancient Debris** in matched samples of comparable newly generated chunks. Validation must disclose its dimension, biome and height-sampling method. Vein size alone is not evidence of rarity.
-- The 2026-10-18 "approximately 80% of ancient debris" operational target is consistent with this rule and stays as a tuning target. The binding acceptance criterion is "fewer blocks than Ancient Debris under matched sampling".
-- **Not authoritative:** the current data (`worldgen/placed_feature/ore_adamantium.json` uniform Y 8–24, `worldgen/feature/ore_adamantium.json` size 3). These files are not changed by this PR. Correcting them is a separate implementation task.
+- The 2026-10-18 "approximately 80% of ancient debris" operational target was consistent with this rule when F-3 was first approved. **It is superseded for implementation by the 2026-10-28 amendment below** (approximately 50%, aggregate). The binding acceptance criterion remains "fewer blocks than Ancient Debris under matched sampling".
+- **Not authoritative:** the current data (`worldgen/placed_feature/ore_adamantium.json` uniform Y 8–24, `worldgen/feature/ore_adamantium.json` size 3). These files are not changed by this PR. Correcting them is a separate implementation task. *(Superseded by the amendment below: candidate E replaces them on the Wave 13 integration branch.)*
 - Mining tier, smelting, upgrade material, equipment statistics and template sources in the Adamantium design are unchanged.
+
+### F-3 amendment (owner-approved 2026-10-28)
+
+Source: [PHASE2_OWNER_DECISIONS_2026-10-26.md](PHASE2_OWNER_DECISIONS_2026-10-26.md#f-3-amendment--owner-decisions-d-f3-1-d-f3-2-d-f3-3-and-o-1-2026-10-28). This supplements the rule above; it does not replace it.
+
+- **D-F3-1:** Y 8–22 binds every generated Adamantium block, not only the feature origin.
+- **D-F3-2:** one generation attempt per chunk.
+- **D-F3-3:** target approximately 50% of Ancient Debris generated blocks in matched samples (aggregate, not per chunk). This replaces the ~80% tuning target for Adamantium.
+- **O-1:** one Adamantium placed feature.
+- **Candidate E approved for integration:** `minecraft:scattered_ore`, size 2, one attempt, trapezoid origin 9–21 (no plateau), Nether only. A `scattered_ore` block can sit one block above or below its origin, so origin 9–21 keeps every block inside Y 8–22.
+- Evidence (historical, not authority): `docs/audits/wave13/ADAMANTIUM_F3_ANALYSIS.md` (candidates A–F, three seeds) and `docs/audits/wave13b/adamantium/` (candidate E as shipped, eight seeds, 10,368 chunks, about 50.0%, 0 of 7,954 blocks outside Y 8–22). About 17% of individual chunks hold more Adamantium than Ancient Debris; the rule is an aggregate sampling target.
+- Not covered: Wither Skull F-1 (still blocked on the F-1 section above), unrelated security-audit changes, checkpoint promotion.
 
 ## F-5 — Rare caravan does not sell special contracts
 
@@ -85,7 +97,7 @@ Resulting status: **CANDIDATE / DEFERRED / NOT AUTHORIZED FOR IMPLEMENTATION**, 
 | Stage 23-A remaining research | [RESEARCH_STAGE23A_REMAINING_USER_DECISIONS_2026-10-17.md](recovered/stage23a-remaining-approval/RESEARCH_STAGE23A_REMAINING_USER_DECISIONS_2026-10-17.md) | APPROVED design authority for the topics it names; its listed open items stay open |
 | Territory shelving | [TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21.md](recovered/territory-chain/TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21.md) | Current scope authority: territory SHELVED; released ideas are CANDIDATE |
 | World event: pillager patrols | [WORLD_EVENT_PILLAGER_PATROL_DESIGN_2026-10-18.md](recovered/territory-chain/WORLD_EVENT_PILLAGER_PATROL_DESIGN_2026-10-18.md) | DESIGN FINALIZED, not implemented |
-| Equipment: Adamantium | [ADAMANTIUM_EQUIPMENT_DESIGN_2026-10-18.md](recovered/territory-chain/ADAMANTIUM_EQUIPMENT_DESIGN_2026-10-18.md) + F-3 | Approved v1, not implemented |
+| Equipment: Adamantium | [ADAMANTIUM_EQUIPMENT_DESIGN_2026-10-18.md](recovered/territory-chain/ADAMANTIUM_EQUIPMENT_DESIGN_2026-10-18.md) + F-3 and its 2026-10-28 amendment | Equipment approved v1, not implemented; ore generation per F-3 amendment (candidate E integrated, final-head validation pending) |
 | Rare caravan and runes | [RARE_CARAVAN_ENCHANTMENT_RUNE_DECISIONS_2026-10-18.md](recovered/territory-chain/RARE_CARAVAN_ENCHANTMENT_RUNE_DECISIONS_2026-10-18.md) + register F20/F21 + F-5 | User-confirmed, not implemented; open items listed in the source |
 | Structures (pyramid, pillager HQ, candidates, Ancient City) | [STRUCTURE_AUTHORITY_INDEX.md](../STRUCTURE_AUTHORITY_INDEX.md) | See index |
 
