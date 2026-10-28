@@ -51,6 +51,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q17 — B:** Grace period for all participants leaving the arena is **60 seconds**. Returning before expiry resumes the paused trial; expiration resets the run. At least one participant remaining prevents this exit pause. Exact timer boundary behavior and server lifecycle handling remain implementation details/open edge cases.
 
+- **Q18 — B:** The trial fails on total party defeat, not on the first participant death. In single-player, death fails the run. In multiplayer, surviving participants may continue; all participants dead means failure and reset. Whether dead players may rejoin after respawn remains OPEN (Q19). Interaction with Q16's empty-arena pause requires explicit resolution.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
