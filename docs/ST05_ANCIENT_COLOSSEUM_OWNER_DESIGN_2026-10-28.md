@@ -73,6 +73,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q28 — B:** For each initial or replenishment spawn batch, randomly select **2–3 of the four cardinal outer entrances** as active spawn directions. Maintain Q24's 12-alive cap and Q25's replenishment trigger at 6 or fewer alive. Exact distribution across selected entrances, warning cues and spawn safety remain OPEN.
 
+- **Owner correction superseding the earlier Q26–Q28 interpretation:** Arena entrances are for **players entering the colosseum**, NOT monster spawn gates. The first wave triggers when a player reaches the center. Monsters spawn Trial-Spawner-style at valid positions in a **much wider circular area centered on the player**, suitable for the large colosseum. Preserve Q24 (12 simultaneous mobs) and Q25 (batch refill at 6 or fewer). **Withdraw the previously recorded Q27 four cardinal monster gates and Q28 random 2–3 gate activation as erroneous interpretations; neither is an approved monster-spawn rule.** Q29 gate-warning presentation is inapplicable and unapproved. Exact player entrance count, spawn radii, minimum safe distance, center-tracking behavior, telegraphs and line-of-sight rules remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
