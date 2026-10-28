@@ -1,5 +1,8 @@
 # Adamantium world generation (F-3) — mismatches, measurements and bounded alternatives
 
+> **Historical analysis (2026-10-27).** The choice it asks for was made by the owner on 2026-10-28: D-F3-1 every generated block in Y 8–22, D-F3-2 one attempt per chunk, D-F3-3 about 50% of Ancient Debris in aggregate matched samples (this replaces the ~80% tuning target), O-1 one placed feature. Candidate E is approved for integration. See `docs/preservation/PHASE2_OWNER_DECISIONS_2026-10-26.md`. Nothing below is authority.
+
+
 Date: 2026-10-27. Status: **analysis and proposal only.** No shipped gameplay data was changed; the pre-F-3 files are pinned by a characterization test. Choosing between
 the alternatives below is an owner decision, because they differ in abundance and in how "Y 8–22" is read.
 

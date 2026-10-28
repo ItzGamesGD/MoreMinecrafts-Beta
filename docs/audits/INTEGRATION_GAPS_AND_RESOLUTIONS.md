@@ -36,7 +36,7 @@ Of the 168 branch-only items, 121 trace to superseded, rejected or tooling-only 
 
 ### G-3 — New design record existing only on an unmerged branch — PRESERVED
 
-- `docs/sky-islands-design-context-20261027` @ `8ceff945` (created 2026-10-27 00:26 UTC, no PR) holds the only copy of `docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md`. It was copied byte-identically (blob `a91e385d`) in `0d035c84`. The document's own header marks it as design in progress and not an implementation instruction, so it is **not** routed as authority.
+- `docs/sky-islands-design-context-20261027` @ `8ceff945` (created 2026-10-27 00:26 UTC, no PR) holds the only copy of `docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md`. It was copied byte-identically (blob `a91e385d`) in `0d035c84`. The document's own header marks it as design in progress and not an implementation instruction, so it is **not** routed as authority. **Update 2026-10-27:** that branch moved after this copy was taken (commit `631d9504`, the owner replaced section 5), so this copy is now a stale snapshot. The current blob is preserved in `docs/preservation/snapshots/`.
 
 ### G-4 — Lower-equipment regression coverage from closed PR #65 — RESTORED
 
@@ -60,9 +60,18 @@ Of the 168 branch-only items, 121 trace to superseded, rejected or tooling-only 
 
 ### U-2 — Adamantium ore generation differs from approved F-3 values
 
+> **Update 2026-10-28 (Wave 13).** Resolved on `integration/wave13-adamantium-f3-20261028` by the owner-approved F-3 amendment (D-F3-1/2/3, O-1): candidate E, `scattered_ore`, size 2, one attempt, origin 9–21. The text below is the 2026-10-27 state of the Wave 12 checkpoint and is kept as history. The checkpoint itself is unchanged until promotion is approved.
+
 - **Authority**: F-3 (2026-10-26): Nether Adamantium at Y 8–22, biased to Y 15, veins of 1–2, and fewer generated blocks than Ancient Debris in matched sampling. "Current Y 8–24/size 3 implementation is not authoritative."
 - **Checkpoint**: `worldgen/placed_feature/ore_adamantium.json` uses count 1, uniform Y 8–24; `worldgen/feature/ore_adamantium.json` uses size 3.
 - **Why not changed here**: no branch contains an implementation of F-3, so this is new implementation work rather than recovery. It also needs a choice of count/rarity and height distribution parameters that satisfy the comparative constraint, validated by a matched-sampling harness. Several parameter sets satisfy F-3, with materially different abundance, so per `AGENTS.md` STOP & ASK the parameters are not chosen in this integration task.
+
+## Wave 13 gate record (2026-10-28)
+
+- **PR #182 (security/preservation content):** the 90 files added by its three commits (`17a7cddb`, `e28ce2fb`, `73dcc8f4`) already exist in the Wave 12 checkpoint with identical content. It is not re-merged; re-merging would delete the Wave 12 arena workflow and part of `.gitleaksignore`.
+- **PR #200 (Gitleaks fingerprints):** its seven fingerprints are already present, line for line, in the checkpoint's `.gitleaksignore`.
+- **Audit chain #197 → #199 → #201 → #203:** not integrated; inclusion needs owner approval.
+- **PRs #194, #195, #196:** not merged individually. Their F-3 data, tests, tooling, evidence and audit documents are carried on the Wave 13 branch; the F-1 material is analysis and vanilla-assumption GameTests only.
 
 ## Approved designs never implemented on any branch (not integration gaps)
 

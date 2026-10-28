@@ -18,6 +18,10 @@ Resulting rule:
 - **Unchanged from 2026-10-18:** quest ID `xpq.cmb.wither_skulls_3`; target **3**; reward **1100** raw XP; server-authoritative attribution to the receiving player; only transferred quantity counts; failed or zero-transfer pickups grant nothing; the `get_wither_skull` advancement seeds at most the existing historical lower bound of 1, with no double count.
 - **Registration hold:** keep `registered=false` and `tracker.kind=pending`. PRs #128 and #130 are **not release-ready**. Their reported crash-consistency defect must be fixed and tested before the quest is registered. Do not register the incomplete implementation.
 
+### F-1 — open, unapproved (recorded 2026-10-28)
+
+Wave 13 analysis proposed a crash-consistency protocol (P4) and two decisions: **D-F1-1** (meaning of "crash-safe counting") and **O-2** (P4's scope and its restore-a-rolled-back-skull and delete-a-stale-duplicate behaviours). **Neither is approved.** The quest stays unregistered and no protocol is authorized for implementation. Analysis: `docs/audits/wave13/WITHER_SKULL_F1_ANALYSIS.md`, `docs/audits/wave13b/`.
+
 ## F-2 — Ancient Heart replaces Tomb Guardian Core
 
 Affected authority: `docs/PYRAMID_DESIGN_PREP_2026-10-25.md` on PR #181 (blob `52cc81573ee34a65b9201fd86125bd4c2a6a0772`), sections from "Owner direction — Tomb Guardian Core as Earth Mace crafting ingredient" through the locked boss summary. Also the Oct 7 core authority in [CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md](../CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md) and [CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md](../CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md).
