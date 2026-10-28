@@ -6,7 +6,8 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
