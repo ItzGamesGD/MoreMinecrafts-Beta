@@ -45,6 +45,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q14 — A (modified):** Trial-spawner-like automatic progression: after ordinary rounds, a short pause then next round starts automatically; after rounds 3 and 5, provide a substantially longer preparation interval with the Q13 supply chest accessible before automatically starting the next round. Exact durations OPEN. Round 7 ends the trial upon boss defeat.
 
+- **Q15 — custom:** Inter-round delay is **10 seconds** after ordinary rounds and **35 seconds** after resupply rounds 3 and 5. Both delays end with automatic progression. These are owner-approved values, replacing Q14's previously unspecified durations.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
