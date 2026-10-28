@@ -43,6 +43,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q13 — B:** After rounds 3 and 5, a supply chest in the colosseum becomes accessible. Players manually take the approved Q12 items from the chest. Chest placement, visuals, multiplayer ownership and anti-repeat-claim behavior remain OPEN; no repeat farming is authorized.
 
+- **Q14 — A (modified):** Trial-spawner-like automatic progression: after ordinary rounds, a short pause then next round starts automatically; after rounds 3 and 5, provide a substantially longer preparation interval with the Q13 supply chest accessible before automatically starting the next round. Exact durations OPEN. Round 7 ends the trial upon boss defeat.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
