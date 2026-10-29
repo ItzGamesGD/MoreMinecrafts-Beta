@@ -145,6 +145,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q62 — A:** When the Immortal Gladiator is defeated in round 7, use an **ordinary mob death presentation**. Do not add a bespoke collapse, kneeling, petrification, arena-wide victory lighting, or celebratory particle sequence. Successful completion makes the previously approved repeatable trial rewards available, but **reward delivery/claim method remains OPEN**; do not assume that rewards must drop from the boss or spawn at arena center.
 
+- **Q63 — owner custom, combined reward routes:** (1) On defeat, the Immortal Gladiator **drops its loot at its feet**, using normal item drops; (2) on successful trial completion, a **Trial Spawner-style reward device presents items and/or keys above the device** for distribution, analogous to vanilla Trial Spawner output; (3) place **separate Vault(s)** in the colosseum so keys can unlock **additional loot**. Preserve Q51's repeatable 30-minute trial cooldown and player-specific eligibility/no duplicate rewards; do not presume all three channels share the same reward pool. Exact device placement, vault count, key type/eligibility, drop tables, loot probabilities and per-player multiplayer claim behavior remain OPEN for later decisions.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
