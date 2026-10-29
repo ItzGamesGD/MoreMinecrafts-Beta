@@ -261,6 +261,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q105 — A (owner approved):** Player-placed blocks persist in the world through trial success, failure, and reset, under ordinary vanilla survival behavior. Trial cleanup must **not** automatically remove player construction or revert player-driven modifications. This is distinct from Q91 restoration of eligible **external natural blocks broken by the boss** and Q96 cleanup of trial-generated supply chests.
 
+- **Q106 — A (owner approved):** Player-built barriers, traps and mob-farm-style arena modifications are **allowed** as vanilla-like tactics. Do not introduce anti-farm teleportation, automatic removal, or extra block-breaking abilities for regular trial mobs. Boss retains **only** the previously approved Q90/Q91 exceptional obstacle-breaking behavior and restrictions; this decision does not expand its block-breaking permissions. Player modifications persist per Q105.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
