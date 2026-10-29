@@ -194,6 +194,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q77 — B (owner approved; replaces cancelled loot-count Q77):** Compose R1–R6 eligible enemy pools from a **balanced mix of existing vanilla and existing MoreMinecrafts custom mobs**, choosing candidates based on their actual combat roles and each round's difficulty. Balanced mix is a design principle, **not a rigid 50:50 quota per wave**. Preserve previously approved threat-budget and tier rules Q35–Q49, R3 mixed melee/ranged/special plus one budgeted elite Q67, and R5–R6 randomized elite compositions Q68. Specific mob names and roster eligibility are **not yet approved**; verify actual implementation before recommending them.
 
+- **Q78 — B:** Use **shared eligibility pools by existing threat tier** rather than fixed per-round mob lists: R1–R2 threat scores 1–4, R3–R4 scores 1–7, R5–R6 scores 1–10. Apply **only necessary round-specific exceptions**, notably R3's mixed melee/ranged/special composition and one budgeted elite focal enemy (Q67), and R5–R6 randomized elite-eligible compositions (Q68). R7 remains the fixed Immortal Gladiator boss. Preserve Q77's balanced vanilla/MoreMinecrafts sourcing and Q35–Q49 threat-budget rules. Actual mob roster, scores, and eligibility await repository verification and later balancing; no new ordinary mob is authorized.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
