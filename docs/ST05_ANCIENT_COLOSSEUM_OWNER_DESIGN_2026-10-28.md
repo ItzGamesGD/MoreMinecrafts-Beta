@@ -205,6 +205,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q81 — A (owner clarified):** Immortal Gladiator **direct drops are one shared set of ordinary item entities at the boss's feet** on death, exactly as Q63 intended. No per-participant cloning, private drop ownership, last-hit priority or automatic personal distribution; whichever player picks up the item receives it. This includes the Q65 Ominous Trial Key dropped by the boss. **Do not conflate this shared boss-foot drop with the separate Trial Spawner-style reward device or vanilla per-player Vault eligibility**, whose own rules remain distinct. The previously proposed sword-damage-stacking Q81 was cancelled and never approved.
 
+- **Q82 — A with owner scaling qualification:** After R3 and R5, supply remains **one shared/public chest per supply event**, not individualized claims. For more participants, **scale the chest's contents by the same +60% per additional player factor used for round mob budgets**, with multiplier `1 + 0.6*(participants-1)` (1p 1.0x, 2p 1.6x, 3p 2.2x, 4p 2.8x). Apply to the already approved per-event baseline of 8 cooked beef, 16 arrows, 1 regular golden apple. Exact integer rounding per item is implementation-detail OPEN. Do not multiply the number of chests; owner said increase supply chest by same multiplier, interpreted as chest supply quantities. Shared first-pickup behavior applies; chest placement still OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
