@@ -245,6 +245,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q98 — A with owner override (approved):** Successful trial cooldown starts **immediately upon Immortal Gladiator death / R7 completion**, and its duration is **65 minutes (78,000 ticks)**, **superseding the previously approved 65-minute (78,000-tick) trial cooldown everywhere**. Central crystal Q94 cooldown state follows the 65-minute timer. Do not conflate with Q93's 30-second exceptional-charge cooldown. Failure/reset behavior remains governed by its separate rules unless explicitly decided.
 
+- **Q99 — A (owner approved):** Apply the same **65-minute / 78,000-tick trial cooldown** after **success, failure, or reset**. For success start at boss death/R7 completion (Q98); for failure/reset start when the trial is conclusively ended/reset, including after the 60-second all-participants-absent grace period if it expires. The Q94 center crystal shows its dim cooldown state for either outcome. Preserve already-awarded keys under Q97.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
