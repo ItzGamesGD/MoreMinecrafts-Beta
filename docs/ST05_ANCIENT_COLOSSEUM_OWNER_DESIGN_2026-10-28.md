@@ -157,6 +157,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q68 — D:** Rounds 5 and 6 draw **randomized compositions from the eligible elite monster pool**, without mandatory melee/ranged themes, a prescribed elite-count escalation, or a fixed 'mixed then strongest' progression. Preserve the previously approved round-specific eligibility, threat scoring/budget and spawning constraints (Q35–Q49), and the distinctive balanced mixed-plus-elite focal encounter for round 3 (Q67). Exact elite roster and selection weights remain OPEN; do not introduce a new boss.
 
+- **Q69 — B:** The Immortal Gladiator's distinct signature special attack is a **powerful telegraphed charging slash**: it raises its sword to warn players, then rapidly charges in a straight line and delivers a heavy slash. Preserve readable dodge/counterplay and distinguish it from the already approved ordinary lunge/thrust. Exact damage, charge distance, tell duration, cooldown, phase availability and animation implementation remain OPEN for later balancing. No additional signature move is mandated.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
