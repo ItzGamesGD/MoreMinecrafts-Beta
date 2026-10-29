@@ -275,3 +275,6 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
 - No code, build, merge or checkpoint promotion is authorized by this document.
+
+
+- **Q110 — B (owner approved):** If unspawned trial-owned mob allocations remain and **all otherwise eligible spawn positions are invalid continuously for 60 seconds of active trial time**, end the encounter as a failure; clean up trial-owned mobs and generated supply chests, preserve already awarded keys, and apply the approved **65-minute / 78,000-tick cooldown**. Do not advance this timer when spawning is legitimately held by the 12-living-mob cap or when the encounter is paused because all players are absent. Reset the consecutive-blockage timer when a valid spawn position becomes available. Do not consume an allocation until its spawn succeeds. This closes the permanent no-valid-spawn-location decision left open under Q33/Q34. This is a design decision, not implementation authorization.
