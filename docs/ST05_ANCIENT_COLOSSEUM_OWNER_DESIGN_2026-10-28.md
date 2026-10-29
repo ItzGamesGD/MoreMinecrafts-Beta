@@ -231,6 +231,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q91 — B with owner hard exclusion (approved):** Blocks actually destroyed by the Q90 exceptional obstacle-breaking charge are **restored to their exact pre-destruction block states when the trial ends or resets**. **NO arena/colosseum structure block may ever be broken**, including its floor, walls, stands, decorations, Vaults and center activation crystal, even if made of a natural stone/wood block type. Therefore, block-type whitelist alone is insufficient: destruction must also enforce structure-provenance/arena-protection exclusion. Record only boss-destroyed eligible blocks for restoration; exact safe restore protocol and block-entity handling require implementation audit.
 
+- **Q92 — C (owner approved):** The Q90 exceptional obstacle-breaking charge has a **longer attack wind-up/telegraph than the ordinary charging slash**, giving additional reaction/dodge time. Preserve Q87 weapon/body animation, subtle particles and projected danger-area indicator. Do **not** add a distinct warning sound under Q92. Exact telegraph duration deferred to combat testing.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
