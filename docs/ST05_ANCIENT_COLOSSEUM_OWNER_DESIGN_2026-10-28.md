@@ -155,6 +155,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q67 — B+C combined, balance constrained:** Round 3 is a **special mixed-combat round** combining melee, ranged and special-ability enemies with **one notably strong elite/miniboss-like enemy**. Keep the overall difficulty appropriate for round 3: account for the elite within Q39's round-3 threat budget (solo base 32, multiplayer scaled under Q40–Q46), reducing supporting enemy count/threat as needed rather than stacking a free elite on top. The round should remain below later elite-heavy rounds 5–6 in overall difficulty. Use existing vanilla/MoreMinecrafts mobs; do not introduce another new boss beyond round 7's Immortal Gladiator. Exact elite roster, threat scores and composition remain OPEN for later balancing.
 
+- **Q68 — D:** Rounds 5 and 6 draw **randomized compositions from the eligible elite monster pool**, without mandatory melee/ranged themes, a prescribed elite-count escalation, or a fixed 'mixed then strongest' progression. Preserve the previously approved round-specific eligibility, threat scoring/budget and spawning constraints (Q35–Q49), and the distinctive balanced mixed-plus-elite focal encounter for round 3 (Q67). Exact elite roster and selection weights remain OPEN; do not introduce a new boss.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
