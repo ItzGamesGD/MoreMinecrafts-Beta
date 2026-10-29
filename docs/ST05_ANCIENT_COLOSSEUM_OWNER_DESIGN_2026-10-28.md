@@ -159,6 +159,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q69 — B:** The Immortal Gladiator's distinct signature special attack is a **powerful telegraphed charging slash**: it raises its sword to warn players, then rapidly charges in a straight line and delivers a heavy slash. Preserve readable dodge/counterplay and distinguish it from the already approved ordinary lunge/thrust. Exact damage, charge distance, tell duration, cooldown, phase availability and animation implementation remain OPEN for later balancing. No additional signature move is mandated.
 
+- **Q70 — C:** During phase 1, when the Immortal Gladiator successfully blocks a player's attack with its shield, it **counterattacks by shoving the player back with its shield to create distance, then follows up with sword attacks**. This is a spacing/control counter rather than a default quick thrust. The shield is destroyed at the approved 40%-HP phase transition (Q7–Q9), so this shield-dependent counter is unavailable in phase 2. Exact knockback, follow-up timing, cooldown and counter triggers remain implementation/balance details.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
