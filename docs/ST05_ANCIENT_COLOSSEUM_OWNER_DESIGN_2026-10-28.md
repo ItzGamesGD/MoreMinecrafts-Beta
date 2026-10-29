@@ -133,6 +133,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q56 — owner clarification of Q27/Q28:** The colosseum has **four cardinal player entrances (north, east, south, west)**. These are for player access only; **no monsters spawn from entrance gates**. The earlier correction revoking Q27/Q28's *monster-gate* interpretation must not be construed as revoking the four-direction *player entrance* layout. Preserve Q29–Q30's fixed-center 12–24-block mob-spawn annulus. Q56 does not introduce a new entrance decision; it records and clarifies the owner's prior design intent.
 
+- **Q57 — B:** The Ancient Colosseum is a **rare large underground structure**, less common than ordinary dungeons but discoverable through sustained exploration of the Overworld's deep, sufficiently large natural caves. Preserve the deepslate ruin architecture, four cardinal player entrances and brightly lit central combat floor. Exact structure spacing, separation, cave-fit checks and generation sampling remain OPEN for worldgen implementation/testing; do not equate this qualitative tier with an unapproved numerical rate.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
