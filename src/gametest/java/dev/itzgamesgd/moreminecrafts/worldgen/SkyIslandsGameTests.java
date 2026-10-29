@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -26,8 +27,16 @@ import net.minecraft.world.phys.Vec3;
  */
 public final class SkyIslandsGameTests implements CustomTestMethodInvoker {
     private static final int SAMPLES = 200_000;
-    private static final Item FEATHER = BuiltInRegistries.ITEM.getValue(Identifier.parse("moreminecrafts:sky_feather"));
-    private static final Item SHARD = BuiltInRegistries.ITEM.getValue(Identifier.parse("moreminecrafts:gale_shard"));
+
+    /**
+     * Looked up when a test runs, never in a static initializer: Fabric loads this class while collecting GameTests,
+     * which can happen before the mod's items are registered, and a registry miss silently yields air (0% drops).
+     */
+    private static Item item(String id) {
+        Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(id));
+        if (item == Items.AIR) throw new IllegalStateException("item not registered: " + id);
+        return item;
+    }
 
     private record Tally(int feather, int shard, int both, int maxFeatherPerDraw, int maxShardPerDraw, boolean allSingles) {}
 
@@ -42,13 +51,15 @@ public final class SkyIslandsGameTests implements CustomTestMethodInvoker {
     }
 
     private static Tally sample(LootTable table, LootParams params, long seedBase, int samples) {
+        Item featherItem = item("moreminecrafts:sky_feather");
+        Item shardItem = item("moreminecrafts:gale_shard");
         int feather = 0, shard = 0, both = 0, maxFeather = 0, maxShard = 0;
         boolean singles = true;
         for (int i = 0; i < samples; i++) {
             int f = 0, s = 0;
             for (ItemStack stack : table.getRandomItems(params, seedBase + i)) {
-                if (stack.is(FEATHER)) { f += stack.getCount(); singles &= stack.getCount() == 1; }
-                if (stack.is(SHARD)) { s += stack.getCount(); singles &= stack.getCount() == 1; }
+                if (stack.is(featherItem)) { f += stack.getCount(); singles &= stack.getCount() == 1; }
+                if (stack.is(shardItem)) { s += stack.getCount(); singles &= stack.getCount() == 1; }
             }
             if (f > 0) feather++;
             if (s > 0) shard++;
@@ -107,11 +118,13 @@ public final class SkyIslandsGameTests implements CustomTestMethodInvoker {
                 "minecraft:chests/trial_chambers/reward_unique", "minecraft:chests/simple_dungeon", "minecraft:chests/ancient_city")) {
             LootTable table = table(level, id);
             LootParams params = params(level, 0.0F);
+            Item featherItem = item("moreminecrafts:sky_feather");
+            Item shardItem = item("moreminecrafts:gale_shard");
             int items = 0;
             for (int i = 0; i < 20_000; i++) {
                 for (ItemStack stack : table.getRandomItems(params, 13_000_000L + i)) {
                     items++;
-                    ctx.assertTrue(!stack.is(FEATHER) && !stack.is(SHARD), id + " must not drop sky rewards");
+                    ctx.assertTrue(!stack.is(featherItem) && !stack.is(shardItem), id + " must not drop sky rewards");
                 }
             }
             ctx.assertTrue(items > 0, id + " still generates its vanilla loot");
