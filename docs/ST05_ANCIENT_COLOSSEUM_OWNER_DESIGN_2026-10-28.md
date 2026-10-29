@@ -237,6 +237,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q94 — B (owner approved):** The Q84 center activation crystal visually distinguishes **ready** (soft glow), **trial active** (strong glow), and **30-minute cooldown** (dim/dark glow). Do not add separate state HUD. Preserve the blue particle effect at activation. Exact brightness/particle assets deferred to visual implementation.
 
+- **Q95 — C (owner approved):** The **single Ominous Vault remains at the exact arena center**, and the **small glowing activation crystal floats above it**. Crystal must not obstruct Vault interaction, central key-item pickup/drop, or combat navigation. Preserve Q94 three-state glow and Q84 proximity activation; exact vertical offset/model collision is an implementation/visual-validation detail.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
