@@ -135,6 +135,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q57 — B:** The Ancient Colosseum is a **rare large underground structure**, less common than ordinary dungeons but discoverable through sustained exploration of the Overworld's deep, sufficiently large natural caves. Preserve the deepslate ruin architecture, four cardinal player entrances and brightly lit central combat floor. Exact structure spacing, separation, cave-fit checks and generation sampling remain OPEN for worldgen implementation/testing; do not equate this qualitative tier with an unapproved numerical rate.
 
+- **Q58 — D:** Allow **two discovery routes** for the rare underground Ancient Colosseum: incidental discovery through natural cave exploration, and intentional search using a **dedicated exploration map pointing to the structure**. Do not make map ownership mandatory to access or activate the colosseum. Map acquisition source, rarity, trade terms and location behavior remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
