@@ -259,6 +259,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q104 — A with owner clarification (approved):** Players retain **ordinary vanilla survival block placement and breaking permissions** in the arena, including its original walls/floor/stands. Only inherently unbreakable/protected special blocks (e.g. Vaults, trial spawners, other explicitly unbreakable components) retain their normal protection. Do not introduce blanket player block-edit restrictions for ST-05. **Q91 boss-only prohibition against destroying original arena structure remains separate and unchanged.**
 
+- **Q105 — A (owner approved):** Player-placed blocks persist in the world through trial success, failure, and reset, under ordinary vanilla survival behavior. Trial cleanup must **not** automatically remove player construction or revert player-driven modifications. This is distinct from Q91 restoration of eligible **external natural blocks broken by the boss** and Q96 cleanup of trial-generated supply chests.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
