@@ -171,6 +171,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q75 — B:** Players can use their vanilla shield to block the Immortal Gladiator's **ordinary sword attacks and sword combos**. Its **Q69 telegraphed powerful charging slash can also be blocked**, but a successful shield block **temporarily disables the player's shield**, encouraging a dodge as an alternative. Do not interpret this as unblockable damage or full shield penetration. The player's shield-disable duration, cooldown interaction with vanilla mechanics, and precise block/impact behavior remain OPEN for balance/implementation; do not automatically equate this duration to the boss shield's Q73 20–25 seconds.
 
+- **Q76 — A:** The exclusive **Gladiator's Sword and Gladiator's Shield** are **rare direct loot drops from the Immortal Gladiator**, appearing at the boss's feet on defeat, rather than being sourced primarily from surrounding ordinary Vaults or the central Ominous Vault. Either equipment item may be awarded by the drop roll; do not imply both always drop together. Preserve the boss's guaranteed Ominous Trial Key drop (Q65) and existing per-wave regular Trial Keys plus vault loot (Q63–Q66). Exact item drop rates, possible mutual exclusivity and multiplayer ownership/distribution remain OPEN for balance/implementation.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
