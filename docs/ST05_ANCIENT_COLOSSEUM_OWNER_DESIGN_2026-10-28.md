@@ -223,6 +223,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q87 — C+B combined (owner approved):** Gladiator attack telegraphs use **readable weapon/body wind-up animations**, with **subtle brief particles for stronger attacks**, PLUS **ground/front projected danger-area markers before major area or charge attacks**. Avoid excessive visual clutter. Exact particle designs, timing and telegraph geometry deferred to implementation; preserve existing charge sword-raise cue.
 
+- **Q88 — B (owner approved):** Ordinary Gladiator sword hits apply **normal/moderate vanilla-like knockback**; powerful attacks such as the charging slash and heavy horizontal sweep apply **stronger knockback**. Preserve fluid sword-combo combat; exact per-attack knockback coefficients deferred to implementation and live balance tests.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
