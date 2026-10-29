@@ -253,6 +253,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q101 — A (owner approved):** When every player exits during an active round, **already-spawned enemies retain normal AI, movement, and attacks** (no freeze or despawn-on-exit). The previously approved **60-second all-absent grace period** remains: returning within it resumes the existing encounter, while expiry resets the trial and invokes Q99's 65-minute cooldown. During all-absent grace, suspend *trial progression and new spawn batches* (not the existing mobs' AI); resume those on return. This is a trial-controller pause, not an entity-AI pause.
 
+- **Q102 — B (owner approved):** When a trial **fails or is reset**, immediately remove **only mobs and boss spawned by that specific trial instance**, without normal death loot or XP; do not affect natural cave mobs or other entities. During Q101's 60-second absence grace period, existing trial mobs continue AI; only after reset is finalized are they removed. Preserve previously awarded key item entities under Q97 and clean trial-owned supply chests under Q96. Track spawned-mob ownership reliably across chunk unloading/reloads.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
