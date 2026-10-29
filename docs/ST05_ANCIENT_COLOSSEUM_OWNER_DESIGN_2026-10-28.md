@@ -165,6 +165,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q72 — B:** When players maintain distance, the Immortal Gladiator **pursues on foot and situationally uses its already-approved ordinary lunge/charge and Q69 telegraphed charging slash to close distance**. Do not add projectile, sword-wave or other ranged attacks, nor infer an unapproved phase-2 charge-frequency buff. Preserve Q71's longer sword combos in phase 2. Exact chase/charge selection logic, range thresholds and cooldowns remain implementation/balance details.
 
+- **Q73 — owner custom (weakened vanilla-like shield):** In phase 1, the Immortal Gladiator's shield uses **vanilla-like directional frontal defense** against ordinary melee and projectiles, with rear/flank vulnerability. After **five successful blocks**, the shield is temporarily disabled for approximately **20–25 seconds**. A player's **axe can also disable the shield**, invoking the same approximately 20–25-second cooldown without requiring five blocks. During shield disablement, shield blocking and Q70 shield-shove counter are unavailable; sword combat continues. At the approved 40%-HP phase-2 transition the shield breaks permanently. Exact duration within the 20–25-second approved range, counter reset/recovery, axe-hit qualification and block eligibility remain implementation/balance details; do not infer invulnerability or all-direction defense.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
