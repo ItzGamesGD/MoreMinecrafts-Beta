@@ -143,6 +143,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q61 — B:** At the start of round 7 after the Q15 standard **10-second post-round-6 interval**, summon the Immortal Gladiator at the **center of the arena** with a distinct awakening presentation: particles converge at the center, the sword-and-shield boss materializes, raises its weapons, and then begins combat. Preserve Q7–Q9's two-phase behavior and 40%-HP shield-break transition. Exact particle type/count, animation duration and hitbox timing remain implementation/balance details; no statue or entrance-gate spawn mechanic is introduced.
 
+- **Q62 — A:** When the Immortal Gladiator is defeated in round 7, use an **ordinary mob death presentation**. Do not add a bespoke collapse, kneeling, petrification, arena-wide victory lighting, or celebratory particle sequence. Successful completion makes the previously approved repeatable trial rewards available, but **reward delivery/claim method remains OPEN**; do not assume that rewards must drop from the boss or spawn at arena center.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
