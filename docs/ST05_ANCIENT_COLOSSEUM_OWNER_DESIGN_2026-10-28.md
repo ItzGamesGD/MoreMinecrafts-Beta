@@ -247,6 +247,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q99 — A (owner approved):** Apply the same **65-minute / 78,000-tick trial cooldown** after **success, failure, or reset**. For success start at boss death/R7 completion (Q98); for failure/reset start when the trial is conclusively ended/reset, including after the 60-second all-participants-absent grace period if it expires. The Q94 center crystal shows its dim cooldown state for either outcome. Preserve already-awarded keys under Q97.
 
+- **Q100 — B (owner approved):** Players arriving after a round has started **do not join that round**; treat them as non-participating observers until the next round begins. On the next round start, register them as participants and apply existing per-round participant-count difficulty scaling. Do not retroactively alter active round mob count/threat budget. A player arriving during R7 cannot join that completed trial's combat. Existing rules for deceased participants rejoining only after round completion remain intact.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
