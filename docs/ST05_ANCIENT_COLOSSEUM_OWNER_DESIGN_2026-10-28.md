@@ -169,6 +169,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q74 — A:** While the Immortal Gladiator's phase-1 shield is temporarily disabled under Q73 (five successful blocks or axe disable; approximately 20–25 seconds), it **continues its ordinary sword combat and existing charges/slashes without AI stance changes**. Only shield-dependent defense and the Q70 shield shove/counter are unavailable. Do not add a retreat, stun, vulnerability animation that halts combat, extra aggression, or a phase-2-style combo buff during temporary shield disablement. Permanent shield destruction at the 40%-HP phase transition still follows Q7–Q9 and Q71.
 
+- **Q75 — B:** Players can use their vanilla shield to block the Immortal Gladiator's **ordinary sword attacks and sword combos**. Its **Q69 telegraphed powerful charging slash can also be blocked**, but a successful shield block **temporarily disables the player's shield**, encouraging a dodge as an alternative. Do not interpret this as unblockable damage or full shield penetration. The player's shield-disable duration, cooldown interaction with vanilla mechanics, and precise block/impact behavior remain OPEN for balance/implementation; do not automatically equate this duration to the boss shield's Q73 20–25 seconds.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
