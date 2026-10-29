@@ -161,6 +161,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q70 — C:** During phase 1, when the Immortal Gladiator successfully blocks a player's attack with its shield, it **counterattacks by shoving the player back with its shield to create distance, then follows up with sword attacks**. This is a spacing/control counter rather than a default quick thrust. The shield is destroyed at the approved 40%-HP phase transition (Q7–Q9), so this shield-dependent counter is unavailable in phase 2. Exact knockback, follow-up timing, cooldown and counter triggers remain implementation/balance details.
 
+- **Q71 — B:** At the approved 40%-of-scaled-max-HP transition, the Immortal Gladiator breaks/discards its shield and enters a **more sustained sword-combo phase**: longer chained sword strikes and shorter gaps between attacks. Preserve readable counterplay windows; do not implicitly add enhanced charge frequency, an additional charge-centric pursuit mechanic, or new special attacks. The Q69 telegraphed charging slash remains part of its approved move set. Exact combo length, attack interval, phase-specific move weights and animation timing remain OPEN for balance/implementation.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
