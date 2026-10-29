@@ -1,0 +1,60 @@
+name: ST-05 colosseum controller restart persistence
+
+on:
+  pull_request:
+    paths:
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - '.github/workflows/st05-colosseum-restart.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Start trials, kill a mob, hold Q110 blockage and a spawn warning, then shut down
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:colosseum_game_tests_trial_state_survives_process_restart
+            -Dmoreminecrafts.st05.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st05-restart-write.log
+          grep -F ST05_RESTART_WRITE st05-restart-write.log
+      - name: After restart, resume without duplicates and complete R1 exactly once
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:colosseum_game_tests_trial_state_survives_process_restart
+            -Dmoreminecrafts.st05.restart.phase=reload
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st05-restart-reload.log
+          grep -F ST05_RESTART_RELOAD st05-restart-reload.log
+      - name: Second restart keeps the single payout record
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:colosseum_game_tests_trial_state_survives_process_restart
+            -Dmoreminecrafts.st05.restart.phase=verify
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st05-restart-verify.log
+          grep -F ST05_RESTART_VERIFY st05-restart-verify.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st05-colosseum-restart-evidence
+          path: st05-restart-*.log
