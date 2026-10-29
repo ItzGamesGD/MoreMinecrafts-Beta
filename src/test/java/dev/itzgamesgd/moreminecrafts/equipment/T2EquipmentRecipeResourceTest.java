@@ -83,11 +83,15 @@ class T2EquipmentRecipeResourceTest {
         }
     }
 
-    @Test void skyFeatherHasNoTemporaryAcquisitionRoute() throws Exception {
-        // BLOCKED_DEPENDENCY: the Sky Island vault (15%) and flying mobs do not exist; no stand-in drop may be added.
+    @Test void skyFeatherIsSuppliedOnlyByTheApprovedSkyIslandContainers() throws Exception {
+        // Task A (sky islands) lifts the earlier BLOCKED_DEPENDENCY: chests 5% and sky vaults 15% are the only loot-table routes.
+        // The flying mobs (not part of Task A) still have no drop, and the core acquisition code never references the feather.
         try (var files = java.nio.file.Files.walk(java.nio.file.Path.of("src/main/resources/data"))) {
-            for (java.nio.file.Path file : files.filter(f -> f.toString().contains("loot_table") && f.toString().endsWith(".json")).toList())
-                assertFalse(java.nio.file.Files.readString(file).contains("sky_feather"), file.toString());
+            for (java.nio.file.Path file : files.filter(f -> f.toString().contains("loot_table") && f.toString().endsWith(".json")).toList()) {
+                boolean skyFeather = java.nio.file.Files.readString(file).contains("sky_feather");
+                boolean approved = file.toString().replace('\\', '/').contains("loot_table/chests/sky_islands/");
+                assertEquals(approved && !file.getFileName().toString().equals("materials.json"), skyFeather, file.toString());
+            }
         }
         assertFalse(java.nio.file.Files.readString(java.nio.file.Path.of(
                 "src/main/java/dev/itzgamesgd/moreminecrafts/progression/T2CoreAcquisition.java")).contains("SKY_FEATHER"));
