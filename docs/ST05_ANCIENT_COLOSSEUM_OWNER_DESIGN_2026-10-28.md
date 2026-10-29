@@ -131,6 +131,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q55 — A:** Colosseum spectator seating, upper tiers and stands are **decorative architecture only**, expressing scale and ancient ruin atmosphere. They are not designed as traversable exploration routes or part of the encounter combat area. Player combat and the seven-round trial are confined to the **central, flat, well-lit circular fighting floor**, preserving the existing spawn and leave-zone rules. Do not add spectator-stand exploration as a required gameplay loop.
 
+- **Q56 — owner clarification of Q27/Q28:** The colosseum has **four cardinal player entrances (north, east, south, west)**. These are for player access only; **no monsters spawn from entrance gates**. The earlier correction revoking Q27/Q28's *monster-gate* interpretation must not be construed as revoking the four-direction *player entrance* layout. Preserve Q29–Q30's fixed-center 12–24-block mob-spawn annulus. Q56 does not introduce a new entrance decision; it records and clarifies the owner's prior design intent.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
