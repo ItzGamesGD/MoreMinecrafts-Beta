@@ -2,7 +2,7 @@
 
 > Historical source snapshot from PR #207 head `dd193d7880b87a40a3f6eaa9bff359792e2cea08`. This file preserves owner-decision wording, including superseded and cancelled passages. It is **not** an implementation specification. Use [the current ST-05 authority](ST05_ANCIENT_COLOSSEUM_CURRENT_AUTHORITY_2026-10-29.md) for the effective rules.
 
-> The source document's Q109 refers to a 15-member roster without listing its members or scores. The current authority restores that table from the owner-provided ST-05-A data; this history does not retroactively change the PR source.
+> The source document's Q109 refers to a 15-member roster without listing its members or scores. The current authority restores that table from the owner’s ChatGPT-conversation ST-05-A report, reconfirmed in the current conversation. No separate GitHub/Drive original, execution script or raw log was obtained; those reported audit results are not independent execution evidence. The historical Q109 text below is preserved as supplied; this history does not retroactively change the PR source.
 
 ---
 
