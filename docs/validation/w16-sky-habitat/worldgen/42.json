@@ -1,0 +1,60 @@
+{
+  "seed": 42,
+  "chunks_scanned": 6561,
+  "max_radius_chunks": 40,
+  "structure_starts": 3,
+  "starts_by_structure": {
+    "sky_island_forest": 1,
+    "sky_island_meadow": 1,
+    "sky_island_mountain_rocky": 1
+  },
+  "building_variants_seen": {
+    "tower_5": 1
+  },
+  "island_pieces_by_style": {
+    "forest": 1,
+    "meadow": 1,
+    "rocky": 1
+  },
+  "island_pieces_by_kind": {
+    "plain_small_a": 1,
+    "plain_small_b": 1,
+    "tower": 1
+  },
+  "start_y_min": 116,
+  "start_y_max": 189,
+  "physical": {
+    "tower_5": {
+      "structure": "sky_island_forest",
+      "chunk": "-22,-14",
+      "bounds": "BoundingBox{minX\u003d-340, minY\u003d133, minZ\u003d-254, maxX\u003d-322, maxY\u003d171, maxZ\u003d-236}",
+      "trial_spawners": 7,
+      "vaults": 7,
+      "chests": 12,
+      "vault_loot_table_ok": 7,
+      "chest_loot_table_ok": 12,
+      "spawner_config_ok": 7,
+      "island_support_block": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "expected": [
+        7,
+        7,
+        12
+      ],
+      "pass": true,
+      "pieces": [
+        "Single[Left[moreminecrafts:sky_islands/forest/tower]]",
+        "Single[Left[moreminecrafts:sky_islands/tower_5]]"
+      ]
+    }
+  },
+  "all_physical_checks_pass": false,
+  "missing_variants": [
+    "ruins_a",
+    "ruins_b",
+    "ruins_c",
+    "ruins_d",
+    "tower_6",
+    "tower_7",
+    "temple"
+  ]
+}
