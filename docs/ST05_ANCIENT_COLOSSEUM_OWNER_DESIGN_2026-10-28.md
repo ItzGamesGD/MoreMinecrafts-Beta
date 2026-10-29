@@ -137,6 +137,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q58 — D:** Allow **two discovery routes** for the rare underground Ancient Colosseum: incidental discovery through natural cave exploration, and intentional search using a **dedicated exploration map pointing to the structure**. Do not make map ownership mandatory to access or activate the colosseum. Map acquisition source, rarity, trade terms and location behavior remain OPEN.
 
+- **Q59 — owner custom:** Obtain the Ancient Colosseum exploration map through **existing vanilla-style map acquisition systems**, analogous to the Woodland Mansion exploration map, including **cartographer villager trades** as an example. Integrate into established systems rather than creating a dedicated new vendor or standalone map acquisition mechanic. Natural cave discovery (Q58) remains valid. Exact trade tier, price, availability and other compatible existing sources remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
