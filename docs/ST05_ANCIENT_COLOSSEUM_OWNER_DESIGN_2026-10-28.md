@@ -127,6 +127,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q53 — B:** Gladiator's Sword and Gladiator's Shield (Q52) have **attack/defense-linked unique combat identities** rather than merely higher base stats: the sword rewards successfully chained attacks, while the shield rewards well-timed blocks followed by counters. Favor natural extensions of existing Minecraft combat actions without requiring a complex new control scheme. Exact trigger windows, bonuses, damage, duration, cooldown and balance remain OPEN.
 
+- **Q54 — A (owner-customized):** Architectural atmosphere is a **ruined ancient Roman-style colosseum** constructed primarily from **deepslate-family blocks** in the deep underground cavern. Convey age with partial damage to spectator stands and outer masonry; optionally incorporate **small amounts of D-style natural cave decoration** (moss/vines etc.) where appropriate, without changing the primary A identity. **Keep the arena's interior fighting space brightly and clearly illuminated** for combat visibility, and preserve its intentionally constructed, generally flat combat floor. The surrounding cavern may remain darker. This is an owner choice, **not a request for further image generation**.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
