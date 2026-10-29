@@ -153,6 +153,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q66 — D (owner clarification):** All seven surrounding ordinary vanilla Vaults and the central vanilla Ominous Vault operate **independently, exactly like vanilla Vaults**: players can open any eligible vault at any time with the corresponding Trial Key or Ominous Trial Key, regardless of wave, trial start, boss defeat or completion. No round-based activation/locking or sequential unlocking. Preserve vanilla per-player vault redemption behavior; the sevenfold placement is visual/architectural, not a mandatory seven-step reward sequence.
 
+- **Q67 — B+C combined, balance constrained:** Round 3 is a **special mixed-combat round** combining melee, ranged and special-ability enemies with **one notably strong elite/miniboss-like enemy**. Keep the overall difficulty appropriate for round 3: account for the elite within Q39's round-3 threat budget (solo base 32, multiplayer scaled under Q40–Q46), reducing supporting enemy count/threat as needed rather than stacking a free elite on top. The round should remain below later elite-heavy rounds 5–6 in overall difficulty. Use existing vanilla/MoreMinecrafts mobs; do not introduce another new boss beyond round 7's Immortal Gladiator. Exact elite roster, threat scores and composition remain OPEN for later balancing.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
