@@ -141,6 +141,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q60 — owner custom:** Like the vanilla Trial Spawner, use a **blue particle effect to signal trial activation/start**. Do **not** show ongoing round number, remaining mob count, progress percentage, or a dedicated actionbar/bossbar/HUD for rounds 1–6. Preserve the separate Q31 approximately one-second particle warning at mob spawn points. This decision does not remove the normal health bar of the round-7 boss; boss UI remains a separate vanilla-style presentation consideration.
 
+- **Q61 — B:** At the start of round 7 after the Q15 standard **10-second post-round-6 interval**, summon the Immortal Gladiator at the **center of the arena** with a distinct awakening presentation: particles converge at the center, the sword-and-shield boss materializes, raises its weapons, and then begins combat. Preserve Q7–Q9's two-phase behavior and 40%-HP shield-break transition. Exact particle type/count, animation duration and hitbox timing remain implementation/balance details; no statue or entrance-gate spawn mechanic is introduced.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
