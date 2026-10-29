@@ -163,6 +163,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q71 — B:** At the approved 40%-of-scaled-max-HP transition, the Immortal Gladiator breaks/discards its shield and enters a **more sustained sword-combo phase**: longer chained sword strikes and shorter gaps between attacks. Preserve readable counterplay windows; do not implicitly add enhanced charge frequency, an additional charge-centric pursuit mechanic, or new special attacks. The Q69 telegraphed charging slash remains part of its approved move set. Exact combo length, attack interval, phase-specific move weights and animation timing remain OPEN for balance/implementation.
 
+- **Q72 — B:** When players maintain distance, the Immortal Gladiator **pursues on foot and situationally uses its already-approved ordinary lunge/charge and Q69 telegraphed charging slash to close distance**. Do not add projectile, sword-wave or other ranged attacks, nor infer an unapproved phase-2 charge-frequency buff. Preserve Q71's longer sword combos in phase 2. Exact chase/charge selection logic, range thresholds and cooldowns remain implementation/balance details.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
