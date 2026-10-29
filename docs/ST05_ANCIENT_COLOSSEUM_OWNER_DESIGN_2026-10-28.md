@@ -203,6 +203,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 - **Q80 — OWNER CORRECTION (supersedes mistaken 'unarmed' reading):** The approved **10 damage (5 hearts)** is the Immortal Gladiator's **ordinary sword-hit damage against an unarmored player (no armor equipped)**, not the boss's barehanded attack attribute. Normal armor mitigation applies. Do NOT create a separate boss unarmed damage baseline or add a sword attack bonus on top of 10. Special charging-slash and other attack-pattern damage adjustments remain OPEN for later balancing.
 - **Q81 — CANCELLED:** The proposed question about stacking the boss's barehanded attack damage and sword bonus arose from the assistant's misunderstanding of 'unarmed' as 'no weapon' instead of the owner's intended 'no armor'. No Q81 option was approved; do not ask it again.
 
+- **Q81 — A (owner clarified):** Immortal Gladiator **direct drops are one shared set of ordinary item entities at the boss's feet** on death, exactly as Q63 intended. No per-participant cloning, private drop ownership, last-hit priority or automatic personal distribution; whichever player picks up the item receives it. This includes the Q65 Ominous Trial Key dropped by the boss. **Do not conflate this shared boss-foot drop with the separate Trial Spawner-style reward device or vanilla per-player Vault eligibility**, whose own rules remain distinct. The previously proposed sword-damage-stacking Q81 was cancelled and never approved.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
