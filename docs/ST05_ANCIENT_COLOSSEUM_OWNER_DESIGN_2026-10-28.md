@@ -213,6 +213,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q84 — D (owner approved):** Place a **small glowing crystal** at the arena center as the visible trial activation marker. Approaching the center automatically triggers R1 with the already-approved **blue particle activation effect**; no click/button interaction. Crystal presentation must not obstruct combat or alter the approved center-proximity activation condition. Exact block/model implementation deferred.
 
+- **Q85 — OWNER CORRECTION / LOCATION QUESTION CANCELLED:** Existing vault layout remains **seven ordinary Vaults evenly spaced around the arena's central area, and one Ominous Vault at the exact center**. **No separate reward-ejection device or structure** is to be placed. Round reward items (including the approved normal Trial Key per round) **drop as item entities at the exact arena center** when awarded; boss's own direct loot still drops at boss death position. The earlier suggestion of a dedicated reward machine was a mistaken interpretation and is revoked. The approved Q84 small glowing activation crystal and central Ominous Vault must coexist without overlapping obstructive blocks; exact placement/visual integration deferred to implementation. Do not re-ask vault placement or reward-device location.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
