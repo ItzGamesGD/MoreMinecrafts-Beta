@@ -129,6 +129,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q54 — A (owner-customized):** Architectural atmosphere is a **ruined ancient Roman-style colosseum** constructed primarily from **deepslate-family blocks** in the deep underground cavern. Convey age with partial damage to spectator stands and outer masonry; optionally incorporate **small amounts of D-style natural cave decoration** (moss/vines etc.) where appropriate, without changing the primary A identity. **Keep the arena's interior fighting space brightly and clearly illuminated** for combat visibility, and preserve its intentionally constructed, generally flat combat floor. The surrounding cavern may remain darker. This is an owner choice, **not a request for further image generation**.
 
+- **Q55 — A:** Colosseum spectator seating, upper tiers and stands are **decorative architecture only**, expressing scale and ancient ruin atmosphere. They are not designed as traversable exploration routes or part of the encounter combat area. Player combat and the seven-round trial are confined to the **central, flat, well-lit circular fighting floor**, preserving the existing spawn and leave-zone rules. Do not add spectator-stand exploration as a required gameplay loop.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
