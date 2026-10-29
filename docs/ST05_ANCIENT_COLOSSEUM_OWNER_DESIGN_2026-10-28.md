@@ -192,6 +192,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 - **T1 artifact gap (important future candidate):** Existing artifacts were substantially buffed and promoted to **T2**, leaving an unfilled T1 niche. Propose future **simple numeric-buff or compact-passive T1 artifacts** as candidates, then consider adding them together with the later-expanded loot pool to colosseum rewards. No T1 items, effects, values, rates or reward assignments are approved yet.
 - Defer exact mob threat scores/weights, drop probabilities, worldgen spacing, cartographer trade details, animation library dependency, detailed decorative blocks and combat frame timing to implementation/balance review.
 
+- **Q77 — B (owner approved; replaces cancelled loot-count Q77):** Compose R1–R6 eligible enemy pools from a **balanced mix of existing vanilla and existing MoreMinecrafts custom mobs**, choosing candidates based on their actual combat roles and each round's difficulty. Balanced mix is a design principle, **not a rigid 50:50 quota per wave**. Preserve previously approved threat-budget and tier rules Q35–Q49, R3 mixed melee/ranged/special plus one budgeted elite Q67, and R5–R6 randomized elite compositions Q68. Specific mob names and roster eligibility are **not yet approved**; verify actual implementation before recommending them.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
