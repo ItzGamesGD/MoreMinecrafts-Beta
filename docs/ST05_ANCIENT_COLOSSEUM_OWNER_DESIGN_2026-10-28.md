@@ -209,6 +209,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q82 — OWNER CORRECTION (supersedes scaling interpretation):** R3 and R5 resupply each generate **one public chest per participating player** (1p→1 chest, 2p→2, 3p→3, 4p→4). Every chest uses **identical NBT and identical fixed contents**: 8 cooked beef, 16 arrows, 1 regular golden apple. Do **NOT** scale individual chest contents by +60%; that multiplier is for mob budgets, not supply chests. All chests are public/shared and placed **randomly around the arena in safe valid spots**, not assigned to individuals. **Q83 location-choice question CANCELLED** because random surrounding placement is already approved. Exact random placement validation details deferred to implementation.
 
+- **Q83 — A (owner approved):** Vanilla-style boss health bar appears for the Immortal Gladiator in R7, showing boss name and current health, and disappears at encounter end. R1–R6 remain without a round/progress HUD.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
