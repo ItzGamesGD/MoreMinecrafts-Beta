@@ -233,6 +233,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q92 — C (owner approved):** The Q90 exceptional obstacle-breaking charge has a **longer attack wind-up/telegraph than the ordinary charging slash**, giving additional reaction/dodge time. Preserve Q87 weapon/body animation, subtle particles and projected danger-area indicator. Do **not** add a distinct warning sound under Q92. Exact telegraph duration deferred to combat testing.
 
+- **Q93 — B (owner approved):** Q90 exceptional obstacle-breaking charge has a **separate 30-second cooldown** after use. Once cooldown expires, the Q90 trigger (at least 10 failed pursuits in 20 seconds while receiving one-sided attacks) must be **satisfied anew**; cooldown expiry alone does not trigger a charge. Ordinary charging slash does not share this special cooldown. Exact tick-based counter/reset implementation deferred.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
