@@ -9,7 +9,8 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
@@ -84,7 +85,8 @@
       "dev.itzgamesgd.moreminecrafts.colosseum.ColosseumCombatGameTests",
       "dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRewardGameTests",
       "dev.itzgamesgd.moreminecrafts.colosseum.ColosseumGameTests",
-      "dev.itzgamesgd.moreminecrafts.progression.SkullProtocolAssumptionGameTests"
+      "dev.itzgamesgd.moreminecrafts.progression.SkullProtocolAssumptionGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.SkyHabitatGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
