@@ -200,6 +200,9 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q80 — B, owner qualification:** Immortal Gladiator baseline **unarmed attack damage = 10 damage (5 hearts) before armor/mitigation**. This is **NOT** the final damage of its equipped sword attacks. The sword's attack contribution and stacking method, normal sword-hit damage, combo-hit damage and charging-slash damage remain OPEN for later design/balancing; do not equate them to 10 or invent an automatic vanilla weapon modifier. Preserve Q75 player shield interactions.
 
+- **Q80 — OWNER CORRECTION (supersedes mistaken 'unarmed' reading):** The approved **10 damage (5 hearts)** is the Immortal Gladiator's **ordinary sword-hit damage against an unarmored player (no armor equipped)**, not the boss's barehanded attack attribute. Normal armor mitigation applies. Do NOT create a separate boss unarmed damage baseline or add a sword attack bonus on top of 10. Special charging-slash and other attack-pattern damage adjustments remain OPEN for later balancing.
+- **Q81 — CANCELLED:** The proposed question about stacking the boss's barehanded attack damage and sword bonus arose from the assistant's misunderstanding of 'unarmed' as 'no weapon' instead of the owner's intended 'no armor'. No Q81 option was approved; do not ask it again.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
