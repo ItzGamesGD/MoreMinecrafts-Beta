@@ -251,6 +251,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q100 — owner custom decision (approved):** No vanilla-incompatible explicit join/leave or enforced spectator mode. Players entering the arena **may fight immediately**, and leaving immediately ceases their active combat presence. **All trial-system participation judgments** (multiplayer mob threat/count scaling, supply-chest eligibility/count, rewards, elimination, and rejoin) begin **only with rounds that start after the player's entry**; do not retroactively alter the current round's locked enemy composition/scaling or eligibility. A player's physical entry/exit is immediate, while round-level system accounting updates at subsequent round boundaries. Preserve the earlier dead-player rejoin restriction (after the current round clears) as applicable; clarify implementation edge cases during audit.
 
+- **Q101 — A (owner approved):** When every player exits during an active round, **already-spawned enemies retain normal AI, movement, and attacks** (no freeze or despawn-on-exit). The previously approved **60-second all-absent grace period** remains: returning within it resumes the existing encounter, while expiry resets the trial and invokes Q99's 65-minute cooldown. During all-absent grace, suspend *trial progression and new spawn batches* (not the existing mobs' AI); resume those on return. This is a trial-controller pause, not an entity-AI pause.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
