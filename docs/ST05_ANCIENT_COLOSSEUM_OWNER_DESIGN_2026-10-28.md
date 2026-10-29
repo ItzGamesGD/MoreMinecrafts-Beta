@@ -147,6 +147,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q63 — owner custom, combined reward routes:** (1) On defeat, the Immortal Gladiator **drops its loot at its feet**, using normal item drops; (2) on successful trial completion, a **Trial Spawner-style reward device presents items and/or keys above the device** for distribution, analogous to vanilla Trial Spawner output; (3) place **separate Vault(s)** in the colosseum so keys can unlock **additional loot**. Preserve Q51's repeatable 30-minute trial cooldown and player-specific eligibility/no duplicate rewards; do not presume all three channels share the same reward pool. Exact device placement, vault count, key type/eligibility, drop tables, loot probabilities and per-player multiplayer claim behavior remain OPEN for later decisions.
 
+- **Q64 — C:** The Ancient Colosseum contains **only vanilla Ominous Vaults** as its separate key-opened vault rewards; do not place regular Vaults or add a custom Colosseum Vault block. Preserve Q63's three channels: Immortal Gladiator drops at its feet, Trial Spawner-style reward output above the reward device, and additional loot from Ominous Vaults. The method of obtaining compatible Ominous Trial Keys, the number and placement of vaults, and loot tables remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
