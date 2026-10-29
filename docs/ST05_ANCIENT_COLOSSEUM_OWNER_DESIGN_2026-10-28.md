@@ -249,6 +249,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q100 — B (owner approved):** Players arriving after a round has started **do not join that round**; treat them as non-participating observers until the next round begins. On the next round start, register them as participants and apply existing per-round participant-count difficulty scaling. Do not retroactively alter active round mob count/threat budget. A player arriving during R7 cannot join that completed trial's combat. Existing rules for deceased participants rejoining only after round completion remain intact.
 
+- **Q100 — owner custom decision (approved):** No vanilla-incompatible explicit join/leave or enforced spectator mode. Players entering the arena **may fight immediately**, and leaving immediately ceases their active combat presence. **All trial-system participation judgments** (multiplayer mob threat/count scaling, supply-chest eligibility/count, rewards, elimination, and rejoin) begin **only with rounds that start after the player's entry**; do not retroactively alter the current round's locked enemy composition/scaling or eligibility. A player's physical entry/exit is immediate, while round-level system accounting updates at subsequent round boundaries. Preserve the earlier dead-player rejoin restriction (after the current round clears) as applicable; clarify implementation edge cases during audit.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
