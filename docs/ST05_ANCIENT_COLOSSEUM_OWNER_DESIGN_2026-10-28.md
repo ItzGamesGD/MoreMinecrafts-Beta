@@ -139,6 +139,8 @@ Source baseline: `checkpoint/wave12-unified-20261027` structure authority index.
 
 - **Q59 — owner custom:** Obtain the Ancient Colosseum exploration map through **existing vanilla-style map acquisition systems**, analogous to the Woodland Mansion exploration map, including **cartographer villager trades** as an example. Integrate into established systems rather than creating a dedicated new vendor or standalone map acquisition mechanic. Natural cave discovery (Q58) remains valid. Exact trade tier, price, availability and other compatible existing sources remain OPEN.
 
+- **Q60 — owner custom:** Like the vanilla Trial Spawner, use a **blue particle effect to signal trial activation/start**. Do **not** show ongoing round number, remaining mob count, progress percentage, or a dedicated actionbar/bossbar/HUD for rounds 1–6. Preserve the separate Q31 approximately one-second particle warning at mob spawn points. This decision does not remove the normal health bar of the round-7 boss; boss UI remains a separate vanilla-style presentation consideration.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
