@@ -227,6 +227,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q89 — A (owner approved):** Immortal Gladiator prioritizes the **nearest valid participating player** as its combat target, including multiplayer. Do not use damage contribution, cumulative damage threat, or scheduled random target cycling. Retain normal target-validity checks and approved chase/charge behaviors; exact target reevaluation frequency is an implementation detail.
 
+- **Q90 — B with owner anti-cheese exception (approved):** Normally use ordinary pathfinding and **retarget to another reachable valid player** if current target is inaccessible. If, **within 20 seconds, the boss has failed to pursue at least 10 times AND is receiving asymmetric/one-sided attacks while unable to retaliate**, trigger a special **obstacle-breaking charge toward the nearest valid player**. Breakable obstacles are restricted to an approved whitelist of **natural stone/wood-type blocks**; exact tags/blocks and detection definitions are implementation/audit details. Do not destroy unbreakable blocks, protected arena structural essentials, Vaults, or activation crystal. This exception does not authorize routine wall-phasing or teleportation. Preserve Q89 nearest-player priority and Q85 chase pace.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
