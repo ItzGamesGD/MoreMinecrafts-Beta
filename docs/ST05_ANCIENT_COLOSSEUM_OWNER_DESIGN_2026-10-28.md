@@ -196,6 +196,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q78 — B:** Use **shared eligibility pools by existing threat tier** rather than fixed per-round mob lists: R1–R2 threat scores 1–4, R3–R4 scores 1–7, R5–R6 scores 1–10. Apply **only necessary round-specific exceptions**, notably R3's mixed melee/ranged/special composition and one budgeted elite focal enemy (Q67), and R5–R6 randomized elite-eligible compositions (Q68). R7 remains the fixed Immortal Gladiator boss. Preserve Q77's balanced vanilla/MoreMinecrafts sourcing and Q35–Q49 threat-budget rules. Actual mob roster, scores, and eligibility await repository verification and later balancing; no new ordinary mob is authorized.
 
+- **Q79 — B (owner approved):** Immortal Gladiator baseline maximum HP is **300 HP for one participant**. Preserve Q22's +35% maximum HP per additional participant, locked at round 7 start under Q23: 1p **300**, 2p **405**, 3p **510**, 4p **615 HP**. Q9's shield-break phase transition at 40% of scaled max HP therefore occurs at 120/162/204/246 HP respectively. This is the approved initial design baseline; any later balance change requires a separate owner decision. Attack damage, movement speed and attack timings remain OPEN.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
