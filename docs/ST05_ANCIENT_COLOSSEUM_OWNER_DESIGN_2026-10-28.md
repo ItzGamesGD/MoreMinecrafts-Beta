@@ -198,6 +198,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q79 — B (owner approved):** Immortal Gladiator baseline maximum HP is **300 HP for one participant**. Preserve Q22's +35% maximum HP per additional participant, locked at round 7 start under Q23: 1p **300**, 2p **405**, 3p **510**, 4p **615 HP**. Q9's shield-break phase transition at 40% of scaled max HP therefore occurs at 120/162/204/246 HP respectively. This is the approved initial design baseline; any later balance change requires a separate owner decision. Attack damage, movement speed and attack timings remain OPEN.
 
+- **Q80 — B, owner qualification:** Immortal Gladiator baseline **unarmed attack damage = 10 damage (5 hearts) before armor/mitigation**. This is **NOT** the final damage of its equipped sword attacks. The sword's attack contribution and stacking method, normal sword-hit damage, combo-hit damage and charging-slash damage remain OPEN for later design/balancing; do not equate them to 10 or invent an automatic vanilla weapon modifier. Preserve Q75 player shield interactions.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
