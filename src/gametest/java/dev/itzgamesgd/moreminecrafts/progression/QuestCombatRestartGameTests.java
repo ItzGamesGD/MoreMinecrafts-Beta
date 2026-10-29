@@ -138,9 +138,9 @@ public final class QuestCombatRestartGameTests implements CustomTestMethodInvoke
                 .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
                 .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
                 .filter(type -> killed(player, type) > 0).count();
-        ctx.assertTrue(bestiaryUi.groups().getFirst().targets().size() == 37
+        ctx.assertTrue(bestiaryUi.groups().getFirst().targets().size() == 38
                         && completedTargets == persistedMonsterStats && completedTargets >= 25,
-                "the restored player's checklist has all 37 entries and matches persisted kills: UI="
+                "the restored player's checklist has all 38 entries and matches persisted kills: UI="
                         + completedTargets + " stats=" + persistedMonsterStats);
         ResearchProgressState caveState = QuestCombatGameTests.reconcileCaveDwellersForTest(player);
         ctx.assertTrue(caveState.questProgress("xpq.cmb.cave_dwellers") == 6

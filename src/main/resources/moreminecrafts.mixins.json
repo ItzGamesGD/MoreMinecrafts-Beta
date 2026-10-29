@@ -20,6 +20,7 @@
     "ExplosiveMaceMixin",
     "LivingEntityMixin",
     "AbstractArrowAccessor",
+    "DisplayAccessor",
     "ProjectileWeaponItemMixin",
     "ThrownTridentMixin",
     "FishingHookMixin",
