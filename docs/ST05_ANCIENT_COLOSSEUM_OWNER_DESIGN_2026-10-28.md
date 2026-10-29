@@ -221,6 +221,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 - **Q85 OWNER CORRECTION — model implementation priority:** **Prefer a dedicated custom Immortal Gladiator model and animations.** Use a **mannequin entity ONLY as a fallback if dedicated modeling/animation is impractical** due to workload. The prior phrasing treating mannequin as the preferred implementation is WRONG and superseded. Preserve 1.8–2.0x player scale and slightly faster-than-walking pursuit.
 - **Q86 — B (owner approved):** Slightly extend ordinary melee attack reach to fit the large gladiator's visible scale, **not** a full 1.8–2.0x proportional reach increase. Preserve readable dodging opportunities; exact numeric reach and attack-specific hitboxes deferred to implementation/balance testing.
 
+- **Q87 — C+B combined (owner approved):** Gladiator attack telegraphs use **readable weapon/body wind-up animations**, with **subtle brief particles for stronger attacks**, PLUS **ground/front projected danger-area markers before major area or charge attacks**. Avoid excessive visual clutter. Exact particle designs, timing and telegraph geometry deferred to implementation; preserve existing charge sword-raise cue.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
