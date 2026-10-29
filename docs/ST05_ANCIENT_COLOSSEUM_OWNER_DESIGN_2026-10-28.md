@@ -225,6 +225,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q88 — B (owner approved):** Ordinary Gladiator sword hits apply **normal/moderate vanilla-like knockback**; powerful attacks such as the charging slash and heavy horizontal sweep apply **stronger knockback**. Preserve fluid sword-combo combat; exact per-attack knockback coefficients deferred to implementation and live balance tests.
 
+- **Q89 — A (owner approved):** Immortal Gladiator prioritizes the **nearest valid participating player** as its combat target, including multiplayer. Do not use damage contribution, cumulative damage threat, or scheduled random target cycling. Retain normal target-validity checks and approved chase/charge behaviors; exact target reevaluation frequency is an implementation detail.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
