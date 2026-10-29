@@ -211,6 +211,8 @@ This is a **scope-limited owner decision agenda**, not authorization to implemen
 
 - **Q83 — A (owner approved):** Vanilla-style boss health bar appears for the Immortal Gladiator in R7, showing boss name and current health, and disappears at encounter end. R1–R6 remain without a round/progress HUD.
 
+- **Q84 — D (owner approved):** Place a **small glowing crystal** at the arena center as the visible trial activation marker. Approaching the center automatically triggers R1 with the already-approved **blue particle activation effect**; no click/button interaction. Crystal presentation must not obstruct combat or alter the approved center-proximity activation condition. Exact block/model implementation deferred.
+
 ## Still open
 - Q9 phase-change threshold APPROVED (40%); exact transition timing remains OPEN.
 - Precise round mob selection and special rules; supply chest placement, multiplayer and claim safeguards; boss stats/cooldowns; death/retry; rewards; geometry and worldgen parameters.
