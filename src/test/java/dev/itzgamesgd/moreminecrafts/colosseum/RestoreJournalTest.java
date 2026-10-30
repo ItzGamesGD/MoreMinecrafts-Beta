@@ -233,7 +233,7 @@ class RestoreJournalTest {
         RestoreJournal loaded = RestoreJournal.CODEC.parse(JsonOps.INSTANCE, encoded).getOrThrow();
         assertEquals(Status.CONFLICT, loaded.at(1L).status(), "pre-O-13 saved values remain readable");
         assertTrue(loaded.at(1L).terminalConflict(), "the legacy conflict is treated as terminal");
-        assertFalse(TestArenas.roundTrip(s.state).hasPendingWork());
+        assertFalse(TestArenas.roundTrip(s.state).journal().hasPendingWork());
     }
 
     @Test
