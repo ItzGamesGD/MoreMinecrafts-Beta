@@ -1,4 +1,4 @@
-# ST-05 Worldgen Owner Decisions — WG-Q01–Q42 (2026-10-30)
+# ST-05 Worldgen Owner Decisions — WG-Q01–Q45 (2026-10-30)
 
 **Status: OWNER-APPROVED DESIGN ONLY.** This document records the owner's worldgen and architectural decisions in conversation. No worldgen implementation, merge, checkpoint promotion, or live acceptance is authorized. It is a **newer overlay** for the ST-05 structure/worldgen clauses in `docs/ST05_ANCIENT_COLOSSEUM_CURRENT_AUTHORITY_2026-10-29.md`; combat, lifecycle, persistence and rewards remain governed by that authority. Ancient City `arena.nbt` is unrelated to ST-05.
 
@@ -51,6 +51,10 @@
 | WG-Q41 | **B**: validate separately **roll fraction** (winning rolls / eligible caverns actually rolled), **fit fraction** (successful placements / winning rolls), and **final fraction** (successful placements / eligible caverns actually rolled). Record spacing-excluded caverns separately and state denominator/eligibility explicitly. The 75% is the configured roll probability, not a guaranteed observed final rate. |
 | WG-Q42 | **B**: implementer may independently optimize deterministic candidate ordering, cave-identification algorithm, and validation/runtime performance **without changing approved constraints**. Owner approval required for changing structure dimensions, 32-block path cap, 5x5 corridor clearance, 75% roll, 8-candidate maximum, structure/fluid/terrain safety constraints, or provisional scoring weights. Sampling may motivate a proposal, not automatic constraint changes. |
 
+| WG-Q43 | **B**: deterministic work budgets, not elapsed-time aborts. Keep 8-candidate cap and bound inspected chunks/blocks/search nodes, with actual time, tail latency and memory measured separately. Exact operation budgets remain implementation parameters requiring profiling; outcomes must be seed/restart/order reproducible. |
+| WG-Q44 | **B**: severity-based validation. **BLOCKER**: missing/duplicated or incomplete structures, impassable required cave connection, unsafe fluid entry, damage to other structures, or other reproducible safety/integrity failures; any reproduced blocker withholds final approval. **MINOR**: limited cosmetic/decor issues documented for conditional progression. Statistical sampling uncertainty is not automatically an implementation defect. |
+| WG-Q45 | **B**: full design audit first, then staged implementation of architecture, cave connections and placement algorithm for audit-cleared scope, each independently validated. Final integrated/live acceptance is separate. Do not change owner-approved constraints to work around technical infeasibility; stop affected portion and seek owner approval for alternatives. **Owner explicitly forbids starting implementation yet**; this record and audit request are not implementation authorization. |
+
 ## Implementation constraints and outstanding work
 
 - This is **design synchronization**, not authorization to build or merge.
@@ -60,9 +64,9 @@
 - Q10's 75% and Q11 minimum spacing may conflict in dense cave regions: define precedence and measure realized chance rather than claiming 75% realized placements automatically.
 - WG-Q19 explicitly supersedes WG-Q17: exact-center Ominous Vault directly under activation crystal. Ensure authority index and downstream implementation use Q19.
 - Q31–Q39 require deterministic bounded candidate search, **fixed-reference 0–100 submetric definitions**, and sampling; never claim target 75% as measured placement rate.
-- Q40–Q42 establish validation scope, separate probability denominators, and an owner-approval gate for any changes to design constraints. 30 seeds is a starting point, not statistical proof.
+- Q40–Q45 establish validation scope, separate probability denominators, severity gates, deterministic work budgets and an owner-approval gate for any changes to design constraints. No implementation is authorized by Q45. 30 seeds is a starting point, not statistical proof.
 - Q27–Q28 collision/whole-plan behavior require technical validation under Minecraft 26.3 multi-chunk worldgen.
 - Need a live worldgen probe for cavern qualification, multi-chunk determinism, cave access, lighting, and all three architecture variants.
 - Existing PR #213 controller and PR #216 C4 are not changed by this document.
 
-**Provenance:** owner answers in the current 2026-10-30 ST-05-WG design conversation, WG-Q01–Q42.
+**Provenance:** owner answers in the current 2026-10-30 ST-05-WG design conversation, WG-Q01–Q45.
