@@ -200,6 +200,15 @@ public final class ColosseumTimeoutGameTests {
 
     @GameTest(maxTicks = 1800)
     public void aReleasedMobInAnUnloadedChunkLoadsLaterAsAnExternalMob(GameTestHelper ctx) {
+        releasedMobInAnUnloadedChunk(ctx, false);
+    }
+
+    @GameTest(maxTicks = 1800)
+    public void anArchivedArenaStillReleasesItsTimedOutMobsWhenTheyLoad(GameTestHelper ctx) {
+        releasedMobInAnUnloadedChunk(ctx, true);
+    }
+
+    private static void releasedMobInAnUnloadedChunk(GameTestHelper ctx, boolean archiveBeforeReload) {
         ServerLevel level = ctx.getLevel();
         BlockPos center = freshCenter();
         ColosseumArena arena = arena(ctx, center, 27);
@@ -233,6 +242,12 @@ public final class ColosseumTimeoutGameTests {
                     s.trialRemaining = 2;
                     ColosseumIntegration.advanceController(level, center, 2);
                     ctx.assertTrue(s.lastOutcome() == Outcome.TIMED_OUT && s.ledger().isReleased(s.lastTrialId()), "timed out and released");
+                    if (archiveBeforeReload) {
+                        // The operator archives the arena while the released mob is still in storage.
+                        ctx.assertTrue(ColosseumIntegration.archiveAndUnregister(level, center) == ColosseumIntegration.UnregisterResult.REMOVED,
+                                "archived");
+                        ctx.assertTrue(ColosseumIntegration.arena(level, center) == null, "the arena is gone, only its archived ledger remains");
+                    }
                     forceChunks(level, far, true);
                     step.set(3);
                 }
@@ -243,10 +258,48 @@ public final class ColosseumTimeoutGameTests {
                     ctx.assertTrue(ColosseumOwnership.tag(mob) == null, "as a plain external mob: its ownership tag was removed");
                     mob.discard();
                     forceChunks(level, far, false);
-                    finish(ctx, center, List.of(player));
+                    if (archiveBeforeReload) {
+                        level.getServer().getPlayerList().remove(player);
+                        forceChunks(level, center, false);
+                        ctx.succeed();
+                    } else {
+                        finish(ctx, center, List.of(player));
+                    }
                 }
                 default -> {}
             }
+        });
+    }
+
+    // Q111: a converted mob is external.
+
+    @GameTest(maxTicks = 500)
+    public void aConvertedMobIsExternalAndItsAllocationGoesBackToPending(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos center = freshCenter();
+        ColosseumArena arena = arena(ctx, center, 27);
+        ServerPlayer player = presentPlayer(ctx, center, "st05-convert");
+        AtomicInteger step = new AtomicInteger();
+        ctx.onEachTick(() -> {
+            ColosseumTrialState s = arena.state();
+            if (step.get() != 0 || s.phase() != Phase.ROUND || s.count(AllocationStatus.ALIVE) == 0 || s.count(AllocationStatus.WARNING) > 0) return;
+            step.set(1);
+            Mob original = trialMobs(level, arena).get(0);
+            var allocation = s.allocations().stream().filter(a -> original.getUUID().equals(a.entity())).findFirst().orElseThrow();
+            int index = allocation.index();
+            Mob converted = original.convertTo(net.minecraft.world.entity.EntityTypes.SILVERFISH,
+                    net.minecraft.world.entity.ConversionParams.single(original, false, false), c -> { });
+            ctx.assertTrue(converted != null && original.isRemoved(), "the original was replaced by the converted mob");
+            ctx.assertTrue(ColosseumOwnership.tag(converted) == null, "the converted mob carries no ownership tag: it is external");
+            var after = s.allocation(index);
+            ctx.assertTrue(after.status() != AllocationStatus.ALIVE && after.status() != AllocationStatus.KILLED && after.requeues() == 1,
+                    "the allocation returned to pending (Q111-A), got " + after.status() + " requeues=" + after.requeues());
+            int killedBefore = s.count(AllocationStatus.KILLED);
+            converted.kill(level);
+            ctx.assertTrue(s.count(AllocationStatus.KILLED) == killedBefore, "killing the converted mob is not a trial kill");
+            ctx.assertTrue(s.count(AllocationStatus.ALIVE) + s.count(AllocationStatus.WARNING) + s.count(AllocationStatus.PENDING)
+                    + s.count(AllocationStatus.KILLED) == s.allocations().size(), "no allocation was lost or duplicated");
+            finish(ctx, center, List.of(player));
         });
     }
 
