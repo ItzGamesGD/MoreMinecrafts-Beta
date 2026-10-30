@@ -122,7 +122,9 @@ public final class ColosseumRestartGameTests {
                 "the write phase needs a fresh world; delete build/run/gameTest before rerunning locally");
         forceChunks(level, center, true);
         buildFloor(level, center, floorRadius, true);
-        return ColosseumIntegration.registerArena(level, ColosseumArenaGeometry.testFixture(center));
+        ColosseumArena arena = ColosseumIntegration.registerArena(level, ColosseumArenaGeometry.testFixture(center));
+        ColosseumIntegration.recordStructureMask(level, arena, List.of()); // fixture has no source-template provenance
+        return arena;
     }
 
     private static ColosseumArena existing(GameTestHelper ctx, BlockPos center) {

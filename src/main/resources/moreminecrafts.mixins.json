@@ -104,6 +104,7 @@
     "QuestDragonFightMixin",
     "QuestRaidVictoryMixin",
     "QuestBlockPlacementMixin",
+    "ColosseumPlacementMixin",
     "QuestTameAnimalTriggerMixin",
     "QuestMovementStatMixin",
     "StructureTemplatePoolMixin"

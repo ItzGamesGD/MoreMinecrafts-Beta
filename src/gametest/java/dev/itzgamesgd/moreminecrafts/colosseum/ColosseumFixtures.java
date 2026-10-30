@@ -207,7 +207,9 @@ final class ColosseumFixtures {
         ServerLevel level = ctx.getLevel();
         forceChunks(level, center, true);
         buildFloor(level, center, floorRadius, true);
-        return ColosseumIntegration.registerArena(level, ColosseumArenaGeometry.testFixture(center));
+        ColosseumArena arena = ColosseumIntegration.registerArena(level, ColosseumArenaGeometry.testFixture(center));
+        ColosseumIntegration.recordStructureMask(level, arena, List.of()); // fixture has no source-template provenance
+        return arena;
     }
 
     static ServerPlayer player(GameTestHelper ctx, String name, double x, double y, double z) {

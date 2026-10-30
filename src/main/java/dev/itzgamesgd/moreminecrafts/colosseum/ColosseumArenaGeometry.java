@@ -48,6 +48,11 @@ public record ColosseumArenaGeometry(BlockPos center, int combatRadius, int minY
         return y >= minY && y <= maxY + 1 && horizontalDistanceSqr(center, x, z) <= (double) combatRadius * combatRadius;
     }
 
+    /** Whether the block at {@code pos} lies inside the combat zone's column bounds. */
+    public boolean containsBlock(BlockPos pos) {
+        return inCombatZone(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+    }
+
     public boolean atActivation(double x, double y, double z) {
         return y >= minY && y <= maxY + 1 && horizontalDistanceSqr(center, x, z) <= activationRadius * activationRadius;
     }
