@@ -12,6 +12,9 @@ import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -20,8 +23,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
@@ -146,7 +153,7 @@ public final class ColosseumServerPort implements ColosseumWorldPort {
     }
 
     @Override
-    public boolean spawn(UUID trialId, ColosseumTrialState.Allocation allocation, long pos, Binder bind) {
+    public boolean spawn(UUID trialId, int round, ColosseumTrialState.Allocation allocation, long pos, Binder bind) {
         EntityType<? extends Mob> type = entityType(allocation.mob());
         Mob mob = type.create(level, EntitySpawnReason.EVENT);
         if (mob == null) return false;
@@ -154,7 +161,8 @@ public final class ColosseumServerPort implements ColosseumWorldPort {
         mob.snapTo(at.getX() + 0.5D, at.getY(), at.getZ() + 0.5D, level.getRandom().nextFloat() * 360.0F, 0.0F);
         mob.finalizeSpawn(level, level.getCurrentDifficultyAt(at), EntitySpawnReason.EVENT, groupData(allocation.mob(), mob));
         mob.setPersistenceRequired();
-        ColosseumOwnership.set(mob, new ColosseumOwnership.Tag(arena.key(), trialId, allocation.index()));
+        ColosseumOwnership.set(mob, ColosseumOwnership.Tag.of(arena.instanceId(), trialId, round,
+                ColosseumOwnership.Kind.MOB, allocation.index()));
         ServerPlayer target = nearestPresentPlayer(mob);
         if (target != null) mob.setTarget(target); // Q109 spawn correction only; native AI keeps targeting
         bind.bind(mob.getUUID(), ChunkPos.pack(at));
@@ -192,6 +200,14 @@ public final class ColosseumServerPort implements ColosseumWorldPort {
     }
 
     @Override
+    public boolean release(UUID entity) {
+        Entity found = level.getEntity(entity);
+        if (found == null) return false;
+        ColosseumOwnership.release(found);
+        return true;
+    }
+
+    @Override
     public void warningEffect(long pos) {
         if (level.getGameTime() % 4 != 0) return;
         BlockPos at = BlockPos.of(pos);
@@ -210,7 +226,7 @@ public final class ColosseumServerPort implements ColosseumWorldPort {
     }
 
     @Override
-    public void waveCleared(ColosseumTrialState.WaveRecord record) {
+    public void waveCleared(WaveRecord record) {
         MoreMinecrafts.LOGGER.info("ST-05 arena {} trial {} cleared round {} ({} locked participants).",
                 geometry.center().toShortString(), record.trialId(), record.round(), record.lockedParticipants().size());
         ColosseumIntegration.WAVE_CLEARED.invoker().onWaveCleared(level, arena, record);
@@ -233,7 +249,7 @@ public final class ColosseumServerPort implements ColosseumWorldPort {
     }
 
     @Override
-    public boolean startBoss(UUID trialId, List<UUID> lockedParticipants) {
+    public boolean startBoss(UUID trialId, List<UUID> lockedParticipants, Binder bind) {
         ColosseumIntegration.BossHandler handler = ColosseumIntegration.bossHandler(level, arena);
         if (handler == null) {
             if (WARNED_NO_BOSS.add(arena.key()))
@@ -241,13 +257,68 @@ public final class ColosseumServerPort implements ColosseumWorldPort {
                         + "the trial waits in BOSS.", geometry.center().toShortString());
             return false;
         }
-        return handler.start(level, arena, trialId, lockedParticipants);
+        return handler.start(level, arena, trialId, lockedParticipants, bind);
     }
 
     @Override
-    public void cleanupBoss(UUID trialId) {
+    public void bossRemoved(UUID trialId, RemovalCause cause) {
         ColosseumIntegration.BossHandler handler = ColosseumIntegration.bossHandler(level, arena);
-        if (handler != null) handler.cleanup(level, arena, trialId);
+        if (handler != null) handler.onRemoved(level, arena, trialId, cause);
+    }
+
+    @Override
+    public void crystalEnding(UUID trialId) {
+        BlockPos at = geometry.center();
+        level.sendParticles(ParticleTypes.TRIAL_SPAWNER_DETECTED_PLAYER_OMINOUS, at.getX() + 0.5D, at.getY() + 1.0D,
+                at.getZ() + 0.5D, 60, 0.6D, 0.8D, 0.6D, 0.05D);
+        MoreMinecrafts.LOGGER.info("ST-05 arena {} trial {} crystal ending presentation (time-out).",
+                at.toShortString(), trialId);
+        ColosseumIntegration.CRYSTAL_ENDING.invoker().onCrystalEnding(level, arena, trialId,
+                ColosseumIntegration.EndingReason.TIME_OUT);
+    }
+
+    @Override
+    public void bossVanished(UUID trialId) {
+        MoreMinecrafts.LOGGER.info("ST-05 arena {} trial {} boss vanished (not a defeat).",
+                geometry.center().toShortString(), trialId);
+        ColosseumIntegration.BOSS_VANISHED.invoker().onBossVanished(level, arena, trialId);
+    }
+
+    @Override
+    public boolean spawnKey(UUID trialId, int round, Binder bind) {
+        BlockPos center = geometry.center();
+        if (!level.areEntitiesLoaded(ChunkPos.pack(center))) return false;
+        ItemEntity key = new ItemEntity(level, center.getX() + 0.5D, center.getY() + 0.5D, center.getZ() + 0.5D,
+                new ItemStack(Items.TRIAL_KEY));
+        key.setDeltaMovement(0.0D, 0.0D, 0.0D);
+        ColosseumOwnership.setKey(key, new ColosseumOwnership.KeyTag(arena.instanceId(), trialId, round));
+        bind.bind(key.getUUID(), ChunkPos.pack(center));
+        if (!level.addFreshEntity(key)) {
+            key.discard();
+            return false;
+        }
+        MoreMinecrafts.LOGGER.info("ST-05 arena {} trial {} round {}: shared Trial Key issued.",
+                center.toShortString(), trialId, round);
+        return true;
+    }
+
+    @Override
+    public RestoreJournal.Attempt restoreBlock(RestoreJournal.Entry entry) {
+        BlockPos pos = BlockPos.of(entry.pos());
+        if (!level.isLoaded(pos)) return RestoreJournal.Attempt.of(RestoreJournal.RestoreResult.NOT_LOADED);
+        BlockState current = level.getBlockState(pos);
+        CompoundTag currentTag = NbtUtils.writeBlockState(current);
+        if (currentTag.equals(entry.prior())) return RestoreJournal.Attempt.of(RestoreJournal.RestoreResult.ALREADY_RESTORED);
+        boolean empty = entry.left() != null ? currentTag.equals(entry.left()) : current.isAir();
+        if (empty) {
+            level.setBlock(pos, NbtUtils.readBlockState(BuiltInRegistries.BLOCK, entry.prior()), Block.UPDATE_ALL);
+            return RestoreJournal.Attempt.of(RestoreJournal.RestoreResult.RESTORED);
+        }
+        // Q118-A: something else occupies the spot (a player's building, flowed water): never overwrite it.
+        if (entry.status() != RestoreJournal.Status.CONFLICT)
+            MoreMinecrafts.LOGGER.info("ST-05 arena {} restore conflict at {}: found {}, expected empty; left untouched.",
+                    geometry.center().toShortString(), pos.toShortString(), currentTag);
+        return new RestoreJournal.Attempt(RestoreJournal.RestoreResult.CONFLICT, currentTag);
     }
 
     @Override

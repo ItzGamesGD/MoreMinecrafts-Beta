@@ -14,7 +14,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Complete persistent state of one arena's trial controller. Everything a restart needs is here: the trial id,
  * round, locked participants, every allocation's PENDING/WARNING/ALIVE/KILLED status (with entity id and last
- * known chunk), cleared-wave payout records, generated supply positions and all timers. Mutated only by
+ * known chunk), generated supply positions, the boss record and all timers. It also holds the arena's append-only
+ * {@link RewardLedger} and the Q117/Q118-A work items ({@link BossVanish}, {@link RestoreJournal}), which are
+ * serialized at arena level (see {@link ColosseumArena}) because they outlive any one trial. Mutated only by
  * {@link ColosseumController}; positions and chunks are packed longs so the state stays plain data.
  */
 public final class ColosseumTrialState {
@@ -24,6 +26,8 @@ public final class ColosseumTrialState {
         SUCCESS,
         /** Transient: passed through within one tick on failure or reset, before COOLDOWN. */
         FAILURE,
+        /** Transient: passed through within one tick when the Q116 trial time limit expires, before COOLDOWN. */
+        TIMED_OUT,
         COOLDOWN;
 
         public boolean active() { return this == ROUND || this == INTERMISSION || this == BOSS; }
@@ -40,7 +44,9 @@ public final class ColosseumTrialState {
         /** The active roster could not produce any composition (data-validation failure). */
         FAILED_INVALID_ROSTER,
         /** Reset by an operator command or integration call. */
-        FAILED_FORCED_RESET
+        FAILED_FORCED_RESET,
+        /** Q116/Q117: the 65-minute trial limit expired. Ordinary mobs and supplies stay; the boss vanishes. */
+        TIMED_OUT
     }
 
     public enum AllocationStatus { PENDING, WARNING, ALIVE, KILLED }
@@ -83,9 +89,22 @@ public final class ColosseumTrialState {
         }
     }
 
-    /** One cleared wave: the once-only payout record (Q51) with its locked and present-at-clear players. */
-    public record WaveRecord(UUID trialId, int round, List<UUID> lockedParticipants, List<UUID> presentAtClear,
-                             long gameTime) {}
+    /** The Q117 boss record: whether the boss was created and where it lives, so a time-out can make it vanish. */
+    public static final class BossRecord {
+        boolean started;
+        @Nullable UUID entity;
+        long chunk;
+
+        public boolean started() { return started; }
+        @Nullable public UUID entity() { return entity; }
+        public long chunk() { return chunk; }
+
+        void clear() {
+            started = false;
+            entity = null;
+            chunk = 0L;
+        }
+    }
 
     Phase phase = Phase.READY;
     Outcome lastOutcome = Outcome.NONE;
@@ -98,7 +117,6 @@ public final class ColosseumTrialState {
     final Set<UUID> deadThisRound = new LinkedHashSet<>();
     final Set<UUID> everParticipants = new LinkedHashSet<>();
     final List<Allocation> allocations = new ArrayList<>();
-    final List<WaveRecord> clearedWaves = new ArrayList<>();
     final List<Long> supplyPositions = new ArrayList<>();
     int intermissionRemaining;
     int absenceTicks;
@@ -107,7 +125,14 @@ public final class ColosseumTrialState {
     boolean spawnBlocked;
     int batchTimer;
     int cooldownRemaining;
-    boolean bossStarted;
+    /** Q116: ticks of online trial time left; separate from {@link #cooldownRemaining} (I10). */
+    int trialRemaining;
+    final BossRecord boss = new BossRecord();
+    RewardLedger ledger = new RewardLedger();
+    final List<BossVanish> bossVanish = new ArrayList<>();
+    RestoreJournal journal = new RestoreJournal();
+    /** Not persisted: spaces out journal passes; zero after a load so the first tick re-evaluates everything. */
+    int journalTimer;
 
     public Phase phase() { return phase; }
     public Outcome lastOutcome() { return lastOutcome; }
@@ -120,7 +145,11 @@ public final class ColosseumTrialState {
     public Set<UUID> deadThisRound() { return Set.copyOf(deadThisRound); }
     public Set<UUID> everParticipants() { return Set.copyOf(everParticipants); }
     public List<Allocation> allocations() { return List.copyOf(allocations); }
-    public List<WaveRecord> clearedWaves() { return List.copyOf(clearedWaves); }
+    public int trialRemaining() { return trialRemaining; }
+    public BossRecord boss() { return boss; }
+    public RewardLedger ledger() { return ledger; }
+    public List<BossVanish> bossVanish() { return List.copyOf(bossVanish); }
+    public RestoreJournal journal() { return journal; }
     public List<Long> supplyPositions() { return List.copyOf(supplyPositions); }
     public int intermissionRemaining() { return intermissionRemaining; }
     public int absenceTicks() { return absenceTicks; }
@@ -128,7 +157,7 @@ public final class ColosseumTrialState {
     public int blockedTicks() { return blockedTicks; }
     public boolean spawnBlocked() { return spawnBlocked; }
     public int cooldownRemaining() { return cooldownRemaining; }
-    public boolean bossStarted() { return bossStarted; }
+    public boolean bossStarted() { return boss.started; }
 
     public int count(AllocationStatus status) {
         int count = 0;
@@ -138,10 +167,11 @@ public final class ColosseumTrialState {
 
     public int allocatedThreat() { return allocations.stream().mapToInt(a -> a.mob.threat()).sum(); }
 
-    public boolean waveCleared(int round) {
-        for (WaveRecord record : clearedWaves) if (record.round() == round) return true;
-        return false;
-    }
+    /** Whether {@code round} of the given trial has already been cleared and paid (unique per trial and round). */
+    public boolean waveCleared(UUID trial, int round) { return ledger.hasWave(trial, round); }
+
+    /** Open work that must survive until done: no arena holding any may be unregistered (D3). */
+    public boolean hasOpenWork() { return !bossVanish.isEmpty() || !journal.isEmpty(); }
 
     @Nullable public Allocation allocation(int index) {
         return index >= 0 && index < allocations.size() ? allocations.get(index) : null;
@@ -164,23 +194,17 @@ public final class ColosseumTrialState {
             Codec.INT.optionalFieldOf("requeues", 0).forGetter(AllocationData::requeues)
     ).apply(i, AllocationData::new));
 
-    private static final Codec<WaveRecord> WAVE_CODEC = RecordCodecBuilder.create(i -> i.group(
-            UUIDUtil.CODEC.fieldOf("trial").forGetter(WaveRecord::trialId),
-            Codec.INT.fieldOf("round").forGetter(WaveRecord::round),
-            UUIDUtil.CODEC.listOf().fieldOf("locked").forGetter(WaveRecord::lockedParticipants),
-            UUIDUtil.CODEC.listOf().fieldOf("present").forGetter(WaveRecord::presentAtClear),
-            Codec.LONG.fieldOf("game_time").forGetter(WaveRecord::gameTime)
-    ).apply(i, WaveRecord::new));
-
     private record Core(Phase phase, Outcome lastOutcome, Optional<UUID> trialId, Optional<UUID> lastTrialId,
                         long trialSerial, long seed, int round) {}
 
     private record Timers(int intermissionRemaining, int absenceTicks, int blockedTicks, boolean spawnBlocked,
-                          int batchTimer, int cooldownRemaining, boolean bossStarted) {}
+                          int batchTimer, int cooldownRemaining, int trialRemaining) {}
+
+    private record BossData(boolean started, Optional<UUID> entity, long chunk) {}
 
     private record Party(List<UUID> locked, List<UUID> dead, List<UUID> ever) {}
 
-    private record Content(List<AllocationData> allocations, List<WaveRecord> waves, List<Long> supplies) {}
+    private record Content(List<AllocationData> allocations, List<Long> supplies, BossData boss) {}
 
     private record Snapshot(Core core, Timers timers, Party party, Content content) {}
 
@@ -201,8 +225,14 @@ public final class ColosseumTrialState {
             Codec.BOOL.fieldOf("spawn_blocked").forGetter(Timers::spawnBlocked),
             Codec.INT.fieldOf("batch_timer").forGetter(Timers::batchTimer),
             Codec.INT.fieldOf("cooldown").forGetter(Timers::cooldownRemaining),
-            Codec.BOOL.fieldOf("boss_started").forGetter(Timers::bossStarted)
+            Codec.INT.optionalFieldOf("trial_remaining", ColosseumRules.TRIAL_LIMIT_TICKS).forGetter(Timers::trialRemaining)
     ).apply(i, Timers::new));
+
+    private static final Codec<BossData> BOSS_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.BOOL.optionalFieldOf("started", false).forGetter(BossData::started),
+            UUIDUtil.CODEC.optionalFieldOf("entity").forGetter(BossData::entity),
+            Codec.LONG.optionalFieldOf("chunk", 0L).forGetter(BossData::chunk)
+    ).apply(i, BossData::new));
 
     private static final Codec<Party> PARTY_CODEC = RecordCodecBuilder.create(i -> i.group(
             UUIDUtil.CODEC.listOf().fieldOf("locked").forGetter(Party::locked),
@@ -212,8 +242,8 @@ public final class ColosseumTrialState {
 
     private static final Codec<Content> CONTENT_CODEC = RecordCodecBuilder.create(i -> i.group(
             ALLOCATION_CODEC.listOf().fieldOf("allocations").forGetter(Content::allocations),
-            WAVE_CODEC.listOf().fieldOf("cleared_waves").forGetter(Content::waves),
-            Codec.LONG.listOf().fieldOf("supplies").forGetter(Content::supplies)
+            Codec.LONG.listOf().fieldOf("supplies").forGetter(Content::supplies),
+            BOSS_CODEC.optionalFieldOf("boss", new BossData(false, Optional.empty(), 0L)).forGetter(Content::boss)
     ).apply(i, Content::new));
 
     private static final Codec<Snapshot> SNAPSHOT_CODEC = RecordCodecBuilder.create(i -> i.group(
@@ -223,6 +253,7 @@ public final class ColosseumTrialState {
             CONTENT_CODEC.fieldOf("content").forGetter(Snapshot::content)
     ).apply(i, Snapshot::new));
 
+    /** The {@code trial} section of an arena record. Ledger, vanish tasks and journal are separate sections. */
     public static final Codec<ColosseumTrialState> CODEC =
             SNAPSHOT_CODEC.xmap(ColosseumTrialState::fromSnapshot, ColosseumTrialState::toSnapshot);
 
@@ -234,9 +265,11 @@ public final class ColosseumTrialState {
         return new Snapshot(
                 new Core(phase, lastOutcome, Optional.ofNullable(trialId), Optional.ofNullable(lastTrialId),
                         trialSerial, seed, round),
-                new Timers(intermissionRemaining, absenceTicks, blockedTicks, spawnBlocked, batchTimer, cooldownRemaining, bossStarted),
+                new Timers(intermissionRemaining, absenceTicks, blockedTicks, spawnBlocked, batchTimer, cooldownRemaining,
+                        trialRemaining),
                 new Party(List.copyOf(lockedParticipants), List.copyOf(deadThisRound), List.copyOf(everParticipants)),
-                new Content(allocationData, List.copyOf(clearedWaves), List.copyOf(supplyPositions)));
+                new Content(allocationData, List.copyOf(supplyPositions),
+                        new BossData(boss.started, Optional.ofNullable(boss.entity), boss.chunk)));
     }
 
     private static ColosseumTrialState fromSnapshot(Snapshot snapshot) {
@@ -256,7 +289,10 @@ public final class ColosseumTrialState {
         state.spawnBlocked = timers.spawnBlocked();
         state.batchTimer = timers.batchTimer();
         state.cooldownRemaining = timers.cooldownRemaining();
-        state.bossStarted = timers.bossStarted();
+        state.trialRemaining = timers.trialRemaining();
+        state.boss.started = snapshot.content().boss().started();
+        state.boss.entity = snapshot.content().boss().entity().orElse(null);
+        state.boss.chunk = snapshot.content().boss().chunk();
         state.lockedParticipants.addAll(snapshot.party().locked());
         state.deadThisRound.addAll(snapshot.party().dead());
         state.everParticipants.addAll(snapshot.party().ever());
@@ -270,10 +306,9 @@ public final class ColosseumTrialState {
             a.requeues = data.requeues();
             state.allocations.add(a);
         }
-        state.clearedWaves.addAll(snapshot.content().waves());
         state.supplyPositions.addAll(snapshot.content().supplies());
         // A transient phase can only be persisted by an interrupted tick; finish it as the controller would.
-        if (state.phase == Phase.SUCCESS || state.phase == Phase.FAILURE) {
+        if (state.phase == Phase.SUCCESS || state.phase == Phase.FAILURE || state.phase == Phase.TIMED_OUT) {
             state.phase = Phase.COOLDOWN;
             state.cooldownRemaining = Math.max(state.cooldownRemaining, 1);
         }

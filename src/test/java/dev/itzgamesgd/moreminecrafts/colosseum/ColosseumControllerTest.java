@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
 import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumTrialState.Outcome;
 import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumTrialState.Phase;
 import java.util.List;
@@ -98,7 +97,7 @@ class ColosseumControllerTest {
         assertEquals(Phase.ROUND, state.phase());
         assertEquals(2, state.round());
         world.clearRound(state, 4000);
-        assertEquals(List.of(1, 2), world.waves.stream().map(ColosseumTrialState.WaveRecord::round).toList());
+        assertEquals(List.of(1, 2), world.waves.stream().map(WaveRecord::round).toList());
     }
 
     @Test
@@ -285,9 +284,9 @@ class ColosseumControllerTest {
         var players = List.copyOf(world.present);
         world.present.clear();
         world.tick(state, 100);
-        JsonElement saved = ColosseumTrialState.CODEC.encodeStart(JsonOps.INSTANCE, state).getOrThrow();
-        ColosseumTrialState restored = ColosseumTrialState.CODEC.parse(JsonOps.INSTANCE, saved).getOrThrow();
-        assertEquals(saved, ColosseumTrialState.CODEC.encodeStart(JsonOps.INSTANCE, restored).getOrThrow());
+        JsonElement saved = TestArenas.encode(state);
+        ColosseumTrialState restored = TestArenas.decode(saved);
+        assertEquals(saved, TestArenas.encode(restored));
         assertEquals(state.trialId(), restored.trialId());
         assertEquals(100, restored.absenceTicks());
         assertEquals(state.lockedParticipants(), restored.lockedParticipants());
@@ -297,10 +296,9 @@ class ColosseumControllerTest {
         world.clearRound(restored, 4000);
         assertEquals(Phase.INTERMISSION, restored.phase());
         assertEquals(1, world.waves.size());
-        assertTrue(restored.waveCleared(1));
-        JsonElement afterClear = ColosseumTrialState.CODEC.encodeStart(JsonOps.INSTANCE, restored).getOrThrow();
-        ColosseumTrialState reloaded = ColosseumTrialState.CODEC.parse(JsonOps.INSTANCE, afterClear).getOrThrow();
-        assertTrue(reloaded.waveCleared(1), "payout record persists: no second payout after restart");
+        assertTrue(restored.waveCleared(restored.trialId(), 1));
+        ColosseumTrialState reloaded = TestArenas.roundTrip(restored);
+        assertTrue(reloaded.waveCleared(restored.trialId(), 1), "payout record persists: no second payout after restart");
     }
 
     @Test
@@ -309,8 +307,7 @@ class ColosseumControllerTest {
         world.tick(state, 5);
         int warned = state.count(WARNING);
         assertTrue(warned > 0);
-        JsonElement saved = ColosseumTrialState.CODEC.encodeStart(JsonOps.INSTANCE, state).getOrThrow();
-        ColosseumTrialState restored = ColosseumTrialState.CODEC.parse(JsonOps.INSTANCE, saved).getOrThrow();
+        ColosseumTrialState restored = TestArenas.roundTrip(state);
         assertEquals(warned, restored.count(WARNING));
         world.tick(restored, ColosseumRules.SPAWN_WARNING_TICKS);
         assertEquals(warned, restored.count(ALIVE));

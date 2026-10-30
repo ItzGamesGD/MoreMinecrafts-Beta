@@ -1,9 +1,12 @@
 package dev.itzgamesgd.moreminecrafts.colosseum;
 
+import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumOwnership.Kind;
 import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumTrialState.Allocation;
 import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumTrialState.AllocationStatus;
 import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumTrialState.Outcome;
 import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumTrialState.Phase;
+import dev.itzgamesgd.moreminecrafts.colosseum.WaveRecord.KeyRecord;
+import dev.itzgamesgd.moreminecrafts.colosseum.WaveRecord.KeyState;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -14,19 +17,24 @@ import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server-authoritative ST-05 trial state machine: READY -> ROUND -> INTERMISSION -> ... -> BOSS -> SUCCESS/FAILURE
- * -> COOLDOWN -> READY. The all-absent pause and the Q110 spawn-blocked clock are tracked independently of the
- * phase. One call to {@link #tick} is one server tick of active trial time.
+ * Server-authoritative ST-05 trial state machine: READY -> ROUND -> INTERMISSION -> ... -> BOSS -> SUCCESS /
+ * FAILURE / TIMED_OUT -> COOLDOWN -> READY. The all-absent pause and the Q110 spawn-blocked clock are tracked
+ * independently of the phase, and the 65-minute trial limit (Q116) runs separately from the cooldown. One call to
+ * {@link #tick} is one server tick of online trial time.
  * <p>
  * Allocation accounting keeps pending, warning, alive and valid-kill counts distinct. A mob that leaves without an
  * eligible kill (discarded, despawned, changed dimension, confirmed missing after a restart, or killed while no
- * player was in the combat zone) returns its allocation to PENDING: Q34 preserves allocations "without duplication
- * or loss" and a round never completes on a disappearance.
+ * player was in the combat zone) returns its allocation to PENDING (Q111-A): the allocation is reused, never
+ * duplicated or lost, and a round never completes on a disappearance. A mob in an unloaded chunk is not lost.
+ * <p>
+ * The three endings are distinct (see the C0 contract, section 4.4): success, failure/reset, and time-out. Only
+ * time-out leaves ordinary mobs and supply chests in place (Q116) and makes the boss vanish without a kill (Q117).
  */
 public final class ColosseumController {
     private ColosseumController() {}
 
     public static void tick(ColosseumTrialState state, ColosseumWorldPort port) {
+        processWork(state, port);
         switch (state.phase) {
             case READY -> {
                 if (port.playerAtActivation()) startTrial(state, port);
@@ -38,7 +46,7 @@ public final class ColosseumController {
                 }
             }
             case ROUND, INTERMISSION, BOSS -> activeTick(state, port);
-            case SUCCESS, FAILURE -> endTrial(state, port, state.lastOutcome);
+            case SUCCESS, FAILURE, TIMED_OUT -> endTrial(state, port, state.lastOutcome);
         }
     }
 
@@ -47,16 +55,24 @@ public final class ColosseumController {
         state.trialSerial++;
         state.seed = port.nextSeed();
         state.lastOutcome = Outcome.NONE;
-        state.clearedWaves.clear();
         state.supplyPositions.clear();
         state.everParticipants.clear();
-        state.bossStarted = false;
+        state.boss.clear();
         state.absenceTicks = 0;
+        state.trialRemaining = ColosseumRules.TRIAL_LIMIT_TICKS;
         port.activationEffect();
         startRound(state, port, 1, port.playersInCombatZone());
     }
 
     private static void activeTick(ColosseumTrialState state, ColosseumWorldPort port) {
+        // Q116: the trial limit is checked first and keeps running while everyone is absent.
+        if (--state.trialRemaining <= 0) {
+            state.trialRemaining = 0;
+            state.phase = Phase.TIMED_OUT;
+            state.lastOutcome = Outcome.TIMED_OUT;
+            endTrial(state, port, Outcome.TIMED_OUT);
+            return;
+        }
         Set<UUID> present = port.playersInCombatZone();
         reconcileAlive(state, port);
         boolean combat = state.phase == Phase.ROUND || state.phase == Phase.BOSS;
@@ -84,10 +100,20 @@ public final class ColosseumController {
                 else startRound(state, port, state.round + 1, present);
             }
             case BOSS -> {
-                if (!state.bossStarted) state.bossStarted = port.startBoss(state.trialId, state.lockedParticipants());
+                if (!state.boss.started) startBoss(state, port);
             }
             default -> {}
         }
+    }
+
+    private static void startBoss(ColosseumTrialState state, ColosseumWorldPort port) {
+        boolean started = port.startBoss(state.trialId, state.lockedParticipants(), (entity, chunk) -> {
+            state.boss.started = true;
+            state.boss.entity = entity;
+            state.boss.chunk = chunk;
+        });
+        if (started) state.boss.started = true; // a handler that did not bind is tracked as started without an entity
+        else state.boss.clear();
     }
 
     /** During combat only participants locked for this round who are not dead count; between rounds any present player does. */
@@ -122,7 +148,7 @@ public final class ColosseumController {
         state.round = ColosseumRules.BOSS_ROUND;
         lockParticipants(state, present);
         state.allocations.clear();
-        state.bossStarted = false;
+        state.boss.clear();
         state.phase = Phase.BOSS;
     }
 
@@ -146,6 +172,12 @@ public final class ColosseumController {
                 case NOT_LOADED -> {} // possibly stored in an unloaded chunk: never spawn a duplicate for it
             }
         }
+        // The boss is only tracked here. A boss that is gone is not a Q111-A requeue and never counts as a defeat;
+        // whether to materialize it again is the boss handler's decision.
+        if (state.phase == Phase.BOSS && state.boss.started && state.boss.entity != null) {
+            ColosseumWorldPort.Lookup lookup = port.locate(state.boss.entity, state.boss.chunk);
+            if (lookup.presence() == ColosseumWorldPort.Presence.ALIVE) state.boss.chunk = lookup.chunk();
+        }
     }
 
     private static void tickWarnings(ColosseumTrialState state, ColosseumWorldPort port) {
@@ -154,7 +186,7 @@ public final class ColosseumController {
             port.warningEffect(allocation.warningPos);
             if (--allocation.warningTicks > 0) continue;
             long pos = allocation.warningPos;
-            if (port.isValidSpawnPosition(allocation.mob(), pos) && port.spawn(state.trialId, allocation, pos,
+            if (port.isValidSpawnPosition(allocation.mob(), pos) && port.spawn(state.trialId, state.round, allocation, pos,
                     (entity, chunk) -> {
                         allocation.status = AllocationStatus.ALIVE;
                         allocation.entity = entity;
@@ -224,14 +256,23 @@ public final class ColosseumController {
         if (state.spawnBlocked) fail(state, port, Outcome.FAILED_SPAWN_BLOCKED);
     }
 
+    /**
+     * Records the wave once per {@code (trial, round)} (D2: the ledger is never cleared), the Q114-C eligibility of
+     * each locked participant who is still in the zone, and the wave's single shared Trial Key (Q113-B).
+     */
     private static void completeRound(ColosseumTrialState state, ColosseumWorldPort port, Set<UUID> present) {
         int round = state.round;
-        if (state.waveCleared(round)) return; // never complete or pay a wave twice
+        UUID trial = state.trialId;
         List<UUID> presentSorted = new ArrayList<>(present);
         presentSorted.sort(null);
-        ColosseumTrialState.WaveRecord record = new ColosseumTrialState.WaveRecord(state.trialId, round,
-                state.lockedParticipants(), List.copyOf(presentSorted), port.gameTime());
-        state.clearedWaves.add(record);
+        long now = port.gameTime();
+        WaveRecord record = WaveRecord.cleared(trial, state.trialSerial, round, state.lockedParticipants(),
+                List.copyOf(presentSorted), now, KeyState.PENDING);
+        if (!state.ledger.addWave(record)) return; // never complete or pay a wave twice
+        for (UUID player : state.lockedParticipants)
+            if (present.contains(player))
+                state.ledger.addEligibility(new RewardLedger.EligibilityRecord(trial, round, player,
+                        RewardLedger.BASIS_Q114_C, now));
         state.allocations.clear();
         state.deadThisRound.clear(); // dead participants may rejoin between this clear and the next round start
         state.blockedTicks = 0;
@@ -240,7 +281,8 @@ public final class ColosseumController {
         state.intermissionRemaining = ColosseumRules.intermissionTicksAfter(round);
         port.waveCleared(record);
         if (ColosseumRules.isSupplyRound(round))
-            state.supplyPositions.addAll(port.placeSupplies(state.trialId, round, record.lockedParticipants().size()));
+            state.supplyPositions.addAll(port.placeSupplies(trial, round, record.lockedParticipants().size()));
+        processKeys(state, port);
     }
 
     private static void fail(ColosseumTrialState state, ColosseumWorldPort port, Outcome outcome) {
@@ -249,21 +291,34 @@ public final class ColosseumController {
         endTrial(state, port, outcome);
     }
 
+    /**
+     * Ends the trial. The three endings differ (contract section 4.4):
+     * <ul>
+     *   <li>SUCCESS: every mob is already dead; supply chests are cleaned up (Q96).</li>
+     *   <li>FAILED_*: this trial's mobs and boss are removed without loot or XP (Q102) and supply chests are cleaned.</li>
+     *   <li>TIMED_OUT: ordinary mobs and supply chests stay (Q116, mobs are released to external); the boss vanishes
+     *       without dying behind a crystal ending presentation (Q117).</li>
+     * </ul>
+     * The ledger, shared keys and restore journal are never touched by an ending.
+     */
     private static void endTrial(ColosseumTrialState state, ColosseumWorldPort port, Outcome outcome) {
         UUID trialId = state.trialId;
         state.lastOutcome = outcome;
-        // Clear ownership first: any copy that is unloaded now is rejected when its chunk loads.
+        // The trial no longer owns anything: an entity that loads later is judged by decideLoad.
         state.trialId = null;
         state.lastTrialId = trialId;
-        if (outcome != Outcome.SUCCESS) {
-            for (Allocation allocation : state.allocations)
-                if (allocation.status == AllocationStatus.ALIVE && allocation.entity != null) port.discard(allocation.entity);
+        boolean bossHad = state.boss.started;
+        if (trialId != null) {
+            switch (outcome) {
+                case SUCCESS -> {
+                    port.cleanupSupplies(trialId, state.supplyPositions());
+                    if (bossHad) port.bossRemoved(trialId, ColosseumWorldPort.RemovalCause.DEFEATED);
+                }
+                case TIMED_OUT -> timeOutCleanup(state, port, trialId);
+                default -> failureCleanup(state, port, trialId);
+            }
         }
         state.allocations.clear();
-        if (trialId != null) {
-            port.cleanupBoss(trialId);
-            port.cleanupSupplies(trialId, state.supplyPositions());
-        }
         state.supplyPositions.clear();
         state.lockedParticipants.clear();
         state.deadThisRound.clear();
@@ -271,10 +326,36 @@ public final class ColosseumController {
         state.blockedTicks = 0;
         state.spawnBlocked = false;
         state.intermissionRemaining = 0;
-        state.bossStarted = false;
+        state.trialRemaining = 0;
+        state.boss.clear();
         state.phase = Phase.COOLDOWN;
         state.cooldownRemaining = ColosseumRules.COOLDOWN_TICKS;
-        if (trialId != null) port.trialEnded(trialId, outcome);
+        if (trialId != null) {
+            if (outcome == Outcome.TIMED_OUT && bossHad) port.crystalEnding(trialId);
+            port.trialEnded(trialId, outcome);
+        }
+    }
+
+    private static void failureCleanup(ColosseumTrialState state, ColosseumWorldPort port, UUID trialId) {
+        for (Allocation allocation : state.allocations)
+            if (allocation.status == AllocationStatus.ALIVE && allocation.entity != null) port.discard(allocation.entity);
+        port.cleanupSupplies(trialId, state.supplyPositions());
+        if (state.boss.started) {
+            if (state.boss.entity != null) port.discard(state.boss.entity); // not loaded: rejected on load (Q102)
+            port.bossRemoved(trialId, ColosseumWorldPort.RemovalCause.REMOVED);
+        }
+    }
+
+    private static void timeOutCleanup(ColosseumTrialState state, ColosseumWorldPort port, UUID trialId) {
+        // Release first so a mob that loads from here on is accepted as external (Q116).
+        state.ledger.release(trialId);
+        for (Allocation allocation : state.allocations)
+            if (allocation.status == AllocationStatus.ALIVE && allocation.entity != null) port.release(allocation.entity);
+        // Supply chests are deliberately not cleaned up (Q116): forget them without removing anything.
+        if (state.boss.started) {
+            state.bossVanish.add(new BossVanish(trialId, state.boss.entity, state.boss.chunk, port.gameTime()));
+            processBossVanish(state, port);
+        }
     }
 
     private static void requeue(Allocation allocation) {
@@ -282,7 +363,153 @@ public final class ColosseumController {
         allocation.requeues++;
     }
 
-    // Event entry points.
+    // Work items: shared keys, boss vanishing and block restoration. Run every tick in every phase.
+
+    private static void processWork(ColosseumTrialState state, ColosseumWorldPort port) {
+        processKeys(state, port);
+        processBossVanish(state, port);
+        processJournal(state, port);
+    }
+
+    /**
+     * Shared Trial Key lifecycle (Q113-B, Q97). PENDING is created now. A key whose entity is confirmed missing is
+     * re-issued once if it was never seen reach storage (SPAWNED: lost to a crash) and treated as consumed otherwise
+     * (CONFIRMED). In-session removals (pickup, merge, despawn) are recorded as CONSUMED by the unload event, so
+     * they are never mistaken for a loss here.
+     */
+    private static void processKeys(ColosseumTrialState state, ColosseumWorldPort port) {
+        for (WaveRecord wave : state.ledger.waves()) {
+            KeyRecord key = wave.key();
+            switch (key.state) {
+                case PENDING -> {
+                    boolean added = port.spawnKey(wave.trialId(), wave.round(), (entity, chunk) -> {
+                        key.state = KeyState.SPAWNED;
+                        key.entity = entity;
+                        key.chunk = chunk;
+                        key.issueCount++;
+                    });
+                    if (!added && key.state == KeyState.SPAWNED) { // bound but could not be added
+                        key.state = KeyState.PENDING;
+                        key.entity = null;
+                        key.issueCount--;
+                    }
+                }
+                case SPAWNED, CONFIRMED -> {
+                    if (key.entity == null) {
+                        key.state = KeyState.PENDING;
+                        break;
+                    }
+                    ColosseumWorldPort.Lookup lookup = port.locate(key.entity, key.chunk);
+                    switch (lookup.presence()) {
+                        case ALIVE -> key.chunk = lookup.chunk();
+                        case GONE -> {
+                            if (key.state == KeyState.SPAWNED) {
+                                key.state = KeyState.PENDING; // lost before it reached storage: one reissue
+                                key.entity = null;
+                            } else {
+                                key.state = KeyState.CONSUMED;
+                            }
+                        }
+                        case NOT_LOADED -> {}
+                    }
+                }
+                default -> {}
+            }
+        }
+    }
+
+    private static void processBossVanish(ColosseumTrialState state, ColosseumWorldPort port) {
+        if (state.bossVanish.isEmpty()) return;
+        for (BossVanish task : new ArrayList<>(state.bossVanish)) {
+            boolean done;
+            if (task.entity() == null) {
+                done = true; // a boss that was never bound has nothing to remove
+            } else {
+                ColosseumWorldPort.Lookup lookup = port.locate(task.entity(), task.chunk());
+                switch (lookup.presence()) {
+                    case ALIVE -> {
+                        port.discard(task.entity()); // removal without dying: no death event, loot, XP or key
+                        done = true;
+                    }
+                    case GONE -> done = true;
+                    default -> done = false; // in an unloaded chunk: completes when it loads or is confirmed gone
+                }
+            }
+            if (done) finishVanish(state, port, task);
+        }
+    }
+
+    private static void finishVanish(ColosseumTrialState state, ColosseumWorldPort port, BossVanish task) {
+        task.state(BossVanish.State.REMOVED);
+        state.bossVanish.remove(task);
+        port.bossRemoved(task.trial(), ColosseumWorldPort.RemovalCause.VANISHED);
+        port.bossVanished(task.trial());
+    }
+
+    /**
+     * Restores boss-destroyed blocks of trials that are no longer active (Q91, Q117) under Q118-A: only an empty
+     * position is filled, a conflicting block is recorded and left alone, and unloaded positions wait. Entries of
+     * the active trial are left broken until it ends.
+     */
+    private static void processJournal(ColosseumTrialState state, ColosseumWorldPort port) {
+        if (state.journal.isEmpty() || --state.journalTimer > 0) return;
+        state.journalTimer = ColosseumRules.JOURNAL_PERIOD_TICKS;
+        int handled = 0;
+        for (RestoreJournal.Entry entry : new ArrayList<>(state.journal.entries())) {
+            if (handled >= ColosseumRules.JOURNAL_BATCH) break;
+            if (entry.trial().equals(state.trialId)) continue;
+            RestoreJournal.Attempt attempt = port.restoreBlock(entry);
+            switch (attempt.result()) {
+                case RESTORED, ALREADY_RESTORED -> {
+                    state.journal.remove(entry);
+                    handled++;
+                }
+                case CONFLICT -> {
+                    entry.markConflict(port.gameTime(), attempt.found());
+                    handled++;
+                }
+                case NOT_LOADED -> {}
+            }
+        }
+    }
+
+    // Load decisions (contract I-ID2) and event entry points.
+
+    public enum LoadDecision {
+        /** Load it as this trial's own mob or boss. */
+        ACCEPT,
+        /** Do not add the entity to the world. */
+        REJECT,
+        /** A time-out released this mob: load it, and strip its ownership tag so it is plain external (Q116). */
+        ACCEPT_RELEASED
+    }
+
+    /**
+     * The I-ID2 table. An entity tagged for the active trial loads only if the controller records it; a tag of an
+     * ended trial is rejected, except that a time-out releases ordinary mobs (accepted as external) while its boss is
+     * always rejected, which completes the Q117 vanishing.
+     */
+    public static LoadDecision decideLoad(ColosseumTrialState state, UUID trial, Kind kind, int allocation, UUID entity) {
+        if (state.trialId != null && state.trialId.equals(trial)) {
+            boolean owned = kind == Kind.MOB ? ownsEntity(state, trial, allocation, entity) : entity.equals(state.boss.entity);
+            return owned ? LoadDecision.ACCEPT : LoadDecision.REJECT;
+        }
+        if (state.ledger.isReleased(trial)) return kind == Kind.MOB ? LoadDecision.ACCEPT_RELEASED : LoadDecision.REJECT;
+        return LoadDecision.REJECT;
+    }
+
+    /** A rejected boss of a timed-out trial counts as vanished if it is the one the task was waiting for. */
+    public static void onBossLoadRejected(ColosseumTrialState state, ColosseumWorldPort port, UUID trial, UUID entity) {
+        for (BossVanish task : new ArrayList<>(state.bossVanish))
+            if (task.trial().equals(trial) && entity.equals(task.entity())) finishVanish(state, port, task);
+    }
+
+    /** Keeps the remembered chunk of the boss (active or waiting to vanish) current when its chunk unloads. */
+    public static void onBossUnloaded(ColosseumTrialState state, UUID trial, UUID entity, long chunk) {
+        if (state.trialId != null && state.trialId.equals(trial) && entity.equals(state.boss.entity)) state.boss.chunk = chunk;
+        for (BossVanish task : state.bossVanish)
+            if (task.trial().equals(trial) && entity.equals(task.entity())) task.chunk(chunk);
+    }
 
     /** Whether a loaded entity carrying this trial's ownership tag is the live mob of its allocation. */
     public static boolean ownsEntity(ColosseumTrialState state, UUID trialId, int index, UUID entity) {
@@ -317,6 +544,27 @@ public final class ColosseumController {
         if (ownsEntity(state, trialId, index, entity)) state.allocations.get(index).chunk = chunk;
     }
 
+    /** A shared key entity left the world: to chunk storage (CONFIRMED) or for good (CONSUMED, never reissued). */
+    public static void onKeyUnloaded(ColosseumTrialState state, UUID trial, int round, UUID entity, long chunk,
+                                     boolean toStorage) {
+        WaveRecord wave = state.ledger.wave(trial, round);
+        if (wave == null) return;
+        KeyRecord key = wave.key();
+        if ((key.state != KeyState.SPAWNED && key.state != KeyState.CONFIRMED) || !entity.equals(key.entity)) return;
+        key.chunk = chunk;
+        key.state = toStorage ? KeyState.CONFIRMED : KeyState.CONSUMED;
+    }
+
+    /** A key entity is about to load: only the one recorded for its wave is accepted; any other copy is a duplicate. */
+    public static boolean decideKeyLoad(ColosseumTrialState state, UUID trial, int round, UUID entity, boolean fromStorage) {
+        WaveRecord wave = state.ledger.wave(trial, round);
+        if (wave == null) return false;
+        KeyRecord key = wave.key();
+        if ((key.state != KeyState.SPAWNED && key.state != KeyState.CONFIRMED) || !entity.equals(key.entity)) return false;
+        if (fromStorage) key.state = KeyState.CONFIRMED;
+        return true;
+    }
+
     public static void onPlayerDeath(ColosseumTrialState state, UUID player) {
         if ((state.phase == Phase.ROUND || state.phase == Phase.BOSS) && state.lockedParticipants.contains(player))
             state.deadThisRound.add(player);
@@ -324,7 +572,7 @@ public final class ColosseumController {
 
     /** Integration entry for the future R7 boss: success at boss death. Ignored unless this trial waits in BOSS. */
     public static boolean onBossDefeated(ColosseumTrialState state, ColosseumWorldPort port, @Nullable UUID trialId) {
-        if (trialId == null || !trialId.equals(state.trialId) || state.phase != Phase.BOSS || !state.bossStarted) return false;
+        if (trialId == null || !trialId.equals(state.trialId) || state.phase != Phase.BOSS || !state.boss.started) return false;
         state.phase = Phase.SUCCESS;
         endTrial(state, port, Outcome.SUCCESS);
         return true;

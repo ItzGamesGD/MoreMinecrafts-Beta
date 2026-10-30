@@ -29,7 +29,7 @@ public interface ColosseumWorldPort {
      * id and chunk before adding it to the world (so ownership validation already accepts it) and return false
      * if the entity could not be created or added.
      */
-    boolean spawn(UUID trialId, ColosseumTrialState.Allocation allocation, long pos, Binder bind);
+    boolean spawn(UUID trialId, int round, ColosseumTrialState.Allocation allocation, long pos, Binder bind);
 
     @FunctionalInterface
     interface Binder {
@@ -40,11 +40,14 @@ public interface ColosseumWorldPort {
 
     record Lookup(Presence presence, long chunk) {}
 
-    /** Where a spawned trial mob is: alive (with its current chunk), confirmed gone, or in an unloaded chunk. */
+    /** Where an entity is: alive (with its current chunk), confirmed gone, or in an unloaded chunk. */
     Lookup locate(UUID entity, long lastKnownChunk);
 
-    /** Removes a trial-owned mob without loot or XP; false if it is not loaded (it is then rejected on load). */
+    /** Removes an entity without dying (no loot, XP, death event or key); false if it is not loaded. */
     boolean discard(UUID entity);
+
+    /** Detaches the ownership tag of a loaded entity so it becomes a plain external mob (Q116); false if not loaded. */
+    boolean release(UUID entity);
 
     void warningEffect(long pos);
 
@@ -53,17 +56,51 @@ public interface ColosseumWorldPort {
     // Integration hooks for later stages (boss, rewards, supplies, structure).
 
     /** Fired exactly once per cleared wave, after the record is stored. */
-    void waveCleared(ColosseumTrialState.WaveRecord record);
+    void waveCleared(WaveRecord record);
 
     /** Places R3/R5 supply chests; returns the generated positions to remove at trial end. */
     List<Long> placeSupplies(UUID trialId, int clearedRound, int count);
 
     void cleanupSupplies(UUID trialId, List<Long> positions);
 
-    /** Starts the R7 boss; false while no boss integration claims this arena (the trial then waits in BOSS). */
-    boolean startBoss(UUID trialId, List<UUID> lockedParticipants);
+    /**
+     * Starts the R7 boss. The implementation must call {@code bind} with the boss entity's id and chunk before
+     * adding it to the world. False while no boss integration claims this arena (the trial then waits in BOSS).
+     */
+    boolean startBoss(UUID trialId, List<UUID> lockedParticipants, Binder bind);
 
-    void cleanupBoss(UUID trialId);
+    enum RemovalCause {
+        /** The boss was killed and the trial succeeded. */
+        DEFEATED,
+        /** Failure or reset removed the boss (Q102). */
+        REMOVED,
+        /** Time-out vanishing (Q117): not a kill. */
+        VANISHED
+    }
+
+    /** Called after the boss left the world (or its trial ended), so the handler can clean up outside the entity. */
+    void bossRemoved(UUID trialId, RemovalCause cause);
+
+    /** Q117: the server-authoritative ending presentation at the central crystal. Notification only. */
+    void crystalEnding(UUID trialId);
+
+    /** A boss vanish work item finished. */
+    void bossVanished(UUID trialId);
+
+    /**
+     * Creates the one shared normal Trial Key as an item entity at the exact arena center, tagged for
+     * {@code (trial, round)}. Like {@link #spawn}, the implementation must call {@code bind} before adding the entity
+     * so the key's own load is accepted. False when it cannot be created right now (center chunk not loaded); the
+     * wave then stays PENDING and is retried.
+     */
+    boolean spawnKey(UUID trialId, int round, Binder bind);
+
+    /**
+     * Q118-A restore of one journal entry: an empty position (the state the boss left) is filled with the prior
+     * state; a position already holding the prior state needs nothing; any other block is a conflict and is never
+     * overwritten; a position in an unloaded chunk is skipped for now.
+     */
+    RestoreJournal.Attempt restoreBlock(RestoreJournal.Entry entry);
 
     void trialEnded(UUID trialId, ColosseumTrialState.Outcome outcome);
 

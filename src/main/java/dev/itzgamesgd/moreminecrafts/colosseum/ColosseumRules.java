@@ -33,6 +33,14 @@ public final class ColosseumRules {
     public static final int SPAWN_BLOCKED_FAIL_TICKS = 60 * 20;
     /** 65 minutes after success, failure or reset. */
     public static final int COOLDOWN_TICKS = 78_000;
+    /**
+     * Q116: the whole trial may last 65 minutes of online server time from R1 start. Numerically equal to the
+     * cooldown but a separate timer: neither resets or replaces the other (I10).
+     */
+    public static final int TRIAL_LIMIT_TICKS = 78_000;
+    /** Restore-journal passes run this often, handling at most {@link #JOURNAL_BATCH} loadable entries per pass. */
+    public static final int JOURNAL_PERIOD_TICKS = 10;
+    public static final int JOURNAL_BATCH = 64;
 
     public static boolean isBudgetRound(int round) { return round >= 1 && round <= LAST_BUDGET_ROUND; }
 

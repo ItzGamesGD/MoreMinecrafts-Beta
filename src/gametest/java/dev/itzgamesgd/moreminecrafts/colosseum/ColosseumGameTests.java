@@ -1,5 +1,18 @@
 package dev.itzgamesgd.moreminecrafts.colosseum;
 
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.arena;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.finish;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.freshCenter;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.items;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.killAll;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.moveTo;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.player;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.playerAtCenter;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.trialMobs;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.waves;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.buildFloor;
+import static dev.itzgamesgd.moreminecrafts.colosseum.ColosseumFixtures.forceChunks;
+
 import com.mojang.authlib.GameProfile;
 import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumTrialState.AllocationStatus;
 import dev.itzgamesgd.moreminecrafts.colosseum.ColosseumTrialState.Outcome;
@@ -43,106 +56,6 @@ import net.minecraft.world.phys.AABB;
  * sky (no natural colosseum structure). Each test owns an arena far from every other test.
  */
 public final class ColosseumGameTests {
-    private static final Map<Long, AtomicInteger> WAVES = new ConcurrentHashMap<>();
-    private static final AtomicInteger NEXT_SLOT = new AtomicInteger();
-    /** The GameTest world persists between runs; a per-run base keeps every run on untouched chunks. */
-    private static final int RUN_BASE_X = 100_000 + java.util.concurrent.ThreadLocalRandom.current().nextInt(0, 20_000) * 1_000;
-
-    static {
-        ColosseumIntegration.WAVE_CLEARED.register((level, arena, record) ->
-                WAVES.computeIfAbsent(arena.key(), key -> new AtomicInteger()).incrementAndGet());
-    }
-
-    // Fixture.
-
-    /** A fresh arena center, unique per test, high above terrain. */
-    private static BlockPos freshCenter() {
-        int slot = NEXT_SLOT.getAndIncrement();
-        return new BlockPos(RUN_BASE_X + slot * 160, 200, 24_000);
-    }
-
-    private static void forceChunks(ServerLevel level, BlockPos center, boolean forced) {
-        for (int cx = (center.getX() - 32) >> 4; cx <= (center.getX() + 32) >> 4; cx++)
-            for (int cz = (center.getZ() - 32) >> 4; cz <= (center.getZ() + 32) >> 4; cz++)
-                level.setChunkForced(cx, cz, forced);
-    }
-
-    /** Smooth-stone floor (radius {@code floorRadius}, optionally only inside {@code innerOnly}), stone roof 6 up. */
-    private static void buildFloor(ServerLevel level, BlockPos center, int floorRadius, boolean roof) {
-        for (int dx = -27; dx <= 27; dx++)
-            for (int dz = -27; dz <= 27; dz++) {
-                int d2 = dx * dx + dz * dz;
-                if (d2 > 27 * 27) continue;
-                level.setBlockAndUpdate(center.offset(dx, -1, dz), d2 <= floorRadius * floorRadius
-                        ? Blocks.SMOOTH_STONE.defaultBlockState() : Blocks.AIR.defaultBlockState());
-                if (roof) level.setBlockAndUpdate(center.offset(dx, 6, dz), Blocks.STONE.defaultBlockState());
-                if (roof && d2 > 26 * 26) // perimeter wall keeps mobs on the platform (falls would count as kills)
-                    for (int dy = 0; dy < 6; dy++) level.setBlockAndUpdate(center.offset(dx, dy, dz), Blocks.STONE.defaultBlockState());
-            }
-    }
-
-    private static ColosseumArena arena(GameTestHelper ctx, BlockPos center, int floorRadius) {
-        ServerLevel level = ctx.getLevel();
-        forceChunks(level, center, true);
-        buildFloor(level, center, floorRadius, true);
-        ColosseumIntegration.unregisterArena(level, center);
-        return ColosseumIntegration.registerArena(level, ColosseumArenaGeometry.testFixture(center));
-    }
-
-    private static ServerPlayer player(GameTestHelper ctx, String name, double x, double y, double z) {
-        return player(ctx, UUID.randomUUID(), name, x, y, z);
-    }
-
-    private static ServerPlayer player(GameTestHelper ctx, UUID id, String name, double x, double y, double z) {
-        var server = ctx.getLevel().getServer();
-        var cookie = CommonListenerCookie.createInitial(new GameProfile(id, name), false);
-        ServerPlayer player = new ServerPlayer(server, ctx.getLevel(), cookie.gameProfile(), cookie.clientInformation());
-        Connection connection = new Connection(PacketFlow.SERVERBOUND);
-        new EmbeddedChannel(connection);
-        server.getPlayerList().placeNewPlayer(connection, player, cookie);
-        player.setGameMode(GameType.SURVIVAL);
-        player.getAbilities().invulnerable = true; // trial mobs fight; tests decide deaths explicitly
-        player.teleportTo(ctx.getLevel(), x, y, z, Set.of(), 0.0F, 0.0F, false);
-        return player;
-    }
-
-    private static ServerPlayer playerAtCenter(GameTestHelper ctx, BlockPos center, String name) {
-        return player(ctx, name, center.getX() + 0.5D, center.getY(), center.getZ() + 0.5D);
-    }
-
-    private static void moveTo(ServerPlayer player, double x, double y, double z) {
-        player.teleportTo((ServerLevel) player.level(), x, y, z, Set.of(), 0.0F, 0.0F, false);
-    }
-
-    private static void finish(GameTestHelper ctx, BlockPos center, List<ServerPlayer> players) {
-        ServerLevel level = ctx.getLevel();
-        ColosseumIntegration.unregisterArena(level, center);
-        for (ServerPlayer player : players) level.getServer().getPlayerList().remove(player);
-        forceChunks(level, center, false);
-        ctx.succeed();
-    }
-
-    private static List<Mob> trialMobs(ServerLevel level, ColosseumArena arena) {
-        BlockPos c = arena.geometry().center();
-        return level.getEntitiesOfClass(Mob.class, new AABB(c).inflate(40.0D), mob -> {
-            ColosseumOwnership.Tag tag = ColosseumOwnership.tag(mob);
-            return mob.isAlive() && tag != null && tag.arena() == arena.key();
-        });
-    }
-
-    private static void killAll(ServerLevel level, ColosseumArena arena) {
-        for (Mob mob : trialMobs(level, arena)) mob.kill(level);
-    }
-
-    private static int items(ServerLevel level, BlockPos center) {
-        return level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new AABB(center).inflate(30.0D)).size();
-    }
-
-    private static int waves(ColosseumArena arena) {
-        AtomicInteger count = WAVES.get(arena.key());
-        return count == null ? 0 : count.get();
-    }
-
     // Tests.
 
     @GameTest(maxTicks = 400)
@@ -210,9 +123,9 @@ public final class ColosseumGameTests {
                 }
                 case 1 -> {
                     if (s.phase() == Phase.ROUND) { killAll(level, arena); return; }
-                    ctx.assertTrue(s.phase() == Phase.INTERMISSION && s.waveCleared(1), "R1 cleared");
+                    ctx.assertTrue(s.phase() == Phase.INTERMISSION && s.waveCleared(s.trialId(), 1), "R1 cleared");
                     ctx.assertTrue(waves(arena) == 1, "WAVE_CLEARED fired once, got " + waves(arena));
-                    ctx.assertTrue(s.clearedWaves().get(0).lockedParticipants().equals(List.of(player.getUUID())),
+                    ctx.assertTrue(s.ledger().waves().get(0).lockedParticipants().equals(List.of(player.getUUID())),
                             "payout record names the locked participant");
                     step.set(2);
                 }
@@ -437,7 +350,7 @@ public final class ColosseumGameTests {
                 }
                 case 3 -> {
                     if (s.phase() == Phase.ROUND) { killAll(level, arena); return; }
-                    ctx.assertTrue(s.waveCleared(1) && waves(arena) == 1, "the resumed round completes exactly once");
+                    ctx.assertTrue(s.waveCleared(s.trialId(), 1) && waves(arena) == 1, "the resumed round completes exactly once");
                     finish(ctx, center, List.of(player));
                 }
                 default -> {}
@@ -474,157 +387,5 @@ public final class ColosseumGameTests {
                 default -> {}
             }
         });
-    }
-
-    /**
-     * Process restart, run in three server processes by the ST-05 restart workflow
-     * (-Dmoreminecrafts.st05.restart.phase=write|reload|verify). Inert in the ordinary GameTest run.
-     */
-    @GameTest(maxTicks = 1200)
-    public void trialStateSurvivesProcessRestart(GameTestHelper ctx) {
-        String phase = System.getProperty("moreminecrafts.st05.restart.phase");
-        if (phase == null || phase.isBlank()) { ctx.succeed(); return; }
-        ServerLevel level = ctx.getLevel();
-        BlockPos center = new BlockPos(-30_200, 200, -30_200);
-        BlockPos blockedCenter = new BlockPos(-30_600, 200, -30_200);
-        BlockPos warningCenter = new BlockPos(-31_000, 200, -30_200);
-        forceChunks(level, center, true);
-        forceChunks(level, blockedCenter, true);
-        forceChunks(level, warningCenter, true);
-        switch (phase) {
-            case "write" -> restartWrite(ctx, level, center, blockedCenter, warningCenter);
-            case "reload" -> restartReload(ctx, level, center, blockedCenter, warningCenter);
-            case "verify" -> restartVerify(ctx, level, center, blockedCenter, warningCenter);
-            default -> ctx.fail("unknown phase " + phase);
-        }
-    }
-
-    /** The same participant reconnects after the restart (a real player keeps their UUID). */
-    private static final UUID RESTART_PLAYER = UUID.fromString("5f05c0de-0000-4000-8000-000000000005");
-
-    private static final UUID RESTART_WARNING_PLAYER = UUID.fromString("5f05c0de-0000-4000-8000-000000000006");
-
-    private static void restartWrite(GameTestHelper ctx, ServerLevel level, BlockPos center, BlockPos blockedCenter,
-                                     BlockPos warningCenter) {
-        ColosseumIntegration.unregisterArena(level, center); // a fresh start even if an earlier attempt left state
-        ColosseumIntegration.unregisterArena(level, blockedCenter);
-        ColosseumIntegration.unregisterArena(level, warningCenter);
-        buildFloor(level, center, 27, true);
-        buildFloor(level, blockedCenter, 10, true);
-        buildFloor(level, warningCenter, 27, true);
-        ColosseumArena arena = ColosseumIntegration.registerArena(level, ColosseumArenaGeometry.testFixture(center));
-        ColosseumArena blocked = ColosseumIntegration.registerArena(level, ColosseumArenaGeometry.testFixture(blockedCenter));
-        ColosseumArena warning = ColosseumIntegration.registerArena(level, ColosseumArenaGeometry.testFixture(warningCenter));
-        ServerPlayer player = player(ctx, RESTART_PLAYER, "st05-restart", center.getX() + 0.5D, center.getY(), center.getZ() + 0.5D);
-        ServerPlayer blockedPlayer = playerAtCenter(ctx, blockedCenter, "st05-restart-blocked");
-        java.util.concurrent.atomic.AtomicReference<ServerPlayer> warningPlayer = new java.util.concurrent.atomic.AtomicReference<>();
-        java.util.concurrent.atomic.AtomicBoolean done = new java.util.concurrent.atomic.AtomicBoolean();
-        ctx.onEachTick(() -> {
-            if (done.get()) return;
-            ColosseumTrialState s = arena.state();
-            if (s.phase() != Phase.ROUND || s.count(AllocationStatus.ALIVE) < 2 || s.count(AllocationStatus.WARNING) > 0) return;
-            if (blocked.state().phase() != Phase.ROUND) return;
-            if (warningPlayer.get() == null) { // start the third arena now so it is mid-warning at shutdown
-                warningPlayer.set(player(ctx, RESTART_WARNING_PLAYER, "st05-restart-warn",
-                        warningCenter.getX() + 0.5D, warningCenter.getY(), warningCenter.getZ() + 0.5D));
-                return;
-            }
-            ColosseumTrialState w = warning.state();
-            if (w.phase() != Phase.ROUND || w.count(AllocationStatus.WARNING) == 0) return;
-            done.set(true);
-            trialMobs(level, arena).get(0).kill(level); // a death just before shutdown
-            ColosseumIntegration.advanceController(level, blockedCenter, 400); // 20 s of Q110 blockage
-            System.out.println("ST05_RESTART_STATE trial=" + s.trialId() + " killed=" + s.count(AllocationStatus.KILLED)
-                    + " alive=" + s.count(AllocationStatus.ALIVE) + " blocked=" + blocked.state().blockedTicks()
-                    + " warning=" + w.count(AllocationStatus.WARNING) + " warningAlive=" + w.count(AllocationStatus.ALIVE));
-            level.getServer().getPlayerList().remove(player);
-            level.getServer().getPlayerList().remove(blockedPlayer);
-            level.getServer().getPlayerList().remove(warningPlayer.get());
-            level.getServer().saveEverything(true, true, true);
-            System.out.println("ST05_RESTART_WRITE");
-            ctx.succeed();
-        });
-    }
-
-    private static void restartReload(GameTestHelper ctx, ServerLevel level, BlockPos center, BlockPos blockedCenter,
-                                      BlockPos warningCenter) {
-        ColosseumArena arena = ColosseumIntegration.arena(level, center);
-        ColosseumArena blocked = ColosseumIntegration.arena(level, blockedCenter);
-        ColosseumArena warning = ColosseumIntegration.arena(level, warningCenter);
-        ctx.assertTrue(arena != null && blocked != null && warning != null, "all arenas persisted");
-        ColosseumTrialState w = warning.state();
-        int warned = w.count(AllocationStatus.WARNING), warnedAlive = w.count(AllocationStatus.ALIVE);
-        ctx.assertTrue(w.phase() == Phase.ROUND && warned > 0, "the spawn warning persisted, got " + warned);
-        ServerPlayer warnPlayer = player(ctx, RESTART_WARNING_PLAYER, "st05-restart-warn",
-                warningCenter.getX() + 0.5D, warningCenter.getY(), warningCenter.getZ() + 0.5D);
-        ColosseumTrialState s = arena.state();
-        ctx.assertTrue(s.phase() == Phase.ROUND && s.trialId() != null && s.round() == 1,
-                "R1 resumes after restart, got " + s.phase() + "/" + s.lastOutcome() + " absent=" + s.absenceTicks());
-        ctx.assertTrue(s.count(AllocationStatus.KILLED) >= 1, "the pre-shutdown kill persisted");
-        ctx.assertTrue(blocked.state().blockedTicks() >= 300 && blocked.state().spawnBlocked(),
-                "the Q110 clock persisted, got " + blocked.state().blockedTicks());
-        Set<UUID> expected = new HashSet<>();
-        for (var a : s.allocations()) if (a.status() == AllocationStatus.ALIVE) expected.add(a.entity());
-        int allocations = s.allocations().size();
-        ctx.assertTrue(s.lockedParticipants().equals(List.of(RESTART_PLAYER)), "the locked participant persisted");
-        ServerPlayer player = player(ctx, RESTART_PLAYER, "st05-restart", center.getX() + 0.5D, center.getY(), center.getZ() + 0.5D);
-        AtomicInteger step = new AtomicInteger();
-        ctx.onEachTick(() -> {
-            switch (step.get()) {
-                case 0 -> {
-                    if (!level.areEntitiesLoaded(ChunkPos.pack(center))) return;
-                    Set<UUID> loaded = new HashSet<>();
-                    for (Mob mob : trialMobs(level, arena)) loaded.add(mob.getUUID());
-                    if (!loaded.containsAll(expected)) return;
-                    ctx.assertTrue(s.allocations().size() == allocations, "no allocation added or lost");
-                    ctx.assertTrue(trialMobs(level, arena).size() <= s.count(AllocationStatus.ALIVE),
-                            "no duplicate trial mob after restart");
-                    step.set(1);
-                }
-                case 1 -> {
-                    if (w.count(AllocationStatus.WARNING) > 0 || !level.areEntitiesLoaded(ChunkPos.pack(warningCenter))) return;
-                    ctx.assertTrue(w.count(AllocationStatus.ALIVE) >= warnedAlive + warned,
-                            "the warnings interrupted by the restart completed after it");
-                    ctx.assertTrue(trialMobs(level, warning).size() == w.count(AllocationStatus.ALIVE),
-                            "the interrupted warning spawned exactly once: " + trialMobs(level, warning).size()
-                                    + " vs " + w.count(AllocationStatus.ALIVE));
-                    ColosseumIntegration.unregisterArena(level, warningCenter);
-                    level.getServer().getPlayerList().remove(warnPlayer);
-                    step.set(2);
-                }
-                case 2 -> {
-                    if (s.phase() == Phase.ROUND) { killAll(level, arena); return; }
-                    ctx.assertTrue(s.waveCleared(1) && s.clearedWaves().size() == 1 && waves(arena) == 1,
-                            "R1 completes once after the restart");
-                    ColosseumIntegration.unregisterArena(level, blockedCenter);
-                    level.getServer().getPlayerList().remove(player);
-                    level.getServer().saveEverything(true, true, true);
-                    System.out.println("ST05_RESTART_RELOAD");
-                    ctx.succeed();
-                }
-                default -> {}
-            }
-        });
-    }
-
-    private static void restartVerify(GameTestHelper ctx, ServerLevel level, BlockPos center, BlockPos blockedCenter,
-                                      BlockPos warningCenter) {
-        ColosseumArena arena = ColosseumIntegration.arena(level, center);
-        ctx.assertTrue(arena != null && ColosseumIntegration.arena(level, blockedCenter) == null
-                && ColosseumIntegration.arena(level, warningCenter) == null, "registry persisted");
-        ColosseumTrialState s = arena.state();
-        ctx.assertTrue(s.waveCleared(1) && s.clearedWaves().size() == 1, "the R1 payout record persisted exactly once");
-        // Nobody is present in this phase: the GameTest server runs ticks unpaced, so the 60 s absence grace may
-        // legitimately expire before the test starts. Either the trial is still waiting, or it was reset by absence.
-        ctx.assertTrue(s.phase() == Phase.INTERMISSION || s.phase() == Phase.ROUND
-                        || (s.phase() == Phase.COOLDOWN && s.lastOutcome() == Outcome.FAILED_ABSENCE_RESET),
-                "the trial continues or was reset by absence, got " + s.phase() + "/" + s.lastOutcome());
-        System.out.println("ST05_RESTART_VERIFY_STATE phase=" + s.phase() + " outcome=" + s.lastOutcome()
-                + " absent=" + s.absenceTicks());
-        ctx.assertTrue(waves(arena) == 0, "no wave is re-announced after restart");
-        ColosseumIntegration.unregisterArena(level, center);
-        level.getServer().saveEverything(true, true, true);
-        System.out.println("ST05_RESTART_VERIFY");
-        ctx.succeed();
     }
 }

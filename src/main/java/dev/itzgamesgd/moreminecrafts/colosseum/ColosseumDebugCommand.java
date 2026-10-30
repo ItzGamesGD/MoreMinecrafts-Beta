@@ -25,8 +25,8 @@ final class ColosseumDebugCommand {
                         .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("testfloor").then(center().executes(ColosseumDebugCommand::testFloor)))
                         .then(Commands.literal("register").then(center().executes(ColosseumDebugCommand::register)))
-                        .then(Commands.literal("unregister").then(center().executes(c -> report(c, "unregister",
-                                ColosseumIntegration.unregisterArena(c.getSource().getLevel(), pos(c))))))
+                        .then(Commands.literal("unregister").then(center().executes(c -> unregister(c, false))))
+                        .then(Commands.literal("archive").then(center().executes(c -> unregister(c, true))))
                         .then(Commands.literal("status").then(center().executes(ColosseumDebugCommand::status)))
                         .then(Commands.literal("reset").then(center().executes(c -> report(c, "reset",
                                 ColosseumIntegration.forceReset(c.getSource().getLevel(), pos(c))))))
@@ -46,6 +46,17 @@ final class ColosseumDebugCommand {
 
     private static BlockPos pos(CommandContext<CommandSourceStack> c) {
         return BlockPosArgument.getBlockPos(c, "center");
+    }
+
+    /** Removal is refused while the arena holds ledger records or unfinished work; {@code archive} keeps the ledger. */
+    private static int unregister(CommandContext<CommandSourceStack> c, boolean archive) {
+        ServerLevel level = c.getSource().getLevel();
+        ColosseumIntegration.UnregisterResult result = archive
+                ? ColosseumIntegration.archiveAndUnregister(level, pos(c))
+                : ColosseumIntegration.unregisterArena(level, pos(c));
+        c.getSource().sendSuccess(() -> Component.literal("ST-05 " + (archive ? "archive" : "unregister") + " at "
+                + pos(c).toShortString() + ": " + result), true);
+        return result == ColosseumIntegration.UnregisterResult.REMOVED ? 1 : 0;
     }
 
     private static int report(CommandContext<CommandSourceStack> c, String action, boolean ok) {
@@ -91,9 +102,12 @@ final class ColosseumDebugCommand {
                 + " warning=" + s.count(ColosseumTrialState.AllocationStatus.WARNING)
                 + " alive=" + s.count(ColosseumTrialState.AllocationStatus.ALIVE)
                 + " killed=" + s.count(ColosseumTrialState.AllocationStatus.KILLED)
-                + " cleared=" + s.clearedWaves().size() + " intermission=" + s.intermissionRemaining()
+                + " cleared=" + s.ledger().waves().size() + " intermission=" + s.intermissionRemaining()
                 + " absent=" + s.absenceTicks() + " blocked=" + s.blockedTicks()
-                + " cooldown=" + s.cooldownRemaining() + " last=" + s.lastOutcome();
+                + " limit=" + s.trialRemaining() + " cooldown=" + s.cooldownRemaining() + " last=" + s.lastOutcome()
+                + " ledger[waves=" + s.ledger().waves().size() + " elig=" + s.ledger().eligibility().size()
+                + " released=" + s.ledger().releasedTrials().size() + "]"
+                + " work[vanish=" + s.bossVanish().size() + " journal=" + s.journal().entries().size() + "]";
         c.getSource().sendSuccess(() -> Component.literal(text), false);
         return 1;
     }
