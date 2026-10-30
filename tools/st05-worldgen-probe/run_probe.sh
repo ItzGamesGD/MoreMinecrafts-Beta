@@ -32,7 +32,7 @@ run_mode() {
     timeout "${PROBE_TIMEOUT:-1800}" ./gradlew --no-daemon ${GRADLE_ARGS:-} runSt05CavernProbe -q > "$logs/$seed-$mode.log" 2>&1 || { echo "FAILED $seed $mode"; tail -30 "$logs/$seed-$mode.log"; exit 1; }
   test -s "$res/$mode.json"
 }
-for mode in plan fwd rev shuf par; do
+for mode in ${MODES:-plan fwd rev shuf par}; do
   rm -rf "$run/world"
   run_mode $mode
   if [ "$mode" = fwd ]; then rm -rf "$run/world_fwd"; cp -r "$run/world" "$run/world_fwd"; fi

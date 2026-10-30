@@ -268,6 +268,7 @@ public final class St05CavernIdentityProbe implements ModInitializer {
         long genMs = (System.nanoTime() - t0) / 1_000_000;
 
         Mask fin = finalMask(level, -r, -r, chunks);
+        dumpBlocks(level, -r, chunks, doc, Path.of(System.getProperty("mm.st05.out")).resolveSibling(mode + ".blocks.bin"));
         doc.put("chunk_order", mode);
         doc.put("window_chunks", chunks);
         doc.put("gen_ms", genMs);
@@ -327,6 +328,22 @@ public final class St05CavernIdentityProbe implements ModInitializer {
             d.put("final_chamber_proxy_caverns", comps.stream().filter(c -> c.chamberX >= 0).count());
             doc.put("plan_vs_final", d);
         }
+    }
+
+    /** Raw dump of the analysed band as palette indices (one byte per voxel, x-major/z/y) for offline diffing of chunk-order runs. */
+    private static void dumpBlocks(ServerLevel level, int c0, int chunks, Map<String, Object> doc, Path file) throws IOException {
+        int w = chunks * 16;
+        byte[] raw = new byte[w * w * H];
+        List<String> palette = new ArrayList<>();
+        Map<String, Integer> idx = new HashMap<>();
+        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        for (int x = 0; x < w; x++) for (int z = 0; z < w; z++) for (int y = 0; y < H; y++) {
+            String name = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(level.getBlockState(p.set(c0 * 16 + x, Y0 + y, c0 * 16 + z)).getBlock()).toString();
+            raw[(x * w + z) * H + y] = (byte) (int) idx.computeIfAbsent(name, k -> { palette.add(k); return palette.size() - 1; });
+        }
+        Files.write(file, raw);
+        doc.put("block_dump_palette", palette);
+        doc.put("block_dump_dims", List.of(w, w, H));
     }
 
     private static long count(Mask m) {
