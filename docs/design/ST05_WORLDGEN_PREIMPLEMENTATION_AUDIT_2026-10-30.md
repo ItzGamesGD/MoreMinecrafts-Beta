@@ -12,7 +12,7 @@
 
 | ID | Severity | Finding | Gate / resolution |
 | --- | --- | --- | --- |
-| A01 | BLOCKER (specification) | WG-Q10 describes 75% after fit checks; WG-Q31 and WG-Q41 describe one roll before bounded candidate fit search. These are not automatically equivalent. | Owner must choose the probability denominator and roll/fit precedence. Do not silently reinterpret 75%. |
+| A01 | **RESOLVED — FIX-01 A** | Owner chose deterministic bounded fit checks before a single 75% roll per fit-eligible cavern. WG-Q10/Q31/Q41 amended accordingly. | Verify consistency and denominator in implementation; cross-cavern spacing conflict remains A02. |
 | A02 | BLOCKER (feasibility) | Continuous vanilla caves lack an established deterministic unique connected-cavern identity. Spacing and one-roll-per-cave also interact. | Prove deterministic cavern segmentation, order independence, min separation conflict resolution and duplicate prevention with seed/restart tests. |
 | A03 | BLOCKER (feasibility) | WG-Q28 full deterministic placement plan before chunk writes is not yet demonstrated on Minecraft 26.3 APIs. | Prototype in isolation and prove cross-chunk ordering, reload, restart, and no partial placements before implementation acceptance. |
 | A04 | MAJOR | WG-Q27 other-structure occupied mask availability is not guaranteed. | Use known protected occupancy/clearance, conservative reject on unknown overlap; verify modded structures. |
@@ -24,13 +24,22 @@
 ## Noncontroversial corrections authorized without changing owner constraints
 1. State explicitly in the structure authority index that WG-Q01–Q45 supersedes older worldgen/architecture text, **not** combat/reward/lifecycle/persistence.
 2. Keep WG-Q19 over WG-Q17 and treat all candidate scoring as subordinate to mandatory safety gates.
-3. Record A01 and A02 as **unresolved** rather than inventing a 75% semantics or relaxing min separation.
+3. A01 resolved by explicit owner FIX-01 A. Keep A02 and A03 unresolved; never relax min separation or invent a deterministic cavern identity.
 4. Q43's deterministic work budget must not use elapsed-time aborts to select geometry.
 
 ## Brief reaudit / acceptance gates
 - Design record: 45 unique consecutive decision IDs; latest document and index point to same overlay.
-- Specification: A01 requires owner selection; A02/A03 need isolated proof, not just prose.
+- Specification: A01 owner-approved FIX-01 A recorded; A02/A03 need isolated proof, not just prose.
 - Architecture: confirm no stands, 68 exterior diameter, 23 total height, 7x8 arches, exact-center crystal/Vault, six radius-27 Vaults, spawn annulus radius 12–24.
 - Functional: at least one valid <=32-block cave path with >=5x5 internal clearance; collision/fluid/terrain preservation hard gates.
 - Sampling: 30 initial seeds, expand based on eligible cavern count; BLOCKER prevents final approval.
-- **Implementation remains NOT AUTHORIZED until owner approves resolution of A01 and a separate explicit implementation handoff is made.** This audit does not claim the other technical blockers are solved.
+- **Full implementation and integration remain NOT AUTHORIZED by this audit.** The owner requested a staged delegation instruction; feasibility probes for A02/A03 must pass before their dependent implementation phases. No technical blocker is deemed resolved by documentation alone.
+
+## Short post-FIX-01 re-audit (document-level)
+
+- **PASS**: owner selected FIX-01 A; Q10, Q31 and Q41 now consistently put bounded fit before the sole 75% roll. No additional candidate count or new roll.
+- **PASS**: structure authority index routes newer WG architecture/worldgen over older stands/huge-cave description, preserving combat/rewards/persistence.
+- **PENDING BLOCKER A02**: connected cavern identity, min separation precedence and order-independent roll/placement still need an actual reproducible probe.
+- **PENDING BLOCKER A03**: cross-chunk full-plan atomicity and restart consistency need a Minecraft 26.3 technical probe.
+- **PENDING MAJOR A04–A06/A08**: protected occupancy, voxel clearances, normalized scoring and statistically meaningful sampling are not live-verified.
+- **Disposition: CONDITIONAL GO FOR ISOLATED FEASIBILITY PROBES ONLY. NO GO for integrated generator, merge, checkpoint or final live acceptance.**
