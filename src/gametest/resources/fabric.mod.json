@@ -8,7 +8,8 @@
     "main": [
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
