@@ -1,4 +1,4 @@
-# ST-05 Ancient Colosseum — current design authority (Q1–Q117)
+# ST-05 Ancient Colosseum — current design authority (Q1–Q118)
 
 **Status: OWNER-APPROVED DESIGN ONLY. Implementation, merge, checkpoint promotion and live acceptance are not authorized by this record.** This is the effective ST-05 specification reconciled onto Wave15 c9f7a4bf from PR #207 head dd193d78 and the Q109 roster table reconfirmed by the owner in the current ChatGPT conversation. The ST-05-A report was supplied in conversation; no separate GitHub/Drive source, original execution script or raw log has been obtained. It is owner-provided evidence, not an independently recovered historical artifact. [Decision history](ST05_ANCIENT_COLOSSEUM_DECISION_HISTORY_2026-10-29.md) preserves the original wording, including revoked options; it is not an implementation source. [Structure authority index](STRUCTURE_AUTHORITY_INDEX.md) routes here. ST-05 is separate from the Ancient City arena (Phase 2 F-6).
 
@@ -18,9 +18,9 @@
 - Trial-owned mobs killed by traps, environment or farms count toward their wave regardless of attacker **only if at least one player is physically inside the combat zone when the kill is evaluated**. No wave advances during an empty-arena grace period. On failure/reset, remove only this trial instance's spawned mobs and boss, without death loot or XP; preserve external mobs. Remove this run's generated supply chests and unclaimed contents on success/failure/reset, but retain player-taken supplies and player construction. Never reclaim awarded Trial Keys, including center item entities.
 - Start a **65-minute / 78,000-tick** cooldown on success at boss death, or on conclusive failure/reset (including expiry of the absence grace period). It applies to all three outcomes. The crystal reflects cooldown. Do not substitute the obsolete 30-minute trial cooldown.
 
-## Persistence, time limit and reward records (Q111–Q117, owner-approved 2026-10-30)
+## Persistence, time limit and reward records (Q111–Q118, owner-approved 2026-10-30)
 
-These rules were approved by the owner in the ST-05-C0-SYNC task (Q111-A, Q112-A, Q113-B, Q114-C, Q115-B) and its follow-up answers (Q116), and Q117 in the ST-05-C0-FINAL task. They extend Q1–Q110 and change none of them. Q117 is the single, explicit exception to one clause of Q116 (the R7 boss); Q116's rule for ordinary mobs is unchanged.
+These rules were approved by the owner in the ST-05-C0-SYNC task (Q111-A, Q112-A, Q113-B, Q114-C, Q115-B) and its follow-up answers (Q116), Q117 in the ST-05-C0-FINAL task, and Q118-A in the ST-05-C1-FIX task. They extend Q1–Q110 and change none of them. Q117 is the single, explicit exception to one clause of Q116 (the R7 boss); Q116's rule for ordinary mobs is unchanged. Q118-A settles one boundary that Q91 (restore the exact prior state) and Q105 (do not revert player modifications) left open.
 
 - **Q111-A — uncredited deaths and real losses return their allocation.** A trial-owned mob whose death is not credited (no player physically inside the combat zone when the kill is evaluated, per Q107), or that is actually lost without a credited kill (despawned, discarded, changed dimension, or confirmed missing once its last chunk's entities are loaded), returns its allocation to pending and is spawned again through the normal batch-spawn cycle. It never counts as a valid kill and never completes a round. A mob that is merely in an unloaded chunk is not lost and is never duplicated.
 - **Q112-A — trials survive server restarts; offline time does not count.** A server stop or restart preserves the trial and resumes it from its saved state: round, participants, allocations and their spawned/pending/killed status, spawn warnings, every timer, and all reward records. Timers advance only while the server is running and ticking. Offline time consumes none of the absence grace, Q110 blockage, intermission, trial time limit (Q116) or cooldown.
@@ -42,6 +42,12 @@ These rules were approved by the owner in the ST-05-C0-SYNC task (Q111-A, Q112-A
   - **Cooldown:** the 78,000-tick re-challenge cooldown applies (Q116, Q99).
   - **Terrain:** natural blocks the boss destroyed are restored under Q91's protection conditions (only the eligible external natural stone/wood-type blocks it was allowed to break, each to its exact prior state; original structure, Vaults, crystal, unbreakable blocks and player construction are never touched).
   - **Restart:** a vanishing or restoration still unfinished at a server stop is resumed after restart (Q112-A). Offline time does not count.
+
+- **Q118-A — a boss-destroyed spot that now holds something else is never overwritten.**
+  - **Occupied spot:** when a natural block destroyed by the Immortal Gladiator is to be restored (Q91, Q117) and its position now holds any other block (for example a player's building, or liquid that flowed in), that block is **not overwritten**.
+  - **Empty spot:** a position that is still empty is restored to its exact prior state.
+  - **Record:** each such conflict is recorded.
+  - **Recovery:** pending restoration and recorded conflicts survive a chunk unload and reload and a server restart (Q112-A); a position in an unloaded chunk waits until it loads.
 
 ## Threat budget, roster and spawns (Q21–Q25, Q33–Q49, Q67–Q68, Q77–Q78, Q107–Q110)
 
@@ -101,4 +107,4 @@ The three zombie mixin variants' prior REVIEW/LIVE PENDING status is unchanged. 
 
 ## Acceptance boundary
 
-This document records the **last effective approved rules** from Q1–Q117. It does not itself approve implementation, a GeckoLib dependency, final worldgen rates, new reward identities, exact mob weights, numeric elite density, final combat timing, visual assets or live balance. Verify these without borrowing superseded text from the historical record. See the [history](ST05_ANCIENT_COLOSSEUM_DECISION_HISTORY_2026-10-29.md) for the original sequence and the [structure index](STRUCTURE_AUTHORITY_INDEX.md) for routing.
+This document records the **last effective approved rules** from Q1–Q118. It does not itself approve implementation, a GeckoLib dependency, final worldgen rates, new reward identities, exact mob weights, numeric elite density, final combat timing, visual assets or live balance. Verify these without borrowing superseded text from the historical record. See the [history](ST05_ANCIENT_COLOSSEUM_DECISION_HISTORY_2026-10-29.md) for the original sequence and the [structure index](STRUCTURE_AUTHORITY_INDEX.md) for routing.
