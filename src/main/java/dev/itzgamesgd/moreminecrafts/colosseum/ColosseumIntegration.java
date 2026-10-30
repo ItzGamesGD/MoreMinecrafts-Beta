@@ -175,6 +175,20 @@ public final class ColosseumIntegration {
         return true;
     }
 
+    /** A server-confirmed player block placement: protects it in every registered arena whose zone contains it. */
+    public static void onPlayerPlaced(ServerLevel level, BlockPos pos) {
+        ColosseumArenaData data = data(level);
+        for (ColosseumArena arena : data.arenas())
+            if (arena.geometry().containsBlock(pos) && arena.structureMask().protect(pos.immutable())) data.setDirty();
+    }
+
+    /** A player-placed block was broken: its protection ends. Original structure positions are unaffected. */
+    public static void onPlayerBlockRemoved(ServerLevel level, BlockPos pos) {
+        ColosseumArenaData data = data(level);
+        for (ColosseumArena arena : data.arenas())
+            if (arena.structureMask().release(pos)) data.setDirty();
+    }
+
     @Nullable public static ColosseumArena arena(ServerLevel level, BlockPos center) {
         return data(level).arena(center.asLong());
     }

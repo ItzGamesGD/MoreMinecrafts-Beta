@@ -216,6 +216,27 @@ class ColosseumSchemaTest {
     }
 
     @Test
+    void playerPlacementIsReleasedOnRemovalAndNeverReleasesSourceOccupancy() {
+        ColosseumArenaData data = new ColosseumArenaData();
+        ColosseumArena arena = data.register(ColosseumArenaGeometry.testFixture(CENTER), "structure|x|release");
+        BlockPos original = CENTER.offset(2, 0, 0);
+        BlockPos playerPlaced = CENTER.offset(3, 0, 0);
+        arena.structureMask().recordStructure(List.of(original));
+        assertTrue(arena.structureMask().protect(playerPlaced));
+        assertTrue(arena.structureMask().playerPlaced(playerPlaced));
+
+        JsonElement saved = CODEC.encodeStart(JsonOps.INSTANCE, data).getOrThrow();
+        StructureMaskSnapshot restored = CODEC.parse(JsonOps.INSTANCE, saved).getOrThrow().arena(CENTER.asLong()).structureMask();
+        assertTrue(restored.playerPlaced(playerPlaced), "player provenance survives restart");
+        assertFalse(restored.playerPlaced(original), "source blocks are not player blocks");
+
+        assertFalse(restored.release(original), "player actions never release source occupancy");
+        assertTrue(restored.protects(original));
+        assertTrue(restored.release(playerPlaced));
+        assertFalse(restored.protects(playerPlaced), "a broken player block no longer protects its position");
+    }
+
+    @Test
     void ownershipTagsRoundTripAndLegacyTagsStillDecode() {
         UUID trial = UUID.randomUUID();
         ColosseumOwnership.Tag boss = ColosseumOwnership.Tag.of("structure|x|1", trial, 7, Kind.BOSS, ColosseumOwnership.BOSS_ALLOCATION);

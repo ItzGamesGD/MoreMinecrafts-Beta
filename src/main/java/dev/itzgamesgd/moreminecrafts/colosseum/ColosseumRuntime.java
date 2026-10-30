@@ -37,6 +37,9 @@ public final class ColosseumRuntime {
         ColosseumOwnership.initialize();
         ColosseumDebugCommand.initialize();
         ServerTickEvents.END_LEVEL_TICK.register(ColosseumRuntime::tickLevel);
+        net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
+            if (level instanceof ServerLevel serverLevel) ColosseumIntegration.onPlayerBlockRemoved(serverLevel, pos);
+        });
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (!(entity.level() instanceof ServerLevel level)) return;
             if (entity instanceof ServerPlayer player) {
