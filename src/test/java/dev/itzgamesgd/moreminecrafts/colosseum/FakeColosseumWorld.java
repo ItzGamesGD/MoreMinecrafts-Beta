@@ -42,6 +42,7 @@ final class FakeColosseumWorld implements ColosseumWorldPort {
     /** Blocks by packed position: absent = empty (air). Value is the block-state NBT. */
     final Map<Long, CompoundTag> blocks = new HashMap<>();
     final Set<Long> unloadedBlocks = new LinkedHashSet<>();
+    final Map<Long, Integer> restoreAttempts = new HashMap<>();
 
     UUID join() {
         UUID player = UUID.randomUUID();
@@ -174,6 +175,7 @@ final class FakeColosseumWorld implements ColosseumWorldPort {
 
     @Override
     public RestoreJournal.Attempt restoreBlock(RestoreJournal.Entry entry) {
+        restoreAttempts.merge(entry.pos(), 1, Integer::sum);
         if (unloadedBlocks.contains(entry.pos())) return RestoreJournal.Attempt.of(RestoreJournal.RestoreResult.NOT_LOADED);
         CompoundTag current = blocks.get(entry.pos());
         if (entry.prior().equals(current)) return RestoreJournal.Attempt.of(RestoreJournal.RestoreResult.ALREADY_RESTORED);

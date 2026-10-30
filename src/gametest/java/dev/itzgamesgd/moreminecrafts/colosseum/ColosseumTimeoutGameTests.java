@@ -385,16 +385,17 @@ public final class ColosseumTimeoutGameTests {
                     ctx.assertTrue(level.getBlockState(built).is(Blocks.OAK_PLANKS), "Q118-A: the player's building is untouched");
                     RestoreJournal.Entry conflict = s.journal().at(built.asLong());
                     ctx.assertTrue(s.journal().entries().size() == 1 && conflict != null
-                            && conflict.status() == RestoreJournal.Status.CONFLICT, "the conflict is recorded");
-                    ctx.assertTrue(ColosseumIntegration.archiveAndUnregister(level, center)
-                            == ColosseumIntegration.UnregisterResult.REFUSED_OPEN_WORK, "an unfinished restore blocks removal");
+                            && conflict.status() == RestoreJournal.Status.SKIPPED_CONFLICT, "the terminal conflict is recorded");
+                    ctx.assertTrue(ColosseumIntegration.unregisterArena(level, center)
+                            == ColosseumIntegration.UnregisterResult.REFUSED_HAS_RECORDS, "the ledger, not a terminal conflict, blocks removal");
                     level.setBlockAndUpdate(built, Blocks.AIR.defaultBlockState()); // the player removes it
                     step.set(6);
                 }
                 case 6 -> {
                     ColosseumIntegration.advanceController(level, center, ColosseumRules.JOURNAL_PERIOD_TICKS + 1);
-                    ctx.assertTrue(level.getBlockState(built).is(Blocks.STONE) && s.journal().isEmpty(),
-                            "once the spot is empty it is restored too");
+                    ctx.assertTrue(level.getBlockState(built).is(Blocks.AIR)
+                            && s.journal().at(built.asLong()).status() == RestoreJournal.Status.SKIPPED_CONFLICT,
+                            "a terminal conflict remains in history and is not re-evaluated");
                     for (ItemEntity key : level.getEntitiesOfClass(ItemEntity.class, new AABB(center).inflate(8.0D))) key.discard();
                     forceChunks(level, far, false);
                     finish(ctx, center, List.of(player));
@@ -435,10 +436,11 @@ public final class ColosseumTimeoutGameTests {
             ctx.assertTrue(ColosseumIntegration.journalBreak(level, arena, UUID.randomUUID(), center.offset(8, 1, 0), stone, null) == ColosseumIntegration.JournalResult.NOT_ACTIVE, "another trial");
             ctx.assertTrue(s.journal().entries().size() == 1, "only the allowed block was recorded");
             ColosseumFixtures.PROTECTED.remove(masked.asLong());
-            // Without a registered structure mask the call refuses to guess what is protected.
+            // An incomplete legacy/test registration cannot classify source positions by block type alone.
             ColosseumIntegration.setStructureMask(null);
             try {
-                ColosseumIntegration.journalBreak(level, arena, trial, ok, stone, null);
+                ColosseumArena incomplete = new ColosseumArena("incomplete", arena.geometry(), new ColosseumTrialState());
+                ColosseumIntegration.journalBreak(level, incomplete, trial, ok, stone, null);
                 ctx.fail("journalBreak must refuse to work without a structure mask");
             } catch (IllegalStateException expected) {
                 // required behavior
@@ -488,6 +490,15 @@ public final class ColosseumTimeoutGameTests {
                     ctx.assertTrue(ColosseumIntegration.archiveAndUnregister(level, center) == ColosseumIntegration.UnregisterResult.REFUSED_OPEN_WORK, "an unfinished restore blocks archiving");
                     ctx.assertTrue(ColosseumIntegration.unregisterArena(level, center) == ColosseumIntegration.UnregisterResult.REFUSED_OPEN_WORK, "an unfinished restore blocks unregistering");
                     again.state().journal().remove(again.state().journal().at(1L));
+                    BlockPos conflictCenter = center.offset(20, 0, 0);
+                    ColosseumArena conflictOnly = ColosseumIntegration.registerArena(level,
+                            ColosseumArenaGeometry.testFixture(conflictCenter));
+                    conflictOnly.state().journal().add(UUID.randomUUID(), 2L, new net.minecraft.nbt.CompoundTag(), null);
+                    conflictOnly.state().journal().at(2L).markSkippedConflict(123L, new net.minecraft.nbt.CompoundTag());
+                    ctx.assertTrue(!conflictOnly.state().hasOpenWork(), "a retained terminal conflict is not unfinished work");
+                    ctx.assertTrue(ColosseumIntegration.unregisterArena(level, conflictCenter)
+                            == ColosseumIntegration.UnregisterResult.REMOVED,
+                            "a conflict alone does not permanently block arena unregistering");
                     finish(ctx, center, List.of(player));
                 }
                 default -> {}

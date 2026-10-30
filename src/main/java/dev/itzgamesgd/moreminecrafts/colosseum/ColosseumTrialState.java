@@ -171,7 +171,7 @@ public final class ColosseumTrialState {
     public boolean waveCleared(UUID trial, int round) { return ledger.hasWave(trial, round); }
 
     /** Open work that must survive until done: no arena holding any may be unregistered (D3). */
-    public boolean hasOpenWork() { return !bossVanish.isEmpty() || !journal.isEmpty(); }
+    public boolean hasOpenWork() { return !bossVanish.isEmpty() || journal.hasPendingWork(); }
 
     @Nullable public Allocation allocation(int index) {
         return index >= 0 && index < allocations.size() ? allocations.get(index) : null;

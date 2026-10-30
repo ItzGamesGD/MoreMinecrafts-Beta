@@ -448,8 +448,8 @@ public final class ColosseumController {
 
     /**
      * Restores boss-destroyed blocks of trials that are no longer active (Q91, Q117) under Q118-A: only an empty
-     * position is filled, a conflicting block is recorded and left alone, and unloaded positions wait. Entries of
-     * the active trial are left broken until it ends.
+     * position is filled, a conflicting block is recorded and left alone permanently (O-13), and unloaded positions
+     * wait. Entries of the active trial are left broken until it ends.
      */
     private static void processJournal(ColosseumTrialState state, ColosseumWorldPort port) {
         if (state.journal.isEmpty() || --state.journalTimer > 0) return;
@@ -457,7 +457,7 @@ public final class ColosseumController {
         int handled = 0;
         for (RestoreJournal.Entry entry : new ArrayList<>(state.journal.entries())) {
             if (handled >= ColosseumRules.JOURNAL_BATCH) break;
-            if (entry.trial().equals(state.trialId)) continue;
+            if (entry.trial().equals(state.trialId) || entry.terminalConflict()) continue;
             RestoreJournal.Attempt attempt = port.restoreBlock(entry);
             switch (attempt.result()) {
                 case RESTORED, ALREADY_RESTORED -> {
@@ -465,7 +465,7 @@ public final class ColosseumController {
                     handled++;
                 }
                 case CONFLICT -> {
-                    entry.markConflict(port.gameTime(), attempt.found());
+                    entry.markSkippedConflict(port.gameTime(), attempt.found());
                     handled++;
                 }
                 case NOT_LOADED -> {}

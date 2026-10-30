@@ -315,7 +315,7 @@ public final class ColosseumServerPort implements ColosseumWorldPort {
             return RestoreJournal.Attempt.of(RestoreJournal.RestoreResult.RESTORED);
         }
         // Q118-A: something else occupies the spot (a player's building, flowed water): never overwrite it.
-        if (entry.status() != RestoreJournal.Status.CONFLICT)
+        if (!entry.terminalConflict())
             MoreMinecrafts.LOGGER.info("ST-05 arena {} restore conflict at {}: found {}, expected empty; left untouched.",
                     geometry.center().toShortString(), pos.toShortString(), currentTag);
         return new RestoreJournal.Attempt(RestoreJournal.RestoreResult.CONFLICT, currentTag);

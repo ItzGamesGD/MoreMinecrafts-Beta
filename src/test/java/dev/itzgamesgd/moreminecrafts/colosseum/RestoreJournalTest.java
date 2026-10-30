@@ -86,7 +86,7 @@ class RestoreJournalTest {
     }
 
     @Test
-    void q118aANonEmptyPositionIsNeverOverwrittenAndTheConflictIsRecorded() {
+    void q118aO13ConflictIsTerminalRetainedAndNeverReevaluated() {
         trialWith(3);
         endTrial("reset");
         s.world.blocks.put(2L, PLANKS); // a player built here after the boss broke the block
@@ -96,18 +96,20 @@ class RestoreJournalTest {
         assertEquals(PLANKS, s.world.blocks.get(2L), "Q118-A: the player's building is untouched");
         assertEquals(1, s.state.journal().entries().size());
         RestoreJournal.Entry conflict = s.state.journal().at(2L);
-        assertEquals(Status.CONFLICT, conflict.status());
+        assertEquals(Status.SKIPPED_CONFLICT, conflict.status());
         assertEquals(PLANKS, conflict.found(), "the foreign block is recorded");
         assertTrue(conflict.conflictGameTime() > 0);
+        assertEquals(1, s.world.restoreAttempts.get(2L));
         s.world.tick(s.state, 200);
         assertEquals(PLANKS, s.world.blocks.get(2L), "later passes still never overwrite it");
-        assertEquals(Status.CONFLICT, s.state.journal().at(2L).status());
-        assertTrue(s.state.hasOpenWork(), "the conflict stays on record");
-        // Once the spot is empty again it is a normal restore (Q118-A: empty positions are restored).
+        assertEquals(Status.SKIPPED_CONFLICT, s.state.journal().at(2L).status());
+        assertFalse(s.state.hasOpenWork(), "a terminal conflict is not open work");
+        // Even if the player later removes the block, O-13 prevents a new restore attempt.
         s.world.blocks.remove(2L);
         s.world.tick(s.state, ColosseumRules.JOURNAL_PERIOD_TICKS);
-        assertEquals(STONE, s.world.blocks.get(2L));
-        assertTrue(s.state.journal().isEmpty());
+        assertNull(s.world.blocks.get(2L));
+        assertEquals(1, s.world.restoreAttempts.get(2L));
+        assertEquals(1, s.state.journal().entries().size(), "the terminal conflict remains in history");
     }
 
     @Test
@@ -152,15 +154,19 @@ class RestoreJournalTest {
         // Server restart.
         ColosseumTrialState restarted = TestArenas.roundTrip(s.state);
         assertEquals(3, restarted.journal().entries().size());
-        assertEquals(Status.CONFLICT, restarted.journal().at(3L).status());
+        assertEquals(Status.SKIPPED_CONFLICT, restarted.journal().at(3L).status());
         assertEquals(PLANKS, restarted.journal().at(3L).found());
         FakeColosseumWorld after = new FakeColosseumWorld();
         after.blocks.putAll(s.world.blocks);
+        after.blocks.remove(3L);
         after.tick(restarted, ColosseumRules.JOURNAL_PERIOD_TICKS);
         assertEquals(STONE, after.blocks.get(4L));
         assertEquals(STONE, after.blocks.get(5L));
-        assertEquals(PLANKS, after.blocks.get(3L));
+        assertNull(after.blocks.get(3L), "a conflict remains skipped after restart even if the position is now empty");
+        assertEquals(0, after.restoreAttempts.getOrDefault(3L, 0));
         assertEquals(1, restarted.journal().entries().size(), "only the conflict is left");
+        assertEquals(Status.SKIPPED_CONFLICT, restarted.journal().at(3L).status());
+        assertFalse(restarted.hasOpenWork(), "the terminal conflict does not block arena removal");
         assertEquals(STONE, after.blocks.get(1L), "already-restored blocks stay as they were");
     }
 
@@ -198,7 +204,7 @@ class RestoreJournalTest {
         // position 2 holds nothing (air), which is not the recorded left state
         s.world.tick(s.state, ColosseumRules.JOURNAL_PERIOD_TICKS);
         assertEquals(STONE, s.world.blocks.get(1L));
-        assertEquals(Status.CONFLICT, s.state.journal().at(2L).status());
+        assertEquals(Status.SKIPPED_CONFLICT, s.state.journal().at(2L).status());
     }
 
     @Test
@@ -206,15 +212,28 @@ class RestoreJournalTest {
         trialWith(2);
         s.state.journal().add(s.state.trialId(), 3L, STONE, WATER);
         RestoreJournal.Entry e = s.state.journal().at(1L);
-        e.markConflict(77L, PLANKS);
+        e.markSkippedConflict(77L, PLANKS);
         var json = RestoreJournal.CODEC.encodeStart(JsonOps.INSTANCE, s.state.journal()).getOrThrow();
         RestoreJournal loaded = RestoreJournal.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
         assertEquals(3, loaded.entries().size());
-        assertEquals(Status.CONFLICT, loaded.at(1L).status());
+        assertEquals(Status.SKIPPED_CONFLICT, loaded.at(1L).status());
         assertEquals(77L, loaded.at(1L).conflictGameTime());
         assertEquals(PLANKS, loaded.at(1L).found());
         assertEquals(WATER, loaded.at(3L).left());
         assertEquals(STONE, loaded.at(2L).prior());
+    }
+
+    @Test
+    void legacyConflictStatusLoadsAsTerminalAndDoesNotBreakOldJournalData() {
+        trialWith(1);
+        RestoreJournal.Entry entry = s.state.journal().at(1L);
+        entry.markSkippedConflict(51L, PLANKS);
+        var encoded = RestoreJournal.CODEC.encodeStart(JsonOps.INSTANCE, s.state.journal()).getOrThrow();
+        encoded.getAsJsonArray().get(0).getAsJsonObject().addProperty("status", "CONFLICT");
+        RestoreJournal loaded = RestoreJournal.CODEC.parse(JsonOps.INSTANCE, encoded).getOrThrow();
+        assertEquals(Status.CONFLICT, loaded.at(1L).status(), "pre-O-13 saved values remain readable");
+        assertTrue(loaded.at(1L).terminalConflict(), "the legacy conflict is treated as terminal");
+        assertFalse(TestArenas.roundTrip(s.state).hasPendingWork());
     }
 
     @Test

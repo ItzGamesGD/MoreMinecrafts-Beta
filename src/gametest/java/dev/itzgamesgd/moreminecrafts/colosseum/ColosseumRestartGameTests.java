@@ -441,14 +441,17 @@ public final class ColosseumRestartGameTests {
                     if (bs.journal().entries().size() != 1) return;
                     for (int i = 0; i < 3; i++) ctx.assertTrue(level.getBlockState(JOURNAL[i]).is(Blocks.STONE), "restored " + JOURNAL[i]);
                     ctx.assertTrue(level.getBlockState(JOURNAL[3]).is(Blocks.OAK_PLANKS), "Q118-A: the player's building survives the restart");
-                    ctx.assertTrue(bs.journal().at(JOURNAL[3].asLong()).status() == RestoreJournal.Status.CONFLICT, "and the conflict is recorded");
+                    ctx.assertTrue(bs.journal().at(JOURNAL[3].asLong()).status() == RestoreJournal.Status.SKIPPED_CONFLICT,
+                            "and the terminal conflict is recorded");
                     level.setBlockAndUpdate(JOURNAL[3], Blocks.AIR.defaultBlockState());
                     step.set(2);
                 }
                 case 2 -> {
-                    if (!bs.journal().isEmpty()) return;
+                    if (bs.hasOpenWork()) return;
                     ColosseumRuntime.setControllerHeld(true); // freeze for the final restart
-                    ctx.assertTrue(level.getBlockState(JOURNAL[3]).is(Blocks.STONE), "once empty, the last spot is restored too");
+                    ctx.assertTrue(level.getBlockState(JOURNAL[3]).is(Blocks.AIR)
+                            && bs.journal().at(JOURNAL[3].asLong()).status() == RestoreJournal.Status.SKIPPED_CONFLICT,
+                            "after conflict, an emptied spot remains skipped and the history remains stored");
                     ctx.assertTrue(bs.cooldownRemaining() <= ColosseumRules.COOLDOWN_TICKS && bs.cooldownRemaining() > 0, "the cooldown is counting down");
                     Properties next = new Properties();
                     next.setProperty("boss.exact", exact(bs));
@@ -473,7 +476,9 @@ public final class ColosseumRestartGameTests {
         ColosseumTrialState bs = bossArena.state();
         ctx.assertTrue(exact(bs).equals(expect.getProperty("boss.exact")), "boss arena restored exactly:\n" + exact(bs) + "\n" + expect.getProperty("boss.exact"));
         ctx.assertTrue(exact(mobArena.state()).equals(expect.getProperty("mob.exact")), "mob arena restored exactly");
-        ctx.assertTrue(bs.bossVanish().isEmpty() && bs.journal().isEmpty() && !bs.hasOpenWork(), "all work finished and stayed finished");
+        ctx.assertTrue(bs.bossVanish().isEmpty() && bs.journal().entries().size() == 1 && !bs.hasOpenWork()
+                && bs.journal().at(JOURNAL[3].asLong()).status() == RestoreJournal.Status.SKIPPED_CONFLICT,
+                "the terminal conflict stays stored without remaining open work");
         UUID bossId = UUID.fromString(expect.getProperty("boss.id"));
         UUID parked = UUID.fromString(expect.getProperty("mob.parked"));
         ctx.assertTrue(bs.ledger().isReleased(UUID.fromString(expect.getProperty("boss.trial"))), "the released-trial record is kept");
@@ -486,7 +491,8 @@ public final class ColosseumRestartGameTests {
             if (mob == null) return;
             ctx.assertTrue(level.getEntity(bossId) == null && bosses(level, bossArena).isEmpty(), "the boss is gone for good");
             ctx.assertTrue(mob.isAlive() && ColosseumOwnership.tag(mob) == null, "the released mob is still a plain external mob");
-            for (BlockPos p : JOURNAL) ctx.assertTrue(level.getBlockState(p).is(Blocks.STONE), "terrain stays restored at " + p);
+            for (int i = 0; i < 3; i++) ctx.assertTrue(level.getBlockState(JOURNAL[i]).is(Blocks.STONE), "terrain stays restored at " + JOURNAL[i]);
+            ctx.assertTrue(level.getBlockState(JOURNAL[3]).is(Blocks.AIR), "the terminal conflict is not revisited after restart");
             ctx.assertTrue(keyCount(level, bossArena) == 6, "six keys, no duplicates after two restarts, got " + keyCount(level, bossArena));
             ctx.assertTrue(bossVanishedEvents(bossArena) == 0 && crystalEndings(bossArena) == 0, "nothing was re-announced");
             mob.discard();

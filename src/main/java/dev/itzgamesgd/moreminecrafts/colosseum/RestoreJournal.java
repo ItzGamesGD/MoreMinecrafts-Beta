@@ -22,7 +22,9 @@ import org.jetbrains.annotations.Nullable;
 public final class RestoreJournal {
     public enum Status {
         PENDING,
-        /** Q118-A: something other than the expected empty state occupies the position; it is left untouched. */
+        /** Q118-A / O-13: a real collision is retained for history but is never evaluated again. */
+        SKIPPED_CONFLICT,
+        /** Legacy persisted value. It remains terminal when loading worlds written before O-13. */
         CONFLICT
     }
 
@@ -59,25 +61,26 @@ public final class RestoreJournal {
         /** The state the boss left (null means plain air). */
         @Nullable public CompoundTag left() { return left; }
         public Status status() { return status; }
+        public boolean terminalConflict() { return status == Status.SKIPPED_CONFLICT || status == Status.CONFLICT; }
         public long conflictGameTime() { return conflictGameTime; }
         /** The foreign block seen at the last conflict, for diagnostics. */
         @Nullable public CompoundTag found() { return found; }
 
-        void markConflict(long gameTime, @Nullable CompoundTag foundState) {
-            status = Status.CONFLICT;
+        void markSkippedConflict(long gameTime, @Nullable CompoundTag foundState) {
+            status = Status.SKIPPED_CONFLICT;
             conflictGameTime = gameTime;
             found = foundState;
-        }
-
-        void clearConflict() {
-            status = Status.PENDING;
-            found = null;
         }
     }
 
     private final List<Entry> entries = new ArrayList<>();
 
     public boolean isEmpty() { return entries.isEmpty(); }
+
+    public boolean hasPendingWork() {
+        for (Entry entry : entries) if (entry.status == Status.PENDING) return true;
+        return false;
+    }
 
     public List<Entry> entries() { return Collections.unmodifiableList(entries); }
 
