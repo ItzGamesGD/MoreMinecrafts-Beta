@@ -1,4 +1,4 @@
-# ST-05 Worldgen Owner Decisions — WG-Q01–Q34 (2026-10-30)
+# ST-05 Worldgen Owner Decisions — WG-Q01–Q42 (2026-10-30)
 
 **Status: OWNER-APPROVED DESIGN ONLY.** This document records the owner's worldgen and architectural decisions in conversation. No worldgen implementation, merge, checkpoint promotion, or live acceptance is authorized. It is a **newer overlay** for the ST-05 structure/worldgen clauses in `docs/ST05_ANCIENT_COLOSSEUM_CURRENT_AUTHORITY_2026-10-29.md`; combat, lifecycle, persistence and rewards remain governed by that authority. Ancient City `arena.nbt` is unrelated to ST-05.
 
@@ -42,6 +42,15 @@
 | WG-Q33 | **B**: rank eligible candidates for natural cave connection, terrain damage, fluid interference and architectural exposure; select highest quality, tie-break with deterministic seed-based order. Mandatory constraints are hard rejection, never traded for score. |
 | WG-Q34 | **B**: balanced initial ranking weights: **cave connection quality 40%, terrain preservation 40%, fluid interference 10%, architectural exposure 10%**. Provisional design weights, not empirically optimal; validate and potentially recalibrate through sampled seeds. |
 
+| WG-Q35 | **B**: absolute, fixed-reference normalization of each candidate's four score components to **0–100**. Weighted total S = 0.4C + 0.4T + 0.1F + 0.1E, with higher better. Never normalize only relative to the other candidates. Hard eligibility/safety gates precede scoring. |
+| WG-Q36 | **B**: cave-connection component C = **40% traversable corridor length**, **30% elevation change/stair continuity**, **30% natural-cave junction quality**. Each submetric needs reproducible, measurable scoring definitions. These weights are *within* C. |
+| WG-Q37 | **B**: terrain-preservation component T = **60% natural block modification amount**, **40% original cave geometry/connectivity preservation**. Track unavoidable arena construction excavation separately from optional correction; destroying mandatory traversable cave routes is a hard reject. |
+| WG-Q38 | **B**: fluid-interference component F = **50% fluid removal/blocking work**, **50% re-entry risk** after block updates/chunk reload. Any unsafe seal or persistent combat-floor/Vault flooding is a hard reject, not a scoring tradeoff. |
+| WG-Q39 | **B**: architectural-exposure component E = **60% discoverability of entrance from existing natural cave**, **40% architectural completeness of naturally exposed outer wall**. Keep arena primarily embedded in rock; do not excavate additional cave just to increase exposure score. |
+| WG-Q40 | **B**: staged validation starts with **30 world seeds**; expand if qualifying-cavern samples are inadequate or outcomes unstable. Record functional integrity, cave access, fluid safety, restart/multi-chunk determinism, qualifying cavern counts, rolls, fit success, actual placements, generation latency and memory. Seed count alone is not statistical confidence. |
+| WG-Q41 | **B**: validate separately **roll fraction** (winning rolls / eligible caverns actually rolled), **fit fraction** (successful placements / winning rolls), and **final fraction** (successful placements / eligible caverns actually rolled). Record spacing-excluded caverns separately and state denominator/eligibility explicitly. The 75% is the configured roll probability, not a guaranteed observed final rate. |
+| WG-Q42 | **B**: implementer may independently optimize deterministic candidate ordering, cave-identification algorithm, and validation/runtime performance **without changing approved constraints**. Owner approval required for changing structure dimensions, 32-block path cap, 5x5 corridor clearance, 75% roll, 8-candidate maximum, structure/fluid/terrain safety constraints, or provisional scoring weights. Sampling may motivate a proposal, not automatic constraint changes. |
+
 ## Implementation constraints and outstanding work
 
 - This is **design synchronization**, not authorization to build or merge.
@@ -50,9 +59,10 @@
 - Vanilla cheese caves are continuous noise-carved terrain, not discrete structure candidates. **75% per cavern is a target**, requiring deterministic identification of connected qualifying caverns and one roll per cavern; feasibility and realized density are unverified.
 - Q10's 75% and Q11 minimum spacing may conflict in dense cave regions: define precedence and measure realized chance rather than claiming 75% realized placements automatically.
 - WG-Q19 explicitly supersedes WG-Q17: exact-center Ominous Vault directly under activation crystal. Ensure authority index and downstream implementation use Q19.
-- Q31–Q34 require deterministic bounded candidate search, measurable scoring definitions and sampling; never claim target 75% as measured placement rate.
+- Q31–Q39 require deterministic bounded candidate search, **fixed-reference 0–100 submetric definitions**, and sampling; never claim target 75% as measured placement rate.
+- Q40–Q42 establish validation scope, separate probability denominators, and an owner-approval gate for any changes to design constraints. 30 seeds is a starting point, not statistical proof.
 - Q27–Q28 collision/whole-plan behavior require technical validation under Minecraft 26.3 multi-chunk worldgen.
 - Need a live worldgen probe for cavern qualification, multi-chunk determinism, cave access, lighting, and all three architecture variants.
 - Existing PR #213 controller and PR #216 C4 are not changed by this document.
 
-**Provenance:** owner answers in the current 2026-10-30 ST-05-WG design conversation, WG-Q01–Q34.
+**Provenance:** owner answers in the current 2026-10-30 ST-05-WG design conversation, WG-Q01–Q42.
