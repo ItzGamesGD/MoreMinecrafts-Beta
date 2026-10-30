@@ -1,4 +1,4 @@
-# ST-05 Worldgen Owner Decisions — WG-Q01–Q18 (2026-10-30)
+# ST-05 Worldgen Owner Decisions — WG-Q01–Q34 (2026-10-30)
 
 **Status: OWNER-APPROVED DESIGN ONLY.** This document records the owner's worldgen and architectural decisions in conversation. No worldgen implementation, merge, checkpoint promotion, or live acceptance is authorized. It is a **newer overlay** for the ST-05 structure/worldgen clauses in `docs/ST05_ANCIENT_COLOSSEUM_CURRENT_AUTHORITY_2026-10-29.md`; combat, lifecycle, persistence and rewards remain governed by that authority. Ancient City `arena.nbt` is unrelated to ST-05.
 
@@ -22,8 +22,25 @@
 | WG-Q14 | Intact and ruined states **50% each**. Thus final variant distribution: intact/full dome **50%**, ruined/partial dome **25%**, ruined/natural ceiling **25%**. |
 | WG-Q15 | **A**: **8–12 perimeter columns**, no interior columns; keep the central fight and boss-charge lanes clear. Ruin detail concentrated near perimeter. |
 | WG-Q16 | **B** ancient geometric floor pattern with concentric/radial details, **deepslate-family blocks only for stone decor**: polished deepslate, deepslate bricks and tiles, with cracked variants for weathering. Integrated flush floor lighting permitted; floor remains level. |
-| WG-Q17 | **B**: central crystal as centerpiece; nearby Ominous Vault integrated into a floor decoration recess, accessible and without hazardous drop or obstruction. **Conflict requiring reconciliation:** the older Q1–Q118 authority specifies the crystal floating above the *exact-center* Ominous Vault; this newer owner decision changes their spatial relationship. Before implementation, update authoritative geometry/activation assumptions consistently. |
+| WG-Q17 | **SUPERSEDED BY WG-Q19**. Earlier B proposed adjacent Ominous Vault; do not implement that geometry. WG-Q19 restores the exact-center vertical crystal/Vault arrangement. |
 | WG-Q18 | **B**: four ancient masonry arch entrances, **7 blocks wide x 8 blocks high**, built from deepslate bricks and polished deepslate, with columns and lanterns. Intact variant has sound arches; ruined variant may show cracks while retaining clear access. |
+
+| WG-Q19 | **A**: Ominous Vault directly **beneath the activation crystal at exact arena center**, preserving older combat authority. Vertical arrangement must not obstruct Vault interaction, item pickup or trial activation. Explicitly supersedes WG-Q17. |
+| WG-Q20 | **B**: outer wall height **12 blocks**, upper dome height **11 blocks**, total **23 blocks**. Preserve 7x8 entrances. |
+| WG-Q21 | **A**: concentric masonry dome of polished deepslate, bricks and tiles; intact symmetrical rings, ruined variant broken rings; natural-ceiling variant has no artificial dome. |
+| WG-Q22 | **B**: selective terrain integration; intact architecture remains complete, ruined variant may blend some cave rock into outer walls. Never compromise combat floor, entrances, Vaults, crystal or protected structure blocks. |
+| WG-Q23 | **B**: natural-cave-transition corridor; deepslate masonry near colosseum gradually yields to original rock toward cave. Walkable and within Q08 32-block traversable path cap. |
+| WG-Q24 | **B**: corridor minimum **5-wide x 5-high unobstructed internal clearance**, tapering from 7x8 entrance; decoration cannot reduce clearance. |
+| WG-Q25 | **B**: stairs plus level stretches accommodate cave-floor elevation differences; preserve 5x5 clearance and 32-block traversable route cap; reject impossible connections. Validate stair facing/half/shape. |
+| WG-Q26 | **B**: selectively remove/block minor water/lava intrusions with masonry seals; reject major lava-lake interference. Combat floor and Vault area stay fluid-free after chunk reload. |
+| WG-Q27 | **B**: structure collision via protected actual occupied blocks and mandatory passage clearances, not only coarse bounding-box overlap. Reject true overlap; when another structure's occupancy cannot be reliably determined, reject conservatively. Never overwrite another structure. |
+| WG-Q28 | **B**: finalize full placement/connection/collision plan before per-chunk writes; all chunks use identical deterministic plan. Generation order and restarts must not change output or leave partial/duplicate arena. Feasibility in Minecraft 26.3 APIs requires verification. |
+| WG-Q29 | **B**: preserve terrain beyond 4 blocks from outer wall except approved cave connection corridor and safe junction excavation/reinforcement; never damage other protected structures. |
+| WG-Q30 | **B**: guarantee one valid cave connection, allow **up to two** if a second safe, short connection is available. Each independently obeys 32-block path, 5x5 clearance, stairs, fluids and collision conditions. |
+| WG-Q31 | **B**: one 75% roll per eligible cavern; if selected, deterministically retry alternative placements/directions within same cavern with a finite budget; never re-roll probability for each candidate. |
+| WG-Q32 | **B**: inspect **at most 8** placement candidates per selected cavern. Initial cap subject to seed-sampling and generation-time profiling, not a measured optimum. |
+| WG-Q33 | **B**: rank eligible candidates for natural cave connection, terrain damage, fluid interference and architectural exposure; select highest quality, tie-break with deterministic seed-based order. Mandatory constraints are hard rejection, never traded for score. |
+| WG-Q34 | **B**: balanced initial ranking weights: **cave connection quality 40%, terrain preservation 40%, fluid interference 10%, architectural exposure 10%**. Provisional design weights, not empirically optimal; validate and potentially recalibrate through sampled seeds. |
 
 ## Implementation constraints and outstanding work
 
@@ -32,8 +49,10 @@
 - Do not mistake test-fixture geometry (e.g. radius 26) for approved geometry.
 - Vanilla cheese caves are continuous noise-carved terrain, not discrete structure candidates. **75% per cavern is a target**, requiring deterministic identification of connected qualifying caverns and one roll per cavern; feasibility and realized density are unverified.
 - Q10's 75% and Q11 minimum spacing may conflict in dense cave regions: define precedence and measure realized chance rather than claiming 75% realized placements automatically.
-- WG-Q17 needs explicit reconciliation with the older exact-center Vault/crystal interaction contract before code changes.
+- WG-Q19 explicitly supersedes WG-Q17: exact-center Ominous Vault directly under activation crystal. Ensure authority index and downstream implementation use Q19.
+- Q31–Q34 require deterministic bounded candidate search, measurable scoring definitions and sampling; never claim target 75% as measured placement rate.
+- Q27–Q28 collision/whole-plan behavior require technical validation under Minecraft 26.3 multi-chunk worldgen.
 - Need a live worldgen probe for cavern qualification, multi-chunk determinism, cave access, lighting, and all three architecture variants.
 - Existing PR #213 controller and PR #216 C4 are not changed by this document.
 
-**Provenance:** owner answers in the current 2026-10-30 ST-05-WG design conversation, WG-Q01–Q18.
+**Provenance:** owner answers in the current 2026-10-30 ST-05-WG design conversation, WG-Q01–Q34.
