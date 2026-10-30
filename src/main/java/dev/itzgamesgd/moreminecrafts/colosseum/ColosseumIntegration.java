@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.colosseum;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -58,6 +59,7 @@ public final class ColosseumIntegration {
      */
     @FunctionalInterface
     public interface StructureMask {
+        /** Additional runtime protection; durable source and player positions are stored by {@link StructureMaskSnapshot}. */
         boolean isProtected(ServerLevel level, ColosseumArena arena, BlockPos pos, BlockState state);
     }
 
@@ -108,12 +110,14 @@ public final class ColosseumIntegration {
 
     static final List<BossHandler> BOSS_HANDLERS = new CopyOnWriteArrayList<>();
     static final List<SupplyHandler> SUPPLY_HANDLERS = new CopyOnWriteArrayList<>();
+    /** Optional runtime extension for integrations; durable provenance lives on each saved arena. */
     @Nullable private static volatile StructureMask structureMask;
 
     public static void registerBossHandler(BossHandler handler) { BOSS_HANDLERS.add(handler); }
 
     public static void registerSupplyHandler(SupplyHandler handler) { SUPPLY_HANDLERS.add(handler); }
 
+    /** Optional runtime extension layered on top of each arena's complete persisted source mask. */
     public static void setStructureMask(@Nullable StructureMask mask) { structureMask = mask; }
 
     @Nullable static BossHandler bossHandler(ServerLevel level, ColosseumArena arena) {
@@ -141,6 +145,34 @@ public final class ColosseumIntegration {
     /** Registers (idempotently) an arena of the structure instance {@code instanceId} (worldgen, stage C4). */
     public static ColosseumArena registerArena(ServerLevel level, ColosseumArenaGeometry geometry, String instanceId) {
         return data(level).register(geometry, instanceId);
+    }
+
+    /**
+     * C4 registration contract: persist every position occupied by the placed source structure. The list must come
+     * from the actual placement/template result, not inferred from block types or arena dimensions.
+     */
+    public static ColosseumArena registerArena(ServerLevel level, ColosseumArenaGeometry geometry, String instanceId,
+                                               Collection<BlockPos> sourceStructurePositions) {
+        ColosseumArena arena = data(level).register(geometry, instanceId);
+        recordStructureMask(level, arena, sourceStructurePositions);
+        return arena;
+    }
+
+    /** Completes or extends source occupancy from the actual structure placement result. */
+    public static void recordStructureMask(ServerLevel level, ColosseumArena arena,
+                                           Collection<BlockPos> sourceStructurePositions) {
+        if (data(level).arenaByInstance(arena.instanceId()) != arena)
+            throw new IllegalArgumentException("arena is not registered in this level");
+        arena.structureMask().recordStructure(sourceStructurePositions);
+        data(level).setDirty();
+    }
+
+    /** Records a confirmed player placement or other player modification in the persistent protection mask. */
+    public static boolean protectArenaBlock(ServerLevel level, ColosseumArena arena, BlockPos pos) {
+        if (data(level).arenaByInstance(arena.instanceId()) != arena) return false;
+        if (!arena.structureMask().protect(pos)) return false;
+        data(level).setDirty();
+        return true;
     }
 
     @Nullable public static ColosseumArena arena(ServerLevel level, BlockPos center) {
@@ -196,18 +228,20 @@ public final class ColosseumIntegration {
      * trial (Q91, Q117) and tells the boss whether it may break it. Never record after breaking: a crash in between
      * must find an entry for an intact block (a harmless no-op), not a broken block without an entry.
      *
-     * @throws IllegalStateException when no {@link StructureMask} is registered, because block type alone cannot
-     *         tell natural blocks from original structure blocks or player construction (Q91)
+     * @throws IllegalStateException until either a complete persisted C4 position snapshot or a runtime mask is
+     *         available; block type alone cannot tell original structure blocks from external natural blocks (Q91)
      */
     public static JournalResult journalBreak(ServerLevel level, ColosseumArena arena, UUID trialId, BlockPos pos,
                                              BlockState prior, @Nullable BlockState left) {
         StructureMask mask = structureMask;
-        if (mask == null) throw new IllegalStateException("no ST-05 structure mask registered; refusing to journal "
-                + "boss block destruction (Q91 requires the structure to define what is protected)");
+        if (!arena.structureMask().complete())
+            throw new IllegalStateException("no complete ST-05 structure mask registered; refusing to journal "
+                    + "boss block destruction (Q91 requires source-position provenance)");
         ColosseumTrialState state = arena.state();
         if (state.trialId() == null || !state.trialId().equals(trialId) || !state.phase().active()) return JournalResult.NOT_ACTIVE;
         if (prior.is(Blocks.VAULT) || prior.getDestroySpeed(level, pos) < 0.0F || level.getBlockEntity(pos) != null
-                || mask.isProtected(level, arena, pos, prior)) return JournalResult.PROTECTED;
+                || arena.structureMask().protects(pos)
+                || (mask != null && mask.isProtected(level, arena, pos, prior))) return JournalResult.PROTECTED;
         var added = state.journal().add(trialId, pos.asLong(), NbtUtils.writeBlockState(prior),
                 left == null ? null : NbtUtils.writeBlockState(left));
         data(level).setDirty();

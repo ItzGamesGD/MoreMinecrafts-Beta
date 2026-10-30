@@ -191,6 +191,31 @@ class ColosseumSchemaTest {
     }
 
     @Test
+    void structureMaskCoverageAndPlayerModificationsSurviveSaveAndRestart() {
+        ColosseumArenaData data = new ColosseumArenaData();
+        ColosseumArena arena = data.register(ColosseumArenaGeometry.testFixture(CENTER), "structure|x|mask");
+        BlockPos original = CENTER.offset(2, 0, 0);
+        BlockPos playerPlaced = CENTER.offset(3, 0, 0);
+        BlockPos externalNatural = CENTER.offset(4, 0, 0);
+        arena.structureMask().recordStructure(List.of(original));
+        assertTrue(arena.structureMask().protect(playerPlaced));
+
+        JsonElement saved = CODEC.encodeStart(JsonOps.INSTANCE, data).getOrThrow();
+        ColosseumArena restored = CODEC.parse(JsonOps.INSTANCE, saved).getOrThrow().arena(CENTER.asLong());
+        assertTrue(restored.structureMask().complete());
+        assertTrue(restored.structureMask().protects(original));
+        assertTrue(restored.structureMask().protects(playerPlaced));
+        assertFalse(restored.structureMask().protects(externalNatural),
+                "external natural blocks remain distinguishable from recorded structure/player positions");
+
+        ColosseumArena legacy = new ColosseumArena("legacy", ColosseumArenaGeometry.testFixture(CENTER), new ColosseumTrialState());
+        JsonElement oldFormat = ColosseumArena.CODEC.encodeStart(JsonOps.INSTANCE, legacy).getOrThrow();
+        oldFormat.getAsJsonObject().remove("structure_mask");
+        ColosseumArena decodedLegacy = ColosseumArena.CODEC.parse(JsonOps.INSTANCE, oldFormat).getOrThrow();
+        assertFalse(decodedLegacy.structureMask().complete(), "old save data loads but cannot claim missing provenance");
+    }
+
+    @Test
     void ownershipTagsRoundTripAndLegacyTagsStillDecode() {
         UUID trial = UUID.randomUUID();
         ColosseumOwnership.Tag boss = ColosseumOwnership.Tag.of("structure|x|1", trial, 7, Kind.BOSS, ColosseumOwnership.BOSS_ALLOCATION);

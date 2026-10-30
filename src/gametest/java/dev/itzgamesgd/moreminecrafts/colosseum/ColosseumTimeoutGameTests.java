@@ -418,9 +418,15 @@ public final class ColosseumTimeoutGameTests {
             step.set(1);
             UUID trial = s.trialId();
             BlockPos ok = center.offset(3, 1, 0), masked = center.offset(4, 1, 0), vault = center.offset(5, 1, 0),
-                    chest = center.offset(6, 1, 0), bedrock = center.offset(7, 1, 0);
+                    chest = center.offset(6, 1, 0), bedrock = center.offset(7, 1, 0),
+                    sourceBlock = center.offset(8, 1, 0), playerBlock = center.offset(9, 1, 0);
             level.setBlockAndUpdate(ok, Blocks.STONE.defaultBlockState());
             level.setBlockAndUpdate(masked, Blocks.STONE.defaultBlockState());
+            level.setBlockAndUpdate(sourceBlock, Blocks.STONE.defaultBlockState());
+            level.setBlockAndUpdate(playerBlock, Blocks.STONE.defaultBlockState());
+            ColosseumIntegration.recordStructureMask(level, arena, List.of(sourceBlock));
+            ctx.assertTrue(ColosseumIntegration.protectArenaBlock(level, arena, playerBlock),
+                    "a confirmed player placement is added to the durable protection mask");
             level.setBlockAndUpdate(vault, Blocks.VAULT.defaultBlockState());
             level.setBlockAndUpdate(chest, Blocks.CHEST.defaultBlockState());
             level.setBlockAndUpdate(bedrock, Blocks.BEDROCK.defaultBlockState());
@@ -430,6 +436,12 @@ public final class ColosseumTimeoutGameTests {
             ctx.assertTrue(ColosseumIntegration.journalBreak(level, arena, trial, ok, stone, null) == ColosseumIntegration.JournalResult.ALREADY_RECORDED,
                     "one open entry per position");
             ctx.assertTrue(ColosseumIntegration.journalBreak(level, arena, trial, masked, stone, null) == ColosseumIntegration.JournalResult.PROTECTED, "masked (structure) block");
+            ctx.assertTrue(ColosseumIntegration.journalBreak(level, arena, trial, sourceBlock, stone, null)
+                            == ColosseumIntegration.JournalResult.PROTECTED,
+                    "original structure occupancy is protected by the persisted source mask");
+            ctx.assertTrue(ColosseumIntegration.journalBreak(level, arena, trial, playerBlock, stone, null)
+                            == ColosseumIntegration.JournalResult.PROTECTED,
+                    "player-installed occupancy is protected by the persisted modification mask");
             ctx.assertTrue(ColosseumIntegration.journalBreak(level, arena, trial, vault, Blocks.VAULT.defaultBlockState(), null) == ColosseumIntegration.JournalResult.PROTECTED, "Vault");
             ctx.assertTrue(ColosseumIntegration.journalBreak(level, arena, trial, chest, Blocks.CHEST.defaultBlockState(), null) == ColosseumIntegration.JournalResult.PROTECTED, "block entity");
             ctx.assertTrue(ColosseumIntegration.journalBreak(level, arena, trial, bedrock, Blocks.BEDROCK.defaultBlockState(), null) == ColosseumIntegration.JournalResult.PROTECTED, "unbreakable");
