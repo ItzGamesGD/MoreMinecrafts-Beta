@@ -47,6 +47,13 @@ fabricApi {
 
 loom {
     runs {
+        // Stage 0 only: no ST-05 generator, geometry or production hook.
+        st05Stage0Probe {
+            server()
+            source sourceSets.gametest
+            runDir = "build/st05-stage0/run"
+            ideConfigGenerated false
+        }
         // Overworld Etherium-vs-Diamond matched-sample probe (tools/etherium-sampling/run_sampling.sh); not part of check/build/CI.
         etheriumSampling {
             server()
