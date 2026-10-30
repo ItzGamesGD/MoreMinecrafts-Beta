@@ -1,0 +1,67 @@
+name: ST-05 colosseum controller restart persistence
+
+on:
+  pull_request:
+    paths:
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - 'src/gametest/resources/fabric.mod.json'
+      - '.github/workflows/st05-colosseum-restart.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  restart:
+    name: restart (${{ matrix.test }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        test:
+          # R1 state, interrupted spawn warnings and the Q110 blockage clock, shared key, Q114-C eligibility.
+          - trial_state_survives_process_restart
+          # Q116/Q117/Q118-A: timed-out boss in an unloaded chunk, released ordinary mob, unfinished block restore.
+          - timeout_cleanup_survives_process_restart
+    env:
+      # The controller is held from server start; the tests release it explicitly, so no result depends on runner speed.
+      FILTER: -Dfabric-api.gametest.filter=moreminecrafts-gametest:colosseum_restart_game_tests_${{ matrix.test }} -Dmoreminecrafts.st05.hold=true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Write - build the state, save and shut down
+        env:
+          JAVA_TOOL_OPTIONS: ${{ env.FILTER }} -Dmoreminecrafts.st05.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st05-restart-${{ matrix.test }}-write.log
+          grep -F ST05_RESTART_WRITE st05-restart-${{ matrix.test }}-write.log
+      - name: Reload - after restart every value equals what was saved, then resume
+        env:
+          JAVA_TOOL_OPTIONS: ${{ env.FILTER }} -Dmoreminecrafts.st05.restart.phase=reload
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st05-restart-${{ matrix.test }}-reload.log
+          grep -F ST05_RESTART_RELOAD st05-restart-${{ matrix.test }}-reload.log
+      - name: Verify - second restart keeps the single payout, keys, restored terrain and released mobs
+        env:
+          JAVA_TOOL_OPTIONS: ${{ env.FILTER }} -Dmoreminecrafts.st05.restart.phase=verify
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st05-restart-${{ matrix.test }}-verify.log
+          grep -F ST05_RESTART_VERIFY st05-restart-${{ matrix.test }}-verify.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st05-colosseum-restart-evidence-${{ matrix.test }}
+          path: st05-restart-*.log

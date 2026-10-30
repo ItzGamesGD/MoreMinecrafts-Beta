@@ -48,5 +48,6 @@ public final class ModRegistries {
         ContractObjectives.initialize();
         dev.itzgamesgd.moreminecrafts.bounty.ContractLootIntegration.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
+        dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.initialize();
     }
 }
