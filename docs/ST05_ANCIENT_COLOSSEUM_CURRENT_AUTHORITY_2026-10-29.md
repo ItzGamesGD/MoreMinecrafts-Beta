@@ -1,4 +1,4 @@
-# ST-05 Ancient Colosseum — current design authority (Q1–Q116)
+# ST-05 Ancient Colosseum — current design authority (Q1–Q117)
 
 **Status: OWNER-APPROVED DESIGN ONLY. Implementation, merge, checkpoint promotion and live acceptance are not authorized by this record.** This is the effective ST-05 specification reconciled onto Wave15 c9f7a4bf from PR #207 head dd193d78 and the Q109 roster table reconfirmed by the owner in the current ChatGPT conversation. The ST-05-A report was supplied in conversation; no separate GitHub/Drive source, original execution script or raw log has been obtained. It is owner-provided evidence, not an independently recovered historical artifact. [Decision history](ST05_ANCIENT_COLOSSEUM_DECISION_HISTORY_2026-10-29.md) preserves the original wording, including revoked options; it is not an implementation source. [Structure authority index](STRUCTURE_AUTHORITY_INDEX.md) routes here. ST-05 is separate from the Ancient City arena (Phase 2 F-6).
 
@@ -18,9 +18,9 @@
 - Trial-owned mobs killed by traps, environment or farms count toward their wave regardless of attacker **only if at least one player is physically inside the combat zone when the kill is evaluated**. No wave advances during an empty-arena grace period. On failure/reset, remove only this trial instance's spawned mobs and boss, without death loot or XP; preserve external mobs. Remove this run's generated supply chests and unclaimed contents on success/failure/reset, but retain player-taken supplies and player construction. Never reclaim awarded Trial Keys, including center item entities.
 - Start a **65-minute / 78,000-tick** cooldown on success at boss death, or on conclusive failure/reset (including expiry of the absence grace period). It applies to all three outcomes. The crystal reflects cooldown. Do not substitute the obsolete 30-minute trial cooldown.
 
-## Persistence, time limit and reward records (Q111–Q116, owner-approved 2026-10-30)
+## Persistence, time limit and reward records (Q111–Q117, owner-approved 2026-10-30)
 
-These rules were approved by the owner in the ST-05-C0-SYNC task (Q111-A, Q112-A, Q113-B, Q114-C, Q115-B) and its follow-up answers (Q116). They extend Q1–Q110 and change none of them.
+These rules were approved by the owner in the ST-05-C0-SYNC task (Q111-A, Q112-A, Q113-B, Q114-C, Q115-B) and its follow-up answers (Q116), and Q117 in the ST-05-C0-FINAL task. They extend Q1–Q110 and change none of them. Q117 is the single, explicit exception to one clause of Q116 (the R7 boss); Q116's rule for ordinary mobs is unchanged.
 
 - **Q111-A — uncredited deaths and real losses return their allocation.** A trial-owned mob whose death is not credited (no player physically inside the combat zone when the kill is evaluated, per Q107), or that is actually lost without a credited kill (despawned, discarded, changed dimension, or confirmed missing once its last chunk's entities are loaded), returns its allocation to pending and is spawned again through the normal batch-spawn cycle. It never counts as a valid kill and never completes a round. A mob that is merely in an unloaded chunk is not lost and is never duplicated.
 - **Q112-A — trials survive server restarts; offline time does not count.** A server stop or restart preserves the trial and resumes it from its saved state: round, participants, allocations and their spawned/pending/killed status, spawn warnings, every timer, and all reward records. Timers advance only while the server is running and ticking. Offline time consumes none of the absence grace, Q110 blockage, intermission, trial time limit (Q116) or cooldown.
@@ -31,9 +31,17 @@ These rules were approved by the owner in the ST-05-C0-SYNC task (Q111-A, Q112-A
   - **Clock:** the whole trial has a limit of **65 minutes (78,000 ticks)** of online server time, counted from R1 start. It keeps running during the all-absent pause, and offline time is excluded (Q112-A).
   - **Separate from the cooldown:** it is a separate timer from the 78,000-tick re-challenge cooldown.
   - **On expiry:** the trial ends as timed out and the 78,000-tick cooldown starts.
-  - **Leftovers:** remaining trial mobs, any R3/R5 supply chests and any R7 boss are **not removed or cleaned up**.
-  - **Killing leftovers:** gives ordinary vanilla death drops and XP only. There is no wave progression, wave presentation, Trial Key, Ominous Trial Key or any other trial reward.
+  - **Leftovers:** remaining trial mobs, any R3/R5 supply chests and any R7 boss are **not removed or cleaned up**. *(The R7 boss clause is superseded by Q117; the rule stays in force for ordinary mobs and supply chests.)*
+  - **Killing leftovers:** gives ordinary vanilla death drops and XP only. There is no wave progression, wave presentation, Trial Key, Ominous Trial Key or any other trial reward. *(Applies to leftover ordinary mobs; the boss no longer exists after a time-out, Q117.)*
   - **Already awarded keys** are never reclaimed (Q97).
+- **Q117 — on time-out the Immortal Gladiator vanishes; ordinary mobs stay.**
+  - **Ending:** when the Q116 65-minute limit expires the trial ends as timed out.
+  - **Ordinary mobs and supplies:** unchanged from Q116. Ordinary trial mobs and R3/R5 supply chests remain, and killing a leftover ordinary mob gives vanilla drops and XP only.
+  - **Boss:** if the Immortal Gladiator exists, it disappears together with the central activation crystal's ending presentation. This replaces Q116's "not removed" clause for the boss only.
+  - **Not a defeat:** the vanishing is not a kill. It is not boss death, not a trial success, and gives no Ominous Trial Key, no boss-foot loot, no XP and no other reward.
+  - **Cooldown:** the 78,000-tick re-challenge cooldown applies (Q116, Q99).
+  - **Terrain:** natural blocks the boss destroyed are restored under Q91's protection conditions (only the eligible external natural stone/wood-type blocks it was allowed to break, each to its exact prior state; original structure, Vaults, crystal, unbreakable blocks and player construction are never touched).
+  - **Restart:** a vanishing or restoration still unfinished at a server stop is resumed after restart (Q112-A). Offline time does not count.
 
 ## Threat budget, roster and spawns (Q21–Q25, Q33–Q49, Q67–Q68, Q77–Q78, Q107–Q110)
 
@@ -93,4 +101,4 @@ The three zombie mixin variants' prior REVIEW/LIVE PENDING status is unchanged. 
 
 ## Acceptance boundary
 
-This document records the **last effective approved rules** from Q1–Q116. It does not itself approve implementation, a GeckoLib dependency, final worldgen rates, new reward identities, exact mob weights, numeric elite density, final combat timing, visual assets or live balance. Verify these without borrowing superseded text from the historical record. See the [history](ST05_ANCIENT_COLOSSEUM_DECISION_HISTORY_2026-10-29.md) for the original sequence and the [structure index](STRUCTURE_AUTHORITY_INDEX.md) for routing.
+This document records the **last effective approved rules** from Q1–Q117. It does not itself approve implementation, a GeckoLib dependency, final worldgen rates, new reward identities, exact mob weights, numeric elite density, final combat timing, visual assets or live balance. Verify these without borrowing superseded text from the historical record. See the [history](ST05_ANCIENT_COLOSSEUM_DECISION_HISTORY_2026-10-29.md) for the original sequence and the [structure index](STRUCTURE_AUTHORITY_INDEX.md) for routing.
