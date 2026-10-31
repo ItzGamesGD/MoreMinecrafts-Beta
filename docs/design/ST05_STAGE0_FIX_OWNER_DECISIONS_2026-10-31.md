@@ -15,3 +15,14 @@ The owner explicitly chooses **B (player-modification protection priority)** ove
 - No implementation, production worldgen integration, merge, checkpoint promotion, or Stage 1 progression is authorized by this decision.
 
 **Provenance:** Owner response approving ST-05-A03-FIX-Q01 B on 2026-10-31.
+
+## A03-FIX-Q02 — B: quarantine whenever intervention cannot be excluded
+
+The owner explicitly approves **B (quarantine on uncertainty)**.
+
+- Automatic recovery may proceed **only for portions with sufficient, independently verifiable evidence that no player intervention occurred**. Define and validate the evidence standard before implementation; no current-state-only check can establish a complete modification history.
+- Where nonintervention cannot be established, **preserve existing blocks and quarantine the uncertain portion** rather than overwrite it. Do not interpret missing logs, unavailable chunks, interrupted writes, or ambiguous evidence as absence of intervention.
+- The exact quarantine boundary, behavior when uncertain and safe portions overlap, and how a quarantined structure is later completed or retired remain **unresolved owner decisions**. A03 remains BLOCKED until a feasible mechanism and tests establish safety.
+- No implementation, integration, merge, checkpoint or Stage 1 approval. This decision preserves A03-FIX-Q01 B, WG-Q01–Q45 and FIX-01 A.
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q02 B on 2026-10-31.
