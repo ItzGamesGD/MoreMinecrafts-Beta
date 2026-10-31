@@ -173,3 +173,16 @@ The owner approves **A: process the complete, qualified, single-roll-winning cav
 - **Owner decision only. No implementation, test/probe execution, production worldgen integration, Stage 1+, merge or checkpoint update is authorized.**
 
 **Provenance:** Owner approval of ST-05-A02-FIX-Q08 A on 2026-10-31.
+
+## A02-FIX-Q09 — C: compare spacing metrics and propose a value before final owner approval
+
+The owner approves **C: retain the existing WG-Q11 minimum-separation requirement, but defer final selection of the measurement metric and numeric distance until a technical comparison of center-to-center versus protected-footprint-to-footprint spacing in Minecraft 26.3**.
+
+- Compare **arena placement-center distance** against **shortest distance between protected occupied/mandatory passage-clearance footprints**, including irregular corridors, vertical separation, adjacent caverns, and protected/retired arena sites. Assess implications for placement density, actual noninterference, conflict detection, and finite complete neighborhood enumeration.
+- Propose a specific distance metric, candidate numeric separation, geometric interpretation (2D horizontal versus 3D, center definition, protected footprint scope, boundary equality and integer-coordinate behavior), deterministic algorithm and bounded-work evidence. Include counterexamples and a sensitivity analysis, not only favorable examples.
+- **Neither metric nor numeric separation is approved by this C decision.** Return evidence and alternatives for **separate explicit owner approval** before using a final placement rule. Do not infer a distance from the arena's 68-block exterior diameter or invent an arbitrary cutoff.
+- Preserve A02-FIX-Q08 A (descending suitability greedy acceptance with canonical ID tie-break), A02-FIX-Q07 B (complete deterministic neighboring-candidate evaluation before final commitment), all WG-Q01–Q45, FIX-01 A, A03-FIX-Q01–Q05 B and A03-FIX-Q06 C. No rerolls, no first-discovered-wins, no weakened collision or retired-site protection.
+- A02 remains **BLOCKED** pending actual finite-range, cavern segmentation/ID and spacing validation. This is a design decision authorizing a **future proposal**, not permission to run experiments now.
+- **No implementation, test/probe execution, production worldgen integration, Stage 1+, merge or checkpoint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q09 C on 2026-10-31.
