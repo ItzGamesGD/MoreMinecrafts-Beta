@@ -65,3 +65,64 @@ bash tools/st05-stage0/run_live.sh
   No Stage 1, worldgen integration, merge or checkpoint promotion is authorized.
 
 The Draft PR is the result/decision record; `results/` contains raw observations.
+
+## Stage 0-FIX (2026-10-31)
+
+The old `2c09958` evidence is retained; its six successful CI workflows and old
+three-process probe were not rerun. New observations live in `results/fix/`.
+With the same Java/proxy environment above:
+
+```sh
+python3 tools/st05-stage0/compare_recovery.py
+bash tools/st05-stage0/run_fix.sh
+python3 tools/st05-stage0/identity_fix.py
+```
+
+`run_fix.sh` launches **five fresh JVMs** in disposable worlds. The first four
+share a saved world; the fifth uses the same seed and reversed fixture order.
+`verify_fix.py <evidence-directory>` checks captured JSON without starting a
+server. New live phases: `prepare`, `interrupt`, `recover`, `verify`, `order`.
+
+The new initializer is independently gated by `mm.st05fix.out`; the old probe
+remains inert during these runs. The two-marker plans are immutable and include
+schema, seed, dimension, ID, original block states and target states. Checksummed
+JSON journals are forced, atomically renamed in the same directory, then the
+directory is forced (tested on this Linux filesystem). PREPARED/APPLYING/COMPLETE
+are experimental labels; every replay validates actual blocks even for COMPLETE.
+Chunk saves precede COMPLETE. A preflight conflict prevents all new fixture
+writes; invalid journals never authorize writes. Journals are under the evidence
+directory, **not Minecraft SavedData**. This is not a concurrent recovery service.
+
+Faults cover first-marker-only persistence; interruption after repaired blocks
+save but before COMPLETE; stale COMPLETE plus a deliberately reverted block;
+two blocks saved before completion; truncated active JSON; publication to a
+directory; and conflicting oak planks. Stale COMPLETE is an **injected mismatch**,
+not a reproduced torn Minecraft disk write. Process halt occurs after explicit
+saves; OS power loss and crashes inside the filesystem rename/save are NOT RUN.
+
+The `erased` scenario is a **negative control**, never a safe recovery policy:
+a simulated player edit restores the second marker's original block state.
+State reconciliation cannot distinguish that history from an unwritten marker
+and overwrites the simulated edit. The runner deliberately asserts this
+counterexample occurred. No actual player input/event is tested. Repaired
+fixtures do not resolve Q28's strict partial-state prohibition or player edit
+preservation. Conflicting partial fixtures are retained, not rolled back or
+declared successfully completed. No production controller or protection-mask
+conflict lifecycle is changed.
+
+`identity_fix.py` is **not a live Minecraft cave test**. Complete synthetic
+topologies give stable seed/dimension/min-coordinate IDs in 24 input orders.
+A separate SQLite unique-key ledger accepts exactly 3 claims from 96 concurrent
+requests, then 0 new claims in another Python process. This proves deduplication
+only with already stable IDs, not Minecraft storage or late-merge safety.
+The candidate hash priority is evaluated on all successful synthetic rolls
+after fixture-fit, retaining every eligible roll in its denominator. It is
+unapproved, not selected for production. Exact separation 100 is illustrative.
+Two globally different graphs with identical local observations still require
+different IDs and eligible counts (2 versus 1). Treating open components as
+closed, splitting caves, dropping unknowns from eligibility, or adopting a spacing
+priority remains OWNER_DECISION_REQUIRED. No real cavern rolls are drawn.
+
+No real arena, corridor, collision plan, cave qualification, concurrent Minecraft
+generation, Stage 1 geometry, or worldgen integration was added. A02/A03 remain
+BLOCKER; the PR distinguishes fixture improvements from full gate acceptance.

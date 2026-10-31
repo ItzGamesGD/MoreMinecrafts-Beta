@@ -6,6 +6,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05RecoveryProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05Stage0Probe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe",
