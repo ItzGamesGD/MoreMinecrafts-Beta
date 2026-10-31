@@ -63,6 +63,14 @@ loom {
             runDir = "build/sky-islands-probe/run"
             ideConfigGenerated false
         }
+        // ST-05 Stage 0 feasibility probe for A02/A03 (tools/st05-worldgen-probe/run_probe.sh); inert unless -Dmm.st05.out is set; not part of check/build/CI.
+        st05CavernProbe {
+            server()
+            name = "ST-05 Cavern Identity Probe"
+            source sourceSets.gametest
+            runDir = "build/st05-worldgen-probe/run"
+            ideConfigGenerated false
+        }
         // Nether Adamantium-vs-Ancient-Debris matched-sample probe (docs/audits/wave13/ADAMANTIUM_F3_ANALYSIS.md).
         // Driven by tools/ore-sampling/run_sampling.sh; inert unless -Dmm.nether.ore.out is set; not part of check/build/CI.
         oreSampling {
