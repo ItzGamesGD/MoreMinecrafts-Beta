@@ -136,3 +136,15 @@ The owner approves **B: record each stage separately**, so the single-roll proba
 - A02 remains **BLOCKED** until stable segmentation/IDs and conflict resolution are validated against real Minecraft 26.3 generation order, chunk boundaries and restarts. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
 
 **Provenance:** Owner approval of ST-05-A02-FIX-Q06 B on 2026-10-31.
+
+## A02-FIX-Q07 — B: deterministic neighboring-candidate evaluation before final placement
+
+The owner approves **B: resolve all potentially conflicting nearby cavern candidates deterministically from the world seed and canonical cavern definitions before committing a winning arena**, rather than first-discovered-wins or waiting for arbitrary player-driven chunk generation.
+
+- Evaluate the relevant neighboring qualifying cavern units and their placement scores independently of chunk generation/discovery order, including as-yet-unloaded neighbors where technically safe and feasible. Preserve A02-FIX-Q05 B (higher existing WG-Q34–Q39 suitability score wins, canonical cavern ID breaks ties).
+- Determine a finite neighborhood scope and work budget through isolated Minecraft 26.3 experiments, including cross-boundary, late-neighbor, concurrency, restart, and cyclic/multiway spacing conflicts. **Neither an unbounded scan nor an arbitrary cutoff that changes outcomes is authorized.**
+- If complete deterministic resolution within the validated bounds is not possible, **defer final placement and keep A02 BLOCKED**; do not fall back to discovery order, silently omit neighbors, or place then overwrite a competing arena.
+- Maintain FIX-01 A (at most eight pre-roll fit candidates, one 75% roll per fit-eligible cavern), A02-FIX-Q01–Q06 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and all minimum-spacing/collision/protected-site gates. No rerolls, no retroactive player-block modification, and no reinterpretation of roll denominator.
+- This is a **design policy and authorization for a later validation proposal**, not permission to implement, integrate, merge or promote a checkpoint. A02 remains BLOCKED until the real Minecraft 26.3 proof and owner-gated parameters are complete.
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q07 B on 2026-10-31.
