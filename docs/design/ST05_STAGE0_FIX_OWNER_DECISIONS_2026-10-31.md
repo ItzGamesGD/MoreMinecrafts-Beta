@@ -124,3 +124,15 @@ The owner approves **B: when two independent qualifying cavern units each pass t
 - Preserve A02-FIX-Q01–Q04 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
 
 **Provenance:** Owner approval of ST-05-A02-FIX-Q05 B on 2026-10-31.
+
+## A02-FIX-Q06 — B: separate probability and final-placement statistics
+
+The owner approves **B: record each stage separately**, so the single-roll probability is not conflated with actual arena placement success.
+
+- Record at minimum: **number of distinct fit-eligible cavern units** (after approved qualification and pre-roll fit gates), **number passing the one 75% roll**, **number of roll winners rejected by minimum-spacing conflicts**, and **number of arenas actually generated**. Distinguish additional failure causes (other structure collisions, protected retired sites, incomplete/failed generation, and pending status) when available, so accounting is not misleading.
+- Keep the denominator for observed roll success as the count of **fit-eligible cavern units that actually received their single deterministic roll**, not the count of ultimately placed arenas. Report realized placement rate separately and explicitly label its denominator.
+- Make counters idempotent across chunk order, repeated discovery, restart, and retries; no double counting of the same canonical cavern ID or partially completed structure. Track outcomes separately from RNG values, with test provenance and seed-level aggregation.
+- This is a **measurement/accounting policy only**: no change to the 75% probability, WG-Q09 cave qualifications, FIX-01 A's up-to-eight pre-roll fit checks, WG-Q11 spacing, A02-FIX-Q05 B conflict priority, or A03-FIX-Q01–Q05 protections. No extra rerolls.
+- A02 remains **BLOCKED** until stable segmentation/IDs and conflict resolution are validated against real Minecraft 26.3 generation order, chunk boundaries and restarts. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q06 B on 2026-10-31.
