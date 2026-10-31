@@ -186,3 +186,16 @@ The owner approves **C: retain the existing WG-Q11 minimum-separation requiremen
 - **No implementation, test/probe execution, production worldgen integration, Stage 1+, merge or checkpoint changes authorized.**
 
 **Provenance:** Owner approval of ST-05-A02-FIX-Q09 C on 2026-10-31.
+
+## A02-FIX-Q10 — C: compare canonical representative-point rules before final approval
+
+The owner approves **C: defer final choice of the deterministic representative-point ordering until a technical comparison of coordinate-lexicographic minimum versus an interior/centrality-based deterministic representative point on real Minecraft 26.3 natural caverns**.
+
+- Compare both candidates against the **fully defined, independently qualifying cavern unit** under approved A02-FIX-Q01–Q04 bottleneck segmentation. Evaluate stability under changed chunk discovery order, partial/late cave connections, parallel generation, restarts, dimension/world isolation, and deterministic tie resolution.
+- Measure how distant cave branches and boundary changes affect canonical IDs, representative-to-placement-center distance, finite complete neighbor enumeration, runtime work budgets, and the Q06 single-roll denominator. A deterministic tie-break does **not** establish stable segmentation.
+- For the lexicographic approach, assess remote extremal points and coordinate ordering/negative-coordinate encoding. For the interior approach, define and compare reproducible centrality/scale metrics, ties, and computation bounds; do not assume a centroid is automatically an existing traversable point.
+- Produce a comparative, counterexample-driven technical proposal, including precise candidate algorithms, limits, test plan and owner-facing recommendation. **Neither representative-point algorithm, ordering, encoding/hash specification, nor numerical segmentation threshold is approved by this C decision.** Obtain separate explicit owner approval before finalizing these details.
+- Preserve A02-FIX-Q01–Q09 (including Q08 A greedy score-priority conflict resolution and Q09 C spacing-metric comparison), A03-FIX-Q01–Q05 B, A03-FIX-Q06 C, WG-Q01–Q45, FIX-01 A and all protection constraints. A02 and A03 remain **BLOCKED**.
+- **Design record only. No implementation, probe/test execution, worldgen integration, Stage 1+, merge or checkpoint change is authorized.** Bundle remaining technical parameter choices into a later focused feasibility review rather than presuming an unlimited series of owner decisions.
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q10 C on 2026-10-31.
