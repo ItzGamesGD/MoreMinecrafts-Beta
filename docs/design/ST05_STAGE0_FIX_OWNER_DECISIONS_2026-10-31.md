@@ -111,3 +111,16 @@ The owner approves **B: a deterministic representative point selected by a fixed
 - A02 remains **BLOCKED** pending actual Minecraft 26.3 deterministic validation. Preserve A02-FIX-Q01–Q03 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
 
 **Provenance:** Owner approval of ST-05-A02-FIX-Q04 B on 2026-10-31.
+
+## A02-FIX-Q05 — B: placement suitability wins deterministic minimum-spacing conflicts
+
+The owner approves **B: when two independent qualifying cavern units each pass their single 75% roll but their proposed arenas conflict with the existing minimum-spacing constraint, prefer the candidate with the higher already-approved WG-Q34–Q39 placement suitability score; break exact score ties by a deterministic cavern ID ordering**.
+
+- Evaluate competing candidates and scores from a stable, complete-enough neighborhood of cavern units so results do **not** depend on chunk generation order, discovery timing, restart or parallel workers. A candidate must not be finalized merely because a higher-scoring neighbor has not yet been discovered.
+- Preserve all hard fit gates, existing minimum spacing, other-structure collision protections, and FIX-01 A's up-to-eight fit checks **before one 75% roll per fit-eligible cavern unit**. A spacing loser is not rerolled and is not automatically replaced by a second candidate from the same cavern.
+- Do not treat score priority as authority to override a preexisting protected/retired site (A03-FIX-Q01–Q05), already persisted legitimate structures, or other worldgen safety gates.
+- If scores cannot be compared deterministically without unbounded exploration or an unapproved change to WG-Q34–Q39, keep the case **A02 BLOCKER** and return an explicit owner decision request; do not silently substitute first-writer-wins or ID-only priority.
+- This approves the **priority policy**, not a new score formula, neighborhood radius, global optimizer, cave ID implementation, or production integration. Those remain subject to technical proof and any needed owner approval.
+- Preserve A02-FIX-Q01–Q04 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q05 B on 2026-10-31.
