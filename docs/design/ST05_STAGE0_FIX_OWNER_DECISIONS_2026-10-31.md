@@ -26,3 +26,16 @@ The owner explicitly approves **B (quarantine on uncertainty)**.
 - No implementation, integration, merge, checkpoint or Stage 1 approval. This decision preserves A03-FIX-Q01 B, WG-Q01–Q45 and FIX-01 A.
 
 **Provenance:** Owner approval of ST-05-A03-FIX-Q02 B on 2026-10-31.
+
+## A03-FIX-Q03 — B: chunk-level quarantine with dependency closure
+
+The owner explicitly approves **B (chunk-level quarantine)**.
+
+- If player intervention cannot be excluded in a chunk containing a partially generated arena, **quarantine that chunk plus any cross-chunk structural/connection dependencies affected by it**. Do not automatically overwrite blocks in the quarantine set.
+- Automatic recovery may proceed **only in independent chunks for which nonintervention is sufficiently evidenced** and whose restoration cannot change, overwrite, invalidate or implicitly depend on quarantined portions.
+- The dependency closure must be conservatively determined and validated across chunk boundaries, crash/restart, cave corridors, protected structures and arena completion state. If independence cannot be proven, expand quarantine; do not silently assume it.
+- **Chunk quarantine does not imply an incomplete arena is usable or completed**. Trial activation, Vault rewards, successful-generation accounting and other completion-dependent behavior must remain disabled until the entire structure satisfies its acceptance gates.
+- Exact dependency calculation, quarantine persistence and later recovery/retirement remain undecided. A03 remains BLOCKED pending feasibility proof.
+- No implementation, production worldgen integration, Stage 1+, merge, checkpoint or owner-constraint changes authorized.
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q03 B on 2026-10-31.
