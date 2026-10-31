@@ -1,0 +1,36 @@
+{
+  "runtime": "Minecraft 26.3, five independent JVMs",
+  "recovery_interrupted_then_restarted": "PASS for two-marker fixture",
+  "duplicate_replay_no_block_writes": "PASS",
+  "stale_complete_revalidated": "PASS",
+  "all_blocks_written_before_complete_record": "PASS",
+  "corrupt_journal_and_failed_publish_no_world_writes": "PASS",
+  "visible_conflict_preserves_edit": "PASS",
+  "fresh_reverse_order_same_immutable_plan": "PASS",
+  "erased_to_original_state_edit": "FAIL: state-only reconciliation overwrites indistinguishable edit",
+  "strict_physical_atomicity": "NOT SOLVED: partial blocks exist before recovery",
+  "full_arena_connection_collision_plan": "NOT IMPLEMENTED",
+  "a03": "BLOCKER / OWNER_DECISION_REQUIRED",
+  "timing_and_heap": {
+    "prepare": {
+      "elapsed_ms": 3856,
+      "used_heap_bytes": 349379440
+    },
+    "interrupt": {
+      "elapsed_ms": 2407,
+      "used_heap_bytes": 328728576
+    },
+    "recover": {
+      "elapsed_ms": 3639,
+      "used_heap_bytes": 606076928
+    },
+    "verify": {
+      "elapsed_ms": 3621,
+      "used_heap_bytes": 288748608
+    },
+    "order": {
+      "elapsed_ms": 3024,
+      "used_heap_bytes": 308520048
+    }
+  }
+}

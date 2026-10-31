@@ -1,0 +1,28 @@
+{
+  "base_branch": "design/st05-worldgen-q01-q18-20261030",
+  "base_sha": "cfdecb47897758fa1ea02c447dd7490fcf04268d",
+  "authority_blobs": {
+    "docs/design/ST05_WORLDGEN_STAGED_IMPLEMENTATION_HANDOFF_2026-10-30.md": "e47857ecc326d977bb987ecdf5d23fd7ff9dfa44",
+    "docs/design/ST05_WORLDGEN_OWNER_DECISIONS_Q01_Q18_2026-10-30.md": "9b9331def0c041750018f43f919203ed8aa67006",
+    "docs/design/ST05_WORLDGEN_PREIMPLEMENTATION_AUDIT_2026-10-30.md": "bcdc49584e35941f2a81398384b282c0ee8a4a01",
+    "docs/STRUCTURE_AUTHORITY_INDEX.md": "457bfad3451fc62904b3dcde6218437de70198dd",
+    "docs/ST05_ANCIENT_COLOSSEUM_CURRENT_AUTHORITY_2026-10-29.md": "5d5e685c6d1e577419c485f0a7170e062f4f5def"
+  },
+  "live_pr_heads_observed_2026_10_30": {
+    "213": {
+      "sha": "172613621438ad5f2c2252134e0aaccf1a757380",
+      "draft": true,
+      "merged": false,
+      "fabric_ci_run": 40998023228,
+      "conclusion": "success"
+    },
+    "216": {
+      "sha": "1ee08d440032095f9f247f2cb98c87fd15478656",
+      "draft": true,
+      "merged": false,
+      "fabric_ci_run": 41000105567,
+      "conclusion": "success"
+    }
+  },
+  "compatibility": "NOT INTEGRATED / NOT RUNTIME TESTED with these PR heads. This base does not contain their colosseum code. C4 integration contract is future-only; probe never calls registerArena or records protected positions."
+}

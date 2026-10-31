@@ -1,0 +1,7 @@
+  public void placeInChunk(net.minecraft.world.level.WorldGenLevel, net.minecraft.world.level.StructureManager, net.minecraft.world.level.chunk.ChunkGenerator, net.minecraft.util.RandomSource, net.minecraft.world.level.levelgen.structure.BoundingBox, net.minecraft.world.level.ChunkPos);
+public class net.minecraft.server.level.WorldGenRegion implements net.minecraft.world.level.WorldGenLevel {
+  public boolean isWithinWriteZone(net.minecraft.core.BlockPos);
+  public boolean ensureCanWrite(net.minecraft.core.BlockPos);
+  public boolean setBlock(net.minecraft.core.BlockPos, net.minecraft.world.level.block.state.BlockState, int, int);
+  public boolean saveAllChunks(boolean, boolean, boolean);
+  public boolean saveEverything(boolean, boolean, boolean);
