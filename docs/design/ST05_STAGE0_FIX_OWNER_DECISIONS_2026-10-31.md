@@ -39,3 +39,15 @@ The owner explicitly approves **B (chunk-level quarantine)**.
 - No implementation, production worldgen integration, Stage 1+, merge, checkpoint or owner-constraint changes authorized.
 
 **Provenance:** Owner approval of ST-05-A03-FIX-Q03 B on 2026-10-31.
+
+## A03-FIX-Q04 — B: conditional recovery; retire if safety cannot be established
+
+The owner approves **B: conditional recovery plus non-destructive retirement if recovery cannot be demonstrated safe**.
+
+- A quarantined arena or chunk may resume recovery **only when sufficient independently verifiable evidence establishes that recovery will not overwrite player modifications**, including cross-chunk dependencies as approved in A03-FIX-Q01–Q03. Missing evidence is not consent to overwrite.
+- If safety cannot be established, **mark the affected arena generation as failed/retired and disable all completion-dependent trial, Vault, key, reward and success accounting behavior**. Retirement is a **logical state transition only**, not removal, replacement, rollback or forced deletion of existing world blocks (including player-built blocks).
+- Preserve the actual world state and audit trail. Do not auto-retry the same placement or allocate another cavern/roll as a hidden substitute; retry/placement-accounting policy remains undecided and needs explicit owner approval.
+- The precise evidence standard, retirement persistence, transitions, and reattempt policy still require technical validation or further owner decisions. A03 remains BLOCKED until demonstrated safe in Minecraft 26.3.
+- This decision preserves A03-FIX-Q01–Q03 B, WG-Q01–Q45 and FIX-01 A. **No implementation, production worldgen integration, Stage 1+, merge, checkpoint change or constraint relaxation authorized.**
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q04 B on 2026-10-31.
