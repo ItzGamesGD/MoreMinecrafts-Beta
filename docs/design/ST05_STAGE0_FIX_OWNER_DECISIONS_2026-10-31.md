@@ -76,3 +76,14 @@ The owner approves **B: independently qualifying large cavern spaces**, not the 
 - Preserve A03-FIX-Q01–Q05 B, WG-Q01–Q45, FIX-01 A and existing combat/persistence/reward authority. **No implementation, Stage 1+, worldgen integration, merge or checkpoint promotion authorized.**
 
 **Provenance:** Owner approval of ST-05-A02-FIX-Q01 B on 2026-10-31.
+
+## A02-FIX-Q02 — B: relative cross-section and bottleneck analysis
+
+The owner approves **B: distinguish independently qualifying large cavern spaces by relative cross-sectional narrowing / bottleneck analysis**, rather than only an absolute fixed passage-width cutoff or center-distance partition.
+
+- Use geometry of large connected chambers and intervening narrow necks to propose segmentation; preserve WG-Q09's qualifying chamber dimensions and traversable cave requirements.
+- No particular cross-section threshold, comparison window, scan resolution, computational budget, cavern-ID function, or minimum separation priority is approved by this choice. These remain technical design/validation questions, with owner approval required if they alter the number of roll-eligible cavern units or other approved semantics.
+- Validate order-independent segmentation across chunks, restarts and irregular multi-branch caves, with deterministic operation budgets and counterexamples. **A02 remains BLOCKED** until proven.
+- Preserve A02-FIX-Q01 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. No implementation, Stage 1+, worldgen integration, merge or checkpoint changes authorized.
+
+**Provenance:** Owner approved ST-05-A02-FIX-Q02 B on 2026-10-31.
