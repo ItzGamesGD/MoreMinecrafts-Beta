@@ -160,3 +160,16 @@ The owner explicitly approves **C: preserve existing WG-Q28 and A03-FIX-Q01–Q0
 - A03 remains **BLOCKED**, and A02 remains **BLOCKED**. **This is a policy choice only; no new implementation, probe execution, test runs, production worldgen integration, Stage 1+, merge or checkpoint change is authorized.** Preserve all WG-Q01–Q45, FIX-01 A and A02-FIX-Q01–Q07 decisions.
 
 **Provenance:** Owner approval of ST-05-A03-FIX-Q06 C on 2026-10-31.
+
+## A02-FIX-Q08 — A: deterministic descending-suitability greedy acceptance
+
+The owner approves **A: process the complete, qualified, single-roll-winning cavern candidates in a deterministic descending order of the already-approved WG-Q34–Q39 placement suitability score**, with canonical cavern ID as the tie-breaker, and **accept each candidate only if it satisfies the existing minimum spacing and all other hard placement/protection constraints against candidates already accepted and all protected/persisted/retired footprints**.
+
+- A candidate rejected in the descending pass **does not itself exclude** a later candidate. For the illustrative chain A–B, B–C in conflict but A–C nonconflicting, with scores C > B > A, the result is C and A accepted, B rejected, assuming no other hard gate fails.
+- The acceptance rule is deterministic **only if** the candidate identities, scoring, single-roll results, relevant conflict population, and evaluation order are stable and complete. Do not treat locally discovered subsets as the entire comparison population, allow chunk-arrival-order acceptance, or finalize placement before the approved A02-FIX-Q07 neighborhood-completeness proof.
+- This selects **score-first greedy acceptance**, not maximum total score, maximum placement count, or a rule that every lower-scoring direct neighbor is permanently eliminated even when the higher-scoring one is rejected.
+- This decision **does not prove a finite dependency closure**: chained conflicts and late higher-scoring candidates may influence acceptance beyond direct spacing neighbors. A02 remains **BLOCKED** unless bounded, complete, Minecraft 26.3 order-independent resolution is demonstrated. If not demonstrable, defer placement and request a separate owner decision rather than invent a cutoff.
+- Preserve A02-FIX-Q01–Q07 B, A03-FIX-Q01–Q05 B and A03-FIX-Q06 C, WG-Q01–Q45, FIX-01 A, protected retired sites, full fit-before-single-75%-roll semantics, and separate denominator/placement accounting. No loser reroll or same-cavern second candidate.
+- **Owner decision only. No implementation, test/probe execution, production worldgen integration, Stage 1+, merge or checkpoint update is authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q08 A on 2026-10-31.
