@@ -51,3 +51,16 @@ The owner approves **B: conditional recovery plus non-destructive retirement if 
 - This decision preserves A03-FIX-Q01–Q03 B, WG-Q01–Q45 and FIX-01 A. **No implementation, production worldgen integration, Stage 1+, merge, checkpoint change or constraint relaxation authorized.**
 
 **Provenance:** Owner approval of ST-05-A03-FIX-Q04 B on 2026-10-31.
+
+## A03-FIX-Q05 — B: protect retired site; allow only independent cavern candidates
+
+The owner approves **B: preserve the retired arena site and existing player blocks; consider only candidates in other independent caverns that satisfy all original spacing and collision constraints**.
+
+- A failed/retired arena is not automatically removed, reverted, or overwritten. Its occupied footprint and player modifications remain protected during future candidate checks.
+- A candidate in a **different, demonstrably independent cavern** may be evaluated only if it satisfies the existing minimum separation, protected-structure collision checks, and every other WG-Q01–Q45 hard gate. No implicit exception for a retired arena and no relaxation of minimum spacing.
+- **No second 75% roll and no fresh candidate search in the same cavern** as a substitute for the retired arena. Keep FIX-01 A's pre-roll fit evaluation and one-roll-per-eligible-cavern policy; never treat retirement as a new eligibility event.
+- Deterministic cavern identity, the meaning of independent caverns under distant natural connections, cross-cavern conflict precedence and probability denominators remain **A02 BLOCKER / OWNER_DECISION_REQUIRED**. This decision does not define them.
+- The exact footprint accounting and persistence of retired sites remain technical validation work under A03. Preserve A03-FIX-Q01–Q04 B and all prior approved ST-05 rules.
+- **No implementation, Stage 1+, worldgen integration, merge, checkpoint promotion, or owner-constraint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q05 B on 2026-10-31.
