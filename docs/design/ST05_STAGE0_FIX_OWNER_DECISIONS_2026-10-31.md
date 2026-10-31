@@ -87,3 +87,15 @@ The owner approves **B: distinguish independently qualifying large cavern spaces
 - Preserve A02-FIX-Q01 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. No implementation, Stage 1+, worldgen integration, merge or checkpoint changes authorized.
 
 **Provenance:** Owner approved ST-05-A02-FIX-Q02 B on 2026-10-31.
+
+## A02-FIX-Q03 — B: evidence-led bottleneck threshold proposal, owner approves final value
+
+The owner approves **B: delegate empirical evaluation and proposal of cavern-bottleneck segmentation thresholds** using actual Minecraft 26.3 cave samples, but **reserve final threshold approval to the owner**.
+
+- Compare candidate cross-sectional narrowing metrics, fixed-reference thresholds, boundary/branch cases, and observed qualifying cavern counts on real 26.3 seeds. Include examples where distant large chambers are linked by narrow tunnels and where one broad cave must not be spuriously split.
+- Report seed/coordinates, deterministic work budget, cave IDs, candidate eligibility counts, spacing exclusions, and how each proposed threshold changes the **number of distinct fit-eligible cavern units** and therefore the effective 75% roll denominator.
+- The implementer may **research, prototype in isolation, benchmark, and recommend** parameter values; may **not finalize or deploy** a threshold, silently change WG-Q09 qualification bounds, FIX-01 A's fit-before-one-roll semantics, or WG-Q11 separation constraints.
+- Require owner approval of the proposed numerical threshold/metric before using it in integrated worldgen. A02 remains BLOCKED until the segmentation and stable-ID method is proved across chunk orders/restarts.
+- Preserve A02-FIX-Q01–Q02 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45, FIX-01 A. **No implementation of worldgen, Stage 1+, integration, merge or checkpoint change authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q03 B on 2026-10-31.
