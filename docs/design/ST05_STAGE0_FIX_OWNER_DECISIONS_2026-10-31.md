@@ -64,3 +64,15 @@ The owner approves **B: preserve the retired arena site and existing player bloc
 - **No implementation, Stage 1+, worldgen integration, merge, checkpoint promotion, or owner-constraint changes authorized.**
 
 **Provenance:** Owner approval of ST-05-A03-FIX-Q05 B on 2026-10-31.
+
+## A02-FIX-Q01 — B: independently qualifying large cavern spaces as probability units
+
+The owner approves **B: independently qualifying large cavern spaces**, not the entire globally connected air-volume network and not arbitrary fixed geographic regions, are the conceptual units for the single 75% roll.
+
+- Identify major natural cavern chambers that individually satisfy the already approved WG-Q09 qualification intent (representative width >=32, height >=18, traversable connected cave path >=64). A narrow/long connecting passage **alone does not merge** two otherwise independent major chambers into one probability unit.
+- Each distinct qualifying large cavern space may be evaluated independently, subject to **WG-Q11 one placement per defined cavern unit**, the original minimum separation and collision rules, and **FIX-01 A** (up to eight deterministic candidate fit checks **before** one 75% roll for a fit-eligible unit).
+- **Do not invent** a passage-width cutoff, chamber segmentation radius, sampling grid, minimum separation distance, global conflict priority, probability denominator exclusions, or cave-ID algorithm without owner approval where these would alter eligibility, density or approved constraints. In particular, broad connected open spaces may require a different rule from narrow connectors; the segmentation threshold is unresolved.
+- Deterministic identification across chunk boundaries, generation order and restart, and correct treatment of overlapping chambers and neighboring candidate conflicts remain **A02 BLOCKER** until proved in Minecraft 26.3.
+- Preserve A03-FIX-Q01–Q05 B, WG-Q01–Q45, FIX-01 A and existing combat/persistence/reward authority. **No implementation, Stage 1+, worldgen integration, merge or checkpoint promotion authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q01 B on 2026-10-31.
