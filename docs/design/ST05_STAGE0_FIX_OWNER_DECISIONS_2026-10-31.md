@@ -148,3 +148,15 @@ The owner approves **B: resolve all potentially conflicting nearby cavern candid
 - This is a **design policy and authorization for a later validation proposal**, not permission to implement, integrate, merge or promote a checkpoint. A02 remains BLOCKED until the real Minecraft 26.3 proof and owner-gated parameters are complete.
 
 **Provenance:** Owner approval of ST-05-A02-FIX-Q07 B on 2026-10-31.
+
+## A03-FIX-Q06 — C: retain existing integrity requirements and validate technical feasibility first
+
+The owner explicitly approves **C: preserve existing WG-Q28 and A03-FIX-Q01–Q05 without weakening them; determine Minecraft 26.3 technical feasibility before deciding any exception for physically incomplete post-crash arena remains**.
+
+- **No permission is granted** to treat an incomplete-but-RETIRED arena as compliance with WG-Q28, to reclassify transient or persisted partial structures as a completed generation, or to replace strict integrity/physical-completeness requirements with trial/reward deactivation alone.
+- A03-FIX-Q01–Q05 remain in force: player edits have priority, uncertainty is quarantined (with conservative chunk-dependency closure), provably safe independent portions may recover conditionally, and unrecoverable arena attempts are logically retired **without overwriting, rollback or destruction of existing/player-modified blocks**. Retirement is not a claim that strict WG-Q28 has been satisfied.
+- Investigate in isolated **future owner-authorized** Minecraft 26.3 feasibility work whether a deterministic whole-placement plan can be committed, persisted, and made externally visible safely across chunks, together with provable player-modification provenance and failure handling. Analyze both persistence and visibility; do not assume ordinary journaling/restart repair, delayed feature activation, staging, or shadow storage alone proves atomicity.
+- If strict WG-Q28 and non-destructive player-protection/retirement rules cannot both be met, report the concrete incompatibility, counterexample, observed technical limits and bounded alternatives to the owner. **Do not automatically relax either requirement or choose an exception.**
+- A03 remains **BLOCKED**, and A02 remains **BLOCKED**. **This is a policy choice only; no new implementation, probe execution, test runs, production worldgen integration, Stage 1+, merge or checkpoint change is authorized.** Preserve all WG-Q01–Q45, FIX-01 A and A02-FIX-Q01–Q07 decisions.
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q06 C on 2026-10-31.
