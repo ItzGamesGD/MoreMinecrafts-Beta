@@ -99,3 +99,15 @@ The owner approves **B: delegate empirical evaluation and proposal of cavern-bot
 - Preserve A02-FIX-Q01–Q02 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45, FIX-01 A. **No implementation of worldgen, Stage 1+, integration, merge or checkpoint change authorized.**
 
 **Provenance:** Owner approval of ST-05-A02-FIX-Q03 B on 2026-10-31.
+
+## A02-FIX-Q04 — B: deterministic representative point and fixed ID rule
+
+The owner approves **B: a deterministic representative point selected by a fixed ordering rule**, with cavern identity derived from the world seed, dimension and representative coordinates.
+
+- The representative point must be selected from the **fully defined qualifying cavern unit**, not from the first discovered chunk or thread-local scan order. The selection ordering, canonicalization and hash/encoding must be deterministic across chunk generation order, process restart and parallel discovery.
+- Stable identity presupposes stable segmentation. If the approved A02-FIX-Q02 bottleneck partition changes under partial discovery, an ID hash alone cannot resolve it. Require cross-boundary and late-connection counterexamples before claiming A02 resolved.
+- Distinct independently qualifying chambers must not share an ID; one chamber must not acquire multiple IDs. Explicitly test collisions, boundary ties and world/dimension isolation.
+- The exact representative-point ordering, hash format and numerical segmentation threshold remain technical proposals, not owner-approved parameters. Do not change the 75% denominator, WG-Q09 qualifications, FIX-01 A roll order, WG-Q11 spacing, or the eight-candidate cap without approval.
+- A02 remains **BLOCKED** pending actual Minecraft 26.3 deterministic validation. Preserve A02-FIX-Q01–Q03 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q04 B on 2026-10-31.
