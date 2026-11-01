@@ -40,7 +40,7 @@ public final class St05Stage0DLiveProbe {
         return l;
     }
 
-    static Window planWindow(ServerLevel level, int rx, int rz, int y0, int h, int threads, String order) throws Exception {
+    public static Window planWindow(ServerLevel level, int rx, int rz, int y0, int h, int threads, String order) throws Exception {
         var gen = level.getChunkSource().getGenerator();
         var rs = level.getChunkSource().randomState();
         int ox = rx * ChamberCore.OWN - ChamberCore.MARGIN, oz = rz * ChamberCore.OWN - ChamberCore.MARGIN;
@@ -122,6 +122,7 @@ public final class St05Stage0DLiveProbe {
     public static void run(MinecraftServer server, ServerLevel level, String mode, Path out, Map<String, Object> doc) throws Exception {
         long seed = level.getSeed();
         if (mode.equals("e-scan")) { scan(level, seed, doc); return; }
+        if (mode.equals("e-run") || mode.equals("e-restart")) { St05Stage0ELiveRun.run(server, level, mode, out, doc); return; }
         int y0 = Integer.getInteger("mm.st05d.y0", -64), h = Integer.getInteger("mm.st05d.h", 80);
         int threads = Integer.getInteger("mm.st05d.threads", 4);
         Path stateDir = Path.of(System.getProperty("mm.st05d.statedir", "build/st05-worldgen-probe/stage0d-state"));
