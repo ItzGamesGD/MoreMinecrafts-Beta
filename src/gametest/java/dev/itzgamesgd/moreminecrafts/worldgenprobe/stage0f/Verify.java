@@ -44,6 +44,34 @@ public final class Verify {
         return -1;
     }
 
+    /** Minimum block light over all combat-floor air cells (y = floorY, r <= 29) from planned lit redstone lamps; BFS through the plan's open volume. */
+    public static int floorLight(Plan plan, int cx, int cz, int floorY) {
+        Map<Long, Integer> lv = new HashMap<>();
+        ArrayDeque<long[]> q = new ArrayDeque<>();
+        for (long[] op : plan.ops) {
+            if (!plan.palette.get((int) op[1]).startsWith("minecraft:redstone_lamp[lit=true")) continue;
+            long above = Plan.pack(Plan.ux(op[0]), Plan.uy(op[0]) + 1, Plan.uz(op[0]));
+            if (plan.open.contains(above) && lv.putIfAbsent(above, 14) == null) q.add(new long[]{above, 14});
+        }
+        while (!q.isEmpty()) {
+            long[] c = q.poll(); int l = (int) c[1];
+            if (l <= 1) continue;
+            int x = Plan.ux(c[0]), y = Plan.uy(c[0]), z = Plan.uz(c[0]);
+            for (int[] d : ConstructionPlanner.N6) {
+                long n = Plan.pack(x + d[0], y + d[1], z + d[2]);
+                if (!plan.open.contains(n) || lv.containsKey(n)) continue;
+                lv.put(n, l - 1); q.add(new long[]{n, l - 1});
+            }
+        }
+        int min = 15;
+        for (int dx = -ArenaDesign.IN_R; dx <= ArenaDesign.IN_R; dx++) for (int dz = -ArenaDesign.IN_R; dz <= ArenaDesign.IN_R; dz++) {
+            if (dx * dx + dz * dz > ArenaDesign.IN_R * ArenaDesign.IN_R) continue;
+            long c = Plan.pack(cx + dx, floorY, cz + dz);
+            if (plan.open.contains(c)) min = Math.min(min, lv.getOrDefault(c, 0));      // vault / column cells are solid blocks, not floor air
+        }
+        return min;
+    }
+
     /** Returns the list of failed checks (empty = all approved requirements hold in the final state). */
     public static List<String> check(Terrain after, Plan plan, List<Corridors.Route> routes, Corridors.Cave cave, int cx, int cz, int floorY,
                                      ArenaDesign.Variant variant, int vaultCount, Map<String, Object> measured) {
@@ -77,6 +105,10 @@ public final class Verify {
         }
         if (badFloor > 0) f.add("COMBAT_FLOOR_NOT_SOLID x" + badFloor);
         if (badSpawn > 0) f.add("SPAWN_ANNULUS_BLOCKED x" + badSpawn);
+        // 2b. WG-Q12 bright floor: block light propagated from the planned lit lamps through the open volume (15 at the lamp, -1 per step)
+        int minLight = floorLight(plan, cx, cz, floorY);
+        measured.put("min_floor_block_light", minLight);
+        if (minLight < ArenaDesign.LIGHT_MIN) f.add("COMBAT_FLOOR_NOT_BRIGHT min_light=" + minLight);
         // 3. exterior radius 34 / wall height 12 / total height 23 (from the plan's own solid extremes, confirmed in the final state)
         int maxRingR = 0, maxSolidOff = -99;
         for (long[] op : plan.ops) {

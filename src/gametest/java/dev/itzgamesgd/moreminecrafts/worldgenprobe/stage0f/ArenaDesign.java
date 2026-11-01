@@ -22,6 +22,9 @@ public final class ArenaDesign {
             DS = "minecraft:deepslate";
     public enum Variant { INTACT, RUINED_PARTIAL_DOME, RUINED_NATURAL_CEILING }
     /** Cardinal axis directions N(-z) E(+x) S(+z) W(-x). */
+    public static final double[] LAMP_RING_R = {4.5, 10, 15.5, 21, 26.5};
+    public static final int[] LAMP_RING_N = {5, 11, 16, 22, 28};
+    public static final int LIGHT_MIN = 8;
     public static final int[][] DIR = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
     public static final String[] DIRNAME = {"north", "east", "south", "west"};
 
@@ -189,8 +192,10 @@ public final class ArenaDesign {
             }
         }
         // ---- lighting: flush redstone lamps (powered by a redstone block below) and wall torches
-        for (int ring = 0; ring < 2; ring++) for (int k = 0; k < 8; k++) {
-            double a = Math.toRadians(22.5 + 45 * k), r = ring == 0 ? 10 : 20;
+        // WG-Q12 "bright combat floor": concentric flush-lamp rings (Stage 0-G: was 16 lamps, which left the outer floor nearly dark).
+        // Engineering target checked by Verify: every combat-floor cell reaches block light >= LIGHT_MIN (see Verify.floorLight).
+        for (int ring = 0; ring < LAMP_RING_R.length; ring++) for (int k = 0; k < LAMP_RING_N[ring]; k++) {
+            double a = Math.toRadians(360.0 * (k + 0.5 * (ring % 2)) / LAMP_RING_N[ring]), r = LAMP_RING_R[ring];
             int lx = cx + (int) Math.round(r * Math.cos(a)), lz = cz + (int) Math.round(r * Math.sin(a));
             plan.put(Plan.DECOR, lx, floorY - 2, lz, "minecraft:redstone_block");
             plan.put(Plan.DECOR, lx, floorY - 1, lz, "minecraft:redstone_lamp[lit=true]");
