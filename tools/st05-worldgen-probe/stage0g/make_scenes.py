@@ -29,7 +29,7 @@ for name, level, seed, orig in ARENAS:
         yaw, pitch = look(eye, tgt)
         sc.append({"name": f"{tag}__{n}", "x": eye[0], "y": eye[1] - 1.62, "z": eye[2], "yaw": yaw, "pitch": pitch, "what": what, "cutaway": cut,
                    "cx": cx, "cz": cz, "fy": fy, "eye": eye, "target": tgt, "wait": wait, "nightvision": nv})
-    add("02_interior_overview", (cx - 24.5, fy + 2.5, cz + 8.5), (cx + 12, fy + 12, cz - 6), "interior from the combat floor, far dome / wall")
+    add("02_interior_overview", (cx - 24.5, fy + 2.5, cz + 8.5), (cx + 12, fy + 12, cz - 6), "interior from the combat floor, far dome / wall", wait=600)
     add("02c_interior_overview_NO_nightvision", (cx - 24.5, fy + 2.5, cz + 8.5), (cx + 12, fy + 12, cz - 6), "same view as 02 but WITHOUT night vision (true block lighting)", nv=False)
     add("02b_interior_dome_up", (cx + 0.5, fy + 2.5, cz + 14.5), (cx, fy + 21, cz - 6), "interior looking up into the dome / ceiling")
     for i, (ax, az) in enumerate(DIRS):
@@ -46,7 +46,8 @@ for name, level, seed, orig in ARENAS:
         add(f"05_corridor_{k}_entrance_side", (a[0] + 0.5, a[2] + 3.4, a[1] + 0.5), (mid[0] + 0.5, mid[2] + 2.5, mid[1] + 0.5), f"corridor {k} (dir {'NESW'[dr]}) from the arena end looking outward")
         e = cells[-4] if len(cells) > 4 else cells[0]
         add(f"05b_corridor_{k}_cave_junction", (e[0] + 0.5, e[2] + 3.4, e[1] + 0.5), (b[0] + 0.5, b[2] + 2.5, b[1] + 0.5), f"corridor {k} junction with the natural cave")
-    add("06_dome_exterior_aerial", (cx + 40.5, fy + 48, cz + 40.5), (cx, fy + 10, cz), "dome exterior from above, terrain above fy+24 removed in the photo copy", cut="top", wait=200)
+    add("06_dome_exterior_aerial", (cx + 40.5, fy + 48, cz + 40.5), (cx, fy + 10, cz), "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)", cut="top", wait=200)
+    add("06d_dome_exterior_side", (cx + 58.5, fy + 16, cz + 20.5), (cx, fy + 8, cz), "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)", cut="top", wait=200)
     add("06b_dome_cross_section", (cx + 52.5, fy + 10, cz + 0.5), (cx, fy + 9, cz + 0.5), "vertical section through the centre (east half removed in the photo copy)", cut="half", wait=200)
     add("06c_dome_cross_section_oblique", (cx + 48.5, fy + 26, cz + 36.5), (cx - 3, fy + 8, cz), "oblique view of the section", cut="half", wait=60)
     worlds.append({"level": level, "state_dir": f"tools/st05-worldgen-probe/stage0f/live/seed-{seed}/{orig}", "seed": seed, "arena": name, "id": d["id"], "variant": var, "center": [cx, fy, cz], "scenes": sc})

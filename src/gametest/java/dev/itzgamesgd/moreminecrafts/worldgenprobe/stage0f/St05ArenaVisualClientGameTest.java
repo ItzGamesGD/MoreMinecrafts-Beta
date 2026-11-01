@@ -37,6 +37,8 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
         } catch (java.io.IOException e) { throw new RuntimeException(e); }
     }
 
+    private static final java.util.Set<Long> PLAN_SOLID = new java.util.HashSet<>();
+
     private void runWorld(ClientGameTestContext context, JsonObject w) {
         Properties props = new Properties();
         props.setProperty("view-distance", "10");
@@ -97,6 +99,8 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
             }
             System.out.println("ST05G terrain-identity " + id + " pre_cells=" + pre.size() + " identical=" + same + " fluid_flow_only_differences=" + fluidOnly + " solid_swap_only_differences=" + solidSwap + " different=" + diff + " " + firstDiff);
             if (diff > 0) throw new IllegalStateException("terrain differs from the live run; refusing to replay: " + firstDiff);
+            PLAN_SOLID.clear();
+            for (long c : plan.cells()) { String sp = plan.finalSpecAt(Plan.ux(c), Plan.uy(c), Plan.uz(c)); if (!sp.equals(Plan.AIR)) PLAN_SOLID.add(c); }
             for (long[] op : plan.ops) lw.set(Plan.ux(op[0]), Plan.uy(op[0]), Plan.uz(op[0]), plan.palette.get((int) op[1]));
             System.out.println("ST05G replayed " + plan.ops.size() + " plan ops for " + id + " hash " + plan.hash());
         } catch (java.io.IOException e) { throw new RuntimeException(e); }
@@ -114,9 +118,10 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
             for (int dx = -R; dx <= R; dx++) for (int dz = -R; dz <= R; dz++) {
                 if (dx * dx + dz * dz > R * R) continue;
                 if (kind.equals("half") && dx <= 0) continue;
-                int y0 = kind.equals("top") ? fy + 24 : fy - 3, y1 = fy + 70;
+                int y0 = kind.equals("top") ? fy : fy - 3, y1 = fy + 70;
                 for (int y = y0; y <= y1; y++) {
                     p.set(cx + dx, y, cz + dz);
+                    if (kind.equals("top") && PLAN_SOLID.contains(Plan.pack(p.getX(), p.getY(), p.getZ()))) continue;   // keep every planned arena block, remove only natural terrain
                     if (!lv.getBlockState(p).isAir()) { lv.setBlock(p, air, 2 | 16 | 32 | 128); n++; }
                 }
             }

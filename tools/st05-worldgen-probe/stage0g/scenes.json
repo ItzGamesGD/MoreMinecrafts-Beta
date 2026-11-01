@@ -35,7 +35,7 @@
       -14,
       -1180
      ],
-     "wait": 120,
+     "wait": 600,
      "nightvision": true
     },
     {
@@ -370,7 +370,7 @@
      "z": -1133.5,
      "yaw": 135.0,
      "pitch": 33.6,
-     "what": "dome exterior from above, terrain above fy+24 removed in the photo copy",
+     "what": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
      "cutaway": "top",
      "cx": -837,
      "cz": -1174,
@@ -383,6 +383,31 @@
      "target": [
       -837,
       -16,
+      -1174
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__06d_dome_exterior_side",
+     "x": -778.5,
+     "y": -11.620000000000001,
+     "z": -1153.5,
+     "yaw": 109.3,
+     "pitch": 7.4,
+     "what": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -778.5,
+      -10,
+      -1153.5
+     ],
+     "target": [
+      -837,
+      -18,
       -1174
      ],
      "wait": 200,
@@ -475,7 +500,7 @@
       -24,
       1130
      ],
-     "wait": 120,
+     "wait": 600,
      "nightvision": true
     },
     {
@@ -810,7 +835,7 @@
      "z": 1176.5,
      "yaw": 135.0,
      "pitch": 33.6,
-     "what": "dome exterior from above, terrain above fy+24 removed in the photo copy",
+     "what": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
      "cutaway": "top",
      "cx": 1654,
      "cz": 1136,
@@ -823,6 +848,31 @@
      "target": [
       1654,
       -26,
+      1136
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__06d_dome_exterior_side",
+     "x": 1712.5,
+     "y": -21.62,
+     "z": 1156.5,
+     "yaw": 109.3,
+     "pitch": 7.4,
+     "what": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1712.5,
+      -20,
+      1156.5
+     ],
+     "target": [
+      1654,
+      -28,
       1136
      ],
      "wait": 200,
@@ -915,7 +965,7 @@
       -23,
       -653
      ],
-     "wait": 120,
+     "wait": 600,
      "nightvision": true
     },
     {
@@ -1250,7 +1300,7 @@
      "z": -606.5,
      "yaw": 135.0,
      "pitch": 33.6,
-     "what": "dome exterior from above, terrain above fy+24 removed in the photo copy",
+     "what": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
      "cutaway": "top",
      "cx": 1095,
      "cz": -647,
@@ -1263,6 +1313,31 @@
      "target": [
       1095,
       -25,
+      -647
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__06d_dome_exterior_side",
+     "x": 1153.5,
+     "y": -20.62,
+     "z": -626.5,
+     "yaw": 109.3,
+     "pitch": 7.4,
+     "what": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1153.5,
+      -19,
+      -626.5
+     ],
+     "target": [
+      1095,
+      -27,
       -647
      ],
      "wait": 200,
@@ -1355,7 +1430,7 @@
       -7,
       -726
      ],
-     "wait": 120,
+     "wait": 600,
      "nightvision": true
     },
     {
@@ -1690,7 +1765,7 @@
      "z": -679.5,
      "yaw": 135.0,
      "pitch": 33.6,
-     "what": "dome exterior from above, terrain above fy+24 removed in the photo copy",
+     "what": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
      "cutaway": "top",
      "cx": -390,
      "cz": -720,
@@ -1703,6 +1778,31 @@
      "target": [
       -390,
       -9,
+      -720
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__06d_dome_exterior_side",
+     "x": -331.5,
+     "y": -4.62,
+     "z": -699.5,
+     "yaw": 109.3,
+     "pitch": 7.4,
+     "what": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -331.5,
+      -3,
+      -699.5
+     ],
+     "target": [
+      -390,
+      -11,
       -720
      ],
      "wait": 200,
