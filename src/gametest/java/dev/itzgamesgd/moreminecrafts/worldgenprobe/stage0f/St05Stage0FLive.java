@@ -100,7 +100,42 @@ public final class St05Stage0FLive {
         return k;
     }
 
-    static Snap snapshot(ServerLevel level, int cx, int cz, int baseFloorY, boolean generate) {
+    /**
+     * Provenance gate for demolishing block-entity blocks (Stage 0-G A). A block-entity block is demolishable only when ALL evidence holds:
+     * it is one of the three deep-dark sculk patch block types, it lies in the deep_dark biome, no structure piece box (ancient city etc.)
+     * contains it, its chunk has InhabitedTime 0 (no player ever occupied it, so nothing can have been player-placed), and it sits on or beside
+     * the sculk surface a natural patch lays down. The block type alone never decides. Anything else stays PROTECTED (conservative).
+     */
+    static final class Prov {
+        final List<int[]> boxes;
+        final Map<String, Integer> stats = new TreeMap<>();
+        Prov(List<int[]> boxes) { this.boxes = boxes; }
+        void count(String k) { stats.merge(k, 1, Integer::sum); }
+    }
+
+    static boolean sculkPatchType(BlockState s) {
+        return s.is(net.minecraft.world.level.block.Blocks.SCULK_SENSOR) || s.is(net.minecraft.world.level.block.Blocks.SCULK_SHRIEKER)
+                || s.is(net.minecraft.world.level.block.Blocks.SCULK_CATALYST);
+    }
+
+    static boolean naturalPatchBlock(ServerLevel level, ChunkAccess ch, BlockPos pos, BlockState s, Prov pv) {
+        if (!sculkPatchType(s)) { pv.count("rejected_not_patch_type"); return false; }
+        if (!level.getBiome(pos).is(net.minecraft.world.level.biome.Biomes.DEEP_DARK)) { pv.count("rejected_not_deep_dark"); return false; }
+        for (int[] b : pv.boxes) if (pos.getX() >= b[0] && pos.getX() <= b[3] && pos.getY() >= b[1] && pos.getY() <= b[4] && pos.getZ() >= b[2] && pos.getZ() <= b[5]) { pv.count("rejected_inside_structure"); return false; }
+        if (ch.getInhabitedTime() != 0L) { pv.count("rejected_chunk_inhabited"); return false; }
+        boolean surface = false;
+        for (net.minecraft.core.Direction d : net.minecraft.core.Direction.values()) {
+            BlockState n = level.getBlockState(pos.relative(d));
+            if (n.is(net.minecraft.world.level.block.Blocks.SCULK) || n.is(net.minecraft.world.level.block.Blocks.SCULK_VEIN)) { surface = true; break; }
+        }
+        if (!surface) { pv.count("rejected_no_sculk_surface"); return false; }
+        pv.count("accepted_natural_" + net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(s.getBlock()).getPath());
+        return true;
+    }
+
+    static Snap snapshot(ServerLevel level, int cx, int cz, int baseFloorY, boolean generate) { return snapshot(level, cx, cz, baseFloorY, generate, null); }
+
+    static Snap snapshot(ServerLevel level, int cx, int cz, int baseFloorY, boolean generate, Prov pv) {
         int y0 = baseFloorY - 20, y1 = baseFloorY + 34;
         Terrain.Grid g = new Terrain.Grid(cx - R, y0, cz - R, 2 * R + 1, y1 - y0 + 1, 2 * R + 1, Kind.UNKNOWN);
         BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
@@ -110,7 +145,15 @@ public final class St05Stage0FLive {
                 if (ch == null) continue;
                 for (int x = Math.max(chx * 16, cx - R); x <= Math.min(chx * 16 + 15, cx + R); x++)
                     for (int z = Math.max(chz * 16, cz - R); z <= Math.min(chz * 16 + 15, cz + R); z++)
-                        for (int y = y0; y <= y1; y++) g.set(x, y, z, classify(ch.getBlockState(p.set(x, y, z))));
+                        for (int y = y0; y <= y1; y++) {
+                            BlockState bs = ch.getBlockState(p.set(x, y, z));
+                            Kind kk = classify(bs);
+                            if (kk == Kind.PROTECTED && pv != null && bs.hasBlockEntity()) {
+                                if (naturalPatchBlock(level, ch, p, bs, pv)) kk = Kind.ROCK;
+                                else pv.count("protected_block_entity_" + BuiltInRegistries.BLOCK.getKey(bs.getBlock()).getPath());
+                            }
+                            g.set(x, y, z, kk);
+                        }
             }
         return new Snap(g, cx, cz, y0, y1);
     }
@@ -233,9 +276,11 @@ public final class St05Stage0FLive {
     static void plan(MinecraftServer server, ServerLevel level, LevelWorld w, Journal j, Res r, int crashAfter, Map<String, Object> d) throws Exception {
         long t0 = System.nanoTime();
         forceChunks(level, r, true);
-        Snap snap = snapshot(level, r.cx(), r.cz(), r.floorY(), true);
         Map<String, Integer> hits = new TreeMap<>();
         List<int[]> boxes = structureBoxes(level, r.cx(), r.cz(), hits);
+        Prov pv = new Prov(boxes);
+        Snap snap = snapshot(level, r.cx(), r.cz(), r.floorY(), true, pv);
+        d.put("block_entity_provenance", pv.stats);
         d.put("snapshot_ms", (System.nanoTime() - t0) / 1_000_000);
         d.put("structure_pieces_near", boxes.size()); d.put("structure_types_near", hits);
         long id = Long.parseUnsignedLong(r.id(), 16);

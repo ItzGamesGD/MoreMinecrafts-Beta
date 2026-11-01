@@ -22,7 +22,7 @@ simulation-distance=2
 max-tick-time=-1
 enable-status=false
 PROPS
-opts="-Xmx${HEAP:-10g} -Dmm.st05.mode=$mode -Dmm.st05.out=$res/$tag.json -Dmm.st05f.res=$root/tools/st05-worldgen-probe/stage0f/reservations-seed$seed.txt -Dmm.st05f.statedir=$state"
+opts="-Xmx${HEAP:-10g} -Dmm.st05.mode=$mode -Dmm.st05.out=$res/$tag.json -Dmm.st05f.res=${RESFILE:-$root/tools/st05-worldgen-probe/stage0f/reservations-seed$seed.txt} -Dmm.st05f.statedir=$state"
 [ -n "${REVERSE:-}" ] && opts="$opts -Dmm.st05f.reverse=true"
 [ -n "${ONLY:-}" ] && opts="$opts -Dmm.st05f.only=$ONLY"
 [ -n "${CRASHID:-}" ] && opts="$opts -Dmm.st05f.crashid=$CRASHID -Dmm.st05f.crashafter=${CRASHAFTER:-0}"
