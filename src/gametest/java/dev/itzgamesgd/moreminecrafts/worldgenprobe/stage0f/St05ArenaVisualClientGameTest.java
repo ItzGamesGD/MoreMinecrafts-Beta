@@ -58,7 +58,8 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
             for (var se : w.getAsJsonArray("scenes")) {
                 JsonObject sc = se.getAsJsonObject();
                 String cut = sc.has("cutaway") ? sc.get("cutaway").getAsString() : "";
-                if (!cut.isEmpty()) applyCutaway(server, sc);
+                boolean applied = false;
+                if (!cut.isEmpty()) { applyCutaway(server, sc); }
                 double x = sc.get("x").getAsDouble(), y = sc.get("y").getAsDouble(), z = sc.get("z").getAsDouble();
                 float yaw = sc.get("yaw").getAsFloat(), pitch = sc.get("pitch").getAsFloat();
                 boolean nv = !sc.has("nightvision") || sc.get("nightvision").getAsBoolean();
@@ -69,7 +70,8 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                     ServerLevel lv = p.level();
                     p.teleportTo(lv, x, y, z, Set.of(), yaw, pitch, true);
                 });
-                connection.waitForClientboundPackets();
+                if (cut.isEmpty() || applied) connection.waitForClientboundPackets();
+                else context.waitTicks(900);        // ~1M block updates: let the client drain them (waitForClientboundPackets has a fixed short timeout)
                 context.waitTicks(sc.has("wait") ? sc.get("wait").getAsInt() : 120);
                 context.takeScreenshot(sc.get("name").getAsString());
             }
