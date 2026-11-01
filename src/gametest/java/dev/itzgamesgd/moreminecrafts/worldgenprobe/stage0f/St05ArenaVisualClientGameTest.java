@@ -82,14 +82,14 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
             Construction.Journal j = new Construction.Journal(state);
             Plan plan = j.readPlan(id); var pre = j.readPre(id);
             St05Stage0FLive.LevelWorld lw = new St05Stage0FLive.LevelWorld(s, s.overworld());
-            int same = 0, diff = 0, fluidOnly = 0; String firstDiff = "";
+            int same = 0, diff = 0, fluidOnly = 0, solidSwap = 0; String firstDiff = "";
             for (var e : pre.entrySet()) {
                 String now = lw.get(Plan.ux(e.getKey()), Plan.uy(e.getKey()), Plan.uz(e.getKey()));
                 if (e.getValue().equals(now)) same++;
                 else if (e.getValue().contains("lava") || e.getValue().contains("water") || (now != null && (now.contains("lava") || now.contains("water")))) fluidOnly++;   // flowing-fluid levels depend on tick history, not terrain
                 else { diff++; if (firstDiff.isEmpty()) firstDiff = e.getKey() + " pre=" + e.getValue() + " now=" + now; }
             }
-            System.out.println("ST05G terrain-identity " + id + " pre_cells=" + pre.size() + " identical=" + same + " fluid_flow_only_differences=" + fluidOnly + " different=" + diff + " " + firstDiff);
+            System.out.println("ST05G terrain-identity " + id + " pre_cells=" + pre.size() + " identical=" + same + " fluid_flow_only_differences=" + fluidOnly + " solid_swap_only_differences=" + solidSwap + " different=" + diff + " " + firstDiff);
             if (diff > 0) throw new IllegalStateException("terrain differs from the live run; refusing to replay: " + firstDiff);
             for (long[] op : plan.ops) lw.set(Plan.ux(op[0]), Plan.uy(op[0]), Plan.uz(op[0]), plan.palette.get((int) op[1]));
             System.out.println("ST05G replayed " + plan.ops.size() + " plan ops for " + id + " hash " + plan.hash());

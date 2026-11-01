@@ -76,6 +76,11 @@ public final class St05Stage0FLive {
             level.setBlock(p.set(x, y, z), parse(spec), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE | Block.UPDATE_SUPPRESS_DROPS);
             writes++;
         }
+        /** Safety class of a canonical block-state string (as returned by get()). */
+        Kind classOf(String canon) {
+            String spec = canon.replaceFirst("^Block\\{", "").replaceFirst("\\}(\\[|$)", "$1");
+            return classify(parse(spec));
+        }
         public String canon(String spec) { return canonState(parse(spec)); }
         public void flush() { server.saveAllChunks(true, true, true); saves++; }
     }
