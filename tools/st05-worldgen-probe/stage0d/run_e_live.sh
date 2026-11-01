@@ -21,7 +21,7 @@ simulation-distance=2
 max-tick-time=-1
 enable-status=false
 PROPS
-for mode in e-run e-restart; do
+for mode in ${MODES:-e-run e-restart}; do
   JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Xmx${HEAP:-10g} -Dmm.st05.mode=$mode -Dmm.st05.out=$res/$mode.json -Dmm.st05d.statedir=$state -Dmm.st05e.rx0=$rx0 -Dmm.st05e.rz0=$rz0 -Dmm.st05e.n=$n" \
     timeout "${PROBE_TIMEOUT:-4500}" ./gradlew --no-daemon --max-workers=2 runSt05CavernProbe > "$res/$mode.log" 2>&1 || { echo "FAILED $mode"; tail -30 "$res/$mode.log"; exit 1; }
   test -s "$res/$mode.json"

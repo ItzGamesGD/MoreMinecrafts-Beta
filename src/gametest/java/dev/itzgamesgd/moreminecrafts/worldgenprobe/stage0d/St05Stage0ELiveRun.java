@@ -147,10 +147,9 @@ final class St05Stage0ELiveRun {
         Window own = St05Stage0DLiveProbe.planWindow(level, crx, crz, y0, h, threads, "shuf");
         doc.put("independent_window_matches_cut", own.digest() == cut(big, crx, crz).digest());
 
-        List<Window> wins = new ArrayList<>();
         List<int[]> regs = new ArrayList<>();
-        for (int rx = rx0; rx < rx0 + N; rx++) for (int rz = rz0; rz < rz0 + N; rz++) { regs.add(new int[]{rx, rz}); wins.add(cut(big, rx, rz)); }
-        big = null;
+        for (int rx = rx0; rx < rx0 + N; rx++) for (int rz = rz0; rz < rz0 + N; rz++) regs.add(new int[]{rx, rz});
+        final Window bigW = big;   // windows are cut lazily per parameter set so only one parameter set's observations are resident
         LiveEnv env = new LiveEnv(level);
         List<Params> params = St05Stage0DLiveProbe.paramSets();
         Map<String, Object> per = new LinkedHashMap<>();
@@ -162,10 +161,11 @@ final class St05Stage0ELiveRun {
             long cpu = 0, coreVox = 0;
             for (int i = 0; i < regs.size(); i++) {
                 ExtractStats st = new ExtractStats();
+                Window wnd = cut(bigW, regs.get(i)[0], regs.get(i)[1]);
                 long c0 = TMX.getCurrentThreadCpuTime();
-                List<Comp> cs = ChamberCore.extract(wins.get(i), p, seed, regs.get(i)[0], regs.get(i)[1], st);
+                List<Comp> cs = ChamberCore.extract(wnd, p, seed, regs.get(i)[0], regs.get(i)[1], st);
                 cpu += TMX.getCurrentThreadCpuTime() - c0; coreVox += st.coreVoxels;
-                obs.add(new Observation(regs.get(i)[0], regs.get(i)[1], cs, wins.get(i).digest()));
+                obs.add(new Observation(regs.get(i)[0], regs.get(i)[1], cs, wnd.digest()));
             }
             pm.put("extract_cpu_ms", cpu / 1_000_000); pm.put("core_voxels", coreVox);
             long r0 = TMX.getCurrentThreadCpuTime();
