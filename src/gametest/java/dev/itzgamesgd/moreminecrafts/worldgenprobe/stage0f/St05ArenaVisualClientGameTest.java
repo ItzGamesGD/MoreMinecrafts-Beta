@@ -54,6 +54,8 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                 p.setGameMode(GameType.SPECTATOR);
                 p.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 1_000_000, 0, false, false));
             });
+            connection.waitForClientboundPackets();
+            context.waitTicks(400);      // let the client digest the ~75k-block replay before anything else (a keep-alive timeout otherwise drops it)
             boolean cutDone = false;
             for (var se : w.getAsJsonArray("scenes")) {
                 JsonObject sc = se.getAsJsonObject();
