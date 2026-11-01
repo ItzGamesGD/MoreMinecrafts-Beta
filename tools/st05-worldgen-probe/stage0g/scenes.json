@@ -2,7 +2,7 @@
  "worlds": [
   {
    "level": "capw-a",
-   "orig_world": "stage0f-world-7001",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7001/state",
    "seed": 7001,
    "arena": "built-20d89ee7",
    "id": "20d89ee7a8aa754c",
@@ -401,7 +401,7 @@
   },
   {
    "level": "capw-b",
-   "orig_world": "stage0f-world-7002",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7002/state",
    "seed": 7002,
    "arena": "built-809b9bf8",
    "id": "809b9bf8237b315e",
@@ -800,7 +800,7 @@
   },
   {
    "level": "capw-c",
-   "orig_world": "stage0f-world-7001-g",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7001/state-g",
    "seed": 7001,
    "arena": "built-2ac822e8",
    "id": "2ac822e8f540f125",
@@ -1199,7 +1199,7 @@
   },
   {
    "level": "capw-d",
-   "orig_world": "stage0f-world-7001-p",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7001/state-p",
    "seed": 7001,
    "arena": "built-77ba83e0",
    "id": "77ba83e05adb2600",

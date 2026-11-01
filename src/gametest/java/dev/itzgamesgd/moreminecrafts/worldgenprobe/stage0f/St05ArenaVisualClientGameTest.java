@@ -38,14 +38,14 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
     }
 
     private void runWorld(ClientGameTestContext context, JsonObject w) {
-        installWorld(w.get("orig_world").getAsString());   // the harness always serves "world": replace it with the saved Stage 0-F world copy
         Properties props = new Properties();
         props.setProperty("view-distance", "10");
         props.setProperty("spawn-monsters", "false"); props.setProperty("spawn-animals", "false");
-        try (TestDedicatedServerContext server = context.worldBuilder().createServer(props);
+        try (TestDedicatedServerContext server = context.worldBuilder().setUseConsistentSettings(false).adjustSettings(st -> st.setSeed(w.get("seed").getAsString())).createServer(props);
              TestDedicatedServerConnection connection = server.connect()) {
             context.waitFor(c -> c.player != null && c.level != null && c.getConnection() != null && c.getConnection().getConnection().isConnected());
             context.runOnClient(c -> { if (!c.gui.hud.isHidden()) c.gui.hud.toggle(); c.options.fov().set(85); });
+            server.runOnServer(s -> replayPlan(s, w));
             server.runOnServer(s -> {
                 s.tickRateManager().setFrozen(true);
                 ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
@@ -71,17 +71,26 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
         }
     }
 
-    private static void installWorld(String level) {
+    /**
+     * The harness always creates its own world, so the Stage 0-F construction is re-applied from the PERSISTED live plan (the exact op list the
+     * live run wrote) onto the same seed. Terrain identity is checked first: every cell the plan touches must still hold its recorded pre-state.
+     */
+    private static void replayPlan(net.minecraft.server.MinecraftServer s, JsonObject w) {
         try {
-            Path dst = Path.of("world"), src = Path.of(System.getProperty("mm.st05g.worlds")).resolve(level);
-            if (Files.exists(dst)) try (var st = Files.walk(dst)) { st.sorted(java.util.Comparator.reverseOrder()).forEach(q -> q.toFile().delete()); }
-            try (var st = Files.walk(src)) {
-                for (Path q : (Iterable<Path>) st::iterator) {
-                    Path t = dst.resolve(src.relativize(q).toString());
-                    if (Files.isDirectory(q)) Files.createDirectories(t); else Files.copy(q, t);
-                }
+            Path state = Path.of(System.getProperty("mm.st05g.root")).resolve(w.get("state_dir").getAsString());
+            String id = w.get("id").getAsString();
+            Construction.Journal j = new Construction.Journal(state);
+            Plan plan = j.readPlan(id); var pre = j.readPre(id);
+            St05Stage0FLive.LevelWorld lw = new St05Stage0FLive.LevelWorld(s, s.overworld());
+            int same = 0, diff = 0; String firstDiff = "";
+            for (var e : pre.entrySet()) {
+                String now = lw.get(Plan.ux(e.getKey()), Plan.uy(e.getKey()), Plan.uz(e.getKey()));
+                if (e.getValue().equals(now)) same++; else { diff++; if (firstDiff.isEmpty()) firstDiff = e.getKey() + " pre=" + e.getValue() + " now=" + now; }
             }
-            Files.deleteIfExists(dst.resolve("session.lock"));
+            System.out.println("ST05G terrain-identity " + id + " pre_cells=" + pre.size() + " identical=" + same + " different=" + diff + " " + firstDiff);
+            if (diff > 0) throw new IllegalStateException("terrain differs from the live run; refusing to replay: " + firstDiff);
+            for (long[] op : plan.ops) lw.set(Plan.ux(op[0]), Plan.uy(op[0]), Plan.uz(op[0]), plan.palette.get((int) op[1]));
+            System.out.println("ST05G replayed " + plan.ops.size() + " plan ops for " + id + " hash " + plan.hash());
         } catch (java.io.IOException e) { throw new RuntimeException(e); }
     }
 

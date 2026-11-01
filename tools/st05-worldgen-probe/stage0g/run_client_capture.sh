@@ -13,5 +13,5 @@ d=json.load(open(sys.argv[1])); d["entrypoints"]["fabric-client-gametest"]=["dev
 PY
 export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
 vk=$(find /usr/share/vulkan/icd.d -maxdepth 1 -name 'lvp_icd*.json' -print -quit 2>/dev/null || true); [ -n "$vk" ] && export VK_ICD_FILENAMES="$vk"
-JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st05g.scenes=$scenes -Dmm.st05g.worlds=$root/build/st05-worldgen-probe/run -Xmx6g" xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render -noreset" \
+JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st05g.scenes=$scenes -Dmm.st05g.root=$root -Xmx6g" xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render -noreset" \
   ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --stacktrace 2>&1 | tee build/st05g-client-capture.log

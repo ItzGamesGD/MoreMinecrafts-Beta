@@ -5,8 +5,8 @@ import gzip, json, math, sys, os
 data, metas, out = sys.argv[1:4]
 DIRS = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 ARENAS = [  # (blueprint name, world level dir name, seed, original world dir)
-    ("built-20d89ee7", "capw-a", 7001, "stage0f-world-7001"), ("built-809b9bf8", "capw-b", 7002, "stage0f-world-7002"),
-    ("built-2ac822e8", "capw-c", 7001, "stage0f-world-7001-g"), ("built-77ba83e0", "capw-d", 7001, "stage0f-world-7001-p")]
+    ("built-20d89ee7", "capw-a", 7001, "state"), ("built-809b9bf8", "capw-b", 7002, "state"),
+    ("built-2ac822e8", "capw-c", 7001, "state-g"), ("built-77ba83e0", "capw-d", 7001, "state-p")]
 
 def look(c, t):
     dx, dy, dz = t[0] - c[0], t[1] - c[1], t[2] - c[2]
@@ -48,6 +48,6 @@ for name, level, seed, orig in ARENAS:
     add("06_dome_exterior_aerial", (cx + 62.5, fy + 58, cz + 62.5), (cx, fy + 8, cz), "dome exterior from above, terrain above fy+24 removed in the photo copy", cut="top", wait=200)
     add("06b_dome_cross_section", (cx + 52.5, fy + 10, cz + 0.5), (cx, fy + 9, cz + 0.5), "vertical section through the centre (east half removed in the photo copy)", cut="half", wait=200)
     add("06c_dome_cross_section_oblique", (cx + 48.5, fy + 26, cz + 36.5), (cx - 3, fy + 8, cz), "oblique view of the section", cut="half", wait=60)
-    worlds.append({"level": level, "orig_world": orig, "seed": seed, "arena": name, "id": d["id"], "variant": var, "center": [cx, fy, cz], "scenes": sc})
+    worlds.append({"level": level, "state_dir": f"tools/st05-worldgen-probe/stage0f/live/seed-{seed}/{orig}", "seed": seed, "arena": name, "id": d["id"], "variant": var, "center": [cx, fy, cz], "scenes": sc})
 json.dump({"worlds": worlds}, open(out, "w"), indent=1)
 print(sum(len(w["scenes"]) for w in worlds), "scenes")
