@@ -36,3 +36,15 @@ Repository: ItzGamesGD/MoreMinecrafts-Beta; Draft PR #217; Stage 0 decision cont
 6. **Outstanding design:** precise server time/clock rollback handling; abnormal termination evidence and outage boundary detection; no double-counting overlapping outages; idempotent event/monster identity and save consistency; operational quarantine release and resumption; remaining retry, key/chest, payout and authority reconciliation questions. Q44 is not yet approved.
 
 **No implementation, no tests, no merge, no checkpoint movement, no branch deletion authorized by this ledger.**
+
+## Subsequent owner approval: RESOLVE Q44 (B)
+
+**Q44 B — verified outage boundary only.** Do not treat the last normal save timestamp as the start of a server outage. Cross-check termination evidence, durable runtime records, and recovery timestamps. Compensate only intervals affirmatively established as outage; do not automatically credit ambiguous normal-running intervals. If the uncertainty changes whether the attempt has expired, retain operational quarantine. No fabricated timestamps or arbitrary compensation.
+
+## Owner-directed decision workflow change (2026-11-01)
+
+- Stop serial owner questions for ordinary technical details, implementation choices, deterministic IDs, persistence schema, routine exception handling, and test mechanics that can be derived from already approved policy. Engineering may choose and document such details, with verification and explicit uncertainty.
+- Escalate only **material design conflicts** or choices changing approved gameplay, worldgen frequency/geometry, difficulty, rewards, eligibility, resource constraints, or policy, and cases where approved constraints cannot be simultaneously satisfied. Do not silently override existing owner approvals.
+- Unverified feasibility must be tested or recorded as a blocker, not transformed into an invented owner choice.
+- **Q45 has not been owner-approved.** Clock drift/rollback and cross-restart time integrity remain engineering design/verification work; do not label Q45 B as approved.
+- Proceed to the next substantive stage through readiness audit and Stage 0-C validation planning; Stage 1 remains blocked by mandatory failed/unverified checks. This note does not authorize game-code implementation, test execution, merge, or checkpoint changes on its own.
