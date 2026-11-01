@@ -103,7 +103,7 @@ OUTCOME = {
     "N-NEW-EPOCH": {"fixtures": "REPLAY sessions of the seven accounting logs", "classes": {
         "SECOND_DECISION": "after replay a second decision, roll or receipt event exists: any event_disposition key outside the golden set, or roll_attempts above the golden value"}},
     "N-MISSING-MEANS-EMPTY": {"fixtures": ["P01/ACCT-LOSS-BASE-SOURCE", "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE"], "classes": {
-        "REROLLED_AS_UNROLLED": "unit a is reported unrolled (anything other than UNKNOWN_EVIDENCE_LOST in unit_roll_state.a), is absent from roll_state_unknown, or a new roll / candidate search / roll attempt for a appears (spec: retries a as unrolled)",
+        "REROLLED_AS_UNROLLED": "unit a is reported unrolled or a new roll / candidate search / roll attempt for a appears (spec: retries a as unrolled)",
         "OK": "every checked field equals the golden => D-UNDETECTED (the mutant would be indistinguishable from the correct subject)"}},
 }
 
@@ -114,12 +114,13 @@ def classify_missing_means_empty(golden, obs):
     o.update(obs)
     state = o["unit_roll_state"]
     sets = o["sets"]
-    if (state.get("a") != "UNKNOWN_EVIDENCE_LOST" or "a" not in sets["roll_state_unknown"]
-            or o["new_roll_or_search"] != "NONE" or o["reroll"] != "NONE"
-            or o["counters"].get("roll_evidenced") != golden["counters"]["roll_evidenced"]
-            or set(o["event_dispositions"]) != set(golden["event_dispositions"])):
+    if (state.get("a") == "NOT_ROLLED" or o["new_roll_or_search"] != "NONE"
+            or o["reroll"] != "NONE"):
         return "REROLLED_AS_UNROLLED"
-    if any(o.get("field_values", {}).get(f, "UNKNOWN_EVIDENCE_LOST") != "UNKNOWN_EVIDENCE_LOST"
-           for f in golden["unknown_fields"]):
+    if (state != golden["unit_roll_state"] or sets != golden["sets"]
+            or o["counters"] != golden["counters"]
+            or o["event_dispositions"] != golden["event_dispositions"]
+            or any(o.get("field_values", {}).get(f, "UNKNOWN_EVIDENCE_LOST") != "UNKNOWN_EVIDENCE_LOST"
+                   for f in golden["unknown_fields"])):
         return "U-OUTCOME-UNMATCHED"
     return "OK"

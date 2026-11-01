@@ -674,14 +674,15 @@ def integrity(inputs, goldens, manifest, controls):
         check(clean == "OK", "%s: clean golden classified %s" % (fid, clean))
         mutants = {
             "a_unrolled": {"unit_roll_state": {"a": "NOT_ROLLED", "b": "WIN", "c": "LOSS"}},
-            "a_missing_from_unknown": {"sets": dict(g["sets"], roll_state_unknown=[])},
             "new_roll": {"new_roll_or_search": "ROLL", "counters": dict(g["counters"], roll_evidenced="3")},
             "reroll": {"reroll": "A"},
-            "extra_event": {"event_dispositions": dict(g["event_dispositions"], **{"7": "APPLIED"})},
         }
         for name, m in mutants.items():
             cls = NG.classify_missing_means_empty(g, m)
             check(cls == "REROLLED_AS_UNROLLED", "%s: mutant %s not detected (%s)" % (fid, name, cls))
+        for obs in ({"sets": dict(g["sets"], roll_state_unknown=[])},
+                    {"event_dispositions": dict(g["event_dispositions"], **{"7": "APPLIED"})}):
+            check(NG.classify_missing_means_empty(g, obs) == "U-OUTCOME-UNMATCHED", "%s: unexpected evidence mislabeled" % fid)
     # manifest / controls consistency: finalized assertions are REQUIRED on every judgeable triple
     mode = {}
     for t in manifest["triples"]:

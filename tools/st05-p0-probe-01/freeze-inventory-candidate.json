@@ -299,13 +299,13 @@
       "bytes": "481",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/oracle/CANDIDATE-GOLDEN-DIGESTS.sha256",
-      "sha256": "a2a7387d613efcae42d7993dbfe91a29179bf24dd3d5968b8e510cebe12fadc2"
+      "sha256": "a22a5b9a590b2f5099c4a4d7e5d9aeb454bdffbfa84f63c173b5dce6c9fd700f"
     },
     {
-      "bytes": "10183625",
+      "bytes": "10183524",
       "group": "execution_reference",
       "path": "tools/st05-p0-probe-01/oracle/goldens-v1.json",
-      "sha256": "aa2ca61c1bbf24f51e0f1b1691725114b608d8d2f00c7f0d736f6b917e6a1301"
+      "sha256": "cef711260fa8a8661569241a1775b2a21b06a20bdc28d8e23e6be1e4e8d77ad9"
     },
     {
       "bytes": "7236",
@@ -314,22 +314,22 @@
       "sha256": "cfed843482aa4b0bcfd5b50585e2d807008847a03cc7492e27df1f4e4d682292"
     },
     {
-      "bytes": "10380",
+      "bytes": "10263",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/oracle/negatives.py",
-      "sha256": "bda8935cc9253bcd2b4329561c2691cb54d4a3511d4271605ecc3241b2e136df"
+      "sha256": "850be0716cfb20cec9e16fc6b5daa03fc206072d02c9fec11cb05487a5fe76a7"
     },
     {
-      "bytes": "44668",
+      "bytes": "44772",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/oracle/oracle.py",
-      "sha256": "4ace814d5fd3509c7f064d28173195ab3c82822f00428dbf70740965772588bb"
+      "sha256": "4f9cfcf5a9552d7a58f1878fa75cfa90fd580c49829b2cf00b08478e9e986efc"
     },
     {
-      "bytes": "6630",
+      "bytes": "8438",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/oracle/test_corrections.py",
-      "sha256": "babbbfafc8ea1a442d427c6e3d0dc295990ee5432834b2d6d91b0d3f554d9f31"
+      "sha256": "9a804de1afc55b7b3595e93a0c9dbf518e8037eb2df0cb88c97ba1a37244ad7d"
     },
     {
       "bytes": "19808",

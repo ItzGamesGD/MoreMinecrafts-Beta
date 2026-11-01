@@ -85345,7 +85345,7 @@
       "outcome_classes": {
         "classes": {
           "OK": "every checked field equals the golden => D-UNDETECTED (the mutant would be indistinguishable from the correct subject)",
-          "REROLLED_AS_UNROLLED": "unit a is reported unrolled (anything other than UNKNOWN_EVIDENCE_LOST in unit_roll_state.a), is absent from roll_state_unknown, or a new roll / candidate search / roll attempt for a appears (spec: retries a as unrolled)"
+          "REROLLED_AS_UNROLLED": "unit a is reported unrolled or a new roll / candidate search / roll attempt for a appears (spec: retries a as unrolled)"
         },
         "fixtures": [
           "P01/ACCT-LOSS-BASE-SOURCE",

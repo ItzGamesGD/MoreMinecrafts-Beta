@@ -7,6 +7,13 @@ import tier_a as T
 
 
 class Corrections(unittest.TestCase):
+    def test_frozen_golden_regeneration_refused_before_loading(self):
+        from unittest.mock import patch
+        with patch.object(O.os.path, 'lexists', return_value=True), patch.object(O, 'load') as load:
+            with self.assertRaisesRegex(SystemExit, 'Golden regeneration forbidden'):
+                O.main()
+            load.assert_not_called()
+
     def test_missing_defect_is_not_expanded(self):
         self.assertNotIn('UNKNOWN_REPORTED_AS_EMPTY', N.OUTCOME['N-MISSING-MEANS-EMPTY']['classes'])
 
@@ -92,6 +99,21 @@ class GeneratedContracts(unittest.TestCase):
             self.assertEqual(N.classify_missing_means_empty(g, {}), 'OK')
             self.assertEqual(N.classify_missing_means_empty(g, {'reroll': 'a'}), 'REROLLED_AS_UNROLLED')
             self.assertEqual(N.classify_missing_means_empty(g, {'field_values': {'pending': []}}), 'U-OUTCOME-UNMATCHED')
+            events = dict(g['event_dispositions'])
+            removed = dict(events)
+            removed.pop(next(iter(removed)))
+            for altered in (removed, dict(events, **{'999': 'APPLIED'})):
+                self.assertEqual(N.classify_missing_means_empty(g, {'event_dispositions': altered}), 'U-OUTCOME-UNMATCHED')
+            for value in ('1', '3'):
+                self.assertEqual(N.classify_missing_means_empty(g, {'counters': dict(g['counters'], roll_evidenced=value)}), 'U-OUTCOME-UNMATCHED')
+            self.assertEqual(N.classify_missing_means_empty(g, {'event_dispositions': dict(events, **{'7': 'APPLIED'})}), 'U-OUTCOME-UNMATCHED')
+            self.assertEqual(N.classify_missing_means_empty(g, {'sets': dict(g['sets'], roll_state_unknown=[])}), 'U-OUTCOME-UNMATCHED')
+            self.assertEqual(N.classify_missing_means_empty(g, {'unit_roll_state': dict(g['unit_roll_state'], a='WIN')}), 'U-OUTCOME-UNMATCHED')
+            self.assertEqual(N.classify_missing_means_empty(g, {'unit_roll_state': dict(g['unit_roll_state'], b='LOSS')}), 'U-OUTCOME-UNMATCHED')
+            corrupt = dict(events)
+            corrupt[next(iter(corrupt))] = 'CORRUPT'
+            self.assertEqual(N.classify_missing_means_empty(g, {'event_dispositions': corrupt}), 'U-OUTCOME-UNMATCHED')
+            self.assertEqual(N.classify_missing_means_empty(g, {'unit_roll_state': dict(g['unit_roll_state'], a='NOT_ROLLED')}), 'REROLLED_AS_UNROLLED')
         for fid in ('P01/ACCT-LOSS-BASE-PROJECTION', 'P01/ACCT-LOSS-MODEL-SUCCESS-PROJECTION'):
             self.assertEqual(self.golden['fixtures'][fid]['projection_rebuilds'], '1')
 
