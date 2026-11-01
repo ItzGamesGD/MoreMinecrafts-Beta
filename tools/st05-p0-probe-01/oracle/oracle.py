@@ -336,15 +336,26 @@ def acct_goldens():
         disp = {str(i): "APPLIED" for i in delivered}
         mk("P01/ACCT-LOSS-%s-PROJECTION" % name, full, disp, tag="DERIVED_PROSE",
            extra={"projection_rebuilds": "1", "note": "projection records discarded; sets/counters reconstructed once from retained records (spec ACCT-LOSS)"})
-    # source loss: only expectations that hold under every reading of 'source decision/receipt evidence'
-    for name, log in (("BASE", "P01/ACCT-BASE"), ("MODEL-SUCCESS", "P01/ACCT-MODEL-SUCCESS")):
-        delivered = [e[0] for e in TA.LOGS[log] if e[0] <= 9]
-        out["P01/ACCT-LOSS-%s-SOURCE" % name] = {
-            "kind": "ACCT", "status": "PARTIAL_DEFERRED",
+    # source loss (owner decision S1 R2): a's ORIGINAL_ROLL and the dependent decision/projection/receipt evidence are removed
+    for fid, sl in TA.SOURCE_LOSS.items():
+        log, delivered = sl["base"], sl["delivered"]
+        b = prefix_state(log, delivered)          # Tier B: membership of the literal retained events
+        ex = TA.SOURCE_LOSS_EXPECT
+        check(b["qualified"] == ex["qualified"] and b["fit_eligible"] == ex["fit_eligible"], "%s: qualified/fit_eligible Tier A vs B" % fid)
+        check(b["rolled"] == ex["rolled_evidenced"] and b["winners"] == ex["winners_evidenced"] and b["roll_loss"] == ex["roll_loss_evidenced"], "%s: roll evidence Tier A vs B" % fid)
+        check(b["fit_checks"] == ex["counters"]["fit_checks"], "%s: fit_checks Tier A vs B" % fid)
+        check(all(i in delivered for i in (1, 2, 3, 4, 5, 6)) and 7 not in delivered and not set(delivered) & {10, 11, 12, 13}, "%s: delivered record set" % fid)
+        out[fid] = {
+            "kind": "ACCT", "status": "COMPLETE", "tag": "OWNER_DECISION_S1_R2",
             "model_knowledge_status": "UNKNOWN", "affected_operations": "BLOCKED", "new_roll_or_search": "NONE",
             "reroll": "NONE", "frozen_decisions": [], "known_history_preserved": True,
+            "lost_evidence": {"removed_records": sl["removed"], "removed_unit_roll": "a"},
             "event_dispositions": {str(i): "APPLIED" for i in delivered},
-            "deferred": ["sets", "counters", "fractions"], "input_rejection": None, "tag": "PARTIAL_DEFERRED"}
+            "sets": {k: ex[k] for k in ("qualified", "fit_eligible", "rolled_evidenced", "winners_evidenced", "roll_loss_evidenced", "roll_state_unknown")},
+            "unit_roll_state": ex["unit_roll_state"],
+            "unknown_fields": ex["unknown_fields"],
+            "counters": ex["counters"], "physical": {"physical_completed": "0"},
+            "deferred": [], "input_rejection": None}
     # negative traces
     base = finals["P01/ACCT-BASE"]
     cd = {str(e[0]): "APPLIED" for e in TA.LOGS["P01/ACCT-BASE"]}
@@ -352,8 +363,8 @@ def acct_goldens():
     out["P01/NEG-CONTRADICT-01"] = {
         "kind": "ACCT", "status": "PARTIAL_DEFERRED", "model_knowledge_status": "UNKNOWN", "frozen_decisions": ["c"],
         "new_roll_or_search": "NONE", "last_writer_wins": False, "event_dispositions": cd,
-        "sets": {"qualified": base["qualified"], "fit_eligible": base["fit_eligible"], "rolled": base["rolled"]},
-        "counters": {"roll_attempts": "3"}, "deferred": ["winners", "roll_loss", "decision sets", "counters other than roll_attempts"],
+        "sets": {"qualified": base["qualified"], "fit_eligible": base["fit_eligible"]},
+        "counters": {"roll_attempts": "3"}, "deferred": ["sets.rolled", "winners", "roll_loss", "decision sets", "counters other than roll_attempts"],
         "input_rejection": None, "tag": "DERIVED_PROSE"}
     rf = {str(i): "APPLIED" for i in (1, 2, 3, 5, 6, 7, 8, 9)}
     rf["4"] = "REJECTED(ORDER_VIOLATION)"
@@ -557,6 +568,35 @@ def integrity(inputs, goldens, manifest, controls):
                     if pick:
                         cs = ["%s/%s" % (o["num"], o["den"]) for o in pick[0]["components"]]
                         check(cs == g["components"][v["label"]], "%s: components of %s" % (fid, v["label"]))
+    # owner decision S1 R2: SOURCE goldens must agree with the corrected SOURCE schedules and detect N-MISSING-MEANS-EMPTY
+    sched0 = load("schedules-v1.json")
+    for fid, sl in TA.SOURCE_LOSS.items():
+        fam = [f for f in sched0["families"] if f["fixture_id"] == fid]
+        check(len(fam) == 1 and len(fam[0]["schedules"]) == 1, "%s: expected exactly one SOURCE schedule" % fid)
+        steps = [int(x["event"]) for x in fam[0]["schedules"][0]["steps"]]
+        check(steps == sl["delivered"], "%s: schedule events %s != hand-authored delivered set %s" % (fid, steps, sl["delivered"]))
+        base_ev = recs[sl["base"]]["events"]
+        gone = [e["index"] for e in base_ev if e["index"] not in {str(i) for i in steps}]
+        check(gone == sl["removed"], "%s: removed records %s != %s" % (fid, gone, sl["removed"]))
+        check(all(e["kind"] != "ORIGINAL_ROLL" or e["unit"] != "a" for e in base_ev if int(e["index"]) in steps), "%s: a's ORIGINAL_ROLL still delivered" % fid)
+        check(all(any(int(e["index"]) == i for e in base_ev if e["kind"] in ("FIT_PLAN_COMPLETE", "QUALIFIED")) for i in (1, 2, 3, 4, 5, 6)) and all(i in steps for i in (1, 2, 3, 4, 5, 6)), "%s: FIT evidence not preserved" % fid)
+        check(all(i in steps for i in (8, 9)), "%s: unrelated unit histories not preserved" % fid)
+        g = goldens["fixtures"][fid]
+        check(set(g["event_dispositions"]) == {str(i) for i in steps}, "%s: golden dispositions differ from the schedule" % fid)
+        clean = NG.classify_missing_means_empty(g, {})
+        check(clean == "OK", "%s: clean golden classified %s" % (fid, clean))
+        mutants = {
+            "a_unrolled": {"unit_roll_state": {"a": "NOT_ROLLED", "b": "WIN", "c": "LOSS"}},
+            "a_missing_from_unknown": {"sets": dict(g["sets"], roll_state_unknown=[])},
+            "new_roll": {"new_roll_or_search": "ROLL", "counters": dict(g["counters"], roll_evidenced="3")},
+            "reroll": {"reroll": "A"},
+            "extra_event": {"event_dispositions": dict(g["event_dispositions"], **{"7": "APPLIED"})},
+            "decision_sets_empty": {"field_values": {"accepted_decisions": []}},
+            "model_success_zero": {"field_values": {"model_success": "0"}},
+        }
+        for name, m in mutants.items():
+            cls = NG.classify_missing_means_empty(g, m)
+            check(cls in ("REROLLED_AS_UNROLLED", "UNKNOWN_REPORTED_AS_EMPTY"), "%s: mutant %s not detected (%s)" % (fid, name, cls))
     # manifest / controls consistency: finalized assertions are REQUIRED on every judgeable triple
     mode = {}
     for t in manifest["triples"]:
@@ -614,9 +654,7 @@ def main():
     inv = invalid_expectations()
     neg = negative_expectations(controls)
     deferred = [
-        {"fixture": "P01/ACCT-LOSS-BASE-SOURCE", "fields": "sets, counters, fractions", "reason": "authority wording 'source decision/receipt evidence' does not determine which records are removed (plan section 5.2, revision 4)"},
-        {"fixture": "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE", "fields": "sets, counters, fractions", "reason": "same as above"},
-        {"fixture": "P01/NEG-CONTRADICT-01", "fields": "winners, roll_loss, decision sets, counters other than roll_attempts", "reason": "spec says 'freeze affected decisions' without stating how the aggregate decision is affected"},
+        {"fixture": "P01/NEG-CONTRADICT-01", "fields": "sets.rolled, winners, roll_loss, decision sets, counters other than roll_attempts", "reason": "spec says 'freeze affected decisions' without stating how the contradicted unit's roll and the aggregate decision are affected; sets.rolled is uncertain (revision 5)"},
         {"fixture": "P01/NEG-ROLL-FIRST-01", "fields": "decision sets", "reason": "no conflict decision is delivered; unit a is still awaiting its roll"},
         {"fixture": "P01/ACCT-RETIRE", "fields": "prefix state pending while APPLYING/UNCERTAIN/QUARANTINED is delivered but RETIRED_PROTECTED is not", "reason": "spec states only the final retired state"},
     ]

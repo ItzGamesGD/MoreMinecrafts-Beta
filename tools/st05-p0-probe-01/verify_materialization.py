@@ -471,8 +471,10 @@ def exp_derived_sched(r):
         seq = idx + [i for i in idx if kinds[i] == "MODEL_PUBLICATION_RECEIPT"]
     elif m == "LOSS_PROJECTION":
         seq = [i for i in idx if kinds[i] not in ("ACCEPTED_PENDING", "SPACING_EXCLUDED")]
-    else:
-        seq = [i for i in idx if kinds[i] not in ("ACCEPTED_PENDING", "SPACING_EXCLUDED", "CONFLICT_DECISION", "MODEL_PUBLICATION_RECEIPT")]
+    else:  # LOSS_SOURCE, owner decision S1 R2: a's ORIGINAL_ROLL and the dependent decision/projection/receipt records are gone
+        unit = {e["index"]: e["unit"] for e in r["events"]}
+        seq = [i for i in idx if kinds[i] not in ("ACCEPTED_PENDING", "SPACING_EXCLUDED", "CONFLICT_DECISION", "MODEL_PUBLICATION_RECEIPT")
+               and not (kinds[i] == "ORIGINAL_ROLL" and unit[i] == "a")]
     return [blank_sched(1, r["fixture_id"], steps=[{"event": e, "origin": "none"} for e in seq])]
 
 

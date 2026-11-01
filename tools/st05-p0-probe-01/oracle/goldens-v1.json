@@ -1,19 +1,9 @@
 {
   "deferred": [
     {
-      "fields": "sets, counters, fractions",
-      "fixture": "P01/ACCT-LOSS-BASE-SOURCE",
-      "reason": "authority wording 'source decision/receipt evidence' does not determine which records are removed (plan section 5.2, revision 4)"
-    },
-    {
-      "fields": "sets, counters, fractions",
-      "fixture": "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE",
-      "reason": "same as above"
-    },
-    {
-      "fields": "winners, roll_loss, decision sets, counters other than roll_attempts",
+      "fields": "sets.rolled, winners, roll_loss, decision sets, counters other than roll_attempts",
       "fixture": "P01/NEG-CONTRADICT-01",
-      "reason": "spec says 'freeze affected decisions' without stating how the aggregate decision is affected"
+      "reason": "spec says 'freeze affected decisions' without stating how the contradicted unit's roll and the aggregate decision are affected; sets.rolled is uncertain (revision 5)"
     },
     {
       "fields": "decision sets",
@@ -493,11 +483,13 @@
     },
     "P01/ACCT-LOSS-BASE-SOURCE": {
       "affected_operations": "BLOCKED",
-      "deferred": [
-        "sets",
-        "counters",
-        "fractions"
-      ],
+      "counters": {
+        "fit_checks": "24",
+        "fit_eligible": "3",
+        "qualified": "3",
+        "roll_evidenced": "2"
+      },
+      "deferred": [],
       "event_dispositions": {
         "1": "APPLIED",
         "2": "APPLIED",
@@ -505,7 +497,6 @@
         "4": "APPLIED",
         "5": "APPLIED",
         "6": "APPLIED",
-        "7": "APPLIED",
         "8": "APPLIED",
         "9": "APPLIED"
       },
@@ -513,11 +504,61 @@
       "input_rejection": null,
       "kind": "ACCT",
       "known_history_preserved": true,
+      "lost_evidence": {
+        "removed_records": [
+          "7",
+          "10",
+          "11",
+          "12"
+        ],
+        "removed_unit_roll": "a"
+      },
       "model_knowledge_status": "UNKNOWN",
       "new_roll_or_search": "NONE",
+      "physical": {
+        "physical_completed": "0"
+      },
       "reroll": "NONE",
-      "status": "PARTIAL_DEFERRED",
-      "tag": "PARTIAL_DEFERRED"
+      "sets": {
+        "fit_eligible": [
+          "a",
+          "b",
+          "c"
+        ],
+        "qualified": [
+          "a",
+          "b",
+          "c"
+        ],
+        "roll_loss_evidenced": [
+          "c"
+        ],
+        "roll_state_unknown": [
+          "a"
+        ],
+        "rolled_evidenced": [
+          "b",
+          "c"
+        ],
+        "winners_evidenced": [
+          "b"
+        ]
+      },
+      "status": "COMPLETE",
+      "tag": "OWNER_DECISION_S1_R2",
+      "unit_roll_state": {
+        "a": "UNKNOWN_EVIDENCE_LOST",
+        "b": "WIN",
+        "c": "LOSS"
+      },
+      "unknown_fields": [
+        "accepted_decisions",
+        "fractions",
+        "model_success",
+        "pending",
+        "protection_excluded",
+        "spacing_excluded"
+      ]
     },
     "P01/ACCT-LOSS-MODEL-SUCCESS-PROJECTION": {
       "counters": {
@@ -614,11 +655,13 @@
     },
     "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE": {
       "affected_operations": "BLOCKED",
-      "deferred": [
-        "sets",
-        "counters",
-        "fractions"
-      ],
+      "counters": {
+        "fit_checks": "24",
+        "fit_eligible": "3",
+        "qualified": "3",
+        "roll_evidenced": "2"
+      },
+      "deferred": [],
       "event_dispositions": {
         "1": "APPLIED",
         "2": "APPLIED",
@@ -626,7 +669,6 @@
         "4": "APPLIED",
         "5": "APPLIED",
         "6": "APPLIED",
-        "7": "APPLIED",
         "8": "APPLIED",
         "9": "APPLIED"
       },
@@ -634,11 +676,62 @@
       "input_rejection": null,
       "kind": "ACCT",
       "known_history_preserved": true,
+      "lost_evidence": {
+        "removed_records": [
+          "7",
+          "10",
+          "11",
+          "12",
+          "13"
+        ],
+        "removed_unit_roll": "a"
+      },
       "model_knowledge_status": "UNKNOWN",
       "new_roll_or_search": "NONE",
+      "physical": {
+        "physical_completed": "0"
+      },
       "reroll": "NONE",
-      "status": "PARTIAL_DEFERRED",
-      "tag": "PARTIAL_DEFERRED"
+      "sets": {
+        "fit_eligible": [
+          "a",
+          "b",
+          "c"
+        ],
+        "qualified": [
+          "a",
+          "b",
+          "c"
+        ],
+        "roll_loss_evidenced": [
+          "c"
+        ],
+        "roll_state_unknown": [
+          "a"
+        ],
+        "rolled_evidenced": [
+          "b",
+          "c"
+        ],
+        "winners_evidenced": [
+          "b"
+        ]
+      },
+      "status": "COMPLETE",
+      "tag": "OWNER_DECISION_S1_R2",
+      "unit_roll_state": {
+        "a": "UNKNOWN_EVIDENCE_LOST",
+        "b": "WIN",
+        "c": "LOSS"
+      },
+      "unknown_fields": [
+        "accepted_decisions",
+        "fractions",
+        "model_success",
+        "pending",
+        "protection_excluded",
+        "spacing_excluded"
+      ]
     },
     "P01/ACCT-MODEL-EDIT": {
       "counters": {
@@ -58484,6 +58577,7 @@
         "roll_attempts": "3"
       },
       "deferred": [
+        "sets.rolled",
         "winners",
         "roll_loss",
         "decision sets",
@@ -58519,11 +58613,6 @@
           "c"
         ],
         "qualified": [
-          "a",
-          "b",
-          "c"
-        ],
-        "rolled": [
           "a",
           "b",
           "c"
@@ -85007,7 +85096,9 @@
       ],
       "outcome_classes": {
         "classes": {
-          "REROLLED_AS_UNROLLED": "unit a re-enters the unrolled state or roll_attempts increases although the source evidence is missing (spec: retries a as unrolled)"
+          "OK": "every checked field equals the golden => D-UNDETECTED (the mutant would be indistinguishable from the correct subject)",
+          "REROLLED_AS_UNROLLED": "unit a is reported unrolled (anything other than UNKNOWN_EVIDENCE_LOST in unit_roll_state.a), is absent from roll_state_unknown, or a new roll / candidate search / roll attempt for a appears (spec: retries a as unrolled)",
+          "UNKNOWN_REPORTED_AS_EMPTY": "a lost-evidence field (any of unknown_fields) is reported as an empty set, zero or a number instead of UNKNOWN_EVIDENCE_LOST (missing means empty)"
         },
         "fixtures": [
           "P01/ACCT-LOSS-BASE-SOURCE",
@@ -195133,7 +195224,7 @@
       "LITERAL_SPEC": "12",
       "LITERAL_SPEC+CLOSED_FORM": "13",
       "LITERAL_SPEC+DERIVED_PROSE": "9",
-      "PARTIAL_DEFERRED": "2"
+      "OWNER_DECISION_S1_R2": "2"
     },
     "fixtures": "78",
     "invalid_files": "29",

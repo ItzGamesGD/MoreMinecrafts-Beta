@@ -605,9 +605,12 @@ def derived_scheds(r):
         seq = idxs + rec
     elif mode == "LOSS_PROJECTION":
         seq = [i for i in idxs if kinds[i] not in ("ACCEPTED_PENDING", "SPACING_EXCLUDED")]
-    else:  # LOSS_SOURCE: projections, decision and receipt evidence removed
+    else:  # LOSS_SOURCE (owner decision S1 R2): unit a's ORIGINAL_ROLL evidence and the dependent aggregate
+        # decision / projection / receipt evidence are removed; FIT evidence and the other units' histories stay.
+        units = {e["index"]: e["unit"] for e in evs}
         seq = [i for i in idxs if kinds[i] not in
-               ("ACCEPTED_PENDING", "SPACING_EXCLUDED", "CONFLICT_DECISION", "MODEL_PUBLICATION_RECEIPT")]
+               ("ACCEPTED_PENDING", "SPACING_EXCLUDED", "CONFLICT_DECISION", "MODEL_PUBLICATION_RECEIPT")
+               and not (kinds[i] == "ORIGINAL_ROLL" and units[i] == "a")]
     return [sched(1, fid, mode, steps=[{"event": e, "origin": "none"} for e in seq])]
 
 

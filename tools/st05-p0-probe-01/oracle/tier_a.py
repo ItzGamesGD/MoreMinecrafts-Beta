@@ -259,6 +259,24 @@ PREFIX_HAND = {
     ("P01/ACCT-INVALID", tuple(range(1, 14))): dict(certificate_invalid=["a"], pending=["a"]),
 }
 
+# ----------------------------------------------------------------------------- source-loss subcase (owner decision S1 R2)
+# Hand-authored from the owner decision, NOT derived from any schedule or subject output:
+# "Remove unit a's ORIGINAL_ROLL evidence and the dependent aggregate decision/receipt evidence. Preserve independently
+#  established FIT evidence and all unrelated unit histories. Missing evidence must never imply an unrolled state or
+#  authorize a new roll."  Record numbers refer to the canonical BASE log (spec 4.2): 7 = ORIGINAL_ROLL(a),
+#  10 = CONFLICT_DECISION, 11/12 = projections referencing record 10, 13 = model receipt (MODEL-SUCCESS only).
+UNKNOWN_LOST = "UNKNOWN_EVIDENCE_LOST"
+SOURCE_LOSS = {
+    "P01/ACCT-LOSS-BASE-SOURCE": dict(base="P01/ACCT-BASE", delivered=[1, 2, 3, 4, 5, 6, 8, 9], removed=["7", "10", "11", "12"]),
+    "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE": dict(base="P01/ACCT-MODEL-SUCCESS", delivered=[1, 2, 3, 4, 5, 6, 8, 9], removed=["7", "10", "11", "12", "13"]),
+}
+SOURCE_LOSS_EXPECT = dict(
+    qualified=["a", "b", "c"], fit_eligible=["a", "b", "c"],
+    rolled_evidenced=["b", "c"], winners_evidenced=["b"], roll_loss_evidenced=["c"], roll_state_unknown=["a"],
+    unit_roll_state={"a": UNKNOWN_LOST, "b": "WIN", "c": "LOSS"},
+    unknown_fields=["accepted_decisions", "fractions", "model_success", "pending", "protection_excluded", "spacing_excluded"],
+    counters={"fit_checks": "24", "fit_eligible": "3", "qualified": "3", "roll_evidenced": "2"})
+
 # ----------------------------------------------------------------------------- invalid-input precedence (plan 4.7, rev. 4)
 PRECEDENCE = [
     "JSON-SYNTAX", "DUP-KEY", "NUMBER-TOKEN", "NONCANON",

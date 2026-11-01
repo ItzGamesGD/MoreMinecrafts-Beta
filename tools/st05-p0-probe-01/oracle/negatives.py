@@ -103,5 +103,24 @@ OUTCOME = {
     "N-NEW-EPOCH": {"fixtures": "REPLAY sessions of the seven accounting logs", "classes": {
         "SECOND_DECISION": "after replay a second decision, roll or receipt event exists: any event_disposition key outside the golden set, or roll_attempts above the golden value"}},
     "N-MISSING-MEANS-EMPTY": {"fixtures": ["P01/ACCT-LOSS-BASE-SOURCE", "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE"], "classes": {
-        "REROLLED_AS_UNROLLED": "unit a re-enters the unrolled state or roll_attempts increases although the source evidence is missing (spec: retries a as unrolled)"}},
+        "REROLLED_AS_UNROLLED": "unit a is reported unrolled (anything other than UNKNOWN_EVIDENCE_LOST in unit_roll_state.a), is absent from roll_state_unknown, or a new roll / candidate search / roll attempt for a appears (spec: retries a as unrolled)",
+        "UNKNOWN_REPORTED_AS_EMPTY": "a lost-evidence field (any of unknown_fields) is reported as an empty set, zero or a number instead of UNKNOWN_EVIDENCE_LOST (missing means empty)",
+        "OK": "every checked field equals the golden => D-UNDETECTED (the mutant would be indistinguishable from the correct subject)"}},
 }
+
+# Oracle-side classifier for the N-MISSING-MEANS-EMPTY outcome classes (used by the oracle self-check only; the observer
+# implementation is G-5 and is not part of this task). `obs` uses the golden field names; unmentioned fields equal the golden.
+def classify_missing_means_empty(golden, obs):
+    o = dict(golden)
+    o.update(obs)
+    state = o["unit_roll_state"]
+    sets = o["sets"]
+    if (state.get("a") != "UNKNOWN_EVIDENCE_LOST" or "a" not in sets["roll_state_unknown"]
+            or o["new_roll_or_search"] != "NONE" or o["reroll"] != "NONE"
+            or o["counters"].get("roll_evidenced") != golden["counters"]["roll_evidenced"]
+            or set(o["event_dispositions"]) != set(golden["event_dispositions"])):
+        return "REROLLED_AS_UNROLLED"
+    for f in golden["unknown_fields"]:
+        if o.get("field_values", {}).get(f, "UNKNOWN_EVIDENCE_LOST") != "UNKNOWN_EVIDENCE_LOST":
+            return "UNKNOWN_REPORTED_AS_EMPTY"
+    return "OK"

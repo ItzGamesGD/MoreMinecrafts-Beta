@@ -329363,7 +329363,7 @@
       "case_no": "76",
       "count": "1",
       "fixture_id": "P01/ACCT-LOSS-BASE-SOURCE",
-      "list_sha256": "7a9e798b49ed72150e1947705f1dd7b362cfee2c7ee739d663e995a50cc75df1",
+      "list_sha256": "df5b02bfcc33de7c8b8cb57efaaf114ac06f9221a684580067e58efeddfad213",
       "schedules": [
         {
           "batch": null,
@@ -329397,10 +329397,6 @@
             },
             {
               "event": "6",
-              "origin": "none"
-            },
-            {
-              "event": "7",
               "origin": "none"
             },
             {
@@ -329489,7 +329485,7 @@
       "case_no": "78",
       "count": "1",
       "fixture_id": "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE",
-      "list_sha256": "e4a8bf52f34d8609aa69be41bbb47af7e09b396f7ff023d12265fb17e51faead",
+      "list_sha256": "f90b066e17dba01b67783a2c16bd2fb64ebe7f8e42c46cc11c4fef6bdaf284ee",
       "schedules": [
         {
           "batch": null,
@@ -329523,10 +329519,6 @@
             },
             {
               "event": "6",
-              "origin": "none"
-            },
-            {
-              "event": "7",
               "origin": "none"
             },
             {
