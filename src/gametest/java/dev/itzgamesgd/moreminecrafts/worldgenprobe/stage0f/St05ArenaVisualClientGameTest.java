@@ -38,7 +38,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
     }
 
     private void runWorld(ClientGameTestContext context, JsonObject w) {
-        installWorld(w.get("level").getAsString());   // the harness always serves "world": replace it with the saved Stage 0-F world copy
+        installWorld(w.get("orig_world").getAsString());   // the harness always serves "world": replace it with the saved Stage 0-F world copy
         Properties props = new Properties();
         props.setProperty("view-distance", "10");
         props.setProperty("spawn-monsters", "false"); props.setProperty("spawn-animals", "false");
@@ -73,7 +73,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
 
     private static void installWorld(String level) {
         try {
-            Path dst = Path.of("world"), src = Path.of(level);
+            Path dst = Path.of("world"), src = Path.of(System.getProperty("mm.st05g.worlds")).resolve(level);
             if (Files.exists(dst)) try (var st = Files.walk(dst)) { st.sorted(java.util.Comparator.reverseOrder()).forEach(q -> q.toFile().delete()); }
             try (var st = Files.walk(src)) {
                 for (Path q : (Iterable<Path>) st::iterator) {
