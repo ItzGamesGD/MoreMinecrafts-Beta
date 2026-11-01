@@ -92,6 +92,19 @@ public final class ConstructionSelfTest {
             verifyApplied("A/" + v, g, r, id);
             ck(r.cands.size() == 8, "eight candidates evaluated");
         }
+        // ---- A2: natural-ceiling variant with gravel and water directly above the 12-high volume: supports/seals must not be mistaken for design height
+        {
+            Grid g = base(CX, CZ); hall(g, 47, 120, -22, 22, FY - 1, 16);
+            g.fillBox(CX - 28, FY + ArenaDesign.WALL_H, CZ - 28, CX + 28, FY + ArenaDesign.WALL_H, CZ + 28, Kind.GRAVITY);
+            g.fillBox(CX - 5, FY + ArenaDesign.WALL_H + 1, CZ - 5, CX + 5, FY + ArenaDesign.WALL_H + 3, CZ + 5, Kind.WATER);
+            long id = idOf(ArenaDesign.Variant.RUINED_NATURAL_CEILING);
+            ConstructionPlanner.Result r = planOn(g, id, FY, List.of());
+            ck(r.chosen != null, "A2 natural ceiling under gravel/water: " + r.status);
+            if (r.chosen != null) {
+                ck(r.chosen.plan.stats.getOrDefault("gravity_support_cells", 0) > 0, "A2 gravity supports planned");
+                verifyApplied("A2", g, r, id);
+            }
+        }
         // ---- determinism: identical plan hash for repeated planning
         {
             Grid g = base(CX, CZ); hall(g, 47, 120, -22, 22, FY - 1, 16);
@@ -196,6 +209,31 @@ public final class ConstructionSelfTest {
             int yb = 0; for (ConstructionPlanner.Cand c : r.cands) if (c.reason.equals("Y_BAND")) yb++;
             ck(yb == 4 || yb == 3, "J Y_BAND rejections for dy<0: " + yb);
             ck(r.chosen != null, "J plan at -40: " + r.status);
+        }
+        // ---- K: turn plus elevation (regression for the live finding: a stair directly next to a turn made overlapping 5-wide cross-sections conflict)
+        for (int dyHall : new int[]{6, -6}) {
+            Grid g = base(CX, CZ); hall(g, 40, 120, 12, 70, FY - 1 + dyHall, 16);
+            ConstructionPlanner.Result r = planOn(g, 606, FY, List.of());
+            ck(r.chosen != null, "K turn+elevation plan " + dyHall + ": " + r.status);
+            if (r.chosen == null) continue;
+            int turns = 0; for (Corridors.Route R : r.chosen.routes) turns += R.turns;
+            ck(turns >= 1, "K route needs a turn: " + turns);
+            for (Corridors.Route R : r.chosen.routes) for (int i = 0; i < R.cells.size(); i++) if (i > 0 && R.cells.get(i).h != R.cells.get(i - 1).h)
+                for (int k = Math.max(0, i - 2); k <= Math.min(R.cells.size() - 1, i + 1); k++) ck(R.cells.get(k).dy == 0 || k == Math.max(0, i - 2) && false, "K level cells around a turn (cell " + k + ")");
+            verifyApplied("K/" + dyHall, g, r, 606);
+        }
+        // ---- columns: 8-12 for every placement id, all distinct, none on an entrance lane or next to a Vault
+        {
+            int bad = 0;
+            Grid g = base(CX, CZ);
+            for (long i = 1; i <= 3000; i++) {
+                Plan p = new Plan();
+                ArenaDesign.Layout lay = ArenaDesign.build(p, g, i * 2654435761L, CX, CZ, FY);
+                if (lay.columns.size() < 8 || lay.columns.size() > 12 || lay.columns.size() != ArenaDesign.columnCount(i * 2654435761L)) bad++;
+                java.util.Set<Long> seen = new java.util.HashSet<>();
+                for (int[] c : lay.columns) if (!seen.add(Plan.pack(c[0], 0, c[1]))) bad++;
+            }
+            ck(bad == 0, "3000 placement ids: 8-12 distinct columns each, count == columnCount(id): bad=" + bad);
         }
         persistence();
         System.out.println("ConstructionSelfTest pass=" + pass + " fail=" + fail + " ms=" + (System.currentTimeMillis() - t0));

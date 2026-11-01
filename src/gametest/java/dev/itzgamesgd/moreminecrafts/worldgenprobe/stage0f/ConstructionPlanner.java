@@ -163,8 +163,13 @@ public final class ConstructionPlanner {
         return null;
     }
 
-    /** A fluid body is sealable only if it is fully contained in the inspected region (otherwise it is a lake we cannot bound: fail closed). */
+    /**
+     * WG-Q26: minor water/lava intrusions are sealed with masonry; a MAJOR LAVA LAKE is rejected. Sealing replaces every fluid cell that touches the
+     * open volume, so a water body of any size is sealable (the water behind the seal cannot reach the volume). A lava body is only accepted if it
+     * is fully contained in the inspected region; one that reaches the edge of what was inspected is an unbounded lake and fails closed.
+     */
     static String boundedFluid(Terrain t, int x, int y, int z, Set<Long> seen, int inspectR, int cx, int cz) {
+        if (t.kind(x, y, z) == Kind.WATER) return null;
         ArrayDeque<long[]> q = new ArrayDeque<>();
         List<Long> comp = new ArrayList<>();
         Set<Long> local = new HashSet<>();

@@ -237,7 +237,10 @@ public final class Construction {
      * Restart driver: returns the resulting state. VERIFIED/FAILED/QUARANTINED are terminal and untouched. A PLANNED/APPLYING placement is
      * validated against the persisted plan and either resumed (idempotent re-application) or quarantined.
      */
-    public static Rec recover(Journal j, String id, WorldAccess w) throws IOException {
+    public static Rec recover(Journal j, String id, WorldAccess w) throws IOException { return recover(j, id, w, -1); }
+
+    /** {@code crashAfter >= 0} injects a crash inside the resumed application (tests: a crash during recovery). */
+    public static Rec recover(Journal j, String id, WorldAccess w, int crashAfter) throws IOException {
         Rec r = load(j, id);
         if (r.state == State.RESERVED || r.state == State.VERIFIED || r.state == State.CONSTRUCTION_FAILED || r.state == State.QUARANTINED) return r;
         Plan plan;
@@ -249,7 +252,7 @@ public final class Construction {
         j.append(id, "RECOVERY " + d.canonical());
         if (!d.resume) { j.append(id, "QUARANTINED " + d.quarantine); return load(j, id); }
         if (r.state == State.APPLIED) { return r; }
-        apply(j, id, plan, w, -1, 8);
+        apply(j, id, plan, w, crashAfter, 8);
         return load(j, id);
     }
 }

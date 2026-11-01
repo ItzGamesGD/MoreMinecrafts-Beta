@@ -1,0 +1,5 @@
+# Stage 0-E v2 PLACEMENT_RESERVED records (C_24x24x12 / DISK32), seed 7001. Columns: id centerX centerZ floorY. Roll = WIN (persisted); spacing/roll are NOT recomputed by Stage 0-F.
+20d89ee7a8aa754c -837 -1174 -25
+2ac822e8f540f125 1095 -647 -35
+77ba83e05adb296f -390 -720 -22
+e1c48dbd0693d2e0 -1147 -1157 -24

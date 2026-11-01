@@ -142,7 +142,7 @@ public final class Corridors {
     }
 
     static final class Node {
-        int x, z, y, h, ld, s, cost; long seq; Node prev; int dy;
+        int x, z, y, h, ld, s, cost, lv, lock; long seq; Node prev; int dy;   // lv: trailing level steps (cap 2); lock: previous move was a turn
     }
 
     /**
@@ -158,7 +158,7 @@ public final class Corridors {
         Map<Long, Integer> best = new HashMap<>();
         long seq = 0;
         Node start = new Node();
-        start.x = cx + ax * 35; start.z = cz + az * 35; start.y = floorY - 1; start.h = dir; start.ld = 0; start.s = 1; start.cost = 0; start.seq = seq++;
+        start.x = cx + ax * 35; start.z = cz + az * 35; start.y = floorY - 1; start.h = dir; start.ld = 0; start.s = 1; start.cost = 0; start.lv = 2; start.lock = 0; start.seq = seq++;
         if (!boxOk(t, start.x, start.z, start.y, start.h, 1, cx, cz, blocked, R)) { R.reason = "START_BLOCKED"; return R; }
         if (start.s + cave.h(start.x, start.z) > PATH_CAP + 1) { R.reason = "NO_CAVE_WITHIN_PATH_CAP"; return R; }
         pq.add(start);
@@ -166,7 +166,7 @@ public final class Corridors {
         while (!pq.isEmpty()) {
             Node n = pq.poll();
             if (++R.work > workBudget) { R.reason = "WORK_BUDGET_EXHAUSTED"; return R; }
-            long key = ((((long) (n.x - cx + 128) * 256 + (n.z - cz + 128)) * 256 + (n.y - floorY + 128)) * 4 + n.h) * 3 + n.ld;
+            long key = ((((((long) (n.x - cx + 128) * 256 + (n.z - cz + 128)) * 256 + (n.y - floorY + 128)) * 4 + n.h) * 3 + n.ld) * 3 + n.lv) * 2 + n.lock;
             Integer seen = best.get(key);
             if (seen != null && seen <= n.cost) continue;
             best.put(key, n.cost);
@@ -187,7 +187,10 @@ public final class Corridors {
                 if (dy == -1 && n.ld == 1) continue;
                 for (int to : turnOrder) {
                     boolean turn = to != 0;
-                    if (turn && (dy != 0 || n.ld != 0 || n.s < 8)) continue;       // turns only on level ground after the taper
+                    // adjacent 5-wide cross-sections overlap at a corner: the two cells before and the two cells after a turn must share one floor
+                    // height, otherwise one cell's air box would delete the neighbour's floor tile (found by the live post-construction verification)
+                    if (turn && (dy != 0 || n.ld != 0 || n.s < 8 || n.lv < 2)) continue;
+                    if (n.lock == 1 && dy != 0) continue;
                     int h = (n.h + to) & 3;
                     int nx = n.x + ArenaDesign.DIR[h][0], nz = n.z + ArenaDesign.DIR[h][1], ny = n.y + dy;
                     int ns = n.s + 1;
@@ -196,6 +199,8 @@ public final class Corridors {
                     Node m = new Node();
                     m.x = nx; m.z = nz; m.y = ny; m.h = h; m.s = ns; m.dy = dy; m.prev = n; m.seq = seq++;
                     m.ld = dy == 0 ? 0 : dy > 0 ? 1 : 2;
+                    m.lv = dy == 0 ? Math.min(2, n.lv + 1) : 0;
+                    m.lock = turn ? 1 : 0;
                     m.cost = n.cost + 100 + (dy != 0 ? 3 : 0) + (turn ? 5 : 0) + R.boxFluidCells * 2;
                     R.boxFluidCells = 0;
                     pq.add(m);

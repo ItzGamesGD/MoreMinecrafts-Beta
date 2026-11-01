@@ -152,21 +152,34 @@ public final class ArenaDesign {
         plan.open.remove(Plan.pack(cx, floorY, cz)); plan.solid.add(Plan.pack(cx, floorY, cz));
         // ---- perimeter columns (8-12, never interior), clear of vaults and entrance axes
         int n = columnCount(id);
-        for (int phase = 0; phase < 12 && L.columns.size() < 8; phase++) {
-            L.columns.clear();
-            for (int k = 0; k < n; k++) {
-                double deg = phase * 2.5 + 7.5 + k * 360.0 / n;
-                double a = Math.toRadians(deg);
-                int px = cx + (int) Math.round(28 * Math.cos(a)), pz = cz + (int) Math.round(28 * Math.sin(a));
-                boolean ok = true;
-                for (int[] v : L.vaults) if (Math.hypot(px - v[0], pz - v[1]) < 3.5) ok = false;
-                for (int d = 0; d < 4 && ok; d++) {
-                    int ax = DIR[d][0], az = DIR[d][1];
-                    int along = (px - cx) * ax + (pz - cz) * az, lat = Math.abs((px - cx) * -az + (pz - cz) * ax);
-                    if (along > 0 && lat <= 5) ok = false;
-                }
-                if (ok) L.columns.add(new int[]{px, pz});
+        // valid perimeter slots every 3 degrees on radius 28: clear of the entrance axes (+-5 blocks) and of every Vault; then the n slots nearest
+        // to the n evenly spaced target angles are used, so 8-12 columns are ALWAYS produced
+        List<int[]> slots = new ArrayList<>();
+        List<Double> slotDeg = new ArrayList<>();
+        for (int a3 = 0; a3 < 120; a3++) {
+            double a = Math.toRadians(a3 * 3.0);
+            int px = cx + (int) Math.round(28 * Math.cos(a)), pz = cz + (int) Math.round(28 * Math.sin(a));
+            boolean ok = true;
+            for (int[] s : slots) if (s[0] == px && s[1] == pz) ok = false;
+            for (int[] v : L.vaults) if (Math.hypot(px - v[0], pz - v[1]) < 3.5) ok = false;
+            for (int d = 0; d < 4 && ok; d++) {
+                int ax = DIR[d][0], az = DIR[d][1];
+                int along = (px - cx) * ax + (pz - cz) * az, lat = Math.abs((px - cx) * -az + (pz - cz) * ax);
+                if (along > 0 && lat <= 5) ok = false;
             }
+            if (ok) { slots.add(new int[]{px, pz}); slotDeg.add(a3 * 3.0); }
+        }
+        boolean[] used = new boolean[slots.size()];
+        double off = Long.remainderUnsigned(mix(id, 0xC0F), 360);
+        for (int k = 0; k < n; k++) {
+            double target = (off + k * 360.0 / n) % 360;
+            int best = -1; double bd = 1e9;
+            for (int i = 0; i < slots.size(); i++) {
+                if (used[i]) continue;
+                double dd = Math.abs(slotDeg.get(i) - target); dd = Math.min(dd, 360 - dd);
+                if (dd < bd) { bd = dd; best = i; }
+            }
+            if (best >= 0) { used[best] = true; L.columns.add(slots.get(best)); }
         }
         for (int[] c : L.columns) {
             int top = ruined ? WALL_H - 1 - (int) Long.remainderUnsigned(cellHash(id, c[0], 3, c[1]), 4) : WALL_H - 1;

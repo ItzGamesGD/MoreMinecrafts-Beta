@@ -79,8 +79,10 @@ public final class Verify {
         if (badSpawn > 0) f.add("SPAWN_ANNULUS_BLOCKED x" + badSpawn);
         // 3. exterior radius 34 / wall height 12 / total height 23 (from the plan's own solid extremes, confirmed in the final state)
         int maxRingR = 0, maxSolidOff = -99;
-        for (long c : plan.cells()) {
-            String s = plan.finalSpecAt(Plan.ux(c), Plan.uy(c), Plan.uz(c));
+        for (long[] op : plan.ops) {
+            if (op[2] == Plan.SEAL) continue;     // seals / gravity supports are safety work around the design, not part of its dimensions
+            long c = op[0];
+            String s = plan.palette.get((int) op[1]);
             if (s.equals(Plan.AIR) || s.contains("torch") || s.contains("redstone")) continue;
             double r = Math.sqrt((double) (Plan.ux(c) - cx) * (Plan.ux(c) - cx) + (double) (Plan.uz(c) - cz) * (Plan.uz(c) - cz));
             if (r <= ArenaDesign.EXT_R + 1e-9) {

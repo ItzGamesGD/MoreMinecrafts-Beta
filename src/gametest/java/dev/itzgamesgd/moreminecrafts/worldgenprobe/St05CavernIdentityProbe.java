@@ -64,6 +64,7 @@ public final class St05CavernIdentityProbe implements ModInitializer {
                 }
                 Runtime.getRuntime().halt(1);
             }
+            if (dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05Stage0FLive.pending) return;
             Runtime.getRuntime().halt(0);
         });
     }
@@ -240,6 +241,10 @@ public final class St05CavernIdentityProbe implements ModInitializer {
 
         if (mode.startsWith("d-") || mode.startsWith("e-")) {
             dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0d.St05Stage0DLiveProbe.run(server, level, mode, out, doc);
+        } else if (mode.startsWith("f-")) {
+            dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05Stage0FLive.run(server, level, mode, out, doc);
+            if (dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05Stage0FLive.pending) return;   // the driver finishes (and halts) after its settle ticks
+            server.saveAllChunks(true, true, true);
         } else if (mode.startsWith("c-")) {
             St05Stage0CStorageProbe.run(server, level, mode, out, doc);
         } else if (mode.equals("plan")) {
@@ -247,7 +252,7 @@ public final class St05CavernIdentityProbe implements ModInitializer {
         } else {
             finalAnalysis(server, level, seed, mode, finalRadius, doc);
         }
-        if (!mode.equals("plan") && !mode.equals("reload") && !mode.startsWith("d-") && !mode.startsWith("e-")) server.saveAllChunks(true, true, true);
+        if (!mode.equals("plan") && !mode.equals("reload") && !mode.startsWith("d-") && !mode.startsWith("e-") && !mode.startsWith("f-")) server.saveAllChunks(true, true, true);
         Files.createDirectories(out.getParent());
         Files.writeString(out, GSON.toJson(doc), StandardCharsets.UTF_8);
         LOG.info("ST05_PROBE_DONE mode={} seed={}", mode, seed);
