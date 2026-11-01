@@ -20,6 +20,7 @@ public final class MoreMinecrafts implements ModInitializer {
     public void onInitialize() {
         StructurePoolContributions.initialize();
         dev.itzgamesgd.moreminecrafts.worldgen.structure.ArenaWorldgenProbe.initialize();
+        dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.initialize();
         ModRegistries.initialize();
         ModNetworking.initialize();
         BombZombieEffects.initialize();
