@@ -129,10 +129,13 @@ LATE = {
     "totals": {"A": "40/1", "B": "60/1", "C": "80/1", "D": "100/1"},
     "checkpoints": [
         {"stage": "OPEN", "action": "DEFER_GRAPH", "finalized_accepted": [], "finalized_rejected": [],
-         "pending": ["B", "A", "C", "D"]},
+         "pending": ["B", "A", "C", "D"], "population_complete": False,
+         "unknown_edges": [{"u": "C", "v": "D"}]},
         {"stage": "REVEAL", "action": "FINALIZE", "evaluation_order": ["D", "C", "B", "A"],
          "decisions": [D("D", A), D("C", RS, ["D"]), D("B", A), D("A", RS, ["B"])],
-         "accepted": ["B", "D"], "spacing_rejected": ["A", "C"], "protected_rejected": [], "pending": []}],
+         "accepted": ["B", "D"], "spacing_rejected": ["A", "C"], "protected_rejected": [], "pending": [],
+         "finalized_accepted": ["B", "D"], "finalized_rejected": ["A", "C"],
+         "population_complete": True, "unknown_edges": []}],
     "tag": "LITERAL_SPEC",
 }
 

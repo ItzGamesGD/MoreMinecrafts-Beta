@@ -920,6 +920,8 @@ def build_runplan(manifest):
 
 # ---------------------------------------------------------------- main
 def main():
+    if os.path.lexists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "pins-v1.json")):
+        raise SystemExit("Frozen bundle: materialization forbidden")
     out = os.path.dirname(os.path.abspath(__file__))
     if "--out" in sys.argv:
         out = os.path.abspath(sys.argv[sys.argv.index("--out") + 1])

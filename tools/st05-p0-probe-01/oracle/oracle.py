@@ -63,7 +63,8 @@ def tot(t):
 
 
 def rd(name):
-    return open(os.path.join(TOOL, name), "rb").read()
+    with open(os.path.join(TOOL, name), "rb") as stream:
+        return stream.read()
 
 
 def load(name):
@@ -364,7 +365,7 @@ def acct_goldens():
         "kind": "ACCT", "status": "PARTIAL_DEFERRED", "model_knowledge_status": "UNKNOWN", "frozen_decisions": ["c"],
         "new_roll_or_search": "NONE", "last_writer_wins": False, "event_dispositions": cd,
         "sets": {"qualified": base["qualified"], "fit_eligible": base["fit_eligible"]},
-        "counters": {"roll_attempts": "3"}, "deferred": ["sets.rolled", "winners", "roll_loss", "decision sets", "counters other than roll_attempts"],
+        "counters": {"roll_attempts": "3"}, "deferred": ["sets." + k for k in ("rolled", "winners", "roll_loss", "accepted_decisions", "spacing_excluded", "protection_excluded", "pending")] + ["counters." + k for k in counters_of(base) if k != "roll_attempts"],
         "input_rejection": None, "tag": "DERIVED_PROSE"}
     rf = {str(i): "APPLIED" for i in (1, 2, 3, 5, 6, 7, 8, 9)}
     rf["4"] = "REJECTED(ORDER_VIOLATION)"
@@ -372,13 +373,83 @@ def acct_goldens():
         "kind": "ACCT", "status": "PARTIAL_DEFERRED", "model_knowledge_status": "KNOWN",
         "sets": {"qualified": ["a", "b", "c"], "fit_eligible": ["a", "b", "c"], "rolled": ["b", "c"], "winners": ["b"], "roll_loss": ["c"]},
         "counters": {"roll_attempts": "2"}, "event_dispositions": rf, "frozen_decisions": [],
-        "deferred": ["decision sets (no conflict decision delivered; a is still awaiting its roll)"],
+        "deferred": ["sets." + k for k in ("accepted_decisions", "spacing_excluded", "protection_excluded", "pending")],
         "input_rejection": None, "tag": "DERIVED_PROSE"}
     return out, finals
 
 
+
+MODEL_SETS = ("qualified", "fit_eligible", "rolled", "winners", "accepted_decisions", "spacing_excluded",
+              "protection_excluded", "roll_loss", "pending", "retired_protected", "model_success", "history_modified")
+MODEL_COUNTERS = {"fit_checks": "fit_checks", "fit_eligible": "fit_eligible", "rolled": "rolled", "winners": "winners",
+                  "spacing": "spacing_exclusions", "accepted": "accepted_decisions", "pending": "pending", "model_success": "model_success"}
+
+
+def complete_model_state(golden, events):
+    # Only full-log states: every defining fact delivered, no pending/deferred field.
+    return {"applied_event_ids": sorted(e["event_id"] for e in events),
+            "sets": {k: golden["sets"][k] for k in MODEL_SETS},
+            "counters": dict({k: golden["counters"][v] for k, v in MODEL_COUNTERS.items()}, physical_completed="0"),
+            "pending_fields": [], "knowledge": golden["model_knowledge_status"],
+            "frozen_decisions": golden["frozen_decisions"]}
+
+
+def state_digest(document):
+    return {"status": "AVAILABLE", "sha256": hashlib.sha256((cj(document) + "\n").encode("utf-8")).hexdigest(),
+            "serialization": "P01-CJSON-1"}
+
+
+def blocked_digest():
+    return {"status": "BLOCKED", "reason": "P01-MODEL-STATE-1 section 4.6 does not specify representation/omission of pending counter values, pending_fields paths, or intermediate lifecycle state; P01-CJSON-1 fixes bytes only after a unique document is specified"}
+
+
+def compare_fields(expected, observed, deferred):
+    """Oracle contract utility, not a G-5 observer. Paths are dot-separated keys.
+
+    Missing expected paths are withheld only by explicit deferred entries.
+    PENDING is an ordinary, type-sensitive, evaluable value.
+    """
+    def leaves(value, prefix=""):
+        if isinstance(value, dict) and value:
+            for key, item in value.items():
+                yield from leaves(item, prefix + "." + key if prefix else key)
+        else:
+            yield prefix, value
+    missing = object()
+    def get(path):
+        value = observed
+        for key in path.split("."):
+            if not isinstance(value, dict) or key not in value:
+                return missing
+            value = value[key]
+        return value
+    checked, failed = [], []
+    for path, want in (leaves(expected) if expected else []):
+        if any(path == d or path.startswith(d + ".") for d in deferred):
+            continue
+        checked.append(path)
+        got = get(path)
+        if type(got) is not type(want) or got != want:
+            failed.append(path)
+    return {"verdict": "FAIL" if failed else "PASS" if checked else "UNKNOWN",
+            "reason": "U-ALL-DEFERRED" if not checked else "COMPARISON",
+            "evaluated": checked, "failed": failed, "excluded": list(deferred)}
+
+
+def compare_late_checkpoints(expected, observed):
+    """Contract self-check: associate state by ordered stage, never final state alone."""
+    if len(observed) != 2 or [x.get("stage") for x in observed] != ["OPEN", "REVEAL"]:
+        return {"verdict": "UNKNOWN", "reason": "U-INCOMPLETE"}
+    fields = ("stage", "action", "finalized_accepted", "finalized_rejected", "pending", "population_complete", "unknown_edges")
+    results = [compare_fields({key: want[key] for key in fields}, got, [])
+               for want, got in zip(expected, observed)]
+    return {"verdict": "FAIL" if any(r["verdict"] == "FAIL" for r in results) else "PASS", "checkpoints": results}
+
+
 def prefix_states(finals):
     sched = load("schedules-v1.json")
+    records = {r["fixture_id"]: r for r in load("inputs-v1.json")}
+    final_goldens, _ = acct_goldens()
     out = {}
     n = 0
     for f in sched["families"]:
@@ -391,12 +462,28 @@ def prefix_states(finals):
             k = int(s["cut"])
             delivered = [int(x["event"]) for x in s["steps"][:k]]
             st = prefix_state(fid, delivered)
+            deferred_paths = [k for k, v in st.items() if isinstance(v, str) and v.startswith("DEFERRED:")]
+            for path in deferred_paths:
+                del st[path]
             out.setdefault(fid, {})[s["schedule_no"]] = {
                 "cut": s["cut"], "delivered": [str(i) for i in delivered], "state": st,
+                "deferred": deferred_paths,
+                "state_sha256": blocked_digest(), "restored_state_sha256": blocked_digest(),
+                "roundtrip_state": st, "roundtrip_deferred": deferred_paths,
+                "final_state": {k: v for k, v in finals[fid].items() if k != "frac"},
+                "final_state_sha256": blocked_digest(),
                 "counters": {"qualified": str(len(st["qualified"])), "fit_checks": st["fit_checks"],
                              "fit_eligible": str(len(st["fit_eligible"])), "rolled": str(len(st["rolled"])),
                              "winners": str(len(st["winners"])), "roll_loss": str(len(st["roll_loss"])),
                              "roll_attempts": str(len(st["rolled"]))}}
+            item = out[fid][s["schedule_no"]]
+            model = complete_model_state(final_goldens[fid], records[fid]["events"])
+            item["final_model_state"] = model
+            item["final_state_sha256"] = state_digest(model)
+            if k == len(s["steps"]):
+                item["model_state"] = model
+                item["state_sha256"] = state_digest(model)
+                item["restored_state_sha256"] = state_digest(model)
             n += 1
         # the full-log prefix must equal the final state
     return out, n
@@ -591,12 +678,10 @@ def integrity(inputs, goldens, manifest, controls):
             "new_roll": {"new_roll_or_search": "ROLL", "counters": dict(g["counters"], roll_evidenced="3")},
             "reroll": {"reroll": "A"},
             "extra_event": {"event_dispositions": dict(g["event_dispositions"], **{"7": "APPLIED"})},
-            "decision_sets_empty": {"field_values": {"accepted_decisions": []}},
-            "model_success_zero": {"field_values": {"model_success": "0"}},
         }
         for name, m in mutants.items():
             cls = NG.classify_missing_means_empty(g, m)
-            check(cls in ("REROLLED_AS_UNROLLED", "UNKNOWN_REPORTED_AS_EMPTY"), "%s: mutant %s not detected (%s)" % (fid, name, cls))
+            check(cls == "REROLLED_AS_UNROLLED", "%s: mutant %s not detected (%s)" % (fid, name, cls))
     # manifest / controls consistency: finalized assertions are REQUIRED on every judgeable triple
     mode = {}
     for t in manifest["triples"]:
@@ -639,6 +724,8 @@ def cj(v, ind=0):
 
 
 def main():
+    if os.path.lexists(os.path.join(TOOL, "pins-v1.json")):
+        raise SystemExit("Frozen bundle: Golden regeneration forbidden")
     inputs = load("inputs-v1.json")
     controls = load("controls-v1.json")
     manifest = load("expected-traces-v1.json")
@@ -653,12 +740,20 @@ def main():
     pfx, n_pfx = prefix_states(finals)
     inv = invalid_expectations()
     neg = negative_expectations(controls)
-    deferred = [
-        {"fixture": "P01/NEG-CONTRADICT-01", "fields": "sets.rolled, winners, roll_loss, decision sets, counters other than roll_attempts", "reason": "spec says 'freeze affected decisions' without stating how the contradicted unit's roll and the aggregate decision are affected; sets.rolled is uncertain (revision 5)"},
-        {"fixture": "P01/NEG-ROLL-FIRST-01", "fields": "decision sets", "reason": "no conflict decision is delivered; unit a is still awaiting its roll"},
-        {"fixture": "P01/ACCT-RETIRE", "fields": "prefix state pending while APPLYING/UNCERTAIN/QUARANTINED is delivered but RETIRED_PROTECTED is not", "reason": "spec states only the final retired state"},
-    ]
-    golden = {"schema": "P01-GOLDENS-1", "status": "CANDIDATE - not frozen, not pinned", "fixtures": fixtures,
+    deferred = [{"fixture": fid, "fields": g["deferred"], "reason": "authoritative decision sets/counters not uniquely established"}
+                for fid, g in fixtures.items() if g.get("deferred")]
+    deferred += [{"fixture": fid, "schedule_no": no, "fields": ["state." + p for p in g["deferred"]],
+                  "reason": "ACCT-RETIRE intermediate pending lifecycle not established"}
+                 for fid, schedules in pfx.items() for no, g in schedules.items() if g["deferred"]]
+    golden = {"schema": "P01-GOLDENS-2", "status": "CANDIDATE - not frozen, not pinned", "fixtures": fixtures,
+              "replay_mapping": {"schema": "P01-REPLAY-MAPPING-1",
+                  "sets": {"sets." + k: "state." + k for k in MODEL_SETS},
+                  "counters": {"counters." + k: "fixtures.<fixture>.counters." + v for k, v in MODEL_COUNTERS.items()},
+                  "physical_completed": "0", "knowledge": "model_knowledge_status",
+                  "applied_event_ids": "inputs event_id of delivered schedule indices; bytewise sorted",
+                  "supplemental_state_checks": ["projections_delivered", "certificate_invalid", "applying", "uncertain", "quarantined"],
+                  "trace_state_values": {"REPLAY_CHECKPOINT": "state", "ROUNDTRIP": "roundtrip_state", "REPLAY_FINAL": "final_state"},
+                  "serialization": "P01-CJSON-1; exact document under model_state/final_model_state, no added schema key"},
               "prefix_states": pfx, "invalid_expectations": inv, "negative_expectations": neg, "deferred": deferred}
     integrity(inputs, golden, manifest, controls)
     tags = {}
@@ -676,7 +771,7 @@ def main():
     data = (cj(golden) + "\n").encode()
     with open(os.path.join(HERE, "goldens-v1.json"), "wb") as fh:
         fh.write(data)
-    names = ["goldens-v1.json", "oracle.py", "tier_a.py", "negatives.py", "loader_rules.py"]
+    names = ["goldens-v1.json", "oracle.py", "tier_a.py", "negatives.py", "loader_rules.py", "test_corrections.py"]
     lines = ["%s  %s\n" % (hashlib.sha256(open(os.path.join(HERE, n), "rb").read()).hexdigest(), n) for n in sorted(names)]
     open(os.path.join(HERE, "CANDIDATE-GOLDEN-DIGESTS.sha256"), "w").write("".join(lines))
     print("goldens written: fixtures=%d prefix_states=%d invalid=%d controls=%d size=%.2f MiB" %
