@@ -122,7 +122,7 @@ public final class St05Stage0DLiveProbe {
     public static void run(MinecraftServer server, ServerLevel level, String mode, Path out, Map<String, Object> doc) throws Exception {
         long seed = level.getSeed();
         if (mode.equals("e-scan")) { scan(level, seed, doc); return; }
-        if (mode.equals("e-run") || mode.equals("e-restart")) { St05Stage0ELiveRun.run(server, level, mode, out, doc); return; }
+        if (mode.equals("e-run") || mode.equals("e-restart") || mode.equals("e-preflight")) { St05Stage0ELiveRun.run(server, level, mode, out, doc); return; }
         int y0 = Integer.getInteger("mm.st05d.y0", -64), h = Integer.getInteger("mm.st05d.h", 80);
         int threads = Integer.getInteger("mm.st05d.threads", 4);
         Path stateDir = Path.of(System.getProperty("mm.st05d.statedir", "build/st05-worldgen-probe/stage0d-state"));

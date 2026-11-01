@@ -124,8 +124,83 @@ final class St05Stage0ELiveRun {
         return new StateStore.Rec(c.id, c.anchor, c.ownerRx, c.ownerRz, c.size, c.setHash, true, cx, cz, st, ChamberCore.rollWin(seed, c.id), StateStore.isFinalStatus(st), ChamberCore.sha256(ev).substring(0, 24));
     }
 
+    /**
+     * Preflight v2 (fresh JVM). v1 treated ANY non-air block inside the 32x32x18 volume of final terrain as a failure; construction excavates
+     * ordinary solid blocks inside the arena footprint (WG-Q07/Q22), so only FLUID is a safety issue (WG-Q26/Q38). v2 classifies every non-air block
+     * and fails only when fluid is present (experimental threshold 0 until the owner defines minor vs major intrusions). v1 records are loaded and
+     * verified, never modified; v2 decisions go to a separate versioned state file. Pre-roll outcomes and denominators are untouched.
+     */
+    static void preflightV2(ServerLevel level, Path out, Map<String, Object> doc) throws Exception {
+        long seed = level.getSeed();
+        int rx0 = Integer.getInteger("mm.st05e.rx0", 0), rz0 = Integer.getInteger("mm.st05e.rz0", 0), N = Integer.getInteger("mm.st05e.n", 6);
+        Path prev = Path.of(System.getProperty("mm.st05e.prev"));
+        Path stateDir = Path.of(System.getProperty("mm.st05d.statedir"));
+        com.google.gson.JsonObject root = com.google.gson.JsonParser.parseString(Files.readString(prev)).getAsJsonObject();
+        java.util.regex.Pattern pat = java.util.regex.Pattern.compile("^([0-9a-f]+) owner=(-?\\d+),(-?\\d+) center=(-?\\d+),(-?\\d+) floorY=(-?\\d+) path=(\\d+) prio=([0-9a-f]+) roll=(WIN|FAIL) -> (\\S+) ?(.*)$");
+        doc.put("seed", seed); doc.put("source", prev.toString());
+        List<Object> rows = new ArrayList<>();
+        Map<String, Object> verify = new LinkedHashMap<>();
+        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        for (var pe : root.getAsJsonObject("params").entrySet()) {
+            for (var me : pe.getValue().getAsJsonObject().getAsJsonObject("measures").entrySet()) {
+                Measure m = Measure.valueOf(me.getKey());
+                StateStore.Header h1 = new StateStore.Header(ChamberCore.ALGO + "+placement-v1", pe.getKey() + "/" + m.name(), seed, St05Stage0DLiveProbe.SNAPSHOT + "|U" + rx0 + "," + rz0 + "," + N);
+                Path sf = stateDir.resolve("state-E-" + pe.getKey() + "-" + m.name() + ".txt");
+                StateStore.Loaded L = StateStore.load(sf, h1);
+                verify.put(pe.getKey() + "/" + m.name(), Map.of("v1_loaded_ok", L.headerOk && L.trailerOk, "v1_records", L.recs.size(),
+                    "v1_matches_json_counts", L.recs.size() == (int) (me.getValue().getAsJsonObject().getAsJsonObject("persistence").get("records").getAsLong())));
+                Map<Long, StateStore.Rec> v2 = new TreeMap<>(L.recs);
+                int changed = 0;
+                for (var ce : me.getValue().getAsJsonObject().getAsJsonArray("candidates")) {
+                    var mt = pat.matcher(ce.getAsString());
+                    if (!mt.matches()) continue;
+                    String st = mt.group(10);
+                    if (!st.equals("ROLL_WON_PREFLIGHT_FAILED") && !st.equals("PLACEMENT_RESERVED")) continue;
+                    long id = Long.parseUnsignedLong(mt.group(1), 16);
+                    int cx = Integer.parseInt(mt.group(4)), cz = Integer.parseInt(mt.group(5)), fy = Integer.parseInt(mt.group(6));
+                    int solid = 0, water = 0, lava = 0, total = 0;
+                    Map<String, Integer> kinds = new TreeMap<>();
+                    for (int dx = 0; dx < ChamberCore.SUIT_W; dx++) for (int dz = 0; dz < ChamberCore.SUIT_W; dz++) {
+                        double ex = dx + 0.5 - 16, ez = dz + 0.5 - 16;
+                        if (m == Measure.DISK32 && ex * ex + ez * ez > 256) continue;
+                        for (int dy = 0; dy < ChamberCore.SUIT_H; dy++) {
+                            total++;
+                            var bs = level.getBlockState(p.set(cx - 16 + dx, fy + dy, cz - 16 + dz));
+                            if (bs.isAir()) continue;
+                            String key = String.valueOf(BuiltInRegistries.BLOCK.getKey(bs.getBlock()));
+                            kinds.merge(key, 1, Integer::sum);
+                            if (!bs.getFluidState().isEmpty()) { if (key.contains("lava")) lava++; else water++; } else solid++;
+                        }
+                    }
+                    boolean ok = lava + water == 0;
+                    String newSt = ok ? "PLACEMENT_RESERVED" : "ROLL_WON_PREFLIGHT_FAILED";
+                    StateStore.Rec o = L.recs.get(id);
+                    if (o == null) { rows.add(Map.of("id", mt.group(1), "error", "v1 record missing")); continue; }
+                    if (!o.status().equals(st)) { rows.add(Map.of("id", mt.group(1), "error", "v1 state " + o.status() + " != json " + st)); continue; }
+                    String ev = id + ":" + o.anchor() + ":" + o.setHash() + ":" + newSt + ":v2:" + cx + "," + cz;
+                    v2.put(id, new StateStore.Rec(id, o.anchor(), o.ownerRx(), o.ownerRz(), o.size(), o.setHash(), o.suitable(), o.cx(), o.cz(), newSt, o.rollWin(), true, ChamberCore.sha256(ev).substring(0, 24)));
+                    if (!newSt.equals(st)) changed++;
+                    Map<String, Object> row = new LinkedHashMap<>();
+                    row.put("param", pe.getKey()); row.put("measure", m.name()); row.put("id", mt.group(1)); row.put("center", cx + "," + cz); row.put("floorY", fy);
+                    row.put("v1", st); row.put("v2", newSt); row.put("non_air_total", solid + water + lava); row.put("solid", solid); row.put("water", water); row.put("lava", lava); row.put("volume", total);
+                    row.put("blocks", kinds);
+                    rows.add(row);
+                }
+                StateStore.Header h2 = new StateStore.Header(ChamberCore.ALGO + "+placement-v2", pe.getKey() + "/" + m.name(), seed, St05Stage0DLiveProbe.SNAPSHOT + "|U" + rx0 + "," + rz0 + "," + N);
+                Path f2 = stateDir.resolve("state-E-v2-" + pe.getKey() + "-" + m.name() + ".txt");
+                StateStore.write(f2, h2, v2, new TreeMap<>());
+                StateStore.Loaded L2 = StateStore.load(f2, h2);
+                ((Map<String, Object>) verify.get(pe.getKey() + "/" + m.name())).getClass();
+                verify.put(pe.getKey() + "/" + m.name() + "#v2", Map.of("written_reloaded_ok", L2.headerOk && L2.trailerOk && L2.recs.equals(v2), "status_changes_vs_v1", changed));
+            }
+        }
+        doc.put("verification", verify);
+        doc.put("preflight_rows", rows);
+    }
+
     static void run(MinecraftServer server, ServerLevel level, String mode, Path out, Map<String, Object> doc) throws Exception {
         long seed = level.getSeed();
+        if (mode.equals("e-preflight")) { preflightV2(level, out, doc); return; }
         int rx0 = Integer.getInteger("mm.st05e.rx0", 0), rz0 = Integer.getInteger("mm.st05e.rz0", 0), N = Integer.getInteger("mm.st05e.n", 6);
         int y0 = Integer.getInteger("mm.st05d.y0", -64), h = Integer.getInteger("mm.st05d.h", 80), threads = Integer.getInteger("mm.st05d.threads", 4);
         Path stateDir = Path.of(System.getProperty("mm.st05d.statedir", "build/st05-worldgen-probe/stage0e-state"));
