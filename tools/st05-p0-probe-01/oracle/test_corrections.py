@@ -7,6 +7,31 @@ import tier_a as T
 
 
 class Corrections(unittest.TestCase):
+    def test_partial_projection_distinguishes_pending_and_concrete(self):
+        events = [{'index': '1', 'event_id': 'z'}, {'index': '2', 'event_id': 'a'}]
+        state = {'qualified': ['a'], 'fit_eligible': [], 'rolled': [], 'winners': [],
+                 'accepted_decisions': 'PENDING', 'spacing_excluded': 'PENDING',
+                 'protection_excluded': 'PENDING', 'roll_loss': [], 'pending': 'PENDING',
+                 'retired_protected': [], 'model_success': [], 'history_modified': [],
+                 'fit_checks': '0'}
+        model = O.partial_model_state(state, events, ['2', '1'])
+        self.assertEqual(model['applied_event_ids'], ['a', 'z'])
+        self.assertEqual(model['sets']['accepted_decisions'], 'PENDING')
+        self.assertEqual(model['sets']['rolled'], [])
+        self.assertEqual(model['counters']['accepted'], 'PENDING')
+        self.assertEqual(model['counters']['rolled'], '0')
+        self.assertEqual(model['pending_fields'], [
+            'counters.accepted', 'counters.pending', 'counters.spacing',
+            'sets.accepted_decisions', 'sets.pending', 'sets.protection_excluded',
+            'sets.spacing_excluded'])
+        self.assertEqual(model['counters']['physical_completed'], '0')
+        self.assertNotEqual(O.state_digest(model), O.state_digest(dict(model, sets=dict(model['sets'], pending=[]))))
+        changed_paths = copy.deepcopy(model)
+        changed_paths['pending_fields'].remove('sets.pending')
+        self.assertFalse(O.digest_matches(changed_paths, O.state_digest(model)['sha256']))
+        self.assertFalse(O.digest_matches(model, '0' * 64))
+        self.assertTrue(O.digest_matches(model, O.state_digest(model)['sha256']))
+
     def test_frozen_golden_regeneration_refused_before_loading(self):
         from unittest.mock import patch
         with patch.object(O.os.path, 'lexists', return_value=True), patch.object(O, 'load') as load:
@@ -50,7 +75,7 @@ class GeneratedContracts(unittest.TestCase):
     def test_replay_values_and_independent_canonical_bytes(self):
         import hashlib
         import json
-        count = blocked = available = deferred = 0
+        count = blocked = available = candidate = deferred = 0
         for fid, schedules in self.golden['prefix_states'].items():
             events = {e['index']: e for e in self.inputs[fid]['events']}
             for item in schedules.values():
@@ -66,11 +91,25 @@ class GeneratedContracts(unittest.TestCase):
                     wrong[field] = None
                     self.assertEqual(O.compare_fields(item['state'], wrong, item['deferred'])['verdict'], 'FAIL')
                 deferred += len(item['deferred'])
-                if item['state_sha256']['status'] == 'BLOCKED':
+                status = item['state_sha256']['status']
+                if status == 'BLOCKED':
                     blocked += 1
-                else:
+                    self.assertIn('pending', item['deferred'])
+                elif status == 'AVAILABLE':
                     available += 1
                     self.assertEqual(item['model_state'], item['final_model_state'])
+                else:
+                    self.assertEqual(status, 'CANDIDATE_UNAPPROVED')
+                    candidate += 1
+                    self.assertFalse(item['deferred'])
+                    self.assertEqual(item['model_state']['pending_fields'], sorted(item['model_state']['pending_fields']))
+                    for key in O.MODEL_SETS:
+                        self.assertEqual(item['model_state']['sets'][key], item['state'][key])
+                    self.assertEqual(item['model_state']['applied_event_ids'], sorted(e['event_id'] for e in delivered))
+                    self.assertEqual(item['state_sha256'], item['restored_state_sha256'])
+                    altered = copy.deepcopy(item['model_state'])
+                    altered['sets']['qualified'] = ['different']
+                    self.assertFalse(O.digest_matches(altered, item['state_sha256']['sha256']))
                 for key, digest_key in [('final_model_state', 'final_state_sha256'), ('model_state', 'state_sha256')]:
                     if key not in item:
                         continue
@@ -84,7 +123,7 @@ class GeneratedContracts(unittest.TestCase):
                     self.assertEqual(item['final_model_state']['sets'][k], final['sets'][k])
                 self.assertEqual(item['final_model_state']['applied_event_ids'], sorted(e['event_id'] for e in events.values()))
         self.assertEqual((count, deferred), (1086, 24))
-        self.assertEqual((available, blocked), (74, 1012))
+        self.assertEqual((available, candidate, blocked), (74, 988, 24))
 
     def test_control_sessions_and_detection(self):
         controls = O.load('controls-v1.json')

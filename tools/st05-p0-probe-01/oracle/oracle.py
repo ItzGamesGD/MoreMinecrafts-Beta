@@ -399,8 +399,42 @@ def state_digest(document):
             "serialization": "P01-CJSON-1"}
 
 
+def digest_matches(document, expected_sha256):
+    """Compare a supplied digest against canonical logical state bytes."""
+    return state_digest(document)["sha256"] == expected_sha256
+
+
+def partial_model_state(state, events, delivered):
+    """Candidate Option A projection of an independently derived prefix state.
+
+    Paths are relative to the P01-MODEL-STATE-1 document. This candidate
+    encoding requires owner acceptance before its digests become authoritative.
+    """
+    by_index = {e["index"]: e["event_id"] for e in events}
+    sets = {key: state[key] for key in MODEL_SETS}
+    counter_sets = {"fit_eligible": "fit_eligible", "rolled": "rolled", "winners": "winners",
+                    "spacing": "spacing_excluded", "accepted": "accepted_decisions",
+                    "pending": "pending", "model_success": "model_success"}
+    counters = {"fit_checks": state["fit_checks"]}
+    for key, source in counter_sets.items():
+        value = sets[source]
+        counters[key] = "PENDING" if value == "PENDING" else str(len(value))
+    counters["physical_completed"] = "0"
+    pending_paths = ["sets." + key for key, value in sets.items() if value == "PENDING"]
+    pending_paths += ["counters." + key for key, value in counters.items() if value == "PENDING"]
+    return {"applied_event_ids": sorted(by_index[str(i)] for i in delivered),
+            "sets": sets, "counters": counters, "pending_fields": sorted(pending_paths, key=lambda p: p.encode("utf-8")),
+            "knowledge": "KNOWN", "frozen_decisions": []}
+
+
+def candidate_digest(document):
+    digest = state_digest(document)
+    digest["status"] = "CANDIDATE_UNAPPROVED"
+    return digest
+
+
 def blocked_digest():
-    return {"status": "BLOCKED", "reason": "P01-MODEL-STATE-1 section 4.6 does not specify representation/omission of pending counter values, pending_fields paths, or intermediate lifecycle state; P01-CJSON-1 fixes bytes only after a unique document is specified"}
+    return {"status": "BLOCKED", "reason": "ACCT-RETIRE intermediate state.pending is explicitly deferred; a unique model-state document and digest cannot be derived without a lifecycle decision"}
 
 
 def compare_fields(expected, observed, deferred):
@@ -484,6 +518,11 @@ def prefix_states(finals):
                 item["model_state"] = model
                 item["state_sha256"] = state_digest(model)
                 item["restored_state_sha256"] = state_digest(model)
+            elif not deferred_paths:
+                partial = partial_model_state(st, records[fid]["events"], delivered)
+                item["model_state"] = partial
+                item["state_sha256"] = candidate_digest(partial)
+                item["restored_state_sha256"] = candidate_digest(partial)
             n += 1
         # the full-log prefix must equal the final state
     return out, n
