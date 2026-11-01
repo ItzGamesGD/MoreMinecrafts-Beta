@@ -5,8 +5,8 @@ import gzip, json, math, sys, os
 data, metas, out = sys.argv[1:4]
 DIRS = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 ARENAS = [  # (blueprint name, world level dir name, seed, original world dir)
-    ("built-20d89ee7", "capw-a", 7001, "state"), ("built-809b9bf8", "capw-b", 7002, "state"),
-    ("built-2ac822e8", "capw-c", 7001, "state-g"), ("built-77ba83e0", "capw-d", 7001, "state-p")]
+    ("built-20d89ee7", "capw-a", 7001, "state-h"), ("built-809b9bf8", "capw-b", 7002, "state-h"),
+    ("built-2ac822e8", "capw-c", 7001, "state-h"), ("built-77ba83e0", "capw-d", 7001, "state-hp")]
 
 def look(c, t):
     dx, dy, dz = t[0] - c[0], t[1] - c[1], t[2] - c[2]
