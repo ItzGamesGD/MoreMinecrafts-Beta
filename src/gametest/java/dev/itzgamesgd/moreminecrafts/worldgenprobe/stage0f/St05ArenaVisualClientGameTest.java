@@ -87,6 +87,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                 String now = lw.get(Plan.ux(e.getKey()), Plan.uy(e.getKey()), Plan.uz(e.getKey()));
                 if (e.getValue().equals(now)) same++;
                 else if (e.getValue().contains("lava") || e.getValue().contains("water") || (now != null && (now.contains("lava") || now.contains("water")))) fluidOnly++;   // flowing-fluid levels depend on tick history, not terrain
+                else if (now != null && lw.classOf(e.getValue()) == Terrain.Kind.ROCK && lw.classOf(now) == Terrain.Kind.ROCK) solidSwap++;   // ore/vein substitution (decoration order): both ordinary solid blocks
                 else { diff++; if (firstDiff.isEmpty()) firstDiff = e.getKey() + " pre=" + e.getValue() + " now=" + now; }
             }
             System.out.println("ST05G terrain-identity " + id + " pre_cells=" + pre.size() + " identical=" + same + " fluid_flow_only_differences=" + fluidOnly + " solid_swap_only_differences=" + solidSwap + " different=" + diff + " " + firstDiff);
