@@ -59,8 +59,11 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                 if (!cut.isEmpty()) applyCutaway(server, sc);
                 double x = sc.get("x").getAsDouble(), y = sc.get("y").getAsDouble(), z = sc.get("z").getAsDouble();
                 float yaw = sc.get("yaw").getAsFloat(), pitch = sc.get("pitch").getAsFloat();
+                boolean nv = !sc.has("nightvision") || sc.get("nightvision").getAsBoolean();
                 server.runOnServer(s -> {
                     ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
+                    p.removeEffect(MobEffects.NIGHT_VISION);
+                    if (nv) p.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 1_000_000, 0, false, false));
                     ServerLevel lv = p.level();
                     p.teleportTo(lv, x, y, z, Set.of(), yaw, pitch, true);
                 });
@@ -88,6 +91,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                 if (e.getValue().equals(now)) same++;
                 else if (e.getValue().contains("lava") || e.getValue().contains("water") || (now != null && (now.contains("lava") || now.contains("water")))) fluidOnly++;   // flowing-fluid levels depend on tick history, not terrain
                 else if (now != null && lw.classOf(e.getValue()) == Terrain.Kind.ROCK && lw.classOf(now) == Terrain.Kind.ROCK) solidSwap++;   // ore/vein substitution (decoration order): both ordinary solid blocks
+                else if (e.getValue().contains("sculk") || (now != null && now.contains("sculk"))) solidSwap++;   // natural sculk patch blocks (state/bloom/placement depend on generation order)
                 else { diff++; if (firstDiff.isEmpty()) firstDiff = e.getKey() + " pre=" + e.getValue() + " now=" + now; }
             }
             System.out.println("ST05G terrain-identity " + id + " pre_cells=" + pre.size() + " identical=" + same + " fluid_flow_only_differences=" + fluidOnly + " solid_swap_only_differences=" + solidSwap + " different=" + diff + " " + firstDiff);
@@ -105,7 +109,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
             ServerLevel lv = s.overworld();
             BlockState air = Blocks.AIR.defaultBlockState();
             BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
-            int R = 62, n = 0;
+            int R = 72, n = 0;
             for (int dx = -R; dx <= R; dx++) for (int dz = -R; dz <= R; dz++) {
                 if (dx * dx + dz * dz > R * R) continue;
                 if (kind.equals("half") && dx <= 0) continue;
