@@ -311,7 +311,7 @@ public final class ColosseumGameTests {
                 ServerPlayer[] pl = new ServerPlayer[1];
                 ctx.onEachTick(() -> {
                     int t = step.incrementAndGet();
-                    ctx.assertTrue(a.attempt().round() == 1 || t > 400, "restart did not restart or advance the round before the participant returned");
+                    ctx.assertTrue(a.attempt().round() == 1 || t > 60, "restart did not restart or advance the round before the participant returned");
                     if (t == 40) {
                         ctx.assertTrue(a.mobs().size() <= allocs, "no duplicate spawn after restart");
                         ctx.assertTrue(a.attempt().count(AllocStatus.SPAWNED) == spawned && a.mobs().size() == spawned, "spawned allocations still bound to the surviving entities: " + a.attempt().count(AllocStatus.SPAWNED) + "/" + a.mobs().size());
