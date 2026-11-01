@@ -1,0 +1,4285 @@
+{
+  "control_count": "33",
+  "controls": [
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-INNER-WEIGHT",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ARITH-COMP",
+        "ASR-ARITH-TOTAL"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "2",
+      "targets": [
+        {
+          "case_no": "1",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "text": "Swaps the L/H inner coefficients of C",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-EARLY-FLOOR",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ARITH-COMP",
+        "ASR-ARITH-TOTAL"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "5",
+      "targets": [
+        {
+          "case_no": "1",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        },
+        {
+          "case_no": "13",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "text": "Floors C before the outer weighting",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-RELATIVE",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ARITH-TOTAL"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "3",
+      "targets": [
+        {
+          "case_no": "13",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "text": "Renormalizes S across the batch minimum and maximum",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-CAND-COMPONENT",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-CAND-ORDER",
+        "ASR-CAND-SELECTED"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-FINAL-SETS"
+      ],
+      "outcome_classes": [],
+      "sessions": "2",
+      "targets": [
+        {
+          "case_no": "14",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "text": "Selects the candidate by component (C) first",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "EXPLICIT",
+        "schedules": [
+          {
+            "case_no": "14",
+            "schedule_nos": [
+              "1"
+            ]
+          }
+        ]
+      },
+      "id": "N-CAND-ARRIVAL",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-CAND-ORDER",
+        "ASR-CAND-SELECTED"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-FINAL-SETS"
+      ],
+      "outcome_classes": [],
+      "sessions": "2",
+      "targets": [
+        {
+          "case_no": "14",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "text": "Selects the candidate by arrival order",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-CROSS-C-FIRST",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER",
+        "ASR-DECISION",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "2",
+      "targets": [
+        {
+          "case_no": "15",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "text": "Orders cavern winners by component C first",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {
+        "cross_candidate_seed_order": [
+          "V",
+          "U"
+        ]
+      },
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-CROSS-SEED",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER",
+        "ASR-DECISION",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "2",
+      "targets": [
+        {
+          "case_no": "15",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "text": "Orders cavern winners by candidate seed order",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-C-FIRST",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER",
+        "ASR-DECISION",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "12",
+      "targets": [
+        {
+          "case_no": "16",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        }
+      ],
+      "text": "Orders equal totals by component C descending",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-T-FIRST",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER",
+        "ASR-DECISION",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "12",
+      "targets": [
+        {
+          "case_no": "17",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        }
+      ],
+      "text": "Orders equal totals by component T descending",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-ROUND-2",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ARITH-TOTAL",
+        "ASR-ORDER",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "4",
+      "targets": [
+        {
+          "case_no": "18",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        },
+        {
+          "case_no": "19",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "text": "Rounds totals before comparing",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-FLOAT64",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ARITH-COMP",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "2",
+      "targets": [
+        {
+          "case_no": "19",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "text": "Uses binary64 arithmetic",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-FIXED64",
+      "identification": "OUTCOME_CLASS",
+      "must_fail": [],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [
+        "UA",
+        "WR"
+      ],
+      "sessions": "2",
+      "targets": [
+        {
+          "case_no": "19",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "text": "Uses 64-bit integer rationals (UA / WR / OK classes)",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-ID-STRING",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "48",
+      "targets": [
+        {
+          "case_no": "20",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48"
+          ]
+        }
+      ],
+      "text": "Compares canonical IDs as decimal strings",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-REJECTED-VETO",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-DECISION",
+        "ASR-WITNESS",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ORDER",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "84",
+      "targets": [
+        {
+          "case_no": "21",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        },
+        {
+          "case_no": "22",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        },
+        {
+          "case_no": "23",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        },
+        {
+          "case_no": "24",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48"
+          ]
+        }
+      ],
+      "text": "A rejected neighbour blocks later vertices",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-ID-FIRST",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "72",
+      "targets": [
+        {
+          "case_no": "21",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        },
+        {
+          "case_no": "22",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        },
+        {
+          "case_no": "24",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48"
+          ]
+        }
+      ],
+      "text": "Orders by canonical ID before score",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-PROTECTION-IGNORE",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-DECISION",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ORDER"
+      ],
+      "outcome_classes": [],
+      "sessions": "12",
+      "targets": [
+        {
+          "case_no": "23",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        }
+      ],
+      "text": "Ignores protected-site conflicts",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-OMIT-ENDPOINT",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "140",
+      "targets": [
+        {
+          "case_no": "29",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "31",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "33",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "35",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "37",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "39",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "41",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "43",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "45",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "47",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "49",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "51",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "53",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "55",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "57",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "59",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "61",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "63",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        }
+      ],
+      "text": "Drops the late extension endpoint",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-LOCAL-CAP",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "140",
+      "targets": [
+        {
+          "case_no": "29",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "31",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "33",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "35",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "37",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "39",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "41",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "43",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "45",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "47",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "49",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "51",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "53",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "55",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "57",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "59",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "61",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "63",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        }
+      ],
+      "text": "Assumes the first n+1 listed vertices suffice",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-TIE-ID-DESC",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "134",
+      "targets": [
+        {
+          "case_no": "46",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        },
+        {
+          "case_no": "47",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "48",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "49",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "50",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "51",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "52",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "53",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "54",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "55",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "56",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "57",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "58",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "59",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "60",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "61",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "62",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "63",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        }
+      ],
+      "text": "Reverses canonical-ID order on equal totals",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "EXPLICIT",
+        "schedules": [
+          {
+            "case_no": "28",
+            "schedule_nos": [
+              "1"
+            ]
+          },
+          {
+            "case_no": "29",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6"
+            ]
+          },
+          {
+            "case_no": "30",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6"
+            ]
+          },
+          {
+            "case_no": "31",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "32",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "33",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "34",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "35",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "36",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "37",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "38",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "39",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "40",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "41",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "42",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "43",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "44",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "45",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "46",
+            "schedule_nos": [
+              "1"
+            ]
+          },
+          {
+            "case_no": "47",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6"
+            ]
+          },
+          {
+            "case_no": "48",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6"
+            ]
+          },
+          {
+            "case_no": "49",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "50",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "51",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "52",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "53",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "54",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "55",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "56",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "57",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "58",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "59",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "60",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "61",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "62",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          },
+          {
+            "case_no": "63",
+            "schedule_nos": [
+              "1",
+              "2",
+              "5",
+              "6",
+              "7",
+              "8"
+            ]
+          }
+        ]
+      },
+      "id": "N-ARRIVAL",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ORDER"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "268",
+      "targets": [
+        {
+          "case_no": "28",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        },
+        {
+          "case_no": "29",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "30",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "31",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "32",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "33",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "34",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "35",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "36",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "37",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "38",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "39",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "40",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "41",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "42",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "43",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "44",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "45",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "46",
+          "schedule_nos": [
+            "1",
+            "2"
+          ]
+        },
+        {
+          "case_no": "47",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "48",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "case_no": "49",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "50",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "51",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "52",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "53",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "54",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "55",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "56",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "57",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "58",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "59",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "60",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "61",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "62",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        },
+        {
+          "case_no": "63",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        }
+      ],
+      "text": "Processes vertices in arrival order",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-UNKNOWN-EMPTY",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-LATE",
+        "ASR-FINAL-SETS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "48",
+      "targets": [
+        {
+          "case_no": "27",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48"
+          ]
+        }
+      ],
+      "text": "Treats an UNKNOWN edge as absent",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-QUALIFIED-DENOM",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-COUNTERS",
+        "ASR-STATUS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [],
+      "sessions": "76",
+      "targets": [
+        {
+          "case_no": "26",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24"
+          ]
+        },
+        {
+          "case_no": "70",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52"
+          ]
+        }
+      ],
+      "text": "Counts qualified-but-unfit units in the roll denominator",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-NINTH",
+      "identification": "OUTCOME_CLASS",
+      "must_fail": [
+        "ASR-COUNTERS",
+        "ASR-STATUS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED",
+        "ASR-ARITH-TOTAL"
+      ],
+      "outcome_classes": [
+        "COUNTER_EXCESS"
+      ],
+      "sessions": "76",
+      "targets": [
+        {
+          "case_no": "26",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24"
+          ]
+        },
+        {
+          "case_no": "70",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52"
+          ]
+        }
+      ],
+      "text": "Fabricates a ninth fit check (counter excess)",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-ROLL-FIRST",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-STATUS",
+        "ASR-REPLAY"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "8",
+      "targets": [
+        {
+          "case_no": "72",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ]
+        }
+      ],
+      "text": "Records a roll before the fit checks complete",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-ACCEPT-IS-COMPLETE",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-NOPHYS",
+        "ASR-COUNTERS"
+      ],
+      "must_fail_provisional": true,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "16",
+      "targets": [
+        {
+          "case_no": "64",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ]
+        }
+      ],
+      "text": "Reports an accepted decision as physically complete",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-POSTROLL-NOFIT",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-COUNTERS",
+        "ASR-STATUS"
+      ],
+      "must_fail_provisional": true,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "16",
+      "targets": [
+        {
+          "case_no": "65",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ]
+        }
+      ],
+      "text": "Removes an invalidated unit from the received-roll denominator",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-REROLL",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-NOEXTRA",
+        "ASR-COUNTERS"
+      ],
+      "must_fail_provisional": true,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "16",
+      "targets": [
+        {
+          "case_no": "66",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ]
+        }
+      ],
+      "text": "Rerolls or re-epochs a retired unit",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-IGNORE-P",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-ACCT-SETS",
+        "ASR-COUNTERS"
+      ],
+      "must_fail_provisional": true,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "16",
+      "targets": [
+        {
+          "case_no": "69",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ]
+        }
+      ],
+      "text": "Ignores the protected site in accounting",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-LOGICAL-IS-PHYSICAL",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-NOPHYS",
+        "ASR-COUNTERS"
+      ],
+      "must_fail_provisional": true,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "16",
+      "targets": [
+        {
+          "case_no": "67",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ]
+        }
+      ],
+      "text": "Reports modeled success as physical completion",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-ERASE-HISTORY",
+      "identification": "OUTCOME_CLASS",
+      "must_fail": [
+        "ASR-ACCT-SETS",
+        "ASR-COUNTERS"
+      ],
+      "must_fail_provisional": true,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [
+        "MODELED_SUCCESS_ZERO",
+        "RETIRED_FOR_EDIT"
+      ],
+      "sessions": "16",
+      "targets": [
+        {
+          "case_no": "68",
+          "schedule_nos": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+          ]
+        }
+      ],
+      "text": "Erases modeled history after a modeled player edit",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-ADDITIVE",
+      "identification": "SIGNATURE",
+      "must_fail": [
+        "ASR-EVENT-IDEM",
+        "ASR-COUNTERS"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [],
+      "sessions": "2",
+      "targets": [
+        {
+          "case_no": "73",
+          "schedule_nos": [
+            "1"
+          ]
+        },
+        {
+          "case_no": "74",
+          "schedule_nos": [
+            "1"
+          ]
+        }
+      ],
+      "text": "Counts duplicate deliveries additively",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-NEW-EPOCH",
+      "identification": "OUTCOME_CLASS",
+      "must_fail": [
+        "ASR-REPLAY",
+        "ASR-NOEXTRA"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [
+        "SECOND_DECISION"
+      ],
+      "sessions": "1086",
+      "targets": [
+        {
+          "case_no": "64",
+          "schedule_nos": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84",
+            "85",
+            "86",
+            "87",
+            "88",
+            "89",
+            "90",
+            "91",
+            "92",
+            "93",
+            "94",
+            "95",
+            "96",
+            "97",
+            "98",
+            "99",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113",
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120"
+          ]
+        },
+        {
+          "case_no": "65",
+          "schedule_nos": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84",
+            "85",
+            "86",
+            "87",
+            "88",
+            "89",
+            "90",
+            "91",
+            "92",
+            "93",
+            "94",
+            "95",
+            "96",
+            "97",
+            "98",
+            "99",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113",
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120",
+            "121",
+            "122",
+            "123",
+            "124",
+            "125",
+            "126",
+            "127",
+            "128"
+          ]
+        },
+        {
+          "case_no": "66",
+          "schedule_nos": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84",
+            "85",
+            "86",
+            "87",
+            "88",
+            "89",
+            "90",
+            "91",
+            "92",
+            "93",
+            "94",
+            "95",
+            "96",
+            "97",
+            "98",
+            "99",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113",
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120",
+            "121",
+            "122",
+            "123",
+            "124",
+            "125",
+            "126",
+            "127",
+            "128",
+            "129",
+            "130",
+            "131",
+            "132",
+            "133",
+            "134",
+            "135",
+            "136",
+            "137",
+            "138",
+            "139",
+            "140",
+            "141",
+            "142",
+            "143",
+            "144",
+            "145",
+            "146",
+            "147",
+            "148",
+            "149",
+            "150",
+            "151",
+            "152"
+          ]
+        },
+        {
+          "case_no": "67",
+          "schedule_nos": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84",
+            "85",
+            "86",
+            "87",
+            "88",
+            "89",
+            "90",
+            "91",
+            "92",
+            "93",
+            "94",
+            "95",
+            "96",
+            "97",
+            "98",
+            "99",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113",
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120",
+            "121",
+            "122",
+            "123",
+            "124",
+            "125",
+            "126",
+            "127",
+            "128"
+          ]
+        },
+        {
+          "case_no": "68",
+          "schedule_nos": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84",
+            "85",
+            "86",
+            "87",
+            "88",
+            "89",
+            "90",
+            "91",
+            "92",
+            "93",
+            "94",
+            "95",
+            "96",
+            "97",
+            "98",
+            "99",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113",
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120",
+            "121",
+            "122",
+            "123",
+            "124",
+            "125",
+            "126",
+            "127",
+            "128",
+            "129",
+            "130",
+            "131",
+            "132",
+            "133",
+            "134",
+            "135",
+            "136"
+          ]
+        },
+        {
+          "case_no": "69",
+          "schedule_nos": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84",
+            "85",
+            "86",
+            "87",
+            "88",
+            "89",
+            "90",
+            "91",
+            "92",
+            "93",
+            "94",
+            "95",
+            "96",
+            "97",
+            "98",
+            "99",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113",
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120",
+            "121",
+            "122",
+            "123",
+            "124",
+            "125",
+            "126",
+            "127",
+            "128"
+          ]
+        },
+        {
+          "case_no": "70",
+          "schedule_nos": [
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84",
+            "85",
+            "86",
+            "87",
+            "88",
+            "89",
+            "90",
+            "91",
+            "92",
+            "93",
+            "94",
+            "95",
+            "96",
+            "97",
+            "98",
+            "99",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113",
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120",
+            "121",
+            "122",
+            "123",
+            "124",
+            "125",
+            "126",
+            "127",
+            "128",
+            "129",
+            "130",
+            "131",
+            "132",
+            "133",
+            "134",
+            "135",
+            "136",
+            "137",
+            "138",
+            "139",
+            "140",
+            "141",
+            "142",
+            "143",
+            "144",
+            "145",
+            "146",
+            "147",
+            "148",
+            "149",
+            "150",
+            "151",
+            "152",
+            "153",
+            "154",
+            "155",
+            "156",
+            "157",
+            "158",
+            "159",
+            "160",
+            "161",
+            "162",
+            "163",
+            "164",
+            "165",
+            "166",
+            "167",
+            "168",
+            "169",
+            "170",
+            "171",
+            "172",
+            "173",
+            "174",
+            "175",
+            "176",
+            "177",
+            "178",
+            "179",
+            "180",
+            "181",
+            "182",
+            "183",
+            "184",
+            "185",
+            "186",
+            "187",
+            "188",
+            "189",
+            "190",
+            "191",
+            "192",
+            "193",
+            "194",
+            "195",
+            "196",
+            "197",
+            "198",
+            "199",
+            "200",
+            "201",
+            "202",
+            "203",
+            "204",
+            "205",
+            "206",
+            "207",
+            "208",
+            "209",
+            "210",
+            "211",
+            "212",
+            "213",
+            "214",
+            "215",
+            "216",
+            "217",
+            "218",
+            "219",
+            "220",
+            "221",
+            "222",
+            "223",
+            "224",
+            "225",
+            "226",
+            "227",
+            "228",
+            "229",
+            "230",
+            "231",
+            "232",
+            "233",
+            "234",
+            "235",
+            "236",
+            "237",
+            "238",
+            "239",
+            "240",
+            "241",
+            "242",
+            "243",
+            "244",
+            "245",
+            "246",
+            "247",
+            "248",
+            "249",
+            "250",
+            "251",
+            "252",
+            "253",
+            "254",
+            "255",
+            "256",
+            "257",
+            "258",
+            "259",
+            "260",
+            "261",
+            "262",
+            "263",
+            "264",
+            "265",
+            "266",
+            "267",
+            "268",
+            "269",
+            "270",
+            "271",
+            "272",
+            "273",
+            "274",
+            "275",
+            "276",
+            "277",
+            "278",
+            "279",
+            "280",
+            "281",
+            "282",
+            "283",
+            "284",
+            "285",
+            "286",
+            "287",
+            "288",
+            "289",
+            "290",
+            "291",
+            "292",
+            "293",
+            "294",
+            "295",
+            "296",
+            "297",
+            "298",
+            "299",
+            "300",
+            "301",
+            "302",
+            "303",
+            "304",
+            "305",
+            "306",
+            "307",
+            "308",
+            "309",
+            "310",
+            "311",
+            "312",
+            "313",
+            "314",
+            "315",
+            "316",
+            "317",
+            "318",
+            "319",
+            "320",
+            "321",
+            "322",
+            "323",
+            "324",
+            "325",
+            "326",
+            "327",
+            "328",
+            "329",
+            "330",
+            "331",
+            "332",
+            "333",
+            "334",
+            "335",
+            "336",
+            "337",
+            "338",
+            "339",
+            "340",
+            "341",
+            "342",
+            "343",
+            "344",
+            "345",
+            "346",
+            "347",
+            "348",
+            "349",
+            "350",
+            "351",
+            "352",
+            "353",
+            "354",
+            "355",
+            "356",
+            "357",
+            "358",
+            "359",
+            "360",
+            "361",
+            "362",
+            "363",
+            "364",
+            "365",
+            "366",
+            "367",
+            "368",
+            "369",
+            "370",
+            "371",
+            "372",
+            "373",
+            "374",
+            "375",
+            "376",
+            "377",
+            "378",
+            "379",
+            "380",
+            "381",
+            "382",
+            "383",
+            "384",
+            "385",
+            "386",
+            "387",
+            "388",
+            "389",
+            "390",
+            "391",
+            "392",
+            "393",
+            "394",
+            "395",
+            "396",
+            "397",
+            "398",
+            "399",
+            "400",
+            "401",
+            "402",
+            "403",
+            "404",
+            "405",
+            "406",
+            "407",
+            "408",
+            "409",
+            "410",
+            "411",
+            "412",
+            "413",
+            "414",
+            "415",
+            "416",
+            "417",
+            "418",
+            "419",
+            "420",
+            "421",
+            "422",
+            "423",
+            "424",
+            "425",
+            "426",
+            "427",
+            "428",
+            "429",
+            "430",
+            "431",
+            "432",
+            "433",
+            "434",
+            "435",
+            "436",
+            "437",
+            "438",
+            "439",
+            "440",
+            "441",
+            "442"
+          ]
+        }
+      ],
+      "text": "Creates a new decision epoch on replay",
+      "trace_level": "SUMMARY"
+    },
+    {
+      "control_overrides": {},
+      "detect_on": {
+        "mode": "ALL_SCHEDULES",
+        "schedules": []
+      },
+      "id": "N-MISSING-MEANS-EMPTY",
+      "identification": "OUTCOME_CLASS",
+      "must_fail": [
+        "ASR-REPLAY",
+        "ASR-NOEXTRA"
+      ],
+      "must_fail_provisional": false,
+      "must_pass": [
+        "ASR-ACCEPT",
+        "ASR-COMPLETE",
+        "ASR-INPUT-UNCHANGED"
+      ],
+      "outcome_classes": [
+        "REROLLED_AS_UNROLLED"
+      ],
+      "sessions": "4",
+      "targets": [
+        {
+          "case_no": "75",
+          "schedule_nos": [
+            "1"
+          ]
+        },
+        {
+          "case_no": "76",
+          "schedule_nos": [
+            "1"
+          ]
+        },
+        {
+          "case_no": "77",
+          "schedule_nos": [
+            "1"
+          ]
+        },
+        {
+          "case_no": "78",
+          "schedule_nos": [
+            "1"
+          ]
+        }
+      ],
+      "text": "Treats missing source evidence as an unrolled unit",
+      "trace_level": "SUMMARY"
+    }
+  ],
+  "schema": "P01-CONTROLS-1",
+  "total_sessions": "2344"
+}
