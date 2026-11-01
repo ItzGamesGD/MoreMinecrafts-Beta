@@ -62,6 +62,7 @@ public final class St05CavernIdentityProbe implements ModInitializer {
                 } catch (IOException ignored) {
                     // missing output file is the failure signal for the driver
                 }
+                Runtime.getRuntime().halt(1);
             }
             Runtime.getRuntime().halt(0);
         });
@@ -237,7 +238,9 @@ public final class St05CavernIdentityProbe implements ModInitializer {
         doc.put("seed", seed);
         doc.put("y_band", Y0 + ".." + Y1);
 
-        if (mode.equals("plan")) {
+        if (mode.startsWith("c-")) {
+            St05Stage0CStorageProbe.run(server, level, mode, out, doc);
+        } else if (mode.equals("plan")) {
             planAnalysis(level, seed, planRadius, doc);
         } else {
             finalAnalysis(server, level, seed, mode, finalRadius, doc);

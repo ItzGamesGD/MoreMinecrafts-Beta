@@ -1,0 +1,188 @@
+{
+  "kind": "SYNTHETIC_CONTRACT_AND_HISTORICAL_EVIDENCE_AUDIT",
+  "seed": 7001,
+  "checks": [
+    "greedy A-B-C (A,C survive)",
+    "all 3! input orders",
+    "all 3! input orders",
+    "all 3! input orders",
+    "all 3! input orders",
+    "all 3! input orders",
+    "all 3! input orders",
+    "distance 255 excluded",
+    "distance 256 accepted",
+    "XZ Euclidean diagonal",
+    "corridor safety collision beyond spacing",
+    "unsuitable before spacing and roll",
+    "99-hop unresolved propagation",
+    "provably disconnected candidate proceeds",
+    "256 ownership floor division incl negatives",
+    "128 margin inclusive boundary",
+    "32 shuffled/4-thread same-seed model runs",
+    "roll after spacing count conservation",
+    "75 percent threshold denominator partition",
+    "post-roll failure accounting; no reactivation",
+    "serialized checkpoint restore",
+    "serialized decisions/counters resume without more work",
+    "damaged checkpoint quarantined",
+    "checkpoint identity mismatch quarantined",
+    "checkpoint identity mismatch quarantined",
+    "checkpoint identity mismatch quarantined",
+    "restart cannot reset exhausted budget",
+    "restart preserves finalized decisions",
+    "stage cap enforced",
+    "historical plan source deterministic",
+    "historical final restart digest",
+    "historical plan source deterministic",
+    "historical final restart digest",
+    "historical plan source deterministic",
+    "historical final restart digest"
+  ],
+  "check_count": 35,
+  "measurements": [
+    {
+      "cap": 32,
+      "stage_cap": 100000,
+      "wall_ms": 1.6238640000096893,
+      "cpu_ms": 1.6188409999999958,
+      "python_peak_bytes": 12800,
+      "total": 128,
+      "denominator": 32,
+      "wins": 26,
+      "roll_failed": 6,
+      "excluded": 0,
+      "unresolved": 96
+    },
+    {
+      "cap": 128,
+      "stage_cap": 100000,
+      "wall_ms": 17.13122099999964,
+      "cpu_ms": 17.132924000000006,
+      "python_peak_bytes": 13168,
+      "total": 128,
+      "denominator": 103,
+      "wins": 83,
+      "roll_failed": 20,
+      "excluded": 25,
+      "unresolved": 0
+    },
+    {
+      "cap": 512,
+      "stage_cap": 100000,
+      "wall_ms": 16.999452999982623,
+      "cpu_ms": 17.00083800000002,
+      "python_peak_bytes": 13168,
+      "total": 128,
+      "denominator": 103,
+      "wins": 83,
+      "roll_failed": 20,
+      "excluded": 25,
+      "unresolved": 0
+    }
+  ],
+  "historical": [
+    {
+      "seed": 7001,
+      "plan_single_ms": 66347,
+      "plan_4_thread_ms": 16784,
+      "final_order_equal": {
+        "rev": false,
+        "shuf": false,
+        "par": false
+      },
+      "plan_vs_final": {
+        "plan_open": 170094,
+        "final_open": 164227,
+        "open_in_both": 155856,
+        "open_in_plan_only": 14238,
+        "open_in_final_only": 8371,
+        "plan_fluid_voxels": 32,
+        "final_fluid_voxels": 383,
+        "plan_mask_digest": "197debdd8590e91a",
+        "plan_components": 39,
+        "final_components": 58,
+        "plan_chamber_proxy_caverns": 1,
+        "final_chamber_proxy_caverns": 0
+      },
+      "files": {
+        "fwd.json": "86e09133447016f2f4a857bad22046523cf6faa1830308599b6be51e2daf6029",
+        "reload.json": "75ddca99668231ad2fc2043a7037e358d2a77b7550bbfc2b968e285874d78938",
+        "shuf.json": "d33119c5e9043ba7a488b4bdeafa1ace382557fb8d8384af060a0d1d31c57727",
+        "rev.json": "cae460705ef35611d5b1c8f33242f55b402ebfb70ab5f3acf179aaf255cf1f48",
+        "plan.json": "8266650c1696e7c23ac8dece7c01e67db437748f1a6c53dd590e279f3ca29ec3",
+        "par.json": "164a04137201e74adbda384b29ed3bca4317b3b198a9b37fd6b5063fbc873130"
+      }
+    },
+    {
+      "seed": 7002,
+      "plan_single_ms": 63843,
+      "plan_4_thread_ms": 16926,
+      "final_order_equal": {
+        "rev": false,
+        "shuf": false,
+        "par": false
+      },
+      "plan_vs_final": {
+        "plan_open": 90161,
+        "final_open": 117041,
+        "open_in_both": 88627,
+        "open_in_plan_only": 1534,
+        "open_in_final_only": 28414,
+        "plan_fluid_voxels": 7541,
+        "final_fluid_voxels": 11785,
+        "plan_mask_digest": "4f40988af01b0a8",
+        "plan_components": 67,
+        "final_components": 96,
+        "plan_chamber_proxy_caverns": 0,
+        "final_chamber_proxy_caverns": 0
+      },
+      "files": {
+        "fwd.json": "699a85a9253d1f70ebcb246b8ffc342216a85d1f5efb0e470bfc12a2576d10e8",
+        "reload.json": "76fcffb82c7730ae9d095d903a4b79bf95e4fcdf371f5bf41f793ac5cf348b42",
+        "shuf.json": "0999725b6491d4efadac060e09cab6314640b92acfe7873995a5b86310b9922a",
+        "rev.json": "aba18b529dfc3bf37531c16d55e03a5c6d5bbc57917b03925d6a46ba09773328",
+        "plan.json": "4a2f1e1856b2333f4be536d900e0681d64fde5898dac60f03bddaa89764afb18",
+        "par.json": "ccec4cd25486efe6083693681b17ff98b751269708197bab29eb9004314eaf12"
+      }
+    },
+    {
+      "seed": 7003,
+      "plan_single_ms": 64641,
+      "plan_4_thread_ms": 17012,
+      "final_order_equal": {
+        "rev": true,
+        "shuf": true,
+        "par": true
+      },
+      "plan_vs_final": {
+        "plan_open": 38875,
+        "final_open": 59224,
+        "open_in_both": 38762,
+        "open_in_plan_only": 113,
+        "open_in_final_only": 20462,
+        "plan_fluid_voxels": 8639,
+        "final_fluid_voxels": 9704,
+        "plan_mask_digest": "e4cb21d26b55a329",
+        "plan_components": 55,
+        "final_components": 80,
+        "plan_chamber_proxy_caverns": 0,
+        "final_chamber_proxy_caverns": 0
+      },
+      "files": {
+        "fwd.json": "726adf58ab003968a0ae6919da7e133465fc3f629e3525fc4ba706e78ce9d713",
+        "reload.json": "defdc21bf6d1f51aaabf5053072721898df5ede908c4e68dc835e8eb032aee3f",
+        "shuf.json": "ae1b8e3cbaa77823772cdabf3a2295ea680a0fe7dca4a281642156b20c74c7e6",
+        "rev.json": "fad989ab6fa1daa88b4920360bde6b1e9b0c94ce694ee448f3ecc7d008d82835",
+        "plan.json": "39748b682497fc434c4002d714597136622691abf3888651ffbf9a999d46c17c",
+        "par.json": "cf7a4f9ce5239b8b3a398b5d5a6e1cc42d51b99d4feed180c9d767865d0020c6"
+      }
+    }
+  ],
+  "limitations": [
+    "closed candidate set assumed",
+    "no natural chamber identity algorithm",
+    "fixture footprints only",
+    "Python memory is not JVM memory",
+    "no production persistence or exactly-once proof"
+  ]
+}
