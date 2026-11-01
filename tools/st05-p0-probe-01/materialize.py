@@ -691,7 +691,9 @@ def build_controls(recs, scheds):
     SIG, OCL = "SIGNATURE", "OUTCOME_CLASS"
     C("N-INNER-WEIGHT", "Swaps the L/H inner coefficients of C", SIG, ["ARITH-COMP", "ARITH-TOTAL"], [], [arith_all[0]])
     C("N-EARLY-FLOOR", "Floors C before the outer weighting", SIG, ["ARITH-COMP", "ARITH-TOTAL"], [], arith_all)
-    C("N-RELATIVE", "Renormalizes S across the batch minimum and maximum", SIG, ["ARITH-TOTAL"], [], [arith_all[1]])
+    # min/max renormalization coincides with the correct output on the [V0,V2,V1] batch (min 0, max 100)
+    C("N-RELATIVE", "Renormalizes S across the batch minimum and maximum", SIG, ["ARITH-TOTAL"], [], [arith_all[1]],
+      detect={"mode": "EXPLICIT", "schedules": [{"case_no": arith_all[1]["case_no"], "schedule_nos": ["1", "3"]}]})
     C("N-CAND-COMPONENT", "Selects the candidate by component (C) first", SIG, ["CAND-ORDER", "CAND-SELECTED"], ["FINAL-SETS"], tg("P01/CAND-01"))
     c1 = allof("P01/CAND-01")
     c1_first = [s["schedule_no"] for s in fam["P01/CAND-01"]["schedules"] if s["candidate_orders"]["U"] == ["c0", "c1"]]
@@ -735,9 +737,12 @@ def build_controls(recs, scheds):
     replay = [allof(f, {"REPLAY"}) for f in ("P01/ACCT-BASE", "P01/ACCT-INVALID", "P01/ACCT-RETIRE", "P01/ACCT-MODEL-SUCCESS",
                                               "P01/ACCT-MODEL-EDIT", "P01/ACCT-PROTECTED", "P01/NOFIT-01/LOG")]
     C("N-NEW-EPOCH", "Creates a new decision epoch on replay", OCL, ["REPLAY", "NOEXTRA"], [], replay, oc=["SECOND_DECISION"])
+    # the defect (a re-enters the unrolled state) arises only when source evidence is missing: SOURCE sessions
+    loss = ["P01/ACCT-LOSS-BASE-PROJECTION", "P01/ACCT-LOSS-BASE-SOURCE", "P01/ACCT-LOSS-MODEL-SUCCESS-PROJECTION",
+            "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE"]
     C("N-MISSING-MEANS-EMPTY", "Treats missing source evidence as an unrolled unit", OCL, ["REPLAY", "NOEXTRA"], [],
-      tg("P01/ACCT-LOSS-BASE-PROJECTION", "P01/ACCT-LOSS-BASE-SOURCE", "P01/ACCT-LOSS-MODEL-SUCCESS-PROJECTION",
-         "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE"), oc=["REROLLED_AS_UNROLLED"])
+      tg(*loss), oc=["REROLLED_AS_UNROLLED"],
+      detect={"mode": "EXPLICIT", "schedules": [allof(f) for f in loss if f.endswith("-SOURCE")]})
     return {"schema": "P01-CONTROLS-1", "total_sessions": str(sum(int(r["sessions"]) for r in rows)),
             "control_count": str(len(rows)), "controls": rows}
 

@@ -846,6 +846,10 @@ def main():
         elif cid == "N-ARRIVAL":
             want = {"mode": "EXPLICIT", "schedules": [{"case_no": cases[f], "schedule_nos": [
                 s["schedule_no"] for s in sch[f] if s["vertex_order"] != [str(i) for i in range(len(next(r for r in exp_recs if r["fixture_id"] == f)["vertices"]) - 1, -1, -1)]]} for f in alll]}
+        elif cid == "N-RELATIVE":
+            want = {"mode": "EXPLICIT", "schedules": [{"case_no": cases["P01/FIXED-01"], "schedule_nos": ["1", "3"]}]}
+        elif cid == "N-MISSING-MEANS-EMPTY":
+            want = {"mode": "EXPLICIT", "schedules": [sel(f) for f in ("P01/ACCT-LOSS-BASE-SOURCE", "P01/ACCT-LOSS-MODEL-SUCCESS-SOURCE")]}
         else:
             want = {"mode": "ALL_SCHEDULES", "schedules": []}
         ok(row["detect_on"] == want, "%s: detect_on" % cid)
