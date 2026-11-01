@@ -405,11 +405,7 @@ def digest_matches(document, expected_sha256):
 
 
 def partial_model_state(state, events, delivered):
-    """Candidate Option A projection of an independently derived prefix state.
-
-    Paths are relative to the P01-MODEL-STATE-1 document. This candidate
-    encoding requires owner acceptance before its digests become authoritative.
-    """
+    """Owner-approved P01-MODEL-STATE-1 projection of a prefix state."""
     by_index = {e["index"]: e["event_id"] for e in events}
     sets = {key: state[key] for key in MODEL_SETS}
     counter_sets = {"fit_eligible": "fit_eligible", "rolled": "rolled", "winners": "winners",
@@ -425,12 +421,6 @@ def partial_model_state(state, events, delivered):
     return {"applied_event_ids": sorted(by_index[str(i)] for i in delivered),
             "sets": sets, "counters": counters, "pending_fields": sorted(pending_paths, key=lambda p: p.encode("utf-8")),
             "knowledge": "KNOWN", "frozen_decisions": []}
-
-
-def candidate_digest(document):
-    digest = state_digest(document)
-    digest["status"] = "CANDIDATE_UNAPPROVED"
-    return digest
 
 
 def blocked_digest():
@@ -521,8 +511,8 @@ def prefix_states(finals):
             elif not deferred_paths:
                 partial = partial_model_state(st, records[fid]["events"], delivered)
                 item["model_state"] = partial
-                item["state_sha256"] = candidate_digest(partial)
-                item["restored_state_sha256"] = candidate_digest(partial)
+                item["state_sha256"] = state_digest(partial)
+                item["restored_state_sha256"] = state_digest(partial)
             n += 1
         # the full-log prefix must equal the final state
     return out, n

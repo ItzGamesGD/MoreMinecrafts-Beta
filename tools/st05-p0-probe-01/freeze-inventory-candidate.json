@@ -56,10 +56,10 @@
       "sha256": "4d0cbcc9c0a8e73745f3b06c2b5b085daf0a01690392779fde14ab9c5484a9bd"
     },
     {
-      "bytes": "116106",
+      "bytes": "114578",
       "group": "provenance_reproducibility",
       "path": "docs/design/ST05_STAGE0_P0_PROBE_01_BINDING_PLAN.md",
-      "sha256": "2595aa569e87b9ace9de83f69150da07727048744a96f0b20f07b30aef53c522"
+      "sha256": "99cffffe8c93ecdafadaa0540a3bd3d912d42276651cd7ac469af8447415e162"
     },
     {
       "bytes": "53926",
@@ -299,13 +299,13 @@
       "bytes": "481",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/oracle/CANDIDATE-GOLDEN-DIGESTS.sha256",
-      "sha256": "4ed43ab4f32a609d4d8eec94c061a919238c603627df0b0240c022b6cd9df3cc"
+      "sha256": "f1eb73e60380b2ddfe3dda4e741a7ef61059e37b35a06bdbc3185bc9332637f1"
     },
     {
-      "bytes": "11846573",
+      "bytes": "11824837",
       "group": "execution_reference",
       "path": "tools/st05-p0-probe-01/oracle/goldens-v1.json",
-      "sha256": "f85f8600cd2991af49dfacfac488d2cba4b2b3dc4cf37f0b7b4a2ffe92336891"
+      "sha256": "9843b4999276f7cc12d479b9750a68820d5375db83d96a3d68e4b8c9b5f7f03a"
     },
     {
       "bytes": "7236",
@@ -320,16 +320,16 @@
       "sha256": "850be0716cfb20cec9e16fc6b5daa03fc206072d02c9fec11cb05487a5fe76a7"
     },
     {
-      "bytes": "46679",
+      "bytes": "46369",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/oracle/oracle.py",
-      "sha256": "cbeb95f500d5cd59ec11d2ff87113dfb73169645c88e32792c49f3070ced5c6f"
+      "sha256": "9204e88cb371df6d848da8e82cedb22fe0e7b5d7d251615a74ae7edd504ff39d"
     },
     {
-      "bytes": "11160",
+      "bytes": "11150",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/oracle/test_corrections.py",
-      "sha256": "24f0dca34ebc8be6f0d211f5d8d13df9ed4582ee84df4843b44043a9c6a0c845"
+      "sha256": "84d5ad581c2e352191ecdd047d8e399656ce189182b1fe6ab81361f9e70e4fc0"
     },
     {
       "bytes": "19808",

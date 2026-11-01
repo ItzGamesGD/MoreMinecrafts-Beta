@@ -95,14 +95,13 @@ class GeneratedContracts(unittest.TestCase):
                 if status == 'BLOCKED':
                     blocked += 1
                     self.assertIn('pending', item['deferred'])
-                elif status == 'AVAILABLE':
+                elif status == 'AVAILABLE' and item['model_state'] == item['final_model_state']:
                     available += 1
-                    self.assertEqual(item['model_state'], item['final_model_state'])
                 else:
-                    self.assertEqual(status, 'CANDIDATE_UNAPPROVED')
+                    self.assertEqual(status, 'AVAILABLE')
                     candidate += 1
                     self.assertFalse(item['deferred'])
-                    self.assertEqual(item['model_state']['pending_fields'], sorted(item['model_state']['pending_fields']))
+                    self.assertEqual(item['model_state']['pending_fields'], sorted(item['model_state']['pending_fields'], key=lambda p: p.encode('utf-8')))
                     for key in O.MODEL_SETS:
                         self.assertEqual(item['model_state']['sets'][key], item['state'][key])
                     self.assertEqual(item['model_state']['applied_event_ids'], sorted(e['event_id'] for e in delivered))
