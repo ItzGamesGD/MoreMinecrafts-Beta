@@ -155,7 +155,7 @@ def main():
     for sc in scs:
         n = sc.d["name"]
         routes = routes_from_meta(os.path.join(metadir, "f-%s.meta" % sc.d["id"])) if metadir and n.startswith("built") else []
-        plan_view(sc, routes=routes).save(f"{out}/{n}-plan.png")
+        plan_view(sc, ext=(72 if n.startswith("built") else 52), routes=routes).save(f"{out}/{n}-plan.png")
         section_view(sc, "x").save(f"{out}/{n}-section-WE.png")
         section_view(sc, "z").save(f"{out}/{n}-section-NS.png")
         legend(sc).save(f"{out}/{n}-legend.png")

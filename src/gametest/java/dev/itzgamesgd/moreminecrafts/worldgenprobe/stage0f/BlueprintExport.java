@@ -76,7 +76,9 @@ public final class BlueprintExport {
             long id = Long.parseUnsignedLong(sid, 16);
             String[] meta = Files.readString(Path.of(a[i], "f-" + sid + ".meta")).split("\n");
             // centre/floor from the live reservation list are passed through meta-less: recover from the plan's vault ring is overkill; take from args file
-            int cx = Integer.parseInt(System.getProperty("cx." + sid)), cz = Integer.parseInt(System.getProperty("cz." + sid)), fy = Integer.parseInt(System.getProperty("fy." + sid));
+            int cx = Integer.parseInt(System.getProperty("cx." + sid)), cz = Integer.parseInt(System.getProperty("cz." + sid)), fy = -9999;
+            for (long c : p.cells()) { String sp = p.finalSpecAt(Plan.ux(c), Plan.uy(c), Plan.uz(c)); if (sp.contains("ominous=true") && Plan.ux(c) == cx && Plan.uz(c) == cz) fy = Plan.uy(c); }
+            System.out.println("derived floorY(ominous vault Y)=" + fy);
             Plan scratch = new Plan();
             ArenaDesign.Layout L = ArenaDesign.build(scratch, ref2(cx, cz, fy), id, cx, cz, fy);
             write(out, "built-" + sid.substring(0, 8), "persisted live Stage 0-F plan (state dir " + a[i] + ")", id, cx, cz, fy, p, L);

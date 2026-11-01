@@ -1,0 +1,296 @@
+{
+ "scenario": "reference-ruined_partial_dome",
+ "variant": "RUINED_PARTIAL_DOME",
+ "id": "9195f38ec5e05aee",
+ "center": [
+  0,
+  -24,
+  0
+ ],
+ "vaults_xz": [
+  [
+   26,
+   7
+  ],
+  [
+   7,
+   26
+  ],
+  [
+   -19,
+   19
+  ],
+  [
+   -26,
+   -7
+  ],
+  [
+   -7,
+   -26
+  ],
+  [
+   19,
+   -19
+  ]
+ ],
+ "columns_xz": [
+  [
+   11,
+   26
+  ],
+  [
+   -6,
+   27
+  ],
+  [
+   -16,
+   23
+  ],
+  [
+   -26,
+   11
+  ],
+  [
+   -26,
+   -11
+  ],
+  [
+   -23,
+   -16
+  ],
+  [
+   -11,
+   -26
+  ],
+  [
+   6,
+   -27
+  ],
+  [
+   16,
+   -23
+  ],
+  [
+   26,
+   -11
+  ],
+  [
+   26,
+   11
+  ],
+  [
+   23,
+   16
+  ]
+ ],
+ "routes": [],
+ "layers": {
+  "+-1": {
+   "Y": -25,
+   "block_counts": {
+    "polished_deepslate": 1541,
+    "deepslate_tiles": 1129,
+    "deepslate_bricks": 856,
+    "cracked_deepslate_tiles": 135,
+    "redstone_lamp": 16
+   },
+   "key_block_coordinates": {
+    "redstone_lamp": [
+     [
+      -18,
+      -25,
+      -8
+     ],
+     [
+      -18,
+      -25,
+      8
+     ],
+     [
+      -9,
+      -25,
+      -4
+     ],
+     [
+      -9,
+      -25,
+      4
+     ],
+     [
+      -8,
+      -25,
+      -18
+     ],
+     [
+      -8,
+      -25,
+      18
+     ],
+     [
+      -4,
+      -25,
+      -9
+     ],
+     [
+      -4,
+      -25,
+      9
+     ],
+     [
+      4,
+      -25,
+      -9
+     ],
+     [
+      4,
+      -25,
+      9
+     ],
+     [
+      8,
+      -25,
+      -18
+     ],
+     [
+      8,
+      -25,
+      18
+     ],
+     [
+      9,
+      -25,
+      -4
+     ],
+     [
+      9,
+      -25,
+      4
+     ],
+     [
+      18,
+      -25,
+      -8
+     ],
+     [
+      18,
+      -25,
+      8
+     ]
+    ]
+   }
+  },
+  "+0": {
+   "Y": -24,
+   "block_counts": {
+    "air": 2802,
+    "deepslate_bricks": 712,
+    "cracked_deepslate_bricks": 104,
+    "polished_deepslate": 52,
+    "vault": 7
+   },
+   "key_block_coordinates": {
+    "vault": [
+     [
+      -26,
+      -24,
+      -7
+     ],
+     [
+      -19,
+      -24,
+      19
+     ],
+     [
+      -7,
+      -24,
+      -26
+     ],
+     [
+      0,
+      -24,
+      0
+     ],
+     [
+      7,
+      -24,
+      26
+     ],
+     [
+      19,
+      -24,
+      -19
+     ],
+     [
+      26,
+      -24,
+      7
+     ]
+    ]
+   }
+  },
+  "+2": {
+   "Y": -22,
+   "block_counts": {
+    "air": 2809,
+    "deepslate_bricks": 720,
+    "cracked_deepslate_bricks": 108,
+    "polished_deepslate": 40
+   },
+   "key_block_coordinates": {}
+  },
+  "+6": {
+   "Y": -18,
+   "block_counts": {
+    "air": 2809,
+    "deepslate_bricks": 708,
+    "cracked_deepslate_bricks": 120,
+    "polished_deepslate": 40
+   },
+   "key_block_coordinates": {}
+  },
+  "+11": {
+   "Y": -13,
+   "block_counts": {
+    "air": 2628,
+    "polished_deepslate": 850,
+    "cracked_deepslate_bricks": 147
+   },
+   "key_block_coordinates": {}
+  },
+  "+14": {
+   "Y": -10,
+   "block_counts": {
+    "air": 2241,
+    "polished_deepslate": 412,
+    "deepslate_bricks": 53,
+    "deepslate_tiles": 25,
+    "cracked_deepslate_bricks": 15,
+    "cracked_deepslate_tiles": 8
+   },
+   "key_block_coordinates": {}
+  },
+  "+19": {
+   "Y": -5,
+   "block_counts": {
+    "air": 545,
+    "deepslate_tiles": 227,
+    "polished_deepslate": 203,
+    "deepslate_bricks": 116,
+    "cracked_deepslate_tiles": 47,
+    "cracked_deepslate_bricks": 23
+   },
+   "key_block_coordinates": {}
+  },
+  "+22": {
+   "Y": -2,
+   "block_counts": {
+    "deepslate_bricks": 69,
+    "deepslate_tiles": 57,
+    "polished_deepslate": 25,
+    "cracked_deepslate_bricks": 14,
+    "cracked_deepslate_tiles": 9
+   },
+   "key_block_coordinates": {}
+  }
+ }
+}

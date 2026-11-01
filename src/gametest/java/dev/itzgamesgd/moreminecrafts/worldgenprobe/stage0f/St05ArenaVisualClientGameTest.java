@@ -38,16 +38,16 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
     }
 
     private void runWorld(ClientGameTestContext context, JsonObject w) {
+        installWorld(w.get("level").getAsString());   // the harness always serves "world": replace it with the saved Stage 0-F world copy
         Properties props = new Properties();
-        props.setProperty("level-name", w.get("level").getAsString());
         props.setProperty("view-distance", "10");
         props.setProperty("spawn-monsters", "false"); props.setProperty("spawn-animals", "false");
         try (TestDedicatedServerContext server = context.worldBuilder().createServer(props);
              TestDedicatedServerConnection connection = server.connect()) {
             context.waitFor(c -> c.player != null && c.level != null && c.getConnection() != null && c.getConnection().getConnection().isConnected());
-            context.runOnClient(c -> { c.options.hideGui = true; c.options.fov().set(85); });
+            context.runOnClient(c -> { if (!c.gui.hud.isHidden()) c.gui.hud.toggle(); c.options.fov().set(85); });
             server.runOnServer(s -> {
-                s.getTickRateManager().setFrozen(true);
+                s.tickRateManager().setFrozen(true);
                 ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
                 p.setGameMode(GameType.SPECTATOR);
                 p.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 1_000_000, 0, false, false));
@@ -69,6 +69,20 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                 context.takeScreenshot(sc.get("name").getAsString());
             }
         }
+    }
+
+    private static void installWorld(String level) {
+        try {
+            Path dst = Path.of("world"), src = Path.of(level);
+            if (Files.exists(dst)) try (var st = Files.walk(dst)) { st.sorted(java.util.Comparator.reverseOrder()).forEach(q -> q.toFile().delete()); }
+            try (var st = Files.walk(src)) {
+                for (Path q : (Iterable<Path>) st::iterator) {
+                    Path t = dst.resolve(src.relativize(q).toString());
+                    if (Files.isDirectory(q)) Files.createDirectories(t); else Files.copy(q, t);
+                }
+            }
+            Files.deleteIfExists(dst.resolve("session.lock"));
+        } catch (java.io.IOException e) { throw new RuntimeException(e); }
     }
 
     /** Photo-copy only: remove blocks to expose the dome from above ("top") or the vertical section ("half": everything east of the centre). */
