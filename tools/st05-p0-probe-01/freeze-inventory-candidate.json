@@ -83,7 +83,7 @@
       "bytes": "3406",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/CANDIDATE-DIGESTS.sha256",
-      "sha256": "38d8783aae1e2422433677cb1600890dc1dae3f1b044210fdb85664ffa4a1d8a"
+      "sha256": "e5aea22455c66a611556ea56d481ccf0c96934295b627085a50106afc8da02b4"
     },
     {
       "bytes": "81837",
@@ -356,10 +356,10 @@
       "sha256": "bf85ccb9cb1d392d67d16642132099307c3c91b2861d2ac145f481a3f035ee39"
     },
     {
-      "bytes": "47819",
+      "bytes": "47898",
       "group": "provenance_reproducibility",
       "path": "tools/st05-p0-probe-01/verify_materialization.py",
-      "sha256": "81de7ac90b5ac3f9b3f8992e58100b7c9cca48279456c48bdd294fa3dd0aa804"
+      "sha256": "f366a218229dda839d31127f0c23c159b1681f276a3a343b51122cdf3b8e3c84"
     }
   ],
   "schema": "P01-FREEZE-INVENTORY-1",

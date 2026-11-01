@@ -678,7 +678,8 @@ def main():
     # allowed content
     allowed = {"inputs-v1.json", "schedules-v1.json", "controls-v1.json", "expected-traces-v1.json", "runplan-v1.json",
                "fixture-index-v1.tsv", "materialize.py", "verify_materialization.py", "CANDIDATE-DIGESTS.sha256", "invalid-inputs-v1",
-               "oracle"}  # oracle/: G-3 candidate content (goldens live there; pins/COMPLETE still forbidden)
+               "oracle", "freeze-inventory-candidate.json", "freeze_integrity.py", "test_freeze_integrity.py"}
+               # G-3 and G-4 candidate content; pins/COMPLETE still forbidden.
     present = set(os.listdir(HERE)) - {"__pycache__"}
     ok(present <= allowed, "unexpected entries (goldens/pins/other?): %s" % sorted(present - allowed))
     ok(allowed - {"oracle"} - present == set(), "missing entries: %s" % sorted(allowed - {"oracle"} - present))
