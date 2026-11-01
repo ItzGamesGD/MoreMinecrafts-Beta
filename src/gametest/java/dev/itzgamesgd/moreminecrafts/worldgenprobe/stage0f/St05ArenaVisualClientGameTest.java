@@ -41,7 +41,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
 
     private void runWorld(ClientGameTestContext context, JsonObject w) {
         Properties props = new Properties();
-        props.setProperty("view-distance", "10");
+        props.setProperty("view-distance", "10"); props.setProperty("max-tick-time", "-1");
         props.setProperty("spawn-monsters", "false"); props.setProperty("spawn-animals", "false");
         try (TestDedicatedServerContext server = context.worldBuilder().setUseConsistentSettings(false).adjustSettings(st -> st.setSeed(w.get("seed").getAsString())).createServer(props);
              TestDedicatedServerConnection connection = server.connect()) {
