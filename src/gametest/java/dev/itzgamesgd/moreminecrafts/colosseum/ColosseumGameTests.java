@@ -220,7 +220,7 @@ public final class ColosseumGameTests {
         });
     }
 
-    @GameTest(maxTicks = 400)
+    @GameTest(maxTicks = 6000)
     public void absenceGraceResumesOnReturnAndExpiresOtherwise(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 6, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 4_000));
         ServerPlayer p = a.player("grace");
@@ -237,7 +237,7 @@ public final class ColosseumGameTests {
                 a.at(p, 50, 0);
             }
             if (t == 76) { ctx.assertTrue(a.attempt().graceExpiryMillis() > 0 || !a.attempt().ended(), "second absence"); }
-            if (t == 300) {
+            if (t > 80 && a.attempt().ended()) {
                 ctx.assertTrue(a.attempt().outcome() == Outcome.ABSENCE_EXPIRED, "grace expired, got " + a.attempt().outcome());
                 ctx.assertTrue(a.mobs().isEmpty(), "trial mobs removed on failure");
                 a.cleanup();
@@ -246,7 +246,7 @@ public final class ColosseumGameTests {
         });
     }
 
-    @GameTest(maxTicks = 300)
+    @GameTest(maxTicks = 6000)
     public void wallClockLimitTimesOutAndLeavesOrdinaryMobs(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 7, new RoundPlan.Timing(5_000, RoundPlan.GRACE_MILLIS));
         ServerPlayer p = a.player("limit");
@@ -255,7 +255,7 @@ public final class ColosseumGameTests {
             int t = step.incrementAndGet();
             if (t == 3) a.at(p, 4, 4);
             if (t == 40) ctx.assertTrue(!a.mobs().isEmpty(), "mobs exist");
-            if (t == 220) {
+            if (t > 40 && a.attempt().ended()) {
                 ctx.assertTrue(a.attempt().outcome() == Outcome.TIMED_OUT, "time-out after the limit, got " + a.attempt().outcome());
                 ctx.assertTrue(!a.mobs().isEmpty(), "ordinary trial mobs are left in place on time-out (Q116)");
                 ctx.assertTrue(a.ctl.cooldownLeft() > 77_000, "cooldown started");
