@@ -222,7 +222,7 @@ public final class ColosseumGameTests {
 
     @GameTest(maxTicks = 6000)
     public void absenceGraceResumesOnReturnAndExpiresOtherwise(GameTestHelper ctx) {
-        Arena a = new Arena(ctx, 6, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 4_000));
+        Arena a = new Arena(ctx, 6, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 1_500));
         ServerPlayer p = a.player("grace");
         AtomicInteger step = new AtomicInteger();
         UUID[] id = new UUID[1];
