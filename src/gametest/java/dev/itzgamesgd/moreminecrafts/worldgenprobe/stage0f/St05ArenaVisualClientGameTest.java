@@ -92,6 +92,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                 else if (e.getValue().contains("lava") || e.getValue().contains("water") || (now != null && (now.contains("lava") || now.contains("water")))) fluidOnly++;   // flowing-fluid levels depend on tick history, not terrain
                 else if (now != null && lw.classOf(e.getValue()) == Terrain.Kind.ROCK && lw.classOf(now) == Terrain.Kind.ROCK) solidSwap++;   // ore/vein substitution (decoration order): both ordinary solid blocks
                 else if (e.getValue().contains("sculk") || (now != null && now.contains("sculk"))) solidSwap++;   // natural sculk patch blocks (state/bloom/placement depend on generation order)
+                else if (now != null && lw.classOf(e.getValue()) == Terrain.Kind.AIR && lw.classOf(now) == Terrain.Kind.AIR) solidSwap++;   // random non-solid decoration (cave vines, vines, lichen): clearable either way
                 else { diff++; if (firstDiff.isEmpty()) firstDiff = e.getKey() + " pre=" + e.getValue() + " now=" + now; }
             }
             System.out.println("ST05G terrain-identity " + id + " pre_cells=" + pre.size() + " identical=" + same + " fluid_flow_only_differences=" + fluidOnly + " solid_swap_only_differences=" + solidSwap + " different=" + diff + " " + firstDiff);

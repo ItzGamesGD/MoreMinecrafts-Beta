@@ -104,7 +104,8 @@ def section_view(sc, axis="x", yr=(-4, 27), ext=44):
     for oy in (0, 12, 23):
         py = (yr[1] - oy) * S + 40
         dr.line([0, py, im.width, py], fill=(220, 60, 60), width=1); label(dr, (4, py - 14), f"floor+{oy} (Y={sc.fy + oy})" if oy else f"floor Y={sc.fy}")
-    label(dr, (6, 8), f"{sc.d['name']} [{sc.d['variant']}] vertical section through centre, {'W-E (z=%d)' % sc.cz if axis == 'x' else 'N-S (x=%d)' % sc.cx}; blue-grey = block not edited (natural terrain)", FONTB)
+    label(dr, (6, 8), f"{sc.d['name']} [{sc.d['variant']}] section {'W-E z=%d' % sc.cz if axis == 'x' else 'N-S x=%d' % sc.cx} (passes through 2 entrances)", FONTB)
+    label(dr, (6, 24), "blue-grey = not edited by the plan (natural terrain). red lines: floor / wall top (+12) / dome top (+23)")
     return im
 
 def layers(sc, offsets, ext=40, outdir=None):
