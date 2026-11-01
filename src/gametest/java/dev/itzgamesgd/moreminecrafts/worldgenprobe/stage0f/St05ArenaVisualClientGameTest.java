@@ -59,7 +59,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                 JsonObject sc = se.getAsJsonObject();
                 String cut = sc.has("cutaway") ? sc.get("cutaway").getAsString() : "";
                 boolean applied = false;
-                if (!cut.isEmpty()) { applyCutaway(server, sc); }
+                if (!cut.isEmpty()) { applyCutaway(context, server, sc); }
                 double x = sc.get("x").getAsDouble(), y = sc.get("y").getAsDouble(), z = sc.get("z").getAsDouble();
                 float yaw = sc.get("yaw").getAsFloat(), pitch = sc.get("pitch").getAsFloat();
                 boolean nv = !sc.has("nightvision") || sc.get("nightvision").getAsBoolean();
@@ -71,7 +71,7 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
                     p.teleportTo(lv, x, y, z, Set.of(), yaw, pitch, true);
                 });
                 if (cut.isEmpty() || applied) connection.waitForClientboundPackets();
-                else context.waitTicks(900);        // ~1M block updates: let the client drain them (waitForClientboundPackets has a fixed short timeout)
+                else context.waitTicks(200);
                 context.waitTicks(sc.has("wait") ? sc.get("wait").getAsInt() : 120);
                 context.takeScreenshot(sc.get("name").getAsString());
             }
@@ -109,25 +109,29 @@ public final class St05ArenaVisualClientGameTest implements FabricClientGameTest
     }
 
     /** Photo-copy only: remove blocks to expose the dome from above ("top") or the vertical section ("half": everything east of the centre). */
-    private void applyCutaway(TestDedicatedServerContext server, JsonObject sc) {
+    private void applyCutaway(ClientGameTestContext context, TestDedicatedServerContext server, JsonObject sc) {
         String kind = sc.get("cutaway").getAsString();
         int cx = sc.get("cx").getAsInt(), cz = sc.get("cz").getAsInt(), fy = sc.get("fy").getAsInt();
-        server.runOnServer(s -> {
-            ServerLevel lv = s.overworld();
-            BlockState air = Blocks.AIR.defaultBlockState();
-            BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
-            int R = 72, n = 0;
-            for (int dx = -R; dx <= R; dx++) for (int dz = -R; dz <= R; dz++) {
-                if (dx * dx + dz * dz > R * R) continue;
-                if (kind.equals("half") && dx <= 0) continue;
-                int y0 = kind.equals("top") ? fy : fy - 3, y1 = fy + 70;
-                for (int y = y0; y <= y1; y++) {
-                    p.set(cx + dx, y, cz + dz);
-                    if (kind.equals("top") && PLAN_SOLID.contains(Plan.pack(p.getX(), p.getY(), p.getZ()))) continue;   // keep every planned arena block, remove only natural terrain
-                    if (!lv.getBlockState(p).isAir()) { lv.setBlock(p, air, 2 | 16 | 32 | 128); n++; }
+        int yStart = kind.equals("top") ? fy : fy - 3, yEnd = fy + 56;
+        for (int ys = yStart; ys <= yEnd; ys += 6) {        // slices, so the client is never flooded with ~1M block updates in one tick
+            final int a = ys, b = Math.min(ys + 5, yEnd);
+            server.runOnServer(s -> {
+                ServerLevel lv = s.overworld();
+                BlockState air = Blocks.AIR.defaultBlockState();
+                BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+                int R = 64, n = 0;
+                for (int dx = -R; dx <= R; dx++) for (int dz = -R; dz <= R; dz++) {
+                    if (dx * dx + dz * dz > R * R) continue;
+                    if (kind.equals("half") && dx <= 0) continue;
+                    for (int y = a; y <= b; y++) {
+                        p.set(cx + dx, y, cz + dz);
+                        if (kind.equals("top") && PLAN_SOLID.contains(Plan.pack(p.getX(), p.getY(), p.getZ()))) continue;   // keep every planned arena block, remove only natural terrain
+                        if (!lv.getBlockState(p).isAir()) { lv.setBlock(p, air, 2 | 16 | 32 | 128); n++; }
+                    }
                 }
-            }
-            System.out.println("ST05G cutaway " + kind + " removed " + n + " blocks (photo copy only)");
-        });
+                System.out.println("ST05G cutaway " + kind + " y" + a + ".." + b + " removed " + n + " blocks (photo copy only)");
+            });
+            context.waitTicks(40);
+        }
     }
 }
