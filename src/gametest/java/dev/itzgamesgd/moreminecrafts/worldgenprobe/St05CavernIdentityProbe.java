@@ -238,14 +238,16 @@ public final class St05CavernIdentityProbe implements ModInitializer {
         doc.put("seed", seed);
         doc.put("y_band", Y0 + ".." + Y1);
 
-        if (mode.startsWith("c-")) {
+        if (mode.startsWith("d-")) {
+            dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0d.St05Stage0DLiveProbe.run(server, level, mode, out, doc);
+        } else if (mode.startsWith("c-")) {
             St05Stage0CStorageProbe.run(server, level, mode, out, doc);
         } else if (mode.equals("plan")) {
             planAnalysis(level, seed, planRadius, doc);
         } else {
             finalAnalysis(server, level, seed, mode, finalRadius, doc);
         }
-        if (!mode.equals("plan") && !mode.equals("reload")) server.saveAllChunks(true, true, true);
+        if (!mode.equals("plan") && !mode.equals("reload") && !mode.startsWith("d-")) server.saveAllChunks(true, true, true);
         Files.createDirectories(out.getParent());
         Files.writeString(out, GSON.toJson(doc), StandardCharsets.UTF_8);
         LOG.info("ST05_PROBE_DONE mode={} seed={}", mode, seed);
