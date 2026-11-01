@@ -3179,7 +3179,7 @@
       "schema": "1",
       "seed": "7"
     },
-    "population_complete": false,
+    "population_complete": true,
     "protected_sites": [],
     "record_schema": "P01-FIXTURE-1",
     "scalar_inputs": [],

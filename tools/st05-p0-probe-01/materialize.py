@@ -222,7 +222,8 @@ def roll_graph(fid, with_d):
 
 def late_record():
     r = base_record("P01/LATE-01", "LATE", ["CHAIN-LONG-n", "A02-Q07"])
-    r["population_complete"] = False
+    # top-level graph arrays are inert for staged records; empty graph + no unknown edges => population_complete true
+    # (consistent with the POP-FLAG rule); the real OPEN/REVEAL states live in the snapshots below.
     vs = [vertex("A", 0, [100, 0, 0, 0]), vertex("B", -1, [100, 50, 0, 0]),
           vertex("C", 1, [100, 100, 0, 0]), vertex("D", 2, [100, 100, 100, 100])]
     snaps = []

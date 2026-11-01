@@ -214,8 +214,7 @@ def exp_main_records():
         vs = roll_vertices(wd)
         R.append(gr(fid, vs, [("a", "b")]))
     # LATE-01
-    r = blank("P01/LATE-01", "LATE")
-    r["population_complete"] = False
+    r = blank("P01/LATE-01", "LATE")  # top-level population_complete stays True (inert graph, POP-FLAG rule)
     lv = [vx("A", 0, A3), vx("B", -1, B3), vx("C", 1, C3), vx("D", 2, [100] * 4)]
     r["stages"] = [
         {"stage": "OPEN", "certificate": "OPEN", "vertices": lv, "population_complete": False,
@@ -676,10 +675,11 @@ def main():
     p = lambda n: os.path.join(HERE, n)
     # allowed content
     allowed = {"inputs-v1.json", "schedules-v1.json", "controls-v1.json", "expected-traces-v1.json", "runplan-v1.json",
-               "fixture-index-v1.tsv", "materialize.py", "verify_materialization.py", "CANDIDATE-DIGESTS.sha256", "invalid-inputs-v1"}
+               "fixture-index-v1.tsv", "materialize.py", "verify_materialization.py", "CANDIDATE-DIGESTS.sha256", "invalid-inputs-v1",
+               "oracle"}  # oracle/: G-3 candidate content (goldens live there; pins/COMPLETE still forbidden)
     present = set(os.listdir(HERE)) - {"__pycache__"}
     ok(present <= allowed, "unexpected entries (goldens/pins/other?): %s" % sorted(present - allowed))
-    ok(allowed - present == set(), "missing entries: %s" % sorted(allowed - present))
+    ok(allowed - {"oracle"} - present == set(), "missing entries: %s" % sorted(allowed - {"oracle"} - present))
     for forbidden in ("goldens-v1.json", "pins-v1.json", "COMPLETE"):
         ok(not os.path.exists(p(forbidden)), "forbidden artifact present: " + forbidden)
 
