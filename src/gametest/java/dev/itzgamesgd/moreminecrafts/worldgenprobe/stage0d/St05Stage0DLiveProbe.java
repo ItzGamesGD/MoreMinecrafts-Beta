@@ -70,8 +70,58 @@ public final class St05Stage0DLiveProbe {
 
     static final com.sun.management.ThreadMXBean TMX = (com.sun.management.ThreadMXBean) ManagementFactory.getThreadMXBean();
 
+    /** Stage 0-E coarse scan: stride-4 columns, necessary-condition box 20x20x18 (superset of 32x32x18 and of a 32-diameter disk). */
+    static void scan(ServerLevel level, long seed, Map<String, Object> doc) throws Exception {
+        int R = Integer.getInteger("mm.st05e.radius", 2048), y0 = Integer.getInteger("mm.st05d.y0", -64), h = Integer.getInteger("mm.st05d.h", 80);
+        int threads = Integer.getInteger("mm.st05d.threads", 4), S = 4, TILE = 1024, PAD = 32;
+        var gen = level.getChunkSource().getGenerator();
+        var rs = level.getChunkSource().randomState();
+        List<int[]> hits = new ArrayList<>();   // world x,z (box origin*4), y
+        long t0 = System.nanoTime();
+        for (int tx = -R; tx < R; tx += TILE) for (int tz = -R; tz < R; tz += TILE) {
+            int ox = tx - PAD, oz = tz - PAD, n = (TILE + 2 * PAD) / S;
+            boolean[] open = new boolean[n * n * h];
+            ExecutorService pool = Executors.newFixedThreadPool(threads);
+            List<Future<?>> fs = new ArrayList<>();
+            for (int cx0 = 0; cx0 < n; cx0 += 8) {
+                final int a = cx0;
+                fs.add(pool.submit(() -> {
+                    for (int cx = a; cx < Math.min(n, a + 8); cx++) for (int cz = 0; cz < n; cz++) {
+                        NoiseColumn col = gen.getBaseColumn(ox + cx * S, oz + cz * S, level, rs);
+                        for (int y = 0; y < h; y++) if (col.getBlock(y0 + y).isAir()) open[(cx * n + cz) * h + y] = true;
+                    }
+                }));
+            }
+            for (Future<?> f : fs) f.get();
+            pool.shutdown();
+            Window w = new Window(0, y0, 0, n, n, h, open, "COARSE");
+            for (int[] b : ChamberCore.openBoxOrigins(w, 5, 5, 18)) {
+                int wx = ox + b[0] * S, wz = oz + b[1] * S;
+                if (wx < tx || wx >= tx + TILE || wz < tz || wz >= tz + TILE) continue;   // own tile only (dedupe overlap)
+                hits.add(new int[]{wx, wz, y0 + b[2]});
+            }
+        }
+        // cluster hits within 48 blocks (greedy by scan order)
+        List<int[]> clusters = new ArrayList<>();
+        hits.sort((p, q) -> p[0] != q[0] ? Integer.compare(p[0], q[0]) : p[1] != q[1] ? Integer.compare(p[1], q[1]) : Integer.compare(p[2], q[2]));
+        List<int[]> cnt = new ArrayList<>();
+        for (int[] hit : hits) {
+            boolean merged = false;
+            for (int i = 0; i < clusters.size(); i++) {
+                int[] c = clusters.get(i);
+                if (Math.abs(c[0] - hit[0]) <= 48 && Math.abs(c[1] - hit[1]) <= 48) { cnt.get(i)[0]++; merged = true; break; }
+            }
+            if (!merged) { clusters.add(hit); cnt.add(new int[]{1}); }
+        }
+        List<String> cl = new ArrayList<>();
+        for (int i = 0; i < clusters.size(); i++) cl.add(clusters.get(i)[0] + "," + clusters.get(i)[1] + "," + clusters.get(i)[2] + " boxes=" + cnt.get(i)[0]);
+        doc.put("scan_radius", R); doc.put("scan_ms", (System.nanoTime() - t0) / 1_000_000);
+        doc.put("coarse_box_hits", hits.size()); doc.put("clusters", cl);
+    }
+
     public static void run(MinecraftServer server, ServerLevel level, String mode, Path out, Map<String, Object> doc) throws Exception {
         long seed = level.getSeed();
+        if (mode.equals("e-scan")) { scan(level, seed, doc); return; }
         int y0 = Integer.getInteger("mm.st05d.y0", -64), h = Integer.getInteger("mm.st05d.h", 80);
         int threads = Integer.getInteger("mm.st05d.threads", 4);
         Path stateDir = Path.of(System.getProperty("mm.st05d.statedir", "build/st05-worldgen-probe/stage0d-state"));

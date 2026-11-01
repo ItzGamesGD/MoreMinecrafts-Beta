@@ -23,7 +23,7 @@ import dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0d.ChamberCore.*;
  */
 public final class ChamberCoreSelfTest {
     static final long SEED = 7001;
-    static final int Y0 = 0, H = 36;                 // analysis band
+    static final int Y0 = -48, H = 36;                 // analysis band
     static final Params P = new Params("synthetic-8x8x6", 8, 6);
     static final List<String> LOG = new ArrayList<>();
     static int fails;
@@ -37,8 +37,9 @@ public final class ChamberCoreSelfTest {
     static final class World {
         final List<int[]> boxes = new ArrayList<>();
         World box(int x0, int x1, int z0, int z1, int y0, int y1) { boxes.add(new int[]{x0, x1, z0, z1, y0, y1}); return this; }
-        World chamber(int x0, int x1, int z0, int z1) { return box(x0, x1, z0, z1, 10, 30); }
-        World tunnelX(int x0, int x1, int zc) { return box(x0, x1, zc - 2, zc + 2, 18, 22); }
+        World chamber(int x0, int x1, int z0, int z1) { return box(x0, x1, z0, z1, Y0 + 10, Y0 + 30); }
+        World chamberAt(int x0, int x1, int z0, int z1, int floorY) { return box(x0, x1, z0, z1, floorY, floorY + 20); }
+        World tunnelX(int x0, int x1, int zc) { return box(x0, x1, zc - 2, zc + 2, Y0 + 18, Y0 + 22); }
         Window window(int rx, int rz) {
             int ox = rx * ChamberCore.OWN - ChamberCore.MARGIN, oz = rz * ChamberCore.OWN - ChamberCore.MARGIN, wxz = ChamberCore.OWN + 2 * ChamberCore.MARGIN;
             boolean[] open = new boolean[wxz * wxz * H];
@@ -62,6 +63,7 @@ public final class ChamberCoreSelfTest {
         f5ThreeWayOverlapAndOrderIndependence();
         f9DisjointPartialsStayDeferred();
         fSpacingPropagation();
+        fPlacementPipeline();
         fPersistence();
         StringBuilder sb = new StringBuilder();
         sb.append("ALGO=").append(ChamberCore.ALGO).append(" params=").append(P).append(" seed=").append(SEED).append(" band=").append(Y0).append("..").append(Y0 + H).append('\n');
@@ -172,6 +174,7 @@ public final class ChamberCoreSelfTest {
     static Chamber cham(long id, int cx, int cz) {
         Chamber c = new Chamber();
         c.id = id; c.anchor = id; c.suitable = true; c.cx = cx; c.cz = cz; c.ownerObserved = true; c.status = "UNSET";
+        c.boxSuit = true; c.boxAnyY = true; c.boxCx = cx; c.boxCz = cz; c.boxPath = 1; c.boxFloorY = -30;
         return c;
     }
     static Resolution chain(int n, boolean withGroup, long shuffleSeed) {
@@ -209,6 +212,53 @@ public final class ChamberCoreSelfTest {
         for (Chamber c : List.of(p, q, s, t)) rb.chambers.put(c.id, c);
         ChamberCore.decide(rb, SEED);
         check("F6.boundary_255_rejects_256_accepts", !(p.status.equals("ACCEPTED") && q.status.equals("ACCEPTED")) && s.status.equals("ACCEPTED") && t.status.equals("ACCEPTED"), p.status + "," + q.status + "," + s.status + "," + t.status);
+    }
+
+    // ---- Stage 0-E placement pipeline on voxel fixtures and constructed chains
+    static final class SimpleEnv implements PlacementPipeline.Env {
+        final List<int[]> boxes; final String fail;
+        SimpleEnv(List<int[]> boxes, String fail) { this.boxes = boxes; this.fail = fail; }
+        public List<int[]> structuresNear(int cx, int cz, int r) { return boxes; }
+        public String preflight(Chamber c, PlacementPipeline.Measure m, int cx, int cz, int fy) { return fail; }
+    }
+    static Resolution voxelResolution(World w, int[][] regs) {
+        List<Observation> obs = new ArrayList<>();
+        for (int[] g : regs) obs.add(observe(w.window(g[0], g[1]), g[0], g[1]));
+        return ChamberCore.resolve(obs, P, SEED);
+    }
+    static void fPlacementPipeline() {
+        // two qualifying chambers 200 apart (< 256), each with a 60+ block tunnel so the >=64 traversable path is genuine
+        World w = new World().chamber(100, 140, 100, 140).tunnelX(20, 100, 120).chamber(300, 340, 100, 140).tunnelX(340, 440, 120);
+        Resolution r = voxelResolution(w, new int[][]{{0, 0}, {1, 0}});
+        PlacementPipeline.Result a = PlacementPipeline.run(r, SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(List.of(), null));
+        check("E1.two_real_voxel_chambers_one_accepted_one_spacing_rejected", r.chambers.size() == 2 && a.c.getOrDefault("accepted_denominator", 0) == 1 && a.c.getOrDefault("rejected_spacing", 0) == 1 && a.invariantViolations.isEmpty(), a.c + " " + a.invariantViolations);
+        long rolled = a.c.getOrDefault("roll_won", 0) + a.c.getOrDefault("roll_failed", 0);
+        check("E2.only_survivors_are_rolled_once", rolled == 1 && a.denominator == 1, "rolled=" + rolled);
+        // path < 64: isolated chamber has no tunnel
+        World iso = new World().chamber(100, 140, 100, 140);
+        PlacementPipeline.Result b = PlacementPipeline.run(voxelResolution(iso, new int[][]{{0, 0}}), SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(List.of(), null));
+        check("E3.isolated_chamber_fails_64_block_path", b.c.getOrDefault("not_qualifying_path_under_64", 0) == 1 && b.denominator == 0, b.c.toString());
+        // reference Y out of band (floor -42 < -40)
+        World hi = new World().box(100, 140, 100, 140, -42, -24).box(20, 100, 118, 122, -42, -37);
+        PlacementPipeline.Result y = PlacementPipeline.run(voxelResolution(hi, new int[][]{{0, 0}}), SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(List.of(), null));
+        check("E4.reference_y_band_enforced", y.c.getOrDefault("not_qualifying_reference_y_out_of_band", 0) == 1 && y.denominator == 0, y.c.toString());
+        // structure collision against the body footprint (r=38) rejects pre-roll, corridor-envelope-only touch does not
+        List<int[]> body = List.of(new int[]{110, 100, 120, 140}), far = List.of(new int[]{120 + 60, 100, 120 + 70, 140});
+        PlacementPipeline.Result s1 = PlacementPipeline.run(r, SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(body, null));
+        PlacementPipeline.Result s2 = PlacementPipeline.run(r, SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(far, null));
+        check("E5.structure_body_conflict_rejects_envelope_touch_does_not", s1.c.getOrDefault("rejected_structure_body", 0) >= 1 && s2.c.getOrDefault("rejected_structure_body", 0) == 0 && s2.corridorEnvelopeStructureTouch >= 1, s1.c + " | " + s2.c);
+        // observed-universe edge: neighbours we never saw -> blocked, not accepted
+        PlacementPipeline.Result u = PlacementPipeline.run(r, SEED, PlacementPipeline.Measure.BOX32, new int[]{0, 0, 512, 256}, new SimpleEnv(List.of(), null));
+        check("E6.universe_edge_blocks_instead_of_accepting", u.denominator == 0 && u.c.getOrDefault("blocked_by_unresolved", 0) == 2, u.c.toString());
+        // denominator invariance (forced preflight failure/success) on the voxel case and on a larger constructed chain
+        List<String> inv = PlacementPipeline.denominatorInvariance(r, SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(List.of(), null));
+        Resolution ch = chain(100, true, 5);
+        List<String> inv2 = PlacementPipeline.denominatorInvariance(ch, SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(List.of(), null));
+        check("E7.denominator_invariant_under_preflight_failure_or_success", inv.isEmpty() && inv2.isEmpty(), inv + " " + inv2);
+        PlacementPipeline.Result big = PlacementPipeline.run(ch, SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(List.of(), null));
+        PlacementPipeline.Result big2 = PlacementPipeline.run(chain(100, true, 6), SEED, PlacementPipeline.Measure.BOX32, null, new SimpleEnv(List.of(), null));
+        check("E8.chain_partition_and_order_independence", big.invariantViolations.isEmpty() && big.canonical().equals(big2.canonical()) && big.c.getOrDefault("blocked_by_unresolved", 0) > 1, big.c.toString());
+        check("E9.post_roll_failures_never_reselect", big.c.getOrDefault("preflight_failed", 0) + big.c.getOrDefault("placement_reserved", 0) == big.c.getOrDefault("roll_won", 0), big.c.toString());
     }
 
     // ---- persistence / recovery / immutability / budget

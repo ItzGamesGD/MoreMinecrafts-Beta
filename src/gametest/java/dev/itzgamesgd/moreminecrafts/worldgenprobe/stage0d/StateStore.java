@@ -46,7 +46,12 @@ public final class StateStore {
         public boolean damaged() { return !quarantinedLines.isEmpty() || (existed && !trailerOk) || quarantinedFile != null; }
     }
 
-    public static boolean isFinalStatus(String s) { return s.equals("ACCEPTED") || s.equals("REJECTED_SPACING") || s.equals("NOT_SUITABLE"); }
+    public static boolean isFinalStatus(String s) {
+        return switch (s) {
+            case "ACCEPTED", "REJECTED_SPACING", "NOT_SUITABLE", "NOT_QUALIFYING", "REJECTED_STRUCTURE", "REJECTED_FOOTPRINT", "ROLL_FAILED", "ROLL_WON_PREFLIGHT_FAILED", "PLACEMENT_RESERVED" -> true;
+            default -> false;
+        };
+    }
 
     static String stamp(String body) { return body + " #" + ChamberCore.sha256(body).substring(0, 16); }
 

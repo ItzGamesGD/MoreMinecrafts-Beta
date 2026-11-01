@@ -28,6 +28,8 @@ public final class ChamberCore {
     /** Approved suitability size (width 32, height 18). Used ONLY for the separate suitability flag, never for identity. */
     public static final int SUIT_W = 32, SUIT_H = 18;
     public static final int SPACING = 256;
+    /** Approved reference-Y band for the arena centre/reference (WG-Q03) and the traversable path requirement (WG-Q09). */
+    public static final int REF_Y_MIN = -40, REF_Y_MAX = -10, PATH_MIN = 64;
     private static final int OFF = 1 << 24, YOFF = 2048;
     private static final long SALT_PRIORITY = 0x5DEECE66DL, SALT_ROLL = 0xB5297A4DL, SALT_SET = 0x9E3779B97F4A7C15L;
 
@@ -77,11 +79,17 @@ public final class ChamberCore {
         public long[] keys;        // sorted observed core voxels
         public int size, minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE, minZ = Integer.MAX_VALUE, maxZ = Integer.MIN_VALUE, minY = Integer.MAX_VALUE, maxY = Integer.MIN_VALUE;
         public long setHash;       // order independent fingerprint of the observed set
-        public long suitKey = -1;  // first (x,z,y) 32x32x18 fully-open box origin inside this component, if any
+        public long suitKey = -1;  // first (x,z,y) 32x32x18 fully-open box origin inside this component whose floor Y is in the reference band, if any
+        public boolean boxAnyY;    // a 32x32x18 box exists at some Y (even outside the reference band)
+        public long diskKey = -1;  // same for a 32-diameter, 18-high inscribed cylinder; stored as the cylinder's bounding-square origin
+        public boolean diskAnyY;
+        public int pathBox = -1, pathDisk = -1;   // traversable path from the centre: 1 reaches >=64 steps, 0 exhausted <64, 2 unknown (window edge)
         public int obsRx, obsRz;   // observing region
         public boolean suitable() { return suitKey >= 0; }
         public int centerX() { return kx(suitKey) + SUIT_W / 2; }
         public int centerZ() { return kz(suitKey) + SUIT_W / 2; }
+        public int diskCenterX() { return kx(diskKey) + SUIT_W / 2; }
+        public int diskCenterZ() { return kz(diskKey) + SUIT_W / 2; }
     }
 
     public static final class ExtractStats {
@@ -90,6 +98,57 @@ public final class ChamberCore {
     }
 
     // ------------------------------------------------------------------ core extraction (identity)
+
+    /** True if the 32-diameter x 18-high cylinder inscribed in the 32x32 square at (bx,bz) is fully open from floor y. */
+    private static boolean cylinderOpen(int[] sat, Window w, int bx, int bz, int y) {
+        double r = SUIT_W / 2.0;
+        for (int dz = 0; dz < SUIT_W; dz++) {
+            double dzc = dz + 0.5 - r;
+            int half = (int) Math.floor(Math.sqrt(Math.max(0, r * r - dzc * dzc)) + 1e-9);
+            if (half <= 0) continue;
+            int x0 = bx + SUIT_W / 2 - half, len = 2 * half;
+            if (!boxOpen(sat, w, x0, bz + dz, y, len, 1, SUIT_H)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Traversable-path test (WG-Q09, >=64 blocks): BFS over walkable cells (open voxel with open voxel above) from the chamber centre,
+     * steps of 4-neighbour moves with a vertical change of at most 1. 1 = a cell at BFS depth 64 exists; 0 = component exhausted below 64;
+     * 2 = the search touched the window edge before deciding (unknown -> deferred).
+     */
+    private static int pathState(Window w, int sx, int sz, int sy) {
+        if (!walk(w, sx, sz, sy)) { sy++; if (!walk(w, sx, sz, sy)) return 0; }
+        java.util.ArrayDeque<int[]> q = new java.util.ArrayDeque<>();
+        java.util.HashMap<Long, Integer> dist = new java.util.HashMap<>();
+        q.add(new int[]{sx, sz, sy});
+        dist.put(((long) sx << 40) ^ ((long) sz << 16) ^ sy, 0);
+        boolean edge = false;
+        while (!q.isEmpty()) {
+            int[] c = q.poll();
+            int d = dist.get(((long) c[0] << 40) ^ ((long) c[1] << 16) ^ c[2]);
+            if (d >= PATH_MIN) return 1;
+            for (int k = 0; k < 4; k++) {
+                int nx = c[0] + (k == 0 ? 1 : k == 1 ? -1 : 0), nz = c[1] + (k == 2 ? 1 : k == 3 ? -1 : 0);
+                if (nx < 0 || nz < 0 || nx >= w.wx || nz >= w.wz) { edge = true; continue; }
+                for (int dy = -1; dy <= 1; dy++) {
+                    int ny = c[2] + dy;
+                    if (ny < 0 || ny + 1 >= w.h) { if (ny < 0 || ny >= w.h) edge = true; continue; }
+                    if (!walk(w, nx, nz, ny)) continue;
+                    if (dy != 0 && !(w.open[w.idx(c[0], c[1], Math.max(c[2], ny) + 1 < w.h ? Math.max(c[2], ny) + 1 : ny)])) continue;  // headroom while stepping
+                    long key = ((long) nx << 40) ^ ((long) nz << 16) ^ ny;
+                    if (dist.containsKey(key)) continue;
+                    dist.put(key, d + 1);
+                    q.add(new int[]{nx, nz, ny});
+                }
+            }
+        }
+        return edge ? 2 : 0;
+    }
+
+    private static boolean walk(Window w, int x, int z, int y) {
+        return y >= 0 && y + 1 < w.h && w.open[w.idx(x, z, y)] && w.open[w.idx(x, z, y + 1)];
+    }
 
     private static int satIdx(int x, int z, int y, int wz, int h) { return (x * (wz + 1) + z) * (h + 1) + y; }
 
@@ -193,19 +252,50 @@ public final class ChamberCore {
             coreVox += n;
             comps.add(c);
         }
-        // separate suitability pass: first fully-open 32x32x18 box per component (scan order, window independent for complete comps)
+        // separate suitability pass (Q09 width>=32, height>=18). Two measurement calibrations are recorded side by side:
+        //  BOX  : a fully open 32x32x18 box;   DISK : a fully open 32-diameter, 18-high cylinder (inscribed in the same square).
+        // A reference Y (floor of the box/cylinder) must lie in [-40,-10] (Q03); the first qualifying candidate in (x,z,y) scan order is kept.
         for (int x = 0; x + SUIT_W <= w.wx; x++) for (int z = 0; z + SUIT_W <= w.wz; z++) for (int y = 0; y + SUIT_H <= w.h; y++) {
             if (!boxOpen(sat, w, x, z, y, SUIT_W, SUIT_W, SUIT_H)) continue;
             int lab = label[w.idx(x, z, y)];
             if (lab < 0) throw new IllegalStateException("open suitability box outside core: opening element larger than suitability box?");
             Comp c = comps.get(lab);
-            if (c.suitKey < 0) c.suitKey = key(w.ox + x, w.oz + z, w.oy + y);
+            c.boxAnyY = true;
+            int fy = w.oy + y;
+            if (c.suitKey < 0 && fy >= REF_Y_MIN && fy <= REF_Y_MAX) c.suitKey = key(w.ox + x, w.oz + z, fy);
+        }
+        // cylinders: necessary condition is an open 22x22x18 square centred on the cylinder (inscribed square of a 32-diameter circle)
+        final int Q = 22, off = (SUIT_W - Q) / 2;
+        for (int x = 0; x + Q <= w.wx; x++) for (int z = 0; z + Q <= w.wz; z++) for (int y = 0; y + SUIT_H <= w.h; y++) {
+            int bx = x - off, bz = z - off;     // bounding-square origin of the candidate cylinder
+            if (bx < 0 || bz < 0 || bx + SUIT_W > w.wx || bz + SUIT_W > w.wz) continue;
+            if (!boxOpen(sat, w, x, z, y, Q, Q, SUIT_H) || !cylinderOpen(sat, w, bx, bz, y)) continue;
+            int lab = label[w.idx(x, z, y)];
+            if (lab < 0) continue;
+            Comp c = comps.get(lab);
+            c.diskAnyY = true;
+            int fy = w.oy + y;
+            long k = key(w.ox + bx, w.oz + bz, fy);
+            if (fy >= REF_Y_MIN && fy <= REF_Y_MAX && (c.diskKey < 0 || k < c.diskKey)) c.diskKey = k;
+        }
+        for (Comp c : comps) {
+            if (c.suitKey >= 0) c.pathBox = pathState(w, kx(c.suitKey) - w.ox + SUIT_W / 2, kz(c.suitKey) - w.oz + SUIT_W / 2, ky(c.suitKey) - w.oy);
+            if (c.diskKey >= 0) c.pathDisk = pathState(w, kx(c.diskKey) - w.ox + SUIT_W / 2, kz(c.diskKey) - w.oz + SUIT_W / 2, ky(c.diskKey) - w.oy);
         }
         if (st != null) {
             st.coreVoxels = coreVox; st.windowVoxels = w.open.length; st.nanos = System.nanoTime() - t0;
             for (Comp c : comps) if (c.complete) st.complete++; else st.partial++;
         }
         return comps;
+    }
+
+    /** Origins (array coords x,z,y) of every fully open bx x bz x bh box in {@code w}. Used by the coarse suitability scan. */
+    public static List<int[]> openBoxOrigins(Window w, int bx, int bz, int bh) {
+        int[] sat = buildSat(w);
+        List<int[]> out = new ArrayList<>();
+        for (int x = 0; x + bx <= w.wx; x++) for (int z = 0; z + bz <= w.wz; z++) for (int y = 0; y + bh <= w.h; y++)
+            if (boxOpen(sat, w, x, z, y, bx, bz, bh)) out.add(new int[]{x, z, y});
+        return out;
     }
 
     public static long chamberId(long seed, Params p, long anchorKey) {
@@ -273,6 +363,10 @@ public final class ChamberCore {
         public int size, ownerRx, ownerRz, minX, maxX, minZ, maxZ, minY, maxY;
         public boolean suitable;
         public int cx, cz;
+        // both side-by-side suitability calibrations (see extract); suitable/cx/cz hold the BOX calibration for the D-stage code paths
+        public boolean boxAnyY, diskAnyY, boxSuit, diskSuit;
+        public int boxCx, boxCz, diskCx, diskCz, boxPath = -1, diskPath = -1;
+        public int boxFloorY, diskFloorY;
         public final List<String> observers = new ArrayList<>();   // "rx,rz" of complete observations
         public int partialWitnesses;                                // partial observations proven (by shared core voxel) to be this chamber
         public boolean ownerObserved;
@@ -351,11 +445,15 @@ public final class ChamberCore {
                     ch.minX = c.minX; ch.maxX = c.maxX; ch.minZ = c.minZ; ch.maxZ = c.maxZ; ch.minY = c.minY; ch.maxY = c.maxY;
                     ch.suitable = c.suitable();
                     if (c.suitable()) { ch.cx = c.centerX(); ch.cz = c.centerZ(); }
+                    ch.boxAnyY = c.boxAnyY; ch.diskAnyY = c.diskAnyY; ch.boxSuit = c.suitable(); ch.diskSuit = c.diskKey >= 0;
+                    if (ch.boxSuit) { ch.boxCx = c.centerX(); ch.boxCz = c.centerZ(); ch.boxPath = c.pathBox; ch.boxFloorY = ky(c.suitKey); }
+                    if (ch.diskSuit) { ch.diskCx = c.diskCenterX(); ch.diskCz = c.diskCenterZ(); ch.diskPath = c.pathDisk; ch.diskFloorY = ky(c.diskKey); }
                     ch.ownerRx = region(kx(c.anchor)); ch.ownerRz = region(kz(c.anchor));
                     byId.put(c.id, ch);
                 } else {
                     r.duplicateObservations++;
-                    if (ch.setHash != c.setHash || ch.size != c.size || ch.suitable != c.suitable() || (c.suitable() && (ch.cx != c.centerX() || ch.cz != c.centerZ()))) {
+                    if (ch.setHash != c.setHash || ch.size != c.size || ch.suitable != c.suitable() || (c.suitable() && (ch.cx != c.centerX() || ch.cz != c.centerZ()))
+                        || ch.diskSuit != (c.diskKey >= 0) || (c.diskKey >= 0 && (ch.diskCx != c.diskCenterX() || ch.diskCz != c.diskCenterZ())) || ch.boxPath != (c.suitable() ? c.pathBox : -1) || ch.diskPath != (c.diskKey >= 0 ? c.pathDisk : -1)) {
                         conflictIds.add(c.id);
                         r.conflicts.add("ID_FINGERPRINT_MISMATCH id=" + Long.toHexString(c.id) + " view=" + viewName.get(c));
                     }
