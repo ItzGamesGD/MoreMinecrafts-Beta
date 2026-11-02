@@ -26,6 +26,14 @@ public final class St05RealArenaBuilder {
         return Construction.mismatches(new Construction.Journal(stateDir).readPlan(id), world, null);
     }
 
+    /** Same check, but returns the mismatching cells ("x,y,z expected/actual") so a failure can be located. */
+    public static java.util.List<String> mismatchSamples(MinecraftServer server, Path stateDir, String id) throws Exception {
+        var world = new St05Stage0FLive.LevelWorld(server, server.overworld());
+        java.util.List<String> samples = new java.util.ArrayList<>();
+        Construction.mismatches(new Construction.Journal(stateDir).readPlan(id), world, samples);
+        return samples;
+    }
+
     /** Floor Y the arena was verified at (may differ from the reservation). */
     public static int verifiedFloorY(Path stateDir, String id) throws Exception {
         return Construction.load(new Construction.Journal(stateDir), id).floorY;

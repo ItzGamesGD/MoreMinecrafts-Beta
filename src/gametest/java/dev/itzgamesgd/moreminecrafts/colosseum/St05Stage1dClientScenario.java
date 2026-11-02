@@ -258,6 +258,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                         return "direct hurtServer(playerAttack,5) returned " + r + " hp " + h0 + "->" + b.getHealth() + " frozen=" + ColosseumRuntime.combatFrozen(b) + " shield=" + b.shieldActive() + " snapshot=" + b.combatSnapshot().substring(0, Math.min(120, b.combatSnapshot().length())); });
                     log("boss direct damage probe", probe);
                 }
+                final int ominousBefore = srv.computeOnServer(s -> keys(player(s), true));
                 boolean[] seen = new boolean[8]; boolean disconnected = false, phaseTwoShot = false; int shots = 0; int clicks = 0, aimedClicks = 0; double minHp = 999; float minHealth = 20; boolean phaseTwo = false;
                 for (int tick = 0; tick < (BOSS_ONLY ? 60 : 4000); tick++) {
                     var info = srv.computeOnServer(s -> {
@@ -315,17 +316,18 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 ctx.waitTicks(40); shot(ctx, con, "12-r7-victory");
 
                 // ---------------- D: ominous key, end state
-                int b4 = srv.computeOnServer(s -> keys(player(s), true));
+                int b4 = ominousBefore;
                 int dupO = srv.computeOnServer(s -> STATS.maxKeyEntities.entrySet().stream().filter(e -> e.getKey().contains(":round:7:")).mapToInt(Map.Entry::getValue).max().orElse(0));
                 int found = pickUpKeys(ctx, srv);
                 int a4 = srv.computeOnServer(s -> keys(player(s), true));
-                check("D7 shared Ominous Trial Key: one entity (max " + dupO + "), real pickup " + b4 + "->" + a4, dupO == 1 && a4 == b4 + 1, "found=" + found);
+                check("D7 shared Ominous Trial Key: one entity (max " + dupO + "), player holds " + b4 + " before the boss fight and " + a4 + " after (picked up on its own near the boss, entities left on the floor " + found + ")", dupO == 1 && a4 == b4 + 1, "found=" + found);
                 var end = srv.computeOnServer(s -> { var c = ctl(s); var a = c.attempt(); return "outcome=" + a.outcome() + " keysAwarded=" + a.keysAwarded() + " cooldown=" + c.cooldownLeft() + " entitlements=" + a.entitlements + " cleanupPending=" + a.cleanupPending + " quarantined=" + c.quarantined(); });
                 log("end state", end);
                 check("D8 success ended normally with seven key records, cooldown running, not quarantined", end.contains("outcome=SUCCESS") && end.contains("keysAwarded=[1, 2, 3, 4, 5, 6, 7]") && !end.contains("cooldown=0") && end.contains("quarantined=false"), end);
                 ctx.waitTicks(100);
                 int mm = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatches(s, state, ID); } catch (Exception e) { return -1; } });
                 check("D9 arena structure restored/intact after the challenge (plan mismatches)", mm == 0, "mismatches=" + mm);
+                if (mm != 0) { List<String> cells = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatchSamples(s, state, ID); } catch (Exception e) { return List.of("EXC " + e); } }); log("D9 mismatching cells", cells.toString()); }
                 int chestsLeft = srv.computeOnServer(s -> { int n = 0; for (long pos : ctl(s).attempt().supplyChests()) if (s.overworld().getBlockState(net.minecraft.core.BlockPos.of(pos)).is(net.minecraft.world.level.block.Blocks.CHEST)) n++; return n; });
                 check("D10 supply chests removed on completion", chestsLeft == 0, "left=" + chestsLeft);
                 // cooldown: leave and walk back in -> no new attempt
