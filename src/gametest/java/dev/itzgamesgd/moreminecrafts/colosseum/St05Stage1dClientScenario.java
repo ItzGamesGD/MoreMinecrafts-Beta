@@ -44,6 +44,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
             long t = s.getTickCount(); int r = a.round(); Phase ph = a.phase();
             if (r != lastRound || ph != lastPhase) {
                 events.add("t=" + t + " round=" + r + " phase=" + ph + " outcome=" + a.outcome());
+                if (ph == Phase.ROUND && r >= 1 && r <= 7) events.add("   snapshot n=" + a.snap.n() + " budget=" + a.snap.budget() + " roster=" + a.rosterIds().size() + " admissions=" + a.admissions);
                 if (ph == Phase.ROUND && r != lastRound && r >= 1 && r <= 7) roundStart[r] = t;
                 if (ph == Phase.INTERMISSION && r >= 1 && r <= 7) interStart[r] = t;
                 lastRound = r; lastPhase = ph;
@@ -92,6 +93,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
         return srv.computeOnServer(p::test);
     }
     static ArenaController ctl(MinecraftServer s) { return ColosseumRuntime.data(s).controller(ID); }
+    static ServerPlayer guest(MinecraftServer s) { var l = s.getPlayerList().getPlayers(); return l.size() >= 2 ? l.get(1) : null; }
     static ServerPlayer player(MinecraftServer s) { return s.getPlayerList().getPlayers().getFirst(); }
     static List<Mob> mobs(MinecraftServer s) {
         var a = ctl(s).attempt(); List<Mob> r = new ArrayList<>(); if (a == null) return r; String owner = ColosseumRuntime.TAG_ATTEMPT + a.attemptId;
@@ -134,6 +136,8 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
         Properties props = new Properties();
         props.setProperty("online-mode", "false"); props.setProperty("view-distance", "6"); props.setProperty("simulation-distance", "6"); props.setProperty("max-tick-time", "-1");
         props.setProperty("spawn-animals", "false"); props.setProperty("difficulty", "normal");
+        int guestPort = Integer.getInteger("mm.st05d.guestPort", 0);
+        if (guestPort > 0) { props.setProperty("server-port", String.valueOf(guestPort)); props.setProperty("max-players", "4"); }
         final boolean SP = Boolean.getBoolean("mm.st05d.sp");   // single-player world: lets the run stop and re-open the very same save (a real server restart)
         var builder = ctx.worldBuilder().setUseConsistentSettings(false).adjustSettings(st -> st.setSeed("7001"));
         TestSingleplayerContext sp = null; TestDedicatedServerContext dsrv = null; TestServerContext srv; TestServerConnection con = null;
@@ -197,6 +201,13 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 var admissions = srv.computeOnServer(s -> new ArrayList<>(ctl(s).attempt().admissions));
                 check("A4 exactly one admission for the single real participant", admissions.size() == 1, admissions.toString());
 
+                // ---------------- Q2 (optional): a second REAL client joins from another JVM; it is teleported in mid-round 1 and must be admitted at the round-2 boundary
+                final boolean twoClients = guestPort > 0;
+                if (twoClients) {
+                    boolean joined = until(ctx, srv, s -> s.getPlayerList().getPlayers().size() >= 2, 6000);
+                    check("Q2a second real client connected to the dedicated server", joined, "players=" + srv.computeOnServer(s -> s.getPlayerList().getPlayers().size()));
+                    if (joined) srv.runOnServer(s -> { var g = guest(s); if (g != null) { g.setGameMode(GameType.SURVIVAL); g.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 2_000_000, 4, false, false)); g.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 2_000_000, 1, false, false)); } });
+                }
                 // ---------------- B: R1-R6 on the real arena
                 if (BOSS_ONLY) {
                     log("DIAGNOSTIC MODE", "boss-only: attempt jumped to R7 after real entry; R1-R6 not played in this run");
@@ -220,6 +231,12 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                     int total = srv.computeOnServer(s -> ctl(s).attempt().allocations().size());
                     check("B" + r + "c alive mobs never exceed 12 (peak=" + peak + ", round allocations=" + total + ")", peak <= RoundPlan.MAX_ALIVE && peak > 0, "peak=" + peak);
                     if (r == 1 || r == 3) shot(ctx, con, "05-r" + r + "-combat");
+                    if (twoClients && r == 1) {
+                        srv.runOnServer(s -> { var g = guest(s); if (g != null) g.teleportTo(s.overworld(), cx + 10.5, fy, cz + 0.5, Set.of(), 270f, 0f, true); });
+                        ctx.waitTicks(40);
+                        String pend = srv.computeOnServer(s -> { var a = ctl(s).attempt(); var g = guest(s); return "guestInRoster=" + (g != null && a.member(g.getUUID()) != null) + " pending=" + a.pendingIds().size() + " round=" + a.round(); });
+                        check("Q2b guest entering mid-round 1 is pending, not in roster yet", pend.contains("guestInRoster=false") && pend.contains("pending=1"), pend);
+                    }
                     // drain: kill down to 6 first (replenish check), then everything
                     if (total > RoundPlan.MAX_ALIVE && peak >= 8) {
                         srv.runOnServer(s -> { int al = mobs(s).size(); if (al > 6) killMobs(s, al - 6); });
@@ -251,6 +268,12 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                     long gap = next - inter;
                     int expect = RoundPlan.intermissionAfter(r);
                     check("B" + r + "f transition length " + gap + " ticks (approved " + expect + ")", Math.abs(gap - expect) <= 25 && inter > 0, "interStart=" + inter + " nextStart=" + next);
+                    if (twoClients && r == 1) {
+                        boolean adm = until(ctx, srv, s -> ctl(s).attempt().round() >= 2, 400);
+                        String a2 = srv.computeOnServer(s -> { var a = ctl(s).attempt(); var g = guest(s); return "round=" + a.round() + " n=" + a.snap.n() + " budget=" + a.snap.budget() + " multiplierMilli=" + a.snap.multiplierMilli() + " admissions=" + a.admissions + " guestUUID=" + (g == null ? "none" : g.getUUID()); });
+                        log("Q2c round-2 snapshot", a2);
+                        check("Q2c guest admitted at the round-2 boundary, scaling n=2 (budget 51 = 32 x 1.6)", adm && a2.contains("n=2") && a2.contains("budget=51") && a2.contains("multiplierMilli=1600") && a2.contains("@2"), a2);
+                    }
                     // stay inside the arena for the next round
                     srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz + 8.5, 180f));
                 }
