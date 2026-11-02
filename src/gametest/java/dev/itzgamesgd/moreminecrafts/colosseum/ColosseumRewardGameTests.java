@@ -2,6 +2,8 @@ package dev.itzgamesgd.moreminecrafts.colosseum;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.io.IOException;
+import java.nio.file.Files;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.item.ItemEntity;

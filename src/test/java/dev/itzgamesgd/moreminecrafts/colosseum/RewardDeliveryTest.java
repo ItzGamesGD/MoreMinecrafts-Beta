@@ -37,7 +37,7 @@ class RewardDeliveryTest {
     }
 
     @Test void plannedReceiptAndExistingKeyHistorySurviveControllerSerialization() {
-        Sim s=started(Sim.A);s.clearRound();
+        Sim s=new Sim();s.inside.add(Sim.A);s.tick();s.clearRound();
         var attempt=s.c.attempt();
         assertTrue(attempt.keysAwarded().contains(1));
         var reward=attempt.rewardDeliveries().get(RewardDelivery.sharedKeyId(attempt.attemptId,1,false));
