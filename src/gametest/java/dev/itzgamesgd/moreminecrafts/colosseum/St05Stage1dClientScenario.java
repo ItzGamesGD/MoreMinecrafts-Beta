@@ -343,8 +343,10 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 check("D7 shared Ominous Trial Key: one entity (max " + dupO + "), player holds " + b4 + " before the boss fight and " + a4 + " after (picked up on its own near the boss, entities left on the floor " + found + ")", dupO == 1 && a4 == b4 + 1, "found=" + found);
                 var end = srv.computeOnServer(s -> { var c = ctl(s); var a = c.attempt(); return "outcome=" + a.outcome() + " keysAwarded=" + a.keysAwarded() + " cooldown=" + c.cooldownLeft() + " entitlements=" + a.entitlements + " cleanupPending=" + a.cleanupPending + " quarantined=" + c.quarantined(); });
                 log("end state", end);
+                checkpoint(srv, state, "1 right after the boss died");
                 check("D8 success ended normally with seven key records, cooldown running, not quarantined", end.contains("outcome=SUCCESS") && end.contains("keysAwarded=[1, 2, 3, 4, 5, 6, 7]") && !end.contains("cooldown=0") && end.contains("quarantined=false"), end);
                 ctx.waitTicks(100);
+                checkpoint(srv, state, "2 after the key pickup, before leaving");
                 // Early structure reading, taken while the player still stands beside the centre Ominous Vault: informational only. A vanilla vault turns
                 // inactive -> active by itself when a player is near, so this reading can legitimately differ in vault_state alone (see the final D9 below).
                 int mmEarly = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatches(s, state, ID); } catch (Exception e) { return -1; } });
@@ -357,6 +359,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 var again = srv.computeOnServer(s -> { var c = ctl(s); return "active=" + c.active() + " cooldown=" + c.cooldownLeft(); });
                 check("D11 re-entry during cooldown does not start a new challenge", again.startsWith("active=false"), again);
                 shot(ctx, con, "13-reentry-during-cooldown");
+                checkpoint(srv, state, "3 after walking back in during cooldown");
                 // Final, strict structure check: the player has left the vault area for a while; every plan cell must hold its verified block again.
                 srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz - 36.5, 0f));
                 ctx.waitTicks(300);
@@ -367,6 +370,16 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 log("done", "scenario completed");
             } finally { if (!SP) try { ((TestDedicatedServerConnection) con).close(); } catch (Throwable ignored) { } }
         } finally { try { if (SP) sp.close(); else dsrv.close(); } catch (Throwable ignored) { } }
+    }
+
+
+    /** Logs every plan mismatch (cell, expected, actual) with the player position and whether the cell's chunk is loaded, so a drift can be dated. */
+    static void checkpoint(TestServerContext srv, Path state, String label) {
+        String r = srv.computeOnServer(s -> { try {
+            var p = player(s); var cells = St05RealArenaBuilder.mismatchSamples(s, state, ID);
+            return "player=" + String.format("%.1f,%.1f,%.1f", p.getX(), p.getY(), p.getZ()) + " mismatches=" + St05RealArenaBuilder.mismatches(s, state, ID) + " cells=" + cells;
+        } catch (Exception e) { return "EXC " + e; } });
+        log("structure checkpoint " + label, r);
     }
 
     static String stateLine(MinecraftServer s) {
