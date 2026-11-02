@@ -354,15 +354,19 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 int chestsLeft = srv.computeOnServer(s -> { int n = 0; for (long pos : ctl(s).attempt().supplyChests()) if (s.overworld().getBlockState(net.minecraft.core.BlockPos.of(pos)).is(net.minecraft.world.level.block.Blocks.CHEST)) n++; return n; });
                 check("D10 supply chests removed on completion", chestsLeft == 0, "left=" + chestsLeft);
                 // cooldown: leave and walk back in -> no new attempt
-                srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz - 36.5, 0f)); ctx.waitTicks(40);
-                ctx.getInput().holdKeyFor(o -> o.keyUp, 100); ctx.waitTicks(120);
+                srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz - 36.5, 0f));
+                watchStructure(ctx, srv, state, 40, "after teleport to the arch");
+                ctx.getInput().holdKey(o -> o.keyUp);
+                watchStructure(ctx, srv, state, 100, "while walking in");
+                ctx.getInput().releaseKey(o -> o.keyUp);
+                watchStructure(ctx, srv, state, 120, "after walking in");
                 var again = srv.computeOnServer(s -> { var c = ctl(s); return "active=" + c.active() + " cooldown=" + c.cooldownLeft(); });
                 check("D11 re-entry during cooldown does not start a new challenge", again.startsWith("active=false"), again);
                 shot(ctx, con, "13-reentry-during-cooldown");
                 checkpoint(srv, state, "3 after walking back in during cooldown");
                 // Final, strict structure check: the player has left the vault area for a while; every plan cell must hold its verified block again.
                 srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz - 36.5, 0f));
-                ctx.waitTicks(300);
+                watchStructure(ctx, srv, state, 300, "waiting outside the arch");
                 int mm = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatches(s, state, ID); } catch (Exception e) { return -1; } });
                 check("D9 arena structure intact after the challenge, strict (plan mismatches)", mm == 0, "mismatches=" + mm);
                 if (mm != 0) { List<String> cells = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatchSamples(s, state, ID); } catch (Exception e) { return List.of("EXC " + e); } }); log("D9 mismatching cells", cells.toString()); }
@@ -380,6 +384,23 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
             return "player=" + String.format("%.1f,%.1f,%.1f", p.getX(), p.getY(), p.getZ()) + " mismatches=" + St05RealArenaBuilder.mismatches(s, state, ID) + " cells=" + cells;
         } catch (Exception e) { return "EXC " + e; } });
         log("structure checkpoint " + label, r);
+    }
+
+
+    /** Polls the plan mismatches every 10 ticks; whenever the count changes it logs the cells, the player position and every non-player entity within 40 blocks of the arena centre. */
+    static void watchStructure(ClientGameTestContext ctx, TestServerContext srv, Path state, int ticks, String label) {
+        int last = -2;
+        for (int t = 0; t <= ticks; t += 10) {
+            int[] n = {0}; String detail = srv.computeOnServer(sv -> { try {
+                n[0] = St05RealArenaBuilder.mismatches(sv, state, ID);
+                if (n[0] == 0) return "";
+                var site = ColosseumRuntime.data(sv).sites().get(ID); var p = player(sv); StringBuilder b = new StringBuilder("cells=" + St05RealArenaBuilder.mismatchSamples(sv, state, ID) + " player=" + String.format("%.1f,%.1f,%.1f", p.getX(), p.getY(), p.getZ()) + " entities=");
+                for (var e : sv.overworld().getAllEntities()) if (!(e instanceof ServerPlayer) && Math.abs(e.getX() - site.cx()) < 40 && Math.abs(e.getZ() - site.cz()) < 40) b.append(e.getType().toShortString()).append('@').append(String.format("%.0f,%.0f,%.0f", e.getX(), e.getY(), e.getZ())).append(' ');
+                return b.toString();
+            } catch (Exception e) { return "EXC " + e; } });
+            if (n[0] != last) { log("structure watch " + label + " t=" + t, "mismatches=" + n[0] + " " + detail); last = n[0]; }
+            ctx.waitTicks(10);
+        }
     }
 
     static String stateLine(MinecraftServer s) {
