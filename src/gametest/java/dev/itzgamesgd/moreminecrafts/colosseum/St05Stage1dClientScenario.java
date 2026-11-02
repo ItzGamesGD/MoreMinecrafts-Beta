@@ -153,7 +153,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 srv.runOnServer(s -> {
                     var p = player(s); p.setGameMode(GameType.SURVIVAL);
                     p.getInventory().add(new ItemStack(Items.NETHERITE_SWORD));
-                    p.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 2_000_000, 1, false, false));
+                    p.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 2_000_000, 3, false, false));
                     p.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 2_000_000, 1, false, false));
                     p.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 2_000_000, 1, false, false));
                     p.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 2_000_000, 0, false, false));
@@ -185,6 +185,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 // ---------------- B: R1-R6 on the real arena
                 for (int round = 1; round <= 6; round++) {
                     final int r = round;
+                    if (srv.computeOnServer(s -> ctl(s).attempt().ended())) throw new IllegalStateException("attempt ended before round " + r + ": " + srv.computeOnServer(s -> ctl(s).attempt().outcome() + " events=" + STATS.events));
                     boolean inRound = until(ctx, srv, s -> ctl(s).attempt().round() >= r, r == 1 ? 400 : 2400);
                     check("B" + r + "a round " + r + " reached", inRound, "");
                     if (!inRound) throw new IllegalStateException("stuck before round " + r);
@@ -192,18 +193,20 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                     boolean warned = until(ctx, srv, s -> STATS.warnTicks[r] > 0, 200);
                     if (warned && r <= 2) { con.waitForClientboundPackets(); ctx.takeScreenshot("st05d-04-r" + r + "-spawn-warning"); }
                     check("B" + r + "b spawn warning observed", warned, "maxWarnLeft=" + STATS.maxWarnLeft + " sample=" + STATS.warnPos.stream().filter(x -> x.startsWith("r" + r)).findFirst().orElse("none"));
-                    boolean peaked = until(ctx, srv, s -> mobs(s).size() >= Math.min(12, RoundPlan.scaledBudget(r, 1)) || (STATS.maxAlive[r] >= 12), 400);
+                    // first batch fully spawned (no allocation still PENDING) or the 12 cap reached
+                    until(ctx, srv, s -> STATS.maxAlive[r] >= 12 || ctl(s).attempt().allocations().stream().noneMatch(al -> al.status == AllocStatus.PENDING), 400);
                     ctx.waitTicks(20);
                     int peak = srv.computeOnServer(s -> STATS.maxAlive[r]);
-                    check("B" + r + "c alive mobs never exceed 12 (peak=" + peak + ")", peak <= RoundPlan.MAX_ALIVE && peak > 0, "peak=" + peak);
+                    int total = srv.computeOnServer(s -> ctl(s).attempt().allocations().size());
+                    check("B" + r + "c alive mobs never exceed 12 (peak=" + peak + ", round allocations=" + total + ")", peak <= RoundPlan.MAX_ALIVE && peak > 0, "peak=" + peak);
                     if (r == 1 || r == 3) shot(ctx, con, "05-r" + r + "-combat");
                     // drain: kill down to 6 first (replenish check), then everything
-                    if (peak >= 8) {
+                    if (total > RoundPlan.MAX_ALIVE && peak >= 8) {
                         srv.runOnServer(s -> { int al = mobs(s).size(); if (al > 6) killMobs(s, al - 6); });
                         ctx.waitTicks(80);
                         int rep = srv.computeOnServer(s -> STATS.replenished[r]);
                         check("B" + r + "d replenished after dropping to <=6", rep > 0, "replenish events=" + rep);
-                    }
+                    } else log("B" + r + "d replenish not applicable", "round has " + total + " allocations, all spawn in the first batch (<=12)");
                     int guard = 0;
                     while (guard++ < 400 && !srv.computeOnServer(s -> ctl(s).attempt().phase() != Phase.ROUND || ctl(s).attempt().round() != r)) { srv.runOnServer(s -> killMobs(s, 12)); ctx.waitTicks(10); }
                     if (r == 3 || r == 5) {
