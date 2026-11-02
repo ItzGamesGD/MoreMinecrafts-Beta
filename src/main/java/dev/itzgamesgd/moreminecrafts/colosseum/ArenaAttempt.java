@@ -57,7 +57,7 @@ public final class ArenaAttempt {
     public record RoundStart(int round, int n, int budget) implements Action {}
     public record WarnSpawn(Alloc alloc) implements Action {}
     public record SpawnNow(Alloc alloc) implements Action {}
-    public record DropKey(int round, boolean ominous) implements Action {}
+    public record DropKey(int round, boolean ominous, String rewardId) implements Action {}
     public record SupplyChests(int round, int count) implements Action {}
     public record BossStart(int n, int maxHp) implements Action {}
     public record End(Outcome outcome, boolean cleanup) implements Action {}
@@ -85,6 +85,7 @@ public final class ArenaAttempt {
     Snapshot snap;
     final List<Alloc> allocs = new ArrayList<>();
     final Set<Integer> keysAwarded = new LinkedHashSet<>();
+    final java.util.Map<String, RewardDelivery> rewardDeliveries = new java.util.LinkedHashMap<>();
     final Set<Integer> suppliesPlaced = new LinkedHashSet<>();
     final Set<String> entitlements = new LinkedHashSet<>();
     final List<Long> supplyChests = new ArrayList<>();
@@ -122,6 +123,7 @@ public final class ArenaAttempt {
     public Member member(UUID u) { return roster.get(u); }
     public List<Alloc> allocations() { return allocs; }
     public Set<Integer> keysAwarded() { return keysAwarded; }
+    public java.util.Map<String, RewardDelivery> rewardDeliveries() { return rewardDeliveries; }
     public Set<String> entitlements() { return entitlements; }
     public long graceExpiryMillis() { return graceExpiryMillis; }
     public long onlineTicks() { return onlineTicks; }
@@ -279,8 +281,12 @@ public final class ArenaAttempt {
     }
 
     private void award(int r, boolean ominous, List<Action> out) {
+        if (r < 1 || r > 7 || ominous != (r == 7)) { quarantine("invalid shared key reward", out); return; }
         if (!keysAwarded.add(r)) return;   // each wave is awarded once, ever
-        out.add(new DropKey(r, ominous));
+        RewardDelivery delivery = RewardDelivery.sharedKey(attemptId, r, ominous);
+        RewardDelivery existing = rewardDeliveries.putIfAbsent(delivery.rewardId, delivery);
+        if (existing != null && !existing.matches(attemptId, r, ominous)) { quarantine("shared reward identity collision", out); return; }
+        out.add(new DropKey(r, ominous, delivery.rewardId));
         // Q114: personally eligible only if locked at the round's start AND physically present (alive, inside) at clear
         for (UUID u : snap.locked()) { Member m = roster.get(u); if (presentAlive.contains(u) && m != null && !m.dead) entitlements.add(attemptId + ":" + r + ":" + u); }
     }

@@ -147,7 +147,9 @@ public final class ColosseumCombatGameTests {
                     at.terrain.record(restore.east().asLong(),"minecraft:stone");
                     a.level.setBlock(restore.east(),Blocks.DIAMOND_BLOCK.defaultBlockState(),18);
                     ArenaRecovery.save(a.level.getServer(),a.ctl,false);
-                    try {java.nio.file.Files.createDirectories(file.toAbsolutePath().getParent());java.nio.file.Files.writeString(file,at.attemptId+"\n"+at.bossEntity+"\n"+boss.getHealth()+"\n");}catch(Exception e){throw new RuntimeException(e);}
+                    var pursuit=boss.pursuitState();
+                    ctx.assertTrue(pursuit.valid(),"pursuit auxiliaries are in range before restart");
+                    try {java.nio.file.Files.createDirectories(file.toAbsolutePath().getParent());java.nio.file.Files.writeString(file,at.attemptId+"\n"+at.bossEntity+"\n"+boss.getHealth()+"\n"+pursuit.sample()+"\n"+Double.toHexString(pursuit.lastDistance())+"\n");}catch(Exception e){throw new RuntimeException(e);}
                     a.level.getServer().getPlayerList().remove(p);
                     a.level.getServer().saveEverything(true,true,true);
                     System.out.println("ST05B_RESTART_WRITE boss="+at.bossEntity+" hp="+boss.getHealth());ctx.succeed();
@@ -166,6 +168,8 @@ public final class ColosseumCombatGameTests {
                         ctx.assertTrue(boss instanceof ImmortalGladiator,"saved custom boss reloaded");
                         var b=(ImmortalGladiator)boss;
                         ctx.assertTrue(b.getHealth()==Float.parseFloat(lines.get(2)) && b.phaseTwo(),"HP/phase preserved");
+                        ctx.assertTrue(b.pursuitState().equals(new GladiatorPursuitState(Integer.parseInt(lines.get(3)),Double.valueOf(lines.get(4)))),"pursuit sample/distance persisted in NBT");
+                        ctx.assertTrue(at.bossState.equals(b.combatSnapshot()),"controller snapshot and restored boss auxiliaries agree");
                         ctx.assertTrue(a.level.getEntitiesOfClass(ImmortalGladiator.class,b.getBoundingBox().inflate(64)).size()==1,"exactly one recovered boss");
                         p[0]=a.player(player,"bossrestart");a.at(p[0],8,8);
                     }

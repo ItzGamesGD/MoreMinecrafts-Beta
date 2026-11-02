@@ -42,7 +42,7 @@ import net.minecraft.world.phys.AABB;
 public final class ColosseumRuntime {
     private ColosseumRuntime() {}
 
-    public static final String TAG_BOSS = "mm_st05_boss", TAG_PROJECTILE="mm_st05_projectile";
+    public static final String TAG_BOSS = "mm_st05_boss", TAG_PROJECTILE="mm_st05_projectile", TAG_REWARD="mm_st05_reward:";
     public static final String TAG_ATTEMPT = "mm_st05_attempt:", TAG_ALLOC = "mm_st05_alloc:";
     /** Test-only: shortens the wall-clock limit / grace (system properties, never set in production). */
     private static final String PROP_LIMIT = "moreminecrafts.st05.limitMillis", PROP_GRACE = "moreminecrafts.st05.graceMillis";
@@ -155,13 +155,22 @@ public final class ColosseumRuntime {
         boolean loaded = !ctl.active() || entitiesLoaded(level, g) && allocationChunksLoaded(level,ctl.attempt());
         if (ctl.active() && loaded) reconcile(level, ctl);
         if(ctl.quarantined()) {d.setDirty();return;}
+        if(level.areEntitiesLoaded(ChunkPos.pack(site.cx()>>4,site.cz()>>4)) && !reconcileRewards(level,site,ctl)) {d.setDirty();return;}
         List<Action> actions = ctl.tick(now, inside, loaded, alloc -> position(level, g, alloc));
         if (ctl.active() && ctl.attempt() != null) for (Alloc a : ctl.attempt().allocations()) if (a.status == AllocStatus.WARNING && a.warnLeft % 4 == 0)
             level.sendParticles(ParticleTypes.END_ROD, a.px + 0.5, a.py + 0.2, a.pz + 0.5, 3, 0.2, 0.4, 0.2, 0.01);
         if(!actions.isEmpty()) {
             if(ctl.attempt().ended()) ctl.attempt().cleanupPending=true;
-            if(!ArenaRecovery.save(level.getServer(),ctl,true))return;
-            for (Action a : actions) { execute(level, site, ctl, a); if(ctl.quarantined())break; }
+            if(ctl.attempt().ended() ? !ArenaRecovery.saveCleanup(level.getServer(),ctl) : !ArenaRecovery.save(level.getServer(),ctl,true))return;
+            // Keep the existing world-effect fence around all non-reward actions. Reward IDs have their own
+            // write-ahead state machine, so finish those world effects before clearing the generic fence.
+            for (Action a : actions) if (!(a instanceof DropKey)) { execute(level, site, ctl, a); if(ctl.quarantined())break; }
+            if(!ctl.quarantined() && !ArenaRecovery.save(level.getServer(),ctl,false))return;
+            if(!ctl.quarantined()) for (Action a : actions) if (a instanceof DropKey k) {
+                RewardDelivery delivery=ctl.attempt().rewardDeliveries().get(k.rewardId());
+                if(delivery==null || !delivery.matches(ctl.attempt().attemptId,k.round(),k.ominous())) {ctl.isolate("missing or mismatched shared reward plan");break;}
+                if(!deliverReward(level,site,ctl,delivery))break;
+            }
         }
         if(ctl.attempt()!=null && ctl.attempt().cleanupPending && !ctl.quarantined()) finishCleanup(level,site,ctl);
         if(!ctl.quarantined() && (ctl.active() || wasActive || hadCooldown || hadCleanup || !actions.isEmpty())) ArenaRecovery.save(level.getServer(),ctl,false);
@@ -286,12 +295,7 @@ public final class ColosseumRuntime {
             }
             case WarnSpawn w -> { }
             case SpawnNow s -> spawn(level, site, attempt, s.alloc());
-            case DropKey k -> {
-                ItemStack key = new ItemStack(k.ominous() ? Items.OMINOUS_TRIAL_KEY : Items.TRIAL_KEY);
-                double kx=k.ominous()?attempt.bossDeathX:cx, ky=k.ominous()?attempt.bossDeathY:site.floorY()+1.0, kz=k.ominous()?attempt.bossDeathZ:cz;
-                if(!level.addFreshEntity(new ItemEntity(level, kx, ky, kz, key)))ctl.isolate("key insertion failed; no automatic regrant");
-                MoreMinecrafts.LOGGER.info("ST05 arena {} attempt {} wave {} key awarded", site.id(), attempt.attemptId, k.round());
-            }
+            case DropKey k -> { /* handled after the generic world-effect fence by the reward journal */ }
             case SupplyChests c -> placeSupplies(level, site, attempt, c);
             case BossStart b -> {
                 ColosseumBossHook.Provider p = ColosseumBossHook.provider();
@@ -299,6 +303,68 @@ public final class ColosseumRuntime {
             }
             case End e -> end(level, site, ctl, attempt, e);
         }
+    }
+
+    /** Reconciles only identity-tagged reward entities. Ambiguous insertion is quarantined, never replayed. */
+    static boolean reconcileRewards(ServerLevel level,ColosseumData.Site site,ArenaController ctl) {
+        ArenaAttempt attempt=ctl.attempt(); if(attempt==null || attempt.rewardDeliveries().isEmpty())return true;
+        for(RewardDelivery delivery:attempt.rewardDeliveries().values()) {
+            List<ItemEntity> found=new ArrayList<>();
+            String tag=TAG_REWARD+delivery.rewardId;
+            for(Entity e:level.getAllEntities()) if(e instanceof ItemEntity item && item.isAlive() && item.entityTags().contains(tag))found.add(item);
+            if(found.size()==1 && (!validRewardEntity(found.getFirst(),attempt,delivery))) {ctl.isolate("shared reward entity disagrees with durable plan");return false;}
+            RewardDelivery.Reconcile result=delivery.reconcile(found.size());
+            if(result==RewardDelivery.Reconcile.QUARANTINE) {ctl.isolate("shared reward delivery is ambiguous or duplicated: "+delivery.rewardId);ArenaRecovery.save(level.getServer(),ctl,false);return false;}
+            if(result==RewardDelivery.Reconcile.RETRY) {
+                if(!deliverReward(level,site,ctl,delivery))return false;
+            } else if(result==RewardDelivery.Reconcile.CONFIRMED) {
+                if(!ArenaRecovery.save(level.getServer(),ctl,false))return false;
+                data(level.getServer()).setDirty();
+            }
+        }
+        return true;
+    }
+
+    private static boolean validRewardEntity(ItemEntity entity,ArenaAttempt attempt,RewardDelivery delivery) {
+        String expected=delivery.itemId;
+        boolean item=expected.equals("minecraft:ominous_trial_key") ? entity.getItem().is(Items.OMINOUS_TRIAL_KEY) : entity.getItem().is(Items.TRIAL_KEY);
+        return item && entity.getItem().getCount()==1 && entity.getUUID().toString().equals(delivery.entityId)
+                && entity.entityTags().contains(TAG_ATTEMPT+attempt.attemptId);
+    }
+
+    private static boolean deliverReward(ServerLevel level,ColosseumData.Site site,ArenaController ctl,RewardDelivery delivery) {
+        ArenaAttempt attempt=ctl.attempt();
+        List<ItemEntity> found=new ArrayList<>();
+        for(Entity e:level.getAllEntities()) if(e instanceof ItemEntity item && item.isAlive() && item.entityTags().contains(TAG_REWARD+delivery.rewardId))found.add(item);
+        if(found.size()>1) {ctl.isolate("duplicate shared reward entities: "+delivery.rewardId);ArenaRecovery.save(level.getServer(),ctl,false);return false;}
+        if(found.size()==1) {
+            if(!validRewardEntity(found.getFirst(),attempt,delivery)) {ctl.isolate("shared reward entity identity/item mismatch");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
+            RewardDelivery.Reconcile result=delivery.reconcile(1);
+            if(result==RewardDelivery.Reconcile.QUARANTINE) {ctl.isolate("shared reward receipt conflicts with delivery plan");return false;}
+            return ArenaRecovery.save(level.getServer(),ctl,false);
+        }
+        RewardDelivery.Reconcile before=delivery.reconcile(0);
+        if(before==RewardDelivery.Reconcile.ALREADY_DELIVERED) return true;
+        if(before!=RewardDelivery.Reconcile.RETRY) {ctl.isolate("shared reward insertion has no verifiable entity");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
+
+        UUID entityId=RewardDelivery.entityUuid(delivery.rewardId);
+        delivery.begin(entityId);
+        if(!ArenaRecovery.save(level.getServer(),ctl,false))return false;
+        Entity collision=level.getEntity(entityId);
+        if(collision!=null) {ctl.isolate("deterministic shared reward UUID is occupied");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
+        ItemStack stack=new ItemStack(delivery.itemId.equals("minecraft:ominous_trial_key")?Items.OMINOUS_TRIAL_KEY:Items.TRIAL_KEY,1);
+        boolean ominous=delivery.itemId.equals("minecraft:ominous_trial_key");
+        double x=ominous?attempt.bossDeathX:site.cx()+0.5, y=ominous?attempt.bossDeathY:site.floorY()+1.0, z=ominous?attempt.bossDeathZ:site.cz()+0.5;
+        ItemEntity item=new ItemEntity(level,x,y,z,stack);item.setUUID(entityId);
+        item.addTag(TAG_REWARD+delivery.rewardId);item.addTag(TAG_ATTEMPT+attempt.attemptId);
+        if(!level.addFreshEntity(item)) {ctl.isolate("shared reward entity insertion failed");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
+        // Persist the world side before recording completion on the independent controller side.
+        level.getServer().saveEverything(true,true,true);
+        delivery.delivered(entityId);
+        if(!ArenaRecovery.save(level.getServer(),ctl,false))return false;
+        data(level.getServer()).setDirty();
+        MoreMinecrafts.LOGGER.info("ST05 arena {} challenge {} reward {} entity {} recorded",site.id(),attempt.attemptId,delivery.rewardId,entityId);
+        return true;
     }
 
     private static Optional<Mob> create(ServerLevel level, String rosterId) {

@@ -28,7 +28,8 @@ public final class ImmortalGladiator extends Monster {
     private UUID attemptId;
     private String arenaId="";
     private int awakening=40, pursuitSample;
-    private double lastDistance=Double.MAX_VALUE;
+    private double lastDistance=GladiatorPursuitState.INITIAL_DISTANCE;
+    private boolean recoveryHold;
     private final Set<UUID> chargeHits=new HashSet<>();
 
     public ImmortalGladiator(EntityType<? extends ImmortalGladiator> type,Level level) { super(type,level); setPersistenceRequired(); }
@@ -42,8 +43,13 @@ public final class ImmortalGladiator extends Monster {
     public int attackPose() { return entityData.get(POSE); }
     public boolean phaseTwo() { return entityData.get(PHASE_TWO); }
     public boolean shieldActive() {return entityData.get(SHIELD_ACTIVE);}
+    GladiatorPursuitState pursuitState() {return new GladiatorPursuitState(pursuitSample,lastDistance);}
     UUID attemptId() { return attemptId; }
-    String combatSnapshot() {return ArenaController.GSON.toJson(combat)+":"+awakening+":"+ArenaController.GSON.toJson(chargeHits.stream().map(UUID::toString).sorted().toList());}
+    String combatSnapshot() {
+        return ArenaController.GSON.toJson(combat)+":"+awakening+":"
+                +ArenaController.GSON.toJson(chargeHits.stream().map(UUID::toString).sorted().toList())+":"
+                +pursuitSample+":"+Double.toHexString(lastDistance);
+    }
     void bind(String arena,UUID attempt,int maxHp) {
         arenaId=arena;attemptId=attempt;
         getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxHp);setHealth(maxHp);
@@ -61,6 +67,7 @@ public final class ImmortalGladiator extends Monster {
         if(c==null) {bar.removeAllPlayers();setDeltaMovement(Vec3.ZERO);return;}
         if(c.attempt().ended() && !c.quarantined()) {bar.removeAllPlayers();discard();return;}
         if(ColosseumRuntime.combatFrozen(this)) {bar.removeAllPlayers();setDeltaMovement(Vec3.ZERO);return;}
+        if(recoveryHold) {recoveryHold=false;getNavigation().stop();setDeltaMovement(0,getDeltaMovement().y,0);return;}
         super.tick(); if(!isAlive()) {bar.removeAllPlayers();return;}
         var site=ColosseumRuntime.data(l.getServer()).sites().get(arenaId);
         for(ServerPlayer p:l.players()) {
@@ -176,7 +183,9 @@ public final class ImmortalGladiator extends Monster {
         catch(RuntimeException e) {combat=new GladiatorCombat();attemptId=null;}
         if(combat==null || combat.attack==null) {combat=new GladiatorCombat();attemptId=null;}
         try {for(String hit:ArenaController.GSON.fromJson(in.getStringOr("ST05ChargeHits","[]"),String[].class))chargeHits.add(UUID.fromString(hit));}catch(RuntimeException e){attemptId=null;}
-        awakening=in.getIntOr("ST05Awakening",40);pursuitSample=in.getIntOr("ST05PursuitSample",0);lastDistance=in.getDoubleOr("ST05LastDistance",Double.MAX_VALUE);
+        awakening=in.getIntOr("ST05Awakening",40);pursuitSample=in.getIntOr("ST05PursuitSample",0);lastDistance=in.getDoubleOr("ST05LastDistance",GladiatorPursuitState.INITIAL_DISTANCE);
+        if(!new GladiatorPursuitState(pursuitSample,lastDistance).valid()) {attemptId=null;pursuitSample=0;lastDistance=GladiatorPursuitState.INITIAL_DISTANCE;}
+        recoveryHold=true;
         entityData.set(PHASE_TWO,combat.phaseTwo);entityData.set(SHIELD_ACTIVE,combat.canBlock());
         entityData.set(POSE,combat.attack.ordinal());
     }

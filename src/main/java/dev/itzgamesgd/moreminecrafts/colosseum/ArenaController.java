@@ -102,6 +102,7 @@ public final class ArenaController {
     static final class AllocDto { String id, mob, status, entity; int warnLeft, px, py, pz; long lastChunk; boolean chunkKnown; }
     static final class MemberDto { String id; int admitted; boolean dead; }
     static final class SnapDto { int round, n, mult, budget, supply; List<String> locked = new ArrayList<>(); }
+    static final class RewardDto { String challenge, round, reward, item, state, entity; }
     static final class AttemptDto {
         String id, phase, outcome, qreason = "";
         long seed, start, grace, lastSeen, onlineTicks;
@@ -117,6 +118,7 @@ public final class ArenaController {
         SnapDto snap;
         List<AllocDto> allocs = new ArrayList<>();
         List<Integer> keys = new ArrayList<>(), supplies = new ArrayList<>();
+        List<RewardDto> rewards = new ArrayList<>();
         List<String> entitlements = new ArrayList<>(), admissions = new ArrayList<>();
         List<Long> chests = new ArrayList<>();
     }
@@ -162,6 +164,10 @@ public final class ArenaController {
             d.allocs.add(x);
         }
         d.keys.addAll(a.keysAwarded); d.supplies.addAll(a.suppliesPlaced); d.entitlements.addAll(a.entitlements);
+        for (RewardDelivery r : a.rewardDeliveries.values()) {
+            RewardDto x = new RewardDto(); x.challenge=r.challengeId; x.round=r.roundId; x.reward=r.rewardId;
+            x.item=r.itemId; x.state=r.state.name(); x.entity=r.entityId; d.rewards.add(x);
+        }
         d.chests.addAll(a.supplyChests); d.admissions.addAll(a.admissions);
         return d;
     }
@@ -229,12 +235,31 @@ public final class ArenaController {
             a.allocs.add(al);
         }
         a.keysAwarded.addAll(d.keys); a.suppliesPlaced.addAll(d.supplies); a.entitlements.addAll(d.entitlements);
+        if (d.rewards != null) for (RewardDto x : d.rewards) {
+            RewardDelivery r = new RewardDelivery(); r.challengeId=x.challenge; r.roundId=x.round; r.rewardId=x.reward;
+            r.itemId=x.item; r.state=RewardDelivery.State.valueOf(x.state); r.entityId=x.entity;
+            if (r.rewardId == null || a.rewardDeliveries.putIfAbsent(r.rewardId, r) != null) throw new IllegalArgumentException("duplicate reward identity");
+        }
         a.supplyChests.addAll(d.chests); a.admissions.addAll(d.admissions);
         return a;
     }
 
     /** Consistency verification on restore (Q37/Q38): roster, round, locked snapshot and the persisted spawn plan must agree. */
     static String verify(ArenaAttempt a) {
+        if (a.keysAwarded.stream().anyMatch(r -> r < 1 || r > RoundPlan.ROUNDS)) return "key record out of range";
+        Set<String> rewardIds = new HashSet<>();
+        Set<Integer> rewardRounds = new HashSet<>();
+        for (RewardDelivery r : a.rewardDeliveries.values()) {
+            if (r.rewardId == null || !rewardIds.add(r.rewardId) || !a.attemptId.toString().equals(r.challengeId)) return "reward identity mismatch";
+            int round;
+            try { round = Integer.parseInt(r.roundId); } catch (RuntimeException e) { return "invalid reward round"; }
+            if (!rewardRounds.add(round)) return "duplicate shared key for round";
+            boolean ominous = round == 7;
+            if (!r.matches(a.attemptId, round, ominous) || !a.keysAwarded.contains(round)) return "reward plan not backed by key record";
+            if ((r.state == RewardDelivery.State.INSERTING || r.state == RewardDelivery.State.DELIVERED)
+                    && (r.entityId == null || !r.entityId.equals(RewardDelivery.entityUuid(r.rewardId).toString()))) return "invalid recorded reward entity";
+            if (r.state == RewardDelivery.State.PLANNED && r.entityId != null) return "planned reward already has entity identity";
+        }
         if (a.phase == ArenaAttempt.Phase.ENDED) return null;
         if (a.round < 1 || a.round > RoundPlan.ROUNDS) return "round out of range";
         if (a.roster.isEmpty()) return "empty roster";
@@ -242,7 +267,6 @@ public final class ArenaController {
         if (a.peak < 1 || a.snap.n() != a.peak) return "peak active count inconsistent with snapshot";
         if (a.round <= 6 && a.snap.budget() != RoundPlan.scaledBudget(a.round, a.snap.n())) return "snapshot budget does not match M(n)";
         for (UUID u : a.snap.locked()) if (!a.roster.containsKey(u)) return "locked participant missing from roster";
-        if (a.keysAwarded.stream().anyMatch(r -> r < 1 || r > RoundPlan.ROUNDS)) return "key record out of range";
         if (a.phase == ArenaAttempt.Phase.ROUND && a.round <= 6) {
             List<String> plan = new ArrayList<>(RoundComposer.compose(a.seed, a.round, a.snap.budget()));
             List<String> have = new ArrayList<>();
