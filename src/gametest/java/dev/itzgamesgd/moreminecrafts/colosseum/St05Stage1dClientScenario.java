@@ -258,7 +258,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                         return "direct hurtServer(playerAttack,5) returned " + r + " hp " + h0 + "->" + b.getHealth() + " frozen=" + ColosseumRuntime.combatFrozen(b) + " shield=" + b.shieldActive() + " snapshot=" + b.combatSnapshot().substring(0, Math.min(120, b.combatSnapshot().length())); });
                     log("boss direct damage probe", probe);
                 }
-                boolean[] seen = new boolean[8]; boolean disconnected = false, phaseTwoShot = false; int shots = 0; int clicks = 0, aimedClicks = 0; double minHp = 999; float minHealth = 20; boolean phaseTwo = false;
+                boolean[] seen = new boolean[8]; boolean disconnected = false, phaseTwoShot = false; int shots = 0; int clicks = 0, aimedClicks = 0, swings = 0; double minHp = 999; float minHealth = 20; boolean phaseTwo = false;
                 for (int tick = 0; tick < (BOSS_ONLY ? 60 : 4000); tick++) {
                     var info = srv.computeOnServer(s -> {
                         var a = ctl(s).attempt(); if (a == null || a.ended()) return new double[]{-1};
@@ -304,8 +304,9 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                         log("client/server click probe", cl + " | " + sv);
                     }
                     clicks++; if (aimed) aimedClicks++;
-                    if (tick % 10 == 0) log("boss fight sample", "tick=" + tick + " hp=" + info[0] + " dist=" + String.format("%.1f", info[4]) + " shield=" + (info[10] == 1) + " aimed/clicks=" + aimedClicks + "/" + clicks + " bossHitsOnPlayer=" + srv.computeOnServer(s -> STATS.bossHits + " raw=" + STATS.bossHitRaw));
-                    ctx.getInput().pressMouse(0);
+                    if (tick % 10 == 0) log("boss fight sample", "tick=" + tick + " hp=" + info[0] + " dist=" + String.format("%.1f", info[4]) + " shield=" + (info[10] == 1) + " aimed/clicks=" + aimedClicks + "/" + clicks + " clientSwings=" + swings + " bossHitsOnPlayer=" + srv.computeOnServer(s -> STATS.bossHits + " raw=" + STATS.bossHitRaw));
+                    ctx.getInput().holdMouseFor(0, 3);
+                    if (ctx.computeOnClient(c -> c.player.getAttackAnim(0f) > 0f)) swings++;
                     ctx.waitTicks(12);
                 }
                 check("C5 boss defeated by real melee within the budget", srv.computeOnServer(s -> ctl(s).attempt().outcome() == Outcome.SUCCESS), "aimed/clicks=" + aimedClicks + "/" + clicks + " bossHitsOnPlayer=" + srv.computeOnServer(s -> STATS.bossHits) + " minBossHp=" + minHp + " minPlayerHealth=" + minHealth + " attackPosesSeen=" + Arrays.toString(seen));
