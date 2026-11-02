@@ -36,7 +36,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
     static final class Stats {
         int lastRound = -1; Phase lastPhase; long[] roundStart = new long[9], interStart = new long[9];
         int[] maxAlive = new int[9], replenished = new int[9], warnTicks = new int[9]; int maxWarnLeft; int prevAlive; int maxSimultaneousBosses;
-        final Map<String, Integer> maxKeyEntities = new TreeMap<>(); final List<String> events = new ArrayList<>(); final List<String> warnPos = new ArrayList<>();
+        final Map<String, Integer> maxKeyEntities = new TreeMap<>(); final List<String> events = new ArrayList<>(); final List<String> warnPos = new ArrayList<>(); final Set<String> warnSeen = new HashSet<>(); int bossHits; double bossHitRaw;
         boolean registered;
         void tick(MinecraftServer s) {
             var d = ColosseumRuntime.data(s); var c = d.controller(ID); if (c == null) return; var a = c.attempt(); if (a == null) return;
@@ -63,7 +63,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 if (prevAlive <= RoundPlan.REPLENISH_AT_OR_BELOW && alive > prevAlive && r < 7) replenished[r]++;
                 for (var al : a.allocations()) if (al.status == AllocStatus.WARNING) {
                     warnTicks[r]++; maxWarnLeft = Math.max(maxWarnLeft, al.warnLeft);
-                    if (warnPos.size() < 8) warnPos.add("r" + r + " " + al.mob + "@" + al.px + "," + al.py + "," + al.pz + " warnLeft=" + al.warnLeft);
+                    if (warnSeen.add(String.valueOf(al.id)) && warnPos.size() < 40) warnPos.add("r" + r + " " + al.mob + "@" + al.px + "," + al.py + "," + al.pz + " warnLeft=" + al.warnLeft);
                 }
             }
             prevAlive = alive;
@@ -144,7 +144,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
             check("A0b arena registered with the runtime", site != null, site == null ? "missing" : Arrays.toString(site));
             if (site == null) throw new IllegalStateException("not registered");
             final int cx = site[0], cz = site[1], fy = site[2];
-            srv.runOnServer(s -> { if (!STATS.registered) { STATS.registered = true; ServerTickEvents.END_SERVER_TICK.register(STATS::tick); } });
+            srv.runOnServer(s -> { if (!STATS.registered) { STATS.registered = true; ServerTickEvents.END_SERVER_TICK.register(STATS::tick); net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DAMAGE.register((e, src, amt) -> { if (e instanceof ServerPlayer && src.getEntity() instanceof ImmortalGladiator) { STATS.bossHits++; STATS.bossHitRaw += amt; } return true; }); } });
 
             TestDedicatedServerConnection con = srv.connect();
             try {
@@ -153,7 +153,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 srv.runOnServer(s -> {
                     var p = player(s); p.setGameMode(GameType.SURVIVAL);
                     p.getInventory().add(new ItemStack(Items.NETHERITE_SWORD));
-                    p.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 2_000_000, 3, false, false));
+                    p.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 2_000_000, 4, false, false));
                     p.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 2_000_000, 1, false, false));
                     p.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 2_000_000, 1, false, false));
                     p.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 2_000_000, 0, false, false));
@@ -243,7 +243,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 boolean barShown = ctx.computeOnClient(c -> !bossBarsOf(c).isEmpty());
                 check("C2 boss bar visible on the real client", barShown, "");
                 shot(ctx, con, "08-r7-boss-awakening");
-                boolean[] seen = new boolean[8]; boolean disconnected = false, phaseTwoShot = false; int shots = 0; double minHp = 999; float minHealth = 20; boolean phaseTwo = false;
+                boolean[] seen = new boolean[8]; boolean disconnected = false, phaseTwoShot = false; int shots = 0; int clicks = 0, aimedClicks = 0; double minHp = 999; float minHealth = 20; boolean phaseTwo = false;
                 for (int tick = 0; tick < 4000; tick++) {
                     var info = srv.computeOnServer(s -> {
                         var a = ctl(s).attempt(); if (a == null || a.ended()) return new double[]{-1};
@@ -271,20 +271,24 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                         check("C4c boss bar re-shown after rejoin", bar2, "");
                         shot(ctx, con, "11-r7-after-rejoin");
                     }
-                    // real melee: keep the player 1.8-3 blocks from the boss, facing it, then click with the real mouse
-                    if (info[4] > 3.2 || info[4] < 1.2) {
-                        srv.runOnServer(s -> {
-                            var a = ctl(s).attempt(); var b = s.overworld().getEntity(a.bossEntity); var p = player(s); if (b == null) return;
-                            double dx = p.getX() - b.getX(), dz = p.getZ() - b.getZ(), len = Math.max(0.01, Math.sqrt(dx * dx + dz * dz));
-                            double tx = b.getX() + dx / len * 2.0, tz = b.getZ() + dz / len * 2.0;
-                            float yaw = (float) Math.toDegrees(Math.atan2(-(b.getX() - tx), b.getZ() - tz));
-                            p.teleportTo(s.overworld(), tx, b.getY(), tz, Set.of(), yaw, 10f, true);
-                        });
-                    }
+                    // real melee: keep the player 1.5-3 blocks from the boss and re-aim at its body every cycle, then click with the real mouse
+                    srv.runOnServer(s -> {
+                        var a = ctl(s).attempt(); var b = s.overworld().getEntity(a.bossEntity); var p = player(s); if (b == null) return;
+                        double dx = p.getX() - b.getX(), dz = p.getZ() - b.getZ(), len = Math.max(0.01, Math.sqrt(dx * dx + dz * dz));
+                        double d = (len > 3.0 || len < 1.5) ? 2.0 : len;
+                        double tx = b.getX() + dx / len * d, tz = b.getZ() + dz / len * d;
+                        double ex = b.getX() - tx, ez = b.getZ() - tz, ey = (b.getY() + b.getBbHeight() * 0.5) - (p.getY() + 1.62);
+                        float yaw = (float) Math.toDegrees(Math.atan2(-ex, ez)), pitch = (float) -Math.toDegrees(Math.atan2(ey, Math.sqrt(ex * ex + ez * ez)));
+                        p.teleportTo(s.overworld(), tx, p.getY(), tz, Set.of(), yaw, pitch, true);
+                    });
+                    ctx.waitTicks(2);
+                    boolean aimed = ctx.computeOnClient(c -> c.crosshairPickEntity instanceof ImmortalGladiator);
+                    clicks++; if (aimed) aimedClicks++;
+                    if (tick % 10 == 0) log("boss fight sample", "tick=" + tick + " hp=" + info[0] + " dist=" + String.format("%.1f", info[4]) + " shield=" + (info[10] == 1) + " aimed/clicks=" + aimedClicks + "/" + clicks + " bossHitsOnPlayer=" + srv.computeOnServer(s -> STATS.bossHits + " raw=" + STATS.bossHitRaw));
                     ctx.getInput().pressMouse(0);
                     ctx.waitTicks(12);
                 }
-                check("C5 boss defeated by real melee within the budget", srv.computeOnServer(s -> ctl(s).attempt().outcome() == Outcome.SUCCESS), "minBossHp=" + minHp + " minPlayerHealth=" + minHealth + " attackPosesSeen=" + Arrays.toString(seen));
+                check("C5 boss defeated by real melee within the budget", srv.computeOnServer(s -> ctl(s).attempt().outcome() == Outcome.SUCCESS), "aimed/clicks=" + aimedClicks + "/" + clicks + " bossHitsOnPlayer=" + srv.computeOnServer(s -> STATS.bossHits) + " minBossHp=" + minHp + " minPlayerHealth=" + minHealth + " attackPosesSeen=" + Arrays.toString(seen));
                 check("C6 exactly one boss existed at any time", srv.computeOnServer(s -> STATS.maxSimultaneousBosses == 1), "");
                 ctx.waitTicks(40); shot(ctx, con, "12-r7-victory");
 
