@@ -345,9 +345,10 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 log("end state", end);
                 check("D8 success ended normally with seven key records, cooldown running, not quarantined", end.contains("outcome=SUCCESS") && end.contains("keysAwarded=[1, 2, 3, 4, 5, 6, 7]") && !end.contains("cooldown=0") && end.contains("quarantined=false"), end);
                 ctx.waitTicks(100);
-                int mm = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatches(s, state, ID); } catch (Exception e) { return -1; } });
-                check("D9 arena structure restored/intact after the challenge (plan mismatches)", mm == 0, "mismatches=" + mm);
-                if (mm != 0) { List<String> cells = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatchSamples(s, state, ID); } catch (Exception e) { return List.of("EXC " + e); } }); log("D9 mismatching cells", cells.toString()); }
+                // Early structure reading, taken while the player still stands beside the centre Ominous Vault: informational only. A vanilla vault turns
+                // inactive -> active by itself when a player is near, so this reading can legitimately differ in vault_state alone (see the final D9 below).
+                int mmEarly = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatches(s, state, ID); } catch (Exception e) { return -1; } });
+                log("D9-early structure reading (player beside the vault)", "mismatches=" + mmEarly + (mmEarly > 0 ? " cells=" + srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatchSamples(s, state, ID).toString(); } catch (Exception e) { return "EXC " + e; } }) : ""));
                 int chestsLeft = srv.computeOnServer(s -> { int n = 0; for (long pos : ctl(s).attempt().supplyChests()) if (s.overworld().getBlockState(net.minecraft.core.BlockPos.of(pos)).is(net.minecraft.world.level.block.Blocks.CHEST)) n++; return n; });
                 check("D10 supply chests removed on completion", chestsLeft == 0, "left=" + chestsLeft);
                 // cooldown: leave and walk back in -> no new attempt
@@ -356,6 +357,12 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 var again = srv.computeOnServer(s -> { var c = ctl(s); return "active=" + c.active() + " cooldown=" + c.cooldownLeft(); });
                 check("D11 re-entry during cooldown does not start a new challenge", again.startsWith("active=false"), again);
                 shot(ctx, con, "13-reentry-during-cooldown");
+                // Final, strict structure check: the player has left the vault area for a while; every plan cell must hold its verified block again.
+                srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz - 36.5, 0f));
+                ctx.waitTicks(300);
+                int mm = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatches(s, state, ID); } catch (Exception e) { return -1; } });
+                check("D9 arena structure intact after the challenge, strict (plan mismatches)", mm == 0, "mismatches=" + mm);
+                if (mm != 0) { List<String> cells = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatchSamples(s, state, ID); } catch (Exception e) { return List.of("EXC " + e); } }); log("D9 mismatching cells", cells.toString()); }
                 log("round events", String.join(" ; ", STATS.events));
                 log("done", "scenario completed");
             } finally { if (!SP) try { ((TestDedicatedServerConnection) con).close(); } catch (Throwable ignored) { } }
