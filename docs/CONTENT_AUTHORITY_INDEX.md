@@ -3,6 +3,9 @@
 
 # Current content authority and deferred design debt
 
+> **ST-05 CURRENT OVERRIDE (2026-11-02):** For Ancient Colosseum participation, absence grace, wall-clock trial time, restarts, and cooldown, use [Stage 1 lifecycle authority reconciliation](st05/ST05_STAGE1_LIFECYCLE_AUTHORITY_RECONCILIATION_2026-11-02.md) before older Q60/Q112-A text. This routes existing owner approvals only; it does not approve merging Draft PR #219 or certify live-client validation.
+
+
 This file is the compact authority map for the recovered cumulative line.
 
 It does not replace the detailed design documents. When an older document conflicts with a newer reconciliation document listed here, the newer reconciliation is authoritative for implementation.
