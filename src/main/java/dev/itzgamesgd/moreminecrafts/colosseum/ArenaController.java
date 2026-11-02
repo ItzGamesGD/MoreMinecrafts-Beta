@@ -24,6 +24,12 @@ public final class ArenaController {
     String quarantineReason = "";
     String lastOutcome = "NONE";
     final Set<UUID> prevInside = new HashSet<>();
+    /** Permanent audit of shared-key round records, including attempts whose live state is later retired. */
+    final Set<String> keyHistory = new LinkedHashSet<>();
+    /** Permanent reward transaction ledger, keyed by challenge/round/reward ID across every attempt. */
+    final java.util.Map<String, RewardDelivery> rewardDeliveries = new java.util.LinkedHashMap<>();
+    /** Conflicting persisted copies are retained for operator review while the arena remains isolated. */
+    final List<RewardDelivery> rewardConflicts = new ArrayList<>();
     /** Personal eligibility records are kept indefinitely (Q115-B); a personal claim is written only when a reward is actually delivered. */
     final Set<String> entitlements = new LinkedHashSet<>();
     final Set<String> claims = new LinkedHashSet<>();
@@ -63,14 +69,31 @@ public final class ArenaController {
             cooldownLeft--;
         } else if (!entries.isEmpty()) {
             // Gather the whole tick's entrants (everyone physically inside) before committing the round-1 snapshot.
+            if (attempt != null) rememberAttemptRecords(attempt);
             UUID id = UUID.nameUUIDFromBytes((arenaId + ":" + nowMillis + ":" + entries).getBytes(StandardCharsets.UTF_8));
             List<ArenaAttempt.Action> acts = new ArrayList<>();
             attempt = ArenaAttempt.start(id, nowMillis, insideAlive, planner, acts);
             attempt.setTiming(timing);
             out.addAll(acts);
         }
-        if (attempt != null) entitlements.addAll(attempt.entitlements);
+        if (attempt != null) {
+            rememberAttemptRecords(attempt);
+            entitlements.addAll(attempt.entitlements);
+        }
         return out;
+    }
+
+    private void rememberAttemptRecords(ArenaAttempt a) {
+        for (int round : a.keysAwarded) keyHistory.add(a.attemptId + ":round:" + round);
+        for (RewardDelivery r : a.rewardDeliveries.values()) {
+            RewardDelivery existing=rewardDeliveries.putIfAbsent(r.rewardId,r);
+            if(existing!=null && (existing!=r && (!java.util.Objects.equals(existing.challengeId,r.challengeId)
+                    || !java.util.Objects.equals(existing.roundId,r.roundId)
+                    || !java.util.Objects.equals(existing.itemId,r.itemId)
+                    || !java.util.Objects.equals(existing.rewardId,r.rewardId)))) {
+                rewardConflicts.add(r);isolate("shared reward ledger identity collision");return;
+            }
+        }
     }
 
     private void finish(List<ArenaAttempt.Action> acts) {
@@ -93,7 +116,10 @@ public final class ArenaController {
         if (active()) { attempt.quarantine(reason, new ArrayList<>()); }
     }
 
-    public void release() { quarantined = false; quarantineReason = ""; attempt = null; cooldownLeft = 0; }
+    public void release() {
+        if(attempt!=null)rememberAttemptRecords(attempt);
+        quarantined = false; quarantineReason = ""; attempt = null; cooldownLeft = 0;
+    }
 
     // ------------------------------------------------------------------ persistence
     static final Gson GSON = new Gson();
@@ -102,7 +128,7 @@ public final class ArenaController {
     static final class AllocDto { String id, mob, status, entity; int warnLeft, px, py, pz; long lastChunk; boolean chunkKnown; }
     static final class MemberDto { String id; int admitted; boolean dead; }
     static final class SnapDto { int round, n, mult, budget, supply; List<String> locked = new ArrayList<>(); }
-    static final class RewardDto { String challenge, round, reward, item, state, entity; }
+    static final class RewardDto { String challenge, round, reward, item, state, entity; boolean positionKnown; double x, y, z; }
     static final class AttemptDto {
         String id, phase, outcome, qreason = "";
         long seed, start, grace, lastSeen, onlineTicks;
@@ -118,9 +144,10 @@ public final class ArenaController {
         SnapDto snap;
         List<AllocDto> allocs = new ArrayList<>();
         List<Integer> keys = new ArrayList<>(), supplies = new ArrayList<>();
-        List<RewardDto> rewards = new ArrayList<>();
         List<String> entitlements = new ArrayList<>(), admissions = new ArrayList<>();
         List<Long> chests = new ArrayList<>();
+        /** Read compatibility for Stage 1-C receipts written inside the active-attempt DTO. */
+        List<RewardDto> rewards = new ArrayList<>();
     }
     static final class Dto {
         int format = FORMAT;
@@ -129,12 +156,19 @@ public final class ArenaController {
         boolean quarantined;
         AttemptDto attempt;
         List<String> entitlements = new ArrayList<>(), claims = new ArrayList<>(), cleanup = new ArrayList<>();
+        List<String> keyHistory = new ArrayList<>();
+        List<RewardDto> rewards = new ArrayList<>();
+        List<RewardDto> rewardConflicts = new ArrayList<>();
     }
 
     public String toJson() {
         Dto d = new Dto();
         d.arena = arenaId; d.cooldown = cooldownLeft; d.quarantined = quarantined; d.qreason = quarantineReason; d.lastOutcome = lastOutcome;
         d.entitlements.addAll(entitlements); d.claims.addAll(claims);
+        d.keyHistory.addAll(keyHistory);
+        d.keyHistory.addAll(attempt == null ? List.of() : attempt.keysAwarded.stream().map(r -> attempt.attemptId + ":round:" + r).toList());
+        for (RewardDelivery r : rewardDeliveries.values()) d.rewards.add(rewardDto(r));
+        for (RewardDelivery r : rewardConflicts) d.rewardConflicts.add(rewardDto(r));
         for (UUID u : cleanupAttempts) d.cleanup.add(u.toString());
         if (attempt != null) d.attempt = dto(attempt);
         return GSON.toJson(d);
@@ -164,12 +198,14 @@ public final class ArenaController {
             d.allocs.add(x);
         }
         d.keys.addAll(a.keysAwarded); d.supplies.addAll(a.suppliesPlaced); d.entitlements.addAll(a.entitlements);
-        for (RewardDelivery r : a.rewardDeliveries.values()) {
-            RewardDto x = new RewardDto(); x.challenge=r.challengeId; x.round=r.roundId; x.reward=r.rewardId;
-            x.item=r.itemId; x.state=r.state.name(); x.entity=r.entityId; d.rewards.add(x);
-        }
         d.chests.addAll(a.supplyChests); d.admissions.addAll(a.admissions);
         return d;
+    }
+
+    private static RewardDto rewardDto(RewardDelivery r) {
+        RewardDto x=new RewardDto();x.challenge=r.challengeId;x.round=r.roundId;x.reward=r.rewardId;
+        x.item=r.itemId;x.state=r.state.name();x.entity=r.entityId;x.positionKnown=r.positionKnown;x.x=r.x;x.y=r.y;x.z=r.z;
+        return x;
     }
 
     public static String checksum(String json) {
@@ -192,9 +228,24 @@ public final class ArenaController {
             ArenaController c = new ArenaController(arenaId);
             c.cooldownLeft = d.cooldown; c.quarantined = d.quarantined; c.quarantineReason = d.qreason == null ? "" : d.qreason;
             c.lastOutcome = d.lastOutcome; c.entitlements.addAll(d.entitlements); c.claims.addAll(d.claims);
+            if(d.keyHistory!=null)c.keyHistory.addAll(d.keyHistory);
+            if(d.rewards!=null)for(RewardDto x:d.rewards) {
+                RewardDelivery r=rewardFromDto(x);
+                RewardDelivery existing=c.rewardDeliveries.putIfAbsent(r.rewardId,r);
+                if(existing!=null) {c.rewardConflicts.add(r);c.quarantined=true;c.quarantineReason="duplicate persisted reward identity";c.lastOutcome="QUARANTINED";}
+            }
+            if(d.attempt!=null && d.attempt.rewards!=null) for(RewardDto x:d.attempt.rewards) {
+                RewardDelivery r=rewardFromDto(x), existing=c.rewardDeliveries.putIfAbsent(r.rewardId,r);
+                if(existing!=null && (!sameReward(existing,r))) {c.rewardConflicts.add(r);c.quarantined=true;c.quarantineReason="conflicting persisted reward receipts";c.lastOutcome="QUARANTINED";}
+            }
+            if(d.rewardConflicts!=null)for(RewardDto x:d.rewardConflicts)c.rewardConflicts.add(rewardFromDto(x));
+            if(!c.rewardConflicts.isEmpty()) {c.quarantined=true;c.quarantineReason="conflicting reward records retained for review";c.lastOutcome="QUARANTINED";}
+            String ledgerProblem=verifyRewardLedger(c.rewardDeliveries.values());
+            if(ledgerProblem!=null) {c.quarantined=true;c.quarantineReason=ledgerProblem;c.lastOutcome="QUARANTINED";}
             for (String u : d.cleanup) c.cleanupAttempts.add(UUID.fromString(u));
             if (d.attempt != null) {
                 ArenaAttempt a = attemptFrom(d.attempt);
+                for(RewardDelivery r:c.rewardDeliveries.values())if(a.attemptId.toString().equals(r.challengeId))a.rewardDeliveries.put(r.rewardId,r);
                 String problem = verify(a);
                 if (problem == null && a.phase != ArenaAttempt.Phase.ENDED && nowMillis < a.lastSeenMillis) problem = "wall clock earlier than last saved time";
                 if (problem != null) { c.attempt = a; c.quarantined = true; c.quarantineReason = problem; a.outcome = ArenaAttempt.Outcome.QUARANTINED; a.phase = ArenaAttempt.Phase.ENDED; a.quarantineReason = problem; }
@@ -235,13 +286,39 @@ public final class ArenaController {
             a.allocs.add(al);
         }
         a.keysAwarded.addAll(d.keys); a.suppliesPlaced.addAll(d.supplies); a.entitlements.addAll(d.entitlements);
-        if (d.rewards != null) for (RewardDto x : d.rewards) {
-            RewardDelivery r = new RewardDelivery(); r.challengeId=x.challenge; r.roundId=x.round; r.rewardId=x.reward;
-            r.itemId=x.item; r.state=RewardDelivery.State.valueOf(x.state); r.entityId=x.entity;
-            if (r.rewardId == null || a.rewardDeliveries.putIfAbsent(r.rewardId, r) != null) throw new IllegalArgumentException("duplicate reward identity");
-        }
         a.supplyChests.addAll(d.chests); a.admissions.addAll(d.admissions);
         return a;
+    }
+
+    private static RewardDelivery rewardFromDto(RewardDto x) {
+        RewardDelivery r=new RewardDelivery();r.challengeId=x.challenge;r.roundId=x.round;r.rewardId=x.reward;
+        r.itemId=x.item;r.state=RewardDelivery.State.valueOf(x.state);r.entityId=x.entity;
+        r.positionKnown=x.positionKnown;r.x=x.x;r.y=x.y;r.z=x.z;
+        if(r.rewardId==null)throw new IllegalArgumentException("reward ID is missing");
+        return r;
+    }
+
+    private static boolean sameReward(RewardDelivery a,RewardDelivery b) {
+        return java.util.Objects.equals(a.challengeId,b.challengeId) && java.util.Objects.equals(a.roundId,b.roundId)
+                && java.util.Objects.equals(a.rewardId,b.rewardId) && java.util.Objects.equals(a.itemId,b.itemId)
+                && a.state==b.state && java.util.Objects.equals(a.entityId,b.entityId)
+                && a.positionKnown==b.positionKnown && a.x==b.x && a.y==b.y && a.z==b.z;
+    }
+
+    private static String verifyRewardLedger(Collection<RewardDelivery> records) {
+        Set<String> ids=new HashSet<>(),rounds=new HashSet<>();
+        for(RewardDelivery r:records) {
+            if(r.state==null || r.rewardId==null || !ids.add(r.rewardId) || r.challengeId==null) return "reward identity mismatch";
+            UUID challenge;
+            int round;
+            try {challenge=UUID.fromString(r.challengeId);round=Integer.parseInt(r.roundId);}catch(RuntimeException e){return "invalid reward challenge/round";}
+            if(round<1 || round>7 || !rounds.add(challenge+":"+round))return "duplicate or invalid shared-key round";
+            if(!r.matches(challenge,round,round==7))return "reward kind/identity mismatch";
+            if((r.state==RewardDelivery.State.INSERTING || r.state==RewardDelivery.State.DELIVERED)
+                    && (r.entityId==null || !r.entityId.equals(RewardDelivery.entityUuid(r.rewardId).toString()) || !r.validPosition()))return "invalid recorded reward result";
+            if(r.state==RewardDelivery.State.PLANNED && r.entityId!=null)return "planned reward has an entity ID";
+        }
+        return null;
     }
 
     /** Consistency verification on restore (Q37/Q38): roster, round, locked snapshot and the persisted spawn plan must agree. */
@@ -258,6 +335,7 @@ public final class ArenaController {
             if (!r.matches(a.attemptId, round, ominous) || !a.keysAwarded.contains(round)) return "reward plan not backed by key record";
             if ((r.state == RewardDelivery.State.INSERTING || r.state == RewardDelivery.State.DELIVERED)
                     && (r.entityId == null || !r.entityId.equals(RewardDelivery.entityUuid(r.rewardId).toString()))) return "invalid recorded reward entity";
+            if ((r.state == RewardDelivery.State.INSERTING || r.state == RewardDelivery.State.DELIVERED) && !r.validPosition()) return "invalid recorded reward position";
             if (r.state == RewardDelivery.State.PLANNED && r.entityId != null) return "planned reward already has entity identity";
         }
         if (a.phase == ArenaAttempt.Phase.ENDED) return null;

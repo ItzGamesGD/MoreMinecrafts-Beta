@@ -17,7 +17,9 @@ public final class ColosseumRewardGameTests {
         ArenaAttempt attempt=a.attempt();
         attempt.keysAwarded.add(round);
         RewardDelivery delivery=RewardDelivery.sharedKey(attempt.attemptId,round,ominous);
+        delivery.position(a.cx+.5,150.0,a.cz+.5);
         attempt.rewardDeliveries.put(delivery.rewardId,delivery);
+        a.ctl.rewardDeliveries.put(delivery.rewardId,delivery);
         return delivery;
     }
 
@@ -26,7 +28,7 @@ public final class ColosseumRewardGameTests {
         ItemEntity entity=new ItemEntity(a.level,a.cx+.5,150.0,a.cz+.5,new ItemStack(ominous?Items.OMINOUS_TRIAL_KEY:Items.TRIAL_KEY,1));
         if(boundUuid)entity.setUUID(RewardDelivery.entityUuid(delivery.rewardId));
         entity.addTag(ColosseumRuntime.TAG_REWARD+delivery.rewardId);
-        entity.addTag(ColosseumRuntime.TAG_ATTEMPT+a.attempt().attemptId);
+        entity.addTag(ColosseumRuntime.TAG_ATTEMPT+delivery.challengeId);
         a.level.addFreshEntity(entity);
         return entity;
     }
@@ -117,7 +119,9 @@ public final class ColosseumRewardGameTests {
                 ArenaAttempt attempt=new ArenaAttempt(challenge,77);attempt.phase=ArenaAttempt.Phase.ENDED;attempt.outcome=ArenaAttempt.Outcome.SUCCESS;
                 attempt.round=1;attempt.keysAwarded.add(1);
                 RewardDelivery delivery=RewardDelivery.sharedKey(challenge,1,false);attempt.rewardDeliveries.put(delivery.rewardId,delivery);
+                delivery.position(a.cx+.5,150.0,a.cz+.5);
                 ArenaController ctl=ColosseumRuntime.data(a.level.getServer()).controller(a.id);
+                ctl.rewardDeliveries.put(delivery.rewardId,delivery);
                 ctl.attempt=attempt;ctl.lastOutcome=ArenaAttempt.Outcome.SUCCESS.name();
                 if(!ArenaRecovery.save(a.level.getServer(),ctl,false))throw new AssertionError("planned reward journal not saved");
                 ColosseumRuntime.data(a.level.getServer()).setDirty();
@@ -135,7 +139,8 @@ public final class ColosseumRewardGameTests {
                     ctx.assertTrue(attempt!=null && attempt.attemptId.equals(challenge),"same challenge ID after process restart");
                     ctx.assertTrue(attempt.keysAwarded.contains(1),"existing key history remains intact");
                     ctx.assertTrue(attempt.outcome()==ArenaAttempt.Outcome.SUCCESS && ctl.lastOutcome().equals("SUCCESS"),"successful terminal state is preserved");
-                    RewardDelivery delivery=attempt.rewardDeliveries.get(rewardId);
+                    RewardDelivery delivery=ctl.rewardDeliveries.get(rewardId);
+                    if(attempt.rewardDeliveries.get(rewardId)==null)attempt.rewardDeliveries.put(rewardId,delivery);
                     ctx.assertTrue(delivery!=null,"same reward ID survives restart");
                     if(phase.equals("reconcile")) {
                         ctx.assertTrue(delivery.state==RewardDelivery.State.DELIVERED,"planned payment reconciles after restart");

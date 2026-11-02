@@ -49,4 +49,24 @@ class RewardDeliveryTest {
         assertEquals(s.c.entitlements(),restored.entitlements());
         assertEquals(s.c.claims,restored.claims);
     }
+
+    @Test void rewardLedgerAndKeyHistorySurviveRetiringTheCurrentAttempt() {
+        Sim s=new Sim();s.inside.add(Sim.A);s.tick();s.clearRound();
+        UUID finished=s.c.attempt().attemptId;
+        String rewardId=RewardDelivery.sharedKeyId(finished,1,false);
+        assertTrue(s.c.keyHistory.contains(finished+":round:1"));
+        assertTrue(s.c.rewardDeliveries.containsKey(rewardId));
+
+        s.c.release();
+        s.inside.clear();s.tick();
+        s.inside.add(Sim.B);s.tick();
+        assertNotEquals(finished,s.c.attempt().attemptId);
+        assertTrue(s.c.keyHistory.contains(finished+":round:1"));
+        assertTrue(s.c.rewardDeliveries.containsKey(rewardId));
+
+        ArenaController restored=ArenaController.restore("arena-1",s.c.toJson(),null,s.now);
+        assertFalse(restored.quarantined());
+        assertTrue(restored.keyHistory.contains(finished+":round:1"));
+        assertTrue(restored.rewardDeliveries.containsKey(rewardId));
+    }
 }

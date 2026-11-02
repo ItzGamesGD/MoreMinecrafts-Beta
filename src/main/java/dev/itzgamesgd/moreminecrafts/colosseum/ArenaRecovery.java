@@ -26,7 +26,7 @@ final class ArenaRecovery {
                 verifying.add(c);
                 if(c.attempt().graceExpiryMillis==0) c.attempt().graceExpiryMillis=now+RoundPlan.GRACE_MILLIS;
             }
-            if(c.attempt()!=null && !c.attempt().rewardDeliveries().isEmpty()) rewardVerifying.add(c);
+            if(!c.rewardDeliveries.isEmpty()) rewardVerifying.add(c);
         } catch(IOException e) { c.isolate("journal unavailable: "+e.getMessage()); }
     }
     static boolean verifying(ArenaController c) { return verifying.contains(c); }

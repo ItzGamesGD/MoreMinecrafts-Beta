@@ -14,6 +14,8 @@ final class RewardDelivery {
     String itemId;
     State state = State.PLANNED;
     String entityId;
+    boolean positionKnown;
+    double x, y, z;
 
     RewardDelivery() {}
 
@@ -39,6 +41,14 @@ final class RewardDelivery {
                 && rewardId != null && rewardId.equals(sharedKeyId(challenge, round, ominous))
                 && itemId != null && itemId.equals(ominous ? "minecraft:ominous_trial_key" : "minecraft:trial_key");
     }
+
+    void position(double x,double y,double z) {
+        if(state!=State.PLANNED || !Double.isFinite(x) || !Double.isFinite(y) || !Double.isFinite(z))
+            throw new IllegalStateException("invalid planned reward position");
+        this.x=x;this.y=y;this.z=z;positionKnown=true;
+    }
+
+    boolean validPosition() {return positionKnown && Double.isFinite(x) && Double.isFinite(y) && Double.isFinite(z);}
 
     void begin(UUID entity) {
         if (state != State.PLANNED) throw new IllegalStateException("reward delivery is not safely plannable");

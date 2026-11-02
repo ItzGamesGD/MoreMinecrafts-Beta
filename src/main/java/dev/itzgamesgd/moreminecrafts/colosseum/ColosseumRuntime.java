@@ -155,19 +155,28 @@ public final class ColosseumRuntime {
         boolean loaded = !ctl.active() || entitiesLoaded(level, g) && allocationChunksLoaded(level,ctl.attempt());
         if (ctl.active() && loaded) reconcile(level, ctl);
         if(ctl.quarantined()) {d.setDirty();return;}
-        if(level.areEntitiesLoaded(ChunkPos.pack(site.cx()>>4,site.cz()>>4)) && !reconcileRewards(level,site,ctl)) {d.setDirty();return;}
+        if(entitiesLoaded(level,g) && !reconcileRewards(level,site,ctl)) {d.setDirty();return;}
         List<Action> actions = ctl.tick(now, inside, loaded, alloc -> position(level, g, alloc));
         if (ctl.active() && ctl.attempt() != null) for (Alloc a : ctl.attempt().allocations()) if (a.status == AllocStatus.WARNING && a.warnLeft % 4 == 0)
             level.sendParticles(ParticleTypes.END_ROD, a.px + 0.5, a.py + 0.2, a.pz + 0.5, 3, 0.2, 0.4, 0.2, 0.01);
         if(!actions.isEmpty()) {
             if(ctl.attempt().ended()) ctl.attempt().cleanupPending=true;
+            for(Action action:actions)if(action instanceof DropKey k) {
+                RewardDelivery delivery=ctl.rewardDeliveries.get(k.rewardId());
+                if(delivery==null || !delivery.matches(ctl.attempt().attemptId,k.round(),k.ominous())) {ctl.isolate("missing or mismatched shared reward plan");return;}
+                double x=k.ominous()?ctl.attempt().bossDeathX:site.cx()+0.5;
+                double y=k.ominous()?ctl.attempt().bossDeathY:site.floorY()+1.0;
+                double z=k.ominous()?ctl.attempt().bossDeathZ:site.cz()+0.5;
+                if(!delivery.positionKnown)delivery.position(x,y,z);
+                else if(delivery.x!=x || delivery.y!=y || delivery.z!=z) {ctl.isolate("shared reward position changed after planning");return;}
+            }
             if(ctl.attempt().ended() ? !ArenaRecovery.saveCleanup(level.getServer(),ctl) : !ArenaRecovery.save(level.getServer(),ctl,true))return;
             // Keep the existing world-effect fence around all non-reward actions. Reward IDs have their own
             // write-ahead state machine, so finish those world effects before clearing the generic fence.
             for (Action a : actions) if (!(a instanceof DropKey)) { execute(level, site, ctl, a); if(ctl.quarantined())break; }
             if(!ctl.quarantined() && !ArenaRecovery.save(level.getServer(),ctl,false))return;
             if(!ctl.quarantined()) for (Action a : actions) if (a instanceof DropKey k) {
-                RewardDelivery delivery=ctl.attempt().rewardDeliveries().get(k.rewardId());
+                RewardDelivery delivery=ctl.rewardDeliveries.get(k.rewardId());
                 if(delivery==null || !delivery.matches(ctl.attempt().attemptId,k.round(),k.ominous())) {ctl.isolate("missing or mismatched shared reward plan");break;}
                 if(!deliverReward(level,site,ctl,delivery))break;
             }
@@ -307,14 +316,15 @@ public final class ColosseumRuntime {
 
     /** Reconciles only identity-tagged reward entities. Ambiguous insertion is quarantined, never replayed. */
     static boolean reconcileRewards(ServerLevel level,ColosseumData.Site site,ArenaController ctl) {
-        ArenaAttempt attempt=ctl.attempt(); if(attempt==null || attempt.rewardDeliveries().isEmpty())return true;
+        if(ctl.rewardDeliveries.isEmpty())return true;
         boolean verifyAll=ArenaRecovery.rewardVerifying(ctl);
-        for(RewardDelivery delivery:attempt.rewardDeliveries().values()) {
+        for(RewardDelivery delivery:ctl.rewardDeliveries.values()) {
             if(!verifyAll && delivery.state==RewardDelivery.State.DELIVERED)continue;
+            if(!delivery.validPosition()) {ctl.isolate("shared reward plan has no verifiable world position");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
             List<ItemEntity> found=new ArrayList<>();
             String tag=TAG_REWARD+delivery.rewardId;
             for(Entity e:level.getAllEntities()) if(e instanceof ItemEntity item && item.isAlive() && item.entityTags().contains(tag))found.add(item);
-            if(found.size()==1 && (!validRewardEntity(found.getFirst(),attempt,delivery))) {ctl.isolate("shared reward entity disagrees with durable plan");return false;}
+            if(found.size()==1 && !validRewardEntity(found.getFirst(),delivery)) {ctl.isolate("shared reward entity disagrees with durable plan");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
             RewardDelivery.Reconcile result=delivery.reconcile(found.size());
             if(result==RewardDelivery.Reconcile.QUARANTINE) {ctl.isolate("shared reward delivery is ambiguous or duplicated: "+delivery.rewardId);ArenaRecovery.save(level.getServer(),ctl,false);return false;}
             if(result==RewardDelivery.Reconcile.RETRY) {
@@ -328,20 +338,19 @@ public final class ColosseumRuntime {
         return true;
     }
 
-    private static boolean validRewardEntity(ItemEntity entity,ArenaAttempt attempt,RewardDelivery delivery) {
+    private static boolean validRewardEntity(ItemEntity entity,RewardDelivery delivery) {
         String expected=delivery.itemId;
         boolean item=expected.equals("minecraft:ominous_trial_key") ? entity.getItem().is(Items.OMINOUS_TRIAL_KEY) : entity.getItem().is(Items.TRIAL_KEY);
         return item && entity.getItem().getCount()==1 && entity.getUUID().toString().equals(delivery.entityId)
-                && entity.entityTags().contains(TAG_ATTEMPT+attempt.attemptId);
+                && entity.entityTags().contains(TAG_ATTEMPT+delivery.challengeId);
     }
 
     private static boolean deliverReward(ServerLevel level,ColosseumData.Site site,ArenaController ctl,RewardDelivery delivery) {
-        ArenaAttempt attempt=ctl.attempt();
         List<ItemEntity> found=new ArrayList<>();
         for(Entity e:level.getAllEntities()) if(e instanceof ItemEntity item && item.isAlive() && item.entityTags().contains(TAG_REWARD+delivery.rewardId))found.add(item);
         if(found.size()>1) {ctl.isolate("duplicate shared reward entities: "+delivery.rewardId);ArenaRecovery.save(level.getServer(),ctl,false);return false;}
         if(found.size()==1) {
-            if(!validRewardEntity(found.getFirst(),attempt,delivery)) {ctl.isolate("shared reward entity identity/item mismatch");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
+            if(!validRewardEntity(found.getFirst(),delivery)) {ctl.isolate("shared reward entity identity/item mismatch");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
             RewardDelivery.Reconcile result=delivery.reconcile(1);
             if(result==RewardDelivery.Reconcile.QUARANTINE) {ctl.isolate("shared reward receipt conflicts with delivery plan");return false;}
             return ArenaRecovery.save(level.getServer(),ctl,false);
@@ -357,16 +366,15 @@ public final class ColosseumRuntime {
         if(collision!=null) {ctl.isolate("deterministic shared reward UUID is occupied");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
         ItemStack stack=new ItemStack(delivery.itemId.equals("minecraft:ominous_trial_key")?Items.OMINOUS_TRIAL_KEY:Items.TRIAL_KEY,1);
         boolean ominous=delivery.itemId.equals("minecraft:ominous_trial_key");
-        double x=ominous?attempt.bossDeathX:site.cx()+0.5, y=ominous?attempt.bossDeathY:site.floorY()+1.0, z=ominous?attempt.bossDeathZ:site.cz()+0.5;
-        ItemEntity item=new ItemEntity(level,x,y,z,stack);item.setUUID(entityId);
-        item.addTag(TAG_REWARD+delivery.rewardId);item.addTag(TAG_ATTEMPT+attempt.attemptId);
+        ItemEntity item=new ItemEntity(level,delivery.x,delivery.y,delivery.z,stack);item.setUUID(entityId);
+        item.addTag(TAG_REWARD+delivery.rewardId);item.addTag(TAG_ATTEMPT+delivery.challengeId);
         if(!level.addFreshEntity(item)) {ctl.isolate("shared reward entity insertion failed");ArenaRecovery.save(level.getServer(),ctl,false);return false;}
         // Persist the world side before recording completion on the independent controller side.
         level.getServer().saveEverything(true,true,true);
         delivery.delivered(entityId);
         if(!ArenaRecovery.save(level.getServer(),ctl,false))return false;
         data(level.getServer()).setDirty();
-        MoreMinecrafts.LOGGER.info("ST05 arena {} challenge {} reward {} entity {} recorded",site.id(),attempt.attemptId,delivery.rewardId,entityId);
+        MoreMinecrafts.LOGGER.info("ST05 arena {} challenge {} reward {} entity {} recorded",site.id(),delivery.challengeId,delivery.rewardId,entityId);
         return true;
     }
 
