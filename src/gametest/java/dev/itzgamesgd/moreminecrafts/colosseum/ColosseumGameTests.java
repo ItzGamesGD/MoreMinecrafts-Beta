@@ -79,7 +79,7 @@ public final class ColosseumGameTests {
 
         void killMobs() { for (Mob m : mobs()) if (m.isAlive()) m.kill(level); }
 
-        int keyItems() { return level.getEntitiesOfClass(ItemEntity.class, new AABB(cx - 3, FLOOR_Y - 1, cz - 3, cx + 3, FLOOR_Y + 3, cz + 3),
+        int keyItems() { return level.getEntitiesOfClass(ItemEntity.class, new AABB(cx - 8, FLOOR_Y - 1, cz - 8, cx + 8, FLOOR_Y + 3, cz + 8),
                 i -> i.getItem().is(Items.TRIAL_KEY)).stream().mapToInt(i -> i.getItem().getCount()).sum(); }
 
         void cleanup() {

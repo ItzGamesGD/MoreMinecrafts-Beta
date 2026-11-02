@@ -164,9 +164,10 @@ public final class ColosseumRuntime {
             for(Action action:actions)if(action instanceof DropKey k) {
                 RewardDelivery delivery=ctl.rewardDeliveries.get(k.rewardId());
                 if(delivery==null || !delivery.matches(ctl.attempt().attemptId,k.round(),k.ominous())) {ctl.isolate("missing or mismatched shared reward plan");return;}
-                double x=k.ominous()?ctl.attempt().bossDeathX:site.cx()+0.5;
+                double angle=2.0*Math.PI*(k.round()-1)/(RoundPlan.ROUNDS-1.0);
+                double x=k.ominous()?ctl.attempt().bossDeathX:site.cx()+0.5+3.0*Math.cos(angle);
                 double y=k.ominous()?ctl.attempt().bossDeathY:site.floorY()+1.0;
-                double z=k.ominous()?ctl.attempt().bossDeathZ:site.cz()+0.5;
+                double z=k.ominous()?ctl.attempt().bossDeathZ:site.cz()+0.5+3.0*Math.sin(angle);
                 if(!delivery.positionKnown)delivery.position(x,y,z);
                 else if(delivery.x!=x || delivery.y!=y || delivery.z!=z) {ctl.isolate("shared reward position changed after planning");return;}
             }
