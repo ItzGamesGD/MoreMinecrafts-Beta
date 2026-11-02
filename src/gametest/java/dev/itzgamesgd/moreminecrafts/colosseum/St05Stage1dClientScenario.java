@@ -35,7 +35,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
 
     /** Server-side observer, updated every server tick; client thread only reads it through runOnServer/computeOnServer. */
     static final class Stats {
-        int lastRound = -1; Phase lastPhase; long[] roundStart = new long[9], interStart = new long[9];
+        int traceEvents; int lastRound = -1; Phase lastPhase; long[] roundStart = new long[9], interStart = new long[9];
         int[] maxAlive = new int[9], replenished = new int[9], warnTicks = new int[9]; int maxWarnLeft; int prevAlive; int maxSimultaneousBosses;
         final Map<String, Integer> maxKeyEntities = new TreeMap<>(); final List<String> events = new ArrayList<>(); final List<String> warnPos = new ArrayList<>(); final Set<String> warnSeen = new HashSet<>(); int bossHits, bossDmgLogs; double bossHitRaw;
         boolean registered;
@@ -149,6 +149,14 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
             check("A0b arena registered with the runtime", site != null, site == null ? "missing" : Arrays.toString(site));
             if (site == null) throw new IllegalStateException("not registered");
             final int cx = site[0], cz = site[1], fy = site[2];
+            if (Boolean.getBoolean("mm.st05d.trace")) srv.runOnServer(s -> {
+                try {
+                    var tr = new dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05RealArenaBuilder.Tracer(s, state, ID, cx, cz, 40);
+                    log("trace armed", "cells=" + tr.size() + " wrongAtStart=" + tr.badNow());
+                    net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.AFTER.register((lvl, pl, pos, st, be) -> { if (STATS.traceEvents++ < 200) log("trace player-broke-block", "tick=" + s.getTickCount() + " pos=" + pos.getX() + "," + pos.getY() + "," + pos.getZ() + " state=" + st + " by=" + pl.getName().getString() + " held=" + pl.getMainHandItem().getItem()); });
+                    ServerTickEvents.END_SERVER_TICK.register(sv -> { if (sv.getTickCount() % 1 == 0) for (String ev : tr.tick(sv.overworld(), sv.getTickCount())) if (STATS.traceEvents++ < 200) log("trace block-changed", ev); });
+                } catch (Exception e) { log("trace armed FAILED", e.toString()); }
+            });
             srv.runOnServer(s -> { if (!STATS.registered) { STATS.registered = true; ServerTickEvents.END_SERVER_TICK.register(STATS::tick); { var ev = net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DAMAGE; var early = net.minecraft.resources.Identifier.fromNamespaceAndPath("mm", "st05d_early"); ev.addPhaseOrdering(early, net.fabricmc.fabric.api.event.Event.DEFAULT_PHASE);
                     ev.register(early, (e, src, amt) -> { if (e instanceof ImmortalGladiator && STATS.bossDmgLogs++ < 40) log("boss damage event", "src=" + src.getMsgId() + " by=" + (src.getEntity() == null ? "none" : src.getEntity().getType().toShortString()) + " amt=" + amt + " bossFrozen=" + ColosseumRuntime.combatFrozen(e) + " attackerFrozen=" + (src.getEntity() != null && ColosseumRuntime.combatFrozen(src.getEntity())) + " hp=" + ((ImmortalGladiator) e).getHealth()); return true; }); }
                     net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DAMAGE.register((e, src, amt) -> { if (e instanceof ServerPlayer && src.getEntity() instanceof ImmortalGladiator) { STATS.bossHits++; STATS.bossHitRaw += amt; } return true; }); } });
