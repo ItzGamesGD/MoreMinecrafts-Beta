@@ -34,7 +34,7 @@ jobs:
               reload) marker=ST05B_RESTART_RELOAD ;;
               verify) marker=ST05B_RESTART_VERIFY ;;
             esac
-            rg -F "$marker" "st05b-restart-$phase.log"
+            grep -F "$marker" "st05b-restart-$phase.log"
           done
       - uses: actions/upload-artifact@v4
         if: always()
