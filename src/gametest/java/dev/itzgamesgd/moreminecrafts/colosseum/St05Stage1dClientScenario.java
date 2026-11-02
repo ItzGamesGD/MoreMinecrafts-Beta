@@ -298,6 +298,11 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                     });
                     ctx.waitTicks(2);
                     boolean aimed = ctx.computeOnClient(c -> c.crosshairPickEntity instanceof ImmortalGladiator);
+                    if (tick % 10 == 0) {
+                        String cl = ctx.computeOnClient(c -> "grabbed=" + c.mouseHandler.isMouseGrabbed() + " atkScale=" + String.format("%.2f", c.player.getAttackStrengthScale(0f)) + " mainHand=" + c.player.getMainHandItem().getItem());
+                        String sv = srv.computeOnServer(s -> { var a = ctl(s).attempt(); var b = (ImmortalGladiator) s.overworld().getEntity(a.bossEntity); var pl = player(s); String sn = b.combatSnapshot(); int i = sn.indexOf("\"blocks\""); return "lastHurtMob=" + (pl.getLastHurtMob() == null ? "none" : pl.getLastHurtMob().getType().toShortString()) + " snapshot=" + (i >= 0 ? sn.substring(i, Math.min(sn.length(), i + 40)) : "?") + " mode=" + pl.gameMode() + " selected=" + pl.getInventory().getSelectedSlot(); });
+                        log("client/server click probe", cl + " | " + sv);
+                    }
                     clicks++; if (aimed) aimedClicks++;
                     if (tick % 10 == 0) log("boss fight sample", "tick=" + tick + " hp=" + info[0] + " dist=" + String.format("%.1f", info[4]) + " shield=" + (info[10] == 1) + " aimed/clicks=" + aimedClicks + "/" + clicks + " bossHitsOnPlayer=" + srv.computeOnServer(s -> STATS.bossHits + " raw=" + STATS.bossHitRaw));
                     ctx.getInput().pressMouse(0);
