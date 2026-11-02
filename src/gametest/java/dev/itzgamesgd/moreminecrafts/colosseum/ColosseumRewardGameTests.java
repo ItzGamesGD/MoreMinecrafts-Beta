@@ -147,7 +147,8 @@ public final class ColosseumRewardGameTests {
                         ctx.assertTrue(keys(a).size()==1,"second reconciliation does not duplicate");
                         System.out.println("ST05C_REWARD_VERIFY challenge="+challenge+" reward="+rewardId);
                     }
-                    a.cleanup();ctx.succeed();
+                    if(phase.equals("verify"))a.cleanup();
+                    ctx.succeed();
                 } catch(IOException e){throw new RuntimeException(e);}
             }
         });
