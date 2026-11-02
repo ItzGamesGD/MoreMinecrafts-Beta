@@ -117,8 +117,9 @@ public final class ColosseumRewardGameTests {
                 ArenaAttempt attempt=new ArenaAttempt(challenge,77);attempt.phase=ArenaAttempt.Phase.ENDED;attempt.outcome=ArenaAttempt.Outcome.SUCCESS;
                 attempt.round=1;attempt.keysAwarded.add(1);
                 RewardDelivery delivery=RewardDelivery.sharedKey(challenge,1,false);attempt.rewardDeliveries.put(delivery.rewardId,delivery);
-                a.ctl.attempt=attempt;a.ctl.lastOutcome=ArenaAttempt.Outcome.SUCCESS.name();
-                if(!ArenaRecovery.save(a.level.getServer(),a.ctl,false))throw new AssertionError("planned reward journal not saved");
+                ArenaController ctl=ColosseumRuntime.data(a.level.getServer()).controller(a.id);
+                ctl.attempt=attempt;ctl.lastOutcome=ArenaAttempt.Outcome.SUCCESS.name();
+                if(!ArenaRecovery.save(a.level.getServer(),ctl,false))throw new AssertionError("planned reward journal not saved");
                 ColosseumRuntime.data(a.level.getServer()).setDirty();
                 try {Files.createDirectories(fixture.toAbsolutePath().getParent());Files.writeString(fixture,challenge+"\n"+delivery.rewardId+"\n");}
                 catch(IOException e){throw new RuntimeException(e);}
@@ -129,10 +130,11 @@ public final class ColosseumRewardGameTests {
             } else if((phase.equals("reconcile") || phase.equals("verify")) && t==40) {
                 try {
                     var lines=Files.readAllLines(fixture);UUID challenge=UUID.fromString(lines.get(0));String rewardId=lines.get(1);
-                    ArenaAttempt attempt=a.ctl.attempt();
+                    ArenaController ctl=ColosseumRuntime.data(a.level.getServer()).controller(a.id);
+                    ArenaAttempt attempt=ctl.attempt();
                     ctx.assertTrue(attempt!=null && attempt.attemptId.equals(challenge),"same challenge ID after process restart");
                     ctx.assertTrue(attempt.keysAwarded.contains(1),"existing key history remains intact");
-                    ctx.assertTrue(attempt.outcome()==ArenaAttempt.Outcome.SUCCESS && a.ctl.lastOutcome().equals("SUCCESS"),"successful terminal state is preserved");
+                    ctx.assertTrue(attempt.outcome()==ArenaAttempt.Outcome.SUCCESS && ctl.lastOutcome().equals("SUCCESS"),"successful terminal state is preserved");
                     RewardDelivery delivery=attempt.rewardDeliveries.get(rewardId);
                     ctx.assertTrue(delivery!=null,"same reward ID survives restart");
                     if(phase.equals("reconcile")) {
@@ -143,7 +145,7 @@ public final class ColosseumRewardGameTests {
                     } else {
                         ctx.assertTrue(delivery.state==RewardDelivery.State.DELIVERED,"receipt survives a second restart");
                         ctx.assertTrue(keys(a).size()==1,"world contains exactly one shared key after second restart");
-                        ctx.assertTrue(ColosseumRuntime.reconcileRewards(a.level,a.site,a.ctl),"repeat reconciliation is safe");
+                        ctx.assertTrue(ColosseumRuntime.reconcileRewards(a.level,a.site,ctl),"repeat reconciliation is safe");
                         ctx.assertTrue(keys(a).size()==1,"second reconciliation does not duplicate");
                         System.out.println("ST05C_REWARD_VERIFY challenge="+challenge+" reward="+rewardId);
                     }
