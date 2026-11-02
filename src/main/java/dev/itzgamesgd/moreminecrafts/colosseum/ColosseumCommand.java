@@ -39,6 +39,7 @@ final class ColosseumCommand {
                             ArenaController k = d.controller(StringArgumentType.getString(c, "id"));
                             if (k == null || !k.quarantined()) return 0;
                             k.release();
+                            if(!ArenaRecovery.save(c.getSource().getServer(),k,false))return 0;
                             d.setDirty();
                             return 1;
                         })))));

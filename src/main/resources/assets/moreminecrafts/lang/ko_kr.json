@@ -1073,5 +1073,6 @@
   "item.moreminecrafts.etherium_shard": "이더리움 파편",
   "item.moreminecrafts.etherium_ingot": "이더리움 주괴",
   "item.moreminecrafts.gale_shard": "돌풍 파편",
-  "item.moreminecrafts.sky_feather": "천공의 깃털"
+  "item.moreminecrafts.sky_feather": "천공의 깃털",
+  "entity.moreminecrafts.immortal_gladiator": "불멸의 검투사"
 }

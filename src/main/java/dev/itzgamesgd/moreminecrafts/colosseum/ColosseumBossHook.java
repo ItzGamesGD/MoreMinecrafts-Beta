@@ -3,9 +3,8 @@ package dev.itzgamesgd.moreminecrafts.colosseum;
 import net.minecraft.server.level.ServerLevel;
 
 /**
- * Round 7 connection interface. The Immortal Gladiator entity and its combat are a later bounded task; the controller only requests the boss
- * once, locks its HP from the round-7 participant count, and waits for the normal-kill callback. With no provider registered the attempt simply
- * waits in round 7 (bounded by the 65-minute cap).
+ * Round 7 connection interface, fulfilled by GladiatorBossProvider and ImmortalGladiator. The controller requests one attempt-bound boss,
+ * locks its HP from the round-7 participant count and completes only through the verified normal-death callback.
  */
 public final class ColosseumBossHook {
     private ColosseumBossHook() {}

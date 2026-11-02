@@ -81,10 +81,12 @@
       "dev.itzgamesgd.moreminecrafts.bounty.ContractExplorationGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractPricingGameTests",
       "dev.itzgamesgd.moreminecrafts.worldgen.AncientCityArenaGameTests",
+      "dev.itzgamesgd.moreminecrafts.colosseum.ColosseumCombatGameTests",
       "dev.itzgamesgd.moreminecrafts.colosseum.ColosseumGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.SkullProtocolAssumptionGameTests"
     ],
     "fabric-client-gametest": [
+      "dev.itzgamesgd.moreminecrafts.colosseum.GladiatorClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryClientLifecycleGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryVisualClientGameTest",

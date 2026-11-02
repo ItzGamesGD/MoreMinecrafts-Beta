@@ -1154,5 +1154,6 @@
   "item.moreminecrafts.etherium_shard": "Etherium Shard",
   "item.moreminecrafts.etherium_ingot": "Etherium Ingot",
   "item.moreminecrafts.gale_shard": "Gale Shard",
-  "item.moreminecrafts.sky_feather": "Sky Feather"
+  "item.moreminecrafts.sky_feather": "Sky Feather",
+  "entity.moreminecrafts.immortal_gladiator": "Immortal Gladiator"
 }

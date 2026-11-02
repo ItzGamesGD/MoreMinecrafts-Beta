@@ -182,8 +182,9 @@ class ArenaAttemptTest {
         Sim s = started(A);
         s.inside.clear();
         s.tick();
-        s.now = s.c.attempt().startMillis + RoundPlan.LIMIT_MILLIS - 60_000;   // the grace restarts later than the cap would end
-        s.inside.add(A); s.tick(); s.inside.clear(); s.tick();
+        s.inside.add(A); s.tick(); // Return before the FIRST grace expires.
+        s.now = s.c.attempt().startMillis + RoundPlan.LIMIT_MILLIS - 60_000;
+        s.inside.clear(); s.tick(); // This new grace expires after the cap.
         assertTrue(s.c.attempt().graceExpiryMillis() > s.c.attempt().startMillis + RoundPlan.LIMIT_MILLIS);
         s.now = s.c.attempt().startMillis + RoundPlan.LIMIT_MILLIS + 1;
         s.tick();

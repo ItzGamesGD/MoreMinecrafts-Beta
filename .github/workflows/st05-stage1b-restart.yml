@@ -1,0 +1,43 @@
+name: ST05 Stage 1-B boss restart persistence
+on:
+  pull_request:
+    paths:
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/mixin/ColosseumMobPauseMixin.java'
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - '.github/workflows/st05-stage1b-restart.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Boss survives restart and completion cannot pay twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          for phase in write reload verify; do
+            JAVA_TOOL_OPTIONS="-Dfabric-api.gametest.filter=moreminecrafts-gametest:colosseum_combat_game_tests_boss_and_completion_survive_three_real_server_processes -Dmoreminecrafts.st05b.restart.phase=$phase -Dmoreminecrafts.st05b.restart.file=$GITHUB_WORKSPACE/build/st05b-restart.txt" \
+              ./gradlew runGameTest --no-daemon 2>&1 | tee "st05b-restart-$phase.log"
+            case "$phase" in
+              write) marker=ST05B_RESTART_WRITE ;;
+              reload) marker=ST05B_RESTART_RELOAD ;;
+              verify) marker=ST05B_RESTART_VERIFY ;;
+            esac
+            rg -F "$marker" "st05b-restart-$phase.log"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st05-stage1b-restart-evidence
+          path: st05b-restart-*.log

@@ -42,11 +42,23 @@ import net.minecraft.world.phys.AABB;
 public final class ColosseumRuntime {
     private ColosseumRuntime() {}
 
+    public static final String TAG_BOSS = "mm_st05_boss", TAG_PROJECTILE="mm_st05_projectile";
     public static final String TAG_ATTEMPT = "mm_st05_attempt:", TAG_ALLOC = "mm_st05_alloc:";
     /** Test-only: shortens the wall-clock limit / grace (system properties, never set in production). */
     private static final String PROP_LIMIT = "moreminecrafts.st05.limitMillis", PROP_GRACE = "moreminecrafts.st05.graceMillis";
 
     public static void initialize() {
+        ArenaChunkTickets.initialize();
+        ArenaNaturalBlocks.initialize();
+        ArenaSupplyOwnership.initialize();
+        GladiatorEntities.initialize();
+        ColosseumBossHook.register(new GladiatorBossProvider());
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
+            ArenaChunkTickets.clear(server.overworld()); ArenaRecovery.close(server);
+        });
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> !combatFrozen(entity)
+                && (source.getEntity()==null || !combatFrozen(source.getEntity()))
+                && (source.getDirectEntity()==null || !combatFrozen(source.getDirectEntity())));
         ServerTickEvents.END_SERVER_TICK.register(ColosseumRuntime::tick);
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> onDeath(entity));
         ServerEntityEvents.ENTITY_UNLOAD.register((entity, level) -> onUnload(entity, level));
@@ -70,7 +82,7 @@ public final class ColosseumRuntime {
     }
 
     // ------------------------------------------------------------------ events
-    private static boolean tracked(Entity e) { return e.entityTags().stream().anyMatch(t -> t.startsWith(TAG_ALLOC)); }
+    private static boolean tracked(Entity e) { return e.entityTags().contains(TAG_BOSS) || e.entityTags().contains(TAG_PROJECTILE) || e.entityTags().stream().anyMatch(t -> t.startsWith(TAG_ALLOC)); }
 
     private static void onDeath(net.minecraft.world.entity.LivingEntity entity) {
         if (entity.level().isClientSide() || !(entity.level() instanceof ServerLevel level)) return;
@@ -78,6 +90,14 @@ public final class ColosseumRuntime {
         if (d.sites().isEmpty()) return;
         if (entity instanceof ServerPlayer p) {
             for (String id : d.sites().keySet()) d.controller(id).onPlayerDeath(p.getUUID());
+        } else if (entity instanceof ImmortalGladiator boss) {
+            for (String id : d.sites().keySet()) {
+                var c=d.controller(id);var a=c.attempt();
+                if(c.active() && entity.getUUID().equals(a.bossEntity) && a.attemptId.equals(boss.attemptId()) && !combatFrozen(entity)) {
+                    a.bossDeathX=entity.getX();a.bossDeathY=entity.getY();a.bossDeathZ=entity.getZ();
+                    a.onBossDefeated();d.setDirty();
+                }
+            }
         } else if (tracked(entity)) {
             for (String id : d.sites().keySet()) d.controller(id).onMobKilled(entity.getUUID());
         }
@@ -94,12 +114,18 @@ public final class ColosseumRuntime {
     }
 
     private static void onLoad(Entity entity) {
-        if (!(entity.level() instanceof ServerLevel level) || !tracked(entity)) return;
+        if (!(entity.level() instanceof ServerLevel level)) return;
+        inheritProjectileOwner(entity);
+        if(!tracked(entity))return;
         ColosseumData d = data(level.getServer());
         for (String t : entity.entityTags()) {
             if (!t.startsWith(TAG_ATTEMPT)) continue;
-            UUID attempt = UUID.fromString(t.substring(TAG_ATTEMPT.length()));
-            for (String id : d.sites().keySet()) if (d.controller(id).cleanupAttempts().contains(attempt)) { entity.discard(); return; }
+            UUID attempt;
+            try { attempt=UUID.fromString(t.substring(TAG_ATTEMPT.length())); } catch(IllegalArgumentException e) { continue; }
+            for (String id : d.sites().keySet()) {
+                var c=d.controller(id);
+                if(c.cleanupAttempts().contains(attempt) || (entity instanceof ImmortalGladiator && c.attempt()!=null && c.attempt().attemptId.equals(attempt) && c.attempt().outcome()==Outcome.TIMED_OUT)) { entity.discard(); return; }
+            }
         }
     }
 
@@ -109,7 +135,10 @@ public final class ColosseumRuntime {
         ColosseumData d = data(server);
         if (d.sites().isEmpty()) return;
         long now = ColosseumData.clock.getAsLong();
+        for(String id:d.sites().keySet()) ArenaRecovery.open(server,d,id,now);
+        ArenaChunkTickets.update(level,d);
         for (ColosseumData.Site site : d.sites().values()) tickSite(level, d, site, now);
+        ArenaChunkTickets.update(level,d);
     }
 
     static void tickSite(ServerLevel level, ColosseumData d, ColosseumData.Site site, long now) {
@@ -122,12 +151,20 @@ public final class ColosseumRuntime {
             if (g.contains(b.getX(), b.getY(), b.getZ())) inside.add(p.getUUID());
         }
         boolean wasActive = ctl.active();
-        boolean loaded = !ctl.active() || entitiesLoaded(level, g);
+        boolean hadCooldown=ctl.cooldownLeft()>0, hadCleanup=ctl.attempt()!=null && ctl.attempt().cleanupPending;
+        boolean loaded = !ctl.active() || entitiesLoaded(level, g) && allocationChunksLoaded(level,ctl.attempt());
         if (ctl.active() && loaded) reconcile(level, ctl);
+        if(ctl.quarantined()) {d.setDirty();return;}
         List<Action> actions = ctl.tick(now, inside, loaded, alloc -> position(level, g, alloc));
         if (ctl.active() && ctl.attempt() != null) for (Alloc a : ctl.attempt().allocations()) if (a.status == AllocStatus.WARNING && a.warnLeft % 4 == 0)
             level.sendParticles(ParticleTypes.END_ROD, a.px + 0.5, a.py + 0.2, a.pz + 0.5, 3, 0.2, 0.4, 0.2, 0.01);
-        for (Action a : actions) execute(level, site, ctl, a);
+        if(!actions.isEmpty()) {
+            if(ctl.attempt().ended()) ctl.attempt().cleanupPending=true;
+            if(!ArenaRecovery.save(level.getServer(),ctl,true))return;
+            for (Action a : actions) { execute(level, site, ctl, a); if(ctl.quarantined())break; }
+        }
+        if(ctl.attempt()!=null && ctl.attempt().cleanupPending && !ctl.quarantined()) finishCleanup(level,site,ctl);
+        if(!ctl.quarantined() && (ctl.active() || wasActive || hadCooldown || hadCleanup || !actions.isEmpty())) ArenaRecovery.save(level.getServer(),ctl,false);
         if (wasActive || ctl.active() || !actions.isEmpty()) d.setDirty();
     }
 
@@ -138,15 +175,80 @@ public final class ColosseumRuntime {
         return true;
     }
 
-    /** Spawned allocations whose entity is confirmed gone (all arena entities loaded, no entity) are real losses and return to pending. */
+    static boolean allocationChunksLoaded(ServerLevel level,ArenaAttempt a) {
+        for(Alloc al:a.allocations()) if(al.status==AllocStatus.SPAWNED && al.chunkKnown && !level.areEntitiesLoaded(al.lastChunk))return false;
+        return !a.bossChunkKnown || level.areEntitiesLoaded(a.bossChunk);
+    }
+
+    /** Every allocation is matched by attempt+allocation identity, not just a spatial scan or an unloaded UUID lookup. */
     static void reconcile(ServerLevel level, ArenaController ctl) {
-        ArenaAttempt a = ctl.attempt();
-        if (a == null) return;
-        for (Alloc al : a.allocations()) {
-            if (al.status != AllocStatus.SPAWNED || al.entity == null) continue;
-            Entity e = level.getEntity(al.entity);
-            if (e == null || !e.isAlive()) ctl.onMobLost(al.entity);
+        ArenaAttempt a=ctl.attempt(); if(a==null)return;
+        java.util.Map<String,List<Entity>> tagged=new java.util.HashMap<>();
+        String owner=TAG_ATTEMPT+a.attemptId;
+        for(Entity e:level.getAllEntities()) if(e.isAlive() && e.entityTags().contains(owner)) {
+            if(e instanceof ImmortalGladiator) {
+                if(a.bossEntity==null || !e.getUUID().equals(a.bossEntity)) {ctl.isolate("unexpected or duplicate boss identity");return;}
+                a.bossChunk=ChunkPos.pack(e.blockPosition());a.bossChunkKnown=true;
+                continue;
+            }
+            for(String t:e.entityTags()) if(t.startsWith(TAG_ALLOC)) tagged.computeIfAbsent(t,k->new ArrayList<>()).add(e);
         }
+        for(Alloc al:a.allocations()) {
+            List<Entity> found=tagged.remove(TAG_ALLOC+al.id);
+            if(found!=null && found.size()>1) {ctl.isolate("duplicate world allocation "+al.id);return;}
+            Entity e=found==null?null:found.getFirst();
+            if(e!=null) {
+                String mob=al.mob.replace("#baby","");
+                if(!BuiltInRegistries.ENTITY_TYPE.getKey(e.getType()).toString().equals(mob) || al.entity!=null && !al.entity.equals(e.getUUID())) {ctl.isolate("allocation entity/type mismatch");return;}
+                if(al.status==AllocStatus.WARNING) a.spawnResult(al,e.getUUID());
+                else if(al.status!=AllocStatus.SPAWNED && e.isAlive()) {ctl.isolate("unplanned live entity for "+al.status);return;}
+                al.lastChunk=ChunkPos.pack(e.blockPosition());al.chunkKnown=true;
+            }
+            if(al.status!=AllocStatus.SPAWNED)continue;
+            Entity bound=level.getEntity(al.entity);
+            if(bound!=null && bound.isAlive() && e==null) {ctl.isolate("bound entity missing ownership tags");return;}
+            if(bound==null || !bound.isAlive()) {
+                if(ArenaRecovery.verifying(ctl)) {ctl.isolate("saved entity absent/dead after restart; independent saves cannot establish a loss");return;}
+                if(!al.chunkKnown) {ctl.isolate("missing entity without verified last chunk");return;}
+                if(level.areEntitiesLoaded(al.lastChunk))ctl.onMobLost(al.entity);
+            }
+        }
+        if(!tagged.isEmpty()) {ctl.isolate("world entity has no allocation in saved plan");return;}
+        if(a.bossEntity!=null && !a.bossDefeated) {
+            Entity boss=level.getEntity(a.bossEntity);
+            if(!(boss instanceof ImmortalGladiator b) || !a.attemptId.equals(b.attemptId()) || !boss.isAlive()) {ctl.isolate("bound boss missing or inconsistent");return;}
+            if(ArenaRecovery.verifying(ctl) && (a.bossHealth>=0 && a.bossHealth!=b.getHealth() || a.bossState!=null && !a.bossState.isEmpty() && !a.bossState.equals(b.combatSnapshot()))) {ctl.isolate("boss HP/combat journal disagrees with entity save");return;}
+            a.bossHealth=b.getHealth();a.bossState=b.combatSnapshot();
+        }
+        ArenaRecovery.verified(ctl);
+    }
+
+    private static void inheritProjectileOwner(Entity entity) {
+        if(!(entity instanceof net.minecraft.world.entity.projectile.Projectile projectile) || entity.entityTags().contains(TAG_PROJECTILE))return;
+        Entity owner=projectile.getOwner();if(owner==null || owner==entity || !tracked(owner))return;
+        for(String tag:owner.entityTags()) if(tag.startsWith(TAG_ATTEMPT))entity.addTag(tag);
+        entity.addTag(TAG_PROJECTILE);
+    }
+
+    /** Freeze only arena-owned combat, including HP, while absent/unverified/isolated. Vanilla and other entities remain unaffected. */
+    public static boolean combatFrozen(Entity entity) {
+        if(!(entity.level() instanceof ServerLevel l))return false;
+        inheritProjectileOwner(entity);
+        if(!tracked(entity))return false;
+        ColosseumData d=data(l.getServer());
+        for(String id:d.sites().keySet()) {
+            ArenaController c=d.controller(id);ArenaAttempt a=c.attempt();
+            if(a==null || !entity.entityTags().contains(TAG_ATTEMPT+a.attemptId))continue;
+            if(c.quarantined())return true;
+            if(!c.active())return false;
+            if(ArenaRecovery.verifying(c) || !entitiesLoaded(l,d.sites().get(id).geometry()) || !allocationChunksLoaded(l,a))return true;
+            for(ServerPlayer p:l.players()) {
+                Member m=a.member(p.getUUID());BlockPos pos=p.blockPosition();
+                if(m!=null && !m.dead && p.isAlive() && !p.isSpectator() && d.sites().get(id).geometry().contains(pos.getX(),pos.getY(),pos.getZ()))return false;
+            }
+            return true;
+        }
+        return true; // owned orphan: cannot safely act until reconciliation
     }
 
     // ------------------------------------------------------------------ spawn position (12-24 annulus around the fixed centre)
@@ -186,7 +288,8 @@ public final class ColosseumRuntime {
             case SpawnNow s -> spawn(level, site, attempt, s.alloc());
             case DropKey k -> {
                 ItemStack key = new ItemStack(k.ominous() ? Items.OMINOUS_TRIAL_KEY : Items.TRIAL_KEY);
-                level.addFreshEntity(new ItemEntity(level, cx, site.floorY() + 1.0, cz, key));
+                double kx=k.ominous()?attempt.bossDeathX:cx, ky=k.ominous()?attempt.bossDeathY:site.floorY()+1.0, kz=k.ominous()?attempt.bossDeathZ:cz;
+                if(!level.addFreshEntity(new ItemEntity(level, kx, ky, kz, key)))ctl.isolate("key insertion failed; no automatic regrant");
                 MoreMinecrafts.LOGGER.info("ST05 arena {} attempt {} wave {} key awarded", site.id(), attempt.attemptId, k.round());
             }
             case SupplyChests c -> placeSupplies(level, site, attempt, c);
@@ -214,6 +317,7 @@ public final class ColosseumRuntime {
         // Crash-window guard: an entity already carrying this allocation's tag is adopted instead of spawning a second one.
         AABB box = new AABB(site.cx() - 40, site.floorY() - 5, site.cz() - 40, site.cx() + 40, site.floorY() + 30, site.cz() + 40);
         List<Mob> existing = level.getEntitiesOfClass(Mob.class, box, m -> m.entityTags().contains(allocTag));
+        if (existing.size()>1) { data(level.getServer()).controller(site.id()).isolate("duplicate spawn allocation"); return; }
         if (!existing.isEmpty()) { attempt.spawnResult(alloc, existing.get(0).getUUID()); return; }
         Optional<Mob> created = create(level, alloc.mob);
         if (created.isEmpty()) { attempt.spawnResult(alloc, null); MoreMinecrafts.LOGGER.warn("ST05 cannot create {}", alloc.mob); return; }
@@ -234,6 +338,7 @@ public final class ColosseumRuntime {
         if (nearest != null) mob.setTarget(nearest);   // spawn-correction seeding only; native AI does the rest
         if (!level.addFreshEntity(mob)) { attempt.spawnResult(alloc, null); return; }
         attempt.spawnResult(alloc, mob.getUUID());
+        alloc.lastChunk=ChunkPos.pack(mob.blockPosition());alloc.chunkKnown=true;
     }
 
     static void placeSupplies(ServerLevel level, ColosseumData.Site site, ArenaAttempt attempt, SupplyChests c) {
@@ -245,6 +350,7 @@ public final class ColosseumRuntime {
             if (!level.hasChunkAt(pos) || !spawnable(level, pos) || attempt.supplyChests.contains(pos.asLong())) continue;
             level.setBlock(pos, Blocks.CHEST.defaultBlockState(), 3);
             if (level.getBlockEntity(pos) instanceof ChestBlockEntity chest) {
+                ArenaSupplyOwnership.mark(chest,attempt.attemptId.toString());
                 chest.setItem(0, new ItemStack(Items.COOKED_BEEF, 8));
                 chest.setItem(1, new ItemStack(Items.ARROW, 16));
                 chest.setItem(2, new ItemStack(Items.GOLDEN_APPLE, 1));
@@ -256,23 +362,31 @@ public final class ColosseumRuntime {
     }
 
     static void end(ServerLevel level, ColosseumData.Site site, ArenaController ctl, ArenaAttempt attempt, End e) {
+        attempt.cleanupPending=e.outcome()!=Outcome.QUARANTINED;
         MoreMinecrafts.LOGGER.info("ST05 arena {} attempt {} ended {} at round {}", site.id(), attempt.attemptId, e.outcome(), attempt.round());
-        if (e.outcome() == ArenaAttempt.Outcome.TIMED_OUT) {
-            ColosseumBossHook.Provider p = ColosseumBossHook.provider();
-            if (p != null) p.vanish(level, site, attempt);
-        }
-        if (!e.cleanup()) return;
-        // Remove only this trial's own mobs (no loot, no XP) and its generated supply chests; never unrelated entities or blocks.
-        String tag = TAG_ATTEMPT + attempt.attemptId;
-        AABB box = new AABB(site.cx() - 40, site.floorY() - 5, site.cz() - 40, site.cx() + 40, site.floorY() + 30, site.cz() + 40);
-        for (Mob m : level.getEntitiesOfClass(Mob.class, box, m -> m.entityTags().contains(tag))) m.discard();
-        for (long packed : new ArrayList<>(attempt.supplyChests)) {
-            BlockPos pos = BlockPos.of(packed);
-            if (level.hasChunkAt(pos) && level.getBlockState(pos).is(Blocks.CHEST)) {
-                level.removeBlockEntity(pos);
-                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2 | 16);
+        if(e.outcome()!=Outcome.QUARANTINED && ArenaRecovery.saveCleanup(level.getServer(),ctl))finishCleanup(level,site,ctl);
+    }
+
+    static void finishCleanup(ServerLevel level,ColosseumData.Site site,ArenaController ctl) {
+        ArenaAttempt a=ctl.attempt();
+        if(!entitiesLoaded(level,site.geometry()) || !allocationChunksLoaded(level,a))return;
+        if(!ArenaRecovery.saveCleanup(level.getServer(),ctl))return;
+        if(a.outcome()==Outcome.TIMED_OUT) {
+            ColosseumBossHook.provider().vanish(level,site,a);
+        } else if(a.outcome()!=Outcome.QUARANTINED) {
+            String owner=TAG_ATTEMPT+a.attemptId;
+            // Entity removal mutates the live lookup; collect first so back-shifting iterators cannot skip remaining mobs.
+            List<Entity> owned=new ArrayList<>();
+            for(Entity e:level.getAllEntities()) if((e instanceof Mob || e instanceof net.minecraft.world.entity.projectile.Projectile) && e.entityTags().contains(owner))owned.add(e);
+            for(Entity e:owned)e.discard();
+            for(long packed:new ArrayList<>(a.supplyChests)) {
+                BlockPos p=BlockPos.of(packed);if(!level.hasChunkAt(p))continue;
+                if(level.getBlockState(p).is(Blocks.CHEST) && ArenaSupplyOwnership.owned(level.getBlockEntity(p),a.attemptId.toString())) {level.removeBlockEntity(p);level.setBlock(p,Blocks.AIR.defaultBlockState(),18);}
+                a.supplyChests.remove(packed);
             }
         }
-        attempt.supplyChests.clear();
+        ArenaTerrain.restore(level,ctl);
+        if(!ctl.quarantined() && a.terrain.pending.isEmpty() && (a.outcome()==Outcome.TIMED_OUT || a.supplyChests.isEmpty()))a.cleanupPending=false;
     }
+
 }

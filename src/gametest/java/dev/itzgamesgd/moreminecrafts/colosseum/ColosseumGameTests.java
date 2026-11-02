@@ -34,7 +34,7 @@ public final class ColosseumGameTests {
     private static final int FLOOR_Y = 150;
 
     /** A constructed-arena stand-in with the Stage 0-F interior geometry: flat floor radius 29, roofed so sunlight never burns trial mobs. */
-    private static final class Arena {
+    static final class Arena {
         final ServerLevel level; final String id; final int cx, cz; final ColosseumData.Site site; final ArenaController ctl;
         final List<ServerPlayer> players = new ArrayList<>();
 
@@ -42,6 +42,7 @@ public final class ColosseumGameTests {
             level = ctx.getLevel();
             cx = 6000 + idx * 200; cz = 6000; id = "gt" + idx;
             for (int x = (cx - 34) >> 4; x <= (cx + 34) >> 4; x++) for (int z = (cz - 34) >> 4; z <= (cz + 34) >> 4; z++) level.setChunkForced(x, z, true);
+            if (!ColosseumRuntime.data(level.getServer()).sites().containsKey(id))
             for (int dx = -33; dx <= 33; dx++) for (int dz = -33; dz <= 33; dz++) {
                 if (dx * dx + dz * dz > 33 * 33) continue;
                 BlockPos f = new BlockPos(cx + dx, FLOOR_Y - 1, cz + dz);
@@ -82,6 +83,8 @@ public final class ColosseumGameTests {
                 i -> i.getItem().is(Items.TRIAL_KEY)).stream().mapToInt(i -> i.getItem().getCount()).sum(); }
 
         void cleanup() {
+            // End test ownership as well as vanilla forced chunks; production combat tickets otherwise retain completed fixtures until grace expires.
+            var data=ColosseumRuntime.data(level.getServer());data.sites().remove(id);data.setDirty();
             for (ServerPlayer p : players) level.getServer().getPlayerList().remove(p);
             for (Mob m : mobs()) m.discard();
             for (int x = (cx - 34) >> 4; x <= (cx + 34) >> 4; x++) for (int z = (cz - 34) >> 4; z <= (cz + 34) >> 4; z++) level.setChunkForced(x, z, false);
@@ -95,6 +98,11 @@ public final class ColosseumGameTests {
     public void entryIsDetectedOnlyInsideTheArenaInteriorAndStartsRoundOne(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 1, LONG);
         ServerPlayer p = a.player("entry");
+        java.util.Map<UUID,net.minecraft.world.phys.Vec3> spawnPositions=new java.util.HashMap<>();
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents.ENTITY_LOAD.register((entity,world)->{
+            if(world==a.level && entity instanceof Mob && entity.entityTags().stream().anyMatch(tag->tag.startsWith(ColosseumRuntime.TAG_ALLOC)))
+                spawnPositions.putIfAbsent(entity.getUUID(),entity.position());
+        });
         AtomicInteger step = new AtomicInteger();
         ctx.onEachTick(() -> {
             int t = step.incrementAndGet();
@@ -109,8 +117,10 @@ public final class ColosseumGameTests {
                 long spawned = a.attempt().count(AllocStatus.SPAWNED);
                 ctx.assertTrue(spawned > 0 && spawned <= 12, "mobs spawned after the 1 s warning, within the 12-alive cap: " + spawned);
                 for (Mob m : a.mobs()) {
-                    double r = Math.hypot(m.getX() - (a.cx + 0.5), m.getZ() - (a.cz + 0.5));
-                    ctx.assertTrue(r >= 11.0 && r <= 25.5, "spawn lies in the 12-24 annulus, was " + r);
+                    var spawnedAt=spawnPositions.get(m.getUUID());
+                    ctx.assertTrue(spawnedAt!=null,"actual entity-load spawn position observed");
+                    double r = Math.hypot(spawnedAt.x - (a.cx + 0.5), spawnedAt.z - (a.cz + 0.5));
+                    ctx.assertTrue(r >= 11.0 && r <= 25.5, "initial spawn lies in the 12-24 annulus (pursuit may leave it), was " + r);
                 }
                 ctx.assertTrue(a.mobs().size() == spawned, "exactly the persisted spawned allocations exist in the world");
                 a.cleanup();
@@ -248,13 +258,16 @@ public final class ColosseumGameTests {
 
     @GameTest(maxTicks = 6000)
     public void wallClockLimitTimesOutAndLeavesOrdinaryMobs(GameTestHelper ctx) {
-        Arena a = new Arena(ctx, 7, new RoundPlan.Timing(5_000, RoundPlan.GRACE_MILLIS));
+        Arena a = new Arena(ctx, 7, LONG);
         ServerPlayer p = a.player("limit");
         AtomicInteger step = new AtomicInteger();
         ctx.onEachTick(() -> {
             int t = step.incrementAndGet();
             if (t == 3) a.at(p, 4, 4);
-            if (t == 40) ctx.assertTrue(!a.mobs().isEmpty(), "mobs exist");
+            if (t == 40) {
+                ctx.assertTrue(!a.mobs().isEmpty(), "mobs exist before expiry");
+                a.ctl.setTiming(new RoundPlan.Timing(1, RoundPlan.GRACE_MILLIS)); // Arm expiry only after setup/spawning, independent of CI machine speed.
+            }
             if (t > 40 && a.attempt().ended()) {
                 ctx.assertTrue(a.attempt().outcome() == Outcome.TIMED_OUT, "time-out after the limit, got " + a.attempt().outcome());
                 ctx.assertTrue(!a.mobs().isEmpty(), "ordinary trial mobs are left in place on time-out (Q116)");

@@ -66,6 +66,7 @@ public final class ColosseumData extends SavedData {
 
     public Map<String, Site> sites() { return sites; }
     public ArenaController controller(String id) { return controllers.get(id); }
+    void replaceController(String id, ArenaController c) { controllers.put(id,c); setDirty(); }
 
     /** Idempotent: a repeated registration of the same id never replaces geometry or state. Returns true if newly registered. */
     public boolean register(String id, int cx, int cz, int floorY) {

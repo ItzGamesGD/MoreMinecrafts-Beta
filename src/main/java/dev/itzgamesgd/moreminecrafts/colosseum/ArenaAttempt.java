@@ -34,6 +34,8 @@ public final class ArenaAttempt {
         public int warnLeft;
         public int px, py, pz;
         public UUID entity;
+        public long lastChunk;
+        public boolean chunkKnown;
         Alloc(UUID id, String mob) { this.id = id; this.mob = mob; }
     }
 
@@ -71,6 +73,13 @@ public final class ArenaAttempt {
     long onlineTicks;
     int intermissionLeft, blockedTicks, peak;
     boolean bossRequested, bossDefeated;
+    UUID bossEntity;
+    long bossChunk;
+    boolean bossChunkKnown, cleanupPending;
+    double bossDeathX, bossDeathY, bossDeathZ;
+    float bossHealth=-1;
+    String bossState="";
+    TerrainLedger terrain = new TerrainLedger();
     final Map<UUID, Member> roster = new LinkedHashMap<>();
     final Map<UUID, Integer> pending = new LinkedHashMap<>();
     Snapshot snap;
@@ -172,6 +181,7 @@ public final class ArenaAttempt {
 
         // 4. wall-clock limits: whichever of the 65-minute cap and the grace expires first wins
         RoundPlan.Timing t = timing;
+        if (graceExpiryMillis > 0 && graceExpiryMillis <= startMillis + t.limitMillis() && nowMillis >= graceExpiryMillis) { end(Outcome.ABSENCE_EXPIRED, true, out); return out; }
         if (nowMillis - startMillis >= t.limitMillis()) { end(Outcome.TIMED_OUT, false, out); return out; }
         if (!roster.isEmpty() && allDead) { end(Outcome.WIPE, true, out); return out; }
         if (present == 0) {
@@ -180,6 +190,7 @@ public final class ArenaAttempt {
         } else graceExpiryMillis = 0;
 
         boolean paused = present == 0;
+        if (!obs.entitiesLoaded()) return out;  // Hold queued events AND every arena-owned timer until the world is verified.
         processMobEvents(present > 0);
         if (paused) return out;           // arena-owned timers freeze; 65 min and the grace keep elapsing on the wall clock
 
@@ -254,7 +265,7 @@ public final class ArenaAttempt {
         if (!bossRequested) { bossRequested = true; out.add(new BossStart(snap.n(), RoundPlan.bossMaxHp(snap.n()))); }
         if (bossDefeated) {
             award(round, true, out);
-            end(Outcome.SUCCESS, false, out);
+            end(Outcome.SUCCESS, true, out);
         }
     }
 

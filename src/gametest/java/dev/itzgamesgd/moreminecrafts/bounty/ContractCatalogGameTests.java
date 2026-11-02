@@ -85,9 +85,9 @@ public final class ContractCatalogGameTests implements CustomTestMethodInvoker {
         accounted.addAll(ContractCatalog.MM_EXCLUDED);
         accounted.addAll(ContractCatalog.MM_PENDING_VERIFICATION);
         List<String> registered = new ArrayList<>();
-        // The unique Tomb Guardian boss and its telegraph display are not ordinary-roster mobs; contracts draw
-        // only from the explicit approved lists above, so these two types are outside this roster census.
-        List<String> outsideRoster = List.of("moreminecrafts:tomb_guardian", "moreminecrafts:tomb_vfx", "moreminecrafts:tomb_statue_collider");
+        // Dedicated encounter bosses/displays are outside the approved ordinary contract roster.
+        List<String> outsideRoster = List.of("moreminecrafts:tomb_guardian", "moreminecrafts:tomb_vfx", "moreminecrafts:tomb_statue_collider", "moreminecrafts:immortal_gladiator");
+        ctx.assertTrue(allCombatMobs().stream().noneMatch(m -> m.id().equals("moreminecrafts:immortal_gladiator")), "arena boss is never pooled into ordinary contracts");
         BuiltInRegistries.ENTITY_TYPE.keySet().forEach(id -> {
             if (id.getNamespace().equals("moreminecrafts") && !outsideRoster.contains(id.toString())) registered.add(id.toString());
         });
