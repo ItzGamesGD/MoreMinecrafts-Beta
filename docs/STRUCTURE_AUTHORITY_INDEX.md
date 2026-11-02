@@ -32,6 +32,10 @@ On the Wave 10 integration branch (PR #182) the three pinned records are also pr
 | Ancient City remodeling in `MoreMinecrafts-Structure-Generator` | candidate register, "Related but not counted" | Separate repository work. Do not infer that it implements the arena or ST-05. |
 | Underground kingdom worldgen probe | Draft PR #117 (`experiment/underground-kingdom-worldgen-probe`) | Experiment evidence only. |
 
+## ST-05 current lifecycle override (2026-11-02)
+
+**CURRENT OVERRIDE:** [ST-05 Stage 1 lifecycle authority reconciliation](st05/ST05_STAGE1_LIFECYCLE_AUTHORITY_RECONCILIATION_2026-11-02.md) routes the later owner-approved 180-second grace, 65-minute wall-clock attempt cap, verified-outage exception, 78,000-tick online cooldown, and per-round admission. The older ST-05 row above is historical for conflicting clauses; its 'design only / implementation on hold' status is also superseded by the reported implementation on Draft PR #219 (live-client acceptance pending). This index update does not grant merge or checkpoint approval.
+
 ## Acquisition constraint carried by structure work
 
 The Ancient City remains an **Ancient Heart** source, as recorded in [CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md](CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md). Neither the Ancient City expansion nor the pyramid may remove that route (F-2).
