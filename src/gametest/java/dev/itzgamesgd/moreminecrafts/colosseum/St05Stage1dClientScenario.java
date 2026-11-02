@@ -87,7 +87,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
     }
 
     // ------------------------------------------------------------------ helpers
-    static boolean until(ClientGameTestContext ctx, TestDedicatedServerContext srv, java.util.function.Predicate<MinecraftServer> p, int maxTicks) {
+    static boolean until(ClientGameTestContext ctx, TestServerContext srv, java.util.function.Predicate<MinecraftServer> p, int maxTicks) {
         for (int t = 0; t < maxTicks; t += 5) { if (srv.computeOnServer(p::test)) return true; ctx.waitTicks(5); }
         return srv.computeOnServer(p::test);
     }
@@ -109,10 +109,10 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
         return n;
     }
     static void teleport(MinecraftServer s, double x, double y, double z, float yaw) { var p = player(s); p.teleportTo(s.overworld(), x, y, z, Set.of(), yaw, 0f, true); }
-    static void shot(ClientGameTestContext ctx, TestDedicatedServerConnection con, String name) { con.waitForClientboundPackets(); ctx.waitTicks(10); ctx.takeScreenshot("st05d-" + name); }
+    static void shot(ClientGameTestContext ctx, TestServerConnection con, String name) { con.waitForClientboundPackets(); ctx.waitTicks(10); ctx.takeScreenshot("st05d-" + name); }
 
     /** Collects every live shared key item for the attempt and walks the real player onto it (vanilla pick-up does the rest). */
-    static int pickUpKeys(ClientGameTestContext ctx, TestDedicatedServerContext srv) {
+    static int pickUpKeys(ClientGameTestContext ctx, TestServerContext srv) {
         List<double[]> pos = srv.computeOnServer(s -> {
             List<double[]> r = new ArrayList<>();
             for (var e : s.overworld().getAllEntities()) if (e instanceof ItemEntity ie && ie.isAlive() && ie.entityTags().stream().anyMatch(t -> t.startsWith(ColosseumRuntime.TAG_REWARD))) r.add(new double[]{ie.getX(), ie.getY(), ie.getZ()});
@@ -134,7 +134,11 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
         Properties props = new Properties();
         props.setProperty("online-mode", "false"); props.setProperty("view-distance", "6"); props.setProperty("simulation-distance", "6"); props.setProperty("max-tick-time", "-1");
         props.setProperty("spawn-animals", "false"); props.setProperty("difficulty", "normal");
-        try (TestDedicatedServerContext srv = ctx.worldBuilder().setUseConsistentSettings(false).adjustSettings(st -> st.setSeed("7001")).createServer(props)) {
+        final boolean SP = Boolean.getBoolean("mm.st05d.sp");   // single-player world: lets the run stop and re-open the very same save (a real server restart)
+        var builder = ctx.worldBuilder().setUseConsistentSettings(false).adjustSettings(st -> st.setSeed("7001"));
+        TestSingleplayerContext sp = null; TestDedicatedServerContext dsrv = null; TestServerContext srv; TestServerConnection con = null;
+        if (SP) { sp = builder.create(); srv = sp.getServer(); con = sp.getConnection(); } else { dsrv = builder.createServer(props); srv = dsrv; }
+        try {
             // ---------------- build the REAL arena before any client is attached (construction writes ~75k blocks)
             long t0 = System.nanoTime();
             String built = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.build(s, state, ID, RX, RZ, RY); } catch (Exception e) { return "EXC " + e; } });
@@ -149,7 +153,7 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                     ev.register(early, (e, src, amt) -> { if (e instanceof ImmortalGladiator && STATS.bossDmgLogs++ < 40) log("boss damage event", "src=" + src.getMsgId() + " by=" + (src.getEntity() == null ? "none" : src.getEntity().getType().toShortString()) + " amt=" + amt + " bossFrozen=" + ColosseumRuntime.combatFrozen(e) + " attackerFrozen=" + (src.getEntity() != null && ColosseumRuntime.combatFrozen(src.getEntity())) + " hp=" + ((ImmortalGladiator) e).getHealth()); return true; }); }
                     net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DAMAGE.register((e, src, amt) -> { if (e instanceof ServerPlayer && src.getEntity() instanceof ImmortalGladiator) { STATS.bossHits++; STATS.bossHitRaw += amt; } return true; }); } });
 
-            TestDedicatedServerConnection con = srv.connect();
+            if (!SP) con = dsrv.connect();
             try {
                 ctx.waitFor(c -> c.player != null && c.level != null);
                 ctx.runOnClient(c -> { c.options.fov().set(85); });
@@ -275,17 +279,33 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                     // mid-fight leave / rejoin
                     if (!disconnected && info[0] <= info[1] * 0.6) {
                         disconnected = true;
+                        if (SP) {
+                            log("C4 server restart mid-fight", "hp=" + info[0]);
+                            String before = srv.computeOnServer(St05Stage1dClientScenario::stateLine);
+                            var save = sp.getWorldSave();
+                            sp.close();
+                            sp = save.open(); srv = sp.getServer(); con = sp.getConnection();
+                            ctx.waitFor(c -> c.player != null && c.level != null); ctx.waitTicks(120); con.waitForClientboundPackets();
+                            String after = srv.computeOnServer(St05Stage1dClientScenario::stateLine);
+                            log("restart state before", before); log("restart state after", after);
+                            check("C4d after a real server restart the same attempt, round, boss and held keys are restored", before.split(" hp=")[0].equals(after.split(" hp=")[0]) && after.contains("active=true") && after.contains("quarantined=false") && after.contains("bossLoaded=true"), after);
+                            double hb = Double.parseDouble(before.split(" hp=")[1].split(" ")[0]), ha = Double.parseDouble(after.split(" hp=")[1].split(" ")[0]);
+                            check("C4e boss HP survives the restart", Math.abs(hb - ha) <= 1.0, hb + " -> " + ha);
+                            check("C4f boss bar re-shown after the restart", ctx.computeOnClient(c -> !bossBarsOf(c).isEmpty()), "");
+                            shot(ctx, con, "11-r7-after-server-restart");
+                        } else {
                         log("C4 disconnecting real client mid-fight", "hp=" + info[0]);
-                        con.close();
+                        ((TestDedicatedServerConnection) con).close();
                         ctx.waitTicks(100);
                         var st = srv.computeOnServer(s -> { var a = ctl(s).attempt(); return a.outcome() + " active=" + ctl(s).active() + " pending=" + a.pendingIds().size() + " roster=" + a.rosterIds().size(); });
                         check("C4a challenge stays alive while the only participant is away (grace)", st.contains("active=true"), st);
-                        con = srv.connect(); ctx.waitFor(c -> c.player != null && c.level != null); ctx.waitTicks(60); con.waitForClientboundPackets();
+                        con = dsrv.connect(); ctx.waitFor(c -> c.player != null && c.level != null); ctx.waitTicks(60); con.waitForClientboundPackets();
                         var st2 = srv.computeOnServer(s -> { var a = ctl(s).attempt(); var m = a.member(player(s).getUUID()); return "active=" + ctl(s).active() + " member=" + (m != null) + " dead=" + (m != null && m.dead) + " bosses=" + STATS.maxSimultaneousBosses; });
                         check("C4b returning participant keeps their place, boss not duplicated", st2.contains("active=true") && st2.contains("member=true") && st2.contains("dead=false") && st2.endsWith("bosses=1"), st2);
                         boolean bar2 = ctx.computeOnClient(c -> !bossBarsOf(c).isEmpty());
                         check("C4c boss bar re-shown after rejoin", bar2, "");
                         shot(ctx, con, "11-r7-after-rejoin");
+                        }
                     }
                     // real melee: keep the player 1.5-3 blocks from the boss and re-aim at its body every cycle, then click with the real mouse
                     srv.runOnServer(s -> {
@@ -338,7 +358,13 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 shot(ctx, con, "13-reentry-during-cooldown");
                 log("round events", String.join(" ; ", STATS.events));
                 log("done", "scenario completed");
-            } finally { try { con.close(); } catch (Throwable ignored) { } }
-        }
+            } finally { if (!SP) try { ((TestDedicatedServerConnection) con).close(); } catch (Throwable ignored) { } }
+        } finally { try { if (SP) sp.close(); else dsrv.close(); } catch (Throwable ignored) { } }
+    }
+
+    static String stateLine(MinecraftServer s) {
+        var c = ctl(s); var a = c.attempt(); if (a == null) return "no attempt";
+        var b = a.bossEntity == null ? null : s.overworld().getEntity(a.bossEntity); var p = player(s);
+        return a.attemptId + " round=" + a.round() + " boss=" + a.bossEntity + " keysAwarded=" + a.keysAwarded() + " trialKeysHeld=" + keys(p, false) + " ominousHeld=" + keys(p, true) + " roster=" + a.rosterIds().size() + " hp=" + (b instanceof ImmortalGladiator g ? g.getHealth() : -1) + " active=" + c.active() + " quarantined=" + c.quarantined() + (c.quarantined() ? "(" + c.quarantineReason() + ")" : "") + " bossLoaded=" + (b instanceof ImmortalGladiator);
     }
 }
