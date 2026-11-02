@@ -31,12 +31,13 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
     static final int RX = Integer.getInteger("mm.st05d.cx", -837), RZ = Integer.getInteger("mm.st05d.cz", -1174), RY = Integer.getInteger("mm.st05d.fy", -25);
     static final List<String> LOG = new ArrayList<>();
     static final Stats STATS = new Stats();
+    static final boolean BOSS_ONLY = Boolean.getBoolean("mm.st05d.bossonly");   // diagnostic: after the real entry, jump the attempt to R7 (same fixture the earlier R7 client test used)
 
     /** Server-side observer, updated every server tick; client thread only reads it through runOnServer/computeOnServer. */
     static final class Stats {
         int lastRound = -1; Phase lastPhase; long[] roundStart = new long[9], interStart = new long[9];
         int[] maxAlive = new int[9], replenished = new int[9], warnTicks = new int[9]; int maxWarnLeft; int prevAlive; int maxSimultaneousBosses;
-        final Map<String, Integer> maxKeyEntities = new TreeMap<>(); final List<String> events = new ArrayList<>(); final List<String> warnPos = new ArrayList<>(); final Set<String> warnSeen = new HashSet<>(); int bossHits; double bossHitRaw;
+        final Map<String, Integer> maxKeyEntities = new TreeMap<>(); final List<String> events = new ArrayList<>(); final List<String> warnPos = new ArrayList<>(); final Set<String> warnSeen = new HashSet<>(); int bossHits, bossDmgLogs; double bossHitRaw;
         boolean registered;
         void tick(MinecraftServer s) {
             var d = ColosseumRuntime.data(s); var c = d.controller(ID); if (c == null) return; var a = c.attempt(); if (a == null) return;
@@ -144,7 +145,9 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
             check("A0b arena registered with the runtime", site != null, site == null ? "missing" : Arrays.toString(site));
             if (site == null) throw new IllegalStateException("not registered");
             final int cx = site[0], cz = site[1], fy = site[2];
-            srv.runOnServer(s -> { if (!STATS.registered) { STATS.registered = true; ServerTickEvents.END_SERVER_TICK.register(STATS::tick); net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DAMAGE.register((e, src, amt) -> { if (e instanceof ServerPlayer && src.getEntity() instanceof ImmortalGladiator) { STATS.bossHits++; STATS.bossHitRaw += amt; } return true; }); } });
+            srv.runOnServer(s -> { if (!STATS.registered) { STATS.registered = true; ServerTickEvents.END_SERVER_TICK.register(STATS::tick); { var ev = net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DAMAGE; var early = net.minecraft.resources.Identifier.fromNamespaceAndPath("mm", "st05d_early"); ev.addPhaseOrdering(early, net.fabricmc.fabric.api.event.Event.DEFAULT_PHASE);
+                    ev.register(early, (e, src, amt) -> { if (e instanceof ImmortalGladiator && STATS.bossDmgLogs++ < 40) log("boss damage event", "src=" + src.getMsgId() + " by=" + (src.getEntity() == null ? "none" : src.getEntity().getType().toShortString()) + " amt=" + amt + " bossFrozen=" + ColosseumRuntime.combatFrozen(e) + " attackerFrozen=" + (src.getEntity() != null && ColosseumRuntime.combatFrozen(src.getEntity())) + " hp=" + ((ImmortalGladiator) e).getHealth()); return true; }); }
+                    net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DAMAGE.register((e, src, amt) -> { if (e instanceof ServerPlayer && src.getEntity() instanceof ImmortalGladiator) { STATS.bossHits++; STATS.bossHitRaw += amt; } return true; }); } });
 
             TestDedicatedServerConnection con = srv.connect();
             try {
@@ -183,7 +186,12 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 check("A4 exactly one admission for the single real participant", admissions.size() == 1, admissions.toString());
 
                 // ---------------- B: R1-R6 on the real arena
-                for (int round = 1; round <= 6; round++) {
+                if (BOSS_ONLY) {
+                    log("DIAGNOSTIC MODE", "boss-only: attempt jumped to R7 after real entry; R1-R6 not played in this run");
+                    srv.runOnServer(s -> { var a = ctl(s).attempt(); for (var e : s.overworld().getAllEntities()) if (e.entityTags().contains(ColosseumRuntime.TAG_ATTEMPT + a.attemptId)) e.discard();
+                        a.allocs.clear(); a.round = 7; a.phase = Phase.ROUND; a.snap = new Snapshot(7, 1, 1000, 0, 1, new ArrayList<>(a.rosterIds())); });
+                }
+                for (int round = 1; round <= (BOSS_ONLY ? 0 : 6); round++) {
                     final int r = round;
                     if (srv.computeOnServer(s -> ctl(s).attempt().ended())) throw new IllegalStateException("attempt ended before round " + r + ": " + srv.computeOnServer(s -> ctl(s).attempt().outcome() + " events=" + STATS.events));
                     boolean inRound = until(ctx, srv, s -> ctl(s).attempt().round() >= r, r == 1 ? 400 : 2400);
@@ -243,8 +251,15 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                 boolean barShown = ctx.computeOnClient(c -> !bossBarsOf(c).isEmpty());
                 check("C2 boss bar visible on the real client", barShown, "");
                 shot(ctx, con, "08-r7-boss-awakening");
+                if (BOSS_ONLY) {
+                    ctx.waitTicks(60);
+                    String probe = srv.computeOnServer(s -> { var a = ctl(s).attempt(); var b = (ImmortalGladiator) s.overworld().getEntity(a.bossEntity); var p = player(s); float h0 = b.getHealth();
+                        boolean r = b.hurtServer(s.overworld(), s.overworld().damageSources().playerAttack(p), 5f);
+                        return "direct hurtServer(playerAttack,5) returned " + r + " hp " + h0 + "->" + b.getHealth() + " frozen=" + ColosseumRuntime.combatFrozen(b) + " shield=" + b.shieldActive() + " snapshot=" + b.combatSnapshot().substring(0, Math.min(120, b.combatSnapshot().length())); });
+                    log("boss direct damage probe", probe);
+                }
                 boolean[] seen = new boolean[8]; boolean disconnected = false, phaseTwoShot = false; int shots = 0; int clicks = 0, aimedClicks = 0; double minHp = 999; float minHealth = 20; boolean phaseTwo = false;
-                for (int tick = 0; tick < 4000; tick++) {
+                for (int tick = 0; tick < (BOSS_ONLY ? 60 : 4000); tick++) {
                     var info = srv.computeOnServer(s -> {
                         var a = ctl(s).attempt(); if (a == null || a.ended()) return new double[]{-1};
                         var e = s.overworld().getEntity(a.bossEntity); if (!(e instanceof ImmortalGladiator b) || !b.isAlive()) return new double[]{-2};
