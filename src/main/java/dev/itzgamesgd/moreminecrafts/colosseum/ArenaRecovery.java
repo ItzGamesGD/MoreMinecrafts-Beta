@@ -10,6 +10,7 @@ import net.minecraft.world.level.storage.LevelResource;
 final class ArenaRecovery {
     private static final Map<MinecraftServer,Set<String>> opened=new WeakHashMap<>();
     private static final Set<ArenaController> verifying=Collections.newSetFromMap(new WeakHashMap<>());
+    private static final Set<ArenaController> rewardVerifying=Collections.newSetFromMap(new WeakHashMap<>());
     static Path root(MinecraftServer s) { return s.getWorldPath(LevelResource.DATA).resolve("moreminecrafts-st05"); }
     static void open(MinecraftServer server, ColosseumData d, String id, long now) {
         if(!opened.computeIfAbsent(server,k->new HashSet<>()).add(id)) return;
@@ -25,10 +26,13 @@ final class ArenaRecovery {
                 verifying.add(c);
                 if(c.attempt().graceExpiryMillis==0) c.attempt().graceExpiryMillis=now+RoundPlan.GRACE_MILLIS;
             }
+            if(c.attempt()!=null && !c.attempt().rewardDeliveries().isEmpty()) rewardVerifying.add(c);
         } catch(IOException e) { c.isolate("journal unavailable: "+e.getMessage()); }
     }
     static boolean verifying(ArenaController c) { return verifying.contains(c); }
     static void verified(ArenaController c) { verifying.remove(c); }
+    static boolean rewardVerifying(ArenaController c) { return rewardVerifying.contains(c); }
+    static void rewardsVerified(ArenaController c) { rewardVerifying.remove(c); }
     static boolean save(MinecraftServer server,ArenaController c,boolean inFlight) {
         try { EffectJournal.write(root(server),c.arenaId,c.toJson(),inFlight); return true; }
         catch(IOException e) { c.isolate("cannot durably record world effect: "+e.getMessage()); return false; }

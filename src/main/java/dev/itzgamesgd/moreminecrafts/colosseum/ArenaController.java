@@ -250,7 +250,7 @@ public final class ArenaController {
         Set<String> rewardIds = new HashSet<>();
         Set<Integer> rewardRounds = new HashSet<>();
         for (RewardDelivery r : a.rewardDeliveries.values()) {
-            if (r.rewardId == null || !rewardIds.add(r.rewardId) || !a.attemptId.toString().equals(r.challengeId)) return "reward identity mismatch";
+            if (r.state == null || r.rewardId == null || !rewardIds.add(r.rewardId) || !a.attemptId.toString().equals(r.challengeId)) return "reward identity mismatch";
             int round;
             try { round = Integer.parseInt(r.roundId); } catch (RuntimeException e) { return "invalid reward round"; }
             if (!rewardRounds.add(round)) return "duplicate shared key for round";

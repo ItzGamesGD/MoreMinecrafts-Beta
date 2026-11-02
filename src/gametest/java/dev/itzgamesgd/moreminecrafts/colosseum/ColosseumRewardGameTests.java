@@ -57,6 +57,8 @@ public final class ColosseumRewardGameTests {
             if(ticks.incrementAndGet()==3)a.at(p,8,8);
             if(ticks.get()==50) {
                 var reward=plan(a,1,false);reward.begin(RewardDelivery.entityUuid(reward.rewardId));item(a,reward,true);
+                ArenaRecovery.save(a.level.getServer(),a.ctl,false);
+                a.level.getServer().saveEverything(true,true,true);
                 ctx.assertTrue(ColosseumRuntime.reconcileRewards(a.level,a.site,a.ctl),"entity proves the prior insert completed");
                 ctx.assertTrue(reward.state==RewardDelivery.State.DELIVERED,"controller receipt reconciled from world entity");
                 ctx.assertTrue(keys(a).size()==1,"existing entity adopted, never duplicated");

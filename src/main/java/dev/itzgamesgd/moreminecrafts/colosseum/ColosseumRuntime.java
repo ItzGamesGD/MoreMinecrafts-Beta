@@ -308,7 +308,9 @@ public final class ColosseumRuntime {
     /** Reconciles only identity-tagged reward entities. Ambiguous insertion is quarantined, never replayed. */
     static boolean reconcileRewards(ServerLevel level,ColosseumData.Site site,ArenaController ctl) {
         ArenaAttempt attempt=ctl.attempt(); if(attempt==null || attempt.rewardDeliveries().isEmpty())return true;
+        boolean verifyAll=ArenaRecovery.rewardVerifying(ctl);
         for(RewardDelivery delivery:attempt.rewardDeliveries().values()) {
+            if(!verifyAll && delivery.state==RewardDelivery.State.DELIVERED)continue;
             List<ItemEntity> found=new ArrayList<>();
             String tag=TAG_REWARD+delivery.rewardId;
             for(Entity e:level.getAllEntities()) if(e instanceof ItemEntity item && item.isAlive() && item.entityTags().contains(tag))found.add(item);
@@ -322,6 +324,7 @@ public final class ColosseumRuntime {
                 data(level.getServer()).setDirty();
             }
         }
+        if(verifyAll)ArenaRecovery.rewardsVerified(ctl);
         return true;
     }
 
