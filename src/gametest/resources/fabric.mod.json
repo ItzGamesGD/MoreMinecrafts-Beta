@@ -87,6 +87,7 @@
       "dev.itzgamesgd.moreminecrafts.progression.SkullProtocolAssumptionGameTests"
     ],
     "fabric-client-gametest": [
+      "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
       "dev.itzgamesgd.moreminecrafts.colosseum.GladiatorClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryClientLifecycleGameTest",

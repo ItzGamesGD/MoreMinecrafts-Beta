@@ -1,0 +1,313 @@
+package dev.itzgamesgd.moreminecrafts.colosseum;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
+import net.fabricmc.fabric.api.client.gametest.v1.context.*;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameType;
+import dev.itzgamesgd.moreminecrafts.colosseum.ArenaAttempt.*;
+import dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05RealArenaBuilder;
+
+/**
+ * ST-05 Stage 1-D: REAL arena (built by the unchanged Stage 0-F pipeline on seed 7001) played by a rendered Minecraft 26.3 client connected to a dedicated server.
+ * Movement, looks and the boss melee are real client input; the server side is the production runtime. Mob kills in R1-R6 are delivered as real player-attack damage
+ * (hurtServer with a player damage source) because scripted clients cannot chase twelve mobs. Gated by -Dmm.st05d=true; -Dmm.st05d.exit=true halts the JVM afterwards.
+ * Everything is reported through ST05D lines and build/st05d/results.txt; nothing is relaxed to make a check pass.
+ */
+@SuppressWarnings("UnstableApiUsage")
+public final class St05Stage1dClientScenario implements FabricClientGameTest {
+    static final String ID = System.getProperty("mm.st05d.id", "20d89ee7a8aa754c");
+    static final int RX = Integer.getInteger("mm.st05d.cx", -837), RZ = Integer.getInteger("mm.st05d.cz", -1174), RY = Integer.getInteger("mm.st05d.fy", -25);
+    static final List<String> LOG = new ArrayList<>();
+    static final Stats STATS = new Stats();
+
+    /** Server-side observer, updated every server tick; client thread only reads it through runOnServer/computeOnServer. */
+    static final class Stats {
+        int lastRound = -1; Phase lastPhase; long[] roundStart = new long[9], interStart = new long[9];
+        int[] maxAlive = new int[9], replenished = new int[9], warnTicks = new int[9]; int maxWarnLeft; int prevAlive; int maxSimultaneousBosses;
+        final Map<String, Integer> maxKeyEntities = new TreeMap<>(); final List<String> events = new ArrayList<>(); final List<String> warnPos = new ArrayList<>();
+        boolean registered;
+        void tick(MinecraftServer s) {
+            var d = ColosseumRuntime.data(s); var c = d.controller(ID); if (c == null) return; var a = c.attempt(); if (a == null) return;
+            long t = s.getTickCount(); int r = a.round(); Phase ph = a.phase();
+            if (r != lastRound || ph != lastPhase) {
+                events.add("t=" + t + " round=" + r + " phase=" + ph + " outcome=" + a.outcome());
+                if (ph == Phase.ROUND && r != lastRound && r >= 1 && r <= 7) roundStart[r] = t;
+                if (ph == Phase.INTERMISSION && r >= 1 && r <= 7) interStart[r] = t;
+                lastRound = r; lastPhase = ph;
+            }
+            if (r < 1 || r > 7) return;
+            ServerLevel l = s.overworld(); int alive = 0, bosses = 0; Map<String, Integer> keys = new HashMap<>();
+            String owner = ColosseumRuntime.TAG_ATTEMPT + a.attemptId;
+            for (var e : l.getAllEntities()) {
+                if (!e.isAlive()) continue;
+                if (e instanceof ImmortalGladiator && e.entityTags().contains(owner)) bosses++;
+                else if (e instanceof Mob && e.entityTags().contains(owner)) alive++;
+                else if (e instanceof ItemEntity ie) for (String tg : ie.entityTags()) if (tg.startsWith(ColosseumRuntime.TAG_REWARD)) keys.merge(tg, 1, Integer::sum);
+            }
+            keys.forEach((k, v) -> maxKeyEntities.merge(k, v, Math::max));
+            maxSimultaneousBosses = Math.max(maxSimultaneousBosses, bosses);
+            if (ph == Phase.ROUND) {
+                maxAlive[r] = Math.max(maxAlive[r], alive);
+                if (prevAlive <= RoundPlan.REPLENISH_AT_OR_BELOW && alive > prevAlive && r < 7) replenished[r]++;
+                for (var al : a.allocations()) if (al.status == AllocStatus.WARNING) {
+                    warnTicks[r]++; maxWarnLeft = Math.max(maxWarnLeft, al.warnLeft);
+                    if (warnPos.size() < 8) warnPos.add("r" + r + " " + al.mob + "@" + al.px + "," + al.py + "," + al.pz + " warnLeft=" + al.warnLeft);
+                }
+            }
+            prevAlive = alive;
+        }
+    }
+
+    // ------------------------------------------------------------------ reporting
+    static void log(String k, String v) { String line = "ST05D|" + k + "|" + v; LOG.add(line); System.out.println(line); }
+    static void check(String name, boolean ok, String detail) { log((ok ? "PASS " : "FAIL ") + name, detail); }
+    static void flush() {
+        try { Path p = Path.of("build", "st05d"); Files.createDirectories(p); Files.write(p.resolve("results.txt"), LOG); } catch (Exception e) { System.out.println("ST05D|flush failed|" + e); }
+    }
+
+    @Override public void runTest(ClientGameTestContext ctx) {
+        if (!Boolean.getBoolean("mm.st05d")) return;
+        try { scenario(ctx); }
+        catch (Throwable t) { log("ABORT", t.toString()); StackTraceElement[] st = t.getStackTrace(); for (int i = 0; i < Math.min(6, st.length); i++) log("  at", st[i].toString()); flush(); if (Boolean.getBoolean("mm.st05d.exit")) Runtime.getRuntime().halt(3); throw new RuntimeException(t); }
+        flush();
+        if (Boolean.getBoolean("mm.st05d.exit")) Runtime.getRuntime().halt(0);
+    }
+
+    // ------------------------------------------------------------------ helpers
+    static boolean until(ClientGameTestContext ctx, TestDedicatedServerContext srv, java.util.function.Predicate<MinecraftServer> p, int maxTicks) {
+        for (int t = 0; t < maxTicks; t += 5) { if (srv.computeOnServer(p::test)) return true; ctx.waitTicks(5); }
+        return srv.computeOnServer(p::test);
+    }
+    static ArenaController ctl(MinecraftServer s) { return ColosseumRuntime.data(s).controller(ID); }
+    static ServerPlayer player(MinecraftServer s) { return s.getPlayerList().getPlayers().getFirst(); }
+    static List<Mob> mobs(MinecraftServer s) {
+        var a = ctl(s).attempt(); List<Mob> r = new ArrayList<>(); if (a == null) return r; String owner = ColosseumRuntime.TAG_ATTEMPT + a.attemptId;
+        for (var e : s.overworld().getAllEntities()) if (e instanceof Mob m && !(m instanceof ImmortalGladiator) && m.isAlive() && m.entityTags().contains(owner)) r.add(m);
+        return r;
+    }
+    static int killMobs(MinecraftServer s, int max) {
+        ServerLevel l = s.overworld(); ServerPlayer p = player(s); int n = 0;
+        for (Mob m : mobs(s)) { if (n >= max) break; m.hurtServer(l, l.damageSources().playerAttack(p), 1000f); n++; }
+        return n;
+    }
+    static int keys(ServerPlayer p, boolean ominous) {
+        int n = 0; var inv = p.getInventory();
+        for (int i = 0; i < inv.getContainerSize(); i++) { ItemStack st = inv.getItem(i); if (st.is(ominous ? Items.OMINOUS_TRIAL_KEY : Items.TRIAL_KEY)) n += st.getCount(); }
+        return n;
+    }
+    static void teleport(MinecraftServer s, double x, double y, double z, float yaw) { var p = player(s); p.teleportTo(s.overworld(), x, y, z, Set.of(), yaw, 0f, true); }
+    static void shot(ClientGameTestContext ctx, TestDedicatedServerConnection con, String name) { con.waitForClientboundPackets(); ctx.waitTicks(10); ctx.takeScreenshot("st05d-" + name); }
+
+    /** Collects every live shared key item for the attempt and walks the real player onto it (vanilla pick-up does the rest). */
+    static int pickUpKeys(ClientGameTestContext ctx, TestDedicatedServerContext srv) {
+        List<double[]> pos = srv.computeOnServer(s -> {
+            List<double[]> r = new ArrayList<>();
+            for (var e : s.overworld().getAllEntities()) if (e instanceof ItemEntity ie && ie.isAlive() && ie.entityTags().stream().anyMatch(t -> t.startsWith(ColosseumRuntime.TAG_REWARD))) r.add(new double[]{ie.getX(), ie.getY(), ie.getZ()});
+            return r;
+        });
+        for (double[] p : pos) { srv.runOnServer(s -> teleport(s, p[0], p[1], p[2], 0f)); ctx.waitTicks(25); }
+        return pos.size();
+    }
+
+    static Map<?, ?> bossBarsOf(net.minecraft.client.Minecraft c) {
+        try { var overlay = c.gui.hud.getBossOverlay(); var f = overlay.getClass().getDeclaredField("events"); f.setAccessible(true); return (Map<?, ?>) f.get(overlay); }
+        catch (ReflectiveOperationException e) { throw new AssertionError(e); }
+    }
+
+    // ------------------------------------------------------------------ scenario
+    private void scenario(ClientGameTestContext ctx) {
+        Path state = Path.of("build", "st05d", "state").toAbsolutePath();
+        try { if (Files.exists(state)) try (var w = Files.walk(state)) { w.sorted(Comparator.reverseOrder()).forEach(p -> p.toFile().delete()); } } catch (Exception ignored) { }
+        Properties props = new Properties();
+        props.setProperty("online-mode", "false"); props.setProperty("view-distance", "6"); props.setProperty("simulation-distance", "6"); props.setProperty("max-tick-time", "-1");
+        props.setProperty("spawn-animals", "false"); props.setProperty("difficulty", "normal");
+        try (TestDedicatedServerContext srv = ctx.worldBuilder().setUseConsistentSettings(false).adjustSettings(st -> st.setSeed("7001")).createServer(props)) {
+            // ---------------- build the REAL arena before any client is attached (construction writes ~75k blocks)
+            long t0 = System.nanoTime();
+            String built = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.build(s, state, ID, RX, RZ, RY); } catch (Exception e) { return "EXC " + e; } });
+            log("arena build", built + " wallMs=" + (System.nanoTime() - t0) / 1_000_000);
+            check("A0 real arena built and VERIFIED by the Stage 0-F pipeline", built.startsWith("VERIFIED"), built);
+            if (!built.startsWith("VERIFIED")) throw new IllegalStateException("arena not built: " + built);
+            int[] site = srv.computeOnServer(s -> { var st = ColosseumRuntime.data(s).sites().get(ID); return st == null ? null : new int[]{st.cx(), st.cz(), st.floorY()}; });
+            check("A0b arena registered with the runtime", site != null, site == null ? "missing" : Arrays.toString(site));
+            if (site == null) throw new IllegalStateException("not registered");
+            final int cx = site[0], cz = site[1], fy = site[2];
+            srv.runOnServer(s -> { if (!STATS.registered) { STATS.registered = true; ServerTickEvents.END_SERVER_TICK.register(STATS::tick); } });
+
+            TestDedicatedServerConnection con = srv.connect();
+            try {
+                ctx.waitFor(c -> c.player != null && c.level != null);
+                ctx.runOnClient(c -> { c.options.fov().set(85); });
+                srv.runOnServer(s -> {
+                    var p = player(s); p.setGameMode(GameType.SURVIVAL);
+                    p.getInventory().add(new ItemStack(Items.NETHERITE_SWORD));
+                    p.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 2_000_000, 1, false, false));
+                    p.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 2_000_000, 1, false, false));
+                    p.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 2_000_000, 1, false, false));
+                    p.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 2_000_000, 0, false, false));
+                    teleport(s, cx + 0.5, fy, cz - 36.5, 0f);
+                });
+                con.waitForChunksDownload(); ctx.waitTicks(60); con.waitForClientboundPackets();
+                shot(ctx, con, "01-outside-north-entrance");
+
+                // ---------------- A: entry negatives, then real walk-in
+                srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz - 31.5, 0f));
+                ctx.waitTicks(60);
+                boolean noStartInArch = srv.computeOnServer(s -> ctl(s).attempt() == null || !ctl(s).active());
+                check("A1 standing in the entrance arch (r=31.5) does not start the challenge", noStartInArch, "active=" + !noStartInArch);
+                srv.runOnServer(s -> teleport(s, cx + 0.5, fy + 14, cz - 31.5, 0f));    // on/over the wall ring
+                ctx.waitTicks(40);
+                check("A2 wall-ring position (r=31.5, y+14) does not start the challenge", srv.computeOnServer(s -> !ctl(s).active()), "");
+                srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz - 36.5, 0f));
+                ctx.waitTicks(30);
+                shot(ctx, con, "02-arch-before-walk-in");
+                ctx.getInput().holdKeyFor(o -> o.keyUp, 100);       // real forward key, ~5 s
+                ctx.waitTicks(20);
+                boolean started = until(ctx, srv, s -> ctl(s).active(), 100);
+                check("A3 real walk-in through the north arch starts the challenge", started, srv.computeOnServer(s -> ctl(s).attempt() == null ? "no attempt" : "round=" + ctl(s).attempt().round()));
+                if (!started) throw new IllegalStateException("challenge did not start by walking in");
+                shot(ctx, con, "03-entry-started");
+                var admissions = srv.computeOnServer(s -> new ArrayList<>(ctl(s).attempt().admissions));
+                check("A4 exactly one admission for the single real participant", admissions.size() == 1, admissions.toString());
+
+                // ---------------- B: R1-R6 on the real arena
+                for (int round = 1; round <= 6; round++) {
+                    final int r = round;
+                    boolean inRound = until(ctx, srv, s -> ctl(s).attempt().round() >= r, r == 1 ? 400 : 2400);
+                    check("B" + r + "a round " + r + " reached", inRound, "");
+                    if (!inRound) throw new IllegalStateException("stuck before round " + r);
+                    // 1-second spawn warning must precede the spawn
+                    boolean warned = until(ctx, srv, s -> STATS.warnTicks[r] > 0, 200);
+                    if (warned && r <= 2) { con.waitForClientboundPackets(); ctx.takeScreenshot("st05d-04-r" + r + "-spawn-warning"); }
+                    check("B" + r + "b spawn warning observed", warned, "maxWarnLeft=" + STATS.maxWarnLeft + " sample=" + STATS.warnPos.stream().filter(x -> x.startsWith("r" + r)).findFirst().orElse("none"));
+                    boolean peaked = until(ctx, srv, s -> mobs(s).size() >= Math.min(12, RoundPlan.scaledBudget(r, 1)) || (STATS.maxAlive[r] >= 12), 400);
+                    ctx.waitTicks(20);
+                    int peak = srv.computeOnServer(s -> STATS.maxAlive[r]);
+                    check("B" + r + "c alive mobs never exceed 12 (peak=" + peak + ")", peak <= RoundPlan.MAX_ALIVE && peak > 0, "peak=" + peak);
+                    if (r == 1 || r == 3) shot(ctx, con, "05-r" + r + "-combat");
+                    // drain: kill down to 6 first (replenish check), then everything
+                    if (peak >= 8) {
+                        srv.runOnServer(s -> { int al = mobs(s).size(); if (al > 6) killMobs(s, al - 6); });
+                        ctx.waitTicks(80);
+                        int rep = srv.computeOnServer(s -> STATS.replenished[r]);
+                        check("B" + r + "d replenished after dropping to <=6", rep > 0, "replenish events=" + rep);
+                    }
+                    int guard = 0;
+                    while (guard++ < 400 && !srv.computeOnServer(s -> ctl(s).attempt().phase() != Phase.ROUND || ctl(s).attempt().round() != r)) { srv.runOnServer(s -> killMobs(s, 12)); ctx.waitTicks(10); }
+                    if (r == 3 || r == 5) {
+                        boolean chests = until(ctx, srv, s -> !ctl(s).attempt().supplyChests().isEmpty(), 100);
+                        int n = srv.computeOnServer(s -> ctl(s).attempt().supplyChests().size());
+                        check("B" + r + "e supply chests placed", chests, "chests=" + n);
+                        if (chests) { srv.runOnServer(s -> { long pos = ctl(s).attempt().supplyChests().getFirst(); var bp = net.minecraft.core.BlockPos.of(pos); teleport(s, bp.getX() + 0.5, bp.getY() + 0.1, bp.getZ() - 2.5, 0f); }); ctx.waitTicks(30); shot(ctx, con, "06-r" + r + "-supply-chest"); }
+                    }
+                    // reward: shared key must exist exactly once, then the real player picks it up
+                    boolean keyOut = until(ctx, srv, s -> ctl(s).attempt().keysAwarded().contains(r), 200);
+                    ctx.waitTicks(10);
+                    int dup = srv.computeOnServer(s -> STATS.maxKeyEntities.entrySet().stream().filter(e -> e.getKey().contains(":round:" + r + ":")).mapToInt(Map.Entry::getValue).max().orElse(0));
+                    check("D" + r + "a shared Trial Key recorded and exactly one key entity (max simultaneous=" + dup + ")", keyOut && dup == 1, "awarded=" + keyOut);
+                    int before = srv.computeOnServer(s -> keys(player(s), false));
+                    int found = pickUpKeys(ctx, srv);
+                    int after = srv.computeOnServer(s -> keys(player(s), false));
+                    check("D" + r + "b real player picked up the key (" + before + "->" + after + ", entities found=" + found + ")", after == before + 1, "");
+                    if (r == 1) shot(ctx, con, "07-r1-key-pickup");
+                    long inter = srv.computeOnServer(s -> STATS.interStart[r]);
+                    until(ctx, srv, s -> ctl(s).attempt().round() > r, 1000);
+                    long next = srv.computeOnServer(s -> STATS.roundStart[r + 1]);
+                    long gap = next - inter;
+                    int expect = RoundPlan.intermissionAfter(r);
+                    check("B" + r + "f transition length " + gap + " ticks (approved " + expect + ")", Math.abs(gap - expect) <= 25 && inter > 0, "interStart=" + inter + " nextStart=" + next);
+                    // stay inside the arena for the next round
+                    srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz + 8.5, 180f));
+                }
+
+                // ---------------- C: R7
+                boolean bossUp = until(ctx, srv, s -> ctl(s).attempt().bossEntity != null && s.overworld().getEntity(ctl(s).attempt().bossEntity) instanceof ImmortalGladiator, 600);
+                check("C1 R7 boss spawned and bound", bossUp, "");
+                if (!bossUp) throw new IllegalStateException("no boss");
+                ctx.waitTicks(60); con.waitForClientboundPackets();
+                boolean barShown = ctx.computeOnClient(c -> !bossBarsOf(c).isEmpty());
+                check("C2 boss bar visible on the real client", barShown, "");
+                shot(ctx, con, "08-r7-boss-awakening");
+                boolean[] seen = new boolean[8]; boolean disconnected = false, phaseTwoShot = false; int shots = 0; double minHp = 999; float minHealth = 20; boolean phaseTwo = false;
+                for (int tick = 0; tick < 4000; tick++) {
+                    var info = srv.computeOnServer(s -> {
+                        var a = ctl(s).attempt(); if (a == null || a.ended()) return new double[]{-1};
+                        var e = s.overworld().getEntity(a.bossEntity); if (!(e instanceof ImmortalGladiator b) || !b.isAlive()) return new double[]{-2};
+                        var p = player(s); double dx = b.getX() - p.getX(), dz = b.getZ() - p.getZ();
+                        return new double[]{b.getHealth(), b.getMaxHealth(), b.attackPose(), b.phaseTwo() ? 1 : 0, Math.sqrt(dx * dx + dz * dz), p.getHealth(), b.getX(), b.getY(), b.getZ(), Math.toDegrees(Math.atan2(-dx, dz)), b.shieldActive() ? 1 : 0};
+                    });
+                    if (info[0] < 0) break;
+                    minHp = Math.min(minHp, info[0]); minHealth = (float) Math.min(minHealth, info[5]);
+                    int pose = (int) info[2];
+                    if (pose > 0 && !seen[pose] && shots < 6) { seen[pose] = true; shots++; con.waitForClientboundPackets(); ctx.takeScreenshot("st05d-09-r7-attack-pose" + pose); log("boss attack windup seen", "pose=" + pose + " hp=" + info[0] + " dist=" + String.format("%.1f", info[4])); }
+                    if (info[3] == 1 && !phaseTwo) { phaseTwo = true; con.waitForClientboundPackets(); ctx.takeScreenshot("st05d-10-r7-phase-two"); log("phase two at hp", info[0] + "/" + info[1]); check("C3 phase two entered at <=40% HP", info[0] <= info[1] * 0.4 + 1, "hp=" + info[0] + "/" + info[1]); }
+                    // mid-fight leave / rejoin
+                    if (!disconnected && info[0] <= info[1] * 0.6) {
+                        disconnected = true;
+                        log("C4 disconnecting real client mid-fight", "hp=" + info[0]);
+                        con.close();
+                        ctx.waitTicks(100);
+                        var st = srv.computeOnServer(s -> { var a = ctl(s).attempt(); return a.outcome() + " active=" + ctl(s).active() + " pending=" + a.pendingIds().size() + " roster=" + a.rosterIds().size(); });
+                        check("C4a challenge stays alive while the only participant is away (grace)", st.contains("active=true"), st);
+                        con = srv.connect(); ctx.waitFor(c -> c.player != null && c.level != null); ctx.waitTicks(60); con.waitForClientboundPackets();
+                        var st2 = srv.computeOnServer(s -> { var a = ctl(s).attempt(); var m = a.member(player(s).getUUID()); return "active=" + ctl(s).active() + " member=" + (m != null) + " dead=" + (m != null && m.dead) + " bosses=" + STATS.maxSimultaneousBosses; });
+                        check("C4b returning participant keeps their place, boss not duplicated", st2.contains("active=true") && st2.contains("member=true") && st2.contains("dead=false") && st2.endsWith("bosses=1"), st2);
+                        boolean bar2 = ctx.computeOnClient(c -> !bossBarsOf(c).isEmpty());
+                        check("C4c boss bar re-shown after rejoin", bar2, "");
+                        shot(ctx, con, "11-r7-after-rejoin");
+                    }
+                    // real melee: keep the player 1.8-3 blocks from the boss, facing it, then click with the real mouse
+                    if (info[4] > 3.2 || info[4] < 1.2) {
+                        srv.runOnServer(s -> {
+                            var a = ctl(s).attempt(); var b = s.overworld().getEntity(a.bossEntity); var p = player(s); if (b == null) return;
+                            double dx = p.getX() - b.getX(), dz = p.getZ() - b.getZ(), len = Math.max(0.01, Math.sqrt(dx * dx + dz * dz));
+                            double tx = b.getX() + dx / len * 2.0, tz = b.getZ() + dz / len * 2.0;
+                            float yaw = (float) Math.toDegrees(Math.atan2(-(b.getX() - tx), b.getZ() - tz));
+                            p.teleportTo(s.overworld(), tx, b.getY(), tz, Set.of(), yaw, 10f, true);
+                        });
+                    }
+                    ctx.getInput().pressMouse(0);
+                    ctx.waitTicks(12);
+                }
+                check("C5 boss defeated by real melee within the budget", srv.computeOnServer(s -> ctl(s).attempt().outcome() == Outcome.SUCCESS), "minBossHp=" + minHp + " minPlayerHealth=" + minHealth + " attackPosesSeen=" + Arrays.toString(seen));
+                check("C6 exactly one boss existed at any time", srv.computeOnServer(s -> STATS.maxSimultaneousBosses == 1), "");
+                ctx.waitTicks(40); shot(ctx, con, "12-r7-victory");
+
+                // ---------------- D: ominous key, end state
+                int b4 = srv.computeOnServer(s -> keys(player(s), true));
+                int dupO = srv.computeOnServer(s -> STATS.maxKeyEntities.entrySet().stream().filter(e -> e.getKey().contains(":round:7:")).mapToInt(Map.Entry::getValue).max().orElse(0));
+                int found = pickUpKeys(ctx, srv);
+                int a4 = srv.computeOnServer(s -> keys(player(s), true));
+                check("D7 shared Ominous Trial Key: one entity (max " + dupO + "), real pickup " + b4 + "->" + a4, dupO == 1 && a4 == b4 + 1, "found=" + found);
+                var end = srv.computeOnServer(s -> { var c = ctl(s); var a = c.attempt(); return "outcome=" + a.outcome() + " keysAwarded=" + a.keysAwarded() + " cooldown=" + c.cooldownLeft() + " entitlements=" + a.entitlements + " cleanupPending=" + a.cleanupPending + " quarantined=" + c.quarantined(); });
+                log("end state", end);
+                check("D8 success ended normally with seven key records, cooldown running, not quarantined", end.contains("outcome=SUCCESS") && end.contains("keysAwarded=[1, 2, 3, 4, 5, 6, 7]") && !end.contains("cooldown=0") && end.contains("quarantined=false"), end);
+                ctx.waitTicks(100);
+                int mm = srv.computeOnServer(s -> { try { return St05RealArenaBuilder.mismatches(s, state, ID); } catch (Exception e) { return -1; } });
+                check("D9 arena structure restored/intact after the challenge (plan mismatches)", mm == 0, "mismatches=" + mm);
+                int chestsLeft = srv.computeOnServer(s -> { int n = 0; for (long pos : ctl(s).attempt().supplyChests()) if (s.overworld().getBlockState(net.minecraft.core.BlockPos.of(pos)).is(net.minecraft.world.level.block.Blocks.CHEST)) n++; return n; });
+                check("D10 supply chests removed on completion", chestsLeft == 0, "left=" + chestsLeft);
+                // cooldown: leave and walk back in -> no new attempt
+                srv.runOnServer(s -> teleport(s, cx + 0.5, fy, cz - 36.5, 0f)); ctx.waitTicks(40);
+                ctx.getInput().holdKeyFor(o -> o.keyUp, 100); ctx.waitTicks(120);
+                var again = srv.computeOnServer(s -> { var c = ctl(s); return "active=" + c.active() + " cooldown=" + c.cooldownLeft(); });
+                check("D11 re-entry during cooldown does not start a new challenge", again.startsWith("active=false"), again);
+                shot(ctx, con, "13-reentry-during-cooldown");
+                log("round events", String.join(" ; ", STATS.events));
+                log("done", "scenario completed");
+            } finally { try { con.close(); } catch (Throwable ignored) { } }
+        }
+    }
+}
