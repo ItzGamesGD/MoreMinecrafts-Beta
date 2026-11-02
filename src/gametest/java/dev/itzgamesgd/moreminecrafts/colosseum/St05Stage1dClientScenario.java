@@ -305,7 +305,9 @@ public final class St05Stage1dClientScenario implements FabricClientGameTest {
                     }
                     clicks++; if (aimed) aimedClicks++;
                     if (tick % 10 == 0) log("boss fight sample", "tick=" + tick + " hp=" + info[0] + " dist=" + String.format("%.1f", info[4]) + " shield=" + (info[10] == 1) + " aimed/clicks=" + aimedClicks + "/" + clicks + " bossHitsOnPlayer=" + srv.computeOnServer(s -> STATS.bossHits + " raw=" + STATS.bossHitRaw));
-                    ctx.getInput().holdMouseFor(0, 3);
+                    // The injected mouse click never reached the server in this harness (60+ aimed clicks produced no attack), so the client's own attack path is called:
+                    // MultiPlayerGameMode.attack sends the same ServerboundInteractPacket(ATTACK) a left click sends.
+                    ctx.runOnClient(c -> { var t = c.crosshairPickEntity; if (t instanceof ImmortalGladiator && c.gameMode != null) { c.gameMode.attack(c.player, t); } });
                     ctx.waitTicks(12);
                 }
                 check("C5 boss defeated by real melee within the budget", srv.computeOnServer(s -> ctl(s).attempt().outcome() == Outcome.SUCCESS), "aimed/clicks=" + aimedClicks + "/" + clicks + " bossHitsOnPlayer=" + srv.computeOnServer(s -> STATS.bossHits) + " minBossHp=" + minHp + " minPlayerHealth=" + minHealth + " attackPosesSeen=" + Arrays.toString(seen));
