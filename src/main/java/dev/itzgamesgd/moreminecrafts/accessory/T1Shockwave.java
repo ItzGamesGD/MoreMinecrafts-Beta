@@ -35,8 +35,11 @@ public final class T1Shockwave {
                 if (direction.lengthSqr() < 1e-8) direction = new Vec3(1, 0, 0);
                 direction = direction.normalize();
                 double resistance = Math.max(0, 1 - living.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+                Vec3 before = living.getDeltaMovement();
                 living.knockback(HORIZONTAL_IMPULSE, -direction.x, -direction.z, player.damageSources().playerAttack(player), 0);
                 var velocity = living.getDeltaMovement();
+                // Native no-op overrides (for example a sitting dragon) also reject the added lift.
+                if (velocity.equals(before)) continue;
                 living.setDeltaMovement(velocity.x, resistance > 0 ? VERTICAL_IMPULSE * resistance : velocity.y, velocity.z);
                 T1AccessoryRuntime.synchronizeMotion(living);
             } else if (target instanceof Arrow || target instanceof SpectralArrow || target instanceof ThrownTrident) {
