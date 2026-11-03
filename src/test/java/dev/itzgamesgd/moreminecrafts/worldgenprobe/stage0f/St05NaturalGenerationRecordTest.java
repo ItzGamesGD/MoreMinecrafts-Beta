@@ -93,4 +93,14 @@ class St05NaturalGenerationRecordTest {
         RegionFile fresh = file(2, "aaaa PLACEMENT_RESERVED -");
         assertSame(fresh, St05NaturalGeneration.merge(null, fresh));
     }
+
+    @Test
+    void driverStaysOffInGameTestAndProbeServersButNotInOrdinaryOnes() {
+        assertFalse(St05NaturalGeneration.disabledByEnvironment());
+        System.setProperty("fabric-api.gametest", "");           // Loom sets this flag without a value
+        try { assertTrue(St05NaturalGeneration.disabledByEnvironment()); } finally { System.clearProperty("fabric-api.gametest"); }
+        System.setProperty("mm.st05.natural", "false");
+        try { assertTrue(St05NaturalGeneration.disabledByEnvironment()); } finally { System.clearProperty("mm.st05.natural"); }
+        assertFalse(St05NaturalGeneration.disabledByEnvironment());
+    }
 }

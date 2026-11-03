@@ -93,6 +93,10 @@ public final class St05NaturalGeneration {
         // construction state machine
         St05Stage0FLive.Res current; long currentSince; boolean currentHeld;
         final Set<String> finished = new HashSet<>();
+        final Map<Long, Integer> scanFailures = new HashMap<>();   // region key -> consecutive failed scans
+        final Map<Long, Long> retryAfterTick = new HashMap<>();
+        static final int MAX_SCAN_FAILURES = 3;
+        boolean due(long k, long tick) { return scanFailures.getOrDefault(k, 0) < MAX_SCAN_FAILURES && tick >= retryAfterTick.getOrDefault(k, 0L); }
         volatile Throwable scanError;
         final Timing timing = new Timing();
         volatile BulkSampler sampler;
@@ -116,8 +120,16 @@ public final class St05NaturalGeneration {
 
     private static volatile Runtime RT;
 
+    /** Not for GameTest servers (Loom sets -Dfabric-api.gametest WITHOUT a value, so Boolean.getBoolean would miss it) nor for the other worldgen probe runs: they use mock players at arbitrary coordinates. */
+    static boolean disabledByEnvironment() {
+        if ("false".equalsIgnoreCase(System.getProperty("mm.st05.natural"))) return true;
+        for (String k : System.getProperties().stringPropertyNames())
+            if (k.startsWith("fabric-api.gametest") || k.equals("fabric.autoTest") || k.equals("mm.st05.out") || k.equals("mm.sky.out") || k.equals("mm.nether.ore.out")) return true;
+        return false;
+    }
+
     public static void initialize() {
-        if (Boolean.getBoolean("fabric-api.gametest") || "false".equalsIgnoreCase(System.getProperty("mm.st05.natural"))) return;
+        if (disabledByEnvironment()) return;
         ServerLifecycleEvents.SERVER_STARTED.register(St05NaturalGeneration::start);
         ServerLifecycleEvents.SERVER_STOPPING.register(s -> stop());
         ServerTickEvents.END_SERVER_TICK.register(St05NaturalGeneration::tick);
@@ -187,7 +199,7 @@ public final class St05NaturalGeneration {
         for (int[] pt : focusPoints(rt)) {
             for (int rx = Math.floorDiv(pt[0] - TRIGGER_BLOCKS, TILE); rx <= Math.floorDiv(pt[0] + TRIGGER_BLOCKS, TILE); rx++)
                 for (int rz = Math.floorDiv(pt[1] - TRIGGER_BLOCKS, TILE); rz <= Math.floorDiv(pt[1] + TRIGGER_BLOCKS, TILE); rz++) {
-                    if (rt.scanned.contains(key(rx, rz))) continue;
+                    if (rt.scanned.contains(key(rx, rz)) || !rt.due(key(rx, rz), rt.server.getTickCount())) continue;
                     long dx = rx * (long) TILE + TILE / 2 - pt[0], dz = rz * (long) TILE + TILE / 2 - pt[1], d = dx * dx + dz * dz;
                     if (d < bestD) { bestD = d; best = new int[]{rx, rz}; }
                 }
@@ -200,7 +212,7 @@ public final class St05NaturalGeneration {
         long bestD = Long.MAX_VALUE; int[] best = null;
         List<int[]> pts = focusPoints(rt);
         for (RegionFile f : rt.files.values()) {
-            if (f.blocked == 0 || f.retryDone || f.radius >= MAX_UNIVERSE_RADIUS) continue;
+            if (f.blocked == 0 || f.retryDone || f.radius >= MAX_UNIVERSE_RADIUS || !rt.due(key(f.rx, f.rz), rt.server.getTickCount())) continue;
             for (int[] pt : pts) {
                 long dx = f.rx * (long) TILE + TILE / 2 - pt[0], dz = f.rz * (long) TILE + TILE / 2 - pt[1], d = dx * dx + dz * dz;
                 boolean near = Math.abs(dx) <= TRIGGER_BLOCKS + TILE / 2 && Math.abs(dz) <= TRIGGER_BLOCKS + TILE / 2;
@@ -244,7 +256,13 @@ public final class St05NaturalGeneration {
                 });
             } catch (Throwable t) {
                 rt.scanError = t;
-                rt.server.execute(() -> rt.scanning.remove(k));
+                rt.tiles.clear(); rt.observations.clear();       // release the scan's memory before anything else is attempted
+                rt.server.execute(() -> {
+                    rt.scanning.remove(k);
+                    int n = rt.scanFailures.merge(k, 1, Integer::sum);
+                    rt.retryAfterTick.put(k, rt.server.getTickCount() + 20L * 60 * 5 * n);      // back off 5, 10, 15 minutes; then give up for this run
+                    if (n >= Runtime.MAX_SCAN_FAILURES) LOG.error("[ST05-NATURAL] region {},{} failed {} scans; abandoned until the next server start", rx, rz, n);
+                });
             }
         });
     }
