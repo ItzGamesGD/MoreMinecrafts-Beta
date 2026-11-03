@@ -44,6 +44,8 @@ public final class AccessoryEquipmentContainer extends SimpleContainer {
         if (!safeStack.isEmpty() && !AccessorySlotRules.accepts(slot, safeStack)) return;
         ItemStack previous = getItem(slot);
         player.setAttached(EquipmentAttachments.ACCESSORIES, loadout().with(slot, safeStack));
+        if (player instanceof ServerPlayer serverPlayer)
+            T1AccessoryRuntime.equipmentChanged(serverPlayer, previous, safeStack);
         if (player instanceof ServerPlayer serverPlayer && !previous.isEmpty())
             AccessoryAbilities.clearTransientState(serverPlayer, previous);
     }

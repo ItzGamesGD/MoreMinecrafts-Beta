@@ -20,7 +20,7 @@ public final class AccessoryEnhancementOperation {
     public static Optional<AccessoryEnhancementRules.Plan> requirement(
             ItemStack accessory, int stoneCount, int catalystCount, int availableRawExperience) {
         if (!isAccessory(accessory)) return Optional.empty();
-        return AccessoryEnhancementRules.plan(level(accessory), stoneCount, catalystCount, availableRawExperience);
+        return AccessoryEnhancementRules.plan(((AccessoryItem) accessory.getItem()).definition(), level(accessory), stoneCount, catalystCount, availableRawExperience);
     }
 
     public static Optional<AccessoryEnhancementRules.Plan> nextRequirement(ItemStack accessory) {
@@ -44,7 +44,7 @@ public final class AccessoryEnhancementOperation {
             return false;
         }
         Optional<AccessoryEnhancementRules.Plan> planned = AccessoryEnhancementRules.plan(
-                level(accessory), stones.getCount(), catalysts.isEmpty() ? 0 : catalysts.getCount(), RawXp.available(player));
+                ((AccessoryItem) accessory.getItem()).definition(), level(accessory), stones.getCount(), catalysts.isEmpty() ? 0 : catalysts.getCount(), RawXp.available(player));
         if (planned.isEmpty()) return false;
 
         AccessoryEnhancementRules.Plan plan = planned.get();
@@ -58,8 +58,10 @@ public final class AccessoryEnhancementOperation {
         try {
             // Exact raw-XP deduction (level, then points, then totalExperience), as approved for every
             // MoreMinecrafts XP payment. Charged in every game mode, as this path always has been.
-            RawXp.setTotal(player, (long) RawXp.available(player) - plan.rawExperienceCost());
-            xpDebited = true;
+            if (plan.rawExperienceCost() > 0) {
+                RawXp.setTotal(player, (long) RawXp.available(player) - plan.rawExperienceCost());
+                xpDebited = true;
+            }
             stones.shrink(plan.stoneCost());
             stonesDebited = true;
             if (plan.catalystCost() > 0) {
@@ -78,6 +80,10 @@ public final class AccessoryEnhancementOperation {
                     xpBefore, xpDebited, stonesDebited, catalystDebited);
             throw failure;
         }
+    }
+
+    public static int maximumLevel(ItemStack stack) {
+        return stack.getItem() instanceof AccessoryItem accessory ? accessory.definition().maxEnhancementLevel() : 0;
     }
 
     public static int level(ItemStack stack) {

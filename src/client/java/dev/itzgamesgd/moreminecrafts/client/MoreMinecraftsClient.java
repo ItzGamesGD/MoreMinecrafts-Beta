@@ -41,6 +41,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     private static boolean fishingCaptureAllowed;
     private static int fishingRequiredMinnowTier = 1;
     private static boolean jumpHeld;
+    private static boolean t1GroundedAtTickStart = true;
     public static boolean fishingChallengeActive() { return fishingChallengeStart >= 0; }
 
     @Override
@@ -56,10 +57,17 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
         MenuScreens.register(ModMenuTypes.FISHING_ROD, FishingRodScreen::new);
         MenuScreens.register(ModMenuTypes.AUTO_FARM, AutoFarmScreen::new);
         MenuScreens.register(ModMenuTypes.ENCHANTING_PROGRESSION, EnchantingProgressionScreen::new);
+        ClientTickEvents.START_CLIENT_TICK.register(client ->
+                t1GroundedAtTickStart = client.player == null || client.player.onGround());
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             boolean jump = client.options.keyJump.isDown();
-            if (jump && !jumpHeld && client.getConnection() != null) {
-                ClientPlayNetworking.send(MovementJumpPayload.INSTANCE);
+            if (jump && !jumpHeld && client.getConnection() != null && client.player != null && client.gui.screen() == null) {
+                var equipped = new dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentContainer(client.player)
+                        .getItem(dev.itzgamesgd.moreminecrafts.accessory.AccessoryCategory.EXPLORATION_MOBILITY.ordinal());
+                if (!t1GroundedAtTickStart && equipped.getItem() == dev.itzgamesgd.moreminecrafts.registry.ModItems.ACCESSORIES
+                        .get(dev.itzgamesgd.moreminecrafts.accessory.AccessoryDefinition.T1_DOUBLE_JUMP))
+                    ClientPlayNetworking.send(dev.itzgamesgd.moreminecrafts.network.T1AirJumpPayload.INSTANCE);
+                else ClientPlayNetworking.send(MovementJumpPayload.INSTANCE);
             }
             jumpHeld = jump;
         });

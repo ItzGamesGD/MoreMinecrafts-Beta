@@ -10,6 +10,14 @@ public final class AccessoryEnhancementRules {
 
     private AccessoryEnhancementRules() {}
 
+    public static Optional<Plan> plan(AccessoryDefinition accessory, int currentLevel,
+                                      int availableStones, int availableCatalysts, int availableRawExperience) {
+        if (!accessory.isT1()) return plan(currentLevel, availableStones, availableCatalysts, availableRawExperience);
+        if (currentLevel < 0 || currentLevel >= 5 || availableStones < currentLevel + 2
+                || availableCatalysts < 0 || availableRawExperience < 0) return Optional.empty();
+        return Optional.of(new Plan(currentLevel + 1, 0, currentLevel + 2, 0, false, true));
+    }
+
     public static Optional<Plan> plan(int currentLevel, int availableStones, int availableCatalysts,
                                       int availableRawExperience) {
         if (currentLevel < 0 || currentLevel >= MAX_LEVEL

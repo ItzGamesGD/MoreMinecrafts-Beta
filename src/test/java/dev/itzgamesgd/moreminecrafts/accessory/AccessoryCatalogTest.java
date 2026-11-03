@@ -21,9 +21,9 @@ class AccessoryCatalogTest {
     }
 
     @Test
-    void finalizedRosterHasTwelveUniqueIdsAndExactlyFiveCategories() {
-        assertEquals(12, AccessoryDefinition.ALL.size());
-        assertEquals(12, AccessoryDefinition.ALL.stream().map(AccessoryDefinition::registryId).distinct().count());
+    void finalizedRosterHasNineteenUniqueIdsAndExactlyFiveCategories() {
+        assertEquals(19, AccessoryDefinition.ALL.size());
+        assertEquals(19, AccessoryDefinition.ALL.stream().map(AccessoryDefinition::registryId).distinct().count());
         assertEquals(5, AccessoryCategory.values().length);
 
         var counts = new EnumMap<AccessoryCategory, Integer>(AccessoryCategory.class);
@@ -32,10 +32,10 @@ class AccessoryCatalogTest {
             assertTrue(definition.translationKey().startsWith("item.moreminecrafts."));
             counts.merge(definition.category(), 1, Integer::sum);
         }
-        assertEquals(6, counts.get(AccessoryCategory.COMBAT));
-        assertEquals(2, counts.get(AccessoryCategory.DEFENSE_SURVIVAL));
-        assertEquals(1, counts.get(AccessoryCategory.SUPPORT_RECOVERY));
-        assertEquals(2, counts.get(AccessoryCategory.EXPLORATION_MOBILITY));
+        assertEquals(8, counts.get(AccessoryCategory.COMBAT));
+        assertEquals(4, counts.get(AccessoryCategory.DEFENSE_SURVIVAL));
+        assertEquals(2, counts.get(AccessoryCategory.SUPPORT_RECOVERY));
+        assertEquals(4, counts.get(AccessoryCategory.EXPLORATION_MOBILITY));
         assertEquals(1, counts.get(AccessoryCategory.LIFESTYLE_GATHERING));
     }
 

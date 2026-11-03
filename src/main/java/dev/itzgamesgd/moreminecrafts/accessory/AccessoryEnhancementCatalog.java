@@ -58,11 +58,11 @@ public final class AccessoryEnhancementCatalog {
     public static List<Integer> levels() { return LEVELS; }
 
     public static Map<String, List<Double>> table(AccessoryDefinition accessory) {
-        return TABLES.getOrDefault(accessory, Map.of());
+        return accessory.isT1() ? T1AccessoryRules.table(accessory) : TABLES.getOrDefault(accessory, Map.of());
     }
 
     public static OptionalDouble valueAt(AccessoryDefinition accessory, String stat, int level) {
-        if (level < MIN_LEVEL || level > MAX_LEVEL) return OptionalDouble.empty();
+        if (level < MIN_LEVEL || level > accessory.maxEnhancementLevel()) return OptionalDouble.empty();
         List<Double> values = table(accessory).get(stat);
         return values == null ? OptionalDouble.empty() : OptionalDouble.of(values.get(level));
     }

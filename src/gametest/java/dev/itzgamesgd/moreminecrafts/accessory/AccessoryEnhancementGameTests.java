@@ -183,6 +183,9 @@ public final class AccessoryEnhancementGameTests implements CustomTestMethodInvo
 
     @GameTest public void catalystQuickMoveAndMenuCloseConserveTheInput(GameTestHelper ctx) {
         var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        // Keep overflow drops inside this test's loaded chunk, rather than the unloaded world origin.
+        var testPosition=ctx.absolutePos(new net.minecraft.core.BlockPos(2,2,2));
+        player.setPos(testPosition.getX()+.5,testPosition.getY(),testPosition.getZ()+.5);
         var menu=new AnvilMenu(22,player.getInventory());
         var modes=(T1AnvilModes)menu;
         player.getInventory().setItem(9,new ItemStack(ModItems.RELIC_CATALYST));
