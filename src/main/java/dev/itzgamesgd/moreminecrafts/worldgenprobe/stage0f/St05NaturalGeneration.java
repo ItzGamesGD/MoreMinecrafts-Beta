@@ -26,6 +26,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicLong;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
@@ -66,6 +67,7 @@ public final class St05NaturalGeneration {
     static final Measure MEASURE = Measure.DISK32;
     static final int Y0 = -64, H = 80;
     static final int UNIVERSE_RADIUS = 2;                 // 5x5 regions observed around the scanned region
+    static final int MAX_UNIVERSE_RADIUS = 5;             // blocked decisions are retried with a one region larger universe, up to 11x11
     static final int TRIGGER_BLOCKS = 192;                // a region is scanned / an arena is built only when a player is this close (XZ)
     static final String SNAPSHOT = "PLAN_BASE_COLUMN_v1";
 
@@ -77,6 +79,8 @@ public final class St05NaturalGeneration {
         final MinecraftServer server; final ServerLevel level; final long seed;
         final Path regionDir; final Journal journal; final St05Stage0FLive.LevelWorld world;
         final Map<Long, List<St05Stage0FLive.Res>> reserved = new HashMap<>();   // region key -> reservations (loaded / scanned)
+        final Map<Long, RegionFile> files = new java.util.concurrent.ConcurrentHashMap<>();   // region key -> persisted decision record
+        final Map<String, Long> ownerOf = new HashMap<>();                       // chamber id -> owning region (a reservation exists exactly once)
         final Set<Long> scanned = new HashSet<>(), scanning = new HashSet<>();
         final ExecutorService scanThread = Executors.newSingleThreadExecutor(r -> { Thread t = new Thread(r, "st05-natural-scan"); t.setDaemon(true); t.setPriority(Thread.MIN_PRIORITY); return t; });
         final ExecutorService noisePool;
@@ -90,6 +94,8 @@ public final class St05NaturalGeneration {
         St05Stage0FLive.Res current; long currentSince; boolean currentHeld;
         final Set<String> finished = new HashSet<>();
         volatile Throwable scanError;
+        final Timing timing = new Timing();
+        volatile BulkSampler sampler;
         Runtime(MinecraftServer s, ServerLevel l, Path root) throws IOException {
             server = s; level = l; seed = l.getSeed();
             regionDir = root.resolve("regions");
@@ -99,6 +105,13 @@ public final class St05NaturalGeneration {
             int threads = Math.max(1, Math.min(3, java.lang.Runtime.getRuntime().availableProcessors() - 1));
             noisePool = Executors.newFixedThreadPool(threads, r -> { Thread t = new Thread(r, "st05-natural-noise"); t.setDaemon(true); t.setPriority(Thread.MIN_PRIORITY); return t; });
         }
+    }
+
+    /** Per-phase wall time of the scan thread (nanoseconds), logged with every finished scan so bottlenecks stay visible in production logs. */
+    static final class Timing {
+        final AtomicLong noise = new AtomicLong(), window = new AtomicLong(), extract = new AtomicLong(), resolve = new AtomicLong(), pipeline = new AtomicLong(), tiles = new AtomicLong();
+        void reset() { noise.set(0); window.set(0); extract.set(0); resolve.set(0); pipeline.set(0); tiles.set(0); }
+        String report() { return "noise_ms=" + noise.get() / 1_000_000 + " tiles=" + tiles.get() + " window_ms=" + window.get() / 1_000_000 + " extract_ms=" + extract.get() / 1_000_000 + " resolve_ms=" + resolve.get() / 1_000_000 + " pipeline_ms=" + pipeline.get() / 1_000_000; }
     }
 
     private static volatile Runtime RT;
@@ -121,8 +134,8 @@ public final class St05NaturalGeneration {
                 if (rr == null) continue;
                 RegionFile f = readRegion(p, rt.seed);
                 if (f == null) { quarantine(p); continue; }
-                rt.scanned.add(key(rr[0], rr[1]));
-                rt.reserved.put(key(rr[0], rr[1]), f.reservations);
+                f.rx = rr[0]; f.rz = rr[1];
+                accept(rt, key(rr[0], rr[1]), f);
             }
             RT = rt;
             LOG.info("[ST05-NATURAL] started seed={} regions_loaded={} state_dir={}", rt.seed, rt.scanned.size(), rt.regionDir.getParent());
@@ -151,7 +164,8 @@ public final class St05NaturalGeneration {
             // 1. scan scheduling (one background scan at a time; nearest region first)
             if (rt.scanning.isEmpty()) {
                 int[] next = nextRegionToScan(rt);
-                if (next != null) startScan(rt, next[0], next[1]);
+                if (next == null) next = nextRetry(rt);
+                if (next != null) startScan(rt, next[0], next[1], next[2]);
             }
             // 2. construction state machine (server thread, one reservation at a time)
             constructionStep(rt);
@@ -162,8 +176,8 @@ public final class St05NaturalGeneration {
 
     private static List<int[]> focusPoints(Runtime rt) {
         List<int[]> pts = new ArrayList<>();
-        String f = System.getProperty("mm.st05.natural.focus");   // headless validation: "x,z" acts as a virtual player
-        if (f != null) { String[] p = f.split(","); pts.add(new int[]{Integer.parseInt(p[0].trim()), Integer.parseInt(p[1].trim())}); }
+        String f = System.getProperty("mm.st05.natural.focus");   // headless validation: "x,z[;x,z...]" act as virtual players
+        if (f != null) for (String one : f.split(";")) { String[] p = one.split(","); pts.add(new int[]{Integer.parseInt(p[0].trim()), Integer.parseInt(p[1].trim())}); }
         for (ServerPlayer p : rt.server.getPlayerList().getPlayers()) if (p.level() == rt.level) pts.add(new int[]{p.blockPosition().getX(), p.blockPosition().getZ()});
         return pts;
     }
@@ -178,24 +192,55 @@ public final class St05NaturalGeneration {
                     if (d < bestD) { bestD = d; best = new int[]{rx, rz}; }
                 }
         }
+        return best == null ? null : new int[]{best[0], best[1], UNIVERSE_RADIUS};
+    }
+
+    /** A scanned region that still holds BLOCKED_BY_UNRESOLVED decisions is rescanned (nearby only, after all fresh scans) with a one region larger universe, so the neighbours that decided it are observed. */
+    private static int[] nextRetry(Runtime rt) {
+        long bestD = Long.MAX_VALUE; int[] best = null;
+        List<int[]> pts = focusPoints(rt);
+        for (RegionFile f : rt.files.values()) {
+            if (f.blocked == 0 || f.retryDone || f.radius >= MAX_UNIVERSE_RADIUS) continue;
+            for (int[] pt : pts) {
+                long dx = f.rx * (long) TILE + TILE / 2 - pt[0], dz = f.rz * (long) TILE + TILE / 2 - pt[1], d = dx * dx + dz * dz;
+                boolean near = Math.abs(dx) <= TRIGGER_BLOCKS + TILE / 2 && Math.abs(dz) <= TRIGGER_BLOCKS + TILE / 2;
+                if (near && d < bestD) { bestD = d; best = new int[]{f.rx, f.rz, f.radius + 1}; }
+            }
+        }
         return best;
     }
 
+    /** Registers a loaded / freshly scanned record (server thread). Each chamber id has exactly one owning region, so a reservation can never be registered twice. */
+    private static void accept(Runtime rt, long k, RegionFile f) {
+        List<St05Stage0FLive.Res> ok = new ArrayList<>();
+        for (St05Stage0FLive.Res r : f.reservations) {
+            Long prev = rt.ownerOf.putIfAbsent(r.id(), k);
+            if (prev != null && prev != k) { LOG.error("[ST05-NATURAL] reservation {} already owned by another region record; ignored in region {},{}", r.id(), f.rx, f.rz); continue; }
+            ok.add(r);
+        }
+        f.reservations.clear(); f.reservations.addAll(ok);
+        rt.files.put(k, f);
+        rt.reserved.put(k, f.reservations);
+        rt.scanned.add(k);
+    }
+
     // ------------------------------------------------------------------------------------------------ scan (background)
-    private static void startScan(Runtime rt, int rx, int rz) {
+    private static void startScan(Runtime rt, int rx, int rz, int radius) {
         long k = key(rx, rz);
         rt.scanning.add(k);
-        LOG.info("[ST05-NATURAL] scan start region={},{}", rx, rz);
+        LOG.info("[ST05-NATURAL] scan start region={},{} universe={}x{}{}", rx, rz, 2 * radius + 1, 2 * radius + 1, radius > UNIVERSE_RADIUS ? " (retry of blocked decisions)" : "");
         rt.scanThread.submit(() -> {
             try {
                 long t0 = System.nanoTime();
-                RegionFile rf = scanRegion(rt, rx, rz);
+                rt.timing.reset();
+                RegionFile fresh = scanRegion(rt, rx, rz, radius);
+                RegionFile rf = merge(rt.files.get(k), fresh);
+                if (rf != fresh) fresh.summary += " [kept earlier record]";
                 writeRegion(rt.regionDir.resolve("r_" + rx + "_" + rz + ".txt"), rf);
                 rt.server.execute(() -> {
-                    rt.reserved.put(k, rf.reservations);
-                    rt.scanned.add(k);
                     rt.scanning.remove(k);
-                    LOG.info("[ST05-NATURAL] scan done region={},{} ms={} reserved={} summary={}", rx, rz, (System.nanoTime() - t0) / 1_000_000, rf.reservations.size(), rf.summary);
+                    accept(rt, k, rf);
+                    LOG.info("[ST05-NATURAL] scan done region={},{} universe={}x{} ms={} reserved={} blocked={} summary={} {}", rx, rz, 2 * rf.radius + 1, 2 * rf.radius + 1, (System.nanoTime() - t0) / 1_000_000, rf.reservations.size(), rf.blocked, rf.summary, rt.timing.report());
                 });
             } catch (Throwable t) {
                 rt.scanError = t;
@@ -208,6 +253,16 @@ public final class St05NaturalGeneration {
         long k = key(tx, tz);
         BitSet cached = rt.tiles.get(k);
         if (cached != null) return cached;
+        long tn = System.nanoTime();
+        if (rt.sampler == null) rt.sampler = BulkSampler.create(rt);      // self-checked against getBaseColumn; null => exact legacy path
+        BitSet bits = rt.sampler.available ? rt.sampler.tile(rt, tx, tz) : legacyTile(rt, tx, tz);
+        rt.tiles.put(k, bits);
+        rt.timing.noise.addAndGet(System.nanoTime() - tn); rt.timing.tiles.incrementAndGet();
+        return bits;
+    }
+
+    /** Original per-column sampling through {@code getBaseColumn}; kept as the reference and as the fallback when the bulk sampler fails its self-check. */
+    private static BitSet legacyTile(Runtime rt, int tx, int tz) throws Exception {
         var gen = rt.level.getChunkSource().getGenerator();
         var rs = rt.level.getChunkSource().randomState();
         BitSet bits = new BitSet(TILE * TILE * H);
@@ -229,8 +284,97 @@ public final class St05NaturalGeneration {
             int base = i * stripe * TILE * H;
             for (int b = part.nextSetBit(0); b >= 0; b = part.nextSetBit(b + 1)) bits.set(base + b);
         }
-        rt.tiles.put(k, bits);
         return bits;
+    }
+
+    /**
+     * Samples the same final-density + aquifer substance that {@code getBaseColumn} uses, but for a whole patch of columns with ONE noise chunk and only the y range the scan needs
+     * (getBaseColumn builds a noise chunk per column and evaluates all 384 y). Result bits are identical by construction; this is also verified at first use against getBaseColumn on
+     * several far-apart patches, and any mismatch or API problem switches the run back to {@link #legacyTile}.
+     */
+    static final class BulkSampler {
+        static final int PATCH = 32;
+        boolean available;
+        private net.minecraft.world.level.levelgen.NoiseGeneratorSettings settings;
+        private net.minecraft.world.level.levelgen.Aquifer.FluidPicker picker;
+
+        static BulkSampler create(Runtime rt) {
+            BulkSampler b = new BulkSampler();
+            if ("false".equalsIgnoreCase(System.getProperty("mm.st05.natural.bulk"))) { LOG.info("[ST05-NATURAL] bulk sampler disabled by property"); return b; }
+            try {
+                var gen = (net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator) rt.level.getChunkSource().getGenerator();
+                b.settings = gen.generatorSettings().value();
+                var f = net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator.class.getDeclaredField("globalFluidPicker");
+                f.setAccessible(true);
+                @SuppressWarnings("unchecked") var sup = (java.util.function.Supplier<net.minecraft.world.level.levelgen.Aquifer.FluidPicker>) f.get(gen);
+                b.picker = sup.get();
+                var rs = rt.level.getChunkSource().randomState();
+                long t0 = System.nanoTime();
+                int[][] spots = {{0, 0}, {-837, -1174}, {3040, -5120}, {-20016, 12000}, {1234567, -7654321}};
+                int mism = 0, cols = 0;
+                for (int[] sp : spots) {
+                    boolean[] fast = b.patch(rs, sp[0], sp[1], 16, 16);
+                    for (int x = 0; x < 16; x++) for (int z = 0; z < 16; z++) {
+                        NoiseColumn col = gen.getBaseColumn(sp[0] + x, sp[1] + z, rt.level, rs);
+                        cols++;
+                        for (int y = 0; y < H; y++) if (col.getBlock(Y0 + y).isAir() != fast[(x * 16 + z) * H + y]) mism++;
+                    }
+                }
+                b.available = mism == 0;
+                LOG.info("[ST05-NATURAL] bulk sampler self-check columns={} mismatching_blocks={} ms={} -> {}", cols, mism, (System.nanoTime() - t0) / 1_000_000, b.available ? "ENABLED" : "DISABLED (legacy getBaseColumn path)");
+                String vt = System.getProperty("mm.st05.natural.verifyTile");     // validation only: full-tile bit comparison with getBaseColumn, "tx,tz"
+                if (vt != null && b.available) {
+                    String[] q = vt.split(",");
+                    int tx = Integer.parseInt(q[0].trim()), tz = Integer.parseInt(q[1].trim());
+                    long t1 = System.nanoTime();
+                    BitSet fastBits = b.tile(rt, tx, tz), ref = legacyTile(rt, tx, tz);
+                    BitSet diff = (BitSet) fastBits.clone(); diff.xor(ref);
+                    LOG.info("[ST05-NATURAL] full tile verify tile={},{} blocks={} air={} differing_blocks={} ms={}", tx, tz, TILE * TILE * H, ref.cardinality(), diff.cardinality(), (System.nanoTime() - t1) / 1_000_000);
+                }
+            } catch (Throwable t) {
+                b.available = false;
+                LOG.warn("[ST05-NATURAL] bulk sampler unavailable, using legacy getBaseColumn path", t);
+            }
+            return b;
+        }
+
+        /** air flags for columns [x0,x0+sx) x [z0,z0+sz), index (lx*sz+lz)*H + (y-Y0). */
+        boolean[] patch(net.minecraft.world.level.levelgen.RandomState rs, int x0, int z0, int sx, int sz) {
+            var volume = new net.minecraft.world.level.levelgen.densityfunction.DensityVolume(sx, H, sz, x0, Y0, z0);
+            boolean[] air = new boolean[sx * sz * H];
+            try (var nc = new net.minecraft.world.level.levelgen.NoiseChunk(rs, null, settings, picker, net.minecraft.world.level.levelgen.blending.Blender.empty(), volume)) {
+                var aquifer = nc.aquifer();
+                var dflt = settings.defaultBlock();
+                var bound = nc.cachingSamplers().get(settings.noiseRouter().finalDensity());
+                try (var buf = bound.sampleVolume(nc.volume())) {
+                    for (int lx = 0; lx < sx; lx++) for (int lz = 0; lz < sz; lz++)
+                        for (int iy = H - 1; iy >= 0; iy--) {
+                            var st = aquifer.computeSubstance(x0 + lx, volume.blockY(iy), z0 + lz, buf.get(volume.indexUnchecked(lx, iy, lz)));
+                            air[(lx * sz + lz) * H + iy] = (st == null ? dflt : st).isAir();
+                        }
+                }
+            }
+            return air;
+        }
+
+        BitSet tile(Runtime rt, int tx, int tz) throws Exception {
+            var rs = rt.level.getChunkSource().randomState();
+            BitSet bits = new BitSet(TILE * TILE * H);
+            List<Future<boolean[]>> fs = new ArrayList<>();
+            for (int px = 0; px < TILE; px += PATCH) for (int pz = 0; pz < TILE; pz += PATCH) {
+                final int fx = px, fz = pz;
+                fs.add(rt.noisePool.submit(() -> patch(rs, tx * TILE + fx, tz * TILE + fz, PATCH, PATCH)));
+            }
+            int i = 0;
+            for (int px = 0; px < TILE; px += PATCH) for (int pz = 0; pz < TILE; pz += PATCH) {
+                boolean[] a = fs.get(i++).get();
+                for (int lx = 0; lx < PATCH; lx++) for (int lz = 0; lz < PATCH; lz++) {
+                    int src = (lx * PATCH + lz) * H, dst = ((px + lx) * TILE + (pz + lz)) * H;
+                    for (int y = 0; y < H; y++) if (a[src + y]) bits.set(dst + y);
+                }
+            }
+            return bits;
+        }
     }
 
     /** The Stage 0-D window of region (rx,rz): its 256x256 own area plus the 128-block margin, assembled from noise tiles (identical to {@code planWindow}). */
@@ -253,28 +397,36 @@ public final class St05NaturalGeneration {
         long k = key(rx, rz);
         Observation o = rt.observations.get(k);
         if (o != null) return o;
+        long t0 = System.nanoTime();
         Window w = window(rt, rx, rz);
+        long t1 = System.nanoTime();
         o = new Observation(rx, rz, ChamberCore.extract(w, PARAMS, rt.seed, rx, rz, new ChamberCore.ExtractStats()), w.digest());
+        rt.timing.window.addAndGet(t1 - t0); rt.timing.extract.addAndGet(System.nanoTime() - t1);
         rt.observations.put(k, o);
         return o;
     }
 
     /** Runs the unchanged Stage 0-D/0-E pipeline over the 5x5 universe centred on (rx,rz) and keeps only decisions for chambers owned by (rx,rz). */
-    private static RegionFile scanRegion(Runtime rt, int rx, int rz) throws Exception {
+    private static RegionFile scanRegion(Runtime rt, int rx, int rz, int radius) throws Exception {
         List<Observation> obs = new ArrayList<>();
-        for (int x = rx - UNIVERSE_RADIUS; x <= rx + UNIVERSE_RADIUS; x++) for (int z = rz - UNIVERSE_RADIUS; z <= rz + UNIVERSE_RADIUS; z++) obs.add(observe(rt, x, z));
+        for (int x = rx - radius; x <= rx + radius; x++) for (int z = rz - radius; z <= rz + radius; z++) obs.add(observe(rt, x, z));
+        long tr = System.nanoTime();
         ChamberCore.Resolution res = ChamberCore.resolve(obs, PARAMS, rt.seed);
-        int[] universe = {(rx - UNIVERSE_RADIUS) * ChamberCore.OWN, (rz - UNIVERSE_RADIUS) * ChamberCore.OWN, (rx + UNIVERSE_RADIUS + 1) * ChamberCore.OWN, (rz + UNIVERSE_RADIUS + 1) * ChamberCore.OWN};
+        rt.timing.resolve.addAndGet(System.nanoTime() - tr);
+        int[] universe = {(rx - radius) * ChamberCore.OWN, (rz - radius) * ChamberCore.OWN, (rx + radius + 1) * ChamberCore.OWN, (rz + radius + 1) * ChamberCore.OWN};
         NaturalEnv env = new NaturalEnv(rt.level);
+        long tp = System.nanoTime();
         PlacementPipeline.Result pr = PlacementPipeline.run(res, rt.seed, MEASURE, universe, env);
+        rt.timing.pipeline.addAndGet(System.nanoTime() - tp);
         RegionFile rf = new RegionFile();
-        rf.seed = rt.seed;
+        rf.seed = rt.seed; rf.rx = rx; rf.rz = rz; rf.radius = radius;
         Map<String, Integer> sum = new TreeMap<>();
         for (Chamber c : res.chambers.values()) {
             if (c.ownerRx != rx || c.ownerRz != rz) continue;
             String st = pr.status.getOrDefault(c.id, "UNSET");
             sum.merge(st, 1, Integer::sum);
             rf.lines.add(Long.toHexString(c.id) + " " + st + " " + pr.reason.getOrDefault(c.id, "-"));
+            if (st.equals(BLOCKED)) rf.blocked++;
             if (st.equals("PLACEMENT_RESERVED"))
                 rf.reservations.add(new St05Stage0FLive.Res(Long.toHexString(c.id), c.diskCx, c.diskCz, c.diskFloorY));
         }
@@ -377,16 +529,43 @@ public final class St05NaturalGeneration {
     }
 
     // ------------------------------------------------------------------------------------------------ persistence
-    private static final class RegionFile {
-        long seed; String summary = "";
+    static final String BLOCKED = "BLOCKED_BY_UNRESOLVED";
+
+    static final class RegionFile {
+        long seed; int rx, rz, radius = UNIVERSE_RADIUS, blocked; boolean retryDone; String summary = "";
         final List<String> lines = new ArrayList<>();
         final List<St05Stage0FLive.Res> reservations = new ArrayList<>();
     }
 
+    /**
+     * Combines an earlier record with a rescan that used a larger universe. Decisions that were not BLOCKED are universe independent, so they must come back identical; the earlier
+     * record is then kept as is (reservations are durable and never rerolled) and only previously BLOCKED chambers may change. On any disagreement the earlier record wins and no more retries happen.
+     */
+    static RegionFile merge(RegionFile old, RegionFile fresh) {
+        if (old == null) return fresh;
+        Map<String, String> was = new HashMap<>(), now = new HashMap<>();
+        for (String l : old.lines) { String[] t = l.split(" "); was.put(t[0], t[1]); }
+        for (String l : fresh.lines) { String[] t = l.split(" "); now.put(t[0], t[1]); }
+        for (var e : was.entrySet()) {
+            if (e.getValue().equals(BLOCKED)) continue;
+            if (!e.getValue().equals(now.get(e.getKey()))) {
+                LOG.error("[ST05-NATURAL] rescan of region {},{} disagrees with the earlier decision for {} ({} -> {}); keeping the earlier record", old.rx, old.rz, e.getKey(), e.getValue(), now.get(e.getKey()));
+                old.retryDone = true;
+                return old;
+            }
+        }
+        // a larger universe that leaves exactly the same chambers blocked proves the block is not a border effect (e.g. a cave too large to ever be observed whole): stop retrying
+        Set<String> a = new java.util.TreeSet<>(), b = new java.util.TreeSet<>();
+        for (var e : was.entrySet()) if (e.getValue().equals(BLOCKED)) a.add(e.getKey());
+        for (var e : now.entrySet()) if (e.getValue().equals(BLOCKED)) b.add(e.getKey());
+        if (fresh.radius > old.radius && a.equals(b)) fresh.retryDone = true;
+        return fresh;
+    }
+
     private static final String MAGIC = "ST05-NATURAL-REGION-1";
 
-    private static void writeRegion(Path p, RegionFile rf) throws IOException {
-        StringBuilder sb = new StringBuilder(MAGIC + " algo=" + ChamberCore.ALGO + " params=" + PARAMS.name() + "/" + MEASURE + " seed=" + rf.seed + " universe=" + (2 * UNIVERSE_RADIUS + 1) + "x" + (2 * UNIVERSE_RADIUS + 1) + "\n");
+    static void writeRegion(Path p, RegionFile rf) throws IOException {
+        StringBuilder sb = new StringBuilder(MAGIC + " algo=" + ChamberCore.ALGO + " params=" + PARAMS.name() + "/" + MEASURE + " seed=" + rf.seed + " universe=" + (2 * rf.radius + 1) + "x" + (2 * rf.radius + 1) + (rf.retryDone ? " retry=done" : "") + "\n");
         for (St05Stage0FLive.Res r : rf.reservations) sb.append("RES ").append(r.id()).append(' ').append(r.cx()).append(' ').append(r.cz()).append(' ').append(r.floorY()).append('\n');
         for (String l : rf.lines) sb.append("DEC ").append(l).append('\n');
         String digest = ChamberCore.sha256(sb.toString()).substring(0, 16);   // body only: readRegion verifies exactly these bytes
@@ -396,7 +575,7 @@ public final class St05NaturalGeneration {
         Files.move(tmp, p, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
     }
 
-    private static RegionFile readRegion(Path p, long seed) {
+    static RegionFile readRegion(Path p, long seed) {
         try {
             List<String> ls = Files.readAllLines(p, StandardCharsets.UTF_8);
             if (ls.size() < 2 || !ls.get(0).startsWith(MAGIC) || !ls.get(0).contains(" seed=" + seed + " ")) return null;
@@ -406,6 +585,10 @@ public final class St05NaturalGeneration {
             if (!last.equals("END " + ChamberCore.sha256(body.toString()).substring(0, 16))) return null;
             RegionFile rf = new RegionFile();
             rf.seed = seed;
+            java.util.regex.Matcher um = java.util.regex.Pattern.compile(" universe=(\\d+)x\\d+").matcher(ls.get(0));
+            rf.retryDone = ls.get(0).contains(" retry=done");
+            if (um.find()) rf.radius = (Integer.parseInt(um.group(1)) - 1) / 2;
+            for (String l : ls) if (l.startsWith("DEC ")) { rf.lines.add(l.substring(4)); if (l.contains(" " + BLOCKED + " ")) rf.blocked++; }
             for (String l : ls) if (l.startsWith("RES ")) { String[] t = l.split(" "); rf.reservations.add(new St05Stage0FLive.Res(t[1], Integer.parseInt(t[2]), Integer.parseInt(t[3]), Integer.parseInt(t[4]))); }
             return rf;
         } catch (Exception e) { return null; }
