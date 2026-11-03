@@ -389,7 +389,8 @@ public final class St05NaturalGeneration {
         StringBuilder sb = new StringBuilder(MAGIC + " algo=" + ChamberCore.ALGO + " params=" + PARAMS.name() + "/" + MEASURE + " seed=" + rf.seed + " universe=" + (2 * UNIVERSE_RADIUS + 1) + "x" + (2 * UNIVERSE_RADIUS + 1) + "\n");
         for (St05Stage0FLive.Res r : rf.reservations) sb.append("RES ").append(r.id()).append(' ').append(r.cx()).append(' ').append(r.cz()).append(' ').append(r.floorY()).append('\n');
         for (String l : rf.lines) sb.append("DEC ").append(l).append('\n');
-        sb.append("END ").append(ChamberCore.sha256(sb.toString()).substring(0, 16)).append('\n');
+        String digest = ChamberCore.sha256(sb.toString()).substring(0, 16);   // body only: readRegion verifies exactly these bytes
+        sb.append("END ").append(digest).append('\n');
         Path tmp = p.resolveSibling(p.getFileName() + ".tmp");
         Files.writeString(tmp, sb.toString(), StandardCharsets.UTF_8);
         Files.move(tmp, p, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
