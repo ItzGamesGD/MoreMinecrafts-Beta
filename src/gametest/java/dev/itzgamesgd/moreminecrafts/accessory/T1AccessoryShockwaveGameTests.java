@@ -39,9 +39,13 @@ public final class T1AccessoryShockwaveGameTests implements CustomTestMethodInvo
         behindWall.setDeltaMovement(-.5, 0, 0);
         var trident = ctx.spawn(EntityTypes.TRIDENT, new BlockPos(-2, 41, 1));
         trident.setOwner(player); trident.setDeltaMovement(.4, 0, -.3);
+        var immuneBoss = ctx.spawn(EntityTypes.ENDER_DRAGON, new BlockPos(0, 40, 0));
+        immuneBoss.getPhaseManager().setPhase(net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase.SITTING_SCANNING);
+        immuneBoss.setDeltaMovement(Vec3.ZERO);
         T1AccessoryGameTests.equip(player, AccessoryDefinition.T1_CRISIS_ESCAPE, 0);
         player.setHealth(5);
         T1Shockwave.tryActivate(player);
+        ctx.assertTrue(immuneBoss.getDeltaMovement().equals(Vec3.ZERO), "native boss knockback immunity preserved");
         ctx.assertTrue(blocked.getDeltaMovement().equals(Vec3.ZERO), "wall hides mob body center");
         ctx.assertTrue(outside.getDeltaMovement().equals(Vec3.ZERO), "+0 excludes five-block target");
         ctx.assertTrue(boundary.getDeltaMovement().equals(Vec3.ZERO), "bbox overlap does not include a center outside sphere");
