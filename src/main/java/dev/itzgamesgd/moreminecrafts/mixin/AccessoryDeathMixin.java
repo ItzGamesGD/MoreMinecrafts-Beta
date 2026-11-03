@@ -17,6 +17,7 @@ abstract class AccessoryDeathMixin {
     @Inject(method = "die", at = @At("HEAD"))
     private void moreminecrafts$dropEquippedAccessories(DamageSource source, CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer) (Object) this;
+        dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRuntime.onDeath(player);
         boolean keepInventory = player.level().getGameRules().get(GameRules.KEEP_INVENTORY);
         List<ItemStack> drops = AccessoryDeathDrops.detachForDeath(player, keepInventory);
         ServerLevel level = (ServerLevel) player.level();

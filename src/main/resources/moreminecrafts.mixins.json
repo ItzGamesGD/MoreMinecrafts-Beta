@@ -106,7 +106,12 @@
     "QuestBlockPlacementMixin",
     "QuestTameAnimalTriggerMixin",
     "QuestMovementStatMixin",
-    "StructureTemplatePoolMixin"
+    "StructureTemplatePoolMixin",
+    "T1AccessoryDamageMixin",
+    "T1AccessoryAttackMixin",
+    "T1AccessoryEffectMixin",
+    "T1ArrowStateAccessor",
+    "T1DamageStateAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

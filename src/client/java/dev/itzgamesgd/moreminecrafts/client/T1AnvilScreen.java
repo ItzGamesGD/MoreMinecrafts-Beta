@@ -167,7 +167,7 @@ public final class T1AnvilScreen extends AnvilScreen {
             int stone = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::stoneCost).orElse(0)
                     : equipmentRequirement.map(EnhancementOperation.Result::materialCost).orElse(0);
             int catalyst = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::catalystCost).orElse(0) : 0;
-            int maximum = accessory ? 10 : 20;
+            int maximum = accessory ? AccessoryEnhancementOperation.maximumLevel(equipment) : 20;
             boolean hasRequirement = accessory ? accessoryRequirement.isPresent() : equipmentRequirement.isPresent();
             if (!equipment.isEmpty() && current >= maximum) {
                 g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, 0xFF303030, false);

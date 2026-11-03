@@ -80,7 +80,11 @@
       "dev.itzgamesgd.moreminecrafts.bounty.ContractExplorationGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractPricingGameTests",
       "dev.itzgamesgd.moreminecrafts.worldgen.AncientCityArenaGameTests",
-      "dev.itzgamesgd.moreminecrafts.progression.SkullProtocolAssumptionGameTests"
+      "dev.itzgamesgd.moreminecrafts.progression.SkullProtocolAssumptionGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryPhysicsGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryShockwaveGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",
@@ -90,7 +94,8 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAnvilClientGameTest",
       "dev.itzgamesgd.moreminecrafts.progression.EnchantingGuiScaleDiagnosticClientGameTest",
       "dev.itzgamesgd.moreminecrafts.equipment.InventoryRegressionClientGameTest",
-      "dev.itzgamesgd.moreminecrafts.fishing.FishingRodCloseClientGameTest"
+      "dev.itzgamesgd.moreminecrafts.fishing.FishingRodCloseClientGameTest",
+      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryClientGameTest"
     ]
   },
   "mixins": [

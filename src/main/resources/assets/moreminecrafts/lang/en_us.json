@@ -1154,5 +1154,12 @@
   "item.moreminecrafts.etherium_shard": "Etherium Shard",
   "item.moreminecrafts.etherium_ingot": "Etherium Ingot",
   "item.moreminecrafts.gale_shard": "Gale Shard",
-  "item.moreminecrafts.sky_feather": "Sky Feather"
+  "item.moreminecrafts.sky_feather": "Sky Feather",
+  "item.moreminecrafts.t1_combo": "Combo (T1, provisional)",
+  "item.moreminecrafts.t1_crisis_escape": "Crisis Escape (T1, provisional)",
+  "item.moreminecrafts.t1_heavy_buffer": "Heavy Buffer (T1, provisional)",
+  "item.moreminecrafts.t1_status_resilience": "Status Resilience (T1, provisional)",
+  "item.moreminecrafts.t1_sustained_recovery": "Sustained Recovery (T1, provisional)",
+  "item.moreminecrafts.t1_sprint_acceleration": "Sprint Acceleration (T1, provisional)",
+  "item.moreminecrafts.t1_double_jump": "Double Jump (T1, provisional)"
 }
