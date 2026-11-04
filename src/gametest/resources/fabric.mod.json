@@ -80,6 +80,7 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityIntegrationGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIsolationGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractExplorationGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.RelicCatalystSourcesGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractPricingGameTests",
       "dev.itzgamesgd.moreminecrafts.worldgen.AncientCityArenaGameTests",
       "dev.itzgamesgd.moreminecrafts.colosseum.ColosseumCombatGameTests",
