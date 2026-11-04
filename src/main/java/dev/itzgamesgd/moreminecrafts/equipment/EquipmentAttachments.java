@@ -28,6 +28,10 @@ public final class EquipmentAttachments {
     public static final AttachmentType<Boolean> RING_OF_LIFE_SPENT = AttachmentRegistry.create(
             ModIds.id("accessory_ring_of_life_spent"), builder -> builder.persistent(Codec.BOOL).copyOnDeath());
 
+    /** Ground contact clears the persisted air-use latch; death starts a fresh airborne allowance. */
+    public static final AttachmentType<Boolean> T1_AIR_JUMP_USED = AttachmentRegistry.create(
+            ModIds.id("t1_air_jump_used"), builder -> builder.persistent(Codec.BOOL));
+
     private EquipmentAttachments() {}
     public static void initialize() {}
 }

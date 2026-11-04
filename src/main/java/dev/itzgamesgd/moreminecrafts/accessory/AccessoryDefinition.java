@@ -15,7 +15,14 @@ public enum AccessoryDefinition {
     BLOOD_COVENANT("blood_covenant", "item.moreminecrafts.blood_covenant", AccessoryCategory.COMBAT),
     SEED_OF_LIFE("seed_of_life", "item.moreminecrafts.seed_of_life", AccessoryCategory.SUPPORT_RECOVERY),
     HEART_OF_GRAVITY("heart_of_gravity", "item.moreminecrafts.heart_of_gravity", AccessoryCategory.COMBAT),
-    SOUL_CHAIN("soul_chain", "item.moreminecrafts.soul_chain", AccessoryCategory.COMBAT);
+    SOUL_CHAIN("soul_chain", "item.moreminecrafts.soul_chain", AccessoryCategory.COMBAT),
+    T1_COMBO("t1_combo", "item.moreminecrafts.t1_combo", AccessoryCategory.COMBAT),
+    T1_CRISIS_ESCAPE("t1_crisis_escape", "item.moreminecrafts.t1_crisis_escape", AccessoryCategory.COMBAT),
+    T1_HEAVY_BUFFER("t1_heavy_buffer", "item.moreminecrafts.t1_heavy_buffer", AccessoryCategory.DEFENSE_SURVIVAL),
+    T1_STATUS_RESILIENCE("t1_status_resilience", "item.moreminecrafts.t1_status_resilience", AccessoryCategory.DEFENSE_SURVIVAL),
+    T1_SUSTAINED_RECOVERY("t1_sustained_recovery", "item.moreminecrafts.t1_sustained_recovery", AccessoryCategory.SUPPORT_RECOVERY),
+    T1_SPRINT_ACCELERATION("t1_sprint_acceleration", "item.moreminecrafts.t1_sprint_acceleration", AccessoryCategory.EXPLORATION_MOBILITY),
+    T1_DOUBLE_JUMP("t1_double_jump", "item.moreminecrafts.t1_double_jump", AccessoryCategory.EXPLORATION_MOBILITY);
 
     public static final List<AccessoryDefinition> ALL = List.of(values());
 
@@ -28,6 +35,10 @@ public enum AccessoryDefinition {
         this.translationKey = translationKey;
         this.category = category;
     }
+
+    /** Stable save identifiers are independent of provisional display names. */
+    public boolean isT1() { return registryId.startsWith("t1_"); }
+    public int maxEnhancementLevel() { return isT1() ? 5 : 10; }
 
     public String registryId() { return registryId; }
     public String translationKey() { return translationKey; }
