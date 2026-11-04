@@ -30,6 +30,7 @@
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.RelicCatalystRecipeGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.SnowCharmAbilityGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryLifecycleGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityGameTests",
