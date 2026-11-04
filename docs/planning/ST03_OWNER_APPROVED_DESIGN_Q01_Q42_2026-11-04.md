@@ -73,11 +73,76 @@ From the existing Structure Generator placement file (inclusive x/z rectangles; 
 
 ## Unresolved and non-implementation status
 
-1. **Q43 onward** (starting with F07/F08 windows, ventilation and lighting) remains unapproved. No inferred selections.
+1. **Q43–Q86 are approved in the continuation section below**; Q87 onward remains undecided.
 2. Exact wall/roof/block-state coordinates, entrance orientation, loft headroom, collision and screenshots require building and actual MC 26.3 checks. House A porch/terrain integration has separate prior work and is not re-approved or changed here.
 3. Ordinary loot item weights, quantities, premium item pool, spawn points, biome/frequency tuning, anti-duplication implementation, terrain edge cases and whole-structure worldgen remain outside this approval.
 4. This ledger is a **conversation decision record**; it is **not** evidence that Q01–Q42 have been built or tested. Future implementation must distinguish design acceptance from runtime PASS.
 
 ## Recommended next handoff
 
-Resume **ST03-DESIGN-Q43** (F07/F08 windows/ventilation/interior lighting). After completing warehouse design, schedule F07+F08 build/screenshots and targeted interaction/loot validation. Avoid repeated broad audits or main-branch merges before the relevant modules are built.
+Resume **ST03-DESIGN-Q87** (gatehouse upper interior/observation/decor). Preserve earlier facility-specific batch construction and focused checks; avoid repeated broad audits.
+
+---
+## Owner-approved continuation — Q43–Q86 (2026-11-04)
+
+This section supersedes the earlier statement that Q43 onward is unapproved. The Q01–Q42 decisions above remain unchanged. These are design approvals only, **not** evidence of construction, worldgen integration, tests, or screenshots. All existing module placements/dimensions remain authoritative except the expressly approved F01 height change. Q49 was a clarification, not a separate A/B/C selection.
+
+### Warehouses F07/F08
+- **Q43 B:** F07 2–3 small partly barred windows, wall lanterns and small loft vent; F08 2–3 medium shuttered windows, eave vents, lanterns/wood beams; no ventilation mechanic.
+- **Q44 B:** F07 neat military crates/barrels, small pallet and stone/gravel approach; F08 crates, barrels, hay, loading platform and worn gravel/dirt; remain within module and preserve road.
+- **Q45 B:** Build F07/F08 together; MC26.3 exterior/interior/loft screenshots, entrances, circulation, ladders, functional ordinary containers/loot and basic nonduplication. Defer whole HQ worldgen.
+
+### Prison F09
+- **Q46 B with owner correction:** Stone-heavy prison; **no upper guard loft or guard room**. Four cells intentionally replace administrative space. Limited wood only as reinforcement.
+- **Q47 A:** Straight central corridor with two cells on each side = **four cells**, within 11×10×13, no guard room.
+- **Q48 B:** Each cell simple bed/straw, minimal differing details, chains/iron bars; corridor lanterns; no prisoner NPC or escape mechanic.
+- **Q49 clarification only:** Owner explicitly rejected any guard room or loft; do not treat as a separate selected option.
+- **Q50 A:** Simple single iron entry door, stone-brick frame, two tiny barred windows, lantern above; button operates iron door, no extra guard post/awning/banner.
+- **Q51 A:** Heavy stone brick with sparing cracked/mossy variation, low stone gable, minimal internal roof wood, entrance/corridor lights, no excessive trim.
+- **Q52 B:** Build and screenshot F09, check four cells/corridor fit and functional iron door, defer broad worldgen.
+
+### Ravager stable F10
+- **Q53 B:** Fortified stone lower walls/pillars, dark-oak frame, spruce upper walls, high gable roof, broad entrance, 17×13×13.
+- **Q54 B:** Two large side pens, straight central management aisle, individual pen entries/feeders, small rear hay/feed storage. Does not approve two actual ravager spawns.
+- **Q55 B:** Stone-brick pillars/low walls, dark-oak fences, wide reinforced openings; real ravager collision/path unverified.
+- **Q56 B:** Coarse/packed dirt and hay in pens; cobblestone/stone-brick aisle; feeders, rear hay/barrels/crates and hanging lanterns, no feeding mechanic.
+- **Q57 B:** Large central stone-and-timber entrance targeting >=3-wide x >=4-high clearance (to verify), decorative gate with open passage, lanterns/hay/barrels, road aligned.
+- **Q58 B:** 2–3 side windows per side, shutters/fences, high vents, exposed timber beams and hanging lanterns, ample headroom within height 13.
+- **Q59 B:** Build F10, real MC26.3 screenshots, verify pens, corridor, actual ravager hitbox/entry/movement and no decoration obstruction; defer full HQ tests.
+
+### Commander manor F01
+- **Q60 B:** Fortified manor stone lower, dark-oak/spruce upper, high gable, banners/lanterns.
+- **Q61 B:** 1F hall/guards/supplies; 2F command/war room; 3F private quarters; small lookout attic.
+- **Q62 B:** Continuous side staircase 1F–3F with landings, ladder to attic; 2-block stair width is a target to verify.
+- **Q63 C, explicit dimension change:** Grand double-height central hall with hanging chandelier and 2F balcony/gallery. **F01 changed from 17×23×15 to 17×27×15**; x/z unchanged. Update module definition and verify collisions before implementation.
+- **Q64 B:** U-shaped 2F wooden gallery overlooking hall/chandelier; rear war room with map/war table.
+- **Q65 B:** Large 3F private bedroom and open study, chest/armor stand, attic ladder.
+- **Q66 B:** Symmetric dark-oak gable with central dormer/lookout window; small attic lantern/chest, timber beams, all within 27 height.
+- **Q67 B:** 2-wide dark-oak front doors, thick stone pillars, projecting timber porch within bounds, lanterns, two banners, tall hall windows, direct entry.
+- **Q68 B:** Tall front paired hall windows, narrow barred 1F side windows, 2F gallery windows, wider shuttered 3F windows, stone/dark-oak trim.
+- **Q69 B:** Two-tier hanging chandelier on chains; wood rings ~3 and ~5 blocks across, 6–8 lanterns; verify gallery clearance.
+- **Q70 B:** Symmetrical stone/stone-brick floor motif with central accent, stone-bottom/timber-top columns, banners, lanterns and timber ties; preserve walking paths.
+- **Q71 B:** Commander spawns in rear 2F war room, 40 HP and vanilla AI, can reach gallery if path allows; no new combat mechanic. Independent commander 10% special drop unchanged.
+- **Q72 B:** 1F ordinary supplies, 2F ordinary military containers, 3F commander rare reward chest, attic ordinary supply. **65% rare reward roll once per structure**, not 65% chest generation; independent commander death 10%; no keys/locks, no reload reroll.
+- **Q73 B:** Build F01 17×27×15 and obtain real MC26.3 screenshots, check movement, chandelier/gallery/stair collision, 2F commander combat, reward once-only and common storage. Defer full HQ worldgen/multiseed/regression.
+
+### Build, integration, roads and perimeter
+- **Q74 B:** Preserve existing built/tested artifacts; build in approved facility-group batches (living/support; military/supply; special), with real screenshots and narrow core tests, then integrate whole HQ, walls/gates/roads/terrain/worldgen. Do not assume all structures are already built.
+- **Q75 B:** Group completion requires actual dimensions/appearance, real MC26.3 screenshots, entrance/circulation/container and unique core function tests; fix blocking defects; record PASS/FAIL/UNTESTED. No repeated audit absent changes or new defects. Broad worldgen deferred.
+- **Q76 B:** Integration planning: preserve placement coordinates, determine per-building ground height, place foundations to natural terrain, connect existing roads/entrances, locally smooth terrain, check clashes. Actual generator execution order requires code inspection.
+- **Q77 B:** 1-block step/slab; 2–3 block stairs or short sloped path; 4–5 block stairs plus stone retaining wall and foundation; preserve road width and coordinates, local-only adjustment; verify ravager movement separately.
+- **Q78 B:** Central military roads stone-brick/cobble, commander approach neat stone, living areas gravel/dirt/cobble, warehouse/stable rough gravel and stone, intersections stone emphasis; preserve road layout.
+- **Q79 C:** **High-density military roadside decor**: lanterns, banners, crates, weapon racks, checkpoint-like barriers, hay/barrels in service areas, including residential roads; do not obstruct valid movement, add no combat or loot mechanics.
+- **Q80 B:** South gate inside has small checkpoint/muster space with timber barriers, weapon racks, banners, lanterns, stone connection to central road; existing wall/towers connected visually, no new AI, locks or spawns.
+- **Q81 A:** **Four independently accessible corner towers**, ladder from ground to lookout, **no required continuous walkable wall-top patrol route**; preserve wall/tower dimensions.
+- **Q82 B:** Stone crenellations/arrow openings with military decorations, tower observation gaps, lanterns, banners and timber details; no automatic shooting mechanic.
+- **Owner-wide stone material principle (after Q82):** For stone architecture and roads, naturally mix stone, andesite, cobblestone, stone bricks, cracked/mossy variants, etc. **No fixed mixture ratios or repeated owner approval**. Keep coherent structural edges/pillars and contextual weathering, avoid indiscriminate random noise.
+- **Q83 A:** Tower 1F-to-top **direct ladder**, no intermediate floor; basic internal layout identical across four towers.
+- **Q84 B:** Stone tower with dark-oak pitched roof, open observation gaps below roof, timber supports, hanging lanterns and external banners, within existing module dimensions.
+- **Q85 B:** Same dimensions, height, roof and ladder for all four towers, with slight placement-specific weathering/stone texture, banner/lantern/timber accent variations; do not silently create new module dimensions.
+- **Q86 B, owner override:** Massive dark-oak double-leaf gate appearance with timber/iron decorative bracing, stone/andesite pillars and upper stone gatehouse/crenellations, banners and lanterns. **Regardless of gate style, it must remain permanently OPEN, STATIC, and NONFUNCTIONAL.** No opening/closing interaction, redstone, scripted gate, or custom mechanism. Preserve unobstructed entrance and existing gate bounds; visual leaves may be represented fixed open to the sides. Verify geometry before implementation.
+
+### Remaining design and implementation notes
+- **Next design question: ST03-DESIGN-Q87**, gatehouse upper interior/observation and military decor.
+- This is a design ledger, not a build authorization or runtime PASS. Do not merge or modify gameplay code as part of this documentation update.
+- Q01–Q86 recorded; future decisions Q87+ are not yet approved.
