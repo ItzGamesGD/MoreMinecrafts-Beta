@@ -143,6 +143,18 @@ This section supersedes the earlier statement that Q43 onward is unapproved. The
 - **Q86 B, owner override:** Massive dark-oak double-leaf gate appearance with timber/iron decorative bracing, stone/andesite pillars and upper stone gatehouse/crenellations, banners and lanterns. **Regardless of gate style, it must remain permanently OPEN, STATIC, and NONFUNCTIONAL.** No opening/closing interaction, redstone, scripted gate, or custom mechanism. Preserve unobstructed entrance and existing gate bounds; visual leaves may be represented fixed open to the sides. Verify geometry before implementation.
 
 ### Remaining design and implementation notes
-- **Next design question: ST03-DESIGN-Q87**, gatehouse upper interior/observation and military decor.
+- **Next design question: ST03-DESIGN-Q91**, perimeter build and targeted verification.
 - This is a design ledger, not a build authorization or runtime PASS. Do not merge or modify gameplay code as part of this documentation update.
-- Q01–Q86 recorded; future decisions Q87+ are not yet approved.
+- Q01–Q90 recorded; future decisions Q91+ are not yet approved.
+
+---
+## Owner-approved continuation — Q87–Q90 (2026-11-04)
+
+- **Q87 B — South gate upper gatehouse:** Small accessible observation room above the gate, independent internal side ladder, observation openings toward exterior approach and interior checkpoint, stone battlements, timber supports, lanterns, pillager banners, small ordinary supply chest and weapon rack. No continuous wall patrol walkway; preserve gate module bounds. Gate remains **permanently open, static and nonfunctional** (Q86 owner override).
+- **Q88 B — Exterior military-garrison gate approach:** Banners and lanterns flanking gate; naturally mixed cobblestone/andesite/stone-brick paving; timber barricades, weapon racks, barrels, crates and timber stockpiles toward the sides. Keep a broad straight central passage and visual continuity with Q80 interior checkpoint. Decorative only; no path obstruction, new defense AI, gate interaction, or expansion beyond existing 112×112 perimeter.
+- **Q89 B — Natural stone-reinforced wall foundations:** Partly projecting masonry footing adapting locally to slope; stone, andesite, cobblestone and mossy/cracked variants naturally mixed; fill ground-to-wall gaps with supporting masonry; short retaining support where slope is steep; preserve grass/soil and natural topography where possible. **Do not alter existing wall top elevation or placement coordinates**, do not globally flatten terrain.
+- **Q90 B — Natural military-garrison exterior wall dressing:** Irregularly placed pillager banners; concentrate lanterns/timber reinforcements near gate and towers; occasional decorative wood piles, barrels and supply crates at wall base; natural rocks/grass/moss at terrain transitions. Strongest military decor near gate, comparatively restrained elsewhere. Preserve roads, passages and 112×112 bounds; decorative only, no extra spawns or combat systems.
+
+**Next design question:** ST03-DESIGN-Q91 — perimeter wall, four towers and south gate batch construction, screenshots and focused verification scope.
+
+**Status:** Q01–Q90 owner-approved design only; this document does not certify built geometry, worldgen, screenshot or test PASS. Q91 onward undecided. Q49 was a clarification, not a separate choice. The existing filename is historical and intentionally retained to avoid moving an in-flight PR file.
