@@ -29,6 +29,7 @@ public final class AccessoryAbilities implements ModInitializer {
         ServerTickEvents.END_SERVER_TICK.register(server ->
                 server.getPlayerList().getPlayers().forEach(AccessoryAbilities::tick));
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            T1AccessoryRuntime.clear(handler.player);
             EMBER.remove(handler.player.getUUID());
             PEARL.remove(handler.player.getUUID());
         });
@@ -56,6 +57,7 @@ public final class AccessoryAbilities implements ModInitializer {
 
     public static void tick(ServerPlayer player) {
         AccessoryCooldownRuntime.tick(player);
+        T1AccessoryRuntime.tick(player);
         UUID id = player.getUUID();
         EmberProtection protection = EMBER.get(id);
         if (protection != null && (!player.isAlive() || equipped(player, AccessoryDefinition.EMBER_RING).isEmpty()

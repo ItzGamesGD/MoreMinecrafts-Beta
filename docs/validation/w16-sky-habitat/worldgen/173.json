@@ -1,0 +1,158 @@
+{
+  "seed": 173,
+  "chunks_scanned": 25921,
+  "max_radius_chunks": 80,
+  "structure_starts": 17,
+  "starts_by_structure": {
+    "sky_island_forest": 4,
+    "sky_island_meadow": 6,
+    "sky_island_mountain_meadow": 5,
+    "sky_island_mountain_snowy": 2
+  },
+  "building_variants_seen": {
+    "ruins_a": 1,
+    "ruins_b": 1,
+    "ruins_d": 4,
+    "tower_6": 1,
+    "tower_7": 2
+  },
+  "island_pieces_by_style": {
+    "forest": 8,
+    "meadow": 13,
+    "snowy": 3
+  },
+  "island_pieces_by_kind": {
+    "plain_medium": 1,
+    "plain_small_a": 3,
+    "plain_small_b": 4,
+    "ruins": 6,
+    "satellite_a": 4,
+    "satellite_b": 3,
+    "tower": 3
+  },
+  "start_y_min": 108,
+  "start_y_max": 259,
+  "physical": {
+    "ruins_d": {
+      "structure": "sky_island_mountain_meadow",
+      "chunk": "7,0",
+      "bounds": "BoundingBox{minX\u003d121, minY\u003d182, minZ\u003d-23, maxX\u003d135, maxY\u003d193, maxZ\u003d-9}",
+      "trial_spawners": 1,
+      "vaults": 1,
+      "chests": 2,
+      "vault_loot_table_ok": 1,
+      "chest_loot_table_ok": 2,
+      "spawner_config_ok": 1,
+      "island_support_block": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "expected": [
+        1,
+        1,
+        2
+      ],
+      "pass": true,
+      "pieces": [
+        "Single[Left[moreminecrafts:sky_islands/meadow/ruins]]",
+        "Single[Left[moreminecrafts:sky_islands/meadow/satellite_a]]",
+        "Single[Left[moreminecrafts:sky_islands/ruins_d]]",
+        "Single[Left[moreminecrafts:sky_islands/meadow/satellite_b]]"
+      ]
+    },
+    "tower_7": {
+      "structure": "sky_island_meadow",
+      "chunk": "-19,4",
+      "bounds": "BoundingBox{minX\u003d-292, minY\u003d194, minZ\u003d76, maxX\u003d-274, maxY\u003d246, maxZ\u003d94}",
+      "trial_spawners": 9,
+      "vaults": 9,
+      "chests": 16,
+      "vault_loot_table_ok": 9,
+      "chest_loot_table_ok": 16,
+      "spawner_config_ok": 9,
+      "island_support_block": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "expected": [
+        9,
+        9,
+        16
+      ],
+      "pass": true,
+      "pieces": [
+        "Single[Left[moreminecrafts:sky_islands/meadow/tower]]",
+        "Single[Left[moreminecrafts:sky_islands/tower_7]]"
+      ]
+    },
+    "ruins_a": {
+      "structure": "sky_island_forest",
+      "chunk": "-19,35",
+      "bounds": "BoundingBox{minX\u003d-327, minY\u003d167, minZ\u003d537, maxX\u003d-313, maxY\u003d178, maxZ\u003d551}",
+      "trial_spawners": 1,
+      "vaults": 1,
+      "chests": 2,
+      "vault_loot_table_ok": 1,
+      "chest_loot_table_ok": 2,
+      "spawner_config_ok": 1,
+      "island_support_block": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "expected": [
+        1,
+        1,
+        2
+      ],
+      "pass": true,
+      "pieces": [
+        "Single[Left[moreminecrafts:sky_islands/forest/ruins]]",
+        "Single[Left[moreminecrafts:sky_islands/forest/satellite_b]]",
+        "Single[Left[moreminecrafts:sky_islands/ruins_a]]",
+        "Single[Left[moreminecrafts:sky_islands/forest/satellite_a]]"
+      ]
+    },
+    "tower_6": {
+      "structure": "sky_island_meadow",
+      "chunk": "-37,26",
+      "bounds": "BoundingBox{minX\u003d-580, minY\u003d172, minZ\u003d428, maxX\u003d-562, maxY\u003d217, maxZ\u003d446}",
+      "trial_spawners": 8,
+      "vaults": 8,
+      "chests": 14,
+      "vault_loot_table_ok": 8,
+      "chest_loot_table_ok": 14,
+      "spawner_config_ok": 8,
+      "island_support_block": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "expected": [
+        8,
+        8,
+        14
+      ],
+      "pass": true,
+      "pieces": [
+        "Single[Left[moreminecrafts:sky_islands/meadow/tower]]",
+        "Single[Left[moreminecrafts:sky_islands/tower_6]]"
+      ]
+    },
+    "ruins_b": {
+      "structure": "sky_island_forest",
+      "chunk": "7,38",
+      "bounds": "BoundingBox{minX\u003d121, minY\u003d164, minZ\u003d617, maxX\u003d135, maxY\u003d175, maxZ\u003d631}",
+      "trial_spawners": 1,
+      "vaults": 1,
+      "chests": 2,
+      "vault_loot_table_ok": 1,
+      "chest_loot_table_ok": 2,
+      "spawner_config_ok": 1,
+      "island_support_block": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "expected": [
+        1,
+        1,
+        2
+      ],
+      "pass": true,
+      "pieces": [
+        "Single[Left[moreminecrafts:sky_islands/forest/ruins]]",
+        "Single[Left[moreminecrafts:sky_islands/ruins_b]]",
+        "Single[Left[moreminecrafts:sky_islands/forest/satellite_b]]"
+      ]
+    }
+  },
+  "all_physical_checks_pass": false,
+  "missing_variants": [
+    "ruins_c",
+    "tower_5",
+    "temple"
+  ]
+}
