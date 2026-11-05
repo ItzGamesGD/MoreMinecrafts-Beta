@@ -173,3 +173,22 @@ This section supersedes the earlier statement that Q43 onward is unapproved. The
 **Next design question:** ST03-DESIGN-Q96 — define scope/order of the subsequent real spawn and gameplay integration phase.
 
 **Status:** Q01–Q95 approved as design and process decisions only. No new build, runtime verification or screenshot evidence is asserted by this document update. Q96+ undecided.
+
+---
+## Owner-approved finalization — Q106–Q108 (2026-11-05, ST03-IMPLEMENT-01)
+
+Design/process decisions only. They do not certify built geometry, worldgen, spawn behavior or any test result.
+
+- **Q106 — Initial garrison via vanilla entity storage:** when the structure is generated, its initial garrison is placed and saved through the vanilla entity-storage system. No bespoke spawn, tracking or persistence layer.
+- **Q107 — No per-spawn identifier and no recovery system:** no individual spawn identifiers and no separate recovery/restoration system are introduced.
+- **Q108 — No whole-headquarters clear state:** no separate "headquarters cleared" determination is implemented.
+- **Superseded / discarded:** the earlier, more complex Q106–Q107 state-management design is **discarded**. It must not be implemented and does not override the three decisions above.
+- **Unchanged rules carried forward:** 1 commander, 2 ravagers, 35–45 ordinary pillagers; the initial garrison is finite and **never automatically respawns**; no new AI, assault-state or recovery systems; rare rewards stay F01 manor 65% (once per structure), F05 armory 35% (once per structure), commander 10% (once, on unique death).
+- **Research/knowledge integration:** added only if the current implementation shows an actual need; none is assumed.
+
+**Not recorded here:** the contents of Q96–Q105 were not available in the repository or in the task text at the time of this update. They are intentionally not paraphrased or reconstructed; the owner-supplied text must be added in a follow-up edit.
+
+**Implementation status snapshot (2026-11-05, evidence: `MoreMinecrafts-Structure-Generator` branch `experiment/st03-b5a-house-a-formal` @ `62cec3e`; this repo's checkpoint `wave16-unified-20261104`):**
+- Placement table: 25 modules / 34 placements exist in `tools/seam01/data/st03_placements.json` (read-only authority).
+- Built NBT: **House A (F11/F14) only**, experimental, owner visual review pending. All other facilities, the perimeter wall, towers and gatehouse have **no** built NBT: UNBUILT.
+- Roads, terrain adaptation, worldgen hookup, garrison spawning and loot generation: no ST-03 code in this repo: NOT IMPLEMENTED (loot/spawn: UNTESTED).
