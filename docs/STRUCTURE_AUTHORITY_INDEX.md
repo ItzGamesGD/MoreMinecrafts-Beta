@@ -39,3 +39,7 @@ On the Wave 10 integration branch (PR #182) the three pinned records are also pr
 ## Acquisition constraint carried by structure work
 
 The Ancient City remains an **Ancient Heart** source, as recorded in [CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md](CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md). Neither the Ancient City expansion nor the pyramid may remove that route (F-2).
+
+## ST-01 royal reward acquisition overlay — D13-03 (2026-11-06)
+
+For **ST-01 Colossal Pyramid** royal reward acquisition, see [D13-03-Q25–Q41 and Q42–Q47](planning/D13_03_DECISIONS_Q01-Q47.md): exactly two designated royal reward chests, independent 20% accessory-pool rolls per chest, and staged preimplementation/integration verification. This supplements the previously OPEN chest count only; it does **not** replace the [pyramid design](PYRAMID_DESIGN_PREP_2026-10-25.md), the main royal chest's encounter/unlock gate, or existing loot/catalyst rules. The second chest's precise location, role and unlock conditions and the approved base royal loot table remain unconfirmed here. Design registration does not imply structure implementation, merge, or live validation.

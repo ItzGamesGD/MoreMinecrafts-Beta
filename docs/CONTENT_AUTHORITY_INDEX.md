@@ -345,3 +345,7 @@ Do not implement or infer missing design from this idea entry. A dedicated desig
 Items marked LIVE PENDING in the Stage 2/Stage 3 reconciliation documents remain live-test work rather than documentation defects.
 
 Headless CI must not be treated as proof of combat feel, visual presentation, interaction feel, or economy balance.
+
+## D13-03 — T2 accessory acquisition Q01–Q47 (owner-approved design reconstruction, 2026-11-06)
+
+[Separate D13-03 acquisition decisions](planning/D13_03_DECISIONS_Q01-Q47.md) document 47 owner-approved acquisition, probability, allocation and verification decisions for 11 T2 accessories. Source is the user-supplied reconstruction of a ChatGPT design conversation, not verbatim question transcripts. **D13-03-Q01–Q47 are distinct from D13-DESIGN-Q01–Q72**, which remain pinned to [Draft PR #215](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/blob/fdaeac6c0c9032691d77813274627601b3f53e0a/docs/planning/D13_ACCESSORY_ACQUISITION_DECISIONS_Q01-Q11_2026-11-04.md). Preserve PR #228's catalyst implementation and all existing loot. This registration is design authority only, not implementation or integration acceptance. Snow Charm remains deferred.
