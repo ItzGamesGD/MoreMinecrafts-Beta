@@ -20,6 +20,7 @@ public final class MoreMinecrafts implements ModInitializer {
     public void onInitialize() {
         StructurePoolContributions.initialize();
         dev.itzgamesgd.moreminecrafts.accessory.RelicCatalystSources.initialize();
+        dev.itzgamesgd.moreminecrafts.accessory.T2StructureChestAccessories.initialize();
         dev.itzgamesgd.moreminecrafts.worldgen.structure.ArenaWorldgenProbe.initialize();
         dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05NaturalGeneration.initialize();
