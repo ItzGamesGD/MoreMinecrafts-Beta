@@ -1,3 +1,5 @@
+> **SUPERSEDED — 2026-11-06 OWNER CORRECTION.** The owner confirmed that the intended royal tomb is the internal royal burial hall of **ST-01 giant pyramid**, not a separate independent structure. All applicable gold golem guidance and treasure-room requirements have been incorporated into `docs/ST01_BUILD_DECISIONS_Q01_Q08_2026-11-05.md`. This file is retained only for historical traceability; it does **not** authorize creation of an independent royal tomb, independent boss, or separate reward economy. Existing ST-01 Tomb Guardian and chest rules take precedence. Design integration approved; implementation NOT approved.
+
 # Independent Royal Tomb — Owner Requirements and Conflict/Audit Gate
 
 Date: 2026-11-06
