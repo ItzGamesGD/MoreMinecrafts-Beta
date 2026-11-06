@@ -129,6 +129,15 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
                 id(mob.getType()) + " speed");
     }
 
+    private static EntityType<?> vanillaCounterpart(EntityType<?> type) {
+        if (type == SkyNormalMobs.CLOUD_WRAITH) return EntityTypes.ZOMBIE;
+        if (type == SkyNormalMobs.SKYGUARD_ARCHER) return EntityTypes.SKELETON;
+        if (type == SkyNormalMobs.CRYSTAL_BUG) return EntityTypes.SILVERFISH;
+        if (type == SkyNormalMobs.CLOUD_SLIME) return EntityTypes.SLIME;
+        if (type == SkyNormalMobs.FALLEN_SENTINEL) return EntityTypes.HUSK;
+        throw new IllegalArgumentException("no vanilla counterpart for " + type);
+    }
+
     @GameTest
     public void lifeformClassificationMatchesQ51ToQ54(GameTestHelper c) {
         for (EntityType<? extends Mob> type : ALL) {
@@ -143,9 +152,10 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
             // V5 (decision pending): no #zombies / #skeletons membership was added.
             c.assertTrue(!is(type, EntityTypeTags.ZOMBIES) && !is(type, EntityTypeTags.SKELETONS),
                     "V5: no zombies/skeletons tag added: " + id);
-            // Consequence of Q51 + vanilla tags: only the undead sentinel breathes under water.
-            c.assertTrue(is(type, EntityTypeTags.CAN_BREATHE_UNDER_WATER) == sentinel,
-                    "undead-only underwater breathing: " + id);
+            // Q47/Q67: Q51 lifeform tags must not change the vanilla counterpart's water-breathing rule.
+            c.assertTrue(is(type, EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+                            == is(vanillaCounterpart(type), EntityTypeTags.CAN_BREATHE_UNDER_WATER),
+                    "vanilla water-breathing tag parity: " + id);
         }
         // Class-based vanilla target selection is inherited (Q58): the Zombie/Silverfish/Slime/AbstractSkeleton lines.
         c.assertTrue(create(c, SkyNormalMobs.CLOUD_WRAITH) instanceof Zombie
@@ -207,11 +217,13 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
-    public void drowningFollowsUndeadClassification(GameTestHelper c) {
-        // Q67 + Q51: sentinel (undead) breathes under water; the four general-lifeform mobs have no water-breathing tag.
-        c.assertTrue(is(SkyNormalMobs.FALLEN_SENTINEL, EntityTypeTags.CAN_BREATHE_UNDER_WATER), "sentinel");
-        for (EntityType<? extends Mob> type : List.of(SkyNormalMobs.CLOUD_WRAITH, SkyNormalMobs.SKYGUARD_ARCHER,
-                SkyNormalMobs.CRYSTAL_BUG, SkyNormalMobs.CLOUD_SLIME)) {
+    public void drowningFollowsVanillaCounterpartsNotLifeformTags(GameTestHelper c) {
+        // Q47/Q67: compare oxygen/water behavior to the vanilla counterpart independently of Q51 classification.
+        for (EntityType<? extends Mob> type : ALL) {
+            EntityType<?> vanilla = vanillaCounterpart(type);
+            c.assertTrue(is(type, EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+                            == is(vanilla, EntityTypeTags.CAN_BREATHE_UNDER_WATER),
+                    "water-breathing tag parity with " + vanilla + " for " + id(type));
             Mob mob = create(c, type);
             float before = mob.getHealth();
             mob.hurtServer(c.getLevel(), c.getLevel().damageSources().drown(), 2.0F);
@@ -455,10 +467,10 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
     @GameTest
     public void cloudSlimeSizeStatsAndNoBaby(GameTestHelper c) {
         Slime vanilla = create(c, EntityTypes.SLIME);
+        CloudSlime slime = create(c, SkyNormalMobs.CLOUD_SLIME);
         int[] sizes = {1, 2, 4};
         double[] health = {4, 12, 32};
         for (int i = 0; i < sizes.length; i++) {
-            CloudSlime slime = create(c, SkyNormalMobs.CLOUD_SLIME);
             slime.setSize(sizes[i], true);
             vanilla.setSize(sizes[i], true);
             c.assertTrue(slime.getAttributeValue(Attributes.MAX_HEALTH) == health[i]
@@ -470,6 +482,16 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
                     "Q16/D6 attack for size " + sizes[i] + " was " + slime.getAttributeValue(Attributes.ATTACK_DAMAGE));
             c.assertTrue(Math.abs(slime.getAttributeValue(Attributes.MOVEMENT_SPEED)
                     - vanilla.getAttributeValue(Attributes.MOVEMENT_SPEED)) < 1.0E-9, "vanilla speed");
+        }
+        // Vanilla can rewrite size more than once; the custom +50% must remain a single multiplier.
+        for (int size : new int[]{2, 4, 2, 1, 4}) {
+            slime.setSize(size, true);
+            vanilla.setSize(size, true);
+            double expected = vanilla.getAttributeValue(Attributes.ATTACK_DAMAGE)
+                    * (size == 1 ? 1.0D : SkyMobTraits.CLOUD_SLIME_ATTACK_MULTIPLIER);
+            c.assertTrue(Math.abs(slime.getAttributeValue(Attributes.ATTACK_DAMAGE) - expected) < 1.0E-6,
+                    "Q16 +50% remains stable after size rewrite to " + size + ": "
+                            + slime.getAttributeValue(Attributes.ATTACK_DAMAGE) + " vs " + expected);
         }
         int[] seen = new int[5];
         for (int i = 0; i < 400; i++) {
@@ -595,36 +617,51 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
     @GameTest
     public void lootTablesAndLooting(GameTestHelper c) {
         Player plain = killer(c, 0);
-        Player looted = killer(c, 3);
-        int n = 4000;
+        Player[] looting = {plain, killer(c, 1), killer(c, 2), killer(c, 3)};
+        int n = 20000;
 
         Mob wraith = create(c, SkyNormalMobs.CLOUD_WRAITH);
-        int plainDust = 0, lootedDust = 0, maxPlain = 0;
+        int plainDust = 0, maxPlain = 0;
         for (long seed = 0; seed < n; seed++) {
             int p = count(roll(c, "moreminecrafts:entities/cloud_wraith", wraith, plain, seed), Items.GLOWSTONE_DUST);
             maxPlain = Math.max(maxPlain, p);
             plainDust += p;
-            lootedDust += count(roll(c, "moreminecrafts:entities/cloud_wraith", wraith, looted, seed), Items.GLOWSTONE_DUST);
         }
         c.assertTrue(maxPlain == 2 && Math.abs(plainDust / (double) n - 1.0) < 0.06,
                 "Q07 glowstone dust 0-2 (mean " + plainDust / (double) n + ", max " + maxPlain + ")");
+        int lootedDust = 0;
+        for (long seed = 0; seed < n; seed++) {
+            lootedDust += count(roll(c, "moreminecrafts:entities/cloud_wraith", wraith, looting[3], seed),
+                    Items.GLOWSTONE_DUST);
+        }
         c.assertTrue(lootedDust > plainDust * 1.3, "Q64 Looting raises dust: " + plainDust + " -> " + lootedDust);
 
         Mob bug = create(c, SkyNormalMobs.CRYSTAL_BUG);
-        int emeralds = 0, lootedEmeralds = 0, shards = 0, maxShards = 0;
+        int[] emeraldsByLooting = new int[looting.length];
+        int shards = 0, maxShards = 0;
         for (long seed = 0; seed < n; seed++) {
             List<ItemStack> drops = roll(c, "moreminecrafts:entities/crystal_bug", bug, plain, seed);
-            emeralds += count(drops, Items.EMERALD);
             int s = count(drops, Items.AMETHYST_SHARD);
             shards += s; maxShards = Math.max(maxShards, s);
-            lootedEmeralds += count(roll(c, "moreminecrafts:entities/crystal_bug", bug, looted, seed), Items.EMERALD);
+            emeraldsByLooting[0] += count(drops, Items.EMERALD);
+            for (int level = 1; level <= 3; level++) {
+                emeraldsByLooting[level] += count(roll(c, "moreminecrafts:entities/crystal_bug", bug,
+                        looting[level], seed), Items.EMERALD);
+            }
         }
-        double rate = emeralds / (double) n;
-        c.assertTrue(Math.abs(rate - 0.05) < 0.012, "Q85 emerald base rate ~5%, was " + rate);
-        c.assertTrue(lootedEmeralds > emeralds * 1.2, "Q64 Looting III raises emerald rate: " + emeralds
-                + " -> " + lootedEmeralds);
+        double[] expectedRates = {0.05D, 0.06D, 0.07D, 0.08D};
+        double[] observedRates = new double[emeraldsByLooting.length];
+        for (int level = 0; level <= 3; level++) {
+            observedRates[level] = emeraldsByLooting[level] / (double) n;
+            c.assertTrue(Math.abs(observedRates[level] - expectedRates[level]) < 0.006D,
+                    "Q85/Q64 Looting " + level + " expected=" + expectedRates[level]
+                            + " observed=" + observedRates[level]);
+        }
+        c.assertTrue(emeraldsByLooting[3] > emeraldsByLooting[0] * 1.2,
+                "Q64 Looting III raises emerald rate: " + emeraldsByLooting[0] + " -> " + emeraldsByLooting[3]);
         c.assertTrue(maxShards == 2 && Math.abs(shards / (double) n - 1.0) < 0.06, "Q14 amethyst shards 0-2");
-        System.out.println("SKY_MOB_LOOT emerald_rate=" + rate + " emerald_rate_looting3=" + lootedEmeralds / (double) n);
+        System.out.println("SKY_MOB_LOOT emerald_rates_looting_0_to_3="
+                + java.util.Arrays.toString(observedRates));
 
         int[] sizes = {1, 2, 4};
         for (int size : sizes) {

@@ -1,16 +1,19 @@
 package dev.itzgamesgd.moreminecrafts.mob.sky;
 
+import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.cubemob.Slime;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 
 /**
@@ -21,6 +24,8 @@ import net.minecraft.world.level.Level;
  * Slimes cannot be babies in 26.3 ({@code canBeABaby() == false}), which satisfies D1.
  */
 public final class CloudSlime extends Slime {
+    private static final Identifier ATTACK_BONUS_ID = ModIds.id("cloud_slime_attack_bonus");
+
     public CloudSlime(EntityType<? extends Slime> type, Level level) {
         super(type, level);
     }
@@ -49,11 +54,18 @@ public final class CloudSlime extends Slime {
     @Override
     public void setSize(int size, boolean updateHealth) {
         super.setSize(size, updateHealth);
-        if (!isTiny()) {
-            AttributeInstance attack = getAttribute(Attributes.ATTACK_DAMAGE);
-            if (attack != null) {
-                attack.setBaseValue(attack.getBaseValue() * SkyMobTraits.CLOUD_SLIME_ATTACK_MULTIPLIER);
-            }
+        AttributeInstance attack = getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attack == null) return;
+
+        // Keep the vanilla value intact and replace one stable modifier. Mutating the base value here compounded
+        // the +50% every time vanilla rewrote size (including load/split paths).
+        if (isTiny()) {
+            attack.removeModifier(ATTACK_BONUS_ID);
+        } else {
+            attack.removeModifier(ATTACK_BONUS_ID);
+            attack.addPermanentModifier(new AttributeModifier(ATTACK_BONUS_ID,
+                    SkyMobTraits.CLOUD_SLIME_ATTACK_MULTIPLIER - 1.0D,
+                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
     }
 
