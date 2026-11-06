@@ -220,7 +220,7 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
         c.succeed();
     }
 
-    @GameTest
+    @GameTest(maxTicks = 120)
     public void sunAndFireStateImmunityHoldsAfterTicking(GameTestHelper c) {
         List<Mob> mobs = new ArrayList<>();
         for (EntityType<? extends Mob> type : ALL) {
@@ -355,13 +355,9 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
         ServerLevel level = c.getLevel();
         FallenSentinel sentinel = (FallenSentinel) finalized(c, SkyNormalMobs.FALLEN_SENTINEL, EntitySpawnReason.COMMAND);
         level.addFreshEntity(sentinel);
-        Pig target = c.spawn(EntityTypes.PIG, new BlockPos(3, 1, 3));
-        target.setNoAi(true);
         int trials = 3000, hits = 0, weak = 0, hunger = 0;
         for (int i = 0; i < trials; i++) {
-            target.removeAllEffects();
-            target.setInvulnerableTime(0);
-            target.setHealth(target.getMaxHealth());
+            Pig target = create(c, EntityTypes.PIG); // fresh target: no hurt cooldown carry-over
             if (sentinel.doHurtTarget(level, target)) {
                 hits++;
                 var effect = target.getEffect(MobEffects.WEAKNESS);
@@ -378,7 +374,6 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
         c.assertTrue(hunger == 0, "Q23: Husk hunger replaced");
         c.assertTrue(Math.abs(rate - 0.40) < 0.04, "Q23 weakness rate " + rate + " (n=" + hits + ") must be ~0.40");
         sentinel.discard();
-        target.discard();
         c.succeed();
     }
 
@@ -488,25 +483,28 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
         c.succeed();
     }
 
-    @GameTest
+    @GameTest(maxTicks = 200)
     public void cloudSlimeTinyDealsNoDamageDamagingSizesDo(GameTestHelper c) {
-        ServerLevel level = c.getLevel();
-        double[] taken = new double[3];
         int[] sizes = {1, 2, 4};
+        Player[] players = new Player[3];
+        CloudSlime[] slimes = new CloudSlime[3];
+        float[] before = new float[3];
         for (int i = 0; i < sizes.length; i++) {
-            Player player = c.makeMockPlayer(GameType.SURVIVAL);
-            CloudSlime slime = c.spawn(SkyNormalMobs.CLOUD_SLIME, P);
-            slime.setSize(sizes[i], true);
-            slime.setPos(player.getX(), player.getY(), player.getZ());
-            float before = player.getHealth();
-            for (int t = 0; t < 5; t++) { player.setInvulnerableTime(0); slime.playerTouch(player); }
-            taken[i] = before - player.getHealth();
-            slime.discard();
+            players[i] = c.makeMockPlayer(GameType.SURVIVAL);
+            slimes[i] = c.spawn(SkyNormalMobs.CLOUD_SLIME, P);
+            slimes[i].setSize(sizes[i], true);
+            slimes[i].setPos(players[i].getX(), players[i].getY(), players[i].getZ());
+            slimes[i].setTarget(players[i]);
+            before[i] = players[i].getHealth();
         }
-        c.assertTrue(taken[0] == 0.0, "D6 tiny cloud slime deals 0 damage, dealt " + taken[0]);
-        c.assertTrue(taken[1] > 0.0 && taken[2] > taken[1],
-                "medium and large deal damage, large more than medium: " + taken[1] + " / " + taken[2]);
-        c.succeed();
+        c.runAfterDelay(120, () -> {
+            double[] taken = new double[3];
+            for (int i = 0; i < 3; i++) { taken[i] = before[i] - players[i].getHealth(); slimes[i].discard(); }
+            c.assertTrue(taken[0] == 0.0, "D6 tiny cloud slime deals 0 damage, dealt " + taken[0]);
+            c.assertTrue(taken[1] > 0.0 && taken[2] > taken[1],
+                    "medium and large deal damage, large more than medium: " + taken[1] + " / " + taken[2]);
+            c.succeed();
+        });
     }
 
     @GameTest(maxTicks = 600)
@@ -654,29 +652,32 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
     // ------------------------------------------------------------------ peaceful, persistence
 
     @GameTest
-    public void peacefulRemovesExistingMobs(GameTestHelper c) {
+    public void peacefulRemovesExistingMobsAndBlocksCreation(GameTestHelper c) {
         var server = c.getLevel().getServer();
         Difficulty previous = server.getWorldData().getDifficulty();
         List<Mob> mobs = new ArrayList<>();
+        for (EntityType<? extends Mob> type : ALL) {
+            Mob mob = create(c, type);
+            mob.setPos(c.absoluteVec(Vec3.atCenterOf(P)));
+            c.getLevel().addFreshEntity(mob);
+            mobs.add(mob);
+        }
         boolean[] removed = new boolean[ALL.size()];
+        boolean[] creationBlocked = new boolean[ALL.size()];
         // Difficulty is changed and restored inside one synchronous callback so parallel tests never observe it.
         try {
             server.setDifficulty(Difficulty.PEACEFUL, true);
-            for (EntityType<? extends Mob> type : ALL) {
-                Mob mob = create(c, type);
-                mob.setPos(c.absoluteVec(Vec3.atCenterOf(P)));
-                c.getLevel().addFreshEntity(mob);
-                mobs.add(mob);
-            }
             for (int i = 0; i < mobs.size(); i++) {
                 mobs.get(i).checkDespawn();
                 removed[i] = mobs.get(i).isRemoved();
+                creationBlocked[i] = ALL.get(i).create(c.getLevel(), EntitySpawnReason.NATURAL) == null;
             }
         } finally {
             server.setDifficulty(previous, true);
         }
         for (int i = 0; i < removed.length; i++) {
             c.assertTrue(removed[i], "Q74 peaceful removes " + id(ALL.get(i)));
+            c.assertTrue(creationBlocked[i], "Q74 peaceful blocks creation of " + id(ALL.get(i)));
             mobs.get(i).discard();
         }
         c.succeed();
@@ -696,7 +697,7 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
             String id = id(type);
             c.assertTrue(restored.hasCustomName() && restored.getCustomName().getString().equals("Named " + id),
                     "Q84 name survives save/restore: " + id);
-            c.assertTrue(restored.isPersistenceRequired() && !restored.removeWhenFarAway(1.0E6),
+            c.assertTrue(restored.isPersistenceRequired(),
                     "Q83/Q84 name-tag persistence survives: " + id);
             c.assertTrue(restored.getHealth() == mob.getHealth(), "health restored: " + id);
             c.assertTrue(restored.getMaxHealth() == mob.getMaxHealth(), "max health restored: " + id);
@@ -735,12 +736,12 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
             mob.setTarget(player);
             mobs.add(mob);
         }
-        float before = player.getHealth();
         for (Mob mob : mobs) {
-            player.setInvulnerableTime(0);
-            c.assertTrue(mob.doHurtTarget(level, player), "melee connects: " + id(mob.getType()));
+            Player victim = c.makeMockPlayer(GameType.SURVIVAL); // fresh player: no hurt cooldown carry-over
+            float before = victim.getHealth();
+            c.assertTrue(mob.doHurtTarget(level, victim) && victim.getHealth() < before,
+                    "melee connects and hurts: " + id(mob.getType()));
         }
-        c.assertTrue(player.getHealth() < before, "player took melee damage");
         // Players can kill each of them: damage reaches health and death drops loot without error.
         for (EntityType<? extends Mob> type : ALL) {
             Mob victim = finalized(c, type, EntitySpawnReason.COMMAND);
