@@ -1,0 +1,273 @@
+{
+"id": "B27-T2",
+"convention": "C1",
+"slab_t": 1,
+"layers": [
+{
+"y": 0,
+"zone": "BASE_CORE"
+},
+{
+"y": 1,
+"zone": "BASE_CORE"
+},
+{
+"y": 2,
+"zone": "BASE_CORE"
+},
+{
+"y": 3,
+"zone": "BASE_CORE"
+},
+{
+"y": 4,
+"zone": "BASE_CORE"
+},
+{
+"y": 5,
+"zone": "BASE_CORE"
+},
+{
+"y": 6,
+"zone": "BASE_CORE"
+},
+{
+"y": 7,
+"zone": "BASE_CORE"
+},
+{
+"y": 8,
+"zone": "BASE_CORE"
+},
+{
+"y": 9,
+"zone": "BASE_CORE"
+},
+{
+"y": 10,
+"zone": "SLAB"
+},
+{
+"y": 11,
+"zone": "WALL"
+},
+{
+"y": 12,
+"zone": "WALL"
+},
+{
+"y": 13,
+"zone": "WALL"
+},
+{
+"y": 14,
+"zone": "WALL"
+},
+{
+"y": 15,
+"zone": "WALL"
+},
+{
+"y": 16,
+"zone": "WALL"
+},
+{
+"y": 17,
+"zone": "WALL"
+},
+{
+"y": 18,
+"zone": "WALL"
+},
+{
+"y": 19,
+"zone": "WALL"
+},
+{
+"y": 20,
+"zone": "WALL"
+},
+{
+"y": 21,
+"zone": "SLAB"
+},
+{
+"y": 22,
+"zone": "WALL"
+},
+{
+"y": 23,
+"zone": "WALL"
+},
+{
+"y": 24,
+"zone": "WALL"
+},
+{
+"y": 25,
+"zone": "WALL"
+},
+{
+"y": 26,
+"zone": "WALL"
+},
+{
+"y": 27,
+"zone": "WALL"
+},
+{
+"y": 28,
+"zone": "WALL"
+},
+{
+"y": 29,
+"zone": "WALL"
+},
+{
+"y": 30,
+"zone": "WALL"
+},
+{
+"y": 31,
+"zone": "WALL"
+},
+{
+"y": 32,
+"zone": "WALL"
+},
+{
+"y": 33,
+"zone": "SLAB"
+},
+{
+"y": 34,
+"zone": "WALL"
+},
+{
+"y": 35,
+"zone": "WALL"
+},
+{
+"y": 36,
+"zone": "WALL"
+},
+{
+"y": 37,
+"zone": "WALL"
+},
+{
+"y": 38,
+"zone": "WALL"
+},
+{
+"y": 39,
+"zone": "WALL"
+},
+{
+"y": 40,
+"zone": "WALL"
+},
+{
+"y": 41,
+"zone": "WALL"
+},
+{
+"y": 42,
+"zone": "WALL"
+},
+{
+"y": 43,
+"zone": "WALL"
+},
+{
+"y": 44,
+"zone": "WALL"
+},
+{
+"y": 45,
+"zone": "WALL"
+},
+{
+"y": 46,
+"zone": "WALL"
+},
+{
+"y": 47,
+"zone": "SLAB"
+},
+{
+"y": 48,
+"zone": "WALL"
+},
+{
+"y": 49,
+"zone": "WALL"
+},
+{
+"y": 50,
+"zone": "WALL"
+},
+{
+"y": 51,
+"zone": "WALL"
+},
+{
+"y": 52,
+"zone": "WALL"
+},
+{
+"y": 53,
+"zone": "WALL"
+},
+{
+"y": 54,
+"zone": "WALL"
+},
+{
+"y": 55,
+"zone": "WALL"
+},
+{
+"y": 56,
+"zone": "WALL"
+},
+{
+"y": 57,
+"zone": "WALL"
+},
+{
+"y": 58,
+"zone": "WALL"
+},
+{
+"y": 59,
+"zone": "WALL"
+},
+{
+"y": 60,
+"zone": "WALL"
+},
+{
+"y": 61,
+"zone": "WALL"
+},
+{
+"y": 62,
+"zone": "WALL"
+},
+{
+"y": 63,
+"zone": "WALL"
+},
+{
+"y": 64,
+"zone": "SLAB"
+}
+],
+"zone_cells": {
+"BASE_CORE": "inner+wall",
+"SLAB": "inner+wall",
+"WALL": "wall"
+},
+"note": "expand: each layer's zone uses the 2-D column set named in zone_cells from plan_B27-T2.json"
+}

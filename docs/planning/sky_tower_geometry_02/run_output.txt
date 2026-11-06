@@ -1,0 +1,27 @@
+vertical: sum=80 span=80 contiguous=True
+cand     inner    t outer  resv wallN innerN   tmin   tmax   diagD  closed  cj fits
+B25-T1      25    1    27     9    88    489   0.02   2.16   28.32    True  16 {'walk4+rail1': True, 'walk4+pillar3': True}
+B25-T2      25    2    29     8   176    489   1.03   2.82   30.23    True   0 {'walk4+rail1': True, 'walk4+pillar3': True}
+B25-T3      25    3    31     7   260    489   2.05   3.55   31.91    True   0 {'walk4+rail1': True, 'walk4+pillar3': True}
+B25-T4      25    4    33     6   372    489   3.29   4.89   34.20    True   0 {'walk4+rail1': True, 'walk4+pillar3': False}
+B27-T1      27    1    29     8    88    577   0.02   1.78   30.23    True  24 {'walk4+rail1': True, 'walk4+pillar3': True}
+B27-T2      27    2    31     7   172    577   1.03   2.51   31.91    True   0 {'walk4+rail1': True, 'walk4+pillar3': True}
+B27-T3      27    3    33     6   284    577   2.19   3.80   34.20    True   0 {'walk4+rail1': True, 'walk4+pillar3': False}
+B27-T4      27    4    35     5   396    577   2.95   4.94   36.36    True   0 {'walk4+rail1': True, 'walk4+pillar3': False}
+C26-T1      26    1    28     8    76    540   0.02   1.42   29.12    True  32 {'walk4+rail1': True, 'walk4+pillar3': True}
+C26-T2      26    2    30     7   176    540   1.04   2.83   31.30    True   0 {'walk4+rail1': True, 'walk4+pillar3': True}
+C26-T3      26    3    32     6   272    540   2.07   3.56   33.29    True   0 {'walk4+rail1': True, 'walk4+pillar3': False}
+C26-T4      26    4    34     5   372    540   3.09   4.67   35.38    True   0 {'walk4+rail1': True, 'walk4+pillar3': False}
+euclid45_max_axis_D 43
+forward B25 {'central_D17': {'7x7_positions': 0, '3x3_positions': 96}, 'central_D17+band1(D19)': {'7x7_positions': 0, '3x3_positions': 20}, 'inner+niche2(D29)_vs_D17': {'7x7_positions': 0}}
+forward B27 {'central_D17': {'7x7_positions': 0, '3x3_positions': 176}, 'central_D17+band1(D19)': {'7x7_positions': 0, '3x3_positions': 100}, 'inner+niche2(D31)_vs_D17': {'7x7_positions': 4}}
+forward C26 {'note': 'odd-size patterns (3x3/7x7/9x9/17) cannot be centred on a corner axis; not evaluated'}
+3d B25-T3 {'voxels': 24235, 'wall_vertically_aligned': True, 'voxels_outside_wall_outer_disc': 0, 'voxels_outside_y0_y79': 0, 'voxels_above_sanctum_floor': 0}
+3d B27-T2 {'voxels': 19835, 'wall_vertically_aligned': True, 'voxels_outside_wall_outer_disc': 0, 'voxels_outside_y0_y79': 0, 'voxels_above_sanctum_floor': 0}
+3d C26-T2 {'voxels': 19540, 'wall_vertically_aligned': True, 'voxels_outside_wall_outer_disc': 0, 'voxels_outside_y0_y79': 0, 'voxels_above_sanctum_floor': 0}
+12dir {'13.5': (12, True), '14.0': (12, True), '14.5': (12, True), '15.0': (12, False)}
+checks: 14 total, 3 non-PASS
+   P-B25-T1 CANDIDATE_FAIL outer (27, 27), inner (25, 25), reserve 9, corner joints 16, fits {'walk4+rail1': True, 'walk4+pillar3': True}
+   P-B27-T1 CANDIDATE_FAIL outer (29, 29), inner (27, 27), reserve 8, corner joints 24, fits {'walk4+rail1': True, 'walk4+pillar3': True}
+   P-C26-T1 CANDIDATE_FAIL outer (28, 28), inner (26, 26), reserve 8, corner joints 32, fits {'walk4+rail1': True, 'walk4+pillar3': True}
+stair {'B25-T3': {'F1->F2': 0.1, 'F2->F3': 0.109, 'F3->F4': 0.127, 'F4->SANCTUM': 0.155}, 'B27-T2': {'F1->F2': 0.1, 'F2->F3': 0.109, 'F3->F4': 0.127, 'F4->SANCTUM': 0.155}, 'C26-T2': {'F1->F2': 0.103, 'F2->F3': 0.112, 'F3->F4': 0.131, 'F4->SANCTUM': 0.159}}
