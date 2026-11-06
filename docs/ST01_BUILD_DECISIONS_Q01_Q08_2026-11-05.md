@@ -93,3 +93,44 @@ This file records owner-approved Q01-Q36 choices, not a claim of completed const
 ## Next design focus
 
 Prioritize a full aboveground-to-secret-depth vertical topology and dimensioned 3D fit, including descent stairs, vestibules, L1/L2/L3 and hidden crypt/treasury, before adding more decoration.
+
+
+## Owner-approved BUILD decisions (Q37-Q62, 2026-11-06)
+
+All entries below are **ST-01 GIANT PYRAMID internal royal hall architecture**, not an independent royal tomb structure. Design approved only; not NBT/code implementation.
+
+| ID | Choice | Approved decision |
+| --- | --- | --- |
+| Q37 | B | L1-L3 horizontally staggered zones; exact centers TBD |
+| Q38 | B | L1-L2 and L2-L3 connecting stairs with broad landing and one turn |
+| Q39 | B | Main underground corridor gently bends; central route remains legible |
+| Q40 | Custom D | Progressively narrow main passage: 7-wide, then 5-wide royal approach, then 3-wide short threshold at exit of ceremonial antechamber |
+| Q41 | B | Corridor ceiling lowers with narrowing; ceremonial antechamber and royal hall remain tall |
+| Q42 | B | Final 3-wide threshold length 5-7 blocks |
+| Q43 | B | Royal hall 33×33 clear internal plan (walls excluded; pillars and objects within) |
+| Q44 | B | Royal hall maximum central clear height 16 blocks |
+| Q45 | B | Royal hall vertical perimeter walls height 8 blocks |
+| Q46 | B | Four-sided stepped corbel ceiling rising 1 vertically per 2 horizontally toward center; voxel fit pending |
+| Q47 | B | Medium-spaced symmetrical perimeter colonnade; center kept open |
+| Q48 | B | Pillar body 3×3 blocks |
+| Q49 | B | Pillars connected by upper horizontal stone lintels around perimeter; interrupt near entrances/dais |
+| Q50 | B | Pillar body setback 2 blocks from inner wall; rear passage preserved |
+| Q51 | B | Ordinary runs target 6 clear blocks between adjacent 3×3 pillar bodies; exceptions near corners/doors/dais |
+| Q52 | B | Corners left open, no corner pillars; terminate beams appropriately |
+| Q53 | B | Low nominal 5×5 expanded pillar base |
+| Q54 | B | Trim wallward base projection locally to preserve 2-block clear passage; actual footprint not symmetric 5×5 at wall |
+| Q55 | B | Lotus/papyrus-inspired flared plant capital |
+| Q56 | B | Capital maximum nominal 7×7 blocks; projection toward wall subject to Q57 |
+| Q57 | B | Asymmetric wallward capital projection limit; avoid direct wall connection |
+| Q58 | B | Capital vertical height 3 blocks |
+| Q59 | A | Horizontal lintel vertical thickness 1 block |
+| Q60 | B | Lintel/colonnade visually separate from stepped ceiling, no direct ceiling support; 3D fit pending |
+| Q61 | B | Entire column assembly including base, shaft, capital, lintel 8 blocks high |
+| Q62 | A | Base height 1, shaft height 3, capital height 3, lintel height 1 (total 8) |
+
+### Mandatory scope clarification (owner request 2026-11-06)
+
+- ST-01's **internal royal burial hall** is part of the giant pyramid. The **independent royal tomb/mausoleum structure** is a separate structure with separate boss, arena, treasury and reward authority. Do not interpret this document's historic title “Royal Tomb” as a reference to the independent structure.
+- ST-01 Tomb Guardian, D09, D13-03-I05/I06 and royal chest rules remain ST-01-specific and MUST NOT be imported into the independent royal tomb automatically.
+- Do not change any independent royal tomb design/implementation based on this ST-01 ledger. The independent royal tomb request is recorded in a separate document.
+- Q43-Q62 dimensions and geometry still require full 3D fit validation (particularly column/corbel ceiling clearance). No code, NBT, worldgen or boss implementation was performed.
