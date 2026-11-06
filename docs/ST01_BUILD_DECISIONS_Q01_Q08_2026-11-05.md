@@ -134,3 +134,19 @@ All entries below are **ST-01 GIANT PYRAMID internal royal hall architecture**, 
 - ST-01 Tomb Guardian, D09, D13-03-I05/I06 and royal chest rules remain ST-01-specific and MUST NOT be imported into the independent royal tomb automatically.
 - Do not change any independent royal tomb design/implementation based on this ST-01 ledger. The independent royal tomb request is recorded in a separate document.
 - Q43-Q62 dimensions and geometry still require full 3D fit validation (particularly column/corbel ceiling clearance). No code, NBT, worldgen or boss implementation was performed.
+
+
+## 2026-11-06 owner correction — gold golem / treasury requirements belong to ST-01
+
+**Latest owner authority supersedes the earlier “independent royal tomb” interpretation.** The owner clarified that there is no intended separate royal tomb in this design workflow; the royal burial hall and underground complexes belong to ST-01 giant pyramid. Owner explicitly approved integration of the previously recorded gold-golem/treasury requirements into ST-01. Do NOT create an independent royal tomb as a consequence of that earlier document.
+
+### Approved ST-01 design requirements (NOT implemented)
+
+1. **Existing Tomb Guardian preserved.** Do not introduce or substitute a separate royal-tomb boss. Preserve its existing combat, death, drop, chest trigger, retry and defeat persistence rules, including D09 and D13-03 decisions. Any incompatibility must be audited and reported before altering authority.
+2. **After legitimate Tomb Guardian victory**, process boss death and encounter completion normally; then show golden-particle disappearance / apparent transformation into a small gold golem. Prefer a distinct guide entity rather than reusing the boss entity or altering death logic. The golem bows/acknowledges the player, leads toward the ST-01 treasure room, waits when the player lags, and never makes treasury access permanently impossible if guidance fails or is interrupted. Exact spawn, routing, despawn and repeat-victory behavior remain to design/validate.
+3. **Expand ST-01 treasury presentation:** investigate a dedicated large royal treasure chest; audit current ST-01 chest count, positions and rules before approving changes. Stack physical gold/diamond and other mineral blocks for a visibly rich treasure vault. Whether these blocks are mineable rewards or decoration-only is **UNDECIDED**.
+4. **Candidate chest loot only:** Ethereum, Adamantium, Mithril, gold, Netherite, diamond, accessories, enhancement stones, smithing templates. Verify actual registered item IDs, existing availability and balance before selecting items, quantities or probabilities. No loot table is approved by this paragraph.
+5. **No silent architectural rewrite:** Q11/Q34 two royal chests, Q16 secret treasury, Q13-Q15 secret descent/crypt, Q43-Q62 hall geometry, Q27 ceremonial antechamber and existing access logic remain intact pending explicit conflict resolution. **Whether golem guides to Q16 secret treasury or a new separate treasury is OPEN**; do not silently equate them. Existing primary chest encounter trigger and unlock behavior remain unchanged.
+6. **Design integration only.** No Java/NBT/worldgen/asset/loot implementation authorized by this clarification. Verify existing GitHub design and implementation before detailed integration or any future implementation approval.
+
+The separate file `docs/INDEPENDENT_ROYAL_TOMB_OWNER_REQUIREMENTS_2026-11-06.md` is a **superseded historical request**, not an active authority to build an independent royal tomb.
