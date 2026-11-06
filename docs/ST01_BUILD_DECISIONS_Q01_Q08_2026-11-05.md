@@ -228,3 +228,27 @@ All decisions below extend ST-01's existing Q16 secret treasury, not an independ
 ### Status after Q93
 
 Q72-Q93 recorded as owner-approved design-only decisions. Architectural fit and implementation remain UNVERIFIED. The next stage should prioritize high-impact geometry, access and buildability decisions over decorative micro-choices.
+
+
+## Owner-approved BUILD decisions (Q94-Q100, 2026-11-06)
+
+| ID | Choice | Approved decision |
+| --- | --- | --- |
+| Q94 | B | Compress remaining decisions to high-impact architecture and verification; stop routine decorative micro-questions. |
+| Q95 | B | Preserve minimum 5-block central aisle, chest approach and lid opening first; retain approved dais, stairs and columns, adjusting decoration only in remaining space. Report conflicts. |
+| Q96 | B | Four floor-founded 7-high papyrus columns linked by thin overhead decorative beams, visually independent of ceiling. Beam dimensions and elevation require clearance verification. |
+| Q97 | B | Extend Q37-Q39 staggered horizontal underground layout through secret crypt and Q16 treasury; actual coordinates TBD. |
+| Q98 | B | Establish maximum underground depth after dimensioned 3D fit calculations. Former 20-block cap remains relaxed; no new depth cap or unlimited-depth authority. |
+| Q99 | B | Sandstone variants as principal structure material, with gold, lapis-blue and turquoise accents concentrated in royal hall and vault. |
+| Q100 | B | Stage 3D design and verification: aboveground, L1-L3, royal hall, secret crypt/vault, then integrated fit. Ask new questions only for demonstrated conflicts or essential missing owner decisions. |
+
+### Stage 1: aboveground 3D coordinate design and verification
+
+- Design/verification only. Do not change approved Q01-Q100, existing NBT, worldgen, code, loot, boss mechanics, assets or implementation files.
+- ST-01 is one desert Overworld giant pyramid, NOT an independent royal tomb.
+- Approved aboveground envelope 81×81 footprint and height 40. Q01 temple-integrated monumental exterior; Q02 wide descending central stair from rear grand hall with landing/turn; Q03 high open grand hall with peripheral columns; Q04 U-shaped left/right/rear gallery; Q05 separate raised altar behind gallery, not merged with descent.
+- Derive a dimensioned coordinate proposal with explicit origin, datum, roof taper, wall thickness, room bounds, stair gradients and landing, gallery support, altar access, door clearance and Stage-2 underground interface.
+- Mark all newly proposed dimensions PROPOSED rather than approved. Provide plan and vertical section, collision/clearance evidence, PASS/FAIL/UNVERIFIED, unresolved owner choices, and Stage-2 handoff.
+- No actual voxel construction, client screenshots, NBT/worldgen or runtime tests are implied.
+
+Q01-Q100 are now documented as design choices; physical feasibility remains UNVERIFIED.
