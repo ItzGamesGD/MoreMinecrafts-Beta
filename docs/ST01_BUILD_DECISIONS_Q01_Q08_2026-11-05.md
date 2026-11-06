@@ -1,4 +1,4 @@
-# ST-01 Giant Pyramid / Royal Tomb — BUILD Q01-Q19 Decision Record
+# ST-01 Giant Pyramid / Royal Tomb — BUILD Q01-Q36 Decision Record
 
 Date: 2026-11-05; updated 2026-11-06
 Status: OWNER-APPROVED DESIGN DECISIONS; NOT IMPLEMENTED
@@ -54,6 +54,42 @@ Scope: Building layout choices only; this document does not replace prior design
 
 ## Next design question
 
-ST01-BUILD-Q20: next owner architectural design choice (pending).
+ST01-BUILD-Q37: next owner architectural design choice (pending).
 
-This file records owner-approved Q01-Q19 choices, not a claim of completed construction, runtime validation, or merge. Q19 was a free-form torch preference, not a selection of A's regular spacing.
+This file records owner-approved Q01-Q36 choices, not a claim of completed construction, runtime validation, or merge. Q19 was a free-form torch preference, not a selection of A's regular spacing.
+
+## Additional owner-approved BUILD decisions (Q20-Q36, 2026-11-06)
+
+| ID | Selected | Architectural decision |
+| --- | --- | --- |
+| ST01-BUILD-Q20 | B | L1-L3 main corridor floor: central geometric inlay, outer sandstone tiles |
+| ST01-BUILD-Q21 | C | Transition vestibules between L1/L2/L3; L2-L3 vestibule distinct from Q08 ceremonial antechamber |
+| ST01-BUILD-Q22 | B | L1 ordinary tomb sarcophagus against rear wall; central floor clear |
+| ST01-BUILD-Q23 | A | L1 tomb entrances: simple rectangular sandstone frame |
+| ST01-BUILD-Q24 | C | L2 storage grouped pottery, crates and pedestals; decorative containers not automatically loot |
+| ST01-BUILD-Q25 | C | L2 storage ceiling varies by room size: flat small, taller/stepped large |
+| ST01-BUILD-Q26 | B | L3 royal entry corridor symmetrical monumental columns with clear center |
+| ST01-BUILD-Q27 | C | Ceremonial antechamber open center, decorated royal entrance with guardian statues; no new boss trigger/loot |
+| ST01-BUILD-Q28 | B | Royal hall tall four-sided corbelled ceiling; obelisk attack clearance |
+| ST01-BUILD-Q29 | C | Royal hall hieroglyphic-like reliefs and occasional large guardian statues recessed/peripheral |
+| ST01-BUILD-Q30 | B | Royal hall flat ceremonial central floor geometry and orderly perimeter tiles, distinguish attack telegraphs |
+| ST01-BUILD-Q31 | B | Royal hall symmetrical perimeter stone braziers, outside combat clearance; corridors remain torch-lit |
+| ST01-BUILD-Q32 | B | Rear royal sarcophagus dais with broad low frontal stairs; exact height/steps TBD |
+| ST01-BUILD-Q33 | B | Royal sarcophagus decorated sandstone with gold-colored accents and glyph-like motifs; ornamental, no loot addition |
+| ST01-BUILD-Q34 | B | Secondary royal chest in recessed side alcove with small flanking columns and upper relief; avoid colonnade/statue collisions |
+| ST01-BUILD-Q35 | C | Royal annex interior style: arranged ceremonial offerings, stone shelves and pottery; annex count/location not finalized |
+| ST01-BUILD-Q36 | C | Royal annex access branches off Q27 ceremonial antechamber, rather than royal hall; number/length of branches TBD |
+
+### Interpretation and pending fit verification
+
+- Q36=C approved. The ceremonial antechamber's side branches are a *connection concept*, not approval of exactly two annexes. The earlier two-annex arrangement remains a proposal, and final count/positions require owner approval.
+- Q21 region transition vestibules are not merged with the distinct Q08/Q27 pre-royal-hall ceremonial antechamber.
+- Q11/Q34 preserve two royal chests, primary near sarcophagus and secondary in a side wall alcove; chest mechanics/rewards unchanged.
+- Keep central Tomb Guardian/obelisk combat space clear; check Q12 colonnade, Q29 statues, Q31 braziers, Q34 side alcove, and Q36 annex access for collisions.
+- Keep exterior 81 x 81, height 40 above ground; Q13's old 20-block underground cap remains relaxed with no replacement maximum approved. L1/L2/L3 are conceptual zones, not fixed elevation layers.
+- The 2026-11-06 conceptual illustration chiefly depicts L3 and is **not** a dimensioned full pyramid blueprint: aboveground grand hall, L1, L2 and deeper secret crypt/treasury are not fully represented. It must not be treated as approved coordinates, exact scale, or annex count.
+- All architectural approvals remain design-only, with no structure NBT, loot, boss or worldgen implementation implied.
+
+## Next design focus
+
+Prioritize a full aboveground-to-secret-depth vertical topology and dimensioned 3D fit, including descent stairs, vestibules, L1/L2/L3 and hidden crypt/treasury, before adding more decoration.
