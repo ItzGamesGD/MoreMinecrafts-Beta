@@ -1,5 +1,9 @@
 # SKY-TOWER-GEOMETRY-02 — 기본 구조 좌표 모델 및 기하학적 검증 (2026-11-06)
 
+> **후속 검증 GEOMETRY-02B:** 사용자 지정 B25-T3·바닥판 1블록·X/Z 점유 외경 기준 및 잔여 검사는
+> [GEOMETRY-02B 검증 보고서](SKY_TOWER_GEOMETRY_02B_VERIFICATION_2026-11-06.md)와 `geometry02b/baseline.json`을 사용한다.
+> 아래 다른 후보·s=2·미결 D1/D2/D5 서술은 GEOMETRY-02 당시 비교 기록이다. 바닥판 귀속은 여전히 미확정이다.
+
 > **상태: 좌표 모델·검증 자료. 설계 권한 문서가 아니다.**
 > 설계 권한은 `docs/planning/SKY_TOWER_DESIGN_DECISIONS_Q01_Q41_2026-11-05.md`(Q01-Q118)에 있다.
 > 이 문서와 스크립트는 그 권한을 변경하지 않으며, 미확정 치수(벽 두께·바닥판 두께 등)를 **확정하지 않는다**.
