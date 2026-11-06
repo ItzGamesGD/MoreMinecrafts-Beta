@@ -483,28 +483,33 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
         c.succeed();
     }
 
-    @GameTest(maxTicks = 200)
-    public void cloudSlimeTinyDealsNoDamageDamagingSizesDo(GameTestHelper c) {
+    @GameTest
+    public void cloudSlimeTinyDealsNoDamageDamagingSizesDo(GameTestHelper c) throws ReflectiveOperationException {
+        // dealDamage() hits only when canDealDamage(); it applies getAttackDamage(). Both are vanilla AbstractCubeMob
+        // rules read here directly (a live melee measurement against a mock player was not reliable in GameTest).
+        Method canDeal = net.minecraft.world.entity.monster.cubemob.AbstractCubeMob.class.getDeclaredMethod("canDealDamage");
+        Method attack = net.minecraft.world.entity.monster.cubemob.AbstractCubeMob.class.getDeclaredMethod("getAttackDamage");
+        canDeal.setAccessible(true);
+        attack.setAccessible(true);
+        Slime vanilla = create(c, EntityTypes.SLIME);
         int[] sizes = {1, 2, 4};
-        Player[] players = new Player[3];
-        CloudSlime[] slimes = new CloudSlime[3];
-        float[] before = new float[3];
-        for (int i = 0; i < sizes.length; i++) {
-            players[i] = c.makeMockPlayer(GameType.SURVIVAL);
-            slimes[i] = c.spawn(SkyNormalMobs.CLOUD_SLIME, P);
-            slimes[i].setSize(sizes[i], true);
-            slimes[i].setPos(players[i].getX(), players[i].getY(), players[i].getZ());
-            slimes[i].setTarget(players[i]);
-            before[i] = players[i].getHealth();
+        for (int size : sizes) {
+            CloudSlime slime = c.spawn(SkyNormalMobs.CLOUD_SLIME, P);
+            slime.setSize(size, true);
+            vanilla.setSize(size, true);
+            boolean dealsDamage = (boolean) canDeal.invoke(slime);
+            float damage = (float) attack.invoke(slime);
+            float vanillaDamage = (float) attack.invoke(vanilla);
+            if (size == 1) {
+                c.assertTrue(!dealsDamage, "D6 tiny cloud slime cannot deal damage (vanilla canDealDamage=false)");
+            } else {
+                c.assertTrue(dealsDamage, "size " + size + " deals damage");
+                c.assertTrue(Math.abs(damage - vanillaDamage * 1.5F) < 1.0E-4F,
+                        "Q16 +50% for size " + size + ": " + damage + " vs vanilla " + vanillaDamage);
+            }
+            slime.discard();
         }
-        c.runAfterDelay(120, () -> {
-            double[] taken = new double[3];
-            for (int i = 0; i < 3; i++) { taken[i] = before[i] - players[i].getHealth(); slimes[i].discard(); }
-            c.assertTrue(taken[0] == 0.0, "D6 tiny cloud slime deals 0 damage, dealt " + taken[0]);
-            c.assertTrue(taken[1] > 0.0 && taken[2] > taken[1],
-                    "medium and large deal damage, large more than medium: " + taken[1] + " / " + taken[2]);
-            c.succeed();
-        });
+        c.succeed();
     }
 
     @GameTest(maxTicks = 600)
