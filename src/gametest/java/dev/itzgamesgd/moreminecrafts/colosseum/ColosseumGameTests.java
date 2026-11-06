@@ -94,7 +94,7 @@ public final class ColosseumGameTests {
 
     private static final RoundPlan.Timing LONG = RoundPlan.Timing.APPROVED;
 
-    @GameTest(maxTicks = 300)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 300)
     public void entryIsDetectedOnlyInsideTheArenaInteriorAndStartsRoundOne(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 1, LONG);
         ServerPlayer p = a.player("entry");
@@ -129,7 +129,7 @@ public final class ColosseumGameTests {
         });
     }
 
-    @GameTest(maxTicks = 120)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 120)
     public void twoPlayersEnteringInTheSameTickAreBothInTheFirstRoster(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 2, LONG);
         ServerPlayer p1 = a.player("first"), p2 = a.player("second");
@@ -148,7 +148,7 @@ public final class ColosseumGameTests {
         });
     }
 
-    @GameTest(maxTicks = 900)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 900)
     public void entryDuringARoundIsPendingAndAdmittedAtTheNextRoundBoundary(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 3, LONG);
         ServerPlayer p1 = a.player("early"), p2 = a.player("late");
@@ -189,7 +189,7 @@ public final class ColosseumGameTests {
         });
     }
 
-    @GameTest(maxTicks = 120)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 120)
     public void reenteringAnAdmittedParticipantIsAReturnNotANewAdmission(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 4, LONG);
         ServerPlayer p1 = a.player("stay"), p2 = a.player("leaver");
@@ -210,7 +210,7 @@ public final class ColosseumGameTests {
         });
     }
 
-    @GameTest(maxTicks = 160)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 160)
     public void wipeOfTheWholeRosterFailsImmediatelyAndRemovesOnlyTrialMobs(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 5, LONG);
         ServerPlayer p1 = a.player("w1"), p2 = a.player("w2"), p3 = a.player("w3");
@@ -230,7 +230,7 @@ public final class ColosseumGameTests {
         });
     }
 
-    @GameTest(maxTicks = 6000)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 6000)
     public void absenceGraceResumesOnReturnAndExpiresOtherwise(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 6, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 1_500));
         ServerPlayer p = a.player("grace");
@@ -256,7 +256,7 @@ public final class ColosseumGameTests {
         });
     }
 
-    @GameTest(maxTicks = 6000)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 6000)
     public void wallClockLimitTimesOutAndLeavesOrdinaryMobs(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 7, LONG);
         ServerPlayer p = a.player("limit");
@@ -281,7 +281,7 @@ public final class ColosseumGameTests {
     /** Process-restart persistence in three server processes: -Dmoreminecrafts.st05.restart.phase=write|reload|verify (inert otherwise). */
     private static final UUID RESTART_PLAYER = UUID.fromString("5a05a05a-0000-4000-8000-0000000000a1");
 
-    @GameTest(maxTicks = 1200)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 1200)
     public void attemptStateSurvivesRealServerRestart(GameTestHelper ctx) throws IOException {
         String phase = System.getProperty("moreminecrafts.st05.restart.phase");
         if (phase == null || phase.isBlank()) { ctx.succeed(); return; }

@@ -13,7 +13,7 @@ import net.minecraft.world.phys.AABB;
 
 /** Real 26.3 server entities, tickets, combat and persistence; embedded players are not live clients. */
 public final class ColosseumCombatGameTests {
-    @GameTest(maxTicks=4200)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 4200)
     public void sixRoundsLeadToSingleBoundBossAndNormalDeathEndsTheAttempt(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,21,RoundPlan.Timing.APPROVED);
         ServerPlayer p=a.player("gladiator"); AtomicInteger ticks=new AtomicInteger();
@@ -46,7 +46,7 @@ public final class ColosseumCombatGameTests {
             }
         });
     }
-    @GameTest(maxTicks=250)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 250)
     public void occupiedTerrainIsNeverOverwrittenAndConflictPersists(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,22,RoundPlan.Timing.APPROVED);
         var p=a.player("restore"); AtomicInteger ticks=new AtomicInteger();
@@ -70,7 +70,7 @@ public final class ColosseumCombatGameTests {
             }
         });
     }
-    @GameTest(maxTicks=1800)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 1800)
     public void ownedTicketsHoldCombatThenUnloadReloadDoesNotReplenish(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,23,RoundPlan.Timing.APPROVED);
         ServerPlayer p=a.player("chunks");AtomicInteger ticks=new AtomicInteger();
@@ -102,7 +102,7 @@ public final class ColosseumCombatGameTests {
             }
         });
     }
-    @GameTest(maxTicks=200)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 200)
     public void duplicateWorldAllocationQuarantinesWithoutSpawnOrReward(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,24,RoundPlan.Timing.APPROVED);
         var p=a.player("duplicate");AtomicInteger ticks=new AtomicInteger();
@@ -123,7 +123,7 @@ public final class ColosseumCombatGameTests {
         });
     }
 
-    @GameTest(maxTicks=1600)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 1600)
     public void bossAndCompletionSurviveThreeRealServerProcesses(GameTestHelper ctx) throws Exception {
         String phase=System.getProperty("moreminecrafts.st05b.restart.phase","");
         if(phase.isEmpty()) {ctx.succeed();return;}
@@ -197,9 +197,9 @@ public final class ColosseumCombatGameTests {
         }
     }
 
-    @GameTest(maxTicks=220)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 220)
     public void bossTimeoutVanishesWithoutSuccessOrKey(GameTestHelper ctx) {bossTermination(ctx,26,true);}
-    @GameTest(maxTicks=220)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 220)
     public void bossWipeCleansWithoutSuccessOrKey(GameTestHelper ctx) {bossTermination(ctx,27,false);}
     private void bossTermination(GameTestHelper ctx,int index,boolean timeout) {
         var a=new ColosseumGameTests.Arena(ctx,index,RoundPlan.Timing.APPROVED);var p=a.player("end"+index);
@@ -225,7 +225,7 @@ public final class ColosseumCombatGameTests {
         });
     }
 
-    @GameTest(maxTicks=180)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 180)
     public void inFlightOwnedArrowFreezesAndCannotDamageDuringAbsence(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,28,RoundPlan.Timing.APPROVED);var p=a.player("arrowpause");
         AtomicInteger ticks=new AtomicInteger();net.minecraft.world.entity.projectile.arrow.Arrow[] arrow={null};

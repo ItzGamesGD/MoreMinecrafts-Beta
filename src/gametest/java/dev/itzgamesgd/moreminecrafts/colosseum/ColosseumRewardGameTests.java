@@ -33,7 +33,7 @@ public final class ColosseumRewardGameTests {
         return entity;
     }
 
-    @GameTest(maxTicks=120)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 120)
     public void plannedSharedKeyIsInsertedOnceAndReceiptSurvivesRepeatReconcile(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,31,RoundPlan.Timing.APPROVED);var p=a.player("reward-plan");
         AtomicInteger ticks=new AtomicInteger();
@@ -53,7 +53,7 @@ public final class ColosseumRewardGameTests {
         });
     }
 
-    @GameTest(maxTicks=120)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 120)
     public void savedEntityCompletesAnInterruptedInsertWithoutCreatingAnother(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,32,RoundPlan.Timing.APPROVED);var p=a.player("reward-reload");
         AtomicInteger ticks=new AtomicInteger();
@@ -71,7 +71,7 @@ public final class ColosseumRewardGameTests {
         });
     }
 
-    @GameTest(maxTicks=120)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 120)
     public void uncertainInsertWithoutEntityIsQuarantinedAndNotReissued(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,33,RoundPlan.Timing.APPROVED);var p=a.player("reward-uncertain");
         AtomicInteger ticks=new AtomicInteger();
@@ -87,7 +87,7 @@ public final class ColosseumRewardGameTests {
         });
     }
 
-    @GameTest(maxTicks=120)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 120)
     public void duplicateWorldEntitiesForOneRewardAreQuarantined(GameTestHelper ctx) {
         var a=new ColosseumGameTests.Arena(ctx,34,RoundPlan.Timing.APPROVED);var p=a.player("reward-duplicate");
         AtomicInteger ticks=new AtomicInteger();
@@ -104,7 +104,7 @@ public final class ColosseumRewardGameTests {
         });
     }
 
-    @GameTest(maxTicks=160)
+    @GameTest(environment = "moreminecrafts-gametest:colosseum", maxTicks = 160)
     public void sharedRewardPlanAndEntitySurviveThreeIndependentJvmProcesses(GameTestHelper ctx) throws Exception {
         String phase=System.getProperty("moreminecrafts.st05c.restart.phase","");
         if(phase.isEmpty()){ctx.succeed();return;}
