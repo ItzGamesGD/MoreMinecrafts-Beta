@@ -150,3 +150,37 @@ All entries below are **ST-01 GIANT PYRAMID internal royal hall architecture**, 
 6. **Design integration only.** No Java/NBT/worldgen/asset/loot implementation authorized by this clarification. Verify existing GitHub design and implementation before detailed integration or any future implementation approval.
 
 The separate file `docs/INDEPENDENT_ROYAL_TOMB_OWNER_REQUIREMENTS_2026-11-06.md` is a **superseded historical request**, not an active authority to build an independent royal tomb.
+
+
+## Owner-approved BUILD decisions (Q63-Q71, 2026-11-06)
+
+These decisions extend the ST-01 giant pyramid's existing Q16 secret treasury. They do not create an independent structure.
+
+| ID | Choice | Approved decision |
+| --- | --- | --- |
+| Q63 | A | Expand the existing Q16 secret treasury as the large treasure vault; the post-victory gold golem guides the player there. No separate new room is added by this choice. |
+| Q64 | B | Rear dais at the back for a dedicated large treasure chest; irregular mineral-block piles on both sides; keep a clear central aisle. The former central display concept is relocated to the rear dais. |
+| Q65 | B | Vault clear internal floor plan 21×25 blocks (525 blocks²), subject to fit against existing Q16 footprint and adjacent crypt geometry. |
+| Q66 | B | Maximum clear interior height 10 blocks. |
+| Q67 | B | Stepped rising ceiling, with central high zone and lower side zones. |
+| Q68 | A | Gentle 3-level rise: side zones 8 blocks, intermediate zone 9 blocks, central zone 10 blocks. Exact span boundaries and ceiling thickness remain TBD. |
+| Q69 | B | Irregular stacked mineral-block piles on both sides; overall left/right placement remains balanced, individual piles vary in height/form. |
+| Q70 | B | Central aisle minimum clear width 5 blocks; entrance and dais approach may widen. |
+| Q71 | C | Rear treasure-chest dais height 3 blocks above vault floor; chest dimensions and dais footprint/stairs remain TBD. |
+
+### Gold golem / treasure-vault flow (approved design requirements, not implemented)
+
+- Preserve normal Tomb Guardian death, encounter completion, drops, respawn/retry and persistence rules. The guide is a separate presentation/entity concept, not a replacement boss or altered boss death handler.
+- On legitimate victory, golden-particle disappearance suggests transformation into a small gold golem; it acknowledges/bows, guides toward the existing Q16 expanded vault, and waits if the player falls behind.
+- If guidance is interrupted or the guide fails/despawns, access to the vault must remain possible through a non-softlocking fallback. Exact fallback route/access mechanism is still an open design decision.
+- The large dedicated chest is a new vault feature; do not silently modify the two existing royal chests (Q11/Q34) or their encounter trigger/unlock rules.
+- Mineral blocks are physically stacked as visual treasure. Whether they are mineable or decoration-only remains undecided. Candidate loot names are not approved loot-table entries; verify registered IDs and balance before quantities/chances.
+- Existing Q16 footprint, Q13-Q15 secret descent/crypt and adjacent room geometry must be audited before claiming 21×25×10 fits. No implementation was performed.
+
+### Superseding scope clarification
+
+The owner's latest clarification is authoritative: **there is no separate independent royal tomb in this design workflow**. The word “royal tomb” refers informally to ST-01's internal royal burial hall/crypt. All Q01-Q71 decisions and the gold-golem/treasury extension belong to ST-01 giant pyramid. The earlier section titled “Mandatory scope clarification” above that describes an independent royal tomb is superseded where it conflicts with this correction; it is retained only as historical context. The separate INDEPENDENT_ROYAL_TOMB_OWNER_REQUIREMENTS_2026-11-06.md file is marked superseded and is not an active structure request.
+
+### Status
+
+Q63-Q71 are owner-approved design decisions. This is a documentation-only update. No Java code, NBT, worldgen, assets, loot tables or runtime behavior were changed. The geometric fit of Q65-Q68 to existing Q16 and neighboring underground rooms remains unverified.
