@@ -184,3 +184,47 @@ The owner's latest clarification is authoritative: **there is no separate indepe
 ### Status
 
 Q63-Q71 are owner-approved design decisions. This is a documentation-only update. No Java code, NBT, worldgen, assets, loot tables or runtime behavior were changed. The geometric fit of Q65-Q68 to existing Q16 and neighboring underground rooms remains unverified.
+
+
+## Owner-approved BUILD decisions (Q72-Q93, 2026-11-06)
+
+All decisions below extend ST-01's existing Q16 secret treasury, not an independent tomb. These are architectural/design decisions only. Preserve Q01-Q71, existing Tomb Guardian and Q11/Q34 royal chests, vanilla chest inventory behavior, and the minimum 5-block central aisle.
+
+| ID | Choice | Approved decision |
+| --- | --- | --- |
+| Q72 | B | Dedicated giant chest body footprint 5×3 blocks (front width × depth); height TBD. |
+| Q73 | B | Gold-toned chest exterior with turquoise/lapis gemstone accents and royal central motif. |
+| Q74 | B | Large turquoise central magical-gem seal with surrounding golden royal patterns, visual only; no additional locking mechanic approved. |
+| Q75 | A | Conventional vanilla-style chest lid opening on interaction; no multi-stage seal animation. |
+| Q76 | Clarified | Owner explicitly requires vanilla Minecraft chest UI and inventory interaction (original Q76 option A); external chest model/texture customization only. In a revised Q76 question, owner chose B for gently arched lid. Do NOT interpret as approval for multi-compartment custom GUI. |
+| Q77 | B | Front emblem: gold winged sun disk / royal-power motif alongside turquoise central gem. |
+| Q78 | B | Side surfaces carry smaller winged sun disks and royal-symbol carved reliefs. |
+| Q79 | B | Stepped royal pedestal/base beneath giant chest; outer footprint clarified at Q93. |
+| Q80 | B | Four decorative plant-motif columns at corners of rear treasure dais, forming a small royal sanctuary. |
+| Q81 | B | Four column bodies each 3×3 blocks. |
+| Q82 | B | Column overall height 7 blocks (base through capital); starting elevation resolved Q86. |
+| Q83 | B | Flared open-papyrus capital; stairs/slabs may express details. |
+| Q84 | B | Capital nominal maximum 5×5 blocks, with fit/clearance subject to coordinate validation. |
+| Q85 | B | Rear treasure dais platform footprint 15×11 blocks; 3-block elevation from Q71. |
+| Q86 | B | All four columns originate on vault floor, NOT on the raised dais. Thus column top nominally at floor+7, pending local ceiling clearance. |
+| Q87 | B | Four columns partially embedded in the plan corners of the dais; dais wraps around columns; columns remain floor-founded. |
+| Q88 | B | Each 3×3 column overlaps the dais corner by 2×2 blocks in plan; column projects 1 block outward in each relevant direction. No duplicate block placement at intersecting coordinates. |
+| Q89 | B | Front central ceremonial stair width 7 blocks, widening from minimum 5-block clear approach aisle. |
+| Q90 | B | Stair horizontal run 5 blocks to ascend dais height 3, with intermediate horizontal portions. |
+| Q91 | B | Stair run divided into 2 blocks projecting in front of dais plus 3 blocks inset within its 15×11 plan. |
+| Q92 | B | Giant chest centered toward rear of dais, leaving front stair-top interaction/approach area. Exact coordinates pending. |
+| Q93 | B | Giant chest BODY retains 5×3 footprint; stepped base maximum outer footprint 7×5 (up to 1-block expansion per side). This is a maximum, not mandatory full-solid 7×5 at every level. |
+
+### Required geometric and functional checks before implementation
+
+1. Dimensioned vault plan for 21×25 internal footprint, rear 15×11 dais, 7-wide 5-long stairs (2 external / 3 inset), four floor-founded 3×3 corner columns with 2×2 plan overlap, 5×5 capitals, and rear 5×3 chest body / max 7×5 base. Ensure no overlapping physical blocks and preserve 5-wide central path and chest interaction access.
+2. Validate 7-high column/capital against local stepped ceiling zones 8/9/10 high (not merely max 10), and verify chest lid opening clearance and any required visual model animation.
+3. Check dais, chest pedestal and columns for overlap, rear wall clearance and chest access; no exact coordinates or chest body height have been approved.
+4. Verify entire vault, hidden stair and crypt fit into ST-01's underground geometry, with Q13 depth cap relaxed but no replacement max approved.
+5. Chest inventory is vanilla UI/behavior; do not create multi-compartment custom GUI. Exact container capacity, persistence and implementation method need separate engineering verification.
+6. Mineral block mining/reward status and giant-chest loot table remain undecided; candidate loot is not approved.
+7. Preserve boss, guide golem and royal-chest existing trigger/reward authority; no code, NBT, worldgen or runtime changes authorized here.
+
+### Status after Q93
+
+Q72-Q93 recorded as owner-approved design-only decisions. Architectural fit and implementation remain UNVERIFIED. The next stage should prioritize high-impact geometry, access and buildability decisions over decorative micro-choices.
