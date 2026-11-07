@@ -21,7 +21,7 @@ final class SkyMobRenderers {
     private SkyMobRenderers() {}
 
     static void register() {
-        EntityRendererRegistry.register(SkyNormalMobs.CLOUD_WRAITH, ZombieRenderer::new);
+        CloudWraithRenderer.register();
         EntityRendererRegistry.register(SkyNormalMobs.FALLEN_SENTINEL, HuskRenderer::new);
         EntityRendererRegistry.register(SkyNormalMobs.CRYSTAL_BUG, SilverfishRenderer::new);
         EntityRendererRegistry.register(SkyNormalMobs.CLOUD_SLIME, SlimeRenderer::new);
