@@ -10,6 +10,10 @@ scene=v.SlabScene(blocks);model=json.loads((H/'model.json').read_text())
 goals=[(1,f+1,1) for f in model['floors']];names=['F1','F2','F3','F4','SANCTUM']
 for i,b in enumerate(model['balconies']):
  goals.append((1,b['top'],4*(22*b['sign'])+1));names.append(f'balcony{i+1}')
+for a in model['spawners']:
+ x,y,z=a['position'];sign=1 if x>0 else -1;goals.append((4*(x-sign)+1,y,4*z+1));names.append('altar_'+str(a['floor'])+'_'+str(x)+'_'+str(z))
+for L,f in enumerate(model['floors'][:4]):
+ for z in (-9,9):goals.append((4*(-9)+1,f+1,4*z+1));names.append(f'vault_{L+1}_{z}')
 r=scene.search((4*23+1,1,1),goals,limit=1200000);paths=r.pop('witness_paths');out={'navigation':r,'targets':names,'height':max(p[1] for p in blocks)-min(p[1] for p in blocks)+1,'boundary_center_diameter':2*max(math.hypot(p[0],p[2]) for p in blocks),'block_counts':{},'notes':['Full blocks and bottom slabs modeled. Spawner/vault treated conservatively as full cubes. Actual client validation separate.']}
 for row in rows:out['block_counts'][row['block']]=out['block_counts'].get(row['block'],0)+1
 (H/'verify.json').write_text(json.dumps(out,indent=1)+'\n');(H/'paths.json').write_text(json.dumps(dict(zip(names,paths)),separators=(',',':'))+'\n');print('reached',dict(zip(names,r['reached'])),'visited',r['visited_states'])

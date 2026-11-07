@@ -1,0 +1,22 @@
+[18:52:28] [Server thread/INFO]: Starting minecraft server version 26.3
+[18:52:31] [Server thread/INFO]: Done (1.702s)! For help, type "help"
+[18:53:31] [Server thread/INFO]: System chat: [Rcon: Loaded template "fullbuild:tower" at 976, 65, 976]
+[18:56:03] [Server thread/INFO]: System chat: [Rcon: Loaded template "fullbuild:tower" at 976, 65, 976]
+[18:57:22] [Server thread/INFO]: FullBuilder[/127.0.0.1:44178] logged in with entity id 17 at (1020.5, 118.0, 1008.5)
+[18:57:22] [Server thread/INFO]: System chat: FullBuilder joined the game
+[18:57:37] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Spectator Mode]
+[19:00:46] [Server thread/INFO]: System chat: [Rcon: Loaded template "fullbuild:tower" at 976, 65, 976]
+[19:00:47] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Adventure Mode]
+[19:01:50] [Server thread/INFO]: System chat: [Rcon: Loaded template "fullbuild:tower" at 976, 65, 976]
+[19:06:09] [Server thread/INFO]: System chat: [Rcon: Loaded template "fullbuild:tower" at 976, 65, 976]
+[19:10:31] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Spectator Mode]
+[19:12:40] [Server thread/INFO]: System chat: [Rcon: Loaded template "fullbuild:tower" at 976, 65, 976]
+[19:12:41] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Adventure Mode]
+[19:16:38] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Spectator Mode]
+[19:18:06] [Server thread/INFO]: System chat: [Rcon: Loaded template "fullbuild:tower" at 976, 65, 976]
+[19:18:06] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Adventure Mode]
+[19:21:46] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Spectator Mode]
+[19:24:16] [Server thread/INFO]: System chat: [Rcon: Loaded template "fullbuild:tower" at 976, 65, 976]
+[19:24:18] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Adventure Mode]
+[19:25:12] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Spectator Mode]
+[19:25:47] [Server thread/INFO]: System chat: [Rcon: Set FullBuilder's game mode to Adventure Mode]

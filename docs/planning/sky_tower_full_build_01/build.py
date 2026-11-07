@@ -3,7 +3,10 @@ import math,json,csv,gzip,struct,hashlib
 from pathlib import Path
 H=Path(__file__).resolve().parent;B={};anchors=[];walk=[]
 def put(x,y,z,mat,group='detail',props=None,nbt=None):
- if 0<=y<80:B[round(x),y,round(z)]=(mat,props or {},nbt,group)
+ if not 0<=y<80:return
+ key=round(x),y,round(z)
+ if group in ('arcade_arch','arch_moulding') and key in B and B[key][3] in ('stair','balcony','floor','portal_floor'):return
+ B[key]=(mat,props or {},nbt,group)
 def box(x0,y0,z0,x1,y1,z1,mat,group='detail'):
  for x in range(x0,x1+1):
   for y in range(y0,y1+1):
@@ -59,6 +62,7 @@ for L,f in enumerate(floors[:4]):
  for z in (-9,9):
   put(-8,f+1,z,'vault','reward',{'facing':'east','ominous':'false','vault_state':'inactive'},{'id':'minecraft:vault','config':{'loot_table':'minecraft:chests/trial_chambers/reward','key_item':{'id':'minecraft:trial_key','count':1}}})
  for x,z in ((-11,0),(0,-11),(0,11)):
+  for R in (12,13):put(round(x/11*R),f+3,round(z/11*R),'polished_andesite','sconce_bracket')
   put(x,f+3,z,'sea_lantern','light');put(x,f+4,z,'chiseled_stone_bricks','sconce')
 # Spiral tread band; base flight plus four battle transitions.
 band=disc(20.5)-disc(14.5);height={}
@@ -82,9 +86,14 @@ for L in range(1,5):
     if edge:
      for y in (math.ceil(T),math.ceil(T)+1):put(x,y,z,'stone_bricks','balcony_rail')
   # Layered corbels and small underside arch motif, below walking plane.
+  previous=None
   for x in range(-3,4):
    y=math.ceil(T)-3-round(1.5*math.sqrt(max(0,1-(x/3)**2)))
-   put(x,y,sign*22,'chiseled_stone_bricks','balcony_arch')
+   if previous:
+    px,py=previous
+    put(x,py,sign*22,'chiseled_stone_bricks','balcony_arch')
+    for V in range(min(py,y),max(py,y)+1):put(x,V,sign*22,'chiseled_stone_bricks','balcony_arch')
+   put(x,y,sign*22,'chiseled_stone_bricks','balcony_arch');previous=(x,y)
   for x in (-3,3):
    box(x,math.ceil(T)-4,sign*21,x,math.ceil(T)-2,sign*21,'andesite','corbel')
   put(0,math.ceil(T)-2,sign*24,'sea_lantern','light')
@@ -119,15 +128,19 @@ for L in range(5):
  for A,C in zip(pp,pp[1:]):
   previous=None
   _,x,z,y=A;_,X,Z,Y=C;dist=math.hypot(X-x,Z-z);steps=math.ceil(dist*3)
+  rise=dist/2
+  if C[0]-A[0]>30 and L<4:
+   middle=(A[0]+C[0])/2;cap=math.floor(top(L+1,middle))-2
+   rise=min(rise,max(0,cap-max(y,Y)))
   for i in range(steps+1):
-   t=i/steps;xx,zz=round(x+(X-x)*t),round(z+(Z-z)*t);yy=round(y+(Y-y)*t+dist/2*math.sqrt(max(0,1-(2*t-1)**2)))
+   t=i/steps;xx,zz=round(x+(X-x)*t),round(z+(Z-z)*t);yy=round(y+(Y-y)*t+rise*math.sqrt(max(0,1-(2*t-1)**2)))
    if previous:
     px,py,pz=previous
     while px!=xx:
      px+=1 if xx>px else -1;put(px,py,pz,'smooth_stone','arcade_arch')
     while pz!=zz:
      pz+=1 if zz>pz else -1;put(px,py,pz,'smooth_stone','arcade_arch')
-    for Y in range(min(py,yy),max(py,yy)+1):put(xx,Y,zz,'smooth_stone','arcade_arch')
+    for V in range(min(py,yy),max(py,yy)+1):put(xx,V,zz,'smooth_stone','arcade_arch')
    put(xx,yy,zz,'smooth_stone','arcade_arch');previous=(xx,yy,zz)
    put(xx,yy+1,zz,'stone_brick_slab','arch_moulding',{'type':'bottom','waterlogged':'false'})
 # Join the arcade across each revolution boundary.
@@ -153,9 +166,14 @@ for i,f in enumerate(floors):
    for y in range(f+1,f+5):B.pop((x,y,z),None)
  for z in (-3,3):
   box(13,f+1,z,14,f+4,z,'chiseled_stone_bricks','gate')
+ previous=None
  for z in range(-3,4):
   y=f+5+round(2*math.sqrt(max(0,1-(z/3)**2)))
-  put(14,y,z,'smooth_stone','gate_arch')
+  if previous:
+   pz,py=previous
+   put(14,py,z,'smooth_stone','gate_arch')
+   for V in range(min(py,y),max(py,y)+1):put(14,V,z,'smooth_stone','gate_arch')
+  put(14,y,z,'smooth_stone','gate_arch');previous=(z,y)
  if i<4:
   for X in range(14,21):
    for Z in range(-3,4):
@@ -170,7 +188,7 @@ for z in range(-2,3):
   for y in range(65,68):B.pop((x,y,z),None)
 ring=[]
 for k in range(12):
- a=math.radians(k*30);x,z=round(12*math.cos(a)),round(12*math.sin(a));ring.append((x,z))
+ a=math.radians(k*30+15);x,z=round(12*math.cos(a)),round(12*math.sin(a));ring.append((x,z))
  box(x-1,65,z-1,x+1,65,z+1,'chiseled_stone_bricks','sanctum_base');box(x,66,z,x,73,z,'smooth_stone','sanctum_column')
  box(x-1,74,z-1,x+1,74,z+1,'polished_andesite','sanctum_capital')
 for (x,z),(X,Z) in zip(ring,ring[1:]+ring[:1]):
@@ -218,6 +236,13 @@ for (x,y,z),(mat,pr,n,g) in list(B.items()):
   for Y in (math.ceil(T),math.ceil(T)+1):guards.add((X,Y,Z))
 for x,y,z in guards:put(x,y,z,'stone_bricks','seam_guard')
 for z in range(-2,3):tread(25,z,.5,'entrance_step')
+# Masonry rail plinths: support rail bottoms at the edge rather than levitating them.
+rail_bottom={}
+for (x,y,z),(mat,pr,n,g) in B.items():
+ if g in ('rail','balcony_rail','seam_guard','entrance_guard'):
+  # Each flight has a distinct contiguous rail interval; add base beneath every bottom.
+  if (x,y-1,z) not in B:rail_bottom[x,y-1,z]='polished_andesite'
+for p,mat in rail_bottom.items():put(*p,mat,'rail_plinth')
 # Serialization, stdlib only. 26.3 lowercase block-state names.
 def st(s):b=s.encode();return struct.pack('>H',len(b))+b
 def payload(v):
