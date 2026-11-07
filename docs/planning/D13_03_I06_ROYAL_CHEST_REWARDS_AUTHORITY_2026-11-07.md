@@ -17,7 +17,7 @@ This document controls **I06-specific royal chest rewards, access, and persisten
 - Block automated insertion and extraction (hopper, hopper minecart, and equivalent paths) permanently, before and after defeat. Block player mining and explosion destruction permanently, even after the rewards are depleted.
 - Loot is permanently depleted: no restock, reroll, respawn-based refarm, or personal inventory copies.
 - Authority key: stable `structureInstanceId` plus role `PRIMARY` or `SECONDARY`. Coordinates may locate a chest but are not the sole identity. Repair, NBT replacement, chunk reload, and restart of the **same instance** preserve results and remaining items; a genuinely new structure instance receives a new draw.
-- First-generation operations must be idempotent and crash-recoverable without duplicate or lost rewards. A simple claim-before-roll flag or `SavedData.setDirty()` alone does not establish atomicity. Preserve generated results (including failed rolls) and their application state as needed; reuse normal inventory persistence for remaining slots, with a recovery contract for save-boundary failures.
+- First-generation operations must be idempotent under normal game operation and save/reload, with no rerolls, refills or lost generated state in successfully persisted saves. **Owner-approved 2026-11-08:** vanilla-equivalent disk-save consistency is sufficient; cross-file transactional atomicity between player inventory and world/chest persistence is not required. A crash at an unlucky save boundary may cause vanilla-equivalent item duplication or loss. Deterministic reward replay and `SavedData.setDirty()` do not establish crash-proof no-duplication; do not claim that guarantee.
 - Do not design a separate general-purpose chest inventory engine or new concurrency rules; inherit ordinary Minecraft shared-inventory behavior where compatible.
 
 ## PRIMARY — guaranteed and independent ordinary minerals
@@ -74,7 +74,7 @@ No common monster drops, completed Etherium ingots, elemental cores, unrelated a
 - Existing PR #237 `PyramidRoyalChestRewards` 20% accessory pool is a **reuse candidate**, not proof of live chest hookup or crash-safe reward persistence. Existing catalyst sources for Ancient City/Bastion do not automatically implement ST-01.
 - Ensure PRIMARY and SECONDARY are both independently sealed until defeat; preserve the third treasury chest's separate contract.
 - Verify stack splitting for quantities over 64 and actual registered stack sizes against each 54-slot inventory; do not silently truncate rewards.
-- Test probability/quantity boundaries, structure-wide catalyst exclusivity, independence, concurrent opening, bypasses of insertion and automation, mining/explosion protection, permanent depletion, chunk reload/restart, structure repair, and crash/recovery boundaries.
+- Test probability/quantity boundaries, structure-wide catalyst exclusivity, independence, concurrent opening, bypasses of insertion and automation, mining/explosion protection, permanent depletion, chunk reload/restart, structure repair, and deterministic replay. Real disk-crash save-boundary behavior remains UNVERIFIED and is governed by vanilla-equivalent consistency.
 - The pyramid's actual worldgen rarity, the physical ST-01 connection, exact east/west spatial orientation, and runtime/gameplay validation remain **UNVERIFIED**. A model or static test PASS is not a live gameplay PASS.
 
 ## Decision history and traceability
