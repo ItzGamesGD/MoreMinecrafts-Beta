@@ -34,12 +34,12 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
  setsid ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username WraithViewer" > sky-wraith-results/client.log 2>&1 &
  client_pid=$!
  trap "kill -- -$client_pid 2>/dev/null || true" EXIT
- for n in $(seq 1 180); do
+ for n in $(seq 1 60); do
    if grep -Fq VISUAL_VALIDATION_PLAYER_JOINED sky-wraith-results/client.log; then break; fi
-   if ! kill -0 "$client_pid" 2>/dev/null; then echo CLIENT_EXITED_BEFORE_JOIN; exit 1; fi
+   if ! kill -0 "$client_pid" 2>/dev/null; then echo CLIENT_EXITED_BEFORE_JOIN; cat sky-wraith-results/client.log; exit 1; fi
    sleep 2
  done
- grep -Fq VISUAL_VALIDATION_PLAYER_JOINED sky-wraith-results/client.log || { echo CLIENT_JOIN_TIMEOUT; exit 1; }
+ grep -Fq VISUAL_VALIDATION_PLAYER_JOINED sky-wraith-results/client.log || { echo CLIENT_JOIN_TIMEOUT; cat sky-wraith-results/client.log; exit 1; }
  echo CLIENT_JOINED
  sleep 12
  for spec in "front 0 64 12 180 5" "side 7 64 4 90 5" "back 0 64 -4 0 5"; do
