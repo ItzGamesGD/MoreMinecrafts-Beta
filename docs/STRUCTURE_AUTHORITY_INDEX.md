@@ -43,3 +43,8 @@ The Ancient City remains an **Ancient Heart** source, as recorded in [CONTENT_FI
 ## ST-01 royal reward acquisition overlay — D13-03 (2026-11-06)
 
 For **ST-01 Colossal Pyramid** royal reward acquisition, see [D13-03-Q25–Q41 and Q42–Q47](planning/D13_03_DECISIONS_Q01-Q47.md): exactly two designated royal reward chests, independent 20% accessory-pool rolls per chest, and staged preimplementation/integration verification. This supplements the previously OPEN chest count only; it does **not** replace the [pyramid design](PYRAMID_DESIGN_PREP_2026-10-25.md), the main royal chest's encounter/unlock gate, or existing loot/catalyst rules. The second chest's precise location, role and unlock conditions and the approved base royal loot table remain unconfirmed here. Design registration does not imply structure implementation, merge, or live validation.
+
+
+## ST-01 royal chest I06 Q01–Q45 authority overlay (2026-11-07)
+
+The current owner-approved two-royal-chest reward and access contract is [D13-03-I06 Royal Chest Reward Authority](planning/D13_03_I06_ROYAL_CHEST_REWARDS_AUTHORITY_2026-11-07.md). It resolves the earlier D13-03 Q25–Q47 row's unspecified royal base loot, two-chest access and inventory conditions **for I06 only**: two 54-slot chests, first direct player open after Tomb Guardian defeat, permanent no-insertion/no-automation/no-destruction, independent ordinary and accessory rewards, and one structure-wide catalyst assignment. Q45 specifies titanium/tungsten ingots. ST-01 P4 **B** is the selected design candidate; orientation and final in-world placement remain separate/unverified. The third secret treasury chest is excluded. This is **OWNER-APPROVED DESIGN ONLY** and does not claim implementation, merge, or live validation.

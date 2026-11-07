@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.boss;
 
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryDefinition;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
@@ -476,19 +478,35 @@ public final class TombGuardianGameTests {
                 .create(LootContextParamSets.ENTITY);
         int rolls = 4000;
         int hearts = 0;
+        int gravity = 0;
+        int both = 0;
+        Item gravityItem = ModItems.ACCESSORIES.get(AccessoryDefinition.HEART_OF_GRAVITY);
         for (int i = 0; i < rolls; i++) {
             List<ItemStack> drops = table.getRandomItems(params, (long) i * 7919L + 17L);
             int stacks = 0;
+            int gravityStacks = 0;
             for (ItemStack stack : drops) {
-                ctx.assertTrue(stack.is(ModItems.ANCIENT_HEART) && stack.getCount() == 1,
-                        "the only kill drop is exactly one Ancient Heart, got " + stack);
-                stacks++;
+                // D13-03 Q21-Q24: Heart of Gravity is a separate, independent 20% x1 pool; Ancient Heart stays 50% x1. Nothing else drops.
+                if (stack.is(ModItems.ANCIENT_HEART)) {
+                    ctx.assertTrue(stack.getCount() == 1, "Ancient Heart is exactly one, got " + stack);
+                    stacks++;
+                } else {
+                    ctx.assertTrue(stack.is(gravityItem) && stack.getCount() == 1,
+                            "the only other kill drop is exactly one Heart of Gravity, got " + stack);
+                    gravityStacks++;
+                }
             }
             ctx.assertTrue(stacks <= 1, "never more than one Ancient Heart per kill");
+            ctx.assertTrue(gravityStacks <= 1, "never more than one Heart of Gravity per kill");
             hearts += stacks;
+            gravity += gravityStacks;
+            if (stacks == 1 && gravityStacks == 1) both++;
         }
         double rate = hearts / (double) rolls;
         ctx.assertTrue(rate > 0.46D && rate < 0.54D, "Ancient Heart drop rate is 50%, measured " + rate);
+        double gravityRate = gravity / (double) rolls;
+        ctx.assertTrue(gravityRate > 0.17D && gravityRate < 0.23D, "Heart of Gravity drop rate is 20%, measured " + gravityRate);
+        ctx.assertTrue(both > 0, "the two pools are independent, so both can drop on one kill");
         guardian.discard();
         ctx.succeed();
     }
