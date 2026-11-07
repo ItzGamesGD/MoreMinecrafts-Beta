@@ -1,0 +1,62 @@
+{
+ "navigation": {
+  "start_standable": true,
+  "reached": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "visited_states": 78125,
+  "limit": 1200000,
+  "search_exhausted": false,
+  "limit_hit": false,
+  "player_width": 0.6,
+  "player_height": 1.8,
+  "grid_step": 0.25,
+  "max_step_up": 0.5,
+  "jump_allowed": false
+ },
+ "targets": [
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "SANCTUM",
+  "balcony1",
+  "balcony2",
+  "balcony3",
+  "balcony4",
+  "balcony5",
+  "balcony6",
+  "balcony7",
+  "balcony8"
+ ],
+ "height": 80,
+ "boundary_center_diameter": 50.15974481593781,
+ "block_counts": {
+  "polished_andesite": 5910,
+  "smooth_stone": 6506,
+  "chiseled_stone_bricks": 1245,
+  "andesite": 3340,
+  "stone_brick_slab": 2647,
+  "stone_bricks": 11870,
+  "polished_deepslate": 1000,
+  "sea_lantern": 29,
+  "vault": 8,
+  "trial_spawner": 16,
+  "oxidized_cut_copper": 42
+ },
+ "notes": [
+  "Full blocks and bottom slabs modeled. Spawner/vault treated conservatively as full cubes. Actual client validation separate."
+ ]
+}
