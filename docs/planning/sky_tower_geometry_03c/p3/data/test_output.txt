@@ -1,0 +1,36 @@
+PASS P2 regression suite reproduces (36 PASS lines, exit 0)
+PASS verifier centre rule == P1
+PASS verifier whole-block rule == P1
+PASS generator D45 == verifier D45
+PASS generator walk band == verifier lane band
+PASS S1_ann_pillars_only_A5strict_gap27: OPTIMAL
+PASS S1_ann_pillars_only_A5strict_gap26: INFEASIBLE
+PASS S3_ann_pillars_8balc_contact3_A5relaxed_gap34: OPTIMAL
+PASS S3_ann_pillars_8balc_contact3_A5relaxed_gap33: INFEASIBLE
+PASS S2_ann_pillars_8balc_contact3_A5strict_gap53: OPTIMAL
+PASS S2_ann_pillars_8balc_contact3_A5strict_gap52: INFEASIBLE
+PASS Q1_sequential_S1pillars_then_8balc_contact3: INFEASIBLE
+PASS Q3_balconies_only_contact7_any_pillars: INFEASIBLE
+PASS Q4_balconies_only_contact3: OPTIMAL
+PASS T1_whole_block_D45_pillars_only_gap80: INFEASIBLE
+PASS K1_pillars_slab C1: expected failures ['V6_balconies']
+PASS K1_pillars_slab C2: expected failures ['V6_balconies']
+PASS K2_8balc_A5relaxed_slab_land9 C1: all numeric checks PASS
+PASS K2_8balc_A5relaxed_slab_land9 C2: all numeric checks PASS
+PASS K2_8balc_A5relaxed_slab_land3 C1: all numeric checks PASS
+PASS K2_8balc_A5relaxed_slab_land3 C2: all numeric checks PASS
+PASS K2_8balc_A5relaxed_slab_land0 C1: all numeric checks PASS
+PASS K2_8balc_A5relaxed_slab_land0 C2: all numeric checks PASS
+PASS K3_pillars_stairblocks C1: expected failures ['V4_lane_width4', 'V6_balconies']
+PASS K3_pillars_stairblocks C2: expected failures ['V4_lane_width4', 'V6_balconies']
+PASS K4_8balc_A5strict_slab_land9 C1: expected failures ['V2_overlaps']
+PASS K4_8balc_A5strict_slab_land9 C2: expected failures ['V2_overlaps']
+PASS B3 (no flat landing): at least one balcony landing is sloped -> violates Q73 "flat section"
+PASS B2 (3-cell landing): all 8 landings flat
+PASS N1 width intrusion (1 block, lap 1 outer lane) -> lane test fails exactly lap1/lane3
+PASS N2 one balcony floor block removed -> 7x3 check fails
+PASS N3 pillar shifted 1 block outward -> D45 boundary fails
+PASS N4 stair cut in lap 2 -> F4 and sanctum unreachable
+PASS N5 one arch removed -> continuity fails with exactly 1 missing pair
+PASS N6 balcony opening blocked -> that balcony unreachable, floors still reachable
+0 failures
