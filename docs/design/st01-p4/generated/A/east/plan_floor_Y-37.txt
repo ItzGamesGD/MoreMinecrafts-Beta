@@ -1,0 +1,35 @@
+PLAN Y=-37 X[-41,24] Z[8,40] north(-Z) up, east(+X) right. .=vault ,=corridor s=stair l=landing c=crypt n=niche D/d=dais/stair P=column K=capital B=beam X=chest m=mineral pile S=sarcophagus :=P1-P3 void #=wall/slab
+   Z\X  '         '         '         '         '         '         '    
+  +8                                                                    
+  +9   ###########################                                      
+ +10   ###########################                                      
+ +11   ###########################                                      
+ +12   ###mm..mmmm..mmmm...mmm.###                                      
+ +13   ###m.mm..mm.m..mmm...mmm###                                      
+ +14   ###...mmm...mmm...mmm...###                  ################### 
+ +15   ###.mmmm..mmmm...mmm..m.###                  ####nnn#nnn#nnn#### 
+ +16   ###PPP.......PPP..mmmm..###                  ####nnn#nnn#nnn#### 
+ +17   ###PPPDDDDDDDPPP.m....mm###                  ###ccccccccccccc### 
+ +18   ###PPPDDDDDDDPPP...m.mm.###                  ###ccccccccccccc### 
+ +19   ###.DDDDDDDDDDD..mm..mmm###                  ###ccccccccccccc### 
+ +20   ###.DDDDDDDDDDD....mm...########################ccccccccccccc### 
+ +21   ###.DDDDDDDDddddd.mm..mm########################ccccccccccccc### 
+ +22   ###.DDDDDDDDddddd.......,,,,,,,,,,,,,,,,lllll###cccccSSSccccc### 
+ +23   ###.DDDDDDDDddddd.......,,,,,,,,,,,,,,,,lllll,,,cccccSSSccccc### 
+ +24   ###.DDDDDDDDddddd.......,,,,,,,,,,,,,,,,lllll,,,cccccSSSccccc### 
+ +25   ###.DDDDDDDDddddd.......,,,,,,,,,,,,,,,,lllll,,,cccccSSSccccc### 
+ +26   ###.DDDDDDDDddddd.......,,,,,,,,,,,,,,,,lllll###cccccSSSccccc### 
+ +27   ###.DDDDDDDDdddddmmm..m.#################sss####ccccccccccccc### 
+ +28   ###.DDDDDDDDDDD...mmm...########################ccccccccccccc### 
+ +29   ###.DDDDDDDDDDD..m...mmm###            #########ccccccccccccc### 
+ +30   ###PPPDDDDDDDPPP....mmm.###            #########ccccccccccccc### 
+ +31   ###PPPDDDDDDDPPP.m...mmm###            #########ccccccccccccc### 
+ +32   ###PPP.......PPP..mmm...###            ##########nnn#nnn#nnn#### 
+ +33   ###.mmmm..mmmm..mmmm...m###            ##########nnn#nnn#nnn#### 
+ +34   ###...mmm...mmm...mmm...###                  ################### 
+ +35   ###.mmm..m.mm..mm.m..mmm###                                      
+ +36   ###m...mmmm..mmmm..mmmm.###                                      
+ +37   ###########################                                      
+ +38   ###########################                                      
+ +39   ###########################                                      
+ +40                                                                    
