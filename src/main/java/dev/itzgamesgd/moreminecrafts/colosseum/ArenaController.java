@@ -36,8 +36,15 @@ public final class ArenaController {
     /** Attempts whose leftover trial mobs must be removed when their chunks load. */
     final Set<UUID> cleanupAttempts = new LinkedHashSet<>();
     RoundPlan.Timing timing = RoundPlan.Timing.APPROVED;
+    /** Test seam: a time source owned by this controller alone. Never serialised, so a restored controller always uses the server wall clock. */
+    private java.util.function.LongSupplier clockOverride;
 
     public ArenaController(String arenaId) { this.arenaId = arenaId; }
+
+    void useClock(java.util.function.LongSupplier clock) { clockOverride = clock; }
+    java.util.function.LongSupplier clockOverride() { return clockOverride; }
+    /** The time this controller ticks on: the server's wall-clock reading for this tick, unless a test installed its own clock. */
+    long now(long serverNow) { return clockOverride == null ? serverNow : clockOverride.getAsLong(); }
 
     public void setTiming(RoundPlan.Timing t) { timing = t; if (attempt != null) attempt.setTiming(t); }
     public ArenaAttempt attempt() { return attempt; }

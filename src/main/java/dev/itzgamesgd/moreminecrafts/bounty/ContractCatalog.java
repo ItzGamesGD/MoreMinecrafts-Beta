@@ -62,7 +62,10 @@ public final class ContractCatalog {
             "minecraft:elder_guardian", "minecraft:warden", "minecraft:ghast");
 
     /** MM mobs withheld from generated objectives pending live aggression verification (owner decision 2026-10-23). */
-    public static final List<String> MM_PENDING_VERIFICATION = List.of("moreminecrafts:wild_piglin");
+    public static final List<String> MM_PENDING_VERIFICATION = List.of("moreminecrafts:wild_piglin",
+            // SKY-MOB P1: registered but withheld from every contract pool until the owner decides their roster tier.
+            "moreminecrafts:cloud_wraith", "moreminecrafts:skyguard_archer", "moreminecrafts:crystal_bug",
+            "moreminecrafts:cloud_slime", "moreminecrafts:fallen_sentinel");
 
     /** Percent chance that a combat objective draws a strong target, by contract shape (owner-approved 2026-10-23). */
     public static int strongPercent(ContractData.Tier shape) {

@@ -202,7 +202,7 @@ public final class ColosseumCombatGameTests {
     @GameTest(maxTicks=220)
     public void bossWipeCleansWithoutSuccessOrKey(GameTestHelper ctx) {bossTermination(ctx,27,false);}
     private void bossTermination(GameTestHelper ctx,int index,boolean timeout) {
-        var a=new ColosseumGameTests.Arena(ctx,index,RoundPlan.Timing.APPROVED);var p=a.player("end"+index);
+        var a=new ColosseumGameTests.Arena(ctx,index,RoundPlan.Timing.APPROVED);var clock=a.manualClock();var p=a.player("end"+index);
         AtomicInteger ticks=new AtomicInteger();UUID[] boss={null};
         ctx.onEachTick(()->{
             int t=ticks.incrementAndGet();if(t==3)a.at(p,8,8);
@@ -213,7 +213,8 @@ public final class ColosseumCombatGameTests {
             if(t==80) {
                 var at=a.attempt();boss[0]=at.bossEntity;
                 ctx.assertTrue(boss[0]!=null && a.level.getEntity(boss[0])!=null,"boss exists before termination");
-                if(timeout)a.ctl.setTiming(new RoundPlan.Timing(1,RoundPlan.GRACE_MILLIS));else p.kill(a.level);
+                a.assertOwnClock(ctx);
+                if(timeout){a.ctl.setTiming(new RoundPlan.Timing(1,RoundPlan.GRACE_MILLIS));clock.advance(1);}else p.kill(a.level);
             }
             if(t==110) {
                 ctx.assertTrue(a.attempt().outcome()==(timeout?ArenaAttempt.Outcome.TIMED_OUT:ArenaAttempt.Outcome.WIPE),"distinct terminal outcome");
