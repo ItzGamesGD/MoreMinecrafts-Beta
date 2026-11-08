@@ -9,11 +9,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 
 /** Operator-only registration of an already placed, verified approved template.
- * Natural generation, battle-completion observation and barriers remain separate integration stages.
+ * Natural generation remains pending island fit approval; runtime reconciliation uses the same registry.
  */
 public final class SkyTowerIntegration {
     private SkyTowerIntegration() {}
     public static void initialize(){
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(SkyTowerBarriers::tick);
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(s->SkyTowerBarriers.clearDiagnostics());
         CommandRegistrationCallback.EVENT.register((dispatcher,context,environment)->dispatcher.register(
             Commands.literal("mmskytower").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("register")
@@ -25,10 +27,13 @@ public final class SkyTowerIntegration {
                                     var site=new SkyTowerLayout.Site(level.dimension().identifier().toString(),
                                         IntegerArgumentType.getInteger(c,"x"),IntegerArgumentType.getInteger(c,"y"),
                                         IntegerArgumentType.getInteger(c,"z"),IntegerArgumentType.getInteger(c,"rotation"));
+                                    var data=level.getServer().overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
+                                    if(!data.quarantined() && data.sites().containsKey(site.id())){
+                                        c.getSource().sendSuccess(()->Component.literal("Already registered "+site.id()),false);return 0;
+                                    }
                                     if(!anchorsPresent(level,site)){
                                         c.getSource().sendFailure(Component.literal("Tower anchors missing/unloaded; nothing registered."));return 0;
                                     }
-                                    var data=level.getServer().overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
                                     try{
                                         boolean added=data.register(site);
                                         c.getSource().sendSuccess(()->Component.literal((added?"Registered ":"Already registered ")+site.id()),false);
@@ -38,7 +43,7 @@ public final class SkyTowerIntegration {
                 .then(Commands.literal("status").executes(c->{
                     var d=c.getSource().getServer().overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
                     c.getSource().sendSuccess(()->Component.literal("registry quarantined="+d.quarantined()),false);
-                    d.sites().forEach((id,site)->c.getSource().sendSuccess(()->Component.literal(id+" completedSpawnerMask="+d.completedMask(id)),false));
+                    d.sites().forEach((id,site)->c.getSource().sendSuccess(()->Component.literal(id+" completedSpawnerMask="+d.completedMask(id)+" destroyedSpawnerMask="+d.destroyedMask(id)),false));
                     return d.sites().size();
                 }))));
     }

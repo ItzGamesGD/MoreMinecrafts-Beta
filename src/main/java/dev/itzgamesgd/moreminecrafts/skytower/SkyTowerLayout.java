@@ -34,6 +34,10 @@ public final class SkyTowerLayout {
             if(index<0 || index>=8)throw new IllegalArgumentException("invalid vault");
             return at(16,FLOORS[index/2]+1,index%2==0?15:33);
         }
+        public Point barrier(int floor,int cell) {
+            if(floor<0 || floor>=4 || cell<0 || cell>=18)throw new IllegalArgumentException("invalid barrier cell");
+            return at(39+cell/3,FLOORS[floor]+1+cell%3,27);
+        }
         public int spawnerIndex(Point point) {
             for(int i=0;i<16;i++)if(spawner(i).equals(point))return i;
             return -1;

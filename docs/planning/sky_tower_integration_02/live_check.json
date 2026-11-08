@@ -1,0 +1,421 @@
+{
+ "mode": "check",
+ "base": 10000,
+ "scope": "Fabric26.3 actual server; command removals and synthetic cooldown; not natural generation/combat/client/multiplayer",
+ "commands": [
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=0minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|10000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=65527minecraft:overworld|10300,65,1000|1 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|10900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0"
+  },
+  {
+   "command": "execute if block 10039 76 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10039 77 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10039 78 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10040 76 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10040 77 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10040 78 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10041 76 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10041 77 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10041 78 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10042 76 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10042 77 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10042 78 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10043 76 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10043 77 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10043 78 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10044 76 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10044 77 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10044 78 1027 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10039 87 1027 minecraft:stone",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 76 1039 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 77 1039 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 78 1039 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 76 1040 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 77 1040 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 78 1040 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 76 1041 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 77 1041 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 78 1041 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 76 1042 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 77 1042 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 78 1042 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 76 1043 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 77 1043 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 78 1043 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 76 1044 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 77 1044 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 78 1044 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 87 1039 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 88 1039 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 89 1039 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 87 1040 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 88 1040 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 89 1040 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 87 1041 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 88 1041 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 89 1041 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 87 1042 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 88 1042 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 89 1042 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 87 1043 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 88 1043 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 89 1043 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 87 1044 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 88 1044 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10273 89 1044 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10561 76 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "setblock 10561 76 973 minecraft:air",
+   "response": "Changed the block at 10561, 76, 973"
+  },
+  {
+   "command": "tick sprint 100",
+   "response": "The game is sprinting"
+  },
+  {
+   "command": "execute if block 10561 76 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "setblock 10583 77 983 minecraft:air",
+   "response": "Changed the block at 10583, 77, 983"
+  },
+  {
+   "command": "setblock 10583 77 969 minecraft:air",
+   "response": "Changed the block at 10583, 77, 969"
+  },
+  {
+   "command": "setblock 10569 77 983 minecraft:air",
+   "response": "Changed the block at 10569, 77, 983"
+  },
+  {
+   "command": "setblock 10569 77 969 minecraft:air",
+   "response": "Changed the block at 10569, 77, 969"
+  },
+  {
+   "command": "tick sprint 100",
+   "response": "The game is sprinting"
+  },
+  {
+   "command": "execute if block 10561 76 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10561 77 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10561 78 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10560 76 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10560 77 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10560 78 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10559 76 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10559 77 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10559 78 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10558 76 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10558 77 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10558 78 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10557 76 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10557 77 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10557 78 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10556 76 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10556 77 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10556 78 973 minecraft:air",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10561 87 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10561 88 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10561 89 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10560 87 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10560 88 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10560 89 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10559 87 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10559 88 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10559 89 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10558 87 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10558 88 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10558 89 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10557 87 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10557 88 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10557 89 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10556 87 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10556 88 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute if block 10556 89 973 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=0minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|10000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=65527minecraft:overworld|10300,65,1000|1 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10600,65,1000|2 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0"
+  },
+  {
+   "command": "save-all flush",
+   "response": "Saving the game (this may take a moment!)Saved the game"
+  }
+ ],
+ "status": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=0minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|10000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=65527minecraft:overworld|10300,65,1000|1 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10600,65,1000|2 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0",
+ "pass": true
+}

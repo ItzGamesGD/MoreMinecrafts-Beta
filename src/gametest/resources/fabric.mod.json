@@ -13,6 +13,7 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe"
     ],
     "fabric-gametest": [
+      "dev.itzgamesgd.moreminecrafts.skytower.SkyTowerGameTests",
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
       "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.T1ProgressionGameTests",
