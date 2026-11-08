@@ -1,5 +1,7 @@
 # Phase C-2 시험 보고
 
+> 후속 실험: [PHASE_C2_CONTINUATION.md](PHASE_C2_CONTINUATION.md). 네 월드 회전의 서버 표본과 meadow 청크 재로드, 측면 접속 시제품을 추가했다. 아래 기존 결과는 당시 기록으로 보존하며 실제 보행과 통합 승인 판정은 여전히 미검증이다.
+
 ## 좌표 및 모델
 
 - `phase_c2_prototypes.py`: 432개 좌표 시제품 생성. 탑 비공기뿐 아니라 NBT가 명시한 모든 블록을 보존해 가정된 배치 순서에 따라 재생한다. 템플릿의 structure_void는 덮어쓰지 않는 것으로 처리하며, 실제 processor와 jigsaw 생성 경로에 동일하게 적용되는지 확인하지 않았다. 같은 블록 ID라도 다른 상태·NBT는 변경 개수에서 누락될 수 있다.

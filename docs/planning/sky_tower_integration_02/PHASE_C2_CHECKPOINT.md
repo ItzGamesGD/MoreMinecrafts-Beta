@@ -1,5 +1,7 @@
 # Phase C-2 재개 체크포인트
 
+> 후속 실험: [PHASE_C2_CONTINUATION.md](PHASE_C2_CONTINUATION.md). 네 월드 회전의 서버 표본과 meadow 청크 재로드, 측면 접속 시제품을 추가했다. 아래 기존 결과는 당시 기록으로 보존하며 실제 보행과 통합 승인 판정은 여전히 미검증이다.
+
 시작점 92f862f, 동일 브랜치. 이 체크포인트는 Phase C 문서를 수정하지 않으며, 후보·검증 도구와 비교 자료만 추가한다. 현재 [PHASE_C2_REPORT.md](PHASE_C2_REPORT.md)의 판정은 PARTIAL / UNVERIFIED다.
 
 재개 순서:
