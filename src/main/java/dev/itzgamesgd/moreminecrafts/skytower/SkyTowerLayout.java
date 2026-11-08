@@ -14,6 +14,10 @@ public final class SkyTowerLayout {
             if (dimension == null || !dimension.matches("[a-z0-9_.-]+:[a-z0-9/._-]+"))
                 throw new IllegalArgumentException("invalid dimension identifier");
             if (rotation < 0 || rotation > 3) throw new IllegalArgumentException("invalid rotation");
+            // Reject unrepresentable template extents before a restored record can reach a tick.
+            int farX=49,farZ=48;
+            for(int i=0;i<rotation;i++){int old=farX;farX=-farZ;farZ=old;}
+            Math.addExact(x,farX);Math.addExact(y,79);Math.addExact(z,farZ);
         }
         public String id() { return dimension + "|" + x + "," + y + "," + z + "|" + rotation; }
         public Point at(int localX, int localY, int localZ) {

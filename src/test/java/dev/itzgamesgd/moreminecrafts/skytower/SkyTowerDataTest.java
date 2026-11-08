@@ -47,4 +47,18 @@ class SkyTowerDataTest {
             assertTrue(again.quarantined());
         }
     }
+    @Test void overflowingStoredOriginsAreQuarantinedBeforeAnchorTicks() {
+        for (int axis=0;axis<3;axis++) {
+            int x=axis==0?Integer.MAX_VALUE:0;
+            int y=axis==1?Integer.MAX_VALUE:65;
+            int z=axis==2?Integer.MAX_VALUE:0;
+            var input=JsonParser.parseString("""
+                {"version":1,"quarantined":false,"sites":[
+                {"dimension":"minecraft:overworld","x":%d,"y":%d,"z":%d,"rotation":0,"completed_spawners":0}]}
+                """.formatted(x,y,z));
+            var d=SkyTowerData.CODEC.parse(JsonOps.INSTANCE,input).getOrThrow();
+            assertTrue(d.quarantined(), "overflowing origin axis " + axis);
+            assertTrue(d.sites().isEmpty());
+        }
+    }
 }

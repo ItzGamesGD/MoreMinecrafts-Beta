@@ -1,11 +1,30 @@
-# INTEGRATION-01 진행 체크포인트 — 부분 구현
+# INTEGRATION-01 체크포인트 — 부분 구현
 
-기준16ad9d5, 신규 feature/sky-tower-integration-01. 건축 브랜치는 최신 원격main cde842d를 이미 포함. 승인 NBT/디자인·P1–P6 불변.
+시작/건축 기준16ad9d5. 브랜치 feature/sky-tower-integration-01. 구현 커밋357ec45 원격 푸시 완료. 후속 증거 커밋은 이 파일을 포함하는 `git log -1`로 확인한다. 원격 재확인 결과 건축16ad9d5·main cde842d·통합357ec45로 예상과 일치했다. main/건축/Q01–Q118/P1–P6 수정 없음.
 
-완료: Phase A 기존 jigsaw/퀘스트/콜로세움/vanilla SavedData 조사, 실제16스포너/8금고 앵커 확인. Phase B 승인 NBT 바이트 동일 리소스/개발용 풀, 안정 ID·회전/겹침 방지·SavedData. Phase C vanilla cooldown 관찰과 영구 공유 완료비트. 물리 결계/보상 변경/자연 생성 미활성화. DECISION_REQUIRED.md의 사용자 응답 대기.
+## 완료 범위
 
-최종 전체 단위582건 PASS, 신규11건 포함. 손상 저장 필드가 partial decode로 빠져나가는 리뷰 결함을 테스트로 재현(RED)한 후 입력 보존/quarantine으로 수정(GREEN). 이전 실제 모드 서버에서4방향 배치·등록은 성공했고, synthetic cooldown이 빈 서버 정지로 처음0인 것을 tick sprint 후15로 확인했다. 이는 실제 전투 검증 아님. 환경 재시작으로 서버가 종료되어 최종 코드의 live setup/save/restart/restore를 다시 진행해야 한다.
+- Phase A: 기존 jigsaw/퀘스트/바닐라 금고/콜로세움/SavedData 조사. 실제16스포너·8금고 앵커와72공기칸 결계 제안 좌표 추출. 사용자가 외관 최종 승인한 사실을 새 보고서에 기록.
+- Phase B 부분: 승인 NBT 바이트 동일 설치·개발 template pool·수동 명령 배치/등록. 차원+원점+회전 ID, 겹침 거부, 재등록 시 보존, SavedData 구현. 자연 생성/자동 등록 미연결.
+- Phase C 부분: 바닐라 실제 COOLDOWN 관찰, 영구 공유16완료비트·층당4quorum. 물리 결계/보상 변경/성소 완료 이벤트 미연결.
+- Phase D 부분: unit583건 PASS(신규12). 독립 리뷰 결함 partial decode를 RED→quarantine/입력보존 GREEN으로 수정. 추가 원점 overflow도 RED 재현 후 Site 경계 검증으로 수정·독립 리뷰 완료. 실제 Fabric26.3 모드 서버4회전 배치/등록 PASS. 합성 cooldown으로15→255→4095→65535, 다른 새3개 탑0, 중복/재등록 보존 PASS. 실제 청크 언로드/로드 PASS. 정상 서버 재시작 후12개 인스턴스 전체 status 일치 PASS. 실제 전투/클라이언트 시험 아님.
 
-재개: REPRODUCE.md와 integration_server.init.gradle 사용. /tmp/sky-tower-integration-server의 독립 테스트 월드/포트25595·RCON25596. pause-when-empty-seconds=0 권장. live_probe.py setup은 PROBE_ORIGIN_X 기본4000의 새4개 위치를 사용하므로 이미 등록된 경우 다른 빈 원점을 지정한다. setup→save/stop→서버 재시작→restore. 비밀 RCON 암호는 저장소에 넣지 않는다.
+## 재개
 
-미완료: 자연 생성/지면 접속/자동 인스턴스 등록, 물리 결계, 보상테이블/옥상특별보상/성소전체완료정책, 실제 전투 및 클라이언트·다중플레이·파일쓰기실패 시험. INTEGRATION COMPLETE 아님. 기존 원장과 건축본을 바꾸지 않고, 확정되지 않은 정책을 기본값으로 채우지 않는다.
+```sh
+git switch feature/sky-tower-integration-01
+git log -2 --oneline
+python3 -I docs/planning/sky_tower_integration_01/verify_template.py
+# Java25 환경에서
+./gradlew test
+```
+
+서버 명령·환경 옵션은 REPRODUCE.md. 전용 `/tmp/sky-tower-integration-server`는 시험 후 정상 종료했다. setup 기본 원점7000은 이미 사용했으므로 이 월드에서 재시험할 때 `PROBE_ORIGIN_X`를 새 빈 원점으로 지정하고 restore에도 동일 값 사용. RCON 비밀은 저장소에 넣지 않았다. `/tmp` 소실 시 전용 월드를 새로 준비한다. 일반 개발 월드를 probe에 사용하지 않는다.
+
+## 보류와 한계
+
+DECISION_REQUIRED.md의 사용자 응답 대기: 자연 생성 정책/구형 섬 교체,8금고 기능 테이블 변경,72칸 런타임 결계,파괴된 스포너 복구정책,옥상특별보상/전체완료정책. 기본값을 만들지 않는다. 승인된 범위에서만 이어 구현한다.
+
+남은 실제 검증: 신규 청크 자연 생성·지면접속·회전/간섭·자동 인스턴스 등록, 물리 결계와4층 실제 전투 진행, 보상/다중플레이/재접속, 클라이언트 상호작용. gzip 자체 손상·디스크쓰기실패·전원차단 원자성은 검증하지 않았다. **INTEGRATION COMPLETE 아님.**
+
+최종 `test assemble` 및 전체 `build` 성공, 기존 서버 GameTest527 required PASS. 추가 좌표 guard를 포함한 최종 코드도 실제 서버에서12개 저장 인스턴스 복원을 재확인 후 정상 종료했다. live_restore.json/live_final_server_excerpt.txt 참조.
