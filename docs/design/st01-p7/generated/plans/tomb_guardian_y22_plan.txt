@@ -1,0 +1,48 @@
+=== ST-01 P7 MODEL_RECONSTRUCTION: ROYAL HALL MAIN FLOOR PLAN (Y = -22) ===
+Coordinate space: X east+, Z south+ (North=Entrance at Z=4, South=Dais at Z=32..37).
+Legend: [O]=Obelisk, [P]=Pillars, [D]=Dais, [N]=Boss N, [S]=Boss S, [E]=Boss E, [W]=Boss W, [1]=Center (Collision)
+
+       .  . -35 .  .  .  . -30 .  .  .  . -25 .  .  .  . -20 .  .  .  . -15 .  .  .  . -10 .  .  .  .  -5
+Z= 4 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |  |  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z= 5 | #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  #  # 
+Z= 6 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z= 7 | #  .  .  .  . [P][P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P][P] .  .  .  .  # 
+Z= 8 | #  .  .  .  . [P][P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P][P] .  .  .  .  # 
+Z= 9 | #  .  .  .  . [P][P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P][P] .  .  .  .  # 
+Z=10 | #  . [P][P][P][P][P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P][P][P][P][P] .  # 
+Z=11 | #  . [P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=12 | #  . [P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=13 | #  . [P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=14 | #  . [P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=15 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [N] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z=16 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z=17 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z=18 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z=19 | #  . [P][P][P][P] .  .  .  .  .  .  .  . [O][O][O][O][O] .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=20 | #  . [P][P][P][P] .  .  .  .  .  .  .  . [O][O][O][O][O] .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=21 | #  . [P][P][P][P] .  .  .  . [W] .  .  . [O][O][1][O][O] .  .  . [E] .  .  .  . [P][P][P][P] .  # 
+Z=22 | #  . [P][P][P][P] .  .  .  .  .  .  .  . [O][O][O][O][O] .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=23 | #  . [P][P][P][P] .  .  .  .  .  .  .  . [O][O][O][O][O] .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=24 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z=25 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [s] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z=26 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [*] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z=27 | #  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [S] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  # 
+Z=28 | #  . [P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=29 | #  . [P][P][P][P] .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . [P][P][P][P] .  # 
+Z=30 | #  . [P][P][P][P] .  .  .  .  .  . [~][~][~][~][~][~][~][~][~] .  .  .  .  .  . [P][P][P][P] .  # 
+Z=31 | #  . [P][P][P][P] .  .  .  .  .  . [~][~][~][~][~][~][~][~][~] .  .  .  .  .  . [P][P][P][P] .  # 
+Z=32 | #  . [P][P][P][P][P][P][P][P] . [D][D][D][D][D][D][D][D][D][D][D] . [P][P][P][P][P][P][P][P] .  # 
+Z=33 | #  .  .  .  . [P][P][P][P][P] . [D][D][D][D][D][D][D][D][D][D][D] . [P][P][P][P][P] .  .  .  .  # 
+Z=34 | #  .  .  .  . [P][P][P][P][P] . [D][D][D][D][D][D][D][D][D][D][D] . [P][P][P][P][P] .  .  .  .  # 
+Z=35 | #  .  .  .  . [P][P][P][P][P] . [D][D][D][D][D][D][D][D][D][D][D] . [P][P][P][P][P] .  .  .  .  # 
+Z=36 | #  .  .  .  .  .  .  .  .  .  . [D][D][D][D][D][D][D][D][D][D][D] .  .  .  .  .  .  .  .  .  .  # 
+Z=37 | #  #  #  #  #  #  #  #  #  #  # [D][D][D][D][D][D][D][D][D][D][D] #  #  #  #  #  #  #  #  #  #  # 
+
+Emergence candidate summary:
+- [1] = Candidate 1 (Center: X=-21, Z=21): Embedded inside Obelisk -> 100% COLLISION FAIL
+- [N] = Candidate 2 (North: X=-21, Z=15): Obstructed sightline from Dais/Primary Chest by Obelisk shaft -> FAIL
+- [*] = Candidate 3B (South Midpoint: X=-21, Z=26): RECOMMENDED. Direct LOS, 6.0m to player, 3m from plinth, 4m from tread -> PASS
+- [S] = Candidate 3A (South: X=-21, Z=27): Direct LOS, 5.0m to player -> PASS (4.0s telegraph)
+- [s] = Candidate 3C (South: X=-21, Z=25): Direct LOS, 7.0m to player -> PASS
+- [E] = Candidate 4E (East: X=-15, Z=21): Lateral flank, 12.53m to player -> UNVERIFIED (lateral asymmetry)
+- [W] = Candidate 4W (West: X=-27, Z=21): Lateral flank, 12.53m to player -> UNVERIFIED (lateral asymmetry)

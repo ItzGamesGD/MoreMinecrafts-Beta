@@ -1,0 +1,71 @@
+{
+  "side": "EAST",
+  "d_i_direction": "EAST",
+  "primary_chest_placeholder": [
+    -21,
+    -20,
+    33
+  ],
+  "primary_chest_candidate_recommended": {
+    "candidate": "B",
+    "blocks": [
+      [
+        -21,
+        -20,
+        33
+      ],
+      [
+        -20,
+        -20,
+        33
+      ]
+    ],
+    "bbox": [
+      -21,
+      -20,
+      -20,
+      -20,
+      33,
+      33
+    ],
+    "facing": "NORTH"
+  },
+  "secondary_chest_candidate": {
+    "blocks": [
+      [
+        -3,
+        -22,
+        25
+      ],
+      [
+        -3,
+        -22,
+        26
+      ]
+    ],
+    "bbox": [
+      -3,
+      -3,
+      -22,
+      -22,
+      25,
+      26
+    ]
+  },
+  "tomb_guardian_spawn_recommended": {
+    "candidate": "3B_SOUTH_26",
+    "spawn_pos": [
+      -21,
+      -22,
+      26
+    ],
+    "facing_yaw": 0.0
+  },
+  "state_status": {
+    "D_I_ORIENTATION": "APPROVED (EAST)",
+    "PRIMARY_CHEST_SHAPE": "RECOMMENDED (Candidate B; pending owner approval)",
+    "TOMB_GUARDIAN_SPAWN": "RECOMMENDED (Candidate 3B; pending owner approval)",
+    "ROYAL_CHEST_RUNTIME_WIRING": "UNWIRED (pending implementation stage)",
+    "GAMEPLAY_LIVE_VERIFIED": "LIVE_SERVER_UNVERIFIED"
+  }
+}
