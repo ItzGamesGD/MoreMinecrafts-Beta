@@ -135,9 +135,9 @@ public final class ColosseumRuntime {
         ColosseumData d = data(server);
         if (d.sites().isEmpty()) return;
         long now = ColosseumData.clock.getAsLong();
-        for(String id:d.sites().keySet()) ArenaRecovery.open(server,d,id,now);
+        for(String id:d.sites().keySet()) ArenaRecovery.open(server,d,id,d.controller(id).now(now));
         ArenaChunkTickets.update(level,d);
-        for (ColosseumData.Site site : d.sites().values()) tickSite(level, d, site, now);
+        for (ColosseumData.Site site : d.sites().values()) tickSite(level, d, site, d.controller(site.id()).now(now));
         ArenaChunkTickets.update(level,d);
     }
 
