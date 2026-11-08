@@ -1,10 +1,12 @@
 {
   "metadata": {
-    "stage": "ST-01 P7",
+    "stage": "ST-01 P7-R",
     "repo": "ItzGamesGD/MoreMinecrafts-Beta",
     "orientation_decision": "EAST (D-I = EAST confirmed)",
+    "primary_chest_decision": "APPROVED (Candidate B: (-21, -20, 33), (-20, -20, 33))",
+    "tomb_guardian_status": "CONDITIONALLY ADOPTED (Candidate 3B: (-21, -22, 26))",
     "baseline_commit": "06a262d7",
-    "status": "DESIGN_AND_GEOMETRY_VERIFICATION_COMPLETE",
+    "status": "DESIGN_GEOMETRY_AND_COMBAT_VERIFICATION_COMPLETE",
     "runtime_wired": false,
     "nbt_worldgen_implemented": false,
     "live_server_verified": "LIVE_SERVER_UNVERIFIED"
@@ -660,6 +662,125 @@
       "overall_verdict": "UNVERIFIED"
     }
   },
+  "guardian_3b_combat_verification": {
+    "candidate": "3B_SOUTH_26",
+    "spawn_pos": [
+      -20.5,
+      -22.0,
+      26.5
+    ],
+    "primary_chest_candidate": "B",
+    "tests": [
+      {
+        "id": "TRIGGER_LEFT_ACCESS",
+        "description": "Slam trigger check at PRIMARY B left cell (-21, -20, 32)",
+        "horiz_dist": 6.0,
+        "slam_trigger_distance_rule": "dist <= 6.0",
+        "slam_triggered": true,
+        "detail": "Exact distance 6.0000m == 6.0m. Boundary is <=, so slam trigger condition is TRUE."
+      },
+      {
+        "id": "TRIGGER_RIGHT_ACCESS",
+        "description": "Slam trigger check at PRIMARY B right cell (-20, -20, 32)",
+        "horiz_dist": 6.082762530298219,
+        "slam_trigger_distance_rule": "dist <= 6.0",
+        "slam_triggered": false,
+        "detail": "Exact distance 6.0828m > 6.0m. Slam trigger condition is FALSE (triggers statue or moves closer)."
+      },
+      {
+        "id": "WAVE_HIT_INSIDE_5_9",
+        "description": "Wave hit test at horizontal distance 5.9m on ground level",
+        "distance": 5.9,
+        "hit_on_floor": true,
+        "expected": true,
+        "passed": true,
+        "detail": "Sweep up to 13 ticks: hit=True (expected=True)"
+      },
+      {
+        "id": "WAVE_HIT_EXACT_RADIUS_6_0",
+        "description": "Wave hit test at horizontal distance 6.0m on ground level",
+        "distance": 6.0,
+        "hit_on_floor": true,
+        "expected": true,
+        "passed": true,
+        "detail": "Sweep up to 13 ticks: hit=True (expected=True)"
+      },
+      {
+        "id": "WAVE_HIT_OUTER_BAND_EDGE_6_4",
+        "description": "Wave hit test at horizontal distance 6.4m on ground level",
+        "distance": 6.4,
+        "hit_on_floor": true,
+        "expected": true,
+        "passed": true,
+        "detail": "Sweep up to 13 ticks: hit=True (expected=True)"
+      },
+      {
+        "id": "WAVE_HIT_JUST_OUTSIDE_6_41",
+        "description": "Wave hit test at horizontal distance 6.41m on ground level",
+        "distance": 6.41,
+        "hit_on_floor": false,
+        "expected": false,
+        "passed": true,
+        "detail": "Sweep up to 13 ticks: hit=False (expected=False)"
+      },
+      {
+        "id": "WAVE_HIT_OUTSIDE_6_5",
+        "description": "Wave hit test at horizontal distance 6.5m on ground level",
+        "distance": 6.5,
+        "hit_on_floor": false,
+        "expected": false,
+        "passed": true,
+        "detail": "Sweep up to 13 ticks: hit=False (expected=False)"
+      },
+      {
+        "id": "WAVE_HIT_OUTSIDE_7_0",
+        "description": "Wave hit test at horizontal distance 7.0m on ground level",
+        "distance": 7.0,
+        "hit_on_floor": false,
+        "expected": false,
+        "passed": true,
+        "detail": "Sweep up to 13 ticks: hit=False (expected=False)"
+      },
+      {
+        "id": "ELEVATION_DAIS_IMMUNITY",
+        "description": "Shockwave elevation check on Dais platform (Y=-20, +2.0m above floor)",
+        "feet_above_floor": 2.0,
+        "wave_jump_clearance": 0.6,
+        "wave_hit": false,
+        "immune": true,
+        "passed": true,
+        "detail": "feetAboveFloor (2.0m) >= WAVE_JUMP_CLEARANCE (0.6m), so waveHits is FALSE. Player on Dais platform is 100% immune to shockwave damage!"
+      },
+      {
+        "id": "ELEVATION_TREAD_IMMUNITY",
+        "description": "Shockwave elevation check on Dais tread (Y=-21, +1.0m above floor)",
+        "feet_above_floor": 1.0,
+        "wave_jump_clearance": 0.6,
+        "wave_hit": false,
+        "immune": true,
+        "passed": true,
+        "detail": "feetAboveFloor (1.0m) >= WAVE_JUMP_CLEARANCE (0.6m), so waveHits is FALSE. Player on tread step is also immune to shockwave damage!"
+      },
+      {
+        "id": "MELEE_REACH_AT_SPAWN",
+        "description": "Melee reach check from spawn 3B to player at dais",
+        "in_melee_reach": false,
+        "passed": true,
+        "detail": "Boss AABB inflated by 2.0m reaches Z=29.18. Player is at Z=32.50. Zero immediate melee danger."
+      },
+      {
+        "id": "TIMING_ANALYSIS",
+        "description": "Awakening and first attack timing analysis",
+        "awakening_seconds": 4.0,
+        "initial_attack_delay_seconds": 0.65,
+        "slam_windup_seconds": 1.3,
+        "wave_travel_seconds": 0.6,
+        "total_seconds_to_first_slam_damage": 6.55,
+        "detail": "Boss remains 100% immobile and non-attacking for 4.0s. Earliest possible slam shockwave impact is 6.55s after chest interaction."
+      }
+    ],
+    "overall_combat_verdict": "VERIFIED_SAFE_WITH_DAIS_IMMUNITY"
+  },
   "combination_matrix": {
     "SOUTH_COLLISION": {
       "1_CENTER": {
@@ -973,8 +1094,9 @@
       }
     }
   },
-  "recommended_combination": {
+  "adopted_combination": {
     "chest_candidate": "B",
+    "chest_status": "APPROVED",
     "chest_blocks": [
       [
         -21,
@@ -989,6 +1111,7 @@
     ],
     "chest_facing": "NORTH",
     "boss_candidate": "3B_SOUTH_26",
+    "boss_status": "CONDITIONALLY ADOPTED (combat verified)",
     "boss_pos": [
       -21,
       -22,
@@ -998,7 +1121,9 @@
     "horizontal_distance_m": 7.02,
     "euclidean_distance_3d_m": 7.3,
     "line_of_sight": "100% CLEAR",
+    "dais_elevation_shockwave_immunity": true,
+    "reaction_window_seconds": 6.55,
     "verdict": "PASS",
-    "justification": "Candidate B (+X East) naturally faces North towards hall entrance, clears sarcophagus, preserves front standing access, and guides progression towards the East secret hatch. Boss 3B (-21, -22, 26) is the exact midpoint between obelisk plinth (Z=23) and dais tread (Z=30), providing clear line of sight, 6.0m reaction spacing from the interaction point, and grand centered theatrical staging."
+    "justification": "Candidate B (+X East) naturally faces North towards hall entrance, clears sarcophagus, preserves front standing access, and guides progression towards the East secret hatch. Boss 3B (-21, -22, 26) provides clear line of sight, 6.0m spacing, dais elevation immunity to shockwave damage, and centered theatrical staging."
   }
 }

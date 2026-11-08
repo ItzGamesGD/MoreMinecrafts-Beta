@@ -6,8 +6,9 @@
     -20,
     33
   ],
-  "primary_chest_candidate_recommended": {
+  "primary_chest_candidate_adopted": {
     "candidate": "B",
+    "status": "APPROVED",
     "blocks": [
       [
         -21,
@@ -52,8 +53,9 @@
       26
     ]
   },
-  "tomb_guardian_spawn_recommended": {
+  "tomb_guardian_spawn_adopted": {
     "candidate": "3B_SOUTH_26",
+    "status": "CONDITIONALLY ADOPTED",
     "spawn_pos": [
       -21,
       -22,
@@ -63,8 +65,8 @@
   },
   "state_status": {
     "D_I_ORIENTATION": "APPROVED (EAST)",
-    "PRIMARY_CHEST_SHAPE": "RECOMMENDED (Candidate B; pending owner approval)",
-    "TOMB_GUARDIAN_SPAWN": "RECOMMENDED (Candidate 3B; pending owner approval)",
+    "PRIMARY_CHEST_SHAPE": "APPROVED (Candidate B)",
+    "TOMB_GUARDIAN_SPAWN": "CONDITIONALLY ADOPTED (Candidate 3B; combat verified safe)",
     "ROYAL_CHEST_RUNTIME_WIRING": "UNWIRED (pending implementation stage)",
     "GAMEPLAY_LIVE_VERIFIED": "LIVE_SERVER_UNVERIFIED"
   }

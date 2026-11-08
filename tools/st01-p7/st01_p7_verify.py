@@ -219,33 +219,44 @@ def run_all_verifications(outdir):
     plan_y22 = render_ascii_plan_y22(r6, guardian_results, os.path.join(plans_dir, "tomb_guardian_y22_plan.txt"))
     sec_x21 = render_ascii_section_x21(r6, os.path.join(plans_dir, "central_axis_x21_section.txt"))
     
+    print("Running Guardian 3B Combat and Boundary Verification...")
+    import st01_p7_guardian_combat_test as GCT
+    combat_results = GCT.run_guardian_combat_verification()
+    
     # Compile comprehensive P7 verification output
     p7_verification = {
         "metadata": {
-            "stage": "ST-01 P7",
+            "stage": "ST-01 P7-R",
             "repo": "ItzGamesGD/MoreMinecrafts-Beta",
             "orientation_decision": "EAST (D-I = EAST confirmed)",
+            "primary_chest_decision": "APPROVED (Candidate B: (-21, -20, 33), (-20, -20, 33))",
+            "tomb_guardian_status": "CONDITIONALLY ADOPTED (Candidate 3B: (-21, -22, 26))",
             "baseline_commit": "06a262d7",
-            "status": "DESIGN_AND_GEOMETRY_VERIFICATION_COMPLETE",
+            "status": "DESIGN_GEOMETRY_AND_COMBAT_VERIFICATION_COMPLETE",
             "runtime_wired": False,
             "nbt_worldgen_implemented": False,
             "live_server_verified": "LIVE_SERVER_UNVERIFIED"
         },
         "primary_chest_candidates": primary_results,
         "tomb_guardian_candidates": guardian_results,
+        "guardian_3b_combat_verification": combat_results,
         "combination_matrix": comb_results,
-        "recommended_combination": {
+        "adopted_combination": {
             "chest_candidate": "B",
+            "chest_status": "APPROVED",
             "chest_blocks": [(-21, -20, 33), (-20, -20, 33)],
             "chest_facing": "NORTH",
             "boss_candidate": "3B_SOUTH_26",
+            "boss_status": "CONDITIONALLY ADOPTED (combat verified)",
             "boss_pos": (-21, -22, 26),
             "boss_facing": "SOUTH (towards dais/player)",
             "horizontal_distance_m": 7.02,
             "euclidean_distance_3d_m": 7.30,
             "line_of_sight": "100% CLEAR",
+            "dais_elevation_shockwave_immunity": True,
+            "reaction_window_seconds": 6.55,
             "verdict": "PASS",
-            "justification": "Candidate B (+X East) naturally faces North towards hall entrance, clears sarcophagus, preserves front standing access, and guides progression towards the East secret hatch. Boss 3B (-21, -22, 26) is the exact midpoint between obelisk plinth (Z=23) and dais tread (Z=30), providing clear line of sight, 6.0m reaction spacing from the interaction point, and grand centered theatrical staging."
+            "justification": "Candidate B (+X East) naturally faces North towards hall entrance, clears sarcophagus, preserves front standing access, and guides progression towards the East secret hatch. Boss 3B (-21, -22, 26) provides clear line of sight, 6.0m spacing, dais elevation immunity to shockwave damage, and centered theatrical staging."
         }
     }
     
@@ -260,8 +271,9 @@ def run_all_verifications(outdir):
         "side": "EAST",
         "d_i_direction": "EAST",
         "primary_chest_placeholder": PC.PRIMARY_PLACEHOLDER,
-        "primary_chest_candidate_recommended": {
+        "primary_chest_candidate_adopted": {
             "candidate": "B",
+            "status": "APPROVED",
             "blocks": [(-21, -20, 33), (-20, -20, 33)],
             "bbox": [-21, -20, -20, -20, 33, 33],
             "facing": "NORTH"
@@ -270,15 +282,16 @@ def run_all_verifications(outdir):
             "blocks": [(-3, -22, 25), (-3, -22, 26)],
             "bbox": [-3, -3, -22, -22, 25, 26]
         },
-        "tomb_guardian_spawn_recommended": {
+        "tomb_guardian_spawn_adopted": {
             "candidate": "3B_SOUTH_26",
+            "status": "CONDITIONALLY ADOPTED",
             "spawn_pos": [-21, -22, 26],
             "facing_yaw": 0.0 # Facing South
         },
         "state_status": {
             "D_I_ORIENTATION": "APPROVED (EAST)",
-            "PRIMARY_CHEST_SHAPE": "RECOMMENDED (Candidate B; pending owner approval)",
-            "TOMB_GUARDIAN_SPAWN": "RECOMMENDED (Candidate 3B; pending owner approval)",
+            "PRIMARY_CHEST_SHAPE": "APPROVED (Candidate B)",
+            "TOMB_GUARDIAN_SPAWN": "CONDITIONALLY ADOPTED (Candidate 3B; combat verified safe)",
             "ROYAL_CHEST_RUNTIME_WIRING": "UNWIRED (pending implementation stage)",
             "GAMEPLAY_LIVE_VERIFIED": "LIVE_SERVER_UNVERIFIED"
         }
