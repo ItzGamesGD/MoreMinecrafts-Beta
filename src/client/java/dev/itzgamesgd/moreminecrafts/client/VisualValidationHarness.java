@@ -78,6 +78,7 @@ public final class VisualValidationHarness {
             }
         }
         if (captureFinished) {
+            if ("1".equals(System.getenv("MOREMINECRAFTS_WRAITH_CAPTURE"))) return;
             runUiJourney(client);
             return;
         }
