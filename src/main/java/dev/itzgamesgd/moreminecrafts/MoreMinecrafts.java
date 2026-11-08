@@ -22,6 +22,7 @@ public final class MoreMinecrafts implements ModInitializer {
         dev.itzgamesgd.moreminecrafts.worldgen.structure.ArenaWorldgenProbe.initialize();
         dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05NaturalGeneration.initialize();
+        dev.itzgamesgd.moreminecrafts.skytower.SkyTowerIntegration.initialize();
         ModRegistries.initialize();
         ModNetworking.initialize();
         BombZombieEffects.initialize();
