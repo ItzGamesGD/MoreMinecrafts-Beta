@@ -55,7 +55,7 @@
   },
   "tomb_guardian_spawn_adopted": {
     "candidate": "3B_SOUTH_26",
-    "status": "CONDITIONALLY ADOPTED",
+    "status": "USER APPROVED",
     "spawn_pos": [
       -21,
       -22,
@@ -66,7 +66,7 @@
   "state_status": {
     "D_I_ORIENTATION": "APPROVED (EAST)",
     "PRIMARY_CHEST_SHAPE": "APPROVED (Candidate B)",
-    "TOMB_GUARDIAN_SPAWN": "CONDITIONALLY ADOPTED (Candidate 3B; combat verified safe)",
+    "TOMB_GUARDIAN_SPAWN": "USER APPROVED (Candidate 3B: (-21, -22, 26))",
     "ROYAL_CHEST_RUNTIME_WIRING": "UNWIRED (pending implementation stage)",
     "GAMEPLAY_LIVE_VERIFIED": "LIVE_SERVER_UNVERIFIED"
   }

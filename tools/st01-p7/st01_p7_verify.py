@@ -230,7 +230,7 @@ def run_all_verifications(outdir):
             "repo": "ItzGamesGD/MoreMinecrafts-Beta",
             "orientation_decision": "EAST (D-I = EAST confirmed)",
             "primary_chest_decision": "APPROVED (Candidate B: (-21, -20, 33), (-20, -20, 33))",
-            "tomb_guardian_status": "CONDITIONALLY ADOPTED (Candidate 3B: (-21, -22, 26))",
+            "tomb_guardian_status": "USER APPROVED (Candidate 3B: (-21, -22, 26))",
             "baseline_commit": "06a262d7",
             "status": "DESIGN_GEOMETRY_AND_COMBAT_VERIFICATION_COMPLETE",
             "runtime_wired": False,
@@ -247,7 +247,7 @@ def run_all_verifications(outdir):
             "chest_blocks": [(-21, -20, 33), (-20, -20, 33)],
             "chest_facing": "NORTH",
             "boss_candidate": "3B_SOUTH_26",
-            "boss_status": "CONDITIONALLY ADOPTED (combat verified)",
+            "boss_status": "USER APPROVED (combat verified)",
             "boss_pos": (-21, -22, 26),
             "boss_facing": "SOUTH (towards dais/player)",
             "horizontal_distance_m": 7.02,
@@ -284,14 +284,14 @@ def run_all_verifications(outdir):
         },
         "tomb_guardian_spawn_adopted": {
             "candidate": "3B_SOUTH_26",
-            "status": "CONDITIONALLY ADOPTED",
+            "status": "USER APPROVED",
             "spawn_pos": [-21, -22, 26],
             "facing_yaw": 0.0 # Facing South
         },
         "state_status": {
             "D_I_ORIENTATION": "APPROVED (EAST)",
             "PRIMARY_CHEST_SHAPE": "APPROVED (Candidate B)",
-            "TOMB_GUARDIAN_SPAWN": "CONDITIONALLY ADOPTED (Candidate 3B; combat verified safe)",
+            "TOMB_GUARDIAN_SPAWN": "USER APPROVED (Candidate 3B: (-21, -22, 26))",
             "ROYAL_CHEST_RUNTIME_WIRING": "UNWIRED (pending implementation stage)",
             "GAMEPLAY_LIVE_VERIFIED": "LIVE_SERVER_UNVERIFIED"
         }
