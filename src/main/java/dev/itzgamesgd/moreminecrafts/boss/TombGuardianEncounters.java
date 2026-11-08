@@ -27,11 +27,29 @@ import org.jetbrains.annotations.Nullable;
 public final class TombGuardianEncounters {
     private TombGuardianEncounters() {}
 
-    /** Fired once per tomb, after the bound guardian dies and the tomb is recorded DEFEATED. */
+    /** Fired once per tomb, after the bound guardian dies in a VALID victory (P9: invalid deaths no longer fire it) and the tomb is recorded DEFEATED. */
     public static final Event<Defeated> DEFEATED = EventFactory.createArrayBacked(Defeated.class,
             listeners -> (level, tombAnchor, killer) -> {
                 for (Defeated listener : listeners) listener.onDefeated(level, tombAnchor, killer);
             });
+
+    /** Fired once per tomb right after {@link #DEFEATED}, carrying the participants. Both events mean a VALID victory (P9). */
+    public static final Event<Victory> VICTORY = EventFactory.createArrayBacked(Victory.class,
+            listeners -> (level, tombAnchor, verdict) -> {
+                for (Victory listener : listeners) listener.onVictory(level, tombAnchor, verdict);
+            });
+
+    /** Fired when the bound guardian died WITHOUT a valid victory; the tomb is released for a new attempt. */
+    public static final Event<InvalidDeath> INVALID_DEATH = EventFactory.createArrayBacked(InvalidDeath.class,
+            listeners -> (level, tombAnchor, verdict) -> {
+                for (InvalidDeath listener : listeners) listener.onInvalidDeath(level, tombAnchor, verdict);
+            });
+
+    @FunctionalInterface
+    public interface Victory { void onVictory(ServerLevel level, BlockPos tombAnchor, TombVictoryPolicy.Verdict verdict); }
+
+    @FunctionalInterface
+    public interface InvalidDeath { void onInvalidDeath(ServerLevel level, BlockPos tombAnchor, TombVictoryPolicy.Verdict verdict); }
 
     @FunctionalInterface
     public interface Defeated {
@@ -135,11 +153,26 @@ public final class TombGuardianEncounters {
 
     // Guardian lifecycle callbacks.
 
-    static void guardianDied(ServerLevel level, TombGuardian guardian, BlockPos tombAnchor, @Nullable LivingEntity killer) {
-        if (!data(level).markDefeated(tombKey(tombAnchor), guardian.getUUID())) return;
+    /**
+     * Death of the bound guardian. {@code verdict} decides whether this is a VICTORY (valid): only then is the tomb completed, the chest
+     * unsealed and {@link #DEFEATED}/{@link #VICTORY} fired. An invalid death releases the binding so the tomb can be challenged again; the
+     * chest stays sealed, no reward drops (suppressed by the guardian before its death loot) and {@link #INVALID_DEATH} is fired.
+     */
+    static void guardianDied(ServerLevel level, TombGuardian guardian, BlockPos tombAnchor, @Nullable LivingEntity killer,
+                             TombVictoryPolicy.Verdict verdict) {
+        long tomb = tombKey(tombAnchor);
+        if (!verdict.valid()) {
+            if (!data(level).release(tomb, guardian.getUUID())) return;
+            MoreMinecrafts.LOGGER.info("Tomb Guardian at {} in {} died without a valid victory ({}); the chest stays sealed and the tomb can be retried.",
+                    tombAnchor.toShortString(), level.dimension().identifier(), verdict.reason());
+            INVALID_DEATH.invoker().onInvalidDeath(level, tombAnchor, verdict);
+            return;
+        }
+        if (!data(level).markVictory(tomb, guardian.getUUID())) return;
         MoreMinecrafts.LOGGER.info("Tomb Guardian defeated at {} in {}; royal chest unsealed.",
                 tombAnchor.toShortString(), level.dimension().identifier());
         DEFEATED.invoker().onDefeated(level, tombAnchor, killer);
+        VICTORY.invoker().onVictory(level, tombAnchor, verdict);
     }
 
     static void guardianLost(ServerLevel level, TombGuardian guardian, BlockPos tombAnchor) {

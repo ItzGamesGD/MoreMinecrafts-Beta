@@ -31,7 +31,8 @@ public final class TombEncounterData extends SavedData {
 
     private static final Codec<SavedState> STATE_CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.LONG.listOf().optionalFieldOf("defeated", List.of()).forGetter(SavedState::defeated),
-            ACTIVE_CODEC.listOf().optionalFieldOf("active", List.of()).forGetter(SavedState::active)
+            ACTIVE_CODEC.listOf().optionalFieldOf("active", List.of()).forGetter(SavedState::active),
+            Codec.LONG.listOf().optionalFieldOf("victories", List.of()).forGetter(SavedState::victories)
     ).apply(instance, SavedState::new));
 
     private static final Codec<TombEncounterData> CODEC = STATE_CODEC.xmap(TombEncounterData::fromState, TombEncounterData::toState);
@@ -39,7 +40,14 @@ public final class TombEncounterData extends SavedData {
     public static final SavedDataType<TombEncounterData> TYPE = new SavedDataType<>(
             Identifier.parse("moreminecrafts:tomb_guardian_encounters"), TombEncounterData::new, CODEC, DataFixTypes.LEVEL);
 
+    /**
+     * Tombs that are COMPLETED (never summon again, chest unsealed). Before ST-01 P9 this was written for every credited guardian death;
+     * since P9 it is written only for a valid victory. Entries without a matching {@link #victories} entry are LEGACY records of unknown
+     * validity: they stay honoured (compatibility) but are never converted to victories automatically.
+     */
     private final Set<Long> defeated = new LinkedHashSet<>();
+    /** Tombs whose guardian was killed in a VALID victory (P9). Subset of {@link #defeated}. Only these advance the secret entrance. */
+    private final Set<Long> victories = new LinkedHashSet<>();
     private final Map<Long, Active> active = new LinkedHashMap<>();
 
     public TombEncounterData() {}
@@ -47,13 +55,14 @@ public final class TombEncounterData extends SavedData {
     private static TombEncounterData fromState(SavedState state) {
         TombEncounterData data = new TombEncounterData();
         data.defeated.addAll(state.defeated());
+        for (long v : state.victories()) { data.victories.add(v); data.defeated.add(v); }
         for (Active binding : state.active())
             if (!data.defeated.contains(binding.tomb())) data.active.put(binding.tomb(), binding);
         return data;
     }
 
     private SavedState toState() {
-        return new SavedState(new ArrayList<>(defeated), new ArrayList<>(active.values()));
+        return new SavedState(new ArrayList<>(defeated), new ArrayList<>(active.values()), new ArrayList<>(victories));
     }
 
     /** What the server currently knows about an ACTIVE tomb's bound guardian. */
@@ -80,6 +89,23 @@ public final class TombEncounterData extends SavedData {
     }
 
     public boolean isDefeated(long tomb) { return defeated.contains(tomb); }
+
+    /** A VALID victory was recorded (P9). False for legacy-only completed tombs. */
+    public boolean isVictory(long tomb) { return victories.contains(tomb); }
+
+    /** Completed tombs that carry no valid-victory record: pre-P9 data of unknown validity (migration report only; never auto-converted). */
+    public Set<Long> legacyOnlyDefeats() {
+        Set<Long> out = new LinkedHashSet<>(defeated);
+        out.removeAll(victories);
+        return out;
+    }
+
+    /** Explicit, opt-in adoption of a legacy record as a victory (administrative/migration decision; nothing calls this automatically). */
+    public boolean adoptLegacyAsVictory(long tomb) {
+        if (!defeated.contains(tomb) || !victories.add(tomb)) return false;
+        setDirty();
+        return true;
+    }
 
     public Active active(long tomb) { return active.get(tomb); }
 
@@ -132,6 +158,17 @@ public final class TombEncounterData extends SavedData {
         return true;
     }
 
+    /**
+     * Records a VALID victory (P9). Returns true exactly once per tomb, only for the bound guardian, so the seal release, the guardian
+     * reward and the entrance progress cannot be granted twice. An invalid death must NOT call this; it calls {@link #release}.
+     */
+    public boolean markVictory(long tomb, UUID guardian) {
+        if (victories.contains(tomb) || !markDefeated(tomb, guardian)) return false;
+        victories.add(tomb);
+        setDirty();
+        return true;
+    }
+
     /** Ends an undefeated encounter whose guardian left without dying; the tomb can be retried. */
     public boolean release(long tomb, UUID guardian) {
         if (!isBound(tomb, guardian)) return false;
@@ -142,5 +179,5 @@ public final class TombEncounterData extends SavedData {
 
     public record Active(long tomb, UUID guardian, long guardianChunk, long startedGameTime) {}
 
-    private record SavedState(List<Long> defeated, List<Active> active) {}
+    private record SavedState(List<Long> defeated, List<Active> active, List<Long> victories) {}
 }

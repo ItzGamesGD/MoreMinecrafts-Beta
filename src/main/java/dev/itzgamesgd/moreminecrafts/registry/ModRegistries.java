@@ -24,6 +24,8 @@ public final class ModRegistries {
         CustomMobCatalog.initialize();
         dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandHabitat.initialize();
         dev.itzgamesgd.moreminecrafts.boss.TombGuardianEntities.initialize();
+        dev.itzgamesgd.moreminecrafts.st01.SecretEntranceEntities.initialize();
+        dev.itzgamesgd.moreminecrafts.st01.SecretEntranceRuntime.initialize();
         ModAlchemy.initialize();
         EnchantmentRuntime.initialize();
         ModBlocks.initialize();

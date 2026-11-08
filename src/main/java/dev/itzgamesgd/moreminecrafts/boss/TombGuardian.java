@@ -89,6 +89,7 @@ public class TombGuardian extends Monster {
     private final Set<UUID> waveHits = new HashSet<>();
     private long lastTrackedChunk = Long.MIN_VALUE;
     private boolean lootSuppressed;
+    private final TombVictoryPolicy.Participation participation = new TombVictoryPolicy.Participation();
 
     public TombGuardian(EntityType<? extends TombGuardian> type, Level level) {
         super(type, level);
@@ -236,15 +237,31 @@ public class TombGuardian extends Monster {
     @Override
     public boolean canUsePortal(boolean allowPassengers) { return false; }
 
+    /** CR-2: called from the Fabric AFTER_DAMAGE listener for every non-lethal, unblocked hit. */
+    void recordDamage(DamageSource source, float taken) {
+        if (!(level() instanceof ServerLevel level)) return;
+        net.minecraft.server.level.ServerPlayer player = TombVictoryPolicy.attributedPlayer(source);
+        if (player != null) participation.onPlayerDamage(player.getUUID(), taken, level.getGameTime());
+        else participation.onOtherDamage(taken);
+    }
+
+    TombVictoryPolicy.Participation participation() { return participation; }
+
     @Override
     public void die(DamageSource source) {
         if (!isRemoved() && !dead && level() instanceof ServerLevel level && tombAnchor != null) {
-            // Only the bound guardian of a not-yet-defeated tomb completes it and may drop its reward.
-            boolean credited = TombGuardianEncounters.data(level).isBound(TombGuardianEncounters.tombKey(tombAnchor), getUUID());
-            if (!credited) lootSuppressed = true;
+            boolean bound = TombGuardianEncounters.data(level).isBound(TombGuardianEncounters.tombKey(tombAnchor), getUUID());
+            TombVictoryPolicy.Verdict verdict = null;
+            if (bound) {
+                // The lethal blow runs inside die(), before AFTER_DAMAGE: fold it in, then judge BEFORE super.die() so loot can be suppressed.
+                participation.foldKillingBlow(TombVictoryPolicy.attributedPlayer(source), getMaxHealth(), level.getGameTime());
+                verdict = participation.judge(TombVictoryPolicy.classify(source), level.getGameTime(), getMaxHealth());
+            }
+            // Only the bound guardian of a not-yet-completed tomb may complete it, and only a VALID victory may drop its reward.
+            if (!bound || !verdict.valid()) lootSuppressed = true;
             LivingEntity killer = getKillCredit();
             super.die(source);
-            if (credited) TombGuardianEncounters.guardianDied(level, this, tombAnchor, killer);
+            if (bound) TombGuardianEncounters.guardianDied(level, this, tombAnchor, killer, verdict);
             return;
         }
         super.die(source);
@@ -527,6 +544,7 @@ public class TombGuardian extends Monster {
         output.putBoolean("enraged", isEnraged());
         output.putLong("slam_ready", Math.max(0L, slamReadyTick - tickCount));
         output.putLong("statue_ready", Math.max(0L, statueReadyTick - tickCount));
+        output.store("participation", TombVictoryPolicy.Participation.CODEC, participation.toState());
     }
 
     @Override
@@ -541,6 +559,7 @@ public class TombGuardian extends Monster {
         }
         slamReadyTick = tickCount + input.getLongOr("slam_ready", 0L);
         statueReadyTick = tickCount + input.getLongOr("statue_ready", 0L);
+        input.read("participation", TombVictoryPolicy.Participation.CODEC).ifPresent(participation::fromState);
     }
 
     /** Walks toward the visible target between attacks; never moves while an attack is telegraphing. */

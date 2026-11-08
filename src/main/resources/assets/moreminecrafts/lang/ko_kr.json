@@ -1081,5 +1081,6 @@
   "item.moreminecrafts.t1_status_resilience": "상태이상 대응 (T1 임시)",
   "item.moreminecrafts.t1_sustained_recovery": "지속 회복 (T1 임시)",
   "item.moreminecrafts.t1_sprint_acceleration": "질주 가속 (T1 임시)",
-  "item.moreminecrafts.t1_double_jump": "더블 점프 (T1 임시)"
+  "item.moreminecrafts.t1_double_jump": "더블 점프 (T1 임시)",
+  "entity.moreminecrafts.gold_guide_golem": "금빛 안내 골렘"
 }

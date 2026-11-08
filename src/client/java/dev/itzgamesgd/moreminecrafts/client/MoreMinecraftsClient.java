@@ -181,6 +181,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     }
 
     private static void registerCustomMobRenderers() {
+        EntityRendererRegistry.register(dev.itzgamesgd.moreminecrafts.st01.SecretEntranceEntities.GOLD_GUIDE_GOLEM,
+                dev.itzgamesgd.moreminecrafts.client.st01.GoldGuideGolemRenderer::new);
         EntityRendererRegistry.register(CustomMobCatalog.SWAMP_ZOMBIE,
                 context -> CustomMobRenderers.zombie(context, "swamp_zombie"));
         EntityRendererRegistry.register(CustomMobCatalog.CAVE_ZOMBIE,

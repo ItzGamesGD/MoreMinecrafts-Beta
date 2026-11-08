@@ -47,6 +47,7 @@ public final class TombGuardianEntities {
     public static void initialize() {
         FabricDefaultAttributeRegistry.register(TOMB_GUARDIAN, TombGuardian.createAttributes());
         TombGuardianDebugCommand.initialize();
+        TombVictoryPolicy.initialize();
         MoreMinecrafts.LOGGER.info("Registered Royal Tomb Guardian boss entity.");
     }
 }
