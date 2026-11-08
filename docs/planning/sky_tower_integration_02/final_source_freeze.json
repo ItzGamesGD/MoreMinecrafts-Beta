@@ -1,10 +1,12 @@
 {
- "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerBarriers.java": "2f111fcd1dc32a51729c39f63c7c7006d2012ba4d534dce096b52410776f630e",
- "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerBlockChanges.java": "b7542d9e92e8efa015ffcd816e21114e10340d7aeade611f4a2aa7f37d199c55",
- "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerCompletionObserver.java": "7295b6ad19d4f60621b7661fd4af411a79246b1733056aefc8f3270a52be42c1",
+ "src/gametest/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerGameTests.java": "840138e9961b0fd7e5ca99f0fc845776dc93323ba6d883b654c3b4b09d876677",
+ "src/gametest/resources/fabric.mod.json": "ff3d55e202f4c0bf9223a98d4fe9c75396ff4cde2736fe8868099d5eddb42ddf",
+ "src/main/java/dev/itzgamesgd/moreminecrafts/mixin/SkyTowerBlockChangeMixin.java": "a8e0a3afb0a98b4b1297b92380ca85a9d16c00d069656bd3d43c2d2479c4059f",
+ "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerBarriers.java": "c655ab3554dbb2654b77f57d22d847eed020717b3bb9ed651b9592a5e957a222",
+ "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerBlockChanges.java": "90c46a1b83c7dbafe34e686f52615e29442ad5a5e932cb0caf1ebb4ec0d220ff",
  "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerData.java": "acf60486994e4fce802e9392cb0b382adbdab21691c226dcb206028d51d7111e",
  "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerIntegration.java": "4184e42feb1558bc9d20999c5d1a7ef76449ba03e6b3e2a068269821527830c6",
  "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLayout.java": "87e2edd72fca736c51f56c637cb148b8862df3483d91690056532ae7cf4ad1ff",
- "src/main/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgress.java": "883904c90d9372a0fcc5cd221e9549cd25824a39230906e4bb91d79982f5e5e3",
- "src/gametest/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerGameTests.java": "6707e6ada9d3af1fb4c23d2b4dd7e97e3f534fd0fd8c08fffeba7a534df48a9f"
+ "src/main/resources/moreminecrafts.mixins.json": "cf0b48c71846a249ffa52327d89516f4e4b55f774c0c7ab748bd10f860dffc78",
+ "src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java": "40703dd51c2fd6f6a0abd6b64bd60d6c3444fc6b8358eaa5dc357c755fd1135b"
 }

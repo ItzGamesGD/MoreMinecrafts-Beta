@@ -74,6 +74,15 @@ with rc.connect() as sock:
   for lx,lz in ((17,17),(17,31),(31,17),(31,31)):ask(f'setblock {at(x,r,lx,12,lz)} minecraft:air')
   wait_ticks();gate(x,r,0,'air');gate(x,r,1,'barrier')
   out['status']=status();ask('save-all flush');out['pass']=True
+ elif mode=='state':
+  assert status()==json.loads((H/'live_check.json').read_text())['status']
+  x=base+900;r=3;p=at(x,r,39,11,27)
+  check(p,'barrier[waterlogged=false]')
+  ask(f'setblock {p} minecraft:barrier[waterlogged=true]')
+  for lx,lz in ((17,17),(17,31),(31,17),(31,31)):ask(f'setblock {at(x,r,lx,12,lz)} minecraft:air')
+  wait_ticks();check(p,'barrier[waterlogged=true]')
+  assert 'Test passed' in ask(f'execute unless block {at(x,r,39,12,27)} minecraft:barrier')
+  out['status']=status();ask('save-all flush');out['pass']=True
  elif mode=='vaults':
   out['codec_note']='VaultConfig.DEFAULT is TRIAL_CHAMBERS_REWARD; vanilla lenientOptionalFieldOf omits default loot_table when saving. See vault_codec_reference.txt.'
   for r in range(4):

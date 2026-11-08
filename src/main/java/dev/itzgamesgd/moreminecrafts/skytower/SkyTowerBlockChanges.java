@@ -21,7 +21,7 @@ public final class SkyTowerBlockChanges {
         for(var e:d.sites().entrySet()){
             var site=e.getValue();if(!site.dimension().equals(dimension))continue;
             if(before.is(Blocks.TRIAL_SPAWNER) && !after.is(Blocks.TRIAL_SPAWNER))d.recordDestruction(e.getKey(),point);
-            if(before.is(Blocks.BARRIER) && !after.is(Blocks.BARRIER))
+            if(before.is(Blocks.BARRIER))
                 for(int f=0;f<4;f++)for(int i=0;i<18;i++)
                     if(site.barrier(f,i).equals(point) && d.ownsBarrier(e.getKey(),f,i))d.setBarrierOwned(e.getKey(),f,i,false);
         }

@@ -97,4 +97,20 @@ public final class SkyTowerGameTests {
             ctx.assertTrue(a.level.getBlockState(a.at(0,0)).isAir(),"mixed quorum opens barrier");a.release();b.release();ctx.succeed();
         });
     }
+    @GameTest(maxTicks=160)
+    public void waterloggedOwnedBarrierIsForeignAndSurvivesCompletionAndStaleOwnership(GameTestHelper ctx){
+        var a=fixture(ctx,0,false);var p=a.at(0,0);
+        ctx.assertTrue(SkyTowerBarriers.reconcile(a.level,a.data,a.site,0),"dry barriers installed");
+        var wet=Blocks.BARRIER.defaultBlockState().setValue(net.minecraft.world.level.block.BarrierBlock.WATERLOGGED,true);
+        a.level.setBlock(p,wet,3);
+        ctx.assertTrue(!a.data.ownsBarrier(a.site.id(),0,0),"external state change revokes ownership even within the same block type");
+        for(int i=0;i<4;i++)a.data.recordDestruction(a.site.id(),a.site.spawner(i));
+        SkyTowerBarriers.reconcile(a.level,a.data,a.site,0);
+        ctx.assertTrue(a.level.getBlockState(p).equals(wet),"foreign waterlogged barrier not removed");
+        ctx.assertTrue(a.level.getBlockState(a.at(0,1)).isAir(),"remaining owned dry barrier removed");
+        a.data.setBarrierOwned(a.site.id(),0,0,true); // Deliberate stale saved-ownership fault.
+        SkyTowerBarriers.reconcile(a.level,a.data,a.site,0);
+        ctx.assertTrue(!a.data.ownsBarrier(a.site.id(),0,0) && a.level.getBlockState(p).equals(wet),"stale ownership is relinquished without deleting changed state");
+        a.release();ctx.succeed();
+    }
 }

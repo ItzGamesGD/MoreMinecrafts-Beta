@@ -35,14 +35,14 @@ public final class SkyTowerBarriers {
         // Revoke stale ownership rather than adopting an unexpected block.
         for(int i=0;i<18;i++){
             var p=pos(site.barrier(floor,i));
-            if(data.ownsBarrier(site.id(),floor,i) && !level.getBlockState(p).is(Blocks.BARRIER))
+            if(data.ownsBarrier(site.id(),floor,i) && !level.getBlockState(p).equals(Blocks.BARRIER.defaultBlockState()))
                 data.setBarrierOwned(site.id(),floor,i,false);
         }
         if(complete){
             boolean ok=true;
             for(int i=0;i<18;i++)if(data.ownsBarrier(site.id(),floor,i)){
                 var p=pos(site.barrier(floor,i));
-                if(level.getBlockState(p).is(Blocks.BARRIER)){
+                if(level.getBlockState(p).equals(Blocks.BARRIER.defaultBlockState())){
                     // Hook revokes ownership only on successful replacement.
                     if(!level.setBlock(p,Blocks.AIR.defaultBlockState(),3))ok=false;
                 }
@@ -54,7 +54,7 @@ public final class SkyTowerBarriers {
         // Preflight the entire floor: never install a partial wall around an entity or foreign block.
         for(int i=0;i<18;i++){
             var p=pos(site.barrier(floor,i));var state=level.getBlockState(p);
-            if(data.ownsBarrier(site.id(),floor,i) && state.is(Blocks.BARRIER))continue;
+            if(data.ownsBarrier(site.id(),floor,i) && state.equals(Blocks.BARRIER.defaultBlockState()))continue;
             if(!state.isAir() || level.getBlockEntity(p)!=null)return conflict(key,"foreign block at "+p);
             if(!level.getEntities(null,new AABB(p)).isEmpty())return conflict(key,"entity at "+p);
         }
