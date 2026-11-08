@@ -21,18 +21,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 
 /**
- * ST-01 P9 game tests on a real (headless) server: CR-1 victory/death separation, CR-2 participation, and the secret entrance with the gold
+ * ST-01 P9/P11 game tests on a real (headless) server: CR-1 victory/death separation, CR-2 participation, and the secret entrance with the gold
  * guide golem. The arena is a synthetic flat floor with the P6 12-block cover cut at its structure-relative position; it is NOT the real royal
- * hall (no structure/worldgen exists, O-14). All times and the arrival radius are TEST-ONLY values installed below.
+ * hall (no structure/worldgen exists, O-14). Uses the owner-approved P11 production configuration ({@link EntranceConfig#PRODUCTION}).
  */
 public final class SecretEntranceGameTests {
-    /** TEST-ONLY. Not an approved fallback time; tests run interleaved so one shared config is installed once. */
-    private static final long TEST_FALLBACK_TICKS = 600L;
-    private static final double TEST_ARRIVAL_RADIUS = 1.5D;
+    private static final long APPROVED_FALLBACK_TICKS = EntranceConfig.APPROVED_FALLBACK_TICKS;
+    private static final double APPROVED_ARRIVAL_RADIUS = EntranceConfig.APPROVED_ARRIVAL_RADIUS;
     private static final AtomicInteger NEXT_ARENA = new AtomicInteger();
 
     static {
-        EntranceConfig.install(EntranceConfig.testOnly(TEST_FALLBACK_TICKS, TEST_ARRIVAL_RADIUS));
+        EntranceConfig.resetToProduction();
     }
 
     /** Own tick scheduler: nesting ctx.runAfterDelay / ctx.onEachTick inside their own callbacks crashes the 26.3 test ticker (concurrent map iteration). */
@@ -322,7 +321,7 @@ public final class SecretEntranceGameTests {
                 ctx.assertTrue(coverOpen(a), "all 12 cover cells removed on arrival");
                 GoldGuideGolem golem = golems(a).get(0);
                 double d = Math.hypot(golem.getX() - (a.stop.getX() + 0.5D), golem.getZ() - (a.stop.getZ() + 0.5D));
-                ctx.assertTrue(d <= TEST_ARRIVAL_RADIUS + 0.01D, "the golem stands inside the arrival radius, distance " + d);
+                ctx.assertTrue(d <= APPROVED_ARRIVAL_RADIUS + 0.01D, "the golem stands inside the arrival radius, distance " + d);
                 boolean overCut = a.cover.stream().anyMatch(c -> golem.blockPosition().getX() == c.getX() && golem.blockPosition().getZ() == c.getZ());
                 ctx.assertTrue(!overCut, "the golem does not stand over the cut");
                 ctx.assertTrue(golem.isAlive() && golem.onGround(), "and did not fall");

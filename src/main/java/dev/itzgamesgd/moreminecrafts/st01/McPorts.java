@@ -81,7 +81,7 @@ final class McPorts implements EntranceCore.Ports {
         return level.addFreshEntity(golem) ? golem.getUUID() : null;
     }
 
-    /** Arrival = the golem's own server position is within the (unapproved) arrival radius of the stop point, standing on the ground. */
+    /** Arrival = the golem's own server position is within the approved O-4 arrival radius (1.5 blocks) of the stop point, standing on the ground. */
     @Override
     public boolean golemAtStop(UUID id) {
         Entity e = level.getEntity(id);

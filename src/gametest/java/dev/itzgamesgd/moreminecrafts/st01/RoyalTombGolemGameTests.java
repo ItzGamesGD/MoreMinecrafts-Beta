@@ -19,13 +19,13 @@ import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Team;
 
 /**
- * ST-01 P10 game tests on the REAL royal-tomb geometry (P6 integrated model, candidate C overlay, CLOSED state), placed block-for-block from
- * tools/st01-p10/export_fixture.py. Part 1: fixture/voxel/coordinate conformance. Part 2: gold-guide-golem route sweeps (the same entity class as P9,
- * no production change). All time/radius values are TEST-ONLY or measurement inputs, not approvals.
+ * ST-01 P10/P11 game tests on the REAL royal-tomb geometry (P6 integrated model, candidate C overlay, CLOSED state), placed block-for-block from
+ * tools/st01-p10/export_fixture.py. Part 1: fixture/voxel/coordinate conformance. Part 2: gold-guide-golem route sweeps using the P11 owner-approved
+ * production configuration ({@link EntranceConfig#PRODUCTION}, stop point {@code (±9, -2, 3)}, spawn {@code BOSS_S}, scale 0.5, speed 0.25).
  */
 public final class RoyalTombGolemGameTests {
-    static {   // identical to the P9 test class: the config is process-global, both classes must agree. TEST-ONLY.
-        EntranceConfig.install(EntranceConfig.testOnly(600L, 1.5D));
+    static {
+        EntranceConfig.resetToProduction();
     }
 
     // ------------------------------------------------------------------ part 1: fixture, voxels, coordinates
@@ -265,14 +265,14 @@ public final class RoyalTombGolemGameTests {
         return c;
     }
 
-    /** P7 arrival-zone candidates Z1..Z4 (cell-centre to cover-rectangle distance), enumerated on the placed hall floor; start BOSS_S. */
+    /** P7 arrival-zone candidates Z1..Z4 (cell-centre to cover-rectangle distance), enumerated on the placed hall floor relative to the P9/P10 Z2 reference cell; start BOSS_S. */
     static List<Cond> zoneConditions(RoyalTombFixture.Placed p, Start from, int n, int stagger) {
         List<Cond> out = new ArrayList<>();
         RoyalTombFixture f = p.fixture();
         List<BlockPos> cover = EntranceLayout.coverCells(p.anchor, f.orientation);
         int cMinX = cover.stream().mapToInt(BlockPos::getX).min().getAsInt(), cMaxX = cover.stream().mapToInt(BlockPos::getX).max().getAsInt();
         int cMinZ = cover.stream().mapToInt(BlockPos::getZ).min().getAsInt(), cMaxZ = cover.stream().mapToInt(BlockPos::getZ).max().getAsInt();
-        BlockPos def = EntranceLayout.stopPoint(p.anchor, f.orientation);
+        BlockPos def = p.anchor.offset(f.orientation.sign * 10, -2, 3);
         int fy = def.getY();
         for (int dx = -40; dx <= 40; dx++) for (int dz = -40; dz <= 40; dz++) {
             BlockPos c = new BlockPos(def.getX() + dx, fy, def.getZ() + dz);

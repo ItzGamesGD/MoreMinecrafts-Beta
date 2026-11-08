@@ -252,3 +252,26 @@ Q72-Q93 recorded as owner-approved design-only decisions. Architectural fit and 
 - No actual voxel construction, client screenshots, NBT/worldgen or runtime tests are implied.
 
 Q01-Q100 are now documented as design choices; physical feasibility remains UNVERIFIED.
+
+
+## Owner-approved ST-01 P11 operational settings (O-1, O-3, O-4, O-6, 2026-11-08)
+
+All prior Q01-Q100 architectural decisions and P9 operational rules remain intact. In ST-01 P11, the owner explicitly approved the following operational parameters for the ST-01 secret entrance and gold guide golem:
+
+| ID | Approved operational setting | Production wiring |
+| --- | --- | --- |
+| O-1 | Fallback opening timer: **600 game ticks** (30.0 s at 20 TPS) | `EntranceConfig.APPROVED_FALLBACK_TICKS = 600L` (`EntranceConfig.PRODUCTION`) |
+| O-3 | Fallback timer starts **immediately** upon valid Tomb Guardian victory confirmation | `EntranceCore.reconcile()` (`remaining = cfg.fallbackTicks()` on `SEALED -> GUARDIAN_DEFEATED`) |
+| O-4 | Arrival detection radius: **1.5 blocks** (horizontal `dx, dz` distance to stop point center) | `EntranceConfig.APPROVED_ARRIVAL_RADIUS = 1.5D` (`EntranceConfig.PRODUCTION`) |
+| O-4 | Stop point coordinate: optimal P10-verified safe Z3/Z4 candidate **C03** (`Z3`, `delta = (-1, 0)` from P9 Z2 reference, `anchor.offset(o.sign * 9, -2, 3)`, model `(-12, -22, 36)` for EAST / `(+12, -22, 36)` for WEST, cell-center distance `2.550` blocks to nearest cover cell, minimum AABB clearance `>= 3.324` blocks across all E/W and `BOSS_S`/`DOOR_IN` trials) | `EntranceLayout.stopPoint(anchor, o)` (`anchor.offset(o.sign * 9, -2, 3)`) |
+| O-6 | Gold guide golem scale: **0.5** (`0.7w × 1.35h`, 50% of vanilla Iron Golem) | `GoldGuideGolemTuning.SCALE = 0.5D` |
+| O-6 | Gold guide golem movement speed: **0.25** | `GoldGuideGolemTuning.MOVEMENT_SPEED = 0.25D` |
+| O-6 | Gold guide golem emergence position: **`BOSS_S`** (`anchor.offset(0, -2, -6)`, hall center `(0, -22, 27)`) | `EntranceLayout.golemSpawn(anchor, o)` (`anchor.offset(0, -2, -6)`) |
+
+### Preserved non-approvals and boundaries (P11)
+
+- **O-9 (Valid victory rule):** Remains the P9 structural minimum (Rule A: final killing blow attributed to a player or `OwnableEntity` owned by a `ServerPlayer`). Minimum player damage share and participation time window remain **UNAPPROVED** (`Params = null`). See `docs/design/st01-p11/ST01_P11_06_O9_ELEMENTAL_DAMAGE_ATTRIBUTION_AUDIT_2026-11-08.md` for the P11 elemental damage source attribution audit.
+- **O-12 (Final opening presentation/VFX/SFX):** Remains **UNAPPROVED**.
+- **O-14 (Natural Overworld worldgen placement):** Remains **UNAPPROVED**. No ST-01 worldgen structure registration is enabled in production.
+- **D-3 (Final East vs West orientation):** Remains **UNAPPROVED**. Both `EAST` and `WEST` remain supported via explicit `EntranceLayout.Orientation` with exact X-axis mirror symmetry.
+- **Q15 (Secret crypt final loot/spec) & Q98 (Replacement maximum underground depth cap):** Remain **UNAPPROVED**.

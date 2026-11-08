@@ -18,12 +18,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
 
 /**
- * ST-01 P10: the whole P9 pipeline (valid victory -> guide golem -> arrival/fallback -> cover open) inside the REAL royal-tomb geometry, one fixture
+ * ST-01 P10/P11: the whole P9 pipeline (valid victory -> guide golem -> arrival/fallback -> cover open) inside the REAL royal-tomb geometry, one fixture
  * per run. Participants are SIMULATED (mock server players moved by the test: no collision, no client). Results are written as CSV when
- * -Dmoreminecrafts.p10.out is set. EntranceConfig is the same TEST-ONLY 600 ticks / 1.5 blocks as the P9 tests (process-global).
+ * -Dmoreminecrafts.p10.out is set. Uses the P11 owner-approved {@link EntranceConfig#PRODUCTION} (600 ticks / 1.5 blocks).
  */
 public final class RoyalTombFlowGameTests {
-    static { EntranceConfig.install(EntranceConfig.testOnly(600L, 1.5D)); }
+    static { EntranceConfig.resetToProduction(); }
 
     static final int RUN_TIMEOUT = 1500;
 

@@ -30,9 +30,63 @@ class EntranceCoreTest {
     static EntranceCore core(FakePorts p) { return new EntranceCore(CFG, p, new EntranceCore.Saved(EntranceState.SEALED, 0, false)); }
     static void steps(EntranceCore c, int n) { for (int i = 0; i < n; i++) c.step(); }
 
-    @Test void noProductionDefaultForTheFallbackTime() {
-        assertNull(EntranceConfig.current());
+    @Test void productionConfigIsInstalledByDefaultAndRejectsInvalidParameters() {
+        EntranceConfig.resetToProduction();
+        EntranceConfig prod = EntranceConfig.current();
+        assertNotNull(prod);
+        assertSame(EntranceConfig.PRODUCTION, prod);
+        assertEquals(600L, prod.fallbackTicks());
+        assertEquals(1.5D, prod.arrivalRadius(), 1.0E-9D);
+        assertEquals(1, prod.maxSpawnAttempts());
+        assertFalse(prod.respawnAfterRestart());
+        assertFalse(prod.testOnly());
+
+        EntranceConfig testCfg = EntranceConfig.testOnly(120L, 1.25D);
+        assertTrue(testCfg.testOnly());
+        EntranceConfig.install(testCfg);
+        assertSame(testCfg, EntranceConfig.current());
+        EntranceConfig.resetToProduction();
+        assertSame(EntranceConfig.PRODUCTION, EntranceConfig.current());
+
         assertThrows(IllegalStateException.class, () -> new EntranceCore(new EntranceConfig(-1, 1.0, 1, false, false), new FakePorts(), new EntranceCore.Saved(EntranceState.SEALED, 0, false)));
+        assertThrows(IllegalStateException.class, () -> new EntranceCore(new EntranceConfig(600L, 0.0, 1, false, false), new FakePorts(), new EntranceCore.Saved(EntranceState.SEALED, 0, false)));
+    }
+
+    @Test void productionConfigRunsFull600TickFallbackAndImmediateVictoryStart() {
+        FakePorts p = new FakePorts();
+        p.nextSpawnOk = false;
+        EntranceCore c = new EntranceCore(EntranceConfig.PRODUCTION, p, new EntranceCore.Saved(EntranceState.SEALED, 0, false));
+        p.victory = true;
+        c.step(); // tick 1: reconcile sets remaining = 600
+        assertEquals(EntranceState.GUARDIAN_DEFEATED, c.state());
+        assertEquals(600L, c.remaining(), "O-3: timer starts immediately at 600 ticks on valid victory");
+        steps(c, 599);
+        assertEquals(EntranceState.GUARDIAN_DEFEATED, c.state(), "still closed at 599 elapsed ticks after timer start");
+        assertEquals(1L, c.remaining());
+        assertFalse(p.cover);
+        c.step(); // 600th countdown tick reaches 0 -> FALLBACK_OPEN
+        assertEquals(EntranceState.FALLBACK_OPEN, c.state(), "O-1: opens at 600th countdown tick");
+        assertTrue(p.cover);
+        assertEquals(1, p.openMutations);
+    }
+
+    @Test void approvedStopPointSpawnAndGolemTuningFollowEastWestMirrorRules() {
+        net.minecraft.core.BlockPos anchor = new net.minecraft.core.BlockPos(-21, -20, 33);
+        net.minecraft.core.BlockPos stopE = EntranceLayout.stopPoint(anchor, EntranceLayout.Orientation.EAST);
+        net.minecraft.core.BlockPos stopW = EntranceLayout.stopPoint(new net.minecraft.core.BlockPos(21, -20, 33), EntranceLayout.Orientation.WEST);
+        assertEquals(new net.minecraft.core.BlockPos(-12, -22, 36), stopE, "EAST model stop point is Z3 C03 (-12, -22, 36)");
+        assertEquals(new net.minecraft.core.BlockPos(12, -22, 36), stopW, "WEST model stop point is exact X mirror (+12, -22, 36)");
+        assertEquals(-stopE.getX(), stopW.getX());
+        assertEquals(stopE.getY(), stopW.getY());
+        assertEquals(stopE.getZ(), stopW.getZ());
+
+        net.minecraft.core.BlockPos spawnE = EntranceLayout.golemSpawn(anchor, EntranceLayout.Orientation.EAST);
+        assertEquals(new net.minecraft.core.BlockPos(-21, -22, 27), spawnE, "BOSS_S offset (0, -2, -6) from anchor");
+
+        assertEquals(0.5D, GoldGuideGolemTuning.SCALE, 1.0E-9D);
+        assertEquals(0.25D, GoldGuideGolemTuning.MOVEMENT_SPEED, 1.0E-9D);
+        assertEquals(0.7D, GoldGuideGolemTuning.BASE_WIDTH * GoldGuideGolemTuning.SCALE, 1.0E-6D);
+        assertEquals(1.35D, GoldGuideGolemTuning.BASE_HEIGHT * GoldGuideGolemTuning.SCALE, 1.0E-6D);
     }
 
     @Test void nothingOpensBeforeAValidVictory() {

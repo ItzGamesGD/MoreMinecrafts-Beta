@@ -36,7 +36,8 @@ public final class EntranceCore {
     private boolean anomaly;
 
     public EntranceCore(EntranceConfig cfg, Ports ports, Saved saved) {
-        if (cfg.fallbackTicks() <= 0) throw new IllegalStateException("fallback time is unapproved (O-1): no production default");
+        if (cfg.fallbackTicks() <= 0) throw new IllegalStateException("fallbackTicks must be > 0 (approved O-1 is 600)");
+        if (cfg.arrivalRadius() <= 0.0D) throw new IllegalStateException("arrivalRadius must be > 0 (approved O-4 is 1.5)");
         this.cfg = cfg;
         this.ports = ports;
         this.state = saved.state();

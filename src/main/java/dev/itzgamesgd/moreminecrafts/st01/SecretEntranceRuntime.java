@@ -19,9 +19,12 @@ import net.minecraft.world.entity.Entity;
 /**
  * Operational adapter that runs one {@link EntranceCore} per registered structure instance.
  *
- * <p>Inert by design until (a) an {@link EntranceConfig} is installed (no production default: O-1/O-4 unapproved) and (b) an instance is
- * registered (no structure/worldgen exists yet: O-14, and D-3 chooses the orientation). Nothing in the game registers instances today;
- * only the game tests do.
+ * <p>Per ST-01 P11 owner approval (O-1 = 600 ticks, O-3 = immediate timer start on valid victory,
+ * O-4 = 1.5-block arrival radius at Z3 stop point {@code (±9, -2, 3)}, O-6 = scale 0.5 / speed 0.25
+ * / {@code BOSS_S} spawn), {@link EntranceConfig#PRODUCTION} is installed by default on the production
+ * server tick path. Natural worldgen placement of ST-01 structures (O-14) and final East/West
+ * orientation selection (D-3) remain unapproved, so no worldgen structure auto-registration is
+ * performed here; registered tomb instances use the production runtime directly.
  */
 public final class SecretEntranceRuntime {
     private SecretEntranceRuntime() {}
@@ -74,7 +77,7 @@ public final class SecretEntranceRuntime {
     private static void tick(MinecraftServer server) {
         EntranceConfig cfg = EntranceConfig.current();
         if (cfg == null) {
-            if (!warnedDisabled) { warnedDisabled = true; MoreMinecrafts.LOGGER.info("ST-01 secret entrance runtime disabled: no EntranceConfig installed (O-1/O-4 unapproved)."); }
+            if (!warnedDisabled) { warnedDisabled = true; MoreMinecrafts.LOGGER.info("ST-01 secret entrance runtime disabled: EntranceConfig is null (explicitly disabled by test)."); }
             return;
         }
         for (ServerLevel level : server.getAllLevels()) {

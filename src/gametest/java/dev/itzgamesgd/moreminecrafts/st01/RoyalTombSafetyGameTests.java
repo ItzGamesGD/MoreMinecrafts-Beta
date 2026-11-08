@@ -27,7 +27,7 @@ import net.minecraft.world.phys.AABB;
  * real-player test.
  */
 public final class RoyalTombSafetyGameTests {
-    static { EntranceConfig.install(EntranceConfig.testOnly(600L, 1.5D)); }
+    static { EntranceConfig.resetToProduction(); }
 
     private record Occ(String kind, Entity e, double y0, float hp0, BlockPos cell) {}
 
@@ -220,9 +220,26 @@ public final class RoyalTombSafetyGameTests {
         fl[0].fols.add(RoyalTombFlowGameTests.follower(-2.0D, 0.0D, 0.3D, 0, true));
     }
 
-    // ------------------------------------------------------------------ O-9 support: which damage sources count as "a player's" under the victory rule
+    // ------------------------------------------------------------------ P11 production config & O-9 elemental damage source attribution audit
 
-    /** Measurement only (no production change): how TombVictoryPolicy classifies and attributes common damage sources. */
+    /** Verifies owner-approved P11 production config wiring and O-4/O-6 layout invariants without test-only overrides. */
+    @GameTest(maxTicks = 100)
+    public void p11ApprovedProductionConfigAndStopPointAreWired(GameTestHelper ctx) {
+        EntranceConfig.resetToProduction();
+        EntranceConfig cfg = EntranceConfig.current();
+        ctx.assertTrue(cfg != null && cfg == EntranceConfig.PRODUCTION && !cfg.testOnly(), "PRODUCTION config is active by default and not testOnly");
+        ctx.assertTrue(cfg.fallbackTicks() == 600L && Math.abs(cfg.arrivalRadius() - 1.5D) < 1.0E-9D, "O-1=600 ticks, O-4=1.5 blocks");
+        ctx.assertTrue(Math.abs(GoldGuideGolemTuning.SCALE - 0.5D) < 1.0E-9D && Math.abs(GoldGuideGolemTuning.MOVEMENT_SPEED - 0.25D) < 1.0E-9D, "O-6 scale=0.5, speed=0.25");
+        BlockPos anchorE = new BlockPos(-21, -20, 33), anchorW = new BlockPos(21, -20, 33);
+        BlockPos stopE = EntranceLayout.stopPoint(anchorE, EntranceLayout.Orientation.EAST);
+        BlockPos stopW = EntranceLayout.stopPoint(anchorW, EntranceLayout.Orientation.WEST);
+        ctx.assertTrue(stopE.equals(new BlockPos(-12, -22, 36)) && stopW.equals(new BlockPos(12, -22, 36)),
+                "O-4 stopPoint is Z3 C03 (±9, -2, 3) -> model (±12, -22, 36), got E=" + stopE + " W=" + stopW);
+        ctx.assertTrue(EntranceLayout.golemSpawn(anchorE, EntranceLayout.Orientation.EAST).equals(new BlockPos(-21, -22, 27)), "O-6 golemSpawn is BOSS_S (0, -2, -6)");
+        ctx.succeed();
+    }
+
+    /** Measurement only (no production change): how TombVictoryPolicy classifies and attributes T2 elemental weapons and common damage sources. */
     @GameTest(maxTicks = 100)
     public void victoryRuleDamageSourceAttribution(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
@@ -230,21 +247,26 @@ public final class RoyalTombSafetyGameTests {
         var ds = level.damageSources();
         net.minecraft.world.entity.projectile.arrow.Arrow arrow = new net.minecraft.world.entity.projectile.arrow.Arrow(level, pl.getX(), pl.getY(), pl.getZ(), new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.ARROW), null);
         arrow.setOwner(pl);
+        net.minecraft.world.entity.LightningBolt unownedBolt = EntityTypes.LIGHTNING_BOLT.create(level, EntitySpawnReason.EVENT);
+        net.minecraft.world.entity.LightningBolt causedBolt = EntityTypes.LIGHTNING_BOLT.create(level, EntitySpawnReason.EVENT);
+        if (causedBolt != null) causedBolt.setCause(pl);
         net.minecraft.world.entity.monster.zombie.Zombie zombie = EntityTypes.ZOMBIE.create(level, EntitySpawnReason.EVENT);
         java.util.LinkedHashMap<String, net.minecraft.world.damagesource.DamageSource> src = new java.util.LinkedHashMap<>();
-        src.put("player melee (playerAttack)", ds.playerAttack(pl));
-        src.put("player arrow (arrow, owner = player)", ds.arrow(arrow, pl));
-        src.put("player mace", ds.mace(pl));
+        src.put("player melee / T2 elemental sword / cleave / wind blade / water dive / lightning slash / earth shatter (playerAttack)", ds.playerAttack(pl));
+        src.put("player arrow / Wind Archer's Bow (arrow, owner = player)", ds.arrow(arrow, pl));
+        src.put("player mace / Earth Mace smash", ds.mace(pl));
         src.put("player-caused explosion (explosion(null, player))", ds.explosion(null, pl));
+        src.put("player-thrown magic / splash potion (indirectMagic(arrow, player))", ds.indirectMagic(arrow, pl));
         src.put("thorns reflected onto the boss (thorns(player))", ds.thorns(pl));
         src.put("hostile mob melee (mobAttack(zombie))", ds.mobAttack(zombie));
         src.put("unowned explosion (explosion(null, null))", ds.explosion(null, null));
-        src.put("burning (onFire) - includes Fire Aspect / flame DOT after the hit", ds.onFire());
+        src.put("burning (onFire) - includes Flame Sword FlameCleave igniteForSeconds(3.0F) & Fire Aspect/Flame DOT", ds.onFire());
         src.put("standing in fire (inFire)", ds.inFire());
         src.put("lava", ds.lava());
-        src.put("magic (poison / instant damage potions)", ds.magic());
+        src.put("magic (poison / ShockMobEffect pulse / unattributed magic)", ds.magic());
         src.put("wither effect", ds.wither());
         src.put("lightning bolt (no cause)", ds.lightningBolt());
+        if (causedBolt != null) src.put("lightning bolt (setCause(player), entity = bolt)", ds.source(net.minecraft.world.damagesource.DamageTypes.LIGHTNING_BOLT, causedBolt));
         src.put("fall", ds.fall());
         src.put("cactus", ds.cactus());
         src.put("freeze", ds.freeze());
@@ -260,10 +282,68 @@ public final class RoyalTombSafetyGameTests {
         }
         P10Support.csv("damage_source_attribution.csv", "damage_source,death_cause_class,attributed_to_player", rows);
         ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.classify(ds.playerAttack(pl)) == dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.DeathCause.PLAYER, "melee is a player's");
-        ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.classify(ds.onFire()) == dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.DeathCause.ENVIRONMENT, "burning is environmental");
+        ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.classify(ds.indirectMagic(arrow, pl)) == dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.DeathCause.PLAYER, "indirectMagic with player owner is a player's");
+        ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.classify(ds.onFire()) == dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.DeathCause.ENVIRONMENT, "burning (including FlameCleave burn DOT) is environmental");
+        ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.classify(ds.magic()) == dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.DeathCause.ENVIRONMENT, "unattributed magic/poison/Shock pulse is environmental");
+        if (causedBolt != null) {
+            // LightningBolt does not implement OwnableEntity; even with setCause(pl), DamageSource(LIGHTNING_BOLT, bolt) has getEntity()==bolt, so classify returns MOB and attributedPlayer returns null
+            ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.attributedPlayer(ds.source(net.minecraft.world.damagesource.DamageTypes.LIGHTNING_BOLT, causedBolt)) == null,
+                    "LightningBolt entity does not implement OwnableEntity, so attributedPlayer is null even when setCause(player) is set");
+        }
         ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.classify(ds.genericKill()) == dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.DeathCause.COMMAND_KILL, "/kill is a command kill");
         ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.classify(ds.mobAttack(zombie)) == dev.itzgamesgd.moreminecrafts.boss.TombVictoryPolicy.DeathCause.MOB, "a mob is a mob");
+        if (unownedBolt != null) unownedBolt.discard();
+        if (causedBolt != null) causedBolt.discard();
         pl.discard(); zombie.discard();
+        ctx.succeed();
+    }
+
+    /**
+     * Live encounter verification of O-9 Rule A edge cases (investigation only; no policy change):
+     * (1) False Negative: Player deals 99.5% of damage with Flame Sword / FlameCleave direct hit, then the 3s burn DOT (onFire) deals the final 1 HP -> INVALID_DEATH (chest stays sealed, entrance SEALED).
+     * (2) Effective-environment False Positive: Lava deals 99.5% (199 HP) of damage, then a player deals a 1-HP last hit -> VALID VICTORY under Rule A (chest unseals, entrance progresses).
+     */
+    @GameTest(maxTicks = 200)
+    public void o9ElementalBurnDotFalseNegativeAndLastHitFalsePositiveAudit(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        ServerPlayer pl = ctx.makeMockServerPlayerInLevel();
+        var ds = level.damageSources();
+
+        // Case 1: Flame Sword / FlameCleave direct hit (199 HP) + igniteForSeconds(3.0F) burn tick (onFire, 2 HP) -> INVALID_DEATH
+        BlockPos anchorBurn = ctx.absolutePos(new BlockPos(2, 1, 2));
+        BlockPos spawnBurn = ctx.absolutePos(new BlockPos(4, 1, 4));
+        for (int x = 0; x <= 8; x++) for (int z = 0; z <= 8; z++) ctx.setBlock(new BlockPos(x, 0, z), Blocks.SMOOTH_SANDSTONE);
+        SecretEntranceRuntime.register(level, anchorBurn, EntranceLayout.Orientation.EAST);
+        var r1 = TombGuardianEncounters.onRoyalChestInteraction(level, anchorBurn, spawnBurn, null);
+        ctx.assertTrue(r1 == TombGuardianEncounters.StartResult.STARTED, "burn-DOT audit encounter starts");
+        dev.itzgamesgd.moreminecrafts.boss.TombGuardian g1 = level.getEntitiesOfClass(
+                dev.itzgamesgd.moreminecrafts.boss.TombGuardian.class, new AABB(anchorBurn).inflate(16.0D), Entity::isAlive).get(0);
+        g1.skipAwakening();
+        g1.hurtServer(level, ds.playerAttack(pl), 199.0F);
+        g1.igniteForSeconds(3.0F); // exact call from FlameCleaveAbility.use() line 52
+        g1.hurtServer(level, ds.onFire(), 5.0F); // lethal burn tick
+        ctx.assertTrue(g1.isDeadOrDying(), "guardian died from burn DOT tick");
+        ctx.assertTrue(!TombGuardianEncounters.data(level).isVictory(anchorBurn.asLong()),
+                "O-9 False Negative confirmed: 99.5% player damage + FlameCleave burn DOT final tick is rejected under Rule A");
+        ctx.assertTrue(TombGuardianEncounters.isRoyalChestSealed(level, anchorBurn), "chest stays sealed on burn DOT kill");
+        ctx.assertTrue(SecretEntranceRuntime.data(level).get(anchorBurn.asLong()).state() == EntranceState.SEALED, "entrance stays SEALED on burn DOT kill");
+
+        // Case 2: Lava deals 199 HP (99.5%) + player deals 1 HP final hit -> VALID VICTORY under Rule A
+        BlockPos anchorSteal = ctx.absolutePos(new BlockPos(6, 1, 2));
+        var r2 = TombGuardianEncounters.onRoyalChestInteraction(level, anchorSteal, spawnBurn, null);
+        ctx.assertTrue(r2 == TombGuardianEncounters.StartResult.STARTED, "last-hit audit encounter starts");
+        dev.itzgamesgd.moreminecrafts.boss.TombGuardian g2 = level.getEntitiesOfClass(
+                dev.itzgamesgd.moreminecrafts.boss.TombGuardian.class, new AABB(anchorSteal).inflate(16.0D),
+                e -> e.isAlive() && anchorSteal.equals(e.tombAnchor())).get(0);
+        g2.skipAwakening();
+        g2.hurtServer(level, ds.lava(), 199.0F);
+        g2.hurtServer(level, ds.playerAttack(pl), 5.0F);
+        ctx.assertTrue(g2.isDeadOrDying(), "guardian died from 1-HP player last hit");
+        ctx.assertTrue(TombGuardianEncounters.data(level).isVictory(anchorSteal.asLong()),
+                "O-9 Rule A behavior confirmed: 99.5% lava + 0.5% player last hit is accepted as valid victory when share/window are unapproved");
+        ctx.assertTrue(!TombGuardianEncounters.isRoyalChestSealed(level, anchorSteal), "chest unsealed");
+        level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new AABB(spawnBurn).inflate(8.0D)).forEach(Entity::discard);
+        pl.discard();
         ctx.succeed();
     }
 
