@@ -81,7 +81,10 @@ public final class SecretEntranceGameTests {
         if (build) for (BlockPos c : a.cover) a.level.setBlock(new BlockPos(c.getX(), a.anchor.getY() - 7, c.getZ()), Blocks.STONE.defaultBlockState(), 2);   // landing platform: feet 4 below the floor feet
         a.spawn = EntranceLayout.golemSpawn(a.anchor, o);
         a.stop = EntranceLayout.stopPoint(a.anchor, o);
-        if (build) { SecretEntranceRuntime.forgetLiveState(); SecretEntranceRuntime.register(a.level, a.anchor, o); }
+        // P10: no forgetLiveState() here. It clears the process-global LIVE map, so an arena built while another test was already guiding wiped that test's
+        // EntranceCore (guide lost -> arrival never noticed -> FALLBACK_OPEN), the intermittent full-suite failure analysed in docs/design/st01-p10/. A fresh
+        // anchor has no live core anyway.
+        if (build) SecretEntranceRuntime.register(a.level, a.anchor, o);
         return a;
     }
 
@@ -412,7 +415,7 @@ public final class SecretEntranceGameTests {
         });
     }
 
-    @GameTest(maxTicks = 1400)
+    @GameTest(maxTicks = 1400, environment = "moreminecrafts-gametest:p10_isolated")   // P10: wipes the global live state on purpose, so it must not share a batch with other entrance tests
     public void openStateSurvivesLiveStateLossAndRepairsRevertedBlocksButNeverCloses(GameTestHelper ctx) {
         Sched s = new Sched(ctx);
         Arena a = arena(ctx, EntranceLayout.Orientation.WEST, false);
