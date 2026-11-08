@@ -1,209 +1,292 @@
 # ST-01 P8 — 구현 준비 아키텍처 및 단계별 통합 계획서 (Pre-Implementation Plan)
 
 문서 ID: `ST01_P8_PRE_IMPLEMENTATION_PLAN_2026-11-08`  
-버전: `v1.0.0` (P7-S 산출물)  
+버전: `v1.1.0` (P7-S 산출물 v1.0.0 의 감사 정정본)  
 작업 브랜치: `work/st01-p7-east-primary-guardian-20261108`  
 기준 커밋: `06a262d70d9b5154d1ffccb1bbdfc4601b2b984f` (`origin/work/st01-p6-final-spec-20261107`)  
 선행 승인: D-I=EAST, P3-F6=PRIMARY 후보 B, D-E=Tomb Guardian 후보 3B (**USER APPROVED**)
+
+## 0. v1.1.0 정정 내역 (v1.0.0 대비)
+
+| 항목 | v1.0.0 주장 | v1.1.0 상태 | 근거 |
+| --- | --- | --- | --- |
+| 구조물 인스턴스 ID | 좌표 해시 `chunkX<<32 ^ chunkZ` 를 추천 | **PROPOSED / UNAPPROVED**, 결함 기재, 대체안 비교 (§5) | 아래 §5 참조 |
+| "0 바이트 오버헤드", "완벽한 보상 복구 보장" | 서술 | **삭제** (증명되지 않음) | 해당 주장의 검증 자료 없음 |
+| RoyalChestRuntime / RoyalChestData | 현재 존재하는 것으로 기술 | **이 브랜치에 없음** — 별도 원격 브랜치에만 존재 (§3.0) | `git ls-tree` 전수 검색 결과 0건 |
+| Guardian 영속성 | `setPersistenceRequired()` 로 모든 문제 해결 | 코드 호출은 확인됨, 나머지 수명주기 항목은 **별도 분석 필요** (§4) | `TombGuardian.java:95` |
+| 6.55초 대응창 / 단상 충격파 100% 면역 | 보장으로 기술 | **정적 모델 결과**로 한정, 적용 조건·예외 명시 (§6) | `p7_verification.json:778-779`, `TombGuardianCombat.waveHits` |
+| 상태 이름 (DORMANT/AWAKENING/ACTIVE/RESTART_AFTER_LOSS) | 설계 상태명으로 기술 | 실제 코드의 `StartResult` 명칭으로 대응 표 제공 (§4.2) | `TombGuardianEncounters.java` |
+
+이 정정은 **문서 정정만** 포함하며 구현 코드·NBT·월드젠 파일을 변경하지 않는다.
 
 ---
 
 ## 1. 개요 및 범위 경계 (Scope & Boundaries)
 
-본 문서는 사용자에 의해 최종 승인된 **D-I = EAST 방향**, **P3-F6 = PRIMARY 2블록 상자 후보 B**, **D-E = Tomb Guardian 후보 3B** 결정을 바탕으로, 실제 Fabric 모드 `MoreMinecrafts`에 ST-01 피라미드 구조물을 구현하기 위한 **선행 아키텍처 명세 및 단계별 통합 로드맵**을 수립한다.
+본 문서는 사용자에 의해 최종 승인된 **D-I = EAST 방향**, **P3-F6 = PRIMARY 2블록 상자 후보 B**, **D-E = Tomb Guardian 후보 3B** 결정을 바탕으로, 실제 Fabric 모드 `MoreMinecrafts`에 ST-01 피라미드 구조물을 구현하기 위한 **선행 아키텍처 명세 및 단계별 로드맵**을 정리한다.
 
 > [!IMPORTANT]
-> **구현 착수 전 엄격한 경계 준수 (Non-Implementation Boundary)**  
-> 1. 본 문서는 구현 **준비 및 설계** 단계이며, 실제 Minecraft 구조물 NBT 파일 생성, `worldgen` 레지스트리 등록, `RoyalChestRuntime.register(...)` 실제 호출 코드는 **이번 세션에서 일체 작성하거나 커밋하지 않는다**.  
-> 2. 실제 서버/클라이언트 환경에서의 인게임 보스 전투와 연출은 여전히 **`LIVE_SERVER_UNVERIFIED`** 상태로 관리되며, P8-C 단계의 Fabric GameTest 및 인게임 테스트베드 검증 전까지 완료로 간주하지 않는다.  
-> 3. 모든 WHAT 결정(기하, 방향, 게임플레이 승인)은 사용자의 고유 권한이며, 어시스턴트는 HOW(기술적 구현 경로, 안전성 검증, 데이터 직렬화)의 대안을 분석하고 제시한다.
+> 1. 본 문서는 구현 준비 단계이며, 이번 정정 작업에서는 NBT 파일 생성, `worldgen` 등록, 보상 런타임 호출 코드를 작성하지 않는다.
+> 2. 인게임 보스 전투와 연출은 **`LIVE_SERVER_UNVERIFIED`** 상태이다. 이 문서의 어떤 내용도 이를 `VERIFIED` 로 바꾸지 않는다.
+> 3. WHAT 결정(기하, 방향, 게임플레이 승인)은 사용자 권한이다. 이 문서의 HOW 대안은 검토용이며 승인된 설계가 아니다.
 
 ---
 
-## 2. Section A: 구조물 형상 및 NBT 매핑 (Structure Shape & NBT Mapping)
+## 2. Section A: 구조물 형상 및 NBT 매핑
 
-### 2.1 기준 좌표계 및 상대 좌표 변환
-P6 최종 통합 모델(`docs/design/st01-p6/ST01_P6_INTEGRATED_SPEC_2026-11-07.md`)에서 확정된 ST-01 EAST 피라미드의 국소 좌표계(Local Coordinate System, $LCS$)를 구조물 NBT 바이너리 좌표계로 매핑한다.
+### 2.1 기준 좌표계 및 변환
+P6 통합 모델(`docs/design/st01-p6/`)의 EAST 국소 좌표계를 구조물 NBT 좌표계로 옮긴다. 좌표 원천은 `docs/design/st01-p6/generated/p6_model_east.json` 과 P7 생성물 `docs/design/st01-p7/generated/p7_model_east.json` 이다.
 
-- **원점 피벗(Pivot Point)**: 피라미드 중앙 기단 중심 $(X=0, Y=0, Z=0)$
-- **홀 영역 Bounding Box**: $X \in [-24, 0], Y \in [-25, 0], Z \in [0, 40]$
-- **월드 절대 좌표 변환 공식**:
-  $$\vec{P}_{world} = \vec{P}_{structure\_origin} + \mathbf{R}(\text{rotation}) \cdot \mathbf{M}(\text{mirror}) \cdot \vec{P}_{local}$$
-  여기서 $\mathbf{R}$은 Minecraft의 `Rotation` (`NONE`, `CLOCKWISE_90`, `CLOCKWISE_180`, `COUNTERCLOCKWISE_90`), $\mathbf{M}$은 `Mirror` (`NONE`, `LEFT_RIGHT`, `FRONT_BACK`) 변환 매트릭스이다.
+- 원점: 피라미드 기단 중심 $(0,0,0)$ (P6 모델 기준, **P8-A에서 JSON과 대조 필요**)
+- 변환: $\vec{P}_{world} = \vec{P}_{origin} + \mathbf{R}(\text{rotation}) \cdot \mathbf{M}(\text{mirror}) \cdot \vec{P}_{local}$
+  - `Rotation`: `NONE`, `CLOCKWISE_90`, `CLOCKWISE_180`, `COUNTERCLOCKWISE_90`
+  - `Mirror`: `NONE`, `LEFT_RIGHT`, `FRONT_BACK`
+- 위 공식의 **회전·대칭 후 블록 상태(facing, chest type) 보정은 검증되지 않았다.** P8-A 테스트 항목 6에서 검증한다.
 
-### 2.2 승인된 주요 지물 NBT 블록 상태 (BlockState) 명세
+### 2.2 지물별 명세
 
-1. **PRIMARY 왕실 상자 (후보 B - USER APPROVED)**:
-   - **점유 좌표**: `(-21, -20, 33)`, `(-20, -20, 33)` (2블록 대형 상자)
-   - **방향(Facing)**: `NORTH` (-Z, 왕실 홀 입구 방향을 향함)
-   - **NBT BlockState**:
-     - `(-21, -20, 33)`: `minecraft:chest[facing=north, type=right, waterlogged=false]`
-     - `(-20, -20, 33)`: `minecraft:chest[facing=north, type=left, waterlogged=false]`
-   - **상호작용 접근점**: `(-21, -20, 32)` 및 `(-20, -20, 32)` (단상 위 $Y=-20$, 전면 1블록 통로).
-   - **간섭 검증**: 북쪽 개폐 시 후방 석관($Z=35$)과 2블록 여유 확보, 석관 몸체 충돌 0%.
+**(1) PRIMARY 왕실 상자 — 후보 B, USER APPROVED (위치·2블록 구성)**
+- 점유 좌표: `(-21, -20, 33)`, `(-20, -20, 33)`
+- 승인된 방향 설명: 북쪽(-Z) 정면 2블록 대형 상자 (P7 승인 기록 D-I/P3-F6)
+- BlockState 값(`facing`, `type=left/right`)은 **P8-A에서 바닐라 `ChestBlock` 의 DoubleBlockCombiner 동작과 대조하여 확정할 항목 (UNVERIFIED)**
+- 접근 좌표 `(-21, -20, 32)`, `(-20, -20, 32)` 는 P7-R 정적 검증에서 사용된 값
 
-2. **SECONDARY 왕실 상자 (보조 보관함)**:
-   - **점유 좌표**: `(-3, -22, 25)`, `(-3, -22, 26)` (동쪽 비밀 구역 입구 인접 보물 벽감)
-   - **방향(Facing)**: `WEST` (+X 방향 벽을 등지고 중앙 광장을 향함)
-   - **NBT BlockState**:
-     - `(-3, -22, 25)`: `minecraft:chest[facing=west, type=right, waterlogged=false]`
-     - `(-3, -22, 26)`: `minecraft:chest[facing=west, type=left, waterlogged=false]`
+**(2) SECONDARY 왕실 상자 — PROPOSED, 사용자 미승인**
+- 제안 좌표 `(-3, -22, 25)`, `(-3, -22, 26)` 는 P6/P7 승인 기록에 없으므로 WHAT 승인 전까지 구현하지 않는다.
 
-3. **석관 (Sarcophagus) 및 묘실 앵커 (`tombAnchor`)**:
-   - **석관 점유 영역**: $X \in [-22, -20], Y \in [-22, -20], Z \in [35, 37]$ (장식 블록: 깎은 사암, 금 블록, 레드스톤 토치 매립)
-   - **`tombAnchor` 고정 좌표**: `(-21, -20, 33)` (PRIMARY 상자의 기준 좌측 반쪽이자 조우 식별 키).
+**(3) 석관 및 `tombAnchor`**
+- 석관 영역 `X∈[-22,-20], Y∈[-22,-20], Z∈[35,37]` 은 P7 승인 기록과 P7 기하 검증 범위 내 값이다. 장식 블록 구성은 PROPOSED.
+- `tombAnchor = (-21, -20, 33)` 는 P7-R 에서 기존 대표점으로 유지하기로 확인된 값이며, `TombGuardianEncounters.tombKey(anchor) = anchor.asLong()` (`src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEncounters.java:62`) 으로 이미 코드에 존재한다.
 
-4. **Tomb Guardian 출현 지점 (후보 3B - USER APPROVED)**:
-   - **스폰 좌표**: `(-21, -22, 26)`
-   - **시선 방향(Facing/Yaw)**: `SOUTH` (Yaw = `0.0F`, 북쪽 입구에서 진입하여 남쪽 상자로 접근한 플레이어를 정면 응시)
-   - **클리어런스**: 폭 3블록($X=-22..-20$), 높이 4블록($Y=-22..-19$), 깊이 3블록($Z=25..27$) 완전 빈 공간 확보.
+**(4) Tomb Guardian 스폰 — 후보 3B, USER APPROVED**
+- 스폰 좌표 `(-21, -22, 26)`, 시선 Yaw `0.0F`(남쪽)
+- 클리어런스 `X∈[-22,-20], Y∈[-22,-19], Z∈[25,27]` 빈 공간: P7 정적 검증 기준이며 NBT 상의 실제 빈 공간은 P8-A 테스트 항목 4 로 확인
 
 ---
 
-## 3. Section B: 왕실 상자 런타임 연동 (RoyalChestRuntime Integration)
+## 3. Section B: 왕실 상자 런타임 연동
 
-I06-P3 단계에서 구현된 독립 보상 엔진 `RoyalChestRuntime` 및 `RoyalChestData`(`commit 97afeb66`)와의 완벽한 연동 규격을 정의한다.
+### 3.0 전제 조건 (가장 중요) — 이 브랜치에는 보상 런타임이 없다
+- `RoyalChestRuntime`, `RoyalChestData`, `RoyalChestMenu` 는 **현재 복원된 브랜치 트리 어디에도 없다** (`git ls-tree -r` + `git grep` 전수 검색, 0건).
+- 해당 커밋 `97afeb66` 은 원격의 다른 브랜치에 존재한다:  
+  `origin/implement/d13-03-i06-p3-royal-chest-rewards-20261107`,  
+  `origin/implement/d13-03-i06-p4-st01-integration-20261108`,  
+  `origin/implement/d13-03-i05-pyramid-royal-chest-rewards-20261106`
+- 따라서 **P8-B 는 보상 런타임을 이 브랜치로 가져오는 작업(머지 또는 포팅)이 선행되어야 한다.** 이 작업은 브랜치 병합이므로 사용자 승인이 필요하다 (AGENTS.md §3 NEVER WITHOUT APPROVAL: 병합).
+- 아래 §3.1–3.3 은 **해당 런타임이 존재한다는 가정 하의 연동 설계 후보**이며, 실제 API 는 위 브랜치의 코드로 재검증해야 한다.
 
-### 3.1 2블록 상자 클릭 처리 및 인스턴스 매핑
-- **기존 런타임 제약**: `RoyalChestRuntime.register`는 현재 단일 `BlockPos primary`만을 인자로 수신하며, `RoyalChestData.byPos` 맵에 단일 좌표만 등록함.
-- **P8-B 연동 개선안 (선택 옵션)**:
-  - **옵션 1 (권장 - 런타임 양방향 등록)**:  
-    `register` 메서드를 확장하여 PRIMARY의 두 좌표 `primaryLeft=(-21, -20, 33)`와 `primaryRight=(-20, -20, 33)`를 모두 `RoyalChestData.byPos`에 `Link(instance, RoyalChestRole.PRIMARY)`로 등록한다.
-    - 장점: `UseBlockCallback`에서 추가적인 월드 블록 조회(`level.getBlockState(pos)`) 없이 $O(1)$ 해시맵 조회로 즉시 식별 가능.
-  - **옵션 2 (DoubleBlockCombiner 동적 결합)**:  
-    `linkAt(pos)` 실패 시 해당 블록이 `ChestBlock`이고 `ChestType != SINGLE`인 경우 인접한 연결 블록을 찾아 재조회.
-    - 단점: 상자가 파괴되거나 블록 상태가 비정상일 때 월드 I/O 오버헤드 발생.
-- **결론**: **옵션 1(좌표 동시 등록 방식)**을 채택하여, 플레이어가 대형 상자의 좌/우 어느 반쪽을 클릭하더라도 동일한 `RoyalChestRole.PRIMARY` 인스턴스로 라우팅한다.
+### 3.1 2블록 PRIMARY 클릭 처리 (후보, 미검증)
+- 옵션 1: PRIMARY 의 두 좌표를 모두 등록하여 어느 반쪽을 클릭해도 같은 논리 인스턴스로 라우팅.
+- 옵션 2: 클릭 좌표가 등록되지 않았을 때 인접 `ChestBlock` 을 조회하여 결합.
+- 옵션 1 의 장점("O(1) 해시맵 조회로 월드 I/O 없음")은 검증되지 않았다. P8-B 에서 해당 런타임 코드로 확인 전까지 **구현 후보로만 유지**한다.
+- 검증 필요 항목: 두 반쪽 클릭 이벤트 각각의 발화 여부, 54슬롯 인벤토리 공유 여부, 중복 보상 생성 방지, 회전·대칭 변환 시 좌표 등록의 일관성, 청크 언로드 후 재등록, 저장·복구.
 
-### 3.2 중복 보상 지급 방지 및 보존 일관성
-- **단일 인벤토리 공유**: `RoyalChestData.Chest`의 `RoyalChestContainer`는 54슬롯 단일 컨테이너로 관리된다. 두 블록 중 어느 쪽을 열어도 동일한 가상 인벤토리가 오픈된다.
-- **출금 전용 (Withdraw-Only)**: `RoyalChestMenu`의 제약에 따라 플레이어는 보상을 꺼낼 수만 있으며, 아이템을 넣거나 덮어쓰는 것이 불가능하다.
-- **시드 고정 결정론적 드랍**: 보상 생성은 `(level.getSeed(), structureInstanceId, role)`의 순수 함수로 구동되므로, 서버 재부팅이나 청크 언로드 후 다시 생성되어도 동일한 아이템 스택이 보장된다.
+### 3.2 보상 결정론 (미검증)
+- "시드·인스턴스 ID·역할의 순수 함수" 라는 설계는 **§5 의 인스턴스 ID 가 안정적이어야 성립한다.** ID 가 확정되기 전에는 "재부팅 후 동일 보상 보장" 을 주장하지 않는다.
+- 54슬롯 출금 전용 제약(`RoyalChestMenu`)도 해당 런타임 코드로 재검증 대상이다.
 
-### 3.3 조우 격발 및 봉인 해제 전이
+### 3.3 조우 격발 흐름 (설계 후보)
 ```
-[플레이어 상호작용] -> UseBlockCallback -> RoyalChestRuntime.tryOpen(pos)
-       |
-       v
-  [isRoyalChestSealed?] --(YES: 봉인 중)--> [Role이 PRIMARY인가?]
-       |                                           |
-       |                                    (YES)  |  (NO: SECONDARY)
-       |                                      v    v
-       |                    TombGuardianEncounters.onRoyalChestInteraction
-       |                                      v
-       |                    Guardian 출현 (STARTED / RESTARTED) -> 안내 메시지
-       |
-       +--(NO: 가디언 처치 완료 / DEFEATED)-->
-       |
-       v
-  [보상 인벤토리 기생성 여부?]
-       |--(아직 미생성)--> RoyalChestRewardModel.chestRewards(...) 생성 및 저장
-       |--(기생성됨)-----> 기존 저장된 RoyalChestContainer 로드
-       v
-  player.openMenu(RoyalChestMenu) -> 54슬롯 보상 UI 오픈!
+[플레이어 상호작용] -> 상자 클릭 이벤트 -> 봉인 여부 확인
+   |-- 봉인 중 & PRIMARY  -> TombGuardianEncounters.onRoyalChestInteraction(...)
+   |                          결과 StartResult 에 따라 안내/대기
+   |-- 봉인 해제(DEFEATED) -> 보상 인벤토리 로드(없으면 생성) -> 메뉴 오픈
 ```
+실제 호출 시그니처는 `TombGuardianEncounters.java` 기준이며, 위 "봉인 중" 판정은 `isRoyalChestSealed(level, anchor)` 로 존재한다.
 
 ---
 
-## 4. Section C: Tomb Guardian 조우 수명주기 (Encounter Lifecycle)
+## 4. Section C: Tomb Guardian 조우 수명주기
 
-### 4.1 월드 절대 좌표 변환 및 `tombAnchor` 식별자
-- `tombAnchor`: 피라미드 구조물 내에서 유일하고 불변인 64비트 공간 식별자(`BlockPos.asLong()`)로 사용된다.  
-  - EAST 기준: `(-21, -20, 33)`의 월드 절대 좌표.
-- `bossSpawn`: `(-21, -22, 26)`의 월드 절대 좌표.
-- 구조물이 회전/배치될 때 `StructurePiece`의 배치 로직에서 월드 좌표로 변환되어 전달된다.
+### 4.1 식별자
+- `tombKey(anchor) = anchor.asLong()` — 코드에 존재 (`TombGuardianEncounters.java:62`).
+- `bossSpawn` 은 `(-21, -22, 26)` 의 월드 좌표.
+- 구조물 회전·배치 시 월드 좌표 변환 방식은 **아직 구현되지 않았으므로 미검증**.
 
-### 4.2 조우 상태 머신 (Encounter State Machine)
-1. **DORMANT (동면 상태)**:
-   - 가디언 미소환, 상자 봉인 상태 (`isRoyalChestSealed = true`).
-2. **AWAKENING (각성 연출, 80틱 / 4.0초)**:
-   - 플레이어가 PRIMARY 상자를 클릭하는 순간 `TombGuardian` 엔티티가 `bossSpawn`에 스폰됨.
-   - 보스는 석상 포즈에서 각성하며 무적 및 이동 불가 상태 유지.
-   - 사운드 및 모래 폭풍 파티클 방출.
-   - 플레이어는 단상 위에서 6.55초의 초기 대응 여유 시간 확보.
-3. **ACTIVE (전투 상태)**:
-   - 보스 AI 활성화, 지면 강타(Ground Smash) 및 근접 공격 개시.
-   - 단상($Y=-20$) 위에 머무는 플레이어는 2.0m 고도차로 인해 지면 충격파에 면역(`feetAboveFloor >= 0.6m`).
-4. **DEFEATED (토벌 완료 및 봉인 해제)**:
-   - 보스 체력 0 도달 시 `TombGuardianEncounters.DEFEATED` 이벤트 발화.
-   - `TombEncounterData`에 영구 기록되어 재소환 영구 차단.
-   - 왕실 상자 봉인 즉시 해제, SECONDARY 상자 개폐 허용.
+### 4.2 실제 코드의 상태 결과 (`StartResult`)
+v1.0.0 의 상태명(DORMANT, ACTIVE, RESTART_AFTER_LOSS 등)은 설계 제안이었으며, 실제 코드는 아래 결과값으로 구분한다 (`TombGuardianEncounters.java`, GameTest `TombGuardianGameTests.java`).
 
-### 4.3 예외 상황 복구 (Fail-Safe & Anti-Abuse)
-- **플레이어 사망 또는 도주**: 보스가 플레이어를 잃고 디스폰되거나 비정상 소멸한 경우, 상태 머신은 `RESTART_AFTER_LOSS`로 전이되어 다음 상자 클릭 시 재도전을 허용한다.
-- **서버 재시작 / 청크 언로드**:
-  - `TombGuardian`은 `setPersistenceRequired()`가 호출되어 청크 언로드 시에도 디스폰되지 않는다.
-  - 엔티티 UUID가 `TombEncounterData`에 바인딩되어 서버 재부팅 후에도 조우 상태를 유지한다.
-- **중복 소환 원천 차단**: 이미 ACTIVE 상태인 동안의 추가 클릭은 무시된다(`ALREADY_ACTIVE`).
+| 코드 결과 | 의미 (코드 주석 기준) | 설계 상태 대응 |
+| --- | --- | --- |
+| `STARTED` | 새 가디언 스폰, 각성 시작 | 각성 시작 |
+| `RESTARTED` | 이전 가디언이 사라짐(죽지 않고 소멸), 새로 스폰 | 재도전 |
+| `ALREADY_ACTIVE` | 살아있는 가디언이 이미 바인딩됨 | 전투 중 중복 클릭 무시 |
+| `GUARDIAN_NOT_LOADED` | 바인딩된 가디언 청크가 로딩 중 | 재상호작용 요청 |
+| `ALREADY_DEFEATED` | 영구 처치 기록 있음 | 재소환 불가 |
+
+- 봉인: `isRoyalChestSealed` 는 처치 전까지 true, `markDefeated` 이후 false (GameTest 로 검증 기술됨, **이 세션에서 실행하지 않음**).
+- 언로드는 처치로 기록되지 않는다 (`GameTest: "unload is never a defeat"`, 실행 미검증).
+
+### 4.3 영속성 항목별 분석
+| 항목 | 현재 근거 | 상태 |
+| --- | --- | --- |
+| 디스폰 방지 | `TombGuardian.java:95` 에서 `setPersistenceRequired()` 호출 | 호출 확인, 실제 효과는 미검증 |
+| 엔티티 영속 저장 | 엔티티 UUID 를 `TombEncounterData` 에 바인딩 (GameTest 기술) | 코드 존재, 재시작 후 동작 미검증 |
+| 인카운터 상태 저장 | `TombEncounterData` (`src/main/java/.../boss/TombEncounterData.java`) | 존재, 저장 포맷 검토 필요 |
+| 중복 스폰 방지 | `ALREADY_ACTIVE` / `GUARDIAN_NOT_LOADED` 분기 | 코드 존재, GameTest 미실행 |
+| 재시작 후 상태 복원 | 설계 주장 | **미검증** |
+| 사망·재도전 정책 | `RESTARTED` 분기 | 정책 자체는 사용자 WHAT 확인 필요 (사망 시 처리 미정) |
+| 상자 해금과의 일관성 | `markDefeated` → 봉인 해제 | 코드 존재, 미실행 |
+
+`setPersistenceRequired()` 는 "모든 재시작·언로드 문제 해결"을 의미하지 않는다. 위 항목을 P8-B/P8-C 에서 각각 검증한다.
 
 ---
 
-## 5. Section D: 구조물 인스턴스 식별자 체계 (Structure Instance Identity)
+## 5. Section D: 구조물 인스턴스 식별 (PROPOSED / UNAPPROVED)
 
-`RoyalChestRuntime`은 고유한 `structureInstanceId` 문자열을 요구한다. 피라미드마다 완전히 독립된 보상 인벤토리를 부여하기 위한 3가지 식별자 경로를 비교·평가한다.
+> 이 섹션의 어떤 후보도 **승인되지 않았다.** 보상 영속성에 영향을 주므로 P8-B 착수 전에 사용자 확인이 필요하다 (STOP & ASK 대상).
 
-| 비교 항목 | 후보 1: 시작 좌표 공간 해시 (추천) | 후보 2: SavedData 증분 원장 | 후보 3: NBT 블록엔티티 태그 |
+### 5.1 v1.0.0 제안의 결함
+v1.0.0 의 형식 `st01:<dim>:<chunkX<<32 ^ chunkZ>` 에는 다음 결함이 있다.
+1. **타입 결함**: `chunkX` 가 Java `int` 이면 `chunkX << 32` 의 시프트 거리는 `32 & 31 = 0` 이 되어 식이 `chunkX ^ chunkZ` 로 축약된다. 이 경우 `(a,b)` 와 `(b,a)` 가 충돌한다. 예시 값 `48103957291` 은 32비트 범위를 넘으므로 `long` 이 필요하며, 그 경우에도 연산 순서·부호 확장을 명시해야 한다.
+2. **공간 유일성 가정 미증명**: "구조물 시작 청크는 고유하다"는 주장은 같은 구조물 세트 안에서만 성립할 수 있다. 서로 다른 구조물 타입이 같은 청크를 시작점으로 가질 수 있으므로 식별자에 구조물 타입/세트를 포함해야 한다. 월드젠 배치 코드는 아직 없으므로 이 점은 **미검증**이다.
+3. **"0 바이트"·"보상 복구 보장"**: 근거 없음, 삭제.
+
+### 5.2 대체안 비교 (검토용)
+
+| 비교 항목 | A: 기존 `tombAnchor` 키 | B: 수정된 청크 키 (`long` 패킹) | C: 저장소(SavedData) 원장 |
 | --- | --- | --- | --- |
-| **방식** | `st01_<dim>_<chunkX>_<chunkZ>` | 서버 `SavedData`에서 UUID 발급 | NBT 구조물 내 CommandBlock/Sign 주입 |
-| **결정론성** | **100% 완전 결정론적** (시드 고정) | 비결정론적 (생성 순서 의존) | 부분 결정론적 |
-| **영속성** | 청크 재로드/재배치 시에도 항상 동일 | 데이터 파일 유실 시 ID 매핑 깨짐 | NBT 손상 위험 |
-| **저장 비용** | 0 바이트 (좌표로부터 즉시 계산) | 별도 ID 원장 테이블 영구 저장 필요 | NBT 데이터 오버헤드 |
-| **복구 용이성** | 좌표만 알면 즉시 보상 복구 가능 | 역방향 조회 불가 | 블록 파괴 시 소실 |
+| 구현 근거 | **코드에 이미 존재** (`tombKey = anchor.asLong()`) | 신규 | 신규 |
+| 충돌 | 같은 월드 좌표에 두 구조물이 겹치지 않으면 유일 | `(x,z)` 패킹은 단사(injective) 로 충돌 없음, 구조물 타입 추가 필요 | 충돌 없음 |
+| 재배치·회전 시 | 앵커 좌표가 바뀌면 키도 바뀜 (재배치 = 새 인스턴스로 취급) | 시작 청크가 같으면 유지 | 원장 기준 유지 |
+| 데이터 의존 | 없음 | 없음 | 파일 유실 시 매핑 깨짐 |
+| 미검증 항목 | 같은 좌표에 복수 구조물 불가 여부 | 구조물 시작 청크 계산 방식 | 원장 동기화 |
 
-### 권장 경로: 후보 1 (공간 좌표 기반 안정적 해시)
-- **식별자 형식**:  
-  `st01:` + `dimension_name` + `:` + `(chunkX << 32 ^ chunkZ)` (예: `st01:minecraft_overworld:48103957291`)
-- **선정 사유**: Minecraft의 구조물 생성 시스템(`StructureStart`)은 시작 청크 좌표를 고유하게 보유하므로, 별도의 상태 저장소 없이도 영구적이고 충돌 없는 인스턴스 ID를 즉시 생성할 수 있다.
+**권고(검토용):** A 를 기본 후보로 두고 "구조물 1개 = tombAnchor 1개" 가 월드젠 배치로 보장되는지 P8-B 에서 검증한다. 보장되지 않으면 B 를 쓰되 구조물 타입을 함께 인코딩한다. **최종 선택은 사용자 확인 후 진행한다.**
 
 ---
 
-## 6. Section E: 월드젠 정책 (Worldgen Policies - 미승인 항목)
+## 6. Section E: 전투 판정 — 정적 검증 범위와 예외
 
-다음 월드젠 세부 정책은 아직 사용자 승인이 완료되지 않은 상태이며, P8-C 단계에서 논의 및 확정해야 할 항목이다.
+### 6.1 6.55초 초기 대응창
+- 산출 근거: 각성 80틱 + 13틱 + 26틱 + 12틱 = **131틱 = 6.55초** (`docs/design/st01-p7/generated/p7_verification.json:778-779`, `tools/st01-p7/st01_p7_verify.py:257`).
+- 적용 범위: **정적 타이밍 모델의 결과**이다. 실제 Java 틱 처리, GameTest, 실제 클라이언트 전투로 확인되지 않았다.
+- 코드 상수: `TombGuardianTuning.AWAKENING_TICKS = 80` 은 존재 확인. 13/26/12틱 항목의 코드 상수는 **미확인**.
 
-1. **생성 바이옴 (Biomes)**:
-   - 권장 후보: `minecraft:desert` (사막), `minecraft:badlands` (악지).
-   - 제약: 해양, 산악, 강 바이옴 제외 (`#moreminecrafts:has_structure/st01_pyramid` 바이옴 태그 정의 필요).
-2. **생성 빈도 및 간격 (Spacing & Separation)**:
-   - 기준 제안: `spacing = 32`, `separation = 8`, `salt = 0x53543031` (바닐라 사막 피라미드와 유사한 희귀도 유지).
-3. **지형 적응 및 높이 분포 (Terrain Adaptation & Elevation)**:
-   - `terrain_adaptation = BEARD_THIN` 또는 `BURY`: 피라미드 기단 하부가 지형 굴곡으로 인해 공중에 뜨는 현상 방지.
-   - $Y$ 오프셋: 입구 바닥이 주변 평균 지표면($Y=63..70$)과 완만하게 연결되도록 높이 앵커링 설계 필요.
+### 6.2 단상 충격파 면역
+- 코드: `TombGuardianCombat.waveHits` 는 `feetAboveFloor >= WAVE_JUMP_CLEARANCE(0.6)` 이면 충격파를 맞지 않는다 (`TombGuardianCombat.java:52-53`, `TombGuardianTuning.java:48`).
+- 적용 조건과 예외:
+  - 적용되는 것: **이 충격파 함수**의 판정, 발 높이가 바닥보다 0.6m 이상일 때.
+  - "100%" 가 아닌 것: 충격파 외 공격(`statueHits`, 근접 공격, 소닉 차지 등)은 같은 면역을 받지 않는다. 석상 판정은 `feetAboveFloor > STATUE_HEIGHT` 에서 제외되지만 면역 조건이 다르다.
+  - 경계 조건: `feetAboveFloor < -WAVE_FLOOR_TOLERANCE` 인 경우도 충격파 미적중. 단상 위 2.0m 조건은 **정적 모델의 기하** 이며 플레이어 점프·넉백·충돌 판정은 미검증.
+- 따라서 "실제 게임 전체에서 무조건 면역" 으로 확대하지 않는다.
+
+### 6.3 검증 단계 구분
+| 단계 | 현재 상태 |
+| --- | --- |
+| 정적 모델 검증 | 완료 (P7 도구, 생성 JSON) |
+| 실제 Java 코드 판정 | 함수 존재 확인, 실행 미검증 |
+| Fabric GameTest | 테스트 소스 존재 (`TombGuardianGameTests.java`), **이 세션에서 실행하지 않음** |
+| 실제 클라이언트 전투 | **LIVE_SERVER_UNVERIFIED** |
 
 ---
 
-## 7. Section F: 단계별 분할 실행 계획 (P8 Roadmap)
+## 7. Section F: 월드젠 정책 (미승인 항목)
 
-ST-01의 실제 구현은 검증 가능성을 극대화하고 리스크를 최소화하기 위해 **3개의 하위 단계**로 분할하여 실행한다.
+다음은 승인되지 않았으며 P8-C 에서 사용자와 확정한다.
+1. 생성 바이옴 후보 `minecraft:desert`, `minecraft:badlands` — UNAPPROVED
+2. `spacing = 32`, `separation = 8`, `salt = 0x53543031` — UNAPPROVED, 바닐라 값과의 비교 근거 없음
+3. `terrain_adaptation = BEARD_THIN | BURY`, Y 앵커링 — UNAPPROVED
+
+---
+
+## 8. Section G: 단계 로드맵과 Gate
 
 ```
-+---------------------------------------------------------------------------------+
-|                                 ST-01 P8 ROADMAP                                |
-+---------------------------------------------------------------------------------+
-|                                                                                 |
-|   [P8-A] 구조물 NBT 및 기하 배치 검증 (Structure NBT & Spatial Layout)          |
-|   - P6 EAST 모델 기반 NBT 구조물 파일 컴파일 (피라미드 본체, 비밀 구역)          |
-|   - PRIMARY B (2블록) 및 SECONDARY 상자 BlockState 배치                          |
-|   - Tomb Guardian 3B 스폰 공간 및 석관 기하 완성                                |
-|   - Voxel 단위 기하 무결성 및 구조물 로더 오프라인 검증                          |
-|                                       |                                         |
-|                                       v                                         |
-|   [P8-B] 인스턴스 ID 체계 및 런타임 연결 (Instance ID & Runtime Wiring)        |
-|   - StructureStart 기반 공간 해시 인스턴스 ID 생성기 구현                       |
-|   - RoyalChestRuntime 2블록 PRIMARY 상자 등록 확장                              |
-|   - TombGuardianEncounters 조우 트리거 및 봉인 해제 이벤트 연동                |
-|   - Mock / 단위 테스트를 통한 런타임 상태 전이 검증                              |
-|                                       |                                         |
-|                                       v                                         |
-|   [P8-C] 월드젠 등록 및 인게임 종합 검증 (Worldgen & Integration Verification)  |
-|   - 월드젠 JSON 설정 (structure_set, template_pool, biome_tag) 등록            |
-|   - Fabric GameTest 작성: 자동 스폰, 가디언 전투 판정, 보상 메뉴 오픈 검증      |
-|   - LIVE_SERVER_VERIFIED 전환 및 최종 병합 PR 준비                              |
-|                                                                                 |
-+---------------------------------------------------------------------------------+
+[P8-A] 구조물 NBT 및 기하 배치 검증 (오프라인, 보상 런타임 불필요)
+   |  - P6/P7 EAST 모델 기반 NBT 생성, 좌표 정합성 검증
+   |  - PRIMARY 2블록 BlockState 확정 (바닐라 ChestBlock 대조)
+   |  - Guardian 3B 스폰 공간 검증
+   v
+[P8-B] 런타임 연결 (선행: 보상 런타임 가져오기 승인 + §5 ID 확정)
+   |  - 원격 implement 브랜치의 RoyalChest 런타임 도입 (병합 승인 필요)
+   |  - PRIMARY 양쪽 클릭 라우팅, 인스턴스 ID 적용
+   |  - TombGuardianEncounters 와 봉인 해제 연동
+   v
+[P8-C] 월드젠 및 인게임 검증
+   |  - 월드젠 JSON(structure_set, template_pool, biome_tag) — §7 승인 후
+   |  - GameTest 실행, 실제 서버·클라이언트 검증
+   v
+   LIVE_SERVER_VERIFIED 획득 시에만 완료
 ```
 
-### 각 하위 단계별 통과 기준 (Gate Criteria)
-- **P8-A Gate**: 구조물 NBT가 생성되고, 오프라인 NBT 파서로 검증했을 때 PRIMARY 상자 2블록과 Guardian 스폰 좌표가 승인 좌표와 오차 0으로 일치할 것.
-- **P8-B Gate**: Fabric 단위 테스트 환경에서 상자 클릭 시 가디언이 소환되고, 가디언 처치 시 봉인이 풀려 54슬롯 보상 창이 정상 출력될 것.
-- **P8-C Gate**: 실제 Minecraft 클라이언트 및 전용 서버에서 구조물이 자연 생성되고 프레임 드랍, 청크 깨짐, 보스 전투 이상이 없을 것 (`LIVE_SERVER_VERIFIED` 획득).
+### Gate
+- **P8-A Gate**: 생성된 NBT 를 오프라인 파서로 읽어 PRIMARY 2블록과 스폰 좌표가 승인 좌표와 오차 0 으로 일치.
+- **P8-B Gate**: 런타임 GameTest 에서 두 반쪽 클릭 라우팅, 처치 후 봉인 해제, 중복 소환 차단이 실행으로 통과.
+- **P8-C Gate**: 실제 서버·클라이언트에서 자연 생성, 보스 전투, 재시작 후 상태 유지 확인 (`LIVE_SERVER_VERIFIED`).
+
+---
+
+## 9. Section H: P8-A 실행 지시서 (독립 세션용)
+
+이 지시서는 새 세션에서 단독으로 실행 가능하도록 작성되었다. **이번 세션에서는 실행하지 않는다.**
+
+### 9.1 기준선 (BASE)
+- 브랜치: `work/st01-p7-east-primary-guardian-20261108`
+- 커밋: `363f45f4d64dc22de54bfc439a48d4f89cbc3aa4` (P7-S), 부모 `86d50ec1`, `a260fcab`, `06a262d7`
+- 시작 전 `git rev-parse HEAD` 가 위 SHA 와 일치하는지 확인한다. 불일치하면 중단하고 보고한다.
+
+### 9.2 승인된 좌표 (변경 금지)
+- EAST 방향 (D-I, USER APPROVED)
+- PRIMARY B: `(-21,-20,33)`, `(-20,-20,33)`, 북쪽 정면 2블록 (P3-F6, USER APPROVED)
+- Tomb Guardian 3B: `(-21,-22,26)`, Yaw `0.0F` (D-E, USER APPROVED)
+- `tombAnchor = (-21,-20,33)` (기존 키, 변경 금지)
+
+### 9.3 수정 대상 파일 (후보, 시작 전 확인)
+- 구조물 NBT 신규: `src/main/resources/data/moreminecrafts/structure/` 아래 기존 템플릿 디렉터리 구조를 따라 작성 (예: `git ls-files 'src/main/resources/data/*/structure*'` 로 기존 위치 확인)
+- 좌표 원천: `docs/design/st01-p6/generated/p6_model_east.json`, `docs/design/st01-p7/generated/p7_model_east.json`
+- 검증 도구: `tools/st01-p7/st01_p7_verify.py` 패턴을 따라 `tools/st01-p8/` 에 NBT 파서 검증 스크립트 신설 가능
+
+### 9.4 구현 범위 (P8-A 만)
+1. P6/P7 EAST 모델 기반 구조물 NBT 생성 (피라미드 본체, 홀, 석관, 제의 광장)
+2. PRIMARY 2블록 `minecraft:chest` 배치 (facing/type 은 바닐라 DoubleBlockCombiner 로 확인 후 확정)
+3. Guardian 스폰 기준점 `(-21,-22,26)` 의 빈 공간 확보
+4. 회전·Mirror 변환 검증 (월드 좌표 대조)
+
+### 9.5 수정 금지 (명시)
+- 보상 런타임(`RoyalChest*`) 코드·병합 금지 (P8-B 범위)
+- `TombGuardianEncounters`, `TombGuardianCombat`, `TombGuardianTuning` 등 전투 코드 변경 금지
+- 월드젠 JSON(`structure_set`, `template_pool`, `biome_tag`) 등록 금지 (§7 승인 전)
+- SECONDARY 상자 좌표 배치 금지 (미승인)
+- `main` 수정, 브랜치 삭제, 병합, force push 금지
+- 새로운 설계 결정 금지 (좌표·방향 변경 필요 시 중단하고 보고)
+
+### 9.6 자동 테스트
+| # | 항목 | 자동 가능 여부 |
+| --- | --- | --- |
+| 1 | NBT 로드 및 구조물 무결성 | 자동 (오프라인 파서) |
+| 2 | 블록 배치와 승인 좌표 일치 | 자동 |
+| 3 | PRIMARY 방향 및 좌우 타입 | 자동 (바닐라 규칙 대조) |
+| 4 | Guardian 스폰 공간 (3×4×3 빈 공간) | 자동 |
+| 5 | 석관·계단·벽 충돌 | 자동 |
+| 6 | 회전·대칭 변환 | 자동 |
+| 7 | 구조물 경계 및 청크 경계 | 자동 |
+| 8 | 실제 클라이언트 시각 검증 | **수동, LIVE VALIDATION PENDING** |
+
+### 9.7 인게임 검증
+- 이 단계에서는 인게임 검증을 완료로 보고하지 않는다. 시각 검증은 `LIVE VALIDATION PENDING` 으로 표기한다.
+
+### 9.8 커밋·PR 정책
+- 동일 브랜치에 커밋, 원격 fast-forward 푸시만 허용, force push 금지.
+- 기존 Draft PR(작성 시점 #246) 에 추가 커밋으로 반영. 새 PR 생성 금지.
+- 커밋 메시지에 모델 식별자 포함 금지.
+
+### 9.9 완료 기준
+- 자동 테스트 1–7 전부 실행하여 통과 또는 실패를 보고
+- 실행하지 않은 항목은 `NOT RUN` 으로 표기
+- 좌표 불일치 0 확인 결과 첨부
+- `LIVE VALIDATION PENDING` 항목 명시
+- 보고 후 중단 (다음 단계 자동 시작 금지)
+
+---
+
+## 10. 미결정 사항 (사용자 WHAT / 확정 필요)
+
+| # | 항목 | 상태 |
+| --- | --- | --- |
+| 1 | 보상 런타임(`RoyalChest*`) 이 원격 implement 브랜치에만 있음 — 이 브랜치로 가져올지 | 승인 필요 |
+| 2 | 구조물 인스턴스 식별 키 (§5 A/B/C) | 승인 필요 |
+| 3 | SECONDARY 상자 좌표 및 방향 | 미승인 |
+| 4 | 가디언 사망·재도전 정책 (사망 시 처리) | 미승인 |
+| 5 | 월드젠 바이옴·spacing·separation·terrain | 미승인 |
+| 6 | 석관 장식 블록 구성 | 미승인 |
