@@ -28,7 +28,7 @@ for n in $(seq 1 180); do
 done
 grep -Fq 'Done (' sky-wraith-results/server.log || { echo 'SERVER_READY_TIMEOUT'; exit 1; }
 echo SERVER_READY
-python3 scripts/visual_validation/rcon.py 'setworldspawn 0 64 12' 'forceload add -8 -8 8 16' 'time set noon' 'weather clear' 'fill -8 63 -8 8 63 16 minecraft:stone' 'fill -8 64 -8 8 75 16 minecraft:air' 'fill -8 64 -7 8 73 -7 minecraft:light_blue_concrete' 'summon moreminecrafts:cloud_wraith 0.5 64 4.5 {NoAI:1b,PersistenceRequired:1b,Tags:["wraith_visual"]}' 'summon minecraft:husk 2.4 64 4.5 {NoAI:1b,PersistenceRequired:1b,Tags:["wraith_comparison"]}' 'execute if entity @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual] run say WRAITH_CREATED' | tee sky-wraith-results/scene.log
+python3 scripts/visual_validation/rcon.py 'setworldspawn 0 64 12' 'forceload add -8 -8 8 16' 'time set noon' 'weather clear' 'fill -8 63 -8 8 63 16 minecraft:stone' 'fill -8 64 -8 8 75 16 minecraft:air' 'fill -8 64 -7 8 73 -7 minecraft:light_blue_concrete' 'summon moreminecrafts:cloud_wraith 0.5 64 4.5 {NoAI:1b,PersistenceRequired:1b,Tags:["wraith_visual"]}' 'summon minecraft:husk -2.4 64 4.5 {NoAI:1b,PersistenceRequired:1b,Tags:["wraith_comparison"]}' 'execute if entity @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual] run say WRAITH_CREATED' | tee sky-wraith-results/scene.log
 printf 'guiScale:2\ntutorialStep:none\n' > run/options.txt
 xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo pipefail -c '
  export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe MOREMINECRAFTS_VISUAL_VALIDATION=1 MOREMINECRAFTS_VISUAL_SERVER_ADDRESS=127.0.0.1:25565 MOREMINECRAFTS_WRAITH_CAPTURE=1
