@@ -44,7 +44,7 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
  grep -Fq VISUAL_VALIDATION_PLAYER_JOINED sky-wraith-results/client.log || { echo CLIENT_JOIN_TIMEOUT; date -u; ps -ef > sky-wraith-results/processes.txt; for pid in $(pgrep -x java || true); do jcmd "$pid" Thread.print > "sky-wraith-results/threads-$pid.txt" 2>&1 || true; done; ss -tnp > sky-wraith-results/connections.txt 2>&1 || true; tail -n 150 sky-wraith-results/server.log; tail -n 150 sky-wraith-results/client.log; exit 1; }
  echo CLIENT_JOINED
  sleep 20
- for spec in "front 0 64 8 180 5" "side 4 64 4 90 5" "back 0 64 1 0 5"; do
+ for spec in "front 0 64 8 180 5" "right 4 64 4 90 5" "left -3 64 4 -90 5" "back 0 64 1 0 5" "lower-close 0.5 63.5 6.7 180 15" "arms-close 0.5 64.4 6.7 180 0"; do
    read -r name x y z yaw pitch <<< "$spec"
    python3 scripts/visual_validation/rcon.py "tp WraithViewer $x $y $z $yaw $pitch" "tp @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual,limit=1] 0.5 64 4.5 0 0" >> sky-wraith-results/scene.log
    sleep 5

@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -18,7 +17,7 @@ import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.Identifier;
 
-/** B1 prototype: a humanoid core with separately articulated cloud fragments. */
+/** B1 humanoid silhouette with independently textured limbs. */
 final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
     private static final ModelLayerLocation LAYER = new ModelLayerLocation(ModIds.id("cloud_wraith"), "main");
     private static final Identifier TEXTURE = ModIds.id("textures/entity/cloud_wraith.png");
@@ -35,13 +34,11 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, Humanoi
     private static LayerDefinition createLayer() {
         MeshDefinition mesh = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
         var root = mesh.getRoot();
-        root.getChild("right_arm").addOrReplaceChild("wisp_right", CubeListBuilder.create().texOffs(0, 32)
-                .addBox(-3.0F, 7.0F, -2.0F, 3.0F, 6.0F, 4.0F), PartPose.ZERO);
-        root.getChild("left_arm").addOrReplaceChild("wisp_left", CubeListBuilder.create().texOffs(0, 32)
-                .addBox(0.0F, 8.0F, -1.5F, 3.0F, 5.0F, 3.0F), PartPose.ZERO);
-        root.getChild("body").addOrReplaceChild("lower_cloud", CubeListBuilder.create().texOffs(16, 32)
-                .addBox(-4.5F, 9.0F, -2.5F, 9.0F, 5.0F, 5.0F)
-                .texOffs(16, 42).addBox(-3.0F, 14.0F, -2.0F, 6.0F, 4.0F, 4.0F), PartPose.ZERO);
+        // Give the left limbs their own skin regions, allowing asymmetric cutouts.
+        root.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(32, 48)
+                .addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F), PartPose.offset(5.0F, 2.0F, 0.0F));
+        root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(16, 48)
+                .addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F), PartPose.offset(1.9F, 12.0F, 0.0F));
         return LayerDefinition.create(mesh, 64, 64);
     }
 
