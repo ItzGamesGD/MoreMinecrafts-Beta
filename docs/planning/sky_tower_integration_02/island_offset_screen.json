@@ -1,0 +1,5473 @@
+{
+ "approved_sha256": "cec5bced051fdddcf5ebe80ed267ea3c5749126559ef982f82ac1b4dd435cd27",
+ "examined_per_style": 2401,
+ "limits": "Nonair below entrance is only an optimistic indicator: not proven solid, reachable, 5-wide or supported. Other Y, rotations, bridges and alternate connectors not tested.",
+ "offsets_each_axis": [
+  -24,
+  24
+ ],
+ "origin_rule": "(-3+dx,17,-3+dz)",
+ "rotation": "none",
+ "styles": {
+  "badlands": {
+   "no_overlap_candidates": [
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       24,
+       16,
+       11
+      ],
+      [
+       24,
+       16,
+       12
+      ],
+      [
+       24,
+       16,
+       13
+      ],
+      [
+       24,
+       16,
+       14
+      ],
+      [
+       24,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -22,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       25,
+       16,
+       11
+      ],
+      [
+       25,
+       16,
+       12
+      ],
+      [
+       25,
+       16,
+       13
+      ],
+      [
+       25,
+       16,
+       14
+      ],
+      [
+       25,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -21,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       26,
+       16,
+       11
+      ],
+      [
+       26,
+       16,
+       12
+      ],
+      [
+       26,
+       16,
+       13
+      ],
+      [
+       26,
+       16,
+       14
+      ],
+      [
+       26,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -20,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       29,
+       16,
+       10
+      ],
+      [
+       29,
+       16,
+       11
+      ],
+      [
+       29,
+       16,
+       12
+      ],
+      [
+       29,
+       16,
+       13
+      ],
+      [
+       29,
+       16,
+       14
+      ]
+     ],
+     "offset": [
+      -17,
+      -9
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -17,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -17,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -17,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -17,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -16,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -16,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -16,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -16,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -15,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -15,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -15,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -14,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -14,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -13,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      18,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      15
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      15
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      14
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      15
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      14
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      15
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      13
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      14
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      15
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      24
+     ]
+    }
+   ],
+   "no_overlap_count": 118,
+   "no_overlap_with_nonair_under_entrance_count": 4,
+   "supported_candidates": [
+    {
+     "entrance_nonair": [
+      [
+       24,
+       16,
+       11
+      ],
+      [
+       24,
+       16,
+       12
+      ],
+      [
+       24,
+       16,
+       13
+      ],
+      [
+       24,
+       16,
+       14
+      ],
+      [
+       24,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -22,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       25,
+       16,
+       11
+      ],
+      [
+       25,
+       16,
+       12
+      ],
+      [
+       25,
+       16,
+       13
+      ],
+      [
+       25,
+       16,
+       14
+      ],
+      [
+       25,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -21,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       26,
+       16,
+       11
+      ],
+      [
+       26,
+       16,
+       12
+      ],
+      [
+       26,
+       16,
+       13
+      ],
+      [
+       26,
+       16,
+       14
+      ],
+      [
+       26,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -20,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       29,
+       16,
+       10
+      ],
+      [
+       29,
+       16,
+       11
+      ],
+      [
+       29,
+       16,
+       12
+      ],
+      [
+       29,
+       16,
+       13
+      ],
+      [
+       29,
+       16,
+       14
+      ]
+     ],
+     "offset": [
+      -17,
+      -9
+     ]
+    }
+   ]
+  },
+  "desert": {
+   "no_overlap_candidates": [
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ]
+     ],
+     "offset": [
+      -24,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ],
+      [
+       22,
+       16,
+       5
+      ]
+     ],
+     "offset": [
+      -24,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ],
+      [
+       22,
+       16,
+       5
+      ],
+      [
+       22,
+       16,
+       6
+      ]
+     ],
+     "offset": [
+      -24,
+      -17
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ],
+      [
+       22,
+       16,
+       5
+      ],
+      [
+       22,
+       16,
+       6
+      ],
+      [
+       22,
+       16,
+       7
+      ]
+     ],
+     "offset": [
+      -24,
+      -16
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ],
+      [
+       22,
+       16,
+       5
+      ],
+      [
+       22,
+       16,
+       6
+      ],
+      [
+       22,
+       16,
+       7
+      ],
+      [
+       22,
+       16,
+       8
+      ]
+     ],
+     "offset": [
+      -24,
+      -15
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       5
+      ],
+      [
+       22,
+       16,
+       6
+      ],
+      [
+       22,
+       16,
+       7
+      ],
+      [
+       22,
+       16,
+       8
+      ],
+      [
+       22,
+       16,
+       9
+      ]
+     ],
+     "offset": [
+      -24,
+      -14
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       6
+      ],
+      [
+       22,
+       16,
+       7
+      ],
+      [
+       22,
+       16,
+       8
+      ],
+      [
+       22,
+       16,
+       9
+      ],
+      [
+       22,
+       16,
+       10
+      ]
+     ],
+     "offset": [
+      -24,
+      -13
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       7
+      ],
+      [
+       22,
+       16,
+       8
+      ],
+      [
+       22,
+       16,
+       9
+      ],
+      [
+       22,
+       16,
+       10
+      ],
+      [
+       22,
+       16,
+       11
+      ]
+     ],
+     "offset": [
+      -24,
+      -12
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       8
+      ],
+      [
+       22,
+       16,
+       9
+      ],
+      [
+       22,
+       16,
+       10
+      ],
+      [
+       22,
+       16,
+       11
+      ],
+      [
+       22,
+       16,
+       12
+      ]
+     ],
+     "offset": [
+      -24,
+      -11
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       37
+      ]
+     ],
+     "offset": [
+      -24,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ]
+     ],
+     "offset": [
+      -23,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ],
+      [
+       23,
+       16,
+       5
+      ]
+     ],
+     "offset": [
+      -23,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ],
+      [
+       23,
+       16,
+       5
+      ],
+      [
+       23,
+       16,
+       6
+      ]
+     ],
+     "offset": [
+      -23,
+      -17
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ],
+      [
+       23,
+       16,
+       5
+      ],
+      [
+       23,
+       16,
+       6
+      ],
+      [
+       23,
+       16,
+       7
+      ]
+     ],
+     "offset": [
+      -23,
+      -16
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ],
+      [
+       23,
+       16,
+       5
+      ],
+      [
+       23,
+       16,
+       6
+      ],
+      [
+       23,
+       16,
+       7
+      ],
+      [
+       23,
+       16,
+       8
+      ]
+     ],
+     "offset": [
+      -23,
+      -15
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       5
+      ],
+      [
+       23,
+       16,
+       6
+      ],
+      [
+       23,
+       16,
+       7
+      ],
+      [
+       23,
+       16,
+       8
+      ],
+      [
+       23,
+       16,
+       9
+      ]
+     ],
+     "offset": [
+      -23,
+      -14
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       6
+      ],
+      [
+       23,
+       16,
+       7
+      ],
+      [
+       23,
+       16,
+       8
+      ],
+      [
+       23,
+       16,
+       9
+      ],
+      [
+       23,
+       16,
+       10
+      ]
+     ],
+     "offset": [
+      -23,
+      -13
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       7
+      ],
+      [
+       23,
+       16,
+       8
+      ],
+      [
+       23,
+       16,
+       9
+      ],
+      [
+       23,
+       16,
+       10
+      ],
+      [
+       23,
+       16,
+       11
+      ]
+     ],
+     "offset": [
+      -23,
+      -12
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       25,
+       16,
+       11
+      ],
+      [
+       25,
+       16,
+       12
+      ],
+      [
+       25,
+       16,
+       13
+      ],
+      [
+       25,
+       16,
+       14
+      ],
+      [
+       25,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -21,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       26,
+       16,
+       11
+      ],
+      [
+       26,
+       16,
+       12
+      ],
+      [
+       26,
+       16,
+       13
+      ],
+      [
+       26,
+       16,
+       14
+      ],
+      [
+       26,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -20,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       26,
+       16,
+       12
+      ],
+      [
+       26,
+       16,
+       13
+      ],
+      [
+       26,
+       16,
+       14
+      ],
+      [
+       26,
+       16,
+       15
+      ],
+      [
+       26,
+       16,
+       16
+      ]
+     ],
+     "offset": [
+      -20,
+      -7
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       27,
+       16,
+       11
+      ],
+      [
+       27,
+       16,
+       12
+      ],
+      [
+       27,
+       16,
+       13
+      ],
+      [
+       27,
+       16,
+       14
+      ],
+      [
+       27,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -19,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       27,
+       16,
+       12
+      ],
+      [
+       27,
+       16,
+       13
+      ],
+      [
+       27,
+       16,
+       14
+      ],
+      [
+       27,
+       16,
+       15
+      ],
+      [
+       27,
+       16,
+       16
+      ]
+     ],
+     "offset": [
+      -19,
+      -7
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       28,
+       16,
+       11
+      ],
+      [
+       28,
+       16,
+       12
+      ],
+      [
+       28,
+       16,
+       13
+      ],
+      [
+       28,
+       16,
+       14
+      ],
+      [
+       28,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -18,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       28,
+       16,
+       12
+      ],
+      [
+       28,
+       16,
+       13
+      ],
+      [
+       28,
+       16,
+       14
+      ],
+      [
+       28,
+       16,
+       15
+      ],
+      [
+       28,
+       16,
+       16
+      ]
+     ],
+     "offset": [
+      -18,
+      -7
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       29,
+       16,
+       11
+      ],
+      [
+       29,
+       16,
+       12
+      ],
+      [
+       29,
+       16,
+       13
+      ],
+      [
+       29,
+       16,
+       14
+      ],
+      [
+       29,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -17,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -17,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -17,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -17,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       30,
+       16,
+       11
+      ],
+      [
+       30,
+       16,
+       12
+      ],
+      [
+       30,
+       16,
+       13
+      ],
+      [
+       30,
+       16,
+       14
+      ],
+      [
+       30,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -16,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -16,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -16,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -16,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       31,
+       16,
+       11
+      ],
+      [
+       31,
+       16,
+       12
+      ],
+      [
+       31,
+       16,
+       13
+      ],
+      [
+       31,
+       16,
+       14
+      ],
+      [
+       31,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -15,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -15,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -15,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -15,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       32,
+       16,
+       11
+      ],
+      [
+       32,
+       16,
+       12
+      ],
+      [
+       32,
+       16,
+       13
+      ],
+      [
+       32,
+       16,
+       14
+      ],
+      [
+       32,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -14,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -14,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -14,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -14,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       33,
+       16,
+       12
+      ],
+      [
+       33,
+       16,
+       13
+      ],
+      [
+       33,
+       16,
+       14
+      ],
+      [
+       33,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -13,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -13,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -13,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -13,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -12,
+      -9
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -12,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -12,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -12,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -12,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -11,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -11,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -11,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -11,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -10,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -10,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -10,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -10,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -9,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -9,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -9,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -9,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -8,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -8,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -8,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -8,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -7,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -7,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -7,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -7,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -7,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -6,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -6,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -6,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -6,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -6,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -5,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -5,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -5,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -5,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -5,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -5,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -4,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -4,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -4,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -4,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -4,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -4,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -4,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -3,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -3,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -3,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -3,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -3,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -3,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -3,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -3,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -2,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -1,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -1,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -1,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -1,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -1,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -1,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -1,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      0,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      0,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      0,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      0,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      0,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      1,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      1,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      1,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      1,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      2,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      2,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      2,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      3,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      3,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      4,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      5,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -12
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -11
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -10
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -15
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -14
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -13
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -12
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -11
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -10
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -9
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -15
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -14
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -13
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -12
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -11
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -10
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -9
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      24
+     ]
+    }
+   ],
+   "no_overlap_count": 246,
+   "no_overlap_with_nonair_under_entrance_count": 30,
+   "supported_candidates": [
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ]
+     ],
+     "offset": [
+      -24,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ],
+      [
+       22,
+       16,
+       5
+      ]
+     ],
+     "offset": [
+      -24,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ],
+      [
+       22,
+       16,
+       5
+      ],
+      [
+       22,
+       16,
+       6
+      ]
+     ],
+     "offset": [
+      -24,
+      -17
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ],
+      [
+       22,
+       16,
+       5
+      ],
+      [
+       22,
+       16,
+       6
+      ],
+      [
+       22,
+       16,
+       7
+      ]
+     ],
+     "offset": [
+      -24,
+      -16
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       4
+      ],
+      [
+       22,
+       16,
+       5
+      ],
+      [
+       22,
+       16,
+       6
+      ],
+      [
+       22,
+       16,
+       7
+      ],
+      [
+       22,
+       16,
+       8
+      ]
+     ],
+     "offset": [
+      -24,
+      -15
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       5
+      ],
+      [
+       22,
+       16,
+       6
+      ],
+      [
+       22,
+       16,
+       7
+      ],
+      [
+       22,
+       16,
+       8
+      ],
+      [
+       22,
+       16,
+       9
+      ]
+     ],
+     "offset": [
+      -24,
+      -14
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       6
+      ],
+      [
+       22,
+       16,
+       7
+      ],
+      [
+       22,
+       16,
+       8
+      ],
+      [
+       22,
+       16,
+       9
+      ],
+      [
+       22,
+       16,
+       10
+      ]
+     ],
+     "offset": [
+      -24,
+      -13
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       7
+      ],
+      [
+       22,
+       16,
+       8
+      ],
+      [
+       22,
+       16,
+       9
+      ],
+      [
+       22,
+       16,
+       10
+      ],
+      [
+       22,
+       16,
+       11
+      ]
+     ],
+     "offset": [
+      -24,
+      -12
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       8
+      ],
+      [
+       22,
+       16,
+       9
+      ],
+      [
+       22,
+       16,
+       10
+      ],
+      [
+       22,
+       16,
+       11
+      ],
+      [
+       22,
+       16,
+       12
+      ]
+     ],
+     "offset": [
+      -24,
+      -11
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       37
+      ]
+     ],
+     "offset": [
+      -24,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ]
+     ],
+     "offset": [
+      -23,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ],
+      [
+       23,
+       16,
+       5
+      ]
+     ],
+     "offset": [
+      -23,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ],
+      [
+       23,
+       16,
+       5
+      ],
+      [
+       23,
+       16,
+       6
+      ]
+     ],
+     "offset": [
+      -23,
+      -17
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ],
+      [
+       23,
+       16,
+       5
+      ],
+      [
+       23,
+       16,
+       6
+      ],
+      [
+       23,
+       16,
+       7
+      ]
+     ],
+     "offset": [
+      -23,
+      -16
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       4
+      ],
+      [
+       23,
+       16,
+       5
+      ],
+      [
+       23,
+       16,
+       6
+      ],
+      [
+       23,
+       16,
+       7
+      ],
+      [
+       23,
+       16,
+       8
+      ]
+     ],
+     "offset": [
+      -23,
+      -15
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       5
+      ],
+      [
+       23,
+       16,
+       6
+      ],
+      [
+       23,
+       16,
+       7
+      ],
+      [
+       23,
+       16,
+       8
+      ],
+      [
+       23,
+       16,
+       9
+      ]
+     ],
+     "offset": [
+      -23,
+      -14
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       6
+      ],
+      [
+       23,
+       16,
+       7
+      ],
+      [
+       23,
+       16,
+       8
+      ],
+      [
+       23,
+       16,
+       9
+      ],
+      [
+       23,
+       16,
+       10
+      ]
+     ],
+     "offset": [
+      -23,
+      -13
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       23,
+       16,
+       7
+      ],
+      [
+       23,
+       16,
+       8
+      ],
+      [
+       23,
+       16,
+       9
+      ],
+      [
+       23,
+       16,
+       10
+      ],
+      [
+       23,
+       16,
+       11
+      ]
+     ],
+     "offset": [
+      -23,
+      -12
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       25,
+       16,
+       11
+      ],
+      [
+       25,
+       16,
+       12
+      ],
+      [
+       25,
+       16,
+       13
+      ],
+      [
+       25,
+       16,
+       14
+      ],
+      [
+       25,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -21,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       26,
+       16,
+       11
+      ],
+      [
+       26,
+       16,
+       12
+      ],
+      [
+       26,
+       16,
+       13
+      ],
+      [
+       26,
+       16,
+       14
+      ],
+      [
+       26,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -20,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       26,
+       16,
+       12
+      ],
+      [
+       26,
+       16,
+       13
+      ],
+      [
+       26,
+       16,
+       14
+      ],
+      [
+       26,
+       16,
+       15
+      ],
+      [
+       26,
+       16,
+       16
+      ]
+     ],
+     "offset": [
+      -20,
+      -7
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       27,
+       16,
+       11
+      ],
+      [
+       27,
+       16,
+       12
+      ],
+      [
+       27,
+       16,
+       13
+      ],
+      [
+       27,
+       16,
+       14
+      ],
+      [
+       27,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -19,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       27,
+       16,
+       12
+      ],
+      [
+       27,
+       16,
+       13
+      ],
+      [
+       27,
+       16,
+       14
+      ],
+      [
+       27,
+       16,
+       15
+      ],
+      [
+       27,
+       16,
+       16
+      ]
+     ],
+     "offset": [
+      -19,
+      -7
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       28,
+       16,
+       11
+      ],
+      [
+       28,
+       16,
+       12
+      ],
+      [
+       28,
+       16,
+       13
+      ],
+      [
+       28,
+       16,
+       14
+      ],
+      [
+       28,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -18,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       28,
+       16,
+       12
+      ],
+      [
+       28,
+       16,
+       13
+      ],
+      [
+       28,
+       16,
+       14
+      ],
+      [
+       28,
+       16,
+       15
+      ],
+      [
+       28,
+       16,
+       16
+      ]
+     ],
+     "offset": [
+      -18,
+      -7
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       29,
+       16,
+       11
+      ],
+      [
+       29,
+       16,
+       12
+      ],
+      [
+       29,
+       16,
+       13
+      ],
+      [
+       29,
+       16,
+       14
+      ],
+      [
+       29,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -17,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       30,
+       16,
+       11
+      ],
+      [
+       30,
+       16,
+       12
+      ],
+      [
+       30,
+       16,
+       13
+      ],
+      [
+       30,
+       16,
+       14
+      ],
+      [
+       30,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -16,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       31,
+       16,
+       11
+      ],
+      [
+       31,
+       16,
+       12
+      ],
+      [
+       31,
+       16,
+       13
+      ],
+      [
+       31,
+       16,
+       14
+      ],
+      [
+       31,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -15,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       32,
+       16,
+       11
+      ],
+      [
+       32,
+       16,
+       12
+      ],
+      [
+       32,
+       16,
+       13
+      ],
+      [
+       32,
+       16,
+       14
+      ],
+      [
+       32,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -14,
+      -8
+     ]
+    },
+    {
+     "entrance_nonair": [
+      [
+       33,
+       16,
+       12
+      ],
+      [
+       33,
+       16,
+       13
+      ],
+      [
+       33,
+       16,
+       14
+      ],
+      [
+       33,
+       16,
+       15
+      ]
+     ],
+     "offset": [
+      -13,
+      -8
+     ]
+    }
+   ]
+  },
+  "forest": {
+   "no_overlap_candidates": [
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      24
+     ]
+    }
+   ],
+   "no_overlap_count": 11,
+   "no_overlap_with_nonair_under_entrance_count": 0,
+   "supported_candidates": []
+  },
+  "meadow": {
+   "no_overlap_candidates": [
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      16
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      24
+     ]
+    }
+   ],
+   "no_overlap_count": 37,
+   "no_overlap_with_nonair_under_entrance_count": 0,
+   "supported_candidates": []
+  },
+  "rocky": {
+   "no_overlap_candidates": [
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       40
+      ]
+     ],
+     "offset": [
+      -24,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -21,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -20,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -19,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -18,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      14,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      15,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      15,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      15,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      16,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      16,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      16,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      17,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      17,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      17,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      17,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      18,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      18,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      18,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      18,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      19,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      20,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      21,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      17
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      24
+     ]
+    }
+   ],
+   "no_overlap_count": 89,
+   "no_overlap_with_nonair_under_entrance_count": 1,
+   "supported_candidates": [
+    {
+     "entrance_nonair": [
+      [
+       22,
+       16,
+       40
+      ]
+     ],
+     "offset": [
+      -24,
+      21
+     ]
+    }
+   ]
+  },
+  "snowy": {
+   "no_overlap_candidates": [
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -24,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      -22,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      23,
+      24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -24
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -22
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -21
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -20
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -19
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      -18
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      23
+     ]
+    },
+    {
+     "entrance_nonair": [],
+     "offset": [
+      24,
+      24
+     ]
+    }
+   ],
+   "no_overlap_count": 19,
+   "no_overlap_with_nonair_under_entrance_count": 0,
+   "supported_candidates": []
+  }
+ }
+}
