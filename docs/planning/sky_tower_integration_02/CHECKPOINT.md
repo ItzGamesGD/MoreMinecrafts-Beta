@@ -1,5 +1,7 @@
 # INTEGRATION-02 체크포인트 — 검증된 B 보존, C 보류
 
+> Phase C 후속 편심 좌표 비교(미채택): [PHASE_C_CANDIDATES.md](PHASE_C_CANDIDATES.md). 실제 통행·지지 및 월드젠 구현은 미검증.
+
 ## 2026-11-08 재개 감사
 
 원격 `feature/sky-tower-integration-02`의 기존 HEAD `e05d5054ac8c1691de9a9b42933e47462cd19c35`는 01 `387a50c`의 후손이며, 이미 존재하는 검증된 작업을 재사용했다. 승인 NBT 동결 및 16 스포너·8 금고·72 공기 셀을 재확인했고 `audit_worldgen.py`의 여섯 섬 소켓/입구 반례가 재현됐다. 독립된 새 작업 트리에서 `./gradlew --no-daemon test`는 BUILD SUCCESSFUL. 오프라인 첫 시도는 캐시에 Loom이 없어 시작하지 못했고 네트워크 의존성 해소 후 통과했다. 이 재개 턴에서 GameTest 전체·실제 플레이를 새로 통과시켰다고 주장하지 않는다.
