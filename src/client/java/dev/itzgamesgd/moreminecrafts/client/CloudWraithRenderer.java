@@ -83,8 +83,8 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieR
                         (random.nextDouble() - 0.5) * 0.008);
                 if (particle instanceof SingleQuadParticle quad) {
                     quad.scale(0.6F);
-                    quad.setColor(0.72F, 0.81F, 0.85F);
-                    ((WraithParticleAlphaInvoker) quad).moreminecrafts$setWraithAlpha(0.65F);
+                    quad.setColor(0.58F, 0.68F, 0.73F);
+                    ((WraithParticleAlphaInvoker) quad).moreminecrafts$setWraithAlpha(0.75F);
                 }
                 if (++emitted >= 2) break;
             }
