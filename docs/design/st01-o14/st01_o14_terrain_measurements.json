@@ -1,4 +1,6 @@
 {
+  "provenance": "SYNTHETIC \u2014 NOT MINECRAFT WORLDGEN MEASUREMENT",
+  "notice": "All data in this document originates from a standalone Python Simplex noise model. It does NOT reflect real Minecraft 26.3 worldgen and must not be used for production decisions.",
   "seeds_sampled": [
     1001,
     2002,
@@ -8,57 +10,45 @@
   ],
   "area_sampled_sq_km": 67.108864,
   "candidates_evaluated": 5120,
-  "desert_eligible_candidates": 352,
-  "desert_geographic_frequency": 0.06875,
-  "elevation_delta_distribution": {
-    "mean_delta_h": 7.289005681818182,
-    "median_delta_h": 7.224999999999994,
-    "std_delta_h": 1.426663853179058,
+  "center_desert_eligible_candidates": 369,
+  "full_100_desert_eligible_candidates": 194,
+  "synthetic_biome_frequency": {
+    "center_only": 0.0720703125,
+    "full_100_percent": 0.037890625
+  },
+  "synthetic_elevation_delta_distribution": {
+    "mean_delta_h": 7.290623306233063,
+    "median_delta_h": 7.209999999999994,
+    "std_delta_h": 1.4327010863460854,
     "min_delta_h": 4.179999999999993,
     "max_delta_h": 11.300000000000004,
     "percentiles": {
       "p25": 6.200000000000003,
-      "p50": 7.224999999999994,
-      "p75": 8.272499999999999,
-      "p90": 9.289,
-      "p95": 9.853499999999997
+      "p50": 7.209999999999994,
+      "p75": 8.280000000000008,
+      "p90": 9.291999999999998
     }
   },
-  "skirt_depth_distribution": {
-    "mean_max_skirt": 3.631647727272728,
-    "p50_skirt": 3.5350000000000037,
-    "p90_skirt": 4.969999999999999
-  },
-  "cut_volume_distribution": {
-    "mean_cut_volume_blocks": 4990.380681818182,
-    "p50_cut_volume_blocks": 4933.5,
-    "p90_cut_volume_blocks": 7063.700000000002
-  },
-  "hypothetical_scenario_acceptance_rates": {
-    "scenario_1_strict_4": {
+  "hypothetical_scenario_rates": {
+    "hypothetical_1_strict_4": {
       "accepted_count": 0,
-      "rate_of_desert_candidates": 0.0,
-      "overall_frequency": 0.0
+      "rate_of_desert_candidates": 0.0
     },
-    "scenario_2_conservative_8": {
+    "hypothetical_2_conservative_8": {
       "accepted_count": 59,
-      "rate_of_desert_candidates": 0.16761363636363635,
-      "overall_frequency": 0.0115234375
+      "rate_of_desert_candidates": 0.15989159891598917
     },
-    "scenario_3_moderate_12": {
+    "hypothetical_3_moderate_12": {
       "accepted_count": 228,
-      "rate_of_desert_candidates": 0.6477272727272727,
-      "overall_frequency": 0.04453125
+      "rate_of_desert_candidates": 0.6178861788617886
     },
-    "scenario_4_permissive_16": {
+    "hypothetical_4_permissive_16": {
       "accepted_count": 248,
-      "rate_of_desert_candidates": 0.7045454545454546,
-      "overall_frequency": 0.0484375
+      "rate_of_desert_candidates": 0.6720867208672087
     },
-    "scenario_5_unconstrained": {
+    "hypothetical_5_unconstrained": {
       "accepted_count": 276,
-      "rate_of_desert_candidates": 0.7840909090909091,
-      "overall_frequency": 0.05390625
+      "rate_of_desert_candidates": 0.7479674796747967
     }
   },
   "sample_candidate_records": [
@@ -66,8 +56,14 @@
       "eligible": true,
       "cx": -3712,
       "cz": 640,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 64.11,
         "max_h": 72.4,
@@ -88,12 +84,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -101,7 +97,13 @@
       "cx": -3456,
       "cz": -640,
       "orientation": "WEST",
-      "desert_coverage": 0.9753086419753086,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9753086419753086
+      },
       "elevation_stats": {
         "min_h": 63.95,
         "max_h": 71.41,
@@ -122,20 +124,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -3456,
       "cz": 640,
-      "orientation": "WEST",
-      "desert_coverage": 0.5308641975308642,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5308641975308642
+      },
       "elevation_stats": {
         "min_h": 59.79,
         "max_h": 68.02,
@@ -156,12 +164,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -169,7 +177,13 @@
       "cx": -3456,
       "cz": 896,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 63.52,
         "max_h": 70.95,
@@ -190,20 +204,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -3456,
       "cz": 1152,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 59.23,
         "max_h": 66.26,
@@ -224,20 +244,26 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -3456,
       "cz": 1664,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.39,
         "max_h": 70.44,
@@ -258,12 +284,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -271,7 +297,13 @@
       "cx": -3456,
       "cz": 1920,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 58.81,
         "max_h": 68.47,
@@ -292,12 +324,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -305,7 +337,13 @@
       "cx": -3200,
       "cz": 1920,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.41,
         "max_h": 68.87,
@@ -326,20 +364,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -3200,
       "cz": 2176,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.2,
         "max_h": 70.67,
@@ -360,12 +404,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -373,7 +417,13 @@
       "cx": -2944,
       "cz": 1920,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 62.67,
         "max_h": 69.48,
@@ -394,12 +444,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -407,7 +457,13 @@
       "cx": -2944,
       "cz": 2176,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.79,
         "max_h": 67.7,
@@ -428,12 +484,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -441,7 +497,13 @@
       "cx": -2688,
       "cz": 1920,
       "orientation": "WEST",
-      "desert_coverage": 0.7654320987654321,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7654320987654321
+      },
       "elevation_stats": {
         "min_h": 63.98,
         "max_h": 72.26,
@@ -462,20 +524,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -2688,
       "cz": 2176,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 59.77,
         "max_h": 65.26,
@@ -496,20 +564,26 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -2432,
       "cz": 1920,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 62.97,
         "max_h": 71.13,
@@ -530,12 +604,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -543,7 +617,13 @@
       "cx": -2432,
       "cz": 2176,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.84,
         "max_h": 69.4,
@@ -564,20 +644,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -2176,
       "cz": 1920,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 59.21,
         "max_h": 70.51,
@@ -598,20 +684,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -2176,
       "cz": 2176,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.8,
         "max_h": 69.15,
@@ -632,12 +724,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -645,7 +737,13 @@
       "cx": -1920,
       "cz": -640,
       "orientation": "WEST",
-      "desert_coverage": 0.8395061728395061,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8395061728395061
+      },
       "elevation_stats": {
         "min_h": 63.78,
         "max_h": 69.74,
@@ -666,12 +764,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -679,7 +777,13 @@
       "cx": -1920,
       "cz": -384,
       "orientation": "WEST",
-      "desert_coverage": 0.8765432098765432,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8765432098765432
+      },
       "elevation_stats": {
         "min_h": 61.51,
         "max_h": 68.9,
@@ -700,12 +804,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -713,7 +817,13 @@
       "cx": -1920,
       "cz": 1152,
       "orientation": "EAST",
-      "desert_coverage": 0.7777777777777778,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7777777777777778
+      },
       "elevation_stats": {
         "min_h": 65.02,
         "max_h": 69.88,
@@ -734,20 +844,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -1664,
       "cz": -640,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.08,
         "max_h": 69.76,
@@ -768,20 +884,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -1664,
       "cz": -384,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 63.12,
         "max_h": 72.96,
@@ -802,20 +924,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -1408,
       "cz": -384,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 66.0,
         "max_h": 70.2,
@@ -836,12 +964,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -849,7 +977,13 @@
       "cx": -1408,
       "cz": -128,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.95,
         "max_h": 69.66,
@@ -870,12 +1004,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -883,7 +1017,13 @@
       "cx": -896,
       "cz": -2176,
       "orientation": "EAST",
-      "desert_coverage": 0.8765432098765432,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8765432098765432
+      },
       "elevation_stats": {
         "min_h": 63.59,
         "max_h": 67.77,
@@ -904,20 +1044,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -896,
       "cz": -1920,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.71,
         "max_h": 68.47,
@@ -938,12 +1084,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -951,7 +1097,13 @@
       "cx": -640,
       "cz": -3968,
       "orientation": "WEST",
-      "desert_coverage": 0.5555555555555556,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5555555555555556
+      },
       "elevation_stats": {
         "min_h": 57.92,
         "max_h": 65.48,
@@ -972,12 +1124,12 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -985,7 +1137,13 @@
       "cx": -640,
       "cz": -3200,
       "orientation": "WEST",
-      "desert_coverage": 0.9382716049382716,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9382716049382716
+      },
       "elevation_stats": {
         "min_h": 59.35,
         "max_h": 66.88,
@@ -1006,20 +1164,26 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -640,
       "cz": -2176,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 64.96,
         "max_h": 72.22,
@@ -1040,12 +1204,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1053,7 +1217,13 @@
       "cx": -640,
       "cz": -1920,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.51,
         "max_h": 66.85,
@@ -1074,20 +1244,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -640,
       "cz": 1664,
-      "orientation": "WEST",
-      "desert_coverage": 0.5555555555555556,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5555555555555556
+      },
       "elevation_stats": {
         "min_h": 62.55,
         "max_h": 68.4,
@@ -1108,12 +1284,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -1121,7 +1297,13 @@
       "cx": -640,
       "cz": 2432,
       "orientation": "WEST",
-      "desert_coverage": 0.5432098765432098,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5432098765432098
+      },
       "elevation_stats": {
         "min_h": 57.28,
         "max_h": 67.17,
@@ -1142,20 +1324,26 @@
         "aquifer_risk": true,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -384,
       "cz": -3712,
-      "orientation": "EAST",
-      "desert_coverage": 0.7283950617283951,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7283950617283951
+      },
       "elevation_stats": {
         "min_h": 61.79,
         "max_h": 69.11,
@@ -1176,12 +1364,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -1189,7 +1377,13 @@
       "cx": -384,
       "cz": -3456,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 62.84,
         "max_h": 70.3,
@@ -1210,20 +1404,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -384,
       "cz": -3200,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 64.21,
         "max_h": 70.41,
@@ -1244,12 +1444,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1257,7 +1457,13 @@
       "cx": -384,
       "cz": -2944,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.7,
         "max_h": 67.66,
@@ -1278,12 +1484,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1291,7 +1497,13 @@
       "cx": -384,
       "cz": -1920,
       "orientation": "EAST",
-      "desert_coverage": 0.8765432098765432,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8765432098765432
+      },
       "elevation_stats": {
         "min_h": 62.38,
         "max_h": 71.22,
@@ -1312,12 +1524,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1325,7 +1537,13 @@
       "cx": -384,
       "cz": 1920,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.43,
         "max_h": 68.18,
@@ -1346,12 +1564,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1359,7 +1577,13 @@
       "cx": -128,
       "cz": -3200,
       "orientation": "WEST",
-      "desert_coverage": 0.7037037037037037,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7037037037037037
+      },
       "elevation_stats": {
         "min_h": 64.92,
         "max_h": 71.73,
@@ -1380,12 +1604,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -1393,7 +1617,13 @@
       "cx": -128,
       "cz": -2944,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.33,
         "max_h": 69.6,
@@ -1414,12 +1644,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1427,7 +1657,13 @@
       "cx": -128,
       "cz": 2688,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 59.2,
         "max_h": 66.99,
@@ -1448,20 +1684,26 @@
         "aquifer_risk": true,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -128,
       "cz": 2944,
-      "orientation": "WEST",
-      "desert_coverage": 0.9876543209876543,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9876543209876543
+      },
       "elevation_stats": {
         "min_h": 59.47,
         "max_h": 67.02,
@@ -1482,12 +1724,12 @@
         "aquifer_risk": true,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1495,7 +1737,13 @@
       "cx": -128,
       "cz": 3712,
       "orientation": "WEST",
-      "desert_coverage": 0.7160493827160493,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7160493827160493
+      },
       "elevation_stats": {
         "min_h": 60.69,
         "max_h": 70.12,
@@ -1516,12 +1764,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -1529,7 +1777,13 @@
       "cx": -128,
       "cz": 3968,
       "orientation": "WEST",
-      "desert_coverage": 0.9012345679012346,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9012345679012346
+      },
       "elevation_stats": {
         "min_h": 59.35,
         "max_h": 66.79,
@@ -1550,12 +1804,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1563,7 +1817,13 @@
       "cx": 128,
       "cz": 2688,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.66,
         "max_h": 69.43,
@@ -1584,12 +1844,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1597,7 +1857,13 @@
       "cx": 128,
       "cz": 2944,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.41,
         "max_h": 68.9,
@@ -1618,12 +1884,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1631,7 +1897,13 @@
       "cx": 128,
       "cz": 3200,
       "orientation": "EAST",
-      "desert_coverage": 0.7037037037037037,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7037037037037037
+      },
       "elevation_stats": {
         "min_h": 61.27,
         "max_h": 71.1,
@@ -1652,12 +1924,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -1665,7 +1937,13 @@
       "cx": 1152,
       "cz": -2944,
       "orientation": "EAST",
-      "desert_coverage": 0.9259259259259259,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9259259259259259
+      },
       "elevation_stats": {
         "min_h": 61.28,
         "max_h": 69.66,
@@ -1686,12 +1964,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1699,7 +1977,13 @@
       "cx": 1152,
       "cz": -1664,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 64.22,
         "max_h": 70.58,
@@ -1720,12 +2004,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1733,7 +2017,13 @@
       "cx": 1152,
       "cz": -1408,
       "orientation": "WEST",
-      "desert_coverage": 0.5432098765432098,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5432098765432098
+      },
       "elevation_stats": {
         "min_h": 64.32,
         "max_h": 73.14,
@@ -1754,12 +2044,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -1767,7 +2057,13 @@
       "cx": 1152,
       "cz": 384,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 59.66,
         "max_h": 67.19,
@@ -1788,20 +2084,26 @@
         "aquifer_risk": true,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 1408,
       "cz": -1664,
-      "orientation": "EAST",
-      "desert_coverage": 0.9629629629629629,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9629629629629629
+      },
       "elevation_stats": {
         "min_h": 60.51,
         "max_h": 68.22,
@@ -1822,20 +2124,26 @@
         "aquifer_risk": true,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 1408,
       "cz": -128,
-      "orientation": "EAST",
-      "desert_coverage": 0.9753086419753086,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9753086419753086
+      },
       "elevation_stats": {
         "min_h": 63.83,
         "max_h": 71.42,
@@ -1856,12 +2164,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -1869,7 +2177,13 @@
       "cx": 1408,
       "cz": 384,
       "orientation": "EAST",
-      "desert_coverage": 0.7901234567901234,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7901234567901234
+      },
       "elevation_stats": {
         "min_h": 63.38,
         "max_h": 69.65,
@@ -1890,12 +2204,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -1903,7 +2217,13 @@
       "cx": 1408,
       "cz": 640,
       "orientation": "EAST",
-      "desert_coverage": 0.7407407407407407,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7407407407407407
+      },
       "elevation_stats": {
         "min_h": 63.64,
         "max_h": 71.55,
@@ -1924,20 +2244,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": 1408,
       "cz": 1408,
-      "orientation": "WEST",
-      "desert_coverage": 0.9506172839506173,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9506172839506173
+      },
       "elevation_stats": {
         "min_h": 62.47,
         "max_h": 73.23,
@@ -1958,20 +2284,66 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1664,
+      "cz": -3712,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.49382716049382713
+      },
+      "elevation_stats": {
+        "min_h": 61.64,
+        "max_h": 67.01,
+        "mean_h": 64.65471655328798,
+        "median_h": 65.05,
+        "std_h": 1.351398024394824,
+        "delta_h": 5.3700000000000045
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 2.010000000000005,
+        "max_skirt_depth": 3.3599999999999994,
+        "cut_volume_blocks": 2763,
+        "fill_volume_blocks": 5199,
+        "exposed_perimeter_ratio": 0.506578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": 1664,
       "cz": 2944,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 67.1,
         "max_h": 73.16,
@@ -1992,12 +2364,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2005,7 +2377,13 @@
       "cx": 1920,
       "cz": -3712,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.77,
         "max_h": 72.33,
@@ -2026,20 +2404,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 1920,
       "cz": 2944,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.45,
         "max_h": 66.13,
@@ -2060,12 +2444,12 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2073,7 +2457,13 @@
       "cx": 2176,
       "cz": -3712,
       "orientation": "EAST",
-      "desert_coverage": 0.9506172839506173,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9506172839506173
+      },
       "elevation_stats": {
         "min_h": 57.33,
         "max_h": 67.54,
@@ -2094,20 +2484,26 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 2176,
       "cz": -3456,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.7,
         "max_h": 70.69,
@@ -2128,12 +2524,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2141,7 +2537,13 @@
       "cx": 2176,
       "cz": -2432,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 58.35,
         "max_h": 67.68,
@@ -2162,12 +2564,12 @@
         "aquifer_risk": true,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2175,7 +2577,13 @@
       "cx": 2432,
       "cz": 2944,
       "orientation": "WEST",
-      "desert_coverage": 0.6419753086419753,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.6419753086419753
+      },
       "elevation_stats": {
         "min_h": 60.08,
         "max_h": 69.36,
@@ -2196,20 +2604,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": 2688,
       "cz": 1664,
-      "orientation": "WEST",
-      "desert_coverage": 0.8641975308641975,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8641975308641975
+      },
       "elevation_stats": {
         "min_h": 65.03,
         "max_h": 70.82,
@@ -2230,20 +2644,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 2688,
       "cz": 2688,
-      "orientation": "EAST",
-      "desert_coverage": 0.8024691358024691,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8024691358024691
+      },
       "elevation_stats": {
         "min_h": 59.64,
         "max_h": 65.31,
@@ -2264,12 +2684,12 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2277,7 +2697,13 @@
       "cx": 2688,
       "cz": 2944,
       "orientation": "EAST",
-      "desert_coverage": 0.654320987654321,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.654320987654321
+      },
       "elevation_stats": {
         "min_h": 63.71,
         "max_h": 69.36,
@@ -2298,20 +2724,66 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2944,
+      "cz": -2432,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.4567901234567901
+      },
+      "elevation_stats": {
+        "min_h": 60.89,
+        "max_h": 68.22,
+        "mean_h": 64.27079365079365,
+        "median_h": 64.51,
+        "std_h": 1.627646229970448,
+        "delta_h": 7.329999999999998
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 4.219999999999999,
+        "max_skirt_depth": 3.1099999999999994,
+        "cut_volume_blocks": 5946,
+        "fill_volume_blocks": 4035,
+        "exposed_perimeter_ratio": 0.40789473684210525
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": 2944,
       "cz": -128,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.8,
         "max_h": 69.18,
@@ -2332,12 +2804,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2345,7 +2817,13 @@
       "cx": 2944,
       "cz": 1152,
       "orientation": "EAST",
-      "desert_coverage": 0.6172839506172839,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.6172839506172839
+      },
       "elevation_stats": {
         "min_h": 65.54,
         "max_h": 74.01,
@@ -2366,20 +2844,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": 2944,
       "cz": 2432,
-      "orientation": "WEST",
-      "desert_coverage": 0.9876543209876543,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9876543209876543
+      },
       "elevation_stats": {
         "min_h": 61.17,
         "max_h": 69.46,
@@ -2400,20 +2884,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 2944,
       "cz": 3456,
-      "orientation": "WEST",
-      "desert_coverage": 0.5555555555555556,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5555555555555556
+      },
       "elevation_stats": {
         "min_h": 64.67,
         "max_h": 70.25,
@@ -2434,20 +2924,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": 3200,
       "cz": 1408,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 59.59,
         "max_h": 68.28,
@@ -2468,20 +2964,26 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 3200,
       "cz": 3456,
-      "orientation": "EAST",
-      "desert_coverage": 0.8641975308641975,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8641975308641975
+      },
       "elevation_stats": {
         "min_h": 62.01,
         "max_h": 68.41,
@@ -2502,12 +3004,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2515,7 +3017,13 @@
       "cx": 3456,
       "cz": -1408,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 65.01,
         "max_h": 72.48,
@@ -2536,20 +3044,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 3456,
       "cz": 3712,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.01,
         "max_h": 67.92,
@@ -2570,20 +3084,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": 3712,
       "cz": -1408,
-      "orientation": "WEST",
-      "desert_coverage": 0.691358024691358,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.691358024691358
+      },
       "elevation_stats": {
         "min_h": 62.04,
         "max_h": 69.34,
@@ -2604,12 +3124,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -2617,7 +3137,13 @@
       "cx": -3712,
       "cz": -3200,
       "orientation": "WEST",
-      "desert_coverage": 0.5802469135802469,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5802469135802469
+      },
       "elevation_stats": {
         "min_h": 64.03,
         "max_h": 72.58,
@@ -2638,20 +3164,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -3712,
       "cz": -2944,
-      "orientation": "WEST",
-      "desert_coverage": 0.6172839506172839,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.6172839506172839
+      },
       "elevation_stats": {
         "min_h": 62.38,
         "max_h": 67.08,
@@ -2672,20 +3204,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -3712,
       "cz": 3712,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 62.61,
         "max_h": 69.28,
@@ -2706,12 +3244,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2719,7 +3257,13 @@
       "cx": -3456,
       "cz": 2176,
       "orientation": "WEST",
-      "desert_coverage": 0.5308641975308642,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5308641975308642
+      },
       "elevation_stats": {
         "min_h": 62.24,
         "max_h": 71.03,
@@ -2740,20 +3284,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -3456,
       "cz": 3456,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 63.66,
         "max_h": 68.58,
@@ -2774,20 +3324,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -2432,
       "cz": 3712,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 60.99,
         "max_h": 70.95,
@@ -2808,12 +3364,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2821,7 +3377,13 @@
       "cx": -2176,
       "cz": 1408,
       "orientation": "WEST",
-      "desert_coverage": 0.7407407407407407,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7407407407407407
+      },
       "elevation_stats": {
         "min_h": 64.07,
         "max_h": 70.26,
@@ -2842,20 +3404,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -2176,
       "cz": 3456,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 62.14,
         "max_h": 69.29,
@@ -2876,20 +3444,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -2176,
       "cz": 3712,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.37,
         "max_h": 67.65,
@@ -2910,12 +3484,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2923,7 +3497,13 @@
       "cx": -2176,
       "cz": 3968,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 59.91,
         "max_h": 67.75,
@@ -2944,12 +3524,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -2957,7 +3537,13 @@
       "cx": -1920,
       "cz": -384,
       "orientation": "EAST",
-      "desert_coverage": 0.8641975308641975,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8641975308641975
+      },
       "elevation_stats": {
         "min_h": 59.69,
         "max_h": 66.53,
@@ -2978,20 +3564,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -1920,
       "cz": 640,
-      "orientation": "EAST",
-      "desert_coverage": 0.7654320987654321,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7654320987654321
+      },
       "elevation_stats": {
         "min_h": 65.59,
         "max_h": 71.92,
@@ -3012,20 +3604,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -1920,
       "cz": 3712,
-      "orientation": "WEST",
-      "desert_coverage": 0.7777777777777778,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7777777777777778
+      },
       "elevation_stats": {
         "min_h": 61.42,
         "max_h": 67.15,
@@ -3046,12 +3644,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -3059,7 +3657,13 @@
       "cx": -1920,
       "cz": 3968,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 62.0,
         "max_h": 71.47,
@@ -3080,12 +3684,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -3093,7 +3697,13 @@
       "cx": -1664,
       "cz": -2176,
       "orientation": "EAST",
-      "desert_coverage": 0.9629629629629629,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9629629629629629
+      },
       "elevation_stats": {
         "min_h": 59.8,
         "max_h": 70.52,
@@ -3114,12 +3724,12 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
@@ -3127,7 +3737,13 @@
       "cx": -1408,
       "cz": 2432,
       "orientation": "WEST",
-      "desert_coverage": 0.7777777777777778,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7777777777777778
+      },
       "elevation_stats": {
         "min_h": 60.44,
         "max_h": 70.06,
@@ -3148,20 +3764,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
       "eligible": true,
       "cx": -1152,
       "cz": -2176,
-      "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 61.42,
         "max_h": 67.94,
@@ -3182,20 +3804,26 @@
         "aquifer_risk": false,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -1152,
       "cz": -1408,
-      "orientation": "WEST",
-      "desert_coverage": 0.5925925925925926,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5925925925925926
+      },
       "elevation_stats": {
         "min_h": 66.81,
         "max_h": 73.35,
@@ -3216,12 +3844,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -3229,7 +3857,13 @@
       "cx": -896,
       "cz": -2176,
       "orientation": "EAST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 59.26,
         "max_h": 64.94,
@@ -3250,20 +3884,26 @@
         "aquifer_risk": true,
         "has_cave_collision": true
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -896,
       "cz": -1152,
-      "orientation": "EAST",
-      "desert_coverage": 0.5802469135802469,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5802469135802469
+      },
       "elevation_stats": {
         "min_h": 65.07,
         "max_h": 73.11,
@@ -3284,12 +3924,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -3297,7 +3937,13 @@
       "cx": -896,
       "cz": 128,
       "orientation": "WEST",
-      "desert_coverage": 1.0,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
       "elevation_stats": {
         "min_h": 65.22,
         "max_h": 73.08,
@@ -3318,20 +3964,26 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
       }
     },
     {
       "eligible": true,
       "cx": -640,
       "cz": -3968,
-      "orientation": "EAST",
-      "desert_coverage": 0.7407407407407407,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7407407407407407
+      },
       "elevation_stats": {
         "min_h": 64.51,
         "max_h": 71.28,
@@ -3352,12 +4004,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     },
     {
@@ -3365,7 +4017,13 @@
       "cx": -640,
       "cz": -3712,
       "orientation": "EAST",
-      "desert_coverage": 0.6666666666666666,
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.6666666666666666
+      },
       "elevation_stats": {
         "min_h": 61.79,
         "max_h": 70.0,
@@ -3386,80 +4044,12 @@
         "aquifer_risk": false,
         "has_cave_collision": false
       },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": false,
-        "scenario_4_permissive_16": false,
-        "scenario_5_unconstrained": false
-      }
-    },
-    {
-      "eligible": true,
-      "cx": -640,
-      "cz": 896,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
-      "elevation_stats": {
-        "min_h": 62.92,
-        "max_h": 70.27,
-        "mean_h": 66.11342403628119,
-        "median_h": 65.93,
-        "std_h": 1.437793826585345,
-        "delta_h": 7.349999999999994
-      },
-      "chosen_anchor_y0": 66,
-      "terrain_correction": {
-        "max_cut_depth": 4.269999999999996,
-        "max_skirt_depth": 3.0799999999999983,
-        "cut_volume_blocks": 4243,
-        "fill_volume_blocks": 3443,
-        "exposed_perimeter_ratio": 0.4868421052631579
-      },
-      "underground_risks": {
-        "aquifer_risk": false,
-        "has_cave_collision": false
-      },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": true,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
-      }
-    },
-    {
-      "eligible": true,
-      "cx": -640,
-      "cz": 1152,
-      "orientation": "EAST",
-      "desert_coverage": 1.0,
-      "elevation_stats": {
-        "min_h": 60.84,
-        "max_h": 67.49,
-        "mean_h": 63.70142857142857,
-        "median_h": 63.53,
-        "std_h": 1.4592698450682873,
-        "delta_h": 6.6499999999999915
-      },
-      "chosen_anchor_y0": 64,
-      "terrain_correction": {
-        "max_cut_depth": 3.489999999999995,
-        "max_skirt_depth": 3.1599999999999966,
-        "cut_volume_blocks": 3378,
-        "fill_volume_blocks": 5484,
-        "exposed_perimeter_ratio": 0.5197368421052632
-      },
-      "underground_risks": {
-        "aquifer_risk": false,
-        "has_cave_collision": true
-      },
-      "scenario_acceptance": {
-        "scenario_1_strict_4": false,
-        "scenario_2_conservative_8": false,
-        "scenario_3_moderate_12": true,
-        "scenario_4_permissive_16": true,
-        "scenario_5_unconstrained": true
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
       }
     }
   ]

@@ -1,28 +1,24 @@
 package dev.itzgamesgd.moreminecrafts.st01;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.Map;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
- * ST-01 O-14 — Natural Worldgen Feasibility & Deterministic Invariance Tests.
+ * Phase 1 Corrected Verification for ST-01 O-14 Worldgen Feasibility Study.
  *
- * <p>Verifies the mathematical and logical requirements of ST-01 worldgen feasibility:
+ * <p>Validates:
  * <ul>
- *   <li>EAST/WEST geometry equivalence and exact X-axis mirror contract</li>
- *   <li>Deterministic seed-based orientation selection with 50:50 distribution</li>
- *   <li>Chunk-border footprint invariance across all 256 subchunk coordinate phase offsets</li>
- *   <li>Exactly-once secret entrance registration contract upon placement completion</li>
- *   <li>Rejection of registration before placement and rejection of duplicate registrations</li>
+ *   <li>Exact X-mirror symmetry between EAST and WEST secret-area geometry.</li>
+ *   <li>Deterministic 64-bit MurmurHash3 orientation selection (shared with Python tooling).</li>
+ *   <li>Exact 81x81 body footprint invariance (strictly 6x6=36 chunks across all 256 subchunk phases).</li>
+ *   <li>Variable chunk span for buffered/skirt footprints (36, 42, or 49 chunks across the 256 phases).</li>
+ *   <li>SecretEntranceData idempotent exact-once registration contract.</li>
+ *   <li>Multi-criteria biome eligibility predicates (center vs full footprint).</li>
  * </ul>
  */
 class St01O14WorldgenFeasibilityTest {
@@ -69,6 +65,40 @@ class St01O14WorldgenFeasibilityTest {
         assertEquals(anchor.getZ() - 6, golemEast.getZ());
     }
 
+    /**
+     * Shared 64-bit mixer (MurmurHash3 finalizer) matching Python get_deterministic_orientation.
+     */
+    static long mix64(long seed, int x, int z) {
+        long coordHash = (((long) x & 0xFFFFFFFFL) << 32) | ((long) z & 0xFFFFFFFFL);
+        long combined = seed ^ coordHash;
+        combined ^= (combined >>> 33);
+        combined *= 0xff51afd7ed558ccdL;
+        combined ^= (combined >>> 33);
+        combined *= 0xc4ceb9fe1a85ec53L;
+        combined ^= (combined >>> 33);
+        return combined;
+    }
+
+    static EntranceLayout.Orientation selectOrientation(long seed, int x, int z) {
+        long h = mix64(seed, x, z);
+        return (h & 1L) == 0L ? EntranceLayout.Orientation.EAST : EntranceLayout.Orientation.WEST;
+    }
+
+    @Test
+    void testDeterministicOrientationCrossLanguageVectors() {
+        // Shared test vectors verified against Python murmur3_64
+        assertEquals(EntranceLayout.Orientation.EAST, selectOrientation(1001L, 100, 200),
+                "Vector 1 (1001, 100, 200) must yield EAST");
+        assertEquals(EntranceLayout.Orientation.WEST, selectOrientation(1001L, -500, 300),
+                "Vector 2 (1001, -500, 300) must yield WEST");
+        assertEquals(EntranceLayout.Orientation.WEST, selectOrientation(1002L, 0, 0),
+                "Vector 3 (1002, 0, 0) must yield WEST");
+        assertEquals(EntranceLayout.Orientation.EAST, selectOrientation(123456789L, 42, -99),
+                "Vector 4 (123456789, 42, -99) must yield EAST");
+        assertEquals(EntranceLayout.Orientation.EAST, selectOrientation(-987654321L, 1234, 5678),
+                "Vector 5 (-987654321, 1234, 5678) must yield EAST");
+    }
+
     @Test
     void testDeterministicOrientationSelection50_50Distribution() {
         long seed = 123456789L;
@@ -77,28 +107,15 @@ class St01O14WorldgenFeasibilityTest {
         int westCount = 0;
 
         for (int i = 0; i < trials; i++) {
-            long coordHash = ((long) (i * 31 + 17) << 32) ^ (long) (i * 101 + 43);
-            long combined = seed ^ coordHash;
-            // 64-bit mix (MurmurHash3 finalizer)
-            combined ^= (combined >>> 33);
-            combined *= 0xff51afd7ed558ccdL;
-            combined ^= (combined >>> 33);
-            combined *= 0xc4ceb9fe1a85ec53L;
-            combined ^= (combined >>> 33);
-
-            EntranceLayout.Orientation o = (combined & 1L) == 0L ? EntranceLayout.Orientation.EAST : EntranceLayout.Orientation.WEST;
+            int x = i * 31 + 17;
+            int z = i * 101 + 43;
+            EntranceLayout.Orientation o = selectOrientation(seed, x, z);
             if (o == EntranceLayout.Orientation.EAST) eastCount++;
             else westCount++;
 
             // Test deterministic reproducibility: exact same inputs must yield exact same orientation
-            long verifyCombined = seed ^ coordHash;
-            verifyCombined ^= (verifyCombined >>> 33);
-            verifyCombined *= 0xff51afd7ed558ccdL;
-            verifyCombined ^= (verifyCombined >>> 33);
-            verifyCombined *= 0xc4ceb9fe1a85ec53L;
-            verifyCombined ^= (verifyCombined >>> 33);
-            EntranceLayout.Orientation o2 = (verifyCombined & 1L) == 0L ? EntranceLayout.Orientation.EAST : EntranceLayout.Orientation.WEST;
-            assertEquals(o, o2, "Orientation selection must be 100% deterministic and reproducible");
+            assertEquals(o, selectOrientation(seed, x, z),
+                    "Orientation selection must be 100% deterministic and reproducible");
         }
 
         double eastRatio = (double) eastCount / trials;
@@ -127,9 +144,48 @@ class St01O14WorldgenFeasibilityTest {
 
                 assertEquals(6, spanX, "Horizontal X span must be exactly 6 chunks for all subchunk offsets (dx=" + dx + ")");
                 assertEquals(6, spanZ, "Horizontal Z span must be exactly 6 chunks for all subchunk offsets (dz=" + dz + ")");
-                assertEquals(36, spanX * spanZ, "Total chunks spanned must be invariant at 36 chunks");
+                assertEquals(36, spanX * spanZ, "Total chunks spanned for 81x81 body must be invariant at 36 chunks");
             }
         }
+    }
+
+    @Test
+    void testBufferedFootprintVariableChunkSpanAcrossSubchunkOffsets() {
+        int bufferHalfWidth = 44; // 89x89 illustrative 4-block perimeter skirt buffer: -44..+44
+        Map<Integer, Integer> distribution = new HashMap<>();
+
+        for (int dx = 0; dx < 16; dx++) {
+            for (int dz = 0; dz < 16; dz++) {
+                int minX = dx - bufferHalfWidth;
+                int maxX = dx + bufferHalfWidth;
+                int minZ = dz - bufferHalfWidth;
+                int maxZ = dz + bufferHalfWidth;
+
+                int chunkMinX = Math.floorDiv(minX, 16);
+                int chunkMaxX = Math.floorDiv(maxX, 16);
+                int chunkMinZ = Math.floorDiv(minZ, 16);
+                int chunkMaxZ = Math.floorDiv(maxZ, 16);
+
+                int spanX = chunkMaxX - chunkMinX + 1;
+                int spanZ = chunkMaxZ - chunkMinZ + 1;
+                int totalChunks = spanX * spanZ;
+
+                assertTrue(spanX == 6 || spanX == 7, "Buffered spanX must be 6 or 7");
+                assertTrue(spanZ == 6 || spanZ == 7, "Buffered spanZ must be 6 or 7");
+                assertTrue(totalChunks == 36 || totalChunks == 42 || totalChunks == 49,
+                        "Total chunks spanned for 89x89 buffer must be 36, 42, or 49 (actual: " + totalChunks + ")");
+
+                distribution.put(totalChunks, distribution.getOrDefault(totalChunks, 0) + 1);
+            }
+        }
+
+        // Verify exact 256-phase distribution for 89x89 buffer:
+        // 36 chunks: 64 phases (25%)
+        // 42 chunks: 128 phases (50%)
+        // 49 chunks: 64 phases (25%)
+        assertEquals(64, distribution.get(36).intValue(), "89x89 buffer must yield exactly 64 phases with 36 chunks");
+        assertEquals(128, distribution.get(42).intValue(), "89x89 buffer must yield exactly 128 phases with 42 chunks");
+        assertEquals(64, distribution.get(49).intValue(), "89x89 buffer must yield exactly 64 phases with 49 chunks");
     }
 
     @Test
@@ -163,28 +219,27 @@ class St01O14WorldgenFeasibilityTest {
     }
 
     @Test
-    void testTerrainDeltaAndBiomeEligibilityPredicates() {
-        // Mock preflight predicates:
-        // Rule 1: Desert biome only (100% footprint)
-        // Rule 2: Delta elevation <= maxDelta
-        double maxDelta = 12.0;
+    void testMultiCriteriaBiomePredicates() {
+        // Evaluates center-only vs 100% full-footprint predicates independently
+        // Candidate A: 100% desert -> passes both
+        assertTrue(predicateCenterOnly(true));
+        assertTrue(predicateFullFootprint(1.0));
 
-        // Candidate A: Flat desert plateau (delta = 4.5, 100% desert) -> ACCEPT
-        assertTrue(mockPreflight(1.0, 4.5, maxDelta));
+        // Candidate B: Desert center, but borders savanna (85% desert)
+        // Passes center-only, rejected under strict 100% footprint
+        assertTrue(predicateCenterOnly(true));
+        assertFalse(predicateFullFootprint(0.85));
 
-        // Candidate B: Moderate rolling dune (delta = 9.2, 100% desert) -> ACCEPT
-        assertTrue(mockPreflight(1.0, 9.2, maxDelta));
-
-        // Candidate C: Extreme dune crest (delta = 16.8, 100% desert) -> REJECT
-        assertFalse(mockPreflight(1.0, 16.8, maxDelta));
-
-        // Candidate D: Bordering savanna (delta = 3.2, 85% desert) -> REJECT (Rule: natural generation restricted to desert)
-        assertFalse(mockPreflight(0.85, 3.2, maxDelta));
+        // Candidate C: Non-desert center
+        assertFalse(predicateCenterOnly(false));
+        assertFalse(predicateFullFootprint(0.0));
     }
 
-    private boolean mockPreflight(double desertCoverage, double deltaH, double maxDelta) {
-        if (desertCoverage < 1.0) return false;
-        if (deltaH > maxDelta) return false;
-        return true;
+    private boolean predicateCenterOnly(boolean centerIsDesert) {
+        return centerIsDesert;
+    }
+
+    private boolean predicateFullFootprint(double desertCoverageRatio) {
+        return desertCoverageRatio >= 1.0;
     }
 }

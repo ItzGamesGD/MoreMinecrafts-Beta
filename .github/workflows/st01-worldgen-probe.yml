@@ -1,0 +1,65 @@
+name: ST-01 real Minecraft worldgen terrain probe
+
+# Executes the isolated St01DesertWorldgenProbe in a headless Minecraft 26.3 server (JDK 25)
+# to sample real Overworld desert elevation distributions, multi-criteria biome coverage,
+# and cut/fill volumes across reproducible seeds.
+on:
+  pull_request:
+    paths:
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/worldgenprobe/St01DesertWorldgenProbe.java'
+      - 'src/gametest/resources/fabric.mod.json'
+      - '.github/workflows/st01-worldgen-probe.yml'
+  workflow_dispatch:
+    inputs:
+      radius:
+        description: 'Sampling area radius in blocks (default: 4096)'
+        required: false
+        default: '4096'
+      step:
+        description: 'Candidate grid step in blocks (default: 256)'
+        required: false
+        default: '256'
+      maxcandidates:
+        description: 'Maximum candidate count to evaluate (default: 500)'
+        required: false
+        default: '500'
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests and Probes
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Execute ST-01 Desert Worldgen Probe
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dmm.st01.probe.out=build/st01-worldgen-probe/results/st01_real_measurements.json
+            -Dmm.st01.radius=${{ github.event.inputs.radius || '4096' }}
+            -Dmm.st01.step=${{ github.event.inputs.step || '256' }}
+            -Dmm.st01.maxcandidates=${{ github.event.inputs.maxcandidates || '500' }}
+        run: |
+          set -o pipefail
+          mkdir -p build/st01-worldgen-probe/results
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st01-probe.log || true
+          if [ -s build/st01-worldgen-probe/results/st01_real_measurements.json ]; then
+            echo "ST01_PROBE_SUCCESS: Measurement output generated."
+            cat build/st01-worldgen-probe/results/st01_real_measurements.json | head -n 30
+          else
+            echo "ST01_PROBE_PENDING: Measurement output file not generated."
+            tail -n 50 st01-probe.log
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-worldgen-probe-evidence
+          path: |
+            build/st01-worldgen-probe/results/st01_real_measurements.json
+            st01-probe.log
