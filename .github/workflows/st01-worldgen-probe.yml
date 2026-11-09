@@ -59,13 +59,7 @@ jobs:
             mkdir -p build/run/gameTest
             printf 'eula=true\n' > build/run/gameTest/eula.txt
             printf 'eula=true\n' > eula.txt
-            cat <<PROPS > build/run/gameTest/server.properties
-level-name=world-$seed
-level-seed=$seed
-online-mode=false
-max-tick-time=-1
-enable-status=false
-PROPS
+            printf 'level-name=world-%s\nlevel-seed=%s\nonline-mode=false\nmax-tick-time=-1\nenable-status=false\n' "$seed" "$seed" > build/run/gameTest/server.properties
             cp build/run/gameTest/server.properties ./server.properties
 
             JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st01.probe.out=$RESULTS_DIR/$target_json -Dmm.st01.radius=${{ github.event.inputs.radius || '4096' }} -Dmm.st01.step=${{ github.event.inputs.step || '256' }} -Dmm.st01.maxcandidates=${{ github.event.inputs.maxcandidates || '500' }}" \
