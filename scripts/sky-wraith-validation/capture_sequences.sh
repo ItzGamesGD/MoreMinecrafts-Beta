@@ -21,7 +21,10 @@ rcon 'gamemode spectator WraithViewer' 'tp @e[type=minecraft:husk,tag=wraith_com
 for view in front side; do
   reset_mob; camera "$view"; sleep 2
   record "${view}-idle" 4
-  reset_mob; dummy 10.5; camera "$view"
+  reset_mob; dummy 10.5
+  # Keep a walking mob in frame for the complete sequence without moving the camera.
+  if [[ "$view" == front ]]; then rcon 'tp WraithViewer 0.5 64 14.5 180 5';
+  else rcon 'tp WraithViewer 8.5 64 7.5 90 5'; fi
   rcon 'data merge entity @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual,limit=1] {NoAI:0b}'
   sleep 1; record "${view}-walk" 4
   reset_mob; dummy 5.4; camera "$view"
