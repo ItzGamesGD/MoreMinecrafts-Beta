@@ -173,9 +173,14 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             if (Boolean.getBoolean("mm.st01.p8a.r2.walk")) {
                 Map<String, Object> walks = new LinkedHashMap<>();
                 manifest.put("walks", walks);
-                walks.put("centre_line_x-20.5", walk(context, server, connection, -20.5, -22.0, 3.5));
-                flush(out, manifest);
-                walks.put("beside_base_x-25.5", walk(context, server, connection, -25.5, -22.0, 12.5));
+                if (Boolean.getBoolean("mm.st01.p8a.r2.walk.full")) {
+                    walks.put("centre_line_x-20.5", walk(context, server, connection, -20.5, -22.0, 3.5));
+                    flush(out, manifest);
+                    walks.put("beside_base_x-25.5", walk(context, server, connection, -25.5, -22.0, 12.5));
+                    flush(out, manifest);
+                }
+                // Past the central base, on the centre line: tests the stair + dais climb by itself.
+                walks.put("anchor_x-20.5_z24.5_to_dais", walk(context, server, connection, -20.5, -22.0, 24.5));
                 flush(out, manifest);
             }
 
@@ -185,7 +190,7 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             try {
                 server.runOnServer(s -> {
                     ServerPlayer player = s.getPlayerList().getPlayers().getFirst();
-                    player.setGameMode(GameType.CREATIVE);
+                    player.setGameMode(GameType.SURVIVAL); // an ordinary player opens chests; no flight or creative flags involved
                     // stand on the lowest stair tread (top face y=-21), 3 blocks in front of the PRIMARY chest
                     player.teleportTo(s.overworld(), -20.5, -21.0, 30.5, Set.of(), 0f, 0f, true);
                 });
@@ -202,6 +207,7 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
                     }
                     return String.valueOf(c.hitResult);
                 }));
+                chest.put("client_modes", context.computeOnClient(c -> "spectator=" + c.player.isSpectator() + " creative=" + c.player.isCreative()));
                 chest.put("eye_pos", context.computeOnClient(c -> String.valueOf(c.player.getEyePosition())));
                 context.getInput().pressMouse(1);
                 chest.put("method", "mouse_button_1");

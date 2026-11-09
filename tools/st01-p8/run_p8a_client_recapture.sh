@@ -24,7 +24,7 @@ stamp=$(mktemp)
 watcher=$!
 set +e
 xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render -noreset" env \
-  JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st01.p8a.r2=true -Dmm.st01.p8a.r2.out=$manifest -Dmm.st01.p8a.r2.prefix=${P8A_R2_PREFIX:-R2} -Dmm.st01.p8a.r2.only=${P8A_R2_ONLY:-} -Dmm.st01.p8a.r2.walk=${P8A_R2_WALK:-false}" \
+  JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st01.p8a.r2=true -Dmm.st01.p8a.r2.out=$manifest -Dmm.st01.p8a.r2.prefix=${P8A_R2_PREFIX:-R2} -Dmm.st01.p8a.r2.only=${P8A_R2_ONLY:-} -Dmm.st01.p8a.r2.walk=${P8A_R2_WALK:-false} -Dmm.st01.p8a.r2.walk.full=${P8A_R2_WALK_FULL:-false}" \
   timeout "${CLIENT_TIMEOUT:-1500}" ./gradlew --no-daemon runClientGameTest --args="--width 1920 --height 1080" \
   > "$log" 2>&1
 rc=$?
