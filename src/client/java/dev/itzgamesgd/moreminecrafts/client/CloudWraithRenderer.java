@@ -37,11 +37,32 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieR
         super(context, new WraithModel(context.bakeLayer(LAYER)), 0.5F);
     }
 
+    private static boolean policyProbed;
+
+    static boolean particleAllowed(ParticleStatus setting, int roll) {
+        return setting != ParticleStatus.MINIMAL && (setting != ParticleStatus.DECREASED || roll != 0);
+    }
+
     static void register() {
         ModelLayerRegistry.registerModelLayer(LAYER, CloudWraithRenderer::createLayer);
         EntityRendererRegistry.register(SkyNormalMobs.CLOUD_WRAITH, CloudWraithRenderer::new);
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.level == null || client.player == null) return;
+            if (!policyProbed && "1".equals(System.getenv("MOREMINECRAFTS_WRAITH_CAPTURE"))) {
+                var option = client.options.particles();
+                ParticleStatus original = option.get();
+                try {
+                    for (ParticleStatus mode : new ParticleStatus[] { ParticleStatus.ALL, ParticleStatus.DECREASED, ParticleStatus.MINIMAL }) {
+                        option.set(mode);
+                        int accepted = 0;
+                        for (int roll = 0; roll < 3; roll++) if (particleAllowed(option.get(), roll)) accepted++;
+                        int expected = mode == ParticleStatus.ALL ? 3 : mode == ParticleStatus.DECREASED ? 2 : 0;
+                        if (accepted != expected) throw new IllegalStateException("Particle setting mismatch: " + mode);
+                        MoreMinecrafts.LOGGER.info("WRAITH_PARTICLE_POLICY {} accepted={}/3", mode, accepted);
+                    }
+                } finally { option.set(original); }
+                policyProbed = true;
+            }
             int emitted = 0;
             for (var candidate : client.level.entitiesForRendering()) {
                 if (!(candidate instanceof CloudWraith wraith) || !wraith.isAlive()
@@ -51,8 +72,8 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieR
                 // Mirror ClientLevel.doAddParticle: minimal suppresses normal particles,
                 // decreased suppresses one third, and camera distance is capped at 32 blocks.
                 ParticleStatus setting = client.options.particles().get();
-                if (setting == ParticleStatus.MINIMAL
-                        || (setting == ParticleStatus.DECREASED && random.nextInt(3) == 0)) continue;
+                int roll = setting == ParticleStatus.DECREASED ? random.nextInt(3) : 0;
+                if (!particleAllowed(setting, roll)) continue;
                 double x = wraith.getX() + (random.nextDouble() - 0.5) * 0.8;
                 double y = wraith.getY() + 0.2 + random.nextDouble() * 1.15;
                 double z = wraith.getZ() + (random.nextDouble() - 0.5) * 0.8;

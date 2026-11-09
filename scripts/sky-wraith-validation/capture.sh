@@ -67,4 +67,6 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
  bash scripts/sky-wraith-validation/opacity_capture.sh
  bash scripts/sky-wraith-validation/capture_sequences.sh
  grep "WRAITH_ANIM" sky-wraith-results/client.log || true
+ grep "WRAITH_PARTICLE_POLICY" sky-wraith-results/client.log | tee sky-wraith-results/particle-policy.log
+ test "$(wc -l < sky-wraith-results/particle-policy.log)" -eq 3
 '
