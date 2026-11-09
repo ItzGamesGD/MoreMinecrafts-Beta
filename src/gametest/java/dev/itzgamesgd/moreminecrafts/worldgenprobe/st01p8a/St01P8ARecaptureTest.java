@@ -70,14 +70,14 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             new View("R2-06-doorway-looking-in", -21, -22, 0, -21, -21, 25),
             new View("R2-07-hall-from-entrance", -21, -22, 4, -21, -19, 30),
             new View("R2-08-mid-hall-toward-dais", -21, -22, 14, -21, -19, 33),
-            new View("R2-09-chest-and-dais-front", -21, -22, 22, -20.5, -19.5, 33),
+            new View("R2-09-chest-and-dais-front", -21, -22, 26, -20.5, -19.5, 33.5),
             new View("R2-10-chest-closeup-from-dais", -20.5, -19.4, 27.5, -20.5, -19.5, 33.5),
             new View("R2-11-guardian-arena-from-north", -21, -22, 10, -21, -22, 26),
             new View("R2-12-guardian-arena-from-west", -35, -22, 24, -21, -22, 26),
             new View("R2-13-sarcophagus-dais-west", -34, -19, 36, -22, -20, 33),
             new View("R2-14-frontal-stairs-low", -21, -22, 24, -21, -21, 31),
             new View("R2-15-stairs-from-side", -27, -21, 29, -21, -21, 31),
-            new View("R2-16-side-depth-east-interior", -8, -19, 22, -30, -19, 22),
+            new View("R2-16-side-depth-east-interior", -9, -22, 22, -30, -20, 22),
             new View("R2-17-side-depth-west-interior", -35, -19, 10, -10, -19, 26),
             new View("R2-18-exterior-rear-south", -21, -8, 60, -21, -14, 20),
             new View("R2-19-exterior-side-west", -64, -12, 20, -21, -14, 20));
@@ -116,9 +116,7 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
                     throw new AssertionError("template placement returned false");
                 }
                 ground[0] = level.getHeight(Heightmap.Types.WORLD_SURFACE, -80, -20);
-                player.setGameMode(GameType.CREATIVE);
-                player.getAbilities().flying = true;
-                player.onUpdateAbilities();
+                player.setGameMode(GameType.SPECTATOR); // camera views: no gravity, so the commanded height is kept
                 player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 3600, 0, false, false, false));
             });
             manifest.put("flat_world_surface_height_at_x-80_z-20", ground[0]);
@@ -126,7 +124,12 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             context.waitTicks(40);
             connection.waitForClientboundPackets();
 
-            for (View v : VIEWS) {
+            String prefix = System.getProperty("mm.st01.p8a.r2.prefix", "R2");
+            String only = System.getProperty("mm.st01.p8a.r2.only", "");
+            manifest.put("run_prefix", prefix);
+            for (View v0 : VIEWS) {
+                if (!only.isEmpty() && java.util.Arrays.stream(only.split(",")).noneMatch(v0.name()::startsWith)) continue;
+                View v = new View(v0.name().replaceFirst("^R2", prefix), v0.x(), v0.y(), v0.z(), v0.tx(), v0.ty(), v0.tz());
                 Map<String, Object> cap = new LinkedHashMap<>();
                 cap.put("name", v.name());
                 cap.put("commanded", Map.of("feet", List.of(v.x(), v.y(), v.z()), "yaw", round(v.yaw()), "pitch", round(v.pitch()),
@@ -172,7 +175,9 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             try {
                 server.runOnServer(s -> {
                     ServerPlayer player = s.getPlayerList().getPlayers().getFirst();
-                    player.teleportTo(s.overworld(), -20.5, -19.4, 29.5, Set.of(), 0f, 5f, true);
+                    player.setGameMode(GameType.CREATIVE);
+                    // stand on the lowest stair tread (top face y=-21), 3 blocks in front of the PRIMARY chest
+                    player.teleportTo(s.overworld(), -20.5, -21.0, 30.5, Set.of(), 0f, 0f, true);
                 });
                 context.waitTicks(60);
                 connection.waitForClientboundPackets();
@@ -181,8 +186,22 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
                 chest.put("client_player_feet", context.computeOnClient(c -> List.of(round(c.player.getX()), round(c.player.getY()), round(c.player.getZ()))));
                 context.getInput().lookAt(CHEST_LEFT);
                 context.waitTicks(5);
+                chest.put("crosshair_target", context.computeOnClient(c -> String.valueOf(c.hitResult)));
                 context.getInput().pressMouse(1);
-                context.waitFor(c -> c.gui.screen() instanceof AbstractContainerScreen<?>, 200);
+                chest.put("method", "mouse_button_1");
+                try {
+                    context.waitFor(c -> c.gui.screen() instanceof AbstractContainerScreen<?>, 100);
+                } catch (AssertionError | RuntimeException e) {
+                    // fall back to the client's own use-item-on path (same packet a right-click sends)
+                    chest.put("mouse_press_result", "no container screen opened: " + e.getMessage());
+                    chest.put("method", "MultiPlayerGameMode.useItemOn with the crosshair hit");
+                    context.runOnClient(c -> {
+                        if (c.hitResult instanceof net.minecraft.world.phys.BlockHitResult bhr) {
+                            c.gameMode.useItemOn(c.player, net.minecraft.world.InteractionHand.MAIN_HAND, bhr);
+                        }
+                    });
+                    context.waitFor(c -> c.gui.screen() instanceof AbstractContainerScreen<?>, 200);
+                }
                 context.waitTicks(10);
                 connection.waitForClientboundPackets();
                 chest.put("opened", context.computeOnClient(c -> {
