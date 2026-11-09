@@ -101,8 +101,9 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieR
             }
             rightLeg.zRot += 0.055F * Mth.sin(phase * 0.065F + 0.8F);
             leftLeg.zRot += 0.055F * Mth.sin(phase * 0.065F + 2.0F);
-            rightLeg.xRot += 0.035F * Mth.sin(phase * 0.055F + 1.3F);
-            leftLeg.xRot += 0.035F * Mth.sin(phase * 0.055F + 2.5F);
+            // Knockback can produce a very large vanilla walk swing; keep the wisps restrained.
+            rightLeg.xRot = Mth.clamp(rightLeg.xRot + 0.035F * Mth.sin(phase * 0.055F + 1.3F), -0.45F, 0.45F);
+            leftLeg.xRot = Mth.clamp(leftLeg.xRot + 0.035F * Mth.sin(phase * 0.055F + 2.5F), -0.45F, 0.45F);
         }
     }
 }
