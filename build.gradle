@@ -63,6 +63,14 @@ loom {
             runDir = "build/sky-islands-probe/run"
             ideConfigGenerated false
         }
+        // ST-01 P8-A live placement probe (tools/st01-p8/run_p8a_live_probe.sh); inert unless -Dmm.st01.p8a.out is set; not part of check/build/CI.
+        royalHallPlacementProbe {
+            server()
+            name = "ST-01 P8-A Royal Hall Placement Probe"
+            source sourceSets.gametest
+            runDir = "build/st01-p8a-probe/run"
+            ideConfigGenerated false
+        }
         // ST-05 Stage 0 feasibility probe for A02/A03 (tools/st05-worldgen-probe/run_probe.sh); inert unless -Dmm.st05.out is set; not part of check/build/CI.
         st05CavernProbe {
             server()
