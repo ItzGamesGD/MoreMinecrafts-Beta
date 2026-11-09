@@ -163,12 +163,18 @@ def main():
     args = parser.parse_args()
     files, manifest = collect()
     if args.check:
-        # Base island NBT depends on libm rounding. The composites are deterministic
-        # gzip outputs and are compared byte-for-byte; JSON is always exact.
+        # Base island NBT depends on libm rounding. Composite towers are deterministic, but their gzip
+        # *bytes* depend on the local zlib build, so compare the decompressed NBT payload (C-4 finding).
+        import gzip
+        def same_payload(path, data):
+            try:
+                return gzip.decompress(path.read_bytes()) == gzip.decompress(data)
+            except (OSError, EOFError):
+                return False
         stale = [str(p.relative_to(ROOT)) for p, data in files.items()
                  if not p.is_file() or (p.suffix == ".json" and p.read_bytes() != data)
                  or (p.suffix == ".nbt" and p.parent.name in STYLES and p.stem == "tower"
-                     and p.read_bytes() != data)]
+                     and not same_payload(p, data))]
         assert not stale, "Committed sky island assets differ from their generator: " + ", ".join(stale[:10])
     else:
         for path, data in files.items():

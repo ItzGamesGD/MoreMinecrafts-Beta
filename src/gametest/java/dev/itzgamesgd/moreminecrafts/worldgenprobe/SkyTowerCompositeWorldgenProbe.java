@@ -52,6 +52,9 @@ public final class SkyTowerCompositeWorldgenProbe implements ModInitializer {
             int[] stage = {0};
             @SuppressWarnings("unchecked") Map<String, Sample>[] samples = new Map[]{null};
             RestartSnapshot[] restart = {null};
+            int[] waited = {0};
+            boolean[] forced = {false};
+            @SuppressWarnings("unchecked") Map<String, Object>[] pending = new Map[]{null};
             ServerTickEvents.END_SERVER_TICK.register(ticking -> {
                 if (ticking != server) return;
                 try {
@@ -61,8 +64,36 @@ public final class SkyTowerCompositeWorldgenProbe implements ModInitializer {
                         stage[0] = 1;
                         return;
                     }
+                    boolean floorClear = Boolean.getBoolean("mm.sky.tower.persistFloorClear");
+                    if (floorClear && !forced[0]) { forceTowerChunks(server); forced[0] = true; waited[0] = 0; return; } // after auto-registration
+                    if (resume && floorClear && stage[0] == 1 && waited[0]++ < 100) return; // let the barrier tick reconcile after load
+                    if (!resume && floorClear && stage[0] >= 2) {
+                        waited[0]++;
+                        if (stage[0] == 2 && waited[0] >= 60) { // barriers installed by the real 20-tick barrier tick
+                            Map<String, Object> before = floorState(server);
+                            ServerLevel lv = server.getLevel(Level.OVERWORLD);
+                            SkyTowerData d = server.overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
+                            var site = d.sites().values().iterator().next();
+                            for (int i = 0; i < 4; i++) { var a = site.spawner(i); lv.destroyBlock(new BlockPos(a.x(), a.y(), a.z()), false); }
+                            pending[0].put("floor_clear_fixture_before_removal", before);
+                            stage[0] = 3; waited[0] = 0; return;
+                        }
+                        if (stage[0] == 2) return;
+                        if (waited[0] < 60) return;
+                        pending[0].put("floor_clear_fixture_after_removal", floorState(server));
+                        Path path = Path.of(output);
+                        Files.createDirectories(path.getParent());
+                        Files.writeString(path, GSON.toJson(pending[0]), StandardCharsets.UTF_8);
+                        LOG.info("SKY_TOWER_COMPOSITE_PROBE_DONE pass={}", pending[0].get("pass"));
+                        server.halt(false);
+                        return;
+                    }
                     Map<String, Object> report = resume ? verifyRestart(server, restart[0]) : verify(server, samples[0]);
-                    if (!resume && Boolean.getBoolean("mm.sky.tower.persistTestProgress")) {
+                    if (resume && floorClear) report.put("floor_state_after_restart", floorState(server));
+                    if (!resume && floorClear && stage[0] == 1) {
+                        pending[0] = report; stage[0] = 2; waited[0] = 0; return;
+                    }
+                    if (!resume && !floorClear && Boolean.getBoolean("mm.sky.tower.persistTestProgress")) {
                         SkyTowerData data = server.overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
                         for (Sample sample : samples[0].values()) {
                             if (!data.sites().containsKey(sample.site().id())) continue;
@@ -92,6 +123,59 @@ public final class SkyTowerCompositeWorldgenProbe implements ModInitializer {
                 }
             });
         });
+    }
+
+    /** Fixture-only: keep the registered/sampled tower chunks loaded so the real 20-tick barrier tick can act. */
+    private static void forceTowerChunks(MinecraftServer server) {
+        ServerLevel level = server.getLevel(Level.OVERWORLD);
+        SkyTowerData data = server.overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
+        for (var site : data.sites().values()) {
+            int[] b = site.bounds();
+            for (int cx = (b[0] >> 4) - 2; cx <= (b[3] >> 4) + 2; cx++)
+                for (int cz = (b[2] >> 4) - 2; cz <= (b[5] >> 4) + 2; cz++) {
+                    level.getChunk(cx, cz, ChunkStatus.FULL, true);
+                    level.setChunkForced(cx, cz, true);
+                }
+        }
+    }
+
+    /** Counts the floor-0/floor-1 wall cells of the first registered tower: barrier blocks vs air, plus saved masks. */
+    private static Map<String, Object> floorState(MinecraftServer server) {
+        ServerLevel level = server.getLevel(Level.OVERWORLD);
+        SkyTowerData data = server.overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
+        Map<String, Object> out = new LinkedHashMap<>();
+        if (data.sites().isEmpty()) { out.put("error", "no registered site"); return out; }
+        var site = data.sites().values().iterator().next();
+        out.put("site", site.id());
+        out.put("completed_mask", data.completedMask(site.id()));
+        out.put("destroyed_mask", data.destroyedMask(site.id()));
+        int noBlockChunk = 0, noEntities = 0, noChunkSource = 0;
+        for (int cell = 0; cell < 18; cell++) {
+            var a = site.barrier(0, cell);
+            if (!level.hasChunkAt(new BlockPos(a.x(), a.y(), a.z()))) noBlockChunk++;
+            for (int x = Math.floorDiv(a.x() - 2, 16); x <= Math.floorDiv(a.x() + 3, 16); x++)
+                for (int z = Math.floorDiv(a.z() - 2, 16); z <= Math.floorDiv(a.z() + 3, 16); z++) {
+                    if (!level.areEntitiesLoaded(net.minecraft.world.level.ChunkPos.pack(x, z))) noEntities++;
+                    if (!level.getChunkSource().hasChunk(x, z)) noChunkSource++;
+                }
+        }
+        out.put("diag_floor0_cells_without_block_chunk", noBlockChunk);
+        out.put("diag_floor0_entity_chunk_checks_not_loaded", noEntities);
+        out.put("diag_floor0_chunk_source_checks_missing", noChunkSource);
+        out.put("diag_server_tick_count", server.getTickCount());
+        for (int floor = 0; floor < 2; floor++) {
+            int barrier = 0, air = 0, owned = 0;
+            for (int cell = 0; cell < 18; cell++) {
+                var a = site.barrier(floor, cell);
+                var state = level.getBlockState(new BlockPos(a.x(), a.y(), a.z()));
+                if (state.is(Blocks.BARRIER)) barrier++; else if (state.isAir()) air++;
+                if (data.ownsBarrier(site.id(), floor, cell)) owned++;
+            }
+            out.put("floor" + floor + "_barrier_cells", barrier);
+            out.put("floor" + floor + "_air_cells", air);
+            out.put("floor" + floor + "_owned_cells", owned);
+        }
+        return out;
     }
 
     private static Map<String, Sample> discoverAndLoad(MinecraftServer server) {

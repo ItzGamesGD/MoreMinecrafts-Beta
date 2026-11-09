@@ -21,6 +21,18 @@ public final class SkyTowerGameTests {
         BlockPos at(int floor,int cell){return SkyTowerBarriers.pos(site.barrier(floor,cell));}
         void release(){for(int x=(site.x()-50)>>4;x<=(site.x()+50)>>4;x++)for(int z=(site.z()-50)>>4;z<=(site.z()+50)>>4;z++)level.setChunkForced(x,z,false);}
     }
+    /** GameTest's stock in-level mock reports CREATIVE, which vanilla Trial Spawners deliberately ignore.
+     * This one is a plain survival ServerPlayer with a loopback connection, placed through the vanilla PlayerList. */
+    private static net.minecraft.server.level.ServerPlayer survivalPlayer(ServerLevel level){
+        var profile=new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(),"c4-survivor");
+        var cookie=net.minecraft.server.network.CommonListenerCookie.createInitial(profile,false);
+        var player=new net.minecraft.server.level.ServerPlayer(level.getServer(),level,profile,cookie.clientInformation());
+        var connection=new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND);
+        new io.netty.channel.embedded.EmbeddedChannel(connection);
+        level.getServer().getPlayerList().placeNewPlayer(connection,player,cookie);
+        player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+        return player;
+    }
     private Fixture fixture(GameTestHelper ctx,int rotation,boolean template){
         var level=ctx.getLevel();int x=100009+NEXT.incrementAndGet()*400,z=100000;
         var site=new SkyTowerLayout.Site(level.dimension().identifier().toString(),x,80,z,rotation);
@@ -57,6 +69,88 @@ public final class SkyTowerGameTests {
         }
         ctx.succeed();
     }
+    /** C-4: real vanilla lifecycle. No completion marker, cooldown block write or manual reconcile is used for the
+     * subject tower: survival players are detected by the four floor-0 Trial Spawners, vanilla spawns real zombies,
+     * player-attributed damage kills them, and vanilla's own tick walks ACTIVE -> reward ejection -> COOLDOWN.
+     * The mod hook and the 20-tick barrier tick must then record 4/4 and open the floor-0 wall.
+     * mode: 0 normal; 1 the last spawner is really removed while ACTIVE (destroyed-during-combat). */
+    private void runRealCombat(GameTestHelper ctx,int rotation,int players,int mode,String tag){
+        var a=fixture(ctx,rotation,true);var other=fixture(ctx,(rotation+1)%4,true);var level=a.level;
+        level.getServer().setDifficulty(net.minecraft.world.Difficulty.NORMAL,true);
+        var ps=new java.util.ArrayList<net.minecraft.server.level.ServerPlayer>();
+        var mid=a.site.at(24,11,24);
+        for(int i=0;i<players;i++){var p=survivalPlayer(level);p.setPos(mid.x()+.5+i,mid.y(),mid.z()+.5);ps.add(p);}
+        var order=new java.util.ArrayList<String>();
+        var last=new TrialSpawnerState[4];var maskAtCooldown=new int[]{-1,-1,-1,-1};var killed=new int[]{0};var t=new int[]{0};
+        var barrierSeen=new boolean[]{false};var openedAt=new int[]{-1};var ghost=new int[]{0};
+        var box=new net.minecraft.world.phys.AABB(mid.x()-30,mid.y()-4,mid.z()-30,mid.x()+30,mid.y()+10,mid.z()+30);
+        ctx.onEachTick(()->{
+            t[0]++;
+            if(!barrierSeen[0] && level.getBlockState(a.at(0,0)).is(Blocks.BARRIER))barrierSeen[0]=true;
+            for(int i=0;i<4;i++){
+                var pos=SkyTowerBarriers.pos(a.site.spawner(i));var st=level.getBlockState(pos);
+                if(!st.is(Blocks.TRIAL_SPAWNER))continue;
+                var s=st.getValue(TrialSpawnerBlock.STATE);
+                if(s!=last[i]){order.add("t"+t[0]+" sp"+i+" "+s);last[i]=s;
+                    if(s==TrialSpawnerState.COOLDOWN)maskAtCooldown[i]=a.data.completedMask(a.site.id());
+                    if(openedAt[0]<0 && s!=TrialSpawnerState.COOLDOWN && s!=TrialSpawnerState.INACTIVE && s!=TrialSpawnerState.WAITING_FOR_PLAYERS)
+                        ctx.assertTrue((a.data.completedMask(a.site.id())&(1<<i))==0,"no completion before vanilla COOLDOWN (sp"+i+" "+s+")");
+                    if(mode==1 && i==3 && s==TrialSpawnerState.ACTIVE){
+                        ctx.assertTrue((a.data.completedMask(a.site.id())&8)==0,"sp3 incomplete when removed mid-combat");
+                        level.destroyBlock(pos,false);order.add("t"+t[0]+" sp3 DESTROYED_WHILE_ACTIVE");
+                    }
+                }
+            }
+            for(var z:level.getEntitiesOfClass(net.minecraft.world.entity.monster.zombie.Zombie.class,box))
+                if(z.isAlive()){z.hurtServer(level,level.damageSources().playerAttack(ps.get(0)),1000f);killed[0]++;}
+            if(openedAt[0]<0 && a.data.floorCleared(a.site.id(),0)){
+                openedAt[0]=t[0];
+                ctx.assertTrue(barrierSeen[0],"barrier wall was installed before combat completed");
+                ctx.assertTrue(a.data.completedMask(a.site.id())==15,"exactly floor-0 mask "+a.data.completedMask(a.site.id()));
+                if(mode==0){
+                    ctx.assertTrue(killed[0]>=4*players,"real zombies killed "+killed[0]);
+                    ctx.assertTrue(a.data.destroyedMask(a.site.id())==0,"completion is normal, not destruction");
+                    for(int i=0;i<4;i++)ctx.assertTrue(maskAtCooldown[i]>=0,"sp"+i+" reached vanilla COOLDOWN");
+                }else{
+                    ctx.assertTrue(a.data.destroyedMask(a.site.id())==8,"only the removed spawner is a destruction: "+a.data.destroyedMask(a.site.id()));
+                    for(int i=0;i<3;i++)ctx.assertTrue(maskAtCooldown[i]>=0,"sp"+i+" reached vanilla COOLDOWN");
+                }
+                System.out.println("[C4-combat:"+tag+"] cleared at t="+t[0]+" killed="+killed[0]+" order="+order);
+            }
+            if(openedAt[0]>=0 && t[0]==openedAt[0]+45){
+                for(int c=0;c<18;c++)ctx.assertTrue(level.getBlockState(a.at(0,c)).isAir(),"floor-0 wall removed by the real barrier tick");
+                ctx.assertTrue(level.getBlockState(a.at(1,0)).is(Blocks.BARRIER),"floor 1 wall still present");
+                ctx.assertTrue(other.data.completedMask(other.site.id())==0 && level.getBlockState(other.at(0,0)).is(Blocks.BARRIER),"second tower untouched and still walled");
+                // Persistence of real-combat-derived state through the production codec (NBT, as SavedData writes it).
+                var ops=level.registryAccess().createSerializationContext(net.minecraft.nbt.NbtOps.INSTANCE);
+                var nbt=SkyTowerData.CODEC.encodeStart(ops,a.data).getOrThrow();
+                var back=SkyTowerData.CODEC.parse(ops,nbt).getOrThrow();
+                ctx.assertTrue(back.completedMask(a.site.id())==15 && back.destroyedMask(a.site.id())==a.data.destroyedMask(a.site.id())
+                    && back.completedMask(other.site.id())==0 && !back.quarantined(),"NBT round-trip keeps masks");
+                for(int c=0;c<18;c++)ctx.assertTrue(!back.ownsBarrier(a.site.id(),0,c) && back.ownsBarrier(a.site.id(),1,c),"ownership round-trip: floor 0 released, floor 1 owned");
+                // Player-placed block in a released cell and next to the wall must survive; completed wall never re-installs.
+                level.setBlock(a.at(0,0),Blocks.STONE.defaultBlockState(),3);
+                level.setBlock(a.at(0,2).above(),Blocks.OAK_PLANKS.defaultBlockState(),3);
+                // A completed spawner "reactivating" (synthetic block-state write; vanilla cooldown is 30 min) must not re-wall or reset.
+                var sp0=SkyTowerBarriers.pos(a.site.spawner(0));
+                if(level.getBlockState(sp0).is(Blocks.TRIAL_SPAWNER))
+                    level.setBlock(sp0,level.getBlockState(sp0).setValue(TrialSpawnerBlock.STATE,TrialSpawnerState.ACTIVE),3);
+            }
+            if(openedAt[0]>=0 && t[0]==openedAt[0]+110){
+                ctx.assertTrue(level.getBlockState(a.at(0,0)).is(Blocks.STONE) && level.getBlockState(a.at(0,2).above()).is(Blocks.OAK_PLANKS),"player blocks preserved");
+                for(int c=1;c<18;c++)ctx.assertTrue(level.getBlockState(a.at(0,c)).isAir(),"no re-wall after reactivation");
+                ctx.assertTrue(a.data.completedMask(a.site.id())==15,"mask unchanged by reactivation");
+                a.release();other.release();ctx.succeed();
+            }
+        });
+    }
+    @GameTest(maxTicks=1500)
+    public void realVanillaTrialCombatCompletesFloorZeroAndOpensBarrier(GameTestHelper ctx){runRealCombat(ctx,0,1,0,"rot0-1p");}
+    @GameTest(maxTicks=1500)
+    public void realVanillaTrialCombatTwoPlayersRotatedHalfTurn(GameTestHelper ctx){runRealCombat(ctx,2,2,0,"rot2-2p");}
+    @GameTest(maxTicks=1500)
+    public void realVanillaTrialCombatSpawnerRemovedWhileActiveStillOpensFloor(GameTestHelper ctx){runRealCombat(ctx,3,1,1,"rot3-destroy-active");}
+
     @GameTest(maxTicks=160)
     public void foreignBlocksEntitiesAndReplacedBarriersAreNeverOverwrittenOrAdopted(GameTestHelper ctx){
         var a=fixture(ctx,0,false);var p=a.at(0,0);

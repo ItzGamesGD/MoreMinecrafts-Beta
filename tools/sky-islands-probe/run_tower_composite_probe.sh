@@ -18,6 +18,8 @@ echo "eula=true" > "$run/eula.txt"
 cat > "$run/server.properties" <<PROPS
 level-name=world
 level-seed=$seed
+${LEVEL_TYPE:+level-type=$LEVEL_TYPE}
+${GENERATOR_SETTINGS:+generator-settings=$GENERATOR_SETTINGS}
 online-mode=false
 server-port=$((20000 + RANDOM % 20000))
 view-distance=2
@@ -29,7 +31,7 @@ sync-chunk-writes=false
 enable-status=false
 PROPS
 cd "$root"
-JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.sky.tower.out=$out -Dmm.sky.tower.radius=$radius -Dmm.sky.tower.resume=$([[ "$resume" == "1" ]] && echo true || echo false) -Dmm.sky.tower.persistTestProgress=$persist_progress" \
+JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.sky.tower.out=$out -Dmm.sky.tower.radius=$radius -Dmm.sky.tower.resume=$([[ "$resume" == "1" ]] && echo true || echo false) -Dmm.sky.tower.persistTestProgress=$persist_progress -Dmm.sky.tower.persistFloorClear=${PERSIST_FLOOR_CLEAR:-false}" \
   timeout "${PROBE_TIMEOUT:-2400}" ./gradlew --no-daemon ${GRADLE_ARGS:-} \
     -I tools/sky-islands-probe/tower_probe.init.gradle runSkyIslandsProbe -q > "$log" 2>&1 || {
     echo "FAILED seed $seed (see $log)"; tail -50 "$log"; exit 1;
