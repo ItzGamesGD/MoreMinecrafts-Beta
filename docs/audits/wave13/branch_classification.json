@@ -1,0 +1,717 @@
+{
+ "audit/bc01-bc02-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "audit/prc-p5-pre-research-preservation-20261026": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "audit/prc-p6-pre-preservation-20261027": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "audit/prc-p6-remaining-preservation-20261027": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #191 (merged into Wave 10). All 3 commits patch-equivalent to Wave 11 d44a83c/7ff1d14/45fd25f; 90 files blob-identical.",
+  "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "audit/stage23-pr92-pr93-reconciliation-20261019": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #125 (closed) — base of open PRs #126/#127. Cumulative donor for Batch A; Stage 22/23-A research chain. Its retained runtime reached Wave 11 through #125 → Batch A #156 → Wave 5R composition a13d9777; every research effect it implemented has a live handler in the checkpoint (ResearchRewards + mixins, verified per ID) and renamed regression tests (Research23AEffectRulesTest, Research23AXpCollectionGameTests, Research23AMovementExhaustionGameTests, ResearchContentGameTests). Branch-only lines are older test fixtures/keys repaired by #166.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "checkpoint/wave10-unified-20261026": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Wave 10 checkpoint. Its 3 post-#191 commits are patch-equivalent in Wave 11; trusted checkpoint ref.",
+  "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "checkpoint/wave11-unified-20261027": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "checkpoint/wave12-unified-20261027": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Validated Wave 12 checkpoint, head of open PR #193 and base of PRs #194 and #195. Never rewritten.",
+  "provenance": "CHECKPOINT (Wave 12)"
+ },
+ "claude/q1c-skull-provenance-20261019": {
+  "class_wave12": "RETAIN — UNRESOLVED AUTHORITY",
+  "evidence": "PR #128 (open draft). Wither-skull provenance (4 mixins, QuestWitherSkullProvenance, 13 tests) and registration of xpq.cmb.wither_skulls_3. Owner F-1: rule approved but #128/#130 NOT release-ready; crash-consistency defect must be fixed before registration.",
+  "provenance": "UNRESOLVED — BLOCKED (owner decision / design)"
+ },
+ "claude/stage23a-economy-soil-20261017": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #110. .53 Villager Trading + .16 Soil Study. Wave 11 has both (ResearchVillagerDiscount with owner-approved ceil rounding 2026-10-26; SoilStudyRuntime + 14 Soil tests). Branch's round-to-nearest test superseded.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "claude/wave-7b-decisions-reconciliation-xjdmva": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "claude/xp-quest-authority-20261017": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #111/#112 (closed) — base of open PR #118. XP Quest authority docs present in Wave 11 (UI_ADVANCEMENT_INTEGRATION amendment, docs/design/xp-quest/*).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "claude/xp-quest-q1-integration": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #118 (open draft) — base of open #119. XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "claude/xp-quest-q1a-core": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #114. Catalog ledger/tracking reached Wave 11 via #118→#121→#156. XpLevels replaced by exact RawXp (authority: exact raw XP). XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "claude/xp-quest-q1a2-exact-xp": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #115. Exact raw-XP transactions + claim rollback present (RawXp, ExactXpTransactionGameTests, EnhancementTransactionGameTests).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "claude/xp-quest-q1b-tracking": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #119 (open draft). XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/accessory-client-acceptance-20261021": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/accessory-client-lifecycle-final-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/accessory-client-repair-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/accessory-enhancement-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/accessory-infrastructure-20261021": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/accessory-inventory-ui-redesign-20261023": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/accessory-lifecycle-qa-20261021": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/accessory-persistence-inventory-20261021": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/accessory-visual-assets-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/ancient-city-arena-prototype-20261013": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #83 (open draft). Its 5 commits were cherry-picked with -x into Wave 12 (6bb483e1..209c251e), so all are patch-equivalent there. Kept: open PR head, and the base of the real-terrain evidence history.",
+  "provenance": "RECOVERED IN WAVE 12"
+ },
+ "codex/bc03-bounty-contract-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "codex/q1c-pr128-p1-p2-repair-20261019": {
+  "class_wave12": "RETAIN — UNRESOLVED AUTHORITY",
+  "evidence": "PR #130 (open draft). P2 pickup accounting fixed; P1 forced-halt receipt protocol still RED by its own acceptance test (A=1,B=1) and needs a durability-protocol design. Not integrated.",
+  "provenance": "UNRESOLVED — BLOCKED (owner decision / design)"
+ },
+ "codex/q1c-recovery-20261019-079d36a": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #127 (open draft) — base of #128. Skull decision recorded in Phase 2 F-1; build blocker report historical.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/review-claude-pr110-20261017": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #116. Villager pricing repair carried by #123/#124 into #125; Wave 11 test villagerDiscountRoundsReductionUp… matches 2026-10-26 ceil authority.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage22-research-implementation-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #89. Roots/passives/C-Lite present (ResearchRewards root effects, ResearchCatalog). Stage 22/23-A research chain. Its retained runtime reached Wave 11 through #125 → Batch A #156 → Wave 5R composition a13d9777; every research effect it implemented has a live handler in the checkpoint (ResearchRewards + mixins, verified per ID) and renamed regression tests (Research23AEffectRulesTest, Research23AXpCollectionGameTests, Research23AMovementExhaustionGameTests, ResearchContentGameTests). Branch-only lines are older test fixtures/keys repaired by #166.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23-livefix-a-20261016": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #99. Model/viewport repair retained via #125 (Batch A manifest).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23-livefix-b-20261016": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #105 — base of open PR #107. Portable furnace persistence present (PortableFurnaceContents, PortableFurnaceRestartFixture; authority amendment 2026-10-16).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23-pr105-bundle-export-20261016": {
+  "class_wave12": "RETAIN — UNPRESERVED FUNCTIONALITY",
+  "evidence": "No PR. One-off CI workflow (c035946f) that exported a PR #105 git bundle; no product code or authority. The workflow file exists only on this branch (no PR ref keeps it), so deletion would discard it; owner discard needed.",
+  "provenance": "VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY"
+ },
+ "codex/stage23a-batch2-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #91. .17/.28/.64 + wall_jump/fall_roll present (ResearchLivestockRuntime, ResearchAxeCombatRuntime, ResearchXpAcquisition, ResearchMovementRuntime).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-batch3-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #95. Precision crafting .08 present (PrecisionCraftingRulesTest, k5-stage23a-batch3-crafting-probe workflow).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-expanded-batch2-20261017": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #108. .38/.39/.40/.51/.62 present (ResearchCreeperMixin, ResearchSpiderLeapMixin, ResearchEndermanMixin, ResearchBatch2Runtime, ResearchStatusEffectMixin).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-expanded-research-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #98. .06/.07/.11/.44/.45/.47 on furnace infrastructure present (FurnaceResearchRules, Research23AExpandedGameTests).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-fisheries-hotfix-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #97. Exact-fifths/largest-remainder Fisheries arithmetic present (Research23AEffectRulesTest.fisheriesUsesApprovedLargestRemainderTables…).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-furnace-infrastructure-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #96. Furnace attribution present; branch's 'latest open wins' rule superseded by authority 'actual interaction outranks opening' (RESEARCH_KNOWLEDGE_TIER Batch 3 amendment) as implemented in Wave 11.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-integrated-research-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #94. Selective #92 import (.19/.55/.67) present.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-reconcile-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #93. ResearchParallelBranchRules/ResearchMovementExhaustion folded into Research23AEffectRules + ResearchMovementExhaustionMixin; manifest preserved (docs/preservation/PR93_…). Its RESEARCH 67 authority text restored in Wave 12 (0d035c84).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-remaining-research-20261017": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #109. .33 sweeps, .61 potions, .50 Riding, mob_capture gate present (ResearchConsecutiveSweep, ResearchSplash/LingeringPotionMixin, ResearchRidingRuntime, MobCaptureRuntime).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-research-content-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #90. Batch 1 effects .02/.03/.18/.23 present (ResearchContentRuntime, ItemStackMixin, ResearchBeehiveMixin, FishingChallenges).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23a-research-implementation-20261015": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #92. Six effects present through evolved paths (ResearchBeehiveHarvestMixin → ResearchBeehiveMixin+ResearchBeehiveHarvestGuard). Manifest preserved (docs/preservation/PR92_…). RESEARCH 67 authority text restored in Wave 12.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/stage23b-cloud-client-qa-design": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #106. QA design preserved in docs/preservation/prc-p6/PR106 (Wave 11 45fd25f).",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "codex/stage23b-cloud-live-client-qa": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #107 (open draft). Test-only clientQa source set + workflow; approved as validation tooling, not gameplay. Not integrated (would add a new source set/CI lane; real-client coverage in Wave 11 comes from client-visual-validation + Wave 7 A/E SDL input + accessory client gametests).",
+  "provenance": "VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY"
+ },
+ "codex/xp-quest-200-content-audit-20261020": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #140. All 8 review records imported byte-for-byte by Batch A (docs/design/xp-quest/audit-200).",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "codex/xp-quest-q1b-correction": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #120. XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/xp-quest-q1c": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #121. Structure/combat/raid/monument tracking and 75 registrations present.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "codex/xp-quest-ui-integration-20261020": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "No PR. Only a checkpoint doc, preserved blob-identical in docs/audit/BRANCH-W11-20261027/preserved/92c8a0f9….md.",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "design/bounty-contract-approved-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "design/pillager-headquarters-concept-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #147. PILLAGER_HEADQUARTERS_DESIGN blob 904d16c4 identical in Wave 11; pyramid prep superseded by #181 version.",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "design/pyramid-mob-roster-20261026": {
+  "class_wave12": "RETAIN — UNRESOLVED AUTHORITY",
+  "evidence": "No PR. STRUCTURE_AUTHORITY_INDEX routes ST-01 roster to this branch as an active design branch (not reviewed into authority). Copy preserved in docs/audit/BRANCH-W11-20261027/preserved/ad8d2e31….md.",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "design/spider-colony-biome-20261026": {
+  "class_wave12": "RETAIN — UNRESOLVED AUTHORITY",
+  "evidence": "No PR. STRUCTURE_AUTHORITY_INDEX routes ST-04 and ST-02 cancellation to this branch (active design). Copy preserved (fb5611f5….md).",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "design/stage23a-remaining-approval-20261017": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "No PR. RESEARCH_STAGE23A_REMAINING_USER_DECISIONS preserved at docs/preservation/recovered/stage23a-remaining-approval/ and routed by the index.",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "design/territory-d79-d80-reconcile-20261020": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #136. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "design/territory-d81-d84-facility-prep-20261021": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #137. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "design/territory-economy-bounty-approved-20261019": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #131. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code. Commission board is historical-only (Q1).",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "design/territory-owner-decisions-d01-d78-20261020": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #133. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "design/territory-owner-decisions-reconcile-20261020": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #134. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "design/territory-registration-recovery-d2a-20261019": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #132. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "design/territory-shelved-independent-content-20261021": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #138. Shelving decision preserved and routed as current authority (docs/preservation/recovered/territory-chain/TERRITORY_SHELVED_…).",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "design/xp-quest-selector-redesign-20261019": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #126 (open draft) — base of open #129. XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "design/xp-quest-structure-200-20261019": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #129 (open draft). XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "design/xp-quest-usability-d1-d5-20261019": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #135. XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "docs/2026-10-07-content-first-axis-review": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #71 (merged into main). Old pre-recovery lineage; its two unique docs preserved in docs/preservation/recovered/content-first-axis-review. Villager −2/−4/−6% line superseded by 5/10/15%. Old-lineage code (F/Shift+F, Wind Step, +30/+40 enhancement, Tier IV–V fishing) superseded by current authority.",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "docs/accessory-enhancement-approved-20261017": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #113. ACCESSORY_ENHANCEMENT_DECISIONS present; implementation present (AccessoryEnhancement*).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "docs/alchemy-plot-notes": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "No PR. Single idea note preserved blob-identical (preserved/020ce8e8….md).",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "docs/phase2-preservation-decisions-20261026": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #189 (open draft). All 5 commits patch-equivalent in Wave 11; Wave 11 then applied owner Q1–Q4 (which changed Q3 Feather Boots wording) — branch-only lines are the superseded pre-Q3 text.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "docs/ring-life-authority-option-a-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #183 (merged into #181). Ring of Life Option A present in ACCESSORY_COOLDOWN_DECISION + regression test; all files identical/zero unique lines.",
+  "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "docs/sky-islands-design-context-20261027": {
+  "class_wave12": "RETAIN — UNRESOLVED AUTHORITY",
+  "evidence": "No PR. LIVE design branch: head moved 8ceff945 -> 631d9504 after Wave 12 preserved 8ceff945 (owner replaced section 5). Wave 12's copy (blob a91e385d) is a stale snapshot; the current blob f5aa758e is preserved as a snapshot in docs/preservation/snapshots/. Not routed as authority; owner is still editing.",
+  "provenance": "RECOVERED IN WAVE 12"
+ },
+ "docs/stage23-accessories-approved-20261016": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #101. 12-accessory design present (ACCESSORY_RELIC_SYSTEM_DECISIONS_2026-10-16).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "docs/ui-piglin-mob-tracker-20261010": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "No PR. Piglin trade/mob tracker UI record preserved (preserved/ba6dbd84….md); summarized in UI_SYSTEM_FULL_AUDIT.",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "docs/wave13-prep-audit-20261027": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "Head of open Draft PR #195: verified CI record, F-3 and F-1 analyses, cleanup manifest, Sky Islands snapshot.",
+  "provenance": "WAVE 13 WORKING BRANCH"
+ },
+ "docs/wave4b-custom-quest-ui-authority-20261024": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #164. Custom Quest UI authority present as 'XP Quest UI architecture (2026-10-24)' in the index and the UI amendment.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "docs/world-events-patrol-design-20261018": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #122. Patrol design preserved (docs/preservation/recovered/territory-chain/WORLD_EVENT_PILLAGER_PATROL_DESIGN_2026-10-18.md). Design only; no implementation exists on any branch.",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "experiment/cloud-free-model-delegation-phase0": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #141 (open draft). Delegation experiment (OpenRouter scripts/workflow); explicitly excluded from production (PR #154 plan).",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "experiment/ponytail-skill-2-20261021": {
+  "class_wave12": "RETAIN — UNPRESERVED FUNCTIONALITY",
+  "evidence": "No PR. Experimental agent-skill files only; excluded from production (PR #154 plan). Files exist only on this branch (no PR ref).",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "experiment/underground-kingdom-worldgen-probe": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #117 (open draft). Feasibility probe; STRUCTURE_AUTHORITY_INDEX: 'experiment evidence only'.",
+  "provenance": "VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY"
+ },
+ "feature/bc03-approved-reconciliation-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "feature/wave7a-star-covenant-20261024": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "feature/wave7b-accessory-abilities-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "feature/wave7b-snow-charm-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "fix/bc04-contract-structure-names-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "fix/exposure-audit-parallel-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #184 (closed). Parallel downloads superseded by #186 paced audit (merged).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "fix/qm01-quest-monument-test-isolation": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "fix/wave9-live-input-harness-20261026": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #188. Patch-equivalent 295634f in Wave 11; remaining diff is the superseded parallel-audit variant.",
+  "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "integration/accessory-bounty-20261023": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "integration/accessory-system-20261023": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "integration/batch-a-recovery-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #156. Composed into Wave 11 by a13d9777; branch-only lines are pre-#166 test keys and pre-Wave-7 input code.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "integration/q1b-villager-discount-pr116-20261019": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #123. Pricing repair retained via #124/#125.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "integration/q1c-pr116-discount-20261019": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #124. Pricing repair retained via #125.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "integration/stage23-final-reconciliation-20261016": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "PR #103 — base of open PR #117. Sibling fixes retained via #125.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "integration/stage23-linear-chain-20261016": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #100. Linear chain retained via #103/#125.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "integration/stage23-mobs-accessories-20261016": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #104 (merged into #103). 40-mob resources present (CustomMobRenderers, textures).",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "integration/stage23-reconciliation-audit-20261016": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #102. Audit preserved in docs/preservation/prc-p6/PR102.",
+  "provenance": "PRESERVED AS DOCUMENTATION"
+ },
+ "integration/wave10-unified-20261025": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "integration/wave12-functional-preservation-20261027": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Same commit as checkpoint/wave12-unified-20261027. Technically contains nothing unique, but it is the ref that CI run 40431019466 and the earlier arena evidence ran on; kept as evidence anchor. The owner may delete it later without loss.",
+  "provenance": "CHECKPOINT (Wave 12 working branch)"
+ },
+ "integration/wave5r-combined-20261024": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "integration/wave8-wave7-repairs-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "integration/wave9-accessory-abilities-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "main": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "prototype/stage20-vanilla-sweep-texture": {
+  "class_wave12": "RETAIN — UNPRESERVED FUNCTIONALITY",
+  "evidence": "No PR. Global vanilla sweep-texture override prototype; T2 VFX deferred and override excluded by PR #154 plan. Its sprites exist only on this branch (no PR ref).",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "prototype/vanilla-sweep-texture": {
+  "class_wave12": "RETAIN — UNPRESERVED FUNCTIONALITY",
+  "evidence": "No PR. Same sweep prototype on older lineage; sprites exist only on this branch.",
+  "provenance": "INTENTIONALLY ABANDONED / REJECTED"
+ },
+ "recovery/vanilla-model-custom-mob-roster-base": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "No PR. One commit cf4360b2 (roster approval doc) whose content reached Wave 11 through #69; only the 'Baseline:' line differs. Pre-#69 test name superseded by portableFurnaceRetainsItsApprovedProcessingContract. Loss on deletion: one superseded doc revision.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "release/wave9-rc-20261025": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "PR #181 (open draft). All files identical in Wave 11 (pyramid docs, #183/#185/#186/#187); release candidate ref pinned by STRUCTURE_AUTHORITY_INDEX.",
+  "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "resources/40-custom-mob-production-textures": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #72 (closed). Textures integrated via #104; remaining diffs are formatting-only.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "security/exposure-audit-pacing-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #186 (merged into #181). Content identical in Wave 11.",
+  "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "security/gitleaks-historical-findings-20261022": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-1/fabric-foundation": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-10/draft-content": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-11/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-12/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Pre-recovery checkpoint (#36). Fishing core superseded by Stage 3 reconciliation; all 36 approved PNGs blob-identical in Wave 11.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "stage-13/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Pre-recovery checkpoint (#37/#38). Flame Sword C1-A/B: approved PNG identical; two-face model superseded by Stage 18 six-face contract.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "stage-14/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Pre-recovery checkpoint (#39 base). Same content as stage-13.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "stage-15/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-16/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-17/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-18/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-18/integration": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-19/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-2/enhancement-stone": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-20/checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-21/knowledge-checkpoint": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-22/research-restructure": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "PR #88 (closed). V3-inclusive prerequisite validation (purchasedResearch over allCatalogEntries) present in Wave 11 ResearchPurchaseService; docs present.",
+  "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT"
+ },
+ "stage-3/enhancement-vertical-slice": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-4/equipment-foundation": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-5/special-equipment": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-6/materials-crafting-progression": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-7/life-content": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-8/entity-mob": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-9/skeleton-king": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "stage-ci/accessory-bounty-20261023": {
+  "class_wave12": "RETAIN — CHECKPOINT",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "test/bc03-validation-hardening-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "test/k5-reused-world-determinism-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #187 (merged into #181). Equivalent commits in Wave 11 (f4a49bd, ff249bf).",
+  "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "test/ring-life-option-a-regression-20261025": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "PR #185 (merged into #181). Regression test present (5622585).",
+  "provenance": "INTEGRATED — EQUIVALENT COMMITS"
+ },
+ "test/wave13-f3-f1-evidence-20261027": {
+  "class_wave12": "RETAIN — ACTIVE DEPENDENCY",
+  "evidence": "Head of open Draft PR #194: unit tests, ore-sampling probe, candidate set and skull protocol model. Test/tooling only.",
+  "provenance": "WAVE 13 WORKING BRANCH"
+ },
+ "tooling/integration-gametest-coverage-20261024": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "wave7/a-e-real-mouse-input": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "wave7/b-gametest-recovery": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "wave7/c-accessory-raw-xp": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ },
+ "wave7/d-ui-cleanup": {
+  "class_wave12": "DELETE ELIGIBLE",
+  "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+  "provenance": "INTEGRATED (ancestor of Wave 11)"
+ }
+}

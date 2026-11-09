@@ -35,6 +35,8 @@ public final class FishermanFishSale {
             if (!player.getInventory().add(payment))
                 level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), payment));
             player.sendSystemMessage(Component.translatable("message.moreminecrafts.fisherman.sold", price));
+            if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer)
+                dev.itzgamesgd.moreminecrafts.progression.XpQuestHooks.fishSold(serverPlayer, price);
             return InteractionResult.SUCCESS_SERVER;
         });
     }

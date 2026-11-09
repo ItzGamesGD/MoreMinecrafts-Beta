@@ -60,10 +60,15 @@ public final class KnowledgeRuntime {
 
     public static void initialize() {
         K5NaturalTreeProvenance.initialize();
+        FarmlandCultivators.initialize();
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
+            ResearchProgressLookup.playerJoined(server, player.getUUID());
             SILENT_RECONCILIATION.add(player.getUUID());
             try {
+                ResearchProgressState beforeMigration = state(player);
+                ResearchProgressState migrated = ResearchRootMigration.migrate(beforeMigration);
+                if (!migrated.equals(beforeMigration)) updateState(player, migrated);
                 observeExploration(player);
                 observeEffectTypes(player);
                 refresh(player);
@@ -90,8 +95,10 @@ public final class KnowledgeRuntime {
                     && state.getValue(net.minecraft.world.level.block.CropBlock.AGE) >= crop.getMaxAge())
                 recordCondition(serverPlayer, "crops_harvested", value(serverPlayer,"condition.crops_harvested") + 1);
         });
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                PICKAXE_DAMAGE.playerDisconnected(handler.player.getUUID()));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            ResearchProgressLookup.playerDisconnected(server, handler.player);
+            PICKAXE_DAMAGE.playerDisconnected(handler.player.getUUID());
+        });
         net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
             String entityId = String.valueOf(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
             String path = entityId.substring(entityId.indexOf(':') + 1);
@@ -202,6 +209,7 @@ public final class KnowledgeRuntime {
         List<KnowledgeCatalog.Entry> matching = KnowledgeCatalog.entries().stream()
                 .filter(entry -> entry.conditionKey().equals(conditionKey)).toList();
         if (matching.isEmpty()) return;
+        XpQuestHooks.knowledgeConditionReported(player, conditionKey, totalProgress); // XP Quest uncapped counters
         int maximumTarget = matching.stream().mapToInt(KnowledgeCatalog.Entry::target).max().orElse(0);
         String key = "condition." + conditionKey;
         int next = KnowledgeConditionProgress.advance(value(player, key), totalProgress, maximumTarget);

@@ -1,0 +1,3 @@
+[01:52:51] [Server thread/INFO] (Minecraft) [STDOUT]: QUEST_SKULL_HALT_WRITE pid=9780 entity=002072fc-1e93-41ac-a302-426773846c57 A=1 heldA=1
+> Process 'java' finished with non-zero exit value 77
+BUILD FAILED in 23s

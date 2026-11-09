@@ -1,0 +1,11 @@
+ST05D-STATE-1 algo=st05-d01-bprime-core-opening-v1 params=C_24x24x12 seed=7001 snapshot=PLAN_BASE_COLUMN_v1 #3711dd68e52061fa
+C id=2a698572438f3c9c anchor=200039b0001877cf owner=1,1 size=15736 set=a23d388ab486e2a8 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=02cb5063d552f824b5b36d25 #0d913533fdffff0c
+C id=367bfaa655ca3c35 anchor=20001b90000bb7ea owner=0,0 size=7800 set=c0270c34ae2df7c5 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=133d2c1555592588433c942a #48f2118fde45ba7a
+C id=6779876ec428816e anchor=200016f0001027ee owner=0,1 size=18528 set=8636326b1114d116 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=b2d124edb7d1c4d9b2ca48e4 #0dde65e0674f7798
+C id=b156dd302a54f41a anchor=20002f90000a97d8 owner=1,0 size=8064 set=bb080f0b0000fa86 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=373cef314829164c5a2b71be #c961867540b0cb44
+C id=cc95a322990abd66 anchor=1ffff570000fe7d7 owner=-1,0 size=19856 set=2f93884364bf3809 suit=0 c=0,0 st=OWNER_OUTSIDE_OBSERVED_UNIVERSE roll=0 final=0 proof=c8104268e0ce236cd77f4969 #4167ffde897322d5
+B group=200003100002d7d3 used=1 cap=50000000 exhausted=0 #1315e781287ce827
+B group=200014900013b804 used=1 cap=50000000 exhausted=0 #5d8909220e4b5f29
+B group=20003990001897f2 used=1 cap=50000000 exhausted=0 #d83f8b2770b3b1a4
+B group=20003f50001927f8 used=1 cap=50000000 exhausted=0 #908e85afde1f88c3
+END n=9 chain=4f2621a5c49e1dbdd290d3b3 #1f4521d3d16c8f55

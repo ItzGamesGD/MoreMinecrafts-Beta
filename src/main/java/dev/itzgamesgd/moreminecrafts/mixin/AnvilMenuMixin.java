@@ -1,7 +1,11 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementOperation;
+import dev.itzgamesgd.moreminecrafts.accessory.AnvilCatalystUiLayout;
 import dev.itzgamesgd.moreminecrafts.enhancement.EnhancementOperation;
 import dev.itzgamesgd.moreminecrafts.progression.*;
+import dev.itzgamesgd.moreminecrafts.registry.ModItems;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.*;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.*;
@@ -17,17 +21,49 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
     @Shadow private int repairItemCountCost;
     @Unique private final DataSlot moreminecrafts$mode=DataSlot.standalone();
     @Unique private boolean moreminecrafts$repairingDamagedInput;
+    @Unique private final SimpleContainer moreminecrafts$catalystContainer=new SimpleContainer(1);
+    @Unique private Slot moreminecrafts$catalystSlot;
     protected AnvilMenuMixin(MenuType<?> type,int id,Inventory inventory,ContainerLevelAccess access,ItemCombinerMenuSlotDefinition slots){super(type,id,inventory,access,slots);}
     @Inject(method="<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",at=@At("RETURN"))
-    private void moreminecrafts$syncMode(int id,Inventory inventory,ContainerLevelAccess access,CallbackInfo ci){addDataSlot(moreminecrafts$mode);}
+    private void moreminecrafts$syncMode(int id,Inventory inventory,ContainerLevelAccess access,CallbackInfo ci){
+        addDataSlot(moreminecrafts$mode);
+        moreminecrafts$catalystSlot=addSlot(new Slot(moreminecrafts$catalystContainer,0,AnvilCatalystUiLayout.SLOT_X,AnvilCatalystUiLayout.SLOT_Y){
+            @Override public boolean mayPlace(ItemStack stack){return moreminecrafts$mode()==0&&stack.is(ModItems.RELIC_CATALYST);}
+        });
+    }
     @Override public int moreminecrafts$mode(){return moreminecrafts$mode.get();}
+    @Override public int moreminecrafts$catalystSlotIndex(){return slots.indexOf(moreminecrafts$catalystSlot);}
+    @Override public ItemStack moreminecrafts$quickMoveCatalyst(Player player,int slotIndex){
+        int catalystIndex=moreminecrafts$catalystSlotIndex();
+        if(slotIndex==catalystIndex){
+            Slot source=getSlot(catalystIndex);ItemStack stack=source.getItem();
+            if(stack.isEmpty())return ItemStack.EMPTY;
+            ItemStack moved=stack.copy();
+            if(!moveItemStackTo(stack,3,catalystIndex,true))return ItemStack.EMPTY;
+            if(stack.isEmpty())source.set(ItemStack.EMPTY);else source.setChanged();
+            return moved;
+        }
+        if(moreminecrafts$mode()==0&&slotIndex>=3&&slotIndex<catalystIndex
+                &&getSlot(slotIndex).getItem().is(ModItems.RELIC_CATALYST)){
+            Slot source=getSlot(slotIndex);ItemStack stack=source.getItem();ItemStack moved=stack.copy();
+            if(!getSlot(catalystIndex).hasItem()&&moveItemStackTo(stack,catalystIndex,catalystIndex+1,false)){
+                if(stack.isEmpty())source.set(ItemStack.EMPTY);else source.setChanged();
+                return moved;
+            }
+            return ItemStack.EMPTY;
+        }
+        return null;
+    }
     @Override public boolean moreminecrafts$button(Player player,int action){
         if(player.level().isClientSide()||!stillValid(player))return false;
         if(action>=0&&action<=2){moreminecrafts$mode.set(action);((AnvilMenu)(Object)this).createResult();return true;}
         if(action==3&&moreminecrafts$mode()==0){
-            boolean changed=EnhancementOperation.apply(player,getSlot(0).getItem(),getSlot(1).getItem());
+            ItemStack equipment=getSlot(0).getItem();
+            boolean changed=AccessoryEnhancementOperation.isAccessory(equipment)
+                    ?AccessoryEnhancementOperation.apply(player,equipment,getSlot(1).getItem(),getSlot(moreminecrafts$catalystSlotIndex()).getItem())
+                    :EnhancementOperation.apply(player,equipment,getSlot(1).getItem());
             if(changed){
-                inputSlots.setChanged();cost.set(0);repairItemCountCost=0;
+                inputSlots.setChanged();moreminecrafts$catalystContainer.setChanged();cost.set(0);repairItemCountCost=0;
                 ((AnvilMenu)(Object)this).createResult();
                 T1AnvilUse.complete(access,player,player.getRandom()::nextDouble);
             }
@@ -35,6 +71,15 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
         }
         if(action==3&&moreminecrafts$mode()==2&&getSlot(2).hasItem()&&getSlot(2).mayPickup(player)){quickMoveStack(player,2);return true;}
         return false;
+    }
+    @Override public void moreminecrafts$returnCatalyst(Player player){
+        if(player.level().isClientSide())return;
+        ItemStack stack=moreminecrafts$catalystContainer.removeItemNoUpdate(0);
+        if(!stack.isEmpty()){
+            player.getInventory().add(stack);
+            if(!stack.isEmpty())player.level().addFreshEntity(new net.minecraft.world.entity.item.ItemEntity(
+                    player.level(),player.getX(),player.getY(),player.getZ(),stack));
+        }
     }
     @Inject(method="createResult",at=@At("HEAD"),cancellable=true)
     private void moreminecrafts$result(CallbackInfo ci){
@@ -68,6 +113,23 @@ abstract class AnvilMenuMixin extends ItemCombinerMenu implements T1AnvilModes {
         if(result.getDamageValue()==original.getDamageValue()
                 && java.util.Objects.equals(result.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME),original.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME))){
             getSlot(2).set(ItemStack.EMPTY);cost.set(0);
+        }
+        if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer && getSlot(2).hasItem()) {
+            int level = ResearchRewards.level(serverPlayer,
+                    "v3.research.10", "equipment_maintenance");
+            if (level > 0) {
+                ItemStack repaired = getSlot(2).getItem();
+                if (repairItemCountCost > 0 && original.isDamaged()
+                        && repaired.is(original.getItem())
+                        && repaired.getDamageValue() < original.getDamageValue()) {
+                    int extra = ResearchContentRules.additionalRepairDurability(
+                            original.getMaxDamage(), repairItemCountCost, level);
+                    repaired.setDamageValue(Math.max(0, repaired.getDamageValue() - extra));
+                }
+                int oldCost = cost.get();
+                int newCost = ResearchContentRules.discountAnvilLevels(oldCost, level);
+                if (newCost != oldCost) cost.set(newCost);
+            }
         }
         broadcastChanges();
     }

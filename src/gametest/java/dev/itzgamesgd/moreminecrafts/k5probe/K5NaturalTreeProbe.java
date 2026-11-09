@@ -40,7 +40,12 @@ public final class K5NaturalTreeProbe {
             ThreadLocal.withInitial(ArrayList::new);
     private static final ThreadLocal<List<String>> TREE_GROWER_ATTEMPTS =
             ThreadLocal.withInitial(ArrayList::new);
-    private static final AtomicReference<ChunkUnloadObservation> LAST_UNLOAD = new AtomicReference<>();
+    /**
+     * Every marked-chunk unload Minecraft performed, kept per chunk instance. A single last-writer-wins slot lost
+     * the awaited unload whenever another marked chunk unloaded before the polling test looked.
+     */
+    private static final java.util.Deque<ChunkUnloadObservation> UNLOADS = new java.util.concurrent.ConcurrentLinkedDeque<>();
+    private static final int UNLOAD_HISTORY = 512;
     private static final AtomicReference<Identifier> FORCED_FALLEN_BRANCH = new AtomicReference<>();
     private static final AtomicLong FORCED_FALLEN_BRANCH_COUNT = new AtomicLong();
     private static volatile Registry<Feature> FEATURE_REGISTRY;
@@ -124,15 +129,20 @@ public final class K5NaturalTreeProbe {
 
     public static long savedChunksWithMarkers() { return SAVED_CHUNKS.get(); }
     public static void recordSuccessfulChunkSaveWithMarkers() { SAVED_CHUNKS.incrementAndGet(); }
-    public static void clearLastMarkedChunkUnload() { LAST_UNLOAD.set(null); }
+    /** Drops observations of this chunk position only; unrelated unloads recorded by other tests are kept. */
+    public static void clearMarkedChunkUnloads(ServerLevel level, ChunkPos pos) {
+        UNLOADS.removeIf(e -> e.dimension().equals(level.dimension().identifier()) && e.chunkPos().equals(pos));
+    }
     public static void recordMarkedChunkUnload(ServerLevel level, LevelChunk chunk) {
-        LAST_UNLOAD.set(new ChunkUnloadObservation(level.dimension().identifier(), chunk.getPos(),
+        UNLOADS.addLast(new ChunkUnloadObservation(level.dimension().identifier(), chunk.getPos(),
                 new WeakReference<>(chunk)));
+        while (UNLOADS.size() > UNLOAD_HISTORY) UNLOADS.pollFirst();
     }
     public static boolean observedMarkedChunkUnload(ServerLevel level, ChunkPos pos, LevelChunk instance) {
-        ChunkUnloadObservation event = LAST_UNLOAD.get();
-        return event != null && event.dimension().equals(level.dimension().identifier())
-                && event.chunkPos().equals(pos) && event.chunk().get() == instance;
+        for (ChunkUnloadObservation event : UNLOADS)
+            if (event.dimension().equals(level.dimension().identifier()) && event.chunkPos().equals(pos)
+                    && event.chunk().get() == instance) return true;
+        return false;
     }
     private record ChunkUnloadObservation(Identifier dimension, ChunkPos chunkPos,
             WeakReference<LevelChunk> chunk) {}

@@ -1,0 +1,96 @@
+legend: = main passage  - optional branch  o optional room  v vestibule  s stair tread  l landing  r royal approach(5)  A antechamber  t 3-wide threshold  P P1 context  H hall clear interior reservation  h hall shell reservation  V secret vault cand. A  S secret stair cand. A  # solid  ! +-40 marker
+PLAN  layer Y=-6  X[-46,46] Z[-46,46]  north(-Z) up, east(+X) right.  '!' marks |X|=41 / |Z|=41 (pyramid projection +-40 boundary)
+  Z\X        '         '         '         '         +         '         '         '         '      
+ -46       !                                                                                 !     
+ -45       !                                                                                 !     
+ -44       !                                                                                 !     
+ -43       !                                                                                 !     
+ -42       !                                                                                 !     
+ -41  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ -40       !                                                                                 !     
+ -39       !                                                                                 !     
+ -38       !                                                                                 !     
+ -37       !                                                                                 !     
+ -36       !                                                                                 !     
+ -35       !                                                                                 !     
+ -34       !                                                                                 !     
+ -33       !                                                                                 !     
+ -32       !                                                                                 !     
+ -31       !                                                                                 !     
+ -30       !                                                                                 !     
+ -29       !                                                                                 !     
+ -28       !                                                                                 !     
+ -27       !                                                                                 !     
+ -26       !                ooooooo                                                          !     
+ -25       !                ooooooo                                                          !     
+ -24       !                ooooooo  ooooooo                                                 !     
+ -23       !                ooooooo  ooooooo                                                 !     
+ -22       !                ooooooo  ooooooo                                                 !     
+ -21       !                ooooooo  ooooooo                                                 !     
+ -20       !                ooooooo  ooooooo                                                 !     
+ -19       !                ooooooo  ooooooo                                                 !     
+ -18       !                ooooooo  ooooooo                                                 !     
+ -17       !                  ---      ---                                                   !     
+ -16       !                  ---      ---                                                   !     
+ -15       !                  ---      ---                                                   !     
+ -14       !                  ---      ---   PPPPPPPPPPPPPPP                                 !     
+ -13       !                 ================PPPPPPPPPPPPPPP                                 !     
+ -12       ! vvvvvvvvv   ====================PPPPPPPPPPPPPPP                                 !     
+ -11       ! vvvvvvvvv=======================PPPPPPPPPPPPPPP                                 !     
+ -10       ! vvvvvvvvv=======================PPPPPPPPPPPPPPP                                 !     
+  -9       ! vvvvvvvvv=======================PPPPPPPPPPPPPPP                                 !     
+  -8       ! vvvvvvvvv=======================PPPPPPPPPPPPPPP                                 !     
+  -7       ! vvvvvvvvv=======================PPPPPPPPPPPPPPP                                 !     
+  -6       ! vvvvvvvvv========         ---     PPPPPPPPPPP                                   !     
+  -5       ! vvvvvvvvv====             ---     PPPPPPPPPPP                                   !     
+  -4       ! vvvvvvvvv                 ---     PPPPPPPPPPP                                   !     
+  -3       ! vvvvvvvvv               ooooooo   PPPPPPPPPPP                                   !     
+  -2       ! vvvvvvvvv               ooooooo   PPPPPPPPPPP                                   !     
+  -1       !  sssssss                ooooooo   PPPPPPPPPPP                                   !     
+  +0       !  sssssss                ooooooo                                                 !     
+  +1       !  sssssss                ooooooo                                                 !     
+  +2       !  sssssss                ooooooo          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+  +3       ! lllllllll               ooooooo          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+  +4       ! lllllllll                                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+  +5       ! lllllllll                                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+  +6       ! lllllllll                                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+  +7       ! lllllllll                                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+  +8       ! lllllllll                                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+  +9       ! lllllllll                                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +10       ! lllllllll                                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +11       ! lllllllll                                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +12       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +13       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +14       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +15       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +16       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +17       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +18       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +19       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +20       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +21       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +22       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +23       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +24       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +25       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +26       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +27       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +28       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +29       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +30       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +31       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +32       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +33       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +34       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +35       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +36       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +37       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +38       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +39       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +40       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +41  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ +42       !                                                                                 !     
+ +43       !                                                                                 !     
+ +44       !                                                                                 !     
+ +45       !                                                                                 !     
+ +46       !                                                                                 !     

@@ -59,4 +59,18 @@ class AbilityCooldownsTest {
         assertFalse(cooldowns.isReady(duplicateProbeB, 101));
         assertEquals(1, cooldowns.readyAtTicks().size());
     }
+
+    @Test
+    void accessoryCooldownCountsOnlineTicksAndKeepsOtherAbilitiesIndependent() {
+        String ember = "moreminecrafts:accessory/ember_ring";
+        String pearl = "moreminecrafts:accessory/deep_sea_pearl";
+        AbilityCooldowns state = AbilityCooldowns.EMPTY.startOnline(ember, 600).startOnline(pearl, 900);
+        assertEquals(600, state.onlineRemaining(ember));
+        assertEquals(600, state.onlineRemaining(ember)); // offline has no mutation
+        state = state.tickOnline();
+        assertEquals(599, state.onlineRemaining(ember));
+        assertEquals(899, state.onlineRemaining(pearl));
+        assertEquals(0, state.startOnline(ember, 0).onlineRemaining(ember));
+        assertEquals(0, AbilityCooldowns.EMPTY.startOnline(ember, 1).tickOnline().onlineRemaining(ember));
+    }
 }

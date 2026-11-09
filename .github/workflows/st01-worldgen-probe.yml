@@ -1,0 +1,121 @@
+name: ST-01 real Minecraft worldgen terrain probe
+
+# Executes the isolated St01Phase3CalibrationProbe in a headless Minecraft 26.3 server (JDK 25)
+# to measure real Woodland Mansion baseline structure sets, calibrate ST-01 placement density,
+# and evaluate full 100% Desert footprint and bounded terrain feasibility.
+on:
+  pull_request:
+    paths:
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/worldgenprobe/**'
+      - 'src/gametest/resources/fabric.mod.json'
+      - '.github/workflows/st01-worldgen-probe.yml'
+      - 'tools/st01-o14/**'
+      - 'build.gradle'
+      - 'src/test/java/dev/itzgamesgd/moreminecrafts/st01/**'
+  workflow_dispatch:
+    inputs:
+      radius:
+        description: 'Sampling area radius in blocks (default: 10240)'
+        required: false
+        default: '10240'
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests and Probes
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Run ST-01 Feasibility and Calibration Unit Tests
+        run: ./gradlew test --tests "dev.itzgamesgd.moreminecrafts.st01.St01O14WorldgenFeasibilityTest" --no-daemon
+      - name: Execute Stage 1 Independent Audit
+        run: python3 tools/st01-o14/audit_phase2_data.py
+      - name: Execute ST-01 Phase 3 Calibration Probe
+        run: |
+          set -euo pipefail
+          RESULTS_DIR="$GITHUB_WORKSPACE/build/st01-worldgen-probe/results"
+          RUN_DIR="$GITHUB_WORKSPACE/build/st01-phase3-calibration/run"
+          mkdir -p "$RESULTS_DIR" "$RUN_DIR"
+
+          run_phase3() {
+            local seed="$1"
+            local target_json="$2"
+            local log_file="$3"
+
+            echo "========================================================"
+            echo "Starting ST-01 Phase 3 Probe for Seed $seed -> $target_json"
+            echo "========================================================"
+
+            rm -rf "$RUN_DIR/world"* "$RUN_DIR"/*.log
+            printf 'eula=true\n' > "$RUN_DIR/eula.txt"
+            printf 'level-name=world\nlevel-seed=%s\nonline-mode=false\nserver-port=%s\nview-distance=2\nsimulation-distance=2\nspawn-monsters=false\nspawn-animals=false\nmax-tick-time=-1\nsync-chunk-writes=false\nenable-status=false\n' "$seed" "$((20000 + RANDOM % 20000))" > "$RUN_DIR/server.properties"
+
+            # Execute headless server with graceful shutdown and capture exit status via PIPESTATUS (never || true)
+            JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st01.phase3.out=$RESULTS_DIR/$target_json -Dmm.st01.phase3.radius=${{ github.event.inputs.radius || '10240' }}" \
+              ./gradlew runSt01Phase3Calibration --no-daemon 2>&1 | tee "$log_file"
+            
+            STATUS="${PIPESTATUS[0]}"
+            if [ "$STATUS" -ne 0 ]; then
+              echo "ERROR: runSt01Phase3Calibration failed with exit status $STATUS"
+              tail -n 60 "$log_file"
+              exit "$STATUS"
+            fi
+
+            if [ ! -s "$RESULTS_DIR/$target_json" ]; then
+              FOUND=$(find . -name "$target_json" 2>/dev/null | head -n 1)
+              if [ -n "$FOUND" ] && [ -s "$FOUND" ]; then
+                echo "Recovered $target_json from $FOUND"
+                cp "$FOUND" "$RESULTS_DIR/$target_json"
+              fi
+            fi
+
+            if [ ! -s "$RESULTS_DIR/$target_json" ]; then
+              echo "ERROR: Failed to produce $RESULTS_DIR/$target_json"
+              tail -n 60 "$log_file"
+              exit 1
+            fi
+            echo "SUCCESS: $target_json generated."
+          }
+
+          # 1. Primary Phase 3 Run on Seed 1002 (active desert clusters, baseline & calibration)
+          echo ">>> Stage 2 & 3: Primary Phase 3 Run (Seed 1002)"
+          run_phase3 1002 st01_phase3_seed1002.json st01-phase3-seed1002.log
+
+          # 2. Stage 1 Replay Verification on Seed 1002 (validating candidate repeatability)
+          echo ">>> Stage 1: Deterministic Replay on Seed 1002"
+          run_phase3 1002 replay_phase3_seed1002.json replay-phase3-seed1002.log
+
+          # Verify bit-for-bit replay match
+          python3 - << 'EOF'
+          import json
+          with open("build/st01-worldgen-probe/results/st01_phase3_seed1002.json") as f1, \
+               open("build/st01-worldgen-probe/results/replay_phase3_seed1002.json") as f2:
+              d1 = json.load(f1)
+              d2 = json.load(f2)
+          assert d1["world_seed"] == d2["world_seed"], "Seeds mismatch"
+          assert d1["stage2_woodland_mansion_baseline"]["placement_metrics"] == d2["stage2_woodland_mansion_baseline"]["placement_metrics"], "Mansion metrics mismatch"
+          assert d1["stage3_st01_placement_simulation"] == d2["stage3_st01_placement_simulation"], "ST-01 simulation mismatch"
+          print("CONFIRMED: Seed 1002 deterministic replay achieved bit-for-bit match on real candidates!")
+          EOF
+
+          # 3. Analyze Phase 3 results and synthesize Decision Report
+          python3 tools/st01-o14/phase3_calibration_analyzer.py "$RESULTS_DIR/st01_phase3_seed1002.json" "$RESULTS_DIR/phase3_calibration_report.json"
+          cp "$RESULTS_DIR/phase3_calibration_report.json" "docs/design/st01-o14/phase3_calibration_report.json"
+
+          echo ">>> Complete Phase 3 Pipeline Validation Succeeded!"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-phase3-calibration-evidence
+          path: |
+            build/st01-worldgen-probe/results/*.json
+            docs/design/st01-o14/*.json
+            *.log

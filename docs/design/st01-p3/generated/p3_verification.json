@@ -1,0 +1,1413 @@
+{
+ "east": {
+  "checks": [
+   {
+    "id": "H1",
+    "title": "Royal hall clear interior 33x33 (Q43, walls excluded) with 8-high vertical perimeter walls (Q45): voxel scan + spec arithmetic",
+    "verdict": "PASS",
+    "evidence": "floor-layer cavity X[-37,-5] Z[5,37] = 33x33, 1089 cells (33*33=1089); vertical wall layers Y -22..-15 = 8 high; spec half=16 wall_h=8"
+   },
+   {
+    "id": "H2",
+    "title": "Four-sided stepped corbel ceiling, 1 up per 2 in on every side (Q46), central clear height 16 (Q44): voxel step scan vs analytic profile",
+    "verdict": "PASS",
+    "evidence": "corbel layers Y -14..-7 (8 steps), per-step inset per side [(2, 2, 2, 2)]; central clear height 16; peak column X-21..-21 Z21..21 (1x1); analytic profile match True; bad steps []"
+   },
+   {
+    "id": "H3",
+    "title": "Hall cavity lies inside the P2 HALL_RES (lateral shell >=3, floor/roof slab >=2), nothing carved outside it, no overlap with a P2 cavity",
+    "verdict": "PASS",
+    "evidence": "main cavity bbox X[-37,-5] Y[-22,-7] Z[5,37]; shell W/E/N/S/floor/roof = (3, 3, 3, 3, 2, 2); carved outside reservation 0; on P2 cavity 0; recess faults []"
+   },
+   {
+    "id": "K1",
+    "title": "Column assembly dims: body 3x3 (Q48), base nominal 5x5 height 1 (Q53), shaft 3, capital 3, lintel 1 thick (Q59), total 8 (Q61/Q62) - voxel measurement per pillar",
+    "verdict": "PASS",
+    "evidence": "10 pillars; (id, body, (base,shaft,cap heights), base bbox) [('P_N1', (3, 3), (1, 3, 3), (5, 4)), ('P_N2', (3, 3), (1, 3, 3), (5, 4)), ('P_S1', (3, 3), (1, 3, 3), (5, 4))]...; lintel layers [-15]; assembly height 8"
+   },
+   {
+    "id": "K2",
+    "title": "Pillar body set back 2 from the inner wall (Q50) and the 2-block wall-side passage survives the trimmed bases (Q54): voxel ray scan wall-ward + analytic inset",
+    "verdict": "PASS",
+    "evidence": "min free cells between wall and body 2 (analytic 2); min free between wall and any column cell at walking height (Y<=-19) 2 (need >= 2)"
+   },
+   {
+    "id": "K3",
+    "title": "Ordinary runs: exactly 6 clear blocks between adjacent 3x3 pillar bodies (Q51); only door-side and dais-side gaps differ (exceptions)",
+    "verdict": "PASS",
+    "evidence": "8 pillar-to-pillar gaps = 6; exceptions [('P_N1', 15), ('P_N2', 15)]; shorter-than-6 []; unexplained exceptions []; corner runs (pillar to side wall) [6]; analytic centre-to-centre gaps [6, 6, 6, 6, 15, 15] (6 ordinary, 15 across door/dais)"
+   },
+   {
+    "id": "K4",
+    "title": "Corners left open: no corner pillar bodies and lintels terminate before the corner zone (Q52)",
+    "verdict": "PASS",
+    "evidence": "pillar-body cells in the 5x5 corner zones 0; lintel cells in corner zones 0"
+   },
+   {
+    "id": "K5",
+    "title": "Capital height 3 / max 7x7 (Q56, Q58) and wallward projection limited so no capital touches a wall (Q57)",
+    "verdict": "PASS",
+    "evidence": "capital bounding boxes (x,z) [(6, 7), (7, 6)] (limit 7); too wide []; min free air between wall and any capital/lintel cell 1 (need >=1); face contacts column-assembly<->wall/ceiling shell 0"
+   },
+   {
+    "id": "K6",
+    "title": "Lintel/colonnade is visually separate from the stepped ceiling with no direct ceiling or wall support (Q60), lintel 1 thick, interrupted at door and dais (Q49)",
+    "verdict": "PASS",
+    "evidence": "6 lintel segments; min air gap lintel->ceiling solid 1; unsupported segments []; lintel cells across door/dais axis (|u|<=5 on N/S rows) 0; shell contacts 0"
+   },
+   {
+    "id": "K7",
+    "title": "No physical block placed twice and no element inside a solid structural block (voxel painting) - cross-checked by an AABB pair-intersection sum",
+    "verdict": "PASS",
+    "evidence": "voxel overlaps 0; analytic intersecting volume 0; elements placed into solid []; 171 boxes / 59 elements"
+   },
+   {
+    "id": "K8",
+    "title": "Colonnade is symmetrical about both hall axes (Q47: symmetrical perimeter colonnade, centre open)",
+    "verdict": "PASS",
+    "evidence": "1416 colonnade voxels; mirror u (E<->W) True; mirror v (N<->S) True; pillars 10 (E/W 3 each, N/S 2 each)"
+   },
+   {
+    "id": "O1",
+    "title": "Central obelisk on the hall centre: PROPOSED plinth 5x5, shaft 3x3, tip 1x1, top 3+ below the ceiling peak, touching nothing but the floor",
+    "verdict": "PASS",
+    "evidence": "centre (-21,21) hall centre (-21,21); top Y-10 (height 13); air above to ceiling 3; neighbour contacts 0; nearest pillar base 11.0 from centre"
+   },
+   {
+    "id": "A1",
+    "title": "Rear low sarcophagus dais with broad frontal tread (Q10, Q32), decorated sarcophagus on it, primary chest on the dais (Q11), secondary chest in a side alcove (Q34) with lid clearance",
+    "verdict": "PASS",
+    "evidence": "dais body X[-26,-16] Z[32,37] height 2 (low <=3), against rear wall z=37; tread width 9 (>=7); sarcophagus Z[34,37] on dais top; primary chest [(-21, -20, 33)] lid air True; secondary chest cells [(-3, -22, 25), (-3, -22, 26)] lid air True; dais front to obelisk plinth edge 8 blocks"
+   },
+   {
+    "id": "D1",
+    "title": "Decoration reservations: Q30 central floor field is flat and free of columns/dais (only the obelisk stands on it); Q29 relief band is a depth-1 surface inside the 8-high walls (spatial occupancy only - no assets)",
+    "verdict": "PASS",
+    "evidence": "floor field X[-29,-13] Z[13,29] (17x17); non-obelisk elements on it 0; unexpected solid 0; relief band Y[-19, -16] depth 1 within wall layers Y-22..-15"
+   },
+   {
+    "id": "A2",
+    "title": "Entrance port connects to the hall interior; primary chest, dais, secondary chest and secret-hatch zone are all reachable on foot from the P1 landing; secondary chest and hatch are reachable WITHOUT using the dais; hatch/secondary chest reachable without crossing the 21x21 combat field",
+    "verdict": "PASS",
+    "evidence": "unreachable []; walk steps from P1 start: ENTRANCE_IN=118, DAIS_TOP_FRONT=149, HATCH=160, CHEST2_ACC0=153; secondary chest independent of dais True; primary chest independent of alcove True; hatch reachable with dais blocked / field blocked True; secondary chest with field blocked True"
+   },
+   {
+    "id": "A3",
+    "title": "Wall-side passage is a continuous 2-wide route: a 2x2-footprint, 3-high walker goes from the door to the secret-hatch corner without entering the combat field (Q50/Q54 2-block passage)",
+    "verdict": "PASS",
+    "evidence": "agent states reached 496; hatch corner state (-6, -22, 36) reached True"
+   },
+   {
+    "id": "B1",
+    "title": "Boss space: every emergence candidate fits the guardian envelope (2x2 cells, 5 high = hitbox 1.35x4.35 from TombGuardianTuning) and a boss-sized walker can circle the obelisk and move between the pillars",
+    "verdict": "PASS",
+    "evidence": "candidates {k: (min-corner, reachable states)} {'BOSS_S': ((-22, -22, 26), 502), 'BOSS_N': ((-22, -22, 14), 502), 'BOSS_E': ((-16, -22, 20), 502), 'BOSS_W': ((-28, -22, 20), 502)}; encircles obelisk True; widest agent that still circles the obelisk (h=5) 4 cells; boss-sized agent reaches 502 states"
+   },
+   {
+    "id": "B2",
+    "title": "Boss confinement: a 5-high boss walker cannot enter the 3-high P2 threshold or any P2 cavity (corridor safe-spot / door-cheese exposure)",
+    "verdict": "PASS",
+    "evidence": "boss-reachable states inside P2 cavities: 0 (0 means the guardian is geometrically confined to the hall; players retreating into T/R are unreachable by melee - see report risk BOSS-R1)"
+   },
+   {
+    "id": "B3",
+    "title": "Shockwave (radius 6 + 0.8 thickness) can be left: from every boss position in the 21x21 field a standable floor cell >= 6.8 away exists, and a player 2 cells from the boss has a straight free run out of the wave in >= 3 of 8 directions (PROPOSED criterion)",
+    "verdict": "PASS",
+    "evidence": "350 boss positions; farthest-cell worst case 24.8 (need >= 6.8); minimum number of escape directions over 398 field positions = 3 at [(-10, -9), (-10, 9), (-9, -10), (-9, 10), (-6, 10), (-5, 9), (-5, 10), (5, 9)]... (field corners / dais-tread edge); wave passes through solids in the implementation so geometry never shields"
+   },
+   {
+    "id": "B4",
+    "title": "Stone Eruption column (height 4) fits above every standable hall floor cell (no cell where the risen statue would be clipped by a capital/ceiling)",
+    "verdict": "PASS",
+    "evidence": "788 standable hall floor cells; cells with free height < 4: 0 []"
+   },
+   {
+    "id": "B5",
+    "title": "Guardian AI pathfinding around columns/lintels, emergence-point validation, Stone Eruption safe-shift in tight spots, hit-frame timing, multiplayer spread, camera clipping",
+    "verdict": "UNVERIFIED",
+    "evidence": "no runtime/NBT exists; only geometric envelopes were tested (B1-B4). Implementation values from TombGuardianTuning.java are used as evidence, not authority."
+   },
+   {
+    "id": "R1",
+    "title": "Secret-access (Q13/Q14) reservation for P4: 5x5x4 clear floor zone in the rear inner corner, over P2 STAIR_A, outside the combat field, reachable; 1:1 head run reaches the STAIR_A band",
+    "verdict": "PASS",
+    "evidence": "hatch zone X[-9,-5] Z[33,37] Y[-22,-19] air 100/100, element voxels 0; inside STAIR_A plan True; floor slab below the zone is 2 thick (reservation floor Y-24), the P2 STAIR_A band starts directly under it; a 1:1 head run of 5 reaches Y-27 (STAIR_A top Y-25); outside 21x21 field True"
+   },
+   {
+    "id": "X1",
+    "title": "Whole generated hall structure (walls, slabs, foundation, recesses, columns) stays inside the pyramid projection X/Z +-40 (D01 whole-structure reading)",
+    "verdict": "PASS",
+    "evidence": "max excess 0 blocks (analytic over 181 boxes); reservation voxels outside +-40: 0; reservation X[-40,-2] Z[2,40] (outer face touching +-40 on W and S: margin 0)"
+   },
+   {
+    "id": "I1",
+    "title": "No interference with P2 L1-L3 (cavity/cavity wall >=2, only the declared T port enters the reservation) and with P1 context (vertical cover above the roof)",
+    "verdict": "PASS",
+    "evidence": "P2 cavities closer than 2 to hall cavities: []; P2 cavity cells inside reservation 27 (declared port 27); nearest P1 cavity Chebyshev gap 6; P1 cavities over the hall plan: [('S00', 0), ('S01', 0), ('S02', 0), ('S03', 0), ('S04', 0)] vertical gap 4; cavities between roof and ground over the hall plan []; roof top Y-5 -> ground Y0 = 4 blocks of cover"
+   },
+   {
+    "id": "I3",
+    "title": "Wall recesses (alcove, niches, brazier recesses) leave >=1 solid block behind, do not touch each other or the entrance port, and stay inside the wall shell",
+    "verdict": "PASS",
+    "evidence": "remaining wall behind recesses {'ALCOVE_E': 1, 'NICHE_W': 1, 'NICHE_E_A': 1, 'NICHE_W_A': 1, 'BRAZ_NW': 2, 'BRAZ_NE': 2, 'BRAZ_SW': 2, 'BRAZ_SE': 2}; min recess-recess gap 5; min recess-door gap 2"
+   },
+   {
+    "id": "P2R",
+    "title": "Unmodified P2 model still passes its own engine checks (preservation of P2 coordinates)",
+    "verdict": "PASS",
+    "evidence": "15 P2 engine checks, 0 not PASS (P2 model files are read, not written)"
+   }
+  ],
+  "metrics": {
+   "corbel_spans": {
+    "-22": [
+     -37,
+     -5,
+     5,
+     37
+    ],
+    "-21": [
+     -37,
+     -5,
+     5,
+     37
+    ],
+    "-20": [
+     -37,
+     -5,
+     5,
+     37
+    ],
+    "-19": [
+     -37,
+     -5,
+     5,
+     37
+    ],
+    "-18": [
+     -37,
+     -5,
+     5,
+     37
+    ],
+    "-17": [
+     -37,
+     -5,
+     5,
+     37
+    ],
+    "-16": [
+     -37,
+     -5,
+     5,
+     37
+    ],
+    "-15": [
+     -37,
+     -5,
+     5,
+     37
+    ],
+    "-14": [
+     -35,
+     -7,
+     7,
+     35
+    ],
+    "-13": [
+     -33,
+     -9,
+     9,
+     33
+    ],
+    "-12": [
+     -31,
+     -11,
+     11,
+     31
+    ],
+    "-11": [
+     -29,
+     -13,
+     13,
+     29
+    ],
+    "-10": [
+     -27,
+     -15,
+     15,
+     27
+    ],
+    "-9": [
+     -25,
+     -17,
+     17,
+     25
+    ],
+    "-8": [
+     -23,
+     -19,
+     19,
+     23
+    ],
+    "-7": [
+     -21,
+     -21,
+     21,
+     21
+    ]
+   },
+   "walk": {
+    "ENTRANCE_IN": 118,
+    "DAIS_TREAD": 148,
+    "DAIS_TOP_FRONT": 149,
+    "HATCH": 160,
+    "FIELD_RING": 136,
+    "PASSAGE_E_MID": 148,
+    "PASSAGE_W_MID": 150,
+    "CHEST1_ACC0": 149,
+    "CHEST1_ACC1": 151,
+    "CHEST1_ACC2": 149,
+    "CHEST2_ACC0": 153,
+    "CHEST2_ACC1": 154
+   },
+   "route_dais_to_hatch": 19,
+   "route_dais_to_chest2": 23,
+   "handedness": {
+    "secondary_alcove_side": "east",
+    "seen_entering_facing_south": "left",
+    "hatch_side": "east"
+   },
+   "passage_reach": 496,
+   "escape_min_dirs": 3,
+   "escape_weak_positions": [
+    [
+     -10,
+     -9
+    ],
+    [
+     -10,
+     9
+    ],
+    [
+     -9,
+     -10
+    ],
+    [
+     -9,
+     10
+    ],
+    [
+     -6,
+     10
+    ],
+    [
+     -5,
+     9
+    ],
+    [
+     -5,
+     10
+    ],
+    [
+     5,
+     9
+    ],
+    [
+     5,
+     10
+    ],
+    [
+     6,
+     10
+    ],
+    [
+     9,
+     -10
+    ],
+    [
+     9,
+     10
+    ],
+    [
+     10,
+     -9
+    ],
+    [
+     10,
+     9
+    ]
+   ],
+   "pillars": {
+    "P_N1": {
+     "centre": [
+      -30,
+      8
+     ],
+     "body": [
+      -31,
+      -29,
+      7,
+      9
+     ],
+     "wall_axis": "z"
+    },
+    "P_N2": {
+     "centre": [
+      -12,
+      8
+     ],
+     "body": [
+      -13,
+      -11,
+      7,
+      9
+     ],
+     "wall_axis": "z"
+    },
+    "P_S1": {
+     "centre": [
+      -30,
+      34
+     ],
+     "body": [
+      -31,
+      -29,
+      33,
+      35
+     ],
+     "wall_axis": "z"
+    },
+    "P_S2": {
+     "centre": [
+      -12,
+      34
+     ],
+     "body": [
+      -13,
+      -11,
+      33,
+      35
+     ],
+     "wall_axis": "z"
+    },
+    "P_W1": {
+     "centre": [
+      -34,
+      12
+     ],
+     "body": [
+      -35,
+      -33,
+      11,
+      13
+     ],
+     "wall_axis": "x"
+    },
+    "P_W2": {
+     "centre": [
+      -34,
+      21
+     ],
+     "body": [
+      -35,
+      -33,
+      20,
+      22
+     ],
+     "wall_axis": "x"
+    },
+    "P_W3": {
+     "centre": [
+      -34,
+      30
+     ],
+     "body": [
+      -35,
+      -33,
+      29,
+      31
+     ],
+     "wall_axis": "x"
+    },
+    "P_E1": {
+     "centre": [
+      -8,
+      12
+     ],
+     "body": [
+      -9,
+      -7,
+      11,
+      13
+     ],
+     "wall_axis": "x"
+    },
+    "P_E2": {
+     "centre": [
+      -8,
+      21
+     ],
+     "body": [
+      -9,
+      -7,
+      20,
+      22
+     ],
+     "wall_axis": "x"
+    },
+    "P_E3": {
+     "centre": [
+      -8,
+      30
+     ],
+     "body": [
+      -9,
+      -7,
+      29,
+      31
+     ],
+     "wall_axis": "x"
+    }
+   },
+   "capdims": [
+    [
+     "P_N1",
+     [
+      7,
+      6
+     ]
+    ],
+    [
+     "P_N2",
+     [
+      7,
+      6
+     ]
+    ],
+    [
+     "P_S1",
+     [
+      7,
+      6
+     ]
+    ],
+    [
+     "P_S2",
+     [
+      7,
+      6
+     ]
+    ],
+    [
+     "P_W1",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_W2",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_W3",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_E1",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_E2",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_E3",
+     [
+      6,
+      7
+     ]
+    ]
+   ],
+   "boss_spawn": {
+    "BOSS_S": [
+     -22,
+     -22,
+     26
+    ],
+    "BOSS_N": [
+     -22,
+     -22,
+     14
+    ],
+    "BOSS_E": [
+     -16,
+     -22,
+     20
+    ],
+    "BOSS_W": [
+     -28,
+     -22,
+     20
+    ]
+   },
+   "boss_max_circling_agent": 4,
+   "worst_escape": 24.839484696748443,
+   "up_gap": 1,
+   "hatch": [
+    -9,
+    -5,
+    -22,
+    -19,
+    33,
+    37
+   ],
+   "gaps": [
+    [
+     "P_N1",
+     -1,
+     6,
+     null
+    ],
+    [
+     "P_N1",
+     1,
+     15,
+     "P_N2:shaft"
+    ],
+    [
+     "P_N2",
+     -1,
+     15,
+     "P_N1:shaft"
+    ],
+    [
+     "P_N2",
+     1,
+     6,
+     null
+    ],
+    [
+     "P_S1",
+     -1,
+     6,
+     null
+    ],
+    [
+     "P_S1",
+     1,
+     2,
+     "DAIS"
+    ],
+    [
+     "P_S2",
+     -1,
+     2,
+     "DAIS"
+    ],
+    [
+     "P_S2",
+     1,
+     6,
+     null
+    ],
+    [
+     "P_W1",
+     -1,
+     6,
+     null
+    ],
+    [
+     "P_W1",
+     1,
+     6,
+     "P_W2:shaft"
+    ],
+    [
+     "P_W2",
+     -1,
+     6,
+     "P_W1:shaft"
+    ],
+    [
+     "P_W2",
+     1,
+     6,
+     "P_W3:shaft"
+    ],
+    [
+     "P_W3",
+     -1,
+     6,
+     "P_W2:shaft"
+    ],
+    [
+     "P_W3",
+     1,
+     6,
+     null
+    ],
+    [
+     "P_E1",
+     -1,
+     6,
+     null
+    ],
+    [
+     "P_E1",
+     1,
+     6,
+     "P_E2:shaft"
+    ],
+    [
+     "P_E2",
+     -1,
+     6,
+     "P_E1:shaft"
+    ],
+    [
+     "P_E2",
+     1,
+     6,
+     "P_E3:shaft"
+    ],
+    [
+     "P_E3",
+     -1,
+     6,
+     "P_E2:shaft"
+    ],
+    [
+     "P_E3",
+     1,
+     6,
+     null
+    ]
+   ]
+  }
+ },
+ "west": {
+  "checks": [
+   {
+    "id": "H1",
+    "title": "Royal hall clear interior 33x33 (Q43, walls excluded) with 8-high vertical perimeter walls (Q45): voxel scan + spec arithmetic",
+    "verdict": "PASS",
+    "evidence": "floor-layer cavity X[5,37] Z[5,37] = 33x33, 1089 cells (33*33=1089); vertical wall layers Y -22..-15 = 8 high; spec half=16 wall_h=8"
+   },
+   {
+    "id": "H2",
+    "title": "Four-sided stepped corbel ceiling, 1 up per 2 in on every side (Q46), central clear height 16 (Q44): voxel step scan vs analytic profile",
+    "verdict": "PASS",
+    "evidence": "corbel layers Y -14..-7 (8 steps), per-step inset per side [(2, 2, 2, 2)]; central clear height 16; peak column X21..21 Z21..21 (1x1); analytic profile match True; bad steps []"
+   },
+   {
+    "id": "H3",
+    "title": "Hall cavity lies inside the P2 HALL_RES (lateral shell >=3, floor/roof slab >=2), nothing carved outside it, no overlap with a P2 cavity",
+    "verdict": "PASS",
+    "evidence": "main cavity bbox X[5,37] Y[-22,-7] Z[5,37]; shell W/E/N/S/floor/roof = (3, 3, 3, 3, 2, 2); carved outside reservation 0; on P2 cavity 0; recess faults []"
+   },
+   {
+    "id": "K1",
+    "title": "Column assembly dims: body 3x3 (Q48), base nominal 5x5 height 1 (Q53), shaft 3, capital 3, lintel 1 thick (Q59), total 8 (Q61/Q62) - voxel measurement per pillar",
+    "verdict": "PASS",
+    "evidence": "10 pillars; (id, body, (base,shaft,cap heights), base bbox) [('P_N1', (3, 3), (1, 3, 3), (5, 4)), ('P_N2', (3, 3), (1, 3, 3), (5, 4)), ('P_S1', (3, 3), (1, 3, 3), (5, 4))]...; lintel layers [-15]; assembly height 8"
+   },
+   {
+    "id": "K2",
+    "title": "Pillar body set back 2 from the inner wall (Q50) and the 2-block wall-side passage survives the trimmed bases (Q54): voxel ray scan wall-ward + analytic inset",
+    "verdict": "PASS",
+    "evidence": "min free cells between wall and body 2 (analytic 2); min free between wall and any column cell at walking height (Y<=-19) 2 (need >= 2)"
+   },
+   {
+    "id": "K3",
+    "title": "Ordinary runs: exactly 6 clear blocks between adjacent 3x3 pillar bodies (Q51); only door-side and dais-side gaps differ (exceptions)",
+    "verdict": "PASS",
+    "evidence": "8 pillar-to-pillar gaps = 6; exceptions [('P_N1', 15), ('P_N2', 15)]; shorter-than-6 []; unexplained exceptions []; corner runs (pillar to side wall) [6]; analytic centre-to-centre gaps [6, 6, 6, 6, 15, 15] (6 ordinary, 15 across door/dais)"
+   },
+   {
+    "id": "K4",
+    "title": "Corners left open: no corner pillar bodies and lintels terminate before the corner zone (Q52)",
+    "verdict": "PASS",
+    "evidence": "pillar-body cells in the 5x5 corner zones 0; lintel cells in corner zones 0"
+   },
+   {
+    "id": "K5",
+    "title": "Capital height 3 / max 7x7 (Q56, Q58) and wallward projection limited so no capital touches a wall (Q57)",
+    "verdict": "PASS",
+    "evidence": "capital bounding boxes (x,z) [(6, 7), (7, 6)] (limit 7); too wide []; min free air between wall and any capital/lintel cell 1 (need >=1); face contacts column-assembly<->wall/ceiling shell 0"
+   },
+   {
+    "id": "K6",
+    "title": "Lintel/colonnade is visually separate from the stepped ceiling with no direct ceiling or wall support (Q60), lintel 1 thick, interrupted at door and dais (Q49)",
+    "verdict": "PASS",
+    "evidence": "6 lintel segments; min air gap lintel->ceiling solid 1; unsupported segments []; lintel cells across door/dais axis (|u|<=5 on N/S rows) 0; shell contacts 0"
+   },
+   {
+    "id": "K7",
+    "title": "No physical block placed twice and no element inside a solid structural block (voxel painting) - cross-checked by an AABB pair-intersection sum",
+    "verdict": "PASS",
+    "evidence": "voxel overlaps 0; analytic intersecting volume 0; elements placed into solid []; 171 boxes / 59 elements"
+   },
+   {
+    "id": "K8",
+    "title": "Colonnade is symmetrical about both hall axes (Q47: symmetrical perimeter colonnade, centre open)",
+    "verdict": "PASS",
+    "evidence": "1416 colonnade voxels; mirror u (E<->W) True; mirror v (N<->S) True; pillars 10 (E/W 3 each, N/S 2 each)"
+   },
+   {
+    "id": "O1",
+    "title": "Central obelisk on the hall centre: PROPOSED plinth 5x5, shaft 3x3, tip 1x1, top 3+ below the ceiling peak, touching nothing but the floor",
+    "verdict": "PASS",
+    "evidence": "centre (21,21) hall centre (21,21); top Y-10 (height 13); air above to ceiling 3; neighbour contacts 0; nearest pillar base 11.0 from centre"
+   },
+   {
+    "id": "A1",
+    "title": "Rear low sarcophagus dais with broad frontal tread (Q10, Q32), decorated sarcophagus on it, primary chest on the dais (Q11), secondary chest in a side alcove (Q34) with lid clearance",
+    "verdict": "PASS",
+    "evidence": "dais body X[16,26] Z[32,37] height 2 (low <=3), against rear wall z=37; tread width 9 (>=7); sarcophagus Z[34,37] on dais top; primary chest [(21, -20, 33)] lid air True; secondary chest cells [(3, -22, 25), (3, -22, 26)] lid air True; dais front to obelisk plinth edge 8 blocks"
+   },
+   {
+    "id": "D1",
+    "title": "Decoration reservations: Q30 central floor field is flat and free of columns/dais (only the obelisk stands on it); Q29 relief band is a depth-1 surface inside the 8-high walls (spatial occupancy only - no assets)",
+    "verdict": "PASS",
+    "evidence": "floor field X[13,29] Z[13,29] (17x17); non-obelisk elements on it 0; unexpected solid 0; relief band Y[-19, -16] depth 1 within wall layers Y-22..-15"
+   },
+   {
+    "id": "A2",
+    "title": "Entrance port connects to the hall interior; primary chest, dais, secondary chest and secret-hatch zone are all reachable on foot from the P1 landing; secondary chest and hatch are reachable WITHOUT using the dais; hatch/secondary chest reachable without crossing the 21x21 combat field",
+    "verdict": "PASS",
+    "evidence": "unreachable []; walk steps from P1 start: ENTRANCE_IN=118, DAIS_TOP_FRONT=149, HATCH=160, CHEST2_ACC0=153; secondary chest independent of dais True; primary chest independent of alcove True; hatch reachable with dais blocked / field blocked True; secondary chest with field blocked True"
+   },
+   {
+    "id": "A3",
+    "title": "Wall-side passage is a continuous 2-wide route: a 2x2-footprint, 3-high walker goes from the door to the secret-hatch corner without entering the combat field (Q50/Q54 2-block passage)",
+    "verdict": "PASS",
+    "evidence": "agent states reached 496; hatch corner state (8, -22, 36) reached True"
+   },
+   {
+    "id": "B1",
+    "title": "Boss space: every emergence candidate fits the guardian envelope (2x2 cells, 5 high = hitbox 1.35x4.35 from TombGuardianTuning) and a boss-sized walker can circle the obelisk and move between the pillars",
+    "verdict": "PASS",
+    "evidence": "candidates {k: (min-corner, reachable states)} {'BOSS_S': ((20, -22, 26), 502), 'BOSS_N': ((20, -22, 14), 502), 'BOSS_E': ((14, -22, 20), 502), 'BOSS_W': ((26, -22, 20), 502)}; encircles obelisk True; widest agent that still circles the obelisk (h=5) 4 cells; boss-sized agent reaches 502 states"
+   },
+   {
+    "id": "B2",
+    "title": "Boss confinement: a 5-high boss walker cannot enter the 3-high P2 threshold or any P2 cavity (corridor safe-spot / door-cheese exposure)",
+    "verdict": "PASS",
+    "evidence": "boss-reachable states inside P2 cavities: 0 (0 means the guardian is geometrically confined to the hall; players retreating into T/R are unreachable by melee - see report risk BOSS-R1)"
+   },
+   {
+    "id": "B3",
+    "title": "Shockwave (radius 6 + 0.8 thickness) can be left: from every boss position in the 21x21 field a standable floor cell >= 6.8 away exists, and a player 2 cells from the boss has a straight free run out of the wave in >= 3 of 8 directions (PROPOSED criterion)",
+    "verdict": "PASS",
+    "evidence": "350 boss positions; farthest-cell worst case 24.8 (need >= 6.8); minimum number of escape directions over 398 field positions = 3 at [(-10, -9), (-10, 9), (-9, -10), (-9, 10), (-6, 10), (-5, 9), (-5, 10), (5, 9)]... (field corners / dais-tread edge); wave passes through solids in the implementation so geometry never shields"
+   },
+   {
+    "id": "B4",
+    "title": "Stone Eruption column (height 4) fits above every standable hall floor cell (no cell where the risen statue would be clipped by a capital/ceiling)",
+    "verdict": "PASS",
+    "evidence": "788 standable hall floor cells; cells with free height < 4: 0 []"
+   },
+   {
+    "id": "B5",
+    "title": "Guardian AI pathfinding around columns/lintels, emergence-point validation, Stone Eruption safe-shift in tight spots, hit-frame timing, multiplayer spread, camera clipping",
+    "verdict": "UNVERIFIED",
+    "evidence": "no runtime/NBT exists; only geometric envelopes were tested (B1-B4). Implementation values from TombGuardianTuning.java are used as evidence, not authority."
+   },
+   {
+    "id": "R1",
+    "title": "Secret-access (Q13/Q14) reservation for P4: 5x5x4 clear floor zone in the rear inner corner, over P2 STAIR_A, outside the combat field, reachable; 1:1 head run reaches the STAIR_A band",
+    "verdict": "PASS",
+    "evidence": "hatch zone X[5,9] Z[33,37] Y[-22,-19] air 100/100, element voxels 0; inside STAIR_A plan True; floor slab below the zone is 2 thick (reservation floor Y-24), the P2 STAIR_A band starts directly under it; a 1:1 head run of 5 reaches Y-27 (STAIR_A top Y-25); outside 21x21 field True"
+   },
+   {
+    "id": "X1",
+    "title": "Whole generated hall structure (walls, slabs, foundation, recesses, columns) stays inside the pyramid projection X/Z +-40 (D01 whole-structure reading)",
+    "verdict": "PASS",
+    "evidence": "max excess 0 blocks (analytic over 181 boxes); reservation voxels outside +-40: 0; reservation X[2,40] Z[2,40] (outer face touching +-40 on W and S: margin 0)"
+   },
+   {
+    "id": "I1",
+    "title": "No interference with P2 L1-L3 (cavity/cavity wall >=2, only the declared T port enters the reservation) and with P1 context (vertical cover above the roof)",
+    "verdict": "PASS",
+    "evidence": "P2 cavities closer than 2 to hall cavities: []; P2 cavity cells inside reservation 27 (declared port 27); nearest P1 cavity Chebyshev gap 6; P1 cavities over the hall plan: [('S00', 0), ('S01', 0), ('S02', 0), ('S03', 0), ('S04', 0)] vertical gap 4; cavities between roof and ground over the hall plan []; roof top Y-5 -> ground Y0 = 4 blocks of cover"
+   },
+   {
+    "id": "I3",
+    "title": "Wall recesses (alcove, niches, brazier recesses) leave >=1 solid block behind, do not touch each other or the entrance port, and stay inside the wall shell",
+    "verdict": "PASS",
+    "evidence": "remaining wall behind recesses {'ALCOVE_E': 1, 'NICHE_W': 1, 'NICHE_E_A': 1, 'NICHE_W_A': 1, 'BRAZ_NW': 2, 'BRAZ_NE': 2, 'BRAZ_SW': 2, 'BRAZ_SE': 2}; min recess-recess gap 5; min recess-door gap 2"
+   },
+   {
+    "id": "P2R",
+    "title": "Unmodified P2 model still passes its own engine checks (preservation of P2 coordinates)",
+    "verdict": "PASS",
+    "evidence": "15 P2 engine checks, 0 not PASS (P2 model files are read, not written)"
+   }
+  ],
+  "metrics": {
+   "corbel_spans": {
+    "-22": [
+     5,
+     37,
+     5,
+     37
+    ],
+    "-21": [
+     5,
+     37,
+     5,
+     37
+    ],
+    "-20": [
+     5,
+     37,
+     5,
+     37
+    ],
+    "-19": [
+     5,
+     37,
+     5,
+     37
+    ],
+    "-18": [
+     5,
+     37,
+     5,
+     37
+    ],
+    "-17": [
+     5,
+     37,
+     5,
+     37
+    ],
+    "-16": [
+     5,
+     37,
+     5,
+     37
+    ],
+    "-15": [
+     5,
+     37,
+     5,
+     37
+    ],
+    "-14": [
+     7,
+     35,
+     7,
+     35
+    ],
+    "-13": [
+     9,
+     33,
+     9,
+     33
+    ],
+    "-12": [
+     11,
+     31,
+     11,
+     31
+    ],
+    "-11": [
+     13,
+     29,
+     13,
+     29
+    ],
+    "-10": [
+     15,
+     27,
+     15,
+     27
+    ],
+    "-9": [
+     17,
+     25,
+     17,
+     25
+    ],
+    "-8": [
+     19,
+     23,
+     19,
+     23
+    ],
+    "-7": [
+     21,
+     21,
+     21,
+     21
+    ]
+   },
+   "walk": {
+    "ENTRANCE_IN": 118,
+    "DAIS_TREAD": 148,
+    "DAIS_TOP_FRONT": 149,
+    "HATCH": 160,
+    "FIELD_RING": 138,
+    "PASSAGE_E_MID": 150,
+    "PASSAGE_W_MID": 148,
+    "CHEST1_ACC0": 149,
+    "CHEST1_ACC1": 151,
+    "CHEST1_ACC2": 149,
+    "CHEST2_ACC0": 153,
+    "CHEST2_ACC1": 154
+   },
+   "route_dais_to_hatch": 19,
+   "route_dais_to_chest2": 23,
+   "handedness": {
+    "secondary_alcove_side": "west",
+    "seen_entering_facing_south": "right",
+    "hatch_side": "west"
+   },
+   "passage_reach": 496,
+   "escape_min_dirs": 3,
+   "escape_weak_positions": [
+    [
+     -10,
+     -9
+    ],
+    [
+     -10,
+     9
+    ],
+    [
+     -9,
+     -10
+    ],
+    [
+     -9,
+     10
+    ],
+    [
+     -6,
+     10
+    ],
+    [
+     -5,
+     9
+    ],
+    [
+     -5,
+     10
+    ],
+    [
+     5,
+     9
+    ],
+    [
+     5,
+     10
+    ],
+    [
+     6,
+     10
+    ],
+    [
+     9,
+     -10
+    ],
+    [
+     9,
+     10
+    ],
+    [
+     10,
+     -9
+    ],
+    [
+     10,
+     9
+    ]
+   ],
+   "pillars": {
+    "P_N1": {
+     "centre": [
+      30,
+      8
+     ],
+     "body": [
+      29,
+      31,
+      7,
+      9
+     ],
+     "wall_axis": "z"
+    },
+    "P_N2": {
+     "centre": [
+      12,
+      8
+     ],
+     "body": [
+      11,
+      13,
+      7,
+      9
+     ],
+     "wall_axis": "z"
+    },
+    "P_S1": {
+     "centre": [
+      30,
+      34
+     ],
+     "body": [
+      29,
+      31,
+      33,
+      35
+     ],
+     "wall_axis": "z"
+    },
+    "P_S2": {
+     "centre": [
+      12,
+      34
+     ],
+     "body": [
+      11,
+      13,
+      33,
+      35
+     ],
+     "wall_axis": "z"
+    },
+    "P_W1": {
+     "centre": [
+      34,
+      12
+     ],
+     "body": [
+      33,
+      35,
+      11,
+      13
+     ],
+     "wall_axis": "x"
+    },
+    "P_W2": {
+     "centre": [
+      34,
+      21
+     ],
+     "body": [
+      33,
+      35,
+      20,
+      22
+     ],
+     "wall_axis": "x"
+    },
+    "P_W3": {
+     "centre": [
+      34,
+      30
+     ],
+     "body": [
+      33,
+      35,
+      29,
+      31
+     ],
+     "wall_axis": "x"
+    },
+    "P_E1": {
+     "centre": [
+      8,
+      12
+     ],
+     "body": [
+      7,
+      9,
+      11,
+      13
+     ],
+     "wall_axis": "x"
+    },
+    "P_E2": {
+     "centre": [
+      8,
+      21
+     ],
+     "body": [
+      7,
+      9,
+      20,
+      22
+     ],
+     "wall_axis": "x"
+    },
+    "P_E3": {
+     "centre": [
+      8,
+      30
+     ],
+     "body": [
+      7,
+      9,
+      29,
+      31
+     ],
+     "wall_axis": "x"
+    }
+   },
+   "capdims": [
+    [
+     "P_N1",
+     [
+      7,
+      6
+     ]
+    ],
+    [
+     "P_N2",
+     [
+      7,
+      6
+     ]
+    ],
+    [
+     "P_S1",
+     [
+      7,
+      6
+     ]
+    ],
+    [
+     "P_S2",
+     [
+      7,
+      6
+     ]
+    ],
+    [
+     "P_W1",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_W2",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_W3",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_E1",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_E2",
+     [
+      6,
+      7
+     ]
+    ],
+    [
+     "P_E3",
+     [
+      6,
+      7
+     ]
+    ]
+   ],
+   "boss_spawn": {
+    "BOSS_S": [
+     20,
+     -22,
+     26
+    ],
+    "BOSS_N": [
+     20,
+     -22,
+     14
+    ],
+    "BOSS_E": [
+     14,
+     -22,
+     20
+    ],
+    "BOSS_W": [
+     26,
+     -22,
+     20
+    ]
+   },
+   "boss_max_circling_agent": 4,
+   "worst_escape": 24.839484696748443,
+   "up_gap": 1,
+   "hatch": [
+    5,
+    9,
+    -22,
+    -19,
+    33,
+    37
+   ],
+   "gaps": [
+    [
+     "P_N1",
+     -1,
+     15,
+     "P_N2:shaft"
+    ],
+    [
+     "P_N1",
+     1,
+     6,
+     null
+    ],
+    [
+     "P_N2",
+     -1,
+     6,
+     null
+    ],
+    [
+     "P_N2",
+     1,
+     15,
+     "P_N1:shaft"
+    ],
+    [
+     "P_S1",
+     -1,
+     2,
+     "DAIS"
+    ],
+    [
+     "P_S1",
+     1,
+     6,
+     null
+    ],
+    [
+     "P_S2",
+     -1,
+     6,
+     null
+    ],
+    [
+     "P_S2",
+     1,
+     2,
+     "DAIS"
+    ],
+    [
+     "P_W1",
+     -1,
+     6,
+     null
+    ],
+    [
+     "P_W1",
+     1,
+     6,
+     "P_W2:shaft"
+    ],
+    [
+     "P_W2",
+     -1,
+     6,
+     "P_W1:shaft"
+    ],
+    [
+     "P_W2",
+     1,
+     6,
+     "P_W3:shaft"
+    ],
+    [
+     "P_W3",
+     -1,
+     6,
+     "P_W2:shaft"
+    ],
+    [
+     "P_W3",
+     1,
+     6,
+     null
+    ],
+    [
+     "P_E1",
+     -1,
+     6,
+     null
+    ],
+    [
+     "P_E1",
+     1,
+     6,
+     "P_E2:shaft"
+    ],
+    [
+     "P_E2",
+     -1,
+     6,
+     "P_E1:shaft"
+    ],
+    [
+     "P_E2",
+     1,
+     6,
+     "P_E3:shaft"
+    ],
+    [
+     "P_E3",
+     -1,
+     6,
+     "P_E2:shaft"
+    ],
+    [
+     "P_E3",
+     1,
+     6,
+     null
+    ]
+   ]
+  }
+ },
+ "equivalence": {
+  "voxel_mirror": {
+   "solid": true,
+   "elem": true,
+   "recess": true,
+   "owner": true,
+   "shell": true,
+   "eids": true
+  },
+  "verdicts_equal": true
+ }
+}

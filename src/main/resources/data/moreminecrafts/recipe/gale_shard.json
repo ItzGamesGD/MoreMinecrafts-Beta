@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": "minecraft:wind_charge",
+    "D": "minecraft:diamond",
+    "E": "moreminecrafts:etherium_ingot"
+  },
+  "pattern": [
+    " W ",
+    "WEW",
+    "DWD"
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreminecrafts:gale_shard"
+  }
+}

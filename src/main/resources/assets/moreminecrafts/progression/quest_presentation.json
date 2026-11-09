@@ -1,0 +1,402 @@
+{
+  "chapters": [
+    {
+      "id": "ecology",
+      "titleKey": "moreminecrafts.ui.quest.chapter.ecology",
+      "subBranches": [
+        {
+          "id": "ecology.slice",
+          "titleKey": "moreminecrafts.ui.quest.sub.ecology.slice",
+          "nodeIds": [
+            "xpq.cmb.cave_dwellers",
+            "xpq.cmb.bestiary_25",
+            "xpq.cmb.habitats_5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exploration",
+      "titleKey": "moreminecrafts.ui.quest.chapter.exploration",
+      "subBranches": [
+        {
+          "id": "exploration.loot",
+          "titleKey": "moreminecrafts.ui.quest.sub.exploration.loot",
+          "nodeIds": [
+            "xpq.exp.dungeon_loot",
+            "xpq.exp.first_structure_loot",
+            "xpq.exp.mineshaft_loot",
+            "xpq.exp.temples",
+            "xpq.exp.archaeology_30",
+            "xpq.exp.ocean_relics",
+            "xpq.exp.villages_5",
+            "xpq.exp.grand_expedition",
+            "xpq.exp.structures_15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monster_hunt",
+      "titleKey": "moreminecrafts.ui.quest.chapter.monster_hunt",
+      "subBranches": [
+        {
+          "id": "monster_hunt.kill_counts",
+          "titleKey": "moreminecrafts.ui.quest.sub.monster_hunt.kill_counts",
+          "nodeIds": [
+            "xpq.cmb.hostile_100",
+            "xpq.cmb.hostile_500",
+            "xpq.cmb.hostile_2000",
+            "xpq.cmb.hostile_5000"
+          ]
+        },
+        {
+          "id": "monster_hunt.species",
+          "titleKey": "moreminecrafts.ui.quest.sub.monster_hunt.species",
+          "nodeIds": [
+            "xpq.cmb.bestiary_5",
+            "xpq.cmb.bestiary_10",
+            "xpq.cmb.vanilla_species_20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arms",
+      "titleKey": "moreminecrafts.ui.quest.chapter.arms",
+      "subBranches": [
+        {
+          "id": "arms.melee",
+          "titleKey": "moreminecrafts.ui.quest.sub.arms.melee",
+          "nodeIds": [
+            "xpq.cmb.mm_arms",
+            "xpq.cmb.dagger_100",
+            "xpq.cmb.greatsword_100",
+            "xpq.cmb.shield_500",
+            "xpq.cmb.mace_smash_10",
+            "xpq.cmb.netherite_blades"
+          ]
+        },
+        {
+          "id": "arms.ranged",
+          "titleKey": "moreminecrafts.ui.quest.sub.arms.ranged",
+          "nodeIds": [
+            "xpq.cmb.trident_50",
+            "xpq.cmb.long_shot_25"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "elite",
+      "titleKey": "moreminecrafts.ui.quest.chapter.elite",
+      "subBranches": [
+        {
+          "id": "elite.raids",
+          "titleKey": "moreminecrafts.ui.quest.sub.elite.raids",
+          "nodeIds": [
+            "xpq.cmb.bandits_20",
+            "xpq.cmb.brutes_3",
+            "xpq.cmb.raids_3",
+            "xpq.cmb.ravagers_5"
+          ]
+        },
+        {
+          "id": "elite.elites",
+          "titleKey": "moreminecrafts.ui.quest.sub.elite.elites",
+          "nodeIds": [
+            "xpq.cmb.breeze_10",
+            "xpq.cmb.guardians_30",
+            "xpq.cmb.lesser_wither_10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mining",
+      "titleKey": "moreminecrafts.ui.quest.chapter.mining",
+      "subBranches": [
+        {
+          "id": "mining.ores",
+          "titleKey": "moreminecrafts.ui.quest.sub.mining.ores",
+          "nodeIds": [
+            "xpq.min.first_custom_ore",
+            "xpq.min.custom_ore_survey",
+            "xpq.min.deepslate_custom",
+            "xpq.min.ore_1000",
+            "xpq.min.diamond_ore_64",
+            "xpq.min.ore_5000",
+            "xpq.min.ore_20000"
+          ]
+        },
+        {
+          "id": "mining.debris",
+          "titleKey": "moreminecrafts.ui.quest.sub.mining.debris",
+          "nodeIds": [
+            "xpq.min.adamantium_10",
+            "xpq.min.debris_16"
+          ]
+        },
+        {
+          "id": "mining.stone",
+          "titleKey": "moreminecrafts.ui.quest.sub.mining.stone",
+          "nodeIds": [
+            "xpq.min.pickaxe_5000"
+          ]
+        },
+        {
+          "id": "mining.wood",
+          "titleKey": "moreminecrafts.ui.quest.sub.mining.wood",
+          "nodeIds": [
+            "xpq.min.logs_1000"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "farming",
+      "titleKey": "moreminecrafts.ui.quest.chapter.farming",
+      "subBranches": [
+        {
+          "id": "farming.crops",
+          "titleKey": "moreminecrafts.ui.quest.sub.farming.crops",
+          "nodeIds": [
+            "xpq.frm.till_1000"
+          ]
+        },
+        {
+          "id": "farming.livestock",
+          "titleKey": "moreminecrafts.ui.quest.sub.farming.livestock",
+          "nodeIds": [
+            "xpq.frm.tame_5"
+          ]
+        },
+        {
+          "id": "farming.trades",
+          "titleKey": "moreminecrafts.ui.quest.sub.farming.trades",
+          "nodeIds": [
+            "xpq.frm.barter_200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fishing",
+      "titleKey": "moreminecrafts.ui.quest.chapter.fishing",
+      "subBranches": [
+        {
+          "id": "fishing.sales",
+          "titleKey": "moreminecrafts.ui.quest.sub.fishing.sales",
+          "nodeIds": [
+            "xpq.fsh.first_sale",
+            "xpq.fsh.sale_64",
+            "xpq.fsh.emerald_500"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crafting",
+      "titleKey": "moreminecrafts.ui.quest.chapter.crafting",
+      "subBranches": [
+        {
+          "id": "crafting.essentials",
+          "titleKey": "moreminecrafts.ui.quest.sub.crafting.essentials",
+          "nodeIds": [
+            "xpq.cft.anvil_50"
+          ]
+        },
+        {
+          "id": "crafting.recipes",
+          "titleKey": "moreminecrafts.ui.quest.sub.crafting.recipes",
+          "nodeIds": [
+            "xpq.cft.redstone_100"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "building",
+      "titleKey": "moreminecrafts.ui.quest.chapter.building",
+      "subBranches": [
+        {
+          "id": "building.placement",
+          "titleKey": "moreminecrafts.ui.quest.sub.building.placement",
+          "nodeIds": [
+            "xpq.bld.place_1000",
+            "xpq.bld.place_10000",
+            "xpq.bld.place_50000",
+            "xpq.bld.place_200000"
+          ]
+        },
+        {
+          "id": "building.variety",
+          "titleKey": "moreminecrafts.ui.quest.sub.building.variety",
+          "nodeIds": [
+            "xpq.bld.variety_50",
+            "xpq.bld.variety_150"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alchemy",
+      "titleKey": "moreminecrafts.ui.quest.chapter.alchemy",
+      "subBranches": [
+        {
+          "id": "alchemy.mastery",
+          "titleKey": "moreminecrafts.ui.quest.sub.alchemy.mastery",
+          "nodeIds": [
+            "xpq.alc.potions_250"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dimensions",
+      "titleKey": "moreminecrafts.ui.quest.chapter.dimensions",
+      "subBranches": [
+        {
+          "id": "dimensions.nether",
+          "titleKey": "moreminecrafts.ui.quest.sub.dimensions.nether",
+          "nodeIds": [
+            "xpq.dim.fortress_loot",
+            "xpq.dim.bastion_all",
+            "xpq.dim.nether_travel_50k"
+          ]
+        },
+        {
+          "id": "dimensions.end",
+          "titleKey": "moreminecrafts.ui.quest.sub.dimensions.end",
+          "nodeIds": [
+            "xpq.dim.end_cities_3",
+            "xpq.dim.end_city_loot_10"
+          ]
+        },
+        {
+          "id": "dimensions.vaults",
+          "titleKey": "moreminecrafts.ui.quest.sub.dimensions.vaults",
+          "nodeIds": [
+            "xpq.dim.trial_vaults_5",
+            "xpq.dim.ancient_city_loot",
+            "xpq.dim.ominous_vaults_5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bosses",
+      "titleKey": "moreminecrafts.ui.quest.chapter.bosses",
+      "subBranches": [
+        {
+          "id": "bosses.sea",
+          "titleKey": "moreminecrafts.ui.quest.sub.bosses.sea",
+          "nodeIds": [
+            "xpq.boss.elder_guardian"
+          ]
+        },
+        {
+          "id": "bosses.deep",
+          "titleKey": "moreminecrafts.ui.quest.sub.bosses.deep",
+          "nodeIds": [
+            "xpq.boss.warden",
+            "xpq.boss.warden_3"
+          ]
+        },
+        {
+          "id": "bosses.nether_end",
+          "titleKey": "moreminecrafts.ui.quest.sub.bosses.nether_end",
+          "nodeIds": [
+            "xpq.boss.wither",
+            "xpq.boss.dragon_rematch",
+            "xpq.boss.twin_bosses"
+          ]
+        },
+        {
+          "id": "bosses.omens",
+          "titleKey": "moreminecrafts.ui.quest.sub.bosses.omens",
+          "nodeIds": [
+            "xpq.boss.omen_raid"
+          ]
+        }
+      ]
+    }
+  ],
+  "icons": {
+    "xpq.cmb.cave_dwellers": "minecraft:cave_spider_spawn_egg",
+    "xpq.cmb.bestiary_25": "minecraft:book",
+    "xpq.cmb.habitats_5": "minecraft:map",
+    "xpq.exp.dungeon_loot": "minecraft:spawner",
+    "xpq.exp.first_structure_loot": "minecraft:chest",
+    "xpq.exp.mineshaft_loot": "minecraft:minecart",
+    "xpq.exp.temples": "minecraft:mossy_cobblestone",
+    "xpq.exp.archaeology_30": "minecraft:brush",
+    "xpq.exp.ocean_relics": "minecraft:heart_of_the_sea",
+    "xpq.exp.villages_5": "minecraft:emerald",
+    "xpq.exp.grand_expedition": "minecraft:filled_map",
+    "xpq.exp.structures_15": "minecraft:compass",
+    "xpq.cmb.hostile_100": "minecraft:rotten_flesh",
+    "xpq.cmb.hostile_500": "minecraft:bone",
+    "xpq.cmb.hostile_2000": "minecraft:gunpowder",
+    "xpq.cmb.hostile_5000": "minecraft:skeleton_skull",
+    "xpq.cmb.bestiary_5": "minecraft:spider_eye",
+    "xpq.cmb.bestiary_10": "minecraft:bone_meal",
+    "xpq.cmb.vanilla_species_20": "minecraft:zombie_spawn_egg",
+    "xpq.cmb.mm_arms": "minecraft:iron_sword",
+    "xpq.cmb.dagger_100": "moreminecrafts:iron_dagger",
+    "xpq.cmb.greatsword_100": "moreminecrafts:iron_greatsword",
+    "xpq.cmb.shield_500": "minecraft:shield",
+    "xpq.cmb.mace_smash_10": "minecraft:mace",
+    "xpq.cmb.netherite_blades": "moreminecrafts:netherite_greatsword",
+    "xpq.cmb.trident_50": "minecraft:trident",
+    "xpq.cmb.long_shot_25": "minecraft:bow",
+    "xpq.cmb.bandits_20": "minecraft:pillager_spawn_egg",
+    "xpq.cmb.brutes_3": "minecraft:piglin_brute_spawn_egg",
+    "xpq.cmb.raids_3": "minecraft:ominous_bottle",
+    "xpq.cmb.ravagers_5": "minecraft:ravager_spawn_egg",
+    "xpq.cmb.breeze_10": "minecraft:breeze_rod",
+    "xpq.cmb.guardians_30": "minecraft:prismarine_shard",
+    "xpq.cmb.lesser_wither_10": "minecraft:wither_skeleton_spawn_egg",
+    "xpq.min.first_custom_ore": "minecraft:raw_iron",
+    "xpq.min.custom_ore_survey": "minecraft:copper_ore",
+    "xpq.min.deepslate_custom": "minecraft:deepslate",
+    "xpq.min.ore_1000": "minecraft:iron_ore",
+    "xpq.min.diamond_ore_64": "minecraft:diamond",
+    "xpq.min.ore_5000": "minecraft:coal_ore",
+    "xpq.min.ore_20000": "minecraft:emerald_ore",
+    "xpq.min.adamantium_10": "moreminecrafts:adamantium_ingot",
+    "xpq.min.debris_16": "minecraft:ancient_debris",
+    "xpq.min.pickaxe_5000": "minecraft:iron_pickaxe",
+    "xpq.min.logs_1000": "minecraft:oak_log",
+    "xpq.frm.till_1000": "minecraft:iron_hoe",
+    "xpq.frm.tame_5": "minecraft:lead",
+    "xpq.frm.barter_200": "minecraft:gold_ingot",
+    "xpq.fsh.first_sale": "minecraft:cod",
+    "xpq.fsh.sale_64": "minecraft:salmon",
+    "xpq.fsh.emerald_500": "minecraft:emerald",
+    "xpq.cft.anvil_50": "minecraft:anvil",
+    "xpq.cft.redstone_100": "minecraft:redstone",
+    "xpq.bld.place_1000": "minecraft:stone_bricks",
+    "xpq.bld.place_10000": "minecraft:bricks",
+    "xpq.bld.place_50000": "minecraft:stone_bricks",
+    "xpq.bld.place_200000": "minecraft:smooth_stone",
+    "xpq.bld.variety_50": "minecraft:chiseled_stone_bricks",
+    "xpq.bld.variety_150": "minecraft:cobblestone_wall",
+    "xpq.alc.potions_250": "minecraft:potion",
+    "xpq.dim.fortress_loot": "minecraft:nether_brick",
+    "xpq.dim.bastion_all": "minecraft:gilded_blackstone",
+    "xpq.dim.nether_travel_50k": "minecraft:soul_sand",
+    "xpq.dim.end_cities_3": "minecraft:end_rod",
+    "xpq.dim.end_city_loot_10": "minecraft:chorus_fruit",
+    "xpq.dim.trial_vaults_5": "minecraft:trial_key",
+    "xpq.dim.ancient_city_loot": "minecraft:echo_shard",
+    "xpq.dim.ominous_vaults_5": "minecraft:ominous_trial_key",
+    "xpq.boss.elder_guardian": "minecraft:elder_guardian_spawn_egg",
+    "xpq.boss.warden": "minecraft:warden_spawn_egg",
+    "xpq.boss.warden_3": "minecraft:sculk_catalyst",
+    "xpq.boss.wither": "minecraft:nether_star",
+    "xpq.boss.dragon_rematch": "minecraft:dragon_breath",
+    "xpq.boss.twin_bosses": "minecraft:end_crystal",
+    "xpq.boss.omen_raid": "minecraft:ominous_bottle"
+  }
+}
