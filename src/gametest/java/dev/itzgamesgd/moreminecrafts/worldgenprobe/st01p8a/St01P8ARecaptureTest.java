@@ -122,7 +122,7 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
                 player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 3600, 0, false, false, false));
             });
             manifest.put("flat_world_surface_height_at_x-80_z-20", ground[0]);
-            context.runOnClient(c -> c.options.hideGui = true);
+            context.runOnClient(c -> c.gui.hud.toggle()); // HUD starts visible: one toggle hides it
             context.waitTicks(40);
             connection.waitForClientboundPackets();
 
@@ -195,7 +195,7 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
                     if (menu instanceof ChestMenu cm) m.put("rows", cm.getRowCount());
                     return m;
                 }));
-                context.runOnClient(c -> c.options.hideGui = false);
+                context.runOnClient(c -> c.gui.hud.toggle()); // restore the HUD for the chest-screen frame
                 chest.put("screenshot", String.valueOf(context.takeScreenshot("R2-20-primary-chest-open-54-slot")));
                 chest.put("status", "tested");
             } catch (RuntimeException | Error e) {
