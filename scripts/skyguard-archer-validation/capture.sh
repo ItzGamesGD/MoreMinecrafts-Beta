@@ -33,7 +33,6 @@ echo SERVER_READY
 python3 scripts/visual_validation/rcon.py 'setworldspawn 0 64 12' 'forceload add -16 -16 16 16' 'time set noon' 'weather clear' \
   'fill -12 63 -8 12 63 16 minecraft:stone' 'fill -12 64 -8 12 75 16 minecraft:air' 'fill -12 64 -7 12 73 -7 minecraft:light_blue_concrete' \
   'summon moreminecrafts:skyguard_archer 0.5 64 4.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[0f,0f],Tags:["archer_visual"]}' \
-  'item replace entity @e[type=moreminecrafts:skyguard_archer,tag=archer_visual,limit=1] weapon.mainhand with minecraft:bow' \
   'execute if entity @e[type=moreminecrafts:skyguard_archer,tag=archer_visual] run say ARCHER_CREATED' | tee "$OUT/scene.log"
 printf 'guiScale:2\ntutorialStep:none\n' > run/options.txt
 export OUT
@@ -67,7 +66,10 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
    scrot "$OUT/$name.png"
    echo "SCREEN_CAPTURED $name yaw=$yaw pitch=$pitch"
  }
- rcon "tp @e[type=moreminecrafts:skyguard_archer,tag=archer_visual,limit=1] 0.5 64 4.5 0 0"
+ # summon with NBT skips finalizeSpawn, so the fixed bow is equipped explicitly for the scene.
+ rcon "item replace entity @e[type=moreminecrafts:skyguard_archer,tag=archer_visual,limit=1] weapon.mainhand with minecraft:bow" \
+   "tp @e[type=moreminecrafts:skyguard_archer,tag=archer_visual,limit=1] 0.5 64 4.5 0 0"
+ grep -q "Replaced 1 slot" "$OUT/scene.log"
  shoot front 0.5 64 8.5 65.0
  shoot back 0.5 64 0.5 65.0
  shoot left 4.5 64 4.5 65.0
@@ -76,13 +78,11 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
  shoot hood-close 0.5 64.3 6.4 65.6
  shoot shoulder-close -1.3 64.3 6.1 65.3 -0.1 4.5
  shoot cape-close 0.5 64.4 2.0 64.9
- # summon with NBT skips finalizeSpawn, so the fixed bow is equipped explicitly for the scene.
- # Bow-aim: live AI archer (movement 0) aiming at an invulnerable, immobile iron golem to its west.
- rcon "kill @e[type=moreminecrafts:skyguard_archer,tag=archer_visual]" \
-   "summon moreminecrafts:skyguard_archer 0.5 64 4.5 {PersistenceRequired:1b,Rotation:[90f,0f],Tags:[\"archer_aim\"]}" \
-   "item replace entity @e[type=moreminecrafts:skyguard_archer,tag=archer_aim,limit=1] weapon.mainhand with minecraft:bow" \
-   "attribute @e[type=moreminecrafts:skyguard_archer,tag=archer_aim,limit=1] minecraft:movement_speed base set 0" \
-   "summon minecraft:iron_golem -7.5 64 4.5 {NoAI:1b,Invulnerable:1b,PersistenceRequired:1b,Silent:1b}"
+ # Bow-aim: the same archer gets its AI back (movement 0) and draws on the survival viewer, kept alive by Resistance.
+ rcon "gamemode survival ArcherViewer" "effect give ArcherViewer minecraft:resistance infinite 255 true" \
+   "effect give ArcherViewer minecraft:regeneration infinite 255 true" \
+   "attribute @e[type=moreminecrafts:skyguard_archer,tag=archer_visual,limit=1] minecraft:movement_speed base set 0" \
+   "data merge entity @e[type=moreminecrafts:skyguard_archer,tag=archer_visual,limit=1] {NoAI:0b}"
  sleep 4
  for i in 1 2 3 4 5 6; do
    shoot "bow-aim-$i" -2.0 64 8.0 65.0 0.5 4.5
