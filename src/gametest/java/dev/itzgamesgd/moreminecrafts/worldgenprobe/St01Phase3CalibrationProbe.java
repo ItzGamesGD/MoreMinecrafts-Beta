@@ -191,7 +191,13 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
 
         int wmSpacing = rs.spacing();
         int wmSeparation = rs.separation();
-        int wmSalt = rs.salt();
+        int wmSalt = 10387319;
+        try {
+            var field = rs.getClass().getDeclaredField("salt");
+            field.setAccessible(true);
+            wmSalt = field.getInt(rs);
+        } catch (Throwable ignored) {
+        }
         RandomSpreadType wmSpreadType = rs.spreadType();
 
         // Biome requirements
@@ -221,8 +227,8 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
             for (int rz = minRegion; rz <= maxRegion; rz++) {
                 totalRegionsEvaluated++;
                 ChunkPos candidateChunk = rs.getPotentialStructureChunk(seed, rx, rz);
-                int anchorX = candidateChunk.x * 16 + 8;
-                int anchorZ = candidateChunk.z * 16 + 8;
+                int anchorX = candidateChunk.x() * 16 + 8;
+                int anchorZ = candidateChunk.z() * 16 + 8;
 
                 if (Math.abs(anchorX) > areaRadius || Math.abs(anchorZ) > areaRadius) {
                     continue;
@@ -240,7 +246,7 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
                 validBiomeAnchors++;
 
                 // Test actual structure start generation
-                ChunkAccess chunkAccess = level.getChunk(candidateChunk.x, candidateChunk.z, ChunkStatus.STRUCTURE_STARTS);
+                ChunkAccess chunkAccess = level.getChunk(candidateChunk.x(), candidateChunk.z(), ChunkStatus.STRUCTURE_STARTS);
                 StructureStart start = level.structureManager().getStartForStructure(mansionStructure, chunkAccess);
                 boolean isValidStart = (start != null && start.isValid());
 
@@ -250,8 +256,8 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
                     Map<String, Object> rec = new LinkedHashMap<>();
                     rec.put("region_x", rx);
                     rec.put("region_z", rz);
-                    rec.put("chunk_x", candidateChunk.x);
-                    rec.put("chunk_z", candidateChunk.z);
+                    rec.put("chunk_x", candidateChunk.x());
+                    rec.put("chunk_z", candidateChunk.z());
                     rec.put("block_x", anchorX);
                     rec.put("block_z", anchorZ);
                     rec.put("biome", anchorBiome.unwrapKey().map(k -> k.identifier().toString()).orElse("unknown"));
@@ -366,8 +372,8 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
             for (int rz = minRegion; rz <= maxRegion; rz++) {
                 totalRegions++;
                 ChunkPos chunk = computePotentialChunk(seed, rx, rz, cfg.spacing, cfg.separation, cfg.spreadType, cfg.salt);
-                int cx = chunk.x * 16 + 8;
-                int cz = chunk.z * 16 + 8;
+                int cx = chunk.x() * 16 + 8;
+                int cz = chunk.z() * 16 + 8;
 
                 if (Math.abs(cx) > areaRadius || Math.abs(cz) > areaRadius) {
                     continue;
@@ -467,17 +473,19 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
 
                 if (passExploratory) {
                     double dist = Math.sqrt((double) cx * cx + (double) cz * cz);
-                    eligibleCandidates.add(Map.of(
-                            "region_x", rx, "region_z", rz,
-                            "anchor_x", cx, "anchor_z", cz,
-                            "distance_from_origin", Math.round(dist),
-                            "delta_h", deltaH,
-                            "max_cut_depth", maxCut,
-                            "max_skirt_depth", maxSkirt,
-                            "cut_volume", (long) cutVolume,
-                            "fill_volume", (long) fillVolume,
-                            "fluid_collision", fluidCollision
-                    ));
+                    Map<String, Object> candidateMap = new LinkedHashMap<>();
+                    candidateMap.put("region_x", rx);
+                    candidateMap.put("region_z", rz);
+                    candidateMap.put("anchor_x", cx);
+                    candidateMap.put("anchor_z", cz);
+                    candidateMap.put("distance_from_origin", Math.round(dist));
+                    candidateMap.put("delta_h", deltaH);
+                    candidateMap.put("max_cut_depth", maxCut);
+                    candidateMap.put("max_skirt_depth", maxSkirt);
+                    candidateMap.put("cut_volume", (long) cutVolume);
+                    candidateMap.put("fill_volume", (long) fillVolume);
+                    candidateMap.put("fluid_collision", fluidCollision);
+                    eligibleCandidates.add(candidateMap);
                 }
             }
         }
