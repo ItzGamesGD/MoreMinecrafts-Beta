@@ -36,6 +36,7 @@ sheet = Image.new('RGB', (1280, 2*385), '#202020')
 draw = ImageDraw.Draw(sheet)
 for j, index in enumerate(indices):
     im = Image.open(frames[index][0]).convert('RGB')
+    im = im.crop((360, 20, 920, 700))
     im.thumbnail((320, 350))
     x,y=(j%4)*320,(j//4)*385
     sheet.paste(im,(x,y)); draw.text((x+5,y+352),f'{index}  +{(frames[index][1]-frames[0][1])/1e9:.2f}s', fill='white')

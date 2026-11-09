@@ -4,16 +4,15 @@ rcon() { python3 scripts/visual_validation/rcon.py "$@" >> sky-wraith-results/se
 scene_mark() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%S.%NZ)" "$*" >> sky-wraith-results/sequence-events.log; rcon 'time query gametime'; }
 record() { scene_mark "BEGIN $1"; /usr/bin/python3 scripts/sky-wraith-validation/sequence_frames.py "$1" "$2"; scene_mark "END $1"; }
 reset_mob() {
-  rcon 'kill @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual]' 'kill @e[type=minecraft:villager,tag=wraith_dummy]' \
+  rcon 'tp @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual] 7.5 64 9.5' 'kill @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual]' 'tp @e[type=minecraft:villager,tag=wraith_dummy] 7.5 64 9.5' 'kill @e[type=minecraft:villager,tag=wraith_dummy]' 'kill @e[type=minecraft:item,x=0,y=64,z=4,distance=..12]' \
     'summon moreminecrafts:cloud_wraith 0.5 64 4.5 {NoAI:1b,PersistenceRequired:1b,Tags:["wraith_visual"]}'
 }
 camera() {
-  if [[ "$1" == front ]]; then rcon 'tp WraithViewer 0.5 64 8.5 180 5';
-  else rcon 'tp WraithViewer 4.5 64 4.5 90 5'; fi
+  if [[ "$1" == front ]]; then rcon 'tp WraithViewer 0.5 64 7.5 180 5';
+  else rcon 'tp WraithViewer 3.5 64 4.5 90 5'; fi
 }
 dummy() {
-  rcon "summon minecraft:villager 0.5 64 $1 {NoAI:1b,PersistenceRequired:1b,Silent:1b,Tags:[\"wraith_dummy\"]}" \
-    'effect give @e[type=minecraft:villager,tag=wraith_dummy,limit=1] minecraft:invisibility 120 0 true' \
+  rcon "summon minecraft:villager 1.8 64 $1 {NoAI:1b,PersistenceRequired:1b,Silent:1b,Tags:[\"wraith_dummy\"]}" \
     'attribute @e[type=minecraft:villager,tag=wraith_dummy,limit=1] minecraft:max_health base set 200' \
     'data merge entity @e[type=minecraft:villager,tag=wraith_dummy,limit=1] {Health:200.0f}' \
     'attribute @e[type=minecraft:villager,tag=wraith_dummy,limit=1] minecraft:knockback_resistance base set 1'
@@ -25,7 +24,7 @@ for view in front side; do
   reset_mob; dummy 10.5; camera "$view"
   rcon 'data merge entity @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual,limit=1] {NoAI:0b}'
   sleep 1; record "${view}-walk" 4
-  reset_mob; dummy 6.0; camera "$view"
+  reset_mob; dummy 5.4; camera "$view"
   rcon 'attribute @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual,limit=1] minecraft:movement_speed base set 0' \
     'data merge entity @e[type=moreminecrafts:cloud_wraith,tag=wraith_visual,limit=1] {NoAI:0b}' \
     'data get entity @e[type=minecraft:villager,tag=wraith_dummy,limit=1] Health'
