@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import dev.itzgamesgd.moreminecrafts.st01.EntranceLayout;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.BlockPos;
@@ -266,7 +267,7 @@ public final class St01DesertWorldgenProbe implements ModInitializer {
                 }
 
                 // Deterministic Orientation using shared MurmurHash3 algorithm
-                EntranceLayout.Orientation orientation = St01O14WorldgenFeasibilityTest.selectOrientation(seed, cx, cz);
+                EntranceLayout.Orientation orientation = selectOrientation(seed, cx, cz);
 
                 if (candidateRecords.size() < 100) {
                     Map<String, Object> rec = new LinkedHashMap<>();
@@ -359,6 +360,22 @@ public final class St01DesertWorldgenProbe implements ModInitializer {
 
         LOG.info("ST-01 Real Worldgen Measurement written to {} (evaluated={}, desert={}, eligible={})",
                 out, totalEvaluated, centerDesertCount, eligibleCount);
+    }
+
+    private static long mix64(long seed, int x, int z) {
+        long coordHash = (((long) x & 0xFFFFFFFFL) << 32) | ((long) z & 0xFFFFFFFFL);
+        long combined = seed ^ coordHash;
+        combined ^= (combined >>> 33);
+        combined *= 0xff51afd7ed558ccdL;
+        combined ^= (combined >>> 33);
+        combined *= 0xc4ceb9fe1a85ec53L;
+        combined ^= (combined >>> 33);
+        return combined;
+    }
+
+    private static EntranceLayout.Orientation selectOrientation(long seed, int x, int z) {
+        long h = mix64(seed, x, z);
+        return (h & 1L) == 0L ? EntranceLayout.Orientation.EAST : EntranceLayout.Orientation.WEST;
     }
 
     private static double round2(double val) {
