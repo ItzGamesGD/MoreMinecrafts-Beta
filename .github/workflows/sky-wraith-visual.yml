@@ -16,6 +16,27 @@ jobs:
           distribution: temurin
           java-version: '25'
       - uses: gradle/actions/setup-gradle@v4
+      - name: Inspect Minecraft animation API
+        run: |
+          ./gradlew genSources --no-daemon
+          python3 - <<'PYCODE'
+          import pathlib, zipfile
+          wanted = {'ZombieModel.java', 'HumanoidModel.java', 'ZombieRenderState.java', 'HumanoidRenderState.java', 'LivingEntityRenderState.java', 'ZombieRenderer.java', 'AbstractZombieRenderer.java', 'LivingEntityRenderer.java', 'AnimationUtils.java'}
+          found = set()
+          for root in (pathlib.Path('.gradle'), pathlib.Path.home() / '.gradle/caches/fabric-loom'):
+              if not root.exists(): continue
+              for path in root.rglob('*sources*.jar'):
+                  try:
+                      with zipfile.ZipFile(path) as jar:
+                          for name in jar.namelist():
+                              if name.rsplit('/',1)[-1] in wanted and name not in found:
+                                  print('SOURCE_BEGIN', name)
+                                  print(jar.read(name).decode('utf-8'))
+                                  print('SOURCE_END', name)
+                                  found.add(name)
+                  except (OSError, zipfile.BadZipFile): pass
+          print('SOURCES_FOUND', len(found))
+          PYCODE
       - name: Install virtual display
         run: |
           sudo apt-get update
