@@ -90,11 +90,11 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
     /** ST-01 P8-A-D1 view set (floor detailing and dais stairs); select with -Dmm.st01.p8a.r2.set=d1. Same poses for before/after. */
     private static final List<View> D1_VIEWS = List.of(
             new View("D1-01-chamber-floor-elevated-north", -21, -12, 6, -21, -22, 23),
-            new View("D1-02-field-motif-oblique-east", -9, -15, 10, -21, -22, 22),
-            new View("D1-03-field-motif-oblique-west", -33, -15, 10, -21, -22, 22),
+            new View("D1-02-field-motif-aimed-east", -21, -14, 8, -15, -22, 22),
+            new View("D1-03-field-motif-aimed-west", -21, -14, 8, -27, -22, 22),
             new View("D1-04-runner-from-doorway-floor-level", -21, -22, 4, -21, -22, 19),
-            new View("D1-05-guardian-arena-and-west-aisle", -35, -14, 30, -23, -22, 18),
-            new View("D1-06-east-side-aisle-low", -6, -20, 7, -6, -22, 31),
+            new View("D1-05-guardian-arena-from-dais-side-high", -21, -14, 32, -30, -22, 20),
+            new View("D1-06-west-aisle-floor-level", -30, -22, 15.5, -30, -22, 29),
             new View("D1-07-stairs-front-low", -21, -22, 24, -21, -20.5, 31),
             new View("D1-08-stairs-side", -30, -21, 30.5, -21, -21, 31),
             new View("D1-09-final-stair-to-dais-connection", -21, -22, 28.5, -21, -20.2, 31.7),
