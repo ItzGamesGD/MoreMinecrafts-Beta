@@ -22,6 +22,9 @@ for backdrop in sky dark stone; do
     echo "SCREENSHOT_BASE64_BEGIN $name"
     base64 "sky-wraith-results/$name.png"
     echo "SCREENSHOT_BASE64_END $name"
+    if [[ "$view" == front && ( "$backdrop" == sky || "$backdrop" == dark ) ]]; then
+      /usr/bin/python3 scripts/sky-wraith-validation/sequence_frames.py "particles-${backdrop}" 5
+    fi
   done
 done
 rcon 'fill -8 70 0 8 81 0 minecraft:air' 'fill -5 70 -5 -5 81 13 minecraft:air' \
