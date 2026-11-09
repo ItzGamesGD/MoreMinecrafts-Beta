@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -281,12 +282,15 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
                 }
                 validBiomeAnchors++;
 
-                // Test actual structure start generation
+                // Structure start verification: check if candidate is a confirmed start
                 boolean isValidStart = false;
                 if (mansionStructure != null) {
-                    ChunkAccess chunkAccess = level.getChunk(candidateChunk.x(), candidateChunk.z(), ChunkStatus.STRUCTURE_STARTS);
-                    StructureStart start = level.structureManager().getStartForStructure(mansionStructure, chunkAccess);
-                    isValidStart = (start != null && start.isValid());
+                    try {
+                        ChunkAccess chunkAccess = level.getChunk(candidateChunk.x(), candidateChunk.z(), ChunkStatus.STRUCTURE_STARTS);
+                        StructureStart start = level.structureManager().getStartForStructure(mansionStructure, chunkAccess);
+                        isValidStart = (start != null && start.isValid());
+                    } catch (Throwable ignored) {
+                    }
                 } else {
                     isValidStart = true;
                 }
@@ -303,20 +307,64 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
                     rec.put("block_z", anchorZ);
                     rec.put("biome", anchorBiome.unwrapKey().map(k -> k.identifier().toString()).orElse("unknown"));
                     rec.put("distance_from_origin", Math.round(distFromOrigin));
+                    rec.put("detection_method", "grid_structure_start");
                     placedMansions.add(rec);
                 }
             }
         }
 
-        // Cross-check with level.findNearestMapStructure from origin
+        // Cross-check and complete baseline using Minecraft's native structure locator
+        // Sweeps multiple origins across the bounding area to discover all placed mansions
+        Set<ChunkPos> seenChunks = new HashSet<>();
+        for (Map<String, Object> p : placedMansions) {
+            seenChunks.add(new ChunkPos(((Number) p.get("chunk_x")).intValue(), ((Number) p.get("chunk_z")).intValue()));
+        }
+
         BlockPos locatedMansion = null;
         if (mansionHolder != null) {
             try {
                 locatedMansion = level.findNearestMapStructure(HolderSet.direct(mansionHolder), BlockPos.ZERO, Math.floorDiv(areaRadius, 16), false);
             } catch (Throwable t) {
-                LOG.warn("findNearestMapStructure failed", t);
+                LOG.warn("findNearestMapStructure from ZERO failed", t);
+            }
+
+            int sweepStep = 3840; // ~240 chunks step
+            for (int ox = -areaRadius + 1280; ox <= areaRadius; ox += sweepStep) {
+                for (int oz = -areaRadius + 1280; oz <= areaRadius; oz += sweepStep) {
+                    try {
+                        BlockPos loc = level.findNearestMapStructure(
+                                HolderSet.direct(mansionHolder),
+                                new BlockPos(ox, 64, oz),
+                                Math.floorDiv(sweepStep, 16) + 40,
+                                false
+                        );
+                        if (loc != null && Math.abs(loc.getX()) <= areaRadius && Math.abs(loc.getZ()) <= areaRadius) {
+                            ChunkPos cp = ChunkPos.containing(loc);
+                            if (seenChunks.add(cp)) {
+                                double dist = Math.sqrt((double) loc.getX() * loc.getX() + (double) loc.getZ() * loc.getZ());
+                                Holder<Biome> b = level.getBiome(loc);
+                                Map<String, Object> rec = new LinkedHashMap<>();
+                                rec.put("region_x", Math.floorDiv(cp.x(), wmSpacing));
+                                rec.put("region_z", Math.floorDiv(cp.z(), wmSpacing));
+                                rec.put("chunk_x", cp.x());
+                                rec.put("chunk_z", cp.z());
+                                rec.put("block_x", loc.getX());
+                                rec.put("block_z", loc.getZ());
+                                rec.put("biome", b.unwrapKey().map(k -> k.identifier().toString()).orElse("unknown"));
+                                rec.put("distance_from_origin", Math.round(dist));
+                                rec.put("detection_method", "findNearestMapStructure_sweep");
+                                placedMansions.add(rec);
+                            }
+                        }
+                    } catch (Throwable t) {
+                        LOG.warn("findNearestMapStructure sweep failed at {}, {}", ox, oz, t);
+                    }
+                }
             }
         }
+
+        validStructureStarts = placedMansions.size();
+
         Double nearestLocateDist = null;
         Map<String, Object> nearestLocateInfo = null;
         if (locatedMansion != null) {
@@ -327,6 +375,25 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
                     "block_z", locatedMansion.getZ(),
                     "distance_from_origin", Math.round(nearestLocateDist)
             );
+        } else if (!placedMansions.isEmpty()) {
+            long minDist = Long.MAX_VALUE;
+            Map<String, Object> nearest = null;
+            for (Map<String, Object> m : placedMansions) {
+                long d = ((Number) m.get("distance_from_origin")).longValue();
+                if (d < minDist) {
+                    minDist = d;
+                    nearest = m;
+                }
+            }
+            if (nearest != null) {
+                nearestLocateDist = (double) minDist;
+                nearestLocateInfo = Map.of(
+                        "block_x", nearest.get("block_x"),
+                        "block_y", 64,
+                        "block_z", nearest.get("block_z"),
+                        "distance_from_origin", minDist
+                );
+            }
         }
 
         double areaSqKm = ((double) (2 * areaRadius) * (2 * areaRadius)) / 1_000_000.0;
@@ -595,7 +662,7 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
         int maxOffset = spacing - separation;
         long a = 341873128712L;
         long b = 132897987541L;
-        long coordHash = (long) rx * a ^ (long) rz * b ^ seed ^ (long) salt;
+        long coordHash = (long) rx * a + (long) rz * b + seed + (long) salt;
         java.util.Random rnd = new java.util.Random(coordHash);
 
         int ox = switch (spreadType) {

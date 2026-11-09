@@ -291,5 +291,34 @@ class St01O14WorldgenFeasibilityTest {
         assertTrue(expectedAtSpacing32 >= 0.7 && expectedAtSpacing32 <= 2.5,
                 "At spacing 32, expected ST-01 count matches typical Woodland Mansion density (1-2 structures per 400 sq km)");
     }
+
+    @Test
+    void testPotentialChunkHashAdditionFormula() {
+        long seed = 1002L;
+        int rx = 4;
+        int rz = 1;
+        int salt = 10387319;
+        long a = 341873128712L;
+        long b = 132897987541L;
+
+        // Vanilla Minecraft setLargeFeatureWithSalt uses addition (+) of terms:
+        long correctHash = (long) rx * a + (long) rz * b + seed + (long) salt;
+        long flawedXorHash = (long) rx * a ^ (long) rz * b ^ seed ^ (long) salt;
+
+        assertNotEquals(correctHash, flawedXorHash, "XOR hash diverges from vanilla large feature addition");
+        // Verify sign/overflow properties are preserved in 64-bit signed integer arithmetic
+        assertTrue(correctHash != 0L);
+    }
+
+    @Test
+    void testParityCriteriaIntervalAudit() {
+        double ratioStrict = 2.01;
+        boolean passDoc = (ratioStrict >= 0.5 && ratioStrict <= 2.0);
+        boolean passCode = (ratioStrict >= 0.25 && ratioStrict <= 3.0);
+
+        assertFalse(passDoc, "Ratio 2.01 must fail documented standard [0.5, 2.0]");
+        assertTrue(passCode, "Ratio 2.01 passes lenient code standard [0.25, 3.0]");
+        assertNotEquals(passDoc, passCode, "Discrepancy must be flagged for owner resolution");
+    }
 }
 

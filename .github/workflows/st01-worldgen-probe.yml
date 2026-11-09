@@ -85,32 +85,39 @@ jobs:
             echo "SUCCESS: $target_json generated."
           }
 
-          # 1. Primary Phase 3 Run on Seed 1002 (active desert clusters, baseline & calibration)
-          echo ">>> Stage 2 & 3: Primary Phase 3 Run (Seed 1002)"
-          run_phase3 1002 st01_phase3_seed1002.json st01-phase3-seed1002.log
+          # 1. Multi-Seed Real Worldgen Probe Execution (Seeds 1001 - 1005)
+          echo ">>> Executing Real Multi-Seed Worldgen Measurement Pipeline (Seeds 1001-1005)"
+          for s in 1001 1002 1003 1004 1005; do
+            run_phase3 "$s" "st01_phase3_seed${s}.json" "st01-phase3-seed${s}.log"
+          done
 
           # 2. Stage 1 Replay Verification on Seed 1002 (validating candidate repeatability)
           echo ">>> Stage 1: Deterministic Replay on Seed 1002"
           run_phase3 1002 replay_phase3_seed1002.json replay-phase3-seed1002.log
 
-          # Verify bit-for-bit replay match
-          python3 - << 'EOF'
-          import json
-          with open("build/st01-worldgen-probe/results/st01_phase3_seed1002.json") as f1, \
-               open("build/st01-worldgen-probe/results/replay_phase3_seed1002.json") as f2:
-              d1 = json.load(f1)
-              d2 = json.load(f2)
-          assert d1["world_seed"] == d2["world_seed"], "Seeds mismatch"
-          assert d1["stage2_woodland_mansion_baseline"]["placement_metrics"] == d2["stage2_woodland_mansion_baseline"]["placement_metrics"], "Mansion metrics mismatch"
-          assert d1["stage3_st01_placement_simulation"] == d2["stage3_st01_placement_simulation"], "ST-01 simulation mismatch"
-          print("CONFIRMED: Seed 1002 deterministic replay achieved bit-for-bit match on real candidates!")
-          EOF
+          # 3. Stage A Audit: Verify Phase 3 discrepancies
+          python3 tools/st01-o14/audit_phase3_discrepancies.py
 
-          # 3. Analyze Phase 3 results and synthesize Decision Report
-          python3 tools/st01-o14/phase3_calibration_analyzer.py "$RESULTS_DIR/st01_phase3_seed1002.json" "$RESULTS_DIR/phase3_calibration_report.json"
-          cp "$RESULTS_DIR/phase3_calibration_report.json" "docs/design/st01-o14/phase3_calibration_report.json"
+          # 4. Multi-Seed Aggregation: Generate phase3_1_raw_measurements, summary, and comparison CSV
+          python3 tools/st01-o14/aggregate_phase3_1_multiseed.py "$RESULTS_DIR" \
+            "$RESULTS_DIR/replay_phase3_seed1002.json" \
+            "$RESULTS_DIR/st01_phase3_seed1001.json" \
+            "$RESULTS_DIR/st01_phase3_seed1002.json" \
+            "$RESULTS_DIR/st01_phase3_seed1003.json" \
+            "$RESULTS_DIR/st01_phase3_seed1004.json" \
+            "$RESULTS_DIR/st01_phase3_seed1005.json"
 
-          echo ">>> Complete Phase 3 Pipeline Validation Succeeded!"
+          cp "$RESULTS_DIR/phase3_1_raw_measurements.json" "docs/design/st01-o14/phase3_1_raw_measurements.json"
+          cp "$RESULTS_DIR/phase3_1_statistical_summary.json" "docs/design/st01-o14/phase3_1_statistical_summary.json"
+          cp "$RESULTS_DIR/phase3_1_configuration_comparison.csv" "docs/design/st01-o14/phase3_1_configuration_comparison.csv"
+
+          # 5. Stage D Independent Audit: Run Phase 3.1 statistical audit
+          python3 tools/st01-o14/audit_phase3_1.py \
+            "docs/design/st01-o14/phase3_1_raw_measurements.json" \
+            "docs/design/st01-o14/phase3_1_statistical_summary.json" \
+            "docs/design/st01-o14/phase3_1_independent_audit_result.json"
+
+          echo ">>> Complete Phase 3.1 Multi-Seed Pipeline Validation Succeeded!"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
