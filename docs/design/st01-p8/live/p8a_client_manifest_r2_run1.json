@@ -1,0 +1,635 @@
+{
+  "minecraft": "26.3",
+  "structure_origin": "BlockPos{x\u003d-40, y\u003d-24, z\u003d2}",
+  "pose_semantics": "commanded \u003d what the test asked for; client_measured \u003d read from the rendering client after the wait",
+  "viewing_aids": "HUD hidden; temporary night vision on the player. Structure and world unchanged.",
+  "walk_executed": false,
+  "captures": [
+    {
+      "name": "R2-01-exterior-north-front",
+      "commanded": {
+        "pitch": 7.485,
+        "yaw": 0.0,
+        "feet": [
+          -21.0,
+          -8.0,
+          -38.0
+        ],
+        "look_at": [
+          -21.0,
+          -14.0,
+          20.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -60.0,
+          -38.0
+        ],
+        "yaw": 0.0,
+        "pitch": 7.485,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0000_R2-01-exterior-north-front.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-02-exterior-oblique-northwest",
+      "commanded": {
+        "pitch": 15.64,
+        "yaw": -45.644,
+        "feet": [
+          -66.0,
+          2.0,
+          -24.0
+        ],
+        "look_at": [
+          -21.0,
+          -14.0,
+          20.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -66.0,
+          -60.0,
+          -24.0
+        ],
+        "yaw": -45.644,
+        "pitch": 15.64,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0001_R2-02-exterior-oblique-northwest.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-03-exterior-oblique-northeast",
+      "commanded": {
+        "pitch": 15.64,
+        "yaw": 45.644,
+        "feet": [
+          24.0,
+          2.0,
+          -24.0
+        ],
+        "look_at": [
+          -21.0,
+          -14.0,
+          20.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          24.0,
+          -60.0,
+          -24.0
+        ],
+        "yaw": 45.644,
+        "pitch": 15.64,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0002_R2-03-exterior-oblique-northeast.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-04-exterior-roof-overview",
+      "commanded": {
+        "pitch": 54.751,
+        "yaw": 0.0,
+        "feet": [
+          -21.0,
+          24.0,
+          -8.0
+        ],
+        "look_at": [
+          -21.0,
+          -14.0,
+          20.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -60.0,
+          -8.0
+        ],
+        "yaw": 0.0,
+        "pitch": 54.751,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0003_R2-04-exterior-roof-overview.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-05-entrance-approach-exterior",
+      "commanded": {
+        "pitch": 7.463,
+        "yaw": 0.0,
+        "feet": [
+          -21.0,
+          -20.0,
+          -14.0
+        ],
+        "look_at": [
+          -21.0,
+          -21.0,
+          6.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -60.0,
+          -14.0
+        ],
+        "yaw": 0.0,
+        "pitch": 7.463,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0004_R2-05-entrance-approach-exterior.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-06-doorway-looking-in",
+      "commanded": {
+        "pitch": 1.421,
+        "yaw": 0.0,
+        "feet": [
+          -21.0,
+          -22.0,
+          0.0
+        ],
+        "look_at": [
+          -21.0,
+          -21.0,
+          25.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -60.0,
+          0.0
+        ],
+        "yaw": 0.0,
+        "pitch": 1.421,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0005_R2-06-doorway-looking-in.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-07-hall-from-entrance",
+      "commanded": {
+        "pitch": -3.038,
+        "yaw": 0.0,
+        "feet": [
+          -21.0,
+          -22.0,
+          4.0
+        ],
+        "look_at": [
+          -21.0,
+          -19.0,
+          30.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -22.0,
+          4.0
+        ],
+        "yaw": 0.0,
+        "pitch": -3.038,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0006_R2-07-hall-from-entrance.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-08-mid-hall-toward-dais",
+      "commanded": {
+        "pitch": -4.154,
+        "yaw": 0.0,
+        "feet": [
+          -21.0,
+          -22.0,
+          14.0
+        ],
+        "look_at": [
+          -21.0,
+          -19.0,
+          33.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -22.0,
+          14.0
+        ],
+        "yaw": 0.0,
+        "pitch": -4.154,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0007_R2-08-mid-hall-toward-dais.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-09-chest-and-dais-front",
+      "commanded": {
+        "pitch": -4.569,
+        "yaw": -2.603,
+        "feet": [
+          -21.0,
+          -22.0,
+          22.0
+        ],
+        "look_at": [
+          -20.5,
+          -19.5,
+          33.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -22.0,
+          22.0
+        ],
+        "yaw": -2.603,
+        "pitch": -4.569,
+        "eye_block": "minecraft:chiseled_sandstone",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0008_R2-09-chest-and-dais-front.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-10-chest-closeup-from-dais",
+      "commanded": {
+        "pitch": 15.996,
+        "yaw": 0.0,
+        "feet": [
+          -20.5,
+          -19.4,
+          27.5
+        ],
+        "look_at": [
+          -20.5,
+          -19.5,
+          33.5
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -20.5,
+          -22.0,
+          27.5
+        ],
+        "yaw": 0.0,
+        "pitch": 15.996,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0009_R2-10-chest-closeup-from-dais.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-11-guardian-arena-from-north",
+      "commanded": {
+        "pitch": 5.781,
+        "yaw": 0.0,
+        "feet": [
+          -21.0,
+          -22.0,
+          10.0
+        ],
+        "look_at": [
+          -21.0,
+          -22.0,
+          26.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -22.0,
+          10.0
+        ],
+        "yaw": 0.0,
+        "pitch": 5.781,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0010_R2-11-guardian-arena-from-north.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-12-guardian-arena-from-west",
+      "commanded": {
+        "pitch": 6.535,
+        "yaw": -81.87,
+        "feet": [
+          -35.0,
+          -22.0,
+          24.0
+        ],
+        "look_at": [
+          -21.0,
+          -22.0,
+          26.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -35.414,
+          -22.0,
+          24.0
+        ],
+        "yaw": -81.87,
+        "pitch": 6.535,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0011_R2-12-guardian-arena-from-west.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-13-sarcophagus-dais-west",
+      "commanded": {
+        "pitch": 11.959,
+        "yaw": -104.036,
+        "feet": [
+          -34.0,
+          -19.0,
+          36.0
+        ],
+        "look_at": [
+          -22.0,
+          -20.0,
+          33.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -34.0,
+          -22.0,
+          36.0
+        ],
+        "yaw": -104.036,
+        "pitch": 11.959,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0012_R2-13-sarcophagus-dais-west.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-14-frontal-stairs-low",
+      "commanded": {
+        "pitch": 5.062,
+        "yaw": 0.0,
+        "feet": [
+          -21.0,
+          -22.0,
+          24.0
+        ],
+        "look_at": [
+          -21.0,
+          -21.0,
+          31.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -22.0,
+          24.414
+        ],
+        "yaw": 0.0,
+        "pitch": 5.062,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0013_R2-14-frontal-stairs-low.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-15-stairs-from-side",
+      "commanded": {
+        "pitch": 14.367,
+        "yaw": -71.565,
+        "feet": [
+          -27.0,
+          -21.0,
+          29.0
+        ],
+        "look_at": [
+          -21.0,
+          -21.0,
+          31.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -27.0,
+          -22.0,
+          29.0
+        ],
+        "yaw": -71.565,
+        "pitch": 14.367,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0014_R2-15-stairs-from-side.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-16-side-depth-east-interior",
+      "commanded": {
+        "pitch": 4.211,
+        "yaw": 90.0,
+        "feet": [
+          -8.0,
+          -19.0,
+          22.0
+        ],
+        "look_at": [
+          -30.0,
+          -19.0,
+          22.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -8.0,
+          -19.0,
+          22.0
+        ],
+        "yaw": 90.0,
+        "pitch": 4.211,
+        "eye_block": "minecraft:cut_sandstone",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0015_R2-16-side-depth-east-interior.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-17-side-depth-west-interior",
+      "commanded": {
+        "pitch": 3.124,
+        "yaw": -57.381,
+        "feet": [
+          -35.0,
+          -19.0,
+          10.0
+        ],
+        "look_at": [
+          -10.0,
+          -19.0,
+          26.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -35.494,
+          -22.0,
+          10.0
+        ],
+        "yaw": -57.381,
+        "pitch": 3.124,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0016_R2-17-side-depth-west-interior.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-18-exterior-rear-south",
+      "commanded": {
+        "pitch": 10.786,
+        "yaw": -180.0,
+        "feet": [
+          -21.0,
+          -8.0,
+          60.0
+        ],
+        "look_at": [
+          -21.0,
+          -14.0,
+          20.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -21.0,
+          -60.0,
+          60.0
+        ],
+        "yaw": -180.0,
+        "pitch": 10.786,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0017_R2-18-exterior-rear-south.png",
+      "status": "captured"
+    },
+    {
+      "name": "R2-19-exterior-side-west",
+      "commanded": {
+        "pitch": 4.812,
+        "yaw": -90.0,
+        "feet": [
+          -64.0,
+          -12.0,
+          20.0
+        ],
+        "look_at": [
+          -21.0,
+          -14.0,
+          20.0
+        ]
+      },
+      "client_measured": {
+        "feet": [
+          -64.0,
+          -60.0,
+          20.0
+        ],
+        "yaw": -90.0,
+        "pitch": 4.812,
+        "eye_block": "minecraft:air",
+        "client_wall_west_(-40,-15,20)": "minecraft:sandstone",
+        "client_floor_(-21,-23,10)": "minecraft:smooth_sandstone"
+      },
+      "position_reached": true,
+      "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0018_R2-19-exterior-side-west.png",
+      "status": "captured"
+    }
+  ],
+  "status": "finished",
+  "flat_world_surface_height_at_x-80_z-20": -64.0,
+  "primary_b_chest": {
+    "client_state_left": "minecraft:chest type\u003dLEFT facing\u003dnorth",
+    "client_state_right": "minecraft:chest type\u003dRIGHT facing\u003dnorth",
+    "client_player_feet": [
+      -20.5,
+      -22.0,
+      29.5
+    ],
+    "status": "failed: java.lang.AssertionError: Timed out waiting for predicate"
+  },
+  "client": {
+    "window": "1920x1080",
+    "gui_scale": 4,
+    "fov": 70,
+    "render_distance": 5
+  }
+}
