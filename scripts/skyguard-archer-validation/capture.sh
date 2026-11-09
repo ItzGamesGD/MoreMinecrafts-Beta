@@ -78,6 +78,18 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
  shoot hood-close 0.5 64.3 6.4 65.6
  shoot shoulder-close -1.3 64.3 6.1 65.3 -0.1 4.5
  shoot cape-close 0.5 64.4 2.0 64.9
+ # Neutral (smooth stone) and bright (open sky) backgrounds, plus a normal gameplay distance (~7 blocks).
+ rcon "fill -12 64 -7 12 73 -7 minecraft:smooth_stone" "fill -12 64 15 12 73 15 minecraft:smooth_stone"
+ shoot neutral-front 0.5 64 8.5 65.0
+ shoot neutral-front-three-quarter 3.3 64 7.3 65.0
+ shoot neutral-back 0.5 64 0.5 65.0
+ rcon "fill -12 64 -7 12 73 -7 minecraft:air" "fill -12 64 15 12 73 15 minecraft:air"
+ shoot bright-front 0.5 64 8.5 65.0
+ shoot bright-front-three-quarter 3.3 64 7.3 65.0
+ shoot bright-back 0.5 64 0.5 65.0
+ shoot gameplay-front 0.5 64 11.5 65.0
+ shoot gameplay-three-quarter 5.0 64 9.5 65.0
+ shoot gameplay-back 0.5 64 -2.5 65.0
  # Bow-aim: the same archer gets its AI back (movement 0) and draws on the survival viewer, kept alive by Resistance.
  rcon "gamemode survival ArcherViewer" "effect give ArcherViewer minecraft:resistance infinite 255 true" \
    "effect give ArcherViewer minecraft:regeneration infinite 255 true" \
