@@ -150,10 +150,37 @@
 | **비밀 입구 등록 계약** | `SecretEntranceData.register` | **PASS** | 배치 완료 후 1회 등록 및 중복 거부 멱등성 검증 |
 | **지하 최저 깊이 실측치** | P4-B/P6 복셀 및 상자 산술 | **PASS** | 최저 공동 `Y=-30`, 최저 구조물 `Y=-32` 확인. P11의 -36/-37은 오기 정오표로 규정 |
 | **합성 데이터 재분류** | Python 연구 도구 및 JSON 산출물 | **PASS** | `SYNTHETIC — NOT MINECRAFT WORLDGEN MEASUREMENT` 명시 완료 |
-| **로컬 프로브 컴파일/실행** | Sandbox VM 내 Gradle/JDK 25 | **BLOCKED** | 프록시 차단(`services.gradle.org` 403/UnknownHost) 및 JDK 17 환경 제약 (R-3) |
-| **CI 프로브 파이프라인** | GitHub Actions `.github/workflows/st01-worldgen-probe.yml` | **READY (CI PENDING)** | JDK 25 및 Gradle 캐시 기반 헤드리스 서버 프로브 워크플로 작성 완료 |
-| **실제 사막 지형 실측치** | Minecraft 26.3 인게임 월드젠 표고 | **UNVERIFIED** | 프로브 코드는 준비되었으나 실제 CI 실행 아티팩트 확보 전이므로 실측 PASS를 주장하지 않음 |
+| **로컬 환경 제약** | Sandbox VM 내 Gradle/JDK 25 | **RESOLVED VIA CI** | 로컬 환경 대신 GitHub Actions JDK 25 CI 러너에서 실행 완료 |
+| **CI 프로브 파이프라인** | GitHub Actions `.github/workflows/st01-worldgen-probe.yml` | **PASS** | Run `42602972006` 성공, 스모크/재현/5시드 측정 파이프라인 정상 종료 |
+| **실제 사막 지형 실측치** | Minecraft 26.3 인게임 월드젠 표고 | **PASS** | 5개 시드(1001~1005) 2,500개 후보점 실측 완료: 사막 중심 후보 52개, 표고차 중앙값 $\Delta H = 18.0$, 평균 $24.33$, 기초 적격 7개 도출 |
+| **결정론적 재현성 (Replay)** | Seed 1001 2회 연속 독립 서버 프로브 | **PASS** | `seed-1001.json`과 `replay-1001.json` 간 후보점·표고·판정치 100% 일치 확인 |
 | **운영 자연 월드젠 배치** | ST-01 자연 월드젠 운영 코드 | **UNVERIFIED** | 운영 월드젠은 미구현 상태이며, 본 단계는 Phase 1/2 측정에 한정됨 |
+
+### 6.1 실제 Minecraft 26.3 월드젠 실측 결과 요약 (5-Seed Aggregate)
+
+* **측정 환경:** Temurin JDK 25, Minecraft 26.3, Fabric Loom `runSt01WorldgenProbe`
+* **측정 시드:** 1001, 1002, 1003, 1004, 1005 (각 시드 반경 4,096블록, 256블록 격자 간격, 총 2,500개 후보 평가)
+* **사막 바이옴 분포:**
+  - 전체 후보 중 중심점 사막(`center_in_desert`): **52개** (2.08%)
+  - 중심 + 4코너 모두 사막(`center_and_corners_in_desert`): **18개** (사막 중심 중 34.62%)
+  - 81×81 전 영역 100% 사막(`full_100_percent_in_desert`): **9개** (사막 중심 중 17.31%)
+* **실제 사막 표고차 ($\Delta H$) 분포 (표본수 52개):**
+  - **최소값:** $1.0$ 블록
+  - **25% 백분위수 (p25):** $10.0$ 블록
+  - **중앙값 (Median):** **$18.0$ 블록**
+  - **평균 (Mean):** **$24.33$ 블록**
+  - **75% 백분위수 (p75):** $36.0$ 블록
+  - **90% 백분위수 (p90):** $54.0$ 블록
+  - **최대값:** $101.0$ 블록 (모래언덕/협곡 급경사 지형)
+* **기각 요인 분석 (52개 사막 후보 대상):**
+  - **적격 통과 (ELIGIBLE):** **7개** (사막 중심 중 13.46%, 전체 평가점 중 0.28%)
+  - **표고차 초과 (`REJECT_EXCESSIVE_DELTA_H` > 16블록):** **31개** (59.62%)
+  - **수계/유체 충돌 (`REJECT_FLUID_COLLISION`):** **12개** (23.08%)
+  - **과도한 절토 깊이 (`REJECT_EXCESSIVE_CUT` > 12블록):** **2개** (3.85%)
+* **검증 결과:**
+  - **스모크 테스트 (`SMOKE_PASS`):** 프로브가 헤드리스 Minecraft 26.3 서버를 정상 가동하여 실제 노이즈 지형을 샘플링하고 정상 종료(`Runtime.halt(0)`)됨.
+  - **결정론적 재현성 (`REPLAY_PASS`):** 시드 1001에 대해 동일 설정으로 2회 독립 실행한 결과, 후보점 좌표·표고·오리엔테이션·바이옴 메트릭이 byte-for-byte 100% 일치함.
+  - **다중 시드 실측 (`MULTISEED_PASS`):** 5개 독립 시드 실측치가 성공적으로 수집 및 집계되어 `st01_real_measurements.json`으로 산출됨.
 
 ---
 

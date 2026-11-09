@@ -1,0 +1,108 @@
+{
+  "provenance": "REAL_MINECRAFT_26_3_WORLDGEN_MEASUREMENT_AGGREGATE",
+  "minecraft_version": "26.3",
+  "seeds_measured": [
+    1001,
+    1002,
+    1003,
+    1004,
+    1005
+  ],
+  "seed_count": 5,
+  "total_candidates_evaluated": 2500,
+  "aggregate_candidate_counts": {
+    "total_grid_candidates": 2500,
+    "center_in_desert": 52,
+    "center_and_corners_in_desert": 18,
+    "full_100_percent_in_desert": 9,
+    "eligible_under_exploratory_limits": 7
+  },
+  "aggregate_rates": {
+    "center_desert_rate": 0.0208,
+    "corners_given_center_desert_rate": 0.3462,
+    "full_given_center_desert_rate": 0.1731,
+    "eligibility_rate_overall": 0.0028,
+    "eligibility_given_center_desert": 0.1346
+  },
+  "aggregate_rejection_breakdown": {
+    "REJECT_NOT_DESERT": 2448,
+    "ELIGIBLE": 7,
+    "REJECT_EXCESSIVE_CUT": 2,
+    "REJECT_EXCESSIVE_DELTA_H": 31,
+    "REJECT_FLUID_COLLISION": 12
+  },
+  "aggregate_elevation_delta_distribution": {
+    "sample_size": 52,
+    "mean_delta_h": 24.33,
+    "median_delta_h": 18.0,
+    "min_delta_h": 1.0,
+    "max_delta_h": 101.0,
+    "p25_delta_h": 10.0,
+    "p75_delta_h": 36.0,
+    "p90_delta_h": 54.0
+  },
+  "per_seed_summaries": [
+    {
+      "seed": 1001,
+      "total_candidates": 500,
+      "center_desert": 0,
+      "eligible": 0,
+      "delta_h_summary": {}
+    },
+    {
+      "seed": 1002,
+      "total_candidates": 500,
+      "center_desert": 20,
+      "eligible": 3,
+      "delta_h_summary": {
+        "max_delta_h": 74.0,
+        "p90_delta_h": 65.0,
+        "median_delta_h": 21.0,
+        "p75_delta_h": 48.0,
+        "min_delta_h": 4.0,
+        "p25_delta_h": 10.0,
+        "sample_size": 20,
+        "mean_delta_h": 26.45
+      }
+    },
+    {
+      "seed": 1003,
+      "total_candidates": 500,
+      "center_desert": 14,
+      "eligible": 2,
+      "delta_h_summary": {
+        "p75_delta_h": 26.0,
+        "median_delta_h": 21.0,
+        "p90_delta_h": 36.0,
+        "max_delta_h": 48.0,
+        "mean_delta_h": 18.21,
+        "sample_size": 14,
+        "p25_delta_h": 6.0,
+        "min_delta_h": 1.0
+      }
+    },
+    {
+      "seed": 1004,
+      "total_candidates": 500,
+      "center_desert": 18,
+      "eligible": 2,
+      "delta_h_summary": {
+        "median_delta_h": 17.0,
+        "p75_delta_h": 43.0,
+        "min_delta_h": 8.0,
+        "p25_delta_h": 10.0,
+        "sample_size": 18,
+        "mean_delta_h": 26.72,
+        "max_delta_h": 101.0,
+        "p90_delta_h": 78.0
+      }
+    },
+    {
+      "seed": 1005,
+      "total_candidates": 500,
+      "center_desert": 0,
+      "eligible": 0,
+      "delta_h_summary": {}
+    }
+  ]
+}
