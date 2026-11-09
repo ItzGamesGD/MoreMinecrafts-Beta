@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.entity.AbstractSkeletonRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.SkeletonRenderState;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
 /**
@@ -160,8 +161,45 @@ final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArch
 
     /** Skeleton bow-aim animation with humanoid hand placement for 4 px arms. */
     static final class ArcherModel extends SkeletonModel<SkeletonRenderState> {
+        /** Approved C1 rest flare of the cape and its flaps. */
+        static final float CAPE_REST_X_ROT = 0.12F;
+
+        private final ModelPart cape;
+        private final ModelPart capeFlapRight;
+        private final ModelPart capeFlapLeft;
+
         ArcherModel(ModelPart root) {
             super(root);
+            ModelPart body = root.getChild("body");
+            this.cape = body.getChild("cape");
+            this.capeFlapRight = body.getChild("cape_flap_right");
+            this.capeFlapLeft = body.getChild("cape_flap_left");
+        }
+
+        /**
+         * Vanilla skeleton animation (idle bob, walk, bow aim, hurt, death) is inherited unchanged. The only addition
+         * keeps the static C1 cape clear of the legs: it tilts back just far enough for the rearmost boot, and never
+         * less than its approved rest flare, so idle, aiming, hurt and death poses are unaffected.
+         */
+        @Override
+        public void setupAnim(SkeletonRenderState state) {
+            super.setupAnim(state);
+            float capeXRot = capeClearance(Math.max(rightLeg.xRot, leftLeg.xRot));
+            cape.xRot = capeXRot;
+            capeFlapRight.xRot = capeXRot;
+            capeFlapLeft.xRot = capeXRot;
+        }
+
+        /**
+         * Cape angle that keeps the hem behind the boot of a leg swung back by {@code legBackXRot} (radians, positive =
+         * backwards). Model units: hip pivot y=12, leg 12 px long with its back face 2 px behind the pivot, boot cuff
+         * +0.4 px and 0.2 px margin; cape hinge 11 px above the hip at z=2.95, hem 23 px below the hinge.
+         */
+        static float capeClearance(float legBackXRot) {
+            if (legBackXRot <= 0.0F) return CAPE_REST_X_ROT;
+            float footBack = 12.0F * Mth.sin(legBackXRot) + 2.0F * Mth.cos(legBackXRot) + 0.6F;
+            float sin = Mth.clamp((footBack - 2.95F) / 23.0F, 0.0F, 1.0F);
+            return Math.max(CAPE_REST_X_ROT, (float) Math.asin(sin));
         }
 
         @Override

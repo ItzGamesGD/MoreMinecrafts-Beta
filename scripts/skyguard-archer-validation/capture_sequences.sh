@@ -17,6 +17,7 @@ clear_scene() {
   rcon 'kill @e[type=moreminecrafts:skyguard_archer]' 'kill @e[type=minecraft:wolf]' 'kill @e[type=minecraft:iron_golem]' \
     'kill @e[type=minecraft:arrow]' 'kill @e[type=minecraft:item]' 'kill @e[type=minecraft:experience_orb]' \
     'fill -3 64 -4 4 66 16 minecraft:air'
+  sleep 1.5  # let kill particles fade before the next recording
 }
 # spawn x z yaw ai(0|1): summon with NBT skips finalizeSpawn, so the fixed bow is equipped explicitly afterwards.
 spawn() {
@@ -45,14 +46,18 @@ spawn 0.5 4.5 0 0
 cam 0.5 64 7.5 0.5 65.0 4.5; sleep 2; record front-idle 4
 cam 3.5 64 4.5 0.5 65.0 4.5; sleep 2; record side-idle 4
 
-# 3-4. Walking: a 1-block barrier corridor along z; a wolf at the north end makes the archer walk south (no target).
+# 3-4. Walking: a 1-block barrier corridor along z (z 0..9). A wolf (AvoidEntityGoal) makes the archer walk away
+# with no target; moving the wolf to the other end makes it walk back, giving several stride cycles per clip.
 for view in front side; do
   clear_scene
-  rcon 'fill -1 64 -3 -1 65 13 minecraft:barrier' 'fill 1 64 -3 1 65 13 minecraft:barrier' 'fill 0 64 13 0 65 13 minecraft:barrier' \
-    'summon minecraft:wolf 0.5 64 -1.5 {NoAI:1b,PersistenceRequired:1b,Silent:1b}'
-  if [[ "$view" == front ]]; then cam 0.5 64 15.5 0.5 65.0 7.0; else cam 5.5 64 7.0 0.5 65.0 7.0; fi
-  spawn 0.5 1.5 0 1
-  record "walk-$view" 5
+  rcon 'fill -1 64 -2 -1 65 10 minecraft:barrier' 'fill 1 64 -2 1 65 10 minecraft:barrier' \
+    'fill 0 64 -2 0 65 -2 minecraft:barrier' 'fill 0 64 10 0 65 10 minecraft:barrier' \
+    'summon minecraft:wolf 0.5 64 -1.0 {NoAI:1b,PersistenceRequired:1b,Silent:1b,Tags:["archer_wolf"]}'
+  if [[ "$view" == front ]]; then cam 0.5 64 13.5 0.5 65.0 5.0; else cam 6.5 64 4.5 0.5 65.0 4.5; fi
+  spawn 0.5 1.0 0 1
+  ( sleep 3.2; mark WOLF_MOVED; rcon 'tp @e[type=minecraft:wolf,tag=archer_wolf,limit=1] 0.5 64 9.5' ) & driver=$!
+  record "walk-$view" 7
+  wait "$driver"
 done
 
 # 5-7. Bow aim and release: immobile archer (movement 0) facing a golem 8 blocks east.
@@ -94,7 +99,8 @@ wait "$driver"; wait "$sampler"
 for view in front side; do
   clear_scene
   spawn 0.5 4.5 0 0
-  if [[ "$view" == front ]]; then cam 0.5 64 7.5 0.5 65.0 4.5; else cam 3.5 64 4.5 0.5 65.0 4.5; fi
+  # Death rolls the body sideways, so the cameras stay 5 blocks away to keep the whole fall in frame.
+  if [[ "$view" == front ]]; then cam 0.5 64 9.5 0.5 65.0 4.5; else cam 5.5 64 4.5 0.5 65.0 4.5; fi
   sleep 1
   ( sleep 0.5; mark HURT; rcon "damage $A 2 minecraft:generic" ) & act=$!
   record "hurt-$view" 2.5; wait "$act"
