@@ -146,11 +146,15 @@ final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArch
     @Override
     public void extractRenderState(SkyguardArcher entity, SkeletonRenderState state, float partialTick) {
         super.extractRenderState(entity, state, partialTick);
-        if (CAPTURE && entity.tickCount % 10 == 0 && entity.tickCount != lastProbeTick) {
+        // Capture-only probe (MOREMINECRAFTS_ARCHER_CAPTURE=1): one line per entity tick for frame correlation.
+        if (CAPTURE && entity.tickCount != lastProbeTick) {
             lastProbeTick = entity.tickCount;
             dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info(
-                    "ARCHER_POSE entity={} tick={} aggressive={} holdingBow={} rightPose={}",
-                    entity.getId(), entity.tickCount, state.isAggressive, state.isHoldingBow, state.rightArmPose);
+                    "ARCHER_POSE entity={} tick={} aggressive={} holdingBow={} rightPose={} using={} useTicks={} "
+                            + "walkSpeed={} hurt={} death={} wallMs={}",
+                    entity.getId(), entity.tickCount, state.isAggressive, state.isHoldingBow, state.rightArmPose,
+                    state.isUsingItem, state.ticksUsingItem, String.format("%.3f", state.walkAnimationSpeed),
+                    state.hasRedOverlay, state.deathTime, System.currentTimeMillis());
         }
     }
 

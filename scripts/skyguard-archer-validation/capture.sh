@@ -100,6 +100,14 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
    shoot "bow-aim-$i" -2.0 64 8.0 65.0 0.5 4.5
    rcon "kill @e[type=minecraft:arrow]"
  done
- grep "ARCHER_POSE" "$OUT/client.log" | tee "$OUT/pose.log" || true
+ OUT="$OUT" bash scripts/skyguard-archer-validation/capture_sequences.sh
+ grep "ARCHER_POSE" "$OUT/client.log" > "$OUT/pose.log" || true
  grep -q "aggressive=true holdingBow=true rightPose=BOW_AND_ARROW" "$OUT/pose.log"
+ grep -q "using=true" "$OUT/pose.log"
+ grep -q "hurt=true" "$OUT/pose.log"
+ grep -Eq "death=(1[0-9]|20)\\." "$OUT/pose.log"
+ for s in front-idle side-idle walk-front walk-side aim-front-three-quarter aim-side release-close transition-idle-aim-release-recovery hurt-front hurt-side death-front death-side; do
+   test -s "$OUT/sequences/$s/preview.mp4" || { echo "MISSING_SEQUENCE $s"; exit 1; }
+ done
+ echo SEQUENCES_VERIFIED
 '
