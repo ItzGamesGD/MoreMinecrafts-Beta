@@ -6,6 +6,9 @@ import dev.itzgamesgd.moreminecrafts.mob.sky.CloudWraith;
 import dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobs;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.server.level.ParticleStatus;
+import dev.itzgamesgd.moreminecrafts.mixin.WraithParticleAlphaInvoker;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.model.HumanoidModel;
@@ -45,12 +48,23 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieR
                         || wraith.isInvisible() || wraith.distanceToSqr(client.player) > 1024.0
                         || (wraith.tickCount + wraith.getId()) % 40 != 0) continue;
                 var random = wraith.getRandom();
-                client.level.addParticle(ParticleTypes.CLOUD,
-                        wraith.getX() + (random.nextDouble() - 0.5) * 0.8,
-                        wraith.getY() + 0.2 + random.nextDouble() * 1.15,
-                        wraith.getZ() + (random.nextDouble() - 0.5) * 0.8,
+                // Mirror ClientLevel.doAddParticle: minimal suppresses normal particles,
+                // decreased suppresses one third, and camera distance is capped at 32 blocks.
+                ParticleStatus setting = client.options.particles().get();
+                if (setting == ParticleStatus.MINIMAL
+                        || (setting == ParticleStatus.DECREASED && random.nextInt(3) == 0)) continue;
+                double x = wraith.getX() + (random.nextDouble() - 0.5) * 0.8;
+                double y = wraith.getY() + 0.2 + random.nextDouble() * 1.15;
+                double z = wraith.getZ() + (random.nextDouble() - 0.5) * 0.8;
+                if (client.gameRenderer.mainCamera().position().distanceToSqr(x, y, z) > 1024.0) continue;
+                var particle = client.particleEngine.createParticle(ParticleTypes.CLOUD, x, y, z,
                         (random.nextDouble() - 0.5) * 0.008, 0.008,
                         (random.nextDouble() - 0.5) * 0.008);
+                if (particle instanceof SingleQuadParticle quad) {
+                    quad.scale(0.6F);
+                    quad.setColor(0.72F, 0.81F, 0.85F);
+                    ((WraithParticleAlphaInvoker) quad).moreminecrafts$setWraithAlpha(0.65F);
+                }
                 if (++emitted >= 2) break;
             }
         });

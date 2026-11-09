@@ -16,24 +16,6 @@ jobs:
           distribution: temurin
           java-version: '25'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Inspect particle API
-        run: |
-          ./gradlew genSources --no-daemon
-          python3 - <<'PYCODE'
-          import pathlib,zipfile
-          names={'SingleQuadParticle.java','TextureSheetParticle.java','SmokeParticle.java','DustParticle.java','ParticleResources.java','SpriteSet.java','ParticleGroup.java'}
-          seen=set()
-          for root in (pathlib.Path('.gradle'),pathlib.Path.home()/'.gradle/caches'):
-              if not root.exists(): continue
-              for path in root.rglob('*sources*.jar'):
-                  try:
-                      with zipfile.ZipFile(path) as z:
-                          for name in z.namelist():
-                              if (name.rsplit('/',1)[-1] in names or ('/particle/' in name and ('Cloud' in name or 'Smoke' in name))) and name not in seen:
-                                  print('PARTICLE_SOURCE_BEGIN',name);print(z.read(name).decode());print('PARTICLE_SOURCE_END',name);seen.add(name)
-                  except (OSError,zipfile.BadZipFile): pass
-          print('PARTICLE_SOURCE_COUNT',len(seen))
-          PYCODE
       - name: Install virtual display
         run: |
           sudo apt-get update
