@@ -70,9 +70,9 @@ final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArch
         hat.addOrReplaceChild("laurel_center", CubeListBuilder.create().texOffs(56, 16)
                 .addBox(-1.0F, -5.0F, -0.5F, 2.0F, 5.0F, 1.0F), PartPose.offsetAndRotation(0.0F, -8.4F, -4.9F, 0.12F, 0.0F, 0.0F));
         hat.addOrReplaceChild("laurel_right", CubeListBuilder.create().texOffs(56, 22)
-                .addBox(-1.0F, -4.0F, -0.5F, 2.0F, 4.0F, 1.0F), PartPose.offsetAndRotation(-1.0F, -8.4F, -4.95F, 0.1F, 0.0F, -0.55F));
+                .addBox(-1.0F, -4.0F, -0.5F, 2.0F, 4.0F, 1.0F), PartPose.offsetAndRotation(-0.8F, -8.4F, -4.95F, 0.1F, 0.0F, -0.42F));
         hat.addOrReplaceChild("laurel_left", CubeListBuilder.create().texOffs(56, 22).mirror()
-                .addBox(-1.0F, -4.0F, -0.5F, 2.0F, 4.0F, 1.0F), PartPose.offsetAndRotation(1.0F, -8.4F, -4.95F, 0.1F, 0.0F, 0.55F));
+                .addBox(-1.0F, -4.0F, -0.5F, 2.0F, 4.0F, 1.0F), PartPose.offsetAndRotation(0.8F, -8.4F, -4.95F, 0.1F, 0.0F, 0.42F));
 
         // ---- torso: chest plates, belt, hem, scarf collar and a static three-panel cape ---------------------------
         PartDefinition body = root.getChild("body");

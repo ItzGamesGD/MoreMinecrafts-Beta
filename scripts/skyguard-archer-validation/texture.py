@@ -16,14 +16,14 @@ from PIL import Image
 
 # ---- palette ---------------------------------------------------------------------------------------------------
 IV, IV_L, IV_W = (255, 251, 240), (255, 255, 252), (255, 242, 218)          # ivory base / highlight / warm tuft
-IV_C, IV_S, IV_D = (234, 236, 250), (208, 210, 232), (176, 180, 214)        # cool shadow / fold / deep fold
+IV_C, IV_S, IV_D = (250, 242, 228), (240, 228, 204), (222, 204, 170)        # warm cream shadow / fold / deep fold
 GD, GD_L, GD_H = (255, 208, 88), (255, 236, 150), (255, 252, 214)           # gold base / light / specular
 GD_S, GD_D, GD_X = (224, 150, 42), (160, 98, 26), (104, 62, 22)             # gold shade / recess / outline
 SK, SK_L, SK_S = (112, 196, 255), (176, 230, 255), (68, 144, 232)           # sky blue base / light / shade
 NV, NV_L, NV_D = (44, 72, 132), (66, 104, 176), (26, 44, 92)                # deep blue accent
 BR, BR_L, BR_S, BR_D = (158, 104, 60), (204, 146, 92), (108, 66, 38), (68, 40, 24)  # leather
 SKIN, SKIN_S, BLUSH = (255, 228, 204), (238, 194, 168), (250, 198, 184)
-HAIR, HAIR_S, BROW = (232, 226, 212), (196, 188, 174), (156, 130, 108)
+HAIR, HAIR_S, BROW = (232, 226, 212), (196, 188, 174), (196, 172, 148)
 EYE, EYE_L, EYE_D = (58, 152, 255), (214, 242, 255), (24, 62, 156)
 CLEAR = (0, 0, 0, 0)
 
@@ -177,6 +177,8 @@ for n, f in hood_back.items():
     cloth(f, rng, folds=(1,) if f.w > 2 else ())
 hood_back["back"].row(4, GD_S); hood_back["bottom"].fill(IV_S)
 hood_back["front"].row(4, GD_S)
+for (i, j, c) in ((2, 1, GD_L), (2, 2, GD_H), (1, 2, GD), (3, 2, GD), (2, 3, GD_S)):
+    hood_back["back"].px(i, j, c)                          # small gold star on the cowl
 
 rim_top = box("rim_top", 16, 58, 8, 1, 1)
 for n, f in rim_top.items():
@@ -300,7 +302,8 @@ emblem = [
     "...H...",
     "G..G..G",
     "GG.G.GG",
-    ".GGHGG.",
+    "GGGHGGG",
+    ".GGGGG.",
     "..GGG..",
     "...G...",
     "...S...",
@@ -315,10 +318,10 @@ for dj, line in enumerate(emblem):
             f.px(i, 4 + dj, GD_S)
 for j in range(12, 15):
     f.px(3, j, GD_S)
-for j in (18, 19, 20):                                     # hem band
-    for i in range(7):
-        f.px(i, j, GD if (i + j) % 2 else GD_L)
-f.row(21, GD_D)
+f.row(17, GD_L); f.row(18, GD); f.row(19, GD)              # hem band: lit top, body, shaded base
+for i in range(1, 7, 2):
+    f.px(i, 18, GD_H)                                      # specular dots
+f.row(20, GD_S); f.row(21, GD_D)
 f.row(17, GD_S)
 cape["front"].fill(NV_L)                                   # inner face
 for i in (1, 5):
@@ -340,10 +343,8 @@ for j in range(20):
     f.px(2, j, GD if j % 2 else GD_L)                      # gold trim on the outer edge
 f.px(0, 9, GD); f.px(0, 10, GD_L)                          # echo of the emblem feathers
 f.px(1, 8, GD_S); f.px(0, 8, GD_L)
-for j in (16, 17, 18):
-    for i in range(3):
-        f.px(i, j, GD if (i + j) % 2 else GD_L)
-f.row(19, GD_D)
+f.row(16, GD_L); f.row(17, GD); f.row(18, GD_S); f.row(19, GD_D)
+f.px(0, 17, GD_H)
 flap["front"].fill(NV_L)
 flap["front"].col(1, NV)
 flap["front"].row(19, GD_D)
@@ -379,7 +380,7 @@ f = paul1["top"]
 f.fill(IV); f.border(GD); f.px(0, 0, GD_H); f.px(3, 0, GD_L); f.px(0, 3, GD_S); f.px(3, 3, GD_D)
 f.rect(1, 1, 2, 2, SK); f.px(1, 1, SK_L); f.px(2, 2, SK_S)
 for n in ("front", "right", "left", "back"):
-    paul1[n].fill(GD_L); paul1[n].px(0, 0, GD_H)
+    paul1[n].fill(GD); paul1[n].px(0, 0, GD_L)
 paul1["bottom"].fill(GD_D)
 paul2 = box("paul2", 40, 45, 4, 1, 4)                      # middle plate: ivory band
 for n in ("front", "right", "left", "back"):
