@@ -1,0 +1,56 @@
+name: Tomb Guardian encounter restart persistence
+
+on:
+  pull_request:
+    paths:
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/boss/**'
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/boss/**'
+      - '.github/workflows/tomb-guardian-restart.yml'
+  workflow_dispatch:
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Defeat one tomb and interrupt another in the first process
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:tomb_guardian_game_tests_tomb_encounter_state_survives_process_restart
+            -Dmoreminecrafts.tomb.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee tomb-restart-write.log
+          grep -F TOMB_GUARDIAN_RESTART_WRITE tomb-restart-write.log
+      - name: After restart, defeated tomb refuses respawn and interrupted tomb retries
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:tomb_guardian_game_tests_tomb_encounter_state_survives_process_restart
+            -Dmoreminecrafts.tomb.restart.phase=reload
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee tomb-restart-reload.log
+          grep -F TOMB_GUARDIAN_RESTART_RELOAD tomb-restart-reload.log
+      - name: Verify second restart
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:tomb_guardian_game_tests_tomb_encounter_state_survives_process_restart
+            -Dmoreminecrafts.tomb.restart.phase=verify
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee tomb-restart-verify.log
+          grep -F TOMB_GUARDIAN_RESTART_VERIFY tomb-restart-verify.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tomb-guardian-restart-evidence
+          path: tomb-restart-*.log

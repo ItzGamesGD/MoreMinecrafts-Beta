@@ -1,5 +1,6 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
+import dev.itzgamesgd.moreminecrafts.progression.FarmlandCultivators;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeConditionSemantics;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
 import java.util.ArrayList;
@@ -48,8 +49,11 @@ abstract class KnowledgeItemUseMixin {
         ItemStack originalItem = new ItemStack(snapshot.item());
         Level level = context.getLevel();
         if (originalItem.is(ItemTags.HOES)
-                && level.getBlockState(snapshot.clicked()).is(Blocks.FARMLAND))
+                && level.getBlockState(snapshot.clicked()).is(Blocks.FARMLAND)) {
             KnowledgeEventCollectors.successfulFarmlandCultivation(snapshot.player());
+            if (level instanceof net.minecraft.server.level.ServerLevel serverLevel)
+                FarmlandCultivators.record(serverLevel, snapshot.clicked(), snapshot.player().getUUID());
+        }
 
         if (snapshot.item() == Items.REDSTONE
                 && (level.getBlockState(snapshot.clicked()).is(Blocks.REDSTONE_WIRE)

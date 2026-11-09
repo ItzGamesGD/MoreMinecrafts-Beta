@@ -23,7 +23,9 @@ public final class SwampCaveSpider extends CaveSpider {
         boolean hit = super.doHurtTarget(level, target);
         if (hit && target instanceof LivingEntity living) {
             living.removeEffect(MobEffects.POISON);
-            if (previousPoison != null) living.addEffect(previousPoison);
+            // This restores an existing effect, rather than applying a new dose. Bypass
+            // addEffect application modifiers so duration research is not applied twice.
+            if (previousPoison != null) living.forceAddEffect(previousPoison, null);
             living.addEffect(new MobEffectInstance(MobEffects.POISON, WEAK_POISON_TICKS, 0), this);
         }
         return hit;

@@ -1,0 +1,166 @@
+{
+  "provenance": "SYNTHETIC \u2014 NOT MINECRAFT WORLDGEN MEASUREMENT",
+  "status": "UNAPPROVED_EXPLORATORY_HYPOTHESIS",
+  "disclaimer": "These spacing trade-offs are derived solely from a synthetic noise simulation. No parameter here is an approved production recommendation.",
+  "seeds_sampled": [
+    1001,
+    2002,
+    3003,
+    4004,
+    5005
+  ],
+  "sampled_area_sq_km_per_seed": 67.108864,
+  "total_sampled_area_sq_km": 335.54431999999997,
+  "spacing_configurations": [
+    {
+      "config": {
+        "name": "dense_32_16",
+        "spacing_chunks": 32,
+        "separation_chunks": 16,
+        "spacing_blocks": 512,
+        "separation_blocks": 256
+      },
+      "total_grid_candidates": 1280,
+      "center_biome_eligible_candidates": 87,
+      "biome_pass_rate": 0.06796875,
+      "hypothetical_scenario_2": {
+        "terrain_eligible": 17,
+        "successfully_placed": 17,
+        "realized_acceptance_rate": 0.01328125
+      },
+      "hypothetical_scenario_3": {
+        "terrain_eligible": 47,
+        "successfully_placed": 47,
+        "realized_acceptance_rate": 0.03671875,
+        "hypothetical_density_per_100_sq_km": 14.007091522216797,
+        "hypothetical_sqrt_area_radius_blocks": 2671.9357872268993,
+        "exploration_note": "CAUTION: sqrt(area / count) assumes uniform 2D distribution across continuous land. In actual gameplay, deserts are non-contiguous patches (~7% of world), meaning player travel distance is governed by desert finding + desert traversal, not uniform grid density.",
+        "nearest_neighbor_distance": {
+          "mean_blocks": 692.7769219309171,
+          "min_blocks": 33.83784863137726,
+          "max_blocks": 1596.2621965078295
+        }
+      }
+    },
+    {
+      "config": {
+        "name": "standard_48_24",
+        "spacing_chunks": 48,
+        "separation_chunks": 24,
+        "spacing_blocks": 768,
+        "separation_blocks": 384
+      },
+      "total_grid_candidates": 605,
+      "center_biome_eligible_candidates": 37,
+      "biome_pass_rate": 0.06115702479338843,
+      "hypothetical_scenario_2": {
+        "terrain_eligible": 5,
+        "successfully_placed": 5,
+        "realized_acceptance_rate": 0.008264462809917356
+      },
+      "hypothetical_scenario_3": {
+        "terrain_eligible": 17,
+        "successfully_placed": 17,
+        "realized_acceptance_rate": 0.02809917355371901,
+        "hypothetical_density_per_100_sq_km": 5.066394805908204,
+        "hypothetical_sqrt_area_radius_blocks": 4442.735776126078,
+        "exploration_note": "CAUTION: sqrt(area / count) assumes uniform 2D distribution across continuous land. In actual gameplay, deserts are non-contiguous patches (~7% of world), meaning player travel distance is governed by desert finding + desert traversal, not uniform grid density.",
+        "nearest_neighbor_distance": {
+          "mean_blocks": 919.4288214359826,
+          "min_blocks": 252.9268669002959,
+          "max_blocks": 2362.0290006687046
+        }
+      }
+    },
+    {
+      "config": {
+        "name": "moderate_64_32",
+        "spacing_chunks": 64,
+        "separation_chunks": 32,
+        "spacing_blocks": 1024,
+        "separation_blocks": 512
+      },
+      "total_grid_candidates": 320,
+      "center_biome_eligible_candidates": 28,
+      "biome_pass_rate": 0.0875,
+      "hypothetical_scenario_2": {
+        "terrain_eligible": 7,
+        "successfully_placed": 7,
+        "realized_acceptance_rate": 0.021875
+      },
+      "hypothetical_scenario_3": {
+        "terrain_eligible": 20,
+        "successfully_placed": 20,
+        "realized_acceptance_rate": 0.0625,
+        "hypothetical_density_per_100_sq_km": 5.960464477539063,
+        "hypothetical_sqrt_area_radius_blocks": 4096.0,
+        "exploration_note": "CAUTION: sqrt(area / count) assumes uniform 2D distribution across continuous land. In actual gameplay, deserts are non-contiguous patches (~7% of world), meaning player travel distance is governed by desert finding + desert traversal, not uniform grid density.",
+        "nearest_neighbor_distance": {
+          "mean_blocks": 899.7146594628693,
+          "min_blocks": 174.13213373757299,
+          "max_blocks": 2197.713584614701
+        }
+      }
+    },
+    {
+      "config": {
+        "name": "rare_96_48",
+        "spacing_chunks": 96,
+        "separation_chunks": 48,
+        "spacing_blocks": 1536,
+        "separation_blocks": 768
+      },
+      "total_grid_candidates": 180,
+      "center_biome_eligible_candidates": 14,
+      "biome_pass_rate": 0.07777777777777778,
+      "hypothetical_scenario_2": {
+        "terrain_eligible": 3,
+        "successfully_placed": 3,
+        "realized_acceptance_rate": 0.016666666666666666
+      },
+      "hypothetical_scenario_3": {
+        "terrain_eligible": 7,
+        "successfully_placed": 7,
+        "realized_acceptance_rate": 0.03888888888888889,
+        "hypothetical_density_per_100_sq_km": 2.0861625671386723,
+        "hypothetical_sqrt_area_radius_blocks": 6923.503654736008,
+        "exploration_note": "CAUTION: sqrt(area / count) assumes uniform 2D distribution across continuous land. In actual gameplay, deserts are non-contiguous patches (~7% of world), meaning player travel distance is governed by desert finding + desert traversal, not uniform grid density.",
+        "nearest_neighbor_distance": {
+          "mean_blocks": 1651.7130974538236,
+          "min_blocks": 1230.0642259654574,
+          "max_blocks": 3162.817098727019
+        }
+      }
+    },
+    {
+      "config": {
+        "name": "monumental_128_64",
+        "spacing_chunks": 128,
+        "separation_chunks": 64,
+        "spacing_blocks": 2048,
+        "separation_blocks": 1024
+      },
+      "total_grid_candidates": 80,
+      "center_biome_eligible_candidates": 4,
+      "biome_pass_rate": 0.05,
+      "hypothetical_scenario_2": {
+        "terrain_eligible": 1,
+        "successfully_placed": 1,
+        "realized_acceptance_rate": 0.0125
+      },
+      "hypothetical_scenario_3": {
+        "terrain_eligible": 2,
+        "successfully_placed": 2,
+        "realized_acceptance_rate": 0.025,
+        "hypothetical_density_per_100_sq_km": 0.5960464477539064,
+        "hypothetical_sqrt_area_radius_blocks": 12952.689296049683,
+        "exploration_note": "CAUTION: sqrt(area / count) assumes uniform 2D distribution across continuous land. In actual gameplay, deserts are non-contiguous patches (~7% of world), meaning player travel distance is governed by desert finding + desert traversal, not uniform grid density.",
+        "nearest_neighbor_distance": {
+          "mean_blocks": 6595.167473233716,
+          "min_blocks": 6595.167473233716,
+          "max_blocks": 6595.167473233716
+        }
+      }
+    }
+  ]
+}

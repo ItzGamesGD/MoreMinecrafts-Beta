@@ -1,0 +1,12 @@
+{
+  "mode": "c-recover",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "evidence_kind": "LIVE_26.3_DISPOSABLE_BLOCK_FIXTURE",
+  "arena_atomicity_proven": false,
+  "status": "VERIFIED_FIXTURE",
+  "new_block_writes": 2,
+  "reward_grants": 0,
+  "lava_observable": true,
+  "water_observable": true
+}

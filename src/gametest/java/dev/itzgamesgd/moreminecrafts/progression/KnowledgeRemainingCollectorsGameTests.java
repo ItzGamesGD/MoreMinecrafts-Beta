@@ -263,6 +263,26 @@ public final class KnowledgeRemainingCollectorsGameTests implements CustomTestMe
     }
 
     @GameTest
+    public void weaponlessArrowKillDoesNotCrashOrInventKnowledgeCredit(GameTestHelper ctx) {
+        // A dispenser-style arrow carries ammunition but no bow/crossbow weapon.
+        ServerPlayer nearby = ctx.makeMockServerPlayerInLevel();
+        Arrow weaponless = new Arrow(ctx.getLevel(), nearby,
+                new ItemStack(Items.ARROW), null);
+        weaponless.setOwner(null);
+        ctx.assertTrue(weaponless.getWeaponItem() == null,
+                "the test arrow has a genuinely absent weapon reference");
+        var target = ctx.spawnMob(EntityTypes.ZOMBIE, 2, 2, 2).spawn();
+        ctx.assertTrue(target.hurtServer(ctx.getLevel(),
+                ctx.getLevel().damageSources().arrow(weaponless, null), 100.0F),
+                "a weaponless projectile kills a monster without throwing in AFTER_DEATH");
+        ctx.assertTrue(!target.isAlive(), "the target died normally");
+        ctx.assertTrue(KnowledgeRuntime.state(nearby).conditionProgress("bow_hostile_kills") == 0
+                        && KnowledgeRuntime.state(nearby).conditionProgress("crossbow_hostile_kills") == 0,
+                "a weaponless arrow grants no bow or crossbow kill credit");
+        ctx.succeed();
+    }
+
+    @GameTest
     public void specialAmmunitionRequiresTheActualBowOrCrossbowLaunchHook(GameTestHelper ctx) {
         ServerPlayer bowPlayer = ctx.makeMockServerPlayerInLevel();
         Arrow tipped = arrow(ctx, bowPlayer, Items.BOW, Items.TIPPED_ARROW);

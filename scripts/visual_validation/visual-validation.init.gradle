@@ -8,3 +8,11 @@ allprojects {
     }
 }
 
+
+// With CI set (GitHub Actions), Loom wraps runClient in its own xvfb-run, so the client opens on a second
+// display instead of the Xvfb this harness captures, focuses and sends XTest input to. Keep the client on it.
+allprojects {
+    tasks.matching { it.name == "runClient" }.configureEach { task ->
+        if (task.hasProperty("useXvfb")) task.useXvfb.set(false)
+    }
+}

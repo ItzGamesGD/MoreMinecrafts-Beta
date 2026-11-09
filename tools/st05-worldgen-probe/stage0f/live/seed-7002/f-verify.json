@@ -1,0 +1,38 @@
+{
+  "mode": "f-verify",
+  "seed": 7002,
+  "y_band": "-48..0",
+  "reservations": 1,
+  "algo": "st05-stage0f-construction-v1",
+  "placements": [
+    {
+      "id": "809b9bf8237b315e",
+      "center": "1654,1136",
+      "reserved_floorY": -40,
+      "state_at_entry": "VERIFIED",
+      "action": "REVERIFIED_READ_ONLY",
+      "plan_mismatches": 0,
+      "verify_failures": [],
+      "measured": {
+        "fluid_adjacent_open_cells": 0,
+        "exterior_radius": 34,
+        "max_solid_offset": 11,
+        "vault_blocks_expected": 7,
+        "walk_arena_to_cave_dir0": 18,
+        "walk_arena_to_cave_dir1": 24,
+        "corridors": 2
+      },
+      "writes": 0,
+      "ms": 6218,
+      "final_state": "VERIFIED",
+      "final_reason": "",
+      "reservation_preserved": true
+    }
+  ],
+  "world_writes": 0,
+  "chunk_saves": 0,
+  "second_pass_writes": 0,
+  "second_pass_states": [
+    "VERIFIED"
+  ]
+}

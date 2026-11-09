@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.mob;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
@@ -296,6 +297,99 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
         context.succeed();
     }
 
+    @GameTest
+    public void ecologyRosterHasReachableSpawnBiomesAndHabitatCandidates(GameTestHelper context) {
+        Map<String, String> monsterTags = Map.ofEntries(
+                Map.entry("swamp_zombie", "moreminecrafts:swamp_habitat"),
+                Map.entry("cave_zombie", "minecraft:is_overworld"),
+                Map.entry("large_zombie", "minecraft:is_overworld"),
+                Map.entry("frozen_zombie", "moreminecrafts:snowy_habitat"),
+                Map.entry("mossy_zombie", "minecraft:is_forest"),
+                Map.entry("fungal_zombie", "moreminecrafts:fungal_habitat"),
+                Map.entry("miner_zombie", "minecraft:has_structure/mineshaft"),
+                Map.entry("rotten_skeleton", "minecraft:is_overworld"),
+                Map.entry("cave_skeleton", "minecraft:is_overworld"),
+                Map.entry("armored_skeleton", "minecraft:is_mountain"),
+                Map.entry("ashen_skeleton", "minecraft:is_nether"),
+                Map.entry("lesser_wither_skeleton", "minecraft:has_structure/nether_fortress"),
+                Map.entry("mountain_skeleton", "minecraft:is_mountain"),
+                Map.entry("miner_skeleton", "minecraft:has_structure/mineshaft"),
+                Map.entry("small_spider", "minecraft:is_overworld"),
+                Map.entry("large_spider", "minecraft:is_overworld"),
+                Map.entry("forest_spider", "minecraft:is_forest"),
+                Map.entry("desert_spider", "moreminecrafts:desert_habitat"),
+                Map.entry("swamp_spider", "moreminecrafts:swamp_habitat"),
+                Map.entry("ice_spider", "moreminecrafts:snowy_habitat"),
+                Map.entry("cave_bug", "minecraft:is_overworld"),
+                Map.entry("desert_bug", "minecraft:has_structure/desert_pyramid"),
+                Map.entry("end_bug", "minecraft:is_end"),
+                Map.entry("wild_slime", "moreminecrafts:wild_slime_habitat"),
+                Map.entry("mud_slime", "moreminecrafts:swamp_habitat"),
+                Map.entry("sand_slime", "moreminecrafts:desert_habitat"),
+                Map.entry("lesser_magma_cube", "minecraft:is_nether"),
+                Map.entry("drowned_sailor", "minecraft:has_structure/shipwreck"),
+                Map.entry("deep_sea_drowned", "minecraft:is_deep_ocean"),
+                Map.entry("river_drowned", "minecraft:is_river"),
+                Map.entry("wild_piglin", "minecraft:is_nether"),
+                Map.entry("bandit", "minecraft:is_forest"),
+                Map.entry("bandit_archer", "minecraft:is_forest"),
+                Map.entry("bandit_warrior", "minecraft:is_forest"),
+                Map.entry("wandering_raider", "minecraft:is_overworld"),
+                Map.entry("lesser_phantom", "minecraft:is_overworld"),
+                Map.entry("cave_creeper", "minecraft:is_overworld"));
+        var biomeLookup = context.getLevel().registryAccess().lookupOrThrow(Registries.BIOME);
+        int reachable = 0;
+        for (Map.Entry<String, String> entry : monsterTags.entrySet()) {
+            Identifier mobId = Identifier.fromNamespaceAndPath("moreminecrafts", entry.getKey());
+            EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getValue(mobId);
+            context.assertTrue(type != null && type.getCategory() == MobCategory.MONSTER,
+                    "catalogued monster is actually registered as MONSTER: " + mobId);
+            TagKey<net.minecraft.world.level.biome.Biome> biomeTag = TagKey.create(Registries.BIOME,
+                    Identifier.parse(entry.getValue()));
+            var biomeSet = biomeLookup.get(biomeTag).orElse(null);
+            context.assertTrue(biomeSet != null && biomeSet.size() > 0,
+                    "spawn tag resolves to at least one actual biome: " + entry.getValue() + " for " + mobId);
+            context.assertTrue(SpawnPlacements.getPlacementType(type) != null,
+                    "catalogued monster has a natural spawn placement: " + mobId);
+            context.assertTrue(net.minecraft.stats.Stats.ENTITY_KILLED.get(type) != null,
+                    "catalogued monster has a vanilla ENTITY_KILLED statistic: " + mobId);
+            Set<String> biomeIds = new java.util.TreeSet<>();
+            for (var biomeHolder : biomeSet) {
+                Identifier biomeId = biomeLookup.getKey(biomeHolder.value());
+                if (biomeId != null) biomeIds.add(biomeId.toString());
+            }
+            context.assertTrue(!biomeIds.isEmpty(), "spawn tag resolves to registered biome keys: " + entry.getValue());
+            reachable++;
+            System.out.println("QUEST_ECOLOGY_AUDIT mob=" + mobId + " category=MONSTER biome_tag=" + entry.getValue()
+                    + " actual_biomes=" + biomeIds);
+        }
+        context.assertTrue(reachable == 37, "all 37 Monster-category catalog entries have real biome tags and placements");
+
+        Set<String> habitatCandidateTypes = new HashSet<>();
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "desert_spider", "moreminecrafts:desert_habitat");
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "sand_slime", "moreminecrafts:desert_habitat");
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "swamp_zombie", "moreminecrafts:swamp_habitat");
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "swamp_spider", "moreminecrafts:swamp_habitat");
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "mud_slime", "moreminecrafts:swamp_habitat");
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "frozen_zombie", "moreminecrafts:snowy_habitat");
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "ice_spider", "moreminecrafts:snowy_habitat");
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "fungal_zombie", "moreminecrafts:fungal_habitat");
+        assertHabitatCandidate(context, monsterTags, habitatCandidateTypes, "wild_slime", "moreminecrafts:wild_slime_habitat");
+        context.assertTrue(habitatCandidateTypes.size() == 9,
+                "each habitat candidate entity type belongs to exactly one proposed quest habitat");
+        context.succeed();
+    }
+
+    private static void assertHabitatCandidate(GameTestHelper context, Map<String, String> monsterTags,
+                                               Set<String> habitatCandidateTypes,
+                                               String mob, String expectedTag) {
+        context.assertTrue(habitatCandidateTypes.add(mob),
+                "a registered mob type is assigned to only one habitat group: " + mob);
+        context.assertTrue(expectedTag.equals(monsterTags.get(mob)),
+                "candidate is grouped by its registered mob type and source biome tag: " + mob);
+        System.out.println("QUEST_HABITAT_CANDIDATE mob=moreminecrafts:" + mob + " source_tag=" + expectedTag);
+    }
+
 
 
     @GameTest
@@ -389,6 +483,52 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
+    public void bredAnimalVariantsKeepTheirCustomTypeAndStatProfile(GameTestHelper context) {
+        FeralWolf feralWolf = (FeralWolf) context.spawn(CustomMobCatalog.FERAL_WOLF, new BlockPos(1, 1, 1));
+        var wolfMate = context.spawn(EntityTypes.WOLF, new BlockPos(2, 1, 1));
+        var wolfOffspring = feralWolf.getBreedOffspring(context.getLevel(), wolfMate);
+        context.assertTrue(wolfOffspring != null && wolfOffspring.getType() == CustomMobCatalog.FERAL_WOLF,
+                "Breeding a Feral Wolf must preserve the custom entity type");
+        context.assertTrue(wolfOffspring != null
+                        && Math.abs(wolfOffspring.getAttributeValue(Attributes.MAX_HEALTH)
+                        - wolfMate.getAttributeValue(Attributes.MAX_HEALTH) * 1.15) < 0.001,
+                "Bred Feral Wolves must receive the approved health multiplier");
+
+        feralWolf.setTame(true, true);
+        wolfMate.setTame(true, true);
+        var tameWolfOffspring = feralWolf.getBreedOffspring(context.getLevel(), wolfMate);
+        context.assertTrue(tameWolfOffspring != null
+                        && tameWolfOffspring.getType() == CustomMobCatalog.FERAL_WOLF
+                        && tameWolfOffspring.isTame(),
+                "Breeding a tamed Feral Wolf must produce a tamed Feral Wolf");
+        context.assertTrue(tameWolfOffspring != null
+                        && Math.abs(tameWolfOffspring.getAttributeValue(Attributes.MAX_HEALTH)
+                        - wolfMate.getAttributeValue(Attributes.MAX_HEALTH) * 1.15) < 0.001
+                        && Math.abs(tameWolfOffspring.getAttributeValue(Attributes.ATTACK_DAMAGE)
+                        - wolfMate.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.15) < 0.001,
+                "Tamed Feral Wolf offspring must retain the approved health and damage profiles");
+
+        var giantBee = context.spawn(CustomMobCatalog.GIANT_BEE, new BlockPos(3, 1, 1));
+        var beeMate = context.spawn(EntityTypes.BEE, new BlockPos(4, 1, 1));
+        var beeOffspring = giantBee.getBreedOffspring(context.getLevel(), beeMate);
+        context.assertTrue(beeOffspring != null && beeOffspring.getType() == CustomMobCatalog.GIANT_BEE,
+                "Breeding a Giant Bee must preserve the custom entity type");
+        context.assertTrue(beeOffspring != null
+                        && Math.abs(beeOffspring.getAttributeValue(Attributes.MAX_HEALTH)
+                        - beeMate.getAttributeValue(Attributes.MAX_HEALTH) * 1.65) < 0.001,
+                "Bred Giant Bees must receive the approved health multiplier");
+
+        if (wolfOffspring != null) wolfOffspring.discard();
+        if (tameWolfOffspring != null) tameWolfOffspring.discard();
+        if (beeOffspring != null) beeOffspring.discard();
+        feralWolf.discard();
+        wolfMate.discard();
+        giantBee.discard();
+        beeMate.discard();
+        context.succeed();
+    }
+
+    @GameTest
     public void spiderPoisonSemantics(GameTestHelper context) {
         SmallCaveSpider smallSpider = (SmallCaveSpider) context.spawn(CustomMobCatalog.SMALL_SPIDER, new BlockPos(1, 1, 1));
         var cleanTarget = context.spawn(EntityTypes.COW, new BlockPos(2, 1, 1));
@@ -434,17 +574,19 @@ public final class CustomMobGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest
-    public void wildPiglinRetainsEnvironmentalConversion(GameTestHelper context) {
+    public void wildPiglinKeepsItsIdentityInTheOverworld(GameTestHelper context) {
         Piglin wildPiglin = (Piglin) context.spawn(CustomMobCatalog.WILD_PIGLIN, new BlockPos(1, 1, 1));
         wildPiglin.setTimeInOverworld(300);
         context.runAfterDelay(5, () -> {
-            context.assertTrue(wildPiglin.isRemoved(),
-                    "Wild Piglin must complete normal Piglin overworld zombification");
+            context.assertTrue(!wildPiglin.isRemoved()
+                            && wildPiglin.getType() == CustomMobCatalog.WILD_PIGLIN,
+                    "Wild Piglin must remain a live Wild Piglin after the vanilla conversion threshold");
             var converted = context.getLevel().getEntities(EntityTypes.ZOMBIFIED_PIGLIN,
                     context.getBounds().inflate(2.0), Entity::isAlive);
-            context.assertTrue(!converted.isEmpty(),
-                    "Wild Piglin conversion must produce a vanilla Zombified Piglin");
+            context.assertTrue(converted.isEmpty(),
+                    "Wild Piglin must never be replaced by a vanilla Zombified Piglin");
             converted.forEach(Entity::discard);
+            wildPiglin.discard();
             context.succeed();
         });
     }

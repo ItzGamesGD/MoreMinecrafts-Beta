@@ -1,0 +1,18 @@
+ANVIL_LAYOUT variant=CURRENT scale=2 slot=180,47 panel=176x166 insidePanel=false onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_FAILED variant=CURRENT scale=2
+ANVIL_LAYOUT variant=CURRENT scale=3 slot=180,47 panel=176x166 insidePanel=false onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_FAILED variant=CURRENT scale=3
+ANVIL_LAYOUT variant=CURRENT scale=4 slot=180,47 panel=176x166 insidePanel=false onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_FAILED variant=CURRENT scale=4
+ANVIL_LAYOUT variant=INLINE_RIGHT scale=2 slot=102,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK variant=INLINE_RIGHT scale=2
+ANVIL_LAYOUT variant=INLINE_RIGHT scale=3 slot=102,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK variant=INLINE_RIGHT scale=3
+ANVIL_LAYOUT variant=INLINE_RIGHT scale=4 slot=102,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK variant=INLINE_RIGHT scale=4
+ANVIL_LAYOUT variant=LEFT_OF_INPUT scale=2 slot=8,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK variant=LEFT_OF_INPUT scale=2
+ANVIL_LAYOUT variant=LEFT_OF_INPUT scale=3 slot=8,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK variant=LEFT_OF_INPUT scale=3
+ANVIL_LAYOUT variant=LEFT_OF_INPUT scale=4 slot=8,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK variant=LEFT_OF_INPUT scale=4

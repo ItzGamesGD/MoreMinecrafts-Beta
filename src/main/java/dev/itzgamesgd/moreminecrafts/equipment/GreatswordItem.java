@@ -47,6 +47,7 @@ public final class GreatswordItem extends BasicWeaponItem {
             }
         }
         if (hit) {
+            GreatswordSweepVfx.emit(attacker);
             attacker.getItemInHand(hand).hurtAndBreak(1, attacker,
                     hand == InteractionHand.MAIN_HAND ? net.minecraft.world.entity.EquipmentSlot.MAINHAND : net.minecraft.world.entity.EquipmentSlot.OFFHAND);
             attacker.resetAttackStrengthTicker();
