@@ -123,3 +123,19 @@ D1–D6의 승인은 위에 열거된 범위에 한정한다. 자연 스폰 외�
 검증 근거(HEAD `b50b992` 기준): Fabric CI <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42572934910> (Java 빌드·GameTest·서버/클라이언트 스모크 통과), 실제 클라이언트 캡처 <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42572928984>.
 
 비차단 한계: 밝은 하늘 배경에서 입자 대비가 낮아 구분이 어렵다(사용자 승인 외형에 포함, 추가 조정 없음). 입자 성능은 벤치마크하지 않았다. 입자 정책 프로브와 애니메이션 로그는 `MOREMINECRAFTS_WRAITH_CAPTURE=1` 캡처 환경에서만 동작한다.
+
+## 8. P2-C1 천궁 사수 외형 — 사용자 승인 기록 (2026-11-09)
+
+사용자가 4개 시안 중 **Concept B — 천상의 순찰자(Celestial Patrol Archer)**를 선택했고, HEAD `78a843b`의 최종 C1 외형을 명시적으로 승인했다. 이 절은 외형·렌더링만 다루며 §3의 능력치(Q08: 체력 30, 화살 피해 +40%)·AI·전리품·스폰 결정과 D4를 바꾸지 않는다. P2-C2 애니메이션은 이 외형을 고정 기준으로 삼는다.
+
+| ID | 승인 내용 |
+|---|---|
+| C1-1 | 바닐라 스켈레톤 렌더러(`AbstractSkeletonRenderer`) 기반 인간형 모델. Steve 표준 비율, 4px 팔(왼팔·왼다리는 바닐라처럼 미러), 바닐라 활 및 스켈레톤 활 조준 자세 유지 |
+| C1-2 | 아이보리 후드(+0.75 확장, 금색 테두리 상·좌·우 돌출, 후면 볼륨), 금색 3잎 월계수 장식, 밝은 파란 눈 |
+| C1-3 | 아이보리 의복 + 층형 금색 경갑: 가슴판(중앙 개방), 벨트·버클, 밑단, 하늘색 스카프 칼라, 팔당 3단 어깨 보호대, 금색 보석 팔찌, 부츠 커프, 다리별 분할 태버드 |
+| C1-4 | 정적 하늘색 망토: 중앙 패널 7×22 + 바깥으로 벌어진 3px 측면 플랩 2장, 0.12rad 후방 경사, 금색 날개 문장·금색 밑단 |
+| C1-5 | 독창 64×64 RGBA 텍스처(`textures/entity/skyguard_archer.png`), `scripts/skyguard-archer-validation/texture.py`로 재현 생성(UV 중첩 검사 포함). 엔티티 조명(약 ×0.78)을 보정한 밝은 아이보리·따뜻한 크림 그림자·채도 높은 금색·하늘색 팔레트 |
+
+검증 근거(HEAD `78a843b`): 실제 클라이언트 캡처 <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42605644377>, Fabric CI <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42605652490>. PR #248.
+
+비차단 한계(승인 외형에 포함): 월계수가 정면에서 일부 관(冠)처럼 보임, 후드 측·후면은 엔티티 조명으로 크림-회색으로 보임, 정면은 금색 비중이 큼, 망토는 정적이며 시안보다 폭이 좁음, 화살통 없음, 얼굴은 8×8 해상도.
