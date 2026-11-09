@@ -11,7 +11,7 @@
       "id": "T1_NBT_LOAD",
       "title": "NBT file parses cleanly",
       "verdict": "PASS",
-      "evidence": "Loaded 73676 bytes from /home/antigravity/ItzGamesGD/MoreMinecrafts-Beta/src/main/resources/data/moreminecrafts/structure/pyramid/royal_hall.nbt"
+      "evidence": "Loaded 73791 bytes from /home/user/MoreMinecrafts-Beta/src/main/resources/data/moreminecrafts/structure/pyramid/royal_hall.nbt"
     },
     {
       "id": "T1_DATA_VERSION",
@@ -29,7 +29,7 @@
       "id": "T1_SCHEMA_STRUCTURE",
       "title": "Structure palette, blocks, and entities arrays are valid",
       "verdict": "PASS",
-      "evidence": "palette states: 9, block entries: 30420, entities: 0"
+      "evidence": "palette states: 10, block entries: 30420, entities: 0"
     },
     {
       "id": "T1_BLOCK_DENSITY",
@@ -65,13 +65,13 @@
       "id": "T4_GUARDIAN_CLEARANCE",
       "title": "Guardian 3B spawn anchor (-21,-22,26) has solid floor support, 3x5x3 air clearance, and >=10m headroom",
       "verdict": "PASS",
-      "evidence": "Floor at Y=-23: minecraft:cut_sandstone; 3x5x3 clearance: 45/45 air blocks; vertical headroom: 12 blocks"
+      "evidence": "Floor at Y=-23: minecraft:smooth_red_sandstone; 3x5x3 clearance: 45/45 air blocks; vertical headroom: 12 blocks"
     },
     {
       "id": "T5_PLAYER_ACCESS_AND_EXCLUSIONS",
       "title": "North doorway open, Dais frontal stairs present, and SECONDARY chest excluded (alcove clear air)",
       "verdict": "PASS",
-      "evidence": "Doorway (3x3): air=True, floor=True, lintel=True; Secondary chest excluded: True; Dais stairs count: 18"
+      "evidence": "Doorway (3x3): air=True, floor=True, lintel=True; Secondary chest excluded: True; Dais stairs count: 18; D1 two-row ascent layout (z=30 @y=-22, z=31 @y=-21 on support): True"
     },
     {
       "id": "T6_ROTATION_TRANSFORMATIONS",
@@ -100,14 +100,15 @@
       20,
       39
     ],
-    "populated_blocks": 20796,
-    "air_blocks": 9624,
+    "populated_blocks": 20805,
+    "air_blocks": 9615,
     "materials": {
       "sandstone": 7784,
-      "smooth_sandstone": 11411,
-      "air": 9624,
+      "smooth_sandstone": 11366,
+      "air": 9615,
       "chiseled_sandstone": 304,
-      "cut_sandstone": 1275,
+      "cut_sandstone": 1161,
+      "smooth_red_sandstone": 168,
       "sandstone_stairs": 18,
       "chest": 2,
       "gold_block": 2

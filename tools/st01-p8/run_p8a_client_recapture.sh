@@ -31,8 +31,8 @@ rc=$?
 set -e
 kill "$watcher" 2>/dev/null || true
 echo "gradle rc=$rc"
-# Copy only this run's R2 screenshots (originals in captures/ are never touched).
-find "$root/build/run" -path "*screenshots*" -name "*R2*.png" -newer "$stamp" 2>/dev/null | while read -r f; do
+# Copy only this run's screenshots (the client wipes its screenshot folder at the start of the next run) (originals in captures/ are never touched).
+find "$root/build/run" -path "*screenshots*" -name "*${P8A_R2_PREFIX:-R2}-*.png" -newer "$stamp" 2>/dev/null | while read -r f; do
   cp "$f" "$base/captures-r2/"
 done
 rm -f "$stamp"

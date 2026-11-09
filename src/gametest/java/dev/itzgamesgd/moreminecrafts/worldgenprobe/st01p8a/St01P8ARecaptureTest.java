@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -19,6 +20,10 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerCon
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtAccounter;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
@@ -82,6 +87,21 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             new View("R2-18-exterior-rear-south", -21, -8, 60, -21, -14, 20),
             new View("R2-19-exterior-side-west", -64, -12, 20, -21, -14, 20));
 
+    /** ST-01 P8-A-D1 view set (floor detailing and dais stairs); select with -Dmm.st01.p8a.r2.set=d1. Same poses for before/after. */
+    private static final List<View> D1_VIEWS = List.of(
+            new View("D1-01-chamber-floor-elevated-north", -21, -12, 6, -21, -22, 23),
+            new View("D1-02-field-motif-aimed-east", -21, -14, 8, -15, -22, 22),
+            new View("D1-03-field-motif-aimed-west", -21, -14, 8, -27, -22, 22),
+            new View("D1-04-runner-from-doorway-floor-level", -21, -22, 4, -21, -22, 19),
+            new View("D1-05-guardian-arena-from-dais-side-high", -21, -14, 32, -30, -22, 20),
+            new View("D1-06-west-aisle-floor-level", -30, -22, 15.5, -30, -22, 29),
+            new View("D1-07-stairs-front-low", -21, -22, 24, -21, -20.5, 31),
+            new View("D1-08-stairs-side", -30, -21, 30.5, -21, -21, 31),
+            new View("D1-09-final-stair-to-dais-connection", -21, -22, 28.5, -21, -20.2, 31.7),
+            new View("D1-10-primary-chest-and-dais-front", -21, -22, 26, -20.5, -19.5, 33.5),
+            new View("D1-11-dais-from-above", -21, -12, 27, -21, -20, 34),
+            new View("D1-12-hall-floor-from-rear-high", -15, -12, 35, -21, -22, 12));
+
     @Override
     public void runTest(ClientGameTestContext context) {
         if (!Boolean.getBoolean("mm.st01.p8a.r2")) return;
@@ -111,7 +131,19 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
                 ServerPlayer player = s.getPlayerList().getPlayers().getFirst();
-                StructureTemplate template = level.getStructureTemplateManager().get(TEMPLATE_ID).orElseThrow();
+                StructureTemplate template;
+                String templateFile = System.getProperty("mm.st01.p8a.r2.template.file", "");
+                if (templateFile.isEmpty()) {
+                    template = level.getStructureTemplateManager().get(TEMPLATE_ID).orElseThrow();
+                } else { // "before" captures: the approved P8-A baseline asset, read from a file, placed identically
+                    try (InputStream in = Files.newInputStream(Path.of(templateFile))) {
+                        CompoundTag tag = NbtIo.readCompressed(in, NbtAccounter.unlimitedHeap());
+                        template = new StructureTemplate();
+                        template.load(s.registryAccess().lookupOrThrow(Registries.BLOCK), tag);
+                    } catch (IOException e) {
+                        throw new AssertionError("could not read baseline template " + templateFile, e);
+                    }
+                }
                 if (!template.placeInWorld(level, ORIGIN, ORIGIN, new StructurePlaceSettings(), level.getRandom(), Block.UPDATE_CLIENTS)) {
                     throw new AssertionError("template placement returned false");
                 }
@@ -127,9 +159,12 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             String prefix = System.getProperty("mm.st01.p8a.r2.prefix", "R2");
             String only = System.getProperty("mm.st01.p8a.r2.only", "");
             manifest.put("run_prefix", prefix);
-            for (View v0 : VIEWS) {
+            String templateFileProp = System.getProperty("mm.st01.p8a.r2.template.file", "");
+            manifest.put("template_source", templateFileProp.isEmpty() ? "mod resource moreminecrafts:pyramid/royal_hall" : "file " + templateFileProp);
+            List<View> viewSet = "d1".equals(System.getProperty("mm.st01.p8a.r2.set", "r2")) ? D1_VIEWS : VIEWS;
+            for (View v0 : viewSet) {
                 if (!only.isEmpty() && java.util.Arrays.stream(only.split(",")).noneMatch(v0.name()::startsWith)) continue;
-                View v = new View(v0.name().replaceFirst("^R2", prefix), v0.x(), v0.y(), v0.z(), v0.tx(), v0.ty(), v0.tz());
+                View v = new View(v0.name().replaceFirst("^[A-Za-z0-9]+(?=-)", prefix), v0.x(), v0.y(), v0.z(), v0.tx(), v0.ty(), v0.tz());
                 Map<String, Object> cap = new LinkedHashMap<>();
                 cap.put("name", v.name());
                 cap.put("commanded", Map.of("feet", List.of(v.x(), v.y(), v.z()), "yaw", round(v.yaw()), "pitch", round(v.pitch()),
@@ -274,7 +309,9 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
         context.waitTicks(40);
         connection.waitForClientboundPackets();
         context.getInput().holdKey(o -> o.keyUp);
-        context.getInput().holdKey(o -> o.keyJump);
+        boolean jump = !Boolean.getBoolean("mm.st01.p8a.r2.walk.nojump");
+        r.put("jump_key_held", jump);
+        if (jump) context.getInput().holdKey(o -> o.keyJump);
         double[] last = null;
         int lastMoveTick = 0;
         String outcome = "tick_budget_exhausted";
@@ -288,7 +325,7 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             else if (t - lastMoveTick >= 60) { outcome = "stalled"; break; }
         }
         context.getInput().releaseKey(o -> o.keyUp);
-        context.getInput().releaseKey(o -> o.keyJump);
+        if (jump) context.getInput().releaseKey(o -> o.keyJump);
         final double[] end = context.computeOnClient(c -> new double[]{c.player.getX(), c.player.getY(), c.player.getZ()});
         r.put("outcome", outcome);
         r.put("ticks", t);
