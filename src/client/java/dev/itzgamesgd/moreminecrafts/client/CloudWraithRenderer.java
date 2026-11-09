@@ -1,11 +1,15 @@
 package dev.itzgamesgd.moreminecrafts.client;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.mob.sky.CloudWraith;
 import dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobs;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.monster.zombie.ZombieModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.util.Mth;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -14,16 +18,16 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
-import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.entity.state.ZombieRenderState;
 import net.minecraft.resources.Identifier;
 
-/** B1 humanoid silhouette with independently textured limbs. */
-final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
+/** B1 geometry animated with the vanilla zombie attack state and client-only wisps. */
+final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieRenderState, HumanoidModel<ZombieRenderState>> {
     private static final ModelLayerLocation LAYER = new ModelLayerLocation(ModIds.id("cloud_wraith"), "main");
     private static final Identifier TEXTURE = ModIds.id("textures/entity/cloud_wraith.png");
 
     CloudWraithRenderer(EntityRendererProvider.Context context) {
-        super(context, new HumanoidModel<HumanoidRenderState>(context.bakeLayer(LAYER)), 0.5F);
+        super(context, new WraithModel(context.bakeLayer(LAYER)), 0.5F);
     }
 
     static void register() {
@@ -42,6 +46,63 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, Humanoi
         return LayerDefinition.create(mesh, 64, 64);
     }
 
-    @Override public HumanoidRenderState createRenderState() { return new HumanoidRenderState(); }
-    @Override public Identifier getTextureLocation(HumanoidRenderState state) { return TEXTURE; }
+    @Override public ZombieRenderState createRenderState() { return new ZombieRenderState(); }
+
+    private int lastProbeId = -1;
+    private int lastProbeTick = -1;
+
+    @Override public void extractRenderState(CloudWraith entity, ZombieRenderState state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        // AbstractZombieRenderer normally supplies this field; keep its vanilla behaviour.
+        state.isAggressive = entity.isAggressive();
+        if ("1".equals(System.getenv("MOREMINECRAFTS_WRAITH_CAPTURE"))
+                && (entity.getId() != lastProbeId || entity.tickCount != lastProbeTick)) {
+            lastProbeId = entity.getId();
+            lastProbeTick = entity.tickCount;
+            MoreMinecrafts.LOGGER.info("WRAITH_ANIM entity={} tick={} age={} swing={} aggressive={} walk={} hurt={} death={}",
+                    entity.getId(), entity.tickCount, state.ageInTicks, state.swingAnimation, state.isAggressive,
+                    state.walkAnimationSpeed, state.hasRedOverlay, state.deathTime);
+        }
+    }
+
+    @Override public Identifier getTextureLocation(ZombieRenderState state) { return TEXTURE; }
+
+    private static final class WraithModel extends ZombieModel<ZombieRenderState> {
+        private final ModelPart root;
+        private final float restY;
+
+        WraithModel(ModelPart root) {
+            super(root);
+            this.root = root;
+            this.restY = root.y;
+        }
+
+        @Override public void setupAnim(ZombieRenderState state) {
+            super.setupAnim(state);
+            if (state.deathTime > 0.0F) {
+                // The renderer supplies the normal death roll; no ghost motion after death.
+                root.y = restY;
+                rightArm.xRot = leftArm.xRot = -(float) Math.PI / 2.25F;
+                rightArm.yRot = -0.1F;
+                leftArm.yRot = 0.1F;
+                rightArm.zRot = leftArm.zRot = 0.0F;
+                rightLeg.xRot = leftLeg.xRot = 0.0F;
+                rightLeg.yRot = leftLeg.yRot = 0.0F;
+                rightLeg.zRot = leftLeg.zRot = 0.0F;
+                return;
+            }
+            float phase = state.ageInTicks;
+            // 2.4 model pixels = 0.15 blocks, centered above the collision surface.
+            root.y = restY - 2.4F - 2.4F * Mth.sin(phase * 0.075F);
+            // Vanilla already bobs both arms. A small phase offset is suppressed during a swing.
+            if (state.swingAnimation <= 0.0F) {
+                rightArm.xRot += 0.025F * Mth.sin(phase * 0.055F);
+                leftArm.xRot += 0.025F * Mth.sin(phase * 0.055F + 1.1F);
+            }
+            rightLeg.zRot += 0.055F * Mth.sin(phase * 0.065F + 0.8F);
+            leftLeg.zRot += 0.055F * Mth.sin(phase * 0.065F + 2.0F);
+            rightLeg.xRot += 0.035F * Mth.sin(phase * 0.055F + 1.3F);
+            leftLeg.xRot += 0.035F * Mth.sin(phase * 0.055F + 2.5F);
+        }
+    }
 }

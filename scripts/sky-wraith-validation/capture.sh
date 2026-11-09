@@ -64,4 +64,6 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
    base64 "sky-wraith-results/$name.png"
    echo "SCREENSHOT_BASE64_END $name"
  done
+ bash scripts/sky-wraith-validation/capture_sequences.sh
+ grep "WRAITH_ANIM" sky-wraith-results/client.log || true
 '
