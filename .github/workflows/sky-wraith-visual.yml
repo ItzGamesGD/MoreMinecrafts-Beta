@@ -16,28 +16,6 @@ jobs:
           distribution: temurin
           java-version: '25'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Inspect 26.3 translucent pipeline
-        run: |
-          ./gradlew genSources --no-daemon
-          python3 - <<'PYCODE'
-          from pathlib import Path
-          import zipfile
-          targets = ('RenderTypes.java', 'RenderPipelines.java')
-          seen = set()
-          for root in (Path('.gradle'), Path.home()/'.gradle/caches/fabric-loom'):
-              if not root.exists(): continue
-              for jarpath in root.rglob('*sources*.jar'):
-                  try:
-                      with zipfile.ZipFile(jarpath) as jar:
-                          for name in jar.namelist():
-                              if name.rsplit('/',1)[-1] in targets and name not in seen:
-                                  print('RENDER_SOURCE_BEGIN', name)
-                                  print(jar.read(name).decode('utf-8'))
-                                  print('RENDER_SOURCE_END', name)
-                                  seen.add(name)
-                  except (OSError,zipfile.BadZipFile): pass
-          print('RENDER_SOURCES_FOUND', len(seen))
-          PYCODE
       - name: Install virtual display
         run: |
           sudo apt-get update

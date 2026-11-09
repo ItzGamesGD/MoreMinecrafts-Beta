@@ -19,6 +19,8 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.state.ZombieRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 
 /** B1 geometry animated with the vanilla zombie attack state and client-only wisps. */
@@ -66,6 +68,13 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieR
     }
 
     @Override public Identifier getTextureLocation(ZombieRenderState state) { return TEXTURE; }
+
+    @Override protected RenderType getRenderType(ZombieRenderState state, boolean bodyVisible,
+                                                  boolean forceTransparent, boolean appearGlowing) {
+        // Keep vanilla invisibility and outline handling; alpha is supplied by the texture only.
+        return bodyVisible ? RenderTypes.entityTranslucentCull(TEXTURE)
+                : super.getRenderType(state, false, forceTransparent, appearGlowing);
+    }
 
     private static final class WraithModel extends ZombieModel<ZombieRenderState> {
         private final ModelPart root;
