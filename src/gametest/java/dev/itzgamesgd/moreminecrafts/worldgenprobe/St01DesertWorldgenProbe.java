@@ -58,7 +58,7 @@ public final class St01DesertWorldgenProbe implements ModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             long startTimeMs = System.currentTimeMillis();
-            Path out = Path.of(outPath);
+            Path out = Path.of(outPath).toAbsolutePath();
             try {
                 LOG.info("ST-01 Real Worldgen Measurement Probe starting, output target: {}", out);
                 runMeasurement(server, out, startTimeMs);
