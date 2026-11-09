@@ -4,6 +4,8 @@ import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.mob.sky.CloudWraith;
 import dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobs;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.core.particles.ParticleTypes;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.model.HumanoidModel;
@@ -35,6 +37,23 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieR
     static void register() {
         ModelLayerRegistry.registerModelLayer(LAYER, CloudWraithRenderer::createLayer);
         EntityRendererRegistry.register(SkyNormalMobs.CLOUD_WRAITH, CloudWraithRenderer::new);
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.level == null || client.player == null) return;
+            int emitted = 0;
+            for (var candidate : client.level.entitiesForRendering()) {
+                if (!(candidate instanceof CloudWraith wraith) || !wraith.isAlive()
+                        || wraith.isInvisible() || wraith.distanceToSqr(client.player) > 1024.0
+                        || (wraith.tickCount + wraith.getId()) % 40 != 0) continue;
+                var random = client.level.random;
+                client.level.addParticle(ParticleTypes.CLOUD,
+                        wraith.getX() + (random.nextDouble() - 0.5) * 0.8,
+                        wraith.getY() + 0.2 + random.nextDouble() * 1.15,
+                        wraith.getZ() + (random.nextDouble() - 0.5) * 0.8,
+                        (random.nextDouble() - 0.5) * 0.008, 0.008,
+                        (random.nextDouble() - 0.5) * 0.008);
+                if (++emitted >= 2) break;
+            }
+        });
     }
 
     private static LayerDefinition createLayer() {

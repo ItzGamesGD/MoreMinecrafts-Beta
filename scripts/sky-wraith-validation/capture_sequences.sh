@@ -43,3 +43,10 @@ for view in front side; do
 done
 
 cat sky-wraith-results/sequence-events.log
+# Three stationary wraiths exercise the shared per-tick emission cap.
+rcon 'summon moreminecrafts:cloud_wraith -1.5 64 4.5 {NoAI:1b,PersistenceRequired:1b,Tags:["wraith_group"]}' \
+ 'summon moreminecrafts:cloud_wraith 0.5 64 4.5 {NoAI:1b,PersistenceRequired:1b,Tags:["wraith_group"]}' \
+ 'summon moreminecrafts:cloud_wraith 2.5 64 4.5 {NoAI:1b,PersistenceRequired:1b,Tags:["wraith_group"]}' \
+ 'tp WraithViewer 0.5 64 11 180 5'
+sleep 2
+record 'group-idle' 8
