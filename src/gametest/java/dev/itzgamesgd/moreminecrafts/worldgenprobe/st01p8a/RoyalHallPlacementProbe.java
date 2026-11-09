@@ -301,7 +301,9 @@ public final class RoyalHallPlacementProbe implements ModInitializer {
         double worstStairRise = 0;
         for (int x = -25; x <= -17; x++) for (int z = 30; z <= 31; z++) {
             stairsTotal++;
-            Nav n = navigate(level, doorway, new BlockPos(x, -21, z));
+            // P8-A-D1 (user-authorized stair correction): the first tread row stands at feet y=-21 and the raised second row at
+            // feet y=-20 (flush with the dais top). The baseline layout had both rows at y=-21; the pass criterion is unchanged.
+            Nav n = navigate(level, doorway, new BlockPos(x, z == 30 ? -21 : -20, z));
             if (n.reachable) stairsExact++;
             if (n.near) stairsNear++;
             worstStairRise = Math.max(worstStairRise, n.maxRise);

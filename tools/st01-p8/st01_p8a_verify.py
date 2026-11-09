@@ -220,6 +220,15 @@ def run_verification(nbt_path=NBT_PATH, out_dir=DEFAULT_OUT):
     mismatches = []
     mat_counts = Counter()
 
+    def d1_floor_accent(x, z):
+        """ST-01 P8-A-D1 (user-authorized): exposed floor cells that take smooth_red_sandstone. Derived independently of the
+        generator from the approved description: 3-wide runner on x=-21 (z 2..16 and 26..29), the 17x17 field's border band
+        and the ring framing the carved base (Chebyshev radius 8 and 4 around (-21, 21))."""
+        dx, dz = x + 21, z - 21
+        if abs(dx) <= 1 and (2 <= z <= 16 or 26 <= z <= 29):
+            return True
+        return abs(dx) <= 8 and abs(dz) <= 8 and max(abs(dx), abs(dz)) in (8, 4)
+
     for xl in range(SIZE[0]):
         for yl in range(SIZE[1]):
             for zl in range(SIZE[2]):
@@ -237,7 +246,12 @@ def run_verification(nbt_path=NBT_PATH, out_dir=DEFAULT_OUT):
 
                 # Verify subfloor
                 if y == -23:
-                    if -29 <= x <= -13 and 13 <= z <= 29:
+                    above_is_air = str(block_map[(xl, yl + 1, zl)][0]["id"]) == "minecraft:air"
+                    if above_is_air and d1_floor_accent(x, z):
+                        # P8-A-D1 authorized change: accent tone replaces the old exact-voxel expectation here
+                        if block_id != "smooth_red_sandstone":
+                            mismatches.append((x, y, z, f"D1 floor accent expected smooth_red_sandstone, got {block_id}"))
+                    elif -29 <= x <= -13 and 13 <= z <= 29:
                         if block_id != "cut_sandstone":
                             mismatches.append((x, y, z, f"Floor field expected cut_sandstone, got {block_id}"))
                     elif block_id != "smooth_sandstone":
@@ -395,14 +409,24 @@ def run_verification(nbt_path=NBT_PATH, out_dir=DEFAULT_OUT):
         1 for xl in range(SIZE[0]) for yl in range(SIZE[1]) for zl in range(SIZE[2])
         if "stairs" in str(block_map[(xl, yl, zl)][0]["id"])
     )
-    stairs_ok = (stairs_count == 18)
+    # P8-A-D1 (user-authorized): row z=30 sits at y=-22 and the raised row z=31 at y=-21 on a smooth_sandstone support,
+    # so the climb is four continuous half-steps that end flush with the dais top (surface y=-20).
+    def block_at(x, y, z):
+        return str(block_map[(x - min_x, y - min_y, z - min_z)][0]["id"]).removeprefix("minecraft:")
+    stairs_layout_ok = all(
+        block_at(x, -22, 30) == "sandstone_stairs" and block_at(x, -22, 31) == "smooth_sandstone"
+        and block_at(x, -21, 31) == "sandstone_stairs" and block_at(x, -21, 30) == "air"
+        for x in range(-25, -16)
+    )
+    stairs_ok = (stairs_count == 18 and stairs_layout_ok)
 
     access_ok = (door_ok and sec_excluded and stairs_ok)
     r.add("T5_PLAYER_ACCESS_AND_EXCLUSIONS",
           "North doorway open, Dais frontal stairs present, and SECONDARY chest excluded (alcove clear air)",
           "PASS" if access_ok else "FAIL",
           f"Doorway (3x3): air={door_air}, floor={door_floor}, lintel={door_lintel}; "
-          f"Secondary chest excluded: {sec_excluded}; Dais stairs count: {stairs_count}")
+          f"Secondary chest excluded: {sec_excluded}; Dais stairs count: {stairs_count}; "
+          f"D1 two-row ascent layout (z=30 @y=-22, z=31 @y=-21 on support): {stairs_layout_ok}")
 
     # -------------------------------------------------------------
     # Test 6: Rotation & Mirror Transformations
