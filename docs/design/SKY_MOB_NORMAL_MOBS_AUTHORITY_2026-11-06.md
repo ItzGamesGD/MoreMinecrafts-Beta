@@ -139,3 +139,18 @@ D1–D6의 승인은 위에 열거된 범위에 한정한다. 자연 스폰 외�
 검증 근거(HEAD `78a843b`): 실제 클라이언트 캡처 <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42605644377>, Fabric CI <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42605652490>. PR #248.
 
 비차단 한계(승인 외형에 포함): 월계수가 정면에서 일부 관(冠)처럼 보임, 후드 측·후면은 엔티티 조명으로 크림-회색으로 보임, 정면은 금색 비중이 큼, 망토는 정적이며 시안보다 폭이 좁음, 화살통 없음, 얼굴은 8×8 해상도.
+
+## 9. P2-C2 천궁 사수 애니메이션 — 사용자 승인 기록 (2026-11-09)
+
+사용자가 §8의 C1 외형과 아래 C2 애니메이션을 HEAD `d1521b6` 기준으로 명시적으로 승인했다. 이 절은 렌더링만 다루며 §3의 능력치(체력 30, 화살 피해 +40%)·스켈레톤 기반 AI·전리품·스폰 결정을 바꾸지 않는다.
+
+| ID | 승인 내용 |
+|---|---|
+| C2-1 | 바닐라 스켈레톤 기반 대기·걷기 애니메이션 |
+| C2-2 | 바닐라 활 조준·발사, 발사 후 회복 자세 |
+| C2-3 | 바닐라 피격·사망 애니메이션 |
+| C2-4 | 걷기 중 망토가 다리를 크게 관통하지 않도록 하는 최소 망토 각도 조정 |
+
+검증 근거(HEAD `d1521b6`): Fabric CI <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42613510984>, 실제 클라이언트 시퀀스 캡처 <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42613502323>. PR #248.
+
+비차단 한계(승인에 포함): 조준 자세로의 바닐라 1틱 전환, 망토와 다리의 경미한 접촉. 애니메이션 로그는 `MOREMINECRAFTS_ARCHER_CAPTURE=1` 캡처 환경에서만 동작한다.
