@@ -43,11 +43,17 @@ def analyze_phase3(audit_file: Path, probe_file: Path, out_file: Path) -> dict:
 
     wm_area_sq_km = wm_metrics.get("area_sq_km", 419.43)
     wm_count = wm_metrics.get("valid_placed_structures", len(wm_observed))
-    wm_density_per_100km2 = (wm_count / wm_area_sq_km * 100.0) if wm_area_sq_km > 0 else 0.0
-
+    
     wm_distances = [s["distance_from_origin"] for s in wm_observed if "distance_from_origin" in s]
     if wm_nearest and "distance_from_origin" in wm_nearest:
         wm_distances.append(wm_nearest["distance_from_origin"])
+
+    # If grid iteration yielded 0 but findNearestMapStructure confirmed a mansion within the search area:
+    effective_wm_count = wm_count
+    if effective_wm_count == 0 and wm_distances and min(wm_distances) <= 10240:
+        effective_wm_count = 1
+
+    wm_density_per_100km2 = (effective_wm_count / wm_area_sq_km * 100.0) if wm_area_sq_km > 0 else 0.0
 
     wm_summary = {
         "spacing_chunks": wm_config.get("spacing_chunks", 80),
@@ -58,10 +64,11 @@ def analyze_phase3(audit_file: Path, probe_file: Path, out_file: Path) -> dict:
         "area_sq_km": wm_area_sq_km,
         "total_potential_anchors": wm_metrics.get("potential_candidate_anchors", 0),
         "valid_placed_structures": wm_count,
+        "effective_placed_structures": effective_wm_count,
         "observed_density_per_100_sq_km": round(wm_density_per_100km2, 2),
         "nearest_mansion_distance": min(wm_distances) if wm_distances else None,
         "mean_mansion_distance": round(sum(wm_distances) / len(wm_distances)) if wm_distances else None,
-        "zero_structure_in_search_area": (wm_count == 0),
+        "zero_structure_in_search_area": (effective_wm_count == 0),
     }
 
     # 2. ST-01 Placement Simulation Analysis across Configurations
