@@ -1,0 +1,124 @@
+{
+  "status": "CALCULATED",
+  "aboveground": {
+    "outer_dimensions": {
+      "width_x": 81,
+      "length_z": 81,
+      "height_y": 40
+    },
+    "box_coordinates": {
+      "min_x": -40,
+      "max_x": 40,
+      "min_y": 0,
+      "max_y": 39,
+      "min_z": -40,
+      "max_z": 40
+    },
+    "enclosing_volume": 262440,
+    "stepped_shell_solid_volume": 91880,
+    "design_authority": "P1 Approved Specification (81x81x40)"
+  },
+  "underground": {
+    "east": {
+      "outer_dimensions": {
+        "width_x": 80,
+        "length_z": 69,
+        "height_y": 32
+      },
+      "box_coordinates": {
+        "min_x": -40,
+        "max_x": 39,
+        "min_y": -32,
+        "max_y": -1,
+        "min_z": -28,
+        "max_z": 40
+      },
+      "lowest_structure_block_y": -32,
+      "lowest_cavity_floor_y": -30
+    },
+    "west": {
+      "outer_dimensions": {
+        "width_x": 80,
+        "length_z": 69,
+        "height_y": 32
+      },
+      "box_coordinates": {
+        "min_x": -39,
+        "max_x": 40,
+        "min_y": -32,
+        "max_y": -1,
+        "min_z": -28,
+        "max_z": 40
+      },
+      "lowest_structure_block_y": -32,
+      "lowest_cavity_floor_y": -30
+    },
+    "design_authority": "P2-P6 Verified Model & Overlay"
+  },
+  "combined": {
+    "dimensions": {
+      "width_x": 81,
+      "length_z": 81,
+      "height_y": 72
+    },
+    "box_coordinates": {
+      "min_x": -40,
+      "max_x": 40,
+      "min_y": -32,
+      "max_y": 39,
+      "min_z": -40,
+      "max_z": 40
+    },
+    "total_bounding_volume": 472392,
+    "vertical_profile": {
+      "aboveground_layers": 40,
+      "underground_layers": 32,
+      "total_layers": 72
+    }
+  },
+  "chunk_coverage": {
+    "unbuffered_81x81": {
+      "span_x_chunks": 6,
+      "span_z_chunks": 6,
+      "total_chunks_covered": 36,
+      "invariance_note": "Analytically invariant across all 256 subchunk coordinate phase offsets (always exactly 6x6=36 chunks)."
+    },
+    "buffered_89x89_with_skirt": {
+      "possible_chunk_spans": [
+        [
+          6,
+          6,
+          36
+        ],
+        [
+          6,
+          7,
+          42
+        ],
+        [
+          7,
+          6,
+          42
+        ],
+        [
+          7,
+          7,
+          49
+        ]
+      ],
+      "min_chunks": 36,
+      "max_chunks": 49,
+      "distribution_note": "Spans 36, 42, or 49 chunks depending on subchunk anchor alignment."
+    }
+  },
+  "asset_audit": {
+    "nbt_template_files_count": 0,
+    "exported_nbt_status": "MISSING / NOT_EXPORTED",
+    "model_representation": "Algorithmic voxel coordinate model (P1-P6 Python / Java builders)",
+    "unverified_assumptions": [
+      "NBT structure piece splitting (vanilla jigsaw 48x48 cap requires >=8 pieces)",
+      "Foundation skirt maximum downward depth limit (unapproved)",
+      "Perimeter terrain blending slope angle (unapproved)"
+    ]
+  }
+}
