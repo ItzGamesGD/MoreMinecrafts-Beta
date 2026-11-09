@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -282,7 +283,15 @@ class SkyIslandsResourceTest {
             for (String name : List.of("plain_small_a", "plain_small_b", "plain_medium", "ruins", "tower", "temple", "satellite_a", "satellite_b")) {
                 Template t = template("data/moreminecrafts/structure/sky_islands/" + style + "/" + name + ".nbt");
                 boolean hasSocket = t.of("minecraft:jigsaw").stream().anyMatch(b -> String.valueOf(b.nbt().get("pool")).endsWith("_top"));
-                assertEquals(List.of("ruins", "tower", "temple").contains(name), hasSocket, style + "/" + name);
+                if (name.equals("tower")) {
+                    assertEquals(List.of(58, 97, 49), Arrays.stream(t.size()).boxed().toList(), style + "/tower composite bounds");
+                    assertEquals(1, t.of("minecraft:jigsaw").size(), style + "/tower has one preserved root connector");
+                    assertEquals("minecraft:empty", t.of("minecraft:jigsaw").getFirst().nbt().get("pool"), style + "/tower terminates legacy child socket");
+                    assertEquals(16, t.count("minecraft:trial_spawner"), style + "/tower approved trial spawners");
+                    assertEquals(8, t.count("minecraft:vault"), style + "/tower approved vaults");
+                } else {
+                    assertEquals(List.of("ruins", "temple").contains(name), hasSocket, style + "/" + name);
+                }
             }
         }
     }

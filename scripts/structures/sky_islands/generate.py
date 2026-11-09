@@ -15,6 +15,8 @@ sys.path.insert(0, str(HERE))
 import buildings  # noqa: E402
 import islands  # noqa: E402
 import random  # noqa: E402
+import hashlib  # noqa: E402
+import tower_composite  # noqa: E402
 
 ROOT = HERE.parents[2]
 DATA = ROOT / "src/main/resources/data/moreminecrafts"
@@ -116,6 +118,19 @@ def collect():
         text(f"worldgen/template_pool/sky_islands/{style}/satellite.json",
              pool([(f"sky_islands/{style}/{n}", w) for n, w in SATELLITE_WEIGHTS.items()], SATELLITE_EMPTY_WEIGHT))
 
+    # Replace the existing weighted tower child with one composite Jigsaw element.
+    # The start pool entries and their weights remain byte-for-byte unchanged.
+    tower_composites = []
+    for style in STYLES:
+        path = DATA / f"structure/sky_islands/{style}/tower.nbt"
+        candidate = tower_composite.load_candidate(style)
+        approved_tower = tower_composite.TOWER.read_bytes()
+        if hashlib.sha256(approved_tower).hexdigest() != tower_composite.APPROVED_SHA256:
+            raise ValueError("approved Sky Tower NBT SHA-256 mismatch; refusing to compose")
+        composite, details = tower_composite.compose(style, files[path], approved_tower, candidate)
+        files[path] = composite
+        tower_composites.append(details)
+
     for name, builder in buildings.RUINS.items():
         v = builder(random.Random(f"{name}/ruin"))
         files[DATA / f"structure/sky_islands/{name}.nbt"] = v.to_nbt()
@@ -139,7 +154,7 @@ def collect():
     for name, v in stats.items():
         manifest[name] = {"size": list(v.size or v.extent()), "trial_spawner": v.count("trial_spawner"), "vault": v.count("vault"),
                           "chest": v.count("chest"), "jigsaw": v.count("jigsaw")}
-    return files, manifest
+    return files, manifest | {"tower_composites": tower_composites}
 
 
 def main():
@@ -148,10 +163,12 @@ def main():
     args = parser.parse_args()
     files, manifest = collect()
     if args.check:
-        # NBT bytes depend on libm rounding (island outlines use trigonometry), so across platforms only existence is enforced
-        # for templates; the JSON wiring is compared byte for byte.
+        # Base island NBT depends on libm rounding. The composites are deterministic
+        # gzip outputs and are compared byte-for-byte; JSON is always exact.
         stale = [str(p.relative_to(ROOT)) for p, data in files.items()
-                 if not p.is_file() or (p.suffix == ".json" and p.read_bytes() != data)]
+                 if not p.is_file() or (p.suffix == ".json" and p.read_bytes() != data)
+                 or (p.suffix == ".nbt" and p.parent.name in STYLES and p.stem == "tower"
+                     and p.read_bytes() != data)]
         assert not stale, "Committed sky island assets differ from their generator: " + ", ".join(stale[:10])
     else:
         for path, data in files.items():

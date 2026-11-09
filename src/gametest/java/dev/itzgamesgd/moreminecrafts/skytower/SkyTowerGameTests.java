@@ -113,4 +113,42 @@ public final class SkyTowerGameTests {
         ctx.assertTrue(!a.data.ownsBarrier(a.site.id(),0,0) && a.level.getBlockState(p).equals(wet),"stale ownership is relinquished without deleting changed state");
         a.release();ctx.succeed();
     }
+
+    @GameTest(maxTicks=300)
+    public void allSixCompositeIslandTemplatesPlaceApprovedTowerAnchorsAcrossFourRotations(GameTestHelper ctx){
+        String[] styles={"snowy","meadow","forest","badlands","desert","rocky"};
+        Rotation[] rotations={Rotation.NONE,Rotation.CLOCKWISE_90,Rotation.CLOCKWISE_180,Rotation.COUNTERCLOCKWISE_90};
+        var level=ctx.getLevel();
+        int base=NEXT.incrementAndGet()*1000+200000;
+        for(int index=0;index<styles.length;index++){
+            int rotation=index%4;
+            int x=base+(index%3)*120,z=base+(index/3)*120,y=100;
+            var compositeOrigin=new BlockPos(x,y,z);
+            for(int cx=(x-52)>>4;cx<=(x+60)>>4;cx++)for(int cz=(z-52)>>4;cz<=(z+60)>>4;cz++){
+                level.setChunkForced(cx,cz,true);level.getChunk(cx,cz);
+            }
+            for(int cx=(x-52)>>4;cx<=(x+60)>>4;cx++)for(int cz=(z-52)>>4;cz<=(z+60)>>4;cz++)
+                level.waitForEntities(new net.minecraft.world.level.ChunkPos(cx,cz),0);
+            var id=Identifier.parse("moreminecrafts:sky_islands/"+styles[index]+"/tower");
+            var template=level.getStructureTemplateManager().getOrCreate(id);
+            ctx.assertTrue(template.placeInWorld(level,compositeOrigin,compositeOrigin,
+                    new StructurePlaceSettings().setRotation(rotations[rotation]),level.getRandom(),18),styles[index]+" composite places");
+            var towerOrigin=compositeOrigin.offset(net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.transform(
+                    new BlockPos(0,17,0),net.minecraft.world.level.block.Mirror.NONE,rotations[rotation],BlockPos.ZERO));
+            var site=new SkyTowerLayout.Site(level.dimension().identifier().toString(),towerOrigin.getX(),towerOrigin.getY(),towerOrigin.getZ(),rotation);
+            for(int i=0;i<16;i++){
+                var p=site.spawner(i);
+                ctx.assertTrue(level.getBlockState(new BlockPos(p.x(),p.y(),p.z())).is(Blocks.TRIAL_SPAWNER),styles[index]+" approved spawner "+i);
+            }
+            for(int i=0;i<8;i++){
+                var p=site.vault(i);
+                ctx.assertTrue(level.getBlockState(new BlockPos(p.x(),p.y(),p.z())).is(Blocks.VAULT),styles[index]+" approved vault "+i);
+            }
+            for(int floor=0;floor<4;floor++)for(int cell=0;cell<18;cell++){
+                var p=site.barrier(floor,cell);
+                ctx.assertTrue(level.getBlockState(new BlockPos(p.x(),p.y(),p.z())).isAir(),styles[index]+" reserved barrier cell remains clear");
+            }
+        }
+        ctx.succeed();
+    }
 }

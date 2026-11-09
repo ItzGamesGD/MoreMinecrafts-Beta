@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 public final class SkyTowerIntegration {
     private SkyTowerIntegration() {}
     public static void initialize(){
+        SkyTowerWorldgenRegistration.initialize();
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(SkyTowerBarriers::tick);
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(s->SkyTowerBarriers.clearDiagnostics());
         CommandRegistrationCallback.EVENT.register((dispatcher,context,environment)->dispatcher.register(

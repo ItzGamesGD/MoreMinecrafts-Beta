@@ -1,0 +1,73 @@
+{
+  "seed": 42,
+  "styles_found": [
+    "forest",
+    "meadow",
+    "rocky"
+  ],
+  "automatic_registration_site_count": 3,
+  "styles": {
+    "snowy": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "meadow": {
+      "rotation": 0,
+      "piece_bounds": "BoundingBox{minX\u003d528, minY\u003d141, minZ\u003d-1488, maxX\u003d585, maxY\u003d237, maxZ\u003d-1440}",
+      "blocked_barrier_cells": 0,
+      "structure": "moreminecrafts:sky_island_meadow",
+      "pass": true,
+      "vaults": 8,
+      "site": "minecraft:overworld|528,158,-1488|0",
+      "trial_spawners": 16,
+      "chunks_loaded": true,
+      "automatically_registered": true,
+      "legacy_tower_child_count": 0,
+      "seen_chunk": "33,-93",
+      "composite_piece_count": 1,
+      "runtime_barrier_air_cells": 72
+    },
+    "forest": {
+      "rotation": 3,
+      "piece_bounds": "BoundingBox{minX\u003d-352, minY\u003d115, minZ\u003d-281, maxX\u003d-304, maxY\u003d211, maxZ\u003d-224}",
+      "blocked_barrier_cells": 0,
+      "structure": "moreminecrafts:sky_island_forest",
+      "pass": true,
+      "vaults": 8,
+      "site": "minecraft:overworld|-352,132,-224|3",
+      "trial_spawners": 16,
+      "chunks_loaded": true,
+      "automatically_registered": true,
+      "legacy_tower_child_count": 0,
+      "seen_chunk": "-22,-14",
+      "composite_piece_count": 1,
+      "runtime_barrier_air_cells": 72
+    },
+    "badlands": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "desert": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "rocky": {
+      "rotation": 0,
+      "piece_bounds": "BoundingBox{minX\u003d1872, minY\u003d154, minZ\u003d-880, maxX\u003d1929, maxY\u003d250, maxZ\u003d-832}",
+      "blocked_barrier_cells": 0,
+      "structure": "moreminecrafts:sky_island_mountain_rocky",
+      "pass": true,
+      "vaults": 8,
+      "site": "minecraft:overworld|1872,171,-880|0",
+      "trial_spawners": 16,
+      "chunks_loaded": true,
+      "automatically_registered": true,
+      "legacy_tower_child_count": 0,
+      "seen_chunk": "117,-55",
+      "composite_piece_count": 1,
+      "runtime_barrier_air_cells": 72
+    }
+  },
+  "pass": false,
+  "client_movement_visual_and_restart": "not tested by this fresh-world server probe"
+}

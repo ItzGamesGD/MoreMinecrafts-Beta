@@ -10,7 +10,8 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerCompositeWorldgenProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.skytower.SkyTowerGameTests",
