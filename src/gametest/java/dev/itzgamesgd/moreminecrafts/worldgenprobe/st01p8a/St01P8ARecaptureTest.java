@@ -169,6 +169,16 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
                 flush(out, manifest);
             }
 
+            // ---- Optional short, stall-detected walks (hypothesis test: the central base blocks the centre line).
+            if (Boolean.getBoolean("mm.st01.p8a.r2.walk")) {
+                Map<String, Object> walks = new LinkedHashMap<>();
+                manifest.put("walks", walks);
+                walks.put("centre_line_x-20.5", walk(context, server, connection, -20.5, -22.0, 3.5));
+                flush(out, manifest);
+                walks.put("beside_base_x-25.5", walk(context, server, connection, -25.5, -22.0, 12.5));
+                flush(out, manifest);
+            }
+
             // ---- Independent PRIMARY B check: direct positioning near the chest, no navigation.
             Map<String, Object> chest = new LinkedHashMap<>();
             manifest.put("primary_b_chest", chest);
@@ -186,7 +196,13 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
                 chest.put("client_player_feet", context.computeOnClient(c -> List.of(round(c.player.getX()), round(c.player.getY()), round(c.player.getZ()))));
                 context.getInput().lookAt(CHEST_LEFT);
                 context.waitTicks(5);
-                chest.put("crosshair_target", context.computeOnClient(c -> String.valueOf(c.hitResult)));
+                chest.put("crosshair_target", context.computeOnClient(c -> {
+                    if (c.hitResult instanceof net.minecraft.world.phys.BlockHitResult b) {
+                        return b.getType() + " pos=" + b.getBlockPos() + " dir=" + b.getDirection() + " block=" + blockId(c.level.getBlockState(b.getBlockPos()));
+                    }
+                    return String.valueOf(c.hitResult);
+                }));
+                chest.put("eye_pos", context.computeOnClient(c -> String.valueOf(c.player.getEyePosition())));
                 context.getInput().pressMouse(1);
                 chest.put("method", "mouse_button_1");
                 try {
@@ -195,11 +211,12 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
                     // fall back to the client's own use-item-on path (same packet a right-click sends)
                     chest.put("mouse_press_result", "no container screen opened: " + e.getMessage());
                     chest.put("method", "MultiPlayerGameMode.useItemOn with the crosshair hit");
-                    context.runOnClient(c -> {
+                    chest.put("use_item_on_result", context.computeOnClient(c -> {
                         if (c.hitResult instanceof net.minecraft.world.phys.BlockHitResult bhr) {
-                            c.gameMode.useItemOn(c.player, net.minecraft.world.InteractionHand.MAIN_HAND, bhr);
+                            return String.valueOf(c.gameMode.useItemOn(c.player, net.minecraft.world.InteractionHand.MAIN_HAND, bhr));
                         }
-                    });
+                        return "no block hit";
+                    }));
                     context.waitFor(c -> c.gui.screen() instanceof AbstractContainerScreen<?>, 200);
                 }
                 context.waitTicks(10);
@@ -234,6 +251,50 @@ public final class St01P8ARecaptureTest implements FabricClientGameTest {
             flush(out, manifest);
         }
         System.out.println("ST01_P8A_R2_DONE captures=" + captures.size());
+    }
+
+    /** Survival walk with real held keys; stops on arrival at the dais top, a stall, or the tick budget. */
+    private static Map<String, Object> walk(ClientGameTestContext context, TestDedicatedServerContext server,
+                                            TestDedicatedServerConnection connection, double sx, double sy, double sz) {
+        Map<String, Object> r = new LinkedHashMap<>();
+        r.put("start", List.of(sx, sy, sz));
+        List<Object> trace = new ArrayList<>();
+        r.put("trace", trace);
+        server.runOnServer(s -> {
+            ServerPlayer player = s.getPlayerList().getPlayers().getFirst();
+            player.setGameMode(GameType.SURVIVAL);
+            player.teleportTo(s.overworld(), sx, sy, sz, Set.of(), 0f, 0f, true);
+        });
+        context.waitTicks(40);
+        connection.waitForClientboundPackets();
+        context.getInput().holdKey(o -> o.keyUp);
+        context.getInput().holdKey(o -> o.keyJump);
+        double[] last = null;
+        int lastMoveTick = 0;
+        String outcome = "tick_budget_exhausted";
+        int t;
+        for (t = 0; t < 600; t++) {
+            context.waitTick();
+            double[] p = context.computeOnClient(c -> new double[]{c.player.getX(), c.player.getY(), c.player.getZ()});
+            if (t % 30 == 0) trace.add(List.of(t, round(p[0]), round(p[1]), round(p[2])));
+            if (p[1] > -20.2 && p[2] > 31.8) { outcome = "reached_dais_top"; last = p; break; }
+            if (last == null || Math.hypot(p[0] - last[0], Math.hypot(p[1] - last[1], p[2] - last[2])) > 0.05) { last = p; lastMoveTick = t; }
+            else if (t - lastMoveTick >= 60) { outcome = "stalled"; break; }
+        }
+        context.getInput().releaseKey(o -> o.keyUp);
+        context.getInput().releaseKey(o -> o.keyJump);
+        final double[] end = context.computeOnClient(c -> new double[]{c.player.getX(), c.player.getY(), c.player.getZ()});
+        r.put("outcome", outcome);
+        r.put("ticks", t);
+        r.put("end", List.of(round(end[0]), round(end[1]), round(end[2])));
+        r.put("blocks_ahead_of_end_position", context.computeOnClient(c -> {
+            Map<String, Object> m = new LinkedHashMap<>();
+            for (double dy : new double[]{0.0, 1.0, 1.8}) {
+                m.put("dy+" + dy, blockId(c.level.getBlockState(BlockPos.containing(end[0], end[1] + dy, end[2] + 0.45))));
+            }
+            return m;
+        }));
+        return r;
     }
 
     private static String blockId(BlockState state) {

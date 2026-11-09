@@ -11,7 +11,7 @@ base="$root/build/st01-p8a-client"
 mkdir -p "$base/logs" "$base/captures-r2"
 manifest="$base/${P8A_R2_MANIFEST:-manifest_r2.json}"
 log="$base/logs/${P8A_R2_LOG:-client_r2.log}"
-# Optional: P8A_R2_PREFIX (screenshot name prefix, default R2), P8A_R2_ONLY (comma list of view name prefixes), P8A_R2_MANIFEST, P8A_R2_LOG
+# Optional: P8A_R2_PREFIX (screenshot name prefix, default R2), P8A_R2_ONLY (comma list of view name prefixes), P8A_R2_MANIFEST, P8A_R2_LOG, P8A_R2_WALK=true (short stall-detected walks)
 rm -f "$manifest"
 cd "$root"
 export LIBGL_ALWAYS_SOFTWARE=1
@@ -24,7 +24,7 @@ stamp=$(mktemp)
 watcher=$!
 set +e
 xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render -noreset" env \
-  JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st01.p8a.r2=true -Dmm.st01.p8a.r2.out=$manifest -Dmm.st01.p8a.r2.prefix=${P8A_R2_PREFIX:-R2} -Dmm.st01.p8a.r2.only=${P8A_R2_ONLY:-}" \
+  JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st01.p8a.r2=true -Dmm.st01.p8a.r2.out=$manifest -Dmm.st01.p8a.r2.prefix=${P8A_R2_PREFIX:-R2} -Dmm.st01.p8a.r2.only=${P8A_R2_ONLY:-} -Dmm.st01.p8a.r2.walk=${P8A_R2_WALK:-false}" \
   timeout "${CLIENT_TIMEOUT:-1500}" ./gradlew --no-daemon runClientGameTest --args="--width 1920 --height 1080" \
   > "$log" 2>&1
 rc=$?
