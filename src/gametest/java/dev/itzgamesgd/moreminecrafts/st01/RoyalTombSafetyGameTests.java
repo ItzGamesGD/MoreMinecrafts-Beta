@@ -308,8 +308,9 @@ public final class RoyalTombSafetyGameTests {
         ServerLevel level = ctx.getLevel();
         ServerPlayer pl = ctx.makeMockServerPlayerInLevel();
         var ds = level.damageSources();
+        Sched s = new Sched(ctx);
 
-        // Case 1: Flame Sword / FlameCleave direct hit (199 HP) + igniteForSeconds(3.0F) burn tick (onFire, 2 HP) -> INVALID_DEATH
+        // Case 1: Flame Sword / FlameCleave direct hit (199 HP) + igniteForSeconds(3.0F) burn tick (onFire, lethal) -> INVALID_DEATH
         BlockPos anchorBurn = ctx.absolutePos(new BlockPos(2, 1, 2));
         BlockPos spawnBurn = ctx.absolutePos(new BlockPos(4, 1, 4));
         for (int x = 0; x <= 8; x++) for (int z = 0; z <= 8; z++) ctx.setBlock(new BlockPos(x, 0, z), Blocks.SMOOTH_SANDSTONE);
@@ -319,32 +320,49 @@ public final class RoyalTombSafetyGameTests {
         dev.itzgamesgd.moreminecrafts.boss.TombGuardian g1 = level.getEntitiesOfClass(
                 dev.itzgamesgd.moreminecrafts.boss.TombGuardian.class, new AABB(anchorBurn).inflate(16.0D), Entity::isAlive).get(0);
         g1.skipAwakening();
-        g1.hurtServer(level, ds.playerAttack(pl), 199.0F);
+        boolean hit1 = g1.hurtServer(level, ds.playerAttack(pl), 199.0F);
+        ctx.assertTrue(hit1, "initial player hit dealt 199 damage");
+        ctx.assertTrue(g1.getHealth() == 1.0F, "guardian has 1 HP remaining");
         g1.igniteForSeconds(3.0F); // exact call from FlameCleaveAbility.use() line 52
-        g1.hurtServer(level, ds.onFire(), 5.0F); // lethal burn tick
-        ctx.assertTrue(g1.isDeadOrDying(), "guardian died from burn DOT tick");
-        ctx.assertTrue(!TombGuardianEncounters.data(level).isVictory(anchorBurn.asLong()),
-                "O-9 False Negative confirmed: 99.5% player damage + FlameCleave burn DOT final tick is rejected under Rule A");
-        ctx.assertTrue(TombGuardianEncounters.isRoyalChestSealed(level, anchorBurn), "chest stays sealed on burn DOT kill");
-        ctx.assertTrue(SecretEntranceRuntime.data(level).get(anchorBurn.asLong()).state() == EntranceState.SEALED, "entrance stays SEALED on burn DOT kill");
 
-        // Case 2: Lava deals 199 HP (99.5%) + player deals 1 HP final hit -> VALID VICTORY under Rule A
-        BlockPos anchorSteal = ctx.absolutePos(new BlockPos(6, 1, 2));
-        var r2 = TombGuardianEncounters.onRoyalChestInteraction(level, anchorSteal, spawnBurn, null);
-        ctx.assertTrue(r2 == TombGuardianEncounters.StartResult.STARTED, "last-hit audit encounter starts");
-        dev.itzgamesgd.moreminecrafts.boss.TombGuardian g2 = level.getEntitiesOfClass(
-                dev.itzgamesgd.moreminecrafts.boss.TombGuardian.class, new AABB(anchorSteal).inflate(16.0D),
-                e -> e.isAlive() && anchorSteal.equals(e.tombAnchor())).get(0);
-        g2.skipAwakening();
-        g2.hurtServer(level, ds.lava(), 199.0F);
-        g2.hurtServer(level, ds.playerAttack(pl), 5.0F);
-        ctx.assertTrue(g2.isDeadOrDying(), "guardian died from 1-HP player last hit");
-        ctx.assertTrue(TombGuardianEncounters.data(level).isVictory(anchorSteal.asLong()),
-                "O-9 Rule A behavior confirmed: 99.5% lava + 0.5% player last hit is accepted as valid victory when share/window are unapproved");
-        ctx.assertTrue(!TombGuardianEncounters.isRoyalChestSealed(level, anchorSteal), "chest unsealed");
-        level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new AABB(spawnBurn).inflate(8.0D)).forEach(Entity::discard);
-        pl.discard();
-        ctx.succeed();
+        // Wait 22 ticks for damage cooldown (invulnerability frames, 20 ticks) to expire
+        s.after(22, () -> {
+            if (!g1.isDeadOrDying()) {
+                g1.hurtServer(level, ds.onFire(), 5.0F); // lethal burn tick after invulnerability expired
+            }
+            ctx.assertTrue(g1.isDeadOrDying(), "guardian died from burn DOT tick");
+            ctx.assertTrue(g1.getLastDamageSource() != null && g1.getLastDamageSource().is(net.minecraft.world.damagesource.DamageTypes.ON_FIRE),
+                    "final damage source is onFire()");
+            ctx.assertTrue(!TombGuardianEncounters.data(level).isVictory(anchorBurn.asLong()),
+                    "O-9 False Negative confirmed: 99.5% player damage + FlameCleave burn DOT final tick is rejected under Rule A");
+            ctx.assertTrue(TombGuardianEncounters.isRoyalChestSealed(level, anchorBurn), "chest stays sealed on burn DOT kill");
+            ctx.assertTrue(SecretEntranceRuntime.data(level).get(anchorBurn.asLong()).state() == EntranceState.SEALED, "entrance stays SEALED on burn DOT kill");
+
+            // Case 2: Lava deals 199 HP (99.5%) + player deals 1 HP final hit -> VALID VICTORY under Rule A
+            BlockPos anchorSteal = ctx.absolutePos(new BlockPos(6, 1, 2));
+            var r2 = TombGuardianEncounters.onRoyalChestInteraction(level, anchorSteal, spawnBurn, null);
+            ctx.assertTrue(r2 == TombGuardianEncounters.StartResult.STARTED, "last-hit audit encounter starts");
+            dev.itzgamesgd.moreminecrafts.boss.TombGuardian g2 = level.getEntitiesOfClass(
+                    dev.itzgamesgd.moreminecrafts.boss.TombGuardian.class, new AABB(anchorSteal).inflate(16.0D),
+                    e -> e.isAlive() && anchorSteal.equals(e.tombAnchor())).get(0);
+            g2.skipAwakening();
+            boolean hitLava = g2.hurtServer(level, ds.lava(), 199.0F);
+            ctx.assertTrue(hitLava, "lava dealt 199 damage to g2");
+            ctx.assertTrue(g2.getHealth() == 1.0F, "g2 has 1 HP remaining");
+
+            // Wait 22 ticks for damage cooldown from lava to expire before player final hit
+            s.after(22, () -> {
+                boolean hitKill = g2.hurtServer(level, ds.playerAttack(pl), 5.0F);
+                ctx.assertTrue(hitKill, "player last hit landed after cooldown expired");
+                ctx.assertTrue(g2.isDeadOrDying(), "guardian died from 1-HP player last hit");
+                ctx.assertTrue(TombGuardianEncounters.data(level).isVictory(anchorSteal.asLong()),
+                        "O-9 Rule A behavior confirmed: 99.5% lava + 0.5% player last hit is accepted as valid victory when share/window are unapproved");
+                ctx.assertTrue(!TombGuardianEncounters.isRoyalChestSealed(level, anchorSteal), "chest unsealed");
+                level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new AABB(spawnBurn).inflate(8.0D)).forEach(Entity::discard);
+                pl.discard();
+                ctx.succeed();
+            });
+        });
     }
 
     // ------------------------------------------------------------------ real process restart on the real hall (three separate server processes)
