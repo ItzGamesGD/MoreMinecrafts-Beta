@@ -1,0 +1,116 @@
+name: ST-01 real Minecraft worldgen terrain probe
+
+# Executes the isolated St01DesertWorldgenProbe in a headless Minecraft 26.3 server (JDK 25)
+# to sample real Overworld desert elevation distributions, multi-criteria biome coverage,
+# and cut/fill volumes across reproducible seeds.
+on:
+  pull_request:
+    paths:
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/worldgenprobe/St01DesertWorldgenProbe.java'
+      - 'src/gametest/resources/fabric.mod.json'
+      - '.github/workflows/st01-worldgen-probe.yml'
+      - 'tools/st01-o14/**'
+      - 'build.gradle'
+  workflow_dispatch:
+    inputs:
+      radius:
+        description: 'Sampling area radius in blocks (default: 4096)'
+        required: false
+        default: '4096'
+      step:
+        description: 'Candidate grid step in blocks (default: 256)'
+        required: false
+        default: '256'
+      maxcandidates:
+        description: 'Maximum candidate count to evaluate (default: 500)'
+        required: false
+        default: '500'
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests and Probes
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Execute ST-01 Real Worldgen Measurement Pipeline
+        run: |
+          set -euo pipefail
+          RESULTS_DIR="$GITHUB_WORKSPACE/build/st01-worldgen-probe/results"
+          RUN_DIR="$GITHUB_WORKSPACE/build/st01-worldgen-probe/run"
+          mkdir -p "$RESULTS_DIR" "$RUN_DIR"
+
+          run_probe() {
+            local seed="$1"
+            local target_json="$2"
+            local log_file="$3"
+
+            echo "========================================================"
+            echo "Starting ST-01 Probe for Seed $seed -> $target_json"
+            echo "========================================================"
+
+            rm -rf "$RUN_DIR/world"* "$RUN_DIR"/*.log
+            printf 'eula=true\n' > "$RUN_DIR/eula.txt"
+            printf 'level-name=world\nlevel-seed=%s\nonline-mode=false\nserver-port=%s\nview-distance=2\nsimulation-distance=2\nspawn-monsters=false\nspawn-animals=false\nmax-tick-time=-1\nsync-chunk-writes=false\nenable-status=false\n' "$seed" "$((20000 + RANDOM % 20000))" > "$RUN_DIR/server.properties"
+
+            JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st01.probe.out=$RESULTS_DIR/$target_json -Dmm.st01.radius=${{ github.event.inputs.radius || '4096' }} -Dmm.st01.step=${{ github.event.inputs.step || '256' }} -Dmm.st01.maxcandidates=${{ github.event.inputs.maxcandidates || '500' }}" \
+              ./gradlew runSt01WorldgenProbe --no-daemon 2>&1 | tee "$log_file" || true
+
+            if [ ! -s "$RESULTS_DIR/$target_json" ]; then
+              FOUND=$(find . -name "$target_json" 2>/dev/null | head -n 1)
+              if [ -n "$FOUND" ] && [ -s "$FOUND" ]; then
+                echo "Recovered $target_json from $FOUND"
+                cp "$FOUND" "$RESULTS_DIR/$target_json"
+              fi
+            fi
+
+            if [ ! -s "$RESULTS_DIR/$target_json" ]; then
+              echo "ERROR: Failed to produce $RESULTS_DIR/$target_json"
+              tail -n 60 "$log_file"
+              exit 1
+            fi
+            echo "SUCCESS: $target_json generated."
+          }
+
+          # 1. Single-Seed Smoke Test (Seed 1001)
+          echo ">>> Stage 1: Smoke Test (Seed 1001)"
+          run_probe 1001 seed-1001.json st01-probe-seed-1001.log
+          python3 tools/st01-o14/verify_and_aggregate_probe.py verify "$RESULTS_DIR/seed-1001.json"
+
+          # 2. Deterministic Replay (Seed 1001)
+          echo ">>> Stage 2: Deterministic Replay (Seed 1001)"
+          run_probe 1001 replay-1001.json st01-probe-replay-1001.log
+          python3 tools/st01-o14/verify_and_aggregate_probe.py replay "$RESULTS_DIR/seed-1001.json" "$RESULTS_DIR/replay-1001.json"
+
+          # 3. Bounded 5-Seed Measurement (Seeds 1002..1005)
+          echo ">>> Stage 3: Multi-Seed Measurement (Seeds 1002..1005)"
+          for s in 1002 1003 1004 1005; do
+            run_probe "$s" "seed-$s.json" "st01-probe-seed-$s.log"
+            python3 tools/st01-o14/verify_and_aggregate_probe.py verify "$RESULTS_DIR/seed-$s.json"
+          done
+
+          # 4. Multi-Seed Aggregation
+          echo ">>> Stage 4: Multi-Seed Aggregation"
+          python3 tools/st01-o14/verify_and_aggregate_probe.py aggregate "$RESULTS_DIR/st01_real_measurements.json" \
+            "$RESULTS_DIR/seed-1001.json" \
+            "$RESULTS_DIR/seed-1002.json" \
+            "$RESULTS_DIR/seed-1003.json" \
+            "$RESULTS_DIR/seed-1004.json" \
+            "$RESULTS_DIR/seed-1005.json"
+
+          echo ">>> Complete Pipeline Validation Succeeded!"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-worldgen-probe-evidence
+          path: |
+            build/st01-worldgen-probe/results/*.json
+            st01-probe-*.log

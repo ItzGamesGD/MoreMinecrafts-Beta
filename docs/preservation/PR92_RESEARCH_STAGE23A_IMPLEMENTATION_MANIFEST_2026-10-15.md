@@ -1,0 +1,59 @@
+# Historical preservation metadata
+
+- Original PR: #92
+- Original HEAD SHA: `f632f4f521c782c9614a3bbb71f1ab5579a3358d`
+- Original file path: `docs/RESEARCH_STAGE23A_IMPLEMENTATION_MANIFEST_2026-10-15.md`
+- Original blob SHA: `c0592832cc5bef2c0c458038663c0893c25a4a1d`
+- Preservation reason: Unique branch-only research implementation and reconciliation evidence needed before stacked PR closure.
+- Relation to current implementation: Checkpoint implements the six selected effects through evolved research, fishing, and mixin paths; reconciliation with PR #93 supersedes duplicate handlers.
+- Status: Historical record only. This file is not authority for new implementation; follow `docs/CONTENT_AUTHORITY_INDEX.md` and its current routes.
+
+---
+
+# Stage 23-A Research Implementation Manifest
+
+Date: 2026-10-15  
+Implementation branch: `codex/stage23a-research-implementation-20261015`  
+Base: PR #89 head `53c2374e84356ff3b5ccaa84df26897dd7ce4b5b`  
+Scope: publish this manifest before gameplay changes. Stage 22 PRs #88/#89 and the Stage 23-B design branch are outside this branch's write scope.
+
+## Basis and authority
+
+The source for implementation evidence is `docs/RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md`. That audit reports 87 baseline nodes: 70 V3 nodes, two root nodes included in its roster, and 15 other V4 nodes. Its LOW/MEDIUM/HIGH remaining-work ratings are not the architectural classes below.
+
+Current gameplay authority is `docs/RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`, including the approved V3 effects and per-level scaling. The Stage 22 graph, paid-root gate, migration, and save rules are in `docs/RESEARCH_STAGE22_SEVEN_ROOT_COMPLETION_AUTHORITY_2026-10-15.md`. Selected nodes already have catalog entries, prices, level limits, prerequisites, and purchase handling on the base branch; this batch adds runtime effects and focused verification without changing those records.
+
+## Architectural classification of the audited roster
+
+M1 means an existing event/callback/mixin/handler extension without substantial new persistent state. M2 means a focused item, recipe, equipment modifier, or interaction without a large persistent subsystem. H1 means a stateful device, inventory, processing machine, or substantial persistent device state. H2 means advanced combat, transport, custom UI, or a multi-component system. BLOCKED means explicitly deferred or missing an essential approved gameplay decision.
+
+| Class | Exact audited IDs |
+|---|---|
+| M1 | `combat_root`, `ecology_root`; `v3.research.01`, `.02`, `.03`, `.07`, `.14`, `.15`, `.17`, `.18`, `.19`, `.23`, `.27`, `.30`, `.31`, `.32`, `.36`, `.37`, `.38`, `.39`, `.40`, `.41`, `.42`, `.43`, `.44`, `.45`, `.46`, `.47`, `.50`, `.52`, `.54`, `.55`, `.59`, `.60`, `.62`, `.63`, `.64`, `.66`, `.67`; `climbing`, `ballistic_control`, `piglin_barter` |
+| M2 | `v3.research.04`, `.09`, `.10`; `throwable_pickaxe`, `automatic_tool_switch` |
+| H1 | `v3.research.05`, `.06`, `.11`, `.12`, `.16`, `.24`, `.25`, `.26`, `.69`; `hopper_filter` |
+| H2 | `v3.research.08`, `.13`, `.20`, `.21`, `.22`, `.28`, `.29`, `.33`, `.34`, `.48`, `.49`, `.51`, `.53`, `.56`, `.57`, `.61`, `.68`, `.70`; `nearby_chest_ingredients`, `shield_counter`, `bow_charge_mobility`, `falling_axe_smash`, `weapon_swap_handling`, `mob_aggro_redirection`, `mob_capture`, `wall_jump`, `fall_roll` |
+| BLOCKED | `v3.research.35` (Tactical Shooting is explicitly deferred), `v3.research.58` (cross-dimensional delivery requires the separately approved durable transactional system), `v3.research.65` (eligible catalyst set/meaning is not fully specified) |
+
+Count check: 42 M1 + 5 M2 + 10 H1 + 27 H2 + 3 BLOCKED = 87 audited nodes. Existing partial handlers do not make a node a new Stage 23-A selection. The seven reserved Stage 23-B IDs are excluded from selection: `shield_counter`, `ballistic_control`, `bow_charge_mobility`, `falling_axe_smash`, `weapon_swap_handling`, `mob_aggro_redirection`, and `hopper_filter`.
+
+## Selected implementation ownership
+
+Six M1 nodes meet the scope and have complete approved rules with focused server-side implementation paths. Their purchase levels remain authoritative; handlers query paid level at the event and do not apply or persist a one-time bonus. Gameplay implementation is authorized only for these six IDs.
+
+| Research ID | Approved effect | Hook and intended files | Authority | Focused verification |
+|---|---|---|---|---|
+| `v3.research.02` | Lumbering, levels 1–5: independent extra-log roll at 10/20/20/30/30%; maximum extra logs 1/1/2/2/3, uniformly selected from 1 through the level maximum. Extra drops only; no additional block breaks or duplicate chain logging. | Existing server block-drop path in `mixin/BlockMixin.java`; shared lookup in `progression/ResearchRewards.java`; rules in `progression/Research23AEffectRules.java`; transient player attribution in `progression/ResearchMiningContext.java`. | `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`, Resource Studies, Lumbering. | `Research23AEffectRulesTest`: levels 0–5, chance boundaries and extra count caps, and paid gating. Manual: verify only log drops, no extra blocks/recursive logging, independent players, and Auto Smelt composition. |
+| `v3.research.03` | Mineral Conservation, levels 1–5: 5% per level (maximum 25%) independent prevention check for mining-tool durability consumption; it must not double-consume damage. | `mixin/ServerPlayerGameModeMixin.java` brackets the server break with `progression/ResearchMiningContext.java`; `mixin/ItemStackMixin.java` applies the paid-level check; shared lookup/rules in `ResearchRewards.java` and `Research23AEffectRules.java`. The transient context is cleared by try-with-resources and is not saved. | `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`, Resource Studies, Mineral Conservation. | `Research23AEffectRulesTest`: 0–25% chance boundaries and paid gating. Manual: mining-only scope, Unbreaking independence, no combat/anvil/non-mining change, and cleanup on failed breaks. |
+| `v3.research.18` | Beekeeping, levels 1–3: add one honeycomb on a 20/40/60% chance at honeycomb harvest; one harvest activation only. | `mixin/ResearchBeehiveHarvestMixin.java` checks the server-side `BeehiveBlock.useItemOn` result after a full-hive shears use; shared lookup/rules in `ResearchRewards.java` and `Research23AEffectRules.java`; registered in `moreminecrafts.mixins.json`. | `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`, Living Technologies, Beekeeping. | `Research23AEffectRulesTest`: levels 0–3 and chance boundaries/paid gating. Manual: only successful honeycomb harvests, at most one bonus comb per activation, blocked harvests consume no extra item. |
+| `v3.research.55` | Survival & Expedition, levels 1–3: reduce sprinting and swimming hunger use by 8/16/24%; leave all other exhaustion sources unchanged. | Server mixin `mixin/ResearchMovementExhaustionMixin.java` scales the mapped swim and sprint calls in `ServerPlayer.checkMovementStatistics`; shared lookup/rules in `ResearchRewards.java` and `Research23AEffectRules.java`; registered in `moreminecrafts.mixins.json`. | `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`, World research effects, Survival & Expedition. | `Research23AEffectRulesTest`: levels 0–3, exact multipliers and paid gating. Mapped-source probe verifies the selected swim/sprint call sites. Manual: verify other exhaustion sources remain unchanged. |
+| `v3.research.19` | Fisheries Study, levels 1–5: interpolate each existing custom-fishing grade distribution from the approved baseline to the level-5 table; never change species, length, or weight. | Existing server-authoritative `fishing/FishingLogic.java` grade-roll path, called through `fishing/FishingChallenges.java`; paid-level lookup from `ResearchRewards.java`, rules in `Research23AEffectRules.java`. No client protocol or saved state changes. | `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`, Living Technologies, Fisheries Study. | `Research23AEffectRulesTest`: all four crankbait tiers at levels 0–5, weights sum to 100, endpoints, and unchanged species/length/weight under equal RNG seeds. Manual fishing validation remains. |
+| `v3.research.67` | XP Control, levels 1–2: instantly collect each XP orb within 4/6 blocks of a player who purchased the corresponding level. Preserve actual XP and vanilla pickup effects; server-authoritative, at most one claimant per orb, no persistence, and vanilla behavior outside the radius. | Existing `mixin/ResearchExperienceOrbMixin.java` checks each orb on server `tick`, finds eligible players, and calls mapped vanilla `ExperienceOrb.playerTouch` once. Paid lookup in `ResearchRewards.java`; radius rules in `Research23AEffectRules.java`. No persistent state or client protocol. | `RESEARCH_KNOWLEDGE_TIER_DESIGN_2026-10-08.md`, “Research 67 — Instant XP Orb Collection Clarification — 2026-10-15”; V3 XP Control entry. | `Research23AEffectRulesTest`: purchase/radius boundaries. `Research23AXpCollectionGameTests`: exact XP, competing players, unpurchased player, outside-radius vanilla pickup. Manual Mending/XP-effect validation remains. |
+
+## File ownership and shared infrastructure
+
+The selected six are `v3.research.02`, `.03`, `.18`, `.19`, `.55`, and `.67`. Actual shared files are `progression/ResearchRewards.java`, `progression/Research23AEffectRules.java`, and transient `progression/ResearchMiningContext.java`. Runtime adapters are `BlockMixin.java`, `ServerPlayerGameModeMixin.java`, `ItemStackMixin.java`, `fishing/FishingLogic.java`, `fishing/FishingChallenges.java`, `ResearchExperienceOrbMixin.java`, `ResearchBeehiveHarvestMixin.java`, and `ResearchMovementExhaustionMixin.java`, with the last two registered in `src/main/resources/moreminecrafts.mixins.json`. Focused tests are `src/test/java/dev/itzgamesgd/moreminecrafts/progression/Research23AEffectRulesTest.java` and `src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AXpCollectionGameTests.java`.
+
+No change is authorized to V3/V4 IDs, prices, prerequisites, catalog topology, progression attachment schema, root migration, or any unrelated authority document. No Stage 23-B research ID is selected. Shared mixin files must retain Stage 22 behavior and every existing purchase gate; all temporary context must be cleared on cancellation and exceptions. Stage 23-A owns its additions in shared source files; it does not claim ownership of Stage 23-B design or implementation files. Any discovered overlapping Stage 23-B file requirement is a stop-and-report condition before editing that file.
+
+This manifest was updated after the user approved exact XP Control semantics on 2026-10-15. The authority and manifest update must be published before any runtime or test-source changes.

@@ -1,0 +1,344 @@
+{
+  "mode": "e-run",
+  "seed": 7002,
+  "y_band": "-48..0",
+  "generation_order": "fwd",
+  "universe_blocks_minX_minZ_maxX_maxZ_exclusive": [
+    -2048,
+    -2048,
+    2048,
+    2048
+  ],
+  "regions": "16x16 (256 ownership regions, windows 512x512)",
+  "band": "-64..16",
+  "snapshot_ms": 2744151,
+  "snapshot_digest": "93c2512574a9388e",
+  "independent_window_matches_cut": true,
+  "params": {
+    "A_10x10x6": {
+      "extract_cpu_ms": 202152,
+      "core_voxels": 153166452,
+      "resolve_cpu_ms": 732,
+      "resolution_digest": "6fb47a3e4918e9156d84033d499a955d821d9379548c7c732635c2d210fc8960",
+      "owned_chambers": 1774,
+      "unresolved_groups": 637,
+      "identity_conflicts": 0,
+      "partial_views": 3715,
+      "duplicate_complete_observations": 3478,
+      "measures": {
+        "BOX32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 664,
+          "counters": {
+            "outside_universe": 213,
+            "owned_chambers": 1561,
+            "not_qualifying_no_width_height_fit": 1554,
+            "not_qualifying_reference_y_out_of_band": 2,
+            "qualifying_owned": 5,
+            "rejected_structure_body": 2,
+            "blocked_by_unresolved": 3
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.2911737943585077,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 1,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "1d61dde83af9e01f3ce932d7633d251e451177cf412bdc32ba94a4ead15bf368",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "5a49e15b4cd3b081 owner\u003d-2,6 center\u003d-421,1605 floorY\u003d-33 path\u003d1 prio\u003d69f62a2706e4c973 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "9d18cf724d496508 owner\u003d-2,7 center\u003d-341,1965 floorY\u003d-26 path\u003d1 prio\u003df34dae1c98027e22 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "ccccb337108c797d owner\u003d-6,2 center\u003d-1398,766 floorY\u003d-28 path\u003d1 prio\u003d4d1e79c62b43d8ab roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "dacd04468ab1a662 owner\u003d-1,-7 center\u003d-47,-1677 floorY\u003d-40 path\u003d1 prio\u003de8619aa8f82e8ed3 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "e1bcc3aaea78a986 owner\u003d6,7 center\u003d1722,1879 floorY\u003d-20 path\u003d1 prio\u003d181547ca2bba690a roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD"
+          ],
+          "persistence": {
+            "records": 1561,
+            "finalized": 1558,
+            "reloaded_ok": true
+          }
+        },
+        "DISK32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 936,
+          "counters": {
+            "outside_universe": 213,
+            "owned_chambers": 1561,
+            "not_qualifying_no_width_height_fit": 1545,
+            "not_qualifying_reference_y_out_of_band": 5,
+            "qualifying_owned": 11,
+            "rejected_structure_body": 6,
+            "accepted_denominator": 1,
+            "blocked_by_unresolved": 4,
+            "roll_won": 1,
+            "preflight_failed": 1
+          },
+          "denominator": 1,
+          "deferred_fraction": 0.2916287534121929,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 2,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "96d738198cc3cdb18d7a774ef4be105bc9f7807d4a2866ed8297539558886c53",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "1d7cfceb2155e97b owner\u003d-1,3 center\u003d42,1024 floorY\u003d-38 path\u003d1 prio\u003d8f29216e85d95885 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "5a49e15b4cd3b081 owner\u003d-2,6 center\u003d-423,1599 floorY\u003d-33 path\u003d1 prio\u003d69f62a2706e4c973 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "6a1719f20619d964 owner\u003d1,-5 center\u003d499,-1198 floorY\u003d-35 path\u003d1 prio\u003d542001a3909ebf71 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "88a829a380a08c5e owner\u003d-4,-2 center\u003d-944,-270 floorY\u003d-31 path\u003d1 prio\u003df7545ac3317343a7 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "9d18cf724d496508 owner\u003d-2,7 center\u003d-345,1961 floorY\u003d-27 path\u003d1 prio\u003df34dae1c98027e22 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "c3e4eccf9e9fea81 owner\u003d7,-7 center\u003d2030,-1786 floorY\u003d-40 path\u003d1 prio\u003d74e0d351abe52ce4 roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "ccccb337108c797d owner\u003d-6,2 center\u003d-1403,765 floorY\u003d-29 path\u003d1 prio\u003d4d1e79c62b43d8ab roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "dacd04468ab1a662 owner\u003d-1,-7 center\u003d-53,-1670 floorY\u003d-40 path\u003d1 prio\u003de8619aa8f82e8ed3 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "e1bcc3aaea78a986 owner\u003d6,7 center\u003d1718,1874 floorY\u003d-20 path\u003d1 prio\u003d181547ca2bba690a roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "f10fec43fc776200 owner\u003d-8,-4 center\u003d-1799,-855 floorY\u003d-33 path\u003d1 prio\u003d314cebfc80345e5 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "f4a8f8802279b4e7 owner\u003d6,4 center\u003d1654,1136 floorY\u003d-40 path\u003d1 prio\u003d77977872261bec7f roll\u003dWIN -\u003e ROLL_WON_PREFLIGHT_FAILED FINAL_TERRAIN_NOT_OPEN blocked\u003d7/14616"
+          ],
+          "persistence": {
+            "records": 1561,
+            "finalized": 1557,
+            "reloaded_ok": true
+          }
+        }
+      }
+    },
+    "B_16x16x8": {
+      "extract_cpu_ms": 191527,
+      "core_voxels": 84266917,
+      "resolve_cpu_ms": 163,
+      "resolution_digest": "8767e0152a44d37368e48484123de0e35dda4b9adf38f257fb7ad43af82f7261",
+      "owned_chambers": 588,
+      "unresolved_groups": 266,
+      "identity_conflicts": 0,
+      "partial_views": 1477,
+      "duplicate_complete_observations": 996,
+      "measures": {
+        "BOX32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 507,
+          "counters": {
+            "outside_universe": 69,
+            "owned_chambers": 519,
+            "not_qualifying_no_width_height_fit": 504,
+            "qualifying_owned": 10,
+            "not_qualifying_reference_y_out_of_band": 5,
+            "rejected_structure_body": 3,
+            "blocked_by_unresolved": 7
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.34777070063694265,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 4,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "e3d4a882a3f0ec9412db7f6ebbdbdba246f8170030dc48ac777b8aca53c18188",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "898bb7c2b6d7dbd owner\u003d-8,3 center\u003d-1874,944 floorY\u003d-29 path\u003d1 prio\u003dbfbc5ccb5baf8f81 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "15011dea81577522 owner\u003d-6,2 center\u003d-1398,766 floorY\u003d-28 path\u003d1 prio\u003db63364f16db3b3eb roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "354c30469c4ed179 owner\u003d-2,6 center\u003d-421,1605 floorY\u003d-33 path\u003d1 prio\u003de3a3bef98bc91258 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "42cb498a16b740cb owner\u003d-1,-7 center\u003d-47,-1677 floorY\u003d-40 path\u003d1 prio\u003d5307d89f69770452 roll\u003dFAIL -\u003e REJECTED_STRUCTURE ",
+            "7d6d4802211b753f owner\u003d6,7 center\u003d1722,1879 floorY\u003d-20 path\u003d1 prio\u003db614b4af7c24b081 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "8c524496c4381f41 owner\u003d-2,7 center\u003d-341,1965 floorY\u003d-26 path\u003d1 prio\u003dd3e6b783c0c8c047 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "b41ad7c3f69bb1ea owner\u003d-8,3 center\u003d-1960,959 floorY\u003d-26 path\u003d1 prio\u003dcb56224cfd8c119f roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "d2d39506fb16ed20 owner\u003d-5,-4 center\u003d-1154,-932 floorY\u003d-40 path\u003d1 prio\u003da0669cfe62d8ee96 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "e577f23e882df92f owner\u003d0,-6 center\u003d226,-1434 floorY\u003d-31 path\u003d1 prio\u003ded09144dfa3aa72 roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "f51a6d84ec40cab0 owner\u003d-6,4 center\u003d-1439,1019 floorY\u003d-33 path\u003d1 prio\u003dc769287c781350c3 roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY"
+          ],
+          "persistence": {
+            "records": 519,
+            "finalized": 512,
+            "reloaded_ok": true
+          }
+        },
+        "DISK32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 1187,
+          "counters": {
+            "outside_universe": 69,
+            "owned_chambers": 519,
+            "not_qualifying_no_width_height_fit": 487,
+            "qualifying_owned": 23,
+            "not_qualifying_reference_y_out_of_band": 9,
+            "rejected_structure_body": 13,
+            "blocked_by_unresolved": 9,
+            "accepted_denominator": 1,
+            "roll_won": 1,
+            "preflight_failed": 1
+          },
+          "denominator": 1,
+          "deferred_fraction": 0.3503184713375796,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 5,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "53bdcfc566023ca1913643b369083fcdd64372f514266bf4b348d33aa151a6f4",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "898bb7c2b6d7dbd owner\u003d-8,3 center\u003d-1881,948 floorY\u003d-23 path\u003d1 prio\u003dbfbc5ccb5baf8f81 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "fca19135e112bff owner\u003d0,-3 center\u003d280,-731 floorY\u003d-27 path\u003d1 prio\u003d473854a9b3a22ebb roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "fda55f87832fd63 owner\u003d-3,-5 center\u003d-603,-1033 floorY\u003d-40 path\u003d1 prio\u003dc9b5e6f7dbdfcd6f roll\u003dFAIL -\u003e REJECTED_STRUCTURE ",
+            "12171f1cce1953a5 owner\u003d7,-8 center\u003d2030,-1786 floorY\u003d-40 path\u003d1 prio\u003d2744b9ca6bd297be roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "15011dea81577522 owner\u003d-6,2 center\u003d-1403,765 floorY\u003d-29 path\u003d1 prio\u003db63364f16db3b3eb roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "354c30469c4ed179 owner\u003d-2,6 center\u003d-423,1599 floorY\u003d-33 path\u003d1 prio\u003de3a3bef98bc91258 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "3837895fb58e6bf1 owner\u003d-4,-2 center\u003d-944,-270 floorY\u003d-31 path\u003d1 prio\u003df634e35b53aa32d6 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "42cb498a16b740cb owner\u003d-1,-7 center\u003d-53,-1670 floorY\u003d-40 path\u003d1 prio\u003d5307d89f69770452 roll\u003dFAIL -\u003e REJECTED_STRUCTURE ",
+            "5e8e03823da4b094 owner\u003d7,0 center\u003d1985,183 floorY\u003d-36 path\u003d1 prio\u003dd7f1995f8782dd82 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "6bc4e046c4cc2032 owner\u003d3,6 center\u003d1015,1684 floorY\u003d-27 path\u003d1 prio\u003ddd2d1bffb4545615 roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "6d5468ff4ec43178 owner\u003d1,-5 center\u003d499,-1198 floorY\u003d-35 path\u003d1 prio\u003d9f1ef5bfe8cce794 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "6e5ef7c44ef09002 owner\u003d-7,-6 center\u003d-1628,-1421 floorY\u003d-26 path\u003d1 prio\u003d8c98ba9278ad07b1 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "7d6d4802211b753f owner\u003d6,7 center\u003d1718,1874 floorY\u003d-20 path\u003d1 prio\u003db614b4af7c24b081 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "7dd38fb6903fa1ec owner\u003d-1,3 center\u003d42,1024 floorY\u003d-38 path\u003d1 prio\u003d80f9aae299d3eff6 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "8224788d407ea7db owner\u003d6,4 center\u003d1654,1136 floorY\u003d-40 path\u003d1 prio\u003d98f16946c99ca6d8 roll\u003dWIN -\u003e ROLL_WON_PREFLIGHT_FAILED FINAL_TERRAIN_NOT_OPEN blocked\u003d7/14616",
+            "8c524496c4381f41 owner\u003d-2,7 center\u003d-345,1961 floorY\u003d-27 path\u003d1 prio\u003dd3e6b783c0c8c047 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "926829bb7e3de0aa owner\u003d-8,-4 center\u003d-1799,-855 floorY\u003d-33 path\u003d1 prio\u003d89e47d4c9a6cf2cf roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "9d031e8f1538f89d owner\u003d1,5 center\u003d304,1312 floorY\u003d-31 path\u003d1 prio\u003db7e7258ae3d0c2d5 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "b41ad7c3f69bb1ea owner\u003d-8,3 center\u003d-1968,957 floorY\u003d-25 path\u003d1 prio\u003dcb56224cfd8c119f roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "b9a45fb226716c58 owner\u003d4,4 center\u003d1214,1185 floorY\u003d-26 path\u003d1 prio\u003dd001cb9f2f54618d roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "d2d39506fb16ed20 owner\u003d-5,-4 center\u003d-1159,-934 floorY\u003d-40 path\u003d1 prio\u003da0669cfe62d8ee96 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "e577f23e882df92f owner\u003d0,-6 center\u003d224,-1435 floorY\u003d-30 path\u003d1 prio\u003ded09144dfa3aa72 roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "f51a6d84ec40cab0 owner\u003d-6,4 center\u003d-1441,1014 floorY\u003d-35 path\u003d1 prio\u003dc769287c781350c3 roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY"
+          ],
+          "persistence": {
+            "records": 519,
+            "finalized": 510,
+            "reloaded_ok": true
+          }
+        }
+      }
+    },
+    "C_24x24x12": {
+      "extract_cpu_ms": 205781,
+      "core_voxels": 35301044,
+      "resolve_cpu_ms": 26,
+      "resolution_digest": "63d2ef309f6a38bbd66cab044925d2e2c54b858c2d8171bf733025228eb76f89",
+      "owned_chambers": 110,
+      "unresolved_groups": 92,
+      "identity_conflicts": 0,
+      "partial_views": 451,
+      "duplicate_complete_observations": 160,
+      "measures": {
+        "BOX32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 572,
+          "counters": {
+            "owned_chambers": 99,
+            "not_qualifying_no_width_height_fit": 89,
+            "qualifying_owned": 8,
+            "outside_universe": 11,
+            "not_qualifying_reference_y_out_of_band": 2,
+            "rejected_structure_body": 2,
+            "blocked_by_unresolved": 6
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.5130890052356021,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 3,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "2646dfe2fd8bf4b3ed6f6ebaed7eea73c215160291691055e4a358f434e785d4",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "21036ab2f08653c2 owner\u003d-6,3 center\u003d-1439,1019 floorY\u003d-33 path\u003d1 prio\u003de88b03882c9c6b49 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "5c19f259172b79fb owner\u003d-8,3 center\u003d-1874,944 floorY\u003d-29 path\u003d1 prio\u003d5e71a07c4e76a47f roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "5f407df4f4a70ba5 owner\u003d1,1 center\u003d390,383 floorY\u003d-19 path\u003d1 prio\u003dc6d49bf082333fdc roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "89f42e64c82d58e3 owner\u003d-6,2 center\u003d-1398,766 floorY\u003d-28 path\u003d1 prio\u003dda77123d53c9efd4 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "a25e1bd4f4b933ca owner\u003d0,-6 center\u003d226,-1434 floorY\u003d-31 path\u003d1 prio\u003dbd6a51cdb42804a2 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "a8695846bcefb83c owner\u003d-2,6 center\u003d-421,1605 floorY\u003d-33 path\u003d1 prio\u003d25cadf1c58cc9093 roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "ed97b9d8735989d7 owner\u003d6,7 center\u003d1722,1879 floorY\u003d-20 path\u003d1 prio\u003dee0a985d7b6b2d73 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "f41172d2a105ca7e owner\u003d-2,7 center\u003d-341,1965 floorY\u003d-26 path\u003d1 prio\u003d3b529a6da25d4a53 roll\u003dWIN -\u003e REJECTED_STRUCTURE "
+          ],
+          "persistence": {
+            "records": 99,
+            "finalized": 93,
+            "reloaded_ok": true
+          }
+        },
+        "DISK32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 832,
+          "counters": {
+            "owned_chambers": 99,
+            "not_qualifying_no_width_height_fit": 70,
+            "qualifying_owned": 24,
+            "outside_universe": 11,
+            "not_qualifying_reference_y_out_of_band": 5,
+            "rejected_structure_body": 15,
+            "blocked_by_unresolved": 7,
+            "accepted_denominator": 1,
+            "rejected_spacing": 1,
+            "roll_won": 1,
+            "preflight_failed": 1
+          },
+          "denominator": 1,
+          "deferred_fraction": 0.518324607329843,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 4,
+          "corridor_envelope_arena_overlap_pairs": 1,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "94583a6ebc2ee47f59f59b4fcef8dad09e60cde6c0229fbae3450a1a8a7a5bd6",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "1b2c7b314be7dfad owner\u003d-6,1 center\u003d-1477,333 floorY\u003d-23 path\u003d1 prio\u003d2b301f90cbf3fb4e roll\u003dFAIL -\u003e REJECTED_STRUCTURE ",
+            "21036ab2f08653c2 owner\u003d-6,3 center\u003d-1441,1014 floorY\u003d-35 path\u003d1 prio\u003de88b03882c9c6b49 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "26590f0d3888fbbb owner\u003d3,6 center\u003d1015,1684 floorY\u003d-27 path\u003d1 prio\u003d40c1896dbc4b9153 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "29075cc61eaae801 owner\u003d-8,-4 center\u003d-1799,-855 floorY\u003d-33 path\u003d1 prio\u003debd2ee10b9ed80e2 roll\u003dFAIL -\u003e REJECTED_STRUCTURE ",
+            "35e9f55d2c26fba8 owner\u003d5,6 center\u003d1349,1584 floorY\u003d-32 path\u003d1 prio\u003d61e7bf6bf5258ece roll\u003dFAIL -\u003e REJECTED_STRUCTURE ",
+            "40028463025ccaf9 owner\u003d-4,-2 center\u003d-944,-270 floorY\u003d-31 path\u003d1 prio\u003daaa2ebe24c71dec7 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "5488914b570a517d owner\u003d1,-5 center\u003d499,-1198 floorY\u003d-35 path\u003d1 prio\u003d325cae603d14b2f1 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "584deb813ff19c54 owner\u003d1,5 center\u003d304,1312 floorY\u003d-31 path\u003d1 prio\u003d2aab120a6e9cb39b roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "5acb43c7ac1a7cc4 owner\u003d0,3 center\u003d42,1024 floorY\u003d-38 path\u003d1 prio\u003dd562090659696c49 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "5c19f259172b79fb owner\u003d-8,3 center\u003d-1881,948 floorY\u003d-23 path\u003d1 prio\u003d5e71a07c4e76a47f roll\u003dFAIL -\u003e REJECTED_STRUCTURE ",
+            "5f407df4f4a70ba5 owner\u003d1,1 center\u003d388,378 floorY\u003d-20 path\u003d1 prio\u003dc6d49bf082333fdc roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "708a3288a954ec65 owner\u003d-2,5 center\u003d-198,1414 floorY\u003d-18 path\u003d1 prio\u003d4c90a982079c526e roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "712098a3c2b9ef0d owner\u003d7,0 center\u003d1985,183 floorY\u003d-36 path\u003d1 prio\u003d5f9976d9e782ed06 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "71d9815cd283b42e owner\u003d-7,-6 center\u003d-1628,-1421 floorY\u003d-26 path\u003d1 prio\u003dd21f9b341ab24bee roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "809b9bf8237b315e owner\u003d6,4 center\u003d1654,1136 floorY\u003d-40 path\u003d1 prio\u003d861510fbd42a0dd8 roll\u003dWIN -\u003e ROLL_WON_PREFLIGHT_FAILED FINAL_TERRAIN_NOT_OPEN blocked\u003d7/14616",
+            "869552aa098e3166 owner\u003d1,-2 center\u003d286,-321 floorY\u003d-24 path\u003d1 prio\u003dd85601cca7f882f3 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "89f42e64c82d58e3 owner\u003d-6,2 center\u003d-1403,765 floorY\u003d-29 path\u003d1 prio\u003dda77123d53c9efd4 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "9e31199eb7da9b1e owner\u003d4,4 center\u003d1214,1185 floorY\u003d-26 path\u003d1 prio\u003dac7dc1741765cf47 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "a25e1bd4f4b933ca owner\u003d0,-6 center\u003d224,-1435 floorY\u003d-30 path\u003d1 prio\u003dbd6a51cdb42804a2 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "a8695846bcefb83c owner\u003d-2,6 center\u003d-423,1599 floorY\u003d-33 path\u003d1 prio\u003d25cadf1c58cc9093 roll\u003dFAIL -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "bd948c4d5d0bb8ef owner\u003d1,-3 center\u003d280,-731 floorY\u003d-27 path\u003d1 prio\u003d6f9722c80b26edcc roll\u003dFAIL -\u003e REJECTED_STRUCTURE ",
+            "e5692d12c2eedfc4 owner\u003d6,4 center\u003d1683,1082 floorY\u003d-40 path\u003d1 prio\u003d2fdad62ee4779c72 roll\u003dFAIL -\u003e REJECTED_SPACING ",
+            "ed97b9d8735989d7 owner\u003d6,7 center\u003d1718,1874 floorY\u003d-20 path\u003d1 prio\u003dee0a985d7b6b2d73 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD",
+            "f41172d2a105ca7e owner\u003d-2,7 center\u003d-345,1961 floorY\u003d-27 path\u003d1 prio\u003d3b529a6da25d4a53 roll\u003dWIN -\u003e REJECTED_STRUCTURE "
+          ],
+          "persistence": {
+            "records": 99,
+            "finalized": 92,
+            "reloaded_ok": true
+          }
+        }
+      }
+    }
+  },
+  "structure_starts_chunks_loaded": 21606,
+  "structure_hits_by_type": {
+    "minecraft:abandoned_camp_birch_forest": 1,
+    "minecraft:abandoned_camp_forest": 1,
+    "minecraft:abandoned_camp_meadow": 1,
+    "minecraft:abandoned_camp_swamp": 1,
+    "minecraft:abandoned_camp_taiga": 1,
+    "minecraft:buried_treasure": 7,
+    "minecraft:igloo": 1,
+    "minecraft:mineshaft": 89,
+    "minecraft:monument": 2,
+    "minecraft:ocean_ruin_cold": 6,
+    "minecraft:ocean_ruin_warm": 1,
+    "minecraft:ruined_portal": 9,
+    "minecraft:ruined_portal_mountain": 1,
+    "minecraft:ruined_portal_ocean": 3,
+    "minecraft:shipwreck": 7,
+    "minecraft:swamp_hut": 1,
+    "minecraft:trail_ruins": 2,
+    "minecraft:trial_chambers": 18,
+    "minecraft:village_plains": 4,
+    "minecraft:village_taiga": 2,
+    "moreminecrafts:sky_island_forest": 8,
+    "moreminecrafts:sky_island_mountain_meadow": 1
+  },
+  "heap_max_mb": 12288,
+  "total_ms": 3452744
+}

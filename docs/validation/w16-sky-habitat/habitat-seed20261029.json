@@ -1,0 +1,24 @@
+{
+  "pass": true,
+  "seed": 20261029,
+  "surfaces": [
+    {
+      "relativeHeight": 40,
+      "template": "moreminecrafts:sky_islands/snowy/tower",
+      "structure": "moreminecrafts:sky_island_mountain_snowy",
+      "z": -252,
+      "y": 112,
+      "x": -807,
+      "biome": "minecraft:stony_shore"
+    },
+    {
+      "relativeHeight": 47,
+      "template": "moreminecrafts:sky_islands/tower_5",
+      "structure": "moreminecrafts:sky_island_mountain_snowy",
+      "z": -252,
+      "y": 123,
+      "x": -798,
+      "biome": "minecraft:snowy_slopes"
+    }
+  ]
+}

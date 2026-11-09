@@ -10,37 +10,201 @@
             {
               "type": "minecraft:item",
               "name": "moreminecrafts:etherium_ore",
-              "conditions": [
-                {
-                  "condition": "minecraft:match_tool",
-                  "predicate": {
-                    "predicates": {
-                      "minecraft:enchantments": [
-                        {
-                          "enchantments": "minecraft:silk_touch",
-                          "levels": {
-                            "min": 1
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
+              "condition": "minecraft:tool/can_silk_touch"
             },
             {
               "type": "minecraft:item",
               "name": "moreminecrafts:etherium",
-              "functions": [
+              "modifier": [
                 {
-                  "function": "minecraft:apply_bonus",
-                  "enchantment": "minecraft:fortune",
-                  "formula": "minecraft:ore_drops"
-                },
-                {
-                  "function": "minecraft:explosion_decay"
+                  "type": "minecraft:explosion_decay"
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:inverted",
+            "term": "minecraft:tool/can_silk_touch"
+          },
+          {
+            "type": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:fortune",
+                    "levels": {
+                      "min": 1,
+                      "max": 1
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 14
+        },
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:etherium",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 1
+            },
+            {
+              "type": "minecraft:explosion_decay"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:inverted",
+            "term": "minecraft:tool/can_silk_touch"
+          },
+          {
+            "type": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:fortune",
+                    "levels": {
+                      "min": 2,
+                      "max": 2
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 86
+        },
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:etherium",
+          "weight": 13,
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 1
+            },
+            {
+              "type": "minecraft:explosion_decay"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:etherium",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 2
+            },
+            {
+              "type": "minecraft:explosion_decay"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:inverted",
+            "term": "minecraft:tool/can_silk_touch"
+          },
+          {
+            "type": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:fortune",
+                    "levels": {
+                      "min": 3
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 494
+        },
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:etherium",
+          "weight": 113,
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 1
+            },
+            {
+              "type": "minecraft:explosion_decay"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:etherium",
+          "weight": 17,
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 2
+            },
+            {
+              "type": "minecraft:explosion_decay"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:etherium",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 3
+            },
+            {
+              "type": "minecraft:explosion_decay"
             }
           ]
         }

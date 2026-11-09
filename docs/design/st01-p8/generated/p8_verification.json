@@ -1,0 +1,849 @@
+{
+ "checks": [
+  {
+   "side": "Java",
+   "id": "T0",
+   "verdict": "PASS",
+   "title": "no production default for the fallback timer (TEST-ONLY values never become defaults)",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T1",
+   "verdict": "PASS",
+   "title": "entrance cannot open before a valid defeat (timer, requests, spoofed signals)",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T2",
+   "verdict": "PASS",
+   "title": "environment-only death is not a victory: no entrance progress, chest sealed, no reward, retry allowed",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T3",
+   "verdict": "PASS",
+   "title": "administrative kill after participation is not a victory",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T3b",
+   "verdict": "PASS",
+   "title": "a token player hit followed by an environmental death (share 10%, window long past) is not a victory (COMBINED)",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T4a",
+   "verdict": "PASS",
+   "title": "valid victory starts the timer immediately at the defeat",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T4b",
+   "verdict": "PASS",
+   "title": "golem spawn failure never stops the timer: FALLBACK_OPEN, cover applied once, reward granted once",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T5a",
+   "verdict": "PASS",
+   "title": "duplicate defeat signals create exactly one golem and one guiding state",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T5b",
+   "verdict": "PASS",
+   "title": "arrival opens (ENTRANCE_OPEN); duplicate arrival/open requests mutate the world exactly once; reward once",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T5c",
+   "verdict": "PASS",
+   "title": "OPEN is terminal: no timer effect, no auto-restore",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T6a",
+   "verdict": "PASS",
+   "title": "stalled golem (path failure) never opens by arrival; fallback opens",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T6b",
+   "verdict": "PASS",
+   "title": "golem lost/killed while guiding: fallback opens",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T7a",
+   "verdict": "PASS",
+   "title": "restart while guiding keeps state and remaining time; no golem is assumed",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T7b",
+   "verdict": "PASS",
+   "title": "after restart the fallback still opens it",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T7c",
+   "verdict": "PASS",
+   "title": "OPEN survives another restart, cover stays open, no second world mutation",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T7d",
+   "verdict": "PASS",
+   "title": "OPEN record with reverted cover blocks (lost/regenerated chunk): the OPEN record is authoritative and the cover is re-opened idempotently (never closed)",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T14",
+   "verdict": "PASS",
+   "title": "respawn-after-restart option: exactly one new golem, state GUIDING, remaining time unchanged",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T15",
+   "verdict": "PASS",
+   "title": "OPEN record but no persisted victory (inconsistent save): cover is NOT opened, anomaly is flagged for reporting",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T8",
+   "verdict": "PASS",
+   "title": "unloaded cover chunk: record opens, blocks change only when the chunk loads, exactly once",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T9",
+   "verdict": "PASS",
+   "title": "lost defeat signal: the persisted victory record alone creates the entrance record and the timer",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T10a",
+   "verdict": "PASS",
+   "title": "two simultaneous defeats: A opens by arrival while B keeps guiding (no cross-talk)",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T10b",
+   "verdict": "PASS",
+   "title": "B opens by fallback on its own timer; one golem per instance; one reward per instance",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T10c",
+   "verdict": "PASS",
+   "title": "a defeat in instance A never moves instance B",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T11",
+   "verdict": "PASS",
+   "title": "selector Nearest: never follows an offline player; empty when everyone is offline",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T11",
+   "verdict": "PASS",
+   "title": "selector StickyNearest: never follows an offline player; empty when everyone is offline",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T11",
+   "verdict": "PASS",
+   "title": "selector Farthest: never follows an offline player; empty when everyone is offline",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T12",
+   "verdict": "PASS",
+   "title": "matrix: COMBINED accepts a full player kill and rejects /kill",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "Java",
+   "id": "T13",
+   "verdict": "PASS",
+   "title": "differential conformance: 4000 random event sequences / 29743 steps replayed against the P7 reference model give identical (state, cover, golems, victory, remaining, spawn-pending)",
+   "evidence": "in-memory harness run (javac 21); no Minecraft server"
+  },
+  {
+   "side": "E",
+   "id": "GG1",
+   "title": "Scaled iron-golem body (scale 0.4..1.0) reaches every arrival-zone class from every hall start (HALL_DOOR, 4 emergence candidates) with the vanilla path-node footprint; scale 1.5 reported separately",
+   "verdict": "PASS",
+   "evidence": "s=0.4: bbox 0.56x1.08, node 1x1x2, zones reached (min over starts) 5/5; s=0.5: bbox 0.7x1.35, node 1x1x2, zones reached (min over starts) 5/5; s=0.6: bbox 0.84x1.62, node 1x1x2, zones reached (min over starts) 5/5; s=0.7: bbox 0.98x1.89, node 1x1x2, zones reached (min over starts) 5/5; s=0.8: bbox 1.12x2.16, node 2x2x3, zones reached (min over starts) 5/5; s=1.0: bbox 1.4x2.7, node 2x2x3, zones reached (min over starts) 5/5; s=1.5: bbox 2.1x4.05, node 3x3x5, zones reached (min over starts) 3/5"
+  },
+  {
+   "side": "E",
+   "id": "GG2",
+   "title": "Main-route / hall-door clear sections (from the P2/P3 models) vs golem node footprint: narrowest section and the largest scale whose node size fits it",
+   "verdict": "PASS",
+   "evidence": "sections {'C1': (7, 5), 'C2': (7, 5), 'C3': (7, 5), 'R': (5, 4), 'T': (3, 3), 'HALL_DOOR': (3, 3)}; narrowest clear 3 wide x 3 high; fits per scale {0.4: True, 0.5: True, 0.6: True, 0.7: True, 0.8: True, 1.0: True, 1.5: False}; the native-size golem (scale 1.0, node 2x2x3) fits"
+  },
+  {
+   "side": "E",
+   "id": "GG3",
+   "title": "Stop-point safety: largest scale whose body stays fully off the cut when its centre stands in the nearest zone Z0 (centre-to-cut 0.5) = 2*d/1.4; and the cut (4x3) can host a fully unsupported body for every scale <= 2.14, so stop points must be outside the cut",
+   "verdict": "PASS",
+   "evidence": "Z0 nearest centre-to-cut 0.5; max scale with body disjoint from the cut at Z0 = 0.714; partially overhanging bodies stay supported by the remaining floor in vanilla physics (UNVERIFIED in-game), fully unsupported bodies fall"
+  },
+  {
+   "side": "W",
+   "id": "GG1",
+   "title": "Scaled iron-golem body (scale 0.4..1.0) reaches every arrival-zone class from every hall start (HALL_DOOR, 4 emergence candidates) with the vanilla path-node footprint; scale 1.5 reported separately",
+   "verdict": "PASS",
+   "evidence": "s=0.4: bbox 0.56x1.08, node 1x1x2, zones reached (min over starts) 5/5; s=0.5: bbox 0.7x1.35, node 1x1x2, zones reached (min over starts) 5/5; s=0.6: bbox 0.84x1.62, node 1x1x2, zones reached (min over starts) 5/5; s=0.7: bbox 0.98x1.89, node 1x1x2, zones reached (min over starts) 5/5; s=0.8: bbox 1.12x2.16, node 2x2x3, zones reached (min over starts) 5/5; s=1.0: bbox 1.4x2.7, node 2x2x3, zones reached (min over starts) 5/5; s=1.5: bbox 2.1x4.05, node 3x3x5, zones reached (min over starts) 3/5"
+  },
+  {
+   "side": "W",
+   "id": "GG2",
+   "title": "Main-route / hall-door clear sections (from the P2/P3 models) vs golem node footprint: narrowest section and the largest scale whose node size fits it",
+   "verdict": "PASS",
+   "evidence": "sections {'C1': (7, 5), 'C2': (7, 5), 'C3': (7, 5), 'R': (5, 4), 'T': (3, 3), 'HALL_DOOR': (3, 3)}; narrowest clear 3 wide x 3 high; fits per scale {0.4: True, 0.5: True, 0.6: True, 0.7: True, 0.8: True, 1.0: True, 1.5: False}; the native-size golem (scale 1.0, node 2x2x3) fits"
+  },
+  {
+   "side": "W",
+   "id": "GG3",
+   "title": "Stop-point safety: largest scale whose body stays fully off the cut when its centre stands in the nearest zone Z0 (centre-to-cut 0.5) = 2*d/1.4; and the cut (4x3) can host a fully unsupported body for every scale <= 2.14, so stop points must be outside the cut",
+   "verdict": "PASS",
+   "evidence": "Z0 nearest centre-to-cut 0.5; max scale with body disjoint from the cut at Z0 = 0.714; partially overhanging bodies stay supported by the remaining floor in vanilla physics (UNVERIFIED in-game), fully unsupported bodies fall"
+  },
+  {
+   "side": "E",
+   "id": "P7.GA1",
+   "title": "(re-run of the P7 geometry on the same world) Player standing on a cover cell when the cover opens (FIND-P6-2): each of the 12 columns is standable while CLOSED, the player lands on a standable cell (no burial), headroom >= 4, can climb back to the hall floor and can walk on to the vault; drop <= 4 (FIND-P6-1)",
+   "verdict": "PASS",
+   "evidence": "max drop 4 (fall damage 1 under the vanilla 'above 3' rule); per column (drop/headroom): (-9, 33):1/5, (-9, 34):1/5, (-9, 35):1/5, (-8, 33):2/5, (-8, 34):2/5, (-8, 35):2/5, (-7, 33):3/5, (-7, 34):3/5, (-7, 35):3/5, (-6, 33):4/5, (-6, 34):4/5, (-6, 35):4/5; all can climb out True; all reach vault entry True"
+  },
+  {
+   "side": "E",
+   "id": "P7.GA6",
+   "title": "(re-run of the P7 geometry on the same world) While SEALED / GUARDIAN_DEFEATED / GOLEM_GUIDING the world is the CLOSED world: hall voxel-identical to P3 above the floor top, so golem walking and boss/player movement see the P3-verified floor",
+   "verdict": "PASS",
+   "evidence": "differing cells 0"
+  },
+  {
+   "side": "W",
+   "id": "P7.GA1",
+   "title": "(re-run of the P7 geometry on the same world) Player standing on a cover cell when the cover opens (FIND-P6-2): each of the 12 columns is standable while CLOSED, the player lands on a standable cell (no burial), headroom >= 4, can climb back to the hall floor and can walk on to the vault; drop <= 4 (FIND-P6-1)",
+   "verdict": "PASS",
+   "evidence": "max drop 4 (fall damage 1 under the vanilla 'above 3' rule); per column (drop/headroom): (6, 33):4/5, (6, 34):4/5, (6, 35):4/5, (7, 33):3/5, (7, 34):3/5, (7, 35):3/5, (8, 33):2/5, (8, 34):2/5, (8, 35):2/5, (9, 33):1/5, (9, 34):1/5, (9, 35):1/5; all can climb out True; all reach vault entry True"
+  },
+  {
+   "side": "W",
+   "id": "P7.GA6",
+   "title": "(re-run of the P7 geometry on the same world) While SEALED / GUARDIAN_DEFEATED / GOLEM_GUIDING the world is the CLOSED world: hall voxel-identical to P3 above the floor top, so golem walking and boss/player movement see the P3-verified floor",
+   "verdict": "PASS",
+   "evidence": "differing cells 0"
+  },
+  {
+   "side": "E/W",
+   "id": "EW1",
+   "title": "East and west golem-size/stop-safety results are identical (mirror)",
+   "verdict": "PASS",
+   "evidence": "scales/passages equal: True"
+  },
+  {
+   "side": "-",
+   "id": "LV1",
+   "title": "Real Minecraft server: entity collision/pathfinding/scale attribute, block updates, chunk reload, multiplayer, real boss death sources, damage events",
+   "verdict": "UNVERIFIED",
+   "evidence": "needs Java 25 + Minecraft 26.3 toolchain and the gametest runner; not available here; no production code was changed"
+  }
+ ],
+ "selectors": [
+  "SELECTOR Nearest switches=47 offlineChosen=false allOfflineEmpty=true",
+  "SELECTOR StickyNearest switches=1 offlineChosen=false allOfflineEmpty=true",
+  "SELECTOR Farthest switches=49 offlineChosen=false allOfflineEmpty=true"
+ ],
+ "matrix": [
+  "MATRIX ANY_DAMAGE: [player kills (full damage) => VALID] [player 60% then lava kills within window => VALID] [player 60% then lava kills long after => VALID] [player 10% then lava kills quickly => VALID] [no player damage, environment => invalid] [no player damage, other mob => invalid] [player 100% then /kill => invalid] [player 10% then void => VALID]",
+  "MATRIX LAST_HIT_WINDOW: [player kills (full damage) => VALID] [player 60% then lava kills within window => VALID] [player 60% then lava kills long after => invalid] [player 10% then lava kills quickly => VALID] [no player damage, environment => invalid] [no player damage, other mob => invalid] [player 100% then /kill => invalid] [player 10% then void => VALID]",
+  "MATRIX DAMAGE_SHARE: [player kills (full damage) => VALID] [player 60% then lava kills within window => VALID] [player 60% then lava kills long after => VALID] [player 10% then lava kills quickly => invalid] [no player damage, environment => invalid] [no player damage, other mob => invalid] [player 100% then /kill => invalid] [player 10% then void => invalid]",
+  "MATRIX COMBINED: [player kills (full damage) => VALID] [player 60% then lava kills within window => VALID] [player 60% then lava kills long after => invalid] [player 10% then lava kills quickly => invalid] [no player damage, environment => invalid] [no player damage, other mob => invalid] [player 100% then /kill => invalid] [player 10% then void => invalid]"
+ ],
+ "conformance_lines": 33743,
+ "golem": {
+  "east": {
+   "scales": [
+    {
+     "scale": 0.4,
+     "bbox": [
+      0.56,
+      1.08
+     ],
+     "nav": [
+      1,
+      2
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": 0.22,
+      "Z1": 0.427,
+      "Z2": 1.301,
+      "Z3": 2.27,
+      "Z4": 3.256
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 0.5,
+     "bbox": [
+      0.7,
+      1.35
+     ],
+     "nav": [
+      1,
+      2
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": 0.15,
+      "Z1": 0.357,
+      "Z2": 1.231,
+      "Z3": 2.2,
+      "Z4": 3.186
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 0.6,
+     "bbox": [
+      0.84,
+      1.62
+     ],
+     "nav": [
+      1,
+      2
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": 0.08,
+      "Z1": 0.287,
+      "Z2": 1.161,
+      "Z3": 2.13,
+      "Z4": 3.116
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 0.7,
+     "bbox": [
+      0.98,
+      1.89
+     ],
+     "nav": [
+      1,
+      2
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": 0.01,
+      "Z1": 0.217,
+      "Z2": 1.091,
+      "Z3": 2.06,
+      "Z4": 3.046
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 0.8,
+     "bbox": [
+      1.12,
+      2.16
+     ],
+     "nav": [
+      2,
+      3
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": -0.06,
+      "Z1": 0.147,
+      "Z2": 1.021,
+      "Z3": 1.99,
+      "Z4": 2.976
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 1.0,
+     "bbox": [
+      1.4,
+      2.7
+     ],
+     "nav": [
+      2,
+      3
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": -0.2,
+      "Z1": 0.007,
+      "Z2": 0.881,
+      "Z3": 1.85,
+      "Z4": 2.836
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 1.5,
+     "bbox": [
+      2.1,
+      4.05
+     ],
+     "nav": [
+      3,
+      5
+     ],
+     "reach_min": 3,
+     "reach": {
+      "BOSS_S": 3,
+      "BOSS_N": 3,
+      "BOSS_E": 3,
+      "BOSS_W": 3,
+      "HALL_DOOR": 3
+     },
+     "margin_to_cut": {
+      "Z0": -0.55,
+      "Z1": -0.343,
+      "Z2": 0.531,
+      "Z3": 1.5,
+      "Z4": 2.486
+     },
+     "can_be_fully_unsupported_over_cut": true
+    }
+   ],
+   "passages": {
+    "C1": [
+     7,
+     5
+    ],
+    "C2": [
+     7,
+     5
+    ],
+    "C3": [
+     7,
+     5
+    ],
+    "R": [
+     5,
+     4
+    ],
+    "T": [
+     3,
+     3
+    ],
+    "HALL_DOOR": [
+     3,
+     3
+    ]
+   },
+   "narrowest": [
+    3,
+    3
+   ],
+   "max_scale_Z0": 0.714
+  },
+  "west": {
+   "scales": [
+    {
+     "scale": 0.4,
+     "bbox": [
+      0.56,
+      1.08
+     ],
+     "nav": [
+      1,
+      2
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": 0.22,
+      "Z1": 0.427,
+      "Z2": 1.301,
+      "Z3": 2.27,
+      "Z4": 3.256
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 0.5,
+     "bbox": [
+      0.7,
+      1.35
+     ],
+     "nav": [
+      1,
+      2
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": 0.15,
+      "Z1": 0.357,
+      "Z2": 1.231,
+      "Z3": 2.2,
+      "Z4": 3.186
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 0.6,
+     "bbox": [
+      0.84,
+      1.62
+     ],
+     "nav": [
+      1,
+      2
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": 0.08,
+      "Z1": 0.287,
+      "Z2": 1.161,
+      "Z3": 2.13,
+      "Z4": 3.116
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 0.7,
+     "bbox": [
+      0.98,
+      1.89
+     ],
+     "nav": [
+      1,
+      2
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": 0.01,
+      "Z1": 0.217,
+      "Z2": 1.091,
+      "Z3": 2.06,
+      "Z4": 3.046
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 0.8,
+     "bbox": [
+      1.12,
+      2.16
+     ],
+     "nav": [
+      2,
+      3
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": -0.06,
+      "Z1": 0.147,
+      "Z2": 1.021,
+      "Z3": 1.99,
+      "Z4": 2.976
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 1.0,
+     "bbox": [
+      1.4,
+      2.7
+     ],
+     "nav": [
+      2,
+      3
+     ],
+     "reach_min": 5,
+     "reach": {
+      "BOSS_S": 5,
+      "BOSS_N": 5,
+      "BOSS_E": 5,
+      "BOSS_W": 5,
+      "HALL_DOOR": 5
+     },
+     "margin_to_cut": {
+      "Z0": -0.2,
+      "Z1": 0.007,
+      "Z2": 0.881,
+      "Z3": 1.85,
+      "Z4": 2.836
+     },
+     "can_be_fully_unsupported_over_cut": true
+    },
+    {
+     "scale": 1.5,
+     "bbox": [
+      2.1,
+      4.05
+     ],
+     "nav": [
+      3,
+      5
+     ],
+     "reach_min": 3,
+     "reach": {
+      "BOSS_S": 3,
+      "BOSS_N": 3,
+      "BOSS_E": 3,
+      "BOSS_W": 3,
+      "HALL_DOOR": 3
+     },
+     "margin_to_cut": {
+      "Z0": -0.55,
+      "Z1": -0.343,
+      "Z2": 0.531,
+      "Z3": 1.5,
+      "Z4": 2.486
+     },
+     "can_be_fully_unsupported_over_cut": true
+    }
+   ],
+   "passages": {
+    "C1": [
+     7,
+     5
+    ],
+    "C2": [
+     7,
+     5
+    ],
+    "C3": [
+     7,
+     5
+    ],
+    "R": [
+     5,
+     4
+    ],
+    "T": [
+     3,
+     3
+    ],
+    "HALL_DOOR": [
+     3,
+     3
+    ]
+   },
+   "narrowest": [
+    3,
+    3
+   ],
+   "max_scale_Z0": 0.714
+  }
+ },
+ "p7geo": {
+  "zones": {
+   "Z0": {
+    "bin": [
+     0.0,
+     0.51
+    ],
+    "cells": 8,
+    "min_dist_to_cover": 0.5,
+    "r_safe_w1": 0.0,
+    "r_safe_w2": -0.5,
+    "on_cover": false,
+    "all_standable_closed": true
+   },
+   "Z1": {
+    "bin": [
+     0.51,
+     1.51
+    ],
+    "cells": 9,
+    "min_dist_to_cover": 0.707,
+    "r_safe_w1": 0.207,
+    "r_safe_w2": -0.293,
+    "on_cover": false,
+    "all_standable_closed": true
+   },
+   "Z2": {
+    "bin": [
+     1.51,
+     2.51
+    ],
+    "cells": 7,
+    "min_dist_to_cover": 1.581,
+    "r_safe_w1": 1.081,
+    "r_safe_w2": 0.581,
+    "on_cover": false,
+    "all_standable_closed": true
+   },
+   "Z3": {
+    "bin": [
+     2.51,
+     3.51
+    ],
+    "cells": 6,
+    "min_dist_to_cover": 2.55,
+    "r_safe_w1": 2.05,
+    "r_safe_w2": 1.55,
+    "on_cover": false,
+    "all_standable_closed": true
+   },
+   "Z4": {
+    "bin": [
+     3.51,
+     4.51
+    ],
+    "cells": 9,
+    "min_dist_to_cover": 3.536,
+    "r_safe_w1": 3.036,
+    "r_safe_w2": 2.536,
+    "on_cover": false,
+    "all_standable_closed": true
+   }
+  },
+  "Lmax": 42,
+  "route_len": {
+   "BOSS_S->Z4": 11,
+   "BOSS_S->Z3": 13,
+   "BOSS_S->Z2": 14,
+   "BOSS_S->Z1": 16,
+   "BOSS_S->Z0": 20,
+   "BOSS_N->Z4": 23,
+   "BOSS_N->Z3": 25,
+   "BOSS_N->Z2": 26,
+   "BOSS_N->Z1": 28,
+   "BOSS_N->Z0": 32,
+   "BOSS_E->Z4": 11,
+   "BOSS_E->Z3": 13,
+   "BOSS_E->Z2": 14,
+   "BOSS_E->Z1": 16,
+   "BOSS_E->Z0": 20,
+   "BOSS_W->Z4": 23,
+   "BOSS_W->Z3": 25,
+   "BOSS_W->Z2": 26,
+   "BOSS_W->Z1": 28,
+   "BOSS_W->Z0": 32,
+   "CHEST_APPROACH->Z4": 9,
+   "CHEST_APPROACH->Z3": 10,
+   "CHEST_APPROACH->Z2": 11,
+   "CHEST_APPROACH->Z1": 13,
+   "CHEST_APPROACH->Z0": 17,
+   "HALL_DOOR->Z4": 33,
+   "HALL_DOOR->Z3": 35,
+   "HALL_DOOR->Z2": 36,
+   "HALL_DOOR->Z1": 38,
+   "HALL_DOOR->Z0": 42
+  },
+  "max_fall": 4,
+  "anchor": [
+   -21,
+   -20,
+   33
+  ]
+ }
+}

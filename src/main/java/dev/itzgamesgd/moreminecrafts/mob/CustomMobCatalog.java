@@ -46,7 +46,6 @@ import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 
@@ -103,7 +102,7 @@ public final class CustomMobCatalog {
     public static final EntityType<Drowned> DROWNED_SAILOR = type("drowned_sailor", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> DEEP_SEA_DROWNED = type("deep_sea_drowned", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> RIVER_DROWNED = type("river_drowned", Drowned::new, 0.6f, 1.95f);
-    public static final EntityType<Piglin> WILD_PIGLIN = type("wild_piglin", Piglin::new, 0.6f, 1.95f);
+    public static final EntityType<Piglin> WILD_PIGLIN = type("wild_piglin", WildPiglin::new, 0.6f, 1.95f);
     public static final EntityType<Pillager> BANDIT = type("bandit", (type, level) -> new BanditEntity(type, level), 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
     public static final EntityType<Pillager> BANDIT_ARCHER = type("bandit_archer", (type, level) -> new BanditArcher(type, level), 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
     public static final EntityType<Vindicator> BANDIT_WARRIOR = type("bandit_warrior", Vindicator::new, 0.6f, 1.95f);
@@ -112,7 +111,7 @@ public final class CustomMobCatalog {
             MobCategory.CREATURE, false, 10, false);
     public static final EntityType<Bat> CAVE_BAT = type("cave_bat", (type, level) -> new CaveBatEntity(type, level), 0.9f, 0.9f,
             MobCategory.AMBIENT, false, 5, false);
-    public static final EntityType<Bee> GIANT_BEE = type("giant_bee", Bee::new, 1.0f, 0.8f, MobCategory.CREATURE, false);
+    public static final EntityType<Bee> GIANT_BEE = type("giant_bee", GiantBeeEntity::new, 1.0f, 0.8f, MobCategory.CREATURE, false);
     public static final EntityType<LesserPhantom> LESSER_PHANTOM = type("lesser_phantom",
             (type, level) -> new LesserPhantom(type, level), 0.7f, 0.45f);
     public static final EntityType<Creeper> CAVE_CREEPER = type("cave_creeper", Creeper::new, 0.6f, 1.7f);
@@ -303,8 +302,7 @@ public final class CustomMobCatalog {
             case NETHER -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();
             case WATER -> level.getFluidState(pos).is(net.minecraft.tags.FluidTags.WATER);
             case SKY -> pos.getY() > level.getSeaLevel() + 12 && level.canSeeSky(pos);
-            case GROUND -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid() &&
-                    !level.getBlockState(pos.below()).is(Blocks.MAGMA_BLOCK);
+            case GROUND -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();
         };
     }
 

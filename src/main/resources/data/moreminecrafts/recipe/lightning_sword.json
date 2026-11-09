@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "S": "minecraft:diamond_sword",
+    "G": "minecraft:gold_block",
+    "T": "moreminecrafts:heart_of_thunder",
+    "N": "minecraft:netherite_ingot",
+    "E": "moreminecrafts:etherium_ingot"
+  },
+  "pattern": [
+    " S ",
+    "GTN",
+    " E "
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreminecrafts:lightning_sword"
+  }
+}

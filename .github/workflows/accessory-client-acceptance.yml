@@ -1,0 +1,147 @@
+name: Accessory Client GameTest Acceptance
+
+on:
+  push:
+    branches:
+      - codex/accessory-enhancement-20261022
+      - codex/accessory-client-acceptance-20261021
+      - codex/accessory-client-repair-20261022
+      - codex/accessory-client-lifecycle-final-20261022
+      - codex/accessory-visual-assets-20261022
+      - codex/accessory-inventory-ui-redesign-20261023
+      - integration/accessory-system-20261023
+  pull_request:
+    branches:
+      - main
+      - integration/wave5r-combined-20261024
+      - codex/accessory-lifecycle-qa-20261021
+      - codex/accessory-client-acceptance-20261021
+      - codex/accessory-client-repair-20261022
+    paths:
+      - ".github/workflows/accessory-client-acceptance.yml"
+      - "build.gradle"
+      - "gradle.properties"
+      - "src/client/**"
+      - "src/gametest/**"
+      - "src/main/**"
+
+permissions:
+  contents: read
+
+jobs:
+  accessory-client-gametest:
+    name: Real client render, dedicated server, and TestInput scenarios
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install the proven software rendering stack
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox x11-utils mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+
+      - name: Compile client and GameTest sources
+        run: ./gradlew compileClientJava compileGametestJava --no-daemon
+
+      - name: Run real Minecraft Client GameTest with llvmpipe
+        shell: bash
+        run: |
+          set -euo pipefail
+          vulkan_icd=""
+          if [[ -d /usr/share/vulkan/icd.d ]]; then
+            vulkan_icd="$(find /usr/share/vulkan/icd.d -maxdepth 1 -name 'lvp_icd*.json' -print -quit)"
+          fi
+          if [[ -n "$vulkan_icd" ]]; then export VK_ICD_FILENAMES="$vulkan_icd"; fi
+          export LIBGL_ALWAYS_SOFTWARE=1
+          export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+          xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render -noreset" \
+            bash -euo pipefail -c '
+              openbox --sm-disable > build/accessory-openbox.log 2>&1 &
+              window_manager_pid=$!
+              trap "kill $window_manager_pid 2>/dev/null || true" EXIT
+              glxinfo -B
+              ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --stacktrace 2>&1 | tee build/accessory-client-gametest.log
+            '
+
+      - name: Build accessory visual evidence and scan for missing textures
+        if: always()
+        run: |
+          python3 -m venv build/evidence-venv
+          build/evidence-venv/bin/pip install --quiet pillow
+          mkdir -p build/accessory-visual-evidence build/run/clientGameTest/screenshots
+          touch build/accessory-client-gametest.log
+          grep -E "VISUAL_(SLOT|LAYOUT_OK)" build/accessory-client-gametest.log > build/accessory-visual-evidence/client-visual-log.txt || true
+          build/evidence-venv/bin/python -I -W ignore .github/scripts/accessory_visual_evidence.py . build/run/clientGameTest/screenshots \
+            build/accessory-client-gametest.log build/accessory-visual-evidence
+
+      - name: Upload accessory contact sheet and native-size evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-visual-evidence-${{ github.run_id }}
+          path: build/accessory-visual-evidence/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Build the recipe-book open/closed contact sheet
+        if: always()
+        run: |
+          python3 -m venv build/evidence-venv
+          build/evidence-venv/bin/pip install --quiet pillow
+          mkdir -p build/accessory-ui-evidence build/run/clientGameTest/screenshots
+          touch build/accessory-client-gametest.log
+          cp build/accessory-client-gametest.log build/accessory-ui-evidence/client-test-log.txt
+          cp build/run/clientGameTest/accessory-ui-geometry.txt build/accessory-ui-evidence/layout-verification-report.txt || true
+          grep -E "ACCESSORY_UI_GEOMETRY|ACCESSORY_TOOLTIP_LINES" build/accessory-client-gametest.log > build/accessory-ui-evidence/layout-assertions-console.txt || true
+          build/evidence-venv/bin/python -I -W ignore .github/scripts/accessory_ui_contact_sheet.py \
+            build/run/clientGameTest/screenshots build/accessory-ui-evidence
+
+      - name: Upload contact sheet, layout report and client log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-ui-evidence-${{ github.run_id }}
+          path: build/accessory-ui-evidence/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Build the labeled all-screenshots integration contact sheet
+        if: always()
+        run: |
+          python3 -m venv build/evidence-venv
+          build/evidence-venv/bin/pip install --quiet pillow
+          mkdir -p build/accessory-integration-evidence build/run/clientGameTest/screenshots
+          build/evidence-venv/bin/python -I -W ignore .github/scripts/accessory_integration_contact_sheet.py \
+            build/run/clientGameTest/screenshots build/accessory-integration-evidence
+          grep -E "ANVIL_" build/accessory-client-gametest.log > build/accessory-integration-evidence/anvil-functional-assertions.txt || true
+          grep -E "ENCHANT_UI" build/accessory-client-gametest.log > build/accessory-integration-evidence/enchanting-gui-scale-diagnostic.txt || true
+
+      - name: Upload integration contact sheet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-integration-contact-sheet-${{ github.run_id }}
+          path: build/accessory-integration-evidence/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload native Client GameTest screenshots and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessory-client-gametest-${{ github.run_id }}
+          path: |
+            build/run/clientGameTest/screenshots/
+            build/run/clientGameTest/
+          if-no-files-found: warn
+          retention-days: 14

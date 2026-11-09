@@ -1,0 +1,13 @@
+side,golem_goal,reached_tick
+E,scale0.5->HATCH,16
+E,scale0.5->VAULT_ENTRY,214
+E,scale0.75->HATCH,16
+E,scale0.75->VAULT_ENTRY,-1
+E,scale1.0->HATCH,16
+E,scale1.0->VAULT_ENTRY,-1
+W,scale0.5->HATCH,16
+W,scale0.5->VAULT_ENTRY,214
+W,scale0.75->HATCH,17
+W,scale0.75->VAULT_ENTRY,-1
+W,scale1.0->HATCH,17
+W,scale1.0->VAULT_ENTRY,-1

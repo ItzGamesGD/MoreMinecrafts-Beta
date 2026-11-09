@@ -1,0 +1,199 @@
+{
+ "control_clean": true,
+ "results": [
+  {
+   "mutation": "overlay: V12 left at old X (vestibule not shifted)",
+   "expected": [
+    "O2",
+    "P5.X1"
+   ],
+   "failed": [
+    "O1",
+    "O2",
+    "P5.K2",
+    "P5.K3",
+    "P5.P2R",
+    "P5.X1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "overlay: landing LND12 shrunk to 7x9",
+   "expected": [
+    "O2",
+    "O3",
+    "P5.L1"
+   ],
+   "failed": [
+    "O2",
+    "O3",
+    "P5.L1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "overlay: unapproved space B1 also moved",
+   "expected": [
+    "O1",
+    "O2"
+   ],
+   "failed": [
+    "O1",
+    "O2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "overlay: flight B moved one block too far (breaks the stair-landing/C2 contact)",
+   "expected": [
+    "O2",
+    "P5.P2R"
+   ],
+   "failed": [
+    "O2",
+    "P5.K2",
+    "P5.K3",
+    "P5.P2R",
+    "R1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "cover never placed (closed hall has a hole)",
+   "expected": [
+    "CO1",
+    "CO2"
+   ],
+   "failed": [
+    "CO1",
+    "CO2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "cover is 13 blocks (one extra floor cell)",
+   "expected": [
+    "CO1",
+    "CO2"
+   ],
+   "failed": [
+    "CO1",
+    "CO2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "cut widened by one floor cell outside the declared 12",
+   "expected": [
+    "CO1"
+   ],
+   "failed": [
+    "CO1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "Q97 violated: vault+crypt centred under the hall",
+   "expected": [
+    "Q97"
+   ],
+   "failed": [
+    "Q97"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "secret area deeper than the recorded -32 (vault envelope lowered by 4)",
+   "expected": [
+    "Q98"
+   ],
+   "failed": [
+    "Q98"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "stair headroom 3",
+   "expected": [
+    "P5.S1"
+   ],
+   "failed": [
+    "CO1",
+    "P5.S1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "last stair tread missing",
+   "expected": [
+    "P5.S1",
+    "ST1"
+   ],
+   "failed": [
+    "BF1",
+    "CO4",
+    "P5.K3",
+    "P5.S1",
+    "ST1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "registry gap (P2:B2 not registered)",
+   "expected": [
+    "R1"
+   ],
+   "failed": [
+    "R1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "stray P4 void inside the hall reservation (outside the pierce)",
+   "expected": [
+    "P5.I1"
+   ],
+   "failed": [
+    "P5.I1",
+    "P5.I2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "vault cross-section walled off by a pile",
+   "expected": [
+    "P5.K3"
+   ],
+   "failed": [
+    "BF1",
+    "P5.K3"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "air leak: P4 tunnel joined to the L3 passage",
+   "expected": [
+    "CO4",
+    "P5.I1"
+   ],
+   "failed": [
+    "CO4",
+    "P5.I1",
+    "P5.I2",
+    "P5.K2",
+    "P5.K3"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "E/W asymmetry: west crypt shifted one block",
+   "expected": [
+    "EW1"
+   ],
+   "failed": [
+    "EW1"
+   ],
+   "detected": true
+  }
+ ]
+}

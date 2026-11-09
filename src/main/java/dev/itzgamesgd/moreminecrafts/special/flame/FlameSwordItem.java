@@ -19,7 +19,7 @@ public final class FlameSwordItem extends Item {
         if (attacker instanceof ServerPlayer player) {
             T2ElementalVfx.firePrimary(player.level(), player.getEyePosition(),
                     target.position().add(0.0D, target.getBbHeight() * 0.55D, 0.0D));
-            if (ElementalHitProgress.record(player.getUUID(), ElementalHitProgress.Weapon.FIRE)) {
+            if (ElementalHitProgress.record(player, ElementalHitProgress.Weapon.FIRE)) {
                 FlameSwordEffects.sweep(player, target);
             }
         }

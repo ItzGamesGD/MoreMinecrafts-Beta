@@ -1,0 +1,182 @@
+{
+ "control_clean": true,
+ "results": [
+  {
+   "mutation": "timer only runs while guiding (golem spawn failure stalls it)",
+   "expected": [
+    "T4b"
+   ],
+   "failed": [
+    "T13",
+    "T4b"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "entrance progresses on any death, not on a valid victory",
+   "expected": [
+    "T2",
+    "T3",
+    "T3b"
+   ],
+   "failed": [
+    "T2",
+    "T3",
+    "T3b"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "boss marks victory/grants reward for invalid kills",
+   "expected": [
+    "T2",
+    "T3",
+    "T3b"
+   ],
+   "failed": [
+    "T2",
+    "T3",
+    "T3b"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "administrative kill accepted",
+   "expected": [
+    "T3"
+   ],
+   "failed": [
+    "T12",
+    "T3"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "second golem can be spawned by a repeated signal (coordinator and world-port guards both removed)",
+   "expected": [
+    "T5a"
+   ],
+   "failed": [
+    "T13",
+    "T5a"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "restart forgets the remaining time",
+   "expected": [
+    "T7a"
+   ],
+   "failed": [
+    "T13",
+    "T7a"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "restart forgets the entrance state",
+   "expected": [
+    "T7a"
+   ],
+   "failed": [
+    "T13",
+    "T7a",
+    "T7c",
+    "T7d"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "cover applied while the chunk is unloaded",
+   "expected": [
+    "T8"
+   ],
+   "failed": [
+    "T13",
+    "T8"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "OPEN record no longer repairs reverted blocks",
+   "expected": [
+    "T7d"
+   ],
+   "failed": [
+    "T7d"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "stalled golem can still arrive",
+   "expected": [
+    "T6a"
+   ],
+   "failed": [
+    "T6a"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "victory flag is global instead of per instance",
+   "expected": [
+    "T10c"
+   ],
+   "failed": [
+    "T10c"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "OPEN record without a victory still opens the cover",
+   "expected": [
+    "T15"
+   ],
+   "failed": [
+    "T15"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "timer expiry off by one",
+   "expected": [
+    "T13"
+   ],
+   "failed": [
+    "T13"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "chest interaction opens the entrance",
+   "expected": [
+    "T1"
+   ],
+   "failed": [
+    "T1",
+    "T13"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "a TEST-ONLY looking timer becomes the production default",
+   "expected": [
+    "T0"
+   ],
+   "failed": [
+    "T0"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "guide selector follows offline players",
+   "expected": [
+    "T11"
+   ],
+   "failed": [
+    "T11"
+   ],
+   "detected": true
+  }
+ ]
+}
