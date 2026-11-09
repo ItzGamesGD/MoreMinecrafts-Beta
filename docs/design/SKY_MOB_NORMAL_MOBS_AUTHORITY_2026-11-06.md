@@ -108,3 +108,18 @@ D1–D6의 승인은 위에 열거된 범위에 한정한다. 자연 스폰 외�
 - `docs/validation/w16-sky-habitat/README.md`의 habitat 계약과 `mob/sky/*` 코드.
 - Sky Tower 설계 브랜치(`docs/sky-tower-design-q01-q41-20261105`, PR #229)와 `structure/sky_islands/*.nbt`, 월드젠 JSON.
 - 코드, NBT, 데이터 팩.
+
+## 7. P2-B 구름 망령 외형 — 사용자 승인 기록 (2026-11-09)
+
+사용자가 아래 B1–B4 외형을 명시적으로 승인했다(최종 B4 외형 승인 포함). 이 절은 외형·렌더링만 다루며 §3의 능력치·전리품·스폰 결정을 바꾸지 않는다.
+
+| ID | 승인 내용 |
+|---|---|
+| B1 | 블록형 인간형 유령 모델(바닐라 휴머노이드 메시, 왼팔·왼다리 별도 UV). 연청회색 구름 텍스처(64×64), 불규칙한 Alpha 0 컷아웃 실루엣, 검은 직사각형 눈 |
+| B2 | 좀비식 팔 자세, 바닐라 좀비 걷기·근접 공격 애니메이션, 은은한 부유 동작(기준 0.15블록 상승, ±0.15블록 사인 진폭) |
+| B3 | 몸체 불투명도 80% (텍스처 Alpha 204/255), `entityTranslucentCull` 렌더 타입 |
+| B4 | 절제된 청회색 구름 입자: 바닐라 CLOUD, 크기 0.6, RGB (0.58, 0.68, 0.73), Alpha 0.75, 개체당 40틱마다 1개, 전체 틱당 최대 2개, 클라이언트 전용 생성, 바닐라 입자 설정(전체/감소 2/3/최소 0)·32블록 거리 규칙 준수 |
+
+검증 근거(HEAD `b50b992` 기준): Fabric CI <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42572934910> (Java 빌드·GameTest·서버/클라이언트 스모크 통과), 실제 클라이언트 캡처 <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42572928984>.
+
+비차단 한계: 밝은 하늘 배경에서 입자 대비가 낮아 구분이 어렵다(사용자 승인 외형에 포함, 추가 조정 없음). 입자 성능은 벤치마크하지 않았다. 입자 정책 프로브와 애니메이션 로그는 `MOREMINECRAFTS_WRAITH_CAPTURE=1` 캡처 환경에서만 동작한다.
