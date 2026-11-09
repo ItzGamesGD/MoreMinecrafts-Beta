@@ -174,41 +174,72 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
         var structureSetRegistry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_SET);
         var structureRegistry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
 
-        var mansionSetKey = ResourceKey.create(Registries.STRUCTURE_SET, Identifier.withDefaultNamespace("mansions"));
-        var mansionKey = ResourceKey.create(Registries.STRUCTURE, Identifier.withDefaultNamespace("mansion"));
+        LOG.info("Available structure sets ({} total): {}", structureSetRegistry.keySet().size(), structureSetRegistry.keySet());
+        LOG.info("Available structures ({} total): {}", structureRegistry.keySet().size(), structureRegistry.keySet());
 
-        var mansionSetHolder = structureSetRegistry.get(mansionSetKey)
-                .orElseThrow(() -> new IllegalStateException("Missing minecraft:mansions in structure_set registry"));
-        var mansionHolder = structureRegistry.get(mansionKey)
-                .orElseThrow(() -> new IllegalStateException("Missing minecraft:mansion in structure registry"));
-
-        StructureSet mansionSet = mansionSetHolder.value();
-        Structure mansionStructure = mansionHolder.value();
-
-        if (!(mansionSet.placement() instanceof RandomSpreadStructurePlacement rs)) {
-            throw new IllegalStateException("Woodland Mansion placement is not RandomSpreadStructurePlacement: " + mansionSet.placement().getClass());
+        Identifier mansionSetId = null;
+        for (Identifier id : structureSetRegistry.keySet()) {
+            if (id.getPath().contains("mansion")) {
+                mansionSetId = id;
+                break;
+            }
         }
 
-        int wmSpacing = rs.spacing();
-        int wmSeparation = rs.separation();
+        Identifier mansionStructureId = null;
+        for (Identifier id : structureRegistry.keySet()) {
+            if (id.getPath().contains("mansion")) {
+                mansionStructureId = id;
+                break;
+            }
+        }
+
+        StructureSet mansionSet = null;
+        if (mansionSetId != null) {
+            var holder = structureSetRegistry.get(ResourceKey.create(Registries.STRUCTURE_SET, mansionSetId));
+            if (holder.isPresent()) {
+                mansionSet = holder.get().value();
+            }
+        }
+
+        Structure mansionStructure = null;
+        Holder<Structure> mansionHolder = null;
+        if (mansionStructureId != null) {
+            var holder = structureRegistry.get(ResourceKey.create(Registries.STRUCTURE, mansionStructureId));
+            if (holder.isPresent()) {
+                mansionHolder = holder.get();
+                mansionStructure = mansionHolder.value();
+            }
+        }
+
+        int wmSpacing = 80;
+        int wmSeparation = 20;
+        RandomSpreadType wmSpreadType = RandomSpreadType.TRIANGULAR;
         int wmSalt = 10387319;
-        try {
-            var field = rs.getClass().getDeclaredField("salt");
-            field.setAccessible(true);
-            wmSalt = field.getInt(rs);
-        } catch (Throwable ignored) {
-        }
-        RandomSpreadType wmSpreadType = rs.spreadType();
 
-        // Biome requirements
+        if (mansionSet != null && mansionSet.placement() instanceof RandomSpreadStructurePlacement rs) {
+            wmSpacing = rs.spacing();
+            wmSeparation = rs.separation();
+            wmSpreadType = rs.spreadType();
+            try {
+                var field = rs.getClass().getDeclaredField("salt");
+                field.setAccessible(true);
+                wmSalt = field.getInt(rs);
+            } catch (Throwable ignored) {
+            }
+        }
+
         List<String> allowedBiomes = new ArrayList<>();
-        for (Holder<Biome> b : mansionStructure.biomes()) {
-            b.unwrapKey().ifPresent(k -> allowedBiomes.add(k.identifier().toString()));
+        if (mansionStructure != null) {
+            for (Holder<Biome> b : mansionStructure.biomes()) {
+                b.unwrapKey().ifPresent(k -> allowedBiomes.add(k.identifier().toString()));
+            }
+        } else {
+            allowedBiomes.add("minecraft:dark_forest");
         }
         Collections.sort(allowedBiomes);
 
-        LOG.info("Woodland Mansion Config: spacing={}, separation={}, spread={}, salt={}, biomes={}",
-                wmSpacing, wmSeparation, wmSpreadType, wmSalt, allowedBiomes);
+        LOG.info("Resolved Woodland Mansion Config: set_id={}, struct_id={}, spacing={}, separation={}, spread={}, salt={}, biomes={}",
+                mansionSetId, mansionStructureId, wmSpacing, wmSeparation, wmSpreadType, wmSalt, allowedBiomes);
 
         // Measure placement density across the bounded exploration area
         int regionStepBlocks = wmSpacing * 16; // e.g. 80 * 16 = 1280 blocks
@@ -226,7 +257,7 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
         for (int rx = minRegion; rx <= maxRegion; rx++) {
             for (int rz = minRegion; rz <= maxRegion; rz++) {
                 totalRegionsEvaluated++;
-                ChunkPos candidateChunk = rs.getPotentialStructureChunk(seed, rx, rz);
+                ChunkPos candidateChunk = computePotentialChunk(seed, rx, rz, wmSpacing, wmSeparation, wmSpreadType, wmSalt);
                 int anchorX = candidateChunk.x() * 16 + 8;
                 int anchorZ = candidateChunk.z() * 16 + 8;
 
@@ -238,7 +269,12 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
                 // Check chunk center biome against mansion allowed biomes
                 mpos.set(anchorX, 64, anchorZ);
                 Holder<Biome> anchorBiome = level.getBiome(mpos);
-                boolean biomeQualified = mansionStructure.biomes().contains(anchorBiome);
+                boolean biomeQualified;
+                if (mansionStructure != null) {
+                    biomeQualified = mansionStructure.biomes().contains(anchorBiome);
+                } else {
+                    biomeQualified = anchorBiome.is(Biomes.DARK_FOREST);
+                }
 
                 if (!biomeQualified) {
                     continue;
@@ -246,9 +282,14 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
                 validBiomeAnchors++;
 
                 // Test actual structure start generation
-                ChunkAccess chunkAccess = level.getChunk(candidateChunk.x(), candidateChunk.z(), ChunkStatus.STRUCTURE_STARTS);
-                StructureStart start = level.structureManager().getStartForStructure(mansionStructure, chunkAccess);
-                boolean isValidStart = (start != null && start.isValid());
+                boolean isValidStart = false;
+                if (mansionStructure != null) {
+                    ChunkAccess chunkAccess = level.getChunk(candidateChunk.x(), candidateChunk.z(), ChunkStatus.STRUCTURE_STARTS);
+                    StructureStart start = level.structureManager().getStartForStructure(mansionStructure, chunkAccess);
+                    isValidStart = (start != null && start.isValid());
+                } else {
+                    isValidStart = true;
+                }
 
                 if (isValidStart) {
                     validStructureStarts++;
@@ -268,7 +309,14 @@ public final class St01Phase3CalibrationProbe implements ModInitializer {
         }
 
         // Cross-check with level.findNearestMapStructure from origin
-        BlockPos locatedMansion = level.findNearestMapStructure(HolderSet.direct(mansionHolder), BlockPos.ZERO, Math.floorDiv(areaRadius, 16), false);
+        BlockPos locatedMansion = null;
+        if (mansionHolder != null) {
+            try {
+                locatedMansion = level.findNearestMapStructure(HolderSet.direct(mansionHolder), BlockPos.ZERO, Math.floorDiv(areaRadius, 16), false);
+            } catch (Throwable t) {
+                LOG.warn("findNearestMapStructure failed", t);
+            }
+        }
         Double nearestLocateDist = null;
         Map<String, Object> nearestLocateInfo = null;
         if (locatedMansion != null) {

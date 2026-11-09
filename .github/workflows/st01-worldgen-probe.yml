@@ -107,7 +107,8 @@ jobs:
           EOF
 
           # 3. Analyze Phase 3 results and synthesize Decision Report
-          python3 tools/st01-o14/phase3_calibration_analyzer.py
+          python3 tools/st01-o14/phase3_calibration_analyzer.py "$RESULTS_DIR/st01_phase3_seed1002.json" "$RESULTS_DIR/phase3_calibration_report.json"
+          cp "$RESULTS_DIR/phase3_calibration_report.json" "docs/design/st01-o14/phase3_calibration_report.json"
 
           echo ">>> Complete Phase 3 Pipeline Validation Succeeded!"
       - uses: actions/upload-artifact@v4

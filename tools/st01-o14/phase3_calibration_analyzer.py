@@ -262,6 +262,6 @@ def analyze_phase3(audit_file: Path, probe_file: Path, out_file: Path) -> dict:
 if __name__ == "__main__":
     repo_root = Path(__file__).resolve().parents[2]
     audit_path = repo_root / "docs/design/st01-o14/phase2_independent_audit.json"
-    probe_path = repo_root / "docs/design/st01-o14/st01_real_measurements.json"
-    out_path = repo_root / "docs/design/st01-o14/phase3_calibration_report.json"
+    probe_path = Path(sys.argv[1]) if len(sys.argv) > 1 else (repo_root / "docs/design/st01-o14/st01_real_measurements.json")
+    out_path = Path(sys.argv[2]) if len(sys.argv) > 2 else (repo_root / "docs/design/st01-o14/phase3_calibration_report.json")
     analyze_phase3(audit_path, probe_path, out_path)
