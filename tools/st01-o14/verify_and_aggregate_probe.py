@@ -52,7 +52,7 @@ def validate_single_seed_file(file_path: Path) -> dict:
     # 4. Sample candidate records
     records = data.get("sample_candidate_records", [])
     for r in records:
-        elev = r.get("elevation", {})
+        elev = r.get("elevation_metrics", {})
         min_h = elev.get("min_h", 0)
         max_h = elev.get("max_h", 0)
         delta_h = elev.get("delta_h", 0)
@@ -80,11 +80,7 @@ def verify_replay(file1: Path, file2: Path) -> bool:
     assert len(records1) == len(records2), f"Record counts mismatch: {len(records1)} vs {len(records2)}"
 
     for i, (r1, r2) in enumerate(zip(records1, records2)):
-        assert r1["anchor_x"] == r2["anchor_x"] and r1["anchor_z"] == r2["anchor_z"], f"Coord mismatch at index {i}"
-        assert r1["orientation"] == r2["orientation"], f"Orientation mismatch at index {i}"
-        assert r1["elevation"] == r2["elevation"], f"Elevation mismatch at index {i}"
-        assert r1["biome_coverage"] == r2["biome_coverage"], f"Biome coverage mismatch at index {i}"
-        assert r1["foundation_analysis"] == r2["foundation_analysis"], f"Foundation mismatch at index {i}"
+        assert r1 == r2, f"Candidate mismatch at index {i}:\n  Run 1: {r1}\n  Run 2: {r2}"
 
     print(f"REPLAY_PASS: Byte/value-identical match across {len(records1)} candidates between runs!")
     return True
@@ -109,7 +105,7 @@ def aggregate_multiseed(files: list[Path], output_path: Path) -> dict:
         for k, v in d.get("rejection_breakdown", {}).items():
             all_rejections[k] = all_rejections.get(k, 0) + v
         for rec in d.get("sample_candidate_records", []):
-            dh = rec.get("elevation", {}).get("delta_h")
+            dh = rec.get("elevation_metrics", {}).get("delta_h")
             if dh is not None:
                 all_delta_h.append(float(dh))
 

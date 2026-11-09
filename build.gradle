@@ -80,6 +80,14 @@ loom {
             runDir = "build/ore-sampling/run"
             ideConfigGenerated false
         }
+        // ST-01 Desert Pyramid natural-generation probe (tools/st01-o14/run_probe.sh); inert unless -Dmm.st01.probe.out is set.
+        st01WorldgenProbe {
+            server()
+            name = "ST-01 Worldgen Probe"
+            source sourceSets.gametest
+            runDir = "build/st01-worldgen-probe/run"
+            ideConfigGenerated false
+        }
     }
 }
 dependencies {
