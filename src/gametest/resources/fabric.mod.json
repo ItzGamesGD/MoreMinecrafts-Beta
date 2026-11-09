@@ -11,7 +11,8 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St01DesertWorldgenProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St01DesertWorldgenProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St01Phase3CalibrationProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",

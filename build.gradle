@@ -88,6 +88,14 @@ loom {
             runDir = "build/st01-worldgen-probe/run"
             ideConfigGenerated false
         }
+        // ST-01 Phase 3 Woodland Mansion baseline and calibration probe; inert unless -Dmm.st01.phase3.out is set.
+        st01Phase3Calibration {
+            server()
+            name = "ST-01 Phase 3 Calibration Probe"
+            source sourceSets.gametest
+            runDir = "build/st01-phase3-calibration/run"
+            ideConfigGenerated false
+        }
     }
 }
 dependencies {
