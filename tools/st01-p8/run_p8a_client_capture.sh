@@ -13,7 +13,7 @@ cd "$root"
 export LIBGL_ALWAYS_SOFTWARE=1
 export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
 set +e
-xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render -noreset" env \
+xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render +iglx -noreset" env \
   JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmm.st01.p8a.client=true -Dmm.st01.p8a.client.out=$manifest" \
   timeout "${CLIENT_TIMEOUT:-1500}" ./gradlew --no-daemon runClientGameTest --args="--width 1920 --height 1080" \
   > "$base/logs/client.log" 2>&1
