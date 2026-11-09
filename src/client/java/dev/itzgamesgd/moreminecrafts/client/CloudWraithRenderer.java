@@ -44,7 +44,7 @@ final class CloudWraithRenderer extends HumanoidMobRenderer<CloudWraith, ZombieR
                 if (!(candidate instanceof CloudWraith wraith) || !wraith.isAlive()
                         || wraith.isInvisible() || wraith.distanceToSqr(client.player) > 1024.0
                         || (wraith.tickCount + wraith.getId()) % 40 != 0) continue;
-                var random = client.level.random;
+                var random = wraith.getRandom();
                 client.level.addParticle(ParticleTypes.CLOUD,
                         wraith.getX() + (random.nextDouble() - 0.5) * 0.8,
                         wraith.getY() + 0.2 + random.nextDouble() * 1.15,
