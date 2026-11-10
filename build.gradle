@@ -71,6 +71,14 @@ loom {
             runDir = "build/st01-p8a-probe/run"
             ideConfigGenerated false
         }
+        // ST-01 P8-C2-B natural worldgen validation probe (tools/st01-p8c2b/run_validation.sh); inert unless -Dmm.st01.c2b.out is set; not part of check/build/CI.
+        st01C2BProbe {
+            server()
+            name = "ST-01 P8-C2-B Natural Worldgen Probe"
+            source sourceSets.gametest
+            runDir = "build/st01-p8c2b/run"
+            ideConfigGenerated false
+        }
         // ST-05 Stage 0 feasibility probe for A02/A03 (tools/st05-worldgen-probe/run_probe.sh); inert unless -Dmm.st05.out is set; not part of check/build/CI.
         st05CavernProbe {
             server()
