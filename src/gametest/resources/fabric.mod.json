@@ -11,7 +11,8 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.RoyalHallPlacementProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01C2BProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
@@ -30,6 +31,7 @@
       "dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssemblyGameTests",
+      "dev.itzgamesgd.moreminecrafts.pyramid.St01NaturalPieceGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
@@ -101,6 +103,7 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8AClientCaptureTest",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8ARecaptureTest",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssemblyClientCaptureTest",
+      "dev.itzgamesgd.moreminecrafts.pyramid.St01NaturalPyramidClientCaptureTest",
       "dev.itzgamesgd.moreminecrafts.colosseum.GladiatorClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryClientLifecycleGameTest",
