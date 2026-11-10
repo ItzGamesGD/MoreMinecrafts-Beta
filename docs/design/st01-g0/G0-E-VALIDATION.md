@@ -33,7 +33,7 @@ The WEST source anchor (+21,−20,33) differs by 42 blocks in X from the require
 
 ## Regression and runtime limits
 
-No production code/assets were changed. No new Minecraft server/client tests or CI runs were triggered for this design packet; they are NOT RUN. Prior B2 evidence remains historical:
+No production code/assets were changed. No Minecraft server/client tests were run locally for this packet; they are NOT RUN locally. Draft PR creation triggers the repository's automatic CI. Its results are reported separately and are not replaced by the design diagnostic. Prior B2 evidence remains historical:
 
 - Scoped PASS: https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42742214241
 - Full Fabric CI FAIL (ST-05 absence-grace): https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42742214500
@@ -42,3 +42,5 @@ No production code/assets were changed. No new Minecraft server/client tests or 
 Causality remains unresolved. Source preservation alone does not establish independence. Those failures are separate from the geometrically demonstrated conflicts here.
 
 MM-SG main was verified at 61a09eebafa9beee0944eba266e7f05a9543eec5. Its tools/structure_export/convert.py uses version-pinned block-state reference data, supported block-entity handlers and .schem/TOML inputs. It has no inspected ST-01 export configuration that resolves these geometry decisions. No exporter was run or modified. No new NBT, schematic, runtime behavior or worldgen was generated.
+
+Automatic Fabric CI observed after opening the draft: https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42758717840 (pending at observation; superseded if a later documentation commit triggers another run). No CI success is claimed.
