@@ -1,0 +1,145 @@
+{
+  "data_version": 5023,
+  "minecraft_version": "26.3",
+  "server_jar_sha1": "33680f5f2ac32864d6d7cf5e56a705fdb3e05f4c",
+  "source_commit": "61a09eebafa9beee0944eba266e7f05a9543eec5",
+  "source_path": "tools/structure_export/reference/minecraft-26.3.json",
+  "blocks": {
+    "minecraft:air": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:black_terracotta": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:chest": {
+      "block_entity": true,
+      "default": {
+        "facing": "north",
+        "type": "single",
+        "waterlogged": "false"
+      },
+      "properties": {
+        "facing": [
+          "north",
+          "south",
+          "west",
+          "east"
+        ],
+        "type": [
+          "single",
+          "left",
+          "right"
+        ],
+        "waterlogged": [
+          "true",
+          "false"
+        ]
+      }
+    },
+    "minecraft:chiseled_sandstone": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:cut_sandstone": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:cyan_concrete": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:diamond_block": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:flower_pot": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:gold_block": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:lapis_block": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:oak_planks": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:sandstone": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:sandstone_stairs": {
+      "block_entity": false,
+      "default": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      },
+      "properties": {
+        "facing": [
+          "north",
+          "south",
+          "west",
+          "east"
+        ],
+        "half": [
+          "top",
+          "bottom"
+        ],
+        "shape": [
+          "straight",
+          "inner_left",
+          "inner_right",
+          "outer_left",
+          "outer_right"
+        ],
+        "waterlogged": [
+          "true",
+          "false"
+        ]
+      }
+    },
+    "minecraft:smooth_red_sandstone": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:smooth_sandstone": {
+      "block_entity": false,
+      "default": {},
+      "properties": {}
+    },
+    "minecraft:wall_torch": {
+      "block_entity": false,
+      "default": {
+        "facing": "north"
+      },
+      "properties": {
+        "facing": [
+          "north",
+          "south",
+          "west",
+          "east"
+        ]
+      }
+    }
+  }
+}

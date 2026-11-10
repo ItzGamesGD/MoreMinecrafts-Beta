@@ -349,3 +349,7 @@ Headless CI must not be treated as proof of combat feel, visual presentation, in
 ## ST-01 G0 geometry reconciliation — 2026-11-10
 
 [G0 authority matrix](design/st01-g0/G0-A-AUTHORITY.md) records the owner's supplied C1 constraints (32/8 TRIANGULAR; height variation12/cutting8/skirt6; complete pyramid; four verified rotations; reject unsafe conflicts; footprint-based ground with entrance access). Its linked architecture packet is **G0 BLOCKED / proposal only**, not approval of provisional room geometry or changes to D1. The immutable-D1/secret-descent and independent-WEST conflicts require explicit owner resolution. Existing approved D1, canonical identity, absent SECONDARY and reward policy remain unchanged.
+
+## ST-01 G0-R1 approved interface delta — 2026-11-10
+
+The owner explicitly approved [R1-01/R1-02](design/st01-g0-r1/AUTHORITY-DELTA.md): keep original D1 bytes; permit only the enumerated twelve Y−24 assembly seam cells in addition to the separately governed Y−23 cover; keep D1/treasury/crypt fixed and select EAST/WEST access routes rather than mirroring chambers. These decisions supersede only the two conflicting G0 interface assumptions. The [G0-R1 blueprint](design/st01-g0-r1/README.md) is **DESIGN READY FOR OWNER APPROVAL**, not approval of numerical room counts, new WEST coordinates, crypt dimensions, palette or decorative/treasury representations. Production construction and all other approved constraints remain unchanged pending the stated approvals.
