@@ -146,7 +146,8 @@ class SkyIslandsResourceTest {
                 "sky_island_snowy", "sky_island_meadow", "sky_island_forest", "sky_island_desert", "sky_island_badlands");
         for (String id : structures) {
             JsonObject structure = json("data/moreminecrafts/worldgen/structure/" + id + ".json");
-            assertEquals("minecraft:jigsaw", structure.get("type").getAsString());
+            assertEquals(id.startsWith("sky_island_mountain_") ? "moreminecrafts:adaptive_jigsaw" : "minecraft:jigsaw", structure.get("type").getAsString());
+            if (id.startsWith("sky_island_mountain_")) { assertEquals(18, structure.get("minimum_offset").getAsInt()); assertEquals(70, structure.get("maximum_offset").getAsInt()); assertFalse(structure.has("start_height")); }
             assertEquals("none", structure.get("terrain_adaptation").getAsString(), "islands float: no terrain adaptation");
             assertTrue(exists("data/moreminecrafts/tags/worldgen/biome/has_structure/" + id + ".json"), id);
             String start = structure.get("start_pool").getAsString().substring("moreminecrafts:".length());

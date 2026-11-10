@@ -82,7 +82,13 @@ def build_style_islands(style):
     return out
 
 
-def structure_json(style, band, tag):
+def structure_json(style, band, tag, adaptive=False):
+    if adaptive:  # mountain variants: terrain-adaptive placement (design B-01..B-05); same fields, explicit offset bounds
+        d = structure_json(style, band, tag)
+        d["type"] = "moreminecrafts:adaptive_jigsaw"
+        del d["start_height"]
+        d["minimum_offset"], d["maximum_offset"] = band
+        return d
     return {
         "type": "minecraft:jigsaw",
         "biomes": f"#{NS}:has_structure/{tag}",
@@ -148,7 +154,7 @@ def collect():
     text("worldgen/template_pool/sky_islands/temple_top.json", pool([("sky_islands/temple", 1)]))
 
     for sid, (style, band, biomes) in STRUCTURES.items():
-        text(f"worldgen/structure/{sid}.json", structure_json(style, band, sid))
+        text(f"worldgen/structure/{sid}.json", structure_json(style, band, sid, adaptive=sid.startswith("sky_island_mountain_")))
         text(f"tags/worldgen/biome/has_structure/{sid}.json", biome_tag(biomes))
     manifest = {}
     for name, v in stats.items():

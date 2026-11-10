@@ -18,6 +18,7 @@ public final class MoreMinecrafts implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        dev.itzgamesgd.moreminecrafts.worldgen.structure.AdaptiveJigsawStructure.initialize();
         StructurePoolContributions.initialize();
         dev.itzgamesgd.moreminecrafts.worldgen.structure.ArenaWorldgenProbe.initialize();
         dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.initialize();
