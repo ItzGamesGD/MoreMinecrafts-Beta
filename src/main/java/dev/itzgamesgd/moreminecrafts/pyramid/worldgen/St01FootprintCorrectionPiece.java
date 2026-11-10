@@ -106,7 +106,11 @@ public final class St01FootprintCorrectionPiece extends StructurePiece {
                 boolean sealed = false;
                 for (int y = bandBottom; y < foundationY; y++) {
                     BlockState existing = level.getBlockState(pos.set(x, y, z));
-                    if (existing.isAir() || !existing.getFluidState().isEmpty() || existing.canBeReplaced()) {
+                    // keep only solid occluding terrain; plants, trees (logs/leaves), fluids and air are replaced so the result does not depend on whether
+                    // vegetation features of neighbouring chunks ran before this piece
+                    boolean terrain = existing.canOcclude() && existing.getFluidState().isEmpty()
+                            && !existing.is(net.minecraft.tags.BlockTags.LOGS) && !existing.is(net.minecraft.tags.BlockTags.LEAVES);
+                    if (!terrain) {
                         level.setBlock(pos, y >= foundationY - 4 ? sand : sandstone, 2);
                         sealed = true;
                     }
