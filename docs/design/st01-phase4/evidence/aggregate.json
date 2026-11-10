@@ -1,0 +1,735 @@
+{
+  "aggregate": {
+    "seeds": 15,
+    "total_area_km2": 6291.456,
+    "total_starts": 16,
+    "total_completed": 16,
+    "pooled_density_per_100km2": 0.2543131510416667,
+    "pooled_density_95ci": [
+      0.14526700560884168,
+      0.41301465408725574
+    ],
+    "mean_starts_per_seed": 1.0666666666666667,
+    "zero_start_seeds": 4,
+    "ratio_to_phase31_mansion_density": 0.35568272872960377,
+    "total_prediction_mismatches": 0
+  },
+  "per_seed": [
+    {
+      "seed": 1001,
+      "potential_anchors": 1600,
+      "center_only_desert": 58,
+      "full_footprint_desert": 17,
+      "terrain_qualified": 4,
+      "fluid_safe": 1,
+      "actual_valid_starts": 1,
+      "completed": 1,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1583,
+        "REJECT_FLUID": 3,
+        "REJECT_HEIGHT_DIFFERENCE": 12,
+        "REJECT_SKIRT": 1
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.2384185791015625,
+      "nearest_start_distance_blocks": 8257.495988494333,
+      "starts": {
+        "-435,-279": {
+          "anchor": {
+            "x": -6952,
+            "y": 70,
+            "z": -4456
+          },
+          "rotation": "CLOCKWISE_90",
+          "pass": true
+        }
+      },
+      "fluid_audit": [
+        {
+          "anchor": "-7624,69,-3464",
+          "actual_water_blocks_in_volume_plus_margin": 12,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 2,
+          "footprint_columns_exactly_at_would_be_foundation_level": "458/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "-7400,65,7336",
+          "actual_water_blocks_in_volume_plus_margin": 4,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 1,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1741/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "776,69,-6936",
+          "actual_water_blocks_in_volume_plus_margin": 326,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 108,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1686/6561",
+          "no_partial_generation": true
+        }
+      ]
+    },
+    {
+      "seed": 1002,
+      "potential_anchors": 1600,
+      "center_only_desert": 48,
+      "full_footprint_desert": 18,
+      "terrain_qualified": 5,
+      "fluid_safe": 2,
+      "actual_valid_starts": 2,
+      "completed": 2,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1582,
+        "REJECT_CUT": 2,
+        "REJECT_FLUID": 3,
+        "REJECT_HEIGHT_DIFFERENCE": 10,
+        "REJECT_SKIRT": 1
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.476837158203125,
+      "nearest_start_distance_blocks": 8992.120995627227,
+      "starts": {
+        "329,527": {
+          "anchor": {
+            "x": 5272,
+            "y": 71,
+            "z": 8440
+          },
+          "rotation": "CLOCKWISE_180",
+          "pass": true
+        },
+        "521,-210": {
+          "anchor": {
+            "x": 8344,
+            "y": 66,
+            "z": -3352
+          },
+          "rotation": "NONE",
+          "pass": true
+        }
+      },
+      "fluid_audit": [
+        {
+          "anchor": "712,72,-2344",
+          "actual_water_blocks_in_volume_plus_margin": 134,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 46,
+          "footprint_columns_exactly_at_would_be_foundation_level": "2286/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "5864,69,-776",
+          "actual_water_blocks_in_volume_plus_margin": 1730,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 0,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1179/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "9816,67,-2744",
+          "actual_water_blocks_in_volume_plus_margin": 112,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 183,
+          "footprint_columns_exactly_at_would_be_foundation_level": "676/6561",
+          "no_partial_generation": true
+        }
+      ]
+    },
+    {
+      "seed": 1003,
+      "potential_anchors": 1600,
+      "center_only_desert": 30,
+      "full_footprint_desert": 4,
+      "terrain_qualified": 0,
+      "fluid_safe": 0,
+      "actual_valid_starts": 0,
+      "completed": 0,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1596,
+        "REJECT_HEIGHT_DIFFERENCE": 4
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.0,
+      "nearest_start_distance_blocks": null,
+      "starts": {},
+      "fluid_audit": []
+    },
+    {
+      "seed": 1004,
+      "potential_anchors": 1600,
+      "center_only_desert": 33,
+      "full_footprint_desert": 8,
+      "terrain_qualified": 3,
+      "fluid_safe": 2,
+      "actual_valid_starts": 2,
+      "completed": 2,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1592,
+        "REJECT_FLUID": 1,
+        "REJECT_HEIGHT_DIFFERENCE": 5
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.476837158203125,
+      "nearest_start_distance_blocks": 3224.009925543034,
+      "starts": {
+        "-111,168": {
+          "anchor": {
+            "x": -1768,
+            "y": 70,
+            "z": 2696
+          },
+          "rotation": "COUNTERCLOCKWISE_90",
+          "pass": true
+        },
+        "-571,-501": {
+          "anchor": {
+            "x": -9128,
+            "y": 68,
+            "z": -8008
+          },
+          "rotation": "CLOCKWISE_90",
+          "pass": true
+        }
+      },
+      "fluid_audit": [
+        {
+          "anchor": "-2328,66,8360",
+          "actual_water_blocks_in_volume_plus_margin": 105,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 15,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1521/6561",
+          "no_partial_generation": true
+        }
+      ]
+    },
+    {
+      "seed": 1005,
+      "potential_anchors": 1600,
+      "center_only_desert": 48,
+      "full_footprint_desert": 12,
+      "terrain_qualified": 1,
+      "fluid_safe": 1,
+      "actual_valid_starts": 1,
+      "completed": 1,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1588,
+        "REJECT_HEIGHT_DIFFERENCE": 11
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.2384185791015625,
+      "nearest_start_distance_blocks": 4745.517463881047,
+      "starts": {
+        "7,296": {
+          "anchor": {
+            "x": 120,
+            "y": 69,
+            "z": 4744
+          },
+          "rotation": "COUNTERCLOCKWISE_90",
+          "pass": true
+        }
+      },
+      "fluid_audit": []
+    },
+    {
+      "seed": 1034165336,
+      "potential_anchors": 1600,
+      "center_only_desert": 24,
+      "full_footprint_desert": 5,
+      "terrain_qualified": 1,
+      "fluid_safe": 1,
+      "actual_valid_starts": 1,
+      "completed": 1,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1595,
+        "REJECT_HEIGHT_DIFFERENCE": 4
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.2384185791015625,
+      "nearest_start_distance_blocks": 4450.661074492193,
+      "starts": {
+        "179,-213": {
+          "anchor": {
+            "x": 2872,
+            "y": 68,
+            "z": -3400
+          },
+          "rotation": "COUNTERCLOCKWISE_90",
+          "pass": true
+        }
+      },
+      "fluid_audit": []
+    },
+    {
+      "seed": 1421442253,
+      "potential_anchors": 1600,
+      "center_only_desert": 30,
+      "full_footprint_desert": 6,
+      "terrain_qualified": 0,
+      "fluid_safe": 0,
+      "actual_valid_starts": 0,
+      "completed": 0,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1594,
+        "REJECT_HEIGHT_DIFFERENCE": 6
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.0,
+      "nearest_start_distance_blocks": null,
+      "starts": {},
+      "fluid_audit": []
+    },
+    {
+      "seed": 1541117449,
+      "potential_anchors": 1600,
+      "center_only_desert": 77,
+      "full_footprint_desert": 31,
+      "terrain_qualified": 4,
+      "fluid_safe": 3,
+      "actual_valid_starts": 3,
+      "completed": 3,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1569,
+        "REJECT_CUT": 3,
+        "REJECT_FLUID": 1,
+        "REJECT_HEIGHT_DIFFERENCE": 23,
+        "REJECT_SKIRT": 1
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.7152557373046875,
+      "nearest_start_distance_blocks": 5775.63433745593,
+      "starts": {
+        "-408,486": {
+          "anchor": {
+            "x": -6520,
+            "y": 63,
+            "z": 7784
+          },
+          "rotation": "NONE",
+          "pass": true
+        },
+        "301,198": {
+          "anchor": {
+            "x": 4824,
+            "y": 71,
+            "z": 3176
+          },
+          "rotation": "CLOCKWISE_90",
+          "pass": true
+        },
+        "328,176": {
+          "anchor": {
+            "x": 5256,
+            "y": 65,
+            "z": 2824
+          },
+          "rotation": "COUNTERCLOCKWISE_90",
+          "pass": true
+        }
+      },
+      "fluid_audit": [
+        {
+          "anchor": "1752,68,-5096",
+          "actual_water_blocks_in_volume_plus_margin": 3853,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 251,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1857/6561",
+          "no_partial_generation": true
+        }
+      ]
+    },
+    {
+      "seed": 1928394366,
+      "potential_anchors": 1600,
+      "center_only_desert": 29,
+      "full_footprint_desert": 7,
+      "terrain_qualified": 2,
+      "fluid_safe": 2,
+      "actual_valid_starts": 2,
+      "completed": 2,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1593,
+        "REJECT_HEIGHT_DIFFERENCE": 5
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.476837158203125,
+      "nearest_start_distance_blocks": 5547.283299057296,
+      "starts": {
+        "-497,430": {
+          "anchor": {
+            "x": -7944,
+            "y": 68,
+            "z": 6888
+          },
+          "rotation": "NONE",
+          "pass": true
+        },
+        "-84,-337": {
+          "anchor": {
+            "x": -1336,
+            "y": 70,
+            "z": -5384
+          },
+          "rotation": "CLOCKWISE_180",
+          "pass": true
+        }
+      },
+      "fluid_audit": []
+    },
+    {
+      "seed": 2048069562,
+      "potential_anchors": 1600,
+      "center_only_desert": 13,
+      "full_footprint_desert": 1,
+      "terrain_qualified": 1,
+      "fluid_safe": 1,
+      "actual_valid_starts": 1,
+      "completed": 1,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1599
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.2384185791015625,
+      "nearest_start_distance_blocks": 7907.926150388609,
+      "starts": {
+        "102,483": {
+          "anchor": {
+            "x": 1640,
+            "y": 73,
+            "z": 7736
+          },
+          "rotation": "CLOCKWISE_180",
+          "pass": true
+        }
+      },
+      "fluid_audit": []
+    },
+    {
+      "seed": 287862831,
+      "potential_anchors": 1600,
+      "center_only_desert": 39,
+      "full_footprint_desert": 11,
+      "terrain_qualified": 4,
+      "fluid_safe": 1,
+      "actual_valid_starts": 1,
+      "completed": 1,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1589,
+        "REJECT_FLUID": 3,
+        "REJECT_HEIGHT_DIFFERENCE": 6,
+        "REJECT_SKIRT": 1
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.2384185791015625,
+      "nearest_start_distance_blocks": 9425.921705594632,
+      "starts": {
+        "-503,-308": {
+          "anchor": {
+            "x": -8040,
+            "y": 67,
+            "z": -4920
+          },
+          "rotation": "NONE",
+          "pass": true
+        }
+      },
+      "fluid_audit": [
+        {
+          "anchor": "1160,66,3320",
+          "actual_water_blocks_in_volume_plus_margin": 2968,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 8,
+          "footprint_columns_exactly_at_would_be_foundation_level": "939/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "2728,67,3736",
+          "actual_water_blocks_in_volume_plus_margin": 375,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 29,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1226/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "5384,68,-3432",
+          "actual_water_blocks_in_volume_plus_margin": 4290,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 26,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1583/6561",
+          "no_partial_generation": true
+        }
+      ]
+    },
+    {
+      "seed": 407538027,
+      "potential_anchors": 1600,
+      "center_only_desert": 28,
+      "full_footprint_desert": 9,
+      "terrain_qualified": 4,
+      "fluid_safe": 1,
+      "actual_valid_starts": 1,
+      "completed": 1,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1591,
+        "REJECT_FLUID": 3,
+        "REJECT_HEIGHT_DIFFERENCE": 5
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.2384185791015625,
+      "nearest_start_distance_blocks": 9872.693654722605,
+      "starts": {
+        "-186,588": {
+          "anchor": {
+            "x": -2968,
+            "y": 71,
+            "z": 9416
+          },
+          "rotation": "COUNTERCLOCKWISE_90",
+          "pass": true
+        }
+      },
+      "fluid_audit": [
+        {
+          "anchor": "-6008,66,-5784",
+          "actual_water_blocks_in_volume_plus_margin": 361,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 374,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1459/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "-4408,68,-4088",
+          "actual_water_blocks_in_volume_plus_margin": 637,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 124,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1439/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "-3352,68,-3848",
+          "actual_water_blocks_in_volume_plus_margin": 438,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 0,
+          "footprint_columns_exactly_at_would_be_foundation_level": "1010/6561",
+          "no_partial_generation": true
+        }
+      ]
+    },
+    {
+      "seed": 527213223,
+      "potential_anchors": 1600,
+      "center_only_desert": 45,
+      "full_footprint_desert": 12,
+      "terrain_qualified": 2,
+      "fluid_safe": 1,
+      "actual_valid_starts": 1,
+      "completed": 1,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1588,
+        "REJECT_FLUID": 1,
+        "REJECT_HEIGHT_DIFFERENCE": 8,
+        "REJECT_SKIRT": 2
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.2384185791015625,
+      "nearest_start_distance_blocks": 12379.559927558006,
+      "starts": {
+        "622,-460": {
+          "anchor": {
+            "x": 9960,
+            "y": 65,
+            "z": -7352
+          },
+          "rotation": "CLOCKWISE_180",
+          "pass": true
+        }
+      },
+      "fluid_audit": [
+        {
+          "anchor": "-1912,68,-4808",
+          "actual_water_blocks_in_volume_plus_margin": 194,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 0,
+          "footprint_columns_exactly_at_would_be_foundation_level": "928/6561",
+          "no_partial_generation": true
+        }
+      ]
+    },
+    {
+      "seed": 794814944,
+      "potential_anchors": 1600,
+      "center_only_desert": 53,
+      "full_footprint_desert": 8,
+      "terrain_qualified": 1,
+      "fluid_safe": 0,
+      "actual_valid_starts": 0,
+      "completed": 0,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1592,
+        "REJECT_FLUID": 1,
+        "REJECT_HEIGHT_DIFFERENCE": 6,
+        "REJECT_SKIRT": 1
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.0,
+      "nearest_start_distance_blocks": null,
+      "starts": {},
+      "fluid_audit": [
+        {
+          "anchor": "4856,67,-3848",
+          "actual_water_blocks_in_volume_plus_margin": 4541,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 0,
+          "footprint_columns_exactly_at_would_be_foundation_level": "989/6561",
+          "no_partial_generation": true
+        }
+      ]
+    },
+    {
+      "seed": 914490140,
+      "potential_anchors": 1600,
+      "center_only_desert": 58,
+      "full_footprint_desert": 19,
+      "terrain_qualified": 2,
+      "fluid_safe": 0,
+      "actual_valid_starts": 0,
+      "completed": 0,
+      "mismatches": 0,
+      "rejections": {
+        "REJECT_BIOME": 1581,
+        "REJECT_FLUID": 2,
+        "REJECT_HEIGHT_DIFFERENCE": 16,
+        "REJECT_SKIRT": 1
+      },
+      "area_km2": 419.4304,
+      "density_per_100km2": 0.0,
+      "nearest_start_distance_blocks": null,
+      "starts": {},
+      "fluid_audit": [
+        {
+          "anchor": "-7480,64,7832",
+          "actual_water_blocks_in_volume_plus_margin": 1464,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 30,
+          "footprint_columns_exactly_at_would_be_foundation_level": "4385/6561",
+          "no_partial_generation": true
+        },
+        {
+          "anchor": "6904,65,3688",
+          "actual_water_blocks_in_volume_plus_margin": 80,
+          "actual_lava_blocks_in_volume_plus_margin": 0,
+          "fluid_rejection_confirmed_by_real_chunks": true,
+          "structure_start_in_anchor_chunk": false,
+          "hall_marker_blocks_in_volume": 0,
+          "footprint_columns_differing_from_noise_height_by_more_than_3": 22,
+          "footprint_columns_exactly_at_would_be_foundation_level": "526/6561",
+          "no_partial_generation": true
+        }
+      ]
+    }
+  ],
+  "phase31_comparison": [
+    {
+      "seed": 1001,
+      "phase31_full_100_desert": 16,
+      "production_full_footprint_desert": 17,
+      "phase31_moderate": 4,
+      "production_valid_starts": 1
+    },
+    {
+      "seed": 1002,
+      "phase31_full_100_desert": 18,
+      "production_full_footprint_desert": 18,
+      "phase31_moderate": 6,
+      "production_valid_starts": 2
+    },
+    {
+      "seed": 1003,
+      "phase31_full_100_desert": 4,
+      "production_full_footprint_desert": 4,
+      "phase31_moderate": 0,
+      "production_valid_starts": 0
+    },
+    {
+      "seed": 1004,
+      "phase31_full_100_desert": 8,
+      "production_full_footprint_desert": 8,
+      "phase31_moderate": 3,
+      "production_valid_starts": 2
+    },
+    {
+      "seed": 1005,
+      "phase31_full_100_desert": 10,
+      "production_full_footprint_desert": 12,
+      "phase31_moderate": 2,
+      "production_valid_starts": 1
+    }
+  ]
+}

@@ -110,10 +110,18 @@ public final class St01Phase4ClientCaptureTest implements FabricClientGameTest {
                     context.waitFor(c -> c.level != null && c.level.getChunkSource().hasChunk(vx, vz)
                             && c.level.getChunkSource().hasChunk(gcx >> 4, gcz >> 4));
                     connection.waitForClientboundPackets();
-                    context.waitTicks(240); // software GL: allow chunk meshing and lighting to finish
+                    boolean rendered;
+                    try {
+                        context.waitFor(c -> c.levelRenderer.hasRenderedAllSections(), 2400); // software GL: wait for chunk meshing
+                        rendered = true;
+                    } catch (RuntimeException | AssertionError timeout) {
+                        rendered = false;
+                    }
+                    context.waitTicks(60);
 
                     {
                     Map<String, Object> cap = new LinkedHashMap<>();
+                    cap.put("all_sections_rendered_before_capture", rendered);
                     cap.put("target", t);
                     cap.put("name", prefix + v.name);
                     cap.put("feet", List.of(v.x, v.y, v.z));
