@@ -23,7 +23,8 @@ jobs:
           java-version: '25'
       - uses: gradle/actions/setup-gradle@v4
       - name: Build and unit regression tests
-        run: ./gradlew build compileGametestJava --no-daemon --max-workers=2
+        # The existing Fabric CI runs the full concurrent GameTest suite independently.
+        run: ./gradlew build compileGametestJava -x runGameTest --no-daemon --max-workers=2
       - name: Royal chest and actual D1 transform GameTests
         env:
           JAVA_TOOL_OPTIONS: '-Dmm.royal.placement=true -Dfabric-api.gametest.filter=moreminecrafts-gametest:*royal_chest_game_tests*'
