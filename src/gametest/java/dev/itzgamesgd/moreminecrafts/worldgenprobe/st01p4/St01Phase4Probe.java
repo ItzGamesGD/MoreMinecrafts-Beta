@@ -760,7 +760,7 @@ public final class St01Phase4Probe implements ModInitializer {
                 int top = Integer.MIN_VALUE;
                 for (int y = yf + St01PlacementConfig.MAX_CUT + 2; y >= yf - 14; y--) {
                     BlockState st = level.getBlockState(mp.set(x, y, z));
-                    if (st.canOcclude() && !st.is(net.minecraft.tags.BlockTags.LOGS) && !st.is(net.minecraft.tags.BlockTags.LEAVES)) { top = y; break; }
+                    if (st.isCollisionShapeFullBlock(level, mp) && !st.is(net.minecraft.tags.BlockTags.LOGS) && !st.is(net.minecraft.tags.BlockTags.LEAVES)) { top = y; break; }
                 }
                 sb.append(top).append(',');
             }

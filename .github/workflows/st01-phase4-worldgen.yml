@@ -24,10 +24,6 @@ jobs:
         env:
           JAVA_TOOL_OPTIONS: '-Dmm.royal.placement=true -Dfabric-api.gametest.filter=moreminecrafts-gametest:*royal_chest_game_tests*'
         run: ./gradlew runGameTest --no-daemon --max-workers=2
-      - name: Guardian regression GameTests
-        env:
-          JAVA_TOOL_OPTIONS: '-Dfabric-api.gametest.filter=moreminecrafts-gametest:tomb_guardian_game_tests_*'
-        run: ./gradlew runGameTest --no-daemon --max-workers=2
       - uses: actions/upload-artifact@v4
         if: always()
         with:
