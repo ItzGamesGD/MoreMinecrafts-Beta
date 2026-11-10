@@ -65,6 +65,35 @@ jobs:
             build/st01-phase4/logs/${{ matrix.seed }}/
           retention-days: 30
 
+  client-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install display and software-GL dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1 x11-utils
+      - name: Scan seed 1004 on a real server (gives the start list for the capture)
+        run: tools/st01-phase4/run_validation.sh 1004 9300
+      - name: Rendered-client capture of the naturally generated starts (visual evidence)
+        run: MAX_TARGETS=2 tools/st01-phase4/run_client_capture.sh 1004 build/st01-phase4/results/1004/scan.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-phase4-client-capture
+          path: |
+            build/st01-phase4/client/
+            build/st01-phase4/results/1004/scan.json
+          retention-days: 30
+
   aggregate:
     needs: worldgen
     if: always()
