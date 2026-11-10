@@ -26,7 +26,7 @@ jobs:
         run: ./gradlew build compileGametestJava --no-daemon --max-workers=2
       - name: Royal chest and actual D1 transform GameTests
         env:
-          JAVA_TOOL_OPTIONS: '-Dfabric-api.gametest.filter=moreminecrafts-gametest:*royal_chest_game_tests*'
+          JAVA_TOOL_OPTIONS: '-Dmm.royal.placement=true -Dfabric-api.gametest.filter=moreminecrafts-gametest:*royal_chest_game_tests*'
         run: ./gradlew runGameTest --no-daemon --max-workers=2
       - name: Guardian regression GameTests
         env:
