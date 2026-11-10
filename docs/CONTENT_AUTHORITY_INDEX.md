@@ -345,3 +345,7 @@ Do not implement or infer missing design from this idea entry. A dedicated desig
 Items marked LIVE PENDING in the Stage 2/Stage 3 reconciliation documents remain live-test work rather than documentation defects.
 
 Headless CI must not be treated as proof of combat feel, visual presentation, interaction feel, or economy balance.
+
+## ST-01 G0 geometry reconciliation — 2026-11-10
+
+[G0 authority matrix](design/st01-g0/G0-A-AUTHORITY.md) records the owner's supplied C1 constraints (32/8 TRIANGULAR; height variation12/cutting8/skirt6; complete pyramid; four verified rotations; reject unsafe conflicts; footprint-based ground with entrance access). Its linked architecture packet is **G0 BLOCKED / proposal only**, not approval of provisional room geometry or changes to D1. The immutable-D1/secret-descent and independent-WEST conflicts require explicit owner resolution. Existing approved D1, canonical identity, absent SECONDARY and reward policy remain unchanged.
