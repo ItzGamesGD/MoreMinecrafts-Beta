@@ -1,0 +1,53 @@
+name: ST-01 Royal Chest Runtime
+on:
+  push:
+    branches: [work/st01-p8b2-royal-chest-runtime-20261110]
+  pull_request:
+    paths:
+      - 'src/**/pyramid/**'
+      - 'src/**/RoyalChest*'
+      - '.github/workflows/st01-royal-chest-runtime.yml'
+permissions:
+  contents: read
+jobs:
+  royal-chest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build and unit regression tests
+        # The existing Fabric CI runs the full concurrent GameTest suite independently.
+        run: ./gradlew build compileGametestJava -x runGameTest --no-daemon --max-workers=2
+      - name: Royal chest and actual D1 transform GameTests
+        env:
+          JAVA_TOOL_OPTIONS: '-Dmm.royal.placement=true -Dfabric-api.gametest.filter=moreminecrafts-gametest:*royal_chest_game_tests*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2
+      - name: Guardian regression GameTests
+        env:
+          JAVA_TOOL_OPTIONS: '-Dfabric-api.gametest.filter=moreminecrafts-gametest:tomb_guardian_game_tests_*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2
+      - name: Normal save and two subsequent server process restarts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for phase in write reload verify; do
+            JAVA_TOOL_OPTIONS="-Dfabric-api.gametest.filter=moreminecrafts-gametest:st01royal_chest_game_tests_royal_inventory_survives_normal_server_process_restart -Dmm.royal.restart.phase=$phase -Dmm.royal.restart.file=$GITHUB_WORKSPACE/build/royal-restart.json" \
+              ./gradlew runGameTest --no-daemon --max-workers=2 2>&1 | tee "build/royal-restart-$phase.log"
+            grep -q "ROYAL_CHEST_NORMAL_RESTART_.*_PASS" "build/royal-restart-$phase.log"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-royal-runtime-evidence
+          path: |
+            build/test-results/
+            build/reports/tests/
+            build/run/gameTest/logs/
+            build/royal-restart*

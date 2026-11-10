@@ -428,3 +428,10 @@ tasks.named("check") {
     dependsOn tasks.named("validateLowerEquipmentResources")
 }
 
+
+// Only the royal-chest multi-process fixture keeps its world between JVMs; ordinary runs still start clean.
+tasks.named("deleteGameTestRunDir") {
+    onlyIf {
+        !(System.getProperty("mm.royal.restart.phase", "") in ["reload", "verify"])
+    }
+}
