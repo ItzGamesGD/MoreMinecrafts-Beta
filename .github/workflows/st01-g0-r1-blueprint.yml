@@ -1,0 +1,40 @@
+name: ST-01 G0-R1 Design Verification
+on:
+  push:
+    branches: [work/st01-g0-r1-blueprint-finalization-20261110]
+  pull_request:
+    paths:
+      - 'docs/design/st01-g0-r1/**'
+      - 'tools/st01-g0-r1/**'
+      - '.github/workflows/st01-g0-r1-blueprint.yml'
+permissions:
+  contents: read
+jobs:
+  blueprint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - run: python -m pip install numpy==2.3.5
+      - name: Materialize and independently verify two complete candidate runs
+        run: python tools/st01-g0-r1/verify.py --out work/st01-g0-r1-ci
+      - name: Check committed design artifacts
+        run: |
+          for name in blueprint.json d1-exceptions.json validation.json COMPONENTS.md; do
+            cmp "docs/design/st01-g0-r1/generated/$name" "work/st01-g0-r1-ci/first/$name"
+          done
+          cmp docs/design/st01-g0-r1/generated/reproducibility.json work/st01-g0-r1-ci/reproducibility.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-g0-r1-design-evidence
+          path: work/st01-g0-r1-ci
