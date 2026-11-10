@@ -14,10 +14,11 @@ import urllib.request
 
 
 class GitHubMeta:
-    def __init__(self, repo: str, token: str | None = None, api: str = "https://api.github.com"):
+    def __init__(self, repo: str, token: str | None = None, api: str | None = None):
         self.repo = repo
         self.token = token if token is not None else os.environ.get("GITHUB_TOKEN")
-        self.api = api.rstrip("/")
+        # GITHUB_API_URL is set by Actions (and points at GHES when applicable).
+        self.api = (api or os.environ.get("GITHUB_API_URL") or "https://api.github.com").rstrip("/")
 
     def get(self, path: str, params: dict | None = None):
         url = f"{self.api}{path}"

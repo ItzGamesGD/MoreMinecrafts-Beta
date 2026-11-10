@@ -2,6 +2,7 @@
 
 Exit codes: 0 ok · 1 failed · 2 incomplete (time budget; resumable) · 3 lease held
             4 blocked (no Drive credentials / access) · 5 safety stop
+            6 security gate: unapproved findings (refs quarantined) · 7 gate could not decide (fail closed)
 """
 from __future__ import annotations
 
@@ -16,6 +17,7 @@ from .gitsrc import GitSource
 from .lock import LockHeld
 
 EXIT_OK, EXIT_FAIL, EXIT_INCOMPLETE, EXIT_LOCKED, EXIT_BLOCKED, EXIT_SAFETY = 0, 1, 2, 3, 4, 5
+EXIT_GATE_BLOCKED, EXIT_GATE_ERROR = 6, 7
 
 
 def _common(p: argparse.ArgumentParser, drive: bool = True) -> None:
@@ -31,8 +33,9 @@ def _common(p: argparse.ArgumentParser, drive: bool = True) -> None:
                        help="shared drive id, when the parent folder is on a shared drive")
         p.add_argument("--api-base", default=os.environ.get("DRIVE_API_BASE", "https://www.googleapis.com"))
         p.add_argument("--no-tags", action="store_true", help="do not mirror tag trees (still recorded in refs.json)")
-        p.add_argument("--pull-heads", choices=["none", "orphaned", "all"], default="none",
-                       help="also mirror PR head trees: none, only heads no branch contains, or all")
+        p.add_argument("--pull-heads", choices=["none", "orphaned", "all"], default="orphaned",
+                       help="PR head trees to mirror under pulls/: orphaned (default: heads no branch contains), all, or none")
+        p.add_argument("--quarantine-file", help="quarantine.json from `secgate`: those refs are never uploaded")
 
 
 def main(argv=None) -> int:
@@ -57,15 +60,43 @@ def main(argv=None) -> int:
     p_sync.add_argument("--allow-empty-tree", action="store_true")
     p_sync.add_argument("--break-lock", action="store_true")
     p_sync.add_argument("--lock-settle-s", type=float, default=2.0)
+    p_sync.add_argument("--reconcile-after-hours", type=float,
+                        help="an incremental run becomes a reconcile when the last one is older than this")
+    p_sync.add_argument("--crawl-workers", type=int, default=8)
 
     p_ver = sub.add_parser("verify", help="independently verify the mirror against the remote")
     _common(p_ver)
     p_ver.add_argument("--deep-sample", type=int, default=0, help="download N files and re-hash them")
     p_ver.add_argument("--max-age-hours", type=float)
+    p_ver.add_argument("--sync-report", help="verify bytes only for namespaces this sync report changed "
+                                             "(others get the cheap structural checks); omit for a full verification")
 
     p_stat = sub.add_parser("status", help="cheap staleness check of state.json against ls-remote")
     _common(p_stat)
     p_stat.add_argument("--max-age-hours", type=float, default=26.0)
+
+    p_prep = sub.add_parser("prepare", help="fetch every ref into the cache (input for the secret scan)")
+    _common(p_prep, drive=False)
+    p_prep.add_argument("--pull-heads", choices=["none", "orphaned", "all"], default="all")
+
+    p_gate = sub.add_parser("secgate", help="decide which refs may be uploaded, from a gitleaks report")
+    _common(p_gate, drive=False)
+    p_gate.add_argument("--scan-report", required=True, help="gitleaks JSON report")
+    p_gate.add_argument("--approved", default=os.path.join(os.path.dirname(__file__), "security",
+                                                           "approved_findings.json"))
+    p_gate.add_argument("--pull-heads", choices=["none", "orphaned", "all"], default="orphaned")
+    p_gate.add_argument("--no-tags", action="store_true")
+    p_gate.add_argument("--quarantine-out", required=True)
+
+    p_lin = sub.add_parser("lineage", help="branch lineage and PR-state verification (JSON)")
+    _common(p_lin, drive=False)
+    p_lin.add_argument("--inventory", required=True, help="inventory JSON produced by `inventory`")
+
+    p_cs = sub.add_parser("current-state", help="AI-readable CURRENT_STATE index from inventory + lineage")
+    p_cs.add_argument("--inventory", required=True)
+    p_cs.add_argument("--lineage", required=True)
+    p_cs.add_argument("--facts", required=True, help="curated facts JSON (conflicts, owner decisions, findings)")
+    p_cs.add_argument("--report", required=True)
 
     p_st = sub.add_parser("preflight", help="check Drive credentials, destination access and quota")
     p_st.add_argument("--parent-folder-id", default=os.environ.get("DRIVE_PARENT_FOLDER_ID"))
@@ -81,6 +112,12 @@ def main(argv=None) -> int:
     except AuthUnavailable as e:
         _emit(a, {"result": "BLOCKED", "reason": str(e)})
         return EXIT_BLOCKED
+    except Exception as e:
+        from .security import GateError
+        if isinstance(e, GateError):
+            _emit(a, {"result": "GATE_ERROR", "reason": str(e)})
+            return EXIT_GATE_ERROR
+        raise
 
 
 def _drive(a) -> DriveClient:
@@ -105,12 +142,63 @@ def _dispatch(a) -> int:
         _emit(a, inv, summary=inv["counts"])
         return EXIT_OK
 
+    if a.cmd == "prepare":
+        src = GitSource(a.work_dir, a.repo_url)
+        snap = src.snapshot(include_tags=True, include_pulls=a.pull_heads != "none")
+        _emit(a, {"heads": len(snap.heads), "tags": len(snap.tags), "pull_heads": len(snap.pull_heads())})
+        return EXIT_OK
+
+    if a.cmd == "secgate":
+        from .inventory import utcnow
+        from .security import evaluate
+        src = GitSource(a.work_dir, a.repo_url)
+        snap = src.snapshot(include_tags=not a.no_tags, include_pulls=a.pull_heads != "none")
+        refs = dict(snap.heads)
+        if not a.no_tags:
+            refs.update({t: src.peel_to_commit(s) for t, s in snap.tags.items()})
+        if a.pull_heads != "none":
+            refs.update(snap.pull_heads())       # gate every candidate; sync decides which PR heads it mirrors
+        doc = evaluate(src, a.scan_report, a.approved, refs, utcnow())
+        src.close()
+        with open(a.quarantine_out, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, indent=1, ensure_ascii=False)
+        _emit(a, doc, summary={"verdict": doc["verdict"], **doc["counts"],
+                               "blocking_findings": [{k: f[k] for k in ("rule", "file", "line", "commit", "status")}
+                                                     for f in doc["blocking_findings"]]})
+        return EXIT_OK if doc["verdict"] == "PASS" else EXIT_GATE_BLOCKED
+
+    if a.cmd == "lineage":
+        from .lineage import build_lineage
+        with open(a.inventory, encoding="utf-8") as fh:
+            inv = json.load(fh)
+        src = GitSource(a.work_dir, a.repo_url)
+        src.ensure_repo()
+        lin = build_lineage(src, inv)
+        src.close()
+        _emit(a, lin, summary={"branches": len(lin["branches"]), **lin["pr_summary"]})
+        return EXIT_OK
+
+    if a.cmd == "current-state":
+        from .current_state import build_current_state
+        with open(a.inventory, encoding="utf-8") as fh:
+            inv = json.load(fh)
+        with open(a.lineage, encoding="utf-8") as fh:
+            lin = json.load(fh)
+        with open(a.facts, encoding="utf-8") as fh:
+            facts = json.load(fh)
+        doc = build_current_state(inv, lin, facts)
+        _emit(a, doc, summary={"schema": doc["schema"], "generated_at": doc["generated_at"],
+                               "uncertainties": len(doc["unresolved_uncertainties"])})
+        return EXIT_OK
+
     if a.cmd == "preflight":
         from .preflight import preflight
         rep = preflight(_drive(a), a.parent_folder_id, a.drive_id, a.expected_bytes, a.write_probe)
         _emit(a, rep)
         return {"PASS": EXIT_OK, "BLOCKED": EXIT_BLOCKED}.get(rep["result"], EXIT_FAIL)
 
+    from .security import load_quarantine
+    quarantine = load_quarantine(getattr(a, "quarantine_file", None))
     drive = _drive(a)
     git = GitSource(a.work_dir, a.repo_url)
     if a.cmd == "sync":
@@ -120,7 +208,8 @@ def _dispatch(a) -> int:
                          time_budget_s=a.time_budget_min * 60 if a.time_budget_min else None, workers=a.workers,
                          max_retire_fraction=a.max_retire_fraction, allow_mass_retire=a.allow_mass_retire,
                          allow_empty_tree=a.allow_empty_tree, break_lock=a.break_lock,
-                         lock_settle_s=a.lock_settle_s, github_repo=a.github_repo)
+                         lock_settle_s=a.lock_settle_s, github_repo=a.github_repo, quarantine=quarantine,
+                         reconcile_after_hours=a.reconcile_after_hours, crawl_workers=a.crawl_workers)
         try:
             rep = SyncRun(drive, git, cfg).run()
         except LockHeld as e:
@@ -142,14 +231,22 @@ def _dispatch(a) -> int:
 
     if a.cmd == "status":
         from .status import status
-        rep = status(drive, git, a.mirror_name, a.parent_folder_id, not a.no_tags, a.max_age_hours)
+        rep = status(drive, git, a.mirror_name, a.parent_folder_id, not a.no_tags, a.max_age_hours, set(quarantine))
         _emit(a, rep)
         return EXIT_OK if rep["result"] == "PASS" else EXIT_FAIL
 
     if a.cmd == "verify":
         from .verify import verify
+        only = None
+        if a.sync_report:
+            with open(a.sync_report, encoding="utf-8") as fh:
+                srep = json.load(fh)
+            only = {n["ref"] for n in srep.get("namespaces", []) if n.get("action") not in ("noop", "quarantined")}
+            if srep.get("mode") == "reconcile" or srep.get("status") != "complete":
+                only = None    # a reconcile (or an unfinished run) is verified in full
         rep = verify(drive, git, a.mirror_name, a.parent_folder_id, include_tags=not a.no_tags,
-                     pull_heads=a.pull_heads, deep_sample=a.deep_sample, max_age_hours=a.max_age_hours)
+                     pull_heads=a.pull_heads, deep_sample=a.deep_sample, max_age_hours=a.max_age_hours,
+                     only_refs=only, quarantine=quarantine)
         git.close()
         _emit(a, rep, summary={"result": rep["result"], "failing_namespaces": rep["failing_namespaces"][:20],
                                **{k: rep["global"].get(k) for k in ("expected_namespaces", "found_namespaces",

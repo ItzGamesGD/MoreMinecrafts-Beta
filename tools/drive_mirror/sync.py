@@ -71,7 +71,7 @@ class SyncConfig:
     repo_url: str
     mode: str = "incremental"            # incremental | reconcile
     include_tags: bool = True
-    pull_heads: str = "none"             # none | orphaned | all
+    pull_heads: str = "orphaned"         # none | orphaned | all   (orphaned = PR heads no branch contains)
     dry_run: bool = False
     time_budget_s: float | None = None
     workers: int = 4
@@ -83,6 +83,9 @@ class SyncConfig:
     lock_settle_s: float = 2.0
     run_id: str = field(default_factory=lambda: os.environ.get("GITHUB_RUN_ID", "local-" + os.urandom(4).hex()))
     github_repo: str | None = None
+    quarantine: dict = field(default_factory=dict)   # ref -> reason; those refs are never uploaded
+    reconcile_after_hours: float | None = None       # incremental runs upgrade themselves when the last reconcile is older
+    crawl_workers: int = 8
 
 
 def guess_mime(path: str) -> str:
@@ -90,6 +93,13 @@ def guess_mime(path: str) -> str:
     if not mime or mime.startswith(GOOGLE_APPS_PREFIX):
         return "application/octet-stream"
     return mime
+
+
+def _age_hours(ts: str | None) -> float | None:
+    if not ts:
+        return None
+    t = dt.datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    return (dt.datetime.now(dt.timezone.utc) - t).total_seconds() / 3600
 
 
 def digest(obj) -> str:
@@ -187,21 +197,26 @@ class Mirror:
         files: dict[str, list[dict]] = {}
         dirs: dict[str, str] = {"": folder_id}
         odd: list[dict] = []
-        queue = [("", folder_id)]
-        while queue:
-            prefix, fid = queue.pop()
-            for item in self.drive.children(fid):
-                path = f"{prefix}/{item['name']}" if prefix else item["name"]
-                if item["mimeType"] == FOLDER_MIME:
-                    if path in dirs:
-                        # Duplicate folder name: keep the first as canonical and trash the other
-                        # whole; any desired file inside it is re-created in the canonical folder.
-                        odd.append({"kind": "duplicate_folder", "path": path, "id": item["id"]})
-                        continue
-                    dirs[path] = item["id"]
-                    queue.append((path, item["id"]))
-                else:
-                    files.setdefault(path, []).append(item)
+        frontier = [("", folder_id)]
+        # Level-parallel walk: one listing per folder, many folders in flight. Against real Drive
+        # a serial walk of ~250 folders per namespace is the dominant cost of reconcile and verify.
+        with cf.ThreadPoolExecutor(max_workers=max(1, self.cfg.crawl_workers)) as pool:
+            while frontier:
+                listings = list(pool.map(lambda pf: (pf[0], list(self.drive.children(pf[1]))), frontier))
+                frontier = []
+                for prefix, items in listings:
+                    for item in items:
+                        path = f"{prefix}/{item['name']}" if prefix else item["name"]
+                        if item["mimeType"] == FOLDER_MIME:
+                            if path in dirs:
+                                # Duplicate folder name: keep the first as canonical and trash the other
+                                # whole; any desired file inside it is re-created in the canonical folder.
+                                odd.append({"kind": "duplicate_folder", "path": path, "id": item["id"]})
+                                continue
+                            dirs[path] = item["id"]
+                            frontier.append((path, item["id"]))
+                        else:
+                            files.setdefault(path, []).append(item)
         return files, dirs, odd
 
 
@@ -218,6 +233,7 @@ class SyncRun:
         self._indexed_manifests: set[str] = set()
         self.lease: DriveLease | None = None
         self.state: dict = {}
+        self.pulls_meta: dict[int, dict] = {}
 
     # ------------------------------------------------------------------ helpers
     def _budget_left(self) -> bool:
@@ -245,6 +261,7 @@ class SyncRun:
             self.state = {}
         else:
             self.state = self.mirror.read_meta(STATE_FILE) or {}
+        self._maybe_upgrade_to_reconcile()
         if not cfg.dry_run:
             self.lease = DriveLease(self.drive, self.mirror.folders[META_FOLDER], self.mirror.token,
                                     owner=f"{cfg.run_id}@{os.uname().nodename}", ttl_s=cfg.lock_ttl_s,
@@ -262,6 +279,22 @@ class SyncRun:
             self.git.close()
         return self.report
 
+    def _maybe_upgrade_to_reconcile(self) -> None:
+        """Reconcile cadence is decided from persisted state, not from the cron expression: a pending
+        scheduled run can be replaced by a newer pending one (Actions concurrency), so a cron-selected
+        reconcile could be starved forever on a busy mirror."""
+        cfg = self.cfg
+        self.report["mode_requested"] = cfg.mode
+        if cfg.mode != "incremental" or not cfg.reconcile_after_hours:
+            return
+        last = self.state.get("last_reconcile_at")
+        age = _age_hours(last)
+        if last is None or age is None or age > cfg.reconcile_after_hours:
+            cfg.mode = "reconcile"
+            self.report["mode"] = "reconcile"
+            self.report["mode_reason"] = (f"last reconcile {'never' if last is None else f'{age:.1f} h ago'} "
+                                          f"(limit {cfg.reconcile_after_hours} h)")
+
     def _run_locked(self, snap: RefSnapshot) -> None:
         cfg = self.cfg
         st = self.state
@@ -277,8 +310,12 @@ class SyncRun:
 
         desired = self._desired_refs(snap)
         self.report["source"] = {"heads": len(snap.heads), "tags": len(snap.tags),
+                                 "pull_heads_advertised": len(snap.pull_heads()),
                                  "pull_heads_mirrored": sum(1 for r in desired if r.startswith("refs/pull/")),
                                  "head_symref": snap.head_symref}
+        st["quarantined"] = {r: {"reason": why, "since": (st.get("quarantined", {}).get(r) or {}).get("since")
+                                 or utcnow()} for r, why in sorted(cfg.quarantine.items()) if r in desired}
+        self.report["quarantined"] = sorted(st["quarantined"])
         self._write_refs(snap)
         if cfg.github_repo:
             self._write_pulls()
@@ -287,7 +324,14 @@ class SyncRun:
         def order(ref):
             return (ref != snap.head_symref, -self._commit_time(desired[ref]))
         incomplete = False
+        for r in desired:
+            st["namespaces"].get(r, {}).pop("unconfirmed", None)   # a ref that is advertised again is confirmed
         for ref in sorted(desired, key=order):
+            if ref in st["quarantined"]:
+                # Explicit, recorded exclusion (security gate). Never uploaded, never silent.
+                self.report["namespaces"].append({"ref": ref, "commit": desired[ref], "action": "quarantined",
+                                                  "status": "quarantined", "reason": st["quarantined"][ref]["reason"]})
+                continue
             try:
                 self._check_budget()
                 res = self.sync_namespace(ref, desired[ref])
@@ -314,8 +358,28 @@ class SyncRun:
                                "errors": len(self.report["errors"])})
         if status == "complete":
             st["last_complete_run"] = {"run_id": cfg.run_id, "finished_at": self.report["finished_at"],
-                                       "refs": {r: desired[r] for r in sorted(desired)}}
+                                       "refs": {r: desired[r] for r in sorted(desired) if r not in st["quarantined"]}}
+            if cfg.mode == "reconcile":
+                st["last_reconcile_at"] = self.report["finished_at"]
         self._save_state()
+
+    def _source_block(self, ref: str) -> dict:
+        """Where this namespace's tree came from, so a PR-only snapshot can never be mistaken for a branch."""
+        if ref.startswith("refs/heads/"):
+            return {"kind": "branch", "ref": ref}
+        if ref.startswith("refs/tags/"):
+            return {"kind": "tag", "ref": ref}
+        n = int(ref.split("/")[2])
+        p = self.pulls_meta.get(n)
+        blk = {"kind": "pull_head", "ref": ref, "number": n,
+               "contained_in_any_branch": bool(self.git.run(
+                   "for-each-ref", "--contains", self.git.local_refs().get(ref, ""), "--count=1",
+                   "--format=%(refname)", "refs/mirror/heads/", check=False).decode().strip())
+               if self.git.local_refs().get(ref) else None}
+        if p:
+            blk["pr"] = {k: p.get(k) for k in ("state", "draft", "merged", "head_ref", "head_sha", "base_ref",
+                                               "base_sha", "created_at", "closed_at", "merged_at", "title")}
+        return blk
 
     def _commit_time(self, sha: str) -> float:
         try:
@@ -335,6 +399,14 @@ class SyncRun:
                                    "refs/mirror/heads/").decode().strip()
                 if not hit:
                     out[ref] = sha
+            # Sticky: once a PR head has been mirrored it stays mirrored while the remote still advertises
+            # it, even if a branch now contains its commit (a PR snapshot is not the same tree as the
+            # branch tip). It is only ever retired after the ref itself is confirmed gone.
+            sticky = [r for r in self.state.get("namespaces", {}) if r.startswith("refs/pull/")
+                      and r in snap.pull_heads() and r not in out]
+            for r in sticky:
+                out[r] = snap.pull_heads()[r]
+            self.report["pull_heads_sticky"] = sorted(sticky)
         return out
 
     # ------------------------------------------------------------------ metadata files
@@ -358,6 +430,7 @@ class SyncRun:
         except Exception as e:
             self.report["errors"].append({"ref": "(pull metadata)", "error": f"{type(e).__name__}: {e}"})
             return
+        self.pulls_meta = {p["number"]: p for p in pulls}
         d = digest(pulls)
         if self.state.get("pulls_digest") != d and not self.cfg.dry_run:
             self.mirror.write_meta(PULLS_FILE, {"captured_at": utcnow(), "repo": self.cfg.github_repo,
@@ -458,7 +531,8 @@ class SyncRun:
         new_manifest_files = self._apply(ref, plan, desired, dirs, res)
         manifest_obj = {
             "schema": SCHEMA_VERSION, "ref": ref, "namespace": f"{container}/{folder_name}",
-            "nsid": nss["nsid"], "folder_id": nss["folder_id"], "mirror": cfg.mirror_name,
+            "source": self._source_block(ref), "nsid": nss["nsid"], "folder_id": nss["folder_id"],
+            "mirror": cfg.mirror_name,
             "repo_url": cfg.repo_url, "commit": git.commit_meta(commit), "synced_at": utcnow(),
             "run_id": cfg.run_id, "file_count": len(new_manifest_files),
             "bytes": sum(r["size"] for r in new_manifest_files.values()),
@@ -742,20 +816,49 @@ class SyncRun:
             raise RuntimeError(f"write for blob {e.oid} produced a trashed file")
 
     # ------------------------------------------------------------------ deleted refs
+    def _pr_still_exists(self, ref: str) -> bool | None:
+        """True/False if the PR is known to exist/not exist; None when it cannot be checked."""
+        if not self.cfg.github_repo:
+            return None
+        try:
+            from .github_meta import GitHubMeta
+            GitHubMeta(self.cfg.github_repo).get(f"/repos/{self.cfg.github_repo}/pulls/{ref.split('/')[2]}")
+            return True
+        except Exception as e:
+            return False if getattr(e, "code", None) == 404 else None
+
     def _retire_missing(self, desired: dict[str, str], snap: RefSnapshot) -> None:
         gone = sorted(r for r in self.state["namespaces"] if r not in desired)
         if not gone:
             return
-        # Second, independent observation of the remote before anything is retired.
+        # Second, independent observation of the remote before anything is retired. Anything still
+        # advertised is never "deleted", whatever the current scope settings say.
         confirm = self.git.ls_remote()
-        still = set(confirm.heads) | (set(confirm.tags) if self.cfg.include_tags else set())
-        if self.cfg.pull_heads == "all":
-            still |= set(confirm.pull_heads())
-        # (pull heads under "orphaned" leave the desired set when a branch contains them again.)
-        reappeared = [r for r in gone if r in still]
-        gone = [r for r in gone if r not in still]
-        if reappeared:
-            self.report["retire_deferred"] = reappeared
+        still = set(confirm.heads) | set(confirm.tags) | set(confirm.pull_heads())
+        deferred: dict[str, str] = {}
+        for r in list(gone):
+            if r in still:
+                deferred[r] = "still advertised by the remote (outside the current mirror scope or reappeared)"
+                continue
+            # A ref missing from a full listing is only *confirmed* deleted by a targeted query that
+            # succeeds and returns nothing. An error, a timeout or a permissions problem is "inaccessible".
+            exists = self.git.probe_ref(r)
+            if exists is None:
+                deferred[r] = "inaccessible: targeted ref query failed; deletion not confirmed"
+            elif exists:
+                deferred[r] = "targeted query found the ref although the full listing did not"
+            elif r.startswith("refs/pull/") and self._pr_still_exists(r) is not False:
+                deferred[r] = ("pull request still exists (or could not be checked) but its head ref is not "
+                               "advertised: treated as inaccessible, not deleted")
+        gone = [r for r in gone if r not in deferred]
+        if deferred:
+            self.report["retire_deferred"] = deferred
+            for r, why in deferred.items():
+                self.state["namespaces"][r]["unconfirmed"] = {"reason": why, "since":
+                                                              (self.state["namespaces"][r].get("unconfirmed") or {}).get("since")
+                                                              or utcnow()}
+        for r in gone + [x for x in self.state["namespaces"] if x not in deferred]:
+            self.state["namespaces"].get(r, {}).pop("unconfirmed", None)
         total = max(1, len(self.state["namespaces"]))
         if len(gone) > max(5, self.cfg.max_retire_fraction * total) and not self.cfg.allow_mass_retire:
             if self.cfg.dry_run:

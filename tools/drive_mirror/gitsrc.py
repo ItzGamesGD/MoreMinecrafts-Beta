@@ -102,6 +102,17 @@ class GitSource:
             snap.tags_peeled[t] = peeled.get(t, sha)
         return snap
 
+    def probe_ref(self, ref: str) -> bool | None:
+        """Targeted existence check: True/False only when the query itself succeeded; None on any error."""
+        env = dict(os.environ, GIT_TERMINAL_PROMPT="0")
+        p = subprocess.run([self.git, "--git-dir", self.work_dir, "ls-remote", "--exit-code", "origin", ref],
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+        if p.returncode == 0:
+            return any(line.split("\t")[-1] == ref for line in p.stdout.decode().splitlines())
+        if p.returncode == 2:          # --exit-code: query succeeded, no matching ref
+            return False
+        return None
+
     def fetch(self, include_tags: bool = True, include_pulls: bool = False) -> None:
         specs = ["+refs/heads/*:refs/mirror/heads/*"]
         if include_tags:

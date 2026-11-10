@@ -1,0 +1,134 @@
+{
+ "schema": "drive-mirror-approved-findings/1",
+ "note": "Reviewed secret-scan findings for the Drive mirror gate. Only status 'approved' passes the gate; 'proposed' still blocks. Matched values are never recorded. Changing a status is an owner decision made in a reviewed commit; the gate never edits this file.",
+ "scanner": {
+  "name": "gitleaks",
+  "version": "8.30.1",
+  "archive_sha256": "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb",
+  "scan": "gitleaks git --redact=100 --log-opts='--all --full-history' over all branches and refs/pull/*/head",
+  "scanned_on": "2026-11-10",
+  "commits_scanned": 2005
+ },
+ "findings": [
+  {
+   "fingerprint": "024fc75a6298ab2f34ef80a2cc7e40e4d73af666:docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:17",
+   "rule": "generic-api-key",
+   "file": "docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
+   "line": 17,
+   "commit": "024fc75a6298ab2f34ef80a2cc7e40e4d73af666",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "0eba0d117185109aae22f4ea47aa0d1c5eb6add4:docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:17",
+   "rule": "generic-api-key",
+   "file": "docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
+   "line": 17,
+   "commit": "0eba0d117185109aae22f4ea47aa0d1c5eb6add4",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "31c5a52f9aca386c64467c81c8f83a2cc1c6579a:docs/audit/BRANCH-W11-20261027/preserved/04206d024522669763567035f2d00e9590501ed3.md:generic-api-key:15",
+   "rule": "generic-api-key",
+   "file": "docs/audit/BRANCH-W11-20261027/preserved/04206d024522669763567035f2d00e9590501ed3.md",
+   "line": 15,
+   "commit": "31c5a52f9aca386c64467c81c8f83a2cc1c6579a",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "31c5a52f9aca386c64467c81c8f83a2cc1c6579a:docs/audit/BRANCH-W11-20261027/preserved/05a8cab78753a5dae3080d2c54bfc09ea8d5b63b.md:generic-api-key:15",
+   "rule": "generic-api-key",
+   "file": "docs/audit/BRANCH-W11-20261027/preserved/05a8cab78753a5dae3080d2c54bfc09ea8d5b63b.md",
+   "line": 15,
+   "commit": "31c5a52f9aca386c64467c81c8f83a2cc1c6579a",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "31c5a52f9aca386c64467c81c8f83a2cc1c6579a:docs/audit/BRANCH-W11-20261027/preserved/f2898e2baacd03f4ae045c7f77dd91af190c600d.md:generic-api-key:17",
+   "rule": "generic-api-key",
+   "file": "docs/audit/BRANCH-W11-20261027/preserved/f2898e2baacd03f4ae045c7f77dd91af190c600d.md",
+   "line": 17,
+   "commit": "31c5a52f9aca386c64467c81c8f83a2cc1c6579a",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "7ff1d14156730373d28973665d269bcb5f9ae39d:docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15",
+   "rule": "generic-api-key",
+   "file": "docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
+   "line": 15,
+   "commit": "7ff1d14156730373d28973665d269bcb5f9ae39d",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "7ff1d14156730373d28973665d269bcb5f9ae39d:docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15",
+   "rule": "generic-api-key",
+   "file": "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
+   "line": 15,
+   "commit": "7ff1d14156730373d28973665d269bcb5f9ae39d",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c:docs/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15",
+   "rule": "generic-api-key",
+   "file": "docs/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
+   "line": 15,
+   "commit": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
+   "status": "approved",
+   "classification": "false_positive_prose",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "aa376713aedcd7fecd769af39e18f8532b9e147d:scripts/free_model_delegation/test_delegation.py:generic-api-key:32",
+   "rule": "generic-api-key",
+   "file": "scripts/free_model_delegation/test_delegation.py",
+   "line": 32,
+   "commit": "aa376713aedcd7fecd769af39e18f8532b9e147d",
+   "status": "approved",
+   "classification": "synthetic_test_fixture",
+   "basis": "Owner-reviewed 2026-10-22 (main .gitleaksignore, commit b2f2f8f9): FAKE_KEY in a mocked unit-test module whose docstring states no key is needed. Re-checked by the 2026-11-10 audit: flagged line is 'FAKE_KEY = \"<28-char literal>\"' in scripts/free_model_delegation/test_delegation.py."
+  },
+  {
+   "fingerprint": "cec8bff8edc34bfbd54aebe635260f2f0761f729:tools/st05-p0-probe-01/freeze_integrity.py:generic-api-key:23",
+   "rule": "generic-api-key",
+   "file": "tools/st05-p0-probe-01/freeze_integrity.py",
+   "line": 23,
+   "commit": "cec8bff8edc34bfbd54aebe635260f2f0761f729",
+   "status": "proposed",
+   "classification": "scanner_false_positive",
+   "basis": "Audit analysis 2026-11-10 (values not recorded). The flagged line 23 sits inside a list of 9 identifier-like string literals that are concatenated as <12-char prefix> + name + '.md'; all 9 reconstructed paths exist in the tree of the flagged commit and every name matches [A-Za-z0-9_.-]+. It is a manifest of document names, not a credential. NOT approved: an owner must approve this fingerprint (and add it to the repository .gitleaksignore) before the gate passes. Reachable only from probe/st05-p0-probe-01 and audit/st05-po25-review-package-20261102; no PR head contains it."
+  },
+  {
+   "fingerprint": "e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15",
+   "rule": "generic-api-key",
+   "file": "docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
+   "line": 15,
+   "commit": "e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  },
+  {
+   "fingerprint": "e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15",
+   "rule": "generic-api-key",
+   "file": "docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md",
+   "line": 15,
+   "commit": "e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7",
+   "status": "approved",
+   "classification": "false_positive_prose_identical_copy",
+   "basis": "Owner-reviewed false positive: prose line of links to public Fabric sources (entropy 3.54). The flagged line is byte-identical (SHA-256 6808756b4fb7291f778a23ccd2771325f1ee1f7461c900d3bc8392115766c242) to the line reviewed on main (.gitleaksignore, 2026-10-22). Fingerprint is listed in the .gitleaksignore of checkpoint/wave16-unified-20261104 (security commits b9cab714, 2026-10-26). Re-verified by the 2026-11-10 audit: line SHA-256 prefix 6808756b4fb7 matches for this fingerprint."
+  }
+ ]
+}

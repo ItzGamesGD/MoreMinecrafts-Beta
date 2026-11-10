@@ -246,8 +246,13 @@ class DriveClient:
                 return self._conflict_or_raise(status, data, meta)
             location = {k.lower(): v for k, v in headers.items()}.get("location")
             try:
-                _, _, data = self._request("PUT", "", body=content, absolute_url=location,
-                                           headers={"Content-Type": mime}, kind="write")
+                # A lost response to this PUT means the file may already exist under the pre-generated id;
+                # the restarted session then answers 409/fileIdInUse, which is "already created", not failure.
+                status, _, data = self._request("PUT", "", body=content, absolute_url=location,
+                                                headers={"Content-Type": mime}, kind="write",
+                                                allow_status=(400, 409) if method == "POST" else ())
+                if status in (400, 409):
+                    return self._conflict_or_raise(status, data, meta)
                 return json.loads(data)
             except DriveError as e:
                 if e.status == 404 and attempt < 2:  # session expired

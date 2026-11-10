@@ -20,12 +20,24 @@ def main(d):
             f"{k}: {'ok' if v.get('ok') else 'FAILED'}" for k, v in pre.get("checks", {}).items()))
         if pre.get("reason"):
             out.append(f"> {pre['reason']}")
+    g = load(d, "secgate.json")
+    if g:
+        c = g.get("counts", {})
+        out.append(f"**Security gate:** {g.get('verdict')} — findings {c.get('findings')}, approved {c.get('approved')}, "
+                   f"proposed (awaiting owner) {c.get('proposed_awaiting_owner')}, unreviewed {c.get('unreviewed')}, "
+                   f"refs quarantined {c.get('refs_quarantined')}")
+        for f in g.get("blocking_findings", [])[:20]:
+            out.append(f"- :lock: `{f['rule']}` in `{f['file']}:{f['line']}` (commit `{f['commit'][:8]}`, {f['status']})")
+        for r in list(g.get("refs", {}))[:50]:
+            out.append(f"- :no_entry: quarantined, not uploaded: `{r}`")
     s = load(d, "sync.json")
     if s:
         if "namespaces" in s:
             ns = s["namespaces"]
             changed = [n for n in ns if n.get("action") not in ("noop",)]
             tot = lambda k: sum(n.get(k, 0) or 0 for n in ns)
+            if s.get("mode_reason"):
+                out.append(f"_Run upgraded to reconcile: {s['mode_reason']}_")
             out.append(f"**Sync:** {s.get('status')} ({s.get('mode')}{', dry run' if s.get('dry_run') else ''}) — "
                        f"{len(ns)} namespaces, {len(changed)} changed, {len(s.get('retired', []))} retired, "
                        f"{len(s.get('errors', []))} errors; uploads {tot('uploads')}, copies {tot('copies')}, "
@@ -34,6 +46,8 @@ def main(d):
                 out.append("<details><summary>Changed namespaces</summary>\n\n| ref | action | source | forced |\n|---|---|---|---|")
                 out += [f"| `{n['ref']}` | {n.get('action')} | {n.get('source')} | {n.get('forced_update')} |" for n in changed[:200]]
                 out.append("\n</details>")
+            for r, why in (s.get("retire_deferred") or {}).items():
+                out.append(f"- :warning: `{r}` not retired: {why}")
             for e in s.get("errors", [])[:20]:
                 out.append(f"- :x: `{e.get('ref')}`: {e.get('error')}")
         else:
