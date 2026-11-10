@@ -1,0 +1,9 @@
+{
+  "type": "moreminecrafts:st01_pyramid",
+  "biomes": [
+    "minecraft:desert"
+  ],
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "none"
+}
