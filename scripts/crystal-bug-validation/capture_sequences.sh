@@ -44,20 +44,21 @@ cam 6.5 64.2 4.5 0.5 64.6 4.5; sleep 1; record idle-side 4
 # 2-3. Walking toward the golem (side and 45 degrees); the clip ends at the first attacks.
 for view in side three-quarter; do
   clear_scene
-  golem 0.5 13.5
-  spawn 0.5 -4.0 0 1
-  if [[ "$view" == side ]]; then cam 10.0 64.6 4.0 0.5 64.6 4.0; else cam 8.0 65.2 11.0 0.5 64.6 3.5; fi
+  # Golem 13 blocks ahead: inside the silverfish follow range (16) so the target is kept.
+  golem 0.5 9.5
+  spawn 0.5 -3.5 0 1
+  if [[ "$view" == side ]]; then cam 9.0 64.8 3.0 0.5 64.6 3.0; else cam 7.5 65.5 9.5 0.5 64.6 2.0; fi
   sleep 1; provoke; sleep 0.6
   record "walk-$view" 7
 done
 
 # 4. Turning: the golem jumps to the side, then behind the bug.
 clear_scene
-golem 0.5 12.5
-spawn 0.5 2.0 0 1
-cam 7.0 67.0 10.0 0.5 64.6 4.0
+golem 0.5 8.0
+spawn 0.5 0.0 0 1
+cam 6.0 67.5 9.0 0.5 64.6 1.0
 sleep 1; provoke; sleep 0.6
-( sleep 1.4; mark GOLEM_EAST; rcon "tp $G 9.5 64 6.5"; sleep 2.6; mark GOLEM_WEST; rcon "tp $G -8.5 64 -2.5" ) & driver=$!
+( sleep 1.2; mark GOLEM_EAST; rcon "tp $G 7.5 64 1.0"; sleep 2.6; mark GOLEM_WEST; rcon "tp $G -6.5 64 -1.0" ) & driver=$!
 record turning 8
 wait "$driver"
 
@@ -86,11 +87,11 @@ done
 
 # 8. Walk-to-idle: the target is removed mid-walk and the bug settles back into idle.
 clear_scene
-golem 0.5 13.5
-spawn 0.5 -4.0 0 1
+golem 0.5 9.5
+spawn 0.5 -3.5 0 1
 cam 9.0 64.8 3.0 0.5 64.6 3.0
 sleep 1; provoke; sleep 0.6
-( sleep 2.5; mark TARGET_REMOVED; rcon 'kill @e[type=minecraft:iron_golem]' ) & driver=$!
+( sleep 2.0; mark TARGET_REMOVED; rcon 'kill @e[type=minecraft:iron_golem]' ) & driver=$!
 record walk-to-idle 7
 wait "$driver"
 clear_scene
