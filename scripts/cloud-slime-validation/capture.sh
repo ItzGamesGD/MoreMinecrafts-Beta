@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Real Minecraft client capture for Cloud Slime P2-E1 (static model, concept C): three sizes, five angles, two backgrounds.
+# Real Minecraft client capture for Cloud Slime P2-E1 (static model, concept A): three sizes, five angles, two backgrounds.
 set -euo pipefail
 OUT=cloud-slime-results
 mkdir -p run "$OUT"
@@ -81,22 +81,26 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
      shoot "$bg-$size-front" "$cx" "$feet" "$(python3 -c "print($cz+$d)")" "$cx" "$ty" "$cz"
      shoot "$bg-$size-side" "$(python3 -c "print($cx+$d)")" "$feet" "$cz" "$cx" "$ty" "$cz"
      shoot "$bg-$size-back" "$cx" "$feet" "$(python3 -c "print($cz-$d)")" "$cx" "$ty" "$cz"
+     shoot "$bg-$size-left" "$(python3 -c "print($cx-$d)")" "$feet" "$cz" "$cx" "$ty" "$cz"
+     shoot "$bg-$size-top" "$cx" "$(python3 -c "print($feet+$d*1.4)")" "$(python3 -c "print($cz+0.01)")" "$cx" "$ty" "$cz"
      shoot "$bg-$size-elevated" "$cx" "$(python3 -c "print($feet+$d*0.9)")" "$(python3 -c "print($cz+$d*0.75)")" "$cx" "$ty" "$cz"
      shoot "$bg-$size-three-quarter" "$(python3 -c "print($cx+$d*0.7)")" "$(python3 -c "print($feet+$d*0.25)")" "$(python3 -c "print($cz+$d*0.7)")" "$cx" "$ty" "$cz"
    done
  }
  views bright
+ shoot bright-large-cloud-close -3.2 65.3 7.4 -5.5 65.2 4.5
  shoot bright-group -0.5 64.6 13.5 -0.5 64.7 4.5
  # Dark background: black concrete walls around the scene (sky light still reaches the mobs from above).
  rcon "fill -16 64 -10 16 76 -10 minecraft:black_concrete" "fill -16 64 18 16 76 18 minecraft:black_concrete" \
       "fill -16 64 -10 -16 76 18 minecraft:black_concrete" "fill 16 64 -10 16 76 18 minecraft:black_concrete" \
       "fill -16 63 -10 16 63 18 minecraft:black_concrete"
  views dark
+ shoot dark-large-cloud-close -3.2 65.3 7.4 -5.5 65.2 4.5
  shoot dark-group -0.5 64.6 13.5 -0.5 64.7 4.5
  echo CAPTURE_DONE
 '
 python3 -I scripts/cloud-slime-validation/contact_sheet.py "$OUT"
-for bg in bright dark; do for s in large medium small; do for v in front side back elevated three-quarter; do
+for bg in bright dark; do for s in large medium small; do for v in front side back left top elevated three-quarter; do
   test -s "$OUT/$bg-$s-$v.png" || { echo "MISSING_VIEW $bg-$s-$v"; exit 1; }
 done; done; done
 grep -Eq "missing|MissingTexture" "$OUT/client.log" && grep -E "cloud_slime.*(missing|not found)" "$OUT/client.log" && { echo TEXTURE_MISSING; exit 1; } || true

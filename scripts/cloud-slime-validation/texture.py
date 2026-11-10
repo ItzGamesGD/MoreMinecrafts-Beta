@@ -1,6 +1,7 @@
-"""Deterministic generator for textures/entity/cloud_slime.png (P2-E1, concept C). Usage: texture.py <out.png>
+"""Deterministic generator for textures/entity/cloud_slime.png (P2-E1-R2, concept A). Usage: texture.py <out.png>
 
-Layout (64x64): membrane box UV at (0,0) for an 8x8x8 cube, eye UV at (40,0), opaque cloud UV in rows 32-63.
+Layout (64x64): membrane 8x8x8 box UV at (0,0), core 6x6x6 box UV at (0,16), eye UV at (40,0),
+opaque exterior cloud UV in rows 32-63.
 """
 import random
 import sys
@@ -10,36 +11,44 @@ rng = random.Random(230)
 img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
 px = img.load()
 
-# Membrane: clear sky-blue glass, slightly denser 1 px rim, lighter toward the top. No glint texels: they read as beige squares in-game.
-BODY = (64, 172, 242)
-RIM = (150, 222, 255)
-faces = {  # name: (u, v) of an 8x8 face in the standard box layout
-    "top": (8, 0), "bottom": (16, 0), "east": (0, 8), "north": (8, 8), "west": (16, 8), "south": (24, 8)}
-for name, (u, v) in faces.items():
+
+def clamp(v):
+    return max(0, min(255, int(v)))
+
+
+def box_faces(u, v, s):
+    """Face origins of an s*s*s cube in the standard box UV layout."""
+    return {"top": (u + s, v), "bottom": (u + 2 * s, v), "east": (u, v + s), "north": (u + s, v + s),
+            "west": (u + 2 * s, v + s), "south": (u + 3 * s, v + s)}
+
+
+# Membrane: soft bright sky-blue, denser 1 px rim.
+for name, (u, v) in box_faces(0, 0, 8).items():
     for y in range(8):
         for x in range(8):
             edge = x in (0, 7) or y in (0, 7)
-            shade = 0 if name in ("top",) else (y - 3.5) * 3  # gentle top-to-bottom darkening on the sides
-            if name == "bottom":
-                shade = 14
-            base = RIM if edge else BODY
-            n = rng.randint(-5, 5)
-            r, g, b = (max(0, min(255, int(c - shade + n))) for c in base)
-            a = 190 if edge else 148 + rng.randint(-6, 6)
-            px[u + x, v + y] = (r, g, b, a)
+            r, g, b = (182, 228, 255) if edge else (150, 210, 250)
+            n = rng.randint(-4, 4)
+            px[u + x, v + y] = (clamp(r + n), clamp(g + n), clamp(b), 175 if edge else 130 + rng.randint(-5, 5))
 
-# Eyes: small pale light-blue rectangles, brighter on top.
-for y in range(4):
+# Core: opaque pale blue, lighter toward the top so the body reads soft rather than glassy.
+for name, (u, v) in box_faces(0, 16, 6).items():
+    for y in range(6):
+        for x in range(6):
+            t = 0 if name == "top" else (14 if name == "bottom" else y * 4)
+            n = rng.randint(-4, 4)
+            px[u + x, v + y] = (clamp(168 - t + n), clamp(214 - t + n), clamp(248 - t // 2), 255)
+
+# Eyes: bright cyan with a pale top highlight.
+for y in range(8):
     for x in range(40, 48):
-        px[x, y] = (244, 253, 255, 255) if y < 2 else (200, 238, 255, 255)
+        px[x, y] = (226, 252, 255, 255) if y == 0 else (86, 224, 255, 255)
 
-# Clouds: opaque white voxels with soft blue-grey undershading so stacked layers read apart.
-cloud = [(255, 255, 255), (248, 252, 255), (236, 245, 252), (220, 236, 248)]
+# Exterior clouds: mostly white with soft pale-blue shading.
+cloud = [(255, 255, 255), (247, 251, 255), (234, 244, 253), (216, 233, 249)]
 for y in range(32, 64):
     for x in range(64):
-        row = (y - 32) % 8
-        weights = [5, 4, 2, 1] if row < 5 else [2, 3, 4, 3]
-        r, g, b = rng.choices(cloud, weights)[0]
+        r, g, b = rng.choices(cloud, [6, 4, 2, 1])[0]
         px[x, y] = (r, g, b, 255)
 
 img.save(sys.argv[1])
