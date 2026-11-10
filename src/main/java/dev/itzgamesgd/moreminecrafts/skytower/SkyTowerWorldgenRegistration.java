@@ -78,7 +78,10 @@ public final class SkyTowerWorldgenRegistration {
             if (!allBoundsChunksLoaded(pending.level(), pending.bounds()) || !anchorsPresent(pending.level(), pending.site())) continue;
             try {
                 boolean added = data.register(pending.site());
-                if (added) MoreMinecrafts.LOGGER.info("Registered generated Sky Tower {}", pending.site().id());
+                if (added) {
+                    MoreMinecrafts.LOGGER.info("Registered generated Sky Tower {}", pending.site().id());
+                    SkyTowerVaultRewards.configureSiteVaults(pending.level(), pending.site());
+                }
                 iterator.remove();
             } catch (IllegalArgumentException | IllegalStateException conflict) {
                 MoreMinecrafts.LOGGER.error("Could not register generated Sky Tower {}: {}", pending.site().id(), conflict.getMessage());
