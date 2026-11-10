@@ -23,8 +23,8 @@ CRYSTALS = {  # deep, base, light, highlight
 }
 COLOR_ORIGIN = {"teal": (0, 34), "sky": (32, 34), "purple": (0, 49), "pink": (32, 49)}
 # name: (u, v, shaft w, shaft h, tip h, tip u, tip v) inside a colour block - mirrors CrystalBugRenderer.Size
-SIZES = {"XL": (0, 0, 3, 7, 2, 0, 10), "L": (12, 0, 2, 6, 2, 12, 8), "M": (20, 0, 2, 4, 2, 12, 8),
-         "S": (28, 0, 1, 3, 1, 28, 4)}
+SIZES = {"XL": (0, 0, 3, 5, 2, 0, 10), "L": (12, 0, 2, 4, 2, 12, 8), "M": (20, 0, 2, 3, 2, 12, 8),
+         "S": (28, 0, 1, 2, 1, 28, 4)}
 
 img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
 _registered = []
@@ -124,13 +124,13 @@ def crystal(color, size):
 
 # ---- body (UVs = CrystalBugRenderer.segment calls) ---------------------------------------------------------------
 head = segment("segment0", 0, 0, 6, 4, 4)
-segment("segment1", 20, 0, 6, 4, 3)
-segment("segment2", 38, 0, 8, 5, 3)
-segment("segment3", 0, 8, 8, 5, 3)
-segment("segment4", 22, 8, 7, 4, 3)
-segment("segment5", 42, 8, 5, 3, 2)
-segment("segment6", 0, 16, 3, 2, 2)
-leg = box("leg", 10, 16, 2, 2, 2)
+segment("segment1", 20, 0, 6, 4, 4)
+segment("segment2", 40, 0, 8, 5, 4)
+segment("segment3", 0, 9, 8, 5, 4)
+segment("segment4", 24, 9, 7, 4, 4)
+segment("segment5", 46, 9, 5, 3, 3)
+segment("segment6", 0, 18, 3, 2, 2)
+leg = box("leg", 10, 18, 2, 2, 2)
 for n, f in leg.items():
     rock(f, -1 if n != "top" else 0, edge=False)
 

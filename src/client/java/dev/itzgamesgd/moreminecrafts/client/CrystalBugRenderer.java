@@ -66,10 +66,10 @@ final class CrystalBugRenderer extends MobRenderer<CrystalBug, LivingEntityRende
 
     /** Shaft (w x h x w) plus a tapered tip (w x tipH x w shrunk by taper); u/v are offsets inside a colour block. */
     private enum Size {
-        XL(3, 7, 0, 0, 2, 0, 10, 0.8F),
-        L(2, 6, 12, 0, 2, 12, 8, 0.5F),
-        M(2, 4, 20, 0, 2, 12, 8, 0.5F),
-        S(1, 3, 28, 0, 1, 28, 4, 0.25F);
+        XL(3, 5, 0, 0, 2, 0, 10, 0.8F),
+        L(2, 4, 12, 0, 2, 12, 8, 0.5F),
+        M(2, 3, 20, 0, 2, 12, 8, 0.5F),
+        S(1, 2, 28, 0, 1, 28, 4, 0.25F);
 
         final int w, h, u, v, tipH, tipU, tipV;
         final float taper;
@@ -109,10 +109,10 @@ final class CrystalBugRenderer extends MobRenderer<CrystalBug, LivingEntityRende
 
     /** Short stubby rock leg pair under a segment, splayed outward. */
     private static void legs(PartDefinition segment, String name, float halfWidth, float z) {
-        segment.addOrReplaceChild(name + "_right", CubeListBuilder.create().texOffs(10, 16)
+        segment.addOrReplaceChild(name + "_right", CubeListBuilder.create().texOffs(10, 18)
                         .addBox(-1.0F, 0.0F, -1.0F, 2.0F, 2.0F, 2.0F),
                 PartPose.offsetAndRotation(-halfWidth + 0.5F, -0.3F, z, 0.0F, 0.0F, 0.35F));
-        segment.addOrReplaceChild(name + "_left", CubeListBuilder.create().texOffs(10, 16).mirror()
+        segment.addOrReplaceChild(name + "_left", CubeListBuilder.create().texOffs(10, 18).mirror()
                         .addBox(-1.0F, 0.0F, -1.0F, 2.0F, 2.0F, 2.0F),
                 PartPose.offsetAndRotation(halfWidth - 0.5F, -0.3F, z, 0.0F, 0.0F, -0.35F));
     }
@@ -122,51 +122,55 @@ final class CrystalBugRenderer extends MobRenderer<CrystalBug, LivingEntityRende
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
         // Segments, head (-Z) to tail; bodies stand 2 px off the ground on the legs, the head rests a little lower.
-        PartDefinition head = segment(root, "segment0", 0, 0, 6, 4, 4, 23.0F, -10.0F);
-        PartDefinition s1 = segment(root, "segment1", 20, 0, 6, 4, 3, 22.0F, -6.0F);
-        PartDefinition s2 = segment(root, "segment2", 38, 0, 8, 5, 3, 22.0F, -3.0F);
-        PartDefinition s3 = segment(root, "segment3", 0, 8, 8, 5, 3, 22.0F, 0.0F);
-        PartDefinition s4 = segment(root, "segment4", 22, 8, 7, 4, 3, 22.0F, 3.0F);
-        PartDefinition s5 = segment(root, "segment5", 42, 8, 5, 3, 2, 22.3F, 6.0F);
-        PartDefinition s6 = segment(root, "segment6", 0, 16, 3, 2, 2, 22.6F, 8.0F);
+        PartDefinition head = segment(root, "segment0", 0, 0, 6, 4, 4, 23.0F, -12.0F);
+        PartDefinition s1 = segment(root, "segment1", 20, 0, 6, 4, 4, 22.0F, -8.0F);
+        PartDefinition s2 = segment(root, "segment2", 40, 0, 8, 5, 4, 22.0F, -4.0F);
+        PartDefinition s3 = segment(root, "segment3", 0, 9, 8, 5, 4, 22.0F, 0.0F);
+        PartDefinition s4 = segment(root, "segment4", 24, 9, 7, 4, 4, 22.0F, 4.0F);
+        PartDefinition s5 = segment(root, "segment5", 46, 9, 5, 3, 3, 22.3F, 8.0F);
+        PartDefinition s6 = segment(root, "segment6", 0, 18, 3, 2, 2, 22.6F, 11.0F);
 
-        legs(s1, "leg1", 3.0F, 1.5F);
-        legs(s2, "leg2", 4.0F, 1.5F);
-        legs(s3, "leg3", 4.0F, 1.5F);
-        legs(s4, "leg4", 3.5F, 1.5F);
+        legs(s1, "leg1", 3.0F, 2.0F);
+        legs(s2, "leg2", 4.0F, 2.0F);
+        legs(s3, "leg3", 4.0F, 2.0F);
+        legs(s4, "leg4", 3.5F, 2.0F);
 
         // Crystals: teal / sky blue toward the head, purple / pink toward the tail, irregular sizes and angles.
-        crystal(head, TEAL, Size.S, -1.5F, -4.0F, 3.0F, -0.15F, 0.3F, -0.35F);
-        crystal(head, SKY, Size.S, 1.4F, -4.0F, 2.6F, -0.05F, -0.4F, 0.4F);
+        crystal(head, TEAL, Size.S, -1.5F, -4.0F, 3.0F, -0.15F, 0.3F, -0.24F);
+        crystal(head, SKY, Size.S, 1.4F, -4.0F, 2.6F, -0.05F, -0.4F, 0.28F);
 
-        crystal(s1, TEAL, Size.L, 1.0F, -4.0F, 1.5F, -0.2F, 0.5F, 0.25F);
-        crystal(s1, SKY, Size.M, -1.6F, -4.0F, 1.8F, 0.1F, -0.3F, -0.4F);
-        crystal(s1, TEAL, Size.S, -3.0F, -2.5F, 1.4F, 0.05F, 0.2F, -0.95F);
-        crystal(s1, SKY, Size.S, 3.0F, -2.6F, 1.0F, -0.1F, -0.6F, 0.9F);
+        crystal(s1, TEAL, Size.L, 1.0F, -4.0F, 2.0F, -0.2F, 0.5F, 0.17F);
+        crystal(s1, SKY, Size.M, -1.6F, -4.0F, 2.4F, 0.1F, -0.3F, -0.28F);
+        crystal(s1, TEAL, Size.S, -3.0F, -2.5F, 1.87F, 0.05F, 0.2F, -0.66F);
+        crystal(s1, SKY, Size.S, 3.0F, -2.6F, 1.33F, -0.1F, -0.6F, 0.63F);
+        crystal(s1, TEAL, Size.S, 0.2F, -4.0F, 0.6F, -0.25F, 0.2F, 0.0F);
 
-        crystal(s2, SKY, Size.XL, 0.0F, -5.0F, 1.5F, -0.1F, 0.4F, 0.05F);
-        crystal(s2, TEAL, Size.M, -2.6F, -5.0F, 2.0F, 0.15F, 0.1F, -0.45F);
-        crystal(s2, PURPLE, Size.L, 2.6F, -5.0F, 1.2F, 0.05F, -0.3F, 0.4F);
-        crystal(s2, SKY, Size.S, -4.0F, -3.0F, 1.0F, -0.1F, 0.5F, -1.0F);
-        crystal(s2, TEAL, Size.M, 4.0F, -3.0F, 2.0F, 0.1F, 0.2F, 1.05F);
+        crystal(s2, SKY, Size.XL, 0.0F, -5.0F, 2.0F, -0.1F, 0.4F, 0.03F);
+        crystal(s2, TEAL, Size.M, -2.6F, -5.0F, 2.67F, 0.15F, 0.1F, -0.32F);
+        crystal(s2, PURPLE, Size.L, 2.6F, -5.0F, 1.6F, 0.05F, -0.3F, 0.28F);
+        crystal(s2, SKY, Size.S, -4.0F, -3.0F, 1.33F, -0.1F, 0.5F, -0.7F);
+        crystal(s2, TEAL, Size.M, 4.0F, -3.0F, 2.67F, 0.1F, 0.2F, 0.73F);
+        crystal(s2, SKY, Size.M, 0.9F, -5.0F, 3.4F, 0.2F, -0.6F, 0.15F);
 
-        crystal(s3, PURPLE, Size.XL, 0.3F, -5.0F, 1.5F, 0.12F, -0.35F, -0.08F);
-        crystal(s3, SKY, Size.L, -2.6F, -5.0F, 1.0F, -0.1F, 0.6F, -0.5F);
-        crystal(s3, PINK, Size.M, 2.6F, -5.0F, 2.0F, 0.2F, 0.3F, 0.5F);
-        crystal(s3, PURPLE, Size.M, -4.0F, -3.0F, 1.5F, 0.05F, -0.2F, -1.05F);
-        crystal(s3, SKY, Size.S, 4.0F, -3.0F, 1.2F, 0.0F, 0.4F, 1.0F);
+        crystal(s3, PURPLE, Size.XL, 0.3F, -5.0F, 2.0F, 0.12F, -0.35F, -0.06F);
+        crystal(s3, SKY, Size.L, -2.6F, -5.0F, 1.33F, -0.1F, 0.6F, -0.35F);
+        crystal(s3, PINK, Size.M, 2.6F, -5.0F, 2.67F, 0.2F, 0.3F, 0.35F);
+        crystal(s3, PURPLE, Size.M, -4.0F, -3.0F, 2.0F, 0.05F, -0.2F, -0.73F);
+        crystal(s3, SKY, Size.S, 4.0F, -3.0F, 1.6F, 0.0F, 0.4F, 0.7F);
+        crystal(s3, TEAL, Size.S, -1.2F, -5.0F, 3.4F, 0.15F, 0.5F, -0.2F);
 
-        crystal(s4, PINK, Size.L, 0.0F, -4.0F, 1.5F, 0.2F, 0.2F, 0.1F);
-        crystal(s4, PURPLE, Size.M, -2.0F, -4.0F, 2.0F, 0.1F, -0.5F, -0.5F);
-        crystal(s4, PURPLE, Size.M, 2.0F, -4.0F, 1.0F, 0.25F, 0.4F, 0.45F);
-        crystal(s4, PINK, Size.S, -3.5F, -2.5F, 1.5F, 0.0F, 0.3F, -1.0F);
-        crystal(s4, PURPLE, Size.S, 3.5F, -2.5F, 1.5F, 0.1F, -0.3F, 1.0F);
+        crystal(s4, PINK, Size.L, 0.0F, -4.0F, 2.0F, 0.2F, 0.2F, 0.07F);
+        crystal(s4, PURPLE, Size.M, -2.0F, -4.0F, 2.67F, 0.1F, -0.5F, -0.35F);
+        crystal(s4, PURPLE, Size.M, 2.0F, -4.0F, 1.33F, 0.25F, 0.4F, 0.32F);
+        crystal(s4, PINK, Size.S, -3.5F, -2.5F, 2.0F, 0.0F, 0.3F, -0.7F);
+        crystal(s4, PURPLE, Size.S, 3.5F, -2.5F, 2.0F, 0.1F, -0.3F, 0.7F);
+        crystal(s4, PINK, Size.S, 0.9F, -4.0F, 3.4F, 0.3F, -0.5F, 0.2F);
 
-        crystal(s5, PINK, Size.M, 0.0F, -3.0F, 1.0F, 0.35F, -0.2F, -0.1F);
-        crystal(s5, PURPLE, Size.S, -1.8F, -3.0F, 1.2F, 0.3F, 0.4F, -0.5F);
-        crystal(s5, PINK, Size.S, 1.8F, -3.0F, 0.8F, 0.4F, -0.4F, 0.5F);
+        crystal(s5, PINK, Size.M, 0.0F, -3.0F, 1.33F, 0.35F, -0.2F, -0.07F);
+        crystal(s5, PURPLE, Size.S, -1.8F, -3.0F, 1.6F, 0.3F, 0.4F, -0.35F);
+        crystal(s5, PINK, Size.S, 1.8F, -3.0F, 1.07F, 0.4F, -0.4F, 0.35F);
 
-        crystal(s6, PINK, Size.S, 0.0F, -2.0F, 1.0F, 0.6F, 0.3F, 0.0F);
+        crystal(s6, PINK, Size.S, 0.0F, -2.0F, 1.33F, 0.6F, 0.3F, 0.0F);
         return LayerDefinition.create(mesh, 64, 64);
     }
 
