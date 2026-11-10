@@ -154,3 +154,16 @@ D1–D6의 승인은 위에 열거된 범위에 한정한다. 자연 스폰 외�
 검증 근거(HEAD `d1521b6`): Fabric CI <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42613510984>, 실제 클라이언트 시퀀스 캡처 <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42613502323>. PR #248.
 
 비차단 한계(승인에 포함): 조준 자세로의 바닐라 1틱 전환, 망토와 다리의 경미한 접촉. 애니메이션 로그는 `MOREMINECRAFTS_ARCHER_CAPTURE=1` 캡처 환경에서만 동작한다.
+
+## 10. P2-D1/D2 수정 벌레 외형·애니메이션 — 사용자 승인 기록 (2026-11-10)
+
+사용자가 HEAD `af0e560` 기준 D1 정적 모델·텍스처(시안 A, 암석형)와 D2 애니메이션을 명시적으로 승인했다. 이 절은 렌더링만 다루며 §3의 크기(Q25 바닐라 좀벌레 대비 2.5배, SCALE 속성으로 렌더·충돌 상자 모두 적용)·능력치·AI·전리품·스폰 결정을 바꾸지 않는다.
+
+| ID | 승인 내용 |
+|---|---|
+| D1-1 | 좀벌레형 7마디 몸체, 4쌍의 짧은 암석 다리, 작은 보라색 사각 눈 |
+| D1-2 | 마디별로 부착된 불투명 3D 수정(청록·하늘·보라·분홍) 25개, 크기·각도 다양 |
+| D1-3 | 원본 64×64 텍스처(`scripts/crystal-bug-validation/texture.py`) |
+| D2-1 | 대기·걷기·회전·공격·피격·사망 애니메이션 |
+
+검증 근거(HEAD `af0e560`): Fabric CI <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42747930496>, 실제 클라이언트 캡처 <https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42747924157>. PR #253.
