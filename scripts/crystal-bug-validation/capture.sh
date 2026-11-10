@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Real Minecraft client capture for Crystal Bug P2-D1 (static model and texture, no animation).
+# Real Minecraft client capture for Crystal Bug P2-D1 (D1 static views + D2 animation sequences).
 set -euo pipefail
 OUT=crystal-bug-results
 mkdir -p run "$OUT"
@@ -85,6 +85,16 @@ xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo
  shoot bright-front-three-quarter 4.8 64.6 8.8 64.9
  shoot gameplay-three-quarter 7.5 64.0 12.0 64.9
  echo CAPTURE_DONE
+ OUT="$OUT" bash scripts/crystal-bug-validation/capture_sequences.sh
+ grep "CRYSTAL_BUG_POSE" "$OUT/client.log" > "$OUT/pose.log" || true
+ grep -Eq "walkSpeed=0\.[3-9]" "$OUT/pose.log" || { echo NO_WALK_POSE; exit 1; }
+ grep -Eq "swing=0\.[3-9]" "$OUT/pose.log" || { echo NO_ATTACK_SWING; exit 1; }
+ grep -Eq "hurt=0\.[5-9]" "$OUT/pose.log" || { echo NO_HURT_POSE; exit 1; }
+ grep -Eq "death=(1[0-9]|20)\." "$OUT/pose.log" || { echo NO_DEATH_POSE; exit 1; }
+ for s in idle-three-quarter idle-side walk-side walk-three-quarter turning attack-side attack-three-quarter hurt-three-quarter hurt-side death-three-quarter death-side walk-to-idle; do
+   test -s "$OUT/sequences/$s/preview.mp4" || { echo "MISSING_SEQUENCE $s"; exit 1; }
+ done
+ echo SEQUENCES_VERIFIED
 '
 for v in front back left right top front-three-quarter back-three-quarter; do
   test -s "$OUT/$v.png" || { echo "MISSING_VIEW $v"; exit 1; }
