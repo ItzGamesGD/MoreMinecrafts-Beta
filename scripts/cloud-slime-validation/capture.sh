@@ -33,7 +33,6 @@ grep -Fq 'Done (' "$OUT/server.log" || { echo SERVER_READY_TIMEOUT; exit 1; }
 echo SERVER_READY
 # Sizes: NBT Size 0 = small, 1 = medium, 3 = large. NoAI keeps them still and facing +Z (south).
 python3 scripts/visual_validation/rcon.py 'setworldspawn 0 64 16' 'forceload add -24 -16 24 24' 'time set noon' 'weather clear' \
-  'gamerule doDaylightCycle false' 'gamerule doMobSpawning false' \
   'fill -16 63 -10 16 63 18 minecraft:stone' 'fill -16 64 -10 16 80 18 minecraft:air' \
   'summon moreminecrafts:cloud_slime -5.5 64 4.5 {Size:3,NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[0f,0f],Tags:["slime_visual"]}' \
   'summon moreminecrafts:cloud_slime 0.5 64 4.5 {Size:1,NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[0f,0f],Tags:["slime_visual"]}' \

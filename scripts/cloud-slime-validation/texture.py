@@ -10,9 +10,9 @@ rng = random.Random(230)
 img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
 px = img.load()
 
-# Membrane: clear sky-blue glass, slightly denser 1 px rim, lighter toward the top, sparse glint texels.
-BODY = (118, 205, 246)
-RIM = (176, 232, 255)
+# Membrane: clear sky-blue glass, slightly denser 1 px rim, lighter toward the top. No glint texels: they read as beige squares in-game.
+BODY = (64, 172, 242)
+RIM = (150, 222, 255)
 faces = {  # name: (u, v) of an 8x8 face in the standard box layout
     "top": (8, 0), "bottom": (16, 0), "east": (0, 8), "north": (8, 8), "west": (16, 8), "south": (24, 8)}
 for name, (u, v) in faces.items():
@@ -25,19 +25,13 @@ for name, (u, v) in faces.items():
             base = RIM if edge else BODY
             n = rng.randint(-5, 5)
             r, g, b = (max(0, min(255, int(c - shade + n))) for c in base)
-            a = 150 if edge else 104 + rng.randint(-6, 6)
+            a = 190 if edge else 148 + rng.randint(-6, 6)
             px[u + x, v + y] = (r, g, b, a)
-    if name != "bottom":
-        # Glass glint in the upper-left corner: an L of near-white texels (texture only, not emissive).
-        for (x, y) in ((1, 1), (2, 1), (1, 2)):
-            px[u + x, v + y] = (238, 252, 255, 210)
-        # A single faint diagonal glint toward the lower right.
-        px[u + 6, v + 5] = (214, 244, 255, 170)
 
 # Eyes: small pale light-blue rectangles, brighter on top.
 for y in range(4):
     for x in range(40, 48):
-        px[x, y] = (226, 247, 255, 255) if y < 2 else (164, 218, 245, 255)
+        px[x, y] = (244, 253, 255, 255) if y < 2 else (200, 238, 255, 255)
 
 # Clouds: opaque white voxels with soft blue-grey undershading so stacked layers read apart.
 cloud = [(255, 255, 255), (248, 252, 255), (236, 245, 252), (220, 236, 248)]
