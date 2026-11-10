@@ -37,7 +37,8 @@ class Store:
         self.lock = threading.RLock()
         self.counters = {"requests": 0, "writes": 0, "reads": 0, "uploads": 0}
         self.faults = {"fail_every": 0, "ratelimit_every": 0, "list_hide_created_after": 0.0,
-                       "lose_response_every": 0}   # apply the write, then answer 503 (lost response)
+                       "lose_response_every": 0,   # apply the write, then answer 503 (lost response)
+                       "lose_next_put": False}     # one-shot: apply the next resumable-session PUT, then answer 503
         self.quota_limit = 15 * 1024 ** 3
         self.seq = 0
         self.by_parent: dict[str, dict[str, None]] = {}
@@ -219,6 +220,9 @@ class Handler(BaseHTTPRequestHandler):
             lr = st.faults["lose_response_every"]
             if lr and method != "GET" and n % lr == 0:
                 raise HttpError(503, "backendError", "injected after commit")
+            if url.path.startswith("/upload/session/") and st.faults["lose_next_put"]:
+                st.faults["lose_next_put"] = False
+                raise HttpError(503, "backendError", "injected after resumable commit")
             if isinstance(obj, (bytes, bytearray)):
                 self._send(code, raw=bytes(obj), headers=extra)
             else:

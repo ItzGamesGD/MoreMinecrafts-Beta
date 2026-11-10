@@ -29,6 +29,7 @@ def main() -> int:
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--workers", default="8")
     ap.add_argument("--deep-sample", default="500")
+    ap.add_argument("--quarantine-file", help="quarantine.json from `secgate` (those refs are not uploaded)")
     a = ap.parse_args()
     os.makedirs(a.out_dir, exist_ok=True)
     summary = {"repo_url": a.repo_url, "steps": {}}
@@ -41,6 +42,8 @@ def main() -> int:
             report = os.path.join(a.out_dir, f"{step}.json")
             args = [sys.executable, "-m", "drive_mirror", cmd, "--repo-url", a.repo_url, "--work-dir", a.work_dir,
                     "--mirror-name", "MoreMinecrafts-Beta", "--parent-folder-id", parent, "--report", report, *extra]
+            if a.quarantine_file:
+                args += ["--quarantine-file", a.quarantine_file]
             w0, t0 = fake.store.counters["writes"], time.time()
             r0 = fake.store.counters["reads"]
             p = subprocess.run(args, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -68,11 +71,15 @@ def main() -> int:
         s["copies"] = sum(n.get("copies", 0) for n in rep["namespaces"])
         s["folders_created"] = sum(n.get("folders_created", 0) for n in rep["namespaces"])
         s["bytes_uploaded"] = rep["drive_stats"].get("bytes_uploaded")
+        s["pull_head_namespaces"] = sum(1 for n in rep["namespaces"] if n["ref"].startswith("refs/pull/"))
+        s["branch_namespaces"] = sum(1 for n in rep["namespaces"] if n["ref"].startswith("refs/heads/"))
+        s["quarantined"] = sorted(n["ref"] for n in rep["namespaces"] if n.get("action") == "quarantined")
 
         code, ver = cli("2-verify", "verify", "--deep-sample", a.deep_sample)
         g = ver["global"]
         summary["steps"]["2-verify"].update(result=ver["result"], expected_namespaces=g["expected_namespaces"],
                                             found_namespaces=g["found_namespaces"],
+                                            quarantined_refs=g.get("quarantined_refs"),
                                             files_expected=g["files_expected"], files_verified=g["files_verified"],
                                             bytes_expected=g["bytes_expected"], deep=g.get("deep_downloads"),
                                             problems=g["problems"],
