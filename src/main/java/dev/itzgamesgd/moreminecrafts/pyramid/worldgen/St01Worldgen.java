@@ -16,6 +16,7 @@ public final class St01Worldgen {
     public static StructureType<St01PyramidStructure> STRUCTURE_TYPE;
     public static StructurePieceType FOOTPRINT_CORRECTION_PIECE;
     public static StructurePieceType ROYAL_HALL_FIXTURE_PIECE;
+    public static StructurePieceType FLUID_SEAL_PIECE;
 
     public static void initialize() {
         if (STRUCTURE_TYPE != null) return;
@@ -24,5 +25,7 @@ public final class St01Worldgen {
                 (StructurePieceType) St01FootprintCorrectionPiece::new);
         ROYAL_HALL_FIXTURE_PIECE = Registry.register(BuiltInRegistries.STRUCTURE_PIECE, St01RoyalHallFixture.PIECE_ID,
                 (StructurePieceType) St01RoyalHallFixture.Piece::new);
+        FLUID_SEAL_PIECE = Registry.register(BuiltInRegistries.STRUCTURE_PIECE, Identifier.fromNamespaceAndPath("moreminecrafts", "st01_fluid_seal"),
+                (StructurePieceType) St01RoyalHallFixture.FluidSealPiece::new);
     }
 }

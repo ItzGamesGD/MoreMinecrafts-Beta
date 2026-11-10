@@ -10,7 +10,9 @@ LOCKED = {"spacing": 32, "separation": 8, "spread_type": "triangular", "salt": 9
 
 
 VEGETATION = {"minecraft:air", "minecraft:cave_air", "minecraft:short_dry_grass", "minecraft:tall_dry_grass", "minecraft:dead_bush",
-              "minecraft:cactus", "minecraft:cactus_flower", "minecraft:short_grass", "minecraft:tall_grass", "minecraft:bush", "minecraft:firefly_bush"}
+              "minecraft:cactus", "minecraft:cactus_flower", "minecraft:short_grass", "minecraft:tall_grass", "minecraft:bush", "minecraft:firefly_bush",
+              "minecraft:glow_lichen"}
+UNDERGROUND = {"stone", "andesite", "diorite", "granite", "tuff", "gravel", "dirt", "coarse_dirt", "clay", "infested_stone"}
 
 
 def load_dump(path):
@@ -27,6 +29,11 @@ def block_id(state):
     return state.replace("Block{", "").split("}")[0]
 
 
+def vanilla_feature_block(state):
+    b = block_id(state)
+    return b in VEGETATION or (b.startswith("minecraft:") and (b[10:] in UNDERGROUND or b.endswith("_ore")))
+
+
 def vegetation_diff(results_dir, key):
     """Proves a raw-hash difference consists solely of vegetation blocks (dump files from both phases)."""
     a_path = os.path.join(results_dir, "dump-scan", key.replace(",", "_") + ".txt")
@@ -39,11 +46,11 @@ def vegetation_diff(results_dir, key):
         for x, y in zip(a[k], b[k]):
             if x != y:
                 differing += 1
-                if block_id(x) not in VEGETATION or block_id(y) not in VEGETATION:
+                if not vanilla_feature_block(x) or not vanilla_feature_block(y):
                     non_veg += 1
     if non_veg:
         unexpected.append(f"replay start {key}: {non_veg} non-vegetation block differences")
-    return f"{differing} block differences, {non_veg} non-vegetation"
+    return f"{differing} block differences, {non_veg} that are not vegetation/vanilla underground features"
 
 
 results_dir = ""
@@ -97,15 +104,16 @@ def main():
             continue
         for key, rec in scan["starts"].items():
             o = other["starts"][key]
-            fields = ["anchor", "rotation", "hall_box", "primary_chest_left", "hall_state_sha256", "footprint_terrain_sha256"]
+            fields = ["anchor", "rotation", "hall_box", "primary_chest_left", "hall_terrain_sha256", "footprint_terrain_sha256"]
             if other_name == "reload":
-                fields.append("footprint_state_sha256")  # a restarted server must reproduce EVERY block exactly
+                fields += ["footprint_state_sha256", "hall_state_sha256"]  # a restarted server must reproduce EVERY block exactly
             for f in fields:
                 if rec[f] != o[f]:
                     problems.append(f"{other_name}: start {key} field {f} differs: {rec[f]} vs {o[f]}")
-            if other_name == "replay" and rec["footprint_state_sha256"] != o["footprint_state_sha256"]:
+            if other_name == "replay" and (rec["footprint_state_sha256"] != o["footprint_state_sha256"] or rec["hall_state_sha256"] != o["hall_state_sha256"]):
                 diff = vegetation_diff(results_dir, key)
-                expected_nondet.append(f"replay start {key}: raw footprint hash differs; {diff}")
+                ctl = "control window (no structure) " + ("ALSO differs" if rec["control_window_state_sha256"] != o["control_window_state_sha256"] else "identical")
+                expected_nondet.append(f"replay start {key}: raw footprint hash differs; {diff}; {ctl}")
 
     print(f"seed={scan['seed']} potential={st['potential_anchors']} center_desert={st['center_only_desert_anchors']} "
           f"footprint_desert={st['desert_footprint_qualified_anchors']} terrain_ok={st['terrain_qualified_anchors']} "

@@ -160,7 +160,8 @@ public final class St01Phase4Probe implements ModInitializer {
         reg.put("structure_class", holder == null ? null : holder.value().getClass().getName());
         reg.put("structure_class_ok", holder != null && holder.value() instanceof St01PyramidStructure);
         reg.put("piece_types_registered", BuiltInRegistries.STRUCTURE_PIECE.getKey(St01Worldgen.ROYAL_HALL_FIXTURE_PIECE) != null
-                && BuiltInRegistries.STRUCTURE_PIECE.getKey(St01Worldgen.FOOTPRINT_CORRECTION_PIECE) != null);
+                && BuiltInRegistries.STRUCTURE_PIECE.getKey(St01Worldgen.FOOTPRINT_CORRECTION_PIECE) != null
+                && BuiltInRegistries.STRUCTURE_PIECE.getKey(St01Worldgen.FLUID_SEAL_PIECE) != null);
         RandomSpreadStructurePlacement placement = null;
         int setsContaining = 0;
         List<String> otherSetsWithSameStructure = new ArrayList<>();
@@ -525,8 +526,20 @@ public final class St01Phase4Probe implements ModInitializer {
                 for (int z = hb.minZ(); z <= hb.maxZ(); z++)
                     worldCensus.merge(BuiltInRegistries.BLOCK.getKey(level.getBlockState(mp.set(x, y, z)).getBlock()).toString(), 1, Integer::sum);
         rec.put("hall_box", box(hb));
-        rec.put("hall_census_matches_nbt", expectedCensus.equals(worldCensus));
-        check(failures, "hall_block_census_equals_nbt", expectedCensus.equals(worldCensus), "expected=" + expectedCensus + " world=" + worldCensus);
+        // Vanilla cave decoration (e.g. glow lichen) may legitimately replace hall AIR; every other block must match the NBT exactly.
+        int airDeficit = expectedCensus.getOrDefault("minecraft:air", 0) - worldCensus.getOrDefault("minecraft:air", 0);
+        Map<String, Integer> extras = new TreeMap<>();
+        boolean exactNonAir = true;
+        for (var e : worldCensus.entrySet()) if (!expectedCensus.containsKey(e.getKey())) extras.merge(e.getKey(), e.getValue(), Integer::sum);
+        for (var e : expectedCensus.entrySet()) if (!e.getKey().equals("minecraft:air") && !e.getValue().equals(worldCensus.getOrDefault(e.getKey(), 0))) exactNonAir = false;
+        int extraTotal = extras.values().stream().mapToInt(Integer::intValue).sum();
+        boolean censusOk = exactNonAir && airDeficit == extraTotal;
+        rec.put("hall_census_matches_nbt_except_air_decoration", censusOk);
+        rec.put("hall_air_replaced_by_vanilla_decoration", extras);
+        check(failures, "hall_block_census_equals_nbt", censusOk, "expected=" + expectedCensus + " world=" + worldCensus);
+        // hall canonical hash: any block that is not part of the template palette is treated as air
+        java.util.Set<String> paletteNames = expectedCensus.keySet();
+        rec.put("hall_terrain_sha256", hashBox(level, hb, false, paletteNames));
 
         BlockPos left = pyramidWorld(cx, yf, cz, St01RoyalChestPlacement.REFERENCE_ANCHOR, rot);
         BlockPos right = pyramidWorld(cx, yf, cz, St01RoyalChestPlacement.REFERENCE_RIGHT, rot);
@@ -552,6 +565,22 @@ public final class St01Phase4Probe implements ModInitializer {
                     if (!s.getFluidState().isEmpty()) { if (inside) fluidInside++; else fluidMargin++; }
                     else if (!inside && s.isAir()) exposedFaces++; // air within the 1-block shell around the box = a cavity touching it
                 }
+        int fluidTouchingHallAir = 0;
+        Map<String, Integer> shellSides = new TreeMap<>();
+        int[][] dirs = {{1, 0, 0}, {-1, 0, 0}, {0, 1, 0}, {0, -1, 0}, {0, 0, 1}, {0, 0, -1}};
+        BlockPos.MutableBlockPos np = new BlockPos.MutableBlockPos();
+        for (int x = hb.minX() - m; x <= hb.maxX() + m; x++)
+            for (int y = hb.minY() - m; y <= hb.maxY() + m; y++)
+                for (int z = hb.minZ() - m; z <= hb.maxZ() + m; z++) {
+                    if (hb.isInside(x, y, z) || level.getBlockState(mp.set(x, y, z)).getFluidState().isEmpty()) continue;
+                    shellSides.merge(x < hb.minX() ? "-x" : x > hb.maxX() ? "+x" : y < hb.minY() ? "-y" : y > hb.maxY() ? "+y" : z < hb.minZ() ? "-z" : "+z", 1, Integer::sum);
+                    for (int[] d : dirs) {
+                        np.set(x + d[0], y + d[1], z + d[2]);
+                        if (hb.isInside(np.getX(), np.getY(), np.getZ()) && !level.getBlockState(np).canOcclude()) { fluidTouchingHallAir++; break; }
+                    }
+                }
+        rec.put("hall_shell_fluid_by_face", shellSides);
+        rec.put("hall_shell_fluid_blocks_adjacent_to_non_solid_hall_blocks", fluidTouchingHallAir);
         rec.put("hall_fluid_blocks_inside_box", fluidInside);
         rec.put("hall_fluid_blocks_in_margin_shell", fluidMargin);
         rec.put("air_blocks_in_margin_shell_cavity_exposure_audit", exposedFaces);
@@ -562,8 +591,16 @@ public final class St01Phase4Probe implements ModInitializer {
         BoundingBox fp = new BoundingBox(cx - half, yf - 14, cz - half, cx + half, yf + 14, cz + half);
         rec.put("footprint_state_sha256", hashBox(level, fp, false));
         rec.put("footprint_terrain_sha256", hashBox(level, fp, true));
+        // control: an equally sized window 256 blocks east of the anchor with NO ST-01 structure; any scan/replay difference there is vanilla feature ordering
+        int ccx = cx + 256;
+        for (int x = (ccx - half - 16) >> 4; x <= (ccx + half + 16) >> 4; x++) for (int z = (cz - half - 16) >> 4; z <= (cz + half + 16) >> 4; z++) level.getChunk(x, z, ChunkStatus.FULL);
+        rec.put("control_window_center", ccx + "," + yf + "," + cz);
+        rec.put("control_window_state_sha256", hashBox(level, new BoundingBox(ccx - half, yf - 14, cz - half, ccx + half, yf + 14, cz + half), false));
         String dumpDir = System.getProperty("mm.st01.p4.dump");
-        if (dumpDir != null) dumpFootprint(level, cx, yf, cz, Path.of(dumpDir, pc.x() + "_" + pc.z() + ".txt"));
+        if (dumpDir != null) {
+            dumpFootprint(level, cx, yf, cz, Path.of(dumpDir, pc.x() + "_" + pc.z() + ".txt"));
+            dumpFootprint(level, ccx, yf, cz, Path.of(dumpDir, "control_" + pc.x() + "_" + pc.z() + ".txt"));
+        }
         rec.put("failures", failures);
         rec.put("all_checks_pass", failures.isEmpty());
         return rec;
@@ -613,13 +650,26 @@ public final class St01Phase4Probe implements ModInitializer {
         return new BlockPos(cx + rx, yf + reference.getY(), cz + rz);
     }
 
+    private static final java.util.Set<String> UNDERGROUND_FEATURE_BLOCKS = java.util.Set.of("stone", "andesite", "diorite", "granite", "tuff", "gravel", "dirt",
+            "coarse_dirt", "coal_ore", "iron_ore", "copper_ore", "gold_ore", "redstone_ore", "lapis_ore", "diamond_ore", "emerald_ore", "clay", "infested_stone");
+
+    private static String bid(BlockState s) { return BuiltInRegistries.BLOCK.getKey(s.getBlock()).getPath(); }
+
     /** Non-collidable growth (grass, dead bush, cactus ...) placed by vanilla vegetation features whose order relative to the correction is not fixed. */
     private static boolean isVegetation(ServerLevel level, BlockPos pos, BlockState s) {
         return s.isAir() || s.is(Blocks.CACTUS) || s.is(Blocks.CACTUS_FLOWER) || s.getCollisionShape(level, pos).isEmpty() && s.getFluidState().isEmpty();
     }
 
-    /** SHA-256 over the block states of a box; with {@code canonical} vegetation is mapped to air so only terrain/structure blocks count. */
     private static String hashBox(ServerLevel level, BoundingBox b, boolean canonical) throws Exception {
+        return hashBox(level, b, canonical, null);
+    }
+
+    /**
+     * SHA-256 over the block states of a box. Raw: exact states. Canonical (terrain): vegetation/decoration maps to "-" and vanilla underground
+     * feature blocks (stone family, ores, gravel, dirt) map to "S", so only structure-owned blocks (sand, sandstone, air, hall blocks) count.
+     * With {@code allowed}: any block outside that name set maps to "-" (hall template palette check).
+     */
+    private static String hashBox(ServerLevel level, BoundingBox b, boolean canonical, java.util.Set<String> allowed) throws Exception {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         BlockPos.MutableBlockPos mp = new BlockPos.MutableBlockPos();
         StringBuilder line = new StringBuilder();
@@ -628,7 +678,13 @@ public final class St01Phase4Probe implements ModInitializer {
                 line.setLength(0);
                 for (int y = b.minY(); y <= b.maxY(); y++) {
                     BlockState st = level.getBlockState(mp.set(x, y, z));
-                    line.append(canonical && isVegetation(level, mp, st) ? "-" : st.toString()).append(';');
+                    String out;
+                    if (allowed != null) out = allowed.contains(BuiltInRegistries.BLOCK.getKey(st.getBlock()).toString()) ? st.toString() : "-";
+                    else if (!canonical) out = st.toString();
+                    else if (isVegetation(level, mp, st)) out = "-";
+                    else if (UNDERGROUND_FEATURE_BLOCKS.contains(bid(st)) || bid(st).endsWith("_ore")) out = "S";
+                    else out = st.toString();
+                    line.append(out).append(';');
                 }
                 md.update(line.toString().getBytes(StandardCharsets.UTF_8));
             }

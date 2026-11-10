@@ -64,7 +64,49 @@ public final class St01RoyalHallFixture {
     public static void addPieces(StructurePiecesBuilder builder, StructureTemplateManager templates, int cx, int foundationY, int cz,
             Rotation rotation) {
         builder.addPiece(new St01FootprintCorrectionPiece(cx, foundationY, cz));
-        builder.addPiece(new Piece(templates, templateOrigin(cx, foundationY, cz), rotation));
+        Piece hall = new Piece(templates, templateOrigin(cx, foundationY, cz), rotation);
+        builder.addPiece(hall);
+        builder.addPiece(new FluidSealPiece(hall.getBoundingBox().inflatedBy(St01PlacementConfig.FLUID_MARGIN)));
+    }
+
+    /**
+     * Fluid safety for what the noise-column check cannot see: the eligibility rule tests the generator's base columns, but carvers and aquifers
+     * may still leave water or lava against the hall. This piece replaces fluid in the {@link St01PlacementConfig#FLUID_MARGIN}-block shell around the
+     * hall box with sandstone. It reads only already-generated terrain of its own chunk and never touches the box itself or anything beyond the shell.
+     */
+    public static final class FluidSealPiece extends net.minecraft.world.level.levelgen.structure.StructurePiece {
+        FluidSealPiece(BoundingBox shellBox) {
+            super(St01Worldgen.FLUID_SEAL_PIECE, 0, shellBox);
+        }
+
+        public FluidSealPiece(StructurePieceSerializationContext ctx, CompoundTag tag) {
+            super(St01Worldgen.FLUID_SEAL_PIECE, tag);
+            int[] b = tag.getIntArray("Box").orElse(new int[6]);
+            this.boundingBox = new BoundingBox(b[0], b[1], b[2], b[3], b[4], b[5]);
+        }
+
+        @Override
+        protected void addAdditionalSaveData(StructurePieceSerializationContext ctx, CompoundTag tag) {
+            tag.putIntArray("Box", new int[]{boundingBox.minX(), boundingBox.minY(), boundingBox.minZ(), boundingBox.maxX(), boundingBox.maxY(), boundingBox.maxZ()});
+        }
+
+        @Override
+        public void postProcess(net.minecraft.world.level.WorldGenLevel level, net.minecraft.world.level.StructureManager structures,
+                net.minecraft.world.level.chunk.ChunkGenerator generator, RandomSource random, BoundingBox chunkBox,
+                net.minecraft.world.level.ChunkPos chunkPos, BlockPos pivot) {
+            int m = St01PlacementConfig.FLUID_MARGIN;
+            BoundingBox inner = boundingBox.inflatedBy(-m);
+            BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+            net.minecraft.world.level.block.state.BlockState seal = net.minecraft.world.level.block.Blocks.SANDSTONE.defaultBlockState();
+            for (int x = Math.max(boundingBox.minX(), chunkBox.minX()); x <= Math.min(boundingBox.maxX(), chunkBox.maxX()); x++) {
+                for (int z = Math.max(boundingBox.minZ(), chunkBox.minZ()); z <= Math.min(boundingBox.maxZ(), chunkBox.maxZ()); z++) {
+                    for (int y = Math.max(boundingBox.minY(), level.getMinY()); y <= Math.min(boundingBox.maxY(), level.getMaxY()); y++) {
+                        if (inner.isInside(x, y, z)) continue;
+                        if (!level.getBlockState(pos.set(x, y, z)).getFluidState().isEmpty()) level.setBlock(pos, seal, 2);
+                    }
+                }
+            }
+        }
     }
 
     public static final class Piece extends TemplateStructurePiece {
