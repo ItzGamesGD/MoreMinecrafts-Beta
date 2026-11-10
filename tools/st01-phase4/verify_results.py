@@ -83,6 +83,14 @@ def main():
     if fx.get("pass") is not True:
         problems.append(f"correction fixture failed: {fx.get('failures')}")
 
+    for kind in ("fluid_rejection_audit", "terrain_rejection_no_partial_audit"):
+        rows = scan.get(kind, [])
+        bad = [r for r in rows if not r.get("no_partial_generation", True)]
+        if rows:
+            print(f"{kind}: {len(rows)} rejected candidates generated for real, partial-generation findings: {len(bad)}")
+        if bad:
+            problems.append(f"{kind}: rejected candidate left a start or hall blocks: {bad}")
+
     for other_name, other in (("replay", replay), ("reload", reload_)):
         if set(other["starts"]) != set(scan["starts"]):
             problems.append(f"{other_name}: start set differs {sorted(other['starts'])} vs {sorted(scan['starts'])}")

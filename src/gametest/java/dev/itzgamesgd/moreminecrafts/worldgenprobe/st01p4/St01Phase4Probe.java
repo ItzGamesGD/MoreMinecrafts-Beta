@@ -197,6 +197,7 @@ public final class St01Phase4Probe implements ModInitializer {
         long t0 = System.currentTimeMillis();
         List<ChunkPos> startChunks = new ArrayList<>();
         List<int[]> fluidRejected = new ArrayList<>(); // cx, cz, foundationY, rotationOrdinal
+        List<int[]> terrainRejected = new ArrayList<>(); // same layout; height-difference / cut / skirt rejections
         for (int[] region : anchors) {
             ChunkPos pc = placement.getPotentialStructureChunk(seed, region[0] * spacing, region[1] * spacing);
             // exclude anchors outside the measured disc/square so that area normalisation is exact
@@ -211,6 +212,8 @@ public final class St01Phase4Probe implements ModInitializer {
             if (res.eligible()) fluidSafe++;
             else rejection.merge(res.verdict().name(), 1, Integer::sum);
             if (res.verdict() == St01Eligibility.Verdict.REJECT_FLUID) fluidRejected.add(new int[]{cx, cz, res.foundationY(), rot.ordinal()});
+            if (res.verdict() == St01Eligibility.Verdict.REJECT_HEIGHT_DIFFERENCE || res.verdict() == St01Eligibility.Verdict.REJECT_CUT
+                    || res.verdict() == St01Eligibility.Verdict.REJECT_SKIRT) terrainRejected.add(new int[]{cx, cz, res.foundationY(), rot.ordinal()});
             // drop memoised columns of this candidate to bound memory (anchors are >= 8 chunks apart)
             terrain.heights.clear();
             terrain.columns.clear();
@@ -287,9 +290,22 @@ public final class St01Phase4Probe implements ModInitializer {
             row.put("actual_water_blocks_in_volume_plus_margin", water);
             row.put("actual_lava_blocks_in_volume_plus_margin", lava);
             row.put("fluid_rejection_confirmed_by_real_chunks", water + lava > 0);
+            addNoPartialEvidence(level, terrain, structure, row, c, vb);
             fluidAudit.add(row);
         }
         result.put("fluid_rejection_audit", fluidAudit);
+        // rejected for terrain: real chunks must show no ST-01 start, no hall blocks and no flattening
+        List<Map<String, Object>> terrainAudit = new ArrayList<>();
+        for (int[] c : terrainRejected) {
+            if (terrainAudit.size() >= Integer.getInteger("mm.st01.p4.rejectaudit", 3)) break;
+            Map<String, Object> row = new LinkedHashMap<>();
+            row.put("anchor", c[0] + "," + c[2] + "," + c[1]);
+            St01Eligibility.Volume v = St01RoyalHallFixture.volume(Rotation.values()[c[3]]);
+            BoundingBox vb = new BoundingBox(c[0] + v.minDx(), c[2] + v.minDy(), c[1] + v.minDz(), c[0] + v.maxDx(), c[2] + v.maxDy(), c[1] + v.maxDz());
+            addNoPartialEvidence(level, terrain, structure, row, c, vb);
+            terrainAudit.add(row);
+        }
+        result.put("terrain_rejection_no_partial_audit", terrainAudit);
 
         // ---- 4. controlled-terrain correction fixture (scan phase only) ---------------------------------------------------
         if (!reload && !reverse) result.put("correction_fixture", correctionFixture(level));
@@ -297,6 +313,33 @@ public final class St01Phase4Probe implements ModInitializer {
     }
 
     private static final ThreadLocal<Long> SEED_FOR_REG = ThreadLocal.withInitial(() -> 0L);
+
+    /** A rejected candidate must leave nothing: no start in its chunk, no hall marker blocks in its volume, no flattened footprint. */
+    private static void addNoPartialEvidence(ServerLevel level, ProbeTerrain terrain, Structure structure, Map<String, Object> row, int[] c, BoundingBox volume) {
+        int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
+        for (int x = (c[0] - half) >> 4; x <= (c[0] + half) >> 4; x++) for (int z = (c[1] - half) >> 4; z <= (c[1] + half) >> 4; z++) level.getChunk(x, z, ChunkStatus.FULL);
+        ChunkPos pc = new ChunkPos(c[0] >> 4, c[1] >> 4);
+        StructureStart st = level.getChunk(pc.x(), pc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(structure);
+        int gold = 0;
+        BlockPos.MutableBlockPos mp = new BlockPos.MutableBlockPos();
+        for (int x = volume.minX(); x <= volume.maxX(); x++) for (int y = volume.minY(); y <= volume.maxY(); y++) for (int z = volume.minZ(); z <= volume.maxZ(); z++) {
+            var b = level.getBlockState(mp.set(x, y, z));
+            if (b.is(Blocks.GOLD_BLOCK) || b.is(Blocks.CHISELED_SANDSTONE) || b.is(Blocks.SMOOTH_RED_SANDSTONE)) gold++;
+        }
+        int stray = 0, flatAtMedian = 0, columns = 0;
+        for (int dx = -half; dx <= half; dx++) for (int dz = -half; dz <= half; dz++) {
+            int actual = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, c[0] + dx, c[1] + dz);
+            if (Math.abs(actual - terrain.surfaceHeight(c[0] + dx, c[1] + dz)) > 3) stray++;
+            if (actual == c[2]) flatAtMedian++;
+            columns++;
+        }
+        terrain.heights.clear();
+        row.put("structure_start_in_anchor_chunk", st != null && st.isValid());
+        row.put("hall_marker_blocks_in_volume", gold);
+        row.put("footprint_columns_differing_from_noise_height_by_more_than_3", stray);
+        row.put("footprint_columns_exactly_at_would_be_foundation_level", flatAtMedian + "/" + columns);
+        row.put("no_partial_generation", !(st != null && st.isValid()) && gold == 0);
+    }
 
     private static boolean placementMatches(RandomSpreadStructurePlacement p, Map<String, Object> reg) {
         boolean ok = p.spacing() == St01PlacementConfig.SPACING_CHUNKS && p.separation() == St01PlacementConfig.SEPARATION_CHUNKS

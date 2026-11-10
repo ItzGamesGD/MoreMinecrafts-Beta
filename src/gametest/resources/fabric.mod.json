@@ -98,6 +98,7 @@
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p4.St01Phase4ClientCaptureTest",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8AClientCaptureTest",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8ARecaptureTest",
       "dev.itzgamesgd.moreminecrafts.colosseum.GladiatorClientGameTest",
