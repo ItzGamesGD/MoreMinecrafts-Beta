@@ -32,7 +32,7 @@ public final class St01RoyalChestGameTests {
             // Nonzero pivot exercises the same semantics as StructureTemplate.placeInWorld.
             var settings = St01RoyalChestPlacement.placementSettings(new StructurePlaceSettings().setMirror(mirror).setRotation(rotation)
                     .setRotationPivot(new BlockPos(4, 0, 7)));
-            BlockPos origin = ctx.absolutePos(new BlockPos(100 + 160 * index++, 8, 100));
+            BlockPos origin = ctx.absolutePos(new BlockPos(4096 + 160 * index++, 8, 4096));
             for (int x = -4; x <= 4; x++) for (int z = -4; z <= 4; z++)
                 level.getChunk((origin.getX() >> 4) + x, (origin.getZ() >> 4) + z);
             ctx.assertTrue(template.placeInWorld(level, origin, origin, settings, level.getRandom(), Block.UPDATE_CLIENTS), "D1 placed");
