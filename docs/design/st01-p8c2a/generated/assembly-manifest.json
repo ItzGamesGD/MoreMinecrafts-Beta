@@ -1,0 +1,6183 @@
+{
+ "status": "P8-C2-A construction export of the APPROVED G0-R1 blueprint",
+ "approved_blueprint": {
+  "commit": "c26ea0f871e788d1d331b40151779d86590469f2",
+  "blueprint_sha256": "3e7106aea15d8f033cbdba4728d90e7ee50875c0e80fc724ad1585510fd78f5a",
+  "d1_exceptions_sha256": "9eeed14ca6809b12426f92adf910c8cf514ad52e8263682ada7f49f01f8bc849",
+  "approval_record": "docs/design/st01-p8c2a/G0-R1-OWNER-APPROVAL-RECORD.md"
+ },
+ "exporter": {
+  "path": "tools/st01-p8c2a/export_assembly.py",
+  "sha256": "9ae033619669afbbe552661d680e818fdb86a3d5c2b49fbf93a3ab4654c8d283",
+  "command": "python3 tools/st01-p8c2a/export_assembly.py",
+  "data_version": 5023,
+  "mm_sg": "MM-SG exporter not used; MM in-repo generator conventions (lowercase id/properties palette, sorted positions, gzip mtime 0, OS byte 3). MM-SG 61a09eeb is referenced only through the G0-R1 26.3 block-state extract."
+ },
+ "coordinate_contract": {
+  "authored": "+X east, +Z south, +Y up; ground-centre origin; inclusive bounds",
+  "world": "world(p) = groundOrigin + R(p); every piece: placementOrigin = groundOrigin + authored_min_corner, rotationPivot = -authored_min_corner, same Rotation, Mirror.NONE",
+  "orientation_to_rotation": {
+   "SOUTH": "NONE",
+   "WEST": "CLOCKWISE_90",
+   "NORTH": "CLOCKWISE_180",
+   "EAST": "COUNTERCLOCKWISE_90"
+  },
+  "orientation_meaning": "direction the authored main entrance faces after rotation",
+  "access_route": "independent EAST/WEST enum choosing the assembly piece; selection policy belongs to C2-B"
+ },
+ "runtime_metadata": {
+  "authored_anchor": [
+   -21,
+   -20,
+   33
+  ],
+  "authored_primary_right": [
+   -20,
+   -20,
+   33
+  ],
+  "authored_guardian": [
+   -21,
+   -22,
+   26
+  ],
+  "secondary": null,
+  "d1_reference_origin": [
+   -40,
+   -24,
+   2
+  ],
+  "completion_bounds": [
+   -40,
+   40,
+   -32,
+   39,
+   -40,
+   40
+  ],
+  "world_mapping": "groundWorldOrigin + rotation(authoredPosition)",
+  "identity": "existing B2 dimensionIdentifier/x,y,z of transformed anchor; no new RNG stream",
+  "royal_chest_registration": "St01RoyalChestPlacement.registerPlaced(level, d1PlacementOrigin, d1Settings) after all three pieces",
+  "completion_bounds_note": "authored inclusive bounds; rotate with the same transform for a world box"
+ },
+ "pieces": {
+  "EAST": [
+   {
+    "order": 1,
+    "piece": "ASSEMBLY",
+    "resource": "moreminecrafts:pyramid/st01/assembly_east",
+    "path": "src/main/resources/data/moreminecrafts/structure/pyramid/st01/assembly_east.nbt",
+    "sha256": "fe5afb19c2587f1678f2947040c43aec67503b60380599f45934dd6034d6616c",
+    "bytes": 748066,
+    "authored_min_corner": [
+     -40,
+     -32,
+     -40
+    ],
+    "size": [
+     81,
+     72,
+     81
+    ],
+    "rotation_pivot": [
+     40,
+     32,
+     40
+    ],
+    "content": "all operation-written cells outside the D1 box; unwritten above-ground cells are structure void"
+   },
+   {
+    "order": 2,
+    "piece": "D1_ROYAL_HALL",
+    "resource": "moreminecrafts:pyramid/royal_hall",
+    "path": "src/main/resources/data/moreminecrafts/structure/pyramid/royal_hall.nbt",
+    "sha256": "7bdc1d09858c619b2be1f09b3874eec816354a142a032df3a7f6060a69d89423",
+    "bytes": 73791,
+    "authored_min_corner": [
+     -40,
+     -24,
+     2
+    ],
+    "size": [
+     39,
+     20,
+     39
+    ],
+    "rotation_pivot": [
+     40,
+     24,
+     -2
+    ],
+    "content": "original D1 bytes, verbatim; placed with St01RoyalChestPlacement.placementSettings"
+   },
+   {
+    "order": 3,
+    "piece": "D1_SEAM_EXCEPTION",
+    "resource": "moreminecrafts:pyramid/st01/d1_seam_exception",
+    "path": "src/main/resources/data/moreminecrafts/structure/pyramid/st01/d1_seam_exception.nbt",
+    "sha256": "72f32c062daecb018d4184910e9d11c980b864c527af0383e50178dcae521b89",
+    "bytes": 162,
+    "authored_min_corner": [
+     -8,
+     -24,
+     33
+    ],
+    "size": [
+     4,
+     1,
+     3
+    ],
+    "rotation_pivot": [
+     8,
+     24,
+     -33
+    ],
+    "content": "R1-01: exactly 12 air cells, applied after D1"
+   }
+  ],
+  "WEST": [
+   {
+    "order": 1,
+    "piece": "ASSEMBLY",
+    "resource": "moreminecrafts:pyramid/st01/assembly_west",
+    "path": "src/main/resources/data/moreminecrafts/structure/pyramid/st01/assembly_west.nbt",
+    "sha256": "55cb285c5a727a5268c708d8fe9ab4ece9f56e995922c1776d936ce2139c2818",
+    "bytes": 748241,
+    "authored_min_corner": [
+     -40,
+     -32,
+     -40
+    ],
+    "size": [
+     81,
+     72,
+     81
+    ],
+    "rotation_pivot": [
+     40,
+     32,
+     40
+    ],
+    "content": "all operation-written cells outside the D1 box; unwritten above-ground cells are structure void"
+   },
+   {
+    "order": 2,
+    "piece": "D1_ROYAL_HALL",
+    "resource": "moreminecrafts:pyramid/royal_hall",
+    "path": "src/main/resources/data/moreminecrafts/structure/pyramid/royal_hall.nbt",
+    "sha256": "7bdc1d09858c619b2be1f09b3874eec816354a142a032df3a7f6060a69d89423",
+    "bytes": 73791,
+    "authored_min_corner": [
+     -40,
+     -24,
+     2
+    ],
+    "size": [
+     39,
+     20,
+     39
+    ],
+    "rotation_pivot": [
+     40,
+     24,
+     -2
+    ],
+    "content": "original D1 bytes, verbatim; placed with St01RoyalChestPlacement.placementSettings"
+   },
+   {
+    "order": 3,
+    "piece": "D1_SEAM_EXCEPTION",
+    "resource": "moreminecrafts:pyramid/st01/d1_seam_exception",
+    "path": "src/main/resources/data/moreminecrafts/structure/pyramid/st01/d1_seam_exception.nbt",
+    "sha256": "72f32c062daecb018d4184910e9d11c980b864c527af0383e50178dcae521b89",
+    "bytes": 162,
+    "authored_min_corner": [
+     -8,
+     -24,
+     33
+    ],
+    "size": [
+     4,
+     1,
+     3
+    ],
+    "rotation_pivot": [
+     8,
+     24,
+     -33
+    ],
+    "content": "R1-01: exactly 12 air cells, applied after D1"
+   }
+  ]
+ },
+ "variants": {
+  "EAST": {
+   "listed_cells": 273062,
+   "void_cells": 168910,
+   "states": {
+    "minecraft:air": 34219,
+    "minecraft:black_terracotta": 8,
+    "minecraft:chest": 1,
+    "minecraft:chiseled_sandstone": 1764,
+    "minecraft:cut_sandstone": 2215,
+    "minecraft:cyan_concrete": 1,
+    "minecraft:diamond_block": 139,
+    "minecraft:flower_pot": 8,
+    "minecraft:gold_block": 208,
+    "minecraft:lapis_block": 36,
+    "minecraft:oak_planks": 18,
+    "minecraft:sandstone": 231297,
+    "minecraft:smooth_sandstone": 3054,
+    "minecraft:wall_torch": 94
+   },
+   "block_entities": [
+    [
+     25,
+     -26,
+     26,
+     "minecraft:chest"
+    ]
+   ],
+   "closed_signature": "616fd36476e686a5996b59c3f00b04a93f92d99dd0eaf9b94bfc2e4dbd94c85e",
+   "components": [
+    {
+     "id": "P1:S00",
+     "kind": "air",
+     "bounds": [
+      -12,
+      12,
+      0,
+      11,
+      29,
+      40
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 0,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S01",
+     "kind": "air",
+     "bounds": [
+      -4,
+      4,
+      0,
+      9,
+      25,
+      28
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 1,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S02",
+     "kind": "air",
+     "bounds": [
+      -10,
+      10,
+      0,
+      11,
+      21,
+      24
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 2,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S03",
+     "kind": "air",
+     "bounds": [
+      -6,
+      6,
+      0,
+      10,
+      19,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 3,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S04",
+     "kind": "air",
+     "bounds": [
+      -18,
+      18,
+      0,
+      17,
+      -6,
+      18
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 4,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S05",
+     "kind": "air",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -1,
+      -6,
+      -1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 5,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S06",
+     "kind": "air",
+     "bounds": [
+      -7,
+      7,
+      -6,
+      -1,
+      -14,
+      -7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 6,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S08",
+     "kind": "air",
+     "bounds": [
+      -3,
+      3,
+      7,
+      12,
+      -8,
+      -7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 7,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S09",
+     "kind": "air",
+     "bounds": [
+      -3,
+      3,
+      8,
+      13,
+      -11,
+      -9
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 8,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S10",
+     "kind": "air",
+     "bounds": [
+      -7,
+      7,
+      11,
+      17,
+      -20,
+      -12
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 9,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:C1",
+     "kind": "air",
+     "bounds": [
+      8,
+      28,
+      -6,
+      -2,
+      -13,
+      -5
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 10,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BR1",
+     "kind": "air",
+     "bounds": [
+      11,
+      13,
+      -6,
+      -2,
+      -17,
+      -14
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 11,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:T1",
+     "kind": "air",
+     "bounds": [
+      9,
+      15,
+      -6,
+      -2,
+      -24,
+      -18
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 12,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BR2",
+     "kind": "air",
+     "bounds": [
+      20,
+      22,
+      -6,
+      -2,
+      -17,
+      -14
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 13,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:T2",
+     "kind": "air",
+     "bounds": [
+      18,
+      24,
+      -6,
+      -2,
+      -26,
+      -18
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 14,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BR3",
+     "kind": "air",
+     "bounds": [
+      11,
+      13,
+      -6,
+      -3,
+      -6,
+      -4
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 15,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:T3",
+     "kind": "air",
+     "bounds": [
+      9,
+      15,
+      -6,
+      -3,
+      -3,
+      3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 16,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:V12",
+     "kind": "air",
+     "bounds": [
+      29,
+      37,
+      -6,
+      -2,
+      -12,
+      -2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 17,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:FA",
+     "kind": "air",
+     "bounds": [
+      30,
+      36,
+      -10,
+      -3,
+      -1,
+      2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 18,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:LND12",
+     "kind": "air",
+     "bounds": [
+      29,
+      37,
+      -10,
+      -6,
+      3,
+      11
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 19,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:FB",
+     "kind": "air",
+     "bounds": [
+      25,
+      28,
+      -14,
+      -7,
+      4,
+      10
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 20,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:C2",
+     "kind": "air",
+     "bounds": [
+      14,
+      24,
+      -14,
+      -10,
+      4,
+      10
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 21,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BRB1",
+     "kind": "air",
+     "bounds": [
+      22,
+      24,
+      -14,
+      -10,
+      11,
+      14
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 22,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:B1",
+     "kind": "air",
+     "bounds": [
+      22,
+      28,
+      -14,
+      -10,
+      15,
+      21
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 23,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BRB2",
+     "kind": "air",
+     "bounds": [
+      16,
+      18,
+      -14,
+      -10,
+      11,
+      14
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 24,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:B2",
+     "kind": "air",
+     "bounds": [
+      11,
+      19,
+      -14,
+      -7,
+      15,
+      21
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 25,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BRB3",
+     "kind": "air",
+     "bounds": [
+      19,
+      21,
+      -14,
+      -10,
+      0,
+      3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 26,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:B3",
+     "kind": "air",
+     "bounds": [
+      17,
+      23,
+      -14,
+      -10,
+      -9,
+      -1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 27,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:V23",
+     "kind": "air",
+     "bounds": [
+      3,
+      13,
+      -14,
+      -10,
+      3,
+      11
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 28,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:FC",
+     "kind": "air",
+     "bounds": [
+      5,
+      11,
+      -18,
+      -11,
+      -1,
+      2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 29,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:LND23",
+     "kind": "air",
+     "bounds": [
+      4,
+      12,
+      -18,
+      -14,
+      -10,
+      -2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 30,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:FD",
+     "kind": "air",
+     "bounds": [
+      0,
+      3,
+      -22,
+      -15,
+      -9,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 31,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:C3",
+     "kind": "air",
+     "bounds": [
+      -3,
+      -1,
+      -22,
+      -18,
+      -9,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 32,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:R",
+     "kind": "air",
+     "bounds": [
+      -11,
+      -4,
+      -22,
+      -19,
+      -9,
+      -5
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 33,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:A",
+     "kind": "air",
+     "bounds": [
+      -30,
+      -12,
+      -22,
+      -13,
+      -12,
+      -2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 34,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:T",
+     "kind": "air",
+     "bounds": [
+      -22,
+      -20,
+      -22,
+      -20,
+      -1,
+      4
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 35,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:ANNEX_PORT",
+     "kind": "air",
+     "bounds": [
+      -32,
+      -31,
+      -22,
+      -20,
+      -8,
+      -6
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 36,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:ANNEX1",
+     "kind": "air",
+     "bounds": [
+      -38,
+      -33,
+      -22,
+      -18,
+      -11,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 37,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_W2",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      -9,
+      0,
+      17,
+      1,
+      3
+     ],
+     "parent": "P1:S04",
+     "placement_order": 38,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_W8",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      -9,
+      0,
+      17,
+      7,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 39,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_W14",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      -9,
+      0,
+      17,
+      13,
+      15
+     ],
+     "parent": "P1:S04",
+     "placement_order": 40,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_E2",
+     "kind": "solid",
+     "bounds": [
+      9,
+      11,
+      0,
+      17,
+      1,
+      3
+     ],
+     "parent": "P1:S04",
+     "placement_order": 41,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_E8",
+     "kind": "solid",
+     "bounds": [
+      9,
+      11,
+      0,
+      17,
+      7,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 42,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_E14",
+     "kind": "solid",
+     "bounds": [
+      9,
+      11,
+      0,
+      17,
+      13,
+      15
+     ],
+     "parent": "P1:S04",
+     "placement_order": 43,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_court_W32",
+     "kind": "solid",
+     "bounds": [
+      -9,
+      -7,
+      0,
+      9,
+      31,
+      33
+     ],
+     "parent": "P1:S00",
+     "placement_order": 44,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_court_W37",
+     "kind": "solid",
+     "bounds": [
+      -9,
+      -7,
+      0,
+      9,
+      36,
+      38
+     ],
+     "parent": "P1:S00",
+     "placement_order": 45,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_court_E32",
+     "kind": "solid",
+     "bounds": [
+      7,
+      9,
+      0,
+      9,
+      31,
+      33
+     ],
+     "parent": "P1:S00",
+     "placement_order": 46,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_court_E37",
+     "kind": "solid",
+     "bounds": [
+      7,
+      9,
+      0,
+      9,
+      36,
+      38
+     ],
+     "parent": "P1:S00",
+     "placement_order": 47,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:ledge_W",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      5,
+      6,
+      -6,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 48,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:ledge_E",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      5,
+      6,
+      -6,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 49,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:ledge_R",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      11,
+      5,
+      6,
+      -6,
+      0
+     ],
+     "parent": "P1:S04",
+     "placement_order": 50,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:parapet_W",
+     "kind": "solid",
+     "bounds": [
+      -12,
+      -12,
+      7,
+      7,
+      1,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 51,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:parapet_E",
+     "kind": "solid",
+     "bounds": [
+      12,
+      12,
+      7,
+      7,
+      1,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 52,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:parapet_R",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      11,
+      7,
+      7,
+      0,
+      0
+     ],
+     "parent": "P1:S04",
+     "placement_order": 53,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W1",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      0,
+      15,
+      15
+     ],
+     "parent": "P1:S04",
+     "placement_order": 54,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W2",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      1,
+      14,
+      14
+     ],
+     "parent": "P1:S04",
+     "placement_order": 55,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W3",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      2,
+      13,
+      13
+     ],
+     "parent": "P1:S04",
+     "placement_order": 56,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W4",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      3,
+      12,
+      12
+     ],
+     "parent": "P1:S04",
+     "placement_order": 57,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W5",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      4,
+      11,
+      11
+     ],
+     "parent": "P1:S04",
+     "placement_order": 58,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W6",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      5,
+      10,
+      10
+     ],
+     "parent": "P1:S04",
+     "placement_order": 59,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E1",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      0,
+      15,
+      15
+     ],
+     "parent": "P1:S04",
+     "placement_order": 60,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E2",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      1,
+      14,
+      14
+     ],
+     "parent": "P1:S04",
+     "placement_order": 61,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E3",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      2,
+      13,
+      13
+     ],
+     "parent": "P1:S04",
+     "placement_order": 62,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E4",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      3,
+      12,
+      12
+     ],
+     "parent": "P1:S04",
+     "placement_order": 63,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E5",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      4,
+      11,
+      11
+     ],
+     "parent": "P1:S04",
+     "placement_order": 64,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E6",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      5,
+      10,
+      10
+     ],
+     "parent": "P1:S04",
+     "placement_order": 65,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread1",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -2,
+      -1,
+      -1
+     ],
+     "parent": "P1:S05",
+     "placement_order": 66,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread2",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -3,
+      -2,
+      -2
+     ],
+     "parent": "P1:S05",
+     "placement_order": 67,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread3",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -4,
+      -3,
+      -3
+     ],
+     "parent": "P1:S05",
+     "placement_order": 68,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread4",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -5,
+      -4,
+      -4
+     ],
+     "parent": "P1:S05",
+     "placement_order": 69,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread5",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -6,
+      -5,
+      -5
+     ],
+     "parent": "P1:S05",
+     "placement_order": 70,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:altar_tread2",
+     "kind": "solid",
+     "bounds": [
+      -3,
+      3,
+      8,
+      8,
+      -10,
+      -10
+     ],
+     "parent": "P1:S09",
+     "placement_order": 71,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:altar_tread3",
+     "kind": "solid",
+     "bounds": [
+      -3,
+      3,
+      8,
+      9,
+      -11,
+      -11
+     ],
+     "parent": "P1:S09",
+     "placement_order": 72,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:support_W",
+     "kind": "solid",
+     "bounds": [
+      -8,
+      -6,
+      0,
+      4,
+      -3,
+      -1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 73,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:support_E",
+     "kind": "solid",
+     "bounds": [
+      6,
+      8,
+      0,
+      4,
+      -3,
+      -1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 74,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:altar",
+     "kind": "solid",
+     "bounds": [
+      -3,
+      3,
+      11,
+      12,
+      -19,
+      -17
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 75,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:FA",
+     "kind": "air",
+     "bounds": [
+      -9,
+      -3,
+      -29,
+      -20,
+      33,
+      35
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 76,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:LA",
+     "kind": "air",
+     "bounds": [
+      -2,
+      2,
+      -30,
+      -26,
+      32,
+      36
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 77,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CB1",
+     "kind": "air",
+     "bounds": [
+      -2,
+      2,
+      -30,
+      -25,
+      24,
+      31
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 78,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:VAULT",
+     "kind": "air",
+     "bounds": [
+      6,
+      30,
+      -30,
+      -21,
+      16,
+      36
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 79,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:VAULT_ENT",
+     "kind": "air",
+     "bounds": [
+      3,
+      5,
+      -30,
+      -25,
+      24,
+      28
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 80,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CC",
+     "kind": "air",
+     "bounds": [
+      0,
+      2,
+      -30,
+      -26,
+      0,
+      23
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 81,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CC3",
+     "kind": "air",
+     "bounds": [
+      3,
+      7,
+      -30,
+      -26,
+      0,
+      2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 82,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT",
+     "kind": "air",
+     "bounds": [
+      8,
+      22,
+      -30,
+      -24,
+      -7,
+      5
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 83,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_N0",
+     "kind": "air",
+     "bounds": [
+      9,
+      11,
+      -30,
+      -28,
+      -9,
+      -8
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 84,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_S0",
+     "kind": "air",
+     "bounds": [
+      9,
+      11,
+      -30,
+      -28,
+      6,
+      7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 85,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_N1",
+     "kind": "air",
+     "bounds": [
+      13,
+      15,
+      -30,
+      -28,
+      -9,
+      -8
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 86,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_S1",
+     "kind": "air",
+     "bounds": [
+      13,
+      15,
+      -30,
+      -28,
+      6,
+      7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 87,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_N2",
+     "kind": "air",
+     "bounds": [
+      17,
+      19,
+      -30,
+      -28,
+      -9,
+      -8
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 88,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_S2",
+     "kind": "air",
+     "bounds": [
+      17,
+      19,
+      -30,
+      -28,
+      6,
+      7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 89,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL0:base",
+     "kind": "solid",
+     "bounds": [
+      28,
+      30,
+      -30,
+      -30,
+      32,
+      34
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 90,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL0:shaft",
+     "kind": "solid",
+     "bounds": [
+      28,
+      30,
+      -29,
+      -26,
+      32,
+      34
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 91,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL0:cap",
+     "kind": "solid",
+     "bounds": [
+      27,
+      30,
+      -25,
+      -24,
+      31,
+      35
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 92,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL1:base",
+     "kind": "solid",
+     "bounds": [
+      28,
+      30,
+      -30,
+      -30,
+      18,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 93,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL1:shaft",
+     "kind": "solid",
+     "bounds": [
+      28,
+      30,
+      -29,
+      -26,
+      18,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 94,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL1:cap",
+     "kind": "solid",
+     "bounds": [
+      27,
+      30,
+      -25,
+      -24,
+      17,
+      21
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 95,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL2:base",
+     "kind": "solid",
+     "bounds": [
+      18,
+      20,
+      -30,
+      -30,
+      32,
+      34
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 96,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL2:shaft",
+     "kind": "solid",
+     "bounds": [
+      18,
+      20,
+      -29,
+      -26,
+      32,
+      34
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 97,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL2:cap",
+     "kind": "solid",
+     "bounds": [
+      17,
+      21,
+      -25,
+      -24,
+      31,
+      35
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 98,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL3:base",
+     "kind": "solid",
+     "bounds": [
+      18,
+      20,
+      -30,
+      -30,
+      18,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 99,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL3:shaft",
+     "kind": "solid",
+     "bounds": [
+      18,
+      20,
+      -29,
+      -26,
+      18,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 100,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL3:cap",
+     "kind": "solid",
+     "bounds": [
+      17,
+      21,
+      -25,
+      -24,
+      17,
+      21
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 101,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:DAIS",
+     "kind": "solid",
+     "bounds": [
+      19,
+      29,
+      -30,
+      -28,
+      19,
+      33
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 102,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:DAIS_STAIR",
+     "kind": "solid",
+     "bounds": [
+      17,
+      21,
+      -30,
+      -28,
+      23,
+      29
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 103,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:BEAMS",
+     "kind": "solid",
+     "bounds": [
+      19,
+      29,
+      -23,
+      -23,
+      19,
+      33
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 104,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:CHEST_BASE",
+     "kind": "solid",
+     "bounds": [
+      24,
+      28,
+      -27,
+      -27,
+      23,
+      29
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 105,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:CHEST_BODY",
+     "kind": "solid",
+     "bounds": [
+      25,
+      27,
+      -26,
+      -25,
+      24,
+      28
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 106,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:CHEST_LID",
+     "kind": "solid",
+     "bounds": [
+      25,
+      27,
+      -24,
+      -24,
+      24,
+      28
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 107,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:PILES_P",
+     "kind": "solid",
+     "bounds": [
+      6,
+      30,
+      -30,
+      -27,
+      29,
+      36
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 108,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:PILES_N",
+     "kind": "solid",
+     "bounds": [
+      6,
+      30,
+      -30,
+      -27,
+      16,
+      23
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 109,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:CRYPT:SARC",
+     "kind": "solid",
+     "bounds": [
+      14,
+      16,
+      -30,
+      -29,
+      -3,
+      1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 110,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2E:guardian_statue_-27",
+     "kind": "solid",
+     "bounds": [
+      -28,
+      -26,
+      -22,
+      -18,
+      -5,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 111,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2E:guardian_statue_-15",
+     "kind": "solid",
+     "bounds": [
+      -16,
+      -14,
+      -22,
+      -18,
+      -5,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 112,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "D1_ROYAL_HALL",
+     "kind": "immutable_nbt",
+     "bounds": [
+      -40,
+      -2,
+      -24,
+      -5,
+      2,
+      40
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 900,
+     "origin": [
+      -40,
+      -24,
+      2
+     ],
+     "assembly_offset": [
+      -40,
+      -24,
+      2
+     ]
+    }
+   ],
+   "connections": {
+    "P1": [
+     [
+      "S00",
+      "S01"
+     ],
+     [
+      "S01",
+      "S02"
+     ],
+     [
+      "S02",
+      "S03"
+     ],
+     [
+      "S03",
+      "S04"
+     ],
+     [
+      "S04",
+      "S05"
+     ],
+     [
+      "S05",
+      "S06"
+     ],
+     [
+      "S04",
+      "S08"
+     ],
+     [
+      "S08",
+      "S09"
+     ],
+     [
+      "S09",
+      "S10"
+     ],
+     [
+      "S06",
+      "P2:C1"
+     ]
+    ],
+    "P2": [
+     [
+      "C1",
+      "P1:S06"
+     ],
+     [
+      "C1",
+      "BR1"
+     ],
+     [
+      "BR1",
+      "T1"
+     ],
+     [
+      "C1",
+      "BR2"
+     ],
+     [
+      "BR2",
+      "T2"
+     ],
+     [
+      "C1",
+      "BR3"
+     ],
+     [
+      "BR3",
+      "T3"
+     ],
+     [
+      "C1",
+      "V12"
+     ],
+     [
+      "V12",
+      "FA"
+     ],
+     [
+      "FA",
+      "LND12"
+     ],
+     [
+      "LND12",
+      "FB"
+     ],
+     [
+      "FB",
+      "C2"
+     ],
+     [
+      "C2",
+      "BRB1"
+     ],
+     [
+      "BRB1",
+      "B1"
+     ],
+     [
+      "C2",
+      "BRB2"
+     ],
+     [
+      "BRB2",
+      "B2"
+     ],
+     [
+      "C2",
+      "BRB3"
+     ],
+     [
+      "BRB3",
+      "B3"
+     ],
+     [
+      "C2",
+      "V23"
+     ],
+     [
+      "V23",
+      "FC"
+     ],
+     [
+      "FC",
+      "LND23"
+     ],
+     [
+      "LND23",
+      "FD"
+     ],
+     [
+      "FD",
+      "C3"
+     ],
+     [
+      "C3",
+      "R"
+     ],
+     [
+      "R",
+      "A"
+     ],
+     [
+      "A",
+      "T"
+     ],
+     [
+      "A",
+      "ANNEX_PORT"
+     ],
+     [
+      "ANNEX_PORT",
+      "ANNEX1"
+     ]
+    ],
+    "P4": [
+     [
+      "HALL",
+      "FA"
+     ],
+     [
+      "FA",
+      "LA"
+     ],
+     [
+      "LA",
+      "CB1"
+     ],
+     [
+      "CB1",
+      "VAULT_ENT"
+     ],
+     [
+      "VAULT_ENT",
+      "VAULT"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_N0"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_S0"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_N1"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_S1"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_N2"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_S2"
+     ],
+     [
+      "CB1",
+      "CC"
+     ],
+     [
+      "CC",
+      "CC3"
+     ],
+     [
+      "CC3",
+      "CRYPT"
+     ]
+    ],
+    "explicit_d1_port": "P2:T -> D1 at X-22..-20,Y-22..-20,Z2..4"
+   }
+  },
+  "WEST": {
+   "listed_cells": 273062,
+   "void_cells": 168910,
+   "states": {
+    "minecraft:air": 34483,
+    "minecraft:black_terracotta": 8,
+    "minecraft:chest": 1,
+    "minecraft:chiseled_sandstone": 1764,
+    "minecraft:cut_sandstone": 2215,
+    "minecraft:cyan_concrete": 1,
+    "minecraft:diamond_block": 139,
+    "minecraft:flower_pot": 8,
+    "minecraft:gold_block": 208,
+    "minecraft:lapis_block": 36,
+    "minecraft:oak_planks": 18,
+    "minecraft:sandstone": 230947,
+    "minecraft:smooth_sandstone": 3140,
+    "minecraft:wall_torch": 94
+   },
+   "block_entities": [
+    [
+     25,
+     -26,
+     26,
+     "minecraft:chest"
+    ]
+   ],
+   "closed_signature": "dc2c703caac9f0dbaab197f9cff229e30bee2da4c688f27867f9b9116d540068",
+   "components": [
+    {
+     "id": "P1:S00",
+     "kind": "air",
+     "bounds": [
+      -12,
+      12,
+      0,
+      11,
+      29,
+      40
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 0,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S01",
+     "kind": "air",
+     "bounds": [
+      -4,
+      4,
+      0,
+      9,
+      25,
+      28
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 1,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S02",
+     "kind": "air",
+     "bounds": [
+      -10,
+      10,
+      0,
+      11,
+      21,
+      24
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 2,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S03",
+     "kind": "air",
+     "bounds": [
+      -6,
+      6,
+      0,
+      10,
+      19,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 3,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S04",
+     "kind": "air",
+     "bounds": [
+      -18,
+      18,
+      0,
+      17,
+      -6,
+      18
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 4,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S05",
+     "kind": "air",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -1,
+      -6,
+      -1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 5,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S06",
+     "kind": "air",
+     "bounds": [
+      -7,
+      7,
+      -6,
+      -1,
+      -14,
+      -7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 6,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S08",
+     "kind": "air",
+     "bounds": [
+      -3,
+      3,
+      7,
+      12,
+      -8,
+      -7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 7,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S09",
+     "kind": "air",
+     "bounds": [
+      -3,
+      3,
+      8,
+      13,
+      -11,
+      -9
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 8,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1:S10",
+     "kind": "air",
+     "bounds": [
+      -7,
+      7,
+      11,
+      17,
+      -20,
+      -12
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 9,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:C1",
+     "kind": "air",
+     "bounds": [
+      8,
+      28,
+      -6,
+      -2,
+      -13,
+      -5
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 10,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BR1",
+     "kind": "air",
+     "bounds": [
+      11,
+      13,
+      -6,
+      -2,
+      -17,
+      -14
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 11,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:T1",
+     "kind": "air",
+     "bounds": [
+      9,
+      15,
+      -6,
+      -2,
+      -24,
+      -18
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 12,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BR2",
+     "kind": "air",
+     "bounds": [
+      20,
+      22,
+      -6,
+      -2,
+      -17,
+      -14
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 13,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:T2",
+     "kind": "air",
+     "bounds": [
+      18,
+      24,
+      -6,
+      -2,
+      -26,
+      -18
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 14,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BR3",
+     "kind": "air",
+     "bounds": [
+      11,
+      13,
+      -6,
+      -3,
+      -6,
+      -4
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 15,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:T3",
+     "kind": "air",
+     "bounds": [
+      9,
+      15,
+      -6,
+      -3,
+      -3,
+      3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 16,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:V12",
+     "kind": "air",
+     "bounds": [
+      29,
+      37,
+      -6,
+      -2,
+      -12,
+      -2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 17,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:FA",
+     "kind": "air",
+     "bounds": [
+      30,
+      36,
+      -10,
+      -3,
+      -1,
+      2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 18,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:LND12",
+     "kind": "air",
+     "bounds": [
+      29,
+      37,
+      -10,
+      -6,
+      3,
+      11
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 19,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:FB",
+     "kind": "air",
+     "bounds": [
+      25,
+      28,
+      -14,
+      -7,
+      4,
+      10
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 20,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:C2",
+     "kind": "air",
+     "bounds": [
+      14,
+      24,
+      -14,
+      -10,
+      4,
+      10
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 21,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BRB1",
+     "kind": "air",
+     "bounds": [
+      22,
+      24,
+      -14,
+      -10,
+      11,
+      14
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 22,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:B1",
+     "kind": "air",
+     "bounds": [
+      22,
+      28,
+      -14,
+      -10,
+      15,
+      21
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 23,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BRB2",
+     "kind": "air",
+     "bounds": [
+      16,
+      18,
+      -14,
+      -10,
+      11,
+      14
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 24,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:B2",
+     "kind": "air",
+     "bounds": [
+      11,
+      19,
+      -14,
+      -7,
+      15,
+      21
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 25,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:BRB3",
+     "kind": "air",
+     "bounds": [
+      19,
+      21,
+      -14,
+      -10,
+      0,
+      3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 26,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:B3",
+     "kind": "air",
+     "bounds": [
+      17,
+      23,
+      -14,
+      -10,
+      -9,
+      -1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 27,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:V23",
+     "kind": "air",
+     "bounds": [
+      3,
+      13,
+      -14,
+      -10,
+      3,
+      11
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 28,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:FC",
+     "kind": "air",
+     "bounds": [
+      5,
+      11,
+      -18,
+      -11,
+      -1,
+      2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 29,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:LND23",
+     "kind": "air",
+     "bounds": [
+      4,
+      12,
+      -18,
+      -14,
+      -10,
+      -2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 30,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:FD",
+     "kind": "air",
+     "bounds": [
+      0,
+      3,
+      -22,
+      -15,
+      -9,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 31,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:C3",
+     "kind": "air",
+     "bounds": [
+      -3,
+      -1,
+      -22,
+      -18,
+      -9,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 32,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:R",
+     "kind": "air",
+     "bounds": [
+      -11,
+      -4,
+      -22,
+      -19,
+      -9,
+      -5
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 33,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:A",
+     "kind": "air",
+     "bounds": [
+      -30,
+      -12,
+      -22,
+      -13,
+      -12,
+      -2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 34,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:T",
+     "kind": "air",
+     "bounds": [
+      -22,
+      -20,
+      -22,
+      -20,
+      -1,
+      4
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 35,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:ANNEX_PORT",
+     "kind": "air",
+     "bounds": [
+      -32,
+      -31,
+      -22,
+      -20,
+      -8,
+      -6
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 36,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2:ANNEX1",
+     "kind": "air",
+     "bounds": [
+      -38,
+      -33,
+      -22,
+      -18,
+      -11,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 37,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_W2",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      -9,
+      0,
+      17,
+      1,
+      3
+     ],
+     "parent": "P1:S04",
+     "placement_order": 38,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_W8",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      -9,
+      0,
+      17,
+      7,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 39,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_W14",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      -9,
+      0,
+      17,
+      13,
+      15
+     ],
+     "parent": "P1:S04",
+     "placement_order": 40,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_E2",
+     "kind": "solid",
+     "bounds": [
+      9,
+      11,
+      0,
+      17,
+      1,
+      3
+     ],
+     "parent": "P1:S04",
+     "placement_order": 41,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_E8",
+     "kind": "solid",
+     "bounds": [
+      9,
+      11,
+      0,
+      17,
+      7,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 42,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_hall_E14",
+     "kind": "solid",
+     "bounds": [
+      9,
+      11,
+      0,
+      17,
+      13,
+      15
+     ],
+     "parent": "P1:S04",
+     "placement_order": 43,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_court_W32",
+     "kind": "solid",
+     "bounds": [
+      -9,
+      -7,
+      0,
+      9,
+      31,
+      33
+     ],
+     "parent": "P1:S00",
+     "placement_order": 44,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_court_W37",
+     "kind": "solid",
+     "bounds": [
+      -9,
+      -7,
+      0,
+      9,
+      36,
+      38
+     ],
+     "parent": "P1:S00",
+     "placement_order": 45,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_court_E32",
+     "kind": "solid",
+     "bounds": [
+      7,
+      9,
+      0,
+      9,
+      31,
+      33
+     ],
+     "parent": "P1:S00",
+     "placement_order": 46,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:col_court_E37",
+     "kind": "solid",
+     "bounds": [
+      7,
+      9,
+      0,
+      9,
+      36,
+      38
+     ],
+     "parent": "P1:S00",
+     "placement_order": 47,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:ledge_W",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      5,
+      6,
+      -6,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 48,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:ledge_E",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      5,
+      6,
+      -6,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 49,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:ledge_R",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      11,
+      5,
+      6,
+      -6,
+      0
+     ],
+     "parent": "P1:S04",
+     "placement_order": 50,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:parapet_W",
+     "kind": "solid",
+     "bounds": [
+      -12,
+      -12,
+      7,
+      7,
+      1,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 51,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:parapet_E",
+     "kind": "solid",
+     "bounds": [
+      12,
+      12,
+      7,
+      7,
+      1,
+      9
+     ],
+     "parent": "P1:S04",
+     "placement_order": 52,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:parapet_R",
+     "kind": "solid",
+     "bounds": [
+      -11,
+      11,
+      7,
+      7,
+      0,
+      0
+     ],
+     "parent": "P1:S04",
+     "placement_order": 53,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W1",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      0,
+      15,
+      15
+     ],
+     "parent": "P1:S04",
+     "placement_order": 54,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W2",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      1,
+      14,
+      14
+     ],
+     "parent": "P1:S04",
+     "placement_order": 55,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W3",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      2,
+      13,
+      13
+     ],
+     "parent": "P1:S04",
+     "placement_order": 56,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W4",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      3,
+      12,
+      12
+     ],
+     "parent": "P1:S04",
+     "placement_order": 57,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W5",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      4,
+      11,
+      11
+     ],
+     "parent": "P1:S04",
+     "placement_order": 58,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_W6",
+     "kind": "solid",
+     "bounds": [
+      -18,
+      -12,
+      0,
+      5,
+      10,
+      10
+     ],
+     "parent": "P1:S04",
+     "placement_order": 59,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E1",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      0,
+      15,
+      15
+     ],
+     "parent": "P1:S04",
+     "placement_order": 60,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E2",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      1,
+      14,
+      14
+     ],
+     "parent": "P1:S04",
+     "placement_order": 61,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E3",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      2,
+      13,
+      13
+     ],
+     "parent": "P1:S04",
+     "placement_order": 62,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E4",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      3,
+      12,
+      12
+     ],
+     "parent": "P1:S04",
+     "placement_order": 63,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E5",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      4,
+      11,
+      11
+     ],
+     "parent": "P1:S04",
+     "placement_order": 64,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:galstair_E6",
+     "kind": "solid",
+     "bounds": [
+      12,
+      18,
+      0,
+      5,
+      10,
+      10
+     ],
+     "parent": "P1:S04",
+     "placement_order": 65,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread1",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -2,
+      -1,
+      -1
+     ],
+     "parent": "P1:S05",
+     "placement_order": 66,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread2",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -3,
+      -2,
+      -2
+     ],
+     "parent": "P1:S05",
+     "placement_order": 67,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread3",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -4,
+      -3,
+      -3
+     ],
+     "parent": "P1:S05",
+     "placement_order": 68,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread4",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -5,
+      -4,
+      -4
+     ],
+     "parent": "P1:S05",
+     "placement_order": 69,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:descent_tread5",
+     "kind": "solid",
+     "bounds": [
+      -5,
+      5,
+      -6,
+      -6,
+      -5,
+      -5
+     ],
+     "parent": "P1:S05",
+     "placement_order": 70,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:altar_tread2",
+     "kind": "solid",
+     "bounds": [
+      -3,
+      3,
+      8,
+      8,
+      -10,
+      -10
+     ],
+     "parent": "P1:S09",
+     "placement_order": 71,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:altar_tread3",
+     "kind": "solid",
+     "bounds": [
+      -3,
+      3,
+      8,
+      9,
+      -11,
+      -11
+     ],
+     "parent": "P1:S09",
+     "placement_order": 72,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:support_W",
+     "kind": "solid",
+     "bounds": [
+      -8,
+      -6,
+      0,
+      4,
+      -3,
+      -1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 73,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:support_E",
+     "kind": "solid",
+     "bounds": [
+      6,
+      8,
+      0,
+      4,
+      -3,
+      -1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 74,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P1E:altar",
+     "kind": "solid",
+     "bounds": [
+      -3,
+      3,
+      11,
+      12,
+      -19,
+      -17
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 75,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:FA",
+     "kind": "air",
+     "bounds": [
+      -9,
+      -3,
+      -29,
+      -20,
+      33,
+      35
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 76,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:LA",
+     "kind": "air",
+     "bounds": [
+      -2,
+      2,
+      -30,
+      -26,
+      32,
+      36
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 77,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CB1",
+     "kind": "air",
+     "bounds": [
+      -15,
+      2,
+      -30,
+      -27,
+      20,
+      31
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 78,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:VAULT",
+     "kind": "air",
+     "bounds": [
+      6,
+      30,
+      -30,
+      -21,
+      16,
+      36
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 79,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:VAULT_ENT",
+     "kind": "air",
+     "bounds": [
+      3,
+      5,
+      -30,
+      -25,
+      24,
+      28
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 80,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CC",
+     "kind": "air",
+     "bounds": [
+      0,
+      2,
+      -30,
+      -26,
+      0,
+      23
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 81,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CC3",
+     "kind": "air",
+     "bounds": [
+      3,
+      7,
+      -30,
+      -26,
+      0,
+      2
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 82,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT",
+     "kind": "air",
+     "bounds": [
+      8,
+      22,
+      -30,
+      -24,
+      -7,
+      5
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 83,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_N0",
+     "kind": "air",
+     "bounds": [
+      9,
+      11,
+      -30,
+      -28,
+      -9,
+      -8
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 84,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_S0",
+     "kind": "air",
+     "bounds": [
+      9,
+      11,
+      -30,
+      -28,
+      6,
+      7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 85,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_N1",
+     "kind": "air",
+     "bounds": [
+      13,
+      15,
+      -30,
+      -28,
+      -9,
+      -8
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 86,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_S1",
+     "kind": "air",
+     "bounds": [
+      13,
+      15,
+      -30,
+      -28,
+      6,
+      7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 87,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_N2",
+     "kind": "air",
+     "bounds": [
+      17,
+      19,
+      -30,
+      -28,
+      -9,
+      -8
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 88,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4:CRYPT_NICHE_S2",
+     "kind": "air",
+     "bounds": [
+      17,
+      19,
+      -30,
+      -28,
+      6,
+      7
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 89,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL0:base",
+     "kind": "solid",
+     "bounds": [
+      28,
+      30,
+      -30,
+      -30,
+      32,
+      34
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 90,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL0:shaft",
+     "kind": "solid",
+     "bounds": [
+      28,
+      30,
+      -29,
+      -26,
+      32,
+      34
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 91,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL0:cap",
+     "kind": "solid",
+     "bounds": [
+      27,
+      30,
+      -25,
+      -24,
+      31,
+      35
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 92,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL1:base",
+     "kind": "solid",
+     "bounds": [
+      28,
+      30,
+      -30,
+      -30,
+      18,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 93,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL1:shaft",
+     "kind": "solid",
+     "bounds": [
+      28,
+      30,
+      -29,
+      -26,
+      18,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 94,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL1:cap",
+     "kind": "solid",
+     "bounds": [
+      27,
+      30,
+      -25,
+      -24,
+      17,
+      21
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 95,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL2:base",
+     "kind": "solid",
+     "bounds": [
+      18,
+      20,
+      -30,
+      -30,
+      32,
+      34
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 96,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL2:shaft",
+     "kind": "solid",
+     "bounds": [
+      18,
+      20,
+      -29,
+      -26,
+      32,
+      34
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 97,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL2:cap",
+     "kind": "solid",
+     "bounds": [
+      17,
+      21,
+      -25,
+      -24,
+      31,
+      35
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 98,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL3:base",
+     "kind": "solid",
+     "bounds": [
+      18,
+      20,
+      -30,
+      -30,
+      18,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 99,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL3:shaft",
+     "kind": "solid",
+     "bounds": [
+      18,
+      20,
+      -29,
+      -26,
+      18,
+      20
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 100,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:COL3:cap",
+     "kind": "solid",
+     "bounds": [
+      17,
+      21,
+      -25,
+      -24,
+      17,
+      21
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 101,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:DAIS",
+     "kind": "solid",
+     "bounds": [
+      19,
+      29,
+      -30,
+      -28,
+      19,
+      33
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 102,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:DAIS_STAIR",
+     "kind": "solid",
+     "bounds": [
+      17,
+      21,
+      -30,
+      -28,
+      23,
+      29
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 103,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:BEAMS",
+     "kind": "solid",
+     "bounds": [
+      19,
+      29,
+      -23,
+      -23,
+      19,
+      33
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 104,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:CHEST_BASE",
+     "kind": "solid",
+     "bounds": [
+      24,
+      28,
+      -27,
+      -27,
+      23,
+      29
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 105,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:CHEST_BODY",
+     "kind": "solid",
+     "bounds": [
+      25,
+      27,
+      -26,
+      -25,
+      24,
+      28
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 106,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:CHEST_LID",
+     "kind": "solid",
+     "bounds": [
+      25,
+      27,
+      -24,
+      -24,
+      24,
+      28
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 107,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:PILES_P",
+     "kind": "solid",
+     "bounds": [
+      6,
+      30,
+      -30,
+      -27,
+      29,
+      36
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 108,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:PILES_N",
+     "kind": "solid",
+     "bounds": [
+      6,
+      30,
+      -30,
+      -27,
+      16,
+      23
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 109,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P4E:CRYPT:SARC",
+     "kind": "solid",
+     "bounds": [
+      14,
+      16,
+      -30,
+      -29,
+      -3,
+      1
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 110,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2E:guardian_statue_-27",
+     "kind": "solid",
+     "bounds": [
+      -28,
+      -26,
+      -22,
+      -18,
+      -5,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 111,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "P2E:guardian_statue_-15",
+     "kind": "solid",
+     "bounds": [
+      -16,
+      -14,
+      -22,
+      -18,
+      -5,
+      -3
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 112,
+     "origin": [
+      0,
+      0,
+      0
+     ],
+     "assembly_offset": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "id": "D1_ROYAL_HALL",
+     "kind": "immutable_nbt",
+     "bounds": [
+      -40,
+      -2,
+      -24,
+      -5,
+      2,
+      40
+     ],
+     "parent": "PYRAMID",
+     "placement_order": 900,
+     "origin": [
+      -40,
+      -24,
+      2
+     ],
+     "assembly_offset": [
+      -40,
+      -24,
+      2
+     ]
+    }
+   ],
+   "connections": {
+    "P1": [
+     [
+      "S00",
+      "S01"
+     ],
+     [
+      "S01",
+      "S02"
+     ],
+     [
+      "S02",
+      "S03"
+     ],
+     [
+      "S03",
+      "S04"
+     ],
+     [
+      "S04",
+      "S05"
+     ],
+     [
+      "S05",
+      "S06"
+     ],
+     [
+      "S04",
+      "S08"
+     ],
+     [
+      "S08",
+      "S09"
+     ],
+     [
+      "S09",
+      "S10"
+     ],
+     [
+      "S06",
+      "P2:C1"
+     ]
+    ],
+    "P2": [
+     [
+      "C1",
+      "P1:S06"
+     ],
+     [
+      "C1",
+      "BR1"
+     ],
+     [
+      "BR1",
+      "T1"
+     ],
+     [
+      "C1",
+      "BR2"
+     ],
+     [
+      "BR2",
+      "T2"
+     ],
+     [
+      "C1",
+      "BR3"
+     ],
+     [
+      "BR3",
+      "T3"
+     ],
+     [
+      "C1",
+      "V12"
+     ],
+     [
+      "V12",
+      "FA"
+     ],
+     [
+      "FA",
+      "LND12"
+     ],
+     [
+      "LND12",
+      "FB"
+     ],
+     [
+      "FB",
+      "C2"
+     ],
+     [
+      "C2",
+      "BRB1"
+     ],
+     [
+      "BRB1",
+      "B1"
+     ],
+     [
+      "C2",
+      "BRB2"
+     ],
+     [
+      "BRB2",
+      "B2"
+     ],
+     [
+      "C2",
+      "BRB3"
+     ],
+     [
+      "BRB3",
+      "B3"
+     ],
+     [
+      "C2",
+      "V23"
+     ],
+     [
+      "V23",
+      "FC"
+     ],
+     [
+      "FC",
+      "LND23"
+     ],
+     [
+      "LND23",
+      "FD"
+     ],
+     [
+      "FD",
+      "C3"
+     ],
+     [
+      "C3",
+      "R"
+     ],
+     [
+      "R",
+      "A"
+     ],
+     [
+      "A",
+      "T"
+     ],
+     [
+      "A",
+      "ANNEX_PORT"
+     ],
+     [
+      "ANNEX_PORT",
+      "ANNEX1"
+     ]
+    ],
+    "P4": [
+     [
+      "HALL",
+      "FA"
+     ],
+     [
+      "FA",
+      "LA"
+     ],
+     [
+      "LA",
+      "CB1"
+     ],
+     [
+      "CB1",
+      "VAULT_ENT"
+     ],
+     [
+      "VAULT_ENT",
+      "VAULT"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_N0"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_S0"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_N1"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_S1"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_N2"
+     ],
+     [
+      "CRYPT",
+      "CRYPT_NICHE_S2"
+     ],
+     [
+      "CB1",
+      "CC"
+     ],
+     [
+      "CC",
+      "CC3"
+     ],
+     [
+      "CC3",
+      "CRYPT"
+     ]
+    ],
+    "explicit_d1_port": "P2:T -> D1 at X-22..-20,Y-22..-20,Z2..4"
+   }
+  }
+ }
+}

@@ -1,0 +1,412 @@
+{
+ "minecraft": "26.3",
+ "placements": [
+  "SOUTH/WEST at 0, -28, 0",
+  "EAST/EAST at 240, -28, 0"
+ ],
+ "night_vision": true,
+ "captures": [
+  {
+   "name": "01-exterior-south-east-oblique",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    62.0,
+    26.0,
+    88.0
+   ],
+   "world_feet": [
+    62.5,
+    -2.0,
+    88.5
+   ],
+   "yaw": 144.83356,
+   "pitch": 7.995365,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0000_st01-p8c2a-01-exterior-south-east-oblique.png",
+   "original_png_sha256": "9b74767d600ef5cb14841fdce076957d839ce88af6722f69992e927d960e04ea",
+   "committed_jpeg": "01-exterior-south-east-oblique.jpg"
+  },
+  {
+   "name": "02-exterior-entrance-front",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    0.0,
+    2.0,
+    66.0
+   ],
+   "world_feet": [
+    0.5,
+    -26.0,
+    66.5
+   ],
+   "yaw": -180.0,
+   "pitch": -7.7197065,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0001_st01-p8c2a-02-exterior-entrance-front.png",
+   "original_png_sha256": "b7fc2b8f2c068221eaf112c8e7ec8eedbb042518f0661cd484ed9778b03a286c",
+   "committed_jpeg": "02-exterior-entrance-front.jpg"
+  },
+  {
+   "name": "03-exterior-aerial-north-west",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    -62.0,
+    70.0,
+    -62.0
+   ],
+   "world_feet": [
+    -61.5,
+    42.0,
+    -61.5
+   ],
+   "yaw": -45.0,
+   "pitch": 34.87921,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0002_st01-p8c2a-03-exterior-aerial-north-west.png",
+   "original_png_sha256": "c211e8bf7830e461af6045092d92c9ae68360385b1130e23cfcf2f79c4ab690e",
+   "committed_jpeg": "03-exterior-aerial-north-west.jpg"
+  },
+  {
+   "name": "04-exterior-rotated-east-facing-pyramid",
+   "orientation": "EAST",
+   "authored_feet": [
+    50.0,
+    30.0,
+    85.0
+   ],
+   "world_feet": [
+    325.5,
+    2.0,
+    -49.5
+   ],
+   "yaw": 59.534454,
+   "pitch": 10.972624,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0003_st01-p8c2a-04-exterior-rotated-east-facing-pyramid.png",
+   "original_png_sha256": "d9c34c1677b80a785ba61145ac5c5420c87444c92c8f380ce73e0079dca57dd1",
+   "committed_jpeg": "04-exterior-rotated-east-facing-pyramid.jpg"
+  },
+  {
+   "name": "05-entrance-hall",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    0.0,
+    0.0,
+    39.0
+   ],
+   "world_feet": [
+    0.5,
+    -28.0,
+    39.5
+   ],
+   "yaw": -180.0,
+   "pitch": -9.615286,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0004_st01-p8c2a-05-entrance-hall.png",
+   "original_png_sha256": "566d0e549c1635bcc1efc453f123c3d44e4fa7dca6c16e3876888995d8d73bf6",
+   "committed_jpeg": "05-entrance-hall.jpg"
+  },
+  {
+   "name": "06-gallery-and-support-piers",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    0.0,
+    0.0,
+    17.0
+   ],
+   "world_feet": [
+    0.5,
+    -28.0,
+    17.5
+   ],
+   "yaw": -180.0,
+   "pitch": -7.8089924,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0005_st01-p8c2a-06-gallery-and-support-piers.png",
+   "original_png_sha256": "bb24ba6c1694e5dc3ec1f0bd659f1ff7f1fe3a98ae44b83f2dc5f87194e65e74",
+   "committed_jpeg": "06-gallery-and-support-piers.jpg"
+  },
+  {
+   "name": "07-altar-pedestal",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    0.0,
+    13.0,
+    -13.0
+   ],
+   "world_feet": [
+    0.5,
+    -15.0,
+    -12.5
+   ],
+   "yaw": -180.0,
+   "pitch": 22.976944,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:cut_sandstone",
+   "screenshot": "0006_st01-p8c2a-07-altar-pedestal.png",
+   "original_png_sha256": "7257ee35f7c2aa12a822f64702665f1ec195ef29e44f8eb5e9735c220d883114",
+   "committed_jpeg": "07-altar-pedestal.jpg"
+  },
+  {
+   "name": "08-royal-hall-d1-toward-primary",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    -21.0,
+    -22.0,
+    8.0
+   ],
+   "world_feet": [
+    -20.5,
+    -50.0,
+    8.5
+   ],
+   "yaw": -0.0,
+   "pitch": -2.015979,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:chest",
+   "screenshot": "0007_st01-p8c2a-08-royal-hall-d1-toward-primary.png",
+   "original_png_sha256": "52c01e9a59ed764f03900552d17f7691a93d6e706d8223a6c51deb1b8a9aa1ef",
+   "committed_jpeg": "08-royal-hall-d1-toward-primary.jpg"
+  },
+  {
+   "name": "09-antechamber-statues",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    -13.0,
+    -22.0,
+    -7.0
+   ],
+   "world_feet": [
+    -12.5,
+    -50.0,
+    -6.5
+   ],
+   "yaw": 77.90524,
+   "pitch": -3.5170813,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:chiseled_sandstone",
+   "screenshot": "0008_st01-p8c2a-09-antechamber-statues.png",
+   "original_png_sha256": "d0511e6dfb20b01bc92b10effcfc1cc413e75f382eea56166e18bd156087c62b",
+   "committed_jpeg": "09-antechamber-statues.jpg"
+  },
+  {
+   "name": "10-offering-annex",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    -33.0,
+    -22.0,
+    -7.0
+   ],
+   "world_feet": [
+    -32.5,
+    -50.0,
+    -6.5
+   ],
+   "yaw": 90.0,
+   "pitch": 1.718358,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0009_st01-p8c2a-10-offering-annex.png",
+   "original_png_sha256": "4c426cadad5fe8863d91a245c0e911fac6cb4767f6af7d1f97aaefa0b628a4b6",
+   "committed_jpeg": "10-offering-annex.jpg"
+  },
+  {
+   "name": "11-l1-tomb-t1",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    12.0,
+    -6.0,
+    -19.0
+   ],
+   "world_feet": [
+    12.5,
+    -34.0,
+    -18.5
+   ],
+   "yaw": -180.0,
+   "pitch": 12.625837,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0010_st01-p8c2a-11-l1-tomb-t1.png",
+   "original_png_sha256": "41a16383817cabd40451bf18adcac20926161dcba45237fc68df5c8f356dbaf2",
+   "committed_jpeg": "11-l1-tomb-t1.jpg"
+  },
+  {
+   "name": "12-l2-store-b2",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    15.0,
+    -14.0,
+    16.0
+   ],
+   "world_feet": [
+    15.5,
+    -42.0,
+    16.5
+   ],
+   "yaw": 11.309933,
+   "pitch": 1.3481463,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0011_st01-p8c2a-12-l2-store-b2.png",
+   "original_png_sha256": "da10797ae6f5e7426c97dd36d7aa1a7d0266208eb04c8660c6e07a812f8ba473",
+   "committed_jpeg": "12-l2-store-b2.jpg"
+  },
+  {
+   "name": "13-secret-descent-and-landing",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    0.0,
+    -30.0,
+    35.0
+   ],
+   "world_feet": [
+    0.5,
+    -58.0,
+    35.5
+   ],
+   "yaw": 97.125015,
+   "pitch": -25.699408,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:smooth_sandstone",
+   "screenshot": "0012_st01-p8c2a-13-secret-descent-and-landing.png",
+   "original_png_sha256": "ae3ed46b16cb8c743cc3f726f699a5e4c8b2662ffbfe64249e523156c8413c53",
+   "committed_jpeg": "13-secret-descent-and-landing.jpg"
+  },
+  {
+   "name": "14-west-access-route",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    -14.0,
+    -30.0,
+    30.0
+   ],
+   "world_feet": [
+    -13.5,
+    -58.0,
+    30.5
+   ],
+   "yaw": -180.0,
+   "pitch": 0.76389843,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0013_st01-p8c2a-14-west-access-route.png",
+   "original_png_sha256": "4f566ffe71b54f7af8ec0e3603d07e6104bcaa28b09c17e6016e798e184ed5c1",
+   "committed_jpeg": "14-west-access-route.jpg"
+  },
+  {
+   "name": "15-treasury-vault-sculpture",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    7.0,
+    -30.0,
+    26.0
+   ],
+   "world_feet": [
+    7.5,
+    -58.0,
+    26.5
+   ],
+   "yaw": -90.0,
+   "pitch": -9.090277,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:chest",
+   "screenshot": "0014_st01-p8c2a-15-treasury-vault-sculpture.png",
+   "original_png_sha256": "a6ab67a90b96870a3b56ec2bfb40baa1eb1f0c32012cf2de1b46955f17be818b",
+   "committed_jpeg": "15-treasury-vault-sculpture.jpg"
+  },
+  {
+   "name": "16-treasury-piles",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    18.0,
+    -30.0,
+    18.0
+   ],
+   "world_feet": [
+    18.5,
+    -58.0,
+    18.5
+   ],
+   "yaw": -0.0,
+   "pitch": 0.49109465,
+   "position_reached": true,
+   "client_eye_block": "minecraft:chiseled_sandstone",
+   "client_look_target_block": "minecraft:chiseled_sandstone",
+   "screenshot": "0015_st01-p8c2a-16-treasury-piles.png",
+   "original_png_sha256": "054734d471f70522d7acb631f6a74220f5dc122e55b881a619a2c2b685720b4e",
+   "committed_jpeg": "16-treasury-piles.jpg"
+  },
+  {
+   "name": "17-secret-crypt",
+   "orientation": "SOUTH",
+   "authored_feet": [
+    9.0,
+    -30.0,
+    -1.0
+   ],
+   "world_feet": [
+    9.5,
+    -58.0,
+    -0.5
+   ],
+   "yaw": -90.0,
+   "pitch": 0.9821172,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:cut_sandstone",
+   "screenshot": "0016_st01-p8c2a-17-secret-crypt.png",
+   "original_png_sha256": "c8f9f48092561587f46458d4032cfe96054082f66f32b06f576611d96b29c9c5",
+   "committed_jpeg": "17-secret-crypt.jpg"
+  },
+  {
+   "name": "18-east-access-route-rotated",
+   "orientation": "EAST",
+   "authored_feet": [
+    0.0,
+    -30.0,
+    31.0
+   ],
+   "world_feet": [
+    271.5,
+    -58.0,
+    0.5
+   ],
+   "yaw": 90.0,
+   "pitch": 0.9821172,
+   "position_reached": true,
+   "client_eye_block": "minecraft:air",
+   "client_look_target_block": "minecraft:air",
+   "screenshot": "0017_st01-p8c2a-18-east-access-route-rotated.png",
+   "original_png_sha256": "c23d7805ca007b325121228eb6bdac7237a3decce8beb868c273538363912228",
+   "committed_jpeg": "18-east-access-route-rotated.jpg"
+  }
+ ],
+ "client": {
+  "fov": 70,
+  "render_distance": 12,
+  "window": "1920x1080"
+ },
+ "note": "Committed JPEGs are 1280x720 downscales of the original 1920x1080 PNG captures (hashes recorded); originals are in the CI artifact st01-p8c2a-client-captures."
+}
