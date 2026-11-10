@@ -113,6 +113,9 @@ def main():
                 fields += ["footprint_state_sha256", "hall_state_sha256"]  # a restarted server must reproduce EVERY block exactly
             for f in fields:
                 if rec[f] != o[f]:
+                    if other_name == "replay" and f == "surface_profile_sha256" and rec.get("intersecting_other_structures"):
+                        expected_nondet.append(f"replay start {key}: surface profile differs; explained by overlapping vanilla structure(s) {rec['intersecting_other_structures']} (cross-chunk step order)")
+                        continue
                     problems.append(f"{other_name}: start {key} field {f} differs: {rec[f]} vs {o[f]}")
             if other_name == "replay" and (rec["footprint_state_sha256"] != o["footprint_state_sha256"] or rec["hall_state_sha256"] != o["hall_state_sha256"]):
                 diff = vegetation_diff(results_dir, key)

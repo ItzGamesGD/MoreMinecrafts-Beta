@@ -12,10 +12,11 @@ run="$base/run-$seed"
 results="$base/results/$seed"
 logs="$base/logs/$seed"
 mkdir -p "$results" "$logs"
-port=$((20000 + RANDOM % 20000))
 
 phase() {
   local name=$1
+  local port
+  port=$(python3 -I -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1])')
   rm -f "$results/$name.json"
   mkdir -p "$run"
   echo "eula=true" > "$run/eula.txt"
