@@ -1,0 +1,46 @@
+{
+  "label": "dp_A1535_jag_T200",
+  "seed": 31,
+  "world": "FLAT",
+  "radius_chunks": 300,
+  "level_min_y": -64,
+  "level_max_y_inclusive": 319,
+  "candidates": 865,
+  "eligible_candidates": 865,
+  "variant_draws_identical_vs_different_mountain_candidates": [
+    13,
+    852
+  ],
+  "replica_prediction__engine_[invalid,valid]": {
+    "ACCEPT": [
+      0,
+      783
+    ],
+    "COLUMN_BIOME_NONE": [
+      908,
+      0
+    ],
+    "GEOMETRY_MATCH": [
+      0,
+      783
+    ],
+    "PADDING_REJECT": [
+      82,
+      0
+    ],
+    "PADDING_REJECT_LOGGED": [
+      0,
+      82
+    ]
+  },
+  "replay_ms": 311,
+  "active_start_height_mountain_snowy": "[15 absolute-35 absolute]",
+  "natural_eligible_in_scope": 865,
+  "natural_candidates_checked": 865,
+  "natural_generated_starts": 783,
+  "natural_vs_replay_agree": 865,
+  "natural_vs_replay_disagree": 0,
+  "natural_ms": 561,
+  "natural_padding_log_lines": 164,
+  "tower_starts_natural": 38
+}
