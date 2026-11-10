@@ -70,6 +70,7 @@ public final class St01Phase4ClientCaptureTest implements FabricClientGameTest {
                 player.getAbilities().flying = true;
                 player.onUpdateAbilities();
             });
+            context.runOnClient(c -> c.options.renderDistance().set(12));
             int index = 0;
             for (String t : targets) {
                 if (t.isBlank()) continue;
@@ -93,14 +94,25 @@ public final class St01Phase4ClientCaptureTest implements FabricClientGameTest {
                 BlockPos in2 = St01Phase4Probe.pyramidWorld(cx, yf, cz, new BlockPos(-21, -18, 22), rot);
                 views.add(look("hall-interior-toward-dais", in1.getX() + 0.5, in1.getY() + 0.1, in1.getZ() + 0.5, dais.getX() + 0.5, dais.getY() + 1, dais.getZ() + 0.5));
                 views.add(look("hall-primary-chest", in2.getX() + 0.5, in2.getY() + 0.1, in2.getZ() + 0.5, dais.getX() + 0.5, dais.getY() + 1, dais.getZ() + 0.5));
+                // generate the whole area on the server first so the client has something to receive
+                final int gcx = cx, gcz = cz;
+                server.runOnServer(s -> {
+                    for (int x = (gcx - 130) >> 4; x <= (gcx + 130) >> 4; x++)
+                        for (int z = (gcz - 130) >> 4; z <= (gcz + 130) >> 4; z++)
+                            s.overworld().getChunk(x, z, net.minecraft.world.level.chunk.status.ChunkStatus.FULL);
+                });
                 for (View v : views) {
                     server.runOnServer(s -> {
                         ServerPlayer player = s.getPlayerList().getPlayers().getFirst();
                         player.teleportTo(s.overworld(), v.x, v.y, v.z, Set.of(), v.yaw, v.pitch, true);
                     });
-                    context.waitTicks(100);
+                    final int vx = (int) Math.floor(v.x) >> 4, vz = (int) Math.floor(v.z) >> 4;
+                    context.waitFor(c -> c.level != null && c.level.getChunkSource().hasChunk(vx, vz)
+                            && c.level.getChunkSource().hasChunk(gcx >> 4, gcz >> 4));
                     connection.waitForClientboundPackets();
-                    context.waitTicks(20);
+                    context.waitTicks(240); // software GL: allow chunk meshing and lighting to finish
+
+                    {
                     Map<String, Object> cap = new LinkedHashMap<>();
                     cap.put("target", t);
                     cap.put("name", prefix + v.name);
@@ -111,6 +123,7 @@ public final class St01Phase4ClientCaptureTest implements FabricClientGameTest {
                     cap.put("render_distance", context.computeOnClient(c -> c.options.renderDistance().get()));
                     cap.put("screenshot", String.valueOf(context.takeScreenshot(prefix + v.name)));
                     captures.add(cap);
+                    }
                 }
             }
         }
