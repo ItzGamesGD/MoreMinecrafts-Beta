@@ -737,17 +737,30 @@ public final class St01C2BProbe implements ModInitializer {
             ChunkAccess c = level.getChunk(x, z, ChunkStatus.FULL);
             refs += c.getReferencesForStructure(structure).size();
         }
-        int yf = (int) t.get("yf");
+        int yf = (int) t.get("yf"), unattributed = 0;
+        List<String> markers = new ArrayList<>();
         BlockPos.MutableBlockPos m = new BlockPos.MutableBlockPos();
         for (int x = cx - half; x <= cx + half; x++) for (int z = cz - half; z <= cz + half; z++) for (int y = yf - 32; y <= yf + 39; y++) {
             BlockState b = level.getBlockState(m.set(x, y, z));
-            if (b.is(Blocks.GOLD_BLOCK) || b.is(Blocks.DIAMOND_BLOCK) || b.is(Blocks.LAPIS_BLOCK)) gold++;
+            if (b.is(Blocks.GOLD_BLOCK) || b.is(Blocks.DIAMOND_BLOCK) || b.is(Blocks.LAPIS_BLOCK)) {
+                gold++;
+                // attribute the block: a vanilla structure covering it (e.g. a ruined portal's gold blocks) is not ST-01
+                var owners = level.structureManager().getAllStructuresAt(m.immutable());
+                List<String> names = new ArrayList<>();
+                var reg = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
+                for (var st : owners.keySet()) names.add(String.valueOf(reg.getKey(st)));
+                boolean st01 = owners.keySet().stream().anyMatch(st -> st instanceof St01PyramidStructure);
+                if (names.isEmpty() || st01) unattributed++;
+                if (markers.size() < 10) markers.add(m.toShortString() + " " + BuiltInRegistries.BLOCK.getKey(b.getBlock()) + " in " + names);
+            }
         }
         ChunkPos pc = new ChunkPos(cx >> 4, cz >> 4);
         t.put("start_present", level.getChunk(pc.x(), pc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(structure) != null);
         t.put("st01_references_in_footprint_chunks", refs);
         t.put("pyramid_marker_blocks_in_would_be_box", gold);
+        t.put("marker_blocks_not_attributable_to_a_vanilla_structure", unattributed);
+        t.put("marker_samples", markers);
         t.put("completion_record_present", St01PyramidCompletion.data(level).entry(pc.pack()).isPresent());
-        t.put("nothing_left", refs == 0 && gold == 0 && !(boolean) t.get("start_present") && !(boolean) t.get("completion_record_present"));
+        t.put("nothing_left", refs == 0 && unattributed == 0 && !(boolean) t.get("start_present") && !(boolean) t.get("completion_record_present"));
     }
 }
