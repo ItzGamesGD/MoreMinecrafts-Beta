@@ -1,22 +1,25 @@
 name: Drive mirror
 
-# Full-fidelity Google Drive mirror of every branch (and tag) of this repository.
+# Full-fidelity Google Drive mirror of every branch (plus PR-only heads and tags) of this repository.
 # Design, Drive layout and setup runbook: tools/drive_mirror/README.md
 #
-# Nothing runs until the repository variable DRIVE_MIRROR_ENABLED is "true" and the
-# `drive-mirror` environment holds the destination and credentials (see README).
+# DISABLED BY DEFAULT: nothing runs until the repository variable DRIVE_MIRROR_ENABLED is "true" and
+# the `drive-mirror` environment holds the destination and credentials. Do not enable it before the
+# controlled live test in the README has been approved.
 #
 # Trust model: Drive credentials are only ever used by the `mirror` job, which only runs in the
 # context of the trusted branch (default: main). Events on any other branch or tag run the
-# credential-free `relay` job, which asks GitHub to dispatch this workflow on the trusted
-# branch. Configure the `drive-mirror` environment to allow deployments from that branch only.
+# credential-free `relay` job, which asks GitHub to dispatch this workflow on the trusted branch.
+# Configure the `drive-mirror` environment to allow deployments from that branch only.
 #
 # Trigger notes (GitHub semantics):
-#   * push / create / pull_request_target only fire for branches whose own tree contains
+#   * push / create / delete / pull_request_target fire only for branches whose own tree contains
 #     this file; the hourly schedule covers every other branch.
 #   * schedule and workflow_dispatch only run the copy of this file on the default branch.
-# Every run mirrors the *whole* remote state, never just the event's ref, so collapsed or
-# missed events cannot leave gaps.
+#   * GitHub disables scheduled workflows in a public repository after 60 days without repository
+#     activity. A silent mirror is therefore possible; monitor freshness from outside (see README).
+# Every run mirrors the *whole* remote state, never just the event's ref, so collapsed or missed
+# events cannot leave gaps.
 
 on:
   push:
@@ -27,8 +30,10 @@ on:
   pull_request_target:
     types: [opened, reopened, closed, edited, synchronize, ready_for_review, converted_to_draft]
   schedule:
-    - cron: "23 * * * *"   # hourly incremental sync
-    - cron: "41 3 * * *"   # daily reconcile: crawl every namespace, repair drift, deep-verify a sample
+    # Hourly. The daily full reconcile is not scheduled separately: a pending run can be replaced by
+    # a newer pending run (concurrency), so a dedicated cron could starve. Each run upgrades itself to
+    # a reconcile when the persisted last-reconcile time is older than RECONCILE_AFTER_HOURS.
+    - cron: "23 * * * *"
   workflow_dispatch:
     inputs:
       mode:
@@ -41,14 +46,14 @@ on:
         type: string
         default: ""
       pull_heads:
-        description: Also mirror PR head trees (none | orphaned | all)
+        description: PR head trees to mirror under pulls/ (orphaned = heads no branch contains)
         type: choice
-        options: [none, orphaned, all]
-        default: none
+        options: [orphaned, all, none]
+        default: orphaned
       time_budget_min:
         description: Stop cleanly after this many minutes (the next run resumes)
         type: string
-        default: "320"
+        default: "270"
       break_lock:
         description: Break a stale Drive lease left by a killed run
         type: boolean
@@ -69,6 +74,7 @@ jobs:
       github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' &&
       github.ref != format('refs/heads/{0}', vars.DRIVE_MIRROR_TRUSTED_BRANCH || 'main')
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       actions: write   # only to request a workflow_dispatch run; no access to repository contents
     concurrency:
@@ -87,6 +93,7 @@ jobs:
   not-configured:
     if: github.event_name == 'workflow_dispatch' && vars.DRIVE_MIRROR_ENABLED != 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - run: |
           echo "## Drive mirror: BLOCKED" >> "$GITHUB_STEP_SUMMARY"
@@ -99,7 +106,7 @@ jobs:
       vars.DRIVE_MIRROR_ENABLED == 'true' &&
       github.ref == format('refs/heads/{0}', vars.DRIVE_MIRROR_TRUSTED_BRANCH || 'main')
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    timeout-minutes: 350        # GitHub-hosted jobs are hard-limited to 360 minutes
     environment: drive-mirror
     # Single writer: at most one sync executes; newer events queue behind it (a queued run is
     # replaced by a newer one, which is safe because each run syncs the full remote state).
@@ -117,11 +124,12 @@ jobs:
       INPUT_MIRROR_NAME: ${{ inputs.mirror_name }}
       VAR_MIRROR_NAME: ${{ vars.DRIVE_MIRROR_NAME }}
       MAX_AGE_HOURS: ${{ vars.DRIVE_MIRROR_MAX_AGE_HOURS || '26' }}
-      EXPECTED_BYTES: ${{ vars.DRIVE_MIRROR_EXPECTED_BYTES || '13000000000' }}
+      RECONCILE_AFTER_HOURS: ${{ vars.DRIVE_MIRROR_RECONCILE_AFTER_HOURS || '24' }}
+      EXPECTED_BYTES: ${{ vars.DRIVE_MIRROR_EXPECTED_BYTES || '14000000000' }}
       DRIVE_PARENT_FOLDER_ID: ${{ secrets.DRIVE_PARENT_FOLDER_ID }}
       DRIVE_SHARED_DRIVE_ID: ${{ secrets.DRIVE_SHARED_DRIVE_ID }}
       DRIVE_AUTH_MODE: ${{ vars.DRIVE_AUTH_MODE || 'adc' }}
-      PULL_HEADS: ${{ inputs.pull_heads || vars.DRIVE_MIRROR_PULL_HEADS || 'none' }}
+      PULL_HEADS: ${{ inputs.pull_heads || vars.DRIVE_MIRROR_PULL_HEADS || 'orphaned' }}
     steps:
       - name: Mask destination identifiers, resolve mirror name
         run: |
@@ -138,8 +146,9 @@ jobs:
       # This job only runs in the trusted branch's context (for pull_request_target, github.sha is
       # the base branch head), so the tooling below is the trusted branch's copy. Mirrored
       # repository content is only ever read as data by git; nothing from it is executed.
+      # Third-party actions are pinned to commit SHAs because this job can see Drive credentials.
       - name: Check out mirror tooling (trusted ref)
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: ${{ vars.DRIVE_MIRROR_TOOLING_REF || github.sha }}
           path: tooling
@@ -147,7 +156,7 @@ jobs:
           sparse-checkout: tools/drive_mirror
           fetch-depth: 1
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
 
@@ -155,18 +164,16 @@ jobs:
         id: mode
         env:
           EVENT: ${{ github.event_name }}
-          SCHEDULE: ${{ github.event.schedule }}
           INPUT_MODE: ${{ inputs.mode }}
         run: |
           mode=incremental
-          if [ "$EVENT" = "schedule" ] && [ "$SCHEDULE" = "41 3 * * *" ]; then mode=reconcile; fi
           if [ "$EVENT" = "workflow_dispatch" ] && [ -n "$INPUT_MODE" ]; then mode="$INPUT_MODE"; fi
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
-          echo "Mode: $mode (event: $EVENT)"
+          echo "Requested mode: $mode (event: $EVENT)"
 
       - name: Authenticate to Google (Workload Identity Federation, keyless)
         if: env.DRIVE_AUTH_MODE == 'adc'
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
         with:
           workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
@@ -201,13 +208,57 @@ jobs:
           [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] && probe="--write-probe"
           python -m drive_mirror preflight --expected-bytes "$EXPECTED_BYTES" $probe --report "$REPORTS/preflight.json"
 
+      # ---- Security gate -------------------------------------------------------------------
+      # The scan runs BEFORE any byte is uploaded. It uses the same pinned, checksum-verified
+      # gitleaks as .github/workflows/pre-public-security-scan.yml and reports only rule, file and
+      # commit (never matched values; --redact=100). Findings not approved in
+      # tools/drive_mirror/security/approved_findings.json quarantine exactly the refs whose tip
+      # tree would upload the flagged content; every other ref is mirrored. Nothing is suppressed
+      # automatically. A scanner that cannot run fails the job (fail closed).
+      - name: Fetch every ref for scanning
+        run: python -m drive_mirror prepare --repo-url "$REPO_URL" --work-dir "$WORK_DIR" --pull-heads all
+
+      - name: Install pinned, checksum-verified gitleaks
+        run: |
+          set -euo pipefail
+          version=8.30.1
+          archive="gitleaks_${version}_linux_x64.tar.gz"
+          curl --proto '=https' --tlsv1.2 -fsSL --retry 3 \
+            "https://github.com/gitleaks/gitleaks/releases/download/v$version/$archive" -o "$RUNNER_TEMP/$archive"
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  $RUNNER_TEMP/$archive" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/gitleaks-tool"
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP/gitleaks-tool" gitleaks
+          echo "$RUNNER_TEMP/gitleaks-tool" >> "$GITHUB_PATH"
+
+      - name: Secret scan and gate
+        id: gate
+        run: |
+          set +e
+          cd "$WORK_DIR"
+          gitleaks git --no-banner --no-color --redact=100 --log-opts='--all --full-history' \
+            --report-format json --report-path "$RUNNER_TEMP/gitleaks.json" .
+          scan=$?
+          cd - > /dev/null
+          case "$scan" in 0|1) ;; *) echo "::error::gitleaks failed to run (exit $scan); refusing to sync (fail closed)"; exit 1 ;; esac
+          [ -f "$RUNNER_TEMP/gitleaks.json" ] || echo "[]" > "$RUNNER_TEMP/gitleaks.json"
+          python -m drive_mirror secgate --repo-url "$REPO_URL" --work-dir "$WORK_DIR" --pull-heads "$PULL_HEADS" \
+            --scan-report "$RUNNER_TEMP/gitleaks.json" --quarantine-out "$REPORTS/quarantine.json" --report "$REPORTS/secgate.json"
+          gate=$?
+          echo "exit=$gate" >> "$GITHUB_OUTPUT"
+          case "$gate" in
+            0) echo "Security gate: PASS" ;;
+            6) echo "::warning::Security gate: unapproved findings. Affected refs are quarantined (not uploaded); the rest is mirrored." ;;
+            *) echo "::error::Security gate could not decide (exit $gate); refusing to sync (fail closed)"; exit 1 ;;
+          esac
+      # --------------------------------------------------------------------------------------
+
       - name: Sync
         id: sync
         if: steps.mode.outputs.mode != 'verify-only'
         env:
           MODE: ${{ steps.mode.outputs.mode }}
           GITHUB_TOKEN: ${{ github.token }}
-          BUDGET: ${{ inputs.time_budget_min || '320' }}
+          BUDGET: ${{ inputs.time_budget_min || '270' }}
           BREAK_LOCK: ${{ inputs.break_lock && '--break-lock' || '' }}
           MASS: ${{ inputs.allow_mass_retire && '--allow-mass-retire' || '' }}
           DRIVE_OAUTH_CLIENT_ID: ${{ secrets.DRIVE_OAUTH_CLIENT_ID }}
@@ -220,6 +271,7 @@ jobs:
           for attempt in 1 2; do
             python -m drive_mirror sync --repo-url "$REPO_URL" --work-dir "$WORK_DIR" \
               --mirror-name "$MIRROR_NAME" --mode "$MODE" --pull-heads "$PULL_HEADS" \
+              --reconcile-after-hours "$RECONCILE_AFTER_HOURS" --quarantine-file "$REPORTS/quarantine.json" \
               --github-repo "$GITHUB_REPOSITORY" --time-budget-min "$BUDGET" --workers 4 \
               --report "$REPORTS/sync.json" $extra $BREAK_LOCK $MASS
             code=$?
@@ -237,17 +289,27 @@ jobs:
             *) echo "::error::Sync failed (exit $code)"; exit 1 ;;
           esac
 
+      # Incremental runs verify bytes only for the namespaces they changed (cheap structural checks
+      # for the rest); a reconcile run, or a failed/unfinished one, is verified in full.
       - name: Independent verification
-        if: steps.sync.outputs.exit == '0' || steps.mode.outputs.mode == 'verify-only' || steps.mode.outputs.mode == 'reconcile'
+        if: steps.sync.outputs.exit == '0' || steps.mode.outputs.mode == 'verify-only'
         env:
-          DEEP: ${{ steps.mode.outputs.mode == 'reconcile' && '300' || '0' }}
+          MODE: ${{ steps.mode.outputs.mode }}
           DRIVE_OAUTH_CLIENT_ID: ${{ secrets.DRIVE_OAUTH_CLIENT_ID }}
           DRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.DRIVE_OAUTH_CLIENT_SECRET }}
           DRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.DRIVE_OAUTH_REFRESH_TOKEN }}
         run: |
+          scope=""
+          deep=0
+          if [ "$MODE" = "verify-only" ] || [ "$MODE" = "reconcile" ]; then
+            deep=300
+          elif [ -f "$REPORTS/sync.json" ]; then
+            effective=$(python -c 'import json,sys;print(json.load(open(sys.argv[1])).get("mode",""))' "$REPORTS/sync.json")
+            if [ "$effective" = "reconcile" ]; then deep=300; else scope="--sync-report $REPORTS/sync.json"; fi
+          fi
           python -m drive_mirror verify --repo-url "$REPO_URL" --work-dir "$WORK_DIR" \
-            --mirror-name "$MIRROR_NAME" --pull-heads "$PULL_HEADS" --deep-sample "$DEEP" \
-            --report "$REPORTS/verify.json"
+            --mirror-name "$MIRROR_NAME" --pull-heads "$PULL_HEADS" --deep-sample "$deep" \
+            --quarantine-file "$REPORTS/quarantine.json" $scope --report "$REPORTS/verify.json"
 
       - name: Staleness check
         if: always() && steps.mode.outputs.mode != 'dry-run'
@@ -256,12 +318,15 @@ jobs:
           DRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.DRIVE_OAUTH_CLIENT_SECRET }}
           DRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.DRIVE_OAUTH_REFRESH_TOKEN }}
         run: |
+          q=""
+          [ -f "$REPORTS/quarantine.json" ] && q="--quarantine-file $REPORTS/quarantine.json"
           python -m drive_mirror status --repo-url "$REPO_URL" --work-dir "$WORK_DIR" \
-            --mirror-name "$MIRROR_NAME" --max-age-hours "$MAX_AGE_HOURS" \
-            --report "$REPORTS/status.json"
+            --mirror-name "$MIRROR_NAME" --max-age-hours "$MAX_AGE_HOURS" $q --report "$REPORTS/status.json"
 
       - name: Per-file inventory (reconcile runs)
         if: steps.mode.outputs.mode == 'reconcile'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           python -m drive_mirror inventory --repo-url "$REPO_URL" --work-dir "$WORK_DIR" --no-ci \
             --github-repo "$GITHUB_REPOSITORY" --files-out "$REPORTS/inventory-files.jsonl" \
@@ -274,7 +339,7 @@ jobs:
 
       - name: Upload reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: drive-mirror-reports-${{ github.run_id }}
           path: ${{ runner.temp }}/reports
