@@ -565,8 +565,8 @@ public final class St01Phase4Probe implements ModInitializer {
         rec.put("hall_voxel_mismatches_unexplained", unexplained);
         check(failures, "hall_voxels_match_template_except_vanilla_overlay", unexplained == 0, "pairs=" + mismatchPairs);
         Map<String, Integer> expectedCensus = nbtCensus(level);
-        java.util.Set<String> paletteNames = expectedCensus.keySet();
-        rec.put("hall_terrain_sha256", hashBox(level, hb, false, paletteNames));
+        rec.put("hall_template_masked_sha256", hallMaskedHash(level, hb, hall, rot));
+        rec.put("surface_profile_sha256", surfaceProfileHash(level, cx, yf, cz));
 
         BlockPos left = pyramidWorld(cx, yf, cz, St01RoyalChestPlacement.REFERENCE_ANCHOR, rot);
         BlockPos right = pyramidWorld(cx, yf, cz, St01RoyalChestPlacement.REFERENCE_RIGHT, rot);
@@ -719,6 +719,57 @@ public final class St01Phase4Probe implements ModInitializer {
         StringBuilder sb = new StringBuilder();
         for (byte v : md.digest()) sb.append(String.format("%02x", v));
         return sb.toString();
+    }
+
+    /**
+     * Hash of the hall volume in which every vanilla overlay block (decoration, ores, fossils ...) is replaced by the block the template prescribes
+     * there; the hash therefore captures exactly the structure-owned content and is independent of vanilla overlay order.
+     */
+    private static String hallMaskedHash(ServerLevel level, BoundingBox hb, St01RoyalHallFixture.Piece hall, Rotation rot) throws Exception {
+        Map<BlockPos, Block> expected = new HashMap<>();
+        for (var tb : templateBlocks(level)) {
+            expected.put(net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.transform(tb.getKey(), net.minecraft.world.level.block.Mirror.NONE,
+                    rot, new BlockPos(40, 24, -2)).offset(hall.templatePosition()), tb.getValue());
+        }
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        BlockPos.MutableBlockPos mp = new BlockPos.MutableBlockPos();
+        StringBuilder line = new StringBuilder();
+        for (int x = hb.minX(); x <= hb.maxX(); x++)
+            for (int z = hb.minZ(); z <= hb.maxZ(); z++) {
+                line.setLength(0);
+                for (int y = hb.minY(); y <= hb.maxY(); y++) {
+                    BlockState st = level.getBlockState(mp.set(x, y, z));
+                    Block want = expected.get(mp.immutable());
+                    line.append(want != null && overlayBlock(BuiltInRegistries.BLOCK.getKey(st.getBlock()).getPath()) ? want.defaultBlockState().toString() : st.toString()).append(';');
+                }
+                md.update(line.toString().getBytes(StandardCharsets.UTF_8));
+            }
+        StringBuilder sb = new StringBuilder();
+        for (byte v : md.digest()) sb.append(String.format("%02x", v));
+        return sb.toString();
+    }
+
+    /** Per footprint column: highest occluding, non-vegetation block within the correction window = the corrected ground profile. */
+    private static String surfaceProfileHash(ServerLevel level, int cx, int yf, int cz) throws Exception {
+        int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        BlockPos.MutableBlockPos mp = new BlockPos.MutableBlockPos();
+        StringBuilder sb = new StringBuilder();
+        for (int x = cx - half; x <= cx + half; x++) {
+            for (int z = cz - half; z <= cz + half; z++) {
+                int top = Integer.MIN_VALUE;
+                for (int y = yf + St01PlacementConfig.MAX_CUT + 2; y >= yf - 14; y--) {
+                    BlockState st = level.getBlockState(mp.set(x, y, z));
+                    if (st.canOcclude() && !st.is(net.minecraft.tags.BlockTags.LOGS) && !st.is(net.minecraft.tags.BlockTags.LEAVES)) { top = y; break; }
+                }
+                sb.append(top).append(',');
+            }
+            sb.append('\n');
+        }
+        md.update(sb.toString().getBytes(StandardCharsets.UTF_8));
+        StringBuilder out = new StringBuilder();
+        for (byte v : md.digest()) out.append(String.format("%02x", v));
+        return out.toString();
     }
 
     private static final java.util.Set<String> OVERLAY = java.util.Set.of("glow_lichen", "bone_block", "cave_air", "air", "moss_block", "moss_carpet", "stone", "andesite",

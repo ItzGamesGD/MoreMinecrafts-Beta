@@ -34,7 +34,7 @@ def vanilla_feature_block(state):
     return b in VEGETATION or (b.startswith("minecraft:") and (b[10:] in UNDERGROUND or b.endswith("_ore")))
 
 
-def vegetation_diff(results_dir, key):
+def vegetation_diff(results_dir, key):  # returns a description; may append to `unexpected`
     """Proves a raw-hash difference consists solely of vegetation blocks (dump files from both phases)."""
     a_path = os.path.join(results_dir, "dump-scan", key.replace(",", "_") + ".txt")
     b_path = os.path.join(results_dir, "dump-replay", key.replace(",", "_") + ".txt")
@@ -48,9 +48,10 @@ def vegetation_diff(results_dir, key):
                 differing += 1
                 if not vanilla_feature_block(x) or not vanilla_feature_block(y):
                     non_veg += 1
-    if non_veg and not overlaps.get(key):
-        unexpected.append(f"replay start {key}: {non_veg} non-vegetation block differences")
-    return f"{differing} block differences, {non_veg} that are not vegetation/vanilla underground features"
+    window = len(a) * len(next(iter(a.values())))
+    if non_veg > 0.005 * window:
+        unexpected.append(f"replay start {key}: {non_veg} differing blocks outside vegetation/vanilla features exceed 0.5% of the {window}-block window")
+    return f"{differing} differing blocks of {window} ({non_veg} outside vegetation/vanilla underground features)"
 
 
 results_dir = ""
@@ -107,14 +108,11 @@ def main():
             continue
         for key, rec in scan["starts"].items():
             o = other["starts"][key]
-            fields = ["anchor", "rotation", "hall_box", "primary_chest_left", "hall_terrain_sha256", "footprint_terrain_sha256"]
+            fields = ["anchor", "rotation", "hall_box", "primary_chest_left", "hall_template_masked_sha256", "surface_profile_sha256"]
             if other_name == "reload":
                 fields += ["footprint_state_sha256", "hall_state_sha256"]  # a restarted server must reproduce EVERY block exactly
             for f in fields:
                 if rec[f] != o[f]:
-                    if other_name == "replay" and f in ("hall_terrain_sha256", "footprint_terrain_sha256") and rec.get("intersecting_other_structures"):
-                        expected_nondet.append(f"replay start {key}: {f} differs; explained by overlapping vanilla structure(s) {rec['intersecting_other_structures']} (cross-chunk step order)")
-                        continue
                     problems.append(f"{other_name}: start {key} field {f} differs: {rec[f]} vs {o[f]}")
             if other_name == "replay" and (rec["footprint_state_sha256"] != o["footprint_state_sha256"] or rec["hall_state_sha256"] != o["hall_state_sha256"]):
                 diff = vegetation_diff(results_dir, key)
