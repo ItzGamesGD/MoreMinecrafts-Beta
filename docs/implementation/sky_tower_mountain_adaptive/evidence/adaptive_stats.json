@@ -1,0 +1,629 @@
+{
+ "boundary_rows": 39,
+ "boundary_policy_violations": 0,
+ "controlled_tower_rows_feasibility_vs_outcome": {
+  "rows": 31083,
+  "mismatches": 0
+ },
+ "controlled_nontower_reject_reason_counts": {
+  "ADAPTIVE_INFEASIBLE": 15924
+ },
+ "natural_seeds": [
+  "nat_2",
+  "nat_3",
+  "nat_6",
+  "nat_7",
+  "nat_9"
+ ],
+ "natural_area_km2": 32012.80128,
+ "natural_mountain_compare": {
+  "PRODUCTION": {
+   "eligible": 11900,
+   "tower_selected": 1725,
+   "tower_selected_share": 0.145,
+   "tower_accepted": 1715,
+   "tower_accept_rate": 0.9942,
+   "tower_accept_ci95": [
+    0.9894,
+    0.9968
+   ],
+   "nontower_selected": 10175,
+   "nontower_accepted": 10173,
+   "islands_generated": 11888,
+   "tower_share_of_generated": 0.1443,
+   "towers_per_10000_km2": 535.7,
+   "offset_mean_all": 43.92,
+   "offset_median_all": 44.0,
+   "offset_mean_tower": 42.98,
+   "offset_median_tower": 43,
+   "reject_reasons": {
+    "ADAPTIVE_INFEASIBLE": 9,
+    "OTHER_BIOME_OR_STUB": 3
+   }
+  },
+  "LEGACY": {
+   "eligible": 11900,
+   "tower_selected": 1725,
+   "tower_selected_share": 0.145,
+   "tower_accepted": 1668,
+   "tower_accept_rate": 0.967,
+   "tower_accept_ci95": [
+    0.9574,
+    0.9744
+   ],
+   "nontower_selected": 10175,
+   "nontower_accepted": 10171,
+   "islands_generated": 11839,
+   "tower_share_of_generated": 0.1409,
+   "towers_per_10000_km2": 521.0,
+   "offset_mean_all": 43.99,
+   "offset_median_all": 44,
+   "offset_mean_tower": 43.41,
+   "offset_median_tower": 43.0,
+   "reject_reasons": {
+    "PADDING": 58,
+    "STUB_BIOME": 3
+   }
+  }
+ },
+ "natural_tower_by_terrain_bin": [
+  {
+   "terrain_bin": "-999..99",
+   "config": "PRODUCTION",
+   "tower_selected": 497,
+   "tower_accepted": 497,
+   "rate": 1.0,
+   "ci95": [
+    0.992,
+    1
+   ]
+  },
+  {
+   "terrain_bin": "-999..99",
+   "config": "LEGACY",
+   "tower_selected": 497,
+   "tower_accepted": 497,
+   "rate": 1.0,
+   "ci95": [
+    0.992,
+    1
+   ]
+  },
+  {
+   "terrain_bin": "100..139",
+   "config": "PRODUCTION",
+   "tower_selected": 908,
+   "tower_accepted": 907,
+   "rate": 0.9989,
+   "ci95": [
+    0.994,
+    1.0
+   ]
+  },
+  {
+   "terrain_bin": "100..139",
+   "config": "LEGACY",
+   "tower_selected": 908,
+   "tower_accepted": 907,
+   "rate": 0.9989,
+   "ci95": [
+    0.994,
+    1.0
+   ]
+  },
+  {
+   "terrain_bin": "140..159",
+   "config": "PRODUCTION",
+   "tower_selected": 228,
+   "tower_accepted": 228,
+   "rate": 1.0,
+   "ci95": [
+    0.983,
+    1
+   ]
+  },
+  {
+   "terrain_bin": "140..159",
+   "config": "LEGACY",
+   "tower_selected": 228,
+   "tower_accepted": 222,
+   "rate": 0.9737,
+   "ci95": [
+    0.944,
+    0.988
+   ]
+  },
+  {
+   "terrain_bin": "160..179",
+   "config": "PRODUCTION",
+   "tower_selected": 52,
+   "tower_accepted": 52,
+   "rate": 1.0,
+   "ci95": [
+    0.931,
+    1
+   ]
+  },
+  {
+   "terrain_bin": "160..179",
+   "config": "LEGACY",
+   "tower_selected": 52,
+   "tower_accepted": 34,
+   "rate": 0.6538,
+   "ci95": [
+    0.518,
+    0.768
+   ]
+  },
+  {
+   "terrain_bin": "180..199",
+   "config": "PRODUCTION",
+   "tower_selected": 29,
+   "tower_accepted": 29,
+   "rate": 1.0,
+   "ci95": [
+    0.883,
+    1
+   ]
+  },
+  {
+   "terrain_bin": "180..199",
+   "config": "LEGACY",
+   "tower_selected": 29,
+   "tower_accepted": 8,
+   "rate": 0.2759,
+   "ci95": [
+    0.147,
+    0.457
+   ]
+  },
+  {
+   "terrain_bin": "200..201",
+   "config": "PRODUCTION",
+   "tower_selected": 2,
+   "tower_accepted": 2,
+   "rate": 1.0,
+   "ci95": [
+    0.342,
+    1
+   ]
+  },
+  {
+   "terrain_bin": "200..201",
+   "config": "LEGACY",
+   "tower_selected": 2,
+   "tower_accepted": 0,
+   "rate": 0.0,
+   "ci95": [
+    0,
+    0.658
+   ]
+  },
+  {
+   "terrain_bin": "202..219",
+   "config": "PRODUCTION",
+   "tower_selected": 5,
+   "tower_accepted": 0,
+   "rate": 0.0,
+   "ci95": [
+    0,
+    0.434
+   ]
+  },
+  {
+   "terrain_bin": "202..219",
+   "config": "LEGACY",
+   "tower_selected": 5,
+   "tower_accepted": 0,
+   "rate": 0.0,
+   "ci95": [
+    0,
+    0.434
+   ]
+  },
+  {
+   "terrain_bin": "220..998",
+   "config": "PRODUCTION",
+   "tower_selected": 4,
+   "tower_accepted": 0,
+   "rate": 0.0,
+   "ci95": [
+    0,
+    0.49
+   ]
+  },
+  {
+   "terrain_bin": "220..998",
+   "config": "LEGACY",
+   "tower_selected": 4,
+   "tower_accepted": 0,
+   "rate": 0.0,
+   "ci95": [
+    0,
+    0.49
+   ]
+  }
+ ],
+ "paired_identity": {
+  "identical": 11851,
+  "different_where_draw1_fits": 0,
+  "different_where_draw1_exceeds_feasible_max": 49
+ },
+ "general_set_identical": {
+  "rows": 37199,
+  "identical": true
+ },
+ "resampled_tower_offsets": {
+  "resampled_towers": 47,
+  "at_upper_boundary": 1,
+  "expected_if_uniform": 3.8,
+  "clamp_would_give": 47
+ },
+ "offset_histogram_PRODUCTION": {
+  "10": 474,
+  "20": 2276,
+  "30": 2182,
+  "40": 2261,
+  "50": 2250,
+  "60": 2224,
+  "70": 221
+ },
+ "offset_histogram_LEGACY": {
+  "10": 464,
+  "20": 2253,
+  "30": 2171,
+  "40": 2258,
+  "50": 2249,
+  "60": 2223,
+  "70": 221
+ },
+ "rotations_generated_towers_production": {
+  "CLOCKWISE_90": 453,
+  "COUNTERCLOCKWISE_90": 421,
+  "CLOCKWISE_180": 419,
+  "NONE": 422
+ },
+ "tower_styles_production": {
+  "snowy/tower": 741,
+  "rocky/tower": 309,
+  "meadow/tower": 665
+ },
+ "natural_tower_samples_T160plus": 92,
+ "natural_pipeline_check": {
+  "nat_2": {
+   "natural_checked": 9851,
+   "natural_vs_replay_agree": 9851,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    9851,
+    9851
+   ],
+   "total_time_ms_prod_legacy": [
+    8468,
+    6647
+   ],
+   "allocated_bytes_prod_legacy": [
+    680237536,
+    616944232
+   ]
+  },
+  "nat_3": {
+   "natural_checked": 9717,
+   "natural_vs_replay_agree": 9717,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    9717,
+    9717
+   ],
+   "total_time_ms_prod_legacy": [
+    8607,
+    6548
+   ],
+   "allocated_bytes_prod_legacy": [
+    663050256,
+    608909248
+   ]
+  },
+  "nat_6": {
+   "natural_checked": 9872,
+   "natural_vs_replay_agree": 9872,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    9872,
+    9872
+   ],
+   "total_time_ms_prod_legacy": [
+    7532,
+    5999
+   ],
+   "allocated_bytes_prod_legacy": [
+    690033744,
+    626697496
+   ]
+  },
+  "nat_7": {
+   "natural_checked": 9760,
+   "natural_vs_replay_agree": 9760,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    9760,
+    9760
+   ],
+   "total_time_ms_prod_legacy": [
+    7838,
+    6330
+   ],
+   "allocated_bytes_prod_legacy": [
+    680586152,
+    615182088
+   ]
+  },
+  "nat_9": {
+   "natural_checked": 9899,
+   "natural_vs_replay_agree": 9899,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    9899,
+    9899
+   ],
+   "total_time_ms_prod_legacy": [
+    8204,
+    6183
+   ],
+   "allocated_bytes_prod_legacy": [
+    739961080,
+    621371336
+   ]
+  },
+  "flat_snowy_T200": {
+   "natural_checked": 865,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    865,
+    865
+   ],
+   "total_time_ms_prod_legacy": [
+    208,
+    118
+   ],
+   "allocated_bytes_prod_legacy": [
+    65264496,
+    62541992
+   ]
+  },
+  "flat_snowy_T201": {
+   "natural_checked": 865,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    865,
+    865
+   ],
+   "total_time_ms_prod_legacy": [
+    238,
+    193
+   ],
+   "allocated_bytes_prod_legacy": [
+    65218752,
+    62517424
+   ]
+  },
+  "flat_snowy_T202": {
+   "natural_checked": 865,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    865,
+    865
+   ],
+   "total_time_ms_prod_legacy": [
+    231,
+    118
+   ],
+   "allocated_bytes_prod_legacy": [
+    88433824,
+    37990464
+   ]
+  },
+  "flat_rocky_T201": {
+   "natural_checked": 865,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    865,
+    865
+   ],
+   "total_time_ms_prod_legacy": [
+    196,
+    408
+   ],
+   "allocated_bytes_prod_legacy": [
+    30795968,
+    41954352
+   ]
+  },
+  "flat_rocky_T202": {
+   "natural_checked": 865,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    865,
+    865
+   ],
+   "total_time_ms_prod_legacy": [
+    176,
+    78
+   ],
+   "allocated_bytes_prod_legacy": [
+    50235808,
+    22322024
+   ]
+  },
+  "flat_meadow_T201": {
+   "natural_checked": 865,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    865,
+    865
+   ],
+   "total_time_ms_prod_legacy": [
+    107,
+    89
+   ],
+   "allocated_bytes_prod_legacy": [
+    23753648,
+    21854568
+   ]
+  },
+  "flat_meadow_T202": {
+   "natural_checked": 865,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    865,
+    865
+   ],
+   "total_time_ms_prod_legacy": [
+    83,
+    184
+   ],
+   "allocated_bytes_prod_legacy": [
+    23071400,
+    22273120
+   ]
+  },
+  "flat_snowy_T240": {
+   "natural_checked": 865,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0,
+   "evaluations_prod_legacy": [
+    865,
+    865
+   ],
+   "total_time_ms_prod_legacy": [
+    246,
+    124
+   ],
+   "allocated_bytes_prod_legacy": [
+    68728560,
+    49527552
+   ]
+  }
+ },
+ "footprint": {
+  "samples": 1250,
+  "towers": 185,
+  "bbox_min_y_below_footprint_max_terrain": 23,
+  "block_intersections_samples_with_any": 11,
+  "min_block_separation_min": -44,
+  "ref_offset_min": 18,
+  "tower_samples_min_block_separation_min": -18,
+  "terrain_span_median": 17.0,
+  "terrain_span_max": 122,
+  "tower_ref_offset_minus_block_min_sep_median": 3
+ },
+ "flat_natural": {
+  "flat_snowy_T200": {
+   "tower_candidates": 120,
+   "tower_generated": 120,
+   "offset_min": 18,
+   "offset_max": 19,
+   "max_piece_maxY": 315,
+   "T": "200",
+   "natural_vs_replay": [
+    865,
+    0
+   ]
+  },
+  "flat_snowy_T201": {
+   "tower_candidates": 120,
+   "tower_generated": 120,
+   "offset_min": 18,
+   "offset_max": 18,
+   "max_piece_maxY": 315,
+   "T": "201",
+   "natural_vs_replay": [
+    865,
+    0
+   ]
+  },
+  "flat_snowy_T202": {
+   "tower_candidates": 120,
+   "tower_generated": 0,
+   "offset_min": null,
+   "offset_max": null,
+   "max_piece_maxY": null,
+   "T": "202",
+   "natural_vs_replay": [
+    865,
+    0
+   ]
+  },
+  "flat_rocky_T201": {
+   "tower_candidates": 120,
+   "tower_generated": 120,
+   "offset_min": 18,
+   "offset_max": 18,
+   "max_piece_maxY": 315,
+   "T": "201",
+   "natural_vs_replay": [
+    865,
+    0
+   ]
+  },
+  "flat_rocky_T202": {
+   "tower_candidates": 120,
+   "tower_generated": 0,
+   "offset_min": null,
+   "offset_max": null,
+   "max_piece_maxY": null,
+   "T": "202",
+   "natural_vs_replay": [
+    865,
+    0
+   ]
+  },
+  "flat_meadow_T201": {
+   "tower_candidates": 120,
+   "tower_generated": 120,
+   "offset_min": 18,
+   "offset_max": 18,
+   "max_piece_maxY": 315,
+   "T": "201",
+   "natural_vs_replay": [
+    865,
+    0
+   ]
+  },
+  "flat_meadow_T202": {
+   "tower_candidates": 120,
+   "tower_generated": 0,
+   "offset_min": null,
+   "offset_max": null,
+   "max_piece_maxY": null,
+   "T": "202",
+   "natural_vs_replay": [
+    865,
+    0
+   ]
+  },
+  "flat_snowy_T240": {
+   "tower_candidates": 120,
+   "tower_generated": 0,
+   "offset_min": null,
+   "offset_max": null,
+   "max_piece_maxY": null,
+   "T": "240",
+   "natural_vs_replay": [
+    865,
+    0
+   ]
+  }
+ },
+ "determinism": {
+  "rows": 4665,
+  "identical_ignoring_time_column": true
+ }
+}
