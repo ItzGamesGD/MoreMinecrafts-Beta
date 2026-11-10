@@ -46,7 +46,7 @@ Status: **PARTIAL** (see §9). Branch `claude/st01-pyramid-phase4-worldgen-roke2
 * Real server, per seed: `tools/st01-phase4/run_validation.sh <seed> 10240` = **scan** (fresh world) → **replay** (fresh world, *reverse* chunk-generation order) → **reload** (saved scan world restarted); fails on any invariant violation. Workflow: `.github/workflows/st01-phase4-worldgen.yml`.
 * Aggregate: `tools/st01-phase4/aggregate.py`.
 
-### CI evidence (final green run, commit `8371c196`, run 42763773866)
+### CI evidence (green runs: commit `8371c196` run 42763773866 and commit `fa1484c1` run 42765649652 — identical worldgen code, the latter only changes the client-capture test)
 regression ✔ · 15/15 `worldgen (<seed>)` ✔ · client-capture job ✔ · aggregate ✔. Earlier runs on this branch failed and were fixed (see §7). The `ST-01 Royal Chest Runtime`-style Guardian GameTest `tomb_guardian_game_tests_risen_statue_is_solid_at_the_approved_size_and_telegraph_stays_walkable` fails **on the untouched baseline `03685656` too** (its own workflow, step "Guardian regression GameTests") and passes locally (24/24); it is an out-of-scope pre-existing finding and was removed from the Phase 4 workflow rather than hidden.
 
 ## 4. Measured results (15 seeds, ±10,240 blocks = 419.43 km² each, 1,600 potential anchors per seed)
@@ -122,7 +122,7 @@ Seeds 1001–1005 are the Phase 3.1 reference seeds; the other ten are an indepe
 7. Client capture first rendered only sky (chunks not meshed) → pre-generation, client chunk wait, larger render distance (see §8).
 
 ## 8. Visual acceptance
-VISUAL_PLACEHOLDER
+**UNVERIFIED.** A rendered-client harness exists (`St01Phase4ClientCaptureTest`, `tools/st01-phase4/run_client_capture.sh`, CI job `client-capture`: real Minecraft 26.3 client under Xvfb with software GL, dedicated server with seed 1004, 10 camera views per start for the two starts of that seed, pre-generated chunks, waits for `LevelRenderer.hasRenderedAllSections()`). It runs green end-to-end and produces 20 screenshots per run, **but every screenshot I inspected shows only sky/fog (sun and horizon gradient), including the top-down view and the views teleported into the buried hall; no terrain, plateau or hall is visible, so the images prove nothing and are not offered as evidence.** The cause is unresolved (the client camera evidently does not reflect the server teleport, or the world pass is not captured under this software-GL setup; the same pattern appeared after pre-generation and after waiting for all sections). The numerical audit (edge step to foundation ≤ 11 blocks for 15 of 16 starts, 74 for one start whose neighbouring terrain is naturally steep; flat top, no leftover terrain above the foundation, sealed skirt band) is **not** a substitute for looking at the plateau edge, foundation exposure, hall entrance or neighbouring terrain. Next step: debug the harness (log `client_pose`, compare with the P8-A harness which does capture a flat world) or capture on a desktop client at the listed anchors (see per-seed JSON).
 
 ## 9. Status
 PHASE4_STATUS: **PARTIAL** — see the status block in the PR description.
@@ -137,3 +137,17 @@ PHASE4_STATUS: **PARTIAL** — see the status block in the PR description.
 7. **Authority sync:** the locked values (32/8/triangular/salt 91401/MODERATE 16-10-8) are not yet recorded in `docs/CONTENT_AUTHORITY_INDEX.md`'s routed authority; P8 plan §7 still lists different UNAPPROVED values. A design-sync task is needed.
 8. Pre-existing out-of-scope findings: the Guardian GameTest failing on baseline CI; Phase 3.1 documents list inconsistent Woodland-Mansion per-seed counts ([3,4,2,4,2] vs [3,3,2,1,6]).
 
+
+## 11. Files
+Production: `pyramid/worldgen/{St01PlacementConfig,St01Eligibility,St01PyramidStructure,St01FootprintCorrectionPiece,St01RoyalHallFixture,St01Worldgen}.java`, `MoreMinecrafts.java` (one init line), `data/moreminecrafts/worldgen/structure/st01_pyramid.json`, `structure_set/st01_pyramid.json`. Tests: `St01EligibilityTest`, `St01WorldgenResourceTest`, probe `worldgenprobe/st01p4/St01Phase4Probe.java`, `St01Phase4ClientCaptureTest.java` (+ `fabric.mod.json` of the gametest set, `build.gradle` run config `st01Phase4Probe`). Tooling: `tools/st01-phase4/*`, `.github/workflows/st01-phase4-worldgen.yml`. Evidence: `docs/design/st01-phase4/evidence/aggregate.{json,md}`.
+
+## 12. Owner acceptance checklist
+- [ ] Accept that Phase 4 delivers placement/registration/eligibility/correction/fluid infrastructure verified on a **fixture** (royal hall only), not a pyramid.
+- [ ] Decide on density: 0.254 /100 km² (0.36× Mansion), 4/15 seeds with no start in 10,240 blocks, before the real underground volume is added.
+- [ ] Confirm or change: fluid-volume definition (+1 block margin, base-column noise) and the 1-block fluid seal.
+- [ ] Confirm or change: rotation policy (4 rotations, no mirror).
+- [ ] Decide on overlap with vanilla structures (mineshaft, desert village observed): allow or add an exclusion zone.
+- [ ] Decide when/how natural hall placement registers with the royal-chest runtime (P8 plan §5 IDs).
+- [ ] Record the locked placement values in current authority (design-sync task).
+- [ ] Provide/approve the complete pyramid asset (shell, entrances, L1–L3, vault, annex count, underground depth limit), then re-run this suite with the real volume.
+- [ ] Visual acceptance of plateau edges, foundation exposure, entrance and neighbouring terrain once a working capture or a desktop client is available.
