@@ -56,22 +56,23 @@ final class CloudSlimeRenderer extends AbstractCubeMobRenderer<Slime, SlimeRende
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition body = mesh.getRoot().addOrReplaceChild("body", CubeListBuilder.create(), PartPose.ZERO);
         PartDefinition clouds = body.addOrReplaceChild("clouds", CubeListBuilder.create(), PartPose.ZERO);
-        // Three depth layers (back, middle, front) plus a small high wisp, so parallax shows between views.
+        // Three broad, low formations at back / middle / front depths and high / mid / low heights. Each is a wide
+        // flat base with narrower stepped tiers on top, so the silhouette reads as a spread cloud, not a column.
         clouds.addOrReplaceChild("cloud_back", CubeListBuilder.create()
-                .texOffs(0, 32).addBox(-3.0F, 18.25F, 1.5F, 5.0F, 1.5F, 1.75F)
-                .texOffs(16, 32).addBox(-2.0F, 17.25F, 1.75F, 2.5F, 1.0F, 1.25F)
-                .texOffs(16, 32).addBox(1.0F, 17.75F, 2.0F, 1.5F, 0.5F, 1.0F), PartPose.ZERO);
+                .texOffs(0, 32).addBox(-3.5F, 17.5F, 1.75F, 5.75F, 0.75F, 1.25F)
+                .texOffs(0, 32).addBox(-2.75F, 17.0F, 2.0F, 3.75F, 0.5F, 1.0F)
+                .texOffs(0, 32).addBox(-1.75F, 16.5F, 2.25F, 1.75F, 0.5F, 0.75F)
+                .texOffs(0, 32).addBox(2.25F, 17.75F, 2.0F, 1.25F, 0.5F, 0.75F), PartPose.ZERO);
         clouds.addOrReplaceChild("cloud_middle", CubeListBuilder.create()
-                .texOffs(0, 40).addBox(-1.0F, 20.25F, -0.75F, 4.25F, 1.25F, 1.5F)
-                .texOffs(16, 40).addBox(0.0F, 19.25F, -0.5F, 2.0F, 1.0F, 1.0F)
-                .texOffs(16, 40).addBox(-2.0F, 20.75F, -0.5F, 1.0F, 0.75F, 1.0F), PartPose.ZERO);
+                .texOffs(0, 40).addBox(-2.0F, 21.0F, -0.5F, 5.5F, 0.75F, 1.25F)
+                .texOffs(0, 40).addBox(-0.75F, 20.5F, -0.25F, 3.25F, 0.5F, 1.0F)
+                .texOffs(0, 40).addBox(0.25F, 20.0F, 0.0F, 1.5F, 0.5F, 0.5F)
+                .texOffs(0, 40).addBox(-3.5F, 21.25F, -0.25F, 1.5F, 0.5F, 0.75F), PartPose.ZERO);
         clouds.addOrReplaceChild("cloud_front", CubeListBuilder.create()
-                .texOffs(0, 48).addBox(-3.25F, 22.0F, -2.75F, 3.75F, 1.25F, 1.0F)
-                .texOffs(16, 48).addBox(-2.5F, 21.25F, -2.5F, 1.75F, 0.75F, 0.75F)
-                .texOffs(16, 48).addBox(1.25F, 22.25F, -2.25F, 2.0F, 1.0F, 1.0F), PartPose.ZERO);
-        clouds.addOrReplaceChild("cloud_wisp", CubeListBuilder.create()
-                .texOffs(0, 56).addBox(1.25F, 16.75F, -2.0F, 2.0F, 0.75F, 1.0F)
-                .texOffs(0, 56).addBox(-3.25F, 20.5F, 2.25F, 1.5F, 0.75F, 1.0F), PartPose.ZERO);
+                .texOffs(0, 48).addBox(-3.5F, 22.75F, -2.75F, 5.0F, 0.5F, 1.0F)
+                .texOffs(0, 48).addBox(-2.5F, 22.25F, -2.5F, 2.75F, 0.5F, 0.75F)
+                .texOffs(0, 48).addBox(-1.75F, 21.75F, -2.25F, 1.25F, 0.5F, 0.5F)
+                .texOffs(0, 48).addBox(1.5F, 23.0F, -2.5F, 1.75F, 0.25F, 0.75F), PartPose.ZERO);
         body.addOrReplaceChild("right_eye", CubeListBuilder.create()
                 .texOffs(40, 0).addBox(-2.25F, 18.5F, -3.75F, 1.0F, 2.0F, 0.5F), PartPose.ZERO);
         body.addOrReplaceChild("left_eye", CubeListBuilder.create()
