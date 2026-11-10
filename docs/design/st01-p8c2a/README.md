@@ -137,6 +137,26 @@ Committed evidence: [`evidence/verification.json`](evidence/verification.json),
 [`evidence/client-manifest.json`](evidence/client-manifest.json) and [`evidence/captures/`](evidence/captures/).
 CI: `.github/workflows/st01-p8c2a-assembly.yml`.
 
+## Rendered captures (owner visual review)
+
+There are 18 views, from a real 26.3 client at 1920×1080 with render distance 12. Both placed assemblies sit on
+test-only sand ground.
+
+- **Exterior:** SE oblique, entrance front, NW aerial, rotated EAST-facing pyramid.
+- **Above-ground interior:** entrance hall, gallery with support piers, altar pedestal.
+- **Below-ground interior:**
+  - D1 royal hall, antechamber statues, offering annex, L1 tomb, L2 store;
+  - secret descent and landing, WEST route;
+  - treasury sculpture and piles, crypt;
+  - rotated EAST route.
+
+All poses were reached. The committed JPEGs are downscales; the original PNG hashes are in
+`evidence/client-manifest.json`.
+
+Observation for review, not a defect: the authored entrance cavity S00 (X−12..12, Y0..11, Z29..40) cuts a notch into
+the stepped south face, visible from oblique views (captures 01 and 04). It is the only exterior opening and matches
+the approved blueprint exactly. Visual acceptance of the approved representation remains with the owner.
+
 ## Limits
 
 - **Placement flags.** Placement uses `Block.UPDATE_CLIENTS` into cleared air. Natural-terrain interaction, chunk-split
