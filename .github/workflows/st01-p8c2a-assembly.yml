@@ -1,0 +1,123 @@
+name: ST-01 P8-C2-A Complete Assembly
+on:
+  push:
+    branches: [work/st01-p8c2a-complete-assembly-20261110-r1]
+  pull_request:
+    paths:
+      - 'docs/design/st01-g0-r1/**'
+      - 'docs/design/st01-p8c2a/**'
+      - 'tools/st01-g0-r1/**'
+      - 'tools/st01-p8c2a/**'
+      - 'src/**/pyramid/**'
+      - '.github/workflows/st01-p8c2a-assembly.yml'
+permissions:
+  contents: read
+jobs:
+  blueprint-and-export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - run: python -m pip install numpy==2.3.5
+      - name: Reproduce the approved G0-R1 blueprint twice and compare committed files
+        run: |
+          python tools/st01-g0-r1/verify.py --out work/g0r1
+          for name in blueprint.json d1-exceptions.json validation.json COMPONENTS.md; do
+            cmp "docs/design/st01-g0-r1/generated/$name" "work/g0r1/first/$name"
+          done
+          cmp docs/design/st01-g0-r1/generated/reproducibility.json work/g0r1/reproducibility.json
+      - name: Exported assets and manifest equal the exporter; D1 unchanged
+        run: python tools/st01-p8c2a/export_assembly.py --check
+
+  actual-placement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.3.5
+      - name: Build and unit tests
+        run: ./gradlew build compileGametestJava -x runGameTest --no-daemon --max-workers=2
+      - name: Eight-case placement of the exported templates in a real 26.3 server
+        env:
+          JAVA_TOOL_OPTIONS: '-Dmm.st01.assembly=true -Dmm.st01.assembly.out=${{ github.workspace }}/build/st01-p8c2a/placement -Dfabric-api.gametest.filter=moreminecrafts-gametest:st01pyramid_assembly_game_tests*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2 2>&1 | tee build/st01-p8c2a-gametest.log
+      - name: Independent verification of the actual placed block data
+        run: python tools/st01-p8c2a/verify_placement.py --dumps build/st01-p8c2a/placement --out build/st01-p8c2a/verification.json
+      - name: Royal chest and actual D1 transform GameTests (P8-B2 regression)
+        env:
+          JAVA_TOOL_OPTIONS: '-Dmm.royal.placement=true -Dfabric-api.gametest.filter=moreminecrafts-gametest:*royal_chest_game_tests*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2a-placement-evidence
+          path: |
+            build/st01-p8c2a/
+            build/st01-p8c2a-gametest.log
+            build/test-results/
+            build/run/gameTest/logs/
+
+  guardian-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Guardian regression GameTests
+        env:
+          JAVA_TOOL_OPTIONS: '-Dfabric-api.gametest.filter=moreminecrafts-gametest:tomb_guardian_game_tests_*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2 2>&1 | tee build-guardian.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2a-guardian-regression
+          path: build-guardian.log
+
+  client-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install Xvfb and software GL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+      - name: Rendered 26.3 client captures of two placed assemblies
+        run: tools/st01-p8c2a/run_client_capture.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2a-client-captures
+          path: build/st01-p8c2a/client/
