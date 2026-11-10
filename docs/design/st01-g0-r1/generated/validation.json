@@ -165,8 +165,8 @@
         -40,
         40
       ],
-      "closed_reachable": 10549,
-      "open_reachable": 11289,
+      "closed_reachable": 10540,
+      "open_reachable": 11280,
       "fixed_destinations_across_routes": true
     },
     {
@@ -333,8 +333,8 @@
         -40,
         40
       ],
-      "closed_reachable": 10549,
-      "open_reachable": 11289,
+      "closed_reachable": 10540,
+      "open_reachable": 11280,
       "fixed_destinations_across_routes": true
     },
     {
@@ -501,8 +501,8 @@
         -40,
         40
       ],
-      "closed_reachable": 10549,
-      "open_reachable": 11289,
+      "closed_reachable": 10540,
+      "open_reachable": 11280,
       "fixed_destinations_across_routes": true
     },
     {
@@ -669,8 +669,8 @@
         -40,
         40
       ],
-      "closed_reachable": 10549,
-      "open_reachable": 11289,
+      "closed_reachable": 10540,
+      "open_reachable": 11280,
       "fixed_destinations_across_routes": true
     },
     {
@@ -844,8 +844,8 @@
         -40,
         40
       ],
-      "closed_reachable": 10549,
-      "open_reachable": 11375,
+      "closed_reachable": 10540,
+      "open_reachable": 11366,
       "fixed_destinations_across_routes": true
     },
     {
@@ -1019,8 +1019,8 @@
         -40,
         40
       ],
-      "closed_reachable": 10549,
-      "open_reachable": 11375,
+      "closed_reachable": 10540,
+      "open_reachable": 11366,
       "fixed_destinations_across_routes": true
     },
     {
@@ -1194,8 +1194,8 @@
         -40,
         40
       ],
-      "closed_reachable": 10549,
-      "open_reachable": 11375,
+      "closed_reachable": 10540,
+      "open_reachable": 11366,
       "fixed_destinations_across_routes": true
     },
     {
@@ -1369,8 +1369,8 @@
         -40,
         40
       ],
-      "closed_reachable": 10549,
-      "open_reachable": 11375,
+      "closed_reachable": 10540,
+      "open_reachable": 11366,
       "fixed_destinations_across_routes": true
     }
   ],

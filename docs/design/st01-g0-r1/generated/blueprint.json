@@ -29,7 +29,7 @@
   "tools/st01-p6/st01_p6_verify.py": "b0f02dba6408933f9aed9fd73f5bc1617afa44fa7429eb10aa6c3d1f6a92c331",
   "docs/design/st01-g0-r1/block-state-reference.json": "8f49dea10ffbf3f1637488d5b88dd8e68cf34528c0a24963d6c0f2beb696974f",
   "tools/st01-g0/audit.py": "ecff1460e0ce3956dcf35ed1e8e78c389d018a7f3a2ba167ec472b36ddb400f6",
-  "tools/st01-g0-r1/blueprint.py": "a6dbac7a737a502063c9d8348dd9fc87e2710fcc445cca83e3fc3ff986b10791"
+  "tools/st01-g0-r1/blueprint.py": "7397e70b214574b6e4efd6d7bc40e8b0f7675b6782512e59271368ce31d9837b"
  },
  "status": "PROPOSED_NOT_OWNER_APPROVED",
  "baseline": "6b64106f72a99a91305057b1786ea52dd2875092",
@@ -16846,9 +16846,51 @@
       16
      ],
      "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B1"
+    },
+    {
+     "box": [
+      23,
+      23,
+      -13,
+      -13,
+      16,
+      16
+     ],
+     "state": {
       "id": "minecraft:flower_pot"
      },
-     "reason": "pottery B1"
+     "reason": "grouped pottery B1"
+    },
+    {
+     "box": [
+      23,
+      23,
+      -14,
+      -14,
+      17,
+      17
+     ],
+     "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B1"
+    },
+    {
+     "box": [
+      23,
+      23,
+      -13,
+      -13,
+      17,
+      17
+     ],
+     "state": {
+      "id": "minecraft:flower_pot"
+     },
+     "reason": "grouped pottery B1"
     },
     {
      "box": [
@@ -16874,9 +16916,51 @@
       16
      ],
      "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B2"
+    },
+    {
+     "box": [
+      12,
+      12,
+      -13,
+      -13,
+      16,
+      16
+     ],
+     "state": {
       "id": "minecraft:flower_pot"
      },
-     "reason": "pottery B2"
+     "reason": "grouped pottery B2"
+    },
+    {
+     "box": [
+      12,
+      12,
+      -14,
+      -14,
+      17,
+      17
+     ],
+     "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B2"
+    },
+    {
+     "box": [
+      12,
+      12,
+      -13,
+      -13,
+      17,
+      17
+     ],
+     "state": {
+      "id": "minecraft:flower_pot"
+     },
+     "reason": "grouped pottery B2"
     },
     {
      "box": [
@@ -16902,9 +16986,51 @@
       -8
      ],
      "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B3"
+    },
+    {
+     "box": [
+      18,
+      18,
+      -13,
+      -13,
+      -8,
+      -8
+     ],
+     "state": {
       "id": "minecraft:flower_pot"
      },
-     "reason": "pottery B3"
+     "reason": "grouped pottery B3"
+    },
+    {
+     "box": [
+      18,
+      18,
+      -14,
+      -14,
+      -7,
+      -7
+     ],
+     "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B3"
+    },
+    {
+     "box": [
+      18,
+      18,
+      -13,
+      -13,
+      -7,
+      -7
+     ],
+     "state": {
+      "id": "minecraft:flower_pot"
+     },
+     "reason": "grouped pottery B3"
     },
     {
      "box": [
@@ -23240,20 +23366,6 @@
       23,
       -15,
       -15,
-      17,
-      17
-     ],
-     "state": {
-      "id": "minecraft:smooth_sandstone"
-     },
-     "reason": "regional walking surface P2:B1"
-    },
-    {
-     "box": [
-      23,
-      23,
-      -15,
-      -15,
       18,
       18
      ],
@@ -23620,20 +23732,6 @@
       -15,
       15,
       15
-     ],
-     "state": {
-      "id": "minecraft:smooth_sandstone"
-     },
-     "reason": "regional walking surface P2:B2"
-    },
-    {
-     "box": [
-      12,
-      12,
-      -15,
-      -15,
-      17,
-      17
      ],
      "state": {
       "id": "minecraft:smooth_sandstone"
@@ -24080,7 +24178,7 @@
       18,
       -15,
       -15,
-      -7,
+      -6,
       -1
      ],
      "state": {
@@ -31479,7 +31577,7 @@
      "status": "D1_VERBATIM"
     }
    ],
-   "closed_signature": "51d2a9a877802d15920cf1f333191f95134003473313438199fe5eedbaedca20",
+   "closed_signature": "616fd36476e686a5996b59c3f00b04a93f92d99dd0eaf9b94bfc2e4dbd94c85e",
    "cover_cells": [
     [
      -9,
@@ -48499,9 +48597,51 @@
       16
      ],
      "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B1"
+    },
+    {
+     "box": [
+      23,
+      23,
+      -13,
+      -13,
+      16,
+      16
+     ],
+     "state": {
       "id": "minecraft:flower_pot"
      },
-     "reason": "pottery B1"
+     "reason": "grouped pottery B1"
+    },
+    {
+     "box": [
+      23,
+      23,
+      -14,
+      -14,
+      17,
+      17
+     ],
+     "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B1"
+    },
+    {
+     "box": [
+      23,
+      23,
+      -13,
+      -13,
+      17,
+      17
+     ],
+     "state": {
+      "id": "minecraft:flower_pot"
+     },
+     "reason": "grouped pottery B1"
     },
     {
      "box": [
@@ -48527,9 +48667,51 @@
       16
      ],
      "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B2"
+    },
+    {
+     "box": [
+      12,
+      12,
+      -13,
+      -13,
+      16,
+      16
+     ],
+     "state": {
       "id": "minecraft:flower_pot"
      },
-     "reason": "pottery B2"
+     "reason": "grouped pottery B2"
+    },
+    {
+     "box": [
+      12,
+      12,
+      -14,
+      -14,
+      17,
+      17
+     ],
+     "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B2"
+    },
+    {
+     "box": [
+      12,
+      12,
+      -13,
+      -13,
+      17,
+      17
+     ],
+     "state": {
+      "id": "minecraft:flower_pot"
+     },
+     "reason": "grouped pottery B2"
     },
     {
      "box": [
@@ -48555,9 +48737,51 @@
       -8
      ],
      "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B3"
+    },
+    {
+     "box": [
+      18,
+      18,
+      -13,
+      -13,
+      -8,
+      -8
+     ],
+     "state": {
       "id": "minecraft:flower_pot"
      },
-     "reason": "pottery B3"
+     "reason": "grouped pottery B3"
+    },
+    {
+     "box": [
+      18,
+      18,
+      -14,
+      -14,
+      -7,
+      -7
+     ],
+     "state": {
+      "id": "minecraft:cut_sandstone"
+     },
+     "reason": "pottery pedestal B3"
+    },
+    {
+     "box": [
+      18,
+      18,
+      -13,
+      -13,
+      -7,
+      -7
+     ],
+     "state": {
+      "id": "minecraft:flower_pot"
+     },
+     "reason": "grouped pottery B3"
     },
     {
      "box": [
@@ -54893,20 +55117,6 @@
       23,
       -15,
       -15,
-      17,
-      17
-     ],
-     "state": {
-      "id": "minecraft:smooth_sandstone"
-     },
-     "reason": "regional walking surface P2:B1"
-    },
-    {
-     "box": [
-      23,
-      23,
-      -15,
-      -15,
       18,
       18
      ],
@@ -55273,20 +55483,6 @@
       -15,
       15,
       15
-     ],
-     "state": {
-      "id": "minecraft:smooth_sandstone"
-     },
-     "reason": "regional walking surface P2:B2"
-    },
-    {
-     "box": [
-      12,
-      12,
-      -15,
-      -15,
-      17,
-      17
      ],
      "state": {
       "id": "minecraft:smooth_sandstone"
@@ -55733,7 +55929,7 @@
       18,
       -15,
       -15,
-      -7,
+      -6,
       -1
      ],
      "state": {
@@ -63608,7 +63804,7 @@
      "status": "D1_VERBATIM"
     }
    ],
-   "closed_signature": "14371fd9c6f60dafb24dff973543dda382e7aaeaccdac4f5eeeb3f431efa59b3",
+   "closed_signature": "dc2c703caac9f0dbaab197f9cff229e30bee2da4c688f27867f9b9116d540068",
    "cover_cells": [
     [
      -9,

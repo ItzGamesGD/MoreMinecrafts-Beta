@@ -115,9 +115,11 @@ def build(route):
         bb=[x-1,x+1,y0,y0+1,z,z] if face.startswith('z') else [x,x,y0,y0+1,z-1,z+1]
         m.putbox(bb,state('minecraft:cut_sandstone' if name.startswith('T') else 'minecraft:oak_planks'),'rear '+name)
         if name.startswith('B'):
-            p=(x0+1,y0,z0+1)
-            if m.get(p)['id']=='minecraft:air':
-                m.put(p,state('minecraft:flower_pot'),'pottery '+name)
+            for zpot in (z0+1,z0+2):
+                pedestal=(x0+1,y0,zpot);pot=(x0+1,y0+1,zpot)
+                if m.get(pedestal)['id']=='minecraft:air' and m.get(pot)['id']=='minecraft:air':
+                    m.put(pedestal,state('minecraft:cut_sandstone'),'pottery pedestal '+name)
+                    m.put(pot,state('minecraft:flower_pot'),'grouped pottery '+name)
 
     m.putbox([-37,-34,-22,-21,-10,-10],state('minecraft:cut_sandstone'),'Q35 ceremonial annex rear shelf proposal')
     for p in [(-37,-22,-4),(-34,-22,-4)]:m.put(p,state('minecraft:flower_pot'),'Q35 annex offering pottery, no loot')

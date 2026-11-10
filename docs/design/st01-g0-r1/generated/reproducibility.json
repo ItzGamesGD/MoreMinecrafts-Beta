@@ -2,9 +2,9 @@
   "status": "PASS",
   "meaning": "Reproducible design verification, NOT owner approval or production placement",
   "repeated_output_sha256": {
-    "blueprint.json": "ae22859e16379db35e9ed7a87bee3d3f2f8fcd22a0f36a29256379e5504f39df",
+    "blueprint.json": "3e7106aea15d8f033cbdba4728d90e7ee50875c0e80fc724ad1585510fd78f5a",
     "d1-exceptions.json": "9eeed14ca6809b12426f92adf910c8cf514ad52e8263682ada7f49f01f8bc849",
-    "validation.json": "bcd78c5bb09157855e31399ae45286db0bbaebb4487506e256c0d97497680b44",
+    "validation.json": "237412dac7326f49cbdbb29edad63b26d19930dc7573b61e6f23d01f65c87587",
     "COMPONENTS.md": "7b0f69d20fa8f948146e30d991770849019653cc2e258d80ff23b47e25ef529d"
   },
   "selection_reference_java": [

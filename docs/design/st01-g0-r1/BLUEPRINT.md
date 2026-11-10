@@ -22,7 +22,7 @@ The JSON operation list is the exact authority candidate when a verbal summary o
 
 ## Rooms and architecture
 
-Retain source P1 S00–S10, P2 L1–L3 and P6 candidate-C adjustments. Recommend three L1 tombs and three L2 stores, retaining their source cavity dimensions and adjacencies. L1 sarcophagi and L2 shelves are located against the rear wall chosen opposite the corridor contact; their exact boxes are emitted as named operations. Pottery uses non-loot vanilla flower pots. Source gallery treads, altar treads, parapets and columns are materialized, not omitted as in the coarse P6 cavity context.
+Retain source P1 S00–S10, P2 L1–L3 and P6 candidate-C adjustments. Recommend three L1 tombs and three L2 stores, retaining their source cavity dimensions and adjacencies. L1 sarcophagi and L2 shelves are located against the rear wall chosen opposite the corridor contact; their exact boxes are emitted as named operations. Each L2 store groups two non-loot vanilla flower pots on one-block cut-sandstone pedestals, alongside the rear oak-plank crate/shelf representation. Exact positions are the emitted operations. Source gallery treads, altar treads, parapets and columns are materialized, not omitted as in the coarse P6 cavity context.
 
 Two proposed gallery piers: X−8..−6 and X6..8, Y0..4, Z−3..−1. Proposed altar pedestal: X−3..3/Y11..12/Z−19..−17. Ceremonial antechamber statues flank its clear centre: centres X−27 and −15, Z−4; 3×3 base at Y−22, 1×1 body through Y−18 and shoulders at Y−20.
 
