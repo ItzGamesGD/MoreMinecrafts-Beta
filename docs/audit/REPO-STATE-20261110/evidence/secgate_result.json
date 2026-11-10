@@ -1,0 +1,38 @@
+{
+ "schema": "drive-mirror-quarantine/1",
+ "generated_at": "2026-11-10T20:37:05Z",
+ "verdict": "BLOCKED",
+ "counts": {
+  "findings": 12,
+  "approved": 11,
+  "proposed_awaiting_owner": 1,
+  "unreviewed": 0,
+  "refs_scanned_for_exposure": 395,
+  "refs_quarantined": 2
+ },
+ "blocking_findings": [
+  {
+   "fingerprint": "cec8bff8edc34bfbd54aebe635260f2f0761f729:tools/st05-p0-probe-01/freeze_integrity.py:generic-api-key:23",
+   "rule": "generic-api-key",
+   "file": "tools/st05-p0-probe-01/freeze_integrity.py",
+   "line": 23,
+   "commit": "cec8bff8edc34bfbd54aebe635260f2f0761f729",
+   "status": "proposed"
+  }
+ ],
+ "refs": {
+  "refs/heads/audit/st05-po25-review-package-20261102": {
+   "reason": "unapproved secret-scan finding in tip tree",
+   "fingerprints": [
+    "cec8bff8edc34bfbd54aebe635260f2f0761f729:tools/st05-p0-probe-01/freeze_integrity.py:generic-api-key:23"
+   ]
+  },
+  "refs/heads/probe/st05-p0-probe-01": {
+   "reason": "unapproved secret-scan finding in tip tree",
+   "fingerprints": [
+    "cec8bff8edc34bfbd54aebe635260f2f0761f729:tools/st05-p0-probe-01/freeze_integrity.py:generic-api-key:23"
+   ]
+  }
+ },
+ "blocking_findings_not_in_any_tip": []
+}

@@ -1,5 +1,25 @@
 # Repository state audit — 2026-11-10
 
+> ## Addendum — post-audit remediation (2026-11-10, later the same day)
+>
+> **Everything below this block is the original snapshot taken at `2026-11-10T02:51:56Z` and is kept as a historical record**,
+> except finding F-12, whose text contained an error and was corrected in place. Current data and dispositions:
+>
+> | Artifact | Purpose |
+> |---|---|
+> | [`REMEDIATION_REGISTER.md`](REMEDIATION_REGISTER.md) / `.json` | every finding F-01…F-16 plus new findings N-xx, with current evidence, status and verification |
+> | [`../../CURRENT_STATE.json`](../../CURRENT_STATE.json) | machine-readable current-state index (source refs, stacks, PR relations, CI, uncertainties); `INVENTORY.json` and `BRANCH_LINEAGE.json` are its inputs |
+> | [`SECRET_SCAN_INVESTIGATION.md`](SECRET_SCAN_INVESTIGATION.md) | the secret-scan finding, classification and security readiness verdict |
+> | [`patches/`](patches/README.md) | prepared, unapplied corrections for protected branches |
+> | [`evidence/`](evidence/) | CI-failure extraction, royal-chest conflict, research recount, GameTest verification |
+> | [`../../../tools/drive_mirror/MIRROR_COMPLETENESS.md`](../../../tools/drive_mirror/MIRROR_COMPLETENESS.md) | mirror scope, history comparison, integrity matrix |
+>
+> What changed since the snapshot: the remote grew to 135+ branches and 259 PRs; the royal-chest conflict (F-08) and the missing
+> CI repairs (F-09) were re-verified and a verified remediation branch exists (`remediation/st01-colosseum-clock-seam-20261110`);
+> the research counts (F-04) were recounted (43/42/2 is current; 45/40/2 is a dated record); the secret-scan finding was identified
+> correctly and assessed; the mirror gained PR-only refs by default, a security gate and several reliability fixes. Nothing was
+> merged, no protected branch or gameplay file was changed, and live Google Drive synchronization has **not** run (BLOCKED).
+
 **Status of this document: EVIDENCE SNAPSHOT ONLY.** It approves no design, routes no
 authority, and grants no merge or checkpoint approval. Current design authority is still
 resolved through `docs/CONTENT_AUTHORITY_INDEX.md` and `docs/STRUCTURE_AUTHORITY_INDEX.md`
@@ -165,7 +185,7 @@ Branch pairs with identical heads: `checkpoint/wave10-unified-20261026` = `integ
 | F-09 | CONFIRMED (pending integration) | CI repairs were merged into sibling stacks only. #240 (Colosseum deterministic clock) lives only in the sky-mob stack; #242 (Tomb Guardian loot + Colosseum grace GameTests) only in the D13 I05/I06 stack. The ST-01 stack never received either, and its tip fails `colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise` ("grace running on tick 49"). | Fabric CI run 42742214500 (#254) and 42604036708 (#249) logs. |
 | F-10 | CONFIRMED (known failure) | D13-03 I03 (#235) adds a 20% Heart of Gravity Tomb Guardian drop; the pre-existing GameTest `tomb_guardian_game_tests_kill_loot_is_ancient_heart_fifty_percent_times_one_and_nothing_else` fails on I03 and I04a ("got 1 moreminecrafts:heart_of_gravity"). #242 repaired it only for the I05/I06 descendants; #233–#236 and #227/#228 heads remain red. | Fabric CI run 42136101897 (#236) log. |
 | F-11 | CONFIRMED | PR descriptions for #228 and #254 honestly report the failing full GameTest suite; #233–#236 report GameTest "NOT RUN". No PR description was found claiming a pass that CI contradicts. | PR bodies vs. runs. |
-| F-12 | CONFIRMED (risk) | #249, #251 and #252 target `main` "strictly for CI execution" but carry 365–371 commits each (all of wave16 and the ST-01 stack). Merging any of them would land the entire unintegrated stack on `main`. Their `Pre-public full-history secret audit` runs fail with 1 gitleaks finding in commit `54898b74`, which is not reachable from any currently advertised ref (heads, PR heads, PR merge refs) — UNVERIFIED what it contains. `main`'s own secret audit run is success. | Run 42721090327 summary; `git cat-file -e 54898b74` fails after fetching all refs. |
+| F-12 | CONFIRMED (risk) — **text corrected 2026-11-10** | #249, #251 and #252 target `main` "strictly for CI execution" but carry 365–371 commits each (all of wave16 and the ST-01 stack). Merging any of them would land the entire unintegrated stack on `main`. Their `Pre-public full-history secret audit` runs fail with **1 gitleaks finding in commit `cec8bff8` (`tools/st05-p0-probe-01/freeze_integrity.py`, rule `generic-api-key`)**, reachable only from `probe/st05-p0-probe-01` and `audit/st05-po25-review-package-20261102` and from **no** pull-request head, so it fails every PR into `main`, not only these three. It is classified a scanner false positive (proposed, awaiting owner decision D-6); no credential was confirmed. *The original text of this row named commit `54898b74` as the flagged commit and as unreachable; that was a misreading of the run log and is retracted (register N-01).* | Runs 42604036681, 42615115265, 42721090327; `SECRET_SCAN_INVESTIGATION.md`. |
 | F-13 | UNVERIFIED | The sky-tower stack (7 branches, incl. "audit … independently revalidate" commit `5c22f9fb`) and `feat/st03-implement-01-20261105` have no GitHub Actions run on any head and no PR. Their documented validation cannot be checked from CI evidence. | Runs API by `head_sha`. |
 | F-14 | CONFIRMED (tooling) | A shallow clone mis-reports branch relationships (it showed the session branch "749 behind main"; the unshallowed truth is 0 behind / 369 ahead). Branch-relationship evidence must come from full history. | `git rev-parse --is-shallow-repository`. |
 | F-15 | CONFIRMED | CI numbers cited in `CONTENT_AUTHORITY_INDEX.md` are accurate: Fabric CI #754, K5 Mapped Sources Probe #179 and K5 Production Restart #87 succeeded on `227749de`; Fabric CI #291 succeeded on PR #66's head. | Runs API. |

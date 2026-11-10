@@ -1,0 +1,196 @@
+{
+ "claude/st01-pyramid-phase4-worldgen-roke2l": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 42767532880,
+  "sha": "ada10ba343f7d7eeb9b944baa69750c3c25a949e"
+ },
+ "docs/d13-03-i06-royal-chest-authority": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "moreminecrafts-gametest:tomb_guardian_game_tests_kill_loot_is_ancient_heart_fifty_percent_times_one_and_nothing_else",
+   "summary: 2 required tests failed"
+  ],
+  "run_id": 42362213860,
+  "sha": "1bfd5faad0c01e83606198c2711118096fce165c"
+ },
+ "experiment/cloud-free-model-delegation-phase0": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:k5natural_tree_probe_game_tests_k5registered_non_vanilla_placed_tree_is_rejected_during_natural_decoration",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 39593158033,
+  "sha": "aa376713aedcd7fecd769af39e18f8532b9e147d"
+ },
+ "implement/d13-01-relic-catalyst-20261104": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 41804066758,
+  "sha": "23e9be7eada6f551d2fd7443737b94262781b5e0"
+ },
+ "implement/d13-02-relic-catalyst-sources-20261104": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 41826660439,
+  "sha": "8aba6f37c101ef7715c3dfc7e2c90cd7a9d59d16"
+ },
+ "implement/d13-03-i01-t2-accessory-chest-pools-20261105": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 42075933998,
+  "sha": "13612855094cc955c3ce08df7731c878490ae1b6"
+ },
+ "implement/d13-03-i02-deep-sea-pearl-20261105": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 42077523789,
+  "sha": "a2584ba410455f69a11eaaabaa8551856dce20a1"
+ },
+ "implement/d13-03-i03-heart-of-gravity-20261105": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "moreminecrafts-gametest:tomb_guardian_game_tests_kill_loot_is_ancient_heart_fifty_percent_times_one_and_nothing_else",
+   "summary: 2 required tests failed"
+  ],
+  "run_id": 42132640760,
+  "sha": "7a1e441c9d5d0170e1a32599d29ab59a513c8339"
+ },
+ "implement/d13-03-i04a-star-covenant-vault-logic-20261106": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "moreminecrafts-gametest:tomb_guardian_game_tests_kill_loot_is_ancient_heart_fifty_percent_times_one_and_nothing_else",
+   "summary: 2 required tests failed"
+  ],
+  "run_id": 42136101897,
+  "sha": "df673dfe7ab8bbc43b0087b17a4476f4a5211ef6"
+ },
+ "stage-audit/wave15-candidate-20261028": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:sky_islands_game_tests_luck_does_not_change_feather_or_shard_chances",
+   "moreminecrafts-gametest:sky_islands_game_tests_ordinary_sky_chest_rolls_feather_five_percent_exactly_one",
+   "moreminecrafts-gametest:sky_islands_game_tests_sky_vaults_roll_feather_fifteen_and_shard_five_percent_independently",
+   "summary: 3 required tests failed"
+  ],
+  "run_id": 40790034472,
+  "sha": "68de9706f17fd6b68e7b74277ecb95f53c7368fd"
+ },
+ "work/st01-g0-geometry-finalization-20261110": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 42758811442,
+  "sha": "6b64106f72a99a91305057b1786ea52dd2875092"
+ },
+ "work/st01-g0-r1-blueprint-finalization-20261110": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 42764260723,
+  "sha": "c26ea0f871e788d1d331b40151779d86590469f2"
+ },
+ "work/st01-o14-phase1-phase2-20261109": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 42604036708,
+  "sha": "d432a9c585d0d66484674d520b654b26460d2fd3"
+ },
+ "work/st01-o14-phase3-1-validation-20261109": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "moreminecrafts-gametest:royal_tomb_flow_game_tests_flow_sampled_follower_west",
+   "summary: 2 required tests failed"
+  ],
+  "run_id": 42721090007,
+  "sha": "7e37b786de8fcf36980ec732cc8079bb24e6a7fd"
+ },
+ "work/st01-o14-phase3-calibration-20261109": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "moreminecrafts-gametest:royal_tomb_flow_game_tests_flow_sampled_follower_west",
+   "summary: 2 required tests failed"
+  ],
+  "run_id": 42615115153,
+  "sha": "d67533399c3fa87a0e5fa0f14fd3e39897aad99c"
+ },
+ "work/st01-p8b2-royal-chest-runtime-20261110": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 42742214500,
+  "sha": "03685656f72faf7cd0f1a931dc7519ebc31b7378"
+ },
+ "work/st01-p8c2a-complete-assembly-20261110-r1": {
+  "failed_tasks": [
+   ":runGameTest"
+  ],
+  "failed_tests": [
+   "moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise",
+   "summary: 1 required tests failed"
+  ],
+  "run_id": 42794946788,
+  "sha": "c25f9d447e54b882c0280144aab4afd16205e1bb"
+ }
+}

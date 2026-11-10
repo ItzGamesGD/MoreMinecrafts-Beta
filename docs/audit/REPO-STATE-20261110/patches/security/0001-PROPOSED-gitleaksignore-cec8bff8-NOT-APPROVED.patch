@@ -1,0 +1,17 @@
+diff --git a/.gitleaksignore b/.gitleaksignore
+index 2ed3972e..b12b491f 100644
+--- a/.gitleaksignore
++++ b/.gitleaksignore
+@@ -37,3 +37,12 @@ e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-vers
+ # Cherry-picking PR #191's approved documentation into Wave 11 recreated those two reviewed false positives.
+ 7ff1d14156730373d28973665d269bcb5f9ae39d:docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+ 7ff1d14156730373d28973665d269bcb5f9ae39d:docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
++
++# PROPOSED 2026-11-10: NOT APPROVED. This entry takes effect only if the repository owner approves it by committing it.
++# Audit analysis (matched value deliberately not recorded): line 23 of tools/st05-p0-probe-01/freeze_integrity.py sits inside a list
++# of 9 identifier-like string literals that are concatenated as <12-character prefix> + name + '.md'. All 9 reconstructed paths exist in the tree of
++# the flagged commit and every name matches [A-Za-z0-9_.-]+. It is a manifest of document names flagged by the generic-api-key rule
++# (entropy 3.63), not a credential. The commit is reachable only from probe/st05-p0-probe-01 and audit/st05-po25-review-package-20261102;
++# no pull-request head contains it, so it fails the pre-public scan for every PR into main, not only for the PRs that report it.
++cec8bff8edc34bfbd54aebe635260f2f0761f729:tools/st05-p0-probe-01/freeze_integrity.py:generic-api-key:23
++
