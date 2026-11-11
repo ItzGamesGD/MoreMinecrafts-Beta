@@ -1,0 +1,48 @@
+{
+  "mode": "fixture",
+  "phase": "reload",
+  "seed": 1004,
+  "enabled_packs": [
+    "vanilla",
+    "fabric-convention-tags-v2",
+    "fabric-gametest-api-v1",
+    "moreminecrafts",
+    "moreminecrafts-gametest",
+    "file/st01d2"
+  ],
+  "fixture_trades_registered": {
+    "map_r5": true,
+    "map_r20": true,
+    "map_r2": true,
+    "map_r20_noskip": true
+  },
+  "structure_tag_values": [
+    "moreminecrafts:st01_pyramid"
+  ],
+  "cartographer_level_1_tag": [
+    "minecraft:cartographer/1/paper_emerald",
+    "minecraft:cartographer/1/emerald_map"
+  ],
+  "cartographer_level_2_tag": [
+    "minecraft:cartographer/2/glass_pane_emerald",
+    "minecraft:cartographer/2/emerald_and_compass_village_taiga_map",
+    "minecraft:cartographer/2/emerald_and_compass_explorer_swamp_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_snowy_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_savanna_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_plains_map",
+    "minecraft:cartographer/2/emerald_and_compass_explorer_jungle_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_desert_map",
+    "st01d2:map_r20_noskip"
+  ],
+  "cartographer_tradeset_keys": {
+    "2": "ResourceKey[minecraft:trade_set / minecraft:cartographer/level_2]",
+    "1": "ResourceKey[minecraft:trade_set / minecraft:cartographer/level_1]"
+  },
+  "decoration_types_present": {
+    "target_x": true,
+    "desert_pyramid": true
+  },
+  "persisted_villager_after_restart": {
+    "entity_found_after_restart": false
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "mode": "fixture",
+  "phase": "create",
+  "seed": 1004,
+  "enabled_packs": [
+    "vanilla",
+    "fabric-convention-tags-v2",
+    "fabric-gametest-api-v1",
+    "moreminecrafts",
+    "moreminecrafts-gametest",
+    "file/st01d2"
+  ],
+  "fixture_trades_registered": {
+    "map_r2": true,
+    "map_r5": true,
+    "map_r20": true
+  },
+  "structure_tag_values": [
+    "moreminecrafts:st01_pyramid"
+  ],
+  "cartographer_level_1_tag": [
+    "minecraft:cartographer/1/paper_emerald",
+    "minecraft:cartographer/1/emerald_map"
+  ],
+  "cartographer_level_2_tag": [
+    "minecraft:cartographer/2/glass_pane_emerald",
+    "minecraft:cartographer/2/emerald_and_compass_village_taiga_map",
+    "minecraft:cartographer/2/emerald_and_compass_explorer_swamp_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_snowy_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_savanna_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_plains_map",
+    "minecraft:cartographer/2/emerald_and_compass_explorer_jungle_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_desert_map",
+    "st01d2:map_r20"
+  ],
+  "cartographer_tradeset_keys": {
+    "1": "ResourceKey[minecraft:trade_set / minecraft:cartographer/level_1]",
+    "2": "ResourceKey[minecraft:trade_set / minecraft:cartographer/level_2]"
+  },
+  "decoration_types_present": {
+    "desert_pyramid": true,
+    "target_x": true
+  },
+  "direct_trade_at_origin": {
+    "map_r2": {
+      "ms": 42.830391,
+      "offer_created": false,
+      "result": null
+    },
+    "map_r5": {
+      "ms": 6201.625705,
+      "offer_created": true,
+      "result": {
+        "item": "minecraft:filled_map",
+        "map_id": 0,
+        "center_x": -1856,
+        "center_z": 2752,
+        "scale": 2,
+        "dimension": "minecraft:overworld",
+        "decorations": [
+          "+:minecraft:target_x@-1776.0,2688.0"
+        ]
+      }
+    },
+    "map_r20": {
+      "ms": 18524.295241,
+      "offer_created": true,
+      "result": {
+        "item": "minecraft:filled_map",
+        "map_id": 1,
+        "center_x": -2368,
+        "center_z": 8384,
+        "scale": 2,
+        "dimension": "minecraft:overworld",
+        "decorations": [
+          "+:minecraft:target_x@-2336.0,8352.0"
+        ]
+      }
+    }
+  },
+  "villagers_sampled_level2_at_origin_radius20_trade": 300,
+  "villagers_with_st01_map_offer": 1,
+  "offer_count_distribution": {
+    "4": 300
+  },
+  "offer_result_item_counts": {
+    "minecraft:emerald": 161,
+    "minecraft:filled_map": 1,
+    "minecraft:jungle_pyramid_map": 152,
+    "minecraft:plains_village_map": 140,
+    "minecraft:savanna_village_map": 146,
+    "moreminecrafts:bounty_contract": 600
+  },
+  "sample_map_from_offer": {
+    "item": "minecraft:filled_map",
+    "map_id": 2,
+    "center_x": -9024,
+    "center_z": -8000,
+    "scale": 2,
+    "dimension": "minecraft:overworld",
+    "decorations": [
+      "+:minecraft:target_x@-9136.0,-8016.0"
+    ]
+  },
+  "real_starts_pm10240": [
+    "-571,-501 anchor\u003d-9128,-8008",
+    "-146,522 anchor\u003d-2328,8360",
+    "-111,168 anchor\u003d-1768,2696"
+  ],
+  "targeting_check_next_to_first_start": {
+    "villager_at": "-8828.0,-7708.0",
+    "offer_created": false
+  },
+  "exploration_map_function_applied_outside_trading_with_chest_context": {
+    "ms": 0.510876,
+    "stack": {
+      "item": "minecraft:map",
+      "map_id": null,
+      "decorations": []
+    }
+  },
+  "persisted_villager": {
+    "uuid": "3a7f0fe5-30fb-4acd-8376-9c5f9deb142c",
+    "offer_count": 0,
+    "offers_codec_json": "{}"
+  }
+}
