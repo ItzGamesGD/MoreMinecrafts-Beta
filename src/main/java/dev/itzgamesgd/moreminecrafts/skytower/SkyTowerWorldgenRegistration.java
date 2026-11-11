@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -38,12 +39,11 @@ public final class SkyTowerWorldgenRegistration {
         var data = level.getServer().overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
         if (data.quarantined() || data.sites().isEmpty()) return;
         String dim = level.dimension().identifier().toString();
-        int chunkX = chunk.getPos().x;
-        int chunkZ = chunk.getPos().z;
+        ChunkPos chunkPos = chunk.getPos();
         for (var site : data.sites().values()) {
             if (!site.dimension().equals(dim)) continue;
             var pt = site.rooftopVault();
-            if ((pt.x() >> 4) == chunkX && (pt.z() >> 4) == chunkZ) {
+            if (new ChunkPos(pt.x() >> 4, pt.z() >> 4).equals(chunkPos)) {
                 SkyTowerVaultRewards.placeAndConfigureRooftopVault(level, site);
             }
         }

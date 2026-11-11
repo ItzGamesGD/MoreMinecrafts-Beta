@@ -10,6 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -253,11 +254,11 @@ public final class SkyTowerVaultRewards {
     public static void resolveRooftopStarCovenant(ServerPlayer player, ServerLevel level, SkyTowerLayout.Site site) {
         var data = StarCovenantVaultRewards.Data.get(level.getServer());
         var ref = new StarCovenantVaultRewards.VaultRef(site.id(), "rooftop");
-        var outcome = data.resolve(player.getUUID(), ref, () -> level.random.nextDouble());
+        var outcome = data.resolve(player.getUUID(), ref, () -> level.getRandom().nextDouble());
         if (outcome == StarCovenantVaultRewards.Outcome.HIT) {
             ItemStack reward = StarCovenantVaultRewards.reward();
             if (!player.getInventory().add(reward)) {
-                player.drop(reward, false);
+                player.drop(reward, false, Prediction.SERVER_ONLY);
             }
         }
     }
