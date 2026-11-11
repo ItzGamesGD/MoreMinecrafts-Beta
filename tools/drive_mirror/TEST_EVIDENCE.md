@@ -89,3 +89,31 @@ this audit branch and the remediation branch (no PR, no merge, no comment).
 
 Real Google Drive (quotas, rate limits, error codes, checksum availability, search consistency); the workflow on a runner; live (in-game) behaviour of
 the Colosseum change; the cause of the royal_tomb_flow follower-west GameTest failure on #251/#252.
+
+## 6. Deployment-readiness verification (2026-11-11)
+
+Branch `claude/moreminecrafts-mirror-readiness-20261111`, created from the verified baseline `6d4beed1`. Emulator and static evidence only: **live Google Drive: NOT TESTED**.
+
+| Check | Result | Basis |
+|---|---|---|
+| Baseline re-run without gitleaks (`6d4beed1`) | 29 run, 28 passed, 0 failed, **1 skipped** | `test_real_gitleaks_report_end_to_end` needs `GITLEAKS_BIN`; this was the gap in the earlier "29/29" claim |
+| gitleaks binary | **verified** | v8.30.1 `linux_x64` archive from the gitleaks GitHub release, SHA-256 `551f6fc8…2470eb` = the release's `checksums.txt` = both workflow pins; `gitleaks version` → `8.30.1` |
+| `test_real_gitleaks_report_end_to_end` with `GITLEAKS_BIN` | **passed, not skipped** | also in the full run below |
+| Full suite on the final code (commit `f69378d`; Python and workflow identical to `7871afc`, later commits touch documentation only) | **39 run, 39 passed, 0 failed, 0 skipped** | `GITLEAKS_BIN=<8.30.1> PYTHONPATH=tools python3 -W error::ResourceWarning -m unittest discover -s tools/drive_mirror/tests -v` → `Ran 39 tests in 155.6 s — OK` |
+| New tests | 10 (`test_workflow.py`): 9 static checks of the workflow, 1 CLI dry-run check | the verify-after-dry-run check **fails on the previous workflow** (reproduced) |
+| `python3 -m pyflakes tools/drive_mirror` (pyflakes 4.1.0) | clean | |
+| `actionlint .github/workflows/drive-mirror.yml` (1.7.7, archive checksum verified) | clean | |
+| Idempotency and checksums | passed inside the suite (`test_full_lifecycle`, `test_drift_detected_and_reconciled`, `test_interrupted_sync_recovers`, `test_lost_response_on_resumable_put_does_not_duplicate_or_fail`, …) | emulator |
+| Runbook rehearsal | passed | every command form of RUNBOOK Parts 1, 3a, 4–6 run against the emulator on a scratch repository: preflight with write probe PASS; dry run writes nothing; sync, verify (6/6 files), repeat sync `noop`, `reconcile` (`updated`, 0 content writes), `status` PASS; then rename, branch deletion and force-push converge and verify PASS |
+| Diff scope `6d4beed1..HEAD` | `.github/workflows/drive-mirror.yml` and `tools/drive_mirror/` only; no engine (`*.py` other than the new test) change | |
+
+**Defect found and fixed.** The workflow's `Independent verification` step ran after a successful `dry-run`; a dry run writes nothing, so on a never-synced namespace (the documented
+first step of the controlled live test) `verify` fails with `mirror_root` and the run goes red. The step is now skipped for `dry-run`.
+
+**Historical (not re-run): whole-repository emulator run.** The 286,450 / 286,450-file result in §3 comes from the frozen remote copy taken 2026-11-10T20:36Z
+(136 heads, 259 PR heads) with the code of commit `c785a8df`. The Python in `6d4beed1` and in this branch is identical to `c785a8df` (`git diff c785a8df 6d4beed1` touches only `.gitignore` and this file;
+this branch changes no engine file), so the result still describes the engine, but it describes **that snapshot**, not the repository today. It was not re-run: no engine change and no unresolved integrity concern.
+
+**Security.** Finding `cec8bff8` re-examined (structure only, no value printed): reproduced by the scanner on the blob alone (line 23, entropy 3.63); line 23 holds two identifier-style literals; all 9 reconstructed
+paths of the enclosing list exist in the commit's tree. Classified as a demonstrable false positive, **not approved**; `approved_findings.json` is unchanged and still `proposed`; the 2 refs stay quarantined.
+See `security/D-6_APPROVAL_PROPOSAL.md`.
