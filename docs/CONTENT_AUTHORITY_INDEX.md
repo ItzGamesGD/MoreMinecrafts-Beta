@@ -386,3 +386,7 @@ The owner approved, as **direction only**: Channel A4 (bounty system must eventu
 ## ST-01 P8-D2-R1 structure-search audit — 2026-11-11
 
 [Investigation package](design/st01-p8d2-r1/README.md) (documentation and evidence only; **no decision, no implementation**): reconstructs the P8-D2 benchmark (vanilla `findNearestMapStructure` with ST-01's unchanged production eligibility), attributes 97.8 % of search time to terrain height sampling and ≈ 20 % to a duplicate evaluation of each successful candidate, confirms the Desert prefilter already exists, and recommends caching/orchestration (R3) plus an exact-equivalent eligibility reordering (R2) for owner decision.
+
+## ST-01 P8-C3-A Policy B terrain-adaptation research — 2026-11-11
+
+[Research package](design/st01-p8c3a-terrain-adaptation/README.md) (documentation and evidence only; **no decision, no implementation, no threshold change**): investigates the owner's design candidate 40 / 24 / 32 against the current Policy D 16 / 10 / 8, which **remains current authority**. It reproduces the Policy D baseline exactly (32,000 / 221 / 46 / 0.548 per 100 km²), measures 172 eligible starts (2.050 per 100 km²) under B, compares construction planes, measures correction cost, search latency, structure overlap and determinism (real-server experiment in a disposable worktree), and lists owner gates G1–G7 before any implementation. Research verdict: CONDITIONAL_GO.

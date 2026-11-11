@@ -1,0 +1,50 @@
+[
+ {
+  "seed": "1034165336",
+  "chunk": "263,-241",
+  "label": "max-cut",
+  "yf": 74,
+  "cut": 24,
+  "skirt": 9,
+  "diff": 33,
+  "d_verdict": "REJECT_HEIGHT_DIFFERENCE",
+  "png": "cutfill-1034165336-263_-241.png",
+  "svg": "cutfill-1034165336-263_-241.svg"
+ },
+ {
+  "seed": "287862831",
+  "chunk": "-499,-375",
+  "label": "max-skirt",
+  "yf": 70,
+  "cut": 4,
+  "skirt": 32,
+  "diff": 36,
+  "d_verdict": "REJECT_HEIGHT_DIFFERENCE",
+  "png": "cutfill-287862831--499_-375.png",
+  "svg": "cutfill-287862831--499_-375.svg"
+ },
+ {
+  "seed": "527213223",
+  "chunk": "622,-460",
+  "label": "D-reference",
+  "yf": 65,
+  "cut": 10,
+  "skirt": 4,
+  "diff": 14,
+  "d_verdict": "ELIGIBLE",
+  "png": "cutfill-527213223-622_-460.png",
+  "svg": "cutfill-527213223-622_-460.svg"
+ },
+ {
+  "seed": "914490140",
+  "chunk": "460,240",
+  "label": "village-overlap",
+  "yf": 68,
+  "cut": 4,
+  "skirt": 10,
+  "diff": 14,
+  "d_verdict": "REJECT_SKIRT",
+  "png": "cutfill-914490140-460_240.png",
+  "svg": "cutfill-914490140-460_240.svg"
+ }
+]
