@@ -1,0 +1,75 @@
+{
+  "mode": "fixture",
+  "phase": "create",
+  "seed": 1004,
+  "enabled_packs": [
+    "vanilla",
+    "fabric-convention-tags-v2",
+    "fabric-gametest-api-v1",
+    "moreminecrafts",
+    "moreminecrafts-gametest"
+  ],
+  "fixture_trades_registered": {
+    "map_r5": false,
+    "map_r20": false,
+    "map_r2": false,
+    "map_r20_noskip": false
+  },
+  "structure_tag_values": [],
+  "cartographer_level_1_tag": [
+    "minecraft:cartographer/1/paper_emerald",
+    "minecraft:cartographer/1/emerald_map"
+  ],
+  "cartographer_level_2_tag": [
+    "minecraft:cartographer/2/glass_pane_emerald",
+    "minecraft:cartographer/2/emerald_and_compass_village_taiga_map",
+    "minecraft:cartographer/2/emerald_and_compass_explorer_swamp_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_snowy_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_savanna_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_plains_map",
+    "minecraft:cartographer/2/emerald_and_compass_explorer_jungle_map",
+    "minecraft:cartographer/2/emerald_and_compass_village_desert_map"
+  ],
+  "cartographer_tradeset_keys": {
+    "2": "ResourceKey[minecraft:trade_set / minecraft:cartographer/level_2]",
+    "1": "ResourceKey[minecraft:trade_set / minecraft:cartographer/level_1]"
+  },
+  "decoration_types_present": {
+    "desert_pyramid": true,
+    "target_x": true
+  },
+  "direct_trade_at_origin": {
+    "map_r2": "TRADE_NOT_REGISTERED",
+    "map_r5": "TRADE_NOT_REGISTERED",
+    "map_r20": "TRADE_NOT_REGISTERED",
+    "map_r20_noskip": "TRADE_NOT_REGISTERED"
+  },
+  "level1_offer_count_distribution": {
+    "2": 300
+  },
+  "level1_offer_result_item_counts": {
+    "minecraft:emerald": 300,
+    "minecraft:map": 300
+  },
+  "villagers_sampled_level1_then_leveled_to_2_at_origin": 300,
+  "villagers_with_st01_map_offer": 0,
+  "offer_count_distribution": {
+    "6": 300
+  },
+  "offer_result_item_counts": {
+    "minecraft:emerald": 461,
+    "minecraft:jungle_pyramid_map": 138,
+    "minecraft:map": 300,
+    "minecraft:plains_village_map": 154,
+    "minecraft:savanna_village_map": 147,
+    "moreminecrafts:bounty_contract": 600
+  },
+  "sample_map_from_offer": null,
+  "real_starts_pm10240": [
+    "-571,-501 anchor\u003d-9128,-8008",
+    "-146,522 anchor\u003d-2328,8360",
+    "-111,168 anchor\u003d-1768,2696"
+  ],
+  "error": "java.util.NoSuchElementException: No value present",
+  "error_stack": "java.base/java.util.Optional.orElseThrow(Optional.java:377)\nknot//dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d2.St01D2Probe.fixture(St01D2Probe.java:247)\nknot//dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d2.St01D2Probe.lambda$onInitialize$0(St01D2Probe.java:85)\nknot//net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.lambda$static$3(ServerLifecycleEvents.java:49)\nknot//net.minecraft.server.MinecraftServer.handler$zzf000$fabric-lifecycle-events-v1$afterSetupServer(MinecraftServer.java:2395)\nknot//net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:724)\nknot//net.minecraft.server.MinecraftServer.lambda$spin$0(MinecraftServer.java:310)\njava.base/java.lang.Thread.run(Thread.java:1474)\n"
+}

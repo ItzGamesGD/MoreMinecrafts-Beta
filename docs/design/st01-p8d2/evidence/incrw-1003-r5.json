@@ -1,0 +1,26 @@
+{
+  "mode": "incr",
+  "dispatch": "worker-thread getChunkFuture (non-blocking for the server thread)",
+  "seed": 1003,
+  "radius_param": 5,
+  "inflight_cap": 16,
+  "budget_ms_per_tick": 5.0,
+  "precheck_on_server_thread": false,
+  "tick_log_note": "per-tick step time and inter-tick gap recorded; see summary",
+  "incremental_search": [
+    {
+      "total_wall_ms": 856.506337,
+      "ticks": 18,
+      "max_step_ms": 5.314932,
+      "mean_step_ms": 0.7405885555555556,
+      "max_inter_tick_gap_ms": 66.748971,
+      "candidates_examined": 121,
+      "skipped_by_checkStructurePresence": 0,
+      "chunk_futures_issued": 121,
+      "rings_processed": 6,
+      "result_chunk": null
+    }
+  ],
+  "vanilla_after_ms_warm": 64.054515,
+  "vanilla_result": null
+}
