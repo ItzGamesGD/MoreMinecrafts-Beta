@@ -81,7 +81,8 @@ public final class VisualValidationHarness {
             if ("1".equals(System.getenv("MOREMINECRAFTS_WRAITH_CAPTURE"))
                     || "1".equals(System.getenv("MOREMINECRAFTS_ARCHER_CAPTURE"))
                     || "1".equals(System.getenv("MOREMINECRAFTS_CRYSTAL_BUG_CAPTURE"))
-                    || "1".equals(System.getenv("MOREMINECRAFTS_CLOUD_SLIME_CAPTURE"))) return;
+                    || "1".equals(System.getenv("MOREMINECRAFTS_CLOUD_SLIME_CAPTURE"))
+                    || "1".equals(System.getenv("MOREMINECRAFTS_FALLEN_SENTINEL_CAPTURE"))) return;
             runUiJourney(client);
             return;
         }
