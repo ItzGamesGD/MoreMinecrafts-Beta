@@ -1,0 +1,58 @@
+[
+ {
+  "prefix": "S1_ann_pillars_only_A5strict",
+  "min_feasible_gap_deg": 27
+ },
+ {
+  "prefix": "S2_ann_pillars_8balc_contact3_A5strict",
+  "min_feasible_gap_deg": 53
+ },
+ {
+  "prefix": "S3_ann_pillars_8balc_contact3_A5relaxed",
+  "min_feasible_gap_deg": 34
+ },
+ {
+  "prefix": "S4_ann_pillars_8balc_contact7_A5strict",
+  "min_feasible_gap_deg": 80
+ },
+ {
+  "prefix": "S5_ann_pillars_8balc_contact7_A5relaxed",
+  "min_feasible_gap_deg": 80
+ },
+ {
+  "prefix": "S6_ann_rb20_pillars_only",
+  "min_feasible_gap_deg": 73
+ },
+ {
+  "prefix": "T1_whole_block_D45_pillars_only",
+  "min_feasible_gap_deg": 80
+ },
+ {
+  "prefix": "T2_box45_pillars_only",
+  "min_feasible_gap_deg": 11
+ },
+ {
+  "prefix": "T3_disc46_pillars_only",
+  "min_feasible_gap_deg": 11
+ },
+ {
+  "prefix": "T4_disc47_pillars_only",
+  "min_feasible_gap_deg": 11
+ },
+ {
+  "prefix": "Q1_sequential_S1pillars_then_8balc_contact3",
+  "status": "INFEASIBLE"
+ },
+ {
+  "prefix": "Q2_sequential_S1pillars_then_8balc_contact1",
+  "status": "INFEASIBLE"
+ },
+ {
+  "prefix": "Q3_balconies_only_contact7_any_pillars",
+  "status": "INFEASIBLE"
+ },
+ {
+  "prefix": "Q4_balconies_only_contact3",
+  "status": "OPTIMAL"
+ }
+]

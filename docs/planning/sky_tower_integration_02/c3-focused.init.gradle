@@ -1,0 +1,11 @@
+allprojects {
+    afterEvaluate { project ->
+        def runDir = System.getProperty('mmskytower.testRunDir', '/tmp/sky-tower-c3-focused-' + System.currentTimeMillis())
+        project.extensions.getByName('loom').runs.getByName('gameTest')
+                .setRunDir(runDir)
+    }
+    tasks.matching { it.name == 'runGameTest' }.configureEach {
+        systemProperty 'fabric-api.gametest.filter', System.getProperty(
+                'mmskytower.testFilter', 'moreminecrafts-gametest:sky_tower_game_tests*')
+    }
+}

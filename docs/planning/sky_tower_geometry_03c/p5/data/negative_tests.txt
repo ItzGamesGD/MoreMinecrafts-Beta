@@ -1,0 +1,8 @@
+PASS N1 one block D45 escape
+PASS N2 one block passage intrusion
+PASS N3 inter-floor cut
+PASS N4 balcony access blocked
+PASS N5 arch pair omitted
+PASS N6 fall hole in rail
+PASS N7 slab ownership error
+PASS N8 reservation actual-member collision

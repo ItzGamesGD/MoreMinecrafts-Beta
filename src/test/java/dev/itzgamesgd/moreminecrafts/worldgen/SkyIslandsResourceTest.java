@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,7 +146,8 @@ class SkyIslandsResourceTest {
                 "sky_island_snowy", "sky_island_meadow", "sky_island_forest", "sky_island_desert", "sky_island_badlands");
         for (String id : structures) {
             JsonObject structure = json("data/moreminecrafts/worldgen/structure/" + id + ".json");
-            assertEquals("minecraft:jigsaw", structure.get("type").getAsString());
+            assertEquals(id.startsWith("sky_island_mountain_") ? "moreminecrafts:adaptive_jigsaw" : "minecraft:jigsaw", structure.get("type").getAsString());
+            if (id.startsWith("sky_island_mountain_")) { assertEquals(18, structure.get("minimum_offset").getAsInt()); assertEquals(70, structure.get("maximum_offset").getAsInt()); assertFalse(structure.has("start_height")); }
             assertEquals("none", structure.get("terrain_adaptation").getAsString(), "islands float: no terrain adaptation");
             assertTrue(exists("data/moreminecrafts/tags/worldgen/biome/has_structure/" + id + ".json"), id);
             String start = structure.get("start_pool").getAsString().substring("moreminecrafts:".length());
@@ -282,7 +284,15 @@ class SkyIslandsResourceTest {
             for (String name : List.of("plain_small_a", "plain_small_b", "plain_medium", "ruins", "tower", "temple", "satellite_a", "satellite_b")) {
                 Template t = template("data/moreminecrafts/structure/sky_islands/" + style + "/" + name + ".nbt");
                 boolean hasSocket = t.of("minecraft:jigsaw").stream().anyMatch(b -> String.valueOf(b.nbt().get("pool")).endsWith("_top"));
-                assertEquals(List.of("ruins", "tower", "temple").contains(name), hasSocket, style + "/" + name);
+                if (name.equals("tower")) {
+                    assertEquals(List.of(58, 97, 49), Arrays.stream(t.size()).boxed().toList(), style + "/tower composite bounds");
+                    assertEquals(1, t.of("minecraft:jigsaw").size(), style + "/tower has one preserved root connector");
+                    assertEquals("minecraft:empty", t.of("minecraft:jigsaw").getFirst().nbt().get("pool"), style + "/tower terminates legacy child socket");
+                    assertEquals(16, t.count("minecraft:trial_spawner"), style + "/tower approved trial spawners");
+                    assertEquals(8, t.count("minecraft:vault"), style + "/tower approved vaults");
+                } else {
+                    assertEquals(List.of("ruins", "temple").contains(name), hasSocket, style + "/" + name);
+                }
             }
         }
     }

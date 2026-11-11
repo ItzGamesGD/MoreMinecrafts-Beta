@@ -141,7 +141,15 @@ def main():
             for pos, (bid, _) in blocks.items():
                 if bid in GRAVITY:
                     check(blocks.get((pos[0], pos[1] - 1, pos[2])) is not None, f"{style}/{template.name}: floating {bid} at {pos}")
-            if template.stem in ("ruins", "tower", "temple"):
+            if template.stem == "tower":
+                check(size == (58, 97, 49), f"{style}/{template.name}: composite bounds {size}")
+                check(len(jigs) == 1 and all(str(n["pool"]) == "minecraft:empty" for n in jigs.values()),
+                      f"{style}/{template.name}: composite must terminate the legacy tower_top socket")
+                check(sum(1 for bid, _ in blocks.values() if bid == "minecraft:trial_spawner") == 16,
+                      f"{style}/{template.name}: composite must preserve 16 approved trial spawners")
+                check(sum(1 for bid, _ in blocks.values() if bid == "minecraft:vault") == 8,
+                      f"{style}/{template.name}: composite must preserve 8 approved vaults")
+            elif template.stem in ("ruins", "temple"):
                 check(any(str(n["pool"]).endswith(f"{template.stem}_top") for n in jigs.values()), f"{template.name}: missing structure socket")
             check(template.stem in ("ruins", "tower", "temple") or not any(str(n["pool"]).endswith("_top") for n in jigs.values()),
                   f"{style}/{template.name}: a plain island must not carry a structure socket")

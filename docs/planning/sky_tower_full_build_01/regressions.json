@@ -1,0 +1,54 @@
+[
+ {
+  "name": "final occupied walking faces guarded",
+  "pass": true
+ },
+ {
+  "name": "removed sanctum seam guard is detected",
+  "pass": true
+ },
+ {
+  "name": "entrance player box clear",
+  "pass": true
+ },
+ {
+  "name": "pillar intrusion detected",
+  "pass": true
+ },
+ {
+  "name": "wall intrusion detected",
+  "pass": true
+ },
+ {
+  "name": "insufficient headroom detected",
+  "pass": true
+ },
+ {
+  "name": "entrance barricade blocks player box",
+  "pass": true
+ },
+ {
+  "name": "baseline chosen D51 boundary clear",
+  "pass": true
+ },
+ {
+  "name": "outward block crosses chosen D51 envelope",
+  "pass": true
+ },
+ {
+  "name": "central balcony connector clear",
+  "pass": true
+ },
+ {
+  "name": "blocked balcony connector detected",
+  "pass": true
+ },
+ {
+  "name": "balcony route witnesses exist",
+  "pass": true
+ },
+ {
+  "name": "all non-relic masonry is face-connected",
+  "pass": true
+ }
+]

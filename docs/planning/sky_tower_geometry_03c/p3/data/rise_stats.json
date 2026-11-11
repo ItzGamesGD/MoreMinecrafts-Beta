@@ -1,0 +1,242 @@
+{
+ "K1_pillars_slab": {
+  "max_neighbour_height_difference": 0.5,
+  "per_lap_centreline": {
+   "0": {
+    "centreline_cells": 116,
+    "rising_steps": 22,
+    "flat_steps": 93,
+    "max_step": 0.5,
+    "rise": 11,
+    "path_cells_needed_at_max_step": 22
+   },
+   "1": {
+    "centreline_cells": 116,
+    "rising_steps": 24,
+    "flat_steps": 91,
+    "max_step": 0.5,
+    "rise": 12,
+    "path_cells_needed_at_max_step": 24
+   },
+   "2": {
+    "centreline_cells": 116,
+    "rising_steps": 28,
+    "flat_steps": 87,
+    "max_step": 0.5,
+    "rise": 14,
+    "path_cells_needed_at_max_step": 28
+   },
+   "3": {
+    "centreline_cells": 116,
+    "rising_steps": 34,
+    "flat_steps": 81,
+    "max_step": 0.5,
+    "rise": 17,
+    "path_cells_needed_at_max_step": 34
+   }
+  },
+  "max_angle_between_adjacent_band_cells_deg": 3.58,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_half_step": 47.0,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_full_step": 94.0
+ },
+ "K2_8balc_A5relaxed_slab_land0": {
+  "max_neighbour_height_difference": 0.5,
+  "per_lap_centreline": {
+   "0": {
+    "centreline_cells": 116,
+    "rising_steps": 22,
+    "flat_steps": 93,
+    "max_step": 0.5,
+    "rise": 11,
+    "path_cells_needed_at_max_step": 22
+   },
+   "1": {
+    "centreline_cells": 116,
+    "rising_steps": 24,
+    "flat_steps": 91,
+    "max_step": 0.5,
+    "rise": 12,
+    "path_cells_needed_at_max_step": 24
+   },
+   "2": {
+    "centreline_cells": 116,
+    "rising_steps": 28,
+    "flat_steps": 87,
+    "max_step": 0.5,
+    "rise": 14,
+    "path_cells_needed_at_max_step": 28
+   },
+   "3": {
+    "centreline_cells": 116,
+    "rising_steps": 34,
+    "flat_steps": 81,
+    "max_step": 0.5,
+    "rise": 17,
+    "path_cells_needed_at_max_step": 34
+   }
+  },
+  "max_angle_between_adjacent_band_cells_deg": 3.58,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_half_step": 47.0,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_full_step": 94.0
+ },
+ "K2_8balc_A5relaxed_slab_land3": {
+  "max_neighbour_height_difference": 0.5,
+  "per_lap_centreline": {
+   "0": {
+    "centreline_cells": 116,
+    "rising_steps": 22,
+    "flat_steps": 93,
+    "max_step": 0.5,
+    "rise": 11,
+    "path_cells_needed_at_max_step": 22
+   },
+   "1": {
+    "centreline_cells": 116,
+    "rising_steps": 24,
+    "flat_steps": 91,
+    "max_step": 0.5,
+    "rise": 12,
+    "path_cells_needed_at_max_step": 24
+   },
+   "2": {
+    "centreline_cells": 116,
+    "rising_steps": 28,
+    "flat_steps": 87,
+    "max_step": 0.5,
+    "rise": 14,
+    "path_cells_needed_at_max_step": 28
+   },
+   "3": {
+    "centreline_cells": 116,
+    "rising_steps": 34,
+    "flat_steps": 81,
+    "max_step": 0.5,
+    "rise": 17,
+    "path_cells_needed_at_max_step": 34
+   }
+  },
+  "max_angle_between_adjacent_band_cells_deg": 3.58,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_half_step": 47.0,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_full_step": 94.0
+ },
+ "K2_8balc_A5relaxed_slab_land9": {
+  "max_neighbour_height_difference": 0.5,
+  "per_lap_centreline": {
+   "0": {
+    "centreline_cells": 116,
+    "rising_steps": 22,
+    "flat_steps": 93,
+    "max_step": 0.5,
+    "rise": 11,
+    "path_cells_needed_at_max_step": 22
+   },
+   "1": {
+    "centreline_cells": 116,
+    "rising_steps": 24,
+    "flat_steps": 91,
+    "max_step": 0.5,
+    "rise": 12,
+    "path_cells_needed_at_max_step": 24
+   },
+   "2": {
+    "centreline_cells": 116,
+    "rising_steps": 28,
+    "flat_steps": 87,
+    "max_step": 0.5,
+    "rise": 14,
+    "path_cells_needed_at_max_step": 28
+   },
+   "3": {
+    "centreline_cells": 116,
+    "rising_steps": 34,
+    "flat_steps": 81,
+    "max_step": 0.5,
+    "rise": 17,
+    "path_cells_needed_at_max_step": 34
+   }
+  },
+  "max_angle_between_adjacent_band_cells_deg": 3.58,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_half_step": 47.0,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_full_step": 94.0
+ },
+ "K3_pillars_stairblocks": {
+  "max_neighbour_height_difference": 1,
+  "per_lap_centreline": {
+   "0": {
+    "centreline_cells": 116,
+    "rising_steps": 11,
+    "flat_steps": 104,
+    "max_step": 1,
+    "rise": 11,
+    "path_cells_needed_at_max_step": 11
+   },
+   "1": {
+    "centreline_cells": 116,
+    "rising_steps": 12,
+    "flat_steps": 103,
+    "max_step": 1,
+    "rise": 12,
+    "path_cells_needed_at_max_step": 12
+   },
+   "2": {
+    "centreline_cells": 116,
+    "rising_steps": 14,
+    "flat_steps": 101,
+    "max_step": 1,
+    "rise": 14,
+    "path_cells_needed_at_max_step": 14
+   },
+   "3": {
+    "centreline_cells": 116,
+    "rising_steps": 17,
+    "flat_steps": 98,
+    "max_step": 1,
+    "rise": 17,
+    "path_cells_needed_at_max_step": 17
+   }
+  },
+  "max_angle_between_adjacent_band_cells_deg": 3.58,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_half_step": 47.0,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_full_step": 94.0
+ },
+ "K4_8balc_A5strict_slab_land9": {
+  "max_neighbour_height_difference": 0.5,
+  "per_lap_centreline": {
+   "0": {
+    "centreline_cells": 116,
+    "rising_steps": 22,
+    "flat_steps": 93,
+    "max_step": 0.5,
+    "rise": 11,
+    "path_cells_needed_at_max_step": 22
+   },
+   "1": {
+    "centreline_cells": 116,
+    "rising_steps": 24,
+    "flat_steps": 91,
+    "max_step": 0.5,
+    "rise": 12,
+    "path_cells_needed_at_max_step": 24
+   },
+   "2": {
+    "centreline_cells": 116,
+    "rising_steps": 28,
+    "flat_steps": 87,
+    "max_step": 0.5,
+    "rise": 14,
+    "path_cells_needed_at_max_step": 28
+   },
+   "3": {
+    "centreline_cells": 116,
+    "rising_steps": 34,
+    "flat_steps": 81,
+    "max_step": 0.5,
+    "rise": 17,
+    "path_cells_needed_at_max_step": 34
+   }
+  },
+  "max_angle_between_adjacent_band_cells_deg": 3.58,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_half_step": 47.0,
+  "theoretical_max_rise_per_lap_blocks_if_all_rising_full_step": 94.0
+ }
+}

@@ -1,0 +1,367 @@
+Starting net.minecraft.server.Main
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.sun.jna.Native in an unnamed module (file:/tmp/p5-minecraft/libraries/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.joml.MemUtil$MemUtilUnsafe (file:/tmp/p5-minecraft/libraries/org/joml/joml/1.10.9/joml-1.10.9.jar)
+WARNING: Please consider reporting this to the maintainers of class org.joml.MemUtil$MemUtilUnsafe
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[10:47:58] [ServerMain/INFO]: Environment: Environment[discoveryUrl=https://discovery.minecraftservices.com/minecraft/client, name=PROD]
+[10:47:59] [ServerMain/INFO]: Found new data pack file/p5, loading it automatically
+[10:48:02] [Worker-Main-1/INFO]: Loaded 1866 advancements
+[10:48:04] [Minecraft Services Discovery/WARN]: Failed to connect
+com.mojang.authlib.exceptions.MinecraftClientException: Failed to read from https://discovery.minecraftservices.com/minecraft/client due to Connection refused
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:151)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.getWithEtag(MinecraftClient.java:81)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.get(MinecraftClient.java:65)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.lambda$createDiscoverySupplier$1(MinecraftServicesDiscoveryService.java:76)
+	at com.mojang.authlib.services.RetryableFetch$1.run(RetryableFetch.java:42)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:284)
+	at java.base/java.net.Socket.connect(Socket.java:659)
+	at java.base/sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:304)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:524)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:612)
+	at java.base/sun.net.www.protocol.https.HttpsClient.<init>(HttpsClient.java:206)
+	at java.base/sun.net.www.protocol.https.HttpsClient.New(HttpsClient.java:288)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.getNewHttpClient(AbstractDelegateHttpsURLConnection.java:196)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1011)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:902)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:875)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:181)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1379)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1305)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getResponseCode(HttpsURLConnectionImpl.java:307)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:130)
+	... 10 more
+[10:48:04] [Minecraft Services Discovery/WARN]: Services are unavailable, unable to fetch uri for AUTHENTICATION/getPublicKeys
+[10:48:04] [Minecraft Services Discovery/WARN]: Failed to connect
+com.mojang.authlib.exceptions.MinecraftClientException: Services are unavailable
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.getEndpoint(MinecraftServicesDiscoveryService.java:139)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.getUrl(MinecraftServicesDiscoveryService.java:125)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.lambda$getServicesKeySet$2(MinecraftServicesDiscoveryService.java:117)
+	at com.mojang.authlib.services.RetryableFetch$1.run(RetryableFetch.java:40)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+[10:48:04] [Minecraft Services Discovery/WARN]: Services are unavailable, unable to fetch uri for AUTHENTICATION/getPublicKeys
+[10:48:04] [Minecraft Services Discovery/WARN]: Failed to connect
+com.mojang.authlib.exceptions.MinecraftClientException: Services are unavailable
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.getEndpoint(MinecraftServicesDiscoveryService.java:139)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.getUrl(MinecraftServicesDiscoveryService.java:125)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.lambda$getServicesKeySet$2(MinecraftServicesDiscoveryService.java:117)
+	at com.mojang.authlib.services.RetryableFetch$1.run(RetryableFetch.java:40)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+[10:48:07] [Server thread/INFO]: Starting minecraft server version 26.3
+[10:48:07] [Server thread/INFO]: Loading properties
+[10:48:07] [Server thread/INFO]: Default game type: SURVIVAL
+[10:48:07] [Server thread/INFO]: Generating keypair
+[10:48:07] [Server thread/INFO]: Starting Minecraft server on 127.0.0.1:25585
+[10:48:08] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[10:48:08] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[10:48:08] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[10:48:08] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[10:48:08] [Server thread/INFO]: Preparing level "world"
+[10:48:08] [Server thread/INFO]: Selecting global world spawn...
+[10:48:09] [Server thread/INFO]: Loading 0 persistent chunks...
+[10:48:09] [Server thread/INFO]: Preparing spawn area: 100%
+[10:48:09] [Server thread/INFO]: Time elapsed: 1176 ms
+[10:48:09] [Server thread/INFO]: Done (1.418s)! For help, type "help"
+[10:48:09] [Server thread/INFO]: Starting remote control listener
+[10:48:09] [Server thread/INFO]: Thread RCON Listener started
+[10:48:09] [Server thread/INFO]: RCON running on 127.0.0.1:25586
+[10:48:09] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[10:48:09] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[10:48:09] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[10:48:10] [RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started
+[10:48:10] [Server thread/INFO]: System chat: [Rcon: Reloading!]
+[10:48:13] [Worker-Main-1/INFO]: Loaded 1866 advancements
+[10:48:21] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 10231ms or 204 ticks behind
+[10:48:21] [RCON Client /127.0.0.1 #2/INFO]: Thread RCON Client /127.0.0.1 shutting down
+[10:49:04] [Minecraft Services Discovery/WARN]: Failed to connect
+com.mojang.authlib.exceptions.MinecraftClientException: Failed to read from https://discovery.minecraftservices.com/minecraft/client due to Connection refused
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:151)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.getWithEtag(MinecraftClient.java:81)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.get(MinecraftClient.java:65)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.lambda$createDiscoverySupplier$1(MinecraftServicesDiscoveryService.java:76)
+	at com.mojang.authlib.services.RetryableFetch$1.run(RetryableFetch.java:42)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:284)
+	at java.base/java.net.Socket.connect(Socket.java:659)
+	at java.base/sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:304)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:524)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:612)
+	at java.base/sun.net.www.protocol.https.HttpsClient.<init>(HttpsClient.java:206)
+	at java.base/sun.net.www.protocol.https.HttpsClient.New(HttpsClient.java:288)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.getNewHttpClient(AbstractDelegateHttpsURLConnection.java:196)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1011)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:902)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:875)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:181)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1379)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1305)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getResponseCode(HttpsURLConnectionImpl.java:307)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:130)
+	... 10 more
+[10:49:05] [RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started
+[10:49:05] [Server thread/INFO]: System chat: [Rcon: Created new objective [p5]]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Marked 25 chunks in minecraft:overworld from [60, 60] to [64, 64] to be force loaded]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Loaded template "p5:c1" at 977, 90, 977]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_0]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_1]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_2]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_3]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_4]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_5]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_6]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_7]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_8]
+[10:49:06] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_9]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_10]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_11]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_12]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_13]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_14]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_15]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Marked 25 chunks in minecraft:overworld from [66, 60] to [70, 64] to be force loaded]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Loaded template "p5:c2" at 1077, 90, 977]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_0]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_1]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_2]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_3]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_4]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_5]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_6]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_7]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_8]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_9]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_10]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_11]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_12]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_13]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_14]
+[10:49:07] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_15]
+[10:49:07] [RCON Client /127.0.0.1 #3/INFO]: Thread RCON Client /127.0.0.1 shutting down
+[10:49:20] [Server thread/INFO]: Server empty for 60 seconds, pausing
+[10:49:52] [RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started
+[10:49:52] [Server thread/INFO]: System chat: [Rcon: Loaded template "p5:c1" at 977, 90, 977]
+[10:49:52] [RCON Client /127.0.0.1 #4/INFO]: Thread RCON Client /127.0.0.1 shutting down
+[10:50:16] [RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started
+[10:50:16] [Server thread/INFO]: System chat: [Rcon: Reloading!]
+[10:50:18] [Worker-Main-3/INFO]: Loaded 1866 advancements
+[10:50:30] [RCON Client /127.0.0.1 #5/INFO]: Thread RCON Client /127.0.0.1 shutting down
+[10:50:30] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 14215ms or 284 ticks behind
+[10:51:04] [Minecraft Services Discovery/WARN]: Failed to connect
+com.mojang.authlib.exceptions.MinecraftClientException: Failed to read from https://discovery.minecraftservices.com/minecraft/client due to Connection refused
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:151)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.getWithEtag(MinecraftClient.java:81)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.get(MinecraftClient.java:65)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.lambda$createDiscoverySupplier$1(MinecraftServicesDiscoveryService.java:76)
+	at com.mojang.authlib.services.RetryableFetch$1.run(RetryableFetch.java:42)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:284)
+	at java.base/java.net.Socket.connect(Socket.java:659)
+	at java.base/sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:304)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:524)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:612)
+	at java.base/sun.net.www.protocol.https.HttpsClient.<init>(HttpsClient.java:206)
+	at java.base/sun.net.www.protocol.https.HttpsClient.New(HttpsClient.java:288)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.getNewHttpClient(AbstractDelegateHttpsURLConnection.java:196)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1011)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:902)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:875)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:181)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1379)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1305)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getResponseCode(HttpsURLConnectionImpl.java:307)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:130)
+	... 10 more
+[10:51:13] [RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Loaded template "p5:c1" at 977, 90, 977]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_0]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_1]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_2]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_3]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_4]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_5]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_6]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_7]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_8]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_9]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_10]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_11]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_12]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_13]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_14]
+[10:51:14] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_15]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Loaded template "p5:c2" at 1077, 90, 977]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_0]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_1]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_2]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_3]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_4]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_5]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_6]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_7]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_8]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_9]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_10]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_11]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_12]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_13]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_14]
+[10:51:15] [Server thread/INFO]: System chat: [Rcon: Running function p5:c2_15]
+[10:51:15] [RCON Client /127.0.0.1 #6/INFO]: Thread RCON Client /127.0.0.1 shutting down
+[10:53:04] [Minecraft Services Discovery/WARN]: Services are unavailable, unable to fetch uri for AUTHENTICATION/getPublicKeys
+[10:53:04] [Minecraft Services Discovery/WARN]: Failed to connect
+com.mojang.authlib.exceptions.MinecraftClientException: Services are unavailable
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.getEndpoint(MinecraftServicesDiscoveryService.java:139)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.getUrl(MinecraftServicesDiscoveryService.java:125)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.lambda$getServicesKeySet$2(MinecraftServicesDiscoveryService.java:117)
+	at com.mojang.authlib.services.RetryableFetch$1.run(RetryableFetch.java:40)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+[10:53:04] [Minecraft Services Discovery/WARN]: Services are unavailable, unable to fetch uri for AUTHENTICATION/getPublicKeys
+[10:53:04] [Minecraft Services Discovery/WARN]: Failed to connect
+com.mojang.authlib.exceptions.MinecraftClientException: Services are unavailable
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.getEndpoint(MinecraftServicesDiscoveryService.java:139)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.getUrl(MinecraftServicesDiscoveryService.java:125)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.lambda$getServicesKeySet$2(MinecraftServicesDiscoveryService.java:117)
+	at com.mojang.authlib.services.RetryableFetch$1.run(RetryableFetch.java:40)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+[10:55:04] [Minecraft Services Discovery/WARN]: Failed to connect
+com.mojang.authlib.exceptions.MinecraftClientException: Failed to read from https://discovery.minecraftservices.com/minecraft/client due to Connection refused
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:151)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.getWithEtag(MinecraftClient.java:81)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.get(MinecraftClient.java:65)
+	at com.mojang.authlib.services.MinecraftServicesDiscoveryService.lambda$createDiscoverySupplier$1(MinecraftServicesDiscoveryService.java:76)
+	at com.mojang.authlib.services.RetryableFetch$1.run(RetryableFetch.java:42)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:639)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:550)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:594)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:284)
+	at java.base/java.net.Socket.connect(Socket.java:659)
+	at java.base/sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:304)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:161)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:524)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:612)
+	at java.base/sun.net.www.protocol.https.HttpsClient.<init>(HttpsClient.java:206)
+	at java.base/sun.net.www.protocol.https.HttpsClient.New(HttpsClient.java:288)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.getNewHttpClient(AbstractDelegateHttpsURLConnection.java:196)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1011)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:902)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:875)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:181)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1379)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1305)
+	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getResponseCode(HttpsURLConnectionImpl.java:307)
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readServiceResponse(MinecraftClient.java:130)
+	... 10 more
+[10:55:30] [RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started
+[10:55:30] [Server thread/INFO]: System chat: [Rcon: Changed the block at 1000, 90, 1000]
+[10:55:30] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_0]
+[10:55:30] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_1]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_2]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_3]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_4]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_5]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_6]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_7]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_8]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_9]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_10]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_11]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_12]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_13]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_14]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_15]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Loaded template "p5:c1" at 977, 90, 977]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_0]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_1]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_2]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_3]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_4]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_5]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_6]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_7]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_8]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_9]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_10]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_11]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_12]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_13]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_14]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Running function p5:c1_15]
+[10:55:31] [Server thread/INFO]: System chat: [Rcon: Stopping the server]
+[10:55:31] [RCON Client /127.0.0.1 #7/INFO]: Thread RCON Client /127.0.0.1 shutting down
+[10:55:31] [Server thread/INFO]: Stopping server
+[10:55:31] [Server thread/INFO]: Saving players
+[10:55:31] [Server thread/INFO]: Saving worlds
+[10:55:32] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[10:55:32] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[10:55:32] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[10:55:32] [Server thread/INFO]: Thread RCON Listener stopped

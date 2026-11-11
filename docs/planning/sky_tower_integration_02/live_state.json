@@ -1,0 +1,57 @@
+{
+ "mode": "state",
+ "base": 10000,
+ "scope": "Fabric26.3 actual server; command removals and synthetic cooldown; not natural generation/combat/client/multiplayer",
+ "commands": [
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=0minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|10000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=65527minecraft:overworld|10300,65,1000|1 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10600,65,1000|2 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0"
+  },
+  {
+   "command": "execute if block 10927 76 961 minecraft:barrier[waterlogged=false]",
+   "response": "Test passed"
+  },
+  {
+   "command": "setblock 10927 76 961 minecraft:barrier[waterlogged=true]",
+   "response": "Changed the block at 10927, 76, 961"
+  },
+  {
+   "command": "setblock 10917 77 983 minecraft:air",
+   "response": "Changed the block at 10917, 77, 983"
+  },
+  {
+   "command": "setblock 10931 77 983 minecraft:air",
+   "response": "Changed the block at 10931, 77, 983"
+  },
+  {
+   "command": "setblock 10917 77 969 minecraft:air",
+   "response": "Changed the block at 10917, 77, 969"
+  },
+  {
+   "command": "setblock 10931 77 969 minecraft:air",
+   "response": "Changed the block at 10931, 77, 969"
+  },
+  {
+   "command": "tick sprint 100",
+   "response": "The game is sprinting"
+  },
+  {
+   "command": "execute if block 10927 76 961 minecraft:barrier[waterlogged=true]",
+   "response": "Test passed"
+  },
+  {
+   "command": "execute unless block 10927 77 961 minecraft:barrier",
+   "response": "Test passed"
+  },
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=0minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|10000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=65527minecraft:overworld|10300,65,1000|1 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10600,65,1000|2 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10900,65,1000|3 completedSpawnerMask=15 destroyedSpawnerMask=15"
+  },
+  {
+   "command": "save-all flush",
+   "response": "Saving the game (this may take a moment!)Saved the game"
+  }
+ ],
+ "status": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15 destroyedSpawnerMask=0minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=0minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0 destroyedSpawnerMask=0minecraft:overworld|10000,65,1000|0 completedSpawnerMask=65535 destroyedSpawnerMask=65527minecraft:overworld|10300,65,1000|1 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10600,65,1000|2 completedSpawnerMask=15 destroyedSpawnerMask=15minecraft:overworld|10900,65,1000|3 completedSpawnerMask=15 destroyedSpawnerMask=15",
+ "pass": true
+}

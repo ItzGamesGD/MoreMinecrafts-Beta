@@ -1,0 +1,116 @@
+{
+ "lanes": [
+  {
+   "flight": 0,
+   "lane": [
+    16,
+    17
+   ],
+   "pass": true,
+   "visited": 1617,
+   "limit_hit": false,
+   "starts": 27
+  },
+  {
+   "flight": 0,
+   "lane": [
+    18,
+    19
+   ],
+   "pass": true,
+   "visited": 1841,
+   "limit_hit": false,
+   "starts": 31
+  },
+  {
+   "flight": 1,
+   "lane": [
+    16,
+    17
+   ],
+   "pass": true,
+   "visited": 1657,
+   "limit_hit": false,
+   "starts": 27
+  },
+  {
+   "flight": 1,
+   "lane": [
+    18,
+    19
+   ],
+   "pass": true,
+   "visited": 1881,
+   "limit_hit": false,
+   "starts": 31
+  },
+  {
+   "flight": 2,
+   "lane": [
+    16,
+    17
+   ],
+   "pass": true,
+   "visited": 1657,
+   "limit_hit": false,
+   "starts": 27
+  },
+  {
+   "flight": 2,
+   "lane": [
+    18,
+    19
+   ],
+   "pass": true,
+   "visited": 1881,
+   "limit_hit": false,
+   "starts": 31
+  },
+  {
+   "flight": 3,
+   "lane": [
+    16,
+    17
+   ],
+   "pass": true,
+   "visited": 1657,
+   "limit_hit": false,
+   "starts": 27
+  },
+  {
+   "flight": 3,
+   "lane": [
+    18,
+    19
+   ],
+   "pass": true,
+   "visited": 1881,
+   "limit_hit": false,
+   "starts": 31
+  },
+  {
+   "flight": 4,
+   "lane": [
+    16,
+    17
+   ],
+   "pass": true,
+   "visited": 1657,
+   "limit_hit": false,
+   "starts": 27
+  },
+  {
+   "flight": 4,
+   "lane": [
+    18,
+    19
+   ],
+   "pass": true,
+   "visited": 1881,
+   "limit_hit": false,
+   "starts": 31
+  }
+ ],
+ "two_clients_live": "NOT RUN",
+ "scope": "two disjoint sampled radial lanes, independent player AABB routes only; no proof of all local passing configurations"
+}

@@ -1,0 +1,5 @@
+allprojects {
+ afterEvaluate { p ->
+  p.extensions.getByName('loom').runs.getByName('server').setRunDir('/tmp/sky-tower-integration-server')
+ }
+}

@@ -1,0 +1,5 @@
+[07:21:35] [Server thread/INFO] (Minecraft) Done (5.051s)! For help, type "help"
+[07:21:35] [Server thread/INFO] (Minecraft) RCON running on 127.0.0.1:25596
+[07:21:40] [Server thread/WARN] (moreminecrafts) [sky-tower barrier] minecraft:overworld|10000,65,1000|0/1 deferred: released floor contains foreign block at BlockPos{x=10039, y=87, z=1027}
+[07:23:23] [Server thread/INFO] (Minecraft) Stopping server
+BUILD SUCCESSFUL in 3m 7s

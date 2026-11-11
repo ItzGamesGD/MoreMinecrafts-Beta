@@ -1,0 +1,35 @@
+{
+  "label": "nat_2",
+  "radius": 2500,
+  "candidates": 78656,
+  "cases": [
+    {
+      "label": "nat_2",
+      "eligible_candidates": 9851
+    }
+  ],
+  "evaluations_prod_legacy": [
+    9851,
+    9851
+  ],
+  "total_time_ms_prod_legacy": [
+    8468,
+    6647
+  ],
+  "allocated_bytes_prod_legacy": [
+    680237536,
+    616944232
+  ],
+  "heightmap_base_height_queries_prod_legacy(controlled only)": [
+    0,
+    0
+  ],
+  "mountain_legacy_generated__prod_identical_vs_different_vs(prod_only_generated)": [
+    2439,
+    0,
+    11
+  ],
+  "natural_checked": 9851,
+  "natural_vs_replay_agree": 9851,
+  "natural_vs_replay_disagree": 0
+}

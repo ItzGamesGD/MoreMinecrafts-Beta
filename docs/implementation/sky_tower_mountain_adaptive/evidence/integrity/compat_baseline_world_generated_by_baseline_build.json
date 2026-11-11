@@ -1,0 +1,52 @@
+{
+  "seed": 31,
+  "styles_found": [
+    "snowy"
+  ],
+  "automatic_registration_site_count": 1,
+  "styles": {
+    "snowy": {
+      "rotation": 1,
+      "piece_bounds": "BoundingBox{minX\u003d-416, minY\u003d176, minZ\u003d224, maxX\u003d-368, maxY\u003d272, maxZ\u003d281}",
+      "blocked_barrier_cells": 0,
+      "structure": "moreminecrafts:sky_island_mountain_snowy",
+      "pass": true,
+      "vaults": 8,
+      "site": "minecraft:overworld|-368,193,224|1",
+      "trial_spawners": 16,
+      "chunks_loaded": true,
+      "automatically_registered": true,
+      "legacy_tower_child_count": 0,
+      "seen_chunk": "-23,14",
+      "composite_piece_count": 1,
+      "runtime_barrier_air_cells": 72
+    },
+    "meadow": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "forest": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "badlands": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "desert": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "rocky": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    }
+  },
+  "pass": false,
+  "client_movement_visual_and_restart": "not tested by this fresh-world server probe",
+  "restart_progress_fixture": {
+    "synthetic_valid_anchor_completion": true,
+    "site": "minecraft:overworld|-368,193,224|1",
+    "completed_mask_at_save": 1
+  }
+}
