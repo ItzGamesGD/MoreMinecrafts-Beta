@@ -21,8 +21,8 @@ import net.minecraft.world.level.Level;
 
 /**
  * D13-03-I06 runtime for the two royal reward chests of a pyramid instance. It is structure-independent: the (future)
- * ST-01 integration calls {@link #register} once per generated pyramid with a stable instance id and the two chest
- * positions; nothing here depends on structure NBT, worldgen or coordinates beyond locating those chests.
+ * ST-01 controlled placement adapter calls {@link #register} with transformed world positions. Natural worldgen
+ * registration is deliberately outside this integration.
  *
  * <p>Access contract: sealed until the Tomb Guardian is normally defeated; PRIMARY's first sealed interaction keeps
  * driving the existing encounter; rewards are generated once on the first valid direct player opening after defeat;
@@ -36,6 +36,8 @@ public final class RoyalChestRuntime {
         NOT_ROYAL_CHEST,
         /** The actor is not a real player (fake player, spectator): nothing is evaluated. */
         NOT_A_PLAYER,
+        /** Registration is retained, but the physical chest is temporarily absent. No rewards are evaluated. */
+        CHEST_UNAVAILABLE,
         /** Sealed: PRIMARY started or continued the guardian encounter. */
         SEALED_ENCOUNTER_STARTED,
         /** Sealed: no reward evaluated (encounter already running, retry pending, or SECONDARY). */
@@ -61,18 +63,35 @@ public final class RoyalChestRuntime {
 
     public static RoyalChestData data(ServerLevel level) { return level.getDataStorage().computeIfAbsent(RoyalChestData.TYPE); }
 
-    /**
-     * Registers a pyramid instance. {@code tombAnchor} is the key the existing Tomb Guardian encounter uses (the
-     * PRIMARY chest position by default); {@code bossSpawn} is the structure's prevalidated emergence point.
-     * Re-registering the same {@code structureInstanceId} (repair, NBT replacement, chunk reload) relocates the chests
-     * and keeps its catalyst assignment, results and remaining items. The catalyst is decided here, once, from
-     * (world seed, instance id), before either chest can be opened, so opening order cannot influence it.
-     */
-    public static Optional<RoyalChestData.Instance> register(ServerLevel level, String structureInstanceId, BlockPos tombAnchor,
-                                                              BlockPos bossSpawn, BlockPos primary, BlockPos secondary) {
-        if (structureInstanceId == null || structureInstanceId.isBlank()) return Optional.empty();
-        Optional<RoyalChestRole> fresh = RoyalChestRewardModel.assignCatalyst(catalystRandom(level.getSeed(), structureInstanceId));
-        return data(level).register(structureInstanceId, tombAnchor, bossSpawn, primary, secondary, fresh);
+    /** Dimension and transformed world-space anchor are the complete deterministic identity. */
+    public static String canonicalId(ServerLevel level, BlockPos tombAnchor) {
+        return level.dimension().identifier() + "/" + tombAnchor.getX() + "," + tombAnchor.getY() + "," + tombAnchor.getZ();
+    }
+
+    /** Both physical PRIMARY halves route to one role. No secondary position is invented when absent. */
+    public static Optional<RoyalChestData.Instance> register(ServerLevel level, BlockPos tombAnchor,
+            BlockPos bossSpawn, BlockPos primaryLeft, BlockPos primaryRight, Optional<BlockPos> secondary) {
+        if (!tombAnchor.equals(primaryLeft) || !validPrimary(level, primaryLeft, primaryRight)) return Optional.empty();
+        if (secondary.filter(pos -> !level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.CHEST)).isPresent())
+            return Optional.empty();
+        String id = canonicalId(level, tombAnchor);
+        // Existing assignment (including no catalyst) is authoritative; never redraw at re-registration.
+        Optional<RoyalChestRole> catalyst = data(level).instance(id).map(RoyalChestData.Instance::catalyst)
+                .orElseGet(() -> RoyalChestRewardModel.assignCatalyst(catalystRandom(level.getSeed(), id)));
+        return data(level).register(id, tombAnchor, bossSpawn, primaryLeft, Optional.of(primaryRight), secondary, catalyst);
+    }
+
+    static boolean validPrimary(ServerLevel level, BlockPos left, BlockPos right) {
+        var a = level.getBlockState(left);
+        var b = level.getBlockState(right);
+        if (!a.is(net.minecraft.world.level.block.Blocks.CHEST) || !b.is(net.minecraft.world.level.block.Blocks.CHEST)) return false;
+        var typeA = a.getValue(net.minecraft.world.level.block.ChestBlock.TYPE);
+        var typeB = b.getValue(net.minecraft.world.level.block.ChestBlock.TYPE);
+        return typeA != net.minecraft.world.level.block.state.properties.ChestType.SINGLE
+                && typeB != net.minecraft.world.level.block.state.properties.ChestType.SINGLE && typeA != typeB
+                && a.getValue(net.minecraft.world.level.block.ChestBlock.FACING) == b.getValue(net.minecraft.world.level.block.ChestBlock.FACING)
+                && left.relative(net.minecraft.world.level.block.ChestBlock.getConnectedDirection(a)).equals(right)
+                && right.relative(net.minecraft.world.level.block.ChestBlock.getConnectedDirection(b)).equals(left);
     }
 
     /** Administrative / test cleanup: forgets an instance with its results. Never part of normal play. */
@@ -110,6 +129,7 @@ public final class RoyalChestRuntime {
         Optional<RoyalChestData.Link> link = data(level).linkAt(pos);
         if (link.isEmpty()) return OpenResult.NOT_ROYAL_CHEST;
         if (player instanceof FakePlayer || player.isSpectator()) return OpenResult.NOT_A_PLAYER;
+        if (!level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.CHEST)) return OpenResult.CHEST_UNAVAILABLE;
         RoyalChestData.Instance instance = link.get().instance();
         RoyalChestRole role = link.get().role();
         if (sealed(level, instance)) {
@@ -130,6 +150,9 @@ public final class RoyalChestRuntime {
 
     /** Draws and installs one chest's rewards. Runs on the server thread, so a second opener sees the finished chest. */
     static RoyalChestData.Chest generate(ServerLevel level, RoyalChestData data, RoyalChestData.Instance instance, RoyalChestRole role) {
+        if (instance.chestPos(role).isEmpty()) throw new IllegalStateException("Royal chest role is not placed: " + role);
+        Optional<RoyalChestData.Chest> existing = data.chest(instance.id(), role);
+        if (existing.isPresent()) return existing.get();
         RandomGenerator random = chestRandom(level.getSeed(), instance.id(), role);
         boolean holdsCatalyst = instance.catalyst().filter(role::equals).isPresent();
         List<RoyalChestRewardModel.Reward> rewards = RoyalChestRewardModel.chestRewards(role, random, holdsCatalyst);

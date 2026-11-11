@@ -1,0 +1,46 @@
+{
+  "mode": "evalcmp",
+  "instr_on": false,
+  "seed": 407538027,
+  "anchors": 1600,
+  "production_verdicts": {
+    "ELIGIBLE": 4,
+    "REJECT_BIOME": 1591,
+    "REJECT_HEIGHT_DIFFERENCE": 5
+  },
+  "centre_cell": {
+    "centre_cell_desert": 28,
+    "centre_cell_not_desert": 1572
+  },
+  "verdict_mismatches": 0,
+  "full_result_mismatches_excluding_early_height_rejects": 0,
+  "early_height_rejects_experimental": 5,
+  "mismatch_samples": [],
+  "production": {
+    "biome_lookups": 14295,
+    "height_computes": 63377,
+    "biome_ms": 102.508137,
+    "per_anchor": {
+      "median_ms": 0.514569,
+      "max_ms": 3138.044328,
+      "p99_ms": 24.212483
+    },
+    "height_calls": 66990,
+    "height_ms": 28337.793943,
+    "total_ms": 28561.854302
+  },
+  "experimental": {
+    "height_computes": 30869,
+    "biome_ms": 78.441737,
+    "per_anchor": {
+      "median_ms": 0.561302,
+      "max_ms": 3088.734511,
+      "p99_ms": 2.64967
+    },
+    "biome_lookups": 10445,
+    "height_calls": 32953,
+    "height_ms": 14020.959423,
+    "desert_cells_checked": 6016,
+    "total_ms": 14230.839406
+  }
+}

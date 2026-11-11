@@ -21,6 +21,7 @@
     "K5FallenTreeFeatureMixin",
     "K5LevelBlockMutationMixin",
     "K5WorldGenRegionBlockMutationMixin",
+    "St01WorldGenRegionGuardMixin",
     "MaceItemMixin",
     "ExplosiveMaceMixin",
     "LivingEntityMixin",

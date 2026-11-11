@@ -1,0 +1,269 @@
+{
+  "checks": [
+    {
+      "id": "component_bounds",
+      "status": "PASS"
+    },
+    {
+      "id": "unique_component_ids",
+      "status": "PASS"
+    },
+    {
+      "id": "rotation_inverse",
+      "status": "PASS"
+    },
+    {
+      "id": "d1_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "d1_secret_interface",
+      "status": "FAIL"
+    },
+    {
+      "id": "independent_secret_orientation",
+      "status": "FAIL"
+    },
+    {
+      "id": "full_voxel_overlaps",
+      "status": "NOT RUN"
+    },
+    {
+      "id": "entrance_to_hall_navigation",
+      "status": "NOT RUN"
+    },
+    {
+      "id": "secret_concealment_and_access",
+      "status": "NOT RUN"
+    },
+    {
+      "id": "full_envelope_and_reservation",
+      "status": "NOT RUN"
+    },
+    {
+      "id": "ceiling_and_seam_clearance",
+      "status": "NOT RUN"
+    }
+  ],
+  "status": "G0 BLOCKED",
+  "base": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+  "d1_sha256": "7bdc1d09858c619b2be1f09b3874eec816354a142a032df3a7f6060a69d89423",
+  "d1_hash_pass": true,
+  "d1_size": [
+    39,
+    20,
+    39
+  ],
+  "block_records": 30420,
+  "d1_entities": 0,
+  "data_version": 5023,
+  "sources": {
+    "docs/design/st01-p6/generated/p6_model_east.json": "1204d7679f13612b0e2c80fe3cb20f699cfd1988be46eb4a1a075ab64a6394ae",
+    "docs/design/st01-p6/generated/p6_model_west.json": "5b2f1cda5849b9fc801645d79979bb98f3840ab33744c3f4ff2d91f8c3e56b53",
+    "docs/design/st01-p6/generated/p6_p2c_overlay.json": "2c41e0bed74a2589633acd411c5efd2e97167ed479fb76909833230d3dac2139",
+    "tools/st01-p1/st01_p1_model.py": "01f3a2659cd7fc3a73f19a53a13931ece34b7c1d093c6f603a925ca200c3ad44",
+    "tools/st01-p4/p4_spec.py": "642de358f728e28e8b84da6ea713035188077bab311ce50a0e45a90e48b39033"
+  },
+  "d1_vs_secret_cavity_conflicts_excluding_cover": {
+    "P4:FA": {
+      "count": 12,
+      "cells": [
+        [
+          -8,
+          -24,
+          33
+        ],
+        [
+          -8,
+          -24,
+          34
+        ],
+        [
+          -8,
+          -24,
+          35
+        ],
+        [
+          -7,
+          -24,
+          33
+        ],
+        [
+          -7,
+          -24,
+          34
+        ],
+        [
+          -7,
+          -24,
+          35
+        ],
+        [
+          -6,
+          -24,
+          33
+        ],
+        [
+          -6,
+          -24,
+          34
+        ],
+        [
+          -6,
+          -24,
+          35
+        ],
+        [
+          -5,
+          -24,
+          33
+        ],
+        [
+          -5,
+          -24,
+          34
+        ],
+        [
+          -5,
+          -24,
+          35
+        ]
+      ]
+    }
+  },
+  "matrix": [
+    {
+      "whole_rotation": "SOUTH",
+      "quarter_turns_clockwise": 0,
+      "secret_source": "EAST",
+      "required_anchor": [
+        -21,
+        -20,
+        33
+      ],
+      "source_anchor": [
+        -21,
+        -20,
+        33
+      ],
+      "anchor_compatible": true
+    },
+    {
+      "whole_rotation": "SOUTH",
+      "quarter_turns_clockwise": 0,
+      "secret_source": "WEST",
+      "required_anchor": [
+        -21,
+        -20,
+        33
+      ],
+      "source_anchor": [
+        21,
+        -20,
+        33
+      ],
+      "anchor_compatible": false
+    },
+    {
+      "whole_rotation": "WEST",
+      "quarter_turns_clockwise": 1,
+      "secret_source": "EAST",
+      "required_anchor": [
+        -33,
+        -20,
+        -21
+      ],
+      "source_anchor": [
+        -33,
+        -20,
+        -21
+      ],
+      "anchor_compatible": true
+    },
+    {
+      "whole_rotation": "WEST",
+      "quarter_turns_clockwise": 1,
+      "secret_source": "WEST",
+      "required_anchor": [
+        -33,
+        -20,
+        -21
+      ],
+      "source_anchor": [
+        -33,
+        -20,
+        21
+      ],
+      "anchor_compatible": false
+    },
+    {
+      "whole_rotation": "NORTH",
+      "quarter_turns_clockwise": 2,
+      "secret_source": "EAST",
+      "required_anchor": [
+        21,
+        -20,
+        -33
+      ],
+      "source_anchor": [
+        21,
+        -20,
+        -33
+      ],
+      "anchor_compatible": true
+    },
+    {
+      "whole_rotation": "NORTH",
+      "quarter_turns_clockwise": 2,
+      "secret_source": "WEST",
+      "required_anchor": [
+        21,
+        -20,
+        -33
+      ],
+      "source_anchor": [
+        -21,
+        -20,
+        -33
+      ],
+      "anchor_compatible": false
+    },
+    {
+      "whole_rotation": "EAST",
+      "quarter_turns_clockwise": 3,
+      "secret_source": "EAST",
+      "required_anchor": [
+        33,
+        -20,
+        21
+      ],
+      "source_anchor": [
+        33,
+        -20,
+        21
+      ],
+      "anchor_compatible": true
+    },
+    {
+      "whole_rotation": "EAST",
+      "quarter_turns_clockwise": 3,
+      "secret_source": "WEST",
+      "required_anchor": [
+        33,
+        -20,
+        21
+      ],
+      "source_anchor": [
+        33,
+        -20,
+        -21
+      ],
+      "anchor_compatible": false
+    }
+  ],
+  "limitations": [
+    "Matrix diagnoses existing source variants, not a newly verified full assembly.",
+    "Solid intersection is a block-coordinate conflict; no material-specific navigation inference.",
+    "No complete materialized blueprint or traversal validation is claimed."
+  ]
+}

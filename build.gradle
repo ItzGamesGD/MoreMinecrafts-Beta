@@ -63,6 +63,22 @@ loom {
             runDir = "build/sky-islands-probe/run"
             ideConfigGenerated false
         }
+        // ST-01 P8-A live placement probe (tools/st01-p8/run_p8a_live_probe.sh); inert unless -Dmm.st01.p8a.out is set; not part of check/build/CI.
+        royalHallPlacementProbe {
+            server()
+            name = "ST-01 P8-A Royal Hall Placement Probe"
+            source sourceSets.gametest
+            runDir = "build/st01-p8a-probe/run"
+            ideConfigGenerated false
+        }
+        // ST-01 P8-C2-B natural worldgen validation probe (tools/st01-p8c2b/run_validation.sh); inert unless -Dmm.st01.c2b.out is set; not part of check/build/CI.
+        st01C2BProbe {
+            server()
+            name = "ST-01 P8-C2-B Natural Worldgen Probe"
+            source sourceSets.gametest
+            runDir = "build/st01-p8c2b/run"
+            ideConfigGenerated false
+        }
         // ST-05 Stage 0 feasibility probe for A02/A03 (tools/st05-worldgen-probe/run_probe.sh); inert unless -Dmm.st05.out is set; not part of check/build/CI.
         st05CavernProbe {
             server()
@@ -420,3 +436,10 @@ tasks.named("check") {
     dependsOn tasks.named("validateLowerEquipmentResources")
 }
 
+
+// Only the royal-chest multi-process fixture keeps its world between JVMs; ordinary runs still start clean.
+tasks.named("deleteGameTestRunDir") {
+    onlyIf {
+        !(System.getProperty("mm.royal.restart.phase", "") in ["reload", "verify"])
+    }
+}

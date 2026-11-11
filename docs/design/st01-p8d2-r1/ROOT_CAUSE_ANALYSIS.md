@@ -1,0 +1,12 @@
+# ST-01 P8-D2-R1 — Root-cause classification
+
+| Hypothesis | Verdict | Supporting evidence | Contradicting evidence | Confidence | Further verification |
+|---|---|---|---|---|---|
+| **H1 Inefficient filter ordering** | **PARTIAL** — stage order is already cheap-first; within-stage order is not | 6,561 heights computed before the range rule (43 of 55 full-Desert candidates fail it); row-major sweep; exact reordering saved 2.9× eligibility time with 0 mismatches and 1.8–7.3× end-to-end where applicable | the Desert stage *is* before terrain and the centre-cell exit already stops 98 % of candidates; no gain when the first full-Desert candidate is eligible | high | other hardware; more seeds/origins |
+| **H2 Expensive biome validation** | **REFUTED for biome sampling; the Desert test is expensive only because it needs a height** | `getNoiseBiome` 0.004 ms, 0.17 % of time; each cell test needs one `getBaseHeight` (0.45 ms) | – | high | – |
+| **H3 Expensive terrain validation** | **CONFIRMED — dominant** | terrain heights 97.8 % of wall time; 6,561-column stage 65.1 %; 2.7 s per full-Desert candidate | – | high | profile `getBaseHeight` internals (out of scope: vanilla noise) |
+| **H4 Structure-presence / chunk overhead** | **REFUTED as an independent cost** | vanilla rest 0.58 %; `addPieces` 0.8 %; the probe loop with production eligibility took the same time as vanilla (±6 %) | the chunk pipeline is where the duplicate (H5) happens | high | – |
+| **H5 Repeated evaluation** | **CONFIRMED** | each successful candidate is evaluated in `StructureCheck.canCreateStructure` (main) and again in `Structure.generate` (worker): 19.7 % of all time, ≈ 48 % when the first Desert candidate succeeds; centre cell re-tested in the sweep (negligible) | – | high (bytecode + counters) | – |
+| **H6 Search sparsity** | **CONFIRMED as a multiplier** | 0.12 % of candidates eligible; a pyramid within radius 5 in 1 / 6 seeds; up to 1,758 candidates before the first success; centre rejects alone 16.7 s over 24 searches | sparsity is cheap per candidate (0.7 ms); the expensive part is the few dense candidates | high | – |
+
+**Conclusion (multi-cause):** the stalls are caused by **terrain height sampling (H3)**, amplified by **evaluating every height before applying the range rule (H1, within-stage)**, by **re-evaluating each successful candidate (H5)**, and by **sparsity (H6)** determining how many dense candidates are met before success. Biome checks (H2) and vanilla machinery (H4) are not material.

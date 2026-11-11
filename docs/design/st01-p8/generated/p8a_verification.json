@@ -1,0 +1,257 @@
+{
+  "metadata": {
+    "suite": "ST-01 P8-A NBT & Spatial Verification",
+    "repo": "ItzGamesGD/MoreMinecrafts-Beta",
+    "status": "PASS",
+    "in_game_validation": "LIVE VALIDATION PENDING",
+    "server_testing": "PARTIAL / UNVERIFIED"
+  },
+  "checks": [
+    {
+      "id": "T1_NBT_LOAD",
+      "title": "NBT file parses cleanly",
+      "verdict": "PASS",
+      "evidence": "Loaded 73791 bytes from /home/user/MoreMinecrafts-Beta/src/main/resources/data/moreminecrafts/structure/pyramid/royal_hall.nbt"
+    },
+    {
+      "id": "T1_DATA_VERSION",
+      "title": "DataVersion matches Fabric 26.3 schema (5023)",
+      "verdict": "PASS",
+      "evidence": "DataVersion = 5023"
+    },
+    {
+      "id": "T1_BOUNDS_SIZE",
+      "title": "Structure size equals reservation dimensions (39, 20, 39)",
+      "verdict": "PASS",
+      "evidence": "size = (39, 20, 39)"
+    },
+    {
+      "id": "T1_SCHEMA_STRUCTURE",
+      "title": "Structure palette, blocks, and entities arrays are valid",
+      "verdict": "PASS",
+      "evidence": "palette states: 10, block entries: 30420, entities: 0"
+    },
+    {
+      "id": "T1_BLOCK_DENSITY",
+      "title": "Every cell in 39x20x39 volume is uniquely populated (no missing or duplicate pos)",
+      "verdict": "PASS",
+      "evidence": "unique pos: 30420, duplicates: 0"
+    },
+    {
+      "id": "T2_GEOMETRY_ALIGNMENT",
+      "title": "Voxel-level alignment with P6/P7 model and architectural specifications",
+      "verdict": "PASS",
+      "evidence": "Mismatches found: 0"
+    },
+    {
+      "id": "T3_PRIMARY_CHEST_STATES",
+      "title": "PRIMARY B double chest at (-21,-20,33) [left] and (-20,-20,33) [right] with facing=north",
+      "verdict": "PASS",
+      "evidence": "Left half (-21, -20, 33) (local (19, 4, 31)): facing=north, type=left, nbt=Compound({'id': String('minecraft:chest')}); Right half (-20, -20, 33) (local (20, 4, 31)): facing=north, type=right, nbt=Compound({'id': String('minecraft:chest')})"
+    },
+    {
+      "id": "T3_CHEST_PAIRING_INVARIANT",
+      "title": "Vanilla ChestBlock connectivity invariant satisfied (getConnectedDirection links halves)",
+      "verdict": "PASS",
+      "evidence": "Left connects east -> (20, 4, 31), Right connects west -> (19, 4, 31)"
+    },
+    {
+      "id": "T3_CHEST_SUPPORT_AND_CLEARANCE",
+      "title": "PRIMARY B rests on solid Dais and has unobstructed vertical opening clearance (>=3 air blocks above)",
+      "verdict": "PASS",
+      "evidence": "Support: left=minecraft:smooth_sandstone, right=minecraft:smooth_sandstone; Headroom (+1..+3): left=['minecraft:air', 'minecraft:air', 'minecraft:air'], right=['minecraft:air', 'minecraft:air', 'minecraft:air']"
+    },
+    {
+      "id": "T4_GUARDIAN_CLEARANCE",
+      "title": "Guardian 3B spawn anchor (-21,-22,26) has solid floor support, 3x5x3 air clearance, and >=10m headroom",
+      "verdict": "PASS",
+      "evidence": "Floor at Y=-23: minecraft:smooth_red_sandstone; 3x5x3 clearance: 45/45 air blocks; vertical headroom: 12 blocks"
+    },
+    {
+      "id": "T5_PLAYER_ACCESS_AND_EXCLUSIONS",
+      "title": "North doorway open, Dais frontal stairs present, and SECONDARY chest excluded (alcove clear air)",
+      "verdict": "PASS",
+      "evidence": "Doorway (3x3): air=True, floor=True, lintel=True; Secondary chest excluded: True; Dais stairs count: 18; D1 two-row ascent layout (z=30 @y=-22, z=31 @y=-21 on support): True"
+    },
+    {
+      "id": "T6_ROTATION_TRANSFORMATIONS",
+      "title": "All 4 rotations preserve double-chest adjacency and facing connectivity invariants",
+      "verdict": "PASS",
+      "evidence": "Tested rotations: ['NONE', 'CLOCKWISE_90', 'CLOCKWISE_180', 'COUNTERCLOCKWISE_90']; all valid double chest pairs: True"
+    },
+    {
+      "id": "T6_MIRROR_TRANSFORMATIONS",
+      "title": "Both mirrors preserve coordinate boundaries and double-chest pairing with inverted handedness",
+      "verdict": "PASS",
+      "evidence": "Tested mirrors: ['LEFT_RIGHT', 'FRONT_BACK']; all valid double chest pairs: True"
+    },
+    {
+      "id": "T7_RESERVATION_BOUNDS",
+      "title": "Structure template bounds exactly match P2/P3/P6 reservation [-40,-24,2] to [-2,-5,40]",
+      "verdict": "PASS",
+      "evidence": "Min corner: (-40, -24, 2), Max corner: (-2, -5, 40); Chunk range: X[-3..-1], Z[0..2] (9 chunks)"
+    }
+  ],
+  "metrics": {
+    "nbt_path": "src/main/resources/data/moreminecrafts/structure/pyramid/royal_hall.nbt",
+    "data_version": 5023,
+    "size": [
+      39,
+      20,
+      39
+    ],
+    "populated_blocks": 20805,
+    "air_blocks": 9615,
+    "materials": {
+      "sandstone": 7784,
+      "smooth_sandstone": 11366,
+      "air": 9615,
+      "chiseled_sandstone": 304,
+      "cut_sandstone": 1161,
+      "smooth_red_sandstone": 168,
+      "sandstone_stairs": 18,
+      "chest": 2,
+      "gold_block": 2
+    },
+    "primary_chest": {
+      "candidate": "B",
+      "blocks": [
+        [
+          -21,
+          -20,
+          33
+        ],
+        [
+          -20,
+          -20,
+          33
+        ]
+      ],
+      "local_pos": [
+        [
+          19,
+          4,
+          31
+        ],
+        [
+          20,
+          4,
+          31
+        ]
+      ],
+      "facing": "north",
+      "types": [
+        "left",
+        "right"
+      ],
+      "tomb_anchor": [
+        -21,
+        -20,
+        33
+      ]
+    },
+    "guardian_3b": {
+      "spawn_anchor": [
+        -21,
+        -22,
+        26
+      ],
+      "local_pos": [
+        19,
+        2,
+        24
+      ],
+      "yaw": 0.0,
+      "clearance_volume": "3x5x3 air",
+      "headroom_blocks": 12
+    },
+    "rotation_matrix": {
+      "NONE": {
+        "pos_left": [
+          19,
+          4,
+          31
+        ],
+        "pos_right": [
+          20,
+          4,
+          31
+        ],
+        "facing": "north",
+        "valid_pair": true
+      },
+      "CLOCKWISE_90": {
+        "pos_left": [
+          7,
+          4,
+          19
+        ],
+        "pos_right": [
+          7,
+          4,
+          20
+        ],
+        "facing": "east",
+        "valid_pair": true
+      },
+      "CLOCKWISE_180": {
+        "pos_left": [
+          19,
+          4,
+          7
+        ],
+        "pos_right": [
+          18,
+          4,
+          7
+        ],
+        "facing": "south",
+        "valid_pair": true
+      },
+      "COUNTERCLOCKWISE_90": {
+        "pos_left": [
+          31,
+          4,
+          19
+        ],
+        "pos_right": [
+          31,
+          4,
+          18
+        ],
+        "facing": "west",
+        "valid_pair": true
+      }
+    },
+    "mirror_matrix": {
+      "LEFT_RIGHT": {
+        "pos_left": [
+          19,
+          4,
+          7
+        ],
+        "pos_right": [
+          20,
+          4,
+          7
+        ],
+        "facing": "south",
+        "valid_pair": true
+      },
+      "FRONT_BACK": {
+        "pos_left": [
+          19,
+          4,
+          31
+        ],
+        "pos_right": [
+          18,
+          4,
+          31
+        ],
+        "facing": "north",
+        "valid_pair": true
+      }
+    }
+  }
+}

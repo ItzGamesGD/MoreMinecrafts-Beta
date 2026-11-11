@@ -1,0 +1,961 @@
+{
+ "A": {
+  "east": {
+   "checks": [
+    {
+     "id": "V1",
+     "title": "Vault clear interior plan 21x25 (Q65) and maximum clear height 10 (Q66): voxel scan vs frame arithmetic",
+     "verdict": "PASS",
+     "evidence": "floor-layer interior X[-37,-17] Z[12,36] = 21x25, 525 cells (525); max clear height 10; frame D=21 W=25"
+    },
+    {
+     "id": "V2",
+     "title": "Ceiling steps 8 (side) -> 9 (intermediate) -> 10 (centre), symmetric, constant along the depth (Q67/Q68; boundaries PROPOSED)",
+     "verdict": "PASS",
+     "evidence": "clear height by |b| (scan at 3 depths) {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 9, 7: 9, 8: 9, 9: 8, 10: 8, 11: 8, 12: 8}; analytic {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 9, 7: 9, 8: 9, 9: 8, 10: 8, 11: 8, 12: 8}; zone widths centre 9, intermediate 8, side 8; symmetric True"
+    },
+    {
+     "id": "V3",
+     "title": "Central aisle >= 5 wide from the entrance to the stair foot (Q70): per-depth clear run through the axis, a 5x5 walker, entrance corridor width",
+     "verdict": "PASS",
+     "evidence": "clear run through the axis per depth a=0..6: min 5 max 9; 5x5 walker reaches the stair foot True; entrance corridor width 5"
+    },
+    {
+     "id": "V4",
+     "title": "Rear dais 15x11 plan, 3 high (Q85/Q71); frontal stair 7 wide, run 5 = 2 outside + 3 inset, rise 3 with horizontal portions (Q89-Q91)",
+     "verdict": "PASS",
+     "evidence": "dais plan 15x11 (165 cells, 165), top 3; stair tread heights by run cell [1, 1, 2, 2, 3]; outside cells 2, inset cells 3, stair width 7; monotone step <=1 True"
+    },
+    {
+     "id": "V5",
+     "title": "Four floor-founded papyrus columns at the dais corners: body 3x3, 7 high (base through capital), capital <= 5x5, 2x2 plan overlap with the dais, 1 block projecting out (Q80-Q88)",
+     "verdict": "PASS",
+     "evidence": "4 columns; (id, body, height, base y offset, capital bbox, overlap cells, outside cells, founded on floor) [('COL0', (3, 3), 7, 0, (4, 5), 4, 5, True), ('COL1', (3, 3), 7, 0, (4, 5), 4, 5, True), ('COL2', (3, 3), 7, 0, (5, 5), 4, 5, True), ('COL3', (3, 3), 7, 0, (5, 5), 4, 5, True)]; element overlaps 0"
+    },
+    {
+     "id": "V5b",
+     "title": "Thin overhead beams (1x1) join the four column tops and keep an air gap to the stepped ceiling (Q96: visually independent)",
+     "verdict": "PASS",
+     "evidence": "48 beam voxels at Y [-30]; min air gap to ceiling 1"
+    },
+    {
+     "id": "V6",
+     "title": "Giant chest: body 5 (front width) x 3 (depth), stepped base <= 7x5, centred laterally and toward the rear of the dais, lid opening clear above (Q72, Q92, Q93)",
+     "verdict": "PASS",
+     "evidence": "body 5x3 (b x a), base 7x5; local a-range body 15..17 of D=21; lid clearance 2 above True; lateral centring True; base on dais top True; chest height PROPOSED 4"
+    },
+    {
+     "id": "V7",
+     "title": "Real connection: royal-hall floor -> hidden stair -> landings -> vault entrance -> aisle -> dais stair -> all five chest-front interaction cells, and the crypt branch, reachable on foot from the P1 landing",
+     "verdict": "PASS",
+     "evidence": "unreachable []; steps hatch edge -> chest front centre 53; P1 landing -> chest front 212; -> vault entry 41; -> crypt interior 30; front cells reached 5/5"
+    },
+    {
+     "id": "V7b",
+     "title": "Chest front interaction row (5 cells facing the chest) is open and standable, 2 high",
+     "verdict": "PASS",
+     "evidence": "cells [(-30, -34, 22), (-30, -34, 23), (-30, -34, 24), (-30, -34, 25), (-30, -34, 26)] free True"
+    },
+    {
+     "id": "V8",
+     "title": "Irregular mineral piles on both sides, left/right balanced (<=10%), varied heights, none in the 5-wide aisle (Q64/Q69/Q70)",
+     "verdict": "PASS",
+     "evidence": "volumes {'PILES_P': 160, 'PILES_N': 161} imbalance 0.006; column heights present [1, 2, 3, 4]; cells inside |b|<=2 aisle 0"
+    },
+    {
+     "id": "V9",
+     "title": "Hidden stair: 1:1 gradient, walked headroom >= 4, width >= 3, landings >= 5x5, at least one direction change at a landing (Q13/Q14; widths/headroom PROPOSED)",
+     "verdict": "PASS",
+     "evidence": "flights (id, treads, 1:1, walked headroom, width) [('FA', 9, True, 4, 3), ('FB', 5, True, 4, 3)]; landings [('LA', 5, 5), ('LB', 5, 5)]; total treads 14; vertical drop hall floor -22 -> vault floor -37 = 15"
+    },
+    {
+     "id": "V10",
+     "title": "No collision with L1-L3 / royal hall (P1-P3) and no unintended contact: P4 voids overlap no existing void, enter the hall reservation only through the declared hatch pierce volume, touch only declared links, keep >= 2 blocks to unlinked cavities",
+     "verdict": "PASS",
+     "evidence": "minimum gap to unlinked existing cavities 5; void overlap with existing voids 0; P4/P4 overlap 0; cells inside HALL_RES outside the pierce volume 0; undeclared face contacts []; declared without contact []; contact with pre-existing voids outside the pierce 0; closer than 2 to unlinked cavities []; elements placed into solid 0"
+    },
+    {
+     "id": "V11",
+     "title": "Structural separation: vault/crypt envelopes (walls 3, floor/roof 2) overlap no other structure or reservation and stay >= 2 from foreign cavities; measured wall/roof/floor thickness around the vault and crypt",
+     "verdict": "PASS",
+     "evidence": "envelope faults []; minimum solid thickness scanned (excluding declared openings) (lateral, vertical): vault (3, 2), crypt (3, 2) (designed: walls 3, floor/roof 2; required here: walls >= 3, floor/roof >= 2)"
+    },
+    {
+     "id": "V12",
+     "title": "Whole generated P4 structure (vault/crypt walls and slabs, corridors and stairs with minimum wall 2) stays inside X/Z +-40 (D01 whole-structure reading); excess distance and voxel count",
+     "verdict": "PASS",
+     "evidence": "max excess 0 blocks (analytic over 40 boxes); voxels outside +-40 0 (box-union count 0); P4 structure X[-40,23] Z[9,39]"
+    },
+    {
+     "id": "V13",
+     "title": "Lowest cavity and lowest generated block of the P4 structure (depth input for Q98): voxel vs box arithmetic",
+     "verdict": "PASS",
+     "evidence": "lowest cavity Y -37 (analytic -37) = depth 37; lowest structure block Y -39 = depth 39; hall floor -22, P2 provisional depth 24; NOT an approved maximum (crypt size and candidate selection open)"
+    },
+    {
+     "id": "V14",
+     "title": "P3 hall is untouched: P4 placed no block inside the hall except the declared pierce volume; hall elements keep their voxels",
+     "verdict": "PASS",
+     "evidence": "cells carved inside HALL_RES outside the pierce volume 0; pierce volume [-9, -5, -24, -19, 33, 37] (P3 hatch zone X -9..-5 Z 33..37 plus the 2-thick slab); pierce voxels actually carved 42"
+    },
+    {
+     "id": "V15",
+     "title": "Q97 horizontal stagger through crypt and vault: plan overlap with the royal hall and centre offsets (interpretation of 'staggered' is an owner decision)",
+     "verdict": "UNVERIFIED",
+     "evidence": "hall centre (-21.0,21.0); vault centre (-27.0,24.0), 100% of the vault plan lies under the hall, offset 6.7; crypt centre (14.0,24.0), 0% under the hall, offset 35.1"
+    },
+    {
+     "id": "V16",
+     "title": "Terrain / worldgen / chunk / neighbouring structures, real-client look, chest model and vanilla-GUI behaviour, mechanism of the hidden cover, golem guidance route, mineral-block mineability, loot",
+     "verdict": "UNVERIFIED",
+     "evidence": "no runtime, NBT or world data exists; open stair cut in the hall floor is a fall hazard until a cover mechanism (not designed) closes it"
+    }
+   ],
+   "metrics": {
+    "walk_from_p1": {
+     "HATCH": 159,
+     "LANDING_A": 172,
+     "LANDING_B": 182,
+     "VAULT_ENTRY": 200,
+     "CRYPT_IN": 189,
+     "DAIS_FRONT": 212,
+     "VAULT_AISLE_START": 199,
+     "STAIR_FOOT": 205,
+     "CHEST_FRONT0": 214,
+     "CHEST_FRONT1": 213,
+     "CHEST_FRONT2": 212,
+     "CHEST_FRONT3": 211,
+     "CHEST_FRONT4": 210
+    },
+    "walk_from_hatch": {
+     "HATCH": 0,
+     "LANDING_A": 13,
+     "LANDING_B": 23,
+     "VAULT_ENTRY": 41,
+     "CRYPT_IN": 30,
+     "DAIS_FRONT": 53,
+     "VAULT_AISLE_START": 40,
+     "STAIR_FOOT": 46,
+     "CHEST_FRONT0": 55,
+     "CHEST_FRONT1": 54,
+     "CHEST_FRONT2": 53,
+     "CHEST_FRONT3": 52,
+     "CHEST_FRONT4": 51
+    },
+    "stairs": [
+     [
+      "FA",
+      9,
+      true,
+      4,
+      3
+     ],
+     [
+      "FB",
+      5,
+      true,
+      4,
+      3
+     ]
+    ],
+    "landings": [
+     [
+      "LA",
+      5,
+      5
+     ],
+     [
+      "LB",
+      5,
+      5
+     ]
+    ],
+    "treads": 14,
+    "drop": 15,
+    "min_gap_unlinked": 5,
+    "thickness": {
+     "VAULT": [
+      3,
+      2
+     ],
+     "CRYPT": [
+      3,
+      2
+     ]
+    },
+    "extent": {
+     "x": [
+      -40,
+      23
+     ],
+     "z": [
+      9,
+      39
+     ],
+     "excess": 0,
+     "voxels_outside": 0
+    },
+    "lowest_cavity": -37,
+    "lowest_structure": -39,
+    "stagger": {
+     "hall_centre": [
+      -21.0,
+      21.0
+     ],
+     "vault_centre": [
+      -27.0,
+      24.0
+     ],
+     "crypt_centre": [
+      14.0,
+      24.0
+     ],
+     "vault_under_hall_fraction": 1.0,
+     "crypt_under_hall_fraction": 0.0,
+     "hall_to_vault_offset": 6.708203932499369,
+     "hall_to_crypt_offset": 35.12833614050059
+    }
+   }
+  },
+  "west": {
+   "checks": [
+    {
+     "id": "V1",
+     "title": "Vault clear interior plan 21x25 (Q65) and maximum clear height 10 (Q66): voxel scan vs frame arithmetic",
+     "verdict": "PASS",
+     "evidence": "floor-layer interior X[17,37] Z[12,36] = 21x25, 525 cells (525); max clear height 10; frame D=21 W=25"
+    },
+    {
+     "id": "V2",
+     "title": "Ceiling steps 8 (side) -> 9 (intermediate) -> 10 (centre), symmetric, constant along the depth (Q67/Q68; boundaries PROPOSED)",
+     "verdict": "PASS",
+     "evidence": "clear height by |b| (scan at 3 depths) {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 9, 7: 9, 8: 9, 9: 8, 10: 8, 11: 8, 12: 8}; analytic {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 9, 7: 9, 8: 9, 9: 8, 10: 8, 11: 8, 12: 8}; zone widths centre 9, intermediate 8, side 8; symmetric True"
+    },
+    {
+     "id": "V3",
+     "title": "Central aisle >= 5 wide from the entrance to the stair foot (Q70): per-depth clear run through the axis, a 5x5 walker, entrance corridor width",
+     "verdict": "PASS",
+     "evidence": "clear run through the axis per depth a=0..6: min 5 max 9; 5x5 walker reaches the stair foot True; entrance corridor width 5"
+    },
+    {
+     "id": "V4",
+     "title": "Rear dais 15x11 plan, 3 high (Q85/Q71); frontal stair 7 wide, run 5 = 2 outside + 3 inset, rise 3 with horizontal portions (Q89-Q91)",
+     "verdict": "PASS",
+     "evidence": "dais plan 15x11 (165 cells, 165), top 3; stair tread heights by run cell [1, 1, 2, 2, 3]; outside cells 2, inset cells 3, stair width 7; monotone step <=1 True"
+    },
+    {
+     "id": "V5",
+     "title": "Four floor-founded papyrus columns at the dais corners: body 3x3, 7 high (base through capital), capital <= 5x5, 2x2 plan overlap with the dais, 1 block projecting out (Q80-Q88)",
+     "verdict": "PASS",
+     "evidence": "4 columns; (id, body, height, base y offset, capital bbox, overlap cells, outside cells, founded on floor) [('COL0', (3, 3), 7, 0, (4, 5), 4, 5, True), ('COL1', (3, 3), 7, 0, (4, 5), 4, 5, True), ('COL2', (3, 3), 7, 0, (5, 5), 4, 5, True), ('COL3', (3, 3), 7, 0, (5, 5), 4, 5, True)]; element overlaps 0"
+    },
+    {
+     "id": "V5b",
+     "title": "Thin overhead beams (1x1) join the four column tops and keep an air gap to the stepped ceiling (Q96: visually independent)",
+     "verdict": "PASS",
+     "evidence": "48 beam voxels at Y [-30]; min air gap to ceiling 1"
+    },
+    {
+     "id": "V6",
+     "title": "Giant chest: body 5 (front width) x 3 (depth), stepped base <= 7x5, centred laterally and toward the rear of the dais, lid opening clear above (Q72, Q92, Q93)",
+     "verdict": "PASS",
+     "evidence": "body 5x3 (b x a), base 7x5; local a-range body 15..17 of D=21; lid clearance 2 above True; lateral centring True; base on dais top True; chest height PROPOSED 4"
+    },
+    {
+     "id": "V7",
+     "title": "Real connection: royal-hall floor -> hidden stair -> landings -> vault entrance -> aisle -> dais stair -> all five chest-front interaction cells, and the crypt branch, reachable on foot from the P1 landing",
+     "verdict": "PASS",
+     "evidence": "unreachable []; steps hatch edge -> chest front centre 53; P1 landing -> chest front 212; -> vault entry 41; -> crypt interior 30; front cells reached 5/5"
+    },
+    {
+     "id": "V7b",
+     "title": "Chest front interaction row (5 cells facing the chest) is open and standable, 2 high",
+     "verdict": "PASS",
+     "evidence": "cells [(30, -34, 22), (30, -34, 23), (30, -34, 24), (30, -34, 25), (30, -34, 26)] free True"
+    },
+    {
+     "id": "V8",
+     "title": "Irregular mineral piles on both sides, left/right balanced (<=10%), varied heights, none in the 5-wide aisle (Q64/Q69/Q70)",
+     "verdict": "PASS",
+     "evidence": "volumes {'PILES_P': 160, 'PILES_N': 161} imbalance 0.006; column heights present [1, 2, 3, 4]; cells inside |b|<=2 aisle 0"
+    },
+    {
+     "id": "V9",
+     "title": "Hidden stair: 1:1 gradient, walked headroom >= 4, width >= 3, landings >= 5x5, at least one direction change at a landing (Q13/Q14; widths/headroom PROPOSED)",
+     "verdict": "PASS",
+     "evidence": "flights (id, treads, 1:1, walked headroom, width) [('FA', 9, True, 4, 3), ('FB', 5, True, 4, 3)]; landings [('LA', 5, 5), ('LB', 5, 5)]; total treads 14; vertical drop hall floor -22 -> vault floor -37 = 15"
+    },
+    {
+     "id": "V10",
+     "title": "No collision with L1-L3 / royal hall (P1-P3) and no unintended contact: P4 voids overlap no existing void, enter the hall reservation only through the declared hatch pierce volume, touch only declared links, keep >= 2 blocks to unlinked cavities",
+     "verdict": "PASS",
+     "evidence": "minimum gap to unlinked existing cavities 5; void overlap with existing voids 0; P4/P4 overlap 0; cells inside HALL_RES outside the pierce volume 0; undeclared face contacts []; declared without contact []; contact with pre-existing voids outside the pierce 0; closer than 2 to unlinked cavities []; elements placed into solid 0"
+    },
+    {
+     "id": "V11",
+     "title": "Structural separation: vault/crypt envelopes (walls 3, floor/roof 2) overlap no other structure or reservation and stay >= 2 from foreign cavities; measured wall/roof/floor thickness around the vault and crypt",
+     "verdict": "PASS",
+     "evidence": "envelope faults []; minimum solid thickness scanned (excluding declared openings) (lateral, vertical): vault (3, 2), crypt (3, 2) (designed: walls 3, floor/roof 2; required here: walls >= 3, floor/roof >= 2)"
+    },
+    {
+     "id": "V12",
+     "title": "Whole generated P4 structure (vault/crypt walls and slabs, corridors and stairs with minimum wall 2) stays inside X/Z +-40 (D01 whole-structure reading); excess distance and voxel count",
+     "verdict": "PASS",
+     "evidence": "max excess 0 blocks (analytic over 40 boxes); voxels outside +-40 0 (box-union count 0); P4 structure X[-23,40] Z[9,39]"
+    },
+    {
+     "id": "V13",
+     "title": "Lowest cavity and lowest generated block of the P4 structure (depth input for Q98): voxel vs box arithmetic",
+     "verdict": "PASS",
+     "evidence": "lowest cavity Y -37 (analytic -37) = depth 37; lowest structure block Y -39 = depth 39; hall floor -22, P2 provisional depth 24; NOT an approved maximum (crypt size and candidate selection open)"
+    },
+    {
+     "id": "V14",
+     "title": "P3 hall is untouched: P4 placed no block inside the hall except the declared pierce volume; hall elements keep their voxels",
+     "verdict": "PASS",
+     "evidence": "cells carved inside HALL_RES outside the pierce volume 0; pierce volume [5, 9, -24, -19, 33, 37] (P3 hatch zone X -9..-5 Z 33..37 plus the 2-thick slab); pierce voxels actually carved 42"
+    },
+    {
+     "id": "V15",
+     "title": "Q97 horizontal stagger through crypt and vault: plan overlap with the royal hall and centre offsets (interpretation of 'staggered' is an owner decision)",
+     "verdict": "UNVERIFIED",
+     "evidence": "hall centre (21.0,21.0); vault centre (27.0,24.0), 100% of the vault plan lies under the hall, offset 6.7; crypt centre (-14.0,24.0), 0% under the hall, offset 35.1"
+    },
+    {
+     "id": "V16",
+     "title": "Terrain / worldgen / chunk / neighbouring structures, real-client look, chest model and vanilla-GUI behaviour, mechanism of the hidden cover, golem guidance route, mineral-block mineability, loot",
+     "verdict": "UNVERIFIED",
+     "evidence": "no runtime, NBT or world data exists; open stair cut in the hall floor is a fall hazard until a cover mechanism (not designed) closes it"
+    }
+   ],
+   "metrics": {
+    "walk_from_p1": {
+     "HATCH": 159,
+     "LANDING_A": 172,
+     "LANDING_B": 182,
+     "VAULT_ENTRY": 200,
+     "CRYPT_IN": 189,
+     "DAIS_FRONT": 212,
+     "VAULT_AISLE_START": 199,
+     "STAIR_FOOT": 205,
+     "CHEST_FRONT0": 214,
+     "CHEST_FRONT1": 213,
+     "CHEST_FRONT2": 212,
+     "CHEST_FRONT3": 211,
+     "CHEST_FRONT4": 210
+    },
+    "walk_from_hatch": {
+     "HATCH": 0,
+     "LANDING_A": 13,
+     "LANDING_B": 23,
+     "VAULT_ENTRY": 41,
+     "CRYPT_IN": 30,
+     "DAIS_FRONT": 53,
+     "VAULT_AISLE_START": 40,
+     "STAIR_FOOT": 46,
+     "CHEST_FRONT0": 55,
+     "CHEST_FRONT1": 54,
+     "CHEST_FRONT2": 53,
+     "CHEST_FRONT3": 52,
+     "CHEST_FRONT4": 51
+    },
+    "stairs": [
+     [
+      "FA",
+      9,
+      true,
+      4,
+      3
+     ],
+     [
+      "FB",
+      5,
+      true,
+      4,
+      3
+     ]
+    ],
+    "landings": [
+     [
+      "LA",
+      5,
+      5
+     ],
+     [
+      "LB",
+      5,
+      5
+     ]
+    ],
+    "treads": 14,
+    "drop": 15,
+    "min_gap_unlinked": 5,
+    "thickness": {
+     "VAULT": [
+      3,
+      2
+     ],
+     "CRYPT": [
+      3,
+      2
+     ]
+    },
+    "extent": {
+     "x": [
+      -23,
+      40
+     ],
+     "z": [
+      9,
+      39
+     ],
+     "excess": 0,
+     "voxels_outside": 0
+    },
+    "lowest_cavity": -37,
+    "lowest_structure": -39,
+    "stagger": {
+     "hall_centre": [
+      21.0,
+      21.0
+     ],
+     "vault_centre": [
+      27.0,
+      24.0
+     ],
+     "crypt_centre": [
+      -14.0,
+      24.0
+     ],
+     "vault_under_hall_fraction": 1.0,
+     "crypt_under_hall_fraction": 0.0,
+     "hall_to_vault_offset": 6.708203932499369,
+     "hall_to_crypt_offset": 35.12833614050059
+    }
+   }
+  },
+  "equivalence": {
+   "voxel_mirror": {
+    "solid": true,
+    "own": true,
+    "elem": true,
+    "env": true
+   },
+   "verdicts_equal": true
+  },
+  "vault": {
+   "xe": -17,
+   "sg": -1,
+   "zc": 24,
+   "F": -37,
+   "D": 21,
+   "Wd": 25,
+   "pile_seed": 18,
+   "pile_imbalance": 0.006211180124223602
+  }
+ },
+ "B": {
+  "east": {
+   "checks": [
+    {
+     "id": "V1",
+     "title": "Vault clear interior plan 21x25 (Q65) and maximum clear height 10 (Q66): voxel scan vs frame arithmetic",
+     "verdict": "PASS",
+     "evidence": "floor-layer interior X[6,30] Z[16,36] = 25x21, 525 cells (525); max clear height 10; frame D=25 W=21"
+    },
+    {
+     "id": "V2",
+     "title": "Ceiling steps 8 (side) -> 9 (intermediate) -> 10 (centre), symmetric, constant along the depth (Q67/Q68; boundaries PROPOSED)",
+     "verdict": "PASS",
+     "evidence": "clear height by |b| (scan at 3 depths) {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 9, 7: 9, 8: 8, 9: 8, 10: 8}; analytic {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 9, 7: 9, 8: 8, 9: 8, 10: 8}; zone widths centre 9, intermediate 6, side 6; symmetric True"
+    },
+    {
+     "id": "V3",
+     "title": "Central aisle >= 5 wide from the entrance to the stair foot (Q70): per-depth clear run through the axis, a 5x5 walker, entrance corridor width",
+     "verdict": "PASS",
+     "evidence": "clear run through the axis per depth a=0..10: min 5 max 9; 5x5 walker reaches the stair foot True; entrance corridor width 5"
+    },
+    {
+     "id": "V4",
+     "title": "Rear dais 15x11 plan, 3 high (Q85/Q71); frontal stair 7 wide, run 5 = 2 outside + 3 inset, rise 3 with horizontal portions (Q89-Q91)",
+     "verdict": "PASS",
+     "evidence": "dais plan 15x11 (165 cells, 165), top 3; stair tread heights by run cell [1, 1, 2, 2, 3]; outside cells 2, inset cells 3, stair width 7; monotone step <=1 True"
+    },
+    {
+     "id": "V5",
+     "title": "Four floor-founded papyrus columns at the dais corners: body 3x3, 7 high (base through capital), capital <= 5x5, 2x2 plan overlap with the dais, 1 block projecting out (Q80-Q88)",
+     "verdict": "PASS",
+     "evidence": "4 columns; (id, body, height, base y offset, capital bbox, overlap cells, outside cells, founded on floor) [('COL0', (3, 3), 7, 0, (4, 5), 4, 5, True), ('COL1', (3, 3), 7, 0, (4, 5), 4, 5, True), ('COL2', (3, 3), 7, 0, (5, 5), 4, 5, True), ('COL3', (3, 3), 7, 0, (5, 5), 4, 5, True)]; element overlaps 0"
+    },
+    {
+     "id": "V5b",
+     "title": "Thin overhead beams (1x1) join the four column tops and keep an air gap to the stepped ceiling (Q96: visually independent)",
+     "verdict": "PASS",
+     "evidence": "48 beam voxels at Y [-23]; min air gap to ceiling 1"
+    },
+    {
+     "id": "V6",
+     "title": "Giant chest: body 5 (front width) x 3 (depth), stepped base <= 7x5, centred laterally and toward the rear of the dais, lid opening clear above (Q72, Q92, Q93)",
+     "verdict": "PASS",
+     "evidence": "body 5x3 (b x a), base 7x5; local a-range body 19..21 of D=25; lid clearance 2 above True; lateral centring True; base on dais top True; chest height PROPOSED 4"
+    },
+    {
+     "id": "V7",
+     "title": "Real connection: royal-hall floor -> hidden stair -> landings -> vault entrance -> aisle -> dais stair -> all five chest-front interaction cells, and the crypt branch, reachable on foot from the P1 landing",
+     "verdict": "PASS",
+     "evidence": "unreachable []; steps hatch edge -> chest front centre 42; P1 landing -> chest front 201; -> vault entry 26; -> crypt interior 54; front cells reached 5/5"
+    },
+    {
+     "id": "V7b",
+     "title": "Chest front interaction row (5 cells facing the chest) is open and standable, 2 high",
+     "verdict": "PASS",
+     "evidence": "cells [(23, -27, 24), (23, -27, 25), (23, -27, 26), (23, -27, 27), (23, -27, 28)] free True"
+    },
+    {
+     "id": "V8",
+     "title": "Irregular mineral piles on both sides, left/right balanced (<=10%), varied heights, none in the 5-wide aisle (Q64/Q69/Q70)",
+     "verdict": "PASS",
+     "evidence": "volumes {'PILES_P': 141, 'PILES_N': 139} imbalance 0.014; column heights present [1, 2, 3, 4]; cells inside |b|<=2 aisle 0"
+    },
+    {
+     "id": "V9",
+     "title": "Hidden stair: 1:1 gradient, walked headroom >= 4, width >= 3, landings >= 5x5, at least one direction change at a landing (Q13/Q14; widths/headroom PROPOSED)",
+     "verdict": "PASS",
+     "evidence": "flights (id, treads, 1:1, walked headroom, width) [('FA', 7, True, 4, 3)]; landings [('LA', 5, 5)]; total treads 7; vertical drop hall floor -22 -> vault floor -30 = 8"
+    },
+    {
+     "id": "V10",
+     "title": "No collision with L1-L3 / royal hall (P1-P3) and no unintended contact: P4 voids overlap no existing void, enter the hall reservation only through the declared hatch pierce volume, touch only declared links, keep >= 2 blocks to unlinked cavities",
+     "verdict": "PASS",
+     "evidence": "minimum gap to unlinked existing cavities 2; void overlap with existing voids 0; P4/P4 overlap 0; cells inside HALL_RES outside the pierce volume 0; undeclared face contacts []; declared without contact []; contact with pre-existing voids outside the pierce 0; closer than 2 to unlinked cavities []; elements placed into solid 0"
+    },
+    {
+     "id": "V11",
+     "title": "Structural separation: vault/crypt envelopes (walls 3, floor/roof 2) overlap no other structure or reservation and stay >= 2 from foreign cavities; measured wall/roof/floor thickness around the vault and crypt",
+     "verdict": "PASS",
+     "evidence": "envelope faults []; minimum solid thickness scanned (excluding declared openings) (lateral, vertical): vault (3, 2), crypt (3, 2) (designed: walls 3, floor/roof 2; required here: walls >= 3, floor/roof >= 2)"
+    },
+    {
+     "id": "V12",
+     "title": "Whole generated P4 structure (vault/crypt walls and slabs, corridors and stairs with minimum wall 2) stays inside X/Z +-40 (D01 whole-structure reading); excess distance and voxel count",
+     "verdict": "PASS",
+     "evidence": "max excess 0 blocks (analytic over 32 boxes); voxels outside +-40 0 (box-union count 0); P4 structure X[-11,33] Z[-10,39]"
+    },
+    {
+     "id": "V13",
+     "title": "Lowest cavity and lowest generated block of the P4 structure (depth input for Q98): voxel vs box arithmetic",
+     "verdict": "PASS",
+     "evidence": "lowest cavity Y -30 (analytic -30) = depth 30; lowest structure block Y -32 = depth 32; hall floor -22, P2 provisional depth 24; NOT an approved maximum (crypt size and candidate selection open)"
+    },
+    {
+     "id": "V14",
+     "title": "P3 hall is untouched: P4 placed no block inside the hall except the declared pierce volume; hall elements keep their voxels",
+     "verdict": "PASS",
+     "evidence": "cells carved inside HALL_RES outside the pierce volume 0; pierce volume [-9, -5, -24, -19, 33, 37] (P3 hatch zone X -9..-5 Z 33..37 plus the 2-thick slab); pierce voxels actually carved 42"
+    },
+    {
+     "id": "V15",
+     "title": "Q97 horizontal stagger through crypt and vault: plan overlap with the royal hall and centre offsets (interpretation of 'staggered' is an owner decision)",
+     "verdict": "UNVERIFIED",
+     "evidence": "hall centre (-21.0,21.0); vault centre (18.0,26.0), 0% of the vault plan lies under the hall, offset 39.3; crypt centre (15.0,-1.0), 0% under the hall, offset 42.2"
+    },
+    {
+     "id": "V16",
+     "title": "Terrain / worldgen / chunk / neighbouring structures, real-client look, chest model and vanilla-GUI behaviour, mechanism of the hidden cover, golem guidance route, mineral-block mineability, loot",
+     "verdict": "UNVERIFIED",
+     "evidence": "no runtime, NBT or world data exists; open stair cut in the hall floor is a fall hazard until a cover mechanism (not designed) closes it"
+    }
+   ],
+   "metrics": {
+    "walk_from_p1": {
+     "HATCH": 159,
+     "LANDING_A": 170,
+     "VAULT_ENTRY": 185,
+     "CRYPT_IN": 213,
+     "DAIS_FRONT": 201,
+     "VAULT_AISLE_START": 184,
+     "STAIR_FOOT": 194,
+     "CHEST_FRONT0": 203,
+     "CHEST_FRONT1": 202,
+     "CHEST_FRONT2": 201,
+     "CHEST_FRONT3": 200,
+     "CHEST_FRONT4": 199
+    },
+    "walk_from_hatch": {
+     "HATCH": 0,
+     "LANDING_A": 11,
+     "VAULT_ENTRY": 26,
+     "CRYPT_IN": 54,
+     "DAIS_FRONT": 42,
+     "VAULT_AISLE_START": 25,
+     "STAIR_FOOT": 35,
+     "CHEST_FRONT0": 44,
+     "CHEST_FRONT1": 43,
+     "CHEST_FRONT2": 42,
+     "CHEST_FRONT3": 41,
+     "CHEST_FRONT4": 40
+    },
+    "stairs": [
+     [
+      "FA",
+      7,
+      true,
+      4,
+      3
+     ]
+    ],
+    "landings": [
+     [
+      "LA",
+      5,
+      5
+     ]
+    ],
+    "treads": 7,
+    "drop": 8,
+    "min_gap_unlinked": 2,
+    "thickness": {
+     "VAULT": [
+      3,
+      2
+     ],
+     "CRYPT": [
+      3,
+      2
+     ]
+    },
+    "extent": {
+     "x": [
+      -11,
+      33
+     ],
+     "z": [
+      -10,
+      39
+     ],
+     "excess": 0,
+     "voxels_outside": 0
+    },
+    "lowest_cavity": -30,
+    "lowest_structure": -32,
+    "stagger": {
+     "hall_centre": [
+      -21.0,
+      21.0
+     ],
+     "vault_centre": [
+      18.0,
+      26.0
+     ],
+     "crypt_centre": [
+      15.0,
+      -1.0
+     ],
+     "vault_under_hall_fraction": 0.0,
+     "crypt_under_hall_fraction": 0.0,
+     "hall_to_vault_offset": 39.319206502675,
+     "hall_to_crypt_offset": 42.190046219457976
+    }
+   }
+  },
+  "west": {
+   "checks": [
+    {
+     "id": "V1",
+     "title": "Vault clear interior plan 21x25 (Q65) and maximum clear height 10 (Q66): voxel scan vs frame arithmetic",
+     "verdict": "PASS",
+     "evidence": "floor-layer interior X[-30,-6] Z[16,36] = 25x21, 525 cells (525); max clear height 10; frame D=25 W=21"
+    },
+    {
+     "id": "V2",
+     "title": "Ceiling steps 8 (side) -> 9 (intermediate) -> 10 (centre), symmetric, constant along the depth (Q67/Q68; boundaries PROPOSED)",
+     "verdict": "PASS",
+     "evidence": "clear height by |b| (scan at 3 depths) {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 9, 7: 9, 8: 8, 9: 8, 10: 8}; analytic {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 9, 6: 9, 7: 9, 8: 8, 9: 8, 10: 8}; zone widths centre 9, intermediate 6, side 6; symmetric True"
+    },
+    {
+     "id": "V3",
+     "title": "Central aisle >= 5 wide from the entrance to the stair foot (Q70): per-depth clear run through the axis, a 5x5 walker, entrance corridor width",
+     "verdict": "PASS",
+     "evidence": "clear run through the axis per depth a=0..10: min 5 max 9; 5x5 walker reaches the stair foot True; entrance corridor width 5"
+    },
+    {
+     "id": "V4",
+     "title": "Rear dais 15x11 plan, 3 high (Q85/Q71); frontal stair 7 wide, run 5 = 2 outside + 3 inset, rise 3 with horizontal portions (Q89-Q91)",
+     "verdict": "PASS",
+     "evidence": "dais plan 15x11 (165 cells, 165), top 3; stair tread heights by run cell [1, 1, 2, 2, 3]; outside cells 2, inset cells 3, stair width 7; monotone step <=1 True"
+    },
+    {
+     "id": "V5",
+     "title": "Four floor-founded papyrus columns at the dais corners: body 3x3, 7 high (base through capital), capital <= 5x5, 2x2 plan overlap with the dais, 1 block projecting out (Q80-Q88)",
+     "verdict": "PASS",
+     "evidence": "4 columns; (id, body, height, base y offset, capital bbox, overlap cells, outside cells, founded on floor) [('COL0', (3, 3), 7, 0, (4, 5), 4, 5, True), ('COL1', (3, 3), 7, 0, (4, 5), 4, 5, True), ('COL2', (3, 3), 7, 0, (5, 5), 4, 5, True), ('COL3', (3, 3), 7, 0, (5, 5), 4, 5, True)]; element overlaps 0"
+    },
+    {
+     "id": "V5b",
+     "title": "Thin overhead beams (1x1) join the four column tops and keep an air gap to the stepped ceiling (Q96: visually independent)",
+     "verdict": "PASS",
+     "evidence": "48 beam voxels at Y [-23]; min air gap to ceiling 1"
+    },
+    {
+     "id": "V6",
+     "title": "Giant chest: body 5 (front width) x 3 (depth), stepped base <= 7x5, centred laterally and toward the rear of the dais, lid opening clear above (Q72, Q92, Q93)",
+     "verdict": "PASS",
+     "evidence": "body 5x3 (b x a), base 7x5; local a-range body 19..21 of D=25; lid clearance 2 above True; lateral centring True; base on dais top True; chest height PROPOSED 4"
+    },
+    {
+     "id": "V7",
+     "title": "Real connection: royal-hall floor -> hidden stair -> landings -> vault entrance -> aisle -> dais stair -> all five chest-front interaction cells, and the crypt branch, reachable on foot from the P1 landing",
+     "verdict": "PASS",
+     "evidence": "unreachable []; steps hatch edge -> chest front centre 42; P1 landing -> chest front 201; -> vault entry 26; -> crypt interior 54; front cells reached 5/5"
+    },
+    {
+     "id": "V7b",
+     "title": "Chest front interaction row (5 cells facing the chest) is open and standable, 2 high",
+     "verdict": "PASS",
+     "evidence": "cells [(-23, -27, 24), (-23, -27, 25), (-23, -27, 26), (-23, -27, 27), (-23, -27, 28)] free True"
+    },
+    {
+     "id": "V8",
+     "title": "Irregular mineral piles on both sides, left/right balanced (<=10%), varied heights, none in the 5-wide aisle (Q64/Q69/Q70)",
+     "verdict": "PASS",
+     "evidence": "volumes {'PILES_P': 141, 'PILES_N': 139} imbalance 0.014; column heights present [1, 2, 3, 4]; cells inside |b|<=2 aisle 0"
+    },
+    {
+     "id": "V9",
+     "title": "Hidden stair: 1:1 gradient, walked headroom >= 4, width >= 3, landings >= 5x5, at least one direction change at a landing (Q13/Q14; widths/headroom PROPOSED)",
+     "verdict": "PASS",
+     "evidence": "flights (id, treads, 1:1, walked headroom, width) [('FA', 7, True, 4, 3)]; landings [('LA', 5, 5)]; total treads 7; vertical drop hall floor -22 -> vault floor -30 = 8"
+    },
+    {
+     "id": "V10",
+     "title": "No collision with L1-L3 / royal hall (P1-P3) and no unintended contact: P4 voids overlap no existing void, enter the hall reservation only through the declared hatch pierce volume, touch only declared links, keep >= 2 blocks to unlinked cavities",
+     "verdict": "PASS",
+     "evidence": "minimum gap to unlinked existing cavities 2; void overlap with existing voids 0; P4/P4 overlap 0; cells inside HALL_RES outside the pierce volume 0; undeclared face contacts []; declared without contact []; contact with pre-existing voids outside the pierce 0; closer than 2 to unlinked cavities []; elements placed into solid 0"
+    },
+    {
+     "id": "V11",
+     "title": "Structural separation: vault/crypt envelopes (walls 3, floor/roof 2) overlap no other structure or reservation and stay >= 2 from foreign cavities; measured wall/roof/floor thickness around the vault and crypt",
+     "verdict": "PASS",
+     "evidence": "envelope faults []; minimum solid thickness scanned (excluding declared openings) (lateral, vertical): vault (3, 2), crypt (3, 2) (designed: walls 3, floor/roof 2; required here: walls >= 3, floor/roof >= 2)"
+    },
+    {
+     "id": "V12",
+     "title": "Whole generated P4 structure (vault/crypt walls and slabs, corridors and stairs with minimum wall 2) stays inside X/Z +-40 (D01 whole-structure reading); excess distance and voxel count",
+     "verdict": "PASS",
+     "evidence": "max excess 0 blocks (analytic over 32 boxes); voxels outside +-40 0 (box-union count 0); P4 structure X[-33,11] Z[-10,39]"
+    },
+    {
+     "id": "V13",
+     "title": "Lowest cavity and lowest generated block of the P4 structure (depth input for Q98): voxel vs box arithmetic",
+     "verdict": "PASS",
+     "evidence": "lowest cavity Y -30 (analytic -30) = depth 30; lowest structure block Y -32 = depth 32; hall floor -22, P2 provisional depth 24; NOT an approved maximum (crypt size and candidate selection open)"
+    },
+    {
+     "id": "V14",
+     "title": "P3 hall is untouched: P4 placed no block inside the hall except the declared pierce volume; hall elements keep their voxels",
+     "verdict": "PASS",
+     "evidence": "cells carved inside HALL_RES outside the pierce volume 0; pierce volume [5, 9, -24, -19, 33, 37] (P3 hatch zone X -9..-5 Z 33..37 plus the 2-thick slab); pierce voxels actually carved 42"
+    },
+    {
+     "id": "V15",
+     "title": "Q97 horizontal stagger through crypt and vault: plan overlap with the royal hall and centre offsets (interpretation of 'staggered' is an owner decision)",
+     "verdict": "UNVERIFIED",
+     "evidence": "hall centre (21.0,21.0); vault centre (-18.0,26.0), 0% of the vault plan lies under the hall, offset 39.3; crypt centre (-15.0,-1.0), 0% under the hall, offset 42.2"
+    },
+    {
+     "id": "V16",
+     "title": "Terrain / worldgen / chunk / neighbouring structures, real-client look, chest model and vanilla-GUI behaviour, mechanism of the hidden cover, golem guidance route, mineral-block mineability, loot",
+     "verdict": "UNVERIFIED",
+     "evidence": "no runtime, NBT or world data exists; open stair cut in the hall floor is a fall hazard until a cover mechanism (not designed) closes it"
+    }
+   ],
+   "metrics": {
+    "walk_from_p1": {
+     "HATCH": 159,
+     "LANDING_A": 170,
+     "VAULT_ENTRY": 185,
+     "CRYPT_IN": 213,
+     "DAIS_FRONT": 201,
+     "VAULT_AISLE_START": 184,
+     "STAIR_FOOT": 194,
+     "CHEST_FRONT0": 203,
+     "CHEST_FRONT1": 202,
+     "CHEST_FRONT2": 201,
+     "CHEST_FRONT3": 200,
+     "CHEST_FRONT4": 199
+    },
+    "walk_from_hatch": {
+     "HATCH": 0,
+     "LANDING_A": 11,
+     "VAULT_ENTRY": 26,
+     "CRYPT_IN": 54,
+     "DAIS_FRONT": 42,
+     "VAULT_AISLE_START": 25,
+     "STAIR_FOOT": 35,
+     "CHEST_FRONT0": 44,
+     "CHEST_FRONT1": 43,
+     "CHEST_FRONT2": 42,
+     "CHEST_FRONT3": 41,
+     "CHEST_FRONT4": 40
+    },
+    "stairs": [
+     [
+      "FA",
+      7,
+      true,
+      4,
+      3
+     ]
+    ],
+    "landings": [
+     [
+      "LA",
+      5,
+      5
+     ]
+    ],
+    "treads": 7,
+    "drop": 8,
+    "min_gap_unlinked": 2,
+    "thickness": {
+     "VAULT": [
+      3,
+      2
+     ],
+     "CRYPT": [
+      3,
+      2
+     ]
+    },
+    "extent": {
+     "x": [
+      -33,
+      11
+     ],
+     "z": [
+      -10,
+      39
+     ],
+     "excess": 0,
+     "voxels_outside": 0
+    },
+    "lowest_cavity": -30,
+    "lowest_structure": -32,
+    "stagger": {
+     "hall_centre": [
+      21.0,
+      21.0
+     ],
+     "vault_centre": [
+      -18.0,
+      26.0
+     ],
+     "crypt_centre": [
+      -15.0,
+      -1.0
+     ],
+     "vault_under_hall_fraction": 0.0,
+     "crypt_under_hall_fraction": 0.0,
+     "hall_to_vault_offset": 39.319206502675,
+     "hall_to_crypt_offset": 42.190046219457976
+    }
+   }
+  },
+  "equivalence": {
+   "voxel_mirror": {
+    "solid": true,
+    "own": true,
+    "elem": true,
+    "env": true
+   },
+   "verdicts_equal": true
+  },
+  "vault": {
+   "xe": 6,
+   "sg": 1,
+   "zc": 26,
+   "F": -30,
+   "D": 25,
+   "Wd": 21,
+   "pile_seed": 24,
+   "pile_imbalance": 0.014184397163120567
+  }
+ },
+ "p3_preserved": {
+  "east": {
+   "passes": 25,
+   "fails": [],
+   "unverified": [
+    "B5"
+   ]
+  },
+  "west": {
+   "passes": 25,
+   "fails": [],
+   "unverified": [
+    "B5"
+   ]
+  }
+ },
+ "screen_B_east_adjacent": {
+  "-22": [
+   808,
+   [
+    "B1",
+    "B2",
+    "BRB1",
+    "BRB2",
+    "LND12",
+    "V23"
+   ]
+  ],
+  "-24": [
+   588,
+   [
+    "B1",
+    "B2",
+    "BRB1",
+    "BRB2",
+    "V23"
+   ]
+  ],
+  "-26": [
+   294,
+   [
+    "B1",
+    "B2",
+    "BRB1",
+    "BRB2",
+    "V23"
+   ]
+  ],
+  "-28": [
+   0,
+   []
+  ],
+  "-30": [
+   0,
+   []
+  ],
+  "-32": [
+   0,
+   []
+  ],
+  "-34": [
+   0,
+   []
+  ],
+  "-36": [
+   0,
+   []
+  ],
+  "-38": [
+   0,
+   []
+  ],
+  "-40": [
+   0,
+   []
+  ]
+ }
+}

@@ -1,0 +1,570 @@
+package dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d2;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01PyramidStructure;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Worldgen;
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.MemoryType;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
+import java.util.UUID;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.entity.npc.villager.VillagerData;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.MapItem;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.item.trading.MerchantOffers;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureCheckResult;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.functions.ExplorationMapFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
+
+/**
+ * ST-01 P8-D2 isolated feasibility probe. NOT production; inert unless -Dmm.st01.d2.out is set. Modes (-Dmm.st01.d2.mode):
+ * fixture (phase create|reload), bench, incr, overlap. See docs/design/st01-p8d2.
+ */
+public final class St01D2Probe implements ModInitializer {
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+    private static final Identifier ST01 = Identifier.fromNamespaceAndPath("moreminecrafts", "st01_pyramid");
+
+    @Override
+    public void onInitialize() {
+        String out = System.getProperty("mm.st01.d2.out");
+        if (out == null) return;
+        String mode = System.getProperty("mm.st01.d2.mode", "bench");
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            Map<String, Object> res = new LinkedHashMap<>();
+            res.put("mode", mode);
+            Runnable finish = () -> {
+                try {
+                    server.saveEverything(true, true, true);
+                    Files.writeString(Path.of(out), GSON.toJson(res), StandardCharsets.UTF_8);
+                } catch (Throwable t) { t.printStackTrace(); }
+                Runtime.getRuntime().halt(0);
+            };
+            try {
+                switch (mode) {
+                    case "fixture" -> { if (fixture(server, res, finish)) return; }
+                    case "bench" -> bench(server.overworld(), res);
+                    case "overlap" -> overlap(server.overworld(), res);
+                    case "incr" -> { incr(server, res, finish); return; }
+                    default -> res.put("error", "unknown mode");
+                }
+            } catch (Throwable t) {
+                res.put("error", t.toString());
+                StringBuilder sb = new StringBuilder();
+                for (StackTraceElement e : t.getStackTrace()) sb.append(e).append('\n');
+                res.put("error_stack", sb.toString());
+            }
+            finish.run();
+        });
+    }
+
+    // ---------------------------------------------------------------- helpers
+    static Holder<Structure> st01(ServerLevel level) {
+        return level.registryAccess().lookupOrThrow(Registries.STRUCTURE).get(ST01).orElseThrow();
+    }
+
+    static RandomSpreadStructurePlacement placement(ServerLevel level) {
+        return (RandomSpreadStructurePlacement) level.registryAccess().lookupOrThrow(Registries.STRUCTURE_SET)
+                .get(ST01).orElseThrow().value().placement();
+    }
+
+    /** Ground truth: every REAL valid start inside +-radius blocks (forces STRUCTURE_STARTS, so it warms the cache). */
+    static List<ChunkPos> realStarts(ServerLevel level, int radius) {
+        var placement = placement(level);
+        var st = st01(level).value();
+        long seed = level.getSeed();
+        int spacing = placement.spacing(), rc = radius / 16;
+        int r0 = Math.floorDiv(-rc, spacing), r1 = Math.floorDiv(rc - 1, spacing);
+        List<ChunkPos> out = new ArrayList<>();
+        for (int rx = r0; rx <= r1; rx++) for (int rz = r0; rz <= r1; rz++) {
+            ChunkPos pc = placement.getPotentialStructureChunk(seed, rx * spacing, rz * spacing);
+            if (Math.abs(pc.getMiddleBlockX()) > radius || Math.abs(pc.getMiddleBlockZ()) > radius) continue;
+            StructureStart s = level.getChunk(pc.x(), pc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(st);
+            if (s != null && s.isValid()) out.add(pc);
+        }
+        return out;
+    }
+
+    static LootContext villagerContext(ServerLevel level, Villager v) {
+        LootParams p = new LootParams.Builder(level).withParameter(LootContextParams.ORIGIN, v.position())
+                .withParameter(LootContextParams.THIS_ENTITY, v).withParameter(LootContextParams.ADDITIONAL_COST_COMPONENT_ALLOWED, net.minecraft.util.Unit.INSTANCE).create(LootContextParamSets.VILLAGER_TRADE);
+        return new LootContext.Builder(p).create(Optional.empty());
+    }
+
+    static Villager villager(ServerLevel level, double x, double y, double z, int lvl) {
+        Villager v = new Villager(net.minecraft.world.entity.EntityTypes.VILLAGER, level);
+        v.setPos(x, y, z);
+        var reg = level.registryAccess();
+        v.setVillagerData(new VillagerData(reg.lookupOrThrow(Registries.VILLAGER_TYPE).getOrThrow(VillagerType.DESERT),
+                reg.lookupOrThrow(Registries.VILLAGER_PROFESSION).getOrThrow(VillagerProfession.CARTOGRAPHER), lvl));
+        return v;
+    }
+
+    static Map<String, Object> describeMap(ServerLevel level, ItemStack stack) {
+        Map<String, Object> m = new LinkedHashMap<>();
+        m.put("item", String.valueOf(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem())));
+        var id = stack.get(DataComponents.MAP_ID);
+        m.put("map_id", id == null ? null : id.id());
+        var data = MapItem.getSavedData(stack, level);
+        if (data != null) {
+            m.put("center_x", data.centerX); m.put("center_z", data.centerZ); m.put("scale", (int) data.scale); m.put("dimension", data.dimension.identifier().toString());
+        }
+        var dec = stack.get(DataComponents.MAP_DECORATIONS);
+        List<String> ds = new ArrayList<>();
+        if (dec != null) dec.decorations().forEach((k, e) -> ds.add(k + ":" + e.type().unwrapKey().map(kk -> kk.identifier().toString()).orElse("?") + "@" + e.x() + "," + e.z()));
+        m.put("decorations", ds);
+        return m;
+    }
+
+    // ---------------------------------------------------------------- fixture
+    private static boolean fixture(MinecraftServer server, Map<String, Object> res, Runnable finish) {
+        ServerLevel level = server.overworld();
+        String phase = System.getProperty("mm.st01.d2.phase", "create");
+        res.put("phase", phase); res.put("seed", level.getSeed());
+        var reg = level.registryAccess();
+        res.put("enabled_packs", server.getPackRepository().getSelectedIds());
+        var trades = reg.lookupOrThrow(Registries.VILLAGER_TRADE);
+        Identifier t2 = Identifier.fromNamespaceAndPath("st01d2", "map_r2"), t5 = Identifier.fromNamespaceAndPath("st01d2", "map_r5"), t20 = Identifier.fromNamespaceAndPath("st01d2", "map_r20");
+        Identifier t20n = Identifier.fromNamespaceAndPath("st01d2", "map_r20_noskip");
+        res.put("fixture_trades_registered", Map.of("map_r2", trades.get(t2).isPresent(), "map_r5", trades.get(t5).isPresent(), "map_r20", trades.get(t20).isPresent(), "map_r20_noskip", trades.get(t20n).isPresent()));
+        var structTag = TagKey.create(Registries.STRUCTURE, Identifier.fromNamespaceAndPath("st01d2", "on_st01_pyramid_maps"));
+        var tagSet = reg.lookupOrThrow(Registries.STRUCTURE).get(structTag);
+        List<String> tagValues = new ArrayList<>();
+        tagSet.ifPresent(s -> s.forEach(h -> tagValues.add(h.unwrapKey().map(k -> k.identifier().toString()).orElse("?"))));
+        res.put("structure_tag_values", tagValues);
+        for (int lvl = 1; lvl <= 2; lvl++) {
+            var tag = TagKey.create(Registries.VILLAGER_TRADE, Identifier.withDefaultNamespace("cartographer/level_" + lvl));
+            List<String> vals = new ArrayList<>();
+            trades.get(tag).ifPresent(s -> s.forEach(h -> vals.add(h.unwrapKey().map(k -> k.identifier().toString()).orElse("?"))));
+            res.put("cartographer_level_" + lvl + "_tag", vals);
+        }
+        var tradeSets = reg.lookupOrThrow(Registries.TRADE_SET);
+        var cart = reg.lookupOrThrow(Registries.VILLAGER_PROFESSION).getOrThrow(VillagerProfession.CARTOGRAPHER).value();
+        res.put("cartographer_tradeset_keys", Map.of("1", String.valueOf(cart.getTrades(1)), "2", String.valueOf(cart.getTrades(2))));
+        res.put("decoration_types_present", Map.of("target_x", reg.lookupOrThrow(Registries.MAP_DECORATION_TYPE).get(Identifier.withDefaultNamespace("target_x")).isPresent(),
+                "desert_pyramid", reg.lookupOrThrow(Registries.MAP_DECORATION_TYPE).get(Identifier.withDefaultNamespace("desert_pyramid")).isPresent()));
+
+        List<ChunkPos> truthOnReload = null;
+        if (phase.equals("create")) {
+            // direct per-trade behaviour at a villager far from every start (origin) and next to a start
+            Villager far = villager(level, 0.5, 70, 0.5, 2);
+            Map<String, Object> direct = new LinkedHashMap<>();
+            for (Identifier id : List.of(t2, t5, t20, t20n)) {
+                var h = trades.get(id);
+                if (h.isEmpty()) { direct.put(id.getPath(), "TRADE_NOT_REGISTERED"); continue; }
+                long t0 = System.nanoTime();
+                MerchantOffer offer = h.get().value().getOffer(villagerContext(level, far));
+                Map<String, Object> r = new LinkedHashMap<>();
+                r.put("ms", (System.nanoTime() - t0) / 1e6);
+                r.put("offer_created", offer != null);
+                r.put("result", offer == null ? null : describeMap(level, offer.getResult()));
+                direct.put(id.getPath(), r);
+            }
+            res.put("direct_trade_at_origin", direct);
+
+            // statistics: 300 level-2 cartographers placed at (0,0)
+            int n = 300, withOurs = 0; Map<Integer, Integer> offerCounts = new TreeMap<>(); Map<String, Integer> results = new TreeMap<>();
+            ItemStack sample = null;
+            Map<Integer, Integer> level1Counts = new TreeMap<>(); Map<String, Integer> level1Results = new TreeMap<>();
+            java.lang.reflect.Method upd;
+            try { upd = Villager.class.getDeclaredMethod("updateTrades", ServerLevel.class); upd.setAccessible(true); } catch (Exception e) { throw new IllegalStateException(e); }
+            for (int i = 0; i < n; i++) {
+                Villager v = villager(level, 0.5, 70, 0.5, 1);
+                MerchantOffers offers1 = v.getOffers();
+                level1Counts.merge(offers1.size(), 1, Integer::sum);
+                for (MerchantOffer o : offers1) level1Results.merge(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(o.getResult().getItem()).toString(), 1, Integer::sum);
+                // level-up exactly as Villager.increaseMerchantCareer does: new level, then updateTrades
+                var vd = v.getVillagerData();
+                v.setVillagerData(vd.withLevel(2));
+                try { upd.invoke(v, level); } catch (Exception e) { throw new IllegalStateException(e); }
+                MerchantOffers offers = v.getOffers();
+                offerCounts.merge(offers.size(), 1, Integer::sum);
+                boolean ours = false;
+                for (MerchantOffer o : offers) {
+                    String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(o.getResult().getItem()).toString();
+                    results.merge(id, 1, Integer::sum);
+                    if (o.getResult().is(Items.FILLED_MAP) && o.getResult().get(DataComponents.MAP_ID) != null) { ours = true; if (sample == null) sample = o.getResult(); }
+                }
+                if (ours) withOurs++;
+            }
+            res.put("level1_offer_count_distribution", level1Counts);
+            res.put("level1_offer_result_item_counts", level1Results);
+            res.put("villagers_sampled_level1_then_leveled_to_2_at_origin", n);
+            res.put("villagers_with_st01_map_offer", withOurs);
+            res.put("offer_count_distribution", offerCounts);
+            res.put("offer_result_item_counts", results);
+            res.put("sample_map_from_offer", sample == null ? null : describeMap(level, sample));
+
+            // ground truth + map targeting for a villager next to the first real start
+            List<ChunkPos> starts = realStarts(level, 10240);
+            List<String> sl = new ArrayList<>();
+            for (ChunkPos p : starts) sl.add(p.x() + "," + p.z() + " anchor=" + (p.getMinBlockX() + 8) + "," + (p.getMinBlockZ() + 8));
+            res.put("real_starts_pm10240", sl);
+            if (!starts.isEmpty()) {
+                ChunkPos target = starts.get(0);
+                double vx = target.getMinBlockX() + 8 + 300, vz = target.getMinBlockZ() + 8 + 300;
+                Villager near = villager(level, vx, 70, vz, 2);
+                var tradeUnderTest = trades.get(System.getProperty("mm.st01.d2.tradeUnderTest", "map_r20").equals("map_r20_noskip") ? t20n : t20).orElseThrow().value();
+                MerchantOffer offer = tradeUnderTest.getOffer(villagerContext(level, near));
+                Map<String, Object> r = new LinkedHashMap<>();
+                r.put("villager_at", vx + "," + vz); r.put("offer_created", offer != null);
+                if (offer != null) {
+                    Map<String, Object> d = describeMap(level, offer.getResult());
+                    r.put("map", d);
+                    int cx = (Integer) d.get("center_x"), cz = (Integer) d.get("center_z");
+                    @SuppressWarnings("unchecked") List<String> decs = (List<String>) d.get("decorations");
+                    String[] dp = decs.get(0).substring(decs.get(0).indexOf('@') + 1).split(",");
+                    ChunkPos mc = ChunkPos.containing(new BlockPos((int) Double.parseDouble(dp[0]), 0, (int) Double.parseDouble(dp[1])));
+                    StructureStart ss = level.getChunk(mc.x(), mc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(st01(level).value());
+                    r.put("target_decoration_chunk", mc.x() + "," + mc.z());
+                    r.put("target_decoration_chunk_has_valid_st01_start", ss != null && ss.isValid());
+                    r.put("target_decoration_chunk_is_in_enumerated_real_starts", starts.contains(mc));
+                    r.put("map_center_is_grid_snapped_not_the_target", true);
+                    ChunkPos mcc = ChunkPos.containing(new BlockPos(cx, 0, cz));
+                    r.put("map_center_chunk", mcc.x() + "," + mcc.z());
+                    if (ss != null && ss.isValid()) {
+                        BoundingBox b = ss.getBoundingBox();
+                        r.put("start_box", b.minX() + "," + b.minZ() + ".." + b.maxX() + "," + b.maxZ());
+                        r.put("target_decoration_inside_start_box_xz", Double.parseDouble(dp[0]) >= b.minX() && Double.parseDouble(dp[0]) <= b.maxX() && Double.parseDouble(dp[1]) >= b.minZ() && Double.parseDouble(dp[1]) <= b.maxZ());
+                        r.put("target_within_map_area", Math.abs(Double.parseDouble(dp[0]) - cx) <= 256 && Math.abs(Double.parseDouble(dp[1]) - cz) <= 256);
+                        r.put("distance_target_to_anchor_blocks", Math.hypot(Double.parseDouble(dp[0]) - (mc.getMinBlockX() + 8), Double.parseDouble(dp[1]) - (mc.getMinBlockZ() + 8)));
+                    }
+                }
+                res.put("targeting_check_next_to_first_start", r);
+                // the same mechanism outside trading: ExplorationMapFunction applied to a plain map with a loot context
+                var fn = ExplorationMapFunction.makeExplorationMap(HolderSet.direct(st01(level))).setSearchRadius(20).setSkipKnownStructures(!System.getProperty("mm.st01.d2.tradeUnderTest", "map_r20").equals("map_r20_noskip"))
+                        .setMapDecoration(reg.lookupOrThrow(Registries.MAP_DECORATION_TYPE).getOrThrow(ResourceKey.create(Registries.MAP_DECORATION_TYPE, Identifier.withDefaultNamespace("target_x"))))
+                        .build();
+                LootParams lp = new LootParams.Builder(level).withParameter(LootContextParams.ORIGIN, new Vec3(vx, 70, vz)).create(LootContextParamSets.CHEST);
+                long t0 = System.nanoTime();
+                ItemStack made = fn.apply(new ItemStack(Items.MAP), new LootContext.Builder(lp).create(Optional.empty()));
+                Map<String, Object> o = new LinkedHashMap<>();
+                o.put("ms", (System.nanoTime() - t0) / 1e6); o.put("stack", describeMap(level, made));
+                res.put("exploration_map_function_applied_outside_trading_with_chest_context", o);
+                // persistent villager carrying a map offer
+                Villager keep = villager(level, vx, 70, vz, 2);
+                keep.setPersistenceRequired();
+                keep.overrideOffers(new MerchantOffers());
+                MerchantOffers mo = keep.getOffers();
+                mo.clear();
+                if (offer != null) mo.add(offer);
+                ChunkPos kc = ChunkPos.containing(new BlockPos((int) vx, 70, (int) vz));
+                level.getChunk(kc.x(), kc.z(), ChunkStatus.FULL);
+                level.setChunkForced(kc.x(), kc.z(), true);
+                boolean added = level.addFreshEntity(keep);
+                Map<String, Object> pr = new LinkedHashMap<>();
+                pr.put("addFreshEntity_returned", added); pr.put("entity_visible_in_level_right_after", level.getEntity(keep.getUUID()) != null); pr.put("uuid", keep.getUUID().toString()); pr.put("at", (int) vx + "," + (int) vz); pr.put("offer_count", mo.size());
+                pr.put("offers_codec_json", MerchantOffers.CODEC.encodeStart(net.minecraft.resources.RegistryOps.create(com.mojang.serialization.JsonOps.INSTANCE, reg), mo).getOrThrow().toString());
+                res.put("persisted_villager", pr);
+            }
+        } else {
+            String uuid = System.getProperty("mm.st01.d2.uuid");
+            String[] xz = System.getProperty("mm.st01.d2.at").split(",");
+            level.getChunk(Math.floorDiv(Integer.parseInt(xz[0]), 16), Math.floorDiv(Integer.parseInt(xz[1]), 16), ChunkStatus.FULL);
+            final int[] ticks = {0};
+            ServerTickEvents.END_SERVER_TICK.register(srv -> {
+                if (++ticks[0] < 80) return; // entities of a just-loaded chunk are attached by the entity manager over the next ticks
+                if (ticks[0] > 80) return;
+                Map<String, Object> pr = new LinkedHashMap<>();
+                var e = level.getEntity(UUID.fromString(uuid));
+                pr.put("entity_found_after_restart", e != null);
+                if (e instanceof Villager v) {
+                    MerchantOffers mo = v.getOffers();
+                    pr.put("offer_count_after_getOffers_includes_mod_contract_stock", mo.size());
+                    for (int i = 0; i < mo.size(); i++) if (mo.get(i).getResult().is(Items.FILLED_MAP)) {
+                        pr.put("map_offer_index", i);
+                        pr.put("map", describeMap(level, mo.get(i).getResult()));
+                        pr.put("offer_json", MerchantOffers.CODEC.encodeStart(net.minecraft.resources.RegistryOps.create(com.mojang.serialization.JsonOps.INSTANCE, reg), oneOffer(mo.get(i))).getOrThrow().toString());
+                    }
+                }
+                res.put("persisted_villager_after_restart", pr);
+                finish.run();
+            });
+            return true;
+        }
+        return false;
+    }
+
+    static MerchantOffers oneOffer(MerchantOffer o) { MerchantOffers m = new MerchantOffers(); m.add(o); return m; }
+
+    // ---------------------------------------------------------------- bench
+    private static void bench(ServerLevel level, Map<String, Object> res) {
+        int radius = Integer.getInteger("mm.st01.d2.radius", 20);
+        int repeats = Integer.getInteger("mm.st01.d2.repeats", 3);
+        String[] origins = System.getProperty("mm.st01.d2.origins", "0,0").split(";");
+        res.put("seed", level.getSeed()); res.put("radius_param", radius);
+        res.put("jvm", Map.of("java", System.getProperty("java.version"), "cpus", Runtime.getRuntime().availableProcessors(), "max_heap_mb", Runtime.getRuntime().maxMemory() >> 20));
+        var set = HolderSet.direct(st01(level));
+        var st = st01(level).value();
+        var mx = ManagementFactory.getThreadMXBean();
+        List<Map<String, Object>> calls = new ArrayList<>();
+        int oi = 0;
+        for (String o : origins) {
+            String[] p = o.split(",");
+            BlockPos origin = new BlockPos(Integer.parseInt(p[0]), 64, Integer.parseInt(p[1]));
+            for (int rep = 0; rep <= repeats; rep++) {
+                Map<String, Object> c = new LinkedHashMap<>();
+                c.put("origin", origin.getX() + "," + origin.getZ());
+                c.put("origin_index", oi);
+                c.put("state", rep == 0 ? (oi == 0 ? "cold" : "later-origin-partially-warm") : "warm-repeat");
+                for (MemoryPoolMXBean pool : ManagementFactory.getMemoryPoolMXBeans()) if (pool.getType() == MemoryType.HEAP) pool.resetPeakUsage();
+                long gc0 = ManagementFactory.getGarbageCollectorMXBeans().stream().mapToLong(GarbageCollectorMXBean::getCollectionTime).sum();
+                long evals0 = St01PyramidStructure.VERDICT_COUNTS.values().stream().mapToLong(java.util.concurrent.atomic.AtomicLong::get).sum();
+                int loaded0 = level.getChunkSource().getLoadedChunksCount();
+                long cpu0 = mx.getCurrentThreadCpuTime(), t0 = System.nanoTime();
+                BlockPos found = level.findNearestMapStructure(set, origin, radius, false);
+                long wall = System.nanoTime() - t0, cpu = mx.getCurrentThreadCpuTime() - cpu0;
+                c.put("wall_ms", wall / 1e6); c.put("server_thread_blocked_ms", wall / 1e6); c.put("thread_cpu_ms", cpu / 1e6);
+                c.put("gc_ms_delta", ManagementFactory.getGarbageCollectorMXBeans().stream().mapToLong(GarbageCollectorMXBean::getCollectionTime).sum() - gc0);
+                long peak = 0; for (MemoryPoolMXBean pool : ManagementFactory.getMemoryPoolMXBeans()) if (pool.getType() == MemoryType.HEAP) peak += pool.getPeakUsage().getUsed();
+                c.put("peak_heap_mb_during_call", peak >> 20);
+                c.put("st01_start_evaluations_delta", St01PyramidStructure.VERDICT_COUNTS.values().stream().mapToLong(java.util.concurrent.atomic.AtomicLong::get).sum() - evals0);
+                c.put("loaded_chunks_delta", level.getChunkSource().getLoadedChunksCount() - loaded0);
+                c.put("found", found != null);
+                if (found != null) {
+                    ChunkPos fc = ChunkPos.containing(found);
+                    StructureStart s = level.getChunk(fc.x(), fc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(st);
+                    c.put("result", found.getX() + "," + found.getY() + "," + found.getZ());
+                    c.put("result_chunk", fc.x() + "," + fc.z());
+                    c.put("result_is_valid_st01_start", s != null && s.isValid());
+                    c.put("result_distance_blocks", Math.hypot(found.getX() - origin.getX(), found.getZ() - origin.getZ()));
+                    int spacing = placement(level).spacing();
+                    c.put("result_ring_regions", Math.max(Math.abs(Math.floorDiv(fc.x(), spacing) - Math.floorDiv(origin.getX() >> 4, spacing)), Math.abs(Math.floorDiv(fc.z(), spacing) - Math.floorDiv(origin.getZ() >> 4, spacing))));
+                }
+                calls.add(c);
+            }
+            oi++;
+        }
+        res.put("calls", calls);
+        if (Boolean.getBoolean("mm.st01.d2.truth")) {
+            List<String> sl = new ArrayList<>();
+            for (ChunkPos p : realStarts(level, 10240)) sl.add(p.x() + "," + p.z());
+            res.put("real_starts_pm10240", sl);
+        }
+    }
+
+    // ---------------------------------------------------------------- overlap
+    private static void overlap(ServerLevel level, Map<String, Object> res) {
+        res.put("seed", level.getSeed());
+        var st = st01(level).value();
+        var sm = level.structureManager();
+        var registry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
+        List<Map<String, Object>> cases = new ArrayList<>();
+        for (ChunkPos pc : realStarts(level, 10240)) {
+            StructureStart start = level.getChunk(pc.x(), pc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(st);
+            BoundingBox box = start.getBoundingBox();
+            // references of every chunk of the box must exist for getStructureWithPieceAt
+            for (int x = box.minX() >> 4; x <= box.maxX() >> 4; x++) for (int z = box.minZ() >> 4; z <= box.maxZ() >> 4; z++) level.getChunk(x, z, ChunkStatus.STRUCTURE_REFERENCES);
+            Map<String, StructureStart> others = new LinkedHashMap<>();
+            for (int x = box.minX() >> 4; x <= box.maxX() >> 4; x++) for (int z = box.minZ() >> 4; z <= box.maxZ() >> 4; z++) {
+                ChunkAccess ca = level.getChunk(x, z, ChunkStatus.STRUCTURE_REFERENCES);
+                for (var e : ca.getAllReferences().entrySet()) {
+                    if (e.getKey() == st) continue;
+                    for (long ref : e.getValue()) {
+                        ChunkPos sc = ChunkPos.unpack(ref);
+                        StructureStart s = level.getChunk(sc.x(), sc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(e.getKey());
+                        if (s != null && s.isValid() && s.getBoundingBox().intersects(box)) others.put(registry.getKey(e.getKey()) + "@" + sc.x() + "," + sc.z(), s);
+                    }
+                }
+            }
+            if (others.isEmpty()) continue;
+            for (var oe : others.entrySet()) {
+                StructureStart v = oe.getValue();
+                int both = 0, returnedVanilla = 0, returnedSt01 = 0, returnedNone = 0, st01OnlyPred = 0, vanillaOnlyReturnedSt01 = 0;
+                int inVanillaPieces = 0;
+                Map<String, Integer> returnedBy = new TreeMap<>();
+                BoundingBox inter = new BoundingBox(Math.max(box.minX(), v.getBoundingBox().minX()), Math.max(box.minY(), v.getBoundingBox().minY()), Math.max(box.minZ(), v.getBoundingBox().minZ()),
+                        Math.min(box.maxX(), v.getBoundingBox().maxX()), Math.min(box.maxY(), v.getBoundingBox().maxY()), Math.min(box.maxZ(), v.getBoundingBox().maxZ()));
+                BlockPos.MutableBlockPos m = new BlockPos.MutableBlockPos();
+                for (int x = inter.minX(); x <= inter.maxX(); x++) for (int y = inter.minY(); y <= inter.maxY(); y++) for (int z = inter.minZ(); z <= inter.maxZ(); z++) {
+                    m.set(x, y, z);
+                    boolean inSt = sm.structureHasPieceAt(m, start), inV = sm.structureHasPieceAt(m, v);
+                    if (inV) inVanillaPieces++;
+                    if (!(inSt && inV)) continue;
+                    both++;
+                    StructureStart first = sm.getStructureWithPieceAt(m, h -> true);
+                    String key = first == StructureStart.INVALID_START ? "NONE" : String.valueOf(registry.getKey(first.getStructure()));
+                    returnedBy.merge(key, 1, Integer::sum);
+                    if (first == StructureStart.INVALID_START) returnedNone++; else if (first.getStructure() == st) returnedSt01++; else returnedVanilla++;
+                }
+                Map<String, Object> c = new LinkedHashMap<>();
+                c.put("st01_start_chunk", pc.x() + "," + pc.z()); c.put("vanilla", oe.getKey());
+                c.put("box_intersection_cells", (long) (inter.getXSpan()) * inter.getYSpan() * inter.getZSpan());
+                c.put("cells_with_pieces_of_both", both);
+                c.put("getStructureWithPieceAt_returned", returnedBy);
+                c.put("st01_masked_by_vanilla_cells", returnedVanilla);
+                c.put("st01_returned_cells", returnedSt01);
+                // structure-specific lookup (predicate restricted to ST-01) on the very same cells
+                int specific = 0;
+                for (int x = inter.minX(); x <= inter.maxX(); x++) for (int y = inter.minY(); y <= inter.maxY(); y++) for (int z = inter.minZ(); z <= inter.maxZ(); z++) {
+                    m.set(x, y, z);
+                    if (!(sm.structureHasPieceAt(m, start) && sm.structureHasPieceAt(m, v))) continue;
+                    StructureStart only = sm.getStructureWithPieceAt(m, h -> h.value() == st);
+                    if (only != StructureStart.INVALID_START && only.getStructure() == st) specific++;
+                }
+                c.put("st01_specific_lookup_found_cells", specific);
+                cases.add(c);
+            }
+        }
+        res.put("overlap_cases", cases);
+    }
+
+    // ---------------------------------------------------------------- incremental (N2/N3)
+    private static void incr(MinecraftServer server, Map<String, Object> res, Runnable finish) {
+        ServerLevel level = server.overworld();
+        int radius = Integer.getInteger("mm.st01.d2.radius", 20);
+        int inflight = Integer.getInteger("mm.st01.d2.inflight", 4);
+        double budgetMs = Double.parseDouble(System.getProperty("mm.st01.d2.budgetMs", "5"));
+        final java.util.concurrent.ExecutorService worker = System.getProperty("mm.st01.d2.dispatch", "main").equals("worker") ? java.util.concurrent.Executors.newSingleThreadExecutor() : null;
+        res.put("dispatch", worker == null ? "main-thread getChunkFuture (blocks per candidate: managedBlock)" : "worker-thread getChunkFuture (non-blocking for the server thread)");
+        String[] p = System.getProperty("mm.st01.d2.origins", "0,0").split(";")[0].split(",");
+        BlockPos origin = new BlockPos(Integer.parseInt(p[0]), 64, Integer.parseInt(p[1]));
+        res.put("seed", level.getSeed()); res.put("radius_param", radius); res.put("inflight_cap", inflight); res.put("budget_ms_per_tick", budgetMs);
+        var placement = placement(level);
+        var st = st01(level).value();
+        long seed = level.getSeed();
+        int spacing = placement.spacing();
+        int cx0 = origin.getX() >> 4, cz0 = origin.getZ() >> 4;
+        var sm = level.structureManager();
+        var cache = level.getChunkSource();
+        // ring-ordered candidate generator (same ring order as the vanilla loop)
+        final boolean pre = !System.getProperty("mm.st01.d2.precheck", "true").equals("false");
+        res.put("precheck_on_server_thread", pre);
+        final int[] ring = {0};
+        final List<ChunkPos> cands = new ArrayList<>();
+        final List<java.util.concurrent.CompletableFuture<?>> pending = new ArrayList<>();
+        final Map<java.util.concurrent.CompletableFuture<?>, ChunkPos> pendingChunk = new java.util.HashMap<>();
+        final List<ChunkPos> found = new ArrayList<>();
+        final int[] stats = {0, 0, 0}; // candidates seen, skipped by checkStructurePresence, futures issued
+        final long[] startNs = {System.nanoTime()};
+        final long[] maxStepNs = {0}, sumStepNs = {0}, lastTickNs = {System.nanoTime()}, maxGapNs = {0};
+        final int[] ticks = {0};
+        final boolean[] done = {false};
+        final boolean tickets = Boolean.parseBoolean(System.getProperty("mm.st01.d2.tickets", "false"));
+        final int ticketRadius = net.minecraft.server.level.ChunkLevel.byStatus(ChunkStatus.STRUCTURE_STARTS) - net.minecraft.server.level.ChunkLevel.byStatus(net.minecraft.server.level.FullChunkStatus.FULL);
+        res.put("tickets", tickets); res.put("ticket_radius", ticketRadius);
+        final Map<String, Integer> dbg = new TreeMap<>();
+        final Map<ChunkPos, Integer> retries = new java.util.HashMap<>();
+        final java.util.function.IntFunction<List<ChunkPos>> ringCands = r -> {
+            List<ChunkPos> out = new ArrayList<>();
+            for (int k = -r; k <= r; k++) for (int l = -r; l <= r; l++) if (Math.abs(k) == r || Math.abs(l) == r)
+                out.add(placement.getPotentialStructureChunk(seed, cx0 + spacing * k, cz0 + spacing * l));
+            return out;
+        };
+        var calls = new ArrayList<Map<String, Object>>();
+        res.put("tick_log_note", "per-tick step time and inter-tick gap recorded; see summary");
+        ServerTickEvents.END_SERVER_TICK.register(srv -> {
+            if (done[0]) return;
+            long now = System.nanoTime();
+            if (ticks[0] > 0) maxGapNs[0] = Math.max(maxGapNs[0], now - lastTickNs[0]);
+            lastTickNs[0] = now;
+            ticks[0]++;
+            long s0 = System.nanoTime();
+            long deadline = s0 + (long) (budgetMs * 1e6);
+            // poll finished futures
+            for (var it = pending.iterator(); it.hasNext(); ) {
+                var f = it.next();
+                if (!f.isDone()) continue;
+                it.remove();
+                ChunkPos pc = pendingChunk.remove(f);
+                if (tickets) cache.removeTicketWithRadius(net.minecraft.server.level.TicketType.FORCED, pc, ticketRadius);
+                try {
+                    @SuppressWarnings("unchecked") var cr = (net.minecraft.server.level.ChunkResult<ChunkAccess>) f.get();
+                    ChunkAccess ca = cr.orElse(null);
+                    String key = ca == null ? "ERROR:" + cr.getError() : "OK:" + ca.getPersistedStatus();
+                    dbg.merge(key, 1, Integer::sum);
+                    StructureStart s = ca == null ? null : ca.getStartForStructure(st);
+                    if (ca == null && Boolean.parseBoolean(System.getProperty("mm.st01.d2.retry", "true")) && retries.merge(pc, 1, Integer::sum) <= 8) { cands.add(pc); dbg.merge("retries", 1, Integer::sum); continue; }
+                    if (ca != null && !ca.getAllStarts().isEmpty()) dbg.merge("chunks_with_any_start", 1, Integer::sum);
+                    if (s != null && s.isValid()) found.add(pc);
+                } catch (Exception e) { res.put("future_error", e.toString()); }
+            }
+            // advance ring when all candidates of the ring are decided
+            while (System.nanoTime() < deadline && pending.size() < inflight) {
+                if (cands.isEmpty()) {
+                    if (!found.isEmpty() || ring[0] > radius) break;
+                    if (!pending.isEmpty()) break;
+                    cands.addAll(ringCands.apply(ring[0]++));
+                    if (cands.isEmpty()) continue;
+                }
+                ChunkPos pc = cands.remove(cands.size() - 1);
+                stats[0]++;
+                StructureCheckResult r = pre ? sm.checkStructurePresence(pc, st, placement, false) : StructureCheckResult.CHUNK_LOAD_NEEDED;
+                if (r == StructureCheckResult.START_NOT_PRESENT) { stats[1]++; continue; }
+                if (tickets) cache.addTicketWithRadius(net.minecraft.server.level.TicketType.FORCED, pc, ticketRadius);
+                java.util.concurrent.CompletableFuture<?> f;
+                if (worker != null) f = java.util.concurrent.CompletableFuture.supplyAsync(() -> cache.getChunkFuture(pc.x(), pc.z(), ChunkStatus.STRUCTURE_STARTS, true), worker).thenCompose(x -> x);
+                else f = cache.getChunkFuture(pc.x(), pc.z(), ChunkStatus.STRUCTURE_STARTS, true);
+                stats[2]++;
+                pending.add(f); pendingChunk.put(f, pc);
+            }
+            boolean ringDone = cands.isEmpty() && pending.isEmpty();
+            long step = System.nanoTime() - s0;
+            maxStepNs[0] = Math.max(maxStepNs[0], step); sumStepNs[0] += step;
+            if (ringDone && (!found.isEmpty() || ring[0] > radius)) {
+                done[0] = true;
+                long total = System.nanoTime() - startNs[0];
+                Map<String, Object> c = new LinkedHashMap<>();
+                c.put("total_wall_ms", total / 1e6); c.put("ticks", ticks[0]);
+                c.put("max_step_ms", maxStepNs[0] / 1e6); c.put("mean_step_ms", sumStepNs[0] / 1e6 / Math.max(1, ticks[0]));
+                c.put("max_inter_tick_gap_ms", maxGapNs[0] / 1e6);
+                c.put("candidates_examined", stats[0]); c.put("skipped_by_checkStructurePresence", stats[1]); c.put("chunk_futures_issued", stats[2]);
+                c.put("rings_processed", ring[0]); c.put("future_result_histogram", dbg);
+                if (!found.isEmpty()) {
+                    ChunkPos best = null; double bd = Double.MAX_VALUE;
+                    for (ChunkPos f : found) { double d = Math.hypot(f.getMiddleBlockX() - origin.getX(), f.getMiddleBlockZ() - origin.getZ()); if (d < bd) { bd = d; best = f; } }
+                    c.put("result_chunk", best.x() + "," + best.z()); c.put("result_locate_pos", (best.x() * 16) + ",0," + (best.z() * 16)); c.put("result_distance_blocks", bd);
+                    c.put("starts_found_in_deciding_ring", found.size());
+                } else c.put("result_chunk", null);
+                calls.add(c);
+                res.put("incremental_search", calls);
+                // vanilla comparison executed AFTER (warm) for the same inputs
+                long t0 = System.nanoTime();
+                BlockPos v = level.findNearestMapStructure(HolderSet.direct(st01(level)), origin, radius, false);
+                res.put("vanilla_after_ms_warm", (System.nanoTime() - t0) / 1e6);
+                res.put("vanilla_result", v == null ? null : v.getX() + ",0," + v.getZ());
+                finish.run();
+            }
+        });
+    }
+}

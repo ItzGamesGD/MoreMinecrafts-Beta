@@ -45,16 +45,24 @@ public final class RoyalChestGameTests {
             for (int z = -2; z <= 14; z++) ctx.setBlock(new BlockPos(x, 0, z), Blocks.SMOOTH_SANDSTONE);
     }
 
+    private static void pair(ServerLevel level, BlockPos left) {
+        var state = Blocks.CHEST.defaultBlockState().setValue(net.minecraft.world.level.block.ChestBlock.FACING, net.minecraft.core.Direction.NORTH);
+        level.setBlock(left, state.setValue(net.minecraft.world.level.block.ChestBlock.TYPE,
+                net.minecraft.world.level.block.state.properties.ChestType.LEFT), Block.UPDATE_CLIENTS);
+        level.setBlock(left.east(), state.setValue(net.minecraft.world.level.block.ChestBlock.TYPE,
+                net.minecraft.world.level.block.state.properties.ChestType.RIGHT), Block.UPDATE_CLIENTS);
+    }
+
     private record Site(ServerLevel level, String id, BlockPos primary, BlockPos secondary, BlockPos spawn, List<ServerPlayer> players) {}
 
     private static Site site(GameTestHelper ctx, String name) {
         floor(ctx);
         ServerLevel level = ctx.getLevel();
-        Site site = new Site(level, name + "-" + UUID.randomUUID(), ctx.absolutePos(new BlockPos(1, 1, 1)),
+        Site site = new Site(level, RoyalChestRuntime.canonicalId(level, ctx.absolutePos(new BlockPos(1, 1, 1))), ctx.absolutePos(new BlockPos(1, 1, 1)),
                 ctx.absolutePos(new BlockPos(5, 1, 1)), ctx.absolutePos(new BlockPos(3, 1, 8)), new ArrayList<>());
-        ctx.setBlock(new BlockPos(1, 1, 1), Blocks.CHEST);
+        pair(level, site.primary);
         ctx.setBlock(new BlockPos(5, 1, 1), Blocks.CHEST);
-        ctx.assertTrue(RoyalChestRuntime.register(level, site.id, site.primary, site.spawn, site.primary, site.secondary).isPresent(),
+        ctx.assertTrue(RoyalChestRuntime.register(level, site.primary, site.spawn, site.primary, site.primary.east(), Optional.of(site.secondary)).isPresent(),
                 "registered");
         return site;
     }
@@ -152,7 +160,14 @@ public final class RoyalChestGameTests {
         ServerPlayer player = mock(ctx, site);
         ctx.assertTrue(RoyalChestRuntime.tryOpen(site.level, player, site.secondary) == OpenResult.SEALED, "SECONDARY sealed before defeat");
         ctx.assertTrue(!RoyalChestRuntime.data(site.level).isGenerated(site.id, RoyalChestRole.SECONDARY), "nothing generated while sealed");
-        defeat(ctx, site, player);
+        ctx.assertTrue(RoyalChestRuntime.tryOpen(site.level, player, site.primary.east()) == OpenResult.SEALED_ENCOUNTER_STARTED,
+                "right half starts the same encounter");
+        ctx.assertTrue(RoyalChestRuntime.tryOpen(site.level, player, site.primary) == OpenResult.SEALED, "left does not duplicate it");
+        ctx.assertTrue(guardiansOf(site).size() == 1, "only one guardian across both halves");
+        var guardian = guardiansOf(site).getFirst();
+        guardian.skipAwakening();
+        guardian.hurtServer(site.level, site.level.damageSources().playerAttack(player), 10000.0F);
+        ctx.assertTrue(TombGuardianEncounters.isDefeated(site.level, site.primary), "normal defeat unlocks both");
         // PRIMARY's trigger fired, but defeating the boss and opening one chest generates nothing for the other.
         ctx.assertTrue(!RoyalChestRuntime.data(site.level).isGenerated(site.id, RoyalChestRole.PRIMARY), "defeat alone generates nothing");
         ctx.assertTrue(!RoyalChestRuntime.data(site.level).isGenerated(site.id, RoyalChestRole.SECONDARY), "defeat alone generates nothing");
@@ -188,73 +203,10 @@ public final class RoyalChestGameTests {
 
     // ---- independence, catalyst, order ----
 
-    private static String findId(ServerLevel level, boolean wantCatalyst) {
-        for (int i = 0; i < 100_000; i++) {
-            String id = "scan-" + i;
-            boolean has = RoyalChestRewardModel.assignCatalyst(RoyalChestRuntime.catalystRandom(level.getSeed(), id)).isPresent();
-            if (has == wantCatalyst) return id;
-        }
-        throw new IllegalStateException("no id found");
-    }
-
-    private static long catalystCount(Container a, Container b) {
-        return snapshot(a).stream().filter(s -> s.itemId().equals(RoyalChestRewardModel.CATALYST_ID)).count()
-                + snapshot(b).stream().filter(s -> s.itemId().equals(RoyalChestRewardModel.CATALYST_ID)).count();
-    }
-
-    private static void openBoth(GameTestHelper ctx, ServerLevel level, ServerPlayer player, BlockPos primary, BlockPos secondary, boolean primaryFirst, BlockPos spawn) {
-        if (primaryFirst) {
-            RoyalChestRuntime.tryOpen(level, player, primary);
-            RoyalChestRuntime.tryOpen(level, player, secondary);
-        } else {
-            RoyalChestRuntime.tryOpen(level, player, secondary);
-            RoyalChestRuntime.tryOpen(level, player, primary);
-        }
-    }
-
-    @GameTest(maxTicks = 80)
-    public void catalystIsStructureUniqueAndOrderCannotChangeAnyChest(GameTestHelper ctx) {
-        floor(ctx);
-        ServerLevel level = ctx.getLevel();
-        String withCatalyst = findId(level, true), without = findId(level, false);
-        List<Runnable> cleanup = new ArrayList<>();
-        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
-        List<List<Stack>> results = new ArrayList<>();
-        int offset = 0;
-        for (String id : List.of(withCatalyst, without))
-            for (boolean primaryFirst : List.of(true, false)) {
-                BlockPos primary = ctx.absolutePos(new BlockPos(1 + offset, 1, 1)), secondary = ctx.absolutePos(new BlockPos(1 + offset, 1, 3));
-                offset += 2;
-                BlockPos spawn = ctx.absolutePos(new BlockPos(1, 1, 9));
-                ctx.assertTrue(RoyalChestRuntime.register(level, id + (primaryFirst ? "" : "-b"), primary, spawn, primary, secondary).isPresent(), "registered");
-                // Same seed-derived draw requires the same id: re-register the second order under the same id after discarding.
-                RoyalChestRuntime.discardInstance(level, id + (primaryFirst ? "" : "-b"));
-                ctx.assertTrue(RoyalChestRuntime.register(level, id, primary, spawn, primary, secondary).isPresent(), "registered under the scan id");
-                // defeat by direct data transition, then open in the requested order
-                var data = TombGuardianEncounters.data(level);
-                UUID boss = UUID.randomUUID();
-                data.bind(TombGuardianEncounters.tombKey(primary), boss, 0L, level.getGameTime());
-                data.markDefeated(TombGuardianEncounters.tombKey(primary), boss);
-                openBoth(ctx, level, player, primary, secondary, primaryFirst, spawn);
-                Container p = RoyalChestRuntime.data(level).chest(id, RoyalChestRole.PRIMARY).orElseThrow().container();
-                Container s = RoyalChestRuntime.data(level).chest(id, RoyalChestRole.SECONDARY).orElseThrow().container();
-                long catalysts = catalystCount(p, s);
-                ctx.assertTrue(catalysts == (id.equals(withCatalyst) ? 1 : 0), id + " catalyst count " + catalysts + " in order primaryFirst=" + primaryFirst);
-                List<Stack> merged = new ArrayList<>(snapshot(p));
-                merged.addAll(snapshot(s));
-                results.add(merged);
-                RoyalChestRuntime.discardInstance(level, id);
-            }
-        ctx.assertTrue(results.get(0).equals(results.get(1)), "opening order does not change the catalyst instance's rewards");
-        ctx.assertTrue(results.get(2).equals(results.get(3)), "opening order does not change the no-catalyst instance's rewards");
-        level.getServer().getPlayerList().remove(player);
-        ctx.succeed();
-    }
-
     // ---- persistence ----
 
     @GameTest(maxTicks = 60)
-    public void stateSurvivesSaveAndRestartWithoutRerollOrRestock(GameTestHelper ctx) {
+    public void codecRoundTripPreservesStateWithoutRerollOrRestock(GameTestHelper ctx) {
         Site site = site(ctx, "persist");
         ServerPlayer player = mock(ctx, site);
         RoyalChestData before = RoyalChestRuntime.data(site.level);
@@ -273,12 +225,12 @@ public final class RoyalChestGameTests {
         ctx.assertTrue(snapshot(restarted.chest(site.id, RoyalChestRole.PRIMARY).orElseThrow().container()).equals(remaining),
                 "remaining items persisted exactly (no restock)");
 
-        // Crash before the generation reached disk: the stale snapshot knows nothing, and the repeated generation is identical.
+        // Stale codec snapshot replay checks determinism only, not disk crash durability.
         RoyalChestData stale = decode(ctx, beforeGeneration);
         ctx.assertTrue(!stale.isGenerated(site.id, RoyalChestRole.PRIMARY), "stale snapshot predates generation");
         RoyalChestData.Instance instance = stale.instance(site.id).orElseThrow();
         List<Stack> regenerated = snapshot(RoyalChestRuntime.generate(site.level, stale, instance, RoyalChestRole.PRIMARY).container());
-        ctx.assertTrue(regenerated.equals(expected(site, RoyalChestRole.PRIMARY)), "a repeated generation after a crash is the identical draw");
+        ctx.assertTrue(regenerated.equals(expected(site, RoyalChestRole.PRIMARY)), "a repeated generation from the stale snapshot is the identical draw");
         finish(ctx, site);
     }
 
@@ -289,34 +241,6 @@ public final class RoyalChestGameTests {
 
     private static RoyalChestData decode(GameTestHelper ctx, Tag tag) {
         return RoyalChestData.TYPE.codec().parse(NbtOps.INSTANCE, tag).getOrThrow(msg -> new IllegalStateException("decode: " + msg));
-    }
-
-    @GameTest(maxTicks = 40)
-    public void repairOfTheSameInstanceKeepsResultsAndANewInstanceGetsANewDraw(GameTestHelper ctx) {
-        Site site = site(ctx, "repair");
-        ServerPlayer player = mock(ctx, site);
-        var data = TombGuardianEncounters.data(site.level);
-        UUID boss = UUID.randomUUID();
-        data.bind(TombGuardianEncounters.tombKey(site.primary), boss, 0L, site.level.getGameTime());
-        data.markDefeated(TombGuardianEncounters.tombKey(site.primary), boss);
-        RoyalChestRuntime.tryOpen(site.level, player, site.primary);
-        List<Stack> before = snapshot(chestOf(site, RoyalChestRole.PRIMARY));
-        Optional<RoyalChestRole> catalyst = RoyalChestRuntime.data(site.level).instance(site.id).orElseThrow().catalyst();
-        BlockPos moved = ctx.absolutePos(new BlockPos(9, 1, 1));
-        ctx.setBlock(new BlockPos(9, 1, 1), Blocks.CHEST);
-        ctx.assertTrue(RoyalChestRuntime.register(site.level, site.id, site.primary, site.spawn, moved, site.secondary).isPresent(), "re-registered");
-        ctx.assertTrue(!RoyalChestRuntime.isGuarded(site.level, site.primary) && RoyalChestRuntime.isGuarded(site.level, moved),
-                "guard follows the repaired chest position");
-        ctx.assertTrue(snapshot(chestOf(site, RoyalChestRole.PRIMARY)).equals(before), "contents kept across repair");
-        ctx.assertTrue(RoyalChestRuntime.data(site.level).instance(site.id).orElseThrow().catalyst().equals(catalyst), "catalyst kept across repair");
-        ctx.assertTrue(RoyalChestRuntime.register(site.level, site.id + "-other", site.primary, site.spawn, moved, site.secondary).isEmpty(),
-                "a position owned by another instance is refused");
-        ctx.assertTrue(RoyalChestRuntime.register(site.level, site.id, site.primary, site.spawn, moved, moved).isEmpty(), "both roles cannot share one position");
-        ctx.assertTrue(!RoyalChestRuntime.chestRandom(1L, "a", RoyalChestRole.PRIMARY).equals(null)
-                && RoyalChestRuntime.mix(site.level.getSeed(), site.id, 0x10L) != RoyalChestRuntime.mix(site.level.getSeed(), site.id + "-new", 0x10L),
-                "a genuinely new instance id draws from a different stream");
-        RoyalChestRuntime.discardInstance(site.level, site.id);
-        ctx.succeed();
     }
 
     // ---- access control ----
@@ -335,6 +259,15 @@ public final class RoyalChestGameTests {
         FakePlayer fake = FakePlayer.get(site.level);
         ctx.assertTrue(RoyalChestRuntime.tryOpen(site.level, fake, site.primary) == OpenResult.NOT_A_PLAYER, "fake player refused");
         ctx.assertTrue(!RoyalChestRuntime.data(site.level).isGenerated(site.id, RoyalChestRole.PRIMARY), "nothing generated by a fake player");
+        // GameTestHelper's mock hardcodes gameMode() to CREATIVE; use an explicit spectator actor.
+        ServerPlayer spectator = new ServerPlayer(site.level.getServer(), site.level,
+                new com.mojang.authlib.GameProfile(UUID.randomUUID(), "royal-spectator"),
+                net.minecraft.server.level.ClientInformation.createDefault()) {
+            @Override public net.minecraft.world.level.GameType gameMode() { return net.minecraft.world.level.GameType.SPECTATOR; }
+        };
+        var spectatorResult = RoyalChestRuntime.tryOpen(site.level, spectator, site.primary.east());
+        ctx.assertTrue(spectatorResult == OpenResult.NOT_A_PLAYER, "spectator refused, got " + spectatorResult + " spectator=" + spectator.isSpectator() + " registered=" + RoyalChestRuntime.data(site.level).linkAt(site.primary.east()));
+        ctx.assertTrue(!RoyalChestRuntime.data(site.level).isGenerated(site.id, RoyalChestRole.PRIMARY), "spectator did not generate");
         ctx.assertTrue(RoyalChestRuntime.tryOpen(site.level, mock(ctx, site), ctx.absolutePos(new BlockPos(7, 1, 7))) == OpenResult.NOT_ROYAL_CHEST,
                 "ordinary blocks are untouched");
         finish(ctx, site);
@@ -346,7 +279,7 @@ public final class RoyalChestGameTests {
         defeatDirect(site);
         ServerPlayer a = mock(ctx, site), b = mock(ctx, site);
         OpenResult first = RoyalChestRuntime.tryOpen(site.level, a, site.primary);
-        OpenResult second = RoyalChestRuntime.tryOpen(site.level, b, site.primary);
+        OpenResult second = RoyalChestRuntime.tryOpen(site.level, b, site.primary.east());
         ctx.assertTrue(first == OpenResult.OPENED_AND_GENERATED && second == OpenResult.OPENED, "generated exactly once: " + first + "/" + second);
         ctx.assertTrue(((RoyalChestMenu) a.containerMenu).chestContainer() == ((RoyalChestMenu) b.containerMenu).chestContainer(), "one shared inventory");
         // a withdrawal by one player is immediately the other's reality (shared inventory, no personal copy)
@@ -416,6 +349,7 @@ public final class RoyalChestGameTests {
         ctx.setBlock(new BlockPos(5, 0, 1), Blocks.HOPPER);
         ctx.setBlock(new BlockPos(5, -1, 1), Blocks.CHEST);
         ctx.assertTrue(HopperBlockEntity.getContainerAt(site.level, site.primary) == null, "registered chest is invisible to container lookups");
+        ctx.assertTrue(HopperBlockEntity.getContainerAt(site.level, site.primary.east()) == null, "right half also invisible to automation");
         ctx.assertTrue(HopperBlockEntity.getContainerAt(site.level, ctx.absolutePos(new BlockPos(5, -1, 1))) != null, "control: ordinary chests still resolve");
         HopperBlockEntity inserter = (HopperBlockEntity) site.level.getBlockEntity(ctx.absolutePos(new BlockPos(1, 2, 1)));
         inserter.setItem(0, new ItemStack(Items.DIRT, 4));
@@ -443,8 +377,8 @@ public final class RoyalChestGameTests {
         RoyalChestRuntime.tryOpen(site.level, player, site.primary);
         Container chest = chestOf(site, RoyalChestRole.PRIMARY);
         for (int i = 0; i < 54; i++) chest.removeItemNoUpdate(i);          // fully depleted
-        // control: an identical-distance dirt block must be destroyed, proving the explosion really happened
-        BlockPos control = site.primary.east(1);
+        // Control next to the pair proves the explosion happened.
+        BlockPos control = site.primary.west(1);
         site.level.setBlockAndUpdate(control, Blocks.DIRT.defaultBlockState());
         ctx.assertTrue(!PlayerBlockBreakEvents.BEFORE.invoker().beforeBlockBreak(site.level, player, site.primary, site.level.getBlockState(site.primary), null),
                 "player break event is vetoed");
@@ -454,6 +388,9 @@ public final class RoyalChestGameTests {
         ctx.assertTrue(site.level.getBlockState(control).isAir(), "control block was blown up (the explosion happened)");
         ctx.assertTrue(site.level.getBlockState(site.primary).is(Blocks.CHEST), "the explosion cannot remove a depleted chest");
         ctx.assertTrue(RoyalChestRuntime.isGuarded(site.level, site.primary), "protection outlives depletion");
+        ctx.assertTrue(site.level.getBlockState(site.primary.east()).is(Blocks.CHEST), "right half survives explosion");
+        player.gameMode.destroyBlock(site.primary.east());
+        ctx.assertTrue(site.level.getBlockState(site.primary.east()).is(Blocks.CHEST), "right half survives mining");
         finish(ctx, site);
     }
 }

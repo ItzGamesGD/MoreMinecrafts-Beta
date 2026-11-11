@@ -25,6 +25,12 @@ public final class RoyalChestContainer extends SimpleContainer {
         if (!quiet) onChanged.run();
     }
 
+    @Override public ItemStack removeItemNoUpdate(int slot) {
+        ItemStack removed = super.removeItemNoUpdate(slot);
+        if (!removed.isEmpty()) setChanged();
+        return removed;
+    }
+
     /** Loads without notifying (used while restoring or generating, which persist explicitly). */
     void fill(int slot, ItemStack stack) {
         quiet = true;

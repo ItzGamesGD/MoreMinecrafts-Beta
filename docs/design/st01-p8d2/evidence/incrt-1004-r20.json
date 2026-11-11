@@ -1,0 +1,37 @@
+{
+  "mode": "incr",
+  "dispatch": "worker-thread getChunkFuture (non-blocking for the server thread)",
+  "seed": 1004,
+  "radius_param": 20,
+  "inflight_cap": 16,
+  "budget_ms_per_tick": 5.0,
+  "precheck_on_server_thread": false,
+  "tickets": true,
+  "ticket_radius": 11,
+  "tick_log_note": "per-tick step time and inter-tick gap recorded; see summary",
+  "incremental_search": [
+    {
+      "total_wall_ms": 27492.653692,
+      "ticks": 551,
+      "max_step_ms": 0.666631,
+      "mean_step_ms": 0.033576306715063516,
+      "max_inter_tick_gap_ms": 797.94307,
+      "candidates_examined": 121,
+      "skipped_by_checkStructurePresence": 0,
+      "chunk_futures_issued": 121,
+      "rings_processed": 6,
+      "future_result_histogram": {
+        "OK:minecraft:biomes": 16,
+        "OK:minecraft:structure_references": 55,
+        "OK:minecraft:structure_starts": 50,
+        "chunks_with_any_start": 2
+      },
+      "result_chunk": "-111,168",
+      "result_locate_pos": "-1776,0,2688",
+      "result_distance_blocks": 3224.009925543034,
+      "starts_found_in_deciding_ring": 1
+    }
+  ],
+  "vanilla_after_ms_warm": 0.55011,
+  "vanilla_result": "-1776,0,2688"
+}

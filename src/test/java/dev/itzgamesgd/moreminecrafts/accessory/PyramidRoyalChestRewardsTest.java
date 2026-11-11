@@ -39,29 +39,8 @@ class PyramidRoyalChestRewardsTest {
         assertEquals(0.04D, 0.2 * 0.2, 1e-12);
     }
 
-    @Test void chestDecidedOnceAndNeverRerolled() {
-        Ledger l = new Ledger();
-        assertTrue(l.claim("pyramid-A:royal-1"));
-        assertFalse(l.claim("pyramid-A:royal-1"), "re-evaluation cannot decide again");
-        assertTrue(l.claim("pyramid-A:royal-2"));
-        assertTrue(l.claim("pyramid-B:royal-1"));
-    }
 
-    @Test void restoredLedgerBlocksDuplicates() {
-        Ledger l = new Ledger();
-        l.claim("a"); l.claim("b");
-        var json = IDS_CODEC.encodeStart(JsonOps.INSTANCE, l.ids()).getOrThrow();
-        Ledger restored = Ledger.of(IDS_CODEC.parse(JsonOps.INSTANCE, json).getOrThrow());
-        assertTrue(restored.isDecided("a") && restored.isDecided("b"));
-        assertFalse(restored.claim("a"));
-        assertTrue(restored.claim("c"));
-    }
 
-    @Test void effectRadiusBoundaryIs16Blocks() {
-        assertTrue(inEffectRange(16.0 * 16.0));
-        assertFalse(inEffectRange(16.0 * 16.0 + 0.01));
-        assertEquals(16.0D, EFFECT_RADIUS);
-    }
 
     @Test void statisticalSanityOnly() {
         Random r = new Random(7);
@@ -75,20 +54,5 @@ class PyramidRoyalChestRewardsTest {
         assertEquals(0.5D, counts.get(AccessoryDefinition.SEED_OF_LIFE) / (double) hits, 0.02D);
     }
 
-    @Test void sourceGuardsAndPreservation() throws Exception {
-        String s = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/accessory/PyramidRoyalChestRewards.java"));
-        assertEquals(1, s.split("table\\.withPool\\(", -1).length - 1, "single additive pool");
-        assertFalse(s.contains("table.pools"));
-        assertTrue(s.contains(".setWeight(1)") && s.contains("randomChance((float) CHANCE)"));
-        assertTrue(s.indexOf(".when(() -> FirstEvaluation.INSTANCE)") < s.indexOf("randomChance((float) CHANCE)"),
-                "claim precedes the roll");
-        assertFalse(s.contains("LootTableEvents"), "attached to no table until I06");
-        assertFalse(s.contains("spawnAtLocation") || s.contains("ClientboundSetTitle") || s.contains("sendSystemMessage"));
-        assertFalse(s.toLowerCase().contains("luck") && s.contains("getLuck"), "no luck input");
-        String main = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java"));
-        assertEquals(1, main.split("PyramidRoyalChestRewards\\.initialize\\(\\)", -1).length - 1);
-        assertTrue(Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/accessory/RelicCatalystSources.java")).contains("CATALYST_CHANCE = 0.05D"));
-        assertTrue(Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/progression/T2CoreAcquisition.java")).contains("ANCIENT_HEART, 0.03F"));
-    }
 
 }

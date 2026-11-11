@@ -1,0 +1,26 @@
+{
+  "mode": "cheaplocate",
+  "instr_on": true,
+  "seed": 1003,
+  "radius_param": 20,
+  "eligibility": "experimental exact-equivalent cheap-first",
+  "wall_ms": 2215.314081,
+  "main_thread_blocked_ms": 2215.314081,
+  "eligibility_ms": 2208.490393,
+  "validation_getChunk_STRUCTURE_STARTS_ms": 0.0,
+  "candidates": 1681,
+  "eligible": 0,
+  "validated_valid_starts": 0,
+  "verdicts": {
+    "REJECT_BIOME": 1677,
+    "REJECT_HEIGHT_DIFFERENCE": 4
+  },
+  "height_computes": 4028,
+  "height_ms": 2061.989659,
+  "biome_lookups": 5769,
+  "biome_ms": 50.219357,
+  "production_fgp_evaluations_during_validation": 0,
+  "instr": {},
+  "result_chunk": null,
+  "ring": -1
+}
