@@ -56,25 +56,27 @@ final class FallenSentinelRenderer extends AbstractZombieRenderer<FallenSentinel
 
     @Override public ZombieRenderState createRenderState() { return new ZombieRenderState(); }
 
-    // Wing arm: a 10 px bone raised 0.75 rad from the shoulder blade; feathers hang from points along it.
-    private static final float WING_ARM_LENGTH = 10.0F;
-    private static final float WING_ARM_RAISE = 0.75F;
+    // Wing arm: an 11 px bone raised 0.5 rad from the shoulder blade; feathers hang from points along it.
+    private static final float WING_ARM_LENGTH = 11.0F;
+    private static final float WING_ARM_RAISE = 0.5F;
+    /** Backward sweep of each wing; kept small so the spread reads from the front as well as from behind. */
+    private static final float WING_SWEEP = 0.12F;
     // Layer depth behind the wing pivot (local +z points backwards): long feathers, coverts, short scapulars.
     private static final float LAYER_LONG = 0.0F;
     private static final float LAYER_MID = 1.1F;
     private static final float LAYER_SHORT = 2.2F;
     /** {fraction along the wing arm, feather length, outward fan angle, layer depth}. */
     private static final float[][] FEATHERS = {
-            {0.12F, 15, 0.03F, LAYER_LONG}, {0.27F, 15, 0.08F, LAYER_LONG}, {0.42F, 15, 0.14F, LAYER_LONG},
-            {0.57F, 14, 0.22F, LAYER_LONG}, {0.72F, 13, 0.31F, LAYER_LONG}, {0.86F, 12, 0.42F, LAYER_LONG},
-            {1.00F, 11, 0.55F, LAYER_LONG},
-            {0.20F, 10, 0.06F, LAYER_MID}, {0.40F, 10, 0.14F, LAYER_MID}, {0.60F, 9, 0.24F, LAYER_MID},
-            {0.80F, 8, 0.36F, LAYER_MID}, {0.98F, 7, 0.50F, LAYER_MID},
-            {0.10F, 6, 0.04F, LAYER_SHORT}, {0.35F, 6, 0.12F, LAYER_SHORT}, {0.60F, 5, 0.22F, LAYER_SHORT},
-            {0.85F, 5, 0.34F, LAYER_SHORT},
+            {0.12F, 15, 0.04F, LAYER_LONG}, {0.27F, 15, 0.10F, LAYER_LONG}, {0.42F, 15, 0.17F, LAYER_LONG},
+            {0.57F, 14, 0.25F, LAYER_LONG}, {0.72F, 13, 0.33F, LAYER_LONG}, {0.86F, 12, 0.41F, LAYER_LONG},
+            {1.00F, 11, 0.50F, LAYER_LONG},
+            {0.20F, 10, 0.08F, LAYER_MID}, {0.40F, 10, 0.17F, LAYER_MID}, {0.60F, 9, 0.27F, LAYER_MID},
+            {0.80F, 8, 0.37F, LAYER_MID}, {0.98F, 7, 0.48F, LAYER_MID},
+            {0.10F, 6, 0.05F, LAYER_SHORT}, {0.35F, 6, 0.15F, LAYER_SHORT}, {0.60F, 5, 0.26F, LAYER_SHORT},
+            {0.85F, 5, 0.37F, LAYER_SHORT},
     };
-    /** Upward plumes at the wing tip: {fraction, length, outward tilt, layer depth}. */
-    private static final float[][] PLUMES = { {1.00F, 7, 0.40F, LAYER_MID}, {0.92F, 6, 0.85F, LAYER_LONG} };
+    /** Plumes continuing the upper edge outward past the wing tip: {fraction, length, outward tilt, layer depth}. */
+    private static final float[][] PLUMES = { {1.00F, 7, 1.05F, LAYER_MID}, {0.90F, 6, 0.75F, LAYER_LONG} };
     private static final int[] FEATHER_LENGTHS = {15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5};
 
     private static int featherU(int length) {
@@ -121,8 +123,8 @@ final class FallenSentinelRenderer extends AbstractZombieRenderer<FallenSentinel
 
         // ---- floating segmented halo, in the torso frame --------------------------------------------------------
         PartDefinition halo = body.addOrReplaceChild("halo", CubeListBuilder.create(),
-                PartPose.offsetAndRotation(0.0F, -11.5F, 0.5F, 0.12F, 0.0F, 0.0F));
-        float radius = 5.5F;
+                PartPose.offsetAndRotation(0.0F, -11.0F, 0.5F, 0.12F, 0.0F, 0.0F));
+        float radius = 5.0F;
         for (int k = 0; k < 8; k++) {
             if (k == 5) continue; // the broken gap at the rear left
             float angle = (float) Math.toRadians(22.5 + 45.0 * k);
@@ -150,7 +152,7 @@ final class FallenSentinelRenderer extends AbstractZombieRenderer<FallenSentinel
         float side = right ? -1.0F : 1.0F;   // right wing extends to -x
         PartDefinition wing = body.addOrReplaceChild(right ? "right_wing" : "left_wing", CubeListBuilder.create()
                         .texOffs(44, 48).mirror(!right).addBox(right ? -4.0F : 0.0F, -2.0F, 0.0F, 4, 4, 3),
-                PartPose.offsetAndRotation(2.0F * side, 1.5F, 2.75F, 0.0F, -0.35F * side, 0.0F));
+                PartPose.offsetAndRotation(2.0F * side, 1.5F, 2.75F, 0.0F, -WING_SWEEP * side, 0.0F));
         wing.addOrReplaceChild("arm", CubeListBuilder.create().texOffs(16, 48).mirror(!right)
                         .addBox(right ? -WING_ARM_LENGTH : 0.0F, -1.0F, 0.6F, (int) WING_ARM_LENGTH, 2, 3),
                 PartPose.rotation(0.0F, 0.0F, -WING_ARM_RAISE * side));

@@ -35,7 +35,8 @@ grep -Fq 'Done (' "$OUT/server.log" || { echo SERVER_READY_TIMEOUT; exit 1; }
 echo SERVER_READY
 R() { python3 scripts/visual_validation/rcon.py "$@" >> "$OUT/scene.log"; }
 # Static subject faces +Z (south). Line-up at z=-9.5: player mannequin, Fallen Sentinel, vanilla husk.
-# Animation pen (invisible barriers) at x 20..30: an AI sentinel walks to an invulnerable NoAI villager and attacks it.
+# Animation pen (invisible barriers) at x 20..30: an AI sentinel walks to a NoAI villager and attacks it. The villager is
+# not Invulnerable (vanilla targeting ignores invulnerable entities); 1024 max health keeps it alive for the clip.
 R 'setworldspawn 0 64 30' 'forceload add -24 -24 56 40' 'time set noon' 'weather clear' \
   'gamerule spawn_mobs false' \
   'fill -24 63 -24 56 63 40 minecraft:stone' 'fill -24 64 -24 56 80 40 minecraft:air' \
@@ -44,7 +45,7 @@ R 'setworldspawn 0 64 30' 'forceload add -24 -24 56 40' 'time set noon' 'weather
   'summon moreminecrafts:fallen_sentinel 0.5 64 -9.5 {NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[0f,0f],Tags:["keep"]}' \
   'summon minecraft:husk 3.5 64 -9.5 {NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[0f,0f],Tags:["keep"]}' \
   'fill 19 64 2 31 67 6 minecraft:barrier' 'fill 20 64 3 30 67 5 minecraft:air' \
-  'summon minecraft:villager 29.5 64 4.5 {NoAI:1b,Invulnerable:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Tags:["keep"]}' \
+  'summon minecraft:villager 29.5 64 4.5 {NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Tags:["keep"],attributes:[{id:"minecraft:max_health",base:1024d}],Health:1024f}' \
   'execute if entity @e[type=moreminecrafts:fallen_sentinel] run say FALLEN_SENTINEL_CREATED' | tee -a "$OUT/scene.log"
 printf 'guiScale:2\ntutorialStep:none\nmaxFps:60\nenableVsync:false\n' > run/options.txt
 export OUT

@@ -283,7 +283,7 @@ def feather(faces, length, tip_at_bottom=True):
             continue
         for j in range(f.h):
             t = j / max(1, f.h - 1) if tip_at_bottom else 1 - j / max(1, f.h - 1)
-            c = FE_K if t < 0.45 else FE_D if t < 0.6 else FE_R1 if t < 0.75 else FE_R2 if t < 0.9 else FE_R3
+            c = FE_K if t < 0.6 else FE_D if t < 0.72 else FE_R1 if t < 0.84 else FE_R2 if t < 0.94 else FE_R3
             for i in range(f.w):
                 f.px(i, j, jitter(c, 3))
         if side in ("north", "south"):
