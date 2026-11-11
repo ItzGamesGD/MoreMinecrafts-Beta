@@ -15,7 +15,8 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerCompositeWorldgenProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerAdaptiveProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01C2BProbe",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01CounterfactualProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.skytower.SkyTowerGameTests",

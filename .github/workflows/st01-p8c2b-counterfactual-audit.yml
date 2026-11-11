@@ -1,0 +1,110 @@
+name: ST-01 P8-C2-B Counterfactual Rarity Audit
+# Diagnostic only. Production worldgen is NOT modified; the probe lives in src/gametest and is inert unless -Dmm.st01.cf.out is set.
+on:
+  push:
+    branches: [audit/st01-p8c2b-counterfactual-rarity-20261111]
+    paths-ignore: ['docs/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  nonregression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.3.5
+      - name: Static non-regression (src/main, NBT hashes, no bypass tokens, probe only in src/gametest)
+        run: tools/st01-p8c2b-audit/nonregression.sh 9e4379c7
+      - name: Exported assets equal the exporter (P8-C2-A)
+        run: python tools/st01-p8c2a/export_assembly.py --check
+      - name: Build and all unit tests (eligibility boundaries, route selection, completion protocol, resources)
+        run: ./gradlew build compileGametestJava -x runGameTest --no-daemon --max-workers=2
+      - name: Natural-worldgen piece GameTests (production regression, normal/reverse/random chunk order)
+        env:
+          JAVA_TOOL_OPTIONS: '-Dmm.st01.c2b.pieces=true -Dmm.st01.c2b.pieces.out=${{ github.workspace }}/build/st01-p8c2b/pieces -Dfabric-api.gametest.filter=moreminecrafts-gametest:st01natural_piece_game_tests*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2b-audit-nonregression
+          path: build/test-results/
+          retention-days: 30
+
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        # The original P8-C2-B 20-seed set, verbatim from .github/workflows/st01-p8c2b-worldgen.yml @ 58646bef (also tools/st01-p8c2b-audit/seeds.json).
+        seed: [1001, 1002, 1003, 1004, 1005, 527213223, 1034165336, 1541117449, 2048069562, 407538027, 914490140, 1421442253, 1928394366, 287862831, 794814944,
+               119599970, 218938829, 318277688, 417616547, 516955406]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Observation probe, two independent server runs (radius 10240, same enumeration as P8-C2-B)
+        run: tools/st01-p8c2b-audit/run_audit.sh ${{ matrix.seed }} 10240 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2b-audit-seed-${{ matrix.seed }}
+          path: |
+            build/st01-p8c2b-audit/results/${{ matrix.seed }}/*.json
+            build/st01-p8c2b-audit/logs/${{ matrix.seed }}/
+          retention-days: 30
+
+  analyze:
+    needs: observe
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.3.5
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: st01-p8c2b-audit-seed-*
+          path: seeds
+      - name: Arrange per-seed results
+        run: |
+          mkdir -p results
+          find seeds -name 'observations-1.json' | while read -r f; do d=$(dirname "$f"); s=$(basename "$d"); s=${s#st01-p8c2b-audit-seed-}; mkdir -p "results/$s"; cp "$d"/observations-*.json "results/$s/"; done
+          ls results | wc -l
+      - name: Seeds equal the recorded original set
+        run: python3 -I -c "import json,os; want=sorted(map(str,json.load(open('tools/st01-p8c2b-audit/seeds.json'))['seeds'])); got=sorted(os.listdir('results')); assert want==got,(want,got); print('20 original seeds present')"
+      - name: Repeat-run determinism
+        run: python3 -I tools/st01-p8c2b-audit/determinism.py results
+      - name: Analysis path 1 (observations -> records, scenarios, statistics)
+        run: python3 -I tools/st01-p8c2b-audit/analyze.py results analysis
+      - name: Analysis path 2 (independent SQL recomputation from candidates.csv)
+        run: python3 -I tools/st01-p8c2b-audit/verify_independent.py analysis
+      - name: Baseline reproduction against the reported P8-C2-B values
+        run: python3 -I tools/st01-p8c2b-audit/compare_baseline.py analysis
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2b-audit-analysis
+          path: analysis/
+          retention-days: 90
