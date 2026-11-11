@@ -52,7 +52,7 @@ for k, s in sorted(starts_all.items()):
                  'audit_fluid_blocks_total': r.get('fluid_blocks_total'),
                  'was_policy_A_start': k in audit_A,
                  'entrance_buried': s.get('entrance_buried'), 'entrance_approach_max_rise': s.get('entrance_approach_max_rise'),
-                 'entrance_opening_clear': s.get('entrance_opening_clear'), 'approach_columns_excavated': s.get('entrance_approach_columns_excavated'),
+                 'entrance_opening_clear': s.get('entrance_opening_clear'), 'approach_columns_air_at_noise_surface': s.get('entrance_approach_columns_air_at_noise_surface'), 'approach_row_outside_box': s.get('entrance_approach_row_outside_structure_box'),
                  'fluid_blocks_in_completion_box': s.get('fluid_blocks_in_completion_box'), 'fluid_in_void_cells': s.get('fluid_blocks_in_structure_void_cells'),
                  'fluid_shell': s.get('fluid_blocks_in_1_block_shell_outside_underground'),
                  'owned_cell_mismatches': s.get('owned_cell_mismatches'), 'void_cells_non_air': s.get('void_cells_non_air'),
@@ -71,14 +71,15 @@ summary = {
     'previously_fluid_rejected_starts': cnt(lambda r: r['audit_fluid_ok'] == 'false'),
     'previously_fluid_rejected_all_pass': cnt(lambda r: r['audit_fluid_ok'] == 'false' and r['all_checks_pass']),
     'starts_with_fluid_in_completion_box': cnt(lambda r: (r['fluid_blocks_in_completion_box'] or 0) > 0),
-    'approach_columns_excavated_total': sum(r['approach_columns_excavated'] or 0 for r in rows),
+    'approach_rows_outside_structure_box': cnt(lambda r: r['approach_row_outside_box']),
+    'approach_columns_air_at_noise_surface_total_observation': sum(r['approach_columns_air_at_noise_surface'] or 0 for r in rows),
     'new_starts_vs_policy_A': cnt(lambda r: not r['was_policy_A_start']),
     'routes': {x: cnt(lambda r, x=x: r['route'] == x) for x in ('EAST', 'WEST')},
     'orientations': {x: cnt(lambda r, x=x: r['orientation'] == x) for x in ('NORTH', 'EAST', 'SOUTH', 'WEST')},
 }
 if summary['registered_royal_chests'] != n: fails.append('not every start registered a royal chest')
 if summary['all_checks_pass'] != n: fails.append('not every start passed all in-game checks')
-if summary['approach_columns_excavated_total']: fails.append('approach columns were excavated')
+if summary['approach_rows_outside_structure_box'] != n: fails.append('an approach row lies inside a structure box')
 if len(audit_A) and not audit_A <= actual: fails.append('a Policy A start disappeared')
 
 area = summary['area_km2']

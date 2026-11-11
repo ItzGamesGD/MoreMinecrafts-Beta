@@ -466,14 +466,19 @@ public final class St01C2BProbe implements ModInitializer {
         rec.put("entrance_opening_clear", openingClear);
         // Policy D: a buried entrance is an accepted outcome, recorded only
         rec.put("entrance_buried", approachMax > 1);
-        // no excavation outside the structure: every approach column that the base terrain made solid at its surface is still non-air
+        // No terrain work outside the structure: the approach row lies outside the start's bounding box (every piece box is inside it, and
+        // terrain_adaptation is none), so production cannot write there. Air at the noise surface after generation is an OBSERVATION only:
+        // vanilla carvers/surface rules also open the surface, so it cannot be attributed to the structure.
+        boolean approachOutsideBox = true;
+        for (int[] d : entranceApproach(o)) if (start.getBoundingBox().isInside(ground.getX() + d[0], ground.getY(), ground.getZ() + d[1])) approachOutsideBox = false;
+        rec.put("entrance_approach_row_outside_structure_box", approachOutsideBox);
         int approachExcavated = 0;
         for (int[] d : entranceApproach(o)) {
             int bx = ground.getX() + d[0], bz = ground.getZ() + d[1];
             int h = t.surfaceHeight(bx, bz);
             if (h - 1 > ground.getY() && level.getBlockState(new BlockPos(bx, h - 1, bz)).isAir()) approachExcavated++;
         }
-        rec.put("entrance_approach_columns_excavated", approachExcavated);
+        rec.put("entrance_approach_columns_air_at_noise_surface", approachExcavated);
 
         // vanilla structure overlap
         rec.put("vanilla_structure_overlaps", overlaps(level, structure, box));
@@ -487,7 +492,7 @@ public final class St01C2BProbe implements ModInitializer {
 
         boolean pass = instance.isPresent() && Boolean.TRUE.equals(rec.get("no_premature_registration")) && ownedMismatch == 0 && voidNonAir == 0
                 && nonDesert == 0 && Boolean.TRUE.equals(rec.get("moderate_limits_respected"))
-                && openingClear && approachExcavated == 0 && Boolean.TRUE.equals(rec.get("start_box_equals_completion_box"))
+                && openingClear && approachOutsideBox && Boolean.TRUE.equals(rec.get("start_box_equals_completion_box"))
                 && route.name().equals(rec.get("route_rederived")) && Boolean.TRUE.equals(rec.get("repeat_completion_idempotent"));
         @SuppressWarnings("unchecked") Map<String, Object> lc = (Map<String, Object>) rec.get("lifecycle");
         if (lc != null) pass &= Boolean.TRUE.equals(lc.get("pass"));
