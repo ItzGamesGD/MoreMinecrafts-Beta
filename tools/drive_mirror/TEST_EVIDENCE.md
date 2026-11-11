@@ -117,3 +117,6 @@ this branch changes no engine file), so the result still describes the engine, b
 **Security.** Finding `cec8bff8` re-examined (structure only, no value printed): reproduced by the scanner on the blob alone (line 23, entropy 3.63); line 23 holds two identifier-style literals; all 9 reconstructed
 paths of the enclosing list exist in the commit's tree. Classified as a demonstrable false positive, **not approved**; `approved_findings.json` is unchanged and still `proposed`; the 2 refs stay quarantined.
 See `security/D-6_APPROVAL_PROPOSAL.md`.
+
+**Workflow still disabled (observed on GitHub).** Pushing this branch (head `60026c6`) started two `Drive mirror` runs (`create`: 42933944522, `push`: 42933944550). Every job
+(`relay`, `mirror`, `not-configured`) concluded `skipped`, so `DRIVE_MIRROR_ENABLED` is not `true`. No secret or variable was read or changed.
