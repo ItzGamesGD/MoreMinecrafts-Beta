@@ -1,0 +1,1 @@
+Additional seed 173 radius-160 scan did not complete. runSkyIslandsProbe JVM exited 137 (SIGKILL); memory pressure is suspected, not established. No result JSON was produced. Earlier radius-80 seed173 evidence is preserved under worldgen/173.json. This failure is not classified as a structure generation defect.

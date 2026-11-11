@@ -16,15 +16,23 @@ public final class ModNetworking {
     public static void initialize() {
         PayloadTypeRegistry.serverboundPlay().register(OpenFishingEquipmentPayload.TYPE, OpenFishingEquipmentPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(OpenPotionInjectorPayload.TYPE, OpenPotionInjectorPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(T1AirJumpPayload.TYPE, T1AirJumpPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(MovementJumpPayload.TYPE, MovementJumpPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(ProgressionSyncRequestPayload.TYPE, ProgressionSyncRequestPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(ResearchPurchaseRequestPayload.TYPE, ResearchPurchaseRequestPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(QuestClaimRequestPayload.TYPE, QuestClaimRequestPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(ContractActionPayload.TYPE, ContractActionPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(FishingChallengePayload.TYPE, FishingChallengePayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ProgressionSnapshotPayload.TYPE, ProgressionSnapshotPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ProgressionDeltaPayload.TYPE, ProgressionDeltaPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ProgressionActionResultPayload.TYPE, ProgressionActionResultPayload.CODEC);
         dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRuntime.initialize();
+        ServerPlayNetworking.registerGlobalReceiver(T1AirJumpPayload.TYPE, (payload, context) ->
+                context.server().execute(() -> {
+                    if (!dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRuntime.onJump(context.player())
+                            && !dev.itzgamesgd.moreminecrafts.progression.ResearchMovementRuntime.onJump(context.player()))
+                        EnchantmentRuntime.handleJump(context.player());
+                }));
         ServerPlayNetworking.registerGlobalReceiver(MovementJumpPayload.TYPE, (payload, context) ->
                 context.server().execute(() -> {
                     if (!dev.itzgamesgd.moreminecrafts.progression.ResearchMovementRuntime.onJump(context.player()))
@@ -46,6 +54,14 @@ public final class ModNetworking {
                             context.player(), payload.questId());
                     dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRuntime.actionResult(
                             context.player(), "quest:" + payload.questId(), result.ordinal());
+                }));
+        ServerPlayNetworking.registerGlobalReceiver(ContractActionPayload.TYPE, (payload, context) ->
+                context.server().execute(() -> {
+                    var action = ContractActionPayload.parse(payload.action());
+                    if (action == null || !dev.itzgamesgd.moreminecrafts.bounty.ContractService.act(
+                            context.player(), payload.slot(), payload.contractId(), action))
+                        context.player().sendSystemMessage(net.minecraft.network.chat.Component.translatable(
+                                "moreminecrafts.contract.action_failed"));
                 }));
         ServerPlayNetworking.registerGlobalReceiver(OpenFishingEquipmentPayload.TYPE, (payload, context) -> {
             var player = context.player();

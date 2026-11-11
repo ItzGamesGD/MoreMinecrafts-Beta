@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -166,7 +167,7 @@ public final class ProgressionDisciplineSelectionScreen extends Screen {
             double x = originX + center.x() * scale;
             double y = originY + center.y() * scale;
             focusedSector = index;
-            return mouseClicked(new MouseButtonEvent(x, y, new net.minecraft.client.input.MouseButtonInfo(0, 0)), false);
+            return mouseClicked(new MouseButtonEvent(x, y, new net.minecraft.client.input.MouseButtonInfo(InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
         }
         return false;
     }
@@ -182,8 +183,18 @@ public final class ProgressionDisciplineSelectionScreen extends Screen {
         return true;
     }
 
+    /** GUI-space centroid of a discipline's sector, for the OS-input harness; null when the discipline is unknown. */
+    public double[] validationSectorPoint(String discipline) {
+        for (var sector : ProgressionSectorGeometry.sectors()) {
+            if (!sector.discipline().equals(discipline)) continue;
+            return new double[]{originX + sector.centroid().x() * scale, originY + sector.centroid().y() * scale};
+        }
+        return null;
+    }
+
     @Override public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if (event.button() == 0) {
+        PhysicalInputLog.press("sectors", event);
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             int index = ProgressionSectorGeometry.hitTest(event.x(), event.y(), originX, originY, scale);
             if (index >= 0) {
                 focusedSector = index;

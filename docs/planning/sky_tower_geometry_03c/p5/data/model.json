@@ -1,0 +1,13 @@
+{
+ "axis": [
+  0.5,
+  0.5
+ ],
+ "budget_y": [
+  0,
+  80
+ ],
+ "actual_vs_reserved": "CSV contains claims only; reservation boxes contain no blocks. Existing K2 unchanged. Tower portal voids reproduce P3 baseline.",
+ "base_diameter": "B25-T3 core only; stepped D45 podium detail unresolved",
+ "sanctum": "floor only; upper arches unplaced"
+}

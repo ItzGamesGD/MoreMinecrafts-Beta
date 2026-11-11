@@ -1,10 +1,15 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
+import dev.itzgamesgd.moreminecrafts.progression.PrecisionCraftingRules;
+import dev.itzgamesgd.moreminecrafts.progression.PrecisionCraftingRuntime;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchProgressState;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +24,63 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ResultSlot.class)
 abstract class KnowledgeRecipeCraftCountMixin {
     @Shadow @Final private Player player;
+    @Shadow @Final private CraftingContainer craftSlots;
     @Unique private boolean moreminecrafts$creditedInQuickCraft;
+    @Unique private int moreminecrafts$precisionCraftingPreserveSlot = -1;
+    @Unique private boolean moreminecrafts$precisionCraftingPreserved;
+
+    /**
+     * onTake is reached only after a real result transfer. Resolve one paid candidate while the
+     * full pre-consumption grid is still present; preview creation never enters this path.
+     */
+    @Inject(method = "onTake", at = @At("HEAD"))
+    private void moreminecrafts$preparePrecisionCrafting(Player player, ItemStack crafted,
+                                                          CallbackInfo ci) {
+        moreminecrafts$precisionCraftingPreserveSlot = -1;
+        moreminecrafts$precisionCraftingPreserved = false;
+        if (!(player instanceof ServerPlayer serverPlayer)) return;
+        int level = PrecisionCraftingRuntime.purchasedLevel(serverPlayer);
+        if (level <= 0) return;
+
+        var positioned = craftSlots.asPositionedCraftInput();
+        int candidate = PrecisionCraftingRuntime.selectedContainerSlot(craftSlots,
+                positioned.input(), positioned.left(), positioned.top());
+        if (candidate < 0) return;
+
+        var materialClass = PrecisionCraftingRuntime.materialClass(craftSlots.getItem(candidate));
+        int roll = serverPlayer.getRandom().nextInt(PrecisionCraftingRules.ROLL_RANGE);
+        if (PrecisionCraftingRules.succeeds(materialClass, level, roll))
+            moreminecrafts$precisionCraftingPreserveSlot = candidate;
+    }
+
+    /** Keep the selected unit in the input; vanilla still handles all recipe remainders. */
+    @WrapOperation(method = "onTake",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/CraftingContainer;removeItem(II)Lnet/minecraft/world/item/ItemStack;"))
+    private ItemStack moreminecrafts$preserveOneEligibleIngredient(CraftingContainer container,
+            int slot, int amount, Operation<ItemStack> original) {
+        if (slot == moreminecrafts$precisionCraftingPreserveSlot && amount == 1) {
+            moreminecrafts$precisionCraftingPreserveSlot = -1;
+            moreminecrafts$precisionCraftingPreserved = true;
+            return ItemStack.EMPTY;
+        }
+        return original.call(container, slot, amount);
+    }
+
+    @Inject(method = "onTake", at = @At("TAIL"))
+    private void moreminecrafts$clearPrecisionCraftingTransaction(Player player, ItemStack crafted,
+                                                                   CallbackInfo ci) {
+        boolean preserved = moreminecrafts$precisionCraftingPreserved;
+        moreminecrafts$precisionCraftingPreserveSlot = -1;
+        moreminecrafts$precisionCraftingPreserved = false;
+        if (preserved) {
+            if (player.containerMenu instanceof PrecisionCraftingRuntime.MenuRefreshAccess menu
+                    && menu.isQuickMoveRunning()) {
+                menu.requestPrecisionCraftingRefresh();
+            } else {
+                craftSlots.setChanged();
+            }
+        }
+    }
 
     /** Shift-click transfers call Slot.onQuickCraft with the successfully moved output quantity. */
     @Inject(method = "onQuickCraft(Lnet/minecraft/world/item/ItemStack;I)V", at = @At("TAIL"))

@@ -1,0 +1,24 @@
+{
+  "mode": "incr",
+  "seed": 1001,
+  "radius_param": 5,
+  "inflight_cap": 4,
+  "budget_ms_per_tick": 5.0,
+  "tick_log_note": "per-tick step time and inter-tick gap recorded; see summary",
+  "incremental_search": [
+    {
+      "total_wall_ms": 1340.993981,
+      "ticks": 28,
+      "max_step_ms": 218.617472,
+      "mean_step_ms": 13.153669214285713,
+      "max_inter_tick_gap_ms": 219.360319,
+      "candidates_examined": 121,
+      "skipped_by_checkStructurePresence": 121,
+      "chunk_futures_issued": 0,
+      "rings_processed": 6,
+      "result_chunk": null
+    }
+  ],
+  "vanilla_after_ms_warm": 0.561447,
+  "vanilla_result": null
+}

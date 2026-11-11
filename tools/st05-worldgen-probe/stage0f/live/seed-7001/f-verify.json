@@ -1,0 +1,100 @@
+{
+  "mode": "f-verify",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "reservations": 4,
+  "algo": "st05-stage0f-construction-v1",
+  "placements": [
+    {
+      "id": "20d89ee7a8aa754c",
+      "center": "-837,-1174",
+      "reserved_floorY": -25,
+      "state_at_entry": "VERIFIED",
+      "action": "REVERIFIED_READ_ONLY",
+      "plan_mismatches": 0,
+      "verify_failures": [],
+      "measured": {
+        "fluid_adjacent_open_cells": 0,
+        "exterior_radius": 34,
+        "max_solid_offset": 22,
+        "vault_blocks_expected": 7,
+        "walk_arena_to_cave_dir1": 17,
+        "walk_arena_to_cave_dir0": 13,
+        "corridors": 2
+      },
+      "writes": 0,
+      "ms": 2429,
+      "final_state": "VERIFIED",
+      "final_reason": "",
+      "reservation_preserved": true
+    },
+    {
+      "id": "2ac822e8f540f125",
+      "center": "1095,-647",
+      "reserved_floorY": -35,
+      "state_at_entry": "CONSTRUCTION_FAILED",
+      "action": "TERMINAL_NO_ACTION",
+      "reason": "CONSTRUCTION_FAILED_NO_FIT {PROTECTED_BLOCK_IN_BODY\u003d8}",
+      "writes": 0,
+      "ms": 0,
+      "final_state": "CONSTRUCTION_FAILED",
+      "final_reason": "CONSTRUCTION_FAILED_NO_FIT {PROTECTED_BLOCK_IN_BODY\u003d8}",
+      "reservation_preserved": true
+    },
+    {
+      "id": "77ba83e05adb296f",
+      "center": "-390,-720",
+      "reserved_floorY": -22,
+      "state_at_entry": "VERIFIED",
+      "action": "REVERIFIED_READ_ONLY",
+      "plan_mismatches": 0,
+      "verify_failures": [],
+      "measured": {
+        "fluid_adjacent_open_cells": 0,
+        "exterior_radius": 34,
+        "max_solid_offset": 22,
+        "vault_blocks_expected": 7,
+        "walk_arena_to_cave_dir2": 12,
+        "walk_arena_to_cave_dir0": 19,
+        "corridors": 2
+      },
+      "writes": 0,
+      "ms": 897,
+      "final_state": "VERIFIED",
+      "final_reason": "",
+      "reservation_preserved": true
+    },
+    {
+      "id": "e1c48dbd0693d2e0",
+      "center": "-1147,-1157",
+      "reserved_floorY": -24,
+      "state_at_entry": "VERIFIED",
+      "action": "REVERIFIED_READ_ONLY",
+      "plan_mismatches": 0,
+      "verify_failures": [],
+      "measured": {
+        "fluid_adjacent_open_cells": 0,
+        "exterior_radius": 34,
+        "max_solid_offset": 22,
+        "vault_blocks_expected": 7,
+        "walk_arena_to_cave_dir0": 13,
+        "walk_arena_to_cave_dir1": 18,
+        "corridors": 2
+      },
+      "writes": 0,
+      "ms": 1362,
+      "final_state": "VERIFIED",
+      "final_reason": "",
+      "reservation_preserved": true
+    }
+  ],
+  "world_writes": 0,
+  "chunk_saves": 0,
+  "second_pass_writes": 0,
+  "second_pass_states": [
+    "VERIFIED",
+    "CONSTRUCTION_FAILED",
+    "VERIFIED",
+    "VERIFIED"
+  ]
+}

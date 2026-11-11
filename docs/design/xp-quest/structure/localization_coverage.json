@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "quest_count": 200,
+  "quest_copy": {
+    "en": {
+      "quest_fields_present": {
+        "title": 3,
+        "description": 3,
+        "objective": 3
+      },
+      "quest_fields_expected_each": 200,
+      "quests_with_full_copy": 3
+    },
+    "ko": {
+      "quest_fields_present": {
+        "title": 3,
+        "description": 3,
+        "objective": 3
+      },
+      "quest_fields_expected_each": 200,
+      "quests_with_full_copy": 3
+    }
+  },
+  "chapter_and_sub_titles": {
+    "proposal_supplied_en_and_ko": 67,
+    "note": "Chapter and sub-branch titles are carried in quest_structure_mapping.json, not in lang files."
+  }
+}

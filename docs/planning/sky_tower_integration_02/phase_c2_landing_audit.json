@@ -1,0 +1,363 @@
+{
+ "scope": "parent template only; hardcoded full-cube ID assumptions; not actual server player movement, not a full route",
+ "cases": [
+  {
+   "style": "snowy",
+   "candidate": "snowy_dx-12_dz0_r0_w3",
+   "bridge_end_slab_top_y": 17.5,
+   "beyond_end_columns": [
+    {
+     "column": [
+      39,
+      20
+     ],
+     "floor": [
+      39,
+      14,
+      20
+     ],
+     "block": "minecraft:snow_block",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      21
+     ],
+     "floor": [
+      39,
+      14,
+      21
+     ],
+     "block": "minecraft:snow_block",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      22
+     ],
+     "floor": "not found in y=0..17",
+     "step_from_bridge": null
+    }
+   ],
+   "reachable_from_island_route": "UNVERIFIED",
+   "collision_shapes_and_player_movement": "UNVERIFIED"
+  },
+  {
+   "style": "meadow",
+   "candidate": "meadow_dx-12_dz0_r0_w3",
+   "bridge_end_slab_top_y": 17.5,
+   "beyond_end_columns": [
+    {
+     "column": [
+      39,
+      20
+     ],
+     "floor": [
+      39,
+      16,
+      20
+     ],
+     "block": "minecraft:grass_block",
+     "assumed_cube_top_y": 17,
+     "difference_from_slab_top": -0.5,
+     "two_cells_above": [
+      "minecraft:allium",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      21
+     ],
+     "floor": [
+      39,
+      16,
+      21
+     ],
+     "block": "minecraft:grass_block",
+     "assumed_cube_top_y": 17,
+     "difference_from_slab_top": -0.5,
+     "two_cells_above": [
+      "minecraft:short_grass",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      22
+     ],
+     "floor": [
+      39,
+      15,
+      22
+     ],
+     "block": "minecraft:grass_block",
+     "assumed_cube_top_y": 16,
+     "difference_from_slab_top": -1.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    }
+   ],
+   "reachable_from_island_route": "UNVERIFIED",
+   "collision_shapes_and_player_movement": "UNVERIFIED"
+  },
+  {
+   "style": "forest",
+   "candidate": "forest_dx-12_dz0_r0_w3",
+   "bridge_end_slab_top_y": 17.5,
+   "beyond_end_columns": [
+    {
+     "column": [
+      39,
+      20
+     ],
+     "floor": [
+      39,
+      15,
+      20
+     ],
+     "block": "minecraft:grass_block",
+     "assumed_cube_top_y": 16,
+     "difference_from_slab_top": -1.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      21
+     ],
+     "floor": [
+      39,
+      15,
+      21
+     ],
+     "block": "minecraft:grass_block",
+     "assumed_cube_top_y": 16,
+     "difference_from_slab_top": -1.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      22
+     ],
+     "floor": [
+      39,
+      15,
+      22
+     ],
+     "block": "minecraft:grass_block",
+     "assumed_cube_top_y": 16,
+     "difference_from_slab_top": -1.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    }
+   ],
+   "reachable_from_island_route": "UNVERIFIED",
+   "collision_shapes_and_player_movement": "UNVERIFIED"
+  },
+  {
+   "style": "badlands",
+   "candidate": "badlands_dx-12_dz0_r0_w3",
+   "bridge_end_slab_top_y": 17.5,
+   "beyond_end_columns": [
+    {
+     "column": [
+      39,
+      20
+     ],
+     "floor": [
+      39,
+      14,
+      20
+     ],
+     "block": "minecraft:red_sand",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      21
+     ],
+     "floor": [
+      39,
+      14,
+      21
+     ],
+     "block": "minecraft:red_sand",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      22
+     ],
+     "floor": [
+      39,
+      14,
+      22
+     ],
+     "block": "minecraft:red_sand",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    }
+   ],
+   "reachable_from_island_route": "UNVERIFIED",
+   "collision_shapes_and_player_movement": "UNVERIFIED"
+  },
+  {
+   "style": "desert",
+   "candidate": "desert_dx-12_dz0_r0_w3",
+   "bridge_end_slab_top_y": 17.5,
+   "beyond_end_columns": [
+    {
+     "column": [
+      39,
+      20
+     ],
+     "floor": "not found in y=0..17",
+     "step_from_bridge": null
+    },
+    {
+     "column": [
+      39,
+      21
+     ],
+     "floor": [
+      39,
+      14,
+      21
+     ],
+     "block": "minecraft:sand",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      22
+     ],
+     "floor": [
+      39,
+      15,
+      22
+     ],
+     "block": "minecraft:sand",
+     "assumed_cube_top_y": 16,
+     "difference_from_slab_top": -1.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    }
+   ],
+   "reachable_from_island_route": "UNVERIFIED",
+   "collision_shapes_and_player_movement": "UNVERIFIED"
+  },
+  {
+   "style": "rocky",
+   "candidate": "rocky_dx-12_dz0_r0_w3",
+   "bridge_end_slab_top_y": 17.5,
+   "beyond_end_columns": [
+    {
+     "column": [
+      39,
+      20
+     ],
+     "floor": [
+      39,
+      14,
+      20
+     ],
+     "block": "minecraft:gravel",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      21
+     ],
+     "floor": [
+      39,
+      14,
+      21
+     ],
+     "block": "minecraft:gravel",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    },
+    {
+     "column": [
+      39,
+      22
+     ],
+     "floor": [
+      39,
+      14,
+      22
+     ],
+     "block": "minecraft:gravel",
+     "assumed_cube_top_y": 15,
+     "difference_from_slab_top": -2.5,
+     "two_cells_above": [
+      "minecraft:air",
+      "minecraft:air"
+     ]
+    }
+   ],
+   "reachable_from_island_route": "UNVERIFIED",
+   "collision_shapes_and_player_movement": "UNVERIFIED"
+  }
+ ]
+}

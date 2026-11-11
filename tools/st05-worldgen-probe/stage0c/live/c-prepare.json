@@ -1,0 +1,11 @@
+{
+  "mode": "c-prepare",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "evidence_kind": "LIVE_26.3_DISPOSABLE_BLOCK_FIXTURE",
+  "arena_atomicity_proven": false,
+  "partial_blocks_saved": 2,
+  "operational": false,
+  "lava_observable": true,
+  "water_observable": true
+}

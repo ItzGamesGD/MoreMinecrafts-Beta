@@ -1,0 +1,8 @@
+allprojects {
+ afterEvaluate { p ->
+  p.extensions.getByName('loom').runs.getByName('gameTest').setRunDir('/tmp/sky-tower-integration02-focused')
+ }
+ tasks.matching { it.name == 'runGameTest' }.configureEach {
+  systemProperty 'fabric-api.gametest.filter', System.getProperty('mmskytower.testFilter', 'moreminecrafts-gametest:sky_tower_game_tests*')
+ }
+}

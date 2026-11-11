@@ -1,0 +1,242 @@
+[
+ {
+  "label": "A_count1_origin8-22",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "chunks": 3888,
+  "debris": 6068,
+  "adamantium": 2988,
+  "ratio": 0.4924192485168095,
+  "ratio_min": 0.475,
+  "ratio_max": 0.5175668589407446,
+  "per_seed": {
+   "1": 0.518,
+   "2": 0.487,
+   "3": 0.475
+  },
+  "per_chunk": 0.7685185185185185,
+  "min_y": 7,
+  "max_y": 23,
+  "blocks_outside_8_22": 7,
+  "share_outside": 0.0023427041499330657,
+  "mode_y": 14,
+  "share_y13_17": 0.534471218206158,
+  "clusters": {
+   "1": 1686,
+   "2": 651
+  },
+  "clusters_over_2": 0,
+  "binding_ok": true,
+  "block_y_ok": false
+ },
+ {
+  "label": "B_count1to2_origin8-22",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "chunks": 3888,
+  "debris": 6068,
+  "adamantium": 4401,
+  "ratio": 0.7252801582069874,
+  "ratio_min": 0.6745192307692308,
+  "ratio_max": 0.7829050865233351,
+  "per_seed": {
+   "1": 0.783,
+   "2": 0.723,
+   "3": 0.675
+  },
+  "per_chunk": 1.1319444444444444,
+  "min_y": 7,
+  "max_y": 23,
+  "blocks_outside_8_22": 5,
+  "share_outside": 0.0011361054305839581,
+  "mode_y": 15,
+  "share_y13_17": 0.5412406271301977,
+  "clusters": {
+   "1": 2510,
+   "2": 942,
+   "3": 1,
+   "4": 1
+  },
+  "clusters_over_2": 2,
+  "binding_ok": true,
+  "block_y_ok": false
+ },
+ {
+  "label": "C_count1_origin8-21",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "chunks": 3888,
+  "debris": 6068,
+  "adamantium": 3020,
+  "ratio": 0.4976928147659855,
+  "ratio_min": 0.4778846153846154,
+  "ratio_max": 0.5243838489774515,
+  "per_seed": {
+   "1": 0.524,
+   "2": 0.493,
+   "3": 0.478
+  },
+  "per_chunk": 0.7767489711934157,
+  "min_y": 7,
+  "max_y": 21,
+  "blocks_outside_8_22": 3,
+  "share_outside": 0.0009933774834437086,
+  "mode_y": 14,
+  "share_y13_17": 0.5536423841059602,
+  "clusters": {
+   "1": 1698,
+   "2": 661
+  },
+  "clusters_over_2": 0,
+  "binding_ok": true,
+  "block_y_ok": false
+ },
+ {
+  "label": "D_count1to2_origin8-21",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "chunks": 3888,
+  "debris": 6068,
+  "adamantium": 4447,
+  "ratio": 0.732860909690178,
+  "ratio_min": 0.6754807692307693,
+  "ratio_max": 0.7949659150498165,
+  "per_seed": {
+   "1": 0.795,
+   "2": 0.733,
+   "3": 0.675
+  },
+  "per_chunk": 1.143775720164609,
+  "min_y": 7,
+  "max_y": 22,
+  "blocks_outside_8_22": 8,
+  "share_outside": 0.0017989655947829998,
+  "mode_y": 14,
+  "share_y13_17": 0.5480098943107713,
+  "clusters": {
+   "1": 2523,
+   "2": 955,
+   "3": 2,
+   "4": 2
+  },
+  "clusters_over_2": 4,
+  "binding_ok": true,
+  "block_y_ok": false
+ },
+ {
+  "label": "E_count1_origin9-21",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "chunks": 3888,
+  "debris": 6068,
+  "adamantium": 3008,
+  "ratio": 0.4957152274225445,
+  "ratio_min": 0.4798076923076923,
+  "ratio_max": 0.5222863135815417,
+  "per_seed": {
+   "1": 0.522,
+   "2": 0.487,
+   "3": 0.48
+  },
+  "per_chunk": 0.7736625514403292,
+  "min_y": 8,
+  "max_y": 22,
+  "blocks_outside_8_22": 0,
+  "share_outside": 0.0,
+  "mode_y": 15,
+  "share_y13_17": 0.6030585106382979,
+  "clusters": {
+   "1": 1697,
+   "2": 654,
+   "3": 1
+  },
+  "clusters_over_2": 1,
+  "binding_ok": true,
+  "block_y_ok": true
+ },
+ {
+  "label": "F_count1to2_origin9-21",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "chunks": 3888,
+  "debris": 6068,
+  "adamantium": 4441,
+  "ratio": 0.7318721160184575,
+  "ratio_min": 0.6850961538461539,
+  "ratio_max": 0.7881489250131096,
+  "per_seed": {
+   "1": 0.788,
+   "2": 0.727,
+   "3": 0.685
+  },
+  "per_chunk": 1.142232510288066,
+  "min_y": 8,
+  "max_y": 22,
+  "blocks_outside_8_22": 0,
+  "share_outside": 0.0,
+  "mode_y": 15,
+  "share_y13_17": 0.6063949560909705,
+  "clusters": {
+   "1": 2520,
+   "2": 954,
+   "3": 3,
+   "4": 1
+  },
+  "clusters_over_2": 4,
+  "binding_ok": true,
+  "block_y_ok": true
+ },
+ {
+  "label": "baseline_current",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "chunks": 3888,
+  "debris": 6068,
+  "adamantium": 1599,
+  "ratio": 0.2635135135135135,
+  "ratio_min": 0.26189332051898123,
+  "ratio_max": 0.2658626114315679,
+  "per_seed": {
+   "1": 0.266,
+   "2": 0.262,
+   "3": 0.263
+  },
+  "per_chunk": 0.4112654320987654,
+  "min_y": 6,
+  "max_y": 23,
+  "blocks_outside_8_22": 189,
+  "share_outside": 0.11819887429643527,
+  "mode_y": 14,
+  "share_y13_17": 0.29956222639149466,
+  "clusters": {
+   "1": 903,
+   "2": 311,
+   "3": 10,
+   "4": 11
+  },
+  "clusters_over_2": 21,
+  "binding_ok": true,
+  "block_y_ok": false
+ }
+]

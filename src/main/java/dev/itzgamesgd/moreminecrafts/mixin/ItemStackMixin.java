@@ -11,6 +11,8 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,6 +24,26 @@ import java.util.function.BiConsumer;
 
 @Mixin(ItemStack.class)
 abstract class ItemStackMixin {
+    @org.spongepowered.asm.mixin.injection.ModifyVariable(
+            method = "processDurabilityChange", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    private int moreminecrafts$preserveShieldDurability(int amount,
+            @com.llamalad7.mixinextras.sugar.Local(argsOnly = true) ServerPlayer player) {
+        if (amount <= 0 || !((Object) this instanceof ItemStack stack) || player == null) return amount;
+        if (stack.getItem() instanceof ShieldItem) {
+            double chance = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.value(
+                    player, "v3.research.30", "shield_durability_preservation");
+            return dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath.preventDurabilityLoss(
+                    amount, player.getRandom().nextFloat(), chance);
+        }
+        if (dev.itzgamesgd.moreminecrafts.progression.ResearchMiningContext.applies(player, stack)) {
+            int level = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                    player, "v3.research.03", "mineral_durability_preservation");
+            return dev.itzgamesgd.moreminecrafts.progression.ResearchContentRules.preservedMiningDamage(
+                    amount, player.getRandom().nextDouble(), level);
+        }
+        return amount;
+    }
+
     @Inject(method = "processDurabilityChange", at = @At("HEAD"), cancellable = true)
     private void moreminecrafts$aggregateDurability(int amount, net.minecraft.server.level.ServerLevel level,
             net.minecraft.server.level.ServerPlayer player, CallbackInfoReturnable<Integer> callbackInfo) {

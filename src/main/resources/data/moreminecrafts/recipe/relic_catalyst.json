@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#moreminecrafts:t1_accessories",
+    "moreminecrafts:mythril",
+    "moreminecrafts:mythril",
+    "moreminecrafts:etherium_ingot",
+    "minecraft:lapis_lazuli",
+    "minecraft:lapis_lazuli",
+    "minecraft:lapis_lazuli",
+    "minecraft:lapis_lazuli",
+    "minecraft:lapis_lazuli"
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreminecrafts:relic_catalyst"
+  }
+}

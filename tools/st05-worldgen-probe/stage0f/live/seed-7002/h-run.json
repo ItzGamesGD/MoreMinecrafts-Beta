@@ -1,0 +1,220 @@
+{
+  "mode": "f-run",
+  "seed": 7002,
+  "y_band": "-48..0",
+  "reservations": 1,
+  "algo": "st05-stage0f-construction-v1",
+  "placements": [
+    {
+      "id": "809b9bf8237b315e",
+      "center": "1654,1136",
+      "reserved_floorY": -40,
+      "state_at_entry": "RESERVED",
+      "block_entity_provenance": {
+        "protected_block_entity_chest": 5,
+        "protected_block_entity_spawner": 3,
+        "rejected_not_patch_type": 8
+      },
+      "snapshot_ms": 12078,
+      "structure_pieces_near": 4,
+      "structure_types_near": {
+        "minecraft:mineshaft": 1,
+        "minecraft:monument": 1,
+        "minecraft:ocean_ruin_warm": 1
+      },
+      "planning_ms": 861,
+      "candidates": [
+        {
+          "idx": 0,
+          "floorY": -40,
+          "ok": true,
+          "reason": "",
+          "score_milli": 85700,
+          "parts": {
+            "C": 77,
+            "T": 91,
+            "F": 100,
+            "E": 85
+          },
+          "route_work": 4971,
+          "hash": "468ee1c267d18101ea2f1e51307db33897f99a5a1b20ebe3eadeb31602477f3e",
+          "cells": 52645,
+          "stats": {
+            "arena_variant_2": 1,
+            "gravity_support_cells": 35
+          },
+          "routes": [
+            "dir=0 len=9 stairs=8 turns=0",
+            "dir=1 len=18 stairs=8 turns=1"
+          ]
+        },
+        {
+          "idx": 1,
+          "floorY": -39,
+          "ok": true,
+          "reason": "",
+          "score_milli": 86000,
+          "parts": {
+            "C": 77,
+            "T": 91,
+            "F": 100,
+            "E": 88
+          },
+          "route_work": 4619,
+          "hash": "4eb2dec1239110b67737652ef7d53fefacf91a971fc4f916511c55f8937b9592",
+          "cells": 52682,
+          "stats": {
+            "arena_variant_2": 1,
+            "gravity_support_cells": 26
+          },
+          "routes": [
+            "dir=0 len=10 stairs=9 turns=0",
+            "dir=1 len=18 stairs=7 turns=1"
+          ]
+        },
+        {
+          "idx": 2,
+          "floorY": -41,
+          "ok": false,
+          "reason": "Y_BAND",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 0
+        },
+        {
+          "idx": 3,
+          "floorY": -38,
+          "ok": true,
+          "reason": "",
+          "score_milli": 86200,
+          "parts": {
+            "C": 77,
+            "T": 91,
+            "F": 100,
+            "E": 90
+          },
+          "route_work": 4404,
+          "hash": "f6b0ce1305b0e48bb15278d0c0884672494862d06d3e72458188e9eda247182b",
+          "cells": 52703,
+          "stats": {
+            "arena_variant_2": 1,
+            "gravity_support_cells": 4
+          },
+          "routes": [
+            "dir=0 len=11 stairs=9 turns=0",
+            "dir=1 len=18 stairs=6 turns=1"
+          ]
+        },
+        {
+          "idx": 4,
+          "floorY": -42,
+          "ok": false,
+          "reason": "Y_BAND",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 0
+        },
+        {
+          "idx": 5,
+          "floorY": -37,
+          "ok": true,
+          "reason": "",
+          "score_milli": 86200,
+          "parts": {
+            "C": 77,
+            "T": 91,
+            "F": 100,
+            "E": 90
+          },
+          "route_work": 3752,
+          "hash": "8e6b3fd9da97602dd74564d85561f9b8c5619acf2050bc98435754d5fc0168a3",
+          "cells": 52703,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=0 len=11 stairs=10 turns=0",
+            "dir=1 len=18 stairs=5 turns=1"
+          ]
+        },
+        {
+          "idx": 6,
+          "floorY": -43,
+          "ok": false,
+          "reason": "Y_BAND",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 0
+        },
+        {
+          "idx": 7,
+          "floorY": -36,
+          "ok": true,
+          "reason": "",
+          "score_milli": 87100,
+          "parts": {
+            "C": 78,
+            "T": 91,
+            "F": 100,
+            "E": 95
+          },
+          "route_work": 4468,
+          "hash": "6fda5d12a30f5e497ba2c53fce40814e730b207bb2f98de64a855d3b51fc9c36",
+          "cells": 52741,
+          "stats": {
+            "arena_variant_2": 1,
+            "gravity_support_cells": 5
+          },
+          "routes": [
+            "dir=0 len=12 stairs=11 turns=0",
+            "dir=1 len=18 stairs=4 turns=1"
+          ]
+        }
+      ],
+      "cave_components": 908,
+      "cave_qualified_components": 19,
+      "chosen_candidate": 7,
+      "chosen_floorY": -36,
+      "variant": "RUINED_NATURAL_CEILING",
+      "plan_hash": "6fda5d12a30f5e497ba2c53fce40814e730b207bb2f98de64a855d3b51fc9c36",
+      "plan_cells": 52741,
+      "plan_ops": 56003,
+      "plan_stats": {
+        "arena_variant_2": 1,
+        "gravity_support_cells": 5
+      },
+      "batches": 67,
+      "apply_ms": 2352,
+      "action": "CONSTRUCTED",
+      "plan_mismatches": 0,
+      "verify_failures": [],
+      "measured": {
+        "fluid_adjacent_open_cells": 0,
+        "min_floor_block_light": 8,
+        "exterior_radius": 34,
+        "max_solid_offset": 11,
+        "vault_blocks_expected": 7,
+        "walk_arena_to_cave_dir0": 18,
+        "walk_arena_to_cave_dir1": 24,
+        "corridors": 2,
+        "vault_blocks": 7,
+        "ominous_vault_at_exact_center": true
+      },
+      "writes": 56003,
+      "ms": 16189,
+      "final_state": "VERIFIED",
+      "final_reason": "",
+      "reservation_preserved": true
+    }
+  ],
+  "world_writes": 56003,
+  "chunk_saves": 17,
+  "post_tick_reverification": [
+    {
+      "id": "809b9bf8237b315e",
+      "ticks_waited": 200,
+      "plan_mismatches": 0,
+      "verify_failures": []
+    }
+  ]
+}

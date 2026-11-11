@@ -1,0 +1,506 @@
+[
+  {
+    "assembly": [
+      -8,
+      -24,
+      33
+    ],
+    "d1_local": [
+      32,
+      0,
+      31
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -8,
+        -24,
+        33
+      ],
+      "WEST": [
+        -33,
+        -24,
+        -8
+      ],
+      "NORTH": [
+        8,
+        -24,
+        -33
+      ],
+      "EAST": [
+        33,
+        -24,
+        8
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -8,
+      -24,
+      34
+    ],
+    "d1_local": [
+      32,
+      0,
+      32
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -8,
+        -24,
+        34
+      ],
+      "WEST": [
+        -34,
+        -24,
+        -8
+      ],
+      "NORTH": [
+        8,
+        -24,
+        -34
+      ],
+      "EAST": [
+        34,
+        -24,
+        8
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -8,
+      -24,
+      35
+    ],
+    "d1_local": [
+      32,
+      0,
+      33
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -8,
+        -24,
+        35
+      ],
+      "WEST": [
+        -35,
+        -24,
+        -8
+      ],
+      "NORTH": [
+        8,
+        -24,
+        -35
+      ],
+      "EAST": [
+        35,
+        -24,
+        8
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -7,
+      -24,
+      33
+    ],
+    "d1_local": [
+      33,
+      0,
+      31
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -7,
+        -24,
+        33
+      ],
+      "WEST": [
+        -33,
+        -24,
+        -7
+      ],
+      "NORTH": [
+        7,
+        -24,
+        -33
+      ],
+      "EAST": [
+        33,
+        -24,
+        7
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -7,
+      -24,
+      34
+    ],
+    "d1_local": [
+      33,
+      0,
+      32
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -7,
+        -24,
+        34
+      ],
+      "WEST": [
+        -34,
+        -24,
+        -7
+      ],
+      "NORTH": [
+        7,
+        -24,
+        -34
+      ],
+      "EAST": [
+        34,
+        -24,
+        7
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -7,
+      -24,
+      35
+    ],
+    "d1_local": [
+      33,
+      0,
+      33
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -7,
+        -24,
+        35
+      ],
+      "WEST": [
+        -35,
+        -24,
+        -7
+      ],
+      "NORTH": [
+        7,
+        -24,
+        -35
+      ],
+      "EAST": [
+        35,
+        -24,
+        7
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -6,
+      -24,
+      33
+    ],
+    "d1_local": [
+      34,
+      0,
+      31
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -6,
+        -24,
+        33
+      ],
+      "WEST": [
+        -33,
+        -24,
+        -6
+      ],
+      "NORTH": [
+        6,
+        -24,
+        -33
+      ],
+      "EAST": [
+        33,
+        -24,
+        6
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -6,
+      -24,
+      34
+    ],
+    "d1_local": [
+      34,
+      0,
+      32
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -6,
+        -24,
+        34
+      ],
+      "WEST": [
+        -34,
+        -24,
+        -6
+      ],
+      "NORTH": [
+        6,
+        -24,
+        -34
+      ],
+      "EAST": [
+        34,
+        -24,
+        6
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -6,
+      -24,
+      35
+    ],
+    "d1_local": [
+      34,
+      0,
+      33
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -6,
+        -24,
+        35
+      ],
+      "WEST": [
+        -35,
+        -24,
+        -6
+      ],
+      "NORTH": [
+        6,
+        -24,
+        -35
+      ],
+      "EAST": [
+        35,
+        -24,
+        6
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -5,
+      -24,
+      33
+    ],
+    "d1_local": [
+      35,
+      0,
+      31
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -5,
+        -24,
+        33
+      ],
+      "WEST": [
+        -33,
+        -24,
+        -5
+      ],
+      "NORTH": [
+        5,
+        -24,
+        -33
+      ],
+      "EAST": [
+        33,
+        -24,
+        5
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -5,
+      -24,
+      34
+    ],
+    "d1_local": [
+      35,
+      0,
+      32
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -5,
+        -24,
+        34
+      ],
+      "WEST": [
+        -34,
+        -24,
+        -5
+      ],
+      "NORTH": [
+        5,
+        -24,
+        -34
+      ],
+      "EAST": [
+        34,
+        -24,
+        5
+      ]
+    }
+  },
+  {
+    "assembly": [
+      -5,
+      -24,
+      35
+    ],
+    "d1_local": [
+      35,
+      0,
+      33
+    ],
+    "original": {
+      "id": "minecraft:sandstone"
+    },
+    "post": {
+      "id": "minecraft:air"
+    },
+    "reason": "R1-01 descent clearance below cover",
+    "constraints": "Only these cells change at assembly time; Y=-23 cover stays solid CLOSED; four-high descent; no PRIMARY/Guardian edits.",
+    "rotated": {
+      "SOUTH": [
+        -5,
+        -24,
+        35
+      ],
+      "WEST": [
+        -35,
+        -24,
+        -5
+      ],
+      "NORTH": [
+        5,
+        -24,
+        -35
+      ],
+      "EAST": [
+        35,
+        -24,
+        5
+      ]
+    }
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "condition": {
+        "type": "minecraft:random_chance",
+        "chance": 0.5
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 1
+            }
+          ],
+          "name": "moreminecrafts:ancient_heart"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "moreminecrafts:entities/tomb_guardian"
+}

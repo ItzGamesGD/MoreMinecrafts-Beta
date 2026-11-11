@@ -1,0 +1,18 @@
+{
+  "mode": "overlap",
+  "seed": 914490140,
+  "overlap_cases": [
+    {
+      "st01_start_chunk": "-468,489",
+      "vanilla": "minecraft:village_desert@-469,495",
+      "box_intersection_cells": 103194,
+      "cells_with_pieces_of_both": 4674,
+      "getStructureWithPieceAt_returned": {
+        "moreminecrafts:st01_pyramid": 4674
+      },
+      "st01_masked_by_vanilla_cells": 0,
+      "st01_returned_cells": 4674,
+      "st01_specific_lookup_found_cells": 4674
+    }
+  ]
+}

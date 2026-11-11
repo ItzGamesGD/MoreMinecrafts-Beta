@@ -1,0 +1,43 @@
+name: ST05 Stage 1-C reward recovery across independent server processes
+on:
+  pull_request:
+    paths:
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - 'src/test/java/dev/itzgamesgd/moreminecrafts/colosseum/**'
+      - '.github/workflows/st05-stage1c-restart.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reward-restart:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Reconcile one durable reward plan across three independent JVMs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for phase in write reconcile verify; do
+            JAVA_TOOL_OPTIONS="-Dfabric-api.gametest.filter=moreminecrafts-gametest:colosseum_reward_game_tests_shared_reward_plan_and_entity_survive_three_independent_jvm_processes -Dmoreminecrafts.st05c.restart.phase=$phase -Dmoreminecrafts.st05c.restart.file=$GITHUB_WORKSPACE/build/st05c-reward-fixture.txt" \
+              ./gradlew runGameTest --no-daemon 2>&1 | tee "st05c-reward-$phase.log"
+            case "$phase" in
+              write) marker=ST05C_REWARD_WRITE ;;
+              reconcile) marker=ST05C_REWARD_RECONCILE ;;
+              verify) marker=ST05C_REWARD_VERIFY ;;
+            esac
+            grep -F "$marker" "st05c-reward-$phase.log"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st05-stage1c-reward-restart-evidence
+          path: st05c-reward-*.log

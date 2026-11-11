@@ -1,0 +1,76 @@
+{
+  "minecraft": "26.3",
+  "structure_origin": "BlockPos{x\u003d-40, y\u003d-24, z\u003d2}",
+  "pose_semantics": "commanded \u003d what the test asked for; client_measured \u003d read from the rendering client after the wait",
+  "viewing_aids": "HUD hidden; temporary night vision on the player. Structure and world unchanged.",
+  "walk_executed": false,
+  "captures": [],
+  "status": "finished",
+  "flat_world_surface_height_at_x-80_z-20": -64.0,
+  "run_prefix": "R2d",
+  "walks": {
+    "anchor_x-20.5_z24.5_to_dais": {
+      "start": [
+        -20.5,
+        -22.0,
+        24.5
+      ],
+      "trace": [
+        [
+          0,
+          -20.5,
+          -21.58,
+          24.598
+        ],
+        [
+          30,
+          -20.5,
+          -20.823,
+          29.479
+        ]
+      ],
+      "outcome": "reached_dais_top",
+      "ticks": 48,
+      "end": [
+        -20.5,
+        -19.751,
+        31.811
+      ],
+      "blocks_ahead_of_end_position": {
+        "dy+0.0": "minecraft:air",
+        "dy+1.0": "minecraft:air",
+        "dy+1.8": "minecraft:air"
+      }
+    }
+  },
+  "primary_b_chest": {
+    "client_state_left": "minecraft:chest type\u003dLEFT facing\u003dnorth",
+    "client_state_right": "minecraft:chest type\u003dRIGHT facing\u003dnorth",
+    "client_player_feet": [
+      -20.5,
+      -21.0,
+      30.5
+    ],
+    "crosshair_target": "BLOCK pos\u003dMutableBlockPos{x\u003d-21, y\u003d-20, z\u003d33} dir\u003dnorth block\u003dminecraft:chest",
+    "client_modes": "spectator\u003dfalse creative\u003dfalse",
+    "eye_pos": "(-20.5, -19.37999999523163, 30.5)",
+    "method": "MultiPlayerGameMode.useItemOn with the crosshair hit",
+    "mouse_press_result": "no container screen opened: Timed out waiting for predicate",
+    "use_item_on_result": "Success[swingSource\u003dPREDICTED, itemContext\u003dItemContext[wasItemInteraction\u003dtrue, heldItemTransformedTo\u003dnull]]",
+    "opened": {
+      "screen": "ContainerScreen",
+      "menu": "ChestMenu",
+      "total_slots": 90,
+      "container_slots": 54,
+      "rows": 6
+    },
+    "screenshot": "/home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0000_R2-20-primary-chest-open-54-slot.png",
+    "status": "tested"
+  },
+  "client": {
+    "window": "1920x1080",
+    "gui_scale": 4,
+    "fov": 70,
+    "render_distance": 5
+  }
+}

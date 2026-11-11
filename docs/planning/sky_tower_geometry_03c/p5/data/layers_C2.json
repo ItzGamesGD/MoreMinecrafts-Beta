@@ -1,0 +1,112 @@
+[
+ {
+  "base_mass": [
+   0,
+   9
+  ],
+  "budget_h": 10,
+  "clear": null,
+  "note": "podium mass y0-9; its top 1 layer(s) are the F1 floor",
+  "segment": "BASE",
+  "slab": [
+   9,
+   9
+  ],
+  "walk_surface_top": 9,
+  "y_end": 9,
+  "y_start": 0
+ },
+ {
+  "budget_h": 11,
+  "clear": [
+   10,
+   19
+  ],
+  "clear_h": 10,
+  "floor": "previous segment top slab / base top",
+  "segment": "F1",
+  "slab": [
+   20,
+   20
+  ],
+  "walking_floor_y": 9,
+  "walking_surface_y": 10,
+  "y_end": 20,
+  "y_start": 10
+ },
+ {
+  "budget_h": 12,
+  "clear": [
+   21,
+   31
+  ],
+  "clear_h": 11,
+  "floor": "previous segment top slab / base top",
+  "segment": "F2",
+  "slab": [
+   32,
+   32
+  ],
+  "walking_floor_y": 20,
+  "walking_surface_y": 21,
+  "y_end": 32,
+  "y_start": 21
+ },
+ {
+  "budget_h": 14,
+  "clear": [
+   33,
+   45
+  ],
+  "clear_h": 13,
+  "floor": "previous segment top slab / base top",
+  "segment": "F3",
+  "slab": [
+   46,
+   46
+  ],
+  "walking_floor_y": 32,
+  "walking_surface_y": 33,
+  "y_end": 46,
+  "y_start": 33
+ },
+ {
+  "budget_h": 17,
+  "clear": [
+   47,
+   62
+  ],
+  "clear_h": 16,
+  "floor": "previous segment top slab / base top",
+  "segment": "F4",
+  "slab": [
+   63,
+   63
+  ],
+  "walking_floor_y": 46,
+  "walking_surface_y": 47,
+  "y_end": 63,
+  "y_start": 47
+ },
+ {
+  "apex_y": 79,
+  "arch_zone": [
+   64,
+   79
+  ],
+  "budget_h": 16,
+  "clear": [
+   64,
+   79
+  ],
+  "clear_h": 16,
+  "note": "floor is F4's top slab",
+  "roof": null,
+  "segment": "SANCTUM",
+  "slab": null,
+  "walking_floor_y": 63,
+  "walking_surface_y": 64,
+  "y_end": 79,
+  "y_start": 64
+ }
+]

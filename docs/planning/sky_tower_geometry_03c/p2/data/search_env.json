@@ -1,0 +1,7 @@
+{
+ "ortools": "9.15.6755",
+ "python": "3.13.18",
+ "workers": 4,
+ "seed": 1,
+ "note": "multi-worker CP-SAT may return different equally valid solutions; status/optimum values are solver-proved, committed solutions are re-checked by p2_verify.py"
+}

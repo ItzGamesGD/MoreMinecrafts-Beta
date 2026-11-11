@@ -1,0 +1,60 @@
+{
+  "seed": 2026110903,
+  "styles_found": [
+    "rocky",
+    "forest"
+  ],
+  "automatic_registration_site_count": 2,
+  "styles": {
+    "snowy": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "meadow": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "forest": {
+      "runtime_barrier_air_cells": 72,
+      "composite_piece_count": 1,
+      "seen_chunk": "100,12",
+      "legacy_tower_child_count": 0,
+      "automatically_registered": true,
+      "chunks_loaded": true,
+      "trial_spawners": 16,
+      "site": "minecraft:overworld|1600,199,192|0",
+      "vaults": 8,
+      "pass": true,
+      "structure": "moreminecrafts:sky_island_forest",
+      "blocked_barrier_cells": 0,
+      "piece_bounds": "BoundingBox{minX\u003d1600, minY\u003d182, minZ\u003d192, maxX\u003d1657, maxY\u003d278, maxZ\u003d240}",
+      "rotation": 0
+    },
+    "badlands": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "desert": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "rocky": {
+      "runtime_barrier_air_cells": 72,
+      "composite_piece_count": 1,
+      "seen_chunk": "15,42",
+      "legacy_tower_child_count": 0,
+      "automatically_registered": true,
+      "chunks_loaded": true,
+      "trial_spawners": 16,
+      "site": "minecraft:overworld|240,137,672|1",
+      "vaults": 8,
+      "pass": true,
+      "structure": "moreminecrafts:sky_island_mountain_rocky",
+      "blocked_barrier_cells": 0,
+      "piece_bounds": "BoundingBox{minX\u003d192, minY\u003d120, minZ\u003d672, maxX\u003d240, maxY\u003d216, maxZ\u003d729}",
+      "rotation": 1
+    }
+  },
+  "pass": false,
+  "client_movement_visual_and_restart": "not tested by this fresh-world server probe"
+}

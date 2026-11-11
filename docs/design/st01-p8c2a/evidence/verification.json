@@ -1,0 +1,631 @@
+{
+ "status": "PASS",
+ "meaning": "Checks executed on block data read back from real Minecraft 26.3 placements of the exported templates",
+ "failures": {},
+ "cases": [
+  {
+   "case": "NORTH/EAST",
+   "rotation": "CLOCKWISE_180",
+   "rotation_mapping": true,
+   "frame_is_completion_box": true,
+   "full_grid_matches_rotated_design": true,
+   "mismatched_state_pairs": [],
+   "unspecified_default_properties": [],
+   "d1_cells_checked": 30420,
+   "d1_changed_cells_exactly_r1_01": true,
+   "d1_changed_count": 12,
+   "cover_intact_closed": true,
+   "entrance_to_primary": true,
+   "secret_concealed_closed": true,
+   "secret_open_treasury": true,
+   "secret_open_crypt": true,
+   "unreachable_room_goals": [],
+   "three_wide_landing_to_vault": true,
+   "p2_stair_clearance_failures": [],
+   "fa_descent_treads_4high": true,
+   "guardian_clearance_3x3x5": true,
+   "entrance_faces": "NORTH",
+   "entrance_orientation_correct": true,
+   "entrance_cell_open": true,
+   "selected_route_open": true,
+   "inactive_route_filled": true,
+   "primary_double_handedness": true,
+   "block_entity_positions": true,
+   "block_entity_types": true,
+   "block_entities_empty_no_loot": true,
+   "treasury_ui_anchor_single_chest": true,
+   "metadata_matches_world": true,
+   "registration": true,
+   "wall_torches": 94,
+   "unsupported_torches": [],
+   "underground_boundary_sealed": true,
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "exterior_connected_interior_cells": 37953,
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ],
+   "secret_cavity_sealed_closed": true,
+   "closed_reachable": 10540,
+   "open_reachable": 11280,
+   "fixed_chambers_identical_across_routes": true,
+   "authored_frame_identical_to_south": true
+  },
+  {
+   "case": "NORTH/WEST",
+   "rotation": "CLOCKWISE_180",
+   "rotation_mapping": true,
+   "frame_is_completion_box": true,
+   "full_grid_matches_rotated_design": true,
+   "mismatched_state_pairs": [],
+   "unspecified_default_properties": [],
+   "d1_cells_checked": 30420,
+   "d1_changed_cells_exactly_r1_01": true,
+   "d1_changed_count": 12,
+   "cover_intact_closed": true,
+   "entrance_to_primary": true,
+   "secret_concealed_closed": true,
+   "secret_open_treasury": true,
+   "secret_open_crypt": true,
+   "unreachable_room_goals": [],
+   "three_wide_landing_to_vault": true,
+   "p2_stair_clearance_failures": [],
+   "fa_descent_treads_4high": true,
+   "guardian_clearance_3x3x5": true,
+   "entrance_faces": "NORTH",
+   "entrance_orientation_correct": true,
+   "entrance_cell_open": true,
+   "selected_route_open": true,
+   "inactive_route_filled": true,
+   "primary_double_handedness": true,
+   "block_entity_positions": true,
+   "block_entity_types": true,
+   "block_entities_empty_no_loot": true,
+   "treasury_ui_anchor_single_chest": true,
+   "metadata_matches_world": true,
+   "registration": true,
+   "wall_torches": 94,
+   "unsupported_torches": [],
+   "underground_boundary_sealed": true,
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "exterior_connected_interior_cells": 37953,
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ],
+   "secret_cavity_sealed_closed": true,
+   "closed_reachable": 10540,
+   "open_reachable": 11366,
+   "fixed_chambers_identical_across_routes": true,
+   "authored_frame_identical_to_south": true
+  },
+  {
+   "case": "EAST/EAST",
+   "rotation": "COUNTERCLOCKWISE_90",
+   "rotation_mapping": true,
+   "frame_is_completion_box": true,
+   "full_grid_matches_rotated_design": true,
+   "mismatched_state_pairs": [],
+   "unspecified_default_properties": [],
+   "d1_cells_checked": 30420,
+   "d1_changed_cells_exactly_r1_01": true,
+   "d1_changed_count": 12,
+   "cover_intact_closed": true,
+   "entrance_to_primary": true,
+   "secret_concealed_closed": true,
+   "secret_open_treasury": true,
+   "secret_open_crypt": true,
+   "unreachable_room_goals": [],
+   "three_wide_landing_to_vault": true,
+   "p2_stair_clearance_failures": [],
+   "fa_descent_treads_4high": true,
+   "guardian_clearance_3x3x5": true,
+   "entrance_faces": "EAST",
+   "entrance_orientation_correct": true,
+   "entrance_cell_open": true,
+   "selected_route_open": true,
+   "inactive_route_filled": true,
+   "primary_double_handedness": true,
+   "block_entity_positions": true,
+   "block_entity_types": true,
+   "block_entities_empty_no_loot": true,
+   "treasury_ui_anchor_single_chest": true,
+   "metadata_matches_world": true,
+   "registration": true,
+   "wall_torches": 94,
+   "unsupported_torches": [],
+   "underground_boundary_sealed": true,
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "exterior_connected_interior_cells": 37953,
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ],
+   "secret_cavity_sealed_closed": true,
+   "closed_reachable": 10540,
+   "open_reachable": 11280,
+   "fixed_chambers_identical_across_routes": true,
+   "authored_frame_identical_to_south": true
+  },
+  {
+   "case": "EAST/WEST",
+   "rotation": "COUNTERCLOCKWISE_90",
+   "rotation_mapping": true,
+   "frame_is_completion_box": true,
+   "full_grid_matches_rotated_design": true,
+   "mismatched_state_pairs": [],
+   "unspecified_default_properties": [],
+   "d1_cells_checked": 30420,
+   "d1_changed_cells_exactly_r1_01": true,
+   "d1_changed_count": 12,
+   "cover_intact_closed": true,
+   "entrance_to_primary": true,
+   "secret_concealed_closed": true,
+   "secret_open_treasury": true,
+   "secret_open_crypt": true,
+   "unreachable_room_goals": [],
+   "three_wide_landing_to_vault": true,
+   "p2_stair_clearance_failures": [],
+   "fa_descent_treads_4high": true,
+   "guardian_clearance_3x3x5": true,
+   "entrance_faces": "EAST",
+   "entrance_orientation_correct": true,
+   "entrance_cell_open": true,
+   "selected_route_open": true,
+   "inactive_route_filled": true,
+   "primary_double_handedness": true,
+   "block_entity_positions": true,
+   "block_entity_types": true,
+   "block_entities_empty_no_loot": true,
+   "treasury_ui_anchor_single_chest": true,
+   "metadata_matches_world": true,
+   "registration": true,
+   "wall_torches": 94,
+   "unsupported_torches": [],
+   "underground_boundary_sealed": true,
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "exterior_connected_interior_cells": 37953,
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ],
+   "secret_cavity_sealed_closed": true,
+   "closed_reachable": 10540,
+   "open_reachable": 11366,
+   "fixed_chambers_identical_across_routes": true,
+   "authored_frame_identical_to_south": true
+  },
+  {
+   "case": "SOUTH/EAST",
+   "rotation": "NONE",
+   "rotation_mapping": true,
+   "frame_is_completion_box": true,
+   "full_grid_matches_rotated_design": true,
+   "mismatched_state_pairs": [],
+   "unspecified_default_properties": [],
+   "d1_cells_checked": 30420,
+   "d1_changed_cells_exactly_r1_01": true,
+   "d1_changed_count": 12,
+   "cover_intact_closed": true,
+   "entrance_to_primary": true,
+   "secret_concealed_closed": true,
+   "secret_open_treasury": true,
+   "secret_open_crypt": true,
+   "unreachable_room_goals": [],
+   "three_wide_landing_to_vault": true,
+   "p2_stair_clearance_failures": [],
+   "fa_descent_treads_4high": true,
+   "guardian_clearance_3x3x5": true,
+   "entrance_faces": "SOUTH",
+   "entrance_orientation_correct": true,
+   "entrance_cell_open": true,
+   "selected_route_open": true,
+   "inactive_route_filled": true,
+   "primary_double_handedness": true,
+   "block_entity_positions": true,
+   "block_entity_types": true,
+   "block_entities_empty_no_loot": true,
+   "treasury_ui_anchor_single_chest": true,
+   "metadata_matches_world": true,
+   "registration": true,
+   "wall_torches": 94,
+   "unsupported_torches": [],
+   "underground_boundary_sealed": true,
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "exterior_connected_interior_cells": 37953,
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ],
+   "secret_cavity_sealed_closed": true,
+   "closed_reachable": 10540,
+   "open_reachable": 11280,
+   "fixed_chambers_identical_across_routes": true,
+   "authored_frame_identical_to_south": true
+  },
+  {
+   "case": "SOUTH/WEST",
+   "rotation": "NONE",
+   "rotation_mapping": true,
+   "frame_is_completion_box": true,
+   "full_grid_matches_rotated_design": true,
+   "mismatched_state_pairs": [],
+   "unspecified_default_properties": [],
+   "d1_cells_checked": 30420,
+   "d1_changed_cells_exactly_r1_01": true,
+   "d1_changed_count": 12,
+   "cover_intact_closed": true,
+   "entrance_to_primary": true,
+   "secret_concealed_closed": true,
+   "secret_open_treasury": true,
+   "secret_open_crypt": true,
+   "unreachable_room_goals": [],
+   "three_wide_landing_to_vault": true,
+   "p2_stair_clearance_failures": [],
+   "fa_descent_treads_4high": true,
+   "guardian_clearance_3x3x5": true,
+   "entrance_faces": "SOUTH",
+   "entrance_orientation_correct": true,
+   "entrance_cell_open": true,
+   "selected_route_open": true,
+   "inactive_route_filled": true,
+   "primary_double_handedness": true,
+   "block_entity_positions": true,
+   "block_entity_types": true,
+   "block_entities_empty_no_loot": true,
+   "treasury_ui_anchor_single_chest": true,
+   "metadata_matches_world": true,
+   "registration": true,
+   "wall_torches": 94,
+   "unsupported_torches": [],
+   "underground_boundary_sealed": true,
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "exterior_connected_interior_cells": 37953,
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ],
+   "secret_cavity_sealed_closed": true,
+   "closed_reachable": 10540,
+   "open_reachable": 11366,
+   "fixed_chambers_identical_across_routes": true,
+   "authored_frame_identical_to_south": true
+  },
+  {
+   "case": "WEST/EAST",
+   "rotation": "CLOCKWISE_90",
+   "rotation_mapping": true,
+   "frame_is_completion_box": true,
+   "full_grid_matches_rotated_design": true,
+   "mismatched_state_pairs": [],
+   "unspecified_default_properties": [],
+   "d1_cells_checked": 30420,
+   "d1_changed_cells_exactly_r1_01": true,
+   "d1_changed_count": 12,
+   "cover_intact_closed": true,
+   "entrance_to_primary": true,
+   "secret_concealed_closed": true,
+   "secret_open_treasury": true,
+   "secret_open_crypt": true,
+   "unreachable_room_goals": [],
+   "three_wide_landing_to_vault": true,
+   "p2_stair_clearance_failures": [],
+   "fa_descent_treads_4high": true,
+   "guardian_clearance_3x3x5": true,
+   "entrance_faces": "WEST",
+   "entrance_orientation_correct": true,
+   "entrance_cell_open": true,
+   "selected_route_open": true,
+   "inactive_route_filled": true,
+   "primary_double_handedness": true,
+   "block_entity_positions": true,
+   "block_entity_types": true,
+   "block_entities_empty_no_loot": true,
+   "treasury_ui_anchor_single_chest": true,
+   "metadata_matches_world": true,
+   "registration": true,
+   "wall_torches": 94,
+   "unsupported_torches": [],
+   "underground_boundary_sealed": true,
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "exterior_connected_interior_cells": 37953,
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ],
+   "secret_cavity_sealed_closed": true,
+   "closed_reachable": 10540,
+   "open_reachable": 11280,
+   "fixed_chambers_identical_across_routes": true,
+   "authored_frame_identical_to_south": true
+  },
+  {
+   "case": "WEST/WEST",
+   "rotation": "CLOCKWISE_90",
+   "rotation_mapping": true,
+   "frame_is_completion_box": true,
+   "full_grid_matches_rotated_design": true,
+   "mismatched_state_pairs": [],
+   "unspecified_default_properties": [],
+   "d1_cells_checked": 30420,
+   "d1_changed_cells_exactly_r1_01": true,
+   "d1_changed_count": 12,
+   "cover_intact_closed": true,
+   "entrance_to_primary": true,
+   "secret_concealed_closed": true,
+   "secret_open_treasury": true,
+   "secret_open_crypt": true,
+   "unreachable_room_goals": [],
+   "three_wide_landing_to_vault": true,
+   "p2_stair_clearance_failures": [],
+   "fa_descent_treads_4high": true,
+   "guardian_clearance_3x3x5": true,
+   "entrance_faces": "WEST",
+   "entrance_orientation_correct": true,
+   "entrance_cell_open": true,
+   "selected_route_open": true,
+   "inactive_route_filled": true,
+   "primary_double_handedness": true,
+   "block_entity_positions": true,
+   "block_entity_types": true,
+   "block_entities_empty_no_loot": true,
+   "treasury_ui_anchor_single_chest": true,
+   "metadata_matches_world": true,
+   "registration": true,
+   "wall_torches": 94,
+   "unsupported_torches": [],
+   "underground_boundary_sealed": true,
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "exterior_connected_interior_cells": 37953,
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ],
+   "secret_cavity_sealed_closed": true,
+   "closed_reachable": 10540,
+   "open_reachable": 11366,
+   "fixed_chambers_identical_across_routes": true,
+   "authored_frame_identical_to_south": true
+  }
+ ],
+ "negative_controls": {
+  "shell_block_replaced_detected": true,
+  "d1_cell_changed_detected": true,
+  "guardian_obstruction_detected": true,
+  "blocked_west_route_detected": true,
+  "wrong_torch_rotation_detected": true
+ },
+ "sealed_pockets_identical_per_route_across_rotations": true
+}

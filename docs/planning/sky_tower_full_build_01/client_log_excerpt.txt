@@ -1,0 +1,4 @@
+[18:55:26] [Render thread/INFO]: Using graphics backend Vulkan, using drivers: 1.4.305 llvmpipe Mesa 25.0.7-2+deb13u1 (LLVM 19.1.7)
+[18:55:26] [Render thread/INFO]: Using graphics device: llvmpipe (LLVM 19.1.7, 256 bits) (0x10005)
+[18:55:26] [Render thread/INFO]: Using graphics device extensions: VK_EXT_calibrated_timestamps (D), VK_KHR_synchronization2 (D), VK_EXT_multi_draw (D), VK_EXT_vertex_attribute_divisor (D), VK_KHR_swapchain (D), VK_KHR_surface (I), VK_KHR_push_descriptor (D), VK_KHR_xlib_surface (I), VK_EXT_debug_utils (I), VK_KHR_dynamic_rendering (D)
+[18:55:26] [Render thread/INFO]: Created window using SDL video driver: x11

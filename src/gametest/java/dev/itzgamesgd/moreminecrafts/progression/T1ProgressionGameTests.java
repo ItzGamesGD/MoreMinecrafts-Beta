@@ -103,7 +103,7 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest public void enhancementButtonMutatesInputAndSupportsConsecutiveUses(GameTestHelper ctx){
-        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);player.giveExperienceLevels(3);
+        var player=ctx.makeMockServerPlayer(net.minecraft.world.level.GameType.SURVIVAL);RawXp.setTotal(player,200);
         var pos=ctx.absolutePos(new net.minecraft.core.BlockPos(1,1,1));
         ctx.getLevel().setBlock(pos,net.minecraft.world.level.block.Blocks.ANVIL.defaultBlockState(),3);
         player.setPos(pos.getX()+.5,pos.getY()+1,pos.getZ()+.5);
@@ -111,17 +111,17 @@ public final class T1ProgressionGameTests implements CustomTestMethodInvoker {
         menu.getSlot(0).set(new ItemStack(Items.DIAMOND_SWORD));
         menu.getSlot(1).set(new ItemStack(ModItems.ENHANCEMENT_STONE,2));
         menu.createResult();
-        int levelsBefore=player.experienceLevel;
+        int rawBefore=RawXp.available(player);
         player.getRandom().setSeed(anvilWearSeed(player,4));
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"first Enhance click succeeds");
         ctx.assertTrue(EnhancementOperation.level(menu.getSlot(0).getItem())==1,"equipment remains in its input slot at +1");
         ctx.assertTrue(menu.getSlot(1).getItem().getCount()==1,"first click consumes one stone from the input stack");
         ctx.assertTrue(menu.getSlot(2).getItem().isEmpty(),"Enhance mode does not create a result item");
-        ctx.assertTrue(player.experienceLevel==levelsBefore-1,"first click consumes exactly one XP level");
+        ctx.assertTrue(RawXp.available(player)==rawBefore-40&&player.totalExperience==rawBefore-40,"first click consumes exactly 40 raw XP");
         ctx.assertTrue(modes.moreminecrafts$button(player,3),"second Enhance click succeeds without reinsertion");
         ctx.assertTrue(EnhancementOperation.level(menu.getSlot(0).getItem())==2,"same input equipment advances a second step");
         ctx.assertTrue(menu.getSlot(1).getItem().isEmpty(),"second click consumes the remaining stone");
-        ctx.assertTrue(player.experienceLevel==levelsBefore-2,"each click consumes one XP level");
+        ctx.assertTrue(RawXp.available(player)==rawBefore-80&&player.totalExperience==rawBefore-80,"each +1..+5 click consumes 40 raw XP");
         ctx.assertTrue(ctx.getLevel().getBlockState(pos).is(net.minecraft.world.level.block.Blocks.DAMAGED_ANVIL),
                 "two successful clicks count as exactly two Anvil uses");
 

@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:iron_ingot",
+    "minecraft:iron_nugget",
+    "minecraft:iron_block",
+    "minecraft:copper_ingot",
+    "minecraft:copper_block",
+    "minecraft:redstone",
+    "minecraft:redstone_block"
+  ]
+}

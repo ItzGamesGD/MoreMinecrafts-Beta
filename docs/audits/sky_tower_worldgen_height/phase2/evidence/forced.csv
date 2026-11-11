@@ -1,0 +1,8 @@
+test,label,origin_min_y,expected_max_y,layers_expected,layers_world_readable,top_layer_world_y,top_layer_non_air,reference_top_layer_non_air,highest_non_air_world_y,clipped_layers
+FORCED_PLACE,tower_maxY_80,-16,80,97,97,80,64,64,80,0
+FORCED_PLACE,tower_maxY_315,219,315,97,97,315,64,64,315,0
+FORCED_PLACE,tower_maxY_316,220,316,97,97,316,64,64,316,0
+FORCED_PLACE,tower_maxY_319,223,319,97,97,319,64,64,319,0
+FORCED_PLACE,tower_maxY_320,224,320,97,96,319,52,52,319,1
+FORCED_PLACE,tower_maxY_324,228,324,97,92,319,120,120,319,5
+FORCED_PLACE,tower_maxY_330,234,330,97,86,319,42,42,319,11

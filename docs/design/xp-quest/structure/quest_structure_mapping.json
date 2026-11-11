@@ -1,0 +1,3024 @@
+{
+  "schema": 1,
+  "status": "PROPOSAL - presentation data only; not loaded by runtime; owner review required",
+  "source_catalog": "src/main/resources/data/moreminecrafts/xp_quest/catalog.json",
+  "catalog_quest_count": 200,
+  "catalog_total_raw_xp": 209100,
+  "chapter_order": [
+    "ecology",
+    "exploration",
+    "monster_hunt",
+    "arms",
+    "elite",
+    "mining",
+    "farming",
+    "fishing",
+    "crafting",
+    "building",
+    "alchemy",
+    "equipment",
+    "research",
+    "dimensions",
+    "bosses"
+  ],
+  "chapters": [
+    {
+      "id": "ecology",
+      "chapter_order": 1,
+      "icon_item_id": "minecraft:spider_eye",
+      "title": {
+        "en": "Ecology",
+        "ko": "생태계"
+      },
+      "quest_count": 3,
+      "sub_branches": [
+        {
+          "id": "ecology.slice",
+          "title": {
+            "en": "Cave, bestiary and habitats",
+            "ko": "동굴·도감·서식지"
+          },
+          "quest_count": 3
+        }
+      ]
+    },
+    {
+      "id": "exploration",
+      "chapter_order": 2,
+      "icon_item_id": "minecraft:compass",
+      "title": {
+        "en": "Exploration",
+        "ko": "탐험"
+      },
+      "quest_count": 24,
+      "sub_branches": [
+        {
+          "id": "exploration.loot",
+          "title": {
+            "en": "Structures and relics",
+            "ko": "구조물과 유물"
+          },
+          "quest_count": 10
+        },
+        {
+          "id": "exploration.biomes",
+          "title": {
+            "en": "Biomes and maps",
+            "ko": "바이옴과 지도"
+          },
+          "quest_count": 6
+        },
+        {
+          "id": "exploration.travel",
+          "title": {
+            "en": "Distance and movement",
+            "ko": "거리와 이동"
+          },
+          "quest_count": 8
+        }
+      ]
+    },
+    {
+      "id": "monster_hunt",
+      "chapter_order": 3,
+      "icon_item_id": "minecraft:bone",
+      "title": {
+        "en": "Monster Hunt",
+        "ko": "몬스터 사냥"
+      },
+      "quest_count": 7,
+      "sub_branches": [
+        {
+          "id": "monster_hunt.kill_counts",
+          "title": {
+            "en": "Kill counts",
+            "ko": "처치 횟수"
+          },
+          "quest_count": 4
+        },
+        {
+          "id": "monster_hunt.species",
+          "title": {
+            "en": "Species records",
+            "ko": "종 기록"
+          },
+          "quest_count": 3
+        }
+      ]
+    },
+    {
+      "id": "arms",
+      "chapter_order": 4,
+      "icon_item_id": "minecraft:iron_sword",
+      "title": {
+        "en": "Arms and Tactics",
+        "ko": "무기와 전술"
+      },
+      "quest_count": 10,
+      "sub_branches": [
+        {
+          "id": "arms.melee",
+          "title": {
+            "en": "Melee",
+            "ko": "근접"
+          },
+          "quest_count": 6
+        },
+        {
+          "id": "arms.ranged",
+          "title": {
+            "en": "Ranged",
+            "ko": "원거리"
+          },
+          "quest_count": 2
+        },
+        {
+          "id": "arms.planned",
+          "title": {
+            "en": "Planned",
+            "ko": "예정"
+          },
+          "quest_count": 2
+        }
+      ]
+    },
+    {
+      "id": "elite",
+      "chapter_order": 5,
+      "icon_item_id": "minecraft:totem_of_undying",
+      "title": {
+        "en": "Elite Foes",
+        "ko": "정예 적"
+      },
+      "quest_count": 10,
+      "sub_branches": [
+        {
+          "id": "elite.raids",
+          "title": {
+            "en": "Raids and bands",
+            "ko": "습격과 무리"
+          },
+          "quest_count": 4
+        },
+        {
+          "id": "elite.elites",
+          "title": {
+            "en": "Elite mobs",
+            "ko": "정예 몹"
+          },
+          "quest_count": 4
+        },
+        {
+          "id": "elite.elemental",
+          "title": {
+            "en": "Elemental (planned)",
+            "ko": "원소 (예정)"
+          },
+          "quest_count": 2
+        }
+      ]
+    },
+    {
+      "id": "mining",
+      "chapter_order": 6,
+      "icon_item_id": "minecraft:diamond_pickaxe",
+      "title": {
+        "en": "Mining",
+        "ko": "채굴"
+      },
+      "quest_count": 19,
+      "sub_branches": [
+        {
+          "id": "mining.ores",
+          "title": {
+            "en": "Ores",
+            "ko": "광석"
+          },
+          "quest_count": 7
+        },
+        {
+          "id": "mining.debris",
+          "title": {
+            "en": "Debris and rare",
+            "ko": "잔해와 희귀"
+          },
+          "quest_count": 4
+        },
+        {
+          "id": "mining.stone",
+          "title": {
+            "en": "Stone and tools",
+            "ko": "돌과 도구"
+          },
+          "quest_count": 5
+        },
+        {
+          "id": "mining.wood",
+          "title": {
+            "en": "Woodcutting",
+            "ko": "벌목"
+          },
+          "quest_count": 3
+        }
+      ]
+    },
+    {
+      "id": "farming",
+      "chapter_order": 7,
+      "icon_item_id": "minecraft:wheat",
+      "title": {
+        "en": "Farming and Husbandry",
+        "ko": "농사와 목축"
+      },
+      "quest_count": 19,
+      "sub_branches": [
+        {
+          "id": "farming.crops",
+          "title": {
+            "en": "Crops and food",
+            "ko": "작물과 음식"
+          },
+          "quest_count": 7
+        },
+        {
+          "id": "farming.livestock",
+          "title": {
+            "en": "Livestock",
+            "ko": "가축"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "farming.trades",
+          "title": {
+            "en": "Villagers and trade",
+            "ko": "주민과 거래"
+          },
+          "quest_count": 6
+        },
+        {
+          "id": "farming.capture",
+          "title": {
+            "en": "Capture and automation",
+            "ko": "포획과 자동화"
+          },
+          "quest_count": 3
+        }
+      ]
+    },
+    {
+      "id": "fishing",
+      "chapter_order": 8,
+      "icon_item_id": "minecraft:fishing_rod",
+      "title": {
+        "en": "Fishing",
+        "ko": "낚시"
+      },
+      "quest_count": 16,
+      "sub_branches": [
+        {
+          "id": "fishing.catches",
+          "title": {
+            "en": "Catches and waters",
+            "ko": "어획과 수역"
+          },
+          "quest_count": 7
+        },
+        {
+          "id": "fishing.sales",
+          "title": {
+            "en": "Sales",
+            "ko": "판매"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "fishing.rods",
+          "title": {
+            "en": "Rods and gear",
+            "ko": "낚싯대와 장비"
+          },
+          "quest_count": 5
+        },
+        {
+          "id": "fishing.traps",
+          "title": {
+            "en": "Traps (planned)",
+            "ko": "덫 (예정)"
+          },
+          "quest_count": 1
+        }
+      ]
+    },
+    {
+      "id": "crafting",
+      "chapter_order": 9,
+      "icon_item_id": "minecraft:crafting_table",
+      "title": {
+        "en": "Crafting",
+        "ko": "제작"
+      },
+      "quest_count": 15,
+      "sub_branches": [
+        {
+          "id": "crafting.essentials",
+          "title": {
+            "en": "Essentials",
+            "ko": "기본"
+          },
+          "quest_count": 5
+        },
+        {
+          "id": "crafting.weapons",
+          "title": {
+            "en": "Weapon sets",
+            "ko": "무기 세트"
+          },
+          "quest_count": 2
+        },
+        {
+          "id": "crafting.advanced",
+          "title": {
+            "en": "Advanced",
+            "ko": "고급"
+          },
+          "quest_count": 4
+        },
+        {
+          "id": "crafting.recipes",
+          "title": {
+            "en": "Recipes",
+            "ko": "조합법"
+          },
+          "quest_count": 2
+        },
+        {
+          "id": "crafting.planned",
+          "title": {
+            "en": "Planned",
+            "ko": "예정"
+          },
+          "quest_count": 2
+        }
+      ]
+    },
+    {
+      "id": "building",
+      "chapter_order": 10,
+      "icon_item_id": "minecraft:bricks",
+      "title": {
+        "en": "Building",
+        "ko": "건축"
+      },
+      "quest_count": 8,
+      "sub_branches": [
+        {
+          "id": "building.placement",
+          "title": {
+            "en": "Placement",
+            "ko": "배치"
+          },
+          "quest_count": 4
+        },
+        {
+          "id": "building.variety",
+          "title": {
+            "en": "Variety and storage",
+            "ko": "다양성과 보관"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "building.copper",
+          "title": {
+            "en": "Copper ages",
+            "ko": "구리 시대"
+          },
+          "quest_count": 1
+        }
+      ]
+    },
+    {
+      "id": "alchemy",
+      "chapter_order": 11,
+      "icon_item_id": "minecraft:brewing_stand",
+      "title": {
+        "en": "Alchemy",
+        "ko": "연금술"
+      },
+      "quest_count": 9,
+      "sub_branches": [
+        {
+          "id": "alchemy.brewing",
+          "title": {
+            "en": "Brewing",
+            "ko": "양조"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "alchemy.variety",
+          "title": {
+            "en": "Variety",
+            "ko": "다양성"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "alchemy.mastery",
+          "title": {
+            "en": "Mastery",
+            "ko": "숙달"
+          },
+          "quest_count": 3
+        }
+      ]
+    },
+    {
+      "id": "equipment",
+      "chapter_order": 12,
+      "icon_item_id": "minecraft:anvil",
+      "title": {
+        "en": "Equipment and Enhancement",
+        "ko": "장비와 강화"
+      },
+      "quest_count": 20,
+      "sub_branches": [
+        {
+          "id": "equipment.enhance",
+          "title": {
+            "en": "Enhancement",
+            "ko": "강화"
+          },
+          "quest_count": 6
+        },
+        {
+          "id": "equipment.custom",
+          "title": {
+            "en": "Custom enchants",
+            "ko": "커스텀 마법"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "equipment.t2_cores",
+          "title": {
+            "en": "T2 cores",
+            "ko": "T2 코어"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "equipment.t2_weapons",
+          "title": {
+            "en": "T2 weapons (planned)",
+            "ko": "T2 무기 (예정)"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "equipment.accessories",
+          "title": {
+            "en": "Accessories (planned)",
+            "ko": "장신구 (예정)"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "equipment.t3",
+          "title": {
+            "en": "T3 (planned)",
+            "ko": "T3 (예정)"
+          },
+          "quest_count": 2
+        }
+      ]
+    },
+    {
+      "id": "research",
+      "chapter_order": 13,
+      "icon_item_id": "minecraft:enchanted_book",
+      "title": {
+        "en": "Knowledge and Research",
+        "ko": "지식과 연구"
+      },
+      "quest_count": 21,
+      "sub_branches": [
+        {
+          "id": "research.knowledge",
+          "title": {
+            "en": "Knowledge",
+            "ko": "지식"
+          },
+          "quest_count": 5
+        },
+        {
+          "id": "research.research",
+          "title": {
+            "en": "Research",
+            "ko": "연구"
+          },
+          "quest_count": 7
+        },
+        {
+          "id": "research.tiers",
+          "title": {
+            "en": "Tiers",
+            "ko": "단계"
+          },
+          "quest_count": 5
+        },
+        {
+          "id": "research.mobility",
+          "title": {
+            "en": "Mobility (verify)",
+            "ko": "이동 (검증 중)"
+          },
+          "quest_count": 4
+        }
+      ]
+    },
+    {
+      "id": "dimensions",
+      "chapter_order": 14,
+      "icon_item_id": "minecraft:ender_eye",
+      "title": {
+        "en": "Dimensions",
+        "ko": "차원"
+      },
+      "quest_count": 10,
+      "sub_branches": [
+        {
+          "id": "dimensions.nether",
+          "title": {
+            "en": "Nether",
+            "ko": "네더"
+          },
+          "quest_count": 4
+        },
+        {
+          "id": "dimensions.end",
+          "title": {
+            "en": "End",
+            "ko": "엔드"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "dimensions.vaults",
+          "title": {
+            "en": "Ruins and vaults",
+            "ko": "유적과 금고"
+          },
+          "quest_count": 3
+        }
+      ]
+    },
+    {
+      "id": "bosses",
+      "chapter_order": 15,
+      "icon_item_id": "minecraft:nether_star",
+      "title": {
+        "en": "Bosses",
+        "ko": "보스"
+      },
+      "quest_count": 9,
+      "sub_branches": [
+        {
+          "id": "bosses.sea",
+          "title": {
+            "en": "Sea and monuments",
+            "ko": "바다와 신전"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "bosses.deep",
+          "title": {
+            "en": "Deep dark",
+            "ko": "심층 어둠"
+          },
+          "quest_count": 2
+        },
+        {
+          "id": "bosses.nether_end",
+          "title": {
+            "en": "Nether and End",
+            "ko": "네더와 엔드"
+          },
+          "quest_count": 3
+        },
+        {
+          "id": "bosses.omens",
+          "title": {
+            "en": "Omens",
+            "ko": "전조"
+          },
+          "quest_count": 1
+        }
+      ]
+    }
+  ],
+  "quests": [
+    {
+      "quest_id": "xpq.cmb.cave_dwellers",
+      "category": "combat",
+      "chapter": "ecology",
+      "sub_branch": "ecology.slice",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 1,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.cmb.bestiary_25",
+      "category": "combat",
+      "chapter": "ecology",
+      "sub_branch": "ecology.slice",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1350,
+      "presentation_order": 2,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.cmb.habitats_5",
+      "category": "combat",
+      "chapter": "ecology",
+      "sub_branch": "ecology.slice",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 3,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.exp.dungeon_loot",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 4,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.exp.first_structure_loot",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 5,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.exp.mineshaft_loot",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 6,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.exp.temples",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": true,
+      "reward_raw_xp": 350,
+      "presentation_order": 7,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.exp.archaeology_30",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 8,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.exp.ocean_relics",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 9,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.exp.villages_5",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 550,
+      "presentation_order": 10,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.exp.grand_expedition",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1450,
+      "presentation_order": 11,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.exp.sherds_15",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1150,
+      "presentation_order": 12,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.exp.structures_15",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.loot",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1150,
+      "presentation_order": 13,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.exp.biomes_25",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.biomes",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 14,
+      "chapter_index": 11
+    },
+    {
+      "quest_id": "xpq.exp.explorer_maps",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.biomes",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 15,
+      "chapter_index": 12
+    },
+    {
+      "quest_id": "xpq.exp.rare_biomes",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.biomes",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 600,
+      "presentation_order": 16,
+      "chapter_index": 13
+    },
+    {
+      "quest_id": "xpq.exp.sleeping_bag_biomes",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.biomes",
+      "status": "VERIFY",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 17,
+      "chapter_index": 14
+    },
+    {
+      "quest_id": "xpq.exp.biomes_40",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.biomes",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1150,
+      "presentation_order": 18,
+      "chapter_index": 15
+    },
+    {
+      "quest_id": "xpq.exp.biomes_all_overworld",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.biomes",
+      "status": "VERIFY",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3150,
+      "presentation_order": 19,
+      "chapter_index": 16
+    },
+    {
+      "quest_id": "xpq.exp.walk_10k",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.travel",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 250,
+      "presentation_order": 20,
+      "chapter_index": 17
+    },
+    {
+      "quest_id": "xpq.exp.height_extremes",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.travel",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 400,
+      "presentation_order": 21,
+      "chapter_index": 18
+    },
+    {
+      "quest_id": "xpq.exp.parachute_landing",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.travel",
+      "status": "VERIFY",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 22,
+      "chapter_index": 19
+    },
+    {
+      "quest_id": "xpq.exp.elytra_25k",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.travel",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 23,
+      "chapter_index": 20
+    },
+    {
+      "quest_id": "xpq.exp.ride_10k",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.travel",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1000,
+      "presentation_order": 24,
+      "chapter_index": 21
+    },
+    {
+      "quest_id": "xpq.exp.sail_20k",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.travel",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1150,
+      "presentation_order": 25,
+      "chapter_index": 22
+    },
+    {
+      "quest_id": "xpq.exp.walk_50k",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.travel",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1150,
+      "presentation_order": 26,
+      "chapter_index": 23
+    },
+    {
+      "quest_id": "xpq.exp.travel_250k",
+      "category": "exploration",
+      "chapter": "exploration",
+      "sub_branch": "exploration.travel",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3150,
+      "presentation_order": 27,
+      "chapter_index": 24
+    },
+    {
+      "quest_id": "xpq.cmb.hostile_100",
+      "category": "combat",
+      "chapter": "monster_hunt",
+      "sub_branch": "monster_hunt.kill_counts",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 28,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.cmb.hostile_500",
+      "category": "combat",
+      "chapter": "monster_hunt",
+      "sub_branch": "monster_hunt.kill_counts",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 29,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.cmb.hostile_2000",
+      "category": "combat",
+      "chapter": "monster_hunt",
+      "sub_branch": "monster_hunt.kill_counts",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 30,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.cmb.hostile_5000",
+      "category": "combat",
+      "chapter": "monster_hunt",
+      "sub_branch": "monster_hunt.kill_counts",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 1900,
+      "presentation_order": 31,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.cmb.bestiary_5",
+      "category": "combat",
+      "chapter": "monster_hunt",
+      "sub_branch": "monster_hunt.species",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 32,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.cmb.bestiary_10",
+      "category": "combat",
+      "chapter": "monster_hunt",
+      "sub_branch": "monster_hunt.species",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 33,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.cmb.vanilla_species_20",
+      "category": "combat",
+      "chapter": "monster_hunt",
+      "sub_branch": "monster_hunt.species",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 34,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.cmb.mm_arms",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.melee",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 35,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.cmb.dagger_100",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.melee",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 36,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.cmb.greatsword_100",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.melee",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 37,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.cmb.shield_500",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.melee",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 450,
+      "presentation_order": 38,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.cmb.mace_smash_10",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.melee",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": true,
+      "reward_raw_xp": 750,
+      "presentation_order": 39,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.cmb.netherite_blades",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.melee",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 40,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.cmb.trident_50",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.ranged",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 450,
+      "presentation_order": 41,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.cmb.long_shot_25",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.ranged",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": true,
+      "reward_raw_xp": 850,
+      "presentation_order": 42,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.cmb.tactical_ammo",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.planned",
+      "status": "FUTURE",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 43,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.cmb.gauntlet_50",
+      "category": "combat",
+      "chapter": "arms",
+      "sub_branch": "arms.planned",
+      "status": "FUTURE",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 44,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.cmb.bandits_20",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.raids",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 45,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.cmb.brutes_3",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.raids",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1000,
+      "presentation_order": 46,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.cmb.raids_3",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.raids",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1350,
+      "presentation_order": 47,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.cmb.ravagers_5",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.raids",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1000,
+      "presentation_order": 48,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.cmb.breeze_10",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.elites",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 450,
+      "presentation_order": 49,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.cmb.guardians_30",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.elites",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 450,
+      "presentation_order": 50,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.cmb.lesser_wither_10",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.elites",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": true,
+      "reward_raw_xp": 700,
+      "presentation_order": 51,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.cmb.wither_skulls_3",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.elites",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 52,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.cmb.elemental_100",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.elemental",
+      "status": "FUTURE",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 53,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.cmb.elemental_skills",
+      "category": "combat",
+      "chapter": "elite",
+      "sub_branch": "elite.elemental",
+      "status": "FUTURE",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1250,
+      "presentation_order": 54,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.min.first_custom_ore",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.ores",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 55,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.min.custom_ore_survey",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.ores",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": true,
+      "reward_raw_xp": 350,
+      "presentation_order": 56,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.min.deepslate_custom",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.ores",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 57,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.min.ore_1000",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.ores",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 58,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.min.diamond_ore_64",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.ores",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 59,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.min.ore_5000",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.ores",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 60,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.min.ore_20000",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.ores",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 3150,
+      "presentation_order": 61,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.min.obsidian_64",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.debris",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": false,
+      "reward_raw_xp": 300,
+      "presentation_order": 62,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.min.adamantium_debris",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.debris",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 63,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.min.adamantium_10",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.debris",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1250,
+      "presentation_order": 64,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.min.debris_16",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.debris",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 65,
+      "chapter_index": 11
+    },
+    {
+      "quest_id": "xpq.min.amethyst_spyglass",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.stone",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 400,
+      "presentation_order": 66,
+      "chapter_index": 12
+    },
+    {
+      "quest_id": "xpq.min.stone_10000",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.stone",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 67,
+      "chapter_index": 13
+    },
+    {
+      "quest_id": "xpq.min.pickaxe_5000",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.stone",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": true,
+      "reward_raw_xp": 700,
+      "presentation_order": 68,
+      "chapter_index": 14
+    },
+    {
+      "quest_id": "xpq.min.vein_500",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.stone",
+      "status": "VERIFY",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 69,
+      "chapter_index": 15
+    },
+    {
+      "quest_id": "xpq.min.drill_1000",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.stone",
+      "status": "FUTURE",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 70,
+      "chapter_index": 16
+    },
+    {
+      "quest_id": "xpq.min.logs_1000",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.wood",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 71,
+      "chapter_index": 17
+    },
+    {
+      "quest_id": "xpq.min.all_wood",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.wood",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 72,
+      "chapter_index": 18
+    },
+    {
+      "quest_id": "xpq.min.lumberjack_200",
+      "category": "mining",
+      "chapter": "mining",
+      "sub_branch": "mining.wood",
+      "status": "VERIFY",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 73,
+      "chapter_index": 19
+    },
+    {
+      "quest_id": "xpq.frm.composite_foods",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.crops",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 200,
+      "presentation_order": 74,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.frm.harvest_all_crops",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.crops",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 250,
+      "presentation_order": 75,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.frm.harvest_1000",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.crops",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 76,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.frm.till_1000",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.crops",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 400,
+      "presentation_order": 77,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.frm.ancient_harvest",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.crops",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 78,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.frm.harvest_5000",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.crops",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 79,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.frm.soil_study_harvest",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.crops",
+      "status": "VERIFY",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 80,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.frm.tame_5",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.livestock",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": true,
+      "reward_raw_xp": 350,
+      "presentation_order": 81,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.frm.breed_200",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.livestock",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 82,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.frm.honey_32",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.livestock",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 450,
+      "presentation_order": 83,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.frm.master_trade",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.trades",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 84,
+      "chapter_index": 11
+    },
+    {
+      "quest_id": "xpq.frm.mending_book",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.trades",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 450,
+      "presentation_order": 85,
+      "chapter_index": 12
+    },
+    {
+      "quest_id": "xpq.frm.professions_10",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.trades",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 850,
+      "presentation_order": 86,
+      "chapter_index": 13
+    },
+    {
+      "quest_id": "xpq.frm.villager_discount_20",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.trades",
+      "status": "VERIFY",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 87,
+      "chapter_index": 14
+    },
+    {
+      "quest_id": "xpq.frm.barter_200",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.trades",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 88,
+      "chapter_index": 15
+    },
+    {
+      "quest_id": "xpq.frm.trades_200",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.trades",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 89,
+      "chapter_index": 16
+    },
+    {
+      "quest_id": "xpq.frm.auto_farm",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.capture",
+      "status": "FUTURE",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 90,
+      "chapter_index": 17
+    },
+    {
+      "quest_id": "xpq.frm.first_capture",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.capture",
+      "status": "FUTURE",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 91,
+      "chapter_index": 18
+    },
+    {
+      "quest_id": "xpq.frm.capture_10",
+      "category": "farming",
+      "chapter": "farming",
+      "sub_branch": "farming.capture",
+      "status": "FUTURE",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 92,
+      "chapter_index": 19
+    },
+    {
+      "quest_id": "xpq.fsh.freshwater_4",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.catches",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 250,
+      "presentation_order": 93,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.fsh.multi_catch",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.catches",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 450,
+      "presentation_order": 94,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.fsh.water_biomes_8",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.catches",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 95,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.fsh.ocean_trio",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.catches",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 850,
+      "presentation_order": 96,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.fsh.catch_500",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.catches",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 97,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.fsh.full_catalogue",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.catches",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1350,
+      "presentation_order": 98,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.fsh.giant_catch",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.catches",
+      "status": "VERIFY",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 99,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.fsh.first_sale",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.sales",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 100,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.fsh.sale_64",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.sales",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 101,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.fsh.emerald_500",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.sales",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 102,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.fsh.first_module",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.rods",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 250,
+      "presentation_order": 103,
+      "chapter_index": 11
+    },
+    {
+      "quest_id": "xpq.fsh.grade_four",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.rods",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 104,
+      "chapter_index": 12
+    },
+    {
+      "quest_id": "xpq.fsh.tier3_rig",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.rods",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 105,
+      "chapter_index": 13
+    },
+    {
+      "quest_id": "xpq.fsh.grade_five",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.rods",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 106,
+      "chapter_index": 14
+    },
+    {
+      "quest_id": "xpq.fsh.grade_five_5",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.rods",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3150,
+      "presentation_order": 107,
+      "chapter_index": 15
+    },
+    {
+      "quest_id": "xpq.fsh.fish_trap",
+      "category": "fishing",
+      "chapter": "fishing",
+      "sub_branch": "fishing.traps",
+      "status": "FUTURE",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 108,
+      "chapter_index": 16
+    },
+    {
+      "quest_id": "xpq.cft.sleeping_bag",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.essentials",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 150,
+      "presentation_order": 109,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.cft.enchanting_30",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.essentials",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": false,
+      "reward_raw_xp": 350,
+      "presentation_order": 110,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.cft.anvil_50",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.essentials",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 450,
+      "presentation_order": 111,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.cft.parachute",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.essentials",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 400,
+      "presentation_order": 112,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.cft.smelt_1000",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.essentials",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 113,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.cft.all_daggers",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.weapons",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 114,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.cft.all_greatswords",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.weapons",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 115,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.cft.conduit",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.advanced",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 850,
+      "presentation_order": 116,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.cft.mm_metallurgy",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.advanced",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1350,
+      "presentation_order": 117,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.cft.netherite_tools",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.advanced",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 118,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.cft.mm_blocks",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.advanced",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3150,
+      "presentation_order": 119,
+      "chapter_index": 11
+    },
+    {
+      "quest_id": "xpq.cft.redstone_100",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.recipes",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 450,
+      "presentation_order": 120,
+      "chapter_index": 12
+    },
+    {
+      "quest_id": "xpq.cft.recipes_200",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.recipes",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 121,
+      "chapter_index": 13
+    },
+    {
+      "quest_id": "xpq.cft.backpack_large",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.planned",
+      "status": "FUTURE",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 122,
+      "chapter_index": 14
+    },
+    {
+      "quest_id": "xpq.cft.portable_furnace",
+      "category": "crafting",
+      "chapter": "crafting",
+      "sub_branch": "crafting.planned",
+      "status": "FUTURE",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 123,
+      "chapter_index": 15
+    },
+    {
+      "quest_id": "xpq.bld.place_1000",
+      "category": "building",
+      "chapter": "building",
+      "sub_branch": "building.placement",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": true,
+      "reward_raw_xp": 250,
+      "presentation_order": 124,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.bld.place_10000",
+      "category": "building",
+      "chapter": "building",
+      "sub_branch": "building.placement",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 125,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.bld.place_50000",
+      "category": "building",
+      "chapter": "building",
+      "sub_branch": "building.placement",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 126,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.bld.place_200000",
+      "category": "building",
+      "chapter": "building",
+      "sub_branch": "building.placement",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 3150,
+      "presentation_order": 127,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.bld.variety_50",
+      "category": "building",
+      "chapter": "building",
+      "sub_branch": "building.variety",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": true,
+      "reward_raw_xp": 350,
+      "presentation_order": 128,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.bld.storage_50",
+      "category": "building",
+      "chapter": "building",
+      "sub_branch": "building.variety",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 400,
+      "presentation_order": 129,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.bld.variety_150",
+      "category": "building",
+      "chapter": "building",
+      "sub_branch": "building.variety",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 130,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.bld.copper_ages",
+      "category": "building",
+      "chapter": "building",
+      "sub_branch": "building.copper",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 450,
+      "presentation_order": 131,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.alc.shock_potion",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.brewing",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 132,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.alc.splash_lingering",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.brewing",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 133,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.alc.shock_10",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.brewing",
+      "status": "VERIFY",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 700,
+      "presentation_order": 134,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.alc.ingredients_all",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.variety",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 450,
+      "presentation_order": 135,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.alc.types_12",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.variety",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 136,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.alc.effects_16",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.variety",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 137,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.alc.enhanced_3",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.mastery",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 138,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.alc.injector",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.mastery",
+      "status": "FUTURE",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 139,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.alc.potions_250",
+      "category": "alchemy",
+      "chapter": "alchemy",
+      "sub_branch": "alchemy.mastery",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 140,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_5",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.enhance",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 250,
+      "presentation_order": 141,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_10",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.enhance",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 142,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_15",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.enhance",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 143,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_trio",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.enhance",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 850,
+      "presentation_order": 144,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_20",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.enhance",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1250,
+      "presentation_order": 145,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_20_armor",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.enhance",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3750,
+      "presentation_order": 146,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.eqp.custom_enchant",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.custom",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": false,
+      "reward_raw_xp": 350,
+      "presentation_order": 147,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.eqp.custom_enchant_5",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.custom",
+      "status": "VERIFY",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 148,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.eqp.custom_enchant_all",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.custom",
+      "status": "VERIFY",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3150,
+      "presentation_order": 149,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.eqp.first_t2_core",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.t2_cores",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1250,
+      "presentation_order": 150,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.eqp.t2_cores_3",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.t2_cores",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1250,
+      "presentation_order": 151,
+      "chapter_index": 11
+    },
+    {
+      "quest_id": "xpq.eqp.all_t2_cores",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.t2_cores",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3750,
+      "presentation_order": 152,
+      "chapter_index": 12
+    },
+    {
+      "quest_id": "xpq.eqp.first_t2_weapon",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.t2_weapons",
+      "status": "FUTURE",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1350,
+      "presentation_order": 153,
+      "chapter_index": 13
+    },
+    {
+      "quest_id": "xpq.eqp.t2_arsenal",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.t2_weapons",
+      "status": "FUTURE",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 4050,
+      "presentation_order": 154,
+      "chapter_index": 14
+    },
+    {
+      "quest_id": "xpq.eqp.t2_plus20",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.t2_weapons",
+      "status": "FUTURE",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3750,
+      "presentation_order": 155,
+      "chapter_index": 15
+    },
+    {
+      "quest_id": "xpq.eqp.accessory_first",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.accessories",
+      "status": "FUTURE",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 156,
+      "chapter_index": 16
+    },
+    {
+      "quest_id": "xpq.eqp.accessory_full",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.accessories",
+      "status": "FUTURE",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1250,
+      "presentation_order": 157,
+      "chapter_index": 17
+    },
+    {
+      "quest_id": "xpq.eqp.accessory_all",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.accessories",
+      "status": "FUTURE",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3750,
+      "presentation_order": 158,
+      "chapter_index": 18
+    },
+    {
+      "quest_id": "xpq.eqp.t3_special",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.t3",
+      "status": "FUTURE",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1350,
+      "presentation_order": 159,
+      "chapter_index": 19
+    },
+    {
+      "quest_id": "xpq.eqp.t3_set",
+      "category": "equipment",
+      "chapter": "equipment",
+      "sub_branch": "equipment.t3",
+      "status": "FUTURE",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 4050,
+      "presentation_order": 160,
+      "chapter_index": 20
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_10",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.knowledge",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 250,
+      "presentation_order": 161,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_20",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.knowledge",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": false,
+      "reward_raw_xp": 350,
+      "presentation_order": 162,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_35",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.knowledge",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 163,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_50",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.knowledge",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 164,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_complete",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.knowledge",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3750,
+      "presentation_order": 165,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.grw.first_research",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.research",
+      "status": "NOW",
+      "tier": "EARLY",
+      "registered": false,
+      "reward_raw_xp": 250,
+      "presentation_order": 166,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.grw.seven_roots",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.research",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": false,
+      "reward_raw_xp": 350,
+      "presentation_order": 167,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.grw.research_10",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.research",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 168,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.grw.discipline_breadth",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.research",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 850,
+      "presentation_order": 169,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.grw.research_25",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.research",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1100,
+      "presentation_order": 170,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.grw.discipline_complete",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.research",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3750,
+      "presentation_order": 171,
+      "chapter_index": 11
+    },
+    {
+      "quest_id": "xpq.grw.research_50",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.research",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3450,
+      "presentation_order": 172,
+      "chapter_index": 12
+    },
+    {
+      "quest_id": "xpq.grw.first_t2",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.tiers",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 500,
+      "presentation_order": 173,
+      "chapter_index": 13
+    },
+    {
+      "quest_id": "xpq.grw.spent_10k",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.tiers",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 750,
+      "presentation_order": 174,
+      "chapter_index": 14
+    },
+    {
+      "quest_id": "xpq.grw.first_t3",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.tiers",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1250,
+      "presentation_order": 175,
+      "chapter_index": 15
+    },
+    {
+      "quest_id": "xpq.grw.spent_50k",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.tiers",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1250,
+      "presentation_order": 176,
+      "chapter_index": 16
+    },
+    {
+      "quest_id": "xpq.grw.t3_5",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.tiers",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3150,
+      "presentation_order": 177,
+      "chapter_index": 17
+    },
+    {
+      "quest_id": "xpq.grw.climbing_100",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.mobility",
+      "status": "VERIFY",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 450,
+      "presentation_order": 178,
+      "chapter_index": 18
+    },
+    {
+      "quest_id": "xpq.grw.fall_roll_20",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.mobility",
+      "status": "VERIFY",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 700,
+      "presentation_order": 179,
+      "chapter_index": 19
+    },
+    {
+      "quest_id": "xpq.grw.throwable_pickaxe",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.mobility",
+      "status": "VERIFY",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 700,
+      "presentation_order": 180,
+      "chapter_index": 20
+    },
+    {
+      "quest_id": "xpq.grw.wall_jump_50",
+      "category": "growth",
+      "chapter": "research",
+      "sub_branch": "research.mobility",
+      "status": "VERIFY",
+      "tier": "MID_LATE",
+      "registered": false,
+      "reward_raw_xp": 700,
+      "presentation_order": 181,
+      "chapter_index": 21
+    },
+    {
+      "quest_id": "xpq.dim.fortress_loot",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.nether",
+      "status": "NOW",
+      "tier": "EARLY_MID",
+      "registered": true,
+      "reward_raw_xp": 350,
+      "presentation_order": 182,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.dim.blaze_rods_32",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.nether",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": false,
+      "reward_raw_xp": 400,
+      "presentation_order": 183,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.dim.bastion_all",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.nether",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1350,
+      "presentation_order": 184,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.dim.nether_travel_50k",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.nether",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 2500,
+      "presentation_order": 185,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.dim.end_cities_3",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.end",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1100,
+      "presentation_order": 186,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.dim.shulker_boxes",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.end",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1000,
+      "presentation_order": 187,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.dim.end_city_loot_10",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.end",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 3150,
+      "presentation_order": 188,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.dim.trial_vaults_5",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.vaults",
+      "status": "NOW",
+      "tier": "MID",
+      "registered": true,
+      "reward_raw_xp": 500,
+      "presentation_order": 189,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.dim.ancient_city_loot",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.vaults",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": true,
+      "reward_raw_xp": 900,
+      "presentation_order": 190,
+      "chapter_index": 9
+    },
+    {
+      "quest_id": "xpq.dim.ominous_vaults_5",
+      "category": "dimension",
+      "chapter": "dimensions",
+      "sub_branch": "dimensions.vaults",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1350,
+      "presentation_order": 191,
+      "chapter_index": 10
+    },
+    {
+      "quest_id": "xpq.boss.elder_guardian",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.sea",
+      "status": "NOW",
+      "tier": "MID_LATE",
+      "registered": true,
+      "reward_raw_xp": 750,
+      "presentation_order": 192,
+      "chapter_index": 1
+    },
+    {
+      "quest_id": "xpq.boss.monument_clear",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.sea",
+      "status": "VERIFY",
+      "tier": "LATE",
+      "registered": false,
+      "reward_raw_xp": 1450,
+      "presentation_order": 193,
+      "chapter_index": 2
+    },
+    {
+      "quest_id": "xpq.boss.monuments_3",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.sea",
+      "status": "VERIFY",
+      "tier": "ENDGAME",
+      "registered": false,
+      "reward_raw_xp": 3450,
+      "presentation_order": 194,
+      "chapter_index": 3
+    },
+    {
+      "quest_id": "xpq.boss.warden",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.deep",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1700,
+      "presentation_order": 195,
+      "chapter_index": 4
+    },
+    {
+      "quest_id": "xpq.boss.warden_3",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.deep",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 3150,
+      "presentation_order": 196,
+      "chapter_index": 5
+    },
+    {
+      "quest_id": "xpq.boss.wither",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.nether_end",
+      "status": "NOW",
+      "tier": "LATE",
+      "registered": true,
+      "reward_raw_xp": 1450,
+      "presentation_order": 197,
+      "chapter_index": 6
+    },
+    {
+      "quest_id": "xpq.boss.dragon_rematch",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.nether_end",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 3150,
+      "presentation_order": 198,
+      "chapter_index": 7
+    },
+    {
+      "quest_id": "xpq.boss.twin_bosses",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.nether_end",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 3150,
+      "presentation_order": 199,
+      "chapter_index": 8
+    },
+    {
+      "quest_id": "xpq.boss.omen_raid",
+      "category": "boss",
+      "chapter": "bosses",
+      "sub_branch": "bosses.omens",
+      "status": "NOW",
+      "tier": "ENDGAME",
+      "registered": true,
+      "reward_raw_xp": 3150,
+      "presentation_order": 200,
+      "chapter_index": 9
+    }
+  ]
+}
