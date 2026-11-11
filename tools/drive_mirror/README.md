@@ -14,6 +14,8 @@ to it. It is driven by `.github/workflows/drive-mirror.yml`.
 > (see [Security gate](#security-gate)): one finding is still awaiting an owner decision, and the
 > gate quarantines the refs it touches. See `docs/audit/REPO-STATE-20261110/SECRET_SCAN_INVESTIGATION.md`.
 > Scope and integrity claims: [`MIRROR_COMPLETENESS.md`](MIRROR_COMPLETENESS.md).
+> **Operating it:** [`RUNBOOK.md`](RUNBOOK.md) (configuration checklist, ordered manual steps, enabling and disabling the workflow, recovery, capacity).
+> Status: offline ready, live Google Drive verification pending.
 
 The tool only **reads** from Git/GitHub. It never pushes, comments, labels or edits anything
 in the source repository.
@@ -268,6 +270,7 @@ Create environment **`drive-mirror`** (Settings → Environments), deployment br
 | variable | `DRIVE_MIRROR_NAME` | optional; default = repository name |
 | variable | `DRIVE_MIRROR_PULL_HEADS` | optional: `orphaned` (default), `all`, `none` |
 | variable | `DRIVE_MIRROR_TRUSTED_BRANCH` | optional; default `main` |
+| variable | `DRIVE_MIRROR_TOOLING_REF` | optional; ref of the mirror tooling to check out; default = the run's own `github.sha` |
 | variable | `DRIVE_MIRROR_MAX_AGE_HOURS`, `DRIVE_MIRROR_RECONCILE_AFTER_HOURS`, `DRIVE_MIRROR_EXPECTED_BYTES` | optional |
 | secret (env) | `DRIVE_PARENT_FOLDER_ID` | folder id, or `root` (2B) |
 | secret (env) | `DRIVE_SHARED_DRIVE_ID` | 2A only |
@@ -277,6 +280,11 @@ The workflow must be on `main` for schedules and dispatches to exist; merging it
 owner decision.
 
 ### Controlled live test
+
+> **Read [`RUNBOOK.md`](RUNBOOK.md) first.** Two traps in the sequence below: (1) the tool has no ref filter, so a test namespace of *this* repository is a complete
+> copy (~330,000 Drive items), and a test copy plus the real mirror does not fit in a 500,000-item shared drive; (2) `workflow_dispatch` only works once
+> `DRIVE_MIRROR_ENABLED=true`, which also enables the hourly schedule and the event relays, and they build whatever `DRIVE_MIRROR_NAME` says. The runbook
+> therefore does the controlled test manually (small scratch repository, or a throw-away destination) and enables the workflow only afterwards, on the verified real namespace.
 
 Run against a throw-away namespace first, then the real one:
 
@@ -348,7 +356,13 @@ not verified against real Drive), so a Workspace shared drive is the safer desti
 * A free personal account (15 GB) is likely too small for today's ~14.6 GB logical mirror; a shared drive is
   bounded at 500k items and the mirror already uses ~330k (66 %). Both limits are approached by growth in branch
   count, not by code.
-* Two refs are quarantined by the security gate until owner decision D-6 (see Security gate).
+* Two refs are quarantined by the security gate until owner decision D-6 (see Security gate and `security/D-6_APPROVAL_PROPOSAL.md`).
+* **Gate/sync race.** The security gate examines the refs as they were when the scan ran; `sync` takes its own snapshot afterwards (and again on the workflow's one retry).
+  A ref created or advanced in that window is uploaded without having been scanned and is only covered by the next run's scan. The content is already public on GitHub and
+  the next run (hourly) re-scans, but the gate is not atomic with the sync. Hardening, if wanted: have the gate record the scanned commit per ref and make `sync` treat any ref whose
+  commit differs as quarantined until the next scan. Not implemented (it changes the engine and the quarantine contract).
+* **No automated capacity warning.** `preflight` checks free bytes on a personal drive only. Nothing counts Drive items against a shared drive's 500,000-item limit; see
+  `RUNBOOK.md` Part 11 for the manual procedure.
 * Drive search is eventually consistent; `verify` compensates with direct GETs, and
   `reconcile` may need a second pass if it ran seconds after a large write.
 * PR heads not contained in any branch (50 today) are mirrored by default under `pulls/`
@@ -365,7 +379,7 @@ not verified against real Drive), so a Workspace shared drive is the safer desti
 
 ```sh
 GITLEAKS_BIN=/path/to/gitleaks-8.30.1 \
-PYTHONPATH=tools python3 -m unittest discover -s tools/drive_mirror/tests -v      # ~2.5 min, 29 tests
+PYTHONPATH=tools python3 -m unittest discover -s tools/drive_mirror/tests -v      # ~2.5 min, 39 tests (29 mirror/hardening + 10 workflow/dry-run)
 # (without GITLEAKS_BIN the one real-scanner test is skipped)
 PYTHONPATH=tools python3 tools/drive_mirror/tests/full_repo_emulator.py \
   --repo-url https://github.com/ItzGamesGD/MoreMinecrafts-Beta --work-dir /tmp/mm.git --out-dir /tmp/mm-out
