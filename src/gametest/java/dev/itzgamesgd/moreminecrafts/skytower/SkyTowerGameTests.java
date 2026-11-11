@@ -12,7 +12,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.TrialSpawnerBlock;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState;
+import dev.itzgamesgd.moreminecrafts.accessory.StarCovenantVaultRewards;
+import net.minecraft.world.level.block.VaultBlock;
+import net.minecraft.world.level.block.entity.vault.VaultBlockEntity;
+import net.minecraft.world.level.block.entity.vault.VaultConfig;
+import net.minecraft.world.level.block.entity.vault.VaultState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 /** Real mod-server blocks/hooks. Synthetic cooldown is explicitly not a player combat test. */
 public final class SkyTowerGameTests {
@@ -243,6 +249,92 @@ public final class SkyTowerGameTests {
                 ctx.assertTrue(level.getBlockState(new BlockPos(p.x(),p.y(),p.z())).isAir(),styles[index]+" reserved barrier cell remains clear");
             }
         }
+        ctx.succeed();
+    }
+
+    @GameTest(maxTicks=200)
+    public void rooftopVaultPlacementAndFacingAcrossAllRotations(GameTestHelper ctx){
+        var level=ctx.getLevel();
+        for(int r=0;r<4;r++){
+            var fix=fixture(ctx,r,false);
+            var site=fix.site();
+            var pt=site.rooftopVault();
+            var pos=new BlockPos(pt.x(),pt.y(),pt.z());
+            ctx.assertTrue(level.getBlockState(pos).isAir(),"target position initially air");
+            ctx.assertTrue(SkyTowerVaultRewards.placeAndConfigureRooftopVault(level,site),"rooftop placed");
+            var state=level.getBlockState(pos);
+            ctx.assertTrue(state.is(Blocks.VAULT),"placed block is vault");
+            ctx.assertTrue(state.getValue(VaultBlock.FACING)==SkyTowerVaultRewards.rooftopVaultFacing(r),"vault facing transformed with rotation");
+            var be=level.getBlockEntity(pos);
+            ctx.assertTrue(be instanceof VaultBlockEntity,"block entity is VaultBlockEntity");
+            var vault=(VaultBlockEntity)be;
+            ctx.assertTrue(vault.getConfig().lootTable().equals(SkyTowerVaultRewards.ROOFTOP_VAULT_LOOT_KEY),"rooftop loot table configured");
+            ctx.assertTrue(vault.getConfig().keyItem().is(Items.TRIAL_KEY),"trial key configured");
+            ctx.assertTrue(SkyTowerVaultRewards.placeAndConfigureRooftopVault(level,site),"repeated placement is idempotent");
+            fix.release();
+        }
+        ctx.succeed();
+    }
+
+    @GameTest(maxTicks=200)
+    public void vaultUnlockNormalAndRooftopRewardIsolationAndStarCovenant(GameTestHelper ctx){
+        var fix=fixture(ctx,0,false);
+        var level=fix.level();
+        var site=fix.site();
+        var player=survivalPlayer(level);
+
+        var normalPt=site.vault(0);
+        var normalPos=new BlockPos(normalPt.x(),normalPt.y(),normalPt.z());
+        level.setBlock(normalPos,Blocks.VAULT.defaultBlockState()
+                .setValue(VaultBlock.STATE,VaultState.ACTIVE)
+                .setValue(VaultBlock.OMINOUS,false),3);
+
+        var rooftopPt=site.rooftopVault();
+        var rooftopPos=new BlockPos(rooftopPt.x(),rooftopPt.y(),rooftopPt.z());
+        level.setBlock(rooftopPos,Blocks.VAULT.defaultBlockState()
+                .setValue(VaultBlock.STATE,VaultState.ACTIVE)
+                .setValue(VaultBlock.FACING,SkyTowerVaultRewards.rooftopVaultFacing(0))
+                .setValue(VaultBlock.OMINOUS,false),3);
+
+        ctx.assertTrue(SkyTowerVaultRewards.configureSiteVaults(level,site)>=2,"site vaults configured");
+
+        var normalVault=(VaultBlockEntity)level.getBlockEntity(normalPos);
+        var rooftopVault=(VaultBlockEntity)level.getBlockEntity(rooftopPos);
+        ctx.assertTrue(normalVault.getConfig().lootTable().equals(SkyTowerVaultRewards.NORMAL_VAULT_LOOT_KEY),"normal vault loot table");
+        ctx.assertTrue(rooftopVault.getConfig().lootTable().equals(SkyTowerVaultRewards.ROOFTOP_VAULT_LOOT_KEY),"rooftop vault loot table");
+
+        var normalKey=new ItemStack(Items.TRIAL_KEY);
+        VaultBlockEntity.Server.tryInsertKey(level,normalPos,level.getBlockState(normalPos),
+                normalVault.getConfig(),normalVault.getServerData(),normalVault.getSharedData(),player,normalKey);
+        ctx.assertTrue(normalKey.isEmpty(),"normal vault key consumed on unlock");
+
+        var normalKey2=new ItemStack(Items.TRIAL_KEY);
+        VaultBlockEntity.Server.tryInsertKey(level,normalPos,level.getBlockState(normalPos),
+                normalVault.getConfig(),normalVault.getServerData(),normalVault.getSharedData(),player,normalKey2);
+        ctx.assertTrue(!normalKey2.isEmpty(),"normal vault refuses second unlock by same player");
+
+        var rooftopKey=new ItemStack(Items.TRIAL_KEY);
+        VaultBlockEntity.Server.tryInsertKey(level,rooftopPos,level.getBlockState(rooftopPos),
+                rooftopVault.getConfig(),rooftopVault.getServerData(),rooftopVault.getSharedData(),player,rooftopKey);
+        ctx.assertTrue(rooftopKey.isEmpty(),"rooftop vault key consumed on unlock");
+
+        var rooftopKey2=new ItemStack(Items.TRIAL_KEY);
+        VaultBlockEntity.Server.tryInsertKey(level,rooftopPos,level.getBlockState(rooftopPos),
+                rooftopVault.getConfig(),rooftopVault.getServerData(),rooftopVault.getSharedData(),player,rooftopKey2);
+        ctx.assertTrue(!rooftopKey2.isEmpty(),"rooftop vault refuses second unlock by same player");
+
+        var starData=StarCovenantVaultRewards.Data.get(level.getServer());
+        var ref=new StarCovenantVaultRewards.VaultRef(site.id(),"rooftop");
+        var outcome=starData.resolve(player.getUUID(),ref,()->0.0);
+        ctx.assertTrue(outcome==StarCovenantVaultRewards.Outcome.ALREADY_CLAIMED,"Star Covenant recorded rooftop unlock");
+
+        var outsidePos=new BlockPos(site.x()+1000,80,site.z()+1000);
+        ctx.assertTrue(!SkyTowerVaultRewards.isSkyTowerVault(level,outsidePos),"outside position is not sky tower vault");
+        var vanillaConfig=new VaultConfig(BuiltInLootTables.TRIAL_CHAMBERS_REWARD,4.0D,4.5D,new ItemStack(Items.TRIAL_KEY),java.util.Optional.empty());
+        var resolved=SkyTowerVaultRewards.resolveVaultConfig(level,outsidePos,vanillaConfig);
+        ctx.assertTrue(resolved.lootTable().equals(BuiltInLootTables.TRIAL_CHAMBERS_REWARD),"vanilla trial chamber vault config untouched");
+
+        fix.release();
         ctx.succeed();
     }
 }

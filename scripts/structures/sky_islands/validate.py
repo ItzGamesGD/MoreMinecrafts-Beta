@@ -159,7 +159,15 @@ def main():
     for sf in (DATA / "worldgen/structure").glob("sky_island_*.json"):
         structure = json.loads(sf.read_text())
         structures[sf.stem] = structure
-        check(structure["type"] == "minecraft:jigsaw" and structure["terrain_adaptation"] == "none", f"{sf.name}: jigsaw structure with no terrain adaptation expected")
+        is_mountain = sf.stem.startswith("sky_island_mountain_")
+        expected_type = "moreminecrafts:adaptive_jigsaw" if is_mountain else "minecraft:jigsaw"
+        check(structure["type"] == expected_type and structure["terrain_adaptation"] == "none",
+              f"{sf.name}: {expected_type} structure with no terrain adaptation expected")
+        if is_mountain:
+            check(structure.get("minimum_offset") == 18 and structure.get("maximum_offset") == 70 and "start_height" not in structure,
+                  f"{sf.name}: expected minimum_offset 18, maximum_offset 70 and no start_height")
+        else:
+            check("start_height" in structure, f"{sf.name}: expected start_height")
         check(structure["start_pool"].split(":", 1)[1] in pool_names, f"{sf.name}: unknown start pool")
         tag = DATA / "tags/worldgen/biome" / (structure["biomes"][1:].split(":", 1)[1] + ".json")
         check(tag.is_file(), f"{sf.name}: biome tag missing {tag}")
