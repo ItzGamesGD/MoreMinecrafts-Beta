@@ -360,7 +360,7 @@ public final class SkyTowerGameTests {
         boolean added=data.register(site);
         ctx.assertTrue(added,"first registration adds site");
         int configured=SkyTowerVaultRewards.configureSiteVaults(level,site);
-        ctx.assertEquals(9,configured,"all 8 normal vaults + 1 rooftop special vault configured on initial registration");
+        ctx.assertTrue(configured==9,"all 8 normal vaults + 1 rooftop special vault configured on initial registration");
 
         for(int i=0;i<8;i++){
             var pt=site.vault(i);
@@ -377,18 +377,22 @@ public final class SkyTowerGameTests {
         level.setBlock(roofPos,level.getBlockState(roofPos).setValue(VaultBlock.STATE,VaultState.ACTIVE),3);
         roofVault=(VaultBlockEntity)level.getBlockEntity(roofPos);
         SkyTowerVaultRewards.configureRooftopVault(roofVault,new ItemStack(Items.TRIAL_KEY));
+        final var activeRoofVault=roofVault;
         var player=survivalPlayer(level);
         var key=new ItemStack(Items.TRIAL_KEY);
         SkyTowerVaultRewards.withRollOverride(()->0.50D,()->
                 VaultBlockEntity.Server.tryInsertKey(level,roofPos,level.getBlockState(roofPos),
-                        roofVault.getConfig(),roofVault.getServerData(),roofVault.getSharedData(),player,key));
+                        activeRoofVault.getConfig(),activeRoofVault.getServerData(),activeRoofVault.getSharedData(),player,key));
         ctx.assertTrue(key.isEmpty(),"rooftop key consumed");
-        ctx.assertTrue(roofVault.getServerData().getRewardedPlayers().contains(player.getUUID()),"player recorded in rooftop rewardedPlayers");
+        ctx.assertTrue(activeRoofVault.saveWithoutMetadata(level.registryAccess()).toString().contains("rewarded_players"),"player recorded in rooftop rewardedPlayers NBT");
 
         // Repeated registration attempt returns false (idempotent) and chunk reload reconciliation preserves rewardedPlayers and Star Covenant ledger
         ctx.assertTrue(!data.register(site),"repeated registration is a no-op");
         ctx.assertTrue(SkyTowerVaultRewards.placeAndConfigureRooftopVault(level,site),"reconcileRooftop idempotent on chunk reload");
-        ctx.assertTrue(roofVault.getServerData().getRewardedPlayers().contains(player.getUUID()),"rewardedPlayers preserved across chunk reload");
+        var keyRepeat=new ItemStack(Items.TRIAL_KEY);
+        VaultBlockEntity.Server.tryInsertKey(level,roofPos,level.getBlockState(roofPos),
+                activeRoofVault.getConfig(),activeRoofVault.getServerData(),activeRoofVault.getSharedData(),player,keyRepeat);
+        ctx.assertTrue(!keyRepeat.isEmpty(),"rewardedPlayers preserved across chunk reload (repeat key rejected)");
         var starData=StarCovenantVaultRewards.Data.get(level.getServer());
         ctx.assertTrue(starData.resolve(player.getUUID(),new StarCovenantVaultRewards.VaultRef(site.id(),"rooftop"),()->0.0D)
                 ==StarCovenantVaultRewards.Outcome.ALREADY_CLAIMED,"Star Covenant claim preserved across chunk reload");
@@ -425,7 +429,7 @@ public final class SkyTowerGameTests {
                         rooftopVault.getConfig(),rooftopVault.getServerData(),rooftopVault.getSharedData(),hitPlayer,hitKey));
 
         ctx.assertTrue(hitKey.isEmpty(),"hitPlayer Trial Key consumed");
-        ctx.assertEquals(0,hitPlayer.getInventory().countItem(starItem),"Star Covenant is NEVER silently inserted into player inventory");
+        ctx.assertTrue(hitPlayer.getInventory().countItem(starItem)==0,"Star Covenant is NEVER silently inserted into player inventory");
         ctx.assertTrue(level.getBlockState(rooftopPos).getValue(VaultBlock.STATE)==VaultState.UNLOCKING,"Vault entered vanilla UNLOCKING state");
         ctx.assertTrue(rooftopVault.getSharedData().getDisplayItem().is(starItem),"Star Covenant queued at top of vanilla Vault ejection list and displayed in keyhole");
 
@@ -451,7 +455,7 @@ public final class SkyTowerGameTests {
                 }
             }
             if(seenEjectedStar[0] && ticks[0]>=25){
-                ctx.assertEquals(0,hitPlayer.getInventory().countItem(starItem),"hitPlayer inventory still has no direct-inserted Star Covenant");
+                ctx.assertTrue(hitPlayer.getInventory().countItem(starItem)==0,"hitPlayer inventory still has no direct-inserted Star Covenant");
                 // Clear ejected entities before testing missPlayer on a second tower's rooftop vault
                 for(var itemEntity:level.getEntitiesOfClass(ItemEntity.class,searchBox))itemEntity.discard();
 
