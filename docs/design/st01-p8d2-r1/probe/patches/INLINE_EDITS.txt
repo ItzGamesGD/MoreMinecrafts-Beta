@@ -1,0 +1,8 @@
+P8-D2 probe revisions after run_all.sh (all in St01D2Probe, none in the `bench` method):
+1. patch_probe.py: fixture reload deferred to ticks; decoration-based target check; oneOffer helper inserted before the "// --- bench" marker (outside bench);
+   incr: worker dispatch (mm.st01.d2.dispatch) and precheck switch (mm.st01.d2.precheck).
+2. patch2.py: fixture create: load + force the villager chunk before addFreshEntity.
+3. inline edit A (incr): future result histogram (dbg map) in the poll loop.
+4. inline edit B (incr): retry on "Unloaded chunk" (mm.st01.d2.retry, up to 8 per candidate).
+5. inline edit C (incr): FORCED ticket at STRUCTURE_STARTS level around each future (mm.st01.d2.tickets).
+The final source docs/design/st01-p8d2/probe/St01D2Probe.java.txt contains all of them; its `bench` method is byte-for-byte the method that produced evidence/bench-*.json.
