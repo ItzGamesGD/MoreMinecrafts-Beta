@@ -232,7 +232,7 @@ public final class ColosseumGameTests {
 
     @GameTest(maxTicks = 6000)
     public void absenceGraceResumesOnReturnAndExpiresOtherwise(GameTestHelper ctx) {
-        Arena a = new Arena(ctx, 6, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 1_500));
+        Arena a = new Arena(ctx, 6, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 10_000));
         ServerPlayer p = a.player("grace");
         AtomicInteger step = new AtomicInteger();
         UUID[] id = new UUID[1];
@@ -245,6 +245,7 @@ public final class ColosseumGameTests {
             if (t == 75) {
                 ctx.assertTrue(a.attempt().graceExpiryMillis() == 0 && a.attempt().attemptId.equals(id[0]) && !a.attempt().ended(), "return resumes the same attempt");
                 a.at(p, 50, 0);
+                a.ctl.setTiming(new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 1)); // Arm expiry only after return check, independent of CI machine speed.
             }
             if (t == 76) { ctx.assertTrue(a.attempt().graceExpiryMillis() > 0 || !a.attempt().ended(), "second absence"); }
             if (t > 80 && a.attempt().ended()) {
