@@ -15,8 +15,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -33,8 +31,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
  * <ol>
  *   <li>the ground anchor column (chunk centre) and an orientation (four rotations, from the start's seeded
  *       {@code WorldgenRandom}, vanilla convention, carried over from Phase 4);</li>
- *   <li>the {@link St01Eligibility} verdict for the full 81x81 Desert footprint, MODERATE terrain, entrance approach and the
- *       complete assembly's underground volume, against the real chunk generator;</li>
+ *   <li>the {@link St01Eligibility} verdict for the full 81x81 Desert footprint and MODERATE terrain, against the real chunk
+ *       generator (Policy D: no entrance or underground-fluid criterion);</li>
  *   <li>the ground anchor {@code (cx, yf, cz)} and, from the resulting world-space tomb anchor, the EAST/WEST route
  *       ({@link St01RouteSelection}).</li>
  * </ol>
@@ -100,17 +98,6 @@ public final class St01PyramidStructure extends Structure {
         @Override
         public boolean isDesertCell(int quartX, int quartY, int quartZ) {
             return context.biomeResolver().getNoiseBiome(quartX, quartY, quartZ).is(Biomes.DESERT);
-        }
-
-        @Override
-        public boolean hasFluid(int x, int z, int minY, int maxY) {
-            LevelHeightAccessor accessor = context.heightAccessor();
-            int lo = Math.max(minY, accessor.getMinY()), hi = Math.min(maxY, accessor.getMaxY());
-            NoiseColumn column = context.chunkGenerator().getBaseColumn(x, z, accessor, context.randomState());
-            for (int y = lo; y <= hi; y++) {
-                if (!column.getBlock(y).getFluidState().isEmpty()) return true;
-            }
-            return false;
         }
     }
 }

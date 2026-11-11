@@ -4,28 +4,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility.Terrain;
 import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility.Verdict;
-import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility.Volume;
 import java.util.function.IntBinaryOperator;
 import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
-/** Boundary tests for the owner-approved MODERATE limits (16 / 10 / 8), the full-footprint Desert rule and fluid safety. */
+/** Boundary tests for the owner-approved MODERATE limits (16 / 10 / 8) and the full-footprint Desert rule. P8-C2-C Policy D: no entrance or fluid criterion exists. */
 class St01EligibilityTest {
     private static final int Y = 100;
-    private static final Volume HALL = new Volume(-40, -2, -24, -5, 2, 40);
 
     /** Synthetic terrain: flat desert at Y unless overridden. */
     private static final class T implements Terrain {
         IntBinaryOperator height = (x, z) -> Y;
         Predicate<int[]> desertCell = c -> true;   // {qx,qy,qz}
-        Predicate<int[]> fluid = c -> false;       // {x,y,z}
 
         @Override public int surfaceHeight(int x, int z) { return height.applyAsInt(x, z); }
         @Override public boolean isDesertCell(int qx, int qy, int qz) { return desertCell.test(new int[]{qx, qy, qz}); }
-        @Override public boolean hasFluid(int x, int z, int minY, int maxY) {
-            for (int y = minY; y <= maxY; y++) if (fluid.test(new int[]{x, y, z})) return true;
-            return false;
-        }
     }
 
     private static T withGridAnomalies(int cx, int cz, int highOffset, int lowOffset) {
@@ -50,7 +43,7 @@ class St01EligibilityTest {
     }
 
     @Test void flatDesertIsEligible() {
-        var r = St01Eligibility.evaluate(new T(), 8, 8, HALL);
+        var r = St01Eligibility.evaluate(new T(), 8, 8);
         assertEquals(Verdict.ELIGIBLE, r.verdict());
         assertEquals(Y, r.foundationY());
         assertEquals(0, r.heightDifference());
@@ -59,25 +52,25 @@ class St01EligibilityTest {
     @Test void heightDifference16Passes17Rejects() {
         for (int[] c : new int[][]{{8, 8}, {-1016, -1016 + 8}, {-8, 4088}}) {
             // 16 = +8 / -8 : cut 8 and skirt 8, both within limits
-            assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(c[0], c[1], 8, -8), c[0], c[1], HALL).verdict());
+            assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(c[0], c[1], 8, -8), c[0], c[1]).verdict());
             // 17 = +9 / -8 (cut 9, skirt 8): only the 16 limit rejects
-            var r = St01Eligibility.evaluate(withGridAnomalies(c[0], c[1], 9, -8), c[0], c[1], HALL);
+            var r = St01Eligibility.evaluate(withGridAnomalies(c[0], c[1], 9, -8), c[0], c[1]);
             assertEquals(Verdict.REJECT_HEIGHT_DIFFERENCE, r.verdict());
             assertEquals(17, r.heightDifference());
         }
     }
 
     @Test void cut10Passes11Rejects() {
-        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(8, 8, 10, 0), 8, 8, HALL).verdict());
-        var r = St01Eligibility.evaluate(withGridAnomalies(8, 8, 11, 0), 8, 8, HALL);
+        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(8, 8, 10, 0), 8, 8).verdict());
+        var r = St01Eligibility.evaluate(withGridAnomalies(8, 8, 11, 0), 8, 8);
         assertEquals(Verdict.REJECT_CUT, r.verdict());
         assertEquals(11, r.cut());
         assertTrue(r.heightDifference() <= 16, "cut limit must bind before the height-difference limit here");
     }
 
     @Test void skirt8Passes9Rejects() {
-        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(8, 8, 0, -8), 8, 8, HALL).verdict());
-        var r = St01Eligibility.evaluate(withGridAnomalies(8, 8, 0, -9), 8, 8, HALL);
+        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(8, 8, 0, -8), 8, 8).verdict());
+        var r = St01Eligibility.evaluate(withGridAnomalies(8, 8, 0, -9), 8, 8);
         assertEquals(Verdict.REJECT_SKIRT, r.verdict());
         assertEquals(9, r.skirt());
     }
@@ -86,7 +79,7 @@ class St01EligibilityTest {
         // just over half of the columns sit 6 higher than the rest: the median moves up, so the lower columns are a 6-block skirt, not a cut
         T t = new T();
         t.height = (x, z) -> (x - 8) < 1 ? Y + 6 : Y;
-        var r = St01Eligibility.evaluate(t, 8, 8, HALL);
+        var r = St01Eligibility.evaluate(t, 8, 8);
         assertEquals(Y + 6, r.foundationY());
         assertEquals(6, r.skirt());
         assertEquals(0, r.cut());
@@ -96,41 +89,11 @@ class St01EligibilityTest {
         // a single off-grid column 30 blocks high must be seen (a 4-block grid would skip x offset -39)
         T t = new T();
         t.height = (x, z) -> (x == 8 - 39 && z == 8 + 1) ? Y + 30 : Y;
-        assertEquals(Verdict.REJECT_HEIGHT_DIFFERENCE, St01Eligibility.evaluate(t, 8, 8, HALL).verdict());
+        assertEquals(Verdict.REJECT_HEIGHT_DIFFERENCE, St01Eligibility.evaluate(t, 8, 8).verdict());
         // columns just outside the 81x81 footprint are not part of the rule
         T u = new T();
         u.height = (x, z) -> (x == 8 - 41 || x == 8 + 41 || z == 8 - 41 || z == 8 + 41) ? Y + 30 : Y;
-        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(u, 8, 8, HALL).verdict());
-    }
-
-    @Test void fluidBoundaryOfUndergroundVolumeWithMargin() {
-        int cx = 8, cz = 8, yf = Y;
-        // volume x[-40,-2] y[-24,-5] z[2,40], margin 1: fluid inside the margin shell rejects, one block further does not
-        record P(int dx, int dy, int dz, boolean reject) {}
-        P[] cases = {
-                new P(-41, -10, 10, true), new P(-42, -10, 10, false),     // west edge
-                new P(-1, -10, 10, true), new P(0, -10, 10, false),        // east edge (-2 + margin)
-                new P(-20, -25, 10, true), new P(-20, -26, 10, false),     // bottom
-                new P(-20, -4, 10, true), new P(-20, -3, 10, false),       // top
-                new P(-20, -10, 1, true), new P(-20, -10, 0, false),       // north edge (2 - margin)
-                new P(-20, -10, 41, true), new P(-20, -10, 42, false),     // south edge
-                new P(-20, -15, 20, true),                                 // dead centre
-        };
-        for (P p : cases) {
-            T t = new T();
-            t.fluid = a -> a[0] == cx + p.dx() && a[1] == yf + p.dy() && a[2] == cz + p.dz();
-            var r = St01Eligibility.evaluate(t, cx, cz, HALL);
-            assertEquals(p.reject() ? Verdict.REJECT_FLUID : Verdict.ELIGIBLE, r.verdict(), p.toString());
-        }
-    }
-
-    @Test void fluidIsNotCheckedForMissingVolumeAndNotBeforeTerrain() {
-        T t = new T();
-        t.fluid = a -> true;
-        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, 8, 8, null).verdict());
-        T both = withGridAnomalies(8, 8, 11, 0);
-        both.fluid = a -> true;
-        assertEquals(Verdict.REJECT_CUT, St01Eligibility.evaluate(both, 8, 8, HALL).verdict(), "terrain stage is reported before fluid");
+        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(u, 8, 8).verdict());
     }
 
     @Test void biomeCellsCoverEveryBlockCandidateIncludingNegativeCoordinates() {
@@ -156,12 +119,12 @@ class St01EligibilityTest {
             for (int[] bad : new int[][]{{qx0, midQz}, {qx1, midQz}, {midQx, qz0}, {midQx, qz1}, {qx0, qz0}, {qx1, qz1}}) {
                 T t = new T();
                 t.desertCell = q -> !(q[0] == bad[0] && q[2] == bad[1]);
-                assertEquals(Verdict.REJECT_BIOME, St01Eligibility.evaluate(t, cx, cz, HALL).verdict(), "bad=" + bad[0] + "," + bad[1] + " c=" + cx + "," + cz);
+                assertEquals(Verdict.REJECT_BIOME, St01Eligibility.evaluate(t, cx, cz).verdict(), "bad=" + bad[0] + "," + bad[1] + " c=" + cx + "," + cz);
             }
             for (int[] ok : new int[][]{{qx0 - 1, midQz}, {qx1 + 1, midQz}, {midQx, qz0 - 1}, {midQx, qz1 + 1}}) {
                 T t = new T();
                 t.desertCell = q -> !(q[0] == ok[0] && q[2] == ok[1]);
-                assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, cx, cz, HALL).verdict(), "outside ring must not matter: " + ok[0] + "," + ok[1]);
+                assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, cx, cz).verdict(), "outside ring must not matter: " + ok[0] + "," + ok[1]);
             }
         }
     }
@@ -171,9 +134,9 @@ class St01EligibilityTest {
         int surfaceBlock = Y - 1;
         int qyA = Math.floorDiv(surfaceBlock - 2, 4);
         t.desertCell = q -> q[1] != qyA + 1 || q[0] != 2 || q[2] != 2;
-        assertEquals(Verdict.REJECT_BIOME, St01Eligibility.evaluate(t, 8, 8, HALL).verdict());
+        assertEquals(Verdict.REJECT_BIOME, St01Eligibility.evaluate(t, 8, 8).verdict());
         t.desertCell = q -> q[1] != qyA - 1;
-        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, 8, 8, HALL).verdict());
+        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, 8, 8).verdict());
     }
 
     @Test void anchorStubBiomeCellIsRequiredAtTheFoundationLevel() {
@@ -184,71 +147,35 @@ class St01EligibilityTest {
         int qyA = Math.floorDiv(surfaceBlock - 2, 4);
         assertTrue(cellY == qyA || cellY == qyA + 1);
         t.desertCell = q -> true;
-        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, 8, 8, HALL).verdict());
+        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, 8, 8).verdict());
     }
 
     @Test void evaluationIsDeterministicAndSideEffectFree() {
         T t = withGridAnomalies(8, 8, 5, -5);
-        assertEquals(St01Eligibility.evaluate(t, 8, 8, HALL), St01Eligibility.evaluate(t, 8, 8, HALL));
+        assertEquals(St01Eligibility.evaluate(t, 8, 8), St01Eligibility.evaluate(t, 8, 8));
     }
 
-    // ---- P8-C2-B additions: complete-assembly volume and entrance stage ----
+    // ---- P8-C2-C Policy D: entrance obstruction and underground fluid are not eligibility criteria ----
 
-    private static final Volume FULL = St01PlacementConfig.UNDERGROUND_VOLUME;
-
-    @Test void completeAssemblyVolumeIsTheWholeUndergroundBlock() {
-        assertEquals(new Volume(-40, 40, -32, -1, -40, 40), FULL);
-    }
-
-    @Test void fluidBoundaryOfTheCompleteAssemblyVolume() {
-        int cx = 8, cz = 8;
-        record P(int dx, int dy, int dz, boolean reject) {}
-        P[] cases = {
-                new P(-41, -10, 0, true), new P(-42, -10, 0, false), new P(41, -10, 0, true), new P(42, -10, 0, false),
-                new P(0, -10, -41, true), new P(0, -10, -42, false), new P(0, -10, 41, true), new P(0, -10, 42, false),
-                new P(0, -33, 0, true), new P(0, -34, 0, false),   // below the Y-32 floor: margin 1
-                new P(0, 0, 0, true), new P(0, 1, 0, false),       // the walking layer Y0 is the top margin
-                new P(25, -26, 26, true), new P(-21, -20, 33, true) // treasury and royal hall, which the hall-only fixture volume missed
-        };
-        for (P p : cases) {
-            T t = new T();
-            t.fluid = a -> a[0] == cx + p.dx() && a[1] == Y + p.dy() && a[2] == cz + p.dz();
-            assertEquals(p.reject() ? Verdict.REJECT_FLUID : Verdict.ELIGIBLE, St01Eligibility.evaluate(t, cx, cz, FULL).verdict(), p.toString());
+    @Test void policyDRemovedTheEntranceAndFluidVerdictsAndConstants() {
+        assertEquals(java.util.Set.of("ELIGIBLE", "REJECT_BIOME", "REJECT_HEIGHT_DIFFERENCE", "REJECT_CUT", "REJECT_SKIRT"),
+                java.util.Arrays.stream(Verdict.values()).map(Enum::name).collect(java.util.stream.Collectors.toSet()));
+        for (var f : St01PlacementConfig.class.getDeclaredFields()) {
+            assertFalse(f.getName().contains("FLUID") || f.getName().contains("ENTRANCE") || f.getName().contains("UNDERGROUND"), f.getName());
         }
+        assertEquals(0, java.util.Arrays.stream(Terrain.class.getMethods()).filter(m -> m.getName().toLowerCase().contains("fluid")).count());
     }
 
-    @Test void entranceApproachFollowsTheOrientation() {
-        // authored entrance faces +Z (SOUTH); the approach row is the 25 columns X-12..12 at Z=+41, rotated with the pyramid
-        var south = St01Candidate.entranceApproach(dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.Orientation.SOUTH);
-        assertEquals(25, south.size());
-        assertTrue(south.stream().allMatch(d -> d[1] == 41 && Math.abs(d[0]) <= 12));
-        var north = St01Candidate.entranceApproach(dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.Orientation.NORTH);
-        assertTrue(north.stream().allMatch(d -> d[1] == -41));
-        var east = St01Candidate.entranceApproach(dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.Orientation.EAST);
-        assertTrue(east.stream().allMatch(d -> d[0] == 41 && Math.abs(d[1]) <= 12));
-        var west = St01Candidate.entranceApproach(dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.Orientation.WEST);
-        assertTrue(west.stream().allMatch(d -> d[0] == -41));
+    @Test void aBuriedEntranceDoesNotAffectEligibilityOrTheFoundation() {
+        // terrain far above the walking level directly in front of every face of the footprint (outside the 81x81 box)
+        T t = new T();
+        t.height = (x, z) -> (Math.abs(x - 8) > 40 || Math.abs(z - 8) > 40) ? Y + 30 : Y;
+        var r = St01Eligibility.evaluate(t, 8, 8);
+        assertEquals(Verdict.ELIGIBLE, r.verdict());
+        assertEquals(Y, r.foundationY());
     }
 
-    @Test void entranceStepOfOnePassesTwoRejectsAndOnlyInFrontOfTheOpening() {
-        var o = dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.Orientation.SOUTH;
-        var row = St01Candidate.entranceApproach(o);
-        for (int step : new int[]{1, 2}) {
-            T t = new T();
-            t.height = (x, z) -> (z == 8 + 41 && x == 8 + 12) ? Y + step : Y;
-            assertEquals(step <= 1 ? Verdict.ELIGIBLE : Verdict.REJECT_ENTRANCE, St01Eligibility.evaluate(t, 8, 8, FULL, row).verdict(), "step " + step);
-        }
-        T beside = new T();
-        beside.height = (x, z) -> (z == 8 + 41 && x == 8 + 13) ? Y + 30 : Y; // outside the opening width
-        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(beside, 8, 8, FULL, row).verdict());
-        T lower = new T();
-        lower.height = (x, z) -> z == 8 + 41 ? Y - 8 : Y; // a drop in front is not an obstruction
-        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(lower, 8, 8, FULL, row).verdict());
-        T both = new T();
-        both.height = (x, z) -> z == 8 + 41 ? Y + 5 : Y;
-        both.fluid = a -> true;
-        var r = St01Eligibility.evaluate(both, 8, 8, FULL, row);
-        assertEquals(Verdict.REJECT_ENTRANCE, r.verdict(), "entrance stage is reported before fluid");
-        assertTrue(r.terrainQualified() && !r.entranceQualified());
+    @Test void terrainLimitsStillBindWithoutAnyEntranceStage() {
+        assertEquals(Verdict.REJECT_CUT, St01Eligibility.evaluate(withGridAnomalies(8, 8, 11, 0), 8, 8).verdict());
     }
 }

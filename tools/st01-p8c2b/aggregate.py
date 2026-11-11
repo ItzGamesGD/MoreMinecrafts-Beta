@@ -36,7 +36,7 @@ def garwood(k, alpha=0.05):
 def main():
     src, out_json, out_md = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
     rows, pooled = [], {'area_km2': 0.0, 'starts': 0, 'completed': 0, 'EAST': 0, 'WEST': 0}
-    stage_keys = ('potential_anchors', 'full_desert_qualified', 'terrain_qualified', 'entrance_qualified', 'fluid_safe_eligible_predicted', 'actual_valid_starts')
+    stage_keys = ('potential_anchors', 'full_desert_qualified', 'terrain_qualified', 'eligible_predicted', 'actual_valid_starts')
     stage_tot = {k: 0 for k in stage_keys}
     orient = {}
     rejection_tot = {}
@@ -79,11 +79,11 @@ def main():
            'ratio_to_phase31_mansion_density': (k * 100 / area) / PHASE31_MANSION_DENSITY if area else None,
            'vanilla_structure_overlaps': overlaps, 'rows': rows}
     out_json.write_text(json.dumps(agg, indent=1) + '\n')
-    md = ['| seed | potential | full desert | terrain | entrance | fluid-safe | starts | completed | /100 km² | E/W | nearest | verification |',
-          '|---|---|---|---|---|---|---|---|---|---|---|---|']
+    md = ['| seed | potential | full desert | terrain | eligible | starts | completed | /100 km² | E/W | nearest | verification |',
+          '|---|---|---|---|---|---|---|---|---|---|---|']
     for r in rows:
-        md.append(f"| {r['seed']} | {r['potential_anchors']} | {r['full_desert_qualified']} | {r['terrain_qualified']} | {r['entrance_qualified']} | "
-                  f"{r['fluid_safe_eligible_predicted']} | {r['actual_valid_starts']} | {r['completed']} | {r['density_per_100km2']:.3f} | "
+        md.append(f"| {r['seed']} | {r['potential_anchors']} | {r['full_desert_qualified']} | {r['terrain_qualified']} | "
+                  f"{r['eligible_predicted']} | {r['actual_valid_starts']} | {r['completed']} | {r['density_per_100km2']:.3f} | "
                   f"{r['routes']['EAST']}/{r['routes']['WEST']} | {'' if r['nearest_start_blocks'] is None else round(r['nearest_start_blocks'])} | {r['verification']} |")
     md.append('')
     md.append(f"Pooled: {k} starts ({pooled['completed']} completed and verified) over {area:.1f} km² = "
