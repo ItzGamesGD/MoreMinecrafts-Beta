@@ -1,0 +1,347 @@
+package dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c3a;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01FootprintCorrectionPiece;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+
+/**
+ * ST-01 P8-C3-A DISPOSABLE research probe (never committed as code). Policy D (16/10/8) vs candidate Policy B (40/24/32) over real
+ * terrain, eligibility only (no structure is generated). Modes (-Dmm.st01.c3a.mode): coverage, search, correction.
+ */
+public final class St01C3AProbe implements ModInitializer {
+    static final Gson GSON = new GsonBuilder().serializeNulls().create();
+    static final Identifier ST01 = Identifier.fromNamespaceAndPath("moreminecrafts", "st01_pyramid");
+    static final int HALF = 40, N = 81;
+
+    @Override public void onInitialize() {
+        String out = System.getProperty("mm.st01.c3a.out");
+        if (out == null) return;
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            Map<String, Object> res = new LinkedHashMap<>();
+            try {
+                ServerLevel level = server.overworld();
+                res.put("seed", level.getSeed());
+                String mode = System.getProperty("mm.st01.c3a.mode", "coverage");
+                res.put("mode", mode);
+                switch (mode) {
+                    case "coverage" -> coverage(level, res);
+                    case "search" -> search(level, res);
+                    case "correction" -> correction(level, res);
+                }
+            } catch (Throwable t) {
+                res.put("error", t.toString()); StringBuilder sb = new StringBuilder(); for (var e : t.getStackTrace()) sb.append(e).append('\n'); res.put("stack", sb.toString());
+            }
+            try { Files.writeString(Path.of(out), GSON.toJson(res), StandardCharsets.UTF_8); } catch (Exception e) { e.printStackTrace(); }
+            Runtime.getRuntime().halt(0);
+        });
+    }
+
+    static final class T implements St01Eligibility.Terrain {
+        final ChunkGenerator g; final RandomState rs; final ServerLevel level; final Map<Long, Integer> memo = new HashMap<>();
+        long computes, ns;
+        T(ServerLevel l) { level = l; g = l.getChunkSource().getGenerator(); rs = l.getChunkSource().randomState(); }
+        public int surfaceHeight(int x, int z) {
+            long k = ((long) x << 32) ^ (z & 0xFFFFFFFFL); Integer h = memo.get(k); if (h != null) return h;
+            long t0 = System.nanoTime(); int v = g.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, rs); ns += System.nanoTime() - t0; computes++;
+            memo.put(k, v); return v;
+        }
+        public boolean isDesertCell(int qx, int qy, int qz) { return level.getUncachedNoiseBiome(qx, qy, qz).is(Biomes.DESERT); }
+    }
+    static RandomSpreadStructurePlacement placement(ServerLevel level) {
+        return (RandomSpreadStructurePlacement) level.registryAccess().lookupOrThrow(Registries.STRUCTURE_SET).get(ST01).orElseThrow().value().placement();
+    }
+    record Policy(String name, int diff, int cut, int skirt) {}
+    static final Policy D = new Policy("D_16_10_8", 16, 10, 8), B = new Policy("B_40_24_32", 40, 24, 32);
+
+    /** Terrain verdict for a plane yf (same formulas as St01Eligibility.evaluate). */
+    static String verdict(Policy p, int min, int max, int yf, T t, int cx, int cz) {
+        int diff = max - min, cut = Math.max(0, max - yf), skirt = Math.max(0, yf - min);
+        if (diff > p.diff) return "REJECT_HEIGHT_DIFFERENCE";
+        if (cut > p.cut) return "REJECT_CUT";
+        if (skirt > p.skirt) return "REJECT_SKIRT";
+        if (!t.isDesertCell(Math.floorDiv(cx, 4), Math.floorDiv(yf, 4), Math.floorDiv(cz, 4))) return "REJECT_BIOME_STUB";
+        return "ELIGIBLE";
+    }
+
+    static Map<String, Integer> planes(int[] sorted, int min, int max, Policy p) {
+        int n = sorted.length; Map<String, Integer> m = new LinkedHashMap<>();
+        m.put("median", sorted[n / 2]);
+        long s = 0; for (int h : sorted) s += h; m.put("mean", (int) Math.round(s / (double) n));
+        int k = n / 10; long ts = 0; for (int i = k; i < n - k; i++) ts += sorted[i]; m.put("trimmed10", (int) Math.round(ts / (double) (n - 2 * k)));
+        m.put("p25", sorted[n / 4]); m.put("p40", sorted[n * 2 / 5]); m.put("p60", sorted[n * 3 / 5]); m.put("p75", sorted[n * 3 / 4]);
+        m.put("midrange", Math.floorDiv(min + max, 2));
+        // feasible-window clamp of the median: yf in [max - cut, min + skirt]
+        int lo = max - p.cut, hi = min + p.skirt, med = sorted[n / 2];
+        m.put("window_clamped_median", lo <= hi ? Math.max(lo, Math.min(hi, med)) : med);
+        return m;
+    }
+
+    private static void coverage(ServerLevel level, Map<String, Object> res) {
+        var pl = placement(level); long seed = level.getSeed(); int spacing = pl.spacing(), rc = 10240 / 16;
+        int r0 = Math.floorDiv(-rc, spacing), r1 = Math.floorDiv(rc - 1, spacing);
+        int potential = 0, desert = 0; List<Map<String, Object>> cands = new ArrayList<>();
+        long t0 = System.nanoTime(), desertNs = 0, terrainNs = 0, hc = 0;
+        for (int rx = r0; rx <= r1; rx++) for (int rz = r0; rz <= r1; rz++) {
+            ChunkPos pc = pl.getPotentialStructureChunk(seed, rx * spacing, rz * spacing);
+            if (Math.abs(pc.getMiddleBlockX()) > 10240 || Math.abs(pc.getMiddleBlockZ()) > 10240) continue;
+            potential++;
+            int cx = pc.getMinBlockX() + 8, cz = pc.getMinBlockZ() + 8;
+            T t = new T(level);
+            long a = System.nanoTime();
+            boolean fd = St01Eligibility.fullFootprintDesert(t, cx, cz);
+            desertNs += System.nanoTime() - a;
+            if (!fd) { hc += t.computes; continue; }
+            desert++;
+            long b = System.nanoTime();
+            int[] grid = new int[N * N]; int i = 0;
+            for (int dx = -HALF; dx <= HALF; dx++) for (int dz = -HALF; dz <= HALF; dz++) grid[i++] = t.surfaceHeight(cx + dx, cz + dz);
+            terrainNs += System.nanoTime() - b;
+            int[] sorted = grid.clone(); Arrays.sort(sorted);
+            int min = sorted[0], max = sorted[sorted.length - 1];
+            // outside ring (one block outside the footprint)
+            int[] ring = new int[4 * (N + 2) - 4]; int ri = 0;
+            for (int d = -HALF - 1; d <= HALF + 1; d++) { ring[ri++] = t.surfaceHeight(cx + d, cz - HALF - 1); ring[ri++] = t.surfaceHeight(cx + d, cz + HALF + 1); }
+            for (int d = -HALF; d <= HALF; d++) { ring[ri++] = t.surfaceHeight(cx - HALF - 1, cz + d); ring[ri++] = t.surfaceHeight(cx + HALF + 1, cz + d); }
+            hc += t.computes;
+            Map<String, Object> c = new LinkedHashMap<>();
+            c.put("chunk", pc.x() + "," + pc.z()); c.put("cx", cx); c.put("cz", cz); c.put("min", min); c.put("max", max); c.put("diff", max - min);
+            c.put("q", new int[]{sorted[0], sorted[sorted.length / 10], sorted[sorted.length / 4], sorted[sorted.length / 2], sorted[sorted.length * 3 / 4], sorted[sorted.length * 9 / 10], sorted[sorted.length - 1]});
+            Map<String, Object> pol = new LinkedHashMap<>();
+            for (Policy p : List.of(D, B)) {
+                Map<String, Object> per = new LinkedHashMap<>();
+                for (var e : planes(sorted, min, max, p).entrySet()) {
+                    int yf = e.getValue();
+                    long exc = 0, expo = 0, cliff = 0, exposeMax = 0, cliffMax = 0; int excCols = 0;
+                    for (int h : grid) { if (h - 1 > yf) { exc += h - 1 - yf; excCols++; } }
+                    for (int h : ring) { if (h < yf) { expo += yf - h; exposeMax = Math.max(exposeMax, yf - h); } if (h - 1 > yf) { cliff += h - 1 - yf; cliffMax = Math.max(cliffMax, h - 1 - yf); } }
+                    Map<String, Object> r = new LinkedHashMap<>();
+                    r.put("yf", yf); r.put("cut", Math.max(0, max - yf)); r.put("skirt", Math.max(0, yf - min));
+                    r.put("verdict", verdict(p, min, max, yf, t, cx, cz));
+                    r.put("excavation_blocks", exc); r.put("excavation_columns", excCols);
+                    r.put("exposed_body_face_sum", expo); r.put("exposed_body_face_max", exposeMax);
+                    r.put("boundary_cliff_face_sum", cliff); r.put("boundary_cliff_face_max", cliffMax);
+                    per.put(e.getKey(), r);
+                }
+                pol.put(p.name, per);
+            }
+            c.put("policies", pol);
+            String vb = (String) ((Map<?, ?>) ((Map<?, ?>) pol.get(B.name)).get("median")).get("verdict");
+            String vbw = (String) ((Map<?, ?>) ((Map<?, ?>) pol.get(B.name)).get("window_clamped_median")).get("verdict");
+            if (vb.equals("ELIGIBLE") || vbw.equals("ELIGIBLE")) {
+                int yf = (Integer) ((Map<?, ?>) ((Map<?, ?>) pol.get(B.name)).get("median")).get("yf");
+                c.put("overlap", overlap(level, cx, cz, yf, grid));
+                ByteBuffer bb = ByteBuffer.allocate(grid.length * 2).order(ByteOrder.LITTLE_ENDIAN); for (int h : grid) bb.putShort((short) h);
+                c.put("grid_i16le_b64", Base64.getEncoder().encodeToString(bb.array()));
+            }
+            cands.add(c);
+        }
+        res.put("potential", potential); res.put("full_desert", desert);
+        res.put("desert_stage_ms", desertNs / 1e6); res.put("terrain_stage_ms", terrainNs / 1e6); res.put("height_computes", hc); res.put("total_ms", (System.nanoTime() - t0) / 1e6);
+        res.put("candidates", cands);
+    }
+
+    /** Vanilla structure starts whose pieces intersect the ST-01 volume, the excavation cells, or the one-block outside ring. */
+    static List<Map<String, Object>> overlap(ServerLevel level, int cx, int cz, int yf, int[] grid) {
+        var reg = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
+        BoundingBox vol = new BoundingBox(cx - HALF, yf - 32, cz - HALF, cx + HALF, yf + 39, cz + HALF);
+        Map<String, StructureStart> found = new LinkedHashMap<>();
+        for (int x = (cx - HALF) >> 4; x <= (cx + HALF) >> 4; x++) for (int z = (cz - HALF) >> 4; z <= (cz + HALF) >> 4; z++) {
+            ChunkAccess ca = level.getChunk(x, z, ChunkStatus.STRUCTURE_REFERENCES);
+            for (var e : ca.getAllReferences().entrySet()) for (long ref : e.getValue()) {
+                ChunkPos sc = ChunkPos.unpack(ref);
+                StructureStart s = level.getChunk(sc.x(), sc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(e.getKey());
+                if (s != null && s.isValid() && s.getBoundingBox().intersects(vol.inflatedBy(1))) found.put(reg.getKey(e.getKey()) + "@" + sc.x() + "," + sc.z(), s);
+            }
+        }
+        List<Map<String, Object>> out = new ArrayList<>();
+        for (var e : found.entrySet()) {
+            long volCells = 0, excCells = 0, ringCells = 0; int pieces = 0;
+            for (var piece : e.getValue().getPieces()) {
+                BoundingBox pb = piece.getBoundingBox();
+                if (!pb.intersects(vol.inflatedBy(1))) continue;
+                pieces++;
+                int x0 = Math.max(pb.minX(), vol.minX()), x1 = Math.min(pb.maxX(), vol.maxX()), z0 = Math.max(pb.minZ(), vol.minZ()), z1 = Math.min(pb.maxZ(), vol.maxZ());
+                int y0 = Math.max(pb.minY(), vol.minY()), y1 = Math.min(pb.maxY(), vol.maxY());
+                if (x0 <= x1 && z0 <= z1 && y0 <= y1) volCells += (long) (x1 - x0 + 1) * (z1 - z0 + 1) * (y1 - y0 + 1);
+                for (int x = x0; x <= x1; x++) for (int z = z0; z <= z1; z++) {
+                    int h = grid[(x - cx + HALF) * N + (z - cz + HALF)];
+                    int ey0 = Math.max(yf + 1, pb.minY()), ey1 = Math.min(h - 1, pb.maxY());
+                    if (ey1 >= ey0) excCells += ey1 - ey0 + 1;
+                }
+                // pieces reaching the one-block ring outside the footprint (where a later edge blend would write)
+                BoundingBox ringBox = new BoundingBox(cx - HALF - 1, vol.minY(), cz - HALF - 1, cx + HALF + 1, vol.maxY(), cz + HALF + 1);
+                if (pb.intersects(ringBox) && (pb.minX() < cx - HALF || pb.maxX() > cx + HALF || pb.minZ() < cz - HALF || pb.maxZ() > cz + HALF)) ringCells++;
+            }
+            Map<String, Object> r = new LinkedHashMap<>();
+            r.put("structure", e.getKey()); r.put("step", e.getValue().getStructure().step().name()); r.put("pieces_touching", pieces);
+            r.put("piece_box_cells_inside_st01_volume", volCells); r.put("piece_box_cells_in_excavation", excCells); r.put("pieces_crossing_footprint_edge", ringCells);
+            out.add(r);
+        }
+        return out;
+    }
+
+    // ------------------------------------------------------------- search latency to the first eligible anchor (eligibility only)
+    private static void search(ServerLevel level, Map<String, Object> res) {
+        int radius = Integer.getInteger("mm.st01.c3a.radius", 20);
+        var pl = placement(level); long seed = level.getSeed(); int spacing = pl.spacing();
+        List<Map<String, Object>> runs = new ArrayList<>();
+        String[] order = System.getProperty("mm.st01.c3a.order", "A,B,C,C,B,A").split(",");
+        for (String v : order) {
+            long t0 = System.nanoTime(); int cand = 0; String found = null; int ring = -1; long hc = 0;
+            outer:
+            for (int r = 0; r <= radius; r++) for (int k = -r; k <= r; k++) { boolean ek = k == -r || k == r;
+                for (int l = -r; l <= r; l++) { if (!ek && l != -r && l != r) continue;
+                    ChunkPos pc = pl.getPotentialStructureChunk(seed, spacing * k, spacing * l); cand++;
+                    T t = new T(level); int cx = pc.getMinBlockX() + 8, cz = pc.getMinBlockZ() + 8;
+                    boolean ok = switch (v) { case "A" -> evalProd(t, cx, cz, D); case "B" -> evalProd(t, cx, cz, B); default -> evalCheap(t, cx, cz, B); };
+                    hc += t.computes;
+                    if (ok) { found = pc.x() + "," + pc.z(); ring = r; break outer; }
+                } }
+            Map<String, Object> m = new LinkedHashMap<>();
+            m.put("variant", v); m.put("ms", (System.nanoTime() - t0) / 1e6); m.put("candidates", cand); m.put("height_computes", hc); m.put("first_eligible", found); m.put("ring", ring);
+            runs.add(m);
+        }
+        res.put("radius", radius); res.put("runs", runs);
+    }
+    /** Production order: Desert sweep, all 6561 heights, median plane, limits, stub. */
+    static boolean evalProd(T t, int cx, int cz, Policy p) {
+        if (!St01Eligibility.fullFootprintDesert(t, cx, cz)) return false;
+        int[] h = new int[N * N]; int i = 0; for (int dx = -HALF; dx <= HALF; dx++) for (int dz = -HALF; dz <= HALF; dz++) h[i++] = t.surfaceHeight(cx + dx, cz + dz);
+        Arrays.sort(h); return verdict(p, h[0], h[h.length - 1], h[h.length / 2], t, cx, cz).equals("ELIGIBLE");
+    }
+    /** P8-D2-R1 exact-equivalent cheap-first order (lattice + range early exit), same verdict. */
+    static boolean evalCheap(T t, int cx, int cz, Policy p) {
+        if (!St01Eligibility.fullFootprintDesert(t, cx, cz)) return false;
+        int mn = Integer.MAX_VALUE, mx = Integer.MIN_VALUE;
+        for (int dx = -HALF; dx <= HALF; dx += 8) for (int dz = -HALF; dz <= HALF; dz += 8) { int h = t.surfaceHeight(cx + dx, cz + dz); mn = Math.min(mn, h); mx = Math.max(mx, h); if (mx - mn > p.diff) return false; }
+        int[] h = new int[N * N]; int i = 0;
+        for (int dx = -HALF; dx <= HALF; dx++) for (int dz = -HALF; dz <= HALF; dz++) { int v = t.surfaceHeight(cx + dx, cz + dz); h[i++] = v; mn = Math.min(mn, v); mx = Math.max(mx, v); if (mx - mn > p.diff) return false; }
+        Arrays.sort(h); return verdict(p, h[0], h[h.length - 1], h[h.length / 2], t, cx, cz).equals("ELIGIBLE");
+    }
+
+    // ------------------------------------------------------------- correction execution cost on real generated chunks (disposable world)
+    private static void correction(ServerLevel level, Map<String, Object> res) {
+        String[] targets = System.getProperty("mm.st01.c3a.targets", "").split(";");
+        List<Map<String, Object>> out = new ArrayList<>();
+        for (String tg : targets) {
+            if (tg.isBlank()) continue;
+            String[] a = tg.split(","); int cx = Integer.parseInt(a[0]), cz = Integer.parseInt(a[1]), yf = Integer.parseInt(a[2]);
+            long g0 = System.nanoTime(); Set<Long> chunks = new LinkedHashSet<>();
+            for (int x = (cx - HALF - 1) >> 4; x <= (cx + HALF + 1) >> 4; x++) for (int z = (cz - HALF - 1) >> 4; z <= (cz + HALF + 1) >> 4; z++) { level.getChunk(x, z, ChunkStatus.FULL); }
+            for (int x = (cx - HALF) >> 4; x <= (cx + HALF) >> 4; x++) for (int z = (cz - HALF) >> 4; z <= (cz + HALF) >> 4; z++) chunks.add(ChunkPos.pack(x, z));
+            long gen = System.nanoTime() - g0;
+            var gen2 = level.getChunkSource().getGenerator(); var rs = level.getChunkSource().randomState();
+            int y0 = yf - 32, y1 = yf + 39;
+            BoundingBox vol = new BoundingBox(cx - HALF, y0, cz - HALF, cx + HALF, y1, cz + HALF);
+            List<BoundingBox> vboxes = new ArrayList<>(); Set<String> vnames = new TreeSet<>(); boolean st01Present = false;
+            for (int x = (cx - HALF) >> 4; x <= (cx + HALF) >> 4; x++) for (int z = (cz - HALF) >> 4; z <= (cz + HALF) >> 4; z++) {
+                ChunkAccess ca = level.getChunk(x, z, ChunkStatus.STRUCTURE_REFERENCES);
+                for (var e : ca.getAllReferences().entrySet()) for (long ref : e.getValue()) {
+                    ChunkPos sc = ChunkPos.unpack(ref);
+                    StructureStart ss = level.getChunk(sc.x(), sc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(e.getKey());
+                    if (ss == null || !ss.isValid()) continue;
+                    String nm = String.valueOf(level.registryAccess().lookupOrThrow(Registries.STRUCTURE).getKey(e.getKey()));
+                    if (nm.startsWith("moreminecrafts:st01_pyramid")) { if (ss.getBoundingBox().intersects(vol)) st01Present = true; continue; }
+                    for (var pc : ss.getPieces()) if (pc.getBoundingBox().intersects(vol)) { vboxes.add(pc.getBoundingBox()); vnames.add(nm); }
+                }
+            }
+            BlockPos.MutableBlockPos mp = new BlockPos.MutableBlockPos();
+            // ---- pre-correction scan
+            long footVoid = 0, footFluid = 0, footWater = 0, footLava = 0, floorVoid = 0, ringVoidBelow = 0, ringFluidBelow = 0, ringFluidAbove = 0, ringWaterAbove = 0, ringLavaAbove = 0;
+            long foreignBelow = 0, foreignClearBand = 0, foreignAboveClear = 0; Map<String, Integer> foreignIds = new TreeMap<>();
+            long s0 = System.nanoTime();
+            for (int x = cx - HALF - 1; x <= cx + HALF + 1; x++) for (int z = cz - HALF - 1; z <= cz + HALF + 1; z++) {
+                boolean inside = x >= cx - HALF && x <= cx + HALF && z >= cz - HALF && z <= cz + HALF;
+                for (int y = inside ? y0 - 1 : y0; y <= y1; y++) {
+                    var st = level.getBlockState(mp.set(x, y, z)); var fl = st.getFluidState();
+                    boolean water = fl.is(net.minecraft.tags.FluidTags.WATER), lava = fl.is(net.minecraft.tags.FluidTags.LAVA), fluid = water || lava;
+                    boolean open = st.isAir() || fluid;
+                    if (inside && y >= y0 && !st.isAir() && !fluid && !vboxes.isEmpty() && foreign(st)) {
+                        boolean inBox = false; for (BoundingBox bx : vboxes) if (bx.isInside(x, y, z)) { inBox = true; break; }
+                        if (inBox) {
+                            int top = Math.min(y1, Math.max(gen2.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, rs), yf + 1) + dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01PlacementConfig.VEGETATION_CLEARANCE);
+                            if (y <= yf) foreignBelow++; else if (y <= top) foreignClearBand++; else foreignAboveClear++;
+                            foreignIds.merge(net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(st.getBlock()).toString(), 1, Integer::sum);
+                        }
+                    }
+                    if (inside) {
+                        if (y == y0 - 1) { if (open) floorVoid++; continue; }
+                        if (y <= yf && open) footVoid++;
+                        if (fluid) { footFluid++; if (water) footWater++; if (lava) footLava++; }
+                    } else {
+                        if (y <= yf) { if (st.isAir()) ringVoidBelow++; if (fluid) ringFluidBelow++; }
+                        else if (fluid) { ringFluidAbove++; if (water) ringWaterAbove++; if (lava) ringLavaAbove++; }
+                    }
+                }
+            }
+            long scan = System.nanoTime() - s0;
+            long c0 = System.nanoTime(); int cleared = 0;
+            for (long ck : chunks) {
+                ChunkPos cp = ChunkPos.unpack(ck);
+                BoundingBox chunkBox = new BoundingBox(cp.getMinBlockX(), level.getMinY(), cp.getMinBlockZ(), cp.getMaxBlockX(), level.getMaxY(), cp.getMaxBlockZ());
+                cleared += St01FootprintCorrectionPiece.correct(level, chunkBox, cx, yf, cz, (x, z) -> gen2.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, rs));
+            }
+            long corr = System.nanoTime() - c0;
+            // ---- post-correction: ring fluid cells horizontally adjacent to a now-open footprint cell above the plane (leak faces)
+            long leakFaces = 0, leakWater = 0, leakLava = 0;
+            for (int i = -HALF - 1; i <= HALF + 1; i++) for (int side = 0; side < 4; side++) {
+                int x, z, ix, iz;
+                switch (side) { case 0 -> { x = cx + i; z = cz - HALF - 1; ix = x; iz = z + 1; } case 1 -> { x = cx + i; z = cz + HALF + 1; ix = x; iz = z - 1; }
+                    case 2 -> { x = cx - HALF - 1; z = cz + i; ix = x + 1; iz = z; } default -> { x = cx + HALF + 1; z = cz + i; ix = x - 1; iz = z; } }
+                if (ix < cx - HALF || ix > cx + HALF || iz < cz - HALF || iz > cz + HALF) continue;
+                for (int y = yf + 1; y <= y1; y++) {
+                    var fl = level.getBlockState(mp.set(x, y, z)).getFluidState();
+                    if (fl.isEmpty()) continue;
+                    if (level.getBlockState(mp.set(ix, y, iz)).isAir()) { leakFaces++; if (fl.is(net.minecraft.tags.FluidTags.WATER)) leakWater++; else leakLava++; }
+                }
+            }
+            Map<String, Object> m = new LinkedHashMap<>();
+            m.put("target", tg); m.put("chunks", chunks.size()); m.put("chunk_generation_ms", gen / 1e6); m.put("scan_ms", scan / 1e6);
+            m.put("correction_ms", corr / 1e6); m.put("blocks_cleared", cleared);
+            m.put("footprint_open_cells_at_or_below_plane", footVoid); m.put("footprint_fluid_cells", footFluid); m.put("footprint_water", footWater); m.put("footprint_lava", footLava);
+            m.put("open_cells_directly_below_floor", floorVoid);
+            m.put("ring_air_cells_at_or_below_plane", ringVoidBelow); m.put("ring_fluid_cells_at_or_below_plane", ringFluidBelow);
+            m.put("ring_fluid_cells_above_plane", ringFluidAbove); m.put("ring_water_above_plane", ringWaterAbove); m.put("ring_lava_above_plane", ringLavaAbove);
+            m.put("st01_start_already_present", st01Present); m.put("vanilla_structures", new ArrayList<>(vnames)); m.put("vanilla_piece_boxes", vboxes.size());
+            m.put("foreign_blocks_in_piece_boxes_at_or_below_plane", foreignBelow); m.put("foreign_blocks_in_piece_boxes_in_clearance_band", foreignClearBand);
+            m.put("foreign_blocks_in_piece_boxes_above_clearance", foreignAboveClear);
+            m.put("foreign_block_ids", foreignIds.entrySet().stream().sorted((p1, p2) -> p2.getValue() - p1.getValue()).limit(12).map(e -> e.getKey() + "=" + e.getValue()).toList());
+            m.put("post_correction_leak_faces", leakFaces); m.put("post_correction_leak_water", leakWater); m.put("post_correction_leak_lava", leakLava);
+            out.add(m);
+        }
+        res.put("corrections", out);
+    }
+
+    /** Not natural Desert terrain and not ST-01 sandstone palette: treated as a vanilla-structure block. */
+    static boolean foreign(net.minecraft.world.level.block.state.BlockState st) {
+        String id = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(st.getBlock()).getPath();
+        if (id.contains("sandstone") || id.equals("sand") || id.equals("red_sand") || id.equals("stone") || id.equals("deepslate") || id.equals("dirt")
+                || id.equals("gravel") || id.equals("clay") || id.equals("calcite") || id.equals("tuff") || id.equals("granite") || id.equals("diorite") || id.equals("andesite")
+                || id.endsWith("_ore") || id.equals("dead_bush") || id.equals("cactus") || id.equals("short_dry_grass") || id.equals("tall_dry_grass") || id.equals("bedrock")
+                || id.equals("glow_lichen") || id.contains("dripstone") || id.equals("moss_block")) return false;
+        return true;
+    }
+}

@@ -1,0 +1,17 @@
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PlacementConfig.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PlacementConfig.java
+index c0a7be2d..13a04fa3 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PlacementConfig.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PlacementConfig.java
+@@ -24,9 +24,9 @@ public final class St01PlacementConfig {
+     public static final int FOOTPRINT_WIDTH = 2 * FOOTPRINT_HALF_WIDTH + 1;
+ 
+     // ---- MODERATE terrain policy (owner-approved, supersedes G0-A 12/8/6 for worldgen terrain only) ----
+-    public static final int MAX_HEIGHT_DIFFERENCE = 16;
+-    public static final int MAX_CUT = 10;
+-    public static final int MAX_SKIRT = 8;
++    public static final int MAX_HEIGHT_DIFFERENCE = 40;
++    public static final int MAX_CUT = 24;
++    public static final int MAX_SKIRT = 32;
+ 
+     // ---- implementation parameters (HOW, not owner-approved design values) ----
+     /** Every footprint column is sampled (6,561), so the approved limits hold for every column, not just a grid. */
