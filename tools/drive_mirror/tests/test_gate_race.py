@@ -371,6 +371,37 @@ class RaceScenarios(GateRaceCase):
         self.assertEqual(self.drive_manifests(), {"refs/heads/main": c1, "refs/heads/feature": cf, "refs/tags/v1": c1})
         self.assert_no_leak_on_drive()
 
+    def test_a_killed_sync_resumes_on_the_same_approval_after_the_source_changed(self):
+        import signal
+        c1, cf = self.base()
+        r = self.repo
+        r.git("checkout", "-q", "-b", "bulk")
+        for i in range(400):
+            r.write(f"bulk/{i // 50}/f{i}.txt", f"content {i} {os.urandom(8).hex()}\n")
+        cb = r.commit("bulk")
+        r.push("bulk")
+        r.git("checkout", "-q", "main")
+        approval = self.approve()
+        args = [sys.executable, "-m", "drive_mirror", "sync", "--repo-url", r.remote, "--work-dir", self.work_dir,
+                "--mirror-name", "mirror-under-test", "--parent-folder-id", self.parent, "--lock-settle-s", "0.05",
+                "--workers", "2", "--quarantine-file", approval, "--approval-sha256", sha256_file(approval)]
+        start = self.fake.store.counters["writes"]
+        proc = subprocess.Popen(args, env=self.env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        while self.fake.store.counters["writes"] - start < 150 and proc.poll() is None:
+            time.sleep(0.01)
+        proc.send_signal(signal.SIGKILL)
+        proc.wait()
+        self.leak_commit("bulk", name="bulk/late.env")           # the source moves while the sync is dead
+        self.leak_commit("main")
+        rep = self.gsync(approval, "--break-lock")[1]             # resume: same approval, no new fetch
+        self.assertEqual(rep["status"], "complete")
+        self.assertEqual(self.drive_manifests(), {"refs/heads/main": c1, "refs/heads/feature": cf,
+                                                  "refs/heads/bulk": cb, "refs/tags/v1": c1})
+        self.assert_no_leak_on_drive()
+        code, v = self.cli("verify", "--quarantine-file", approval, "--approval-sha256", sha256_file(approval),
+                           expect=None)
+        self.assertEqual((code, v["result"]), (0, "PASS"), v["global"])
+
     def test_resume_after_the_cache_moved_fails_closed(self):
         c1, cf = self.base()
         approval = self.approve()

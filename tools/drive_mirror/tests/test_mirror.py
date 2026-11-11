@@ -299,7 +299,7 @@ class EndToEnd(MirrorTestCase):
         r.push("bulk")
         args = [sys.executable, "-m", "drive_mirror", "sync", "--repo-url", r.remote, "--work-dir", self.work_dir,
                 "--mirror-name", MIRROR, "--parent-folder-id", self.parent, "--lock-settle-s", "0.05",
-                "--workers", "2"]
+                "--workers", "2", "--allow-ungated"]
         start = self.fake.store.counters["writes"]
         proc = subprocess.Popen(args, env=self.env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         while self.fake.store.counters["writes"] - start < 150 and proc.poll() is None:

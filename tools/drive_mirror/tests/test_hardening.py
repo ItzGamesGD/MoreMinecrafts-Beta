@@ -241,7 +241,7 @@ class PrRefs(MirrorTestCase):
 
         drive = DriveClient(StaticToken("test-token"), base=self.fake.base)
         cfg = SyncConfig(mirror_name=MIRROR, parent_folder_id=self.parent, repo_url=self.repo.remote,
-                         lock_settle_s=0.05)
+                         lock_settle_s=0.05, allow_ungated=True)
         rep = SyncRun(drive, Unreachable(self.work_dir, self.repo.remote), cfg).run()
         self.assertEqual(rep["retired"], [])
         self.assertIn("inaccessible", rep["retire_deferred"]["refs/heads/feature/sky-tower"])
