@@ -209,14 +209,19 @@ jobs:
           python -m drive_mirror preflight --expected-bytes "$EXPECTED_BYTES" $probe --report "$REPORTS/preflight.json"
 
       # ---- Security gate -------------------------------------------------------------------
-      # The scan runs BEFORE any byte is uploaded. It uses the same pinned, checksum-verified
-      # gitleaks as .github/workflows/pre-public-security-scan.yml and reports only rule, file and
-      # commit (never matched values; --redact=100). Findings not approved in
-      # tools/drive_mirror/security/approved_findings.json quarantine exactly the refs whose tip
-      # tree would upload the flagged content; every other ref is mirrored. Nothing is suppressed
-      # automatically. A scanner that cannot run fails the job (fail closed).
-      - name: Fetch every ref for scanning
-        run: python -m drive_mirror prepare --repo-url "$REPO_URL" --work-dir "$WORK_DIR" --pull-heads all
+      # Frozen-snapshot handoff. `prepare` fetches every ref ONCE and writes the snapshot (ref -> commit and
+      # tree ids). The gate scans exactly that snapshot's commits with the same pinned, checksum-verified
+      # gitleaks as pre-public-security-scan.yml (--redact=100; only rule, file and commit are ever printed),
+      # evaluates every ref of it, and writes the approval, which embeds the snapshot. From here on nothing
+      # fetches: sync and verify read the snapshot from the approval and upload only commits the gate
+      # examined, so a push that lands after this step cannot reach Drive before the next run's gate sees it.
+      # The approval's SHA-256 is recorded as a step output (immutable once the step has finished) and
+      # every later step refuses a file that does not match it. Findings not approved in
+      # tools/drive_mirror/security/approved_findings.json quarantine exactly the refs whose tip tree would
+      # upload the flagged content; every other ref is mirrored. Nothing is suppressed automatically. A
+      # scanner that cannot run, or an approval that is missing or invalid, fails the job (fail closed).
+      - name: Freeze the source snapshot (single fetch of every ref)
+        run: python -m drive_mirror prepare --repo-url "$REPO_URL" --work-dir "$WORK_DIR" --snapshot-out "$REPORTS/source-snapshot.json"
 
       - name: Install pinned, checksum-verified gitleaks
         run: |
@@ -234,15 +239,9 @@ jobs:
         id: gate
         run: |
           set +e
-          cd "$WORK_DIR"
-          gitleaks git --no-banner --no-color --redact=100 --log-opts='--all --full-history' \
-            --report-format json --report-path "$RUNNER_TEMP/gitleaks.json" .
-          scan=$?
-          cd - > /dev/null
-          case "$scan" in 0|1) ;; *) echo "::error::gitleaks failed to run (exit $scan); refusing to sync (fail closed)"; exit 1 ;; esac
-          [ -f "$RUNNER_TEMP/gitleaks.json" ] || echo "[]" > "$RUNNER_TEMP/gitleaks.json"
-          python -m drive_mirror secgate --repo-url "$REPO_URL" --work-dir "$WORK_DIR" --pull-heads "$PULL_HEADS" \
-            --scan-report "$RUNNER_TEMP/gitleaks.json" --quarantine-out "$REPORTS/quarantine.json" --report "$REPORTS/secgate.json"
+          python -m drive_mirror secgate --repo-url "$REPO_URL" --work-dir "$WORK_DIR" \
+            --source-snapshot "$REPORTS/source-snapshot.json" --run-scanner gitleaks \
+            --quarantine-out "$REPORTS/approval.json" --report "$REPORTS/secgate.json"
           gate=$?
           echo "exit=$gate" >> "$GITHUB_OUTPUT"
           case "$gate" in
@@ -250,6 +249,8 @@ jobs:
             6) echo "::warning::Security gate: unapproved findings. Affected refs are quarantined (not uploaded); the rest is mirrored." ;;
             *) echo "::error::Security gate could not decide (exit $gate); refusing to sync (fail closed)"; exit 1 ;;
           esac
+          [ -s "$REPORTS/approval.json" ] || { echo "::error::no approval was written; refusing to sync (fail closed)"; exit 1; }
+          echo "approval_sha256=$(sha256sum "$REPORTS/approval.json" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
       # --------------------------------------------------------------------------------------
 
       - name: Sync
@@ -258,6 +259,7 @@ jobs:
         env:
           MODE: ${{ steps.mode.outputs.mode }}
           GITHUB_TOKEN: ${{ github.token }}
+          APPROVAL_SHA256: ${{ steps.gate.outputs.approval_sha256 }}
           BUDGET: ${{ inputs.time_budget_min || '270' }}
           BREAK_LOCK: ${{ inputs.break_lock && '--break-lock' || '' }}
           MASS: ${{ inputs.allow_mass_retire && '--allow-mass-retire' || '' }}
@@ -271,7 +273,8 @@ jobs:
           for attempt in 1 2; do
             python -m drive_mirror sync --repo-url "$REPO_URL" --work-dir "$WORK_DIR" \
               --mirror-name "$MIRROR_NAME" --mode "$MODE" --pull-heads "$PULL_HEADS" \
-              --reconcile-after-hours "$RECONCILE_AFTER_HOURS" --quarantine-file "$REPORTS/quarantine.json" \
+              --reconcile-after-hours "$RECONCILE_AFTER_HOURS" --quarantine-file "$REPORTS/approval.json" \
+              --approval-sha256 "$APPROVAL_SHA256" \
               --github-repo "$GITHUB_REPOSITORY" --time-budget-min "$BUDGET" --workers 4 \
               --report "$REPORTS/sync.json" $extra $BREAK_LOCK $MASS
             code=$?
@@ -284,6 +287,7 @@ jobs:
             0) echo "Sync complete." ;;
             2) echo "::warning::Sync stopped at its time budget; the next run resumes (INCOMPLETE)." ;;
             3) echo "::error::Another writer holds the Drive lease (LOCKED)"; exit 1 ;;
+            7) echo "::error::Approved snapshot missing, invalid or no longer matching the local cache (GATE MISMATCH): nothing was uploaded; the next run gates afresh"; exit 1 ;;
             4) echo "::error::Drive credentials or destination unavailable (BLOCKED)"; exit 1 ;;
             5) echo "::error::Safety stop - see report (SAFETY_STOP)"; exit 1 ;;
             *) echo "::error::Sync failed (exit $code)"; exit 1 ;;
@@ -298,6 +302,7 @@ jobs:
         if: (steps.sync.outputs.exit == '0' && steps.mode.outputs.mode != 'dry-run') || steps.mode.outputs.mode == 'verify-only'
         env:
           MODE: ${{ steps.mode.outputs.mode }}
+          APPROVAL_SHA256: ${{ steps.gate.outputs.approval_sha256 }}
           DRIVE_OAUTH_CLIENT_ID: ${{ secrets.DRIVE_OAUTH_CLIENT_ID }}
           DRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.DRIVE_OAUTH_CLIENT_SECRET }}
           DRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.DRIVE_OAUTH_REFRESH_TOKEN }}
@@ -312,17 +317,18 @@ jobs:
           fi
           python -m drive_mirror verify --repo-url "$REPO_URL" --work-dir "$WORK_DIR" \
             --mirror-name "$MIRROR_NAME" --pull-heads "$PULL_HEADS" --deep-sample "$deep" \
-            --quarantine-file "$REPORTS/quarantine.json" $scope --report "$REPORTS/verify.json"
+            --quarantine-file "$REPORTS/approval.json" --approval-sha256 "$APPROVAL_SHA256" $scope --report "$REPORTS/verify.json"
 
       - name: Staleness check
         if: always() && steps.mode.outputs.mode != 'dry-run'
         env:
+          APPROVAL_SHA256: ${{ steps.gate.outputs.approval_sha256 }}
           DRIVE_OAUTH_CLIENT_ID: ${{ secrets.DRIVE_OAUTH_CLIENT_ID }}
           DRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.DRIVE_OAUTH_CLIENT_SECRET }}
           DRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.DRIVE_OAUTH_REFRESH_TOKEN }}
         run: |
           q=""
-          [ -f "$REPORTS/quarantine.json" ] && q="--quarantine-file $REPORTS/quarantine.json"
+          [ -f "$REPORTS/approval.json" ] && q="--quarantine-file $REPORTS/approval.json --approval-sha256 $APPROVAL_SHA256"
           python -m drive_mirror status --repo-url "$REPO_URL" --work-dir "$WORK_DIR" \
             --mirror-name "$MIRROR_NAME" --max-age-hours "$MAX_AGE_HOURS" $q --report "$REPORTS/status.json"
 

@@ -36,6 +36,12 @@ def main(d):
             ns = s["namespaces"]
             changed = [n for n in ns if n.get("action") not in ("noop",)]
             tot = lambda k: sum(n.get(k, 0) or 0 for n in ns)
+            gate = s.get("gate") or {}
+            if gate.get("mode") == "approved-snapshot":
+                out.append(f"**Source snapshot:** frozen at {gate.get('snapshot_created_at')} (digest `{str(gate.get('snapshot_digest'))[:12]}`, "
+                           f"scan binding {gate.get('scan_binding')}); only commits the security gate examined were uploaded")
+            elif gate:
+                out.append(f":warning: **UNGATED run** ({gate.get('mode')}): no security gate applied to this sync")
             if s.get("mode_reason"):
                 out.append(f"_Run upgraded to reconcile: {s['mode_reason']}_")
             out.append(f"**Sync:** {s.get('status')} ({s.get('mode')}{', dry run' if s.get('dry_run') else ''}) — "
@@ -52,6 +58,8 @@ def main(d):
                 out.append(f"- :x: `{e.get('ref')}`: {e.get('error')}")
         else:
             out.append(f"**Sync:** {s.get('result')} — {s.get('reason')}")
+            if s.get("result") == "GATE_ERROR":
+                out.append("> Gate/sync mismatch: nothing was uploaded. See RUNBOOK 'Recognising a gate/sync mismatch'.")
     v = load(d, "verify.json")
     if v:
         g = v.get("global", {})

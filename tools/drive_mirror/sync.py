@@ -19,6 +19,9 @@ Safety rules
 * Before trashing anything in a namespace the folder's identity is re-read
   (mirror token, namespace token, container parent, not trashed).
 * An empty desired tree never trashes files without --allow-empty-tree.
+* Approved snapshot: with a gate approval, sync never resolves a moving ref. It reads the frozen ref -> commit
+  map embedded in the approval (verified against the local cache), refuses a snapshot older than the one it
+  last applied, and refuses any commit the gate did not examine (see snapshot.py).
 * Retiring namespaces of deleted refs requires a second ls-remote that still
   lacks the ref, and is capped by --max-retire-fraction unless overridden.
   Retired namespaces are moved to `_retired/`, not trashed.
@@ -37,12 +40,14 @@ import time
 from dataclasses import dataclass, field
 
 from . import SCHEMA_VERSION
+from . import snapshot as frozen
 from .drive import DriveClient
 from .gitsrc import GitSource, RefSnapshot, TreeEntry
 from .layout import (CONTAINERS, FOLDER_MIME, GOOGLE_APPS_PREFIX, LOCK_FILE, MANIFESTS_FOLDER, META_FOLDER,
                      P_BLOB, P_MIRROR, P_MODE, P_NS, P_REF, P_ROLE, P_SCHEMA, P_SHA256, PULLS_FILE,
                      REFS_FILE, RETIRED_FOLDER, STATE_FILE, fit_props, manifest_name, q_str, ref_namespace)
 from .lock import DriveLease
+from .security import GateError
 
 FILE_MODES = {"100644", "100755", "120000"}
 COPY_LOOKUP_MIN_BYTES = 256 * 1024
@@ -86,6 +91,8 @@ class SyncConfig:
     quarantine: dict = field(default_factory=dict)   # ref -> reason; those refs are never uploaded
     reconcile_after_hours: float | None = None       # incremental runs upgrade themselves when the last reconcile is older
     crawl_workers: int = 8
+    approval: object | None = None                   # security.Approval with a frozen snapshot (None = ungated)
+    allow_ungated: bool = False                      # UNSAFE: re-resolve moving refs without a gate (scratch data)
 
 
 def guess_mime(path: str) -> str:
@@ -234,6 +241,7 @@ class SyncRun:
         self.lease: DriveLease | None = None
         self.state: dict = {}
         self.pulls_meta: dict[int, dict] = {}
+        self._approved_commits: set[str] | None = None
 
     # ------------------------------------------------------------------ helpers
     def _budget_left(self) -> bool:
@@ -254,13 +262,14 @@ class SyncRun:
     # ------------------------------------------------------------------ entry point
     def run(self) -> dict:
         cfg = self.cfg
-        snap = self.git.snapshot(include_tags=cfg.include_tags, include_pulls=cfg.pull_heads != "none")
+        snap = self._source_snapshot()
         if not snap.heads:
             raise SafetyStop("remote advertised no branches; refusing to treat that as 'everything deleted'")
         if not self.mirror.open(create=not cfg.dry_run):
             self.state = {}
         else:
             self.state = self.mirror.read_meta(STATE_FILE) or {}
+        self._check_snapshot_not_older_than_applied()
         self._maybe_upgrade_to_reconcile()
         if not cfg.dry_run:
             self.lease = DriveLease(self.drive, self.mirror.folders[META_FOLDER], self.mirror.token,
@@ -278,6 +287,39 @@ class SyncRun:
                     log(f"lease release failed: {e}")
             self.git.close()
         return self.report
+
+    def _source_snapshot(self) -> RefSnapshot:
+        """The ref -> commit map this run mirrors. With an approval it is the frozen, gate-examined snapshot, verified
+        against the local cache and never refreshed; without one only an explicit UNGATED run may fetch the moving remote."""
+        cfg = self.cfg
+        ap = cfg.approval
+        if ap is not None and getattr(ap, "snapshot", None) is not None:
+            doc = ap.snapshot
+            if doc.get("repo_url") != cfg.repo_url:
+                raise GateError("the approved snapshot was taken from a different repository than --repo-url")
+            frozen.check_local(self.git, doc)                       # raises GateError: nothing is uploaded
+            self._approved_commits = set(ap.gated_refs.values())
+            self.report["gate"] = {"mode": "approved-snapshot", "snapshot_digest": doc["digest"],
+                                   "snapshot_created_at": doc["created_at"], "verdict": ap.verdict,
+                                   "scan_binding": ap.scan.get("binding"), "approval_sha256": ap.sha256}
+            return frozen.to_ref_snapshot(doc)
+        if not cfg.allow_ungated:
+            raise GateError("no approved source snapshot: refusing to upload content no gate has examined")
+        self.report["gate"] = {"mode": "UNGATED"}
+        log("WARNING: UNGATED run: refs are resolved from the live remote; no security gate applies")
+        return self.git.snapshot(include_tags=cfg.include_tags, include_pulls=cfg.pull_heads != "none")
+
+    def _check_snapshot_not_older_than_applied(self) -> None:
+        """Resume validation: the same snapshot may be applied again (resumable runs), a newer one replaces it, an older
+        one would roll the mirror back to commits the remote has since moved past: that needs a fresh gate run."""
+        gate = self.report.get("gate") or {}
+        if gate.get("mode") != "approved-snapshot":
+            return
+        last = self.state.get("approved_snapshot") or {}
+        if last.get("created_at") and last.get("digest") != gate["snapshot_digest"] \
+                and gate["snapshot_created_at"] < last["created_at"]:
+            raise GateError("the approved snapshot is older than the one this mirror last applied: run prepare and "
+                            "secgate again (a stale approval would roll branches back)")
 
     def _maybe_upgrade_to_reconcile(self) -> None:
         """Reconcile cadence is decided from persisted state, not from the cron expression: a pending
@@ -309,6 +351,15 @@ class SyncRun:
                           "mode": cfg.mode}
 
         desired = self._desired_refs(snap)
+        gate = self.report.get("gate") or {}
+        if gate.get("mode") == "approved-snapshot":
+            gated = cfg.approval.gated_refs
+            for ref, commit in desired.items():
+                if gated.get(ref) != commit:
+                    raise GateError(f"{ref} is not covered by the approved snapshot (commit {commit[:12]}): "
+                                    f"refusing to upload it")
+            st["approved_snapshot"] = {"digest": gate["snapshot_digest"], "created_at": gate["snapshot_created_at"],
+                                       "run_id": cfg.run_id, "scan_binding": gate["scan_binding"]}
         self.report["source"] = {"heads": len(snap.heads), "tags": len(snap.tags),
                                  "pull_heads_advertised": len(snap.pull_heads()),
                                  "pull_heads_mirrored": sum(1 for r in desired if r.startswith("refs/pull/")),
@@ -339,6 +390,8 @@ class SyncRun:
                 incomplete = True
                 self.report["namespaces"].append({"ref": ref, "action": "deferred", "status": "pending"})
                 continue
+            except GateError:
+                raise                                        # a security refusal is never "one failed namespace"
             except Exception as e:  # keep going; failure is reported and the namespace stays in_progress
                 log(f"{ref}: FAILED {type(e).__name__}: {e}")
                 self.report["errors"].append({"ref": ref, "error": f"{type(e).__name__}: {e}"})
@@ -443,6 +496,8 @@ class SyncRun:
     # ------------------------------------------------------------------ one namespace
     def sync_namespace(self, ref: str, commit: str) -> dict:
         cfg, git, drive, mirror = self.cfg, self.git, self.drive, self.mirror
+        if self._approved_commits is not None and commit not in self._approved_commits:
+            raise GateError(f"{ref}: commit {commit[:12]} was not examined by the security gate")
         container, folder_name = ref_namespace(ref)
         nss = self.state["namespaces"].get(ref)
         res = {"ref": ref, "commit": commit, "action": "noop", "uploads": 0, "copies": 0,

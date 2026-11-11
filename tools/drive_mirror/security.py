@@ -11,20 +11,29 @@ Contract
   *tip tree* would upload the flagged content (same blob anywhere, or the same flagged line at
   the same path). Quarantined refs are skipped by `sync`, recorded in state/report, and make
   `verify` report them explicitly, so nothing is ever omitted silently.
+* The gate examines one *frozen source snapshot* (see `snapshot.py`): the exact ref -> commit map written by
+  `prepare`. It never fetches. Its output (the "approval") embeds that snapshot, so `sync` uploads only
+  commits the gate examined and never resolves a moving ref again.
 * Fail closed: an unreadable or missing report is an error (exit 7), never a pass.
 * The gate never edits the approved list or any allowlist: suppressing a finding is an
   owner decision made in a reviewed commit.
 """
 from __future__ import annotations
 
+import hashlib
 import json
+import os
+import shutil
 import subprocess
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .gitsrc import GitSource
 
 APPROVED_SCHEMA = "drive-mirror-approved-findings/1"
-QUARANTINE_SCHEMA = "drive-mirror-quarantine/1"
+QUARANTINE_SCHEMA = "drive-mirror-quarantine/2"            # carries the approved source snapshot
+LEGACY_QUARANTINE_SCHEMA = "drive-mirror-quarantine/1"     # ref list only: accepted by verify/status, never by sync
+BINDING_TOOL = "frozen-commits"        # the scanner was run by the gate on exactly the snapshot's commits
+BINDING_EXTERNAL = "external-report"   # a report produced elsewhere: not provably about this snapshot
 STATUS_APPROVED, STATUS_PROPOSED = "approved", "proposed"
 
 
@@ -127,16 +136,60 @@ def affected_refs(git: GitSource, findings: list[Finding], refs: dict[str, str])
     return out
 
 
-def evaluate(git: GitSource, report_path: str, approved_path: str, refs: dict[str, str],
-             generated_at: str) -> dict:
+def run_scanner(binary: str, git_dir: str, commits: list[str], report_path: str) -> dict:
+    """Run gitleaks over exactly `commits` (the frozen snapshot), never over whatever refs the cache holds.
+    Returns the scan metadata recorded in the approval. Any failure to run the scanner is a GateError."""
+    exe = shutil.which(binary) or (binary if os.path.isfile(binary) else None)
+    if not exe:
+        raise GateError("scanner executable not found")
+    if not commits:
+        raise GateError("snapshot has no commits to scan")
+    try:
+        ver = subprocess.run([exe, "version"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=60)
+        version = ver.stdout.decode(errors="replace").strip().splitlines()[0][:40] if ver.returncode == 0 else "unknown"
+    except (OSError, subprocess.SubprocessError):
+        version = "unknown"
+    if os.path.exists(report_path):
+        os.unlink(report_path)
+    cmd = [exe, "git", "--no-banner", "--no-color", "--redact=100", "--report-format", "json",
+           "--report-path", report_path, "--log-opts=--full-history " + " ".join(commits), git_dir]
+    try:
+        proc = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except OSError as e:
+        raise GateError(f"scanner could not be started: {type(e).__name__}") from None
+    if proc.returncode not in (0, 1):
+        raise GateError(f"scanner failed (exit {proc.returncode}); refusing to decide")
+    if not os.path.exists(report_path):
+        if proc.returncode == 1:
+            raise GateError("scanner reported findings but wrote no report")
+        with open(report_path, "w", encoding="utf-8") as fh:
+            fh.write("[]")
+    return {"binding": BINDING_TOOL, "scanner": {"name": "gitleaks", "version": version},
+            "commits_scanned": len(commits), "commits_digest": hashlib.sha256("\n".join(sorted(commits)).encode()).hexdigest()}
+
+
+def external_scan_meta(report_path: str) -> dict:
+    try:
+        with open(report_path, "rb") as fh:
+            h = hashlib.sha256(fh.read()).hexdigest()
+    except OSError as e:
+        raise GateError(f"scan report unreadable: {type(e).__name__}") from None
+    return {"binding": BINDING_EXTERNAL, "report_sha256": h}
+
+
+def evaluate(git: GitSource, report_path: str, approved_path: str, snapshot: dict, generated_at: str,
+             scan: dict) -> dict:
+    """Classify the scan's findings against the owner-approved list and decide, per ref of the frozen
+    `snapshot`, whether its tip tree may be uploaded. Every ref the snapshot can ever upload is examined."""
+    from .snapshot import canonical_digest, commit_map
     findings = load_findings(report_path)
     approved = load_approved(approved_path)
     cls = classify(findings, approved)
     blocking = cls["proposed"] + cls["unreviewed"]
+    refs = commit_map(snapshot)
     affected = affected_refs(git, blocking, refs) if blocking else {}
-    verdict = "PASS" if not blocking else "BLOCKED"
-    return {
-        "schema": QUARANTINE_SCHEMA, "generated_at": generated_at, "verdict": verdict,
+    doc = {
+        "schema": QUARANTINE_SCHEMA, "generated_at": generated_at, "verdict": "PASS" if not blocking else "BLOCKED",
         "counts": {"findings": len(findings), "approved": len(cls["approved"]),
                    "proposed_awaiting_owner": len(cls["proposed"]), "unreviewed": len(cls["unreviewed"]),
                    "refs_scanned_for_exposure": len(refs), "refs_quarantined": len(affected)},
@@ -147,7 +200,13 @@ def evaluate(git: GitSource, report_path: str, approved_path: str, refs: dict[st
                        "fingerprints": sorted(fps)} for ref, fps in sorted(affected.items())},
         "blocking_findings_not_in_any_tip": [
             f.fingerprint for f in blocking if not any(f.fingerprint in v for v in affected.values())],
+        "scan": scan,
+        "snapshot_digest": snapshot["digest"], "snapshot_created_at": snapshot["created_at"],
+        "gated_refs": dict(sorted(refs.items())),
+        "source_snapshot": snapshot,
     }
+    doc["approval_digest"] = canonical_digest(doc, drop=("approval_digest",))
+    return doc
 
 
 def quarantine_map(doc: dict) -> dict[str, str]:
@@ -156,17 +215,59 @@ def quarantine_map(doc: dict) -> dict[str, str]:
             for ref, v in doc.get("refs", {}).items()}
 
 
-def load_quarantine(path: str | None) -> dict[str, str]:
+@dataclass
+class Approval:
+    """A loaded gate output. `snapshot` is None for a legacy (v1) quarantine file, which `sync` refuses."""
+    quarantine: dict[str, str]
+    snapshot: dict | None = None
+    gated_refs: dict[str, str] = field(default_factory=dict)
+    scan: dict = field(default_factory=dict)
+    verdict: str | None = None
+    sha256: str = ""
+
+
+def load_approval(path: str | None, expect_sha256: str | None = None) -> Approval | None:
+    """Read and verify the gate output. Raises GateError on anything unexpected (fail closed)."""
     if not path:
-        return {}
+        if expect_sha256 is not None:
+            raise GateError("an approval checksum was given without an approval file")
+        return None
+    from .snapshot import canonical_digest, commit_map, validate
     try:
-        with open(path, encoding="utf-8") as fh:
-            doc = json.load(fh)
+        with open(path, "rb") as fh:
+            raw = fh.read()
+        doc = json.loads(raw)
     except (OSError, ValueError) as e:
         raise GateError(f"quarantine file unreadable: {type(e).__name__}") from None
-    if doc.get("schema") != QUARANTINE_SCHEMA:
+    sha = hashlib.sha256(raw).hexdigest()
+    if expect_sha256 is not None and sha != expect_sha256.strip().lower():      # an empty value never matches
+        raise GateError("approval file does not match the checksum recorded by the gate step (replaced after the gate?)")
+    schema = doc.get("schema") if isinstance(doc, dict) else None
+    if schema == LEGACY_QUARANTINE_SCHEMA:
+        return Approval(quarantine=quarantine_map(doc), verdict=doc.get("verdict"), sha256=sha)
+    if schema != QUARANTINE_SCHEMA:
         raise GateError("quarantine file has an unknown schema")
-    return quarantine_map(doc)
+    if doc.get("approval_digest") != canonical_digest(doc, drop=("approval_digest",)):
+        raise GateError("approval digest mismatch (document was altered)")
+    snap = validate(doc.get("source_snapshot"))
+    if doc.get("snapshot_digest") != snap["digest"]:
+        raise GateError("approval does not belong to its embedded source snapshot")
+    gated = doc.get("gated_refs")
+    if not isinstance(gated, dict) or gated != dict(sorted(commit_map(snap).items())):
+        raise GateError("approval's examined refs differ from its source snapshot")
+    scan = doc.get("scan")
+    if not isinstance(scan, dict) or scan.get("binding") not in (BINDING_TOOL, BINDING_EXTERNAL):
+        raise GateError("approval carries no valid scan record")
+    if not isinstance(doc.get("refs"), dict) or not set(doc["refs"]) <= set(gated):
+        raise GateError("approval quarantines refs that are not in its snapshot")
+    return Approval(quarantine=quarantine_map(doc), snapshot=snap, gated_refs=gated, scan=scan,
+                    verdict=doc.get("verdict"), sha256=sha)
+
+
+def load_quarantine(path: str | None) -> dict[str, str]:
+    """ref -> reason for verify/status (accepts the legacy and the current format)."""
+    a = load_approval(path)
+    return a.quarantine if a else {}
 
 
 def git_available(git_bin: str = "git") -> bool:

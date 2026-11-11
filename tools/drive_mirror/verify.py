@@ -60,13 +60,16 @@ class Problems:
 def verify(drive: DriveClient, git: GitSource, mirror_name: str, parent_folder_id: str,
            include_tags: bool = True, pull_heads: str = "orphaned", deep_sample: int = 0,
            max_age_hours: float | None = None, seed: int = 0, only_refs: set[str] | None = None,
-           quarantine: dict | None = None) -> dict:
+           quarantine: dict | None = None, snapshot=None) -> dict:
     """`only_refs`: walk Drive and hash blobs only for these namespaces (those changed by the sync that just
     ran); every other namespace still gets the cheap global checks (inventory, state, manifest, commit match).
     A full verification (only_refs=None) is the authority and is what the daily reconcile runs."""
     report = {"started_at": utcnow(), "mirror": mirror_name, "namespaces": {}, "global": {}}
     glob = Problems()
-    snap = git.snapshot(include_tags=include_tags, include_pulls=pull_heads != "none")
+    # With an approved snapshot the verifier checks Drive against that exact state and never fetches; without one it
+    # fetches and compares with the live remote (which may have moved since the sync).
+    snap = snapshot if snapshot is not None else git.snapshot(include_tags=include_tags,
+                                                                 include_pulls=pull_heads != "none")
     quarantine = dict(quarantine or {})
     expected = dict(snap.heads)
     if include_tags:
