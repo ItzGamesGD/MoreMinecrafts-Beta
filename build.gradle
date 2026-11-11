@@ -72,6 +72,14 @@ loom {
             ideConfigGenerated false
         }
         // ST-01 P8-C2-B natural worldgen validation probe (tools/st01-p8c2b/run_validation.sh); inert unless -Dmm.st01.c2b.out is set; not part of check/build/CI.
+        // ST-01 P8-C2-B counterfactual rarity audit probe (tools/st01-p8c2b-audit/run_audit.sh); diagnostic, inert unless -Dmm.st01.cf.out is set.
+        st01CounterfactualProbe {
+            server()
+            name = "ST-01 P8-C2-B Counterfactual Rarity Probe"
+            source sourceSets.gametest
+            runDir = "build/st01-p8c2b-audit/run"
+            ideConfigGenerated false
+        }
         st01C2BProbe {
             server()
             name = "ST-01 P8-C2-B Natural Worldgen Probe"

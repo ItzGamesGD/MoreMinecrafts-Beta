@@ -1,0 +1,13 @@
+{
+ "source": "docs/design/st01-p8c2b/README.md and the P8-C2-B final report (reported values to REPRODUCE; analysis code never reads this file)",
+ "funnel": {"potential_anchors": 32000, "full_desert_footprint": 221, "terrain_qualified": 46, "entrance_qualified": 25, "fluid_safe_complete": 4},
+ "rejections": {"REJECT_HEIGHT_DIFFERENCE": 160, "REJECT_CUT": 5, "REJECT_SKIRT": 10, "REJECT_ENTRANCE": 21, "REJECT_FLUID": 21},
+ "area_km2_total": 8388.608,
+ "density_per_100km2": 0.048,
+ "starts": [
+  {"seed": 1004, "chunk": "-111,168", "ground": [-1768, 70, 2696], "orientation": "EAST", "route": "WEST"},
+  {"seed": 1004, "chunk": "-571,-501", "ground": [-9128, 68, -8008], "orientation": "WEST", "route": "WEST"},
+  {"seed": 1005, "chunk": "7,296", "ground": [120, 69, 4744], "orientation": "EAST", "route": "WEST"},
+  {"seed": 1541117449, "chunk": "328,176", "ground": [5256, 65, 2824], "orientation": "EAST", "route": "EAST"}
+ ]
+}
