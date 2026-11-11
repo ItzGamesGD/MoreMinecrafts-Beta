@@ -291,8 +291,11 @@ jobs:
 
       # Incremental runs verify bytes only for the namespaces they changed (cheap structural checks
       # for the rest); a reconcile run, or a failed/unfinished one, is verified in full.
+      # A dry run writes nothing, so a never-synced (test) namespace does not exist yet and there is
+      # nothing to verify: running `verify` after it would fail with `mirror_root` and turn the
+      # documented first step of the controlled live test red.
       - name: Independent verification
-        if: steps.sync.outputs.exit == '0' || steps.mode.outputs.mode == 'verify-only'
+        if: (steps.sync.outputs.exit == '0' && steps.mode.outputs.mode != 'dry-run') || steps.mode.outputs.mode == 'verify-only'
         env:
           MODE: ${{ steps.mode.outputs.mode }}
           DRIVE_OAUTH_CLIENT_ID: ${{ secrets.DRIVE_OAUTH_CLIENT_ID }}
