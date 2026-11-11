@@ -5,6 +5,7 @@
   "mixins": [
     "SkyTowerTrialCompletionMixin",
     "SkyTowerBlockChangeMixin",
+    "SkyTowerVaultRewardMixin",
     "ColosseumMobPauseMixin",
     "ColosseumProjectilePauseMixin",
     "AnvilMenuMixin",

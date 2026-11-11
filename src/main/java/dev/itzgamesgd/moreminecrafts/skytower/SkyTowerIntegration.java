@@ -37,6 +37,7 @@ public final class SkyTowerIntegration {
                                     }
                                     try{
                                         boolean added=data.register(site);
+                                        if(added) SkyTowerVaultRewards.configureSiteVaults(level,site);
                                         c.getSource().sendSuccess(()->Component.literal((added?"Registered ":"Already registered ")+site.id()),false);
                                         return added?1:0;
                                     }catch(IllegalArgumentException | IllegalStateException e){c.getSource().sendFailure(Component.literal(e.getMessage()));return 0;}

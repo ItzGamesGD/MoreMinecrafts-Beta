@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -26,9 +27,26 @@ public final class SkyTowerWorldgenRegistration {
     private SkyTowerWorldgenRegistration() {}
 
     public static void initialize() {
-        ServerChunkEvents.CHUNK_LOAD.register((level, chunk, newChunk) -> discover(level, chunk));
+        ServerChunkEvents.CHUNK_LOAD.register((level, chunk, newChunk) -> {
+            discover(level, chunk);
+            reconcileRooftop(level, chunk);
+        });
         ServerTickEvents.END_SERVER_TICK.register(SkyTowerWorldgenRegistration::tick);
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> PENDING.clear());
+    }
+
+    private static void reconcileRooftop(ServerLevel level, ChunkAccess chunk) {
+        var data = level.getServer().overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
+        if (data.quarantined() || data.sites().isEmpty()) return;
+        String dim = level.dimension().identifier().toString();
+        ChunkPos chunkPos = chunk.getPos();
+        for (var site : data.sites().values()) {
+            if (!site.dimension().equals(dim)) continue;
+            var pt = site.rooftopVault();
+            if (new ChunkPos(pt.x() >> 4, pt.z() >> 4).equals(chunkPos)) {
+                SkyTowerVaultRewards.placeAndConfigureRooftopVault(level, site);
+            }
+        }
     }
 
     private static void discover(ServerLevel level, ChunkAccess chunk) {
@@ -78,7 +96,10 @@ public final class SkyTowerWorldgenRegistration {
             if (!allBoundsChunksLoaded(pending.level(), pending.bounds()) || !anchorsPresent(pending.level(), pending.site())) continue;
             try {
                 boolean added = data.register(pending.site());
-                if (added) MoreMinecrafts.LOGGER.info("Registered generated Sky Tower {}", pending.site().id());
+                if (added) {
+                    MoreMinecrafts.LOGGER.info("Registered generated Sky Tower {}", pending.site().id());
+                    SkyTowerVaultRewards.configureSiteVaults(pending.level(), pending.site());
+                }
                 iterator.remove();
             } catch (IllegalArgumentException | IllegalStateException conflict) {
                 MoreMinecrafts.LOGGER.error("Could not register generated Sky Tower {}: {}", pending.site().id(), conflict.getMessage());
