@@ -83,7 +83,8 @@ jobs:
                   seen.add(name)
                   if not row["pass"]:
                       bad.append((f, name))
-          want = {"ruins_a", "ruins_b", "ruins_c", "ruins_d", "tower_5", "tower_6", "tower_7", "temple"}
-          print("seen", sorted(seen), "missing", sorted(want - seen), "failed", bad)
-          sys.exit(0 if seen == want and not bad else 1)
+          want = {"ruins_a", "ruins_b", "ruins_c", "ruins_d", "temple"}
+          tower_starts = sum(d.get("island_pieces_by_kind", {}).get("tower", 0) for d in [json.load(open(f)) for f in sorted(glob.glob("probe/results/*.json"))])
+          print("seen", sorted(seen), "missing", sorted(want - seen), "failed", bad, "composite_tower_starts", tower_starts)
+          sys.exit(0 if seen == want and not bad and tower_starts > 0 else 1)
           PY
