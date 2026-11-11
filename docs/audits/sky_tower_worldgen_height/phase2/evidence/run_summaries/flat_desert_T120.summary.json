@@ -1,0 +1,45 @@
+{
+  "label": "flat_desert_T120",
+  "seed": 31,
+  "world": "FLAT",
+  "radius_chunks": 300,
+  "level_min_y": -64,
+  "level_max_y_inclusive": 319,
+  "candidates": 233,
+  "eligible_candidates": 233,
+  "variant_draws_identical_vs_different_mountain_candidates": [
+    0,
+    0
+  ],
+  "replica_prediction__engine_[invalid,valid]": {
+    "ACCEPT": [
+      0,
+      229
+    ],
+    "COLUMN_BIOME_NONE": [
+      464,
+      0
+    ],
+    "GEOMETRY_MATCH": [
+      0,
+      229
+    ],
+    "PADDING_REJECT": [
+      4,
+      0
+    ],
+    "PADDING_REJECT_LOGGED": [
+      0,
+      4
+    ]
+  },
+  "replay_ms": 158,
+  "natural_eligible_in_scope": 233,
+  "natural_candidates_checked": 233,
+  "natural_generated_starts": 229,
+  "natural_vs_replay_agree": 233,
+  "natural_vs_replay_disagree": 0,
+  "natural_ms": 245,
+  "natural_padding_log_lines": 8,
+  "tower_starts_natural": 35
+}

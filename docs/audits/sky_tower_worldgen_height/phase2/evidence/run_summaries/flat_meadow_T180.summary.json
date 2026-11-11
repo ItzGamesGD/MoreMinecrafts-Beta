@@ -1,0 +1,45 @@
+{
+  "label": "flat_meadow_T180",
+  "seed": 31,
+  "world": "FLAT",
+  "radius_chunks": 300,
+  "level_min_y": -64,
+  "level_max_y_inclusive": 319,
+  "candidates": 865,
+  "eligible_candidates": 865,
+  "variant_draws_identical_vs_different_mountain_candidates": [
+    865,
+    0
+  ],
+  "replica_prediction__engine_[invalid,valid]": {
+    "ACCEPT": [
+      0,
+      792
+    ],
+    "COLUMN_BIOME_NONE": [
+      953,
+      0
+    ],
+    "GEOMETRY_MATCH": [
+      0,
+      792
+    ],
+    "PADDING_REJECT": [
+      73,
+      0
+    ],
+    "PADDING_REJECT_LOGGED": [
+      0,
+      73
+    ]
+  },
+  "replay_ms": 291,
+  "natural_eligible_in_scope": 865,
+  "natural_candidates_checked": 865,
+  "natural_generated_starts": 792,
+  "natural_vs_replay_agree": 865,
+  "natural_vs_replay_disagree": 0,
+  "natural_ms": 855,
+  "natural_padding_log_lines": 146,
+  "tower_starts_natural": 47
+}

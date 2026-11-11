@@ -1,0 +1,46 @@
+run_label,seed,chunk_x,chunk_z,piece_min_y,piece_max_y,element,top_layer_non_air_blocks,top_layer_smooth_stone,top_layer_blocks,top_blocks_present
+flat_desert_T120,31,-253,14,217,313,desert/tower,64,64,{smooth_stone=64},true
+flat_desert_T120,31,-253,-118,198,294,desert/tower,64,64,{smooth_stone=64},true
+flat_desert_T120,31,-236,-211,184,280,desert/tower,64,64,{smooth_stone=64},true
+flat_jag_T160,31,-280,-96,219,315,snowy/tower,64,64,{smooth_stone=64},true
+flat_jag_T160,31,296,175,208,304,snowy/tower,64,64,{smooth_stone=64},true
+flat_jag_T160,31,-246,-174,193,289,snowy/tower,64,64,{smooth_stone=64},true
+flat_jag_T200,31,-260,-178,219,315,snowy/tower,64,64,{smooth_stone=64},true
+flat_jag_T200,31,274,18,219,315,snowy/tower,64,64,{smooth_stone=64},true
+flat_jag_T200,31,-204,-118,218,314,snowy/tower,64,64,{smooth_stone=64},true
+flat_meadow_T180,31,-152,197,219,315,meadow/tower,64,64,{smooth_stone=64},true
+flat_meadow_T180,31,99,-110,212,308,meadow/tower,64,64,{smooth_stone=64},true
+flat_meadow_T180,31,182,218,204,300,meadow/tower,64,64,{smooth_stone=64},true
+full_2,2,-1464,-1066,219,315,meadow/tower,64,64,{smooth_stone=64},true
+full_2,2,-2460,-323,163,259,forest/tower,64,64,{smooth_stone=64},true
+full_2,2,1619,-47,138,234,snowy/tower,92,64,{smooth_stone=64; snow=28},true
+full_3,3,1177,1442,219,315,meadow/tower,64,64,{smooth_stone=64},true
+full_3,3,-330,-2363,162,258,snowy/tower,92,64,{smooth_stone=64; snow=28},true
+full_3,3,-1884,-2064,138,234,meadow/tower,64,64,{smooth_stone=64},true
+full_4,4,-931,-886,219,315,forest/tower,64,64,{smooth_stone=64},true
+full_4,4,-1603,682,163,259,badlands/tower,64,64,{smooth_stone=64},true
+full_4,4,1140,-2230,138,234,forest/tower,64,64,{smooth_stone=64},true
+full_5,5,-114,1975,219,315,forest/tower,64,64,{smooth_stone=64},true
+full_5,5,1680,2100,163,259,forest/tower,64,64,{smooth_stone=64},true
+full_5,5,-2157,-477,138,234,forest/tower,64,64,{smooth_stone=64},true
+full_6,6,2496,1097,219,315,snowy/tower,86,64,{smooth_stone=64; snow=22},true
+full_6,6,-330,-2135,176,272,meadow/tower,68,64,{smooth_stone=64; snow=4},true
+full_6,6,969,-249,163,259,forest/tower,64,64,{smooth_stone=64},true
+full_6,6,-2494,1496,150,246,meadow/tower,64,64,{smooth_stone=64},true
+full_6,6,-2250,-2496,138,234,forest/tower,64,64,{smooth_stone=64},true
+full_6,6,-494,-1768,124,220,forest/tower,64,64,{smooth_stone=64},true
+full_7,7,-542,204,219,315,meadow/tower,64,64,{smooth_stone=64},true
+full_7,7,-2326,153,174,270,meadow/tower,64,64,{smooth_stone=64},true
+full_7,7,1562,1499,163,259,snowy/tower,84,64,{smooth_stone=64; snow=20},true
+full_7,7,510,-1018,150,246,forest/tower,64,64,{smooth_stone=64},true
+full_7,7,129,1632,138,234,meadow/tower,64,64,{smooth_stone=64},true
+full_7,7,1855,528,124,220,forest/tower,64,64,{smooth_stone=64},true
+full_8,8,-2010,-1284,218,314,badlands/tower,64,64,{smooth_stone=64},true
+full_8,8,-1029,-2418,161,257,forest/tower,64,64,{smooth_stone=64},true
+full_8,8,-2483,-2398,137,233,meadow/tower,64,64,{smooth_stone=64},true
+full_9,9,-176,169,219,315,snowy/tower,91,64,{smooth_stone=64; snow=27},true
+full_9,9,-519,-519,177,273,forest/tower,64,64,{smooth_stone=64},true
+full_9,9,-1288,-863,162,258,snowy/tower,92,64,{smooth_stone=64; snow=28},true
+full_9,9,-1043,1255,149,245,forest/tower,64,64,{smooth_stone=64},true
+full_9,9,1349,1497,136,232,forest/tower,64,64,{smooth_stone=64},true
+full_9,9,1953,-1117,124,220,meadow/tower,64,64,{smooth_stone=64},true
