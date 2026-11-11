@@ -405,9 +405,9 @@ public final class VisualValidationHarness {
                         || !(client.gui.screen() instanceof ProgressionBrowseScreen quests)
                         || quests.mode() != ProgressionBrowseScreen.Mode.QUEST
                         || !quests.validationTreeReady()
-                        || quests.validationQuestTargetCount("xpq.cmb.bestiary_25") != 37
+                        || quests.validationQuestTargetCount("xpq.cmb.bestiary_25") != expectedBestiaryTargets()
                         || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5) {
-                    failJourney("XP Quest selector did not open the three-node tree with all 37 bestiary targets"); return;
+                    failJourney("XP Quest selector did not open the three-node tree with all registry-driven bestiary targets"); return;
                 }
                 if (quests.validationCanvas().nodes().size() != 75) {
                     failJourney("production tree must expose exactly the 75 recovered registrations"); return;
@@ -423,8 +423,8 @@ public final class VisualValidationHarness {
                         failJourney("quest " + id + " shows an unresolved or raw entity name"); return;
                     }
                 }
-                MoreMinecrafts.LOGGER.info("QUEST_NAMES_RESOLVED quests=3 bestiary_targets=37 lang={} raw_ids=0",
-                        client.getLanguageManager().getSelected());
+                MoreMinecrafts.LOGGER.info("QUEST_NAMES_RESOLVED quests=3 bestiary_targets={} lang={} raw_ids=0",
+                        expectedBestiaryTargets(), client.getLanguageManager().getSelected());
                 if (!quests.validationAllNodesVisible()) {
                     failJourney("the compact quest tree does not fit the viewport"); return;
                 }
@@ -1321,5 +1321,12 @@ public final class VisualValidationHarness {
         connectionRequested = true;
         MoreMinecrafts.LOGGER.info("Visual-validation client connecting to local test server");
     }
-}
 
+    /** Bestiary targets are registry-driven (every Monster-category type in the mod namespace), matching ProgressionScreenData. */
+    private static int expectedBestiaryTargets() {
+        return (int) BuiltInRegistries.ENTITY_TYPE.stream()
+                .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
+                .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
+                .count();
+    }
+}
