@@ -14,7 +14,7 @@ Evidence: [`TEST_EVIDENCE.md`](TEST_EVIDENCE.md) §6. Operating procedure: [`RUN
 | R-2 | Earlier "29/29" was 28 passed + 1 skipped without gitleaks | evidence accuracy | **FIXED** (reproduced with verified gitleaks 8.30.1: 39/39, 0 skipped) |
 | R-3 | README's controlled live test would build a second ~330,000-item copy (no ref filter) and `workflow_dispatch` requires `DRIVE_MIRROR_ENABLED=true`, which also enables schedule and relays against `DRIVE_MIRROR_NAME` | procedural trap (capacity, accidental activation) | **DOCUMENTED** (README caution, RUNBOOK 3 and 9); no code change |
 | R-4 | README omitted `DRIVE_MIRROR_TOOLING_REF` | documentation | **FIXED** |
-| R-5 | Gate/sync race: a ref created or advanced between the scan and `sync`'s snapshot is uploaded unscanned until the next run | low-medium (content already public; next hourly run re-scans) | **OPEN, DOCUMENTED**; hardening described in README, not implemented (engine + quarantine contract change) |
+| R-5 | Gate/sync race: a ref created or advanced between the scan and `sync`'s snapshot is uploaded unscanned until the next run | deployment-blocking for the security invariant | **FIXED on `claude/moreminecrafts-mirror-gate-race-20261111`** (frozen-snapshot handoff; see `security/GATE_SYNC_HANDOFF.md`, `TEST_EVIDENCE.md` §7) |
 | R-6 | No automated item-count (500,000) or shared-drive quota warning | medium for operations | **OPEN, DOCUMENTED**; manual procedure in RUNBOOK 11 |
 | R-7 | Finding `cec8bff8` | security | **UNAPPROVED**; classified a demonstrable false positive; owner decision D-6 |
 
@@ -30,3 +30,14 @@ Evidence: [`TEST_EVIDENCE.md`](TEST_EVIDENCE.md) §6. Operating procedure: [`RUN
 8. **Live Google Drive:** **NOT TESTED** (no credentials or destination in this environment; the connector was not used).
 9. **Remaining owner steps:** RUNBOOK Part 0 (destination, auth, environment, secrets, variables); decide D-6; run Parts 1–8 manually; then Part 9 only if satisfied.
 10. **Exact next step for a controlled live test:** configure credentials and a destination, then RUNBOOK Part 1 (`preflight`, read-only first, then `--write-probe`), followed by Part 3a (scratch repository) on the real Drive.
+
+## Gate/sync remediation (2026-11-11, branch `claude/moreminecrafts-mirror-gate-race-20261111`)
+
+**Final status: SECURITY HANDOFF VERIFIED — LIVE GOOGLE DRIVE TEST PENDING.** Not production-ready. Nothing was uploaded to Google Drive; `DRIVE_MIRROR_ENABLED`, secrets and `approved_findings.json` are untouched;
+finding `cec8bff8` is still UNAPPROVED and its two refs are still quarantined.
+
+| # | Finding | Status |
+|---|---|---|
+| R-5 | gate and sync observed different repository states (four separate fetches; the scan read whatever refs the cache held; the quarantine file named only quarantined refs) | **FIXED**: frozen snapshot, scan bound to its commits, sync consumes it and never fetches |
+| R-8 | (found while fixing R-5) gitleaks reads `./.gitleaksignore`, `gitleaks:allow` comments and `GITLEAKS_CONFIG*` by default: a `.gitleaksignore` in the caller's directory suppressed 2 of 12 findings on the real repository | **FIXED** in the new scanner invocation; tests fail without it |
+| R-9 | the history scan does not flag content that exists only in a merge commit, nor secrets in binary files (measured, gitleaks 8.30.1) | **OPEN, DOCUMENTED** (`security/GATE_SYNC_HANDOFF.md`): unchanged, not caused by the handoff; `-m` would re-report approved content under new fingerprints |

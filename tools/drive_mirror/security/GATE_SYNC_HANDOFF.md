@@ -19,6 +19,11 @@ Applies to `tools/drive_mirror` from the commit that introduced `snapshot.py`. E
 | Output | `quarantine.json` listing only quarantined refs | the **approval** (`drive-mirror-quarantine/2`): verdict, quarantined refs, `gated_refs` (ref -> commit), scan record (binding, scanner version, commit-set digest), the embedded snapshot, `snapshot_digest`, `approval_digest` |
 | Upload | `sync` fetched a **fourth** time and mirrored whatever tips it found | `sync` takes its ref map from the approval's snapshot and never fetches; file content comes from `git ls-tree`/blobs of those commits in the local object store |
 
+**The scan is isolated from its surroundings.** gitleaks reads `./.gitleaksignore` from its working directory by default, honours `gitleaks:allow` comments inside scanned content and reads
+`GITLEAKS_CONFIG*`. That would let the caller's directory or the content itself suppress findings outside `approved_findings.json` (observed on the real repository: a `.gitleaksignore` in the
+caller's directory turned 12 findings into 10). `secgate --run-scanner` therefore runs the scanner from an empty directory that it also names as the ignore path, passes `--ignore-gitleaks-allow`,
+scrubs `GITLEAKS_*` from the environment and uses absolute paths. Tests fail without this.
+
 **Granularity.** The gate's findings are `(commit, file, line)` from a history scan; its *decision* is per ref and uses the tip tree's blob
 ids (and the flagged line at the same path). Binding is by commit id (Git's object hash covers trees and blobs), and the tree id of every
 commit is recorded and re-checked against the local store. It is **not** by ref name: two refs with the same name but different commits never

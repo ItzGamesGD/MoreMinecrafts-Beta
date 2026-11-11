@@ -120,3 +120,36 @@ See `security/D-6_APPROVAL_PROPOSAL.md`.
 
 **Workflow still disabled (observed on GitHub).** Pushing this branch (head `60026c6`) started two `Drive mirror` runs (`create`: 42933944522, `push`: 42933944550). Every job
 (`relay`, `mirror`, `not-configured`) concluded `skipped`, so `DRIVE_MIRROR_ENABLED` is not `true`. No secret or variable was read or changed.
+
+
+## 7. Gate/sync race remediation (2026-11-11)
+
+Branch `claude/moreminecrafts-mirror-gate-race-20261111`, from the verified baseline `2da0bb3`. Emulator, static and read-only GitHub evidence: **live Google Drive: NOT TESTED**.
+
+**Negative control (baseline `2da0bb3`, the previous gate/sync flow, real gitleaks 8.30.1).** `prepare` → gitleaks `--all` → `secgate` (PASS, nothing flagged) → push a commit with a token-shaped string and a marker to `main` →
+`sync --quarantine-file`: exit 0 and **the unapproved content reached the (emulated) Drive** (`UNAPPROVED CONTENT UPLOADED: True`). The same sequence is now a regression test (`test_branch_advancing_after_the_gate_is_not_uploaded`)
+and the old behaviour survives only behind `--allow-ungated` (`test_negative_control_the_ungated_flow_uploads_post_gate_content`).
+
+| Check | Result |
+|---|---|
+| Full suite, final code (commit `3dde5b0`; every later commit changes documentation only), `GITLEAKS_BIN=<8.30.1>`, `-W error::ResourceWarning` | **64 run, 64 passed, 0 failed, 0 skipped** in 181.6 s |
+| of which: `test_gate_race` 23 · `test_hardening` 16 · `test_mirror` 13 · `test_workflow` 12 | previous suite: 39 (29 mirror/hardening + 10 workflow) → now 64 (+2 workflow handoff tests, +23 gate-race) |
+| Real-gitleaks regressions | passed: the existing end-to-end gate test, `test_real_gitleaks_race`, `test_real_gitleaks_ignores_cwd_allowlists_and_inline_allow_comments` |
+| `pyflakes tools/drive_mirror` (4.1.0) · `actionlint` (1.7.7) | clean · clean |
+| New tests fail without the fix | verified: workflow handoff tests fail on the baseline workflow; the scan-isolation tests fail on the first handoff commit's `run_scanner` (a cwd `.gitleaksignore` suppressed a finding) |
+| Diff scope `2da0bb3..HEAD` | `.github/workflows/drive-mirror.yml` and `tools/drive_mirror/` only; `approved_findings.json`, `drive.py`, `layout.py`, `lock.py` unchanged |
+
+**Race scenarios (all `test_gate_race.py`; each asserts the exact commit per namespace in the Drive manifests and that neither the marker bytes nor the leaked blob's git object id exist on Drive).**
+1 branch advances after the gate · 2 new branch after the gate · 3 force-push after the gate · 4 branch deleted after the gate (mirrored from the snapshot, then retired next run) and *inaccessible is not deleted* ·
+5 PR-only ref advances after the gate · 6 quarantined commit through another namespace (tag at gate time is quarantined; alias branch and PR head created later are not uploaded; the next gate quarantines them) ·
+7 retry/resume: budget-interrupted and SIGKILLed syncs resumed on the same approval after the source changed; a moved cache fails closed (nothing written); an older approval cannot roll the mirror back ·
+8 reconcile after the source changed restores only approved bytes; quarantined refs stay out across retry and reconcile · 9 missing, malformed, truncated, legacy-v1, tampered (snapshot, quarantine list), re-signed-but-malformed,
+wrong-checksum, replaced, wrong-cache, unbound-scan approvals all exit 7 with Drive untouched; gate refuses a moved cache, an invalid snapshot and a failing scanner · 10 a valid unchanged snapshot syncs, verifies (against the snapshot),
+repeats as `noop` and reconciles with 0 content writes · plus: the scan scope equals exactly the snapshot's commits (never `--all`) and the scan cannot be influenced by cwd, `.gitleaksignore`, inline allow comments or `GITLEAKS_*`.
+
+**Real-size check on the live repository (read-only GitHub, no Drive).** `prepare` (39 s): 141 heads, 0 tags, 263 PR heads, snapshot digest `96909f56…`; `secgate --run-scanner` (13 s, gitleaks 8.30.1, 2,167 commits):
+**12 findings, 11 approved, 1 proposed (`cec8bff8`), 0 unreviewed, 404 refs examined, 2 quarantined** (`probe/st05-p0-probe-01`, `audit/st05-po25-review-package-20261102`), identical to the earlier audit; approval 94 KB.
+`sync --dry-run` from that approval against the emulator: 191 namespaces (141 branches incl. the 2 quarantined + 50 PR-only), **0 Drive writes**, quarantine preserved; the same run with a wrong `--approval-sha256` exits 7.
+(The first attempt reported 10 findings because the scanner inherited a `.gitleaksignore` from its working directory: finding R-8, fixed.)
+
+**Historical, not re-run:** the whole-repository emulator run of §3 (frozen remote 2026-11-10T20:36Z, code `c785a8df`). The per-namespace engine is unchanged; only its input path changed, which the real-size dry run and the suites above cover.
