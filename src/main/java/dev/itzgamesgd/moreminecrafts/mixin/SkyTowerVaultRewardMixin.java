@@ -16,9 +16,7 @@ import net.minecraft.world.level.block.entity.vault.VaultSharedData;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * Ensures Sky Tower vaults use the authoritative custom reward pool at runtime,
@@ -33,17 +31,17 @@ abstract class SkyTowerVaultRewardMixin {
         return SkyTowerVaultRewards.resolveVaultConfig(level, pos, config);
     }
 
-    @Inject(method = "resolveItemsToEject", at = @At("RETURN"), cancellable = true)
-    private static void moreminecrafts$appendRooftopSpecialRewards(
-            ServerLevel level, VaultConfig config, BlockPos pos, Player player, ItemStack key,
-            CallbackInfoReturnable<List<ItemStack>> cir) {
+    @ModifyVariable(method = "tryInsertKey", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/player/Player;awardStat(Lnet/minecraft/stats/Stat;)V"))
+    private static List<ItemStack> moreminecrafts$appendRooftopSpecialRewards(
+            List<ItemStack> itemsToEject,
+            ServerLevel level, BlockPos pos, BlockState state,
+            VaultConfig config, VaultServerData serverData, VaultSharedData sharedData,
+            Player player, ItemStack key) {
         if (player instanceof ServerPlayer serverPlayer) {
-            List<ItemStack> items = cir.getReturnValue();
-            List<ItemStack> updated = SkyTowerVaultRewards.appendSpecialRewards(serverPlayer, level, pos, items);
-            if (updated != items) {
-                cir.setReturnValue(updated);
-            }
+            return SkyTowerVaultRewards.appendSpecialRewards(serverPlayer, level, pos, itemsToEject);
         }
+        return itemsToEject;
     }
 
     @WrapOperation(method = "tryInsertKey", at = @At(value = "INVOKE",
