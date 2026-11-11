@@ -1,0 +1,71 @@
+S1_ann_pillars_only_A5strict_gap45 OPTIMAL 0.1s gap<45deg pillars/lap=[8, 8, 8, 8] balconies=0
+S1_ann_pillars_only_A5strict_gap27 OPTIMAL 0.0s gap<27deg pillars/lap=[16, 16, 16, 16] balconies=0
+S1_ann_pillars_only_A5strict_gap18 INFEASIBLE 0.0s gap<18deg pillars/lap=[] balconies=0
+S1_ann_pillars_only_A5strict_gap23 INFEASIBLE 0.0s gap<23deg pillars/lap=[] balconies=0
+S1_ann_pillars_only_A5strict_gap25 INFEASIBLE 0.0s gap<25deg pillars/lap=[] balconies=0
+S1_ann_pillars_only_A5strict_gap26 INFEASIBLE 0.0s gap<26deg pillars/lap=[] balconies=0
+S2_ann_pillars_8balc_contact3_A5strict_gap45 INFEASIBLE 0.0s gap<45deg pillars/lap=[] balconies=0
+S2_ann_pillars_8balc_contact3_A5strict_gap63 OPTIMAL 0.0s gap<63deg pillars/lap=[6, 6, 6, 6] balconies=8
+S2_ann_pillars_8balc_contact3_A5strict_gap54 OPTIMAL 0.0s gap<54deg pillars/lap=[8, 8, 8, 8] balconies=8
+S2_ann_pillars_8balc_contact3_A5strict_gap50 INFEASIBLE 0.0s gap<50deg pillars/lap=[] balconies=0
+S2_ann_pillars_8balc_contact3_A5strict_gap52 INFEASIBLE 0.0s gap<52deg pillars/lap=[] balconies=0
+S2_ann_pillars_8balc_contact3_A5strict_gap53 OPTIMAL 0.0s gap<53deg pillars/lap=[8, 8, 8, 8] balconies=8
+S3_ann_pillars_8balc_contact3_A5relaxed_gap45 OPTIMAL 0.0s gap<45deg pillars/lap=[10, 10, 10, 10] balconies=8
+S3_ann_pillars_8balc_contact3_A5relaxed_gap27 INFEASIBLE 0.0s gap<27deg pillars/lap=[] balconies=0
+S3_ann_pillars_8balc_contact3_A5relaxed_gap36 OPTIMAL 0.0s gap<36deg pillars/lap=[12, 12, 12, 12] balconies=8
+S3_ann_pillars_8balc_contact3_A5relaxed_gap32 INFEASIBLE 0.0s gap<32deg pillars/lap=[] balconies=0
+S3_ann_pillars_8balc_contact3_A5relaxed_gap34 OPTIMAL 0.0s gap<34deg pillars/lap=[12, 12, 12, 12] balconies=8
+S3_ann_pillars_8balc_contact3_A5relaxed_gap33 INFEASIBLE 0.0s gap<33deg pillars/lap=[] balconies=0
+S4_ann_pillars_8balc_contact7_A5strict_gap45 INFEASIBLE 0.0s gap<45deg pillars/lap=[] balconies=0
+S4_ann_pillars_8balc_contact7_A5strict_gap63 INFEASIBLE 0.0s gap<63deg pillars/lap=[] balconies=0
+S4_ann_pillars_8balc_contact7_A5strict_gap72 INFEASIBLE 0.0s gap<72deg pillars/lap=[] balconies=0
+S4_ann_pillars_8balc_contact7_A5strict_gap76 INFEASIBLE 0.0s gap<76deg pillars/lap=[] balconies=0
+S4_ann_pillars_8balc_contact7_A5strict_gap78 INFEASIBLE 0.0s gap<78deg pillars/lap=[] balconies=0
+S4_ann_pillars_8balc_contact7_A5strict_gap79 INFEASIBLE 0.0s gap<79deg pillars/lap=[] balconies=0
+S4_ann_pillars_8balc_contact7_A5strict_gap80 INFEASIBLE 0.0s gap<80deg pillars/lap=[] balconies=0
+S5_ann_pillars_8balc_contact7_A5relaxed_gap45 INFEASIBLE 0.0s gap<45deg pillars/lap=[] balconies=0
+S5_ann_pillars_8balc_contact7_A5relaxed_gap63 INFEASIBLE 0.0s gap<63deg pillars/lap=[] balconies=0
+S5_ann_pillars_8balc_contact7_A5relaxed_gap72 INFEASIBLE 0.0s gap<72deg pillars/lap=[] balconies=0
+S5_ann_pillars_8balc_contact7_A5relaxed_gap76 INFEASIBLE 0.0s gap<76deg pillars/lap=[] balconies=0
+S5_ann_pillars_8balc_contact7_A5relaxed_gap78 INFEASIBLE 0.0s gap<78deg pillars/lap=[] balconies=0
+S5_ann_pillars_8balc_contact7_A5relaxed_gap79 INFEASIBLE 0.0s gap<79deg pillars/lap=[] balconies=0
+S5_ann_pillars_8balc_contact7_A5relaxed_gap80 INFEASIBLE 0.0s gap<80deg pillars/lap=[] balconies=0
+S6_ann_rb20_pillars_only_gap45 INFEASIBLE 0.0s gap<45deg pillars/lap=[] balconies=0
+S6_ann_rb20_pillars_only_gap63 INFEASIBLE 0.0s gap<63deg pillars/lap=[] balconies=0
+S6_ann_rb20_pillars_only_gap72 INFEASIBLE 0.0s gap<72deg pillars/lap=[] balconies=0
+S6_ann_rb20_pillars_only_gap76 OPTIMAL 0.0s gap<76deg pillars/lap=[8, 8, 8, 8] balconies=0
+S6_ann_rb20_pillars_only_gap74 OPTIMAL 0.0s gap<74deg pillars/lap=[8, 8, 8, 8] balconies=0
+S6_ann_rb20_pillars_only_gap73 OPTIMAL 0.0s gap<73deg pillars/lap=[8, 8, 8, 8] balconies=0
+T1_whole_block_D45_pillars_only_gap45 INFEASIBLE 0.0s gap<45deg pillars/lap=[] balconies=0
+T1_whole_block_D45_pillars_only_gap63 INFEASIBLE 0.0s gap<63deg pillars/lap=[] balconies=0
+T1_whole_block_D45_pillars_only_gap72 INFEASIBLE 0.0s gap<72deg pillars/lap=[] balconies=0
+T1_whole_block_D45_pillars_only_gap76 INFEASIBLE 0.0s gap<76deg pillars/lap=[] balconies=0
+T1_whole_block_D45_pillars_only_gap78 INFEASIBLE 0.0s gap<78deg pillars/lap=[] balconies=0
+T1_whole_block_D45_pillars_only_gap79 INFEASIBLE 0.0s gap<79deg pillars/lap=[] balconies=0
+T1_whole_block_D45_pillars_only_gap80 INFEASIBLE 0.0s gap<80deg pillars/lap=[] balconies=0
+T2_box45_pillars_only_gap45 OPTIMAL 0.0s gap<45deg pillars/lap=[9, 9, 9, 9] balconies=0
+T2_box45_pillars_only_gap27 OPTIMAL 0.0s gap<27deg pillars/lap=[14, 14, 14, 14] balconies=0
+T2_box45_pillars_only_gap18 OPTIMAL 0.0s gap<18deg pillars/lap=[23, 23, 23, 23] balconies=0
+T2_box45_pillars_only_gap14 OPTIMAL 0.0s gap<14deg pillars/lap=[29, 29, 29, 29] balconies=0
+T2_box45_pillars_only_gap12 OPTIMAL 0.0s gap<12deg pillars/lap=[33, 33, 33, 33] balconies=0
+T2_box45_pillars_only_gap11 OPTIMAL 0.0s gap<11deg pillars/lap=[35, 35, 35, 35] balconies=0
+T2_box45_pillars_only_gap10 INFEASIBLE 0.0s gap<10deg pillars/lap=[] balconies=0
+T3_disc46_pillars_only_gap45 OPTIMAL 0.0s gap<45deg pillars/lap=[10, 10, 10, 10] balconies=0
+T3_disc46_pillars_only_gap27 OPTIMAL 0.0s gap<27deg pillars/lap=[21, 21, 21, 21] balconies=0
+T3_disc46_pillars_only_gap18 OPTIMAL 0.0s gap<18deg pillars/lap=[23, 23, 23, 23] balconies=0
+T3_disc46_pillars_only_gap14 OPTIMAL 0.0s gap<14deg pillars/lap=[29, 29, 29, 29] balconies=0
+T3_disc46_pillars_only_gap12 OPTIMAL 0.0s gap<12deg pillars/lap=[34, 34, 34, 34] balconies=0
+T3_disc46_pillars_only_gap11 OPTIMAL 0.0s gap<11deg pillars/lap=[35, 35, 35, 35] balconies=0
+T3_disc46_pillars_only_gap10 INFEASIBLE 0.0s gap<10deg pillars/lap=[] balconies=0
+T4_disc47_pillars_only_gap45 OPTIMAL 0.0s gap<45deg pillars/lap=[9, 9, 9, 9] balconies=0
+T4_disc47_pillars_only_gap27 OPTIMAL 0.0s gap<27deg pillars/lap=[14, 14, 14, 14] balconies=0
+T4_disc47_pillars_only_gap18 OPTIMAL 0.0s gap<18deg pillars/lap=[23, 23, 23, 23] balconies=0
+T4_disc47_pillars_only_gap14 OPTIMAL 0.0s gap<14deg pillars/lap=[29, 29, 29, 29] balconies=0
+T4_disc47_pillars_only_gap12 OPTIMAL 0.0s gap<12deg pillars/lap=[33, 33, 33, 33] balconies=0
+T4_disc47_pillars_only_gap11 OPTIMAL 0.0s gap<11deg pillars/lap=[35, 35, 35, 35] balconies=0
+T4_disc47_pillars_only_gap10 INFEASIBLE 0.0s gap<10deg pillars/lap=[] balconies=0
+Q1_sequential_S1pillars_then_8balc_contact3 INFEASIBLE 0.0s gap<360deg pillars/lap=[] balconies=0
+Q2_sequential_S1pillars_then_8balc_contact1 INFEASIBLE 0.0s gap<360deg pillars/lap=[] balconies=0
+Q3_balconies_only_contact7_any_pillars INFEASIBLE 0.0s gap<360deg pillars/lap=[] balconies=0
+Q4_balconies_only_contact3 OPTIMAL 0.0s gap<360deg pillars/lap=[1, 1, 1, 1] balconies=8
+[{'prefix': 'S1_ann_pillars_only_A5strict', 'min_feasible_gap_deg': 27}, {'prefix': 'S2_ann_pillars_8balc_contact3_A5strict', 'min_feasible_gap_deg': 53}, {'prefix': 'S3_ann_pillars_8balc_contact3_A5relaxed', 'min_feasible_gap_deg': 34}, {'prefix': 'S4_ann_pillars_8balc_contact7_A5strict', 'min_feasible_gap_deg': 80}, {'prefix': 'S5_ann_pillars_8balc_contact7_A5relaxed', 'min_feasible_gap_deg': 80}, {'prefix': 'S6_ann_rb20_pillars_only', 'min_feasible_gap_deg': 73}, {'prefix': 'T1_whole_block_D45_pillars_only', 'min_feasible_gap_deg': 80}, {'prefix': 'T2_box45_pillars_only', 'min_feasible_gap_deg': 11}, {'prefix': 'T3_disc46_pillars_only', 'min_feasible_gap_deg': 11}, {'prefix': 'T4_disc47_pillars_only', 'min_feasible_gap_deg': 11}, {'prefix': 'Q1_sequential_S1pillars_then_8balc_contact3', 'status': 'INFEASIBLE'}, {'prefix': 'Q2_sequential_S1pillars_then_8balc_contact1', 'status': 'INFEASIBLE'}, {'prefix': 'Q3_balconies_only_contact7_any_pillars', 'status': 'INFEASIBLE'}, {'prefix': 'Q4_balconies_only_contact3', 'status': 'OPTIMAL'}]

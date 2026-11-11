@@ -1,0 +1,449 @@
+{
+ "K1_pillars_slab": {
+  "selection": "S1_ann_pillars_only_A5strict_gap27",
+  "rise": "slab",
+  "landing_cells": 9,
+  "C1": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": false,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C2": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": false,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C1_equals_C2": true,
+  "pillars_per_lap": {
+   "0": 16,
+   "1": 16,
+   "2": 16,
+   "3": 16
+  },
+  "pillar_arc_max_on_r17.5": 8.29,
+  "pillar_arc_median_by_lap": {
+   "0": 7.12,
+   "1": 7.12,
+   "2": 7.12,
+   "3": 7.12
+  },
+  "pillar_arc_min": 4.5,
+  "balconies": 0,
+  "balconies_flat": [],
+  "arch_pairs_connected": "63/63",
+  "outside_D45_center": 0,
+  "outside_D45_whole_block_alt": 74,
+  "balcony_outside_D51_center": 0,
+  "lanes_failed": [],
+  "min_headroom": 10.0,
+  "reach": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "stair_voxels": 1908,
+  "arch_max_opening": 6.9,
+  "arch_footprint_failures": 0
+ },
+ "K2_8balc_A5relaxed_slab_land9": {
+  "selection": "S3_ann_pillars_8balc_contact3_A5relaxed_gap34",
+  "rise": "slab",
+  "landing_cells": 9,
+  "C1": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": true,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C2": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": true,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C1_equals_C2": true,
+  "pillars_per_lap": {
+   "0": 12,
+   "1": 12,
+   "2": 12,
+   "3": 12
+  },
+  "pillar_arc_max_on_r17.5": 10.43,
+  "pillar_arc_median_by_lap": {
+   "0": 9.46,
+   "1": 10.15,
+   "2": 10.15,
+   "3": 9.46
+  },
+  "pillar_arc_min": 5.26,
+  "balconies": 8,
+  "balconies_flat": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "arch_pairs_connected": "47/47",
+  "outside_D45_center": 0,
+  "outside_D45_whole_block_alt": 86,
+  "balcony_outside_D51_center": 0,
+  "lanes_failed": [],
+  "min_headroom": 9.5,
+  "reach": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "stair_voxels": 1908,
+  "arch_max_opening": 9.37,
+  "arch_footprint_failures": 0
+ },
+ "K2_8balc_A5relaxed_slab_land3": {
+  "selection": "S3_ann_pillars_8balc_contact3_A5relaxed_gap34",
+  "rise": "slab",
+  "landing_cells": 3,
+  "C1": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": true,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C2": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": true,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C1_equals_C2": true,
+  "pillars_per_lap": {
+   "0": 12,
+   "1": 12,
+   "2": 12,
+   "3": 12
+  },
+  "pillar_arc_max_on_r17.5": 10.43,
+  "pillar_arc_median_by_lap": {
+   "0": 9.46,
+   "1": 10.15,
+   "2": 10.15,
+   "3": 9.46
+  },
+  "pillar_arc_min": 5.26,
+  "balconies": 8,
+  "balconies_flat": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "arch_pairs_connected": "47/47",
+  "outside_D45_center": 0,
+  "outside_D45_whole_block_alt": 86,
+  "balcony_outside_D51_center": 0,
+  "lanes_failed": [],
+  "min_headroom": 10.0,
+  "reach": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "stair_voxels": 1908,
+  "arch_max_opening": 9.37,
+  "arch_footprint_failures": 0
+ },
+ "K2_8balc_A5relaxed_slab_land0": {
+  "selection": "S3_ann_pillars_8balc_contact3_A5relaxed_gap34",
+  "rise": "slab",
+  "landing_cells": 0,
+  "C1": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": true,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C2": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": true,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C1_equals_C2": true,
+  "pillars_per_lap": {
+   "0": 12,
+   "1": 12,
+   "2": 12,
+   "3": 12
+  },
+  "pillar_arc_max_on_r17.5": 10.43,
+  "pillar_arc_median_by_lap": {
+   "0": 9.46,
+   "1": 10.15,
+   "2": 10.15,
+   "3": 9.46
+  },
+  "pillar_arc_min": 5.26,
+  "balconies": 8,
+  "balconies_flat": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false,
+   true,
+   true
+  ],
+  "arch_pairs_connected": "47/47",
+  "outside_D45_center": 0,
+  "outside_D45_whole_block_alt": 86,
+  "balcony_outside_D51_center": 0,
+  "lanes_failed": [],
+  "min_headroom": 10.0,
+  "reach": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "stair_voxels": 1908,
+  "arch_max_opening": 9.37,
+  "arch_footprint_failures": 0
+ },
+ "K3_pillars_stairblocks": {
+  "selection": "S1_ann_pillars_only_A5strict_gap27",
+  "rise": "stair",
+  "landing_cells": 9,
+  "C1": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": false,
+   "V5_headroom": true,
+   "V6_balconies": false,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C2": {
+   "V1_boundary": true,
+   "V2_overlaps": true,
+   "V3_reach": true,
+   "V4_lane_width4": false,
+   "V5_headroom": true,
+   "V6_balconies": false,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C1_equals_C2": true,
+  "pillars_per_lap": {
+   "0": 16,
+   "1": 16,
+   "2": 16,
+   "3": 16
+  },
+  "pillar_arc_max_on_r17.5": 8.29,
+  "pillar_arc_median_by_lap": {
+   "0": 7.12,
+   "1": 7.12,
+   "2": 7.12,
+   "3": 7.12
+  },
+  "pillar_arc_min": 4.5,
+  "balconies": 0,
+  "balconies_flat": [],
+  "arch_pairs_connected": "63/63",
+  "outside_D45_center": 0,
+  "outside_D45_whole_block_alt": 74,
+  "balcony_outside_D51_center": 0,
+  "lanes_failed": [
+   [
+    0,
+    1
+   ],
+   [
+    2,
+    0
+   ],
+   [
+    2,
+    2
+   ],
+   [
+    3,
+    0
+   ],
+   [
+    3,
+    1
+   ],
+   [
+    3,
+    3
+   ]
+  ],
+  "min_headroom": 10.0,
+  "reach": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "stair_voxels": 1908,
+  "arch_max_opening": 6.9,
+  "arch_footprint_failures": 0
+ },
+ "K4_8balc_A5strict_slab_land9": {
+  "selection": "S2_ann_pillars_8balc_contact3_A5strict_gap53",
+  "rise": "slab",
+  "landing_cells": 9,
+  "C1": {
+   "V1_boundary": true,
+   "V2_overlaps": false,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": true,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C2": {
+   "V1_boundary": true,
+   "V2_overlaps": false,
+   "V3_reach": true,
+   "V4_lane_width4": true,
+   "V5_headroom": true,
+   "V6_balconies": true,
+   "V7_pillar_spacing": "UNVERIFIED (Q85 tolerance undefined)",
+   "V8_arch_continuity": true,
+   "V9_fall_edges": true
+  },
+  "C1_equals_C2": true,
+  "pillars_per_lap": {
+   "0": 8,
+   "1": 8,
+   "2": 8,
+   "3": 8
+  },
+  "pillar_arc_max_on_r17.5": 16.23,
+  "pillar_arc_median_by_lap": {
+   "0": 13.745000000000001,
+   "1": 13.745000000000001,
+   "2": 13.745000000000001,
+   "3": 13.745000000000001
+  },
+  "pillar_arc_min": 11.26,
+  "balconies": 8,
+  "balconies_flat": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "arch_pairs_connected": "31/31",
+  "outside_D45_center": 0,
+  "outside_D45_whole_block_alt": 70,
+  "balcony_outside_D51_center": 0,
+  "lanes_failed": [],
+  "min_headroom": 9.5,
+  "reach": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "stair_voxels": 1908,
+  "arch_max_opening": 15.87,
+  "arch_footprint_failures": 0
+ }
+}

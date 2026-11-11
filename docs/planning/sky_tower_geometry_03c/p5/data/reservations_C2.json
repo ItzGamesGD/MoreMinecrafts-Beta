@@ -1,0 +1,546 @@
+[
+ {
+  "id": "F1_wall_link_arch",
+  "kind": "wall_link_arch",
+  "min": [
+   14,
+   12,
+   -3
+  ],
+  "max_exclusive": [
+   22,
+   18,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F1_partial_canopy_steps",
+  "kind": "partial_canopy_steps",
+  "min": [
+   14,
+   17,
+   -4
+  ],
+  "max_exclusive": [
+   23,
+   20,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F1_horizontal_moulding",
+  "kind": "horizontal_moulding",
+  "min": [
+   14,
+   17,
+   -4
+  ],
+  "max_exclusive": [
+   23,
+   18,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F1_gate_double_arch",
+  "kind": "gate_double_arch",
+  "min": [
+   12,
+   12,
+   -3
+  ],
+  "max_exclusive": [
+   17,
+   18,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F1_gate_shallow_pilasters",
+  "kind": "gate_shallow_pilasters",
+  "min": [
+   14,
+   10,
+   -4
+  ],
+  "max_exclusive": [
+   17,
+   16,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F1_gate_geometric_relief",
+  "kind": "gate_geometric_relief",
+  "min": [
+   14,
+   16,
+   -3
+  ],
+  "max_exclusive": [
+   17,
+   19,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F2_wall_link_arch",
+  "kind": "wall_link_arch",
+  "min": [
+   14,
+   23,
+   -3
+  ],
+  "max_exclusive": [
+   22,
+   29,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F2_partial_canopy_steps",
+  "kind": "partial_canopy_steps",
+  "min": [
+   14,
+   28,
+   -4
+  ],
+  "max_exclusive": [
+   23,
+   31,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F2_horizontal_moulding",
+  "kind": "horizontal_moulding",
+  "min": [
+   14,
+   28,
+   -4
+  ],
+  "max_exclusive": [
+   23,
+   29,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F2_gate_double_arch",
+  "kind": "gate_double_arch",
+  "min": [
+   12,
+   23,
+   -3
+  ],
+  "max_exclusive": [
+   17,
+   29,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F2_gate_shallow_pilasters",
+  "kind": "gate_shallow_pilasters",
+  "min": [
+   14,
+   21,
+   -4
+  ],
+  "max_exclusive": [
+   17,
+   27,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F2_gate_geometric_relief",
+  "kind": "gate_geometric_relief",
+  "min": [
+   14,
+   27,
+   -3
+  ],
+  "max_exclusive": [
+   17,
+   30,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F3_wall_link_arch",
+  "kind": "wall_link_arch",
+  "min": [
+   14,
+   35,
+   -3
+  ],
+  "max_exclusive": [
+   22,
+   41,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F3_partial_canopy_steps",
+  "kind": "partial_canopy_steps",
+  "min": [
+   14,
+   40,
+   -4
+  ],
+  "max_exclusive": [
+   23,
+   43,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F3_horizontal_moulding",
+  "kind": "horizontal_moulding",
+  "min": [
+   14,
+   40,
+   -4
+  ],
+  "max_exclusive": [
+   23,
+   41,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F3_gate_double_arch",
+  "kind": "gate_double_arch",
+  "min": [
+   12,
+   35,
+   -3
+  ],
+  "max_exclusive": [
+   17,
+   41,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F3_gate_shallow_pilasters",
+  "kind": "gate_shallow_pilasters",
+  "min": [
+   14,
+   33,
+   -4
+  ],
+  "max_exclusive": [
+   17,
+   39,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F3_gate_geometric_relief",
+  "kind": "gate_geometric_relief",
+  "min": [
+   14,
+   39,
+   -3
+  ],
+  "max_exclusive": [
+   17,
+   42,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F4_wall_link_arch",
+  "kind": "wall_link_arch",
+  "min": [
+   14,
+   49,
+   -3
+  ],
+  "max_exclusive": [
+   22,
+   55,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F4_partial_canopy_steps",
+  "kind": "partial_canopy_steps",
+  "min": [
+   14,
+   54,
+   -4
+  ],
+  "max_exclusive": [
+   23,
+   57,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F4_horizontal_moulding",
+  "kind": "horizontal_moulding",
+  "min": [
+   14,
+   54,
+   -4
+  ],
+  "max_exclusive": [
+   23,
+   55,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F4_gate_double_arch",
+  "kind": "gate_double_arch",
+  "min": [
+   12,
+   49,
+   -3
+  ],
+  "max_exclusive": [
+   17,
+   55,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F4_gate_shallow_pilasters",
+  "kind": "gate_shallow_pilasters",
+  "min": [
+   14,
+   47,
+   -4
+  ],
+  "max_exclusive": [
+   17,
+   53,
+   5
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "F4_gate_geometric_relief",
+  "kind": "gate_geometric_relief",
+  "min": [
+   14,
+   53,
+   -3
+  ],
+  "max_exclusive": [
+   17,
+   56,
+   4
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial envelope; joint faces may overlap tower. Dimensions/shape unapproved; apex must eventually align with adjacent arcade (Q107/Q111)."
+ },
+ {
+  "id": "B2-5_support",
+  "kind": "balcony_stepped_support_and_central_arch",
+  "min": [
+   -9,
+   25,
+   -23
+  ],
+  "max_exclusive": [
+   0,
+   28,
+   -18
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial depth 1–3 below existing support. No new ground-reaching columns."
+ },
+ {
+  "id": "B3-2_support",
+  "kind": "balcony_stepped_support_and_central_arch",
+  "min": [
+   -9,
+   32,
+   19
+  ],
+  "max_exclusive": [
+   0,
+   35,
+   24
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial depth 1–3 below existing support. No new ground-reaching columns."
+ },
+ {
+  "id": "B3-6_support",
+  "kind": "balcony_stepped_support_and_central_arch",
+  "min": [
+   1,
+   40,
+   -23
+  ],
+  "max_exclusive": [
+   10,
+   43,
+   -18
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial depth 1–3 below existing support. No new ground-reaching columns."
+ },
+ {
+  "id": "B2-1_support",
+  "kind": "balcony_stepped_support_and_central_arch",
+  "min": [
+   1,
+   19,
+   19
+  ],
+  "max_exclusive": [
+   10,
+   22,
+   24
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial depth 1–3 below existing support. No new ground-reaching columns."
+ },
+ {
+  "id": "B1-4_support",
+  "kind": "balcony_stepped_support_and_central_arch",
+  "min": [
+   -23,
+   11,
+   -9
+  ],
+  "max_exclusive": [
+   -18,
+   14,
+   0
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial depth 1–3 below existing support. No new ground-reaching columns."
+ },
+ {
+  "id": "B4-3_support",
+  "kind": "balcony_stepped_support_and_central_arch",
+  "min": [
+   -23,
+   51,
+   1
+  ],
+  "max_exclusive": [
+   -18,
+   54,
+   10
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial depth 1–3 below existing support. No new ground-reaching columns."
+ },
+ {
+  "id": "B4-7_support",
+  "kind": "balcony_stepped_support_and_central_arch",
+  "min": [
+   19,
+   60,
+   -9
+  ],
+  "max_exclusive": [
+   24,
+   63,
+   0
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial depth 1–3 below existing support. No new ground-reaching columns."
+ },
+ {
+  "id": "B1-0_support",
+  "kind": "balcony_stepped_support_and_central_arch",
+  "min": [
+   19,
+   6,
+   1
+  ],
+  "max_exclusive": [
+   24,
+   9,
+   10
+  ],
+  "status": "UNVERIFIED",
+  "note": "Trial depth 1–3 below existing support. No new ground-reaching columns."
+ },
+ {
+  "id": "base_approach",
+  "kind": "base_access",
+  "min": [
+   12,
+   0,
+   -8
+  ],
+  "max_exclusive": [
+   23,
+   11,
+   9
+  ],
+  "status": "UNVERIFIED",
+  "note": "Unplaced Q13 twin approach stairs; footprint not decided. This is a search box, not approved stair dimensions."
+ },
+ {
+  "id": "sanctum_ring",
+  "kind": "roofless_sanctum_arches",
+  "min": [
+   -15,
+   64,
+   -15
+  ],
+  "max_exclusive": [
+   16,
+   80,
+   16
+  ],
+  "status": "UNVERIFIED",
+  "note": "Broad search envelope for 12 arches. NOT a solid box, roof, or proof of apex at y79."
+ }
+]

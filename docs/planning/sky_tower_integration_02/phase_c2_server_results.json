@@ -1,0 +1,1101 @@
+{
+ "scope": "isolated manual place template and sampled block checks; not worldgen, complete block comparison or actual player movement",
+ "cases": [
+  {
+   "style": "snowy",
+   "island_origin": [
+    14000,
+    80,
+    1000
+   ],
+   "candidate_id": "snowy_dx-12_dz0_r0_w3",
+   "commands": [
+    {
+     "command": "forceload add 13968 968 14064 1064",
+     "response": "Marked 49 chunks in minecraft:overworld from [873, 60] to [879, 66] to be force loaded"
+    },
+    {
+     "command": "place template moreminecrafts:sky_islands/snowy/tower 14000 80 1000 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_islands/snowy/tower\" at 14000, 80, 1000"
+    },
+    {
+     "command": "place template moreminecrafts:sky_tower/full_01 13985 97 997 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 13985, 97, 997"
+    },
+    {
+     "command": "setblock 14035 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14035, 97, 1020"
+    },
+    {
+     "command": "setblock 14035 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14035, 97, 1021"
+    },
+    {
+     "command": "setblock 14035 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14035, 97, 1022"
+    },
+    {
+     "command": "setblock 14036 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14036, 97, 1020"
+    },
+    {
+     "command": "setblock 14036 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14036, 97, 1021"
+    },
+    {
+     "command": "setblock 14036 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14036, 97, 1022"
+    },
+    {
+     "command": "setblock 14037 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14037, 97, 1020"
+    },
+    {
+     "command": "setblock 14037 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14037, 97, 1021"
+    },
+    {
+     "command": "setblock 14037 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14037, 97, 1022"
+    },
+    {
+     "command": "setblock 14038 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14038, 97, 1020"
+    },
+    {
+     "command": "setblock 14038 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14038, 97, 1021"
+    },
+    {
+     "command": "setblock 14038 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14038, 97, 1022"
+    },
+    {
+     "command": "setblock 14035 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14035, 98, 1019"
+    },
+    {
+     "command": "setblock 14035 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14035, 98, 1023"
+    },
+    {
+     "command": "setblock 14036 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14036, 98, 1019"
+    },
+    {
+     "command": "setblock 14036 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14036, 98, 1023"
+    },
+    {
+     "command": "setblock 14037 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14037, 98, 1019"
+    },
+    {
+     "command": "setblock 14037 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14037, 98, 1023"
+    },
+    {
+     "command": "setblock 14038 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14038, 98, 1019"
+    },
+    {
+     "command": "setblock 14038 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14038, 98, 1023"
+    },
+    {
+     "command": "setblock 13999 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 13999, 95, 1011"
+    },
+    {
+     "command": "setblock 14000 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14000, 95, 1011"
+    },
+    {
+     "command": "setblock 14001 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14001, 95, 1011"
+    },
+    {
+     "command": "setblock 14002 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14002, 95, 1011"
+    },
+    {
+     "command": "setblock 14003 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14003, 95, 1011"
+    },
+    {
+     "command": "setblock 14004 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14004, 95, 1011"
+    },
+    {
+     "command": "setblock 14005 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14005, 95, 1011"
+    },
+    {
+     "command": "setblock 14006 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14006, 95, 1011"
+    },
+    {
+     "command": "setblock 14007 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14007, 95, 1011"
+    },
+    {
+     "command": "setblock 14008 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14008, 95, 1011"
+    },
+    {
+     "command": "setblock 13999 96 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 13999, 96, 1011"
+    },
+    {
+     "command": "setblock 13999 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 13999, 95, 1031"
+    },
+    {
+     "command": "setblock 14000 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14000, 95, 1031"
+    },
+    {
+     "command": "setblock 14001 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14001, 95, 1031"
+    },
+    {
+     "command": "setblock 14002 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14002, 95, 1031"
+    },
+    {
+     "command": "setblock 14003 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14003, 95, 1031"
+    },
+    {
+     "command": "setblock 14004 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14004, 95, 1031"
+    },
+    {
+     "command": "setblock 14005 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14005, 95, 1031"
+    },
+    {
+     "command": "setblock 13999 96 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 13999, 96, 1031"
+    },
+    {
+     "command": "execute if block 14034 97 1021 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    },
+    {
+     "command": "execute if block 14035 97 1020 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    }
+   ],
+   "entrance_block_check": true,
+   "deck_sample_check": true
+  },
+  {
+   "style": "meadow",
+   "island_origin": [
+    14200,
+    80,
+    1000
+   ],
+   "candidate_id": "meadow_dx-12_dz0_r0_w3",
+   "commands": [
+    {
+     "command": "forceload add 14168 968 14264 1064",
+     "response": "Marked 49 chunks in minecraft:overworld from [885, 60] to [891, 66] to be force loaded"
+    },
+    {
+     "command": "place template moreminecrafts:sky_islands/meadow/tower 14200 80 1000 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_islands/meadow/tower\" at 14200, 80, 1000"
+    },
+    {
+     "command": "place template moreminecrafts:sky_tower/full_01 14185 97 997 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 14185, 97, 997"
+    },
+    {
+     "command": "setblock 14235 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14235, 97, 1020"
+    },
+    {
+     "command": "setblock 14235 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14235, 97, 1021"
+    },
+    {
+     "command": "setblock 14235 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14235, 97, 1022"
+    },
+    {
+     "command": "setblock 14236 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14236, 97, 1020"
+    },
+    {
+     "command": "setblock 14236 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14236, 97, 1021"
+    },
+    {
+     "command": "setblock 14236 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14236, 97, 1022"
+    },
+    {
+     "command": "setblock 14237 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14237, 97, 1020"
+    },
+    {
+     "command": "setblock 14237 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14237, 97, 1021"
+    },
+    {
+     "command": "setblock 14237 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14237, 97, 1022"
+    },
+    {
+     "command": "setblock 14238 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14238, 97, 1020"
+    },
+    {
+     "command": "setblock 14238 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14238, 97, 1021"
+    },
+    {
+     "command": "setblock 14238 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14238, 97, 1022"
+    },
+    {
+     "command": "setblock 14235 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14235, 98, 1019"
+    },
+    {
+     "command": "setblock 14235 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14235, 98, 1023"
+    },
+    {
+     "command": "setblock 14236 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14236, 98, 1019"
+    },
+    {
+     "command": "setblock 14236 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14236, 98, 1023"
+    },
+    {
+     "command": "setblock 14237 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14237, 98, 1019"
+    },
+    {
+     "command": "setblock 14237 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14237, 98, 1023"
+    },
+    {
+     "command": "setblock 14238 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14238, 98, 1019"
+    },
+    {
+     "command": "setblock 14238 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14238, 98, 1023"
+    },
+    {
+     "command": "setblock 14199 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14199, 95, 1011"
+    },
+    {
+     "command": "setblock 14200 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14200, 95, 1011"
+    },
+    {
+     "command": "setblock 14201 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14201, 95, 1011"
+    },
+    {
+     "command": "setblock 14202 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14202, 95, 1011"
+    },
+    {
+     "command": "setblock 14203 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14203, 95, 1011"
+    },
+    {
+     "command": "setblock 14199 96 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14199, 96, 1011"
+    },
+    {
+     "command": "setblock 14199 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14199, 95, 1031"
+    },
+    {
+     "command": "setblock 14200 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14200, 95, 1031"
+    },
+    {
+     "command": "setblock 14201 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14201, 95, 1031"
+    },
+    {
+     "command": "setblock 14202 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14202, 95, 1031"
+    },
+    {
+     "command": "setblock 14203 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14203, 95, 1031"
+    },
+    {
+     "command": "setblock 14204 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14204, 95, 1031"
+    },
+    {
+     "command": "setblock 14205 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14205, 95, 1031"
+    },
+    {
+     "command": "setblock 14206 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14206, 95, 1031"
+    },
+    {
+     "command": "setblock 14199 96 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14199, 96, 1031"
+    },
+    {
+     "command": "execute if block 14234 97 1021 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    },
+    {
+     "command": "execute if block 14235 97 1020 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    }
+   ],
+   "entrance_block_check": true,
+   "deck_sample_check": true
+  },
+  {
+   "style": "forest",
+   "island_origin": [
+    14400,
+    80,
+    1000
+   ],
+   "candidate_id": "forest_dx-12_dz0_r0_w3",
+   "commands": [
+    {
+     "command": "forceload add 14368 968 14464 1064",
+     "response": "Marked 49 chunks in minecraft:overworld from [898, 60] to [904, 66] to be force loaded"
+    },
+    {
+     "command": "place template moreminecrafts:sky_islands/forest/tower 14400 80 1000 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_islands/forest/tower\" at 14400, 80, 1000"
+    },
+    {
+     "command": "place template moreminecrafts:sky_tower/full_01 14385 97 997 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 14385, 97, 997"
+    },
+    {
+     "command": "setblock 14435 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14435, 97, 1020"
+    },
+    {
+     "command": "setblock 14435 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14435, 97, 1021"
+    },
+    {
+     "command": "setblock 14435 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14435, 97, 1022"
+    },
+    {
+     "command": "setblock 14436 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14436, 97, 1020"
+    },
+    {
+     "command": "setblock 14436 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14436, 97, 1021"
+    },
+    {
+     "command": "setblock 14436 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14436, 97, 1022"
+    },
+    {
+     "command": "setblock 14437 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14437, 97, 1020"
+    },
+    {
+     "command": "setblock 14437 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14437, 97, 1021"
+    },
+    {
+     "command": "setblock 14437 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14437, 97, 1022"
+    },
+    {
+     "command": "setblock 14438 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14438, 97, 1020"
+    },
+    {
+     "command": "setblock 14438 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14438, 97, 1021"
+    },
+    {
+     "command": "setblock 14438 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14438, 97, 1022"
+    },
+    {
+     "command": "setblock 14435 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14435, 98, 1019"
+    },
+    {
+     "command": "setblock 14435 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14435, 98, 1023"
+    },
+    {
+     "command": "setblock 14436 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14436, 98, 1019"
+    },
+    {
+     "command": "setblock 14436 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14436, 98, 1023"
+    },
+    {
+     "command": "setblock 14437 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14437, 98, 1019"
+    },
+    {
+     "command": "setblock 14437 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14437, 98, 1023"
+    },
+    {
+     "command": "setblock 14438 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14438, 98, 1019"
+    },
+    {
+     "command": "setblock 14438 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14438, 98, 1023"
+    },
+    {
+     "command": "setblock 14399 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14399, 95, 1011"
+    },
+    {
+     "command": "setblock 14400 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14400, 95, 1011"
+    },
+    {
+     "command": "setblock 14401 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14401, 95, 1011"
+    },
+    {
+     "command": "setblock 14402 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14402, 95, 1011"
+    },
+    {
+     "command": "setblock 14403 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14403, 95, 1011"
+    },
+    {
+     "command": "setblock 14404 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14404, 95, 1011"
+    },
+    {
+     "command": "setblock 14405 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14405, 95, 1011"
+    },
+    {
+     "command": "setblock 14399 96 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14399, 96, 1011"
+    },
+    {
+     "command": "setblock 14399 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14399, 95, 1031"
+    },
+    {
+     "command": "setblock 14400 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14400, 95, 1031"
+    },
+    {
+     "command": "setblock 14401 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14401, 95, 1031"
+    },
+    {
+     "command": "setblock 14402 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14402, 95, 1031"
+    },
+    {
+     "command": "setblock 14403 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14403, 95, 1031"
+    },
+    {
+     "command": "setblock 14404 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14404, 95, 1031"
+    },
+    {
+     "command": "setblock 14405 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14405, 95, 1031"
+    },
+    {
+     "command": "setblock 14406 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14406, 95, 1031"
+    },
+    {
+     "command": "setblock 14399 96 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14399, 96, 1031"
+    },
+    {
+     "command": "execute if block 14434 97 1021 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    },
+    {
+     "command": "execute if block 14435 97 1020 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    }
+   ],
+   "entrance_block_check": true,
+   "deck_sample_check": true
+  },
+  {
+   "style": "badlands",
+   "island_origin": [
+    14600,
+    80,
+    1000
+   ],
+   "candidate_id": "badlands_dx-12_dz0_r0_w3",
+   "commands": [
+    {
+     "command": "forceload add 14568 968 14664 1064",
+     "response": "Marked 49 chunks in minecraft:overworld from [910, 60] to [916, 66] to be force loaded"
+    },
+    {
+     "command": "place template moreminecrafts:sky_islands/badlands/tower 14600 80 1000 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_islands/badlands/tower\" at 14600, 80, 1000"
+    },
+    {
+     "command": "place template moreminecrafts:sky_tower/full_01 14585 97 997 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 14585, 97, 997"
+    },
+    {
+     "command": "setblock 14635 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14635, 97, 1020"
+    },
+    {
+     "command": "setblock 14635 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14635, 97, 1021"
+    },
+    {
+     "command": "setblock 14635 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14635, 97, 1022"
+    },
+    {
+     "command": "setblock 14636 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14636, 97, 1020"
+    },
+    {
+     "command": "setblock 14636 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14636, 97, 1021"
+    },
+    {
+     "command": "setblock 14636 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14636, 97, 1022"
+    },
+    {
+     "command": "setblock 14637 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14637, 97, 1020"
+    },
+    {
+     "command": "setblock 14637 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14637, 97, 1021"
+    },
+    {
+     "command": "setblock 14637 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14637, 97, 1022"
+    },
+    {
+     "command": "setblock 14638 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14638, 97, 1020"
+    },
+    {
+     "command": "setblock 14638 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14638, 97, 1021"
+    },
+    {
+     "command": "setblock 14638 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14638, 97, 1022"
+    },
+    {
+     "command": "setblock 14635 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14635, 98, 1019"
+    },
+    {
+     "command": "setblock 14635 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14635, 98, 1023"
+    },
+    {
+     "command": "setblock 14636 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14636, 98, 1019"
+    },
+    {
+     "command": "setblock 14636 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14636, 98, 1023"
+    },
+    {
+     "command": "setblock 14637 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14637, 98, 1019"
+    },
+    {
+     "command": "setblock 14637 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14637, 98, 1023"
+    },
+    {
+     "command": "setblock 14638 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14638, 98, 1019"
+    },
+    {
+     "command": "setblock 14638 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14638, 98, 1023"
+    },
+    {
+     "command": "setblock 14599 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14599, 95, 1011"
+    },
+    {
+     "command": "setblock 14600 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14600, 95, 1011"
+    },
+    {
+     "command": "setblock 14601 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14601, 95, 1011"
+    },
+    {
+     "command": "setblock 14602 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14602, 95, 1011"
+    },
+    {
+     "command": "setblock 14603 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14603, 95, 1011"
+    },
+    {
+     "command": "setblock 14604 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14604, 95, 1011"
+    },
+    {
+     "command": "setblock 14605 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14605, 95, 1011"
+    },
+    {
+     "command": "setblock 14599 96 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14599, 96, 1011"
+    },
+    {
+     "command": "setblock 14599 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14599, 95, 1031"
+    },
+    {
+     "command": "setblock 14600 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14600, 95, 1031"
+    },
+    {
+     "command": "setblock 14601 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14601, 95, 1031"
+    },
+    {
+     "command": "setblock 14602 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14602, 95, 1031"
+    },
+    {
+     "command": "setblock 14603 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14603, 95, 1031"
+    },
+    {
+     "command": "setblock 14604 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14604, 95, 1031"
+    },
+    {
+     "command": "setblock 14605 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14605, 95, 1031"
+    },
+    {
+     "command": "setblock 14606 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14606, 95, 1031"
+    },
+    {
+     "command": "setblock 14599 96 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14599, 96, 1031"
+    },
+    {
+     "command": "execute if block 14634 97 1021 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    },
+    {
+     "command": "execute if block 14635 97 1020 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    }
+   ],
+   "entrance_block_check": true,
+   "deck_sample_check": true
+  },
+  {
+   "style": "desert",
+   "island_origin": [
+    14800,
+    80,
+    1000
+   ],
+   "candidate_id": "desert_dx-12_dz0_r0_w3",
+   "commands": [
+    {
+     "command": "forceload add 14768 968 14864 1064",
+     "response": "Marked 49 chunks in minecraft:overworld from [923, 60] to [929, 66] to be force loaded"
+    },
+    {
+     "command": "place template moreminecrafts:sky_islands/desert/tower 14800 80 1000 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_islands/desert/tower\" at 14800, 80, 1000"
+    },
+    {
+     "command": "place template moreminecrafts:sky_tower/full_01 14785 97 997 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 14785, 97, 997"
+    },
+    {
+     "command": "setblock 14835 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14835, 97, 1020"
+    },
+    {
+     "command": "setblock 14835 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14835, 97, 1021"
+    },
+    {
+     "command": "setblock 14835 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14835, 97, 1022"
+    },
+    {
+     "command": "setblock 14836 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14836, 97, 1020"
+    },
+    {
+     "command": "setblock 14836 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14836, 97, 1021"
+    },
+    {
+     "command": "setblock 14836 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14836, 97, 1022"
+    },
+    {
+     "command": "setblock 14837 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14837, 97, 1020"
+    },
+    {
+     "command": "setblock 14837 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14837, 97, 1021"
+    },
+    {
+     "command": "setblock 14837 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14837, 97, 1022"
+    },
+    {
+     "command": "setblock 14838 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14838, 97, 1020"
+    },
+    {
+     "command": "setblock 14838 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14838, 97, 1021"
+    },
+    {
+     "command": "setblock 14838 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 14838, 97, 1022"
+    },
+    {
+     "command": "setblock 14835 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14835, 98, 1019"
+    },
+    {
+     "command": "setblock 14835 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14835, 98, 1023"
+    },
+    {
+     "command": "setblock 14836 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14836, 98, 1019"
+    },
+    {
+     "command": "setblock 14836 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14836, 98, 1023"
+    },
+    {
+     "command": "setblock 14837 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14837, 98, 1019"
+    },
+    {
+     "command": "setblock 14837 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14837, 98, 1023"
+    },
+    {
+     "command": "setblock 14838 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14838, 98, 1019"
+    },
+    {
+     "command": "setblock 14838 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 14838, 98, 1023"
+    },
+    {
+     "command": "setblock 14799 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14799, 95, 1011"
+    },
+    {
+     "command": "setblock 14800 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14800, 95, 1011"
+    },
+    {
+     "command": "setblock 14801 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14801, 95, 1011"
+    },
+    {
+     "command": "setblock 14802 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14802, 95, 1011"
+    },
+    {
+     "command": "setblock 14803 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14803, 95, 1011"
+    },
+    {
+     "command": "setblock 14804 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14804, 95, 1011"
+    },
+    {
+     "command": "setblock 14805 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14805, 95, 1011"
+    },
+    {
+     "command": "setblock 14806 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14806, 95, 1011"
+    },
+    {
+     "command": "setblock 14807 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14807, 95, 1011"
+    },
+    {
+     "command": "setblock 14799 96 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14799, 96, 1011"
+    },
+    {
+     "command": "setblock 14799 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14799, 95, 1031"
+    },
+    {
+     "command": "setblock 14800 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14800, 95, 1031"
+    },
+    {
+     "command": "setblock 14801 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14801, 95, 1031"
+    },
+    {
+     "command": "setblock 14802 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14802, 95, 1031"
+    },
+    {
+     "command": "setblock 14803 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14803, 95, 1031"
+    },
+    {
+     "command": "setblock 14799 96 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14799, 96, 1031"
+    },
+    {
+     "command": "execute if block 14834 97 1021 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    },
+    {
+     "command": "execute if block 14835 97 1020 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    }
+   ],
+   "entrance_block_check": true,
+   "deck_sample_check": true
+  },
+  {
+   "style": "rocky",
+   "island_origin": [
+    15000,
+    80,
+    1000
+   ],
+   "candidate_id": "rocky_dx-12_dz0_r0_w3",
+   "commands": [
+    {
+     "command": "forceload add 14968 968 15064 1064",
+     "response": "Marked 49 chunks in minecraft:overworld from [935, 60] to [941, 66] to be force loaded"
+    },
+    {
+     "command": "place template moreminecrafts:sky_islands/rocky/tower 15000 80 1000 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_islands/rocky/tower\" at 15000, 80, 1000"
+    },
+    {
+     "command": "place template moreminecrafts:sky_tower/full_01 14985 97 997 none none 1.0 0 strict",
+     "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 14985, 97, 997"
+    },
+    {
+     "command": "setblock 15035 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15035, 97, 1020"
+    },
+    {
+     "command": "setblock 15035 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15035, 97, 1021"
+    },
+    {
+     "command": "setblock 15035 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15035, 97, 1022"
+    },
+    {
+     "command": "setblock 15036 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15036, 97, 1020"
+    },
+    {
+     "command": "setblock 15036 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15036, 97, 1021"
+    },
+    {
+     "command": "setblock 15036 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15036, 97, 1022"
+    },
+    {
+     "command": "setblock 15037 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15037, 97, 1020"
+    },
+    {
+     "command": "setblock 15037 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15037, 97, 1021"
+    },
+    {
+     "command": "setblock 15037 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15037, 97, 1022"
+    },
+    {
+     "command": "setblock 15038 97 1020 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15038, 97, 1020"
+    },
+    {
+     "command": "setblock 15038 97 1021 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15038, 97, 1021"
+    },
+    {
+     "command": "setblock 15038 97 1022 minecraft:stone_brick_slab[type=bottom,waterlogged=false]",
+     "response": "Changed the block at 15038, 97, 1022"
+    },
+    {
+     "command": "setblock 15035 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 15035, 98, 1019"
+    },
+    {
+     "command": "setblock 15035 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 15035, 98, 1023"
+    },
+    {
+     "command": "setblock 15036 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 15036, 98, 1019"
+    },
+    {
+     "command": "setblock 15036 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 15036, 98, 1023"
+    },
+    {
+     "command": "setblock 15037 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 15037, 98, 1019"
+    },
+    {
+     "command": "setblock 15037 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 15037, 98, 1023"
+    },
+    {
+     "command": "setblock 15038 98 1019 minecraft:stone_brick_wall",
+     "response": "Changed the block at 15038, 98, 1019"
+    },
+    {
+     "command": "setblock 15038 98 1023 minecraft:stone_brick_wall",
+     "response": "Changed the block at 15038, 98, 1023"
+    },
+    {
+     "command": "setblock 14999 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14999, 95, 1011"
+    },
+    {
+     "command": "setblock 15000 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 15000, 95, 1011"
+    },
+    {
+     "command": "setblock 15001 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 15001, 95, 1011"
+    },
+    {
+     "command": "setblock 15002 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 15002, 95, 1011"
+    },
+    {
+     "command": "setblock 15003 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 15003, 95, 1011"
+    },
+    {
+     "command": "setblock 15004 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 15004, 95, 1011"
+    },
+    {
+     "command": "setblock 15005 95 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 15005, 95, 1011"
+    },
+    {
+     "command": "setblock 14999 96 1011 minecraft:stone_bricks",
+     "response": "Changed the block at 14999, 96, 1011"
+    },
+    {
+     "command": "setblock 14999 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14999, 95, 1031"
+    },
+    {
+     "command": "setblock 15000 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15000, 95, 1031"
+    },
+    {
+     "command": "setblock 15001 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15001, 95, 1031"
+    },
+    {
+     "command": "setblock 15002 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15002, 95, 1031"
+    },
+    {
+     "command": "setblock 15003 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15003, 95, 1031"
+    },
+    {
+     "command": "setblock 15004 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15004, 95, 1031"
+    },
+    {
+     "command": "setblock 15005 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15005, 95, 1031"
+    },
+    {
+     "command": "setblock 15006 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15006, 95, 1031"
+    },
+    {
+     "command": "setblock 15007 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15007, 95, 1031"
+    },
+    {
+     "command": "setblock 15008 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15008, 95, 1031"
+    },
+    {
+     "command": "setblock 15009 95 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 15009, 95, 1031"
+    },
+    {
+     "command": "setblock 14999 96 1031 minecraft:stone_bricks",
+     "response": "Changed the block at 14999, 96, 1031"
+    },
+    {
+     "command": "execute if block 15034 97 1021 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    },
+    {
+     "command": "execute if block 15035 97 1020 minecraft:stone_brick_slab[type=bottom]",
+     "response": "Test passed"
+    }
+   ],
+   "entrance_block_check": true,
+   "deck_sample_check": true
+  }
+ ],
+ "save_response": "Saving the game (this may take a moment!)Saved the game",
+ "stop_response": "Stopping the server"
+}

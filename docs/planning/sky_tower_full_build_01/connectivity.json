@@ -1,0 +1,123 @@
+{
+ "main_component": 32312,
+ "other_components": [
+  {
+   "count": 15,
+   "groups": [
+    "floating_relic"
+   ],
+   "sample": [
+    [
+     -3,
+     70,
+     -2
+    ],
+    [
+     -2,
+     70,
+     -2
+    ],
+    [
+     -3,
+     70,
+     -1
+    ],
+    [
+     -2,
+     70,
+     -3
+    ],
+    [
+     -3,
+     70,
+     0
+    ],
+    [
+     -1,
+     70,
+     -3
+    ],
+    [
+     -3,
+     70,
+     1
+    ],
+    [
+     0,
+     70,
+     -3
+    ]
+   ],
+   "intended_relic": true
+  },
+  {
+   "count": 5,
+   "groups": [
+    "floating_relic"
+   ],
+   "sample": [
+    [
+     -1,
+     70,
+     3
+    ],
+    [
+     0,
+     70,
+     3
+    ],
+    [
+     1,
+     70,
+     3
+    ],
+    [
+     2,
+     70,
+     3
+    ],
+    [
+     2,
+     70,
+     2
+    ]
+   ],
+   "intended_relic": true
+  },
+  {
+   "count": 2,
+   "groups": [
+    "relic_core"
+   ],
+   "sample": [
+    [
+     0,
+     70,
+     0
+    ],
+    [
+     0,
+     71,
+     0
+    ]
+   ],
+   "intended_relic": true
+  },
+  {
+   "count": 1,
+   "groups": [
+    "floating_relic"
+   ],
+   "sample": [
+    [
+     -2,
+     70,
+     2
+    ]
+   ],
+   "intended_relic": true
+  }
+ ],
+ "unintended": 0,
+ "note": "Voxel face connectivity; slab half-height support also needs physical audit."
+}

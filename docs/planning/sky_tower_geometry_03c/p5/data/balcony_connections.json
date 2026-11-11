@@ -1,0 +1,146 @@
+[
+ {
+  "id": "B2-5",
+  "shift": 0,
+  "opening_columns": 3,
+  "mean_long_axis_offset": 2.0,
+  "local_rejections": "",
+  "global_status": "CONFLICT: unchanged K2 width witness <4",
+  "note": "Local screen only; rail edge sweep, 3D BFS and full template not certified for alternatives",
+  "top": 30.5,
+  "origin": [
+   -8,
+   -22
+  ],
+  "landing_deg": [
+   256.13,
+   265.95
+  ]
+ },
+ {
+  "id": "B3-2",
+  "shift": 0,
+  "opening_columns": 3,
+  "mean_long_axis_offset": 2.0,
+  "local_rejections": "",
+  "global_status": "CONFLICT: unchanged K2 width witness <4",
+  "note": "Local screen only; rail edge sweep, 3D BFS and full template not certified for alternatives",
+  "top": 37.5,
+  "origin": [
+   -8,
+   20
+  ],
+  "landing_deg": [
+   94.05,
+   103.87
+  ]
+ },
+ {
+  "id": "B3-6",
+  "shift": 0,
+  "opening_columns": 3,
+  "mean_long_axis_offset": 2.0,
+  "local_rejections": "",
+  "global_status": "CONFLICT: unchanged K2 width witness <4",
+  "note": "Local screen only; rail edge sweep, 3D BFS and full template not certified for alternatives",
+  "top": 45.0,
+  "origin": [
+   2,
+   -22
+  ],
+  "landing_deg": [
+   274.05,
+   283.87
+  ]
+ },
+ {
+  "id": "B2-1",
+  "shift": 0,
+  "opening_columns": 3,
+  "mean_long_axis_offset": 2.0,
+  "local_rejections": "",
+  "global_status": "CONFLICT: unchanged K2 width witness <4",
+  "note": "Local screen only; rail edge sweep, 3D BFS and full template not certified for alternatives",
+  "top": 24.0,
+  "origin": [
+   2,
+   20
+  ],
+  "landing_deg": [
+   76.13,
+   85.95
+  ]
+ },
+ {
+  "id": "B1-4",
+  "shift": 0,
+  "opening_columns": 3,
+  "mean_long_axis_offset": 2.0,
+  "local_rejections": "",
+  "global_status": "CONFLICT: unchanged K2 width witness <4",
+  "note": "Local screen only; rail edge sweep, 3D BFS and full template not certified for alternatives",
+  "top": 16.5,
+  "origin": [
+   -22,
+   -8
+  ],
+  "landing_deg": [
+   184.05,
+   193.87
+  ]
+ },
+ {
+  "id": "B4-3",
+  "shift": 0,
+  "opening_columns": 3,
+  "mean_long_axis_offset": 2.0,
+  "local_rejections": "",
+  "global_status": "CONFLICT: unchanged K2 width witness <4",
+  "note": "Local screen only; rail edge sweep, 3D BFS and full template not certified for alternatives",
+  "top": 56.0,
+  "origin": [
+   -22,
+   2
+  ],
+  "landing_deg": [
+   166.13,
+   175.95
+  ]
+ },
+ {
+  "id": "B4-7",
+  "shift": 0,
+  "opening_columns": 3,
+  "mean_long_axis_offset": 2.0,
+  "local_rejections": "",
+  "global_status": "CONFLICT: unchanged K2 width witness <4",
+  "note": "Local screen only; rail edge sweep, 3D BFS and full template not certified for alternatives",
+  "top": 65.0,
+  "origin": [
+   20,
+   -8
+  ],
+  "landing_deg": [
+   346.13,
+   355.95
+  ]
+ },
+ {
+  "id": "B1-0",
+  "shift": 0,
+  "opening_columns": 3,
+  "mean_long_axis_offset": 2.0,
+  "local_rejections": "",
+  "global_status": "CONFLICT: unchanged K2 width witness <4",
+  "note": "Local screen only; rail edge sweep, 3D BFS and full template not certified for alternatives",
+  "top": 11.0,
+  "origin": [
+   20,
+   2
+  ],
+  "landing_deg": [
+   4.05,
+   13.87
+  ]
+ }
+]

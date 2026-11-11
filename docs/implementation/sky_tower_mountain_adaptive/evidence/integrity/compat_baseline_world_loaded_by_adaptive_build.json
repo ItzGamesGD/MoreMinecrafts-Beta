@@ -1,0 +1,18 @@
+{
+  "seed": 31,
+  "restart": true,
+  "sites_before": 1,
+  "sites_after": 1,
+  "structure_start_reloaded_for_site": {
+    "minecraft:overworld|-368,193,224|1": true
+  },
+  "progress_before": {
+    "minecraft:overworld|-368,193,224|1": 1
+  },
+  "progress_after": {
+    "minecraft:overworld|-368,193,224|1": 1
+  },
+  "same_sites_without_duplicates": true,
+  "same_progress": true,
+  "pass": true
+}
