@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.accessory.StarCovenantVaultRewards;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -11,8 +12,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.VaultBlock;
 import net.minecraft.world.level.block.entity.vault.VaultBlockEntity;
 import net.minecraft.world.level.block.entity.vault.VaultConfig;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 /**
@@ -78,13 +82,13 @@ public final class SkyTowerVaultRewards {
         return -1;
     }
 
-    /**
-     * Returns true if pos is the rooftop special vault.
-     * In the baseline candidate geometry, no rooftop vault is placed in NBT pending owner decision on container/coords.
-     */
+    /** Returns true if pos is the rooftop special vault of a registered tower. */
     public static boolean isRooftopVault(ServerLevel level, BlockPos pos) {
-        // Reserved for owner-approved rooftop vault coordinates.
-        return false;
+        if (level == null || pos == null) return false;
+        var site = findSite(level, pos);
+        if (site == null) return false;
+        var pt = site.rooftopVault();
+        return pos.getX() == pt.x() && pos.getY() == pt.y() && pos.getZ() == pt.z();
     }
 
     /** Returns true if pos is any Sky Tower vault (normal or rooftop). */
@@ -92,7 +96,56 @@ public final class SkyTowerVaultRewards {
         return isNormalVault(level, pos) || isRooftopVault(level, pos);
     }
 
-    /** Configures all 8 normal vaults for the given site in the world. */
+    /**
+     * Determines the horizontal facing direction for the rooftop vault based on site rotation.
+     * Local facing is NORTH; rotated clockwise by rotation * 90 degrees.
+     */
+    public static Direction rooftopVaultFacing(int rotation) {
+        return switch (rotation) {
+            case 1 -> Direction.EAST;
+            case 2 -> Direction.SOUTH;
+            case 3 -> Direction.WEST;
+            default -> Direction.NORTH;
+        };
+    }
+
+    /**
+     * Places and configures the rooftop special vault if the position is air,
+     * or ensures configuration if already a vault.
+     * Idempotent; never overwrites unrelated blocks and never resets player eligibility.
+     */
+    public static boolean placeAndConfigureRooftopVault(ServerLevel level, SkyTowerLayout.Site site) {
+        if (level == null || site == null) return false;
+        var pt = site.rooftopVault();
+        var pos = new BlockPos(pt.x(), pt.y(), pt.z());
+        if (!level.hasChunkAt(pos)) return false;
+
+        BlockState current = level.getBlockState(pos);
+        if (current.is(Blocks.VAULT)) {
+            var be = level.getBlockEntity(pos);
+            if (be instanceof VaultBlockEntity vault) {
+                configureRooftopVault(vault, new ItemStack(Items.TRIAL_KEY));
+                return true;
+            }
+            return false;
+        }
+
+        if (current.isAir()) {
+            Direction facing = rooftopVaultFacing(site.rotation());
+            BlockState vaultState = Blocks.VAULT.defaultBlockState()
+                    .setValue(VaultBlock.FACING, facing)
+                    .setValue(VaultBlock.OMINOUS, false);
+            level.setBlock(pos, vaultState, 3);
+            var be = level.getBlockEntity(pos);
+            if (be instanceof VaultBlockEntity vault) {
+                configureRooftopVault(vault, new ItemStack(Items.TRIAL_KEY));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Configures all 8 normal vaults and the rooftop special vault for the given site in the world. */
     public static int configureSiteVaults(ServerLevel level, SkyTowerLayout.Site site) {
         if (level == null || site == null) return 0;
         int configured = 0;
@@ -106,6 +159,9 @@ public final class SkyTowerVaultRewards {
                     configured++;
                 }
             }
+        }
+        if (placeAndConfigureRooftopVault(level, site)) {
+            configured++;
         }
         return configured;
     }

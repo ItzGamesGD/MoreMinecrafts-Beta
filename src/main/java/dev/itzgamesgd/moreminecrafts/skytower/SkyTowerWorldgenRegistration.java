@@ -26,9 +26,27 @@ public final class SkyTowerWorldgenRegistration {
     private SkyTowerWorldgenRegistration() {}
 
     public static void initialize() {
-        ServerChunkEvents.CHUNK_LOAD.register((level, chunk, newChunk) -> discover(level, chunk));
+        ServerChunkEvents.CHUNK_LOAD.register((level, chunk, newChunk) -> {
+            discover(level, chunk);
+            reconcileRooftop(level, chunk);
+        });
         ServerTickEvents.END_SERVER_TICK.register(SkyTowerWorldgenRegistration::tick);
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> PENDING.clear());
+    }
+
+    private static void reconcileRooftop(ServerLevel level, ChunkAccess chunk) {
+        var data = level.getServer().overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
+        if (data.quarantined() || data.sites().isEmpty()) return;
+        String dim = level.dimension().identifier().toString();
+        int chunkX = chunk.getPos().x;
+        int chunkZ = chunk.getPos().z;
+        for (var site : data.sites().values()) {
+            if (!site.dimension().equals(dim)) continue;
+            var pt = site.rooftopVault();
+            if ((pt.x() >> 4) == chunkX && (pt.z() >> 4) == chunkZ) {
+                SkyTowerVaultRewards.placeAndConfigureRooftopVault(level, site);
+            }
+        }
     }
 
     private static void discover(ServerLevel level, ChunkAccess chunk) {
