@@ -1,16 +1,18 @@
 package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Deterministic, bounded candidate qualification for one ST-01 anchor. Pure logic over a {@link Terrain} view, so the
  * identical code runs in production (real chunk generator), in unit tests (synthetic terrain) and in the validation probe.
- * Ported from Phase 4 ({@code ada10ba3}) and extended with the entrance stage and the complete-assembly volume.
+ * Ported from Phase 4 ({@code ada10ba3}).
  *
  * <p>Stages are evaluated in this order and reported distinctly: (1) full-footprint Desert, (2) MODERATE terrain
- * (height difference, cut, skirt), (3) entrance not obstructed, (4) underground fluid safety. A rejection has no side
- * effects: no structure start exists, so no block is ever written for a rejected candidate.
+ * (height difference, cut, skirt), (3) Desert at the stub cell. A rejection has no side effects: no structure start
+ * exists, so no block is ever written for a rejected candidate.
+ *
+ * <p>P8-C2-C (owner-approved Policy D): the former entrance-obstruction and underground-fluid rejection stages are removed.
+ * A buried entrance or natural underground fluid never makes a candidate ineligible.
  *
  * <p>Definitions (O-14): heights are {@code WORLD_SURFACE_WG} base heights of every footprint column; height difference =
  * max - min; foundation level {@code yf} = median height; cut = max(0, max - yf); skirt = max(0, yf - min). The pyramid's
@@ -30,47 +32,26 @@ public final class St01Eligibility {
 
         /** Whether the noise biome of the quart cell is Desert. */
         boolean isDesertCell(int quartX, int quartY, int quartZ);
-
-        /** Whether any generated base-terrain block in [minY, maxY] of the column holds fluid (aquifer water/lava, noise-cave fluid). */
-        boolean hasFluid(int x, int z, int minY, int maxY);
     }
-
-    /** Underground volume the structure occupies, relative to the anchor column (dx, dz) and foundation level (dy). Inclusive. */
-    public record Volume(int minDx, int maxDx, int minDy, int maxDy, int minDz, int maxDz) {}
 
     public enum Verdict {
         ELIGIBLE,
         REJECT_BIOME,
         REJECT_HEIGHT_DIFFERENCE,
         REJECT_CUT,
-        REJECT_SKIRT,
-        REJECT_ENTRANCE,
-        REJECT_FLUID
+        REJECT_SKIRT
     }
 
     public record Result(Verdict verdict, int minHeight, int maxHeight, int foundationY, int heightDifference, int cut, int skirt) {
         public boolean eligible() { return verdict == Verdict.ELIGIBLE; }
         public boolean biomeQualified() { return verdict != Verdict.REJECT_BIOME; }
-        /** Passed the MODERATE height-difference / cut / skirt stage. */
-        public boolean terrainQualified() {
-            return verdict == Verdict.ELIGIBLE || verdict == Verdict.REJECT_FLUID || verdict == Verdict.REJECT_ENTRANCE;
-        }
-        /** Passed the entrance stage. */
-        public boolean entranceQualified() { return verdict == Verdict.ELIGIBLE || verdict == Verdict.REJECT_FLUID; }
+        /** Passed the full-footprint Desert, MODERATE terrain and stub-cell stages (the only remaining eligibility stages). */
+        public boolean terrainQualified() { return verdict == Verdict.ELIGIBLE; }
     }
 
     private static final Result BIOME_REJECT = new Result(Verdict.REJECT_BIOME, 0, 0, 0, 0, 0, 0);
 
-    /** Without an entrance stage (unit tests of the terrain rules only). */
-    public static Result evaluate(Terrain terrain, int centerX, int centerZ, Volume underground) {
-        return evaluate(terrain, centerX, centerZ, underground, List.of());
-    }
-
-    /**
-     * @param entranceApproach column offsets (dx, dz) from the anchor of the row directly in front of the main entrance,
-     *                         already rotated to the candidate's orientation
-     */
-    public static Result evaluate(Terrain terrain, int centerX, int centerZ, Volume underground, List<int[]> entranceApproach) {
+    public static Result evaluate(Terrain terrain, int centerX, int centerZ) {
         if (!fullFootprintDesert(terrain, centerX, centerZ)) return BIOME_REJECT;
 
         int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
@@ -96,15 +77,6 @@ public final class St01Eligibility {
             return new Result(Verdict.REJECT_BIOME, min, max, yf, diff, cut, skirt);
         }
 
-        for (int[] d : entranceApproach) {
-            if (terrain.surfaceHeight(centerX + d[0], centerZ + d[1]) > yf + St01PlacementConfig.ENTRANCE_MAX_STEP_UP) {
-                return new Result(Verdict.REJECT_ENTRANCE, min, max, yf, diff, cut, skirt);
-            }
-        }
-
-        if (underground != null && fluidIntersects(terrain, centerX, centerZ, yf, underground)) {
-            return new Result(Verdict.REJECT_FLUID, min, max, yf, diff, cut, skirt);
-        }
         return new Result(Verdict.ELIGIBLE, min, max, yf, diff, cut, skirt);
     }
 
@@ -128,15 +100,5 @@ public final class St01Eligibility {
         int surfaceBlockY = terrain.surfaceHeight(qx * 4 + 2, qz * 4 + 2) - 1;
         int qy = Math.floorDiv(surfaceBlockY - 2, 4);
         return terrain.isDesertCell(qx, qy, qz) && terrain.isDesertCell(qx, qy + 1, qz);
-    }
-
-    private static boolean fluidIntersects(Terrain terrain, int cx, int cz, int yf, Volume v) {
-        int m = St01PlacementConfig.FLUID_MARGIN;
-        for (int x = cx + v.minDx() - m; x <= cx + v.maxDx() + m; x++) {
-            for (int z = cz + v.minDz() - m; z <= cz + v.maxDz() + m; z++) {
-                if (terrain.hasFluid(x, z, yf + v.minDy() - m, yf + v.maxDy() + m)) return true;
-            }
-        }
-        return false;
     }
 }

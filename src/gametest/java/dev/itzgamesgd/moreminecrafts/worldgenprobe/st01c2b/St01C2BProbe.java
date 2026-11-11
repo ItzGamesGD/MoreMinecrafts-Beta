@@ -64,7 +64,6 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
@@ -156,14 +155,19 @@ public final class St01C2BProbe implements ModInitializer {
         @Override public boolean isDesertCell(int qx, int qy, int qz) {
             return level.getUncachedNoiseBiome(qx, qy, qz).is(Biomes.DESERT);
         }
+    }
 
-        @Override public boolean hasFluid(int x, int z, int minY, int maxY) {
-            NoiseColumn c = generator.getBaseColumn(x, z, level, random);
-            for (int y = Math.max(minY, level.getMinY()); y <= Math.min(maxY, level.getMaxY()); y++) {
-                if (!c.getBlock(y).getFluidState().isEmpty()) return true;
-            }
-            return false;
+    /**
+     * Diagnostic only (Policy D keeps no entrance criterion in production): the 25 columns of the row directly outside the
+     * authored main-entrance opening (authored X-12..12, Z=+41), rotated about the anchor column.
+     */
+    static List<int[]> entranceApproach(Orientation orientation) {
+        List<int[]> row = new ArrayList<>();
+        for (int x = -12; x <= 12; x++) {
+            BlockPos q = St01PyramidAssembly.worldPos(new BlockPos(x, 0, 41), BlockPos.ZERO, orientation);
+            row.add(new int[]{q.getX(), q.getZ()});
         }
+        return row;
     }
 
     /** Independent re-derivation of the start's seeded rotation (vanilla Structure.GenerationContext.makeRandom). */
@@ -225,7 +229,7 @@ public final class St01C2BProbe implements ModInitializer {
             if (phase.equals("reverse")) Collections.reverse(regions);
             if (phase.equals("random")) Collections.shuffle(regions, new Random(seed ^ 0x5EEDL));
             ProbeTerrain terrain = new ProbeTerrain(level);
-            int potential = 0, centerDesert = 0, desert = 0, terrainQ = 0, entranceQ = 0, eligible = 0, actual = 0, mismatches = 0;
+            int potential = 0, centerDesert = 0, desert = 0, terrainQ = 0, eligible = 0, actual = 0, mismatches = 0;
             Map<String, Integer> rejection = new TreeMap<>();
             Map<String, Integer> eastWestPredicted = new TreeMap<>();
             List<String> mismatchSamples = new ArrayList<>();
@@ -241,7 +245,6 @@ public final class St01C2BProbe implements ModInitializer {
                 St01Eligibility.Result res = d.result();
                 if (res.biomeQualified()) desert++;
                 if (res.terrainQualified()) terrainQ++;
-                if (res.entranceQualified()) entranceQ++;
                 if (res.eligible()) { eligible++; eastWestPredicted.merge(d.route().orElseThrow().name(), 1, Integer::sum); }
                 else rejection.merge(res.verdict().name(), 1, Integer::sum);
                 if (res.biomeQualified() && !res.eligible() && rejectedForAudit.size() < Integer.getInteger("mm.st01.c2b.rejectaudit", 2)) {
@@ -271,8 +274,7 @@ public final class St01C2BProbe implements ModInitializer {
             stats.put("center_only_desert_anchors", centerDesert);
             stats.put("full_desert_qualified", desert);
             stats.put("terrain_qualified", terrainQ);
-            stats.put("entrance_qualified", entranceQ);
-            stats.put("fluid_safe_eligible_predicted", eligible);
+            stats.put("eligible_predicted", eligible);
             stats.put("actual_valid_starts", actual);
             stats.put("predicted_routes", eastWestPredicted);
             stats.put("prediction_vs_actual_mismatches", mismatches);
@@ -383,7 +385,7 @@ public final class St01C2BProbe implements ModInitializer {
         // structure-owned cells vs approved templates; hashes
         Map<Long, BlockState> expected = expectedStates(level, ground, o, route);
         MessageDigest owned = MessageDigest.getInstance("SHA-256"), whole = MessageDigest.getInstance("SHA-256");
-        int ownedMismatch = 0, voidNonAir = 0, fluidInBox = 0, nonDesert = 0;
+        int ownedMismatch = 0, voidNonAir = 0, voidFluid = 0, fluidInBox = 0, nonDesert = 0;
         List<String> mismatchSamples = new ArrayList<>();
         Map<String, Integer> voidLeftovers = new TreeMap<>();
         BlockPos.MutableBlockPos m = new BlockPos.MutableBlockPos();
@@ -400,6 +402,8 @@ public final class St01C2BProbe implements ModInitializer {
                     ownedMismatch++;
                     if (mismatchSamples.size() < 12) mismatchSamples.add(m.toShortString() + " want " + want + " got " + actual);
                 }
+            } else if (!actual.getFluidState().isEmpty()) {
+                voidFluid++; // Policy D: natural fluid next to/inside the structure is an accepted observation, not terrain left behind
             } else if (!actual.isAir()) {
                 voidNonAir++;
                 voidLeftovers.merge(BuiltInRegistries.BLOCK.getKey(actual.getBlock()).toString(), 1, Integer::sum);
@@ -413,6 +417,7 @@ public final class St01C2BProbe implements ModInitializer {
         rec.put("void_cells_non_air", voidNonAir);
         rec.put("void_leftover_blocks", voidLeftovers);
         rec.put("fluid_blocks_in_completion_box", fluidInBox);
+        rec.put("fluid_blocks_in_structure_void_cells", voidFluid);
 
         // fluid in the 1-block shell around the underground block (outside the structure; reported, not sealed)
         int shellFluid = 0;
@@ -449,16 +454,26 @@ public final class St01C2BProbe implements ModInitializer {
         rec.put("edge_ring_max_drop_below_walk_level", edgeDown);
         // entrance: approach row and opening
         int approachMax = Integer.MIN_VALUE;
-        for (int[] d : St01Candidate.entranceApproach(o)) {
+        for (int[] d : entranceApproach(o)) {
             approachMax = Math.max(approachMax, level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ground.getX() + d[0], ground.getZ() + d[1]) - ground.getY());
         }
         boolean openingClear = true;
         for (int x = -12; x <= 12; x++) for (int y = 0; y <= 11; y++) {
-            if (!level.getBlockState(St01PyramidAssembly.worldPos(new BlockPos(x, y, 40), ground, o)).isAir()) openingClear = false;
+            BlockState b = level.getBlockState(St01PyramidAssembly.worldPos(new BlockPos(x, y, 40), ground, o));
+            if (!b.isAir() && b.getFluidState().isEmpty()) openingClear = false; // authored opening: air (natural fluid is an accepted observation)
         }
         rec.put("entrance_approach_max_rise", approachMax);
         rec.put("entrance_opening_clear", openingClear);
-        rec.put("entrance_accessible", openingClear && approachMax <= St01PlacementConfig.ENTRANCE_MAX_STEP_UP);
+        // Policy D: a buried entrance is an accepted outcome, recorded only
+        rec.put("entrance_buried", approachMax > 1);
+        // no excavation outside the structure: every approach column that the base terrain made solid at its surface is still non-air
+        int approachExcavated = 0;
+        for (int[] d : entranceApproach(o)) {
+            int bx = ground.getX() + d[0], bz = ground.getZ() + d[1];
+            int h = t.surfaceHeight(bx, bz);
+            if (h - 1 > ground.getY() && level.getBlockState(new BlockPos(bx, h - 1, bz)).isAir()) approachExcavated++;
+        }
+        rec.put("entrance_approach_columns_excavated", approachExcavated);
 
         // vanilla structure overlap
         rec.put("vanilla_structure_overlaps", overlaps(level, structure, box));
@@ -471,8 +486,8 @@ public final class St01C2BProbe implements ModInitializer {
         if (instance.isPresent()) rec.put("lifecycle", phase.equals("reload") ? verifyPersisted(level, instance.get(), p) : lifecycle(level, instance.get(), p));
 
         boolean pass = instance.isPresent() && Boolean.TRUE.equals(rec.get("no_premature_registration")) && ownedMismatch == 0 && voidNonAir == 0
-                && fluidInBox == 0 && nonDesert == 0 && Boolean.TRUE.equals(rec.get("moderate_limits_respected"))
-                && Boolean.TRUE.equals(rec.get("entrance_accessible")) && Boolean.TRUE.equals(rec.get("start_box_equals_completion_box"))
+                && nonDesert == 0 && Boolean.TRUE.equals(rec.get("moderate_limits_respected"))
+                && openingClear && approachExcavated == 0 && Boolean.TRUE.equals(rec.get("start_box_equals_completion_box"))
                 && route.name().equals(rec.get("route_rederived")) && Boolean.TRUE.equals(rec.get("repeat_completion_idempotent"));
         @SuppressWarnings("unchecked") Map<String, Object> lc = (Map<String, Object>) rec.get("lifecycle");
         if (lc != null) pass &= Boolean.TRUE.equals(lc.get("pass"));

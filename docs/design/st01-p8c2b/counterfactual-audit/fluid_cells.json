@@ -1,0 +1,1529 @@
+[
+ {
+  "by_dy": {
+   "-10": 67,
+   "-11": 69,
+   "-12": 75,
+   "-13": 84,
+   "-14": 115,
+   "-15": 127,
+   "-16": 115,
+   "-17": 92,
+   "-18": 78,
+   "-19": 73,
+   "-20": 61,
+   "-21": 53,
+   "-22": 48,
+   "-23": 26,
+   "-24": 21,
+   "-25": 17,
+   "-7": 61,
+   "-8": 60,
+   "-9": 68
+  },
+  "chunk": "-477,-217",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 30,
+   "VOLUME_SOLID": 1280
+  },
+  "columns_in_volume": 464,
+  "columns_margin_only": 14,
+  "foundation_y": 69,
+  "kinds_in_volume": {
+   "1": 1280
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 1001
+ },
+ {
+  "by_dy": {
+   "-25": 4,
+   "-26": 15,
+   "-27": 24,
+   "-28": 21,
+   "-29": 7
+  },
+  "chunk": "-463,458",
+  "class_counts": {
+   "VOLUME_SOLID": 71
+  },
+  "columns_in_volume": 28,
+  "columns_margin_only": 0,
+  "foundation_y": 65,
+  "kinds_in_volume": {
+   "1": 71
+  },
+  "orientation": "EAST",
+  "route": "WEST",
+  "seed": 1001
+ },
+ {
+  "by_dy": {
+   "-10": 162,
+   "-11": 173,
+   "-12": 173,
+   "-13": 162,
+   "-14": 96,
+   "-15": 69,
+   "-16": 54,
+   "-17": 21,
+   "-18": 21,
+   "-19": 2,
+   "-22": 65,
+   "-23": 81,
+   "-24": 92,
+   "-25": 91,
+   "-26": 61,
+   "-27": 43,
+   "-28": 57,
+   "-29": 79,
+   "-30": 104,
+   "-31": 101,
+   "-32": 105,
+   "-33": 102,
+   "-8": 209,
+   "-9": 175
+  },
+  "chunk": "-435,-279",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 166,
+   "VOLUME_CAVITY_AIR": 703,
+   "VOLUME_SOLID": 1429
+  },
+  "columns_in_volume": 530,
+  "columns_margin_only": 37,
+  "foundation_y": 70,
+  "kinds_in_volume": {
+   "1": 2132
+  },
+  "orientation": "WEST",
+  "route": "WEST",
+  "seed": 1001
+ },
+ {
+  "by_dy": {
+   "-10": 6,
+   "-11": 5,
+   "-12": 5,
+   "-13": 4,
+   "-14": 3,
+   "-15": 3,
+   "-16": 2,
+   "-17": 2,
+   "-18": 1,
+   "-26": 2,
+   "-7": 5,
+   "-8": 7,
+   "-9": 7
+  },
+  "chunk": "48,-434",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 46,
+   "VOLUME_SOLID": 6
+  },
+  "columns_in_volume": 4,
+  "columns_margin_only": 10,
+  "foundation_y": 69,
+  "kinds_in_volume": {
+   "1": 6
+  },
+  "orientation": "WEST",
+  "route": "WEST",
+  "seed": 1001
+ },
+ {
+  "by_dy": {
+   "-10": 21,
+   "-11": 20,
+   "-12": 18,
+   "-13": 20,
+   "-14": 17,
+   "-15": 12,
+   "-16": 8,
+   "-17": 11,
+   "-18": 4,
+   "-19": 3,
+   "-21": 2,
+   "-22": 5,
+   "-23": 8,
+   "-24": 10
+  },
+  "chunk": "44,-147",
+  "class_counts": {
+   "VOLUME_CAVITY_AIR": 121,
+   "VOLUME_SOLID": 38
+  },
+  "columns_in_volume": 64,
+  "columns_margin_only": 0,
+  "foundation_y": 72,
+  "kinds_in_volume": {
+   "1": 159
+  },
+  "orientation": "SOUTH",
+  "route": "EAST",
+  "seed": 1002
+ },
+ {
+  "by_dy": {
+   "-23": 9,
+   "-24": 17,
+   "-25": 30,
+   "-26": 39,
+   "-27": 46,
+   "-28": 47,
+   "-29": 41,
+   "-30": 23,
+   "-31": 14,
+   "-32": 12,
+   "-33": 14
+  },
+  "chunk": "329,527",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 118,
+   "VOLUME_SOLID": 174
+  },
+  "columns_in_volume": 45,
+  "columns_margin_only": 15,
+  "foundation_y": 71,
+  "kinds_in_volume": {
+   "1": 174
+  },
+  "orientation": "NORTH",
+  "route": "WEST",
+  "seed": 1002
+ },
+ {
+  "by_dy": {
+   "-10": 114,
+   "-11": 134,
+   "-12": 165,
+   "-13": 192,
+   "-14": 174,
+   "-15": 153,
+   "-16": 193,
+   "-17": 179,
+   "-18": 128,
+   "-19": 103,
+   "-20": 96,
+   "-21": 88,
+   "-22": 220,
+   "-23": 232,
+   "-24": 171,
+   "-25": 123,
+   "-26": 91,
+   "-27": 69,
+   "-28": 49,
+   "-29": 63,
+   "-30": 39,
+   "-31": 17,
+   "-32": 10,
+   "-33": 10,
+   "-7": 140,
+   "-8": 103,
+   "-9": 100
+  },
+  "chunk": "366,-49",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 320,
+   "VOLUME_CAVITY_AIR": 469,
+   "VOLUME_SOLID": 2367
+  },
+  "columns_in_volume": 784,
+  "columns_margin_only": 77,
+  "foundation_y": 69,
+  "kinds_in_volume": {
+   "1": 2836
+  },
+  "orientation": "SOUTH",
+  "route": "EAST",
+  "seed": 1002
+ },
+ {
+  "by_dy": {
+   "-10": 5,
+   "-11": 5,
+   "-12": 5,
+   "-13": 5,
+   "-14": 5,
+   "-15": 5,
+   "-16": 5,
+   "-17": 5,
+   "-18": 3,
+   "-4": 32,
+   "-5": 26,
+   "-6": 22,
+   "-7": 15,
+   "-8": 12,
+   "-9": 8
+  },
+  "chunk": "521,-210",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 95,
+   "VOLUME_SOLID": 63
+  },
+  "columns_in_volume": 18,
+  "columns_margin_only": 14,
+  "foundation_y": 66,
+  "kinds_in_volume": {
+   "1": 63
+  },
+  "orientation": "SOUTH",
+  "route": "WEST",
+  "seed": 1002
+ },
+ {
+  "by_dy": {
+   "-10": 7,
+   "-11": 9,
+   "-12": 7,
+   "-13": 8,
+   "-14": 8,
+   "-15": 11,
+   "-16": 8,
+   "-17": 6,
+   "-18": 5,
+   "-19": 4,
+   "-20": 2,
+   "-21": 3,
+   "-22": 2,
+   "-23": 4,
+   "-24": 5,
+   "-25": 8,
+   "-26": 10,
+   "-27": 15,
+   "-28": 16,
+   "-29": 25,
+   "-30": 36,
+   "-31": 39,
+   "-32": 40,
+   "-33": 38,
+   "-5": 43,
+   "-6": 35,
+   "-7": 21,
+   "-8": 15,
+   "-9": 8
+  },
+  "chunk": "613,-172",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 102,
+   "VOLUME_SOLID": 336
+  },
+  "columns_in_volume": 153,
+  "columns_margin_only": 24,
+  "foundation_y": 67,
+  "kinds_in_volume": {
+   "1": 336
+  },
+  "orientation": "WEST",
+  "route": "EAST",
+  "seed": 1002
+ },
+ {
+  "by_dy": {},
+  "chunk": "-571,-501",
+  "class_counts": {},
+  "columns_in_volume": 0,
+  "columns_margin_only": 0,
+  "foundation_y": 68,
+  "kinds_in_volume": {},
+  "orientation": "WEST",
+  "route": "WEST",
+  "seed": 1004
+ },
+ {
+  "by_dy": {
+   "-13": 1,
+   "-14": 8,
+   "-15": 19,
+   "-16": 41,
+   "-17": 26,
+   "-18": 9,
+   "-19": 1
+  },
+  "chunk": "-146,522",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 31,
+   "VOLUME_CAVITY_AIR": 24,
+   "VOLUME_SOLID": 50
+  },
+  "columns_in_volume": 49,
+  "columns_margin_only": 8,
+  "foundation_y": 66,
+  "kinds_in_volume": {
+   "1": 74
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 1004
+ },
+ {
+  "by_dy": {},
+  "chunk": "-111,168",
+  "class_counts": {},
+  "columns_in_volume": 0,
+  "columns_margin_only": 0,
+  "foundation_y": 70,
+  "kinds_in_volume": {},
+  "orientation": "EAST",
+  "route": "WEST",
+  "seed": 1004
+ },
+ {
+  "by_dy": {},
+  "chunk": "7,296",
+  "class_counts": {},
+  "columns_in_volume": 0,
+  "columns_margin_only": 0,
+  "foundation_y": 69,
+  "kinds_in_volume": {},
+  "orientation": "EAST",
+  "route": "WEST",
+  "seed": 1005
+ },
+ {
+  "by_dy": {
+   "-1": 2460,
+   "-10": 7,
+   "-2": 937,
+   "-3": 333,
+   "-4": 259,
+   "-5": 209,
+   "-6": 181,
+   "-7": 150,
+   "-8": 110,
+   "-9": 53
+  },
+  "chunk": "-467,106",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 360,
+   "VOLUME_CAVITY_AIR": 221,
+   "VOLUME_SOLID": 4118
+  },
+  "columns_in_volume": 2323,
+  "columns_margin_only": 137,
+  "foundation_y": 63,
+  "kinds_in_volume": {
+   "1": 4339
+  },
+  "orientation": "EAST",
+  "route": "WEST",
+  "seed": 119599970
+ },
+ {
+  "by_dy": {
+   "-10": 11,
+   "-11": 7,
+   "-12": 5,
+   "-13": 2,
+   "-14": 1
+  },
+  "chunk": "-311,559",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 8,
+   "VOLUME_SOLID": 18
+  },
+  "columns_in_volume": 11,
+  "columns_margin_only": 3,
+  "foundation_y": 72,
+  "kinds_in_volume": {
+   "1": 18
+  },
+  "orientation": "SOUTH",
+  "route": "WEST",
+  "seed": 119599970
+ },
+ {
+  "by_dy": {
+   "-13": 48,
+   "-14": 52,
+   "-15": 55,
+   "-16": 59,
+   "-17": 71,
+   "-18": 79,
+   "-19": 101,
+   "-20": 134,
+   "-21": 160,
+   "-22": 168,
+   "-23": 163,
+   "-24": 135,
+   "-25": 128,
+   "-26": 80,
+   "-27": 40,
+   "-28": 18,
+   "-29": 9,
+   "-30": 6,
+   "-31": 2
+  },
+  "chunk": "10,629",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 11,
+   "VOLUME_CAVITY_AIR": 375,
+   "VOLUME_SOLID": 1122
+  },
+  "columns_in_volume": 401,
+  "columns_margin_only": 5,
+  "foundation_y": 66,
+  "kinds_in_volume": {
+   "1": 1497
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 119599970
+ },
+ {
+  "by_dy": {
+   "-14": 3,
+   "-15": 18,
+   "-16": 75,
+   "-17": 136,
+   "-18": 202,
+   "-19": 292,
+   "-20": 225,
+   "-21": 200,
+   "-22": 204,
+   "-23": 168,
+   "-24": 91,
+   "-25": 43,
+   "-26": 20,
+   "-27": 19,
+   "-28": 4,
+   "-29": 11,
+   "-30": 12,
+   "-31": 13
+  },
+  "chunk": "355,-15",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 99,
+   "VOLUME_CAVITY_AIR": 101,
+   "VOLUME_SOLID": 1536
+  },
+  "columns_in_volume": 440,
+  "columns_margin_only": 26,
+  "foundation_y": 67,
+  "kinds_in_volume": {
+   "1": 1637
+  },
+  "orientation": "NORTH",
+  "route": "WEST",
+  "seed": 119599970
+ },
+ {
+  "by_dy": {
+   "-27": 9,
+   "-28": 12,
+   "-29": 13,
+   "-30": 5,
+   "-31": 1
+  },
+  "chunk": "-406,-565",
+  "class_counts": {
+   "VOLUME_SOLID": 40
+  },
+  "columns_in_volume": 20,
+  "columns_margin_only": 0,
+  "foundation_y": 69,
+  "kinds_in_volume": {
+   "1": 40
+  },
+  "orientation": "SOUTH",
+  "route": "EAST",
+  "seed": 218938829
+ },
+ {
+  "by_dy": {
+   "-10": 611,
+   "-11": 625,
+   "-12": 653,
+   "-13": 677,
+   "-14": 717,
+   "-15": 722,
+   "-16": 678,
+   "-17": 676,
+   "-18": 673,
+   "-19": 672,
+   "-20": 650,
+   "-21": 630,
+   "-22": 602,
+   "-23": 563,
+   "-24": 505,
+   "-25": 381,
+   "-26": 264,
+   "-27": 251,
+   "-28": 243,
+   "-29": 259,
+   "-30": 941,
+   "-31": 912,
+   "-32": 919,
+   "-33": 932,
+   "-8": 597,
+   "-9": 601
+  },
+  "chunk": "42,-597",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 1219,
+   "VOLUME_CAVITY_AIR": 2570,
+   "VOLUME_SOLID": 12165
+  },
+  "columns_in_volume": 1745,
+  "columns_margin_only": 96,
+  "foundation_y": 70,
+  "kinds_in_volume": {
+   "1": 14735
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 218938829
+ },
+ {
+  "by_dy": {
+   "-13": 8,
+   "-14": 35,
+   "-15": 73,
+   "-16": 144,
+   "-17": 313,
+   "-18": 533,
+   "-19": 721,
+   "-20": 645,
+   "-21": 552,
+   "-22": 486,
+   "-23": 442,
+   "-24": 406,
+   "-25": 393,
+   "-26": 380,
+   "-27": 365,
+   "-28": 296,
+   "-29": 193,
+   "-30": 62,
+   "-31": 18
+  },
+  "chunk": "-503,-308",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 281,
+   "VOLUME_SOLID": 5784
+  },
+  "columns_in_volume": 800,
+  "columns_margin_only": 31,
+  "foundation_y": 67,
+  "kinds_in_volume": {
+   "1": 5784
+  },
+  "orientation": "SOUTH",
+  "route": "WEST",
+  "seed": 287862831
+ },
+ {
+  "by_dy": {
+   "-10": 150,
+   "-11": 130,
+   "-12": 121,
+   "-13": 109,
+   "-14": 115,
+   "-15": 140,
+   "-16": 129,
+   "-17": 121,
+   "-18": 121,
+   "-19": 123,
+   "-20": 137,
+   "-21": 98,
+   "-22": 97,
+   "-23": 87,
+   "-24": 63,
+   "-25": 52,
+   "-26": 52,
+   "-27": 63,
+   "-28": 61,
+   "-29": 55,
+   "-30": 27,
+   "-31": 8,
+   "-4": 649,
+   "-5": 495,
+   "-6": 388,
+   "-7": 265,
+   "-8": 202,
+   "-9": 168
+  },
+  "chunk": "72,207",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 541,
+   "VOLUME_CAVITY_AIR": 228,
+   "VOLUME_SOLID": 3457
+  },
+  "columns_in_volume": 966,
+  "columns_margin_only": 84,
+  "foundation_y": 66,
+  "kinds_in_volume": {
+   "1": 3685
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 287862831
+ },
+ {
+  "by_dy": {
+   "-17": 1,
+   "-18": 8,
+   "-19": 24,
+   "-20": 32,
+   "-21": 40,
+   "-22": 39,
+   "-23": 23,
+   "-24": 8
+  },
+  "chunk": "170,233",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 5,
+   "VOLUME_CAVITY_AIR": 91,
+   "VOLUME_SOLID": 79
+  },
+  "columns_in_volume": 66,
+  "columns_margin_only": 2,
+  "foundation_y": 67,
+  "kinds_in_volume": {
+   "1": 170
+  },
+  "orientation": "WEST",
+  "route": "EAST",
+  "seed": 287862831
+ },
+ {
+  "by_dy": {
+   "-10": 291,
+   "-11": 279,
+   "-12": 264,
+   "-13": 247,
+   "-14": 228,
+   "-15": 212,
+   "-16": 201,
+   "-17": 198,
+   "-18": 199,
+   "-19": 232,
+   "-20": 297,
+   "-21": 380,
+   "-22": 452,
+   "-23": 462,
+   "-24": 420,
+   "-25": 342,
+   "-26": 309,
+   "-27": 281,
+   "-28": 255,
+   "-29": 238,
+   "-30": 216,
+   "-31": 196,
+   "-32": 173,
+   "-33": 157,
+   "-6": 472,
+   "-7": 401,
+   "-8": 356,
+   "-9": 325
+  },
+  "chunk": "336,-215",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 428,
+   "VOLUME_CAVITY_AIR": 801,
+   "VOLUME_SOLID": 6854
+  },
+  "columns_in_volume": 1145,
+  "columns_margin_only": 71,
+  "foundation_y": 68,
+  "kinds_in_volume": {
+   "1": 7655
+  },
+  "orientation": "NORTH",
+  "route": "WEST",
+  "seed": 287862831
+ },
+ {
+  "by_dy": {
+   "-10": 78,
+   "-11": 93,
+   "-12": 106,
+   "-13": 94,
+   "-14": 89,
+   "-15": 77,
+   "-16": 60,
+   "-17": 45,
+   "-18": 27,
+   "-19": 26,
+   "-20": 83,
+   "-21": 66,
+   "-22": 45,
+   "-23": 32,
+   "-24": 19,
+   "-25": 51,
+   "-26": 196,
+   "-27": 450,
+   "-28": 545,
+   "-29": 502,
+   "-30": 439,
+   "-31": 346,
+   "-32": 265,
+   "-33": 193,
+   "-6": 130,
+   "-7": 82,
+   "-8": 55,
+   "-9": 63
+  },
+  "chunk": "532,396",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 469,
+   "VOLUME_CAVITY_AIR": 261,
+   "VOLUME_SOLID": 3527
+  },
+  "columns_in_volume": 886,
+  "columns_margin_only": 61,
+  "foundation_y": 68,
+  "kinds_in_volume": {
+   "1": 3788
+  },
+  "orientation": "NORTH",
+  "route": "WEST",
+  "seed": 318277688
+ },
+ {
+  "by_dy": {
+   "-10": 2,
+   "-11": 2,
+   "-12": 2,
+   "-31": 8,
+   "-32": 20,
+   "-33": 9
+  },
+  "chunk": "560,389",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 15,
+   "VOLUME_SOLID": 28
+  },
+  "columns_in_volume": 24,
+  "columns_margin_only": 2,
+  "foundation_y": 72,
+  "kinds_in_volume": {
+   "1": 28
+  },
+  "orientation": "WEST",
+  "route": "EAST",
+  "seed": 318277688
+ },
+ {
+  "by_dy": {
+   "-16": 2,
+   "-17": 35,
+   "-18": 121,
+   "-19": 95,
+   "-20": 56,
+   "-21": 17,
+   "-22": 13,
+   "-23": 9,
+   "-24": 8,
+   "-25": 4,
+   "-26": 2,
+   "-27": 2,
+   "-28": 1
+  },
+  "chunk": "-376,-362",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 90,
+   "VOLUME_CAVITY_AIR": 104,
+   "VOLUME_SOLID": 171
+  },
+  "columns_in_volume": 117,
+  "columns_margin_only": 25,
+  "foundation_y": 66,
+  "kinds_in_volume": {
+   "1": 275
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 407538027
+ },
+ {
+  "by_dy": {
+   "-10": 14,
+   "-11": 19,
+   "-12": 24,
+   "-13": 37,
+   "-14": 40,
+   "-15": 40,
+   "-16": 40,
+   "-17": 42,
+   "-18": 44,
+   "-19": 48,
+   "-20": 58,
+   "-21": 36,
+   "-22": 12,
+   "-23": 11,
+   "-24": 10,
+   "-25": 11,
+   "-26": 10,
+   "-27": 11,
+   "-28": 12,
+   "-29": 12,
+   "-30": 11,
+   "-31": 12,
+   "-32": 11,
+   "-33": 1,
+   "-6": 1,
+   "-9": 8
+  },
+  "chunk": "-276,-256",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 53,
+   "VOLUME_CAVITY_AIR": 56,
+   "VOLUME_SOLID": 466
+  },
+  "columns_in_volume": 101,
+  "columns_margin_only": 5,
+  "foundation_y": 68,
+  "kinds_in_volume": {
+   "1": 522
+  },
+  "orientation": "SOUTH",
+  "route": "WEST",
+  "seed": 407538027
+ },
+ {
+  "by_dy": {
+   "-10": 184,
+   "-11": 186,
+   "-12": 184,
+   "-13": 181,
+   "-14": 178,
+   "-15": 188,
+   "-16": 187,
+   "-17": 187,
+   "-18": 159,
+   "-19": 112,
+   "-20": 84,
+   "-21": 61,
+   "-22": 50,
+   "-23": 19,
+   "-24": 20,
+   "-25": 20,
+   "-26": 18,
+   "-27": 30,
+   "-28": 31,
+   "-29": 27,
+   "-30": 19,
+   "-31": 9,
+   "-32": 7,
+   "-33": 23,
+   "-6": 191,
+   "-7": 144,
+   "-8": 143,
+   "-9": 162
+  },
+  "chunk": "-210,-241",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 106,
+   "VOLUME_CAVITY_AIR": 417,
+   "VOLUME_SOLID": 2281
+  },
+  "columns_in_volume": 604,
+  "columns_margin_only": 53,
+  "foundation_y": 68,
+  "kinds_in_volume": {
+   "1": 2698
+  },
+  "orientation": "WEST",
+  "route": "EAST",
+  "seed": 407538027
+ },
+ {
+  "by_dy": {
+   "-10": 702,
+   "-11": 623,
+   "-12": 581,
+   "-13": 543,
+   "-14": 517,
+   "-15": 480,
+   "-16": 419,
+   "-17": 322,
+   "-18": 225,
+   "-19": 178,
+   "-20": 139,
+   "-21": 112,
+   "-22": 93,
+   "-23": 77,
+   "-24": 44,
+   "-9": 814
+  },
+  "chunk": "-186,588",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 705,
+   "VOLUME_CAVITY_AIR": 378,
+   "VOLUME_SOLID": 4786
+  },
+  "columns_in_volume": 743,
+  "columns_margin_only": 71,
+  "foundation_y": 71,
+  "kinds_in_volume": {
+   "1": 5164
+  },
+  "orientation": "EAST",
+  "route": "EAST",
+  "seed": 407538027
+ },
+ {
+  "by_dy": {
+   "-10": 6,
+   "-11": 11,
+   "-12": 18,
+   "-13": 18,
+   "-14": 18,
+   "-15": 21,
+   "-16": 18,
+   "-17": 22,
+   "-18": 31,
+   "-19": 31,
+   "-20": 28,
+   "-21": 30,
+   "-22": 27,
+   "-23": 6,
+   "-24": 2,
+   "-25": 3,
+   "-26": 9,
+   "-27": 27,
+   "-28": 24,
+   "-29": 13,
+   "-5": 12,
+   "-6": 7,
+   "-7": 5,
+   "-8": 6,
+   "-9": 5
+  },
+  "chunk": "-591,561",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 17,
+   "VOLUME_SOLID": 381
+  },
+  "columns_in_volume": 106,
+  "columns_margin_only": 10,
+  "foundation_y": 67,
+  "kinds_in_volume": {
+   "1": 381
+  },
+  "orientation": "EAST",
+  "route": "EAST",
+  "seed": 417616547
+ },
+ {
+  "by_dy": {
+   "-4": 6
+  },
+  "chunk": "549,-45",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 5,
+   "VOLUME_SOLID": 1
+  },
+  "columns_in_volume": 1,
+  "columns_margin_only": 5,
+  "foundation_y": 66,
+  "kinds_in_volume": {
+   "1": 1
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 417616547
+ },
+ {
+  "by_dy": {
+   "-20": 400,
+   "-21": 299,
+   "-22": 199,
+   "-23": 120,
+   "-24": 60,
+   "-25": 16
+  },
+  "chunk": "586,-53",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 98,
+   "VOLUME_SOLID": 996
+  },
+  "columns_in_volume": 372,
+  "columns_margin_only": 28,
+  "foundation_y": 75,
+  "kinds_in_volume": {
+   "1": 996
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 417616547
+ },
+ {
+  "by_dy": {
+   "-10": 406,
+   "-11": 374,
+   "-12": 350,
+   "-13": 328,
+   "-14": 297,
+   "-15": 263,
+   "-16": 233,
+   "-17": 206,
+   "-18": 199,
+   "-19": 188,
+   "-20": 181,
+   "-21": 219,
+   "-22": 239,
+   "-23": 230,
+   "-24": 211,
+   "-25": 197,
+   "-26": 231,
+   "-27": 197,
+   "-28": 98,
+   "-29": 88,
+   "-30": 83,
+   "-31": 101,
+   "-32": 42,
+   "-33": 12,
+   "-9": 447
+  },
+  "chunk": "197,260",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 981,
+   "VOLUME_CAVITY_AIR": 129,
+   "VOLUME_SOLID": 4310
+  },
+  "columns_in_volume": 986,
+  "columns_margin_only": 97,
+  "foundation_y": 71,
+  "kinds_in_volume": {
+   "1": 4439
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 516955406
+ },
+ {
+  "by_dy": {
+   "-18": 18,
+   "-19": 37,
+   "-20": 44,
+   "-21": 47,
+   "-22": 36,
+   "-23": 12
+  },
+  "chunk": "-120,-301",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 31,
+   "VOLUME_CAVITY_AIR": 65,
+   "VOLUME_SOLID": 98
+  },
+  "columns_in_volume": 72,
+  "columns_margin_only": 16,
+  "foundation_y": 68,
+  "kinds_in_volume": {
+   "1": 163
+  },
+  "orientation": "EAST",
+  "route": "WEST",
+  "seed": 527213223
+ },
+ {
+  "by_dy": {},
+  "chunk": "622,-460",
+  "class_counts": {},
+  "columns_in_volume": 0,
+  "columns_margin_only": 0,
+  "foundation_y": 65,
+  "kinds_in_volume": {},
+  "orientation": "NORTH",
+  "route": "WEST",
+  "seed": 527213223
+ },
+ {
+  "by_dy": {
+   "-10": 311,
+   "-11": 298,
+   "-12": 296,
+   "-13": 281,
+   "-14": 268,
+   "-15": 269,
+   "-16": 272,
+   "-17": 516,
+   "-18": 1057,
+   "-19": 1471,
+   "-20": 1310,
+   "-21": 995,
+   "-22": 749,
+   "-23": 590,
+   "-24": 441,
+   "-25": 364,
+   "-26": 480,
+   "-27": 741,
+   "-28": 604,
+   "-29": 499,
+   "-30": 369,
+   "-31": 177,
+   "-32": 29,
+   "-33": 3,
+   "-5": 770,
+   "-6": 372,
+   "-7": 332,
+   "-8": 321,
+   "-9": 318
+  },
+  "chunk": "303,-241",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 342,
+   "VOLUME_CAVITY_AIR": 2635,
+   "VOLUME_SOLID": 11526
+  },
+  "columns_in_volume": 3151,
+  "columns_margin_only": 86,
+  "foundation_y": 67,
+  "kinds_in_volume": {
+   "1": 14161
+  },
+  "orientation": "NORTH",
+  "route": "WEST",
+  "seed": 794814944
+ },
+ {
+  "by_dy": {
+   "-10": 83,
+   "-11": 121,
+   "-12": 122,
+   "-13": 110,
+   "-14": 110,
+   "-15": 111,
+   "-16": 134,
+   "-17": 204,
+   "-18": 225,
+   "-19": 227,
+   "-2": 233,
+   "-20": 174,
+   "-21": 163,
+   "-22": 159,
+   "-23": 136,
+   "-24": 108,
+   "-25": 101,
+   "-26": 78,
+   "-27": 70,
+   "-28": 59,
+   "-29": 65,
+   "-3": 129,
+   "-30": 65,
+   "-31": 63,
+   "-32": 61,
+   "-33": 53,
+   "-4": 116,
+   "-5": 109,
+   "-6": 105,
+   "-7": 86,
+   "-8": 59,
+   "-9": 70
+  },
+  "chunk": "-468,489",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 261,
+   "VOLUME_CAVITY_AIR": 330,
+   "VOLUME_SOLID": 3118
+  },
+  "columns_in_volume": 1225,
+  "columns_margin_only": 77,
+  "foundation_y": 64,
+  "kinds_in_volume": {
+   "1": 3448
+  },
+  "orientation": "WEST",
+  "route": "WEST",
+  "seed": 914490140
+ },
+ {
+  "by_dy": {
+   "-10": 159,
+   "-11": 138,
+   "-12": 113,
+   "-13": 106,
+   "-14": 110,
+   "-15": 118,
+   "-16": 62,
+   "-17": 16,
+   "-29": 13,
+   "-3": 282,
+   "-30": 44,
+   "-31": 79,
+   "-32": 76,
+   "-33": 58,
+   "-4": 181,
+   "-5": 143,
+   "-6": 136,
+   "-7": 166,
+   "-8": 186,
+   "-9": 178
+  },
+  "chunk": "431,230",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 333,
+   "VOLUME_CAVITY_AIR": 41,
+   "VOLUME_SOLID": 1990
+  },
+  "columns_in_volume": 569,
+  "columns_margin_only": 49,
+  "foundation_y": 65,
+  "kinds_in_volume": {
+   "1": 2031
+  },
+  "orientation": "EAST",
+  "route": "WEST",
+  "seed": 914490140
+ },
+ {
+  "by_dy": {
+   "-10": 223,
+   "-11": 229,
+   "-12": 219,
+   "-13": 210,
+   "-14": 197,
+   "-15": 187,
+   "-16": 185,
+   "-17": 177,
+   "-18": 163,
+   "-19": 148,
+   "-20": 114,
+   "-21": 80,
+   "-22": 47,
+   "-23": 16,
+   "-24": 1,
+   "-27": 3,
+   "-28": 12,
+   "-29": 5,
+   "-6": 220,
+   "-7": 217,
+   "-8": 211,
+   "-9": 213
+  },
+  "chunk": "179,-213",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 191,
+   "VOLUME_SOLID": 2886
+  },
+  "columns_in_volume": 298,
+  "columns_margin_only": 41,
+  "foundation_y": 68,
+  "kinds_in_volume": {
+   "1": 2886
+  },
+  "orientation": "EAST",
+  "route": "EAST",
+  "seed": 1034165336
+ },
+ {
+  "by_dy": {
+   "-1": 785,
+   "-10": 29,
+   "-11": 20,
+   "-12": 11,
+   "-13": 10,
+   "-14": 297,
+   "-15": 771,
+   "-16": 771,
+   "-17": 768,
+   "-18": 750,
+   "-19": 685,
+   "-2": 168,
+   "-20": 611,
+   "-21": 560,
+   "-22": 530,
+   "-23": 505,
+   "-24": 487,
+   "-25": 455,
+   "-26": 373,
+   "-27": 280,
+   "-28": 196,
+   "-29": 167,
+   "-3": 99,
+   "-30": 127,
+   "-31": 97,
+   "-32": 45,
+   "-33": 10,
+   "-4": 71,
+   "-5": 55,
+   "-6": 46,
+   "-7": 35,
+   "-8": 31,
+   "-9": 35
+  },
+  "chunk": "-408,486",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 1054,
+   "VOLUME_CAVITY_AIR": 9,
+   "VOLUME_SOLID": 8817
+  },
+  "columns_in_volume": 1264,
+  "columns_margin_only": 108,
+  "foundation_y": 63,
+  "kinds_in_volume": {
+   "1": 8826
+  },
+  "orientation": "SOUTH",
+  "route": "WEST",
+  "seed": 1541117449
+ },
+ {
+  "by_dy": {
+   "-10": 33,
+   "-11": 29,
+   "-12": 40,
+   "-13": 62,
+   "-14": 82,
+   "-15": 101,
+   "-16": 120,
+   "-17": 141,
+   "-18": 149,
+   "-19": 148,
+   "-20": 126,
+   "-21": 105,
+   "-22": 70,
+   "-23": 46,
+   "-24": 30,
+   "-25": 25,
+   "-26": 18,
+   "-27": 16,
+   "-28": 14,
+   "-29": 17,
+   "-30": 18,
+   "-31": 17,
+   "-32": 19,
+   "-33": 15,
+   "-7": 12,
+   "-8": 32,
+   "-9": 42
+  },
+  "chunk": "109,-319",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 59,
+   "VOLUME_CAVITY_AIR": 368,
+   "VOLUME_SOLID": 1100
+  },
+  "columns_in_volume": 250,
+  "columns_margin_only": 6,
+  "foundation_y": 68,
+  "kinds_in_volume": {
+   "1": 1468
+  },
+  "orientation": "NORTH",
+  "route": "WEST",
+  "seed": 1541117449
+ },
+ {
+  "by_dy": {},
+  "chunk": "301,198",
+  "class_counts": {},
+  "columns_in_volume": 0,
+  "columns_margin_only": 0,
+  "foundation_y": 71,
+  "kinds_in_volume": {},
+  "orientation": "WEST",
+  "route": "EAST",
+  "seed": 1541117449
+ },
+ {
+  "by_dy": {},
+  "chunk": "328,176",
+  "class_counts": {},
+  "columns_in_volume": 0,
+  "columns_margin_only": 0,
+  "foundation_y": 65,
+  "kinds_in_volume": {},
+  "orientation": "EAST",
+  "route": "EAST",
+  "seed": 1541117449
+ },
+ {
+  "by_dy": {
+   "-15": 72,
+   "-16": 56,
+   "-17": 41,
+   "-18": 30,
+   "-19": 13,
+   "-20": 4,
+   "-21": 4,
+   "-22": 5,
+   "-23": 5,
+   "-24": 2
+  },
+  "chunk": "-497,430",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 3,
+   "VOLUME_CAVITY_AIR": 9,
+   "VOLUME_SOLID": 220
+  },
+  "columns_in_volume": 76,
+  "columns_margin_only": 2,
+  "foundation_y": 68,
+  "kinds_in_volume": {
+   "1": 229
+  },
+  "orientation": "SOUTH",
+  "route": "WEST",
+  "seed": 1928394366
+ },
+ {
+  "by_dy": {
+   "-25": 1,
+   "-26": 4,
+   "-27": 15,
+   "-28": 30,
+   "-29": 39,
+   "-30": 48,
+   "-31": 39,
+   "-32": 31,
+   "-33": 30
+  },
+  "chunk": "-84,-337",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 49,
+   "VOLUME_SOLID": 188
+  },
+  "columns_in_volume": 56,
+  "columns_margin_only": 11,
+  "foundation_y": 70,
+  "kinds_in_volume": {
+   "1": 188
+  },
+  "orientation": "NORTH",
+  "route": "EAST",
+  "seed": 1928394366
+ },
+ {
+  "by_dy": {
+   "-11": 55,
+   "-12": 54,
+   "-13": 46,
+   "-14": 23,
+   "-16": 1,
+   "-17": 1,
+   "-18": 1,
+   "-19": 1,
+   "-20": 3,
+   "-21": 5,
+   "-22": 12,
+   "-23": 15,
+   "-24": 14,
+   "-25": 13,
+   "-26": 13,
+   "-27": 10,
+   "-28": 10,
+   "-29": 9,
+   "-30": 9,
+   "-31": 10,
+   "-32": 9,
+   "-33": 10
+  },
+  "chunk": "102,483",
+  "class_counts": {
+   "MARGIN_OUTSIDE_FRAME": 58,
+   "VOLUME_SOLID": 266
+  },
+  "columns_in_volume": 87,
+  "columns_margin_only": 18,
+  "foundation_y": 73,
+  "kinds_in_volume": {
+   "1": 266
+  },
+  "orientation": "NORTH",
+  "route": "WEST",
+  "seed": 2048069562
+ }
+]
