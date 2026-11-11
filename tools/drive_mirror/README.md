@@ -171,7 +171,7 @@ verification cannot see drift in a namespace the sync did not touch; the full ve
 | 4 | BLOCKED — no credentials, destination missing, or access denied |
 | 5 | safety stop (mass retirement, empty tree, ambiguous mirror root) |
 | 6 | security gate: unapproved findings (affected refs quarantined) |
-| 7 | security gate could not decide (unreadable report): fail closed |
+| 7 | security gate could not decide, **or the approved source snapshot is missing, invalid or no longer matches** (sync/verify): fail closed, nothing uploaded |
 
 `verify` re-fetches the remote, re-reads every tree, hashes the blobs itself, walks Drive
 itself and compares against Drive's own checksums; it shares no planning code with `sync`.
@@ -182,10 +182,15 @@ namespace has not converged for `DRIVE_MIRROR_MAX_AGE_HOURS` (default 26).
 
 ## Security gate
 
-Before any upload the workflow runs the same pinned, checksum-verified gitleaks as
-`pre-public-security-scan.yml` over every branch and PR head (`--redact=100`; only rule, file and
-commit are ever printed). `python -m drive_mirror secgate` then compares each finding's fingerprint
-with `security/approved_findings.json`:
+**One frozen snapshot.** `python -m drive_mirror prepare --snapshot-out …` fetches every branch, tag and PR head once and
+freezes `ref -> commit` (and tree ids). `secgate --source-snapshot … --run-scanner gitleaks` runs the same pinned,
+checksum-verified gitleaks as `pre-public-security-scan.yml` over **exactly those commits** (`--redact=100`; only rule, file and
+commit are ever printed), evaluates every ref of the snapshot, and writes an approval that embeds the snapshot. `sync` and `verify` take
+their refs from that approval and never fetch, so every uploaded blob belongs to a commit the gate examined; anything pushed after the
+snapshot is picked up, and gated, by the next run. `sync` refuses (exit 7) a missing, altered, mismatched, stale or unbound approval before
+writing anything. Invariant, checks and limits: [`security/GATE_SYNC_HANDOFF.md`](security/GATE_SYNC_HANDOFF.md).
+
+`secgate` compares each finding's fingerprint with `security/approved_findings.json`:
 
 * `approved` — an owner-reviewed finding (the 11 entries already in the repository's
   `.gitleaksignore`, plus the re-verification recorded in each entry's `basis`): passes.
@@ -195,7 +200,7 @@ with `security/approved_findings.json`:
 Blocking does not stop the mirror: it **quarantines exactly the refs whose tip tree would upload the
 flagged content** (the same blob anywhere, or the flagged line at the same path). Quarantined refs are
 never uploaded, are listed in the report, `state.json` and the job summary, and `verify` fails
-(`namespace_missing`) unless it is given the same `--quarantine-file`, so a quarantine can never be
+(`namespace_missing`) unless it is given the same approval (`--quarantine-file`), so a quarantine can never be
 mistaken for a complete mirror. If flagged content was uploaded *before* the gate fired, `verify`
 reports `quarantined_content_on_drive`. An unreadable or missing scan report fails the job
 (fail closed). The gate never edits an allowlist: approving a finding is a reviewed commit by the owner.
@@ -357,10 +362,8 @@ not verified against real Drive), so a Workspace shared drive is the safer desti
   bounded at 500k items and the mirror already uses ~330k (66 %). Both limits are approached by growth in branch
   count, not by code.
 * Two refs are quarantined by the security gate until owner decision D-6 (see Security gate and `security/D-6_APPROVAL_PROPOSAL.md`).
-* **Gate/sync race.** The security gate examines the refs as they were when the scan ran; `sync` takes its own snapshot afterwards (and again on the workflow's one retry).
-  A ref created or advanced in that window is uploaded without having been scanned and is only covered by the next run's scan. The content is already public on GitHub and
-  the next run (hourly) re-scans, but the gate is not atomic with the sync. Hardening, if wanted: have the gate record the scanned commit per ref and make `sync` treat any ref whose
-  commit differs as quarantined until the next scan. Not implemented (it changes the engine and the quarantine contract).
+* **Gate/sync race: fixed** by the frozen-snapshot handoff (above; `security/GATE_SYNC_HANDOFF.md`). Residual limits: the scanner's own coverage (content that exists only in a
+  merge commit, and binary files, were not flagged by gitleaks 8.30.1 in a scratch test), `--allow-ungated` for scratch data, and the approval being tamper-evident rather than signed.
 * **No automated capacity warning.** `preflight` checks free bytes on a personal drive only. Nothing counts Drive items against a shared drive's 500,000-item limit; see
   `RUNBOOK.md` Part 11 for the manual procedure.
 * Drive search is eventually consistent; `verify` compensates with direct GETs, and
