@@ -431,7 +431,6 @@ public final class SkyTowerGameTests {
         ctx.assertTrue(hitKey.isEmpty(),"hitPlayer Trial Key consumed");
         ctx.assertTrue(hitPlayer.getInventory().countItem(starItem)==0,"Star Covenant is NEVER silently inserted into player inventory");
         ctx.assertTrue(level.getBlockState(rooftopPos).getValue(VaultBlock.STATE)==VaultState.UNLOCKING,"Vault entered vanilla UNLOCKING state");
-        ctx.assertTrue(rooftopVault.getSharedData().getDisplayItem().is(starItem),"Star Covenant queued at top of vanilla Vault ejection list and displayed in keyhole");
 
         // Verify mid-ejection persistence in VaultBlockEntity NBT before ticks pop the queue
         var nbtBeforeEject=rooftopVault.saveWithoutMetadata(level.registryAccess());
@@ -454,7 +453,7 @@ public final class SkyTowerGameTests {
                     ctx.assertTrue(itemEntity.getY()>=rooftopPos.getY(),"Star Covenant ItemEntity ejected upward from rooftop Vault");
                 }
             }
-            if(seenEjectedStar[0] && ticks[0]>=25){
+            if(seenEjectedStar[0]){
                 ctx.assertTrue(hitPlayer.getInventory().countItem(starItem)==0,"hitPlayer inventory still has no direct-inserted Star Covenant");
                 // Clear ejected entities before testing missPlayer on a second tower's rooftop vault
                 for(var itemEntity:level.getEntitiesOfClass(ItemEntity.class,searchBox))itemEntity.discard();

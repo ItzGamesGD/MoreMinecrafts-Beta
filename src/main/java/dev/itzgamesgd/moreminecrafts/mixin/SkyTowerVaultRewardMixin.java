@@ -35,7 +35,10 @@ abstract class SkyTowerVaultRewardMixin {
             target = "Lnet/minecraft/world/level/block/entity/vault/VaultBlockEntity$Server;resolveItemsToEject(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/block/entity/vault/VaultConfig;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)Ljava/util/List;"))
     private static List<ItemStack> moreminecrafts$resolveSkyTowerVaultItems(
             ServerLevel level, VaultConfig config, BlockPos pos, Player player, ItemStack key,
-            Operation<List<ItemStack>> original) {
+            Operation<List<ItemStack>> original,
+            ServerLevel methodLevel, BlockPos methodPos, BlockState state,
+            VaultConfig methodConfig, VaultServerData serverData, VaultSharedData sharedData,
+            Player methodPlayer, ItemStack methodKey) {
         List<ItemStack> items = original.call(level, config, pos, player, key);
         if (player instanceof ServerPlayer serverPlayer) {
             items = SkyTowerVaultRewards.appendSpecialRewards(serverPlayer, level, pos, items);
