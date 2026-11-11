@@ -16,7 +16,9 @@ import net.minecraft.world.level.block.entity.vault.VaultSharedData;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * Ensures Sky Tower vaults use the authoritative custom reward pool at runtime,
@@ -31,19 +33,17 @@ abstract class SkyTowerVaultRewardMixin {
         return SkyTowerVaultRewards.resolveVaultConfig(level, pos, config);
     }
 
-    @WrapOperation(method = "tryInsertKey", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/entity/vault/VaultBlockEntity$Server;resolveItemsToEject(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/block/entity/vault/VaultConfig;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)Ljava/util/List;"))
-    private static List<ItemStack> moreminecrafts$resolveSkyTowerVaultItems(
+    @Inject(method = "resolveItemsToEject", at = @At("RETURN"), cancellable = true)
+    private static void moreminecrafts$appendRooftopSpecialRewards(
             ServerLevel level, VaultConfig config, BlockPos pos, Player player, ItemStack key,
-            Operation<List<ItemStack>> original,
-            ServerLevel methodLevel, BlockPos methodPos, BlockState state,
-            VaultConfig methodConfig, VaultServerData serverData, VaultSharedData sharedData,
-            Player methodPlayer, ItemStack methodKey) {
-        List<ItemStack> items = original.call(level, config, pos, player, key);
+            CallbackInfoReturnable<List<ItemStack>> cir) {
         if (player instanceof ServerPlayer serverPlayer) {
-            items = SkyTowerVaultRewards.appendSpecialRewards(serverPlayer, level, pos, items);
+            List<ItemStack> items = cir.getReturnValue();
+            List<ItemStack> updated = SkyTowerVaultRewards.appendSpecialRewards(serverPlayer, level, pos, items);
+            if (updated != items) {
+                cir.setReturnValue(updated);
+            }
         }
-        return items;
     }
 
     @WrapOperation(method = "tryInsertKey", at = @At(value = "INVOKE",
