@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.itzgamesgd.moreminecrafts.skytower.SkyTowerVaultRewards;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 /**
  * Ensures Sky Tower vaults use the authoritative custom reward pool at runtime,
+ * queues any successful rooftop special rewards into the vanilla Vault ejection list,
  * and notifies the unified Sky Tower vault reward framework upon key insertion.
  */
 @Mixin(VaultBlockEntity.Server.class)
@@ -27,6 +29,18 @@ abstract class SkyTowerVaultRewardMixin {
     private static VaultConfig moreminecrafts$scopeSkyTowerVaultConfig(VaultConfig config,
             ServerLevel level, BlockPos pos) {
         return SkyTowerVaultRewards.resolveVaultConfig(level, pos, config);
+    }
+
+    @WrapOperation(method = "tryInsertKey", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/entity/vault/VaultBlockEntity$Server;resolveItemsToEject(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/block/entity/vault/VaultConfig;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)Ljava/util/List;"))
+    private static List<ItemStack> moreminecrafts$resolveSkyTowerVaultItems(
+            ServerLevel level, VaultConfig config, BlockPos pos, Player player, ItemStack key,
+            Operation<List<ItemStack>> original) {
+        List<ItemStack> items = original.call(level, config, pos, player, key);
+        if (player instanceof ServerPlayer serverPlayer) {
+            items = SkyTowerVaultRewards.appendSpecialRewards(serverPlayer, level, pos, items);
+        }
+        return items;
     }
 
     @WrapOperation(method = "tryInsertKey", at = @At(value = "INVOKE",

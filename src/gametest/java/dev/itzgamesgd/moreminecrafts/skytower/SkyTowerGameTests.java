@@ -337,4 +337,155 @@ public final class SkyTowerGameTests {
         fix.release();
         ctx.succeed();
     }
+
+    @GameTest(maxTicks=200)
+    public void newWorldRegistrationLifecycleConfiguresAllNineVaultsIdempotently(GameTestHelper ctx){
+        var level=ctx.getLevel();
+        int x=100009+NEXT.incrementAndGet()*400,z=100000;
+        var site=new SkyTowerLayout.Site(level.dimension().identifier().toString(),x,80,z,0);
+        for(int cx=(x-50)>>4;cx<=(x+50)>>4;cx++)for(int cz=(z-50)>>4;cz<=(z+50)>>4;cz++){
+            level.setChunkForced(cx,cz,true);level.getChunk(cx,cz);
+        }
+        for(int cx=(x-50)>>4;cx<=(x+50)>>4;cx++)for(int cz=(z-50)>>4;cz<=(z+50)>>4;cz++)
+            level.waitForEntities(new net.minecraft.world.level.ChunkPos(cx,cz),0);
+
+        var origin=new BlockPos(x,80,z);
+        var t=level.getStructureTemplateManager().getOrCreate(Identifier.parse(SkyTowerLayout.TEMPLATE));
+        ctx.assertTrue(t.placeInWorld(level,origin,origin,new StructurePlaceSettings().setRotation(Rotation.NONE),level.getRandom(),18),"fresh template placed");
+
+        var data=level.getServer().overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
+        ctx.assertTrue(!data.sites().containsKey(site.id()),"fresh site is not pre-registered before first registration");
+
+        // Simulate SkyTowerWorldgenRegistration.tick first-registration path on a newly generated tower
+        boolean added=data.register(site);
+        ctx.assertTrue(added,"first registration adds site");
+        int configured=SkyTowerVaultRewards.configureSiteVaults(level,site);
+        ctx.assertEquals(9,configured,"all 8 normal vaults + 1 rooftop special vault configured on initial registration");
+
+        for(int i=0;i<8;i++){
+            var pt=site.vault(i);
+            var pos=new BlockPos(pt.x(),pt.y(),pt.z());
+            var vault=(VaultBlockEntity)level.getBlockEntity(pos);
+            ctx.assertTrue(vault!=null && vault.getConfig().lootTable().equals(SkyTowerVaultRewards.NORMAL_VAULT_LOOT_KEY),"normal vault "+i+" configured");
+        }
+        var roofPt=site.rooftopVault();
+        var roofPos=new BlockPos(roofPt.x(),roofPt.y(),roofPt.z());
+        var roofVault=(VaultBlockEntity)level.getBlockEntity(roofPos);
+        ctx.assertTrue(roofVault!=null && roofVault.getConfig().lootTable().equals(SkyTowerVaultRewards.ROOFTOP_VAULT_LOOT_KEY),"rooftop vault placed and configured");
+
+        // Unlock one normal vault and the rooftop vault for a player, then verify repeated registration / chunk reload preserves state
+        level.setBlock(roofPos,level.getBlockState(roofPos).setValue(VaultBlock.STATE,VaultState.ACTIVE),3);
+        roofVault=(VaultBlockEntity)level.getBlockEntity(roofPos);
+        SkyTowerVaultRewards.configureRooftopVault(roofVault,new ItemStack(Items.TRIAL_KEY));
+        var player=survivalPlayer(level);
+        var key=new ItemStack(Items.TRIAL_KEY);
+        SkyTowerVaultRewards.withRollOverride(()->0.50D,()->
+                VaultBlockEntity.Server.tryInsertKey(level,roofPos,level.getBlockState(roofPos),
+                        roofVault.getConfig(),roofVault.getServerData(),roofVault.getSharedData(),player,key));
+        ctx.assertTrue(key.isEmpty(),"rooftop key consumed");
+        ctx.assertTrue(roofVault.getServerData().getRewardedPlayers().contains(player.getUUID()),"player recorded in rooftop rewardedPlayers");
+
+        // Repeated registration attempt returns false (idempotent) and chunk reload reconciliation preserves rewardedPlayers and Star Covenant ledger
+        ctx.assertTrue(!data.register(site),"repeated registration is a no-op");
+        ctx.assertTrue(SkyTowerVaultRewards.placeAndConfigureRooftopVault(level,site),"reconcileRooftop idempotent on chunk reload");
+        ctx.assertTrue(roofVault.getServerData().getRewardedPlayers().contains(player.getUUID()),"rewardedPlayers preserved across chunk reload");
+        var starData=StarCovenantVaultRewards.Data.get(level.getServer());
+        ctx.assertTrue(starData.resolve(player.getUUID(),new StarCovenantVaultRewards.VaultRef(site.id(),"rooftop"),()->0.0D)
+                ==StarCovenantVaultRewards.Outcome.ALREADY_CLAIMED,"Star Covenant claim preserved across chunk reload");
+
+        for(int cx=(x-50)>>4;cx<=(x+50)>>4;cx++)for(int cz=(z-50)>>4;cz<=(z+50)>>4;cz++)level.setChunkForced(cx,cz,false);
+        ctx.succeed();
+    }
+
+    @GameTest(maxTicks=200)
+    public void rooftopVaultEjectsStarCovenantViaVanillaVaultAndNeverInsertsIntoInventory(GameTestHelper ctx){
+        var fix=fixture(ctx,0,false);
+        var level=fix.level();
+        var site=fix.site();
+        var hitPlayer=survivalPlayer(level);
+        var missPlayer=survivalPlayer(level);
+
+        var rooftopPt=site.rooftopVault();
+        var rooftopPos=new BlockPos(rooftopPt.x(),rooftopPt.y(),rooftopPt.z());
+        level.setBlock(rooftopPos,Blocks.VAULT.defaultBlockState()
+                .setValue(VaultBlock.STATE,VaultState.ACTIVE)
+                .setValue(VaultBlock.FACING,SkyTowerVaultRewards.rooftopVaultFacing(0))
+                .setValue(VaultBlock.OMINOUS,false),3);
+        ctx.assertTrue(SkyTowerVaultRewards.placeAndConfigureRooftopVault(level,site),"rooftop vault configured");
+
+        var rooftopVault=(VaultBlockEntity)level.getBlockEntity(rooftopPos);
+        var starItem=StarCovenantVaultRewards.reward().getItem();
+        hitPlayer.setPos(rooftopPos.getX()+0.5,rooftopPos.getY(),rooftopPos.getZ()-2.5);
+        missPlayer.setPos(rooftopPos.getX()+0.5,rooftopPos.getY(),rooftopPos.getZ()-2.5);
+
+        // 1. Deterministic HIT roll (0.0 < 0.10) on rooftop vault
+        var hitKey=new ItemStack(Items.TRIAL_KEY);
+        SkyTowerVaultRewards.withRollOverride(()->0.0D,()->
+                VaultBlockEntity.Server.tryInsertKey(level,rooftopPos,level.getBlockState(rooftopPos),
+                        rooftopVault.getConfig(),rooftopVault.getServerData(),rooftopVault.getSharedData(),hitPlayer,hitKey));
+
+        ctx.assertTrue(hitKey.isEmpty(),"hitPlayer Trial Key consumed");
+        ctx.assertEquals(0,hitPlayer.getInventory().countItem(starItem),"Star Covenant is NEVER silently inserted into player inventory");
+        ctx.assertTrue(level.getBlockState(rooftopPos).getValue(VaultBlock.STATE)==VaultState.UNLOCKING,"Vault entered vanilla UNLOCKING state");
+        ctx.assertTrue(rooftopVault.getSharedData().getDisplayItem().is(starItem),"Star Covenant queued at top of vanilla Vault ejection list and displayed in keyhole");
+
+        // Verify mid-ejection persistence in VaultBlockEntity NBT before ticks pop the queue
+        var nbtBeforeEject=rooftopVault.saveWithoutMetadata(level.registryAccess());
+        ctx.assertTrue(nbtBeforeEject.toString().contains("moreminecrafts:star_covenant"),"Star Covenant persisted in VaultBlockEntity server_data.items_to_eject NBT");
+
+        // Tick VaultBlockEntity.Server across real GameTest ticks so vanilla's gameTime-based pauseStateUpdatingUntil progresses and ejects the Star Covenant upward
+        var searchBox=new net.minecraft.world.phys.AABB(rooftopPos).inflate(6.0);
+        int[] ticks=new int[]{0};
+        boolean[] seenEjectedStar=new boolean[]{false};
+        ctx.onEachTick(()->{
+            ticks[0]++;
+            var st=level.getBlockState(rooftopPos);
+            if(st.is(Blocks.VAULT)){
+                VaultBlockEntity.Server.tick(level,rooftopPos,st,
+                        rooftopVault.getConfig(),rooftopVault.getServerData(),rooftopVault.getSharedData());
+            }
+            for(var itemEntity:level.getEntitiesOfClass(ItemEntity.class,searchBox)){
+                if(itemEntity.getItem().is(starItem)){
+                    seenEjectedStar[0]=true;
+                    ctx.assertTrue(itemEntity.getY()>=rooftopPos.getY(),"Star Covenant ItemEntity ejected upward from rooftop Vault");
+                }
+            }
+            if(seenEjectedStar[0] && ticks[0]>=25){
+                ctx.assertEquals(0,hitPlayer.getInventory().countItem(starItem),"hitPlayer inventory still has no direct-inserted Star Covenant");
+                // Clear ejected entities before testing missPlayer on a second tower's rooftop vault
+                for(var itemEntity:level.getEntitiesOfClass(ItemEntity.class,searchBox))itemEntity.discard();
+
+                // Verify repeated interaction by hitPlayer is rejected and cannot duplicate reward
+                var dupKey=new ItemStack(Items.TRIAL_KEY);
+                SkyTowerVaultRewards.withRollOverride(()->0.0D,()->
+                        VaultBlockEntity.Server.tryInsertKey(level,rooftopPos,level.getBlockState(rooftopPos),
+                                rooftopVault.getConfig(),rooftopVault.getServerData(),rooftopVault.getSharedData(),hitPlayer,dupKey));
+                ctx.assertTrue(!dupKey.isEmpty(),"repeated unlock by hitPlayer rejected");
+
+                // 2. Deterministic MISS roll (0.50 >= 0.10) on a fresh rooftop vault does NOT queue or eject Star Covenant
+                var fix2=fixture(ctx,1,false);
+                var site2=fix2.site();
+                var roofPt2=site2.rooftopVault();
+                var roofPos2=new BlockPos(roofPt2.x(),roofPt2.y(),roofPt2.z());
+                level.setBlock(roofPos2,Blocks.VAULT.defaultBlockState()
+                        .setValue(VaultBlock.STATE,VaultState.ACTIVE)
+                        .setValue(VaultBlock.FACING,SkyTowerVaultRewards.rooftopVaultFacing(1))
+                        .setValue(VaultBlock.OMINOUS,false),3);
+                SkyTowerVaultRewards.placeAndConfigureRooftopVault(level,site2);
+                var roofVault2=(VaultBlockEntity)level.getBlockEntity(roofPos2);
+                var missKey=new ItemStack(Items.TRIAL_KEY);
+                SkyTowerVaultRewards.withRollOverride(()->0.50D,()->
+                        VaultBlockEntity.Server.tryInsertKey(level,roofPos2,level.getBlockState(roofPos2),
+                                roofVault2.getConfig(),roofVault2.getServerData(),roofVault2.getSharedData(),missPlayer,missKey));
+                ctx.assertTrue(missKey.isEmpty(),"missPlayer Trial Key consumed");
+                ctx.assertTrue(!roofVault2.getSharedData().getDisplayItem().is(starItem),"failed roll does not display Star Covenant in Vault");
+                var nbtMiss=roofVault2.saveWithoutMetadata(level.registryAccess());
+                ctx.assertTrue(!nbtMiss.toString().contains("moreminecrafts:star_covenant"),"failed roll does not queue Star Covenant in server_data.items_to_eject");
+
+                fix2.release();
+                fix.release();
+                ctx.succeed();
+            }
+        });
+    }
 }
