@@ -1,0 +1,32 @@
+{
+  "label": "det_a",
+  "radius": 1200,
+  "candidates": 18065,
+  "cases": [
+    {
+      "label": "det_a",
+      "eligible_candidates": 2332
+    }
+  ],
+  "evaluations_prod_legacy": [
+    2332,
+    2332
+  ],
+  "total_time_ms_prod_legacy": [
+    2421,
+    1624
+  ],
+  "allocated_bytes_prod_legacy": [
+    260575208,
+    147503544
+  ],
+  "heightmap_base_height_queries_prod_legacy(controlled only)": [
+    0,
+    0
+  ],
+  "mountain_legacy_generated__prod_identical_vs_different_vs(prod_only_generated)": [
+    542,
+    0,
+    4
+  ]
+}

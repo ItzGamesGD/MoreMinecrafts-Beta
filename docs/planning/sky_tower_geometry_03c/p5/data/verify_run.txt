@@ -1,0 +1,2 @@
+C1 {'boundary': True, 'overlaps': True, 'floor_ownership': True, 'height': False, 'arches': True, 'headroom': True, 'fall_edges': False, 'reservations': 'UNVERIFIED', 'balconies': True, 'reach': True, 'base_access': 'UNVERIFIED'}
+C2 {'boundary': True, 'overlaps': True, 'floor_ownership': True, 'height': False, 'arches': True, 'headroom': True, 'fall_edges': False, 'reservations': 'UNVERIFIED', 'balconies': True, 'reach': True, 'base_access': 'UNVERIFIED'}

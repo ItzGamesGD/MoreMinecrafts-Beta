@@ -1,0 +1,128 @@
+{
+ "C1": {
+  "positions_checked": 159048,
+  "blocks": 32366,
+  "origin": [
+   -23,
+   0,
+   -23
+  ],
+  "max": [
+   23,
+   71,
+   23
+  ],
+  "offset": [
+   1000,
+   90,
+   1000
+  ],
+  "functions": [
+   "c1_0",
+   "c1_1",
+   "c1_2",
+   "c1_3",
+   "c1_4",
+   "c1_5",
+   "c1_6",
+   "c1_7",
+   "c1_8",
+   "c1_9",
+   "c1_10",
+   "c1_11",
+   "c1_12",
+   "c1_13",
+   "c1_14",
+   "c1_15"
+  ],
+  "template_sha256": "cbbf9ef1afde249d17b63ee7e4babc15f8bb3225d3668dfd316f24acb6700e9b",
+  "forceload": "No chunks were marked for force loading",
+  "placement": "Loaded template \"p5:c1\" at 977, 90, 977",
+  "function_responses": [
+   "Running function p5:c1_0",
+   "Running function p5:c1_1",
+   "Running function p5:c1_2",
+   "Running function p5:c1_3",
+   "Running function p5:c1_4",
+   "Running function p5:c1_5",
+   "Running function p5:c1_6",
+   "Running function p5:c1_7",
+   "Running function p5:c1_8",
+   "Running function p5:c1_9",
+   "Running function p5:c1_10",
+   "Running function p5:c1_11",
+   "Running function p5:c1_12",
+   "Running function p5:c1_13",
+   "Running function p5:c1_14",
+   "Running function p5:c1_15"
+  ],
+  "error_score": "errors has 0 [p5]",
+  "status": "PASS",
+  "scope": "actual strict placement only; not player movement"
+ },
+ "C2": {
+  "positions_checked": 156839,
+  "blocks": 31617,
+  "origin": [
+   -23,
+   0,
+   -23
+  ],
+  "max": [
+   23,
+   70,
+   23
+  ],
+  "offset": [
+   1100,
+   90,
+   1000
+  ],
+  "functions": [
+   "c2_0",
+   "c2_1",
+   "c2_2",
+   "c2_3",
+   "c2_4",
+   "c2_5",
+   "c2_6",
+   "c2_7",
+   "c2_8",
+   "c2_9",
+   "c2_10",
+   "c2_11",
+   "c2_12",
+   "c2_13",
+   "c2_14",
+   "c2_15"
+  ],
+  "template_sha256": "d7f497ebbcdd29d724c0eba3010137f557e99e98c331544058c73b6de34f72c3",
+  "forceload": "No chunks were marked for force loading",
+  "placement": "Loaded template \"p5:c2\" at 1077, 90, 977",
+  "function_responses": [
+   "Running function p5:c2_0",
+   "Running function p5:c2_1",
+   "Running function p5:c2_2",
+   "Running function p5:c2_3",
+   "Running function p5:c2_4",
+   "Running function p5:c2_5",
+   "Running function p5:c2_6",
+   "Running function p5:c2_7",
+   "Running function p5:c2_8",
+   "Running function p5:c2_9",
+   "Running function p5:c2_10",
+   "Running function p5:c2_11",
+   "Running function p5:c2_12",
+   "Running function p5:c2_13",
+   "Running function p5:c2_14",
+   "Running function p5:c2_15"
+  ],
+  "error_score": "errors has 0 [p5]",
+  "status": "PASS",
+  "scope": "actual strict placement only; not player movement"
+ },
+ "startup": {
+  "datapack list enabled": "There are 2 data pack(s) enabled: [vanilla (built-in)], [file/p5 (world)]",
+  "scoreboard objectives add p5 dummy": "An objective already exists by that name"
+ }
+}

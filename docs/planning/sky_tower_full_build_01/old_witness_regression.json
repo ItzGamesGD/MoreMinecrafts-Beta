@@ -1,0 +1,66 @@
+{
+ "angle": 246.75,
+ "samples": [
+  {
+   "lap": 0,
+   "angle_deg": 246.75,
+   "feet_y": 8,
+   "physical_lo": 14.693218492819716,
+   "physical_hi": 20.13515126793813,
+   "physical_width": 5.441932775118415,
+   "centre_lo": 15.019734459326822,
+   "centre_hi": 19.808635301431025,
+   "centre_width": 4.788900842104203,
+   "limiting_boxes": "[[-8,8,-19,\"rail\"],[-8,9,-19,\"rail\"],[-6,8,-13,\"rail\"],[-6,9,-13,\"rail\"]]"
+  },
+  {
+   "lap": 1,
+   "angle_deg": 246.75,
+   "feet_y": 19,
+   "physical_lo": 14.693218492819716,
+   "physical_hi": 20.13515126793813,
+   "physical_width": 5.441932775118415,
+   "centre_lo": 15.019734459326822,
+   "centre_hi": 19.808635301431025,
+   "centre_width": 4.788900842104203,
+   "limiting_boxes": "[[-8,19,-19,\"rail\"],[-8,20,-19,\"rail\"],[-6,19,-13,\"rail\"],[-6,20,-13,\"rail\"]]"
+  },
+  {
+   "lap": 2,
+   "angle_deg": 246.75,
+   "feet_y": 30.5,
+   "physical_lo": 14.693218492819716,
+   "physical_hi": 20.13515126793813,
+   "physical_width": 5.441932775118415,
+   "centre_lo": 15.019734459326822,
+   "centre_hi": 19.808635301431025,
+   "centre_width": 4.788900842104203,
+   "limiting_boxes": "[[-8,30,-19,\"rail\"],[-8,31,-19,\"rail\"],[-6,30,-13,\"rail\"],[-6,31,-13,\"rail\"],[-6,32,-13,\"cornice\"]]"
+  },
+  {
+   "lap": 3,
+   "angle_deg": 246.75,
+   "feet_y": 44,
+   "physical_lo": 14.693218492819716,
+   "physical_hi": 20.13515126793813,
+   "physical_width": 5.441932775118415,
+   "centre_lo": 15.019734459326822,
+   "centre_hi": 19.808635301431025,
+   "centre_width": 4.788900842104203,
+   "limiting_boxes": "[[-8,44,-19,\"rail\"],[-8,45,-19,\"rail\"],[-6,44,-13,\"rail\"],[-6,45,-13,\"rail\"]]"
+  },
+  {
+   "lap": 4,
+   "angle_deg": 246.75,
+   "feet_y": 60.5,
+   "physical_lo": 14.693218492819716,
+   "physical_hi": 19.046764712914445,
+   "physical_width": 4.35354622009473,
+   "centre_lo": 15.019734459326822,
+   "centre_hi": 19.046764712914445,
+   "centre_width": 4.027030253587624,
+   "limiting_boxes": "[[-6,60,-13,\"rail\"],[-6,61,-13,\"rail\"],[-6,62,-13,\"wall\"]]"
+  }
+ ],
+ "scope": "same collision-interval algorithm at exact P5 witness angle, with new final geometry"
+}

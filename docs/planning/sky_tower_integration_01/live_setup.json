@@ -1,0 +1,192 @@
+{
+ "mode": "setup",
+ "base_origin_x": 7000,
+ "scope": "actual Fabric26.3 server; synthetic cooldown states; no combat/client/gates/natural generation claim",
+ "commands": [
+  {
+   "command": "forceload remove all",
+   "response": "Unmarked all force loaded chunks in minecraft:overworld"
+  },
+  {
+   "command": "forceload add 6950 950 7050 1050",
+   "response": "Marked 49 chunks in minecraft:overworld from [434, 59] to [440, 65] to be force loaded"
+  },
+  {
+   "command": "place template moreminecrafts:sky_tower/full_01 7000 65 1000 none none 1.0 0 strict",
+   "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 7000, 65, 1000"
+  },
+  {
+   "command": "mmskytower register 7000 65 1000 0",
+   "response": "Registered minecraft:overworld|7000,65,1000|0"
+  },
+  {
+   "command": "forceload add 7250 950 7350 1050",
+   "response": "Marked 49 chunks in minecraft:overworld from [453, 59] to [459, 65] to be force loaded"
+  },
+  {
+   "command": "place template moreminecrafts:sky_tower/full_01 7300 65 1000 clockwise_90 none 1.0 0 strict",
+   "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 7300, 65, 1000"
+  },
+  {
+   "command": "mmskytower register 7300 65 1000 1",
+   "response": "Registered minecraft:overworld|7300,65,1000|1"
+  },
+  {
+   "command": "forceload add 7550 950 7650 1050",
+   "response": "Marked 56 chunks in minecraft:overworld from [471, 59] to [478, 65] to be force loaded"
+  },
+  {
+   "command": "place template moreminecrafts:sky_tower/full_01 7600 65 1000 180 none 1.0 0 strict",
+   "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 7600, 65, 1000"
+  },
+  {
+   "command": "mmskytower register 7600 65 1000 2",
+   "response": "Registered minecraft:overworld|7600,65,1000|2"
+  },
+  {
+   "command": "forceload add 7850 950 7950 1050",
+   "response": "Marked 49 chunks in minecraft:overworld from [490, 59] to [496, 65] to be force loaded"
+  },
+  {
+   "command": "place template moreminecrafts:sky_tower/full_01 7900 65 1000 counterclockwise_90 none 1.0 0 strict",
+   "response": "Loaded template \"moreminecrafts:sky_tower/full_01\" at 7900, 65, 1000"
+  },
+  {
+   "command": "mmskytower register 7900 65 1000 3",
+   "response": "Registered minecraft:overworld|7900,65,1000|3"
+  },
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=0minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0"
+  },
+  {
+   "command": "setblock 7017 77 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 77, 1017"
+  },
+  {
+   "command": "setblock 7017 77 1031 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 77, 1031"
+  },
+  {
+   "command": "setblock 7031 77 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7031, 77, 1017"
+  },
+  {
+   "command": "setblock 7031 77 1031 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7031, 77, 1031"
+  },
+  {
+   "command": "tick sprint 100",
+   "response": "The game is sprinting"
+  },
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=15minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0"
+  },
+  {
+   "command": "setblock 7017 88 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 88, 1017"
+  },
+  {
+   "command": "setblock 7017 88 1031 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 88, 1031"
+  },
+  {
+   "command": "setblock 7031 88 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7031, 88, 1017"
+  },
+  {
+   "command": "setblock 7031 88 1031 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7031, 88, 1031"
+  },
+  {
+   "command": "tick sprint 100",
+   "response": "The game is sprinting"
+  },
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=255minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0"
+  },
+  {
+   "command": "setblock 7017 100 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 100, 1017"
+  },
+  {
+   "command": "setblock 7017 100 1031 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 100, 1031"
+  },
+  {
+   "command": "setblock 7031 100 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7031, 100, 1017"
+  },
+  {
+   "command": "setblock 7031 100 1031 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7031, 100, 1031"
+  },
+  {
+   "command": "tick sprint 100",
+   "response": "The game is sprinting"
+  },
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=4095minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0"
+  },
+  {
+   "command": "setblock 7017 114 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 114, 1017"
+  },
+  {
+   "command": "setblock 7017 114 1031 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 114, 1031"
+  },
+  {
+   "command": "setblock 7031 114 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7031, 114, 1017"
+  },
+  {
+   "command": "setblock 7031 114 1031 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7031, 114, 1031"
+  },
+  {
+   "command": "tick sprint 100",
+   "response": "The game is sprinting"
+  },
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0"
+  },
+  {
+   "command": "setblock 7017 77 1017 minecraft:trial_spawner[trial_spawner_state=cooldown]",
+   "response": "Changed the block at 7017, 77, 1017"
+  },
+  {
+   "command": "tick sprint 20",
+   "response": "The game is sprinting"
+  },
+  {
+   "command": "mmskytower register 7000 65 1000 0",
+   "response": "Already registered minecraft:overworld|7000,65,1000|0"
+  },
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0"
+  },
+  {
+   "command": "save-all flush",
+   "response": "Saving the game (this may take a moment!)Saved the game"
+  }
+ ],
+ "before_completion": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=0minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0",
+ "status": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0",
+ "floor_masks": [
+  15,
+  255,
+  4095,
+  65535
+ ],
+ "site_count": 12,
+ "saved_files": [
+  "world/dimensions/minecraft/overworld/data/moreminecrafts/sky_tower_instances.dat"
+ ],
+ "pass": true
+}

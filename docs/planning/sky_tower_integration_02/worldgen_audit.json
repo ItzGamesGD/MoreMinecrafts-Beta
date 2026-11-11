@@ -1,0 +1,452 @@
+{
+ "approved_sha256": "cec5bced051fdddcf5ebe80ed267ea3c5749126559ef982f82ac1b4dd435cd27",
+ "tower_size": [
+  50,
+  80,
+  49
+ ],
+ "styles": {
+  "snowy": {
+   "path": "src/main/resources/data/moreminecrafts/structure/sky_islands/snowy/tower.nbt",
+   "size": [
+    43,
+    74,
+    43
+   ],
+   "sha256": "85b95f799ba24d40bf88a5f1553d1eb81ccfd168bfc452b9bb54d716fc8233cf",
+   "socket": [
+    21,
+    16,
+    21
+   ],
+   "socket_nbt": {
+    "id": "minecraft:jigsaw",
+    "name": "moreminecrafts:sky_top",
+    "target": "moreminecrafts:sky_top",
+    "pool": "moreminecrafts:sky_islands/tower_top",
+    "joint": "aligned",
+    "final_state": "minecraft:snow_block",
+    "selection_priority": 0,
+    "placement_priority": 0
+   },
+   "provisional_centered_origin": [
+    -3,
+    17,
+    -3
+   ],
+   "approved_bounds": [
+    [
+     -3,
+     17,
+     -3
+    ],
+    [
+     46,
+     96,
+     45
+    ]
+   ],
+   "child_fits_parent_internal_box": false,
+   "entrance_ground_probe": [
+    46,
+    16,
+    21
+   ],
+   "ground_blocks_below_entrance": [],
+   "requires_new_connector": true
+  },
+  "meadow": {
+   "path": "src/main/resources/data/moreminecrafts/structure/sky_islands/meadow/tower.nbt",
+   "size": [
+    43,
+    74,
+    43
+   ],
+   "sha256": "9d5f04a96c30525da63a94a61cae3815609b7be66f9e360db2c8cfbf91a44259",
+   "socket": [
+    21,
+    16,
+    21
+   ],
+   "socket_nbt": {
+    "id": "minecraft:jigsaw",
+    "name": "moreminecrafts:sky_top",
+    "target": "moreminecrafts:sky_top",
+    "pool": "moreminecrafts:sky_islands/tower_top",
+    "joint": "aligned",
+    "final_state": "minecraft:grass_block",
+    "selection_priority": 0,
+    "placement_priority": 0
+   },
+   "provisional_centered_origin": [
+    -3,
+    17,
+    -3
+   ],
+   "approved_bounds": [
+    [
+     -3,
+     17,
+     -3
+    ],
+    [
+     46,
+     96,
+     45
+    ]
+   ],
+   "child_fits_parent_internal_box": false,
+   "entrance_ground_probe": [
+    46,
+    16,
+    21
+   ],
+   "ground_blocks_below_entrance": [],
+   "requires_new_connector": true
+  },
+  "forest": {
+   "path": "src/main/resources/data/moreminecrafts/structure/sky_islands/forest/tower.nbt",
+   "size": [
+    43,
+    74,
+    43
+   ],
+   "sha256": "a12ba435d462642066bb097576379aa83f9dd6608e0d509d68118ef8da93ae3f",
+   "socket": [
+    21,
+    16,
+    21
+   ],
+   "socket_nbt": {
+    "id": "minecraft:jigsaw",
+    "name": "moreminecrafts:sky_top",
+    "target": "moreminecrafts:sky_top",
+    "pool": "moreminecrafts:sky_islands/tower_top",
+    "joint": "aligned",
+    "final_state": "minecraft:grass_block",
+    "selection_priority": 0,
+    "placement_priority": 0
+   },
+   "provisional_centered_origin": [
+    -3,
+    17,
+    -3
+   ],
+   "approved_bounds": [
+    [
+     -3,
+     17,
+     -3
+    ],
+    [
+     46,
+     96,
+     45
+    ]
+   ],
+   "child_fits_parent_internal_box": false,
+   "entrance_ground_probe": [
+    46,
+    16,
+    21
+   ],
+   "ground_blocks_below_entrance": [],
+   "requires_new_connector": true
+  },
+  "badlands": {
+   "path": "src/main/resources/data/moreminecrafts/structure/sky_islands/badlands/tower.nbt",
+   "size": [
+    43,
+    74,
+    43
+   ],
+   "sha256": "040bc2c51f4b38e4e37fa4ae47039284468dd83482683228989f15fb0de1086e",
+   "socket": [
+    21,
+    16,
+    21
+   ],
+   "socket_nbt": {
+    "id": "minecraft:jigsaw",
+    "name": "moreminecrafts:sky_top",
+    "target": "moreminecrafts:sky_top",
+    "pool": "moreminecrafts:sky_islands/tower_top",
+    "joint": "aligned",
+    "final_state": "minecraft:red_sand",
+    "selection_priority": 0,
+    "placement_priority": 0
+   },
+   "provisional_centered_origin": [
+    -3,
+    17,
+    -3
+   ],
+   "approved_bounds": [
+    [
+     -3,
+     17,
+     -3
+    ],
+    [
+     46,
+     96,
+     45
+    ]
+   ],
+   "child_fits_parent_internal_box": false,
+   "entrance_ground_probe": [
+    46,
+    16,
+    21
+   ],
+   "ground_blocks_below_entrance": [],
+   "requires_new_connector": true
+  },
+  "desert": {
+   "path": "src/main/resources/data/moreminecrafts/structure/sky_islands/desert/tower.nbt",
+   "size": [
+    43,
+    74,
+    43
+   ],
+   "sha256": "5497c2ed7eba4f14336713c9235fbbe5665a18eb7091045219bcc39d98de6b19",
+   "socket": [
+    21,
+    16,
+    21
+   ],
+   "socket_nbt": {
+    "id": "minecraft:jigsaw",
+    "name": "moreminecrafts:sky_top",
+    "target": "moreminecrafts:sky_top",
+    "pool": "moreminecrafts:sky_islands/tower_top",
+    "joint": "aligned",
+    "final_state": "minecraft:sand",
+    "selection_priority": 0,
+    "placement_priority": 0
+   },
+   "provisional_centered_origin": [
+    -3,
+    17,
+    -3
+   ],
+   "approved_bounds": [
+    [
+     -3,
+     17,
+     -3
+    ],
+    [
+     46,
+     96,
+     45
+    ]
+   ],
+   "child_fits_parent_internal_box": false,
+   "entrance_ground_probe": [
+    46,
+    16,
+    21
+   ],
+   "ground_blocks_below_entrance": [],
+   "requires_new_connector": true
+  },
+  "rocky": {
+   "path": "src/main/resources/data/moreminecrafts/structure/sky_islands/rocky/tower.nbt",
+   "size": [
+    43,
+    74,
+    43
+   ],
+   "sha256": "711eea14e8a1e8662be27baa65c540c8e6cb869b6730f6489819f49b003b1148",
+   "socket": [
+    21,
+    16,
+    21
+   ],
+   "socket_nbt": {
+    "id": "minecraft:jigsaw",
+    "name": "moreminecrafts:sky_top",
+    "target": "moreminecrafts:sky_top",
+    "pool": "moreminecrafts:sky_islands/tower_top",
+    "joint": "aligned",
+    "final_state": "minecraft:gravel",
+    "selection_priority": 0,
+    "placement_priority": 0
+   },
+   "provisional_centered_origin": [
+    -3,
+    17,
+    -3
+   ],
+   "approved_bounds": [
+    [
+     -3,
+     17,
+     -3
+    ],
+    [
+     46,
+     96,
+     45
+    ]
+   ],
+   "child_fits_parent_internal_box": false,
+   "entrance_ground_probe": [
+    46,
+    16,
+    21
+   ],
+   "ground_blocks_below_entrance": [],
+   "requires_new_connector": true
+  }
+ },
+ "old_children": {
+  "5": {
+   "size": [
+    19,
+    39,
+    19
+   ],
+   "jigsaws": [
+    [
+     [
+      9,
+      0,
+      9
+     ],
+     {
+      "id": "minecraft:jigsaw",
+      "name": "moreminecrafts:sky_top",
+      "target": "moreminecrafts:sky_top",
+      "pool": "minecraft:empty",
+      "joint": "aligned",
+      "final_state": "minecraft:stone_bricks",
+      "selection_priority": 0,
+      "placement_priority": 0
+     }
+    ]
+   ]
+  },
+  "6": {
+   "size": [
+    19,
+    46,
+    19
+   ],
+   "jigsaws": [
+    [
+     [
+      9,
+      0,
+      9
+     ],
+     {
+      "id": "minecraft:jigsaw",
+      "name": "moreminecrafts:sky_top",
+      "target": "moreminecrafts:sky_top",
+      "pool": "minecraft:empty",
+      "joint": "aligned",
+      "final_state": "minecraft:stone_bricks",
+      "selection_priority": 0,
+      "placement_priority": 0
+     }
+    ]
+   ]
+  },
+  "7": {
+   "size": [
+    19,
+    53,
+    19
+   ],
+   "jigsaws": [
+    [
+     [
+      9,
+      0,
+      9
+     ],
+     {
+      "id": "minecraft:jigsaw",
+      "name": "moreminecrafts:sky_top",
+      "target": "moreminecrafts:sky_top",
+      "pool": "minecraft:empty",
+      "joint": "aligned",
+      "final_state": "minecraft:stone_bricks",
+      "selection_priority": 0,
+      "placement_priority": 0
+     }
+    ]
+   ]
+  }
+ },
+ "policy": {
+  "general": {
+   "path": "src/main/resources/data/moreminecrafts/worldgen/structure_set/sky_islands_general.json",
+   "sha256": "90bd1ad7c4fd302f946f9f2ee2cf06de889bae8d5b2d484ef9616ec758623496",
+   "json": {
+    "structures": [
+     {
+      "structure": "moreminecrafts:sky_island_snowy",
+      "weight": 1
+     },
+     {
+      "structure": "moreminecrafts:sky_island_meadow",
+      "weight": 1
+     },
+     {
+      "structure": "moreminecrafts:sky_island_forest",
+      "weight": 1
+     },
+     {
+      "structure": "moreminecrafts:sky_island_desert",
+      "weight": 1
+     },
+     {
+      "structure": "moreminecrafts:sky_island_badlands",
+      "weight": 1
+     }
+    ],
+    "placement": {
+     "type": "minecraft:random_spread",
+     "salt": 1479302,
+     "spacing": 24,
+     "separation": 8,
+     "frequency": 0.5,
+     "exclusion_zone": {
+      "other_set": "moreminecrafts:sky_islands_mountain",
+      "chunk_count": 5
+     }
+    }
+   }
+  },
+  "mountain": {
+   "path": "src/main/resources/data/moreminecrafts/worldgen/structure_set/sky_islands_mountain.json",
+   "sha256": "3cdfc7cb05cd3220b43d6e7f39e46719fa74a73717bf0d24ba0e623c87c806e7",
+   "json": {
+    "structures": [
+     {
+      "structure": "moreminecrafts:sky_island_mountain_snowy",
+      "weight": 1
+     },
+     {
+      "structure": "moreminecrafts:sky_island_mountain_rocky",
+      "weight": 1
+     },
+     {
+      "structure": "moreminecrafts:sky_island_mountain_meadow",
+      "weight": 1
+     }
+    ],
+    "placement": {
+     "type": "minecraft:random_spread",
+     "salt": 1479301,
+     "spacing": 14,
+     "separation": 5,
+     "frequency": 0.5
+    }
+   }
+  }
+ }
+}

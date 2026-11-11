@@ -1,0 +1,12 @@
+{
+ "positions_checked": 48600,
+ "listed_blocks": 9118,
+ "mismatches": 0,
+ "sample": [],
+ "world_offset": [
+  1099,
+  80,
+  999
+ ],
+ "status": "STATIC PASS (live placement matches export)"
+}

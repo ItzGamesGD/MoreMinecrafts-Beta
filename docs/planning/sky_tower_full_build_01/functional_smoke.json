@@ -1,0 +1,25 @@
+{
+ "prepare": [
+  "Set FullBuilder's game mode to Adventure Mode",
+  "Applied effect Resistance to FullBuilder",
+  "The difficulty has been set to Normal",
+  "Teleported FullBuilder to 1000.500000, 76.000000, 1000.500000"
+ ],
+ "spawner_active": [
+  "Test passed",
+  "Test passed. Count: 12",
+  "993, 77, 993 has the following block data: {next_mob_spawns_at: 34805L, components: {}, current_mobs: [[I; 1262730914, 1895056642, -1529614213, -221272701], [I; 759820537, 944982909, -1081446385, 83909775], [I; 1698515306, 624903488, -1451881742, 1700857910]], registered_players: [[I; -1636171328, 604585679, -1237206496, -65721343]], total_mobs_spawned: 3, normal_config: \"minecraft:trial_chamber/melee/zombie/normal\", x: 993, y: 77, spawn_data: {entity: {id: \"minecraft:zombie\"}}, z: 993, id: \"minecraft:trial_spawner\", ominous_config: \"minecraft:trial_chamber/melee/zombie/ominous\"}"
+ ],
+ "vault_prepare": [
+  "The difficulty has been set to Peaceful",
+  "Teleported FullBuilder to 994.300000, 76.000000, 1009.500000",
+  "Replaced 1 slot(s) on FullBuilder with [Trial Key]"
+ ],
+ "vault_after": [
+  "Found no elements matching SelectedItem",
+  "FullBuilder has the following entity data: []",
+  "992, 76, 1009 has the following block data: {components: {}, server_data: {state_updating_resumes_at: 35340L, rewarded_players: [[I; -1636171328, 604585679, -1237206496, -65721343]]}, x: 992, y: 76, z: 1009, id: \"minecraft:vault\", config: {key_item: {count: 1, id: \"minecraft:trial_key\"}}, shared_data: {}}",
+  "Test passed. Count: 2"
+ ],
+ "scope": "real nearby player triggers trial spawner; one real-client trial-key click on one vault. Not all floors/full waves/ominous/restart/multiplayer validation."
+}

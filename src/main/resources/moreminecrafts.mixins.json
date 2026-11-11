@@ -3,6 +3,8 @@
   "package": "dev.itzgamesgd.moreminecrafts.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "SkyTowerTrialCompletionMixin",
+    "SkyTowerBlockChangeMixin",
     "ColosseumMobPauseMixin",
     "ColosseumProjectilePauseMixin",
     "AnvilMenuMixin",

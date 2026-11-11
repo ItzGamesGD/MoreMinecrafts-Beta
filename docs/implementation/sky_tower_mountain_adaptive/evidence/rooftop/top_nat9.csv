@@ -1,0 +1,9 @@
+seed,chunk_x,chunk_z,structure_chunk,piece_min_y,piece_max_y,element,rooftop_layer_non_air,rooftop_layer_smooth_stone,rooftop_intact
+9,-176,169,,219,315,snowy/tower,91,64,true
+9,-597,1140,,218,314,snowy/tower,92,64,true
+9,-419,-274,,218,314,forest/tower,64,64,true
+9,-13,-377,,216,312,forest/tower,64,64,true
+9,876,-121,,215,311,snowy/tower,92,64,true
+9,-393,-504,,214,310,forest/tower,91,64,true
+9,1011,801,,214,310,forest/tower,64,64,true
+9,34,-1134,,214,310,snowy/tower,92,64,true
