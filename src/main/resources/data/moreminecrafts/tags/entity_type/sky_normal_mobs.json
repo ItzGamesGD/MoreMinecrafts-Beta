@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:cloud_wraith",
+    "moreminecrafts:skyguard_archer",
+    "moreminecrafts:crystal_bug",
+    "moreminecrafts:cloud_slime",
+    "moreminecrafts:fallen_sentinel"
+  ]
+}
