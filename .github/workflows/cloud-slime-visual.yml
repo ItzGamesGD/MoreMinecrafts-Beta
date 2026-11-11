@@ -1,7 +1,7 @@
 name: Cloud Slime visual validation
 on:
   push:
-    branches: [claude/sky-mob-p2b-p2c-vwuur8]
+    branches: [claude/sky-mob-p2b-p2c-vwuur8, claude/sky-mob-p2e1-r2-cloud-creature]
   workflow_dispatch:
 permissions:
   contents: read

@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 
 out = sys.argv[1]
 sizes = ["large", "medium", "small"]
-views = ["front", "side", "back", "elevated", "three-quarter"]
+views = ["front", "side", "back", "left", "top", "three-quarter"]
 for bg in ("bright", "dark"):
     sheet = Image.new("RGB", (384 * len(views), 216 * len(sizes)), (0, 0, 0))
     for r, size in enumerate(sizes):

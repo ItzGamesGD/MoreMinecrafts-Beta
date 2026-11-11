@@ -25,15 +25,15 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.monster.cubemob.Slime;
 
 /**
- * Cloud Slime P2-E1 (approved concept C, celestial spirit): static model and texture only.
+ * Cloud Slime P2-E1-R2 (approved concept A, cloud creature): static model and texture only.
  *
- * <p>Same two-pass structure as the vanilla slime: an inner cutout model holding layered voxel clouds and the eyes,
- * then an ordered translucent membrane cube. Inner geometry is opaque, so it writes depth before the membrane blends
- * over it, and every inner box keeps at least 0.25 px clearance from the membrane to avoid z-fighting. Size scaling,
- * the vanilla landing squish and the shadow are inherited unchanged from {@link AbstractCubeMobRenderer}.
+ * <p>Same two-pass structure as the vanilla slime: a cutout model (core, eyes, exterior cloud masses), then an
+ * ordered translucent membrane cube. Opaque geometry writes depth before the membrane blends, so clouds hide the
+ * membrane they cover without sorting artifacts. Size scaling, the vanilla landing squish and the shadow are inherited
+ * unchanged from {@link AbstractCubeMobRenderer}, so every cloud part scales and squishes with the body.
  *
- * <p>Hierarchy kept for later phases: {@code body} (membrane and inner both) for jump deformation, and
- * {@code clouds} with one child per cloud for internal cloud movement. Neither is animated here.
+ * <p>Hierarchy kept for later phases: {@code body} (both passes) for squash/stretch, and {@code clouds} with one
+ * child per cluster for cloud motion. Neither is animated here.
  */
 final class CloudSlimeRenderer extends AbstractCubeMobRenderer<Slime, SlimeRenderState, CloudSlimeRenderer.InnerModel> {
     static final ModelLayerLocation INNER = new ModelLayerLocation(ModIds.id("cloud_slime"), "main");
@@ -51,31 +51,53 @@ final class CloudSlimeRenderer extends AbstractCubeMobRenderer<Slime, SlimeRende
         EntityRendererRegistry.register(SkyNormalMobs.CLOUD_SLIME, CloudSlimeRenderer::new);
     }
 
-    /** Model space: the membrane spans x/z -4..4 and y 16..24 (y grows downward; 24 is the ground). */
+    /**
+     * Model space: the membrane spans x/z -4..4 and y 16..24 (y grows downward; 24 is the ground).
+     * Concept A: an opaque pale-blue core gives the body substance under the membrane, cyan eyes sit just in front of
+     * the membrane face, and white cloud masses grow around the outside. No cloud or eye face is coplanar with a
+     * membrane face, and the lower clouds stop 0.25 px above the ground plane.
+     */
     static LayerDefinition createInnerLayer() {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition body = mesh.getRoot().addOrReplaceChild("body", CubeListBuilder.create(), PartPose.ZERO);
-        PartDefinition clouds = body.addOrReplaceChild("clouds", CubeListBuilder.create(), PartPose.ZERO);
-        // Three depth layers (back, middle, front) plus a small high wisp, so parallax shows between views.
-        clouds.addOrReplaceChild("cloud_back", CubeListBuilder.create()
-                .texOffs(0, 32).addBox(-3.0F, 18.25F, 1.5F, 5.0F, 1.5F, 1.75F)
-                .texOffs(16, 32).addBox(-2.0F, 17.25F, 1.75F, 2.5F, 1.0F, 1.25F)
-                .texOffs(16, 32).addBox(1.0F, 17.75F, 2.0F, 1.5F, 0.5F, 1.0F), PartPose.ZERO);
-        clouds.addOrReplaceChild("cloud_middle", CubeListBuilder.create()
-                .texOffs(0, 40).addBox(-1.0F, 20.25F, -0.75F, 4.25F, 1.25F, 1.5F)
-                .texOffs(16, 40).addBox(0.0F, 19.25F, -0.5F, 2.0F, 1.0F, 1.0F)
-                .texOffs(16, 40).addBox(-2.0F, 20.75F, -0.5F, 1.0F, 0.75F, 1.0F), PartPose.ZERO);
-        clouds.addOrReplaceChild("cloud_front", CubeListBuilder.create()
-                .texOffs(0, 48).addBox(-3.25F, 22.0F, -2.75F, 3.75F, 1.25F, 1.0F)
-                .texOffs(16, 48).addBox(-2.5F, 21.25F, -2.5F, 1.75F, 0.75F, 0.75F)
-                .texOffs(16, 48).addBox(1.25F, 22.25F, -2.25F, 2.0F, 1.0F, 1.0F), PartPose.ZERO);
-        clouds.addOrReplaceChild("cloud_wisp", CubeListBuilder.create()
-                .texOffs(0, 56).addBox(1.25F, 16.75F, -2.0F, 2.0F, 0.75F, 1.0F)
-                .texOffs(0, 56).addBox(-3.25F, 20.5F, 2.25F, 1.5F, 0.75F, 1.0F), PartPose.ZERO);
+        body.addOrReplaceChild("core", CubeListBuilder.create()
+                .texOffs(0, 16).addBox(-3.0F, 17.0F, -3.0F, 6.0F, 6.0F, 6.0F), PartPose.ZERO);
         body.addOrReplaceChild("right_eye", CubeListBuilder.create()
-                .texOffs(40, 0).addBox(-2.25F, 18.5F, -3.75F, 1.0F, 2.0F, 0.5F), PartPose.ZERO);
+                .texOffs(40, 0).addBox(-2.5F, 19.25F, -4.3F, 1.25F, 2.25F, 0.25F), PartPose.ZERO);
         body.addOrReplaceChild("left_eye", CubeListBuilder.create()
-                .texOffs(40, 0).addBox(1.25F, 18.5F, -3.75F, 1.0F, 2.0F, 0.5F), PartPose.ZERO);
+                .texOffs(40, 0).addBox(1.25F, 19.25F, -4.3F, 1.25F, 2.25F, 0.25F), PartPose.ZERO);
+        PartDefinition clouds = body.addOrReplaceChild("clouds", CubeListBuilder.create(), PartPose.ZERO);
+        // Large fluffy mass over the top: two offset slabs overhanging the edges, a stepped dome and a crown puff,
+        // plus two short lumps hanging over the front edge above the eyes.
+        clouds.addOrReplaceChild("cloud_top", CubeListBuilder.create()
+                .texOffs(0, 32).addBox(-4.75F, 14.5F, -4.5F, 7.25F, 2.0F, 8.0F)
+                .texOffs(0, 32).addBox(-2.0F, 15.0F, -3.5F, 6.75F, 1.75F, 8.25F)
+                .texOffs(0, 32).addBox(-3.5F, 13.0F, -3.0F, 5.0F, 1.5F, 5.75F)
+                .texOffs(0, 32).addBox(0.5F, 13.5F, -2.25F, 3.25F, 1.5F, 5.0F)
+                .texOffs(0, 32).addBox(-1.75F, 12.0F, -1.5F, 2.5F, 1.0F, 3.0F)
+                .texOffs(0, 32).addBox(-4.25F, 13.75F, 0.5F, 1.75F, 0.75F, 2.5F)
+                .texOffs(0, 32).addBox(2.75F, 14.25F, -3.75F, 1.5F, 0.75F, 2.25F)
+                // Puffs spilling over the front edge and down two upper corners.
+                .texOffs(0, 32).addBox(-4.75F, 16.5F, -4.75F, 1.5F, 1.5F, 2.0F)
+                .texOffs(0, 32).addBox(-2.75F, 16.5F, -4.6F, 1.75F, 0.5F, 1.0F)
+                .texOffs(0, 32).addBox(1.75F, 16.5F, -4.75F, 2.25F, 0.75F, 1.25F)
+                .texOffs(0, 32).addBox(3.25F, 16.5F, 1.5F, 1.5F, 1.25F, 3.25F), PartPose.ZERO);
+        clouds.addOrReplaceChild("cloud_right", CubeListBuilder.create()
+                .texOffs(0, 48).addBox(3.5F, 17.5F, -2.25F, 1.75F, 2.0F, 3.75F)
+                .texOffs(0, 48).addBox(4.75F, 18.0F, -1.5F, 1.25F, 1.25F, 2.0F)
+                .texOffs(0, 48).addBox(3.5F, 19.5F, -1.75F, 1.25F, 0.75F, 2.5F), PartPose.ZERO);
+        clouds.addOrReplaceChild("cloud_left", CubeListBuilder.create()
+                .texOffs(0, 48).addBox(-5.75F, 19.5F, -1.0F, 2.25F, 2.0F, 3.5F)
+                .texOffs(0, 48).addBox(-6.5F, 20.0F, -0.25F, 1.0F, 1.25F, 1.75F)
+                .texOffs(0, 48).addBox(-5.25F, 21.5F, -0.5F, 1.75F, 0.75F, 2.25F), PartPose.ZERO);
+        clouds.addOrReplaceChild("cloud_back", CubeListBuilder.create()
+                .texOffs(0, 48).addBox(-1.25F, 18.25F, 3.5F, 3.75F, 2.25F, 1.75F)
+                .texOffs(0, 48).addBox(-0.25F, 18.75F, 5.0F, 1.75F, 1.25F, 0.75F), PartPose.ZERO);
+        clouds.addOrReplaceChild("cloud_lower", CubeListBuilder.create()
+                .texOffs(0, 48).addBox(-5.0F, 22.0F, -4.75F, 2.75F, 1.75F, 2.25F)
+                .texOffs(0, 48).addBox(-5.5F, 22.75F, -3.25F, 1.0F, 1.0F, 1.25F)
+                .texOffs(0, 48).addBox(2.0F, 22.25F, 1.5F, 3.25F, 1.5F, 3.25F)
+                .texOffs(0, 48).addBox(-4.5F, 22.5F, 3.0F, 2.5F, 1.25F, 2.0F), PartPose.ZERO);
         return LayerDefinition.create(mesh, 64, 64);
     }
 
