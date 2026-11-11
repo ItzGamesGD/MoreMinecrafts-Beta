@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.itzgamesgd.moreminecrafts.skytower.SkyTowerVaultRewards;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 /**
  * Ensures Sky Tower vaults use the authoritative custom reward pool at runtime,
+ * queues any successful rooftop special rewards into the vanilla Vault ejection list,
  * and notifies the unified Sky Tower vault reward framework upon key insertion.
  */
 @Mixin(VaultBlockEntity.Server.class)
@@ -27,6 +29,19 @@ abstract class SkyTowerVaultRewardMixin {
     private static VaultConfig moreminecrafts$scopeSkyTowerVaultConfig(VaultConfig config,
             ServerLevel level, BlockPos pos) {
         return SkyTowerVaultRewards.resolveVaultConfig(level, pos, config);
+    }
+
+    @ModifyVariable(method = "tryInsertKey", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/player/Player;awardStat(Lnet/minecraft/stats/Stat;)V"))
+    private static List<ItemStack> moreminecrafts$appendRooftopSpecialRewards(
+            List<ItemStack> itemsToEject,
+            ServerLevel level, BlockPos pos, BlockState state,
+            VaultConfig config, VaultServerData serverData, VaultSharedData sharedData,
+            Player player, ItemStack key) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            return SkyTowerVaultRewards.appendSpecialRewards(serverPlayer, level, pos, itemsToEject);
+        }
+        return itemsToEject;
     }
 
     @WrapOperation(method = "tryInsertKey", at = @At(value = "INVOKE",

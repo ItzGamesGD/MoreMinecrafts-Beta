@@ -130,4 +130,44 @@ class SkyTowerVaultRewardsTest {
             assertNotEquals(rooftopPt, normalPt);
         }
     }
+
+    @Test
+    void appendRooftopStarCovenantForSiteQueuesRewardOnHitAndNeverDuplicates() {
+        var s = site(0, 65, 0, 0);
+        var data = new dev.itzgamesgd.moreminecrafts.accessory.StarCovenantVaultRewards.Data();
+        var playerA = java.util.UUID.randomUUID();
+        var playerB = java.util.UUID.randomUUID();
+        var baseLoot = java.util.List.of(net.minecraft.world.item.ItemStack.EMPTY);
+        var sentinelReward = net.minecraft.world.item.ItemStack.EMPTY;
+
+        // Player A hits (roll 0.0 < 0.10): reward is appended to the Vault ejection list
+        var hitResult = SkyTowerVaultRewards.appendRooftopStarCovenantForSite(
+                data, playerA, s, baseLoot, () -> 0.0D, () -> sentinelReward);
+        assertEquals(2, hitResult.size(), "HIT appends special reward to Vault ejection list");
+        assertSame(sentinelReward, hitResult.get(1));
+
+        // Player A repeats on the same tower rooftop: ALREADY_CLAIMED, never appends a second reward
+        var repeatResult = SkyTowerVaultRewards.appendRooftopStarCovenantForSite(
+                data, playerA, s, baseLoot, () -> 0.0D, () -> sentinelReward);
+        assertEquals(1, repeatResult.size(), "repeat interaction by same player never duplicates special reward");
+
+        // Player B misses (roll 0.50 >= 0.10): no special reward appended, but claim is recorded
+        var missResult = SkyTowerVaultRewards.appendRooftopStarCovenantForSite(
+                data, playerB, s, baseLoot, () -> 0.50D, () -> sentinelReward);
+        assertEquals(1, missResult.size(), "MISS does not append special reward");
+
+        // Player B repeats after a MISS: still ALREADY_CLAIMED, cannot re-roll into a HIT
+        var missRepeatResult = SkyTowerVaultRewards.appendRooftopStarCovenantForSite(
+                data, playerB, s, baseLoot, () -> 0.0D, () -> sentinelReward);
+        assertEquals(1, missRepeatResult.size(), "failed roll still consumes one-time eligibility");
+
+        // Empty base loot (unsuccessful unlock) does not consume eligibility
+        var playerC = java.util.UUID.randomUUID();
+        var emptyResult = SkyTowerVaultRewards.appendRooftopStarCovenantForSite(
+                data, playerC, s, java.util.List.of(), () -> 0.0D, () -> sentinelReward);
+        assertTrue(emptyResult.isEmpty(), "empty loot list does not append reward");
+        var afterEmptyHit = SkyTowerVaultRewards.appendRooftopStarCovenantForSite(
+                data, playerC, s, baseLoot, () -> 0.0D, () -> sentinelReward);
+        assertEquals(2, afterEmptyHit.size(), "playerC eligibility was preserved after empty loot list");
+    }
 }

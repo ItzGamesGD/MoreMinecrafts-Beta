@@ -2,7 +2,10 @@ package dev.itzgamesgd.moreminecrafts.skytower;
 
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.accessory.StarCovenantVaultRewards;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -10,7 +13,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Prediction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -42,7 +44,32 @@ public final class SkyTowerVaultRewards {
         ROOFTOP
     }
 
+    private static final ThreadLocal<DoubleSupplier> ROLL_OVERRIDE = new ThreadLocal<>();
+
     private SkyTowerVaultRewards() {}
+
+    /** Executes an action with a deterministic Star Covenant roll supplier (for testing). */
+    public static <T> T withRollOverride(DoubleSupplier roll, Supplier<T> action) {
+        DoubleSupplier previous = ROLL_OVERRIDE.get();
+        ROLL_OVERRIDE.set(roll);
+        try {
+            return action.get();
+        } finally {
+            if (previous == null) {
+                ROLL_OVERRIDE.remove();
+            } else {
+                ROLL_OVERRIDE.set(previous);
+            }
+        }
+    }
+
+    /** Executes a runnable with a deterministic Star Covenant roll supplier (for testing). */
+    public static void withRollOverride(DoubleSupplier roll, Runnable action) {
+        withRollOverride(roll, () -> {
+            action.run();
+            return null;
+        });
+    }
 
     /** Finds the registered Sky Tower site whose bounds contain the given position. */
     public static SkyTowerLayout.Site findSite(ServerLevel level, BlockPos pos) {
@@ -229,7 +256,73 @@ public final class SkyTowerVaultRewards {
     }
 
     /**
-     * Called when a player successfully receives rewards from a Sky Tower vault.
+     * Appends the personal Star Covenant reward (if the 10% one-time roll hits) into the
+     * vanilla Vault's ejection list so that the Vault visibly ejects it upward with
+     * standard vanilla timing, velocity, sound, particles, and serverData NBT persistence.
+     */
+    public static List<ItemStack> appendSpecialRewards(
+            ServerPlayer player, ServerLevel level, BlockPos pos, List<ItemStack> itemsToEject) {
+        DoubleSupplier override = ROLL_OVERRIDE.get();
+        DoubleSupplier roll = override != null ? override : () -> level.getRandom().nextDouble();
+        return appendSpecialRewards(player, level, pos, itemsToEject, roll);
+    }
+
+    /**
+     * Appends the personal Star Covenant reward using the supplied roll source when pos is a
+     * registered rooftop vault and itemsToEject is non-empty (ensuring failed/empty unlocks
+     * never consume eligibility).
+     */
+    public static List<ItemStack> appendSpecialRewards(
+            ServerPlayer player, ServerLevel level, BlockPos pos, List<ItemStack> itemsToEject, DoubleSupplier roll) {
+        if (player == null || level == null || pos == null || itemsToEject == null || itemsToEject.isEmpty()) {
+            return itemsToEject;
+        }
+        if (!isRooftopVault(level, pos)) {
+            return itemsToEject;
+        }
+        var site = findSite(level, pos);
+        if (site == null) {
+            return itemsToEject;
+        }
+        return appendRooftopStarCovenantForSite(
+                StarCovenantVaultRewards.Data.get(level.getServer()),
+                player.getUUID(),
+                site,
+                itemsToEject,
+                roll,
+                StarCovenantVaultRewards::reward);
+    }
+
+    /**
+     * Pure helper for appending a rooftop special reward to an ejection list when the
+     * player's one-time 10% Star Covenant roll for the site hits.
+     */
+    public static List<ItemStack> appendRooftopStarCovenantForSite(
+            StarCovenantVaultRewards.Data data,
+            java.util.UUID playerId,
+            SkyTowerLayout.Site site,
+            List<ItemStack> itemsToEject,
+            DoubleSupplier roll,
+            Supplier<ItemStack> rewardFactory) {
+        if (data == null || playerId == null || site == null || itemsToEject == null || itemsToEject.isEmpty()) {
+            return itemsToEject;
+        }
+        var ref = new StarCovenantVaultRewards.VaultRef(site.id(), "rooftop");
+        var outcome = data.resolve(playerId, ref, roll);
+        if (outcome == StarCovenantVaultRewards.Outcome.HIT) {
+            List<ItemStack> updated = new ArrayList<>(itemsToEject.size() + 1);
+            updated.addAll(itemsToEject);
+            updated.add(rewardFactory.get());
+            return updated;
+        }
+        return itemsToEject;
+    }
+
+    /**
+     * Called when a player is recorded as rewarded by a Sky Tower vault.
+     * Note: Rooftop Star Covenant reward resolution and ejection-queue insertion happen
+     * during resolveItemsToEject via {@link #appendSpecialRewards} so that the Vault's
+     * vanilla unlock() sequence receives and persists the complete item list.
      */
     public static void onVaultRewarded(ServerPlayer player, ServerLevel level, BlockPos pos, VaultConfig config) {
         if (player == null || level == null || pos == null) return;
@@ -241,25 +334,11 @@ public final class SkyTowerVaultRewards {
                     player.getName().getString(), pos);
         } else if (isRooftopVault(level, pos)) {
             playRooftopPresentation(level, pos);
-            resolveRooftopStarCovenant(player, level, site);
         }
     }
 
     /** Visual/audio hook for future special rooftop presentation. */
     public static void playRooftopPresentation(ServerLevel level, BlockPos pos) {
-        // Deferred presentation hook (sound/particles) per approved scope
-    }
-
-    /** Resolves the personal 10% Star Covenant roll for rooftop vault rewards. */
-    public static void resolveRooftopStarCovenant(ServerPlayer player, ServerLevel level, SkyTowerLayout.Site site) {
-        var data = StarCovenantVaultRewards.Data.get(level.getServer());
-        var ref = new StarCovenantVaultRewards.VaultRef(site.id(), "rooftop");
-        var outcome = data.resolve(player.getUUID(), ref, () -> level.getRandom().nextDouble());
-        if (outcome == StarCovenantVaultRewards.Outcome.HIT) {
-            ItemStack reward = StarCovenantVaultRewards.reward();
-            if (!player.getInventory().add(reward)) {
-                player.drop(reward, false, Prediction.SERVER_ONLY);
-            }
-        }
+        // Rooftop special reward uses vanilla Vault upward item ejection, sound, and particles.
     }
 }
