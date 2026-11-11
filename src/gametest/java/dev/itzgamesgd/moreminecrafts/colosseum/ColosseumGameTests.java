@@ -71,6 +71,16 @@ public final class ColosseumGameTests {
         }
         ServerPlayer player(String name) { return player(UUID.randomUUID(), name); }
 
+        ManualClock clock;
+        /** Gives this arena (only) its own clock; its wall-clock timers then move solely through {@link ManualClock#advance}. */
+        ManualClock manualClock() { clock = new ManualClock(ColosseumData.clock.getAsLong()); ctl.useClock(clock); return clock; }
+        /** The controller the runtime actually ticks for this arena; recovery could replace the registered instance. */
+        ArenaController liveController() { return ColosseumRuntime.data(level.getServer()).controller(id); }
+        /** Fails if the runtime is not ticking this arena on its own test clock (e.g. a replaced controller or a leaked/missing clock). */
+        void assertOwnClock(GameTestHelper ctx) {
+            ctx.assertTrue(liveController() == ctl && ctl.clockOverride() == clock && clock != null, "arena " + id + " ticks on its own test clock");
+        }
+
         /** Teleports to horizontal offset (dx, dz) from the arena centre, standing on the floor. */
         void at(ServerPlayer p, double dx, double dz) { p.teleportTo(cx + 0.5 + dx, FLOOR_Y, cz + 0.5 + dz); }
 
@@ -85,6 +95,7 @@ public final class ColosseumGameTests {
         void cleanup() {
             // End test ownership as well as vanilla forced chunks; production combat tickets otherwise retain completed fixtures until grace expires.
             var data=ColosseumRuntime.data(level.getServer());data.sites().remove(id);data.setDirty();
+            ctl.useClock(null);   // release the test clock with the arena
             for (ServerPlayer p : players) level.getServer().getPlayerList().remove(p);
             for (Mob m : mobs()) m.discard();
             for (int x = (cx - 34) >> 4; x <= (cx + 34) >> 4; x++) for (int z = (cz - 34) >> 4; z <= (cz + 34) >> 4; z++) level.setChunkForced(x, z, false);
@@ -232,24 +243,108 @@ public final class ColosseumGameTests {
 
     @GameTest(maxTicks = 6000)
     public void absenceGraceResumesOnReturnAndExpiresOtherwise(GameTestHelper ctx) {
-        Arena a = new Arena(ctx, 6, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 10_000));
+        Arena a = new Arena(ctx, 6, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 1_500));
+        ManualClock clock = a.manualClock();   // the 1,500 ms grace elapses only through explicit steps, not host speed
         ServerPlayer p = a.player("grace");
         AtomicInteger step = new AtomicInteger();
         UUID[] id = new UUID[1];
+        long[] deadline = new long[1];
         ctx.onEachTick(() -> {
             int t = step.incrementAndGet();
             if (t == 3) a.at(p, 4, 4);
             if (t == 40) { id[0] = a.attempt().attemptId; a.at(p, 50, 0); }
-            if (t == 50) ctx.assertTrue(a.attempt().graceExpiryMillis() > 0 && !a.attempt().ended(), "grace running");
-            if (t == 60) a.at(p, 4, 4);             // returns within the grace
-            if (t == 75) {
+            if (t == 50) {
+                a.assertOwnClock(ctx);
+                deadline[0] = a.attempt().graceExpiryMillis();
+                ctx.assertTrue(deadline[0] == clock.now() + 1_500 && !a.attempt().ended(), "grace running: deadline is absence + 1,500 ms");
+                clock.advance(1_499);
+            }
+            if (t == 55) {
+                ctx.assertTrue(!a.attempt().ended() && a.attempt().graceExpiryMillis() == deadline[0], "1,499 ms absent is still inside the grace");
+                a.at(p, 4, 4);                      // returns within the grace, 1 ms before the deadline
+            }
+            if (t == 65) {
                 ctx.assertTrue(a.attempt().graceExpiryMillis() == 0 && a.attempt().attemptId.equals(id[0]) && !a.attempt().ended(), "return resumes the same attempt");
                 a.at(p, 50, 0);
-                a.ctl.setTiming(new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 1)); // Arm expiry only after return check, independent of CI machine speed.
             }
-            if (t == 76) { ctx.assertTrue(a.attempt().graceExpiryMillis() > 0 || !a.attempt().ended(), "second absence"); }
+            if (t == 75) {
+                deadline[0] = a.attempt().graceExpiryMillis();
+                ctx.assertTrue(deadline[0] == clock.now() + 1_500 && !a.attempt().ended(), "second absence starts a full 1,500 ms grace");
+                clock.advance(1_499);
+            }
+            if (t == 80) {
+                ctx.assertTrue(!a.attempt().ended(), "1,499 ms into the second absence the attempt still runs");
+                clock.advance(1);                   // exactly the deadline, still absent
+            }
             if (t > 80 && a.attempt().ended()) {
-                ctx.assertTrue(a.attempt().outcome() == Outcome.ABSENCE_EXPIRED, "grace expired, got " + a.attempt().outcome());
+                ctx.assertTrue(a.attempt().outcome() == Outcome.ABSENCE_EXPIRED && clock.now() == deadline[0], "grace expired at its deadline, got " + a.attempt().outcome());
+                ctx.assertTrue(a.mobs().isEmpty(), "trial mobs removed on failure");
+                a.cleanup();
+                ctx.succeed();
+            }
+        });
+    }
+
+    /** Expiry is {@code now >= deadline} and is evaluated before presence, so a return at exactly +1,500 ms is too late; clocks are per arena. */
+    @GameTest(maxTicks = 300)
+    public void graceDeadlineIsInclusiveAndEachArenaKeepsItsOwnClock(GameTestHelper ctx) {
+        RoundPlan.Timing grace = new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 1_500);
+        Arena exact = new Arena(ctx, 10, grace), early = new Arena(ctx, 11, grace);
+        ManualClock exactClock = exact.manualClock(), earlyClock = early.manualClock();
+        var sharedClock = ColosseumData.clock;
+        ServerPlayer pe = exact.player("deadline"), pl = early.player("isolated");
+        AtomicInteger step = new AtomicInteger();
+        UUID[] earlyId = new UUID[1];
+        long[] earlyDeadline = new long[1];
+        ctx.onEachTick(() -> {
+            int t = step.incrementAndGet();
+            if (t == 3) { exact.at(pe, 4, 4); early.at(pl, 4, 4); }
+            if (t == 40) { earlyId[0] = early.attempt().attemptId; exact.at(pe, 50, 0); early.at(pl, 50, 0); }
+            if (t == 50) {
+                exact.assertOwnClock(ctx); early.assertOwnClock(ctx);
+                earlyDeadline[0] = early.attempt().graceExpiryMillis();
+                ctx.assertTrue(exact.attempt().graceExpiryMillis() == exactClock.now() + 1_500 && earlyDeadline[0] == earlyClock.now() + 1_500,
+                        "each grace deadline is its own absence + 1,500 ms");
+                exactClock.advance(1_500); exact.at(pe, 4, 4);   // clock reaches the deadline in the same step as the return
+            }
+            if (t == 55) {
+                ctx.assertTrue(exact.attempt().outcome() == Outcome.ABSENCE_EXPIRED, "a return at exactly +1,500 ms is too late, got " + exact.attempt().outcome());
+                ctx.assertTrue(!early.attempt().ended() && early.attempt().graceExpiryMillis() == earlyDeadline[0] && earlyClock.now() == earlyDeadline[0] - 1_500,
+                        "advancing one arena's clock never moves another arena's time");
+                ctx.assertTrue(ColosseumData.clock == sharedClock, "the shared production clock is never replaced");
+                earlyClock.advance(1_499); early.at(pl, 4, 4);   // returns 1 ms before its own deadline
+            }
+            if (t == 60) {
+                ArenaAttempt at = early.attempt();
+                ctx.assertTrue(!at.ended() && at.graceExpiryMillis() == 0 && at.attemptId.equals(earlyId[0]), "a return at +1,499 ms resumes the same attempt");
+                ArenaController restored = ArenaController.restore(early.id, early.ctl.toJson(), null, earlyClock.now());
+                ctx.assertTrue(restored.clockOverride() == null, "a saved/restored controller does not inherit the test clock");
+                exact.cleanup(); early.cleanup();
+                ctx.assertTrue(exact.ctl.clockOverride() == null && early.ctl.clockOverride() == null, "cleanup releases each arena's test clock");
+                ctx.succeed();
+            }
+        });
+    }
+
+    @GameTest(maxTicks = 300)
+    public void returningOneMillisecondAfterTheGraceDeadlineIsTooLate(GameTestHelper ctx) {
+        Arena a = new Arena(ctx, 12, new RoundPlan.Timing(RoundPlan.LIMIT_MILLIS, 1_500));
+        ManualClock clock = a.manualClock();
+        ServerPlayer p = a.player("late-return");
+        AtomicInteger step = new AtomicInteger();
+        long[] deadline = new long[1];
+        ctx.onEachTick(() -> {
+            int t = step.incrementAndGet();
+            if (t == 3) a.at(p, 4, 4);
+            if (t == 40) a.at(p, 50, 0);
+            if (t == 50) {
+                a.assertOwnClock(ctx);
+                deadline[0] = a.attempt().graceExpiryMillis();
+                ctx.assertTrue(deadline[0] == clock.now() + 1_500 && !a.attempt().ended(), "grace running");
+                clock.advance(1_501); a.at(p, 4, 4);
+            }
+            if (t == 55) {
+                ctx.assertTrue(a.attempt().outcome() == Outcome.ABSENCE_EXPIRED && clock.now() == deadline[0] + 1, "a return at +1,501 ms is too late, got " + a.attempt().outcome());
                 ctx.assertTrue(a.mobs().isEmpty(), "trial mobs removed on failure");
                 a.cleanup();
                 ctx.succeed();
@@ -260,6 +355,7 @@ public final class ColosseumGameTests {
     @GameTest(maxTicks = 6000)
     public void wallClockLimitTimesOutAndLeavesOrdinaryMobs(GameTestHelper ctx) {
         Arena a = new Arena(ctx, 7, LONG);
+        ManualClock clock = a.manualClock();
         ServerPlayer p = a.player("limit");
         AtomicInteger step = new AtomicInteger();
         ctx.onEachTick(() -> {
@@ -267,9 +363,14 @@ public final class ColosseumGameTests {
             if (t == 3) a.at(p, 4, 4);
             if (t == 40) {
                 ctx.assertTrue(!a.mobs().isEmpty(), "mobs exist before expiry");
-                a.ctl.setTiming(new RoundPlan.Timing(1, RoundPlan.GRACE_MILLIS)); // Arm expiry only after setup/spawning, independent of CI machine speed.
+                a.ctl.setTiming(new RoundPlan.Timing(1, RoundPlan.GRACE_MILLIS)); // Arm expiry only after setup/spawning.
             }
-            if (t > 40 && a.attempt().ended()) {
+            if (t == 45) {
+                a.assertOwnClock(ctx);
+                ctx.assertTrue(!a.attempt().ended(), "0 ms elapsed on the arena clock is below the 1 ms limit");
+                clock.advance(1);                    // elapsed == limit: limit check is now - start >= limit
+            }
+            if (t > 45 && a.attempt().ended()) {
                 ctx.assertTrue(a.attempt().outcome() == Outcome.TIMED_OUT, "time-out after the limit, got " + a.attempt().outcome());
                 ctx.assertTrue(!a.mobs().isEmpty(), "ordinary trial mobs are left in place on time-out (Q116)");
                 ctx.assertTrue(a.ctl.cooldownLeft() > 77_000, "cooldown started");
