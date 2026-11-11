@@ -378,9 +378,12 @@ class SecurityGate(MirrorTestCase):
 
     def gate(self, report, approved, expect, tags=True):
         out = os.path.join(self.tmp, f"q-{expect}.json")
+        snap = os.path.join(self.tmp, f"snap-{expect}.json")
+        sh(sys.executable, "-m", "drive_mirror", "prepare", "--repo-url", self.repo.remote,
+           "--work-dir", self.work_dir, "--snapshot-out", snap, env=self.env)
         args = [sys.executable, "-m", "drive_mirror", "secgate", "--repo-url", self.repo.remote,
-                "--work-dir", self.work_dir, "--scan-report", report, "--approved", approved,
-                "--quarantine-out", out]
+                "--work-dir", self.work_dir, "--source-snapshot", snap, "--scan-report", report,
+                "--approved", approved, "--quarantine-out", out]
         p = subprocess.run(args, env=self.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         text = p.stdout.decode() + p.stderr.decode()
         self.assertNotIn(SECRET_MARKER, text)                          # values never reach logs
@@ -425,7 +428,7 @@ class SecurityGate(MirrorTestCase):
         leak = self.leaky_repo()
         rep, fp = self.report(leak)
         qpath, doc = self.gate(rep, self.approved(fp), expect=6)
-        srep = self.sync("--quarantine-file", qpath)
+        srep = self.sync("--quarantine-file", qpath, "--allow-external-scan-report")
         by = {n["ref"]: n for n in srep["namespaces"]}
         self.assertEqual(by["refs/heads/leaky"]["action"], "quarantined")
         self.assertEqual(by["refs/heads/main"]["action"], "quarantined")

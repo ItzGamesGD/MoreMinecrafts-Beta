@@ -98,6 +98,40 @@ class WorkflowStatic(unittest.TestCase):
         self.assertIn("--quarantine-file", _step(mirror, "Sync"))
         self.assertIn("--quarantine-file", _step(mirror, "Independent verification"))
 
+    def test_the_gate_hands_one_frozen_snapshot_to_sync_and_nothing_refetches(self):
+        """Gate/sync race: one fetch (`prepare`), the scan is bound to the frozen snapshot, the approval is checksum-pinned
+        through a step output, and neither sync nor verify can run ungated or on an unbound scan."""
+        mirror = _jobs(_read())["mirror"]
+        names = re.findall(r"(?m)^      - name: (.*)$", mirror)
+        freeze, gate, sync = (names.index(n) for n in ("Freeze the source snapshot (single fetch of every ref)",
+                                                       "Secret scan and gate", "Sync"))
+        self.assertLess(freeze, gate)
+        self.assertLess(gate, sync)
+        # exactly one place resolves refs from the remote before the sync; none sits between the gate and the sync
+        self.assertEqual(len(re.findall(r"drive_mirror prepare", mirror)), 1)
+        self.assertNotRegex(mirror, r"git (fetch|ls-remote|clone)")
+        between = " ".join(_step(mirror, n) for n in names[freeze + 1:sync]
+                           if n not in ("Install pinned, checksum-verified gitleaks", "Secret scan and gate"))
+        self.assertNotIn("drive_mirror prepare", between)
+        g = _step(mirror, "Secret scan and gate")
+        self.assertIn("--source-snapshot", g)
+        self.assertIn("--run-scanner gitleaks", g)                  # the scan is run by the gate on the snapshot's commits
+        self.assertIn("approval_sha256=", g)                        # recorded as a step output, immutable afterwards
+        self.assertIn("id: gate", g)
+        for step in ("Sync", "Independent verification", "Staleness check"):
+            body = _step(mirror, step)
+            self.assertIn('--quarantine-file "$REPORTS/approval.json"' if step != "Staleness check"
+                          else "--quarantine-file $REPORTS/approval.json", body, step)
+            self.assertIn("APPROVAL_SHA256: ${{ steps.gate.outputs.approval_sha256 }}", body, step)
+            self.assertIn("--approval-sha256", body, step)
+        self.assertNotIn("--allow-ungated", _read())
+        self.assertNotIn("--allow-external-scan-report", _read())
+        self.assertNotIn("gitleaks git", _read())                   # no scan outside the gate (`--all` would rediscover refs)
+
+    def test_a_gate_mismatch_is_reported_as_such(self):
+        sync = _step(_jobs(_read())["mirror"], "Sync")
+        self.assertRegex(sync, r"7\) echo \"::error::Approved snapshot missing")
+
     def test_verify_is_not_run_after_a_dry_run(self):
         """A dry run writes nothing, so a fresh test namespace does not exist and `verify` would fail it (mirror_root)."""
         step = _step(_jobs(_read())["mirror"], "Independent verification")

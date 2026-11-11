@@ -92,6 +92,10 @@ class MirrorTestCase(unittest.TestCase):
             args += ["--mirror-name", MIRROR, "--parent-folder-id", self.parent]
         if cmd == "sync":
             args += ["--lock-settle-s", "0.05", "--workers", "4"]
+            if "--quarantine-file" not in extra and "--allow-ungated" not in extra and not getattr(self, "strict_gate", False):
+                # Generic scenarios exercise the sync engine on scratch data; the gate/sync handoff has its own
+                # tests (test_gate_race.py), which never pass this flag.
+                args.append("--allow-ungated")
         p = subprocess.run(args + list(extra), env=env or self.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if expect is not None and p.returncode != expect:
             self.fail(f"{cmd} exit {p.returncode} != {expect}\nstdout:{p.stdout.decode()[-3000:]}\n"

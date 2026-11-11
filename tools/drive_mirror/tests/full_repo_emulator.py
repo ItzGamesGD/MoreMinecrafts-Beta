@@ -29,7 +29,8 @@ def main() -> int:
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--workers", default="8")
     ap.add_argument("--deep-sample", default="500")
-    ap.add_argument("--quarantine-file", help="quarantine.json from `secgate` (those refs are not uploaded)")
+    ap.add_argument("--quarantine-file", help="approval from `secgate` (frozen snapshot + quarantine); its snapshot is what "
+                                              "sync and verify use. Without it sync runs --allow-ungated (emulator only)")
     a = ap.parse_args()
     os.makedirs(a.out_dir, exist_ok=True)
     summary = {"repo_url": a.repo_url, "steps": {}}
@@ -44,6 +45,8 @@ def main() -> int:
                     "--mirror-name", "MoreMinecrafts-Beta", "--parent-folder-id", parent, "--report", report, *extra]
             if a.quarantine_file:
                 args += ["--quarantine-file", a.quarantine_file]
+            elif cmd == "sync":
+                args.append("--allow-ungated")
             w0, t0 = fake.store.counters["writes"], time.time()
             r0 = fake.store.counters["reads"]
             p = subprocess.run(args, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
