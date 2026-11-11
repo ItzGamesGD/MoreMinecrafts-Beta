@@ -1,0 +1,152 @@
+branch	tip	last_commit	ahead_of_integration	behind_integration	unique_patch_ids	merge_base	classification	reason
+docs/st05-wave15-authority-q110-20261029	423144ce	2026-10-29	0	268	0	423144ce	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+design/t1-accessories-d01-owner-decisions-20261030	59ad0bbb	2026-11-03	0	262	0	59ad0bbb	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+docs/content-design-roadmap-wave15-20261030	fdaeac6c	2026-11-04	0	263	0	fdaeac6c	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+docs/st03-owner-decisions-q01-q42-20261104	7f4e66ad	2026-11-04	0	263	0	7f4e66ad	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implement/d13-01-relic-catalyst-20261104	23e9be7e	2026-11-04	0	163	0	23e9be7e	ALREADY_INTEGRATED	integrated in f8bd02e7 (clean merge, validated)
+implement/d13-02-relic-catalyst-sources-20261104	8aba6f37	2026-11-04	0	163	0	8aba6f37	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+feat/st03-implement-01-20261105	7c9520a1	2026-11-05	0	262	0	7c9520a1	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implement/d13-03-i01-t2-accessory-chest-pools-20261105	13612855	2026-11-05	0	159	0	13612855	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implement/d13-03-i02-deep-sea-pearl-20261105	a2584ba4	2026-11-05	0	158	0	a2584ba4	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implement/d13-03-i03-heart-of-gravity-20261105	7a1e441c	2026-11-05	0	157	0	7a1e441c	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+design/st01-build-q01-q08-20261105	2bd691f9	2026-11-06	0	154	0	2bd691f9	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+docs/d13-03-authority-q01-q47-20261106	3ad9f283	2026-11-06	3	164	0	65072bca	ALREADY_INTEGRATED	all commits patch-equivalent to integration (git cherry)
+docs/sky-tower-design-q01-q41-20261105	1449bf10	2026-11-06	0	158	0	1449bf10	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p1-conditional-approval-20261106	d2e00531	2026-11-06	0	152	0	d2e00531	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p1-ground-3d-20261106	6549c05c	2026-11-06	0	153	0	6549c05c	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p2-underground-20261106	fe07865d	2026-11-06	0	151	0	fe07865d	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p3-royal-tomb-20261106	37fed9a6	2026-11-06	0	150	0	37fed9a6	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+claude/sky-tower-geometry-02-coords-hgbfo7	c43b4803	2026-11-07	0	146	0	c43b4803	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+docs/d13-03-i06-royal-chest-authority	1bfd5faa	2026-11-07	0	153	0	1bfd5faa	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+feature/sky-tower-full-build-01	16ad9d59	2026-11-07	0	144	0	16ad9d59	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+fix/ci-tomb-guardian-colosseum-20261107	1ec7610f	2026-11-07	0	149	0	1ec7610f	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p4-secret-area-20261107	0d486fd1	2026-11-07	0	149	0	0d486fd1	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p5-integration-20261107	f7bf07fc	2026-11-07	0	148	0	f7bf07fc	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p6-final-spec-20261107	06a262d7	2026-11-07	0	147	0	06a262d7	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+feature/sky-tower-integration-01	387a50c2	2026-11-08	0	142	0	387a50c2	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implement/d13-03-i05-pyramid-royal-chest-rewards-20261106	48038bc9	2026-11-08	0	145	0	48038bc9	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implement/d13-03-i06-p3-royal-chest-rewards-20261107	bcb58ff6	2026-11-08	0	147	0	bcb58ff6	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implement/d13-03-i06-p4-st01-integration-20261108	6c7923e0	2026-11-08	0	144	0	6c7923e0	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p7-east-primary-guardian-20261108	93ff73f1	2026-11-08	0	143	0	93ff73f1	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+audit/sky-tower-completeness	6c48b8d7	2026-11-09	0	131	0	6c48b8d7	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+claude/relaxed-ramanujan-th5bvj	fdaa7eff	2026-11-09	0	132	0	fdaa7eff	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+claude/st01-p8a-d1-floor-stairs-wweuti	e229d001	2026-11-09	0	131	0	e229d001	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+claude/st01-p8a-royal-hall-validation-wweuti	b8348302	2026-11-09	0	134	0	b8348302	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+validation/sky-tower-mountain-height	038eaef6	2026-11-09	0	129	0	038eaef6	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p8a-nbt-spatial-layout-20261109	20a3578c	2026-11-09	0	142	0	20a3578c	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+claude/sky-tower-phase-2-validation-twragg	d12a6e11	2026-11-10	0	128	0	d12a6e11	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+claude/st01-p8c2b-natural-worldgen-isauq8	9e4379c7	2026-11-10	0	114	0	9e4379c7	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implementation/sky-tower-mountain-adaptive-b	8b5500e3	2026-11-10	0	128	0	8b5500e3	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+remediation/st01-colosseum-clock-seam-20261110	f2c0a6c8	2026-11-10	2	119	0	c25f9d44	ALREADY_INTEGRATED	all commits patch-equivalent to integration (git cherry)
+work/st01-g0-geometry-finalization-20261110	6b64106f	2026-11-10	0	123	0	6b64106f	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-g0-r1-blueprint-finalization-20261110	c26ea0f8	2026-11-10	0	121	0	c26ea0f8	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p8b2-royal-chest-runtime-20261110	03685656	2026-11-10	0	125	0	03685656	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p8c2a-complete-assembly-20261110-r1	c25f9d44	2026-11-10	0	119	0	c25f9d44	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+audit/st01-p8c2b-counterfactual-rarity-20261111	569fc789	2026-11-11	0	111	0	569fc789	REQUIRES_ISOLATION	report integrated (docs); probe/tooling/workflow not integrated: probe targets pre-Policy-D St01PlacementConfig API (merged as 2a1c23a0, reverted by 01bf033d)
+docs/st01-p8d1-discovery-design-20261111	a598054b	2026-11-11	0	110	0	a598054b	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+feature/sky-tower-integration-02	25e6ed6e	2026-11-11	0	109	0	25e6ed6e	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+fix/colosseum-absence-grace-ci-timing	576e7890	2026-11-11	0	126	0	576e7890	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+fix/sky-tower-p3a-followup	307f2502	2026-11-11	0	110	0	307f2502	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+implementation/sky-tower-p4-vault-rewards	75024602	2026-11-11	0	116	0	75024602	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+research/st01-p8d2-explorer-map-feasibility-20261111	04a44ffa	2026-11-11	0	109	0	04a44ffa	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+research/st01-p8d2-r1-search-audit-20261111	d01ca8ac	2026-11-11	0	108	0	d01ca8ac	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p8c2c-policy-d-20261111	c376488d	2026-11-11	0	111	0	c376488d	ALREADY_INTEGRATED	ancestor of or patch-equivalent to the integration branch
+work/st01-p7-secret-entrance-state-20261107	5610683d	2026-11-07	1	147	1	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+work/st01-p8-dummy-prototype-20261107	633005e8	2026-11-07	2	147	2	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+work/st01-p10-real-tomb-golem-20261108	1449ce50	2026-11-08	4	147	4	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+work/st01-p11-prod-config-o9-audit-20261108	c1f63fa3	2026-11-08	5	147	5	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+work/st01-p9-victory-split-20261108	eecf09b5	2026-11-08	3	147	3	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+study/st01-o14-worldgen-feasibility-20261109	58ee24b6	2026-11-09	7	147	7	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+work/st01-o14-phase1-phase2-20261109	d432a9c5	2026-11-09	13	147	13	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+work/st01-o14-phase3-1-validation-20261109	7e37b786	2026-11-09	19	147	19	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+work/st01-o14-phase3-calibration-20261109	d6753339	2026-11-09	17	147	17	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+work/st01-p11r-o9-gametest-fix-20261109	6d7856b4	2026-11-09	6	147	6	06a262d7	BLOCKED	ST-01 P7–P11 / O-14 secret-entrance and gold-golem line: runtime design not reconciled with Policy D; owner decision needed before integration
+research/st01-p8c3a-terrain-adaptation-20261111	357fc936	2026-11-11	1	28	1	11946339	DOCUMENTATION_ONLY	PR #274 Draft (docs only); not merged into integration; awaits owner decision
+stage-1/fabric-foundation	ab5e2a57	2026-09-21	22	342	22	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-2/enhancement-stone	6ae717c9	2026-09-22	26	342	24	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-3/enhancement-vertical-slice	1f05e53f	2026-09-22	32	342	28	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-4/equipment-foundation	8a3159c5	2026-09-23	64	342	54	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-5/special-equipment	e66bf7ec	2026-09-23	76	342	63	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-6/materials-crafting-progression	c8705f4c	2026-09-23	91	342	76	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-7/life-content	a62a65e1	2026-09-23	98	342	81	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-8/entity-mob	5541ad50	2026-09-23	105	342	85	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-9/skeleton-king	ec1b6ce9	2026-09-23	115	342	93	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-10/draft-content	a2acc715	2026-09-25	145	342	115	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-11/checkpoint	3cb27187	2026-09-26	159	342	126	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-12/checkpoint	a8b6299f	2026-09-27	132	342	107	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-13/checkpoint	94a264c2	2026-09-27	145	342	117	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-14/checkpoint	94a264c2	2026-09-27	145	342	117	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-15/checkpoint	c39313e7	2026-09-28	184	342	149	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-16/checkpoint	70e470de	2026-09-30	213	342	176	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-17/checkpoint	d8493c62	2026-10-01	233	342	192	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-18/integration	e4e99c36	2026-10-01	241	342	199	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-18/checkpoint	93d264a8	2026-10-02	318	342	272	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-19/checkpoint	984418d3	2026-10-04	328	342	281	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-20/checkpoint	20121ca7	2026-10-07	375	342	326	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-21/knowledge-checkpoint	c0ce63cb	2026-10-14	746	342	690	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-22/research-restructure	d65f5905	2026-10-15	754	342	697	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+integration/stage23-final-reconciliation-20261016	bdffa599	2026-10-16	823	342	765	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-ci/accessory-bounty-20261023	63efc3ca	2026-10-23	868	342	807	NONE	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/wave11-unified-20261027	c47c69f3	2026-10-26	0	306	0	c47c69f3	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/wave10-unified-20261026	73dcc8f4	2026-10-27	3	313	0	13c190d1	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+integration/wave10-unified-20261025	73dcc8f4	2026-10-27	3	313	0	13c190d1	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+integration/wave12-functional-preservation-20261027	3c8186b7	2026-10-27	0	296	0	3c8186b7	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/wave12-unified-20261027	6ead3fcd	2026-10-28	0	283	0	6ead3fcd	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/wave13-unified-20261028	34d56b1c	2026-10-28	0	281	0	34d56b1c	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/wave14-unified-20261028	063d5e08	2026-10-28	0	280	0	063d5e08	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+stage-audit/wave15-candidate-20261028	68de9706	2026-10-28	1	275	0	bc85cb02	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/wave15-unified-20261029	4e1ff87a	2026-10-30	0	267	0	4e1ff87a	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/wave16-unified-20261104	65072bca	2026-11-04	0	164	0	65072bca	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/unified-20261111-candidate-1	0743aa74	2026-11-11	0	29	0	0743aa74	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+checkpoint/unified-20261111-candidate-2	11946339	2026-11-11	0	28	0	11946339	HISTORICAL_CHECKPOINT	historical checkpoint/stage ref; preserved, never moved
+claude/sky-mob-gametest-timing-nn7o1h	9a54ae0b	2026-11-06	12	164	12	65072bca	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+implement/sky-mob-p1-entities-20261106	ccc57547	2026-11-07	14	164	11	65072bca	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+feature/sky-mob-p2b-cloud-wraith	58efa1ff	2026-11-09	43	164	39	65072bca	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+claude/sky-mob-p2b-p2c-vwuur8	55884b22	2026-11-10	65	164	56	65072bca	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+claude/sky-mob-p2d-crystal-bug	1683772e	2026-11-10	59	164	53	65072bca	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+claude/sky-mob-p2e1-r2-cloud-creature	8893c1ff	2026-11-11	66	164	57	65072bca	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+claude/sky-mob-p2f1-blood-seraph	dcd93ba5	2026-11-11	70	164	60	65072bca	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+docs/sky-mob-p0-authority-20261106	ec026c05	2026-11-11	67	164	57	65072bca	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+work/sky-mob-tower-integration-20261111	bd5ba43f	2026-11-11	71	127	60	5013989d	PAUSED_BY_OWNER	mob track, paused by the owner; preserved by branch, not integrated
+audit/prc-p7-security-hold-reaudit-20261027	04c09ea1	2026-10-27	1	293	1	d341a065	REQUIRES_ISOLATION	unclassified by rule: review manually
+audit/prc-p7b-targeted-closure-20261027	66d2b529	2026-10-27	2	293	2	d341a065	REQUIRES_ISOLATION	unclassified by rule: review manually
+audit/prc-p7c-closure-security-execution-20261027	84c3eadc	2026-10-27	4	293	4	d341a065	REQUIRES_ISOLATION	unclassified by rule: review manually
+audit/prc-p7d-security-verification-20261027	20eb1d8e	2026-10-27	5	293	5	d341a065	REQUIRES_ISOLATION	unclassified by rule: review manually
+design/st05-colosseum-owner-decisions-20261028	dd193d78	2026-10-30	113	283	113	6ead3fcd	REQUIRES_ISOLATION	ST-05 / pre-wave16 lineage (base not in integration); needs rebase or owner decision before integration
+feat/st05-c-controller-foundation-20261030	17261362	2026-10-30	7	268	7	423144ce	REQUIRES_ISOLATION	ST-05 / pre-wave16 lineage (base not in integration); needs rebase or owner decision before integration
+feat/st05-c4-structure-mask-20261030	1ee08d44	2026-10-30	9	268	9	423144ce	REQUIRES_ISOLATION	ST-05 / pre-wave16 lineage (base not in integration); needs rebase or owner decision before integration
+validation/st05-stage0-a02-a03-20261030	838e1366	2026-10-31	2	254	2	cfdecb47	REQUIRES_ISOLATION	ST-05 / pre-wave16 lineage (base not in integration); needs rebase or owner decision before integration
+claude/st05-p0-probe-binding-urp8d9	b3b935e8	2026-11-01	24	254	24	cfdecb47	REQUIRES_ISOLATION	ST-05 / pre-wave16 lineage (base not in integration); needs rebase or owner decision before integration
+design/st05-worldgen-q01-q18-20261030	5a02e5cc	2026-11-01	21	254	21	cfdecb47	REQUIRES_ISOLATION	ST-05 / pre-wave16 lineage (base not in integration); needs rebase or owner decision before integration
+probe/st05-p0-probe-01	d4d41681	2026-11-01	33	254	33	cfdecb47	REQUIRES_ISOLATION	ST-05 / pre-wave16 lineage (base not in integration); needs rebase or owner decision before integration
+audit/st05-po25-review-package-20261102	11c09064	2026-11-02	34	254	34	cfdecb47	REQUIRES_ISOLATION	ST-05 / pre-wave16 lineage (base not in integration); needs rebase or owner decision before integration
+implement/d13-03-i04a-star-covenant-vault-logic-20261106	df673dfe	2026-11-06	1	157	1	7a1e441c	SUPERSEDED_BUT_PRESERVED	Star Covenant logic and test already in integration (accessory/StarCovenantVaultRewards*); only comment text differs
+claude/colosseum-deterministic-clock-20261107	f6c45ee3	2026-11-07	13	164	11	65072bca	SUPERSEDED_BUT_PRESERVED	superseded by the D13 deterministic ManualClock ColosseumGameTests chosen in integration conflict C1
+docs/alchemy-plot-notes	cc1a96b0	2026-10-02	245	342	202	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+recovery/vanilla-model-custom-mob-roster-base	cf4360b2	2026-10-06	353	342	305	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+prototype/stage20-vanilla-sweep-texture	b1830ce6	2026-10-09	376	342	327	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+prototype/vanilla-sweep-texture	fe9d441f	2026-10-09	130	342	105	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+docs/ui-piglin-mob-tracker-20261010	6fe1a308	2026-10-10	409	342	360	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+docs/2026-10-07-content-first-axis-review	8bf157f7	2026-10-13	142	342	118	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+codex/stage23-livefix-b-20261016	5682be10	2026-10-16	829	342	771	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+codex/stage23-pr105-bundle-export-20261016	c035946f	2026-10-16	830	342	772	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+codex/stage23b-cloud-live-client-qa	dad054c7	2026-10-16	884	342	826	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+design/stage23a-remaining-approval-20261017	67d6c1fd	2026-10-17	835	342	777	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+experiment/underground-kingdom-worldgen-probe	991b20c8	2026-10-17	824	342	766	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+audit/stage23-pr92-pr93-reconciliation-20261019	079d36ac	2026-10-19	892	342	832	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+claude/q1c-skull-provenance-20261019	6ba15ac2	2026-10-19	894	342	834	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+codex/q1c-pr128-p1-p2-repair-20261019	9c9f2257	2026-10-19	901	342	841	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+codex/q1c-recovery-20261019-079d36a	334997d2	2026-10-19	893	342	833	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+codex/xp-quest-ui-integration-20261020	a124ccfc	2026-10-20	749	342	692	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+experiment/cloud-free-model-delegation-phase0	aa376713	2026-10-21	748	342	691	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+experiment/ponytail-skill-2-20261021	f864df45	2026-10-21	751	342	694	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+main	cde842dd	2026-10-23	749	342	691	NONE	SUPERSEDED_BUT_PRESERVED	main branch: no common ancestor with the checkpoint lineage (historical)
+design/pyramid-mob-roster-20261026	a86c6d5b	2026-10-26	750	342	692	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+release/wave9-rc-20261025	268ec65b	2026-10-26	945	342	853	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+design/spider-colony-biome-20261026	4aabb33e	2026-10-27	801	342	743	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+docs/sky-islands-design-context-20261027	2fba754b	2026-10-27	760	342	702	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+test/git-auth-check	5927cddc	2026-11-09	750	342	692	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+claude/moreminecrafts-beta-audit-mirror-7id36x	6d4beed1	2026-11-10	757	342	699	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+claude/st01-pyramid-phase4-worldgen-roke2l	ada10ba3	2026-11-10	11	125	11	03685656	SUPERSEDED_BUT_PRESERVED	Phase 4 worldgen registration superseded by the P8 production pipeline (Policy D); not integrated to avoid a second worldgen registration for the same structure
+claude/moreminecrafts-mirror-gate-race-20261111	79f10059	2026-11-11	767	342	709	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
+claude/moreminecrafts-mirror-readiness-20261111	2da0bb38	2026-11-11	761	342	703	NONE	SUPERSEDED_BUT_PRESERVED	main-lineage branch (no common ancestor with the wave16 checkpoint); historical
