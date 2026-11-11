@@ -1,63 +1,108 @@
-# SKY TOWER P4 — OPEN DESIGN DECISIONS
-## Precise Owner Decision Requests for Human Authority
+# SKY TOWER P4 — DESIGN DECISIONS & ROOFTOP GEOMETRY AUDIT
 
 **Repository:** `ItzGamesGD/MoreMinecrafts-Beta`  
 **Base Commit:** `5013989dfd4a9575ace5dccf922d28dea9d52150` (`feature/sky-tower-integration-02`)  
 **Implementation Branch:** `implementation/sky-tower-p4-vault-rewards`  
 **Date:** 2026-11-10  
-**Current Gate Status:** **PARTIAL** (Awaiting Owner Decision)
+**Current Gate Status:** **PARTIAL — STOP & REPORT TRIGGERED (Geometric Conflict at Preferred Coordinate)**
 
 ---
 
-In accordance with `AGENTS.md` ("WHAT = Human, HOW = Agent"), coding agents are strictly prohibited from inventing gameplay rules, container types, balance percentages, or structural block coordinates. The following decisions must be made by the human project owner before the rooftop special vault can be placed and P4 marked COMPLETE.
+## 1. Owner Decisions Received & Ratified
+
+The project owner explicitly approved the following decisions for the Sky Tower rooftop special vault:
+
+| Decision Item | Approved Value | Implementation Mapping |
+|---|---|---|
+| **Container Type** | Standard `minecraft:vault` | Vanilla block; uses `VaultBlockEntity` and `VaultConfig` |
+| **Unlock Item** | Standard `minecraft:trial_key` | Preserves standard trial key item requirement |
+| **Reward Table** | `moreminecrafts:chests/sky_islands/vault_tower_top` | Configured via `ROOFTOP_VAULT_LOOT_KEY` |
+| **Unified Framework** | `SkyTowerVaultRewards.java` | Single unified dispatch for normal (8) and rooftop (1) vaults |
+| **Interaction Mechanics** | Vanilla `tryInsertKey` pipeline | Preserves vanilla key consumption, multiplayer cooldowns, and eligibility |
+| **Star Covenant Roll** | 10% personal draw per player | `StarCovenantVaultRewards.java` ratified per D13-03-Q11/Q12 |
+| **Preferred Location** | South rooftop altar `(24, 65, 10)` | Subject to geometric verification before placement |
 
 ---
 
-### Decision 1: Rooftop Sanctuary Special Reward Container & Location
-- **Affected Requirement:** `REQ-VAULT-04` (from `docs/audits/sky_tower_system_completeness/OWNER_DECISIONS_REQUIRED.md` Decision 2)
-- **Question for Owner:**  
-  What type of container should house the rooftop special reward, and where precisely in the rooftop sanctuary should it be placed?
+## 2. Rooftop Placement Geometric Verification (Phase C Audit)
 
-#### Context
-1. `SKY_ISLANDS_T2_CONTEXT_2026-10-27.md` §158/§161 and `SKY_TOWER_DESIGN_DECISIONS_Q01_Q41_2026-11-05.md` Q08/Q24 mandate a pinnacle special reward on the rooftop with doubled unique drop rates. The loot table `moreminecrafts:chests/sky_islands/vault_tower_top.json` exists in data assets.
-2. In the approved candidate NBT (`full_01.nbt`, commit `16ad9d5`), the rooftop sanctuary (Y=64..79) contains the 12 arches and the decorative floating relic, but **zero vault or chest blocks** exist.
-3. Section 9 of the P4 directive strictly prohibits modifying Sky Tower NBT geometry without explicit authorization.
+Per the directive:
+> *"The preferred coordinate is not an unconditional placement command. Verify its geometry, block occupancy, player access, and compatibility with all six tower variants before modifying any structure. If the proposed location is unsuitable, stop and report alternatives rather than silently moving the Vault."*
 
-#### Non-Binding Engineering Options
+A line-by-line 3D voxel inspection of `full_01.nbt` (SHA `cec5bced051fdddcf5ebe80ed267ea3c5749126559ef982f82ac1b4dd435cd27`) and all 6 composite island templates (`snowy`, `meadow`, `forest`, `badlands`, `desert`, `rocky`) was executed for the south rooftop altar.
 
-- **Option A (South Perimeter Ominous Vault — Recommended):**  
-  Place an `ominous_vault` on the south perimeter altar pedestal at local coordinates `(24, 65, 10)` relative to the tower origin, configured with `loot_table: "moreminecrafts:chests/sky_islands/vault_tower_top"` and `key_item: "minecraft:ominous_trial_key"`.  
-  *Pros:* Matches Q24 ("외곽 성역 제단"); creates high-stakes climax requiring players to bring an Ominous Key.  
-  *Cons:* Players without an Ominous Key cannot loot the pinnacle reward immediately.
+### 2.1 Coordinate Inspection at Preferred Position `(24, 65, 10)`
+```
+Y=67: (24, 67, 10) = minecraft:air
+Y=66: (24, 66, 10) = minecraft:smooth_stone  <-- SOLID BLOCK DIRECTLY ABOVE TARGET
+Y=65: (24, 65, 10) = minecraft:smooth_stone  <-- TARGET COORDINATE (OCCUPIED)
+Y=64: (24, 64, 10) = minecraft:polished_andesite (Floor foundation)
+```
 
-- **Option B (South Perimeter Standard Vault):**  
-  Place a standard `minecraft:vault` on the south perimeter altar pedestal at local coordinates `(24, 65, 10)` configured with `loot_table: "moreminecrafts:chests/sky_islands/vault_tower_top"` and requiring a standard `minecraft:trial_key`.  
-  *Pros:* Guaranteed payout for any player who reaches the rooftop with an ordinary trial key.  
-  *Cons:* Less distinct visual climax from lower-floor vaults.
+In front of target (`Z=11`):
+```
+Y=66: (24, 66, 11) = minecraft:air
+Y=65: (24, 65, 11) = minecraft:air (Floor walking clearance)
+Y=64: (24, 64, 11) = minecraft:polished_andesite (Rooftop sanctuary floor)
+```
 
-- **Option C (Relic Base Sanctuary Chest):**  
-  Place a decorated stone chest at the base of the central floating relic `(24, 65, 24)` that unlocks when `allFloorsCleared()` is true.  
-  *Pros:* Dramatic visual centerpiece; no key required.  
-  *Cons:* Conflicts with Q38 (which established the floating relic was purely decorative) and replaces vanilla vault mechanics with a custom container.
+### 2.2 Architectural Analysis of the South Altar
+The south altar spans `X=21..27` and `Z=10..13`:
+1. **Flanking Pillars:** Two 4-block-tall stone columns stand at `(21, 65..68, 12)` and `(27, 65..68, 12)`.
+2. **Side Pedestals:** Chiseled stone bricks occupy `X=21..22` and `X=26..27` at `Y=65`.
+3. **Altar Niche:** The center area `X=23..25`, `Z=11..13` is open air from `Y=65` to `Y=79` (roofless sky per Q41).
+4. **South Parapet Wall:** At `Z=10`, a 2-block-tall solid wall of `minecraft:smooth_stone` runs along the perimeter at both `Y=65` and `Y=66`.
 
----
-
-### Decision 2: Implementation Mechanism for Rooftop Placement
-- **Question for Owner:**  
-  Once the container type and position are chosen, should the block be added directly into `full_01.nbt` (requiring regenerating composite templates and updating `SkyTowerLayout.SHA256`), OR placed programmatically at runtime during `SkyTowerWorldgenRegistration`?
-
-#### Context
-- Modifying `full_01.nbt` modifies the frozen SHA `16ad9d5`, requiring an updated baseline across all 6 biome composite templates.
-- Programmatic placement in `SkyTowerWorldgenRegistration` keeps `full_01.nbt` completely frozen, but requires a small block placement step during tower registration.
+### 2.3 Why `(24, 65, 10)` is Geometrically Problematic
+1. **Occupied Block:** `(24, 65, 10)` is not an empty pedestal or air; it is the lower tier of the solid south perimeter wall.
+2. **Blocked Overhead Clearance:** The block directly overhead at `(24, 66, 10)` is solid `minecraft:smooth_stone`.
+3. **Vanilla Vault Reward Ejection Failure:** Vanilla Minecraft spawns vault reward items at `(pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5)` with upward velocity. With `(24, 66, 10)` solid, rewards spawn inside solid stone, causing item entrapment or suffocation.
+4. **Occluded Vault Model:** The top cage and spinning display item of the vault are completely hidden under the upper wall block. Only the front face is visible.
 
 ---
 
-### Decision 3: Star Covenant Delivery Ratification
-- **Affected Requirement:** D13-03-Q11/Q12 (`docs/planning/D13_03_DECISIONS_Q01-Q47.md`)
-- **Question for Owner:**  
-  Should the personal 10% Star Covenant draw be triggered automatically when a player unlocks the rooftop special vault?
+## 3. Concrete Alternatives for Owner Selection
 
-#### Context
-- D13-03-Q11: *"별의 서약 최상층 개인 금고에서 플레이어별 10%; 깃털 15%·돌풍 파편 5% 보존"* (Star Covenant 10% per player from top-floor personal vault; feather 15%, gale shard 5% preserved).
-- `StarCovenantVaultRewards.java` is implemented and wired into `SkyTowerVaultRewards.onVaultRewarded()`.
-- Confirmation from owner will ratify this integration into the final merged baseline.
+Per `AGENTS.md` and the task Stop Conditions, the agent must NOT silently relocate the vault. The owner is requested to select one of the following 3 structurally sound alternatives:
+
+### Alternative A: Southern Altar Niche Floor / Base `(24, 65, 11)` — (Recommended)
+- **Position:** `(24, 65, 11)`
+- **Existing Block:** `minecraft:air` (clean placement, no solid block destroyed)
+- **Support Below:** `(24, 64, 11)` `minecraft:polished_andesite` (intact sanctuary floor)
+- **Overhead Clearance:** `(24, 66, 11)` is `air` extending to the open sky
+- **Backing:** Rests directly against the solid south parapet wall `(24, 65, 10)`
+- **Facing:** `facing=north` (looks toward the central floating relic and sanctuary entrance)
+- **Pros:** 100% vanilla reward ejection into open air; full 3D vault visibility; framed symmetrically by chiseled stone brick piers and stone columns; zero demolition required.
+
+### Alternative B: Southern Altar Wall Pedestal Mount `(24, 66, 10)`
+- **Position:** `(24, 66, 10)`
+- **Existing Block:** `minecraft:smooth_stone` (upper tier of the parapet wall)
+- **Support Below:** `(24, 65, 10)` `minecraft:smooth_stone` (serves as a 1-block elevated pedestal!)
+- **Overhead Clearance:** `(24, 67, 10)` is `air` extending to open sky
+- **Facing:** `facing=north`
+- **Pros:** Elevated 1 block above floor level at player chest/eye height; upward reward ejection into open sky; leaves floor walking space completely clear.
+- **Cons:** Replaces an existing wall block.
+
+### Alternative C: Southern Altar Center Pedestal `(24, 65, 12)`
+- **Position:** `(24, 65, 12)`
+- **Existing Block:** `minecraft:air`
+- **Support Below:** `(24, 64, 12)` `minecraft:polished_andesite`
+- **Overhead Clearance:** Open air to sky
+- **Pros:** Centered exactly between the two altar columns `(21, 65..68, 12)` and `(27, 65..68, 12)`.
+- **Cons:** Stands 2 blocks forward from the back wall.
+
+---
+
+## 4. Placement Implementation Mechanism Comparison
+
+| Evaluation Axis | Runtime Placement (`SkyTowerWorldgenRegistration`) | Dedicated NBT Geometry Revision (`full_01.nbt`) |
+|---|---|---|
+| **Placement Reliability** | High (triggers deterministically upon chunk load/registration) | Highest (native engine Jigsaw placement) |
+| **Chunk Lifecycle** | Persisted into chunk block entity data on first save | Generated natively into chunk during worldgen |
+| **Rotation Handling** | Handled via `site.at(localX, localY, localZ)` | Handled natively by Minecraft StructureTemplate |
+| **Save/Reload Behavior** | Identical (chunk tile entity stores `VaultConfig`) | Identical |
+| **Maintainability** | Clean (zero changes to frozen binary assets) | Requires regenerating 7 NBT files across 6 biomes |
+| **Frozen Template Hash** | **PRESERVED** (`cec5bced` SHA remains intact) | **BROKEN** (invalidates approved SHA `16ad9d5`) |
+| **Compatibility with Existing Worlds** | **EXCELLENT** (can place vault in already generated sites) | **POOR** (only new chunks receive the vault) |
+
+**Recommendation:** If Alternative A `(24, 65, 11)` or Alternative B `(24, 66, 10)` is approved, runtime placement in `SkyTowerWorldgenRegistration` is the least invasive, technically superior implementation because it completely avoids altering the frozen NBT templates while providing backward-compatibility for existing worlds.
