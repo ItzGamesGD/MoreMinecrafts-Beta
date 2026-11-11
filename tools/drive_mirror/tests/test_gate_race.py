@@ -34,9 +34,13 @@ if args[:1] == ["version"]:
 report = args[args.index("--report-path") + 1]
 opts = next(a for a in args if a.startswith("--log-opts="))[len("--log-opts="):].split()
 gitdir = args[-1]
+ignore = args[args.index("--gitleaks-ignore-path") + 1] if "--gitleaks-ignore-path" in args else None
 if os.environ.get("SCAN_LOG"):
     with open(os.environ["SCAN_LOG"], "a") as fh:
-        fh.write(json.dumps({{"log_opts": opts}}) + "\n")
+        fh.write(json.dumps({{"log_opts": opts, "cwd": os.getcwd(), "ignore_path": ignore,
+                              "ignore_dir_entries": os.listdir(ignore) if ignore and os.path.isdir(ignore) else None,
+                              "ignore_allow_comments": "--ignore-gitleaks-allow" in args,
+                              "gitleaks_env": sorted(k for k in os.environ if k.startswith("GITLEAKS_"))}}) + "\n")
 roots = [o for o in opts if not o.startswith("-")]
 if "--all" in opts or not roots:
     sys.exit(2)                       # this scanner only scans explicit commits
@@ -93,7 +97,7 @@ class GateRaceCase(MirrorTestCase):
         self.assertEqual(p.returncode, expect, p.stderr.decode()[-800:])
         return out
 
-    def gate(self, snapshot, expect=None, scanner=None, extra=()):
+    def gate(self, snapshot, expect=None, scanner=None, extra=(), cwd=None, env=None):
         """Stage 2: scan exactly the snapshot's commits and write the approval. Exit 0 (pass) or 6 (quarantine) are both OK."""
         self.n += 1
         out = os.path.join(self.tmp, f"approval-{self.n}.json")
@@ -102,7 +106,7 @@ class GateRaceCase(MirrorTestCase):
                 "--quarantine-out", out, *extra]
         if scanner != "none":
             args += ["--run-scanner", scanner or self.scanner]
-        p = subprocess.run(args, env=self.env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.run(args, env=env or self.env, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         text = p.stdout.decode() + p.stderr.decode()
         self.assertNotIn(LEAK, text)
         if expect is None:
@@ -225,6 +229,24 @@ class RaceScenarios(GateRaceCase):
             opts = json.loads(fh.readline())["log_opts"]
         self.assertNotIn("--all", opts)
         self.assertEqual(sorted(o for o in opts if not o.startswith("-")), sorted({c1, cf}))
+
+    def test_the_scan_cannot_be_influenced_by_the_callers_directory_or_environment(self):
+        """gitleaks reads ./.gitleaksignore and GITLEAKS_CONFIG by default: neither may suppress or reshape a gate scan."""
+        self.base()
+        snap = self.freeze()
+        caller = os.path.join(self.tmp, "caller-cwd")
+        os.makedirs(caller)
+        with open(os.path.join(caller, ".gitleaksignore"), "w") as fh:
+            fh.write("# an allowlist next to the caller\n")
+        env = dict(self.env, GITLEAKS_CONFIG="/nonexistent.toml", GITLEAKS_CONFIG_TOML="x = 1")
+        self.gate(snap, cwd=caller, env=env)
+        with open(self.scan_log) as fh:
+            seen = json.loads(fh.readline())
+        self.assertNotEqual(os.path.realpath(seen["cwd"]), os.path.realpath(caller))
+        self.assertEqual(os.path.realpath(seen["cwd"]), os.path.realpath(seen["ignore_path"]))
+        self.assertEqual(seen["ignore_dir_entries"], [])             # an empty directory: no .gitleaksignore at all
+        self.assertTrue(seen["ignore_allow_comments"])               # `gitleaks:allow` comments in content are ignored
+        self.assertEqual(seen["gitleaks_env"], [])
 
     # 1 ---------------------------------------------------------------------------------------------------
     def test_branch_advancing_after_the_gate_is_not_uploaded(self):
@@ -497,6 +519,13 @@ class RaceScenarios(GateRaceCase):
         p = tampered(lambda d: d.__setitem__("refs", {"refs/heads/x": {"reason": "r", "fingerprints": ["a:b:c:1"]}}),
                      "t2.json")
         self.assert_fails_closed(["--quarantine-file", p], "digest mismatch")
+        # (e2) self-consistent (digest re-computed) but structurally malformed: still a clean GATE_ERROR, not a crash
+        from drive_mirror.snapshot import canonical_digest
+
+        def resign(doc):
+            doc["approval_digest"] = canonical_digest(doc, drop=("approval_digest",))
+        p = tampered(lambda d: (d.__setitem__("refs", {"refs/heads/main": {"oops": 1}}), resign(d)), "t3.json")
+        self.assert_fails_closed(["--quarantine-file", p], "malformed quarantine entry")
         # (f) consistent re-signing with a different snapshot still fails the checksum recorded by the gate step
         self.assert_fails_closed(["--quarantine-file", approval, "--approval-sha256", "0" * 64], "checksum")
         # (g) an approval replaced by another valid approval of another snapshot
@@ -580,6 +609,31 @@ class RealGitleaksRace(GateRaceCase):
         self.assertEqual(doc2["verdict"], "BLOCKED")
         self.assertIn("refs/heads/main", doc2["refs"])
         self.assertNotIn(token, json.dumps(doc2))
+
+    def test_real_gitleaks_ignores_cwd_allowlists_and_inline_allow_comments(self):
+        import random
+        import string
+        rnd = random.Random(7)
+        t1 = "ghp_" + "".join(rnd.choices(string.ascii_letters + string.digits, k=36))
+        t2 = "ghp_" + "".join(rnd.choices(string.ascii_letters + string.digits, k=36))
+        self.base()
+        self.repo.write("one.env", f"github_token = {t1}\n")
+        self.repo.write("two.env", f"github_token = {t2}  # gitleaks:allow\n")
+        self.repo.commit("two shaped tokens, one with an inline allow comment")
+        self.repo.push("main")
+        snap = self.freeze()
+        gitleaks = os.environ["GITLEAKS_BIN"]
+        base = self.load(self.gate(snap, scanner=gitleaks, expect=6))
+        self.assertEqual(base["counts"]["unreviewed"], 2)             # the inline allow comment did not hide t2
+        # an allowlist for exactly these fingerprints sitting in the caller's directory changes nothing
+        caller = os.path.join(self.tmp, "caller")
+        os.makedirs(caller)
+        with open(os.path.join(caller, ".gitleaksignore"), "w") as fh:
+            fh.write("\n".join(f["fingerprint"] for f in base["blocking_findings"]) + "\n")
+        env = dict(self.env, GITLEAKS_CONFIG=os.path.join(caller, "none.toml"))
+        again = self.load(self.gate(snap, scanner=gitleaks, expect=6, cwd=caller, env=env))
+        self.assertEqual(again["counts"]["unreviewed"], 2)
+        self.assertEqual(sorted(again["refs"]), ["refs/heads/main"])
 
 
 if __name__ == "__main__":

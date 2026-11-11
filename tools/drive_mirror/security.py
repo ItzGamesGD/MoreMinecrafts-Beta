@@ -25,6 +25,7 @@ import json
 import os
 import shutil
 import subprocess
+import tempfile
 from dataclasses import dataclass, field
 
 from .gitsrc import GitSource
@@ -151,12 +152,21 @@ def run_scanner(binary: str, git_dir: str, commits: list[str], report_path: str)
         version = "unknown"
     if os.path.exists(report_path):
         os.unlink(report_path)
+    # Nothing but the frozen snapshot may influence what is reported: gitleaks reads a .gitleaksignore from its
+    # working directory by default, honours `gitleaks:allow` comments in the scanned content, and reads a config from
+    # GITLEAKS_CONFIG*. Run from an empty directory, name that directory as the ignore path, ignore inline allow
+    # comments, and scrub the environment. Approving a finding is only ever done in approved_findings.json.
+    neutral = tempfile.mkdtemp(prefix="drive-mirror-scan-cwd-")
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GITLEAKS_")}
     cmd = [exe, "git", "--no-banner", "--no-color", "--redact=100", "--report-format", "json",
-           "--report-path", report_path, "--log-opts=--full-history " + " ".join(commits), git_dir]
+           "--report-path", os.path.abspath(report_path), "--gitleaks-ignore-path", neutral, "--ignore-gitleaks-allow",
+           "--log-opts=--full-history " + " ".join(commits), os.path.abspath(git_dir)]
     try:
-        proc = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        proc = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=neutral, env=env)
     except OSError as e:
         raise GateError(f"scanner could not be started: {type(e).__name__}") from None
+    finally:
+        shutil.rmtree(neutral, ignore_errors=True)
     if proc.returncode not in (0, 1):
         raise GateError(f"scanner failed (exit {proc.returncode}); refusing to decide")
     if not os.path.exists(report_path):
@@ -260,7 +270,11 @@ def load_approval(path: str | None, expect_sha256: str | None = None) -> Approva
         raise GateError("approval carries no valid scan record")
     if not isinstance(doc.get("refs"), dict) or not set(doc["refs"]) <= set(gated):
         raise GateError("approval quarantines refs that are not in its snapshot")
-    return Approval(quarantine=quarantine_map(doc), snapshot=snap, gated_refs=gated, scan=scan,
+    try:
+        quarantine = quarantine_map(doc)
+    except (KeyError, TypeError, IndexError, AttributeError):
+        raise GateError("approval has a malformed quarantine entry") from None
+    return Approval(quarantine=quarantine, snapshot=snap, gated_refs=gated, scan=scan,
                     verdict=doc.get("verdict"), sha256=sha)
 
 
