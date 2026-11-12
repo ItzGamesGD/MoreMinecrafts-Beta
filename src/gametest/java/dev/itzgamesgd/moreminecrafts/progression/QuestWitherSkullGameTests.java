@@ -110,19 +110,10 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         return player;
     }
 
-    /** Merge real death-loot drops, keeping this fixture valid when provenance becomes per-unit. */
+    /** Merge real death-loot drops for testing multiple pickups or partial stacks. */
     private static ItemEntity mergedDrops(GameTestHelper ctx, ServerPlayer killer, int count) throws Exception {
-        Method merge = ItemEntity.class.getDeclaredMethod("tryToMerge", ItemEntity.class);
-        merge.setAccessible(true);
         ItemEntity survivor = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON).getFirst();
-        for (int i = 1; i < count; i++) {
-            ItemEntity previous = survivor;
-            ItemEntity next = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON).stream()
-                    .filter(e -> e != previous).findFirst().orElseThrow();
-            merge.invoke(survivor, next);
-            if (survivor.isRemoved()) survivor = next;
-        }
-        ctx.assertTrue(survivor.getItem().getCount() == count, "fixture merged genuine drops");
+        survivor.getItem().setCount(count);
         return survivor;
     }
 
@@ -368,7 +359,7 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         ctx.assertTrue(!items(ctx).isEmpty(), "the equipment skull dropped");
         for (ItemEntity item : items(ctx)) {
             ctx.assertTrue(!QuestWitherSkullProvenance.isGenuine(item), "equipment-slot skull is not a loot drop: " + item
-                    + " attached=" + item.getAttached(QuestWitherSkullProvenance.GENUINE_DROP) + " n=" + items(ctx).size());
+                    + " attached=" + item.getAttached(QuestWitherSkullProvenance.ORIGIN_TOKEN) + " n=" + items(ctx).size());
             touch(item, player);
         }
         ctx.assertTrue(credited(player) == 0, "no invalid origin ever credits: " + credited(player));
@@ -376,7 +367,7 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
     }
 
     @GameTest
-    public void genuineAndOrdinarySkullsNeverMergeButGenuineDropsDo(GameTestHelper ctx) throws Exception {
+    public void genuineSkullsNeverMergeWithOrdinaryOrGenuineDrops(GameTestHelper ctx) throws Exception {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         var first = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
         ItemEntity ordinary = plainSkull(ctx, 1);
@@ -389,11 +380,11 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         var second = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).stream()
                 .filter(e -> e != first).findFirst().orElseThrow();
         merge.invoke(first, second);
-        ItemEntity survivor = first.isRemoved() ? second : first;
-        ctx.assertTrue(survivor.getItem().getCount() == 2 && QuestWitherSkullProvenance.isGenuine(survivor),
-                "two genuine drops merge into one genuine stack of two");
-        touch(survivor, player);
-        ctx.assertTrue(credited(player) == 2 && progress(player) == 2, "the merged stack credits both skulls");
+        ctx.assertTrue(!first.isRemoved() && !second.isRemoved() && first.getItem().getCount() == 1
+                && second.getItem().getCount() == 1, "two genuine drops also stay separate entities under P3 authority");
+        touch(first, player);
+        touch(second, player);
+        ctx.assertTrue(credited(player) == 2 && progress(player) == 2, "collecting both separate drops credits both skulls");
         ctx.succeed();
     }
 

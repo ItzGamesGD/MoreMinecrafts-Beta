@@ -107,7 +107,8 @@
           "nodeIds": [
             "xpq.cmb.breeze_10",
             "xpq.cmb.guardians_30",
-            "xpq.cmb.lesser_wither_10"
+            "xpq.cmb.lesser_wither_10",
+            "xpq.cmb.wither_skulls_3"
           ]
         }
       ]
@@ -357,6 +358,7 @@
     "xpq.cmb.breeze_10": "minecraft:breeze_rod",
     "xpq.cmb.guardians_30": "minecraft:prismarine_shard",
     "xpq.cmb.lesser_wither_10": "minecraft:wither_skeleton_spawn_egg",
+    "xpq.cmb.wither_skulls_3": "minecraft:wither_skeleton_skull",
     "xpq.min.first_custom_ore": "minecraft:raw_iron",
     "xpq.min.custom_ore_survey": "minecraft:copper_ore",
     "xpq.min.deepslate_custom": "minecraft:deepslate",

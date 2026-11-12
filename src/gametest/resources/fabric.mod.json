@@ -98,6 +98,8 @@
       "dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRewardGameTests",
       "dev.itzgamesgd.moreminecrafts.colosseum.ColosseumGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.SkullProtocolAssumptionGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestWitherSkullGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestWitherSkullCrashGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyHabitatGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryPhysicsGameTests",

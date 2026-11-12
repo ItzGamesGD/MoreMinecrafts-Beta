@@ -121,7 +121,11 @@
     "T1AccessoryAttackMixin",
     "T1AccessoryEffectMixin",
     "T1ArrowStateAccessor",
-    "T1DamageStateAccessor"
+    "T1DamageStateAccessor",
+    "QuestWitherSkullDeathLootMixin",
+    "QuestWitherSkullSpawnMixin",
+    "QuestWitherSkullMergeMixin",
+    "QuestWitherSkullPickupMixin"
   ],
   "injectors": {
     "defaultRequire": 1
