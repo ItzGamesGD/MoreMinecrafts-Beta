@@ -1,0 +1,27 @@
+[
+ [
+  "prc-p7-security-audit",
+  "docs/audits/prc-p7d/PRC-P7D-SECURITY-REMEDIATION-VERIFICATION-20261028.md",
+  "contains complete gitleaks fingerprint / ignore-entry proposal"
+ ],
+ [
+  "drive-mirror",
+  "docs/audit/REPO-STATE-20261110/evidence/secgate_result.json",
+  "contains complete gitleaks fingerprint / ignore-entry proposal"
+ ],
+ [
+  "drive-mirror",
+  "docs/audit/REPO-STATE-20261110/patches/security/0001-PROPOSED-gitleaksignore-cec8bff8-NOT-APPROVED.patch",
+  "contains complete gitleaks fingerprint / ignore-entry proposal"
+ ],
+ [
+  "drive-mirror",
+  "tools/drive_mirror/security/D-6_APPROVAL_PROPOSAL.md",
+  "contains complete gitleaks fingerprint / ignore-entry proposal"
+ ],
+ [
+  "drive-mirror",
+  "tools/drive_mirror/security/approved_findings.json",
+  "contains complete gitleaks fingerprint / ignore-entry proposal"
+ ]
+]

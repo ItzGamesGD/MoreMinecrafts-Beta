@@ -1,0 +1,367 @@
+{
+  "coverage": "Exact tool subtree plus explicitly listed authority files; inventory self-excluded and externally anchored at future G-4",
+  "files": [
+    {
+      "bytes": "12555",
+      "group": "provenance_reproducibility",
+      "path": "AGENTS.md",
+      "sha256": "04aff3eb28e75795728abd4ebc2552b3fa767e0de7e1e02e2b638b1b17f3a955"
+    },
+    {
+      "bytes": "36930",
+      "group": "provenance_reproducibility",
+      "path": "docs/CONTENT_AUTHORITY_INDEX.md",
+      "sha256": "fbc4143fc9c72e9acb05b2d5c86cda0e384ebe4e1bddf69b33cc43926551f995"
+    },
+    {
+      "bytes": "22841",
+      "group": "provenance_reproducibility",
+      "path": "docs/ST05_ANCIENT_COLOSSEUM_CURRENT_AUTHORITY_2026-10-29.md",
+      "sha256": "98f523daa2287352e1ede1d91991b72337c894e05d6d0aae9966cb1ea8032a9a"
+    },
+    {
+      "bytes": "7064",
+      "group": "provenance_reproducibility",
+      "path": "docs/STRUCTURE_AUTHORITY_INDEX.md",
+      "sha256": "f95a5e3cad497d222472ce0cc67f21dce1a5542e501f785f1a226b6d08b18d83"
+    },
+    {
+      "bytes": "28487",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_STAGE0_FIX_OWNER_DECISIONS_2026-10-31.md",
+      "sha256": "97176d862b5a384ee67a36c48367733281b0d2083bdc886eb665878c305a3ebb"
+    },
+    {
+      "bytes": "86209",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_STAGE0_INTEGRATED_VALIDATION_PLAN.md",
+      "sha256": "37f97d123d8aeea736348ad4935825288d0b8b314554f6f26d3ca33c7522f93d"
+    },
+    {
+      "bytes": "37615",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_STAGE0_P0_API_MAPPING.md",
+      "sha256": "546fc6f4fcda230c3cdf611631a1b650c9357f5d4d059347cd6b882e41f48ec7"
+    },
+    {
+      "bytes": "36356",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_STAGE0_P0_FEASIBILITY_GAPS.md",
+      "sha256": "f0e0f64e6a3498f726972ae16de5d8c82f2fdaccc2dc50bd291709a69436a669"
+    },
+    {
+      "bytes": "70742",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_STAGE0_P0_ORACLE_MANIFEST.md",
+      "sha256": "4d0cbcc9c0a8e73745f3b06c2b5b085daf0a01690392779fde14ab9c5484a9bd"
+    },
+    {
+      "bytes": "114578",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_STAGE0_P0_PROBE_01_BINDING_PLAN.md",
+      "sha256": "99cffffe8c93ecdafadaa0540a3bd3d912d42276651cd7ac469af8447415e162"
+    },
+    {
+      "bytes": "53926",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_STAGE0_P0_PROBE_01_EXECUTION_SPEC.md",
+      "sha256": "b0313e4198b5af948dc9cab1cfe5b7f44af5cbb30bb8b3a9e2b6dab3c082045c"
+    },
+    {
+      "bytes": "32279",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_STAGE0_P0_PROBE_01_G1G2_PREP.md",
+      "sha256": "12a1afb7f213ca38b0c2d6e223f7a8a095293eccd8d19cb3b567ec2e09519a59"
+    },
+    {
+      "bytes": "15520",
+      "group": "provenance_reproducibility",
+      "path": "docs/design/ST05_WORLDGEN_OWNER_DECISIONS_Q01_Q18_2026-10-30.md",
+      "sha256": "f3e020141cd9adf2708c14821d370aa2ae4867b400cc8d42fc7bac8030641460"
+    },
+    {
+      "bytes": "3406",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/CANDIDATE-DIGESTS.sha256",
+      "sha256": "e5aea22455c66a611556ea56d481ccf0c96934295b627085a50106afc8da02b4"
+    },
+    {
+      "bytes": "81837",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/controls-v1.json",
+      "sha256": "92c14a1fb254ab37520f9cdcbf002672fd883f2df8940be62c9eaf49d8e6b0fb"
+    },
+    {
+      "bytes": "12463353",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/expected-traces-v1.json",
+      "sha256": "769fefecf964c09e03ec2a0dccdd776637ec1df7ac22ec148bc7053142fbe491"
+    },
+    {
+      "bytes": "8566",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/fixture-index-v1.tsv",
+      "sha256": "b26df0bb604824d13e7861088b600c61d4414282b56c36284fab9d0c17c9b826"
+    },
+    {
+      "bytes": "6901",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/freeze_integrity.py",
+      "sha256": "0812b77ae734c0af4bc40f609418f4ef4d89844bb44870d87c72541e1a6c7a59"
+    },
+    {
+      "bytes": "4884510",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/inputs-v1.json",
+      "sha256": "c0c3518792f3fec76be9dbe769ced3889bcdf1ac547eff8cb77f0b0f207cde5c"
+    },
+    {
+      "bytes": "1950",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I001.json",
+      "sha256": "60ed92a7f0049ae281ab372aefcc15f4ed5b0cc8f0096e2c3dec8e788f4b1523"
+    },
+    {
+      "bytes": "2255",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I002.json",
+      "sha256": "67c53db28e910eb9e0f4ac5b026650f4ca48e4610afc22d60dc17ec4bf8ce022"
+    },
+    {
+      "bytes": "1975",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I003.json",
+      "sha256": "64411b4ac524b4133f00e57aecc8fd91dfbc0546bd80abbd83aeca1b5d061537"
+    },
+    {
+      "bytes": "2005",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I004.json",
+      "sha256": "dd2e376dd97b62d72051c8094047797456f7b71b4ec2accdc0284dc1f0a2893d"
+    },
+    {
+      "bytes": "2019",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I005.json",
+      "sha256": "079c4776c967cdbef5a6fb10eeb1c3a9cf1ab4132140d363589fefc66b0926b3"
+    },
+    {
+      "bytes": "1974",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I006.json",
+      "sha256": "e772af38879fd90ced636849c2e98bc1508c5b8149c7af3893cd4475285bc246"
+    },
+    {
+      "bytes": "2022",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I007.json",
+      "sha256": "b34988fbd7139f1e047e0caa74991953b6ddacdf31bcf2152346fd9a5628ad94"
+    },
+    {
+      "bytes": "1975",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I008.json",
+      "sha256": "9829f960f30ea4a74e8a6a22f5f3d43254f303ea468ebaa46fefd8e057b73a55"
+    },
+    {
+      "bytes": "2020",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I009.json",
+      "sha256": "986367df441a4478c8e5edabbf0b2f45d4d62bc4b418b6189592beb41138be7e"
+    },
+    {
+      "bytes": "2457",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I010.json",
+      "sha256": "4b5b965ff4c73ab61090ff6882123b50d9dc0b4228df3450746089c8de69e27a"
+    },
+    {
+      "bytes": "1975",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I011.json",
+      "sha256": "e83a7392d0668c58e8e151c94a06363efeb0dd8e7e110700f3629cafbef611e0"
+    },
+    {
+      "bytes": "1994",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I012.json",
+      "sha256": "7890a60da7648043511286fe72953082f5e3d65ba266f74ac2cfee88024d69b4"
+    },
+    {
+      "bytes": "1973",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I013.json",
+      "sha256": "20c877bbef7fff7722c74fc66f07ed55f6690ffb67edbd0136180c19e0e2f9eb"
+    },
+    {
+      "bytes": "1977",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I014.json",
+      "sha256": "d37d5fba81a6e74b672dd345faa3e40e6db892d7211a15f4ff4c47c2a0e8d9cd"
+    },
+    {
+      "bytes": "1976",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I015.json",
+      "sha256": "f6e91b27f8769ac264895206e05c32c649c76a075b45562a999d7529cc802a9c"
+    },
+    {
+      "bytes": "1976",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I016.json",
+      "sha256": "3dba60042595689559b8d16e3521b5c298576ce4efaa93b03046f4414db65ded"
+    },
+    {
+      "bytes": "1645",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I017.json",
+      "sha256": "152116feababa2c21063bc5d3e4eaeef92005fb4d565d5e2bca236579b11f904"
+    },
+    {
+      "bytes": "1975",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I018.json",
+      "sha256": "c92badf3813c2e3d5a27da2948c62668e930ae14e1ac4d1819963d7000d8d94e"
+    },
+    {
+      "bytes": "2457",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I019.json",
+      "sha256": "4ff997098a79253ed96b28539860d9280c298a38961bb3da9051ea1de5b899c1"
+    },
+    {
+      "bytes": "5831",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I020.json",
+      "sha256": "3cab3abd20b66ef7e5797daaa137a91935d02c5d086d55000bc5ce602eefe1e8"
+    },
+    {
+      "bytes": "1976",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I021.json",
+      "sha256": "6221d2c114c019f0cbaedae822b591e6d1d645b384bc2cb3531b40f354546c20"
+    },
+    {
+      "bytes": "5765",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I022.json",
+      "sha256": "b8dd98d1d1821ba826fb7c46021e33e2cb988c0e234eceed3b9f7de28298a1c6"
+    },
+    {
+      "bytes": "3208",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I023.json",
+      "sha256": "dafabb625cba97526fa9e4bc082f202a3e65d6766bbcac6bbc7735d97838bb16"
+    },
+    {
+      "bytes": "1895",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I024.json",
+      "sha256": "83bbb2c2c02bb7d847ee681db671235e08077b0ab6be31ace625cbf08211ec27"
+    },
+    {
+      "bytes": "1976",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I025.json",
+      "sha256": "eed3b2e56cdbf66def823b788fd3865914f7120336b24d1a6063a3a36663e893"
+    },
+    {
+      "bytes": "1976",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I026.json",
+      "sha256": "586d609090fe636c8bf271f6357d750a97b12dc72a6ada4d28ab214d29ab63d0"
+    },
+    {
+      "bytes": "1975",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I027.json",
+      "sha256": "4bc369253aaae668699f5a09ccd797d45d39ceeace0c3bdc5374a5883150a821"
+    },
+    {
+      "bytes": "2669",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I028.json",
+      "sha256": "29088eec6b550c48b66c054f66c24108b051c0f69edbbe1a7a159f849b8d561a"
+    },
+    {
+      "bytes": "1977",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/invalid-inputs-v1/I029.json",
+      "sha256": "55c3d1accc842ab50a43e195a140a7c005766a7d171dd4b937b0293195f1ed14"
+    },
+    {
+      "bytes": "44615",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/materialize.py",
+      "sha256": "c36c3d585b7cf009eafe643ce7e87101bac95a152d28693f1d92cedb6002599d"
+    },
+    {
+      "bytes": "481",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/oracle/CANDIDATE-GOLDEN-DIGESTS.sha256",
+      "sha256": "f1eb73e60380b2ddfe3dda4e741a7ef61059e37b35a06bdbc3185bc9332637f1"
+    },
+    {
+      "bytes": "11824837",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/oracle/goldens-v1.json",
+      "sha256": "9843b4999276f7cc12d479b9750a68820d5375db83d96a3d68e4b8c9b5f7f03a"
+    },
+    {
+      "bytes": "7236",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/oracle/loader_rules.py",
+      "sha256": "cfed843482aa4b0bcfd5b50585e2d807008847a03cc7492e27df1f4e4d682292"
+    },
+    {
+      "bytes": "10263",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/oracle/negatives.py",
+      "sha256": "850be0716cfb20cec9e16fc6b5daa03fc206072d02c9fec11cb05487a5fe76a7"
+    },
+    {
+      "bytes": "46369",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/oracle/oracle.py",
+      "sha256": "9204e88cb371df6d848da8e82cedb22fe0e7b5d7d251615a74ae7edd504ff39d"
+    },
+    {
+      "bytes": "11150",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/oracle/test_corrections.py",
+      "sha256": "84d5ad581c2e352191ecdd047d8e399656ce189182b1fe6ab81361f9e70e4fc0"
+    },
+    {
+      "bytes": "19808",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/oracle/tier_a.py",
+      "sha256": "27288e7d815ba0288d7d6b1279cae7b3dfdd92ef77680819e46cb2e692e7e780"
+    },
+    {
+      "bytes": "754415",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/runplan-v1.json",
+      "sha256": "f89b5c481f361201c0718160f9dddaa3e11300d28f27b8b87da93b623243a3fa"
+    },
+    {
+      "bytes": "6869421",
+      "group": "execution_reference",
+      "path": "tools/st05-p0-probe-01/schedules-v1.json",
+      "sha256": "386d330d26f2a9bdd3354a09ac96d68e2541ebe2bd42517568dd64deb7053ec7"
+    },
+    {
+      "bytes": "2221",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/test_freeze_integrity.py",
+      "sha256": "bf85ccb9cb1d392d67d16642132099307c3c91b2861d2ac145f481a3f035ee39"
+    },
+    {
+      "bytes": "47898",
+      "group": "provenance_reproducibility",
+      "path": "tools/st05-p0-probe-01/verify_materialization.py",
+      "sha256": "f366a218229dda839d31127f0c23c159b1681f276a3a343b51122cdf3b8e3c84"
+    }
+  ],
+  "schema": "P01-FREEZE-INVENTORY-1",
+  "status": "CANDIDATE"
+}

@@ -1,0 +1,106 @@
+{
+  "control_overrides": {},
+  "default_schedule": "canonical",
+  "derived": null,
+  "edges": [
+    {
+      "u": "U",
+      "v": "V"
+    }
+  ],
+  "events": [],
+  "expect_input_rejection": null,
+  "expected_ref": "P01/CAV-01",
+  "family": "GRAPH",
+  "fixture_id": "P01/CAV-01",
+  "id_prefix": {
+    "dimension": "minecraft:overworld",
+    "schema": "1",
+    "seed": "7"
+  },
+  "population_complete": false,
+  "protected_sites": [],
+  "record_schema": "P01-FIXTURE-1",
+  "scalar_inputs": [],
+  "source_refs": [
+    "CAV-01"
+  ],
+  "stages": [],
+  "unknown_edges": [],
+  "vertices": [
+    {
+      "candidates": [
+        {
+          "cand": "c0",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "0",
+          "slot": "1",
+          "status": "FIT"
+        }
+      ],
+      "fit_complete": true,
+      "id": {
+        "x": "-1",
+        "y": "0",
+        "z": "0"
+      },
+      "label": "U",
+      "qualified": true,
+      "roll": "WIN"
+    },
+    {
+      "candidates": [
+        {
+          "cand": "c0",
+          "components": [
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "0",
+          "slot": "1",
+          "status": "FIT"
+        }
+      ],
+      "fit_complete": true,
+      "id": {
+        "x": "0",
+        "y": "0",
+        "z": "0"
+      },
+      "label": "V",
+      "qualified": true,
+      "roll": "WIN"
+    }
+  ]
+}

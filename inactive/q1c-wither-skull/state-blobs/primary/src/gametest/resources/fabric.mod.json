@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "moreminecrafts-gametest",
+  "version": "1.0.0",
+  "name": "MoreMinecrafts Game Tests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": [
+      "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.T1ProgressionGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.ProgressionPurchaseGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAcquisitionGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgePlacementGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeOutputLifecycleGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeRemainingCollectorsGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeWorldActionGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAnimalFeedGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.ExactXpTransactionGameTests",
+      "dev.itzgamesgd.moreminecrafts.enhancement.EnhancementTransactionGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
+      "dev.itzgamesgd.moreminecrafts.fishing.FisheriesStudyGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.Research23AReconciliationGameTests",
+      "dev.itzgamesgd.moreminecrafts.furnace.FurnaceResearchInfrastructureGameTests",
+      "dev.itzgamesgd.moreminecrafts.furnace.PortableFurnaceResearchGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.Research23AExpandedGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.Research23ABatch2GameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.ResearchRemainingGameTests",
+      "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.SoilStudyGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.VillagerTradingGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.XpQuestTrackingGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.XpQuestEventTrackingGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestOreRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestStructureLootGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestLootRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestVaultRewardGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestVaultRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestStructureEntryGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestStructureRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestCombatGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestCombatRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestDragonRematchGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestRaidGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestMonumentGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestMonumentRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestC3ThresholdGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.QuestWitherSkullGameTests"
+    ]
+  },
+  "mixins": [
+    "moreminecrafts-k5probe.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": ">=26.3 <26.4",
+    "fabric-api": "*",
+    "moreminecrafts": "*"
+  }
+}

@@ -20,23 +20,23 @@ for p in changed + untracked:
         bad(f"path outside the allowed set differs from baseline: {p}")
 rows = list(csv.reader(open(f"{ROOT}/inactive/MANIFEST.tsv"), delimiter="\t"))[1:]
 listed = set()
-for fam, path, blob12, size, branch, sha8 in rows:
-    rel = f"inactive/{fam}/" + ("" if path.startswith("variants/") else "files/") + path
+for relu, blob12, size, branch, sha8, srcpath, note in rows:
+    rel = "inactive/" + relu
     listed.add(rel)
     fp = f"{ROOT}/{rel}"
     if not os.path.isfile(fp): bad(f"missing: {rel}"); continue
     data = open(fp, "rb").read()
     h = hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
     if not h.startswith(blob12) or len(data) != int(size): bad(f"hash/size mismatch: {rel}")
-    if "--verify-source" in sys.argv:
-        src = path[len("variants/"):].split("/", 1)[1] if path.startswith("variants/") else path
-        r = git("rev-parse", "-q", "--verify", f"{sha8}:{src}")
+    if "--verify-source" in sys.argv and note != "TRANSFORMED":
+        r = git("rev-parse", "-q", "--verify", f"{sha8}:{srcpath}")
         if r.stdout.strip() != h: bad(f"differs from source {sha8}: {rel}")
 on_disk = set()
 for d, _, fs in os.walk(f"{ROOT}/inactive"):
     for f in fs:
         rel = os.path.relpath(os.path.join(d, f), ROOT)
-        if rel.endswith(("README.md", "MANIFEST.tsv", "SOURCE.md", "shared-file-hunks.patch")) and rel.count("/") <= 2: continue
+        if os.path.basename(rel) in ("README.md", "MANIFEST.tsv", "RECOVERY_MANIFEST.tsv", "RECIPES.json", "TRANSFORMS.json", "OMITTED.json", "RECOVERY_RESULTS.tsv") and rel.count("/") == 1: continue
+        if os.path.basename(rel) in ("SOURCE.md", "shared-file-hunks.patch") and rel.count("/") == 2: continue
         on_disk.add(rel)
 for rel in sorted(on_disk - listed): bad(f"unlisted file under inactive/: {rel}")
 for rel in ("build.gradle", "settings.gradle", "gradle.properties"):
@@ -49,6 +49,19 @@ for r in reg:
     if r[2].endswith("SOURCE CONSOLIDATED"):
         fam = r[4].split("/")[1] if r[4].startswith("inactive/") else None
         if not fam or not os.path.isdir(f"{ROOT}/inactive/{fam}/files"): bad(f"registry row {r[0]} target missing")
+# recovery manifest: every A/M delta blob must be available (GU tree / inactive / regen / transform / documented omission)
+avail = set()
+for line in git("ls-tree", "-r", BASE).stdout.splitlines():
+    avail.add(line.split("\t")[0].split()[2])
+for dp, _, fs in os.walk(f"{ROOT}/inactive"):
+    for f in fs:
+        d = open(os.path.join(dp, f), "rb").read(); avail.add(hashlib.sha1(b"blob %d\0" % len(d) + d).hexdigest())
+rec = list(csv.reader(open(f"{ROOT}/inactive/RECOVERY_MANIFEST.tsv"), delimiter="\t"))[1:]
+unavailable = 0
+for fam, label, head, tree, mb, st, mode, blob, path, store in rec:
+    if st == "D" or store.startswith(("REGEN:", "OMITTED", "TRANSFORM")): continue
+    if blob not in avail: bad(f"recovery blob unavailable: {fam}/{label}:{path}"); unavailable += 1
+print(f"recovery rows {len(rec)}, unavailable {unavailable}")
 print(f"manifest rows {len(rows)}, inactive files on disk {len(on_disk)}, registry rows {len(reg)}")
 if errors:
     print("FAIL"); [print(" ", e) for e in errors]; sys.exit(1)
