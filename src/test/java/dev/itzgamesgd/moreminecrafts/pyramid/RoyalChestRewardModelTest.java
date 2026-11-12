@@ -247,4 +247,12 @@ class RoyalChestRewardModelTest {
         assertTrue(RoyalChestRewardModel.split(secondary, id -> id.contains("catalyst") || id.contains("of_") ? 1 : 64).size() <= 54);
         assertThrows(IllegalStateException.class, () -> RoyalChestRewardModel.split(List.of(new Reward("a:b", 55)), id -> 1));
     }
+
+    @Test
+    void accessoryDetectionDrivesTheRevealEffectOnly() {
+        assertTrue(RoyalChestRewardModel.hasAccessory(List.of(new Reward("minecraft:gold_ingot", 64), new Reward("moreminecrafts:seed_of_life", 1))));
+        assertTrue(RoyalChestRewardModel.hasAccessory(List.of(new Reward("moreminecrafts:ring_of_time", 1))));
+        assertFalse(RoyalChestRewardModel.hasAccessory(List.of(new Reward("minecraft:gold_ingot", 64), new Reward("moreminecrafts:relic_catalyst", 1))));
+        assertFalse(RoyalChestRewardModel.hasAccessory(List.of()));
+    }
 }
