@@ -36,6 +36,7 @@
       "dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssemblyGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01NaturalPieceGameTests",
+      "dev.itzgamesgd.moreminecrafts.pyramid.entrance.St01SecretEntranceGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",

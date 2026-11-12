@@ -778,6 +778,7 @@
   "entity.moreminecrafts.lesser_phantom": "하급 팬텀",
   "entity.moreminecrafts.cave_creeper": "동굴 크리퍼",
   "entity.moreminecrafts.tomb_guardian": "왕릉 수호자",
+  "entity.moreminecrafts.gold_guide_golem": "금빛 안내 골렘",
   "entity.moreminecrafts.tomb_vfx": "왕릉 수호자 석상 분출",
   "moreminecrafts.ui.quest.tooltip.title": "%s — %s/%s",
   "moreminecrafts.ui.quest.tooltip.choose": "필요 %s종 · 후보 %s종",
