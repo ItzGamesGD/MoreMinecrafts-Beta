@@ -51,7 +51,7 @@ for r in reg:
         if not fam or not os.path.isdir(f"{ROOT}/inactive/{fam}/files"): bad(f"registry row {r[0]} target missing")
 # recovery manifest: every A/M delta blob must be available (GU tree / inactive / regen / transform / documented omission)
 avail = set()
-for line in git("ls-tree", "-r", BASE).stdout.splitlines():
+for line in git("ls-tree", "-r", "HEAD").stdout.splitlines():
     avail.add(line.split("\t")[0].split()[2])
 for dp, _, fs in os.walk(f"{ROOT}/inactive"):
     for f in fs:

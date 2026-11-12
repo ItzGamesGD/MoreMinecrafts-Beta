@@ -31,6 +31,16 @@ STATES = [  # (family, label, ref)
  ("validation-st05-p0-probe","primary","origin/audit/st05-po25-review-package-20261102"),
  ("prc-p7-security-audit","primary","origin/audit/prc-p7d-security-verification-20261027"),
  ("drive-mirror","primary","origin/claude/moreminecrafts-mirror-gate-race-20261111"),
+ ("star-covenant-i04a","primary","origin/implement/d13-03-i04a-star-covenant-vault-logic-20261106"),
+ ("st05-owner-decisions-2026-10-28","primary","origin/design/st05-colosseum-owner-decisions-20261028"),
+ ("docs-sky-islands-design-context","primary","origin/docs/sky-islands-design-context-20261027"),
+ ("docs-content-first-axis-review","primary","origin/docs/2026-10-07-content-first-axis-review"),
+ ("docs-vanilla-roster-recovery","primary","origin/recovery/vanilla-model-custom-mob-roster-base"),
+ ("docs-alchemy-plot-notes","primary","origin/docs/alchemy-plot-notes"),
+ ("docs-xp-quest-ui-checkpoint","primary","origin/codex/xp-quest-ui-integration-20261020"),
+ ("docs-ui-piglin-mob-tracker","primary","origin/docs/ui-piglin-mob-tracker-20261010"),
+ ("docs-pyramid-mob-roster","primary","origin/design/pyramid-mob-roster-20261026"),
+ ("docs-spider-colony-biome","primary","origin/design/spider-colony-biome-20261026"),
 ]
 REGEN_PATHS = {  # path -> recipe id
  "tools/st05-p0-probe-01/inputs-v1.json":"st05-p0-materialize","tools/st05-p0-probe-01/schedules-v1.json":"st05-p0-materialize",
