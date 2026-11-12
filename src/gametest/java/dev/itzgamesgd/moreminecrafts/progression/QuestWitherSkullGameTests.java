@@ -368,7 +368,7 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         ctx.assertTrue(!items(ctx).isEmpty(), "the equipment skull dropped");
         for (ItemEntity item : items(ctx)) {
             ctx.assertTrue(!QuestWitherSkullProvenance.isGenuine(item), "equipment-slot skull is not a loot drop: " + item
-                    + " attached=" + item.getAttached(QuestWitherSkullProvenance.GENUINE_DROP) + " n=" + items(ctx).size());
+                    + " attached=" + item.getAttached(QuestWitherSkullProvenance.ORIGIN_TOKEN) + " n=" + items(ctx).size());
             touch(item, player);
         }
         ctx.assertTrue(credited(player) == 0, "no invalid origin ever credits: " + credited(player));
