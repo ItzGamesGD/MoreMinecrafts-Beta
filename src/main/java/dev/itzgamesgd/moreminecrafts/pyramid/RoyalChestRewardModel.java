@@ -91,6 +91,12 @@ public final class RoyalChestRewardModel {
                 .map(definition -> "moreminecrafts:" + definition.registryId());
     }
 
+    /** True when the draw includes a T2 accessory (Seed of Life / Ring of Time); drives the Q39 reveal effect. */
+    public static boolean hasAccessory(List<Reward> rewards) {
+        return rewards.stream().anyMatch(r -> PyramidRoyalChestRewards.ITEMS.stream()
+                .anyMatch(d -> r.itemId().equals("moreminecrafts:" + d.registryId())));
+    }
+
     /** Structure-level catalyst: one 5% roll per instance, then PRIMARY / SECONDARY 50:50. At most one result. */
     public static Optional<RoyalChestRole> assignCatalyst(RandomGenerator random) {
         if (!(random.nextDouble() < CATALYST_CHANCE)) return Optional.empty();

@@ -148,6 +148,9 @@ public final class RoyalChestRuntime {
         return generatedNow ? OpenResult.OPENED_AND_GENERATED : OpenResult.OPENED;
     }
 
+    /** Test seam; always null in production. */
+    static volatile java.util.function.Function<RoyalChestRole, List<RoyalChestRewardModel.Reward>> rewardsOverride;
+
     /** Draws and installs one chest's rewards. Runs on the server thread, so a second opener sees the finished chest. */
     static RoyalChestData.Chest generate(ServerLevel level, RoyalChestData data, RoyalChestData.Instance instance, RoyalChestRole role) {
         if (instance.chestPos(role).isEmpty()) throw new IllegalStateException("Royal chest role is not placed: " + role);
@@ -156,8 +159,14 @@ public final class RoyalChestRuntime {
         RandomGenerator random = chestRandom(level.getSeed(), instance.id(), role);
         boolean holdsCatalyst = instance.catalyst().filter(role::equals).isPresent();
         List<RoyalChestRewardModel.Reward> rewards = RoyalChestRewardModel.chestRewards(role, random, holdsCatalyst);
+        java.util.function.Function<RoyalChestRole, List<RoyalChestRewardModel.Reward>> forced = rewardsOverride;
+        if (forced != null) rewards = forced.apply(role); // tests only: pins whether an accessory is drawn
         List<RoyalChestRewardModel.Stack> stacks = RoyalChestRewardModel.split(rewards, RoyalChestRuntime::maxStackSize);
-        return data.install(instance.id(), role, stacks);
+        RoyalChestData.Chest installed = data.install(instance.id(), role, stacks);
+        // D13-03 Q39-Q41: tied to this one install (the persisted "generated" state), so reopening, reload and restart,
+        // which find the chest already generated and return above, can never replay it.
+        if (RoyalChestRewardModel.hasAccessory(rewards)) RoyalChestRevealFx.play(level, instance, role);
+        return installed;
     }
 
     static int maxStackSize(String itemId) {
