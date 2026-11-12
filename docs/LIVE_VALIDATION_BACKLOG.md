@@ -580,7 +580,7 @@ Call the confirmed left-half position `<AX> <AY> <AZ>` (it is the encounter anch
 | T2 accessory: `moreminecrafts:seed_of_life` or `moreminecrafts:ring_of_time` ×1 | 20% **STAT** | ____ |
 | `moreminecrafts:relic_catalyst` ×1 | 5% per instance, 50% of those to this chest **STAT** | ____ |
 
-  Nothing else may appear (no titanium/tungsten/enhancement stone — those are SECONDARY; no raw ores; no other accessories). Quantities above 64 are split across stacks with nothing truncated (I06 L76). If an accessory appeared, note whether any short particle/sound played (D13Q Q39–Q41); **no implementation of that effect was found in `RoyalChestRuntime`**, so absence is a **RECORD ONLY** finding, not a FAIL.
+  Nothing else may appear (no titanium/tungsten/enhancement stone — those are SECONDARY; no raw ores; no other accessories). Quantities above 64 are split across stacks with nothing truncated (I06 L76). If an accessory appeared (first generation of this chest), expect a short **END_ROD particle burst + amethyst chime** at the chest, visible to players within 16 blocks, with **no chat or title** (D13-03 Q39–Q41; implemented in `RoyalChestRevealFx`). No repeat on reopen, item withdrawal, relog or restart.
 - **Result:** ☐ PASS ☐ FAIL — notes/total slots used: ____________
 
 #### R-07 — Withdraw-only: nothing can be inserted
