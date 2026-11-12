@@ -60,6 +60,6 @@ public final class St01RoyalChestPlacement {
                                                                  StructurePlaceSettings settings) {
         BlockPos anchor = worldPos(REFERENCE_ANCHOR, placementOrigin, settings);
         return RoyalChestRuntime.register(level, anchor, worldPos(REFERENCE_SPAWN, placementOrigin, settings), anchor,
-                worldPos(REFERENCE_RIGHT, placementOrigin, settings), Optional.empty());
+                worldPos(REFERENCE_RIGHT, placementOrigin, settings));
     }
 }

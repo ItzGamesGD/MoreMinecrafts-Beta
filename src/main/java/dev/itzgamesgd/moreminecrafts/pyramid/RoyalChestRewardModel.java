@@ -97,10 +97,15 @@ public final class RoyalChestRewardModel {
                 .anyMatch(d -> r.itemId().equals("moreminecrafts:" + d.registryId())));
     }
 
-    /** Structure-level catalyst: one 5% roll per instance, then PRIMARY / SECONDARY 50:50. At most one result. */
+    /** Structure-level catalyst: one 5% roll per instance, unified onto PRIMARY (2026-11-12 override). At most one result. */
     public static Optional<RoyalChestRole> assignCatalyst(RandomGenerator random) {
         if (!(random.nextDouble() < CATALYST_CHANCE)) return Optional.empty();
-        return Optional.of(random.nextInt(2) == 0 ? RoyalChestRole.PRIMARY : RoyalChestRole.SECONDARY);
+        return Optional.of(RoyalChestRole.PRIMARY);
+    }
+
+    /** PRIMARY chest rewards: materials, optional accessory (20%), and the catalyst when this chest holds it. */
+    public static List<Reward> primaryRewards(RandomGenerator chestRandom, boolean holdsCatalyst) {
+        return chestRewards(RoyalChestRole.PRIMARY, chestRandom, holdsCatalyst);
     }
 
     /** All rewards one chest gets: materials, optional accessory, and the catalyst when this chest is assigned it. */
