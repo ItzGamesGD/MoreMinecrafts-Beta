@@ -48,7 +48,7 @@ public final class St01D4TickBench implements ModInitializer {
     private static final Logger LOG = LoggerFactory.getLogger("st01-d4-tickbench");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 
-    private enum Phase { WARMUP, PREPARE, COLD, GAP1, WARM, GAP2, DONE }
+    private enum Phase { WARMUP, PREPARE, PREFETCH, COLD, GAP1, WARM, GAP2, DONE }
 
     @Override
     public void onInitialize() {
@@ -74,6 +74,12 @@ public final class St01D4TickBench implements ModInitializer {
         long prepareStart;
         double prepareMaxTick;
         int prepareTicks;
+        final boolean prefetch = Boolean.getBoolean("mm.st01.d4.prefetch");
+        volatile ChunkPos target;
+        CompletableFuture<?> load;
+        long loadStart;
+        double loadMaxTick;
+        int loadTicks;
 
         Run(MinecraftServer server, String out) {
             this.server = server;
@@ -107,7 +113,16 @@ public final class St01D4TickBench implements ModInitializer {
                         p.put("ticks_while_preparing", prepareTicks);
                         p.put("max_tick_while_preparing_ms", prepareMaxTick);
                         result.put("preparation", p);
-                        next(Phase.COLD);
+                        next(prefetch && target != null ? Phase.PREFETCH : Phase.COLD);
+                    }
+                }
+                case PREFETCH -> {
+                    if (load == null) { loadStart = System.nanoTime(); load = level.getChunkSource().addTicketAndLoadWithRadius(net.minecraft.server.level.TicketType.FORCED, target, 0); }
+                    else if (load.isDone()) {
+                        Map<String, Object> f = new LinkedHashMap<>();
+                        f.put("target_chunk", target.x() + "," + target.z()); f.put("wall_ms", (System.nanoTime() - loadStart) / 1e6);
+                        f.put("ticks_while_loading", loadTicks); f.put("max_tick_while_loading_ms", loadMaxTick);
+                        result.put("prefetch", f); next(Phase.COLD);
                     }
                 }
                 case COLD -> { result.put("cold", call("cold")); next(Phase.GAP1); }
@@ -119,6 +134,7 @@ public final class St01D4TickBench implements ModInitializer {
             double ms = (System.nanoTime() - tickStart) / 1e6;
             tickMs.add(ms);
             if (phase == Phase.PREPARE && preparation != null) { prepareTicks++; prepareMaxTick = Math.max(prepareMaxTick, ms); }
+            if (phase == Phase.PREFETCH && load != null) { loadTicks++; loadMaxTick = Math.max(loadMaxTick, ms); }
         }
 
         void next(Phase p) { phase = p; phaseTick = 0; }
@@ -154,7 +170,7 @@ public final class St01D4TickBench implements ModInitializer {
                         St01Candidate.Decision d = St01DecisionMemo.decide(ctx, rotation,
                                 () -> St01Candidate.decide(new St01PyramidStructure.GeneratorTerrain(ctx), c, rotation, seed));
                         evaluated++;
-                        if (d.result().eligible()) eligibleRing = r;
+                        if (d.result().eligible()) { eligibleRing = r; if (target == null) target = c; }
                     }
                 }
             }

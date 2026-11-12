@@ -3,6 +3,7 @@
 #   <seed> <radius> <legacy|nomemo|memo|prep>
 #   legacy : pre-P8-D3 terrain, no memo      nomemo : C1+C2 (P8-D3) without the C4 memo
 #   memo   : C1+C2+C4                         prep   : C1+C2+C4 plus a background preparation before the vanilla call (C6 experiment)
+#   prefetch: prep, then the target chunk is loaded with a FORCED ticket (asynchronous) before the vanilla call
 # Output: build/st01-p8d4/results/tick-<seed>-r<radius>-<mode>.json. Requires JAVA_HOME = JDK 25.
 set -euo pipefail
 seed=$1; radius=$2; mode=$3
@@ -34,6 +35,7 @@ case "$mode" in
   nomemo) extra="$extra -Dmm.st01.memo.disable=true" ;;
   memo)   ;;
   prep)   extra="$extra -Dmm.st01.d4.prepare=worker" ;;
+  prefetch) extra="$extra -Dmm.st01.d4.prepare=worker -Dmm.st01.d4.prefetch=true" ;;
   *) echo "unknown mode $mode"; exit 2 ;;
 esac
 cd "$root"
