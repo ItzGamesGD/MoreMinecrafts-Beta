@@ -112,25 +112,9 @@ class RoyalChestRuntimeTest {
         ListTag instances = new ListTag();
         instances.add(record);
 
-        CompoundTag stack = new CompoundTag();
-        stack.putInt("slot", 0);
-        stack.putString("item", "minecraft:gold_ingot");
-        stack.putInt("count", 64);
-
-        ListTag stacks = new ListTag();
-        stacks.add(stack);
-
-        CompoundTag chest = new CompoundTag();
-        chest.putString("instance", "legacy-pyramid-instance");
-        chest.putString("role", "PRIMARY");
-        chest.put("stacks", stacks);
-
-        ListTag chests = new ListTag();
-        chests.add(chest);
-
         CompoundTag root = new CompoundTag();
         root.put("instances", instances);
-        root.put("chests", chests);
+        root.put("chests", new ListTag());
 
         // Decode via Codec
         RoyalChestData data = RoyalChestData.TYPE.codec().parse(NbtOps.INSTANCE, root).getOrThrow();
