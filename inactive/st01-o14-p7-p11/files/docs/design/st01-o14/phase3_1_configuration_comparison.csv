@@ -1,0 +1,7 @@
+configuration,spacing,separation,spread_type,total_full_desert,eligible_exploratory,eligible_moderate,density_exploratory_per_100km2,density_moderate_per_100km2,mansion_density_per_100km2,rarity_ratio_exploratory,rarity_ratio_moderate,zero_seed_freq_exploratory,pass_parity_0_5_to_2_0,pass_parity_0_25_to_3_0
+CFG_80_20_TRI,80,20,TRIANGULAR,10,1,4,0.048,0.191,0.715,0.067,0.267,0.8,False,False
+CFG_64_20_TRI,64,20,TRIANGULAR,13,3,4,0.143,0.191,0.715,0.2,0.267,0.6,False,False
+CFG_48_16_TRI,48,16,TRIANGULAR,24,4,6,0.191,0.286,0.715,0.267,0.4,0.4,False,True
+CFG_32_08_TRI,32,8,TRIANGULAR,56,7,15,0.334,0.715,0.715,0.467,1.0,0.4,False,True
+CFG_32_08_LIN,32,8,LINEAR,59,10,12,0.477,0.572,0.715,0.667,0.8,0.2,True,True
+CFG_24_06_TRI,24,6,TRIANGULAR,101,10,20,0.477,0.954,0.715,0.667,1.333,0.2,True,True

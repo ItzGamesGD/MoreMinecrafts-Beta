@@ -1,0 +1,26 @@
+{
+  "elapsed_ms": 3024,
+  "phase": "order",
+  "rows": {
+    "all_written": {
+      "state": "COMPLETE",
+      "previous_state": "PREPARED",
+      "writes": 2,
+      "plan_hash": "51fa769c7a0f1580327d4665d0bbdd9a42a7038695eede31bc9db7b68d3b69ed"
+    },
+    "complete_gap": {
+      "state": "COMPLETE",
+      "previous_state": "PREPARED",
+      "writes": 2,
+      "plan_hash": "90e8d9b47b94276040d579431295c0ec3e301d7450decb50f321ac49f933de3f"
+    },
+    "resume": {
+      "state": "COMPLETE",
+      "previous_state": "PREPARED",
+      "writes": 2,
+      "plan_hash": "81043fb11fc279a514c4340e8f3c1b45cdbbd7238b3019ef9983962c438d7eb3"
+    }
+  },
+  "seed": 20261030,
+  "used_heap_bytes": 308520048
+}

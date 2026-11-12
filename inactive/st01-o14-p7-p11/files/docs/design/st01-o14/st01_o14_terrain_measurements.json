@@ -1,0 +1,4056 @@
+{
+  "provenance": "SYNTHETIC \u2014 NOT MINECRAFT WORLDGEN MEASUREMENT",
+  "notice": "All data in this document originates from a standalone Python Simplex noise model. It does NOT reflect real Minecraft 26.3 worldgen and must not be used for production decisions.",
+  "seeds_sampled": [
+    1001,
+    2002,
+    3003,
+    4004,
+    5005
+  ],
+  "area_sampled_sq_km": 67.108864,
+  "candidates_evaluated": 5120,
+  "center_desert_eligible_candidates": 369,
+  "full_100_desert_eligible_candidates": 194,
+  "synthetic_biome_frequency": {
+    "center_only": 0.0720703125,
+    "full_100_percent": 0.037890625
+  },
+  "synthetic_elevation_delta_distribution": {
+    "mean_delta_h": 7.290623306233063,
+    "median_delta_h": 7.209999999999994,
+    "std_delta_h": 1.4327010863460854,
+    "min_delta_h": 4.179999999999993,
+    "max_delta_h": 11.300000000000004,
+    "percentiles": {
+      "p25": 6.200000000000003,
+      "p50": 7.209999999999994,
+      "p75": 8.280000000000008,
+      "p90": 9.291999999999998
+    }
+  },
+  "hypothetical_scenario_rates": {
+    "hypothetical_1_strict_4": {
+      "accepted_count": 0,
+      "rate_of_desert_candidates": 0.0
+    },
+    "hypothetical_2_conservative_8": {
+      "accepted_count": 59,
+      "rate_of_desert_candidates": 0.15989159891598917
+    },
+    "hypothetical_3_moderate_12": {
+      "accepted_count": 228,
+      "rate_of_desert_candidates": 0.6178861788617886
+    },
+    "hypothetical_4_permissive_16": {
+      "accepted_count": 248,
+      "rate_of_desert_candidates": 0.6720867208672087
+    },
+    "hypothetical_5_unconstrained": {
+      "accepted_count": 276,
+      "rate_of_desert_candidates": 0.7479674796747967
+    }
+  },
+  "sample_candidate_records": [
+    {
+      "eligible": true,
+      "cx": -3712,
+      "cz": 640,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 64.11,
+        "max_h": 72.4,
+        "mean_h": 69.01510204081633,
+        "median_h": 69.04,
+        "std_h": 1.9840117289492218,
+        "delta_h": 8.290000000000006
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 3.4000000000000057,
+        "max_skirt_depth": 4.890000000000001,
+        "cut_volume_blocks": 5788,
+        "fill_volume_blocks": 5682,
+        "exposed_perimeter_ratio": 0.46710526315789475
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3456,
+      "cz": -640,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9753086419753086
+      },
+      "elevation_stats": {
+        "min_h": 63.95,
+        "max_h": 71.41,
+        "mean_h": 67.89009070294784,
+        "median_h": 67.91,
+        "std_h": 1.7199935376479627,
+        "delta_h": 7.459999999999994
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 3.4099999999999966,
+        "max_skirt_depth": 4.049999999999997,
+        "cut_volume_blocks": 4397,
+        "fill_volume_blocks": 5173,
+        "exposed_perimeter_ratio": 0.5789473684210527
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3456,
+      "cz": 640,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5308641975308642
+      },
+      "elevation_stats": {
+        "min_h": 59.79,
+        "max_h": 68.02,
+        "mean_h": 63.740861678004535,
+        "median_h": 63.95,
+        "std_h": 1.9257629595388626,
+        "delta_h": 8.229999999999997
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 4.019999999999996,
+        "max_skirt_depth": 4.210000000000001,
+        "cut_volume_blocks": 4677,
+        "fill_volume_blocks": 6506,
+        "exposed_perimeter_ratio": 0.5460526315789473
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3456,
+      "cz": 896,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 63.52,
+        "max_h": 70.95,
+        "mean_h": 67.34972789115648,
+        "median_h": 67.12,
+        "std_h": 1.5364883005863934,
+        "delta_h": 7.43
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 3.950000000000003,
+        "max_skirt_depth": 3.479999999999997,
+        "cut_volume_blocks": 5409,
+        "fill_volume_blocks": 2941,
+        "exposed_perimeter_ratio": 0.4342105263157895
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3456,
+      "cz": 1152,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 59.23,
+        "max_h": 66.26,
+        "mean_h": 62.63521541950114,
+        "median_h": 62.65,
+        "std_h": 1.8862703632564592,
+        "delta_h": 7.030000000000008
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 3.260000000000005,
+        "max_skirt_depth": 3.770000000000003,
+        "cut_volume_blocks": 4618,
+        "fill_volume_blocks": 7192,
+        "exposed_perimeter_ratio": 0.2894736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3456,
+      "cz": 1664,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.39,
+        "max_h": 70.44,
+        "mean_h": 66.16712018140589,
+        "median_h": 65.89,
+        "std_h": 2.2954565409931367,
+        "delta_h": 9.049999999999997
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 4.439999999999998,
+        "max_skirt_depth": 4.609999999999999,
+        "cut_volume_blocks": 7204,
+        "fill_volume_blocks": 6025,
+        "exposed_perimeter_ratio": 0.47368421052631576
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3456,
+      "cz": 1920,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 58.81,
+        "max_h": 68.47,
+        "mean_h": 63.51537414965986,
+        "median_h": 63.04,
+        "std_h": 2.484237822436638,
+        "delta_h": 9.659999999999997
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 4.469999999999999,
+        "max_skirt_depth": 5.189999999999998,
+        "cut_volume_blocks": 5906,
+        "fill_volume_blocks": 9326,
+        "exposed_perimeter_ratio": 0.5592105263157895
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3200,
+      "cz": 1920,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.41,
+        "max_h": 68.87,
+        "mean_h": 64.35585034013606,
+        "median_h": 64.11,
+        "std_h": 1.4326015424450667,
+        "delta_h": 7.460000000000008
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 4.8700000000000045,
+        "max_skirt_depth": 2.5900000000000034,
+        "cut_volume_blocks": 5318,
+        "fill_volume_blocks": 2807,
+        "exposed_perimeter_ratio": 0.3881578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3200,
+      "cz": 2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.2,
+        "max_h": 70.67,
+        "mean_h": 66.94566893424036,
+        "median_h": 67.15,
+        "std_h": 2.2713676879453435,
+        "delta_h": 9.469999999999999
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 3.6700000000000017,
+        "max_skirt_depth": 5.799999999999997,
+        "cut_volume_blocks": 6473,
+        "fill_volume_blocks": 6856,
+        "exposed_perimeter_ratio": 0.6973684210526315
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2944,
+      "cz": 1920,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 62.67,
+        "max_h": 69.48,
+        "mean_h": 66.02340136054423,
+        "median_h": 65.88,
+        "std_h": 1.6704773429159188,
+        "delta_h": 6.810000000000002
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 3.480000000000004,
+        "max_skirt_depth": 3.3299999999999983,
+        "cut_volume_blocks": 5067,
+        "fill_volume_blocks": 4902,
+        "exposed_perimeter_ratio": 0.40131578947368424
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2944,
+      "cz": 2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.79,
+        "max_h": 67.7,
+        "mean_h": 63.72807256235827,
+        "median_h": 63.67,
+        "std_h": 1.6549472740832183,
+        "delta_h": 6.910000000000004
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 3.700000000000003,
+        "max_skirt_depth": 3.210000000000001,
+        "cut_volume_blocks": 4015,
+        "fill_volume_blocks": 5933,
+        "exposed_perimeter_ratio": 0.375
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2688,
+      "cz": 1920,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7654320987654321
+      },
+      "elevation_stats": {
+        "min_h": 63.98,
+        "max_h": 72.26,
+        "mean_h": 69.30888888888889,
+        "median_h": 69.66,
+        "std_h": 1.810884297804604,
+        "delta_h": 8.280000000000008
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 3.260000000000005,
+        "max_skirt_depth": 5.020000000000003,
+        "cut_volume_blocks": 6740,
+        "fill_volume_blocks": 4561,
+        "exposed_perimeter_ratio": 0.5394736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2688,
+      "cz": 2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 59.77,
+        "max_h": 65.26,
+        "mean_h": 62.499727891156475,
+        "median_h": 62.69,
+        "std_h": 1.202210329569527,
+        "delta_h": 5.490000000000002
+      },
+      "chosen_anchor_y0": 62,
+      "terrain_correction": {
+        "max_cut_depth": 3.260000000000005,
+        "max_skirt_depth": 2.229999999999997,
+        "cut_volume_blocks": 5713,
+        "fill_volume_blocks": 2187,
+        "exposed_perimeter_ratio": 0.19078947368421054
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2432,
+      "cz": 1920,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 62.97,
+        "max_h": 71.13,
+        "mean_h": 67.63414965986395,
+        "median_h": 67.58,
+        "std_h": 2.143979233261977,
+        "delta_h": 8.159999999999997
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 3.1299999999999955,
+        "max_skirt_depth": 5.030000000000001,
+        "cut_volume_blocks": 5484,
+        "fill_volume_blocks": 8065,
+        "exposed_perimeter_ratio": 0.5723684210526315
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2432,
+      "cz": 2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.84,
+        "max_h": 69.4,
+        "mean_h": 65.88004535147392,
+        "median_h": 65.91,
+        "std_h": 1.7883793440473843,
+        "delta_h": 7.560000000000002
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 3.4000000000000057,
+        "max_skirt_depth": 4.159999999999997,
+        "cut_volume_blocks": 4640,
+        "fill_volume_blocks": 5486,
+        "exposed_perimeter_ratio": 0.3881578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2176,
+      "cz": 1920,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 59.21,
+        "max_h": 70.51,
+        "mean_h": 65.61655328798186,
+        "median_h": 65.42,
+        "std_h": 2.3571030112061364,
+        "delta_h": 11.300000000000004
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 4.510000000000005,
+        "max_skirt_depth": 6.789999999999999,
+        "cut_volume_blocks": 5454,
+        "fill_volume_blocks": 8159,
+        "exposed_perimeter_ratio": 0.5592105263157895
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2176,
+      "cz": 2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.8,
+        "max_h": 69.15,
+        "mean_h": 64.47009070294784,
+        "median_h": 64.76,
+        "std_h": 1.4732206657846514,
+        "delta_h": 8.350000000000009
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 5.150000000000006,
+        "max_skirt_depth": 3.200000000000003,
+        "cut_volume_blocks": 6169,
+        "fill_volume_blocks": 2852,
+        "exposed_perimeter_ratio": 0.26973684210526316
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1920,
+      "cz": -640,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8395061728395061
+      },
+      "elevation_stats": {
+        "min_h": 63.78,
+        "max_h": 69.74,
+        "mean_h": 66.57108843537415,
+        "median_h": 66.56,
+        "std_h": 1.4134468231540935,
+        "delta_h": 5.959999999999994
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 2.739999999999995,
+        "max_skirt_depth": 3.219999999999999,
+        "cut_volume_blocks": 2862,
+        "fill_volume_blocks": 5889,
+        "exposed_perimeter_ratio": 0.6907894736842105
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1920,
+      "cz": -384,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8765432098765432
+      },
+      "elevation_stats": {
+        "min_h": 61.51,
+        "max_h": 68.9,
+        "mean_h": 64.82224489795918,
+        "median_h": 64.93,
+        "std_h": 1.6767275097161878,
+        "delta_h": 7.390000000000008
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 3.9000000000000057,
+        "max_skirt_depth": 3.490000000000002,
+        "cut_volume_blocks": 4421,
+        "fill_volume_blocks": 5675,
+        "exposed_perimeter_ratio": 0.5789473684210527
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1920,
+      "cz": 1152,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7777777777777778
+      },
+      "elevation_stats": {
+        "min_h": 65.02,
+        "max_h": 69.88,
+        "mean_h": 67.99421768707484,
+        "median_h": 68.07,
+        "std_h": 0.9336439656813268,
+        "delta_h": 4.859999999999999
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 1.8799999999999955,
+        "max_skirt_depth": 2.980000000000004,
+        "cut_volume_blocks": 2555,
+        "fill_volume_blocks": 2595,
+        "exposed_perimeter_ratio": 0.5723684210526315
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1664,
+      "cz": -640,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.08,
+        "max_h": 69.76,
+        "mean_h": 64.68768707482994,
+        "median_h": 64.63,
+        "std_h": 2.050588014123056,
+        "delta_h": 9.680000000000007
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 4.760000000000005,
+        "max_skirt_depth": 4.920000000000002,
+        "cut_volume_blocks": 4916,
+        "fill_volume_blocks": 7120,
+        "exposed_perimeter_ratio": 0.40131578947368424
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1664,
+      "cz": -384,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 63.12,
+        "max_h": 72.96,
+        "mean_h": 69.40321995464852,
+        "median_h": 69.84,
+        "std_h": 2.2385919548417226,
+        "delta_h": 9.839999999999996
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 3.9599999999999937,
+        "max_skirt_depth": 5.880000000000003,
+        "cut_volume_blocks": 7828,
+        "fill_volume_blocks": 4983,
+        "exposed_perimeter_ratio": 0.35526315789473684
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1408,
+      "cz": -384,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 66.0,
+        "max_h": 70.2,
+        "mean_h": 67.79859410430839,
+        "median_h": 67.78,
+        "std_h": 0.6908789110370991,
+        "delta_h": 4.200000000000003
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 2.200000000000003,
+        "max_skirt_depth": 2.0,
+        "cut_volume_blocks": 1256,
+        "fill_volume_blocks": 2677,
+        "exposed_perimeter_ratio": 0.5131578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1408,
+      "cz": -128,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.95,
+        "max_h": 69.66,
+        "mean_h": 64.307641723356,
+        "median_h": 64.62,
+        "std_h": 2.1573550549432268,
+        "delta_h": 8.709999999999994
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 5.659999999999997,
+        "max_skirt_depth": 3.049999999999997,
+        "cut_volume_blocks": 7523,
+        "fill_volume_blocks": 5352,
+        "exposed_perimeter_ratio": 0.34868421052631576
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -896,
+      "cz": -2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8765432098765432
+      },
+      "elevation_stats": {
+        "min_h": 63.59,
+        "max_h": 67.77,
+        "mean_h": 65.40290249433107,
+        "median_h": 65.29,
+        "std_h": 0.8608020897152706,
+        "delta_h": 4.179999999999993
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 2.769999999999996,
+        "max_skirt_depth": 1.4099999999999966,
+        "cut_volume_blocks": 4044,
+        "fill_volume_blocks": 1201,
+        "exposed_perimeter_ratio": 0.29605263157894735
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -896,
+      "cz": -1920,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.71,
+        "max_h": 68.47,
+        "mean_h": 64.80927437641724,
+        "median_h": 65.12,
+        "std_h": 1.861404492407486,
+        "delta_h": 7.759999999999998
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 3.469999999999999,
+        "max_skirt_depth": 4.289999999999999,
+        "cut_volume_blocks": 4651,
+        "fill_volume_blocks": 5997,
+        "exposed_perimeter_ratio": 0.5263157894736842
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -640,
+      "cz": -3968,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5555555555555556
+      },
+      "elevation_stats": {
+        "min_h": 57.92,
+        "max_h": 65.48,
+        "mean_h": 61.49045351473923,
+        "median_h": 61.55,
+        "std_h": 1.5386745991974837,
+        "delta_h": 7.560000000000002
+      },
+      "chosen_anchor_y0": 61,
+      "terrain_correction": {
+        "max_cut_depth": 4.480000000000004,
+        "max_skirt_depth": 3.0799999999999983,
+        "cut_volume_blocks": 6293,
+        "fill_volume_blocks": 2833,
+        "exposed_perimeter_ratio": 0.3223684210526316
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -640,
+      "cz": -3200,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9382716049382716
+      },
+      "elevation_stats": {
+        "min_h": 59.35,
+        "max_h": 66.88,
+        "mean_h": 62.67891156462586,
+        "median_h": 62.75,
+        "std_h": 1.800981011048287,
+        "delta_h": 7.529999999999994
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 3.8799999999999955,
+        "max_skirt_depth": 3.6499999999999986,
+        "cut_volume_blocks": 4248,
+        "fill_volume_blocks": 6513,
+        "exposed_perimeter_ratio": 0.40131578947368424
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -640,
+      "cz": -2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 64.96,
+        "max_h": 72.22,
+        "mean_h": 69.17687074829932,
+        "median_h": 69.35,
+        "std_h": 1.453030987736053,
+        "delta_h": 7.260000000000005
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 3.219999999999999,
+        "max_skirt_depth": 4.040000000000006,
+        "cut_volume_blocks": 4936,
+        "fill_volume_blocks": 3688,
+        "exposed_perimeter_ratio": 0.631578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -640,
+      "cz": -1920,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.51,
+        "max_h": 66.85,
+        "mean_h": 64.91369614512472,
+        "median_h": 65.21,
+        "std_h": 1.366510921342528,
+        "delta_h": 5.339999999999996
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 1.8499999999999943,
+        "max_skirt_depth": 3.490000000000002,
+        "cut_volume_blocks": 3395,
+        "fill_volume_blocks": 4004,
+        "exposed_perimeter_ratio": 0.5460526315789473
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -640,
+      "cz": 1664,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5555555555555556
+      },
+      "elevation_stats": {
+        "min_h": 62.55,
+        "max_h": 68.4,
+        "mean_h": 65.45716553287981,
+        "median_h": 65.56,
+        "std_h": 1.1235293808579372,
+        "delta_h": 5.8500000000000085
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 3.4000000000000057,
+        "max_skirt_depth": 2.450000000000003,
+        "cut_volume_blocks": 5162,
+        "fill_volume_blocks": 1936,
+        "exposed_perimeter_ratio": 0.3157894736842105
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -640,
+      "cz": 2432,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5432098765432098
+      },
+      "elevation_stats": {
+        "min_h": 57.28,
+        "max_h": 67.17,
+        "mean_h": 61.17988662131519,
+        "median_h": 60.97,
+        "std_h": 2.2501608379556077,
+        "delta_h": 9.89
+      },
+      "chosen_anchor_y0": 61,
+      "terrain_correction": {
+        "max_cut_depth": 6.170000000000002,
+        "max_skirt_depth": 3.719999999999999,
+        "cut_volume_blocks": 7069,
+        "fill_volume_blocks": 5800,
+        "exposed_perimeter_ratio": 0.3881578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -384,
+      "cz": -3712,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7283950617283951
+      },
+      "elevation_stats": {
+        "min_h": 61.79,
+        "max_h": 69.11,
+        "mean_h": 65.33190476190475,
+        "median_h": 65.4,
+        "std_h": 1.7418213159215385,
+        "delta_h": 7.32
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 4.109999999999999,
+        "max_skirt_depth": 3.210000000000001,
+        "cut_volume_blocks": 6333,
+        "fill_volume_blocks": 3991,
+        "exposed_perimeter_ratio": 0.5723684210526315
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -384,
+      "cz": -3456,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 62.84,
+        "max_h": 70.3,
+        "mean_h": 65.96156462585034,
+        "median_h": 66.01,
+        "std_h": 1.5674661590145094,
+        "delta_h": 7.459999999999994
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 4.299999999999997,
+        "max_skirt_depth": 3.1599999999999966,
+        "cut_volume_blocks": 4449,
+        "fill_volume_blocks": 4720,
+        "exposed_perimeter_ratio": 0.24342105263157895
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -384,
+      "cz": -3200,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 64.21,
+        "max_h": 70.41,
+        "mean_h": 68.23013605442176,
+        "median_h": 68.67,
+        "std_h": 1.3889343962186975,
+        "delta_h": 6.200000000000003
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 2.4099999999999966,
+        "max_skirt_depth": 3.7900000000000063,
+        "cut_volume_blocks": 5008,
+        "fill_volume_blocks": 3384,
+        "exposed_perimeter_ratio": 0.5263157894736842
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -384,
+      "cz": -2944,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.7,
+        "max_h": 67.66,
+        "mean_h": 63.89523809523809,
+        "median_h": 63.76,
+        "std_h": 1.2098166124779672,
+        "delta_h": 5.959999999999994
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 3.6599999999999966,
+        "max_skirt_depth": 2.299999999999997,
+        "cut_volume_blocks": 3220,
+        "fill_volume_blocks": 3959,
+        "exposed_perimeter_ratio": 0.3157894736842105
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -384,
+      "cz": -1920,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8765432098765432
+      },
+      "elevation_stats": {
+        "min_h": 62.38,
+        "max_h": 71.22,
+        "mean_h": 66.64226757369615,
+        "median_h": 66.19,
+        "std_h": 1.803518690051691,
+        "delta_h": 8.839999999999996
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 4.219999999999999,
+        "max_skirt_depth": 4.619999999999997,
+        "cut_volume_blocks": 4064,
+        "fill_volume_blocks": 6588,
+        "exposed_perimeter_ratio": 0.5921052631578947
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -384,
+      "cz": 1920,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.43,
+        "max_h": 68.18,
+        "mean_h": 64.18725623582768,
+        "median_h": 63.63,
+        "std_h": 1.8074381338824816,
+        "delta_h": 6.750000000000007
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 4.180000000000007,
+        "max_skirt_depth": 2.5700000000000003,
+        "cut_volume_blocks": 5645,
+        "fill_volume_blocks": 4324,
+        "exposed_perimeter_ratio": 0.4276315789473684
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -128,
+      "cz": -3200,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7037037037037037
+      },
+      "elevation_stats": {
+        "min_h": 64.92,
+        "max_h": 71.73,
+        "mean_h": 68.13759637188208,
+        "median_h": 68.09,
+        "std_h": 1.801219322561441,
+        "delta_h": 6.810000000000002
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 3.730000000000004,
+        "max_skirt_depth": 3.0799999999999983,
+        "cut_volume_blocks": 6176,
+        "fill_volume_blocks": 5206,
+        "exposed_perimeter_ratio": 0.625
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -128,
+      "cz": -2944,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.33,
+        "max_h": 69.6,
+        "mean_h": 63.99861678004535,
+        "median_h": 63.61,
+        "std_h": 1.819869831778193,
+        "delta_h": 9.269999999999996
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 5.599999999999994,
+        "max_skirt_depth": 3.6700000000000017,
+        "cut_volume_blocks": 5037,
+        "fill_volume_blocks": 5046,
+        "exposed_perimeter_ratio": 0.4342105263157895
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -128,
+      "cz": 2688,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 59.2,
+        "max_h": 66.99,
+        "mean_h": 63.12052154195012,
+        "median_h": 63.21,
+        "std_h": 1.3867564237412584,
+        "delta_h": 7.789999999999992
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 3.989999999999995,
+        "max_skirt_depth": 3.799999999999997,
+        "cut_volume_blocks": 4068,
+        "fill_volume_blocks": 3218,
+        "exposed_perimeter_ratio": 0.4342105263157895
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -128,
+      "cz": 2944,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9876543209876543
+      },
+      "elevation_stats": {
+        "min_h": 59.47,
+        "max_h": 67.02,
+        "mean_h": 63.44410430839002,
+        "median_h": 63.51,
+        "std_h": 1.4997233843221127,
+        "delta_h": 7.549999999999997
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 4.019999999999996,
+        "max_skirt_depth": 3.530000000000001,
+        "cut_volume_blocks": 6098,
+        "fill_volume_blocks": 2964,
+        "exposed_perimeter_ratio": 0.35526315789473684
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -128,
+      "cz": 3712,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7160493827160493
+      },
+      "elevation_stats": {
+        "min_h": 60.69,
+        "max_h": 70.12,
+        "mean_h": 66.03519274376417,
+        "median_h": 66.35,
+        "std_h": 2.357806933206876,
+        "delta_h": 9.430000000000007
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 4.1200000000000045,
+        "max_skirt_depth": 5.310000000000002,
+        "cut_volume_blocks": 6916,
+        "fill_volume_blocks": 6667,
+        "exposed_perimeter_ratio": 0.47368421052631576
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -128,
+      "cz": 3968,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9012345679012346
+      },
+      "elevation_stats": {
+        "min_h": 59.35,
+        "max_h": 66.79,
+        "mean_h": 63.723446712018145,
+        "median_h": 63.76,
+        "std_h": 1.4529319493451731,
+        "delta_h": 7.440000000000005
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 2.7900000000000063,
+        "max_skirt_depth": 4.649999999999999,
+        "cut_volume_blocks": 3216,
+        "fill_volume_blocks": 5167,
+        "exposed_perimeter_ratio": 0.6973684210526315
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 128,
+      "cz": 2688,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.66,
+        "max_h": 69.43,
+        "mean_h": 64.03891156462585,
+        "median_h": 63.7,
+        "std_h": 1.4381176894739265,
+        "delta_h": 7.77000000000001
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 5.430000000000007,
+        "max_skirt_depth": 2.3400000000000034,
+        "cut_volume_blocks": 3914,
+        "fill_volume_blocks": 3640,
+        "exposed_perimeter_ratio": 0.35526315789473684
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 128,
+      "cz": 2944,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.41,
+        "max_h": 68.9,
+        "mean_h": 65.56575963718821,
+        "median_h": 65.93,
+        "std_h": 2.0368082109657415,
+        "delta_h": 7.490000000000009
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 2.9000000000000057,
+        "max_skirt_depth": 4.590000000000003,
+        "cut_volume_blocks": 4563,
+        "fill_volume_blocks": 7627,
+        "exposed_perimeter_ratio": 0.5592105263157895
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 128,
+      "cz": 3200,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7037037037037037
+      },
+      "elevation_stats": {
+        "min_h": 61.27,
+        "max_h": 71.1,
+        "mean_h": 65.06419501133786,
+        "median_h": 64.58,
+        "std_h": 2.4754623193247927,
+        "delta_h": 9.829999999999991
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 6.099999999999994,
+        "max_skirt_depth": 3.729999999999997,
+        "cut_volume_blocks": 7608,
+        "fill_volume_blocks": 7155,
+        "exposed_perimeter_ratio": 0.506578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1152,
+      "cz": -2944,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9259259259259259
+      },
+      "elevation_stats": {
+        "min_h": 61.28,
+        "max_h": 69.66,
+        "mean_h": 66.26816326530611,
+        "median_h": 66.42,
+        "std_h": 1.971704381583552,
+        "delta_h": 8.379999999999995
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 3.6599999999999966,
+        "max_skirt_depth": 4.719999999999999,
+        "cut_volume_blocks": 6756,
+        "fill_volume_blocks": 4864,
+        "exposed_perimeter_ratio": 0.5460526315789473
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1152,
+      "cz": -1664,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 64.22,
+        "max_h": 70.58,
+        "mean_h": 66.951768707483,
+        "median_h": 66.9,
+        "std_h": 1.495048684096596,
+        "delta_h": 6.359999999999999
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 3.5799999999999983,
+        "max_skirt_depth": 2.780000000000001,
+        "cut_volume_blocks": 3909,
+        "fill_volume_blocks": 4250,
+        "exposed_perimeter_ratio": 0.5855263157894737
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1152,
+      "cz": -1408,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5432098765432098
+      },
+      "elevation_stats": {
+        "min_h": 64.32,
+        "max_h": 73.14,
+        "mean_h": 68.95476190476191,
+        "median_h": 68.59,
+        "std_h": 1.814924521959016,
+        "delta_h": 8.820000000000007
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 4.140000000000001,
+        "max_skirt_depth": 4.680000000000007,
+        "cut_volume_blocks": 4928,
+        "fill_volume_blocks": 5248,
+        "exposed_perimeter_ratio": 0.5723684210526315
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1152,
+      "cz": 384,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 59.66,
+        "max_h": 67.19,
+        "mean_h": 62.85149659863946,
+        "median_h": 62.41,
+        "std_h": 1.95657401781191,
+        "delta_h": 7.530000000000001
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 4.189999999999998,
+        "max_skirt_depth": 3.3400000000000034,
+        "cut_volume_blocks": 5491,
+        "fill_volume_blocks": 6539,
+        "exposed_perimeter_ratio": 0.47368421052631576
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1408,
+      "cz": -1664,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9629629629629629
+      },
+      "elevation_stats": {
+        "min_h": 60.51,
+        "max_h": 68.22,
+        "mean_h": 62.86857142857143,
+        "median_h": 62.43,
+        "std_h": 1.6958639829084399,
+        "delta_h": 7.710000000000001
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 5.219999999999999,
+        "max_skirt_depth": 2.490000000000002,
+        "cut_volume_blocks": 4250,
+        "fill_volume_blocks": 5177,
+        "exposed_perimeter_ratio": 0.5855263157894737
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1408,
+      "cz": -128,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9753086419753086
+      },
+      "elevation_stats": {
+        "min_h": 63.83,
+        "max_h": 71.42,
+        "mean_h": 67.2368253968254,
+        "median_h": 67.35,
+        "std_h": 1.8642285800133729,
+        "delta_h": 7.590000000000003
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 4.420000000000002,
+        "max_skirt_depth": 3.1700000000000017,
+        "cut_volume_blocks": 6313,
+        "fill_volume_blocks": 4642,
+        "exposed_perimeter_ratio": 0.42105263157894735
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1408,
+      "cz": 384,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7901234567901234
+      },
+      "elevation_stats": {
+        "min_h": 63.38,
+        "max_h": 69.65,
+        "mean_h": 66.83242630385487,
+        "median_h": 66.99,
+        "std_h": 1.5363369751647002,
+        "delta_h": 6.270000000000003
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 2.6500000000000057,
+        "max_skirt_depth": 3.6199999999999974,
+        "cut_volume_blocks": 4056,
+        "fill_volume_blocks": 5239,
+        "exposed_perimeter_ratio": 0.7039473684210527
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1408,
+      "cz": 640,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7407407407407407
+      },
+      "elevation_stats": {
+        "min_h": 63.64,
+        "max_h": 71.55,
+        "mean_h": 68.74839002267574,
+        "median_h": 69.21,
+        "std_h": 1.6011361873721728,
+        "delta_h": 7.909999999999997
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 2.549999999999997,
+        "max_skirt_depth": 5.359999999999999,
+        "cut_volume_blocks": 3628,
+        "fill_volume_blocks": 5404,
+        "exposed_perimeter_ratio": 0.625
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1408,
+      "cz": 1408,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9506172839506173
+      },
+      "elevation_stats": {
+        "min_h": 62.47,
+        "max_h": 73.23,
+        "mean_h": 67.48913832199547,
+        "median_h": 67.91,
+        "std_h": 3.032701314347683,
+        "delta_h": 10.760000000000005
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 6.230000000000004,
+        "max_skirt_depth": 4.530000000000001,
+        "cut_volume_blocks": 10908,
+        "fill_volume_blocks": 7456,
+        "exposed_perimeter_ratio": 0.40131578947368424
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1664,
+      "cz": -3712,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.49382716049382713
+      },
+      "elevation_stats": {
+        "min_h": 61.64,
+        "max_h": 67.01,
+        "mean_h": 64.65471655328798,
+        "median_h": 65.05,
+        "std_h": 1.351398024394824,
+        "delta_h": 5.3700000000000045
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 2.010000000000005,
+        "max_skirt_depth": 3.3599999999999994,
+        "cut_volume_blocks": 2763,
+        "fill_volume_blocks": 5199,
+        "exposed_perimeter_ratio": 0.506578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1664,
+      "cz": 2944,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 67.1,
+        "max_h": 73.16,
+        "mean_h": 69.73557823129252,
+        "median_h": 69.64,
+        "std_h": 1.4232796255149378,
+        "delta_h": 6.060000000000002
+      },
+      "chosen_anchor_y0": 70,
+      "terrain_correction": {
+        "max_cut_depth": 3.1599999999999966,
+        "max_skirt_depth": 2.9000000000000057,
+        "cut_volume_blocks": 3163,
+        "fill_volume_blocks": 5028,
+        "exposed_perimeter_ratio": 0.6710526315789473
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1920,
+      "cz": -3712,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.77,
+        "max_h": 72.33,
+        "mean_h": 67.25215419501134,
+        "median_h": 66.99,
+        "std_h": 2.6390197166105582,
+        "delta_h": 10.559999999999995
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 5.329999999999998,
+        "max_skirt_depth": 5.229999999999997,
+        "cut_volume_blocks": 8550,
+        "fill_volume_blocks": 6771,
+        "exposed_perimeter_ratio": 0.5592105263157895
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 1920,
+      "cz": 2944,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.45,
+        "max_h": 66.13,
+        "mean_h": 63.30707482993197,
+        "median_h": 63.09,
+        "std_h": 1.1888351799570154,
+        "delta_h": 5.679999999999993
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 3.1299999999999955,
+        "max_skirt_depth": 2.549999999999997,
+        "cut_volume_blocks": 4752,
+        "fill_volume_blocks": 2585,
+        "exposed_perimeter_ratio": 0.5
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2176,
+      "cz": -3712,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9506172839506173
+      },
+      "elevation_stats": {
+        "min_h": 57.33,
+        "max_h": 67.54,
+        "mean_h": 63.350907029478456,
+        "median_h": 63.01,
+        "std_h": 2.18385533417582,
+        "delta_h": 10.210000000000008
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 4.540000000000006,
+        "max_skirt_depth": 5.670000000000002,
+        "cut_volume_blocks": 7274,
+        "fill_volume_blocks": 4798,
+        "exposed_perimeter_ratio": 0.45394736842105265
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2176,
+      "cz": -3456,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.7,
+        "max_h": 70.69,
+        "mean_h": 66.0712925170068,
+        "median_h": 65.95,
+        "std_h": 1.8204043577032307,
+        "delta_h": 8.989999999999995
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 4.689999999999998,
+        "max_skirt_depth": 4.299999999999997,
+        "cut_volume_blocks": 5168,
+        "fill_volume_blocks": 4665,
+        "exposed_perimeter_ratio": 0.5394736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2176,
+      "cz": -2432,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 58.35,
+        "max_h": 67.68,
+        "mean_h": 62.54954648526077,
+        "median_h": 63.05,
+        "std_h": 1.9495510904278261,
+        "delta_h": 9.330000000000005
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 4.680000000000007,
+        "max_skirt_depth": 4.649999999999999,
+        "cut_volume_blocks": 4003,
+        "fill_volume_blocks": 7181,
+        "exposed_perimeter_ratio": 0.34868421052631576
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2432,
+      "cz": 2944,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.6419753086419753
+      },
+      "elevation_stats": {
+        "min_h": 60.08,
+        "max_h": 69.36,
+        "mean_h": 64.18727891156462,
+        "median_h": 63.87,
+        "std_h": 2.2507167589483714,
+        "delta_h": 9.280000000000001
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 5.359999999999999,
+        "max_skirt_depth": 3.9200000000000017,
+        "cut_volume_blocks": 7178,
+        "fill_volume_blocks": 5856,
+        "exposed_perimeter_ratio": 0.4473684210526316
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2688,
+      "cz": 1664,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8641975308641975
+      },
+      "elevation_stats": {
+        "min_h": 65.03,
+        "max_h": 70.82,
+        "mean_h": 68.07349206349207,
+        "median_h": 68.18,
+        "std_h": 1.335469396294956,
+        "delta_h": 5.789999999999992
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 2.819999999999993,
+        "max_skirt_depth": 2.969999999999999,
+        "cut_volume_blocks": 4174,
+        "fill_volume_blocks": 3655,
+        "exposed_perimeter_ratio": 0.4276315789473684
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2688,
+      "cz": 2688,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8024691358024691
+      },
+      "elevation_stats": {
+        "min_h": 59.64,
+        "max_h": 65.31,
+        "mean_h": 62.066258503401365,
+        "median_h": 62.05,
+        "std_h": 1.2693485094297037,
+        "delta_h": 5.670000000000002
+      },
+      "chosen_anchor_y0": 62,
+      "terrain_correction": {
+        "max_cut_depth": 3.3100000000000023,
+        "max_skirt_depth": 2.3599999999999994,
+        "cut_volume_blocks": 3977,
+        "fill_volume_blocks": 3510,
+        "exposed_perimeter_ratio": 0.19078947368421054
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2688,
+      "cz": 2944,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.654320987654321
+      },
+      "elevation_stats": {
+        "min_h": 63.71,
+        "max_h": 69.36,
+        "mean_h": 66.15702947845806,
+        "median_h": 66.01,
+        "std_h": 1.2347552096275798,
+        "delta_h": 5.649999999999999
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 3.3599999999999994,
+        "max_skirt_depth": 2.289999999999999,
+        "cut_volume_blocks": 3963,
+        "fill_volume_blocks": 2855,
+        "exposed_perimeter_ratio": 0.47368421052631576
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2944,
+      "cz": -2432,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.4567901234567901
+      },
+      "elevation_stats": {
+        "min_h": 60.89,
+        "max_h": 68.22,
+        "mean_h": 64.27079365079365,
+        "median_h": 64.51,
+        "std_h": 1.627646229970448,
+        "delta_h": 7.329999999999998
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 4.219999999999999,
+        "max_skirt_depth": 3.1099999999999994,
+        "cut_volume_blocks": 5946,
+        "fill_volume_blocks": 4035,
+        "exposed_perimeter_ratio": 0.40789473684210525
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2944,
+      "cz": -128,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.8,
+        "max_h": 69.18,
+        "mean_h": 64.61210884353741,
+        "median_h": 64.08,
+        "std_h": 1.6137919871291484,
+        "delta_h": 7.38000000000001
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 4.180000000000007,
+        "max_skirt_depth": 3.200000000000003,
+        "cut_volume_blocks": 3701,
+        "fill_volume_blocks": 6438,
+        "exposed_perimeter_ratio": 0.5263157894736842
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2944,
+      "cz": 1152,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.6172839506172839
+      },
+      "elevation_stats": {
+        "min_h": 65.54,
+        "max_h": 74.01,
+        "mean_h": 70.73566893424037,
+        "median_h": 70.7,
+        "std_h": 1.822736242485412,
+        "delta_h": 8.469999999999999
+      },
+      "chosen_anchor_y0": 71,
+      "terrain_correction": {
+        "max_cut_depth": 3.010000000000005,
+        "max_skirt_depth": 5.459999999999994,
+        "cut_volume_blocks": 4140,
+        "fill_volume_blocks": 6005,
+        "exposed_perimeter_ratio": 0.7171052631578947
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2944,
+      "cz": 2432,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9876543209876543
+      },
+      "elevation_stats": {
+        "min_h": 61.17,
+        "max_h": 69.46,
+        "mean_h": 65.40859410430839,
+        "median_h": 65.69,
+        "std_h": 1.7446381274616534,
+        "delta_h": 8.289999999999992
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 4.459999999999994,
+        "max_skirt_depth": 3.8299999999999983,
+        "cut_volume_blocks": 6588,
+        "fill_volume_blocks": 3704,
+        "exposed_perimeter_ratio": 0.20394736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 2944,
+      "cz": 3456,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5555555555555556
+      },
+      "elevation_stats": {
+        "min_h": 64.67,
+        "max_h": 70.25,
+        "mean_h": 67.85065759637187,
+        "median_h": 67.98,
+        "std_h": 1.2701082044509924,
+        "delta_h": 5.579999999999998
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 2.25,
+        "max_skirt_depth": 3.3299999999999983,
+        "cut_volume_blocks": 3089,
+        "fill_volume_blocks": 4143,
+        "exposed_perimeter_ratio": 0.7697368421052632
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 3200,
+      "cz": 1408,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 59.59,
+        "max_h": 68.28,
+        "mean_h": 63.030634920634924,
+        "median_h": 62.47,
+        "std_h": 1.9894047140162718,
+        "delta_h": 8.689999999999998
+      },
+      "chosen_anchor_y0": 63,
+      "terrain_correction": {
+        "max_cut_depth": 5.280000000000001,
+        "max_skirt_depth": 3.4099999999999966,
+        "cut_volume_blocks": 5827,
+        "fill_volume_blocks": 5611,
+        "exposed_perimeter_ratio": 0.5328947368421053
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 3200,
+      "cz": 3456,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8641975308641975
+      },
+      "elevation_stats": {
+        "min_h": 62.01,
+        "max_h": 68.41,
+        "mean_h": 65.18848072562359,
+        "median_h": 65.06,
+        "std_h": 1.4304123710370378,
+        "delta_h": 6.399999999999999
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 3.4099999999999966,
+        "max_skirt_depth": 2.990000000000002,
+        "cut_volume_blocks": 4746,
+        "fill_volume_blocks": 3416,
+        "exposed_perimeter_ratio": 0.6381578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 3456,
+      "cz": -1408,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 65.01,
+        "max_h": 72.48,
+        "mean_h": 68.97387755102041,
+        "median_h": 69.18,
+        "std_h": 2.1537247540184903,
+        "delta_h": 7.469999999999999
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 3.480000000000004,
+        "max_skirt_depth": 3.989999999999995,
+        "cut_volume_blocks": 6641,
+        "fill_volume_blocks": 6825,
+        "exposed_perimeter_ratio": 0.39473684210526316
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 3456,
+      "cz": 3712,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.01,
+        "max_h": 67.92,
+        "mean_h": 63.99514739229025,
+        "median_h": 63.96,
+        "std_h": 2.0094918838693374,
+        "delta_h": 7.910000000000004
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 3.9200000000000017,
+        "max_skirt_depth": 3.990000000000002,
+        "cut_volume_blocks": 5697,
+        "fill_volume_blocks": 5731,
+        "exposed_perimeter_ratio": 0.3223684210526316
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": 3712,
+      "cz": -1408,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.691358024691358
+      },
+      "elevation_stats": {
+        "min_h": 62.04,
+        "max_h": 69.34,
+        "mean_h": 65.31183673469387,
+        "median_h": 65.36,
+        "std_h": 1.8623218460168738,
+        "delta_h": 7.300000000000004
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 4.340000000000003,
+        "max_skirt_depth": 2.960000000000001,
+        "cut_volume_blocks": 6838,
+        "fill_volume_blocks": 4637,
+        "exposed_perimeter_ratio": 0.3355263157894737
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3712,
+      "cz": -3200,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5802469135802469
+      },
+      "elevation_stats": {
+        "min_h": 64.03,
+        "max_h": 72.58,
+        "mean_h": 68.60709750566895,
+        "median_h": 68.26,
+        "std_h": 2.186185178452085,
+        "delta_h": 8.549999999999997
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 3.5799999999999983,
+        "max_skirt_depth": 4.969999999999999,
+        "cut_volume_blocks": 5456,
+        "fill_volume_blocks": 8228,
+        "exposed_perimeter_ratio": 0.6644736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3712,
+      "cz": -2944,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.6172839506172839
+      },
+      "elevation_stats": {
+        "min_h": 62.38,
+        "max_h": 67.08,
+        "mean_h": 63.99208616780046,
+        "median_h": 63.99,
+        "std_h": 0.7679109700227184,
+        "delta_h": 4.699999999999996
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 3.0799999999999983,
+        "max_skirt_depth": 1.6199999999999974,
+        "cut_volume_blocks": 2162,
+        "fill_volume_blocks": 2218,
+        "exposed_perimeter_ratio": 0.375
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3712,
+      "cz": 3712,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 62.61,
+        "max_h": 69.28,
+        "mean_h": 65.87358276643991,
+        "median_h": 65.79,
+        "std_h": 1.630029658501391,
+        "delta_h": 6.670000000000002
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 3.280000000000001,
+        "max_skirt_depth": 3.3900000000000006,
+        "cut_volume_blocks": 4677,
+        "fill_volume_blocks": 5569,
+        "exposed_perimeter_ratio": 0.5460526315789473
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3456,
+      "cz": 2176,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5308641975308642
+      },
+      "elevation_stats": {
+        "min_h": 62.24,
+        "max_h": 71.03,
+        "mean_h": 66.52369614512472,
+        "median_h": 66.33,
+        "std_h": 1.9698419399069644,
+        "delta_h": 8.79
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 4.030000000000001,
+        "max_skirt_depth": 4.759999999999998,
+        "cut_volume_blocks": 4272,
+        "fill_volume_blocks": 7632,
+        "exposed_perimeter_ratio": 0.6381578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -3456,
+      "cz": 3456,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 63.66,
+        "max_h": 68.58,
+        "mean_h": 66.0702947845805,
+        "median_h": 66.12,
+        "std_h": 1.0157307632423247,
+        "delta_h": 4.920000000000002
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 2.5799999999999983,
+        "max_skirt_depth": 2.3400000000000034,
+        "cut_volume_blocks": 3036,
+        "fill_volume_blocks": 2540,
+        "exposed_perimeter_ratio": 0.6052631578947368
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2432,
+      "cz": 3712,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 60.99,
+        "max_h": 70.95,
+        "mean_h": 66.2719954648526,
+        "median_h": 65.73,
+        "std_h": 2.0314285959809175,
+        "delta_h": 9.96
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 4.950000000000003,
+        "max_skirt_depth": 5.009999999999998,
+        "cut_volume_blocks": 6625,
+        "fill_volume_blocks": 4706,
+        "exposed_perimeter_ratio": 0.6118421052631579
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2176,
+      "cz": 1408,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7407407407407407
+      },
+      "elevation_stats": {
+        "min_h": 64.07,
+        "max_h": 70.26,
+        "mean_h": 67.2279365079365,
+        "median_h": 67.17,
+        "std_h": 1.4257642436631803,
+        "delta_h": 6.190000000000012
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 3.260000000000005,
+        "max_skirt_depth": 2.930000000000007,
+        "cut_volume_blocks": 5034,
+        "fill_volume_blocks": 3425,
+        "exposed_perimeter_ratio": 0.28289473684210525
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2176,
+      "cz": 3456,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 62.14,
+        "max_h": 69.29,
+        "mean_h": 66.3947619047619,
+        "median_h": 66.65,
+        "std_h": 1.5292118521934386,
+        "delta_h": 7.150000000000006
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 3.2900000000000063,
+        "max_skirt_depth": 3.8599999999999994,
+        "cut_volume_blocks": 5984,
+        "fill_volume_blocks": 3199,
+        "exposed_perimeter_ratio": 0.4144736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2176,
+      "cz": 3712,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.37,
+        "max_h": 67.65,
+        "mean_h": 64.94780045351473,
+        "median_h": 65.47,
+        "std_h": 1.8195388058104542,
+        "delta_h": 6.280000000000008
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 2.6500000000000057,
+        "max_skirt_depth": 3.6300000000000026,
+        "cut_volume_blocks": 5487,
+        "fill_volume_blocks": 5855,
+        "exposed_perimeter_ratio": 0.4144736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -2176,
+      "cz": 3968,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 59.91,
+        "max_h": 67.75,
+        "mean_h": 63.8291156462585,
+        "median_h": 64.06,
+        "std_h": 2.0994034111554334,
+        "delta_h": 7.840000000000003
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 3.75,
+        "max_skirt_depth": 4.090000000000003,
+        "cut_volume_blocks": 5659,
+        "fill_volume_blocks": 6865,
+        "exposed_perimeter_ratio": 0.4605263157894737
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1920,
+      "cz": -384,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.8641975308641975
+      },
+      "elevation_stats": {
+        "min_h": 59.69,
+        "max_h": 66.53,
+        "mean_h": 64.83399092970522,
+        "median_h": 65.14,
+        "std_h": 1.1870686240841666,
+        "delta_h": 6.840000000000003
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 1.5300000000000011,
+        "max_skirt_depth": 5.310000000000002,
+        "cut_volume_blocks": 2401,
+        "fill_volume_blocks": 3573,
+        "exposed_perimeter_ratio": 0.5723684210526315
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1920,
+      "cz": 640,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7654320987654321
+      },
+      "elevation_stats": {
+        "min_h": 65.59,
+        "max_h": 71.92,
+        "mean_h": 69.35995464852608,
+        "median_h": 69.34,
+        "std_h": 1.4502555870550933,
+        "delta_h": 6.329999999999998
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 2.9200000000000017,
+        "max_skirt_depth": 3.4099999999999966,
+        "cut_volume_blocks": 5788,
+        "fill_volume_blocks": 3248,
+        "exposed_perimeter_ratio": 0.4605263157894737
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1920,
+      "cz": 3712,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7777777777777778
+      },
+      "elevation_stats": {
+        "min_h": 61.42,
+        "max_h": 67.15,
+        "mean_h": 64.63537414965987,
+        "median_h": 64.67,
+        "std_h": 1.366008770855022,
+        "delta_h": 5.730000000000004
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 2.1500000000000057,
+        "max_skirt_depth": 3.5799999999999983,
+        "cut_volume_blocks": 2830,
+        "fill_volume_blocks": 5403,
+        "exposed_perimeter_ratio": 0.618421052631579
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1920,
+      "cz": 3968,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 62.0,
+        "max_h": 71.47,
+        "mean_h": 66.78181405895691,
+        "median_h": 66.99,
+        "std_h": 2.0738621439679394,
+        "delta_h": 9.469999999999999
+      },
+      "chosen_anchor_y0": 67,
+      "terrain_correction": {
+        "max_cut_depth": 4.469999999999999,
+        "max_skirt_depth": 5.0,
+        "cut_volume_blocks": 5401,
+        "fill_volume_blocks": 6941,
+        "exposed_perimeter_ratio": 0.5
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1664,
+      "cz": -2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.9629629629629629
+      },
+      "elevation_stats": {
+        "min_h": 59.8,
+        "max_h": 70.52,
+        "mean_h": 64.51358276643991,
+        "median_h": 64.32,
+        "std_h": 2.366889967059219,
+        "delta_h": 10.719999999999999
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 5.519999999999996,
+        "max_skirt_depth": 5.200000000000003,
+        "cut_volume_blocks": 5063,
+        "fill_volume_blocks": 8496,
+        "exposed_perimeter_ratio": 0.506578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1408,
+      "cz": 2432,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7777777777777778
+      },
+      "elevation_stats": {
+        "min_h": 60.44,
+        "max_h": 70.06,
+        "mean_h": 65.77297052154195,
+        "median_h": 65.81,
+        "std_h": 2.8053782201896937,
+        "delta_h": 9.620000000000005
+      },
+      "chosen_anchor_y0": 66,
+      "terrain_correction": {
+        "max_cut_depth": 4.060000000000002,
+        "max_skirt_depth": 5.560000000000002,
+        "cut_volume_blocks": 8066,
+        "fill_volume_blocks": 9668,
+        "exposed_perimeter_ratio": 0.5263157894736842
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1152,
+      "cz": -2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 61.42,
+        "max_h": 67.94,
+        "mean_h": 63.53047619047619,
+        "median_h": 63.22,
+        "std_h": 1.1817627787784328,
+        "delta_h": 6.519999999999996
+      },
+      "chosen_anchor_y0": 64,
+      "terrain_correction": {
+        "max_cut_depth": 3.9399999999999977,
+        "max_skirt_depth": 2.5799999999999983,
+        "cut_volume_blocks": 2043,
+        "fill_volume_blocks": 5356,
+        "exposed_perimeter_ratio": 0.6973684210526315
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -1152,
+      "cz": -1408,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5925925925925926
+      },
+      "elevation_stats": {
+        "min_h": 66.81,
+        "max_h": 73.35,
+        "mean_h": 70.43063492063493,
+        "median_h": 70.22,
+        "std_h": 1.3555193482395413,
+        "delta_h": 6.539999999999992
+      },
+      "chosen_anchor_y0": 70,
+      "terrain_correction": {
+        "max_cut_depth": 3.3499999999999943,
+        "max_skirt_depth": 3.1899999999999977,
+        "cut_volume_blocks": 5543,
+        "fill_volume_blocks": 2504,
+        "exposed_perimeter_ratio": 0.7960526315789473
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -896,
+      "cz": -2176,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 59.26,
+        "max_h": 64.94,
+        "mean_h": 62.31836734693878,
+        "median_h": 62.64,
+        "std_h": 1.678557463291988,
+        "delta_h": 5.68
+      },
+      "chosen_anchor_y0": 62,
+      "terrain_correction": {
+        "max_cut_depth": 2.9399999999999977,
+        "max_skirt_depth": 2.740000000000002,
+        "cut_volume_blocks": 6563,
+        "fill_volume_blocks": 4317,
+        "exposed_perimeter_ratio": 0.2894736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": true,
+        "has_cave_collision": true
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -896,
+      "cz": -1152,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.5802469135802469
+      },
+      "elevation_stats": {
+        "min_h": 65.07,
+        "max_h": 73.11,
+        "mean_h": 69.92689342403628,
+        "median_h": 70.17,
+        "std_h": 1.9592692908771994,
+        "delta_h": 8.040000000000006
+      },
+      "chosen_anchor_y0": 70,
+      "terrain_correction": {
+        "max_cut_depth": 3.1099999999999994,
+        "max_skirt_depth": 4.930000000000007,
+        "cut_volume_blocks": 5509,
+        "fill_volume_blocks": 6025,
+        "exposed_perimeter_ratio": 0.7236842105263158
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -896,
+      "cz": 128,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": true,
+        "perimeter_100_percent": true,
+        "full_footprint_100_percent": true,
+        "coverage_ratio": 1.0
+      },
+      "elevation_stats": {
+        "min_h": 65.22,
+        "max_h": 73.08,
+        "mean_h": 69.07383219954647,
+        "median_h": 68.83,
+        "std_h": 1.9568530799163628,
+        "delta_h": 7.859999999999999
+      },
+      "chosen_anchor_y0": 69,
+      "terrain_correction": {
+        "max_cut_depth": 4.079999999999998,
+        "max_skirt_depth": 3.780000000000001,
+        "cut_volume_blocks": 5792,
+        "fill_volume_blocks": 5272,
+        "exposed_perimeter_ratio": 0.5131578947368421
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": true,
+        "hypothetical_3_moderate_12": true,
+        "hypothetical_4_permissive_16": true,
+        "hypothetical_5_unconstrained": true
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -640,
+      "cz": -3968,
+      "orientation": "WEST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.7407407407407407
+      },
+      "elevation_stats": {
+        "min_h": 64.51,
+        "max_h": 71.28,
+        "mean_h": 67.64319727891157,
+        "median_h": 67.49,
+        "std_h": 1.5402208457224689,
+        "delta_h": 6.769999999999996
+      },
+      "chosen_anchor_y0": 68,
+      "terrain_correction": {
+        "max_cut_depth": 3.280000000000001,
+        "max_skirt_depth": 3.489999999999995,
+        "cut_volume_blocks": 3315,
+        "fill_volume_blocks": 5833,
+        "exposed_perimeter_ratio": 0.6644736842105263
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    },
+    {
+      "eligible": true,
+      "cx": -640,
+      "cz": -3712,
+      "orientation": "EAST",
+      "biome_metrics": {
+        "center_only": true,
+        "center_and_4_corners": false,
+        "perimeter_100_percent": false,
+        "full_footprint_100_percent": false,
+        "coverage_ratio": 0.6666666666666666
+      },
+      "elevation_stats": {
+        "min_h": 61.79,
+        "max_h": 70.0,
+        "mean_h": 65.16063492063492,
+        "median_h": 64.97,
+        "std_h": 1.8289129283183818,
+        "delta_h": 8.21
+      },
+      "chosen_anchor_y0": 65,
+      "terrain_correction": {
+        "max_cut_depth": 5.0,
+        "max_skirt_depth": 3.210000000000001,
+        "cut_volume_blocks": 5784,
+        "fill_volume_blocks": 4651,
+        "exposed_perimeter_ratio": 0.3355263157894737
+      },
+      "underground_risks": {
+        "aquifer_risk": false,
+        "has_cave_collision": false
+      },
+      "hypothetical_scenario_acceptance": {
+        "hypothetical_1_strict_4": false,
+        "hypothetical_2_conservative_8": false,
+        "hypothetical_3_moderate_12": false,
+        "hypothetical_4_permissive_16": false,
+        "hypothetical_5_unconstrained": false
+      }
+    }
+  ]
+}

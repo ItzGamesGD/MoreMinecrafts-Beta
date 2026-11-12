@@ -1,0 +1,155 @@
+# Drive mirror: test evidence (updated 2026-11-10, post-audit remediation)
+
+This supersedes the first version of this file. Validation types are kept apart on purpose.
+**Emulator success is never evidence of live Google Drive behaviour.**
+
+## Verdicts
+
+| Validation type | Verdict | Basis |
+|---|---|---|
+| Static validation | **PASS** | `pyflakes tools/drive_mirror` clean; `actionlint .github/workflows/drive-mirror.yml` clean; all 4 third-party actions pinned to 40-hex commit SHAs (checked by script); no gitleaks finding and no e-mail address in any added file |
+| Unit / scenario tests (Drive API emulator) | **PASS** | 29 / 29, run from a fresh checkout of commit `c785a8df` (below) |
+| Whole-repository emulator run | **PASS** | frozen copy of the live remote (136 heads, 259 PR heads): §3 |
+| Project tests for the CI remediation branch | **PASS** (before/after) | JUnit 594 / 0 failures; `runGameTest` 551 / 551 on the fix; clean control reproduces the CI failure: `docs/audit/REPO-STATE-20261110/evidence/colosseum_gametest_verification.md` |
+| Live GitHub verification | **DONE** (read-only) | §4 |
+| Live Google Drive verification | **BLOCKED** | no credentials, connector or destination. `drive_mirror preflight` → `{"result":"BLOCKED","reason":"no Drive credentials configured"}`, exit 4; unauthenticated `GET https://www.googleapis.com/drive/v3/about` → HTTP 401. **Not run.** |
+| Live sync, controlled live test, workflow execution | **NOT RUN** | `DRIVE_MIRROR_ENABLED` is unset; the workflow is not on `main`. Both jobs were skipped when the branch was pushed (observed on GitHub) |
+
+## Commits
+
+| Purpose | SHA |
+|---|---|
+| Baseline reported by the first audit (verified: ancestor chain, 0 files outside audit/mirror scope) | `a98961eb` (docs), `280b0007` (mirror), both on `claude/moreminecrafts-beta-audit-mirror-7id36x` |
+| 1. Audit and documentation corrections | `53303a32` |
+| 2. Mirror completeness (+ gate engine) | `cde833c4` |
+| 3. Security and workflow hardening | `dcfc261a` |
+| 4a. Tests | `c785a8df` (the suite below ran on this commit) |
+| 4b. Test evidence | the commit that adds this file |
+| Remediation branch (not merged, no PR) | `remediation/st01-colosseum-clock-seam-20261110` @ `f2c0a6c8` |
+
+## 1. Static validation
+
+```
+python3 -m pyflakes tools/drive_mirror                       → no output
+actionlint .github/workflows/drive-mirror.yml                → no output
+gitleaks dir tools docs/audit docs/CURRENT_STATE.json .github/workflows/drive-mirror.yml README.md → "no leaks found"
+```
+
+## 2. Scenario suite (emulator)
+
+```
+GITLEAKS_BIN=<gitleaks 8.30.1> PYTHONPATH=tools python3 -W error::ResourceWarning -m unittest discover -s tools/drive_mirror/tests -v
+→ Ran 29 tests in 147.2 s — OK   (ResourceWarnings promoted to errors; none skipped)
+```
+
+13 original scenarios (all pass after the engine changes; the retry test was repeated 6× after its fix: 6/6) and 16 new:
+
+| Required check | Test |
+|---|---|
+| 1. PR-only ref discovery and mirroring (default scope) | `test_pr_only_refs_are_in_default_scope_with_exact_manifests_and_isolated_namespaces`, `test_pr_metadata_is_recorded_in_pr_manifest` |
+| 2. PR-only ref disappearance | `test_pr_ref_disappearance_distinguishes_inaccessible_from_deleted`, `test_branch_probe_failure_is_inaccessible_not_deleted`, `test_pr_namespace_is_sticky_when_a_branch_later_contains_the_head` |
+| 3. Exact ref-to-manifest mapping | same first test (6 namespaces, 3 kinds, commit sha vs `ls-remote`), `test_verifier_detects_manifest_ref_mismatch_and_orphan_manifest` |
+| 4. Branch / PR namespace isolation | first test: branch `pull/7/head` and `refs/pull/7/head` coexist with different content |
+| 5. Documentation index reproducibility | `test_lineage_and_current_state_are_reproducible` (inventory equal except timestamp; lineage and CURRENT_STATE byte-identical) |
+| 6. Security gate | `test_gate_blocks_unreviewed_and_proposed_and_quarantines_only_affected_tips`, `test_gate_passes_only_for_approved_status`, `test_gate_fails_closed_on_unreadable_or_malformed_input`, `test_quarantined_refs_are_not_uploaded_and_never_silent`, `test_content_uploaded_before_the_gate_fired_is_reported`, `test_real_gitleaks_report_end_to_end` (the planted secret value is asserted absent from every output) |
+| 7. Full repository emulator synchronization | §3 |
+| 8. Independent checksum verification | `verify` (server SHA-256 + size; deep re-download re-hashing) in `test_full_lifecycle`, `test_drift_detected_and_reconciled`, §3 |
+| 9. Idempotent repeat synchronization | `test_full_lifecycle` (identical Drive snapshot), §3 (0 items changed) |
+| 10. Interrupted-run recovery | `test_interrupted_sync_recovers` (SIGKILL mid-run), `test_transient_errors_and_rate_limits_are_retried`, `test_lost_response_on_resumable_put_does_not_duplicate_or_fail` |
+| New behaviour | `test_incremental_run_upgrades_itself_to_reconcile_from_persisted_state`, `test_scoped_verify_reads_far_less_and_full_verify_still_catches_drift` |
+
+Defects found by this testing and fixed: a duplicated CLI option that broke every invocation (caught by the first run); a resumable-upload
+retry that surfaced `409 fileIdInUse` (appeared as one flaky failure in the full suite, then reproduced deterministically with a new emulator fault).
+
+## 3. Whole-repository run (emulator, frozen remote)
+
+Source: `tests/full_repo_emulator.py` on a frozen local copy of `https://github.com/ItzGamesGD/MoreMinecrafts-Beta` taken 2026-11-10T20:36Z
+(136 heads, 259 PR heads), after the security gate (2 refs quarantined). Raw summary: `docs/audit/REPO-STATE-20261110/evidence/full_repo_emulator_summary.json`.
+
+| Step | Exit | Result |
+|---|---|---|
+| initial sync | 0 | 186 namespaces: 184 complete, 2 quarantined; 136 branch and 50 PR-only namespaces; 5,242 uploads (437 MB), 281,208 copies, 43,615 folders |
+| verify, deep sample 500 | 0 | **PASS**; 286,450 / 286,450 files (14.60 GB) matched by size and server SHA-256; 500 / 500 downloads matched their git blob ids |
+| sync again | 0 | 184 no-ops, **0** items changed, 3 writes (lease, state) |
+| sync `--mode reconcile` | 0 | full crawl, **0** items changed |
+| verify | 0 | **PASS**, 286,450 files |
+
+An earlier run against the *live* remote reported `namespace_missing` for a branch created while it ran, then synced it in the next step.
+That is the verifier working, and the run is not used as idempotency evidence. Another attempt was discarded because my freeze script mis-mapped PR refs
+(0 PR heads); it is not used either.
+
+## 4. Live GitHub verification (read-only)
+
+Performed against the real repository on 2026-11-10: `git ls-remote` and full fetch of all heads and `refs/pull/*/head`; REST API for PRs
+(259), Actions workflows and runs per branch head, job logs for 17 failing heads and for the three secret-scan runs; pinned gitleaks 8.30.1 over
+2,008 commits; `git merge-tree` of PR #245 and #254; ancestry computations for every branch and PR. No write to GitHub other than pushing
+this audit branch and the remediation branch (no PR, no merge, no comment).
+
+## 5. Not verified
+
+Real Google Drive (quotas, rate limits, error codes, checksum availability, search consistency); the workflow on a runner; live (in-game) behaviour of
+the Colosseum change; the cause of the royal_tomb_flow follower-west GameTest failure on #251/#252.
+
+## 6. Deployment-readiness verification (2026-11-11)
+
+Branch `claude/moreminecrafts-mirror-readiness-20261111`, created from the verified baseline `6d4beed1`. Emulator and static evidence only: **live Google Drive: NOT TESTED**.
+
+| Check | Result | Basis |
+|---|---|---|
+| Baseline re-run without gitleaks (`6d4beed1`) | 29 run, 28 passed, 0 failed, **1 skipped** | `test_real_gitleaks_report_end_to_end` needs `GITLEAKS_BIN`; this was the gap in the earlier "29/29" claim |
+| gitleaks binary | **verified** | v8.30.1 `linux_x64` archive from the gitleaks GitHub release, SHA-256 `551f6fc8…2470eb` = the release's `checksums.txt` = both workflow pins; `gitleaks version` → `8.30.1` |
+| `test_real_gitleaks_report_end_to_end` with `GITLEAKS_BIN` | **passed, not skipped** | also in the full run below |
+| Full suite on the final code (commit `f69378d`; Python and workflow identical to `7871afc`, later commits touch documentation only) | **39 run, 39 passed, 0 failed, 0 skipped** | `GITLEAKS_BIN=<8.30.1> PYTHONPATH=tools python3 -W error::ResourceWarning -m unittest discover -s tools/drive_mirror/tests -v` → `Ran 39 tests in 155.6 s — OK` |
+| New tests | 10 (`test_workflow.py`): 9 static checks of the workflow, 1 CLI dry-run check | the verify-after-dry-run check **fails on the previous workflow** (reproduced) |
+| `python3 -m pyflakes tools/drive_mirror` (pyflakes 4.1.0) | clean | |
+| `actionlint .github/workflows/drive-mirror.yml` (1.7.7, archive checksum verified) | clean | |
+| Idempotency and checksums | passed inside the suite (`test_full_lifecycle`, `test_drift_detected_and_reconciled`, `test_interrupted_sync_recovers`, `test_lost_response_on_resumable_put_does_not_duplicate_or_fail`, …) | emulator |
+| Runbook rehearsal | passed | every command form of RUNBOOK Parts 1, 3a, 4–6 run against the emulator on a scratch repository: preflight with write probe PASS; dry run writes nothing; sync, verify (6/6 files), repeat sync `noop`, `reconcile` (`updated`, 0 content writes), `status` PASS; then rename, branch deletion and force-push converge and verify PASS |
+| Diff scope `6d4beed1..HEAD` | `.github/workflows/drive-mirror.yml` and `tools/drive_mirror/` only; no engine (`*.py` other than the new test) change | |
+
+**Defect found and fixed.** The workflow's `Independent verification` step ran after a successful `dry-run`; a dry run writes nothing, so on a never-synced namespace (the documented
+first step of the controlled live test) `verify` fails with `mirror_root` and the run goes red. The step is now skipped for `dry-run`.
+
+**Historical (not re-run): whole-repository emulator run.** The 286,450 / 286,450-file result in §3 comes from the frozen remote copy taken 2026-11-10T20:36Z
+(136 heads, 259 PR heads) with the code of commit `c785a8df`. The Python in `6d4beed1` and in this branch is identical to `c785a8df` (`git diff c785a8df 6d4beed1` touches only `.gitignore` and this file;
+this branch changes no engine file), so the result still describes the engine, but it describes **that snapshot**, not the repository today. It was not re-run: no engine change and no unresolved integrity concern.
+
+**Security.** Finding `cec8bff8` re-examined (structure only, no value printed): reproduced by the scanner on the blob alone (line 23, entropy 3.63); line 23 holds two identifier-style literals; all 9 reconstructed
+paths of the enclosing list exist in the commit's tree. Classified as a demonstrable false positive, **not approved**; `approved_findings.json` is unchanged and still `proposed`; the 2 refs stay quarantined.
+See `security/D-6_APPROVAL_PROPOSAL.md`.
+
+**Workflow still disabled (observed on GitHub).** Pushing this branch (head `60026c6`) started two `Drive mirror` runs (`create`: 42933944522, `push`: 42933944550). Every job
+(`relay`, `mirror`, `not-configured`) concluded `skipped`, so `DRIVE_MIRROR_ENABLED` is not `true`. No secret or variable was read or changed.
+
+
+## 7. Gate/sync race remediation (2026-11-11)
+
+Branch `claude/moreminecrafts-mirror-gate-race-20261111`, from the verified baseline `2da0bb3`. Emulator, static and read-only GitHub evidence: **live Google Drive: NOT TESTED**.
+
+**Negative control (baseline `2da0bb3`, the previous gate/sync flow, real gitleaks 8.30.1).** `prepare` → gitleaks `--all` → `secgate` (PASS, nothing flagged) → push a commit with a token-shaped string and a marker to `main` →
+`sync --quarantine-file`: exit 0 and **the unapproved content reached the (emulated) Drive** (`UNAPPROVED CONTENT UPLOADED: True`). The same sequence is now a regression test (`test_branch_advancing_after_the_gate_is_not_uploaded`)
+and the old behaviour survives only behind `--allow-ungated` (`test_negative_control_the_ungated_flow_uploads_post_gate_content`).
+
+| Check | Result |
+|---|---|
+| Full suite, final code (commit `3dde5b0`; every later commit changes documentation only), `GITLEAKS_BIN=<8.30.1>`, `-W error::ResourceWarning` | **64 run, 64 passed, 0 failed, 0 skipped** in 181.6 s |
+| of which: `test_gate_race` 23 · `test_hardening` 16 · `test_mirror` 13 · `test_workflow` 12 | previous suite: 39 (29 mirror/hardening + 10 workflow) → now 64 (+2 workflow handoff tests, +23 gate-race) |
+| Real-gitleaks regressions | passed: the existing end-to-end gate test, `test_real_gitleaks_race`, `test_real_gitleaks_ignores_cwd_allowlists_and_inline_allow_comments` |
+| `pyflakes tools/drive_mirror` (4.1.0) · `actionlint` (1.7.7) | clean · clean |
+| New tests fail without the fix | verified: workflow handoff tests fail on the baseline workflow; the scan-isolation tests fail on the first handoff commit's `run_scanner` (a cwd `.gitleaksignore` suppressed a finding) |
+| Diff scope `2da0bb3..HEAD` | `.github/workflows/drive-mirror.yml` and `tools/drive_mirror/` only; `approved_findings.json`, `drive.py`, `layout.py`, `lock.py` unchanged |
+
+**Race scenarios (all `test_gate_race.py`; each asserts the exact commit per namespace in the Drive manifests and that neither the marker bytes nor the leaked blob's git object id exist on Drive).**
+1 branch advances after the gate · 2 new branch after the gate · 3 force-push after the gate · 4 branch deleted after the gate (mirrored from the snapshot, then retired next run) and *inaccessible is not deleted* ·
+5 PR-only ref advances after the gate · 6 quarantined commit through another namespace (tag at gate time is quarantined; alias branch and PR head created later are not uploaded; the next gate quarantines them) ·
+7 retry/resume: budget-interrupted and SIGKILLed syncs resumed on the same approval after the source changed; a moved cache fails closed (nothing written); an older approval cannot roll the mirror back ·
+8 reconcile after the source changed restores only approved bytes; quarantined refs stay out across retry and reconcile · 9 missing, malformed, truncated, legacy-v1, tampered (snapshot, quarantine list), re-signed-but-malformed,
+wrong-checksum, replaced, wrong-cache, unbound-scan approvals all exit 7 with Drive untouched; gate refuses a moved cache, an invalid snapshot and a failing scanner · 10 a valid unchanged snapshot syncs, verifies (against the snapshot),
+repeats as `noop` and reconciles with 0 content writes · plus: the scan scope equals exactly the snapshot's commits (never `--all`) and the scan cannot be influenced by cwd, `.gitleaksignore`, inline allow comments or `GITLEAKS_*`.
+
+**Real-size check on the live repository (read-only GitHub, no Drive).** `prepare` (39 s): 141 heads, 0 tags, 263 PR heads, snapshot digest `96909f56…`; `secgate --run-scanner` (13 s, gitleaks 8.30.1, 2,167 commits):
+**12 findings, 11 approved, 1 proposed (`cec8bff8`), 0 unreviewed, 404 refs examined, 2 quarantined** (`probe/st05-p0-probe-01`, `audit/st05-po25-review-package-20261102`), identical to the earlier audit; approval 94 KB.
+`sync --dry-run` from that approval against the emulator: 191 namespaces (141 branches incl. the 2 quarantined + 50 PR-only), **0 Drive writes**, quarantine preserved; the same run with a wrong `--approval-sha256` exits 7.
+(The first attempt reported 10 findings because the scanner inherited a `.gitleaksignore` from its working directory: finding R-8, fixed.)
+
+**Historical, not re-run:** the whole-repository emulator run of §3 (frozen remote 2026-11-10T20:36Z, code `c785a8df`). The per-namespace engine is unchanged; only its input path changed, which the real-size dry run and the suites above cover.

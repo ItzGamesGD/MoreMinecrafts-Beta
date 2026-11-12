@@ -1,0 +1,14 @@
+diff --git a/src/gametest/resources/fabric.mod.json b/src/gametest/resources/fabric.mod.json
+index 525bf801..972aa031 100644
+--- a/src/gametest/resources/fabric.mod.json
++++ b/src/gametest/resources/fabric.mod.json
+@@ -14,7 +14,8 @@
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerCompositeWorldgenProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerAdaptiveProbe",
+-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01C2BProbe"
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01C2BProbe",
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c3a.St01C3AProbe"
+     ],
+     "fabric-gametest": [
+       "dev.itzgamesgd.moreminecrafts.skytower.SkyTowerGameTests",

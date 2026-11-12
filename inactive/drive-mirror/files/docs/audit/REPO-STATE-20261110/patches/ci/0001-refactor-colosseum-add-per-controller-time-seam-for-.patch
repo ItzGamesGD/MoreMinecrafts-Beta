@@ -1,0 +1,97 @@
+From 97acc909ec11e61b3e294d4f65d79fa5543e33cc Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 7 Nov 2026 01:45:21 +0000
+Subject: [PATCH 1/2] refactor(colosseum): add per-controller time seam for
+ tests
+
+ColosseumRuntime.tick still reads ColosseumData.clock (System::currentTimeMillis)
+exactly once per server tick. Each arena now ticks on controller.now(serverNow),
+which returns that same reading unless a test installed a clock on that one
+controller. The override is package-private, not serialised, and absent after
+restore, so production timing, grace and limit semantics are unchanged.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01RCxUCxtAZ1LjMJ8nomSKHP
+(cherry picked from commit 9691d1b50afa7370359cfdb7f4aecdff649cfbd5)
+
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/ArenaController.java b/src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/ArenaController.java
+index 961f8662..cccf3837 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/ArenaController.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/ArenaController.java
+@@ -36,9 +36,16 @@ public final class ArenaController {
+     /** Attempts whose leftover trial mobs must be removed when their chunks load. */
+     final Set<UUID> cleanupAttempts = new LinkedHashSet<>();
+     RoundPlan.Timing timing = RoundPlan.Timing.APPROVED;
++    /** Test seam: a time source owned by this controller alone. Never serialised, so a restored controller always uses the server wall clock. */
++    private java.util.function.LongSupplier clockOverride;
+ 
+     public ArenaController(String arenaId) { this.arenaId = arenaId; }
+ 
++    void useClock(java.util.function.LongSupplier clock) { clockOverride = clock; }
++    java.util.function.LongSupplier clockOverride() { return clockOverride; }
++    /** The time this controller ticks on: the server's wall-clock reading for this tick, unless a test installed its own clock. */
++    long now(long serverNow) { return clockOverride == null ? serverNow : clockOverride.getAsLong(); }
++
+     public void setTiming(RoundPlan.Timing t) { timing = t; if (attempt != null) attempt.setTiming(t); }
+     public ArenaAttempt attempt() { return attempt; }
+     public long cooldownLeft() { return cooldownLeft; }
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/ColosseumRuntime.java b/src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/ColosseumRuntime.java
+index a87ee9ef..22bbaac2 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/ColosseumRuntime.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/colosseum/ColosseumRuntime.java
+@@ -135,9 +135,9 @@ public final class ColosseumRuntime {
+         ColosseumData d = data(server);
+         if (d.sites().isEmpty()) return;
+         long now = ColosseumData.clock.getAsLong();
+-        for(String id:d.sites().keySet()) ArenaRecovery.open(server,d,id,now);
++        for(String id:d.sites().keySet()) ArenaRecovery.open(server,d,id,d.controller(id).now(now));
+         ArenaChunkTickets.update(level,d);
+-        for (ColosseumData.Site site : d.sites().values()) tickSite(level, d, site, now);
++        for (ColosseumData.Site site : d.sites().values()) tickSite(level, d, site, d.controller(site.id()).now(now));
+         ArenaChunkTickets.update(level,d);
+     }
+ 
+diff --git a/src/test/java/dev/itzgamesgd/moreminecrafts/colosseum/ArenaControllerClockTest.java b/src/test/java/dev/itzgamesgd/moreminecrafts/colosseum/ArenaControllerClockTest.java
+new file mode 100644
+index 00000000..880b9e32
+--- /dev/null
++++ b/src/test/java/dev/itzgamesgd/moreminecrafts/colosseum/ArenaControllerClockTest.java
+@@ -0,0 +1,35 @@
++package dev.itzgamesgd.moreminecrafts.colosseum;
++
++import static org.junit.jupiter.api.Assertions.assertEquals;
++import static org.junit.jupiter.api.Assertions.assertNull;
++
++import org.junit.jupiter.api.Test;
++
++/** The per-controller time seam: production ticks on the server reading; an installed clock is private to its controller and never saved. */
++class ArenaControllerClockTest {
++    @Test
++    void productionControllerTicksOnTheServerReading() {
++        ArenaController c = new ArenaController("prod");
++        assertNull(c.clockOverride());
++        assertEquals(123_456L, c.now(123_456L));
++    }
++
++    @Test
++    void installedClockIsPrivateToItsControllerAndIsNeverPersisted() {
++        ArenaController owned = new ArenaController("owned"), other = new ArenaController("other");
++        long[] t = {1_000L};
++        owned.useClock(() -> t[0]);
++        assertEquals(1_000L, owned.now(99L));
++        assertEquals(99L, other.now(99L), "another controller keeps the server reading");
++        t[0] = 2_500L;
++        assertEquals(2_500L, owned.now(99L));
++        assertEquals(99L, other.now(99L));
++
++        ArenaController restored = ArenaController.restore("owned", owned.toJson(), null, 5_000L);
++        assertNull(restored.clockOverride(), "a saved/restored controller falls back to the wall clock");
++        assertEquals(5_000L, restored.now(5_000L));
++
++        owned.useClock(null);
++        assertEquals(77L, owned.now(77L), "releasing the clock restores the server reading");
++    }
++}
+-- 
+2.43.0
+

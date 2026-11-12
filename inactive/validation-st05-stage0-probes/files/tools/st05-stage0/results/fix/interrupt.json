@@ -1,0 +1,14 @@
+{
+  "elapsed_ms": 2407,
+  "phase": "interrupt",
+  "rows": {
+    "resume": {
+      "plan_hash": "81043fb11fc279a514c4340e8f3c1b45cdbbd7238b3019ef9983962c438d7eb3",
+      "writes": 1,
+      "previous_state": "APPLYING",
+      "state": "APPLYING"
+    }
+  },
+  "seed": 20261030,
+  "used_heap_bytes": 328728576
+}

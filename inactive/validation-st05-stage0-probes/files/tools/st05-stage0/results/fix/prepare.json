@@ -1,0 +1,41 @@
+{
+  "elapsed_ms": 3856,
+  "phase": "prepare",
+  "rows": {
+    "all_written": {
+      "plan_hash": "51fa769c7a0f1580327d4665d0bbdd9a42a7038695eede31bc9db7b68d3b69ed",
+      "first_marker": "Block{minecraft:emerald_block}",
+      "second_marker": "Block{minecraft:emerald_block}"
+    },
+    "complete_gap": {
+      "plan_hash": "90e8d9b47b94276040d579431295c0ec3e301d7450decb50f321ac49f933de3f",
+      "first_marker": "Block{minecraft:emerald_block}",
+      "second_marker": "Block{minecraft:air}"
+    },
+    "conflict": {
+      "plan_hash": "54aeae10735497aca7ddd072a0e4842c992515814a00cbff7b1ce38c7436ddc9",
+      "first_marker": "Block{minecraft:emerald_block}",
+      "second_marker": "Block{minecraft:oak_planks}"
+    },
+    "corrupt": {
+      "plan_hash": "cdd5e9e6acbb8e5a6f47bb347a9acbd680a3355e99a507b7d498cfa8bbe5771d",
+      "first_marker": "Block{minecraft:air}",
+      "second_marker": "Block{minecraft:air}"
+    },
+    "erased": {
+      "plan_hash": "ecf6bf61ad9f8f0c8e845d9a1e2f33075318900b00033eba9fc9620e3cd584fb",
+      "first_marker": "Block{minecraft:emerald_block}",
+      "second_marker": "Block{minecraft:air}"
+    },
+    "materialize": {
+      "failure_before_mutation": true
+    },
+    "resume": {
+      "plan_hash": "81043fb11fc279a514c4340e8f3c1b45cdbbd7238b3019ef9983962c438d7eb3",
+      "first_marker": "Block{minecraft:emerald_block}",
+      "second_marker": "Block{minecraft:air}"
+    }
+  },
+  "seed": 20261030,
+  "used_heap_bytes": 349379440
+}

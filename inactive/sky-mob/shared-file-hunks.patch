@@ -1,0 +1,317 @@
+diff --git a/docs/CONTENT_AUTHORITY_INDEX.md b/docs/CONTENT_AUTHORITY_INDEX.md
+index edd131fb..04b8de4a 100644
+--- a/docs/CONTENT_AUTHORITY_INDEX.md
++++ b/docs/CONTENT_AUTHORITY_INDEX.md
+@@ -21,6 +21,12 @@ It does not replace the detailed design documents. When an older document confli
+ 
+ The newest owner-approved Sky Islands ecology, floating ruins, Sky Temple (distinct from the **cancelled ST-02 Sun Temple**), aerial trial tower, flying mobs, Sky Feather and T2 weapon material amendments are recorded in [SKY_ISLANDS_T2_CONTEXT_2026-10-27.md](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md). Later numbered sections in that document supersede earlier provisional descriptions on the same point. In particular, the 2026-10-27 Earth Mace amendment changes the **bottom Netherite Ingot to Etherium Ingot** while retaining the Ancient Heart centre required by the 2026-10-26 [F-2 reconciliation](preservation/PHASE2_AUTHORITY_RECONCILIATION_2026-10-26.md). The later lightning-sword recipe correction in section 17 supersedes section 16. No code, recipe, worldgen or live implementation is implied. The [structure portfolio](STRUCTURE_CANDIDATE_AUTHORITY_2026-10-25.md) preserves ST-02 as a cancelled historical ID.
+ 
++## SKY-MOB celestial normal mobs — Issue #230 registered (2026-11-06, DESIGN ONLY)
++
++The five Sky Realm normal mobs (Cloud Wraith, Skyguard Archer, Crystal Bug, Cloud Slime, Fallen Sentinel; Korean names in the linked record) are governed by **MoreMinecrafts-Beta Issue #230 — SKY-MOB Q01–Q87**, registered in [SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md](design/SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md). They are **added alongside, not instead of**, the nine mobs preserved in [SKY_ISLANDS_T2_CONTEXT_2026-10-27.md](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md) §3/§5 (four new flying/special entities + five vanilla hostile variants), for a total plan of **14** Sky Realm mobs; see that document's §19. The three groups keep separate roles and are not merged. The existing [sky habitat contract](validation/w16-sky-habitat/README.md) is unchanged; the registration document §4 separates sky-island *region* membership from *spawn-surface* judgement. Unresolved conflicts (C2, C4, C5, V1–V6, spawn weights, combo table) are recorded there as owner-decision-pending and are not resolved by this index. No code, NBT, worldgen or live validation is implied.
++
++P1 implementation findings, including approved SKY-MOB-P1-Q01 B handling, are tracked separately in [SKY_MOB_P1_IMPLEMENTATION_AUDIT_2026-11-06.md](design/SKY_MOB_P1_IMPLEMENTATION_AUDIT_2026-11-06.md). That record does not amend Issue #230 or D1–D6; the entry above remains design authority only.
++
+ ## Accessory cooldown lifecycle — approved 2026-10-25
+ 
+ Accessory cooldown lifecycle is governed by the [owner-approved 2026-10-25 decision](ACCESSORY_COOLDOWN_DECISION_2026-10-25.md). It specifies remaining online server ticks per player and ability type, including persistence through death, reconnect and restart. The same record holds the approved Deep Sea Pearl motionless definition (no horizontal movement input), the Ring of Life re-arm rule (a ring that is still armed may activate once when its cooldown expires while health remains low; after activation it re-arms only above 25%) and the Ember Ring first-hit exclusion; it does not finalize other ability mechanics.
+diff --git a/docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md b/docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md
+index 4ef30f71..43a95a90 100644
+--- a/docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md
++++ b/docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md
+@@ -125,9 +125,9 @@
+ 4. **부유 해파리** — 반투명 몸체와 촉수, 공중에서 느리게 부유. 중립형으로 먼저 공격하지 않고 공격받으면 접촉 반격. 하늘섬에서 **드물게** 자연 발견, 보스/특별 보상용이 아님. **천공의 깃털을 드롭하지 않음**. 세부 스폰 조건과 일반 드롭은 미정.
+ 
+ ### 제외 및 유보
+-- **신규 지상 몬스터 추가 안 함**: 바닐라 몹과 변종으로 충분.
++- **신규 지상 몬스터 추가 안 함**: 바닐라 몹과 변종으로 충분. **[2026-11-06 AMENDED — 이 줄과 아래 '추가 9종' 표현은 천계 일반 몹 5종 추가로 보완됨. §19 및 `SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md` 참조. 기존 9종은 그대로 보존.]**
+ - 다른 신규 비행 몬스터 2종도 **억지로 채우지 않음**. 부유 해파리 이외 제안된 까마귀·나방·가오리·박쥐·딱정벌레·와이번 새끼·비행 해골·포식충·망령 등은 모두 기각.
+-- 최종 구성: **신규 엔티티 4종 + 바닐라 적대 변종 5종 = 추가 9종**. 기존 바닐라 몹은 별도.
++- 최종 구성: **신규 엔티티 4종 + 바닐라 적대 변종 5종 = 추가 9종**. 기존 바닐라 몹은 별도. **[2026-11-06: 이 9종은 보존되며 천계 일반 몹 5종이 별도로 추가되어 총 14종. §19 참조.]**
+ 
+ ## 6. 미정 사항 / 후속 설계
+ 
+@@ -379,3 +379,16 @@
+ - **CODE/LIVE PENDING**: 신규 이더리움 파편·주괴, 돌풍 파편 등록과 조합식, ore/fortune/제련, 코어 loot 경로 변경, 레시피 해금, 무한 내구도 및 Enhancement 공존, 서버·클라이언트/멀티플레이 및 실제 야생 획득. 기존 Stage 19의 전투 구현 CI는 새 제작법 테스트 증거가 아니다.
+ - **HOW 측 검증**: 실제 item ID 및 데이터 컴포넌트, 파편/주괴 네이밍, 보스 구현 의존성, worldgen 1/4 정의, Fortune 정수 처리, shaped 좌우 반전, loot table 주입/확률, Advancement 해금, 무한 내구도·강화 호환.
+ - **SCOPE**: 신규 콘텐츠 아이디어 및 기존 전투 능력 재설계 금지. 설계/감사 결과와 구현 완료를 구분. 모든 설계 마무리 전에는 최종 구현 지시문을 임의 작성하지 않음.
++
++---
++
++## 19. 2026-11-06 추가 확정 — 천계 일반 몹 5종 별도 추가 (SKY-MOB-P0)
++
++> 설계 권위 정합성 기록. **구현 완료를 뜻하지 않는다.**
++
++- 사용자 확정: 위 §3·§5의 **신규 엔티티 4종(하늘의 정령·폭풍의 사냥꾼·천공의 비룡·부유 해파리)과 바닐라 적대 변종 5종은 모두 보존**한다.
++- Issue #230(SKY-MOB Q01–Q87)의 **천계 일반 몹 5종(구름 망령·천궁 사수·수정 벌레·구름 슬라임·타락한 파수병)을 별도로 추가**한다. 기존 9종을 5종으로 대체하지 않으며, 천계 몹 전체 계획은 **총 14종**이다.
++- §5의 "신규 지상 몬스터 추가 안 함"과 "추가 9종" 서술은 이 절로 보완된다. 기존 비행 몹·바닐라 변종·신규 일반 몹의 역할은 서로 통합하지 않는다.
++- 신규 일반 몹 5종의 설계 권위는 [SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md](SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md)가 등록한 Issue #230이다.
++- §8의 시련 생성기 공통 규칙과 Issue #230 Q26/Q27/Q86/Q87의 관계(C2), 흉조 장비 계승과 Q55의 관계(C4) 등 미해결 충돌은 위 문서 §5에 **결정 대기**로 기록되어 있으며 여기서 해결하지 않는다.
++- 기존 habitat 계약(`docs/validation/w16-sky-habitat/README.md`)은 변경되지 않는다.
+diff --git a/src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java b/src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java
+index dd0a019e..4f5f2a5e 100644
+--- a/src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java
++++ b/src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java
+@@ -261,6 +261,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
+                 context -> CustomMobRenderers.phantom(context, "lesser_phantom"));
+         EntityRendererRegistry.register(CustomMobCatalog.CAVE_CREEPER,
+                 context -> CustomMobRenderers.creeper(context, "cave_creeper"));
++        SkyMobRenderers.register();
+     }
+ 
+     private static String formatTenths(int value) { return "%d.%d".formatted(value / 10, Math.abs(value % 10)); }
+diff --git a/src/client/java/dev/itzgamesgd/moreminecrafts/client/VisualValidationHarness.java b/src/client/java/dev/itzgamesgd/moreminecrafts/client/VisualValidationHarness.java
+index 0c62805e..fe972c4a 100644
+--- a/src/client/java/dev/itzgamesgd/moreminecrafts/client/VisualValidationHarness.java
++++ b/src/client/java/dev/itzgamesgd/moreminecrafts/client/VisualValidationHarness.java
+@@ -78,6 +78,11 @@ public final class VisualValidationHarness {
+             }
+         }
+         if (captureFinished) {
++            if ("1".equals(System.getenv("MOREMINECRAFTS_WRAITH_CAPTURE"))
++                    || "1".equals(System.getenv("MOREMINECRAFTS_ARCHER_CAPTURE"))
++                    || "1".equals(System.getenv("MOREMINECRAFTS_CRYSTAL_BUG_CAPTURE"))
++                    || "1".equals(System.getenv("MOREMINECRAFTS_CLOUD_SLIME_CAPTURE"))
++                    || "1".equals(System.getenv("MOREMINECRAFTS_FALLEN_SENTINEL_CAPTURE"))) return;
+             runUiJourney(client);
+             return;
+         }
+diff --git a/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalogGameTests.java b/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalogGameTests.java
+index 42b66479..e1c4bc09 100644
+--- a/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalogGameTests.java
++++ b/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalogGameTests.java
+@@ -91,9 +91,9 @@ public final class ContractCatalogGameTests implements CustomTestMethodInvoker {
+         BuiltInRegistries.ENTITY_TYPE.keySet().forEach(id -> {
+             if (id.getNamespace().equals("moreminecrafts") && !outsideRoster.contains(id.toString())) registered.add(id.toString());
+         });
+-        ctx.assertTrue(registered.size() == 40, "40 registered MM entities, found " + registered.size());
+-        ctx.assertTrue(accounted.size() == 40, "40 accounted, found " + accounted.size());
+-        ctx.assertTrue(accounted.stream().distinct().count() == 40, "no duplicates");
++        ctx.assertTrue(registered.size() == 45, "45 registered MM entities (40 + 5 SKY-MOB P1), found " + registered.size());
++        ctx.assertTrue(accounted.size() == 45, "45 accounted, found " + accounted.size());
++        ctx.assertTrue(accounted.stream().distinct().count() == 45, "no duplicates");
+         ctx.assertTrue(new java.util.HashSet<>(accounted).equals(new java.util.HashSet<>(registered)),
+                 "accounted set equals registry set");
+         ctx.succeed();
+diff --git a/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatGameTests.java b/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatGameTests.java
+index e0cbeee8..c23c8f27 100644
+--- a/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatGameTests.java
++++ b/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatGameTests.java
+@@ -431,8 +431,8 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
+                 .map(BuiltInRegistries.ENTITY_TYPE::getKey)
+                 .filter(k -> k.getNamespace().equals("moreminecrafts")).sorted().toList();
+         System.out.println("QUEST_BESTIARY_AUDIT monster-category MoreMinecrafts types=" + custom.size() + " " + custom);
+-        // 37 audited roster types plus Tomb Guardian and Immortal Gladiator (existing registry-driven bestiary rule).
+-        ctx.assertTrue(custom.size() == 39, "the actual registry contains all 39 Monster-category MoreMinecrafts types: " + custom.size());
++        // 37 audited roster types plus Tomb Guardian and Immortal Gladiator, plus the 5 SKY-MOB P1 types (existing registry-driven bestiary rule).
++        ctx.assertTrue(custom.size() == 44, "the actual registry contains all 44 Monster-category MoreMinecrafts types: " + custom.size());
+         for (String missing : List.of("small_cave_spider", "swamp_cave_spider"))
+             ctx.assertTrue(!BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse("moreminecrafts:" + missing)),
+                     "cave_dwellers lists an id that is not registered: " + missing);
+@@ -536,7 +536,7 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
+                 .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
+                 .sorted(java.util.Comparator.comparing(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).toString()))
+                 .toList();
+-        ctx.assertTrue(monsters.size() == 39, "the live registry supplies all 39 eligible bestiary types");
++        ctx.assertTrue(monsters.size() == 44, "the live registry supplies all 44 eligible bestiary types");
+         for (EntityType<?> type : monsters.subList(0, 25)) setKills(hunter, type, 3);
+         setKills(hunter, monsters.getFirst(), 99);
+         setKills(hunter, mm("cave_bat"), 5);
+@@ -548,12 +548,12 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
+         ctx.assertTrue(state.get(XpQuestTracking.targetStatusKey("xpq.cmb.bestiary_25",
+                         BuiltInRegistries.ENTITY_TYPE.getKey(monsters.getFirst()).toString())) == 1
+                         && state.get(XpQuestTracking.targetStatusKey("xpq.cmb.bestiary_25", "moreminecrafts:cave_bat")) == 0,
+-                "all 39 monster statuses are player-specific and cave_bat remains outside bestiary");
++                "all 44 monster statuses are player-specific and cave_bat remains outside bestiary");
+         var bestiaryRow = ProgressionScreenData.quests(state, "combat").stream()
+                 .filter(row -> row.id().equals("xpq.cmb.bestiary_25")).findFirst().orElseThrow();
+-        ctx.assertTrue(bestiaryRow.groups().size() == 1 && bestiaryRow.groups().getFirst().targets().size() == 39
++        ctx.assertTrue(bestiaryRow.groups().size() == 1 && bestiaryRow.groups().getFirst().targets().size() == 44
+                         && bestiaryRow.groups().getFirst().targets().stream().filter(ProgressionScreenData.QuestTarget::complete).count() == 25,
+-                "the server-produced UI row exposes all 39 species and the player's 25 completed targets");
++                "the server-produced UI row exposes all 44 species and the player's 25 completed targets");
+         var habitatRow = ProgressionScreenData.quests(state, "combat").stream()
+                 .filter(row -> row.id().equals("xpq.cmb.habitats_5")).findFirst().orElseThrow();
+         ctx.assertTrue(habitatRow.groups().size() == 5 && habitatRow.groups().stream()
+diff --git a/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatRestartGameTests.java b/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatRestartGameTests.java
+index 857b35df..ff6aec6e 100644
+--- a/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatRestartGameTests.java
++++ b/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestCombatRestartGameTests.java
+@@ -138,9 +138,9 @@ public final class QuestCombatRestartGameTests implements CustomTestMethodInvoke
+                 .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
+                 .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
+                 .filter(type -> killed(player, type) > 0).count();
+-        ctx.assertTrue(bestiaryUi.groups().getFirst().targets().size() == 39
++        ctx.assertTrue(bestiaryUi.groups().getFirst().targets().size() == 44
+                         && completedTargets == persistedMonsterStats && completedTargets >= 25,
+-                "the restored player's checklist has all 39 entries and matches persisted kills: UI="
++                "the restored player's checklist has all 44 entries and matches persisted kills: UI="
+                         + completedTargets + " stats=" + persistedMonsterStats);
+         ResearchProgressState caveState = QuestCombatGameTests.reconcileCaveDwellersForTest(player);
+         ctx.assertTrue(caveState.questProgress("xpq.cmb.cave_dwellers") == 6
+diff --git a/src/gametest/resources/fabric.mod.json b/src/gametest/resources/fabric.mod.json
+index 558463cf..fb4ef631 100644
+--- a/src/gametest/resources/fabric.mod.json
++++ b/src/gametest/resources/fabric.mod.json
+@@ -28,6 +28,7 @@
+       "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAnimalFeedGameTests",
+       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
+       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
++      "dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobGameTests",
+       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianGameTests",
+       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
+       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalog.java b/src/main/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalog.java
+index dc117f6f..22ec6adc 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalog.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalog.java
+@@ -62,7 +62,10 @@ public final class ContractCatalog {
+             "minecraft:elder_guardian", "minecraft:warden", "minecraft:ghast");
+ 
+     /** MM mobs withheld from generated objectives pending live aggression verification (owner decision 2026-10-23). */
+-    public static final List<String> MM_PENDING_VERIFICATION = List.of("moreminecrafts:wild_piglin");
++    public static final List<String> MM_PENDING_VERIFICATION = List.of("moreminecrafts:wild_piglin",
++            // SKY-MOB P1: registered but withheld from every contract pool until the owner decides their roster tier.
++            "moreminecrafts:cloud_wraith", "moreminecrafts:skyguard_archer", "moreminecrafts:crystal_bug",
++            "moreminecrafts:cloud_slime", "moreminecrafts:fallen_sentinel");
+ 
+     /** Percent chance that a combat objective draws a strong target, by contract shape (owner-approved 2026-10-23). */
+     public static int strongPercent(ContractData.Tier shape) {
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java b/src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java
+index baa8f3f2..56853874 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java
+@@ -22,6 +22,7 @@ public final class ModRegistries {
+ 
+     public static void initialize() {
+         CustomMobCatalog.initialize();
++        dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobs.initialize();
+         dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandHabitat.initialize();
+         dev.itzgamesgd.moreminecrafts.boss.TombGuardianEntities.initialize();
+         ModAlchemy.initialize();
+diff --git a/src/main/resources/assets/moreminecrafts/lang/en_us.json b/src/main/resources/assets/moreminecrafts/lang/en_us.json
+index e8bcc030..cbe77dec 100644
+--- a/src/main/resources/assets/moreminecrafts/lang/en_us.json
++++ b/src/main/resources/assets/moreminecrafts/lang/en_us.json
+@@ -311,6 +311,11 @@
+   "entity.moreminecrafts.giant_bee": "Giant Bee",
+   "entity.moreminecrafts.lesser_phantom": "Lesser Phantom",
+   "entity.moreminecrafts.cave_creeper": "Cave Creeper",
++  "entity.moreminecrafts.cloud_wraith": "Cloud Wraith",
++  "entity.moreminecrafts.skyguard_archer": "Skyguard Archer",
++  "entity.moreminecrafts.crystal_bug": "Crystal Bug",
++  "entity.moreminecrafts.cloud_slime": "Cloud Slime",
++  "entity.moreminecrafts.fallen_sentinel": "Fallen Sentinel",
+   "entity.moreminecrafts.tomb_guardian": "Tomb Guardian",
+   "entity.moreminecrafts.tomb_vfx": "Tomb Guardian Stone Eruption",
+   "item.moreminecrafts.eye_of_typhoon": "Eye of the Typhoon",
+diff --git a/src/main/resources/assets/moreminecrafts/lang/ko_kr.json b/src/main/resources/assets/moreminecrafts/lang/ko_kr.json
+index 2a6e9449..db323b2d 100644
+--- a/src/main/resources/assets/moreminecrafts/lang/ko_kr.json
++++ b/src/main/resources/assets/moreminecrafts/lang/ko_kr.json
+@@ -775,6 +775,11 @@
+   "entity.moreminecrafts.giant_bee": "거대 벌",
+   "entity.moreminecrafts.lesser_phantom": "하급 팬텀",
+   "entity.moreminecrafts.cave_creeper": "동굴 크리퍼",
++  "entity.moreminecrafts.cloud_wraith": "구름 망령",
++  "entity.moreminecrafts.skyguard_archer": "천궁 사수",
++  "entity.moreminecrafts.crystal_bug": "수정 벌레",
++  "entity.moreminecrafts.cloud_slime": "구름 슬라임",
++  "entity.moreminecrafts.fallen_sentinel": "타락한 파수병",
+   "entity.moreminecrafts.tomb_guardian": "왕릉 수호자",
+   "entity.moreminecrafts.tomb_vfx": "왕릉 수호자 석상 분출",
+   "moreminecrafts.ui.quest.tooltip.title": "%s — %s/%s",
+diff --git a/src/main/resources/data/minecraft/tags/entity_type/arthropod.json b/src/main/resources/data/minecraft/tags/entity_type/arthropod.json
+index 9022a5af..dbc444ee 100644
+--- a/src/main/resources/data/minecraft/tags/entity_type/arthropod.json
++++ b/src/main/resources/data/minecraft/tags/entity_type/arthropod.json
+@@ -10,6 +10,7 @@
+     "moreminecrafts:cave_bug",
+     "moreminecrafts:desert_bug",
+     "moreminecrafts:end_bug",
+-    "moreminecrafts:giant_bee"
++    "moreminecrafts:giant_bee",
++    "moreminecrafts:crystal_bug"
+   ]
+ }
+diff --git a/src/main/resources/data/minecraft/tags/entity_type/fall_damage_immune.json b/src/main/resources/data/minecraft/tags/entity_type/fall_damage_immune.json
+index bbf523cc..204f4431 100644
+--- a/src/main/resources/data/minecraft/tags/entity_type/fall_damage_immune.json
++++ b/src/main/resources/data/minecraft/tags/entity_type/fall_damage_immune.json
+@@ -4,6 +4,11 @@
+     "moreminecrafts:cave_bat",
+     "moreminecrafts:giant_bee",
+     "moreminecrafts:lesser_phantom",
+-    "moreminecrafts:lesser_magma_cube"
++    "moreminecrafts:lesser_magma_cube",
++    "moreminecrafts:cloud_wraith",
++    "moreminecrafts:skyguard_archer",
++    "moreminecrafts:crystal_bug",
++    "moreminecrafts:cloud_slime",
++    "moreminecrafts:fallen_sentinel"
+   ]
+ }
+diff --git a/src/main/resources/data/minecraft/tags/entity_type/inverted_healing_and_harm.json b/src/main/resources/data/minecraft/tags/entity_type/inverted_healing_and_harm.json
+index 1fdba149..4f558060 100644
+--- a/src/main/resources/data/minecraft/tags/entity_type/inverted_healing_and_harm.json
++++ b/src/main/resources/data/minecraft/tags/entity_type/inverted_healing_and_harm.json
+@@ -18,6 +18,7 @@
+     "moreminecrafts:drowned_sailor",
+     "moreminecrafts:deep_sea_drowned",
+     "moreminecrafts:river_drowned",
+-    "moreminecrafts:lesser_phantom"
++    "moreminecrafts:lesser_phantom",
++    "moreminecrafts:fallen_sentinel"
+   ]
+ }
+diff --git a/src/main/resources/data/minecraft/tags/entity_type/sensitive_to_bane_of_arthropods.json b/src/main/resources/data/minecraft/tags/entity_type/sensitive_to_bane_of_arthropods.json
+index 9022a5af..dbc444ee 100644
+--- a/src/main/resources/data/minecraft/tags/entity_type/sensitive_to_bane_of_arthropods.json
++++ b/src/main/resources/data/minecraft/tags/entity_type/sensitive_to_bane_of_arthropods.json
+@@ -10,6 +10,7 @@
+     "moreminecrafts:cave_bug",
+     "moreminecrafts:desert_bug",
+     "moreminecrafts:end_bug",
+-    "moreminecrafts:giant_bee"
++    "moreminecrafts:giant_bee",
++    "moreminecrafts:crystal_bug"
+   ]
+ }
+diff --git a/src/main/resources/data/minecraft/tags/entity_type/sensitive_to_smite.json b/src/main/resources/data/minecraft/tags/entity_type/sensitive_to_smite.json
+index 1fdba149..4f558060 100644
+--- a/src/main/resources/data/minecraft/tags/entity_type/sensitive_to_smite.json
++++ b/src/main/resources/data/minecraft/tags/entity_type/sensitive_to_smite.json
+@@ -18,6 +18,7 @@
+     "moreminecrafts:drowned_sailor",
+     "moreminecrafts:deep_sea_drowned",
+     "moreminecrafts:river_drowned",
+-    "moreminecrafts:lesser_phantom"
++    "moreminecrafts:lesser_phantom",
++    "moreminecrafts:fallen_sentinel"
+   ]
+ }
+diff --git a/src/main/resources/data/minecraft/tags/entity_type/undead.json b/src/main/resources/data/minecraft/tags/entity_type/undead.json
+index 1fdba149..4f558060 100644
+--- a/src/main/resources/data/minecraft/tags/entity_type/undead.json
++++ b/src/main/resources/data/minecraft/tags/entity_type/undead.json
+@@ -18,6 +18,7 @@
+     "moreminecrafts:drowned_sailor",
+     "moreminecrafts:deep_sea_drowned",
+     "moreminecrafts:river_drowned",
+-    "moreminecrafts:lesser_phantom"
++    "moreminecrafts:lesser_phantom",
++    "moreminecrafts:fallen_sentinel"
+   ]
+ }
+diff --git a/src/main/resources/moreminecrafts.mixins.json b/src/main/resources/moreminecrafts.mixins.json
+index cbc7bb27..90884370 100644
+--- a/src/main/resources/moreminecrafts.mixins.json
++++ b/src/main/resources/moreminecrafts.mixins.json
+@@ -121,6 +121,7 @@
+     "defaultRequire": 1
+   },
+   "client": [
++    "WraithParticleAlphaInvoker",
+     "AbstractContainerScreenAccessor",
+     "AccessoryInventoryScreenMixin",
+     "AbstractRecipeBookScreenMixin",

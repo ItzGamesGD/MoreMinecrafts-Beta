@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "moreminecrafts_client_qa",
+  "version": "0.0.0-qa",
+  "name": "MoreMinecrafts Client QA",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.itzgamesgd.moreminecrafts.clientqa.Stage23BClientQa"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": ">=26.3 <26.4",
+    "java": ">=25"
+  }
+}

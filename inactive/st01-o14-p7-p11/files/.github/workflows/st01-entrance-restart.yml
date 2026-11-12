@@ -1,0 +1,59 @@
+name: ST-01 secret entrance restart persistence
+
+# Three separate server processes: write (valid victory -> entrance GUIDING), reload (state survived, fallback opens the cover), verify (OPEN survived a second restart).
+# Uses TEST-ONLY timer values installed by the game test class; the production runtime has no timer default.
+on:
+  pull_request:
+    paths:
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/st01/**'
+      - 'src/main/java/dev/itzgamesgd/moreminecrafts/boss/**'
+      - 'src/gametest/java/dev/itzgamesgd/moreminecrafts/st01/**'
+      - '.github/workflows/st01-entrance-restart.yml'
+  workflow_dispatch:
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile GameTests
+        run: ./gradlew compileGametestJava --no-daemon
+      - name: Write phase
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:secret_entrance_game_tests_entrance_state_survives_process_restart
+            -Dmoreminecrafts.st01.restart.phase=write
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st01-restart-write.log
+          grep -F P9_RESTART_WRITE st01-restart-write.log
+      - name: Reload phase
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:secret_entrance_game_tests_entrance_state_survives_process_restart
+            -Dmoreminecrafts.st01.restart.phase=reload
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st01-restart-reload.log
+          grep -F P9_RESTART_RELOAD st01-restart-reload.log
+      - name: Verify phase
+        env:
+          JAVA_TOOL_OPTIONS: >-
+            -Dfabric-api.gametest.filter=moreminecrafts-gametest:secret_entrance_game_tests_entrance_state_survives_process_restart
+            -Dmoreminecrafts.st01.restart.phase=verify
+        run: |
+          set -o pipefail
+          ./gradlew runGameTest --no-daemon 2>&1 | tee st01-restart-verify.log
+          grep -F P9_RESTART_VERIFY st01-restart-verify.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-entrance-restart-evidence
+          path: st01-restart-*.log
