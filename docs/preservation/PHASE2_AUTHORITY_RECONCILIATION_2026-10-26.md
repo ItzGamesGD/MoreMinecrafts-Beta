@@ -16,11 +16,7 @@ Resulting rule:
 - Progress counts only the **first successful pickup of a skull that was genuinely dropped by a Wither Skeleton**. Picking up the same skull again after it has been dropped, moved or traded does **not** count again.
 - **Superseded:** the 2026-10-18 sentence "Re-picking up the same physical skull after dropping it **does count again** … no deduplication or origin tracking is authorized." The later owner decision recorded in PR #127 replaces it. Origin tracking of genuine drops is now required.
 - **Unchanged from 2026-10-18:** quest ID `xpq.cmb.wither_skulls_3`; target **3**; reward **1100** raw XP; server-authoritative attribution to the receiving player; only transferred quantity counts; failed or zero-transfer pickups grant nothing; the `get_wither_skull` advancement seeds at most the existing historical lower bound of 1, with no double count.
-- **Registration hold:** keep `registered=false` and `tracker.kind=pending`. PRs #128 and #130 are **not release-ready**. Their reported crash-consistency defect must be fixed and tested before the quest is registered. Do not register the incomplete implementation.
-
-### F-1 — open, unapproved (recorded 2026-10-28)
-
-Wave 13 analysis proposed a crash-consistency protocol (P4) and two decisions: **D-F1-1** (meaning of "crash-safe counting") and **O-2** (P4's scope and its restore-a-rolled-back-skull and delete-a-stale-duplicate behaviours). **Neither is approved.** The quest stays unregistered and no protocol is authorized for implementation. Analysis: `docs/audits/wave13/WITHER_SKULL_F1_ANALYSIS.md`, `docs/audits/wave13b/`.
+- **Registration & P3 protocol:** Owner decision D-F1-1 approved crash-safe counting (single credit invariant under vanilla separate player/world storage). P3 protocol (PENDING ledger flush -> player atomic inventory/counter/receipt -> player commit save -> COMMITTED ledger flush) implemented and verified across 13-scenario 2-JVM crash matrix. `xpq.cmb.wither_skulls_3` is registered with target 3, 1100 raw XP, tracker kind `counter` (`wither_skull_drops`).
 
 ## F-2 — Ancient Heart replaces Tomb Guardian Core
 

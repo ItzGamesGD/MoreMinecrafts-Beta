@@ -376,7 +376,7 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
     }
 
     @GameTest
-    public void genuineAndOrdinarySkullsNeverMergeButGenuineDropsDo(GameTestHelper ctx) throws Exception {
+    public void genuineSkullsNeverMergeWithOrdinaryOrGenuineDrops(GameTestHelper ctx) throws Exception {
         ServerPlayer player = ctx.makeMockServerPlayerInLevel();
         var first = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
         ItemEntity ordinary = plainSkull(ctx, 1);
@@ -389,11 +389,11 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         var second = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).stream()
                 .filter(e -> e != first).findFirst().orElseThrow();
         merge.invoke(first, second);
-        ItemEntity survivor = first.isRemoved() ? second : first;
-        ctx.assertTrue(survivor.getItem().getCount() == 2 && QuestWitherSkullProvenance.isGenuine(survivor),
-                "two genuine drops merge into one genuine stack of two");
-        touch(survivor, player);
-        ctx.assertTrue(credited(player) == 2 && progress(player) == 2, "the merged stack credits both skulls");
+        ctx.assertTrue(!first.isRemoved() && !second.isRemoved() && first.getItem().getCount() == 1
+                && second.getItem().getCount() == 1, "two genuine drops also stay separate entities under P3 authority");
+        touch(first, player);
+        touch(second, player);
+        ctx.assertTrue(credited(player) == 2 && progress(player) == 2, "collecting both separate drops credits both skulls");
         ctx.succeed();
     }
 
