@@ -35,6 +35,7 @@ public final class ArenaController {
     final Set<String> claims = new LinkedHashSet<>();
     /** Attempts whose leftover trial mobs must be removed when their chunks load. */
     final Set<UUID> cleanupAttempts = new LinkedHashSet<>();
+    final StructureMaskSnapshot structureMask = new StructureMaskSnapshot();
     RoundPlan.Timing timing = RoundPlan.Timing.APPROVED;
     /** Test seam: a time source owned by this controller alone. Never serialised, so a restored controller always uses the server wall clock. */
     private java.util.function.LongSupplier clockOverride;
@@ -54,7 +55,12 @@ public final class ArenaController {
     public String lastOutcome() { return lastOutcome; }
     public Set<String> entitlements() { return entitlements; }
     public Set<UUID> cleanupAttempts() { return cleanupAttempts; }
+    public StructureMaskSnapshot structureMask() { return structureMask; }
     public boolean active() { return attempt != null && !attempt.ended(); }
+
+    public void recordStructureMask(Collection<net.minecraft.core.BlockPos> positions) { structureMask.recordStructure(positions); }
+    public boolean protectBlock(net.minecraft.core.BlockPos pos) { return structureMask.protect(pos); }
+    public boolean releaseBlock(net.minecraft.core.BlockPos pos) { return structureMask.release(pos); }
 
     public List<ArenaAttempt.Action> tick(long nowMillis, Set<UUID> insideAlive, boolean entitiesLoaded, ArenaAttempt.SpawnPlanner planner) {
         List<ArenaAttempt.Action> out = new ArrayList<>();
@@ -156,6 +162,7 @@ public final class ArenaController {
         /** Read compatibility for Stage 1-C receipts written inside the active-attempt DTO. */
         List<RewardDto> rewards = new ArrayList<>();
     }
+    static final class MaskDto { boolean complete; List<Long> protected_positions = new ArrayList<>(), player_positions = new ArrayList<>(); }
     static final class Dto {
         int format = FORMAT;
         String arena, lastOutcome = "NONE", qreason = "";
@@ -166,6 +173,7 @@ public final class ArenaController {
         List<String> keyHistory = new ArrayList<>();
         List<RewardDto> rewards = new ArrayList<>();
         List<RewardDto> rewardConflicts = new ArrayList<>();
+        MaskDto structure_mask;
     }
 
     public String toJson() {
@@ -177,6 +185,13 @@ public final class ArenaController {
         for (RewardDelivery r : rewardDeliveries.values()) d.rewards.add(rewardDto(r));
         for (RewardDelivery r : rewardConflicts) d.rewardConflicts.add(rewardDto(r));
         for (UUID u : cleanupAttempts) d.cleanup.add(u.toString());
+        if (structureMask.complete() || !structureMask.protectedPositions().isEmpty() || !structureMask.playerPositions().isEmpty()) {
+            MaskDto m = new MaskDto();
+            m.complete = structureMask.complete();
+            m.protected_positions.addAll(structureMask.protectedPositions());
+            m.player_positions.addAll(structureMask.playerPositions());
+            d.structure_mask = m;
+        }
         if (attempt != null) d.attempt = dto(attempt);
         return GSON.toJson(d);
     }
@@ -250,6 +265,11 @@ public final class ArenaController {
             String ledgerProblem=verifyRewardLedger(c.rewardDeliveries.values());
             if(ledgerProblem!=null) {c.quarantined=true;c.quarantineReason=ledgerProblem;c.lastOutcome="QUARANTINED";}
             for (String u : d.cleanup) c.cleanupAttempts.add(UUID.fromString(u));
+            if (d.structure_mask != null) {
+                StructureMaskSnapshot sm = new StructureMaskSnapshot(d.structure_mask.complete, d.structure_mask.protected_positions, d.structure_mask.player_positions);
+                c.structureMask.recordStructure(sm.protectedPositions().stream().map(net.minecraft.core.BlockPos::of).toList());
+                for (Long lp : sm.playerPositions()) c.structureMask.protect(net.minecraft.core.BlockPos.of(lp));
+            }
             if (d.attempt != null) {
                 ArenaAttempt a = attemptFrom(d.attempt);
                 for(RewardDelivery r:c.rewardDeliveries.values())if(a.attemptId.toString().equals(r.challengeId))a.rewardDeliveries.put(r.rewardId,r);
