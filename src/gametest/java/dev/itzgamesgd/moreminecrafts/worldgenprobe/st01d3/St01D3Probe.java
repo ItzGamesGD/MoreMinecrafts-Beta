@@ -115,13 +115,14 @@ public final class St01D3Probe implements ModInitializer {
         List<Future<Map<String, Object>>> seedJobs = new ArrayList<>();
         for (long seed : St01D3Support.SEEDS) seedJobs.add(pool.submit(() -> seedDecisions(server, seed)));
         List<Map<String, Object>> seedResults = new ArrayList<>();
-        long anchors = 0, decisionMismatches = 0, eligible = 0, startMismatches = 0;
+        long anchors = 0, decisionMismatches = 0, eligible = 0, startMismatches = 0, memoMismatches = 0;
         double fastMs = 0, legacyMs = 0;
         for (Future<Map<String, Object>> f : seedJobs) {
             Map<String, Object> m = f.get();
             seedResults.add(m);
             anchors += (int) m.get("anchors");
             decisionMismatches += (int) m.get("decision_mismatches");
+            memoMismatches += (int) m.get("memo_decision_mismatches");
             eligible += (int) m.get("eligible");
             startMismatches += (int) m.get("real_start_mismatches");
             fastMs += (double) m.get("fast_cpu_ms");
@@ -131,6 +132,7 @@ public final class St01D3Probe implements ModInitializer {
         result.put("seeds", seedResults);
         result.put("anchors_total", anchors);
         result.put("decision_mismatches_total", decisionMismatches);
+        result.put("memo_decision_mismatches_total", memoMismatches);
         result.put("eligible_total", eligible);
         result.put("real_starts_expected", St01D3Support.KNOWN_STARTS.size());
         result.put("real_start_mismatches_total", startMismatches);
@@ -138,7 +140,7 @@ public final class St01D3Probe implements ModInitializer {
         result.put("legacy_cpu_ms_total", legacyMs);
         result.put("spot_check_mismatches", St01FastTerrain.SPOT_CHECK_MISMATCHES.get());
         result.put("wall_s", (System.nanoTime() - t0) / 1e9);
-        result.put("pass", columnMismatches == 0 && decisionMismatches == 0 && startMismatches == 0
+        result.put("pass", columnMismatches == 0 && decisionMismatches == 0 && startMismatches == 0 && memoMismatches == 0
                 && eligible == St01D3Support.KNOWN_STARTS.size() && St01FastTerrain.SPOT_CHECK_MISMATCHES.get() == 0);
     }
 
@@ -177,7 +179,7 @@ public final class St01D3Probe implements ModInitializer {
         World w = new World(server.registryAccess(), seed);
         int spacing = w.placement.spacing(), radiusChunks = St01D3Support.WINDOW_BLOCKS / 16;
         int r0 = Math.floorDiv(-radiusChunks, spacing), r1 = Math.floorDiv(radiusChunks - 1, spacing);
-        int anchors = 0, mismatches = 0, eligible = 0, startMismatches = 0;
+        int anchors = 0, mismatches = 0, eligible = 0, startMismatches = 0, memoMismatches = 0, memoHits = 0;
         long fastNs = 0, legacyNs = 0, fastMax = 0, legacyMax = 0;
         Map<String, Integer> verdicts = new TreeMap<>();
         List<String> samples = new ArrayList<>();
@@ -194,6 +196,10 @@ public final class St01D3Probe implements ModInitializer {
             fastNs += b - a; legacyNs += e - b;
             fastMax = Math.max(fastMax, b - a); legacyMax = Math.max(legacyMax, e - b);
             verdicts.merge(fast.result().verdict().name(), 1, Integer::sum);
+            // P8-D4 C4: production memo path, first evaluation (miss) and the repeated evaluation the chunk pipeline makes (hit)
+            St01Candidate.Decision memo1 = St01D3Support.memoDecision(w, c), memo2 = St01D3Support.memoDecision(w, c);
+            if (St01D3Support.memoHit(w, c)) memoHits++;
+            if (!memo1.equals(legacy) || !memo2.equals(legacy)) memoMismatches++;
             if (!fast.equals(legacy)) {
                 mismatches++;
                 if (samples.size() < 10) samples.add(c.x() + "," + c.z() + " fast " + St01D3Support.describe(fast) + " legacy " + St01D3Support.describe(legacy));
@@ -221,6 +227,8 @@ public final class St01D3Probe implements ModInitializer {
         m.put("real_start_mismatches", startMismatches);
         m.put("starts", starts);
         m.put("decision_mismatches", mismatches);
+        m.put("memo_decision_mismatches", memoMismatches);
+        m.put("memo_entries_remembered", memoHits);
         m.put("decision_mismatch_samples", samples);
         m.put("fast_cpu_ms", fastNs / 1e6);
         m.put("legacy_cpu_ms", legacyNs / 1e6);
@@ -252,7 +260,7 @@ public final class St01D3Probe implements ModInitializer {
     }
 
     /** What an explorer map does on the server thread (vanilla calls; no structure tag exists yet, so the holder set is direct). */
-    private static Map<String, Object> mapCall(ServerLevel level, HolderSet<Structure> set, Structure st01, BlockPos origin, int radius, String label) {
+    static Map<String, Object> mapCall(ServerLevel level, HolderSet<Structure> set, Structure st01, BlockPos origin, int radius, String label) {
         long evals0 = 0;
         for (var v : St01PyramidStructure.VERDICT_COUNTS.values()) evals0 += v.get();
         long fills0 = St01FastTerrain.BATCHED_CHUNK_FILLS.get(), legacy0 = St01FastTerrain.LEGACY_COLUMN_HEIGHTS.get();

@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3;
 import dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.AccessRoute;
 import dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.Orientation;
 import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Candidate;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01DecisionMemo;
 import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01PlacementConfig;
 import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01PyramidStructure;
 import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility;
@@ -171,6 +172,17 @@ public final class St01D3Support {
     public static St01Candidate.Decision legacyDecision(World w, ChunkPos chunk) {
         Structure.GenerationContext ctx = w.context(chunk);
         return St01Candidate.decide(new LegacyTerrain(ctx), chunk, Rotation.getRandom(ctx.random()), w.seed);
+    }
+
+    /** Production decision through the P8-D4 memo, exactly as {@code St01PyramidStructure.findGenerationPoint} obtains it. */
+    public static St01Candidate.Decision memoDecision(World w, ChunkPos chunk) {
+        Structure.GenerationContext ctx = w.context(chunk);
+        Rotation rotation = Rotation.getRandom(ctx.random());
+        return St01DecisionMemo.decide(ctx, rotation, () -> St01Candidate.decide(new St01PyramidStructure.GeneratorTerrain(ctx), chunk, rotation, w.seed));
+    }
+
+    public static boolean memoHit(World w, ChunkPos chunk) {
+        return St01DecisionMemo.contains(w.context(chunk));
     }
 
     public static String describe(St01Candidate.Decision d) {
