@@ -47,8 +47,9 @@ REGEN_PATHS = {  # path -> recipe id
  "tools/st05-p0-probe-01/expected-traces-v1.json":"st05-p0-materialize","tools/st05-p0-probe-01/runplan-v1.json":"st05-p0-materialize",
  "tools/st05-p0-probe-01/oracle/goldens-v1.json":"st05-p0-oracle"}
 POLICY_OMIT = re.compile(r"PROPOSED-gitleaksignore|\.gitleaksignore")
-TRANSFORM = {"tools/st05-p0-probe-01/freeze_integrity.py":
-  ("'ST05_STAGE0_P0_API_MAPPING'","('ST05_STAGE0_P0_API_MAPPING')")}  # identifier list flagged as generic-api-key; AST-identical
+TRANSFORM = {}  # no source transformation is applied (Phase 3: bytes are never altered to satisfy a scanner)
+# Documented scanner false positive: kept OUT of the repository; original bytes live in the external history archive.
+EXTERNAL_FP = {"tools/st05-p0-probe-01/freeze_integrity.py"}
 def main():
     # blobs already in the Grand Unified tree
     have = {}
@@ -70,7 +71,9 @@ def main():
             if p in REGEN_PATHS: store = "REGEN:" + REGEN_PATHS[p]; regen.append((p, nb))
             elif nb not in have:
                 data = git("cat-file", "blob", nb, binary=True)
-                if FPR.search(data) or POLICY_OMIT.search(p):
+                if p in EXTERNAL_FP:
+                    store = "OMITTED:scanner-false-positive-original-in-external-archive"; omitted.append((fam, p, "gitleaks generic-api-key false positive (identifier list, line 23); original bytes kept in the external history archive, not in the repository"))
+                elif FPR.search(data) or POLICY_OMIT.search(p):
                     store = "OMITTED:fingerprint-or-ignore-entry"; omitted.append((fam, p, "contains complete gitleaks fingerprint / ignore-entry proposal"))
                 else:
                     dest = f"{fam}/state-blobs/{label}/{p}"

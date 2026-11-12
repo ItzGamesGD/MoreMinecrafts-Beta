@@ -1,11 +1,1 @@
-[
- {
-  "family": "validation-st05-p0-probe",
-  "label": "primary",
-  "path": "tools/st05-p0-probe-01/freeze_integrity.py",
-  "stored": "validation-st05-p0-probe/state-blobs/primary/tools/st05-p0-probe-01/freeze_integrity.py",
-  "original_blob": "52906e06dcc9f9569d239be4311323bf8f0d678a",
-  "from": "'ST05_STAGE0_P0_API_MAPPING'",
-  "to": "('ST05_STAGE0_P0_API_MAPPING')"
- }
-]
+[]
