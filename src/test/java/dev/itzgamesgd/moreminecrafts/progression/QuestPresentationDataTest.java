@@ -10,9 +10,9 @@ class QuestPresentationDataTest {
         Set<String> registered = XpQuestCatalogData.catalog().quests().stream().filter(XpQuestCatalogData.Spec::registered)
                 .map(XpQuestCatalogData.Spec::id).collect(Collectors.toSet());
         var tree = QuestPresentationData.tree(registered);
-        assertEquals(75, registered.size());
+        assertEquals(76, registered.size());
         assertEquals(registered, Set.copyOf(tree.allNodeIds()));
-        assertEquals(75, tree.allNodeIds().size());
+        assertEquals(76, tree.allNodeIds().size());
         assertTrue(tree.validate().isEmpty());
         assertTrue(tree.edges().isEmpty(), "no proposed gameplay dependency is enabled");
         assertTrue(QuestPresentationData.tree(Set.of()).chapters().isEmpty());
