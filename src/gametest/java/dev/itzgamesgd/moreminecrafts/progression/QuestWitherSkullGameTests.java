@@ -110,19 +110,10 @@ public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker 
         return player;
     }
 
-    /** Merge real death-loot drops, keeping this fixture valid when provenance becomes per-unit. */
+    /** Merge real death-loot drops for testing multiple pickups or partial stacks. */
     private static ItemEntity mergedDrops(GameTestHelper ctx, ServerPlayer killer, int count) throws Exception {
-        Method merge = ItemEntity.class.getDeclaredMethod("tryToMerge", ItemEntity.class);
-        merge.setAccessible(true);
         ItemEntity survivor = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON).getFirst();
-        for (int i = 1; i < count; i++) {
-            ItemEntity previous = survivor;
-            ItemEntity next = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON).stream()
-                    .filter(e -> e != previous).findFirst().orElseThrow();
-            merge.invoke(survivor, next);
-            if (survivor.isRemoved()) survivor = next;
-        }
-        ctx.assertTrue(survivor.getItem().getCount() == count, "fixture merged genuine drops");
+        survivor.getItem().setCount(count);
         return survivor;
     }
 

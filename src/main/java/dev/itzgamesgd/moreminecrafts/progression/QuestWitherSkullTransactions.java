@@ -93,9 +93,11 @@ public final class QuestWitherSkullTransactions {
             return false;
         }
 
-        // Token consumed on entity
+        // Token consumed on entity, or re-issued for remainder if partial pickup
         if (item.getItem().isEmpty()) {
             QuestWitherSkullProvenance.consumeToken(item);
+        } else {
+            item.setAttached(QuestWitherSkullProvenance.ORIGIN_TOKEN, UUID.randomUUID().toString());
         }
 
         // Record credit and durable receipt in player data
