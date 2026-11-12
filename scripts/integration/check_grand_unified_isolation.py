@@ -48,7 +48,7 @@ reg = list(csv.reader(open(f"{ROOT}/docs/integration/FEATURE_STATUS_REGISTRY_202
 for r in reg:
     if r[2].endswith("SOURCE CONSOLIDATED"):
         fam = r[4].split("/")[1] if r[4].startswith("inactive/") else None
-        if not fam or not os.path.isdir(f"{ROOT}/inactive/{fam}/files"): bad(f"registry row {r[0]} target missing")
+        if not fam or not (os.path.isdir(f"{ROOT}/inactive/{fam}/files") or os.path.isdir(f"{ROOT}/inactive/{fam}/state-blobs")): bad(f"registry row {r[0]} target missing")
 # recovery manifest: every A/M delta blob must be available (GU tree / inactive / regen / transform / documented omission)
 avail = set()
 for line in git("ls-tree", "-r", "HEAD").stdout.splitlines():
@@ -61,7 +61,10 @@ unavailable = 0
 for fam, label, head, tree, mb, st, mode, blob, path, store in rec:
     if st == "D" or store.startswith(("REGEN:", "OMITTED", "TRANSFORM")): continue
     if blob not in avail: bad(f"recovery blob unavailable: {fam}/{label}:{path}"); unavailable += 1
-print(f"recovery rows {len(rec)}, unavailable {unavailable}")
+states = {(x[0], x[1]) for x in rec}
+for fam_dir in sorted(os.listdir(f"{ROOT}/inactive")):
+    if os.path.isdir(f"{ROOT}/inactive/{fam_dir}") and not any(k[0] == fam_dir for k in states): bad(f"inactive/{fam_dir} has no recorded recovery state")
+print(f"recovery rows {len(rec)}, states {len(states)}, unavailable {unavailable}")
 print(f"manifest rows {len(rows)}, inactive files on disk {len(on_disk)}, registry rows {len(reg)}")
 if errors:
     print("FAIL"); [print(" ", e) for e in errors]; sys.exit(1)
