@@ -158,7 +158,7 @@ Antigravity는 `APPROVED_DESIGN`을 반환받았을 때 코드 작성에 들어�
          │
          ▼
 [Step 4: Implementation Feasibility & Acceptance Criteria Audit]
- - 마인크래프트 Fabric 1.21.x 환경 및 현 아키텍처 지원 여부 확인.
+ - 현재 저장소의 Minecraft/Fabric 대상 버전(빌드 설정에서 확인) 및 현 아키텍처 지원 여부 확인. 과거 버전(예: 1.21.x)을 고정 가정하지 않는다.
  - AC(수용 기준) 및 검증 계획이 명확한지 확인.
          │
          ▼
@@ -173,7 +173,7 @@ Antigravity는 `APPROVED_DESIGN`을 반환받았을 때 코드 작성에 들어�
 
 ### A. TASK_CONTEXT 템플릿
 
-```markdown
+~~~~markdown
 # TASK_CONTEXT: [작업 명칭]
 
 ## 1. 메타데이터 및 기준선 (Baseline)
@@ -226,13 +226,13 @@ Antigravity는 `APPROVED_DESIGN`을 반환받았을 때 코드 작성에 들어�
 ```[언어]
 // 기획에 반드시 필요한 원본 코드 스니펫 및 JSON 발췌
 ```
-```
+~~~~
 
 ---
 
 ### B. APPROVED_DESIGN 템플릿
 
-```markdown
+~~~~markdown
 # APPROVED_DESIGN: [작업 명칭]
 
 ## 1. 메타데이터 (Metadata)
@@ -289,4 +289,4 @@ Antigravity는 `APPROVED_DESIGN`을 반환받았을 때 코드 작성에 들어�
 - **단위 테스트 (JUnit):** [수식, 상태 변화, 태그 검증]
 - **게임테스트 (Fabric GameTest):** [블록 상호작용, 엔티티 반응]
 - **실사용 검증 (Live Acceptance):** [타격감, 조작 반응성, 시각 효과 등 PENDING 항목 검증 기준]
-```
+~~~~
