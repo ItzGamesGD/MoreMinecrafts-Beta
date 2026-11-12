@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -19,6 +20,12 @@ import org.junit.jupiter.api.Test;
  * Validates unified 5% catalyst, 20% accessory, single PRIMARY registration, and NBT backward compatibility.
  */
 class RoyalChestRuntimeTest {
+
+    @BeforeAll
+    static void bootstrap() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+    }
 
     @Test
     void catalystUnifiedOntoPrimaryAtFivePercentRate() {
