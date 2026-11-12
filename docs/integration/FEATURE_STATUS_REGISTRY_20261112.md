@@ -80,7 +80,7 @@ Counts: ACTIVE: 6, DOCUMENTED: 5, INACTIVE — SOURCE CONSOLIDATED: 11, INACTIVE
 |---|---|---|---|---|---|---|---|
 | OWN-01 | Resume or register Sky Mob entities (paused) | see related rows | (none) | not activated | (owner) | owner has paused mob development; resume, register or spawn needs an explicit decision | n/a |
 | OWN-02 | ST-01 P7-P11/O-14 secret-entrance runtime versus Policy D | see related rows | (none) | not activated | (owner) | Policy D accepts buried entrances; relation to gold-guide-golem runtime undecided | n/a |
-| OWN-03 | ST-05 structure-protection mask versus baseline Stage 1 runtime | see related rows | (none) | not activated | (owner) | no baseline equivalent of StructureMaskSnapshot / ColosseumPlacementMixin; adopt, port or reject | n/a |
+| OWN-03 | ST-05 structure-protection mask versus baseline Stage 1 runtime | feat/st05-c4-structure-mask-20261030@1ee08d44 | Stage 1 ArenaController / ArenaTerrain | activated | STRUCTURE_AUTHORITY_INDEX.md (ST-05 Stage 1 lifecycle override) | ported: StructureMaskSnapshot & ColosseumPlacementMixin wired to Stage 1 runtime | n/a |
 | OWN-04 | Q1C Wither-skull quest registration | see related rows | (none) | not activated | (owner) | D-F1-1 / O-2 unapproved; crash-consistency defect must be fixed first | n/a |
 | OWN-05 | Policy B research gates G1-G7 | see related rows | (none) | not activated | (owner) | Policy D is final; Policy B stays research | n/a |
 | OWN-06 | Star Covenant vault logic branch (i04a, 1 commit) | see related rows | (none) | not activated | (owner) | baseline has an evolved StarCovenantVaultRewards; semantic equivalence not verified | EXACT |
