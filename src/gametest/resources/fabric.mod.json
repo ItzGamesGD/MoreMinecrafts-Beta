@@ -15,6 +15,7 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerCompositeWorldgenProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerAdaptiveProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01C2BProbe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D3Probe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe"
     ],
     "fabric-gametest": [
@@ -36,6 +37,7 @@
       "dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssemblyGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01NaturalPieceGameTests",
+      "dev.itzgamesgd.moreminecrafts.pyramid.St01FastTerrainGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
