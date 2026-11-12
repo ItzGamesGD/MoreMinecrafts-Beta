@@ -56,7 +56,9 @@ for rid in sorted({r[3] for r in regen}):
         src = src if os.path.isabs(src) else os.path.join(out, src)
         sha = run(G + ["hash-object", "-w", src]).strip()
         if sha != blob: mism.append((path, "regenerated-hash-differs")); continue
-        os.makedirs(os.path.dirname(os.path.join(out, path)), exist_ok=True); shutil.copy(src, os.path.join(out, path)); put(mode, sha, path); applied += 1
+        dst = os.path.join(out, path); os.makedirs(os.path.dirname(dst), exist_ok=True)
+        if os.path.abspath(src) != os.path.abspath(dst): shutil.copy(src, dst)
+        put(mode, sha, path); applied += 1
     shutil.rmtree(tmp, ignore_errors=True)
 got = run(G + ["write-tree"], env=env).strip()
 res = dict(family=fam, label=label, recorded_head=head, recorded_tree=tree, reconstructed_tree=got, tree_identical=(got == tree),
