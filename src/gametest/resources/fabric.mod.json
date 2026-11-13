@@ -17,6 +17,7 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01C2BProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D3Probe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D4TickBench",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D5C6Bench",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe"
     ],
     "fabric-gametest": [
