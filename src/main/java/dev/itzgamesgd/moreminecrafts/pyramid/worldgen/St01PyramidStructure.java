@@ -56,7 +56,9 @@ public final class St01PyramidStructure extends Structure {
     @Override
     protected Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
         Rotation rotation = Rotation.getRandom(context.random());
-        St01Candidate.Decision decision = St01Candidate.decide(new GeneratorTerrain(context), context.chunkPos(), rotation, context.seed());
+        // P8-D4 C4: the locator and the chunk pipeline evaluate the same candidate; the second evaluation reuses the first.
+        St01Candidate.Decision decision = St01DecisionMemo.decide(context, rotation,
+                () -> St01Candidate.decide(new GeneratorTerrain(context), context.chunkPos(), rotation, context.seed()));
         VERDICT_COUNTS.get(decision.result().verdict()).incrementAndGet();
         if (decision.ground().isEmpty()) return Optional.empty();
         BlockPos ground = decision.ground().get();
