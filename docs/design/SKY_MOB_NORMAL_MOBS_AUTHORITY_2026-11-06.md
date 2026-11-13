@@ -305,4 +305,11 @@ D1–D6의 승인은 위에 열거된 범위에 한정한다. 자연 스폰 외�
 
 **O1 범위 명확화 (사용자 확정):** 흉조 장비 미부여는 고정 3D 외형을 가진 **그룹 C 천계 일반 몹 5종에만** 적용된다. 이 5종은 흉조 생성기의 무작위 바닐라 장비를 입지 않으며 Q55의 고정 장비(천궁 사수의 활 등)를 유지한다. **그룹 B 천계 테마 바닐라 변종**은 이 제한을 받지 않으며, 구현될 경우 장비를 입힐 수 있다.
 
-**구현 상태 (2026-11-13, `task/sky-mob-register-and-spawn`):** 5종 등록, 하늘섬 자연 스폰(R1 영역·Q29·Q33·`spawn_overrides`), Sky Tower 16개 생성기의 조합 A–E 런타임 연결이 구현되었다. 로컬 `test build runGameTest` 통과(필수 GameTest 626개). 실제 월드 자연 스폰 빈도, 시련탑 실전 전투·흉조 시련, 다중 플레이어 체감, 기존 월드 탑의 청크 로드 재설정은 **LIVE VALIDATION PENDING**이며, 실제 월드젠 probe(`SkyHabitatNaturalProbe`, `SkyTowerCompositeWorldgenProbe`)의 확장 검사는 CI 대상이 아니어서 **NOT RUN**이다.
+**구현 상태 (2026-11-13, `task/sky-mob-register-and-spawn`):** 5종 등록, 하늘섬 자연 스폰(R1 영역·Q29·Q33·`spawn_overrides`), Sky Tower 16개 생성기의 조합 A–E 런타임 연결이 구현되었다. 로컬 `clean test build runGameTest` 통과(필수 GameTest 627개).
+
+**추가 검증 (2026-11-13, 실제 월드젠, seed 42):**
+- `SkyTowerCompositeWorldgenProbe` 신규 월드: 발견된 forest·meadow 탑 2곳 모두 `group_c_combo_configs` 16/16, `sky_tower_spawn_exclusion` 16/16. 저장된 region NBT에서 탑당 A3·B3·C3·D3·E4, 좀비 설정 0개. 나머지 4개 스타일은 탐색 반경(96) 안에서 발견되지 않아 미검증.
+- 기존 월드(이 변경 이전 코드로 생성·등록, 좀비 설정 16개)를 이 브랜치로 재기동: 청크 로드 재설정으로 16개 모두 조합 A–E로 교체·저장, 좌표별 배치가 신규 월드와 동일. 재설정 시 이전 설정에서 뽑아 둔 `spawn_data`는 비운다(C2, GameTest로 고정).
+- `SkyHabitatNaturalProbe`: forest 탑·rocky 섬 표면이 R1 영역 안, 지면·상공은 영역 밖, 청크 언로드/재로드 PASS.
+
+실제 월드 장기 자연 스폰 빈도, 시련탑 실전 전투·흉조 시련 밸런스, 다중 플레이어 체감은 **LIVE VALIDATION PENDING**이다.

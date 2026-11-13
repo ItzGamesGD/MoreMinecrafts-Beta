@@ -6,6 +6,7 @@
     "SkyTowerTrialCompletionMixin",
     "SkyTowerNaturalSpawnMixin",
     "TrialSpawnerConfigAccessor",
+    "TrialSpawnerStateDataAccessor",
     "SkyTowerBlockChangeMixin",
     "SkyTowerVaultRewardMixin",
     "ColosseumMobPauseMixin",

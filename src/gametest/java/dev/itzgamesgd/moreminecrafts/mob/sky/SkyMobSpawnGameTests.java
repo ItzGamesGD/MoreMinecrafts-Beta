@@ -133,4 +133,39 @@ public final class SkyMobSpawnGameTests {
             }
         });
     }
+
+    /** C2 existing worlds: a spawner that still holds a spawn pick from the vanilla zombie config drops it when the
+     * approved combo is applied (chunk-load path), and a second reconcile is a no-op that keeps the new pick. */
+    @GameTest
+    public void reconfiguredSpawnerDropsStaleVanillaSpawnPick(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos spawnerPos = ctx.absolutePos(new BlockPos(1, 2, 1));
+        level.setBlock(spawnerPos, Blocks.TRIAL_SPAWNER.defaultBlockState(), 3);
+        var spawner = (TrialSpawnerBlockEntity) level.getBlockEntity(spawnerPos);
+        var configs = level.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.TRIAL_SPAWNER_CONFIG);
+        var zombie = net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.TRIAL_SPAWNER_CONFIG,
+                net.minecraft.resources.Identifier.withDefaultNamespace("trial_chamber/melee/zombie/normal"));
+        var zombieOminous = net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.TRIAL_SPAWNER_CONFIG,
+                net.minecraft.resources.Identifier.withDefaultNamespace("trial_chamber/melee/zombie/ominous"));
+        var accessor = (dev.itzgamesgd.moreminecrafts.mixin.TrialSpawnerConfigAccessor) (Object) spawner.getTrialSpawner();
+        var old = accessor.moreminecrafts$config();
+        accessor.moreminecrafts$setConfig(new net.minecraft.world.level.block.entity.trialspawner.TrialSpawner.FullConfig(
+                configs.getOrThrow(zombie), configs.getOrThrow(zombieOminous), old.targetCooldownLength(), old.requiredPlayerRange()));
+        var tag = new net.minecraft.nbt.CompoundTag();
+        tag.putString("id", "minecraft:zombie");
+        var state = (dev.itzgamesgd.moreminecrafts.mixin.TrialSpawnerStateDataAccessor) spawner.getTrialSpawner().getStateData();
+        state.moreminecrafts$setNextSpawnData(java.util.Optional.of(
+                new net.minecraft.world.level.SpawnData(tag, java.util.Optional.empty(), java.util.Optional.empty())));
+        var chunk = level.getChunkAt(spawnerPos);
+        ctx.assertTrue(SkyTowerTrialSpawners.configureLoading(level, chunk, spawner, 0), "zombie config replaced");
+        ctx.assertTrue(accessor.moreminecrafts$config().normal().is(SkyTowerTrialSpawners.key("a", false)), "combo A normal");
+        ctx.assertTrue(accessor.moreminecrafts$config().ominous().is(SkyTowerTrialSpawners.key("a", true)), "combo A ominous");
+        ctx.assertTrue(state.moreminecrafts$nextSpawnData().isEmpty(), "stale zombie spawn pick dropped");
+        ctx.assertTrue(chunk.isUnsaved(), "chunk marked for saving");
+        var fresh = java.util.Optional.of(new net.minecraft.world.level.SpawnData());
+        state.moreminecrafts$setNextSpawnData(fresh);
+        ctx.assertFalse(SkyTowerTrialSpawners.configureLoading(level, chunk, spawner, 0), "second reconcile is a no-op");
+        ctx.assertTrue(state.moreminecrafts$nextSpawnData() == fresh, "pick from the approved config kept");
+        ctx.succeed();
+    }
 }
