@@ -387,6 +387,10 @@ The owner approved, as **direction only**: Channel A4 (bounty system must eventu
 
 [Investigation package](design/st01-p8d2-r1/README.md) (documentation and evidence only; **no decision, no implementation**): reconstructs the P8-D2 benchmark (vanilla `findNearestMapStructure` with ST-01's unchanged production eligibility), attributes 97.8 % of search time to terrain height sampling and ≈ 20 % to a duplicate evaluation of each successful candidate, confirms the Desert prefilter already exists, and recommends caching/orchestration (R3) plus an exact-equivalent eligibility reordering (R2) for owner decision.
 
+## ST-01 cartographer explorer-map trade (Channel B1) — 2026-11-13
+
+The owner decided the Channel B1 trade: **cartographer, level 4, 16 emeralds + 1 compass, offered with probability 50 %**, with a non-blocking unpurchasable placeholder replaced in the same slot once the search is prepared (retry limits, substitute trade when no ST-01 is found, self-expiring target-chunk preload). [The decision record](design/st01-p8d8/OWNER-DECISION-CARTOGRAPHER-MAP-TRADE.md) is the current authority for these items and supersedes the corresponding *provisional* B1 items (profession, level, price) of the P8-D2 record; the remaining B1 items (radius, stock, refresh, icon, repeat sales, unclaimed-only) use vanilla explorer-map values listed there and stay revisable. Placement, Policy D and all other ST-01 authority are unchanged.
+
 ## Grand integration 2026-11-11 — design records, audit evidence and diagnostic tooling routed — no implementation
 
 This section routes records that the unified integration brought onto `integration/unified-20261111`. It changes no gameplay value and implements nothing. Implementation status of each item is stated only as the integrated code shows it; see [GRAND_UNIFIED_20261111_MANIFEST.md](integration/GRAND_UNIFIED_20261111_MANIFEST.md) for source branches and SHAs.
