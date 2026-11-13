@@ -304,3 +304,5 @@ D1–D6의 승인은 위에 열거된 범위에 한정한다. 자연 스폰 외�
 | C2 | Sky Tower 16개 생성기의 바닐라 좀비 설정을 그룹 C 조합으로 **모두 대체**한다(좀비는 후보에서 제외). NBT는 수정하지 않는다(T2) | T6 해소 |
 
 **O1 범위 명확화 (사용자 확정):** 흉조 장비 미부여는 고정 3D 외형을 가진 **그룹 C 천계 일반 몹 5종에만** 적용된다. 이 5종은 흉조 생성기의 무작위 바닐라 장비를 입지 않으며 Q55의 고정 장비(천궁 사수의 활 등)를 유지한다. **그룹 B 천계 테마 바닐라 변종**은 이 제한을 받지 않으며, 구현될 경우 장비를 입힐 수 있다.
+
+**구현 상태 (2026-11-13, `task/sky-mob-register-and-spawn`):** 5종 등록, 하늘섬 자연 스폰(R1 영역·Q29·Q33·`spawn_overrides`), Sky Tower 16개 생성기의 조합 A–E 런타임 연결이 구현되었다. 로컬 `test build runGameTest` 통과(필수 GameTest 626개). 실제 월드 자연 스폰 빈도, 시련탑 실전 전투·흉조 시련, 다중 플레이어 체감, 기존 월드 탑의 청크 로드 재설정은 **LIVE VALIDATION PENDING**이며, 실제 월드젠 probe(`SkyHabitatNaturalProbe`, `SkyTowerCompositeWorldgenProbe`)의 확장 검사는 CI 대상이 아니어서 **NOT RUN**이다.
