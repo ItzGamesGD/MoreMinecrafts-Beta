@@ -46,6 +46,14 @@ public final class SkyTowerWorldgenRegistration {
             if (new ChunkPos(pt.x() >> 4, pt.z() >> 4).equals(chunkPos)) {
                 SkyTowerVaultRewards.placeAndConfigureRooftopVault(level, site);
             }
+            // Towers registered before the group C hookup: reconcile spawners whose chunk is loading (idempotent).
+            for (int i = 0; i < 16; i++) {
+                var sp = site.spawner(i);
+                if (new ChunkPos(sp.x() >> 4, sp.z() >> 4).equals(chunkPos)
+                        && chunk.getBlockEntity(new net.minecraft.core.BlockPos(sp.x(), sp.y(), sp.z()))
+                                instanceof net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity spawner)
+                    SkyTowerTrialSpawners.configure(level, spawner, i);
+            }
         }
     }
 
@@ -99,6 +107,7 @@ public final class SkyTowerWorldgenRegistration {
                 if (added) {
                     MoreMinecrafts.LOGGER.info("Registered generated Sky Tower {}", pending.site().id());
                     SkyTowerVaultRewards.configureSiteVaults(pending.level(), pending.site());
+                    SkyTowerTrialSpawners.configureSite(pending.level(), pending.site());
                 }
                 iterator.remove();
             } catch (IllegalArgumentException | IllegalStateException conflict) {

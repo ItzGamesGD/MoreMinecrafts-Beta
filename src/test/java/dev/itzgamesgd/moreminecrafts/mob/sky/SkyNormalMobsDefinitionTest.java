@@ -125,8 +125,9 @@ class SkyNormalMobsDefinitionTest {
         String legacy = Files.readString(Path.of(
                 "src/main/java/dev/itzgamesgd/moreminecrafts/mob/CustomMobCatalog.java"));
         for (String id : IDS) assertFalse(legacy.contains("\"" + id + "\""), id + " must not join the legacy roster");
-        assertFalse(registry.contains("BiomeModifications") || registry.contains("SpawnPlacements"),
-                "P1 excludes natural spawn wiring");
+        // §15.6: natural spawning is wired through spawn placements + structure spawn_overrides, never a biome modifier (N1).
+        assertFalse(registry.contains("BiomeModifications"), "N1: no general overworld biome spawns");
+        assertTrue(registry.contains("SpawnPlacementsInvoker.moreminecrafts$register"), "spawn placements registered");
     }
 
     @Test
