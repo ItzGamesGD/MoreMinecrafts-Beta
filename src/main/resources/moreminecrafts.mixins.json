@@ -26,6 +26,8 @@
     "St01VillagerTradeAccessor",
     "St01MerchantOffersAccessor",
     "St01VillagerPreparationMixin",
+    "St01VillagerMapTradeMixin",
+    "St01VillagerTradePlaceholderMixin",
     "MaceItemMixin",
     "ExplosiveMaceMixin",
     "LivingEntityMixin",

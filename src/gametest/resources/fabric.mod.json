@@ -42,6 +42,7 @@
       "dev.itzgamesgd.moreminecrafts.pyramid.St01FastTerrainGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01DecisionMemoGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01SearchPreparationGameTests",
+      "dev.itzgamesgd.moreminecrafts.pyramid.St01MapTradeGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
