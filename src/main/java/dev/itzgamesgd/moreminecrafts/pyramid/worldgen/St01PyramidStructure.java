@@ -18,6 +18,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
@@ -78,26 +79,62 @@ public final class St01PyramidStructure extends Structure {
         return St01Worldgen.STRUCTURE_TYPE;
     }
 
-    /** {@link St01Eligibility.Terrain} over the real chunk generator and biome source; memoises per evaluation. */
+    /**
+     * {@link St01Eligibility.Terrain} over the real chunk generator and biome source; memoises per evaluation.
+     *
+     * <p>P8-D3: heights come from {@link St01FastTerrain#fillChunk} (whole chunks, identical values) and the Desert stage
+     * is preceded by {@link St01FastTerrain#desertPairPossible}, each only where {@link St01FastTerrain} says it applies;
+     * otherwise this is exactly the previous per-column view. The first batched height of every evaluation is compared
+     * with {@code getBaseHeight}; on a mismatch the evaluation continues on the per-column path.
+     */
     public static final class GeneratorTerrain implements St01Eligibility.Terrain {
         private final GenerationContext context;
         private final Map<Long, Integer> heights = new HashMap<>();
+        private final Map<Long, int[]> chunkHeights = new HashMap<>();
+        private final Map<Long, Boolean> columns = new HashMap<>();
+        private final boolean prefilter;
+        private boolean batched;
+        private boolean spotChecked;
 
         public GeneratorTerrain(GenerationContext context) {
             this.context = context;
+            this.batched = St01FastTerrain.batchedApplies(context.chunkGenerator());
+            this.prefilter = St01FastTerrain.prefilterApplies(context.biomeSource());
         }
 
         private static long key(int x, int z) { return ((long) x << 32) ^ (z & 0xFFFFFFFFL); }
 
         @Override
         public int surfaceHeight(int x, int z) {
-            return heights.computeIfAbsent(key(x, z), k -> context.chunkGenerator().getBaseHeight(x, z,
-                    Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()));
+            if (batched) {
+                int cx = x >> 4, cz = z >> 4;
+                int[] chunk = chunkHeights.computeIfAbsent(key(cx, cz), k -> St01FastTerrain.fillChunk(
+                        (NoiseBasedChunkGenerator) context.chunkGenerator(), context.heightAccessor(), context.randomState(), cx << 4, cz << 4));
+                int h = chunk[(x - (cx << 4)) * 16 + (z - (cz << 4))];
+                if (spotChecked) return h;
+                spotChecked = true;
+                if (St01FastTerrain.spotCheck(x, z, h, legacyHeight(x, z))) return h;
+                batched = false;
+                chunkHeights.clear();
+            }
+            return heights.computeIfAbsent(key(x, z), k -> legacyHeight(x, z));
+        }
+
+        private int legacyHeight(int x, int z) {
+            St01FastTerrain.LEGACY_COLUMN_HEIGHTS.incrementAndGet();
+            return context.chunkGenerator().getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
         }
 
         @Override
         public boolean isDesertCell(int quartX, int quartY, int quartZ) {
             return context.biomeResolver().getNoiseBiome(quartX, quartY, quartZ).is(Biomes.DESERT);
+        }
+
+        @Override
+        public boolean desertPossibleInColumn(int quartX, int quartZ) {
+            if (!prefilter) return true;
+            return columns.computeIfAbsent(key(quartX, quartZ), k -> St01FastTerrain.desertPairPossible(context.biomeSource(),
+                    context.climateSampler(), context.heightAccessor(), quartX, quartZ));
         }
     }
 }
