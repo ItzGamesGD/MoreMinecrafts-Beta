@@ -23,6 +23,9 @@ import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 public final class SkyTowerWorldgenRegistration {
     private record Pending(ServerLevel level, SkyTowerLayout.Site site, BoundingBox bounds) {}
     private static final Map<String, Pending> PENDING = new LinkedHashMap<>();
+    /** Rooftop vaults whose chunk loaded; reconciled on the next server tick, never inside CHUNK_LOAD. */
+    private static final Map<String, Rooftop> ROOFTOP = new LinkedHashMap<>();
+    private record Rooftop(ServerLevel level, SkyTowerLayout.Site site) {}
 
     private SkyTowerWorldgenRegistration() {}
 
@@ -32,7 +35,10 @@ public final class SkyTowerWorldgenRegistration {
             reconcileRooftop(level, chunk);
         });
         ServerTickEvents.END_SERVER_TICK.register(SkyTowerWorldgenRegistration::tick);
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> PENDING.clear());
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            PENDING.clear();
+            ROOFTOP.clear();
+        });
     }
 
     private static void reconcileRooftop(ServerLevel level, ChunkAccess chunk) {
@@ -44,7 +50,16 @@ public final class SkyTowerWorldgenRegistration {
             if (!site.dimension().equals(dim)) continue;
             var pt = site.rooftopVault();
             if (new ChunkPos(pt.x() >> 4, pt.z() >> 4).equals(chunkPos)) {
-                SkyTowerVaultRewards.placeAndConfigureRooftopVault(level, site);
+                // Level block access here would wait on this very chunk's FULL future and stall the server thread.
+                ROOFTOP.put(site.id(), new Rooftop(level, site));
+            }
+            // Towers registered before the group C hookup: reconcile spawners whose chunk is loading (idempotent).
+            for (int i = 0; i < 16; i++) {
+                var sp = site.spawner(i);
+                if (new ChunkPos(sp.x() >> 4, sp.z() >> 4).equals(chunkPos)
+                        && chunk.getBlockEntity(new net.minecraft.core.BlockPos(sp.x(), sp.y(), sp.z()))
+                                instanceof net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity spawner)
+                    SkyTowerTrialSpawners.configureLoading(level, chunk, spawner, i);
             }
         }
     }
@@ -84,6 +99,14 @@ public final class SkyTowerWorldgenRegistration {
     private static void tick(MinecraftServer server) {
         var data = server.overworld().getDataStorage().computeIfAbsent(SkyTowerData.TYPE);
         if (data.quarantined()) return;
+        var rooftops = ROOFTOP.values().iterator();
+        while (rooftops.hasNext()) {
+            Rooftop rooftop = rooftops.next();
+            if (rooftop.level().getServer() != server) continue;
+            rooftops.remove();
+            if (data.sites().containsKey(rooftop.site().id()))
+                SkyTowerVaultRewards.placeAndConfigureRooftopVault(rooftop.level(), rooftop.site());
+        }
         var iterator = PENDING.entrySet().iterator();
         while (iterator.hasNext()) {
             var entry = iterator.next();
@@ -99,6 +122,7 @@ public final class SkyTowerWorldgenRegistration {
                 if (added) {
                     MoreMinecrafts.LOGGER.info("Registered generated Sky Tower {}", pending.site().id());
                     SkyTowerVaultRewards.configureSiteVaults(pending.level(), pending.site());
+                    SkyTowerTrialSpawners.configureSite(pending.level(), pending.site());
                 }
                 iterator.remove();
             } catch (IllegalArgumentException | IllegalStateException conflict) {

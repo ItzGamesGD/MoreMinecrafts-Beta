@@ -31,6 +31,8 @@
       "dev.itzgamesgd.moreminecrafts.progression.KnowledgeAnimalFeedGameTests",
       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.SkyMobSpawnGameTests",
       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalChestGameTests",
