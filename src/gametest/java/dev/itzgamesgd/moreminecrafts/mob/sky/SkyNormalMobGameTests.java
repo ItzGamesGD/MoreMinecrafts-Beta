@@ -439,6 +439,9 @@ public final class SkyNormalMobGameTests implements CustomTestMethodInvoker {
         c.assertTrue(names.stream().noneMatch(n -> n.contains("WakeUpFriends") || n.contains("MergeWithStone")),
                 "D2/D3 goals removed, remaining: " + names);
         c.assertTrue(names.stream().anyMatch(n -> n.contains("MeleeAttackGoal")), "keeps melee AI: " + names);
+        c.assertTrue(bug.getGoalSelector().getAvailableGoals().stream().anyMatch(w -> w.getPriority() == 5
+                        && w.getGoal().getClass() == net.minecraft.world.entity.ai.goal.RandomStrollGoal.class),
+                "Q84 keeps vanilla idle wandering (plain RandomStrollGoal at priority 5): " + names);
         BlockPos stone = new BlockPos(4, 1, 2);
         c.setBlock(stone, Blocks.INFESTED_STONE);
         c.setBlock(new BlockPos(4, 1, 3), Blocks.STONE);

@@ -6,6 +6,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.entity.monster.Silverfish;
@@ -44,6 +45,9 @@ public final class CrystalBug extends Silverfish {
             String name = goal.getClass().getName();
             return name.endsWith("SilverfishWakeUpFriendsGoal") || name.endsWith("SilverfishMergeWithStoneGoal");
         });
+        // D3 removes only hiding in stone. The vanilla merge goal is also the Silverfish's only idle stroll
+        // (RandomStrollGoal, speed 1.0, interval 10, priority 5); keep that ordinary wandering (Q84).
+        goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0, 10));
     }
 
     @Override
