@@ -228,7 +228,9 @@ public final class St01SearchPreparationGameTests {
     @GameTest(maxTicks = 100)
     public void tradeIndexReadsExplorationMapsFromData(GameTestHelper ctx) {
         var access = ctx.getLevel().registryAccess();
-        ctx.assertTrue(St01MapTradeIndex.scan(access).isEmpty(), "production data has no ST-01 map trade; the index must be empty");
+        var scanned = St01MapTradeIndex.scan(access);
+        ctx.assertTrue(scanned.equals(List.of(new St01MapTradeIndex.Entry(VillagerProfession.CARTOGRAPHER, 4, 100, true))),
+                "production data: only the P8-D8 cartographer level-4 map (radius 100, vanilla skip_existing_chunks): " + scanned);
         RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, access);
         Holder<Structure> st01 = access.lookupOrThrow(Registries.STRUCTURE).get(dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Worldgen.STRUCTURE_ID).orElseThrow();
         String fixture = "[{\"type\":\"minecraft:exploration_map\",\"decoration\":\"minecraft:target_x\",\"destination\":[\"moreminecrafts:st01_pyramid\"],\"search_radius\":20},"
@@ -262,18 +264,26 @@ public final class St01SearchPreparationGameTests {
     }
 
     @GameTest(maxTicks = 100)
-    public void villagerTriggersAreInertWithoutAnST01MapTrade(GameTestHelper ctx) {
-        ctx.assertTrue(St01MapTradeIndex.entries().isEmpty(), "production data has no ST-01 map trade");
+    public void onlyVillagersThatCanStillBeOfferedTheMapRequestPreparation(GameTestHelper ctx) {
+        var professions = ctx.getLevel().registryAccess().lookupOrThrow(Registries.VILLAGER_PROFESSION);
         long requests = St01SearchPreparation.REQUESTS.get();
-        Villager v = EntityTypes.VILLAGER.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
-        ctx.assertTrue(v != null, "villager");
+        Villager farmer = EntityTypes.VILLAGER.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
         BlockPos at = ctx.absolutePos(new BlockPos(1, 2, 1));
-        v.setPos(at.getX() + 0.5, at.getY(), at.getZ() + 0.5);
-        ctx.getLevel().addFreshEntity(v);
-        v.setVillagerData(v.getVillagerData().withProfession(ctx.getLevel().registryAccess().lookupOrThrow(Registries.VILLAGER_PROFESSION)
-                .getOrThrow(VillagerProfession.CARTOGRAPHER)));
-        ctx.assertTrue(St01SearchPreparation.REQUESTS.get() == requests, "no request may be made without an ST-01 map trade");
-        v.discard();
+        farmer.setPos(at.getX() + 0.5, at.getY(), at.getZ() + 0.5);
+        ctx.getLevel().addFreshEntity(farmer);
+        farmer.setVillagerData(farmer.getVillagerData().withProfession(professions.getOrThrow(VillagerProfession.FARMER)));
+        ctx.assertTrue(St01SearchPreparation.REQUESTS.get() == requests, "a farmer must not request preparation");
+        Villager master = EntityTypes.VILLAGER.create(ctx.getLevel(), EntitySpawnReason.COMMAND);
+        master.setPos(at.getX() + 0.5, at.getY(), at.getZ() + 0.5);
+        ctx.getLevel().addFreshEntity(master);
+        master.setVillagerData(master.getVillagerData().withProfession(professions.getOrThrow(VillagerProfession.CARTOGRAPHER)).withLevel(5));
+        master.getOffers();
+        long before = St01SearchPreparation.REQUESTS.get();
+        master.setVillagerData(master.getVillagerData().withLevel(5));
+        ctx.assertTrue(St01SearchPreparation.REQUESTS.get() == before, "a level-5 cartographer with generated offers must not request preparation");
+        farmer.discard();
+        master.discard();
         ctx.succeed();
     }
+
 }

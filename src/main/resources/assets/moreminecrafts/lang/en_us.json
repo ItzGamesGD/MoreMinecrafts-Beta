@@ -1171,5 +1171,7 @@
   "item.moreminecrafts.t1_sprint_acceleration": "Sprint Acceleration (T1, provisional)",
   "item.moreminecrafts.t1_double_jump": "Double Jump (T1, provisional)",
   "container.moreminecrafts.royal_chest.primary": "Royal Chest (Primary)",
-  "container.moreminecrafts.royal_chest.secondary": "Royal Chest (Secondary)"
+  "container.moreminecrafts.royal_chest.secondary": "Royal Chest (Secondary)",
+  "item.moreminecrafts.st01_pyramid_map": "Colossal Pyramid Map",
+  "item.moreminecrafts.st01_pyramid_map.charting": "Charting a Colossal Pyramid Map..."
 }

@@ -1090,5 +1090,7 @@
   "item.moreminecrafts.t1_sprint_acceleration": "질주 가속 (T1 임시)",
   "item.moreminecrafts.t1_double_jump": "더블 점프 (T1 임시)",
   "container.moreminecrafts.royal_chest.primary": "왕실 상자 (주)",
-  "container.moreminecrafts.royal_chest.secondary": "왕실 상자 (보조)"
+  "container.moreminecrafts.royal_chest.secondary": "왕실 상자 (보조)",
+  "item.moreminecrafts.st01_pyramid_map": "거대 피라미드 지도",
+  "item.moreminecrafts.st01_pyramid_map.charting": "거대 피라미드 지도 제작 중..."
 }

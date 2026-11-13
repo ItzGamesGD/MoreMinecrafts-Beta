@@ -117,16 +117,23 @@ public final class St01SearchPreparation {
             RandomSpreadStructurePlacement placement) {}
 
     /** Requests with the same key visit the same candidates (vanilla's rings depend on the origin's placement region only). */
-    public record Key(Object owner, int regionX, int regionZ, int radius) {
+    public record Key(Object owner, int regionX, int regionZ, int radius, int minEligible) {
         static Key of(Target t, BlockPos origin, int radius) {
+            return of(t, origin, radius, 1);
+        }
+
+        static Key of(Target t, BlockPos origin, int radius, int minEligible) {
             int spacing = t.placement().spacing();
             return new Key(t.owner(), Math.floorDiv(SectionPos.blockToSectionCoord(origin.getX()), spacing),
-                    Math.floorDiv(SectionPos.blockToSectionCoord(origin.getZ()), spacing), radius);
+                    Math.floorDiv(SectionPos.blockToSectionCoord(origin.getZ()), spacing), radius, Math.max(1, minEligible));
         }
     }
 
+    /** An eligible ST-01 start found by a preparation, with its vanilla search ring. */
+    public record Eligible(ChunkPos chunk, int ring) {}
+
     /** A completed preparation: candidates decided, the first eligible candidate in ring order, worker CPU and wall time. */
-    public record Result(int candidates, Optional<ChunkPos> firstEligible, int eligibleRing, long cpuNanos, long wallNanos) {}
+    public record Result(int candidates, Optional<ChunkPos> firstEligible, int eligibleRing, List<Eligible> eligible, long cpuNanos, long wallNanos) {}
 
     /** Server-thread action that feeds one prepared candidate into vanilla's StructureCheck. */
     @FunctionalInterface
@@ -179,9 +186,14 @@ public final class St01SearchPreparation {
         }
 
         public synchronized Status request(Target target, BlockPos origin, int radius) {
+            return request(target, origin, radius, 1);
+        }
+
+        /** As {@link #request(Target, BlockPos, int)}, continuing until at least {@code minEligible} eligible starts are found. */
+        public synchronized Status request(Target target, BlockPos origin, int radius, int minEligible) {
             REQUESTS.incrementAndGet();
             if (shutdown) return reject();
-            Key key = Key.of(target, origin, radius);
+            Key key = Key.of(target, origin, radius, minEligible);
             if (ready.get(key) != null) return Status.READY;
             if (pending.containsKey(key)) return Status.PENDING;
             if (pending.size() >= cap) return reject();
@@ -210,7 +222,17 @@ public final class St01SearchPreparation {
         }
 
         public synchronized Optional<Result> result(Target target, BlockPos origin, int radius) {
-            return Optional.ofNullable(ready.get(Key.of(target, origin, radius)));
+            return result(target, origin, radius, 1);
+        }
+
+        public synchronized Optional<Result> result(Target target, BlockPos origin, int radius, int minEligible) {
+            return Optional.ofNullable(ready.get(Key.of(target, origin, radius, minEligible)));
+        }
+
+        public synchronized Status status(Target target, BlockPos origin, int radius, int minEligible) {
+            Key key = Key.of(target, origin, radius, minEligible);
+            if (ready.containsKey(key)) return Status.READY;
+            return pending.containsKey(key) ? Status.PENDING : Status.INERT;
         }
 
         public synchronized int pendingCount() { return pending.size(); }
@@ -286,13 +308,14 @@ public final class St01SearchPreparation {
         private void run(Job job) {
             long cpu0 = cpuNanos(), wall0 = System.nanoTime();
             List<ChunkPos> candidates = new ArrayList<>();
+            List<Eligible> eligible = new ArrayList<>();
             int[] eligibleRing = {-1};
             ChunkPos[] first = {null};
             Throwable failure = null;
             boolean cancelled = false;
             St01Cancellation.enter(() -> job.cancelled || shutdown);
             try {
-                prepare(job, candidates, eligibleRing, first);
+                prepare(job, candidates, eligible, eligibleRing, first);
             } catch (CancellationException e) {
                 cancelled = true;
             } catch (Throwable t) {
@@ -310,21 +333,23 @@ public final class St01SearchPreparation {
                     FAILED.incrementAndGet();
                     LOG.warn("ST-01 search preparation failed for {}; vanilla search is unaffected", job.key, failure);
                 } else {
-                    ready.put(job.key, new Result(candidates.size(), Optional.ofNullable(first[0]), eligibleRing[0], cpu, System.nanoTime() - wall0));
+                    ready.put(job.key, new Result(candidates.size(), Optional.ofNullable(first[0]), eligibleRing[0], List.copyOf(eligible), cpu, System.nanoTime() - wall0));
                     for (ChunkPos c : candidates) warm.add(new WarmItem(job.key, job.target, c));
                     COMPLETED.incrementAndGet();
                 }
             }
         }
 
-        private void prepare(Job job, List<ChunkPos> candidates, int[] eligibleRing, ChunkPos[] first) {
+        private void prepare(Job job, List<ChunkPos> candidates, List<Eligible> eligible, int[] eligibleRing, ChunkPos[] first) {
             Target t = job.target;
             RandomSpreadStructurePlacement placement = t.placement();
             Climate.Sampler sampler = t.randomState().createClimateSampler(SamplerContext.builder().enableCaches().build());
             int cx = SectionPos.blockToSectionCoord(job.origin.getX()), cz = SectionPos.blockToSectionCoord(job.origin.getZ());
             int radius = job.key.radius();
             // the candidate order of vanilla's ChunkGenerator.getNearestGeneratedStructure for a random-spread placement
-            for (int r = 0; r <= radius && (eligibleRing[0] < 0 || r <= eligibleRing[0] + extraRings); r++) {
+            int wanted = job.key.minEligible();
+            // stop extraRings rings after the ring holding the wanted-th eligible start
+            for (int r = 0; r <= radius && (eligible.size() < wanted || r <= eligible.get(wanted - 1).ring() + extraRings); r++) {
                 for (int k = -r; k <= r; k++) {
                     boolean edgeX = k == -r || k == r;
                     for (int l = -r; l <= r; l++) {
@@ -339,6 +364,7 @@ public final class St01SearchPreparation {
                                 () -> St01Candidate.decide(new St01PyramidStructure.GeneratorTerrain(ctx), c, rotation, t.seed()));
                         candidates.add(c);
                         CANDIDATES.incrementAndGet();
+                        if (d.result().eligible()) eligible.add(new Eligible(c, r));
                         if (d.result().eligible() && eligibleRing[0] < 0) {
                             eligibleRing[0] = r;
                             first[0] = c;
@@ -425,10 +451,15 @@ public final class St01SearchPreparation {
 
     /** Server thread: queue preparation of a {@code radius} ST-01 explorer-map search from {@code origin}. */
     public static Status requestFor(ServerLevel level, BlockPos origin, int radius) {
+        return requestFor(level, origin, radius, 1);
+    }
+
+    /** Server thread: as {@link #requestFor(ServerLevel, BlockPos, int)}, until at least {@code minEligible} eligible starts are found. */
+    public static Status requestFor(ServerLevel level, BlockPos origin, int radius, int minEligible) {
         Preparer p = service;
         if (p == null || disabled() || !level.getServer().isSameThread()) return Status.INERT;
         Optional<Target> target = targetFor(level);
-        return target.isEmpty() ? Status.INERT : p.request(target.get(), origin, radius);
+        return target.isEmpty() ? Status.INERT : p.request(target.get(), origin, radius, minEligible);
     }
 
     /** Server thread: a villager's data changed or its trading screen opened. */

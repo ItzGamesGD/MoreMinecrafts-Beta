@@ -48,6 +48,15 @@ public final class St01MapTradeIndex {
 
     private static volatile List<Entry> entries = List.of();
 
+    /** A trade offered outside the profession's trade sets (added by code when the level's trades are generated). */
+    public record AppendedTrade(ResourceKey<VillagerProfession> profession, int level, ResourceKey<VillagerTrade> trade) {}
+
+    private static final List<AppendedTrade> APPENDED = new java.util.concurrent.CopyOnWriteArrayList<>();
+
+    public static void registerAppendedTrade(ResourceKey<VillagerProfession> profession, int level, ResourceKey<VillagerTrade> trade) {
+        APPENDED.add(new AppendedTrade(profession, level, trade));
+    }
+
     public static List<Entry> entries() { return entries; }
 
     public static void clear() { entries = List.of(); }
@@ -80,7 +89,32 @@ public final class St01MapTradeIndex {
                 }
             }
         }
+        var trades = access.lookupOrThrow(Registries.VILLAGER_TRADE);
+        for (AppendedTrade a : APPENDED) {
+            trades.get(a.trade()).ifPresent(trade -> {
+                for (MapSearch m : searchesOf(trade.value(), ops, st01.get())) out.add(new Entry(a.profession(), a.level(), m.radius(), m.skipExisting()));
+            });
+        }
         return new ArrayList<>(out);
+    }
+
+    /** Whether {@code trade} applies any explorer-map function (vanilla or ST-01): such trades run a structure search. */
+    public static boolean makesExplorerMap(VillagerTrade trade, RegistryOps<JsonElement> ops) {
+        Optional<Holder<LootItemFunction>> modifier = ((St01VillagerTradeAccessor) (Object) trade).moreminecrafts$givenItemModifier();
+        if (modifier.isEmpty()) return false;
+        Optional<JsonElement> json = LootItemFunctions.DIRECT_CODEC.encodeStart(ops, modifier.get().value()).result();
+        return json.isPresent() && containsExplorationMap(json.get());
+    }
+
+    private static boolean containsExplorationMap(JsonElement json) {
+        if (json.isJsonArray()) {
+            for (JsonElement e : json.getAsJsonArray()) if (containsExplorationMap(e)) return true;
+            return false;
+        }
+        if (!json.isJsonObject()) return false;
+        if (isExplorationMap(json.getAsJsonObject())) return true;
+        for (var e : json.getAsJsonObject().entrySet()) if (containsExplorationMap(e.getValue())) return true;
+        return false;
     }
 
     /** The ST-01 explorer-map functions applied to what {@code trade} gives. */

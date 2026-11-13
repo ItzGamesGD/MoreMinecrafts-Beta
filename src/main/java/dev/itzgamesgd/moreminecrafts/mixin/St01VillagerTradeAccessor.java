@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 
 import java.util.Optional;
 import net.minecraft.core.Holder;
+import net.minecraft.world.item.trading.TradeCost;
 import net.minecraft.world.item.trading.VillagerTrade;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,4 +13,11 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface St01VillagerTradeAccessor {
     @Accessor("givenItemModifier")
     Optional<Holder<LootItemFunction>> moreminecrafts$givenItemModifier();
+
+    /** ST-01 P8-D8: the price shown (never accepted) by a pending map offer. */
+    @Accessor("wants")
+    TradeCost moreminecrafts$wants();
+
+    @Accessor("additionalWants")
+    Optional<TradeCost> moreminecrafts$additionalWants();
 }
