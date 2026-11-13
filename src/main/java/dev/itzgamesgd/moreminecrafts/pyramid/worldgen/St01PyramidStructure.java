@@ -110,8 +110,11 @@ public final class St01PyramidStructure extends Structure {
         public int surfaceHeight(int x, int z) {
             if (batched) {
                 int cx = x >> 4, cz = z >> 4;
-                int[] chunk = chunkHeights.computeIfAbsent(key(cx, cz), k -> St01FastTerrain.fillChunk(
-                        (NoiseBasedChunkGenerator) context.chunkGenerator(), context.heightAccessor(), context.randomState(), cx << 4, cz << 4));
+                int[] chunk = chunkHeights.computeIfAbsent(key(cx, cz), k -> {
+                    St01Cancellation.check();
+                    return St01FastTerrain.fillChunk((NoiseBasedChunkGenerator) context.chunkGenerator(), context.heightAccessor(),
+                            context.randomState(), cx << 4, cz << 4);
+                });
                 int h = chunk[(x - (cx << 4)) * 16 + (z - (cz << 4))];
                 if (spotChecked) return h;
                 spotChecked = true;
@@ -123,6 +126,7 @@ public final class St01PyramidStructure extends Structure {
         }
 
         private int legacyHeight(int x, int z) {
+            St01Cancellation.check();
             St01FastTerrain.LEGACY_COLUMN_HEIGHTS.incrementAndGet();
             return context.chunkGenerator().getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
         }
@@ -135,8 +139,10 @@ public final class St01PyramidStructure extends Structure {
         @Override
         public boolean desertPossibleInColumn(int quartX, int quartZ) {
             if (!prefilter) return true;
-            return columns.computeIfAbsent(key(quartX, quartZ), k -> St01FastTerrain.desertPairPossible(context.biomeSource(),
-                    context.climateSampler(), context.heightAccessor(), quartX, quartZ));
+            return columns.computeIfAbsent(key(quartX, quartZ), k -> {
+                St01Cancellation.check();
+                return St01FastTerrain.desertPairPossible(context.biomeSource(), context.climateSampler(), context.heightAccessor(), quartX, quartZ);
+            });
         }
     }
 }

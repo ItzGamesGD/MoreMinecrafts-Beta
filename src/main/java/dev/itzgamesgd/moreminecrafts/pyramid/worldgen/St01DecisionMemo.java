@@ -73,6 +73,19 @@ public final class St01DecisionMemo {
         return cache != null && cache.get(context.chunkPos().pack()) != null;
     }
 
+    /**
+     * Whether a decision for {@code chunk} is remembered for the world described by the arguments (P8-D6: lets the
+     * server-thread cache warm-up skip every candidate it would otherwise have to evaluate itself).
+     */
+    public static boolean contains(RandomState randomState, ChunkGenerator generator, long seed, int minY, int height, net.minecraft.world.level.ChunkPos chunk) {
+        if (!enabled()) return false;
+        Cache c;
+        synchronized (CACHES) {
+            c = CACHES.get(randomState);
+        }
+        return c != null && c.matches(generator, seed, minY, height) && c.get(chunk.pack()) != null;
+    }
+
     public static int size(RandomState randomState) {
         synchronized (CACHES) {
             Cache c = CACHES.get(randomState);
@@ -115,8 +128,11 @@ public final class St01DecisionMemo {
         }
 
         boolean matches(Structure.GenerationContext context) {
-            return generator.get() == context.chunkGenerator() && seed == context.seed()
-                    && minY == context.heightAccessor().getMinY() && height == context.heightAccessor().getHeight();
+            return matches(context.chunkGenerator(), context.seed(), context.heightAccessor().getMinY(), context.heightAccessor().getHeight());
+        }
+
+        boolean matches(ChunkGenerator generator, long seed, int minY, int height) {
+            return this.generator.get() == generator && this.seed == seed && this.minY == minY && this.height == height;
         }
 
         synchronized St01Candidate.Decision get(long key) { return entries.get(key); }

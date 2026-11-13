@@ -29,6 +29,7 @@ public final class St01Worldgen {
         ASSEMBLY_PIECE = Registry.register(BuiltInRegistries.STRUCTURE_PIECE, ASSEMBLY_PIECE_ID,
                 (StructurePieceType) St01AssemblyPiece::new);
         St01PyramidCompletion.initialize();
+        St01SearchPreparation.initialize();
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server -> St01DecisionMemo.clear());
     }
 }
