@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "dev.itzgamesgd.moreminecrafts.st01d7.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "St01D7VillagerTradeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
