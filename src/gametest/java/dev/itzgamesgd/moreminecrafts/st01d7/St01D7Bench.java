@@ -135,6 +135,14 @@ public final class St01D7Bench implements ModInitializer {
                     if (placeholderNow) {
                         attemptsBeforeReplacement++;
                         if (tryBuy()) successesBeforeReplacement++;
+                        if (St01D7Placeholders.markerOf(offers().get(mapIndex)).get().getBooleanOr("unresolved", false) && phaseTick > 40) {
+                            result.put("unresolved_after_ms", (System.nanoTime() - phaseStart) / 1e6);
+                            result.put("attempts_while_placeholder", attemptsBeforeReplacement);
+                            result.put("successful_purchases_while_placeholder", successesBeforeReplacement);
+                            result.put("offers_after", describe(villager));
+                            finish(false);
+                            return;
+                        }
                         if (scenario.equals("pending-save") && phaseTick >= 200) { result.put("offers_at_save", describe(villager)); finish(true); return; }
                         if (phaseTick > 6000) throw new IllegalStateException("placeholder never replaced");
                     } else {
