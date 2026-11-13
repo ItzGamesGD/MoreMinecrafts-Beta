@@ -86,6 +86,8 @@ public final class St01D8MapTradeBench implements ModInitializer {
         final Map<String, Double> phaseMax = new LinkedHashMap<>();
         final List<String> events = new ArrayList<>();
         final List<Buyer> buyers = new ArrayList<>();
+        final Map<Integer, Double> pendingTicks = new LinkedHashMap<>();
+        final java.util.Set<Integer> replacementTicks = new java.util.TreeSet<>();
         String phase = "WARMUP";
         int tick, phaseTick;
         long tickStart, phaseStart, heapBefore;
@@ -168,7 +170,7 @@ public final class St01D8MapTradeBench implements ModInitializer {
                             if (tryBuy(b) != null) b.successesWhilePlaceholder++;
                             continue;
                         }
-                        if (b.replacedTick < 0) b.replacedTick = tick;
+                        if (b.replacedTick < 0) { b.replacedTick = tick; replacementTicks.add(tick); }
                         b.attempts++;
                         String got = tryBuy(b);
                         if (got != null) b.bought = got;
@@ -196,6 +198,7 @@ public final class St01D8MapTradeBench implements ModInitializer {
             }
             double ms = (System.nanoTime() - tickStart) / 1e6;
             phaseMax.merge(label, ms, Math::max);
+            if (label.equals("PENDING")) pendingTicks.put(tick, ms);
         }
 
         Villager spawn(int x, int z) {
@@ -325,6 +328,14 @@ public final class St01D8MapTradeBench implements ModInitializer {
             }
             result.put("buyers", b);
             result.put("events", events);
+            Map<String, Double> rep = new LinkedHashMap<>();
+            for (int t : replacementTicks) rep.put("tick " + t, pendingTicks.get(t));
+            result.put("replacement_tick_ms", rep);
+            double other = 0;
+            for (var e : pendingTicks.entrySet()) if (!replacementTicks.contains(e.getKey())) other = Math.max(other, e.getValue());
+            result.put("max_pending_tick_without_replacement_ms", other);
+            result.put("slowest_pending_ticks", pendingTicks.entrySet().stream().sorted((x1, x2) -> Double.compare(x2.getValue(), x1.getValue())).limit(4)
+                    .map(e -> e.getKey() + ":" + Math.round(e.getValue())).toList());
             result.put("phase_max_tick_ms", phaseMax);
             result.put("placeholders_created", St01MapPlaceholders.CREATED.get());
             result.put("replaced", St01MapPlaceholders.REPLACED.get());
@@ -343,6 +354,14 @@ public final class St01D8MapTradeBench implements ModInitializer {
             }
             for (Buyer x : buyers) if (x.player != null && x.player.containerMenu instanceof MerchantMenu) x.player.closeContainer();
             if (save) server.saveEverything(true, true, true);
+            String jfr = System.getProperty("mm.st01.d8.jfr");
+            if (jfr != null) {
+                try {
+                    for (var r : jdk.jfr.FlightRecorder.getFlightRecorder().getRecordings()) r.dump(Path.of(jfr));
+                } catch (Exception e) {
+                    LOG.error("jfr dump failed", e);
+                }
+            }
             try {
                 Path p = Path.of(out);
                 if (p.getParent() != null) Files.createDirectories(p.getParent());
