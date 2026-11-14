@@ -72,7 +72,9 @@ public final class PyramidMobGameTests implements CustomTestMethodInvoker {
                 helper.assertTrue(mob.getAttributes().hasAttribute(attribute) == present,
                         "same attribute set " + attribute.getRegisteredName() + " " + variant);
                 if (!present) continue;
-                helper.assertTrue(mob.getAttributeBaseValue(attribute) == reference.getAttributeBaseValue(attribute),
+                double expected = variant == PyramidMobs.GILDED_MUMMY && attribute == Attributes.MAX_HEALTH
+                        ? 28.0D : reference.getAttributeBaseValue(attribute); // owner-confirmed 28; others vanilla
+                helper.assertTrue(mob.getAttributeBaseValue(attribute) == expected,
                         "vanilla " + attribute.getRegisteredName() + " " + variant);
             }
             var dims = variant.getDimensions();
@@ -97,6 +99,15 @@ public final class PyramidMobGameTests implements CustomTestMethodInvoker {
                 helper.assertTrue(variant.builtInRegistryHolder().is(tag) == base.builtInRegistryHolder().is(tag), "tag parity " + tag.location() + " " + variant);
             }
         }
+        helper.succeed();
+    }
+
+    @GameTest
+    public void goldenMummyHasOwnerConfirmedMaxHealth(GameTestHelper helper) {
+        Mob gilded = PyramidMobs.GILDED_MUMMY.create(helper.getLevel(), EntitySpawnReason.COMMAND);
+        helper.assertTrue(gilded != null, "creatable gilded mummy");
+        helper.assertTrue(gilded.getAttributeBaseValue(Attributes.MAX_HEALTH) == 28.0D,
+                "gilded mummy max health 28, was " + gilded.getAttributeBaseValue(Attributes.MAX_HEALTH));
         helper.succeed();
     }
 
