@@ -57,6 +57,9 @@ public final class St01AssemblyPiece extends TemplateStructurePiece {
         this.route = route(tag);
     }
 
+    /** True for the D1 royal hall piece (the boss room, where natural monster spawning is blocked). */
+    public boolean isRoyalHall() { return piece(route, pieceIndex).royalHall(); }
+
     private static Orientation orientation(CompoundTag tag) { return Orientation.valueOf(tag.getStringOr("St01Orientation", "SOUTH")); }
 
     private static AccessRoute route(CompoundTag tag) { return AccessRoute.valueOf(tag.getStringOr("St01Route", "EAST")); }
