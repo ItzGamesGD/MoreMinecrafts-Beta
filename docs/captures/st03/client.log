@@ -195,56 +195,12 @@ Fabric Loom: 1.17.21
     T14#3 extends Object declared in method <T1#16,T2#15,T3#14,T4#13,T5#12,T6#11,T7#10,T8#9,T9#8,T10#7,T11#6,T12#5,T13#4,T14#3,T15#2,T16>group(App<F,T1#16>,App<F,T2#15>,App<F,T3#14>,App<F,T4#13>,App<F,T5#12>,App<F,T6#11>,App<F,T7#10>,App<F,T8#9>,App<F,T9#8>,App<F,T10#7>,App<F,T11#6>,App<F,T12#5>,App<F,T13#4>,App<F,T14#3>,App<F,T15#2>,App<F,T16>)
     T15#2 extends Object declared in method <T1#16,T2#15,T3#14,T4#13,T5#12,T6#11,T7#10,T8#9,T9#8,T10#7,T11#6,T12#5,T13#4,T14#3,T15#2,T16>group(App<F,T1#16>,App<F,T2#15>,App<F,T3#14>,App<F,T4#13>,App<F,T5#12>,App<F,T6#11>,App<F,T7#10>,App<F,T8#9>,App<F,T9#8>,App<F,T10#7>,App<F,T11#6>,App<F,T12#5>,App<F,T13#4>,App<F,T14#3>,App<F,T15#2>,App<F,T16>)
     T16 extends Object declared in method <T1#16,T2#15,T3#14,T4#13,T5#12,T6#11,T7#10,T8#9,T9#8,T10#7,T11#6,T12#5,T13#4,T14#3,T15#2,T16>group(App<F,T1#16>,App<F,T2#15>,App<F,T3#14>,App<F,T4#13>,App<F,T5#12>,App<F,T6#11>,App<F,T7#10>,App<F,T8#9>,App<F,T9#8>,App<F,T10#7>,App<F,T11#6>,App<F,T12#5>,App<F,T13#4>,App<F,T14#3>,App<F,T15#2>,App<F,T16>)
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03HeadquartersCompletion.java:33: error: incompatible types: incompatible parameter types in lambda expression
-        ServerChunkEvents.CHUNK_LOAD.register((level, chunk) -> {
-                                              ^
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03GarrisonManager.java:97: error: cannot find symbol
-        Villager villager = EntityType.VILLAGER.create(level, EntitySpawnReason.STRUCTURE);
-                                      ^
-  symbol:   variable VILLAGER
-  location: class EntityType
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03GarrisonManager.java:115: error: cannot find symbol
-            case RAVAGER -> EntityType.RAVAGER.create(level, EntitySpawnReason.STRUCTURE);
-                                      ^
-  symbol:   variable RAVAGER
-  location: class EntityType
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03GarrisonManager.java:192: error: cannot find symbol
-        boolean isCommander = entity.getTags().contains(TAG_COMMANDER);
-                                    ^
-  symbol:   method getTags()
-  location: variable entity of type LivingEntity
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03GarrisonManager.java:193: error: cannot find symbol
-        for (String tag : entity.getTags()) {
-                                ^
-  symbol:   method getTags()
-  location: variable entity of type LivingEntity
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03PostClearHandler.java:40: error: cannot find symbol
-                || entityType == EntityType.ENDERMAN
-                                           ^
-  symbol:   variable ENDERMAN
-  location: class EntityType
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03PostClearHandler.java:41: error: cannot find symbol
-                || entityType == EntityType.CREEPER;
-                                           ^
-  symbol:   variable CREEPER
-  location: class EntityType
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03PostClearHandler.java:55: error: cannot find symbol
-        long dayTime = level.getDayTime();
-                            ^
-  symbol:   method getDayTime()
-  location: variable level of type ServerLevel
-/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03PostClearHandler.java:128: error: cannot find symbol
-                Villager villager = EntityType.VILLAGER.create(level, EntitySpawnReason.NATURAL);
-                                              ^
-  symbol:   variable VILLAGER
-  location: class EntityType
 Note: Some input files use or override a deprecated API.
 Note: Recompile with -Xlint:deprecation for details.
-Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
-10 errors
+1 error
 
 > Task :compileJava FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_3-1794683236927.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_3-1794683536986.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/reports/problems/problems-report.html
 
@@ -443,56 +399,12 @@ Execution failed for task ':compileJava' (registered by plugin class 'org.gradle
       T15#2 extends Object declared in method <T1#16,T2#15,T3#14,T4#13,T5#12,T6#11,T7#10,T8#9,T9#8,T10#7,T11#6,T12#5,T13#4,T14#3,T15#2,T16>group(App<F,T1#16>,App<F,T2#15>,App<F,T3#14>,App<F,T4#13>,App<F,T5#12>,App<F,T6#11>,App<F,T7#10>,App<F,T8#9>,App<F,T9#8>,App<F,T10#7>,App<F,T11#6>,App<F,T12#5>,App<F,T13#4>,App<F,T14#3>,App<F,T15#2>,App<F,T16>)
       T16 extends Object declared in method <T1#16,T2#15,T3#14,T4#13,T5#12,T6#11,T7#10,T8#9,T9#8,T10#7,T11#6,T12#5,T13#4,T14#3,T15#2,T16>group(App<F,T1#16>,App<F,T2#15>,App<F,T3#14>,App<F,T4#13>,App<F,T5#12>,App<F,T6#11>,App<F,T7#10>,App<F,T8#9>,App<F,T9#8>,App<F,T10#7>,App<F,T11#6>,App<F,T12#5>,App<F,T13#4>,App<F,T14#3>,App<F,T15#2>,App<F,T16>)
   Note: Recompile with -Xlint:deprecation for details.
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03HeadquartersCompletion.java:33: error: incompatible types: incompatible parameter types in lambda expression
-          ServerChunkEvents.CHUNK_LOAD.register((level, chunk) -> {
-                                                ^
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03GarrisonManager.java:97: error: cannot find symbol
-          Villager villager = EntityType.VILLAGER.create(level, EntitySpawnReason.STRUCTURE);
-                                        ^
-    symbol:   variable VILLAGER
-    location: class EntityType
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03GarrisonManager.java:115: error: cannot find symbol
-              case RAVAGER -> EntityType.RAVAGER.create(level, EntitySpawnReason.STRUCTURE);
-                                        ^
-    symbol:   variable RAVAGER
-    location: class EntityType
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03PostClearHandler.java:40: error: cannot find symbol
-                  || entityType == EntityType.ENDERMAN
-                                             ^
-    symbol:   variable ENDERMAN
-    location: class EntityType
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03PostClearHandler.java:41: error: cannot find symbol
-                  || entityType == EntityType.CREEPER;
-                                             ^
-    symbol:   variable CREEPER
-    location: class EntityType
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03PostClearHandler.java:128: error: cannot find symbol
-                  Villager villager = EntityType.VILLAGER.create(level, EntitySpawnReason.NATURAL);
-                                                ^
-    symbol:   variable VILLAGER
-    location: class EntityType
   Note: Some input files use or override a deprecated API.
-  Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03GarrisonManager.java:192: error: cannot find symbol
-          boolean isCommander = entity.getTags().contains(TAG_COMMANDER);
-                                      ^
-    symbol:   method getTags()
-    location: variable entity of type LivingEntity
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03GarrisonManager.java:193: error: cannot find symbol
-          for (String tag : entity.getTags()) {
-                                  ^
-    symbol:   method getTags()
-    location: variable entity of type LivingEntity
-  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/main/java/dev/itzgamesgd/moreminecrafts/pillagerhq/St03PostClearHandler.java:55: error: cannot find symbol
-          long dayTime = level.getDayTime();
-                              ^
-    symbol:   method getDayTime()
-    location: variable level of type ServerLevel
-  10 errors
+  1 error
 
 * Try:
 > Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights from a Build Scan (powered by Develocity).
 
-BUILD FAILED in 24s
+BUILD FAILED in 23s
 1 actionable task: 1 executed
