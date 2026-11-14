@@ -23,8 +23,8 @@ import org.joml.Vector3f;
  */
 public final class TombVfxDisplay extends Display.ItemDisplay {
     private static final int RISE_TICKS = TombStatueShape.RISE_TICKS;
-    private static final float STATUE_SCALE = (float) (TombGuardianTuning.STATUE_HEIGHT / 2.0D);
-    private static final float CIRCLE_SCALE = (float) (TombGuardianTuning.STATUE_RADIUS * 2.0D);
+    private static final float STATUE_SCALE = (float) (TombGuardianTuning.SPIKE_HEIGHT / 2.0D);
+    private static final float CIRCLE_SCALE = (float) (TombGuardianTuning.SPIKE_RADIUS * 2.0D);
 
     private boolean statue;
     private int lifetime = 1;
@@ -103,7 +103,7 @@ public final class TombVfxDisplay extends Display.ItemDisplay {
     private static Transformation statueTransform(boolean buried) {
         // The statue model spans 32 units (two blocks) upward; scaled so its base sits on the floor when risen.
         float base = STATUE_SCALE * 0.5F;
-        float y = buried ? base - (float) TombGuardianTuning.STATUE_HEIGHT - (float) TombStatueShape.BURY_DEPTH : base;
+        float y = buried ? base - (float) TombGuardianTuning.SPIKE_HEIGHT - (float) TombStatueShape.BURY_DEPTH : base;
         return new Transformation(new Vector3f(0.0F, y, 0.0F), null,
                 new Vector3f(STATUE_SCALE, STATUE_SCALE, STATUE_SCALE), null);
     }

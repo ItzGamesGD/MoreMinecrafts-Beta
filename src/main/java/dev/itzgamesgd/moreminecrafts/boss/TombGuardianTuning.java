@@ -1,65 +1,99 @@
 package dev.itzgamesgd.moreminecrafts.boss;
 
 /**
- * Tomb Guardian combat numbers. Every value here is the PROVISIONAL proposal recorded in
- * docs/PYRAMID_DESIGN_PREP_2026-10-25.md ("NUMBERS REMAIN PROVISIONAL despite encounter design lock");
- * only the 40% enrage threshold and the Ancient Heart 50% x1 drop (SKY_ISLANDS_T2_CONTEXT §18.4) are
- * owner-approved. Values marked HOW are implementation choices needed to realise an approved behaviour
- * where the documents give no number; they are reported for owner review, not locked authority.
+ * Tomb Guardian combat numbers, synchronised to the owner-confirmed 2026-11-14 redesign
+ * (docs/design/st01_tomb_guardian/2026-11-14_ST01_왕릉수호자_설계_확정_및_PYRAMID_DESIGN_PREP_정정명세.md).
+ * Values without a "HOW" marker are spec values. Values marked HOW are implementation choices for mechanics the
+ * spec describes without a number; they are listed for owner review and are not confirmed authority.
  */
 public final class TombGuardianTuning {
     private TombGuardianTuning() {}
 
-    // Attributes.
-    public static final double MAX_HEALTH = 200.0D;
-    public static final double MELEE_DAMAGE = 10.0D;
+    // Attributes (spec 4.0).
+    public static final double MAX_HEALTH = 300.0D;
+    public static final double ARMOR = 12.0D;
+    public static final double MOVEMENT_SPEED = 0.21D;
+    /** Enrage speed is 0.24 (spec 4.0). Applied as an additive modifier of the difference. */
+    public static final double ENRAGED_MOVEMENT_SPEED = 0.24D;
+    /** HOW: not stated by the spec; kept at the existing value. */
     public static final double KNOCKBACK_RESISTANCE = 0.8D;
-    /** Sight detection ~24 blocks (Balance V1). */
+    /** HOW: not stated by the spec; kept at the existing value. */
     public static final double FOLLOW_RANGE = 24.0D;
-    /** Balance V1: "movement speed slower than zombie" (zombie 0.23). */
-    public static final double MOVEMENT_SPEED = 0.20D;
+    /** HOW: base attack attribute is unused by the attacks, which carry their own spec damage. */
+    public static final double MELEE_DAMAGE = 10.0D;
 
-    // Model / hitbox: ~4-5 block tall armored Warden-derived model; Warden 0.9 x 2.9 scaled by 1.5.
+    // Model and hitbox (spec 2): 1.35 wide x 4.35 tall, eye height 3.6975.
     public static final float MODEL_SCALE = 1.5F;
-    public static final float WIDTH = 0.9F * MODEL_SCALE;
-    public static final float HEIGHT = 2.9F * MODEL_SCALE;
+    public static final float WIDTH = 1.35F;
+    public static final float HEIGHT = 4.35F;
+    public static final float EYE_HEIGHT = 3.6975F;
 
-    // Encounter awakening: "~3-5 seconds as an initial target" (approved royal chest unlock gate).
+    // Emergence warm-up (spec 2): 80 ticks, invulnerable during the animation.
     public static final int AWAKENING_TICKS = 80;
 
-    // Heavy melee fist: 10 HP with a 0.65 s telegraph; melee interval ~2.2 s, enraged ~1.9 s.
-    public static final int MELEE_WINDUP_TICKS = 13;
-    public static final int ATTACK_INTERVAL_TICKS = 44;
-    public static final int ENRAGED_ATTACK_INTERVAL_TICKS = 38;
-    /** HOW: reach measured from the guardian's edge, vanilla-style melee reach for a 1.35-wide body. */
-    public static final double MELEE_REACH = 2.0D;
+    // Enrage at or below 50% health (spec 4.1 Ultimate condition).
+    public static final float ENRAGE_HEALTH_FRACTION = 0.5F;
 
-    // Ground smash shockwave: 12 HP, 1.3 s windup (1.1 s enraged), radius 6, ~0.8 thickness, ~9 s cooldown (8 s enraged).
-    public static final float SLAM_DAMAGE = 12.0F;
+    // Pattern 2: Sweep (spec 4.1). Hit test is a 120 degree forward fan, reach 2.5, vertical tolerance +-1.5.
+    public static final int SWEEP_WINDUP_TICKS = 15;
+    public static final int SWEEP_COOLDOWN_TICKS = 50;
+    public static final double SWEEP_REACH = 2.5D;
+    public static final double SWEEP_ARC_DEGREES = 120.0D;
+    public static final double SWEEP_VERTICAL_TOLERANCE = 1.5D;
+    public static final float SWEEP_DAMAGE = 9.0F;
+    /** HOW: radius of the red floor telegraph for direct-strike zones (spec 4.2 gives no number for the centre). */
+    public static final double DIRECT_STRIKE_TELEGRAPH_RADIUS = WIDTH / 2.0D;
+
+    // Pattern 1: Ground Slam (spec 4.1).
     public static final int SLAM_WINDUP_TICKS = 26;
-    public static final int ENRAGED_SLAM_WINDUP_TICKS = 22;
     public static final int SLAM_COOLDOWN_TICKS = 180;
-    public static final int ENRAGED_SLAM_COOLDOWN_TICKS = 160;
     public static final double WAVE_RADIUS = 6.0D;
+    public static final float SLAM_DAMAGE = 12.0F;
+    /** HOW: thickness of the moving shockwave band. */
     public static final double WAVE_THICKNESS = 0.8D;
-    /** HOW: outward travel speed of the wave front, blocks per tick (reaches 6 blocks in 12 ticks). */
+    /** HOW: outward travel speed of the wave front, blocks per tick. */
     public static final double WAVE_SPEED = 0.5D;
-    /** HOW: feet this far above the smash floor are airborne and jump over the wave. */
+    /** Spec 4.2 / 4.1: feet at least this high above the floor are airborne and jump over the wave. */
     public static final double WAVE_JUMP_CLEARANCE = 0.6D;
-    /** HOW: feet this far below the smash floor (steps, slabs) are still on the arena floor. */
+    /** HOW: feet this far below the floor (steps, slabs) still count as the arena floor. */
     public static final double WAVE_FLOOR_TOLERANCE = 1.0D;
 
-    // Stone Eruption (inscribed statue): 8 HP, radius ~1.5, warning ~1.2 s, cooldown ~11 s.
-    public static final float STATUE_DAMAGE = 8.0F;
-    public static final double STATUE_RADIUS = 1.5D;
-    public static final int STATUE_WARNING_TICKS = 24;
-    public static final int STATUE_COOLDOWN_TICKS = 220;
-    /** HOW: visible height of the risen statue and of its bounded damage column. */
-    public static final double STATUE_HEIGHT = 4.0D;
-    /** HOW: how long the risen statue stays visible before it sinks away. */
-    public static final int STATUE_VISIBLE_TICKS = 40;
+    // Pattern 3: Desert Call / Tomb Spikes (spec 4.1).
+    public static final int SPIKE_WINDUP_TICKS = 20;
+    public static final int SPIKE_COOLDOWN_TICKS = 140;
+    public static final double SPIKE_RADIUS = 1.5D;
+    public static final double SPIKE_HEIGHT = 4.0D;
+    public static final float SPIKE_DAMAGE = 8.0F;
+    /** HOW: how long the risen spikes stay visible before they sink away. */
+    public static final int SPIKE_VISIBLE_TICKS = 40;
+    /** HOW: upward speed given to a victim lifted by a spike (spec says "airborne" without a value). */
+    public static final double SPIKE_AIRBORNE_LIFT = 0.5D;
 
-    // Enrage at <= 40% HP (owner approved): movement x1.15, faster cadence; no new attacks, no wider wave.
-    public static final float ENRAGE_HEALTH_FRACTION = 0.40F;
-    public static final double ENRAGED_SPEED_MULTIPLIER = 1.15D;
+    // Pattern 4: Royal Guard Summon (spec 4.1). Mummy zombies x2 plus a tomb skeleton x1, at most 3 alive.
+    public static final int SUMMON_WINDUP_TICKS = 30;
+    public static final int SUMMON_COOLDOWN_TICKS = 400;
+    public static final int SUMMON_MAX_ALIVE = 3;
+    public static final int SUMMON_MUMMY_COUNT = 2;
+    public static final int SUMMON_SKELETON_COUNT = 1;
+    /** HOW: distance from the guardian at which summons appear. */
+    public static final double SUMMON_RING_RADIUS = 3.0D;
+
+    // Ultimate: Royal Judgment Earthwave, U1 (spec 4.1). Three consecutive strikes.
+    public static final int ULTIMATE_WINDUP_TICKS = 40;
+    public static final int ULTIMATE_COOLDOWN_TICKS = 500;
+    public static final double ULTIMATE_HIT_ONE_RADIUS = 8.0D;
+    public static final double ULTIMATE_HIT_TWO_RADIUS = 12.0D;
+    /** HOW: the spec says "full-range" for the third strike without a radius; the largest ring is used. */
+    public static final double ULTIMATE_HIT_THREE_RADIUS = 12.0D;
+    public static final float ULTIMATE_HIT_ONE_DAMAGE = 10.0F;
+    public static final float ULTIMATE_HIT_TWO_DAMAGE = 10.0F;
+    public static final float ULTIMATE_HIT_THREE_DAMAGE = 12.0F;
+    /** HOW: ticks between the three strikes; the spec gives no interval. */
+    public static final int ULTIMATE_HIT_INTERVAL_TICKS = 20;
+
+    // Encounter: the bound guardian despawns after no living player stays within FOLLOW_RANGE for this long (P1-BUG-02).
+    public static final int NO_SURVIVOR_RESET_TICKS = 100;
+
+    /** Tag placed on a guardian spawned by the royal encounter. Only tagged guardians may drop the reward (P1-BUG-03). */
+    public static final String ENCOUNTER_BOUND_TAG = "EncounterBound";
 }

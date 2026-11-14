@@ -11,7 +11,8 @@ import net.minecraft.world.phys.Vec3;
 
 /** Server-sent telegraph visuals for the Tomb Guardian's area attacks. */
 final class TombStatueEffects {
-    private static final DustParticleOptions CIRCLE_GOLD = new DustParticleOptions(0xFFC440, 1.2F);
+    private static final DustParticleOptions TELL_RED = new DustParticleOptions(0xFF8A8A, 1.0F);
+    private static final DustParticleOptions CHARGED_RED = new DustParticleOptions(0x8C0000, 1.2F);
     private static final DustParticleOptions WAVE_DUST = new DustParticleOptions(0xC8B078, 1.6F);
 
     private TombStatueEffects() {}
@@ -23,16 +24,49 @@ final class TombStatueEffects {
 
     /** Glyph-ring particle accent drawn along the circle each tick (the display carries the readable shape). */
     static void circleParticles(ServerLevel level, Vec3 point, int tick) {
-        double radius = TombGuardianTuning.STATUE_RADIUS;
+        double radius = TombGuardianTuning.SPIKE_RADIUS;
         int points = 12;
         for (int i = 0; i < points; i++) {
             double angle = Math.PI * 2.0D * i / points + tick * 0.08D;
-            level.sendParticles(CIRCLE_GOLD, true, true, point.x + Math.cos(angle) * radius, point.y + 0.1D,
+            level.sendParticles(TELL_RED, true, true, point.x + Math.cos(angle) * radius, point.y + 0.1D,
                     point.z + Math.sin(angle) * radius, 1, 0.0D, 0.0D, 0.0D, 0.0D);
         }
         if (tick % 4 == 0)
             level.sendParticles(ParticleTypes.ENCHANT, point.x, point.y + 0.6D, point.z, 8, radius * 0.5D, 0.3D,
                     radius * 0.5D, 0.2D);
+    }
+
+    /**
+     * Sweep telegraph (spec 4.2): the 120 degree forward fan is shown light red, and the part already charged by the
+     * windup is drawn in dark red. {@code progress} runs 0..1 over the windup.
+     */
+    static void sweepTell(ServerLevel level, Vec3 origin, float yaw, double progress) {
+        double reach = TombGuardianTuning.SWEEP_REACH;
+        double half = Math.toRadians(TombGuardianTuning.SWEEP_ARC_DEGREES / 2.0D);
+        double base = Math.toRadians(yaw);
+        int steps = 16;
+        for (int i = 0; i <= steps; i++) {
+            double t = i / (double) steps;
+            double angle = base - half + 2.0D * half * t;
+            double x = origin.x - Math.sin(angle) * reach * (0.25D + 0.75D * t);
+            double z = origin.z + Math.cos(angle) * reach * (0.25D + 0.75D * t);
+            boolean charged = t <= progress;
+            level.sendParticles(charged ? CHARGED_RED : TELL_RED, true, true, x, origin.y + 0.05D, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
+        }
+    }
+
+    /** Direct-strike telegraph (spec 4.2): a light red ring under the centre, charged dark red as the windup runs. */
+    static void directStrikeTell(ServerLevel level, Vec3 origin, double progress) {
+        double radius = TombGuardianTuning.DIRECT_STRIKE_TELEGRAPH_RADIUS;
+        int points = 16;
+        for (int i = 0; i < points; i++) {
+            double t = i / (double) points;
+            double angle = Math.PI * 2.0D * t;
+            boolean charged = t <= progress;
+            level.sendParticles(charged ? CHARGED_RED : TELL_RED, true, true,
+                    origin.x + Math.cos(angle) * radius, origin.y + 0.05D, origin.z + Math.sin(angle) * radius,
+                    1, 0.0D, 0.0D, 0.0D, 0.0D);
+        }
     }
 
     static void spawnStatue(ServerLevel level, Vec3 point, int visibleTicks) {
