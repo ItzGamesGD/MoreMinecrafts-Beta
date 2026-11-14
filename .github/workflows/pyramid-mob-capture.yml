@@ -48,7 +48,7 @@ jobs:
           '
           grep -q PYRAMID_MOB_CAPTURE_COMPLETE build/pyramid-mob-capture/client.log
           find . -path '*/screenshots/*pyramid-placeholder-*.png' -exec cp {} build/pyramid-mob-capture/ \;
-          test "$(find build/pyramid-mob-capture -name 'pyramid-placeholder-*.png' | wc -l)" -eq 4
+          test "$(find build/pyramid-mob-capture -name '*pyramid-placeholder-*.png' | wc -l)" -eq 4
       - name: Upload captures and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
