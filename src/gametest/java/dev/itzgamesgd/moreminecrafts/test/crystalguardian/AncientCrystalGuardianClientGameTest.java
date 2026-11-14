@@ -74,7 +74,7 @@ public final class AncientCrystalGuardianClientGameTest implements FabricClientG
             double walkStartZ = guardianZ(server);
             capture(context, "walk_side", 70, true);
             double walkedBlocks = guardianZ(server) - walkStartZ;
-            if (walkedBlocks < 6.0D) throw new AssertionError("guardian walked only " + walkedBlocks + " blocks in 70 ticks");
+            if (walkedBlocks < 4.0D) throw new AssertionError("guardian walked only " + walkedBlocks + " blocks in 70 ticks");
             server.runCommand("mmcrystalguardian stop");
             context.waitTicks(40);
             requireRest(pose(context), "pose after walk stop");

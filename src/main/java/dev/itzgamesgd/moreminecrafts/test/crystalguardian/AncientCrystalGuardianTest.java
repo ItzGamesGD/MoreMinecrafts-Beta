@@ -38,7 +38,7 @@ public final class AncientCrystalGuardianTest extends PathfinderMob {
     public static AttributeSupplier.Builder createAttributes() {
         return PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.16D)
+                .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.STEP_HEIGHT, 1.0D);
     }
