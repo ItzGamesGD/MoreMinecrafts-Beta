@@ -67,12 +67,23 @@ public final class St03HeadquartersData extends SavedData {
         }
     }
 
-    private record HqSave(
+    private record HqLocation(
             long startChunk,
             List<Long> committedChunks,
             Optional<Long> origin,
             Optional<List<Integer>> box,
-            String rotation,
+            String rotation
+    ) {}
+
+    private static final Codec<HqLocation> LOCATION_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.LONG.fieldOf("start_chunk").forGetter(HqLocation::startChunk),
+            Codec.LONG.listOf().fieldOf("committed_chunks").forGetter(HqLocation::committedChunks),
+            Codec.LONG.optionalFieldOf("origin").forGetter(HqLocation::origin),
+            Codec.INT.listOf().optionalFieldOf("box").forGetter(HqLocation::box),
+            Codec.STRING.fieldOf("rotation").forGetter(HqLocation::rotation)
+    ).apply(i, HqLocation::new));
+
+    private record HqStatus(
             boolean structureCompleted,
             boolean garrisonInitialized,
             List<Integer> eliminatedSlots,
@@ -81,30 +92,43 @@ public final class St03HeadquartersData extends SavedData {
             boolean commanderSpecialAttempted,
             boolean manorPremiumSuccess,
             boolean armoryPremiumSuccess,
-            boolean lootInitialized,
+            boolean lootInitialized
+    ) {}
+
+    private static final Codec<HqStatus> STATUS_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.BOOL.fieldOf("structure_completed").forGetter(HqStatus::structureCompleted),
+            Codec.BOOL.fieldOf("garrison_initialized").forGetter(HqStatus::garrisonInitialized),
+            Codec.INT.listOf().fieldOf("eliminated_slots").forGetter(HqStatus::eliminatedSlots),
+            Codec.BOOL.fieldOf("cleared").forGetter(HqStatus::cleared),
+            Codec.BOOL.fieldOf("commander_killed").forGetter(HqStatus::commanderKilled),
+            Codec.BOOL.fieldOf("commander_special_attempted").forGetter(HqStatus::commanderSpecialAttempted),
+            Codec.BOOL.fieldOf("manor_premium_success").forGetter(HqStatus::manorPremiumSuccess),
+            Codec.BOOL.fieldOf("armory_premium_success").forGetter(HqStatus::armoryPremiumSuccess),
+            Codec.BOOL.fieldOf("loot_initialized").forGetter(HqStatus::lootInitialized)
+    ).apply(i, HqStatus::new));
+
+    private record HqVillagers(
             long lastVillagerDay,
             int villagerAttemptsToday,
             int spawnedVillagers
     ) {}
 
+    private static final Codec<HqVillagers> VILLAGERS_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.LONG.fieldOf("last_villager_day").forGetter(HqVillagers::lastVillagerDay),
+            Codec.INT.fieldOf("villager_attempts_today").forGetter(HqVillagers::villagerAttemptsToday),
+            Codec.INT.fieldOf("spawned_villagers").forGetter(HqVillagers::spawnedVillagers)
+    ).apply(i, HqVillagers::new));
+
+    private record HqSave(
+            HqLocation location,
+            HqStatus status,
+            HqVillagers villagers
+    ) {}
+
     private static final Codec<HqSave> HQ_CODEC = RecordCodecBuilder.create(i -> i.group(
-            Codec.LONG.fieldOf("start_chunk").forGetter(HqSave::startChunk),
-            Codec.LONG.listOf().fieldOf("committed_chunks").forGetter(HqSave::committedChunks),
-            Codec.LONG.optionalFieldOf("origin").forGetter(HqSave::origin),
-            Codec.INT.listOf().optionalFieldOf("box").forGetter(HqSave::box),
-            Codec.STRING.fieldOf("rotation").forGetter(HqSave::rotation),
-            Codec.BOOL.fieldOf("structure_completed").forGetter(HqSave::structureCompleted),
-            Codec.BOOL.fieldOf("garrison_initialized").forGetter(HqSave::garrisonInitialized),
-            Codec.INT.listOf().fieldOf("eliminated_slots").forGetter(HqSave::eliminatedSlots),
-            Codec.BOOL.fieldOf("cleared").forGetter(HqSave::cleared),
-            Codec.BOOL.fieldOf("commander_killed").forGetter(HqSave::commanderKilled),
-            Codec.BOOL.fieldOf("commander_special_attempted").forGetter(HqSave::commanderSpecialAttempted),
-            Codec.BOOL.fieldOf("manor_premium_success").forGetter(HqSave::manorPremiumSuccess),
-            Codec.BOOL.fieldOf("armory_premium_success").forGetter(HqSave::armoryPremiumSuccess),
-            Codec.BOOL.fieldOf("loot_initialized").forGetter(HqSave::lootInitialized),
-            Codec.LONG.fieldOf("last_villager_day").forGetter(HqSave::lastVillagerDay),
-            Codec.INT.fieldOf("villager_attempts_today").forGetter(HqSave::villagerAttemptsToday),
-            Codec.INT.fieldOf("spawned_villagers").forGetter(HqSave::spawnedVillagers)
+            LOCATION_CODEC.fieldOf("location").forGetter(HqSave::location),
+            STATUS_CODEC.fieldOf("status").forGetter(HqSave::status),
+            VILLAGERS_CODEC.fieldOf("villagers").forGetter(HqSave::villagers)
     ).apply(i, HqSave::new));
 
     private static final Codec<St03HeadquartersData> CODEC = HQ_CODEC.listOf()
@@ -147,25 +171,28 @@ public final class St03HeadquartersData extends SavedData {
     private static St03HeadquartersData fromSaved(List<HqSave> list) {
         St03HeadquartersData data = new St03HeadquartersData();
         for (HqSave s : list) {
-            HqInstance inst = new HqInstance(s.startChunk());
-            s.committedChunks().forEach(inst.committedChunks::add);
-            inst.origin = s.origin().map(BlockPos::of).orElse(null);
-            inst.box = s.box().filter(b -> b.size() == 6)
+            HqLocation loc = s.location();
+            HqStatus stat = s.status();
+            HqVillagers vil = s.villagers();
+            HqInstance inst = new HqInstance(loc.startChunk());
+            loc.committedChunks().forEach(inst.committedChunks::add);
+            inst.origin = loc.origin().map(BlockPos::of).orElse(null);
+            inst.box = loc.box().filter(b -> b.size() == 6)
                     .map(b -> new BoundingBox(b.get(0), b.get(1), b.get(2), b.get(3), b.get(4), b.get(5)))
                     .orElse(null);
-            inst.rotation = Rotation.valueOf(s.rotation());
-            inst.structureCompleted = s.structureCompleted();
-            inst.garrisonInitialized = s.garrisonInitialized();
-            inst.eliminatedSlots.addAll(s.eliminatedSlots());
-            inst.cleared = s.cleared();
-            inst.commanderKilled = s.commanderKilled();
-            inst.commanderSpecialAttempted = s.commanderSpecialAttempted();
-            inst.manorPremiumSuccess = s.manorPremiumSuccess();
-            inst.armoryPremiumSuccess = s.armoryPremiumSuccess();
-            inst.lootInitialized = s.lootInitialized();
-            inst.lastVillagerDay = s.lastVillagerDay();
-            inst.villagerAttemptsToday = s.villagerAttemptsToday();
-            inst.spawnedVillagers = s.spawnedVillagers();
+            inst.rotation = Rotation.valueOf(loc.rotation());
+            inst.structureCompleted = stat.structureCompleted();
+            inst.garrisonInitialized = stat.garrisonInitialized();
+            inst.eliminatedSlots.addAll(stat.eliminatedSlots());
+            inst.cleared = stat.cleared();
+            inst.commanderKilled = stat.commanderKilled();
+            inst.commanderSpecialAttempted = stat.commanderSpecialAttempted();
+            inst.manorPremiumSuccess = stat.manorPremiumSuccess();
+            inst.armoryPremiumSuccess = stat.armoryPremiumSuccess();
+            inst.lootInitialized = stat.lootInitialized();
+            inst.lastVillagerDay = vil.lastVillagerDay();
+            inst.villagerAttemptsToday = vil.villagerAttemptsToday();
+            inst.spawnedVillagers = vil.spawnedVillagers();
             data.instances.put(inst.startChunk, inst);
         }
         return data;
@@ -180,12 +207,14 @@ public final class St03HeadquartersData extends SavedData {
                     ? Optional.empty()
                     : Optional.of(List.of(inst.box.minX(), inst.box.minY(), inst.box.minZ(),
                     inst.box.maxX(), inst.box.maxY(), inst.box.maxZ()));
-            list.add(new HqSave(
+            HqLocation loc = new HqLocation(
                     inst.startChunk,
                     chunks,
                     Optional.ofNullable(inst.origin).map(BlockPos::asLong),
                     boxList,
-                    inst.rotation.name(),
+                    inst.rotation.name()
+            );
+            HqStatus stat = new HqStatus(
                     inst.structureCompleted,
                     inst.garrisonInitialized,
                     new ArrayList<>(inst.eliminatedSlots),
@@ -194,11 +223,14 @@ public final class St03HeadquartersData extends SavedData {
                     inst.commanderSpecialAttempted,
                     inst.manorPremiumSuccess,
                     inst.armoryPremiumSuccess,
-                    inst.lootInitialized,
+                    inst.lootInitialized
+            );
+            HqVillagers vil = new HqVillagers(
                     inst.lastVillagerDay,
                     inst.villagerAttemptsToday,
                     inst.spawnedVillagers
-            ));
+            );
+            list.add(new HqSave(loc, stat, vil));
         }
         return list;
     }
