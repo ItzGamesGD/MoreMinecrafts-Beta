@@ -70,9 +70,11 @@ public final class AncientCrystalGuardianClientGameTest implements FabricClientG
             placeGuardian(server, 0.5D, -5.0D, 0.0F);
             camera(context, world, server, 11.5D, CAM_Y, 0.5D, 90.0F, 0.0F);
             context.waitTicks(5);
+            slow(server);
             server.runCommand("mmcrystalguardian walk 70 1.0");
             double walkStartZ = guardianZ(server);
             capture(context, "walk_side", 70, true);
+            normal(server);
             double walkedBlocks = guardianZ(server) - walkStartZ;
             if (walkedBlocks < 4.0D) throw new AssertionError("guardian walked only " + walkedBlocks + " blocks in 70 ticks");
             server.runCommand("mmcrystalguardian stop");
@@ -83,8 +85,10 @@ public final class AncientCrystalGuardianClientGameTest implements FabricClientG
             placeGuardian(server, 0.5D, -5.0D, 0.0F);
             camera(context, world, server, 0.5D, CAM_Y, 12.0D, 180.0F, 0.0F);
             context.waitTicks(5);
+            slow(server);
             server.runCommand("mmcrystalguardian walk 60 1.0");
             capture(context, "walk_front", 60, true);
+            normal(server);
             server.runCommand("mmcrystalguardian stop");
             context.waitTicks(40);
             requireRest(pose(context), "pose after front walk stop");
@@ -99,8 +103,10 @@ public final class AncientCrystalGuardianClientGameTest implements FabricClientG
             placeGuardian(server, 0.5D, 0.5D, 0.0F);
             camera(context, world, server, 10.5D, CAM_Y + 0.4D, 0.5D, 90.0F, 4.0F);
             context.waitTicks(8);
+            slow(server);
             server.runCommand("mmcrystalguardian swing");
             List<float[]> swing = capture(context, "swing_side", GuardianPoseMath.SWING_TICKS + 6, true);
+            normal(server);
             double armMax = swing.stream().mapToDouble(p -> p[4]).max().orElse(0), armMin = swing.stream().mapToDouble(p -> p[4]).min().orElse(0);
             if (armMax < GuardianPoseMath.ARM_WINDUP - 0.25F || armMin > GuardianPoseMath.ARM_STRIKE + 0.25F)
                 throw new AssertionError("right arm did not reach windup/strike extremes: max=" + armMax + " min=" + armMin);
@@ -112,8 +118,10 @@ public final class AncientCrystalGuardianClientGameTest implements FabricClientG
             placeGuardian(server, 0.5D, 0.5D, 0.0F);
             camera(context, world, server, 6.0D, 202.8D, 8.0D, 143.0F, 6.0F);
             context.waitTicks(8);
+            slow(server);
             server.runCommand("mmcrystalguardian swing");
             capture(context, "swing_front", GuardianPoseMath.SWING_TICKS + 6, true);
+            normal(server);
 
             // ---- G. repeated swings: no accumulation ----
             server.runCommand("mmcrystalguardian loop 3 10");
@@ -140,8 +148,10 @@ public final class AncientCrystalGuardianClientGameTest implements FabricClientG
             context.waitTicks(5);
             server.runCommand("mmcrystalguardian walk 80 1.0");
             context.waitTicks(15);
+            slow(server);
             server.runCommand("mmcrystalguardian swing");
             List<float[]> both = capture(context, "walk_and_swing", 60, true);
+            normal(server);
             double armPeak = both.stream().mapToDouble(p -> Math.abs(p[4])).max().orElse(0);
             double legPeak = both.stream().mapToDouble(p -> Math.abs(p[0])).max().orElse(0);
             if (armPeak < 1.2D) throw new AssertionError("swing did not dominate the right arm while walking: " + armPeak);
@@ -191,6 +201,11 @@ public final class AncientCrystalGuardianClientGameTest implements FabricClientG
             g.setDeltaMovement(0, 0, 0);
         });
     }
+
+    /** One screenshot per game tick: slow the tick rate so a screenshot (several frames) never spans more than one tick. */
+    private static void slow(TestServerContext server) { server.runCommand("tick rate 4"); }
+
+    private static void normal(TestServerContext server) { server.runCommand("tick rate 20"); }
 
     private double guardianZ(TestServerContext server) {
         return server.computeOnServer(s -> s.overworld().getEntity(guardianId).getZ());
