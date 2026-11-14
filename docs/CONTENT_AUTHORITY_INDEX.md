@@ -237,6 +237,14 @@ Owner decisions F-1, F-2, F-3, F-5, F-6 and the mercenary status are recorded in
   - **Q3 / OD-1:** Preserve the existing implemented T1 Feather Boots enchantment under [T1 finalization](T1_ENCHANTMENT_SKILL_TREE_FINALIZATION.md) and the retained [enchantment skeleton](ENCHANTMENT_BRANCH_SKELETON.md). Only its proposed 2026-10-10 double-jump/fall-immunity redesign and Hot Step (뜨거운 걸음) remain CANDIDATE / DEFERRED / NOT AUTHORIZED FOR IMPLEMENTATION. The [design idea decisions](preservation/recovered/content-first-axis-review/DESIGN_IDEA_DECISIONS_2026-10-10.md) remain historical; do not remove or disable the current enchantment.
   - **Q4:** the Tomb Guardian's core signature drop is Ancient Heart. Do not add a guardian-exclusive material or reintroduce Tomb Guardian Core. Its additional rare-mineral and higher-tier-material reward pool is approved in direction only; items, quantities and rates are not yet approved.
 
+## 2026-11-13 ~ 2026-11-15 owner-confirmed change records (design only)
+Source package: the 2026-11-15 sync archive. These records are filed by topic; the master content specification they reference is not in this repository, so each record is the authority for its own decision.
+* **Accessories and relic (2026-11-13):** [planning/accessory_sync_2026-11-13/](planning/accessory_sync_2026-11-13/). The 7-accessory T1 record supersedes the 8-accessory record (life slot retired); the T2 13-accessory record, biome relic core mapping and relic catalyst record apply on top of D13.
+* **Tungsten (2026-11-13):** [planning/material_and_weapon_sync_2026-11-13/](planning/material_and_weapon_sync_2026-11-13/) — Tungsten is permanently removed; four mineral types remain. The Tungsten anchor note above is superseded.
+* **Tactical .35 special ammo (2026-11-13):** same folder, final design. Closes the detail follow-up left open in the content roadmap (D20).
+* **Fire and sea bosses (2026-11-15):** [planning/boss_sync_2026-11-15/](planning/boss_sync_2026-11-15/) — 용암 대장장이 군주 (fire) and 심해의 해신 (sea): identity, mechanics and drop pool.
+* **Implementation status:** none of these records is implemented or live-validated.
+
 ## Explicitly deferred design debt
 
 The following items are known design questions. They are not missing recovery work and must not be silently "fixed" by unrelated stages.
@@ -253,7 +261,7 @@ Revisit only during a future ecology/environment pass. Do not block the current 
 
 **Material sink identity — DEFERRED**
 
-Titanium, Tungsten, Mythril, Etherium, and Adamantium should each have a meaningful anchor use before final spawn rarity and long-term material economy are considered fully settled.
+Titanium, Tungsten (removed 2026-11-13, see the change records below), Mythril, Etherium, and Adamantium should each have a meaningful anchor use before final spawn rarity and long-term material economy are considered fully settled.
 
 Resolve during future crafting/equipment/material-economy design rather than by changing worldgen opportunistically.
 
@@ -438,7 +446,7 @@ Routing/status corrections from owner-confirmed decisions; no gameplay value is 
 
 * **OWN-01 / OWN-02 / OWN-04:** resolved 2026-11-12~13 (Sky Mob registration/spawn; ST-01 Policy D secret entrance port, above; Q1C Wither-skull P3 and quest registration). Live validation still pending for the first two. The "Q1C Wither skull stays unregistered" and "mob track paused" statements in the 2026-11-11/12 sections above are superseded by this entry.
 * **Pyramid ordinary mobs:** [PYRAMID_MOB_ROSTER_DESIGN_2026-10-26.md](PYRAMID_MOB_ROSTER_DESIGN_2026-10-26.md) — implemented, owner review passed (branch `claude/pyramid-mummy-variants-fu6ijm`, not merged here); HP 20/20/20/28 owner-confirmed; no conversion rule (variants are not converted).
-* **Tomb Guardian:** [PYRAMID_DESIGN_PREP_2026-10-25.md](PYRAMID_DESIGN_PREP_2026-10-25.md) — the 2026-10-26 lock and 2026-10-28 Option B records were not owner-approved; design is being redone and the current implementation is a temporary dummy. **No current authority for the Tomb Guardian design (decision pending).**
+* **Tomb Guardian:** owner-approved 2026-11-14~15 design is [design/st01_tomb_guardian/](design/st01_tomb_guardian/) (confirmed spec, appearance 1안, skills 4 + U1 ultimate, Ancient Heart 100% drop, chest/entrance links). The 2026-10-26 lock and 2026-10-28 Option B records remain not owner-approved and are corrected in [PYRAMID_DESIGN_PREP_2026-10-25.md](PYRAMID_DESIGN_PREP_2026-10-25.md). Redesign record: [design/TOMB_GUARDIAN_REDESIGN_20261114.md](design/TOMB_GUARDIAN_REDESIGN_20261114.md). Implementation is still a temporary dummy and blocked by code freeze; live validation pending.
 * **Sky mobs:** group A held; group B vanilla-variant policy in [SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md](design/SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md) §15.7 and [SKY_ISLANDS_T2_CONTEXT_2026-10-27.md](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md) §20; creeper/enderman/slime variant weights are decision pending.
 * **ST-03 pillager headquarters:** [planning/ST03_OWNER_APPROVED_DESIGN_Q01_Q42_2026-11-04.md](planning/ST03_OWNER_APPROVED_DESIGN_Q01_Q42_2026-11-04.md) remains the design ledger; Q96–Q105 text does not exist and will not be recovered; new design only where needed; Draft PR #55 (structure pass-through of walls, towers, main gate and ground road) is implementation status, not authority. Whether the ledger is the current ST-03 authority is still for the owner to confirm (unchanged).
 * **Spider colony:** [SPIDER_COLONY_CAVE_BIOME_DESIGN_2026-10-26.md](SPIDER_COLONY_CAVE_BIOME_DESIGN_2026-10-26.md) is the design record; implementation on `work/spider-colony-probe` is in progress, not connected to worldgen, textures provisional.
