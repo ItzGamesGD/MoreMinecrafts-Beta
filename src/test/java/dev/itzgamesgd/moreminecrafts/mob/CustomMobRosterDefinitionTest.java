@@ -45,8 +45,8 @@ class CustomMobRosterDefinitionTest {
                         "feral_wolf_angry_baby.png", "feral_wolf_tame_baby.png"));
             }
         }
-        assertEquals(40, mobs.size());
-        assertEquals(78, expected.size(), "All base and renderer-state texture routes must be accounted for");
+        assertEquals(44, mobs.size());
+        assertEquals(82, expected.size(), "All base and renderer-state texture routes must be accounted for");
 
         Path textureRoot = Path.of("src/main/resources/assets/moreminecrafts/textures/entity/mobs");
         Set<String> actual;
@@ -100,7 +100,7 @@ class CustomMobRosterDefinitionTest {
             assertTrue(Files.readString(lootPath).contains("minecraft:entities/"),
                     "Custom mob loot must preserve its vanilla base-family drops: " + id);
         }
-        assertEquals(40, ids.size(), "The implementation must retain the approved forty-entry roster");
+        assertEquals(44, ids.size(), "The implementation must retain the approved forty-four-entry roster");
         String stats = Files.readString(Path.of("src/main/java/dev/itzgamesgd/moreminecrafts/mob/CustomMobStats.java"));
         assertTrue(stats.contains("type == CustomMobCatalog.SWAMP_ZOMBIE")
                         && stats.contains("type == CustomMobCatalog.CAVE_CREEPER"),
@@ -269,7 +269,7 @@ class CustomMobRosterDefinitionTest {
         Matcher rendererMatcher = Pattern.compile("EntityRendererRegistry\\.register\\(CustomMobCatalog\\.").matcher(client);
         int rendererCount = 0;
         while (rendererMatcher.find()) rendererCount++;
-        assertEquals(40, rendererCount, "All forty custom EntityTypes must retain client renderer registrations");
+        assertEquals(44, rendererCount, "All forty-four custom EntityTypes must retain client renderer registrations");
         Matcher routes = Pattern.compile("CustomMobCatalog\\.([A-Z_]+),\\s*context -> CustomMobRenderers\\.(\\w+)\\(context, \"([a-z_]+)\"\\)").matcher(client);
         Set<String> routedIds = new HashSet<>();
         java.util.Map<String, String> families = new java.util.HashMap<>();

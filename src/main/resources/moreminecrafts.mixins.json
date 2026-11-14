@@ -22,6 +22,7 @@
     "K5LevelBlockMutationMixin",
     "K5WorldGenRegionBlockMutationMixin",
     "St01WorldGenRegionGuardMixin",
+    "St03SpawnSuppressionMixin",
     "MaceItemMixin",
     "ExplosiveMaceMixin",
     "LivingEntityMixin",

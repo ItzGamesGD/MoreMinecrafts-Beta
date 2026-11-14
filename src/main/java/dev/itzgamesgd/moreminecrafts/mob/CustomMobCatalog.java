@@ -115,6 +115,10 @@ public final class CustomMobCatalog {
     public static final EntityType<LesserPhantom> LESSER_PHANTOM = type("lesser_phantom",
             (type, level) -> new LesserPhantom(type, level), 0.7f, 0.45f);
     public static final EntityType<Creeper> CAVE_CREEPER = type("cave_creeper", Creeper::new, 0.6f, 1.7f);
+    public static final EntityType<Vindicator> PILLAGER_COMMANDER = type("pillager_commander", Vindicator::new, 0.6f, 1.95f);
+    public static final EntityType<Pillager> PILLAGER_BEASTMASTER = type("pillager_beastmaster", Pillager::new, 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
+    public static final EntityType<Vindicator> ARMORY_GUARD = type("armory_guard", Vindicator::new, 0.6f, 1.95f);
+    public static final EntityType<Pillager> PILLAGER_DRILLMASTER = type("pillager_drillmaster", Pillager::new, 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
 
     private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
                                                        float width, float height) {
@@ -207,6 +211,14 @@ public final class CustomMobCatalog {
             BiomeModifications.addSpawn(BiomeSelectors.tag(spec.biomeTag), spec.type.getCategory(),
                     spec.type, spec.weight, spec.minGroup, spec.maxGroup);
         }
+        FabricDefaultAttributeRegistry.register(PILLAGER_COMMANDER,
+                Vindicator.createAttributes().add(Attributes.MAX_HEALTH, 40.0D).build());
+        FabricDefaultAttributeRegistry.register(PILLAGER_BEASTMASTER,
+                Pillager.createAttributes().build());
+        FabricDefaultAttributeRegistry.register(ARMORY_GUARD,
+                Vindicator.createAttributes().add(Attributes.MAX_HEALTH, 28.0D).build());
+        FabricDefaultAttributeRegistry.register(PILLAGER_DRILLMASTER,
+                Pillager.createAttributes().add(Attributes.MAX_HEALTH, 30.0D).build());
         MoreMinecrafts.LOGGER.info("Registered {} vanilla-model custom mobs and spawn rules.", SPAWNS.size());
     }
 
