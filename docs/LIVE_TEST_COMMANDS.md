@@ -51,3 +51,18 @@ Used by the ACT-03 / ACT-04 / ACT-05 checklist at the end of [`LIVE_VALIDATION_B
 ### Vanilla commands the checklist relies on
 
 `/locate structure moreminecrafts:st01_pyramid` (and `moreminecrafts:sky_island_*`), `/forceload add`, `/loot give @s loot <table>` (T2 chest accessory pools), `/damage @s <n>` (HP thresholds), `/effect give`, `/gamerule keep_inventory`, `/gamerule natural_health_regeneration` (use tab-completion if the 26.x spelling differs).
+
+## Ancient Crystal Guardian model POC (`/mmcrystalguardian`)
+
+Operator-only, visual/animation verification of the converted Blockbench model. The test entity `moreminecrafts:ancient_crystal_guardian_test`
+has no AI, no attack, no drops, no natural spawn and no spawn egg, and is not saved with the world. It is **not** a content decision.
+
+- `/mmcrystalguardian spawn [pos]` (or `/summon moreminecrafts:ancient_crystal_guardian_test`)
+- `/mmcrystalguardian walk [ticks] [speed]` - forced straight walk (defaults 100 ticks, speed x1.0, range 0.1-3.0)
+- `/mmcrystalguardian stop` / `reset` - stop walking / also cancel pending loop swings
+- `/mmcrystalguardian swing` - one visual right-arm swing (ignored while one is running; no damage, no target search)
+- `/mmcrystalguardian loop <count> [gap]` - repeated swings with `gap` ticks of rest (default 10)
+- `/mmcrystalguardian status`
+
+Commands act on every test guardian in the executing dimension. Real-client capture: `scripts/crystal_guardian/run_client_capture.sh`.
+

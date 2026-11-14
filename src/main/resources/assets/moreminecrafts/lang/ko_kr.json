@@ -783,6 +783,7 @@
   "entity.moreminecrafts.cloud_slime": "구름 슬라임",
   "entity.moreminecrafts.fallen_sentinel": "타락한 파수병",
   "entity.moreminecrafts.tomb_guardian": "왕릉 수호자",
+  "entity.moreminecrafts.ancient_crystal_guardian_test": "고대 수정 수호자 (테스트)",
   "entity.moreminecrafts.gold_guide_golem": "금빛 안내 골렘",
   "entity.moreminecrafts.tomb_vfx": "왕릉 수호자 석상 분출",
   "moreminecrafts.ui.quest.tooltip.title": "%s — %s/%s",

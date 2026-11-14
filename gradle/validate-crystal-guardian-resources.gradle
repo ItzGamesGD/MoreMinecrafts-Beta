@@ -1,0 +1,77 @@
+// Static validation of the Ancient Crystal Guardian POC resources (converted Blockbench model + texture + registration wiring).
+// The deep comparison against the original .bbmodel lives in tools/bbmodel/validate_converted_model.py (needs python3); this task
+// needs no external tools so it can run inside `check` everywhere.
+tasks.register("validateCrystalGuardianResources") {
+    group = "verification"
+    description = "Validates the converted Ancient Crystal Guardian model JSON, texture, source hash and entity wiring."
+    doLast {
+        def json = new groovy.json.JsonSlurper()
+        def modelFile = file("src/main/resources/assets/moreminecrafts/entity_models/ancient_crystal_guardian.json")
+        def textureFile = file("src/main/resources/assets/moreminecrafts/textures/entity/ancient_crystal_guardian/ancient_crystal_guardian.png")
+        def sourceFile = file("tools/bbmodel/source/Ancient_Crystal_Guardian.bbmodel")
+        assert modelFile.isFile() && textureFile.isFile() && sourceFile.isFile()
+        def model = json.parse(modelFile)
+        assert model.format == "moreminecrafts:bone_model/1"
+        assert model.cube_count == 77
+        def sha = java.security.MessageDigest.getInstance("SHA-256").digest(sourceFile.bytes).encodeHex().toString()
+        assert model.source.sha256 == sha : "converted model was generated from a different .bbmodel (rerun tools/bbmodel/convert_bbmodel.py)"
+        // texture is a 384x128 PNG
+        def png = textureFile.bytes
+        assert png.length > 33 && (png[1] as char) == ("P" as char) && (png[2] as char) == ("N" as char) && (png[3] as char) == ("G" as char)
+        def be = { int off -> ((png[off] & 0xff) << 24) | ((png[off + 1] & 0xff) << 16) | ((png[off + 2] & 0xff) << 8) | (png[off + 3] & 0xff) }
+        assert be(16) == 384 && be(20) == 128 : "texture must be 384x128, was ${be(16)}x${be(20)}"
+        assert model.texture.uv_width == 384 && model.texture.uv_height == 128
+
+        // hierarchy
+        def expectedParents = [guardian: null, torso: "guardian", head: "torso", arm_left: "torso", forearm_left: "arm_left",
+                               arm_right: "torso", forearm_right: "arm_right", leg_left: "guardian", shin_left: "leg_left",
+                               leg_right: "guardian", shin_right: "leg_right"]
+        def bones = model.bones.collectEntries { [(it.name): it] }
+        assert bones.keySet() == expectedParents.keySet() : "bone set ${bones.keySet()}"
+        expectedParents.each { name, parent -> assert bones[name].parent == parent : "$name parent ${bones[name].parent} != $parent" }
+        assert model.bones.sum { it.cubes.size() } == 77
+        // geometry/uv bounds
+        model.bones.each { bone ->
+            bone.cubes.each { cube ->
+                assert cube.faces.size() >= 1
+                cube.faces.each { faceName, face ->
+                    assert ["north", "south", "east", "west", "up", "down"].contains(faceName)
+                    assert face.vertices.size() == 4 && face.normal.size() == 3
+                    face.vertices.each { v ->
+                        assert v.size() == 5
+                        assert v[3] >= 0 && v[3] <= 384 && v[4] >= 0 && v[4] <= 128 : "${cube.name}.${faceName} UV outside the texture"
+                    }
+                }
+            }
+        }
+        // the model must fit the registered hitbox height (4.1 blocks) and the lowest point must be the ground plane (y' = 24)
+        def tops = []
+        def bottoms = []
+        def abs = [:]
+        model.bones.each { b ->
+            def p = b.parent ? abs[b.parent] : [0, 0, 0]
+            abs[b.name] = [p[0] + b.offset[0], p[1] + b.offset[1], p[2] + b.offset[2]]
+            b.cubes.each { c -> c.faces.each { fn, f -> f.vertices.each { v ->
+                // rotated cubes keep their own origin; only unrotated ones are checked exactly
+                if (!c.rotated) { tops << (c.origin[1] + v[1]); bottoms << (c.origin[1] + v[1]) }
+            } } }
+        }
+        assert Math.abs(bottoms.max() - 24.0) < 0.001 : "lowest unrotated point should sit on the ground plane y'=24, was ${bottoms.max()}"
+        assert (24.0 - tops.min()) <= 65.0 : "model taller than expected"
+
+        // entity wiring (source-level; runtime registration is covered by AncientCrystalGuardianGameTests)
+        def entities = file("src/main/java/dev/itzgamesgd/moreminecrafts/test/crystalguardian/AncientCrystalGuardianTestEntities.java").text
+        assert entities.contains('"ancient_crystal_guardian_test"') && entities.contains("MobCategory.MISC") && entities.contains(".noLootTable()")
+        assert !entities.contains("SpawnPlacements") && !entities.contains("SpawnEggItem")
+        def mainInit = file("src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java").text
+        assert mainInit.contains("AncientCrystalGuardianTestEntities.initialize()")
+        def client = file("src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java").text
+        assert client.contains("AncientCrystalGuardianRenderer.register()")
+        ["en_us", "ko_kr"].each { lang ->
+            def lines = json.parse(file("src/main/resources/assets/moreminecrafts/lang/${lang}.json"))
+            assert lines["entity.moreminecrafts.ancient_crystal_guardian_test"] : "missing $lang entity name"
+        }
+        println "validateCrystalGuardianResources: ${model.bones.size()} bones, ${model.cube_count} cubes, texture 384x128 OK"
+    }
+}
+tasks.named("check") { dependsOn tasks.named("validateCrystalGuardianResources") }
