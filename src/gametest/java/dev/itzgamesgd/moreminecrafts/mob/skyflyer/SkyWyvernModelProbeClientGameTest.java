@@ -32,8 +32,9 @@ public final class SkyWyvernModelProbeClientGameTest implements FabricClientGame
             EnderDragonModel model = new EnderDragonModel(root);
             ModelPart head = root.getChild("head");
             ModelPart jaw = head.getChild("jaw");
-            ModelPart leftWing = root.getChild("left_wing");
-            ModelPart rightWing = root.getChild("right_wing");
+            ModelPart body = root.getChild("body");
+            ModelPart leftWing = body.getChild("left_wing");
+            ModelPart rightWing = body.getChild("right_wing");
             say("baked ENDER_DRAGON layer standalone: parts=" + root.getAllParts().size() + " (no EnderDragon entity or EnderDragonRenderer involved)");
 
             EnderDragonRenderState state = new EnderDragonRenderState();
