@@ -135,7 +135,7 @@ public final class St03MobClientCapture implements FabricClientGameTest {
                 level.setBlock(new BlockPos(x, Y + 7, z), Blocks.GLOWSTONE.defaultBlockState(), 3);
                 for (int y = Y; y < Y + 7; y++) {
                     level.setBlock(new BlockPos(x, y, z), z == -4
-                            ? Blocks.POLISHED_DEEPSLATE_BRICKS.defaultBlockState()
+                            ? Blocks.DEEPSLATE_BRICKS.defaultBlockState()
                             : Blocks.AIR.defaultBlockState(), 3);
                 }
             }

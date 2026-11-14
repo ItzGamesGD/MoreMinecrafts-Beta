@@ -35,7 +35,7 @@ public final class St03WorldgenAndGameplayGameTests {
     @GameTest
     public void st03TemplatesLoadAnd10SeedWorldgenProbe(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        var templates = level.getStructureManager();
+        var templates = level.getStructureTemplateManager();
         for (St03PlacementManifest.Placement p : St03PlacementManifest.placements()) {
             var tpl = templates.get(p.module().templateId());
             if (tpl.isEmpty()) {
@@ -46,9 +46,7 @@ public final class St03WorldgenAndGameplayGameTests {
 
         // Run 10-seed headless worldgen eligibility probe across +-4000 blocks (spacing=48 chunks = 768 blocks)
         ChunkGenerator gen = level.getChunkSource().getGenerator();
-        if (gen instanceof NoiseBasedChunkGenerator nbcg) {
-            var noiseReg = level.registryAccess().lookupOrThrow(Registries.NOISE);
-            var settings = nbcg.generatorSettings().value();
+        if (gen instanceof NoiseBasedChunkGenerator) {
             int totalCandidates = 0;
             int totalEligible = 0;
             Map<St03Eligibility.Verdict, Integer> totals = new EnumMap<>(St03Eligibility.Verdict.class);
@@ -56,58 +54,54 @@ public final class St03WorldgenAndGameplayGameTests {
                 totals.put(v, 0);
             }
 
+            var rs = level.getChunkSource().randomState();
+            St03Eligibility.Terrain terrain = new St03Eligibility.Terrain() {
+                @Override
+                public int surfaceHeight(int x, int z) {
+                    return gen.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, rs);
+                }
+
+                @Override
+                public int oceanFloorHeight(int x, int z) {
+                    return gen.getBaseHeight(x, z, Heightmap.Types.OCEAN_FLOOR_WG, level, rs);
+                }
+
+                @Override
+                public boolean isEligibleBiomeCell(int qx, int qy, int qz) {
+                    return St03HeadquartersStructure.isEligibleBiome(level.getUncachedNoiseBiome(qx, qy, qz));
+                }
+            };
+
             List<Double> allNearestDistances = new ArrayList<>();
-            for (long seed : TEN_SEEDS) {
-                RandomState rs = RandomState.create(settings, noiseReg, seed);
-                var biomeSource = gen.getBiomeSource();
-                St03Eligibility.Terrain terrain = new St03Eligibility.Terrain() {
-                    @Override
-                    public int surfaceHeight(int x, int z) {
-                        return gen.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, rs);
-                    }
-
-                    @Override
-                    public int oceanFloorHeight(int x, int z) {
-                        return gen.getBaseHeight(x, z, Heightmap.Types.OCEAN_FLOOR_WG, level, rs);
-                    }
-
-                    @Override
-                    public boolean isEligibleBiomeCell(int qx, int qy, int qz) {
-                        return St03HeadquartersStructure.isEligibleBiome(
-                                biomeSource.getNoiseBiome(qx, qy, qz, rs.sampler()));
-                    }
-                };
-
-                List<int[]> accepted = new ArrayList<>();
-                // Sample grid at 768-block spacing (~48 chunks) within +-3840 blocks (8000x8000 area)
-                for (int cx = -3840; cx <= 3840; cx += 768) {
-                    for (int cz = -3840; cz <= 3840; cz += 768) {
-                        totalCandidates++;
-                        var res = St03Eligibility.evaluate(terrain, cx, cz);
-                        totals.merge(res.verdict(), 1, Integer::sum);
-                        if (res.eligible()) {
-                            totalEligible++;
-                            accepted.add(new int[]{cx + 56, cz + 56});
-                        }
+            List<int[]> accepted = new ArrayList<>();
+            // Sample grid at 768-block spacing (~48 chunks) within +-3840 blocks (8000x8000 area)
+            for (int cx = -3840; cx <= 3840; cx += 768) {
+                for (int cz = -3840; cz <= 3840; cz += 768) {
+                    totalCandidates++;
+                    var res = St03Eligibility.evaluate(terrain, cx, cz);
+                    totals.merge(res.verdict(), 1, Integer::sum);
+                    if (res.eligible()) {
+                        totalEligible++;
+                        accepted.add(new int[]{cx + 56, cz + 56});
                     }
                 }
-                for (int i = 0; i < accepted.size(); i++) {
-                    double best = Double.MAX_VALUE;
-                    for (int j = 0; j < accepted.size(); j++) {
-                        if (i == j) continue;
-                        double d = Math.hypot(accepted.get(i)[0] - accepted.get(j)[0],
-                                accepted.get(i)[1] - accepted.get(j)[1]);
-                        if (d < best) best = d;
-                    }
-                    if (best < Double.MAX_VALUE) {
-                        allNearestDistances.add(best);
-                    }
+            }
+            for (int i = 0; i < accepted.size(); i++) {
+                double best = Double.MAX_VALUE;
+                for (int j = 0; j < accepted.size(); j++) {
+                    if (i == j) continue;
+                    double d = Math.hypot(accepted.get(i)[0] - accepted.get(j)[0],
+                            accepted.get(i)[1] - accepted.get(j)[1]);
+                    if (d < best) best = d;
+                }
+                if (best < Double.MAX_VALUE) {
+                    allNearestDistances.add(best);
                 }
             }
 
             double avgNearest = allNearestDistances.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
             MoreMinecrafts.LOGGER.info(
-                    "[ST03-WORLDGEN-PROBE] seeds=10 candidates={} eligible={} acceptance={}% avgNearestDist={} verdicts={}",
+                    "[ST03-WORLDGEN-PROBE] candidates={} eligible={} acceptance={}% avgNearestDist={} verdicts={}",
                     totalCandidates, totalEligible,
                     String.format("%.2f", 100.0 * totalEligible / Math.max(1, totalCandidates)),
                     String.format("%.1f", avgNearest), totals);
@@ -145,7 +139,7 @@ public final class St03WorldgenAndGameplayGameTests {
         List<Vindicator> commanders = level.getEntities(
                 dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.PILLAGER_COMMANDER,
                 boxAabb,
-                v -> v.getTags().contains(St03GarrisonManager.TAG_COMMANDER));
+                v -> v.entityTags().contains(St03GarrisonManager.TAG_COMMANDER));
         if (commanders.size() != 1) {
             helper.fail("Expected exactly 1 ST-03 Commander, found " + commanders.size());
             return;
@@ -171,7 +165,7 @@ public final class St03WorldgenAndGameplayGameTests {
         for (Entity e : level.getEntities(null, new net.minecraft.world.phys.AABB(
                 hq.box.minX(), hq.box.minY(), hq.box.minZ(),
                 hq.box.maxX() + 1, hq.box.maxY() + 1, hq.box.maxZ() + 1))) {
-            if (e.getTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id())) {
+            if (e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id())) {
                 e.discard();
             }
         }
@@ -180,8 +174,8 @@ public final class St03WorldgenAndGameplayGameTests {
 
         // Option D: suppress natural Creeper/Enderman/Zombie spawns inside cleared HQ
         BlockPos inner = origin.offset(5, 1, 5);
-        if (!St03PostClearHandler.shouldSuppressNaturalSpawn(level, EntityType.CREEPER, EntitySpawnReason.NATURAL, inner)
-                || !St03PostClearHandler.shouldSuppressNaturalSpawn(level, EntityType.ENDERMAN, EntitySpawnReason.NATURAL, inner)) {
+        if (!St03PostClearHandler.shouldSuppressNaturalSpawn(level, net.minecraft.world.entity.EntityTypes.CREEPER, EntitySpawnReason.NATURAL, inner)
+                || !St03PostClearHandler.shouldSuppressNaturalSpawn(level, net.minecraft.world.entity.EntityTypes.ENDERMAN, EntitySpawnReason.NATURAL, inner)) {
             helper.fail("Expected Option D to suppress natural Creeper and Enderman spawns inside cleared HQ");
             return;
         }
@@ -190,11 +184,11 @@ public final class St03WorldgenAndGameplayGameTests {
         for (int i = 0; i < 5; i++) {
             BlockPos foot = origin.offset(1 + i * 2, 1, 2);
             BlockPos head = foot.south();
-            level.setBlock(foot, Blocks.RED_BED.defaultBlockState()
+            level.setBlock(foot, dev.itzgamesgd.moreminecrafts.registry.ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
                     .setValue(net.minecraft.world.level.block.BedBlock.PART,
                             net.minecraft.world.level.block.state.properties.BedPart.FOOT)
                     .setValue(net.minecraft.world.level.block.BedBlock.FACING, net.minecraft.core.Direction.SOUTH), 3);
-            level.setBlock(head, Blocks.RED_BED.defaultBlockState()
+            level.setBlock(head, dev.itzgamesgd.moreminecrafts.registry.ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
                     .setValue(net.minecraft.world.level.block.BedBlock.PART,
                             net.minecraft.world.level.block.state.properties.BedPart.HEAD)
                     .setValue(net.minecraft.world.level.block.BedBlock.FACING, net.minecraft.core.Direction.SOUTH), 3);
