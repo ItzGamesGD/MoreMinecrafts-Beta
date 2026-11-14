@@ -1,0 +1,58 @@
+name: Pyramid mob provisional client capture
+on:
+  push:
+    branches: [work/pyramid-mob-variants-20261114]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install software renderer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox x11-utils mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+      - name: Isolate capture client entrypoint
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('src/gametest/resources/fabric.mod.json')
+          d = json.loads(p.read_text())
+          d['entrypoints']['fabric-client-gametest'] = ['dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture']
+          p.write_text(json.dumps(d, indent=2) + '\n')
+          PY
+      - name: Capture the four provisional variants in Minecraft
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/pyramid-mob-capture
+          export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+          export JAVA_TOOL_OPTIONS='-Dmoreminecrafts.pyramid.mob.capture=true'
+          icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)
+          if [[ -n "$icd" ]]; then export VK_ICD_FILENAMES="$icd"; fi
+          xvfb-run -a -s '-screen 0 1920x1080x24 +extension GLX +render -noreset' bash -euo pipefail -c '
+            openbox --sm-disable > build/pyramid-mob-capture/openbox.log 2>&1 &
+            trap "kill $! 2>/dev/null || true" EXIT
+            ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --max-workers=2 2>&1 | tee build/pyramid-mob-capture/client.log
+          '
+          grep -q PYRAMID_MOB_CAPTURE_COMPLETE build/pyramid-mob-capture/client.log
+          find build/run/clientGameTest/screenshots -name 'pyramid-placeholder-*.png' -exec cp {} build/pyramid-mob-capture/ \;
+          test "$(find build/pyramid-mob-capture -name 'pyramid-placeholder-*.png' | wc -l)" -eq 4
+      - name: Upload captures and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pyramid-mob-provisional-captures
+          path: build/pyramid-mob-capture/
+          if-no-files-found: error

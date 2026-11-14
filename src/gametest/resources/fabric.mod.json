@@ -36,6 +36,7 @@
       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyMobSpawnGameTests",
       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestGameTests",
@@ -118,6 +119,7 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests"
     ],
     "fabric-client-gametest": [
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture",
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8AClientCaptureTest",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8ARecaptureTest",
