@@ -61,7 +61,7 @@ public final class PyramidMobClientCapture implements FabricClientGameTest {
                     for (var entity : c.level.entitiesForRendering()) if (entity.getType() == expected) found = true;
                     if (!found) throw new AssertionError("Client did not receive " + names.get(index));
                 });
-                context.takeScreenshot("pyramid-placeholder-" + names.get(i));
+                System.out.println("PYRAMID_MOB_SCREENSHOT " + context.takeScreenshot("pyramid-placeholder-" + names.get(i)));
                 System.out.println("PYRAMID_MOB_CAPTURE " + names.get(i));
             }
             System.out.println("PYRAMID_MOB_CAPTURE_COMPLETE");

@@ -38,7 +38,7 @@ jobs:
           set -euo pipefail
           mkdir -p build/pyramid-mob-capture
           export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
-          export JAVA_TOOL_OPTIONS='-Dmoreminecrafts.pyramid.mob.capture=true'
+          export JAVA_TOOL_OPTIONS='-Dmoreminecrafts.pyramid.mob.capture=true -Dmm.st05.natural=false'
           icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)
           if [[ -n "$icd" ]]; then export VK_ICD_FILENAMES="$icd"; fi
           xvfb-run -a -s '-screen 0 1920x1080x24 +extension GLX +render -noreset' bash -euo pipefail -c '
@@ -47,7 +47,7 @@ jobs:
             ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --max-workers=2 2>&1 | tee build/pyramid-mob-capture/client.log
           '
           grep -q PYRAMID_MOB_CAPTURE_COMPLETE build/pyramid-mob-capture/client.log
-          find build/run/clientGameTest/screenshots -name 'pyramid-placeholder-*.png' -exec cp {} build/pyramid-mob-capture/ \;
+          find . -path '*/screenshots/*pyramid-placeholder-*.png' -exec cp {} build/pyramid-mob-capture/ \;
           test "$(find build/pyramid-mob-capture -name 'pyramid-placeholder-*.png' | wc -l)" -eq 4
       - name: Upload captures and diagnostics
         if: always()
