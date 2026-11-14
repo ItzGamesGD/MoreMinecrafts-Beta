@@ -60,6 +60,10 @@ public final class PyramidMobGameTests implements CustomTestMethodInvoker {
             helper.assertTrue(mob != null && reference != null, "creatable " + variant);
             helper.assertTrue(mob.getClass() == reference.getClass(), "vanilla class/AI " + variant);
             for (Holder<Attribute> attribute : ATTRIBUTES) {
+                boolean present = reference.getAttributes().hasAttribute(attribute);
+                helper.assertTrue(mob.getAttributes().hasAttribute(attribute) == present,
+                        "same attribute set " + attribute.getRegisteredName() + " " + variant);
+                if (!present) continue;
                 helper.assertTrue(mob.getAttributeBaseValue(attribute) == reference.getAttributeBaseValue(attribute),
                         "vanilla " + attribute.getRegisteredName() + " " + variant);
             }
