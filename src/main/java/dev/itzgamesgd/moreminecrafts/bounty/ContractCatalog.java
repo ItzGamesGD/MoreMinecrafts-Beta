@@ -68,7 +68,10 @@ public final class ContractCatalog {
             "moreminecrafts:cloud_slime", "moreminecrafts:fallen_sentinel",
             // Group B sky-island variants: same treatment until the owner decides their roster tier.
             "moreminecrafts:weathered_zombie", "moreminecrafts:sky_archer", "moreminecrafts:rock_creeper",
-            "moreminecrafts:pale_enderman", "moreminecrafts:azure_slime");
+            "moreminecrafts:pale_enderman", "moreminecrafts:azure_slime",
+            // ST-01 pyramid variants: registered but withheld from every contract pool; placement is not designed yet.
+            "moreminecrafts:buried_mummy", "moreminecrafts:crypt_archer", "moreminecrafts:funeral_servant",
+            "moreminecrafts:gilded_mummy");
 
     /** Percent chance that a combat objective draws a strong target, by contract shape (owner-approved 2026-10-23). */
     public static int strongPercent(ContractData.Tier shape) {

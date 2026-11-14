@@ -22,6 +22,7 @@ public final class ModRegistries {
 
     public static void initialize() {
         CustomMobCatalog.initialize();
+        dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobs.initialize();
         dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobs.initialize();
         dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobs.initialize();
         dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandHabitat.initialize();

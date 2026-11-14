@@ -265,6 +265,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 context -> CustomMobRenderers.creeper(context, "cave_creeper"));
         SkyMobRenderers.register();
         SkyVariantRenderers.register();
+        PyramidMobRenderers.register();
     }
 
     private static String formatTenths(int value) { return "%d.%d".formatted(value / 10, Math.abs(value % 10)); }

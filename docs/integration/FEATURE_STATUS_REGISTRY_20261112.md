@@ -4,7 +4,7 @@ Working branch `work/grand-unified-20261112`, based on `49747981ecc49f7f6b0a39fe
 
 **Rules.** `INACTIVE — SOURCE CONSOLIDATED` means the source assets are present under `inactive/` and a fresh clone of Grand Unified (no feature refs) rebuilds the original head tree with `scripts/integration/recover_state.py`; the `recovery_class` column states the outcome (EXACT = reconstructed tree identical to the original head tree; byte-identical files alone would not qualify). Nothing under `inactive/` is compiled, registered, loaded as a resource or run by CI. `ACTIVE` rows describe the unchanged baseline tree.
 
-Counts: ACTIVE: 6, DOCUMENTED: 5, INACTIVE — SOURCE CONSOLIDATED: 11, INACTIVE — EXTERNAL REF PRESERVED: 7, SUPERSEDED: 5, REVERTED: 3, OWNER DECISION REQUIRED: 11
+Counts: ACTIVE: 6, DOCUMENTED: 5, INACTIVE — SOURCE CONSOLIDATED: 11, INACTIVE — EXTERNAL REF PRESERVED: 7, SUPERSEDED: 5, REVERTED: 3, OWNER DECISION REQUIRED: 11 (2026-11-14 sync: OWN-01, OWN-02 and OWN-04 are resolved, so 8 remain open; see "2026-11-14 status update" below)
 
 
 ## ACTIVE
@@ -78,10 +78,10 @@ Counts: ACTIVE: 6, DOCUMENTED: 5, INACTIVE — SOURCE CONSOLIDATED: 11, INACTIVE
 
 | ID | Feature | Source ref@SHA | Target | Activation | Authority | Blockers | Recovery |
 |---|---|---|---|---|---|---|---|
-| OWN-01 | Resume or register Sky Mob entities (paused) | see related rows | (none) | not activated | (owner) | owner has paused mob development; resume, register or spawn needs an explicit decision | n/a |
-| OWN-02 | ST-01 P7-P11/O-14 secret-entrance runtime versus Policy D | see related rows | src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/entrance/ | IMPLEMENTED on Draft PR #282; local tests pass (607/607 GameTests); GitHub Actions CI passed (18/18 checks, PR head 7f0a2076); LIVE VALIDATION PENDING; not COMPLETE | CONTENT_AUTHORITY_INDEX.md "ST-01 secret entrance and gold guide golem — Policy D port" | owner-approved 2026-11-12; P9 CR-1/CR-2/O-9 not ported (existing behaviour kept); WAIT_DISTANCE 10 and leader margin 3 provisional; O-12, D-D/O-5, Q15, Q98 undecided | n/a |
+| OWN-01 | Resume or register Sky Mob entities (paused) | see related rows | (none) | **RESOLVED 2026-11-13: owner resumed Sky Mob work; the five group C mobs are registered, spawn naturally on sky islands and feed the Sky Tower trial spawners (PR #283 merged). Implemented, not live-validated. Open sub-items live in the 2026-11-14 update below** (was: not activated) | (owner) | owner has paused mob development; resume, register or spawn needs an explicit decision | n/a |
+| OWN-02 | ST-01 P7-P11/O-14 secret-entrance runtime versus Policy D | see related rows | src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/entrance/ | **RESOLVED 2026-11-12/13: Policy D port approved and integrated (PR #282 merged via PR #287, merge 7036952). CI passed; LIVE VALIDATION PENDING; O-12, D-D/O-5, Q15, Q98 and the provisional WAIT_DISTANCE 10 / margin 3 stay undecided** (was: IMPLEMENTED on Draft PR #282; local tests pass (607/607 GameTests); GitHub Actions CI passed (18/18 checks, PR head 7f0a2076); LIVE VALIDATION PENDING; not COMPLETE) | CONTENT_AUTHORITY_INDEX.md "ST-01 secret entrance and gold guide golem — Policy D port" | owner-approved 2026-11-12; P9 CR-1/CR-2/O-9 not ported (existing behaviour kept); WAIT_DISTANCE 10 and leader margin 3 provisional; O-12, D-D/O-5, Q15, Q98 undecided | n/a |
 | OWN-03 | ST-05 structure-protection mask versus baseline Stage 1 runtime | feat/st05-c4-structure-mask-20261030@1ee08d44 | Stage 1 ArenaController / ArenaTerrain | activated | STRUCTURE_AUTHORITY_INDEX.md (ST-05 Stage 1 lifecycle override) | ported: StructureMaskSnapshot & ColosseumPlacementMixin wired to Stage 1 runtime | n/a |
-| OWN-04 | Q1C Wither-skull quest registration | see related rows | (none) | not activated | (owner) | D-F1-1 / O-2 unapproved; crash-consistency defect must be fixed first | n/a |
+| OWN-04 | Q1C Wither-skull quest registration | see related rows | (none) | **RESOLVED 2026-11-13: Wither-skull P3 crash transaction implemented and the quest catalog registered (PR #279 merged, merge a57e923). Not re-verified here: whether D-F1-1/O-2 have a recorded owner approval** (was: not activated) | (owner) | D-F1-1 / O-2 unapproved; crash-consistency defect must be fixed first | n/a |
 | OWN-05 | Policy B research gates G1-G7 | see related rows | (none) | not activated | (owner) | Policy D is final; Policy B stays research | n/a |
 | OWN-06 | Star Covenant vault logic branch (i04a, 1 commit) | see related rows | (none) | not activated | (owner) | baseline has an evolved StarCovenantVaultRewards; semantic equivalence not verified | EXACT |
 | OWN-07 | Phase 4 owner acceptance checklist | see related rows | (none) | not activated | (owner) | pending | n/a |
@@ -89,3 +89,18 @@ Counts: ACTIVE: 6, DOCUMENTED: 5, INACTIVE — SOURCE CONSOLIDATED: 11, INACTIVE
 | OWN-09 | Piglin-trading / mob-tracker UI: currency of the 2026-10-10 record and start of implementation | see related rows | (none) | not activated | (owner) | document routed as pending | n/a |
 | OWN-10 | Google Drive mirror deployment | see related rows | (none) | not activated | (owner) | deferred until major integration complete | n/a |
 | OWN-11 | Colosseum GameTest batch isolation hunk (inside claude/sky-mob-gametest-timing-nn7o1h) | see related rows | (none) | not activated | (owner) | separable from Sky Mob; overlap with baseline clock-seam work unchecked | n/a |
+
+## 2026-11-14 status update (documentation sync; owner-reported progress, not re-verified unless stated)
+
+Registry rows above are a 2026-11-12 snapshot; this section records later state without renumbering rows. The machine-readable TSV copy has **not** been updated by this sync.
+
+| Item | Ref | State | Authority | Open / pending |
+|---|---|---|---|---|
+| OWN-01 / OWN-02 / OWN-04 | PR #283, #282/#287, #279 | resolved 2026-11-12~13 (see rows above) | CONTENT_AUTHORITY_INDEX.md entries for SKY-MOB, ST-01 Policy D port and Q1C | live validation pending for OWN-01/02 |
+| ST-03 pillager headquarters | Draft PR #55 | structures pass through the walls, towers, main gate and ground road (owner-reported); Draft | docs/planning/ST03_OWNER_APPROVED_DESIGN_Q01_Q42_2026-11-04.md (design decisions only; Q96–Q105 text does not exist, owner chose not to recover it) | extra headquarters-fit mob generation/design is follow-up work; no integration into the baseline |
+| Pyramid ordinary mobs (Buried Mummy, Crypt Archer, Funeral Servant, Gilded Mummy) | branch `claude/pyramid-mummy-variants-fu6ijm` | implemented; owner review passed; not merged into this baseline | docs/PYRAMID_MOB_ROSTER_DESIGN_2026-10-26.md | natural spawn/encounter placement not included; conversions blocked (no conversion rule needed); Gilded Mummy 28 HP not found in code (reported) |
+| Tomb Guardian | baseline code | **owner: not approved; design being redone; current implementation is a temporary dummy** | docs/PYRAMID_DESIGN_PREP_2026-10-25.md (correction notes added) | new design pending; earlier "OWNER APPROVED" text is not current authority |
+| Spider colony | branch `work/spider-colony-probe` | implementation in progress; not connected to worldgen; textures provisional | docs/SPIDER_COLONY_CAVE_BIOME_DESIGN_2026-10-26.md | worldgen connection and final textures pending |
+| Sky mobs, group A (Sky Spirit, Storm Hunter, Sky Wyvern, floating jellyfish) | design docs only | held; the three special mobs stay excluded; the jellyfish is progressing separately (this registry records no jellyfish state) | docs/design/SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md §15.7; docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md §20 | pending |
+| Sky mobs, group B (5 vanilla variants) | policy only | vanilla stats, conversions blocked, replaces the vanilla mob; creeper/enderman variants excluded from Sky Tower trial spawners; slime variant stays in them | same | spawn weights for creeper/enderman/slime variants: **decision pending**; no implementation recorded |
+

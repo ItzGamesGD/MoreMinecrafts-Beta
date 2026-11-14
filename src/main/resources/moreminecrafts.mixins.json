@@ -6,6 +6,7 @@
     "SkyTowerTrialCompletionMixin",
     "SkyArcherFreezeConversionMixin",
     "SkyTowerNaturalSpawnMixin",
+    "St01RoyalHallNaturalSpawnMixin",
     "TrialSpawnerConfigAccessor",
     "TrialSpawnerStateDataAccessor",
     "SkyTowerBlockChangeMixin",
