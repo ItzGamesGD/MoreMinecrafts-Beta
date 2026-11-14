@@ -38,7 +38,6 @@
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyMobSpawnGameTests",
       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianGameTests",
-      "dev.itzgamesgd.moreminecrafts.test.crystalguardian.AncientCrystalGuardianGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssemblyGameTests",
@@ -116,7 +115,8 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryPhysicsGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryShockwaveGameTests",
-      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests"
+      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.test.crystalguardian.AncientCrystalGuardianGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
