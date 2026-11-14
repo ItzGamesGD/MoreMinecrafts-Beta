@@ -82,7 +82,7 @@ LAPIS = [hx(c) for c in ("101d4a", "182d6e", "21409a", "3058bb", "4b77d1")]
 GOLD_FLECK = hx("e8c35a")
 
 ASH_SKIN = [hx(c) for c in ("3a3732", "4c4842", "5f5a52", "736d63", "878073", "999283")]
-ROBE = [hx(c) for c in ("16223d", "1f3157", "2a4372", "36558a", "4b6b9d", "6a86ab", "8aa0b8")]
+ROBE = [hx(c) for c in ("1b2a4a", "253a66", "30507f", "3d6296", "5277a8", "6f8db2", "8fa5bd")]
 TRIM = [hx(c) for c in ("4f3a17", "765a24", "9c7a33", "bd9a48")]
 WHITE_LINEN = [hx(c) for c in ("8c8470", "aea58c", "cbc3a6", "ddd6bb")]
 LEATHER = [hx(c) for c in ("2c1d12", "45301d", "5f4429")]
@@ -104,7 +104,7 @@ def top_rings(t):
 
 MOSS_SKIN = [hx(c) for c in ("1f2e17", "2b3d1f", "37502a", "446234", "52733e")]
 NAVY = [hx(c) for c in ("0e1428", "151e3c", "1d2a52")]
-SOOT_BONE = [hx(c) for c in ("141110", "1f1b19", "2b2622", "37312c", "443d36", "524a42")]
+SOOT_BONE = [hx(c) for c in ("191513", "2a2420", "3b342e", "4d453d", "5f564c", "71675b")]
 
 
 def ring_dist(t):
@@ -420,8 +420,8 @@ def gilded_mummy(t, baby):
                 if not baby and j == 4 and t.s % 2 == 0:
                     return step(DARK_WRAP, 0)  # inset marks on the armlet
                 return step(GOLD, 4 if j != band[-1] else 2)
-            if j >= t.fh - (2 if not baby else 1):
-                return step(GOLD, 3 if (t.s + j) % 2 else 2)  # gold wrist bands
+            if j == t.fh - (2 if not baby else 1):
+                return step(GOLD, 3)  # gold wrist band
         if "leg" in part:
             # gold bands at the thigh and shin, and an inner strip forming a V with the other leg
             if (not baby and j in (2, 8)) or (baby and j == 1):
@@ -437,7 +437,9 @@ def gilded_mummy(t, baby):
         tone += (g > 0.8) - (g < 0.1)
         return mul(step(DARK_WRAP, tone), 1.05 - 0.1 * vpos(t))
     if is_hand(t):
-        return step(GOLD, 4) if t.i % 2 == 0 else step(GOLD, 2)  # gold finger stalls
+        if t.j == t.fh - 1 and t.i % 2 == 0:
+            return step(GOLD, 4)  # gold finger-stall tips
+        return step(DARK_WRAP, 2 + (t.i % 2))
     return step(DARK_WRAP, 1)
 
 
@@ -478,9 +480,9 @@ def gilded_mask(t, baby, g):
             if i in (3, 4) and j in (3, 4):
                 return G(5) if i == 3 else G(4)  # nose
             if j == 5 and i in (3, 4):
-                return G(2)
-            if j == 6 and i in (3, 4):
-                return G(1)  # closed lips
+                return G(3)
+            if j == 6 and 2 <= i <= 5:
+                return G(2) if i in (2, 5) else G(1)  # closed lips
             if i in (0, 7):
                 return G(2)
             return G(4 if (i * 3 + j) % 7 else 5)
@@ -489,7 +491,7 @@ def gilded_mask(t, baby, g):
         if j == 1 and i in (1, 4):
             return step(LAPIS, 1)
         if j == 4 and i in (2, 3):
-            return G(1)
+            return G(2)
         if i in (2, 3) and j in (2, 3):
             return G(5) if i == 2 else G(4)
         return G(2) if i in (0, 5) else G(4)

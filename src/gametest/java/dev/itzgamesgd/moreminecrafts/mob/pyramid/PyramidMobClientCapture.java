@@ -97,8 +97,8 @@ public final class PyramidMobClientCapture implements FabricClientGameTest {
                     mob.setYBodyRot(20);
                     mob.setYHeadRot(20);
                 }
-                s.getPlayerList().getPlayers().getFirst().teleportTo(level, 1.5 * SPACING + 3.5, Y + 3, 25,
-                        Set.of(), 180, 6, true);
+                s.getPlayerList().getPlayers().getFirst().teleportTo(level, 1.5 * SPACING + 3.5, Y + 1, 15,
+                        Set.of(), 180, 8, true);
             });
             connection.waitForClientboundPackets();
             context.waitTicks(40);
