@@ -33,6 +33,7 @@ public final class ModBlocks {
     public static final Block ADAMANTIUM_BLOCK = block("adamantium_block", 50.0F, 1200.0F);
     public static final Block EXPLORATION_SLEEPING_BAG = sleepingBag();
     public static final Block FISH_TRAP = fishTrap();
+    public static final Block HANGING_COCOON = hangingCocoon();
     public static final Block AUTO_FARM = autoFarm();
     public static final Block SPIDER_EGG_SAC = spiderEggSac();
 
@@ -69,6 +70,13 @@ public final class ModBlocks {
         String path="spider_egg_sac";
         ResourceKey<Block> key=ResourceKey.create(Registries.BLOCK,ModIds.id(path));
         return register(path,key,new dev.itzgamesgd.moreminecrafts.spidercolony.EggSacBlock(BlockBehaviour.Properties.of().strength(dev.itzgamesgd.moreminecrafts.spidercolony.EggSacBlock.HARDNESS_PROVISIONAL).noOcclusion().setId(key)));
+    }
+
+    private static Block hangingCocoon() {
+        String path = "hanging_cocoon";
+        ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
+        return register(path, key, new dev.itzgamesgd.moreminecrafts.spidercolony.HangingCocoonBlock(
+                BlockBehaviour.Properties.of().strength(dev.itzgamesgd.moreminecrafts.spidercolony.HangingCocoonBlock.HARDNESS_PROVISIONAL).noOcclusion().setId(key)));
     }
 
     private static Block autoFarm() {

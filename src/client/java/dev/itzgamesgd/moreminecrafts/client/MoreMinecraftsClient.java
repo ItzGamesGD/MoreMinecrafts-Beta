@@ -185,6 +185,9 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 dev.itzgamesgd.moreminecrafts.client.pyramid.GoldGuideGolemRenderer::new);
         EntityRendererRegistry.register(dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyEntities.JUVENILE, net.minecraft.client.renderer.entity.SpiderRenderer::new);
         EntityRendererRegistry.register(dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyEntities.MOTHER, context -> new net.minecraft.client.renderer.entity.SpiderRenderer<dev.itzgamesgd.moreminecrafts.spidercolony.MotherSpider>(context) {
+            // Provisional texture pending owner visual review.
+            private static final net.minecraft.resources.Identifier TEXTURE = dev.itzgamesgd.moreminecrafts.core.ModIds.id("textures/entity/spider/mother_spider.png");
+            @Override public net.minecraft.resources.Identifier getTextureLocation(net.minecraft.client.renderer.entity.state.LivingEntityRenderState state) { return TEXTURE; }
             @Override protected void scale(net.minecraft.client.renderer.entity.state.LivingEntityRenderState state, com.mojang.blaze3d.vertex.PoseStack pose) { float scale=dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyEntities.VISUAL_SCALE_PROVISIONAL; pose.scale(scale,scale,scale); }
         });
         EntityRendererRegistry.register(CustomMobCatalog.SWAMP_ZOMBIE,
