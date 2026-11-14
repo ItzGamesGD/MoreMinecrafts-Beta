@@ -1,4 +1,8 @@
 {
+  "block.moreminecrafts.spider_egg_sac": "Spider Egg Sac",
+  "entity.moreminecrafts.juvenile_spider": "Juvenile Spider",
+  "entity.moreminecrafts.mother_spider": "Mother Spider",
+  "item.moreminecrafts.colony_crystal": "Colony Crystal",
   "effect.moreminecrafts.shock": "Shock",
   "effect.moreminecrafts.shock_root": "Shock Root",
   "item.minecraft.potion.effect.shock": "Potion of Shock",

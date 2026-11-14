@@ -1,4 +1,8 @@
 {
+  "block.moreminecrafts.spider_egg_sac": "거미 알주머니",
+  "entity.moreminecrafts.juvenile_spider": "새끼거미",
+  "entity.moreminecrafts.mother_spider": "어미거미",
+  "item.moreminecrafts.colony_crystal": "군락의 수정",
   "item.moreminecrafts.flame_sword": "불꽃검",
   "item.moreminecrafts.snow_charm": "설원의 부적",
   "item.moreminecrafts.relic_catalyst": "유물 촉매 (잠정)",
