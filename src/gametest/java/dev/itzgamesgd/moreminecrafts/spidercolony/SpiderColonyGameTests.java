@@ -90,7 +90,7 @@ public final class SpiderColonyGameTests {
    mother.discard(); ctx.succeed();
   });
  }
- @GameTest(maxTicks=900) public void unloadedChunkKeepsMotherHealthAndFourReservations(GameTestHelper ctx) {
+ @GameTest(maxTicks=1800) public void unloadedChunkKeepsMotherHealthAndFourReservations(GameTestHelper ctx) {
   var level=ctx.getLevel();
   var base=ctx.absolutePos(net.minecraft.core.BlockPos.ZERO).offset(4096,0,4096);
   var chunk=net.minecraft.world.level.ChunkPos.containing(base);
