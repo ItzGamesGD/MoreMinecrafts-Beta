@@ -1,0 +1,85 @@
+name: Sky Flyers Client Validation
+
+# Real rendered client + dedicated server run for the Sky Spirit and Storm Hunter (front/side/back captures and
+# real-survival-player behaviour) and the headless Sky Wyvern model probe. Runs only on the task branch or by hand.
+on:
+  push:
+    branches:
+      - claude/sky-spirits-hunter-dragon-validation-7ftpto
+    paths:
+      - ".github/workflows/sky-flyers-client-validation.yml"
+      - "src/**/skyflyer/**"
+      - "src/gametest/resources/fabric.mod.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sky-flyers-client:
+    name: Rendered client captures and Sky Wyvern model probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install the software rendering stack
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox x11-utils mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+
+      - name: Run only the two Sky Flyer client scenarios
+        run: |
+          python3 - <<'PY'
+          import json
+          path = "src/gametest/resources/fabric.mod.json"
+          data = json.load(open(path))
+          data["entrypoints"]["fabric-client-gametest"] = [
+              "dev.itzgamesgd.moreminecrafts.mob.skyflyer.SkyWyvernModelProbeClientGameTest",
+              "dev.itzgamesgd.moreminecrafts.mob.skyflyer.SkyFlyerClientCaptureTest",
+          ]
+          json.dump(data, open(path, "w"), indent=2)
+          PY
+          mkdir -p build
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" bash -euo pipefail -c '
+            openbox --sm-disable > build/openbox.log 2>&1 &
+            window_manager_pid=$!
+            trap "kill $window_manager_pid 2>/dev/null || true" EXIT
+            vulkan_icd=""
+            if [[ -d /usr/share/vulkan/icd.d ]]; then
+              vulkan_icd="$(find /usr/share/vulkan/icd.d -maxdepth 1 -name "lvp_icd*.json" -print -quit)"
+            fi
+            if [[ -n "$vulkan_icd" ]]; then export VK_ICD_FILENAMES="$vulkan_icd"; fi
+            export LIBGL_ALWAYS_SOFTWARE=1
+            export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+            export JAVA_TOOL_OPTIONS="-Dmoreminecrafts.skyflyer.capture=true -Dmoreminecrafts.skywyvern.probe=true"
+            set -o pipefail
+            ./gradlew runClientGameTest --args="--width 1280 --height 720" --no-daemon --stacktrace 2>&1 | tee build/sky-flyers-client.log
+          '
+
+      - name: Require the probe and behaviour markers
+        if: always()
+        run: |
+          grep -F "WYVERN_PROBE" build/sky-flyers-client.log || true
+          grep -F "SKY_FLYER_CAPTURE_PASS" build/sky-flyers-client.log
+          grep -c "WYVERN_PROBE PASS" build/sky-flyers-client.log
+
+      - name: Upload captures and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sky-flyers-client-${{ github.run_id }}
+          path: |
+            build/run/clientGameTest/screenshots/
+            build/sky-flyers-client.log
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:random_chance",
+        "chance": 0.06
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:sky_feather",
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 1
+            }
+          ],
+          "weight": 80
+        },
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:sky_feather",
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": 2
+            }
+          ],
+          "weight": 20
+        }
+      ]
+    }
+  ],
+  "random_sequence": "moreminecrafts:entities/storm_hunter"
+}
