@@ -57,7 +57,7 @@ public final class AncientCrystalGuardianModel extends EntityModel<AncientCrysta
      */
     public float[] debugPose() {
         return new float[] {legRight.xRot, legLeft.xRot, shinRight.xRot, shinLeft.xRot, armRight.xRot, armLeft.xRot,
-                forearmRight.xRot, forearmLeft.xRot, torso.yRot, guardian.y};
+                forearmRight.xRot, forearmLeft.xRot, torso.yRot, guardian.y - guardian.getInitialPose().y()};
     }
 
     public static final String[] DEBUG_POSE_COLUMNS = {"legRight", "legLeft", "shinRight", "shinLeft", "armRight", "armLeft",

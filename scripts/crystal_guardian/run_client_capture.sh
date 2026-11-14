@@ -18,6 +18,8 @@ PY
 OUT=build/crystal-guardian-evidence
 rm -rf "$OUT" build/run/clientGameTest/screenshots build/run/clientGameTest/crystal-guardian-evidence
 mkdir -p "$OUT"
+# Minecraft 26.x renders through Vulkan: use Mesa lavapipe (apt: mesa-vulkan-drivers) when present.
+if [[ -f /usr/share/vulkan/icd.d/lvp_icd.json ]]; then export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/lvp_icd.json; fi
 export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
 export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Dmoreminecrafts.crystalguardian.client=true"
 WIDTH="${WIDTH:-1280}"; HEIGHT="${HEIGHT:-720}"
