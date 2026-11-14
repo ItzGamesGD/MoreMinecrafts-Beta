@@ -48,3 +48,12 @@ For **ST-01 Colossal Pyramid** royal reward acquisition, see [D13-03-Q25–Q41 a
 ## ST-01 royal chest I06 Q01–Q45 authority overlay (2026-11-07)
 
 The current owner-approved two-royal-chest reward and access contract is [D13-03-I06 Royal Chest Reward Authority](planning/D13_03_I06_ROYAL_CHEST_REWARDS_AUTHORITY_2026-11-07.md). It resolves the earlier D13-03 Q25–Q47 row's unspecified royal base loot, two-chest access and inventory conditions **for I06 only**: two 54-slot chests, first direct player open after Tomb Guardian defeat, permanent no-insertion/no-automation/no-destruction, independent ordinary and accessory rewards, and one structure-wide catalyst assignment. Q45 specifies titanium/tungsten ingots. ST-01 P4 **B** is the selected design candidate; orientation and final in-world placement remain separate/unverified. The third secret treasury chest is excluded. This is **OWNER-APPROVED DESIGN ONLY** and does not claim implementation, merge, or live validation.
+
+## ST-01 single primary royal chest override (2026-11-12)
+
+**CURRENT OVERRIDE:** ST-01 Colossal Pyramid operates under a single `PRIMARY` royal reward chest system (a single double chest in the royal hall). The unplaced `SECONDARY` royal chest is discontinued.
+1. **Single Chest Architecture:** Only the `PRIMARY` double chest (54 slots) is placed and registered in ST-01. The unplaced `SECONDARY` chest is removed from runtime requirements and active reward distribution.
+2. **5% Relic Catalyst Unification:** The 5% structure-level Relic Catalyst roll (`CATALYST_CHANCE = 0.05D`) is fully unified onto the single `PRIMARY` chest (100% of successful catalyst rolls are assigned to `PRIMARY`; the superseded 50:50 split with `SECONDARY` is eliminated, preventing unallocated/missing catalysts).
+3. **20% T2 Accessory Unification:** The single `PRIMARY` chest conducts the 20% T2 accessory roll (Seed of Life / Ring of Time 50:50).
+4. **Backward Compatibility:** Existing world saves (`SavedData`) retaining legacy `SECONDARY` positions or `catalyst: "SECONDARY"` entitlements continue to decode without migration errors; uncollected catalyst entitlements decode safely and are honored at the primary chest or preserved.
+

@@ -56,6 +56,40 @@ class RoundComposerAndPersistenceTest {
         assertEquals(o.allocations().size(), a.allocations().size());
     }
 
+    @Test void structureMaskPersistenceAndProtectionSurvivesRoundTrip() {
+        ArenaController c = new ArenaController("mask-test");
+        net.minecraft.core.BlockPos templatePos = new net.minecraft.core.BlockPos(10, 64, 20);
+        net.minecraft.core.BlockPos playerPos = new net.minecraft.core.BlockPos(12, 65, 22);
+        net.minecraft.core.BlockPos unplaced = new net.minecraft.core.BlockPos(30, 70, 30);
+
+        c.recordStructureMask(List.of(templatePos));
+        assertTrue(c.structureMask().complete());
+        assertTrue(c.structureMask().protects(templatePos));
+        assertFalse(c.structureMask().playerPlaced(templatePos));
+
+        c.protectBlock(playerPos);
+        assertTrue(c.structureMask().protects(playerPos));
+        assertTrue(c.structureMask().playerPlaced(playerPos));
+        assertFalse(c.structureMask().protects(unplaced));
+
+        String json = c.toJson();
+        ArenaController restored = ArenaController.restore("mask-test", json, ArenaController.checksum(json), System.currentTimeMillis());
+        assertFalse(restored.quarantined(), restored.quarantineReason());
+        assertTrue(restored.structureMask().complete());
+        assertTrue(restored.structureMask().protects(templatePos));
+        assertFalse(restored.structureMask().playerPlaced(templatePos));
+        assertTrue(restored.structureMask().protects(playerPos));
+        assertTrue(restored.structureMask().playerPlaced(playerPos));
+        assertFalse(restored.structureMask().protects(unplaced));
+
+        // Player block released
+        restored.releaseBlock(playerPos);
+        assertFalse(restored.structureMask().protects(playerPos));
+        // Template block never released
+        assertFalse(restored.releaseBlock(templatePos));
+        assertTrue(restored.structureMask().protects(templatePos));
+    }
+
     @Test void restoredControllerContinuesWithoutDuplicatingRoundStartOrSpawns() {
         Sim s = midRun();
         int spawned = s.c.attempt().count(AllocStatus.SPAWNED);

@@ -1,0 +1,230 @@
+{
+  "audit_version": "1.0",
+  "provenance": "PHASE_2_INDEPENDENT_AUDIT_REPORT",
+  "recalculated_totals": {
+    "total_evaluated": 2500,
+    "center_in_desert": 52,
+    "center_and_corners_in_desert": 18,
+    "full_100_percent_in_desert": 9,
+    "eligible_under_exploratory_limits": 7,
+    "rejection_breakdown": {
+      "REJECT_NOT_DESERT": 2448,
+      "ELIGIBLE": 7,
+      "REJECT_EXCESSIVE_CUT": 2,
+      "REJECT_EXCESSIVE_DELTA_H": 31,
+      "REJECT_FLUID_COLLISION": 12
+    },
+    "elevation_distribution": {
+      "sample_size": 52,
+      "mean_delta_h": 24.33,
+      "median_delta_h": 18,
+      "min_delta_h": 1,
+      "max_delta_h": 101,
+      "p10_delta_h": 6,
+      "p25_delta_h": 10,
+      "p75_delta_h": 36,
+      "p90_delta_h": 54
+    }
+  },
+  "per_seed_audit": {
+    "1001": {
+      "total_candidates": 500,
+      "center_desert": 0,
+      "full_desert_reported": 0,
+      "full_desert_in_records": 0,
+      "eligible_reported": 0,
+      "eligible_in_records": 0,
+      "intersection_full_and_eligible": 0,
+      "delta_h_count": 0,
+      "delta_h_mean": null,
+      "delta_h_median": null,
+      "delta_h_min": null,
+      "delta_h_max": null
+    },
+    "1002": {
+      "total_candidates": 500,
+      "center_desert": 20,
+      "full_desert_reported": 3,
+      "full_desert_in_records": 3,
+      "eligible_reported": 3,
+      "eligible_in_records": 3,
+      "intersection_full_and_eligible": 1,
+      "delta_h_count": 20,
+      "delta_h_mean": 26.45,
+      "delta_h_median": 21,
+      "delta_h_min": 4,
+      "delta_h_max": 74
+    },
+    "1003": {
+      "total_candidates": 500,
+      "center_desert": 14,
+      "full_desert_reported": 2,
+      "full_desert_in_records": 2,
+      "eligible_reported": 2,
+      "eligible_in_records": 2,
+      "intersection_full_and_eligible": 0,
+      "delta_h_count": 14,
+      "delta_h_mean": 18.21,
+      "delta_h_median": 21,
+      "delta_h_min": 1,
+      "delta_h_max": 48
+    },
+    "1004": {
+      "total_candidates": 500,
+      "center_desert": 18,
+      "full_desert_reported": 4,
+      "full_desert_in_records": 4,
+      "eligible_reported": 2,
+      "eligible_in_records": 2,
+      "intersection_full_and_eligible": 0,
+      "delta_h_count": 18,
+      "delta_h_mean": 26.72,
+      "delta_h_median": 17,
+      "delta_h_min": 8,
+      "delta_h_max": 101
+    },
+    "1005": {
+      "total_candidates": 500,
+      "center_desert": 0,
+      "full_desert_reported": 0,
+      "full_desert_in_records": 0,
+      "eligible_reported": 0,
+      "eligible_in_records": 0,
+      "intersection_full_and_eligible": 0,
+      "delta_h_count": 0,
+      "delta_h_mean": null,
+      "delta_h_median": null,
+      "delta_h_min": null,
+      "delta_h_max": null
+    }
+  },
+  "intersection_breakdown": {
+    "total_center_desert": 52,
+    "total_full_desert": 9,
+    "total_terrain_eligible": 7,
+    "intersection_count": 1,
+    "intersection_candidates": [
+      {
+        "seed": 1002,
+        "anchor_x": -128,
+        "anchor_z": -1152,
+        "delta_h": 10,
+        "max_cut": 5,
+        "max_skirt": 5,
+        "approx_cut_volume": 7712,
+        "approx_fill_volume": 4464,
+        "fluid_collision": false
+      }
+    ],
+    "non_intersection_eligible_candidates": [
+      {
+        "seed": 1002,
+        "anchor_x": -640,
+        "anchor_z": -1664,
+        "desert_coverage_ratio": 0.7160493827160493,
+        "delta_h": 8
+      },
+      {
+        "seed": 1002,
+        "anchor_x": -384,
+        "anchor_z": -1152,
+        "desert_coverage_ratio": 0.6790123456790124,
+        "delta_h": 4
+      },
+      {
+        "seed": 1003,
+        "anchor_x": -896,
+        "anchor_z": 3712,
+        "desert_coverage_ratio": 0.8271604938271605,
+        "delta_h": 8
+      },
+      {
+        "seed": 1003,
+        "anchor_x": -128,
+        "anchor_z": -1664,
+        "desert_coverage_ratio": 0.7654320987654321,
+        "delta_h": 6
+      },
+      {
+        "seed": 1004,
+        "anchor_x": -2176,
+        "anchor_z": 2432,
+        "desert_coverage_ratio": 0.7160493827160493,
+        "delta_h": 10
+      },
+      {
+        "seed": 1004,
+        "anchor_x": -1408,
+        "anchor_z": 3968,
+        "desert_coverage_ratio": 0.8395061728395061,
+        "delta_h": 8
+      }
+    ],
+    "finding": "CRITICAL AUDIT FINDING: Phase 2 reported 7 'ELIGIBLE' candidates and 9 'full_100_percent_in_desert' candidates. However, the probe classified candidates as ELIGIBLE without requiring full 100% desert coverage. Across the entire 2,500-candidate 5-seed dataset, the intersection between full 100% Desert AND terrain eligibility is EXACTLY 1 SINGLE CANDIDATE (Seed 1002 at [-128, -1152]). 6 of the 7 'eligible' candidates failed full-footprint desert coverage (border candidates with 67.9% to 84.0% desert). 8 of the 9 full-desert candidates failed exploratory terrain limits (delta_h up to 78, max cut/skirt up to 61)."
+  },
+  "replay_audit": {
+    "seed": 1001,
+    "orig_candidate_count": 500,
+    "orig_center_desert": 0,
+    "orig_sample_records_len": 0,
+    "replay_sample_records_len": 0,
+    "exact_diffs": {
+      "performance_metrics": {
+        "orig": {
+          "peak_memory_mb": 348,
+          "duration_ms": 327,
+          "total_candidates_evaluated": 500
+        },
+        "replay": {
+          "duration_ms": 347,
+          "total_candidates_evaluated": 500,
+          "peak_memory_mb": 315
+        }
+      }
+    },
+    "finding": "MISLEADING_CLAIM_CORRECTED: Seed 1001 had 0 desert candidates (all 500 rejected as REJECT_NOT_DESERT). The reported 'byte-for-byte replay pass across candidates' tested an empty list of records ([] == []). No heightmap elevations, cut/fill volumes, fluid detections, or orientation values were replayed or verified. Furthermore, performance_metrics differed between runs (327ms / 348MB vs 347ms / 315MB)."
+  },
+  "fluid_scope_audit": {
+    "reported_fluid_rejections": 12,
+    "fluid_detection_method": "Single NoiseColumn at center anchor (cx, cz)",
+    "flaw": "The probe sampled NoiseColumn at anchor (cx, cz) only. It did NOT check subterranean columns across the 81x81 footprint. Even at the center column alone, 12 of 52 desert candidates (23.08%) collided with fluids. Multi-column or perimeter aquifer checks would increase the fluid rejection rate."
+  },
+  "biome_coverage_audit": {
+    "footprint": "81x81 blocks (-40..+40)",
+    "biome_sample_step": 10,
+    "biome_samples_per_candidate": 81,
+    "total_blocks_in_footprint": 6561,
+    "flaw": "The probe sampled 81 points on a 10-block grid, not an exhaustive check of all 6,561 blocks. In Minecraft 26.3, Overworld multi-noise biomes vary at 4-block (quart) resolution. A step of 10 blocks (2.5 quarts) can miss biome incursions (e.g. narrow rivers, savanna fingers). However, even under this sparse 81-sample check, only 9 of 52 desert candidates achieved 100% desert coverage."
+  },
+  "spatial_clustering_audit": {
+    "seeds_with_zero_desert": [
+      1001,
+      1005
+    ],
+    "zero_desert_frequency": "2 / 5 seeds (40%)",
+    "finding": "Minecraft 26.3 Overworld climate continental regions cluster deserts into large distinct climate bands. In 2 of the 5 seeds (1001 and 1005), not a single candidate out of 500 across a 8,192x8,192 area landed in Desert. When deserts did appear (seeds 1002, 1003, 1004), candidates clustered tightly in 1-2 desert patches per seed."
+  },
+  "evidence_classification": {
+    "CONFIRMED": [
+      "Minecraft 26.3 NoiseBasedChunkGenerator elevation distribution on 52 desert grid points (median deltaH 18.0, mean 24.33, range 1..101).",
+      "Severe desert spatial clustering with 40% seed-level desert drought (0 of 500 candidates in seeds 1001 and 1005).",
+      "Single center-column subterranean fluid collision in 23.08% of desert candidates.",
+      "Exactly 1 candidate in 2,500 grid points satisfies both full 100% Desert (sparse 81-pt) AND exploratory terrain limits."
+    ],
+    "INFERRED": [
+      "Desert boundary incursion rate: 82.7% of candidates with center in desert fail full-footprint desert coverage.",
+      "Multi-column fluid check across the 81x81 footprint will reject more candidates than the center-only check.",
+      "Exhaustive quart-level (4-block) biome checks will reject slightly more candidates than the 10-block sparse check."
+    ],
+    "UNVERIFIED": [
+      "Deterministic replay on a seed with real desert terrain candidates (Seed 1002).",
+      "Actual Woodland Mansion generation density, zero-structure frequency, and nearest-structure distance in Minecraft 26.3.",
+      "True ST-01 candidate generation density under structure-set placement (spacing/separation) vs regular 256-block grid."
+    ],
+    "OWNER_DECISION_REQUIRED": [
+      "Whether full 100% footprint Desert coverage is an uncompromised hard requirement, or whether minor perimeter allowance (e.g. >= 95% or >= 90%) is permissible.",
+      "Formal bounding limits for terrain correction: maximum deltaH, maximum cut depth, maximum skirt depth.",
+      "Target rarity calibration relative to Woodland Mansions."
+    ]
+  }
+}

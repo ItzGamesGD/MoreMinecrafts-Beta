@@ -1,0 +1,20 @@
+damage_source,death_cause_class,attributed_to_player
+"player melee (playerAttack)",PLAYER,true
+"player arrow (arrow, owner = player)",PLAYER,true
+"player mace",PLAYER,true
+"player-caused explosion (explosion(null, player))",PLAYER,true
+"thorns reflected onto the boss (thorns(player))",PLAYER,true
+"hostile mob melee (mobAttack(zombie))",MOB,false
+"unowned explosion (explosion(null, null))",ENVIRONMENT,false
+"burning (onFire) - includes Fire Aspect / flame DOT after the hit",ENVIRONMENT,false
+"standing in fire (inFire)",ENVIRONMENT,false
+"lava",ENVIRONMENT,false
+"magic (poison / instant damage potions)",ENVIRONMENT,false
+"wither effect",ENVIRONMENT,false
+"lightning bolt (no cause)",ENVIRONMENT,false
+"fall",ENVIRONMENT,false
+"cactus",ENVIRONMENT,false
+"freeze",ENVIRONMENT,false
+"drown",ENVIRONMENT,false
+"out of world (void)",ENVIRONMENT,false
+"generic kill (/kill)",COMMAND_KILL,false

@@ -256,7 +256,10 @@ public final class St05Stage0FLive {
                 Map<String, Object> meas = new LinkedHashMap<>();
                 List<String> f = Verify.check(after.grid, plan, m.routes, m.cave, r.cx(), r.cz(), rec.floorY, m.variant, 7, meas);
                 d.put("verify_failures", f); d.put("measured", meas);
-                if (f.isEmpty()) dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.registerArena(server, r.id(), r.cx(), r.cz(), rec.floorY);
+                if (f.isEmpty()) {
+                    List<BlockPos> solidPositions = plan.solid.stream().map(p -> new BlockPos(Plan.ux(p), Plan.uy(p), Plan.uz(p))).toList();
+                    dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.registerArena(server, r.id(), r.cx(), r.cz(), rec.floorY, solidPositions);
+                }
                 forceChunks(level, r, false);
             }
             default -> { d.put("action", "TERMINAL_NO_ACTION"); d.put("reason", rec.reason); }
@@ -361,7 +364,8 @@ public final class St05Stage0FLive {
         if (f.isEmpty()) {
             j.append(r.id(), "VERIFIED " + r.id() + " " + plan.hash());
             // Stage 1-A: a verified construction becomes a live arena (entry detection is derived from this centre / floor level)
-            dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.registerArena(server, r.id(), r.cx(), r.cz(), floorY);
+            List<BlockPos> solidPositions = plan.solid.stream().map(p -> new BlockPos(Plan.ux(p), Plan.uy(p), Plan.uz(p))).toList();
+            dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.registerArena(server, r.id(), r.cx(), r.cz(), floorY, solidPositions);
         }
         else j.append(r.id(), "QUARANTINED VERIFY_FAILED " + String.join(";", f).replace('\n', ' '));
         // fluid re-entry stress: schedule neighbour updates on every plan cell that touches natural fluid, to be re-checked after ticks

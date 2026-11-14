@@ -1,0 +1,73 @@
+{
+ "repo_url": "<frozen local copy of https://github.com/ItzGamesGD/MoreMinecrafts-Beta taken 2026-11-10T20:36Z: 136 heads, 259 pull heads>",
+ "steps": {
+  "1-initial-sync": {
+   "exit": 0,
+   "seconds": 498.3,
+   "http_writes": 330814,
+   "http_reads": 546,
+   "status": "complete",
+   "namespaces": 186,
+   "uploads": 5242,
+   "copies": 281208,
+   "folders_created": 43615,
+   "bytes_uploaded": 436953638,
+   "pull_head_namespaces": 50,
+   "branch_namespaces": 136,
+   "quarantined": [
+    "refs/heads/audit/st05-po25-review-package-20261102",
+    "refs/heads/probe/st05-p0-probe-01"
+   ]
+  },
+  "2-verify": {
+   "exit": 0,
+   "seconds": 315.8,
+   "http_writes": 0,
+   "http_reads": 44491,
+   "result": "PASS",
+   "expected_namespaces": 186,
+   "found_namespaces": 184,
+   "quarantined_refs": [
+    "refs/heads/audit/st05-po25-review-package-20261102",
+    "refs/heads/probe/st05-p0-probe-01"
+   ],
+   "files_expected": 286450,
+   "files_verified": 286450,
+   "bytes_expected": 14602691678,
+   "deep": {
+    "checked": 500,
+    "mismatched": 0
+   },
+   "problems": {},
+   "failing_namespaces": []
+  },
+  "3-idempotent-sync": {
+   "exit": 0,
+   "seconds": 5.9,
+   "http_writes": 3,
+   "http_reads": 8,
+   "status": "complete",
+   "noop_namespaces": 184,
+   "namespace_items_changed": 0
+  },
+  "4-reconcile-sync": {
+   "exit": 0,
+   "seconds": 469.4,
+   "http_writes": 556,
+   "http_reads": 44044,
+   "status": "complete",
+   "namespace_items_changed": 0
+  },
+  "5-verify-after-reconcile": {
+   "exit": 0,
+   "seconds": 331.5,
+   "http_writes": 0,
+   "http_reads": 43991,
+   "result": "PASS",
+   "files_verified": 286450
+  }
+ },
+ "emulator_items": 330445,
+ "emulator_unique_blobs": 6304,
+ "note": "Drive API emulator (tools/drive_mirror/tests/fake_drive.py). NOT evidence about Google's service."
+}

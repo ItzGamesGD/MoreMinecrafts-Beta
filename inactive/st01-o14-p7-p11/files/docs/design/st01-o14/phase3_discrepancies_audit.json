@@ -1,0 +1,133 @@
+{
+  "audit_version": "1.0-phase3.1",
+  "provenance": "PHASE3_1_STAGE_A_INDEPENDENT_AUDIT",
+  "finding_a1_mansion_enumeration": {
+    "title": "Woodland Mansion Direct Grid Enumeration Failure & Ad-Hoc Substitution",
+    "observed_valid_placed_structures": 0,
+    "effective_placed_structures": 1,
+    "nearest_mansion_distance": 5695,
+    "discrepancy": "Grid enumeration returned 0 valid structures across all 256 regions. The analysis script substituted effective_placed_structures = 1 based solely on findNearestMapStructure locating a mansion at distance 5695 blocks.",
+    "root_causes": [
+      "Probe used custom hash with XOR (^) instead of Minecraft's vanilla addition (+) in RandomSpreadStructurePlacement, yielding wrong candidate chunk coordinates.",
+      "level.structureManager().getStartForStructure(...) on unloaded ChunkAccess without active structure generation worker does not populate structure starts.",
+      "Ad-hoc substitution of effective_count=1 artificially fixed density at 0.24/100km^2 based on N=1 sample without multi-seed sampling."
+    ],
+    "severity": "HIGH_CORRECTIVE_REQUIRED"
+  },
+  "finding_a2_multiseed_execution": {
+    "title": "Multi-Seed Execution Flaw: CI Only Executed Single Seed 1002",
+    "claimed_seeds": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005
+    ],
+    "actually_executed_in_ci": [
+      1002
+    ],
+    "discrepancy": "Workflow st01-worldgen-probe.yml only ran seed 1002 (and replay 1002). Seeds 1001, 1003, 1004, 1005 were never executed in Phase 3 Minecraft server runs. Statements about 40% desert drought across seeds were carried over from Phase 2 (r=4096) rather than measured in Phase 3 (r=10240).",
+    "severity": "CRITICAL_METHODOLOGICAL_FLAW"
+  },
+  "finding_a3_statistical_interval_conflict": {
+    "title": "Documented Parity Interval [0.5, 2.0] vs Code Enforcement [0.25, 3.0]",
+    "doc_claimed_interval": [
+      0.5,
+      2.0
+    ],
+    "code_enforced_interval": [
+      0.25,
+      3.0
+    ],
+    "interval_expansion_factor": 3.0,
+    "affected_configurations": [
+      {
+        "config": "CFG_64_20_TRI",
+        "ratio_exploratory": 2.01,
+        "pass_under_doc_0_5_to_2_0": false,
+        "pass_under_code_0_25_to_3_0": true,
+        "impact": "Passes under lenient code filter [0.25, 3.0] but FAILS under documented standard [0.5, 2.0]."
+      },
+      {
+        "config": "CFG_32_08_LIN",
+        "ratio_exploratory": 2.01,
+        "pass_under_doc_0_5_to_2_0": false,
+        "pass_under_code_0_25_to_3_0": true,
+        "impact": "Passes under lenient code filter [0.25, 3.0] but FAILS under documented standard [0.5, 2.0]."
+      },
+      {
+        "config": "CFG_24_06_TRI",
+        "ratio_exploratory": 2.01,
+        "pass_under_doc_0_5_to_2_0": false,
+        "pass_under_code_0_25_to_3_0": true,
+        "impact": "Passes under lenient code filter [0.25, 3.0] but FAILS under documented standard [0.5, 2.0]."
+      }
+    ],
+    "severity": "CRITERIA_CONFLICT"
+  },
+  "finding_a4_sample_size_fragility": {
+    "title": "Extreme Sensitivity to Small N Counts in 419.43 sq km Area",
+    "evaluations": [
+      {
+        "config": "CFG_80_20_TRI",
+        "eligible_exploratory_count": 0,
+        "density_point_estimate": 0.0,
+        "density_95pct_ci": [
+          0.0,
+          0.33
+        ],
+        "fragility_note": "Single count fluctuation (k +/- 1) swings density by > 50%."
+      },
+      {
+        "config": "CFG_64_20_TRI",
+        "eligible_exploratory_count": 2,
+        "density_point_estimate": 0.48,
+        "density_95pct_ci": [
+          0.0,
+          1.22
+        ],
+        "fragility_note": "Single count fluctuation (k +/- 1) swings density by > 50%."
+      },
+      {
+        "config": "CFG_48_16_TRI",
+        "eligible_exploratory_count": 1,
+        "density_point_estimate": 0.24,
+        "density_95pct_ci": [
+          0.0,
+          0.81
+        ],
+        "fragility_note": "Single count fluctuation (k +/- 1) swings density by > 50%."
+      },
+      {
+        "config": "CFG_32_08_TRI",
+        "eligible_exploratory_count": 1,
+        "density_point_estimate": 0.24,
+        "density_95pct_ci": [
+          0.0,
+          0.81
+        ],
+        "fragility_note": "Single count fluctuation (k +/- 1) swings density by > 50%."
+      },
+      {
+        "config": "CFG_32_08_LIN",
+        "eligible_exploratory_count": 2,
+        "density_point_estimate": 0.48,
+        "density_95pct_ci": [
+          0.0,
+          1.22
+        ],
+        "fragility_note": "Single count fluctuation (k +/- 1) swings density by > 50%."
+      },
+      {
+        "config": "CFG_24_06_TRI",
+        "eligible_exploratory_count": 2,
+        "density_point_estimate": 0.48,
+        "density_95pct_ci": [
+          0.0,
+          1.22
+        ],
+        "fragility_note": "Single count fluctuation (k +/- 1) swings density by > 50%."
+      }
+    ]
+  }
+}

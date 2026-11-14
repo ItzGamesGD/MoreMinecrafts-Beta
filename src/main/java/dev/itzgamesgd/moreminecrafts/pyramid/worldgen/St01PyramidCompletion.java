@@ -8,6 +8,7 @@ import dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly;
 import dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.AccessRoute;
 import dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssembly.Orientation;
 import dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalChestPlacement;
+import dev.itzgamesgd.moreminecrafts.pyramid.entrance.SecretEntranceRuntime;
 import it.unimi.dsi.fastutil.longs.LongIterator;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
@@ -259,12 +260,16 @@ public final class St01PyramidCompletion extends SavedData {
         if (e == null || e.state == State.REJECTED || !isComplete(e)) return Optional.empty();
         if (e.state == State.REGISTERED && e.instanceId != null
                 && RoyalChestRuntime.data(level).instance(e.instanceId).isPresent()) {
+            SecretEntranceRuntime.register(level, e.meta.ground(), e.meta.orientation()); // idempotent; covers starts registered earlier
             return RoyalChestRuntime.data(level).instance(e.instanceId);
         }
         St01PyramidAssembly.Placement p = St01PyramidAssembly.describe(e.meta.ground(), e.meta.orientation(), e.meta.route());
         if (!loaded(level, p.primaryLeft()) || !loaded(level, p.primaryRight())) return Optional.empty(); // retried on their next load
         Optional<RoyalChestData.Instance> instance = St01RoyalChestPlacement.registerPlaced(level, p.d1PlacementOrigin(), p.d1Settings());
-        if (instance.isPresent()) data.markRegistered(e, instance.get().id());
+        if (instance.isPresent()) {
+            data.markRegistered(e, instance.get().id());
+            SecretEntranceRuntime.register(level, p); // same ground/orientation, keyed by the same tomb anchor as the PRIMARY chest
+        }
         else data.markRejected(e, "P8-B2 refused the physical PRIMARY pair at " + p.primaryLeft().toShortString()
                 + " / " + p.primaryRight().toShortString() + ": " + level.getBlockState(p.primaryLeft()) + " / " + level.getBlockState(p.primaryRight()));
         return instance;

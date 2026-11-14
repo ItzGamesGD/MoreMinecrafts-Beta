@@ -294,10 +294,22 @@ public final class SkyTowerCompositeWorldgenProbe implements ModInitializer {
                 continue;
             }
             var site = sample.site();
-            int spawners = 0, vaults = 0, barriers = 0, badBarrierCells = 0;
+            int spawners = 0, vaults = 0, barriers = 0, badBarrierCells = 0, comboConfigs = 0, towerExcluded = 0;
             for (int i = 0; i < 16; i++) {
                 var a = site.spawner(i);
                 if (level.getBlockState(new BlockPos(a.x(), a.y(), a.z())).is(Blocks.TRIAL_SPAWNER)) spawners++;
+                // SKY-MOB §15.6 P4/P5/C2: registered spawners carry the approved group C combination configs.
+                if (level.getBlockEntity(new BlockPos(a.x(), a.y(), a.z()))
+                        instanceof net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity be) {
+                    var cfg = ((dev.itzgamesgd.moreminecrafts.mixin.TrialSpawnerConfigAccessor) (Object) be.getTrialSpawner()).moreminecrafts$config();
+                    String combo = dev.itzgamesgd.moreminecrafts.skytower.SkyTowerTrialSpawners.combo(i);
+                    if (cfg.normal().is(dev.itzgamesgd.moreminecrafts.skytower.SkyTowerTrialSpawners.key(combo, false))
+                            && cfg.ominous().is(dev.itzgamesgd.moreminecrafts.skytower.SkyTowerTrialSpawners.key(combo, true)))
+                        comboConfigs++;
+                }
+                // Q33 B: every spawner altar lies in the Sky Tower natural-spawn exclusion.
+                if (dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandRegion.inSkyTower(level, new BlockPos(a.x(), a.y() + 1, a.z())))
+                    towerExcluded++;
             }
             for (int i = 0; i < 8; i++) {
                 var a = site.vault(i);
@@ -321,7 +333,8 @@ public final class SkyTowerCompositeWorldgenProbe implements ModInitializer {
                     && pooled.getElement().toString().matches(".*moreminecrafts:sky_islands/tower_[567].*")).count();
             boolean registered = data.sites().containsKey(site.id());
             boolean pass = spawners == 16 && vaults == 8 && barriers == 72 && badBarrierCells == 0
-                    && chunksLoaded && compositePieces == 1 && legacyTowerChildren == 0 && registered;
+                    && chunksLoaded && compositePieces == 1 && legacyTowerChildren == 0 && registered
+                    && comboConfigs == 16 && towerExcluded == 16;
             allPassed &= pass;
             styles.put(style, Map.ofEntries(Map.entry("pass", pass), Map.entry("structure", sample.structure()),
                     Map.entry("site", site.id()), Map.entry("rotation", site.rotation()),
@@ -330,7 +343,8 @@ public final class SkyTowerCompositeWorldgenProbe implements ModInitializer {
                     Map.entry("composite_piece_count", compositePieces), Map.entry("legacy_tower_child_count", legacyTowerChildren),
                     Map.entry("trial_spawners", spawners), Map.entry("vaults", vaults),
                     Map.entry("runtime_barrier_air_cells", barriers), Map.entry("blocked_barrier_cells", badBarrierCells),
-                    Map.entry("automatically_registered", registered)));
+                    Map.entry("automatically_registered", registered),
+                    Map.entry("group_c_combo_configs", comboConfigs), Map.entry("sky_tower_spawn_exclusion", towerExcluded)));
         }
         Map<String, Object> report = new LinkedHashMap<>();
         report.put("seed", level.getSeed());

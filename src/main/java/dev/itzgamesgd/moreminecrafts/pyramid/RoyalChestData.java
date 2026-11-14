@@ -61,9 +61,12 @@ public final class RoyalChestData extends SavedData {
     public static final SavedDataType<RoyalChestData> TYPE = new SavedDataType<>(
             Identifier.parse("moreminecrafts:royal_chest_rewards"), RoyalChestData::new, CODEC, DataFixTypes.LEVEL);
 
-    /** A registered pyramid instance and where its two chests currently are. */
+    /** A registered pyramid instance and where its chest currently is (single PRIMARY; legacy secondary preserved). */
     public record Instance(String id, BlockPos tombAnchor, BlockPos spawn, BlockPos primary, Optional<BlockPos> primaryRight, Optional<BlockPos> secondary,
                            Optional<RoyalChestRole> catalyst) {
+        public Instance(String id, BlockPos tombAnchor, BlockPos spawn, BlockPos primary, Optional<BlockPos> primaryRight, Optional<RoyalChestRole> catalyst) {
+            this(id, tombAnchor, spawn, primary, primaryRight, Optional.empty(), catalyst);
+        }
         public Optional<BlockPos> chestPos(RoyalChestRole role) { return role == RoyalChestRole.PRIMARY ? Optional.of(primary) : secondary; }
         List<BlockPos> positions() {
             List<BlockPos> positions = new ArrayList<>();
@@ -106,8 +109,14 @@ public final class RoyalChestData extends SavedData {
     public int instanceCount() { return instances.size(); }
 
     // ---- mutations ----
+ 
+    /** Registration for single PRIMARY royal chest (2026-11-12 override). */
+    Optional<Instance> register(String id, BlockPos tombAnchor, BlockPos spawn, BlockPos primary,
+                                Optional<BlockPos> primaryRight, Optional<RoyalChestRole> freshCatalyst) {
+        return register(id, tombAnchor, spawn, primary, primaryRight, Optional.empty(), freshCatalyst);
+    }
 
-    /** Registration never relocates an existing identity or forgets a known alias. SECONDARY may be added later. */
+    /** Registration never relocates an existing identity or forgets a known alias. SECONDARY retained for backward compatibility. */
     Optional<Instance> register(String id, BlockPos tombAnchor, BlockPos spawn, BlockPos primary,
                                 Optional<BlockPos> primaryRight, Optional<BlockPos> secondary,
                                 Optional<RoyalChestRole> freshCatalyst) {

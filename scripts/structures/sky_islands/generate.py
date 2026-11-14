@@ -82,6 +82,19 @@ def build_style_islands(style):
     return out
 
 
+# SKY-MOB §15.6 P1/P2 (owner-approved 2026-11-13): sky-island-only monster list, applied to saved piece boxes.
+# Sky mobs: relative weights 24/18/20/24/14, group sizes 1-2 / 1; Q31 vanilla zombie/skeleton/spider 10 each, size 4.
+def _count(lo, hi):
+    return lo if lo == hi else {"type": "minecraft:uniform", "min_inclusive": lo, "max_inclusive": hi}
+
+
+SKY_MONSTER_SPAWNS = [(f"{NS}:cloud_wraith", 24, 1, 2), (f"{NS}:skyguard_archer", 18, 1, 2), (f"{NS}:crystal_bug", 20, 1, 1),
+                      (f"{NS}:cloud_slime", 24, 1, 2), (f"{NS}:fallen_sentinel", 14, 1, 1), ("minecraft:zombie", 10, 4, 4),
+                      ("minecraft:skeleton", 10, 4, 4), ("minecraft:spider", 10, 4, 4)]
+SPAWN_OVERRIDES = {"monster": {"bounding_box": "piece", "spawns": [
+    {"type": t, "count": _count(lo, hi), "weight": w} for t, w, lo, hi in SKY_MONSTER_SPAWNS]}}
+
+
 def structure_json(style, band, tag, adaptive=False):
     if adaptive:  # mountain variants: terrain-adaptive placement (design B-01..B-05); same fields, explicit offset bounds
         d = structure_json(style, band, tag)
@@ -96,7 +109,7 @@ def structure_json(style, band, tag, adaptive=False):
         "max_distance_from_center": 80,
         "project_start_to_heightmap": "WORLD_SURFACE_WG",
         "size": 4,
-        "spawn_overrides": {},
+        "spawn_overrides": SPAWN_OVERRIDES,
         "start_height": {"type": "minecraft:uniform", "min_inclusive": {"absolute": band[0]}, "max_inclusive": {"absolute": band[1]}},
         "start_pool": f"{NS}:sky_islands/{style}/start",
         "step": "surface_structures",

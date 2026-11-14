@@ -1,0 +1,201 @@
+# ST-05 Stage 0-FIX — Owner Decisions (2026-10-31)
+
+**Status: OWNER-APPROVED POLICY ONLY. NO IMPLEMENTATION AUTHORIZATION.**
+
+## A03-FIX-Q01 — B: protect player modifications first
+
+The owner explicitly chooses **B (player-modification protection priority)** over automatic completion that can overwrite player changes, or a presently unproven guarantee of never exposing partial placement.
+
+- On recovery of a partially placed arena, if player intervention is confirmed **or suspected**, **do not automatically overwrite** affected blocks; stop automatic restoration and route the site to a safe recovery/quarantine workflow.
+- Any intervention-detection method must be independently proven on Minecraft 26.3. In particular, a player changing a block and restoring its original state may leave the same current block state as an untouched block; block-state comparison alone **cannot prove the absence of player intervention**.
+- The precise evidence threshold, tracking mechanism, quarantine semantics, and recovery procedure are **NOT YET APPROVED**. Do not silently interpret uncertainty as permission to overwrite.
+- This choice does **not** resolve A03: crash-time partial visibility and intervention detection remain technical blockers.
+- Keep all WG-Q01–Q45 + FIX-01 A constraints, especially full-plan-before-write, deterministic worldgen, safe terrain/structure interactions, 75% fit-before-roll semantics, and no unauthorized architecture/combat changes.
+- A02 (global cavern identity, spacing conflict precedence, denominator) remains **BLOCKED** and undecided.
+- No implementation, production worldgen integration, merge, checkpoint promotion, or Stage 1 progression is authorized by this decision.
+
+**Provenance:** Owner response approving ST-05-A03-FIX-Q01 B on 2026-10-31.
+
+## A03-FIX-Q02 — B: quarantine whenever intervention cannot be excluded
+
+The owner explicitly approves **B (quarantine on uncertainty)**.
+
+- Automatic recovery may proceed **only for portions with sufficient, independently verifiable evidence that no player intervention occurred**. Define and validate the evidence standard before implementation; no current-state-only check can establish a complete modification history.
+- Where nonintervention cannot be established, **preserve existing blocks and quarantine the uncertain portion** rather than overwrite it. Do not interpret missing logs, unavailable chunks, interrupted writes, or ambiguous evidence as absence of intervention.
+- The exact quarantine boundary, behavior when uncertain and safe portions overlap, and how a quarantined structure is later completed or retired remain **unresolved owner decisions**. A03 remains BLOCKED until a feasible mechanism and tests establish safety.
+- No implementation, integration, merge, checkpoint or Stage 1 approval. This decision preserves A03-FIX-Q01 B, WG-Q01–Q45 and FIX-01 A.
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q02 B on 2026-10-31.
+
+## A03-FIX-Q03 — B: chunk-level quarantine with dependency closure
+
+The owner explicitly approves **B (chunk-level quarantine)**.
+
+- If player intervention cannot be excluded in a chunk containing a partially generated arena, **quarantine that chunk plus any cross-chunk structural/connection dependencies affected by it**. Do not automatically overwrite blocks in the quarantine set.
+- Automatic recovery may proceed **only in independent chunks for which nonintervention is sufficiently evidenced** and whose restoration cannot change, overwrite, invalidate or implicitly depend on quarantined portions.
+- The dependency closure must be conservatively determined and validated across chunk boundaries, crash/restart, cave corridors, protected structures and arena completion state. If independence cannot be proven, expand quarantine; do not silently assume it.
+- **Chunk quarantine does not imply an incomplete arena is usable or completed**. Trial activation, Vault rewards, successful-generation accounting and other completion-dependent behavior must remain disabled until the entire structure satisfies its acceptance gates.
+- Exact dependency calculation, quarantine persistence and later recovery/retirement remain undecided. A03 remains BLOCKED pending feasibility proof.
+- No implementation, production worldgen integration, Stage 1+, merge, checkpoint or owner-constraint changes authorized.
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q03 B on 2026-10-31.
+
+## A03-FIX-Q04 — B: conditional recovery; retire if safety cannot be established
+
+The owner approves **B: conditional recovery plus non-destructive retirement if recovery cannot be demonstrated safe**.
+
+- A quarantined arena or chunk may resume recovery **only when sufficient independently verifiable evidence establishes that recovery will not overwrite player modifications**, including cross-chunk dependencies as approved in A03-FIX-Q01–Q03. Missing evidence is not consent to overwrite.
+- If safety cannot be established, **mark the affected arena generation as failed/retired and disable all completion-dependent trial, Vault, key, reward and success accounting behavior**. Retirement is a **logical state transition only**, not removal, replacement, rollback or forced deletion of existing world blocks (including player-built blocks).
+- Preserve the actual world state and audit trail. Do not auto-retry the same placement or allocate another cavern/roll as a hidden substitute; retry/placement-accounting policy remains undecided and needs explicit owner approval.
+- The precise evidence standard, retirement persistence, transitions, and reattempt policy still require technical validation or further owner decisions. A03 remains BLOCKED until demonstrated safe in Minecraft 26.3.
+- This decision preserves A03-FIX-Q01–Q03 B, WG-Q01–Q45 and FIX-01 A. **No implementation, production worldgen integration, Stage 1+, merge, checkpoint change or constraint relaxation authorized.**
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q04 B on 2026-10-31.
+
+## A03-FIX-Q05 — B: protect retired site; allow only independent cavern candidates
+
+The owner approves **B: preserve the retired arena site and existing player blocks; consider only candidates in other independent caverns that satisfy all original spacing and collision constraints**.
+
+- A failed/retired arena is not automatically removed, reverted, or overwritten. Its occupied footprint and player modifications remain protected during future candidate checks.
+- A candidate in a **different, demonstrably independent cavern** may be evaluated only if it satisfies the existing minimum separation, protected-structure collision checks, and every other WG-Q01–Q45 hard gate. No implicit exception for a retired arena and no relaxation of minimum spacing.
+- **No second 75% roll and no fresh candidate search in the same cavern** as a substitute for the retired arena. Keep FIX-01 A's pre-roll fit evaluation and one-roll-per-eligible-cavern policy; never treat retirement as a new eligibility event.
+- Deterministic cavern identity, the meaning of independent caverns under distant natural connections, cross-cavern conflict precedence and probability denominators remain **A02 BLOCKER / OWNER_DECISION_REQUIRED**. This decision does not define them.
+- The exact footprint accounting and persistence of retired sites remain technical validation work under A03. Preserve A03-FIX-Q01–Q04 B and all prior approved ST-05 rules.
+- **No implementation, Stage 1+, worldgen integration, merge, checkpoint promotion, or owner-constraint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q05 B on 2026-10-31.
+
+## A02-FIX-Q01 — B: independently qualifying large cavern spaces as probability units
+
+The owner approves **B: independently qualifying large cavern spaces**, not the entire globally connected air-volume network and not arbitrary fixed geographic regions, are the conceptual units for the single 75% roll.
+
+- Identify major natural cavern chambers that individually satisfy the already approved WG-Q09 qualification intent (representative width >=32, height >=18, traversable connected cave path >=64). A narrow/long connecting passage **alone does not merge** two otherwise independent major chambers into one probability unit.
+- Each distinct qualifying large cavern space may be evaluated independently, subject to **WG-Q11 one placement per defined cavern unit**, the original minimum separation and collision rules, and **FIX-01 A** (up to eight deterministic candidate fit checks **before** one 75% roll for a fit-eligible unit).
+- **Do not invent** a passage-width cutoff, chamber segmentation radius, sampling grid, minimum separation distance, global conflict priority, probability denominator exclusions, or cave-ID algorithm without owner approval where these would alter eligibility, density or approved constraints. In particular, broad connected open spaces may require a different rule from narrow connectors; the segmentation threshold is unresolved.
+- Deterministic identification across chunk boundaries, generation order and restart, and correct treatment of overlapping chambers and neighboring candidate conflicts remain **A02 BLOCKER** until proved in Minecraft 26.3.
+- Preserve A03-FIX-Q01–Q05 B, WG-Q01–Q45, FIX-01 A and existing combat/persistence/reward authority. **No implementation, Stage 1+, worldgen integration, merge or checkpoint promotion authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q01 B on 2026-10-31.
+
+## A02-FIX-Q02 — B: relative cross-section and bottleneck analysis
+
+The owner approves **B: distinguish independently qualifying large cavern spaces by relative cross-sectional narrowing / bottleneck analysis**, rather than only an absolute fixed passage-width cutoff or center-distance partition.
+
+- Use geometry of large connected chambers and intervening narrow necks to propose segmentation; preserve WG-Q09's qualifying chamber dimensions and traversable cave requirements.
+- No particular cross-section threshold, comparison window, scan resolution, computational budget, cavern-ID function, or minimum separation priority is approved by this choice. These remain technical design/validation questions, with owner approval required if they alter the number of roll-eligible cavern units or other approved semantics.
+- Validate order-independent segmentation across chunks, restarts and irregular multi-branch caves, with deterministic operation budgets and counterexamples. **A02 remains BLOCKED** until proven.
+- Preserve A02-FIX-Q01 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. No implementation, Stage 1+, worldgen integration, merge or checkpoint changes authorized.
+
+**Provenance:** Owner approved ST-05-A02-FIX-Q02 B on 2026-10-31.
+
+## A02-FIX-Q03 — B: evidence-led bottleneck threshold proposal, owner approves final value
+
+The owner approves **B: delegate empirical evaluation and proposal of cavern-bottleneck segmentation thresholds** using actual Minecraft 26.3 cave samples, but **reserve final threshold approval to the owner**.
+
+- Compare candidate cross-sectional narrowing metrics, fixed-reference thresholds, boundary/branch cases, and observed qualifying cavern counts on real 26.3 seeds. Include examples where distant large chambers are linked by narrow tunnels and where one broad cave must not be spuriously split.
+- Report seed/coordinates, deterministic work budget, cave IDs, candidate eligibility counts, spacing exclusions, and how each proposed threshold changes the **number of distinct fit-eligible cavern units** and therefore the effective 75% roll denominator.
+- The implementer may **research, prototype in isolation, benchmark, and recommend** parameter values; may **not finalize or deploy** a threshold, silently change WG-Q09 qualification bounds, FIX-01 A's fit-before-one-roll semantics, or WG-Q11 separation constraints.
+- Require owner approval of the proposed numerical threshold/metric before using it in integrated worldgen. A02 remains BLOCKED until the segmentation and stable-ID method is proved across chunk orders/restarts.
+- Preserve A02-FIX-Q01–Q02 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45, FIX-01 A. **No implementation of worldgen, Stage 1+, integration, merge or checkpoint change authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q03 B on 2026-10-31.
+
+## A02-FIX-Q04 — B: deterministic representative point and fixed ID rule
+
+The owner approves **B: a deterministic representative point selected by a fixed ordering rule**, with cavern identity derived from the world seed, dimension and representative coordinates.
+
+- The representative point must be selected from the **fully defined qualifying cavern unit**, not from the first discovered chunk or thread-local scan order. The selection ordering, canonicalization and hash/encoding must be deterministic across chunk generation order, process restart and parallel discovery.
+- Stable identity presupposes stable segmentation. If the approved A02-FIX-Q02 bottleneck partition changes under partial discovery, an ID hash alone cannot resolve it. Require cross-boundary and late-connection counterexamples before claiming A02 resolved.
+- Distinct independently qualifying chambers must not share an ID; one chamber must not acquire multiple IDs. Explicitly test collisions, boundary ties and world/dimension isolation.
+- The exact representative-point ordering, hash format and numerical segmentation threshold remain technical proposals, not owner-approved parameters. Do not change the 75% denominator, WG-Q09 qualifications, FIX-01 A roll order, WG-Q11 spacing, or the eight-candidate cap without approval.
+- A02 remains **BLOCKED** pending actual Minecraft 26.3 deterministic validation. Preserve A02-FIX-Q01–Q03 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q04 B on 2026-10-31.
+
+## A02-FIX-Q05 — B: placement suitability wins deterministic minimum-spacing conflicts
+
+The owner approves **B: when two independent qualifying cavern units each pass their single 75% roll but their proposed arenas conflict with the existing minimum-spacing constraint, prefer the candidate with the higher already-approved WG-Q34–Q39 placement suitability score; break exact score ties by a deterministic cavern ID ordering**.
+
+- Evaluate competing candidates and scores from a stable, complete-enough neighborhood of cavern units so results do **not** depend on chunk generation order, discovery timing, restart or parallel workers. A candidate must not be finalized merely because a higher-scoring neighbor has not yet been discovered.
+- Preserve all hard fit gates, existing minimum spacing, other-structure collision protections, and FIX-01 A's up-to-eight fit checks **before one 75% roll per fit-eligible cavern unit**. A spacing loser is not rerolled and is not automatically replaced by a second candidate from the same cavern.
+- Do not treat score priority as authority to override a preexisting protected/retired site (A03-FIX-Q01–Q05), already persisted legitimate structures, or other worldgen safety gates.
+- If scores cannot be compared deterministically without unbounded exploration or an unapproved change to WG-Q34–Q39, keep the case **A02 BLOCKER** and return an explicit owner decision request; do not silently substitute first-writer-wins or ID-only priority.
+- This approves the **priority policy**, not a new score formula, neighborhood radius, global optimizer, cave ID implementation, or production integration. Those remain subject to technical proof and any needed owner approval.
+- Preserve A02-FIX-Q01–Q04 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and FIX-01 A. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q05 B on 2026-10-31.
+
+## A02-FIX-Q06 — B: separate probability and final-placement statistics
+
+The owner approves **B: record each stage separately**, so the single-roll probability is not conflated with actual arena placement success.
+
+- Record at minimum: **number of distinct fit-eligible cavern units** (after approved qualification and pre-roll fit gates), **number passing the one 75% roll**, **number of roll winners rejected by minimum-spacing conflicts**, and **number of arenas actually generated**. Distinguish additional failure causes (other structure collisions, protected retired sites, incomplete/failed generation, and pending status) when available, so accounting is not misleading.
+- Keep the denominator for observed roll success as the count of **fit-eligible cavern units that actually received their single deterministic roll**, not the count of ultimately placed arenas. Report realized placement rate separately and explicitly label its denominator.
+- Make counters idempotent across chunk order, repeated discovery, restart, and retries; no double counting of the same canonical cavern ID or partially completed structure. Track outcomes separately from RNG values, with test provenance and seed-level aggregation.
+- This is a **measurement/accounting policy only**: no change to the 75% probability, WG-Q09 cave qualifications, FIX-01 A's up-to-eight pre-roll fit checks, WG-Q11 spacing, A02-FIX-Q05 B conflict priority, or A03-FIX-Q01–Q05 protections. No extra rerolls.
+- A02 remains **BLOCKED** until stable segmentation/IDs and conflict resolution are validated against real Minecraft 26.3 generation order, chunk boundaries and restarts. **No implementation, Stage 1+, production worldgen integration, merge or checkpoint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q06 B on 2026-10-31.
+
+## A02-FIX-Q07 — B: deterministic neighboring-candidate evaluation before final placement
+
+The owner approves **B: resolve all potentially conflicting nearby cavern candidates deterministically from the world seed and canonical cavern definitions before committing a winning arena**, rather than first-discovered-wins or waiting for arbitrary player-driven chunk generation.
+
+- Evaluate the relevant neighboring qualifying cavern units and their placement scores independently of chunk generation/discovery order, including as-yet-unloaded neighbors where technically safe and feasible. Preserve A02-FIX-Q05 B (higher existing WG-Q34–Q39 suitability score wins, canonical cavern ID breaks ties).
+- Determine a finite neighborhood scope and work budget through isolated Minecraft 26.3 experiments, including cross-boundary, late-neighbor, concurrency, restart, and cyclic/multiway spacing conflicts. **Neither an unbounded scan nor an arbitrary cutoff that changes outcomes is authorized.**
+- If complete deterministic resolution within the validated bounds is not possible, **defer final placement and keep A02 BLOCKED**; do not fall back to discovery order, silently omit neighbors, or place then overwrite a competing arena.
+- Maintain FIX-01 A (at most eight pre-roll fit candidates, one 75% roll per fit-eligible cavern), A02-FIX-Q01–Q06 B, A03-FIX-Q01–Q05 B, WG-Q01–Q45 and all minimum-spacing/collision/protected-site gates. No rerolls, no retroactive player-block modification, and no reinterpretation of roll denominator.
+- This is a **design policy and authorization for a later validation proposal**, not permission to implement, integrate, merge or promote a checkpoint. A02 remains BLOCKED until the real Minecraft 26.3 proof and owner-gated parameters are complete.
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q07 B on 2026-10-31.
+
+## A03-FIX-Q06 — C: retain existing integrity requirements and validate technical feasibility first
+
+The owner explicitly approves **C: preserve existing WG-Q28 and A03-FIX-Q01–Q05 without weakening them; determine Minecraft 26.3 technical feasibility before deciding any exception for physically incomplete post-crash arena remains**.
+
+- **No permission is granted** to treat an incomplete-but-RETIRED arena as compliance with WG-Q28, to reclassify transient or persisted partial structures as a completed generation, or to replace strict integrity/physical-completeness requirements with trial/reward deactivation alone.
+- A03-FIX-Q01–Q05 remain in force: player edits have priority, uncertainty is quarantined (with conservative chunk-dependency closure), provably safe independent portions may recover conditionally, and unrecoverable arena attempts are logically retired **without overwriting, rollback or destruction of existing/player-modified blocks**. Retirement is not a claim that strict WG-Q28 has been satisfied.
+- Investigate in isolated **future owner-authorized** Minecraft 26.3 feasibility work whether a deterministic whole-placement plan can be committed, persisted, and made externally visible safely across chunks, together with provable player-modification provenance and failure handling. Analyze both persistence and visibility; do not assume ordinary journaling/restart repair, delayed feature activation, staging, or shadow storage alone proves atomicity.
+- If strict WG-Q28 and non-destructive player-protection/retirement rules cannot both be met, report the concrete incompatibility, counterexample, observed technical limits and bounded alternatives to the owner. **Do not automatically relax either requirement or choose an exception.**
+- A03 remains **BLOCKED**, and A02 remains **BLOCKED**. **This is a policy choice only; no new implementation, probe execution, test runs, production worldgen integration, Stage 1+, merge or checkpoint change is authorized.** Preserve all WG-Q01–Q45, FIX-01 A and A02-FIX-Q01–Q07 decisions.
+
+**Provenance:** Owner approval of ST-05-A03-FIX-Q06 C on 2026-10-31.
+
+## A02-FIX-Q08 — A: deterministic descending-suitability greedy acceptance
+
+The owner approves **A: process the complete, qualified, single-roll-winning cavern candidates in a deterministic descending order of the already-approved WG-Q34–Q39 placement suitability score**, with canonical cavern ID as the tie-breaker, and **accept each candidate only if it satisfies the existing minimum spacing and all other hard placement/protection constraints against candidates already accepted and all protected/persisted/retired footprints**.
+
+- A candidate rejected in the descending pass **does not itself exclude** a later candidate. For the illustrative chain A–B, B–C in conflict but A–C nonconflicting, with scores C > B > A, the result is C and A accepted, B rejected, assuming no other hard gate fails.
+- The acceptance rule is deterministic **only if** the candidate identities, scoring, single-roll results, relevant conflict population, and evaluation order are stable and complete. Do not treat locally discovered subsets as the entire comparison population, allow chunk-arrival-order acceptance, or finalize placement before the approved A02-FIX-Q07 neighborhood-completeness proof.
+- This selects **score-first greedy acceptance**, not maximum total score, maximum placement count, or a rule that every lower-scoring direct neighbor is permanently eliminated even when the higher-scoring one is rejected.
+- This decision **does not prove a finite dependency closure**: chained conflicts and late higher-scoring candidates may influence acceptance beyond direct spacing neighbors. A02 remains **BLOCKED** unless bounded, complete, Minecraft 26.3 order-independent resolution is demonstrated. If not demonstrable, defer placement and request a separate owner decision rather than invent a cutoff.
+- Preserve A02-FIX-Q01–Q07 B, A03-FIX-Q01–Q05 B and A03-FIX-Q06 C, WG-Q01–Q45, FIX-01 A, protected retired sites, full fit-before-single-75%-roll semantics, and separate denominator/placement accounting. No loser reroll or same-cavern second candidate.
+- **Owner decision only. No implementation, test/probe execution, production worldgen integration, Stage 1+, merge or checkpoint update is authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q08 A on 2026-10-31.
+
+## A02-FIX-Q09 — C: compare spacing metrics and propose a value before final owner approval
+
+The owner approves **C: retain the existing WG-Q11 minimum-separation requirement, but defer final selection of the measurement metric and numeric distance until a technical comparison of center-to-center versus protected-footprint-to-footprint spacing in Minecraft 26.3**.
+
+- Compare **arena placement-center distance** against **shortest distance between protected occupied/mandatory passage-clearance footprints**, including irregular corridors, vertical separation, adjacent caverns, and protected/retired arena sites. Assess implications for placement density, actual noninterference, conflict detection, and finite complete neighborhood enumeration.
+- Propose a specific distance metric, candidate numeric separation, geometric interpretation (2D horizontal versus 3D, center definition, protected footprint scope, boundary equality and integer-coordinate behavior), deterministic algorithm and bounded-work evidence. Include counterexamples and a sensitivity analysis, not only favorable examples.
+- **Neither metric nor numeric separation is approved by this C decision.** Return evidence and alternatives for **separate explicit owner approval** before using a final placement rule. Do not infer a distance from the arena's 68-block exterior diameter or invent an arbitrary cutoff.
+- Preserve A02-FIX-Q08 A (descending suitability greedy acceptance with canonical ID tie-break), A02-FIX-Q07 B (complete deterministic neighboring-candidate evaluation before final commitment), all WG-Q01–Q45, FIX-01 A, A03-FIX-Q01–Q05 B and A03-FIX-Q06 C. No rerolls, no first-discovered-wins, no weakened collision or retired-site protection.
+- A02 remains **BLOCKED** pending actual finite-range, cavern segmentation/ID and spacing validation. This is a design decision authorizing a **future proposal**, not permission to run experiments now.
+- **No implementation, test/probe execution, production worldgen integration, Stage 1+, merge or checkpoint changes authorized.**
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q09 C on 2026-10-31.
+
+## A02-FIX-Q10 — C: compare canonical representative-point rules before final approval
+
+The owner approves **C: defer final choice of the deterministic representative-point ordering until a technical comparison of coordinate-lexicographic minimum versus an interior/centrality-based deterministic representative point on real Minecraft 26.3 natural caverns**.
+
+- Compare both candidates against the **fully defined, independently qualifying cavern unit** under approved A02-FIX-Q01–Q04 bottleneck segmentation. Evaluate stability under changed chunk discovery order, partial/late cave connections, parallel generation, restarts, dimension/world isolation, and deterministic tie resolution.
+- Measure how distant cave branches and boundary changes affect canonical IDs, representative-to-placement-center distance, finite complete neighbor enumeration, runtime work budgets, and the Q06 single-roll denominator. A deterministic tie-break does **not** establish stable segmentation.
+- For the lexicographic approach, assess remote extremal points and coordinate ordering/negative-coordinate encoding. For the interior approach, define and compare reproducible centrality/scale metrics, ties, and computation bounds; do not assume a centroid is automatically an existing traversable point.
+- Produce a comparative, counterexample-driven technical proposal, including precise candidate algorithms, limits, test plan and owner-facing recommendation. **Neither representative-point algorithm, ordering, encoding/hash specification, nor numerical segmentation threshold is approved by this C decision.** Obtain separate explicit owner approval before finalizing these details.
+- Preserve A02-FIX-Q01–Q09 (including Q08 A greedy score-priority conflict resolution and Q09 C spacing-metric comparison), A03-FIX-Q01–Q05 B, A03-FIX-Q06 C, WG-Q01–Q45, FIX-01 A and all protection constraints. A02 and A03 remain **BLOCKED**.
+- **Design record only. No implementation, probe/test execution, worldgen integration, Stage 1+, merge or checkpoint change is authorized.** Bundle remaining technical parameter choices into a later focused feasibility review rather than presuming an unlimited series of owner decisions.
+
+**Provenance:** Owner approval of ST-05-A02-FIX-Q10 C on 2026-10-31.

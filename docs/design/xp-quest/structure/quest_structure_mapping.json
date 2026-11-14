@@ -1239,7 +1239,7 @@
       "sub_branch": "elite.elites",
       "status": "NOW",
       "tier": "LATE",
-      "registered": false,
+      "registered": true,
       "reward_raw_xp": 1100,
       "presentation_order": 52,
       "chapter_index": 8

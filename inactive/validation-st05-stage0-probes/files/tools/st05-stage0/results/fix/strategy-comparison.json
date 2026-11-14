@@ -1,0 +1,26 @@
+{
+  "kind": "SIMULATED_ONLY / negative controls",
+  "blind_replay": "FAIL: overwrites visible player edit",
+  "completion_bit_only": "FAIL: COMPLETE with missing chunk write",
+  "state_reconciliation": "PASS fixture repair/idempotence; FAIL original-state player edit",
+  "indistinguishable_histories": [
+    {
+      "journal": "APPLYING",
+      "blocks": [
+        "emerald",
+        "air"
+      ]
+    },
+    {
+      "journal": "APPLYING",
+      "blocks": [
+        "emerald",
+        "air"
+      ]
+    }
+  ],
+  "rollback": "Not implemented: restoring old snapshots also needs provenance to preserve later edits",
+  "staging": "Not implemented: eventual multi-chunk publication still needs atomic visibility; no proof from staging alone",
+  "a03": "BLOCKER",
+  "decision_required": "Q28 atomic visibility vs restart repair, and verifiable edit provenance/lifecycle; no relaxation adopted"
+}

@@ -32,6 +32,14 @@ public final class St01Eligibility {
 
         /** Whether the noise biome of the quart cell is Desert. */
         boolean isDesertCell(int quartX, int quartY, int quartZ);
+
+        /**
+         * Height-free necessary condition for the Desert test of one quart-cell column (P8-D3 C1). An implementation may
+         * return {@code false} only if the per-cell Desert test of {@link #fullFootprintDesert} fails for this column at
+         * every surface height the column can have; it then rejects the candidate before any height is sampled. When it
+         * cannot decide it must return {@code true}, and the unchanged height-based test decides. The default never decides.
+         */
+        default boolean desertPossibleInColumn(int quartX, int quartZ) { return true; }
     }
 
     public enum Verdict {
@@ -85,11 +93,30 @@ public final class St01Eligibility {
         int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
         int qx0 = Math.floorDiv(centerX - half - 2, 4), qx1 = Math.floorDiv(centerX + half - 2, 4) + 1;
         int qz0 = Math.floorDiv(centerZ - half - 2, 4), qz1 = Math.floorDiv(centerZ + half - 2, 4) + 1;
+        // P8-D3 C1: the same cell set, tested first with the height-free necessary condition (exact: it only rejects
+        // candidates the sweep below would reject). Spread-first order only changes when a failing cell is found.
+        if (!columnsPossiblyDesert(terrain, Math.floorDiv(centerX, 4), Math.floorDiv(centerZ, 4), qx0, qx1, qz0, qz1)) return false;
         // Cheap early exit on the centre cell before the full sweep.
         if (!cellColumnDesert(terrain, Math.floorDiv(centerX, 4), Math.floorDiv(centerZ, 4))) return false;
         for (int qx = qx0; qx <= qx1; qx++) {
             for (int qz = qz0; qz <= qz1; qz++) {
                 if (!cellColumnDesert(terrain, qx, qz)) return false;
+            }
+        }
+        return true;
+    }
+
+    /** {@link Terrain#desertPossibleInColumn} over the centre cell, then a stride-4 lattice, then every cell of the sweep. */
+    static boolean columnsPossiblyDesert(Terrain terrain, int centreQx, int centreQz, int qx0, int qx1, int qz0, int qz1) {
+        if (!terrain.desertPossibleInColumn(centreQx, centreQz)) return false;
+        for (int qx = qx0; qx <= qx1; qx += 4) {
+            for (int qz = qz0; qz <= qz1; qz += 4) {
+                if (!terrain.desertPossibleInColumn(qx, qz)) return false;
+            }
+        }
+        for (int qx = qx0; qx <= qx1; qx++) {
+            for (int qz = qz0; qz <= qz1; qz++) {
+                if (!terrain.desertPossibleInColumn(qx, qz)) return false;
             }
         }
         return true;

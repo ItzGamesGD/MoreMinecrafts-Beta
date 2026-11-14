@@ -401,6 +401,59 @@ public final class SkyTowerGameTests {
         ctx.succeed();
     }
 
+    /** Rooftop reconcile runs from the real CHUNK_LOAD event but only on the next server tick (never inside the
+     * loading chunk); it keeps rewardedPlayers, the Star Covenant claim and the loot table, re-places a missing vault,
+     * queues repeated loads once and never adds a second vault. */
+    @GameTest(maxTicks=200)
+    public void rooftopReconcileFromChunkLoadIsDeferredAndPreservesRewardState(GameTestHelper ctx){
+        var f=fixture(ctx,1,true);var level=f.level();var site=f.site();
+        var roofPt=site.rooftopVault();var roofPos=new BlockPos(roofPt.x(),roofPt.y(),roofPt.z());
+        ctx.assertTrue(SkyTowerVaultRewards.placeAndConfigureRooftopVault(level,site),"rooftop vault placed at registration");
+        level.setBlock(roofPos,level.getBlockState(roofPos).setValue(VaultBlock.STATE,VaultState.ACTIVE),3);
+        var vault=(VaultBlockEntity)level.getBlockEntity(roofPos);
+        SkyTowerVaultRewards.configureRooftopVault(vault,new ItemStack(Items.TRIAL_KEY));
+        var player=survivalPlayer(level);var key=new ItemStack(Items.TRIAL_KEY);
+        SkyTowerVaultRewards.withRollOverride(()->0.50D,()->VaultBlockEntity.Server.tryInsertKey(level,roofPos,
+                level.getBlockState(roofPos),vault.getConfig(),vault.getServerData(),vault.getSharedData(),player,key));
+        ctx.assertTrue(key.isEmpty(),"rooftop key consumed");
+        int[] b=site.bounds();
+        java.util.function.IntSupplier vaults=()->{int n=0;
+            for(int x=b[0];x<=b[3];x++)for(int y=b[1];y<=b[4]+2;y++)for(int z=b[2];z<=b[5];z++)
+                if(level.getBlockState(new BlockPos(x,y,z)).is(Blocks.VAULT))n++;return n;};
+        int before=vaults.getAsInt();
+        var chunk=level.getChunkAt(roofPos);
+        var load=net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_LOAD.invoker();
+        load.onChunkLoad(level,chunk,false);load.onChunkLoad(level,chunk,false);
+        ctx.runAfterDelay(3,()->{
+            var after=(VaultBlockEntity)level.getBlockEntity(roofPos);
+            ctx.assertTrue(after==vault,"existing rooftop vault kept, not replaced");
+            ctx.assertTrue(after.getConfig().lootTable().equals(SkyTowerVaultRewards.ROOFTOP_VAULT_LOOT_KEY),"rooftop loot table kept");
+            ctx.assertTrue(vaults.getAsInt()==before,"no duplicate vault after repeated chunk loads");
+            var repeat=new ItemStack(Items.TRIAL_KEY);
+            VaultBlockEntity.Server.tryInsertKey(level,roofPos,level.getBlockState(roofPos),after.getConfig(),
+                    after.getServerData(),after.getSharedData(),player,repeat);
+            ctx.assertTrue(!repeat.isEmpty(),"rewardedPlayers preserved (repeat key rejected)");
+            ctx.assertTrue(after.saveWithoutMetadata(level.registryAccess()).toString().contains("rewarded_players"),"rewardedPlayers saved");
+            ctx.assertTrue(StarCovenantVaultRewards.Data.get(level.getServer()).resolve(player.getUUID(),
+                    new StarCovenantVaultRewards.VaultRef(site.id(),"rooftop"),()->0.0D)
+                    ==StarCovenantVaultRewards.Outcome.ALREADY_CLAIMED,"Star Covenant claim preserved");
+            // A vault missing when the chunk loads is placed on the next tick, not inside the event.
+            level.setBlock(roofPos,Blocks.AIR.defaultBlockState(),3);
+            load.onChunkLoad(level,chunk,false);
+            ctx.assertTrue(level.getBlockState(roofPos).isAir(),"no level block access inside CHUNK_LOAD");
+            ctx.runAfterDelay(3,()->{
+                var placed=level.getBlockEntity(roofPos);
+                ctx.assertTrue(placed instanceof VaultBlockEntity v
+                        && v.getConfig().lootTable().equals(SkyTowerVaultRewards.ROOFTOP_VAULT_LOOT_KEY),"missing rooftop vault re-placed and configured");
+                ctx.assertTrue(vaults.getAsInt()==before,"exactly one rooftop vault");
+                level.getServer().getPlayerList().remove(player);
+                for(int cx=(site.x()-50)>>4;cx<=(site.x()+50)>>4;cx++)for(int cz=(site.z()-50)>>4;cz<=(site.z()+50)>>4;cz++)
+                    level.setChunkForced(cx,cz,false);
+                ctx.succeed();
+            });
+        });
+    }
+
     @GameTest(maxTicks=200)
     public void rooftopVaultEjectsStarCovenantViaVanillaVaultAndNeverInsertsIntoInventory(GameTestHelper ctx){
         var fix=fixture(ctx,0,false);

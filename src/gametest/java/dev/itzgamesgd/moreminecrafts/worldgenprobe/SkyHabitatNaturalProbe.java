@@ -42,6 +42,11 @@ public final class SkyHabitatNaturalProbe implements ModInitializer {
                                     || SkySpawnRules.allows(level,p,EntitySpawnReason.COMMAND)) throw new AssertionError("spawn source isolation");
                             if (SkyIslandHabitat.find(level,new BlockPos(x,level.getMinY()+1,z)).isPresent()) throw new AssertionError("ground contamination");
                             if (SkyIslandHabitat.find(level,p.above(100)).isPresent()) throw new AssertionError("air contamination");
+                            // SKY-MOB §15.6 P3 (R1): every habitat surface lies in the piece-bounds region; the ground below never does.
+                            var kind = dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandRegion.classify(level,p);
+                            if (kind == dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandRegion.Kind.OUTSIDE) throw new AssertionError("habitat outside region");
+                            if (dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandRegion.classify(level,new BlockPos(x,level.getMinY()+1,z))
+                                    != dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandRegion.Kind.OUTSIDE) throw new AssertionError("region ground contamination");
                             rows.add(Map.of("x",x,"y",y,"z",z,"structure",h.structure().toString(),"template",h.template().toString(),
                                     "relativeHeight",h.relativeHeight(),"biome",level.getBiome(p).unwrapKey().orElseThrow().identifier().toString()));
                             break search;

@@ -1,0 +1,226 @@
+{
+ "east": {
+  "size": [
+   81,
+   72,
+   81
+  ],
+  "faces": {
+   "x0": {
+    "cells": 2673,
+    "non_solid_or_open": 780,
+    "open_by_Y": {
+     "-24": 39,
+     "-23": 39,
+     "-22": 39,
+     "-21": 39,
+     "-20": 39,
+     "-19": 39,
+     "-18": 39,
+     "-17": 39,
+     "-16": 39,
+     "-15": 39,
+     "-14": 39,
+     "-13": 39,
+     "-12": 39,
+     "-11": 39,
+     "-10": 39,
+     "-9": 39,
+     "-8": 39,
+     "-7": 39,
+     "-6": 39,
+     "-5": 39
+    },
+    "top_blocks": [
+     [
+      "minecraft:sandstone",
+      1893
+     ],
+     [
+      "minecraft:structure_void(absent)",
+      780
+     ]
+    ]
+   },
+   "xW": {
+    "cells": 2673,
+    "non_solid_or_open": 0,
+    "open_by_Y": {},
+    "top_blocks": [
+     [
+      "minecraft:sandstone",
+      2673
+     ]
+    ]
+   },
+   "z0": {
+    "cells": 2673,
+    "non_solid_or_open": 0,
+    "open_by_Y": {},
+    "top_blocks": [
+     [
+      "minecraft:sandstone",
+      2673
+     ]
+    ]
+   },
+   "zD": {
+    "cells": 2673,
+    "non_solid_or_open": 805,
+    "open_by_Y": {
+     "-24": 39,
+     "-23": 39,
+     "-22": 39,
+     "-21": 39,
+     "-20": 39,
+     "-19": 39,
+     "-18": 39,
+     "-17": 39,
+     "-16": 39,
+     "-15": 39,
+     "-14": 39,
+     "-13": 39,
+     "-12": 39,
+     "-11": 39,
+     "-10": 39,
+     "-9": 39,
+     "-8": 39,
+     "-7": 39,
+     "-6": 39,
+     "-5": 39,
+     "0": 25
+    },
+    "top_blocks": [
+     [
+      "minecraft:sandstone",
+      1843
+     ],
+     [
+      "minecraft:structure_void(absent)",
+      780
+     ],
+     [
+      "minecraft:smooth_sandstone",
+      25
+     ],
+     [
+      "minecraft:air",
+      25
+     ]
+    ]
+   }
+  }
+ },
+ "west": {
+  "size": [
+   81,
+   72,
+   81
+  ],
+  "faces": {
+   "x0": {
+    "cells": 2673,
+    "non_solid_or_open": 780,
+    "open_by_Y": {
+     "-24": 39,
+     "-23": 39,
+     "-22": 39,
+     "-21": 39,
+     "-20": 39,
+     "-19": 39,
+     "-18": 39,
+     "-17": 39,
+     "-16": 39,
+     "-15": 39,
+     "-14": 39,
+     "-13": 39,
+     "-12": 39,
+     "-11": 39,
+     "-10": 39,
+     "-9": 39,
+     "-8": 39,
+     "-7": 39,
+     "-6": 39,
+     "-5": 39
+    },
+    "top_blocks": [
+     [
+      "minecraft:sandstone",
+      1893
+     ],
+     [
+      "minecraft:structure_void(absent)",
+      780
+     ]
+    ]
+   },
+   "xW": {
+    "cells": 2673,
+    "non_solid_or_open": 0,
+    "open_by_Y": {},
+    "top_blocks": [
+     [
+      "minecraft:sandstone",
+      2673
+     ]
+    ]
+   },
+   "z0": {
+    "cells": 2673,
+    "non_solid_or_open": 0,
+    "open_by_Y": {},
+    "top_blocks": [
+     [
+      "minecraft:sandstone",
+      2673
+     ]
+    ]
+   },
+   "zD": {
+    "cells": 2673,
+    "non_solid_or_open": 805,
+    "open_by_Y": {
+     "-24": 39,
+     "-23": 39,
+     "-22": 39,
+     "-21": 39,
+     "-20": 39,
+     "-19": 39,
+     "-18": 39,
+     "-17": 39,
+     "-16": 39,
+     "-15": 39,
+     "-14": 39,
+     "-13": 39,
+     "-12": 39,
+     "-11": 39,
+     "-10": 39,
+     "-9": 39,
+     "-8": 39,
+     "-7": 39,
+     "-6": 39,
+     "-5": 39,
+     "0": 25
+    },
+    "top_blocks": [
+     [
+      "minecraft:sandstone",
+      1843
+     ],
+     [
+      "minecraft:structure_void(absent)",
+      780
+     ],
+     [
+      "minecraft:smooth_sandstone",
+      25
+     ],
+     [
+      "minecraft:air",
+      25
+     ]
+    ]
+   }
+  }
+ }
+}
