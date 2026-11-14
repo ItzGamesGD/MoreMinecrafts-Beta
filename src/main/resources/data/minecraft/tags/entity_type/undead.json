@@ -19,6 +19,10 @@
     "moreminecrafts:deep_sea_drowned",
     "moreminecrafts:river_drowned",
     "moreminecrafts:lesser_phantom",
-    "moreminecrafts:fallen_sentinel"
+    "moreminecrafts:fallen_sentinel",
+    "moreminecrafts:buried_mummy",
+    "moreminecrafts:gilded_mummy",
+    "moreminecrafts:crypt_archer",
+    "moreminecrafts:funeral_servant"
   ]
 }

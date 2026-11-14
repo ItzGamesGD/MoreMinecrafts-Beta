@@ -3,7 +3,53 @@
   "biomes": [
     "minecraft:desert"
   ],
-  "spawn_overrides": {},
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "moreminecrafts:buried_mummy",
+          "count": 4,
+          "weight": 80
+        },
+        {
+          "type": "moreminecrafts:gilded_mummy",
+          "count": 4,
+          "weight": 20
+        },
+        {
+          "type": "moreminecrafts:funeral_servant",
+          "count": 4,
+          "weight": 19
+        },
+        {
+          "type": "moreminecrafts:crypt_archer",
+          "count": 4,
+          "weight": 50
+        },
+        {
+          "type": "minecraft:husk",
+          "count": 4,
+          "weight": 80
+        },
+        {
+          "type": "minecraft:skeleton",
+          "count": 4,
+          "weight": 50
+        },
+        {
+          "type": "minecraft:bogged",
+          "count": 4,
+          "weight": 30
+        },
+        {
+          "type": "minecraft:spider",
+          "count": 4,
+          "weight": 100
+        }
+      ]
+    }
+  },
   "step": "surface_structures",
   "terrain_adaptation": "none"
 }
