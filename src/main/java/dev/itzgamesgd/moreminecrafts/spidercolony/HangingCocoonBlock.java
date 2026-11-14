@@ -81,7 +81,8 @@ public final class HangingCocoonBlock extends Block {
             } else {
                 for (int i = 0; i < count; i++) {
                     for (int attempt = 0; attempt < 8; attempt++) {
-                        var spider = EntityType.SPIDER.create(server, EntitySpawnReason.TRIGGERED);
+                        var spiderType = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("spider"));
+                        var spider = spiderType == null ? null : spiderType.create(server, EntitySpawnReason.TRIGGERED);
                         if (spider == null) break;
                         spider.setPos(
                                 pos.getX() + 0.5 + (server.getRandom().nextDouble() - 0.5) * 2.0,
