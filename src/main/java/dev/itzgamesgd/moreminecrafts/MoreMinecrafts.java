@@ -38,6 +38,7 @@ public final class MoreMinecrafts implements ModInitializer {
         SkeletonKingCommand.initialize();
         SkeletonKingLifecycle.initialize();
         LiveTestCommand.initialize();
+        dev.itzgamesgd.moreminecrafts.test.crystalguardian.AncientCrystalGuardianTestEntities.initialize();
         LOGGER.info("MoreMinecrafts common initialization complete.");
     }
 }
