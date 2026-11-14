@@ -181,6 +181,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     }
 
     private static void registerCustomMobRenderers() {
+        EntityRendererRegistry.register(dev.itzgamesgd.moreminecrafts.pyramid.entrance.SecretEntranceEntities.GOLD_GUIDE_GOLEM,
+                dev.itzgamesgd.moreminecrafts.client.pyramid.GoldGuideGolemRenderer::new);
         EntityRendererRegistry.register(CustomMobCatalog.SWAMP_ZOMBIE,
                 context -> CustomMobRenderers.zombie(context, "swamp_zombie"));
         EntityRendererRegistry.register(CustomMobCatalog.CAVE_ZOMBIE,
@@ -261,6 +263,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 context -> CustomMobRenderers.phantom(context, "lesser_phantom"));
         EntityRendererRegistry.register(CustomMobCatalog.CAVE_CREEPER,
                 context -> CustomMobRenderers.creeper(context, "cave_creeper"));
+        SkyMobRenderers.register();
     }
 
     private static String formatTenths(int value) { return "%d.%d".formatted(value / 10, Math.abs(value % 10)); }

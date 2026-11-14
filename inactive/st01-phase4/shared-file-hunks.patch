@@ -1,0 +1,758 @@
+diff --git a/build.gradle b/build.gradle
+index d514fae3..91550976 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -71,6 +71,14 @@ loom {
+             runDir = "build/st01-p8a-probe/run"
+             ideConfigGenerated false
+         }
++        // ST-01 Phase 4 production worldgen validation probe (tools/st01-phase4/run_validation.sh); inert unless -Dmm.st01.p4.out is set; not part of check/build/CI.
++        st01Phase4Probe {
++            server()
++            name = "ST-01 Phase 4 Worldgen Validation Probe"
++            source sourceSets.gametest
++            runDir = "build/st01-phase4/run"
++            ideConfigGenerated false
++        }
+         // ST-05 Stage 0 feasibility probe for A02/A03 (tools/st05-worldgen-probe/run_probe.sh); inert unless -Dmm.st05.out is set; not part of check/build/CI.
+         st05CavernProbe {
+             server()
+diff --git a/src/gametest/resources/fabric.mod.json b/src/gametest/resources/fabric.mod.json
+index 0c5a5693..79ade152 100644
+--- a/src/gametest/resources/fabric.mod.json
++++ b/src/gametest/resources/fabric.mod.json
+@@ -10,6 +10,7 @@
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.RoyalHallPlacementProbe",
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p4.St01Phase4Probe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe"
+     ],
+@@ -97,6 +98,7 @@
+     ],
+     "fabric-client-gametest": [
+       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p4.St01Phase4ClientCaptureTest",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8AClientCaptureTest",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8ARecaptureTest",
+       "dev.itzgamesgd.moreminecrafts.colosseum.GladiatorClientGameTest",
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java b/src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java
+index e48cec9d..a7c1b522 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java
+@@ -20,6 +20,7 @@ public final class MoreMinecrafts implements ModInitializer {
+     public void onInitialize() {
+         StructurePoolContributions.initialize();
+         dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestRuntime.initialize();
++        dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Worldgen.initialize();
+         dev.itzgamesgd.moreminecrafts.worldgen.structure.ArenaWorldgenProbe.initialize();
+         dev.itzgamesgd.moreminecrafts.colosseum.ColosseumRuntime.initialize();
+         dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05NaturalGeneration.initialize();
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Eligibility.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Eligibility.java
+new file mode 100644
+index 00000000..09b2488f
+--- /dev/null
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Eligibility.java
+@@ -0,0 +1,121 @@
++package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
++
++import java.util.Arrays;
++
++/**
++ * Deterministic, bounded candidate qualification for one ST-01 anchor. Pure logic over a {@link Terrain} view, so the identical
++ * code runs in production (real chunk generator), in unit tests (synthetic terrain) and in the validation probe.
++ *
++ * <p>Stages are evaluated in this order and reported distinctly: (1) full-footprint Desert, (2) MODERATE terrain
++ * (height difference, cut, skirt), (3) underground fluid safety. A rejection has no side effects.
++ *
++ * <p>Definitions are the repository's established O-14 definitions: heights are {@code WORLD_SURFACE_WG} base heights on the
++ * {@value St01PlacementConfig#HEIGHT_SAMPLE_STEP}-block grid across the 81x81 footprint; height difference = max - min; foundation
++ * level {@code yf} = median height; cut = max(0, max - yf); skirt = max(0, yf - min).
++ *
++ * <p>Biome coverage: Minecraft resolves the biome of block (x,y,z) through {@code BiomeManager}, which returns one of the eight
++ * quart cells {@code floor((x-2)/4)+{0,1}} x {@code floor((y-2)/4)+{0,1}} x {@code floor((z-2)/4)+{0,1}} (the jittered Voronoi
++ * choice always lies in that 2x2x2 neighbourhood). Requiring every such cell around every footprint column to be Desert therefore
++ * guarantees every footprint block resolves to Desert, whatever the per-world jitter is.
++ */
++public final class St01Eligibility {
++    private St01Eligibility() {}
++
++    /** Read-only terrain view. Implementations must be deterministic and must not trigger chunk loading. */
++    public interface Terrain {
++        /** {@code WORLD_SURFACE_WG} base height at the block column (first free Y above the surface). */
++        int surfaceHeight(int x, int z);
++
++        /** Whether the noise biome of the quart cell is Desert. */
++        boolean isDesertCell(int quartX, int quartY, int quartZ);
++
++        /** Whether any generated base-terrain block in [minY, maxY] of the column holds fluid (aquifer water/lava, noise-cave fluid). */
++        boolean hasFluid(int x, int z, int minY, int maxY);
++    }
++
++    /** Underground volume the structure occupies, relative to the anchor column (dx, dz) and foundation level (dy). Inclusive. */
++    public record Volume(int minDx, int maxDx, int minDy, int maxDy, int minDz, int maxDz) {}
++
++    public enum Verdict {
++        ELIGIBLE,
++        REJECT_BIOME,
++        REJECT_HEIGHT_DIFFERENCE,
++        REJECT_CUT,
++        REJECT_SKIRT,
++        REJECT_FLUID
++    }
++
++    public record Result(Verdict verdict, int minHeight, int maxHeight, int foundationY, int heightDifference, int cut, int skirt) {
++        public boolean eligible() { return verdict == Verdict.ELIGIBLE; }
++        public boolean biomeQualified() { return verdict != Verdict.REJECT_BIOME; }
++        public boolean terrainQualified() {
++            return verdict == Verdict.ELIGIBLE || verdict == Verdict.REJECT_FLUID;
++        }
++    }
++
++    private static final Result BIOME_REJECT = new Result(Verdict.REJECT_BIOME, 0, 0, 0, 0, 0, 0);
++
++    public static Result evaluate(Terrain terrain, int centerX, int centerZ, Volume underground) {
++        if (!fullFootprintDesert(terrain, centerX, centerZ)) return BIOME_REJECT;
++
++        int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
++        int step = St01PlacementConfig.HEIGHT_SAMPLE_STEP;
++        int perAxis = 2 * half / step + 1;
++        int[] heights = new int[perAxis * perAxis];
++        int n = 0;
++        for (int dx = -half; dx <= half; dx += step) {
++            for (int dz = -half; dz <= half; dz += step) heights[n++] = terrain.surfaceHeight(centerX + dx, centerZ + dz);
++        }
++        Arrays.sort(heights);
++        int min = heights[0], max = heights[heights.length - 1];
++        int yf = heights[heights.length / 2];
++        int diff = max - min, cut = Math.max(0, max - yf), skirt = Math.max(0, yf - min);
++
++        if (diff > St01PlacementConfig.MAX_HEIGHT_DIFFERENCE) return new Result(Verdict.REJECT_HEIGHT_DIFFERENCE, min, max, yf, diff, cut, skirt);
++        if (cut > St01PlacementConfig.MAX_CUT) return new Result(Verdict.REJECT_CUT, min, max, yf, diff, cut, skirt);
++        if (skirt > St01PlacementConfig.MAX_SKIRT) return new Result(Verdict.REJECT_SKIRT, min, max, yf, diff, cut, skirt);
++
++        // The vanilla stub check samples the biome at the stub position (anchor column, foundation level); require the same cell here so a
++        // stub accepted by this class cannot be silently dropped by Structure.GenerationContext.isValidBiome.
++        if (!terrain.isDesertCell(Math.floorDiv(centerX, 4), Math.floorDiv(yf, 4), Math.floorDiv(centerZ, 4))) {
++            return new Result(Verdict.REJECT_BIOME, min, max, yf, diff, cut, skirt);
++        }
++
++        if (underground != null && fluidIntersects(terrain, centerX, centerZ, yf, underground)) {
++            return new Result(Verdict.REJECT_FLUID, min, max, yf, diff, cut, skirt);
++        }
++        return new Result(Verdict.ELIGIBLE, min, max, yf, diff, cut, skirt);
++    }
++
++    /** Every quart cell that any footprint block can resolve to must be Desert (see class comment). */
++    public static boolean fullFootprintDesert(Terrain terrain, int centerX, int centerZ) {
++        int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
++        int qx0 = Math.floorDiv(centerX - half - 2, 4), qx1 = Math.floorDiv(centerX + half - 2, 4) + 1;
++        int qz0 = Math.floorDiv(centerZ - half - 2, 4), qz1 = Math.floorDiv(centerZ + half - 2, 4) + 1;
++        // Cheap early exit on the centre cell before the full sweep.
++        if (!cellColumnDesert(terrain, Math.floorDiv(centerX, 4), Math.floorDiv(centerZ, 4))) return false;
++        for (int qx = qx0; qx <= qx1; qx++) {
++            for (int qz = qz0; qz <= qz1; qz++) {
++                if (!cellColumnDesert(terrain, qx, qz)) return false;
++            }
++        }
++        return true;
++    }
++
++    /** Desert for both vertical quart candidates of the surface block of the cell's centre column. */
++    private static boolean cellColumnDesert(Terrain terrain, int qx, int qz) {
++        int surfaceBlockY = terrain.surfaceHeight(qx * 4 + 2, qz * 4 + 2) - 1;
++        int qy = Math.floorDiv(surfaceBlockY - 2, 4);
++        return terrain.isDesertCell(qx, qy, qz) && terrain.isDesertCell(qx, qy + 1, qz);
++    }
++
++    private static boolean fluidIntersects(Terrain terrain, int cx, int cz, int yf, Volume v) {
++        int m = St01PlacementConfig.FLUID_MARGIN;
++        for (int x = cx + v.minDx() - m; x <= cx + v.maxDx() + m; x++) {
++            for (int z = cz + v.minDz() - m; z <= cz + v.maxDz() + m; z++) {
++                if (terrain.hasFluid(x, z, yf + v.minDy() - m, yf + v.maxDy() + m)) return true;
++            }
++        }
++        return false;
++    }
++}
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01FootprintCorrectionPiece.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01FootprintCorrectionPiece.java
+new file mode 100644
+index 00000000..93f7c716
+--- /dev/null
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01FootprintCorrectionPiece.java
+@@ -0,0 +1,122 @@
++package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
++
++import net.minecraft.core.BlockPos;
++import net.minecraft.nbt.CompoundTag;
++import net.minecraft.util.RandomSource;
++import net.minecraft.world.level.ChunkPos;
++import net.minecraft.world.level.StructureManager;
++import net.minecraft.world.level.WorldGenLevel;
++import net.minecraft.world.level.block.Blocks;
++import net.minecraft.world.level.block.state.BlockState;
++import net.minecraft.world.level.chunk.ChunkGenerator;
++import net.minecraft.world.level.levelgen.Heightmap;
++import net.minecraft.world.level.levelgen.structure.BoundingBox;
++import net.minecraft.world.level.levelgen.structure.StructurePiece;
++import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
++
++/**
++ * MODERATE terrain correction over exactly the approved 81x81 footprint, and nowhere else: terrain above the foundation level
++ * {@code yf} is cut to {@code yf - 1} (air above), terrain below it is filled up to {@code yf - 1} (sand over sandstone). Candidates were
++ * already qualified against cut <= 10 and skirt <= 8 by {@link St01Eligibility}; this piece only runs for accepted starts, so a rejected
++ * candidate leaves no terrain change. Each chunk is corrected from its own column heights only (no neighbour reads), so the result is
++ * independent of chunk generation order.
++ */
++public final class St01FootprintCorrectionPiece extends StructurePiece {
++    private final int centerX, foundationY, centerZ;
++
++    public St01FootprintCorrectionPiece(int centerX, int foundationY, int centerZ) {
++        super(St01Worldgen.FOOTPRINT_CORRECTION_PIECE, 0, new BoundingBox(
++                centerX - St01PlacementConfig.FOOTPRINT_HALF_WIDTH, foundationY - St01PlacementConfig.MAX_SKIRT, centerZ - St01PlacementConfig.FOOTPRINT_HALF_WIDTH,
++                centerX + St01PlacementConfig.FOOTPRINT_HALF_WIDTH, foundationY + St01PlacementConfig.MAX_CUT, centerZ + St01PlacementConfig.FOOTPRINT_HALF_WIDTH));
++        this.centerX = centerX;
++        this.foundationY = foundationY;
++        this.centerZ = centerZ;
++    }
++
++    public St01FootprintCorrectionPiece(StructurePieceSerializationContext ctx, CompoundTag tag) {
++        super(St01Worldgen.FOOTPRINT_CORRECTION_PIECE, tag);
++        this.centerX = tag.getIntOr("CX", 0);
++        this.foundationY = tag.getIntOr("FY", 0);
++        this.centerZ = tag.getIntOr("CZ", 0);
++    }
++
++    @Override
++    protected void addAdditionalSaveData(StructurePieceSerializationContext ctx, CompoundTag tag) {
++        tag.putInt("CX", centerX);
++        tag.putInt("FY", foundationY);
++        tag.putInt("CZ", centerZ);
++    }
++
++    /** Observed per-start correction extremes, for audits (in-memory, current process only). Key = "centerX,centerZ". */
++    public static final java.util.concurrent.ConcurrentHashMap<String, Stats> STATS = new java.util.concurrent.ConcurrentHashMap<>();
++
++    public static final class Stats {
++        public final java.util.concurrent.atomic.AtomicInteger maxCut = new java.util.concurrent.atomic.AtomicInteger();
++        public final java.util.concurrent.atomic.AtomicInteger maxFill = new java.util.concurrent.atomic.AtomicInteger();
++        public final java.util.concurrent.atomic.AtomicInteger columnsCut = new java.util.concurrent.atomic.AtomicInteger();
++        public final java.util.concurrent.atomic.AtomicInteger columnsFilled = new java.util.concurrent.atomic.AtomicInteger();
++        public final java.util.concurrent.atomic.AtomicInteger columnsSealed = new java.util.concurrent.atomic.AtomicInteger();
++        public final java.util.concurrent.atomic.AtomicInteger columnsBelowSkirtBand = new java.util.concurrent.atomic.AtomicInteger();
++        public final java.util.concurrent.atomic.AtomicInteger columnsProcessed = new java.util.concurrent.atomic.AtomicInteger();
++    }
++
++    /**
++     * Column rule (all inputs are pure functions of the world seed, never of chunk generation order):
++     * <ol>
++     *   <li>{@code base} = generator base height (first free Y of the noise terrain). Terrain above {@code yf} is removed up to
++     *       {@code base} and, for plants/features already placed above it, up to {@code base + 8}.</li>
++     *   <li>Every non-solid block (air, fluid) in the skirt band {@code [yf - MAX_SKIRT, yf - 1]} becomes sand (top 4 layers) or sandstone, so the
++     *       foundation surface is closed even where a carved cave or a lower column would leave a pit. Blocks that are already solid are untouched.</li>
++     * </ol>
++     */
++    @Override
++    public void postProcess(WorldGenLevel level, StructureManager structures, ChunkGenerator generator, RandomSource random,
++            BoundingBox chunkBox, ChunkPos chunkPos, BlockPos pivot) {
++        net.minecraft.world.level.levelgen.RandomState randomState = level.getLevel().getChunkSource().randomState();
++        correct(level, chunkBox, centerX, foundationY, centerZ,
++                (x, z) -> generator.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, randomState));
++    }
++
++    /** Applies the column rule inside {@code chunkBox} for the footprint at (centerX, centerZ) with the given base-height source. */
++    public static void correct(WorldGenLevel level, BoundingBox chunkBox, int centerX, int foundationY, int centerZ,
++            java.util.function.IntBinaryOperator baseHeightOf) {
++        int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
++        int minX = Math.max(chunkBox.minX(), centerX - half), maxX = Math.min(chunkBox.maxX(), centerX + half);
++        int minZ = Math.max(chunkBox.minZ(), centerZ - half), maxZ = Math.min(chunkBox.maxZ(), centerZ + half);
++        Stats stats = STATS.computeIfAbsent(centerX + "," + centerZ, k -> new Stats());
++        BlockState sand = Blocks.SAND.defaultBlockState(), sandstone = Blocks.SANDSTONE.defaultBlockState(), air = Blocks.AIR.defaultBlockState();
++        int bandBottom = foundationY - St01PlacementConfig.MAX_SKIRT;
++        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
++        for (int x = minX; x <= maxX; x++) {
++            for (int z = minZ; z <= maxZ; z++) {
++                stats.columnsProcessed.incrementAndGet();
++                int base = baseHeightOf.applyAsInt(x, z);
++                if (base > foundationY) {
++                    stats.columnsCut.incrementAndGet();
++                    stats.maxCut.accumulateAndGet(base - foundationY, Math::max);
++                    int top = Math.min(level.getMaxY(), base + 8);
++                    for (int y = top; y >= foundationY; y--) {
++                        if (!level.getBlockState(pos.set(x, y, z)).isAir()) level.setBlock(pos, air, 2);
++                    }
++                } else if (base < foundationY) {
++                    stats.columnsFilled.incrementAndGet();
++                    stats.maxFill.accumulateAndGet(foundationY - base, Math::max);
++                    if (foundationY - base > St01PlacementConfig.MAX_SKIRT) stats.columnsBelowSkirtBand.incrementAndGet();
++                }
++                boolean sealed = false;
++                for (int y = bandBottom; y < foundationY; y++) {
++                    BlockState existing = level.getBlockState(pos.set(x, y, z));
++                    // keep only solid occluding terrain; plants, trees (logs/leaves), fluids and air are replaced so the result does not depend on whether
++                    // vegetation features of neighbouring chunks ran before this piece
++                    boolean terrain = existing.isCollisionShapeFullBlock(level, pos) && existing.getFluidState().isEmpty()
++                            && !existing.is(net.minecraft.tags.BlockTags.LOGS) && !existing.is(net.minecraft.tags.BlockTags.LEAVES);
++                    if (!terrain) {
++                        level.setBlock(pos, y >= foundationY - 4 ? sand : sandstone, 2);
++                        sealed = true;
++                    }
++                }
++                if (sealed && base >= foundationY) stats.columnsSealed.incrementAndGet();
++            }
++        }
++    }
++}
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PlacementConfig.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PlacementConfig.java
+new file mode 100644
+index 00000000..e0081983
+--- /dev/null
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PlacementConfig.java
+@@ -0,0 +1,34 @@
++package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
++
++/**
++ * ST-01 Pyramid natural-placement parameters. OWNER-APPROVED AND LOCKED (Phase 4 brief, section 2): do not change any value
++ * without explicit owner approval. {@code St01WorldgenResourceTest} asserts that the committed structure-set JSON equals these constants.
++ */
++public final class St01PlacementConfig {
++    private St01PlacementConfig() {}
++
++    // ---- structure set (data/moreminecrafts/worldgen/structure_set/st01_pyramid.json) ----
++    public static final int SPACING_CHUNKS = 32;
++    public static final int SEPARATION_CHUNKS = 8;
++    public static final String SPREAD_TYPE = "triangular";
++    public static final int SALT = 91401;
++
++    // ---- footprint: 81 x 81 blocks, centred on the anchor block (-40..+40) ----
++    public static final int FOOTPRINT_HALF_WIDTH = 40;
++    public static final int FOOTPRINT_WIDTH = 2 * FOOTPRINT_HALF_WIDTH + 1;
++
++    // ---- MODERATE terrain policy ----
++    public static final int MAX_HEIGHT_DIFFERENCE = 16;
++    public static final int MAX_CUT = 10;
++    public static final int MAX_SKIRT = 8;
++
++    // ---- implementation parameters (not owner-approved design values; HOW) ----
++    /**
++     * Height sampling step. The O-14 diagnostics sampled a 4-block grid (441 columns); Phase 4 samples EVERY footprint column (6561) because a
++     * sampled grid cannot guarantee the approved limits for the columns it skips. The definitions (max-min, cut = max-median, skirt = median-min)
++     * are unchanged. Cost is bounded: only anchors that already passed the full-footprint Desert stage reach this stage.
++     */
++    public static final int HEIGHT_SAMPLE_STEP = 1;
++    /** Blocks added around the underground volume when testing for fluid (adjacent aquifer/water breach). */
++    public static final int FLUID_MARGIN = 1;
++}
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PyramidStructure.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PyramidStructure.java
+new file mode 100644
+index 00000000..dfea7cf3
+--- /dev/null
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PyramidStructure.java
+@@ -0,0 +1,88 @@
++package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
++
++import com.mojang.serialization.MapCodec;
++import java.util.HashMap;
++import java.util.Map;
++import java.util.Optional;
++import java.util.concurrent.atomic.AtomicLong;
++import net.minecraft.core.BlockPos;
++import net.minecraft.world.level.ChunkPos;
++import net.minecraft.world.level.LevelHeightAccessor;
++import net.minecraft.world.level.NoiseColumn;
++import net.minecraft.world.level.biome.Biomes;
++import net.minecraft.world.level.block.Rotation;
++import net.minecraft.world.level.levelgen.Heightmap;
++import net.minecraft.world.level.levelgen.structure.Structure;
++import net.minecraft.world.level.levelgen.structure.StructureType;
++
++/**
++ * ST-01 Pyramid structure: qualifies an anchor with {@link St01Eligibility} against the real chunk generator (no chunk loading, no
++ * neighbour generation) and, only when eligible, emits the correction piece plus the pieces of the {@link St01RoyalHallFixture}.
++ * Candidate selection (spacing 32 / separation 8 / triangular / salt 91401) is the structure set's job, not this class's.
++ */
++public final class St01PyramidStructure extends Structure {
++    public static final MapCodec<St01PyramidStructure> CODEC = simpleCodec(St01PyramidStructure::new);
++
++    /** Production counters, one per verdict, for cross-checking probes. Counts findGenerationPoint evaluations (a chunk may be evaluated more than once). */
++    public static final Map<St01Eligibility.Verdict, AtomicLong> VERDICT_COUNTS = new java.util.EnumMap<>(St01Eligibility.Verdict.class);
++    static {
++        for (St01Eligibility.Verdict v : St01Eligibility.Verdict.values()) VERDICT_COUNTS.put(v, new AtomicLong());
++    }
++
++    public St01PyramidStructure(StructureSettings settings) {
++        super(settings);
++    }
++
++    @Override
++    protected Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
++        ChunkPos chunk = context.chunkPos();
++        int cx = chunk.getMinBlockX() + 8, cz = chunk.getMinBlockZ() + 8;
++        Rotation rotation = Rotation.getRandom(context.random());
++        St01Eligibility.Result result = St01Eligibility.evaluate(new GeneratorTerrain(context), cx, cz, St01RoyalHallFixture.volume(rotation));
++        VERDICT_COUNTS.get(result.verdict()).incrementAndGet();
++        if (!result.eligible()) return Optional.empty();
++        int yf = result.foundationY();
++        return Optional.of(new GenerationStub(new BlockPos(cx, yf, cz),
++                builder -> St01RoyalHallFixture.addPieces(builder, context.structureTemplateManager(), cx, yf, cz, rotation)));
++    }
++
++    @Override
++    public StructureType<?> type() {
++        return St01Worldgen.STRUCTURE_TYPE;
++    }
++
++    /** {@link St01Eligibility.Terrain} over the real chunk generator and biome source; memoises per evaluation. */
++    public static final class GeneratorTerrain implements St01Eligibility.Terrain {
++        private final GenerationContext context;
++        private final Map<Long, Integer> heights = new HashMap<>();
++        private final Map<Long, NoiseColumn> columns = new HashMap<>();
++
++        public GeneratorTerrain(GenerationContext context) {
++            this.context = context;
++        }
++
++        private static long key(int x, int z) { return ((long) x << 32) ^ (z & 0xFFFFFFFFL); }
++
++        @Override
++        public int surfaceHeight(int x, int z) {
++            return heights.computeIfAbsent(key(x, z), k -> context.chunkGenerator().getBaseHeight(x, z,
++                    Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()));
++        }
++
++        @Override
++        public boolean isDesertCell(int quartX, int quartY, int quartZ) {
++            return context.biomeResolver().getNoiseBiome(quartX, quartY, quartZ).is(Biomes.DESERT);
++        }
++
++        @Override
++        public boolean hasFluid(int x, int z, int minY, int maxY) {
++            LevelHeightAccessor accessor = context.heightAccessor();
++            int lo = Math.max(minY, accessor.getMinY()), hi = Math.min(maxY, accessor.getMaxY());
++            NoiseColumn column = columns.computeIfAbsent(key(x, z), k -> context.chunkGenerator().getBaseColumn(x, z, accessor, context.randomState()));
++            for (int y = lo; y <= hi; y++) {
++                if (!column.getBlock(y).getFluidState().isEmpty()) return true;
++            }
++            return false;
++        }
++    }
++}
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Worldgen.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Worldgen.java
+new file mode 100644
+index 00000000..b7053d41
+--- /dev/null
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Worldgen.java
+@@ -0,0 +1,31 @@
++package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
++
++import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
++import net.minecraft.resources.Identifier;
++import net.minecraft.world.level.levelgen.structure.StructureType;
++import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
++
++/** Registers the ST-01 structure type and its piece types. Structure and structure-set data live in {@code data/moreminecrafts/worldgen}. */
++public final class St01Worldgen {
++    private St01Worldgen() {}
++
++    public static final Identifier STRUCTURE_ID = Identifier.fromNamespaceAndPath("moreminecrafts", "st01_pyramid");
++    public static final Identifier FOOTPRINT_CORRECTION_ID = Identifier.fromNamespaceAndPath("moreminecrafts", "st01_footprint_correction");
++
++    public static StructureType<St01PyramidStructure> STRUCTURE_TYPE;
++    public static StructurePieceType FOOTPRINT_CORRECTION_PIECE;
++    public static StructurePieceType ROYAL_HALL_FIXTURE_PIECE;
++    public static StructurePieceType FLUID_SEAL_PIECE;
++
++    public static void initialize() {
++        if (STRUCTURE_TYPE != null) return;
++        STRUCTURE_TYPE = Registry.register(BuiltInRegistries.STRUCTURE_TYPE, STRUCTURE_ID, () -> St01PyramidStructure.CODEC);
++        FOOTPRINT_CORRECTION_PIECE = Registry.register(BuiltInRegistries.STRUCTURE_PIECE, FOOTPRINT_CORRECTION_ID,
++                (StructurePieceType) St01FootprintCorrectionPiece::new);
++        ROYAL_HALL_FIXTURE_PIECE = Registry.register(BuiltInRegistries.STRUCTURE_PIECE, St01RoyalHallFixture.PIECE_ID,
++                (StructurePieceType) St01RoyalHallFixture.Piece::new);
++        FLUID_SEAL_PIECE = Registry.register(BuiltInRegistries.STRUCTURE_PIECE, Identifier.fromNamespaceAndPath("moreminecrafts", "st01_fluid_seal"),
++                (StructurePieceType) St01RoyalHallFixture.FluidSealPiece::new);
++    }
++}
+diff --git a/src/test/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01EligibilityTest.java b/src/test/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01EligibilityTest.java
+new file mode 100644
+index 00000000..8fcf041b
+--- /dev/null
++++ b/src/test/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01EligibilityTest.java
+@@ -0,0 +1,208 @@
++package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
++
++import static org.junit.jupiter.api.Assertions.*;
++
++import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility.Terrain;
++import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility.Verdict;
++import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility.Volume;
++import java.util.function.IntBinaryOperator;
++import java.util.function.Predicate;
++import org.junit.jupiter.api.Test;
++
++/** Boundary tests for the owner-approved MODERATE limits (16 / 10 / 8), the full-footprint Desert rule and fluid safety. */
++class St01EligibilityTest {
++    private static final int Y = 100;
++    private static final Volume HALL = new Volume(-40, -2, -24, -5, 2, 40);
++
++    /** Synthetic terrain: flat desert at Y unless overridden. */
++    private static final class T implements Terrain {
++        IntBinaryOperator height = (x, z) -> Y;
++        Predicate<int[]> desertCell = c -> true;   // {qx,qy,qz}
++        Predicate<int[]> fluid = c -> false;       // {x,y,z}
++
++        @Override public int surfaceHeight(int x, int z) { return height.applyAsInt(x, z); }
++        @Override public boolean isDesertCell(int qx, int qy, int qz) { return desertCell.test(new int[]{qx, qy, qz}); }
++        @Override public boolean hasFluid(int x, int z, int minY, int maxY) {
++            for (int y = minY; y <= maxY; y++) if (fluid.test(new int[]{x, y, z})) return true;
++            return false;
++        }
++    }
++
++    private static T withGridAnomalies(int cx, int cz, int highOffset, int lowOffset) {
++        T t = new T();
++        t.height = (x, z) -> {
++            if (x == cx - 40 && z == cz - 40) return Y + highOffset;
++            if (x == cx + 40 && z == cz + 40) return Y + lowOffset;
++            return Y;
++        };
++        return t;
++    }
++
++    @Test void lockedConstants() {
++        assertEquals(32, St01PlacementConfig.SPACING_CHUNKS);
++        assertEquals(8, St01PlacementConfig.SEPARATION_CHUNKS);
++        assertEquals("triangular", St01PlacementConfig.SPREAD_TYPE);
++        assertEquals(91401, St01PlacementConfig.SALT);
++        assertEquals(81, St01PlacementConfig.FOOTPRINT_WIDTH);
++        assertEquals(16, St01PlacementConfig.MAX_HEIGHT_DIFFERENCE);
++        assertEquals(10, St01PlacementConfig.MAX_CUT);
++        assertEquals(8, St01PlacementConfig.MAX_SKIRT);
++    }
++
++    @Test void flatDesertIsEligible() {
++        var r = St01Eligibility.evaluate(new T(), 8, 8, HALL);
++        assertEquals(Verdict.ELIGIBLE, r.verdict());
++        assertEquals(Y, r.foundationY());
++        assertEquals(0, r.heightDifference());
++    }
++
++    @Test void heightDifference16Passes17Rejects() {
++        for (int[] c : new int[][]{{8, 8}, {-1016, -1016 + 8}, {-8, 4088}}) {
++            // 16 = +8 / -8 : cut 8 and skirt 8, both within limits
++            assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(c[0], c[1], 8, -8), c[0], c[1], HALL).verdict());
++            // 17 = +9 / -8 (cut 9, skirt 8): only the 16 limit rejects
++            var r = St01Eligibility.evaluate(withGridAnomalies(c[0], c[1], 9, -8), c[0], c[1], HALL);
++            assertEquals(Verdict.REJECT_HEIGHT_DIFFERENCE, r.verdict());
++            assertEquals(17, r.heightDifference());
++        }
++    }
++
++    @Test void cut10Passes11Rejects() {
++        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(8, 8, 10, 0), 8, 8, HALL).verdict());
++        var r = St01Eligibility.evaluate(withGridAnomalies(8, 8, 11, 0), 8, 8, HALL);
++        assertEquals(Verdict.REJECT_CUT, r.verdict());
++        assertEquals(11, r.cut());
++        assertTrue(r.heightDifference() <= 16, "cut limit must bind before the height-difference limit here");
++    }
++
++    @Test void skirt8Passes9Rejects() {
++        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(withGridAnomalies(8, 8, 0, -8), 8, 8, HALL).verdict());
++        var r = St01Eligibility.evaluate(withGridAnomalies(8, 8, 0, -9), 8, 8, HALL);
++        assertEquals(Verdict.REJECT_SKIRT, r.verdict());
++        assertEquals(9, r.skirt());
++    }
++
++    @Test void foundationIsMedianAndCutSkirtAreRelativeToIt() {
++        // just over half of the columns sit 6 higher than the rest: the median moves up, so the lower columns are a 6-block skirt, not a cut
++        T t = new T();
++        t.height = (x, z) -> (x - 8) < 1 ? Y + 6 : Y;
++        var r = St01Eligibility.evaluate(t, 8, 8, HALL);
++        assertEquals(Y + 6, r.foundationY());
++        assertEquals(6, r.skirt());
++        assertEquals(0, r.cut());
++    }
++
++    @Test void everyFootprintColumnIsSampledNotJustAGrid() {
++        // a single off-grid column 30 blocks high must be seen (a 4-block grid would skip x offset -39)
++        T t = new T();
++        t.height = (x, z) -> (x == 8 - 39 && z == 8 + 1) ? Y + 30 : Y;
++        assertEquals(Verdict.REJECT_HEIGHT_DIFFERENCE, St01Eligibility.evaluate(t, 8, 8, HALL).verdict());
++        // columns just outside the 81x81 footprint are not part of the rule
++        T u = new T();
++        u.height = (x, z) -> (x == 8 - 41 || x == 8 + 41 || z == 8 - 41 || z == 8 + 41) ? Y + 30 : Y;
++        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(u, 8, 8, HALL).verdict());
++    }
++
++    @Test void fluidBoundaryOfUndergroundVolumeWithMargin() {
++        int cx = 8, cz = 8, yf = Y;
++        // volume x[-40,-2] y[-24,-5] z[2,40], margin 1: fluid inside the margin shell rejects, one block further does not
++        record P(int dx, int dy, int dz, boolean reject) {}
++        P[] cases = {
++                new P(-41, -10, 10, true), new P(-42, -10, 10, false),     // west edge
++                new P(-1, -10, 10, true), new P(0, -10, 10, false),        // east edge (-2 + margin)
++                new P(-20, -25, 10, true), new P(-20, -26, 10, false),     // bottom
++                new P(-20, -4, 10, true), new P(-20, -3, 10, false),       // top
++                new P(-20, -10, 1, true), new P(-20, -10, 0, false),       // north edge (2 - margin)
++                new P(-20, -10, 41, true), new P(-20, -10, 42, false),     // south edge
++                new P(-20, -15, 20, true),                                 // dead centre
++        };
++        for (P p : cases) {
++            T t = new T();
++            t.fluid = a -> a[0] == cx + p.dx() && a[1] == yf + p.dy() && a[2] == cz + p.dz();
++            var r = St01Eligibility.evaluate(t, cx, cz, HALL);
++            assertEquals(p.reject() ? Verdict.REJECT_FLUID : Verdict.ELIGIBLE, r.verdict(), p.toString());
++        }
++    }
++
++    @Test void fluidIsNotCheckedForMissingVolumeAndNotBeforeTerrain() {
++        T t = new T();
++        t.fluid = a -> true;
++        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, 8, 8, null).verdict());
++        T both = withGridAnomalies(8, 8, 11, 0);
++        both.fluid = a -> true;
++        assertEquals(Verdict.REJECT_CUT, St01Eligibility.evaluate(both, 8, 8, HALL).verdict(), "terrain stage is reported before fluid");
++    }
++
++    @Test void biomeCellsCoverEveryBlockCandidateIncludingNegativeCoordinates() {
++        // Proof of the coverage claim: for every footprint block, both horizontal quart candidates {floor((x-2)/4), +1} lie inside the swept range.
++        for (int cx = -300; cx <= 300; cx++) {
++            int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
++            int q0 = Math.floorDiv(cx - half - 2, 4), q1 = Math.floorDiv(cx + half - 2, 4) + 1;
++            for (int x = cx - half; x <= cx + half; x++) {
++                int c = Math.floorDiv(x - 2, 4);
++                assertTrue(c >= q0 && c + 1 <= q1, "cx=" + cx + " x=" + x);
++            }
++            // and the sweep is tight: no more than one cell of slack on either side
++            assertTrue(q1 - q0 + 1 <= (2 * half) / 4 + 3);
++        }
++    }
++
++    @Test void nonDesertCellAtRingBoundaryRejects() {
++        for (int[] c : new int[][]{{-100, -100}, {8, 8}, {-8, 520}, {2023, -777}}) {
++            int cx = c[0], cz = c[1], half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
++            int qx0 = Math.floorDiv(cx - half - 2, 4), qx1 = Math.floorDiv(cx + half - 2, 4) + 1;
++            int qz0 = Math.floorDiv(cz - half - 2, 4), qz1 = Math.floorDiv(cz + half - 2, 4) + 1;
++            int midQz = (qz0 + qz1) / 2, midQx = (qx0 + qx1) / 2;
++            for (int[] bad : new int[][]{{qx0, midQz}, {qx1, midQz}, {midQx, qz0}, {midQx, qz1}, {qx0, qz0}, {qx1, qz1}}) {
++                T t = new T();
++                t.desertCell = q -> !(q[0] == bad[0] && q[2] == bad[1]);
++                assertEquals(Verdict.REJECT_BIOME, St01Eligibility.evaluate(t, cx, cz, HALL).verdict(), "bad=" + bad[0] + "," + bad[1] + " c=" + cx + "," + cz);
++            }
++            for (int[] ok : new int[][]{{qx0 - 1, midQz}, {qx1 + 1, midQz}, {midQx, qz0 - 1}, {midQx, qz1 + 1}}) {
++                T t = new T();
++                t.desertCell = q -> !(q[0] == ok[0] && q[2] == ok[1]);
++                assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, cx, cz, HALL).verdict(), "outside ring must not matter: " + ok[0] + "," + ok[1]);
++            }
++        }
++    }
++
++    @Test void bothVerticalQuartCandidatesAreRequired() {
++        T t = new T();
++        int surfaceBlock = Y - 1;
++        int qyA = Math.floorDiv(surfaceBlock - 2, 4);
++        t.desertCell = q -> q[1] != qyA + 1 || q[0] != 2 || q[2] != 2;
++        assertEquals(Verdict.REJECT_BIOME, St01Eligibility.evaluate(t, 8, 8, HALL).verdict());
++        t.desertCell = q -> q[1] != qyA - 1;
++        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, 8, 8, HALL).verdict());
++    }
++
++    @Test void anchorStubBiomeCellIsRequiredAtTheFoundationLevel() {
++        // vanilla drops a stub whose (anchor, foundationY) cell is not in the structure's biome set: it must be rejected here, not later
++        T t = new T();
++        int cellY = Math.floorDiv(Y, 4); // yf = Y
++        int surfaceBlock = Y - 1;
++        int qyA = Math.floorDiv(surfaceBlock - 2, 4);
++        assertTrue(cellY == qyA || cellY == qyA + 1);
++        t.desertCell = q -> true;
++        assertEquals(Verdict.ELIGIBLE, St01Eligibility.evaluate(t, 8, 8, HALL).verdict());
++    }
++
++    @Test void evaluationIsDeterministicAndSideEffectFree() {
++        T t = withGridAnomalies(8, 8, 5, -5);
++        assertEquals(St01Eligibility.evaluate(t, 8, 8, HALL), St01Eligibility.evaluate(t, 8, 8, HALL));
++    }
++
++    @Test void fixtureVolumeRotatesWithTheSameTransformAsTemplatePlacement() {
++        // all four rotations keep the hall inside the 81x81 footprint (|d| <= 40) and map the reference box to the expected quadrant
++        for (var rot : net.minecraft.world.level.block.Rotation.values()) {
++            Volume v = St01RoyalHallFixture.volume(rot);
++            assertTrue(v.minDx() >= -40 && v.maxDx() <= 40 && v.minDz() >= -40 && v.maxDz() <= 40, rot + " " + v);
++            assertEquals(39, v.maxDx() - v.minDx() + 1);
++            assertEquals(39, v.maxDz() - v.minDz() + 1);
++        }
++        Volume none = St01RoyalHallFixture.volume(net.minecraft.world.level.block.Rotation.NONE);
++        assertEquals(new Volume(-40, -2, -24, -5, 2, 40), none);
++        Volume cw = St01RoyalHallFixture.volume(net.minecraft.world.level.block.Rotation.CLOCKWISE_90);
++        assertEquals(new Volume(-40, -2, -24, -5, -40, -2), cw);
++    }
++}
+diff --git a/src/test/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01WorldgenResourceTest.java b/src/test/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01WorldgenResourceTest.java
+new file mode 100644
+index 00000000..f2469ad3
+--- /dev/null
++++ b/src/test/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01WorldgenResourceTest.java
+@@ -0,0 +1,61 @@
++package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
++
++import static org.junit.jupiter.api.Assertions.*;
++
++import com.google.gson.JsonObject;
++import com.google.gson.JsonParser;
++import java.io.IOException;
++import java.io.InputStream;
++import java.nio.charset.StandardCharsets;
++import org.junit.jupiter.api.Test;
++
++/** The committed worldgen JSON must equal the locked owner-approved constants, with no second structure set for ST-01. */
++class St01WorldgenResourceTest {
++    private static JsonObject json(String path) throws IOException {
++        try (InputStream in = St01WorldgenResourceTest.class.getClassLoader().getResourceAsStream(path)) {
++            assertNotNull(in, "missing " + path);
++            return JsonParser.parseString(new String(in.readAllBytes(), StandardCharsets.UTF_8)).getAsJsonObject();
++        }
++    }
++
++    @Test void structureSetMatchesLockedPlacement() throws IOException {
++        JsonObject set = json("data/moreminecrafts/worldgen/structure_set/st01_pyramid.json");
++        JsonObject placement = set.getAsJsonObject("placement");
++        assertEquals("minecraft:random_spread", placement.get("type").getAsString());
++        assertEquals(St01PlacementConfig.SPACING_CHUNKS, placement.get("spacing").getAsInt());
++        assertEquals(St01PlacementConfig.SEPARATION_CHUNKS, placement.get("separation").getAsInt());
++        assertEquals(St01PlacementConfig.SPREAD_TYPE, placement.get("spread_type").getAsString());
++        assertEquals(St01PlacementConfig.SALT, placement.get("salt").getAsInt());
++        assertFalse(placement.has("frequency"), "no frequency reduction: candidate selection must stay exactly spacing/separation/triangular/salt");
++        assertFalse(placement.has("exclusion_zone"));
++        assertEquals(1, set.getAsJsonArray("structures").size());
++        assertEquals("moreminecrafts:st01_pyramid", set.getAsJsonArray("structures").get(0).getAsJsonObject().get("structure").getAsString());
++    }
++
++    @Test void structureIsDesertOnlyCustomTypeWithoutVanillaTerrainAdaptation() throws IOException {
++        JsonObject s = json("data/moreminecrafts/worldgen/structure/st01_pyramid.json");
++        assertEquals("moreminecrafts:st01_pyramid", s.get("type").getAsString());
++        assertEquals(1, s.getAsJsonArray("biomes").size());
++        assertEquals("minecraft:desert", s.getAsJsonArray("biomes").get(0).getAsString());
++        assertEquals("none", s.get("terrain_adaptation").getAsString(), "MODERATE correction is applied by St01FootprintCorrectionPiece");
++        assertEquals("surface_structures", s.get("step").getAsString());
++    }
++
++    @Test void saltIsNotReusedByAnyOtherStructureSet() throws IOException {
++        for (String other : new String[]{"sky_islands_general", "sky_islands_mountain"}) {
++            JsonObject set = json("data/moreminecrafts/worldgen/structure_set/" + other + ".json");
++            assertNotEquals(St01PlacementConfig.SALT, set.getAsJsonObject("placement").get("salt").getAsInt());
++        }
++    }
++
++    @Test void fixtureTemplateIsThe39x20x39RoyalHall() throws IOException {
++        try (InputStream in = St01WorldgenResourceTest.class.getClassLoader().getResourceAsStream("data/moreminecrafts/structure/pyramid/royal_hall.nbt")) {
++            assertNotNull(in);
++            var root = net.minecraft.nbt.NbtIo.readCompressed(in, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
++            var size = root.getListOrEmpty("size");
++            assertEquals(39, size.getIntOr(0, 0));
++            assertEquals(20, size.getIntOr(1, 0));
++            assertEquals(39, size.getIntOr(2, 0));
++        }
++    }
++}

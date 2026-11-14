@@ -393,4 +393,87 @@ public final class RoyalChestGameTests {
         ctx.assertTrue(site.level.getBlockState(site.primary.east()).is(Blocks.CHEST), "right half survives mining");
         finish(ctx, site);
     }
+
+    // ---- D13-03 Q39-Q41 first-accessory reveal effect ----
+
+    private static final List<RoyalChestRewardModel.Reward> WITH_ACCESSORY = List.of(
+            new RoyalChestRewardModel.Reward("minecraft:gold_ingot", 64), new RoyalChestRewardModel.Reward("moreminecrafts:seed_of_life", 1));
+    private static final List<RoyalChestRewardModel.Reward> WITHOUT_ACCESSORY = List.of(new RoyalChestRewardModel.Reward("minecraft:gold_ingot", 64));
+
+    /** Runs {@code body} with generation pinned to {@code rewards} and every reveal for {@code site} recorded. */
+    private static List<RoyalChestRevealFx.Reveal> recording(Site site, List<RoyalChestRewardModel.Reward> rewards, Runnable body) {
+        List<RoyalChestRevealFx.Reveal> seen = new ArrayList<>();
+        RoyalChestRuntime.rewardsOverride = role -> rewards;
+        RoyalChestRevealFx.observer = reveal -> { if (reveal.instanceId().equals(site.id)) seen.add(reveal); };
+        try { body.run(); } finally { RoyalChestRuntime.rewardsOverride = null; RoyalChestRevealFx.observer = null; }
+        return seen;
+    }
+
+    @GameTest(maxTicks = 60)
+    public void revealPlaysOnceOnFirstGenerationWithAnAccessoryAndNeverAgain(GameTestHelper ctx) {
+        Site site = site(ctx, "fx_once");
+        ServerPlayer player = mock(ctx, site);
+        defeatDirect(site);
+        var seen = recording(site, WITH_ACCESSORY, () -> {
+            ctx.assertTrue(RoyalChestRuntime.tryOpen(site.level, player, site.primary) == OpenResult.OPENED_AND_GENERATED, "first open generates");
+            RoyalChestRuntime.tryOpen(site.level, player, site.primary);                       // reopen
+            RoyalChestRuntime.tryOpen(site.level, mock(ctx, site), site.primary.east());        // other player, other half
+            chestOf(site, RoyalChestRole.PRIMARY).removeItemNoUpdate(0);                         // item movement
+            chestOf(site, RoyalChestRole.PRIMARY).setChanged();
+            RoyalChestRuntime.tryOpen(site.level, player, site.primary);
+        });
+        ctx.assertTrue(seen.size() == 1, "exactly one reveal for the first generation, got " + seen.size());
+        ctx.assertTrue(seen.get(0).role() == RoyalChestRole.PRIMARY, "revealed for PRIMARY");
+        finish(ctx, site);
+    }
+
+    @GameTest(maxTicks = 60)
+    public void revealDoesNotPlayWhenTheGeneratedRewardsHaveNoAccessory(GameTestHelper ctx) {
+        Site site = site(ctx, "fx_none");
+        ServerPlayer player = mock(ctx, site);
+        defeatDirect(site);
+        var seen = recording(site, WITHOUT_ACCESSORY, () -> {
+            RoyalChestRuntime.tryOpen(site.level, player, site.primary);
+            RoyalChestRuntime.tryOpen(site.level, player, site.primary);
+        });
+        ctx.assertTrue(seen.isEmpty(), "no reveal without an accessory, got " + seen.size());
+        finish(ctx, site);
+    }
+
+    @GameTest(maxTicks = 60)
+    public void revealIsPerChestAndNeverReplaysAfterReloadOrRestart(GameTestHelper ctx) {
+        Site site = site(ctx, "fx_reload");
+        ServerPlayer player = mock(ctx, site);
+        defeatDirect(site);
+        RoyalChestData live = RoyalChestRuntime.data(site.level);
+        var seen = recording(site, WITH_ACCESSORY, () -> {
+            RoyalChestRuntime.tryOpen(site.level, player, site.primary);
+            ctx.assertTrue(live.isGenerated(site.id, RoyalChestRole.PRIMARY), "persisted generated state exists");
+            // "Restart": the persisted state is round-tripped and the reloaded data is asked to generate the same chest.
+            RoyalChestData restarted = decode(ctx, encode(ctx, live));
+            RoyalChestData.Instance instance = restarted.instance(site.id).orElseThrow();
+            RoyalChestRuntime.generate(site.level, restarted, instance, RoyalChestRole.PRIMARY);
+            RoyalChestRuntime.generate(site.level, live, live.instance(site.id).orElseThrow(), RoyalChestRole.PRIMARY);
+            // SECONDARY is its own first generation, so it reveals once for itself.
+            RoyalChestRuntime.tryOpen(site.level, player, site.secondary);
+            RoyalChestRuntime.tryOpen(site.level, player, site.secondary);
+        });
+        long primary = seen.stream().filter(r -> r.role() == RoyalChestRole.PRIMARY).count();
+        long secondary = seen.stream().filter(r -> r.role() == RoyalChestRole.SECONDARY).count();
+        ctx.assertTrue(primary == 1 && secondary == 1, "one reveal per chest's first generation, got " + primary + "/" + secondary);
+        finish(ctx, site);
+    }
+
+    @GameTest(maxTicks = 60)
+    public void revealAudienceIsPlayersWithinSixteenBlocks(GameTestHelper ctx) {
+        Site site = site(ctx, "fx_range");
+        ServerPlayer near = mock(ctx, site);
+        ServerPlayer far = mock(ctx, site);
+        var center = RoyalChestRevealFx.center(RoyalChestRuntime.data(site.level).instance(site.id).orElseThrow(), RoyalChestRole.PRIMARY);
+        near.setPos(center.x + 12.0D, center.y, center.z);
+        far.setPos(center.x + 20.0D, center.y, center.z);
+        var audience = RoyalChestRevealFx.audience(site.level, center);
+        ctx.assertTrue(audience.contains(near) && !audience.contains(far), "within 16 blocks only");
+        finish(ctx, site);
+    }
 }

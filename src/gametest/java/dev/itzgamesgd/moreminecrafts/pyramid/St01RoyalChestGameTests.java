@@ -103,14 +103,14 @@ public final class St01RoyalChestGameTests {
         ServerLevel level = ctx.getLevel();
         BlockPos origin = new BlockPos(-300, 80, -300);
         var settings = St01RoyalChestPlacement.placementSettings(new StructurePlaceSettings().setRotation(Rotation.CLOCKWISE_90).setMirror(Mirror.FRONT_BACK));
-        // Deterministic fixture selection, not a probability test: exercise a real deferred SECONDARY entitlement.
+        // Deterministic fixture selection, not a probability test: exercise a real PRIMARY entitlement.
         for (int i = 0; i < 100000; i++) {
             origin = new BlockPos(-300 - 64 * i, 80, -300);
             BlockPos candidate = St01RoyalChestPlacement.worldPos(St01RoyalChestPlacement.REFERENCE_ANCHOR, origin, settings);
             String candidateId = RoyalChestRuntime.canonicalId(level, candidate);
             if (RoyalChestRewardModel.assignCatalyst(RoyalChestRuntime.catalystRandom(level.getSeed(), candidateId))
-                    .equals(Optional.of(RoyalChestRole.SECONDARY))) break;
-            if (i == 99999) throw new IllegalStateException("No SECONDARY restart fixture found");
+                    .equals(Optional.of(RoyalChestRole.PRIMARY))) break;
+            if (i == 99999) throw new IllegalStateException("No PRIMARY restart fixture found");
         }
         BlockPos anchor = St01RoyalChestPlacement.worldPos(St01RoyalChestPlacement.REFERENCE_ANCHOR, origin, settings);
         String id = RoyalChestRuntime.canonicalId(level, anchor);
@@ -128,7 +128,7 @@ public final class St01RoyalChestGameTests {
             var guardian = guardians.getFirst(); guardian.skipAwakening();
             guardian.hurtServer(level, level.damageSources().playerAttack(player), 10000.0F);
             ctx.assertTrue(RoyalChestRuntime.tryOpen(level, player, anchor) == RoyalChestRuntime.OpenResult.OPENED_AND_GENERATED, "first valid open");
-            ctx.assertTrue(countCatalysts(data.chest(id, RoyalChestRole.PRIMARY).orElseThrow().container()) == 0, "deferred SECONDARY catalyst never redistributed");
+            ctx.assertTrue(countCatalysts(data.chest(id, RoyalChestRole.PRIMARY).orElseThrow().container()) == 1, "PRIMARY catalyst delivered");
             data.chest(id, RoyalChestRole.PRIMARY).orElseThrow().container().removeItemNoUpdate(0);
             try {
                 java.nio.file.Files.writeString(java.nio.file.Path.of(System.getProperty("mm.royal.restart.file")),
@@ -136,7 +136,7 @@ public final class St01RoyalChestGameTests {
             } catch (java.io.IOException e) { throw new RuntimeException(e); }
         } else {
             var instance = data.instance(id).orElseThrow();
-            ctx.assertTrue(instance.catalyst().equals(Optional.of(RoyalChestRole.SECONDARY)) && instance.secondary().isEmpty(), "deferred entitlement survived process restart");
+            ctx.assertTrue(instance.catalyst().equals(Optional.of(RoyalChestRole.PRIMARY)) && instance.secondary().isEmpty(), "entitlement survived process restart");
             ctx.assertTrue(!dev.itzgamesgd.moreminecrafts.boss.TombGuardianEncounters.isRoyalChestSealed(level, anchor), "defeat survived restart");
             ctx.assertTrue(dev.itzgamesgd.moreminecrafts.boss.TombGuardianEncounters.onRoyalChestInteraction(level, anchor, instance.spawn(), player)
                     == dev.itzgamesgd.moreminecrafts.boss.TombGuardianEncounters.StartResult.ALREADY_DEFEATED, "restart never resurrects defeated Guardian");

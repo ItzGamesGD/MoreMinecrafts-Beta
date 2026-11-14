@@ -1,0 +1,298 @@
+{
+  "control_overrides": {},
+  "default_schedule": "canonical",
+  "derived": null,
+  "edges": [
+    {
+      "u": "U",
+      "v": "V"
+    }
+  ],
+  "events": [],
+  "expect_input_rejection": null,
+  "expected_ref": "P01/CAV-01",
+  "family": "GRAPH",
+  "fixture_id": "P01/CAV-01",
+  "id_prefix": {
+    "dimension": "minecraft:overworld",
+    "schema": "1",
+    "seed": "7"
+  },
+  "population_complete": true,
+  "protected_sites": [],
+  "record_schema": "P01-FIXTURE-1",
+  "scalar_inputs": [],
+  "source_refs": [
+    "CAV-01"
+  ],
+  "stages": [],
+  "unknown_edges": [],
+  "vertices": [
+    {
+      "candidates": [
+        {
+          "cand": "c1",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "0",
+          "slot": "1",
+          "status": "FIT"
+        },
+        {
+          "cand": "c2",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "1",
+          "slot": "2",
+          "status": "FIT"
+        },
+        {
+          "cand": "c3",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "2",
+          "slot": "3",
+          "status": "FIT"
+        },
+        {
+          "cand": "c4",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "3",
+          "slot": "4",
+          "status": "FIT"
+        },
+        {
+          "cand": "c5",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "4",
+          "slot": "5",
+          "status": "FIT"
+        },
+        {
+          "cand": "c6",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "5",
+          "slot": "6",
+          "status": "FIT"
+        },
+        {
+          "cand": "c7",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "6",
+          "slot": "7",
+          "status": "FIT"
+        },
+        {
+          "cand": "c8",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "7",
+          "slot": "8",
+          "status": "FIT"
+        },
+        {
+          "cand": "c9",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "8",
+          "slot": "9",
+          "status": "FIT"
+        }
+      ],
+      "fit_complete": true,
+      "id": {
+        "x": "-1",
+        "y": "0",
+        "z": "0"
+      },
+      "label": "U",
+      "qualified": true,
+      "roll": "WIN"
+    },
+    {
+      "candidates": [
+        {
+          "cand": "c0",
+          "components": [
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "0",
+          "slot": "1",
+          "status": "FIT"
+        }
+      ],
+      "fit_complete": true,
+      "id": {
+        "x": "0",
+        "y": "0",
+        "z": "0"
+      },
+      "label": "V",
+      "qualified": true,
+      "roll": "WIN"
+    }
+  ]
+}

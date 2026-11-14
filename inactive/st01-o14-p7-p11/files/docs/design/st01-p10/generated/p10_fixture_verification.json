@@ -1,0 +1,104 @@
+{
+ "checks": [
+  {
+   "id": "V1.E",
+   "title": "CLOSED/OPEN world digests equal the approved P6 model digests",
+   "verdict": "PASS",
+   "evidence": "closed ad3fdcbff639b65e (P6 ad3fdcbff639b65e), open 68751fe73cb9539d (P6 68751fe73cb9539d)"
+  },
+  {
+   "id": "V2.E",
+   "title": "Decoded fixture region equals a fresh engine world cell for cell",
+   "verdict": "PASS",
+   "evidence": "region [-41, 31, -31, -4, -10, 41] cells 106288 solid 84777"
+  },
+  {
+   "id": "V2b.E",
+   "title": "Region covers every P1/P2/P4 cavity cell and the whole hall reservation",
+   "verdict": "PASS",
+   "evidence": "7247 cavity cells checked; solid cells outside region (natural rock, not exported) 1548319"
+  },
+  {
+   "id": "V1.W",
+   "title": "CLOSED/OPEN world digests equal the approved P6 model digests",
+   "verdict": "PASS",
+   "evidence": "closed 847f340c8da83c40 (P6 847f340c8da83c40), open bfe7c106e96413c3 (P6 bfe7c106e96413c3)"
+  },
+  {
+   "id": "V2.W",
+   "title": "Decoded fixture region equals a fresh engine world cell for cell",
+   "verdict": "PASS",
+   "evidence": "region [-31, 41, -31, -4, -10, 41] cells 106288 solid 84777"
+  },
+  {
+   "id": "V2b.W",
+   "title": "Region covers every P1/P2/P4 cavity cell and the whole hall reservation",
+   "verdict": "PASS",
+   "evidence": "7247 cavity cells checked; solid cells outside region (natural rock, not exported) 1548319"
+  },
+  {
+   "id": "V3",
+   "title": "WEST fixture is the exact X mirror of EAST (solid mask, element-kind layer, region)",
+   "verdict": "PASS",
+   "evidence": "solid cells 84777/84777, kinds equal after mirror True"
+  },
+  {
+   "id": "V4a.E",
+   "title": "All P3 element boxes (10 pillars with base/shaft/capital, lintels, obelisk, dais, sarcophagus, chest, statues, braziers) are solid with the right element kind",
+   "verdict": "PASS",
+   "evidence": "pillars 10; element kinds {'pillar_base': 10, 'pillar_shaft': 10, 'pillar_cap': 10, 'lintel': 6, 'obelisk': 3, 'dais': 2, 'sarcophagus': 1, 'chest_primary': 1, 'alcove_col': 8, 'chest_secondary': 1, 'statue': 3, 'brazier': 4}; problems []"
+  },
+  {
+   "id": "V4b.E",
+   "title": "Hall interior is the 33x33 footprint, 8 high with only the listed elements solid inside",
+   "verdict": "PASS",
+   "evidence": "33x33 half=16; wall_h=8; solid non-element cells inside footprint x height: 0"
+  },
+  {
+   "id": "V4c.E",
+   "title": "Corbel ceiling: each of the 8 step rings (1 rise per 2 run) is open air up to its half-width (minus listed elements) with a solid shoulder",
+   "verdict": "PASS",
+   "evidence": "(step, half, air, footprint, element cells, shoulder solid): [(1, 14, 832, 841, 9, True), (2, 12, 616, 625, 9, True), (3, 10, 432, 441, 9, True), (4, 8, 288, 289, 1, True), (5, 6, 168, 169, 1, True), (6, 4, 81, 81, 0, True), (7, 2, 25, 25, 0, True), (8, 0, 1, 1, 0, True)]"
+  },
+  {
+   "id": "V4a.W",
+   "title": "All P3 element boxes (10 pillars with base/shaft/capital, lintels, obelisk, dais, sarcophagus, chest, statues, braziers) are solid with the right element kind",
+   "verdict": "PASS",
+   "evidence": "pillars 10; element kinds {'pillar_base': 10, 'pillar_shaft': 10, 'pillar_cap': 10, 'lintel': 6, 'obelisk': 3, 'dais': 2, 'sarcophagus': 1, 'chest_primary': 1, 'alcove_col': 8, 'chest_secondary': 1, 'statue': 3, 'brazier': 4}; problems []"
+  },
+  {
+   "id": "V4b.W",
+   "title": "Hall interior is the 33x33 footprint, 8 high with only the listed elements solid inside",
+   "verdict": "PASS",
+   "evidence": "33x33 half=16; wall_h=8; solid non-element cells inside footprint x height: 0"
+  },
+  {
+   "id": "V4c.W",
+   "title": "Corbel ceiling: each of the 8 step rings (1 rise per 2 run) is open air up to its half-width (minus listed elements) with a solid shoulder",
+   "verdict": "PASS",
+   "evidence": "(step, half, air, footprint, element cells, shoulder solid): [(1, 14, 832, 841, 9, True), (2, 12, 616, 625, 9, True), (3, 10, 432, 441, 9, True), (4, 8, 288, 289, 1, True), (5, 6, 168, 169, 1, True), (6, 4, 81, 81, 0, True), (7, 2, 25, 25, 0, True), (8, 0, 1, 1, 0, True)]"
+  },
+  {
+   "id": "V5.E",
+   "title": "Cover = 12 cells at anchor-relative dx 12..15 (mirrored for WEST), dy -3, dz 0..2; solid when CLOSED, air when OPEN; CLOSED vs OPEN differ in exactly those 12 cells",
+   "verdict": "PASS",
+   "evidence": "cells 12, equal to anchor-relative formula True, closed solid True, open air True, closed/open diff 12"
+  },
+  {
+   "id": "V5.W",
+   "title": "Cover = 12 cells at anchor-relative dx 12..15 (mirrored for WEST), dy -3, dz 0..2; solid when CLOSED, air when OPEN; CLOSED vs OPEN differ in exactly those 12 cells",
+   "verdict": "PASS",
+   "evidence": "cells 12, equal to anchor-relative formula True, closed solid True, open air True, closed/open diff 12"
+  },
+  {
+   "id": "V6",
+   "title": "Mutation controls: each injected defect is detected",
+   "verdict": "PASS",
+   "evidence": "flip one solid voxel to air: detected; flip one air voxel to solid: detected; shift the whole world by one block in X: detected; import WEST data as EAST: detected; break the mirror by one voxel: detected"
+  }
+ ],
+ "summary": {
+  "pass_": 16,
+  "fail": 0
+ }
+}

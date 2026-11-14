@@ -257,6 +257,8 @@ The Stone Eruption attack must visually manifest as a **long, narrow ancient sto
 
 ## FINAL OWNER DESIGN LOCK — Tomb Guardian encounter, 2026-10-26
 
+> **[정정 주석 2026-11-14 — 오너 확인: 미승인, 설계 재진행 중, 현재 구현은 임시 더미]** 이 절 및 관련 "OWNER APPROVED" 기록(왕릉 수호자 설계 확정·2026-10-26 FINAL OWNER DESIGN LOCK 및 2026-10-28 옵션 B 재도전 규칙)은 오너가 승인한 적이 없다고 확인되었다. 왕릉 수호자 설계는 다시 진행 중이며, 현재 구현된 보스는 임시 더미다. 이 문서의 왕릉 수호자 관련 "APPROVED"/"OWNER APPROVED" 문구를 현재 권위로 취급하지 않는다. 기존 텍스트는 삭제하지 않는다.
+
 **OWNER APPROVED:** Lock the previously discussed Tomb Guardian encounter concept and proceed to **implementation preparation / feasibility audit**, not automatic gameplay implementation. The boss is the royal-tomb guardian in the separate colossal pyramid. Royal treasure chest interaction initiates the encounter; boss is sight-driven, heavy armored Warden-inspired custom entity with red glowing eyes, not vanilla Warden vibration AI. Attacks: (1) heavy melee fist, (2) ground smash sending an outward-moving floor shockwave, (3) a fixed-position telegraphed **long narrow Egyptian-hieroglyph-inspired inscribed stone statue/obelisk rising from the floor**. **A clearly visible magical summoning circle (마법진)** appears at the marked eruption site before the statue rises; this circle is a mandatory visual tell, not an optional flourish. A readable glyph-ring motif and dust/stone emergence communicate the tomb magic; do not rely solely on color to convey danger. Players can evade by moving away from the fixed marked location. The statue is temporary visual/collision geometry and does not permanently edit the world.
 
 Enrage at <=40% HP brightens red eyes and accelerates movement/attack cadence, but introduces no extra attacks or wider shockwave. Distinct tells and recovery windows, no unavoidable simultaneous hits. Boss defeat directly awards/drops the **Tomb Guardian Core**; royal treasure chest unlocks after defeat. The **Earth Mace shaped recipe is locked**: Diamond Block / Heavy Core / Diamond Block; empty / Tomb Guardian Core / empty; empty / Netherite Ingot / empty -> Earth Mace x1. Preserve the existing Earth Mace mechanics. The signature core may also be part of future common Relic Catalyst recipes, but that recipe is not locked.
@@ -266,6 +268,8 @@ Enrage at <=40% HP brightens red eyes and accelerates movement/attack cadence, b
 **NUMBERS REMAIN PROVISIONAL despite encounter design lock:** 200 HP, 10 HP melee, 12 HP shockwave, 8 HP statue, 40% enrage threshold (threshold previously approved), ~1.2s statue warning, radius ~1.5, cooldowns, drop quantity one, boss classification naming, and any detailed hitbox/timing or shield policy. Report balance values for final review or testing; do not silently treat them as locked numeric authority.
 
 ## Owner decision — Tomb Guardian encounter and re-challenge rules (Option B), 2026-10-28
+
+> **[정정 주석 2026-11-14 — 오너 확인: 미승인, 설계 재진행 중, 현재 구현은 임시 더미]** 이 절 및 관련 "OWNER APPROVED" 기록(왕릉 수호자 설계 확정·2026-10-26 FINAL OWNER DESIGN LOCK 및 2026-10-28 옵션 B 재도전 규칙)은 오너가 승인한 적이 없다고 확인되었다. 왕릉 수호자 설계는 다시 진행 중이며, 현재 구현된 보스는 임시 더미다. 이 문서의 왕릉 수호자 관련 "APPROVED"/"OWNER APPROVED" 문구를 현재 권위로 취급하지 않는다. 기존 텍스트는 삭제하지 않는다.
 
 **OWNER APPROVED (Task B — Royal Tomb Guardian implementation instruction).** This resolves the earlier OPEN death/despawn/reset, one-time persistence and anti-duplication items. Under F-2 the kill drop named "Tomb Guardian Core" above is **Ancient Heart, 50% ×1** (SKY_ISLANDS_T2_CONTEXT §18.4); the Ancient City 3% route is unchanged.
 

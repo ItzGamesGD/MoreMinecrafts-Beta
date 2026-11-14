@@ -1,12 +1,10 @@
 # Wither-skull provenance (F-1) — failure reproduction and protocol evaluation
 
-> **Open decisions (2026-10-28):** D-F1-1 and O-2 are **not approved**. This document is analysis only; the owner's F-3 amendment of 2026-10-28 does not cover F-1 or protocol P4.
+> **Owner Approval (Task 4):** D-F1-1 approved crash-safe counting (single credit invariant under vanilla storage semantics). Protocol P3 (PENDING ledger flush -> player atomic inventory/counter/receipt -> player commit save -> COMMITTED ledger flush) implemented and registered.
 
+Date: 2026-10-27 (Updated 2026-11-12). Status: **D-F1-1 APPROVED / P3 IMPLEMENTED.**
+`xpq.cmb.wither_skulls_3` is **registered** (target 3, 1,100 raw XP) with P3 crash transaction and 2-JVM crash matrix test harness.
 
-Date: 2026-10-27. Status: **analysis only.** Nothing here registers the quest, changes the catalog, or implements a protocol.
-`xpq.cmb.wither_skulls_3` stays **unregistered** (target 3, 1,100 raw XP), as F-1 and the authority index require. The Wave 12
-checkpoint contains no skull code, and `XpQuestCatalogDataTest` already asserts the quest is unregistered
-(`witherSkulls.registered()` is false).
 
 Authority: F-1 in [PHASE2_OWNER_DECISIONS_2026-10-26.md](../../preservation/PHASE2_OWNER_DECISIONS_2026-10-26.md). Only the **first pickup** of a skull
 **genuinely dropped by a Wither Skeleton** counts; repeated pickup of the same skull does not count again. "PRs #128/#130 are not

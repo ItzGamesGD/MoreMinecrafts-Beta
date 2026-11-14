@@ -313,7 +313,13 @@
   "entity.moreminecrafts.giant_bee": "Giant Bee",
   "entity.moreminecrafts.lesser_phantom": "Lesser Phantom",
   "entity.moreminecrafts.cave_creeper": "Cave Creeper",
+  "entity.moreminecrafts.cloud_wraith": "Cloud Wraith",
+  "entity.moreminecrafts.skyguard_archer": "Skyguard Archer",
+  "entity.moreminecrafts.crystal_bug": "Crystal Bug",
+  "entity.moreminecrafts.cloud_slime": "Cloud Slime",
+  "entity.moreminecrafts.fallen_sentinel": "Fallen Sentinel",
   "entity.moreminecrafts.tomb_guardian": "Tomb Guardian",
+  "entity.moreminecrafts.gold_guide_golem": "Gold Guide Golem",
   "entity.moreminecrafts.tomb_vfx": "Tomb Guardian Stone Eruption",
   "item.moreminecrafts.eye_of_typhoon": "Eye of the Typhoon",
   "item.moreminecrafts.heart_of_thunder": "Heart of Thunder",
@@ -1166,5 +1172,7 @@
   "item.moreminecrafts.t1_sprint_acceleration": "Sprint Acceleration (T1, provisional)",
   "item.moreminecrafts.t1_double_jump": "Double Jump (T1, provisional)",
   "container.moreminecrafts.royal_chest.primary": "Royal Chest (Primary)",
-  "container.moreminecrafts.royal_chest.secondary": "Royal Chest (Secondary)"
+  "container.moreminecrafts.royal_chest.secondary": "Royal Chest (Secondary)",
+  "item.moreminecrafts.st01_pyramid_map": "Colossal Pyramid Map",
+  "item.moreminecrafts.st01_pyramid_map.charting": "Charting a Colossal Pyramid Map..."
 }

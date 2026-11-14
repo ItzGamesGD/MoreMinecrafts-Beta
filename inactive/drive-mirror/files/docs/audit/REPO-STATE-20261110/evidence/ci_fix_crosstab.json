@@ -1,0 +1,758 @@
+{
+ "as_of": "2026-11-10T20:24:58Z",
+ "fix_heads": {
+  "#240": "f6c45ee3e6721f2bda076e7038e6af580e14d3c5",
+  "#242": "1ec7610ff2cafd8a7321988dc96bdb80d4feeed6"
+ },
+ "wave16": "65072bcaa5f645feb6e524557f5e77b7e40990ff",
+ "crosstab": [
+  {
+   "descends_from_wave16": "descends_from_wave16",
+   "has_fix": "has_240_or_242",
+   "fabric_ci": "success",
+   "grace": "-",
+   "count": 11
+  },
+  {
+   "descends_from_wave16": "descends_from_wave16",
+   "has_fix": "no_fix",
+   "fabric_ci": "failure",
+   "grace": "grace_test_failed",
+   "count": 15
+  },
+  {
+   "descends_from_wave16": "descends_from_wave16",
+   "has_fix": "no_fix",
+   "fabric_ci": "success",
+   "grace": "-",
+   "count": 7
+  },
+  {
+   "descends_from_wave16": "not_descendant",
+   "has_fix": "no_fix",
+   "fabric_ci": "cancelled",
+   "grace": "-",
+   "count": 1
+  },
+  {
+   "descends_from_wave16": "not_descendant",
+   "has_fix": "no_fix",
+   "fabric_ci": "failure",
+   "grace": "-",
+   "count": 2
+  },
+  {
+   "descends_from_wave16": "not_descendant",
+   "has_fix": "no_fix",
+   "fabric_ci": "success",
+   "grace": "-",
+   "count": 52
+  }
+ ],
+ "rows": [
+  {
+   "branch": "audit/prc-p7-security-hold-reaudit-20261027",
+   "sha": "04c09ea121891834b9166c1804de2d5a16464fd7",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "audit/prc-p7b-targeted-closure-20261027",
+   "sha": "66d2b52995bd6da909cb1ce9539db5cb175f6d15",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "cancelled",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "audit/prc-p7c-closure-security-execution-20261027",
+   "sha": "84c3eadcdde4aac6ef981870788b66ddf16d3e8e",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "audit/prc-p7d-security-verification-20261027",
+   "sha": "20eb1d8ef705d15ede39997f5735c01b06297d45",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "audit/stage23-pr92-pr93-reconciliation-20261019",
+   "sha": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "checkpoint/wave10-unified-20261026",
+   "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "checkpoint/wave11-unified-20261027",
+   "sha": "c47c69f3e3553819432905197599443288669bb5",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "checkpoint/wave12-unified-20261027",
+   "sha": "6ead3fcda562ea728325e37e7e2829de1895807d",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "checkpoint/wave13-unified-20261028",
+   "sha": "34d56b1c0b0d2b078dbb7026c40c895352cdc86b",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "checkpoint/wave14-unified-20261028",
+   "sha": "063d5e08d491aa25b6767b7b07c5e7679ad50f45",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "checkpoint/wave16-unified-20261104",
+   "sha": "65072bcaa5f645feb6e524557f5e77b7e40990ff",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "claude/colosseum-deterministic-clock-20261107",
+   "sha": "f6c45ee3e6721f2bda076e7038e6af580e14d3c5",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "claude/q1c-skull-provenance-20261019",
+   "sha": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "claude/sky-mob-p2b-p2c-vwuur8",
+   "sha": "55884b22c5d66e19974851ddb37372d5b398022e",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "claude/sky-mob-p2d-crystal-bug",
+   "sha": "1683772e3aadcd5b765e4682bdb3f9d7686b9d81",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "claude/sky-mob-p2e1-r2-cloud-creature",
+   "sha": "49d59ee690e8e31864d0c524602836c099a3c754",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "claude/st01-p8a-d1-floor-stairs-wweuti",
+   "sha": "e229d001be06076b9d199c4e3fd8fd2be790e6b5",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "claude/st01-pyramid-phase4-worldgen-roke2l",
+   "sha": "ada10ba343f7d7eeb9b944baa69750c3c25a949e",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "codex/q1c-pr128-p1-p2-repair-20261019",
+   "sha": "9c9f22577370cd0160dd2b43b0e92caa7832f420",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "codex/q1c-recovery-20261019-079d36a",
+   "sha": "334997d2f81d6b324b0cccd3f40b538c921edadc",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "codex/stage23-livefix-b-20261016",
+   "sha": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "codex/stage23b-cloud-live-client-qa",
+   "sha": "dad054c7cb5e5d672a0ef96bfdeffc482e1c48f6",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "design/st01-build-q01-q08-20261105",
+   "sha": "2bd691f96eab063d76f5fa7ee93f8d11d626ad08",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "design/st05-colosseum-owner-decisions-20261028",
+   "sha": "dd193d7880b87a40a3f6eaa9bff359792e2cea08",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "docs/content-design-roadmap-wave15-20261030",
+   "sha": "fdaeac6c0c9032691d77813274627601b3f53e0a",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "docs/d13-03-authority-q01-q47-20261106",
+   "sha": "3ad9f2831d8cd9456ff3501277a726e09de7e973",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "docs/d13-03-i06-royal-chest-authority",
+   "sha": "1bfd5faad0c01e83606198c2711118096fce165c",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "docs/sky-mob-p0-authority-20261106",
+   "sha": "18dc6a4c824824db42b1a9bc1e69d1a35648d33a",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "docs/sky-tower-design-q01-q41-20261105",
+   "sha": "1449bf1034be625cdaf7898c267897e7d52975e8",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "docs/st03-owner-decisions-q01-q42-20261104",
+   "sha": "7f4e66adacb80183b480cc306f6388c4f6e056d0",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "docs/st05-wave15-authority-q110-20261029",
+   "sha": "423144ce99a9c53065a713afdcf1071d13080a3e",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "experiment/cloud-free-model-delegation-phase0",
+   "sha": "aa376713aedcd7fecd769af39e18f8532b9e147d",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "experiment/underground-kingdom-worldgen-probe",
+   "sha": "991b20c8a052ecf5d73c5130d2d9e0eb4338c041",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "feat/st05-c-controller-foundation-20261030",
+   "sha": "172613621438ad5f2c2252134e0aaccf1a757380",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "feat/st05-c4-structure-mask-20261030",
+   "sha": "1ee08d440032095f9f247f2cb98c87fd15478656",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "feature/sky-mob-p2b-cloud-wraith",
+   "sha": "58efa1ff35c0f5d9f65040e4a16bb8c1349c25b3",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "fix/ci-tomb-guardian-colosseum-20261107",
+   "sha": "1ec7610ff2cafd8a7321988dc96bdb80d4feeed6",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "implement/d13-01-relic-catalyst-20261104",
+   "sha": "23e9be7eada6f551d2fd7443737b94262781b5e0",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "implement/d13-02-relic-catalyst-sources-20261104",
+   "sha": "8aba6f37c101ef7715c3dfc7e2c90cd7a9d59d16",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "implement/d13-03-i01-t2-accessory-chest-pools-20261105",
+   "sha": "13612855094cc955c3ce08df7731c878490ae1b6",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "implement/d13-03-i02-deep-sea-pearl-20261105",
+   "sha": "a2584ba410455f69a11eaaabaa8551856dce20a1",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "implement/d13-03-i03-heart-of-gravity-20261105",
+   "sha": "7a1e441c9d5d0170e1a32599d29ab59a513c8339",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "implement/d13-03-i04a-star-covenant-vault-logic-20261106",
+   "sha": "df673dfe7ab8bbc43b0087b17a4476f4a5211ef6",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "implement/d13-03-i05-pyramid-royal-chest-rewards-20261106",
+   "sha": "48038bc9018fc9001635bf9a2f242cd2da62b57c",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "implement/d13-03-i06-p3-royal-chest-rewards-20261107",
+   "sha": "bcb58ff6bbbc0ee1b79f0d56502c6756c636bb8e",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "implement/d13-03-i06-p4-st01-integration-20261108",
+   "sha": "6c7923e0aa8d78307a4541afbaca29254a1f35be",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "implement/sky-mob-p1-entities-20261106",
+   "sha": "ccc575478413fe133466a819c28504771822ee32",
+   "descends_from_wave16": true,
+   "has_fix": true,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "integration/stage23-final-reconciliation-20261016",
+   "sha": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "integration/wave10-unified-20261025",
+   "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "integration/wave12-functional-preservation-20261027",
+   "sha": "3c8186b7af3e9fc771feaf427214ed448366dd81",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "main",
+   "sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "recovery/vanilla-model-custom-mob-roster-base",
+   "sha": "cf4360b228589e538f831aae34e378330fabf670",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "release/wave9-rc-20261025",
+   "sha": "268ec65bb8827c3f627d076188c7924225b8afa0",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-1/fabric-foundation",
+   "sha": "ab5e2a57905d994a6cd6a66e97e8327addf3a74e",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-10/draft-content",
+   "sha": "a2acc715ad2ee9e7af06d84dab7d25e7b84e31c8",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-11/checkpoint",
+   "sha": "3cb27187e3be0141bcd175e4e355f9fa9cdc6300",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-12/checkpoint",
+   "sha": "a8b6299f16a491aa3dc885360325427a29190763",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-13/checkpoint",
+   "sha": "94a264c2c6758aeed32be4af6c5ef18795bbca7d",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-14/checkpoint",
+   "sha": "94a264c2c6758aeed32be4af6c5ef18795bbca7d",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-15/checkpoint",
+   "sha": "c39313e7d19ef688ac4b528d18cd4cb458ef6e65",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-16/checkpoint",
+   "sha": "70e470deb272c944e65d47ba18802c89e26d761e",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-17/checkpoint",
+   "sha": "d8493c62bb71fd148845830d6d2259e0eac573fb",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-18/checkpoint",
+   "sha": "93d264a8f78d5f4aaa52ae5be80526cbb921f29f",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-18/integration",
+   "sha": "e4e99c36c138d2c83d3e4c9d450a61092c5be587",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-19/checkpoint",
+   "sha": "984418d302cf865b5654fac0a0dcb28449fb6118",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-2/enhancement-stone",
+   "sha": "6ae717c92d47ad036be0f9c6926254fbbd435cc7",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-20/checkpoint",
+   "sha": "20121ca7cceae03602038de31076bd9ace115208",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-21/knowledge-checkpoint",
+   "sha": "c0ce63cb73cea42446bedbaece3bb49a9ce71bf8",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-22/research-restructure",
+   "sha": "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-3/enhancement-vertical-slice",
+   "sha": "1f05e53fbadea0d1ca8c49c00a64b62edd622174",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-4/equipment-foundation",
+   "sha": "8a3159c5a33c18f89baa654ae7c3d550fae6a628",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-5/special-equipment",
+   "sha": "e66bf7ecb39a14be5313818e917596b7abfa1ac4",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-6/materials-crafting-progression",
+   "sha": "c8705f4c3969920967f027bbfcddd72fda1338cb",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-7/life-content",
+   "sha": "a62a65e10c569ac655fe43545058a40eea2ed8a6",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-8/entity-mob",
+   "sha": "5541ad505aeb5e4839d0027ed944e3f7c60810c4",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-9/skeleton-king",
+   "sha": "ec1b6ce9182795bdd26123a184d58ae5b8c21dd5",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-audit/wave15-candidate-20261028",
+   "sha": "68de9706f17fd6b68e7b74277ecb95f53c7368fd",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "stage-ci/accessory-bounty-20261023",
+   "sha": "63efc3ca0a71d369d9e7aa25b9e5231e6a7b29ac",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "validation/st05-stage0-a02-a03-20261030",
+   "sha": "838e1366d44a7a09c43bb1453d92511eea46327e",
+   "descends_from_wave16": false,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "work/st01-g0-geometry-finalization-20261110",
+   "sha": "6b64106f72a99a91305057b1786ea52dd2875092",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "work/st01-g0-r1-blueprint-finalization-20261110",
+   "sha": "c26ea0f871e788d1d331b40151779d86590469f2",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "work/st01-o14-phase1-phase2-20261109",
+   "sha": "d432a9c585d0d66484674d520b654b26460d2fd3",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "work/st01-o14-phase3-1-validation-20261109",
+   "sha": "7e37b786de8fcf36980ec732cc8079bb24e6a7fd",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "work/st01-o14-phase3-calibration-20261109",
+   "sha": "d67533399c3fa87a0e5fa0f14fd3e39897aad99c",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "work/st01-p7-east-primary-guardian-20261108",
+   "sha": "93ff73f155c4e0660b2c33b695876666170f4836",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "work/st01-p8a-nbt-spatial-layout-20261109",
+   "sha": "20a3578c1c09ef2af42851ca8d5301adb1a2b27b",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "success",
+   "grace_test_failed": false
+  },
+  {
+   "branch": "work/st01-p8b2-royal-chest-runtime-20261110",
+   "sha": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  },
+  {
+   "branch": "work/st01-p8c2a-complete-assembly-20261110-r1",
+   "sha": "c25f9d447e54b882c0280144aab4afd16205e1bb",
+   "descends_from_wave16": true,
+   "has_fix": false,
+   "fabric_ci": "failure",
+   "grace_test_failed": true
+  }
+ ]
+}

@@ -1,0 +1,113 @@
+{
+  "_comment": "Curated inputs to docs/CURRENT_STATE.json. Structural data (branches, stacks, PR relations, CI) is computed by `python3 -m drive_mirror current-state`; only judgement-dependent statements live here, each with evidence. Not design authority.",
+  "conflicts": [
+    {
+      "id": "C-1",
+      "title": "Royal chest implemented twice (D13-03 stack vs ST-01 stack)",
+      "status": "OWNER DECISION REQUIRED (D-2)",
+      "side_a": {"pr": 245, "branch": "implement/d13-03-i06-p4-st01-integration-20261108", "head": "6c7923e0aa8d78307a4541afbaca29254a1f35be",
+                 "authority_docs_on_this_side": ["docs/planning/D13_03_I06_ROYAL_CHEST_REWARDS_AUTHORITY_2026-11-07.md"]},
+      "side_b": {"pr": 254, "branch": "work/st01-p8b2-royal-chest-runtime-20261110", "head": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+                 "authority_docs_on_this_side": ["docs/INDEPENDENT_ROYAL_TOMB_OWNER_REQUIREMENTS_2026-11-06.md", "docs/ST01_BUILD_DECISIONS_Q01_Q08_2026-11-05.md"]},
+      "merge_base": "65072bcaa5f645feb6e524557f5e77b7e40990ff (checkpoint/wave16-unified-20261104)",
+      "conflicting_files": [
+        "src/gametest/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestGameTests.java",
+        "src/gametest/resources/fabric.mod.json",
+        "src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java",
+        "src/main/java/dev/itzgamesgd/moreminecrafts/accessory/PyramidRoyalChestRewards.java",
+        "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestContainer.java",
+        "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestData.java",
+        "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestRuntime.java",
+        "src/test/java/dev/itzgamesgd/moreminecrafts/accessory/PyramidRoyalChestRewardsTest.java"
+      ],
+      "conflict_kinds": {"add/add": 6, "content": 2},
+      "divergence": "Both sides define the same classes (RoyalChestContainer/Data/Menu/RewardModel/Role/Runtime). Side B is a superset in the persistence layer (extra members index, positions, canonicalId, validPrimary; RoyalChestData 221 vs 197 lines, RoyalChestRuntime 166 vs 143). RoyalChestMenu, RoyalChestRewardModel and RoyalChestRole are the same size on both sides. Each side carries authority documents the other lacks.",
+      "shared_dependencies": ["PyramidRoyalChestRewards (accessory reward constants and pure draw, from I05 18362bb9)", "Heart of Gravity / Ancient Heart Tomb Guardian drops (I03, #235)", "MoreMinecrafts.java registrations", "moreminecrafts.mixins.json (RoyalChest mixins)", "en_us.json / ko_kr.json strings"],
+      "possible_strategies": [
+        "A. Keep the D13-03 I05/I06 implementation as the base and port the dual-half persistence from #254 on top.",
+        "B. Keep #254 as the base and port the I06 reward engine (#243) on top.",
+        "C. First extract the identical pure model (RoyalChestRewardModel, RoyalChestRole) into a small shared change, then reconcile the persistence layer.",
+        "D. Merge sequentially: integrate one stack, then rebase the other onto it and resolve once."
+      ],
+      "verification_required_after_reconciliation": [
+        "git merge-tree of the two tips reports no conflicts",
+        "JUnit: RoyalChestRewardModelTest, PyramidRoyalChestRewardsTest",
+        "GameTests: RoyalChestGameTests, St01RoyalChestGameTests, Tomb Guardian loot test, full runGameTest",
+        "ST-01 Royal Chest Runtime restart-persistence workflow",
+        "Owner confirms which reward authority governs chest semantics (D13-03 I06 Q01-Q45 vs ST-01 independent royal tomb requirements)"
+      ],
+      "evidence": ["git merge-tree --write-tree 6c7923e0 03685656 (8 conflicted paths, re-run 2026-11-10)", "docs/audit/REPO-STATE-20261110/REMEDIATION_REGISTER.json F-08"]
+    },
+    {
+      "id": "C-2",
+      "title": "Structure index says ST-01 implementation is not authorized, while ST-01 branches contain approval records and runtime code",
+      "status": "OWNER DECISION REQUIRED (D-3)",
+      "evidence": ["docs/STRUCTURE_AUTHORITY_INDEX.md blob 2ab2dbe0 on work/st01-p8c2a-complete-assembly-20261110-r1, claude/st01-pyramid-phase4-worldgen-roke2l and work/st01-g0-r1-blueprint-finalization-20261110: ST-01 design row still reads 'Implementation is not authorized'",
+                   "docs/design/st01-p1/ and docs/design/st01-p2/ conditional-approval records on the ST-01 stack"]
+    }
+  ],
+  "known_failures": [
+    {
+      "id": "KF-1",
+      "title": "colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise fails on branch heads that lack the per-controller clock seam",
+      "evidence": ["Fabric CI :runGameTest on 15 current branch heads fails with exactly this test (see docs/audit/REPO-STATE-20261110/ci_failures.json)",
+                   "All 11 wave16 descendants whose history contains #240 head f6c45ee3 or #242 head 1ec7610f pass Fabric CI; 15 without either fail; 7 without either pass (wave16 itself among them): association, not proof of causation",
+                   "#242 contains the same two Colosseum commits as #240 (cherry-picked) plus a Tomb Guardian test alignment"],
+      "fix_available": "docs/audit/REPO-STATE-20261110/patches/ci/ (the two #240 commits, cherry-picked onto work/st01-p8c2a-complete-assembly-20261110-r1)",
+      "local_verification": "see REMEDIATION_REGISTER.json F-09",
+      "not_applied_to": "any existing branch (owner decision D-8)"
+    },
+    {
+      "id": "KF-2",
+      "title": "tomb_guardian_game_tests_kill_loot_is_ancient_heart_fifty_percent_times_one_and_nothing_else fails after the Heart of Gravity drop (#235)",
+      "affected_heads": ["implement/d13-03-i03-heart-of-gravity-20261105", "implement/d13-03-i04a-star-covenant-vault-logic-20261106", "docs/d13-03-i06-royal-chest-authority"],
+      "evidence": ["Fabric CI logs of the three heads", "fixed for later D13 branches by test alignment commit 1ec7610f in #242 (encodes D13-03 Q21-Q24: design-linked, not applied elsewhere)"],
+      "status": "OWNER DECISION REQUIRED (D-8)"
+    },
+    {
+      "id": "KF-3",
+      "title": "royal_tomb_flow_game_tests_flow_sampled_follower_west fails on the ST-01 O14 calibration heads (#251, #252)",
+      "evidence": ["Fabric CI runs 42615115153 and 42721090007"],
+      "status": "UNVERIFIED: cause not investigated; independent of the Colosseum failure (both fail on those heads)"
+    },
+    {
+      "id": "KF-4",
+      "title": "Pre-public secret scan reports 1 residual finding on every PR into main",
+      "evidence": ["gitleaks 8.30.1 reproduces it: commit cec8bff8, tools/st05-p0-probe-01/freeze_integrity.py line 23, rule generic-api-key"],
+      "classification": "scanner false positive (audit analysis); awaiting owner approval (D-6)"
+    }
+  ],
+  "owner_decisions_required": [
+    {"id": "D-1", "question": "Which branch is the integration baseline going forward? main has had no merge since 2026-10-22; checkpoint/wave16-unified-20261104 is the newest unified checkpoint by convention only."},
+    {"id": "D-2", "question": "Which royal-chest implementation (or what combination) is current? (C-1)"},
+    {"id": "D-3", "question": "Do the ST-01 conditional-approval records authorize implementation, and should the structure index row be amended? (C-2)"},
+    {"id": "D-4", "question": "Should #249/#251/#252 keep main as their base? They carry 365-371 commits over main (the whole wave16 line plus the ST-01 stack)."},
+    {"id": "D-5", "question": "Disposition of stale stacks (Stage 23 era, PRC-P7, pre-wave16 ST-05) and of the 50 PR heads that no branch contains (the mirror now preserves them under pulls/ once live sync runs)."},
+    {"id": "D-6", "question": "Approve (or reject) the proposed classification of secret-scan fingerprint cec8bff8:...:generic-api-key:23 as a false positive, and decide where its allowlist entry lives. main's .gitleaksignore has 2 entries; wave16's has 11; a push to main would currently report 10 findings."},
+    {"id": "D-7", "question": "Apply the prepared documentation corrections (patches/docs) to the protected checkpoint/stack branches?"},
+    {"id": "D-8", "question": "Apply the Colosseum clock-seam patch (and, for D13 I01-I04a, the design-linked Tomb Guardian test alignment) to the affected stacks?"},
+    {"id": "D-9", "question": "Approve the separately-scoped full Git history archive extension (git bundle and/or commit-graph metadata)? Not implemented."},
+    {"id": "D-10", "question": "Choose the Drive destination (Workspace shared drive vs personal account), approve merging tools/drive_mirror and the workflow into main, and approve enabling DRIVE_MIRROR_ENABLED after the controlled live test."}
+  ],
+  "security": {
+    "verdict": "NOT READY for live Drive sync until D-6 is decided; no confirmed exposed credential",
+    "summary": "Full-history scan (gitleaks 8.30.1, 2005 commits, 133 branches + PR heads): 12 findings, 0 confirmed credentials. 10 are already reviewed/allowlisted by the owner (1 synthetic test fixture, 9 byte-identical copies of one reviewed prose false positive plus the original). 1 (cec8bff8) is a document-name manifest flagged by the generic-api-key rule; analysis says false positive, but it is only 'proposed' until the owner approves it. The mirror's security gate quarantines exactly the refs whose tip tree contains it.",
+    "evidence": ["docs/audit/REPO-STATE-20261110/SECRET_SCAN_INVESTIGATION.md", "tools/drive_mirror/security/approved_findings.json"]
+  },
+  "documentation_state": {
+    "summary": "main's authority indexes date from 2026-10-22; checkpoint/wave16's from 2026-11-04; later stacks add authority records that no checkpoint contains. Historical records were preserved; corrections for protected branches are prepared as patches, not applied.",
+    "stale_references_verified_2026_11_10": ["PR #219 closed (base and head branches deleted; head contained in wave16)", "PR #83 closed (head only at refs/pull/83/head)", "PR #181 closed (branch still exists; not in main or wave16)"],
+    "research_node_counts": {"current_at_wave16": {"DATA_ONLY": 43, "PARTIAL": 42, "BLOCKED": 2, "COMPLETE": 0, "MISSING": 0, "total": 87}, "historical_2026_10_17": {"DATA_ONLY": 45, "PARTIAL": 40, "BLOCKED": 2}, "unchanged_since_wave16": "no descendant of wave16 changes research source or docs"}
+  },
+  "mirror": {
+    "status": "implemented and emulator-verified; live Google Drive verification BLOCKED (no credentials or destination)",
+    "scope": "all refs/heads/*, refs/tags/*, and PR heads that no branch contains (pulls/), exact paths and bytes, manifests with source ref and commit",
+    "not_in_scope": "full Git history (separately approvable extension, D-9)"
+  },
+  "unresolved_uncertainties": [
+    {"id": "U-LIVE", "statement": "Behaviour of the real Google Drive API (quotas, rate limits, checksum availability, error codes) has not been observed; only an emulator was used."},
+    {"id": "U-RES", "statement": "For 11 of the 42 PARTIAL research rows the cited handler is a vanilla or mixin method rather than a class, so the code claim was not mechanically checked; behaviour-level claims remain unverified."},
+    {"id": "U-CAUSE", "statement": "That the Colosseum clock seam is the cause of the CI difference is supported by association and a local before/after run, not proven."},
+    {"id": "U-KF3", "statement": "The royal_tomb_flow follower-west GameTest failure on #251/#252 was not investigated."}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+ "a": "6c7923e0aa8d78307a4541afbaca29254a1f35be",
+ "b": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+ "merge_base": "65072bcaa5f645feb6e524557f5e77b7e40990ff",
+ "conflicted": [
+  "src/gametest/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestGameTests.java",
+  "src/gametest/resources/fabric.mod.json",
+  "src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java",
+  "src/main/java/dev/itzgamesgd/moreminecrafts/accessory/PyramidRoyalChestRewards.java",
+  "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestContainer.java",
+  "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestData.java",
+  "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestRuntime.java",
+  "src/test/java/dev/itzgamesgd/moreminecrafts/accessory/PyramidRoyalChestRewardsTest.java"
+ ],
+ "kinds": {
+  "add/add": 6,
+  "content": 2
+ }
+}

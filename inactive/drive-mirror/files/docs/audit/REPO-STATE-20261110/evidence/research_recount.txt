@@ -1,0 +1,4 @@
+wave16 node table: 87 rows, 87 unique ids {'BLOCKED': 2, 'DATA_ONLY': 43, 'PARTIAL': 42}
+PARTIAL rows citing an existing non-catalog Java class: 31 / 42
+  PARTIAL rows citing none (need manual check): ['v3.research.01', 'v3.research.02', 'v3.research.03', 'v3.research.08', 'v3.research.09', 'v3.research.10', 'v3.research.15', 'v3.research.18', 'v3.research.30', 'v3.research.31', 'wall_jump']
+DATA_ONLY rows citing an existing non-catalog handler class: []

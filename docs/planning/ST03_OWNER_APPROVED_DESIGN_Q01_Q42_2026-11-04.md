@@ -192,3 +192,11 @@ Design/process decisions only. They do not certify built geometry, worldgen, spa
 - Placement table: 25 modules / 34 placements exist in `tools/seam01/data/st03_placements.json` (read-only authority).
 - Built NBT: **House A (F11/F14) only**, experimental, owner visual review pending. All other facilities, the perimeter wall, towers and gatehouse have **no** built NBT: UNBUILT.
 - Roads, terrain adaptation, worldgen hookup, garrison spawning and loot generation: no ST-03 code in this repo: NOT IMPLEMENTED (loot/spawn: UNTESTED).
+
+## Owner decision — Q96–Q105 text absent; no recovery effort (2026-11-14, documentation sync)
+
+- The body text of **Q96–Q105** does not exist in this repository (see "Not recorded here" above) and was not recovered. Those entries stay unrecorded and are not reconstructed or paraphrased.
+- **Owner decision:** do not insist on recovering them; proceed by making only the design decisions that are actually needed, newly. This supersedes the "owner-supplied text must be added in a follow-up edit" note for Q96–Q105.
+- Additional mob generation and design suited to the pillager headquarters (beyond the Q106–Q108 garrison rules and the unchanged 1 commander / 2 ravagers / 35–45 pillagers) is **follow-up work**, not decided here. Q96 ("real spawn and gameplay integration phase" scope/order) therefore remains an open design question to be re-asked as needed.
+- Related status (2026-11-14, from the owner): ST-03 pillager headquarters has passed through structures to the walls, towers, main gate and ground road (Draft PR #55; see `docs/integration/FEATURE_STATUS_REGISTRY_20261112.md`). Design approval only; not certified here.
+

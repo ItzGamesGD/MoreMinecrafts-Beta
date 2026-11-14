@@ -5,7 +5,65 @@
   "max_distance_from_center": 80,
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
   "size": 4,
-  "spawn_overrides": {},
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "moreminecrafts:cloud_wraith",
+          "count": {
+            "type": "minecraft:uniform",
+            "min_inclusive": 1,
+            "max_inclusive": 2
+          },
+          "weight": 24
+        },
+        {
+          "type": "moreminecrafts:skyguard_archer",
+          "count": {
+            "type": "minecraft:uniform",
+            "min_inclusive": 1,
+            "max_inclusive": 2
+          },
+          "weight": 18
+        },
+        {
+          "type": "moreminecrafts:crystal_bug",
+          "count": 1,
+          "weight": 20
+        },
+        {
+          "type": "moreminecrafts:cloud_slime",
+          "count": {
+            "type": "minecraft:uniform",
+            "min_inclusive": 1,
+            "max_inclusive": 2
+          },
+          "weight": 24
+        },
+        {
+          "type": "moreminecrafts:fallen_sentinel",
+          "count": 1,
+          "weight": 14
+        },
+        {
+          "type": "minecraft:zombie",
+          "count": 4,
+          "weight": 10
+        },
+        {
+          "type": "minecraft:skeleton",
+          "count": 4,
+          "weight": 10
+        },
+        {
+          "type": "minecraft:spider",
+          "count": 4,
+          "weight": 10
+        }
+      ]
+    }
+  },
   "start_pool": "moreminecrafts:sky_islands/snowy/start",
   "step": "surface_structures",
   "terrain_adaptation": "none",

@@ -63,6 +63,9 @@ public final class ColosseumRuntime {
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> onDeath(entity));
         ServerEntityEvents.ENTITY_UNLOAD.register((entity, level) -> onUnload(entity, level));
         ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> onLoad(entity));
+        net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
+            if (level instanceof ServerLevel serverLevel) onPlayerBlockRemoved(serverLevel, pos);
+        });
         ColosseumCommand.initialize();
     }
 
@@ -74,6 +77,44 @@ public final class ColosseumRuntime {
         boolean added = d.register(id, cx, cz, floorY);
         if (added) d.controller(id).setTiming(timingFromProperties());
         return added;
+    }
+
+    /** Registers an arena with source structure template positions recorded into the structure mask. */
+    public static boolean registerArena(MinecraftServer server, String id, int cx, int cz, int floorY, java.util.Collection<BlockPos> templatePositions) {
+        boolean added = registerArena(server, id, cx, cz, floorY);
+        ColosseumData d = data(server);
+        ArenaController c = d.controller(id);
+        if (c != null && templatePositions != null) {
+            c.recordStructureMask(templatePositions);
+            d.setDirty();
+        }
+        return added;
+    }
+
+    /** Records a player block placement in arenas covering this position. */
+    public static void onPlayerPlaced(ServerLevel level, BlockPos pos) {
+        ColosseumData d = data(level.getServer());
+        for (ColosseumData.Site site : d.sites().values()) {
+            if (site.geometry().contains(pos.getX(), pos.getY(), pos.getZ())) {
+                ArenaController c = d.controller(site.id());
+                if (c != null && c.protectBlock(pos.immutable())) {
+                    ArenaRecovery.save(level.getServer(), c, false);
+                    d.setDirty();
+                }
+            }
+        }
+    }
+
+    /** Releases a player block placement protection when broken. */
+    public static void onPlayerBlockRemoved(ServerLevel level, BlockPos pos) {
+        ColosseumData d = data(level.getServer());
+        for (ColosseumData.Site site : d.sites().values()) {
+            ArenaController c = d.controller(site.id());
+            if (c != null && c.releaseBlock(pos)) {
+                ArenaRecovery.save(level.getServer(), c, false);
+                d.setDirty();
+            }
+        }
     }
 
     static RoundPlan.Timing timingFromProperties() {

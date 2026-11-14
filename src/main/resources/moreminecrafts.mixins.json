@@ -4,10 +4,14 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "SkyTowerTrialCompletionMixin",
+    "SkyTowerNaturalSpawnMixin",
+    "TrialSpawnerConfigAccessor",
+    "TrialSpawnerStateDataAccessor",
     "SkyTowerBlockChangeMixin",
     "SkyTowerVaultRewardMixin",
     "ColosseumMobPauseMixin",
     "ColosseumProjectilePauseMixin",
+    "ColosseumPlacementMixin",
     "AnvilMenuMixin",
     "AnvilCatalystQuickMoveMixin",
     "ContractTradeStockMixin",
@@ -22,6 +26,12 @@
     "K5LevelBlockMutationMixin",
     "K5WorldGenRegionBlockMutationMixin",
     "St01WorldGenRegionGuardMixin",
+    "NoiseBasedChunkGeneratorAccessor",
+    "St01VillagerTradeAccessor",
+    "St01MerchantOffersAccessor",
+    "St01VillagerPreparationMixin",
+    "St01VillagerMapTradeMixin",
+    "St01VillagerTradePlaceholderMixin",
     "MaceItemMixin",
     "ExplosiveMaceMixin",
     "LivingEntityMixin",
@@ -120,12 +130,17 @@
     "T1AccessoryAttackMixin",
     "T1AccessoryEffectMixin",
     "T1ArrowStateAccessor",
-    "T1DamageStateAccessor"
+    "T1DamageStateAccessor",
+    "QuestWitherSkullDeathLootMixin",
+    "QuestWitherSkullSpawnMixin",
+    "QuestWitherSkullMergeMixin",
+    "QuestWitherSkullPickupMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "WraithParticleAlphaInvoker",
     "AbstractContainerScreenAccessor",
     "AccessoryInventoryScreenMixin",
     "AbstractRecipeBookScreenMixin",

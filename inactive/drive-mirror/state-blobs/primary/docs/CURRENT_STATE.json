@@ -1,0 +1,5088 @@
+{
+ "schema": "moreminecrafts-current-state/1",
+ "generated_at": "2026-11-10T20:24:58Z",
+ "repository": "https://github.com/ItzGamesGD/MoreMinecrafts-Beta",
+ "purpose": "Orientation map for AI-assisted exploration of the branch/PR landscape. Not design authority.",
+ "how_to_use": [
+  "This file is a map, not design authority. Design authority is routed by docs/CONTENT_AUTHORITY_INDEX.md and docs/STRUCTURE_AUTHORITY_INDEX.md on the branch you are reading (see AGENTS.md).",
+  "Every SHA below is a point-in-time value from `source_refs.inventory_generated_at`. Branch heads move; re-run `python3 -m drive_mirror inventory|lineage|current-state` before relying on one.",
+  "A PR being merged, or a document existing, is not evidence that work reached main or the latest checkpoint; use `pull_requests.*.reached_*` fields, which are computed from commit ancestry.",
+  "Treat `facts` entries as curated statements: each lists its evidence. Treat `computed` sections as derived."
+ ],
+ "scope": {
+  "covers": [
+   "all refs/heads/* branches",
+   "all pull requests (state, base/head, ancestry-derived reachability)",
+   "GitHub Actions conclusions on each branch head",
+   "refs/pull/*/head commits contained in no branch"
+  ],
+  "does_not_cover": [
+   "gameplay/design correctness",
+   "live (in-game) validation",
+   "contents of authority documents",
+   "refs other than branches and PR heads (the repository has no tags)",
+   "full commit history (only head commits and ancestry relations)"
+  ]
+ },
+ "source_refs": {
+  "default_branch": {
+   "name": "main",
+   "sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3"
+  },
+  "latest_unified_checkpoint": {
+   "name": "checkpoint/wave16-unified-20261104",
+   "sha": "65072bcaa5f645feb6e524557f5e77b7e40990ff",
+   "committed_at": "2026-11-04T10:56:43+09:00",
+   "selection": "newest committer date among checkpoint/wave*-unified-*; a convention, NOT an owner declaration"
+  },
+  "inventory_generated_at": "2026-11-10T20:24:58Z",
+  "lineage_generated_at": "2026-11-10T20:24:58Z",
+  "branch_count": 136,
+  "pull_request_count": 259,
+  "pull_ref_count": 301
+ },
+ "computed": {
+  "integration": {
+   "main": {
+    "sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
+    "committed_at": "2026-10-23T08:57:11+09:00",
+    "commits_behind_latest_checkpoint": 335,
+    "latest_merge_into_main_via_pr": "2026-10-22T23:57:12Z"
+   },
+   "latest_unified_checkpoint": {
+    "name": "checkpoint/wave16-unified-20261104",
+    "sha": "65072bcaa5f645feb6e524557f5e77b7e40990ff",
+    "committed_at": "2026-11-04T10:56:43+09:00",
+    "selection": "newest committer date among checkpoint/wave*-unified-*; a convention, NOT an owner declaration",
+    "commits_ahead_of_main": 335,
+    "ci_on_head": {
+     "Accessory cooldown restart persistence": "success",
+     "Fabric CI": "success",
+     "K5 Mapped Sources Probe": "success",
+     "K5 Production Restart": "success",
+     "K5 Stage 23-A Batch 3 Crafting Probe": "success",
+     "ST05 Stage 1-B boss restart persistence": "success",
+     "ST05 Stage 1-C reward recovery across independent server processes": "success",
+     "Sky Islands Validation": "success",
+     "Tooling readiness": "success"
+    }
+   },
+   "branches_descending_from_latest_checkpoint": 59,
+   "branches_contained_in_main": 20,
+   "integrated_project_state": "NOT ESTABLISHED: no single branch is verified to represent the whole project. main is stale relative to the checkpoint; the checkpoint predates the stacks listed under `stacks`. Owner decision D-1 selects the baseline."
+  },
+  "stacks_on_latest_checkpoint": [
+   {
+    "root": "claude/colosseum-deterministic-clock-20261107",
+    "branch_count": 7,
+    "tips": [
+     "claude/sky-mob-p2b-p2c-vwuur8",
+     "claude/sky-mob-p2e1-r2-cloud-creature"
+    ],
+    "members": [
+     "claude/colosseum-deterministic-clock-20261107",
+     "implement/sky-mob-p1-entities-20261106",
+     "feature/sky-mob-p2b-cloud-wraith",
+     "claude/sky-mob-p2d-crystal-bug",
+     "claude/sky-mob-p2b-p2c-vwuur8",
+     "claude/sky-mob-p2e1-r2-cloud-creature",
+     "docs/sky-mob-p0-authority-20261106"
+    ],
+    "open_prs": [
+     238,
+     260,
+     261
+    ],
+    "tips_with_failing_ci": [],
+    "tips_without_any_ci_run": []
+   },
+   {
+    "root": "claude/sky-mob-gametest-timing-nn7o1h",
+    "branch_count": 1,
+    "tips": [
+     "claude/sky-mob-gametest-timing-nn7o1h"
+    ],
+    "members": [
+     "claude/sky-mob-gametest-timing-nn7o1h"
+    ],
+    "open_prs": [],
+    "tips_with_failing_ci": [],
+    "tips_without_any_ci_run": [
+     "claude/sky-mob-gametest-timing-nn7o1h"
+    ]
+   },
+   {
+    "root": "design/st01-build-q01-q08-20261105",
+    "branch_count": 29,
+    "tips": [
+     "claude/st01-p8c2b-natural-worldgen-isauq8",
+     "claude/st01-pyramid-phase4-worldgen-roke2l",
+     "remediation/st01-colosseum-clock-seam-20261110",
+     "work/st01-o14-phase3-1-validation-20261109"
+    ],
+    "members": [
+     "work/st01-p1-ground-3d-20261106",
+     "work/st01-p1-conditional-approval-20261106",
+     "work/st01-p2-underground-20261106",
+     "work/st01-p3-royal-tomb-20261106",
+     "design/st01-build-q01-q08-20261105",
+     "work/st01-p4-secret-area-20261107",
+     "work/st01-p5-integration-20261107",
+     "work/st01-p6-final-spec-20261107",
+     "work/st01-p7-secret-entrance-state-20261107",
+     "work/st01-p8-dummy-prototype-20261107",
+     "work/st01-p9-victory-split-20261108",
+     "work/st01-p10-real-tomb-golem-20261108",
+     "work/st01-p11-prod-config-o9-audit-20261108",
+     "work/st01-p7-east-primary-guardian-20261108",
+     "work/st01-p11r-o9-gametest-fix-20261109",
+     "work/st01-p8a-nbt-spatial-layout-20261109",
+     "study/st01-o14-worldgen-feasibility-20261109",
+     "claude/st01-p8a-royal-hall-validation-wweuti",
+     "work/st01-o14-phase1-phase2-20261109",
+     "claude/st01-p8a-d1-floor-stairs-wweuti",
+     "work/st01-o14-phase3-calibration-20261109",
+     "work/st01-o14-phase3-1-validation-20261109",
+     "work/st01-p8b2-royal-chest-runtime-20261110",
+     "work/st01-g0-geometry-finalization-20261110",
+     "work/st01-g0-r1-blueprint-finalization-20261110",
+     "claude/st01-pyramid-phase4-worldgen-roke2l",
+     "work/st01-p8c2a-complete-assembly-20261110-r1",
+     "remediation/st01-colosseum-clock-seam-20261110",
+     "claude/st01-p8c2b-natural-worldgen-isauq8"
+    ],
+    "open_prs": [
+     231,
+     246,
+     247,
+     249,
+     250,
+     251,
+     252,
+     254,
+     255,
+     257,
+     258,
+     259
+    ],
+    "tips_with_failing_ci": [
+     "claude/st01-p8c2b-natural-worldgen-isauq8",
+     "claude/st01-pyramid-phase4-worldgen-roke2l",
+     "work/st01-o14-phase3-1-validation-20261109"
+    ],
+    "tips_without_any_ci_run": [
+     "remediation/st01-colosseum-clock-seam-20261110"
+    ]
+   },
+   {
+    "root": "docs/d13-03-authority-q01-q47-20261106",
+    "branch_count": 1,
+    "tips": [
+     "docs/d13-03-authority-q01-q47-20261106"
+    ],
+    "members": [
+     "docs/d13-03-authority-q01-q47-20261106"
+    ],
+    "open_prs": [
+     232
+    ],
+    "tips_with_failing_ci": [],
+    "tips_without_any_ci_run": []
+   },
+   {
+    "root": "docs/sky-tower-design-q01-q41-20261105",
+    "branch_count": 10,
+    "tips": [
+     "claude/sky-tower-phase-2-validation-twragg",
+     "feature/sky-tower-integration-02"
+    ],
+    "members": [
+     "docs/sky-tower-design-q01-q41-20261105",
+     "claude/sky-tower-geometry-02-coords-hgbfo7",
+     "feature/sky-tower-full-build-01",
+     "feature/sky-tower-integration-01",
+     "claude/relaxed-ramanujan-th5bvj",
+     "audit/sky-tower-completeness",
+     "validation/sky-tower-mountain-height",
+     "claude/sky-tower-phase-2-validation-twragg",
+     "implementation/sky-tower-mountain-adaptive-b",
+     "feature/sky-tower-integration-02"
+    ],
+    "open_prs": [
+     229
+    ],
+    "tips_with_failing_ci": [],
+    "tips_without_any_ci_run": [
+     "claude/sky-tower-phase-2-validation-twragg",
+     "feature/sky-tower-integration-02"
+    ]
+   },
+   {
+    "root": "implement/d13-01-relic-catalyst-20261104",
+    "branch_count": 1,
+    "tips": [
+     "implement/d13-01-relic-catalyst-20261104"
+    ],
+    "members": [
+     "implement/d13-01-relic-catalyst-20261104"
+    ],
+    "open_prs": [
+     227
+    ],
+    "tips_with_failing_ci": [
+     "implement/d13-01-relic-catalyst-20261104"
+    ],
+    "tips_without_any_ci_run": []
+   },
+   {
+    "root": "implement/d13-02-relic-catalyst-sources-20261104",
+    "branch_count": 10,
+    "tips": [
+     "implement/d13-03-i04a-star-covenant-vault-logic-20261106",
+     "implement/d13-03-i06-p4-st01-integration-20261108"
+    ],
+    "members": [
+     "implement/d13-02-relic-catalyst-sources-20261104",
+     "implement/d13-03-i01-t2-accessory-chest-pools-20261105",
+     "implement/d13-03-i02-deep-sea-pearl-20261105",
+     "implement/d13-03-i03-heart-of-gravity-20261105",
+     "implement/d13-03-i04a-star-covenant-vault-logic-20261106",
+     "fix/ci-tomb-guardian-colosseum-20261107",
+     "docs/d13-03-i06-royal-chest-authority",
+     "implement/d13-03-i06-p4-st01-integration-20261108",
+     "implement/d13-03-i06-p3-royal-chest-rewards-20261107",
+     "implement/d13-03-i05-pyramid-royal-chest-rewards-20261106"
+    ],
+    "open_prs": [
+     228,
+     233,
+     234,
+     235,
+     236,
+     237,
+     245
+    ],
+    "tips_with_failing_ci": [
+     "implement/d13-03-i04a-star-covenant-vault-logic-20261106"
+    ],
+    "tips_without_any_ci_run": []
+   }
+  ],
+  "branches_not_descending_from_latest_checkpoint_and_not_in_main": [
+   "audit/prc-p7-security-hold-reaudit-20261027",
+   "audit/prc-p7b-targeted-closure-20261027",
+   "audit/prc-p7c-closure-security-execution-20261027",
+   "audit/prc-p7d-security-verification-20261027",
+   "audit/st05-po25-review-package-20261102",
+   "audit/stage23-pr92-pr93-reconciliation-20261019",
+   "checkpoint/wave10-unified-20261026",
+   "checkpoint/wave11-unified-20261027",
+   "checkpoint/wave12-unified-20261027",
+   "checkpoint/wave13-unified-20261028",
+   "checkpoint/wave14-unified-20261028",
+   "checkpoint/wave15-unified-20261029",
+   "claude/moreminecrafts-beta-audit-mirror-7id36x",
+   "claude/q1c-skull-provenance-20261019",
+   "claude/st05-p0-probe-binding-urp8d9",
+   "codex/q1c-pr128-p1-p2-repair-20261019",
+   "codex/q1c-recovery-20261019-079d36a",
+   "codex/stage23-livefix-b-20261016",
+   "codex/stage23-pr105-bundle-export-20261016",
+   "codex/stage23b-cloud-live-client-qa",
+   "codex/xp-quest-ui-integration-20261020",
+   "design/pyramid-mob-roster-20261026",
+   "design/spider-colony-biome-20261026",
+   "design/st05-colosseum-owner-decisions-20261028",
+   "design/st05-worldgen-q01-q18-20261030",
+   "design/stage23a-remaining-approval-20261017",
+   "design/t1-accessories-d01-owner-decisions-20261030",
+   "docs/2026-10-07-content-first-axis-review",
+   "docs/alchemy-plot-notes",
+   "docs/content-design-roadmap-wave15-20261030",
+   "docs/sky-islands-design-context-20261027",
+   "docs/st03-owner-decisions-q01-q42-20261104",
+   "docs/st05-wave15-authority-q110-20261029",
+   "docs/ui-piglin-mob-tracker-20261010",
+   "experiment/cloud-free-model-delegation-phase0",
+   "experiment/ponytail-skill-2-20261021",
+   "experiment/underground-kingdom-worldgen-probe",
+   "feat/st03-implement-01-20261105",
+   "feat/st05-c-controller-foundation-20261030",
+   "feat/st05-c4-structure-mask-20261030",
+   "integration/stage23-final-reconciliation-20261016",
+   "integration/wave10-unified-20261025",
+   "integration/wave12-functional-preservation-20261027",
+   "probe/st05-p0-probe-01",
+   "prototype/stage20-vanilla-sweep-texture",
+   "prototype/vanilla-sweep-texture",
+   "recovery/vanilla-model-custom-mob-roster-base",
+   "release/wave9-rc-20261025",
+   "stage-12/checkpoint",
+   "stage-13/checkpoint",
+   "stage-14/checkpoint",
+   "stage-22/research-restructure",
+   "stage-audit/wave15-candidate-20261028",
+   "stage-ci/accessory-bounty-20261023",
+   "test/git-auth-check",
+   "validation/st05-stage0-a02-a03-20261030"
+  ],
+  "pull_requests": {
+   "summary": {
+    "pull_requests": 259,
+    "by_state": {
+     "closed": 137,
+     "merged": 81,
+     "open": 41
+    },
+    "merged_to_main_base": 16,
+    "merged_prs_whose_work_is_in_main": 54,
+    "merged_prs_whose_work_is_not_in_main": 27,
+    "merged_prs_unknown_reachability": 0,
+    "merged_prs_in_latest_checkpoint": 63,
+    "open_prs_with_deleted_head_branch": 0,
+    "open_prs_with_deleted_base_branch": 0,
+    "open_prs_whose_head_moved_since_pr_head": 0
+   },
+   "open": [
+    {
+     "number": 107,
+     "head_ref": "codex/stage23b-cloud-live-client-qa",
+     "head_sha": "dad054c7cb5e5d672a0ef96bfdeffc482e1c48f6",
+     "base_ref": "codex/stage23-livefix-b-20261016",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 117,
+     "head_ref": "experiment/underground-kingdom-worldgen-probe",
+     "head_sha": "991b20c8a052ecf5d73c5130d2d9e0eb4338c041",
+     "base_ref": "integration/stage23-final-reconciliation-20261016",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 127,
+     "head_ref": "codex/q1c-recovery-20261019-079d36a",
+     "head_sha": "334997d2f81d6b324b0cccd3f40b538c921edadc",
+     "base_ref": "audit/stage23-pr92-pr93-reconciliation-20261019",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 128,
+     "head_ref": "claude/q1c-skull-provenance-20261019",
+     "head_sha": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
+     "base_ref": "codex/q1c-recovery-20261019-079d36a",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 130,
+     "head_ref": "codex/q1c-pr128-p1-p2-repair-20261019",
+     "head_sha": "9c9f22577370cd0160dd2b43b0e92caa7832f420",
+     "base_ref": "claude/q1c-skull-provenance-20261019",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 141,
+     "head_ref": "experiment/cloud-free-model-delegation-phase0",
+     "head_sha": "aa376713aedcd7fecd769af39e18f8532b9e147d",
+     "base_ref": "main",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 197,
+     "head_ref": "audit/prc-p7-security-hold-reaudit-20261027",
+     "head_sha": "04c09ea121891834b9166c1804de2d5a16464fd7",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 199,
+     "head_ref": "audit/prc-p7b-targeted-closure-20261027",
+     "head_sha": "66d2b52995bd6da909cb1ce9539db5cb175f6d15",
+     "base_ref": "audit/prc-p7-security-hold-reaudit-20261027",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 201,
+     "head_ref": "audit/prc-p7c-closure-security-execution-20261027",
+     "head_sha": "84c3eadcdde4aac6ef981870788b66ddf16d3e8e",
+     "base_ref": "audit/prc-p7b-targeted-closure-20261027",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 203,
+     "head_ref": "audit/prc-p7d-security-verification-20261027",
+     "head_sha": "20eb1d8ef705d15ede39997f5735c01b06297d45",
+     "base_ref": "audit/prc-p7c-closure-security-execution-20261027",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 207,
+     "head_ref": "design/st05-colosseum-owner-decisions-20261028",
+     "head_sha": "dd193d7880b87a40a3f6eaa9bff359792e2cea08",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 213,
+     "head_ref": "feat/st05-c-controller-foundation-20261030",
+     "head_sha": "172613621438ad5f2c2252134e0aaccf1a757380",
+     "base_ref": "docs/st05-wave15-authority-q110-20261029",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 215,
+     "head_ref": "docs/content-design-roadmap-wave15-20261030",
+     "head_sha": "fdaeac6c0c9032691d77813274627601b3f53e0a",
+     "base_ref": "checkpoint/wave15-unified-20261029",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 216,
+     "head_ref": "feat/st05-c4-structure-mask-20261030",
+     "head_sha": "1ee08d440032095f9f247f2cb98c87fd15478656",
+     "base_ref": "feat/st05-c-controller-foundation-20261030",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 218,
+     "head_ref": "validation/st05-stage0-a02-a03-20261030",
+     "head_sha": "838e1366d44a7a09c43bb1453d92511eea46327e",
+     "base_ref": "design/st05-worldgen-q01-q18-20261030",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 225,
+     "head_ref": "docs/st03-owner-decisions-q01-q42-20261104",
+     "head_sha": "7f4e66adacb80183b480cc306f6388c4f6e056d0",
+     "base_ref": "checkpoint/wave15-unified-20261029",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 227,
+     "head_ref": "implement/d13-01-relic-catalyst-20261104",
+     "head_sha": "23e9be7eada6f551d2fd7443737b94262781b5e0",
+     "base_ref": "checkpoint/wave16-unified-20261104",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 228,
+     "head_ref": "implement/d13-02-relic-catalyst-sources-20261104",
+     "head_sha": "8aba6f37c101ef7715c3dfc7e2c90cd7a9d59d16",
+     "base_ref": "checkpoint/wave16-unified-20261104",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 229,
+     "head_ref": "docs/sky-tower-design-q01-q41-20261105",
+     "head_sha": "1449bf1034be625cdaf7898c267897e7d52975e8",
+     "base_ref": "checkpoint/wave16-unified-20261104",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 231,
+     "head_ref": "design/st01-build-q01-q08-20261105",
+     "head_sha": "2bd691f96eab063d76f5fa7ee93f8d11d626ad08",
+     "base_ref": "checkpoint/wave16-unified-20261104",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 232,
+     "head_ref": "docs/d13-03-authority-q01-q47-20261106",
+     "head_sha": "3ad9f2831d8cd9456ff3501277a726e09de7e973",
+     "base_ref": "checkpoint/wave16-unified-20261104",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 233,
+     "head_ref": "implement/d13-03-i01-t2-accessory-chest-pools-20261105",
+     "head_sha": "13612855094cc955c3ce08df7731c878490ae1b6",
+     "base_ref": "implement/d13-02-relic-catalyst-sources-20261104",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 234,
+     "head_ref": "implement/d13-03-i02-deep-sea-pearl-20261105",
+     "head_sha": "a2584ba410455f69a11eaaabaa8551856dce20a1",
+     "base_ref": "implement/d13-03-i01-t2-accessory-chest-pools-20261105",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 235,
+     "head_ref": "implement/d13-03-i03-heart-of-gravity-20261105",
+     "head_sha": "7a1e441c9d5d0170e1a32599d29ab59a513c8339",
+     "base_ref": "implement/d13-03-i02-deep-sea-pearl-20261105",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 236,
+     "head_ref": "implement/d13-03-i04a-star-covenant-vault-logic-20261106",
+     "head_sha": "df673dfe7ab8bbc43b0087b17a4476f4a5211ef6",
+     "base_ref": "implement/d13-03-i03-heart-of-gravity-20261105",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 237,
+     "head_ref": "implement/d13-03-i05-pyramid-royal-chest-rewards-20261106",
+     "head_sha": "48038bc9018fc9001635bf9a2f242cd2da62b57c",
+     "base_ref": "implement/d13-03-i03-heart-of-gravity-20261105",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 238,
+     "head_ref": "docs/sky-mob-p0-authority-20261106",
+     "head_sha": "18dc6a4c824824db42b1a9bc1e69d1a35648d33a",
+     "base_ref": "checkpoint/wave16-unified-20261104",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 245,
+     "head_ref": "implement/d13-03-i06-p4-st01-integration-20261108",
+     "head_sha": "6c7923e0aa8d78307a4541afbaca29254a1f35be",
+     "base_ref": "implement/d13-03-i05-pyramid-royal-chest-rewards-20261106",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 246,
+     "head_ref": "work/st01-p7-east-primary-guardian-20261108",
+     "head_sha": "93ff73f155c4e0660b2c33b695876666170f4836",
+     "base_ref": "work/st01-p6-final-spec-20261107",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 247,
+     "head_ref": "work/st01-p8a-nbt-spatial-layout-20261109",
+     "head_sha": "20a3578c1c09ef2af42851ca8d5301adb1a2b27b",
+     "base_ref": "work/st01-p7-east-primary-guardian-20261108",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 249,
+     "head_ref": "work/st01-o14-phase1-phase2-20261109",
+     "head_sha": "d432a9c585d0d66484674d520b654b26460d2fd3",
+     "base_ref": "main",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 250,
+     "head_ref": "claude/st01-p8a-d1-floor-stairs-wweuti",
+     "head_sha": "e229d001be06076b9d199c4e3fd8fd2be790e6b5",
+     "base_ref": "claude/st01-p8a-royal-hall-validation-wweuti",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 251,
+     "head_ref": "work/st01-o14-phase3-calibration-20261109",
+     "head_sha": "d67533399c3fa87a0e5fa0f14fd3e39897aad99c",
+     "base_ref": "main",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 252,
+     "head_ref": "work/st01-o14-phase3-1-validation-20261109",
+     "head_sha": "7e37b786de8fcf36980ec732cc8079bb24e6a7fd",
+     "base_ref": "main",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 254,
+     "head_ref": "work/st01-p8b2-royal-chest-runtime-20261110",
+     "head_sha": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+     "base_ref": "claude/st01-p8a-d1-floor-stairs-wweuti",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 255,
+     "head_ref": "work/st01-g0-geometry-finalization-20261110",
+     "head_sha": "6b64106f72a99a91305057b1786ea52dd2875092",
+     "base_ref": "work/st01-p8b2-royal-chest-runtime-20261110",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 257,
+     "head_ref": "work/st01-g0-r1-blueprint-finalization-20261110",
+     "head_sha": "c26ea0f871e788d1d331b40151779d86590469f2",
+     "base_ref": "work/st01-g0-geometry-finalization-20261110",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 258,
+     "head_ref": "claude/st01-pyramid-phase4-worldgen-roke2l",
+     "head_sha": "ada10ba343f7d7eeb9b944baa69750c3c25a949e",
+     "base_ref": "work/st01-p8b2-royal-chest-runtime-20261110",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 259,
+     "head_ref": "work/st01-p8c2a-complete-assembly-20261110-r1",
+     "head_sha": "c25f9d447e54b882c0280144aab4afd16205e1bb",
+     "base_ref": "work/st01-g0-r1-blueprint-finalization-20261110",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 260,
+     "head_ref": "claude/sky-mob-p2b-p2c-vwuur8",
+     "head_sha": "55884b22c5d66e19974851ddb37372d5b398022e",
+     "base_ref": "docs/sky-mob-p0-authority-20261106",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    },
+    {
+     "number": 261,
+     "head_ref": "claude/sky-mob-p2e1-r2-cloud-creature",
+     "head_sha": "49d59ee690e8e31864d0c524602836c099a3c754",
+     "base_ref": "docs/sky-mob-p0-authority-20261106",
+     "draft": true,
+     "head_in_main": false,
+     "head_in_latest_checkpoint": false,
+     "head_in_base_branch_now": false
+    }
+   ],
+   "closed_or_merged_with_missing_branch": [
+    {
+     "number": 2,
+     "state": "merged",
+     "head_ref": "codex/implement-enhancement_stone-as-custom-item",
+     "base_ref": "stage-2/enhancement-stone",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 4,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-3-enhancement-vertical-slice",
+     "base_ref": "stage-3/enhancement-vertical-slice",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 6,
+     "state": "merged",
+     "head_ref": "codex/generalize-enhancement-foundation-for-stage-4a",
+     "base_ref": "stage-4/equipment-foundation",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 7,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-4b-1-melee-and-tool-effects",
+     "base_ref": "stage-4/equipment-foundation",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 8,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-4b-2-ranged-effects",
+     "base_ref": "stage-4/equipment-foundation",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 9,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-4b-3-armor-enhancement-effects",
+     "base_ref": "stage-4/equipment-foundation",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 10,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-4c-ability-cooldown-foundation",
+     "base_ref": "stage-4/equipment-foundation",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 12,
+     "state": "merged",
+     "head_ref": "codex/implement-flame-sword-for-stage-5a",
+     "base_ref": "stage-5/special-equipment",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 13,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-5b-special-equipment-system",
+     "base_ref": "stage-5/special-equipment",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 15,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-6-materials-and-crafting",
+     "base_ref": "stage-6/materials-crafting-progression",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 17,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-7-fishing-life-content-t94ezj",
+     "base_ref": "stage-7/life-content",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 19,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-8a-zombie-variants",
+     "base_ref": "stage-8/entity-mob",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 20,
+     "state": "merged",
+     "head_ref": "codex/implement-mining-giant-for-stage-8",
+     "base_ref": "stage-8/entity-mob",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 22,
+     "state": "merged",
+     "head_ref": "codex/implement-stage-9a-skeleton-king-boss",
+     "base_ref": "stage-9/skeleton-king",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 24,
+     "state": "merged",
+     "head_ref": "work/stage-10-draft-audit",
+     "base_ref": "stage-10/draft-content",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 25,
+     "state": "merged",
+     "head_ref": "work/stage-10-full-content-recovery",
+     "base_ref": "stage-10/draft-content",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 26,
+     "state": "merged",
+     "head_ref": "codex/add-stage-10-live-test-command",
+     "base_ref": "stage-10/draft-content",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 27,
+     "state": "merged",
+     "head_ref": "codex/repair-stage-6-mineral-worldgen-for-minecraft-26.3",
+     "base_ref": "stage-10/draft-content",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 28,
+     "state": "merged",
+     "head_ref": "fix/mc26.3-feature-registry-migration",
+     "base_ref": "stage-10/draft-content",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 29,
+     "state": "merged",
+     "head_ref": "codex/implement-shock-potion-for-stage-10",
+     "base_ref": "stage-10/draft-content",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 30,
+     "state": "merged",
+     "head_ref": "codex/continue-development-of-moreminecrafts-project",
+     "base_ref": "stage-10/draft-content",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 31,
+     "state": "merged",
+     "head_ref": "codex/continue-moreminecrafts-t2-elemental-work",
+     "base_ref": "stage-11/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 32,
+     "state": "merged",
+     "head_ref": "codex/continue-development-of-moreminecrafts-fabric",
+     "base_ref": "stage-11/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 33,
+     "state": "merged",
+     "head_ref": "codex/implement-checkpoint-12-for-t2-equipment",
+     "base_ref": "stage-11/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 34,
+     "state": "merged",
+     "head_ref": "resource/material-textures-pass-1",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 35,
+     "state": "merged",
+     "head_ref": "worldgen/deepslate-ore-variants",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 36,
+     "state": "merged",
+     "head_ref": "codex/implement-first-code-reconciliation-pass",
+     "base_ref": "stage-12/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 37,
+     "state": "merged",
+     "head_ref": "resource-c1/flame-sword-render-foundation",
+     "base_ref": "stage-13/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 38,
+     "state": "merged",
+     "head_ref": "resource-c1b/flame-sword-production-texture",
+     "base_ref": "stage-13/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 39,
+     "state": "closed",
+     "head_ref": "audit/local-worldgen-ci-repair",
+     "base_ref": "stage-14/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 40,
+     "state": "closed",
+     "head_ref": "recovery/post-stage8-cumulative",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 41,
+     "state": "closed",
+     "head_ref": "recovery/stage-2-gameplay-reconciliation",
+     "base_ref": "recovery/post-stage8-cumulative",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 42,
+     "state": "closed",
+     "head_ref": "recovery/stage-3-fishing-resource-reconciliation",
+     "base_ref": "recovery/stage-2-gameplay-reconciliation",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 43,
+     "state": "closed",
+     "head_ref": "recovery/stage-4-final-integration",
+     "base_ref": "recovery/stage-3-fishing-resource-reconciliation",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 44,
+     "state": "closed",
+     "head_ref": "fix/batch-1-t2-runtime-correctness",
+     "base_ref": "stage-15/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 45,
+     "state": "closed",
+     "head_ref": "fix/batch-2-water-dive-lifecycle",
+     "base_ref": "fix/batch-1-t2-runtime-correctness",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 46,
+     "state": "closed",
+     "head_ref": "fix/batch-3-fishing-component-mutation",
+     "base_ref": "fix/batch-2-water-dive-lifecycle",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 47,
+     "state": "closed",
+     "head_ref": "fix/batch-4-validation-regression-protection",
+     "base_ref": "fix/batch-3-fishing-component-mutation",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 48,
+     "state": "closed",
+     "head_ref": "fix/batch-5-final-defect-and-validation",
+     "base_ref": "fix/batch-4-validation-regression-protection",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 49,
+     "state": "closed",
+     "head_ref": "fix/def-003-dimension-transfer",
+     "base_ref": "fix/batch-5-final-defect-and-validation",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 51,
+     "state": "merged",
+     "head_ref": "codex/implement-enchantment-vertical-for-stage-17",
+     "base_ref": "stage-16/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 52,
+     "state": "closed",
+     "head_ref": "codex/fix-enchantment-vertical-defects-and-validate",
+     "base_ref": "codex/implement-enchantment-vertical-for-stage-17",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 53,
+     "state": "merged",
+     "head_ref": "codex/perform-final-runtime-repair-for-stage-17",
+     "base_ref": "codex/fix-enchantment-vertical-defects-and-validate",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 54,
+     "state": "merged",
+     "head_ref": "governance/ci-acceptance-lifecycle",
+     "base_ref": "stage-16/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 55,
+     "state": "merged",
+     "head_ref": "governance/design-authority-sync",
+     "base_ref": "stage-16/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 56,
+     "state": "merged",
+     "head_ref": "reconcile/stage-17-checkpoint",
+     "base_ref": "stage-16/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 57,
+     "state": "merged",
+     "head_ref": "codex/repair-titanium-tungsten-block-texture-scale",
+     "base_ref": "stage-17/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 58,
+     "state": "closed",
+     "head_ref": "codex/post-live-flame-sword-mineral-repair",
+     "base_ref": "stage-17/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 59,
+     "state": "closed",
+     "head_ref": "codex/finalize-cumulative-live-test-defect-repairs",
+     "base_ref": "codex/post-live-flame-sword-mineral-repair",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 60,
+     "state": "closed",
+     "head_ref": "codex/repair-fishing-equipment-panel-layout",
+     "base_ref": "stage-17/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 61,
+     "state": "merged",
+     "head_ref": "docs/stage-18-flame-sword-authority-sync",
+     "base_ref": "stage-18/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 62,
+     "state": "merged",
+     "head_ref": "codex/implement-lower-equipment-gameplay-systems",
+     "base_ref": "codex/provisional-equipment-resources",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 63,
+     "state": "merged",
+     "head_ref": "work/pr62-acceptance-repair",
+     "base_ref": "codex/implement-lower-equipment-gameplay-systems",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 64,
+     "state": "merged",
+     "head_ref": "codex/provisional-equipment-resources",
+     "base_ref": "stage-18/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 65,
+     "state": "closed",
+     "head_ref": "codex/post-stage18-lower-equipment-live-repair",
+     "base_ref": "stage-18/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 66,
+     "state": "merged",
+     "head_ref": "implementation/t2-elemental-gameplay-finalization",
+     "base_ref": "stage-19/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 67,
+     "state": "merged",
+     "head_ref": "design/t1-enchantment-skill-tree",
+     "base_ref": "stage-19/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 68,
+     "state": "merged",
+     "head_ref": "implementation/t1-enchantment-progression",
+     "base_ref": "stage-19/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 69,
+     "state": "merged",
+     "head_ref": "recovery/vanilla-model-custom-mobs-7730b10",
+     "base_ref": "stage-20/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 70,
+     "state": "merged",
+     "head_ref": "design/end-boss-continuation-2026-10-07",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 72,
+     "state": "closed",
+     "head_ref": "resources/40-custom-mob-production-textures",
+     "base_ref": "stage-20/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 73,
+     "state": "closed",
+     "head_ref": "codex/prototype-client-visual-validation-20261009",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 74,
+     "state": "closed",
+     "head_ref": "docs/2026-10-10-artifact-research-decisions",
+     "base_ref": "stage-20/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 75,
+     "state": "closed",
+     "head_ref": "feat/research-v4-a-c-20261010",
+     "base_ref": "stage-20/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 76,
+     "state": "closed",
+     "head_ref": "feat/research-knowledge-ui-integration",
+     "base_ref": "feat/research-v4-a-c-20261010",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 77,
+     "state": "merged",
+     "head_ref": "security/pre-public-hardening-20261012",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 78,
+     "state": "closed",
+     "head_ref": "codex/stage1-runtime-audit-20261012",
+     "base_ref": "feat/research-knowledge-ui-integration",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 79,
+     "state": "closed",
+     "head_ref": "codex/stage2a-knowledge-collectors-20261012",
+     "base_ref": "feat/research-knowledge-ui-integration",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 80,
+     "state": "closed",
+     "head_ref": "codex/stage2b-knowledge-conditions-20261012",
+     "base_ref": "codex/stage2a-knowledge-collectors-20261012",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 81,
+     "state": "closed",
+     "head_ref": "codex/k5-natural-tree-provenance-design-20261013",
+     "base_ref": "codex/stage2b-knowledge-conditions-20261012",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 82,
+     "state": "closed",
+     "head_ref": "codex/k5-natural-tree-mining-probe-20261013",
+     "base_ref": "codex/stage2b-knowledge-conditions-20261012",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 83,
+     "state": "closed",
+     "head_ref": "codex/ancient-city-arena-prototype-20261013",
+     "base_ref": "stage-20/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 84,
+     "state": "closed",
+     "head_ref": "codex/k5-production-integration-20261013",
+     "base_ref": "codex/k5-natural-tree-mining-probe-20261013",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 85,
+     "state": "closed",
+     "head_ref": "codex/ancient-city-whole-variant-probe-20261014",
+     "base_ref": "stage-20/checkpoint",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 86,
+     "state": "closed",
+     "head_ref": "codex/knowledge-consolidation-review-20261014",
+     "base_ref": "codex/k5-production-integration-20261013",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 87,
+     "state": "merged",
+     "head_ref": "codex/knowledge-stack-integration-20261014",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 89,
+     "state": "closed",
+     "head_ref": "codex/stage22-research-implementation-20261015",
+     "base_ref": "stage-22/research-restructure",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 90,
+     "state": "closed",
+     "head_ref": "codex/stage23a-research-content-20261015",
+     "base_ref": "codex/stage22-research-implementation-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 91,
+     "state": "closed",
+     "head_ref": "codex/stage23a-batch2-20261015",
+     "base_ref": "codex/stage23a-research-content-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 92,
+     "state": "closed",
+     "head_ref": "codex/stage23a-research-implementation-20261015",
+     "base_ref": "codex/stage22-research-implementation-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 93,
+     "state": "closed",
+     "head_ref": "codex/stage23a-reconcile-20261015",
+     "base_ref": "codex/stage23a-batch2-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 94,
+     "state": "closed",
+     "head_ref": "codex/stage23a-integrated-research-20261015",
+     "base_ref": "codex/stage23a-batch2-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 95,
+     "state": "closed",
+     "head_ref": "codex/stage23a-batch3-20261015",
+     "base_ref": "codex/stage23a-integrated-research-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 96,
+     "state": "closed",
+     "head_ref": "codex/stage23a-furnace-infrastructure-20261015",
+     "base_ref": "codex/stage23a-batch3-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 97,
+     "state": "closed",
+     "head_ref": "codex/stage23a-fisheries-hotfix-20261015",
+     "base_ref": "codex/stage23a-integrated-research-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 98,
+     "state": "closed",
+     "head_ref": "codex/stage23a-expanded-research-20261015",
+     "base_ref": "codex/stage23a-furnace-infrastructure-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 99,
+     "state": "closed",
+     "head_ref": "codex/stage23-livefix-a-20261016",
+     "base_ref": "codex/stage23a-integrated-research-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 100,
+     "state": "closed",
+     "head_ref": "integration/stage23-linear-chain-20261016",
+     "base_ref": "codex/stage23a-batch2-20261015",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 101,
+     "state": "closed",
+     "head_ref": "docs/stage23-accessories-approved-20261016",
+     "base_ref": "integration/stage23-linear-chain-20261016",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 102,
+     "state": "closed",
+     "head_ref": "integration/stage23-reconciliation-audit-20261016",
+     "base_ref": "integration/stage23-linear-chain-20261016",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 103,
+     "state": "closed",
+     "head_ref": "integration/stage23-final-reconciliation-20261016",
+     "base_ref": "integration/stage23-linear-chain-20261016",
+     "head_branch_exists": true,
+     "base_branch_exists": false
+    },
+    {
+     "number": 104,
+     "state": "merged",
+     "head_ref": "integration/stage23-mobs-accessories-20261016",
+     "base_ref": "integration/stage23-final-reconciliation-20261016",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 106,
+     "state": "closed",
+     "head_ref": "codex/stage23b-cloud-client-qa-design",
+     "base_ref": "codex/stage23-livefix-b-20261016",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 108,
+     "state": "closed",
+     "head_ref": "codex/stage23a-expanded-batch2-20261017",
+     "base_ref": "codex/stage23-livefix-b-20261016",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 109,
+     "state": "closed",
+     "head_ref": "codex/stage23a-remaining-research-20261017",
+     "base_ref": "codex/stage23a-expanded-batch2-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 110,
+     "state": "closed",
+     "head_ref": "claude/stage23a-economy-soil-20261017",
+     "base_ref": "codex/stage23a-remaining-research-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 111,
+     "state": "closed",
+     "head_ref": "claude/xp-quest-authority-20261017",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 112,
+     "state": "closed",
+     "head_ref": "claude/xp-quest-authority-20261017",
+     "base_ref": "claude/stage23a-economy-soil-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 113,
+     "state": "closed",
+     "head_ref": "docs/accessory-enhancement-approved-20261017",
+     "base_ref": "claude/stage23a-economy-soil-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 114,
+     "state": "closed",
+     "head_ref": "claude/xp-quest-q1a-core",
+     "base_ref": "claude/xp-quest-authority-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 115,
+     "state": "closed",
+     "head_ref": "claude/xp-quest-q1a2-exact-xp",
+     "base_ref": "claude/xp-quest-authority-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 116,
+     "state": "closed",
+     "head_ref": "codex/review-claude-pr110-20261017",
+     "base_ref": "claude/stage23a-economy-soil-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 118,
+     "state": "closed",
+     "head_ref": "claude/xp-quest-q1-integration",
+     "base_ref": "claude/xp-quest-authority-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 119,
+     "state": "closed",
+     "head_ref": "claude/xp-quest-q1b-tracking",
+     "base_ref": "claude/xp-quest-q1-integration",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 120,
+     "state": "closed",
+     "head_ref": "codex/xp-quest-q1b-correction",
+     "base_ref": "claude/xp-quest-q1b-tracking",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 121,
+     "state": "closed",
+     "head_ref": "codex/xp-quest-q1c",
+     "base_ref": "codex/xp-quest-q1b-correction",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 122,
+     "state": "closed",
+     "head_ref": "docs/world-events-patrol-design-20261018",
+     "base_ref": "docs/accessory-enhancement-approved-20261017",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 123,
+     "state": "closed",
+     "head_ref": "integration/q1b-villager-discount-pr116-20261019",
+     "base_ref": "codex/xp-quest-q1b-correction",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 124,
+     "state": "closed",
+     "head_ref": "integration/q1c-pr116-discount-20261019",
+     "base_ref": "codex/xp-quest-q1c",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 125,
+     "state": "closed",
+     "head_ref": "audit/stage23-pr92-pr93-reconciliation-20261019",
+     "base_ref": "integration/q1c-pr116-discount-20261019",
+     "head_branch_exists": true,
+     "base_branch_exists": false
+    },
+    {
+     "number": 126,
+     "state": "closed",
+     "head_ref": "design/xp-quest-selector-redesign-20261019",
+     "base_ref": "audit/stage23-pr92-pr93-reconciliation-20261019",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 129,
+     "state": "closed",
+     "head_ref": "design/xp-quest-structure-200-20261019",
+     "base_ref": "design/xp-quest-selector-redesign-20261019",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 131,
+     "state": "closed",
+     "head_ref": "design/territory-economy-bounty-approved-20261019",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 132,
+     "state": "closed",
+     "head_ref": "design/territory-registration-recovery-d2a-20261019",
+     "base_ref": "design/territory-economy-bounty-approved-20261019",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 133,
+     "state": "closed",
+     "head_ref": "design/territory-owner-decisions-d01-d78-20261020",
+     "base_ref": "design/territory-registration-recovery-d2a-20261019",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 134,
+     "state": "closed",
+     "head_ref": "design/territory-owner-decisions-reconcile-20261020",
+     "base_ref": "design/territory-owner-decisions-d01-d78-20261020",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 135,
+     "state": "closed",
+     "head_ref": "design/xp-quest-usability-d1-d5-20261019",
+     "base_ref": "design/xp-quest-structure-200-20261019",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 136,
+     "state": "closed",
+     "head_ref": "design/territory-d79-d80-reconcile-20261020",
+     "base_ref": "design/territory-owner-decisions-reconcile-20261020",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 137,
+     "state": "closed",
+     "head_ref": "design/territory-d81-d84-facility-prep-20261021",
+     "base_ref": "design/territory-d79-d80-reconcile-20261020",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 138,
+     "state": "closed",
+     "head_ref": "design/territory-shelved-independent-content-20261021",
+     "base_ref": "design/territory-d81-d84-facility-prep-20261021",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 139,
+     "state": "closed",
+     "head_ref": "codex/q1c-production-readiness-audit-20261020",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 140,
+     "state": "closed",
+     "head_ref": "codex/xp-quest-200-content-audit-20261020",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 142,
+     "state": "closed",
+     "head_ref": "codex/accessory-infrastructure-20261021",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 143,
+     "state": "closed",
+     "head_ref": "codex/accessory-persistence-inventory-20261021",
+     "base_ref": "codex/accessory-infrastructure-20261021",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 144,
+     "state": "closed",
+     "head_ref": "codex/accessory-lifecycle-qa-20261021",
+     "base_ref": "codex/accessory-persistence-inventory-20261021",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 145,
+     "state": "closed",
+     "head_ref": "codex/accessory-client-acceptance-20261021",
+     "base_ref": "codex/accessory-lifecycle-qa-20261021",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 146,
+     "state": "closed",
+     "head_ref": "codex/accessory-client-repair-20261022",
+     "base_ref": "codex/accessory-client-acceptance-20261021",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 147,
+     "state": "closed",
+     "head_ref": "design/pillager-headquarters-concept-20261022",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 148,
+     "state": "closed",
+     "head_ref": "design/bounty-contract-approved-20261022",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 149,
+     "state": "closed",
+     "head_ref": "codex/accessory-client-lifecycle-final-20261022",
+     "base_ref": "codex/accessory-client-repair-20261022",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 150,
+     "state": "closed",
+     "head_ref": "audit/bc01-bc02-20261022",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 151,
+     "state": "closed",
+     "head_ref": "codex/bc03-bounty-contract-20261022",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 152,
+     "state": "closed",
+     "head_ref": "codex/accessory-visual-assets-20261022",
+     "base_ref": "codex/accessory-client-lifecycle-final-20261022",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 153,
+     "state": "closed",
+     "head_ref": "codex/accessory-enhancement-20261022",
+     "base_ref": "codex/accessory-client-lifecycle-final-20261022",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 154,
+     "state": "closed",
+     "head_ref": "audit/repository-pr-reconciliation-20261022",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 155,
+     "state": "merged",
+     "head_ref": "security/gitleaks-historical-findings-20261022",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 156,
+     "state": "closed",
+     "head_ref": "integration/batch-a-recovery-20261022",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 157,
+     "state": "closed",
+     "head_ref": "security/gitleaks-remediation-20261022-codex-725159",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 158,
+     "state": "closed",
+     "head_ref": "audit/repository-cleanup-phase2-20261023",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 159,
+     "state": "closed",
+     "head_ref": "audit/repository-cleanup-phase2b-20261023",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 160,
+     "state": "closed",
+     "head_ref": "codex/accessory-inventory-ui-redesign-20261023",
+     "base_ref": "codex/accessory-client-lifecycle-final-20261022",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 161,
+     "state": "closed",
+     "head_ref": "integration/accessory-system-20261023",
+     "base_ref": "codex/accessory-client-lifecycle-final-20261022",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 162,
+     "state": "merged",
+     "head_ref": "codex/bc03-bounty-contract-20261022",
+     "base_ref": "integration/accessory-bounty-20261023",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 163,
+     "state": "closed",
+     "head_ref": "audit/phase3-stage23-xpquest-readiness-20261023",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 164,
+     "state": "closed",
+     "head_ref": "docs/wave4b-custom-quest-ui-authority-20261024",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 165,
+     "state": "closed",
+     "head_ref": "integration/wave5r-combined-20261024",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 166,
+     "state": "closed",
+     "head_ref": "wave7/b-gametest-recovery",
+     "base_ref": "integration/wave5r-combined-20261024",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 167,
+     "state": "closed",
+     "head_ref": "wave7/c-accessory-raw-xp",
+     "base_ref": "integration/wave5r-combined-20261024",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 168,
+     "state": "closed",
+     "head_ref": "wave7/a-e-real-mouse-input",
+     "base_ref": "integration/wave5r-combined-20261024",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 169,
+     "state": "closed",
+     "head_ref": "wave7/d-ui-cleanup",
+     "base_ref": "integration/wave5r-combined-20261024",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 170,
+     "state": "closed",
+     "head_ref": "tooling/integration-gametest-coverage-20261024",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 171,
+     "state": "closed",
+     "head_ref": "feature/wave7a-star-covenant-20261024",
+     "base_ref": "integration/accessory-system-20261023",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 172,
+     "state": "closed",
+     "head_ref": "integration/wave8-wave7-repairs-20261025",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 173,
+     "state": "closed",
+     "head_ref": "feature/wave7b-snow-charm-20261025",
+     "base_ref": "integration/accessory-system-20261023",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 174,
+     "state": "closed",
+     "head_ref": "feature/wave7b-accessory-abilities-20261025",
+     "base_ref": "integration/accessory-system-20261023",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 175,
+     "state": "closed",
+     "head_ref": "claude/wave-7b-decisions-reconciliation-xjdmva",
+     "base_ref": "feature/wave7b-accessory-abilities-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 176,
+     "state": "closed",
+     "head_ref": "integration/wave9-accessory-abilities-20261025",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 177,
+     "state": "closed",
+     "head_ref": "test/bc03-validation-hardening-20261025",
+     "base_ref": "codex/bc03-bounty-contract-20261022",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 178,
+     "state": "closed",
+     "head_ref": "feature/bc03-approved-reconciliation-20261025",
+     "base_ref": "test/bc03-validation-hardening-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 179,
+     "state": "merged",
+     "head_ref": "fix/qm01-quest-monument-test-isolation",
+     "base_ref": "integration/wave9-accessory-abilities-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 180,
+     "state": "closed",
+     "head_ref": "fix/bc04-contract-structure-names-20261025",
+     "base_ref": "feature/bc03-approved-reconciliation-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 183,
+     "state": "merged",
+     "head_ref": "docs/ring-life-authority-option-a-20261025",
+     "base_ref": "release/wave9-rc-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 184,
+     "state": "closed",
+     "head_ref": "fix/exposure-audit-parallel-20261025",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 185,
+     "state": "merged",
+     "head_ref": "test/ring-life-option-a-regression-20261025",
+     "base_ref": "release/wave9-rc-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 186,
+     "state": "merged",
+     "head_ref": "security/exposure-audit-pacing-20261025",
+     "base_ref": "release/wave9-rc-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 187,
+     "state": "merged",
+     "head_ref": "test/k5-reused-world-determinism-20261025",
+     "base_ref": "release/wave9-rc-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 188,
+     "state": "closed",
+     "head_ref": "fix/wave9-live-input-harness-20261026",
+     "base_ref": "release/wave9-rc-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 189,
+     "state": "closed",
+     "head_ref": "docs/phase2-preservation-decisions-20261026",
+     "base_ref": "main",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 190,
+     "state": "merged",
+     "head_ref": "audit/prc-p4-research-preservation-20261026",
+     "base_ref": "checkpoint/wave10-unified-20261026",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 191,
+     "state": "merged",
+     "head_ref": "audit/prc-p6-remaining-preservation-20261027",
+     "base_ref": "checkpoint/wave10-unified-20261026",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 194,
+     "state": "closed",
+     "head_ref": "test/wave13-f3-f1-evidence-20261027",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 195,
+     "state": "closed",
+     "head_ref": "docs/wave13-prep-audit-20261027",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 196,
+     "state": "closed",
+     "head_ref": "feat/wave13-adamantium-f3-impl-20261027",
+     "base_ref": "test/wave13-f3-f1-evidence-20261027",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 198,
+     "state": "merged",
+     "head_ref": "feat/t2-wave-ab-materials-acquisition-20261027",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 200,
+     "state": "closed",
+     "head_ref": "security/prc-p7c-gitleaks-remediation-20261027",
+     "base_ref": "integration/wave10-unified-20261025",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 202,
+     "state": "merged",
+     "head_ref": "feature/t2-wave-c-equipment-20261027",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 204,
+     "state": "merged",
+     "head_ref": "integration/t2-wave-d-20261028",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 205,
+     "state": "closed",
+     "head_ref": "integration/wave13-adamantium-f3-20261028",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 206,
+     "state": "closed",
+     "head_ref": "validation/pinned-m1-d13721de-20261028",
+     "base_ref": "checkpoint/wave12-unified-20261027",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 208,
+     "state": "closed",
+     "head_ref": "fix/wave13-t2-p0-20261028",
+     "base_ref": "checkpoint/wave13-unified-20261028",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 209,
+     "state": "closed",
+     "head_ref": "feature/wave14-sky-islands-20261028",
+     "base_ref": "checkpoint/wave14-unified-20261028",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 210,
+     "state": "closed",
+     "head_ref": "feature/wave14-royal-guardian-20261028",
+     "base_ref": "checkpoint/wave14-unified-20261028",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 211,
+     "state": "closed",
+     "head_ref": "feat/w16-sky-habitat",
+     "base_ref": "checkpoint/wave15-unified-20261029",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 214,
+     "state": "closed",
+     "head_ref": "design/st05-c0-state-save-reward-contract-20261030",
+     "base_ref": "checkpoint/wave15-unified-20261029",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 217,
+     "state": "closed",
+     "head_ref": "probe/st05-stage0-a02-a03-20261030",
+     "base_ref": "design/st05-worldgen-q01-q18-20261030",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 219,
+     "state": "closed",
+     "head_ref": "claude/st05-stage1a-integration-ydvo8d",
+     "base_ref": "probe/st05-stage0-a02-a03-20261030",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 220,
+     "state": "closed",
+     "head_ref": "codex/st05-stage1b-combat-20261102",
+     "base_ref": "claude/st05-stage1a-integration-ydvo8d",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 221,
+     "state": "closed",
+     "head_ref": "codex/st05-stage1c-crash-recovery-20261102",
+     "base_ref": "codex/st05-stage1b-combat-20261102",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 222,
+     "state": "closed",
+     "head_ref": "claude/st05-stage1d-client-validation-20261102",
+     "base_ref": "codex/st05-stage1c-crash-recovery-20261102",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 223,
+     "state": "merged",
+     "head_ref": "feat/st05-arena-build-visual-20261103",
+     "base_ref": "claude/st05-stage1d-client-validation-20261102",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    },
+    {
+     "number": 224,
+     "state": "closed",
+     "head_ref": "implement/d01-t1-accessories-20261103",
+     "base_ref": "checkpoint/wave15-unified-20261029",
+     "head_branch_exists": false,
+     "base_branch_exists": true
+    },
+    {
+     "number": 226,
+     "state": "merged",
+     "head_ref": "integration/wave16-candidate-20261104",
+     "base_ref": "feat/st05-arena-build-visual-20261103",
+     "head_branch_exists": false,
+     "base_branch_exists": false
+    }
+   ],
+   "merged_but_not_in_main": [
+    36,
+    37,
+    38,
+    104,
+    162,
+    179,
+    183,
+    185,
+    186,
+    187,
+    190,
+    191,
+    198,
+    202,
+    204,
+    212,
+    223,
+    226,
+    239,
+    240,
+    241,
+    242,
+    243,
+    244,
+    248,
+    253,
+    256
+   ]
+  },
+  "pr_only_refs": {
+   "heads_not_in_any_branch": [
+    {
+     "number": 34,
+     "sha": "3e1922770493304d88bcf5962791fe7ac27e6d73",
+     "pr_state": "merged",
+     "head_ref": "resource/material-textures-pass-1"
+    },
+    {
+     "number": 39,
+     "sha": "2a327923ed88a46235d49e35806683fa4a9e6832",
+     "pr_state": "closed",
+     "head_ref": "audit/local-worldgen-ci-repair"
+    },
+    {
+     "number": 65,
+     "sha": "9ba8f422aefb52f43a7440b69f952bd17f66a70a",
+     "pr_state": "closed",
+     "head_ref": "codex/post-stage18-lower-equipment-live-repair"
+    },
+    {
+     "number": 70,
+     "sha": "7c164fe36856f7d45b3f5bd95af65d0ba5f134f3",
+     "pr_state": "merged",
+     "head_ref": "design/end-boss-continuation-2026-10-07"
+    },
+    {
+     "number": 72,
+     "sha": "0cc0a9eaf58290bbde2a4b45f68df101f8f7c6d2",
+     "pr_state": "closed",
+     "head_ref": "resources/40-custom-mob-production-textures"
+    },
+    {
+     "number": 73,
+     "sha": "3a0cd8cc279c6419cf48e684a3d6df95765a4618",
+     "pr_state": "closed",
+     "head_ref": "codex/prototype-client-visual-validation-20261009"
+    },
+    {
+     "number": 74,
+     "sha": "a5a217e10199e5edee67945a83505048efdd92c3",
+     "pr_state": "closed",
+     "head_ref": "docs/2026-10-10-artifact-research-decisions"
+    },
+    {
+     "number": 78,
+     "sha": "d90eb70b10332c05ea12224b09b6d3f32b889db1",
+     "pr_state": "closed",
+     "head_ref": "codex/stage1-runtime-audit-20261012"
+    },
+    {
+     "number": 81,
+     "sha": "be0b6c7874a5c78e4e87fee4431c2a1c78ae3c86",
+     "pr_state": "closed",
+     "head_ref": "codex/k5-natural-tree-provenance-design-20261013"
+    },
+    {
+     "number": 83,
+     "sha": "e7dc53f9f48dfece8a5723debd5526dc061107d1",
+     "pr_state": "closed",
+     "head_ref": "codex/ancient-city-arena-prototype-20261013"
+    },
+    {
+     "number": 85,
+     "sha": "bc092d8c3067611458c72509e271c0f51d49e173",
+     "pr_state": "closed",
+     "head_ref": "codex/ancient-city-whole-variant-probe-20261014"
+    },
+    {
+     "number": 92,
+     "sha": "f632f4f521c782c9614a3bbb71f1ab5579a3358d",
+     "pr_state": "closed",
+     "head_ref": "codex/stage23a-research-implementation-20261015"
+    },
+    {
+     "number": 93,
+     "sha": "803d2e5df5fe2f990ff2f2e5ef3e01c6dcf37955",
+     "pr_state": "closed",
+     "head_ref": "codex/stage23a-reconcile-20261015"
+    },
+    {
+     "number": 97,
+     "sha": "df960d6511fbf9bbe0a649d8f68de6c12362d458",
+     "pr_state": "closed",
+     "head_ref": "codex/stage23a-fisheries-hotfix-20261015"
+    },
+    {
+     "number": 99,
+     "sha": "eb80a148065c29394f7a46650c05ab72dda9140d",
+     "pr_state": "closed",
+     "head_ref": "codex/stage23-livefix-a-20261016"
+    },
+    {
+     "number": 101,
+     "sha": "e532fa3034deb4eff53eacd0f90af02dc8369d8b",
+     "pr_state": "closed",
+     "head_ref": "docs/stage23-accessories-approved-20261016"
+    },
+    {
+     "number": 102,
+     "sha": "601cc28b9d078b01f1d01451fd07f278839eb4b0",
+     "pr_state": "closed",
+     "head_ref": "integration/stage23-reconciliation-audit-20261016"
+    },
+    {
+     "number": 106,
+     "sha": "9b66f49657c084c29873990c0ff8b92d6a0ab620",
+     "pr_state": "closed",
+     "head_ref": "codex/stage23b-cloud-client-qa-design"
+    },
+    {
+     "number": 113,
+     "sha": "32cbca0a3fe57db86262bca7a865573071763640",
+     "pr_state": "closed",
+     "head_ref": "docs/accessory-enhancement-approved-20261017"
+    },
+    {
+     "number": 116,
+     "sha": "8f33e72c8a71d29e132050457535ac8a0092a7b0",
+     "pr_state": "closed",
+     "head_ref": "codex/review-claude-pr110-20261017"
+    },
+    {
+     "number": 122,
+     "sha": "ad778059718b0a1b911264b72818bbaca8026fcd",
+     "pr_state": "closed",
+     "head_ref": "docs/world-events-patrol-design-20261018"
+    },
+    {
+     "number": 123,
+     "sha": "4fbb036e0158098f4b9d6733c68ddd73b87db826",
+     "pr_state": "closed",
+     "head_ref": "integration/q1b-villager-discount-pr116-20261019"
+    },
+    {
+     "number": 126,
+     "sha": "a9b89755f7c4e924243fa4229a90177433712be4",
+     "pr_state": "closed",
+     "head_ref": "design/xp-quest-selector-redesign-20261019"
+    },
+    {
+     "number": 129,
+     "sha": "2176935929c990a210fae64582d524d30993bc8a",
+     "pr_state": "closed",
+     "head_ref": "design/xp-quest-structure-200-20261019"
+    },
+    {
+     "number": 131,
+     "sha": "befa4c8a44c8e3556be2dca9af502d36b0cf11ad",
+     "pr_state": "closed",
+     "head_ref": "design/territory-economy-bounty-approved-20261019"
+    },
+    {
+     "number": 132,
+     "sha": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
+     "pr_state": "closed",
+     "head_ref": "design/territory-registration-recovery-d2a-20261019"
+    },
+    {
+     "number": 133,
+     "sha": "09b33f39f6c0d75f6d1ef837edcdc6d8d8753776",
+     "pr_state": "closed",
+     "head_ref": "design/territory-owner-decisions-d01-d78-20261020"
+    },
+    {
+     "number": 134,
+     "sha": "e0428763cfd1f720a4da20e1bcc4d561fd153261",
+     "pr_state": "closed",
+     "head_ref": "design/territory-owner-decisions-reconcile-20261020"
+    },
+    {
+     "number": 135,
+     "sha": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+     "pr_state": "closed",
+     "head_ref": "design/xp-quest-usability-d1-d5-20261019"
+    },
+    {
+     "number": 136,
+     "sha": "d641075f2078697e432f123d61178a73d26fbdf8",
+     "pr_state": "closed",
+     "head_ref": "design/territory-d79-d80-reconcile-20261020"
+    },
+    {
+     "number": 137,
+     "sha": "f2cc4f06db44f4125b3987c4b92d2ba8711df06b",
+     "pr_state": "closed",
+     "head_ref": "design/territory-d81-d84-facility-prep-20261021"
+    },
+    {
+     "number": 138,
+     "sha": "284ce62ff54247cc0a4e96693c34c190b49c4bbf",
+     "pr_state": "closed",
+     "head_ref": "design/territory-shelved-independent-content-20261021"
+    },
+    {
+     "number": 139,
+     "sha": "526416b16a590abf558534a8426625508c23ad99",
+     "pr_state": "closed",
+     "head_ref": "codex/q1c-production-readiness-audit-20261020"
+    },
+    {
+     "number": 140,
+     "sha": "3e66cfbdfa6a12576ecf0162108250691318c8db",
+     "pr_state": "closed",
+     "head_ref": "codex/xp-quest-200-content-audit-20261020"
+    },
+    {
+     "number": 147,
+     "sha": "55df673a83cbb85136438a9662f862a09f8f44f4",
+     "pr_state": "closed",
+     "head_ref": "design/pillager-headquarters-concept-20261022"
+    },
+    {
+     "number": 154,
+     "sha": "84550ad4ef0a09248934641e26dab61c4f2cd13b",
+     "pr_state": "closed",
+     "head_ref": "audit/repository-pr-reconciliation-20261022"
+    },
+    {
+     "number": 156,
+     "sha": "05a378211a6e4576609416096d3515a6b1dee36f",
+     "pr_state": "closed",
+     "head_ref": "integration/batch-a-recovery-20261022"
+    },
+    {
+     "number": 157,
+     "sha": "cce99b6cc7bb84c03fd8c4d7fe2a58c309ec4b43",
+     "pr_state": "closed",
+     "head_ref": "security/gitleaks-remediation-20261022-codex-725159"
+    },
+    {
+     "number": 158,
+     "sha": "c9e29c56804198a07d7fdb0f7c9007f801cc6936",
+     "pr_state": "closed",
+     "head_ref": "audit/repository-cleanup-phase2-20261023"
+    },
+    {
+     "number": 159,
+     "sha": "5a0ede40519bd15715900482d8816c025e74c99c",
+     "pr_state": "closed",
+     "head_ref": "audit/repository-cleanup-phase2b-20261023"
+    },
+    {
+     "number": 163,
+     "sha": "01a36b0cafaa5f3ca89cb7f2833b11d8ddf401c1",
+     "pr_state": "closed",
+     "head_ref": "audit/phase3-stage23-xpquest-readiness-20261023"
+    },
+    {
+     "number": 164,
+     "sha": "2e847d4956fc4e67c9019f0dc174b5499446bd3d",
+     "pr_state": "closed",
+     "head_ref": "docs/wave4b-custom-quest-ui-authority-20261024"
+    },
+    {
+     "number": 188,
+     "sha": "eb88cf81474ee46d5e8a3cf8e08fdc247a45d10f",
+     "pr_state": "closed",
+     "head_ref": "fix/wave9-live-input-harness-20261026"
+    },
+    {
+     "number": 189,
+     "sha": "6f9c3ac2ad3f68b48e8428a3840ce6da7ec551a9",
+     "pr_state": "closed",
+     "head_ref": "docs/phase2-preservation-decisions-20261026"
+    },
+    {
+     "number": 194,
+     "sha": "4e6901c08e67485190ed0697d328ee21e408cccf",
+     "pr_state": "closed",
+     "head_ref": "test/wave13-f3-f1-evidence-20261027"
+    },
+    {
+     "number": 195,
+     "sha": "87fa013377edb3b8553eabaa3ceb1483d8917f24",
+     "pr_state": "closed",
+     "head_ref": "docs/wave13-prep-audit-20261027"
+    },
+    {
+     "number": 196,
+     "sha": "bbd69182ef220d2fb7288471ddd7f49a11041861",
+     "pr_state": "closed",
+     "head_ref": "feat/wave13-adamantium-f3-impl-20261027"
+    },
+    {
+     "number": 200,
+     "sha": "d4ca6a4956388805b49c38a646cd5cb22f857eb6",
+     "pr_state": "closed",
+     "head_ref": "security/prc-p7c-gitleaks-remediation-20261027"
+    },
+    {
+     "number": 211,
+     "sha": "a91bc71ba5ffdac4e33d47b358518fb834d05397",
+     "pr_state": "closed",
+     "head_ref": "feat/w16-sky-habitat"
+    },
+    {
+     "number": 224,
+     "sha": "9f705e54448f902040ee112a8f9ca0bdf61b10c7",
+     "pr_state": "closed",
+     "head_ref": "implement/d01-t1-accessories-20261103"
+    }
+   ]
+  },
+  "heads_with_failing_ci": [
+   {
+    "branch": "audit/prc-p7b-targeted-closure-20261027",
+    "sha": "66d2b52995bd6da909cb1ce9539db5cb175f6d15",
+    "failing": {
+     "Fabric CI": "cancelled"
+    }
+   },
+   {
+    "branch": "checkpoint/wave10-unified-20261026",
+    "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+    "failing": {
+     "Pre-public full-history secret audit": "failure"
+    }
+   },
+   {
+    "branch": "claude/st01-p8c2b-natural-worldgen-isauq8",
+    "sha": "33aaf4e63a93c9a1299c2085ca2b58dba5b9e684",
+    "failing": {
+     "ST-01 P8-C2-B Natural Worldgen": "failure"
+    }
+   },
+   {
+    "branch": "claude/st01-pyramid-phase4-worldgen-roke2l",
+    "sha": "ada10ba343f7d7eeb9b944baa69750c3c25a949e",
+    "failing": {
+     "Fabric CI": "failure",
+     "ST-01 Royal Chest Runtime": "failure"
+    }
+   },
+   {
+    "branch": "docs/d13-03-i06-royal-chest-authority",
+    "sha": "1bfd5faad0c01e83606198c2711118096fce165c",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "docs/sky-mob-p0-authority-20261106",
+    "sha": "18dc6a4c824824db42b1a9bc1e69d1a35648d33a",
+    "failing": {
+     "ST05 Stage 1-C reward recovery across independent server processes": "failure"
+    }
+   },
+   {
+    "branch": "experiment/cloud-free-model-delegation-phase0",
+    "sha": "aa376713aedcd7fecd769af39e18f8532b9e147d",
+    "failing": {
+     "Fabric CI": "failure",
+     "Pre-public full-history secret audit": "failure"
+    }
+   },
+   {
+    "branch": "implement/d13-01-relic-catalyst-20261104",
+    "sha": "23e9be7eada6f551d2fd7443737b94262781b5e0",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "implement/d13-02-relic-catalyst-sources-20261104",
+    "sha": "8aba6f37c101ef7715c3dfc7e2c90cd7a9d59d16",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "implement/d13-03-i01-t2-accessory-chest-pools-20261105",
+    "sha": "13612855094cc955c3ce08df7731c878490ae1b6",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "implement/d13-03-i02-deep-sea-pearl-20261105",
+    "sha": "a2584ba410455f69a11eaaabaa8551856dce20a1",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "implement/d13-03-i03-heart-of-gravity-20261105",
+    "sha": "7a1e441c9d5d0170e1a32599d29ab59a513c8339",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "implement/d13-03-i04a-star-covenant-vault-logic-20261106",
+    "sha": "df673dfe7ab8bbc43b0087b17a4476f4a5211ef6",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "integration/wave10-unified-20261025",
+    "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+    "failing": {
+     "Pre-public full-history secret audit": "failure"
+    }
+   },
+   {
+    "branch": "stage-audit/wave15-candidate-20261028",
+    "sha": "68de9706f17fd6b68e7b74277ecb95f53c7368fd",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "work/st01-g0-geometry-finalization-20261110",
+    "sha": "6b64106f72a99a91305057b1786ea52dd2875092",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "work/st01-g0-r1-blueprint-finalization-20261110",
+    "sha": "c26ea0f871e788d1d331b40151779d86590469f2",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "work/st01-o14-phase1-phase2-20261109",
+    "sha": "d432a9c585d0d66484674d520b654b26460d2fd3",
+    "failing": {
+     "Fabric CI": "failure",
+     "Minecraft Client Visual Validation": "failure",
+     "Pre-public full-history secret audit": "failure"
+    }
+   },
+   {
+    "branch": "work/st01-o14-phase3-1-validation-20261109",
+    "sha": "7e37b786de8fcf36980ec732cc8079bb24e6a7fd",
+    "failing": {
+     "Fabric CI": "failure",
+     "Minecraft Client Visual Validation": "failure",
+     "Pre-public full-history secret audit": "failure"
+    }
+   },
+   {
+    "branch": "work/st01-o14-phase3-calibration-20261109",
+    "sha": "d67533399c3fa87a0e5fa0f14fd3e39897aad99c",
+    "failing": {
+     "Fabric CI": "failure",
+     "Minecraft Client Visual Validation": "failure",
+     "Pre-public full-history secret audit": "failure"
+    }
+   },
+   {
+    "branch": "work/st01-p8b2-royal-chest-runtime-20261110",
+    "sha": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   },
+   {
+    "branch": "work/st01-p8c2a-complete-assembly-20261110-r1",
+    "sha": "c25f9d447e54b882c0280144aab4afd16205e1bb",
+    "failing": {
+     "Fabric CI": "failure"
+    }
+   }
+  ],
+  "branches": [
+   {
+    "name": "audit/prc-p7-security-hold-reaudit-20261027",
+    "sha": "04c09ea121891834b9166c1804de2d5a16464fd7",
+    "committed_at": "2026-10-27T12:31:42+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 207,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "integration/wave12-functional-preservation-20261027",
+    "open_prs": [
+     197
+    ],
+    "prs": [
+     197
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "audit/prc-p7b-targeted-closure-20261027",
+    "sha": "66d2b52995bd6da909cb1ce9539db5cb175f6d15",
+    "committed_at": "2026-10-27T13:02:17+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 208,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "audit/prc-p7-security-hold-reaudit-20261027",
+    "open_prs": [
+     199
+    ],
+    "prs": [
+     199
+    ],
+    "failing_ci": {
+     "Fabric CI": "cancelled"
+    },
+    "ci_run_count": 1
+   },
+   {
+    "name": "audit/prc-p7c-closure-security-execution-20261027",
+    "sha": "84c3eadcdde4aac6ef981870788b66ddf16d3e8e",
+    "committed_at": "2026-10-27T14:07:04+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 210,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "audit/prc-p7b-targeted-closure-20261027",
+    "open_prs": [
+     201
+    ],
+    "prs": [
+     201
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "audit/prc-p7d-security-verification-20261027",
+    "sha": "20eb1d8ef705d15ede39997f5735c01b06297d45",
+    "committed_at": "2026-10-27T16:24:59+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 211,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "audit/prc-p7c-closure-security-execution-20261027",
+    "open_prs": [
+     203
+    ],
+    "prs": [
+     203
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "audit/sky-tower-completeness",
+    "sha": "6c48b8d7179eb3c04efdb1f6e2f8e046041056b1",
+    "committed_at": "2026-11-09T09:43:37+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 368,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "claude/relaxed-ramanujan-th5bvj",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "audit/st05-po25-review-package-20261102",
+    "sha": "11c09064dc62c28faea44ffcc564621cc6303908",
+    "committed_at": "2026-11-02T04:26:57+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 279,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "probe/st05-p0-probe-01",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "audit/stage23-pr92-pr93-reconciliation-20261019",
+    "sha": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+    "committed_at": "2026-10-19T10:30:14+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 145,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "codex/stage23-livefix-b-20261016",
+    "open_prs": [],
+    "prs": [
+     125
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "checkpoint/wave10-unified-20261026",
+    "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+    "committed_at": "2026-10-27T07:20:27+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 189,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-ci/accessory-bounty-20261023",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {
+     "Pre-public full-history secret audit": "failure"
+    },
+    "ci_run_count": 10
+   },
+   {
+    "name": "checkpoint/wave11-unified-20261027",
+    "sha": "c47c69f3e3553819432905197599443288669bb5",
+    "committed_at": "2026-10-26T22:38:23+00:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 193,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-ci/accessory-bounty-20261023",
+    "open_prs": [],
+    "prs": [
+     192
+    ],
+    "failing_ci": {},
+    "ci_run_count": 10
+   },
+   {
+    "name": "checkpoint/wave12-unified-20261027",
+    "sha": "6ead3fcda562ea728325e37e7e2829de1895807d",
+    "committed_at": "2026-10-28T09:19:09+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 216,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "integration/wave12-functional-preservation-20261027",
+    "open_prs": [],
+    "prs": [
+     193
+    ],
+    "failing_ci": {},
+    "ci_run_count": 11
+   },
+   {
+    "name": "checkpoint/wave13-unified-20261028",
+    "sha": "34d56b1c0b0d2b078dbb7026c40c895352cdc86b",
+    "committed_at": "2026-10-28T01:02:15+00:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 218,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave12-unified-20261027",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 8
+   },
+   {
+    "name": "checkpoint/wave14-unified-20261028",
+    "sha": "063d5e08d491aa25b6767b7b07c5e7679ad50f45",
+    "committed_at": "2026-10-28T05:55:01+00:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 219,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave13-unified-20261028",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 5
+   },
+   {
+    "name": "checkpoint/wave15-unified-20261029",
+    "sha": "4e1ff87a2693237f727c8a91a478a3d418402bc7",
+    "committed_at": "2026-10-30T08:16:13+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 232,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "docs/st05-wave15-authority-q110-20261029",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "checkpoint/wave16-unified-20261104",
+    "sha": "65072bcaa5f645feb6e524557f5e77b7e40990ff",
+    "committed_at": "2026-11-04T10:56:43+09:00",
+    "relation_to_latest_checkpoint": "same",
+    "ahead_of_main": 335,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave15-unified-20261029",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 9
+   },
+   {
+    "name": "claude/colosseum-deterministic-clock-20261107",
+    "sha": "f6c45ee3e6721f2bda076e7038e6af580e14d3c5",
+    "committed_at": "2026-11-07T01:48:21+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 348,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave16-unified-20261104",
+    "open_prs": [],
+    "prs": [
+     240
+    ],
+    "failing_ci": {},
+    "ci_run_count": 8
+   },
+   {
+    "name": "claude/moreminecrafts-beta-audit-mirror-7id36x",
+    "sha": "280b00076d78072940e3913548117d507886f506",
+    "committed_at": "2026-11-10T03:33:15+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 2,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "main",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "claude/q1c-skull-provenance-20261019",
+    "sha": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
+    "committed_at": "2026-10-19T03:46:25+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 147,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "codex/q1c-recovery-20261019-079d36a",
+    "open_prs": [
+     128
+    ],
+    "prs": [
+     128
+    ],
+    "failing_ci": {},
+    "ci_run_count": 4
+   },
+   {
+    "name": "claude/relaxed-ramanujan-th5bvj",
+    "sha": "fdaa7effe96746ffe5e6e4454acc916cba277ff4",
+    "committed_at": "2026-11-09T06:56:28+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 367,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "feature/sky-tower-integration-01",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "claude/sky-mob-gametest-timing-nn7o1h",
+    "sha": "9a54ae0ba3805dce813354a5aa9ea21c1f57de69",
+    "committed_at": "2026-11-06T06:38:40+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 347,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave16-unified-20261104",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "claude/sky-mob-p2b-p2c-vwuur8",
+    "sha": "55884b22c5d66e19974851ddb37372d5b398022e",
+    "committed_at": "2026-11-10T10:37:04+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 400,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "docs/sky-mob-p0-authority-20261106",
+    "open_prs": [
+     260
+    ],
+    "prs": [
+     248,
+     256,
+     260
+    ],
+    "failing_ci": {},
+    "ci_run_count": 3
+   },
+   {
+    "name": "claude/sky-mob-p2d-crystal-bug",
+    "sha": "1683772e3aadcd5b765e4682bdb3f9d7686b9d81",
+    "committed_at": "2026-11-10T09:22:41+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 394,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "feature/sky-mob-p2b-cloud-wraith",
+    "open_prs": [],
+    "prs": [
+     253
+    ],
+    "failing_ci": {},
+    "ci_run_count": 5
+   },
+   {
+    "name": "claude/sky-mob-p2e1-r2-cloud-creature",
+    "sha": "49d59ee690e8e31864d0c524602836c099a3c754",
+    "committed_at": "2026-11-10T11:12:33+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 400,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "docs/sky-mob-p0-authority-20261106",
+    "open_prs": [
+     261
+    ],
+    "prs": [
+     261
+    ],
+    "failing_ci": {},
+    "ci_run_count": 5
+   },
+   {
+    "name": "claude/sky-tower-geometry-02-coords-hgbfo7",
+    "sha": "c43b48036829fe34bf348e4ec197fd7b0f55ae5a",
+    "committed_at": "2026-11-07T11:39:14+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 353,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "docs/sky-tower-design-q01-q41-20261105",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "claude/sky-tower-phase-2-validation-twragg",
+    "sha": "d12a6e114f00055b6cc62e7e272474ed46f33bbb",
+    "committed_at": "2026-11-10T03:29:33+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 371,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "validation/sky-tower-mountain-height",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "claude/st01-p8a-d1-floor-stairs-wweuti",
+    "sha": "e229d001be06076b9d199c4e3fd8fd2be790e6b5",
+    "committed_at": "2026-11-09T11:02:50+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 368,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "claude/st01-p8a-royal-hall-validation-wweuti",
+    "open_prs": [
+     250
+    ],
+    "prs": [
+     250
+    ],
+    "failing_ci": {},
+    "ci_run_count": 6
+   },
+   {
+    "name": "claude/st01-p8a-royal-hall-validation-wweuti",
+    "sha": "b83483027c3a59bd036f6e44db27dbc30a464697",
+    "committed_at": "2026-11-09T09:32:34+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 365,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p8a-nbt-spatial-layout-20261109",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "claude/st01-p8c2b-natural-worldgen-isauq8",
+    "sha": "33aaf4e63a93c9a1299c2085ca2b58dba5b9e684",
+    "committed_at": "2026-11-10T11:44:17+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 383,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p8c2a-complete-assembly-20261110-r1",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {
+     "ST-01 P8-C2-B Natural Worldgen": "failure"
+    },
+    "ci_run_count": 1
+   },
+   {
+    "name": "claude/st01-pyramid-phase4-worldgen-roke2l",
+    "sha": "ada10ba343f7d7eeb9b944baa69750c3c25a949e",
+    "committed_at": "2026-11-10T06:17:13+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 385,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p8b2-royal-chest-runtime-20261110",
+    "open_prs": [
+     258
+    ],
+    "prs": [
+     258
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure",
+     "ST-01 Royal Chest Runtime": "failure"
+    },
+    "ci_run_count": 8
+   },
+   {
+    "name": "claude/st05-p0-probe-binding-urp8d9",
+    "sha": "b3b935e81b2a57a403dc17b56f22bc15ae7c1bbc",
+    "committed_at": "2026-11-01T07:51:55+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 269,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "design/st05-worldgen-q01-q18-20261030",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "codex/q1c-pr128-p1-p2-repair-20261019",
+    "sha": "9c9f22577370cd0160dd2b43b0e92caa7832f420",
+    "committed_at": "2026-10-19T06:09:43+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 154,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "claude/q1c-skull-provenance-20261019",
+    "open_prs": [
+     130
+    ],
+    "prs": [
+     130
+    ],
+    "failing_ci": {},
+    "ci_run_count": 4
+   },
+   {
+    "name": "codex/q1c-recovery-20261019-079d36a",
+    "sha": "334997d2f81d6b324b0cccd3f40b538c921edadc",
+    "committed_at": "2026-10-19T03:05:56+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 146,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "audit/stage23-pr92-pr93-reconciliation-20261019",
+    "open_prs": [
+     127
+    ],
+    "prs": [
+     127
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "codex/stage23-livefix-b-20261016",
+    "sha": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+    "committed_at": "2026-10-16T04:27:04+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 82,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "integration/stage23-final-reconciliation-20261016",
+    "open_prs": [],
+    "prs": [
+     105
+    ],
+    "failing_ci": {},
+    "ci_run_count": 5
+   },
+   {
+    "name": "codex/stage23-pr105-bundle-export-20261016",
+    "sha": "c035946fb883a471cec422a6cca0710302b1adb6",
+    "committed_at": "2026-10-16T23:57:02+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 83,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "codex/stage23-livefix-b-20261016",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "codex/stage23b-cloud-live-client-qa",
+    "sha": "dad054c7cb5e5d672a0ef96bfdeffc482e1c48f6",
+    "committed_at": "2026-10-16T19:09:57+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 137,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "codex/stage23-livefix-b-20261016",
+    "open_prs": [
+     107
+    ],
+    "prs": [
+     107
+    ],
+    "failing_ci": {},
+    "ci_run_count": 5
+   },
+   {
+    "name": "codex/xp-quest-ui-integration-20261020",
+    "sha": "a124ccfc2e7e3bc826c04705fa98f69a102a2636",
+    "committed_at": "2026-10-20T14:44:07+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 2,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-21/knowledge-checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "design/pyramid-mob-roster-20261026",
+    "sha": "a86c6d5beb336eb14c0459200434b0f6304398c5",
+    "committed_at": "2026-10-26T09:51:07+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 1,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "main",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "design/spider-colony-biome-20261026",
+    "sha": "4aabb33e189e783b11885732731881bc82b66790",
+    "committed_at": "2026-10-27T15:46:40+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 52,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "main",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "design/st01-build-q01-q08-20261105",
+    "sha": "2bd691f96eab063d76f5fa7ee93f8d11d626ad08",
+    "committed_at": "2026-11-06T14:45:40+09:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 345,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave16-unified-20261104",
+    "open_prs": [
+     231
+    ],
+    "prs": [
+     231
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "design/st05-colosseum-owner-decisions-20261028",
+    "sha": "dd193d7880b87a40a3f6eaa9bff359792e2cea08",
+    "committed_at": "2026-10-30T04:01:28+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 329,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave12-unified-20261027",
+    "open_prs": [
+     207
+    ],
+    "prs": [
+     207
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "design/st05-worldgen-q01-q18-20261030",
+    "sha": "5a02e5cc149d70ef6bcf2679f96f823f925a59fe",
+    "committed_at": "2026-11-01T15:01:15+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 266,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave15-unified-20261029",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "design/stage23a-remaining-approval-20261017",
+    "sha": "67d6c1fdd1203b4e1416e1977b785f0ad7096665",
+    "committed_at": "2026-10-17T16:06:00+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 88,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "codex/stage23-livefix-b-20261016",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "design/t1-accessories-d01-owner-decisions-20261030",
+    "sha": "59ad0bbbb81868283a4d79d9011a7a6db6d1c3c6",
+    "committed_at": "2026-11-03T14:18:15+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 237,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave15-unified-20261029",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "docs/2026-10-07-content-first-axis-review",
+    "sha": "8bf157f7988569c715bde4dfd298e9af20305415",
+    "committed_at": "2026-10-13T12:16:42+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 15,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-9/skeleton-king",
+    "open_prs": [],
+    "prs": [
+     71
+    ],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "docs/alchemy-plot-notes",
+    "sha": "cc1a96b062696bb5420ec0631883f0d1f59aa89e",
+    "committed_at": "2026-10-02T12:07:01+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 1,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-18/integration",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "docs/content-design-roadmap-wave15-20261030",
+    "sha": "fdaeac6c0c9032691d77813274627601b3f53e0a",
+    "committed_at": "2026-11-04T14:56:33+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 236,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave15-unified-20261029",
+    "open_prs": [
+     215
+    ],
+    "prs": [
+     215
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "docs/d13-03-authority-q01-q47-20261106",
+    "sha": "3ad9f2831d8cd9456ff3501277a726e09de7e973",
+    "committed_at": "2026-11-06T02:23:51+09:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 338,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave16-unified-20261104",
+    "open_prs": [
+     232
+    ],
+    "prs": [
+     232
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "docs/d13-03-i06-royal-chest-authority",
+    "sha": "1bfd5faad0c01e83606198c2711118096fce165c",
+    "committed_at": "2026-11-07T19:02:00+09:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 346,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implement/d13-03-i03-heart-of-gravity-20261105",
+    "open_prs": [],
+    "prs": [
+     241
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 1
+   },
+   {
+    "name": "docs/sky-islands-design-context-20261027",
+    "sha": "2fba754b3c092017ab5da95b661c4dd1f898f386",
+    "committed_at": "2026-10-27T20:36:42+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 11,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "main",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "docs/sky-mob-p0-authority-20261106",
+    "sha": "18dc6a4c824824db42b1a9bc1e69d1a35648d33a",
+    "committed_at": "2026-11-10T19:29:16+09:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 399,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "claude/sky-mob-p2d-crystal-bug",
+    "open_prs": [
+     238
+    ],
+    "prs": [
+     238
+    ],
+    "failing_ci": {
+     "ST05 Stage 1-C reward recovery across independent server processes": "failure"
+    },
+    "ci_run_count": 8
+   },
+   {
+    "name": "docs/sky-tower-design-q01-q41-20261105",
+    "sha": "1449bf1034be625cdaf7898c267897e7d52975e8",
+    "committed_at": "2026-11-06T10:51:22+09:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 341,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave16-unified-20261104",
+    "open_prs": [
+     229
+    ],
+    "prs": [
+     229
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "docs/st03-owner-decisions-q01-q42-20261104",
+    "sha": "7f4e66adacb80183b480cc306f6388c4f6e056d0",
+    "committed_at": "2026-11-04T21:12:04+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 236,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave15-unified-20261029",
+    "open_prs": [
+     225
+    ],
+    "prs": [
+     225
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "docs/st05-wave15-authority-q110-20261029",
+    "sha": "423144ce99a9c53065a713afdcf1071d13080a3e",
+    "committed_at": "2026-10-29T21:02:03+00:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 231,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave14-unified-20261028",
+    "open_prs": [],
+    "prs": [
+     212
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "docs/ui-piglin-mob-tracker-20261010",
+    "sha": "6fe1a308c9c72d63b48be6c7a8590e44e46a55bd",
+    "committed_at": "2026-10-10T15:33:38+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 1,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-20/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "experiment/cloud-free-model-delegation-phase0",
+    "sha": "aa376713aedcd7fecd769af39e18f8532b9e147d",
+    "committed_at": "2026-10-21T11:35:41+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 1,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-21/knowledge-checkpoint",
+    "open_prs": [
+     141
+    ],
+    "prs": [
+     141
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure",
+     "Pre-public full-history secret audit": "failure"
+    },
+    "ci_run_count": 2
+   },
+   {
+    "name": "experiment/ponytail-skill-2-20261021",
+    "sha": "f864df45ef0dad33a898a7f6aaf066b6b345bb5a",
+    "committed_at": "2026-10-21T09:42:02+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 4,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-21/knowledge-checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "experiment/underground-kingdom-worldgen-probe",
+    "sha": "991b20c8a052ecf5d73c5130d2d9e0eb4338c041",
+    "committed_at": "2026-10-17T15:09:39+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 77,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "integration/stage23-final-reconciliation-20261016",
+    "open_prs": [
+     117
+    ],
+    "prs": [
+     117
+    ],
+    "failing_ci": {},
+    "ci_run_count": 4
+   },
+   {
+    "name": "feat/st03-implement-01-20261105",
+    "sha": "7c9520a1856672d076543f7cff6acc471487e031",
+    "committed_at": "2026-11-05T02:43:17+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 237,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "docs/st03-owner-decisions-q01-q42-20261104",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "feat/st05-c-controller-foundation-20261030",
+    "sha": "172613621438ad5f2c2252134e0aaccf1a757380",
+    "committed_at": "2026-10-30T03:33:05+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 238,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "docs/st05-wave15-authority-q110-20261029",
+    "open_prs": [
+     213
+    ],
+    "prs": [
+     213
+    ],
+    "failing_ci": {},
+    "ci_run_count": 7
+   },
+   {
+    "name": "feat/st05-c4-structure-mask-20261030",
+    "sha": "1ee08d440032095f9f247f2cb98c87fd15478656",
+    "committed_at": "2026-10-30T03:56:18+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 240,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "feat/st05-c-controller-foundation-20261030",
+    "open_prs": [
+     216
+    ],
+    "prs": [
+     216
+    ],
+    "failing_ci": {},
+    "ci_run_count": 7
+   },
+   {
+    "name": "feature/sky-mob-p2b-cloud-wraith",
+    "sha": "58efa1ff35c0f5d9f65040e4a16bb8c1349c25b3",
+    "committed_at": "2026-11-09T08:26:02+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 378,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implement/sky-mob-p1-entities-20261106",
+    "open_prs": [],
+    "prs": [
+     244
+    ],
+    "failing_ci": {},
+    "ci_run_count": 5
+   },
+   {
+    "name": "feature/sky-tower-full-build-01",
+    "sha": "16ad9d59b4f518b38c981b22c4517498dc1aad2d",
+    "committed_at": "2026-11-07T19:28:56+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 355,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "claude/sky-tower-geometry-02-coords-hgbfo7",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "feature/sky-tower-integration-01",
+    "sha": "387a50c27e2fb6353d0137760dd5e07a9e9590a5",
+    "committed_at": "2026-11-08T01:13:57+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 357,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "feature/sky-tower-full-build-01",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "feature/sky-tower-integration-02",
+    "sha": "5013989dfd4a9575ace5dccf922d28dea9d52150",
+    "committed_at": "2026-11-10T09:49:41+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 372,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implementation/sky-tower-mountain-adaptive-b",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "fix/ci-tomb-guardian-colosseum-20261107",
+    "sha": "1ec7610ff2cafd8a7321988dc96bdb80d4feeed6",
+    "committed_at": "2026-11-07T10:55:51+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 350,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "docs/d13-03-i06-royal-chest-authority",
+    "open_prs": [],
+    "prs": [
+     242
+    ],
+    "failing_ci": {},
+    "ci_run_count": 9
+   },
+   {
+    "name": "implement/d13-01-relic-catalyst-20261104",
+    "sha": "23e9be7eada6f551d2fd7443737b94262781b5e0",
+    "committed_at": "2026-11-04T09:01:14+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 336,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave16-unified-20261104",
+    "open_prs": [
+     227
+    ],
+    "prs": [
+     227
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 6
+   },
+   {
+    "name": "implement/d13-02-relic-catalyst-sources-20261104",
+    "sha": "8aba6f37c101ef7715c3dfc7e2c90cd7a9d59d16",
+    "committed_at": "2026-11-04T12:07:37+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 336,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave16-unified-20261104",
+    "open_prs": [
+     228
+    ],
+    "prs": [
+     228
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 7
+   },
+   {
+    "name": "implement/d13-03-i01-t2-accessory-chest-pools-20261105",
+    "sha": "13612855094cc955c3ce08df7731c878490ae1b6",
+    "committed_at": "2026-11-05T17:34:10+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 340,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implement/d13-02-relic-catalyst-sources-20261104",
+    "open_prs": [
+     233
+    ],
+    "prs": [
+     233
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 5
+   },
+   {
+    "name": "implement/d13-03-i02-deep-sea-pearl-20261105",
+    "sha": "a2584ba410455f69a11eaaabaa8551856dce20a1",
+    "committed_at": "2026-11-05T17:44:08+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 341,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implement/d13-03-i01-t2-accessory-chest-pools-20261105",
+    "open_prs": [
+     234
+    ],
+    "prs": [
+     234
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 4
+   },
+   {
+    "name": "implement/d13-03-i03-heart-of-gravity-20261105",
+    "sha": "7a1e441c9d5d0170e1a32599d29ab59a513c8339",
+    "committed_at": "2026-11-05T23:51:56+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 342,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implement/d13-03-i02-deep-sea-pearl-20261105",
+    "open_prs": [
+     235
+    ],
+    "prs": [
+     235
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 5
+   },
+   {
+    "name": "implement/d13-03-i04a-star-covenant-vault-logic-20261106",
+    "sha": "df673dfe7ab8bbc43b0087b17a4476f4a5211ef6",
+    "committed_at": "2026-11-06T00:20:19+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 343,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implement/d13-03-i03-heart-of-gravity-20261105",
+    "open_prs": [
+     236
+    ],
+    "prs": [
+     236
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 5
+   },
+   {
+    "name": "implement/d13-03-i05-pyramid-royal-chest-rewards-20261106",
+    "sha": "48038bc9018fc9001635bf9a2f242cd2da62b57c",
+    "committed_at": "2026-11-08T09:15:59+09:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 354,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implement/d13-03-i06-p3-royal-chest-rewards-20261107",
+    "open_prs": [
+     237
+    ],
+    "prs": [
+     237
+    ],
+    "failing_ci": {},
+    "ci_run_count": 10
+   },
+   {
+    "name": "implement/d13-03-i06-p3-royal-chest-rewards-20261107",
+    "sha": "bcb58ff6bbbc0ee1b79f0d56502c6756c636bb8e",
+    "committed_at": "2026-11-08T03:42:21+09:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 352,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "fix/ci-tomb-guardian-colosseum-20261107",
+    "open_prs": [],
+    "prs": [
+     243
+    ],
+    "failing_ci": {},
+    "ci_run_count": 6
+   },
+   {
+    "name": "implement/d13-03-i06-p4-st01-integration-20261108",
+    "sha": "6c7923e0aa8d78307a4541afbaca29254a1f35be",
+    "committed_at": "2026-11-08T01:39:18+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 355,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "implement/d13-03-i05-pyramid-royal-chest-rewards-20261106",
+    "open_prs": [
+     245
+    ],
+    "prs": [
+     245
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "implement/sky-mob-p1-entities-20261106",
+    "sha": "ccc575478413fe133466a819c28504771822ee32",
+    "committed_at": "2026-11-07T19:02:28+09:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 349,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "claude/colosseum-deterministic-clock-20261107",
+    "open_prs": [],
+    "prs": [
+     239
+    ],
+    "failing_ci": {},
+    "ci_run_count": 8
+   },
+   {
+    "name": "implementation/sky-tower-mountain-adaptive-b",
+    "sha": "8b5500e3c10cc32bad4046fcb65d3c41bdae7098",
+    "committed_at": "2026-11-10T04:49:27+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 371,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "audit/sky-tower-completeness",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "integration/stage23-final-reconciliation-20261016",
+    "sha": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+    "committed_at": "2026-10-16T12:48:45+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 76,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-22/research-restructure",
+    "open_prs": [],
+    "prs": [
+     103
+    ],
+    "failing_ci": {},
+    "ci_run_count": 4
+   },
+   {
+    "name": "integration/wave10-unified-20261025",
+    "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+    "committed_at": "2026-10-27T07:20:27+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 189,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-ci/accessory-bounty-20261023",
+    "open_prs": [],
+    "prs": [
+     182
+    ],
+    "failing_ci": {
+     "Pre-public full-history secret audit": "failure"
+    },
+    "ci_run_count": 10
+   },
+   {
+    "name": "integration/wave12-functional-preservation-20261027",
+    "sha": "3c8186b7af3e9fc771feaf427214ed448366dd81",
+    "committed_at": "2026-10-27T01:10:43+00:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 203,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave11-unified-20261027",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 11
+   },
+   {
+    "name": "main",
+    "sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
+    "committed_at": "2026-10-23T08:57:11+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-21/knowledge-checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 2
+   },
+   {
+    "name": "probe/st05-p0-probe-01",
+    "sha": "d4d41681d51d4ccce77ff8afb74ad7bf204476ca",
+    "committed_at": "2026-11-01T18:52:52+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 278,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "claude/st05-p0-probe-binding-urp8d9",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "prototype/stage20-vanilla-sweep-texture",
+    "sha": "b1830ce606627ed692ced4425f06ac94f761eeca",
+    "committed_at": "2026-10-09T14:57:52+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 1,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-20/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "prototype/vanilla-sweep-texture",
+    "sha": "fe9d441f57414f129b00129fc058404168cf5339",
+    "committed_at": "2026-10-09T14:44:38+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 2,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-9/skeleton-king",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "recovery/vanilla-model-custom-mob-roster-base",
+    "sha": "cf4360b228589e538f831aae34e378330fabf670",
+    "committed_at": "2026-10-06T09:27:19+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 1,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-19/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "release/wave9-rc-20261025",
+    "sha": "268ec65bb8827c3f627d076188c7924225b8afa0",
+    "committed_at": "2026-10-26T09:40:01+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 196,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-ci/accessory-bounty-20261023",
+    "open_prs": [],
+    "prs": [
+     181
+    ],
+    "failing_ci": {},
+    "ci_run_count": 9
+   },
+   {
+    "name": "remediation/st01-colosseum-clock-seam-20261110",
+    "sha": "f2c0a6c88d1751080f8113688e275a5fa8b4104a",
+    "committed_at": "2026-11-10T11:26:11+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 382,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p8c2a-complete-assembly-20261110-r1",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "stage-1/fabric-foundation",
+    "sha": "ab5e2a57905d994a6cd6a66e97e8327addf3a74e",
+    "committed_at": "2026-09-21T18:48:09+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": null,
+    "open_prs": [],
+    "prs": [
+     1
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-10/draft-content",
+    "sha": "a2acc715ad2ee9e7af06d84dab7d25e7b84e31c8",
+    "committed_at": "2026-09-25T09:31:08+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-9/skeleton-king",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-11/checkpoint",
+    "sha": "3cb27187e3be0141bcd175e4e355f9fa9cdc6300",
+    "committed_at": "2026-09-26T09:53:02+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-10/draft-content",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-12/checkpoint",
+    "sha": "a8b6299f16a491aa3dc885360325427a29190763",
+    "committed_at": "2026-09-27T18:34:52+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 7,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-9/skeleton-king",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-13/checkpoint",
+    "sha": "94a264c2c6758aeed32be4af6c5ef18795bbca7d",
+    "committed_at": "2026-09-27T23:37:16+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 20,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-12/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-14/checkpoint",
+    "sha": "94a264c2c6758aeed32be4af6c5ef18795bbca7d",
+    "committed_at": "2026-09-27T23:37:16+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 20,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-12/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-15/checkpoint",
+    "sha": "c39313e7d19ef688ac4b528d18cd4cb458ef6e65",
+    "committed_at": "2026-09-28T13:36:03+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-11/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-16/checkpoint",
+    "sha": "70e470deb272c944e65d47ba18802c89e26d761e",
+    "committed_at": "2026-09-30T20:26:21+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-15/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-17/checkpoint",
+    "sha": "d8493c62bb71fd148845830d6d2259e0eac573fb",
+    "committed_at": "2026-10-01T12:47:47+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-16/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-18/checkpoint",
+    "sha": "93d264a8f78d5f4aaa52ae5be80526cbb921f29f",
+    "committed_at": "2026-10-02T20:49:36+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-18/integration",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-18/integration",
+    "sha": "e4e99c36c138d2c83d3e4c9d450a61092c5be587",
+    "committed_at": "2026-10-01T21:04:07+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-17/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-19/checkpoint",
+    "sha": "984418d302cf865b5654fac0a0dcb28449fb6118",
+    "committed_at": "2026-10-04T00:42:12+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-18/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-2/enhancement-stone",
+    "sha": "6ae717c92d47ad036be0f9c6926254fbbd435cc7",
+    "committed_at": "2026-09-22T10:34:26+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-1/fabric-foundation",
+    "open_prs": [],
+    "prs": [
+     3
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-20/checkpoint",
+    "sha": "20121ca7cceae03602038de31076bd9ace115208",
+    "committed_at": "2026-10-07T20:54:18+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-19/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-21/knowledge-checkpoint",
+    "sha": "c0ce63cb73cea42446bedbaece3bb49a9ce71bf8",
+    "committed_at": "2026-10-14T23:53:32+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-20/checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 5
+   },
+   {
+    "name": "stage-22/research-restructure",
+    "sha": "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
+    "committed_at": "2026-10-15T09:51:04+09:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 7,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-21/knowledge-checkpoint",
+    "open_prs": [],
+    "prs": [
+     88
+    ],
+    "failing_ci": {},
+    "ci_run_count": 4
+   },
+   {
+    "name": "stage-3/enhancement-vertical-slice",
+    "sha": "1f05e53fbadea0d1ca8c49c00a64b62edd622174",
+    "committed_at": "2026-09-22T12:18:45+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-2/enhancement-stone",
+    "open_prs": [],
+    "prs": [
+     5
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-4/equipment-foundation",
+    "sha": "8a3159c5a33c18f89baa654ae7c3d550fae6a628",
+    "committed_at": "2026-09-23T02:19:58+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-3/enhancement-vertical-slice",
+    "open_prs": [],
+    "prs": [
+     11
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-5/special-equipment",
+    "sha": "e66bf7ecb39a14be5313818e917596b7abfa1ac4",
+    "committed_at": "2026-09-23T08:42:52+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-4/equipment-foundation",
+    "open_prs": [],
+    "prs": [
+     14
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-6/materials-crafting-progression",
+    "sha": "c8705f4c3969920967f027bbfcddd72fda1338cb",
+    "committed_at": "2026-09-23T11:26:06+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-5/special-equipment",
+    "open_prs": [],
+    "prs": [
+     16
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-7/life-content",
+    "sha": "a62a65e10c569ac655fe43545058a40eea2ed8a6",
+    "committed_at": "2026-09-23T13:22:49+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-6/materials-crafting-progression",
+    "open_prs": [],
+    "prs": [
+     18
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-8/entity-mob",
+    "sha": "5541ad505aeb5e4839d0027ed944e3f7c60810c4",
+    "committed_at": "2026-09-23T15:35:59+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-7/life-content",
+    "open_prs": [],
+    "prs": [
+     21
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-9/skeleton-king",
+    "sha": "ec1b6ce9182795bdd26123a184d58ae5b8c21dd5",
+    "committed_at": "2026-09-23T21:38:58+09:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 0,
+    "contained_in_main": true,
+    "nearest_ancestor_branch": "stage-8/entity-mob",
+    "open_prs": [],
+    "prs": [
+     23
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-audit/wave15-candidate-20261028",
+    "sha": "68de9706f17fd6b68e7b74277ecb95f53c7368fd",
+    "committed_at": "2026-10-28T23:09:41+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 225,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave14-unified-20261028",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 1
+   },
+   {
+    "name": "stage-ci/accessory-bounty-20261023",
+    "sha": "63efc3ca0a71d369d9e7aa25b9e5231e6a7b29ac",
+    "committed_at": "2026-10-23T08:56:29+00:00",
+    "relation_to_latest_checkpoint": "ancestor",
+    "ahead_of_main": 121,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "stage-21/knowledge-checkpoint",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "study/st01-o14-worldgen-feasibility-20261109",
+    "sha": "58ee24b668811f4bf5bab86289362c3c74ba176a",
+    "committed_at": "2026-11-09T04:13:25+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 359,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p11r-o9-gametest-fix-20261109",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "test/git-auth-check",
+    "sha": "5927cddc8eba06479184947e4527a70920311580",
+    "committed_at": "2026-11-09T00:03:34+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 1,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "main",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "validation/sky-tower-mountain-height",
+    "sha": "038eaef6872e90961afdbf8ccab2581a275332a1",
+    "committed_at": "2026-11-09T23:13:58+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 370,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "audit/sky-tower-completeness",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "validation/st05-stage0-a02-a03-20261030",
+    "sha": "838e1366d44a7a09c43bb1453d92511eea46327e",
+    "committed_at": "2026-10-31T00:28:06+00:00",
+    "relation_to_latest_checkpoint": "diverged",
+    "ahead_of_main": 247,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "checkpoint/wave15-unified-20261029",
+    "open_prs": [
+     218
+    ],
+    "prs": [
+     218
+    ],
+    "failing_ci": {},
+    "ci_run_count": 6
+   },
+   {
+    "name": "work/st01-g0-geometry-finalization-20261110",
+    "sha": "6b64106f72a99a91305057b1786ea52dd2875092",
+    "committed_at": "2026-11-10T04:54:45+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 376,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p8b2-royal-chest-runtime-20261110",
+    "open_prs": [
+     255
+    ],
+    "prs": [
+     255
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 1
+   },
+   {
+    "name": "work/st01-g0-r1-blueprint-finalization-20261110",
+    "sha": "c26ea0f871e788d1d331b40151779d86590469f2",
+    "committed_at": "2026-11-10T05:46:49+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 378,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-g0-geometry-finalization-20261110",
+    "open_prs": [
+     257
+    ],
+    "prs": [
+     257
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 2
+   },
+   {
+    "name": "work/st01-o14-phase1-phase2-20261109",
+    "sha": "d432a9c585d0d66484674d520b654b26460d2fd3",
+    "committed_at": "2026-11-09T10:49:16+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 365,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "study/st01-o14-worldgen-feasibility-20261109",
+    "open_prs": [
+     249
+    ],
+    "prs": [
+     249
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure",
+     "Minecraft Client Visual Validation": "failure",
+     "Pre-public full-history secret audit": "failure"
+    },
+    "ci_run_count": 16
+   },
+   {
+    "name": "work/st01-o14-phase3-1-validation-20261109",
+    "sha": "7e37b786de8fcf36980ec732cc8079bb24e6a7fd",
+    "committed_at": "2026-11-09T23:30:54+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 371,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-o14-phase3-calibration-20261109",
+    "open_prs": [
+     252
+    ],
+    "prs": [
+     252
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure",
+     "Minecraft Client Visual Validation": "failure",
+     "Pre-public full-history secret audit": "failure"
+    },
+    "ci_run_count": 16
+   },
+   {
+    "name": "work/st01-o14-phase3-calibration-20261109",
+    "sha": "d67533399c3fa87a0e5fa0f14fd3e39897aad99c",
+    "committed_at": "2026-11-09T12:12:38+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 369,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-o14-phase1-phase2-20261109",
+    "open_prs": [
+     251
+    ],
+    "prs": [
+     251
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure",
+     "Minecraft Client Visual Validation": "failure",
+     "Pre-public full-history secret audit": "failure"
+    },
+    "ci_run_count": 16
+   },
+   {
+    "name": "work/st01-p1-conditional-approval-20261106",
+    "sha": "d2e00531008e60e86aef20f50763aecbcd9a9548",
+    "committed_at": "2026-11-06T06:27:54+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 347,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p1-ground-3d-20261106",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p1-ground-3d-20261106",
+    "sha": "6549c05c436ae056abd309cf7f09bbe462c12480",
+    "committed_at": "2026-11-06T06:09:57+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 346,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "design/st01-build-q01-q08-20261105",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p10-real-tomb-golem-20261108",
+    "sha": "1449ce50d0d3869847248ff4475f8bf4c321a85e",
+    "committed_at": "2026-11-08T09:16:32+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 356,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p9-victory-split-20261108",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p11-prod-config-o9-audit-20261108",
+    "sha": "c1f63fa3bfa7f0cccfcd5c912cd8f5b511383f76",
+    "committed_at": "2026-11-08T14:59:20+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 357,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p10-real-tomb-golem-20261108",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p11r-o9-gametest-fix-20261109",
+    "sha": "6d7856b430a8945d0a13263b14dcb8e5a8729bff",
+    "committed_at": "2026-11-09T03:11:53+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 358,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p11-prod-config-o9-audit-20261108",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p2-underground-20261106",
+    "sha": "fe07865dd1fdd1a7ba196d5d5ff499173b0cfd32",
+    "committed_at": "2026-11-06T06:51:30+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 348,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p1-conditional-approval-20261106",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p3-royal-tomb-20261106",
+    "sha": "37fed9a621e1d333c83117f35fdde9004a77347a",
+    "committed_at": "2026-11-06T12:20:00+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 349,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p2-underground-20261106",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p4-secret-area-20261107",
+    "sha": "0d486fd131638bc08de20b5be8f2846bab3c9177",
+    "committed_at": "2026-11-07T02:02:09+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 350,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p3-royal-tomb-20261106",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p5-integration-20261107",
+    "sha": "f7bf07fc96dca6ee150cfa01a597264167459ce0",
+    "committed_at": "2026-11-07T07:54:24+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 351,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p4-secret-area-20261107",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p6-final-spec-20261107",
+    "sha": "06a262d70d9b5154d1ffccb1bbdfc4601b2b984f",
+    "committed_at": "2026-11-07T10:19:44+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 352,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p5-integration-20261107",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p7-east-primary-guardian-20261108",
+    "sha": "93ff73f155c4e0660b2c33b695876666170f4836",
+    "committed_at": "2026-11-08T23:37:13+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 356,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p6-final-spec-20261107",
+    "open_prs": [
+     246
+    ],
+    "prs": [
+     246
+    ],
+    "failing_ci": {},
+    "ci_run_count": 1
+   },
+   {
+    "name": "work/st01-p7-secret-entrance-state-20261107",
+    "sha": "5610683dd004071b0e9967e22d463e57d6b871ee",
+    "committed_at": "2026-11-07T10:50:19+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 353,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p6-final-spec-20261107",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p8-dummy-prototype-20261107",
+    "sha": "633005e801f13c5188adc7bf259eb0e83f7031b7",
+    "committed_at": "2026-11-07T18:53:10+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 354,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p7-secret-entrance-state-20261107",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   },
+   {
+    "name": "work/st01-p8a-nbt-spatial-layout-20261109",
+    "sha": "20a3578c1c09ef2af42851ca8d5301adb1a2b27b",
+    "committed_at": "2026-11-09T03:46:03+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 357,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p7-east-primary-guardian-20261108",
+    "open_prs": [
+     247
+    ],
+    "prs": [
+     247
+    ],
+    "failing_ci": {},
+    "ci_run_count": 5
+   },
+   {
+    "name": "work/st01-p8b2-royal-chest-runtime-20261110",
+    "sha": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+    "committed_at": "2026-11-10T02:21:34+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 374,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "claude/st01-p8a-d1-floor-stairs-wweuti",
+    "open_prs": [
+     254
+    ],
+    "prs": [
+     254
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 8
+   },
+   {
+    "name": "work/st01-p8c2a-complete-assembly-20261110-r1",
+    "sha": "c25f9d447e54b882c0280144aab4afd16205e1bb",
+    "committed_at": "2026-11-10T09:51:39+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 380,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-g0-r1-blueprint-finalization-20261110",
+    "open_prs": [
+     259
+    ],
+    "prs": [
+     259
+    ],
+    "failing_ci": {
+     "Fabric CI": "failure"
+    },
+    "ci_run_count": 8
+   },
+   {
+    "name": "work/st01-p9-victory-split-20261108",
+    "sha": "eecf09b5b1478ba13be4382beb3913682e375a5e",
+    "committed_at": "2026-11-08T01:59:43+00:00",
+    "relation_to_latest_checkpoint": "descendant",
+    "ahead_of_main": 355,
+    "contained_in_main": false,
+    "nearest_ancestor_branch": "work/st01-p8-dummy-prototype-20261107",
+    "open_prs": [],
+    "prs": [],
+    "failing_ci": {},
+    "ci_run_count": 0
+   }
+  ],
+  "unlisted_branch_count": 76
+ },
+ "facts": {
+  "conflicts": [
+   {
+    "id": "C-1",
+    "title": "Royal chest implemented twice (D13-03 stack vs ST-01 stack)",
+    "status": "OWNER DECISION REQUIRED (D-2)",
+    "side_a": {
+     "pr": 245,
+     "branch": "implement/d13-03-i06-p4-st01-integration-20261108",
+     "head": "6c7923e0aa8d78307a4541afbaca29254a1f35be",
+     "authority_docs_on_this_side": [
+      "docs/planning/D13_03_I06_ROYAL_CHEST_REWARDS_AUTHORITY_2026-11-07.md"
+     ]
+    },
+    "side_b": {
+     "pr": 254,
+     "branch": "work/st01-p8b2-royal-chest-runtime-20261110",
+     "head": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+     "authority_docs_on_this_side": [
+      "docs/INDEPENDENT_ROYAL_TOMB_OWNER_REQUIREMENTS_2026-11-06.md",
+      "docs/ST01_BUILD_DECISIONS_Q01_Q08_2026-11-05.md"
+     ]
+    },
+    "merge_base": "65072bcaa5f645feb6e524557f5e77b7e40990ff (checkpoint/wave16-unified-20261104)",
+    "conflicting_files": [
+     "src/gametest/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestGameTests.java",
+     "src/gametest/resources/fabric.mod.json",
+     "src/main/java/dev/itzgamesgd/moreminecrafts/MoreMinecrafts.java",
+     "src/main/java/dev/itzgamesgd/moreminecrafts/accessory/PyramidRoyalChestRewards.java",
+     "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestContainer.java",
+     "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestData.java",
+     "src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/RoyalChestRuntime.java",
+     "src/test/java/dev/itzgamesgd/moreminecrafts/accessory/PyramidRoyalChestRewardsTest.java"
+    ],
+    "conflict_kinds": {
+     "add/add": 6,
+     "content": 2
+    },
+    "divergence": "Both sides define the same classes (RoyalChestContainer/Data/Menu/RewardModel/Role/Runtime). Side B is a superset in the persistence layer (extra members index, positions, canonicalId, validPrimary; RoyalChestData 221 vs 197 lines, RoyalChestRuntime 166 vs 143). RoyalChestMenu, RoyalChestRewardModel and RoyalChestRole are the same size on both sides. Each side carries authority documents the other lacks.",
+    "shared_dependencies": [
+     "PyramidRoyalChestRewards (accessory reward constants and pure draw, from I05 18362bb9)",
+     "Heart of Gravity / Ancient Heart Tomb Guardian drops (I03, #235)",
+     "MoreMinecrafts.java registrations",
+     "moreminecrafts.mixins.json (RoyalChest mixins)",
+     "en_us.json / ko_kr.json strings"
+    ],
+    "possible_strategies": [
+     "A. Keep the D13-03 I05/I06 implementation as the base and port the dual-half persistence from #254 on top.",
+     "B. Keep #254 as the base and port the I06 reward engine (#243) on top.",
+     "C. First extract the identical pure model (RoyalChestRewardModel, RoyalChestRole) into a small shared change, then reconcile the persistence layer.",
+     "D. Merge sequentially: integrate one stack, then rebase the other onto it and resolve once."
+    ],
+    "verification_required_after_reconciliation": [
+     "git merge-tree of the two tips reports no conflicts",
+     "JUnit: RoyalChestRewardModelTest, PyramidRoyalChestRewardsTest",
+     "GameTests: RoyalChestGameTests, St01RoyalChestGameTests, Tomb Guardian loot test, full runGameTest",
+     "ST-01 Royal Chest Runtime restart-persistence workflow",
+     "Owner confirms which reward authority governs chest semantics (D13-03 I06 Q01-Q45 vs ST-01 independent royal tomb requirements)"
+    ],
+    "evidence": [
+     "git merge-tree --write-tree 6c7923e0 03685656 (8 conflicted paths, re-run 2026-11-10)",
+     "docs/audit/REPO-STATE-20261110/REMEDIATION_REGISTER.json F-08"
+    ]
+   },
+   {
+    "id": "C-2",
+    "title": "Structure index says ST-01 implementation is not authorized, while ST-01 branches contain approval records and runtime code",
+    "status": "OWNER DECISION REQUIRED (D-3)",
+    "evidence": [
+     "docs/STRUCTURE_AUTHORITY_INDEX.md blob 2ab2dbe0 on work/st01-p8c2a-complete-assembly-20261110-r1, claude/st01-pyramid-phase4-worldgen-roke2l and work/st01-g0-r1-blueprint-finalization-20261110: ST-01 design row still reads 'Implementation is not authorized'",
+     "docs/design/st01-p1/ and docs/design/st01-p2/ conditional-approval records on the ST-01 stack"
+    ]
+   }
+  ],
+  "known_failures": [
+   {
+    "id": "KF-1",
+    "title": "colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise fails on branch heads that lack the per-controller clock seam",
+    "evidence": [
+     "Fabric CI :runGameTest on 15 current branch heads fails with exactly this test (see docs/audit/REPO-STATE-20261110/ci_failures.json)",
+     "All 11 wave16 descendants whose history contains #240 head f6c45ee3 or #242 head 1ec7610f pass Fabric CI; 15 without either fail; 7 without either pass (wave16 itself among them): association, not proof of causation",
+     "#242 contains the same two Colosseum commits as #240 (cherry-picked) plus a Tomb Guardian test alignment"
+    ],
+    "fix_available": "docs/audit/REPO-STATE-20261110/patches/ci/ (the two #240 commits, cherry-picked onto work/st01-p8c2a-complete-assembly-20261110-r1)",
+    "local_verification": "see REMEDIATION_REGISTER.json F-09",
+    "not_applied_to": "any existing branch (owner decision D-8)"
+   },
+   {
+    "id": "KF-2",
+    "title": "tomb_guardian_game_tests_kill_loot_is_ancient_heart_fifty_percent_times_one_and_nothing_else fails after the Heart of Gravity drop (#235)",
+    "affected_heads": [
+     "implement/d13-03-i03-heart-of-gravity-20261105",
+     "implement/d13-03-i04a-star-covenant-vault-logic-20261106",
+     "docs/d13-03-i06-royal-chest-authority"
+    ],
+    "evidence": [
+     "Fabric CI logs of the three heads",
+     "fixed for later D13 branches by test alignment commit 1ec7610f in #242 (encodes D13-03 Q21-Q24: design-linked, not applied elsewhere)"
+    ],
+    "status": "OWNER DECISION REQUIRED (D-8)"
+   },
+   {
+    "id": "KF-3",
+    "title": "royal_tomb_flow_game_tests_flow_sampled_follower_west fails on the ST-01 O14 calibration heads (#251, #252)",
+    "evidence": [
+     "Fabric CI runs 42615115153 and 42721090007"
+    ],
+    "status": "UNVERIFIED: cause not investigated; independent of the Colosseum failure (both fail on those heads)"
+   },
+   {
+    "id": "KF-4",
+    "title": "Pre-public secret scan reports 1 residual finding on every PR into main",
+    "evidence": [
+     "gitleaks 8.30.1 reproduces it: commit cec8bff8, tools/st05-p0-probe-01/freeze_integrity.py line 23, rule generic-api-key"
+    ],
+    "classification": "scanner false positive (audit analysis); awaiting owner approval (D-6)"
+   }
+  ],
+  "owner_decisions_required": [
+   {
+    "id": "D-1",
+    "question": "Which branch is the integration baseline going forward? main has had no merge since 2026-10-22; checkpoint/wave16-unified-20261104 is the newest unified checkpoint by convention only."
+   },
+   {
+    "id": "D-2",
+    "question": "Which royal-chest implementation (or what combination) is current? (C-1)"
+   },
+   {
+    "id": "D-3",
+    "question": "Do the ST-01 conditional-approval records authorize implementation, and should the structure index row be amended? (C-2)"
+   },
+   {
+    "id": "D-4",
+    "question": "Should #249/#251/#252 keep main as their base? They carry 365-371 commits over main (the whole wave16 line plus the ST-01 stack)."
+   },
+   {
+    "id": "D-5",
+    "question": "Disposition of stale stacks (Stage 23 era, PRC-P7, pre-wave16 ST-05) and of the 50 PR heads that no branch contains (the mirror now preserves them under pulls/ once live sync runs)."
+   },
+   {
+    "id": "D-6",
+    "question": "Approve (or reject) the proposed classification of secret-scan fingerprint cec8bff8:...:generic-api-key:23 as a false positive, and decide where its allowlist entry lives. main's .gitleaksignore has 2 entries; wave16's has 11; a push to main would currently report 10 findings."
+   },
+   {
+    "id": "D-7",
+    "question": "Apply the prepared documentation corrections (patches/docs) to the protected checkpoint/stack branches?"
+   },
+   {
+    "id": "D-8",
+    "question": "Apply the Colosseum clock-seam patch (and, for D13 I01-I04a, the design-linked Tomb Guardian test alignment) to the affected stacks?"
+   },
+   {
+    "id": "D-9",
+    "question": "Approve the separately-scoped full Git history archive extension (git bundle and/or commit-graph metadata)? Not implemented."
+   },
+   {
+    "id": "D-10",
+    "question": "Choose the Drive destination (Workspace shared drive vs personal account), approve merging tools/drive_mirror and the workflow into main, and approve enabling DRIVE_MIRROR_ENABLED after the controlled live test."
+   }
+  ],
+  "security": {
+   "verdict": "NOT READY for live Drive sync until D-6 is decided; no confirmed exposed credential",
+   "summary": "Full-history scan (gitleaks 8.30.1, 2005 commits, 133 branches + PR heads): 12 findings, 0 confirmed credentials. 10 are already reviewed/allowlisted by the owner (1 synthetic test fixture, 9 byte-identical copies of one reviewed prose false positive plus the original). 1 (cec8bff8) is a document-name manifest flagged by the generic-api-key rule; analysis says false positive, but it is only 'proposed' until the owner approves it. The mirror's security gate quarantines exactly the refs whose tip tree contains it.",
+   "evidence": [
+    "docs/audit/REPO-STATE-20261110/SECRET_SCAN_INVESTIGATION.md",
+    "tools/drive_mirror/security/approved_findings.json"
+   ]
+  },
+  "documentation_state": {
+   "summary": "main's authority indexes date from 2026-10-22; checkpoint/wave16's from 2026-11-04; later stacks add authority records that no checkpoint contains. Historical records were preserved; corrections for protected branches are prepared as patches, not applied.",
+   "stale_references_verified_2026_11_10": [
+    "PR #219 closed (base and head branches deleted; head contained in wave16)",
+    "PR #83 closed (head only at refs/pull/83/head)",
+    "PR #181 closed (branch still exists; not in main or wave16)"
+   ],
+   "research_node_counts": {
+    "current_at_wave16": {
+     "DATA_ONLY": 43,
+     "PARTIAL": 42,
+     "BLOCKED": 2,
+     "COMPLETE": 0,
+     "MISSING": 0,
+     "total": 87
+    },
+    "historical_2026_10_17": {
+     "DATA_ONLY": 45,
+     "PARTIAL": 40,
+     "BLOCKED": 2
+    },
+    "unchanged_since_wave16": "no descendant of wave16 changes research source or docs"
+   }
+  },
+  "mirror": {
+   "status": "implemented and emulator-verified; live Google Drive verification BLOCKED (no credentials or destination)",
+   "scope": "all refs/heads/*, refs/tags/*, and PR heads that no branch contains (pulls/), exact paths and bytes, manifests with source ref and commit",
+   "not_in_scope": "full Git history (separately approvable extension, D-9)"
+  }
+ },
+ "unresolved_uncertainties": [
+  {
+   "id": "U-LIVE",
+   "statement": "Behaviour of the real Google Drive API (quotas, rate limits, checksum availability, error codes) has not been observed; only an emulator was used."
+  },
+  {
+   "id": "U-RES",
+   "statement": "For 11 of the 42 PARTIAL research rows the cited handler is a vanilla or mixin method rather than a class, so the code claim was not mechanically checked; behaviour-level claims remain unverified."
+  },
+  {
+   "id": "U-CAUSE",
+   "statement": "That the Colosseum clock seam is the cause of the CI difference is supported by association and a local before/after run, not proven."
+  },
+  {
+   "id": "U-KF3",
+   "statement": "The royal_tomb_flow follower-west GameTest failure on #251/#252 was not investigated."
+  },
+  {
+   "id": "U-CI",
+   "statement": "Branches in the active stacks with no GitHub Actions run on their head; their validation claims cannot be checked from CI evidence.",
+   "branches": [
+    "audit/sky-tower-completeness",
+    "claude/relaxed-ramanujan-th5bvj",
+    "claude/sky-mob-gametest-timing-nn7o1h",
+    "claude/sky-tower-geometry-02-coords-hgbfo7",
+    "claude/sky-tower-phase-2-validation-twragg",
+    "claude/st01-p8a-royal-hall-validation-wweuti",
+    "feature/sky-tower-full-build-01",
+    "feature/sky-tower-integration-01",
+    "feature/sky-tower-integration-02",
+    "implementation/sky-tower-mountain-adaptive-b",
+    "remediation/st01-colosseum-clock-seam-20261110",
+    "study/st01-o14-worldgen-feasibility-20261109",
+    "validation/sky-tower-mountain-height",
+    "work/st01-p1-conditional-approval-20261106",
+    "work/st01-p1-ground-3d-20261106",
+    "work/st01-p10-real-tomb-golem-20261108",
+    "work/st01-p11-prod-config-o9-audit-20261108",
+    "work/st01-p11r-o9-gametest-fix-20261109",
+    "work/st01-p2-underground-20261106",
+    "work/st01-p3-royal-tomb-20261106",
+    "work/st01-p4-secret-area-20261107",
+    "work/st01-p5-integration-20261107",
+    "work/st01-p6-final-spec-20261107",
+    "work/st01-p7-secret-entrance-state-20261107",
+    "work/st01-p8-dummy-prototype-20261107",
+    "work/st01-p9-victory-split-20261108"
+   ]
+  },
+  {
+   "id": "U-TIME",
+   "statement": "Heads move continuously; this index is only valid for `source_refs.inventory_generated_at`."
+  }
+ ]
+}

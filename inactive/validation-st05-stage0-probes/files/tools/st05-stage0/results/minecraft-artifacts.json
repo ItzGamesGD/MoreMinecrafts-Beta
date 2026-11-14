@@ -1,0 +1,24 @@
+{
+  "minecraft_version": "26.3",
+  "java_version": {
+    "component": "java-runtime-epsilon",
+    "majorVersion": 25
+  },
+  "downloads": {
+    "client": {
+      "sha1": "e877b6a07acd633fb3bb475002175cec036e7b87",
+      "size": 41483720,
+      "url": "https://piston-data.mojang.com/v1/objects/e877b6a07acd633fb3bb475002175cec036e7b87/client.jar"
+    },
+    "server": {
+      "sha1": "33680f5f2ac32864d6d7cf5e56a705fdb3e05f4c",
+      "size": 62294556,
+      "url": "https://piston-data.mojang.com/v1/objects/33680f5f2ac32864d6d7cf5e56a705fdb3e05f4c/server.jar"
+    }
+  },
+  "local_sha256": {
+    "minecraft-client.jar": "4508d006323f24fa02876310c192d739af56516eb259000ac50f0909a68c9a2d",
+    "minecraft-server.jar": "d052f14d7a173734fba553711e5b570162e2f2a313267ee31a21b975a679be64",
+    "minecraft-common.jar": "9576b4e322e9794954062c1ffc861181be75be8dee6287a13177b93ec28af87a"
+  }
+}
