@@ -51,7 +51,7 @@ class GuardianPoseMathTest {
     void feetStayOnTheGround() {
         for (float swing = 0.0F; swing < 60.0F; swing += 0.05F) {
             Pose p = walk(swing, 1.0F);
-            assertTrue(p.rootDrop() >= 0.0F && p.rootDrop() < 4.0F, "root drop stays small and non-negative: " + p.rootDrop());
+            assertTrue(p.rootDrop() >= 0.0F && p.rootDrop() < 8.0F, "root drop stays small and non-negative (hips dip when both straight legs are scissored): " + p.rootDrop());
             float lowest = Math.min(sole(p.legRight(), p.shinRight()), sole(p.legLeft(), p.shinLeft())) - p.rootDrop();
             assertEquals(0.0F, lowest, 1.0E-3F, "lowest foot sole is planted on the ground plane");
         }

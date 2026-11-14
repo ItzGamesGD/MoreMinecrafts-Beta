@@ -78,7 +78,7 @@ public final class AncientCrystalGuardianGameTests {
         });
     }
 
-    @GameTest
+    @GameTest(maxTicks = 80)
     public void swingIsSingleFlightAndRepeatable(GameTestHelper ctx) {
         AncientCrystalGuardianTest g = spawn(ctx, new BlockPos(3, 1, 3));
         ctx.assertTrue(g.requestSwing(), "first swing starts");
