@@ -236,7 +236,8 @@ public final class SpiderColonyGameTests {
   var state=level.getBlockState(absPos);
   state.getBlock().playerWillDestroy(level,absPos,state,player);
   level.removeBlock(absPos,false);
-  var spiders=level.getEntitiesOfClass(net.minecraft.world.entity.monster.spider.Spider.class,new net.minecraft.world.phys.AABB(absPos).inflate(6),e->e.getType()==net.minecraft.world.entity.EntityType.SPIDER);
+  var vanillaSpider=net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("spider"));
+  var spiders=level.getEntitiesOfClass(net.minecraft.world.entity.monster.spider.Spider.class,new net.minecraft.world.phys.AABB(absPos).inflate(6),e->e.getType()==vanillaSpider);
   ctx.assertTrue(spiders.size()>=1 && spiders.size()<=2,"hazard cocoon must spawn 1-2 vanilla spiders, got "+spiders.size());
   ctx.succeed();
  }
