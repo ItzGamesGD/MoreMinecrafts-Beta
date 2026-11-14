@@ -1174,5 +1174,9 @@
   "container.moreminecrafts.royal_chest.primary": "Royal Chest (Primary)",
   "container.moreminecrafts.royal_chest.secondary": "Royal Chest (Secondary)",
   "item.moreminecrafts.st01_pyramid_map": "Colossal Pyramid Map",
-  "item.moreminecrafts.st01_pyramid_map.charting": "Charting a Colossal Pyramid Map..."
+  "item.moreminecrafts.st01_pyramid_map.charting": "Charting a Colossal Pyramid Map...",
+  "entity.moreminecrafts.buried_mummy": "Buried Mummy",
+  "entity.moreminecrafts.crypt_archer": "Crypt Archer",
+  "entity.moreminecrafts.funeral_servant": "Funeral Servant",
+  "entity.moreminecrafts.gilded_mummy": "Gilded Mummy"
 }
