@@ -1093,5 +1093,9 @@
   "container.moreminecrafts.royal_chest.primary": "왕실 상자 (주)",
   "container.moreminecrafts.royal_chest.secondary": "왕실 상자 (보조)",
   "item.moreminecrafts.st01_pyramid_map": "거대 피라미드 지도",
-  "item.moreminecrafts.st01_pyramid_map.charting": "거대 피라미드 지도 제작 중..."
+  "item.moreminecrafts.st01_pyramid_map.charting": "거대 피라미드 지도 제작 중...",
+  "entity.moreminecrafts.buried_mummy": "매장된 미라",
+  "entity.moreminecrafts.crypt_archer": "묘실 궁수",
+  "entity.moreminecrafts.funeral_servant": "장례 시종",
+  "entity.moreminecrafts.gilded_mummy": "금장 미라"
 }

@@ -115,7 +115,8 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryPhysicsGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryShockwaveGameTests",
-      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests"
+      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
@@ -133,7 +134,8 @@
       "dev.itzgamesgd.moreminecrafts.equipment.InventoryRegressionClientGameTest",
       "dev.itzgamesgd.moreminecrafts.fishing.FishingRodCloseClientGameTest",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05ArenaVisualClientGameTest",
-      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryClientGameTest"
+      "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryClientGameTest",
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture"
     ]
   },
   "mixins": [

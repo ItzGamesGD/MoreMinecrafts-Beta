@@ -5,6 +5,7 @@
   "mixins": [
     "SkyTowerTrialCompletionMixin",
     "SkyTowerNaturalSpawnMixin",
+    "St01RoyalHallNaturalSpawnMixin",
     "TrialSpawnerConfigAccessor",
     "TrialSpawnerStateDataAccessor",
     "SkyTowerBlockChangeMixin",
