@@ -230,7 +230,7 @@ public final class PyramidMobGameTests implements CustomTestMethodInvoker {
         CryptArcher archer = helper.spawn(PyramidMobs.CRYPT_ARCHER, archerPos);
         Skeleton control = helper.spawn(EntityTypes.SKELETON, controlPos);
         for (Mob m : List.of(archer, control)) {
-            m.setNoAi(true); // nothing wanders out of the powder snow; entity ticking (and the conversion timer) still runs
+            m.setNoAi(false); // the vanilla conversion timer only runs for mobs with AI
             m.setPersistenceRequired();
         }
         helper.runAfterDelay(400, () -> {
