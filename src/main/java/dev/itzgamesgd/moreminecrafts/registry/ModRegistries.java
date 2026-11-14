@@ -22,6 +22,7 @@ public final class ModRegistries {
 
     public static void initialize() {
         CustomMobCatalog.initialize();
+        dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyEntities.initialize();
         dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobs.initialize();
         dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandHabitat.initialize();
         dev.itzgamesgd.moreminecrafts.boss.TombGuardianEntities.initialize();
