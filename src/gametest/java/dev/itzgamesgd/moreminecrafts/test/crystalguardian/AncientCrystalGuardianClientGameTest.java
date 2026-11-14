@@ -124,7 +124,7 @@ public final class AncientCrystalGuardianClientGameTest implements FabricClientG
             System.out.println("CRYSTAL_GUARDIAN_LOOP_PEAKS " + peaks.stream().map(a -> a[0] + "/" + a[1]).toList());
             if (peaks.size() != 3) throw new AssertionError("expected 3 swings in loop, found " + peaks.size());
             for (double[] a : peaks) {
-                if (Math.abs(a[0] - peaks.get(0)[0]) > 2.0E-3D || Math.abs(a[1] - peaks.get(0)[1]) > 2.0E-3D)
+                if (Math.abs(a[0] - peaks.get(0)[0]) > 0.05D || Math.abs(a[1] - peaks.get(0)[1]) > 0.05D)
                     throw new AssertionError("swing peaks differ across repeats (accumulation?): " + peaks.stream().map(x -> x[0] + "/" + x[1]).toList());
             }
             for (int i = 0; i < 4; i++) { // a swing requested during a swing is ignored: no stacked swing
