@@ -17,7 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 
-/** Native client captures of the provisional vanilla textures, in a test-only lit room. */
+/** Native client captures of the pyramid variant textures, in a test-only lit room. */
 public final class PyramidMobClientCapture implements FabricClientGameTest {
     @Override public void runTest(ClientGameTestContext context) {
         if (!Boolean.getBoolean("moreminecrafts.pyramid.mob.capture")) return;
@@ -61,7 +61,7 @@ public final class PyramidMobClientCapture implements FabricClientGameTest {
                     for (var entity : c.level.entitiesForRendering()) if (entity.getType() == expected) found = true;
                     if (!found) throw new AssertionError("Client did not receive " + names.get(index));
                 });
-                System.out.println("PYRAMID_MOB_SCREENSHOT " + context.takeScreenshot("pyramid-placeholder-" + names.get(i)));
+                System.out.println("PYRAMID_MOB_SCREENSHOT " + context.takeScreenshot("pyramid-variant-" + names.get(i)));
                 System.out.println("PYRAMID_MOB_CAPTURE " + names.get(i));
             }
             System.out.println("PYRAMID_MOB_CAPTURE_COMPLETE");

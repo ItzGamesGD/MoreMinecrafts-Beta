@@ -1,4 +1,4 @@
-name: Pyramid mob provisional client capture
+name: Pyramid mob client capture
 on:
   push:
     branches: [work/pyramid-mob-variants-20261114]
@@ -32,7 +32,7 @@ jobs:
           d['entrypoints']['fabric-client-gametest'] = ['dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture']
           p.write_text(json.dumps(d, indent=2) + '\n')
           PY
-      - name: Capture the four provisional variants in Minecraft
+      - name: Capture the four variants in Minecraft
         shell: bash
         run: |
           set -euo pipefail
@@ -47,12 +47,12 @@ jobs:
             ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --max-workers=2 2>&1 | tee build/pyramid-mob-capture/client.log
           '
           grep -q PYRAMID_MOB_CAPTURE_COMPLETE build/pyramid-mob-capture/client.log
-          find . -path '*/screenshots/*pyramid-placeholder-*.png' -exec cp {} build/pyramid-mob-capture/ \;
-          test "$(find build/pyramid-mob-capture -name '*pyramid-placeholder-*.png' | wc -l)" -eq 4
+          find . -path '*/screenshots/*pyramid-variant-*.png' -exec cp {} build/pyramid-mob-capture/ \;
+          test "$(find build/pyramid-mob-capture -name '*pyramid-variant-*.png' | wc -l)" -eq 4
       - name: Upload captures and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: pyramid-mob-provisional-captures
+          name: pyramid-mob-variant-captures
           path: build/pyramid-mob-capture/
           if-no-files-found: error
