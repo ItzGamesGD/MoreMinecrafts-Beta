@@ -104,7 +104,7 @@ def top_rings(t):
 
 MOSS_SKIN = [hx(c) for c in ("1f2e17", "2b3d1f", "37502a", "446234", "52733e")]
 NAVY = [hx(c) for c in ("0e1428", "151e3c", "1d2a52")]
-SOOT_BONE = [hx(c) for c in ("191513", "2a2420", "3b342e", "4d453d", "5f564c", "71675b")]
+SOOT_BONE = [hx(c) for c in ("1f1a17", "322b26", "463e36", "5b5148", "70655a", "877a6c")]
 
 
 def ring_dist(t):
