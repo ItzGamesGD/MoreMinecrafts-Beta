@@ -30,7 +30,7 @@ public final class St03HeadquartersCompletion {
         initialized = true;
         St03GarrisonManager.initialize();
 
-        ServerChunkEvents.CHUNK_LOAD.register((level, chunk) -> {
+        ServerChunkEvents.CHUNK_LOAD.register((level, chunk, newlyGenerated) -> {
             if (level instanceof ServerLevel serverLevel) {
                 onChunkLoad(serverLevel, chunk);
             }

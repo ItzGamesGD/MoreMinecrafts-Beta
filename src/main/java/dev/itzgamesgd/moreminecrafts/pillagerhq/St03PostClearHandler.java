@@ -37,8 +37,8 @@ public final class St03PostClearHandler {
         }
         MobCategory category = entityType.getCategory();
         boolean isHostileOrNeutral = category == MobCategory.MONSTER
-                || entityType == EntityType.ENDERMAN
-                || entityType == EntityType.CREEPER;
+                || entityType == net.minecraft.world.entity.EntityTypes.ENDERMAN
+                || entityType == net.minecraft.world.entity.EntityTypes.CREEPER;
         if (!isHostileOrNeutral) {
             return false;
         }
@@ -52,7 +52,7 @@ public final class St03PostClearHandler {
     }
 
     public static void tick(ServerLevel level, St03HeadquartersData data) {
-        long dayTime = level.getDayTime();
+        long dayTime = level.getGameTime();
         long currentDay = Math.floorDiv(dayTime, 24000L);
         long timeOfDay = Math.floorMod(dayTime, 24000L);
 
@@ -125,7 +125,7 @@ public final class St03PostClearHandler {
                     && level.getBlockState(candidate).isAir()
                     && level.getBlockState(candidate.above()).isAir()
                     && !level.getBlockState(candidate.below()).isAir()) {
-                Villager villager = EntityType.VILLAGER.create(level, EntitySpawnReason.NATURAL);
+                Villager villager = net.minecraft.world.entity.EntityTypes.VILLAGER.create(level, EntitySpawnReason.NATURAL);
                 if (villager != null) {
                     villager.snapTo(candidate.getX() + 0.5, candidate.getY(), candidate.getZ() + 0.5,
                             level.getRandom().nextFloat() * 360.0F, 0.0F);

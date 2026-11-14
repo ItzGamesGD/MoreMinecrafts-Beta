@@ -94,7 +94,7 @@ public final class St03GarrisonManager {
     }
 
     private static void spawnPrisoner(ServerLevel level, St03HeadquartersData.HqInstance hq, BlockPos pos) {
-        Villager villager = EntityType.VILLAGER.create(level, EntitySpawnReason.STRUCTURE);
+        Villager villager = net.minecraft.world.entity.EntityTypes.VILLAGER.create(level, EntitySpawnReason.STRUCTURE);
         if (villager == null) {
             return;
         }
@@ -112,7 +112,7 @@ public final class St03GarrisonManager {
             case BANDIT_WARRIOR -> CustomMobCatalog.BANDIT_WARRIOR.create(level, EntitySpawnReason.STRUCTURE);
             case BANDIT_ARCHER -> CustomMobCatalog.BANDIT_ARCHER.create(level, EntitySpawnReason.STRUCTURE);
             case WANDERING_RAIDER -> CustomMobCatalog.WANDERING_RAIDER.create(level, EntitySpawnReason.STRUCTURE);
-            case RAVAGER -> EntityType.RAVAGER.create(level, EntitySpawnReason.STRUCTURE);
+            case RAVAGER -> net.minecraft.world.entity.EntityTypes.RAVAGER.create(level, EntitySpawnReason.STRUCTURE);
             case PILLAGER_COMMANDER -> CustomMobCatalog.PILLAGER_COMMANDER.create(level, EntitySpawnReason.STRUCTURE);
             case PILLAGER_BEASTMASTER -> CustomMobCatalog.PILLAGER_BEASTMASTER.create(level, EntitySpawnReason.STRUCTURE);
             case ARMORY_GUARD -> CustomMobCatalog.ARMORY_GUARD.create(level, EntitySpawnReason.STRUCTURE);
@@ -189,8 +189,8 @@ public final class St03GarrisonManager {
     private static void onLivingEntityDeath(ServerLevel level, LivingEntity entity) {
         String hqId = null;
         int slotIdx = -1;
-        boolean isCommander = entity.getTags().contains(TAG_COMMANDER);
-        for (String tag : entity.getTags()) {
+        boolean isCommander = entity.entityTags().contains(TAG_COMMANDER);
+        for (String tag : entity.entityTags()) {
             if (tag.startsWith(TAG_HQ_PREFIX)) {
                 hqId = tag.substring(TAG_HQ_PREFIX.length());
             } else if (tag.startsWith(TAG_SLOT_PREFIX)) {
