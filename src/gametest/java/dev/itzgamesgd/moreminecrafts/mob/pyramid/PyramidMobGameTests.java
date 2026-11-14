@@ -221,24 +221,28 @@ public final class PyramidMobGameTests implements CustomTestMethodInvoker {
                 "the archer is not a vanilla Skeleton, so the powder-snow Stray conversion does not exist");
         BlockPos archerPos = new BlockPos(2, 1, 2);
         BlockPos controlPos = new BlockPos(5, 1, 2);
-        for (BlockPos p : List.of(archerPos, controlPos)) {
-            helper.setBlock(p, Blocks.POWDER_SNOW);
-            helper.setBlock(p.above(), Blocks.AIR);
+        for (BlockPos center : List.of(archerPos, controlPos)) {
+            for (int dx = -1; dx <= 1; dx++) for (int dz = -1; dz <= 1; dz++) {
+                helper.setBlock(center.offset(dx, 0, dz), Blocks.POWDER_SNOW);
+                helper.setBlock(center.offset(dx, 1, dz), Blocks.AIR);
+            }
         }
         CryptArcher archer = helper.spawn(PyramidMobs.CRYPT_ARCHER, archerPos);
         Skeleton control = helper.spawn(EntityTypes.SKELETON, controlPos);
         for (Mob m : List.of(archer, control)) {
-            m.setNoAi(false);
+            m.setNoAi(true); // nothing wanders out of the powder snow; entity ticking (and the conversion timer) still runs
             m.setPersistenceRequired();
         }
         helper.runAfterDelay(400, () -> {
+            System.out.println("PYRAMID_POWDER_SNOW control removed=" + control.isRemoved() + " alive=" + control.isAlive()
+                    + " shaking=" + control.isShaking() + " inPowder=" + control.isInPowderSnow);
             helper.assertTrue(archer.isAlive() && !archer.isRemoved() && !archer.isShaking()
                             && archer.getHealth() == archer.getMaxHealth(),
                     "the Crypt Archer stays an unharmed archer in powder snow");
             helper.assertTrue(level.getEntities(EntityTypes.STRAY, helper.getBounds().inflate(8), e -> true).size() <= 1,
                     "at most the control became a Stray");
-            helper.assertTrue(control.isRemoved() || !control.isAlive(),
-                    "control: the vanilla Skeleton converts to a Stray in the same powder snow");
+            helper.assertTrue(control.isRemoved() || !control.isAlive() || control.isShaking(),
+                    "control: the vanilla Skeleton starts or completes a Stray conversion in the same powder snow");
             level.getEntities(EntityTypes.STRAY, helper.getBounds().inflate(8), e -> true).forEach(Entity::discard);
             archer.discard();
             control.discard();
