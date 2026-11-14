@@ -197,4 +197,47 @@ public final class SpiderColonyGameTests {
   ctx.assertTrue(SpiderColonyEntities.data(level).childCount(owner)==0,"death must release the slot");
   ctx.succeed();
  }
+ @GameTest public void hangingCocoonRequiresCeilingSupport(GameTestHelper ctx) {
+  var ceiling=new net.minecraft.core.BlockPos(3,5,3);
+  var pos=ceiling.below();
+  ctx.setBlock(ceiling,net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
+  ctx.setBlock(pos,dev.itzgamesgd.moreminecrafts.registry.ModBlocks.HANGING_COCOON.defaultBlockState());
+  ctx.assertBlockPresent(dev.itzgamesgd.moreminecrafts.registry.ModBlocks.HANGING_COCOON,pos);
+  ctx.setBlock(ceiling,net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
+  ctx.assertBlockPresent(net.minecraft.world.level.block.Blocks.AIR,pos);
+  ctx.succeed();
+ }
+ @GameTest public void hangingCocoonRewardDropsString(GameTestHelper ctx) {
+  var level=ctx.getLevel();
+  var ceiling=new net.minecraft.core.BlockPos(3,5,3);
+  var pos=ceiling.below();
+  ctx.setBlock(ceiling,net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
+  ctx.setBlock(pos,dev.itzgamesgd.moreminecrafts.registry.ModBlocks.HANGING_COCOON.defaultBlockState().setValue(HangingCocoonBlock.REWARD,true));
+  var player=ctx.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+  var absPos=ctx.absolutePos(pos);
+  var state=level.getBlockState(absPos);
+  state.getBlock().playerWillDestroy(level,absPos,state,player);
+  level.removeBlock(absPos,false);
+  var items=level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,new net.minecraft.world.phys.AABB(absPos).inflate(4),e->e.getItem().is(net.minecraft.world.item.Items.STRING));
+  int totalString=items.stream().mapToInt(e->e.getItem().getCount()).sum();
+  ctx.assertTrue(totalString>=1 && totalString<=2,"reward cocoon must drop 1-2 string, got "+totalString);
+  var spiders=level.getEntitiesOfClass(net.minecraft.world.entity.monster.spider.Spider.class,new net.minecraft.world.phys.AABB(absPos).inflate(6));
+  ctx.assertTrue(spiders.isEmpty(),"reward cocoon must not spawn spiders");
+  ctx.succeed();
+ }
+ @GameTest public void hangingCocoonHazardSpawnsVanillaSpiders(GameTestHelper ctx) {
+  var level=ctx.getLevel();
+  var ceiling=new net.minecraft.core.BlockPos(3,5,3);
+  var pos=ceiling.below();
+  ctx.setBlock(ceiling,net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
+  ctx.setBlock(pos,dev.itzgamesgd.moreminecrafts.registry.ModBlocks.HANGING_COCOON.defaultBlockState().setValue(HangingCocoonBlock.REWARD,false));
+  var player=ctx.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+  var absPos=ctx.absolutePos(pos);
+  var state=level.getBlockState(absPos);
+  state.getBlock().playerWillDestroy(level,absPos,state,player);
+  level.removeBlock(absPos,false);
+  var spiders=level.getEntitiesOfClass(net.minecraft.world.entity.monster.spider.Spider.class,new net.minecraft.world.phys.AABB(absPos).inflate(6),e->e.getType()==net.minecraft.world.entity.EntityType.SPIDER);
+  ctx.assertTrue(spiders.size()>=1 && spiders.size()<=2,"hazard cocoon must spawn 1-2 vanilla spiders, got "+spiders.size());
+  ctx.succeed();
+ }
 }
