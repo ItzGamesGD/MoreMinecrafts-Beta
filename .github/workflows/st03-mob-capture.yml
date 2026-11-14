@@ -52,8 +52,11 @@ jobs:
             openbox --sm-disable > build/st03-mob-capture/openbox.log 2>&1 &
             trap "kill $! 2>/dev/null || true" EXIT
             ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --max-workers=2 2>&1 | tee build/st03-mob-capture/client.log
-          '
-          grep -q ST03_MOB_CAPTURE_COMPLETE build/st03-mob-capture/client.log
+          ' || { cat build/st03-mob-capture/client.log; exit 1; }
+          if ! grep -q ST03_MOB_CAPTURE_COMPLETE build/st03-mob-capture/client.log; then
+            cat build/st03-mob-capture/client.log
+            exit 1
+          fi
           find . -path '*/screenshots/*st03-variant-*.png' -exec cp {} build/st03-mob-capture/ \;
           test "$(find build/st03-mob-capture -name '*st03-variant-*.png' | wc -l)" -eq 13
 
