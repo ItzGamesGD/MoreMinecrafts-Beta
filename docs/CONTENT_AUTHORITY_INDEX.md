@@ -431,3 +431,15 @@ The owner approved the Policy D port of the preserved P7–P11 secret-entrance a
 * **Still undecided (preserved):** O-12 opening VFX/SFX; D-D / O-5 open-edge drop; Q15 secret crypt specification; Q98 maximum underground depth.
 
 Status: implemented on Draft PR #282 with local unit tests and GameTests passing (607/607 required GameTests). GitHub Actions CI passed (all 18 checks on PR head `7f0a2076`, including Fabric CI `build`). LIVE VALIDATION (client appearance of the golem, feel of the opening, multiplayer leader following) is **pending** and is a separate owner-approved step; the PR stays Draft and this is **not** a COMPLETE status. Code: `src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/entrance/`.
+
+## 2026-11-14 documentation sync — routing and status only
+
+Routing/status corrections from owner-confirmed decisions; no gameplay value is invented. Details are in [integration/FEATURE_STATUS_REGISTRY_20261112.md](integration/FEATURE_STATUS_REGISTRY_20261112.md) ("2026-11-14 status update").
+
+* **OWN-01 / OWN-02 / OWN-04:** resolved 2026-11-12~13 (Sky Mob registration/spawn; ST-01 Policy D secret entrance port, above; Q1C Wither-skull P3 and quest registration). Live validation still pending for the first two. The "Q1C Wither skull stays unregistered" and "mob track paused" statements in the 2026-11-11/12 sections above are superseded by this entry.
+* **Pyramid ordinary mobs:** [PYRAMID_MOB_ROSTER_DESIGN_2026-10-26.md](PYRAMID_MOB_ROSTER_DESIGN_2026-10-26.md) — implemented, owner review passed (branch `claude/pyramid-mummy-variants-fu6ijm`, not merged here); HP 20/20/20/28 owner-confirmed; no conversion rule (variants are not converted).
+* **Tomb Guardian:** [PYRAMID_DESIGN_PREP_2026-10-25.md](PYRAMID_DESIGN_PREP_2026-10-25.md) — the 2026-10-26 lock and 2026-10-28 Option B records were not owner-approved; design is being redone and the current implementation is a temporary dummy. **No current authority for the Tomb Guardian design (decision pending).**
+* **Sky mobs:** group A held; group B vanilla-variant policy in [SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md](design/SKY_MOB_NORMAL_MOBS_AUTHORITY_2026-11-06.md) §15.7 and [SKY_ISLANDS_T2_CONTEXT_2026-10-27.md](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md) §20; creeper/enderman/slime variant weights are decision pending.
+* **ST-03 pillager headquarters:** [planning/ST03_OWNER_APPROVED_DESIGN_Q01_Q42_2026-11-04.md](planning/ST03_OWNER_APPROVED_DESIGN_Q01_Q42_2026-11-04.md) remains the design ledger; Q96–Q105 text does not exist and will not be recovered; new design only where needed; Draft PR #55 (structure pass-through of walls, towers, main gate and ground road) is implementation status, not authority. Whether the ledger is the current ST-03 authority is still for the owner to confirm (unchanged).
+* **Spider colony:** [SPIDER_COLONY_CAVE_BIOME_DESIGN_2026-10-26.md](SPIDER_COLONY_CAVE_BIOME_DESIGN_2026-10-26.md) is the design record; implementation on `work/spider-colony-probe` is in progress, not connected to worldgen, textures provisional.
+
