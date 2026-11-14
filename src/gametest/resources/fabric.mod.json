@@ -37,6 +37,7 @@
       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyMobSpawnGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobGameTests",
       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalChestGameTests",

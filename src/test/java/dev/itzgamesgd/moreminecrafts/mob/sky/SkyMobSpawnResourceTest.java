@@ -64,8 +64,17 @@ class SkyMobSpawnResourceTest {
                     int[] c = count(o.get("count"));
                     assertNull(actual.put(o.get("type").getAsString(), new int[]{o.get("weight").getAsInt(), c[0], c[1]}));
                 }
-                assertEquals(expected.keySet(), actual.keySet(), p + ": Q31 list (no creeper/enderman/witch)");
-                for (var entry : expected.entrySet())
+                // Group B variants (2026-11-14 owner task): isolated list entries, normal vs mountain-family weights.
+                boolean mountain = p.getFileName().toString().startsWith("sky_island_mountain_");
+                Map<String, int[]> withGroupB = new LinkedHashMap<>(expected);
+                withGroupB.put("moreminecrafts:weathered_zombie", new int[]{mountain ? 10 : 3, 1, 2});
+                withGroupB.put("moreminecrafts:sky_archer", new int[]{mountain ? 8 : 2, 1, 2});
+                withGroupB.put("moreminecrafts:rock_creeper", new int[]{mountain ? 5 : 2, 1, 2});
+                withGroupB.put("moreminecrafts:pale_enderman", new int[]{mountain ? 3 : 1, 1, 2});
+                withGroupB.put("moreminecrafts:azure_slime", new int[]{mountain ? 8 : 3, 1, 2});
+                assertEquals(withGroupB.keySet(), actual.keySet(),
+                        p + ": Q31 list (no vanilla creeper/enderman/witch) plus the five group B variants");
+                for (var entry : withGroupB.entrySet())
                     assertArrayEquals(entry.getValue(), actual.get(entry.getKey()), p + " " + entry.getKey());
             }
         }

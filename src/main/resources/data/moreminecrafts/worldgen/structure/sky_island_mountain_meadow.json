@@ -47,6 +47,51 @@
           "weight": 14
         },
         {
+          "type": "moreminecrafts:weathered_zombie",
+          "count": {
+            "type": "minecraft:uniform",
+            "min_inclusive": 1,
+            "max_inclusive": 2
+          },
+          "weight": 10
+        },
+        {
+          "type": "moreminecrafts:sky_archer",
+          "count": {
+            "type": "minecraft:uniform",
+            "min_inclusive": 1,
+            "max_inclusive": 2
+          },
+          "weight": 8
+        },
+        {
+          "type": "moreminecrafts:rock_creeper",
+          "count": {
+            "type": "minecraft:uniform",
+            "min_inclusive": 1,
+            "max_inclusive": 2
+          },
+          "weight": 5
+        },
+        {
+          "type": "moreminecrafts:pale_enderman",
+          "count": {
+            "type": "minecraft:uniform",
+            "min_inclusive": 1,
+            "max_inclusive": 2
+          },
+          "weight": 3
+        },
+        {
+          "type": "moreminecrafts:azure_slime",
+          "count": {
+            "type": "minecraft:uniform",
+            "min_inclusive": 1,
+            "max_inclusive": 2
+          },
+          "weight": 8
+        },
+        {
           "type": "minecraft:zombie",
           "count": 4,
           "weight": 10

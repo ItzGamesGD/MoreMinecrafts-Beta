@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:weathered_zombie",
+    "moreminecrafts:sky_archer",
+    "moreminecrafts:rock_creeper",
+    "moreminecrafts:pale_enderman",
+    "moreminecrafts:azure_slime"
+  ]
+}

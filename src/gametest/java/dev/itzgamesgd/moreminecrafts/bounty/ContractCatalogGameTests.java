@@ -91,9 +91,9 @@ public final class ContractCatalogGameTests implements CustomTestMethodInvoker {
         BuiltInRegistries.ENTITY_TYPE.keySet().forEach(id -> {
             if (id.getNamespace().equals("moreminecrafts") && !outsideRoster.contains(id.toString())) registered.add(id.toString());
         });
-        ctx.assertTrue(registered.size() == 45, "45 registered MM entities (40 + 5 SKY-MOB P1), found " + registered.size());
-        ctx.assertTrue(accounted.size() == 45, "45 accounted, found " + accounted.size());
-        ctx.assertTrue(accounted.stream().distinct().count() == 45, "no duplicates");
+        ctx.assertTrue(registered.size() == 50, "50 registered MM entities (40 + 5 SKY-MOB P1 + 5 group B variants), found " + registered.size());
+        ctx.assertTrue(accounted.size() == 50, "50 accounted, found " + accounted.size());
+        ctx.assertTrue(accounted.stream().distinct().count() == 50, "no duplicates");
         ctx.assertTrue(new java.util.HashSet<>(accounted).equals(new java.util.HashSet<>(registered)),
                 "accounted set equals registry set");
         ctx.succeed();
