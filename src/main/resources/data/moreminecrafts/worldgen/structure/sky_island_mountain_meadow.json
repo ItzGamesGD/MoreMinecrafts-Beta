@@ -62,7 +62,7 @@
             "min_inclusive": 1,
             "max_inclusive": 2
           },
-          "weight": 8
+          "weight": 10
         },
         {
           "type": "moreminecrafts:rock_creeper",
@@ -71,7 +71,7 @@
             "min_inclusive": 1,
             "max_inclusive": 2
           },
-          "weight": 5
+          "weight": 10
         },
         {
           "type": "moreminecrafts:pale_enderman",
@@ -80,7 +80,7 @@
             "min_inclusive": 1,
             "max_inclusive": 2
           },
-          "weight": 3
+          "weight": 10
         },
         {
           "type": "moreminecrafts:azure_slime",
@@ -89,7 +89,7 @@
             "min_inclusive": 1,
             "max_inclusive": 2
           },
-          "weight": 8
+          "weight": 10
         },
         {
           "type": "minecraft:zombie",

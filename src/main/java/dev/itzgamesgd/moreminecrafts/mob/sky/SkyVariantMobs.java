@@ -38,7 +38,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
  * <p>Natural spawning is never added to biome lists. The five types appear only through the sky-island structures'
  * isolated {@code spawn_overrides} list (§15.6 P2), and their placement predicate adds the
  * {@link CustomMobCatalog#skyIslandSurface sky-island surface} gate and the {@link SkyIslandRegion} gate (P3, Q33).
- * The list weights (normal island 3/2/2/1/3, mountain-family island 10/8/5/3/8, PROVISIONAL group size 1-2) live in
+ * The list weights (10 on every sky-island list, PROVISIONAL group size 1-2) live in
  * the {@code sky_island_*} structure JSON and are pinned by {@code SkyMobSpawnResourceTest}.
  */
 public final class SkyVariantMobs {
