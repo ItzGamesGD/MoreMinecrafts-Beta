@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mob.pyramid;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
@@ -21,7 +22,10 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
+import net.minecraft.world.entity.monster.skeleton.Skeleton;
 import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
@@ -58,7 +62,11 @@ public final class PyramidMobGameTests implements CustomTestMethodInvoker {
             Mob mob = variant.create(helper.getLevel(), EntitySpawnReason.COMMAND);
             Mob reference = base.create(helper.getLevel(), EntitySpawnReason.COMMAND);
             helper.assertTrue(mob != null && reference != null, "creatable " + variant);
-            helper.assertTrue(mob.getClass() == reference.getClass(), "vanilla class/AI " + variant);
+            // Husk/Zombie variants are subclasses of the vanilla class; the archer sits on AbstractSkeleton (see CryptArcher).
+            Class<?> vanillaBase = base == EntityTypes.SKELETON ? AbstractSkeleton.class : reference.getClass();
+            helper.assertTrue(vanillaBase.isInstance(mob), "vanilla class/AI " + variant);
+            helper.assertTrue(mob.getClass().getSuperclass() == vanillaBase, "direct vanilla subclass " + variant);
+            helper.assertTrue(mob.canFreeze() == reference.canFreeze(), "vanilla freeze rule " + variant);
             for (Holder<Attribute> attribute : ATTRIBUTES) {
                 boolean present = reference.getAttributes().hasAttribute(attribute);
                 helper.assertTrue(mob.getAttributes().hasAttribute(attribute) == present,
@@ -158,6 +166,84 @@ public final class PyramidMobGameTests implements CustomTestMethodInvoker {
             }
         }
         helper.succeed();
+    }
+
+    // ------------------------------------------------------------------ conversion blocking (owner decision 2026-11-14)
+
+    @GameTest(maxTicks = 100)
+    public void waterNeverConvertsHuskVariantsOrTheFuneralServant(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        BlockPos pool = new BlockPos(3, 1, 3);
+        for (int dx = -2; dx <= 2; dx++) for (int dz = -2; dz <= 2; dz++) {
+            helper.setBlock(pool.offset(dx, 0, dz), Blocks.WATER);
+            helper.setBlock(pool.offset(dx, 1, dz), Blocks.WATER);
+        }
+        List<Zombie> variants = List.of(
+                helper.spawn(PyramidMobs.BURIED_MUMMY, pool.offset(-2, 0, 0)),
+                helper.spawn(PyramidMobs.GILDED_MUMMY, pool.offset(2, 0, 0)),
+                helper.spawn(PyramidMobs.FUNERAL_SERVANT, pool.offset(0, 0, 2)));
+        // positive controls: the same setup converts the vanilla Husk (to Zombie) and Zombie (to Drowned)
+        Zombie huskControl = helper.spawn(EntityTypes.HUSK, pool.offset(-1, 0, -2));
+        Zombie zombieControl = helper.spawn(EntityTypes.ZOMBIE, pool.offset(1, 0, -2));
+        List<Zombie> all = new ArrayList<>(variants);
+        all.add(huskControl);
+        all.add(zombieControl);
+        for (Zombie z : all) {
+            z.setNoAi(false);
+            z.setPersistenceRequired();
+            z.setInWaterTime(10_000);
+        }
+        helper.runAfterDelay(4, () -> all.forEach(z -> z.setConversionTime(0)));
+        helper.runAfterDelay(40, () -> {
+            for (Zombie z : variants) {
+                helper.assertTrue(z.isAlive() && !z.isRemoved() && !z.isUnderWaterConverting(),
+                        "no water conversion for " + z.getType());
+            }
+            helper.assertTrue(huskControl.isRemoved() || !huskControl.isAlive(), "control: vanilla Husk converts in water");
+            helper.assertTrue(zombieControl.isRemoved() || !zombieControl.isAlive(), "control: vanilla Zombie converts in water");
+            helper.assertTrue(level.getEntities(EntityTypes.DROWNED, helper.getBounds().inflate(8), e -> true).size() >= 1,
+                    "control: the vanilla Zombie became a Drowned");
+            for (var type : List.of(PyramidMobs.BURIED_MUMMY, PyramidMobs.GILDED_MUMMY, PyramidMobs.FUNERAL_SERVANT)) {
+                helper.assertTrue(level.getEntities(type, helper.getBounds().inflate(8), e -> true).size() == 1,
+                        "the variant is still present exactly once: " + type);
+            }
+            level.getEntities(EntityTypes.DROWNED, helper.getBounds().inflate(8), e -> true).forEach(Entity::discard);
+            level.getEntities(EntityTypes.ZOMBIE, helper.getBounds().inflate(8), e -> true).forEach(Entity::discard);
+            all.forEach(Entity::discard);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 450)
+    public void powderSnowNeverConvertsTheCryptArcher(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        helper.assertTrue(!Skeleton.class.isAssignableFrom(CryptArcher.class),
+                "the archer is not a vanilla Skeleton, so the powder-snow Stray conversion does not exist");
+        BlockPos archerPos = new BlockPos(2, 1, 2);
+        BlockPos controlPos = new BlockPos(5, 1, 2);
+        for (BlockPos p : List.of(archerPos, controlPos)) {
+            helper.setBlock(p, Blocks.POWDER_SNOW);
+            helper.setBlock(p.above(), Blocks.AIR);
+        }
+        CryptArcher archer = helper.spawn(PyramidMobs.CRYPT_ARCHER, archerPos);
+        Skeleton control = helper.spawn(EntityTypes.SKELETON, controlPos);
+        for (Mob m : List.of(archer, control)) {
+            m.setNoAi(false);
+            m.setPersistenceRequired();
+        }
+        helper.runAfterDelay(400, () -> {
+            helper.assertTrue(archer.isAlive() && !archer.isRemoved() && !archer.isShaking()
+                            && archer.getHealth() == archer.getMaxHealth(),
+                    "the Crypt Archer stays an unharmed archer in powder snow");
+            helper.assertTrue(level.getEntities(EntityTypes.STRAY, helper.getBounds().inflate(8), e -> true).size() <= 1,
+                    "at most the control became a Stray");
+            helper.assertTrue(control.isRemoved() || !control.isAlive(),
+                    "control: the vanilla Skeleton converts to a Stray in the same powder snow");
+            level.getEntities(EntityTypes.STRAY, helper.getBounds().inflate(8), e -> true).forEach(Entity::discard);
+            archer.discard();
+            control.discard();
+            helper.succeed();
+        });
     }
 
     private static List<ItemStack> roll(ServerLevel level, ResourceKey<LootTable> key, Mob victim, Player killer, long seed) {

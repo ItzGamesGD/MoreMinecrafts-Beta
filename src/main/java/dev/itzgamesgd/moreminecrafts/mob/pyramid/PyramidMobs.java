@@ -13,30 +13,30 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
-import net.minecraft.world.entity.monster.skeleton.Skeleton;
-import net.minecraft.world.entity.monster.zombie.Husk;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 /**
- * ST-01 pyramid visual variants (PYRAMID_MOB_ROSTER_DESIGN_2026-10-26): the vanilla Husk, Skeleton and Zombie
- * classes with their vanilla attributes, dimensions, AI, loot and spawn-placement rules; only the texture differs.
+ * ST-01 pyramid visual variants (PYRAMID_MOB_ROSTER_DESIGN_2026-10-26): vanilla Husk, Skeleton and Zombie behaviour
+ * with their vanilla attributes, dimensions, AI, loot and spawn-placement rules; only the texture differs, and the
+ * water (Husk to Zombie, Zombie to Drowned) and powder-snow (Skeleton to Stray) conversions are blocked
+ * (owner decision 2026-11-14).
  * Natural spawning and pyramid encounter placement are deliberately not part of this registration.
  */
 public final class PyramidMobs {
     private PyramidMobs() {}
 
-    public static final EntityType<Husk> BURIED_MUMMY = register("buried_mummy",
-            EntityType.Builder.of(Husk::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F)
+    public static final EntityType<PyramidHusk> BURIED_MUMMY = register("buried_mummy",
+            EntityType.Builder.of(PyramidHusk::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F)
                     .passengerAttachments(2.075F).ridingOffset(-0.7F));
-    public static final EntityType<Skeleton> CRYPT_ARCHER = register("crypt_archer",
-            EntityType.Builder.of(Skeleton::new, MobCategory.MONSTER).sized(0.6F, 1.99F).eyeHeight(1.74F)
+    public static final EntityType<CryptArcher> CRYPT_ARCHER = register("crypt_archer",
+            EntityType.Builder.of(CryptArcher::new, MobCategory.MONSTER).sized(0.6F, 1.99F).eyeHeight(1.74F)
                     .ridingOffset(-0.7F));
-    public static final EntityType<Zombie> FUNERAL_SERVANT = register("funeral_servant",
-            EntityType.Builder.<Zombie>of(Zombie::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F)
+    public static final EntityType<PyramidZombie> FUNERAL_SERVANT = register("funeral_servant",
+            EntityType.Builder.of(PyramidZombie::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F)
                     .passengerAttachments(2.0125F).ridingOffset(-0.7F));
-    public static final EntityType<Husk> GILDED_MUMMY = register("gilded_mummy",
-            EntityType.Builder.of(Husk::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F)
+    public static final EntityType<PyramidHusk> GILDED_MUMMY = register("gilded_mummy",
+            EntityType.Builder.of(PyramidHusk::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F)
                     .passengerAttachments(2.075F).ridingOffset(-0.7F));
 
     /** The four variants in roster order. */
