@@ -143,24 +143,29 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
     }
 
     private static ColonyLedger.RecordedColony findAndPlaceInNaturalCave(ServerLevel level) {
-        int[][] windowOffsets = {
-                {0, 0}, {8, 0}, {0, 8}, {-8, 0}, {0, -8},
-                {8, 8}, {-8, 8}, {8, -8}, {-8, -8},
-                {16, 0}, {0, 16}, {-16, 0}, {0, -16}
-        };
+        ColonyLedger ledger = SpiderColonyEntities.data(level);
+        if (!ledger.recordedColonies().isEmpty()) {
+            return ledger.recordedColonies().getFirst();
+        }
         int halo = SpiderColonyDetector.CHUNK_HALO;
         int side = SpiderColonyDetector.WINDOW_SIDE_CHUNKS;
-        for (int[] off : windowOffsets) {
-            int wx = off[0];
-            int wz = off[1];
-            for (int cx = wx - halo; cx <= wx + side; cx++) {
-                for (int cz = wz - halo; cz <= wz + side; cz++) {
-                    level.getChunk(cx, cz, ChunkStatus.FULL, true);
+        for (int ring = 0; ring <= 5; ring++) {
+            for (int rx = -ring; rx <= ring; rx++) {
+                for (int rz = -ring; rz <= ring; rz++) {
+                    if (Math.abs(rx) != ring && Math.abs(rz) != ring) continue;
+                    int wx = rx * side;
+                    int wz = rz * side;
+                    if (ledger.isWindowEvaluated(wx, wz)) continue;
+                    for (int cx = wx - halo; cx <= wx + side; cx++) {
+                        for (int cz = wz - halo; cz <= wz + side; cz++) {
+                            level.getChunk(cx, cz, ChunkStatus.FULL, true);
+                        }
+                    }
+                    ColonyLedger.RecordedColony placed = SpiderColonyWorldgen.evaluateWindow(level, wx, wz);
+                    if (placed != null) {
+                        return placed;
+                    }
                 }
-            }
-            ColonyLedger.RecordedColony placed = SpiderColonyWorldgen.evaluateWindow(level, wx, wz);
-            if (placed != null) {
-                return placed;
             }
         }
         return null;
