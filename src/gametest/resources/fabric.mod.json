@@ -116,7 +116,8 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryPhysicsGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryShockwaveGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
-      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests"
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.pillagerhq.St03WorldgenAndGameplayGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
