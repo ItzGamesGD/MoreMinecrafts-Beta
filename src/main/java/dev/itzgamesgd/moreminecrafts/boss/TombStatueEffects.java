@@ -17,9 +17,13 @@ final class TombStatueEffects {
 
     private TombStatueEffects() {}
 
-    /** Mandatory magic-circle tell at the fixed eruption site; visible for the whole warning. */
+    /**
+     * Red floor telegraph at the fixed spike site (spec 4.2): the whole strike area is tinted light red and a dark red
+     * gauge fills it in proportion to the windup; visible for the whole warning.
+     */
     static void spawnCircle(ServerLevel level, Vec3 point, int warningTicks) {
         TombVfxDisplay.circle(level, point, warningTicks + 1);
+        TombVfxDisplay.fill(level, point, warningTicks + 1);
     }
 
     /** Glyph-ring particle accent drawn along the circle each tick (the display carries the readable shape). */

@@ -17,8 +17,8 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 /**
- * Temporary, never-saved item display used for the Stone Eruption telegraph (magic circle) and the risen
- * inscribed statue. Purely visual (the solid body is {@link TombStatueCollider}): it edits no blocks and removes itself after its lifetime,
+ * Temporary, never-saved item display used for the Tomb Spikes floor telegraph (a light red area plus a dark red
+ * charge fill that grows with the windup, spec 4.2) and the risen spike body. Purely visual (the solid body is {@link TombStatueCollider}): it edits no blocks and removes itself after its lifetime,
  * so a chunk save or restart can never leave a stale telegraph in the world.
  */
 public final class TombVfxDisplay extends Display.ItemDisplay {
@@ -26,7 +26,11 @@ public final class TombVfxDisplay extends Display.ItemDisplay {
     private static final float STATUE_SCALE = (float) (TombGuardianTuning.SPIKE_HEIGHT / 2.0D);
     private static final float CIRCLE_SCALE = (float) (TombGuardianTuning.SPIKE_RADIUS * 2.0D);
 
+    /** The fill gauge starts at this fraction of the area and grows to full size over the windup. */
+    private static final float FILL_START_SCALE = 0.06F;
+
     private boolean statue;
+    private boolean fill;
     private int lifetime = 1;
     private int age;
 
@@ -34,11 +38,23 @@ public final class TombVfxDisplay extends Display.ItemDisplay {
         super(type, level);
     }
 
+    /** Light red floor tint over the whole strike area; visible for the whole warning. */
     static TombVfxDisplay circle(ServerLevel level, Vec3 point, int lifetime) {
-        TombVfxDisplay display = create(level, point, "tomb_magic_circle", lifetime, false);
+        TombVfxDisplay display = create(level, point, "tomb_telegraph_area", lifetime, false);
         if (display == null) return null;
         display.accessor().moreminecrafts$setBrightnessOverride(Brightness.FULL_BRIGHT);
-        display.accessor().moreminecrafts$setTransformation(display.circleTransform(0.0F));
+        display.accessor().moreminecrafts$setTransformation(display.circleTransform(1.0F, 0.03F));
+        level.addFreshEntity(display);
+        return display;
+    }
+
+    /** Dark red gauge that fills the area in proportion to the windup progress (the hit lands when it is full). */
+    static TombVfxDisplay fill(ServerLevel level, Vec3 point, int lifetime) {
+        TombVfxDisplay display = create(level, point, "tomb_telegraph_fill", lifetime, false);
+        if (display == null) return null;
+        display.fill = true;
+        display.accessor().moreminecrafts$setBrightnessOverride(Brightness.FULL_BRIGHT);
+        display.accessor().moreminecrafts$setTransformation(display.circleTransform(FILL_START_SCALE, 0.06F));
         level.addFreshEntity(display);
         return display;
     }
@@ -68,6 +84,9 @@ public final class TombVfxDisplay extends Display.ItemDisplay {
 
     public boolean isStatue() { return statue; }
 
+    /** True for the dark red charge gauge, false for the light red area display and for the risen spike body. */
+    public boolean isFill() { return fill; }
+
     public int lifetime() { return lifetime; }
 
     @Override
@@ -86,18 +105,20 @@ public final class TombVfxDisplay extends Display.ItemDisplay {
                 accessor().moreminecrafts$setTransformationInterpolationDuration(RISE_TICKS);
                 accessor().moreminecrafts$setTransformation(statueTransform(age != 1));
             }
-        } else if (age % 5 == 0) {
-            // Slow spin keeps the glyph ring readable as a moving magic circle, not a static floor decal.
+        } else if (fill && age == 1) {
+            // One interpolation from the small start size to the full area over the whole warning.
             accessor().moreminecrafts$setTransformationInterpolationDelay(0);
-            accessor().moreminecrafts$setTransformationInterpolationDuration(5);
-            accessor().moreminecrafts$setTransformation(circleTransform(age * 0.06F));
+            accessor().moreminecrafts$setTransformationInterpolationDuration(Math.max(1, lifetime - 2));
+            accessor().moreminecrafts$setTransformation(circleTransform(1.0F, 0.06F));
         }
     }
 
-    private Transformation circleTransform(float angle) {
-        // The circle model is a flat 16x16 plate; item rendering centres the model on the entity.
-        return new Transformation(new Vector3f(0.0F, CIRCLE_SCALE * 0.5F + 0.03F, 0.0F),
-                new Quaternionf().rotationY(angle), new Vector3f(CIRCLE_SCALE, CIRCLE_SCALE, CIRCLE_SCALE), null);
+    private Transformation circleTransform(float relativeScale, float lift) {
+        // The telegraph model is a flat 16x16 plate; item rendering centres the model on the entity, so the plate is
+        // raised by half its scaled height plus a small lift (the fill sits above the area to avoid z-fighting).
+        float scale = CIRCLE_SCALE * relativeScale;
+        return new Transformation(new Vector3f(0.0F, scale * 0.5F + lift, 0.0F), new Quaternionf(),
+                new Vector3f(scale, scale, scale), null);
     }
 
     private static Transformation statueTransform(boolean buried) {

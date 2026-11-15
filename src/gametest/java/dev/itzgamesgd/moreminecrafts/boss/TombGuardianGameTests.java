@@ -241,8 +241,11 @@ public final class TombGuardianGameTests {
         ctx.assertTrue(marked != null && marked.distanceTo(dodger.position()) < 0.01D, "the site is fixed at the target's position");
         ctx.runAfterDelay(4, () -> {
             List<TombVfxDisplay> circles = level.getEntitiesOfClass(TombVfxDisplay.class, new AABB(BlockPos.containing(marked)).inflate(1.0D),
-                    display -> !display.isStatue());
-            ctx.assertTrue(circles.size() == 1, "exactly one magic circle marks the site during the warning");
+                    display -> !display.isStatue() && !display.isFill());
+            ctx.assertTrue(circles.size() == 1, "exactly one red floor area marks the site during the warning");
+            List<TombVfxDisplay> gauges = level.getEntitiesOfClass(TombVfxDisplay.class, new AABB(BlockPos.containing(marked)).inflate(1.0D),
+                    TombVfxDisplay::isFill);
+            ctx.assertTrue(gauges.size() == 1, "exactly one dark red charge gauge fills the area during the warning");
             // Side-step: the marked site must not follow the moving target.
             dodger.teleportTo(dodger.getX(), dodger.getY(), dodger.getZ() + 3.0D);
         });

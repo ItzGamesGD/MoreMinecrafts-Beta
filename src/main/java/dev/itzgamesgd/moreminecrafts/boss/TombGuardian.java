@@ -71,15 +71,17 @@ public class TombGuardian extends Monster {
     public static final byte EVENT_STRIKE = 73;
     public static final byte EVENT_ATTACK_END = 74;
     public static final byte EVENT_SUMMON_WINDUP = 75;
+    public static final byte EVENT_ULTIMATE_WINDUP = 76;
     /** Length of the reused vanilla Warden emerge animation (6.68 s); the client fast-forwards it to the awakening. */
     private static final int EMERGE_ANIMATION_TICKS = 134;
 
     public final AnimationState emergeAnimationState = new AnimationState();
-    /** Animation slots keep their vanilla Warden roles: sweep=sonic boom slot, slam/summon/ultimate=roar, spikes=sniff. */
-    public final AnimationState meleeWindupAnimationState = new AnimationState();
-    public final AnimationState attackAnimationState = new AnimationState();
+    /** One client animation state per pattern; the renderer plays the matching Tomb Guardian keyframe animation. */
+    public final AnimationState sweepAnimationState = new AnimationState();
     public final AnimationState slamAnimationState = new AnimationState();
-    public final AnimationState statueAnimationState = new AnimationState();
+    public final AnimationState spikeAnimationState = new AnimationState();
+    public final AnimationState summonAnimationState = new AnimationState();
+    public final AnimationState ultimateAnimationState = new AnimationState();
 
     /** One moving shockwave (slam, or one strike of the ultimate). Each victim is hit once per wave. */
     private static final class Wave {
@@ -249,6 +251,7 @@ public class TombGuardian extends Monster {
             }
         }
         if (isAwakening()) tickAwakening(level);
+        else if (isEnraged() && tickCount % 8 == 0) sandBurst(level, 6);
         tickWaves(level);
     }
 
@@ -381,7 +384,18 @@ public class TombGuardian extends Monster {
             level.playSound(null, getX(), getY(), getZ(), SoundEvents.WARDEN_ANGRY, SoundSource.HOSTILE, 3.0F, 0.5F);
             level.sendParticles(new DustParticleOptions(0xFF2010, 2.0F), getX(), getEyeY(), getZ(),
                     30, 0.4D, 0.3D, 0.4D, 0.0D);
+            sandBurst(level, 60);
         }
+    }
+
+    /** Sand dust and stone chips shaken loose by the cracked chest core (enrage presentation only). */
+    private void sandBurst(ServerLevel level, int count) {
+        BlockState floor = level.getBlockState(blockPosition().below());
+        if (floor.isAir()) floor = net.minecraft.world.level.block.Blocks.SANDSTONE.defaultBlockState();
+        level.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, floor), getX(), getY() + getBbHeight() * 0.62D, getZ(),
+                count, getBbWidth() * 0.45D, getBbHeight() * 0.18D, getBbWidth() * 0.45D, 0.12D);
+        level.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, getX(), getY() + getBbHeight() * 0.62D, getZ(),
+                count / 6, getBbWidth() * 0.4D, getBbHeight() * 0.15D, getBbWidth() * 0.4D, 0.02D);
     }
 
     private void applyEnrageSpeed() {
@@ -440,7 +454,7 @@ public class TombGuardian extends Monster {
             case ULTIMATE -> {
                 ultimateStrikes = 0;
                 setReadyTick(next, tickCount + ULTIMATE_COOLDOWN_TICKS);
-                level.broadcastEntityEvent(this, EVENT_SLAM_WINDUP);
+                level.broadcastEntityEvent(this, EVENT_ULTIMATE_WINDUP);
                 level.playSound(null, getX(), getY(), getZ(), SoundEvents.WARDEN_ROAR, SoundSource.HOSTILE, 3.0F, 0.5F);
             }
             case NONE -> {}
@@ -669,19 +683,24 @@ public class TombGuardian extends Monster {
     @Override
     public void handleEntityEvent(byte id) {
         switch (id) {
-            case EVENT_SWEEP_WINDUP -> { stopTells(); meleeWindupAnimationState.start(tickCount); }
-            case EVENT_SLAM_WINDUP, EVENT_SUMMON_WINDUP -> { stopTells(); slamAnimationState.start(tickCount); }
-            case EVENT_SPIKE_WINDUP -> { stopTells(); statueAnimationState.start(tickCount); }
-            case EVENT_STRIKE -> { stopTells(); attackAnimationState.start(tickCount); }
-            case EVENT_ATTACK_END -> stopTells();
+            case EVENT_SWEEP_WINDUP -> { stopTells(); sweepAnimationState.start(tickCount); }
+            case EVENT_SLAM_WINDUP -> { stopTells(); slamAnimationState.start(tickCount); }
+            case EVENT_SPIKE_WINDUP -> { stopTells(); spikeAnimationState.start(tickCount); }
+            case EVENT_SUMMON_WINDUP -> { stopTells(); summonAnimationState.start(tickCount); }
+            case EVENT_ULTIMATE_WINDUP -> { stopTells(); ultimateAnimationState.start(tickCount); }
+            // The strike and end markers need no client reaction: each keyframe animation already contains its own
+            // strike pose and recovery, timed to the server's windup length.
+            case EVENT_STRIKE, EVENT_ATTACK_END -> {}
             default -> super.handleEntityEvent(id);
         }
     }
 
     private void stopTells() {
-        meleeWindupAnimationState.stop();
+        sweepAnimationState.stop();
         slamAnimationState.stop();
-        statueAnimationState.stop();
+        spikeAnimationState.stop();
+        summonAnimationState.stop();
+        ultimateAnimationState.stop();
     }
 
     // Persistence.

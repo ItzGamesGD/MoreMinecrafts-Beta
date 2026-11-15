@@ -135,7 +135,8 @@
       "dev.itzgamesgd.moreminecrafts.fishing.FishingRodCloseClientGameTest",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05ArenaVisualClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryClientGameTest",
-      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture"
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture",
+      "dev.itzgamesgd.moreminecrafts.boss.TombGuardianClientCapture"
     ]
   },
   "mixins": [
