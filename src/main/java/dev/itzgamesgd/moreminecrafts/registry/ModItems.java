@@ -44,6 +44,7 @@ public final class ModItems {
     public static final Item ETHERIUM_SHARD = material("etherium_shard");
     public static final Item ETHERIUM_INGOT = material("etherium_ingot");
     public static final Item GALE_SHARD = material("gale_shard");
+    public static final Item COLONY_CRYSTAL = material("colony_crystal");
     /** Approved T2 sky material (wind sword, wind bow). Acquisition routes are not implemented yet (BLOCKED_DEPENDENCY). */
     public static final Item SKY_FEATHER = material("sky_feather");
     public static final Item ADAMANTIUM_INGOT = fireResistantMaterial("adamantium_ingot");

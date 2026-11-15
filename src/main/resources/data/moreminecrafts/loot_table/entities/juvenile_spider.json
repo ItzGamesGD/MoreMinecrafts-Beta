@@ -1,0 +1,1 @@
+{"type":"minecraft:entity","pools":[{"rolls":1,"entries":[{"type":"minecraft:item","name":"minecraft:string"}],"condition":{"type":"minecraft:random_chance","chance":0.5}},{"rolls":1,"entries":[{"type":"minecraft:item","name":"minecraft:spider_eye"}],"condition":{"type":"minecraft:random_chance","chance":0.15}}]}
