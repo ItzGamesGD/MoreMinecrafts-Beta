@@ -149,7 +149,7 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
         }
         int halo = SpiderColonyDetector.CHUNK_HALO;
         int side = SpiderColonyDetector.WINDOW_SIDE_CHUNKS;
-        for (int ring = 0; ring <= 5; ring++) {
+        for (int ring = 0; ring <= 4; ring++) {
             for (int rx = -ring; rx <= ring; rx++) {
                 for (int rz = -ring; rz <= ring; rz++) {
                     if (Math.abs(rx) != ring && Math.abs(rz) != ring) continue;
@@ -162,6 +162,7 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
                         }
                     }
                     ColonyLedger.RecordedColony placed = SpiderColonyWorldgen.evaluateWindow(level, wx, wz);
+                    System.out.println("SPIDER_COLONY_PROBE wx=" + wx + " wz=" + wz + " placed=" + (placed != null));
                     if (placed != null) {
                         return placed;
                     }
