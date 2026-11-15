@@ -136,10 +136,15 @@ public final class SpiderColonyWorldgen {
         int originZ = wz * 16;
 
         List<SpiderColonyDetector.Box3i> structureBoxes = collectStructureBoxes(level, wx, wz);
+        List<SpiderColonyDetector.Box3i> expandedBoxes = new ArrayList<>(structureBoxes.size());
+        for (SpiderColonyDetector.Box3i box : structureBoxes) {
+            expandedBoxes.add(box.expand(SpiderColonyDetector.STRUCTURE_BUFFER_BLOCKS));
+        }
         boolean[][][] air = sampleAirVoxels(level, originX, originZ, sideBlocks);
 
-        List<SpiderColonyDetector.CoreCandidate> candidates =
-                SpiderColonyDetector.detect(air, sideBlocks, originX, originZ, structureBoxes);
+        SpiderColonyDetector.DetectionResult detection =
+                SpiderColonyDetector.detectWithLabels(air, sideBlocks, originX, originZ, structureBoxes);
+        List<SpiderColonyDetector.CoreCandidate> candidates = detection.candidates();
         if (candidates.isEmpty()) return null;
 
         List<ColonyLedger.RecordedColony> existing = ledger.recordedColonies();
@@ -158,7 +163,8 @@ public final class SpiderColonyWorldgen {
                 continue;
             }
             ColonyLedger.RecordedColony placed = placeColony(
-                    level, ledger, core, motherFloor, nestRadius, regionX, regionZ);
+                    level, ledger, core, motherFloor, nestRadius, regionX, regionZ,
+                    originX, originZ, sideBlocks, detection.airLabels(), expandedBoxes);
             if (placed != null) {
                 return placed;
             }
@@ -263,25 +269,65 @@ public final class SpiderColonyWorldgen {
             BlockPos motherPos,
             int nestRadius,
             int regionX,
-            int regionZ) {
+            int regionZ,
+            int originX,
+            int originZ,
+            int sideBlocks,
+            int[][][] airLabels,
+            List<SpiderColonyDetector.Box3i> expandedBoxes) {
         RandomSource random = RandomSource.create(
                 level.getSeed() ^ ((long) core.worldX() * 341873128712L) ^ ((long) core.worldZ() * 132897987541L));
 
-        int hRange = Math.min(20, (int) Math.ceil(core.radiusBlocks()) + 4);
-        int maxY = Math.min(SpiderColonyDetector.Y_MAX, core.worldY() + (int) Math.ceil(core.radiusBlocks()) + 6);
-        int minY = Math.max(SpiderColonyDetector.Y_MIN + 2, core.worldY() - 2);
+        double nestZoneRadius = Math.max(18.0, core.radiusBlocks() + 8.0);
+        double outerDecorRadius = Math.min(nestRadius, 56.0);
+        int outerCeil = (int) Math.ceil(outerDecorRadius);
+        int minX = Math.max(originX, core.worldX() - outerCeil);
+        int maxX = Math.min(originX + sideBlocks - 1, core.worldX() + outerCeil);
+        int minZ = Math.max(originZ, core.worldZ() - outerCeil);
+        int maxZ = Math.min(originZ + sideBlocks - 1, core.worldZ() + outerCeil);
 
         List<BlockPos> ceilingSpots = new ArrayList<>();
-        for (int dx = -hRange; dx <= hRange; dx++) {
-            for (int dz = -hRange; dz <= hRange; dz++) {
-                if (dx * dx + dz * dz > hRange * hRange) continue;
-                for (int y = minY; y <= maxY; y++) {
-                    BlockPos p = new BlockPos(core.worldX() + dx, y, core.worldZ() + dz);
-                    if (!level.getBlockState(p).isAir()) continue;
-                    if (!level.getBlockState(p.below()).isAir()) continue;
-                    if (!level.getBlockState(p.above()).isFaceSturdy(level, p.above(), Direction.DOWN)) continue;
-                    if (level.canSeeSky(p)) continue;
-                    ceilingSpots.add(p);
+        List<BlockPos> floorSpots = new ArrayList<>();
+        List<BlockPos> wallWebSpots = new ArrayList<>();
+
+        BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
+        for (int wx = minX; wx <= maxX; wx++) {
+            int lx = wx - originX;
+            int dx = wx - core.worldX();
+            for (int wz = minZ; wz <= maxZ; wz++) {
+                int lz = wz - originZ;
+                int dz = wz - core.worldZ();
+                if (dx * dx + dz * dz > outerDecorRadius * outerDecorRadius) continue;
+
+                for (int wy = SpiderColonyDetector.Y_MIN + 1; wy <= SpiderColonyDetector.Y_MAX - 1; wy++) {
+                    int ly = wy - SpiderColonyDetector.Y_MIN;
+                    if (airLabels[lx][lz][ly] != core.airComponentId()) continue;
+
+                    cursor.set(wx, wy, wz);
+                    if (level.canSeeSky(cursor)) continue;
+                    BlockState state = level.getBlockState(cursor);
+                    if (!state.isAir() || !state.getFluidState().isEmpty()) continue;
+                    if (isInsideAnyBox(wx, wy, wz, expandedBoxes)) continue;
+
+                    BlockPos above = cursor.above();
+                    BlockPos below = cursor.below();
+                    boolean sturdyCeiling = level.getBlockState(above).isFaceSturdy(level, above, Direction.DOWN);
+                    boolean sturdyFloor = level.getBlockState(below).isFaceSturdy(level, below, Direction.UP);
+                    boolean belowAir = level.getBlockState(below).isAir() && level.getFluidState(below).isEmpty();
+                    boolean aboveAir = level.getBlockState(above).isAir() && level.getFluidState(above).isEmpty();
+
+                    if (sturdyCeiling && belowAir) {
+                        ceilingSpots.add(cursor.immutable());
+                    }
+                    if (sturdyFloor && aboveAir && cursor.distSqr(motherPos) >= 9) {
+                        floorSpots.add(cursor.immutable());
+                    }
+                    if (cursor.distSqr(motherPos) >= 16 && (sturdyCeiling || hasSturdyWallNeighbor(level, cursor))) {
+                        // Prefer walls/ceilings and rocky corners; avoid blocking open floor paths
+                        if (!sturdyFloor || hasSturdyWallNeighbor(level, cursor)) {
+                            wallWebSpots.add(cursor.immutable());
+                        }
+                    }
                 }
             }
         }
@@ -289,24 +335,19 @@ public final class SpiderColonyWorldgen {
             return null;
         }
 
-        // Shuffle deterministically
-        for (int i = ceilingSpots.size() - 1; i > 0; i--) {
-            int j = random.nextInt(i + 1);
-            Collections.swap(ceilingSpots, i, j);
-        }
+        shuffle(ceilingSpots, random);
+        shuffle(floorSpots, random);
+        shuffle(wallWebSpots, random);
 
+        // 1. Hanging Cocoons (Q55, Q64): concentrated in nest zone, tapering toward colony boundary
         HangingCocoonBlock cocoonBlock = (HangingCocoonBlock) ModBlocks.HANGING_COCOON;
         List<BlockPos> placedCocoons = new ArrayList<>();
         for (BlockPos spot : ceilingSpots) {
-            if (placedCocoons.size() >= 12) break;
-            boolean tooClose = false;
-            for (BlockPos existing : placedCocoons) {
-                if (existing.distSqr(spot) < 4) {
-                    tooClose = true;
-                    break;
-                }
-            }
-            if (tooClose) continue;
+            if (placedCocoons.size() >= 28) break;
+            double dist = horizDist(spot, core);
+            double weight = taperWeight(dist, nestZoneRadius, outerDecorRadius);
+            if (dist > nestZoneRadius && random.nextDouble() > weight) continue;
+            if (tooClose(spot, placedCocoons, 4)) continue;
             level.setBlock(spot, cocoonBlock.naturalState(random), 3);
             placedCocoons.add(spot);
         }
@@ -314,41 +355,57 @@ public final class SpiderColonyWorldgen {
             return null;
         }
 
-        // Place floor egg sacs away from mother spawn
-        List<BlockPos> floorSpots = new ArrayList<>();
-        int floorMinY = Math.max(SpiderColonyDetector.Y_MIN + 1, core.worldY() - (int) Math.ceil(core.radiusBlocks()) - 4);
-        int floorMaxY = Math.min(SpiderColonyDetector.Y_MAX - 1, core.worldY() + 2);
-        for (int dx = -14; dx <= 14; dx++) {
-            for (int dz = -14; dz <= 14; dz++) {
-                if (dx * dx + dz * dz > 196) continue;
-                for (int y = floorMinY; y <= floorMaxY; y++) {
-                    BlockPos p = new BlockPos(core.worldX() + dx, y, core.worldZ() + dz);
-                    if (p.distSqr(motherPos) < 9) continue;
-                    if (!level.getBlockState(p).isAir()) continue;
-                    if (!level.getBlockState(p.above()).isAir()) continue;
-                    if (!level.getBlockState(p.below()).isFaceSturdy(level, p.below(), Direction.UP)) continue;
-                    floorSpots.add(p);
+        // 2. Egg Sacs (Q26, Q29, Q64): evenly distributed across cave floor, tapering at boundary
+        EggSacBlock eggSacBlock = (EggSacBlock) ModBlocks.SPIDER_EGG_SAC;
+        List<BlockPos> placedEggs = new ArrayList<>();
+        for (BlockPos spot : floorSpots) {
+            if (placedEggs.size() >= 32) break;
+            double dist = horizDist(spot, core);
+            double weight = taperWeight(dist, nestZoneRadius + 10.0, outerDecorRadius);
+            if (weight <= 0.0 || (dist > nestZoneRadius + 10.0 && random.nextDouble() > weight)) continue;
+            if (tooClose(spot, placedEggs, 9)) continue;
+            level.setBlock(spot, eggSacBlock.naturalState(random), 3);
+            placedEggs.add(spot);
+        }
+
+        // 3. Bones & Prey Remains (Q55, Q64): in nest zone, wrapped with cobweb, tapering outward
+        List<BlockPos> placedBones = new ArrayList<>();
+        for (BlockPos spot : floorSpots) {
+            if (placedBones.size() >= 5) break;
+            double dist = horizDist(spot, core);
+            if (dist > nestZoneRadius + 6.0) continue;
+            if (!level.getBlockState(spot).isAir()) continue;
+            if (spot.distSqr(motherPos) < 16) continue;
+            if (tooClose(spot, placedBones, 25) || tooClose(spot, placedEggs, 4)) continue;
+            if (isInsideAnyBox(spot.getX(), spot.getY(), spot.getZ(), expandedBoxes)) continue;
+
+            BlockState boneState = (placedBones.size() % 2 == 0)
+                    ? Blocks.BONE_BLOCK.defaultBlockState()
+                    : Blocks.SKELETON_SKULL.defaultBlockState();
+            level.setBlock(spot, boneState, 3);
+            placedBones.add(spot);
+
+            // Wrap adjacent air cell with cobweb as prey remains
+            for (Direction dir : Direction.Plane.HORIZONTAL) {
+                BlockPos adj = spot.relative(dir);
+                if (adj.distSqr(motherPos) >= 16
+                        && !isInsideAnyBox(adj.getX(), adj.getY(), adj.getZ(), expandedBoxes)
+                        && level.getBlockState(adj).isAir()
+                        && level.getFluidState(adj).isEmpty()) {
+                    level.setBlock(adj, Blocks.COBWEB.defaultBlockState(), 3);
+                    break;
                 }
             }
         }
-        for (int i = floorSpots.size() - 1; i > 0; i--) {
-            int j = random.nextInt(i + 1);
-            Collections.swap(floorSpots, i, j);
-        }
-        EggSacBlock eggSacBlock = (EggSacBlock) ModBlocks.SPIDER_EGG_SAC;
-        int eggCount = 0;
-        for (BlockPos spot : floorSpots) {
-            if (eggCount >= 6) break;
-            level.setBlock(spot, eggSacBlock.naturalState(random), 3);
-            eggCount++;
-        }
 
-        // Sparse cobwebs on upper walls/ceilings (not near mother spawn)
+        // 4. Cobwebs (Q54, Q64, Q69): medium density on walls & ceilings, higher near nest, tapering at border
         int cobwebs = 0;
-        for (BlockPos spot : ceilingSpots) {
-            if (cobwebs >= 10) break;
-            if (!level.getBlockState(spot).isAir()) continue;
-            if (spot.distSqr(motherPos) < 16) continue;
+        for (BlockPos spot : wallWebSpots) {
+            if (cobwebs >= 120) break;
+            if (!level.getBlockState(spot).isAir() || !level.getFluidState(spot).isEmpty()) continue;
+            double dist = horizDist(spot, core);
+            double weight = 0.75 * taperWeight(dist, nestZoneRadius, outerDecorRadius);
+            if (random.nextDouble() > weight) continue;
             level.setBlock(spot, Blocks.COBWEB.defaultBlockState(), 3);
             cobwebs++;
         }
@@ -366,9 +423,54 @@ public final class SpiderColonyWorldgen {
         }
 
         ledger.recordColony(nestId, core.worldX(), core.worldY(), core.worldZ(), nestRadius, regionX, regionZ);
-        MoreMinecrafts.LOGGER.info("Placed Spider Colony {} at ({}, {}, {}) radius={} region=({},{}) cocoons={} eggs={}",
-                nestId, core.worldX(), core.worldY(), core.worldZ(), nestRadius, regionX, regionZ, placedCocoons.size(), eggCount);
+        MoreMinecrafts.LOGGER.info(
+                "Placed Spider Colony {} at ({}, {}, {}) radius={} region=({},{}) cocoons={} eggs={} bones={} webs={}",
+                nestId, core.worldX(), core.worldY(), core.worldZ(), nestRadius, regionX, regionZ,
+                placedCocoons.size(), placedEggs.size(), placedBones.size(), cobwebs);
         return new ColonyLedger.RecordedColony(
                 nestId, core.worldX(), core.worldY(), core.worldZ(), nestRadius, regionX, regionZ);
+    }
+
+    private static boolean hasSturdyWallNeighbor(ServerLevel level, BlockPos pos) {
+        for (Direction dir : Direction.Plane.HORIZONTAL) {
+            BlockPos adj = pos.relative(dir);
+            if (level.getBlockState(adj).isFaceSturdy(level, adj, dir.getOpposite())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isInsideAnyBox(int x, int y, int z, List<SpiderColonyDetector.Box3i> boxes) {
+        for (SpiderColonyDetector.Box3i box : boxes) {
+            if (box.containsPoint(x, y, z)) return true;
+        }
+        return false;
+    }
+
+    private static double horizDist(BlockPos p, SpiderColonyDetector.CoreCandidate core) {
+        double dx = p.getX() - core.worldX();
+        double dz = p.getZ() - core.worldZ();
+        return Math.sqrt(dx * dx + dz * dz);
+    }
+
+    static double taperWeight(double dist, double innerRadius, double outerRadius) {
+        if (dist <= innerRadius) return 1.0;
+        if (dist >= outerRadius) return 0.0;
+        return 1.0 - (dist - innerRadius) / Math.max(1.0, outerRadius - innerRadius);
+    }
+
+    private static boolean tooClose(BlockPos candidate, List<BlockPos> existing, int minDistSq) {
+        for (BlockPos p : existing) {
+            if (p.distSqr(candidate) < minDistSq) return true;
+        }
+        return false;
+    }
+
+    private static void shuffle(List<BlockPos> list, RandomSource random) {
+        for (int i = list.size() - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            Collections.swap(list, i, j);
+        }
     }
 }

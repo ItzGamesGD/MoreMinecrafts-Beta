@@ -76,13 +76,13 @@ jobs:
             trap "kill $! 2>/dev/null || true" EXIT
             ./gradlew runClientGameTest --args="--width 1280 --height 720" --no-daemon --max-workers=2 2>&1 | tee build/spider-colony-capture/client.log
           '
-          grep -q "SPIDER_COLONY_CAPTURE_COMPLETE 4" build/spider-colony-capture/client.log
+          grep -q "SPIDER_COLONY_CAPTURE_COMPLETE 6" build/spider-colony-capture/client.log
           python3 - <<'PY'
           from pathlib import Path
           from PIL import Image
           out_dir = Path('build/spider-colony-capture')
           shots = sorted(Path('.').rglob('*spider-colony-*.png'))
-          assert len(shots) >= 4, f"Expected >= 4 screenshots, found {len(shots)}"
+          assert len(shots) >= 6, f"Expected >= 6 screenshots, found {len(shots)}"
           for src in shots:
               if out_dir in src.parents:
                   continue

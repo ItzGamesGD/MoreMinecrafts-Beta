@@ -52,6 +52,10 @@ public final class SpiderColonyDetector {
             double dz = Math.max(0, Math.max(minZ - pz, pz - maxZ));
             return (dx * dx + dy * dy + dz * dz) <= radius * radius;
         }
+
+        public boolean containsPoint(int px, int py, int pz) {
+            return px >= minX && px <= maxX && py >= minY && py <= maxY && pz >= minZ && pz <= maxZ;
+        }
     }
 
     public record CoreCandidate(
@@ -66,6 +70,8 @@ public final class SpiderColonyDetector {
         }
     }
 
+    public record DetectionResult(List<CoreCandidate> candidates, int[][][] airLabels) {}
+
     /**
      * Detects qualifying colony chamber cores in an {@code side x side x Y_SIZE} air voxel grid.
      *
@@ -77,6 +83,15 @@ public final class SpiderColonyDetector {
      * @return surviving, deduplicated, structure-buffered core candidates sorted by diameter descending
      */
     public static List<CoreCandidate> detect(
+            boolean[][][] air,
+            int side,
+            int originWorldX,
+            int originWorldZ,
+            List<Box3i> structureBoxes) {
+        return detectWithLabels(air, side, originWorldX, originWorldZ, structureBoxes).candidates();
+    }
+
+    public static DetectionResult detectWithLabels(
             boolean[][][] air,
             int side,
             int originWorldX,
@@ -98,7 +113,7 @@ public final class SpiderColonyDetector {
                 }
             }
         }
-        if (!anyCore) return List.of();
+        if (!anyCore) return new DetectionResult(List.of(), airLabels);
 
         int[][][] coreLabels = labelSixConnected(coreMask, side, Y_SIZE);
         Map<Integer, CoreCandidate> bestPerCore = new HashMap<>();
@@ -146,7 +161,7 @@ public final class SpiderColonyDetector {
                 .thenComparingInt(CoreCandidate::worldX)
                 .thenComparingInt(CoreCandidate::worldZ)
                 .thenComparingInt(CoreCandidate::worldY));
-        return surviving;
+        return new DetectionResult(surviving, airLabels);
     }
 
     /** Matches {@code tools/spider-colony-probe/dedup.py#merge_overlapping_cores}. */

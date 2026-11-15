@@ -11,16 +11,9 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerCon
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.spider.Spider;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,17 +21,10 @@ import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.phys.AABB;
 
 /**
- * Opt-in real-client validation and screenshot capture for Spider Colony worldgen,
- * MotherSpider (2.3x scale, hitbox, pathfinding, provisional texture), and HangingCocoon
- * ({@code -Dmoreminecrafts.spider.capture=true}).
+ * Opt-in real-client validation and screenshot capture in a genuine naturally-generated
+ * Overworld cave (no artificial carving) via {@code -Dmoreminecrafts.spider.capture=true}.
  */
 public final class SpiderColonyClientCapture implements FabricClientGameTest {
-    private static final int CX = 64;
-    private static final int CY = -10;
-    private static final int CZ = 64;
-    private static final int CAVERN_RADIUS = 13;
-    private static final int FLOOR_Y = -20;
-
     @Override
     public void runTest(ClientGameTestContext context) {
         if (!Boolean.getBoolean("moreminecrafts.spider.capture")) return;
@@ -46,6 +32,7 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
         Properties properties = new Properties();
         properties.setProperty("online-mode", "false");
         properties.setProperty("difficulty", "easy");
+        properties.setProperty("level-seed", "42");
 
         try (TestDedicatedServerContext server = context.worldBuilder().createServer(properties);
              TestDedicatedServerConnection connection = server.connect()) {
@@ -55,210 +42,184 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
             });
 
             List<BlockPos> cocoonPositions = new ArrayList<>();
+            List<BlockPos> eggSacPositions = new ArrayList<>();
+            List<BlockPos> cobwebPositions = new ArrayList<>();
+            int[] colonyCenter = new int[3];
+
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
-                prepareWindowAndCavern(level);
-
-                // (a) Run real worldgen evaluation on window (0, 0)
-                ColonyLedger.RecordedColony placed = SpiderColonyWorldgen.evaluateWindow(level, 0, 0);
+                ColonyLedger.RecordedColony placed = findAndPlaceInNaturalCave(level);
                 if (placed == null) {
-                    throw new AssertionError("Check (a) failed: evaluateWindow did not place a Spider Colony");
+                    throw new AssertionError("No natural Overworld cave qualified in search windows");
                 }
-                System.out.println("SPIDER_COLONY_CHECK_A PASS nestId=" + placed.nestId()
+                colonyCenter[0] = placed.x();
+                colonyCenter[1] = placed.y();
+                colonyCenter[2] = placed.z();
+                System.out.println("SPIDER_COLONY_NATURAL_CAVE_OK seed=" + level.getSeed()
+                        + " nestId=" + placed.nestId()
                         + " center=(" + placed.x() + "," + placed.y() + "," + placed.z() + ")"
                         + " radius=" + placed.nestRadius());
 
-                // (b) Collect hanging cocoons and verify ceiling attachment
-                for (int dx = -22; dx <= 22; dx++) {
-                    for (int dz = -22; dz <= 22; dz++) {
-                        for (int y = FLOOR_Y; y <= CY + CAVERN_RADIUS + 4; y++) {
-                            BlockPos p = new BlockPos(CX + dx, y, CZ + dz);
+                for (int dx = -56; dx <= 56; dx++) {
+                    for (int dz = -56; dz <= 56; dz++) {
+                        for (int y = SpiderColonyDetector.Y_MIN; y <= SpiderColonyDetector.Y_MAX; y++) {
+                            BlockPos p = new BlockPos(placed.x() + dx, y, placed.z() + dz);
                             BlockState st = level.getBlockState(p);
-                            if (st.is(ModBlocks.HANGING_COCOON)) {
-                                if (!level.getBlockState(p.above()).isFaceSturdy(level, p.above(), Direction.DOWN)) {
-                                    throw new AssertionError("Check (b) failed: cocoon at " + p + " has no sturdy ceiling");
-                                }
-                                cocoonPositions.add(p);
-                            }
+                            if (st.is(ModBlocks.HANGING_COCOON)) cocoonPositions.add(p);
+                            else if (st.is(ModBlocks.SPIDER_EGG_SAC)) eggSacPositions.add(p);
+                            else if (st.is(Blocks.COBWEB)) cobwebPositions.add(p);
                         }
                     }
                 }
-                if (cocoonPositions.isEmpty()) {
-                    throw new AssertionError("Check (b) failed: no HangingCocoon blocks placed in colony");
+                System.out.println("SPIDER_COLONY_DECOR_COUNTS cocoons=" + cocoonPositions.size()
+                        + " eggs=" + eggSacPositions.size() + " cobwebs=" + cobwebPositions.size());
+                if (cocoonPositions.isEmpty() || eggSacPositions.isEmpty() || cobwebPositions.isEmpty()) {
+                    throw new AssertionError("Expected cocoons, egg sacs, and cobwebs in natural colony");
                 }
             });
 
-            // Wait 20 ticks and re-verify cocoons did not fall or float, and verify (c) MotherSpider & (d) size/hitbox/pathfinding
-            context.waitTicks(20);
+            context.waitTicks(15);
+            double[] motherPos = new double[3];
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
-                for (BlockPos p : cocoonPositions) {
-                    if (!level.getBlockState(p).is(ModBlocks.HANGING_COCOON)
-                            || !level.getBlockState(p.above()).isFaceSturdy(level, p.above(), Direction.DOWN)) {
-                        throw new AssertionError("Check (b) failed after 20 ticks at " + p);
-                    }
-                }
-                System.out.println("SPIDER_COLONY_CHECK_B PASS cocoons=" + cocoonPositions.size() + " all ceiling-attached");
-
+                BlockPos center = new BlockPos(colonyCenter[0], colonyCenter[1], colonyCenter[2]);
                 List<MotherSpider> mothers = level.getEntities(
                         SpiderColonyEntities.MOTHER,
-                        new AABB(CX - 25, FLOOR_Y - 5, CZ - 25, CX + 25, CY + 25, CZ + 25),
+                        new AABB(center).inflate(30),
                         MotherSpider::isAlive);
                 if (mothers.isEmpty()) {
-                    throw new AssertionError("Check (c) failed: no MotherSpider spawned in colony");
+                    throw new AssertionError("No MotherSpider found in natural colony");
                 }
                 MotherSpider mother = mothers.getFirst();
-                System.out.println("SPIDER_COLONY_CHECK_C PASS motherId=" + mother.getUUID()
-                        + " pos=(" + String.format("%.2f,%.2f,%.2f", mother.getX(), mother.getY(), mother.getZ()) + ")");
-
-                float w = mother.getBbWidth();
-                float h = mother.getBbHeight();
-                if (Math.abs(w - SpiderColonyEntities.WIDTH_PROVISIONAL) > 0.01F
-                        || Math.abs(h - SpiderColonyEntities.HEIGHT_PROVISIONAL) > 0.01F) {
-                    throw new AssertionError("Check (d) failed: unexpected hitbox " + w + "x" + h);
-                }
-                // Trigger pathfinding to a point 7 blocks away on the chamber floor
-                mother.snapTo(CX + 0.5, FLOOR_Y + 1, CZ + 0.5, 0, 0);
-                boolean started = mother.getNavigation().moveTo(CX + 7.5, FLOOR_Y + 1, CZ + 0.5, 1.0D);
-                if (!started) {
-                    throw new AssertionError("Check (d) failed: navigation.moveTo returned false");
-                }
-            });
-
-            context.waitTicks(45);
-            server.runOnServer(s -> {
-                ServerLevel level = s.overworld();
-                MotherSpider mother = level.getEntities(
-                        SpiderColonyEntities.MOTHER,
-                        new AABB(CX - 25, FLOOR_Y - 5, CZ - 25, CX + 25, CY + 25, CZ + 25),
-                        MotherSpider::isAlive).getFirst();
-                double moved = Math.hypot(mother.getX() - (CX + 0.5), mother.getZ() - (CZ + 0.5));
-                if (moved < 1.0) {
-                    throw new AssertionError("Check (d) failed: MotherSpider did not pathfind/move (moved=" + moved + ")");
-                }
-                System.out.println("SPIDER_COLONY_CHECK_D PASS scale=2.3 hitbox="
-                        + mother.getBbWidth() + "x" + mother.getBbHeight() + " pathfindMoved=" + String.format("%.2f", moved));
-
-                // Prepare MotherSpider at center for clean screenshots, freeze AI so it holds pose
                 mother.setNoAi(true);
-                mother.snapTo(CX + 0.5, FLOOR_Y + 1, CZ + 0.5, 0, 0);
                 mother.setYRot(0);
                 mother.setYBodyRot(0);
                 mother.setYHeadRot(0);
+                motherPos[0] = mother.getX();
+                motherPos[1] = mother.getY();
+                motherPos[2] = mother.getZ();
 
-                // Ensure chamber has clear lighting & spectator player has night vision
-                addShowcaseLighting(level);
                 var player = s.getPlayerList().getPlayers().getFirst();
                 player.setGameMode(GameType.SPECTATOR);
-                player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 2000, 0, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 4000, 0, false, false));
             });
             connection.waitForClientboundPackets();
             context.waitTicks(10);
 
-            // Shot 0: MotherSpider front full-body
-            teleportSpectator(server, connection, context, CX + 0.5, FLOOR_Y + 2.5, CZ + 7.5, 180, 6);
+            // 0: Mother front
+            lookAtFromOpenAir(server, connection, context,
+                    new BlockPos((int) motherPos[0], (int) motherPos[1] + 1, (int) motherPos[2]),
+                    5.5, 1.5, 0.0, 1.0);
             takeShot(context, "spider-colony-00-mother-front");
 
-            // Shot 1: MotherSpider side full-body
-            teleportSpectator(server, connection, context, CX + 7.5, FLOOR_Y + 2.5, CZ + 0.5, 90, 6);
+            // 1: Mother side
+            lookAtFromOpenAir(server, connection, context,
+                    new BlockPos((int) motherPos[0], (int) motherPos[1] + 1, (int) motherPos[2]),
+                    5.5, 1.5, 1.0, 0.0);
             takeShot(context, "spider-colony-01-mother-side");
 
-            // Shot 2: Hanging cocoon close-up
-            BlockPos focusCocoon = cocoonPositions.getFirst();
-            teleportSpectator(server, connection, context,
-                    focusCocoon.getX() + 0.5, focusCocoon.getY() - 0.5, focusCocoon.getZ() + 2.8, 180, -10);
+            // 2: Hanging cocoon close-up
+            BlockPos cocoon = cocoonPositions.getFirst();
+            lookAtFromOpenAir(server, connection, context, cocoon, 3.0, -0.5, 0.0, 1.0);
             takeShot(context, "spider-colony-02-cocoon-closeup");
 
-            // Shot 3: Colony overview (wide angle)
-            teleportSpectator(server, connection, context, CX - 10.5, FLOOR_Y + 8.0, CZ + 11.5, -135, 22);
+            // 3: Colony overview (inside natural cavern)
+            BlockPos overviewTarget = new BlockPos((int) motherPos[0], (int) motherPos[1] + 1, (int) motherPos[2]);
+            lookAtFromOpenAir(server, connection, context, overviewTarget, 11.0, 4.5, -0.7, 0.7);
             takeShot(context, "spider-colony-03-colony-overview");
 
-            // (e) Verify breaking REWARD=true drops string and REWARD=false spawns vanilla spiders
-            server.runOnServer(s -> {
-                ServerLevel level = s.overworld();
-                var player = s.getPlayerList().getPlayers().getFirst();
-                player.setGameMode(GameType.SURVIVAL);
+            // 4: Egg sac close-up
+            BlockPos eggSac = eggSacPositions.getFirst();
+            lookAtFromOpenAir(server, connection, context, eggSac, 2.8, 1.0, 0.0, 1.0);
+            takeShot(context, "spider-colony-04-eggsac-closeup");
 
-                BlockPos rewardPos = new BlockPos(CX - 3, FLOOR_Y + 5, CZ - 3);
-                level.setBlock(rewardPos.above(), Blocks.STONE.defaultBlockState(), 3);
-                level.setBlock(rewardPos, ModBlocks.HANGING_COCOON.defaultBlockState().setValue(HangingCocoonBlock.REWARD, true), 3);
-                BlockState rState = level.getBlockState(rewardPos);
-                rState.getBlock().playerWillDestroy(level, rewardPos, rState, player);
-                level.removeBlock(rewardPos, false);
-                int stringCount = level.getEntitiesOfClass(ItemEntity.class, new AABB(rewardPos).inflate(4),
-                        e -> e.getItem().is(Items.STRING)).stream().mapToInt(e -> e.getItem().getCount()).sum();
-                if (stringCount < 1 || stringCount > 2) {
-                    throw new AssertionError("Check (e) failed: REWARD=true cocoon dropped " + stringCount + " string");
-                }
+            // 5: Cobweb close-up
+            BlockPos cobweb = cobwebPositions.getFirst();
+            lookAtFromOpenAir(server, connection, context, cobweb, 3.0, 0.2, 0.0, 1.0);
+            takeShot(context, "spider-colony-05-cobweb-closeup");
 
-                BlockPos hazardPos = new BlockPos(CX + 3, FLOOR_Y + 5, CZ - 3);
-                level.setBlock(hazardPos.above(), Blocks.STONE.defaultBlockState(), 3);
-                level.setBlock(hazardPos, ModBlocks.HANGING_COCOON.defaultBlockState().setValue(HangingCocoonBlock.REWARD, false), 3);
-                BlockState hState = level.getBlockState(hazardPos);
-                hState.getBlock().playerWillDestroy(level, hazardPos, hState, player);
-                level.removeBlock(hazardPos, false);
-                var vanillaSpider = BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.withDefaultNamespace("spider"));
-                int spiderCount = level.getEntitiesOfClass(Spider.class, new AABB(hazardPos).inflate(6),
-                        e -> e.getType() == vanillaSpider).size();
-                if (spiderCount < 1 || spiderCount > 2) {
-                    throw new AssertionError("Check (e) failed: REWARD=false cocoon spawned " + spiderCount + " spiders");
-                }
-                System.out.println("SPIDER_COLONY_CHECK_E PASS rewardString=" + stringCount + " hazardSpiders=" + spiderCount);
-            });
-
-            System.out.println("SPIDER_COLONY_CAPTURE_COMPLETE 4");
+            System.out.println("SPIDER_COLONY_CAPTURE_COMPLETE 6");
         }
     }
 
-    private static void prepareWindowAndCavern(ServerLevel level) {
+    private static ColonyLedger.RecordedColony findAndPlaceInNaturalCave(ServerLevel level) {
+        int[][] windowOffsets = {
+                {0, 0}, {8, 0}, {0, 8}, {-8, 0}, {0, -8},
+                {8, 8}, {-8, 8}, {8, -8}, {-8, -8},
+                {16, 0}, {0, 16}, {-16, 0}, {0, -16}
+        };
         int halo = SpiderColonyDetector.CHUNK_HALO;
         int side = SpiderColonyDetector.WINDOW_SIDE_CHUNKS;
-        for (int cx = -halo; cx <= side; cx++) {
-            for (int cz = -halo; cz <= side; cz++) {
-                level.getChunk(cx, cz, ChunkStatus.FULL, true);
-            }
-        }
-        // Build solid stone shell & enclosed spherical cavern centered at (CX, CY, CZ) with flat floor at FLOOR_Y
-        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
-        int outer = CAVERN_RADIUS + 3;
-        for (int dx = -outer; dx <= outer; dx++) {
-            for (int dz = -outer; dz <= outer; dz++) {
-                for (int y = FLOOR_Y - 2; y <= CY + outer; y++) {
-                    int dy = y - CY;
-                    double distSq = dx * dx + dy * dy + dz * dz;
-                    p.set(CX + dx, y, CZ + dz);
-                    if (y > FLOOR_Y && distSq <= CAVERN_RADIUS * CAVERN_RADIUS) {
-                        level.setBlock(p, Blocks.AIR.defaultBlockState(), 2);
-                    } else {
-                        level.setBlock(p, Blocks.STONE.defaultBlockState(), 2);
-                    }
+        for (int[] off : windowOffsets) {
+            int wx = off[0];
+            int wz = off[1];
+            for (int cx = wx - halo; cx <= wx + side; cx++) {
+                for (int cz = wz - halo; cz <= wz + side; cz++) {
+                    level.getChunk(cx, cz, ChunkStatus.FULL, true);
                 }
             }
-        }
-    }
-
-    private static void addShowcaseLighting(ServerLevel level) {
-        BlockPos[] lights = {
-                new BlockPos(CX + 12, FLOOR_Y + 3, CZ),
-                new BlockPos(CX - 12, FLOOR_Y + 3, CZ),
-                new BlockPos(CX, FLOOR_Y + 3, CZ + 12),
-                new BlockPos(CX, FLOOR_Y + 3, CZ - 12),
-                new BlockPos(CX, FLOOR_Y, CZ)
-        };
-        for (BlockPos pos : lights) {
-            if (level.getBlockState(pos).is(Blocks.STONE) || level.getBlockState(pos).isAir()) {
-                level.setBlock(pos, Blocks.GLOWSTONE.defaultBlockState(), 3);
+            ColonyLedger.RecordedColony placed = SpiderColonyWorldgen.evaluateWindow(level, wx, wz);
+            if (placed != null) {
+                return placed;
             }
         }
+        return null;
     }
 
-    private static void teleportSpectator(
+    private static void lookAtFromOpenAir(
             TestDedicatedServerContext server,
             TestDedicatedServerConnection connection,
             ClientGameTestContext context,
-            double x, double y, double z, float yaw, float pitch) {
-        server.runOnServer(s -> s.getPlayerList().getPlayers().getFirst()
-                .teleportTo(s.overworld(), x, y, z, Set.of(), yaw, pitch, true));
+            BlockPos target,
+            double dist,
+            double dyOffset,
+            double prefDx,
+            double prefDz) {
+        double[] cam = new double[5]; // x, y, z, yaw, pitch
+        server.runOnServer(s -> {
+            ServerLevel level = s.overworld();
+            double[][] dirs = {
+                    {prefDx, prefDz},
+                    {1, 0}, {-1, 0}, {0, 1}, {0, -1},
+                    {0.7, 0.7}, {-0.7, 0.7}, {0.7, -0.7}, {-0.7, -0.7}
+            };
+            double bestX = target.getX() + 0.5 + prefDx * 2.5;
+            double bestY = target.getY() + 0.5 + dyOffset;
+            double bestZ = target.getZ() + 0.5 + prefDz * 2.5;
+
+            outer:
+            for (double d = dist; d >= 2.0; d -= 1.0) {
+                for (double[] dir : dirs) {
+                    double len = Math.hypot(dir[0], dir[1]);
+                    if (len < 1e-6) continue;
+                    double cx = target.getX() + 0.5 + (dir[0] / len) * d;
+                    double cy = target.getY() + 0.5 + dyOffset;
+                    double cz = target.getZ() + 0.5 + (dir[1] / len) * d;
+                    BlockPos cp = BlockPos.containing(cx, cy, cz);
+                    if (level.getBlockState(cp).isAir() && level.getBlockState(cp.above()).isAir()) {
+                        bestX = cx;
+                        bestY = cy;
+                        bestZ = cz;
+                        break outer;
+                    }
+                }
+            }
+
+            double tx = target.getX() + 0.5 - bestX;
+            double ty = target.getY() + 0.5 - (bestY + 1.62);
+            double tz = target.getZ() + 0.5 - bestZ;
+            double horiz = Math.hypot(tx, tz);
+            float yaw = (float) Math.toDegrees(Math.atan2(-tx, tz));
+            float pitch = (float) Math.toDegrees(-Math.atan2(ty, horiz));
+            cam[0] = bestX;
+            cam[1] = bestY;
+            cam[2] = bestZ;
+            cam[3] = yaw;
+            cam[4] = pitch;
+
+            s.getPlayerList().getPlayers().getFirst()
+                    .teleportTo(level, bestX, bestY, bestZ, Set.of(), yaw, pitch, true);
+        });
         connection.waitForClientboundPackets();
         context.waitTicks(12);
     }

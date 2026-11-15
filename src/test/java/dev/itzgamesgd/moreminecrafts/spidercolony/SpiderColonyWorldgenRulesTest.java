@@ -74,4 +74,15 @@ class SpiderColonyWorldgenRulesTest {
         assertTrue(SpiderColonyPlacementRules.overlapsAny(200, 0, 128, existing));
         assertFalse(SpiderColonyPlacementRules.overlapsAny(300, 0, 128, existing));
     }
+
+    @Test
+    void stage3TaperAndStructureBufferPointCheck() {
+        assertEquals(1.0, SpiderColonyWorldgen.taperWeight(10.0, 20.0, 56.0), 1e-9);
+        assertEquals(0.5, SpiderColonyWorldgen.taperWeight(38.0, 20.0, 56.0), 1e-9);
+        assertEquals(0.0, SpiderColonyWorldgen.taperWeight(56.0, 20.0, 56.0), 1e-9);
+
+        var box = new SpiderColonyDetector.Box3i(0, -10, 0, 10, 10, 10).expand(16);
+        assertTrue(box.containsPoint(-16, 0, 0));
+        assertFalse(box.containsPoint(-17, 0, 0));
+    }
 }
