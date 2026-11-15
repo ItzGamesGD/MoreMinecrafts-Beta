@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   pyramid-client-capture:
@@ -15,8 +15,6 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -75,6 +73,15 @@ jobs:
           if natural.exists(): shutil.copy2(natural,out/'natural-client.log')
           print('\n'.join(str(p) for p in sorted(out.iterdir())))
           PY
+      - name: Commit captures for repository viewing
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/captures/pyramid_measure/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Add pyramid measure client captures'
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
