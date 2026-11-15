@@ -176,7 +176,7 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
             // (e) Verify breaking REWARD=true drops string and REWARD=false spawns vanilla spiders
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
-                Player player = s.getPlayerList().getPlayers().getFirst();
+                var player = s.getPlayerList().getPlayers().getFirst();
                 player.setGameMode(GameType.SURVIVAL);
 
                 BlockPos rewardPos = new BlockPos(CX - 3, FLOOR_Y + 5, CZ - 3);
