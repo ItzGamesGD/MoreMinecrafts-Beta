@@ -1,0 +1,258 @@
+{
+ "control_clean": true,
+ "results": [
+  {
+   "mutation": "a defeat event is trusted without re-checking the defeated record (spoofed/stale/wrong-tomb event opens the entrance)",
+   "kind": "state machine",
+   "expected": [
+    "SM1",
+    "SM5"
+   ],
+   "failed": [
+    "SM1",
+    "SM4",
+    "SM5"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "timer starts when the chest is touched before the kill",
+   "kind": "state machine",
+   "expected": [
+    "SM1",
+    "SM5"
+   ],
+   "failed": [
+    "SM1",
+    "SM2",
+    "SM4",
+    "SM5"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "fallback timer also marks the guardian defeated / unlocks the chest (reward bypass)",
+   "kind": "state machine",
+   "expected": [
+    "SM1"
+   ],
+   "failed": [
+    "SM1",
+    "SM2",
+    "SM5"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "duplicate defeat events spawn a second golem",
+   "kind": "state machine",
+   "expected": [
+    "SM1"
+   ],
+   "failed": [
+    "SM1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "golem loss cancels the fallback timer",
+   "kind": "state machine",
+   "expected": [
+    "SM1"
+   ],
+   "failed": [
+    "SM1",
+    "SM2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "server restart forgets the entrance record",
+   "kind": "state machine",
+   "expected": [
+    "SM1",
+    "SM3"
+   ],
+   "failed": [
+    "SM1",
+    "SM2",
+    "SM3"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "server restart forgets the remaining time",
+   "kind": "state machine",
+   "expected": [
+    "SM1",
+    "SM3"
+   ],
+   "failed": [
+    "SM1",
+    "SM2",
+    "SM3"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "opening never applied physically when the cover chunk is unloaded at open time",
+   "kind": "state machine",
+   "expected": [
+    "SM1"
+   ],
+   "failed": [
+    "SM1",
+    "SM2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "lost defeat event is never reconciled from the boss record",
+   "kind": "state machine",
+   "expected": [
+    "SM1",
+    "SM2"
+   ],
+   "failed": [
+    "SM1",
+    "SM2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "timer opens a SEALED entrance",
+   "kind": "state machine",
+   "expected": [
+    "SM1",
+    "SM5"
+   ],
+   "failed": [
+    "SM1",
+    "SM2",
+    "SM4",
+    "SM5"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "early chest interaction opens the entrance",
+   "kind": "state machine",
+   "expected": [
+    "SM1",
+    "SM5"
+   ],
+   "failed": [
+    "SM1",
+    "SM2",
+    "SM4",
+    "SM5"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "opening buries a player standing on the cover",
+   "kind": "state machine",
+   "expected": [
+    "SM1"
+   ],
+   "failed": [
+    "SM1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "cover is restored automatically when the player leaves (no restore rule is approved)",
+   "kind": "state machine",
+   "expected": [
+    "SM1"
+   ],
+   "failed": [
+    "SM1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "auto-restore under a player",
+   "kind": "state machine",
+   "expected": [
+    "SM1"
+   ],
+   "failed": [
+    "SM1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "duplicate open request opens a SEALED entrance",
+   "kind": "state machine",
+   "expected": [
+    "SM1",
+    "SM5"
+   ],
+   "failed": [
+    "SM1",
+    "SM2",
+    "SM4",
+    "SM5"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "tombs share one record",
+   "kind": "state machine",
+   "expected": [
+    "SM4"
+   ],
+   "failed": [
+    "SM4"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "anchor-relative cover offsets wrong (chest anchor moved one block)",
+   "kind": "geometry",
+   "expected": [
+    "GA5"
+   ],
+   "failed": [
+    "GA5"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "stair void top lowered by one (the cut region changes)",
+   "kind": "geometry",
+   "expected": [
+    "GA5"
+   ],
+   "failed": [
+    "GA5"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "last stair tread missing (landing 2 below, no climb-out)",
+   "kind": "geometry",
+   "expected": [
+    "GA1"
+   ],
+   "failed": [
+    "GA1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "cover region grows to 15 cells (stray floor cuts)",
+   "kind": "geometry",
+   "expected": [
+    "GA2",
+    "GA5"
+   ],
+   "failed": [
+    "GA2",
+    "GA5"
+   ],
+   "detected": true
+  }
+ ]
+}

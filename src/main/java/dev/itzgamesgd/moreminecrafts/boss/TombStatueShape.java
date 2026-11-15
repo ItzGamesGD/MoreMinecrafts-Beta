@@ -12,14 +12,14 @@ final class TombStatueShape {
     static final int RISE_TICKS = 5;
     /** How far below the floor the buried display's top edge sits. */
     static final double BURY_DEPTH = 0.2D;
-    /** The obelisk model is 6 of 16 units wide and is scaled by STATUE_HEIGHT / 2 (see TombVfxDisplay). */
-    static final double WIDTH = 6.0D / 16.0D * (TombGuardianTuning.STATUE_HEIGHT / 2.0D);
+    /** The obelisk model is 6 of 16 units wide and is scaled by SPIKE_HEIGHT / 2 (see TombVfxDisplay). */
+    static final double WIDTH = 6.0D / 16.0D * (TombGuardianTuning.SPIKE_HEIGHT / 2.0D);
 
     private TombStatueShape() {}
 
     /** Height of the statue above the floor, {@code age} ticks after it spawned and {@code lifetime} ticks in total. */
     static double height(int age, int lifetime) {
-        double full = TombGuardianTuning.STATUE_HEIGHT;
+        double full = TombGuardianTuning.SPIKE_HEIGHT;
         int sinkStart = lifetime - RISE_TICKS;
         double top;
         if (age >= sinkStart) {
@@ -37,7 +37,7 @@ final class TombStatueShape {
 
     /** The collision box of the fully risen statue. */
     static AABB fullBox(Vec3 base) {
-        return box(base, TombGuardianTuning.STATUE_HEIGHT);
+        return box(base, TombGuardianTuning.SPIKE_HEIGHT);
     }
 
     private static double lerp(double from, double to, double t) { return from + (to - from) * t; }

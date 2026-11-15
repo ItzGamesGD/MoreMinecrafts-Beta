@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:cave_bat",
+    "moreminecrafts:giant_bee",
+    "moreminecrafts:lesser_phantom",
+    "moreminecrafts:lesser_magma_cube",
+    "moreminecrafts:cloud_wraith",
+    "moreminecrafts:skyguard_archer",
+    "moreminecrafts:crystal_bug",
+    "moreminecrafts:cloud_slime",
+    "moreminecrafts:fallen_sentinel"
+  ]
+}

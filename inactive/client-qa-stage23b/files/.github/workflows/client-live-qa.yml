@@ -1,0 +1,44 @@
+name: Minecraft Client Live QA
+
+on:
+  pull_request:
+    branches:
+      - codex/stage23-livefix-b-20261016
+    paths:
+      - ".github/workflows/client-live-qa.yml"
+      - "build.gradle"
+      - "scripts/client_live_qa/**"
+      - "src/clientQa/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  loom-qa-mod-bootstrap:
+    name: Loom QA mod load, in-world scenarios, and production JAR boundary
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install software display
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+      - name: Prove isolated QA mod loading and JAR exclusion
+        run: bash scripts/client_live_qa/verify_qa_mod_load.sh client-live-qa-results/bootstrap
+      - name: Upload bootstrap evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-live-qa-in-world-${{ github.run_id }}
+          path: client-live-qa-results/bootstrap/
+          if-no-files-found: error
+          retention-days: 14

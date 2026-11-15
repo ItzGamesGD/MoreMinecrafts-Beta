@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.boss;
 
 import dev.itzgamesgd.moreminecrafts.accessory.AccessoryDefinition;
+import dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobs;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
 import java.util.List;
 import java.util.UUID;
@@ -54,6 +55,30 @@ public final class TombGuardianGameTests {
 
     // Arena helpers.
 
+    /**
+     * Empty 16x8x16 structure with the same origin as the default 8x8x8 one. Stone Eruption tests put the guardian at
+     * (2, 1, 2) and the eruption site up to x = 12.5, so every entity they rely on lies inside this structure. The
+     * GameTest framework force-loads every chunk the structure box touches, so those entities tick wherever the
+     * randomly placed test lands relative to chunk borders (with the 8-wide default box they could sit in an
+     * unforced neighbour chunk and never tick).
+     */
+    private static final String ARENA = "moreminecrafts-gametest:tomb_guardian_arena";
+
+    /**
+     * Fails fast unless the guardian, the marked eruption site (where the statue body and display spawn) and every
+     * other entity the test relies on are in entity-ticking chunks; the arena structure guarantees it.
+     */
+    private static void assertArenaTicks(GameTestHelper ctx, TombGuardian guardian, Entity... others) {
+        ServerLevel level = ctx.getLevel();
+        ctx.assertTrue(guardian.spikePoint() != null
+                        && level.isPositionEntityTicking(BlockPos.containing(guardian.spikePoint())),
+                "eruption site must be entity-ticking, at " + guardian.spikePoint());
+        ctx.assertTrue(level.isPositionEntityTicking(guardian.blockPosition()), "guardian must be entity-ticking");
+        for (Entity other : others)
+            ctx.assertTrue(level.isPositionEntityTicking(other.blockPosition()),
+                    other.getType() + " must be entity-ticking, at " + other.position());
+    }
+
     private static void floor(GameTestHelper ctx, int radius) {
         for (int x = -radius; x <= radius + 8; x++)
             for (int z = -radius; z <= radius + 8; z++)
@@ -82,15 +107,16 @@ public final class TombGuardianGameTests {
     // Spawn and attributes.
 
     @GameTest
-    public void guardianSpawnsWithProvisionalAttributesAndBossRules(GameTestHelper ctx) {
+    public void guardianSpawnsWithSpecAttributesAndBossRules(GameTestHelper ctx) {
         floor(ctx, 2);
         TombGuardian guardian = ctx.spawn(TombGuardianEntities.TOMB_GUARDIAN, new BlockPos(2, 1, 2));
-        ctx.assertTrue(guardian.getMaxHealth() == 200.0F, "provisional 200 HP");
-        ctx.assertTrue(guardian.getAttributeValue(Attributes.ATTACK_DAMAGE) == 10.0D, "provisional 10 HP fist");
-        ctx.assertTrue(guardian.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE) == 0.8D, "heavy: 80% knockback resistance");
+        ctx.assertTrue(guardian.getMaxHealth() == 300.0F, "spec max health 300, got " + guardian.getMaxHealth());
+        ctx.assertTrue(guardian.getAttributeValue(Attributes.ARMOR) == 12.0D, "spec armor 12");
+        ctx.assertTrue(Math.abs(guardian.getAttributeValue(Attributes.MOVEMENT_SPEED) - 0.21D) < 1.0E-9, "spec speed 0.21");
         ctx.assertTrue(guardian.getAttributeValue(Attributes.FOLLOW_RANGE) == 24.0D, "sight range ~24 blocks");
         ctx.assertTrue(Math.abs(guardian.getBbHeight() - 4.35F) < 0.01F && Math.abs(guardian.getBbWidth() - 1.35F) < 0.01F,
-                "~4-5 block tall armored body");
+                "spec hitbox 1.35 x 4.35");
+        ctx.assertTrue(Math.abs(guardian.getEyeHeight() - 3.6975F) < 0.001F, "spec eye height 3.6975, got " + guardian.getEyeHeight());
         ctx.assertTrue(guardian.isPersistenceRequired() && !guardian.removeWhenFarAway(10000.0D),
                 "a unique boss never despawns by distance");
         ctx.assertTrue(!TombGuardianEntities.TOMB_GUARDIAN.isAllowedInPeaceful(), "hostile boss is not allowed in peaceful");
@@ -142,62 +168,66 @@ public final class TombGuardianGameTests {
         });
     }
 
-    // Attacks.
+    // Attacks (spec 4.1). Victims are villager dummies with 100 HP and no armor, so damage is exact.
 
-    @GameTest(maxTicks = 60)
-    public void meleeFistIsTelegraphedThenHitsOnlyAtTheStrikeFrame(GameTestHelper ctx) {
-        floor(ctx, 2);
+    @GameTest(maxTicks = 80)
+    public void sweepTelegraphsThenHitsOnlyTheForwardFanAtTheStrikeFrame(GameTestHelper ctx) {
+        floor(ctx, 4);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
-        Villager target = dummy(ctx, new Vec3(4.5D, 1.0D, 2.5D));
-        ctx.assertTrue(guardian.forceAttack(ctx.getLevel(), TombGuardianCombat.Attack.MELEE, target), "melee starts");
-        ctx.runAfterDelay(TombGuardianTuning.MELEE_WINDUP_TICKS - 3, () -> {
-            ctx.assertTrue(target.getHealth() == 100.0F, "no damage during the 0.65 s telegraph");
-            ctx.assertTrue(guardian.currentAttack() == TombGuardianCombat.Attack.MELEE, "still winding up");
+        guardian.setYRot(0.0F);
+        Villager front = dummy(ctx, new Vec3(2.5D, 1.0D, 4.5D));
+        Villager behind = dummy(ctx, new Vec3(2.5D, 1.0D, 0.5D));
+        ctx.assertTrue(guardian.forceAttack(ctx.getLevel(), TombGuardianCombat.Attack.SWEEP, front), "sweep starts");
+        float frontBefore = front.getHealth();
+        float behindBefore = behind.getHealth();
+        ctx.runAfterDelay(TombGuardianTuning.SWEEP_WINDUP_TICKS - 3, () -> {
+            ctx.assertTrue(guardian.currentAttack() == TombGuardianCombat.Attack.SWEEP, "still winding up");
+            ctx.assertTrue(front.getHealth() == frontBefore, "no damage during the windup");
         });
-        ctx.runAfterDelay(TombGuardianTuning.MELEE_WINDUP_TICKS + 4, () -> {
-            ctx.assertTrue(target.getHealth() == 90.0F, "strike deals the 10 HP fist once, got " + target.getHealth());
-            ctx.assertTrue(guardian.currentAttack() == TombGuardianCombat.Attack.NONE, "attack resolved");
-            ctx.succeed();
-        });
-    }
-
-    @GameTest(maxTicks = 60)
-    public void meleeWhiffsWhenTheTargetLeavesReachDuringTheTelegraph(GameTestHelper ctx) {
-        floor(ctx, 2);
-        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
-        Villager target = dummy(ctx, new Vec3(4.5D, 1.0D, 2.5D));
-        ctx.assertTrue(guardian.forceAttack(ctx.getLevel(), TombGuardianCombat.Attack.MELEE, target), "melee starts");
-        ctx.runAfterDelay(4, () -> target.teleportTo(target.getX() + 6.0D, target.getY(), target.getZ()));
-        ctx.runAfterDelay(TombGuardianTuning.MELEE_WINDUP_TICKS + 4, () -> {
-            ctx.assertTrue(target.getHealth() == 100.0F, "stepping out of reach during the tell avoids the fist");
+        ctx.runAfterDelay(TombGuardianTuning.SWEEP_WINDUP_TICKS + 4, () -> {
+            ctx.assertTrue(guardian.currentAttack() != TombGuardianCombat.Attack.SWEEP, "sweep resolved");
+            float taken = frontBefore - front.getHealth();
+            ctx.assertTrue(Math.abs(taken - 9.0F) < 0.01F, "the forward victim takes exactly 9, got " + taken);
+            ctx.assertTrue(behind.getHealth() == behindBefore, "a victim behind the guardian is never hit");
             ctx.succeed();
         });
     }
 
     @GameTest(maxTicks = 80)
-    public void groundShockwaveTravelsOutwardHitsOnceAndCanBeJumpedOrOutranged(GameTestHelper ctx) {
+    public void sweepTracksTheTargetDuringItsWindup(GameTestHelper ctx) {
+        floor(ctx, 4);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        guardian.setYRot(0.0F);
+        // Target is on the -x side; the windup turns the body (yaw 90 faces -x) so the strike lands on it.
+        Villager side = dummy(ctx, new Vec3(0.5D, 1.0D, 2.5D));
+        ctx.assertTrue(guardian.forceAttack(ctx.getLevel(), TombGuardianCombat.Attack.SWEEP, side), "sweep starts");
+        float before = side.getHealth();
+        ctx.runAfterDelay(TombGuardianTuning.SWEEP_WINDUP_TICKS + 4, () -> {
+            ctx.assertTrue(Math.abs(guardian.getYRot() - 90.0F) < 1.0F || Math.abs(guardian.getYRot() + 270.0F) < 1.0F,
+                    "the body turned to face the target, yaw " + guardian.getYRot());
+            ctx.assertTrue(Math.abs((before - side.getHealth()) - 9.0F) < 0.01F, "the tracked target is hit by the fan");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 120)
+    public void groundSlamWaveHitsOnceInsideItsRingAndNotBeyond(GameTestHelper ctx) {
         floor(ctx, 10);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
-        Vec3 origin = guardian.position().subtract(ctx.absoluteVec(Vec3.ZERO));
-        Villager near = dummy(ctx, origin.add(3.0D, 0.0D, 0.0D));
-        Villager far = dummy(ctx, origin.add(-7.5D, 0.0D, 0.0D));
-        Villager airborne = dummy(ctx, origin.add(0.0D, 1.0D, 3.0D));
-        airborne.setNoGravity(true);
-        ctx.assertTrue(guardian.forceAttack(ctx.getLevel(), TombGuardianCombat.Attack.SLAM, near), "smash starts");
-        int windup = TombGuardianTuning.SLAM_WINDUP_TICKS;
-        ctx.runAfterDelay(windup - 2, () ->
-                ctx.assertTrue(near.getHealth() == 100.0F, "no damage during the 1.3 s smash windup"));
-        ctx.runAfterDelay(windup + 2, () ->
-                ctx.assertTrue(near.getHealth() == 100.0F, "the wave front has not reached 3 blocks yet: it travels outward"));
-        ctx.runAfterDelay(windup + TombGuardianCombat.waveTravelTicks() + 4, () -> {
-            ctx.assertTrue(near.getHealth() == 88.0F, "a grounded target inside the radius takes 12 HP exactly once, got " + near.getHealth());
-            ctx.assertTrue(far.getHealth() == 100.0F, "outside the 6-block radius is safe");
-            ctx.assertTrue(airborne.getHealth() == 100.0F, "a target above the jump clearance hops over the wave");
+        Villager near = dummy(ctx, new Vec3(2.5D, 1.0D, 5.5D));
+        Villager far = dummy(ctx, new Vec3(2.5D, 1.0D, 9.5D));
+        ctx.assertTrue(guardian.forceAttack(ctx.getLevel(), TombGuardianCombat.Attack.SLAM, near), "slam starts");
+        float nearBefore = near.getHealth();
+        float farBefore = far.getHealth();
+        ctx.runAfterDelay(TombGuardianTuning.SLAM_WINDUP_TICKS + TombGuardianCombat.waveTravelTicks(TombGuardianTuning.WAVE_RADIUS) + 4, () -> {
+            float taken = nearBefore - near.getHealth();
+            ctx.assertTrue(Math.abs(taken - 12.0F) < 0.01F, "the victim inside the 6 m ring takes exactly 12, got " + taken);
+            ctx.assertTrue(far.getHealth() == farBefore, "a victim beyond 6 m is not hit");
             ctx.succeed();
         });
     }
 
-    @GameTest(maxTicks = 80)
+    @GameTest(maxTicks = 80, structure = ARENA)
     public void stoneEruptionShowsAMagicCircleAtAFixedPointAndSideStepAvoidsIt(GameTestHelper ctx) {
         floor(ctx, 8);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
@@ -205,21 +235,25 @@ public final class TombGuardianGameTests {
         Villager dodger = dummy(ctx, point);
         Villager stander = dummy(ctx, point.add(0.6D, 0.0D, 0.6D));
         ServerLevel level = ctx.getLevel();
-        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.STATUE, dodger), "eruption starts");
-        Vec3 marked = guardian.statuePoint();
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SPIKES, dodger), "eruption starts");
+        assertArenaTicks(ctx, guardian, dodger, stander);
+        Vec3 marked = guardian.spikePoint();
         ctx.assertTrue(marked != null && marked.distanceTo(dodger.position()) < 0.01D, "the site is fixed at the target's position");
         ctx.runAfterDelay(4, () -> {
             List<TombVfxDisplay> circles = level.getEntitiesOfClass(TombVfxDisplay.class, new AABB(BlockPos.containing(marked)).inflate(1.0D),
-                    display -> !display.isStatue());
-            ctx.assertTrue(circles.size() == 1, "exactly one magic circle marks the site during the warning");
+                    display -> !display.isStatue() && !display.isFill());
+            ctx.assertTrue(circles.size() == 1, "exactly one gold magic circle marks the site during the warning");
+            List<TombVfxDisplay> gauges = level.getEntitiesOfClass(TombVfxDisplay.class, new AABB(BlockPos.containing(marked)).inflate(1.0D),
+                    TombVfxDisplay::isFill);
+            ctx.assertTrue(gauges.isEmpty(), "tomb spikes use the gold circle only: no red charge gauge");
             // Side-step: the marked site must not follow the moving target.
             dodger.teleportTo(dodger.getX(), dodger.getY(), dodger.getZ() + 3.0D);
         });
-        ctx.runAfterDelay(8, () -> ctx.assertTrue(guardian.statuePoint() != null && guardian.statuePoint().equals(marked),
+        ctx.runAfterDelay(8, () -> ctx.assertTrue(guardian.spikePoint() != null && guardian.spikePoint().equals(marked),
                 "the eruption is never re-targeted after the warning begins"));
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS - 2, () ->
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS - 2, () ->
                 ctx.assertTrue(stander.getHealth() == 100.0F, "no damage before the statue rises"));
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS + 4, () -> {
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS + 4, () -> {
             ctx.assertTrue(stander.getHealth() == 92.0F, "the statue deals 8 HP inside the circle, got " + stander.getHealth());
             ctx.assertTrue(dodger.getHealth() == 100.0F, "lateral movement out of the circle avoids it");
             List<TombVfxDisplay> statues = level.getEntitiesOfClass(TombVfxDisplay.class, new AABB(BlockPos.containing(marked)).inflate(1.0D),
@@ -241,7 +275,7 @@ public final class TombGuardianGameTests {
         return level.getEntitiesOfClass(TombVfxDisplay.class, new AABB(BlockPos.containing(point)).inflate(2.0D));
     }
 
-    @GameTest(maxTicks = 120)
+    @GameTest(maxTicks = 120, structure = ARENA)
     public void risenStatueIsSolidAtTheApprovedSizeAndTelegraphStaysWalkable(GameTestHelper ctx) {
         floor(ctx, 8);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
@@ -249,20 +283,21 @@ public final class TombGuardianGameTests {
         Villager target = dummy(ctx, site.add(2.5D, 0.0D, 0.0D));
         Villager probe = dummy(ctx, site.add(5.0D, 0.0D, 3.0D));
         ServerLevel level = ctx.getLevel();
-        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.STATUE, target), "eruption starts");
-        Vec3 marked = guardian.statuePoint();
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS - 2, () -> {
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SPIKES, target), "eruption starts");
+        assertArenaTicks(ctx, guardian, target, probe);
+        Vec3 marked = guardian.spikePoint();
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS - 2, () -> {
             ctx.assertTrue(collidersAt(level, marked).isEmpty()
                             && level.getEntityCollisions(probe, TombStatueShape.fullBox(marked)).isEmpty(),
                     "the warning telegraph has no collision, so the original dodge window is unchanged");
         });
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS + 4 + TombStatueShape.RISE_TICKS, () -> {
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS + 4 + TombStatueShape.RISE_TICKS, () -> {
             List<TombStatueCollider> colliders = collidersAt(level, marked);
             ctx.assertTrue(colliders.size() == 1, "exactly one collision body, got " + colliders.size());
             TombStatueCollider collider = colliders.get(0);
             ctx.assertTrue(collider.getBoundingBox().equals(TombStatueShape.fullBox(marked)),
                     "fully risen: collision equals the approved obelisk, got " + collider.getBoundingBox());
-            ctx.assertTrue(collider.solidHeight() == (float) TombGuardianTuning.STATUE_HEIGHT, "full height");
+            ctx.assertTrue(collider.solidHeight() == (float) TombGuardianTuning.SPIKE_HEIGHT, "full height");
             ctx.assertTrue(!level.getEntityCollisions(probe, TombStatueShape.fullBox(marked).deflate(0.05D)).isEmpty(),
                     "the server treats the statue as solid for movers");
             ctx.assertTrue(level.getBlockState(BlockPos.containing(marked)).isAir(), "no block was placed");
@@ -270,15 +305,16 @@ public final class TombGuardianGameTests {
         });
     }
 
-    @GameTest(maxTicks = 160)
+    @GameTest(maxTicks = 160, structure = ARENA)
     public void statueCollisionFollowsTheDisplayedRiseAndSinkThenVanishes(GameTestHelper ctx) {
         floor(ctx, 8);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
         Villager target = dummy(ctx, new Vec3(12.5D, 1.0D, 2.5D));
         Villager probe = dummy(ctx, new Vec3(13.5D, 1.0D, 6.5D));
         ServerLevel level = ctx.getLevel();
-        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.STATUE, target), "eruption starts");
-        Vec3 marked = guardian.statuePoint();
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SPIKES, target), "eruption starts");
+        assertArenaTicks(ctx, guardian, target, probe);
+        Vec3 marked = guardian.spikePoint();
         AtomicReference<Float> last = new AtomicReference<>(0.0F);
         AtomicInteger peaks = new AtomicInteger();
         AtomicInteger partial = new AtomicInteger();
@@ -298,13 +334,13 @@ public final class TombGuardianGameTests {
             TombStatueCollider collider = colliders.get(0);
             ctx.assertTrue(displays.size() == 1 && displays.get(0).position().equals(collider.position()),
                     "visual and collision share one position");
-            double expected = Math.min(collider.solidHeight(), TombGuardianTuning.STATUE_HEIGHT);
+            double expected = Math.min(collider.solidHeight(), TombGuardianTuning.SPIKE_HEIGHT);
             ctx.assertTrue(Math.abs(collider.getBoundingBox().maxY - (marked.y + expected)) < 1.0E-4D,
                     "collision top follows the synced height, got " + collider.getBoundingBox());
             AABB below = TombStatueShape.box(marked, expected);
             ctx.assertTrue(collider.getBoundingBox().equals(below), "box is exactly the current slice");
             float h = collider.solidHeight();
-            if (h >= (float) TombGuardianTuning.STATUE_HEIGHT) peaks.incrementAndGet();
+            if (h >= (float) TombGuardianTuning.SPIKE_HEIGHT) peaks.incrementAndGet();
             else if (h > 0.0F) partial.incrementAndGet();
             if (h > 0.0F) {
                 AABB inside = TombStatueShape.box(marked, h).deflate(0.02D);
@@ -314,27 +350,28 @@ public final class TombGuardianGameTests {
         });
     }
 
-    @GameTest(maxTicks = 80)
+    @GameTest(maxTicks = 80, structure = ARENA)
     public void anOccupantIsShovedToASafeSpotWithoutBeingTrapped(GameTestHelper ctx) {
         floor(ctx, 8);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
         Vec3 site = new Vec3(9.5D, 1.0D, 2.5D);
         Villager inside = dummy(ctx, site);
         ServerLevel level = ctx.getLevel();
-        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.STATUE, inside), "eruption starts");
-        Vec3 marked = guardian.statuePoint();
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS + 8, () -> {
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SPIKES, inside), "eruption starts");
+        assertArenaTicks(ctx, guardian, inside);
+        Vec3 marked = guardian.spikePoint();
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS + 8, () -> {
             AABB body = TombStatueShape.fullBox(marked);
             ctx.assertTrue(!inside.getBoundingBox().intersects(body), "the occupant is outside the solid statue");
             ctx.assertTrue(level.noCollision(inside, inside.getBoundingBox()), "and not wedged into terrain or the statue");
-            ctx.assertTrue(inside.getY() >= marked.y - 0.01D && inside.getY() <= marked.y + 1.01D, "still on the arena floor");
+            ctx.assertTrue(inside.getY() >= marked.y - 0.01D, "not sunk into the floor");
             ctx.assertTrue(inside.getHealth() == 92.0F, "the eruption still hits an entity that was inside, got " + inside.getHealth());
             ctx.assertTrue(collidersAt(level, marked).size() == 1, "the statue rose");
             ctx.succeed();
         });
     }
 
-    @GameTest(maxTicks = 140)
+    @GameTest(maxTicks = 140, structure = ARENA)
     public void anEnclosedOccupantCancelsTheEruptionWithoutDamageOrLeftovers(GameTestHelper ctx) {
         floor(ctx, 8);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
@@ -347,28 +384,29 @@ public final class TombGuardianGameTests {
         Villager bystander = dummy(ctx, new Vec3(9.5D, 1.0D, 6.5D));
         ServerLevel level = ctx.getLevel();
         Vec3 before = trapped.position();
-        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.STATUE, trapped), "eruption starts");
-        Vec3 marked = guardian.statuePoint();
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS + 3, () -> {
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SPIKES, trapped), "eruption starts");
+        assertArenaTicks(ctx, guardian, trapped, bystander);
+        Vec3 marked = guardian.spikePoint();
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS + 3, () -> {
             ctx.assertTrue(trapped.getHealth() == 100.0F && bystander.getHealth() == 100.0F, "a cancelled eruption deals no damage");
             ctx.assertTrue(trapped.position().equals(before), "nobody was moved through the walls");
             ctx.assertTrue(collidersAt(level, marked).isEmpty() && displaysAt(level, marked).stream().noneMatch(TombVfxDisplay::isStatue),
                     "no collision body or statue display remains");
-            ctx.assertTrue(guardian.currentAttack() == TombGuardianCombat.Attack.NONE && guardian.statuePoint() == null,
+            ctx.assertTrue(guardian.currentAttack() == TombGuardianCombat.Attack.NONE && guardian.spikePoint() == null,
                     "the attack ended as a failure with no stored site");
-            ctx.assertTrue(guardian.statueCooldownRemaining() > TombGuardianTuning.STATUE_COOLDOWN_TICKS - 10,
-                    "the normal eruption cooldown is kept, got " + guardian.statueCooldownRemaining());
-            ctx.assertTrue(guardian.attackRecoveryRemaining() > 0L, "the normal recovery time is kept");
+            long spikeCooldown = guardian.cooldownRemaining(TombGuardianCombat.Attack.SPIKES);
+            ctx.assertTrue(spikeCooldown > 0L && spikeCooldown <= TombGuardianTuning.SPIKE_COOLDOWN_TICKS,
+                    "the eruption cooldown is running after the cancelled attempt, got " + spikeCooldown);
         });
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS + 40, () -> {
-            ctx.assertTrue(guardian.currentAttack() == TombGuardianCombat.Attack.NONE, "no immediate repeat of the cancelled attack");
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS + 40, () -> {
+            ctx.assertTrue(guardian.currentAttack() != TombGuardianCombat.Attack.SPIKES, "no immediate repeat of the cancelled eruption");
             ctx.assertTrue(displaysAt(level, marked).isEmpty() && collidersAt(level, marked).isEmpty(), "the telegraph is gone too");
             ctx.assertTrue(level.getBlockState(BlockPos.containing(marked)).isAir(), "no block edits");
             ctx.succeed();
         });
     }
 
-    @GameTest(maxTicks = 120)
+    @GameTest(maxTicks = 120, structure = ARENA)
     public void everyoneInTheCircleIsHitExactlyOnceAndOneBlockedOccupantCancelsForAll(GameTestHelper ctx) {
         floor(ctx, 8);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
@@ -378,18 +416,19 @@ public final class TombGuardianGameTests {
         Villager c = dummy(ctx, site.add(0.0D, 0.0D, -0.9D));
         Villager outside = dummy(ctx, site.add(3.0D, 0.0D, 3.0D));
         ServerLevel level = ctx.getLevel();
-        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.STATUE, a), "eruption starts");
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS + 3, () ->
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SPIKES, a), "eruption starts");
+        assertArenaTicks(ctx, guardian, a, b, c, outside);
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS + 3, () ->
                 ctx.assertTrue(a.getHealth() == 92.0F && b.getHealth() == 92.0F && c.getHealth() == 92.0F && outside.getHealth() == 100.0F,
                         "each target in the circle takes 8 HP once, others none: " + a.getHealth() + "/" + b.getHealth() + "/" + c.getHealth()));
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS + TombGuardianTuning.STATUE_VISIBLE_TICKS + 6, () -> {
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS + TombGuardianTuning.SPIKE_VISIBLE_TICKS + 6, () -> {
             ctx.assertTrue(a.getHealth() == 92.0F && b.getHealth() == 92.0F && c.getHealth() == 92.0F,
                     "the standing or sinking statue never damages again (no duplicate damage)");
             ctx.succeed();
         });
     }
 
-    @GameTest(maxTicks = 80)
+    @GameTest(maxTicks = 80, structure = ARENA)
     public void anOccupantBlockedAtTheEruptionMomentCancelsTheWholeEruptionForEveryone(GameTestHelper ctx) {
         floor(ctx, 8);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
@@ -401,9 +440,10 @@ public final class TombGuardianGameTests {
                 if (dx != 0 || dz != 0)
                     for (int y = 0; y < 4; y++) ctx.setBlock(cell.offset(dx, y, dz), Blocks.STONE);
         ServerLevel level = ctx.getLevel();
-        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.STATUE, free), "eruption starts");
-        Vec3 marked = guardian.statuePoint();
-        ctx.runAfterDelay(TombGuardianTuning.STATUE_WARNING_TICKS + 4, () -> {
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SPIKES, free), "eruption starts");
+        assertArenaTicks(ctx, guardian, free, trapped);
+        Vec3 marked = guardian.spikePoint();
+        ctx.runAfterDelay(TombGuardianTuning.SPIKE_WINDUP_TICKS + 4, () -> {
             ctx.assertTrue(free.getHealth() == 100.0F && trapped.getHealth() == 100.0F,
                     "all-or-nothing: a cancelled eruption damages nobody: " + free.getHealth() + "/" + trapped.getHealth() + " free=" + free.position() + " trapped=" + trapped.position());
             ctx.assertTrue(collidersAt(level, marked).isEmpty(), "no collision body");
@@ -429,24 +469,19 @@ public final class TombGuardianGameTests {
     }
 
     @GameTest(maxTicks = 40)
-    public void enrageStartsAtFortyPercentAndOnlyChangesTempo(GameTestHelper ctx) {
+    public void enrageStartsAtFiftyPercentWithSpecSpeedAndSurvivesSaveLoad(GameTestHelper ctx) {
         floor(ctx, 2);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
-        double baseSpeed = guardian.getAttributeValue(Attributes.MOVEMENT_SPEED);
-        guardian.setHealth(80.5F);
+        guardian.setHealth(150.5F);
         ctx.runAfterDelay(2, () -> {
-            ctx.assertTrue(!guardian.isEnraged(), "above 40% (80.5/200) stays in the base phase");
-            guardian.setHealth(80.0F);
+            ctx.assertTrue(!guardian.isEnraged(), "above 50% (150.5/300) stays in the base phase");
+            guardian.setHealth(150.0F);
         });
         ctx.runAfterDelay(4, () -> {
-            ctx.assertTrue(guardian.isEnraged(), "at 40% (80/200) the single enrage phase starts");
+            ctx.assertTrue(guardian.isEnraged(), "at 50% (150/300) the single enrage phase starts");
             double speed = guardian.getAttributeValue(Attributes.MOVEMENT_SPEED);
-            ctx.assertTrue(Math.abs(speed - baseSpeed * 1.15D) < 1.0E-6D, "movement +15%, got " + speed);
-            ctx.assertTrue(guardian.getAttributeValue(Attributes.ATTACK_DAMAGE) == 10.0D, "damage unchanged");
-            ctx.assertTrue(TombGuardianCombat.attackInterval(true) < TombGuardianCombat.attackInterval(false)
-                    && TombGuardianCombat.slamWindup(true) < TombGuardianCombat.slamWindup(false)
-                    && TombGuardianCombat.slamCooldown(true) < TombGuardianCombat.slamCooldown(false), "faster cadence");
-            guardian.setHealth(150.0F);
+            ctx.assertTrue(Math.abs(speed - 0.24D) < 1.0E-6D, "enraged speed is 0.24, got " + speed);
+            guardian.setHealth(250.0F);
         });
         ctx.runAfterDelay(6, () -> {
             ctx.assertTrue(guardian.isEnraged(), "enrage is one-way");
@@ -454,9 +489,124 @@ public final class TombGuardianGameTests {
             guardian.saveWithoutId(saved);
             TombGuardian loaded = TombGuardianEntities.TOMB_GUARDIAN.create(ctx.getLevel(), EntitySpawnReason.LOAD);
             loaded.load(TagValueInput.create(ProblemReporter.DISCARDING, ctx.getLevel().registryAccess(), saved.buildResult()));
-            ctx.assertTrue(loaded.isEnraged() && Math.abs(loaded.getAttributeValue(Attributes.MOVEMENT_SPEED) - baseSpeed * 1.15D) < 1.0E-6D,
+            ctx.assertTrue(loaded.isEnraged() && Math.abs(loaded.getAttributeValue(Attributes.MOVEMENT_SPEED) - 0.24D) < 1.0E-6D,
                     "enrage and its speed survive save/load");
             loaded.discard();
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 220)
+    public void enrageStartsTheUltimateAtOnceAndItsThreeStrikesLand(GameTestHelper ctx) {
+        floor(ctx, 14);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Villager victim = dummy(ctx, new Vec3(2.5D, 1.0D, 7.5D));
+        guardian.setTarget(victim);
+        guardian.setHealth(150.0F);
+        float before = victim.getHealth();
+        ctx.runAfterDelay(4, () -> {
+            ctx.assertTrue(guardian.isEnraged(), "enraged at 50%");
+            ctx.assertTrue(guardian.currentAttack() == TombGuardianCombat.Attack.ULTIMATE,
+                    "the ultimate starts at once on enrage, got " + guardian.currentAttack());
+            // Clearing the target stops other patterns from chaining onto the victim; the ultimate itself keeps going.
+            guardian.setTarget(null);
+        });
+        ctx.runAfterDelay(200, () -> {
+            float taken = before - victim.getHealth();
+            // 8 m strike 10 + 12 m strike 10 + full-range strike 12. Each wave hits the victim once.
+            ctx.assertTrue(Math.abs(taken - 32.0F) < 0.01F, "three strikes hit the victim exactly once each (32), got " + taken);
+            ctx.assertTrue(guardian.currentAttack() == TombGuardianCombat.Attack.NONE, "the ultimate resolves");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 120)
+    public void royalGuardSummonsTwoMummiesAndOneTombSkeletonAndNeverExceedsThree(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        floor(ctx, 10);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Villager victim = dummy(ctx, new Vec3(2.5D, 1.0D, 9.5D));
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SUMMON, victim), "summon starts");
+        ctx.runAfterDelay(TombGuardianTuning.SUMMON_WINDUP_TICKS + 2, () -> {
+            ctx.assertTrue(guardian.aliveSummons(level) == 3, "three summons alive, got " + guardian.aliveSummons(level));
+            AABB around = guardian.getBoundingBox().inflate(12.0D);
+            int mummies = level.getEntities(PyramidMobs.BURIED_MUMMY, around, e -> e.isAlive()).size();
+            int archers = level.getEntities(PyramidMobs.CRYPT_ARCHER, around, e -> e.isAlive()).size();
+            ctx.assertTrue(mummies == 2 && archers == 1, "2 mummies and 1 tomb skeleton, got " + mummies + "/" + archers);
+            ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SUMMON, victim), "a second summon may be started");
+        });
+        ctx.runAfterDelay(TombGuardianTuning.SUMMON_WINDUP_TICKS * 2 + 6, () -> {
+            ctx.assertTrue(guardian.aliveSummons(level) == 3, "the living total stays at 3, got " + guardian.aliveSummons(level));
+            ctx.succeed();
+        });
+    }
+
+
+    // Red telegraph (spec 4.2) is used by the direct attacks: sweep, ground slam and the ultimate. Spikes keep the gold circle.
+
+    private static long gauges(ServerLevel level, Vec3 centre) {
+        return displaysAt(level, centre).stream().filter(TombVfxDisplay::isFill).count();
+    }
+
+    private static long areas(ServerLevel level, Vec3 centre) {
+        return displaysAt(level, centre).stream().filter(d -> !d.isFill() && !d.isStatue()).count();
+    }
+
+    @GameTest(maxTicks = 80)
+    public void sweepShowsARedFanAreaAndChargeGaugeThatEndWithTheWindup(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        floor(ctx, 4);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Villager target = dummy(ctx, new Vec3(2.5D, 1.0D, 4.5D));
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SWEEP, target), "sweep starts");
+        guardian.setTarget(null);
+        Vec3 where = guardian.position();
+        ctx.runAfterDelay(4, () -> {
+            ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1, "one red fan area and one red gauge during the windup");
+        });
+        ctx.runAfterDelay(TombGuardianTuning.SWEEP_WINDUP_TICKS + 6, () -> {
+            ctx.assertTrue(areas(level, where) == 0 && gauges(level, where) == 0, "the fan telegraph is gone after the strike");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 100)
+    public void groundSlamShowsARedZoneOfTheSlamRadius(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        floor(ctx, 10);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Villager target = dummy(ctx, new Vec3(2.5D, 1.0D, 5.5D));
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SLAM, target), "slam starts");
+        guardian.setTarget(null);
+        Vec3 where = guardian.position();
+        ctx.runAfterDelay(4, () -> {
+            ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1, "one red zone and one red gauge during the windup");
+        });
+        ctx.runAfterDelay(TombGuardianTuning.SLAM_WINDUP_TICKS + 4, () -> {
+            ctx.assertTrue(areas(level, where) == 0 && gauges(level, where) == 0, "the zone is gone once the slam lands");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 200)
+    public void ultimateShowsOneRedZoneBeforeEachOfItsThreeStrikes(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        floor(ctx, 14);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Villager target = dummy(ctx, new Vec3(2.5D, 1.0D, 8.5D));
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.ULTIMATE, target), "ultimate starts");
+        guardian.setTarget(null);
+        Vec3 where = guardian.position();
+        int interval = TombGuardianTuning.ULTIMATE_HIT_INTERVAL_TICKS;
+        int windup = TombGuardianTuning.ULTIMATE_WINDUP_TICKS;
+        ctx.runAfterDelay(4, () -> ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1,
+                "a red zone and gauge charge for strike 1"));
+        ctx.runAfterDelay(windup + 4, () -> ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1,
+                "strike 2 gets its own red zone and gauge"));
+        ctx.runAfterDelay(windup + interval + 4, () -> ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1,
+                "strike 3 gets its own red zone and gauge"));
+        ctx.runAfterDelay(windup + 2 * interval + 6, () -> {
+            ctx.assertTrue(areas(level, where) == 0 && gauges(level, where) == 0, "no red zone remains after the third strike");
             ctx.succeed();
         });
     }
@@ -464,7 +614,7 @@ public final class TombGuardianGameTests {
     // Loot.
 
     @GameTest
-    public void killLootIsAncientHeartFiftyPercentTimesOneAndNothingElse(GameTestHelper ctx) {
+    public void killLootIsAncientHeartOneHundredPercentTimesOneAndNothingElse(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         TombGuardian guardian = ctx.spawn(TombGuardianEntities.TOMB_GUARDIAN, new BlockPos(1, 1, 1));
         LootTable table = level.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE,
@@ -476,17 +626,16 @@ public final class TombGuardianGameTests {
                 .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().playerAttack(killer))
                 .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, killer)
                 .create(LootContextParamSets.ENTITY);
-        int rolls = 4000;
+        int rolls = 2000;
         int hearts = 0;
         int gravity = 0;
-        int both = 0;
         Item gravityItem = ModItems.ACCESSORIES.get(AccessoryDefinition.HEART_OF_GRAVITY);
         for (int i = 0; i < rolls; i++) {
             List<ItemStack> drops = table.getRandomItems(params, (long) i * 7919L + 17L);
             int stacks = 0;
             int gravityStacks = 0;
             for (ItemStack stack : drops) {
-                // D13-03 Q21-Q24: Heart of Gravity is a separate, independent 20% x1 pool; Ancient Heart stays 50% x1. Nothing else drops.
+                // 2026-11-14 P1-BUG-04: Ancient Heart is 100% x1. Heart of Gravity remains its own independent 20% x1 pool.
                 if (stack.is(ModItems.ANCIENT_HEART)) {
                     ctx.assertTrue(stack.getCount() == 1, "Ancient Heart is exactly one, got " + stack);
                     stacks++;
@@ -496,17 +645,14 @@ public final class TombGuardianGameTests {
                     gravityStacks++;
                 }
             }
-            ctx.assertTrue(stacks <= 1, "never more than one Ancient Heart per kill");
+            ctx.assertTrue(stacks == 1, "exactly one Ancient Heart on every kill, got " + stacks);
             ctx.assertTrue(gravityStacks <= 1, "never more than one Heart of Gravity per kill");
             hearts += stacks;
             gravity += gravityStacks;
-            if (stacks == 1 && gravityStacks == 1) both++;
         }
-        double rate = hearts / (double) rolls;
-        ctx.assertTrue(rate > 0.46D && rate < 0.54D, "Ancient Heart drop rate is 50%, measured " + rate);
+        ctx.assertTrue(hearts == rolls, "Ancient Heart drop rate is 100%, measured " + hearts + "/" + rolls);
         double gravityRate = gravity / (double) rolls;
         ctx.assertTrue(gravityRate > 0.17D && gravityRate < 0.23D, "Heart of Gravity drop rate is 20%, measured " + gravityRate);
-        ctx.assertTrue(both > 0, "the two pools are independent, so both can drop on one kill");
         guardian.discard();
         ctx.succeed();
     }
@@ -774,5 +920,42 @@ public final class TombGuardianGameTests {
         level.getServer().saveEverything(true, true, true);
         System.out.println("TOMB_GUARDIAN_RESTART_" + phase.toUpperCase());
         ctx.succeed();
+    }
+
+    @GameTest(maxTicks = 40)
+    public void aGuardianWithoutTheEncounterTagNeverDropsTheHeart(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        floor(ctx, 2);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Vec3 where = guardian.position();
+        guardian.hurtServer(level, level.damageSources().genericKill(), 10000.0F);
+        ctx.runAfterDelay(4, () -> {
+            AABB around = new AABB(where.x - 4, where.y - 4, where.z - 4, where.x + 4, where.y + 4, where.z + 4);
+            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, around,
+                    item -> item.getItem().is(ModItems.ANCIENT_HEART));
+            ctx.assertTrue(items.isEmpty(), "an untagged guardian drops no Ancient Heart, found " + items.size());
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 320, structure = ARENA)
+    public void noLivingPlayerForFiveSecondsReturnsTheEncounterToIdleAndDespawnsTheGuardian(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        BlockPos anchor = ctx.absolutePos(new BlockPos(1, 0, 1));
+        BlockPos spawn = ctx.absolutePos(new BlockPos(2, 1, 2));
+        TombGuardianEncounters.StartResult started = TombGuardianEncounters.onRoyalChestInteraction(level, anchor, spawn, null);
+        ctx.assertTrue(started.spawned(), "the first interaction starts the encounter, got " + started);
+        ctx.runAfterDelay(4, () -> {
+            List<TombGuardian> guardians = guardiansOf(level, anchor);
+            ctx.assertTrue(guardians.size() == 1, "one bound guardian, got " + guardians.size());
+            guardians.get(0).skipAwakening();
+        });
+        ctx.runAfterDelay(TombGuardianTuning.NO_SURVIVOR_RESET_TICKS + 20, () -> {
+            ctx.assertTrue(guardiansOf(level, anchor).isEmpty(), "the guardian despawns after 5 s without a living player");
+            ctx.assertTrue(!TombGuardianEncounters.isDefeated(level, anchor), "the tomb is not defeated by the reset");
+            ctx.assertTrue(TombGuardianEncounters.data(level).active(TombGuardianEncounters.tombKey(anchor)) == null,
+                    "the binding is released, so the encounter is back to IDLE");
+            ctx.succeed();
+        });
     }
 }

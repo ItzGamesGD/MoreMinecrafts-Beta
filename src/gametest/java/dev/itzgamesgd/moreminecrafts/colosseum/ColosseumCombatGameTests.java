@@ -253,4 +253,29 @@ public final class ColosseumCombatGameTests {
         });
     }
 
+    @GameTest(maxTicks = 160)
+    public void structureMaskDistinguishesPlayerPlacementsAndProtectsOriginal(GameTestHelper ctx) {
+        var a = new ColosseumGameTests.Arena(ctx, 29, RoundPlan.Timing.APPROVED);
+        BlockPos templatePos = new BlockPos(a.cx + 5, 150, a.cz + 5);
+        BlockPos playerPos = new BlockPos(a.cx + 6, 150, a.cz + 6);
+        a.level.setBlock(templatePos, Blocks.STONE_BRICKS.defaultBlockState(), 3);
+        a.ctl.recordStructureMask(List.of(templatePos));
+
+        ColosseumRuntime.onPlayerPlaced(a.level, playerPos);
+        a.level.setBlock(playerPos, Blocks.COBBLESTONE.defaultBlockState(), 3);
+
+        ctx.assertTrue(a.ctl.structureMask().complete(), "template occupancy recorded");
+        ctx.assertTrue(a.ctl.structureMask().protects(templatePos), "template block protected");
+        ctx.assertTrue(!a.ctl.structureMask().playerPlaced(templatePos), "template block not marked as player placed");
+        ctx.assertTrue(a.ctl.structureMask().protects(playerPos), "player placed block protected");
+        ctx.assertTrue(a.ctl.structureMask().playerPlaced(playerPos), "player placed block marked as player placed");
+
+        // Player block break releases only player placement
+        ColosseumRuntime.onPlayerBlockRemoved(a.level, playerPos);
+        ctx.assertTrue(!a.ctl.structureMask().protects(playerPos), "player placement released upon break");
+        ctx.assertTrue(a.ctl.structureMask().protects(templatePos), "template block remains protected");
+
+        a.cleanup();
+        ctx.succeed();
+    }
 }

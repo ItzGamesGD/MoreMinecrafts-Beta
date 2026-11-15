@@ -1,0 +1,41 @@
+name: ST05 PO25 review package
+on:
+  push:
+    branches:
+      - audit/st05-po25-review-package-20261102
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout immutable review target
+        uses: actions/checkout@v4
+        with:
+          ref: d4d41681d51d4ccce77ff8afb74ad7bf204476ca
+          persist-credentials: false
+      - name: Verify target and generate package
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected=d4d41681d51d4ccce77ff8afb74ad7bf204476ca
+          test "$(git rev-parse HEAD)" = "$expected"
+          mkdir -p "$RUNNER_TEMP/st05-review"
+          git ls-files -z | xargs -0 sha256sum > "$RUNNER_TEMP/st05-review/TRACKED-FILES.sha256"
+          printf '%s\n' "$expected" > "$RUNNER_TEMP/st05-review/PINNED-COMMIT.txt"
+          git rev-parse HEAD^{tree} > "$RUNNER_TEMP/st05-review/PINNED-TREE.txt"
+          git archive --format=tar HEAD | gzip -n > "$RUNNER_TEMP/st05-review/pinned-repository.tar.gz"
+          (cd "$RUNNER_TEMP/st05-review" && sha256sum pinned-repository.tar.gz > ARCHIVE.sha256)
+          test -s "$RUNNER_TEMP/st05-review/pinned-repository.tar.gz"
+          test -s "$RUNNER_TEMP/st05-review/TRACKED-FILES.sha256"
+      - name: Upload immutable-source review package
+        uses: actions/upload-artifact@v4
+        with:
+          name: st05-po25-review-d4d41681
+          path: ${{ runner.temp }}/st05-review/
+          retention-days: 14
+          if-no-files-found: error

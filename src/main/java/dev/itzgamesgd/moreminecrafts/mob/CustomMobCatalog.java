@@ -302,6 +302,9 @@ public final class CustomMobCatalog {
             case NETHER -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();
             case WATER -> level.getFluidState(pos).is(net.minecraft.tags.FluidTags.WATER);
             case SKY -> pos.getY() > level.getSeaLevel() + 12 && level.canSeeSky(pos);
+            case SKY_ISLAND -> pos.getY() > level.getSeaLevel() + SKY_ISLAND_MIN_HEIGHT_ABOVE_SEA
+                    && level.canSeeSky(pos)
+                    && level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();
             case GROUND -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();
         };
     }
@@ -310,7 +313,19 @@ public final class CustomMobCatalog {
         return SPAWNS.stream().map(SpawnSpec::type).toList();
     }
 
-    private enum SpawnKind { GROUND, CAVE, NETHER, WATER, SKY }
+    /**
+     * {@code SKY_ISLAND} spawn kind (§15.6 P2 isolated list, group B variants): above sea level + 30, open to the
+     * sky, standing on a solid block. It is never registered as a biome spawn; the sky-island structures'
+     * {@code spawn_overrides} supply the candidates and {@code SkyIslandRegion} supplies the region gate.
+     */
+    public static boolean skyIslandSurface(net.minecraft.world.level.ServerLevelAccessor level, BlockPos pos) {
+        return allowed(SpawnKind.SKY_ISLAND, level, pos);
+    }
+
+    /** PROVISIONAL: minimum sky-island spawn height above sea level for group B natural spawns. */
+    public static final int SKY_ISLAND_MIN_HEIGHT_ABOVE_SEA = 30;
+
+    private enum SpawnKind { GROUND, CAVE, NETHER, WATER, SKY, SKY_ISLAND }
     private record SpawnSpec(EntityType<? extends Mob> type, AttributeSupplier.Builder attributes,
                              net.minecraft.tags.TagKey<net.minecraft.world.level.biome.Biome> biomeTag,
                              int weight, int minGroup, int maxGroup, SpawnKind kind) {}

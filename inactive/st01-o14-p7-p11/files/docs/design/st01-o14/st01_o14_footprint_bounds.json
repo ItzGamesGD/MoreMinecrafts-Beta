@@ -1,0 +1,349 @@
+{
+  "status": "CALCULATED",
+  "provenance": {
+    "calculator_version": "Phase 1 corrected (2026-11-09)",
+    "methodology": "Exact 256-phase discrete subchunk enumeration across all X/Z offsets (0..15)"
+  },
+  "aboveground": {
+    "outer_dimensions": {
+      "width_x": 81,
+      "length_z": 81,
+      "height_y": 40
+    },
+    "box_coordinates": {
+      "min_x": -40,
+      "max_x": 40,
+      "min_y": 0,
+      "max_y": 39,
+      "min_z": -40,
+      "max_z": 40
+    },
+    "enclosing_volume": 262440,
+    "stepped_shell_solid_volume": 91880,
+    "design_authority": "P1 Approved Specification (81x81x40)"
+  },
+  "underground": {
+    "model_adopted": "P4-B / P6 Candidate B (Lateral Shift)",
+    "lowest_structure_block_y": -32,
+    "lowest_cavity_floor_y": -30,
+    "depth_reconciliation_note": "P4-B/P6 verified model has lowest cavity floor Y=-30 and lowest structural block Y=-32. The P11 Q98 text ('floor Y=-36, lowest structure Y=-37') is an inconsistency with the adopted model; Q98 official maximum depth ceiling remains UNAPPROVED.",
+    "east": {
+      "outer_dimensions": {
+        "width_x": 80,
+        "length_z": 69,
+        "height_y": 32
+      },
+      "box_coordinates": {
+        "min_x": -40,
+        "max_x": 39,
+        "min_y": -32,
+        "max_y": -1,
+        "min_z": -28,
+        "max_z": 40
+      }
+    },
+    "west": {
+      "outer_dimensions": {
+        "width_x": 80,
+        "length_z": 69,
+        "height_y": 32
+      },
+      "box_coordinates": {
+        "min_x": -39,
+        "max_x": 40,
+        "min_y": -32,
+        "max_y": -1,
+        "min_z": -28,
+        "max_z": 40
+      }
+    }
+  },
+  "combined": {
+    "dimensions": {
+      "width_x": 81,
+      "length_z": 81,
+      "height_y": 72
+    },
+    "box_coordinates": {
+      "min_x": -40,
+      "max_x": 40,
+      "min_y": -32,
+      "max_y": 39,
+      "min_z": -40,
+      "max_z": 40
+    },
+    "total_bounding_volume": 472392,
+    "vertical_profile": {
+      "aboveground_layers": 40,
+      "underground_layers": 32,
+      "total_layers": 72
+    }
+  },
+  "chunk_coverage_analysis": {
+    "1_structure_body_81x81": {
+      "category": "Structure Body Footprint",
+      "status": "MATHEMATICALLY_INVARIANT",
+      "analysis": {
+        "dimensions": {
+          "width_x": 81,
+          "length_z": 81,
+          "rel_bounds": {
+            "min_x": -40,
+            "max_x": 40,
+            "min_z": -40,
+            "max_z": 40
+          }
+        },
+        "min_chunks": 36,
+        "max_chunks": 36,
+        "distribution_out_of_256": {
+          "36": 256
+        },
+        "distinct_chunk_configurations": [
+          [
+            6,
+            6,
+            36,
+            256
+          ]
+        ]
+      },
+      "invariance_proof": "Interval [anchor - 40, anchor + 40] has span 80 blocks. Because 80 = 5 * 16, floor((dx + 40)/16) - floor((dx - 40)/16) == 5 for every integer dx in 0..15. Adding 1 gives exactly 6 chunks on each axis, yielding strictly 6x6 = 36 chunks across all 256 phases."
+    },
+    "2_underground_structure": {
+      "category": "Underground Structure Footprint (80x69)",
+      "east": {
+        "dimensions": {
+          "width_x": 80,
+          "length_z": 69,
+          "rel_bounds": {
+            "min_x": -40,
+            "max_x": 39,
+            "min_z": -28,
+            "max_z": 40
+          }
+        },
+        "min_chunks": 25,
+        "max_chunks": 36,
+        "distribution_out_of_256": {
+          "25": 12,
+          "30": 184,
+          "36": 60
+        },
+        "distinct_chunk_configurations": [
+          [
+            5,
+            5,
+            25,
+            12
+          ],
+          [
+            5,
+            6,
+            30,
+            4
+          ],
+          [
+            6,
+            5,
+            30,
+            180
+          ],
+          [
+            6,
+            6,
+            36,
+            60
+          ]
+        ]
+      },
+      "west": {
+        "dimensions": {
+          "width_x": 80,
+          "length_z": 69,
+          "rel_bounds": {
+            "min_x": -39,
+            "max_x": 40,
+            "min_z": -28,
+            "max_z": 40
+          }
+        },
+        "min_chunks": 25,
+        "max_chunks": 36,
+        "distribution_out_of_256": {
+          "25": 12,
+          "30": 184,
+          "36": 60
+        },
+        "distinct_chunk_configurations": [
+          [
+            5,
+            5,
+            25,
+            12
+          ],
+          [
+            5,
+            6,
+            30,
+            4
+          ],
+          [
+            6,
+            5,
+            30,
+            180
+          ],
+          [
+            6,
+            6,
+            36,
+            60
+          ]
+        ]
+      },
+      "note": "Spans 25, 30, or 36 chunks depending on anchor phase offset within subchunk."
+    },
+    "3_foundation_footprint": {
+      "category": "Foundation Footprint",
+      "analysis": {
+        "dimensions": {
+          "width_x": 81,
+          "length_z": 81,
+          "rel_bounds": {
+            "min_x": -40,
+            "max_x": 40,
+            "min_z": -40,
+            "max_z": 40
+          }
+        },
+        "min_chunks": 36,
+        "max_chunks": 36,
+        "distribution_out_of_256": {
+          "36": 256
+        },
+        "distinct_chunk_configurations": [
+          [
+            6,
+            6,
+            36,
+            256
+          ]
+        ]
+      },
+      "note": "Downwards vertical extension directly beneath the 81x81 body; identical 36-chunk invariant."
+    },
+    "4_terrain_blending_buffer_hypothetical": {
+      "category": "Safety / Blending Skirt Buffer (HYPOTHETICAL)",
+      "buffer_plus_4_blocks_89x89": {
+        "analysis": {
+          "dimensions": {
+            "width_x": 89,
+            "length_z": 89,
+            "rel_bounds": {
+              "min_x": -44,
+              "max_x": 44,
+              "min_z": -44,
+              "max_z": 44
+            }
+          },
+          "min_chunks": 36,
+          "max_chunks": 49,
+          "distribution_out_of_256": {
+            "36": 64,
+            "42": 128,
+            "49": 64
+          },
+          "distinct_chunk_configurations": [
+            [
+              6,
+              6,
+              36,
+              64
+            ],
+            [
+              6,
+              7,
+              42,
+              64
+            ],
+            [
+              7,
+              6,
+              42,
+              64
+            ],
+            [
+              7,
+              7,
+              49,
+              64
+            ]
+          ]
+        },
+        "note": "Illustrative only; spans 36 (25%), 42 (50%), or 49 (25%) chunks. NOT a production default."
+      },
+      "buffer_plus_2_blocks_85x85": {
+        "analysis": {
+          "dimensions": {
+            "width_x": 85,
+            "length_z": 85,
+            "rel_bounds": {
+              "min_x": -42,
+              "max_x": 42,
+              "min_z": -42,
+              "max_z": 42
+            }
+          },
+          "min_chunks": 36,
+          "max_chunks": 49,
+          "distribution_out_of_256": {
+            "36": 144,
+            "42": 96,
+            "49": 16
+          },
+          "distinct_chunk_configurations": [
+            [
+              6,
+              6,
+              36,
+              144
+            ],
+            [
+              6,
+              7,
+              42,
+              48
+            ],
+            [
+              7,
+              6,
+              42,
+              48
+            ],
+            [
+              7,
+              7,
+              49,
+              16
+            ]
+          ]
+        },
+        "note": "Illustrative only; spans 36 (56.25%), 42 (37.5%), or 49 (6.25%) chunks."
+      }
+    },
+    "5_actual_required_loading_footprint": {
+      "conclusion": "While the unbuffered 81x81 body strictly occupies 36 chunks, any terrain-preparation, blending skirt, or multi-piece placement operation requiring an outer buffer will cross into neighboring chunks, spanning 36, 42, or 49 chunks. Worldgen ticket management MUST determine chunk bounds dynamically from the active bounding envelope rather than assuming a fixed 36 chunks."
+    }
+  },
+  "asset_audit": {
+    "nbt_template_files_count": 0,
+    "exported_nbt_status": "MISSING / NOT_EXPORTED",
+    "model_representation": "Algorithmic voxel coordinate model (P1-P6 Python / Java builders)",
+    "unverified_assumptions": [
+      "NBT structure piece splitting (vanilla jigsaw 48x48 cap requires >=8 pieces)",
+      "Foundation skirt maximum downward depth limit (unapproved)",
+      "Perimeter terrain blending slope angle (unapproved)"
+    ]
+  }
+}

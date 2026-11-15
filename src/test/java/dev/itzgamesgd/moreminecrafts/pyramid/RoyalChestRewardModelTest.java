@@ -174,23 +174,25 @@ class RoyalChestRewardModelTest {
     }
 
     @Test
-    void catalystIsOneStructureRollWithFiftyFiftyAssignmentAndAtMostOne() {
+    void catalystIsOneStructureRollUnifiedOntoPrimaryAndAtMostOne() {
         assertEquals(Optional.empty(), RoyalChestRewardModel.assignCatalyst(new Script(0.05D)));
-        assertEquals(Optional.of(RoyalChestRole.PRIMARY), RoyalChestRewardModel.assignCatalyst(new Script(0.0499999D, 0)));
-        assertEquals(Optional.of(RoyalChestRole.SECONDARY), RoyalChestRewardModel.assignCatalyst(new Script(0.0D, 1)));
+        assertEquals(Optional.of(RoyalChestRole.PRIMARY), RoyalChestRewardModel.assignCatalyst(new Script(0.0499999D)));
+        assertEquals(Optional.of(RoyalChestRole.PRIMARY), RoyalChestRewardModel.assignCatalyst(new Script(0.0D)));
         int n = 1_000_000, none = 0, primary = 0, secondary = 0;
         SplittableRandom random = new SplittableRandom(99L);
         for (int i = 0; i < n; i++) {
             Optional<RoyalChestRole> role = RoyalChestRewardModel.assignCatalyst(random);
             if (role.isEmpty()) none++; else if (role.get() == RoyalChestRole.PRIMARY) primary++; else secondary++;
         }
-        assertRate(none, n, 0.95D); assertRate(primary, n, 0.025D); assertRate(secondary, n, 0.025D);
+        assertRate(none, n, 0.95D);
+        assertRate(primary, n, 0.05D);
+        assertEquals(0, secondary, "no catalyst assigned to secondary in single primary model");
     }
 
     @Test
     void catalystIsOnlyDeliveredToItsAssignedChestAndDoesNotReplaceOtherRewards() {
-        List<Reward> assigned = RoyalChestRewardModel.chestRewards(RoyalChestRole.SECONDARY, new SplittableRandom(5L), true);
-        List<Reward> unassigned = RoyalChestRewardModel.chestRewards(RoyalChestRole.SECONDARY, new SplittableRandom(5L), false);
+        List<Reward> assigned = RoyalChestRewardModel.primaryRewards(new SplittableRandom(5L), true);
+        List<Reward> unassigned = RoyalChestRewardModel.primaryRewards(new SplittableRandom(5L), false);
         assertEquals(1, assigned.stream().filter(r -> r.itemId().equals(RoyalChestRewardModel.CATALYST_ID)).count());
         assertEquals(0, unassigned.stream().filter(r -> r.itemId().equals(RoyalChestRewardModel.CATALYST_ID)).count());
         List<Reward> withoutCatalyst = new ArrayList<>(assigned);
@@ -246,5 +248,13 @@ class RoyalChestRewardModelTest {
                 new Script(0.0D, 32, 0.0D, 64, 0.0D, 64, 0.0D, 8, 0.0D, 32, 0.0D, 32, 0.0D, 0), true);
         assertTrue(RoyalChestRewardModel.split(secondary, id -> id.contains("catalyst") || id.contains("of_") ? 1 : 64).size() <= 54);
         assertThrows(IllegalStateException.class, () -> RoyalChestRewardModel.split(List.of(new Reward("a:b", 55)), id -> 1));
+    }
+
+    @Test
+    void accessoryDetectionDrivesTheRevealEffectOnly() {
+        assertTrue(RoyalChestRewardModel.hasAccessory(List.of(new Reward("minecraft:gold_ingot", 64), new Reward("moreminecrafts:seed_of_life", 1))));
+        assertTrue(RoyalChestRewardModel.hasAccessory(List.of(new Reward("moreminecrafts:ring_of_time", 1))));
+        assertFalse(RoyalChestRewardModel.hasAccessory(List.of(new Reward("minecraft:gold_ingot", 64), new Reward("moreminecrafts:relic_catalyst", 1))));
+        assertFalse(RoyalChestRewardModel.hasAccessory(List.of()));
     }
 }

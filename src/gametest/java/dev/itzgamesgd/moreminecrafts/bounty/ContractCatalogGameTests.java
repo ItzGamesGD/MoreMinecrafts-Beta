@@ -86,14 +86,15 @@ public final class ContractCatalogGameTests implements CustomTestMethodInvoker {
         accounted.addAll(ContractCatalog.MM_PENDING_VERIFICATION);
         List<String> registered = new ArrayList<>();
         // Dedicated encounter bosses/displays are outside the approved ordinary contract roster.
-        List<String> outsideRoster = List.of("moreminecrafts:tomb_guardian", "moreminecrafts:tomb_vfx", "moreminecrafts:tomb_statue_collider", "moreminecrafts:immortal_gladiator");
+        List<String> outsideRoster = List.of("moreminecrafts:tomb_guardian", "moreminecrafts:tomb_vfx", "moreminecrafts:tomb_statue_collider", "moreminecrafts:immortal_gladiator", "moreminecrafts:gold_guide_golem", "moreminecrafts:mother_spider", "moreminecrafts:juvenile_spider");
         ctx.assertTrue(allCombatMobs().stream().noneMatch(m -> m.id().equals("moreminecrafts:immortal_gladiator")), "arena boss is never pooled into ordinary contracts");
+        ctx.assertTrue(allCombatMobs().stream().noneMatch(m -> m.id().equals("moreminecrafts:mother_spider") || m.id().equals("moreminecrafts:juvenile_spider")), "nest-only spiders are not ordinary contract mobs");
         BuiltInRegistries.ENTITY_TYPE.keySet().forEach(id -> {
             if (id.getNamespace().equals("moreminecrafts") && !outsideRoster.contains(id.toString())) registered.add(id.toString());
         });
-        ctx.assertTrue(registered.size() == 40, "40 registered MM entities, found " + registered.size());
-        ctx.assertTrue(accounted.size() == 40, "40 accounted, found " + accounted.size());
-        ctx.assertTrue(accounted.stream().distinct().count() == 40, "no duplicates");
+        ctx.assertTrue(registered.size() == 54, "54 registered MM entities (40 + 5 SKY-MOB P1 + 5 group B variants + 4 ST-01 pyramid variants), found " + registered.size());
+        ctx.assertTrue(accounted.size() == 54, "54 accounted, found " + accounted.size());
+        ctx.assertTrue(accounted.stream().distinct().count() == 54, "no duplicates");
         ctx.assertTrue(new java.util.HashSet<>(accounted).equals(new java.util.HashSet<>(registered)),
                 "accounted set equals registry set");
         ctx.succeed();

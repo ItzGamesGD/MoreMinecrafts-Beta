@@ -1,0 +1,106 @@
+{
+  "vertices": [
+    {
+      "candidates": [
+        {
+          "cand": "c0",
+          "components": [
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "0",
+          "slot": "1",
+          "status": "FIT"
+        }
+      ],
+      "fit_complete": true,
+      "id": {
+        "x": "-1",
+        "y": "0",
+        "z": "0"
+      },
+      "label": "U",
+      "qualified": true,
+      "roll": "WIN"
+    },
+    {
+      "candidates": [
+        {
+          "cand": "c0",
+          "components": [
+            {
+              "den": "1",
+              "num": "100"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            },
+            {
+              "den": "1",
+              "num": "0"
+            }
+          ],
+          "seed_rank": "0",
+          "slot": "1",
+          "status": "FIT"
+        }
+      ],
+      "fit_complete": true,
+      "id": {
+        "x": "0",
+        "y": "0",
+        "z": "0"
+      },
+      "label": "V",
+      "qualified": true,
+      "roll": "WIN"
+    }
+  ],
+  "unknown_edges": [],
+  "stages": [],
+  "source_refs": [
+    "CAV-01"
+  ],
+  "scalar_inputs": [],
+  "record_schema": "P01-FIXTURE-1",
+  "protected_sites": [],
+  "population_complete": true,
+  "id_prefix": {
+    "dimension": "minecraft:overworld",
+    "schema": "1",
+    "seed": "7"
+  },
+  "fixture_id": "P01/CAV-01",
+  "family": "GRAPH",
+  "expected_ref": "P01/CAV-01",
+  "expect_input_rejection": null,
+  "events": [],
+  "edges": [
+    {
+      "u": "U",
+      "v": "V"
+    }
+  ],
+  "derived": null,
+  "default_schedule": "canonical",
+  "control_overrides": {}
+}

@@ -7,6 +7,8 @@
     "moreminecrafts:ashen_skeleton",
     "moreminecrafts:lesser_wither_skeleton",
     "moreminecrafts:mountain_skeleton",
-    "moreminecrafts:miner_skeleton"
+    "moreminecrafts:miner_skeleton",
+    "moreminecrafts:sky_archer",
+    "moreminecrafts:crypt_archer"
   ]
 }

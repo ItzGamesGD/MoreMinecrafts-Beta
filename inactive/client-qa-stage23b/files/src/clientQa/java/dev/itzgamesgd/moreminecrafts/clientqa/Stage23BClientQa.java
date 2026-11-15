@@ -1,0 +1,897 @@
+package dev.itzgamesgd.moreminecrafts.clientqa;
+
+import dev.itzgamesgd.moreminecrafts.client.ProgressionDisciplineSelectionScreen;
+import dev.itzgamesgd.moreminecrafts.client.ProgressionSelectionScreen;
+import dev.itzgamesgd.moreminecrafts.client.ProgressionBrowseScreen;
+import dev.itzgamesgd.moreminecrafts.client.EnchantingProgressionScreen;
+import dev.itzgamesgd.moreminecrafts.equipment.BackpackItem;
+import dev.itzgamesgd.moreminecrafts.equipment.PortableFurnaceContents;
+import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
+import dev.itzgamesgd.moreminecrafts.progression.ViewportScale;
+import dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu;
+import dev.itzgamesgd.moreminecrafts.registry.ModDataComponents;
+import dev.itzgamesgd.moreminecrafts.registry.ModItems;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Screenshot;
+import net.minecraft.client.gui.screens.ConnectScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.resolver.ServerAddress;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.FurnaceMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.LivingEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.lang.reflect.Method;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/** Isolated client-only QA harness. All input paths and visual confidence are recorded explicitly. */
+public final class Stage23BClientQa implements ClientModInitializer {
+    private static final Logger LOGGER = LoggerFactory.getLogger("MoreMinecrafts-ClientQA");
+    private static final String SERVER_ENV = "MOREMINECRAFTS_CLIENT_QA_SERVER_ADDRESS";
+    private static final List<String> SCENARIOS = List.of(
+            "four_card_selector",
+            "large_backpack_icon_and_movement",
+            "flame_sword_front_back_model_texture",
+            "greatsword_hit_miss_sweep_particles",
+            "enchanting_gui_multiple_scales",
+            "portable_furnace_inventory_cooking_persistence",
+            "miner_lantern_lambdynamiclights"
+    );
+    private static final DateTimeFormatter STAMP = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmssSSS'Z'").withZone(ZoneOffset.UTC);
+    private static final List<Result> RESULTS = new ArrayList<>();
+    private static final Map<String, List<String>> SCREENSHOTS = new HashMap<>();
+    private static int startupTicks;
+    private static int worldTicks;
+    private static int renderFrames;
+    private static boolean connectRequested;
+    private static boolean suiteStarted;
+    private static boolean suiteFinished;
+    private static boolean captureInFlight;
+    private static Capture pendingCapture;
+    private static int backpackStage;
+    private static int furnaceStage;
+    private static int waitTicks;
+    private static int backpackHotbarSlot = -1;
+    private static int furnaceHotbarSlot = -1;
+    private static PortableFurnaceContents furnaceSavedAfterClose;
+    private static int flameSwordStage;
+    private static int flameSwordHotbarSlot = -1;
+    private static int greatswordStage;
+    private static int greatswordHotbarSlot = -1;
+    private static int greatswordWaitTicks;
+    private static LivingEntity greatswordHitTarget;
+    private static LivingEntity greatswordMissTarget;
+    private static float hitTargetInitialHealth;
+    private static float hitTargetAfterSweep;
+    private static float missTargetInitialHealth;
+    private static float missTargetAfterSweep;
+    private static int hitSwordInitialDamage;
+    private static int hitSwordAfterSweep;
+    private static int missSwordInitialDamage;
+    private static int missSwordAfterSweep;
+    private static int enchantingStage;
+    private static int enchantingWaitTicks;
+    private static boolean enchantingLayoutValid = true;
+    private static EnchantingProgressionScreen enchantingScreen;
+    private static EnchantingProgressionMenu enchantingMenu;
+    private static int lanternStage;
+    private static int lanternWaitTicks;
+    private static ItemStack lanternAttachmentBefore = ItemStack.EMPTY;
+    private static Map<BlockPos, BlockState> lanternBlockSnapshot = Map.of();
+    private static Object lanternBridge;
+    private static Object lanternBehavior;
+    private static double lanternLightOn;
+
+    @Override
+    public void onInitializeClient() {
+        if (!"1".equals(System.getenv("MOREMINECRAFTS_CLIENT_QA"))) return;
+        LOGGER.info("STAGE23B_QA_MOD_LOADED mod=moreminecrafts_client_qa");
+        HudElementRegistry.attachElementAfter(VanillaHudElements.CHAT,
+                Identifier.fromNamespaceAndPath("moreminecrafts", "stage23b_client_qa_capture"),
+                (graphics, delta) -> onRenderedFrame(Minecraft.getInstance()));
+        ClientTickEvents.END_CLIENT_TICK.register(Stage23BClientQa::tick);
+    }
+
+    private static void tick(Minecraft client) {
+        if (suiteFinished) return;
+        if (client.level == null || client.player == null || client.getConnection() == null) {
+            if (!connectRequested && ++startupTicks >= 60) connect(client);
+            if (startupTicks > 600 && !connectRequested) finishBlocked("deterministic server address is missing");
+            if (startupTicks > 1200 && connectRequested) finishBlocked("timed out joining deterministic server; no ClientLevel/LocalPlayer/connection");
+            return;
+        }
+
+        if (!suiteStarted) {
+            suiteStarted = true;
+            LOGGER.info("STAGE23B_QA_WORLD_JOINED dimension={} player={} pos=({}, {}, {}) server_connection={} registries=items:{},components:{}",
+                    client.level.dimension(), client.player.getName().getString(),
+                    client.player.getX(), client.player.getY(), client.player.getZ(),
+                    client.getConnection().getConnection().isConnected(), BuiltInRegistries.ITEM.size(),
+                    BuiltInRegistries.DATA_COMPONENT_TYPE.size());
+            LOGGER.info("STAGE23B_QA_WORLD_READY client_level=true local_player=true server_connection_observed=true test_world=visual-validation-world");
+            queueCapture("in_world", "before", "four_card_selector", "client level and player present; untouched deterministic scene");
+            return;
+        }
+        if (pendingCapture != null || captureInFlight) return;
+        if (++worldTicks < 3) return;
+        worldTicks = 0;
+
+        if (RESULTS.isEmpty()) {
+            runSelector(client);
+            return;
+        }
+        if (RESULTS.size() == 1) {
+            runBackpackFixture(client);
+            return;
+        }
+        if (RESULTS.size() == 2) {
+            if (furnaceStage >= 6) {
+                finishRemainingProbes(client);
+                return;
+            }
+            runPortableFurnaceFixture(client);
+            return;
+        }
+        finishRemainingProbes(client);
+    }
+
+    private static void connect(Minecraft client) {
+        String address = System.getenv(SERVER_ENV);
+        if (address == null || address.isBlank()) {
+            LOGGER.error("STAGE23B_QA_CONNECT_BLOCKED reason=missing_env variable={}", SERVER_ENV);
+            return;
+        }
+        ServerData server = new ServerData("MoreMinecrafts Stage 23-B QA", address, ServerData.Type.OTHER);
+        ConnectScreen.startConnecting(client.gui.screen(), client, ServerAddress.parseString(address), server, false, null);
+        connectRequested = true;
+        LOGGER.info("STAGE23B_QA_CONNECTING server={}", address);
+    }
+
+    private static void onRenderedFrame(Minecraft client) {
+        if (pendingCapture == null || client.level == null || client.player == null) return;
+        // Wait through several complete renders after a Screen transition so the target
+        // contains the destination Screen rather than the previous Screen's final frame.
+        int framesNeeded = captureFastParticleFrame(pendingCapture) ? 1 : 8;
+        if (++renderFrames < framesNeeded) return;
+        Capture capture = pendingCapture;
+        pendingCapture = null;
+        renderFrames = 0;
+        captureInFlight = true;
+        Path screenshotDir = client.gameDirectory.toPath().resolve("screenshots");
+        String filename = "stage23b_" + capture.caseId() + "_" + capture.phase() + "_" + STAMP.format(Instant.now()) + ".png";
+        Path output = screenshotDir.resolve(filename);
+        try {
+            Files.createDirectories(screenshotDir);
+            Screenshot.grab(client.gameDirectory, filename, client.gameRenderer.mainRenderTarget(), 1, message -> {
+                boolean exists = Files.isRegularFile(output) && fileSize(output) > 0;
+                client.execute(() -> {
+                    LOGGER.info("STAGE23B_QA_SCREENSHOT case={} phase={} saved={} path={} bytes={} meaning=LIVE_PENDING source=Minecraft.Screenshot.grab(mainRenderTarget)",
+                            capture.caseId(), capture.phase(), exists, output.toAbsolutePath(), fileSize(output));
+                    if (!exists) LOGGER.error("STAGE23B_QA_SCREENSHOT_FAILED case={} phase={} callback={}", capture.caseId(), capture.phase(), message.getString());
+                    if (exists) SCREENSHOTS.computeIfAbsent(capture.caseId(), ignored -> new ArrayList<>()).add(filename);
+                    captureInFlight = false;
+                    capture.complete(exists, output.toString());
+                });
+            });
+        } catch (Exception e) {
+            captureInFlight = false;
+            LOGGER.error("STAGE23B_QA_SCREENSHOT_FAILED case={} phase={} error={}", capture.caseId(), capture.phase(), e.toString());
+            capture.complete(false, "");
+        }
+    }
+
+    private static long fileSize(Path path) {
+        try { return Files.size(path); } catch (Exception ignored) { return 0; }
+    }
+
+    private static boolean captureFastParticleFrame(Capture capture) {
+        return capture != null && capture.caseId().equals("greatsword_hit_miss_sweep_particles")
+                && capture.phase().equals("after_hit");
+    }
+
+    private static void queueCapture(String caseId, String phase, String scenario, String note) {
+        pendingCapture = new Capture(caseId, phase, scenario, note, (ok, path) -> {});
+        LOGGER.info("STAGE23B_QA_CAPTURE_QUEUED case={} phase={} note={}", caseId, phase, note);
+    }
+
+    private static void runSelector(Minecraft client) {
+        ProgressionSelectionScreen selector = new ProgressionSelectionScreen();
+        client.gui.setScreen(selector);
+        queueCapture("four_card_selector", "before", "four_card_selector", "selector screen rendered before callback");
+        waitForCapture(client, () -> {
+            boolean callbackConsumed = selector.validationClick("knowledge");
+            boolean correctDestination = client.gui.screen() instanceof ProgressionDisciplineSelectionScreen screen
+                    && screen.mode() == ProgressionBrowseScreen.Mode.KNOWLEDGE;
+            boolean passed = callbackConsumed && correctDestination;
+            if (correctDestination) queueCapture("four_card_selector", "after", "four_card_selector", "actual knowledge destination screen after synthetic Screen callback");
+            Object displayedScreen = client.gui.screen();
+            ResultsAdd("four_card_selector", passed ? "PASS" : "FAIL", "synthetic_screen_callback",
+                    "callback_consumed=" + callbackConsumed + " destination=knowledge screen="
+                            + (displayedScreen == null ? "none" : displayedScreen.getClass().getSimpleName())
+                            + "; OS_XTEST_XDOTOOL=NOT_RUN; human_manual_play=NOT_RUN",
+                    List.of());
+        });
+    }
+
+    private static void waitForCapture(Minecraft client, Runnable afterCapture) {
+        // Screenshot.grab is asynchronous. Queue a sentinel frame and continue after its callback.
+        Capture prior = pendingCapture;
+        if (prior == null) { afterCapture.run(); return; }
+        pendingCapture = new Capture(prior.caseId(), prior.phase(), prior.scenario(), prior.note(), (ok, path) -> {
+            prior.complete(ok, path);
+            afterCapture.run();
+        });
+    }
+
+    private static void runBackpackFixture(Minecraft client) {
+        try {
+            if (!(ModItems.LARGE_BACKPACK instanceof BackpackItem item) || item.capacity() != 54) {
+                ResultsAdd("large_backpack_icon_and_movement", "FAIL", "direct_state_fixture", "Large Backpack registration/capacity assertion failed", List.of());
+                return;
+            }
+            if (backpackStage == 0) {
+                backpackHotbarSlot = findInventoryItem(client, ModItems.LARGE_BACKPACK);
+                if (backpackHotbarSlot < 0) throw new IllegalStateException("RCON fixture backpack was not synchronized to the client inventory");
+                client.player.getInventory().setSelectedSlot(backpackHotbarSlot);
+                client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
+                backpackStage = 1;
+                LOGGER.info("STAGE23B_QA_BACKPACK_ACTION input_path=synthetic_client_game_packet action=use_item inventory_slot={}", backpackHotbarSlot);
+                return;
+            }
+            if (!(client.gui.screen() instanceof AbstractContainerScreen<?>)) {
+                if (++waitTicks > 100) throw new IllegalStateException("server did not open the Large Backpack menu after synthetic use packet");
+                return;
+            }
+            AbstractContainerMenu menu = client.player.containerMenu;
+            if (menu.slots.size() < 54) throw new IllegalStateException("Large Backpack menu exposed fewer than 54 storage slots");
+            if (backpackStage == 1) {
+                int stoneSource = findMenuStack(menu, Items.STONE, 54);
+                if (stoneSource < 0) throw new IllegalStateException("RCON fixture stone stack was not synchronized into the player inventory menu");
+                clickContainerSlot(client, menu, stoneSource);
+                clickContainerSlot(client, menu, 0);
+                backpackStage = 2;
+                waitTicks = 0;
+                return;
+            }
+            if (backpackStage == 2) {
+                ItemStack stored = menu.getSlot(0).getItem();
+                if (stored.getItem() != Items.STONE || stored.getCount() != 32) {
+                    if (++waitTicks > 100) throw new IllegalStateException("server-backed backpack storage did not receive all 32 stone items");
+                    return;
+                }
+                queueCapture("large_backpack_icon_and_movement", "before", "large_backpack_icon_and_movement", "real six-row Backpack chest menu; server-synchronized stone stack in slot 0");
+                backpackStage = 3;
+                waitForCapture(client, () -> {
+                    AbstractContainerMenu current = client.player.containerMenu;
+                    int destination = findEmptyPlayerMenuSlot(current, 54);
+                    clickContainerSlot(client, current, 0);
+                    clickContainerSlot(client, current, destination);
+                    backpackStage = 4;
+                    waitTicks = 0;
+                });
+                return;
+            }
+            if (backpackStage == 4) {
+                ItemStack moved = menu.getSlot(0).getItem();
+                int stoneTotal = countMenuItem(menu, Items.STONE);
+                boolean movedOut = moved.isEmpty() && stoneTotal == 32;
+                if (!movedOut && ++waitTicks <= 100) return;
+                ResultsAdd("large_backpack_icon_and_movement", movedOut ? "PASS" : "FAIL", "synthetic_client_game_packet_and_game_api",
+                        "joined_world=true real_server_backed_menu=true visible_stack_before=stone:32 movement_out_of_storage=" + movedOut
+                                + "; item icon semantic correctness requires human review; OS_XTEST_XDOTool=NOT_RUN", List.of());
+                queueCapture("large_backpack_icon_and_movement", "after", "large_backpack_icon_and_movement", "same Backpack menu after server-backed transfer; returned stone stack visible in player inventory");
+                backpackStage = 5;
+                waitForCapture(client, () -> {
+                    if (client.player.containerMenu != client.player.inventoryMenu) client.player.closeContainer();
+                });
+                return;
+            }
+        } catch (Throwable t) {
+            ResultsAdd("large_backpack_icon_and_movement", "FAIL", "synthetic_client_game_packet", "in-world Backpack gameplay exception=" + t, List.of());
+        }
+    }
+
+    private static void runPortableFurnaceFixture(Minecraft client) {
+        try {
+            if (furnaceStage == 0) {
+                if (client.player.containerMenu != client.player.inventoryMenu) {
+                    if (++waitTicks > 100) throw new IllegalStateException("previous server-backed container did not close before Portable Furnace setup");
+                    return;
+                }
+                waitTicks = 0;
+                furnaceHotbarSlot = findInventoryItem(client, ModItems.PORTABLE_FURNACE);
+                if (furnaceHotbarSlot < 0) throw new IllegalStateException("RCON fixture Portable Furnace was not synchronized to the client inventory");
+                client.player.getInventory().setSelectedSlot(furnaceHotbarSlot);
+                client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
+                furnaceStage = 1;
+                LOGGER.info("STAGE23B_QA_FURNACE_ACTION input_path=synthetic_client_game_packet action=use_same_item inventory_slot={}", furnaceHotbarSlot);
+                return;
+            }
+            if (furnaceStage == 1) {
+                if (!(client.player.containerMenu instanceof FurnaceMenu menu)) {
+                    if (++waitTicks > 100) throw new IllegalStateException("server did not open the vanilla furnace screen type for the portable item");
+                    return;
+                }
+                int rawIron = findMenuStack(menu, Items.RAW_IRON, 3);
+                int coal = findMenuStack(menu, Items.COAL, 3);
+                if (rawIron < 0 || coal < 0) throw new IllegalStateException("RCON fixture raw iron or coal was not present in the server menu");
+                clickContainerSlot(client, menu, rawIron);
+                clickContainerSlot(client, menu, 0);
+                clickContainerSlot(client, menu, coal);
+                clickContainerSlot(client, menu, 1);
+                furnaceStage = 2;
+                waitTicks = 0;
+                return;
+            }
+            if (furnaceStage == 2 && client.player.containerMenu instanceof FurnaceMenu menu) {
+                if (++waitTicks < 12) return;
+                ItemStack furnaceItem = client.player.getInventory().getItem(furnaceHotbarSlot);
+                PortableFurnaceContents running = furnaceItem.get(ModDataComponents.PORTABLE_FURNACE_CONTENTS);
+                if (running == null || running.cookTime() <= 0) {
+                    if (waitTicks < 100) return;
+                    throw new IllegalStateException("Portable Furnace did not produce observable cooking progress before timeout; burn="
+                            + (running == null ? "missing" : running.burnTime()) + " cook="
+                            + (running == null ? "missing" : running.cookTime()));
+                }
+                queueCapture("portable_furnace_inventory_cooking_persistence", "before", "portable_furnace_inventory_cooking_persistence", "real server-backed Portable Furnace menu with input and fuel loaded");
+                furnaceStage = 3;
+                waitForCapture(client, () -> {
+                    client.player.closeContainer();
+                    furnaceStage = 4;
+                    waitTicks = 0;
+                });
+                return;
+            }
+            if (furnaceStage == 4) {
+                if (++waitTicks < 10) return;
+                ItemStack sameItem = client.player.getInventory().getItem(furnaceHotbarSlot);
+                furnaceSavedAfterClose = sameItem.get(ModDataComponents.PORTABLE_FURNACE_CONTENTS);
+                if (furnaceSavedAfterClose == null && waitTicks < 100) return;
+                if (client.player.containerMenu != client.player.inventoryMenu && waitTicks < 100) return;
+                if (furnaceSavedAfterClose == null) throw new IllegalStateException("Portable Furnace item lacks persisted contents after close");
+                if (furnaceSavedAfterClose.burnTime() <= 0 || furnaceSavedAfterClose.cookTime() <= 0)
+                    throw new IllegalStateException("Portable Furnace did not persist positive burn and cooking progress after in-world ticks: burn=" + furnaceSavedAfterClose.burnTime() + " cook=" + furnaceSavedAfterClose.cookTime());
+                client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
+                furnaceStage = 5;
+                waitTicks = 0;
+                return;
+            }
+            if (furnaceStage == 5) {
+                if (!(client.player.containerMenu instanceof FurnaceMenu menu)) {
+                    if (++waitTicks > 100) throw new IllegalStateException("same Portable Furnace item did not reopen its furnace screen type");
+                    return;
+                }
+                ItemStack savedInput = furnaceSavedAfterClose.items().get(0);
+                ItemStack savedOutput = furnaceSavedAfterClose.items().get(2);
+                ItemStack reopenedInput = menu.getSlot(0).getItem();
+                ItemStack reopenedOutput = menu.getSlot(2).getItem();
+                int savedSmeltableCount = countStack(savedInput, Items.RAW_IRON) + countStack(savedOutput, Items.IRON_INGOT);
+                int reopenedSmeltableCount = countStack(reopenedInput, Items.RAW_IRON) + countStack(reopenedOutput, Items.IRON_INGOT);
+                boolean fuelRestored = ItemStack.matches(menu.getSlot(1).getItem(), furnaceSavedAfterClose.items().get(1));
+                boolean contentsRestored = savedSmeltableCount == reopenedSmeltableCount;
+                boolean cookingPersisted = contentsRestored && fuelRestored && furnaceSavedAfterClose.burnTime() > 0 && furnaceSavedAfterClose.cookTime() > 0;
+                queueCapture("portable_furnace_inventory_cooking_persistence", "after", "portable_furnace_inventory_cooking_persistence", "same item reopened; server menu inventory restored; saved burn/cook values retained");
+                ResultsAdd("portable_furnace_inventory_cooking_persistence", cookingPersisted ? "PASS" : "FAIL", "synthetic_client_game_packet_and_game_api",
+                        "same_item_server_close_reopen=true smeltable_contents_conserved=" + contentsRestored + " fuel_restored=" + fuelRestored
+                                + " raw_iron_before_reopen=" + savedInput.getCount() + " ingots_before_reopen=" + savedOutput.getCount()
+                                + " raw_iron_after_reopen=" + reopenedInput.getCount() + " ingots_after_reopen=" + reopenedOutput.getCount()
+                                + " burn_time=" + furnaceSavedAfterClose.burnTime() + " cook_time=" + furnaceSavedAfterClose.cookTime()
+                                + "; input-to-output smelting while closed is accepted when item count is conserved; client state came from reopened server menu and synced item component", List.of());
+                furnaceStage = 6;
+                waitForCapture(client, () -> client.player.closeContainer());
+                return;
+            }
+        } catch (Throwable t) {
+            ResultsAdd("portable_furnace_inventory_cooking_persistence", "FAIL", "synthetic_client_game_packet", "in-world Portable Furnace gameplay exception=" + t, List.of());
+        }
+    }
+
+    private static int countStack(ItemStack stack, net.minecraft.world.item.Item target) {
+        return stack.is(target) ? stack.getCount() : 0;
+    }
+
+    private static int findInventoryItem(Minecraft client, net.minecraft.world.item.Item target) {
+        for (int slot = 0; slot < client.player.getInventory().getContainerSize(); slot++)
+            if (client.player.getInventory().getItem(slot).is(target)) return slot;
+        return -1;
+    }
+
+    private static int findMenuStack(AbstractContainerMenu menu, net.minecraft.world.item.Item target, int start) {
+        for (int slot = start; slot < menu.slots.size(); slot++)
+            if (menu.getSlot(slot).getItem().is(target)) return slot;
+        return -1;
+    }
+
+    private static int findEmptyPlayerMenuSlot(AbstractContainerMenu menu, int start) {
+        for (int slot = start; slot < menu.slots.size(); slot++)
+            if (menu.getSlot(slot).getItem().isEmpty()) return slot;
+        throw new IllegalStateException("No free player inventory slot for the Backpack movement assertion");
+    }
+
+    private static int countMenuItem(AbstractContainerMenu menu, net.minecraft.world.item.Item item) {
+        int count = 0;
+        for (int slot = 0; slot < menu.slots.size(); slot++) {
+            ItemStack stack = menu.getSlot(slot).getItem();
+            if (stack.is(item)) count += stack.getCount();
+        }
+        return count;
+    }
+
+    private static boolean clickContainerSlot(Minecraft client, AbstractContainerMenu menu, int slotIndex) {
+        Method adapter = null;
+        for (Method method : client.gameMode.getClass().getMethods()) {
+            Class<?>[] parameters = method.getParameterTypes();
+            if (parameters.length == 5 && parameters[0] == int.class && parameters[1] == int.class
+                    && parameters[2] == int.class && parameters[3] == ContainerInput.class
+                    && parameters[4].isAssignableFrom(client.player.getClass())) {
+                adapter = method;
+                break;
+            }
+        }
+        if (adapter == null) throw new IllegalStateException("no mapped MultiPlayerGameMode container click API is available");
+        try {
+            adapter.invoke(client.gameMode, menu.containerId, slotIndex, 0, ContainerInput.PICKUP, client.player);
+            LOGGER.info("STAGE23B_QA_MENU_INPUT input_path=synthetic_client_game_api method={} menu={} slot={}",
+                    adapter.getName(), menu.getClass().getSimpleName(), slotIndex);
+            return true;
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("synthetic client game API rejected menu click", e);
+        }
+    }
+
+    private static void finishRemainingProbes(Minecraft client) {
+        if (flameSwordStage < 3) {
+            try {
+                if (flameSwordHotbarSlot < 0) {
+                    flameSwordHotbarSlot = findInventoryItem(client, ModItems.FLAME_SWORD);
+                    if (flameSwordHotbarSlot < 0) throw new IllegalStateException("RCON fixture Flame Sword is not present in the joined player inventory");
+                }
+                client.player.getInventory().setSelectedSlot(flameSwordHotbarSlot);
+                String[] views = {"FIRST_PERSON", "THIRD_PERSON_BACK", "THIRD_PERSON_FRONT"};
+                String[] phases = {"first_person", "third_person_back", "third_person_front"};
+                setCameraType(client, views[flameSwordStage]);
+                queueCapture("flame_sword_front_back_model_texture", phases[flameSwordStage],
+                        "flame_sword_front_back_model_texture", "joined world; Flame Sword selected in the real client; rendered camera=" + views[flameSwordStage]);
+                flameSwordStage++;
+                waitForCapture(client, () -> {});
+                return;
+            } catch (Throwable t) {
+                ResultsAdd("flame_sword_front_back_model_texture", "BLOCKED", "direct_state_fixture",
+                        "joined_world=true; rendered camera fixture could not be prepared: " + t, List.of());
+                flameSwordStage = 4;
+            }
+        }
+        if (flameSwordStage == 3) {
+            ResultsAdd("flame_sword_front_back_model_texture", "LIVE PENDING", "direct_state_fixture",
+                    "three genuine client frames captured from first-person, third-person-back, and third-person-front; model/texture appearance requires human review; OS input was not used", List.of());
+            flameSwordStage = 4;
+        }
+        if (greatswordStage < 5) {
+            runGreatswordProbe(client);
+            return;
+        }
+        try {
+            Result backpack = RESULTS.stream().filter(result -> result.id().equals("large_backpack_icon_and_movement")).findFirst().orElse(null);
+            if (backpack != null) {
+                RESULTS.set(RESULTS.indexOf(backpack), new Result(backpack.id(), backpack.status(), backpack.inputPath(),
+                        backpack.evidence().contains("icon_rendering_status=FAIL") ? backpack.evidence()
+                                : backpack.evidence() + "; Phase 2 in-world screenshot independently shows transparent selected Large Backpack icon while neighboring item icons render; icon_rendering_status=FAIL, movement_status=PASS",
+                        backpack.screenshots()));
+            }
+        } catch (Throwable t) { LOGGER.warn("Could not attach prior Backpack visual finding to ledger", t); }
+        if (greatswordStage < 5) return;
+        if (enchantingStage < 6) {
+            runEnchantingViewportProbe(client);
+            return;
+        }
+        if (lanternStage < 6) {
+            runLanternProbe(client);
+            return;
+        }
+        writeLedger(client);
+        suiteFinished = true;
+    }
+
+    private static void runEnchantingViewportProbe(Minecraft client) {
+        int[][] sizes = {{1280, 720}, {854, 480}, {640, 360}};
+        String[] phases = {"1280x720", "854x480", "640x360"};
+        try {
+            if (enchantingScreen == null) {
+                enchantingMenu = new EnchantingProgressionMenu(client.player.containerMenu.containerId + 1000, client.player.getInventory());
+                enchantingMenu.getSlot(0).set(new ItemStack(ModItems.FLAME_SWORD));
+                enchantingScreen = new EnchantingProgressionScreen(enchantingMenu, client.player.getInventory(), Component.translatable("menu.moreminecrafts.enchantment"));
+                client.gui.setScreen(enchantingScreen);
+            }
+            int view = enchantingStage / 2;
+            if (enchantingStage % 2 == 0) {
+                setWindowSize(client, sizes[view][0], sizes[view][1]);
+                if (++enchantingWaitTicks < 8) return;
+                int width = client.getWindow().getGuiScaledWidth();
+                int height = client.getWindow().getGuiScaledHeight();
+                ViewportScale scale = ViewportScale.fit(width, height, 330, 360, 8);
+                boolean slots = enchantingMenu.slots.size() == 38 && enchantingMenu.slots.stream()
+                        .allMatch(slot -> slot.x >= 0 && slot.x <= 322 && slot.y >= 0 && slot.y <= 360);
+                boolean widgets = visibleWidgetBoundsFit(enchantingScreen, scale, width, height);
+                enchantingLayoutValid &= scale.scale() > 0 && scale.left() >= 0 && scale.top() >= 0 && slots && widgets;
+                LOGGER.info("STAGE23B_QA_ENCHANT_LAYOUT resolution={}x{} gui={}x{} scale={} visible_interaction_bounds={} menu_slots={} widget_children={}",
+                        sizes[view][0], sizes[view][1], width, height, scale.scale(), widgets, enchantingMenu.slots.size(), enchantingScreen.children().size());
+                queueCapture("enchanting_gui_multiple_scales", phases[view], "enchanting_gui_multiple_scales",
+                        "actual EnchantingProgressionScreen rendered in joined world; direct local menu fixture; GUI viewport=" + sizes[view][0] + "x" + sizes[view][1]);
+                enchantingStage++;
+                enchantingWaitTicks = 0;
+                waitForCapture(client, () -> {});
+                return;
+            }
+            enchantingStage++;
+            enchantingWaitTicks = 0;
+            if (enchantingStage < 6) return;
+            ResultsAdd("enchanting_gui_multiple_scales", enchantingLayoutValid ? "LIVE PENDING" : "FAIL", "direct_state_fixture",
+                    "actual custom EnchantingProgressionScreen captured at 1280x720, 854x480, 640x360; menu slots/widgets and scaled viewport bounds asserted=" + enchantingLayoutValid + "; visual clipping and interaction hit accuracy remain for human screenshot review",
+                    List.of());
+            client.gui.setScreen(null);
+        } catch (Throwable t) {
+            ResultsAdd("enchanting_gui_multiple_scales", "BLOCKED", "direct_state_fixture", "joined-world EnchantingProgressionScreen probe blocked: " + t, List.of());
+            enchantingStage = 6;
+        }
+    }
+
+    private static void setWindowSize(Minecraft client, int width, int height) throws ReflectiveOperationException {
+        for (Method method : client.getWindow().getClass().getMethods()) {
+            if (method.getName().equals("setWindowed") && method.getParameterCount() == 2
+                    && method.getParameterTypes()[0] == int.class && method.getParameterTypes()[1] == int.class) {
+                method.invoke(client.getWindow(), width, height);
+                return;
+            }
+        }
+        long handle = 0;
+        for (Class<?> type = client.getWindow().getClass(); type != null && handle == 0; type = type.getSuperclass()) {
+            for (java.lang.reflect.Field field : type.getDeclaredFields()) {
+                if (field.getType() != long.class) continue;
+                field.setAccessible(true);
+                long candidate = field.getLong(client.getWindow());
+                if (candidate != 0L) { handle = candidate; break; }
+            }
+        }
+        if (handle == 0) throw new NoSuchMethodException("Window native handle accessor");
+        Class<?> glfw = Class.forName("org.lwjgl.glfw.GLFW");
+        glfw.getMethod("glfwSetWindowSize", long.class, int.class, int.class).invoke(null, handle, width, height);
+    }
+
+    private static boolean visibleWidgetBoundsFit(EnchantingProgressionScreen screen, ViewportScale scale, int viewportWidth, int viewportHeight) throws ReflectiveOperationException {
+        int frameLeft = screenFieldInt(screen, "leftPos");
+        int frameTop = screenFieldInt(screen, "topPos");
+        int checked = 0;
+        for (Object widget : screen.children()) {
+            if (!widgetVisible(widget)) continue;
+            int x = (int) widget.getClass().getMethod("getX").invoke(widget);
+            int y = (int) widget.getClass().getMethod("getY").invoke(widget);
+            int widgetWidth = (int) widget.getClass().getMethod("getWidth").invoke(widget);
+            int widgetHeight = (int) widget.getClass().getMethod("getHeight").invoke(widget);
+            double left = scale.screenX(x, frameLeft);
+            double top = scale.screenY(y, frameTop);
+            double right = scale.screenX(x + widgetWidth, frameLeft);
+            double bottom = scale.screenY(y + widgetHeight, frameTop);
+            if (left < 0 || top < 0 || right > viewportWidth || bottom > viewportHeight) return false;
+            double mappedContentX = scale.contentX((left + right) / 2.0D, frameLeft);
+            double mappedContentY = scale.contentY((top + bottom) / 2.0D, frameTop);
+            if (mappedContentX < x || mappedContentX > x + widgetWidth || mappedContentY < y || mappedContentY > y + widgetHeight) return false;
+            checked++;
+        }
+        return checked >= 10;
+    }
+
+    private static boolean widgetVisible(Object widget) throws ReflectiveOperationException {
+        for (Class<?> type = widget.getClass(); type != null; type = type.getSuperclass()) {
+            try {
+                java.lang.reflect.Field field = type.getDeclaredField("visible");
+                field.setAccessible(true);
+                return field.getBoolean(widget);
+            } catch (NoSuchFieldException ignored) { }
+        }
+        throw new NoSuchFieldException(widget.getClass().getName() + ".visible");
+    }
+
+    private static int screenFieldInt(Object instance, String name) throws ReflectiveOperationException {
+        for (Class<?> type = instance.getClass(); type != null; type = type.getSuperclass()) {
+            try {
+                java.lang.reflect.Field field = type.getDeclaredField(name);
+                field.setAccessible(true);
+                return field.getInt(instance);
+            } catch (NoSuchFieldException ignored) { }
+        }
+        throw new NoSuchFieldException(name);
+    }
+
+    private static void runLanternProbe(Minecraft client) {
+        try {
+            if (!FabricLoader.getInstance().isModLoaded("lambdynlights"))
+                throw new IllegalStateException("integrity-checked LambDynamicLights runtime did not load");
+            if (lanternBridge == null) lanternBridge = findLanternBridge();
+            if (lanternBridge == null) throw new IllegalStateException("LambDynamicLights initializer did not expose the MoreMinecrafts bridge");
+            if (lanternStage == 0) {
+                lanternAttachmentBefore = client.player.getAttachedOrElse(EquipmentAttachments.LANTERN, ItemStack.EMPTY).copy();
+                client.player.setAttached(EquipmentAttachments.LANTERN, ItemStack.EMPTY);
+                lanternBlockSnapshot = snapshotNearbyBlocks(client);
+                queueCapture("miner_lantern_lambdynamiclights", "before", "miner_lantern_lambdynamiclights", "joined world before direct attachment fixture; block snapshot recorded");
+                lanternStage = 1;
+                waitForCapture(client, () -> {
+                    client.player.setAttached(EquipmentAttachments.LANTERN, new ItemStack(ModItems.MINER_LANTERN));
+                    lanternStage = 2;
+                    lanternWaitTicks = 0;
+                });
+                return;
+            }
+            if (lanternStage == 1) return;
+            if (lanternStage == 2) {
+                invokeLanternBridgeTick(client);
+                Map<?, ?> active = lanternActiveMap();
+                lanternBehavior = active.get(client.player.getUUID());
+                lanternWaitTicks++;
+                if (lanternBehavior == null || lanternWaitTicks < 5) {
+                    if (lanternWaitTicks > 100) throw new IllegalStateException("socketed lantern fixture did not activate a LambDynamicLights behavior");
+                    return;
+                }
+                lanternLightOn = lanternLightValue(lanternBehavior, client.player.blockPosition());
+                if (lanternLightOn <= 0.0D) throw new IllegalStateException("active lantern behavior returned no nearby light");
+                queueCapture("miner_lantern_lambdynamiclights", "after_on", "miner_lantern_lambdynamiclights", "direct local attachment produced active behavior with light_at_player=" + lanternLightOn);
+                lanternStage = 3;
+                waitForCapture(client, () -> {
+                    client.player.setAttached(EquipmentAttachments.LANTERN, ItemStack.EMPTY);
+                    lanternStage = 4;
+                    lanternWaitTicks = 0;
+                });
+                return;
+            }
+            if (lanternStage == 3) return;
+            if (lanternStage == 4) {
+                invokeLanternBridgeTick(client);
+                Map<?, ?> active = lanternActiveMap();
+                double lightOff = lanternLightValue(lanternBehavior, client.player.blockPosition());
+                lanternWaitTicks++;
+                if (active.containsKey(client.player.getUUID()) || lightOff > 0.0D || lanternWaitTicks < 5) {
+                    if (lanternWaitTicks > 100) throw new IllegalStateException("lantern behavior did not deactivate after attachment removal");
+                    return;
+                }
+                queueCapture("miner_lantern_lambdynamiclights", "after_off", "miner_lantern_lambdynamiclights", "attachment removed; behavior inactive and light_at_player=" + lightOff);
+                lanternStage = 5;
+                waitForCapture(client, () -> {});
+                return;
+            }
+            if (lanternStage == 5) {
+                boolean blocksUnchanged = sameBlockSnapshot(client, lanternBlockSnapshot);
+                client.player.setAttached(EquipmentAttachments.LANTERN, lanternAttachmentBefore);
+                boolean assertions = lanternLightOn > 0.0D && blocksUnchanged;
+                ResultsAdd("miner_lantern_lambdynamiclights", assertions ? "PASS" : "FAIL", "direct_state_fixture",
+                        "LambDynamicLights active behavior observed; light_at_player_on=" + lanternLightOn + " off=0; nearby_block_states_unchanged=" + blocksUnchanged
+                                + "; socket UI/network path was not exercised; rendered light brightness remains for human screenshot review",
+                        List.of());
+                lanternStage = 6;
+            }
+        } catch (Throwable t) {
+            client.player.setAttached(EquipmentAttachments.LANTERN, lanternAttachmentBefore);
+            ResultsAdd("miner_lantern_lambdynamiclights", "BLOCKED", "direct_state_fixture", "joined-world dynamic-light probe blocked: " + t, List.of());
+            lanternStage = 6;
+        }
+    }
+
+    private static Object findLanternBridge() throws ReflectiveOperationException {
+        Method method = FabricLoader.class.getMethod("getEntrypointContainers", String.class, Class.class);
+        List<?> entries = (List<?>) method.invoke(FabricLoader.getInstance(), "lambdynlights:initializer", Object.class);
+        for (Object entry : entries) {
+            Object instance = entry.getClass().getMethod("getEntrypoint").invoke(entry);
+            if (instance.getClass().getName().equals("dev.itzgamesgd.moreminecrafts.client.LanternDynamicLightBridge")) return instance;
+        }
+        return null;
+    }
+
+    private static Map<?, ?> lanternActiveMap() throws ReflectiveOperationException {
+        java.lang.reflect.Field field = lanternBridge.getClass().getDeclaredField("active");
+        field.setAccessible(true);
+        return (Map<?, ?>) field.get(lanternBridge);
+    }
+
+    private static void invokeLanternBridgeTick(Minecraft client) throws ReflectiveOperationException {
+        java.lang.reflect.Field manager = lanternBridge.getClass().getDeclaredField("manager");
+        manager.setAccessible(true);
+        if (manager.get(lanternBridge) == null)
+            throw new IllegalStateException("LambDynamicLights did not initialize the bridge manager through its initializer entrypoint");
+        Method tick = lanternBridge.getClass().getDeclaredMethod("tick", Minecraft.class);
+        tick.setAccessible(true);
+        try { tick.invoke(lanternBridge, client); }
+        catch (java.lang.reflect.InvocationTargetException e) {
+            throw new IllegalStateException("bridge tick failed: " + e.getCause(), e.getCause());
+        }
+    }
+
+    private static double lanternLightValue(Object behavior, BlockPos pos) throws ReflectiveOperationException {
+        if (behavior == null) return 0.0D;
+        Method method = behavior.getClass().getDeclaredMethod("lightAtPos", BlockPos.class, double.class);
+        method.setAccessible(true);
+        return (double) method.invoke(behavior, pos, 1.0D);
+    }
+
+    private static Map<BlockPos, BlockState> snapshotNearbyBlocks(Minecraft client) {
+        Map<BlockPos, BlockState> snapshot = new HashMap<>();
+        BlockPos center = client.player.blockPosition();
+        for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++) for (int z = -1; z <= 1; z++) {
+            BlockPos pos = center.offset(x, y, z).immutable();
+            snapshot.put(pos, client.level.getBlockState(pos));
+        }
+        return snapshot;
+    }
+
+    private static boolean sameBlockSnapshot(Minecraft client, Map<BlockPos, BlockState> snapshot) {
+        return snapshot.entrySet().stream().allMatch(entry -> client.level.getBlockState(entry.getKey()).equals(entry.getValue()));
+    }
+
+    private static void runGreatswordProbe(Minecraft client) {
+        try {
+            if (greatswordHotbarSlot < 0) {
+                greatswordHotbarSlot = findInventoryItem(client, ModItems.GREATSWORDS.get(dev.itzgamesgd.moreminecrafts.equipment.WeaponBalance.Tier.IRON));
+                if (greatswordHotbarSlot < 0) throw new IllegalStateException("iron greatsword fixture is not present in player inventory");
+            }
+            if (greatswordHitTarget == null) greatswordHitTarget = findGreatswordTarget(client, 0.5D, 15.0D);
+            if (greatswordMissTarget == null) greatswordMissTarget = findGreatswordTarget(client, 8.5D, 15.0D);
+            LivingEntity hitTarget = greatswordHitTarget;
+            LivingEntity missTarget = greatswordMissTarget;
+            boolean hitTargetRequired = greatswordStage < 3;
+            if ((hitTargetRequired && hitTarget == null) || missTarget == null) {
+                if (++greatswordWaitTicks < 100) return;
+                throw new IllegalStateException("RCON Greatsword target fixtures did not synchronize as LivingEntity candidates; nearby="
+                        + client.level.getEntitiesOfClass(LivingEntity.class, client.player.getBoundingBox().inflate(24.0D), entity -> true).stream()
+                        .map(entity -> entity.getType() + "@" + entity.getX() + "," + entity.getY() + "," + entity.getZ())
+                        .toList());
+            }
+            client.player.getInventory().setSelectedSlot(greatswordHotbarSlot);
+            ItemStack sword = client.player.getMainHandItem();
+            if (greatswordStage == 0) {
+                setCameraType(client, "FIRST_PERSON");
+                LOGGER.info("STAGE23B_QA_CAMERA_RESET camera=FIRST_PERSON input_path=direct_state_fixture before_greatsword");
+                hitTargetInitialHealth = hitTarget.getHealth();
+                hitSwordInitialDamage = sword.getDamageValue();
+                queueCapture("greatsword_hit_miss_sweep_particles", "before", "greatsword_hit_miss_sweep_particles", "in-world target fixtures and iron Greatsword selected; state baseline recorded");
+                greatswordStage = 1;
+                waitForCapture(client, () -> {
+                    client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
+                    LOGGER.info("STAGE23B_QA_GREATSWORD_ACTION path=synthetic_client_game_packet case=hit target=QA_GS_HIT");
+                    greatswordStage = 2;
+                    greatswordWaitTicks = 0;
+                });
+                return;
+            }
+            if (greatswordStage == 1) return;
+            if (greatswordStage == 2) {
+                if (++greatswordWaitTicks < 2) return;
+                hitTargetAfterSweep = hitTarget.getHealth();
+                hitSwordAfterSweep = sword.getDamageValue();
+                queueCapture("greatsword_hit_miss_sweep_particles", "after_hit", "greatsword_hit_miss_sweep_particles", "captured shortly after the real in-world hit packet; particle appearance remains visual-review pending");
+                greatswordStage = 3;
+                waitForCapture(client, () -> greatswordWaitTicks = 0);
+                return;
+            }
+            if (greatswordStage == 3) {
+                if (++greatswordWaitTicks < 40) return;
+                missTargetInitialHealth = missTarget.getHealth();
+                missSwordInitialDamage = sword.getDamageValue();
+                client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
+                LOGGER.info("STAGE23B_QA_GREATSWORD_ACTION path=synthetic_client_game_packet case=miss target=QA_GS_MISS");
+                greatswordStage = 4;
+                greatswordWaitTicks = 0;
+                return;
+            }
+            if (greatswordStage == 4) {
+                if (++greatswordWaitTicks < 10) return;
+                missTargetAfterSweep = missTarget.getHealth();
+                missSwordAfterSweep = sword.getDamageValue();
+                boolean hitChangedHealth = hitTargetAfterSweep < hitTargetInitialHealth;
+                boolean hitChangedDurability = hitSwordAfterSweep > hitSwordInitialDamage;
+                boolean missUnchanged = missTargetAfterSweep == missTargetInitialHealth && missSwordAfterSweep == missSwordInitialDamage;
+                queueCapture("greatsword_hit_miss_sweep_particles", "after_miss", "greatsword_hit_miss_sweep_particles", "same in-world entities after out-of-sweep use; no-hit frame");
+                ResultsAdd("greatsword_hit_miss_sweep_particles", hitChangedHealth && hitChangedDurability && missUnchanged ? "PASS" : "FAIL", "synthetic_client_game_packet+direct_state_fixture",
+                        "hit_health=" + hitTargetInitialHealth + "->" + hitTargetAfterSweep + " hit_durability=" + hitSwordInitialDamage + "->" + hitSwordAfterSweep
+                                + " miss_health=" + missTargetInitialHealth + "->" + missTargetAfterSweep + " miss_durability=" + missSwordInitialDamage + "->" + missSwordAfterSweep
+                                + "; particle rendering requires screenshot review; attack entered through normal client use-item packet",
+                        List.of());
+                greatswordStage = 5;
+                waitForCapture(client, () -> {});
+            }
+        } catch (Throwable t) {
+            ResultsAdd("greatsword_hit_miss_sweep_particles", "BLOCKED", "synthetic_client_game_packet", "in-world Greatsword probe blocked: " + t, List.of());
+            greatswordStage = 5;
+        }
+    }
+
+    private static LivingEntity findGreatswordTarget(Minecraft client, double targetX, double targetZ) {
+        return client.level.getEntitiesOfClass(LivingEntity.class, client.player.getBoundingBox().inflate(14.0D),
+                entity -> Math.abs(entity.getX() - targetX) < 1.25D && Math.abs(entity.getZ() - targetZ) < 1.25D)
+                .stream().findFirst().orElse(null);
+    }
+
+    private static void setCameraType(Minecraft client, String cameraName) throws ReflectiveOperationException {
+        Object options = client.options;
+        for (Method method : options.getClass().getMethods()) {
+            if (!method.getName().equals("setCameraType") || method.getParameterCount() != 1 || !method.getParameterTypes()[0].isEnum()) continue;
+            @SuppressWarnings({"rawtypes", "unchecked"}) Object value = Enum.valueOf((Class) method.getParameterTypes()[0], cameraName);
+            method.invoke(options, value);
+            LOGGER.info("STAGE23B_QA_CAMERA camera={} input_path=direct_state_fixture", cameraName);
+            return;
+        }
+        throw new NoSuchMethodException("Options.setCameraType(enum)");
+    }
+
+    private static void ResultsAdd(String id, String status, String inputPath, String evidence, List<String> screenshots) {
+        RESULTS.add(new Result(id, status, inputPath, evidence, screenshots));
+        LOGGER.info("STAGE23B_QA_SCENARIO id={} status={} input_path={} evidence={}", id, status, inputPath, evidence);
+    }
+
+    private static void finishBlocked(String reason) {
+        if (suiteFinished) return;
+        for (String scenario : SCENARIOS) ResultsAdd(scenario, "BLOCKED", "none", reason, List.of());
+        writeLedger(Minecraft.getInstance());
+        suiteFinished = true;
+    }
+
+    private static void writeLedger(Minecraft client) {
+        Path report = client.gameDirectory.toPath().resolve("client-qa-results").resolve("scenario-results.jsonl");
+        try {
+            Files.createDirectories(report.getParent());
+            StringBuilder rows = new StringBuilder();
+            for (Result result : RESULTS) {
+                rows.append("{\"scenario\":\"").append(escape(result.id()))
+                    .append("\",\"status\":\"").append(result.status())
+                    .append("\",\"visual_status\":\"LIVE PENDING\",\"input_path\":\"").append(escape(result.inputPath()))
+                    .append("\",\"os_xtest_xdotool\":\"NOT RUN\",\"physical_pointer_status\":\"BLOCKED\",\"physical_pointer_evidence\":\"Xvfb Minecraft window was not discoverable by the existing XTest/xdotool probe; no physical-equivalent click was delivered\",\"human_manual_play\":\"NOT RUN\",\"synthetic_screen_callback\":\"")
+                    .append(result.inputPath().equals("synthetic_screen_callback") ? "EXECUTED" : "NOT RUN")
+                    .append("\",\"synthetic_client_game_packet\":\"")
+                    .append(result.inputPath().contains("client_game_packet") ? "EXECUTED" : "NOT RUN")
+                    .append("\",\"synthetic_client_game_api\":\"")
+                    .append(result.inputPath().contains("game_api") ? "EXECUTED" : "NOT RUN")
+                    .append("\",\"direct_state_fixture\":\"").append(result.inputPath().contains("direct_state_fixture") ? "EXECUTED" : "NOT RUN")
+                    .append("\",\"movement_status\":\"").append(result.id().equals("large_backpack_icon_and_movement") ? result.status() : "NOT APPLICABLE")
+                    .append("\",\"icon_rendering_status\":\"").append(result.id().equals("large_backpack_icon_and_movement") && result.evidence().contains("icon_rendering_status=FAIL") ? "FAIL" : "NOT REVIEWED")
+                    .append("\",\"evidence\":\"").append(escape(result.evidence()))
+                    .append("\",\"screenshots\":[");
+            List<String> images = SCREENSHOTS.getOrDefault(result.id(), List.of());
+            for (int i = 0; i < images.size(); i++) {
+                if (i > 0) rows.append(',');
+                rows.append('"').append(escape(images.get(i))).append('"');
+            }
+                rows.append("]}").append('\n');
+            }
+            Files.writeString(report, rows.toString());
+            LOGGER.info("STAGE23B_QA_RESULT_FILE path={} scenario_count={} client_world={} player={}", report.toAbsolutePath(), RESULTS.size(), client.level != null, client.player != null);
+        } catch (Exception e) { LOGGER.error("STAGE23B_QA_RESULT_WRITE_FAILED path={}", report, e); }
+    }
+
+    private static String escape(String text) { return text.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r"); }
+
+    private record Result(String id, String status, String inputPath, String evidence, List<String> screenshots) { }
+    private record Capture(String caseId, String phase, String scenario, String note, CaptureCallback callback) {
+        void complete(boolean success, String path) { callback.done(success, path); }
+    }
+    @FunctionalInterface private interface CaptureCallback { void done(boolean success, String path); }
+}

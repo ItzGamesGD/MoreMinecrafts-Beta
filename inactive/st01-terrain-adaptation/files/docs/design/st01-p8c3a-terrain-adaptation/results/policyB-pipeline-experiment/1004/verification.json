@@ -1,0 +1,1188 @@
+{
+ "status": "FAIL",
+ "failures": [
+  "scan -50,493: in-game checks failed",
+  "reverse -50,493: in-game checks failed",
+  "random -50,493: in-game checks failed",
+  "reload -50,493: in-game checks failed",
+  "scan -589,-474: in-game checks failed",
+  "reverse -589,-474: in-game checks failed",
+  "random -589,-474: in-game checks failed",
+  "reload -589,-474: in-game checks failed",
+  "scan 335,-275: in-game checks failed",
+  "reverse 335,-275: in-game checks failed",
+  "random 335,-275: in-game checks failed",
+  "reload 335,-275: in-game checks failed",
+  "scan 463,-276: in-game checks failed",
+  "reverse 463,-276: in-game checks failed",
+  "random 463,-276: in-game checks failed",
+  "reload 463,-276: in-game checks failed"
+ ],
+ "per_start": {
+  "-111,168": {
+   "anchor_identical_across_phases": true,
+   "orientation_identical_across_phases": true,
+   "route_identical_across_phases": true,
+   "canonical_id_identical_across_phases": true,
+   "owned_hash_identical_across_phases": true,
+   "box_hash_identical_across_phases": true,
+   "registered_every_phase": true,
+   "reward_state_persisted_exactly": true
+  },
+  "-146,522": {
+   "anchor_identical_across_phases": true,
+   "orientation_identical_across_phases": true,
+   "route_identical_across_phases": true,
+   "canonical_id_identical_across_phases": true,
+   "owned_hash_identical_across_phases": true,
+   "box_hash_identical_across_phases": true,
+   "registered_every_phase": true,
+   "reward_state_persisted_exactly": true
+  },
+  "-50,493": {
+   "anchor_identical_across_phases": true,
+   "orientation_identical_across_phases": true,
+   "route_identical_across_phases": true,
+   "canonical_id_identical_across_phases": true,
+   "owned_hash_identical_across_phases": true,
+   "box_hash_identical_across_phases": true,
+   "registered_every_phase": true,
+   "reward_state_persisted_exactly": true
+  },
+  "-571,-501": {
+   "anchor_identical_across_phases": true,
+   "orientation_identical_across_phases": true,
+   "route_identical_across_phases": true,
+   "canonical_id_identical_across_phases": true,
+   "owned_hash_identical_across_phases": true,
+   "box_hash_identical_across_phases": true,
+   "registered_every_phase": true,
+   "reward_state_persisted_exactly": true
+  },
+  "-589,-474": {
+   "anchor_identical_across_phases": true,
+   "orientation_identical_across_phases": true,
+   "route_identical_across_phases": true,
+   "canonical_id_identical_across_phases": true,
+   "owned_hash_identical_across_phases": true,
+   "box_hash_identical_across_phases": true,
+   "registered_every_phase": true,
+   "reward_state_persisted_exactly": true
+  },
+  "335,-275": {
+   "anchor_identical_across_phases": true,
+   "orientation_identical_across_phases": true,
+   "route_identical_across_phases": true,
+   "canonical_id_identical_across_phases": true,
+   "owned_hash_identical_across_phases": true,
+   "box_hash_identical_across_phases": true,
+   "registered_every_phase": true,
+   "reward_state_persisted_exactly": true
+  },
+  "463,-276": {
+   "anchor_identical_across_phases": true,
+   "orientation_identical_across_phases": true,
+   "route_identical_across_phases": true,
+   "canonical_id_identical_across_phases": true,
+   "owned_hash_identical_across_phases": true,
+   "box_hash_identical_across_phases": true,
+   "registered_every_phase": true,
+   "reward_state_persisted_exactly": true
+  }
+ },
+ "structural": {
+  "scan/start--111_168.json.gz": {
+   "case": "EAST/WEST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "scan/start--146_522.json.gz": {
+   "case": "NORTH/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "scan/start--50_493.json.gz": {
+   "case": "WEST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "scan/start--571_-501.json.gz": {
+   "case": "WEST/WEST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "scan/start--589_-474.json.gz": {
+   "case": "WEST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "scan/start-335_-275.json.gz": {
+   "case": "EAST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "scan/start-463_-276.json.gz": {
+   "case": "SOUTH/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reverse/start--111_168.json.gz": {
+   "case": "EAST/WEST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reverse/start--146_522.json.gz": {
+   "case": "NORTH/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reverse/start--50_493.json.gz": {
+   "case": "WEST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reverse/start--571_-501.json.gz": {
+   "case": "WEST/WEST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reverse/start--589_-474.json.gz": {
+   "case": "WEST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reverse/start-335_-275.json.gz": {
+   "case": "EAST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reverse/start-463_-276.json.gz": {
+   "case": "SOUTH/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "random/start--111_168.json.gz": {
+   "case": "EAST/WEST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "random/start--146_522.json.gz": {
+   "case": "NORTH/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "random/start--50_493.json.gz": {
+   "case": "WEST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "random/start--571_-501.json.gz": {
+   "case": "WEST/WEST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "random/start--589_-474.json.gz": {
+   "case": "WEST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "random/start-335_-275.json.gz": {
+   "case": "EAST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "random/start-463_-276.json.gz": {
+   "case": "SOUTH/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reload/start--111_168.json.gz": {
+   "case": "EAST/WEST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reload/start--146_522.json.gz": {
+   "case": "NORTH/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reload/start--50_493.json.gz": {
+   "case": "WEST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reload/start--571_-501.json.gz": {
+   "case": "WEST/WEST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 6251,
+     "bounds": [
+      -15,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reload/start--589_-474.json.gz": {
+   "case": "WEST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reload/start-335_-275.json.gz": {
+   "case": "EAST/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  },
+  "reload/start-463_-276.json.gz": {
+   "case": "SOUTH/EAST",
+   "failures": [],
+   "non_air_extent": [
+    -40,
+    40,
+    -32,
+    39,
+    -40,
+    40
+   ],
+   "sealed_pockets_authored": [
+    {
+     "cells": 5987,
+     "bounds": [
+      -8,
+      30,
+      -30,
+      -21,
+      -9,
+      36
+     ]
+    }
+   ],
+   "shell_openings_authored": [
+    {
+     "cells": 410,
+     "bounds": [
+      -12,
+      12,
+      1,
+      11,
+      29,
+      40
+     ]
+    }
+   ]
+  }
+ },
+ "starts": 7,
+ "statistics": {
+  "potential_anchors": 1600,
+  "center_only_desert_anchors": 33,
+  "full_desert_qualified": 8,
+  "terrain_qualified": 7,
+  "eligible_predicted": 7,
+  "actual_valid_starts": 7,
+  "predicted_routes": {
+   "EAST": 5,
+   "WEST": 2
+  },
+  "prediction_vs_actual_mismatches": 0,
+  "mismatch_samples": [],
+  "rejection_counts": {
+   "REJECT_BIOME": 1592,
+   "REJECT_CUT": 1
+  },
+  "production_verdict_counts_this_process": {
+   "ELIGIBLE": 7,
+   "REJECT_BIOME": 1592,
+   "REJECT_CUT": 1,
+   "REJECT_HEIGHT_DIFFERENCE": 0,
+   "REJECT_SKIRT": 0
+  },
+  "area_km2": 419.4304,
+  "density_per_100km2": 1.6689300537109375,
+  "scan_ms": 52282
+ }
+}

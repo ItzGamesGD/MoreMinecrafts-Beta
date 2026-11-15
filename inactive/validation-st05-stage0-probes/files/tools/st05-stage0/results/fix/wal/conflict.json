@@ -1,0 +1,4 @@
+{
+  "payload": "{\n  \"plan\": {\n    \"schema\": 1,\n    \"seed\": 20261030,\n    \"dimension\": \"minecraft:overworld\",\n    \"id\": \"conflict\",\n    \"writes\": [\n      {\n        \"x\": 496,\n        \"y\": 100,\n        \"z\": 64,\n        \"before\": \"Block{minecraft:air}\",\n        \"after\": \"Block{minecraft:emerald_block}\"\n      },\n      {\n        \"x\": 528,\n        \"y\": 100,\n        \"z\": 64,\n        \"before\": \"Block{minecraft:air}\",\n        \"after\": \"Block{minecraft:emerald_block}\"\n      }\n    ]\n  },\n  \"planHash\": \"54aeae10735497aca7ddd072a0e4842c992515814a00cbff7b1ce38c7436ddc9\",\n  \"state\": \"CONFLICT\"\n}",
+  "sha256": "0f32f4434f3aa5eea07d792ffc243fe629e85cd72623f0ebc0ccee72ddbfb24d"
+}

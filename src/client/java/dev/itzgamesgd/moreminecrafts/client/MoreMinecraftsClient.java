@@ -181,6 +181,15 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
     }
 
     private static void registerCustomMobRenderers() {
+        EntityRendererRegistry.register(dev.itzgamesgd.moreminecrafts.pyramid.entrance.SecretEntranceEntities.GOLD_GUIDE_GOLEM,
+                dev.itzgamesgd.moreminecrafts.client.pyramid.GoldGuideGolemRenderer::new);
+        EntityRendererRegistry.register(dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyEntities.JUVENILE, net.minecraft.client.renderer.entity.SpiderRenderer::new);
+        EntityRendererRegistry.register(dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyEntities.MOTHER, context -> new net.minecraft.client.renderer.entity.SpiderRenderer<dev.itzgamesgd.moreminecrafts.spidercolony.MotherSpider>(context) {
+            // Provisional texture pending owner visual review.
+            private static final net.minecraft.resources.Identifier TEXTURE = dev.itzgamesgd.moreminecrafts.core.ModIds.id("textures/entity/spider/mother_spider.png");
+            @Override public net.minecraft.resources.Identifier getTextureLocation(net.minecraft.client.renderer.entity.state.LivingEntityRenderState state) { return TEXTURE; }
+            @Override protected void scale(net.minecraft.client.renderer.entity.state.LivingEntityRenderState state, com.mojang.blaze3d.vertex.PoseStack pose) { float scale=dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyEntities.VISUAL_SCALE_PROVISIONAL; pose.scale(scale,scale,scale); }
+        });
         EntityRendererRegistry.register(CustomMobCatalog.SWAMP_ZOMBIE,
                 context -> CustomMobRenderers.zombie(context, "swamp_zombie"));
         EntityRendererRegistry.register(CustomMobCatalog.CAVE_ZOMBIE,
@@ -261,6 +270,9 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 context -> CustomMobRenderers.phantom(context, "lesser_phantom"));
         EntityRendererRegistry.register(CustomMobCatalog.CAVE_CREEPER,
                 context -> CustomMobRenderers.creeper(context, "cave_creeper"));
+        SkyMobRenderers.register();
+        SkyVariantRenderers.register();
+        PyramidMobRenderers.register();
     }
 
     private static String formatTenths(int value) { return "%d.%d".formatted(value / 10, Math.abs(value % 10)); }

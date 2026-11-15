@@ -1,0 +1,805 @@
+{
+  "provenance": "REAL_MINECRAFT_26_3_WORLDGEN_MEASUREMENT",
+  "generator": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
+  "minecraft_version": "26.3",
+  "world_seed": 1002,
+  "heightmap_type": "WORLD_SURFACE_WG",
+  "sampling_grid": {
+    "area_radius_blocks": 4096,
+    "height_sample_points_per_candidate": 441,
+    "biome_sample_points_per_candidate": 81,
+    "footprint_span_blocks": "81x81 (-40..+40)",
+    "grid_step_blocks": 256
+  },
+  "performance_metrics": {
+    "duration_ms": 2576,
+    "peak_memory_mb": 307,
+    "total_candidates_evaluated": 500
+  },
+  "candidate_counts": {
+    "center_in_desert": 20,
+    "total_grid_candidates": 500,
+    "full_100_percent_in_desert": 3,
+    "eligible_under_exploratory_limits": 3,
+    "center_and_corners_in_desert": 4
+  },
+  "rejection_breakdown": {
+    "ELIGIBLE": 3,
+    "REJECT_EXCESSIVE_CUT": 2,
+    "REJECT_EXCESSIVE_DELTA_H": 11,
+    "REJECT_FLUID_COLLISION": 4,
+    "REJECT_NOT_DESERT": 480
+  },
+  "real_desert_elevation_delta_distribution": {
+    "max_delta_h": 74.0,
+    "p90_delta_h": 65.0,
+    "median_delta_h": 21.0,
+    "p75_delta_h": 48.0,
+    "min_delta_h": 4.0,
+    "p25_delta_h": 10.0,
+    "sample_size": 20,
+    "mean_delta_h": 26.45
+  },
+  "sample_candidate_records": [
+    {
+      "seed": 1002,
+      "anchor_x": -1408,
+      "anchor_z": -2432,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_FLUID_COLLISION",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.25925925925925924,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 63,
+        "mean_h": 63.41,
+        "min_h": 63,
+        "delta_h": 8,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 71,
+        "p75": 63,
+        "p90": 63
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 2896,
+        "approx_fill_volume": 0,
+        "max_skirt_depth": 0,
+        "exposed_perimeter_ratio": 0.0,
+        "max_cut_depth": 8,
+        "chosen_yf_balanced": 63
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": true
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -896,
+      "anchor_z": -896,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "REJECT_EXCESSIVE_CUT",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.8395061728395061,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 63,
+        "mean_h": 64.97,
+        "min_h": 63,
+        "delta_h": 12,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 75,
+        "p75": 66,
+        "p90": 70
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 13872,
+        "approx_fill_volume": 0,
+        "max_skirt_depth": 0,
+        "exposed_perimeter_ratio": 0.0,
+        "max_cut_depth": 12,
+        "chosen_yf_balanced": 63
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -640,
+      "anchor_z": -2944,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.9012345679012346,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 79,
+        "mean_h": 77.61,
+        "min_h": 63,
+        "delta_h": 23,
+        "p10": 72,
+        "p25": 73,
+        "max_h": 86,
+        "p75": 81,
+        "p90": 83
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 8656,
+        "approx_fill_volume": 18496,
+        "max_skirt_depth": 16,
+        "exposed_perimeter_ratio": 0.55,
+        "max_cut_depth": 7,
+        "chosen_yf_balanced": 79
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -640,
+      "anchor_z": -2688,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_FLUID_COLLISION",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.654320987654321,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 63,
+        "mean_h": 63.67,
+        "min_h": 63,
+        "delta_h": 4,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 67,
+        "p75": 64,
+        "p90": 65
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 4720,
+        "approx_fill_volume": 0,
+        "max_skirt_depth": 0,
+        "exposed_perimeter_ratio": 0.0,
+        "max_cut_depth": 4,
+        "chosen_yf_balanced": 63
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": true
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -640,
+      "anchor_z": -2432,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.9506172839506173,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 71,
+        "mean_h": 71.26,
+        "min_h": 63,
+        "delta_h": 24,
+        "p10": 63,
+        "p25": 65,
+        "max_h": 87,
+        "p75": 76,
+        "p90": 81
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 20064,
+        "approx_fill_volume": 18256,
+        "max_skirt_depth": 8,
+        "exposed_perimeter_ratio": 0.64,
+        "max_cut_depth": 16,
+        "chosen_yf_balanced": 71
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -640,
+      "anchor_z": -1664,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "ELIGIBLE",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.7160493827160493,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 64,
+        "mean_h": 65.11,
+        "min_h": 63,
+        "delta_h": 8,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 71,
+        "p75": 67,
+        "p90": 69
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 11264,
+        "approx_fill_volume": 3408,
+        "max_skirt_depth": 1,
+        "exposed_perimeter_ratio": 0.67,
+        "max_cut_depth": 7,
+        "chosen_yf_balanced": 64
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -384,
+      "anchor_z": -2944,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_EXCESSIVE_CUT",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.8518518518518519,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 65,
+        "mean_h": 66.43,
+        "min_h": 63,
+        "delta_h": 11,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 74,
+        "p75": 70,
+        "p90": 72
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 16576,
+        "approx_fill_volume": 6512,
+        "max_skirt_depth": 2,
+        "exposed_perimeter_ratio": 0.47,
+        "max_cut_depth": 9,
+        "chosen_yf_balanced": 65
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": true
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -384,
+      "anchor_z": -2432,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.9012345679012346,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 70,
+        "mean_h": 70.99,
+        "min_h": 63,
+        "delta_h": 74,
+        "p10": 63,
+        "p25": 65,
+        "max_h": 137,
+        "p75": 73,
+        "p90": 78
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 23872,
+        "approx_fill_volume": 16896,
+        "max_skirt_depth": 7,
+        "exposed_perimeter_ratio": 0.65,
+        "max_cut_depth": 67,
+        "chosen_yf_balanced": 70
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -384,
+      "anchor_z": -1664,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.8271604938271605,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 67,
+        "mean_h": 66.24,
+        "min_h": 45,
+        "delta_h": 29,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 74,
+        "p75": 68,
+        "p90": 69
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 5312,
+        "approx_fill_volume": 10688,
+        "max_skirt_depth": 22,
+        "exposed_perimeter_ratio": 0.35,
+        "max_cut_depth": 7,
+        "chosen_yf_balanced": 67
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -384,
+      "anchor_z": -1408,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_FLUID_COLLISION",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.7283950617283951,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 63,
+        "mean_h": 63.61,
+        "min_h": 63,
+        "delta_h": 5,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 68,
+        "p75": 63,
+        "p90": 66
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 4288,
+        "approx_fill_volume": 0,
+        "max_skirt_depth": 0,
+        "exposed_perimeter_ratio": 0.0,
+        "max_cut_depth": 5,
+        "chosen_yf_balanced": 63
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": true
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -384,
+      "anchor_z": -1152,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "ELIGIBLE",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.6790123456790124,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 64,
+        "mean_h": 63.85,
+        "min_h": 63,
+        "delta_h": 4,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 67,
+        "p75": 64,
+        "p90": 66
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 2384,
+        "approx_fill_volume": 3408,
+        "max_skirt_depth": 1,
+        "exposed_perimeter_ratio": 0.53,
+        "max_cut_depth": 3,
+        "chosen_yf_balanced": 64
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -384,
+      "anchor_z": -896,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.9629629629629629,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 65,
+        "mean_h": 65.69,
+        "min_h": 52,
+        "delta_h": 21,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 73,
+        "p75": 68,
+        "p90": 71
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 12448,
+        "approx_fill_volume": 7584,
+        "max_skirt_depth": 13,
+        "exposed_perimeter_ratio": 0.66,
+        "max_cut_depth": 8,
+        "chosen_yf_balanced": 65
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -128,
+      "anchor_z": -2688,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": true,
+        "desert_coverage_ratio": 1.0,
+        "full_100_percent_desert": true,
+        "center_is_desert": true,
+        "corners_all_desert": true
+      },
+      "elevation_metrics": {
+        "median_h": 115,
+        "mean_h": 112.53,
+        "min_h": 81,
+        "delta_h": 48,
+        "p10": 96,
+        "p25": 106,
+        "max_h": 129,
+        "p75": 120,
+        "p90": 124
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 20912,
+        "approx_fill_volume": 38368,
+        "max_skirt_depth": 34,
+        "exposed_perimeter_ratio": 0.68,
+        "max_cut_depth": 14,
+        "chosen_yf_balanced": 115
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -128,
+      "anchor_z": -2432,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": true,
+        "desert_coverage_ratio": 1.0,
+        "full_100_percent_desert": true,
+        "center_is_desert": true,
+        "corners_all_desert": true
+      },
+      "elevation_metrics": {
+        "median_h": 73,
+        "mean_h": 78.84,
+        "min_h": 63,
+        "delta_h": 60,
+        "p10": 63,
+        "p25": 66,
+        "max_h": 123,
+        "p75": 89,
+        "p90": 108
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 63872,
+        "approx_fill_volume": 22672,
+        "max_skirt_depth": 10,
+        "exposed_perimeter_ratio": 0.61,
+        "max_cut_depth": 50,
+        "chosen_yf_balanced": 73
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -128,
+      "anchor_z": -1920,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.5308641975308642,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 78,
+        "mean_h": 79.33,
+        "min_h": 63,
+        "delta_h": 54,
+        "p10": 63,
+        "p25": 71,
+        "max_h": 117,
+        "p75": 84,
+        "p90": 98
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 36656,
+        "approx_fill_volume": 27280,
+        "max_skirt_depth": 15,
+        "exposed_perimeter_ratio": 0.47,
+        "max_cut_depth": 39,
+        "chosen_yf_balanced": 78
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -128,
+      "anchor_z": -1664,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.9506172839506173,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": true
+      },
+      "elevation_metrics": {
+        "median_h": 67,
+        "mean_h": 68.02,
+        "min_h": 58,
+        "delta_h": 19,
+        "p10": 64,
+        "p25": 65,
+        "max_h": 77,
+        "p75": 70,
+        "p90": 74
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 14496,
+        "approx_fill_volume": 7312,
+        "max_skirt_depth": 9,
+        "exposed_perimeter_ratio": 0.27,
+        "max_cut_depth": 10,
+        "chosen_yf_balanced": 67
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": true
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -128,
+      "anchor_z": -1408,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "REJECT_FLUID_COLLISION",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.7654320987654321,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 65,
+        "mean_h": 66.25,
+        "min_h": 63,
+        "delta_h": 10,
+        "p10": 63,
+        "p25": 63,
+        "max_h": 73,
+        "p75": 70,
+        "p90": 71
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 14992,
+        "approx_fill_volume": 6176,
+        "max_skirt_depth": 2,
+        "exposed_perimeter_ratio": 0.46,
+        "max_cut_depth": 8,
+        "chosen_yf_balanced": 65
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": true
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -128,
+      "anchor_z": -1152,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "ELIGIBLE",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": true,
+        "desert_coverage_ratio": 1.0,
+        "full_100_percent_desert": true,
+        "center_is_desert": true,
+        "corners_all_desert": true
+      },
+      "elevation_metrics": {
+        "median_h": 66,
+        "mean_h": 66.46,
+        "min_h": 61,
+        "delta_h": 10,
+        "p10": 64,
+        "p25": 65,
+        "max_h": 71,
+        "p75": 68,
+        "p90": 69
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 7712,
+        "approx_fill_volume": 4464,
+        "max_skirt_depth": 5,
+        "exposed_perimeter_ratio": 0.33,
+        "max_cut_depth": 5,
+        "chosen_yf_balanced": 66
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -128,
+      "anchor_z": -896,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "WEST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.9876543209876543,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 73,
+        "mean_h": 77.25,
+        "min_h": 66,
+        "delta_h": 40,
+        "p10": 68,
+        "p25": 70,
+        "max_h": 106,
+        "p75": 82,
+        "p90": 95
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 41728,
+        "approx_fill_volume": 11760,
+        "max_skirt_depth": 7,
+        "exposed_perimeter_ratio": 0.47,
+        "max_cut_depth": 33,
+        "chosen_yf_balanced": 73
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": false,
+        "fluid_collision": false
+      }
+    },
+    {
+      "seed": 1002,
+      "anchor_x": -128,
+      "anchor_z": -640,
+      "anchor_biome": "minecraft:desert",
+      "orientation": "EAST",
+      "verdict": "REJECT_EXCESSIVE_DELTA_H",
+      "biome_metrics": {
+        "perimeter_100_percent_desert": false,
+        "desert_coverage_ratio": 0.8888888888888888,
+        "full_100_percent_desert": false,
+        "center_is_desert": true,
+        "corners_all_desert": false
+      },
+      "elevation_metrics": {
+        "median_h": 79,
+        "mean_h": 78.59,
+        "min_h": 32,
+        "delta_h": 65,
+        "p10": 72,
+        "p25": 76,
+        "max_h": 97,
+        "p75": 83,
+        "p90": 86
+      },
+      "foundation_cut_fill": {
+        "approx_cut_volume": 16656,
+        "approx_fill_volume": 19584,
+        "max_skirt_depth": 47,
+        "exposed_perimeter_ratio": 0.61,
+        "max_cut_depth": 18,
+        "chosen_yf_balanced": 79
+      },
+      "subterranean_risks": {
+        "deep_cave_collision": true,
+        "fluid_collision": false
+      }
+    }
+  ]
+}
