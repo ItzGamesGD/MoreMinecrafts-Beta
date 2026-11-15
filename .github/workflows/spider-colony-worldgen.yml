@@ -1,0 +1,100 @@
+name: Spider Colony Worldgen & Client Capture
+
+on:
+  push:
+    branches:
+      - claude/spider-colony-worldgen
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-build-gametest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Clean gameTest world and run check, build, runGameTest
+        run: |
+          set -euo pipefail
+          rm -rf build/run/gameTest
+          ./gradlew check build runGameTest --no-daemon 2>&1 | tee build/gametest.log
+      - name: Upload GameTest log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spider-colony-gametest-log
+          path: build/gametest.log
+          if-no-files-found: ignore
+
+  client-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install software renderer and Pillow
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox x11-utils mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1 python3-pil
+      - name: Isolate SpiderColonyClientCapture entrypoint
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('src/gametest/resources/fabric.mod.json')
+          d = json.loads(p.read_text())
+          d['entrypoints']['fabric-client-gametest'] = ['dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyClientCapture']
+          p.write_text(json.dumps(d, indent=2) + '\n')
+          PY
+      - name: Run SpiderColonyClientCapture in Minecraft
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/spider-colony-capture
+          export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+          export JAVA_TOOL_OPTIONS='-Dmoreminecrafts.spider.capture=true'
+          icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)
+          if [[ -n "$icd" ]]; then export VK_ICD_FILENAMES="$icd"; fi
+          xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo pipefail -c '
+            openbox --sm-disable > build/spider-colony-capture/openbox.log 2>&1 &
+            trap "kill $! 2>/dev/null || true" EXIT
+            ./gradlew runClientGameTest --args="--width 1280 --height 720" --no-daemon --max-workers=2 2>&1 | tee build/spider-colony-capture/client.log
+          '
+          grep -q "SPIDER_COLONY_CAPTURE_COMPLETE 4" build/spider-colony-capture/client.log
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          out_dir = Path('build/spider-colony-capture')
+          shots = sorted(Path('.').rglob('*spider-colony-*.png'))
+          assert len(shots) >= 4, f"Expected >= 4 screenshots, found {len(shots)}"
+          for src in shots:
+              if out_dir in src.parents:
+                  continue
+              img = Image.open(src).convert('RGB')
+              if img.size != (1280, 720):
+                  img = img.resize((1280, 720), Image.Resampling.LANCZOS)
+              quantized = img.quantize(colors=256, method=Image.Quantize.MEDIANCUT)
+              quantized.save(out_dir / src.name, optimize=True)
+          PY
+      - name: Upload captures and client log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spider-colony-captures
+          path: build/spider-colony-capture/
+          if-no-files-found: error
