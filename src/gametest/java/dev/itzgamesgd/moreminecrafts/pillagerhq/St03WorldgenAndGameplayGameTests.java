@@ -130,6 +130,16 @@ public final class St03WorldgenAndGameplayGameTests {
                 origin.getX() + 111, origin.getY() + 30, origin.getZ() + 111);
         hq.structureCompleted = true;
 
+        // Force-load every chunk under the 112x112 HQ box: unloaded chunks drop spawned entities from box queries.
+        List<net.minecraft.world.level.ChunkPos> forcedChunks = new ArrayList<>();
+        for (int cx = hq.box.minX() >> 4; cx <= hq.box.maxX() >> 4; cx++) {
+            for (int cz = hq.box.minZ() >> 4; cz <= hq.box.maxZ() >> 4; cz++) {
+                var chunkPos = new net.minecraft.world.level.ChunkPos(cx, cz);
+                level.setChunkForced(cx, cz, true);
+                forcedChunks.add(chunkPos);
+            }
+        }
+
         St03GarrisonManager.spawnInitialGarrison(level, hq, data);
 
         // Verify Commander attributes: 40 HP, +25% damage, vanilla follow_range == 12.0
@@ -169,6 +179,7 @@ public final class St03WorldgenAndGameplayGameTests {
                 e.discard();
             }
         }
+        for (var chunkPos : forcedChunks) level.setChunkForced(chunkPos.x(), chunkPos.z(), false);
         hq.cleared = true;
         data.setDirty();
 
