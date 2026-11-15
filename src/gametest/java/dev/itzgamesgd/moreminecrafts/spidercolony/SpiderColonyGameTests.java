@@ -245,4 +245,17 @@ public final class SpiderColonyGameTests {
   ctx.assertTrue(spiders.size()>=1 && spiders.size()<=2,"hazard cocoon must spawn 1-2 vanilla spiders, got "+spiders.size());
   ctx.succeed();
  }
+ @GameTest public void worldgenPlacementRulesAndLedgerPersistColony(GameTestHelper ctx) {
+  var ledger=SpiderColonyEntities.data(ctx.getLevel());
+  int rx=SpiderColonyPlacementRules.regionX(1000), rz=SpiderColonyPlacementRules.regionZ(1000);
+  int target=SpiderColonyPlacementRules.targetColoniesForRegion(ctx.getLevel().getSeed(),rx,rz);
+  ctx.assertTrue(target>=1 && target<=3,"1.5 km^2 region target must be 1..3, got "+target);
+  int radius=SpiderColonyPlacementRules.nestRadiusForSite(ctx.getLevel().getSeed(),16000,-12,16000);
+  ctx.assertTrue(radius>=128 && radius<=256,"nest radius must be 128..256, got "+radius);
+  ledger.recordColony("gt-worldgen-colony",16000,-12,16000,radius,rx,rz);
+  ctx.assertTrue(ledger.regionColonyCount(rx,rz)>=1,"region count must increment");
+  ctx.assertTrue(SpiderColonyPlacementRules.overlapsAny(16050,16050,128,ledger.recordedColonies()),"overlapping nest must be rejected");
+  ctx.assertTrue(!SpiderColonyPlacementRules.overlapsAny(16600,16600,128,ledger.recordedColonies()),"distant nest must be allowed");
+  ctx.succeed();
+ }
 }

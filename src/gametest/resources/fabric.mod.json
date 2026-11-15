@@ -139,7 +139,8 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05ArenaVisualClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryClientGameTest",
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture",
-      "dev.itzgamesgd.moreminecrafts.boss.TombGuardianClientCapture"
+      "dev.itzgamesgd.moreminecrafts.boss.TombGuardianClientCapture",
+      "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyClientCapture"
     ]
   },
   "mixins": [
