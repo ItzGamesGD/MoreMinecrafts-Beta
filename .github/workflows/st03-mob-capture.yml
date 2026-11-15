@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   capture:
@@ -54,21 +54,6 @@ jobs:
             ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --max-workers=2 2>&1 | tee build/st03-mob-capture/client.log
           ' || true
           find . -path '*/screenshots/*st03-variant-*.png' -exec cp {} build/st03-mob-capture/ \; || true
-
-      - name: Commit captures back to branch
-        if: always()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          mkdir -p docs/captures/st03
-          cp build/st03-mob-capture/*.log docs/captures/st03/ 2>/dev/null || true
-          cp build/st03-mob-capture/*.png docs/captures/st03/ 2>/dev/null || true
-          git add docs/captures/st03/
-          git status
-          if ! git diff --cached --quiet; then
-            git commit -m "docs(st03): record in-game client captures and logs [skip ci]"
-            git push origin HEAD:feat/st03-worldgen-gameplay-20261114
-          fi
 
       - name: Upload ST-03 captures and diagnostics
         if: always()
