@@ -1,9 +1,13 @@
 package dev.itzgamesgd.moreminecrafts.spidercolony;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 public final class SpiderColonyGameTests {
+ static void forceArea(ServerLevel level,net.minecraft.world.level.ChunkPos center,boolean forced) {
+  for(int dx=-1;dx<=1;dx++) for(int dz=-1;dz<=1;dz++) level.setChunkForced(center.x()+dx,center.z()+dz,forced);
+ }
  @GameTest public void motherIsSummonableAndHasApprovedHealth(GameTestHelper ctx) {
   var mother=SpiderColonyEntities.MOTHER.create(ctx.getLevel(),EntitySpawnReason.COMMAND);
   ctx.assertTrue(mother!=null && mother.getAttributeValue(Attributes.MAX_HEALTH)==60.0,"mother must instantiate with 60 maximum health");
@@ -94,7 +98,7 @@ public final class SpiderColonyGameTests {
   var level=ctx.getLevel();
   var base=ctx.absolutePos(net.minecraft.core.BlockPos.ZERO).offset(4096,0,4096);
   var chunk=net.minecraft.world.level.ChunkPos.containing(base);
-  level.setChunkForced(chunk.x(),chunk.z(),true);
+  forceArea(level,chunk,true);
   var spawn=level.getHeightmapPos(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,base);
   var phase=new java.util.concurrent.atomic.AtomicInteger();
   var motherId=new java.util.concurrent.atomic.AtomicReference<java.util.UUID>();
@@ -112,13 +116,13 @@ public final class SpiderColonyGameTests {
       baby.addTag("mm_spider_owner_"+mother.getUUID()); SpiderColonyEntities.data(level).addChild(mother.getUUID(),baby.getUUID());
       children.add(baby.getUUID()); level.addFreshEntity(baby);
      }
-     level.setChunkForced(chunk.x(),chunk.z(),false);phase.set(1);
+     forceArea(level,chunk,false);phase.set(1);
     }
     case 1 -> {
      if(level.areEntitiesLoaded(chunk.pack()))return;
      ctx.assertTrue(SpiderColonyEntities.data(level).childCount(motherId.get())==4,"unloaded juveniles must reserve all four slots");
      ctx.assertTrue(SummonPolicy.allowed(true,SpiderColonyEntities.data(level).childCount(motherId.get()))==0,"unload must not bypass cap");
-     level.setChunkForced(chunk.x(),chunk.z(),true); phase.set(2);
+     forceArea(level,chunk,true); phase.set(2);
     }
     case 2 -> {
      if(!level.areEntitiesLoaded(chunk.pack()))return;
@@ -128,7 +132,7 @@ public final class SpiderColonyGameTests {
      ctx.assertTrue(mother.getHealth()==17.0F,"mother damage must survive chunk reload");
      ctx.assertTrue(SpiderColonyEntities.data(level).childCount(motherId.get())==4,"reload must retain cap");
      for(var id:children)level.getEntity(id).discard(); mother.discard();
-     level.setChunkForced(chunk.x(),chunk.z(),false);phase.set(3);ctx.succeed();
+     forceArea(level,chunk,false);phase.set(3);ctx.succeed();
     }
     default -> { }
    }
