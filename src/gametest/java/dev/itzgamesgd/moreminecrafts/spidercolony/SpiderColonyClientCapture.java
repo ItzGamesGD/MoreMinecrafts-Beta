@@ -32,9 +32,13 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
         Properties properties = new Properties();
         properties.setProperty("online-mode", "false");
         properties.setProperty("difficulty", "easy");
-        properties.setProperty("level-seed", "42");
+        properties.setProperty("level-seed", "707");
+        properties.setProperty("level-type", "minecraft:normal");
 
-        try (TestDedicatedServerContext server = context.worldBuilder().createServer(properties);
+        try (TestDedicatedServerContext server = context.worldBuilder()
+                .setUseConsistentSettings(false)
+                .adjustSettings(st -> st.setSeed("707"))
+                .createServer(properties);
              TestDedicatedServerConnection connection = server.connect()) {
             context.waitFor(c -> c.player != null && c.level != null);
             context.runOnClient(c -> {
@@ -147,9 +151,13 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
         if (!ledger.recordedColonies().isEmpty()) {
             return ledger.recordedColonies().getFirst();
         }
+        int surfaceY = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE, 0, 0);
+        System.out.println("SPIDER_COLONY_WORLD_INFO seed=" + level.getSeed()
+                + " surfaceY0=" + surfaceY
+                + " blockAtYNeg10=" + level.getBlockState(new BlockPos(0, -10, 0)).getBlock());
         int halo = SpiderColonyDetector.CHUNK_HALO;
         int side = SpiderColonyDetector.WINDOW_SIDE_CHUNKS;
-        for (int ring = 0; ring <= 4; ring++) {
+        for (int ring = 0; ring <= 5; ring++) {
             for (int rx = -ring; rx <= ring; rx++) {
                 for (int rz = -ring; rz <= ring; rz++) {
                     if (Math.abs(rx) != ring && Math.abs(rz) != ring) continue;
