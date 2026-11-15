@@ -129,7 +129,7 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
 
             // 3: Colony overview (inside natural cavern)
             BlockPos overviewTarget = new BlockPos((int) motherPos[0], (int) motherPos[1] + 1, (int) motherPos[2]);
-            lookAtFromOpenAir(server, connection, context, overviewTarget, 11.0, 4.5, -0.7, 0.7);
+            lookAtFromOpenAir(server, connection, context, overviewTarget, 9.0, 2.5, -0.7, 0.7);
             takeShot(context, "spider-colony-03-colony-overview");
 
             // 4: Egg sac close-up
@@ -201,20 +201,22 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
             double bestY = target.getY() + 0.5 + dyOffset;
             double bestZ = target.getZ() + 0.5 + prefDz * 2.5;
 
+            double[] dyTrials = {dyOffset, dyOffset - 1.2, dyOffset - 2.0, 0.0};
             outer:
-            for (double d = dist; d >= 2.0; d -= 1.0) {
-                for (double[] dir : dirs) {
-                    double len = Math.hypot(dir[0], dir[1]);
-                    if (len < 1e-6) continue;
-                    double cx = target.getX() + 0.5 + (dir[0] / len) * d;
-                    double cy = target.getY() + 0.5 + dyOffset;
-                    double cz = target.getZ() + 0.5 + (dir[1] / len) * d;
-                    BlockPos cp = BlockPos.containing(cx, cy, cz);
-                    if (level.getBlockState(cp).isAir() && level.getBlockState(cp.above()).isAir()) {
-                        bestX = cx;
-                        bestY = cy;
-                        bestZ = cz;
-                        break outer;
+            for (double dyTry : dyTrials) {
+                for (double d = dist; d >= 2.0; d -= 0.75) {
+                    for (double[] dir : dirs) {
+                        double len = Math.hypot(dir[0], dir[1]);
+                        if (len < 1e-6) continue;
+                        double cx = target.getX() + 0.5 + (dir[0] / len) * d;
+                        double cy = target.getY() + 0.5 + dyTry;
+                        double cz = target.getZ() + 0.5 + (dir[1] / len) * d;
+                        if (isOpenCameraEye(level, cx, cy + 1.62, cz)) {
+                            bestX = cx;
+                            bestY = cy;
+                            bestZ = cz;
+                            break outer;
+                        }
                     }
                 }
             }
@@ -236,6 +238,19 @@ public final class SpiderColonyClientCapture implements FabricClientGameTest {
         });
         connection.waitForClientboundPackets();
         context.waitTicks(12);
+    }
+
+    private static boolean isOpenCameraEye(ServerLevel level, double ex, double ey, double ez) {
+        for (double dx : new double[]{-0.45, 0.0, 0.45}) {
+            for (double dy : new double[]{-0.45, 0.0, 0.45}) {
+                for (double dz : new double[]{-0.45, 0.0, 0.45}) {
+                    if (!level.getBlockState(BlockPos.containing(ex + dx, ey + dy, ez + dz)).isAir()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private static void takeShot(ClientGameTestContext context, String name) {
