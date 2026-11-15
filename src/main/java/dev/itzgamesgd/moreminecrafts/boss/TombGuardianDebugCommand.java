@@ -36,9 +36,11 @@ final class TombGuardianDebugCommand {
                                 .then(Commands.argument("anchor", BlockPosArgument.blockPos())
                                         .executes(TombGuardianDebugCommand::end)))
                         .then(Commands.literal("attack")
-                                .then(Commands.literal("melee").executes(c -> attack(c, TombGuardianCombat.Attack.MELEE)))
+                                .then(Commands.literal("sweep").executes(c -> attack(c, TombGuardianCombat.Attack.SWEEP)))
                                 .then(Commands.literal("slam").executes(c -> attack(c, TombGuardianCombat.Attack.SLAM)))
-                                .then(Commands.literal("statue").executes(c -> attack(c, TombGuardianCombat.Attack.STATUE))))));
+                                .then(Commands.literal("spikes").executes(c -> attack(c, TombGuardianCombat.Attack.SPIKES)))
+                                .then(Commands.literal("summon").executes(c -> attack(c, TombGuardianCombat.Attack.SUMMON)))
+                                .then(Commands.literal("ultimate").executes(c -> attack(c, TombGuardianCombat.Attack.ULTIMATE))))));
     }
 
     /** Unbound guardian for combat checks; it belongs to no tomb and completes nothing. */

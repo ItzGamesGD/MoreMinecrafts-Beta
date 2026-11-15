@@ -17,7 +17,7 @@ public final class TombGuardianEntities {
     public static final EntityType<TombGuardian> TOMB_GUARDIAN = register("tomb_guardian",
             EntityType.Builder.<TombGuardian>of(TombGuardian::new, MobCategory.MONSTER)
                     .sized(TombGuardianTuning.WIDTH, TombGuardianTuning.HEIGHT)
-                    .eyeHeight(TombGuardianTuning.HEIGHT * 0.85F)
+                    .eyeHeight(TombGuardianTuning.EYE_HEIGHT)
                     .clientTrackingRange(10)
                     .notInPeaceful());
 
@@ -35,7 +35,7 @@ public final class TombGuardianEntities {
                     .noSave()
                     .noSummon()
                     .fireImmune()
-                    .sized((float) TombStatueShape.WIDTH, (float) TombGuardianTuning.STATUE_HEIGHT)
+                    .sized((float) TombStatueShape.WIDTH, (float) TombGuardianTuning.SPIKE_HEIGHT)
                     .clientTrackingRange(10)
                     .updateInterval(1));
 

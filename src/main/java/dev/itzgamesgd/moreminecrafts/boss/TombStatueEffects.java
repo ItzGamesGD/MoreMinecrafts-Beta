@@ -16,14 +16,23 @@ final class TombStatueEffects {
 
     private TombStatueEffects() {}
 
-    /** Mandatory magic-circle tell at the fixed eruption site; visible for the whole warning. */
+    /** Gold magic-circle tell at the fixed Tomb Spikes site; visible for the whole warning. */
     static void spawnCircle(ServerLevel level, Vec3 point, int warningTicks) {
-        TombVfxDisplay.circle(level, point, warningTicks + 1);
+        TombVfxDisplay.magicCircle(level, point, warningTicks + 1);
+    }
+
+    /**
+     * Red floor telegraph of a direct attack (spec 4.2): a round zone of the given radius is tinted light red and a dark
+     * red gauge fills it in proportion to the windup; the hit lands when the gauge is full.
+     */
+    static void spawnRedZone(ServerLevel level, Vec3 centre, double radius, int windupTicks) {
+        TombVfxDisplay.redArea(level, centre, radius, windupTicks + 1);
+        TombVfxDisplay.redFill(level, centre, radius, windupTicks + 1);
     }
 
     /** Glyph-ring particle accent drawn along the circle each tick (the display carries the readable shape). */
     static void circleParticles(ServerLevel level, Vec3 point, int tick) {
-        double radius = TombGuardianTuning.STATUE_RADIUS;
+        double radius = TombGuardianTuning.SPIKE_RADIUS;
         int points = 12;
         for (int i = 0; i < points; i++) {
             double angle = Math.PI * 2.0D * i / points + tick * 0.08D;

@@ -19,9 +19,11 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D4TickBench",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D6PrepareBench",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D8MapTradeBench",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SpiderColonyProbe"
     ],
     "fabric-gametest": [
+      "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyGameTests",
       "dev.itzgamesgd.moreminecrafts.skytower.SkyTowerGameTests",
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
       "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",
@@ -137,7 +139,9 @@
       "dev.itzgamesgd.moreminecrafts.fishing.FishingRodCloseClientGameTest",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.stage0f.St05ArenaVisualClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryClientGameTest",
-      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture"
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture",
+      "dev.itzgamesgd.moreminecrafts.boss.TombGuardianClientCapture",
+      "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyClientCapture"
     ]
   },
   "mixins": [

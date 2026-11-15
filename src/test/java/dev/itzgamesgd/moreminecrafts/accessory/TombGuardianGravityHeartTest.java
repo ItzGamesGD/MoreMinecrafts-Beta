@@ -33,11 +33,12 @@ class TombGuardianGravityHeartTest {
     }
 
     @Test void independentFromAncientHeartPoolWhichStaysUnchanged() throws Exception {
-        // The separate pool carries its own condition, so both pools can succeed on the same death.
+        // The separate pool is added in code, so both pools can succeed on the same death. The Ancient Heart pool is
+        // 100% x1 per the 2026-11-14 spec (P1-BUG-04), so it carries no chance condition.
         String json = read("src/main/resources/data/moreminecrafts/loot_table/entities/tomb_guardian.json");
         assertFalse(json.contains("heart_of_gravity"), "gravity pool is not merged into the Ancient Heart pool");
         assertTrue(json.contains("moreminecrafts:ancient_heart"));
-        assertTrue(json.contains("0.5"));
+        assertFalse(json.contains("random_chance"), "Ancient Heart core drop is 100%");
     }
 
     @Test void registeredOnceAndOtherRulesUntouched() throws Exception {
