@@ -101,8 +101,8 @@ public final class SkyMobSpawnGameTests {
         level.setBlock(spawnerPos, Blocks.TRIAL_SPAWNER.defaultBlockState(), 3);
         var spawner = (TrialSpawnerBlockEntity) level.getBlockEntity(spawnerPos);
         ctx.assertTrue(SkyTowerTrialSpawners.configure(level, spawner, 0), "combo A configured");
-        ctx.assertTrue(spawner.getTrialSpawner().normalConfig().spawnPotentialsDefinition().unwrap().size() == 3,
-                "combo A potentials: wraith + medium slime + large slime");
+        ctx.assertTrue(spawner.getTrialSpawner().normalConfig().spawnPotentialsDefinition().unwrap().size() == 4,
+                "combo A potentials: wraith + medium slime + large slime + azure slime");
         var profile = new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "sky-combo");
         var cookie = net.minecraft.server.network.CommonListenerCookie.createInitial(profile, false);
         var player = new net.minecraft.server.level.ServerPlayer(level.getServer(), level, profile, cookie.clientInformation());
@@ -113,7 +113,7 @@ public final class SkyMobSpawnGameTests {
         BlockPos stand = ctx.absolutePos(new BlockPos(1, 2, 1));
         player.setPos(stand.getX() + .5, stand.getY(), stand.getZ() + .5);
         AABB box = new AABB(spawnerPos).inflate(8);
-        Set<EntityType<?>> allowed = Set.of(SkyNormalMobs.CLOUD_WRAITH, SkyNormalMobs.CLOUD_SLIME);
+        Set<EntityType<?>> allowed = Set.of(SkyNormalMobs.CLOUD_WRAITH, SkyNormalMobs.CLOUD_SLIME, SkyVariantMobs.AZURE_SLIME);
         ctx.onEachTick(() -> {
             var mobs = level.getEntitiesOfClass(Mob.class, box, m -> m.isAlive());
             for (Mob mob : mobs) {

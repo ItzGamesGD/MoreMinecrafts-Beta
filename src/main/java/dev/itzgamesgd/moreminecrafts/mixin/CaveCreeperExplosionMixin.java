@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
 import dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog;
+import dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobs;
 import net.minecraft.world.entity.monster.Creeper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,6 +13,9 @@ public abstract class CaveCreeperExplosionMixin {
             target = "Lnet/minecraft/server/level/ServerLevel;explode(Lnet/minecraft/world/entity/Entity;DDDFLnet/minecraft/world/level/Level$ExplosionInteraction;)V"),
             index = 4)
     private float moreminecrafts$reduceCaveCreeperBlast(float radius) {
-        return ((Creeper) (Object) this).getType() == CustomMobCatalog.CAVE_CREEPER ? radius * 0.60F : radius;
+        var type = ((Creeper) (Object) this).getType();
+        if (type == CustomMobCatalog.CAVE_CREEPER) return radius * 0.60F;
+        if (type == SkyVariantMobs.ROCK_CREEPER) return radius * SkyVariantMobs.ROCK_CREEPER_EXPLOSION_MULTIPLIER;
+        return radius;
     }
 }

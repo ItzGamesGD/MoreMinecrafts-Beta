@@ -272,6 +272,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
         EntityRendererRegistry.register(CustomMobCatalog.PILLAGER_DRILLMASTER,
                 context -> CustomMobRenderers.pillager(context, "pillager_drillmaster"));
         SkyMobRenderers.register();
+        SkyVariantRenderers.register();
         PyramidMobRenderers.register();
     }
 
