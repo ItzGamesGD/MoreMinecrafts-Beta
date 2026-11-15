@@ -84,6 +84,7 @@ def build_style_islands(style):
 
 # SKY-MOB §15.6 P1/P2 (owner-approved 2026-11-13): sky-island-only monster list, applied to saved piece boxes.
 # Sky mobs: relative weights 24/18/20/24/14, group sizes 1-2 / 1; Q31 vanilla zombie/skeleton/spider 10 each, size 4.
+# Group B variants are added below (weight 10, size 1-2).
 def _count(lo, hi):
     return lo if lo == hi else {"type": "minecraft:uniform", "min_inclusive": lo, "max_inclusive": hi}
 
@@ -91,6 +92,12 @@ def _count(lo, hi):
 SKY_MONSTER_SPAWNS = [(f"{NS}:cloud_wraith", 24, 1, 2), (f"{NS}:skyguard_archer", 18, 1, 2), (f"{NS}:crystal_bug", 20, 1, 1),
                       (f"{NS}:cloud_slime", 24, 1, 2), (f"{NS}:fallen_sentinel", 14, 1, 1), ("minecraft:zombie", 10, 4, 4),
                       ("minecraft:skeleton", 10, 4, 4), ("minecraft:spider", 10, 4, 4)]
+# Group B sky-island vanilla variants (2026-11-14 owner decision): weight 10 on every sky-island list, group size 1-2
+# (PROVISIONAL). Inserted after the group C entries so the JSON order matches the committed structures.
+GROUP_B_SPAWNS = [(f"{NS}:weathered_zombie", 10, 1, 2), (f"{NS}:sky_archer", 10, 1, 2), (f"{NS}:rock_creeper", 10, 1, 2),
+                  (f"{NS}:pale_enderman", 10, 1, 2), (f"{NS}:azure_slime", 10, 1, 2)]
+_GROUP_C_COUNT = 5
+SKY_MONSTER_SPAWNS = SKY_MONSTER_SPAWNS[:_GROUP_C_COUNT] + GROUP_B_SPAWNS + SKY_MONSTER_SPAWNS[_GROUP_C_COUNT:]
 SPAWN_OVERRIDES = {"monster": {"bounding_box": "piece", "spawns": [
     {"type": t, "count": _count(lo, hi), "weight": w} for t, w, lo, hi in SKY_MONSTER_SPAWNS]}}
 

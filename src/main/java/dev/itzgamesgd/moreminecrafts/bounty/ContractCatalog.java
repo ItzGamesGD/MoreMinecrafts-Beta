@@ -66,6 +66,9 @@ public final class ContractCatalog {
             // SKY-MOB P1: registered but withheld from every contract pool until the owner decides their roster tier.
             "moreminecrafts:cloud_wraith", "moreminecrafts:skyguard_archer", "moreminecrafts:crystal_bug",
             "moreminecrafts:cloud_slime", "moreminecrafts:fallen_sentinel",
+            // Group B sky-island variants: same treatment until the owner decides their roster tier.
+            "moreminecrafts:weathered_zombie", "moreminecrafts:sky_archer", "moreminecrafts:rock_creeper",
+            "moreminecrafts:pale_enderman", "moreminecrafts:azure_slime",
             // ST-01 pyramid variants: registered but withheld from every contract pool; placement is not designed yet.
             "moreminecrafts:buried_mummy", "moreminecrafts:crypt_archer", "moreminecrafts:funeral_servant",
             "moreminecrafts:gilded_mummy");

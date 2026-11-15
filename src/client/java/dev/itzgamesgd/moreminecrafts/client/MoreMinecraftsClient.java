@@ -264,6 +264,7 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
         EntityRendererRegistry.register(CustomMobCatalog.CAVE_CREEPER,
                 context -> CustomMobRenderers.creeper(context, "cave_creeper"));
         SkyMobRenderers.register();
+        SkyVariantRenderers.register();
         PyramidMobRenderers.register();
     }
 
