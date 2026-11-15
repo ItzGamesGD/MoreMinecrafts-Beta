@@ -9,6 +9,7 @@ on:
       - main
       - "stage-*/**"
       - codex/pr75-research-node-tree-impl
+      - claude/pyramid-measure-20261115
   pull_request:
 
 jobs:

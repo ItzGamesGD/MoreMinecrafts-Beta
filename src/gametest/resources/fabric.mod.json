@@ -42,6 +42,7 @@
       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalChestGameTests",
+      "dev.itzgamesgd.moreminecrafts.pyramid.St01RoyalHallSpawnGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssemblyGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01NaturalPieceGameTests",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01FastTerrainGameTests",
