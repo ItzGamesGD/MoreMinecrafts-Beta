@@ -242,10 +242,10 @@ public final class TombGuardianGameTests {
         ctx.runAfterDelay(4, () -> {
             List<TombVfxDisplay> circles = level.getEntitiesOfClass(TombVfxDisplay.class, new AABB(BlockPos.containing(marked)).inflate(1.0D),
                     display -> !display.isStatue() && !display.isFill());
-            ctx.assertTrue(circles.size() == 1, "exactly one red floor area marks the site during the warning");
+            ctx.assertTrue(circles.size() == 1, "exactly one gold magic circle marks the site during the warning");
             List<TombVfxDisplay> gauges = level.getEntitiesOfClass(TombVfxDisplay.class, new AABB(BlockPos.containing(marked)).inflate(1.0D),
                     TombVfxDisplay::isFill);
-            ctx.assertTrue(gauges.size() == 1, "exactly one dark red charge gauge fills the area during the warning");
+            ctx.assertTrue(gauges.isEmpty(), "tomb spikes use the gold circle only: no red charge gauge");
             // Side-step: the marked site must not follow the moving target.
             dodger.teleportTo(dodger.getX(), dodger.getY(), dodger.getZ() + 3.0D);
         });
@@ -537,6 +537,76 @@ public final class TombGuardianGameTests {
         });
         ctx.runAfterDelay(TombGuardianTuning.SUMMON_WINDUP_TICKS * 2 + 6, () -> {
             ctx.assertTrue(guardian.aliveSummons(level) == 3, "the living total stays at 3, got " + guardian.aliveSummons(level));
+            ctx.succeed();
+        });
+    }
+
+
+    // Red telegraph (spec 4.2) is used by the direct attacks: sweep, ground slam and the ultimate. Spikes keep the gold circle.
+
+    private static long gauges(ServerLevel level, Vec3 centre) {
+        return displaysAt(level, centre).stream().filter(TombVfxDisplay::isFill).count();
+    }
+
+    private static long areas(ServerLevel level, Vec3 centre) {
+        return displaysAt(level, centre).stream().filter(d -> !d.isFill() && !d.isStatue()).count();
+    }
+
+    @GameTest(maxTicks = 80)
+    public void sweepShowsARedFanAreaAndChargeGaugeThatEndWithTheWindup(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        floor(ctx, 4);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Villager target = dummy(ctx, new Vec3(2.5D, 1.0D, 4.5D));
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SWEEP, target), "sweep starts");
+        guardian.setTarget(null);
+        Vec3 where = guardian.position();
+        ctx.runAfterDelay(4, () -> {
+            ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1, "one red fan area and one red gauge during the windup");
+        });
+        ctx.runAfterDelay(TombGuardianTuning.SWEEP_WINDUP_TICKS + 6, () -> {
+            ctx.assertTrue(areas(level, where) == 0 && gauges(level, where) == 0, "the fan telegraph is gone after the strike");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 100)
+    public void groundSlamShowsARedZoneOfTheSlamRadius(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        floor(ctx, 10);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Villager target = dummy(ctx, new Vec3(2.5D, 1.0D, 5.5D));
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SLAM, target), "slam starts");
+        guardian.setTarget(null);
+        Vec3 where = guardian.position();
+        ctx.runAfterDelay(4, () -> {
+            ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1, "one red zone and one red gauge during the windup");
+        });
+        ctx.runAfterDelay(TombGuardianTuning.SLAM_WINDUP_TICKS + 4, () -> {
+            ctx.assertTrue(areas(level, where) == 0 && gauges(level, where) == 0, "the zone is gone once the slam lands");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest(maxTicks = 200)
+    public void ultimateShowsOneRedZoneBeforeEachOfItsThreeStrikes(GameTestHelper ctx) {
+        ServerLevel level = ctx.getLevel();
+        floor(ctx, 14);
+        TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
+        Villager target = dummy(ctx, new Vec3(2.5D, 1.0D, 8.5D));
+        ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.ULTIMATE, target), "ultimate starts");
+        guardian.setTarget(null);
+        Vec3 where = guardian.position();
+        int interval = TombGuardianTuning.ULTIMATE_HIT_INTERVAL_TICKS;
+        int windup = TombGuardianTuning.ULTIMATE_WINDUP_TICKS;
+        ctx.runAfterDelay(4, () -> ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1,
+                "a red zone and gauge charge for strike 1"));
+        ctx.runAfterDelay(windup + 4, () -> ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1,
+                "strike 2 gets its own red zone and gauge"));
+        ctx.runAfterDelay(windup + interval + 4, () -> ctx.assertTrue(areas(level, where) == 1 && gauges(level, where) == 1,
+                "strike 3 gets its own red zone and gauge"));
+        ctx.runAfterDelay(windup + 2 * interval + 6, () -> {
+            ctx.assertTrue(areas(level, where) == 0 && gauges(level, where) == 0, "no red zone remains after the third strike");
             ctx.succeed();
         });
     }

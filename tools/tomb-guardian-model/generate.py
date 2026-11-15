@@ -7,6 +7,7 @@ Out:  src/client/java/dev/itzgamesgd/moreminecrafts/client/boss/TombGuardianGeom
       src/main/resources/assets/moreminecrafts/textures/entity/tomb_guardian/tomb_guardian_eyes_enraged.png
       src/main/resources/assets/moreminecrafts/textures/item/tomb_telegraph_area.png                      (floor tint)
       src/main/resources/assets/moreminecrafts/textures/item/tomb_telegraph_fill.png                      (charge gauge)
+      src/main/resources/assets/moreminecrafts/textures/item/tomb_telegraph_fan_area.png / _fan_fill.png  (sweep fan)
 
 All texels are painted procedurally from their 3D position; no vanilla pixels are read or copied. The emissive
 textures carry the cyan (Soul) plus amber glow of the eye sockets and chest cracks; the enraged variant widens
@@ -522,7 +523,9 @@ def _same_face(a, b):
 
 # ---------------------------------------------------------------- telegraph textures
 
-def telegraph(fill: bool) -> Image.Image:
+def telegraph(fill: bool, fan: bool = False) -> Image.Image:
+    """Red floor telegraph plate: a round zone, or (fan) the 120 degree sweep wedge with its apex at the plate centre
+    pointing to the top of the image."""
     n = 64
     img = Image.new("RGBA", (n, n), (0, 0, 0, 0))
     px = img.load()
@@ -531,6 +534,8 @@ def telegraph(fill: bool) -> Image.Image:
         for x in range(n):
             r = math.hypot(x - c, y - c)
             if r > 31.5:
+                continue
+            if fan and abs(math.degrees(math.atan2(x - c, c - y))) > 60.0:
                 continue
             if fill:
                 px[x, y] = (178, 14, 14, 235) if r < 30 else (120, 8, 8, 255)
@@ -607,6 +612,8 @@ def main():
     glow_enraged.save(TEX_DIR / "tomb_guardian_eyes_enraged.png")
     telegraph(False).save(ITEM_DIR / "tomb_telegraph_area.png")
     telegraph(True).save(ITEM_DIR / "tomb_telegraph_fill.png")
+    telegraph(False, fan=True).save(ITEM_DIR / "tomb_telegraph_fan_area.png")
+    telegraph(True, fan=True).save(ITEM_DIR / "tomb_telegraph_fan_fill.png")
     JAVA_OUT.write_text(java_geometry())
     if preview:
         for name, yaw in (("front", 0), ("three_quarter", 35), ("back", 180), ("side", 90)):

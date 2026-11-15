@@ -112,26 +112,32 @@ public final class TombGuardianClientCapture implements FabricClientGameTest {
                         "tomb-guardian-%02d-%s".formatted(index++, shot.name())));
             }
 
-            // Spike floor telegraph: start the real attack against a villager and shoot the charge gauge twice.
-            server.runOnServer(s -> s.getPlayerList().getPlayers().getFirst().teleportTo(s.overworld(), SPIKE_X + 0.5, Y + 8.0,
-                    8.0, Set.of(), 180, 52, true));
-            connection.waitForClientboundPackets();
-            for (int round = 0; round < 2; round++) {
-                final int wait = round == 0 ? 7 : 14;
+            // Floor telegraphs, each from the real attack run against a villager: gold circle for spikes, red area plus
+            // charge gauge for the direct attacks (sweep fan, ground slam zone, ultimate zone). Clearing the target
+            // right after the start keeps the AI from chaining other patterns while the shot is taken.
+            record Tell(String name, TombGuardianCombat.Attack attack, int ticks, double camY, double camZ, float pitch) {}
+            List<Tell> tells = List.of(
+                    new Tell("telegraph-spikes-gold-circle", TombGuardianCombat.Attack.SPIKES, 10, Y + 8.0, 8.0, 52),
+                    new Tell("telegraph-sweep-red-fan", TombGuardianCombat.Attack.SWEEP, 11, Y + 8.5, 8.5, 60),
+                    new Tell("telegraph-slam-red-zone", TombGuardianCombat.Attack.SLAM, 15, Y + 9.0, 14.0, 40),
+                    new Tell("telegraph-ultimate-red-zone", TombGuardianCombat.Attack.ULTIMATE, 24, Y + 9.0, 14.0, 40));
+            for (Tell tell : tells) {
+                server.runOnServer(s -> s.getPlayerList().getPlayers().getFirst().teleportTo(s.overworld(), SPIKE_X + 0.5,
+                        tell.camY(), tell.camZ(), Set.of(), 180, tell.pitch(), true));
+                connection.waitForClientboundPackets();
                 server.runOnServer(s -> {
                     ServerLevel level = s.overworld();
                     TombGuardian guardian = level.getEntities(TombGuardianEntities.TOMB_GUARDIAN,
                             e -> Math.abs(e.getX() - SPIKE_X) < 0.1).getFirst();
                     Villager villager = level.getEntities(EntityTypes.VILLAGER, e -> true).getFirst();
-                    guardian.forceAttack(level, TombGuardianCombat.Attack.SPIKES, villager);
-                    // The attack keeps running without a target; clearing it stops the AI from chaining other patterns.
+                    guardian.forceAttack(level, tell.attack(), villager);
                     guardian.setTarget(null);
                 });
-                context.waitTicks(wait);
+                context.waitTicks(tell.ticks());
                 context.runOnClient(c -> c.gui.toastManager().clear());
                 System.out.println("TOMB_GUARDIAN_SCREENSHOT " + context.takeScreenshot(
-                        "tomb-guardian-%02d-telegraph-charge-%d".formatted(index++, round == 0 ? 35 : 70)));
-                context.waitTicks(40);
+                        "tomb-guardian-%02d-%s".formatted(index++, tell.name())));
+                context.waitTicks(130); // let the attack and its displays finish before the next one
             }
             System.out.println("TOMB_GUARDIAN_CAPTURE_COMPLETE " + index);
         }

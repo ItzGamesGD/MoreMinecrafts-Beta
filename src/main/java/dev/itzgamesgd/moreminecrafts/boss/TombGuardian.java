@@ -23,6 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
@@ -110,6 +111,9 @@ public class TombGuardian extends Monster {
     @Nullable private Vec3 spikePoint;
     @Nullable private UUID attackTarget;
     private final List<Wave> waves = new ArrayList<>();
+    /** Red fan (area and gauge) shown during the sweep windup; re-aimed as the guardian turns. */
+    private final List<TombVfxDisplay> sweepFan = new ArrayList<>();
+    private float fanYaw;
     private final Set<UUID> summons = new HashSet<>();
     private int ultimateStrikes;
     private long lastTrackedChunk = Long.MIN_VALUE;
@@ -429,11 +433,17 @@ public class TombGuardian extends Monster {
             case SWEEP -> {
                 attackTarget = target.getUUID();
                 setReadyTick(next, tickCount + SWEEP_COOLDOWN_TICKS);
+                fanYaw = getYRot();
+                for (TombVfxDisplay fan : new TombVfxDisplay[] {
+                        TombVfxDisplay.fanArea(level, position(), fanYaw, SWEEP_WINDUP_TICKS + 1),
+                        TombVfxDisplay.fanFill(level, position(), fanYaw, SWEEP_WINDUP_TICKS + 1)})
+                    if (fan != null) sweepFan.add(fan);
                 level.broadcastEntityEvent(this, EVENT_SWEEP_WINDUP);
                 level.playSound(null, getX(), getY(), getZ(), SoundEvents.IRON_GOLEM_ATTACK, SoundSource.HOSTILE, 1.5F, 0.5F);
             }
             case SLAM -> {
                 setReadyTick(next, tickCount + SLAM_COOLDOWN_TICKS);
+                TombStatueEffects.spawnRedZone(level, position(), WAVE_RADIUS, SLAM_WINDUP_TICKS);
                 level.broadcastEntityEvent(this, EVENT_SLAM_WINDUP);
                 level.playSound(null, getX(), getY(), getZ(), SoundEvents.WARDEN_SONIC_CHARGE, SoundSource.HOSTILE, 2.0F, 0.6F);
             }
@@ -454,6 +464,7 @@ public class TombGuardian extends Monster {
             case ULTIMATE -> {
                 ultimateStrikes = 0;
                 setReadyTick(next, tickCount + ULTIMATE_COOLDOWN_TICKS);
+                TombStatueEffects.spawnRedZone(level, position(), TombGuardianCombat.ultimateRadius(0), ULTIMATE_WINDUP_TICKS);
                 level.broadcastEntityEvent(this, EVENT_ULTIMATE_WINDUP);
                 level.playSound(null, getX(), getY(), getZ(), SoundEvents.WARDEN_ROAR, SoundSource.HOSTILE, 3.0F, 0.5F);
             }
@@ -491,7 +502,10 @@ public class TombGuardian extends Monster {
             if (Math.abs(dx) + Math.abs(dz) > 1.0E-6D) setYRot((float) (Math.toDegrees(Math.atan2(-dx, dz))));
         }
         if (attackTicks < SWEEP_WINDUP_TICKS) {
-            TombStatueEffects.sweepTell(level, position(), getYRot(), attackTicks / (double) SWEEP_WINDUP_TICKS);
+            if (Math.abs(Mth.wrapDegrees(getYRot() - fanYaw)) > 1.0F) {
+                fanYaw = getYRot();
+                for (TombVfxDisplay fan : sweepFan) fan.turnTo(fanYaw);
+            }
             return;
         }
         level.broadcastEntityEvent(this, EVENT_STRIKE);
@@ -509,10 +523,7 @@ public class TombGuardian extends Monster {
     }
 
     private void tickSlam(ServerLevel level) {
-        if (attackTicks < SLAM_WINDUP_TICKS) {
-            TombStatueEffects.directStrikeTell(level, position(), attackTicks / (double) SLAM_WINDUP_TICKS);
-            return;
-        }
+        if (attackTicks < SLAM_WINDUP_TICKS) return;
         Vec3 origin = position();
         if (attackTicks == SLAM_WINDUP_TICKS) {
             level.broadcastEntityEvent(this, EVENT_STRIKE);
@@ -566,10 +577,7 @@ public class TombGuardian extends Monster {
     /** Three consecutive strikes: 8 m, 12 m, then the full-range strike plus one spike column under the nearest target. */
     private void tickUltimate(ServerLevel level) {
         int windupEnd = ULTIMATE_WINDUP_TICKS;
-        if (attackTicks < windupEnd) {
-            TombStatueEffects.directStrikeTell(level, position(), attackTicks / (double) windupEnd);
-            return;
-        }
+        if (attackTicks < windupEnd) return;
         int sinceStart = attackTicks - windupEnd;
         if (ultimateStrikes < 3 && sinceStart == ultimateStrikes * ULTIMATE_HIT_INTERVAL_TICKS) {
             Vec3 origin = position();
@@ -583,6 +591,11 @@ public class TombGuardian extends Monster {
                 if (target != null && target.isAlive()) resolveSpikes(level, floorBelow(level, target.position()));
             }
             ultimateStrikes++;
+            // The next strike gets its own red zone, charging over the interval until it lands (the third strike
+            // reuses the full-range radius).
+            if (ultimateStrikes < 3)
+                TombStatueEffects.spawnRedZone(level, origin, TombGuardianCombat.ultimateRadius(ultimateStrikes),
+                        ULTIMATE_HIT_INTERVAL_TICKS);
         }
         if (ultimateStrikes >= 3 && sinceStart >= 2 * ULTIMATE_HIT_INTERVAL_TICKS) finishAttack();
     }
@@ -662,6 +675,8 @@ public class TombGuardian extends Monster {
     }
 
     private void finishAttack() {
+        for (TombVfxDisplay fan : sweepFan) fan.discard();
+        sweepFan.clear();
         attack = Attack.NONE;
         attackTicks = 0;
         attackTarget = null;

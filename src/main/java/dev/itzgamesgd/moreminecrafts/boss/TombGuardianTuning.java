@@ -41,8 +41,6 @@ public final class TombGuardianTuning {
     public static final double SWEEP_ARC_DEGREES = 120.0D;
     public static final double SWEEP_VERTICAL_TOLERANCE = 1.5D;
     public static final float SWEEP_DAMAGE = 9.0F;
-    /** HOW: radius of the red floor telegraph for direct-strike zones (spec 4.2 gives no number for the centre). */
-    public static final double DIRECT_STRIKE_TELEGRAPH_RADIUS = WIDTH / 2.0D;
 
     // Pattern 1: Ground Slam (spec 4.1).
     public static final int SLAM_WINDUP_TICKS = 26;
