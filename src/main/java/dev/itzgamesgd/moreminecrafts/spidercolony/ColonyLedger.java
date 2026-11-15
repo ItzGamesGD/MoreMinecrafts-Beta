@@ -29,4 +29,50 @@ public final class ColonyLedger extends SavedData {
         String key="nest/"+nest;
         if(mother.toString().equals(entries.get(key))) {entries.put(key,"defeated");setDirty();}
     }
+
+    public record RecordedColony(String nestId, int x, int y, int z, int nestRadius, int regionX, int regionZ) {}
+
+    public void recordColony(String nestId, int x, int y, int z, int nestRadius, int regionX, int regionZ) {
+        entries.put("colony/" + nestId, x + "," + y + "," + z + "," + nestRadius + "," + regionX + "," + regionZ);
+        String rKey = "region/" + regionX + "," + regionZ;
+        int prev = regionColonyCount(regionX, regionZ);
+        entries.put(rKey, Integer.toString(prev + 1));
+        setDirty();
+    }
+
+    public int regionColonyCount(int regionX, int regionZ) {
+        String raw = entries.get("region/" + regionX + "," + regionZ);
+        if (raw == null) return 0;
+        try { return Integer.parseInt(raw); } catch (NumberFormatException ignored) { return 0; }
+    }
+
+    public List<RecordedColony> recordedColonies() {
+        List<RecordedColony> out = new ArrayList<>();
+        for (var e : entries.entrySet()) {
+            if (!e.getKey().startsWith("colony/")) continue;
+            String nestId = e.getKey().substring("colony/".length());
+            String[] parts = e.getValue().split(",");
+            if (parts.length != 6) continue;
+            try {
+                out.add(new RecordedColony(
+                        nestId,
+                        Integer.parseInt(parts[0]),
+                        Integer.parseInt(parts[1]),
+                        Integer.parseInt(parts[2]),
+                        Integer.parseInt(parts[3]),
+                        Integer.parseInt(parts[4]),
+                        Integer.parseInt(parts[5])));
+            } catch (NumberFormatException ignored) {}
+        }
+        return out;
+    }
+
+    public boolean isWindowEvaluated(int wx, int wz) {
+        return entries.containsKey("win/" + wx + "," + wz);
+    }
+
+    public void markWindowEvaluated(int wx, int wz) {
+        entries.put("win/" + wx + "," + wz, "1");
+        setDirty();
+    }
 }

@@ -229,6 +229,21 @@ public final class SpiderColonyGameTests {
   ctx.assertTrue(spiders.isEmpty(),"reward cocoon must not spawn spiders");
   ctx.succeed();
  }
+ @GameTest public void cocoonSpawnVolumeClearsIntactCocoon(GameTestHelper ctx) {
+  var level=ctx.getLevel(); var pos=ctx.absolutePos(new net.minecraft.core.BlockPos(3,4,3));
+  level.setBlock(pos.above(),net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(),3);
+  level.setBlock(pos,dev.itzgamesgd.moreminecrafts.registry.ModBlocks.HANGING_COCOON.defaultBlockState().setValue(HangingCocoonBlock.REWARD,false),3);
+  var spider=net.minecraft.world.entity.EntityTypes.SPIDER.create(level,EntitySpawnReason.TRIGGERED);
+  spider.setPos(pos.getX()+0.5,pos.getY()-0.5,pos.getZ()+0.5);
+  boolean occupied=level.noCollision(spider);
+  ctx.assertTrue(!occupied,"old spawn height collides with the intact cocoon");
+  for(int x=-10;x<=10;x++) for(int z=-10;z<=10;z++) {
+   spider.setPos(pos.getX()+0.5+x/10.0,pos.getY()-spider.getBbHeight(),pos.getZ()+0.5+z/10.0);
+   ctx.assertTrue(level.noCollision(spider),"spawn volume below the cocoon must be clear at "+x+","+z);
+  }
+  System.out.println("COCOON_SPAWN_VOLUME old_collides=true lower_candidates_clear=441");
+  spider.discard(); ctx.succeed();
+ }
  @GameTest public void hangingCocoonHazardSpawnsVanillaSpiders(GameTestHelper ctx) {
   var level=ctx.getLevel();
   var ceiling=new net.minecraft.core.BlockPos(3,5,3);
@@ -243,6 +258,19 @@ public final class SpiderColonyGameTests {
   var vanillaSpider=net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("spider"));
   var spiders=level.getEntitiesOfClass(net.minecraft.world.entity.monster.spider.Spider.class,new net.minecraft.world.phys.AABB(absPos).inflate(6),e->e.getType()==vanillaSpider);
   ctx.assertTrue(spiders.size()>=1 && spiders.size()<=2,"hazard cocoon must spawn 1-2 vanilla spiders, got "+spiders.size());
+  ctx.succeed();
+ }
+ @GameTest public void worldgenPlacementRulesAndLedgerPersistColony(GameTestHelper ctx) {
+  var ledger=SpiderColonyEntities.data(ctx.getLevel());
+  int rx=SpiderColonyPlacementRules.regionX(1000), rz=SpiderColonyPlacementRules.regionZ(1000);
+  int target=SpiderColonyPlacementRules.targetColoniesForRegion(ctx.getLevel().getSeed(),rx,rz);
+  ctx.assertTrue(target>=1 && target<=3,"1.5 km^2 region target must be 1..3, got "+target);
+  int radius=SpiderColonyPlacementRules.nestRadiusForSite(ctx.getLevel().getSeed(),16000,-12,16000);
+  ctx.assertTrue(radius>=128 && radius<=256,"nest radius must be 128..256, got "+radius);
+  ledger.recordColony("gt-worldgen-colony",16000,-12,16000,radius,rx,rz);
+  ctx.assertTrue(ledger.regionColonyCount(rx,rz)>=1,"region count must increment");
+  ctx.assertTrue(SpiderColonyPlacementRules.overlapsAny(16050,16050,128,ledger.recordedColonies()),"overlapping nest must be rejected");
+  ctx.assertTrue(!SpiderColonyPlacementRules.overlapsAny(16600,16600,128,ledger.recordedColonies()),"distant nest must be allowed");
   ctx.succeed();
  }
 }
