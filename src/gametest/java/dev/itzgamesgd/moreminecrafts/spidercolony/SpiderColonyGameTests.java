@@ -229,6 +229,21 @@ public final class SpiderColonyGameTests {
   ctx.assertTrue(spiders.isEmpty(),"reward cocoon must not spawn spiders");
   ctx.succeed();
  }
+ @GameTest public void cocoonSpawnVolumeClearsIntactCocoon(GameTestHelper ctx) {
+  var level=ctx.getLevel(); var pos=ctx.absolutePos(new net.minecraft.core.BlockPos(3,4,3));
+  level.setBlock(pos.above(),net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(),3);
+  level.setBlock(pos,dev.itzgamesgd.moreminecrafts.registry.ModBlocks.HANGING_COCOON.defaultBlockState().setValue(HangingCocoonBlock.REWARD,false),3);
+  var spider=net.minecraft.world.entity.EntityTypes.SPIDER.create(level,EntitySpawnReason.TRIGGERED);
+  spider.setPos(pos.getX()+0.5,pos.getY()-0.5,pos.getZ()+0.5);
+  boolean occupied=level.noCollision(spider);
+  ctx.assertTrue(!occupied,"old spawn height collides with the intact cocoon");
+  for(int x=-10;x<=10;x++) for(int z=-10;z<=10;z++) {
+   spider.setPos(pos.getX()+0.5+x/10.0,pos.getY()-spider.getBbHeight(),pos.getZ()+0.5+z/10.0);
+   ctx.assertTrue(level.noCollision(spider),"spawn volume below the cocoon must be clear at "+x+","+z);
+  }
+  System.out.println("COCOON_SPAWN_VOLUME old_collides=true lower_candidates_clear=441");
+  spider.discard(); ctx.succeed();
+ }
  @GameTest public void hangingCocoonHazardSpawnsVanillaSpiders(GameTestHelper ctx) {
   var level=ctx.getLevel();
   var ceiling=new net.minecraft.core.BlockPos(3,5,3);

@@ -86,7 +86,8 @@ public final class HangingCocoonBlock extends Block {
                         if (spider == null) break;
                         spider.setPos(
                                 pos.getX() + 0.5 + (server.getRandom().nextDouble() - 0.5) * 2.0,
-                                pos.getY() - 0.5,
+                                // playerWillDestroy runs while the cocoon is still present. Keep the spider below it.
+                                pos.getY() - spider.getBbHeight(),
                                 pos.getZ() + 0.5 + (server.getRandom().nextDouble() - 0.5) * 2.0
                         );
                         if (!server.noCollision(spider)) continue;
