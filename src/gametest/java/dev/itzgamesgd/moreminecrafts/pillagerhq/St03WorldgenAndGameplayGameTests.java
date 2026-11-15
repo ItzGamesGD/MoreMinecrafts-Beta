@@ -142,12 +142,12 @@ public final class St03WorldgenAndGameplayGameTests {
 
         St03GarrisonManager.spawnInitialGarrison(level, hq, data);
 
-        // Stand every garrison member on solid ground: the test only builds the 12x12 floor above, and unsupported mobs fall out of the HQ box.
-        for (St03GarrisonSpec.SpawnSlot slot : St03GarrisonSpec.SLOTS) {
-            level.setBlock(slot.worldPos(origin, Rotation.NONE).below(), Blocks.STONE.defaultBlockState(), 3);
-        }
-        for (St03GarrisonSpec.PrisonerSlot prisoner : St03GarrisonSpec.PRISONER_SLOTS) {
-            level.setBlock(prisoner.worldPos(origin, Rotation.NONE).below(), Blocks.STONE.defaultBlockState(), 3);
+        // Cover the whole HQ box floor so garrison members cannot walk or fall out of the box.
+        // Mobs with a target (e.g. the Beastmaster chasing a villager) leave a single-block platform and drop below minY.
+        for (int dx = 0; dx <= 111; dx++) {
+            for (int dz = 0; dz <= 111; dz++) {
+                level.setBlock(origin.offset(dx, 0, dz), Blocks.STONE.defaultBlockState(), 3);
+            }
         }
 
         // Count after the server has ticked: spawned entities in not-yet-ticking chunks are missing from same-tick queries.
