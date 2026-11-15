@@ -51,35 +51,45 @@ public final class SpiderColonyWorldgen {
             ChunkPos cp = chunk.getPos();
             int wx = Math.floorDiv(cp.x(), SpiderColonyDetector.WINDOW_SIDE_CHUNKS) * SpiderColonyDetector.WINDOW_SIDE_CHUNKS;
             int wz = Math.floorDiv(cp.z(), SpiderColonyDetector.WINDOW_SIDE_CHUNKS) * SpiderColonyDetector.WINDOW_SIDE_CHUNKS;
-            if (PENDING.size() >= MAX_PENDING) {
-                Iterator<PendingWindow> it = PENDING.iterator();
-                if (it.hasNext()) {
-                    it.next();
-                    it.remove();
+            synchronized (PENDING) {
+                if (PENDING.size() >= MAX_PENDING) {
+                    Iterator<PendingWindow> it = PENDING.iterator();
+                    if (it.hasNext()) {
+                        it.next();
+                        it.remove();
+                    }
                 }
+                PENDING.add(new PendingWindow(level, wx, wz));
             }
-            PENDING.add(new PendingWindow(level, wx, wz));
         });
 
         ServerTickEvents.END_SERVER_TICK.register(SpiderColonyWorldgen::onServerTick);
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> PENDING.clear());
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            synchronized (PENDING) {
+                PENDING.clear();
+            }
+        });
     }
 
     private static void onServerTick(MinecraftServer server) {
-        if (PENDING.isEmpty()) return;
-        Iterator<PendingWindow> it = PENDING.iterator();
-        int inspected = 0;
-        while (it.hasNext() && inspected < 4) {
-            PendingWindow w = it.next();
-            inspected++;
+        List<PendingWindow> snapshot;
+        synchronized (PENDING) {
+            if (PENDING.isEmpty()) return;
+            snapshot = new ArrayList<>();
+            Iterator<PendingWindow> it = PENDING.iterator();
+            while (it.hasNext() && snapshot.size() < 4) {
+                snapshot.add(it.next());
+            }
+        }
+        for (PendingWindow w : snapshot) {
             if (w.level().getServer() != server) {
-                it.remove();
+                synchronized (PENDING) { PENDING.remove(w); }
                 continue;
             }
             if (!isWindowWithHaloLoaded(w.level(), w.wx(), w.wz())) {
                 continue;
             }
-            it.remove();
+            synchronized (PENDING) { PENDING.remove(w); }
             evaluateWindow(w.level(), w.wx(), w.wz());
             break; // at most one full 128x128x97 evaluation per tick
         }

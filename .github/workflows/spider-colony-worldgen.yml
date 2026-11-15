@@ -25,6 +25,7 @@ jobs:
       - name: Clean gameTest world and run check, build, runGameTest
         run: |
           set -euo pipefail
+          mkdir -p build
           rm -rf build/run/gameTest
           ./gradlew check build runGameTest --no-daemon 2>&1 | tee build/gametest.log
       - name: Upload GameTest log
