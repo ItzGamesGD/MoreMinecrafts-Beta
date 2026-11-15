@@ -110,7 +110,7 @@ public final class St03WorldgenAndGameplayGameTests {
         helper.succeed();
     }
 
-    @GameTest
+    @GameTest(maxTicks = 300)
     public void st03GarrisonVanillaFollowRangeAndPostClearOptionD(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         BlockPos origin = helper.absolutePos(new BlockPos(2, 2, 2));
@@ -142,74 +142,85 @@ public final class St03WorldgenAndGameplayGameTests {
 
         St03GarrisonManager.spawnInitialGarrison(level, hq, data);
 
-        // Verify Commander attributes: 40 HP, +25% damage, vanilla follow_range == 12.0
-        var boxAabb = new net.minecraft.world.phys.AABB(
-                hq.box.minX(), hq.box.minY(), hq.box.minZ(),
-                hq.box.maxX() + 1, hq.box.maxY() + 1, hq.box.maxZ() + 1);
-        List<Vindicator> commanders = level.getEntities(
-                dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.PILLAGER_COMMANDER,
-                boxAabb,
-                v -> v.entityTags().contains(St03GarrisonManager.TAG_COMMANDER));
-        if (commanders.size() != 1) {
-            helper.fail("Expected exactly 1 ST-03 Commander, found " + commanders.size());
-            return;
+        // Stand every garrison member on solid ground: the test only builds the 12x12 floor above, and unsupported mobs fall out of the HQ box.
+        for (St03GarrisonSpec.SpawnSlot slot : St03GarrisonSpec.SLOTS) {
+            level.setBlock(slot.worldPos(origin, Rotation.NONE).below(), Blocks.STONE.defaultBlockState(), 3);
         }
-        Vindicator cmd = commanders.get(0);
-        if (Math.abs(cmd.getMaxHealth() - 40.0F) > 0.01F) {
-            helper.fail("Expected Commander maxHealth 40.0, got " + cmd.getMaxHealth());
-            return;
-        }
-        double followRange = cmd.getAttributeValue(Attributes.FOLLOW_RANGE);
-        if (Math.abs(followRange - 12.0D) > 0.01D) {
-            helper.fail("Expected vanilla Vindicator follow_range 12.0, got " + followRange);
-            return;
-        }
-        if (level.getEntities(dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.PILLAGER_BEASTMASTER, boxAabb, e -> true).size() != 1
-                || level.getEntities(dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.ARMORY_GUARD, boxAabb, e -> true).size() != 2
-                || level.getEntities(dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.PILLAGER_DRILLMASTER, boxAabb, e -> true).size() != 1) {
-            helper.fail("Expected 1 Beastmaster, 2 Armory Guards, and 1 Drillmaster in ST-03 garrison");
-            return;
+        for (St03GarrisonSpec.PrisonerSlot prisoner : St03GarrisonSpec.PRISONER_SLOTS) {
+            level.setBlock(prisoner.worldPos(origin, Rotation.NONE).below(), Blocks.STONE.defaultBlockState(), 3);
         }
 
-        // Cleanup spawned garrison entities & mark cleared
-        for (Entity e : level.getEntities(null, new net.minecraft.world.phys.AABB(
-                hq.box.minX(), hq.box.minY(), hq.box.minZ(),
-                hq.box.maxX() + 1, hq.box.maxY() + 1, hq.box.maxZ() + 1))) {
-            if (e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id())) {
-                e.discard();
+        // Count after the server has ticked: spawned entities in not-yet-ticking chunks are missing from same-tick queries.
+        helper.runAfterDelay(40, () -> {
+            // Verify Commander attributes: 40 HP, +25% damage, vanilla follow_range == 12.0
+            var boxAabb = new net.minecraft.world.phys.AABB(
+                    hq.box.minX(), hq.box.minY(), hq.box.minZ(),
+                    hq.box.maxX() + 1, hq.box.maxY() + 1, hq.box.maxZ() + 1);
+            List<Vindicator> commanders = level.getEntities(
+                    dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.PILLAGER_COMMANDER,
+                    boxAabb,
+                    v -> v.entityTags().contains(St03GarrisonManager.TAG_COMMANDER));
+            if (commanders.size() != 1) {
+                helper.fail("Expected exactly 1 ST-03 Commander, found " + commanders.size());
+                return;
             }
-        }
-        for (var chunkPos : forcedChunks) level.setChunkForced(chunkPos.x(), chunkPos.z(), false);
-        hq.cleared = true;
-        data.setDirty();
+            Vindicator cmd = commanders.get(0);
+            if (Math.abs(cmd.getMaxHealth() - 40.0F) > 0.01F) {
+                helper.fail("Expected Commander maxHealth 40.0, got " + cmd.getMaxHealth());
+                return;
+            }
+            double followRange = cmd.getAttributeValue(Attributes.FOLLOW_RANGE);
+            if (Math.abs(followRange - 12.0D) > 0.01D) {
+                helper.fail("Expected vanilla Vindicator follow_range 12.0, got " + followRange);
+                return;
+            }
+            if (level.getEntities(dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.PILLAGER_BEASTMASTER, boxAabb, e -> true).size() != 1
+                    || level.getEntities(dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.ARMORY_GUARD, boxAabb, e -> true).size() != 2
+                    || level.getEntities(dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog.PILLAGER_DRILLMASTER, boxAabb, e -> true).size() != 1) {
+                helper.fail("Expected 1 Beastmaster, 2 Armory Guards, and 1 Drillmaster in ST-03 garrison");
+                return;
+            }
 
-        // Option D: suppress natural Creeper/Enderman/Zombie spawns inside cleared HQ
-        BlockPos inner = origin.offset(5, 1, 5);
-        if (!St03PostClearHandler.shouldSuppressNaturalSpawn(level, net.minecraft.world.entity.EntityTypes.CREEPER, EntitySpawnReason.NATURAL, inner)
-                || !St03PostClearHandler.shouldSuppressNaturalSpawn(level, net.minecraft.world.entity.EntityTypes.ENDERMAN, EntitySpawnReason.NATURAL, inner)) {
-            helper.fail("Expected Option D to suppress natural Creeper and Enderman spawns inside cleared HQ");
-            return;
-        }
+            // Cleanup spawned garrison entities & mark cleared
+            for (Entity e : level.getEntities(null, new net.minecraft.world.phys.AABB(
+                    hq.box.minX(), hq.box.minY(), hq.box.minZ(),
+                    hq.box.maxX() + 1, hq.box.maxY() + 1, hq.box.maxZ() + 1))) {
+                if (e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id())) {
+                    e.discard();
+                }
+            }
+            for (var chunkPos : forcedChunks) level.setChunkForced(chunkPos.x(), chunkPos.z(), false);
+            hq.cleared = true;
+            data.setDirty();
 
-        // Option D: 5 beds placed -> bed count check passes
-        for (int i = 0; i < 5; i++) {
-            BlockPos foot = origin.offset(1 + i * 2, 1, 2);
-            BlockPos head = foot.south();
-            level.setBlock(foot, dev.itzgamesgd.moreminecrafts.registry.ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
-                    .setValue(net.minecraft.world.level.block.BedBlock.PART,
-                            net.minecraft.world.level.block.state.properties.BedPart.FOOT)
-                    .setValue(net.minecraft.world.level.block.BedBlock.FACING, net.minecraft.core.Direction.SOUTH), 3);
-            level.setBlock(head, dev.itzgamesgd.moreminecrafts.registry.ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
-                    .setValue(net.minecraft.world.level.block.BedBlock.PART,
-                            net.minecraft.world.level.block.state.properties.BedPart.HEAD)
-                    .setValue(net.minecraft.world.level.block.BedBlock.FACING, net.minecraft.core.Direction.SOUTH), 3);
-        }
-        int bedCount = St03PostClearHandler.countBedsInBox(level, hq.box);
-        if (bedCount < 5) {
-            helper.fail("Expected >= 5 beds in HQ box, got " + bedCount);
-            return;
-        }
+            // Option D: suppress natural Creeper/Enderman/Zombie spawns inside cleared HQ
+            BlockPos inner = origin.offset(5, 1, 5);
+            if (!St03PostClearHandler.shouldSuppressNaturalSpawn(level, net.minecraft.world.entity.EntityTypes.CREEPER, EntitySpawnReason.NATURAL, inner)
+                    || !St03PostClearHandler.shouldSuppressNaturalSpawn(level, net.minecraft.world.entity.EntityTypes.ENDERMAN, EntitySpawnReason.NATURAL, inner)) {
+                helper.fail("Expected Option D to suppress natural Creeper and Enderman spawns inside cleared HQ");
+                return;
+            }
 
-        helper.succeed();
+            // Option D: 5 beds placed -> bed count check passes
+            for (int i = 0; i < 5; i++) {
+                BlockPos foot = origin.offset(1 + i * 2, 1, 2);
+                BlockPos head = foot.south();
+                level.setBlock(foot, dev.itzgamesgd.moreminecrafts.registry.ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
+                        .setValue(net.minecraft.world.level.block.BedBlock.PART,
+                                net.minecraft.world.level.block.state.properties.BedPart.FOOT)
+                        .setValue(net.minecraft.world.level.block.BedBlock.FACING, net.minecraft.core.Direction.SOUTH), 3);
+                level.setBlock(head, dev.itzgamesgd.moreminecrafts.registry.ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
+                        .setValue(net.minecraft.world.level.block.BedBlock.PART,
+                                net.minecraft.world.level.block.state.properties.BedPart.HEAD)
+                        .setValue(net.minecraft.world.level.block.BedBlock.FACING, net.minecraft.core.Direction.SOUTH), 3);
+            }
+            int bedCount = St03PostClearHandler.countBedsInBox(level, hq.box);
+            if (bedCount < 5) {
+                helper.fail("Expected >= 5 beds in HQ box, got " + bedCount);
+                return;
+            }
+
+            helper.succeed();
+        });
     }
 }
