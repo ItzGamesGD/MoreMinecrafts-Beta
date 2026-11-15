@@ -431,8 +431,8 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
                 .map(BuiltInRegistries.ENTITY_TYPE::getKey)
                 .filter(k -> k.getNamespace().equals("moreminecrafts")).sorted().toList();
         System.out.println("QUEST_BESTIARY_AUDIT monster-category MoreMinecrafts types=" + custom.size() + " " + custom);
-        // 37 audited roster types plus Tomb Guardian and Immortal Gladiator, plus the 5 SKY-MOB P1 types and the 4 ST-01 pyramid variants (existing registry-driven bestiary rule).
-        ctx.assertTrue(custom.size() == 50, "the actual registry contains all 50 Monster-category MoreMinecrafts types: " + custom.size());
+        // 37 audited roster types plus Tomb Guardian and Immortal Gladiator, plus the 5 SKY-MOB P1 types, the 5 group B sky-island variants and the 4 ST-01 pyramid variants (existing registry-driven bestiary rule).
+        ctx.assertTrue(custom.size() == 55, "the actual registry contains all 55 Monster-category MoreMinecrafts types: " + custom.size());
         for (String missing : List.of("small_cave_spider", "swamp_cave_spider"))
             ctx.assertTrue(!BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse("moreminecrafts:" + missing)),
                     "cave_dwellers lists an id that is not registered: " + missing);
@@ -536,7 +536,7 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
                 .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
                 .sorted(java.util.Comparator.comparing(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).toString()))
                 .toList();
-        ctx.assertTrue(monsters.size() == 50, "the live registry supplies all 50 eligible bestiary types");
+        ctx.assertTrue(monsters.size() == 55, "the live registry supplies all 55 eligible bestiary types");
         for (EntityType<?> type : monsters.subList(0, 25)) setKills(hunter, type, 3);
         setKills(hunter, monsters.getFirst(), 99);
         setKills(hunter, mm("cave_bat"), 5);
@@ -548,12 +548,12 @@ public final class QuestCombatGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(state.get(XpQuestTracking.targetStatusKey("xpq.cmb.bestiary_25",
                         BuiltInRegistries.ENTITY_TYPE.getKey(monsters.getFirst()).toString())) == 1
                         && state.get(XpQuestTracking.targetStatusKey("xpq.cmb.bestiary_25", "moreminecrafts:cave_bat")) == 0,
-                "all 50 monster statuses are player-specific and cave_bat remains outside bestiary");
+                "all 55 monster statuses are player-specific and cave_bat remains outside bestiary");
         var bestiaryRow = ProgressionScreenData.quests(state, "combat").stream()
                 .filter(row -> row.id().equals("xpq.cmb.bestiary_25")).findFirst().orElseThrow();
-        ctx.assertTrue(bestiaryRow.groups().size() == 1 && bestiaryRow.groups().getFirst().targets().size() == 50
+        ctx.assertTrue(bestiaryRow.groups().size() == 1 && bestiaryRow.groups().getFirst().targets().size() == 55
                         && bestiaryRow.groups().getFirst().targets().stream().filter(ProgressionScreenData.QuestTarget::complete).count() == 25,
-                "the server-produced UI row exposes all 50 species and the player's 25 completed targets");
+                "the server-produced UI row exposes all 55 species and the player's 25 completed targets");
         var habitatRow = ProgressionScreenData.quests(state, "combat").stream()
                 .filter(row -> row.id().equals("xpq.cmb.habitats_5")).findFirst().orElseThrow();
         ctx.assertTrue(habitatRow.groups().size() == 5 && habitatRow.groups().stream()

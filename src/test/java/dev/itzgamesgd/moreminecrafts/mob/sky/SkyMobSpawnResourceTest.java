@@ -22,12 +22,14 @@ class SkyMobSpawnResourceTest {
     private static final Path DATA = Path.of("src/main/resources/data/moreminecrafts");
     private static final Set<String> GROUP_C = Set.of("moreminecrafts:cloud_wraith", "moreminecrafts:skyguard_archer",
             "moreminecrafts:crystal_bug", "moreminecrafts:cloud_slime", "moreminecrafts:fallen_sentinel");
+    /** 2026-11-14 follow-up (option 1): the group B azure slime is added to every combination as its own kind, weight 4. */
+    private static final Set<String> SKY_TOWER_ALLOWED = Set.of("moreminecrafts:azure_slime");
     private static final Map<String, List<String>> COMBOS = Map.of(
-            "a", List.of("cloud_wraith", "cloud_slime"),
-            "b", List.of("cloud_wraith", "skyguard_archer"),
-            "c", List.of("crystal_bug", "skyguard_archer"),
-            "d", List.of("fallen_sentinel", "cloud_wraith", "crystal_bug"),
-            "e", List.of("fallen_sentinel", "skyguard_archer", "cloud_slime"));
+            "a", List.of("cloud_wraith", "cloud_slime", "azure_slime"),
+            "b", List.of("cloud_wraith", "skyguard_archer", "azure_slime"),
+            "c", List.of("crystal_bug", "skyguard_archer", "azure_slime"),
+            "d", List.of("fallen_sentinel", "cloud_wraith", "crystal_bug", "azure_slime"),
+            "e", List.of("fallen_sentinel", "skyguard_archer", "cloud_slime", "azure_slime"));
 
     private static JsonObject json(Path path) throws Exception {
         return JsonParser.parseString(Files.readString(path)).getAsJsonObject();
@@ -64,8 +66,13 @@ class SkyMobSpawnResourceTest {
                     int[] c = count(o.get("count"));
                     assertNull(actual.put(o.get("type").getAsString(), new int[]{o.get("weight").getAsInt(), c[0], c[1]}));
                 }
-                assertEquals(expected.keySet(), actual.keySet(), p + ": Q31 list (no creeper/enderman/witch)");
-                for (var entry : expected.entrySet())
+                // Group B variants (2026-11-14 owner task; weights fixed 2026-11-14 follow-up): all 10, every island type.
+                Map<String, int[]> withGroupB = new LinkedHashMap<>(expected);
+                for (String variant : List.of("weathered_zombie", "sky_archer", "rock_creeper", "pale_enderman", "azure_slime"))
+                    withGroupB.put("moreminecrafts:" + variant, new int[]{10, 1, 2});
+                assertEquals(withGroupB.keySet(), actual.keySet(),
+                        p + ": Q31 list (no vanilla creeper/enderman/witch) plus the five group B variants");
+                for (var entry : withGroupB.entrySet())
                     assertArrayEquals(entry.getValue(), actual.get(entry.getKey()), p + " " + entry.getKey());
             }
         }
@@ -78,7 +85,7 @@ class SkyMobSpawnResourceTest {
         assertThrows(IllegalArgumentException.class, () -> SkyTowerTrialSpawners.combo(16));
     }
 
-    @Test void combinationsUseOnlyGroupCWithEqualPerMobWeights() throws Exception {
+    @Test void combinationsUseOnlyGroupCPlusTheApprovedAzureSlimeWithEqualPerMobWeights() throws Exception {
         JsonObject vanillaNormal = JsonParser.parseString("""
                 {"simultaneous_mobs":3.0,"simultaneous_mobs_added_per_player":0.5,"ticks_between_spawn":20}""").getAsJsonObject();
         for (var combo : COMBOS.entrySet()) {
@@ -106,7 +113,7 @@ class SkyMobSpawnResourceTest {
                     assertFalse(data.has("equipment"), path + ": O1 no random equipment for group C");
                     JsonObject entity = data.getAsJsonObject("entity");
                     String id = entity.get("id").getAsString();
-                    assertTrue(GROUP_C.contains(id), path + ": T4 group C only, got " + id);
+                    assertTrue(GROUP_C.contains(id) || SKY_TOWER_ALLOWED.contains(id), path + ": T4 group C (+ approved azure slime), got " + id);
                     int weight = e.getAsJsonObject().get("weight").getAsInt();
                     perMob.merge(id, weight, Integer::sum);
                     if (id.equals("moreminecrafts:cloud_slime")) slimeSizes.put(entity.get("Size").getAsInt(), weight);

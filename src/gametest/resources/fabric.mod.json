@@ -118,6 +118,7 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryPhysicsGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryShockwaveGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests"
     ],
     "fabric-client-gametest": [
