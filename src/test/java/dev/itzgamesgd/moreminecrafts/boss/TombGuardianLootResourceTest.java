@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 
-/** §18.4: Tomb Guardian kill drop is Ancient Heart 50% x1 only (no unapproved extra reward pool). */
+/** 2026-11-14 spec P1-BUG-04: Tomb Guardian kill drop is Ancient Heart 100% x1 only (no extra reward pool). */
 class TombGuardianLootResourceTest {
     @Test void killDropIsAncientHeartFiftyPercentTimesOne() throws Exception {
         JsonObject table = JsonParser.parseString(Files.readString(
@@ -19,9 +19,7 @@ class TombGuardianLootResourceTest {
         assertEquals(1, pools.size(), "a single pool: no additional rare-mineral reward pool");
         JsonObject pool = pools.get(0).getAsJsonObject();
         assertEquals(1, pool.get("rolls").getAsInt());
-        JsonObject condition = pool.getAsJsonObject("condition");
-        assertEquals("minecraft:random_chance", condition.get("type").getAsString());
-        assertEquals(0.5D, condition.get("chance").getAsDouble());
+        assertFalse(pool.has("condition"), "the core drop is 100%: no chance condition");
         JsonArray entries = pool.getAsJsonArray("entries");
         assertEquals(1, entries.size());
         JsonObject entry = entries.get(0).getAsJsonObject();
