@@ -445,7 +445,28 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
         }
     }
 
-    private static boolean loggedTickManagerMethods;
+    private static java.lang.reflect.Method resolveTickServerMethod(MinecraftServer server) {
+        Class<?> cls = server.getClass();
+        while (cls != null) {
+            try {
+                var m = cls.getDeclaredMethod("tickServer", java.util.function.BooleanSupplier.class);
+                m.setAccessible(true);
+                return m;
+            } catch (NoSuchMethodException ignored) {
+                cls = cls.getSuperclass();
+            }
+        }
+        StringBuilder found = new StringBuilder();
+        for (Class<?> c = server.getClass(); c != null; c = c.getSuperclass()) {
+            for (var m : c.getDeclaredMethods()) {
+                if (m.getName().toLowerCase().contains("tick")) {
+                    found.append(c.getSimpleName()).append('.').append(m.getName())
+                            .append('(').append(m.getParameterCount()).append(") ");
+                }
+            }
+        }
+        throw new IllegalStateException("tickServer(BooleanSupplier) not found; candidates=[" + found.toString().trim() + "]");
+    }
 
     private static void sprintServerTicks(TestDedicatedServerContext server, TestDedicatedServerConnection connection,
                                           ClientGameTestContext context, long ticks) {
@@ -455,85 +476,45 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
         long target = start[0] + ticks;
         long current = start[0];
         long wallStart = System.currentTimeMillis();
-        server.runOnServer(s -> {
-            ServerLevel level = s.overworld();
-            var tm = s.tickRateManager();
-            if (!loggedTickManagerMethods) {
-                loggedTickManagerMethods = true;
-                StringBuilder methods = new StringBuilder();
-                for (var m : tm.getClass().getMethods()) {
-                    if (m.getDeclaringClass() != Object.class) {
-                        methods.append(m.getName()).append('(').append(m.getParameterCount()).append(") ");
-                    }
-                }
-                System.out.println("ST03_WORLDGEN tick_rate_manager class=" + tm.getClass().getName()
-                        + " methods=[" + methods.toString().trim() + "]");
-            }
-            List<String> msgs = new ArrayList<>();
-            var src = s.createCommandSourceStack().withLevel(level)
-                    .withCallback((ok, code) -> msgs.add("cb:ok=" + ok + ",code=" + code))
-                    .withPermission(net.minecraft.server.permissions.LevelBasedPermissionSet.OWNER);
-            // Try running /tick sprint without suppressed output
-            s.getCommands().performPrefixedCommand(src, "tick sprint " + ticks);
-            boolean sprintingAfterCmd = isTickSprinting(tm);
-            if (!sprintingAfterCmd) {
-                invokeRequestSprint(tm, (int) ticks);
-            }
-            System.out.println("ST03_WORLDGEN sprint_start requested=" + ticks
-                    + " startGameTime=" + level.getGameTime()
-                    + " sprintingAfterCmd=" + sprintingAfterCmd
-                    + " sprintingNow=" + isTickSprinting(tm)
-                    + " msgs=" + msgs);
-        });
-        connection.waitForClientboundPackets();
+        final int batchSize = 1000;
 
-        for (int iter = 0; iter < 60 && current < target; iter++) {
-            context.waitTicks(10);
+        while (current < target) {
+            final int batch = (int) Math.min(batchSize, target - current);
             final long[] now = {0L};
-            final boolean[] sprinting = {false};
             server.runOnServer(s -> {
+                var m = resolveTickServerMethod(s);
+                java.util.function.BooleanSupplier noExtraWait = () -> false;
+                try {
+                    for (int t = 0; t < batch; t++) {
+                        m.invoke(s, noExtraWait);
+                    }
+                } catch (Throwable t) {
+                    throw new RuntimeException("Failed invoking tickServer", t);
+                }
                 now[0] = s.overworld().getGameTime();
-                sprinting[0] = isTickSprinting(s.tickRateManager());
             });
             connection.waitForClientboundPackets();
-            current = now[0];
-            if (iter == 0 || iter % 10 == 0 || current >= target) {
-                long elapsedMs = Math.max(1L, System.currentTimeMillis() - wallStart);
-                long delta = current - start[0];
-                System.out.println("ST03_WORLDGEN sprint_poll iter=" + iter + " current=" + current
-                        + " target=" + target + " delta=" + delta + " elapsedMs=" + elapsedMs
-                        + " tps=" + String.format("%.1f", delta * 1000.0 / elapsedMs)
-                        + " sprinting=" + sprinting[0]);
+            context.waitTicks(1);
+            if (now[0] <= current) {
+                throw new AssertionError("tickServer did not advance gameTime: before=" + current + " after=" + now[0]);
             }
+            current = now[0];
         }
-        if (current < target) {
-            throw new AssertionError("sprintServerTicks timed out: current=" + current + " target=" + target
-                    + " delta=" + (current - start[0]) + " elapsedMs=" + (System.currentTimeMillis() - wallStart));
-        }
-    }
-
-    private static boolean isTickSprinting(Object tickRateManager) {
-        try {
-            var m = tickRateManager.getClass().getMethod("isSprinting");
-            return Boolean.TRUE.equals(m.invoke(tickRateManager));
-        } catch (Throwable ignored) {
-            return false;
-        }
-    }
-
-    private static void invokeRequestSprint(Object tickRateManager, int ticks) {
-        try {
-            var m = tickRateManager.getClass().getMethod("requestGameToSprint", int.class);
-            m.invoke(tickRateManager, ticks);
-        } catch (Throwable t) {
-            System.out.println("ST03_WORLDGEN sprint_invoke_err=" + t);
-        }
+        long elapsedMs = Math.max(1L, System.currentTimeMillis() - wallStart);
+        System.out.println("ST03_WORLDGEN sprint_complete requested=" + ticks + " start=" + start[0]
+                + " end=" + current + " elapsedMs=" + elapsedMs
+                + " effectiveTps=" + String.format("%.1f", (current - start[0]) * 1000.0 / elapsedMs));
     }
 
     private static void buildPlazaAndBedFloor(ServerLevel level, St03HeadquartersData.HqInstance hq) {
-        for (int dx = 48; dx <= 62; dx++) {
-            for (int dz = 25; dz <= 42; dz++) {
+        for (int dx = 47; dx <= 63; dx++) {
+            for (int dz = 24; dz <= 43; dz++) {
                 level.setBlock(hq.origin.offset(dx, 0, dz), net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(), 3);
+                boolean border = dx == 47 || dx == 63 || dz == 24 || dz == 43;
+                if (border) {
+                    level.setBlock(hq.origin.offset(dx, 1, dz), net.minecraft.world.level.block.Blocks.COBBLESTONE.defaultBlockState(), 3);
+                    level.setBlock(hq.origin.offset(dx, 2, dz), net.minecraft.world.level.block.Blocks.COBBLESTONE.defaultBlockState(), 3);
+                }
             }
         }
     }
