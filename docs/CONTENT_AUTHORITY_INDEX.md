@@ -244,10 +244,10 @@ Owner decisions F-1, F-2, F-3, F-5, F-6 and the mercenary status are recorded in
 ## 2026-11-13 ~ 2026-11-15 owner-confirmed change records (design only)
 Source package: the 2026-11-15 sync archive. These records are filed by topic; the master content specification they reference is not in this repository, so each record is the authority for its own decision.
 * **Accessories and relic (2026-11-13):** [planning/accessory_sync_2026-11-13/](planning/accessory_sync_2026-11-13/). The 7-accessory T1 record supersedes the 8-accessory record (life slot retired); the T2 13-accessory record, biome relic core mapping and relic catalyst record apply on top of D13.
-* **Tungsten (2026-11-13):** [planning/material_and_weapon_sync_2026-11-13/](planning/material_and_weapon_sync_2026-11-13/) — Tungsten is permanently removed; four mineral types remain. The Tungsten anchor note above is superseded.
+* **Tungsten (2026-11-13; reward follow-up 2026-11-16):** [planning/material_and_weapon_sync_2026-11-13/](planning/material_and_weapon_sync_2026-11-13/) — Tungsten is permanently removed; four mineral types remain. The 2026-11-16 owner decision also removes the tungsten row from royal SECONDARY rewards and the sky-island materials chest without replacement. See the current [royal chest authority](planning/D13_03_I06_ROYAL_CHEST_REWARDS_AUTHORITY_2026-11-07.md) and [Sky Islands/T2 authority §22](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md#22-2026-11-16-오너-확정--텅스텐-자원-및-보상-제거). The Tungsten anchor note above is superseded.
 * **Tactical .35 special ammo (2026-11-13):** same folder, final design. Closes the detail follow-up left open in the content roadmap (D20).
 * **Fire and sea bosses (2026-11-15):** [planning/boss_sync_2026-11-15/](planning/boss_sync_2026-11-15/) — 용암 대장장이 군주 (fire) and 심해의 해신 (sea): identity, mechanics and drop pool.
-* **Implementation status:** none of these records is implemented or live-validated.
+* **Implementation status:** Tungsten removal and royal chest slot randomization are implemented in Draft PR #301; core item IDs, item models/locales, ordered biome classifier, and all currently named core-to-accessory mappings are being implemented in the same PR. Artifact-core drops are not fully implemented: exact rates within the documented ranges, boss count distribution, the missing/retired twenty-first mapping, and the feather-charm registry ID remain owner decisions. No live-client validation is implied.
 
 ## Explicitly deferred design debt
 
@@ -265,7 +265,7 @@ Revisit only during a future ecology/environment pass. Do not block the current 
 
 **Material sink identity — DEFERRED**
 
-Titanium, Tungsten (removed 2026-11-13, see the change records below), Mythril, Etherium, and Adamantium should each have a meaningful anchor use before final spawn rarity and long-term material economy are considered fully settled.
+Titanium, Mythril, Etherium, and Adamantium should each have a meaningful anchor use before final spawn rarity and long-term material economy are considered fully settled. Tungsten was removed on 2026-11-13.
 
 Resolve during future crafting/equipment/material-economy design rather than by changing worldgen opportunistically.
 
@@ -373,7 +373,7 @@ Headless CI must not be treated as proof of combat feel, visual presentation, in
 
 ## ST-01 royal chest reward authority — I06 Q01–Q45 (owner approved 2026-11-07; design only)
 
-For the two designated ST-01 royal reward chests, the current owner-approved **reward quantities, probabilities, 54-slot inventory, access, seal, automation/insertion protection, catalyst assignment, and persistence contract** are recorded in [D13-03-I06 Royal Chest Reward Authority](planning/D13_03_I06_ROYAL_CHEST_REWARDS_AUTHORITY_2026-11-07.md). This I06-specific overlay supersedes older provisional GUI/hopper-first-evaluation semantics in D13-03 Q25–Q47 and PR #237, while retaining unrelated D13 gameplay. Q45 approves titanium and tungsten **ingots**. ST-01 P4 spatial candidate **B** is owner-selected; physical orientation and final integration are tracked separately. This is **DESIGN ONLY**, not implementation or live validation.
+For the two designated ST-01 royal reward chests, the current owner-approved **reward quantities, probabilities, 54-slot inventory, access, seal, automation/insertion protection, catalyst assignment, and persistence contract** are recorded in [D13-03-I06 Royal Chest Reward Authority](planning/D13_03_I06_ROYAL_CHEST_REWARDS_AUTHORITY_2026-11-07.md). This I06-specific overlay supersedes older provisional GUI/hopper-first-evaluation semantics in D13-03 Q25–Q47 and PR #237, while retaining unrelated D13 gameplay. Q45 originally approved titanium and tungsten ingots; the 2026-11-16 owner amendment removes the tungsten row without replacement. ST-01 P4 spatial candidate **B** is owner-selected; physical orientation and final integration are tracked separately. This is **DESIGN ONLY**, not implementation or live validation.
 
 ## ST-01 G0 geometry reconciliation — 2026-11-10
 

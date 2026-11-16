@@ -20,7 +20,6 @@ public final class KnowledgeEventRules {
             "minecraft:raw_gold", "gold",
             "minecraft:ancient_debris", "netherite",
             "moreminecrafts:raw_titanium", "titanium",
-            "moreminecrafts:raw_tungsten", "tungsten",
             "moreminecrafts:adamantium_debris", "adamantium"
     );
 
@@ -28,7 +27,7 @@ public final class KnowledgeEventRules {
 
     public static boolean isKnownOreType(String oreType) {
         return switch (oreType) {
-            case "iron", "copper", "gold", "netherite", "titanium", "tungsten", "adamantium",
+            case "iron", "copper", "gold", "netherite", "titanium", "adamantium",
                     "coal", "diamond", "redstone", "lapis", "emerald", "mythril", "etherium" -> true;
             default -> false;
         };
@@ -65,7 +64,6 @@ public final class KnowledgeEventRules {
         if (path.equals("lapis_ore") || path.equals("deepslate_lapis_ore")) return Optional.of("lapis");
         if (path.equals("emerald_ore") || path.equals("deepslate_emerald_ore")) return Optional.of("emerald");
         if (path.equals("titanium_ore") || path.equals("deepslate_titanium_ore")) return Optional.of("titanium");
-        if (path.equals("tungsten_ore") || path.equals("deepslate_tungsten_ore")) return Optional.of("tungsten");
         if (path.equals("mythril_ore") || path.equals("deepslate_mythril_ore")) return Optional.of("mythril");
         if (path.equals("etherium_ore") || path.equals("deepslate_etherium_ore")) return Optional.of("etherium");
         return Optional.empty();

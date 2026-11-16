@@ -112,10 +112,10 @@ class SkyIslandsResourceTest {
 
     @Test void skyRewardTablesReferenceRegisteredItemsOnly() throws Exception {
         String registry = new String(bytes("data/moreminecrafts/loot_table/chests/sky_islands/materials.json"), StandardCharsets.UTF_8);
-        for (String item : List.of("moreminecrafts:mythril", "moreminecrafts:titanium_ingot", "moreminecrafts:tungsten_ingot", "moreminecrafts:adamantium_ingot"))
+        for (String item : List.of("moreminecrafts:mythril", "moreminecrafts:titanium_ingot", "moreminecrafts:adamantium_ingot"))
             assertTrue(registry.contains(item), item);
         // the item ids exist in the mod's item-model resources (registered items)
-        for (String item : List.of("sky_feather", "gale_shard", "mythril", "titanium_ingot", "tungsten_ingot", "adamantium_ingot"))
+        for (String item : List.of("sky_feather", "gale_shard", "mythril", "titanium_ingot", "adamantium_ingot"))
             assertTrue(exists("assets/moreminecrafts/items/" + item + ".json"), "item definition " + item);
     }
 

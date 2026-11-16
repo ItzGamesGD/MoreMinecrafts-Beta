@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class MaterialProgressionTest {
     @Test void definesExactlyTheFiveApprovedFamiliesInProgressionOrder() {
-        assertEquals(java.util.List.of("titanium", "tungsten", "mythril", "etherium", "adamantium"),
+        assertEquals(java.util.List.of("titanium", "mythril", "etherium", "adamantium"),
                 MaterialProgression.ORDERED.stream().map(MaterialProgression.Definition::name).toList());
         for (int i = 1; i < MaterialProgression.ORDERED.size(); i++) {
             assertTrue(MaterialProgression.ORDERED.get(i - 1).progressionTier()
