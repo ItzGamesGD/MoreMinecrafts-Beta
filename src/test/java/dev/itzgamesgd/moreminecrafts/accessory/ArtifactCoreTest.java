@@ -60,7 +60,7 @@ class ArtifactCoreTest {
                         Collectors.filtering(java.util.Objects::nonNull, Collectors.toSet()))));
         assertEquals(Set.of("t1_combo", "t1_sprint_acceleration", "phantom_mirror", "soul_chain"), actual.get(ArtifactCore.EARTHEN));
         assertEquals(Set.of("t1_status_resilience", "t1_sustained_recovery", "heart_of_gravity", "seed_of_life"), actual.get(ArtifactCore.ABYSSAL));
-        assertEquals(Set.of("t1_double_jump", "ring_of_time", "snow_charm"), actual.get(ArtifactCore.GLACIAL));
+        assertEquals(Set.of("t1_double_jump", "ring_of_time", "snow_charm", "feather_charm"), actual.get(ArtifactCore.GLACIAL));
         assertEquals(Set.of("deep_sea_pearl", "whisper_of_the_sea"), actual.get(ArtifactCore.TIDAL));
         assertEquals(Set.of("t1_crisis_escape", "t1_heavy_buffer", "star_covenant", "blood_covenant", "ember_ring", "ring_of_life"), actual.get(ArtifactCore.BLAZING));
         var featherCharm = ArtifactCoreMapping.ALL.stream().filter(e -> e.koreanName().equals("깃털 부적")).findFirst().orElseThrow();
