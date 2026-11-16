@@ -47,7 +47,7 @@ public final class ArtifactCoreDropRules {
         if (matches(id, "minecraft", "enderman", "blaze", "wither_skeleton", "vindicator", "witch", "breeze")
                 || matches(id, "moreminecrafts", "large_zombie", "armored_skeleton", "bandit_warrior",
                 "lesser_wither_skeleton", "desert_spider", "forest_spider", "ice_spider")
-                || (entity instanceof net.minecraft.world.entity.monster.Pillager pillager && pillager.isPatrolLeader()))
+                || (entity instanceof net.minecraft.world.entity.monster.illager.Pillager pillager && pillager.isPatrolLeader()))
             return Tier.GENERAL_STRONG;
         return entity.getMaxHealth() >= 25.0F ? Tier.GENERAL_STRONG : null;
     }
