@@ -244,7 +244,7 @@ class RoyalChestRewardModelTest {
                 new Script(17, 0, 2));
         assertEquals(List.of(new RoyalChestRewardModel.Placement(17, stacks.get(0)),
                 new RoyalChestRewardModel.Placement(0, stacks.get(1)),
-                new RoyalChestRewardModel.Placement(2, stacks.get(2))), placements);
+                new RoyalChestRewardModel.Placement(3, stacks.get(2))), placements);
         assertEquals(placements.size(), placements.stream().map(RoyalChestRewardModel.Placement::slot).distinct().count());
         assertEquals(totals(List.of(new Reward("minecraft:gold_ingot", 64),
                 new Reward("minecraft:gold_ingot", 17), new Reward("minecraft:diamond", 10))),
