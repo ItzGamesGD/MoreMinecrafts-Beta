@@ -60,7 +60,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p build/st03-worldgen
-          DIAG="${{ inputs.diag || 'true' }}"
+          DIAG="${{ inputs.diag || 'false' }}"
           export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
           export JAVA_TOOL_OPTIONS="-Dmoreminecrafts.st03.worldgen.check=true -Dmoreminecrafts.st03.diag=${DIAG} -Dmm.st05.natural=false"
           icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit || true)
