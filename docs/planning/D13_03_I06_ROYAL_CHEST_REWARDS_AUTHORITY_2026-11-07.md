@@ -60,6 +60,8 @@ Each probability check is independent; quantities are inclusive discrete uniform
 
 **Owner amendment (2026-11-16):** remove the `tungsten_ingot` SECONDARY reward row with no replacement. The remaining rows retain their existing independent chance and quantity rules.
 
+**Owner amendment (2026-11-16, inventory placement):** after rolling all rewards and splitting each reward at its item's maximum stack size, assign the resulting stacks to randomly selected distinct slots in the 54-slot chest; leave other slots empty. Use the same per-chest `RandomGenerator` stream used for the reward roll, after the reward draws, so both item results and slot positions replay deterministically. Do not truncate any reward. This changes first-generation slot placement only; first valid direct opening after Tomb Guardian defeat still generates once, and the existing shared withdraw-only inventory, access, and persistence rules remain unchanged. Existing saved chest contents keep their persisted slot positions.
+
 ## Shared special-reward rules
 
 **T2 accessories:** Each of the two chests independently has a **20%** chance of exactly one T2 accessory. On success choose `moreminecrafts:seed_of_life` or `moreminecrafts:ring_of_time` with **50:50** conditional probability. Duplicates across chests are allowed. Joint probability: neither 64%; exactly one chest succeeds 32%; both succeed 4% (same type 2%; distinct types 2%). Do not tie either chest's result to the other.

@@ -4,6 +4,7 @@ import com.mojang.serialization.DataResult;
 import dev.itzgamesgd.moreminecrafts.boss.TombGuardian;
 import dev.itzgamesgd.moreminecrafts.boss.TombGuardianEntities;
 import dev.itzgamesgd.moreminecrafts.boss.TombGuardianEncounters;
+import dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestRewardModel.Placement;
 import dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestRewardModel.Stack;
 import dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestRuntime.OpenResult;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.random.RandomGenerator;
 import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
@@ -115,6 +117,16 @@ public final class RoyalChestGameTests {
         return stacks;
     }
 
+    private static List<Placement> placementSnapshot(Container container) {
+        List<Placement> placements = new ArrayList<>();
+        for (int slot = 0; slot < container.getContainerSize(); slot++) {
+            ItemStack stack = container.getItem(slot);
+            if (!stack.isEmpty()) placements.add(new Placement(slot,
+                    new Stack(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString(), stack.getCount())));
+        }
+        return placements;
+    }
+
     private static Container chestOf(Site site, RoyalChestRole role) {
         return RoyalChestRuntime.data(site.level).chest(site.id, role).orElseThrow().container();
     }
@@ -153,6 +165,27 @@ public final class RoyalChestGameTests {
     }
 
     // ---- seal and first-open generation ----
+
+    @GameTest(maxTicks = 40)
+    public void firstGenerationRandomlyPlacesEveryStackUsingTheChestRewardStream(GameTestHelper ctx) {
+        Site site = site(ctx, "random-slots");
+        defeatDirect(site);
+        RoyalChestData.Instance instance = RoyalChestRuntime.data(site.level).instance(site.id).orElseThrow();
+        RandomGenerator random = RoyalChestRuntime.chestRandom(site.level.getSeed(), site.id, RoyalChestRole.PRIMARY);
+        boolean holdsCatalyst = instance.catalyst().filter(role -> role == RoyalChestRole.PRIMARY).isPresent();
+        List<RoyalChestRewardModel.Reward> rewards = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY, random, holdsCatalyst);
+        List<Placement> expected = new ArrayList<>(RoyalChestRewardModel.placeRandomly(
+                RoyalChestRewardModel.split(rewards, RoyalChestRuntime::maxStackSize), random));
+        expected.sort((left, right) -> Integer.compare(left.slot(), right.slot()));
+
+        ServerPlayer player = mock(ctx, site);
+        ctx.assertTrue(RoyalChestRuntime.tryOpen(site.level, player, site.primary) == OpenResult.OPENED_AND_GENERATED,
+                "first valid opening generates the rewards");
+        List<Placement> actual = placementSnapshot(RoyalChestRuntime.data(site.level).chest(site.id, RoyalChestRole.PRIMARY)
+                .orElseThrow().container());
+        ctx.assertTrue(actual.equals(expected), "slot positions and stacks replay from the same RandomGenerator");
+        finish(ctx, site);
+    }
 
     @GameTest(maxTicks = 60)
     public void bothChestsStaySealedUntilNormalDefeatThenGenerateOnFirstDirectOpen(GameTestHelper ctx) {
@@ -283,8 +316,10 @@ public final class RoyalChestGameTests {
         ctx.assertTrue(first == OpenResult.OPENED_AND_GENERATED && second == OpenResult.OPENED, "generated exactly once: " + first + "/" + second);
         ctx.assertTrue(((RoyalChestMenu) a.containerMenu).chestContainer() == ((RoyalChestMenu) b.containerMenu).chestContainer(), "one shared inventory");
         // a withdrawal by one player is immediately the other's reality (shared inventory, no personal copy)
-        ItemStack taken = ((RoyalChestMenu) a.containerMenu).chestContainer().removeItemNoUpdate(0);
-        ctx.assertTrue(!taken.isEmpty() && ((RoyalChestMenu) b.containerMenu).chestContainer().getItem(0).isEmpty(), "shared withdrawal");
+        Container shared = ((RoyalChestMenu) a.containerMenu).chestContainer();
+        int occupied = firstOccupied(shared, -1);
+        ItemStack taken = shared.removeItemNoUpdate(occupied);
+        ctx.assertTrue(!taken.isEmpty() && ((RoyalChestMenu) b.containerMenu).chestContainer().getItem(occupied).isEmpty(), "shared withdrawal");
         finish(ctx, site);
     }
 
@@ -293,10 +328,21 @@ public final class RoyalChestGameTests {
         Site site = site(ctx, "menu");
         defeatDirect(site);
         ServerPlayer player = mock(ctx, site);
-        RoyalChestRuntime.tryOpen(site.level, player, site.primary);
+        var previousOverride = RoyalChestRuntime.rewardsOverride;
+        try {
+            RoyalChestRuntime.rewardsOverride = role -> List.of(
+                    new RoyalChestRewardModel.Reward("minecraft:gold_ingot", 65),
+                    new RoyalChestRewardModel.Reward("minecraft:diamond", 10));
+            RoyalChestRuntime.tryOpen(site.level, player, site.primary);
+        } finally {
+            RoyalChestRuntime.rewardsOverride = previousOverride;
+        }
         RoyalChestMenu menu = (RoyalChestMenu) player.containerMenu;
         Container chest = menu.chestContainer();
         List<Stack> generated = snapshot(chest);
+        int firstOccupied = firstOccupied(chest, -1);
+        int secondOccupied = firstOccupied(chest, firstOccupied);
+        ctx.assertTrue(firstOccupied >= 0 && secondOccupied >= 0, "at least two reward stacks are generated");
         int empty = -1;
         for (int i = 0; i < 54 && empty < 0; i++) if (chest.getItem(i).isEmpty()) empty = i;
         ctx.assertTrue(empty >= 0, "a free slot exists");
@@ -306,7 +352,7 @@ public final class RoyalChestGameTests {
         menu.clicked(empty, 0, ContainerInput.PICKUP, player);
         ctx.assertTrue(chest.getItem(empty).isEmpty(), "cursor placement refused");
         // (b) cursor swap onto an occupied slot
-        menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        menu.clicked(firstOccupied, 0, ContainerInput.PICKUP, player);
         ctx.assertTrue(snapshot(chest).equals(generated), "cursor swap refused");
         menu.setCarried(ItemStack.EMPTY);
         // (c) shift-click from the player inventory (first inventory slot is 54)
@@ -315,7 +361,7 @@ public final class RoyalChestGameTests {
         ctx.assertTrue(snapshot(chest).equals(generated) && player.getInventory().getItem(9).getCount() == 7, "shift-click insertion refused");
         // (d) hotbar swap: hotbar stack onto an occupied and onto an empty chest slot
         player.getInventory().setItem(0, new ItemStack(Items.DIRT, 3));
-        menu.clicked(0, 0, ContainerInput.SWAP, player);
+        menu.clicked(firstOccupied, 0, ContainerInput.SWAP, player);
         menu.clicked(empty, 0, ContainerInput.SWAP, player);
         ctx.assertTrue(snapshot(chest).equals(generated) && player.getInventory().getItem(0).getCount() == 3, "hotbar swap insertion refused");
         // (e) offhand swap (button 40)
@@ -332,13 +378,19 @@ public final class RoyalChestGameTests {
 
         // withdrawal still works: shift-click out, then pick up with the cursor
         int before = player.getInventory().getNonEquipmentItems().stream().mapToInt(s -> s.isEmpty() ? 0 : 1).sum();
-        ItemStack moved = menu.quickMoveStack(player, 0);
-        ctx.assertTrue(!moved.isEmpty() && chest.getItem(0).isEmpty(), "shift-click withdrawal works");
-        menu.clicked(1, 0, ContainerInput.PICKUP, player);
-        ctx.assertTrue(!menu.getCarried().isEmpty() && chest.getItem(1).isEmpty(), "cursor withdrawal works");
+        ItemStack moved = menu.quickMoveStack(player, firstOccupied);
+        ctx.assertTrue(!moved.isEmpty() && chest.getItem(firstOccupied).isEmpty(), "shift-click withdrawal works");
+        menu.clicked(secondOccupied, 0, ContainerInput.PICKUP, player);
+        ctx.assertTrue(!menu.getCarried().isEmpty() && chest.getItem(secondOccupied).isEmpty(), "cursor withdrawal works");
         ctx.assertTrue(before >= 0, "inventory counted");
         ctx.assertTrue(menu.quickMoveStack(player, 60).isEmpty(), "inventory slots never quick-move into the chest");
         finish(ctx, site);
+    }
+
+    private static int firstOccupied(Container container, int excluding) {
+        for (int slot = 0; slot < container.getContainerSize(); slot++)
+            if (slot != excluding && !container.getItem(slot).isEmpty()) return slot;
+        return -1;
     }
 
     @GameTest(maxTicks = 80)

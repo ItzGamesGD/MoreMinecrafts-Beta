@@ -237,6 +237,39 @@ class RoyalChestRewardModelTest {
     }
 
     @Test
+    void stacksArePlacedInDistinctRandomSlotsWithoutLoss() {
+        List<Stack> stacks = List.of(new Stack("minecraft:gold_ingot", 64),
+                new Stack("minecraft:gold_ingot", 17), new Stack("minecraft:diamond", 10));
+        List<RoyalChestRewardModel.Placement> placements = RoyalChestRewardModel.placeRandomly(stacks,
+                new Script(17, 0, 2));
+        assertEquals(List.of(new RoyalChestRewardModel.Placement(17, stacks.get(0)),
+                new RoyalChestRewardModel.Placement(0, stacks.get(1)),
+                new RoyalChestRewardModel.Placement(2, stacks.get(2))), placements);
+        assertEquals(placements.size(), placements.stream().map(RoyalChestRewardModel.Placement::slot).distinct().count());
+        assertEquals(totals(List.of(new Reward("minecraft:gold_ingot", 64),
+                new Reward("minecraft:gold_ingot", 17), new Reward("minecraft:diamond", 10))),
+                totals(placements.stream().map(p -> new Reward(p.stack().itemId(), p.stack().count())).toList()));
+    }
+
+    @Test
+    void rewardAndSlotLayoutReplayFromTheSameChestRandomStream() {
+        for (long seed = 0; seed < 100; seed++) {
+            String instance = "slot-layout-" + seed;
+            List<RoyalChestRewardModel.Placement> first = rollAndPlace(seed, instance);
+            List<RoyalChestRewardModel.Placement> replay = rollAndPlace(seed, instance);
+            assertEquals(first, replay);
+        }
+    }
+
+    private static List<RoyalChestRewardModel.Placement> rollAndPlace(long seed, String instance) {
+        RandomGenerator random = RoyalChestRuntime.chestRandom(seed, instance, RoyalChestRole.PRIMARY);
+        List<Reward> rewards = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY, random, false);
+        List<Stack> stacks = RoyalChestRewardModel.split(rewards, id -> id.equals("moreminecrafts:seed_of_life")
+                || id.equals("moreminecrafts:ring_of_time") || id.contains("catalyst") ? 1 : 64);
+        return RoyalChestRewardModel.placeRandomly(stacks, random);
+    }
+
+    @Test
     void theLargestPossibleChestsFitIn54SlotsAndOversizeFailsLoudly() {
         // worst case: every roll hits its maximum, plus accessory and catalyst
         List<Reward> primary = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY,

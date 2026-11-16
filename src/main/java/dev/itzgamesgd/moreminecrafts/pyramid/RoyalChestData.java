@@ -164,13 +164,13 @@ public final class RoyalChestData extends SavedData {
     }
 
     /** Creates the chest's one shared container with its generated stacks, atomically with the "generated" state. */
-    Chest install(String instanceId, RoyalChestRole role, List<RoyalChestRewardModel.Stack> stacks) {
+    Chest install(String instanceId, RoyalChestRole role, List<RoyalChestRewardModel.Placement> placements) {
         Optional<Chest> existing = chest(instanceId, role);
         if (existing.isPresent()) return existing.get();
         RoyalChestContainer container = new RoyalChestContainer(this::setDirty);
-        for (int slot = 0; slot < stacks.size(); slot++) {
-            RoyalChestRewardModel.Stack stack = stacks.get(slot);
-            container.fill(slot, toStack(stack.itemId(), stack.count()));
+        for (RoyalChestRewardModel.Placement placement : placements) {
+            RoyalChestRewardModel.Stack stack = placement.stack();
+            container.fill(placement.slot(), toStack(stack.itemId(), stack.count()));
         }
         Chest chest = new Chest(container);
         chests.computeIfAbsent(instanceId, k -> new EnumMap<>(RoyalChestRole.class)).put(role, chest);

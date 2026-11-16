@@ -31,6 +31,9 @@ public final class RoyalChestRewardModel {
     /** One concrete inventory stack. */
     public record Stack(String itemId, int count) {}
 
+    /** A concrete stack assigned to one inventory slot. */
+    public record Placement(int slot, Stack stack) {}
+
     public static final List<Entry> PRIMARY_ORDINARY = List.of(
             new Entry("minecraft:gold_ingot", 1.00D, 64, 128),
             new Entry("minecraft:diamond", 0.85D, 10, 18),
@@ -125,5 +128,23 @@ public final class RoyalChestRewardModel {
         if (stacks.size() > SLOTS)
             throw new IllegalStateException("Royal chest rewards need " + stacks.size() + " stacks but a chest has " + SLOTS + " slots");
         return stacks;
+    }
+
+    /**
+     * Assigns each already-split stack to a uniformly selected distinct slot, using the caller's reward RNG stream.
+     * Empty slots remain empty. This runs after all reward draws, so slot placement does not alter the rolled rewards.
+     */
+    public static List<Placement> placeRandomly(List<Stack> stacks, RandomGenerator random) {
+        if (stacks.size() > SLOTS)
+            throw new IllegalStateException("Royal chest rewards need " + stacks.size() + " slots but a chest has " + SLOTS);
+        List<Integer> emptySlots = new ArrayList<>(SLOTS);
+        for (int slot = 0; slot < SLOTS; slot++) emptySlots.add(slot);
+        List<Placement> placements = new ArrayList<>(stacks.size());
+        for (Stack stack : stacks) {
+            int randomIndex = random.nextInt(emptySlots.size());
+            int slot = emptySlots.remove(randomIndex);
+            placements.add(new Placement(slot, stack));
+        }
+        return placements;
     }
 }
