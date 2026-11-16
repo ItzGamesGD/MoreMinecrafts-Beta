@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "D7D",
+    "bSb",
+    "GYG"
+  ],
+  "key": {
+    "7": "moreminecrafts:lava_heartstone",
+    "D": "minecraft:diamond",
+    "G": "minecraft:gold_ingot",
+    "S": "moreminecrafts:etherium_shard",
+    "Y": "moreminecrafts:mythril",
+    "b": "moreminecrafts:blazing_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:ember_ring",
+    "count": 1
+  }
+}

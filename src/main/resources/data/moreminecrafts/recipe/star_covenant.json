@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "D1D",
+    "bSb",
+    "GYG"
+  ],
+  "key": {
+    "1": "moreminecrafts:void_star_shard",
+    "D": "minecraft:diamond",
+    "G": "minecraft:gold_ingot",
+    "S": "moreminecrafts:etherium_shard",
+    "Y": "moreminecrafts:mythril",
+    "b": "moreminecrafts:blazing_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:star_covenant",
+    "count": 1
+  }
+}

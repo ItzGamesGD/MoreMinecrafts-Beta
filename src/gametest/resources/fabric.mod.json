@@ -24,6 +24,9 @@
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.T2AccessoryGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.ArtifactCoreGameTests",
+      "dev.itzgamesgd.moreminecrafts.colosseum.T2GladiatorDropGameTests",
       "dev.itzgamesgd.moreminecrafts.skytower.SkyTowerGameTests",
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
       "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",

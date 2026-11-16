@@ -273,7 +273,7 @@ class RoyalChestRewardModelTest {
     void theLargestPossibleChestsFitIn54SlotsAndOversizeFailsLoudly() {
         // worst case: every roll hits its maximum, plus accessory and catalyst
         List<Reward> primary = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY,
-                new Script(0.0D, 64, 0.0D, 8, 0.0D, 12, 0.0D, 1, 0.0D, 30, 1, 0.0D, 1), true);
+                new Script(0.0D, 64, 0.0D, 8, 0.0D, 12, 0.0D, 1, 0.0D, 30, 1, 0.0D, 1, 0.0D, 0.0D /* two sap rolls */), true);
         assertTrue(RoyalChestRewardModel.split(primary, id -> id.contains("catalyst") || id.contains("of_") ? 1 : 64).size() <= 54);
         List<Reward> secondary = RoyalChestRewardModel.chestRewards(RoyalChestRole.SECONDARY,
                 new Script(0.0D, 32, 0.0D, 64, 0.0D, 64, 0.0D, 8, 0.0D, 32, 0.0D, 0), true);
@@ -287,5 +287,42 @@ class RoyalChestRewardModelTest {
         assertTrue(RoyalChestRewardModel.hasAccessory(List.of(new Reward("moreminecrafts:ring_of_time", 1))));
         assertFalse(RoyalChestRewardModel.hasAccessory(List.of(new Reward("minecraft:gold_ingot", 64), new Reward("moreminecrafts:relic_catalyst", 1))));
         assertFalse(RoyalChestRewardModel.hasAccessory(List.of()));
+    }
+
+    @Test void sapIsTwoIndependentRollsAtOneHundredAndFortyFivePercentOneEachMaxTwo() {
+        assertEquals(List.of(1.00D, 0.45D), RoyalChestRewardModel.SAP_ROLL_CHANCES);
+        assertEquals("moreminecrafts:ancient_world_tree_sap", RoyalChestRewardModel.SAP_ID);
+        // first roll always succeeds; second succeeds strictly below 0.45
+        assertEquals(1, RoyalChestRewardModel.rollSap(new Script(0.9999999D, 0.45D)).orElseThrow().count());
+        assertEquals(2, RoyalChestRewardModel.rollSap(new Script(0.9999999D, 0.4499999D)).orElseThrow().count());
+        assertEquals(2, RoyalChestRewardModel.rollSap(new Script(0.0D, 0.0D)).orElseThrow().count());
+        Script s = new Script(0.0D, 0.0D);
+        RoyalChestRewardModel.rollSap(s);
+        assertEquals(2, s.consumed(), "exactly one chance draw per roll");
+    }
+
+    @Test void primaryChestGetsSapAndSecondaryNeverDoesAndEarlierDrawsAreUnchanged() {
+        var with = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY, new java.util.Random(7), false);
+        var base = new java.util.ArrayList<>(RoyalChestRewardModel.rollMaterials(RoyalChestRole.PRIMARY, new java.util.Random(7)));
+        // same seed: materials identical to the pre-existing draw sequence
+        assertTrue(with.containsAll(base));
+        assertTrue(with.stream().anyMatch(r -> r.itemId().equals(RoyalChestRewardModel.SAP_ID)), "first roll is 100%");
+        for (int seed = 0; seed < 200; seed++)
+            assertTrue(RoyalChestRewardModel.chestRewards(RoyalChestRole.SECONDARY, new java.util.Random(seed), false).stream()
+                    .noneMatch(r -> r.itemId().equals(RoyalChestRewardModel.SAP_ID)));
+        int primaryWithTwo = 0, n = 20000;
+        java.util.Random random = new java.util.Random(12345);
+        for (int i = 0; i < n; i++) {
+            int sap = totals(RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY, random, false)).getOrDefault(RoyalChestRewardModel.SAP_ID, 0);
+            assertTrue(sap == 1 || sap == 2);
+            if (sap == 2) primaryWithTwo++;
+        }
+        assertEquals(0.45D, primaryWithTwo / (double) n, 0.02D);
+    }
+
+    @Test void existingPrimaryProbabilitiesAndRareGateAreUnchanged() {
+        assertEquals(List.of(1.00D, 0.85D, 0.75D, 0.25D), RoyalChestRewardModel.PRIMARY_ORDINARY.stream().map(RoyalChestRewardModel.Entry::chance).toList());
+        assertEquals(0.10D, RoyalChestRewardModel.RARE_GATE_CHANCE);
+        assertEquals(List.of(20, 10, 35, 35), RoyalChestRewardModel.PRIMARY_RARE.stream().map(RoyalChestRewardModel.RareEntry::weightPercent).toList());
     }
 }

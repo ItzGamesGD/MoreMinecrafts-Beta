@@ -9,10 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AccessoryEnhancementCatalogTest {
     @Test void everyAccessoryHasAnIndependentLiteralElevenLevelTable() {
-        assertEquals(12, AccessoryDefinition.ALL.stream().filter(a -> !a.isT1()).count());
+        assertEquals(13, AccessoryDefinition.ALL.stream().filter(a -> !a.isT1()).count());
         assertEquals(List.of(0,1,2,3,4,5,6,7,8,9,10), AccessoryEnhancementCatalog.levels());
         for (AccessoryDefinition accessory : AccessoryDefinition.ALL) {
             if (accessory.isT1()) continue;
+            // Feather Charm: effect numbers/enhancement table are an open owner decision (D15), so it has no table yet.
+            if (accessory == AccessoryDefinition.FEATHER_CHARM) { assertTrue(AccessoryEnhancementCatalog.table(accessory).isEmpty()); continue; }
             assertFalse(AccessoryEnhancementCatalog.table(accessory).isEmpty(), accessory.name());
             for (var series : AccessoryEnhancementCatalog.table(accessory).entrySet()) {
                 assertEquals(11, series.getValue().size(), accessory + ":" + series.getKey());
