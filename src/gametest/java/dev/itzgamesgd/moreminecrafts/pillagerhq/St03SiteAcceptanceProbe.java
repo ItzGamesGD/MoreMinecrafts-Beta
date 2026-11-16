@@ -247,45 +247,72 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
         selectionMeta.put("random_seeds_fixed", Arrays.stream(RANDOM_SEEDS).boxed().toList());
         result.put("seed_selection_method", selectionMeta);
 
-        // 2. Measure all 10 selected seeds at +-25 regions
+        // 2. Measure all 10 selected seeds at +-25 regions (+ reference seed 7001) in parallel (4 threads)
+        List<SeedEntry> allEntries = new ArrayList<>(selected);
+        allEntries.add(new SeedEntry(REFERENCE_SEED_7001, "reference_baseline"));
+
+        int threads = Math.min(4, Math.max(1, Runtime.getRuntime().availableProcessors()));
+        var pool = java.util.concurrent.Executors.newFixedThreadPool(threads);
+        List<java.util.concurrent.Future<SeedOutcome>> futures = new ArrayList<>();
+        for (SeedEntry entry : allEntries) {
+            futures.add(pool.submit(() -> {
+                List<Map<String, Object>> localEligible = new ArrayList<>();
+                BiomeSource threadBiomeSource = MultiNoiseBiomeSource.createFromPreset(
+                        access.lookupOrThrow(Registries.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST)
+                                .getOrThrow(MultiNoiseBiomeSourceParameterLists.OVERWORLD));
+                NoiseBasedChunkGenerator seedGen = new NoiseBasedChunkGenerator(threadBiomeSource, noiseSettings);
+                Map<String, Object> row = measureSeed(
+                        entry.seed, entry.category, REGION_RADIUS, true,
+                        access, noiseSettings, threadBiomeSource, seedGen, height, placement,
+                        localEligible);
+                return new SeedOutcome(entry, row, localEligible);
+            }));
+        }
+        pool.shutdown();
+
         List<Map<String, Object>> seedResults = new ArrayList<>();
         List<Map<String, Object>> allEligibleCandidates = new ArrayList<>();
-        for (SeedEntry entry : selected) {
-            Map<String, Object> row = measureSeed(
-                    entry.seed, entry.category, REGION_RADIUS,
-                    access, noiseSettings, biomeSource, generator, height, placement,
-                    allEligibleCandidates);
-            seedResults.add(row);
+        Map<String, Object> ref7001 = null;
+        try {
+            for (var f : futures) {
+                SeedOutcome out = f.get();
+                if ("reference_baseline".equals(out.entry.category)) {
+                    ref7001 = out.row;
+                } else {
+                    seedResults.add(out.row);
+                    allEligibleCandidates.addAll(out.eligible);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Parallel seed measurement failed", e);
         }
+
         result.put("seeds", seedResults);
         result.put("eligible_candidates_total", allEligibleCandidates.size());
         result.put("eligible_candidates", allEligibleCandidates);
-
-        // 3. Also measure reference seed 7001 at +-25 for direct comparison with background note
-        List<Map<String, Object>> refEligible = new ArrayList<>();
-        Map<String, Object> ref7001 = measureSeed(
-                REFERENCE_SEED_7001, "reference_baseline", REGION_RADIUS,
-                access, noiseSettings, biomeSource, generator, height, placement,
-                refEligible);
         result.put("reference_seed_7001", ref7001);
 
-        // 4. If 0 candidates passed in +-25 across all 10 seeds, run a +-60 diagnostic scan on the #1 plains-heavy seed
+        // 3. If 0 candidates passed in +-25 across all 10 seeds, run a fast +-60 diagnostic scan on the #1 plains-heavy seed
         if (allEligibleCandidates.isEmpty()) {
             long topPlainsSeed = selected.get(0).seed;
             List<Map<String, Object>> wideEligible = new ArrayList<>();
+            NoiseBasedChunkGenerator wideGen = new NoiseBasedChunkGenerator(biomeSource, noiseSettings);
             Map<String, Object> wideScan = measureSeed(
-                    topPlainsSeed, "plains_heavy_wide_60", 60,
-                    access, noiseSettings, biomeSource, generator, height, placement,
+                    topPlainsSeed, "plains_heavy_wide_60", 60, false,
+                    access, noiseSettings, biomeSource, wideGen, height, placement,
                     wideEligible);
             wideScan.put("eligible_candidates", wideEligible);
             result.put("wide_60_diagnostic_top_plains", wideScan);
         }
     }
 
+    private record SeedOutcome(SeedEntry entry, Map<String, Object> row, List<Map<String, Object>> eligible) {}
+
     private static Map<String, Object> measureSeed(
             long seed,
             String category,
             int regionRadius,
+            boolean collectCounterfactuals,
             RegistryAccess access,
             Holder<NoiseGeneratorSettings> noiseSettings,
             BiomeSource biomeSource,
@@ -298,14 +325,14 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
         Climate.Sampler sampler = rs.createClimateSampler(SamplerContext.builder().enableCaches().build());
         BiomeResolver resolver = biomeSource.createResolver(sampler);
 
-        // A. Surface biome & elevation distribution (25x25 = 625 points in [-3840, +3840], step 320)
+        // A. Surface biome & elevation distribution (21x21 = 441 points in [-3840, +3840], step 384)
         int distTotal = 0, distPurePlains = 0, distMeadow = 0, distForest = 0, distMountain = 0, distWaterShore = 0, distOther = 0;
         int distEligibleBiomes = 0;
         double sumY = 0, sumY2 = 0;
         int minY = Integer.MAX_VALUE, maxY = Integer.MIN_VALUE;
         Map<String, Integer> topBiomes = new TreeMap<>();
-        for (int x = -3840; x <= 3840; x += 320) {
-            for (int z = -3840; z <= 3840; z += 320) {
+        for (int x = -3840; x <= 3840; x += 384) {
+            for (int z = -3840; z <= 3840; z += 384) {
                 distTotal++;
                 int surfY = generator.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, height, rs);
                 sumY += surfY;
@@ -432,18 +459,20 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
                     else if (res.verdict() == St03Eligibility.Verdict.REJECT_CUT) cutFailedAfterFullBiome++;
                     else if (res.verdict() == St03Eligibility.Verdict.REJECT_SKIRT) skirtFailedAfterFullBiome++;
 
-                    // Measure exact counterfactual terrain stats (non-short-circuiting) on full-biome-passing sites
-                    TerrainSummary ts = sampleFullTerrain(terrain, originX, originZ, 4);
-                    if (ts.waterCells == 0) {
-                        if (ts.diff <= 8) cfFullBiomePassDiff8NoWater++;
-                        if (ts.diff <= 10) cfFullBiomePassDiff10NoWater++;
-                        if (ts.diff <= 12) cfFullBiomePassDiff12NoWater++;
+                    if (collectCounterfactuals) {
+                        // Measure exact counterfactual terrain stats (non-short-circuiting) on full-biome-passing sites
+                        TerrainSummary ts = sampleFullTerrain(terrain, originX, originZ, 4);
+                        if (ts.waterCells == 0) {
+                            if (ts.diff <= 8) cfFullBiomePassDiff8NoWater++;
+                            if (ts.diff <= 10) cfFullBiomePassDiff10NoWater++;
+                            if (ts.diff <= 12) cfFullBiomePassDiff12NoWater++;
+                        }
+                        if (ts.waterPct <= 5.0) {
+                            if (ts.diff <= 5) cfFullBiomePassDiff5AllowWater5Pct++;
+                            if (ts.diff <= 8) cfFullBiomePassDiff8AllowWater5Pct++;
+                        }
                     }
-                    if (ts.waterPct <= 5.0) {
-                        if (ts.diff <= 5) cfFullBiomePassDiff5AllowWater5Pct++;
-                        if (ts.diff <= 8) cfFullBiomePassDiff8AllowWater5Pct++;
-                    }
-                } else if (centerOk && centerOnlySampled < 200) {
+                } else if (collectCounterfactuals && centerOk && centerOnlySampled < 80) {
                     centerOnlySampled++;
                     double biomeCov = footprintBiomeCoverage(terrain, originX, originZ);
                     TerrainSummary ts = sampleFullTerrain(terrain, originX, originZ, 8);
