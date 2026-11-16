@@ -156,8 +156,16 @@ public final class St01NaturalVerifyClientTest implements FabricClientGameTest {
                     });
                     context.waitTicks(1);
                 }
-                server.runOnServer(s -> St01PyramidCompletion.processPending(s));
-                context.waitTicks(5);
+                // the completion handoff registers the royal chest asynchronously: poll up to ~30 s
+                var pl = St01PyramidAssembly.describe(meta0.ground(), meta0.orientation(), meta0.route());
+                for (int i = 0; i < 60; i++) {
+                    server.runOnServer(s -> St01PyramidCompletion.processPending(s));
+                    boolean reg = server.computeOnServer(s -> RoyalChestRuntime.data(s.overworld())
+                            .instance(RoyalChestRuntime.canonicalId(s.overworld(), pl.primaryLeft())).isPresent());
+                    detail.put("registration_polls", i + 1);
+                    if (reg) break;
+                    context.waitTicks(10);
+                }
             }
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
