@@ -17,9 +17,9 @@ class ArtifactCoreTest {
             "earthen_relic_core", "abyssal_relic_core", "glacial_relic_core", "tidal_relic_core", "blazing_relic_core");
 
     @Test void fiveCoreIdsAndNamesMatchTheApprovedBiomeCoreDocument() {
-        assertEquals(IDS, ArtifactCore.values().stream().map(ArtifactCore::id).toList());
+        assertEquals(IDS, java.util.Arrays.stream(ArtifactCore.values()).map(ArtifactCore::id).toList());
         assertEquals(List.of("대지의 유물핵", "심연의 유물핵", "한기의 유물핵", "해류의 유물핵", "작열의 유물핵"),
-                ArtifactCore.values().stream().map(ArtifactCore::koreanName).toList());
+                java.util.Arrays.stream(ArtifactCore.values()).map(ArtifactCore::koreanName).toList());
     }
 
     @Test void dropTierBoundsMatchTheDocumentWithoutSelectingAnUndocumentedChance() {
