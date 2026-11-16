@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  checks: write
 jobs:
   measure:
     name: Seed ${{ matrix.seed }}
@@ -30,7 +31,14 @@ jobs:
       - name: Compile and unit tests (server probe only)
         run: ./gradlew test compileGametestJava --no-daemon --max-workers=2
       - name: Measure all policies, search, baselines, and real chunks
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash tools/st03-site-v2/run_seed.sh '${{ matrix.seed }}'
+      - name: Publish numerical evidence to Checks
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/st03-site-v2/publish_results.py 'build/st03-site-v2/${{ matrix.seed }}' '${{ matrix.seed }}'
       - name: Upload complete raw evidence
         if: always()
         uses: actions/upload-artifact@v4

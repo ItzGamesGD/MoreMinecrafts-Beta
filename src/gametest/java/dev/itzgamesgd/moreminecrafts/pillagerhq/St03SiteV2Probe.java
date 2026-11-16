@@ -143,7 +143,9 @@ public final class St03SiteV2Probe implements ModInitializer {
         Map<String,Integer> out=new LinkedHashMap<>(); for(String v:VERDICTS) out.put(v,0); return out;
     }
     private static void run(MinecraftServer server, Path dir, Map<String,Object> out) throws Exception {
+        selfCheck();
         Files.createDirectories(dir); long started=System.nanoTime(); ServerLevel level=server.overworld();
+        out.put("rules_self_checks", "PASS");
         Terrain t=new Terrain(level); long seed=level.getSeed();
         out.put("seed",seed); out.put("head_sha",System.getenv("GITHUB_SHA")); out.put("run_id",System.getenv("GITHUB_RUN_ID"));
         out.put("generator",t.gen.getClass().getName()); out.put("height_step",8); out.put("legacy_height_step",4);
@@ -221,7 +223,7 @@ public final class St03SiteV2Probe implements ModInitializer {
                     }
                     ci++;
                 }
-                if(total%25==0) { dump.flush(); selected.flush(); oldDump.flush(); LOG.info("ST03_V2_PROGRESS seed={} anchors={}/2601 columns={} elapsed_s={}",seed,total,t.columns,(System.nanoTime()-started)/1e9); }
+                if(total%25==0) { Files.writeString(dir.resolve("progress.json"), JSON.toJson(Map.of("seed",seed,"anchors",total,"columns",t.columns,"seconds",(System.nanoTime()-started)/1e9))); dump.flush(); selected.flush(); oldDump.flush(); LOG.info("ST03_V2_PROGRESS seed={} anchors={}/2601 columns={} elapsed_s={}",seed,total,t.columns,(System.nanoTime()-started)/1e9); }
             }
         }
         out.put("candidates",total); out.put("configs",configs); out.put("counts",counts); out.put("search_counts",searchCounts);
@@ -234,6 +236,20 @@ public final class St03SiteV2Probe implements ModInitializer {
         Files.writeString(dir.resolve("measurement.json"),JSON.toJson(out));
         long vt=System.nanoTime(); out.put("verification",verify(level,t,verifyTargets,profiles)); out.put("verification_seconds",(System.nanoTime()-vt)/1e9);
         out.put("total_seconds",(System.nanoTime()-started)/1e9);
+    }
+    private static void selfCheck() {
+        Sample s=new Sample(0,new int[]{70,80,90},10,100,5,100,60,62,68,74,76,58,new int[100]);
+        if(!biomeVerdict(s,0,70,true).equals("PASS") || !biomeVerdict(s,0,80,true).equals("FOOTPRINT_BIOME")) throw new AssertionError("neutral edge coverage");
+        if(!biomeVerdict(s,0,70,false).equals("PASS") || !biomeVerdict(s,0,71,false).equals("FOOTPRINT_BIOME")) throw new AssertionError("raw denominator boundary");
+        if(!evaluate(s,0,70,5,true,true,LIMITS[2]).pass()) throw new AssertionError("exact 5% water");
+        if(!evaluate(s,0,70,0,true,true,LIMITS[2]).verdict().equals("WATER")) throw new AssertionError("water exclusion");
+        Sample slope=new Sample(0,new int[]{100,100,100},0,100,0,100,60,61,61,72,72,60,new int[100]);
+        Decision d=evaluate(slope,0,80,5,true,true,new Limits("test",20,4,8,8));
+        if(!d.pass() || d.foundation()!=68) throw new AssertionError("feasible nonmedian foundation");
+        Sample pit=new Sample(0,new int[]{100,100,100},0,100,0,100,40,65,66,68,100,40,new int[100]);
+        if(evaluate(pit,0,80,5,true,true,LIMITS[2]).pass()) throw new AssertionError("percentile must not hide outlier");
+        if(evaluate(slope,0,80,5,true,true,new Limits("test",20,4,8,6)).pass()) throw new AssertionError("footing fill independently constrained");
+        if(percentile(new int[]{1,2,3,4,5},.05)!=1 || percentile(new int[]{1,2,3,4,5},.95)!=5) throw new AssertionError("nearest rank");
     }
     private static List<List<Integer>> matrix(int[] data,int n) {
         List<List<Integer>> out=new ArrayList<>(); for(int i=0;i<n;i++) { List<Integer> row=new ArrayList<>(); for(int j=0;j<n;j++) row.add(data[i*n+j]); out.add(row); } return out;
@@ -296,14 +312,21 @@ public final class St03SiteV2Probe implements ModInitializer {
         // Three actual generated plains sections, paired against getBaseHeight; no synthetic flattening or rule override.
         for(Map<String,Object> profile:profiles) {
             int ox=(int)profile.get("origin_x"),oz=(int)profile.get("origin_z");
-            List<Integer> surface=new ArrayList<>(),floor=new ArrayList<>(),raw=new ArrayList<>();
+            List<Integer> surface=new ArrayList<>(),floor=new ArrayList<>(),raw=new ArrayList<>(),bare=new ArrayList<>();
             for(int dx:offsets(8)) {
                 int x=ox+dx,z=oz+56; level.getChunk(x>>4,z>>4,ChunkStatus.FULL);
                 surface.add(level.getHeight(Heightmap.Types.WORLD_SURFACE,x,z));
                 floor.add(level.getHeight(Heightmap.Types.OCEAN_FLOOR,x,z)); raw.add(t.surfaceHeight(x,z));
+                int y=level.getHeight(Heightmap.Types.WORLD_SURFACE,x,z)-1;
+                while(y>level.getMinY()) {
+                    var block=level.getBlockState(new BlockPos(x,y,z));
+                    if(block.isSolidRender() && !block.is(net.minecraft.tags.BlockTags.LOGS) && !block.is(net.minecraft.tags.BlockTags.LEAVES)) break;
+                    y--;
+                }
+                bare.add(y+1);
             }
             profile.put("generated_section_x_offsets",offsets(8)); profile.put("generated_section_z_offset",56);
-            profile.put("raw_base_section",raw); profile.put("generated_world_surface_section",surface); profile.put("generated_ocean_floor_section",floor);
+            profile.put("raw_base_section",raw); profile.put("generated_world_surface_section",surface); profile.put("generated_ocean_floor_section",floor); profile.put("generated_bare_ground_section",bare);
         }
         return out;
     }
