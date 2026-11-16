@@ -12,6 +12,11 @@ on:
         description: 'Completed source run ID for verification-only (empty = full experiment)'
         required: false
         type: string
+      verification_seeds:
+        description: 'JSON seed list for verification-only'
+        required: false
+        type: string
+        default: '[10079,10033,10148,10137,10142,10039,10135,10061,314159265,867530926]'
 permissions:
   contents: read
   checks: write
@@ -63,7 +68,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        seed: [10079, 10033, 10148, 10137, 10142, 10039, 10135, 10061, 314159265, 867530926]
+        seed: ${{ fromJSON(inputs.verification_seeds) }}
     steps:
       - uses: actions/checkout@v4
         with:
