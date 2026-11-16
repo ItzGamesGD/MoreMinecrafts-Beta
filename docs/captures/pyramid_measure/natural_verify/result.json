@@ -1,8 +1,8 @@
 {
   "generator": "PASS",
   "locate": "PASS",
-  "structure": "FAIL",
-  "capture": "NOT RUN",
+  "structure": "PASS",
+  "capture": "PASS",
   "detail": {
     "seed": "1004",
     "generator_class": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
@@ -21,10 +21,88 @@
       "biome_at_ground": "minecraft:desert",
       "biome_at_located_xz": "minecraft:desert",
       "primary_left_block": "minecraft:chest",
-      "royal_chest_registered": false,
+      "royal_chest_registered": true,
       "sampled_non_air_blocks": "9757/17496"
     },
-    "registration_polls": 60,
-    "failure": "java.lang.AssertionError: Pyramid structure not confirmed: {valid_start_found\u003dtrue, meta_present\u003dtrue, start_piece_count\u003d4, ground\u003d-1768, 70, 2696, orientation\u003dEAST, route\u003dWEST, biome_at_ground\u003dminecraft:desert, biome_at_located_xz\u003dminecraft:desert, primary_left_block\u003dminecraft:chest, royal_chest_registered\u003dfalse, sampled_non_air_blocks\u003d9757/17496}"
+    "registration_polls": 1,
+    "captures": [
+      {
+        "name": "pyramid-natural-00-exterior-oblique",
+        "world_feet": [
+          -1675.5,
+          98.0,
+          2630.5
+        ],
+        "position_reached": true,
+        "client_eye_block": "minecraft:air",
+        "screenshot": "/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0000_pyramid-natural-00-exterior-oblique.png"
+      },
+      {
+        "name": "pyramid-natural-01-exterior-entrance-approach",
+        "world_feet": [
+          -1697.5,
+          73.0,
+          2696.5
+        ],
+        "position_reached": true,
+        "client_eye_block": "minecraft:air",
+        "screenshot": "/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0001_pyramid-natural-01-exterior-entrance-approach.png"
+      },
+      {
+        "name": "pyramid-natural-02-exterior-aerial",
+        "world_feet": [
+          -1837.5,
+          145.0,
+          2766.5
+        ],
+        "position_reached": true,
+        "client_eye_block": "minecraft:air",
+        "screenshot": "/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0002_pyramid-natural-02-exterior-aerial.png"
+      },
+      {
+        "name": "pyramid-natural-03-interior-entrance-hall",
+        "world_feet": [
+          -1728.5,
+          70.0,
+          2696.5
+        ],
+        "position_reached": true,
+        "client_eye_block": "minecraft:air",
+        "screenshot": "/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0003_pyramid-natural-03-interior-entrance-hall.png"
+      },
+      {
+        "name": "pyramid-natural-04-interior-gallery",
+        "world_feet": [
+          -1750.5,
+          70.0,
+          2696.5
+        ],
+        "position_reached": true,
+        "client_eye_block": "minecraft:air",
+        "screenshot": "/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0004_pyramid-natural-04-interior-gallery.png"
+      },
+      {
+        "name": "pyramid-natural-05-interior-royal-hall",
+        "world_feet": [
+          -1759.5,
+          48.0,
+          2717.5
+        ],
+        "position_reached": true,
+        "client_eye_block": "minecraft:air",
+        "screenshot": "/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0005_pyramid-natural-05-interior-royal-hall.png"
+      },
+      {
+        "name": "pyramid-natural-06-interior-treasury-vault",
+        "world_feet": [
+          -1741.5,
+          40.0,
+          2689.5
+        ],
+        "position_reached": true,
+        "client_eye_block": "minecraft:air",
+        "screenshot": "/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0006_pyramid-natural-06-interior-treasury-vault.png"
+      }
+    ]
   }
 }
