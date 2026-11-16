@@ -18,7 +18,7 @@ public final class ArtifactCoreMapping {
             e(ArtifactCore.GLACIAL, "t1_double_jump", "도약의 깃털 팔찌"),
             e(ArtifactCore.GLACIAL, "ring_of_time", "시간의 고리"),
             e(ArtifactCore.GLACIAL, "snow_charm", "설원의 부적"),
-            new Entry(ArtifactCore.GLACIAL, null, "깃털 부적"),
+            e(ArtifactCore.GLACIAL, "feather_charm", "깃털 부적"),
             e(ArtifactCore.TIDAL, "deep_sea_pearl", "심해의 진주"),
             e(ArtifactCore.TIDAL, "whisper_of_the_sea", "바다의 속삭임"),
             e(ArtifactCore.BLAZING, "t1_crisis_escape", "충격파의 브로치"),

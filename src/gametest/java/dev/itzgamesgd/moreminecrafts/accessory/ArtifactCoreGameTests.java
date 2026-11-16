@@ -22,4 +22,41 @@ public final class ArtifactCoreGameTests {
         ctx.assertTrue(core != null, "overworld test position falls into a documented biome class");
         ctx.succeed();
     }
+
+    @GameTest(maxTicks = 20)
+    public void featherCharmIsMappedButNotRegisteredByThisChange(GameTestHelper ctx) {
+        var entry = ArtifactCoreMapping.ALL.stream().filter(e -> "feather_charm".equals(e.accessoryId())).findFirst();
+        ctx.assertTrue(entry.isPresent(), "Feather Charm mapping record exists");
+        ctx.assertTrue(net.minecraft.core.registries.BuiltInRegistries.ITEM
+                .get(dev.itzgamesgd.moreminecrafts.core.ModIds.id("feather_charm")).isEmpty(),
+                "Feather Charm item registration is deferred to its accessory work");
+        ctx.succeed();
+    }
+
+    @GameTest(maxTicks = 20)
+    public void approvedDropRollCanBeReplayedFromRandomGenerator(GameTestHelper ctx) {
+        java.util.random.RandomGenerator seeded = new java.util.SplittableRandom(20261116L);
+        int first = ArtifactCoreDropRules.rollCount(ArtifactCoreDropRules.Tier.BOSS, seeded);
+        int replay = ArtifactCoreDropRules.rollCount(ArtifactCoreDropRules.Tier.BOSS,
+                new java.util.SplittableRandom(20261116L));
+        ctx.assertTrue(first == replay && (first == 1 || first == 2), "boss drop roll is reproducible and yields one or two");
+        ctx.succeed();
+    }
+
+    @GameTest(maxTicks = 20)
+    public void bioMobRankExamplesUseTheirDocumentedDropTiers(GameTestHelper ctx) {
+        var ordinary = net.minecraft.world.entity.EntityTypes.ENDERMAN.create(ctx.getLevel(),
+                net.minecraft.world.entity.EntitySpawnReason.COMMAND);
+        var elite = net.minecraft.world.entity.EntityTypes.RAVAGER.create(ctx.getLevel(),
+                net.minecraft.world.entity.EntitySpawnReason.COMMAND);
+        var boss = net.minecraft.world.entity.EntityTypes.ELDER_GUARDIAN.create(ctx.getLevel(),
+                net.minecraft.world.entity.EntitySpawnReason.COMMAND);
+        ctx.assertTrue(ordinary != null && ArtifactCoreDropRules.tier(ordinary) == ArtifactCoreDropRules.Tier.GENERAL_STRONG,
+                "BIO §2.2 ordinary example uses general rate");
+        ctx.assertTrue(elite != null && ArtifactCoreDropRules.tier(elite) == ArtifactCoreDropRules.Tier.HIGH_ELITE,
+                "BIO §2.2 high elite uses elite rate");
+        ctx.assertTrue(boss != null && ArtifactCoreDropRules.tier(boss) == ArtifactCoreDropRules.Tier.BOSS,
+                "BIO §2.2 boss example uses guaranteed rate");
+        ctx.succeed();
+    }
 }

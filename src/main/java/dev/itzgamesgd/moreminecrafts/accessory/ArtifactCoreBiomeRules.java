@@ -47,7 +47,8 @@ public final class ArtifactCoreBiomeRules {
         if (hasAny(tags, BiomeTag.SNOWY, BiomeTag.MOUNTAIN, BiomeTag.HILL, BiomeTag.WINDSWEPT, BiomeTag.STONY_PEAKS,
                 BiomeTag.MEADOW, BiomeTag.CHERRY_GROVE) || location.inTrialChambers()
                 || (location.skyVisible() && location.y() >= 140)) return ArtifactCore.GLACIAL;
-        return location.skyVisible() ? ArtifactCore.EARTHEN : null;
+        // The owner-approved fallback for undocumented, sky-blocked positions above Y=45.
+        return ArtifactCore.EARTHEN;
     }
 
     /** Reads the real dimension, biome holder tags, surface visibility, and Trial Chambers structure at a position. */
