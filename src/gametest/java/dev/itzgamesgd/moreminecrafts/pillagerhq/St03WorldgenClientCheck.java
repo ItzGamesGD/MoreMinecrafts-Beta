@@ -6,13 +6,17 @@ import dev.itzgamesgd.moreminecrafts.pillagerhq.worldgen.St03HeadquartersStructu
 import dev.itzgamesgd.moreminecrafts.registry.ModBlocks;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerConnection;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -25,13 +29,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.level.ChunkPos;
 
 /**
  * Real-client check of the ST-03 Pillager Headquarters (gated by -Dmoreminecrafts.st03.worldgen.check=true).
@@ -48,14 +53,74 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
 
     /** Planned HQ origins {x, foundationY, z}, filled by the server thread. */
     static final List<int[]> PLAN = new ArrayList<>();
-    static final java.util.Map<String, Integer> VERDICTS = new java.util.TreeMap<>();
-    static final java.util.Map<String, Integer> BIOME_HIST = new java.util.TreeMap<>();
+    static final Map<String, Integer> VERDICTS = new TreeMap<>();
+    static final Map<String, Integer> BIOME_HIST = new TreeMap<>();
+
+    private static volatile boolean diagEventsRegistered;
+    static final Map<UUID, String> TRACKED_META = new ConcurrentHashMap<>();
+    static final Map<UUID, String> LAST_UNLOAD_REASON = new ConcurrentHashMap<>();
+    static final Map<Integer, UUID> HQ0_SLOT_UUIDS = new ConcurrentHashMap<>();
+
+    private static void registerDiagEventsIfNeeded() {
+        if (diagEventsRegistered || !Boolean.getBoolean("moreminecrafts.st03.diag")) {
+            return;
+        }
+        diagEventsRegistered = true;
+        ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
+            String hqTag = findTagWithPrefix(entity, St03GarrisonManager.TAG_HQ_PREFIX);
+            if (hqTag == null && !TRACKED_META.containsKey(entity.getUUID())) {
+                return;
+            }
+            String slotTag = findTagWithPrefix(entity, St03GarrisonManager.TAG_SLOT_PREFIX);
+            String role = entity.entityTags().contains(St03GarrisonManager.TAG_PRISONER)
+                    ? "prisoner"
+                    : (slotTag != null ? slotTag : "none");
+            String meta = hqTag + "|" + role + "|" + entity.getType().toShortString();
+            TRACKED_META.putIfAbsent(entity.getUUID(), meta);
+            boolean persist = entity instanceof Mob m && m.isPersistenceRequired();
+            boolean remFar = entity instanceof Mob m && m.removeWhenFarAway(10000.0D);
+            boolean entitiesLoaded = level.areEntitiesLoaded(entity.chunkPosition().pack());
+            System.out.println("ST03_DIAG ENTITY_LOAD meta=" + meta + " uuid=" + entity.getUUID()
+                    + " pos=" + entity.blockPosition() + " chunk=" + entity.chunkPosition()
+                    + " entitiesLoaded=" + entitiesLoaded + " persist=" + persist
+                    + " removeWhenFarAway=" + remFar + " alive=" + entity.isAlive()
+                    + " gameTime=" + level.getGameTime());
+        });
+        ServerEntityEvents.ENTITY_UNLOAD.register((entity, level) -> {
+            String hqTag = findTagWithPrefix(entity, St03GarrisonManager.TAG_HQ_PREFIX);
+            if (hqTag == null && !TRACKED_META.containsKey(entity.getUUID())) {
+                return;
+            }
+            String meta = TRACKED_META.getOrDefault(entity.getUUID(), hqTag + "|" + entity.getType().toShortString());
+            Entity.RemovalReason reason = entity.getRemovalReason();
+            String reasonStr = reason == null ? "null" : reason.name();
+            LAST_UNLOAD_REASON.put(entity.getUUID(), reasonStr + "@" + level.getGameTime());
+            boolean deadOrDying = entity instanceof LivingEntity le && le.isDeadOrDying();
+            float health = entity instanceof LivingEntity le ? le.getHealth() : -1.0F;
+            System.out.println("ST03_DIAG ENTITY_UNLOAD meta=" + meta + " uuid=" + entity.getUUID()
+                    + " pos=" + entity.blockPosition() + " chunk=" + entity.chunkPosition()
+                    + " reason=" + reasonStr + " deadOrDying=" + deadOrDying
+                    + " health=" + health + " gameTime=" + level.getGameTime());
+        });
+    }
+
+    private static String findTagWithPrefix(Entity entity, String prefix) {
+        for (String tag : entity.entityTags()) {
+            if (tag.startsWith(prefix)) {
+                return tag;
+            }
+        }
+        return null;
+    }
 
     @Override
     public void runTest(ClientGameTestContext context) {
         if (!Boolean.getBoolean("moreminecrafts.st03.worldgen.check")) {
             return;
         }
+        final boolean diag = Boolean.getBoolean("moreminecrafts.st03.diag");
+        registerDiagEventsIfNeeded();
+
         Properties properties = new Properties();
         properties.setProperty("online-mode", "false");
         properties.setProperty("difficulty", "easy");
@@ -68,6 +133,21 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
              TestDedicatedServerConnection connection = server.connect()) {
             context.waitFor(c -> c.player != null && c.level != null);
             context.waitTicks(40);
+
+            if (diag) {
+                server.runOnServer(s -> {
+                    ServerLevel level = s.overworld();
+                    ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
+                    p.getAbilities().invulnerable = true;
+                    p.onUpdateAbilities();
+                    System.out.println("ST03_DIAG ENV levelDifficulty=" + level.getDifficulty()
+                            + " worldDifficulty=" + s.getWorldData().getDifficulty()
+                            + " playerGameMode=" + p.gameMode()
+                            + " invulnerable=" + p.getAbilities().invulnerable
+                            + " viewDist=6 simDist=6");
+                });
+                connection.waitForClientboundPackets();
+            }
 
             // 1. Plan HQ origins from the placement math, one region row per server tick.
             for (int row = -REGION_RADIUS; row <= REGION_RADIUS && PLAN.size() < 40; row++) {
@@ -130,7 +210,18 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                 server.runOnServer(s -> printGarrison(s.overworld(), c[0], c[2], "hq=" + index));
                 connection.waitForClientboundPackets();
 
-                if (i == 0) {
+                if (diag && i == 0) {
+                    // Record all 40 UUIDs immediately after spawn, then run Experiment (a): stay inside HQ 0 for 1200 ticks.
+                    server.runOnServer(s -> recordHq0Uuids(s.overworld(), c[0], c[2]));
+                    connection.waitForClientboundPackets();
+
+                    context.waitTicks(1200);
+
+                    server.runOnServer(s -> inspectHq0Uuids(s.overworld(), c[0], c[2], "EXP_A_STAY_1200"));
+                    connection.waitForClientboundPackets();
+                }
+
+                if (i == 0 && !diag) {
                     server.runOnServer(s -> teleport(s, s.overworld(), c[0] - 40.5, c[1] + 18, c[2] - 40.5, -45, 12));
                     connection.waitForClientboundPackets();
                     context.waitTicks(60);
@@ -143,16 +234,24 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                 }
             }
 
-            // 3. Post-clear on the first HQ: kill every defender through the normal death path, then 5 beds.
+            // 3. Post-clear on the first HQ: Experiment (b) return from far away, inspect UUIDs, then kill every defender.
             int[] first = chosen.get(0);
-            // Return to HQ 0 first: the garrison is only loaded (and only killable) while the player is nearby.
             System.out.println("ST03_WORLDGEN return_to_hq0 target=" + first[0] + "," + first[1] + "," + first[2] + " chosenSize=" + chosen.size());
             server.runOnServer(s -> {
                 teleport(s, s.overworld(), first[0] + 56.5, first[1] + 3, first[2] + 56.5, 0, 10);
                 System.out.println("ST03_WORLDGEN return_to_hq0 player_after=" + s.getPlayerList().getPlayers().getFirst().blockPosition());
             });
             connection.waitForClientboundPackets();
-            context.waitTicks(1200);
+            if (diag) {
+                context.waitTicks(40);
+                server.runOnServer(s -> inspectHq0Uuids(s.overworld(), first[0], first[2], "EXP_B_RETURN_T40"));
+                connection.waitForClientboundPackets();
+                context.waitTicks(1200);
+                server.runOnServer(s -> inspectHq0Uuids(s.overworld(), first[0], first[2], "EXP_B_RETURN_T1240"));
+                connection.waitForClientboundPackets();
+            } else {
+                context.waitTicks(1200);
+            }
             // Kill passes until none are left in the loaded box (some defenders load a little after the first pass).
             for (int pass = 0; pass < 15; pass++) {
                 final int passNo = pass;
@@ -164,7 +263,14 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                     for (Entity e : level.getEntities((Entity) null, boxOf(hq), e -> e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id()))) {
                         if (e instanceof LivingEntity living && !(e instanceof Villager)) {
                             // Real damage and death path (fires AFTER_DEATH, which the garrison handler uses to count eliminations).
-                            living.hurtServer(level, level.damageSources().genericKill(), Float.MAX_VALUE);
+                            boolean hurtRes = living.hurtServer(level, level.damageSources().genericKill(), Float.MAX_VALUE);
+                            if (diag) {
+                                System.out.println("ST03_DIAG KILL_ATTEMPT pass=" + passNo
+                                        + " uuid=" + living.getUUID() + " type=" + living.getType().toShortString()
+                                        + " hurtRes=" + hurtRes + " alive=" + living.isAlive()
+                                        + " deadOrDying=" + living.isDeadOrDying() + " hp=" + living.getHealth()
+                                        + " removed=" + living.isRemoved() + " pos=" + living.blockPosition());
+                            }
                         }
                     }
                     left[0] = defenderCount(level, first[0], first[2]);
@@ -212,12 +318,87 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                 });
                 connection.waitForClientboundPackets();
             }
-            server.runOnServer(s -> teleport(s, s.overworld(), first[0] + 56.5, first[1] + 3, first[2] + 56.5, 0, 10));
-            connection.waitForClientboundPackets();
-            context.waitTicks(60);
-            System.out.println("ST03_WORLDGEN_SHOT " + context.takeScreenshot("st03-worldgen-02-post-clear-conversion"));
+            if (!diag) {
+                server.runOnServer(s -> teleport(s, s.overworld(), first[0] + 56.5, first[1] + 3, first[2] + 56.5, 0, 10));
+                connection.waitForClientboundPackets();
+                context.waitTicks(60);
+                System.out.println("ST03_WORLDGEN_SHOT " + context.takeScreenshot("st03-worldgen-02-post-clear-conversion"));
+            }
             System.out.println("ST03_WORLDGEN_CHECK_COMPLETE");
         }
+    }
+
+    private static void recordHq0Uuids(ServerLevel level, int x, int z) {
+        St03HeadquartersData.HqInstance hq = findHq(level, x, z);
+        if (hq == null) return;
+        HQ0_SLOT_UUIDS.clear();
+        for (Entity e : level.getEntities((Entity) null, boxOf(hq).inflate(64),
+                e -> e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id()))) {
+            if (e instanceof Villager) continue;
+            String slotTag = findTagWithPrefix(e, St03GarrisonManager.TAG_SLOT_PREFIX);
+            int slot = slotTag == null ? -1 : Integer.parseInt(slotTag.substring(St03GarrisonManager.TAG_SLOT_PREFIX.length()));
+            HQ0_SLOT_UUIDS.put(slot, e.getUUID());
+            System.out.println("ST03_DIAG HQ0_UUID slot=" + slot + " type=" + e.getType().toShortString()
+                    + " uuid=" + e.getUUID() + " pos=" + e.blockPosition()
+                    + " inBox=" + hq.contains(e.blockPosition())
+                    + " entitiesLoaded=" + level.areEntitiesLoaded(e.chunkPosition().pack()));
+        }
+        System.out.println("ST03_DIAG HQ0_RECORDED count=" + HQ0_SLOT_UUIDS.size() + " expected=" + SLOT_COUNT);
+    }
+
+    private static void inspectHq0Uuids(ServerLevel level, int x, int z, String phase) {
+        St03HeadquartersData.HqInstance hq = findHq(level, x, z);
+        if (hq == null) return;
+        int found = 0;
+        int alive = 0;
+        int inBox = 0;
+        int outOfBox = 0;
+        int missing = 0;
+        Map<String, Integer> missingReasons = new TreeMap<>();
+        for (int slot = 0; slot < SLOT_COUNT; slot++) {
+            UUID uuid = HQ0_SLOT_UUIDS.get(slot);
+            if (uuid == null) {
+                missing++;
+                missingReasons.merge("NEVER_RECORDED", 1, Integer::sum);
+                continue;
+            }
+            Entity e = level.getEntity(uuid);
+            if (e == null) {
+                missing++;
+                String lastUnload = LAST_UNLOAD_REASON.getOrDefault(uuid, "NO_UNLOAD_EVENT");
+                missingReasons.merge(lastUnload.replaceAll("@\\d+", ""), 1, Integer::sum);
+                System.out.println("ST03_DIAG " + phase + " MISSING slot=" + slot + " uuid=" + uuid
+                        + " lastUnload=" + lastUnload);
+            } else {
+                found++;
+                if (e.isAlive()) alive++;
+                boolean inside = hq.contains(e.blockPosition());
+                if (inside) {
+                    inBox++;
+                } else {
+                    outOfBox++;
+                    System.out.println("ST03_DIAG " + phase + " OUT_OF_BOX slot=" + slot + " uuid=" + uuid
+                            + " type=" + e.getType().toShortString() + " pos=" + e.blockPosition()
+                            + " alive=" + e.isAlive());
+                }
+            }
+        }
+        int totalChunks = 0;
+        int loadedChunks = 0;
+        for (int cx = hq.box.minX() >> 4; cx <= hq.box.maxX() >> 4; cx++) {
+            for (int cz = hq.box.minZ() >> 4; cz <= hq.box.maxZ() >> 4; cz++) {
+                totalChunks++;
+                if (level.areEntitiesLoaded(ChunkPos.pack(cx, cz))) loadedChunks++;
+            }
+        }
+        ServerPlayer p = level.getServer().getPlayerList().getPlayers().getFirst();
+        System.out.println("ST03_DIAG " + phase + " SUMMARY found=" + found + "/40 alive=" + alive
+                + " inBox=" + inBox + " outOfBox=" + outOfBox + " missing=" + missing
+                + " boxDefenderCount=" + defenderCount(level, x, z)
+                + " chunksEntitiesLoaded=" + loadedChunks + "/" + totalChunks
+                + " missingReasons=" + missingReasons
+                + " playerPos=" + p.blockPosition() + " playerHp=" + p.getHealth()
+                + " gameTime=" + level.getGameTime());
     }
 
     /** One row of random_spread regions: computes the potential HQ chunk and applies the structure's eligibility rule. */
