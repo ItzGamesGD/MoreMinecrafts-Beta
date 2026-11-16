@@ -119,8 +119,8 @@ jobs:
               tmp = Path(f'build/st03-worldgen/comment_{idx}.md')
               tmp.write_text(body)
               subprocess.run(
-                  ['gh', 'api', f'repos/{repo}/commits/{sha}/comments', '-f', f'body=@{tmp}'],
-                  check=False
+                  ['gh', 'api', f'repos/{repo}/commits/{sha}/comments', '-F', f'body=@{tmp}'],
+                  check=True
               )
           PY
 
