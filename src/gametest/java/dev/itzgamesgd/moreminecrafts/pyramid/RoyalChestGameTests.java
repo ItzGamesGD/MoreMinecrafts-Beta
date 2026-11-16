@@ -104,8 +104,12 @@ public final class RoyalChestGameTests {
     private static List<Stack> expected(Site site, RoyalChestRole role) {
         long seed = site.level.getSeed();
         boolean catalyst = RoyalChestRewardModel.assignCatalyst(RoyalChestRuntime.catalystRandom(seed, site.id)).filter(role::equals).isPresent();
-        return RoyalChestRewardModel.split(RoyalChestRewardModel.chestRewards(role, RoyalChestRuntime.chestRandom(seed, site.id, role), catalyst),
-                RoyalChestRuntime::maxStackSize);
+        RandomGenerator random = RoyalChestRuntime.chestRandom(seed, site.id, role);
+        List<RoyalChestRewardModel.Reward> rewards = RoyalChestRewardModel.chestRewards(role, random, catalyst);
+        return RoyalChestRewardModel.placeRandomly(
+                        RoyalChestRewardModel.split(rewards, RoyalChestRuntime::maxStackSize), random).stream()
+                .sorted((left, right) -> Integer.compare(left.slot(), right.slot()))
+                .map(Placement::stack).toList();
     }
 
     private static List<Stack> snapshot(Container container) {
@@ -224,8 +228,8 @@ public final class RoyalChestGameTests {
         RoyalChestRuntime.tryOpen(site.level, player, site.primary);
         Container first = chestOf(site, RoyalChestRole.PRIMARY);
         List<Stack> generated = snapshot(first);
-        // withdraw slot 0 like a player
-        first.removeItemNoUpdate(0);
+        // Withdraw an occupied slot, whose position is randomized at first generation.
+        first.removeItemNoUpdate(firstOccupied(first, -1));
         List<Stack> afterWithdraw = snapshot(first);
         ctx.assertTrue(afterWithdraw.size() == generated.size() - 1, "one stack withdrawn");
         OpenResult again = RoyalChestRuntime.tryOpen(site.level, mock(ctx, site), site.primary);
@@ -246,7 +250,7 @@ public final class RoyalChestGameTests {
         Tag beforeGeneration = encode(ctx, before);
         defeat(ctx, site, player);
         RoyalChestRuntime.tryOpen(site.level, player, site.primary);
-        chestOf(site, RoyalChestRole.PRIMARY).removeItemNoUpdate(0); // partially withdrawn
+        chestOf(site, RoyalChestRole.PRIMARY).removeItemNoUpdate(firstOccupied(chestOf(site, RoyalChestRole.PRIMARY), -1)); // partially withdrawn
         List<Stack> remaining = snapshot(chestOf(site, RoyalChestRole.PRIMARY));
         Optional<RoyalChestRole> catalyst = before.instance(site.id).orElseThrow().catalyst();
 
@@ -470,7 +474,8 @@ public final class RoyalChestGameTests {
             ctx.assertTrue(RoyalChestRuntime.tryOpen(site.level, player, site.primary) == OpenResult.OPENED_AND_GENERATED, "first open generates");
             RoyalChestRuntime.tryOpen(site.level, player, site.primary);                       // reopen
             RoyalChestRuntime.tryOpen(site.level, mock(ctx, site), site.primary.east());        // other player, other half
-            chestOf(site, RoyalChestRole.PRIMARY).removeItemNoUpdate(0);                         // item movement
+            Container generatedChest = chestOf(site, RoyalChestRole.PRIMARY);
+            generatedChest.removeItemNoUpdate(firstOccupied(generatedChest, -1));              // item movement
             chestOf(site, RoyalChestRole.PRIMARY).setChanged();
             RoyalChestRuntime.tryOpen(site.level, player, site.primary);
         });
