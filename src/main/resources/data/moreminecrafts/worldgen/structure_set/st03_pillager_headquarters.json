@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "moreminecrafts:st03_pillager_headquarters",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 48,
+    "separation": 16,
+    "spread_type": "triangular",
+    "salt": 91403
+  }
+}

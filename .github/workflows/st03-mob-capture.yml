@@ -1,0 +1,64 @@
+name: ST-03 mob client capture
+on:
+  push:
+    branches: [feat/st03-worldgen-gameplay-20261114]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install software renderer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox x11-utils mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+
+      - name: Isolate capture client entrypoint
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('src/gametest/resources/fabric.mod.json')
+          d = json.loads(p.read_text())
+          d['entrypoints']['fabric-client-gametest'] = ['dev.itzgamesgd.moreminecrafts.pillagerhq.St03MobClientCapture']
+          p.write_text(json.dumps(d, indent=2) + '\n')
+          PY
+
+      - name: Capture the four ST-03 variants in Minecraft
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/st03-mob-capture
+          export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+          export JAVA_TOOL_OPTIONS='-Dmoreminecrafts.st03.mob.capture=true -Dmm.st05.natural=false'
+          icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit || true)
+          if [[ -n "$icd" ]]; then export VK_ICD_FILENAMES="$icd"; fi
+          xvfb-run -a -s '-screen 0 1920x1080x24 +extension GLX +render -noreset' bash -euo pipefail -c '
+            openbox --sm-disable > build/st03-mob-capture/openbox.log 2>&1 &
+            trap "kill $! 2>/dev/null || true" EXIT
+            ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --max-workers=2 2>&1 | tee build/st03-mob-capture/client.log
+          ' || true
+          find . -path '*/screenshots/*st03-variant-*.png' -exec cp {} build/st03-mob-capture/ \; || true
+
+      - name: Upload ST-03 captures and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: st03-mob-variant-captures
+          path: build/st03-mob-capture/
+          if-no-files-found: warn
