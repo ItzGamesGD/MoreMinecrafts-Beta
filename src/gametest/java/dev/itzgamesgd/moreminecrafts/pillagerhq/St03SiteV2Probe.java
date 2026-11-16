@@ -317,6 +317,13 @@ public final class St03SiteV2Probe implements ModInitializer {
                 int x=ox+dx,z=oz+56; level.getChunk(x>>4,z>>4,ChunkStatus.FULL);
                 surface.add(level.getHeight(Heightmap.Types.WORLD_SURFACE,x,z));
                 floor.add(level.getHeight(Heightmap.Types.OCEAN_FLOOR,x,z)); raw.add(t.surfaceHeight(x,z));
+                int ground=surface.getLast()-1;
+                while(ground>level.getMinY()) {
+                    var block=level.getBlockState(new BlockPos(x,ground,z));
+                    if(block.isSolidRender() && !block.is(net.minecraft.tags.BlockTags.LOGS) && !block.is(net.minecraft.tags.BlockTags.LEAVES)) break;
+                    ground--;
+                }
+                bare.add(ground+1);
                 int y=level.getHeight(Heightmap.Types.WORLD_SURFACE,x,z)-1;
                 while(y>level.getMinY()) {
                     var block=level.getBlockState(new BlockPos(x,y,z));
@@ -326,7 +333,7 @@ public final class St03SiteV2Probe implements ModInitializer {
                 bare.add(y+1);
             }
             profile.put("generated_section_x_offsets",offsets(8)); profile.put("generated_section_z_offset",56);
-            profile.put("raw_base_section",raw); profile.put("generated_world_surface_section",surface); profile.put("generated_ocean_floor_section",floor); profile.put("generated_bare_ground_section",bare);
+            profile.put("generated_bare_solid_section",bare); profile.put("raw_base_section",raw); profile.put("generated_world_surface_section",surface); profile.put("generated_ocean_floor_section",floor); profile.put("generated_bare_ground_section",bare);
         }
         return out;
     }

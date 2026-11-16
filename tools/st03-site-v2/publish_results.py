@@ -1,6 +1,7 @@
 """Keep compact, complete numerical evidence readable through GitHub Checks as well as artifacts."""
 import csv
 import json
+from collections import Counter
 import math
 import os
 from pathlib import Path
@@ -26,6 +27,8 @@ def enrich(folder, data):
                         and int(r['height_n']) > 0 and int(r['water'])*100 <= w*int(r['height_n'])]
                     populations[f'S{s}_B{b}_W{w}'] = {
                         'raw': distribution([int(r['max'])-int(r['min']) for r in eligible]),
+                        'raw_hist': dict(Counter(int(r['max'])-int(r['min']) for r in eligible)),
+                        'robust_hist': dict(Counter(int(r['p95'])-int(r['p05']) for r in eligible)),
                         'p05_p95': distribution([int(r['p95'])-int(r['p05']) for r in eligible]),
                     }
     legacy = folder / 'legacy-height.csv'
@@ -33,11 +36,14 @@ def enrich(folder, data):
         rows = list(csv.DictReader(legacy.open()))
         data['legacy_height_population'] = {
             'raw': distribution([int(r['max'])-int(r['min']) for r in rows]),
+            'raw_hist': dict(Counter(int(r['max'])-int(r['min']) for r in rows)),
+            'robust_hist': dict(Counter(int(r['p95'])-int(r['p05']) for r in rows)),
             'p05_p95': distribution([int(r['p95'])-int(r['p05']) for r in rows]),
         }
     data['height_populations'] = populations
     for baseline in data.get('baselines', []):
         baseline.pop('starts', None)  # complete start coordinates remain in the artifact
+    data['resolution_deltas'] = dict(Counter(r['raw4']-r['raw8'] for r in data.get('legacy_resolution_pairs', [])))
     data.pop('legacy_resolution_pairs', None)  # paired resolutions remain in the artifact
     data.pop('configs', None)  # configuration IDs + limits fully specify the table
     return data
