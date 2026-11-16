@@ -384,7 +384,7 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                 int countedBeds = St03PostClearHandler.countBedsInBox(level, hq.box);
                 System.out.println("ST03_WORLDGEN beds placed=5 counted=" + countedBeds);
                 System.out.println("ST03_WORLDGEN conversion_day day=0 gameTime=" + level.getGameTime()
-                        + " dayTime=" + level.getDayTime()
+                        + " timeOfDay=" + (level.getGameTime() % 24000L)
                         + " beds=" + countedBeds
                         + " spawnedVillagers=" + hq.spawnedVillagers
                         + " nonPrisonerVillagers=" + countSpawnedVillagersInBox(level, hq)
@@ -415,7 +415,7 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                     spawnedAfterDay[0] = hq.spawnedVillagers;
                     System.out.println("ST03_WORLDGEN conversion_day day=" + dayNo
                             + " gameTime=" + level.getGameTime()
-                            + " dayTime=" + level.getDayTime()
+                            + " timeOfDay=" + (level.getGameTime() % 24000L)
                             + " beds=" + countedBeds
                             + " spawnedVillagers=" + hq.spawnedVillagers
                             + " nonPrisonerVillagers=" + nonPrisoners
