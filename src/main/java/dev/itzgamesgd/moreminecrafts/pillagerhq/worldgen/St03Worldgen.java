@@ -18,6 +18,7 @@ public final class St03Worldgen {
 
     public static StructureType<St03HeadquartersStructure> STRUCTURE_TYPE;
     public static StructurePieceType ASSEMBLY_PIECE;
+    public static StructurePieceType TERRAIN_PIECE;
 
     public static void initialize() {
         if (STRUCTURE_TYPE != null) {
@@ -26,6 +27,9 @@ public final class St03Worldgen {
         STRUCTURE_TYPE = Registry.register(BuiltInRegistries.STRUCTURE_TYPE, STRUCTURE_ID, () -> St03HeadquartersStructure.CODEC);
         ASSEMBLY_PIECE = Registry.register(BuiltInRegistries.STRUCTURE_PIECE, ASSEMBLY_PIECE_ID,
                 (StructurePieceType) St03AssemblyPiece::new);
+        TERRAIN_PIECE = Registry.register(BuiltInRegistries.STRUCTURE_PIECE,
+                Identifier.fromNamespaceAndPath("moreminecrafts", "st03_terrain_correction"),
+                (StructurePieceType) St03TerrainCorrectionPiece::new);
         St03HeadquartersCompletion.initialize();
     }
 }

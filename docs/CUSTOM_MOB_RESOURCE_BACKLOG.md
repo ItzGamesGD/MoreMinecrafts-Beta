@@ -52,6 +52,10 @@ The five new T2 core items currently reference vanilla item models as temporary 
 | Giant Bee | `assets/moreminecrafts/textures/entity/mobs/giant_bee.png` | Production candidate; visual QA pending |
 | Lesser Phantom | `assets/moreminecrafts/textures/entity/mobs/lesser_phantom.png` | Production candidate; visual QA pending |
 | Cave Creeper | `assets/moreminecrafts/textures/entity/mobs/cave_creeper.png` | Production candidate; visual QA pending |
+| Pillager Commander | `assets/moreminecrafts/textures/entity/mobs/pillager_commander.png` | ST-03 structure variant; visual QA pending |
+| Pillager Beastmaster | `assets/moreminecrafts/textures/entity/mobs/pillager_beastmaster.png` | ST-03 structure variant; visual QA pending |
+| Armory Guard | `assets/moreminecrafts/textures/entity/mobs/armory_guard.png` | ST-03 structure variant; visual QA pending |
+| Pillager Drillmaster | `assets/moreminecrafts/textures/entity/mobs/pillager_drillmaster.png` | ST-03 structure variant; visual QA pending |
 
 Each texture path is now referenced by the corresponding existing vanilla-family renderer route. Companion state and overlay paths are documented in the production manifest. No custom geometry, model, animation, or VFX work was introduced.
 

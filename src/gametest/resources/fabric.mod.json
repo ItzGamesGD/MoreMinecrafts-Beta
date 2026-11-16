@@ -24,6 +24,7 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SpiderColonyProbe"
     ],
     "fabric-gametest": [
+      "dev.itzgamesgd.moreminecrafts.pillagerhq.St03TerrainGameTests",
       "dev.itzgamesgd.moreminecrafts.pillagerhq.St03WorldgenAndGameplayGameTests",
       "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyGameTests",
       "dev.itzgamesgd.moreminecrafts.skytower.SkyTowerGameTests",

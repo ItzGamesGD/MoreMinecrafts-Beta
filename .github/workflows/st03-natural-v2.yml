@@ -32,6 +32,7 @@ jobs:
           if [ "$result" -eq 0 ]; then echo '{"status":"PASS"}' > build/st03-natural/inspect/result.json; fi
           exit "$result"
       - name: Inspect engine structure gate
+        if: always()
         run: python3 tools/st03-natural-v2/inspect.py
       - name: Publish build evidence
         if: always()
