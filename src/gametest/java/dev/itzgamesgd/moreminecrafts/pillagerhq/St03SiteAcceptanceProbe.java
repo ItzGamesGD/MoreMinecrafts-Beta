@@ -340,10 +340,11 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
         biomeDist.put("surface_y_mean", round2(meanY));
         biomeDist.put("surface_y_max", maxY);
         biomeDist.put("surface_y_stddev", round2(stdY));
+        final int totalSamples = distTotal;
         List<String> top5 = topBiomes.entrySet().stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .limit(5)
-                .map(e -> e.getKey() + "=" + round2(100.0 * e.getValue() / distTotal) + "%")
+                .map(e -> e.getKey() + "=" + round2(100.0 * e.getValue() / totalSamples) + "%")
                 .toList();
         biomeDist.put("top_5_biomes", top5);
 
