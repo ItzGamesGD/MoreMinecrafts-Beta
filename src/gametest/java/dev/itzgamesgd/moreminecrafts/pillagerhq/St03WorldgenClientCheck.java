@@ -134,19 +134,21 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
             context.waitFor(c -> c.player != null && c.level != null);
             context.waitTicks(40);
 
-            if (diag) {
-                server.runOnServer(s -> {
-                    ServerLevel level = s.overworld();
-                    ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
-                    System.out.println("ST03_DIAG ENV levelDifficulty=" + level.getDifficulty()
-                            + " worldDifficulty=" + s.getWorldData().getDifficulty()
-                            + " playerGameMode=" + p.gameMode()
-                            + " invulnerable=" + p.getAbilities().invulnerable
-                            + " playerHp=" + p.getHealth()
-                            + " viewDist=6 simDist=6");
-                });
-                connection.waitForClientboundPackets();
-            }
+            server.runOnServer(s -> {
+                ServerLevel level = s.overworld();
+                ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
+                // Keep the test observer alive in Survival so 40 garrison defenders do not kill the player
+                // and drop chunk-loading tickets mid-run (Part 1 root cause of the 1e7eeb19 disappearance).
+                p.getAbilities().invulnerable = true;
+                p.onUpdateAbilities();
+                System.out.println("ST03_WORLDGEN env levelDifficulty=" + level.getDifficulty()
+                        + " worldDifficulty=" + s.getWorldData().getDifficulty()
+                        + " playerGameMode=" + p.gameMode()
+                        + " invulnerable=" + p.getAbilities().invulnerable
+                        + " playerHp=" + p.getHealth()
+                        + " viewDist=6 simDist=6");
+            });
+            connection.waitForClientboundPackets();
 
             // 1. Plan HQ origins from the placement math, one region row per server tick.
             for (int row = -REGION_RADIUS; row <= REGION_RADIUS && PLAN.size() < 40; row++) {
@@ -229,18 +231,51 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                     if (diag) {
                         server.runOnServer(s -> inspectHq0Uuids(s.overworld(), c[0], c[2], "AFTER_SHOTS_HQ0"));
                         connection.waitForClientboundPackets();
+                        context.waitTicks(1200);
+                        server.runOnServer(s -> inspectHq0Uuids(s.overworld(), c[0], c[2], "EXP_A_STAY_1200"));
+                        connection.waitForClientboundPackets();
                     }
+                }
+
+                // Part 2 Control A (pre-clear with 5 beds on HQ 1 while cleared == false): verify zero villager conversion.
+                if (i == 1) {
+                    server.runOnServer(s -> {
+                        ServerLevel level = s.overworld();
+                        St03HeadquartersData.HqInstance hq1 = findHq(level, c[0], c[2]);
+                        if (hq1 == null) return;
+                        buildPlazaAndBedFloor(level, hq1);
+                        placeFiveBeds(level, hq1);
+                        int beds = St03PostClearHandler.countBedsInBox(level, hq1.box);
+                        int nonPrisoners = countSpawnedVillagersInBox(level, hq1);
+                        System.out.println("ST03_WORLDGEN control_pre_clear_start hq=1 cleared=" + hq1.cleared
+                                + " beds=" + beds + " spawnedVillagers=" + hq1.spawnedVillagers
+                                + " nonPrisonerVillagers=" + nonPrisoners + " gameTime=" + level.getGameTime());
+                    });
+                    connection.waitForClientboundPackets();
+                    sprintServerTicks(server, connection, context, 24000L);
+                    server.runOnServer(s -> {
+                        ServerLevel level = s.overworld();
+                        St03HeadquartersData.HqInstance hq1 = findHq(level, c[0], c[2]);
+                        if (hq1 == null) return;
+                        int beds = St03PostClearHandler.countBedsInBox(level, hq1.box);
+                        int nonPrisoners = countSpawnedVillagersInBox(level, hq1);
+                        System.out.println("ST03_WORLDGEN control_pre_clear_end hq=1 cleared=" + hq1.cleared
+                                + " beds=" + beds + " spawnedVillagers=" + hq1.spawnedVillagers
+                                + " nonPrisonerVillagers=" + nonPrisoners + " gameTime=" + level.getGameTime());
+                        if (hq1.cleared || hq1.spawnedVillagers != 0 || nonPrisoners != 0) {
+                            throw new AssertionError("Pre-clear control converted unexpectedly: cleared=" + hq1.cleared
+                                    + " spawned=" + hq1.spawnedVillagers + " nonPrisoners=" + nonPrisoners);
+                        }
+                    });
+                    connection.waitForClientboundPackets();
                 }
             }
 
-            // 3. Post-clear on the first HQ: Experiment (b) return from far away, inspect UUIDs, then kill every defender.
+            // 3. Return to HQ 0 and clear all 40 defenders via real death path (hurtServer).
             int[] first = chosen.get(0);
             System.out.println("ST03_WORLDGEN return_to_hq0 target=" + first[0] + "," + first[1] + "," + first[2] + " chosenSize=" + chosen.size());
             server.runOnServer(s -> {
                 ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
-                System.out.println("ST03_DIAG BEFORE_RETURN playerHp=" + p.getHealth()
-                        + " playerDead=" + p.isDeadOrDying() + " playerRemoved=" + p.isRemoved()
-                        + " playerPos=" + p.blockPosition());
                 teleport(s, s.overworld(), first[0] + 56.5, first[1] + 3, first[2] + 56.5, 0, 10);
                 System.out.println("ST03_WORLDGEN return_to_hq0 player_after=" + p.blockPosition()
                         + " playerHp=" + p.getHealth() + " playerDead=" + p.isDeadOrDying());
@@ -254,9 +289,28 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                 server.runOnServer(s -> inspectHq0Uuids(s.overworld(), first[0], first[2], "EXP_B_RETURN_T1240"));
                 connection.waitForClientboundPackets();
             } else {
-                context.waitTicks(1200);
+                context.waitTicks(120);
             }
-            // Kill passes until none are left in the loaded box (some defenders load a little after the first pass).
+
+            // Build darkroom probes inside and outside HQ 0, wait a few ticks for sky light=0, then verify pre-clear spawn rules.
+            server.runOnServer(s -> {
+                ServerLevel level = s.overworld();
+                St03HeadquartersData.HqInstance hq = findHq(level, first[0], first[2]);
+                if (hq == null) return;
+                buildDarkRoom(level, hq.origin.offset(20, 0, 20));
+                buildDarkRoom(level, hq.origin.offset(-12, 0, 20));
+            });
+            connection.waitForClientboundPackets();
+            context.waitTicks(10);
+            server.runOnServer(s -> {
+                ServerLevel level = s.overworld();
+                St03HeadquartersData.HqInstance hq = findHq(level, first[0], first[2]);
+                if (hq == null) return;
+                checkSpawnRules(level, hq, "pre_clear");
+            });
+            connection.waitForClientboundPackets();
+
+            // Kill passes until none are left in the loaded box (using real hurtServer -> AFTER_DEATH path).
             for (int pass = 0; pass < 15; pass++) {
                 final int passNo = pass;
                 final int[] left = {0};
@@ -264,9 +318,9 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                     ServerLevel level = s.overworld();
                     St03HeadquartersData.HqInstance hq = findHq(level, first[0], first[2]);
                     if (hq == null) return;
-                    for (Entity e : level.getEntities((Entity) null, boxOf(hq), e -> e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id()))) {
+                    for (Entity e : level.getEntities((Entity) null, boxOf(hq).inflate(32),
+                            e -> e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id()))) {
                         if (e instanceof LivingEntity living && !(e instanceof Villager)) {
-                            // Real damage and death path (fires AFTER_DEATH, which the garrison handler uses to count eliminations).
                             boolean hurtRes = living.hurtServer(level, level.damageSources().genericKill(), Float.MAX_VALUE);
                             if (diag) {
                                 System.out.println("ST03_DIAG KILL_ATTEMPT pass=" + passNo
@@ -278,7 +332,9 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                         }
                     }
                     left[0] = defenderCount(level, first[0], first[2]);
-                    System.out.println("ST03_WORLDGEN kill_pass=" + passNo + " player=" + s.getPlayerList().getPlayers().getFirst().blockPosition() + " loadedInBox=" + level.getEntities((Entity) null, boxOf(hq), e -> true).size() + " defendersLeft=" + left[0] + " eliminated=" + hq.eliminatedSlots.size() + " cleared=" + hq.cleared);
+                    System.out.println("ST03_WORLDGEN kill_pass=" + passNo + " player=" + s.getPlayerList().getPlayers().getFirst().blockPosition()
+                            + " loadedInBox=" + level.getEntities((Entity) null, boxOf(hq), e -> true).size()
+                            + " defendersLeft=" + left[0] + " eliminated=" + hq.eliminatedSlots.size() + " cleared=" + hq.cleared);
                 });
                 connection.waitForClientboundPackets();
                 if (left[0] == 0) break;
@@ -291,45 +347,216 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                 if (hq == null) return;
                 System.out.println("ST03_WORLDGEN post_clear cleared=" + hq.cleared + " eliminated=" + hq.eliminatedSlots.size()
                         + " defendersLeft=" + defenderCount(level, first[0], first[2]));
-                for (int i = 0; i < 5; i++) {
-                    BlockPos foot = hq.origin.offset(1 + i * 2, 1, 2);
-                    BlockPos head = foot.south();
-                    level.setBlock(foot, ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
-                            .setValue(BedBlock.PART, BedPart.FOOT).setValue(BedBlock.FACING, Direction.SOUTH), 3);
-                    level.setBlock(head, ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
-                            .setValue(BedBlock.PART, BedPart.HEAD).setValue(BedBlock.FACING, Direction.SOUTH), 3);
+                if (!hq.cleared || hq.eliminatedSlots.size() != SLOT_COUNT || defenderCount(level, first[0], first[2]) != 0) {
+                    throw new AssertionError("HQ 0 did not clear cleanly: cleared=" + hq.cleared
+                            + " eliminated=" + hq.eliminatedSlots.size() + " defendersLeft=" + defenderCount(level, first[0], first[2]));
                 }
-                System.out.println("ST03_WORLDGEN beds placed=5 counted=" + St03PostClearHandler.countBedsInBox(level, hq.box));
-                BlockPos inner = hq.origin.offset(5, 1, 5);
-                for (EntityType<?> type : new EntityType<?>[]{net.minecraft.world.entity.EntityTypes.ZOMBIE, net.minecraft.world.entity.EntityTypes.CREEPER, net.minecraft.world.entity.EntityTypes.ENDERMAN, net.minecraft.world.entity.EntityTypes.SKELETON, net.minecraft.world.entity.EntityTypes.SPIDER}) {
-                    System.out.println("ST03_WORLDGEN hostile_suppressed type=" + type.toShortString() + " value="
-                            + St03PostClearHandler.shouldSuppressNaturalSpawn(level, type, EntitySpawnReason.NATURAL, inner));
+                checkSpawnRules(level, hq, "post_clear");
+                // Place solid floor under plaza & beds in HQ 0 (superflat has air at origin.y + 0).
+                buildPlazaAndBedFloor(level, hq);
+                int beds = St03PostClearHandler.countBedsInBox(level, hq.box);
+                System.out.println("ST03_WORLDGEN control_0_beds_start cleared=" + hq.cleared + " beds=" + beds
+                        + " spawnedVillagers=" + hq.spawnedVillagers
+                        + " nonPrisonerVillagers=" + countSpawnedVillagersInBox(level, hq)
+                        + " gameTime=" + level.getGameTime());
+            });
+            connection.waitForClientboundPackets();
+
+            // 4. Part 2 Control B: 0 beds after clear across 1 full day (24,000 ticks) -> must remain 0 villagers.
+            sprintServerTicks(server, connection, context, 24000L);
+            server.runOnServer(s -> {
+                ServerLevel level = s.overworld();
+                St03HeadquartersData.HqInstance hq = findHq(level, first[0], first[2]);
+                if (hq == null) return;
+                int beds = St03PostClearHandler.countBedsInBox(level, hq.box);
+                int nonPrisoners = countSpawnedVillagersInBox(level, hq);
+                System.out.println("ST03_WORLDGEN control_0_beds_end cleared=" + hq.cleared + " beds=" + beds
+                        + " spawnedVillagers=" + hq.spawnedVillagers
+                        + " nonPrisonerVillagers=" + nonPrisoners
+                        + " gameTime=" + level.getGameTime());
+                if (beds != 0 || hq.spawnedVillagers != 0 || nonPrisoners != 0) {
+                    throw new AssertionError("0-bed post-clear control converted unexpectedly: beds=" + beds
+                            + " spawned=" + hq.spawnedVillagers + " nonPrisoners=" + nonPrisoners);
+                }
+
+                // 5. Place 5 beds inside HQ 0 plaza area and verify day-by-day villager growth up to the cap of 15.
+                placeFiveBeds(level, hq);
+                int countedBeds = St03PostClearHandler.countBedsInBox(level, hq.box);
+                System.out.println("ST03_WORLDGEN beds placed=5 counted=" + countedBeds);
+                System.out.println("ST03_WORLDGEN conversion_day day=0 gameTime=" + level.getGameTime()
+                        + " dayTime=" + level.getDayTime()
+                        + " beds=" + countedBeds
+                        + " spawnedVillagers=" + hq.spawnedVillagers
+                        + " nonPrisonerVillagers=" + countSpawnedVillagersInBox(level, hq)
+                        + " totalVillagersInBox=" + level.getEntities((Entity) null, boxOf(hq), v -> v instanceof Villager).size()
+                        + " attemptsToday=" + hq.villagerAttemptsToday);
+                if (countedBeds < 5) {
+                    throw new AssertionError("Expected 5 counted beds, got " + countedBeds);
                 }
             });
             connection.waitForClientboundPackets();
 
-            // 4. Villager conversion: poll the HQ box for new villagers. Day-cycle timing limits this to what fits in real time.
-            for (int wait = 0; wait < 4; wait++) {
-                context.waitTicks(400);
-                final int tickWait = wait;
+            final boolean[] hitCapExtraDayDone = {false};
+            int capReachedDay = -1;
+            for (int day = 1; day <= 12; day++) {
+                final int dayNo = day;
+                // Advance 1 day = 24,000 ticks split into 4 x 6,000-tick sprints to cover morning windows and keep ticks bounded.
+                for (int q = 0; q < 4; q++) {
+                    sprintServerTicks(server, connection, context, 6000L);
+                }
+                final int[] spawnedAfterDay = {0};
                 server.runOnServer(s -> {
                     ServerLevel level = s.overworld();
                     St03HeadquartersData.HqInstance hq = findHq(level, first[0], first[2]);
                     if (hq == null) return;
-                    int villagers = level.getEntities((Entity) null, boxOf(hq), v -> v instanceof Villager).size();
-                    System.out.println("ST03_WORLDGEN conversion poll=" + tickWait + " spawnedVillagers=" + hq.spawnedVillagers
-                            + " villagersInBox=" + villagers + " gameTime=" + level.getGameTime());
+                    int countedBeds = St03PostClearHandler.countBedsInBox(level, hq.box);
+                    int nonPrisoners = countSpawnedVillagersInBox(level, hq);
+                    int totalInBox = level.getEntities((Entity) null, boxOf(hq), v -> v instanceof Villager).size();
+                    spawnedAfterDay[0] = hq.spawnedVillagers;
+                    System.out.println("ST03_WORLDGEN conversion_day day=" + dayNo
+                            + " gameTime=" + level.getGameTime()
+                            + " dayTime=" + level.getDayTime()
+                            + " beds=" + countedBeds
+                            + " spawnedVillagers=" + hq.spawnedVillagers
+                            + " nonPrisonerVillagers=" + nonPrisoners
+                            + " totalVillagersInBox=" + totalInBox
+                            + " attemptsToday=" + hq.villagerAttemptsToday);
                 });
                 connection.waitForClientboundPackets();
+                if (spawnedAfterDay[0] > 15) {
+                    throw new AssertionError("Villager count exceeded cap of 15: " + spawnedAfterDay[0]);
+                }
+                if (capReachedDay < 0 && spawnedAfterDay[0] == 15) {
+                    capReachedDay = dayNo;
+                } else if (capReachedDay > 0 && dayNo > capReachedDay) {
+                    hitCapExtraDayDone[0] = true;
+                    break;
+                }
             }
-            if (!diag) {
-                server.runOnServer(s -> teleport(s, s.overworld(), first[0] + 56.5, first[1] + 3, first[2] + 56.5, 0, 10));
-                connection.waitForClientboundPackets();
-                context.waitTicks(60);
-                System.out.println("ST03_WORLDGEN_SHOT " + context.takeScreenshot("st03-worldgen-02-post-clear-conversion"));
+            if (capReachedDay < 0 || !hitCapExtraDayDone[0]) {
+                throw new AssertionError("Did not verify 15-villager cap + 1 extra stability day: capReachedDay=" + capReachedDay);
             }
+
+            server.runOnServer(s -> teleport(s, s.overworld(), first[0] + 55.5, first[1] + 2.5, first[2] + 42.5, 180, 15));
+            connection.waitForClientboundPackets();
+            context.waitTicks(60);
+            System.out.println("ST03_WORLDGEN_SHOT " + context.takeScreenshot("st03-worldgen-02-post-clear-conversion"));
             System.out.println("ST03_WORLDGEN_CHECK_COMPLETE");
         }
+    }
+
+    private static void sprintServerTicks(TestDedicatedServerContext server, TestDedicatedServerConnection connection,
+                                          ClientGameTestContext context, long ticks) {
+        final long[] start = {0L};
+        server.runOnServer(s -> start[0] = s.overworld().getGameTime());
+        connection.waitForClientboundPackets();
+        long target = start[0] + ticks;
+        long current = start[0];
+        int stallCounter = 0;
+        long prev = current;
+        boolean needIssue = true;
+        for (int iter = 0; iter < 600 && current < target; iter++) {
+            if (needIssue) {
+                final long remaining = Math.max(1L, target - current);
+                server.runOnServer(s -> {
+                    ServerLevel level = s.overworld();
+                    var src = s.createCommandSourceStack().withLevel(level).withSuppressedOutput()
+                            .withPermission(net.minecraft.server.permissions.LevelBasedPermissionSet.OWNER);
+                    s.getCommands().performPrefixedCommand(src, "tick sprint " + remaining);
+                });
+                connection.waitForClientboundPackets();
+                needIssue = false;
+            }
+            context.waitTicks(10);
+            final long[] now = {0L};
+            server.runOnServer(s -> now[0] = s.overworld().getGameTime());
+            connection.waitForClientboundPackets();
+            current = now[0];
+            if (current <= prev) {
+                stallCounter++;
+                if (stallCounter >= 5) {
+                    needIssue = true;
+                    stallCounter = 0;
+                }
+            } else {
+                stallCounter = 0;
+            }
+            prev = current;
+        }
+        if (current < target) {
+            throw new AssertionError("sprintServerTicks timed out: current=" + current + " target=" + target);
+        }
+    }
+
+    private static void buildPlazaAndBedFloor(ServerLevel level, St03HeadquartersData.HqInstance hq) {
+        for (int dx = 48; dx <= 62; dx++) {
+            for (int dz = 25; dz <= 42; dz++) {
+                level.setBlock(hq.origin.offset(dx, 0, dz), net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(), 3);
+            }
+        }
+    }
+
+    private static void placeFiveBeds(ServerLevel level, St03HeadquartersData.HqInstance hq) {
+        for (int i = 0; i < 5; i++) {
+            BlockPos foot = hq.origin.offset(50 + i * 2, 1, 27);
+            BlockPos head = foot.south();
+            level.setBlock(foot, ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
+                    .setValue(BedBlock.PART, BedPart.FOOT).setValue(BedBlock.FACING, Direction.SOUTH), 3);
+            level.setBlock(head, ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
+                    .setValue(BedBlock.PART, BedPart.HEAD).setValue(BedBlock.FACING, Direction.SOUTH), 3);
+        }
+    }
+
+    private static void buildDarkRoom(ServerLevel level, BlockPos base) {
+        // 9x9x5 completely sealed stone enclosure (dy=0 floor, dy=1..3 interior air, dy=4 ceiling)
+        for (int dx = 0; dx < 9; dx++) {
+            for (int dz = 0; dz < 9; dz++) {
+                for (int dy = 0; dy <= 4; dy++) {
+                    boolean isWall = dx == 0 || dx == 8 || dz == 0 || dz == 8 || dy == 0 || dy == 4;
+                    level.setBlock(base.offset(dx, dy, dz),
+                            isWall ? net.minecraft.world.level.block.Blocks.STONE.defaultBlockState()
+                                    : net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(),
+                            3);
+                }
+            }
+        }
+    }
+
+    private static void checkSpawnRules(ServerLevel level, St03HeadquartersData.HqInstance hq, String phase) {
+        BlockPos insideDark = hq.origin.offset(24, 1, 24);
+        BlockPos outsideDark = hq.origin.offset(-8, 1, 24);
+        EntityType<?>[] types = new EntityType<?>[]{
+                net.minecraft.world.entity.EntityTypes.ZOMBIE,
+                net.minecraft.world.entity.EntityTypes.CREEPER,
+                net.minecraft.world.entity.EntityTypes.ENDERMAN,
+                net.minecraft.world.entity.EntityTypes.SKELETON,
+                net.minecraft.world.entity.EntityTypes.SPIDER
+        };
+        for (EntityType<?> type : types) {
+            boolean suppressed = St03PostClearHandler.shouldSuppressNaturalSpawn(level, type, EntitySpawnReason.NATURAL, insideDark);
+            boolean insideAllowed = net.minecraft.world.entity.SpawnPlacements.checkSpawnRules(
+                    type, level, EntitySpawnReason.NATURAL, insideDark, level.getRandom());
+            boolean outsideAllowed = net.minecraft.world.entity.SpawnPlacements.checkSpawnRules(
+                    type, level, EntitySpawnReason.NATURAL, outsideDark, level.getRandom());
+            System.out.println("ST03_WORLDGEN hostile_check phase=" + phase + " cleared=" + hq.cleared
+                    + " type=" + type.toShortString()
+                    + " suppressedFlag=" + suppressed
+                    + " insideSpawnAllowed=" + insideAllowed
+                    + " outsideSpawnAllowed=" + outsideAllowed);
+            if ("post_clear".equals(phase) && (!suppressed || insideAllowed)) {
+                throw new AssertionError("Expected suppression post-clear for " + type.toShortString()
+                        + " suppressed=" + suppressed + " insideAllowed=" + insideAllowed);
+            }
+        }
+    }
+
+    private static int countSpawnedVillagersInBox(ServerLevel level, St03HeadquartersData.HqInstance hq) {
+        int count = 0;
+        for (Entity e : level.getEntities((Entity) null, boxOf(hq),
+                v -> v instanceof Villager && !v.entityTags().contains(St03GarrisonManager.TAG_PRISONER))) {
+            count++;
+        }
+        return count;
     }
 
     private static void recordHq0Uuids(ServerLevel level, int x, int z) {
