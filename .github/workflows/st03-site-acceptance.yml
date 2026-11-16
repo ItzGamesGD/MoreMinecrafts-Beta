@@ -1,0 +1,168 @@
+name: ST-03 Site Acceptance Measurement
+
+on:
+  push:
+    branches:
+      - claude/st03-site-acceptance-20261116
+    paths-ignore:
+      - 'docs/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Compile and run unit tests
+        run: ./gradlew test compileGametestJava --no-daemon --max-workers=2
+
+      - name: Run 10-seed ST-03 site acceptance probe (+-25 regions)
+        shell: bash
+        run: |
+          set -euo pipefail
+          out_dir="$PWD/build/st03-site-acceptance"
+          run_dir="$PWD/build/st03-site-probe/run"
+          mkdir -p "$out_dir" "$run_dir"
+          rm -rf "$run_dir/world"
+          echo "eula=true" > "$run_dir/eula.txt"
+          port=$(python3 -I -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1])')
+          cat > "$run_dir/server.properties" <<PROPS
+          level-name=world
+          level-seed=7001
+          online-mode=false
+          server-port=$port
+          view-distance=2
+          simulation-distance=2
+          spawn-monsters=false
+          spawn-animals=false
+          spawn-protection=0
+          max-tick-time=-1
+          sync-chunk-writes=false
+          enable-status=false
+          PROPS
+          JAVA_TOOL_OPTIONS="-Dmm.st03.site.out=$out_dir/measurement.json -Dmm.st03.site.mode=measure-all" \
+            timeout 1800 ./gradlew --no-daemon runSt03SiteProbe 2>&1 | tee "$out_dir/measure.log"
+          test -s "$out_dir/measurement.json"
+
+      - name: Verify real NoiseBasedChunkGenerator chunk generation for eligible candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          out_dir="$PWD/build/st03-site-acceptance"
+          run_dir="$PWD/build/st03-site-probe/run"
+          python3 - <<'PY' > "$out_dir/verify_plan.txt"
+          import json
+          from collections import defaultdict
+          data = json.load(open("build/st03-site-acceptance/measurement.json"))
+          by_seed = defaultdict(list)
+          for c in data.get("eligible_candidates", []):
+              by_seed[c["seed"]].append(f"{c['chunk_x']},{c['chunk_z']}")
+          if not by_seed and "wide_60_diagnostic_top_plains" in data:
+              for c in data["wide_60_diagnostic_top_plains"].get("eligible_candidates", []):
+                  by_seed[c["seed"]].append(f"{c['chunk_x']},{c['chunk_z']}")
+          for seed, coords in list(by_seed.items()):
+              print(f"{seed} {';'.join(coords[:5])}")
+          PY
+          if [ ! -s "$out_dir/verify_plan.txt" ]; then
+            echo "No eligible candidates found; skipping chunk verification."
+            echo '{"verified_seeds": []}' > "$out_dir/verify_summary.json"
+            exit 0
+          fi
+          while read -r seed targets; do
+            echo "Verifying seed=$seed targets=$targets"
+            rm -rf "$run_dir/world"
+            echo "eula=true" > "$run_dir/eula.txt"
+            port=$(python3 -I -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1])')
+            cat > "$run_dir/server.properties" <<PROPS
+          level-name=world
+          level-seed=$seed
+          online-mode=false
+          server-port=$port
+          view-distance=2
+          simulation-distance=2
+          spawn-monsters=false
+          spawn-animals=false
+          spawn-protection=0
+          max-tick-time=-1
+          sync-chunk-writes=false
+          enable-status=false
+          PROPS
+            JAVA_TOOL_OPTIONS="-Dmm.st03.site.out=$out_dir/verify-$seed.json -Dmm.st03.site.mode=verify-chunks -Dmm.st03.site.targets=$targets" \
+              timeout 900 ./gradlew --no-daemon runSt03SiteProbe 2>&1 | tee "$out_dir/verify-$seed.log"
+          done < "$out_dir/verify_plan.txt"
+
+      - name: Publish measurement JSON to Check Run output
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess, glob
+          from pathlib import Path
+          out_dir = Path("build/st03-site-acceptance")
+          combined = {}
+          if (out_dir / "measurement.json").exists():
+              combined["measurement"] = json.loads((out_dir / "measurement.json").read_text())
+          elif (out_dir / "measure.log").exists():
+              combined["measure_log_tail"] = (out_dir / "measure.log").read_text()[-20000:]
+          verifies = []
+          for p in sorted(glob.glob(str(out_dir / "verify-*.json"))):
+              verifies.append(json.loads(Path(p).read_text()))
+          combined["verifications"] = verifies
+          text = json.dumps(combined, indent=2)
+          if len(text) > 64000:
+              text = json.dumps(combined, separators=(",", ":"))
+          if len(text) > 64000:
+              text = text[:64000] + "\n...TRUNCATED..."
+          m = combined.get("measurement", {})
+          summary = (
+              f"Run ID: {os.environ.get('GITHUB_RUN_ID')}\n"
+              f"Head SHA: {os.environ.get('GITHUB_SHA')}\n"
+              f"Generator: {m.get('server_overworld_generator_class')}\n"
+              f"Eligible total (+-25, 10 seeds): {m.get('eligible_candidates_total')}\n"
+              f"Verified seeds: {len(verifies)}\n"
+          )
+          payload = {
+              "name": "st03-site-acceptance-results",
+              "head_sha": os.environ["GITHUB_SHA"],
+              "status": "completed",
+              "conclusion": "success" if combined.get("measurement", {}).get("status") == "OK" else "failure",
+              "output": {
+                  "title": "ST-03 Site Acceptance Measurement Results",
+                  "summary": summary,
+                  "text": text,
+              },
+          }
+          Path("/tmp/check_run.json").write_text(json.dumps(payload))
+          subprocess.run([
+              "gh", "api",
+              f"repos/{os.environ['GITHUB_REPOSITORY']}/check-runs",
+              "-X", "POST",
+              "--input", "/tmp/check_run.json",
+          ], check=True)
+          PY
+
+      - name: Upload measurement artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: st03-site-acceptance
+          path: build/st03-site-acceptance/
+          if-no-files-found: warn
+          retention-days: 30

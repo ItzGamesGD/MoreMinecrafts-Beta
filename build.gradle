@@ -96,6 +96,14 @@ loom {
             runDir = "build/ore-sampling/run"
             ideConfigGenerated false
         }
+        // ST-03 site acceptance measurement & chunk verification probe; inert unless -Dmm.st03.site.out is set; not part of check/build/CI.
+        st03SiteProbe {
+            server()
+            name = "ST-03 Site Acceptance Probe"
+            source sourceSets.gametest
+            runDir = "build/st03-site-probe/run"
+            ideConfigGenerated false
+        }
     }
 }
 dependencies {
