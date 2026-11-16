@@ -21,7 +21,8 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D8MapTradeBench",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SpiderColonyProbe",
-      "dev.itzgamesgd.moreminecrafts.pillagerhq.St03SiteAcceptanceProbe"
+      "dev.itzgamesgd.moreminecrafts.pillagerhq.St03SiteAcceptanceProbe",
+      "dev.itzgamesgd.moreminecrafts.pillagerhq.St03SiteV2Probe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyGameTests",

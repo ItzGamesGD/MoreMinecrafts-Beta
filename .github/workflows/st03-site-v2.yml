@@ -1,0 +1,41 @@
+name: ST-03 Site Acceptance V2
+on:
+  push:
+    branches: [claude/st03-site-v2-20261116]
+    paths:
+      - 'src/gametest/**'
+      - 'tools/st03-site-v2/**'
+      - '.github/workflows/st03-site-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  measure:
+    name: Seed ${{ matrix.seed }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [10079, 10033, 10148, 10137, 10142, 10039, 10135, 10061, 314159265, 867530926]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile and unit tests (server probe only)
+        run: ./gradlew test compileGametestJava --no-daemon --max-workers=2
+      - name: Measure all policies, search, baselines, and real chunks
+        run: bash tools/st03-site-v2/run_seed.sh '${{ matrix.seed }}'
+      - name: Upload complete raw evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: st03-site-v2-${{ matrix.seed }}
+          path: build/st03-site-v2/
+          if-no-files-found: warn
+          retention-days: 30
