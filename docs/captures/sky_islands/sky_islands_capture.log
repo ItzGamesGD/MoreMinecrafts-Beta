@@ -1,0 +1,23 @@
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SEED 1
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:cloud_wraith box=0.60x1.95
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:skyguard_archer box=0.60x1.99
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:crystal_bug box=1.00x0.75
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:cloud_slime box=2.08x2.08
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:fallen_sentinel box=0.60x1.95
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:weathered_zombie box=0.60x1.95
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:sky_archer box=0.60x1.99
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:rock_creeper box=0.60x1.70
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:pale_enderman box=0.60x2.90
+[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:azure_slime box=2.08x2.08
+[05:51:14] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0000_sky-islands-00-mob-cloud-wraith.png
+[05:51:17] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0001_sky-islands-01-mob-skyguard-archer.png
+[05:51:20] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0002_sky-islands-02-mob-crystal-bug.png
+[05:51:22] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0003_sky-islands-03-mob-cloud-slime.png
+[05:51:24] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0004_sky-islands-04-mob-fallen-sentinel.png
+[05:51:26] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0005_sky-islands-05-mob-weathered-zombie.png
+[05:51:29] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0006_sky-islands-06-mob-sky-archer.png
+[05:51:31] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0007_sky-islands-07-mob-rock-creeper.png
+[05:51:33] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0008_sky-islands-08-mob-pale-enderman.png
+[05:51:35] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0009_sky-islands-09-mob-azure-slime.png
+[05:51:38] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0010_sky-islands-10-lineup-group-c.png
+[05:51:40] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0011_sky-islands-11-lineup-group-b.png
