@@ -1,0 +1,148 @@
+name: ST-03 worldgen and conversion check
+on:
+  push:
+    branches:
+      - claude/st03-conversion-verify-20261116
+    paths:
+      - 'src/**'
+      - '.github/workflows/st03-worldgen-check.yml'
+  workflow_dispatch:
+    inputs:
+      diag:
+        description: 'Run Part (1) garrison loss diagnostic mode'
+        required: false
+        default: 'true'
+        type: string
+      commit_captures:
+        description: 'Commit 1280x720 quantized captures and filtered log to docs/captures/st03_worldgen'
+        required: false
+        default: 'false'
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  worldgen-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install software renderer and Pillow
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox x11-utils mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1 python3-pil
+
+      - name: Isolate St03WorldgenClientCheck entrypoint
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('src/gametest/resources/fabric.mod.json')
+          d = json.loads(p.read_text())
+          d['entrypoints']['fabric-client-gametest'] = ['dev.itzgamesgd.moreminecrafts.pillagerhq.St03WorldgenClientCheck']
+          p.write_text(json.dumps(d, indent=2) + '\n')
+          PY
+
+      - name: Run St03WorldgenClientCheck
+        id: run_test
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/st03-worldgen
+          DIAG="${{ inputs.diag || 'true' }}"
+          export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+          export JAVA_TOOL_OPTIONS="-Dmoreminecrafts.st03.worldgen.check=true -Dmoreminecrafts.st03.diag=${DIAG} -Dmm.st05.natural=false"
+          icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit || true)
+          if [[ -n "$icd" ]]; then export VK_ICD_FILENAMES="$icd"; fi
+          set +e
+          xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo pipefail -c '
+            openbox --sm-disable > build/st03-worldgen/openbox.log 2>&1 &
+            trap "kill $! 2>/dev/null || true" EXIT
+            ./gradlew runClientGameTest --args="--width 1280 --height 720" --no-daemon --max-workers=2 2>&1 | tee build/st03-worldgen/full.log
+          '
+          rc=$?
+          set -e
+          echo "test_exit=$rc" >> "$GITHUB_OUTPUT"
+          grep -E "ST03_WORLDGEN|ST03_DIAG" build/st03-worldgen/full.log | sed 's/^.*ST03_/ST03_/' > build/st03-worldgen/filtered.log || true
+          if [ "$rc" -ne 0 ]; then
+            echo "--- FAILURE TAIL ---" >> build/st03-worldgen/filtered.log
+            tail -n 80 build/st03-worldgen/full.log >> build/st03-worldgen/filtered.log || true
+          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          out_dir = Path('build/st03-worldgen/captures')
+          out_dir.mkdir(parents=True, exist_ok=True)
+          for src in sorted(Path('.').rglob('*st03-worldgen-*.png')):
+              if out_dir in src.parents or 'docs/captures' in str(src):
+                  continue
+              name = src.name
+              if len(name) > 5 and name[:4].isdigit() and name[4] == '_':
+                  name = name[5:]
+              img = Image.open(src).convert('RGB')
+              if img.size != (1280, 720):
+                  img = img.resize((1280, 720), Image.Resampling.LANCZOS)
+              quantized = img.quantize(colors=256, method=Image.Quantize.MEDIANCUT)
+              quantized.save(out_dir / name, optimize=True)
+          PY
+          exit "$rc"
+
+      - name: Post filtered log to commit comment
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import os, subprocess
+          from pathlib import Path
+
+          log_path = Path('build/st03-worldgen/filtered.log')
+          text = log_path.read_text() if log_path.is_file() else '(no filtered.log)'
+          sha = os.environ['GITHUB_SHA']
+          repo = os.environ['GITHUB_REPOSITORY']
+          run_id = os.environ['GITHUB_RUN_ID']
+          max_chunk = 55000
+          chunks = [text[i:i+max_chunk] for i in range(0, max(1, len(text)), max_chunk)]
+          for idx, chunk in enumerate(chunks, 1):
+              body = f"### ST-03 Worldgen Check Run {run_id} (part {idx}/{len(chunks)})\n```text\n{chunk}\n```\n"
+              tmp = Path(f'build/st03-worldgen/comment_{idx}.md')
+              tmp.write_text(body)
+              subprocess.run(
+                  ['gh', 'api', f'repos/{repo}/commits/{sha}/comments', '-f', f'body=@{tmp}'],
+                  check=False
+              )
+          PY
+
+      - name: Commit captures back when requested
+        if: always() && inputs.commit_captures == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p docs/captures/st03_worldgen
+          cp build/st03-worldgen/filtered.log docs/captures/st03_worldgen/client-worldgen.log || true
+          cp build/st03-worldgen/captures/*.png docs/captures/st03_worldgen/ 2>/dev/null || true
+          git checkout -- src/gametest/resources/fabric.mod.json
+          git add docs/captures/st03_worldgen/
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(st03): update worldgen & conversion captures and logs [skip ci]"
+            git push origin HEAD:claude/st03-conversion-verify-20261116
+          fi
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: st03-worldgen-check
+          path: build/st03-worldgen/
+          if-no-files-found: warn
