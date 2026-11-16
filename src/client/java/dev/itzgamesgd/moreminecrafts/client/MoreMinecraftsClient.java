@@ -270,6 +270,14 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                 context -> CustomMobRenderers.phantom(context, "lesser_phantom"));
         EntityRendererRegistry.register(CustomMobCatalog.CAVE_CREEPER,
                 context -> CustomMobRenderers.creeper(context, "cave_creeper"));
+        EntityRendererRegistry.register(CustomMobCatalog.PILLAGER_COMMANDER,
+                context -> CustomMobRenderers.vindicator(context, "pillager_commander"));
+        EntityRendererRegistry.register(CustomMobCatalog.PILLAGER_BEASTMASTER,
+                context -> CustomMobRenderers.pillager(context, "pillager_beastmaster"));
+        EntityRendererRegistry.register(CustomMobCatalog.ARMORY_GUARD,
+                context -> CustomMobRenderers.vindicator(context, "armory_guard"));
+        EntityRendererRegistry.register(CustomMobCatalog.PILLAGER_DRILLMASTER,
+                context -> CustomMobRenderers.pillager(context, "pillager_drillmaster"));
         SkyMobRenderers.register();
         SkyVariantRenderers.register();
         PyramidMobRenderers.register();

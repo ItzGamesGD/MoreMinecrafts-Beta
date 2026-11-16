@@ -71,7 +71,10 @@ public final class ContractCatalog {
             "moreminecrafts:pale_enderman", "moreminecrafts:azure_slime",
             // ST-01 pyramid variants: registered but withheld from every contract pool; placement is not designed yet.
             "moreminecrafts:buried_mummy", "moreminecrafts:crypt_archer", "moreminecrafts:funeral_servant",
-            "moreminecrafts:gilded_mummy");
+            "moreminecrafts:gilded_mummy",
+            // ST-03 HQ variants: registered but withheld from every contract pool (owner direction; same treatment as ST-01 pyramid variants).
+            "moreminecrafts:pillager_commander", "moreminecrafts:pillager_beastmaster",
+            "moreminecrafts:armory_guard", "moreminecrafts:pillager_drillmaster");
 
     /** Percent chance that a combat objective draws a strong target, by contract shape (owner-approved 2026-10-23). */
     public static int strongPercent(ContractData.Tier shape) {
