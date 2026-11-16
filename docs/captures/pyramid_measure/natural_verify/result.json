@@ -24,6 +24,7 @@
       "royal_chest_registered": false,
       "sampled_non_air_blocks": "9757/17496"
     },
+    "registration_polls": 60,
     "failure": "java.lang.AssertionError: Pyramid structure not confirmed: {valid_start_found\u003dtrue, meta_present\u003dtrue, start_piece_count\u003d4, ground\u003d-1768, 70, 2696, orientation\u003dEAST, route\u003dWEST, biome_at_ground\u003dminecraft:desert, biome_at_located_xz\u003dminecraft:desert, primary_left_block\u003dminecraft:chest, royal_chest_registered\u003dfalse, sampled_non_air_blocks\u003d9757/17496}"
   }
 }
