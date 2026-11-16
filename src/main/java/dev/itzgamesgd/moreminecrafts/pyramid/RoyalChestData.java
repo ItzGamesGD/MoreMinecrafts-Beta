@@ -34,7 +34,7 @@ public final class RoyalChestData extends SavedData {
 
     public record InstanceSave(String id, long tombAnchor, long spawn, long primary, Optional<Long> primaryRight, Optional<Long> secondary, Optional<RoyalChestRole> catalyst) {}
 
-    private record Saved(List<InstanceSave> instances, List<ChestSave> chests) {}
+    record Saved(List<InstanceSave> instances, List<ChestSave> chests) {}
 
     private static final Codec<RoyalChestRole> ROLE = Codec.STRING.xmap(RoyalChestRole::valueOf, RoyalChestRole::name);
     private static final Codec<StackSave> STACK = RecordCodecBuilder.create(i -> i.group(
@@ -185,7 +185,7 @@ public final class RoyalChestData extends SavedData {
 
     // ---- codec bridge ----
 
-    private static RoyalChestData fromSaved(Saved saved) {
+    static RoyalChestData fromSaved(Saved saved) {
         RoyalChestData data = new RoyalChestData();
         for (InstanceSave s : saved.instances()) {
             Instance instance = new Instance(s.id(), BlockPos.of(s.tombAnchor()), BlockPos.of(s.spawn()),
