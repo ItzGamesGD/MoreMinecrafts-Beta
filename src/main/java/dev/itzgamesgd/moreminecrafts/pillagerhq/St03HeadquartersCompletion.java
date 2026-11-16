@@ -73,14 +73,24 @@ public final class St03HeadquartersCompletion {
     }
 
     private static void extractMetadata(StructureStart start, St03HeadquartersData.HqInstance hq) {
-        hq.box = start.getBoundingBox();
+        int minX=Integer.MAX_VALUE,minY=Integer.MAX_VALUE,minZ=Integer.MAX_VALUE;
+        int maxX=Integer.MIN_VALUE,maxY=Integer.MIN_VALUE,maxZ=Integer.MIN_VALUE;
+        boolean found=false;
         for (StructurePiece piece : start.getPieces()) {
             if (piece instanceof St03AssemblyPiece assembly) {
-                hq.origin = assembly.compoundOrigin();
-                hq.rotation = assembly.compoundRotation();
-                break;
+                if (!found) {
+                    hq.origin=assembly.compoundOrigin();
+                    hq.rotation=assembly.compoundRotation();
+                }
+                found=true;
+                BoundingBox box=assembly.getBoundingBox();
+                minX=Math.min(minX,box.minX());minY=Math.min(minY,box.minY());minZ=Math.min(minZ,box.minZ());
+                maxX=Math.max(maxX,box.maxX());maxY=Math.max(maxY,box.maxY());maxZ=Math.max(maxZ,box.maxZ());
             }
         }
+        // Earthwork may own a deeper/taller Y range; proximity, clear-state suppression and village
+        // conversion retain the approved architectural envelope, rather than the correction envelope.
+        if (found) hq.box=new BoundingBox(minX,minY,minZ,maxX,maxY,maxZ);
     }
 
     private static void onServerTick(MinecraftServer server) {

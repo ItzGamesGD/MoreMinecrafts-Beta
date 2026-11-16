@@ -41,4 +41,21 @@ public final class St03TerrainGameTests {
         }
         helper.succeed();
     }
+    @GameTest public void approvedTemplateBoxesStayInsideFootprintInEveryRotation(GameTestHelper helper) {
+        var templates=helper.getLevel().getStructureTemplateManager();
+        BlockPos origin=new BlockPos(400320,80,400320);
+        for(var rotation:net.minecraft.world.level.block.Rotation.values()) {
+            var builder=new net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder();
+            St03HeadquartersStructure.addPieces(builder,templates,origin,rotation);
+            var pieces=builder.build().pieces();
+            helper.assertTrue(pieces.size()==34,"34 unchanged modules required");
+            for(var piece:pieces) {
+                var box=piece.getBoundingBox();
+                helper.assertTrue(box.minX()>=origin.getX()&&box.maxX()<=origin.getX()+111
+                        &&box.minZ()>=origin.getZ()&&box.maxZ()<=origin.getZ()+111,
+                        "Template extends outside approved footprint: "+rotation+" "+box);
+            }
+        }
+        helper.succeed();
+    }
 }
