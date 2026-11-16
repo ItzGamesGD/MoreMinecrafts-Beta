@@ -253,7 +253,7 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
         for (SeedEntry entry : selected) {
             Map<String, Object> row = measureSeed(
                     entry.seed, entry.category, REGION_RADIUS,
-                    noiseRegistry, noiseSettings, biomeSource, generator, height, placement,
+                    access, noiseSettings, biomeSource, generator, height, placement,
                     allEligibleCandidates);
             seedResults.add(row);
         }
@@ -265,7 +265,7 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
         List<Map<String, Object>> refEligible = new ArrayList<>();
         Map<String, Object> ref7001 = measureSeed(
                 REFERENCE_SEED_7001, "reference_baseline", REGION_RADIUS,
-                noiseRegistry, noiseSettings, biomeSource, generator, height, placement,
+                access, noiseSettings, biomeSource, generator, height, placement,
                 refEligible);
         result.put("reference_seed_7001", ref7001);
 
@@ -275,7 +275,7 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
             List<Map<String, Object>> wideEligible = new ArrayList<>();
             Map<String, Object> wideScan = measureSeed(
                     topPlainsSeed, "plains_heavy_wide_60", 60,
-                    noiseRegistry, noiseSettings, biomeSource, generator, height, placement,
+                    access, noiseSettings, biomeSource, generator, height, placement,
                     wideEligible);
             wideScan.put("eligible_candidates", wideEligible);
             result.put("wide_60_diagnostic_top_plains", wideScan);
@@ -286,7 +286,7 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
             long seed,
             String category,
             int regionRadius,
-            net.minecraft.core.HolderGetter<net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters> noiseRegistry,
+            RegistryAccess access,
             Holder<NoiseGeneratorSettings> noiseSettings,
             BiomeSource biomeSource,
             NoiseBasedChunkGenerator generator,
@@ -294,7 +294,7 @@ public final class St03SiteAcceptanceProbe implements ModInitializer {
             RandomSpreadStructurePlacement placement,
             List<Map<String, Object>> outEligible) {
         long t0 = System.currentTimeMillis();
-        RandomState rs = RandomState.create(noiseRegistry, seed, noiseSettings.value());
+        RandomState rs = RandomState.create(access.lookupOrThrow(Registries.NOISE), seed, noiseSettings.value());
         Climate.Sampler sampler = rs.createClimateSampler(SamplerContext.builder().enableCaches().build());
         BiomeResolver resolver = biomeSource.createResolver(sampler);
 
