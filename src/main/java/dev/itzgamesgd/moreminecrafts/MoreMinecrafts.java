@@ -24,6 +24,7 @@ public final class MoreMinecrafts implements ModInitializer {
         dev.itzgamesgd.moreminecrafts.accessory.T2StructureChestAccessories.initialize();
         dev.itzgamesgd.moreminecrafts.progression.DeepSeaPearlContribution.initialize();
         dev.itzgamesgd.moreminecrafts.accessory.TombGuardianGravityHeart.initialize();
+        dev.itzgamesgd.moreminecrafts.accessory.T2MaterialDrops.initialize();
         dev.itzgamesgd.moreminecrafts.pyramid.RoyalChestRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.pyramid.entrance.SecretEntranceRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Worldgen.initialize();

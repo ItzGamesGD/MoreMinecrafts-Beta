@@ -24,12 +24,12 @@ public final class ArtifactCoreGameTests {
     }
 
     @GameTest(maxTicks = 20)
-    public void featherCharmIsMappedButNotRegisteredByThisChange(GameTestHelper ctx) {
+    public void featherCharmIsMappedAndNowRegistered(GameTestHelper ctx) {
         var entry = ArtifactCoreMapping.ALL.stream().filter(e -> "feather_charm".equals(e.accessoryId())).findFirst();
         ctx.assertTrue(entry.isPresent(), "Feather Charm mapping record exists");
         ctx.assertTrue(net.minecraft.core.registries.BuiltInRegistries.ITEM
-                .get(dev.itzgamesgd.moreminecrafts.core.ModIds.id("feather_charm")).isEmpty(),
-                "Feather Charm item registration is deferred to its accessory work");
+                .get(dev.itzgamesgd.moreminecrafts.core.ModIds.id("feather_charm")).isPresent(),
+                "Feather Charm item is registered (owner-decided id feather_charm)");
         ctx.succeed();
     }
 

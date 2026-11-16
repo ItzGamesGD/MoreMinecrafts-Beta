@@ -21,9 +21,9 @@ class AccessoryCatalogTest {
     }
 
     @Test
-    void finalizedRosterHasNineteenUniqueIdsAndExactlyFiveCategories() {
-        assertEquals(19, AccessoryDefinition.ALL.size());
-        assertEquals(19, AccessoryDefinition.ALL.stream().map(AccessoryDefinition::registryId).distinct().count());
+    void finalizedRosterHasTwentyUniqueIdsAndExactlyFiveCategories() {
+        assertEquals(20, AccessoryDefinition.ALL.size());
+        assertEquals(20, AccessoryDefinition.ALL.stream().map(AccessoryDefinition::registryId).distinct().count());
         assertEquals(5, AccessoryCategory.values().length);
 
         var counts = new EnumMap<AccessoryCategory, Integer>(AccessoryCategory.class);
@@ -35,7 +35,7 @@ class AccessoryCatalogTest {
         assertEquals(8, counts.get(AccessoryCategory.COMBAT));
         assertEquals(4, counts.get(AccessoryCategory.DEFENSE_SURVIVAL));
         assertEquals(2, counts.get(AccessoryCategory.SUPPORT_RECOVERY));
-        assertEquals(4, counts.get(AccessoryCategory.EXPLORATION_MOBILITY));
+        assertEquals(5, counts.get(AccessoryCategory.EXPLORATION_MOBILITY)); // + feather_charm
         assertEquals(1, counts.get(AccessoryCategory.LIFESTYLE_GATHERING));
     }
 

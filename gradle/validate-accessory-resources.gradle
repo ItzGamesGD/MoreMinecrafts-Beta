@@ -5,7 +5,7 @@ tasks.register("validateAccessoryResources") {
         def json = new groovy.json.JsonSlurper()
         def src = file("src/main/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryDefinition.java").text
         def ids = (src =~ /(?m)^\s+[A-Z0-9_]+\("([a-z0-9_]+)",\s*"item\.moreminecrafts\.\1"/).collect { it[1] }
-        assert ids.size() == 19 : "Expected 19 registered accessories, found ${ids}"
+        assert ids.size() == 20 : "Expected 20 registered accessories, found ${ids}"
         def assets = file("src/main/resources/assets/moreminecrafts")
         ids.each { id ->
             def itemFile = new File(assets, "items/${id}.json")

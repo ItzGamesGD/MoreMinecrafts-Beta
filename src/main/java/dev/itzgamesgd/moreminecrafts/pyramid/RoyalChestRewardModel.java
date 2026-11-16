@@ -21,6 +21,9 @@ public final class RoyalChestRewardModel {
     public static final double ACCESSORY_CHANCE = PyramidRoyalChestRewards.CHANCE;
     public static final double CATALYST_CHANCE = 0.05D;
     public static final String CATALYST_ID = "moreminecrafts:relic_catalyst";
+    public static final String SAP_ID = "moreminecrafts:ancient_world_tree_sap";
+    /** PRIMARY only: two separate independent rolls (100%, then 45%), one Ancient World Tree Sap each (max 2). */
+    public static final List<Double> SAP_ROLL_CHANCES = List.of(1.00D, 0.45D);
 
     /** One independent item: success probability, then an inclusive uniform quantity. */
     public record Entry(String itemId, double chance, int min, int max) {}
@@ -93,6 +96,16 @@ public final class RoyalChestRewardModel {
                 .map(definition -> "moreminecrafts:" + definition.registryId());
     }
 
+    /**
+     * Ancient World Tree Sap: one independent chance draw per entry of {@link #SAP_ROLL_CHANCES}, each worth one sap.
+     * Drawn after all pre-existing draws so the established material, rare-pool and accessory draws are unchanged.
+     */
+    public static Optional<Reward> rollSap(RandomGenerator random) {
+        int count = 0;
+        for (double chance : SAP_ROLL_CHANCES) if (random.nextDouble() < chance) count++;
+        return count == 0 ? Optional.empty() : Optional.of(new Reward(SAP_ID, count));
+    }
+
     /** True when the draw includes a T2 accessory (Seed of Life / Ring of Time); drives the Q39 reveal effect. */
     public static boolean hasAccessory(List<Reward> rewards) {
         return rewards.stream().anyMatch(r -> PyramidRoyalChestRewards.ITEMS.stream()
@@ -114,6 +127,7 @@ public final class RoyalChestRewardModel {
     public static List<Reward> chestRewards(RoyalChestRole role, RandomGenerator chestRandom, boolean holdsCatalyst) {
         List<Reward> rewards = new ArrayList<>(rollMaterials(role, chestRandom));
         rollAccessory(chestRandom).ifPresent(id -> rewards.add(new Reward(id, 1)));
+        if (role == RoyalChestRole.PRIMARY) rollSap(chestRandom).ifPresent(rewards::add);
         if (holdsCatalyst) rewards.add(new Reward(CATALYST_ID, 1));
         return rewards;
     }

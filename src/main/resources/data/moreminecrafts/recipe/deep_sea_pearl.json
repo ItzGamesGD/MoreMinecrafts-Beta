@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "DHD",
+    "tSt",
+    "pYp"
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "H": "minecraft:heart_of_the_sea",
+    "S": "moreminecrafts:etherium_shard",
+    "Y": "moreminecrafts:mythril",
+    "p": "moreminecrafts:abyssal_pearl_core",
+    "t": "moreminecrafts:tidal_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:deep_sea_pearl",
+    "count": 1
+  }
+}

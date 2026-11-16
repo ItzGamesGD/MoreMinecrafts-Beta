@@ -623,7 +623,7 @@ public final class TombGuardianGameTests {
     // Loot.
 
     @GameTest
-    public void killLootIsAncientHeartOneHundredPercentTimesOneAndNothingElse(GameTestHelper ctx) {
+    public void killLootIsAncientHeartAndAncientWorldTreeSapEachOneHundredPercentTimesOnePlusGravityHeart(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         TombGuardian guardian = ctx.spawn(TombGuardianEntities.TOMB_GUARDIAN, new BlockPos(1, 1, 1));
         LootTable table = level.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE,
@@ -643,11 +643,16 @@ public final class TombGuardianGameTests {
             List<ItemStack> drops = table.getRandomItems(params, (long) i * 7919L + 17L);
             int stacks = 0;
             int gravityStacks = 0;
+            int sapStacks = 0;
             for (ItemStack stack : drops) {
                 // 2026-11-14 P1-BUG-04: Ancient Heart is 100% x1. Heart of Gravity remains its own independent 20% x1 pool.
                 if (stack.is(ModItems.ANCIENT_HEART)) {
                     ctx.assertTrue(stack.getCount() == 1, "Ancient Heart is exactly one, got " + stack);
                     stacks++;
+                } else if (stack.is(ModItems.ANCIENT_WORLD_TREE_SAP)) {
+                    // 2026-11-16 owner task decision: the document's 100% Ancient World Tree Sap tomb-guardian drop, exactly one.
+                    ctx.assertTrue(stack.getCount() == 1, "Ancient World Tree Sap is exactly one, got " + stack);
+                    sapStacks++;
                 } else {
                     ctx.assertTrue(stack.is(gravityItem) && stack.getCount() == 1,
                             "the only other kill drop is exactly one Heart of Gravity, got " + stack);
@@ -655,6 +660,7 @@ public final class TombGuardianGameTests {
                 }
             }
             ctx.assertTrue(stacks == 1, "exactly one Ancient Heart on every kill, got " + stacks);
+            ctx.assertTrue(sapStacks == 1, "exactly one Ancient World Tree Sap on every kill, got " + sapStacks);
             ctx.assertTrue(gravityStacks <= 1, "never more than one Heart of Gravity per kill");
             hearts += stacks;
             gravity += gravityStacks;

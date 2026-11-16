@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "D5D",
+    "aIa",
+    "OaY"
+  ],
+  "key": {
+    "5": "moreminecrafts:void_gravity_core",
+    "D": "minecraft:diamond",
+    "I": "moreminecrafts:etherium_ingot",
+    "O": "minecraft:obsidian",
+    "Y": "moreminecrafts:mythril",
+    "a": "moreminecrafts:abyssal_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:heart_of_gravity",
+    "count": 1
+  }
+}

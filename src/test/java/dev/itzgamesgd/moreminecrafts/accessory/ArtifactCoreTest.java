@@ -65,7 +65,20 @@ class ArtifactCoreTest {
         assertEquals(Set.of("t1_crisis_escape", "t1_heavy_buffer", "star_covenant", "blood_covenant", "ember_ring", "ring_of_life"), actual.get(ArtifactCore.BLAZING));
         var featherCharm = ArtifactCoreMapping.ALL.stream().filter(e -> e.koreanName().equals("깃털 부적")).findFirst().orElseThrow();
         assertEquals("feather_charm", featherCharm.accessoryId());
-        assertFalse(IDS.contains(featherCharm.accessoryId()), "mapping may refer to the future accessory without registering it here");
+        assertTrue(AccessoryDefinition.ALL.stream().anyMatch(d -> d.registryId().equals(featherCharm.accessoryId())),
+                "feather_charm is now registered as an accessory");
+    }
+
+    @Test void everyMappedAccessoryIdIsARegisteredAccessoryWithAModelAndLocalisedName() throws Exception {
+        JsonObject ko = json("assets/moreminecrafts/lang/ko_kr.json");
+        for (var entry : ArtifactCoreMapping.ALL) {
+            var definition = AccessoryDefinition.ALL.stream().filter(d -> d.registryId().equals(entry.accessoryId())).findFirst();
+            assertTrue(definition.isPresent(), entry.accessoryId() + " must be registered");
+            assertNotNull(getResource("assets/moreminecrafts/models/item/" + entry.accessoryId() + ".json"), entry.accessoryId());
+            assertTrue(ko.has(definition.get().translationKey()), entry.accessoryId());
+            // T1 display names are still provisional; only the 13 approved T2 names must match the mapping document.
+            if (!definition.get().isT1()) assertEquals(entry.koreanName(), ko.get(definition.get().translationKey()).getAsString(), entry.accessoryId());
+        }
     }
 
     @Test void biomeRulesApplyDocumentedPriorityAcrossConflictingInputs() {
