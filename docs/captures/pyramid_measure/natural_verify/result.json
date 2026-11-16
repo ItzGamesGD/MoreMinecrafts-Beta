@@ -1,0 +1,29 @@
+{
+  "generator": "PASS",
+  "locate": "PASS",
+  "structure": "FAIL",
+  "capture": "NOT RUN",
+  "detail": {
+    "seed": "1004",
+    "generator_class": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
+    "locate_output": "The nearest moreminecrafts:st01_pyramid is at [-1776, ~, 2688] (3164 blocks away)",
+    "locate_xz": [
+      -1776,
+      2688
+    ],
+    "structure": {
+      "valid_start_found": true,
+      "meta_present": true,
+      "start_piece_count": 4,
+      "ground": "-1768, 70, 2696",
+      "orientation": "EAST",
+      "route": "WEST",
+      "biome_at_ground": "minecraft:desert",
+      "biome_at_located_xz": "minecraft:desert",
+      "primary_left_block": "minecraft:chest",
+      "royal_chest_registered": false,
+      "sampled_non_air_blocks": "9757/17496"
+    },
+    "failure": "java.lang.AssertionError: Pyramid structure not confirmed: {valid_start_found\u003dtrue, meta_present\u003dtrue, start_piece_count\u003d4, ground\u003d-1768, 70, 2696, orientation\u003dEAST, route\u003dWEST, biome_at_ground\u003dminecraft:desert, biome_at_located_xz\u003dminecraft:desert, primary_left_block\u003dminecraft:chest, royal_chest_registered\u003dfalse, sampled_non_air_blocks\u003d9757/17496}"
+  }
+}
