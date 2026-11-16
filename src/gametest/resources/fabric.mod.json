@@ -128,6 +128,7 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8ARecaptureTest",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01PyramidAssemblyClientCaptureTest",
       "dev.itzgamesgd.moreminecrafts.pyramid.St01NaturalPyramidClientCaptureTest",
+      "dev.itzgamesgd.moreminecrafts.pyramid.St01NaturalVerifyClientTest",
       "dev.itzgamesgd.moreminecrafts.colosseum.GladiatorClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryInventoryClientGameTest",
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryClientLifecycleGameTest",
