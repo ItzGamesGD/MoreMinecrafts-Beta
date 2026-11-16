@@ -1,0 +1,68 @@
+ST03_WORLDGEN sample origin=-1328,-1216 yf=-60 surfCenter=-60 floorCenter=-60 biome=minecraft:plains uncachedBiome=minecraft:plains
+ST03_WORLDGEN eligible_candidate region=-2,-2 chunk=[-80, -73] origin=-1328,-1216 foundationY=-60
+ST03_WORLDGEN sample origin=-1504,-624 yf=-60 surfCenter=-60 floorCenter=-60 biome=minecraft:plains uncachedBiome=minecraft:plains
+ST03_WORLDGEN eligible_candidate region=-2,-1 chunk=[-91, -36] origin=-1504,-624 foundationY=-60
+ST03_WORLDGEN sample origin=-1536,256 yf=-60 surfCenter=-60 floorCenter=-60 biome=minecraft:plains uncachedBiome=minecraft:plains
+ST03_WORLDGEN eligible_candidate region=-2,0 chunk=[-93, 19] origin=-1536,256 foundationY=-60
+ST03_WORLDGEN sample origin=-1312,1104 yf=-60 surfCenter=-60 floorCenter=-60 biome=minecraft:plains uncachedBiome=minecraft:plains
+ST03_WORLDGEN eligible_candidate region=-2,1 chunk=[-79, 72] origin=-1312,1104 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=-2,2 chunk=[-88, 110] origin=-1456,1712 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=-1,-2 chunk=[-31, -68] origin=-544,-1136 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=-1,-1 chunk=[-35, -34] origin=-608,-592 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=-1,0 chunk=[-35, 10] origin=-608,112 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=-1,1 chunk=[-41, 67] origin=-704,1024 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=-1,2 chunk=[-37, 114] origin=-640,1776 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=0,-2 chunk=[1, -82] origin=-32,-1360 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=0,-1 chunk=[13, -38] origin=160,-656 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=0,0 chunk=[6, 25] origin=48,352 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=0,1 chunk=[18, 63] origin=240,960 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=0,2 chunk=[6, 111] origin=48,1728 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=1,-2 chunk=[60, -85] origin=912,-1408 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=1,-1 chunk=[54, -31] origin=816,-544 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=1,0 chunk=[71, 5] origin=1088,32 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=1,1 chunk=[60, 55] origin=912,832 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=1,2 chunk=[52, 101] origin=784,1568 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=2,-2 chunk=[112, -80] origin=1744,-1328 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=2,-1 chunk=[112, -41] origin=1744,-704 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=2,0 chunk=[110, 21] origin=1712,288 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=2,1 chunk=[110, 57] origin=1712,864 foundationY=-60
+ST03_WORLDGEN eligible_candidate region=2,2 chunk=[120, 109] origin=1872,1696 foundationY=-60
+ST03_WORLDGEN planned_candidates=25 verdicts={ELIGIBLE=25} biomes={minecraft:plains=25}
+ST03_WORLDGEN planned_hq origin=48,-60,352
+ST03_WORLDGEN planned_hq origin=-544,-60,-1136
+ST03_WORLDGEN planned_hq origin=-1536,-60,256
+ST03_WORLDGEN hq=0 origin=48,-60,352 generated=false forced=true id=st03_3000000160 box=BoundingBox{minX=48, minY=-60, minZ=352, maxX=159, maxY=-30, maxZ=463}
+ST03_WORLDGEN_GARRISON hq=0 defenders=40 expected=40 byType={armory_guard=2, bandit=9, bandit_archer=12, bandit_warrior=8, pillager_beastmaster=1, pillager_commander=1, pillager_drillmaster=1, ravager=1, wandering_raider=5} missingSlots=[]
+ST03_WORLDGEN_SHOT /home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0000_st03-worldgen-00-hq-exterior.png
+ST03_WORLDGEN_SHOT /home/user/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0001_st03-worldgen-01-hq-interior-garrison.png
+ST03_WORLDGEN hq=1 origin=-544,-60,-1136 generated=false forced=true id=st03_fffffde0fffffb90 box=BoundingBox{minX=-544, minY=-60, minZ=-1136, maxX=-433, maxY=-30, maxZ=-1025}
+ST03_WORLDGEN_GARRISON hq=1 defenders=40 expected=40 byType={armory_guard=2, bandit=9, bandit_archer=12, bandit_warrior=8, pillager_beastmaster=1, pillager_commander=1, pillager_drillmaster=1, ravager=1, wandering_raider=5} missingSlots=[]
+ST03_WORLDGEN hq=2 origin=-1536,-60,256 generated=false forced=true id=st03_fffffa0000000100 box=BoundingBox{minX=-1536, minY=-60, minZ=256, maxX=-1425, maxY=-30, maxZ=367}
+ST03_WORLDGEN_GARRISON hq=2 defenders=40 expected=40 byType={armory_guard=2, bandit=9, bandit_archer=12, bandit_warrior=8, pillager_beastmaster=1, pillager_commander=1, pillager_drillmaster=1, ravager=1, wandering_raider=5} missingSlots=[]
+ST03_WORLDGEN return_to_hq0 target=48,-60,352 chosenSize=3
+ST03_WORLDGEN return_to_hq0 player_after=BlockPos{x=104, y=-57, z=408}
+ST03_WORLDGEN kill_pass=0 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=1 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=2 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=3 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=4 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=5 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=6 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=7 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=8 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=9 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=10 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=11 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=12 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=13 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN kill_pass=14 player=BlockPos{x=103, y=-60, z=408} loadedInBox=7 defendersLeft=6 eliminated=6 cleared=false
+ST03_WORLDGEN post_clear cleared=false eliminated=6 defendersLeft=6
+ST03_WORLDGEN beds placed=5 counted=5
+ST03_WORLDGEN hostile_suppressed type=zombie value=false
+ST03_WORLDGEN hostile_suppressed type=creeper value=false
+ST03_WORLDGEN hostile_suppressed type=enderman value=false
+ST03_WORLDGEN hostile_suppressed type=skeleton value=false
+ST03_WORLDGEN hostile_suppressed type=spider value=false
+ST03_WORLDGEN conversion poll=0 spawnedVillagers=0 villagersInBox=0 gameTime=3358
+ST03_WORLDGEN conversion poll=1 spawnedVillagers=0 villagersInBox=0 gameTime=3759
+ST03_WORLDGEN conversion poll=2 spawnedVillagers=0 villagersInBox=0 gameTime=4160

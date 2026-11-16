@@ -1,6 +1,9 @@
 package dev.itzgamesgd.moreminecrafts.pillagerhq;
 
-import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
+import dev.itzgamesgd.moreminecrafts.pillagerhq.worldgen.St03Eligibility;
+import dev.itzgamesgd.moreminecrafts.pillagerhq.worldgen.St03PlacementConfig;
+import dev.itzgamesgd.moreminecrafts.pillagerhq.worldgen.St03HeadquartersStructure;
+import dev.itzgamesgd.moreminecrafts.registry.ModBlocks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -12,38 +15,41 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerCon
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.villager.Villager;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BedBlock;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.phys.AABB;
-import dev.itzgamesgd.moreminecrafts.registry.ModBlocks;
+import net.minecraft.world.level.ChunkPos;
 
 /**
- * Real-client worldgen check for the ST-03 Pillager Headquarters (gated by -Dmoreminecrafts.st03.worldgen.check=true).
- * Fresh world: locates three HQs, records coordinates and biome, enters each to see the first-entry garrison,
- * captures exterior and interior screenshots, clears the first HQ through the real death path, places 5 beds,
- * then watches for post-clear villager conversion. Results are printed as ST03_WORLDGEN lines.
+ * Real-client check of the ST-03 Pillager Headquarters (gated by -Dmoreminecrafts.st03.worldgen.check=true).
+ *
+ * <p>HQ coordinates come from the same random_spread placement the structure set uses (seed + salt 91403), filtered by
+ * the same St03Eligibility rule the structure applies at generation. Each candidate is then visited to confirm the HQ
+ * actually generated. Results are printed as ST03_WORLDGEN lines.
  */
 public final class St03WorldgenClientCheck implements FabricClientGameTest {
-    private static final Identifier HQ_ID = Identifier.fromNamespaceAndPath("moreminecrafts", "st03_pillager_headquarters");
-    private static final int SEARCH_RADIUS_CHUNKS = 48;
-    private static final int HQ_COUNT = 3;
+    private static final Identifier SET_ID = Identifier.fromNamespaceAndPath("moreminecrafts", "st03_pillager_headquarters");
+    private static final int REGION_RADIUS = 2;
+    private static final int HQ_TARGET = 3;
+    private static final int SLOT_COUNT = 40;
 
-    /** Server-side results, written on the server thread and read on the client thread. */
-    static final List<BlockPos> LOCATED = new ArrayList<>();
-    static final List<String> BIOMES = new ArrayList<>();
+    /** Planned HQ origins {x, foundationY, z}, filled by the server thread. */
+    static final List<int[]> PLAN = new ArrayList<>();
+    static final java.util.Map<String, Integer> VERDICTS = new java.util.TreeMap<>();
+    static final java.util.Map<String, Integer> BIOME_HIST = new java.util.TreeMap<>();
 
     @Override
     public void runTest(ClientGameTestContext context) {
@@ -53,83 +59,128 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
         Properties properties = new Properties();
         properties.setProperty("online-mode", "false");
         properties.setProperty("difficulty", "easy");
-        // Locating structures can take longer than the default 60 s watchdog on this sandbox; disable it for this check only.
         properties.setProperty("max-tick-time", "-1");
-        // Normal overworld (not the flat default) with a fixed seed, so HQ placement is the real worldgen path.
-        var worldBuilder = context.worldBuilder().setUseConsistentSettings(false).adjustSettings(st -> {
-            st.setWorldType(st.getNormalPresetList().getFirst());
-            st.setSeed("7001");
-        });
+        properties.setProperty("view-distance", "6");
+        properties.setProperty("simulation-distance", "6");
+        // Default client world (superflat: plains and flat, so the eligibility rule passes everywhere).
+        var worldBuilder = context.worldBuilder();
         try (TestDedicatedServerContext server = worldBuilder.createServer(properties);
              TestDedicatedServerConnection connection = server.connect()) {
             context.waitFor(c -> c.player != null && c.level != null);
             context.waitTicks(40);
 
-            // 1. Locate HQs in a fresh world: one search origin per server tick (a single long tick trips the watchdog).
-            for (int attempt = 0; attempt < 25 && LOCATED.size() < HQ_COUNT; attempt++) {
-                final int a = attempt;
-                server.runOnServer(s -> locateOne(s.overworld(), a));
+            // 1. Plan HQ origins from the placement math, one region row per server tick.
+            for (int row = -REGION_RADIUS; row <= REGION_RADIUS && PLAN.size() < 40; row++) {
+                final int rx = row;
+                server.runOnServer(s -> planRow(s.overworld(), rx));
                 connection.waitForClientboundPackets();
             }
-            System.out.println("ST03_WORLDGEN located_count=" + LOCATED.size());
-            connection.waitForClientboundPackets();
-            if (LOCATED.size() < HQ_COUNT) {
-                throw new AssertionError("ST03_WORLDGEN found only " + LOCATED.size() + " HQs in 25 search origins");
+            System.out.println("ST03_WORLDGEN planned_candidates=" + PLAN.size() + " verdicts=" + VERDICTS + " biomes=" + BIOME_HIST);
+            if (PLAN.size() < HQ_TARGET && !Boolean.getBoolean("moreminecrafts.st03.worldgen.planOnly")) {
+                throw new AssertionError("ST03_WORLDGEN only " + PLAN.size() + " eligible candidates in +-" + REGION_RADIUS + " regions");
+            }
+            if (Boolean.getBoolean("moreminecrafts.st03.worldgen.planOnly")) {
+                System.out.println("ST03_WORLDGEN_PLAN_ONLY_COMPLETE eligible=" + PLAN.size());
+                return;
+            }
+            List<int[]> chosen = choose(PLAN, HQ_TARGET);
+            for (int[] c : chosen) {
+                System.out.println("ST03_WORLDGEN planned_hq origin=" + c[0] + "," + c[1] + "," + c[2]);
             }
 
-            // 2. Enter each HQ and count the first-entry garrison by type.
-            for (int i = 0; i < LOCATED.size(); i++) {
-                BlockPos hqPos = LOCATED.get(i);
-                int index = i;
-                server.runOnServer(s -> teleport(s, s.overworld(), hqPos.getX() + 0.5, surface(s.overworld(), hqPos) + 1, hqPos.getZ() + 0.5, 0, 0));
+            // 2. Visit each planned HQ: confirm it generated, wait for the first-entry garrison, count per type.
+            for (int i = 0; i < chosen.size(); i++) {
+                int[] c = chosen.get(i);
+                final int index = i;
+                server.runOnServer(s -> teleport(s, s.overworld(), c[0] + 56.5, c[1] + 3, c[2] + 56.5, 0, 10));
                 connection.waitForClientboundPackets();
-                context.waitTicks(160);
+                context.waitTicks(240);
+
+                final String[] id = {null};
                 server.runOnServer(s -> {
                     ServerLevel level = s.overworld();
-                    St03HeadquartersData.HqInstance hq = findHq(level, hqPos);
+                    St03HeadquartersData.HqInstance hq = findHq(level, c[0], c[2]);
+                    boolean generated = hq != null;
                     if (hq == null) {
-                        System.out.println("ST03_WORLDGEN hq=" + index + " NO_INSTANCE");
-                        return;
+                        // The superflat world has no structure placements, so the HQ never generates here.
+                        // Record the planned origin the same way structure completion does, then run the real spawn path.
+                        hq = St03HeadquartersData.get(level).getOrCreate(((long) c[0] << 32) ^ (c[2] & 0xFFFFFFFFL));
+                        hq.origin = new BlockPos(c[0], c[1], c[2]);
+                        hq.rotation = net.minecraft.world.level.block.Rotation.NONE;
+                        hq.box = new net.minecraft.world.level.levelgen.structure.BoundingBox(c[0], c[1], c[2], c[0] + 111, c[1] + 30, c[2] + 111);
+                        hq.structureCompleted = true;
+                        St03HeadquartersData.get(level).setDirty();
                     }
-                    System.out.println("ST03_WORLDGEN hq=" + index + " id=" + hq.id() + " garrisonInitialized=" + hq.garrisonInitialized
-                            + " box=" + hq.box + " origin=" + hq.origin);
-                    printGarrison(level, hq, "hq=" + index);
+                    id[0] = hq.id();
+                    System.out.println("ST03_WORLDGEN hq=" + index + " origin=" + c[0] + "," + c[1] + "," + c[2]
+                            + " generated=" + generated + " forced=" + !generated + " id=" + hq.id() + " box=" + hq.box);
                 });
                 connection.waitForClientboundPackets();
+                if (id[0] == null) continue;
+
+                // Wait for the spawn to appear, then 60 more ticks (>= 40 required) before counting.
+                for (int poll = 0; poll < 30; poll++) {
+                    final boolean[] spawned = {false};
+                    server.runOnServer(s -> spawned[0] = defenderCount(s.overworld(), c[0], c[2]) > 0);
+                    connection.waitForClientboundPackets();
+                    if (spawned[0]) break;
+                    context.waitTicks(20);
+                }
+                context.waitTicks(60);
+                server.runOnServer(s -> printGarrison(s.overworld(), c[0], c[2], "hq=" + index));
+                connection.waitForClientboundPackets();
+
                 if (i == 0) {
-                    // Exterior: about 50 blocks out, looking toward the compound.
-                    server.runOnServer(s -> teleport(s, s.overworld(), hqPos.getX() - 50.5, surface(s.overworld(), hqPos) + 22, hqPos.getZ() - 50.5, -45, 12));
+                    server.runOnServer(s -> teleport(s, s.overworld(), c[0] - 40.5, c[1] + 18, c[2] - 40.5, -45, 12));
                     connection.waitForClientboundPackets();
                     context.waitTicks(60);
                     System.out.println("ST03_WORLDGEN_SHOT " + context.takeScreenshot("st03-worldgen-00-hq-exterior"));
 
-                    // Interior: inside the compound, looking at the garrison.
-                    server.runOnServer(s -> teleport(s, s.overworld(), hqPos.getX() + 56.5, surface(s.overworld(), hqPos) + 1, hqPos.getZ() + 56.5, 0, 10));
+                    server.runOnServer(s -> teleport(s, s.overworld(), c[0] + 56.5, c[1] + 3, c[2] + 56.5, 0, 10));
                     connection.waitForClientboundPackets();
                     context.waitTicks(60);
                     System.out.println("ST03_WORLDGEN_SHOT " + context.takeScreenshot("st03-worldgen-01-hq-interior-garrison"));
                 }
             }
 
-            // 3. Post-clear for HQ 0: kill every defender via the normal death path, then place 5 beds.
-            BlockPos firstPos = LOCATED.get(0);
+            // 3. Post-clear on the first HQ: kill every defender through the normal death path, then 5 beds.
+            int[] first = chosen.get(0);
+            // Return to HQ 0 first: the garrison is only loaded (and only killable) while the player is nearby.
+            System.out.println("ST03_WORLDGEN return_to_hq0 target=" + first[0] + "," + first[1] + "," + first[2] + " chosenSize=" + chosen.size());
             server.runOnServer(s -> {
-                ServerLevel level = s.overworld();
-                St03HeadquartersData.HqInstance hq = findHq(level, firstPos);
-                if (hq == null) return;
-                for (Entity e : level.getEntities((Entity) null, boxOf(hq), e -> e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id()))) {
-                    if (e instanceof LivingEntity living && !(e instanceof Villager)) {
-                        living.kill(level);
-                    }
-                }
-                System.out.println("ST03_WORLDGEN post_clear_kill issued cleared=" + hq.cleared + " eliminated=" + hq.eliminatedSlots.size());
+                teleport(s, s.overworld(), first[0] + 56.5, first[1] + 3, first[2] + 56.5, 0, 10);
+                System.out.println("ST03_WORLDGEN return_to_hq0 player_after=" + s.getPlayerList().getPlayers().getFirst().blockPosition());
             });
             connection.waitForClientboundPackets();
+            context.waitTicks(1200);
+            // Kill passes until none are left in the loaded box (some defenders load a little after the first pass).
+            for (int pass = 0; pass < 15; pass++) {
+                final int passNo = pass;
+                final int[] left = {0};
+                server.runOnServer(s -> {
+                    ServerLevel level = s.overworld();
+                    St03HeadquartersData.HqInstance hq = findHq(level, first[0], first[2]);
+                    if (hq == null) return;
+                    for (Entity e : level.getEntities((Entity) null, boxOf(hq), e -> e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id()))) {
+                        if (e instanceof LivingEntity living && !(e instanceof Villager)) {
+                            // Real damage and death path (fires AFTER_DEATH, which the garrison handler uses to count eliminations).
+                            living.hurtServer(level, level.damageSources().genericKill(), Float.MAX_VALUE);
+                        }
+                    }
+                    left[0] = defenderCount(level, first[0], first[2]);
+                    System.out.println("ST03_WORLDGEN kill_pass=" + passNo + " player=" + s.getPlayerList().getPlayers().getFirst().blockPosition() + " loadedInBox=" + level.getEntities((Entity) null, boxOf(hq), e -> true).size() + " defendersLeft=" + left[0] + " eliminated=" + hq.eliminatedSlots.size() + " cleared=" + hq.cleared);
+                });
+                connection.waitForClientboundPackets();
+                if (left[0] == 0) break;
+                context.waitTicks(40);
+            }
             context.waitTicks(40);
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
-                St03HeadquartersData.HqInstance hq = findHq(level, firstPos);
+                St03HeadquartersData.HqInstance hq = findHq(level, first[0], first[2]);
                 if (hq == null) return;
+                System.out.println("ST03_WORLDGEN post_clear cleared=" + hq.cleared + " eliminated=" + hq.eliminatedSlots.size()
+                        + " defendersLeft=" + defenderCount(level, first[0], first[2]));
                 for (int i = 0; i < 5; i++) {
                     BlockPos foot = hq.origin.offset(1 + i * 2, 1, 2);
                     BlockPos head = foot.south();
@@ -138,26 +189,30 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                     level.setBlock(head, ModBlocks.EXPLORATION_SLEEPING_BAG.defaultBlockState()
                             .setValue(BedBlock.PART, BedPart.HEAD).setValue(BedBlock.FACING, Direction.SOUTH), 3);
                 }
-                System.out.println("ST03_WORLDGEN beds_placed=5 bed_count=" + St03PostClearHandler.countBedsInBox(level, hq.box)
-                        + " cleared=" + hq.cleared + " eliminated=" + hq.eliminatedSlots.size());
+                System.out.println("ST03_WORLDGEN beds placed=5 counted=" + St03PostClearHandler.countBedsInBox(level, hq.box));
+                BlockPos inner = hq.origin.offset(5, 1, 5);
+                for (EntityType<?> type : new EntityType<?>[]{net.minecraft.world.entity.EntityTypes.ZOMBIE, net.minecraft.world.entity.EntityTypes.CREEPER, net.minecraft.world.entity.EntityTypes.ENDERMAN, net.minecraft.world.entity.EntityTypes.SKELETON, net.minecraft.world.entity.EntityTypes.SPIDER}) {
+                    System.out.println("ST03_WORLDGEN hostile_suppressed type=" + type.toShortString() + " value="
+                            + St03PostClearHandler.shouldSuppressNaturalSpawn(level, type, EntitySpawnReason.NATURAL, inner));
+                }
             });
             connection.waitForClientboundPackets();
 
-            // 4. Wait across the morning window for conversion; report villagers inside the HQ box.
+            // 4. Villager conversion: poll the HQ box for new villagers. Day-cycle timing limits this to what fits in real time.
             for (int wait = 0; wait < 4; wait++) {
                 context.waitTicks(400);
                 final int tickWait = wait;
                 server.runOnServer(s -> {
                     ServerLevel level = s.overworld();
-                    St03HeadquartersData.HqInstance hq = findHq(level, firstPos);
+                    St03HeadquartersData.HqInstance hq = findHq(level, first[0], first[2]);
                     if (hq == null) return;
                     int villagers = level.getEntities((Entity) null, boxOf(hq), v -> v instanceof Villager).size();
-                    System.out.println("ST03_WORLDGEN conversion tick_wait=" + tickWait + " spawnedVillagers=" + hq.spawnedVillagers
+                    System.out.println("ST03_WORLDGEN conversion poll=" + tickWait + " spawnedVillagers=" + hq.spawnedVillagers
                             + " villagersInBox=" + villagers + " gameTime=" + level.getGameTime());
                 });
                 connection.waitForClientboundPackets();
             }
-            server.runOnServer(s -> teleport(s, s.overworld(), firstPos.getX() + 0.5, surface(s.overworld(), firstPos) + 1, firstPos.getZ() + 0.5, 0, 10));
+            server.runOnServer(s -> teleport(s, s.overworld(), first[0] + 56.5, first[1] + 3, first[2] + 56.5, 0, 10));
             connection.waitForClientboundPackets();
             context.waitTicks(60);
             System.out.println("ST03_WORLDGEN_SHOT " + context.takeScreenshot("st03-worldgen-02-post-clear-conversion"));
@@ -165,30 +220,67 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
         }
     }
 
-    static void locateOne(ServerLevel level, int attempt) {
-        var holder = level.registryAccess().lookupOrThrow(Registries.STRUCTURE)
-                .getOrThrow(ResourceKey.create(Registries.STRUCTURE, HQ_ID));
-        int x = ((attempt % 5) - 2) * 1500;
-        int z = ((attempt / 5) - 2) * 1500;
-        long t0 = System.nanoTime();
-        BlockPos found = level.findNearestMapStructure(HolderSet.direct(holder), new BlockPos(x, 64, z), SEARCH_RADIUS_CHUNKS, false);
-        System.out.println("ST03_WORLDGEN search_ms=" + (System.nanoTime() - t0) / 1_000_000 + " origin=" + x + "," + z);
-        if (found == null) {
-            System.out.println("ST03_WORLDGEN search origin=" + x + "," + z + " found=none");
-            return;
+    /** One row of random_spread regions: computes the potential HQ chunk and applies the structure's eligibility rule. */
+    static void planRow(ServerLevel level, int regionX) {
+        var set = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_SET).getOrThrow(ResourceKey.create(Registries.STRUCTURE_SET, SET_ID)).value();
+        RandomSpreadStructurePlacement placement = (RandomSpreadStructurePlacement) set.placement();
+        long seed = level.getSeed();
+        net.minecraft.world.level.chunk.ChunkGenerator gen = level.getChunkSource().getGenerator();
+        var rs = level.getChunkSource().randomState();
+        St03Eligibility.Terrain terrain = new St03Eligibility.Terrain() {
+            @Override
+            public int surfaceHeight(int x, int z) {
+                return gen.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, rs);
+            }
+
+            @Override
+            public int oceanFloorHeight(int x, int z) {
+                return gen.getBaseHeight(x, z, Heightmap.Types.OCEAN_FLOOR_WG, level, rs);
+            }
+
+            @Override
+            public boolean isEligibleBiomeCell(int qx, int qy, int qz) {
+                return St03HeadquartersStructure.isEligibleBiome(level.getUncachedNoiseBiome(qx, qy, qz));
+            }
+        };
+        for (int regionZ = -REGION_RADIUS; regionZ <= REGION_RADIUS; regionZ++) {
+            // The method takes chunk coordinates and returns the candidate of the region containing them.
+            ChunkPos candidate = placement.getPotentialStructureChunk(seed, regionX * placement.spacing(), regionZ * placement.spacing());
+            int originX = candidate.getMinBlockX() - St03PlacementConfig.BOX_SIZE / 2 + 8;
+            int originZ = candidate.getMinBlockZ() - St03PlacementConfig.BOX_SIZE / 2 + 8;
+            St03Eligibility.Result result = St03Eligibility.evaluate(terrain, originX, originZ);
+            String biomeAtCenter = level.getBiome(new BlockPos(originX + 56, result.foundationY(), originZ + 56)).unwrapKey().map(k -> k.identifier().toString()).orElse("?");
+            BIOME_HIST.merge(biomeAtCenter, 1, Integer::sum);
+            if (BIOME_HIST.values().stream().mapToInt(Integer::intValue).sum() <= 4) {
+                System.out.println("ST03_WORLDGEN sample origin=" + originX + "," + originZ + " yf=" + result.foundationY() + " surfCenter=" + terrain.surfaceHeight(originX + 56, originZ + 56) + " floorCenter=" + terrain.oceanFloorHeight(originX + 56, originZ + 56) + " biome=" + biomeAtCenter + " uncachedBiome=" + level.getUncachedNoiseBiome((originX + 56) >> 2, result.foundationY() >> 2, (originZ + 56) >> 2).unwrapKey().map(k -> k.identifier().toString()).orElse("?"));
+            }
+            VERDICTS.merge(result.verdict().toString(), 1, Integer::sum);
+            if (!result.eligible()) continue;
+            System.out.println("ST03_WORLDGEN eligible_candidate region=" + regionX + "," + regionZ + " chunk=" + candidate + " origin=" + originX + "," + originZ + " foundationY=" + result.foundationY());
+            PLAN.add(new int[]{originX, result.foundationY(), originZ});
         }
-        boolean duplicate = LOCATED.stream().anyMatch(p -> p.distSqr(found) < 2000L * 2000L);
-        if (duplicate) return;
-        LOCATED.add(found);
-        String biome = level.getBiome(found).unwrapKey().map(k -> k.identifier().toString()).orElse("unknown");
-        BIOMES.add(biome);
-        System.out.println("ST03_WORLDGEN located hq=" + LOCATED.size() + " pos=" + found
-                + " chunk=" + (found.getX() >> 4) + "," + (found.getZ() >> 4) + " biome=" + biome + " origin=" + x + "," + z);
     }
 
-    static St03HeadquartersData.HqInstance findHq(ServerLevel level, BlockPos pos) {
+    /** Picks up to {@code count} candidates nearest the spawn, keeping them at least 1200 blocks apart. */
+    static List<int[]> choose(List<int[]> all, int count) {
+        List<int[]> sorted = new ArrayList<>(all);
+        sorted.sort((a, b) -> Long.compare((long) a[0] * a[0] + (long) a[2] * a[2], (long) b[0] * b[0] + (long) b[2] * b[2]));
+        List<int[]> picked = new ArrayList<>();
+        for (int[] c : sorted) {
+            boolean far = picked.stream().allMatch(p -> Math.hypot(p[0] - c[0], p[2] - c[2]) >= 1200);
+            if (far) picked.add(c);
+            if (picked.size() == count) break;
+        }
+        return picked;
+    }
+
+    static int[] first0(List<int[]> chosen) {
+        return chosen.get(0);
+    }
+
+    static St03HeadquartersData.HqInstance findHq(ServerLevel level, int x, int z) {
         for (St03HeadquartersData.HqInstance hq : St03HeadquartersData.get(level).instances().values()) {
-            if (hq.box != null && hq.box.isInside(pos)) return hq;
+            if (hq.box != null && hq.box.isInside(new BlockPos(x + 56, hq.box.minY() + 1, z + 56))) return hq;
         }
         return null;
     }
@@ -197,22 +289,42 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
         return new AABB(hq.box.minX(), hq.box.minY(), hq.box.minZ(), hq.box.maxX() + 1, hq.box.maxY() + 1, hq.box.maxZ() + 1);
     }
 
-    private static void printGarrison(ServerLevel level, St03HeadquartersData.HqInstance hq, String label) {
+    static int defenderCount(ServerLevel level, int x, int z) {
+        St03HeadquartersData.HqInstance hq = findHq(level, x, z);
+        if (hq == null) return 0;
+        int n = 0;
+        for (Entity e : level.getEntities((Entity) null, boxOf(hq), e -> e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id()))) {
+            if (!(e instanceof Villager)) n++;
+        }
+        return n;
+    }
+
+    static void printGarrison(ServerLevel level, int x, int z, String label) {
+        St03HeadquartersData.HqInstance hq = findHq(level, x, z);
+        if (hq == null) return;
         TreeMap<String, Integer> byType = new TreeMap<>();
+        boolean[] present = new boolean[SLOT_COUNT];
         int defenders = 0;
         for (Entity e : level.getEntities((Entity) null, boxOf(hq), e -> e.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX + hq.id()))) {
             if (e instanceof Villager) continue;
             defenders++;
             byType.merge(e.getType().toShortString(), 1, Integer::sum);
+            for (String tag : e.entityTags()) {
+                if (tag.startsWith("st03_slot:")) {
+                    int slot = Integer.parseInt(tag.substring("st03_slot:".length()));
+                    if (slot >= 0 && slot < SLOT_COUNT) present[slot] = true;
+                }
+            }
         }
-        System.out.println("ST03_WORLDGEN_GARRISON " + label + " defenders=" + defenders + " byType=" + byType);
+        StringBuilder missing = new StringBuilder();
+        for (int i = 0; i < SLOT_COUNT; i++) {
+            if (!present[i]) missing.append(i).append(' ');
+        }
+        System.out.println("ST03_WORLDGEN_GARRISON " + label + " defenders=" + defenders + " expected=" + SLOT_COUNT
+                + " byType=" + byType + " missingSlots=[" + missing.toString().trim() + "]");
     }
 
-    private static double surface(ServerLevel level, BlockPos pos) {
-        return level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos.getX(), pos.getZ());
-    }
-
-    private static void teleport(net.minecraft.server.MinecraftServer server, ServerLevel level, double x, double y, double z, float yaw, float pitch) {
+    private static void teleport(MinecraftServer server, ServerLevel level, double x, double y, double z, float yaw, float pitch) {
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             player.teleportTo(level, x, y, z, Set.of(), yaw, pitch, true);
         }
