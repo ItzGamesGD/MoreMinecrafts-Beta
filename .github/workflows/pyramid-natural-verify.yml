@@ -43,7 +43,7 @@ jobs:
         run: |
           mkdir -p build/pyramid-natural-verify
           export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
-          export JAVA_TOOL_OPTIONS='-Dmm.pyramid.natural.verify=true'
+          export JAVA_TOOL_OPTIONS="-Dmm.pyramid.natural.verify=true -Dmm.pyramid.natural.verify.out=$GITHUB_WORKSPACE/build/pyramid-natural-verify/result.json"
           icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)
           if [[ -n "$icd" ]]; then export VK_ICD_FILENAMES="$icd"; fi
           set +e

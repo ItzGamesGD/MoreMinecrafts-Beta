@@ -121,7 +121,7 @@ public final class St01NaturalVerifyClientTest implements FabricClientGameTest {
             // ---- 3. structure exists --------------------------------------------------------------------------------
             Map<String, Object> structure = new LinkedHashMap<>();
             detail.put("structure", structure);
-            Object[] found = new Object[3]; // ground, orientation, route
+            Object[] found = new Object[4]; // ground, orientation, route
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
                 var holder = level.registryAccess().lookupOrThrow(Registries.STRUCTURE).get(St01Worldgen.STRUCTURE_ID).orElseThrow();
@@ -140,10 +140,28 @@ public final class St01NaturalVerifyClientTest implements FabricClientGameTest {
                 structure.put("meta_present", meta != null);
                 structure.put("start_piece_count", start.getPieces().size());
                 if (meta == null) return;
-                var box = meta.box();
-                for (int cx = (box.minX() >> 4) - 2; cx <= (box.maxX() >> 4) + 2; cx++)
-                    for (int cz = (box.minZ() >> 4) - 2; cz <= (box.maxZ() >> 4) + 2; cz++) level.getChunk(cx, cz, ChunkStatus.FULL);
-                St01PyramidCompletion.processPending(s);
+                found[3] = meta;
+            });
+            if (found[3] instanceof St01PyramidCompletion.Meta meta0) {
+                // generate in small batches so the client keeps receiving keep-alives (one big task timed the client out)
+                var box = meta0.box();
+                List<int[]> chunks = new ArrayList<>();
+                for (int cx = (box.minX() >> 4) - 1; cx <= (box.maxX() >> 4) + 1; cx++)
+                    for (int cz = (box.minZ() >> 4) - 1; cz <= (box.maxZ() >> 4) + 1; cz++) chunks.add(new int[]{cx, cz});
+                for (int i = 0; i < chunks.size(); i += 4) {
+                    int from = i;
+                    server.runOnServer(s -> {
+                        for (int k = from; k < Math.min(from + 4, chunks.size()); k++)
+                            s.overworld().getChunk(chunks.get(k)[0], chunks.get(k)[1], ChunkStatus.FULL);
+                    });
+                    context.waitTicks(1);
+                }
+                server.runOnServer(s -> St01PyramidCompletion.processPending(s));
+                context.waitTicks(5);
+            }
+            server.runOnServer(s -> {
+                ServerLevel level = s.overworld();
+                if (!(found[3] instanceof St01PyramidCompletion.Meta meta)) return;
                 var p = St01PyramidAssembly.describe(meta.ground(), meta.orientation(), meta.route());
                 BlockPos g = meta.ground();
                 found[0] = g; found[1] = meta.orientation(); found[2] = meta.route();
@@ -201,7 +219,7 @@ public final class St01NaturalVerifyClientTest implements FabricClientGameTest {
             System.out.println("PYRAMID_VERIFY failure=" + t);
         } finally {
             try {
-                Path out = Path.of("build/pyramid-natural-verify/result.json");
+                Path out = Path.of(System.getProperty("mm.pyramid.natural.verify.out", "build/pyramid-natural-verify/result.json"));
                 Files.createDirectories(out.getParent());
                 Files.writeString(out, new GsonBuilder().setPrettyPrinting().create().toJson(result), StandardCharsets.UTF_8);
             } catch (Exception e) { System.out.println("PYRAMID_VERIFY result write failed: " + e); }
