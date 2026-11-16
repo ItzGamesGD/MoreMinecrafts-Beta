@@ -9,6 +9,7 @@ on:
       - main
       - "stage-*/**"
       - codex/pr75-research-node-tree-impl
+      - claude/st03-conversion-verify-20261116
   pull_request:
 
 jobs:
