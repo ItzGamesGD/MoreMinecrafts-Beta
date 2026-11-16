@@ -125,7 +125,7 @@ public final class St01NaturalVerifyClientTest implements FabricClientGameTest {
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
                 var holder = level.registryAccess().lookupOrThrow(Registries.STRUCTURE).get(St01Worldgen.STRUCTURE_ID).orElseThrow();
-                ChunkPos around = new ChunkPos(new BlockPos(lx, 0, lz));
+                ChunkPos around = new ChunkPos(lx >> 4, lz >> 4);
                 StructureStart start = null;
                 // the located column is a start chunk; look in a small neighbourhood in case /locate reports an offset
                 for (int dx = -1; dx <= 1 && start == null; dx++)
