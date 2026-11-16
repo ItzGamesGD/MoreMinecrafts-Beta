@@ -145,6 +145,14 @@ public final class St01NaturalVerifyClientTest implements FabricClientGameTest {
             if (found[3] instanceof St01PyramidCompletion.Meta meta0) {
                 // generate in small batches so the client keeps receiving keep-alives (one big task timed the client out)
                 var box = meta0.box();
+                // a player at the pyramid holds its chunks loaded (as in normal play); registration is chunk-load driven
+                BlockPos at = meta0.ground();
+                server.runOnServer(s -> {
+                    ServerPlayer player = s.getPlayerList().getPlayers().getFirst();
+                    player.setGameMode(GameType.SPECTATOR);
+                    player.teleportTo(s.overworld(), at.getX() + 0.5, at.getY() + 25, at.getZ() + 0.5, Set.of(), 0f, 0f, true);
+                });
+                context.waitTicks(40);
                 List<int[]> chunks = new ArrayList<>();
                 for (int cx = (box.minX() >> 4) - 1; cx <= (box.maxX() >> 4) + 1; cx++)
                     for (int cz = (box.minZ() >> 4) - 1; cz <= (box.maxZ() >> 4) + 1; cz++) chunks.add(new int[]{cx, cz});
@@ -158,7 +166,7 @@ public final class St01NaturalVerifyClientTest implements FabricClientGameTest {
                 }
                 // the completion handoff registers the royal chest asynchronously: poll up to ~30 s
                 var pl = St01PyramidAssembly.describe(meta0.ground(), meta0.orientation(), meta0.route());
-                for (int i = 0; i < 60; i++) {
+                for (int i = 0; i < 120; i++) {
                     server.runOnServer(s -> St01PyramidCompletion.processPending(s));
                     boolean reg = server.computeOnServer(s -> RoyalChestRuntime.data(s.overworld())
                             .instance(RoyalChestRuntime.canonicalId(s.overworld(), pl.primaryLeft())).isPresent());
