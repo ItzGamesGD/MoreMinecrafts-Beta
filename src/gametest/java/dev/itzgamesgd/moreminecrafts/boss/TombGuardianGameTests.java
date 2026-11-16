@@ -528,7 +528,11 @@ public final class TombGuardianGameTests {
         Villager victim = dummy(ctx, new Vec3(2.5D, 1.0D, 9.5D));
         ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SUMMON, victim), "summon starts");
         ctx.runAfterDelay(TombGuardianTuning.SUMMON_WINDUP_TICKS + 2, () -> {
-            ctx.assertTrue(guardian.aliveSummons(level) == 3, "three summons alive, got " + guardian.aliveSummons(level));
+            ctx.assertTrue(guardian.aliveSummons(level) == 3, "three summons alive, got " + guardian.aliveSummons(level)
+                    + " [diag players=" + level.players().size() + " nearestPlayerDist="
+                    + (level.getNearestPlayer(guardian, -1.0D) == null ? "none"
+                            : String.format("%.0f", Math.sqrt(level.getNearestPlayer(guardian, -1.0D).distanceToSqr(guardian))))
+                    + " difficulty=" + level.getDifficulty() + " guardianAlive=" + guardian.isAlive() + "]");
             AABB around = guardian.getBoundingBox().inflate(12.0D);
             int mummies = level.getEntities(PyramidMobs.BURIED_MUMMY, around, e -> e.isAlive()).size();
             int archers = level.getEntities(PyramidMobs.CRYPT_ARCHER, around, e -> e.isAlive()).size();
