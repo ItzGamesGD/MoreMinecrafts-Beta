@@ -7,11 +7,18 @@ on:
       - 'tools/st03-site-v2/**'
       - '.github/workflows/st03-site-v2.yml'
   workflow_dispatch:
+    inputs:
+      verification_run_id:
+        description: 'Completed source run ID for verification-only (empty = full experiment)'
+        required: false
+        type: string
 permissions:
   contents: read
   checks: write
+  actions: read
 jobs:
   measure:
+    if: github.event_name == 'push' || inputs.verification_run_id == ''
     name: Seed ${{ matrix.seed }}
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -46,4 +53,54 @@ jobs:
           name: st03-site-v2-${{ matrix.seed }}
           path: build/st03-site-v2/
           if-no-files-found: warn
+          retention-days: 30
+
+  verify:
+    if: github.event_name == 'workflow_dispatch' && inputs.verification_run_id != ''
+    name: Verify seed ${{ matrix.seed }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [10079, 10033, 10148, 10137, 10142, 10039, 10135, 10061, 314159265, 867530926]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Download completed source measurement
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.verification_run_id }}
+          name: st03-site-v2-${{ matrix.seed }}
+          path: build/st03-site-v2/
+      - name: Compile and unit tests
+        run: ./gradlew test compileGametestJava --no-daemon --max-workers=2
+      - name: Rerun only actual chunk verification and section output
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          seed='${{ matrix.seed }}'
+          original="$PWD/build/st03-site-v2/$seed/original-summary.json"
+          cp "build/st03-site-v2/$seed/summary.json" "$original"
+          bash tools/st03-site-v2/run_seed.sh "$seed" "$original"
+      - name: Publish numerical evidence to Checks
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/st03-site-v2/publish_results.py 'build/st03-site-v2/${{ matrix.seed }}' '${{ matrix.seed }}'
+      - name: Upload verified evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: st03-site-v2-verified-${{ matrix.seed }}
+          path: build/st03-site-v2/
           retention-days: 30

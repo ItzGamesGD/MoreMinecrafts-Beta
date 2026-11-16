@@ -32,7 +32,7 @@ import static dev.itzgamesgd.moreminecrafts.pillagerhq.St03SiteV2Rules.*;
 /** Opt-in dedicated-server probe. Uses the running level's seed and vanilla noise generator. */
 public final class St03SiteV2Probe implements ModInitializer {
     private static final Logger LOG = LoggerFactory.getLogger("st03-site-v2");
-    private static final Gson JSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson JSON = new GsonBuilder().setPrettyPrinting().setObjectToNumberStrategy(com.google.gson.ToNumberPolicy.LONG_OR_DOUBLE).create();
     private static final int[] RADII = {0, 2, 4, 8};
     private static final List<String> VERDICTS = List.of("PASS", "CENTER_BIOME", "FOOTPRINT_BIOME", "WATER", "HEIGHT", "CUT_SKIRT", "FOOTING_FILL");
     private record Config(int set, int coverage, int water, boolean edges, boolean robust, Limits limits) {
@@ -63,7 +63,9 @@ public final class St03SiteV2Probe implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             Map<String,Object> out = new LinkedHashMap<>();
             try {
-                run(server, Path.of(dir), out);
+                String verificationInput = System.getProperty("mm.st03.v2.verify.input");
+                if (verificationInput == null) run(server, Path.of(dir), out);
+                else rerunVerification(server, Path.of(verificationInput), out);
                 out.put("status", "PASS");
             } catch (Throwable e) {
                 LOG.error("ST03 V2 failed", e);
@@ -74,6 +76,31 @@ public final class St03SiteV2Probe implements ModInitializer {
             catch (Exception e) { throw new RuntimeException(e); }
             Runtime.getRuntime().halt("PASS".equals(out.get("status")) ? 0 : 1);
         });
+    }
+    /** Rerun only affected chunk checks, retaining the already completed, unchanged numerical experiment. */
+    @SuppressWarnings("unchecked")
+    private static void rerunVerification(MinecraftServer server, Path input, Map<String,Object> out) throws Exception {
+        selfCheck();
+        Map<String,Object> measured = JSON.fromJson(Files.readString(input), Map.class);
+        if (!"PASS".equals(measured.get("status"))) throw new IllegalStateException("Incomplete source measurement");
+        if (((Number)measured.get("seed")).longValue() != server.overworld().getSeed()) throw new IllegalStateException("Source seed mismatch");
+        out.putAll(measured);
+        out.put("measurement_head_sha", measured.get("head_sha"));
+        out.put("measurement_run_id", measured.get("run_id"));
+        out.put("head_sha", System.getenv("GITHUB_SHA"));
+        out.put("run_id", System.getenv("GITHUB_RUN_ID"));
+        out.put("mode", "verify-only");
+        List<Map<String,Object>> profiles = (List<Map<String,Object>>)out.get("profiles");
+        for (Map<String,Object> p : profiles) p.remove("generated_bare_ground_section");
+        long start = System.nanoTime();
+        out.put("verification", verify(server.overworld(), new Terrain(server.overworld()),
+                (List<Map<String,Object>>)out.get("verification_targets"), profiles));
+        out.put("verification_seconds", (System.nanoTime()-start)/1e9);
+        out.put("total_seconds", ((Number)out.get("measurement_elapsed_seconds")).doubleValue()
+                + ((Number)out.get("baseline_seconds")).doubleValue() + ((Number)out.get("verification_seconds")).doubleValue());
+        for (Map<String,Object> p : profiles) {
+            if (((List<?>)p.get("generated_bare_solid_section")).size() != 15) throw new AssertionError("Section length");
+        }
     }
     private static final class Terrain implements St03Eligibility.Terrain {
         final ServerLevel level;
@@ -298,7 +325,7 @@ public final class St03SiteV2Probe implements ModInitializer {
         Structure st03=level.registryAccess().lookupOrThrow(Registries.STRUCTURE).getValue(St03Worldgen.STRUCTURE_ID);
         // Natural starts are checked unchanged. V2 pass does not imply an unchanged production rule will accept it.
         for(Map<String,Object> target:targets) {
-            int cx=(int)target.get("chunk_x"),cz=(int)target.get("chunk_z");
+            int cx=((Number)target.get("chunk_x")).intValue(),cz=((Number)target.get("chunk_z")).intValue();
             t.clear(); Sample raw=t.sample(new ChunkPos(cx,cz),8); Decision d=decide(raw,searchConfig(0,80));
             if(!d.pass()) throw new IllegalStateException("verification candidate no longer passes");
             var chunk=level.getChunk(cx,cz,ChunkStatus.STRUCTURE_STARTS); StructureStart natural=chunk.getStartForStructure(st03);
@@ -311,7 +338,7 @@ public final class St03SiteV2Probe implements ModInitializer {
         }
         // Three actual generated plains sections, paired against getBaseHeight; no synthetic flattening or rule override.
         for(Map<String,Object> profile:profiles) {
-            int ox=(int)profile.get("origin_x"),oz=(int)profile.get("origin_z");
+            int ox=((Number)profile.get("origin_x")).intValue(),oz=((Number)profile.get("origin_z")).intValue();
             List<Integer> surface=new ArrayList<>(),floor=new ArrayList<>(),raw=new ArrayList<>(),bare=new ArrayList<>();
             for(int dx:offsets(8)) {
                 int x=ox+dx,z=oz+56; level.getChunk(x>>4,z>>4,ChunkStatus.FULL);
@@ -324,16 +351,9 @@ public final class St03SiteV2Probe implements ModInitializer {
                     ground--;
                 }
                 bare.add(ground+1);
-                int y=level.getHeight(Heightmap.Types.WORLD_SURFACE,x,z)-1;
-                while(y>level.getMinY()) {
-                    var block=level.getBlockState(new BlockPos(x,y,z));
-                    if(block.isSolidRender() && !block.is(net.minecraft.tags.BlockTags.LOGS) && !block.is(net.minecraft.tags.BlockTags.LEAVES)) break;
-                    y--;
-                }
-                bare.add(y+1);
             }
             profile.put("generated_section_x_offsets",offsets(8)); profile.put("generated_section_z_offset",56);
-            profile.put("generated_bare_solid_section",bare); profile.put("raw_base_section",raw); profile.put("generated_world_surface_section",surface); profile.put("generated_ocean_floor_section",floor); profile.put("generated_bare_ground_section",bare);
+            profile.put("generated_bare_solid_section",bare); profile.put("raw_base_section",raw); profile.put("generated_world_surface_section",surface); profile.put("generated_ocean_floor_section",floor);
         }
         return out;
     }

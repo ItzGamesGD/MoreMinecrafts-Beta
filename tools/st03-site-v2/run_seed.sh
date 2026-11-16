@@ -22,7 +22,8 @@ PROPS
 python3 tools/st03-site-v2/publish_progress.py "$out_dir" &
 progress_pid=$!
 trap 'kill "$progress_pid" 2>/dev/null || true' EXIT
-JAVA_TOOL_OPTIONS="-Xmx4G -Dmm.st03.v2.out=$out_dir" \
+verification_input="${2:-}"
+JAVA_TOOL_OPTIONS="-Xmx4G -Dmm.st03.v2.out=$out_dir${verification_input:+ -Dmm.st03.v2.verify.input=$verification_input}" \
   timeout 9900 ./gradlew --no-daemon --max-workers=2 runSt03SiteProbe 2>&1 | tee "$out_dir/probe.log"
 python3 - "$out_dir/summary.json" <<'PY'
 import json,sys
