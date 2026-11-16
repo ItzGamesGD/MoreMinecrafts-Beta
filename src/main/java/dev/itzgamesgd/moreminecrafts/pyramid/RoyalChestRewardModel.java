@@ -51,8 +51,7 @@ public final class RoyalChestRewardModel {
             new Entry("minecraft:redstone", 1.00D, 64, 128),
             new Entry("minecraft:lapis_lazuli", 1.00D, 64, 128),
             new Entry("minecraft:diamond", 1.00D, 10, 18),
-            new Entry("moreminecrafts:titanium_ingot", 0.75D, 32, 64),
-            new Entry("moreminecrafts:tungsten_ingot", 0.75D, 32, 64));
+            new Entry("moreminecrafts:titanium_ingot", 0.75D, 32, 64));
 
     private RoyalChestRewardModel() {}
 

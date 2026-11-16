@@ -145,7 +145,7 @@ public final class RoyalChestGameTests {
         int worstSecondary = RoyalChestRewardModel.split(List.of(
                 new RoyalChestRewardModel.Reward("moreminecrafts:enhancement_stone", 96), new RoyalChestRewardModel.Reward("minecraft:redstone", 128),
                 new RoyalChestRewardModel.Reward("minecraft:lapis_lazuli", 128), new RoyalChestRewardModel.Reward("minecraft:diamond", 18),
-                new RoyalChestRewardModel.Reward("moreminecrafts:titanium_ingot", 64), new RoyalChestRewardModel.Reward("moreminecrafts:tungsten_ingot", 64),
+                new RoyalChestRewardModel.Reward("moreminecrafts:titanium_ingot", 64),
                 new RoyalChestRewardModel.Reward("moreminecrafts:ring_of_time", 1), new RoyalChestRewardModel.Reward(RoyalChestRewardModel.CATALYST_ID, 1)),
                 RoyalChestRuntime::maxStackSize).size();
         ctx.assertTrue(worstPrimary <= 54 && worstSecondary <= 54, "worst cases fit: " + worstPrimary + ", " + worstSecondary);

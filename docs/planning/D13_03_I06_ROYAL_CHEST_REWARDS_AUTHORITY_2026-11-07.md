@@ -55,9 +55,10 @@ Each probability check is independent; quantities are inclusive discrete uniform
 | `minecraft:lapis_lazuli` | 100% | 64–128 |
 | `minecraft:diamond` | 100% | 10–18 |
 | `moreminecrafts:titanium_ingot` | 75% | 32–64 |
-| `moreminecrafts:tungsten_ingot` | 75% | 32–64 |
 
-**Q33 correction:** titanium and tungsten are **32–64**, not the superseded 4–8. **Q45 B:** give the **ingots**, never `raw_titanium` or `raw_tungsten`. These are ordinary metal-tier materials, not promoted to the PRIMARY rare pool.
+**Q33 correction:** titanium is **32–64**, not the superseded 4–8. **Q45 B:** give the **ingot**, never `raw_titanium`. These are ordinary metal-tier materials, not promoted to the PRIMARY rare pool.
+
+**Owner amendment (2026-11-16):** remove the `tungsten_ingot` SECONDARY reward row with no replacement. The remaining rows retain their existing independent chance and quantity rules.
 
 ## Shared special-reward rules
 
@@ -84,7 +85,7 @@ No common monster drops, completed Etherium ingots, elemental cores, unrelated a
 - I06 Q29–Q33: SECONDARY pool; corrected Q33 metal quantities are 32–64.
 - I06 Q06, Q41–Q42: catalyst and independent accessories; no mob drops.
 - I06 Q32 and Q44 A: do not add further materials now; candidate audit deferred.
-- I06 Q45 B: titanium and tungsten **ingots**.
+- I06 Q45 B originally named titanium and tungsten **ingots**. The 2026-11-16 owner amendment removes the tungsten row with no replacement; titanium remains as specified above.
 - Spatial selection: ST-01 P4 **B**, with orientation and final integration authority tracked separately.
 
 **Design synchronized; code implementation, integration, CI, GameTest, and live acceptance are not asserted by this document.**

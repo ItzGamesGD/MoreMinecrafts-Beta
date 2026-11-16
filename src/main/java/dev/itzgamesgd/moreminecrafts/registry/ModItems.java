@@ -36,8 +36,6 @@ public final class ModItems {
             new ContractItem(true, new Item.Properties().stacksTo(1).setId(key)));
     public static final Item RAW_TITANIUM = material("raw_titanium");
     public static final Item TITANIUM_INGOT = material("titanium_ingot");
-    public static final Item RAW_TUNGSTEN = material("raw_tungsten");
-    public static final Item TUNGSTEN_INGOT = material("tungsten_ingot");
     public static final Item MYTHRIL = material("mythril");
     /** Raw drop of the etherium ore; smelted into {@link #ETHERIUM_SHARD}. Not a finished ingot. */
     public static final Item ETHERIUM = material("etherium");
@@ -273,8 +271,6 @@ public final class ModItems {
             for (Item[] family : FISHING_EQUIPMENT) for (Item item : family) entries.accept(item);
             entries.accept(RAW_TITANIUM);
             entries.accept(TITANIUM_INGOT);
-            entries.accept(RAW_TUNGSTEN);
-            entries.accept(TUNGSTEN_INGOT);
             entries.accept(MYTHRIL);
             entries.accept(ETHERIUM);
             entries.accept(ETHERIUM_SHARD);
@@ -302,15 +298,12 @@ public final class ModItems {
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
             entries.accept(ModBlocks.TITANIUM_ORE);
             entries.accept(ModBlocks.DEEPSLATE_TITANIUM_ORE);
-            entries.accept(ModBlocks.TUNGSTEN_ORE);
-            entries.accept(ModBlocks.DEEPSLATE_TUNGSTEN_ORE);
             entries.accept(ModBlocks.MYTHRIL_ORE);
             entries.accept(ModBlocks.DEEPSLATE_MYTHRIL_ORE);
             entries.accept(ModBlocks.ETHERIUM_ORE);
             entries.accept(ModBlocks.DEEPSLATE_ETHERIUM_ORE);
             entries.accept(ModBlocks.ADAMANTIUM_DEBRIS);
             entries.accept(ModBlocks.TITANIUM_BLOCK);
-            entries.accept(ModBlocks.TUNGSTEN_BLOCK);
             entries.accept(ModBlocks.MYTHRIL_BLOCK);
             entries.accept(ModBlocks.ETHERIUM_BLOCK);
             entries.accept(ModBlocks.ADAMANTIUM_BLOCK);
