@@ -6,6 +6,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
+      "dev.itzgamesgd.moreminecrafts.pillagerhq.St03NaturalProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OverworldOreSamplingProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe",

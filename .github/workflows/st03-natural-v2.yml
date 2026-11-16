@@ -1,0 +1,73 @@
+name: ST-03 V2 Natural Placement
+on:
+  push:
+    branches: [codex/st03-v2-natural-placement-20261116]
+    paths: ['src/**', 'tools/st03-natural-v2/**', '.github/workflows/st03-natural-v2.yml', 'build.gradle']
+  workflow_dispatch:
+    inputs:
+      measure:
+        description: 'Run the complete 10-seed actual-start survey'
+        type: boolean
+        default: true
+permissions:
+  contents: read
+  checks: write
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-java@v5
+        with: {distribution: temurin, java-version: '25'}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile production and probe, run unit tests
+        shell: bash
+        run: |
+          mkdir -p build/st03-natural/inspect
+          set +e
+          ./gradlew test compileGametestJava --no-daemon --max-workers=2 2>&1 | tee build/st03-natural/inspect/build.log
+          result=${PIPESTATUS[0]}
+          if [ "$result" -eq 0 ]; then echo '{"status":"PASS"}' > build/st03-natural/inspect/result.json; fi
+          exit "$result"
+      - name: Inspect engine structure gate
+        run: python3 tools/st03-natural-v2/inspect.py
+      - name: Publish build evidence
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/st03-natural-v2/publish.py build/st03-natural/inspect inspect
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st03-natural-inspect
+          path: build/st03-natural/inspect/
+  measure:
+    if: github.event_name == 'workflow_dispatch' && inputs.measure
+    needs: inspect
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [10079, 10033, 10148, 10137, 10142, 10039, 10135, 10061, 314159265, 867530926]
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-java@v5
+        with: {distribution: temurin, java-version: '25'}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Real normal-world starts and full chunk placement
+        run: bash tools/st03-natural-v2/run.sh '${{ matrix.seed }}'
+      - name: Publish actual generation evidence
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/st03-natural-v2/publish.py 'build/st03-natural/results/${{ matrix.seed }}' '${{ matrix.seed }}'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st03-natural-${{ matrix.seed }}
+          path: build/st03-natural/results/
+          retention-days: 30
