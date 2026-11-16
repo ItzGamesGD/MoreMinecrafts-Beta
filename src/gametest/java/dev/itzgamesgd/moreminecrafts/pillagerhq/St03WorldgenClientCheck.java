@@ -138,12 +138,11 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                 server.runOnServer(s -> {
                     ServerLevel level = s.overworld();
                     ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
-                    p.getAbilities().invulnerable = true;
-                    p.onUpdateAbilities();
                     System.out.println("ST03_DIAG ENV levelDifficulty=" + level.getDifficulty()
                             + " worldDifficulty=" + s.getWorldData().getDifficulty()
                             + " playerGameMode=" + p.gameMode()
                             + " invulnerable=" + p.getAbilities().invulnerable
+                            + " playerHp=" + p.getHealth()
                             + " viewDist=6 simDist=6");
                 });
                 connection.waitForClientboundPackets();
@@ -192,8 +191,10 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                         St03HeadquartersData.get(level).setDirty();
                     }
                     id[0] = hq.id();
+                    ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
                     System.out.println("ST03_WORLDGEN hq=" + index + " origin=" + c[0] + "," + c[1] + "," + c[2]
-                            + " generated=" + generated + " forced=" + !generated + " id=" + hq.id() + " box=" + hq.box);
+                            + " generated=" + generated + " forced=" + !generated + " id=" + hq.id() + " box=" + hq.box
+                            + " playerHp=" + p.getHealth() + " playerDead=" + p.isDeadOrDying() + " playerPos=" + p.blockPosition());
                 });
                 connection.waitForClientboundPackets();
                 if (id[0] == null) continue;
@@ -211,17 +212,11 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                 connection.waitForClientboundPackets();
 
                 if (diag && i == 0) {
-                    // Record all 40 UUIDs immediately after spawn, then run Experiment (a): stay inside HQ 0 for 1200 ticks.
                     server.runOnServer(s -> recordHq0Uuids(s.overworld(), c[0], c[2]));
-                    connection.waitForClientboundPackets();
-
-                    context.waitTicks(1200);
-
-                    server.runOnServer(s -> inspectHq0Uuids(s.overworld(), c[0], c[2], "EXP_A_STAY_1200"));
                     connection.waitForClientboundPackets();
                 }
 
-                if (i == 0 && !diag) {
+                if (i == 0) {
                     server.runOnServer(s -> teleport(s, s.overworld(), c[0] - 40.5, c[1] + 18, c[2] - 40.5, -45, 12));
                     connection.waitForClientboundPackets();
                     context.waitTicks(60);
@@ -231,6 +226,10 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
                     connection.waitForClientboundPackets();
                     context.waitTicks(60);
                     System.out.println("ST03_WORLDGEN_SHOT " + context.takeScreenshot("st03-worldgen-01-hq-interior-garrison"));
+                    if (diag) {
+                        server.runOnServer(s -> inspectHq0Uuids(s.overworld(), c[0], c[2], "AFTER_SHOTS_HQ0"));
+                        connection.waitForClientboundPackets();
+                    }
                 }
             }
 
@@ -238,8 +237,13 @@ public final class St03WorldgenClientCheck implements FabricClientGameTest {
             int[] first = chosen.get(0);
             System.out.println("ST03_WORLDGEN return_to_hq0 target=" + first[0] + "," + first[1] + "," + first[2] + " chosenSize=" + chosen.size());
             server.runOnServer(s -> {
+                ServerPlayer p = s.getPlayerList().getPlayers().getFirst();
+                System.out.println("ST03_DIAG BEFORE_RETURN playerHp=" + p.getHealth()
+                        + " playerDead=" + p.isDeadOrDying() + " playerRemoved=" + p.isRemoved()
+                        + " playerPos=" + p.blockPosition());
                 teleport(s, s.overworld(), first[0] + 56.5, first[1] + 3, first[2] + 56.5, 0, 10);
-                System.out.println("ST03_WORLDGEN return_to_hq0 player_after=" + s.getPlayerList().getPlayers().getFirst().blockPosition());
+                System.out.println("ST03_WORLDGEN return_to_hq0 player_after=" + p.blockPosition()
+                        + " playerHp=" + p.getHealth() + " playerDead=" + p.isDeadOrDying());
             });
             connection.waitForClientboundPackets();
             if (diag) {
