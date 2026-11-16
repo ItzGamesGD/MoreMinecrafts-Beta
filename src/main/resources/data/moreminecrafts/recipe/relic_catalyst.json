@@ -1,19 +1,12 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "ingredients": [
-    "#moreminecrafts:t1_accessories",
-    "moreminecrafts:mythril",
-    "moreminecrafts:mythril",
-    "moreminecrafts:etherium_ingot",
-    "minecraft:lapis_lazuli",
-    "minecraft:lapis_lazuli",
-    "minecraft:lapis_lazuli",
-    "minecraft:lapis_lazuli",
-    "minecraft:lapis_lazuli"
-  ],
-  "result": {
-    "count": 1,
-    "id": "moreminecrafts:relic_catalyst"
-  }
+  "pattern": ["SMS", "LEL", "SMS"],
+  "key": {
+    "S": "moreminecrafts:enhancement_stone",
+    "M": "moreminecrafts:mythril",
+    "L": "minecraft:lapis_lazuli",
+    "E": "moreminecrafts:etherium_shard"
+  },
+  "result": {"id": "moreminecrafts:relic_catalyst", "count": 1}
 }
