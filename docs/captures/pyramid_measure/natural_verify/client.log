@@ -1,0 +1,672 @@
+Picked up JAVA_TOOL_OPTIONS: -Dmm.pyramid.natural.verify=true
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Fabric Loom: 1.17.21
+
+> Task :compileJava
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :processResources
+> Task :classes
+
+> Task :compileClientJava
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :processClientResources NO-SOURCE
+> Task :clientClasses
+
+> Task :compileGametestJava
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractPricingGameTests.java:154: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer buyer = ctx.makeMockServerPlayerInLevel();
+                                ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTransactionGameTests.java:27: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTransactionGameTests.java:88: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTransactionGameTests.java:117: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTransactionGameTests.java:151: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer receiver = ctx.makeMockServerPlayerInLevel();
+                                   ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:99: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:126: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer giver = ctx.makeMockServerPlayerInLevel();
+                                ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:127: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer receiver = ctx.makeMockServerPlayerInLevel();
+                                   ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:217: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:231: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:34: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer giver = ctx.makeMockServerPlayerInLevel();
+                                ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:35: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer receiver = ctx.makeMockServerPlayerInLevel();
+                                   ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:53: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:69: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:85: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:99: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:111: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:124: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:160: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTradeGameTests.java:167: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var player = ctx.makeMockServerPlayerInLevel();
+                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCrashGameTests.java:116: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer receiver = ctx.makeMockServerPlayerInLevel();
+                                   ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:61: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer killer = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:62: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer assistant = ctx.makeMockServerPlayerInLevel();
+                                    ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:63: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
+                                    ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:88: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer explorer = ctx.makeMockServerPlayerInLevel();
+                                   ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:89: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:118: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:297: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:32: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer victim = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:45: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer finder = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:55: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:80: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:95: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:141: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:159: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer outsider = ctx.makeMockServerPlayerInLevel();
+                                   ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:172: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/RelicCatalystSourcesGameTests.java:173: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer opener = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/RelicCatalystSourcesGameTests.java:179: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        chest.unpackLootTable(ctx.makeMockServerPlayerInLevel());
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/T1AccessoryGameTests.java:18: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var player = ctx.makeMockServerPlayerInLevel();
+                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryLifecycleGameTests.java:338: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:40: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:60: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:73: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:82: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:107: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:117: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/SnowCharmAbilityGameTests.java:102: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/SnowCharmAbilityGameTests.java:202: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:25: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var player = ctx.makeMockServerPlayerInLevel();
+                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:54: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var player = ctx.makeMockServerPlayerInLevel();
+                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:79: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var player = ctx.makeMockServerPlayerInLevel();
+                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:105: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var player = ctx.makeMockServerPlayerInLevel();
+                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:129: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var player = ctx.makeMockServerPlayerInLevel();
+                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/RelicCatalystRecipeGameTests.java:129: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var player = ctx.makeMockServerPlayerInLevel();
+                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:78: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:82: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:90: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:101: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:136: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:168: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:201: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:239: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:257: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:258: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:291: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:326: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:387: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/special/ElementalHitProgressGameTests.java:16: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/special/elemental/EarthMaceSmashRegressionGameTests.java:16: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/skeleton/SkeletonKingGameTests.java:60: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer first = context.makeMockServerPlayerInLevel();
+                                    ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/skeleton/SkeletonKingGameTests.java:61: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer second = context.makeMockServerPlayerInLevel();
+                                     ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AReconciliationGameTests.java:29: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AReconciliationGameTests.java:74: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:130: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer melee = ctx.makeMockServerPlayerInLevel();
+                                    ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:131: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer archer = ctx.makeMockServerPlayerInLevel();
+                                     ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:133: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
+                                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:134: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer faraway = ctx.makeMockServerPlayerInLevel();
+                                      ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:149: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer outsideCombat = ctx.makeMockServerPlayerInLevel();
+                                            ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:170: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                     ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:171: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                    ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:222: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer recent = ctx.makeMockServerPlayerInLevel();
+                                     ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:223: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer stale = ctx.makeMockServerPlayerInLevel();
+                                    ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:224: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer elderHistory = ctx.makeMockServerPlayerInLevel();
+                                           ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:225: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
+                                       ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:245: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
+                                       ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:271: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                     ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:272: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
+                                        ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:319: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer participant = ctx.makeMockServerPlayerInLevel();
+                                      ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:345: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
+                                       ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRemainingGameTests.java:158: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var shooter = ctx.makeMockServerPlayerInLevel();
+                         ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRemainingGameTests.java:189: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        var shooter = ctx.makeMockServerPlayerInLevel();
+                         ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestC3ThresholdGameTests.java:106: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                     ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestC3ThresholdGameTests.java:115: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+            ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                    ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestOreRestartGameTests.java:65: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer miner = ctx.makeMockServerPlayerInLevel();
+                                ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:76: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:97: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:117: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer baseline = ctx.makeMockServerPlayerInLevel();
+                                   ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:129: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
+                                     ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:149: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                 ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:188: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer breeder = ctx.makeMockServerPlayerInLevel();
+                                  ^
+/home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/pyramid/St01NaturalVerifyClientTest.java:128: error: constructor ChunkPos in record ChunkPos cannot be applied to given types;
+                ChunkPos around = new ChunkPos(new BlockPos(lx, 0, lz));
+                                  ^
+  required: int,int
+  found:    BlockPos
+  reason: actual and formal argument lists differ in length
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files additionally use or override a deprecated API that is marked for removal.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+1 error
+100 warnings
+
+> Task :compileGametestJava FAILED
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_4-1794791878585.json
+
+[Incubating] Problems report is available at: file:///home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileGametestJava' (registered by plugin class 'org.gradle.api.plugins.JavaBasePlugin').
+> Compilation failed; see the compiler output below.
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/pyramid/St01NaturalVerifyClientTest.java:128: error: constructor ChunkPos in record ChunkPos cannot be applied to given types;
+                  ChunkPos around = new ChunkPos(new BlockPos(lx, 0, lz));
+                                    ^
+    required: int,int
+    found:    BlockPos
+    reason: actual and formal argument lists differ in length
+  Note: Some input files additionally use or override a deprecated API that is marked for removal.
+  Note: Recompile with -Xlint:deprecation for details.
+  Note: Recompile with -Xlint:unchecked for details.
+  Note: Some input files use or override a deprecated API.
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractPricingGameTests.java:154: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer buyer = ctx.makeMockServerPlayerInLevel();
+                                  ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTransactionGameTests.java:27: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTransactionGameTests.java:88: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTransactionGameTests.java:117: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTransactionGameTests.java:151: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer receiver = ctx.makeMockServerPlayerInLevel();
+                                     ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:99: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:126: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer giver = ctx.makeMockServerPlayerInLevel();
+                                  ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:127: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer receiver = ctx.makeMockServerPlayerInLevel();
+                                     ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:217: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractExplorationGameTests.java:231: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:34: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer giver = ctx.makeMockServerPlayerInLevel();
+                                  ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:35: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer receiver = ctx.makeMockServerPlayerInLevel();
+                                     ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:53: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:69: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:85: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:99: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:111: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:124: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractGameTests.java:160: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractTradeGameTests.java:167: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var player = ctx.makeMockServerPlayerInLevel();
+                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCrashGameTests.java:116: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer receiver = ctx.makeMockServerPlayerInLevel();
+                                     ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:61: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer killer = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:62: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer assistant = ctx.makeMockServerPlayerInLevel();
+                                      ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:63: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
+                                      ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:88: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer explorer = ctx.makeMockServerPlayerInLevel();
+                                     ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:89: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                  ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:118: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractIsolationGameTests.java:297: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:32: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer victim = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:45: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer finder = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:55: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:80: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:95: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:141: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:159: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer outsider = ctx.makeMockServerPlayerInLevel();
+                                     ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractRuntimeGameTests.java:172: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/RelicCatalystSourcesGameTests.java:173: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer opener = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/RelicCatalystSourcesGameTests.java:179: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          chest.unpackLootTable(ctx.makeMockServerPlayerInLevel());
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/T1AccessoryGameTests.java:18: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var player = ctx.makeMockServerPlayerInLevel();
+                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryLifecycleGameTests.java:338: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:40: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:60: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:73: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                  ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:82: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:107: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityIntegrationGameTests.java:117: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/SnowCharmAbilityGameTests.java:102: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/SnowCharmAbilityGameTests.java:202: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:25: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var player = ctx.makeMockServerPlayerInLevel();
+                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:54: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var player = ctx.makeMockServerPlayerInLevel();
+                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:79: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var player = ctx.makeMockServerPlayerInLevel();
+                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:105: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var player = ctx.makeMockServerPlayerInLevel();
+                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryEquipmentGameTests.java:129: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var player = ctx.makeMockServerPlayerInLevel();
+                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/RelicCatalystRecipeGameTests.java:129: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var player = ctx.makeMockServerPlayerInLevel();
+                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:78: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:82: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                  ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:90: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:101: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:136: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:168: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:201: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:239: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:257: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:258: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                  ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:291: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer loaded = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:326: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryAbilityGameTests.java:387: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/special/ElementalHitProgressGameTests.java:16: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/special/elemental/EarthMaceSmashRegressionGameTests.java:16: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/skeleton/SkeletonKingGameTests.java:60: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer first = context.makeMockServerPlayerInLevel();
+                                      ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/skeleton/SkeletonKingGameTests.java:61: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer second = context.makeMockServerPlayerInLevel();
+                                       ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AReconciliationGameTests.java:29: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/Research23AReconciliationGameTests.java:74: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:130: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer melee = ctx.makeMockServerPlayerInLevel();
+                                      ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:131: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer archer = ctx.makeMockServerPlayerInLevel();
+                                       ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:133: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
+                                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:134: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer faraway = ctx.makeMockServerPlayerInLevel();
+                                        ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:149: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer outsideCombat = ctx.makeMockServerPlayerInLevel();
+                                              ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:170: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                       ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:171: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                      ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:222: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer recent = ctx.makeMockServerPlayerInLevel();
+                                       ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:223: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer stale = ctx.makeMockServerPlayerInLevel();
+                                      ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:224: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer elderHistory = ctx.makeMockServerPlayerInLevel();
+                                             ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:225: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
+                                         ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:245: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
+                                         ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:271: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                       ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:272: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer bystander = ctx.makeMockServerPlayerInLevel();
+                                          ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:319: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer participant = ctx.makeMockServerPlayerInLevel();
+                                        ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestMonumentGameTests.java:345: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer finisher = ctx.makeMockServerPlayerInLevel();
+                                         ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRemainingGameTests.java:158: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var shooter = ctx.makeMockServerPlayerInLevel();
+                           ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchRemainingGameTests.java:189: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          var shooter = ctx.makeMockServerPlayerInLevel();
+                           ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestC3ThresholdGameTests.java:106: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                       ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestC3ThresholdGameTests.java:115: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+              ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+                                      ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/QuestOreRestartGameTests.java:65: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer miner = ctx.makeMockServerPlayerInLevel();
+                                  ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:76: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:97: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:117: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer baseline = ctx.makeMockServerPlayerInLevel();
+                                     ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:129: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
+                                       ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:149: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+                                   ^
+  /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/src/gametest/java/dev/itzgamesgd/moreminecrafts/progression/ResearchContentGameTests.java:188: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+          ServerPlayer breeder = ctx.makeMockServerPlayerInLevel();
+                                    ^
+  Note: Some input files use unchecked or unsafe operations.
+  1 error
+  100 warnings
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 27s
+4 actionable tasks: 4 executed
