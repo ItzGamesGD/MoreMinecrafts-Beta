@@ -129,13 +129,17 @@ public final class TombGuardianGameTests {
 
     /** A real survival player (the GameTest mock player always reports creative and is never a combat target). */
     private static ServerPlayer survivalPlayer(GameTestHelper ctx, Vec3 relative) {
+        return mockPlayer(ctx, relative, GameType.SURVIVAL);
+    }
+
+    private static ServerPlayer mockPlayer(GameTestHelper ctx, Vec3 relative, GameType mode) {
         var server = ctx.getLevel().getServer();
         var cookie = CommonListenerCookie.createInitial(new GameProfile(UUID.randomUUID(), "tomb-sight"), false);
         ServerPlayer player = new ServerPlayer(server, ctx.getLevel(), cookie.gameProfile(), cookie.clientInformation());
         Connection connection = new Connection(PacketFlow.SERVERBOUND);
         new EmbeddedChannel(connection);
         server.getPlayerList().placeNewPlayer(connection, player, cookie);
-        player.setGameMode(GameType.SURVIVAL);
+        player.setGameMode(mode);
         Vec3 position = ctx.absoluteVec(relative);
         player.teleportTo(position.x, position.y, position.z);
         return player;
@@ -526,6 +530,10 @@ public final class TombGuardianGameTests {
         floor(ctx, 10);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
         Villager victim = dummy(ctx, new Vec3(2.5D, 1.0D, 9.5D));
+        // Summons are ordinary monsters: Mob.checkDespawn discards them once the nearest player is over 128 blocks away,
+        // and other parallel tests keep mock players near the origin. A creative player beside this test (ignored by the
+        // guardian's targeting and area hits) keeps the nearest-player distance small, as it is in a real fight.
+        ServerPlayer anchor = mockPlayer(ctx, new Vec3(8.5D, 1.0D, 8.5D), GameType.CREATIVE);
         ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SUMMON, victim), "summon starts");
         ctx.runAfterDelay(TombGuardianTuning.SUMMON_WINDUP_TICKS + 2, () -> {
             ctx.assertTrue(guardian.aliveSummons(level) == 3, "three summons alive, got " + guardian.aliveSummons(level));
@@ -537,6 +545,7 @@ public final class TombGuardianGameTests {
         });
         ctx.runAfterDelay(TombGuardianTuning.SUMMON_WINDUP_TICKS * 2 + 6, () -> {
             ctx.assertTrue(guardian.aliveSummons(level) == 3, "the living total stays at 3, got " + guardian.aliveSummons(level));
+            level.getServer().getPlayerList().remove(anchor);
             ctx.succeed();
         });
     }

@@ -74,12 +74,12 @@ final class XpQuestCatalogDataTest {
     }
 
     @Test void setQuestTargetsMatchTheirEntryLists() {
-        assertEquals(4, spec("xpq.min.custom_ore_survey").target());
-        assertEquals(4, spec("xpq.min.deepslate_custom").target());
+        assertEquals(3, spec("xpq.min.custom_ore_survey").target());
+        assertEquals(3, spec("xpq.min.deepslate_custom").target());
         assertEquals(5, spec("xpq.frm.composite_foods").target());
         assertEquals(7, spec("xpq.cft.all_daggers").target());
         assertEquals(7, spec("xpq.cft.all_greatswords").target());
-        assertEquals(5, spec("xpq.cft.mm_blocks").target());
+        assertEquals(4, spec("xpq.cft.mm_blocks").target());
         for (XpQuestCatalogData.Spec q : CATALOG.quests()) {
             if (!q.registered()) continue;
             String kind = q.tracker().kind();

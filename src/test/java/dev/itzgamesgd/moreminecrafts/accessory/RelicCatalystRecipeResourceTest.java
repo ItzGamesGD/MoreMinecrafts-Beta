@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import org.junit.jupiter.api.Test;
 
-/** Resource checks for the Relic Catalyst shapeless recipe and the registered T1 accessory item tag it consumes. */
+/** Resource checks for the Relic Catalyst shaped recipe and the T1 accessory item tag. */
 class RelicCatalystRecipeResourceTest {
     private static JsonObject json(String path) throws Exception {
         try (InputStream stream = RelicCatalystRecipeResourceTest.class.getClassLoader().getResourceAsStream(path)) {
@@ -22,27 +22,29 @@ class RelicCatalystRecipeResourceTest {
         }
     }
 
-    @Test void recipeIsNineSlotShapelessWithTheApprovedIngredientMultiset() throws Exception {
+    @Test void recipeIsTheApprovedThreeByThreeShapedLayout() throws Exception {
         JsonObject recipe = json("data/moreminecrafts/recipe/relic_catalyst.json");
-        assertEquals("minecraft:crafting_shapeless", recipe.get("type").getAsString());
-        assertFalse(recipe.has("pattern"), "shapeless recipe must not define a fixed layout");
+        assertEquals("minecraft:crafting_shaped", recipe.get("type").getAsString());
+        assertFalse(recipe.has("ingredients"), "a shaped recipe defines a fixed layout, not an ingredient multiset");
 
-        Map<String, Integer> counts = new TreeMap<>();
-        var ingredients = recipe.getAsJsonArray("ingredients");
-        ingredients.forEach(e -> counts.merge(e.getAsString(), 1, Integer::sum));
-        assertEquals(9, ingredients.size(), "the grid holds exactly nine ingredient slots");
+        List<String> pattern = new ArrayList<>();
+        recipe.getAsJsonArray("pattern").forEach(e -> pattern.add(e.getAsString()));
+        assertEquals(List.of("SMS", "LEL", "SMS"), pattern);
+
+        Map<String, String> key = new TreeMap<>();
+        recipe.getAsJsonObject("key").entrySet().forEach(e -> key.put(e.getKey(), e.getValue().getAsString()));
         assertEquals(new TreeMap<>(Map.of(
-                "#moreminecrafts:t1_accessories", 1,
-                "moreminecrafts:mythril", 2,
-                "moreminecrafts:etherium_ingot", 1,
-                "minecraft:lapis_lazuli", 5)), counts);
+                "S", "moreminecrafts:enhancement_stone",
+                "M", "moreminecrafts:mythril",
+                "L", "minecraft:lapis_lazuli",
+                "E", "moreminecrafts:etherium_shard")), key);
     }
 
     @Test void resultIsOneFreshCatalystWithoutInheritedComponents() throws Exception {
         JsonObject result = json("data/moreminecrafts/recipe/relic_catalyst.json").getAsJsonObject("result");
         assertEquals("moreminecrafts:relic_catalyst", result.get("id").getAsString());
         assertEquals(1, result.get("count").getAsInt());
-        assertFalse(result.has("components"), "the enhancement data of the consumed accessory must not be copied");
+        assertFalse(result.has("components"), "the catalyst result carries no components");
     }
 
     @Test void t1TagMatchesExactlyTheRegisteredT1AccessoryDefinitions() throws Exception {
@@ -60,7 +62,7 @@ class RelicCatalystRecipeResourceTest {
         assertTrue(values.stream().noneMatch(v -> v.contains("moreminecrafts:t2")), "T2 accessories are never catalyst inputs");
     }
 
-    @Test void recipeConsumesOnlyTheT1TagNotAnyT2Accessory() throws Exception {
+    @Test void t1TagEntriesAllMapToRegisteredT1Accessories() throws Exception {
         JsonObject tag = json("data/moreminecrafts/tags/item/t1_accessories.json");
         tag.getAsJsonArray("values").forEach(e -> assertTrue(
                 AccessoryDefinition.ALL.stream().anyMatch(d -> d.isT1()

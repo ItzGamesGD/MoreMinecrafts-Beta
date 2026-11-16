@@ -42,7 +42,7 @@ class RoyalChestRewardModelTest {
         assertEquals(100, RoyalChestRewardModel.PRIMARY_RARE.stream().mapToInt(RoyalChestRewardModel.RareEntry::weightPercent).sum());
         assertEquals(List.of(20, 10, 35, 35), RoyalChestRewardModel.PRIMARY_RARE.stream().map(RoyalChestRewardModel.RareEntry::weightPercent).toList());
         assertEquals(List.of("moreminecrafts:enhancement_stone", "minecraft:redstone", "minecraft:lapis_lazuli", "minecraft:diamond",
-                "moreminecrafts:titanium_ingot", "moreminecrafts:tungsten_ingot"),
+                "moreminecrafts:titanium_ingot"),
                 RoyalChestRewardModel.SECONDARY_MATERIALS.stream().map(RoyalChestRewardModel.Entry::itemId).toList());
         // Q45 B: ingots only, never raw ores; Q33: 32-64.
         for (var e : RoyalChestRewardModel.SECONDARY_MATERIALS) assertFalse(e.itemId().contains("raw_"));
@@ -72,22 +72,21 @@ class RoyalChestRewardModelTest {
                 new Script(0.0D, 64, 0.0D, 8, 0.0D, 12, 0.0D, 1, 0.99D));
         assertEquals(Map.of("minecraft:gold_ingot", 128, "minecraft:diamond", 18, "minecraft:emerald", 24, "moreminecrafts:mythril", 3), totals(max));
         List<Reward> min = RoyalChestRewardModel.rollMaterials(RoyalChestRole.SECONDARY,
-                new Script(0.0D, 0, 0.0D, 0, 0.0D, 0, 0.0D, 0, 0.0D, 0, 0.0D, 0));
+                new Script(0.0D, 0, 0.0D, 0, 0.0D, 0, 0.0D, 0, 0.0D, 0));
         assertEquals(Map.of("moreminecrafts:enhancement_stone", 64, "minecraft:redstone", 64, "minecraft:lapis_lazuli", 64,
-                "minecraft:diamond", 10, "moreminecrafts:titanium_ingot", 32, "moreminecrafts:tungsten_ingot", 32), totals(min));
+                "minecraft:diamond", 10, "moreminecrafts:titanium_ingot", 32), totals(min));
         List<Reward> top = RoyalChestRewardModel.rollMaterials(RoyalChestRole.SECONDARY,
-                new Script(0.0D, 32, 0.0D, 64, 0.0D, 64, 0.0D, 8, 0.0D, 32, 0.0D, 32));
+                new Script(0.0D, 32, 0.0D, 64, 0.0D, 64, 0.0D, 8, 0.0D, 32));
         assertEquals(96, totals(top).get("moreminecrafts:enhancement_stone"));
         assertEquals(128, totals(top).get("minecraft:redstone"));
         assertEquals(64, totals(top).get("moreminecrafts:titanium_ingot"));
-        assertEquals(64, totals(top).get("moreminecrafts:tungsten_ingot"));
     }
 
     @Test
     void secondaryNeverRollsTheRarePoolAndHasNoGate() {
-        Script script = new Script(0.0D, 0, 0.0D, 0, 0.0D, 0, 0.0D, 0, 0.99D, 0.99D);
+        Script script = new Script(0.0D, 0, 0.0D, 0, 0.0D, 0, 0.0D, 0, 0.99D);
         RoyalChestRewardModel.rollMaterials(RoyalChestRole.SECONDARY, script);
-        assertEquals(10, script.consumed(), "only the six entries consume draws (4 hits x2 + 2 misses); no gate draw");
+        assertEquals(9, script.consumed(), "five entries consume four hit pairs and one miss; no gate draw");
     }
 
     /** Gold always hits (chance, qty), then diamond/emerald/mythril miss, then the gate and the rare picks. */
@@ -125,7 +124,7 @@ class RoyalChestRewardModelTest {
     void sampledRatesMatchTheApprovedProbabilities() {
         int n = 400_000;
         SplittableRandom random = new SplittableRandom(20261107L);
-        int rare = 0, mythril = 0, diamond = 0, emerald = 0, adamantium = 0, ingot = 0, scrap = 0, debris = 0, titanium = 0, tungsten = 0;
+        int rare = 0, mythril = 0, diamond = 0, emerald = 0, adamantium = 0, ingot = 0, scrap = 0, debris = 0, titanium = 0;
         for (int i = 0; i < n; i++) {
             Map<String, Integer> primary = totals(RoyalChestRewardModel.rollMaterials(RoyalChestRole.PRIMARY, random));
             assertTrue(primary.containsKey("minecraft:gold_ingot"));
@@ -142,12 +141,11 @@ class RoyalChestRewardModelTest {
             Map<String, Integer> secondary = totals(RoyalChestRewardModel.rollMaterials(RoyalChestRole.SECONDARY, random));
             assertEquals(4, secondary.keySet().stream().filter(k -> !k.contains("ingot")).count());
             if (secondary.containsKey("moreminecrafts:titanium_ingot")) titanium++;
-            if (secondary.containsKey("moreminecrafts:tungsten_ingot")) tungsten++;
         }
         assertRate(rare, n, 0.10D); assertRate(adamantium, n, 0.02D); assertRate(ingot, n, 0.01D);
         assertRate(scrap, n, 0.035D); assertRate(debris, n, 0.035D);
         assertRate(diamond, n, 0.85D); assertRate(emerald, n, 0.75D); assertRate(mythril, n, 0.25D);
-        assertRate(titanium, n, 0.75D); assertRate(tungsten, n, 0.75D);
+        assertRate(titanium, n, 0.75D);
     }
 
     private static void assertRate(int hits, int n, double p) {
@@ -239,13 +237,46 @@ class RoyalChestRewardModelTest {
     }
 
     @Test
+    void stacksArePlacedInDistinctRandomSlotsWithoutLoss() {
+        List<Stack> stacks = List.of(new Stack("minecraft:gold_ingot", 64),
+                new Stack("minecraft:gold_ingot", 17), new Stack("minecraft:diamond", 10));
+        List<RoyalChestRewardModel.Placement> placements = RoyalChestRewardModel.placeRandomly(stacks,
+                new Script(17, 0, 2));
+        assertEquals(List.of(new RoyalChestRewardModel.Placement(17, stacks.get(0)),
+                new RoyalChestRewardModel.Placement(0, stacks.get(1)),
+                new RoyalChestRewardModel.Placement(3, stacks.get(2))), placements);
+        assertEquals(placements.size(), placements.stream().map(RoyalChestRewardModel.Placement::slot).distinct().count());
+        assertEquals(totals(List.of(new Reward("minecraft:gold_ingot", 64),
+                new Reward("minecraft:gold_ingot", 17), new Reward("minecraft:diamond", 10))),
+                totals(placements.stream().map(p -> new Reward(p.stack().itemId(), p.stack().count())).toList()));
+    }
+
+    @Test
+    void rewardAndSlotLayoutReplayFromTheSameChestRandomStream() {
+        for (long seed = 0; seed < 100; seed++) {
+            String instance = "slot-layout-" + seed;
+            List<RoyalChestRewardModel.Placement> first = rollAndPlace(seed, instance);
+            List<RoyalChestRewardModel.Placement> replay = rollAndPlace(seed, instance);
+            assertEquals(first, replay);
+        }
+    }
+
+    private static List<RoyalChestRewardModel.Placement> rollAndPlace(long seed, String instance) {
+        RandomGenerator random = RoyalChestRuntime.chestRandom(seed, instance, RoyalChestRole.PRIMARY);
+        List<Reward> rewards = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY, random, false);
+        List<Stack> stacks = RoyalChestRewardModel.split(rewards, id -> id.equals("moreminecrafts:seed_of_life")
+                || id.equals("moreminecrafts:ring_of_time") || id.contains("catalyst") ? 1 : 64);
+        return RoyalChestRewardModel.placeRandomly(stacks, random);
+    }
+
+    @Test
     void theLargestPossibleChestsFitIn54SlotsAndOversizeFailsLoudly() {
         // worst case: every roll hits its maximum, plus accessory and catalyst
         List<Reward> primary = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY,
                 new Script(0.0D, 64, 0.0D, 8, 0.0D, 12, 0.0D, 1, 0.0D, 30, 1, 0.0D, 1), true);
         assertTrue(RoyalChestRewardModel.split(primary, id -> id.contains("catalyst") || id.contains("of_") ? 1 : 64).size() <= 54);
         List<Reward> secondary = RoyalChestRewardModel.chestRewards(RoyalChestRole.SECONDARY,
-                new Script(0.0D, 32, 0.0D, 64, 0.0D, 64, 0.0D, 8, 0.0D, 32, 0.0D, 32, 0.0D, 0), true);
+                new Script(0.0D, 32, 0.0D, 64, 0.0D, 64, 0.0D, 8, 0.0D, 32, 0.0D, 0), true);
         assertTrue(RoyalChestRewardModel.split(secondary, id -> id.contains("catalyst") || id.contains("of_") ? 1 : 64).size() <= 54);
         assertThrows(IllegalStateException.class, () -> RoyalChestRewardModel.split(List.of(new Reward("a:b", 55)), id -> 1));
     }
