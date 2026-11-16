@@ -247,7 +247,7 @@ Source package: the 2026-11-15 sync archive. These records are filed by topic; t
 * **Tungsten (2026-11-13; reward follow-up 2026-11-16):** [planning/material_and_weapon_sync_2026-11-13/](planning/material_and_weapon_sync_2026-11-13/) — Tungsten is permanently removed; four mineral types remain. The 2026-11-16 owner decision also removes the tungsten row from royal SECONDARY rewards and the sky-island materials chest without replacement. See the current [royal chest authority](planning/D13_03_I06_ROYAL_CHEST_REWARDS_AUTHORITY_2026-11-07.md) and [Sky Islands/T2 authority §22](design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md#22-2026-11-16-오너-확정--텅스텐-자원-및-보상-제거). The Tungsten anchor note above is superseded.
 * **Tactical .35 special ammo (2026-11-13):** same folder, final design. Closes the detail follow-up left open in the content roadmap (D20).
 * **Fire and sea bosses (2026-11-15):** [planning/boss_sync_2026-11-15/](planning/boss_sync_2026-11-15/) — 용암 대장장이 군주 (fire) and 심해의 해신 (sea): identity, mechanics and drop pool.
-* **Implementation status:** none of these records is implemented or live-validated.
+* **Implementation status:** Tungsten removal and royal chest slot randomization are implemented in Draft PR #301; core item IDs, item models/locales, ordered biome classifier, and all currently named core-to-accessory mappings are being implemented in the same PR. Artifact-core drops are not fully implemented: exact rates within the documented ranges, boss count distribution, the missing/retired twenty-first mapping, and the feather-charm registry ID remain owner decisions. No live-client validation is implied.
 
 ## Explicitly deferred design debt
 

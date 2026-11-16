@@ -51,6 +51,11 @@ public final class ModItems {
     public static final Item BURNING_HEART = core("burning_heart");
     public static final Item HEART_OF_CURRENTS = core("heart_of_currents");
     public static final Item ANCIENT_HEART = core("ancient_heart");
+    public static final Item EARTHEN_RELIC_CORE = material("earthen_relic_core");
+    public static final Item ABYSSAL_RELIC_CORE = material("abyssal_relic_core");
+    public static final Item GLACIAL_RELIC_CORE = material("glacial_relic_core");
+    public static final Item TIDAL_RELIC_CORE = material("tidal_relic_core");
+    public static final Item BLAZING_RELIC_CORE = material("blazing_relic_core");
     private static final ResourceKey<Item> FOUNDATION_PROBE_KEY =
             ResourceKey.create(Registries.ITEM, ModIds.id("foundation_probe"));
     public static final ResourceKey<Item> ENHANCEMENT_STONE_KEY =
@@ -294,6 +299,11 @@ public final class ModItems {
             entries.accept(BURNING_HEART);
             entries.accept(HEART_OF_CURRENTS);
             entries.accept(ANCIENT_HEART);
+            entries.accept(EARTHEN_RELIC_CORE);
+            entries.accept(ABYSSAL_RELIC_CORE);
+            entries.accept(GLACIAL_RELIC_CORE);
+            entries.accept(TIDAL_RELIC_CORE);
+            entries.accept(BLAZING_RELIC_CORE);
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
             entries.accept(ModBlocks.TITANIUM_ORE);

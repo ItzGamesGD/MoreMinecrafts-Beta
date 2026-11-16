@@ -1,4 +1,9 @@
 {
+  "item.moreminecrafts.earthen_relic_core": "Earthen Relic Core",
+  "item.moreminecrafts.abyssal_relic_core": "Abyssal Relic Core",
+  "item.moreminecrafts.glacial_relic_core": "Glacial Relic Core",
+  "item.moreminecrafts.tidal_relic_core": "Tidal Relic Core",
+  "item.moreminecrafts.blazing_relic_core": "Blazing Relic Core",
   "block.moreminecrafts.hanging_cocoon": "Hanging Cocoon",
   "block.moreminecrafts.spider_egg_sac": "Spider Egg Sac",
   "entity.moreminecrafts.juvenile_spider": "Juvenile Spider",

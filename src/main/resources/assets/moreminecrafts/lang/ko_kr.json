@@ -1,4 +1,9 @@
 {
+  "item.moreminecrafts.earthen_relic_core": "대지의 유물핵",
+  "item.moreminecrafts.abyssal_relic_core": "심연의 유물핵",
+  "item.moreminecrafts.glacial_relic_core": "한기의 유물핵",
+  "item.moreminecrafts.tidal_relic_core": "해류의 유물핵",
+  "item.moreminecrafts.blazing_relic_core": "작열의 유물핵",
   "block.moreminecrafts.hanging_cocoon": "매달린 고치",
   "block.moreminecrafts.spider_egg_sac": "거미 알주머니",
   "entity.moreminecrafts.juvenile_spider": "새끼거미",
