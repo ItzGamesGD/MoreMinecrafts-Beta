@@ -9,6 +9,10 @@ on:
         description: 'Run the complete 10-seed actual-start survey'
         type: boolean
         default: true
+      full_generation:
+        description: 'Also validate full chunks, completion and first proximity (requires production terrain wiring)'
+        type: boolean
+        default: true
 permissions:
   contents: read
   checks: write
@@ -60,7 +64,7 @@ jobs:
         with: {distribution: temurin, java-version: '25'}
       - uses: gradle/actions/setup-gradle@v4
       - name: Real normal-world starts and full chunk placement
-        run: bash tools/st03-natural-v2/run.sh '${{ matrix.seed }}'
+        run: bash tools/st03-natural-v2/run.sh '${{ matrix.seed }}' '${{ inputs.full_generation }}'
       - name: Publish actual generation evidence
         if: always()
         env:

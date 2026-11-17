@@ -27,7 +27,8 @@ public final class SpiderColonyGameTests {
   var mother=ctx.spawn(SpiderColonyEntities.MOTHER,new net.minecraft.core.BlockPos(2,3,2));
   var target=ctx.spawn(net.minecraft.world.entity.EntityTypes.ZOMBIE,new net.minecraft.core.BlockPos(7,3,2));
   mother.setNoAi(true); mother.setNoGravity(true); target.setNoAi(true); target.setNoGravity(true); mother.setTarget(target);
-  target.setInvulnerable(true); // Keep the combat fixture alive through both cooldowns, including daylight.
+  // A durable dummy survives both cooldowns, including daylight, like the Tomb Guardian fixture.
+  target.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000.0D); target.setHealth(1000.0F);
   // Juveniles are ordinary monsters: a nearby player prevents vanilla hard distance despawn,
   // matching the already-fixed Tomb Guardian summon fixture without changing production rules.
   var cookie=net.minecraft.server.network.CommonListenerCookie.createInitial(

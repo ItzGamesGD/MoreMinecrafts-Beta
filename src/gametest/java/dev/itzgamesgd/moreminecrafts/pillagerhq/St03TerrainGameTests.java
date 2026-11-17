@@ -43,7 +43,9 @@ public final class St03TerrainGameTests {
     }
     @GameTest public void approvedTemplateBoxesStayInsideFootprintInEveryRotation(GameTestHelper helper) {
         var templates=helper.getLevel().getStructureTemplateManager();
-        BlockPos origin=new BlockPos(400320,80,400320);
+        ChunkPos start=new ChunkPos(-25003,25007);int farthest=0;
+        for(int dx=-2;dx<=2;dx++)for(int dz=-2;dz<=2;dz++) {
+        BlockPos origin=new BlockPos(start.getMinBlockX()-48+dx*16,80,start.getMinBlockZ()-48+dz*16);
         for(var rotation:net.minecraft.world.level.block.Rotation.values()) {
             var builder=new net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder();
             St03HeadquartersStructure.addPieces(builder,templates,origin,rotation);
@@ -54,8 +56,14 @@ public final class St03TerrainGameTests {
                 helper.assertTrue(box.minX()>=origin.getX()&&box.maxX()<=origin.getX()+111
                         &&box.minZ()>=origin.getZ()&&box.maxZ()<=origin.getZ()+111,
                         "Template extends outside approved footprint: "+rotation+" "+box);
+                int reach=Math.max(Math.max(Math.abs((box.minX()>>4)-start.x()),Math.abs((box.maxX()>>4)-start.x())),
+                        Math.max(Math.abs((box.minZ()>>4)-start.z()),Math.abs((box.maxZ()>>4)-start.z())));
+                farthest=Math.max(farthest,reach);
+                helper.assertTrue(reach<=5,"N=2 template exceeds the proven five-chunk reach: "+box);
             }
         }
+        }
+        helper.assertTrue(farthest==5,"All 25 offsets and four rotations must exercise the five-chunk boundary");
         helper.succeed();
     }
 }
