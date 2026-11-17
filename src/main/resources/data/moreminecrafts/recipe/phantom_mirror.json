@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "D3D",
+    "eSe",
+    "LYL"
+  ],
+  "key": {
+    "3": "moreminecrafts:shimmering_soul_glass",
+    "D": "minecraft:diamond",
+    "L": "minecraft:lapis_lazuli",
+    "S": "moreminecrafts:etherium_shard",
+    "Y": "moreminecrafts:mythril",
+    "e": "moreminecrafts:earthen_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:phantom_mirror",
+    "count": 1
+  }
+}

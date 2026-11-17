@@ -168,7 +168,8 @@ public final class RoyalChestRuntime {
         java.util.function.Function<RoyalChestRole, List<RoyalChestRewardModel.Reward>> forced = rewardsOverride;
         if (forced != null) rewards = forced.apply(role); // tests only: pins whether an accessory is drawn
         List<RoyalChestRewardModel.Stack> stacks = RoyalChestRewardModel.split(rewards, RoyalChestRuntime::maxStackSize);
-        RoyalChestData.Chest installed = data.install(instance.id(), role, stacks);
+        List<RoyalChestRewardModel.Placement> placements = RoyalChestRewardModel.placeRandomly(stacks, random);
+        RoyalChestData.Chest installed = data.install(instance.id(), role, placements);
         // D13-03 Q39-Q41: tied to this one install (the persisted "generated" state), so reopening, reload and restart,
         // which find the chest already generated and return above, can never replay it.
         if (RoyalChestRewardModel.hasAccessory(rewards)) RoyalChestRevealFx.play(level, instance, role);

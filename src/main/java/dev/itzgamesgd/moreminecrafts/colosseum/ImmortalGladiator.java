@@ -167,7 +167,10 @@ public final class ImmortalGladiator extends Monster {
     private void particles(ServerLevel l,net.minecraft.core.particles.SimpleParticleType type,int count) {l.sendParticles(type,getX(),getY()+2,getZ(),count,.6,1,.6,.02);}
     @Override public boolean shouldDropExperience() {return false;} // No separately approved direct XP reward.
     @Override protected void dropEquipment(ServerLevel l) { } // Sword/shield are encounter equipment, never collectible loot.
-    @Override protected void dropCustomDeathLoot(ServerLevel l,DamageSource s,boolean hit) { }
+    /** The only collectible loot: Gladiator's Bloodied Crest, 100% x1 (2026-11-13 T2 record, U-08). Frozen/vanished bosses never reach a kill. */
+    @Override protected void dropCustomDeathLoot(ServerLevel l,DamageSource s,boolean hit) {
+        if(!ColosseumRuntime.combatFrozen(this))spawnAtLocation(l,new ItemStack(dev.itzgamesgd.moreminecrafts.registry.ModItems.GLADIATOR_BLOOD_CREST,1));
+    }
     @Override public void remove(Entity.RemovalReason reason) {bar.removeAllPlayers();super.remove(reason);}
     @Override public boolean removeWhenFarAway(double distance) {return false;}
     @Override protected void addAdditionalSaveData(ValueOutput out) {

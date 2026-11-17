@@ -42,6 +42,7 @@ public final class ModRegistries {
         dev.itzgamesgd.moreminecrafts.progression.ResearchDebugCommands.initialize();
         ModItems.initialize();
         T2CoreAcquisition.initialize();
+        dev.itzgamesgd.moreminecrafts.accessory.ArtifactCoreDrops.initialize();
         ModOreGeneration.initialize();
         FishingChallenges.initialize();
         FishermanFishSale.initialize();

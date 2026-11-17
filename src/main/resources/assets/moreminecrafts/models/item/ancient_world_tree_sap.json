@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "moreminecrafts:item/ancient_world_tree_sap"
+  }
+}

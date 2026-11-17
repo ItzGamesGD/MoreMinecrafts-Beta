@@ -76,7 +76,8 @@ public final class St01RoyalChestGameTests {
             var primary = RoyalChestRuntime.generate(ctx.getLevel(), data, instance, RoyalChestRole.PRIMARY).container();
             int expected = assigned == RoyalChestRole.PRIMARY ? 1 : 0;
             ctx.assertTrue(countCatalysts(primary) == expected, "only PRIMARY assignment delivered via PRIMARY");
-            primary.removeItemNoUpdate(0);
+            int catalystSlot = catalystSlot(primary);
+            if (catalystSlot >= 0) primary.removeItemNoUpdate(catalystSlot);
             data = roundTrip(data);
             ctx.assertTrue(data.instance(instance.id()).orElseThrow().secondary().isEmpty(), "absent SECONDARY stays absent");
             ctx.assertTrue(data.instance(instance.id()).orElseThrow().catalyst().equals(Optional.of(assigned)), "entitlement survived reload");
@@ -90,7 +91,7 @@ public final class St01RoyalChestGameTests {
             ctx.assertTrue(countCatalysts(secondaryChest) == 1 - expected, "SECONDARY receives only its own entitlement");
             for (int slot = 0; slot < 54; slot++) secondaryChest.removeItemNoUpdate(slot);
             ctx.assertTrue(RoyalChestRuntime.generate(ctx.getLevel(), data, extended, RoyalChestRole.SECONDARY).container().isEmpty(), "repeat generation never duplicates catalyst");
-            ctx.assertTrue(data.chest(instance.id(), RoyalChestRole.PRIMARY).orElseThrow().container().getItem(0).isEmpty(), "withdrawal persisted through extension");
+            ctx.assertTrue(countCatalysts(data.chest(instance.id(), RoyalChestRole.PRIMARY).orElseThrow().container()) == 0, "withdrawal persisted through extension");
         }
         ctx.succeed();
     }
@@ -129,7 +130,8 @@ public final class St01RoyalChestGameTests {
             guardian.hurtServer(level, level.damageSources().playerAttack(player), 10000.0F);
             ctx.assertTrue(RoyalChestRuntime.tryOpen(level, player, anchor) == RoyalChestRuntime.OpenResult.OPENED_AND_GENERATED, "first valid open");
             ctx.assertTrue(countCatalysts(data.chest(id, RoyalChestRole.PRIMARY).orElseThrow().container()) == 1, "PRIMARY catalyst delivered");
-            data.chest(id, RoyalChestRole.PRIMARY).orElseThrow().container().removeItemNoUpdate(0);
+            var primaryChest = data.chest(id, RoyalChestRole.PRIMARY).orElseThrow().container();
+            primaryChest.removeItemNoUpdate(catalystSlot(primaryChest));
             try {
                 java.nio.file.Files.writeString(java.nio.file.Path.of(System.getProperty("mm.royal.restart.file")),
                         RoyalChestData.TYPE.codec().encodeStart(com.mojang.serialization.JsonOps.INSTANCE, data).getOrThrow().toString());
@@ -163,6 +165,14 @@ public final class St01RoyalChestGameTests {
             if (net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(RoyalChestRewardModel.CATALYST_ID)) count += stack.getCount();
         }
         return count;
+    }
+
+    private static int catalystSlot(net.minecraft.world.Container container) {
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            var stack = container.getItem(i);
+            if (!stack.isEmpty() && net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(RoyalChestRewardModel.CATALYST_ID)) return i;
+        }
+        return -1;
     }
 
     @GameTest(maxTicks = 40)

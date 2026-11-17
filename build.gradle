@@ -156,7 +156,6 @@ tasks.register("validateStage6Data") {
         def resourceRoot = file("src/main/resources")
         def families = [
                 titanium: ["titanium_ore", "raw_titanium", "titanium_ingot"],
-                tungsten: ["tungsten_ore", "raw_tungsten", "tungsten_ingot"],
                 mythril: ["mythril_ore", "mythril"],
                 etherium: ["etherium_ore", "etherium"],
                 adamantium: ["adamantium_debris", "adamantium_ingot"]
@@ -195,7 +194,7 @@ tasks.register("validateStage6Data") {
         assert !legacyConfiguredDir.exists() || recursiveJsonFiles(legacyConfiguredDir).empty :
                 "Legacy worldgen/configured_feature JSON remains; Minecraft 26.3 uses worldgen/feature"
 
-        [titanium: "raw_titanium", tungsten: "raw_tungsten", mythril: "mythril"].each { family, drop ->
+        [titanium: "raw_titanium", mythril: "mythril"].each { family, drop ->
             ["", "deepslate_"].each { prefix ->
                 def ore = prefix + family + "_ore"
                 def lootFile = file("src/main/resources/data/moreminecrafts/loot_table/blocks/${ore}.json")

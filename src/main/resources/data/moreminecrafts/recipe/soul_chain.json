@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "D6D",
+    "eSe",
+    "TYT"
+  ],
+  "key": {
+    "6": "moreminecrafts:skeleton_king_chain",
+    "D": "minecraft:diamond",
+    "S": "moreminecrafts:etherium_shard",
+    "T": "moreminecrafts:titanium_ingot",
+    "Y": "moreminecrafts:mythril",
+    "e": "moreminecrafts:earthen_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:soul_chain",
+    "count": 1
+  }
+}
